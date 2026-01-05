@@ -138,7 +138,38 @@ Bot: [Searches Google, gets top 3 results, synthesizes answer, cites sources]
 - Warm, wise, knowledgeable responses
 - Can search Google for current info (if API configured)
 - Can summarize YouTube videos
+- **NEW: Can see and analyze images!** 👁️
 - Signature: "Angels and demons? We're cousins, really."
+
+---
+
+### 👁️ Image Vision (NEW!)
+**How to use:** Upload an image and mention the bot
+
+The bot can now see and analyze images using Gemini's vision capabilities!
+
+**Examples:**
+```
+[Upload image] @VanKushFamilyMod What do you see in this image?
+[Upload RuneScape screenshot] @VanKushFamilyMod Help me with this quest
+[Upload art] @VanKushFamilyMod What does this symbolize?
+[Upload meme] @VanKushFamilyMod Explain this
+```
+
+**Supported formats:**
+- PNG, JPG, JPEG, GIF, WebP
+- Multiple images at once
+- Works in channels and DMs
+
+**Use cases:**
+- Analyze RuneScape screenshots
+- Identify symbols and hieroglyphics
+- Explain memes and art
+- Get context on historical images
+- Analyze crypto charts
+- Identify plants, artifacts, anything visual!
+
+**No extra API needed!** Already included in Gemini 2.5 Flash.
 
 ---
 

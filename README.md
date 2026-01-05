@@ -15,6 +15,7 @@ A comprehensive Discord bot for the Van Kush Family ecosystem, featuring AI conv
 - Natural conversation with 75,000-year Van Kush Family knowledge
 - Context awareness per channel
 - Warm, wise, knowledgeable responses
+- **NEW: Vision - Can see and analyze images!** 👁️
 - FREE: 1,500 requests/day
 
 ### 🎨 AI Art Generation (Pollinations.ai)
