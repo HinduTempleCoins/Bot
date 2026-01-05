@@ -16,8 +16,8 @@ const client = new Client({
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// Using Gemini 1.5 Flash model (free tier compatible)
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+// Using Gemini 2.5 Flash - current stable model (free tier compatible)
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
 // Load knowledge base
 let knowledgeBase;
