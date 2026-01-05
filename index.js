@@ -5,8 +5,13 @@ import { readFile } from 'fs/promises';
 import axios from 'axios';
 import cron from 'node-cron';
 import { YoutubeTranscript } from 'youtube-transcript';
+import wtf from 'wtf_wikipedia';
+import NodeCache from 'node-cache';
 
 dotenv.config();
+
+// Initialize caching (30 minutes TTL)
+const cache = new NodeCache({ stdTTL: 1800, checkperiod: 120 });
 
 // Initialize Discord client
 const client = new Client({
@@ -110,6 +115,20 @@ let lastPrices = {
   VKBT: null,
   CURE: null
 };
+
+// User tracking for welcome messages
+const userMessageCounts = new Map();
+const welcomedUsers = new Set();
+
+// Bot's message IDs for reply tracking
+const botMessageIds = new Set();
+
+// Proactive keywords to monitor
+const PROACTIVE_KEYWORDS = [
+  'vkbt', 'cure', 'van kush', 'runescape', 'rs3', 'quest',
+  'price', 'crypto', 'hive', 'token', 'denisovan', 'phoenician',
+  'tanit', 'hathor', 'shaivite', 'temple', 'angel', 'watcher'
+];
 
 // === FEATURE 1: Google Custom Search ===
 async function googleSearch(query) {
@@ -274,9 +293,224 @@ async function checkPriceAlerts() {
   }
 }
 
+// === FEATURE 5: Wikipedia API (Free, Unlimited) ===
+async function searchWikipedia(query) {
+  const cacheKey = `wiki_${query}`;
+  const cached = cache.get(cacheKey);
+  if (cached) return cached;
+
+  try {
+    const doc = await wtf.fetch(query);
+    if (!doc) return null;
+
+    const result = {
+      title: doc.title(),
+      summary: doc.summary(),
+      url: doc.url(),
+      categories: doc.categories(),
+      infobox: doc.infobox() ? doc.infobox().json() : null
+    };
+
+    cache.set(cacheKey, result);
+    return result;
+  } catch (error) {
+    console.error('Wikipedia search error:', error.message);
+    return null;
+  }
+}
+
+// === FEATURE 6: Discord Message History Search ===
+async function searchDiscordHistory(channelId, query) {
+  const history = conversationHistory.get(channelId);
+  if (!history) return null;
+
+  const results = [];
+  const queryLower = query.toLowerCase();
+
+  for (const message of history) {
+    if (message.role === 'user') {
+      const text = message.parts[0]?.text || '';
+      if (text.toLowerCase().includes(queryLower)) {
+        results.push(text);
+      }
+    }
+  }
+
+  return results.length > 0 ? results : null;
+}
+
+// === FEATURE 7: Smart Context Detection ===
+async function detectContextAndSearch(query, channelId) {
+  const queryLower = query.toLowerCase();
+
+  // Check if query is about Discord/community members
+  if (queryLower.includes('who is') || queryLower.includes('tell me about')) {
+    // First check Discord history
+    const historyResults = await searchDiscordHistory(channelId, query);
+    if (historyResults) {
+      return { source: 'discord_history', data: historyResults };
+    }
+  }
+
+  // Check if query is about RuneScape
+  if (queryLower.includes('runescape') || queryLower.includes('rs3') || queryLower.includes('osrs')) {
+    // Try Wikipedia first (free)
+    const wikiResult = await searchWikipedia(query);
+    if (wikiResult) {
+      return { source: 'wikipedia', data: wikiResult };
+    }
+  }
+
+  // For general knowledge, try Wikipedia first
+  const wikiResult = await searchWikipedia(query);
+  if (wikiResult) {
+    return { source: 'wikipedia', data: wikiResult };
+  }
+
+  // Fall back to Google Search only if Wikipedia fails
+  const googleResult = await googleSearch(query);
+  if (googleResult) {
+    return { source: 'google', data: googleResult };
+  }
+
+  return null;
+}
+
+// === FEATURE 8: RS3 Grand Exchange API ===
+async function getRS3ItemPrice(itemName) {
+  const cacheKey = `rs3_${itemName}`;
+  const cached = cache.get(cacheKey);
+  if (cached) return cached;
+
+  try {
+    // Use RuneScape Wiki API (free, no key needed)
+    const searchResponse = await axios.get('https://api.weirdgloop.org/exchange/history/rs/latest', {
+      params: { name: itemName }
+    });
+
+    if (searchResponse.data) {
+      const result = {
+        name: itemName,
+        price: searchResponse.data.price,
+        timestamp: searchResponse.data.timestamp
+      };
+      cache.set(cacheKey, result);
+      return result;
+    }
+    return null;
+  } catch (error) {
+    console.error('RS3 GE API error:', error.message);
+    return null;
+  }
+}
+
+// === FEATURE 9: Google Maps API ===
+async function searchGoogleMaps(query) {
+  if (!process.env.GOOGLE_MAPS_API_KEY) return null;
+
+  const cacheKey = `maps_${query}`;
+  const cached = cache.get(cacheKey);
+  if (cached) return cached;
+
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: query,
+        key: process.env.GOOGLE_MAPS_API_KEY
+      }
+    });
+
+    if (response.data.results && response.data.results.length > 0) {
+      const result = response.data.results[0];
+      cache.set(cacheKey, result);
+      return result;
+    }
+    return null;
+  } catch (error) {
+    console.error('Google Maps error:', error.message);
+    return null;
+  }
+}
+
+// === FEATURE 10: User Tracking & Welcome System ===
+async function trackUserMessage(userId, channelId) {
+  const count = (userMessageCounts.get(userId) || 0) + 1;
+  userMessageCounts.set(userId, count);
+
+  // Welcome user after 5th message
+  if (count === 5 && !welcomedUsers.has(userId)) {
+    welcomedUsers.add(userId);
+
+    const channel = await client.channels.fetch(channelId);
+    const embed = new EmbedBuilder()
+      .setColor(0x9b59b6)
+      .setTitle('🙏 Welcome to the Van Kush Family!')
+      .setDescription(`Greetings, <@${userId}>! I've noticed you've been engaging with our community. Let me introduce myself!`)
+      .addFields(
+        { name: '✨ Who I Am', value: 'I am the Van Kush Family Assistant, your guide to our 75,000-year lineage, cryptocurrency projects, RuneScape clan, and spiritual wisdom.' },
+        { name: '🔍 What I Can Do', value: '• Answer questions about Van Kush Family history\n• Search Wikipedia, Google, Discord history\n• Generate AI art (`/generate`)\n• Track crypto prices (`/price VKBT`)\n• Summarize YouTube videos\n• Search RS3 Grand Exchange prices\n• Find locations with Google Maps' },
+        { name: '💬 How to Use Me', value: 'Just @mention me or DM me! I also respond to keywords like "VKBT", "quest", "price", etc. I can see images too!' },
+        { name: '📚 Learn More', value: 'Type `/help` to see all commands. I\'m here to support our family! 🌿' }
+      )
+      .setFooter({ text: 'Angels and demons? We\'re cousins, really.' })
+      .setTimestamp();
+
+    await channel.send({ embeds: [embed] });
+  }
+}
+
 // Schedule price checks every 5 minutes
 cron.schedule('*/5 * * * *', async () => {
   await checkPriceAlerts();
+});
+
+// === FEATURE 11: Scheduled Posting ===
+// Daily motivational post at 9 AM UTC
+cron.schedule('0 9 * * *', async () => {
+  const channelId = process.env.ANNOUNCEMENT_CHANNEL_ID;
+  if (!channelId) return;
+
+  try {
+    const channel = await client.channels.fetch(channelId);
+    const messages = [
+      '🌿 Good morning, Van Kush Family! Remember: we carry 75,000 years of wisdom in our lineage. Today, let that ancient knowledge guide your path. 🙏',
+      '✨ Daily reminder: The Van Kush Family isn\'t just history—we\'re creating the future with VKBT, our RuneScape clan, and the Book of Tanit research. What will you contribute today?',
+      '💫 From the Denisovans to the Phoenicians, from Mt. Hermon to Dallas-Fort Worth—our journey spans millennia. Today is another chapter. Make it count! 🔥',
+      '🙏 Angels and demons? We\'re cousins, really. As Angelicalists studying the Book of Jude, we embrace the full spectrum of divine wisdom. Good morning, family!',
+      '🌿 The Temple of Van Kush honors Hathor and Tanit. Today, channel that divine feminine energy into creativity and abundance. Let\'s build together!'
+    ];
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    await channel.send(randomMessage);
+  } catch (error) {
+    console.error('Scheduled post error:', error.message);
+  }
+});
+
+// Weekly VKBT price summary - Sundays at 8 PM UTC
+cron.schedule('0 20 * * 0', async () => {
+  const channelId = process.env.PRICE_ALERT_CHANNEL_ID;
+  if (!channelId) return;
+
+  try {
+    const channel = await client.channels.fetch(channelId);
+    const vkbtPrice = await getHiveEnginePrice('VKBT');
+    const curePrice = await getHiveEnginePrice('CURE');
+
+    const embed = new EmbedBuilder()
+      .setColor(0xf39c12)
+      .setTitle('📊 Weekly Van Kush Token Summary')
+      .setDescription('Here\'s your weekly crypto update for the Van Kush Family tokens!')
+      .addFields(
+        { name: '💎 VKBT', value: vkbtPrice ? `${vkbtPrice.lastPrice.toFixed(8)} HIVE\n24h Volume: ${vkbtPrice.volume.toFixed(2)} HIVE` : 'Data unavailable', inline: true },
+        { name: '💊 CURE', value: curePrice ? `${curePrice.lastPrice.toFixed(8)} HIVE\n24h Volume: ${curePrice.volume.toFixed(2)} HIVE` : 'Data unavailable', inline: true }
+      )
+      .setFooter({ text: 'Trade on HIVE-Engine • hive-engine.com' })
+      .setTimestamp();
+
+    await channel.send({ embeds: [embed] });
+  } catch (error) {
+    console.error('Weekly summary error:', error.message);
+  }
 });
 
 // Discord ready event
@@ -350,17 +584,48 @@ client.on('messageCreate', async (message) => {
       return;
     }
 
+    // /rs3 command for RuneScape 3 item prices
+    if (command === 'rs3') {
+      const itemName = args.slice(1).join(' ');
+      if (!itemName) {
+        return message.reply('Please provide an item name! Example: `/rs3 Dragon bones`');
+      }
+
+      await message.channel.sendTyping();
+      const priceData = await getRS3ItemPrice(itemName);
+
+      if (priceData) {
+        const embed = new EmbedBuilder()
+          .setColor(0xe67e22)
+          .setTitle(`⚔️ RS3 Grand Exchange: ${priceData.name}`)
+          .addFields(
+            { name: 'Current Price', value: `${priceData.price.toLocaleString()} gp`, inline: true },
+            { name: 'Last Updated', value: new Date(priceData.timestamp * 1000).toLocaleString(), inline: true }
+          )
+          .setFooter({ text: 'Data from RuneScape Wiki API' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+      } else {
+        await message.reply(`Could not find price data for "${itemName}". Try checking the exact item name!`);
+      }
+      return;
+    }
+
     // /help command
     if (command === 'help') {
       const embed = new EmbedBuilder()
         .setColor(0x3498db)
         .setTitle('🌿 Van Kush Family Bot Commands')
-        .setDescription('Here are all available commands:')
+        .setDescription('Here are all available commands and features:')
         .addFields(
-          { name: '/generate [prompt]', value: 'Generate AI art with Pollinations.ai\nExample: `/generate Hathor goddess vaporwave`' },
-          { name: '/price [token]', value: 'Get HIVE-Engine token price\nExample: `/price VKBT` or `/price CURE`' },
-          { name: '/help', value: 'Show this help message' },
-          { name: '@mention or DM', value: 'Chat with me! I can search Google and summarize YouTube videos too.' }
+          { name: '🎨 /generate [prompt]', value: 'Generate AI art with Pollinations.ai\nExample: `/generate Hathor goddess vaporwave`' },
+          { name: '💰 /price [token]', value: 'Get HIVE-Engine token price\nExample: `/price VKBT` or `/price CURE`' },
+          { name: '⚔️ /rs3 [item name]', value: 'Get RuneScape 3 Grand Exchange price\nExample: `/rs3 Dragon bones`' },
+          { name: '❓ /help', value: 'Show this help message' },
+          { name: '💬 Chat Features', value: '• @mention me or DM me to chat!\n• I search Wikipedia, Google, and Discord history\n• I summarize YouTube videos automatically\n• I respond to keywords like "VKBT", "quest", "price"\n• I can see and analyze images!' },
+          { name: '🤖 Proactive Features', value: '• I monitor keywords and contribute without @mention\n• I respond to replies to my messages\n• Natural commands work too (e.g., "show me the price of VKBT")\n• New users get a welcome message after 5 posts!' },
+          { name: '📅 Scheduled Posts', value: '• Daily motivation at 9 AM UTC\n• Weekly crypto summary on Sundays at 8 PM UTC' }
         )
         .setFooter({ text: 'Angels and demons? We\'re cousins, really.' });
 
@@ -394,11 +659,94 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // Only respond when mentioned or in DMs
+  // Track user messages for welcome system
+  await trackUserMessage(message.author.id, message.channel.id);
+
+  // Check if this is a reply to one of the bot's messages
+  const isReplyToBot = message.reference && botMessageIds.has(message.reference.messageId);
+
+  // Check for proactive keywords
+  const containsKeyword = PROACTIVE_KEYWORDS.some(keyword =>
+    message.content.toLowerCase().includes(keyword.toLowerCase())
+  );
+
+  // Natural command detection (without slash)
+  const naturalCommandPatterns = [
+    { pattern: /(?:show|get|check|what'?s?) (?:the )?price (?:of |for )?(\w+)/i, type: 'price' },
+    { pattern: /(?:generate|create|make|draw) (?:an? )?(?:image|art|picture) (?:of |about )?(.+)/i, type: 'generate' },
+    { pattern: /(?:rs3|runescape|ge) price (?:of |for )?(.+)/i, type: 'rs3' },
+    { pattern: /(?:search|look up|find|tell me about) (.+)/i, type: 'search' }
+  ];
+
+  let naturalCommand = null;
+  for (const { pattern, type } of naturalCommandPatterns) {
+    const match = message.content.match(pattern);
+    if (match) {
+      naturalCommand = { type, query: match[1] };
+      break;
+    }
+  }
+
+  // Execute natural commands
+  if (naturalCommand) {
+    await message.channel.sendTyping();
+
+    if (naturalCommand.type === 'price') {
+      const token = naturalCommand.query.toUpperCase();
+      const priceData = await getHiveEnginePrice(token);
+      if (priceData) {
+        const embed = new EmbedBuilder()
+          .setColor(0xf39c12)
+          .setTitle(`💰 ${token} Price`)
+          .addFields(
+            { name: 'Last Price', value: `${priceData.lastPrice.toFixed(8)} HIVE`, inline: true },
+            { name: '24h Volume', value: `${priceData.volume.toFixed(2)} HIVE`, inline: true },
+            { name: '24h Change', value: `${priceData.priceChangePercent.toFixed(2)}%`, inline: true }
+          )
+          .setFooter({ text: 'HIVE-Engine • hive-engine.com' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+        return;
+      }
+    } else if (naturalCommand.type === 'generate') {
+      const imageUrl = await generateArt(naturalCommand.query);
+      if (imageUrl) {
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('✨ AI Generated Art')
+          .setDescription(`**Prompt:** ${naturalCommand.query}`)
+          .setImage(imageUrl)
+          .setFooter({ text: 'Generated by Pollinations.ai' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+        return;
+      }
+    } else if (naturalCommand.type === 'rs3') {
+      const priceData = await getRS3ItemPrice(naturalCommand.query);
+      if (priceData) {
+        const embed = new EmbedBuilder()
+          .setColor(0xe67e22)
+          .setTitle(`⚔️ RS3 Grand Exchange: ${priceData.name}`)
+          .addFields(
+            { name: 'Current Price', value: `${priceData.price.toLocaleString()} gp`, inline: true },
+            { name: 'Last Updated', value: new Date(priceData.timestamp * 1000).toLocaleString(), inline: true }
+          )
+          .setFooter({ text: 'Data from RuneScape Wiki API' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+        return;
+      }
+    }
+  }
+
+  // Only respond when mentioned, in DMs, replying to bot, or contains keywords
   const isMentioned = message.mentions.has(client.user);
   const isDM = message.channel.type === 1;
 
-  if (!isMentioned && !isDM) return;
+  if (!isMentioned && !isDM && !isReplyToBot && !containsKeyword) return;
 
   try {
     await message.channel.sendTyping();
@@ -443,23 +791,28 @@ client.on('messageCreate', async (message) => {
       }
     }
 
-    // Check if we should search Google
-    let searchResults = null;
-    const searchKeywords = ['search', 'google', 'find', 'look up', 'what is', 'who is', 'when did', 'where is'];
+    // Smart context detection and search
+    let enhancedMessage = userMessage;
+    const searchKeywords = ['search', 'google', 'find', 'look up', 'what is', 'who is', 'when did', 'where is', 'tell me about'];
     const shouldSearch = searchKeywords.some(keyword => userMessage.toLowerCase().includes(keyword));
 
-    if (shouldSearch && process.env.GOOGLE_SEARCH_API_KEY) {
-      searchResults = await googleSearch(userMessage);
-    }
+    if (shouldSearch) {
+      const contextResult = await detectContextAndSearch(userMessage, channelId);
 
-    // Build enhanced context with search results
-    let enhancedMessage = userMessage;
-    if (searchResults) {
-      enhancedMessage += '\n\nGoogle Search Results:\n';
-      searchResults.forEach((result, i) => {
-        enhancedMessage += `${i + 1}. ${result.title}\n${result.snippet}\nSource: ${result.link}\n\n`;
-      });
-      enhancedMessage += 'Please synthesize this information in your response and cite sources.';
+      if (contextResult) {
+        if (contextResult.source === 'wikipedia') {
+          const wiki = contextResult.data;
+          enhancedMessage += `\n\nWikipedia Information:\nTitle: ${wiki.title}\nSummary: ${wiki.summary}\nSource: ${wiki.url}\n\nPlease use this Wikipedia information to inform your response.`;
+        } else if (contextResult.source === 'google') {
+          enhancedMessage += '\n\nGoogle Search Results:\n';
+          contextResult.data.forEach((result, i) => {
+            enhancedMessage += `${i + 1}. ${result.title}\n${result.snippet}\nSource: ${result.link}\n\n`;
+          });
+          enhancedMessage += 'Please synthesize this information in your response.';
+        } else if (contextResult.source === 'discord_history') {
+          enhancedMessage += `\n\nFrom Discord History:\n${contextResult.data.slice(0, 3).join('\n\n')}\n\nPlease use this conversation history to inform your response.`;
+        }
+      }
     }
 
     // Build message parts (text + images if any)
@@ -505,13 +858,24 @@ client.on('messageCreate', async (message) => {
     });
 
     // Split response if too long (Discord has 2000 char limit)
+    let botReply;
     if (response.length > 2000) {
       const chunks = response.match(/[\s\S]{1,2000}/g);
       for (const chunk of chunks) {
-        await message.reply(chunk);
+        botReply = await message.reply(chunk);
       }
     } else {
-      await message.reply(response);
+      botReply = await message.reply(response);
+    }
+
+    // Track bot message ID for reply tracking
+    if (botReply) {
+      botMessageIds.add(botReply.id);
+      // Limit set size to prevent memory issues
+      if (botMessageIds.size > 1000) {
+        const firstId = botMessageIds.values().next().value;
+        botMessageIds.delete(firstId);
+      }
     }
 
   } catch (error) {

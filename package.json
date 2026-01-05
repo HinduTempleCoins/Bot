@@ -17,6 +17,8 @@
     "dotenv": "^16.4.5",
     "axios": "^1.6.5",
     "node-cron": "^3.0.3",
-    "youtube-transcript": "^1.2.1"
+    "youtube-transcript": "^1.2.1",
+    "wtf_wikipedia": "^10.3.0",
+    "node-cache": "^5.1.2"
   }
 }
