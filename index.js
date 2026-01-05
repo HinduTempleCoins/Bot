@@ -413,6 +413,36 @@ client.on('messageCreate', async (message) => {
     // Clean message content (remove bot mention)
     let userMessage = message.content.replace(/<@!?\d+>/g, '').trim();
 
+    // Check for image attachments
+    const imageAttachments = message.attachments.filter(att =>
+      att.contentType?.startsWith('image/')
+    );
+
+    let imageParts = [];
+    if (imageAttachments.size > 0) {
+      // Process images for Gemini vision
+      for (const [, attachment] of imageAttachments) {
+        try {
+          // Fetch image data
+          const response = await axios.get(attachment.url, { responseType: 'arraybuffer' });
+          const base64Image = Buffer.from(response.data).toString('base64');
+
+          imageParts.push({
+            inlineData: {
+              data: base64Image,
+              mimeType: attachment.contentType
+            }
+          });
+
+          if (!userMessage) {
+            userMessage = "What do you see in this image?";
+          }
+        } catch (error) {
+          console.error('Error processing image:', error.message);
+        }
+      }
+    }
+
     // Check if we should search Google
     let searchResults = null;
     const searchKeywords = ['search', 'google', 'find', 'look up', 'what is', 'who is', 'when did', 'where is'];
@@ -432,10 +462,16 @@ client.on('messageCreate', async (message) => {
       enhancedMessage += 'Please synthesize this information in your response and cite sources.';
     }
 
+    // Build message parts (text + images if any)
+    let messageParts = [{ text: enhancedMessage }];
+    if (imageParts.length > 0) {
+      messageParts = [...imageParts, { text: enhancedMessage }];
+    }
+
     // Add user message to history
     history.push({
       role: 'user',
-      parts: [{ text: enhancedMessage }],
+      parts: messageParts,
     });
 
     // Keep only last 20 messages to avoid token limits
@@ -459,7 +495,7 @@ client.on('messageCreate', async (message) => {
     });
 
     // Generate response
-    const result = await chat.sendMessage(enhancedMessage);
+    const result = await chat.sendMessage(messageParts);
     const response = result.response.text();
 
     // Add bot response to history
