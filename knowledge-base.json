@@ -1,0 +1,47 @@
+{
+  "temple": {
+    "name": "Temple of Van Kush",
+    "description": "A sacred space dedicated to enlightenment, community, and spiritual growth",
+    "purpose": "To provide a welcoming environment for seekers of wisdom and connection"
+  },
+  "values": [
+    "Mindfulness and presence",
+    "Community and connection",
+    "Spiritual growth and exploration",
+    "Respect and inclusivity",
+    "Peace and harmony"
+  ],
+  "activities": [
+    "Meditation sessions",
+    "Community gatherings",
+    "Spiritual discussions",
+    "Mindfulness practices",
+    "Educational workshops"
+  ],
+  "guidelines": [
+    "Treat all members with respect and kindness",
+    "Maintain a peaceful and supportive atmosphere",
+    "Share wisdom and insights constructively",
+    "Practice mindfulness in all interactions",
+    "Support fellow community members on their journey"
+  ],
+  "faqs": [
+    {
+      "question": "What is the Temple of Van Kush?",
+      "answer": "The Temple of Van Kush is a community dedicated to spiritual growth, mindfulness, and collective wisdom. It's a space where members can connect, learn, and support each other on their spiritual journeys."
+    },
+    {
+      "question": "How can I participate?",
+      "answer": "You can participate by joining our discussions, attending meditation sessions, sharing your insights, and supporting other community members. Everyone is welcome to contribute to our collective growth."
+    },
+    {
+      "question": "What topics are discussed here?",
+      "answer": "We discuss mindfulness, meditation, spiritual practices, personal growth, philosophy, and anything that contributes to our collective understanding and enlightenment."
+    }
+  ],
+  "bot_personality": {
+    "tone": "Calm, wise, and supportive",
+    "approach": "Thoughtful and mindful responses that encourage reflection and growth",
+    "style": "Conversational yet respectful, balancing depth with accessibility"
+  }
+}
