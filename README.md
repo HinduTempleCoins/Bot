@@ -1,23 +1,49 @@
-# Temple of Van Kush Discord Bot 🌿
+# Van Kush Family Discord Bot 🌿
 
-A wise and supportive Discord bot for the Temple of Van Kush community, powered by **Google Gemini AI** (completely FREE - 1,000 requests/day forever!).
+A comprehensive Discord bot for the Van Kush Family ecosystem, featuring AI conversation, art generation, crypto monitoring, and more - **100% FREE APIs!**
 
-## Why Gemini Instead of Claude?
+## Why This Bot?
 
-- ✅ **FREE Forever**: 1,000 requests per day at no cost
+- ✅ **100% FREE**: All APIs are free tier (Gemini, Pollinations.ai, HIVE-Engine)
 - ✅ **No Credit Card Required**: Unlike Claude's $5 trial credit
-- ✅ **Same Quality**: Gemini 2.0 Flash provides excellent responses
-- ✅ **Easy Setup**: Get your API key instantly from [Google AI Studio](https://aistudio.google.com/app/apikey)
+- ✅ **Multi-Functional**: Chat, art, crypto prices, YouTube summaries, search
+- ✅ **Easy Setup**: Get started in minutes with free APIs
 
-## Features
+## Core Features
 
-- 🤖 Powered by Gemini 2.0 Flash (super fast and free!)
-- 💬 Natural conversation with context awareness
-- 📚 Built-in knowledge base about Temple of Van Kush
-- 🎯 Responds to mentions and DMs
-- 🧘 Mindful, supportive, and wise responses
-- 🔄 Conversation history per channel
-- ☁️ Easy deployment to Railway
+### 🤖 AI Conversation (Gemini 2.5 Flash)
+- Natural conversation with 75,000-year Van Kush Family knowledge
+- Context awareness per channel
+- Warm, wise, knowledgeable responses
+- FREE: 1,500 requests/day
+
+### 🎨 AI Art Generation (Pollinations.ai)
+- `/generate [prompt]` - Create vaporwave/Egyptian style art
+- Unlimited FREE generations
+- Perfect for Hathor-Mehit character art
+
+### 💰 Crypto Price Monitoring (HIVE-Engine)
+- `/price [token]` - Get real-time VKBT/CURE prices
+- Automatic price alerts when >5% movement
+- FREE unlimited price checks every 5 minutes
+
+### 📺 YouTube Integration
+- Auto-summarizes videos when URLs posted
+- Fetches transcripts and creates summaries with Gemini
+- FREE: Works without YouTube API key
+
+### 🔍 Google Search Integration (Optional)
+- Bot can search Google when answering questions
+- Cites sources in responses
+- FREE: 100 searches/day with Custom Search API
+
+### 📚 Van Kush Family Knowledge Base
+- 75,000-year history (Denisovan origins → present)
+- RuneScape 3 clan information
+- Cryptocurrency tokens (VKBT, VKRW, PUTI)
+- Book of Tanit research
+- Shaivite Temple information
+- Angel theology and Angelicalism
 
 ## Quick Start
 
