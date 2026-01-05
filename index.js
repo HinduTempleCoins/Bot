@@ -24,7 +24,8 @@ const client = new Client({
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+// Using gemini-2.0-flash-exp: 1,500 requests/day (vs 20 for gemini-2.5-flash)
+const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
 // Load knowledge base
 let knowledgeBase;
