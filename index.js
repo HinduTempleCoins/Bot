@@ -16,7 +16,8 @@ const client = new Client({
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+// Using stable Gemini 1.5 Flash model (free tier compatible)
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 // Load knowledge base
 let knowledgeBase;
@@ -139,6 +140,11 @@ client.on('messageCreate', async (message) => {
 
   } catch (error) {
     console.error('Error generating response:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     await message.reply('🙏 My apologies, I encountered a moment of confusion. Please try again.');
   }
 });
