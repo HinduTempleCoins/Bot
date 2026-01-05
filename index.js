@@ -24,8 +24,9 @@ const client = new Client({
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// Using gemini-2.0-flash-exp: 1,500 requests/day (vs 20 for gemini-2.5-flash)
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+// Using gemini-1.5-flash: Most stable free tier model
+// Note: gemini-2.0-flash-exp requires special access (limit: 0 on standard free tier)
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 // Load knowledge base
 let knowledgeBase;
