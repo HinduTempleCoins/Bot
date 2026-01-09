@@ -702,6 +702,117 @@
         "kodee_role": "Handles server plumbing - installing dependencies, fixing database errors",
         "workflow": "Claude architects, Kodee implements infrastructure"
       }
+    },
+
+    "vankush_trading_strategy": {
+      "description": "Comprehensive trading strategy for Van Kush token price appreciation and profit generation",
+      "primary_mission": "Raise price of VKBT and CURE tokens on HIVE-Engine while making money",
+      "documentation": "See TRADING_STRATEGY.md for complete details",
+      "token_priority_hierarchy": {
+        "tier_1_core": {
+          "tokens": ["VKBT", "CURE"],
+          "goal": "Maximize price appreciation",
+          "strategy": "Active market making with price nudging",
+          "bot": "vankush-market-maker.js"
+        },
+        "tier_2_strategic": {
+          "token": "BLURT",
+          "goal": "Prefer raising BLURT price over other non-Van Kush tokens",
+          "reason": "Part of capital base and ecosystem alignment",
+          "preference_multiplier": "1.4x (treat 5% profit as 7%)"
+        },
+        "tier_3_capital": {
+          "tokens": ["HIVE (primary)", "BLURT (secondary)"],
+          "goal": "Accumulate more HIVE than starting amount",
+          "strategy": "Use profits to build HIVE reserves"
+        },
+        "tier_4_arbitrage": {
+          "tokens": ["Swap.DOGE", "Swap.BTC", "Swap.LTC", "Other Swap.*"],
+          "goal": "Compare HIVE-Engine prices with external exchanges",
+          "strategy": "Find price discrepancies for arbitrage profits"
+        },
+        "tier_5_other": {
+          "description": "Portfolio diversification, opportunistic trades only if >10% profit"
+        }
+      },
+      "portfolio_awareness": {
+        "wallet_monitoring": "Track all token balances in real-time",
+        "hive_price_tracking": {
+          "compare_to": ["Yesterday's price", "Price at first purchase", "7-day moving average"],
+          "data_sources": ["CoinGecko API", "Binance API"],
+          "calculate": "% gain/loss on HIVE holdings"
+        },
+        "portfolio_calculator": "Total value in HIVE and USD, daily P&L tracking"
+      },
+      "arbitrage_strategy": {
+        "concept": "Buy underpriced Swap.* on HIVE-Engine, unwrap, sell on external exchange, buy HIVE with profit, deposit back",
+        "price_comparison": "Compare Swap.BTC price in HIVE vs actual BTC/USD * HIVE/USD",
+        "challenges": ["Withdrawal fees", "Swap fees", "Time delays", "Minimum trade sizes"],
+        "initial_approach": "Alert-only mode, manual approval, dry runs first"
+      },
+      "capital_strategy": {
+        "sources": "Most capital from BLURT and HIVE",
+        "allocation": "Profits reinvested to: 1) Buy VKBT/CURE, 2) Accumulate HIVE, 3) Strategic BLURT",
+        "success_metric": "End HIVE balance > Starting HIVE balance"
+      },
+      "future_features": {
+        "staking_unstaking": {
+          "prerequisite": "HIVE posting/voting bot must exist first",
+          "logic": "IF (curation_rewards > trading_profits) THEN stake ELSE keep_liquid",
+          "coordination": "Balance trading opportunities with content curation earnings",
+          "hive_powerdown": "13 weeks unlock period must be factored into strategy"
+        }
+      },
+      "virtuous_cycle": "Arbitrage → Buy VKBT/CURE → Build HIVE → More Capital → Larger Buy Walls → Attract Traders → More Volume → Better Liquidity → More Arbitrage",
+      "success_metrics": {
+        "daily": ["VKBT/CURE price increase %", "HIVE balance vs start", "Portfolio value USD", "Arbitrage trades", "BLURT balance"],
+        "weekly": ["7-day price changes", "HIVE accumulation total", "Trading volume", "Successful nudges"],
+        "monthly": ["Monthly price appreciation", "HIVE reserves built", "Total profit USD", "ROI on capital"]
+      },
+      "reference_bots": ["PIZZA Bot (GitHub)", "HIVE-Engine trade bots", "TribalDEX documentation", "PEAKD documentation"]
+    },
+
+    "claude_hostinger_integration": {
+      "description": "How Claude Code connects to and automates Hostinger VPS (2026)",
+      "overview": "Turn Hostinger account into automated factory where Claude Code acts as foreman",
+      "connection_methods": {
+        "ssh": "Secure Shell connection - Claude doesn't login with password like human, uses SSH keys",
+        "vps_dashboard": "Direct integration through Hostinger VPS dashboard",
+        "kodee_mcp": "Kodee AI agent built into VPS dashboard, speaks MCP (Model Context Protocol) that Claude Code understands"
+      },
+      "setup_process": {
+        "install_claude": "Install Claude Code directly onto Hostinger VPS for root access",
+        "terminal_control": "Chat with Claude Code in terminal with full server control",
+        "website_creation": "Tell Claude: 'Build landing page for Van Kush Family, use repo docs, deploy to public_html' - instant deployment"
+      },
+      "kodee_interoperability": {
+        "handoff": "Claude Code can hand off tasks to Kodee",
+        "example": "Claude builds website code → Database permissions wrong → Claude tells Kodee: 'Fix SQL permissions for new site'",
+        "chain_of_command": "You give vision → Claude writes code → Kodee handles server plumbing"
+      },
+      "web2agent": {
+        "feature": "Website becomes AI agent itself (Hostinger 2026 feature)",
+        "capability": "Claude Code crawls your site to stay updated automatically",
+        "benefit": "Post new blog on HIVE → Site updates → Claude knows automatically without re-uploading",
+        "setup": "Enable in Hostinger dashboard"
+      },
+      "deployment_workflow": {
+        "step_1_ssh_bridge": "Use Claude to generate SSH key, paste into Hostinger panel for secure server entry",
+        "step_2_command": "Terminal: claude 'Connect to Hostinger VPS and check if Node.js installed'",
+        "step_3_build": "'Use Van Kush Master Document to build one-page site. Add Hathor-Mehit section with Cyan/Vaporwave aesthetic. Link to BLURT feed.'",
+        "step_4_launch": "Claude generates files, moves to production folder, site live at domain"
+      },
+      "requirements": {
+        "hosting_type": "VPS plan required (not basic shared hosting) for Claude Code and Kodee",
+        "web2agent_enable": "Toggle on in Hostinger panel for AI-ready site",
+        "claude_install": "Run: curl -fsSL https://claude.ai/install.sh | bash on server"
+      },
+      "use_cases": {
+        "automated_deployment": "Build and deploy Van Kush websites with voice/text commands",
+        "server_management": "Claude + Kodee handle code and infrastructure together",
+        "content_sync": "Automatic updates from HIVE/BLURT feeds to website",
+        "ai_ready_web": "Website becomes intelligent, self-updating platform"
+      }
     }
   }
 }
