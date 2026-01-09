@@ -1100,6 +1100,255 @@ client.on('messageCreate', async (message) => {
       return;
     }
 
+    // /portfolio command - Show wallet holdings
+    if (command === 'portfolio') {
+      await message.channel.sendTyping();
+
+      try {
+        const fs = require('fs');
+        if (!fs.existsSync('./vankush-portfolio-data.json')) {
+          return message.reply('📊 Portfolio tracker not running yet. Start it with: `node vankush-portfolio-tracker.js`');
+        }
+
+        const portfolioData = JSON.parse(fs.readFileSync('./vankush-portfolio-data.json', 'utf8'));
+        const latestUpdate = portfolioData.updates[portfolioData.updates.length - 1];
+
+        if (!latestUpdate) {
+          return message.reply('📊 No portfolio data available yet. Waiting for first update...');
+        }
+
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('💎 Van Kush Portfolio')
+          .setDescription(`Tracking since: ${new Date(portfolioData.startTime).toLocaleString()}`)
+          .addFields(
+            { name: '💰 Total Value', value: `${latestUpdate.totalValueHive.toFixed(2)} HIVE\n$${latestUpdate.totalValueUSD.toFixed(2)} USD`, inline: true },
+            { name: '📊 HIVE Price', value: `$${latestUpdate.hivePrice.toFixed(4)}`, inline: true },
+            { name: '📈 Updates', value: `${portfolioData.updates.length}`, inline: true }
+          )
+          .setTimestamp(new Date(latestUpdate.timestamp));
+
+        // Add priority tokens
+        if (latestUpdate.priorityTokens) {
+          let tokenFields = [];
+          for (const [symbol, data] of Object.entries(latestUpdate.priorityTokens)) {
+            tokenFields.push({
+              name: symbol,
+              value: `${data.amount.toFixed(4)}\n$${data.valueUSD.toFixed(2)}`,
+              inline: true
+            });
+          }
+          embed.addFields(...tokenFields);
+        }
+
+        await message.reply({ embeds: [embed] });
+      } catch (error) {
+        console.error('Error reading portfolio data:', error);
+        await message.reply('❌ Error reading portfolio data. Make sure the portfolio tracker is running.');
+      }
+      return;
+    }
+
+    // /vkbt command - VKBT token status
+    if (command === 'vkbt') {
+      await message.channel.sendTyping();
+
+      const priceData = await getHiveEnginePrice('VKBT');
+      if (priceData) {
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('💎 VKBT (Van Kush Beauty Token)')
+          .setDescription('Tier 1 Core Token - Highest Priority')
+          .addFields(
+            { name: 'Last Price', value: `${priceData.lastPrice.toFixed(8)} HIVE`, inline: true },
+            { name: '24h Volume', value: `${priceData.volume.toFixed(2)} HIVE`, inline: true },
+            { name: '24h Change', value: `${priceData.priceChangePercent.toFixed(2)}%`, inline: true },
+            { name: 'Highest Bid', value: `${priceData.highestBid.toFixed(8)} HIVE`, inline: true },
+            { name: 'Lowest Ask', value: `${priceData.lowestAsk.toFixed(8)} HIVE`, inline: true },
+            { name: '\u200B', value: '\u200B', inline: true }
+          )
+          .setFooter({ text: 'HIVE-Engine • See TRADING_STRATEGY.md for details' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+      } else {
+        await message.reply('Could not fetch VKBT price data. The token may not exist on HIVE-Engine yet.');
+      }
+      return;
+    }
+
+    // /cure command - CURE token status
+    if (command === 'cure') {
+      await message.channel.sendTyping();
+
+      const priceData = await getHiveEnginePrice('CURE');
+      if (priceData) {
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('💎 CURE (Van Kush Token)')
+          .setDescription('Tier 1 Core Token - Highest Priority')
+          .addFields(
+            { name: 'Last Price', value: `${priceData.lastPrice.toFixed(8)} HIVE`, inline: true },
+            { name: '24h Volume', value: `${priceData.volume.toFixed(2)} HIVE`, inline: true },
+            { name: '24h Change', value: `${priceData.priceChangePercent.toFixed(2)}%`, inline: true },
+            { name: 'Highest Bid', value: `${priceData.highestBid.toFixed(8)} HIVE`, inline: true },
+            { name: 'Lowest Ask', value: `${priceData.lowestAsk.toFixed(8)} HIVE`, inline: true },
+            { name: '\u200B', value: '\u200B', inline: true }
+          )
+          .setFooter({ text: 'HIVE-Engine • See TRADING_STRATEGY.md for details' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+      } else {
+        await message.reply('Could not fetch CURE price data. The token may not exist on HIVE-Engine yet.');
+      }
+      return;
+    }
+
+    // /pnl command - Profit/Loss report
+    if (command === 'pnl') {
+      await message.channel.sendTyping();
+
+      try {
+        const fs = require('fs');
+        if (!fs.existsSync('./vankush-portfolio-data.json')) {
+          return message.reply('📊 Portfolio tracker not running yet. Start it with: `node vankush-portfolio-tracker.js`');
+        }
+
+        const portfolioData = JSON.parse(fs.readFileSync('./vankush-portfolio-data.json', 'utf8'));
+        const latestUpdate = portfolioData.updates[portfolioData.updates.length - 1];
+
+        if (!latestUpdate || !portfolioData.startingBalances) {
+          return message.reply('📊 Not enough data for P&L calculation. Waiting for more updates...');
+        }
+
+        // Calculate performance metrics
+        const startHive = portfolioData.startingBalances['SWAP.HIVE']?.amount || 0;
+        const currentHive = latestUpdate.priorityTokens['SWAP.HIVE']?.amount || 0;
+        const hiveChange = startHive > 0 ? ((currentHive - startHive) / startHive) * 100 : 0;
+
+        const hivePriceChange = portfolioData.startingHivePrice > 0
+          ? ((latestUpdate.hivePrice - portfolioData.startingHivePrice) / portfolioData.startingHivePrice) * 100
+          : 0;
+
+        const embed = new EmbedBuilder()
+          .setColor(hiveChange >= 0 ? 0x00ff00 : 0xff0000)
+          .setTitle('📈 Van Kush P&L Report')
+          .setDescription(`Performance since ${new Date(portfolioData.startTime).toLocaleDateString()}`)
+          .addFields(
+            { name: '💰 HIVE Balance', value: `${(hiveChange >= 0 ? '+' : '')}${hiveChange.toFixed(2)}%\n${startHive.toFixed(2)} → ${currentHive.toFixed(2)} HIVE`, inline: true },
+            { name: '📊 HIVE Price', value: `${(hivePriceChange >= 0 ? '+' : '')}${hivePriceChange.toFixed(2)}%\n$${portfolioData.startingHivePrice.toFixed(4)} → $${latestUpdate.hivePrice.toFixed(4)}`, inline: true },
+            { name: '⏱️ Tracking Time', value: `${Math.floor((Date.now() - new Date(portfolioData.startTime)) / (1000 * 60 * 60 * 24))} days`, inline: true }
+          )
+          .setFooter({ text: 'Goal: End HIVE balance > Starting HIVE balance' })
+          .setTimestamp();
+
+        await message.reply({ embeds: [embed] });
+      } catch (error) {
+        console.error('Error calculating P&L:', error);
+        await message.reply('❌ Error calculating P&L. Make sure the portfolio tracker is running.');
+      }
+      return;
+    }
+
+    // /arbitrage command - Recent arbitrage opportunities
+    if (command === 'arbitrage') {
+      await message.channel.sendTyping();
+
+      try {
+        const fs = require('fs');
+        if (!fs.existsSync('./vankush-arbitrage-history.json')) {
+          return message.reply('🔍 Arbitrage scanner not running yet. Start it with: `node vankush-arbitrage-scanner.js`');
+        }
+
+        const arbData = JSON.parse(fs.readFileSync('./vankush-arbitrage-history.json', 'utf8'));
+
+        if (arbData.opportunities.length === 0) {
+          return message.reply('🔍 No arbitrage opportunities found yet. Scanner is still searching...');
+        }
+
+        // Get most recent opportunities (last 5)
+        const recentOpps = arbData.opportunities.slice(-5).reverse();
+
+        const embed = new EmbedBuilder()
+          .setColor(0xf39c12)
+          .setTitle('🚨 Recent Arbitrage Opportunities')
+          .setDescription(`Total scans: ${arbData.scans} | Opportunities found: ${arbData.opportunitiesFound}`)
+          .setFooter({ text: 'Alert-only mode • Manual approval required' })
+          .setTimestamp();
+
+        for (const opp of recentOpps) {
+          const age = Math.floor((Date.now() - new Date(opp.metadata.timestamp)) / (1000 * 60));
+          embed.addFields({
+            name: `${opp.symbol} (${age}m ago)`,
+            value: `**Net Profit:** ${opp.netProfitPercent.toFixed(2)}%\n` +
+                   `HIVE-Engine: $${opp.hiveEnginePrice.inUSD.toFixed(2)}\n` +
+                   `External: $${opp.externalPrice.toFixed(2)}\n` +
+                   `Example $1K trade: $${opp.exampleTrade.netProfit.toFixed(2)} profit`,
+            inline: false
+          });
+        }
+
+        await message.reply({ embeds: [embed] });
+      } catch (error) {
+        console.error('Error reading arbitrage data:', error);
+        await message.reply('❌ Error reading arbitrage data. Make sure the scanner is running.');
+      }
+      return;
+    }
+
+    // /bots command - Bot status dashboard
+    if (command === 'bots') {
+      const fs = require('fs');
+
+      const botStatus = {
+        portfolio: fs.existsSync('./vankush-portfolio-data.json'),
+        arbitrage: fs.existsSync('./vankush-arbitrage-history.json'),
+        marketMaker: fs.existsSync('./vankush-market-state.json'),
+        trading: fs.existsSync('./hive-trading-state.json')
+      };
+
+      const embed = new EmbedBuilder()
+        .setColor(0x3498db)
+        .setTitle('🤖 Van Kush Bot Status Dashboard')
+        .setDescription('Status of all trading bots in the ecosystem')
+        .addFields(
+          {
+            name: '💎 Market Maker',
+            value: botStatus.marketMaker
+              ? '✅ Active (vankush-market-maker.js)\nNudging VKBT/CURE prices'
+              : '⚠️ Not running\nStart: `node vankush-market-maker.js`',
+            inline: false
+          },
+          {
+            name: '📊 Portfolio Tracker',
+            value: botStatus.portfolio
+              ? '✅ Active (vankush-portfolio-tracker.js)\nMonitoring wallet balances'
+              : '⚠️ Not running\nStart: `node vankush-portfolio-tracker.js`',
+            inline: false
+          },
+          {
+            name: '🔍 Arbitrage Scanner',
+            value: botStatus.arbitrage
+              ? '✅ Active (vankush-arbitrage-scanner.js)\nScanning Swap.* opportunities'
+              : '⚠️ Not running\nStart: `node vankush-arbitrage-scanner.js`',
+            inline: false
+          },
+          {
+            name: '💹 HIVE-Engine Trader',
+            value: botStatus.trading
+              ? '✅ Active (hive-trading-bot.js)\nExecuting trades'
+              : '⚠️ Not running\nStart: `node hive-trading-bot.js`',
+            inline: false
+          }
+        )
+        .setFooter({ text: 'See TRADING_STRATEGY.md for strategy details' })
+        .setTimestamp();
+
+      await message.reply({ embeds: [embed] });
+      return;
+    }
+
     // /help command
     if (command === 'help') {
       const embed = new EmbedBuilder()
@@ -1107,14 +1356,14 @@ client.on('messageCreate', async (message) => {
         .setTitle('🌿 Van Kush Family Bot Commands')
         .setDescription('Here are all available commands and features:')
         .addFields(
-          { name: '🎨 /generate [prompt]', value: 'Generate AI art with Pollinations.ai\nExample: `/generate Hathor goddess vaporwave`' },
-          { name: '💰 /price [token]', value: 'Get HIVE-Engine token price\nExample: `/price VKBT` or `/price CURE`' },
-          { name: '⚔️ /rs3 [item name]', value: 'Get RuneScape 3 Grand Exchange price\nExample: `/rs3 Dragon bones`' },
-          { name: '🔮 /cryptology [topic]', value: 'Explore ancient mysteries interactively\nExample: `/cryptology nephilim`' },
-          { name: '❓ /help', value: 'Show this help message' },
-          { name: '💬 Chat Features', value: '• @mention me or DM me to chat!\n• I search Wikipedia, Google, and Discord history\n• I summarize YouTube videos automatically\n• I respond to keywords like "VKBT", "quest", "price"\n• I can see and analyze images!' },
-          { name: '🤖 Proactive Features', value: '• I monitor keywords and contribute without @mention\n• I respond to replies to my messages\n• Natural commands work too (e.g., "show me the price of VKBT")\n• New users get a welcome message after 5 posts!' },
-          { name: '📅 Scheduled Posts', value: '• Daily motivation at 9 AM UTC\n• Weekly crypto summary on Sundays at 8 PM UTC' }
+          { name: '💎 Trading & Portfolio', value: '`/portfolio` - Show wallet holdings\n`/vkbt` - VKBT token status\n`/cure` - CURE token status\n`/pnl` - Profit/loss report\n`/arbitrage` - Recent opportunities\n`/bots` - Bot status dashboard' },
+          { name: '💰 Market Data', value: '`/price [token]` - HIVE-Engine token price\nExample: `/price BEE`' },
+          { name: '🎨 AI & Content', value: '`/generate [prompt]` - Generate AI art\nExample: `/generate Hathor goddess vaporwave`\n`/cryptology [topic]` - Explore mysteries\nExample: `/cryptology nephilim`' },
+          { name: '⚔️ Gaming', value: '`/rs3 [item]` - RuneScape 3 prices\nExample: `/rs3 Dragon bones`' },
+          { name: '❓ Help', value: '`/help` - Show this message' },
+          { name: '💬 Chat Features', value: '• @mention me or DM me to chat!\n• I search Wikipedia, Google, Discord\n• I summarize YouTube videos\n• I respond to keywords (VKBT, quest, price)\n• I can analyze images!' },
+          { name: '🤖 Proactive Features', value: '• I monitor keywords without @mention\n• I respond to help-seeking phrases\n• Natural commands work (e.g., "show me the price of VKBT")\n• New users get welcome messages!' },
+          { name: '📅 Scheduled Posts', value: '• Daily motivation at 9 AM UTC\n• Weekly crypto summary Sundays 8 PM UTC' }
         )
         .setFooter({ text: 'Angels and demons? We\'re cousins, really.' });
 
