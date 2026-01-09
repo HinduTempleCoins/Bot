@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "node --watch index.js",
+    "trade": "node hive-trading-bot.js",
+    "trade:dev": "node --watch hive-trading-bot.js"
   },
   "keywords": ["discord", "bot", "gemini", "van-kush"],
   "author": "",
@@ -14,6 +16,7 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "@google/generative-ai": "^0.21.0",
+    "@hiveio/dhive": "^1.2.8",
     "dotenv": "^16.4.5",
     "axios": "^1.6.5",
     "node-cron": "^3.0.3",
