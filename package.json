@@ -8,7 +8,8 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",
-    "trade:dev": "node --watch hive-trading-bot.js"
+    "trade:dev": "node --watch hive-trading-bot.js",
+    "scan-tokens": "node hive-token-scanner.js"
   },
   "keywords": ["discord", "bot", "gemini", "van-kush"],
   "author": "",
