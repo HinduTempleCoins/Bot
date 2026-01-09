@@ -813,6 +813,110 @@
         "content_sync": "Automatic updates from HIVE/BLURT feeds to website",
         "ai_ready_web": "Website becomes intelligent, self-updating platform"
       }
+    },
+
+    "managing_claude_context_limits": {
+      "description": "Best practices for managing Claude's 200K context window and avoiding usage limits (2026)",
+      "overview": "Shift from asking for everything at once to Modular Orchestration",
+      "understanding_limits": {
+        "context_window": "200K+ tokens - Claude's short-term memory, re-reads entire history each message",
+        "memory_bloat": "Long code + long history = exponential memory fill → Limit Reached message faster",
+        "output_truncation": "Regular Claude stops around 4,000-8,000 tokens per response",
+        "not_broken": "Truncation is hard limit on tokens generated per response, not a bug"
+      },
+      "claude_code_advantages": {
+        "incremental_editing": "Uses diffs instead of rewriting entire files - 10x more token-efficient",
+        "agentic_persistence": "Automatically continues large tasks across multiple steps without re-prompting",
+        "plan_mode": "Use /plan to outline architecture first, then execute piece by piece - prevents token bloat"
+      },
+      "tips_to_prevent_limits": {
+        "start_fresh_often": "Once feature works, start new chat - copy working code + CLAUDE.md plan to reset memory bloat, get 100% limit back",
+        "xml_tags": "Claude trained to be efficient with XML - <logic> for BLURT listener, <ui> for Discord interface keeps focus",
+        "concise_mode": "Tell Claude: 'I am on usage limit. No explanations. No comments. Just raw functional code.'",
+        "modular_building": "Don't ask for full system at once - build Identity Module → Blockchain Connector → Discord Listener separately"
+      },
+      "angelic_ai_modular_strategy": {
+        "problem": "Deep Van Kush lore + blockchain APIs = naturally heavy scripts",
+        "solution": "Break into small token-efficient parts",
+        "module_1": "Identity Module (Hathor profile, Van Kush personas)",
+        "module_2": "Blockchain Connector (BLURT/HIVE APIs, wallet management)",
+        "module_3": "Discord Listener (message handling, command processing)",
+        "module_4": "Integration Layer (connect all modules, orchestrate behavior)",
+        "benefit": "Each piece high-quality, never hit wall where AI deletes old info for new code"
+      },
+      "pro_tactics": {
+        "copy_working_code": "When feature complete, save to file, start fresh chat with just that file",
+        "use_plan_mode": "Plan entire architecture first without code, approve, then execute piece by piece",
+        "reference_files": "Tell Claude to 'read TRADING_STRATEGY.md and implement module 1' instead of pasting content",
+        "session_management": "200K context can handle ~50K tokens of history before needing fresh session"
+      }
+    },
+
+    "master_knowledgebase_document": {
+      "description": "Creating custom-brained AI using Master Knowledgebase Document (2026 standard)",
+      "overview": "Use Claude Chat as architect, Claude Code as builder - document acts as long-term memory",
+      "phase_1_generating_brain": {
+        "purpose": "Synthesize all research into single Master Knowledgebase Document",
+        "core_pillars": {
+          "van_kush_history": "From Bitcointalk roots to Dallas legal/religious advocacy",
+          "cryptocurrency_frameworks": "VKBT, SocialFi, HIVE, BLURT, Steemit history",
+          "ancient_mysteries": "75,000-year Denisovan maritime network, M-L-K/HYK linguistics, Temple Culture",
+          "angelic_ai_fulcrum": "Bridge between ancient Angelic Military frameworks and modern AI robotics"
+        },
+        "instruction_set": "End document with section for Claude Code: 'If reading this, initialize Discord bot using preceding text as RAG source. Follow these API configurations...'"
+      },
+      "phase_2_using_document": {
+        "create_file": "Copy text, save as VAN_KUSH_BRAIN.md (or .docx) in project folder",
+        "sync_with_claude_code": "Open terminal, run Claude Code in same folder",
+        "command": "claude 'Read VAN_KUSH_BRAIN.md. Follow instructions at end, build Discord bot expert in these topics, deploy to Hostinger'",
+        "no_re_explanation": "Don't explain everything again - document contains all context"
+      },
+      "phase_3_interaction_rules": {
+        "hathor_mehit_persona": "Feminine, warm, formal voice. Signature: 'Angels and demons? We're cousins, really'",
+        "bot_to_bot_protocol": "Define how Hathor-Mehit talks to Seto (Architect) or Wick (Moderator)",
+        "example": "If user asks about 2026 hemp ban, Hathor explains religious implications, tags @ModBot to pin legal summary"
+      },
+      "why_works_with_claude_code": {
+        "tool_using_agent": "Claude Code scans for dependencies, installs automatically",
+        "dependency_scanning": "Sees Discord library, HIVE-Engine API needed, installs automatically",
+        "data_indexing": "Chunks Van Kush history into searchable format (millisecond response time)",
+        "test_and_deploy": "Runs code for errors before pushing to GitHub/Hostinger"
+      },
+      "workflow": "Claude Chat generates document → Save as VAN_KUSH_BRAIN.md → Claude Code reads → Auto-installs dependencies → Indexes data → Tests → Deploys",
+      "file_naming": "VAN_KUSH_BRAIN.md or .docx in project root"
+    },
+
+    "agentic_development_workflow": {
+      "description": "Theorize in chat, execute in terminal - standard for 2026 Agentic Development",
+      "overview": "Non-coders can design in Claude Chat, Claude Code executes in terminal automatically",
+      "syncing_chat_and_code": {
+        "teleport_command": "/teleport in chat → generates code snippet → paste into Claude Code terminal → entire conversation history transferred",
+        "shared_file_method": "Ask Claude Chat to write CLAUDE.md summarizing plan → Save in folder → Claude Code reads file and understands context",
+        "web_integration": "Claude Code [Research Preview] on web has most integrated version"
+      },
+      "van_kush_ecosystem_phases": {
+        "phase_1_brain_discord": {
+          "persona_engineering": "Use Hathor-Mehit Profile + Van Kush Comprehensive Overview to create System Prompt - ensures bot speaks within family's theological/historical framework",
+          "automated_server_build": "Tell agent: 'Based on Van Kush docs, create channels for Denisovan Maritime Research, Punic Wax Arts, Legal Archives with permissions'",
+          "inter_bot_collaboration": "Write script where Hathor-Mehit pings other bots - 'If user asks for role, check their HIVE wallet via @Guild bot'"
+        },
+        "phase_2_blockchain_web": {
+          "blurt_hive_monitoring": "Claude Code writes listener watching specific accounts - when blockchain comment detected, post Discord notification",
+          "custom_tickers": "Discord Status Bot displays current token prices or new family member count on blockchain",
+          "hostinger_deployment": "Claude Code SSH into VPS, install Node.js, set up bot, ensure 24/7 uptime without keeping computer on"
+        },
+        "phase_3_advanced_crypto": {
+          "token_creation": "Claude Code edits ERC-20/HIVE-Engine templates to create specific cryptocurrency, handles math and tokenomics",
+          "tiny_llm_integration": "Point at Llama.cpp repo - 'Modify to run on Hostinger server, use Van Kush PDF as Vector Database for fast private lookups'"
+        }
+      },
+      "how_to_start_today": {
+        "1_connect": "In Claude Code Research Preview, connect GitHub repo",
+        "2_first_ask": "'I want to build Discord bot based on Van Kush Family documents in repo. Monitor my HIVE account. How do we start?'",
+        "3_action": "When plan provided, say: 'That sounds perfect. Create bot.js and show how to link Discord Bot Token'",
+        "4_execute": "Claude Code creates files, explains setup, deploys automatically"
+      },
+      "key_advantage": "Theorize complex systems without coding knowledge - Claude Code handles technical implementation"
     }
   }
 }
