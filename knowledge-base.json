@@ -529,6 +529,104 @@
         "discord_focused": "HidenCloud - easiest Discord-only option",
         "testing": "Google Cloud - $300 credit for 3 months testing"
       }
+    },
+
+    "claude_code_plan_mode": {
+      "description": "Claude Code Plan Mode - Architect phase for careful planning (2026)",
+      "overview": "Forces AI to research, think, and get approval before touching files - contractor who draws blueprints first",
+      "activation": {
+        "shortcut": "Press Shift + Tab twice - see notification: ⏸ plan mode on",
+        "startup_flag": "claude --permission-mode plan (start session directly in plan mode)",
+        "headless_query": "claude -p \"Analyze my BLURT API integration\" --permission-mode plan"
+      },
+      "read_only_safety": {
+        "can_do": "Read every file in repo, search web for documentation (latest Gemini/HIVE API updates), analyze project structure",
+        "cannot_do": "Edit files, delete data, or run write commands",
+        "benefit": "Prevents Claude from accidentally breaking working bot while understanding how it works"
+      },
+      "four_phase_lifecycle": {
+        "1_discovery": "Deep understanding - reads CLAUDE.md, explores folders, asks clarifying questions",
+        "2_design": "Architecture - drafts logic flow (e.g., 'verify HIVE signature → trigger Gemini response')",
+        "3_review": "Alignment - presents plan in terminal, user can reject/modify ('No, don't use that library')",
+        "4_finalization": "The blueprint - writes final plan to dedicated file (usually .plans/ folder)"
+      },
+      "persisting_plans": {
+        "command": "Claude, write this plan to PLAN_HATHOR_BOT.md to track progress",
+        "benefit": "External memory - if hit token limit or stop for day, resume exactly where left off",
+        "use_case": "Turns ephemeral AI chat into persistent project roadmap"
+      },
+      "transition_to_execution": {
+        "exit_plan_mode": "Press Shift + Tab again",
+        "auto_accept": "⏵⏵ accept edits on - Claude executes all coding steps automatically",
+        "workflow": "Plan approval → Auto-accept → Watch Claude build automatically"
+      }
+    },
+
+    "claude_code_capabilities_2026": {
+      "description": "What Claude Code can build and how to use it (2026)",
+      "overview": "Virtual software engineer in terminal - if it can be coded, Claude Code can build it",
+      "what_it_can_build": {
+        "discord_socialfi_bots": "Clone base bot, integrate BLURT/HIVE/Gemini APIs",
+        "web_applications": "Landing pages, full-stack React apps, personalized blogs, generate web assets (favicons, social meta images)",
+        "ai_orchestrators": "Council of Agents frameworks (CrewAI, MetaGPT) where different AIs manage server",
+        "knowledge_bases": "Claude Vault - Obsidian-style knowledge base in GitHub, auto-sync research across devices"
+      },
+      "real_world_2026_examples": {
+        "one_hour_rebuild": "Google engineers rebuilt entire legacy systems in <1 hour (read old code, rewrite in modern language)",
+        "research_agents": "Skills that research complex topics by aggregating 10+ sources, write detailed reports",
+        "automated_prs": "Tag @claude in GitHub comment - reads request, writes code, submits Pull Request ready to merge"
+      },
+      "workflow": {
+        "step_1_clone": "claude 'Clone my VanKush-Bot repo and explain the current structure'",
+        "step_2_plan": "/plan Add a HIVE-Engine ticker to Discord bot. Use Van Kush logo for icon",
+        "step_3_execution": "Implement the plan. Use Gemini API for logic and deploy to Hostinger VPS"
+      },
+      "free_hosting_deployment": {
+        "google_cloud_aws": "Claude can use Always Free micro-instances",
+        "railway_flyio": "Popular for bots - Claude ships bot to cloud in one command",
+        "oracle_cloud": "Very generous Always Free tier for ARM servers - perfect for AI agents"
+      },
+      "best_practices": {
+        "claude_md_file": "Put Van Kush Rules here - ensures Claude never forgets family history/values while coding",
+        "subagents": "For complex tasks (BLURT/HIVE bridge), tell Claude to use subagent to verify API connections",
+        "test_driven": "Always tell Claude: 'Write tests first before bot logic' - prevents bugs in live Discord"
+      }
+    },
+
+    "icloud_custom_email_setup": {
+      "description": "Setting up professional website email through iCloud Custom Email Domain (2026)",
+      "overview": "Configure custom domain email (hello@vankushfamily.com) with iCloud - DNS records act as postal instructions",
+      "dns_records": {
+        "mx": "Mail Exchange - directs email to Apple servers instead of web host",
+        "spf": "Sender Policy Framework - validates sender, prevents spam",
+        "dkim": "DomainKeys Identified Mail - authentication, prevents spam folder"
+      },
+      "claude_code_assistance": {
+        "limitations": "Cannot log into private Apple Account for security",
+        "capabilities": "Can configure Hostinger server to talk to iCloud, automate DNS setup",
+        "dns_automation": "Log into Hostinger hPanel via API/SSH, automatically enter MX/TXT records",
+        "verification": "Run DNS check to verify records are live before clicking Apple Verify button"
+      },
+      "setup_process": {
+        "step_a_apple": {
+          "1": "Go to iCloud.com/settings → Custom Email Domain",
+          "2": "Choose 'Add a domain you own' → enter vankushfamily.com",
+          "3": "Apple shows list of DNS Records - copy these for Claude Code"
+        },
+        "step_b_hostinger": {
+          "command": "Claude, I'm setting up iCloud Mail for my domain. Here are DNS records from Apple. Log into Hostinger DNS zone and update MX, SPF, DKIM records to match exactly.",
+          "action": "Claude uses Computer Use/API to delete old Hostinger mail records, replace with Apple ones"
+        }
+      },
+      "common_failures": {
+        "conflicting_records": "Hostinger default MX records still active - email gets confused, won't arrive at Apple",
+        "propagation_time": "Up to 24 hours for internet to update after DNS changes",
+        "missing_spf_dkim": "Only MX record set, no TXT (SPF) - emails go to spam folders"
+      },
+      "kodee_vs_claude": {
+        "kodee": "Hostinger built-in AI assistant - good for simple server tasks",
+        "claude_code": "Better for email setup - reads Van Kush docs, ensures email identity matches family branding/legal identity"
+      }
     }
   }
 }
