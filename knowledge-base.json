@@ -1232,6 +1232,210 @@
         "natural_conversation": "AI decides to reward based on conversation quality, not commands",
         "family_assistant": "Unified identity across all blockchain platforms"
       }
+    },
+
+    "advanced_token_intelligence": {
+      "description": "How Van Kush trading bot learns about tokens beyond price action - understanding staking, delegation, dividends, and token mechanics",
+
+      "bee_workerbee_tokens": {
+        "bee_token": {
+          "symbol": "BEE",
+          "purpose": "Primary token for HIVE-Engine ecosystem",
+          "earning_beyond_trading": "BEE can be earned through delegation rewards, not just trading profits",
+          "bot_strategy": "Build wallet supply of BEE while making money from it",
+          "importance": "Understanding BEE mechanics helps bot learn about staking vs trading decisions"
+        },
+        "workerbee_token": {
+          "symbol": "WORKERBEE",
+          "purpose": "Dividend-paying token backed by HIVE-Engine mining pool",
+          "earning_model": "Earn BEE dividends based on WORKERBEE holdings",
+          "bot_consideration": "Compare dividend yield vs trading profit potential"
+        }
+      },
+
+      "token_type_classification": {
+        "dividend_tokens": {
+          "examples": ["BBH (Bitcoin Backed Hive)", "DRIP", "WORKERBEE"],
+          "mechanism": "Earn other tokens or more of same token based on performance",
+          "valuation": "Backed by portfolio of assets or market performance",
+          "bot_analysis": "When healthy token identified, research if dividend-paying"
+        },
+        "delegation_tokens": {
+          "mechanism": "Delegate to curator/voter, earn portion of curation rewards",
+          "examples": "ARCHON, various tribe curation projects",
+          "bot_analysis": "Research delegation APR vs trading profit potential"
+        },
+        "scot_bot_tokens": {
+          "mechanism": "Mirror HIVE distribution model via hashtags",
+          "examples": ["VKBT", "CURE", "LEO", "NEOXAG"],
+          "distribution": "Only distribute to users using specific hashtags",
+          "staking_benefit": "Stake tokens to earn curation rewards on tagged posts",
+          "voting_power": "Like HIVE, voting power recharges after use",
+          "bot_integration": "Voting bot stakes these tokens, votes posts with trigger hashtags"
+        }
+      },
+
+      "hive_blog_research": {
+        "purpose": "When bot finds healthy token, research on Hive.blog to understand mechanics",
+        "research_questions": [
+          "Is this a delegation program?",
+          "Is this a dividend token?",
+          "What hashtags trigger distribution (SCOT bot)?",
+          "Who created this token and why?",
+          "What is the tokenomics model?",
+          "Are there staking rewards?"
+        ],
+        "implementation": "Use Hive.blog search API or scrape posts tagged with token symbol",
+        "decision_tree": "Healthy token → Research mechanics → Determine if stake vs trade"
+      },
+
+      "tokenomics_distribution_analysis": {
+        "pizza_bot_feature": "Shows holder distribution for any token",
+        "metrics_tracked": {
+          "holders_above_0": "Total number of holders",
+          "holders_above_10": "Addresses with 10+ tokens",
+          "holders_above_100": "Addresses with 100+ tokens",
+          "holders_above_1000": "Addresses with 1,000+ tokens (committed holders)",
+          "holders_above_10000": "Addresses with 10,000+ tokens (whales)",
+          "holders_above_100000": "Addresses with 100,000+ tokens (mega whales)"
+        },
+        "data_source": "HIVE-Engine Token Explorer API",
+        "strategic_value": "Understanding distribution helps bot know if price can be raised sustainably",
+        "example_insight": "If 90% of supply held by 3 whales, raising price risky (they could dump)"
+      },
+
+      "buy_support_concept": {
+        "definition": "Strong buy walls at strategic prices that prevent price crashes",
+        "bot_role": "Van Kush bot becomes the buy support for VKBT/CURE",
+        "strategy": {
+          "analyze_supply": "Know total supply that might dump",
+          "check_distribution": "Use tokenomics data to assess whale risk",
+          "calculate_cost": "Determine cost to raise price (analyze sell wall)",
+          "set_buy_walls": "Place strong buy orders at target prices",
+          "sell_wall_clearing": "Sometimes raising price clears sell wall (good thing)",
+          "avoid_dumps": "Don't buy everything trade bots dump - be strategic"
+        },
+        "example_scenario": {
+          "situation": "Bot analyzes it can raise VKBT to 1:1 with HIVE for $1.50 worth of HIVE",
+          "action": "Bot buys up sell wall, sets sell order at new 1:1 price",
+          "response": "Trade bot dumps into it, pushes buy wall back down",
+          "outcome": "Not a failure - cleared sell wall, revealed true solid value",
+          "lesson": "Good to clear sell wall, but don't lose money buying everything",
+          "intelligence_needed": "Know who owns what, understand whale behavior"
+        }
+      },
+
+      "market_making_intelligence": {
+        "price_raising": {
+          "analysis_required": [
+            "Current sell wall value (how much to buy to raise price)",
+            "Token distribution (who might dump)",
+            "Trading volume (is there liquidity)",
+            "Whale holdings (risk assessment)"
+          ],
+          "decision_factors": [
+            "Cost to raise price",
+            "Probability of holding new price",
+            "Potential profit from holding vs trading",
+            "Risk of whale dump"
+          ]
+        },
+        "clearing_sell_walls": {
+          "benefit": "Reveals true solid value of token",
+          "risk": "May trigger whale sells if they see opportunity",
+          "strategy": "Clear walls gradually, set strong buy support below"
+        },
+        "who_owns_what": {
+          "importance": "Critical for market making decisions",
+          "data_needed": "Holder addresses and amounts",
+          "tracking": "Monitor whale movements (100k+ holders)",
+          "response": "Pause price nudging if whale becomes active"
+        }
+      },
+
+      "staking_vs_trading_decision": {
+        "future_capability": "Once voting bot built, compare staking vs trading",
+        "factors_to_consider": {
+          "staking_rewards": "Curation rewards from voting on tagged posts",
+          "trading_profit": "Buy low, sell high opportunities",
+          "opportunity_cost": "Staked tokens locked (Power Down takes time)",
+          "market_conditions": "High volatility favors trading, stable market favors staking",
+          "token_health": "Healthy projects with activity better for staking"
+        },
+        "decision_algorithm": {
+          "step_1": "Calculate expected staking rewards (based on post volume with hashtags)",
+          "step_2": "Calculate expected trading profit (based on price volatility)",
+          "step_3": "Compare risk-adjusted returns",
+          "step_4": "If staking_rewards > trading_profit: STAKE",
+          "step_5": "If trading_profit > staking_rewards: TRADE",
+          "step_6": "Rebalance periodically based on market conditions"
+        }
+      },
+
+      "scot_bot_voting_mechanics": {
+        "description": "How SCOT bot tokens (like VKBT, CURE) distribute rewards",
+        "hashtag_triggers": {
+          "vkbt_hashtags": "Posts using VKBT-designated hashtags eligible for VKBT rewards",
+          "cure_hashtags": "Posts using CURE-designated hashtags eligible for CURE rewards",
+          "finding_hashtags": "Check token creation parameters or announcement posts on Hive.blog"
+        },
+        "voting_bot_strategy": {
+          "stake_tokens": "Bot stakes VKBT and CURE to gain voting power",
+          "monitor_posts": "Watch for posts using trigger hashtags",
+          "vote_strategically": "Vote on quality posts to maximize curation rewards",
+          "earn_both": "Bot earns curation rewards AND supports community",
+          "voting_power": "Regenerates over time like HIVE (40 full votes per day typical)"
+        },
+        "curation_rewards": {
+          "timing": "Early votes (within first 24h) typically earn more",
+          "power": "More staked tokens = stronger votes = more rewards",
+          "competition": "Other curators also voting, affects reward distribution",
+          "calculation": "Complex algorithm based on stake, timing, post rewards"
+        }
+      },
+
+      "implementation_priorities": {
+        "phase_1_current": {
+          "status": "Implemented",
+          "capabilities": ["Price tracking", "Market making", "Portfolio monitoring", "Arbitrage detection", "BLURT preference"]
+        },
+        "phase_2_tokenomics": {
+          "priority": "Next",
+          "tasks": [
+            "Build token distribution analyzer (replicate PIZZA bot feature)",
+            "Add HIVE-Engine Token Explorer API integration",
+            "Create /tokenomics Discord command",
+            "Add whale tracking to market maker"
+          ]
+        },
+        "phase_3_research": {
+          "priority": "After tokenomics",
+          "tasks": [
+            "Build Hive.blog search/scraper for token research",
+            "Add token type classifier (dividend/delegation/SCOT)",
+            "Create token intelligence report generator",
+            "Add to knowledge base dynamically as bot learns"
+          ]
+        },
+        "phase_4_voting": {
+          "priority": "After research",
+          "tasks": [
+            "Build HIVE posting/voting bot",
+            "Implement SCOT bot hashtag monitoring",
+            "Calculate curation reward expectations",
+            "Add staking vs trading decision algorithm"
+          ]
+        },
+        "phase_5_advanced": {
+          "priority": "Long-term",
+          "tasks": [
+            "Multi-token delegation management",
+            "Dividend token portfolio optimization",
+            "Cross-platform (HIVE/Steemit/BLURT) coordination",
+            "Automated rebalancing based on market conditions"
+          ]
+        }
+      }
     }
   }
 }
