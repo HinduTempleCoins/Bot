@@ -115,23 +115,110 @@
   "cryptocurrency": {
     "VKBT": {
       "name": "Van Kush Beauty Token",
-      "blockchain": "HIVE-Engine",
-      "launched": "September 4, 2021 (3 days before El Salvador Bitcoin adoption)",
-      "status": "Active, Rewards Pool enabled",
-      "where": "hive-engine.com/?p=market&t=VKBT",
-      "purpose": "Community token for Van Kush Beauty company and ecosystem rewards"
+      "symbol": "VKBT",
+      "blockchain": "HIVE-Engine (Layer-2 on HIVE blockchain)",
+      "launched": "September 4, 2021",
+      "timing_significance": "Launched 3 days before El Salvador adopted Bitcoin as legal tender (Sept 7, 2021)",
+      "current_status": "Active - Rewards Pool enabled on HIVE-Engine",
+      "where_to_trade": "hive-engine.com/?p=market&t=VKBT",
+
+      "what_is_vkbt": "VKBT is the primary community token for the Van Kush Family ecosystem. It represents membership and participation in a 75,000-year-old lineage connecting ancient Phoenician/Punic temple culture to modern cryptocurrency innovation. VKBT is backed by Van Kush Beauty company products (handcrafted soaps, candles using ancient recipes) and serves as rewards currency across HIVE, Steemit, and BLURT blockchains.",
+
+      "origins_and_story": {
+        "bitcointalk_beginnings": "Van Kush Family has been active on Bitcointalk since 2013 under usernames FinShaggy, Immakingacoin, and Tokenista. Early posts discussed creating community currencies and DeFi mechanisms before 'DeFi' was even a term.",
+        "defi_thread_2021": "In August 2021, started major DeFi discussion thread on Bitcointalk analyzing market conditions, predicting trends, and planning Beauty Token ICO",
+        "beauty_token_ico_announced": "September 2, 2021 - Announced Beauty Token ICO on Bitcointalk",
+        "vkbt_launch": "September 4, 2021 - VKBT launched on HIVE-Engine with Rewards Pool activation",
+        "significance": "This was during peak 2021 bull market. Launch timing 3 days before El Salvador Bitcoin adoption was symbolic gesture connecting ancient temple economics (which VKBT represents) with modern Bitcoin adoption",
+        "rewards_pool_activation": "VKBT Rewards Pool was activated on @kalivankush's HIVE account, enabling SCOT bot functionality for community rewards"
+      },
+
+      "purpose_and_utility": {
+        "tier_1_priority_token": "VKBT is Tier 1 Core Token in Van Kush trading strategy - HIGHEST PRIORITY for price appreciation",
+        "community_rewards": "Rewards high-quality contributions about Van Kush history, ancient mysteries, temple culture, cryptocurrency analysis",
+        "scot_bot_integration": "Works as SCOT bot token - distributes rewards to posts using specific hashtags",
+        "van_kush_beauty_connection": "Backed by real products from Van Kush Beauty company (Kali Van Kush's handcrafted soap/candle business)",
+        "cross_platform": "Can be used across HIVE, Steemit (via bridges), rewards distributed on all Van Kush Family platforms"
+      },
+
+      "tokenomics_model": "SCOT bot model mirrors HIVE's Proof-of-Brain system. Users who stake VKBT gain voting power to curate content. Voting on posts with Van Kush hashtags distributes VKBT rewards. Early voters earn curation rewards. System encourages quality content discovery.",
+
+      "designated_hashtags": "Posts must use Van Kush-designated hashtags to be eligible for VKBT rewards (check announcement posts on Hive.blog or ask community for current hashtags)",
+
+      "trading_strategy": "Van Kush trading bots are programmed to raise VKBT price through strategic market making, price nudging, and building strong buy support walls. Goal is to establish VKBT as valuable community currency with stable/rising price.",
+
+      "philosophical_significance": "VKBT represents the bridge (the Fulcrum) between 75,000-year-old temple economies that used sacred plants and community cooperation, and modern decentralized cryptocurrency systems. It's not just a token - it's a consciousness preservation project."
     },
+
+    "CURE": {
+      "name": "CURE Token (Van Kush Token)",
+      "symbol": "CURE",
+      "blockchain": "HIVE-Engine (Layer-2 on HIVE blockchain)",
+      "launched": "2021 (exact date TBD - check HIVE-Engine history)",
+      "current_status": "Active - Rewards Pool enabled",
+      "where_to_trade": "hive-engine.com/?p=market&t=CURE",
+
+      "what_is_cure": "CURE is the secondary Tier 1 token for Van Kush Family, working alongside VKBT. While VKBT focuses on beauty/aesthetics, CURE focuses on healing, medicine, and the therapeutic aspects of sacred plant traditions.",
+
+      "tier_1_designation": "CURE shares Tier 1 Core Token status with VKBT - both are HIGHEST PRIORITY for Van Kush trading bot price appreciation strategy",
+
+      "purpose": "Rewards content related to healing, medicine, sacred plant research, psychedelic therapy, consciousness exploration, and therapeutic applications of ancient plant wisdom",
+
+      "scot_bot_functionality": "Like VKBT, CURE operates as SCOT bot token distributing rewards to posts with designated hashtags. Stakers earn curation rewards by voting quality content.",
+
+      "relationship_to_vkbt": "CURE and VKBT are twin tokens - both equally important, both Tier 1 priority. VKBT = Beauty/Aesthetics, CURE = Healing/Medicine. Together they represent the dual nature of sacred plants: beauty AND healing.",
+
+      "trading_strategy": "Van Kush market maker bot treats CURE identically to VKBT - active market making, price nudging, strong buy support. Both tokens raised in tandem."
+    },
+
     "VKRW": {
       "name": "Van Kush Rewards Token",
+      "symbol": "VKRW",
       "blockchain": "TRON (TRC20)",
       "announced": "March 2022",
-      "investigation": "Secret Service investigated dAppsy Network, found no wrongdoing",
-      "status": "Active community rewards token"
+      "investigation": "Secret Service investigated dAppsy Network (VKRW's initial distribution platform), found no wrongdoing, case closed",
+      "status": "Active community rewards token",
+      "purpose": "Multi-chain expansion of Van Kush rewards system to TRON blockchain"
     },
+
     "PUTI": {
+      "name": "Punic Tin Token",
+      "symbol": "PUTI",
       "blockchain": "Steem-Engine",
-      "status": "Active",
-      "note": "Legacy token on Steem blockchain"
+      "status": "Active - Mining 1 token per minute for 64 years",
+      "purpose": "Legacy token on Steem representing Phoenician/Punic tin trade heritage",
+      "historical_significance": "Connects to ancient Phoenician maritime trade networks that controlled tin routes from Cornwall to Mediterranean"
+    },
+
+    "PUCO": {
+      "name": "Punic Copper Token",
+      "symbol": "PUCO",
+      "blockchain": "TRON (TRC20)",
+      "status": "Planned",
+      "supply": "700 million total (350 million locked for 900 days)",
+      "purpose": "Copper counterpart to PUTI, representing Phoenician copper trade"
+    },
+
+    "DFB_DFC": {
+      "name": "DreamFlier Burn / DreamFlier Card tokens",
+      "symbols": ["DFB", "DFC"],
+      "blockchain": "Polygon",
+      "status": "Deployed with bugs (2023), needs fixing",
+      "purpose": "Burn mining mechanism for Van Kush Family on Polygon network",
+      "issue": "Smart contracts have bugs preventing proper functionality",
+      "priority": "Medium-term fix needed (see pending todos)"
+    },
+
+    "historical_context": {
+      "bitcointalk_era_2013_2018": "Van Kush Family (as FinShaggy, Immakingacoin, Tokenista) was early cryptocurrency community member discussing token creation, community currencies, and decentralized economics long before ICO boom",
+
+      "2021_defi_summer": "During 2021 bull market, formally launched VKBT and CURE as professional community tokens on HIVE-Engine leveraging SCOT bot technology",
+
+      "2021_blurt_trading": "October-November 2021 - Published detailed BLURT trading tutorials and arbitrage strategies on Bitcointalk. BLURT hit $0.04 ATH in November 2021. Van Kush Family documented 'Moon Ramp' strategy for riding BLURT volatility",
+
+      "kulaswap_announcement": "December 2021 - Announced KulaSwap AMM (Automated Market Maker) project, planned as PancakeSwap fork for TRON blockchain",
+
+      "philosophy": "Van Kush Family views cryptocurrency not as get-rich-quick scheme but as restoration of ancient temple economy models where community currencies enabled cooperation without central authority. Every token created has historical/philosophical significance connecting to 75,000-year lineage."
     }
   },
 
