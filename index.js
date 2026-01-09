@@ -511,7 +511,10 @@ async function getRS3ItemPrice(itemName) {
       params: { name: itemName }
     });
 
-    if (searchResponse.data) {
+    // Validate response has required data
+    if (searchResponse.data &&
+        searchResponse.data.price !== undefined &&
+        searchResponse.data.timestamp !== undefined) {
       const result = {
         name: itemName,
         price: searchResponse.data.price,
@@ -913,7 +916,16 @@ client.on('interactionCreate', async (interaction) => {
           else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
 
           const result = await model.generateContent(prompt);
-          response = `🔮 **${searchQuery}**\n\n${result.response.text()}`;
+          let geminiText = result.response.text();
+
+          // Truncate if too long for Discord (2000 char limit)
+          const prefix = `🔮 **${searchQuery}**\n\n`;
+          const maxContentLength = 1900 - prefix.length; // Leave buffer
+          if (geminiText.length > maxContentLength) {
+            geminiText = geminiText.substring(0, maxContentLength) + '...';
+          }
+
+          response = prefix + geminiText;
         } catch (error) {
           console.error('Crypt-ology content generation error:', error);
           response = 'The mysteries resist revelation at this moment. Try again soon!';
@@ -999,7 +1011,7 @@ client.on('messageCreate', async (message) => {
       await message.channel.sendTyping();
       const priceData = await getRS3ItemPrice(itemName);
 
-      if (priceData) {
+      if (priceData && priceData.price !== undefined && priceData.timestamp !== undefined) {
         const embed = new EmbedBuilder()
           .setColor(0xe67e22)
           .setTitle(`⚔️ RS3 Grand Exchange: ${priceData.name}`)
@@ -1172,7 +1184,7 @@ client.on('messageCreate', async (message) => {
       }
     } else if (naturalCommand.type === 'rs3') {
       const priceData = await getRS3ItemPrice(naturalCommand.query);
-      if (priceData) {
+      if (priceData && priceData.price !== undefined && priceData.timestamp !== undefined) {
         const embed = new EmbedBuilder()
           .setColor(0xe67e22)
           .setTitle(`⚔️ RS3 Grand Exchange: ${priceData.name}`)
