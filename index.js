@@ -1159,6 +1159,76 @@ client.on('messageCreate', async (message) => {
     message.content.toLowerCase().includes(keyword.toLowerCase())
   );
 
+  // Intent Recognition: Help-seeking phrases (Proactive Engagement)
+  const helpSeekingPatterns = [
+    // Availability checks
+    { pattern: /(?:is )?(?:anyone|anybody) (?:here|around|awake|online|available)\??/i, category: 'availability' },
+    { pattern: /(?:anyone|anybody) (?:can|able to) help\??/i, category: 'availability' },
+    { pattern: /dead chat/i, category: 'availability' },
+    { pattern: /(?:hello|hi|hey)[?!]*$/i, category: 'availability' },
+
+    // Distress/Urgency
+    { pattern: /(?:i'?m |i am )?(?:stuck|lost|confused)/i, category: 'distress' },
+    { pattern: /(?:need|want) (?:a |some )?help/i, category: 'distress' },
+    { pattern: /(?:can|could) (?:someone|anybody|anyone) (?:help|explain|show)/i, category: 'distress' },
+    { pattern: /quick question/i, category: 'distress' },
+    { pattern: /(?:help|assist) me/i, category: 'distress' },
+
+    // Social seeking
+    { pattern: /(?:i'?m |i am )?bored/i, category: 'social' },
+    { pattern: /what'?s? (?:everyone|everybody) (?:up to|doing)\??/i, category: 'social' },
+    { pattern: /(?:anyone|anybody) (?:want|wanna) (?:to )?(?:chat|talk|play)/i, category: 'social' },
+
+    // Verification/Onboarding
+    { pattern: /how (?:do|can) i (?:get in|join|access)/i, category: 'onboarding' },
+    { pattern: /where (?:do|can) i (?:go|find)/i, category: 'onboarding' },
+    { pattern: /(?:i )?(?:can'?t|cannot) see (?:the |any )?channel/i, category: 'onboarding' }
+  ];
+
+  let helpIntent = null;
+  for (const { pattern, category } of helpSeekingPatterns) {
+    if (pattern.test(message.content)) {
+      helpIntent = { category, originalMessage: message.content };
+      break;
+    }
+  }
+
+  // Respond to help-seeking intents proactively
+  if (helpIntent && !client.user.id === message.author.id) {
+    const responses = {
+      availability: [
+        "👋 I'm here! How can I help you today?",
+        "🌿 Hey! I'm always around. What's on your mind?",
+        "✨ Not a dead chat at all! I'm listening. What do you need?",
+        "💬 I'm online and ready to chat! Ask away!"
+      ],
+      distress: [
+        "🆘 I'm here to help! What's the issue you're facing?",
+        "💡 Let me assist you. Could you describe what's confusing you?",
+        "🤝 Don't worry, I'm here! Tell me more about what you're stuck on.",
+        "📚 I'm listening! Fire away with your question."
+      ],
+      social: [
+        "💭 I'm here for a chat! What interests you?",
+        "🎮 Always up for conversation! What would you like to talk about?",
+        "🌟 I'm around! Want to explore ancient mysteries, crypto, or something else?",
+        "💬 Let's chat! Try asking me about VKBT, CURE, or use `/cryptology` to explore topics!"
+      ],
+      onboarding: [
+        "🗺️ Welcome! I can help you navigate. What are you looking for?",
+        "👋 New here? Let me help you get oriented! What channels or features are you looking for?",
+        "📍 I'm here to guide you! Tell me what you need access to.",
+        "🔑 Having trouble accessing something? Let me know and I'll help!"
+      ]
+    };
+
+    const responseList = responses[helpIntent.category] || responses.availability;
+    const response = responseList[Math.floor(Math.random() * responseList.length)];
+
+    await message.reply(response);
+    return;
+  }
+
   // Natural command detection (without slash)
   const naturalCommandPatterns = [
     { pattern: /(?:show|get|check|what'?s?) (?:the )?price (?:of |for )?(\w+)/i, type: 'price' },
