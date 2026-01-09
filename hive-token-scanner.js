@@ -23,6 +23,57 @@ const HEALTH_CRITERIA = {
   MIN_MARKET_CAP: parseFloat(process.env.MIN_MARKET_CAP || '500'), // Minimum 500 HIVE market cap
 };
 
+// Van Kush Family Tokens - These get special analysis
+const VAN_KUSH_TOKENS = {
+  VKBT: {
+    name: 'Van Kush Beauty Token',
+    launched: '2021-09-04',
+    blockchain: 'HIVE-Engine',
+    purpose: 'Community token for Van Kush Beauty company and ecosystem rewards',
+    minting: {
+      type: 'Rewards Pool',
+      rate: 'Active - higher emission rate',
+      supply: 'Growing supply via staking rewards'
+    },
+    tokenomics: {
+      maxSupply: null, // Unlimited via rewards
+      initialSupply: 'Check on-chain',
+      distribution: 'Community rewards, staking, curation'
+    },
+    community: 'Active - Van Kush Family Discord, HIVE posts',
+    target_price: 1.0, // Target 1:1 with HIVE
+    priority: 'high' // Actively supported
+  },
+  CURE: {
+    name: 'Cure Token',
+    launched: '2021',
+    blockchain: 'HIVE-Engine',
+    purpose: 'Van Kush ecosystem token',
+    minting: {
+      type: 'Slow controlled emission',
+      rate: 'SLOWER than VKBT - more rare',
+      supply: 'Limited growth - scarcity model'
+    },
+    tokenomics: {
+      maxSupply: 'Capped or very slow inflation',
+      rarity: 'HIGH - slower minting makes it scarcer than VKBT',
+      distribution: 'Controlled distribution'
+    },
+    community: 'Active - Van Kush Family Discord, HIVE posts',
+    target_price: 1.0, // Target 1:1 with HIVE
+    priority: 'high' // Actively supported
+  }
+};
+
+// Community indicators - tokens must have SOME activity to be considered for market making
+const COMMUNITY_INDICATORS = {
+  MIN_DISCORD_MENTIONS: 5, // At least 5 mentions in community Discord
+  MIN_SOCIAL_POSTS: 10, // At least 10 social media posts
+  HAS_WEBSITE: true, // Should have active website/docs
+  HAS_ACTIVE_DEV: true, // Active development/updates
+  INSIDER_TOKEN: false // Set true for Van Kush tokens
+};
+
 // Token database
 let tokenDatabase = {
   lastScan: null,
@@ -239,6 +290,166 @@ function analyzeOrderBook(orderBook) {
   };
 }
 
+// ========================================
+// MARKET MAKING ANALYSIS
+// ========================================
+
+function generateMarketMakingRecommendation(symbol, parityAnalysis, currentPrice, tokenConfig) {
+  /**
+   * Generates recommendations for RAISING the price of Van Kush tokens
+   * Goal: INCREASE VALUE, not just accumulate tokens
+   * Strategy: Buy walls, strategic buys, price support
+   */
+
+  const recommendations = [];
+  const targetPrice = tokenConfig.target_price;
+  const distanceToTarget = ((targetPrice - currentPrice) / currentPrice * 100);
+
+  // Strategy depends on how far from parity
+  if (!parityAnalysis.feasible) {
+    recommendations.push({
+      priority: 'critical',
+      action: 'Place buy walls at higher prices',
+      reason: 'No sell orders exist up to target - need to encourage sellers at better prices',
+      strategy: `Place tiered buy orders: ${(currentPrice * 1.1).toFixed(8)}, ${(currentPrice * 1.25).toFixed(8)}, ${(currentPrice * 1.5).toFixed(8)} HIVE`,
+      capital: 'TBD based on desired wall size'
+    });
+  } else if (distanceToTarget > 1000) {
+    // Very far from parity (>10x needed)
+    recommendations.push({
+      priority: 'high',
+      action: 'Gradual accumulation with price support',
+      reason: `Price is ${distanceToTarget.toFixed(0)}% below target - long journey ahead`,
+      strategy: 'Buy in tiers: 20% now, 30% at +25% price, 30% at +50% price, 20% at +75% price',
+      capital: parityAnalysis.costToTarget,
+      immediateCapital: parityAnalysis.costToTarget * 0.2,
+      timeframe: 'weeks to months'
+    });
+  } else if (distanceToTarget > 100) {
+    // Moderately far (2-10x needed)
+    recommendations.push({
+      priority: 'high',
+      action: 'Aggressive buying with walls',
+      reason: `${distanceToTarget.toFixed(0)}% increase needed - achievable with focused effort`,
+      strategy: `Buy ${(parityAnalysis.tokensBought * 0.3).toFixed(2)} ${symbol} immediately, place buy walls every 10% up`,
+      capital: parityAnalysis.costToTarget * 0.3,
+      wallStrategy: 'Place 3-5 buy walls at: ' +
+        [1.1, 1.25, 1.5, 1.75, 2.0].map(mult =>
+          `${(currentPrice * mult).toFixed(8)} HIVE`
+        ).join(', '),
+      timeframe: 'days to weeks'
+    });
+  } else {
+    // Close to parity (<2x needed)
+    recommendations.push({
+      priority: 'critical',
+      action: 'PUSH TO PARITY NOW',
+      reason: `Only ${distanceToTarget.toFixed(0)}% increase needed - parity is achievable!`,
+      strategy: `Buy all ${parityAnalysis.tokensBought.toFixed(2)} ${symbol} up to target price`,
+      capital: parityAnalysis.costToTarget,
+      expectedResult: `This brings ${symbol} to 1:1 parity with HIVE`,
+      timeframe: 'immediate (single day)'
+    });
+  }
+
+  // ALWAYS include price support strategy
+  recommendations.push({
+    priority: 'ongoing',
+    action: 'Maintain price floors',
+    reason: 'Prevent dumps and support new higher prices',
+    strategy: 'After buying, place buy walls at: -5%, -10%, -15% below new price to catch any sells',
+    note: 'This protects gains and signals to market that price won\'t crash'
+  });
+
+  // Token-specific notes
+  if (symbol === 'CURE') {
+    recommendations.push({
+      priority: 'note',
+      action: 'Emphasize scarcity',
+      reason: 'CURE has SLOWER minting than VKBT - more rare, should command premium',
+      marketing: 'Educate community: CURE is the scarce Van Kush token, limited supply growth',
+      longTerm: 'Lower sell pressure expected due to slow minting - easier to raise price'
+    });
+  } else if (symbol === 'VKBT') {
+    recommendations.push({
+      priority: 'note',
+      action: 'Leverage rewards pool',
+      reason: 'VKBT has active rewards - can use this to incentivize holding',
+      marketing: 'Promote staking rewards to reduce sell pressure',
+      longTerm: 'Higher circulation but more utility - balance accumulation with price support'
+    });
+  }
+
+  return recommendations;
+}
+
+function calculateCostToParity(orderBook, currentPrice, targetPrice = 1.0) {
+  /**
+   * Calculates how much HIVE capital is needed to push token price to target
+   * Example: CURE is at 0.01 HIVE. How much HIVE needed to reach 1.0 HIVE (parity)?
+   *
+   * Process:
+   * 1. Get all sell orders from current price up to target price
+   * 2. Calculate total HIVE needed to buy through all those orders
+   * 3. This is the "market making cost" to achieve parity
+   */
+
+  if (currentPrice >= targetPrice) {
+    return {
+      costToTarget: 0,
+      tokensBought: 0,
+      priceImpact: 0,
+      feasible: true,
+      note: 'Already at or above target price'
+    };
+  }
+
+  // Sort sell orders by price (ascending - cheapest first)
+  const sellOrders = orderBook.asks
+    .map(order => ({
+      price: parseFloat(order.price),
+      quantity: parseFloat(order.quantity),
+      value: parseFloat(order.price) * parseFloat(order.quantity)
+    }))
+    .filter(order => order.price <= targetPrice) // Only orders up to target
+    .sort((a, b) => a.price - b.price);
+
+  let totalCost = 0;
+  let totalTokens = 0;
+  let ordersToFill = [];
+
+  // Calculate cost to buy through all orders up to target price
+  for (const order of sellOrders) {
+    totalCost += order.value;
+    totalTokens += order.quantity;
+    ordersToFill.push({
+      price: order.price,
+      quantity: order.quantity,
+      cost: order.value
+    });
+  }
+
+  const priceImpact = sellOrders.length > 0
+    ? ((sellOrders[sellOrders.length - 1].price - currentPrice) / currentPrice * 100)
+    : 0;
+
+  // Check if there are ANY sell orders up to target
+  const feasible = sellOrders.length > 0;
+  const averageFillPrice = totalTokens > 0 ? (totalCost / totalTokens) : 0;
+
+  return {
+    costToTarget: totalCost, // Total HIVE needed
+    tokensBought: totalTokens, // Total tokens acquired
+    averageFillPrice, // Average price per token
+    priceImpact, // % price increase
+    ordersToFill: ordersToFill.length,
+    feasible, // Can we actually reach target with existing orders?
+    orders: ordersToFill, // Detailed order list
+    efficiency: totalTokens > 0 ? (totalCost / totalTokens) / targetPrice : 0, // How efficient is the buy (1.0 = perfect)
+    note: !feasible ? 'No sell orders exist up to target price - would need to wait for sellers' : null
+  };
+}
+
 function getDaysSinceLastTrade(trades) {
   if (trades.length === 0) return Infinity;
 
@@ -356,11 +567,51 @@ async function analyzeToken(tokenInfo) {
     healthStatus = 'dead';
   }
 
+  // ========================================
+  // VAN KUSH TOKEN SPECIAL ANALYSIS
+  // ========================================
+  let marketMaking = null;
+
+  const isVanKushToken = VAN_KUSH_TOKENS.hasOwnProperty(symbol);
+  if (isVanKushToken && lastPrice > 0) {
+    const tokenConfig = VAN_KUSH_TOKENS[symbol];
+    const parityAnalysis = calculateCostToParity(orderBook, lastPrice, tokenConfig.target_price);
+
+    marketMaking = {
+      isVanKushToken: true,
+      priority: tokenConfig.priority,
+      tokenomics: tokenConfig.tokenomics,
+      minting: tokenConfig.minting,
+      currentPrice: lastPrice,
+      targetPrice: tokenConfig.target_price,
+      priceRatio: lastPrice / tokenConfig.target_price, // How far from parity (0.01 = 1% of target)
+      distanceToTarget: ((tokenConfig.target_price - lastPrice) / lastPrice * 100), // % increase needed
+      costToParity: parityAnalysis.costToTarget,
+      tokensToBuy: parityAnalysis.tokensBought,
+      averageFillPrice: parityAnalysis.averageFillPrice,
+      feasible: parityAnalysis.feasible,
+      efficiency: parityAnalysis.efficiency,
+      recommendation: generateMarketMakingRecommendation(symbol, parityAnalysis, lastPrice, tokenConfig)
+    };
+
+    console.log(`   💎 VAN KUSH TOKEN DETECTED!`);
+    console.log(`   Current: ${lastPrice.toFixed(8)} HIVE | Target: ${tokenConfig.target_price.toFixed(2)} HIVE`);
+    console.log(`   Distance to Parity: ${marketMaking.distanceToTarget.toFixed(0)}% increase needed`);
+    if (parityAnalysis.feasible) {
+      console.log(`   Cost to Parity: ${parityAnalysis.costToTarget.toFixed(2)} HIVE`);
+      console.log(`   Would acquire: ${parityAnalysis.tokensBought.toFixed(2)} ${symbol}`);
+    } else {
+      console.log(`   ⚠️ No sell orders exist up to target - need more liquidity`);
+    }
+  }
+
   const analysis = {
     symbol,
     name: tokenInfo.name,
     healthStatus,
     healthScore,
+    isVanKushToken,
+    marketMaking,
     metrics: {
       volume24h,
       liquidity,
@@ -510,31 +761,80 @@ async function generateReport() {
     console.log(`${i + 1}. ${t.symbol} - Score: ${t.healthScore}/100 | Vol: ${t.metrics.volume24h.toFixed(2)} HIVE | MCap: ${t.metrics.marketCap.toFixed(2)} HIVE`);
   });
 
+  // Van Kush Token Special Report
+  const vanKushTokens = tokens.filter(t => t.isVanKushToken);
+  if (vanKushTokens.length > 0) {
+    console.log('\n💎 VAN KUSH FAMILY TOKENS:');
+    vanKushTokens.forEach(t => {
+      console.log(`\n${t.symbol}:`);
+      console.log(`  Status: ${t.healthStatus.toUpperCase()} (Score: ${t.healthScore}/100)`);
+      if (t.marketMaking) {
+        console.log(`  Current Price: ${t.marketMaking.currentPrice.toFixed(8)} HIVE`);
+        console.log(`  Target Price: ${t.marketMaking.targetPrice.toFixed(2)} HIVE (1:1 parity)`);
+        console.log(`  Distance: ${t.marketMaking.distanceToTarget.toFixed(0)}% increase needed`);
+        if (t.marketMaking.feasible) {
+          console.log(`  💰 Cost to Parity: ${t.marketMaking.costToParity.toFixed(2)} HIVE`);
+          console.log(`  📦 Tokens to Buy: ${t.marketMaking.tokensToBuy.toFixed(2)} ${t.symbol}`);
+        }
+        console.log(`  Strategy: ${t.marketMaking.recommendation[0].action}`);
+        console.log(`  Priority: ${t.marketMaking.recommendation[0].priority.toUpperCase()}`);
+      }
+    });
+  }
+
   // Send Discord report
   const activeList = activeTokens.slice(0, 10).map((t, i) =>
     `${i + 1}. **${t.symbol}** - Score: ${t.healthScore}/100 | Vol: ${t.metrics.volume24h.toFixed(1)} HIVE`
   ).join('\n');
 
+  // Build Van Kush report
+  let vanKushReport = '';
+  vanKushTokens.forEach(t => {
+    if (t.marketMaking) {
+      vanKushReport += `\n**${t.symbol}**\n`;
+      vanKushReport += `Current: ${t.marketMaking.currentPrice.toFixed(8)} HIVE → Target: ${t.marketMaking.targetPrice} HIVE\n`;
+      vanKushReport += `Distance: ${t.marketMaking.distanceToTarget.toFixed(0)}% increase\n`;
+      if (t.marketMaking.feasible) {
+        vanKushReport += `💰 Cost to Parity: **${t.marketMaking.costToParity.toFixed(2)} HIVE**\n`;
+        vanKushReport += `Strategy: ${t.marketMaking.recommendation[0].action}\n`;
+      } else {
+        vanKushReport += `⚠️ No sell orders to target - place buy walls\n`;
+      }
+    }
+  });
+
+  const discordFields = [
+    { name: '📊 Statistics', value:
+      `✅ Active: ${stats.active}\n` +
+      `⚠️ Low Activity: ${stats.low_activity}\n` +
+      `🔶 Risky: ${stats.risky}\n` +
+      `💀 Dead: ${stats.dead}`,
+      inline: false
+    },
+    { name: '🏆 Top Active Tokens', value: activeList || 'None found', inline: false }
+  ];
+
+  if (vanKushReport) {
+    discordFields.push({
+      name: '💎 Van Kush Family Tokens - Market Making Analysis',
+      value: vanKushReport,
+      inline: false
+    });
+  }
+
+  discordFields.push({
+    name: '⚙️ Criteria', value:
+      `Min Volume: ${HEALTH_CRITERIA.MIN_24H_VOLUME} HIVE/24h\n` +
+      `Min Liquidity: ${HEALTH_CRITERIA.MIN_LIQUIDITY} HIVE\n` +
+      `Min Holders: ${HEALTH_CRITERIA.MIN_HOLDERS}\n` +
+      `Max Days Since Trade: ${HEALTH_CRITERIA.MAX_DAYS_SINCE_TRADE}`,
+    inline: false
+  });
+
   await sendDiscordReport({
     title: '✅ Token Scan Complete',
     description: `Analyzed ${stats.total} tokens on HIVE-Engine`,
-    fields: [
-      { name: '📊 Statistics', value:
-        `✅ Active: ${stats.active}\n` +
-        `⚠️ Low Activity: ${stats.low_activity}\n` +
-        `🔶 Risky: ${stats.risky}\n` +
-        `💀 Dead: ${stats.dead}`,
-        inline: false
-      },
-      { name: '🏆 Top Active Tokens', value: activeList || 'None found', inline: false },
-      { name: '⚙️ Criteria', value:
-        `Min Volume: ${HEALTH_CRITERIA.MIN_24H_VOLUME} HIVE/24h\n` +
-        `Min Liquidity: ${HEALTH_CRITERIA.MIN_LIQUIDITY} HIVE\n` +
-        `Min Holders: ${HEALTH_CRITERIA.MIN_HOLDERS}\n` +
-        `Max Days Since Trade: ${HEALTH_CRITERIA.MAX_DAYS_SINCE_TRADE}`,
-        inline: false
-      }
-    ]
+    fields: discordFields
   }, 0x00ff00);
 }
 
