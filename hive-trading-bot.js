@@ -2,6 +2,7 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 import { readFile, writeFile } from 'fs/promises';
 import dhive from '@hiveio/dhive';
+import { isTokenHealthy, getTokenHealth } from './hive-token-scanner.js';
 
 dotenv.config();
 
@@ -313,6 +314,31 @@ async function analyzeMarket() {
 
           if (currentExposure + CONFIG.TRADE_AMOUNT <= CONFIG.MAX_POSITION_SIZE) {
             console.log(`\n🟢 BUY SIGNAL: Price dropped ${Math.abs(priceChange).toFixed(2)}%`);
+
+            // ⚠️ TOKEN HEALTH CHECK - Don't buy dead tokens!
+            const tokenHealth = getTokenHealth(TOKEN);
+            if (!tokenHealth) {
+              console.log(`⚠️ No health data for ${TOKEN} - run token scanner first!`);
+              console.log(`   Run: npm run scan-tokens`);
+            } else if (!isTokenHealthy(TOKEN)) {
+              console.log(`❌ TRADE BLOCKED: ${TOKEN} is not healthy!`);
+              console.log(`   Status: ${tokenHealth.healthStatus.toUpperCase()}`);
+              console.log(`   Score: ${tokenHealth.healthScore}/100`);
+              console.log(`   Issues: ${tokenHealth.issues.join(', ')}`);
+
+              await sendDiscordNotification(
+                `🚫 **BUY BLOCKED - UNHEALTHY TOKEN**\n` +
+                `Token: ${TOKEN}\n` +
+                `Status: ${tokenHealth.healthStatus.toUpperCase()}\n` +
+                `Health Score: ${tokenHealth.healthScore}/100\n` +
+                `Issues: ${tokenHealth.issues.join(', ')}\n\n` +
+                `This token does not meet minimum health criteria. Trade cancelled.`,
+                0xff9900
+              );
+              return; // Skip this buy
+            } else {
+              console.log(`✅ Token health check passed (Score: ${tokenHealth.healthScore}/100)`);
+            }
 
             const result = await executeBuy(currentPrice, buyQuantity);
 
