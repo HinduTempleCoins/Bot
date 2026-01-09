@@ -24,9 +24,10 @@ const client = new Client({
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// Using gemini-1.5-flash: Most stable free tier model
-// Note: gemini-2.0-flash-exp requires special access (limit: 0 on standard free tier)
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+// Using gemini-2.5-flash-lite: BEST free tier model (1,000 requests/day, 15 RPM)
+// Source: https://blog.laozhang.ai/api-guides/gemini-api-free-tier/
+// Alternatives: gemini-2.5-flash (only 20/day), gemini-2.0-flash-exp (5 RPM, limited)
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
 // Load knowledge base
 let knowledgeBase;
