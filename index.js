@@ -651,7 +651,12 @@ const cryptologyDialogues = {
     egypt: ['egypt', 'hathor', 'osiris', 'isis', 'ptah'],
     greece: ['greek', 'zeus', 'athena', 'olympus', 'hades'],
     denisovans: ['denisovan', 'denisova', 'ancient human', 'archaic'],
-    bible: ['bible', 'scripture', 'genesis', 'jude', 'revelation']
+    bible: ['bible', 'scripture', 'genesis', 'jude', 'revelation'],
+    defi: ['defi', 'decentralized finance', 'yield farming', 'dex', 'uniswap'],
+    hive: ['hive', 'steem', 'blurt', 'social fi', 'proof of brain'],
+    vankush: ['vkbt', 'cure', 'punic', 'puco', 'puti', 'van kush'],
+    burnmining: ['burn mining', 'proof of burn', 'pob', 'burn mine'],
+    karma: ['karma', 'merit', 'siring', 'curation', 'dharma']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -699,6 +704,96 @@ const cryptologyDialogues = {
         { id: 'denisovans_cave', label: '🏔️ Denisova Cave', interest: {archaeology: 15, genetics: 5} },
         { id: 'denisovans_interbreeding', label: '👥 Human Interbreeding', interest: {genetics: 15} },
         { id: 'denisovans_migration', label: '🌍 Migration Patterns', interest: {genetics: 10, archaeology: 10} }
+      ]
+    },
+    defi: {
+      intro: "DeFi (Decentralized Finance) has evolved from ICOs to IEOs to yield farming and now SocialFi. This is the history of financial sovereignty on the blockchain.",
+      choices: [
+        { id: 'defi_evolution', label: '📈 DeFi Evolution Timeline', interest: {philosophy: 10} },
+        { id: 'defi_dex', label: '💱 DEX vs CEX', interest: {philosophy: 10} },
+        { id: 'defi_socialfi', label: '👥 SocialFi & Proof of Brain', interest: {philosophy: 15} },
+        { id: 'defi_loopmining', label: '🔁 Loop Mining Mechanics', interest: {philosophy: 15} }
+      ]
+    },
+    defi_evolution: {
+      intro: "From Bitcoin's Silk Road utility to today's SocialFi platforms, DeFi has transformed. ICO (2017) → IEO (2019) → DeFi Summer (2020) → SocialFi (2024+).",
+      choices: [
+        { id: 'defi_ico', label: '💸 ICO Era & Lessons', interest: {philosophy: 10} },
+        { id: 'defi_uniswap', label: '🦄 Uniswap & DEX Revolution', interest: {philosophy: 10} },
+        { id: 'defi_tron', label: '🌐 TRON vs Ethereum', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to DeFi Overview', interest: {} }
+      ]
+    },
+    hive: {
+      intro: "The HIVE/STEEM/BLURT ecosystem represents the pinnacle of SocialFi. Born from the hostile takeover of Steemit by Justin Sun, HIVE forked to preserve decentralization.",
+      choices: [
+        { id: 'hive_history', label: '⚔️ The Great Fork Story', interest: {philosophy: 15} },
+        { id: 'hive_pob', label: '🧠 Proof of Brain Rewards', interest: {philosophy: 15} },
+        { id: 'hive_smt', label: '🎨 Smart Media Tokens', interest: {philosophy: 15} },
+        { id: 'hive_scot', label: '🤖 SCOT Bots & Communities', interest: {philosophy: 10} }
+      ]
+    },
+    hive_history: {
+      intro: "In 2020, Justin Sun (TRON) bought Steemit Inc. The community feared centralization. Using exchange-held tokens, Sun staged a 'hostile takeover' of witnesses. The community migrated to HIVE. BLURT followed, removing downvotes.",
+      choices: [
+        { id: 'hive_witnesses', label: '⚖️ Witness System', interest: {philosophy: 10} },
+        { id: 'hive_dpos', label: '🗳️ Delegated Proof of Stake', interest: {philosophy: 10} },
+        { id: 'hive_blurt', label: '🌸 BLURT: The Positive Fork', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to HIVE Overview', interest: {} }
+      ]
+    },
+    vankush: {
+      intro: "The Van Kush Family operates as a 'Royal Family on the Blockchain' with a multi-chain token ecosystem spanning HIVE-Engine, Polygon, and TRON.",
+      choices: [
+        { id: 'vankush_vkbt', label: '💎 VKBT: Van Kush Beauty Token', interest: {philosophy: 15} },
+        { id: 'vankush_punic', label: '🏛️ Punic Token Network', interest: {philosophy: 15, archaeology: 10} },
+        { id: 'vankush_economy', label: '🧼 The Beauty Economy', interest: {philosophy: 10} },
+        { id: 'vankush_burn', label: '🔥 Burn Mining Tokens', interest: {philosophy: 15} }
+      ]
+    },
+    vankush_punic: {
+      intro: "The Punic tokens connect ancient Phoenician/Carthaginian heritage to modern blockchain. PUCO (TRON) and PUTI (Steem-Engine) form the foundation.",
+      choices: [
+        { id: 'punic_puco', label: '🥉 PUCO: Punic Copper', interest: {philosophy: 10, archaeology: 5} },
+        { id: 'punic_puti', label: '🥈 PUTI: Punic Tin', interest: {philosophy: 10, archaeology: 5} },
+        { id: 'punic_economy', label: '🏺 Ancient Trade Models', interest: {archaeology: 15, philosophy: 5} },
+        { id: 'back', label: '← Back to Van Kush Overview', interest: {} }
+      ]
+    },
+    burnmining: {
+      intro: "Burn Mining transforms traditional Proof of Burn (PoB) into a DeFi yield mechanism. Sacrifice tokens permanently to mint rare, valuable assets.",
+      choices: [
+        { id: 'burn_mechanics', label: '🔥 How Burn Mining Works', interest: {philosophy: 20} },
+        { id: 'burn_tvl', label: '💰 Total Value Locked Strategy', interest: {philosophy: 15} },
+        { id: 'burn_deflationary', label: '📉 Deflationary Economics', interest: {philosophy: 15} },
+        { id: 'burn_contracts', label: '📜 Smart Contract Analysis', interest: {philosophy: 10} }
+      ]
+    },
+    burn_mechanics: {
+      intro: "Burn Mining: Send tokens to a burn address (0x000...) → Receive hash rate in the mine → Mint new tokens over time. Creates scarcity + rewards commitment.",
+      choices: [
+        { id: 'burn_vs_stake', label: '⚖️ Burn vs Stake', interest: {philosophy: 10} },
+        { id: 'burn_subscription', label: '🎫 Burn as Subscription', interest: {philosophy: 10} },
+        { id: 'burn_polygon', label: '🔷 Polygon Implementation', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Burn Mining Overview', interest: {} }
+      ]
+    },
+    karma: {
+      intro: "The 'Karma is the New Merit' proposal replaces subjective 'clique-based' rewards with algorithmic charity. The Siring Model treats charitable curation as a commodity.",
+      choices: [
+        { id: 'karma_siring', label: '🌱 The Siring Model Algorithm', interest: {philosophy: 20} },
+        { id: 'karma_neediness', label: '📊 Neediness Weight Calculation', interest: {philosophy: 15} },
+        { id: 'karma_dharma', label: '☯️ 100/100 Dharma Model', interest: {philosophy: 20} },
+        { id: 'karma_kula', label: '🔄 Kula Ring Gift Economy', interest: {archaeology: 15, philosophy: 10} }
+      ]
+    },
+    karma_siring: {
+      intro: "Siring Formula: (Number of Users Voted × BP Gained) × Neediness Weight. Your rank increases when poor users you vote for become wealthy, active curators.",
+      choices: [
+        { id: 'karma_bp', label: '💪 Blockchain Power (BP)', interest: {philosophy: 10} },
+        { id: 'karma_pyramid', label: '🔺 Multi-Layer Pyramid', interest: {philosophy: 15} },
+        { id: 'karma_analytics', label: '📈 Siring Chart Analytics', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to Karma Overview', interest: {} }
       ]
     }
   }
