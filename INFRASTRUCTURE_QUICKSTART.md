@@ -14,6 +14,20 @@ This guide helps you set up the **entire Van Kush development infrastructure** f
 
 ---
 
+## 🖥️ **IMPORTANT: GUI Coding Interfaces (Not Terminal!)**
+
+**You want Claude Code-like interfaces** (GUI, chat, file editing) - **NOT terminal commands!**
+
+✅ **Continue.dev** - Works EXACTLY like Claude Code (in VS Code)
+✅ **Code-Server** - VS Code in your browser (access from phone)
+✅ **Open WebUI** - ChatGPT-style interface for DeepSeek
+
+**📖 See**: `GUI_CODING_INTERFACES.md` for complete setup
+
+**These give you text-to-code with GUI interfaces, not terminal!**
+
+---
+
 ## 📋 Table of Contents
 
 1. [Current Status](#current-status)
@@ -120,7 +134,31 @@ dcode "write a bash script to monitor CPU usage"
 
 ---
 
-### Phase 3: Auto-Push to GitHub (15 minutes)
+### Phase 3: GUI Coding Interfaces (10 minutes) ⭐ **RECOMMENDED**
+
+**📖 Guide**: `GUI_CODING_INTERFACES.md`
+
+**⚠️ IMPORTANT**: If you don't like terminal commands, START HERE instead!
+
+**What you'll do**:
+1. Install Continue.dev extension in VS Code (2 minutes)
+2. Configure for Gemini API or DeepSeek
+3. (Optional) Install Code-Server for browser access
+4. (Optional) Install Open WebUI for ChatGPT-style interface
+
+**Result**: Claude Code-like GUI interface (chat, file editing) for FREE!
+
+**Test**:
+1. Open VS Code
+2. Click Continue icon in sidebar
+3. Chat: "Explain what index.js does"
+4. AI reads file and explains!
+
+**This is the TEXT-TO-CODE interface you want!** 🎉
+
+---
+
+### Phase 4: Auto-Push to GitHub (15 minutes)
 
 **📖 Guide**: `AUTO_PUSH_GITHUB.md`
 
