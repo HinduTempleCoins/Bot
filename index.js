@@ -1,7 +1,15 @@
-import { Client, GatewayIntentBits, EmbedBuilder, AttachmentBuilder } from 'discord.js';
+import {
+  Client,
+  GatewayIntentBits,
+  EmbedBuilder,
+  AttachmentBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle
+} from 'discord.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import axios from 'axios';
 import cron from 'node-cron';
 import { YoutubeTranscript } from 'youtube-transcript';
@@ -12,6 +20,118 @@ dotenv.config();
 
 // Initialize caching (30 minutes TTL)
 const cache = new NodeCache({ stdTTL: 1800, checkperiod: 120 });
+
+// ========================================
+// EMOTIONAL RELATIONSHIP TRACKING SYSTEM
+// ========================================
+// Inspired by LSD: Dream Emulator's graph system
+// Tracks multi-dimensional relationships with users
+// Influences conversation style, topic suggestions, and dialogue options
+
+const userRelationships = new Map();
+
+// Load existing relationships from file
+try {
+  const data = await readFile('./user-relationships.json', 'utf8');
+  const saved = JSON.parse(data);
+  Object.entries(saved).forEach(([userId, data]) => {
+    userRelationships.set(userId, data);
+  });
+  console.log(`✅ Loaded ${userRelationships.size} user relationships`);
+} catch (error) {
+  console.log('📝 No existing relationships file, starting fresh');
+}
+
+// Save relationships periodically (every 5 minutes)
+setInterval(async () => {
+  try {
+    const data = Object.fromEntries(userRelationships);
+    await writeFile('./user-relationships.json', JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error('Error saving relationships:', error);
+  }
+}, 300000);
+
+function getOrCreateRelationship(userId) {
+  if (!userRelationships.has(userId)) {
+    userRelationships.set(userId, {
+      // Multi-dimensional emotional tracking
+      trust: 0,        // -100 to 100: How much user trusts the AI
+      warmth: 0,       // -100 to 100: Emotional closeness/friendliness
+      respect: 0,      // -100 to 100: Intellectual respect, authority
+      familiarity: 0,  // 0 to 100: How well AI knows user's preferences
+
+      // Topic interests (for Crypt-ology conversation system)
+      interests: {
+        mythology: 0,      // Greek, Egyptian, etc.
+        religion: 0,       // Bible, theology
+        archaeology: 0,    // Ancient civilizations
+        esoteric: 0,       // Angels, Nephilim, mysteries
+        genetics: 0,       // Denisovans, human origins
+        philosophy: 0      // Deep thought, existential
+      },
+
+      // Conversation style preferences
+      preferredDepth: 'medium', // 'simple', 'medium', 'deep', 'academic'
+      usesButtons: true,
+
+      // Tracking
+      totalInteractions: 0,
+      lastInteraction: Date.now(),
+      conversationPaths: [] // Track dialogue choices like LSD graph
+    });
+  }
+  return userRelationships.get(userId);
+}
+
+function updateRelationship(userId, updates) {
+  const rel = getOrCreateRelationship(userId);
+
+  // Update dimensions (clamped to ranges)
+  if (updates.trust !== undefined) rel.trust = Math.max(-100, Math.min(100, rel.trust + updates.trust));
+  if (updates.warmth !== undefined) rel.warmth = Math.max(-100, Math.min(100, rel.warmth + updates.warmth));
+  if (updates.respect !== undefined) rel.respect = Math.max(-100, Math.min(100, rel.respect + updates.respect));
+  if (updates.familiarity !== undefined) rel.familiarity = Math.max(0, Math.min(100, rel.familiarity + updates.familiarity));
+
+  // Update interests
+  if (updates.interests) {
+    Object.entries(updates.interests).forEach(([topic, change]) => {
+      if (rel.interests[topic] !== undefined) {
+        rel.interests[topic] = Math.max(0, Math.min(100, rel.interests[topic] + change));
+      }
+    });
+  }
+
+  // Track conversation path (like LSD graph)
+  if (updates.pathChoice) {
+    rel.conversationPaths.push({
+      choice: updates.pathChoice,
+      timestamp: Date.now(),
+      context: updates.pathContext || ''
+    });
+    // Keep only last 50 choices to save memory
+    if (rel.conversationPaths.length > 50) {
+      rel.conversationPaths = rel.conversationPaths.slice(-50);
+    }
+  }
+
+  rel.totalInteractions++;
+  rel.lastInteraction = Date.now();
+
+  return rel;
+}
+
+function getConversationTone(relationship) {
+  // Determine conversation tone based on emotional dimensions
+  const { trust, warmth, respect, familiarity } = relationship;
+
+  if (trust < -50) return 'cautious'; // User seems distrustful
+  if (warmth > 60 && familiarity > 50) return 'friendly'; // Close relationship
+  if (respect > 60) return 'intellectual'; // User values deep knowledge
+  if (familiarity < 20) return 'welcoming'; // New user
+
+  return 'balanced'; // Default neutral tone
+}
 
 // Initialize Discord client
 const client = new Client({
@@ -516,6 +636,103 @@ cron.schedule('0 20 * * 0', async () => {
   }
 });
 
+// ========================================
+// CRYPT-OLOGY: "NOT-A-GAME" DIALOGUE SYSTEM
+// ========================================
+// Button-based knowledge exploration for esoteric topics
+// Topics: Mythology, Angels, Nephilim, Phoenicians, Archaeology, Genetics
+
+const cryptologyDialogues = {
+  // Entry points - detect keywords in conversation
+  triggers: {
+    nephilim: ['nephilim', 'giants', 'watchers', 'book of enoch'],
+    phoenicians: ['phoenician', 'carthage', 'punic', 'phaikian'],
+    angels: ['angel', 'archangel', 'seraphim', 'cherubim'],
+    egypt: ['egypt', 'hathor', 'osiris', 'isis', 'ptah'],
+    greece: ['greek', 'zeus', 'athena', 'olympus', 'hades'],
+    denisovans: ['denisovan', 'denisova', 'ancient human', 'archaic'],
+    bible: ['bible', 'scripture', 'genesis', 'jude', 'revelation']
+  },
+
+  // Dialogue trees - each choice updates relationship interests
+  trees: {
+    nephilim: {
+      intro: "The Nephilim... fallen ones, giants of old. This topic bridges mythology, genetics, and ancient history. What aspect intrigues you most?",
+      choices: [
+        { id: 'nephilim_biblical', label: '📖 Biblical Account', interest: {religion: 10, esoteric: 5} },
+        { id: 'nephilim_enoch', label: '📜 Book of Enoch', interest: {esoteric: 15, religion: 5} },
+        { id: 'nephilim_genetics', label: '🧬 Genetic Evidence', interest: {genetics: 15, archaeology: 5} },
+        { id: 'nephilim_giants', label: '⚔️ Giants in History', interest: {mythology: 10, archaeology: 10} }
+      ]
+    },
+    nephilim_biblical: {
+      intro: "Genesis 6:4 speaks of the Nephilim - 'when the sons of God came unto the daughters of men.' This passage has sparked millennia of interpretation.",
+      choices: [
+        { id: 'nephilim_jude', label: '⚡ Book of Jude Connection', interest: {religion: 10, esoteric: 5} },
+        { id: 'angels_watchers', label: '👁️ The Watchers', interest: {esoteric: 15} },
+        { id: 'nephilim_hermon', label: '⛰️ Mt. Hermon Covenant', interest: {religion: 10, archaeology: 10} },
+        { id: 'back', label: '← Back to Nephilim Overview', interest: {} }
+      ]
+    },
+    phoenicians: {
+      intro: "The Phoenicians - master sailors, inventors of the alphabet, worshippers of Ba'al and Tanit. Their legacy spans from Tyre to Carthage.",
+      choices: [
+        { id: 'phoenicians_tanit', label: '🌙 Goddess Tanit', interest: {religion: 10, archaeology: 5} },
+        { id: 'phoenicians_alphabet', label: '📝 The Alphabet', interest: {archaeology: 10} },
+        { id: 'phoenicians_carthage', label: '🏛️ Carthage & Punic Wars', interest: {archaeology: 15} },
+        { id: 'phoenicians_phaikians', label: '⚓ Phaikians Connection', interest: {mythology: 15, esoteric: 5} }
+      ]
+    },
+    egypt: {
+      intro: "Ancient Egypt - land of pharaohs, pyramids, and profound mysteries. The Van Kush Family honors Hathor, goddess of love and the sky.",
+      choices: [
+        { id: 'egypt_hathor', label: '💫 Hathor Worship', interest: {religion: 15, mythology: 5} },
+        { id: 'egypt_osiris', label: '⚰️ Osiris & Resurrection', interest: {religion: 10, esoteric: 10} },
+        { id: 'egypt_pyramids', label: '🔺 Pyramid Mysteries', interest: {archaeology: 15, esoteric: 5} },
+        { id: 'egypt_genetics', label: '🧬 Egyptian DNA', interest: {genetics: 15, archaeology: 5} }
+      ]
+    },
+    denisovans: {
+      intro: "The Denisovans - our mysterious cousins who interbred with Homo sapiens, leaving genetic traces in modern humans. The 75,000-year lineage begins here.",
+      choices: [
+        { id: 'denisovans_dna', label: '🧬 Denisovan DNA Today', interest: {genetics: 20} },
+        { id: 'denisovans_cave', label: '🏔️ Denisova Cave', interest: {archaeology: 15, genetics: 5} },
+        { id: 'denisovans_interbreeding', label: '👥 Human Interbreeding', interest: {genetics: 15} },
+        { id: 'denisovans_migration', label: '🌍 Migration Patterns', interest: {genetics: 10, archaeology: 10} }
+      ]
+    }
+  }
+};
+
+function createDialogueButtons(dialogueKey) {
+  const dialogue = cryptologyDialogues.trees[dialogueKey];
+  if (!dialogue) return null;
+
+  const rows = [];
+  let currentRow = new ActionRowBuilder();
+
+  dialogue.choices.forEach((choice, index) => {
+    // Discord allows max 5 buttons per row, max 5 rows
+    if (index > 0 && index % 5 === 0) {
+      rows.push(currentRow);
+      currentRow = new ActionRowBuilder();
+    }
+
+    const button = new ButtonBuilder()
+      .setCustomId(`crypt_${choice.id}`)
+      .setLabel(choice.label)
+      .setStyle(choice.id === 'back' ? ButtonStyle.Secondary : ButtonStyle.Primary);
+
+    currentRow.addComponents(button);
+  });
+
+  if (currentRow.components.length > 0) {
+    rows.push(currentRow);
+  }
+
+  return { intro: dialogue.intro, rows };
+}
+
 // Discord ready event
 client.on('ready', async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
@@ -524,6 +741,96 @@ client.on('ready', async () => {
   // Initial price fetch
   await checkPriceAlerts();
   console.log('📊 Price monitoring initialized');
+  console.log('🎮 Crypt-ology dialogue system loaded');
+});
+
+// ========================================
+// BUTTON INTERACTION HANDLER
+// ========================================
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isButton()) return;
+
+  const userId = interaction.user.id;
+  const relationship = getOrCreateRelationship(userId);
+
+  // Handle Crypt-ology dialogue buttons
+  if (interaction.customId.startsWith('crypt_')) {
+    const choiceId = interaction.customId.replace('crypt_', '');
+
+    // Find the choice in dialogue trees
+    let selectedChoice = null;
+    let nextDialogue = null;
+
+    for (const [treeKey, tree] of Object.entries(cryptologyDialogues.trees)) {
+      const choice = tree.choices?.find(c => c.id === choiceId);
+      if (choice) {
+        selectedChoice = choice;
+        // Update user interests based on choice
+        if (choice.interest && Object.keys(choice.interest).length > 0) {
+          updateRelationship(userId, {
+            interests: choice.interest,
+            pathChoice: choiceId,
+            pathContext: treeKey,
+            familiarity: 2,
+            respect: 1
+          });
+        }
+        break;
+      }
+    }
+
+    // Get next dialogue
+    nextDialogue = cryptologyDialogues.trees[choiceId];
+
+    if (nextDialogue) {
+      // Continue dialogue tree
+      const buttonData = createDialogueButtons(choiceId);
+
+      await interaction.update({
+        content: `🔮 **Crypt-ology Exploration**\n\n${buttonData.intro}`,
+        components: buttonData.rows
+      });
+    } else if (choiceId === 'back') {
+      // Go back (simplified - would need stack in full implementation)
+      await interaction.update({
+        content: '🔮 **Crypt-ology**\n\nWhat mysterious topic shall we explore?',
+        components: []
+      });
+    } else {
+      // Leaf node - provide deep information using Wikipedia/Gemini
+      await interaction.deferUpdate();
+
+      // Search for information on the topic
+      const searchQuery = choiceId.replace(/_/g, ' ');
+      const wikiResult = await searchWikipedia(searchQuery);
+
+      let response = '';
+      if (wikiResult) {
+        // Use Wikipedia summary
+        response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
+      } else {
+        // Fallback to Gemini
+        try {
+          const tone = getConversationTone(relationship);
+          let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
+
+          if (tone === 'academic') prompt += ' Use scholarly depth.';
+          else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
+
+          const result = await model.generateContent(prompt);
+          response = `🔮 **${searchQuery}**\n\n${result.response.text()}`;
+        } catch (error) {
+          console.error('Crypt-ology content generation error:', error);
+          response = 'The mysteries resist revelation at this moment. Try again soon!';
+        }
+      }
+
+      await interaction.editReply({
+        content: response,
+        components: [] // Remove buttons at leaf nodes
+      });
+    }
+  }
 });
 
 // Message handler
@@ -615,6 +922,47 @@ client.on('messageCreate', async (message) => {
       return;
     }
 
+    // /cryptology command for NPC dialogue exploration
+    if (command === 'cryptology' || command === 'crypt' || command === 'explore') {
+      const topic = args[1]?.toLowerCase();
+
+      // Get user relationship to personalize
+      const relationship = getOrCreateRelationship(message.author.id);
+
+      if (topic && cryptologyDialogues.trees[topic]) {
+        // Specific topic requested
+        const buttonData = createDialogueButtons(topic);
+        await message.reply({
+          content: `🔮 **Crypt-ology: ${topic.charAt(0).toUpperCase() + topic.slice(1)}**\n\n${buttonData.intro}`,
+          components: buttonData.rows
+        });
+      } else {
+        // Show main menu with topics user might be interested in
+        const topInterests = Object.entries(relationship.interests)
+          .sort(([,a], [,b]) => b - a)
+          .slice(0, 3)
+          .map(([topic]) => topic);
+
+        let suggestionText = '';
+        if (topInterests.length > 0 && topInterests[0] > 20) {
+          suggestionText = `\n\n📊 Based on our conversations, you might enjoy: **${topInterests.join(', ')}**`;
+        }
+
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('🔮 Crypt-ology: The Not-a-Game')
+          .setDescription('Explore esoteric knowledge through guided conversations. Choose a topic to begin your journey into ancient mysteries.' + suggestionText)
+          .addFields(
+            { name: '📖 Available Topics', value: '• **nephilim** - Giants, Watchers, Book of Enoch\n• **phoenicians** - Tanit, Carthage, Punic Wars\n• **egypt** - Hathor, Osiris, Ancient Mysteries\n• **denisovans** - 75,000-year lineage, human origins\n• **angels** - Archangels, celestial beings\n• **greece** - Olympic gods, mythology' },
+            { name: '🎮 How to Play', value: 'Type `/cryptology [topic]` to explore\nExample: `/cryptology nephilim`\n\nOr just mention keywords like "Nephilim" or "Hathor" in conversation!' }
+          )
+          .setFooter({ text: 'Your choices shape our future conversations' });
+
+        await message.reply({ embeds: [embed] });
+      }
+      return;
+    }
+
     // /help command
     if (command === 'help') {
       const embed = new EmbedBuilder()
@@ -625,6 +973,7 @@ client.on('messageCreate', async (message) => {
           { name: '🎨 /generate [prompt]', value: 'Generate AI art with Pollinations.ai\nExample: `/generate Hathor goddess vaporwave`' },
           { name: '💰 /price [token]', value: 'Get HIVE-Engine token price\nExample: `/price VKBT` or `/price CURE`' },
           { name: '⚔️ /rs3 [item name]', value: 'Get RuneScape 3 Grand Exchange price\nExample: `/rs3 Dragon bones`' },
+          { name: '🔮 /cryptology [topic]', value: 'Explore ancient mysteries interactively\nExample: `/cryptology nephilim`' },
           { name: '❓ /help', value: 'Show this help message' },
           { name: '💬 Chat Features', value: '• @mention me or DM me to chat!\n• I search Wikipedia, Google, and Discord history\n• I summarize YouTube videos automatically\n• I respond to keywords like "VKBT", "quest", "price"\n• I can see and analyze images!' },
           { name: '🤖 Proactive Features', value: '• I monitor keywords and contribute without @mention\n• I respond to replies to my messages\n• Natural commands work too (e.g., "show me the price of VKBT")\n• New users get a welcome message after 5 posts!' },
@@ -745,6 +1094,52 @@ client.on('messageCreate', async (message) => {
     }
   }
 
+  // ========================================
+  // CRYPT-OLOGY KEYWORD DETECTION
+  // ========================================
+  // Check if message contains any Crypt-ology trigger keywords
+  let detectedTopic = null;
+  const lowerMessage = message.content.toLowerCase();
+
+  for (const [topic, keywords] of Object.entries(cryptologyDialogues.triggers)) {
+    if (keywords.some(keyword => lowerMessage.includes(keyword))) {
+      detectedTopic = topic;
+      break;
+    }
+  }
+
+  // If a topic was detected and user hasn't explored it much, offer dialogue
+  if (detectedTopic && cryptologyDialogues.trees[detectedTopic]) {
+    const relationship = getOrCreateRelationship(message.author.id);
+    const topicInterest = relationship.interests[detectedTopic === 'bible' ? 'religion' :
+                                                   detectedTopic === 'greece' ? 'mythology' :
+                                                   detectedTopic] || 0;
+
+    // Only offer if they haven't explored this topic extensively (interest < 50)
+    if (topicInterest < 50 && Math.random() < 0.7) { // 70% chance to avoid spam
+      const buttonData = createDialogueButtons(detectedTopic);
+
+      const embed = new EmbedBuilder()
+        .setColor(0x9b59b6)
+        .setTitle(`🔮 I sense interest in ${detectedTopic}...`)
+        .setDescription(`Would you like to explore this topic deeper through the Crypt-ology dialogue system?\n\n${buttonData.intro.substring(0, 200)}...`)
+        .setFooter({ text: 'Click below to begin, or continue your conversation normally' });
+
+      await message.reply({
+        embeds: [embed],
+        components: buttonData.rows
+      });
+
+      // Update that we offered this topic
+      updateRelationship(message.author.id, {
+        interests: { [detectedTopic === 'bible' ? 'religion' : detectedTopic === 'greece' ? 'mythology' : detectedTopic]: 5 },
+        familiarity: 1
+      });
+
+      return;
+    }
+  }
+
   // Only respond when mentioned, in DMs, replying to bot, or contains keywords
   const isMentioned = message.mentions.has(client.user);
   const isDM = message.channel.type === 1;
@@ -835,12 +1230,48 @@ client.on('messageCreate', async (message) => {
       history.splice(0, history.length - 20);
     }
 
+    // Get user relationship for personalization
+    const relationship = getOrCreateRelationship(message.author.id);
+    const tone = getConversationTone(relationship);
+
+    // Build personalized system context
+    let personalizedContext = systemContext;
+
+    // Add relationship-based context
+    if (relationship.totalInteractions > 0) {
+      personalizedContext += `\n\nRELATIONSHIP CONTEXT:`;
+      personalizedContext += `\nYou have ${relationship.totalInteractions} previous interactions with this user.`;
+      personalizedContext += `\nConversation tone: ${tone}`;
+
+      // Add top interests if any
+      const topInterests = Object.entries(relationship.interests)
+        .filter(([,v]) => v > 20)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 3)
+        .map(([k]) => k);
+
+      if (topInterests.length > 0) {
+        personalizedContext += `\nUser's known interests: ${topInterests.join(', ')}`;
+      }
+
+      // Adjust tone based on relationship dimensions
+      if (tone === 'welcoming') {
+        personalizedContext += `\nBe warm and patient, this user is still getting to know you.`;
+      } else if (tone === 'friendly') {
+        personalizedContext += `\nYou have a close relationship. Be casual, warm, and reference shared knowledge.`;
+      } else if (tone === 'intellectual') {
+        personalizedContext += `\nThis user values deep knowledge. Provide detailed, academic-level responses.`;
+      } else if (tone === 'cautious') {
+        personalizedContext += `\nBe diplomatic and rebuild trust. Avoid controversial topics.`;
+      }
+    }
+
     // Create chat with history
     const chat = model.startChat({
       history: [
         {
           role: 'user',
-          parts: [{ text: systemContext }],
+          parts: [{ text: personalizedContext }],
         },
         {
           role: 'model',
@@ -880,6 +1311,13 @@ client.on('messageCreate', async (message) => {
         botMessageIds.delete(firstId);
       }
     }
+
+    // Update user relationship after successful interaction
+    updateRelationship(message.author.id, {
+      warmth: 1,  // Positive interaction
+      familiarity: 2,  // Learning more about the user
+      trust: message.content.length > 100 ? 1 : 0  // Longer messages show more trust
+    });
 
   } catch (error) {
     console.error('Error generating response:', error);
