@@ -846,96 +846,126 @@ client.on('ready', async () => {
 // BUTTON INTERACTION HANDLER
 // ========================================
 client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isButton()) return;
+  try {
+    if (!interaction.isButton()) return;
 
-  const userId = interaction.user.id;
-  const relationship = getOrCreateRelationship(userId);
+    const userId = interaction.user.id;
+    const relationship = getOrCreateRelationship(userId);
 
-  // Handle Crypt-ology dialogue buttons
-  if (interaction.customId.startsWith('crypt_')) {
-    const choiceId = interaction.customId.replace('crypt_', '');
+    // Handle Crypt-ology dialogue buttons
+    if (interaction.customId.startsWith('crypt_')) {
+      const choiceId = interaction.customId.replace('crypt_', '');
 
-    // Find the choice in dialogue trees
-    let selectedChoice = null;
-    let nextDialogue = null;
+      // Find the choice in dialogue trees
+      let selectedChoice = null;
+      let nextDialogue = null;
 
-    for (const [treeKey, tree] of Object.entries(cryptologyDialogues.trees)) {
-      const choice = tree.choices?.find(c => c.id === choiceId);
-      if (choice) {
-        selectedChoice = choice;
-        // Update user interests based on choice
-        if (choice.interest && Object.keys(choice.interest).length > 0) {
-          updateRelationship(userId, {
-            interests: choice.interest,
-            pathChoice: choiceId,
-            pathContext: treeKey,
-            familiarity: 2,
-            respect: 1
-          });
+      for (const [treeKey, tree] of Object.entries(cryptologyDialogues.trees)) {
+        const choice = tree.choices?.find(c => c.id === choiceId);
+        if (choice) {
+          selectedChoice = choice;
+          // Update user interests based on choice
+          if (choice.interest && Object.keys(choice.interest).length > 0) {
+            updateRelationship(userId, {
+              interests: choice.interest,
+              pathChoice: choiceId,
+              pathContext: treeKey,
+              familiarity: 2,
+              respect: 1
+            });
+          }
+          break;
         }
-        break;
+      }
+
+      // Get next dialogue
+      nextDialogue = cryptologyDialogues.trees[choiceId];
+
+      if (nextDialogue) {
+        // Continue dialogue tree
+        const buttonData = createDialogueButtons(choiceId);
+
+        await interaction.update({
+          content: `🔮 **Crypt-ology Exploration**\n\n${buttonData.intro}`,
+          components: buttonData.rows
+        });
+      } else if (choiceId === 'back') {
+        // Go back (simplified - would need stack in full implementation)
+        await interaction.update({
+          content: '🔮 **Crypt-ology**\n\nWhat mysterious topic shall we explore?',
+          components: []
+        });
+      } else {
+        // Leaf node - provide deep information using Wikipedia/Gemini
+        await interaction.deferUpdate();
+
+        // Search for information on the topic
+        const searchQuery = choiceId.replace(/_/g, ' ');
+        const wikiResult = await searchWikipedia(searchQuery);
+
+        let response = '';
+        if (wikiResult) {
+          // Use Wikipedia summary
+          response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
+        } else {
+          // Fallback to Gemini
+          try {
+            const tone = getConversationTone(relationship);
+            let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
+
+            if (tone === 'academic') prompt += ' Use scholarly depth.';
+            else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
+
+            const result = await model.generateContent(prompt);
+            let geminiText = result.response.text();
+
+            // Truncate if too long for Discord (2000 char limit)
+            const prefix = `🔮 **${searchQuery}**\n\n`;
+            const maxContentLength = 1900 - prefix.length; // Leave buffer
+            if (geminiText.length > maxContentLength) {
+              geminiText = geminiText.substring(0, maxContentLength) + '...';
+            }
+
+            response = prefix + geminiText;
+          } catch (error) {
+            console.error('Crypt-ology content generation error:', error);
+            response = '🔮 The mysteries are clouded at this moment.\n\n💡 **Tip:** This feature requires a valid Google/Gemini API key. See GOOGLE_API_KEY_RENEWAL.md for renewal instructions.\n\nIn the meantime, try asking me questions directly instead of using the button system!';
+          }
+        }
+
+        await interaction.editReply({
+          content: response,
+          components: [] // Remove buttons at leaf nodes
+        });
       }
     }
+  } catch (error) {
+    console.error('❌ Interaction error:', error);
 
-    // Get next dialogue
-    nextDialogue = cryptologyDialogues.trees[choiceId];
+    // Attempt to notify user of the error
+    try {
+      const errorMessage = '❌ An error occurred processing your button click.\n\n' +
+        '**Possible causes:**\n' +
+        '• Expired Google/Gemini API key\n' +
+        '• Network connectivity issue\n' +
+        '• Bot permissions issue\n\n' +
+        'Please check GOOGLE_API_KEY_RENEWAL.md or try again later.';
 
-    if (nextDialogue) {
-      // Continue dialogue tree
-      const buttonData = createDialogueButtons(choiceId);
-
-      await interaction.update({
-        content: `🔮 **Crypt-ology Exploration**\n\n${buttonData.intro}`,
-        components: buttonData.rows
-      });
-    } else if (choiceId === 'back') {
-      // Go back (simplified - would need stack in full implementation)
-      await interaction.update({
-        content: '🔮 **Crypt-ology**\n\nWhat mysterious topic shall we explore?',
-        components: []
-      });
-    } else {
-      // Leaf node - provide deep information using Wikipedia/Gemini
-      await interaction.deferUpdate();
-
-      // Search for information on the topic
-      const searchQuery = choiceId.replace(/_/g, ' ');
-      const wikiResult = await searchWikipedia(searchQuery);
-
-      let response = '';
-      if (wikiResult) {
-        // Use Wikipedia summary
-        response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
+      if (interaction.deferred || interaction.replied) {
+        await interaction.editReply({
+          content: errorMessage,
+          components: []
+        });
       } else {
-        // Fallback to Gemini
-        try {
-          const tone = getConversationTone(relationship);
-          let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
-
-          if (tone === 'academic') prompt += ' Use scholarly depth.';
-          else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
-
-          const result = await model.generateContent(prompt);
-          let geminiText = result.response.text();
-
-          // Truncate if too long for Discord (2000 char limit)
-          const prefix = `🔮 **${searchQuery}**\n\n`;
-          const maxContentLength = 1900 - prefix.length; // Leave buffer
-          if (geminiText.length > maxContentLength) {
-            geminiText = geminiText.substring(0, maxContentLength) + '...';
-          }
-
-          response = prefix + geminiText;
-        } catch (error) {
-          console.error('Crypt-ology content generation error:', error);
-          response = 'The mysteries resist revelation at this moment. Try again soon!';
-        }
+        await interaction.reply({
+          content: errorMessage,
+          ephemeral: true,
+          components: []
+        });
       }
-
-      await interaction.editReply({
-        content: response,
-        components: [] // Remove buttons at leaf nodes
-      });
+    } catch (replyError) {
+      console.error('❌ Could not send error message to user:', replyError);
+      console.error('Original error was:', error);
     }
   }
 });
