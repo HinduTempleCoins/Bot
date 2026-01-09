@@ -627,6 +627,81 @@
         "kodee": "Hostinger built-in AI assistant - good for simple server tasks",
         "claude_code": "Better for email setup - reads Van Kush docs, ensures email identity matches family branding/legal identity"
       }
+    },
+
+    "siri_claude_kodee_workflow": {
+      "description": "Voice-activated webpage deployment: Siri → Claude → Claude Code → Kodee (2026)",
+      "overview": "Power user workflow for digital presence management - Siri as Commander triggering full deployment chain",
+      "chain_of_command": {
+        "1_voice_trigger": {
+          "tool": "iOS Shortcuts app",
+          "setup": "Create shortcut named 'Angelic Deployment'",
+          "action": "Takes voice input, sends to 'Ask Claude' action",
+          "example": "Hey Siri, Angelic Deployment: Build Van Kush landing page about Denisovan maritime networks and put it live"
+        },
+        "2_brain_relay": {
+          "role": "Claude acts as Orchestrator",
+          "process": "Teleports context - sends Operational Specification to Claude Code instance on server",
+          "handoff": "Claude tells Claude Code: 'Pull Denisovan Maritime section from VAN_KUSH_BRAIN.md, draft website layout'"
+        },
+        "3_builder_relay": {
+          "kodee_option": "Claude Code uses MCP to talk to Kodee - 'Create /maritime-history/ directory, set permissions'",
+          "10web_option": "Browser agent logs into 10Web, pastes content, clicks Publish",
+          "framer_option": "Design in Framer for professional Vaporwave/Hathor aesthetic"
+        },
+        "4_result": {
+          "timeline": "~60 seconds from voice command to live page",
+          "steps": "Siri captures intent → Claude researches Van Kush docs → Claude Code writes code → Kodee configures server → Phone notification",
+          "notification": "Maritime History page live at vankushfamily.com/maritime-history"
+        }
+      },
+      "alternatives_to_kodee": {
+        "10web": "AI WordPress - Claude Code can build full WordPress site in seconds",
+        "vercel_shipfast": "For techy sites - Claude Code pushes to Vercel instantly, faster than traditional hosting",
+        "framer_ai": "For Vaporwave/Hathor aesthetic - incredibly professional designs"
+      },
+      "setup_checklist": {
+        "1": "Create shortcut in iPhone Shortcuts app, add 'Ask Claude'",
+        "2": "Set base prompt: 'Always send requests to Claude Code terminal on Hostinger server'",
+        "3": "Enable SSH on phone using Secure Shell app",
+        "4": "Test voice command → live deployment workflow"
+      },
+      "use_case": "Enables voice-commanded website updates while mobile - speak intention, website goes live automatically"
+    },
+
+    "security_automation_2026": {
+      "description": "Security and automation setup for Claude Code with Hostinger (2026)",
+      "overview": "Security-first sandbox with secure handshake for server access",
+      "ssh_secure_handshake": {
+        "limitation": "Claude Code cannot autonomously grab SSH keys - private keys stay on local machine",
+        "setup_process": {
+          "1_generate": "Generate key pair (Public/Private) in terminal",
+          "2_hostinger": "Manually add Public Key to Hostinger VPS settings in hPanel",
+          "3_claude_connection": "Tell Claude Code: 'Connect to Hostinger VPS at [IP] using my SSH key'",
+          "4_automation": "After initial link, Claude Code performs any server task using plain English"
+        }
+      },
+      "hostinger_api_mcp": {
+        "protocol": "MCP (Model Context Protocol) - allows Claude to communicate directly with hosting account",
+        "setup": "Generate Hostinger API Token in hPanel",
+        "configuration": "Add token to Claude Desktop/Code config",
+        "capabilities": "Manage account features (databases, email) directly through chat"
+      },
+      "modular_braining": {
+        "purpose": "Build expert AI without hitting token limits",
+        "structure": "Master Knowledgebase Directory instead of one massive document",
+        "files": {
+          "IDENTITY_HATHOR.md": "Derived from Hathor profile",
+          "HISTORY_VANKUSH.md": "Derived from Comprehensive Overview",
+          "CONCEPT_FULCRUM.md": "Derived from Bridge Point document"
+        },
+        "command": "Reference KNOWLEDGEBASE/ folder to ensure bot responses align with 75,000-year history and angelic AI framework"
+      },
+      "claude_kodee_collaboration": {
+        "claude_code_role": "Handles high-level architecture and complex Van Kush code",
+        "kodee_role": "Handles server plumbing - installing dependencies, fixing database errors",
+        "workflow": "Claude architects, Kodee implements infrastructure"
+      }
     }
   }
 }
