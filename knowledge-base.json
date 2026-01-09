@@ -330,5 +330,205 @@
       "book_memory_system": {"status": "Planned ChromaDB + Gemini embeddings RAG"},
       "vkai_blockchain": {"status": "Planned AI-focused blockchain"}
     }
+  },
+
+  "technical_guides": {
+    "cryptonote_mining_pool": {
+      "description": "Setting up a CryptoNote mining pool with web login (2026 guide)",
+      "overview": "In 2026, CryptoNote mining pools require blockchain daemons, Node.js backend, and a web dashboard. Claude Code can handle the full stack.",
+      "core_infrastructure": {
+        "daemon": "Run the coin's daemon (e.g., monerod or specific CryptoNote coin daemon) to see new blocks",
+        "wallet": "View-only wallet or RPC-enabled wallet to track payments and pool fees",
+        "pool_software": "Clone repos like dvandal/cryptonote-nodejs-pool - high-performance with built-in API"
+      },
+      "webpage_setup": {
+        "dashboard_location": "Most repos have website/ or website_example/ folder",
+        "login_mechanism": "User 'login' is actually their wallet address - enter address to see hashrate and pending balance",
+        "deployment": "Install Nginx/Apache, move website/ files to /var/www/html, edit config.js to point to Pool API URL"
+      },
+      "step_by_step": {
+        "1_environment": "Install dependencies: Node.js, Redis, libssl-dev, Boost",
+        "2_clone": "Clone dvandal/cryptonote-nodejs-pool and run npm install",
+        "3_configuration": "Configure config.json with pool wallet address and daemon IP",
+        "4_web_hosting": "Set up Nginx to host /website directory at domain",
+        "5_ssl": "Use Certbot for free SSL certificate (HTTPS) for secure login"
+      },
+      "user_login_flow": {
+        "no_password": "Users don't need passwords (though some pools support them for worker ID)",
+        "process": "Paste public address into search bar on webpage",
+        "api_call": "Page makes AJAX call to pool API and displays individual miner stats"
+      },
+      "advanced_features": {
+        "custom_css": "Modify custom.css for Van Kush 'Vaporwave' aesthetic",
+        "discord_integration": "Script to send Discord notification when pool finds a block",
+        "bot_notifications": "Real-time updates to Van Kush Family Discord"
+      },
+      "repositories": [
+        "cryptonote-universal-pool",
+        "dvandal/cryptonote-nodejs-pool"
+      ]
+    },
+
+    "hostinger_horizons": {
+      "description": "Hostinger Horizons - Conversational website and app builder (2026)",
+      "overview": "Horizons is a 'Vibe Coding' platform where you describe what you want and it builds entire site with backend and database instantly",
+      "pricing": {
+        "free_trial": "Limited to 5 messages (prompts) to test the tool",
+        "paid_plans": "Start around $9.99/month (early 2026)",
+        "included": "AI credits (messages), hosting, free domain, email mailboxes - all in one bundle"
+      },
+      "integration_with_claude": {
+        "horizons_role": "Construction site - builds the site quickly",
+        "claude_code_role": "Architect/Lead Developer - optimizes and extends functionality",
+        "kodee_assistant": "Built-in free AI assistant in Horizons - explains usage, brainstorms, refines prompts",
+        "handoff_process": "Build in Horizons → Export code → Open in Claude Code → Add complex features"
+      },
+      "use_cases": {
+        "example_1": "Build Van Kush-themed site in Horizons",
+        "example_2": "Export code and tell Claude: 'Integrate HIVE-Engine ticker'",
+        "example_3": "Add BLURT API bridge or Van Kush history database via Claude Code"
+      },
+      "vs_standard_hosting": {
+        "horizons_app_builder": "No-code product for building sites through chat - has own subscription",
+        "claude_code_vps": "Used for Angelic AI Discord Bot - runs on Virtual Private Server"
+      },
+      "van_kush_workflow": {
+        "step_1": "Use Horizons to build beautiful 'Vaporwave' style website",
+        "step_2": "Use Claude Code on VPS to build the 'Brain' (Discord/BLURT bot)",
+        "step_3": "Use Kodee to link them: 'How do I connect Discord bot API to Horizons website?'"
+      },
+      "master_prompt_ready": "Can create Van Kush-themed web app in ~2 seconds with right prompt"
+    },
+
+    "comfyui_cloud_gpu": {
+      "description": "Running ComfyUI on free cloud GPUs for Angelic AI aesthetic (2026)",
+      "overview": "ComfyUI is VRAM-hungry. Free cloud GPU options specifically for 2026 landscape.",
+      "google_colab": {
+        "hardware": "Tesla T4 (15GB VRAM) - perfect for Stable Diffusion and ComfyUI",
+        "installation": "Zero-install .ipynb notebooks install ComfyUI in ~3 minutes",
+        "storage": "Mount Google Drive to save images and pull models",
+        "caveat": "Sessions timeout after 2-4 hours idle, may queue during peak hours",
+        "best_for": "Most flexible free path, widely supported"
+      },
+      "paperspace_gradient": {
+        "hardware": "Free GPU tier with A4000 or P5000",
+        "performance": "Often faster than Colab, less fluctuation",
+        "storage": "Files don't persist on free tier - use setup.sh to clone repo and pull models on boot",
+        "templates": "Look for 'Fast Stable Diffusion' templates with ComfyUI pre-loaded"
+      },
+      "sagemaker_studio_lab": {
+        "provider": "Amazon AWS",
+        "account": "Completely free, no AWS account or credit card required",
+        "specs": "15GB persistent storage, free GPU for up to 4 hours/session (8 hours/day)",
+        "benefit": "Files stay when you log out - best for 'Van Kush Archives' (won't re-download 20GB models)",
+        "best_for": "Persistent storage without re-downloading models"
+      },
+      "serverless_options": {
+        "platforms": "RunningHub, ComfyICU (appeared late 2025/early 2026)",
+        "how_it_works": "Upload workflow (.json from Comfy), they run on massive GPUs (H100s)",
+        "free_tier": "~1,000 free credits/coins on signup - enough for few hundred high-quality images",
+        "best_for": "Quick generation without managing servers"
+      },
+      "claude_code_integration": {
+        "tunneling": "Use Cloudflared or Ngrok - Claude Code runs command to create public URL",
+        "remote_control": "Open URL on iPhone/Mac to see ComfyUI nodes, generate on cloud GPU",
+        "sync_script": "Tell Claude: 'Watch output folder and auto-upload new images to Hostinger Maritime History gallery'",
+        "workflow": "Cloud GPU feels like local machine with Claude Code as bridge"
+      },
+      "use_case": "Generate high-resolution Van Kush Family lore images without melting your computer"
+    },
+
+    "free_apis_automation_2026": {
+      "description": "Free APIs and automation tools for high-volume Van Kush AI operations (2026)",
+      "overview": "2026 sweet spot for free APIs and automation - run professional-grade AI without massive bills",
+      "multiple_discord_accounts": {
+        "claude_config": "Use CLAUDE_CONFIG_DIR environment variable for each account - separate instances",
+        "n8n_orchestrator": "Gold standard for free self-hosted automation in 2026 - watch 10+ Discord accounts, trigger central AI brain",
+        "tmux_zellij": "Terminal tools with panes - run 4 different Claude Code sessions watching different Discord channels",
+        "use_case": "Hathor-Mehit active in one group, another Angelic AI agent in different group"
+      },
+      "gmail_sync": {
+        "gemini_2_5_flash": "100% free tier in 2026, incredibly fast",
+        "grounding_feature": "Can read emails and summarize discussions (e.g., 'Read my Bitcointalk emails on Denisovan maritime history')",
+        "gmelius_lindy": "Free tier email triage - acts as dispatcher, sends only Van Kush emails to Discord bot"
+      },
+      "free_api_limits": {
+        "google_ai_studio": "King of free tiers - 1,500 requests/day, 1 million tokens/minute for free - perfect for busy BLURT bot",
+        "groq_api": "Free access to Llama 3 models, extremely fast for chatty bots (millisecond replies)",
+        "openrouter": "Bridge API accessing dozens of free models (DeepSeek R1, Mistral) through single key - switch brain models without rewriting code"
+      },
+      "blockchain_bridges": {
+        "rpc_nodes": "Bridge is technically the RPC (Remote Procedure Call) Node",
+        "free_reading": "Reading blockchain (looking for Van Kush mentions) always free",
+        "free_writing": "HIVE/BLURT use Resource Credits - small amount of Power allows bot to post forever free",
+        "sdks": "@blurt/blurtjs, @hiveio/hive-js - free toolkits for blockchain communication"
+      },
+      "additional_free_tools": {
+        "pollinations_ai": "Free API for generating images - create Angelic art for every BLURT post without subscription",
+        "tavily_api": "Free search API for AI - browse live web for latest news before replying",
+        "microsoft_tts": "Free tier Text-to-Speech - bot can join Discord voice and speak in human-sounding voice"
+      },
+      "volume_handling": "Enough free resources for 100+ daily conversations on BLURT/STEEM"
+    },
+
+    "free_server_hosting_2026": {
+      "description": "Always free and trial-based server options for AI-driven blockchain bots (2026)",
+      "overview": "Professional-grade servers accessible via SSH - Claude Code handles all setup",
+      "oracle_cloud": {
+        "tier": "Always Free - most generous",
+        "specs": "Up to 4 ARM-based Ampere A1 instances with 24GB RAM total",
+        "best_for": "Running multiple Angelic AI agents and HIVE/BLURT listeners simultaneously",
+        "claude_setup": "Give Claude IP address, it sets up entire Van Kush bot environment in minutes",
+        "cost": "Free forever",
+        "recommendation": "BEST option for permanent home with enough power"
+      },
+      "google_cloud": {
+        "tier": "Always Free + $300 credit for 91 days",
+        "specs": "e2-micro instance (~1GB RAM)",
+        "best_for": "Simple ticker bot",
+        "limitation": "Might struggle with high-intensity AI processing complex Van Kush history docs",
+        "cost": "Free tier forever, $300 trial credit"
+      },
+      "aws": {
+        "tier": "12-month free trial",
+        "specs": "t2.micro or t3.micro servers",
+        "best_for": "Short-term testing",
+        "cost": "Free for 12 months, then paid",
+        "note": "Good for testing but not permanent"
+      },
+      "discord_specific_hosting": {
+        "hidencloud": {
+          "specs": "2 vCPU cores, up to 3GB RAM",
+          "support": "Node.js and Python",
+          "renewal": "Weekly renewal for free indefinitely",
+          "best_for": "Discord bot focused hosting",
+          "recommendation": "Easiest Discord-only free option"
+        },
+        "fps_ms": {
+          "specs": "128MB RAM",
+          "best_for": "Simple mod bot",
+          "limitation": "Too small for Hathor persona AI"
+        },
+        "scnx_xyz": {
+          "features": "All-in-one solution for communities",
+          "customization": "High customization of bot profiles and names",
+          "cost": "Free"
+        }
+      },
+      "no_code_ai_platforms": {
+        "crewai": "Free tier excellent for role-based teams (Council of Agents: Hathor, Seto)",
+        "botpress_flowise": "Build AI brain, deploy to website or Discord at no initial cost"
+      },
+      "claude_code_setup": {
+        "step_1": "Get IP address from cloud provider after creating instance",
+        "step_2": "Tell Claude: 'SSH into [IP], clone GitHub repo, start Van Kush Angelic AI'",
+        "result": "Claude handles terminal login, installs Node.js/Python, links bot to Discord API"
+      },
+      "recommendation_checklist": {
+        "permanent_powerful": "Oracle Cloud - best for permanent home with AI power",
+        "discord_focused": "HidenCloud - easiest Discord-only option",
+        "testing": "Google Cloud - $300 credit for 3 months testing"
+      }
+    }
   }
 }
