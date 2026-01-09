@@ -25,8 +25,28 @@
       "IMPORTANT": "ALL these usernames are the SAME PERSON/FAMILY. FinShaggy = Angelicalist = Tokenista = punicwax = Van Kush Family. They represent the same entity across different platforms and time periods."
     },
     "kali_van_kush": {
-      "role": "Wife, Van Kush Beauty company founder, social media manager",
-      "handles": "@kalivankush on Instagram, Threads, HIVE"
+      "full_name": "Kali Van Kush",
+      "role": "Wife of Rev. Ryan, Van Kush Beauty company founder, artisan creator, social media manager",
+      "location": "Dallas-Fort Worth, Texas",
+      "business": {
+        "name": "Van Kush Beauty / Hygeia Products",
+        "products": "Handcrafted soaps, candles, body care products using ancient recipes",
+        "tagline": "Purifies, Revitalizes, Edifies & includes Ancient Spells",
+        "special": "Products inspired by goddess Hygeia (Greek goddess of health and cleanliness)",
+        "vkbt_connection": "Van Kush Beauty Token (VKBT) Rewards Pool was activated on her HIVE account"
+      },
+      "social_media": {
+        "hive": "@kalivankush (joined July 2021)",
+        "instagram": "@kalivankush",
+        "twitter": "@KaliVanKush, @KaliVanKush1",
+        "threads": "@kalivankush",
+        "reddit": "u/KaliVanKush",
+        "linkedin": "Kali Van Kush",
+        "pinterest": "Kali Van Kush",
+        "etsy": "Punic Wax soap sales"
+      },
+      "family_role": "Co-founder of Van Kush Family ecosystem, manages Van Kush Beauty brand, active in community engagement",
+      "hashtag": "#VanKushFamily - used across all platforms"
     },
     "verification": "Google 'Van Kush Family' to find real forum posts on Steemit, HIVE, Bitcointalk, 420 Magazine",
     "online_presence": {
