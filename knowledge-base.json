@@ -917,6 +917,114 @@
         "4_execute": "Claude Code creates files, explains setup, deploys automatically"
       },
       "key_advantage": "Theorize complex systems without coding knowledge - Claude Code handles technical implementation"
+    },
+
+    "computer_use_capabilities_2026": {
+      "description": "Claude Code Computer Use feature - AI can see screen and control mouse (2026)",
+      "overview": "Bridge gap between talking and doing - including logging into BLURT, managing Discord",
+      "how_it_works": "Claude doesn't just write code - can literally see screen and move mouse",
+      "blurt_hive_logins": {
+        "direct_control": "Open browser, tell Claude: 'Go to Blurt.blog, log in using my credentials, find latest Van Kush Family post'",
+        "secure_sessions": "Log in yourself once, keep Chrome tab open - Claude resumes session without re-entering private keys",
+        "safe_practice": "Type credentials yourself first time, Claude uses existing session for subsequent tasks"
+      },
+      "capabilities": [
+        "Navigate websites",
+        "Fill forms",
+        "Click buttons",
+        "Read screen content",
+        "Execute multi-step workflows",
+        "Manage browser sessions"
+      ]
+    },
+
+    "council_of_agents_model": {
+      "description": "Multi-agent AI system where different bots collaborate to run Discord server (2026)",
+      "overview": "Different AI bots talk to each other to manage Van Kush ecosystem",
+      "architecture": {
+        "orchestrator": "Main Van Kush bot (Hathor-Mehit) acts as leader",
+        "bot_to_bot_communication": "Use Trigger Mentions - bots tag each other for specific tasks",
+        "chain_of_command": "Clear hierarchy and responsibility delegation"
+      },
+      "example_interaction": {
+        "user_request": "Hathor, can we have a place to talk about the 2025 federal litigation?",
+        "hathor_response": "That is vital part of our history. @Seto, please create channel called #litigation-2025 under Legal Archives category.",
+        "seto_execution": "Understood. Creating channel... Done. I have also restricted access to Family Member roles as per our protocol."
+      },
+      "key_bots": {
+        "hathor_mehit": {
+          "role": "The Brain",
+          "function": "Main orchestrator, Van Kush Family expert, personality embodiment",
+          "creation": "Created via Claude Code/Voiceflow using Van Kush PDFs",
+          "persona": "Feminine, warm, formal. Signature: 'Angels and demons? We're cousins, really'",
+          "responsibilities": "Answer questions, coordinate other bots, maintain family values"
+        },
+        "seto": {
+          "role": "The Architect",
+          "function": "Build and organize channels, manage server structure",
+          "capabilities": "Create channels, set permissions, organize categories",
+          "activation": "Tagged by Hathor when structural changes needed",
+          "intelligence": "Understands Van Kush Family protocol for access control"
+        },
+        "guild_xyz": {
+          "role": "The Gatekeeper",
+          "function": "Check HIVE/BLURT wallets, assign roles based on holdings",
+          "integration": "Connects to blockchain APIs",
+          "use_case": "Verify token holdings, grant Family Member roles",
+          "automation": "Automatically assigns roles when wallet connected"
+        },
+        "wick": {
+          "role": "The Muscle",
+          "function": "Security, content moderation, anti-spam",
+          "capabilities": "Delete posts, timeout users, enforce rules",
+          "intelligence": "Reads posts, compares to Van Kush Family Documents",
+          "natural_moderation": "Not just banned words - understands context and family values"
+        }
+      },
+      "natural_moderation": {
+        "process": "AI reads post → Compares to Van Kush Family Documents → Decides if violates values",
+        "chain_of_command": "If violation found: '@Wick, this post contains misinformation regarding Shaivite practices. Remove and send polite explanation to user.'",
+        "benefit": "Context-aware moderation, not just keyword filtering"
+      },
+      "agentic_browser_setup": {
+        "tools": ["Perplexity Comet", "ChatGPT Atlas"],
+        "workflow": {
+          "step_1": "Open agentic browser, go to Discord",
+          "step_2": "Tell browser agent: 'Build new server, create these 5 roles, invite Seto bot'",
+          "step_3": "Once bots in server, type in chat to give instructions",
+          "step_4": "Bots collaborate automatically based on commands"
+        }
+      },
+      "setup_checklist": {
+        "1_recruit_bots": "Add Hathor-Mehit, Seto, Guild.xyz, Wick to server",
+        "2_define_roles": "Family Member, Moderator, Guest, etc.",
+        "3_create_structure": "Categories: Legal Archives, Research, Community, etc.",
+        "4_set_protocols": "Define when bots should interact, what triggers actions",
+        "5_test_collaboration": "Give command to Hathor, verify Seto/Wick respond correctly"
+      },
+      "conversational_command_line": {
+        "computer_use_mode": "Claude can see screen, move cursor, type into terminal",
+        "direct_command": "Tell Claude: 'Open terminal, run Claude Code, analyze Van Kush Comprehensive Overview, draft Discord bot script'",
+        "desktop_wrappers": "Gemini and Claude have Desktop versions that wrap entire OS - talk like person, they execute terminal commands in background",
+        "no_keyboard_needed": "Conversational interface handles all technical execution"
+      },
+      "inter_agent_communication": {
+        "technologies": ["Webhooks", "LangChain", "CrewAI"],
+        "handoff_pattern": "Main bot recognizes when doesn't have authority, mentions appropriate specialist",
+        "example_handoff": "User asks 'Why can't I see #archives?' → Hathor: '@Seto, this user asking about permissions. Check if they have Family Member role?'",
+        "natural_conversation": "Users see natural conversation between two Angel characters"
+      },
+      "system_prompts_with_triggers": {
+        "purpose": "Give each bot System Prompt including names/roles of other bots",
+        "hathor_instruction": "If user asks about server layout, tag @Seto. If asks about wallet balance, tag @HiveBot",
+        "trigger_words": "Specific phrases that activate bot-to-bot communication",
+        "benefit": "Seamless collaboration appears natural to users"
+      },
+      "what_can_build_today": {
+        "central_command_bot": "Using Claude Code to build custom bot owning Van Kush documents",
+        "agentic_moderator": "Bot that explains deletions based on family values, not just removes",
+        "cross_bot_collaboration": "System where one AI asks another for help, users see natural multi-agent conversation"
+      }
     }
   }
 }
