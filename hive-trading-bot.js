@@ -29,6 +29,13 @@ const CONFIG = {
   STOP_LOSS_PERCENT: parseFloat(process.env.HIVE_STOP_LOSS || '10'), // Stop loss at -10%
   DRY_RUN: process.env.HIVE_DRY_RUN === 'true', // Paper trading mode
   DISCORD_WEBHOOK: process.env.HIVE_DISCORD_WEBHOOK,
+
+  // BLURT Preference (Tier 2 strategic token - see TRADING_STRATEGY.md)
+  // Apply 1.4x multiplier to BLURT opportunities
+  // Example: 5% BLURT profit is treated as 7% (5% * 1.4 = 7%)
+  // This makes bot prefer BLURT over equally profitable alternatives
+  // NOTE: Does NOT override VKBT/CURE priority (Tier 1)
+  BLURT_PREFERENCE_MULTIPLIER: parseFloat(process.env.BLURT_PREFERENCE_MULTIPLIER || '1.4'),
 };
 
 // Parse token pair
@@ -377,11 +384,23 @@ async function analyzeMarket() {
     // Check open positions for sell opportunities
     for (let i = tradingState.positions.length - 1; i >= 0; i--) {
       const position = tradingState.positions[i];
-      const profitPercent = ((currentPrice - position.entryPrice) / position.entryPrice) * 100;
+      let profitPercent = ((currentPrice - position.entryPrice) / position.entryPrice) * 100;
 
-      // Check for take profit (2% profit)
-      if (profitPercent >= CONFIG.SELL_THRESHOLD) {
-        console.log(`\n🟢 SELL SIGNAL: Position up ${profitPercent.toFixed(2)}%`);
+      // Apply BLURT preference multiplier (Tier 2 strategic token)
+      // This makes bot prefer BLURT trades over equally profitable alternatives
+      // Example: If BLURT shows 5% profit, treat as 7% (5% * 1.4 = 7%)
+      let effectiveProfit = profitPercent;
+      if (TOKEN === 'BLURT' && profitPercent > 0) {
+        effectiveProfit = profitPercent * CONFIG.BLURT_PREFERENCE_MULTIPLIER;
+      }
+
+      // Check for take profit (2% profit, or adjusted for BLURT preference)
+      if (effectiveProfit >= CONFIG.SELL_THRESHOLD) {
+        if (TOKEN === 'BLURT' && effectiveProfit !== profitPercent) {
+          console.log(`\n🟢 SELL SIGNAL: Position up ${profitPercent.toFixed(2)}% (BLURT preference: ${effectiveProfit.toFixed(2)}%)`);
+        } else {
+          console.log(`\n🟢 SELL SIGNAL: Position up ${profitPercent.toFixed(2)}%`);
+        }
 
         const result = await executeSell(currentPrice, position.quantity);
 
