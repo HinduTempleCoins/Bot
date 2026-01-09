@@ -1522,6 +1522,106 @@
             "Automated rebalancing based on market conditions"
           ]
         }
+      },
+
+      "development_resources_2026": {
+        "description": "AI platforms, bot examples, and tools for Van Kush ecosystem development",
+
+        "ai_platforms": {
+          "note": "These are examples for consideration, not mandatory choices",
+          "ai21_studio": {
+            "url": "https://studio.ai21.com/",
+            "description": "AI21 Labs platform for custom model training",
+            "potential_use": "Train Van Kush-specific language model on family knowledge"
+          },
+          "ai_dungeon": {
+            "url": "https://play.aidungeon.io/main/home",
+            "description": "Interactive AI storytelling platform",
+            "potential_use": "Create immersive Van Kush history experiences"
+          },
+          "text_synth": {
+            "url": "https://textsynth.com/",
+            "description": "Text generation API with various models",
+            "potential_use": "Alternative text generation for bot responses"
+          },
+          "prompt_knit": {
+            "url": "https://promptknit.com/",
+            "description": "Prompt engineering and workflow chaining",
+            "potential_use": "Build complex multi-step Van Kush bot workflows"
+          },
+          "pickaxe": {
+            "url": "https://pickaxe.co/builder",
+            "description": "No-code AI chatbot builder",
+            "potential_use": "Quick prototyping of Van Kush chatbots"
+          }
+        },
+
+        "hive_steem_bot_examples": {
+          "description": "GitHub repositories to study for bot architecture patterns",
+          "hive_bot": {
+            "url": "https://github.com/ali-h/hive-bot",
+            "author": "ali-h",
+            "language": "JavaScript/Node.js",
+            "useful_for": "General HIVE bot architecture, blockchain streaming patterns"
+          },
+          "peakecoin_bots": {
+            "url": "https://github.com/PaulMoon410/peakecoin_bots",
+            "author": "PaulMoon410",
+            "useful_for": "HIVE-Engine trading bot implementation, market making strategies"
+          },
+          "tomoyan_repos": {
+            "url": "https://github.com/tomoyan",
+            "author": "tomoyan",
+            "useful_for": "Multiple blockchain bot projects, diverse architectures"
+          },
+          "steemautomated": {
+            "url": "https://github.com/Juless89/steemautomated",
+            "author": "Juless89",
+            "platform": "Steemit",
+            "useful_for": "Automated Steemit operations, posting, voting patterns"
+          },
+          "steem_fossbot_voter": {
+            "url": "https://github.com/Steem-FOSSbot/steem-fossbot-voter",
+            "author": "Steem-FOSSbot team",
+            "platform": "Steemit",
+            "useful_for": "Automated voting algorithms, curation strategies, FOSS approach"
+          }
+        },
+
+        "web_interface_examples": {
+          "blurt_upvote_interface": {
+            "url": "https://blurtblock.herokuapp.com/blurt/upvote",
+            "description": "Web UI for BLURT blockchain upvoting - clean, functional interface",
+            "van_kush_equivalents_to_build": [
+              "VKBT/CURE upvote interface on vankushfamily.com",
+              "Token distribution viewer (live holder statistics)",
+              "Portfolio tracker dashboard (real-time wallet balances)",
+              "Trading bot status page (market maker, arbitrage scanner activity)",
+              "Market depth visualizer (buy/sell walls for VKBT/CURE)",
+              "Arbitrage opportunity feed (live Swap.* opportunities)",
+              "Van Kush Family member directory (token holder leaderboard)",
+              "SCOT bot analytics (hashtag usage, reward distribution)",
+              "Whale alert system (large holder movements)"
+            ],
+            "tech_stack_recommendation": {
+              "frontend": "React or Vue.js",
+              "backend": "Node.js Express API",
+              "blockchain_apis": "HIVE API (dhive), HIVE-Engine API",
+              "hosting": "Hostinger VPS (user already has) or Oracle Cloud Free Tier",
+              "domain": "vankushfamily.com subpaths (e.g., /upvote, /portfolio, /trading)"
+            },
+            "implementation_priority": "Medium-term (after core trading bots are stable)",
+            "user_question_answer": "YES - we can absolutely create pages like this for Van Kush! Web interfaces to blockchain are standard pattern. Would enhance transparency and community engagement."
+          }
+        },
+
+        "development_approach": {
+          "study_phase": "Review GitHub bot examples to understand patterns",
+          "adapt_phase": "Adapt successful patterns to Van Kush needs",
+          "customize_phase": "Add Van Kush-specific features (VKBT/CURE focus, 75,000-year narrative integration)",
+          "integrate_phase": "Connect all bots to unified ecosystem with shared knowledge base",
+          "deploy_phase": "Oracle Cloud Free Tier for bots, Hostinger for web interfaces"
+        }
       }
     }
   }
