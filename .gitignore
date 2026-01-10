@@ -1,6 +1,10 @@
 # Environment variables
 .env
 
+# Datasets (may contain sensitive info from conversations)
+datasets/
+*.jsonl
+
 # Dependencies
 node_modules/
 
