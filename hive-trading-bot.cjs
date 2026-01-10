@@ -386,18 +386,22 @@ async function analyzeMarket() {
       const position = tradingState.positions[i];
       let profitPercent = ((currentPrice - position.entryPrice) / position.entryPrice) * 100;
 
-      // Apply BLURT preference multiplier (Tier 2 strategic token)
-      // This makes bot prefer BLURT trades over equally profitable alternatives
-      // Example: If BLURT shows 5% profit, treat as 7% (5% * 1.4 = 7%)
-      let effectiveProfit = profitPercent;
+      // Apply BLURT preference multiplier (Tier 2 strategic token - MAIN FUEL)
+      // BLURT is our primary trading capital, so we PROTECT it by requiring
+      // a HIGHER profit threshold before selling it (not a lower one!)
+      // Example: Normal tokens need 2% profit, BLURT needs 2.8% (2% * 1.4)
+      let requiredThreshold = CONFIG.SELL_THRESHOLD; // Default: 2%
+
       if (TOKEN === 'BLURT' && profitPercent > 0) {
-        effectiveProfit = profitPercent * CONFIG.BLURT_PREFERENCE_MULTIPLIER;
+        // Selling BLURT requires 1.4x better opportunity to justify spending our fuel
+        requiredThreshold = CONFIG.SELL_THRESHOLD * CONFIG.BLURT_PREFERENCE_MULTIPLIER;
+        // e.g., 2% * 1.4 = 2.8% minimum profit needed
       }
 
-      // Check for take profit (2% profit, or adjusted for BLURT preference)
-      if (effectiveProfit >= CONFIG.SELL_THRESHOLD) {
-        if (TOKEN === 'BLURT' && effectiveProfit !== profitPercent) {
-          console.log(`\n🟢 SELL SIGNAL: Position up ${profitPercent.toFixed(2)}% (BLURT preference: ${effectiveProfit.toFixed(2)}%)`);
+      // Check for take profit (threshold adjusted for BLURT protection)
+      if (profitPercent >= requiredThreshold) {
+        if (TOKEN === 'BLURT' && requiredThreshold !== CONFIG.SELL_THRESHOLD) {
+          console.log(`\n🟢 SELL SIGNAL: BLURT position up ${profitPercent.toFixed(2)}% (exceeds ${requiredThreshold.toFixed(2)}% BLURT protection threshold)`);
         } else {
           console.log(`\n🟢 SELL SIGNAL: Position up ${profitPercent.toFixed(2)}%`);
         }
