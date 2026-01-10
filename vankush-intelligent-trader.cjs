@@ -427,25 +427,53 @@ async function checkForGifts() {
       continue;
     }
 
-    // Sell at highest bid for capital
-    console.log(`   💰 Selling for trading capital...`);
+    // Sell strategically - place order at TOP, don't dump!
+    console.log(`   💰 Placing sell order at top of market...`);
 
-    const buyBook = await getBuyBook(symbol, 1);
+    // Get sell book to see current top ask
+    const [buyBook, sellBook] = await Promise.all([
+      getBuyBook(symbol, 5),
+      getSellBook(symbol, 5)
+    ]);
 
     if (!buyBook || buyBook.length === 0) {
       console.log(`   ⚠️  No buy orders - will sell later`);
       continue;
     }
 
-    const highestBid = parseFloat(buyBook[0].price);
+    // Strategy: Place sell order at or ABOVE current top ask
+    // This way we get maximum value, don't dump the price
+    let sellPrice;
 
-    const result = await sellToken(symbol, quantity, highestBid);
+    if (sellBook && sellBook.length > 0) {
+      // There are existing sell orders - place at same price or slightly higher
+      const lowestAsk = parseFloat(sellBook[0].price);
+      const highestBid = parseFloat(buyBook[0].price);
+
+      // Place at lowest ask (match current sellers) or 1% above for priority
+      sellPrice = lowestAsk * 1.01; // Slightly above to be first in line
+
+      console.log(`   📊 Market: Bid ${highestBid.toFixed(8)} / Ask ${lowestAsk.toFixed(8)} HIVE`);
+      console.log(`   🎯 Placing sell at ${sellPrice.toFixed(8)} HIVE (top of ask)`);
+    } else {
+      // No sell orders - be the first ask, place above highest bid
+      const highestBid = parseFloat(buyBook[0].price);
+      sellPrice = highestBid * 1.10; // 10% above bid - room for market to rise
+
+      console.log(`   📊 No asks - placing first sell at ${sellPrice.toFixed(8)} HIVE`);
+      console.log(`   🎯 Strategy: Let market come up to meet us`);
+    }
+
+    const result = await sellToken(symbol, quantity, sellPrice);
 
     if (result.success) {
-      const revenue = quantity * highestBid;
-      console.log(`   ✅ Sold for ${revenue.toFixed(4)} HIVE! TX: ${result.txId}`);
-      botState.dailyProfit += revenue;
-      botState.totalProfit += revenue;
+      const expectedRevenue = quantity * sellPrice;
+      console.log(`   ✅ Sell order placed! TX: ${result.txId}`);
+      console.log(`   💎 When filled: ${expectedRevenue.toFixed(4)} HIVE (~$${(expectedRevenue * CONFIG.HIVE_PRICE_USD).toFixed(2)} USD)`);
+      console.log(`   ⏰ High-value trade - waiting for market to come to us`);
+
+      // Don't count profit until order fills
+      // TODO: Track open orders and update profit when they fill
     } else {
       console.log(`   ❌ Sell failed: ${result.error}`);
     }
@@ -495,18 +523,34 @@ async function analyzePortfolio() {
       // Remove from staking list
       botState.stakedTokens = botState.stakedTokens.filter(t => t !== symbol);
 
-      // Try to sell it
-      const buyBook = await getBuyBook(symbol, 1);
-      if (buyBook && buyBook.length > 0) {
-        const highestBid = parseFloat(buyBook[0].price);
-        console.log(`   💰 Selling at ${highestBid.toFixed(8)} HIVE...`);
+      // Sell strategically - place at top of market, don't dump!
+      const [buyBook, sellBook] = await Promise.all([
+        getBuyBook(symbol, 5),
+        getSellBook(symbol, 5)
+      ]);
 
-        const result = await sellToken(symbol, quantity, highestBid);
+      if (buyBook && buyBook.length > 0) {
+        let sellPrice;
+
+        if (sellBook && sellBook.length > 0) {
+          // Match or beat current lowest ask
+          const lowestAsk = parseFloat(sellBook[0].price);
+          sellPrice = lowestAsk * 1.01; // 1% above for priority
+          console.log(`   💰 Placing sell at ${sellPrice.toFixed(8)} HIVE (top of ask)`);
+        } else {
+          // No asks - place above highest bid
+          const highestBid = parseFloat(buyBook[0].price);
+          sellPrice = highestBid * 1.10; // 10% above - room to rise
+          console.log(`   💰 First ask at ${sellPrice.toFixed(8)} HIVE (high-value)`);
+        }
+
+        const result = await sellToken(symbol, quantity, sellPrice);
         if (result.success) {
-          const revenue = quantity * highestBid;
-          console.log(`   ✅ Sold for ${revenue.toFixed(4)} HIVE! TX: ${result.txId}`);
-          botState.dailyProfit += revenue;
-          botState.totalProfit += revenue;
+          const expectedRevenue = quantity * sellPrice;
+          console.log(`   ✅ Sell order placed! TX: ${result.txId}`);
+          console.log(`   💎 Target: ${expectedRevenue.toFixed(4)} HIVE when filled`);
+
+          // TODO: Track and update when filled
         }
       }
     }
