@@ -39,6 +39,46 @@
         "isAlive": true,
         "reason": "READY_TO_PUSH"
       }
+    },
+    {
+      "symbol": "VKBT",
+      "timestamp": "2026-01-10T08:00:14.496Z",
+      "timestampMs": 1768032014496,
+      "price": {
+        "current": 0.0007,
+        "target": 0.001,
+        "percentToTarget": 42.85714285714286
+      },
+      "supply": {
+        "total": 1930558,
+        "circulating": 1928116.18189379,
+        "maxSupply": 500000000
+      },
+      "holders": {
+        "unique": 986,
+        "micro": 611,
+        "small": 274,
+        "medium": 94,
+        "whales": 7,
+        "distributionScore": 12,
+        "giniCoefficient": 0.9485571540592843,
+        "top10Percent": 53.519595715931864
+      },
+      "wall": {
+        "sellFloor": 0.0007798,
+        "sellDepth": 13,
+        "buyTop": 5e-8,
+        "buyDepth": 3,
+        "costToPush": 2.907828927213784,
+        "costToPushUSD": 0.8723486781641351,
+        "isAffordable": true
+      },
+      "market": {
+        "volume24h": 0.58965352,
+        "estimatedWeeklyTrades": 842,
+        "isAlive": true,
+        "reason": "HEALTHY"
+      }
     }
   ],
   "CURE": [
@@ -78,6 +118,46 @@
       "market": {
         "volume24h": 1e-8,
         "estimatedWeeklyTrades": 0,
+        "isAlive": true,
+        "reason": "READY_TO_PUSH"
+      }
+    },
+    {
+      "symbol": "CURE",
+      "timestamp": "2026-01-10T08:00:18.015Z",
+      "timestampMs": 1768032018015,
+      "price": {
+        "current": 0.0555,
+        "target": 0.001,
+        "percentToTarget": -98.1981981981982
+      },
+      "supply": {
+        "total": 55575.2,
+        "circulating": 55559.99365456,
+        "maxSupply": 20000000
+      },
+      "holders": {
+        "unique": 999,
+        "micro": 975,
+        "small": 22,
+        "medium": 0,
+        "whales": 2,
+        "distributionScore": 4,
+        "giniCoefficient": 0.954366710295482,
+        "top10Percent": 64.57679458548057
+      },
+      "wall": {
+        "sellFloor": 555966,
+        "sellDepth": 8,
+        "buyTop": null,
+        "buyDepth": 0,
+        "costToPush": 0,
+        "costToPushUSD": 0,
+        "isAffordable": true
+      },
+      "market": {
+        "volume24h": 1.62195687,
+        "estimatedWeeklyTrades": 29,
         "isAlive": true,
         "reason": "READY_TO_PUSH"
       }
