@@ -29,7 +29,7 @@ const CONFIG = {
   BLURT_SELL_MODE: 'TOP_ORDER_ONLY', // Only sell to top buy order
   BLURT_SELL_COOLDOWN_HOURS: 1,   // Wait 1h between BLURT sells
   MIN_BLURT_RESERVE: 50,           // Always keep at least 50 BLURT
-  MIN_BLURT_BUY_PRICE: 0.01,       // Don't sell BLURT below 0.01 HIVE
+  MIN_BLURT_BUY_PRICE: 0.0,        // Accept market price (BLURT needs our intervention to rise)
 
   // Token classifications
   PREMIUM_TOKENS: ['VKBT', 'CURE'], // Strategic selling only
