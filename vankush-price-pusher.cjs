@@ -320,6 +320,22 @@ async function processOpportunity() {
     return;
   }
 
+  if (opportunity.recommendation === 'PLACE_BUY_ORDER') {
+    console.log(`💡 ${token} needs buy support to push price from ${opportunity.currentPrice.toFixed(4)} → ${opportunity.targetPrice.toFixed(4)} HIVE`);
+    console.log(`   Current price: ${opportunity.currentPrice.toFixed(4)} HIVE (below target)`);
+    console.log(`   Sell wall floor: ${opportunity.sellWallFloor.toFixed(4)} HIVE (above target - paper wall)`);
+    console.log(`   Strategy: Place buy orders to create floor and push price up`);
+
+    // For now, use micro push to nudge price upward
+    // TODO: Implement strategic buy order placement
+    if (canExecuteMicroPush(token)) {
+      await executeMicroPush(token, opportunity.currentPrice * 1.1); // 10% above current
+    } else {
+      console.log('⏰ Micro push on cooldown - waiting');
+    }
+    return;
+  }
+
   if (opportunity.recommendation === 'BUY_UP_WALL') {
     // Affordable to buy up wall - but check cooldown
     if (!canExecuteMajorPush(token)) {
