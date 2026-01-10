@@ -14,23 +14,31 @@ const HIVE_ENGINE_RPC = 'https://api.hive-engine.com/rpc/contracts';
  */
 
 const CONFIG = {
-  // HIVE liquidity thresholds
+  // HIVE liquidity thresholds (operational needs)
   MIN_HIVE_BALANCE: 10,           // Minimum HIVE to keep operations running
-  TARGET_HIVE_BALANCE: 25,        // Target HIVE balance after BLURT sale
-  CRITICAL_HIVE_BALANCE: 5,       // Critical - sell BLURT immediately
+  TARGET_HIVE_BALANCE: 25,        // Target HIVE balance for operations
+  CRITICAL_HIVE_BALANCE: 5,       // Critical - sell immediately
 
-  // BLURT → HIVE conversion settings
-  BLURT_TO_HIVE_RATIO: 0.3,       // Approx BLURT:HIVE price ratio
-  MIN_BLURT_RESERVE: 50,          // Always keep at least 50 BLURT
+  // HIVE reserve building (long-term wealth)
+  RESERVE_TIER_1: 50,             // First reserve milestone → consider power up
+  RESERVE_TIER_2: 100,            // Second milestone → power up more
+  RESERVE_TIER_3: 200,            // Third milestone → aggressive power up
+  POWER_UP_PERCENT: 0.5,          // Power up 50% of excess reserves
+
+  // BLURT selling strategy (gradual, don't break market)
+  BLURT_SELL_MODE: 'TOP_ORDER_ONLY', // Only sell to top buy order
+  BLURT_SELL_COOLDOWN_HOURS: 1,   // Wait 1h between BLURT sells
+  MIN_BLURT_RESERVE: 50,           // Always keep at least 50 BLURT
+  MIN_BLURT_BUY_PRICE: 0.01,       // Don't sell BLURT below 0.01 HIVE
 
   // Token classifications
-  PREMIUM_TOKENS: ['VKBT', 'CURE'],
-  FUEL_TOKEN: 'SWAP.BLURT',
-  TRADEABLE_TOKENS: ['BBH', 'POB'],
+  PREMIUM_TOKENS: ['VKBT', 'CURE'], // Strategic selling only
+  FUEL_TOKEN: 'SWAP.BLURT',         // Protected fuel
+  TRADEABLE_TOKENS: ['BBH', 'POB'], // Sell freely
 
   // Spending tracking
-  SPENDING_WINDOW_HOURS: 24,      // Track spending over 24h
-  HIGH_BURN_RATE_THRESHOLD: 20    // Alert if spending >20 HIVE/day
+  SPENDING_WINDOW_HOURS: 24,       // Track spending over 24h
+  HIGH_BURN_RATE_THRESHOLD: 20     // Alert if spending >20 HIVE/day
 };
 
 /**
@@ -121,7 +129,7 @@ function analyzeBuyWall(symbol, quantity) {
 
   const result = apiCall(payload);
   if (!result.result || result.result.length === 0) {
-    return { canSell: false, totalRevenue: 0, averagePrice: 0 };
+    return { canSell: false, totalRevenue: 0, averagePrice: 0, topOrder: null };
   }
 
   const buyOrders = result.result;
@@ -141,15 +149,121 @@ function analyzeBuyWall(symbol, quantity) {
     ordersFilled++;
   }
 
+  // Get top order details
+  const topOrder = buyOrders[0] ? {
+    price: parseFloat(buyOrders[0].price),
+    quantity: parseFloat(buyOrders[0].quantity),
+    account: buyOrders[0].account
+  } : null;
+
   return {
     canSell: remaining === 0,
     totalRevenue,
     averagePrice: totalRevenue / quantity,
     percentFilled: ((quantity - remaining) / quantity) * 100,
     ordersFilled,
-    buyWallTop: buyOrders[0] ? parseFloat(buyOrders[0].price) : 0,
-    buyWallDepth: buyOrders.length
+    buyWallTop: topOrder ? topOrder.price : 0,
+    buyWallDepth: buyOrders.length,
+    topOrder
   };
+}
+
+/**
+ * Get top buy order only (for gradual BLURT selling)
+ */
+function getTopBuyOrder(symbol) {
+  const payload = {
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'find',
+    params: {
+      contract: 'market',
+      table: 'buyBook',
+      query: { symbol },
+      limit: 1,
+      offset: 0,
+      indexes: [{ index: 'price', descending: true }]
+    }
+  };
+
+  const result = apiCall(payload);
+  if (!result.result || result.result.length === 0) return null;
+
+  const order = result.result[0];
+  return {
+    price: parseFloat(order.price),
+    quantity: parseFloat(order.quantity),
+    account: order.account
+  };
+}
+
+/**
+ * Check if HIVE reserves warrant power-up
+ */
+function checkPowerUpOpportunity(hiveBalance) {
+  console.log('\n\n⚡ POWER-UP OPPORTUNITY CHECK');
+  console.log('='.repeat(60));
+
+  // Only consider power-up if operations are fully funded
+  if (hiveBalance < CONFIG.TARGET_HIVE_BALANCE) {
+    console.log(`HIVE balance (${hiveBalance.toFixed(2)}) below operational target (${CONFIG.TARGET_HIVE_BALANCE})`);
+    console.log('Focus on operations first - no power-up yet');
+    return {
+      shouldPowerUp: false,
+      amount: 0,
+      reason: 'Operations need funding first'
+    };
+  }
+
+  const excess = hiveBalance - CONFIG.TARGET_HIVE_BALANCE;
+  console.log(`\nOperational HIVE: ${CONFIG.TARGET_HIVE_BALANCE}`);
+  console.log(`Current HIVE: ${hiveBalance.toFixed(2)}`);
+  console.log(`Excess reserves: ${excess.toFixed(2)}`);
+
+  // Check which tier we're at
+  if (excess >= CONFIG.RESERVE_TIER_3) {
+    const powerUpAmount = excess * CONFIG.POWER_UP_PERCENT;
+    console.log(`\n🚀 TIER 3 REACHED (${CONFIG.RESERVE_TIER_3}+ excess)`);
+    console.log(`   Recommendation: AGGRESSIVE POWER-UP`);
+    console.log(`   Amount: ${powerUpAmount.toFixed(2)} HIVE (${(CONFIG.POWER_UP_PERCENT * 100)}% of excess)`);
+    console.log(`   Remaining: ${(excess - powerUpAmount).toFixed(2)} HIVE reserves`);
+    return {
+      shouldPowerUp: true,
+      amount: powerUpAmount,
+      tier: 3,
+      reason: 'Tier 3 reserves - aggressive growth'
+    };
+  } else if (excess >= CONFIG.RESERVE_TIER_2) {
+    const powerUpAmount = excess * CONFIG.POWER_UP_PERCENT;
+    console.log(`\n📈 TIER 2 REACHED (${CONFIG.RESERVE_TIER_2}+ excess)`);
+    console.log(`   Recommendation: MODERATE POWER-UP`);
+    console.log(`   Amount: ${powerUpAmount.toFixed(2)} HIVE (${(CONFIG.POWER_UP_PERCENT * 100)}% of excess)`);
+    return {
+      shouldPowerUp: true,
+      amount: powerUpAmount,
+      tier: 2,
+      reason: 'Tier 2 reserves - moderate growth'
+    };
+  } else if (excess >= CONFIG.RESERVE_TIER_1) {
+    const powerUpAmount = excess * CONFIG.POWER_UP_PERCENT;
+    console.log(`\n💰 TIER 1 REACHED (${CONFIG.RESERVE_TIER_1}+ excess)`);
+    console.log(`   Recommendation: CONSIDER POWER-UP`);
+    console.log(`   Amount: ${powerUpAmount.toFixed(2)} HIVE (${(CONFIG.POWER_UP_PERCENT * 100)}% of excess)`);
+    return {
+      shouldPowerUp: true,
+      amount: powerUpAmount,
+      tier: 1,
+      reason: 'Tier 1 reserves - start building HP'
+    };
+  } else {
+    console.log(`\nNot yet at Tier 1 (need ${CONFIG.RESERVE_TIER_1} excess, have ${excess.toFixed(2)})`);
+    console.log('Keep accumulating reserves');
+    return {
+      shouldPowerUp: false,
+      amount: 0,
+      reason: `Need ${(CONFIG.RESERVE_TIER_1 - excess).toFixed(2)} more HIVE to reach Tier 1`
+    };
+  }
 }
 
 /**
@@ -210,75 +324,81 @@ async function checkCapitalNeeds(account) {
     console.log(`   BLURT available: ${blurtAvailable.toFixed(2)} (keeping ${CONFIG.MIN_BLURT_RESERVE} reserve)`);
 
     if (blurtAvailable < blurtNeeded) {
-      console.log('\n⚠️  Not enough BLURT to cover HIVE needs!');
-      console.log(`   Can only sell: ${blurtAvailable.toFixed(2)} BLURT`);
-
-      // Sell what we can
-      if (blurtAvailable > 0) {
-        const buyWall = analyzeBuyWall(CONFIG.FUEL_TOKEN, blurtAvailable);
-        console.log(`\n📊 Buy Wall Analysis:`);
-        console.log(`   Can sell all: ${buyWall.canSell ? 'YES' : 'NO'}`);
-        console.log(`   Expected HIVE: ${buyWall.totalRevenue.toFixed(2)}`);
-        console.log(`   Average price: ${buyWall.averagePrice.toFixed(8)}`);
-
-        return {
-          recommendation: 'SELL_PARTIAL_BLURT',
-          amount: blurtAvailable,
-          expectedHIVE: buyWall.totalRevenue,
-          urgency,
-          status,
-          reason: 'Insufficient BLURT - selling all available'
-        };
-      } else {
-        return {
-          recommendation: 'CRITICAL_NO_BLURT',
-          urgency: 100,
-          status: 'CRITICAL',
-          reason: 'No BLURT available to sell, operations may halt'
-        };
-      }
+      console.log('\n⚠️  Not enough BLURT to cover full HIVE needs!');
+      console.log(`   HIVE needed: ${hiveNeeded.toFixed(2)}`);
+      console.log(`   BLURT available: ${blurtAvailable.toFixed(2)}`);
+      console.log(`   Will need to sell gradually as orders appear`);
     }
 
-    // Check if buy wall can absorb this sale
-    const buyWall = analyzeBuyWall(CONFIG.FUEL_TOKEN, blurtNeeded);
+    // STRATEGY: Only sell to TOP order (don't break down the wall)
+    console.log(`\n📊 Gradual BLURT Selling Strategy (TOP ORDER ONLY)`);
 
-    console.log(`\n📊 Buy Wall Analysis:`);
-    console.log(`   Can sell ${blurtNeeded.toFixed(2)} BLURT: ${buyWall.canSell ? 'YES' : 'NO'}`);
-    console.log(`   Percent fillable: ${buyWall.percentFilled.toFixed(1)}%`);
-    console.log(`   Expected HIVE: ${buyWall.totalRevenue.toFixed(2)}`);
-    console.log(`   Average price: ${buyWall.averagePrice.toFixed(8)}`);
-    console.log(`   Buy orders: ${buyWall.ordersFilled}/${buyWall.buyWallDepth}`);
+    const topOrder = getTopBuyOrder(CONFIG.FUEL_TOKEN);
 
-    if (buyWall.percentFilled < 90) {
-      console.log(`\n⚠️  Buy wall too shallow - would get poor price`);
+    if (!topOrder) {
+      console.log(`   ⚠️  No buy orders available`);
+      return {
+        recommendation: 'WAIT_BUY_ORDERS',
+        urgency,
+        status,
+        reason: 'No BLURT buy orders - wait for market'
+      };
+    }
+
+    console.log(`   Top order: ${topOrder.quantity.toFixed(2)} BLURT @ ${topOrder.price.toFixed(8)} HIVE`);
+    console.log(`   Buyer: @${topOrder.account}`);
+
+    // Check if top order price is acceptable
+    if (topOrder.price < CONFIG.MIN_BLURT_BUY_PRICE) {
+      console.log(`   ⚠️  Price too low (${topOrder.price.toFixed(8)} < ${CONFIG.MIN_BLURT_BUY_PRICE})`);
 
       if (status === 'CRITICAL') {
         console.log(`   BUT status is CRITICAL - sell anyway!`);
+        const sellAmount = Math.min(topOrder.quantity, blurtAvailable);
+        const expectedHIVE = sellAmount * topOrder.price;
+
         return {
-          recommendation: 'SELL_BLURT_CRITICAL',
-          amount: blurtNeeded,
-          expectedHIVE: buyWall.totalRevenue,
+          recommendation: 'SELL_TO_TOP_ORDER_CRITICAL',
+          amount: sellAmount,
+          expectedHIVE,
           urgency,
           status,
-          reason: 'Critical HIVE shortage - accepting poor price'
+          price: topOrder.price,
+          reason: 'Critical HIVE shortage - accepting low price'
         };
       } else {
         return {
-          recommendation: 'WAIT_BETTER_WALL',
+          recommendation: 'WAIT_BETTER_PRICE',
           urgency,
           status,
-          reason: 'Buy wall too shallow - wait for better depth'
+          currentPrice: topOrder.price,
+          reason: `Price too low - waiting for >= ${CONFIG.MIN_BLURT_BUY_PRICE} HIVE`
         };
       }
     }
 
+    // Sell to top order only
+    const sellAmount = Math.min(topOrder.quantity, blurtAvailable);
+    const expectedHIVE = sellAmount * topOrder.price;
+
+    console.log(`\n   ✅ SELL TO TOP ORDER`);
+    console.log(`   Amount: ${sellAmount.toFixed(2)} BLURT`);
+    console.log(`   Expected: ${expectedHIVE.toFixed(4)} HIVE`);
+    console.log(`   Strategy: Fill top order, wait for next, repeat`);
+
+    if (sellAmount < blurtNeeded) {
+      console.log(`\n   ⚠️  Top order only covers ${(sellAmount / blurtNeeded * 100).toFixed(1)}% of need`);
+      console.log(`   Will need multiple gradual sells (1h cooldown between)`);
+    }
+
     return {
-      recommendation: 'SELL_BLURT',
-      amount: blurtNeeded,
-      expectedHIVE: buyWall.totalRevenue,
+      recommendation: 'SELL_TO_TOP_ORDER',
+      amount: sellAmount,
+      expectedHIVE,
       urgency,
       status,
-      reason: `Replenish HIVE from ${hiveBalance.toFixed(2)} to ${CONFIG.TARGET_HIVE_BALANCE}`
+      price: topOrder.price,
+      reason: `Sell ${sellAmount.toFixed(2)} BLURT to top order, preserve market`
     };
   }
 
@@ -371,6 +491,23 @@ async function main() {
     console.log(`\n💱 Conversion:`);
     console.log(`   Sell: ${capitalNeeds.amount.toFixed(2)} BLURT`);
     console.log(`   Get: ~${capitalNeeds.expectedHIVE.toFixed(2)} HIVE`);
+    if (capitalNeeds.price) {
+      console.log(`   Price: ${capitalNeeds.price.toFixed(8)} HIVE per BLURT`);
+    }
+  }
+
+  // Check for power-up opportunities
+  const hiveBalance = getBalance(account, 'SWAP.HIVE');
+  const powerUpCheck = checkPowerUpOpportunity(hiveBalance);
+
+  if (powerUpCheck.shouldPowerUp) {
+    console.log(`\n\n${'='.repeat(60)}`);
+    console.log(`⚡ POWER-UP RECOMMENDATION`);
+    console.log('='.repeat(60));
+    console.log(`Tier: ${powerUpCheck.tier} (Reserve building)`);
+    console.log(`Amount: ${powerUpCheck.amount.toFixed(2)} HIVE`);
+    console.log(`Reason: ${powerUpCheck.reason}`);
+    console.log(`\nLong-term: Build HIVE POWER → Earn curation rewards`);
   }
 
   // Check tradeable tokens
@@ -399,4 +536,9 @@ if (require.main === module) {
   });
 }
 
-module.exports = { checkCapitalNeeds, checkTradeableTokens };
+module.exports = {
+  checkCapitalNeeds,
+  checkTradeableTokens,
+  checkPowerUpOpportunity,
+  getTopBuyOrder
+};
