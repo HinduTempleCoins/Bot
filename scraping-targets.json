@@ -1,0 +1,123 @@
+{
+  "mythology_targets": [
+    {
+      "topic": "Metatron",
+      "description": "Archangel Metatron in Jewish mysticism and Christian angelology",
+      "sources": [
+        "https://www.sacred-texts.com/jud/",
+        "https://www.theoi.com/"
+      ],
+      "search_terms": ["Metatron", "archangel", "scribe of God", "angel of presence"],
+      "category": "angelology"
+    },
+    {
+      "topic": "Zar",
+      "description": "Zar spirits and possession cult in African/Middle Eastern folklore",
+      "sources": [
+        "https://www.sacred-texts.com/afr/",
+        "https://www.sacred-texts.com/asia/"
+      ],
+      "search_terms": ["Zar", "Zār", "possession cult", "spirit possession"],
+      "category": "folklore"
+    },
+    {
+      "topic": "Phoenicians",
+      "description": "Ancient Phoenician civilization, culture, and mythology",
+      "sources": [
+        "https://www.sacred-texts.com/cla/",
+        "https://www.gutenberg.org/"
+      ],
+      "search_terms": ["Phoenician", "Phoenicia", "Carthage", "Baal", "Astarte", "Tyre", "Sidon"],
+      "category": "ancient-history"
+    },
+    {
+      "topic": "Egyptian Gods",
+      "description": "Egyptian deities and mythology",
+      "sources": [
+        "https://www.sacred-texts.com/egy/"
+      ],
+      "search_terms": ["Ra", "Osiris", "Isis", "Horus", "Anubis", "Thoth", "Egyptian gods"],
+      "category": "egyptian-mythology"
+    },
+    {
+      "topic": "Sumerian Mythology",
+      "description": "Ancient Sumerian gods and texts",
+      "sources": [
+        "https://www.sacred-texts.com/ane/"
+      ],
+      "search_terms": ["Enki", "Enlil", "Inanna", "Gilgamesh", "Sumerian", "Akkadian"],
+      "category": "sumerian-mythology"
+    },
+    {
+      "topic": "Kabbalah",
+      "description": "Jewish mystical tradition and tree of life",
+      "sources": [
+        "https://www.sacred-texts.com/jud/",
+        "https://www.sacred-texts.com/eso/"
+      ],
+      "search_terms": ["Kabbalah", "Sephirot", "Tree of Life", "Zohar"],
+      "category": "mysticism"
+    }
+  ],
+  "crypto_news_sources": [
+    {
+      "name": "CoinDesk",
+      "url": "https://www.coindesk.com/",
+      "category": "crypto-news"
+    },
+    {
+      "name": "CoinTelegraph",
+      "url": "https://cointelegraph.com/",
+      "category": "crypto-news"
+    },
+    {
+      "name": "The Block",
+      "url": "https://www.theblock.co/",
+      "category": "crypto-news"
+    },
+    {
+      "name": "Decrypt",
+      "url": "https://decrypt.co/",
+      "category": "crypto-news"
+    }
+  ],
+  "gutenberg_books": [
+    {
+      "book_id": "1",
+      "title": "The Declaration of Independence of the United States of America",
+      "category": "history"
+    },
+    {
+      "book_id": "10",
+      "title": "The Bible (King James Version)",
+      "category": "religious-text"
+    },
+    {
+      "book_id": "2600",
+      "title": "War and Peace by Leo Tolstoy",
+      "category": "classic-literature"
+    }
+  ],
+  "van_kush_topics": [
+    {
+      "topic": "HIVE blockchain",
+      "search_terms": ["HIVE", "HIVE.blog", "HIVE-Engine", "TribalDEX", "DPoS"],
+      "category": "blockchain"
+    },
+    {
+      "topic": "Smart Media Tokens",
+      "search_terms": ["SMT", "Smart Media Token", "HIVE SMT", "custom tokens"],
+      "category": "blockchain"
+    },
+    {
+      "topic": "Polygon blockchain",
+      "search_terms": ["Polygon", "MATIC", "Ethereum L2", "QuickSwap"],
+      "category": "blockchain"
+    },
+    {
+      "topic": "Scarcity economics",
+      "search_terms": ["token scarcity", "limited supply", "deflationary tokens"],
+      "category": "economics"
+    }
+  ]
+}
