@@ -38,7 +38,7 @@ const CONFIG = {
   // Budget management
   CHEAP_THRESHOLD_USD: 2.00,        // Only buy if < $2
   MICRO_PUSH_HIVE: 0.0001,          // Micro-push amount (0.0001 HIVE)
-  MAX_DAILY_BUDGET_HIVE: 35,        // Max 35 HIVE/day (~$10 USD)
+  MAX_DAILY_BUDGET_HIVE: 5,         // Max 5 HIVE/day (~$1.50 USD) - CONSERVATIVE START
 
   // Cooldowns (prevent spam)
   MAJOR_PUSH_COOLDOWN_HOURS: 6,     // Wait 6h between big buys
