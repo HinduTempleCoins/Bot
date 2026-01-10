@@ -111,8 +111,12 @@ async function analyzeSellWall(token, targetPrice = null) {
 
   // Determine recommendation
   let recommendation;
-  if (costUSD === 0) {
-    recommendation = 'ALREADY_AT_TARGET'; // Price already at or above target
+  if (costUSD === 0 && currentPrice >= targetPrice) {
+    // All sells above target AND current price is high
+    recommendation = 'ALREADY_AT_TARGET';
+  } else if (costUSD === 0 && currentPrice < targetPrice) {
+    // No sells below target, but price is still low - need to BID UP
+    recommendation = 'PLACE_BUY_ORDER';
   } else if (costUSD <= WALL_CONFIG.MICRO_PUSH_COST_USD) {
     recommendation = 'MICRO_PUSH'; // Very cheap, just nudge it
   } else if (isAffordable) {
