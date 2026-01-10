@@ -20,6 +20,10 @@
 9. Trading bot deployed to Google VM ✅
 10. Capital manager with 3-tier strategy (VKBT/CURE premium, BLURT fuel, BBH/POB tradeable) ✅
 11. HIVE posting bot for daily VKBT/CURE marketing ✅
+12. Added HIVE SMT ecosystem plan (build own token/DEX on HIVE blockchain) ✅
+13. Added Polygon cross-chain token launch plan (before HIVE SMT) ✅
+
+**NOTE**: Hashtag/voting resources provided (altcoinstalks.com, bitcointalk.org) could not be fetched automatically (403/SSL errors). Will need manual information to build voting logic based on staked tokens.
 
 **NEXT UP**:
 1. ✅ DONE: Deploy trading bot (dry run 12h, then live) - **Running now on Google VM!**
@@ -398,7 +402,62 @@
 
 **Timeline**: 1-2 weeks (simpler)
 
-### Project 3: ComfyUI Integration
+### Project 3: HIVE Ecosystem & Smart Media Token
+**What It Is**: Build own token ecosystem on HIVE blockchain (NOT HIVE-Engine)
+
+**Why**: Don't need to pay HIVE-Engine fees - build directly on HIVE blockchain
+
+**Features**:
+- Smart Media Token (SMT) on HIVE
+- Own token distribution system
+- Hashtag-triggered voting/rewards
+- Staking mechanics with curation
+- Potentially own DEX (like TribalDEX)
+- Full ecosystem control
+
+**Prerequisites**:
+- [ ] Research HIVE Smart Media Token (SMT) protocol
+- [ ] Study TribalDEX architecture
+- [ ] Build voting logic based on staked tokens
+- [ ] Implement hashtag triggers for token distribution
+- [ ] Design tokenomics for Van Kush SMT
+
+**Timeline**:
+- After Polygon token (February/March)
+- 1-2 months for full ecosystem
+
+**Resources**:
+- HIVE blockchain documentation
+- SMT whitepaper
+- TribalDEX source code
+- Existing hashtag bot implementations
+
+### Project 4: Cross-Chain Token Launch (Polygon Focus)
+**What It Is**: Launch Van Kush token on Polygon (Ethereum L2)
+
+**Why Polygon**:
+- Low gas fees
+- Ethereum ecosystem access
+- Easy bridges to other chains
+- Good DEX support (Uniswap, QuickSwap)
+
+**Features**:
+- ERC-20 token on Polygon
+- Liquidity pools on QuickSwap
+- Bridge to Ethereum mainnet
+- Marketing to Polygon community
+
+**Resources to Study**:
+- NutBox.io model (cross-chain staking)
+- Polygon token deployment
+- Uniswap V3 integration
+- Cross-chain bridges
+
+**Timeline**:
+- February (before HIVE SMT)
+- 2-3 weeks for deployment and initial liquidity
+
+### Project 5: ComfyUI Integration
 **What It Is**: AI art generation via Discord
 
 **Features**:
@@ -409,7 +468,7 @@
 
 **Timeline**: 1-2 weeks
 
-### Project 4: Minecraft Server
+### Project 6: Minecraft Server
 **What It Is**: AI-controlled NPCs
 
 **Features**:
