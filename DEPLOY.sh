@@ -55,10 +55,11 @@ echo ""
 echo "1. Portfolio Tracker (Read-only, safe to start)"
 echo "2. Price Pusher (DRY RUN - no real trades)"
 echo "3. Price Pusher (LIVE - real trades!)"
-echo "4. All bots (Portfolio + Price Pusher)"
-echo "5. Test bots (run once, no PM2)"
+echo "4. HIVE Content Bot (Daily VKBT/CURE posts + tips)"
+echo "5. All bots (Portfolio + Price Pusher + Content)"
+echo "6. Test bots (run once, no PM2)"
 echo ""
-read -p "Choose option (1-5): " OPTION
+read -p "Choose option (1-6): " OPTION
 
 case $OPTION in
     1)
@@ -119,6 +120,30 @@ case $OPTION in
 
     4)
         echo ""
+        echo "📝 Deploying HIVE Content Bot..."
+
+        # Ensure HIVE_POSTING_KEY is set
+        if ! grep -q "HIVE_POSTING_KEY=" .env | grep -q "5J"; then
+            echo "⚠️  Warning: HIVE_POSTING_KEY not set in .env"
+            echo "   The bot needs posting key to publish content"
+        fi
+
+        # Set dry run for content bot (default safe)
+        if ! grep -q "HIVE_BOT_DRY_RUN=" .env; then
+            echo "HIVE_BOT_DRY_RUN=true" >> .env
+            echo "ℹ️  Set to DRY RUN mode (edit .env to enable posting)"
+        fi
+
+        pm2 start hive-content-bot.cjs --name hive-content
+        pm2 save
+        echo "✅ HIVE Content Bot started!"
+        echo "   View logs: pm2 logs hive-content"
+        echo "   Posts daily at 14:00 UTC with VKBT/CURE updates"
+        echo "   Requests tips: !PIZZA !BEER !LUV !WINEX !HUG !hivebits !GM"
+        ;;
+
+    5)
+        echo ""
         echo "📊 Deploying ALL bots..."
 
         # Portfolio tracker
@@ -134,13 +159,23 @@ case $OPTION in
         fi
         pm2 start vankush-price-pusher.cjs --name pusher
 
+        # HIVE Content Bot (dry run by default)
+        if ! grep -q "HIVE_BOT_DRY_RUN=true" .env; then
+            if grep -q "HIVE_BOT_DRY_RUN=" .env; then
+                sed -i 's/HIVE_BOT_DRY_RUN=.*/HIVE_BOT_DRY_RUN=true/' .env
+            else
+                echo "HIVE_BOT_DRY_RUN=true" >> .env
+            fi
+        fi
+        pm2 start hive-content-bot.cjs --name hive-content
+
         pm2 save
         echo "✅ All bots started!"
         echo "   View status: pm2 list"
         echo "   View logs: pm2 logs"
         ;;
 
-    5)
+    6)
         echo ""
         echo "🧪 Testing bots (one-time run)..."
         echo ""
