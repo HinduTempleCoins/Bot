@@ -7,6 +7,7 @@
 // Date: 2026-01-09
 
 require('dotenv').config();
+const SSC = require('sscjs');
 const axios = require('axios');
 const fs = require('fs');
 
@@ -19,7 +20,6 @@ const CONFIG = {
   ACCOUNT: process.env.HIVE_USERNAME || 'placeholder',
 
   // API endpoints
-  HIVE_ENGINE_API: 'https://engine.rishipanthee.com',
   COINGECKO_API: 'https://api.coingecko.com/api/v3',
 
   // Tokens to track (Van Kush ecosystem)
@@ -37,6 +37,9 @@ const CONFIG = {
   // Report interval (1 hour = 12 updates)
   REPORT_EVERY: 12
 };
+
+// HIVE-Engine API endpoint
+const HIVE_ENGINE_RPC = 'https://api.hive-engine.com/rpc/contracts';
 
 // ========================================
 // DATA STORAGE
@@ -68,7 +71,7 @@ if (fs.existsSync(CONFIG.DATA_FILE)) {
 
 async function getAccountBalances(account) {
   try {
-    const response = await axios.post(`${CONFIG.HIVE_ENGINE_API}/contracts`, {
+    const response = await axios.post(HIVE_ENGINE_RPC, {
       jsonrpc: '2.0',
       id: 1,
       method: 'find',
@@ -76,7 +79,9 @@ async function getAccountBalances(account) {
         contract: 'tokens',
         table: 'balances',
         query: { account: account },
-        limit: 1000
+        limit: 1000,
+        offset: 0,
+        indexes: []
       }
     });
 
@@ -92,7 +97,7 @@ async function getAccountBalances(account) {
 
 async function getTokenMetrics(symbol) {
   try {
-    const response = await axios.post(`${CONFIG.HIVE_ENGINE_API}/contracts`, {
+    const response = await axios.post(HIVE_ENGINE_RPC, {
       jsonrpc: '2.0',
       id: 1,
       method: 'findOne',
