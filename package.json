@@ -11,18 +11,25 @@
     "trade:dev": "node --watch hive-trading-bot.js",
     "scan-tokens": "node hive-token-scanner.js"
   },
-  "keywords": ["discord", "bot", "gemini", "van-kush"],
+  "keywords": [
+    "discord",
+    "bot",
+    "gemini",
+    "van-kush"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.14.1",
     "@google/generative-ai": "^0.21.0",
+    "@hive-engine/sscjs": "^0.0.9",
     "@hiveio/dhive": "^1.2.8",
-    "dotenv": "^16.4.5",
     "axios": "^1.6.5",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
-    "youtube-transcript": "^1.2.1",
+    "sscjs": "^0.0.9",
     "wtf_wikipedia": "^10.3.0",
-    "node-cache": "^5.1.2"
+    "youtube-transcript": "^1.2.1"
   }
 }
