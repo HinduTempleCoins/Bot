@@ -2,7 +2,7 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 import { readFile, writeFile } from 'fs/promises';
 import dhive from '@hiveio/dhive';
-import { isTokenHealthy, getTokenHealth, scanAllTokens } from './hive-token-scanner.js';
+import { isTokenHealthy, getTokenHealth } from './hive-token-scanner.js';
 
 dotenv.config();
 
@@ -305,10 +305,6 @@ async function analyzePortfolio() {
   console.log(`\n\n${'='.repeat(60)}`);
   console.log('📊 ANALYZING PORTFOLIO');
   console.log('='.repeat(60));
-
-  // Scan all tokens first (updates health database)
-  console.log('\n🔍 Scanning token health...');
-  await scanAllTokens();
 
   const balances = await getAllBalances();
 
