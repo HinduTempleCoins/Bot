@@ -250,7 +250,28 @@ async function checkMarketHealth(token) {
   const hasLiquidity = orderBook.bids.length > 0 && orderBook.asks.length > 0;
   const hasVolume = estimatedWeeklyTrades >= WALL_CONFIG.MIN_TRADES_WEEKLY;
 
-  const isAlive = hasLiquidity && hasVolume;
+  // SPECIAL CASE: VKBT/CURE with strong holder base (~1000 holders each)
+  // These tokens are NOT dead - people are holding and waiting for higher prices!
+  // We don't need buy orders (we're CREATING demand), just sell orders to push
+  const isTargetToken = token === 'VKBT' || token === 'CURE';
+  const hasSellOrders = orderBook.asks.length > 0;
+
+  let isAlive, reason;
+
+  if (isTargetToken) {
+    // For VKBT/CURE: If there are sell orders, we can push the price
+    // Don't require buy orders or volume - we're creating the market!
+    isAlive = hasSellOrders;
+    if (isAlive) {
+      reason = hasLiquidity && hasVolume ? 'HEALTHY' : 'READY_TO_PUSH';
+    } else {
+      reason = 'NO_SELL_ORDERS';
+    }
+  } else {
+    // For other tokens: Use normal liquidity + volume checks
+    isAlive = hasLiquidity && hasVolume;
+    reason = isAlive ? 'HEALTHY' : (hasLiquidity ? 'LOW_VOLUME' : 'NO_LIQUIDITY');
+  }
 
   const health = {
     token,
@@ -263,14 +284,17 @@ async function checkMarketHealth(token) {
     askDepth: orderBook.asks.length,
     hasLiquidity,
     hasVolume,
-    reason: isAlive ? 'HEALTHY' : (hasLiquidity ? 'LOW_VOLUME' : 'NO_LIQUIDITY')
+    reason
   };
 
   console.log(`   Is Alive: ${isAlive ? '✅ YES' : '❌ NO'}`);
-  console.log(`   24h Volume: ${volume24h.toFixed(4)} HIVE`);
+  console.log(`   24h Volume: ${volume24h.toFixed(8)} HIVE`);
   console.log(`   Estimated Weekly Trades: ${estimatedWeeklyTrades}`);
   console.log(`   Bid Depth: ${orderBook.bids.length} orders`);
   console.log(`   Ask Depth: ${orderBook.asks.length} orders`);
+  if (isTargetToken) {
+    console.log(`   🎯 Target token: ${hasSellOrders ? 'Ready to push!' : 'Waiting for sell orders'}`);
+  }
 
   return health;
 }
