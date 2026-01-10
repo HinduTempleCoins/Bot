@@ -38,7 +38,7 @@ const CONFIG = {
   CHECK_INTERVAL_MINUTES: 15,
   GIFT_CHECK_INTERVAL_MINUTES: 5,
 
-  DRY_RUN: process.env.PORTFOLIO_DRY_RUN !== 'false', // Default TRUE
+  DRY_RUN: process.env.PORTFOLIO_DRY_RUN === 'true', // Default FALSE (LIVE)
 
   HIVE_PRICE_USD: 0.30
 };
