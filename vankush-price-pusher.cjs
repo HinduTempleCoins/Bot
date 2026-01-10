@@ -50,9 +50,11 @@ const CONFIG = {
 
   // Competitive bidding
   BID_MONITOR_INTERVAL_MINUTES: 5,  // Check order book every 5 minutes
-  BID_INCREMENT_HIVE: 0.00000010,   // Outbid by 0.00000010 HIVE
+  BID_INCREMENT_HIVE: 0.00000010,   // Outbid by 0.00000010 HIVE (tiny increment)
   MAX_BID_ROUNDS: 10,               // Max number of competitive bids per session
-  COMPETITIVE_BID_BUDGET: 0.01,     // Max 0.01 HIVE per competitive bidding session
+  COMPETITIVE_BID_BUDGET: 0.01,     // Max 0.01 HIVE per competitive bidding session (~$0.003 USD)
+  MAX_PRICE_INCREASE_PERCENT: 5,    // Never push price more than 5% higher per session (prevents troll dumps)
+  BID_SESSION_COOLDOWN_HOURS: 6,    // Wait 6h between competitive bidding sessions (patience!)
 
   // Market health
   MIN_TRADES_WEEKLY: 5,             // Market must be alive
@@ -92,7 +94,9 @@ const botState = {
   // Competitive bidding state
   activeBids: {},         // token -> { price, quantity, txId, timestamp }
   lastBidCheck: {},       // token -> timestamp
-  bidRounds: {}           // token -> number of rounds this session
+  bidRounds: {},          // token -> number of rounds this session
+  bidSessionStart: {},    // token -> { startPrice, startTime } for tracking session limits
+  lastBidSession: {}      // token -> timestamp of last bidding session (for 6h cooldown)
 };
 
 // ========================================
@@ -239,18 +243,49 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
   console.log(`\n🎯 COMPETITIVE BIDDING: ${token}`);
   console.log(`   Current price: ${currentPrice.toFixed(8)} HIVE`);
   console.log(`   Target price: ${targetPrice.toFixed(8)} HIVE`);
-  console.log(`   Strategy: Outbid highest buy order, monitor for competition`);
+  console.log(`   Strategy: Gradual outbidding - patient price discovery`);
 
-  // Initialize bid rounds counter if needed
-  if (!botState.bidRounds[token]) {
-    botState.bidRounds[token] = 0;
+  // Check cooldown from last bidding session (prevents troll bot dumps)
+  const lastSession = botState.lastBidSession[token];
+  if (lastSession) {
+    const hoursSince = (Date.now() - lastSession) / (1000 * 60 * 60);
+    if (hoursSince < CONFIG.BID_SESSION_COOLDOWN_HOURS) {
+      console.log(`⏰ Bidding session cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h)`);
+      console.log('   Waiting before starting new session (prevents pushing price too fast)');
+      return false;
+    }
   }
 
-  // Check if we've exceeded max rounds
-  if (botState.bidRounds[token] >= CONFIG.MAX_BID_ROUNDS) {
-    console.log(`⚠️  Max bid rounds (${CONFIG.MAX_BID_ROUNDS}) reached for this session`);
-    console.log('   Resetting counter and waiting for next check interval');
+  // Initialize or reset bidding session tracking
+  if (!botState.bidRounds[token] || botState.bidRounds[token] === 0) {
+    // Starting new session - track starting price
+    botState.bidSessionStart[token] = {
+      startPrice: currentPrice,
+      startTime: Date.now()
+    };
     botState.bidRounds[token] = 0;
+    console.log(`🆕 Starting new competitive bidding session`);
+    console.log(`   Session start price: ${currentPrice.toFixed(8)} HIVE`);
+  }
+
+  // Calculate maximum allowed price for this session (prevents going too high too fast)
+  const sessionStart = botState.bidSessionStart[token];
+  const maxSessionPrice = sessionStart.startPrice * (1 + CONFIG.MAX_PRICE_INCREASE_PERCENT / 100);
+
+  console.log(`📊 Session limits:`);
+  console.log(`   Max price this session: ${maxSessionPrice.toFixed(8)} HIVE (+${CONFIG.MAX_PRICE_INCREASE_PERCENT}% from ${sessionStart.startPrice.toFixed(8)})`);
+  console.log(`   Bid rounds: ${botState.bidRounds[token]}/${CONFIG.MAX_BID_ROUNDS}`);
+
+  // Check if we've exceeded max rounds - end session
+  if (botState.bidRounds[token] >= CONFIG.MAX_BID_ROUNDS) {
+    console.log(`✅ Max bid rounds (${CONFIG.MAX_BID_ROUNDS}) reached - ending session`);
+    console.log(`   Final price: ${currentPrice.toFixed(8)} HIVE (started at ${sessionStart.startPrice.toFixed(8)} HIVE)`);
+    console.log(`   Will resume bidding after ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h cooldown`);
+
+    // Reset for next session
+    botState.bidRounds[token] = 0;
+    botState.lastBidSession[token] = Date.now();
+    delete botState.bidSessionStart[token];
     return false;
   }
 
@@ -260,7 +295,15 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
 
     if (!buyBook || buyBook.length === 0) {
       // No buy orders - place one at current price + increment
-      const bidPrice = currentPrice + CONFIG.BID_INCREMENT_HIVE;
+      let bidPrice = currentPrice + CONFIG.BID_INCREMENT_HIVE;
+
+      // Check session max price limit
+      if (bidPrice > maxSessionPrice) {
+        console.log(`📝 No existing buy orders, but ${bidPrice.toFixed(8)} exceeds session limit ${maxSessionPrice.toFixed(8)} HIVE`);
+        console.log(`   🛡️  Capping at session max to prevent going too high too fast`);
+        bidPrice = maxSessionPrice;
+      }
+
       console.log(`📝 No existing buy orders - placing first bid at ${bidPrice.toFixed(8)} HIVE`);
 
       const quantity = CONFIG.COMPETITIVE_BID_BUDGET / bidPrice;
@@ -306,6 +349,19 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
 
     // Calculate our new bid price (outbid by increment)
     let newBidPrice = highestPrice + CONFIG.BID_INCREMENT_HIVE;
+
+    // Don't bid above session max price (prevents going too high too fast - troll bot protection)
+    if (newBidPrice > maxSessionPrice) {
+      console.log(`⚠️  New bid ${newBidPrice.toFixed(8)} would exceed session limit ${maxSessionPrice.toFixed(8)} HIVE`);
+      console.log(`   🛡️  TROLL BOT PROTECTION: Not raising price more than ${CONFIG.MAX_PRICE_INCREASE_PERCENT}% per session`);
+      console.log(`   Ending session - will resume after ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h cooldown`);
+
+      // End session early - hit price limit
+      botState.bidRounds[token] = 0;
+      botState.lastBidSession[token] = Date.now();
+      delete botState.bidSessionStart[token];
+      return false;
+    }
 
     // Don't bid above target price
     if (newBidPrice > targetPrice) {
