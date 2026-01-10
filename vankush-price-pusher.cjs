@@ -18,6 +18,10 @@ const {
   findBestPushOpportunity,
   WALL_CONFIG
 } = require('./wall-analyzer.cjs');
+const {
+  checkCapitalNeeds,
+  checkTradeableTokens
+} = require('./capital-manager.cjs');
 
 // ========================================
 // CONFIGURATION
@@ -243,6 +247,42 @@ async function processOpportunity() {
     botState.dailyResetTime = Date.now();
   }
 
+  // ========================================
+  // CAPITAL MANAGEMENT CHECK
+  // ========================================
+  console.log('\n💼 Capital Manager: Checking liquidity needs...');
+
+  try {
+    const capitalNeeds = await checkCapitalNeeds(CONFIG.HIVE_USERNAME);
+
+    if (capitalNeeds.recommendation.includes('SELL')) {
+      console.log(`\n⚠️  Capital Manager Recommendation: ${capitalNeeds.recommendation}`);
+      console.log(`   Status: ${capitalNeeds.status} (${capitalNeeds.urgency}% urgency)`);
+      console.log(`   Reason: ${capitalNeeds.reason}`);
+
+      if (capitalNeeds.recommendation === 'SELL_TO_TOP_ORDER') {
+        console.log(`\n💡 Suggested Action: Sell ${capitalNeeds.amount.toFixed(2)} BLURT → ${capitalNeeds.expectedHIVE.toFixed(4)} HIVE`);
+        console.log(`   This will replenish operational funds for price pushing`);
+        // TODO: Implement automated BLURT selling in future update
+      } else if (capitalNeeds.recommendation === 'WAIT_BETTER_PRICE') {
+        console.log(`   BLURT price too low - will attempt to use BBH/POB instead`);
+
+        const tradeableOps = await checkTradeableTokens(CONFIG.HIVE_USERNAME);
+        if (tradeableOps.length > 0) {
+          console.log(`\n📊 Tradeable Token Opportunities:`);
+          tradeableOps.forEach(op => {
+            console.log(`   ${op.symbol}: Sell ${op.sellAmount.toFixed(2)} → ${op.expectedHIVE.toFixed(4)} HIVE`);
+          });
+          console.log(`   Consider selling BBH/POB to fund operations`);
+        }
+      }
+    } else {
+      console.log(`✅ Capital status: ${capitalNeeds.status}`);
+    }
+  } catch (error) {
+    console.error(`⚠️  Capital manager check failed: ${error.message}`);
+  }
+
   // Check budget
   const remainingBudget = CONFIG.MAX_DAILY_BUDGET_HIVE - botState.dailySpent;
   console.log(`\n💰 Budget Status:`);
@@ -260,6 +300,7 @@ async function processOpportunity() {
 
   if (hiveBalance < CONFIG.MICRO_PUSH_HIVE) {
     console.log('⚠️ Insufficient HIVE balance for any push');
+    console.log('💡 Capital Manager suggests selling BLURT/BBH/POB to replenish');
     return;
   }
 
