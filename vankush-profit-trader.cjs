@@ -48,8 +48,8 @@ const CONFIG = {
   MAX_TRADES_PER_HOUR: 4,         // Allow multiple trades per hour
   MAX_TRADES_PER_DAY: 30,         // Higher daily limit (learn and adapt)
 
-  // Dry run mode
-  DRY_RUN: process.env.MM_DRY_RUN === 'true',
+  // Dry run mode (use separate flag from pusher-live)
+  DRY_RUN: process.env.PROFIT_DRY_RUN !== 'false', // Default TRUE (safe)
 
   // HIVE price
   HIVE_PRICE_USD: 0.30
@@ -295,13 +295,26 @@ async function executeProfitTrade(opportunity) {
   console.log(`   Ask: ${opportunity.lowestAsk.toFixed(8)} HIVE`);
 
   if (opportunity.strategy === 'SELL' && opportunity.balance > 1) {
-    // We have tokens - sell them at highest bid
+    // We have tokens - sell at TOP of market (high-value, don't dump)
     const sellQuantity = Math.min(opportunity.balance, 100); // Max 100 tokens
-    const sellPrice = opportunity.highestBid;
+
+    // High-value selling: place at top of market, wait for buyers
+    let sellPrice;
+    if (opportunity.lowestAsk) {
+      // Place at lowest ask or 1% above for priority
+      sellPrice = opportunity.lowestAsk * 1.01;
+      console.log(`📊 Placing at top of asks (${opportunity.lowestAsk.toFixed(8)} HIVE)`);
+    } else {
+      // No sells - place 10% above bid with room to rise
+      sellPrice = opportunity.highestBid * 1.10;
+      console.log(`📊 No asks - creating first sell order`);
+    }
+
     const expectedHIVE = sellQuantity * sellPrice;
 
-    console.log(`📤 Selling ${sellQuantity.toFixed(4)} ${opportunity.token} at ${sellPrice.toFixed(8)} HIVE`);
+    console.log(`📤 HIGH-VALUE SELL: ${sellQuantity.toFixed(4)} ${opportunity.token} at ${sellPrice.toFixed(8)} HIVE`);
     console.log(`   Expected income: ${expectedHIVE.toFixed(4)} HIVE (~$${(expectedHIVE * CONFIG.HIVE_PRICE_USD).toFixed(3)} USD)`);
+    console.log(`   Strategy: Wait for market to come up to us (not dumping!)`);
 
     const result = await sellToken(opportunity.token, sellQuantity, sellPrice);
 
@@ -321,9 +334,10 @@ async function executeProfitTrade(opportunity) {
     }
 
   } else if (opportunity.strategy === 'BUY_THEN_SELL') {
-    // Buy low, then sell high
+    // Buy low, then sell high (HIGH-VALUE, not dumping)
     const buyPrice = opportunity.lowestAsk;
-    const sellPrice = opportunity.highestBid;
+    // High-value selling: place above current asks, not dump to bids
+    const sellPrice = opportunity.lowestAsk * 1.05; // 5% above our buy price
 
     // Calculate quantity based on max trade size
     const buyQuantity = Math.min(
