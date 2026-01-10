@@ -1,0 +1,86 @@
+{
+  "VKBT": [
+    {
+      "symbol": "VKBT",
+      "timestamp": "2026-01-10T07:04:17.590Z",
+      "timestampMs": 1768028657590,
+      "price": {
+        "current": 0.00001,
+        "target": 0.001,
+        "percentToTarget": 9899.999999999998
+      },
+      "supply": {
+        "total": 1930502,
+        "circulating": 1928060.18189379,
+        "maxSupply": 500000000
+      },
+      "holders": {
+        "unique": 986,
+        "micro": 611,
+        "small": 274,
+        "medium": 94,
+        "whales": 7,
+        "distributionScore": 12,
+        "giniCoefficient": 0.9485207578416903,
+        "top10Percent": 53.47032386603744
+      },
+      "wall": {
+        "sellFloor": 0.0007798,
+        "sellDepth": 16,
+        "buyTop": 5e-8,
+        "buyDepth": 3,
+        "costToPush": 2.907828927213784,
+        "costToPushUSD": 0.8723486781641351,
+        "isAffordable": true
+      },
+      "market": {
+        "volume24h": 0.00000251,
+        "estimatedWeeklyTrades": 0,
+        "isAlive": true,
+        "reason": "READY_TO_PUSH"
+      }
+    }
+  ],
+  "CURE": [
+    {
+      "symbol": "CURE",
+      "timestamp": "2026-01-10T07:04:23.116Z",
+      "timestampMs": 1768028663116,
+      "price": {
+        "current": 2e-8,
+        "target": 0.001,
+        "percentToTarget": 4999899.999999999
+      },
+      "supply": {
+        "total": 55572.8,
+        "circulating": 55557.59365456,
+        "maxSupply": 20000000
+      },
+      "holders": {
+        "unique": 999,
+        "micro": 975,
+        "small": 22,
+        "medium": 0,
+        "whales": 2,
+        "distributionScore": 4,
+        "giniCoefficient": 0.9543373039027612,
+        "top10Percent": 64.5229391160064
+      },
+      "wall": {
+        "sellFloor": 555966,
+        "sellDepth": 9,
+        "buyTop": null,
+        "buyDepth": 0,
+        "costToPush": 0,
+        "costToPushUSD": 0,
+        "isAffordable": true
+      },
+      "market": {
+        "volume24h": 1e-8,
+        "estimatedWeeklyTrades": 0,
+        "isAlive": true,
+        "reason": "READY_TO_PUSH"
+      }
+    }
+  ]
+}
