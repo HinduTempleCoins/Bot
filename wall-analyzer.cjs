@@ -16,7 +16,7 @@ const hiveAPI = require('./hive-engine-api.cjs');
 const WALL_CONFIG = {
   // Price targets for VKBT/CURE
   VKBT_TARGET_PRICE: 0.001, // 1:1000 with HIVE (0.001 HIVE per VKBT)
-  CURE_TARGET_PRICE: 0.001, // Same target
+  CURE_TARGET_PRICE: 1.0,   // 1:1 with HIVE minimum (CURE is 34x scarcer than VKBT!)
 
   // Cost thresholds for "cheap" opportunities
   CHEAP_THRESHOLD_USD: 2.00,        // Only buy up wall if costs < $2 USD
