@@ -32,9 +32,12 @@ const CONFIG = {
   MIN_BLURT_BUY_PRICE: 0.0,        // Accept market price (BLURT needs our intervention to rise)
 
   // Token classifications
-  PREMIUM_TOKENS: ['VKBT', 'CURE'], // Strategic selling only
+  PREMIUM_TOKENS: ['VKBT', 'CURE'], // NEVER sell (CURE especially - wait for 1:1 HIVE minimum!)
   FUEL_TOKEN: 'SWAP.BLURT',         // Protected fuel
   TRADEABLE_TOKENS: ['BBH', 'POB'], // Sell freely
+
+  // IMPORTANT: CURE minimum sell price
+  MIN_CURE_SELL_PRICE: 1.0,         // NEVER sell CURE below 1:1 with HIVE (could go MUCH higher!)
 
   // Spending tracking
   SPENDING_WINDOW_HOURS: 24,       // Track spending over 24h
