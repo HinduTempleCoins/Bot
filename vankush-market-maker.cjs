@@ -321,8 +321,54 @@ async function marketMakeToken(symbol) {
 
   // Get order book
   const orderBook = await getOrderBook(symbol);
+
+  // Handle empty order book - place FIRST buy order below lowest sell
   if (orderBook.bids.length === 0) {
-    console.log('⚠️ No buy orders - market too thin');
+    console.log('⚠️ No buy orders - placing FIRST buy order');
+
+    if (orderBook.asks.length === 0) {
+      console.log('   ❌ No sell orders either - market completely dead');
+      return;
+    }
+
+    const lowestAsk = parseFloat(orderBook.asks[0].price);
+    const firstBuyPrice = lowestAsk * 0.95; // Place at 95% of lowest sell
+    const quantity = CONFIG.BUY_WALL_SIZE / firstBuyPrice;
+
+    console.log(`   Lowest Ask: ${lowestAsk.toFixed(8)} ${CONFIG.BASE}`);
+    console.log(`   First Buy Price: ${firstBuyPrice.toFixed(8)} ${CONFIG.BASE} (95% of ask)`);
+    console.log(`   Quantity: ${quantity.toFixed(4)} ${symbol}`);
+
+    const result = await placeBuyOrder(symbol, firstBuyPrice, quantity);
+
+    if (result.success) {
+      state.nudges.push({
+        timestamp: Date.now(),
+        targetPrice: 0,
+        nudgePrice: firstBuyPrice,
+        priceIncrease: 0,
+        quantity,
+        cost: CONFIG.BUY_WALL_SIZE,
+        botAccount: 'none',
+        txId: result.txId,
+        type: 'first_buy'
+      });
+
+      state.lastNudge = Date.now();
+
+      console.log(`✅ FIRST BUY ORDER PLACED - Market started!`);
+
+      await sendDiscordNotification(
+        `🏗️ **First Buy Order - ${symbol}**\n` +
+        `No existing buy orders - starting the market!\n` +
+        `Lowest Ask: ${lowestAsk.toFixed(8)} ${CONFIG.BASE}\n` +
+        `Our Bid: ${firstBuyPrice.toFixed(8)} ${CONFIG.BASE}\n` +
+        `Quantity: ${quantity.toFixed(4)} ${symbol}\n` +
+        `Cost: ${CONFIG.BUY_WALL_SIZE.toFixed(2)} ${CONFIG.BASE}`,
+        0x00ff00
+      );
+    }
+
     return;
   }
 
