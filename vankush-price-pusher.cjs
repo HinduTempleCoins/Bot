@@ -295,42 +295,32 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
     const buyBook = await getBuyBook(token, 10);
 
     if (!buyBook || buyBook.length === 0) {
-      // No buy orders exist - need to check SELL orders to set intelligent initial bid
-      const sellBook = await getSellBook(token, 1);
+      // No buy orders exist - place initial bid using budget and target price from analysis
+      console.log(`📝 No buy orders exist for ${token} - placing initial competitive bid`);
+      console.log(`   Target price: ${targetPrice.toFixed(8)} HIVE`);
+      console.log(`   Budget: ${CONFIG.COMPETITIVE_BID_BUDGET} HIVE per session`);
 
-      if (!sellBook || sellBook.length === 0) {
-        console.log(`⚠️  No buy OR sell orders for ${token} - market may be dead`);
-        return false;
-      }
+      // Place bid well below target to start the competitive bidding
+      // Use a fraction of target price to leave room for gradual increases
+      const initialBidPrice = Math.min(currentPrice * 0.5, targetPrice * 0.1);
+      const quantity = CONFIG.COMPETITIVE_BID_BUDGET / initialBidPrice;
 
-      const lowestAsk = parseFloat(sellBook[0].price);
+      console.log(`   Initial bid: ${initialBidPrice.toFixed(8)} HIVE for ${quantity.toFixed(4)} ${token}`);
+      console.log(`   Total cost: ${CONFIG.COMPETITIVE_BID_BUDGET} HIVE`);
 
-      // Place initial bid at VERY LOW price (way below lowest ask)
-      // This creates the starting point for competitive bidding
-      // User example: 0.00001 HIVE total investment can raise price 69,000%
-      const bidPrice = lowestAsk * 0.001; // 0.1% of lowest ask (VERY low)
-      const totalInvestment = 0.00001; // TINY amount (user's example)
-      const quantity = totalInvestment / bidPrice;
-
-      console.log(`📝 No buy orders exist - placing minimal starting bid`);
-      console.log(`   Lowest sell: ${lowestAsk.toFixed(8)} HIVE`);
-      console.log(`   Our bid: ${bidPrice.toFixed(8)} HIVE (0.1% of sell price)`);
-      console.log(`   Total cost: ${totalInvestment.toFixed(8)} HIVE`);
-      console.log(`   Quantity: ${quantity.toFixed(4)} ${token}`);
-
-      const result = await buyToken(token, quantity, bidPrice);
+      const result = await buyToken(token, quantity, initialBidPrice);
 
       if (result.success) {
-        console.log(`✅ Initial bid placed! TX: ${result.txId}`);
+        console.log(`✅ Initial competitive bid placed! TX: ${result.txId}`);
         botState.activeBids[token] = {
-          price: bidPrice,
+          price: initialBidPrice,
           quantity: quantity,
           txId: result.txId,
           timestamp: Date.now()
         };
         botState.bidRounds[token]++;
-        botState.dailySpent += totalInvestment;
-        botState.totalSpent += totalInvestment;
+        botState.dailySpent += CONFIG.COMPETITIVE_BID_BUDGET;
+        botState.totalSpent += CONFIG.COMPETITIVE_BID_BUDGET;
         return true;
       }
       return false;
