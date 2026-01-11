@@ -295,31 +295,10 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
     const buyBook = await getBuyBook(token, 10);
 
     if (!buyBook || buyBook.length === 0) {
-      // No buy orders - need to place FIRST buy order
-      // Strategy: Start at a reasonable % of target price or below lowest sell
-
-      // Get sell orders to see where sellers are
-      const sellBook = await getSellBook(token, 10);
-      const lowestSell = sellBook && sellBook.length > 0 ? parseFloat(sellBook[0].price) : null;
-
-      let bidPrice;
-      if (lowestSell) {
-        // Place bid at 10-20% of lowest sell (affordable with limited budget)
-        bidPrice = lowestSell * 0.15;
-        console.log(`📝 No buy orders - placing at 15% of lowest sell: ${lowestSell.toFixed(8)} → ${bidPrice.toFixed(8)} HIVE`);
-      } else {
-        // No sells either - start very small
-        bidPrice = 0.001;
-        console.log(`📝 No buy OR sell orders - starting at 0.001 HIVE`);
-      }
-
-      // Check session max price limit
-      if (bidPrice > maxSessionPrice) {
-        console.log(`   🛡️  Capping at session max ${maxSessionPrice.toFixed(8)} HIVE`);
-        bidPrice = maxSessionPrice;
-      }
-
-      console.log(`📝 Placing FIRST buy order at ${bidPrice.toFixed(8)} HIVE`);
+      // No buy orders - place small starting bid to get competitive bidding started
+      // Once others bid, the competitive logic below will take over
+      const bidPrice = 0.00001; // Start very small (1/100th of a penny)
+      console.log(`📝 No buy orders exist - placing minimal starting bid at ${bidPrice.toFixed(8)} HIVE`);
 
       const quantity = CONFIG.COMPETITIVE_BID_BUDGET / bidPrice;
       const result = await buyToken(token, quantity, bidPrice);
