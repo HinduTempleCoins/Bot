@@ -11,19 +11,18 @@ echo "🔄 Pulling latest code..."
 git pull origin claude/update-todos-9iXhF
 
 echo ""
-echo "🛑 Stopping old bots..."
+echo "🛑 Stopping ALL bots (including pusher - it SPENDS money we don't have)..."
 pm2 stop pusher-live 2>/dev/null || true
 pm2 stop portfolio-bot 2>/dev/null || true
 pm2 delete pusher-live 2>/dev/null || true
 pm2 delete portfolio-bot 2>/dev/null || true
 
 echo ""
-echo "🚀 Starting FIXED pusher bot (LIVE)..."
-pm2 start vankush-price-pusher.cjs --name pusher-live
+echo "🚀 Starting ONLY portfolio bot (EARNS money by selling tokens)..."
+pm2 start vankush-portfolio-bot.js --name portfolio-bot
 
 echo ""
-echo "🚀 Starting FIXED portfolio bot (LIVE)..."
-pm2 start vankush-portfolio-bot.js --name portfolio-bot
+echo "⚠️  NOT starting pusher bot - it spends capital we don't have yet"
 
 echo ""
 echo "💾 Saving PM2 config..."
