@@ -295,12 +295,29 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
     const buyBook = await getBuyBook(token, 10);
 
     if (!buyBook || buyBook.length === 0) {
-      // No buy orders - place small starting bid to get competitive bidding started
-      // Once others bid, the competitive logic below will take over
-      const bidPrice = 0.00001; // Start very small (1/100th of a penny)
-      console.log(`📝 No buy orders exist - placing minimal starting bid at ${bidPrice.toFixed(8)} HIVE`);
+      // No buy orders exist - need to check SELL orders to set intelligent initial bid
+      const sellBook = await getSellBook(token, 1);
 
-      const quantity = CONFIG.COMPETITIVE_BID_BUDGET / bidPrice;
+      if (!sellBook || sellBook.length === 0) {
+        console.log(`⚠️  No buy OR sell orders for ${token} - market may be dead`);
+        return false;
+      }
+
+      const lowestAsk = parseFloat(sellBook[0].price);
+
+      // Place initial bid at VERY LOW price (way below lowest ask)
+      // This creates the starting point for competitive bidding
+      // User example: 0.00001 HIVE total investment can raise price 69,000%
+      const bidPrice = lowestAsk * 0.001; // 0.1% of lowest ask (VERY low)
+      const totalInvestment = 0.00001; // TINY amount (user's example)
+      const quantity = totalInvestment / bidPrice;
+
+      console.log(`📝 No buy orders exist - placing minimal starting bid`);
+      console.log(`   Lowest sell: ${lowestAsk.toFixed(8)} HIVE`);
+      console.log(`   Our bid: ${bidPrice.toFixed(8)} HIVE (0.1% of sell price)`);
+      console.log(`   Total cost: ${totalInvestment.toFixed(8)} HIVE`);
+      console.log(`   Quantity: ${quantity.toFixed(4)} ${token}`);
+
       const result = await buyToken(token, quantity, bidPrice);
 
       if (result.success) {
@@ -312,8 +329,8 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
           timestamp: Date.now()
         };
         botState.bidRounds[token]++;
-        botState.dailySpent += CONFIG.COMPETITIVE_BID_BUDGET;
-        botState.totalSpent += CONFIG.COMPETITIVE_BID_BUDGET;
+        botState.dailySpent += totalInvestment;
+        botState.totalSpent += totalInvestment;
         return true;
       }
       return false;
