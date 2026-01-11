@@ -53,13 +53,15 @@ echo "🔧 DEPLOYMENT OPTIONS:"
 echo "=================================="
 echo ""
 echo "1. Portfolio Tracker (Read-only, safe to start)"
-echo "2. Price Pusher (DRY RUN - no real trades)"
-echo "3. Price Pusher (LIVE - real trades!)"
-echo "4. HIVE Content Bot (Daily VKBT/CURE posts + tips)"
-echo "5. All bots (Portfolio + Price Pusher + Content)"
-echo "6. Test bots (run once, no PM2)"
+echo "2. Market Maker with Dance Strategy (DRY RUN)"
+echo "3. Market Maker with Dance Strategy (LIVE - competes with bots!)"
+echo "4. Price Pusher (DRY RUN - no real trades)"
+echo "5. Price Pusher (LIVE - real trades!)"
+echo "6. HIVE Content Bot (Daily VKBT/CURE posts + tips)"
+echo "7. All bots (Portfolio + Market Maker + Content)"
+echo "8. Test bots (run once, no PM2)"
 echo ""
-read -p "Choose option (1-6): " OPTION
+read -p "Choose option (1-8): " OPTION
 
 case $OPTION in
     1)
@@ -72,6 +74,72 @@ case $OPTION in
         ;;
 
     2)
+        echo ""
+        echo "💎 Deploying Market Maker (DRY RUN)..."
+        echo "   Strategy: Competitive 'dance' with other bots"
+        echo "   Places orders above competing bots every 15-60min"
+        echo ""
+
+        # Ensure dry run is enabled
+        if ! grep -q "MM_DRY_RUN=true" .env; then
+            echo "⚠️  Setting MM_DRY_RUN=true in .env..."
+            if grep -q "MM_DRY_RUN=" .env; then
+                sed -i 's/MM_DRY_RUN=.*/MM_DRY_RUN=true/' .env
+            else
+                echo "MM_DRY_RUN=true" >> .env
+            fi
+        fi
+
+        # Set 15-minute interval for the dance
+        if ! grep -q "MM_NUDGE_INTERVAL=" .env; then
+            echo "MM_NUDGE_INTERVAL=900000" >> .env
+            echo "ℹ️  Set dance interval to 15 minutes"
+        fi
+
+        pm2 start vankush-market-maker.cjs --name market-maker-dry
+        pm2 save
+        echo "✅ Market Maker started in DRY RUN mode!"
+        echo "   View logs: pm2 logs market-maker-dry"
+        echo "   💡 Bot will detect competing bots and place orders above them"
+        echo "   ⚠️  Watch for 24 hours before enabling live trading!"
+        ;;
+
+    3)
+        echo ""
+        echo "💎 Deploying Market Maker (LIVE TRADING)..."
+        echo "   Strategy: Competitive 'dance' with other bots"
+        echo "⚠️  WARNING: This will spend real HIVE competing with bots!"
+        echo ""
+        read -p "Are you sure? Type 'YES' to continue: " CONFIRM
+
+        if [ "$CONFIRM" != "YES" ]; then
+            echo "❌ Deployment cancelled"
+            exit 0
+        fi
+
+        # Set dry run to false
+        if grep -q "MM_DRY_RUN=" .env; then
+            sed -i 's/MM_DRY_RUN=.*/MM_DRY_RUN=false/' .env
+        else
+            echo "MM_DRY_RUN=false" >> .env
+        fi
+
+        # Set 15-minute interval for the dance
+        if ! grep -q "MM_NUDGE_INTERVAL=" .env; then
+            echo "MM_NUDGE_INTERVAL=900000" >> .env
+            echo "ℹ️  Set dance interval to 15 minutes"
+        fi
+
+        pm2 start vankush-market-maker.cjs --name market-maker-live
+        pm2 save
+        echo "✅ Market Maker started in LIVE mode!"
+        echo "   View logs: pm2 logs market-maker-live"
+        echo "   💎 Every 15 min: Detect bots → Place order above them → Force competition"
+        echo "   🎯 Goal: Raise VKBT/CURE to 1:1 with HIVE"
+        echo "   💰 Check logs to see bot detection and dance execution"
+        ;;
+
+    4)
         echo ""
         echo "🔒 Deploying Price Pusher (DRY RUN)..."
 
@@ -92,7 +160,7 @@ case $OPTION in
         echo "   ⚠️  Watch for 24 hours before enabling live trading!"
         ;;
 
-    3)
+    5)
         echo ""
         echo "⚡ Deploying Price Pusher (LIVE TRADING)..."
         echo "⚠️  WARNING: This will spend real HIVE!"
@@ -118,7 +186,7 @@ case $OPTION in
         echo "   💰 Budget: Check .env for MAX_DAILY_BUDGET_HIVE"
         ;;
 
-    4)
+    6)
         echo ""
         echo "📝 Deploying HIVE Content Bot..."
 
