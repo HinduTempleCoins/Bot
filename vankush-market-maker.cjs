@@ -332,11 +332,11 @@ async function marketMakeToken(symbol) {
     }
 
     const lowestAsk = parseFloat(orderBook.asks[0].price);
-    const firstBuyPrice = lowestAsk * 0.95; // Place at 95% of lowest sell
+    const firstBuyPrice = lowestAsk * 0.05; // Place at 5% of lowest sell
     const quantity = CONFIG.BUY_WALL_SIZE / firstBuyPrice;
 
     console.log(`   Lowest Ask: ${lowestAsk.toFixed(8)} ${CONFIG.BASE}`);
-    console.log(`   First Buy Price: ${firstBuyPrice.toFixed(8)} ${CONFIG.BASE} (95% of ask)`);
+    console.log(`   First Buy Price: ${firstBuyPrice.toFixed(8)} ${CONFIG.BASE} (5% of ask)`);
     console.log(`   Quantity: ${quantity.toFixed(4)} ${symbol}`);
 
     const result = await placeBuyOrder(symbol, firstBuyPrice, quantity);
