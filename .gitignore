@@ -1,0 +1,25 @@
+# Environment variables
+.env
+
+# Datasets (may contain sensitive info from conversations)
+datasets/
+*.jsonl
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
