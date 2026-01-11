@@ -674,7 +674,8 @@ async function calculateInvestmentROI(symbol, investmentHIVE) {
 }
 
 async function raiseVKBTCUREPrices() {
-  // Simple: When bot has earned money, use it to RAISE VKBT/CURE prices
+  // When bot has earned money, use it to RAISE VKBT/CURE prices
+  // BUT check for troll bots and dump risk first!
   const availableProfit = botState.totalProfitHIVE * (CONFIG.PROFIT_ALLOCATION_PERCENT / 100);
 
   if (availableProfit < CONFIG.MIN_PROFIT_BEFORE_INVESTMENT) {
@@ -682,33 +683,43 @@ async function raiseVKBTCUREPrices() {
     return;
   }
 
-  console.log(`\n💎 RAISING VKBT/CURE PRICES`);
+  console.log(`\n💎 RAISING VKBT/CURE PRICES (WITH TROLL BOT PROTECTION)`);
   console.log('='.repeat(60));
-  console.log(`Using ${availableProfit.toFixed(4)} HIVE from trading profits`);
+  console.log(`Available profit: ${availableProfit.toFixed(4)} HIVE`);
 
   // Split investment between VKBT and CURE
   const perToken = availableProfit / 2;
 
   for (const symbol of ['VKBT', 'CURE']) {
-    console.log(`\n🚀 Raising ${symbol} price...`);
+    console.log(`\n🚀 Analyzing ${symbol} price raise...`);
 
-    // Get sell book and buy it up to raise price
-    const impact = await calculatePriceImpact(symbol, perToken);
+    // FULL ANALYSIS - check dump risk, ROI, troll bots
+    const analysis = await calculateInvestmentROI(symbol, perToken);
 
-    if (!impact) {
-      console.log(`   ❌ No sell orders for ${symbol}`);
+    if (!analysis) {
+      console.log(`   ❌ Cannot analyze ${symbol} - skipping`);
       continue;
     }
 
+    // Check if it's safe to invest (dump risk check)
+    if (!analysis.shouldInvest) {
+      console.log(`   ⚠️  Skipping ${symbol} - analysis says not safe right now`);
+      continue;
+    }
+
+    console.log(`\n✅ ${symbol} looks safe to raise:`);
     console.log(`   Investment: ${perToken.toFixed(4)} HIVE`);
-    console.log(`   Will raise price from ${impact.startPrice.toFixed(8)} → ${impact.finalPrice.toFixed(8)} HIVE`);
-    console.log(`   Price increase: ${impact.priceIncrease.toFixed(2)}%`);
+    console.log(`   Price increase: ${analysis.impact.priceIncrease.toFixed(2)}%`);
+    console.log(`   Dump risk: ${analysis.dumpRisk.dumpRiskPercent}% (acceptable)`);
+    console.log(`   Expected ROI: ${analysis.roi.toFixed(2)}%`);
 
     // Buy up the sell wall
+    const impact = analysis.impact;
     const result = await buyToken(symbol, impact.tokensBought, impact.finalPrice);
 
     if (result.success) {
       console.log(`   ✅ ${symbol} price raised! TX: ${result.txId}`);
+      console.log(`   Price went from ${impact.startPrice.toFixed(8)} → ${impact.finalPrice.toFixed(8)} HIVE`);
 
       // Track investment
       if (symbol === 'VKBT') {
@@ -716,11 +727,12 @@ async function raiseVKBTCUREPrices() {
       } else {
         botState.profitsInvestedInCURE += perToken;
       }
+
+      // Deduct from total profit (we've spent it)
+      botState.totalProfitHIVE -= perToken;
     }
   }
 
-  // Deduct from total profit (we've spent it)
-  botState.totalProfitHIVE -= availableProfit;
   await saveState();
 }
 
