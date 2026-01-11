@@ -555,52 +555,88 @@ async function calculatePriceImpact(symbol, investmentHIVE) {
 }
 
 async function estimateDumpRisk(symbol) {
-  // Get holder distribution
+  // Dump risk is about TOTAL SUPPLY, not who owns it
+  // If too many tokens exist, we can't buy enough to move the price
+  // CURE: Rare, makes less per day than Bitcoin → Safe
+  // VKBT: Good tokenomics → Safe
+  // POB: Tons of tokens exist → Not safe (can't buy enough)
+
   try {
-    const response = await axios.post(HIVE_ENGINE_RPC, {
+    // Get token info (circulating supply, inflation)
+    const tokenResponse = await axios.post(HIVE_ENGINE_RPC, {
       jsonrpc: '2.0',
       id: 1,
       method: 'find',
       params: {
         contract: 'tokens',
-        table: 'balances',
+        table: 'tokens',
         query: { symbol },
-        limit: 1000,
-        indexes: [{ index: 'balance', descending: true }]
+        limit: 1
       }
     });
 
-    const holders = response.data.result || [];
-    const totalSupply = holders.reduce((sum, h) => sum + parseFloat(h.balance || 0), 0);
-
-    // Analyze holder concentration
-    const top10Holdings = holders.slice(0, 10).reduce((sum, h) => sum + parseFloat(h.balance || 0), 0);
-    const top10Percent = (top10Holdings / totalSupply) * 100;
-
-    // High concentration = high dump risk
-    // If top 10 holders own >70%, dump risk is very high
-    let dumpRiskPercent = 0;
-
-    if (top10Percent > 70) {
-      dumpRiskPercent = 80; // Very high risk
-    } else if (top10Percent > 50) {
-      dumpRiskPercent = 50; // High risk
-    } else if (top10Percent > 30) {
-      dumpRiskPercent = 25; // Moderate risk
-    } else {
-      dumpRiskPercent = 10; // Low risk - distributed ownership
+    const tokenInfo = tokenResponse.data.result?.[0];
+    if (!tokenInfo) {
+      return { dumpRiskPercent: 100, analysis: 'Unknown token' };
     }
 
+    const circulatingSupply = parseFloat(tokenInfo.circulatingSupply || 0);
+    const maxSupply = parseFloat(tokenInfo.maxSupply || circulatingSupply);
+
+    // Get market info to see how liquid it is
+    const marketResponse = await axios.post(HIVE_ENGINE_RPC, {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'find',
+      params: {
+        contract: 'market',
+        table: 'metrics',
+        query: { symbol },
+        limit: 1
+      }
+    });
+
+    const marketInfo = marketResponse.data.result?.[0];
+    const volume = parseFloat(marketInfo?.volume || 0);
+
+    // Calculate dump risk based on TOTAL SUPPLY
+    // If circulating supply is huge, dump risk is high (too many tokens can dump)
+    // If circulating supply is small, dump risk is low (scarce = good tokenomics)
+
+    let dumpRiskPercent = 0;
+
+    if (circulatingSupply > 10000000) {
+      // More than 10M tokens circulating = HIGH RISK (like POB)
+      dumpRiskPercent = 80;
+    } else if (circulatingSupply > 1000000) {
+      // 1M-10M tokens = MODERATE RISK
+      dumpRiskPercent = 50;
+    } else if (circulatingSupply > 100000) {
+      // 100K-1M tokens = LOW-MODERATE RISK
+      dumpRiskPercent = 25;
+    } else {
+      // Less than 100K tokens = LOW RISK (scarce, good tokenomics)
+      dumpRiskPercent = 10;
+    }
+
+    // Adjust for volume - if high volume, people are actively trading (more dump risk)
+    if (volume > 100) {
+      dumpRiskPercent = Math.min(100, dumpRiskPercent + 10);
+    }
+
+    const analysis = dumpRiskPercent > CONFIG.MAX_DUMP_RISK_PERCENT
+      ? `❌ TOO RISKY: ${circulatingSupply.toLocaleString()} tokens exist (too many to move price)`
+      : `✅ GOOD TOKENOMICS: ${circulatingSupply.toLocaleString()} tokens (scarce enough to raise price)`;
+
     return {
-      totalHolders: holders.length,
-      top10Percent,
+      circulatingSupply,
+      maxSupply,
+      volume,
       dumpRiskPercent,
-      analysis: dumpRiskPercent > CONFIG.MAX_DUMP_RISK_PERCENT
-        ? `❌ TOO RISKY: Top 10 holders own ${top10Percent.toFixed(1)}%`
-        : `✅ ACCEPTABLE: Top 10 holders own ${top10Percent.toFixed(1)}%`
+      analysis
     };
   } catch (error) {
-    console.error('❌ Error analyzing holders:', error.message);
+    console.error('❌ Error analyzing supply:', error.message);
     return { dumpRiskPercent: 100, analysis: 'Unknown - assume max risk' };
   }
 }
@@ -622,12 +658,12 @@ async function calculateInvestmentROI(symbol, investmentHIVE) {
   console.log(`   Price increase: ${impact.priceIncrease.toFixed(2)}%`);
   console.log(`   Tokens acquired: ${impact.tokensBought.toFixed(4)} ${symbol}`);
 
-  // 2. Analyze dump risk
+  // 2. Analyze dump risk (based on total supply, not holder concentration)
   const dumpRisk = await estimateDumpRisk(symbol);
-  console.log(`\n⚠️  Dump Risk Analysis:`);
-  console.log(`   Total holders: ${dumpRisk.totalHolders}`);
+  console.log(`\n⚠️  Dump Risk Analysis (Tokenomics):`);
+  console.log(`   Circulating supply: ${dumpRisk.circulatingSupply?.toLocaleString() || 'Unknown'}`);
   console.log(`   ${dumpRisk.analysis}`);
-  console.log(`   Estimated dump risk: ${dumpRisk.dumpRiskPercent}%`);
+  console.log(`   Dump risk: ${dumpRisk.dumpRiskPercent}%`);
 
   // 3. Calculate potential profit/loss
   // Assume: after pump, some holders dump, price settles at X% above start
