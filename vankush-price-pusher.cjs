@@ -166,6 +166,64 @@ async function buyToken(token, quantity, price) {
 }
 
 // ========================================
+// SELL TOKEN (for profit/capital management)
+// ========================================
+
+async function sellToken(token, quantity, price) {
+  if (!CONFIG.HIVE_ACTIVE_KEY) {
+    throw new Error('HIVE_ACTIVE_KEY not configured');
+  }
+
+  const key = dhive.PrivateKey.fromString(CONFIG.HIVE_ACTIVE_KEY);
+
+  const json = {
+    contractName: 'market',
+    contractAction: 'sell',
+    contractPayload: {
+      symbol: token,
+      quantity: quantity.toString(),
+      price: price.toString()
+    }
+  };
+
+  if (CONFIG.DRY_RUN) {
+    console.log('🔒 DRY RUN - Would execute sell:');
+    console.log(JSON.stringify(json, null, 2));
+    return {
+      success: true,
+      txId: 'DRY_RUN_SELL_' + Date.now(),
+      dryRun: true
+    };
+  }
+
+  try {
+    const op = [
+      'custom_json',
+      {
+        required_auths: [CONFIG.HIVE_USERNAME],
+        required_posting_auths: [],
+        id: 'ssc-mainnet-hive',
+        json: JSON.stringify(json)
+      }
+    ];
+
+    const result = await client.broadcast.sendOperations([op], key);
+
+    return {
+      success: true,
+      txId: result.id,
+      dryRun: false
+    };
+  } catch (error) {
+    console.error('❌ Sell order failed:', error.message);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+// ========================================
 // PRICE PUSHING LOGIC
 // ========================================
 
