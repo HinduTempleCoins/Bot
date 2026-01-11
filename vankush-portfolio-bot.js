@@ -446,22 +446,12 @@ async function analyzePortfolio() {
       continue;
     }
 
-    // ECONOMIC DECISION: Compare staking vs trading returns
-    const decision = await shouldStakeOrTrade(symbol, qty);
-
-    console.log(`\n      💡 DECISION: ${decision.action}`);
-    console.log(`      📋 Reason: ${decision.reason}`);
-
-    if (decision.action === 'TRADE' && qty > 0) {
-      console.log(`      🎯 Placing sell orders for profit...`);
+    // Simple logic: SELL tokens to generate capital
+    if (qty > 0) {
+      console.log(`      💰 SELLING to generate HIVE capital...`);
       await sellForProfit(symbol, qty);
-    } else if (decision.action === 'STAKE') {
-      console.log(`      ✅ KEEPING for staking - better returns`);
-      if (!botState.stakedTokens.includes(symbol)) {
-        botState.stakedTokens.push(symbol);
-      }
     } else {
-      console.log(`      ⏸️  HOLD - monitoring for opportunities`);
+      console.log(`      ⏸️  No liquid balance to sell`);
     }
   }
 
