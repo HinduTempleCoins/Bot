@@ -298,12 +298,133 @@ async function sellGiftForCapital(gift) {
 }
 
 // ========================================
+// HIVE.BLOG PROJECT ACTIVITY
+// ========================================
+
+async function checkHiveBlogActivity(symbol) {
+  try {
+    // Query Hive.blog for posts tagged with token symbol (last 7 days)
+    const posts = await client.database.getDiscussions('created', {
+      tag: symbol.toLowerCase(),
+      limit: 100
+    });
+
+    const weekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+    const recentPosts = posts.filter(p => new Date(p.created).getTime() > weekAgo);
+
+    return {
+      postsLast7Days: recentPosts.length,
+      totalEngagement: recentPosts.reduce((sum, p) => sum + p.net_votes + p.children, 0),
+      activityScore: Math.min(100, recentPosts.length * 10) // 10 posts/week = 100 score
+    };
+  } catch (error) {
+    console.error(`Error checking Hive.blog activity for ${symbol}:`, error.message);
+    return { postsLast7Days: 0, totalEngagement: 0, activityScore: 0 };
+  }
+}
+
+// ========================================
+// ECONOMIC CALCULATIONS
+// ========================================
+
+async function calculateTradingPotential(symbol) {
+  const health = getTokenHealth(symbol);
+
+  if (!health || !health.metrics) {
+    return { potential: 0, reason: 'No market data' };
+  }
+
+  const { volume24h, lastPrice, trades24h } = health.metrics;
+
+  // Trading profit potential = volume × volatility opportunity
+  // Higher volume + active trading = more profit potential
+  if (!volume24h || volume24h === 0) {
+    return { potential: 0, reason: 'No trading volume' };
+  }
+
+  // Estimate monthly trading potential (conservative 2% per trade, 1 trade/day)
+  const monthlyTradingPotential = (volume24h * 0.02) * 30;
+
+  return {
+    potential: monthlyTradingPotential,
+    volume24h,
+    trades24h,
+    reason: `${trades24h} trades/day, ${volume24h.toFixed(4)} HIVE volume`
+  };
+}
+
+async function estimateStakingReturns(symbol, projectActivity) {
+  // Staking returns based on project activity
+  // Active projects = curation rewards + token appreciation
+  // Inactive projects = 0 returns (dead stake)
+
+  const { postsLast7Days, totalEngagement, activityScore } = projectActivity;
+
+  if (activityScore === 0) {
+    return { potential: 0, reason: 'No project activity' };
+  }
+
+  // Estimate monthly staking returns
+  // High activity (100 score) = ~5% monthly from curation + appreciation
+  // Medium activity (50 score) = ~2.5% monthly
+  // Low activity (20 score) = ~1% monthly
+  const monthlyStakingPotential = (activityScore / 100) * 0.05;
+
+  return {
+    potential: monthlyStakingPotential,
+    postsLast7Days,
+    totalEngagement,
+    activityScore,
+    reason: `${postsLast7Days} posts/week, ${activityScore} activity score`
+  };
+}
+
+async function shouldStakeOrTrade(symbol, quantity) {
+  console.log(`\n      🧮 Economic analysis for ${symbol}...`);
+
+  // 1. Check project activity
+  const projectActivity = await checkHiveBlogActivity(symbol);
+  console.log(`      📝 Project activity: ${projectActivity.postsLast7Days} posts/week (score: ${projectActivity.activityScore})`);
+
+  // 2. Calculate trading potential
+  const tradingData = await calculateTradingPotential(symbol);
+  console.log(`      📈 Trading potential: ${tradingData.potential.toFixed(4)} HIVE/month (${tradingData.reason})`);
+
+  // 3. Calculate staking returns
+  const stakingData = await estimateStakingReturns(symbol, projectActivity);
+  console.log(`      💎 Staking potential: ${stakingData.potential.toFixed(4)} HIVE/month (${stakingData.reason})`);
+
+  // 4. Compare and decide
+  if (tradingData.potential === 0 && stakingData.potential === 0) {
+    return { action: 'HOLD', reason: 'Dead token - no trading or staking value' };
+  }
+
+  if (tradingData.potential > stakingData.potential) {
+    const advantage = ((tradingData.potential - stakingData.potential) / Math.max(stakingData.potential, 0.0001) * 100).toFixed(1);
+    return {
+      action: 'TRADE',
+      reason: `Trading returns ${advantage}% higher than staking`,
+      tradingPotential: tradingData.potential,
+      stakingPotential: stakingData.potential
+    };
+  } else {
+    const advantage = ((stakingData.potential - tradingData.potential) / Math.max(tradingData.potential, 0.0001) * 100).toFixed(1);
+    return {
+      action: 'STAKE',
+      reason: `Staking returns ${advantage}% higher than trading`,
+      tradingPotential: tradingData.potential,
+      stakingPotential: stakingData.potential
+    };
+  }
+}
+
+// ========================================
 // PORTFOLIO ANALYSIS
 // ========================================
 
 async function analyzePortfolio() {
   console.log(`\n\n${'='.repeat(60)}`);
-  console.log('📊 ANALYZING PORTFOLIO');
+  console.log('📊 ANALYZING PORTFOLIO - ECONOMIC OPTIMIZER');
   console.log('='.repeat(60));
 
   const balances = await getAllBalances();
@@ -325,29 +446,22 @@ async function analyzePortfolio() {
       continue;
     }
 
-    // Check health using EXISTING scanner
-    const health = getTokenHealth(symbol);
+    // ECONOMIC DECISION: Compare staking vs trading returns
+    const decision = await shouldStakeOrTrade(symbol, qty);
 
-    if (!health) {
-      console.log(`      ⚠️  No health data - needs scan`);
-      continue;
-    }
+    console.log(`\n      💡 DECISION: ${decision.action}`);
+    console.log(`      📋 Reason: ${decision.reason}`);
 
-    const healthy = isTokenHealthy(symbol);
-
-    console.log(`      📊 Health: ${health.healthStatus.toUpperCase()} (Score: ${health.healthScore}/100)`);
-
-    if (healthy) {
-      console.log(`      ✅ STAKE: Healthy project`);
+    if (decision.action === 'TRADE' && qty > 0) {
+      console.log(`      🎯 Placing sell orders for profit...`);
+      await sellForProfit(symbol, qty);
+    } else if (decision.action === 'STAKE') {
+      console.log(`      ✅ KEEPING for staking - better returns`);
       if (!botState.stakedTokens.includes(symbol)) {
         botState.stakedTokens.push(symbol);
       }
     } else {
-      console.log(`      📤 SELL: ${health.issues.join(', ')}`);
-
-      if (qty > 0) {
-        await sellUnhealthyToken(symbol, qty);
-      }
+      console.log(`      ⏸️  HOLD - monitoring for opportunities`);
     }
   }
 
@@ -356,42 +470,62 @@ async function analyzePortfolio() {
   console.log(`\n\n${'='.repeat(60)}`);
   console.log('📊 PORTFOLIO SUMMARY');
   console.log('='.repeat(60));
-  console.log(`   Staked (healthy): ${botState.stakedTokens.join(', ')}`);
+  console.log(`   Staked (high returns): ${botState.stakedTokens.join(', ') || 'none'}`);
   console.log(`   Total capital generated: ${botState.totalCapital.toFixed(4)} HIVE`);
   console.log('='.repeat(60));
 }
 
-async function sellUnhealthyToken(symbol, quantity) {
-  console.log(`\n      💰 Selling unhealthy token...`);
+async function sellForProfit(symbol, quantity) {
+  console.log(`\n      💰 Placing sell orders for trading profit...`);
 
   const orderBook = await getOrderBook(symbol);
 
-  if (!orderBook.bids || orderBook.bids.length === 0) {
-    console.log(`      ⚠️  No buyers - will try later`);
-    return;
-  }
-
-  // High-value selling
+  // High-value selling strategy - place orders even if no buyers
   let sellPrice;
 
   if (orderBook.asks && orderBook.asks.length > 0) {
+    // Match or slightly beat lowest ask for priority
     const lowestAsk = parseFloat(orderBook.asks[0].price);
-    sellPrice = lowestAsk * 1.01;
-  } else {
+    sellPrice = lowestAsk * 0.99; // 1% below to ensure we're cheapest
+    console.log(`      📊 Undercutting lowest ask: ${lowestAsk.toFixed(8)} → ${sellPrice.toFixed(8)} HIVE`);
+  } else if (orderBook.bids && orderBook.bids.length > 0) {
+    // No asks - place above highest bid
     const highestBid = parseFloat(orderBook.bids[0].price);
-    sellPrice = highestBid * 1.10;
+    sellPrice = highestBid * 1.10; // 10% above bid
+    console.log(`      📊 Placing above bid: ${highestBid.toFixed(8)} → ${sellPrice.toFixed(8)} HIVE`);
+  } else {
+    // No market at all - use health scanner last price
+    const health = getTokenHealth(symbol);
+    if (health && health.metrics && health.metrics.lastPrice) {
+      sellPrice = health.metrics.lastPrice;
+      console.log(`      📊 No market - using last price: ${sellPrice.toFixed(8)} HIVE`);
+    } else {
+      console.log(`      ⚠️  Cannot determine price - skipping`);
+      return;
+    }
   }
 
   const expectedRevenue = quantity * sellPrice;
 
   console.log(`      💎 Selling ${quantity.toFixed(4)} ${symbol} at ${sellPrice.toFixed(8)} HIVE`);
   console.log(`      💰 Expected: ${expectedRevenue.toFixed(4)} HIVE`);
+  console.log(`      ⏰ Strategy: High-value selling - wait for buyers to come up`);
 
   const result = await sellToken(symbol, quantity, sellPrice);
 
   if (result.success) {
     console.log(`      ✅ Order placed! TX: ${result.txId}`);
     botState.totalCapital += expectedRevenue;
+    botState.soldTokens.push({
+      symbol,
+      quantity,
+      price: sellPrice,
+      expectedRevenue,
+      timestamp: Date.now(),
+      txId: result.txId
+    });
+  } else {
+    console.log(`      ❌ Failed: ${result.error}`);
   }
 }
 
