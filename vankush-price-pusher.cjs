@@ -304,13 +304,13 @@ async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
 
       let bidPrice;
       if (lowestSell) {
-        // Place bid at 95% of lowest sell (just below sellers - creates small spread)
-        bidPrice = lowestSell * 0.95;
-        console.log(`📝 No buy orders - placing at 95% of lowest sell: ${lowestSell.toFixed(8)} → ${bidPrice.toFixed(8)} HIVE`);
+        // Place bid at 99% of lowest sell (tight spread - supports price)
+        bidPrice = lowestSell * 0.99;
+        console.log(`📝 No buy orders - placing at 99% of lowest sell: ${lowestSell.toFixed(8)} → ${bidPrice.toFixed(8)} HIVE`);
       } else {
-        // No sells either - start at 50% of target price
-        bidPrice = targetPrice * 0.50;
-        console.log(`📝 No buy OR sell orders - starting at 50% of target: ${targetPrice.toFixed(8)} → ${bidPrice.toFixed(8)} HIVE`);
+        // No sells either - start at 90% of target price (aggressive support)
+        bidPrice = targetPrice * 0.90;
+        console.log(`📝 No buy OR sell orders - starting at 90% of target: ${targetPrice.toFixed(8)} → ${bidPrice.toFixed(8)} HIVE`);
       }
 
       // Check session max price limit
