@@ -1,0 +1,460 @@
+{
+  "shulgin_ten_essential_oils": {
+    "document_info": {
+      "title": "Shulgin's Ten Essential Oils: Complete Framework",
+      "subtitle": "Systematic Catalog of Psychoactive Plant Sources and Their Metabolic Pathways",
+      "source": "Dr. Alexander Shulgin's original research, expanded with modern findings",
+      "core_theory": "Adding ammonia to any of these natural product oils produces, in principle, [the corresponding amphetamine]",
+      "modern_correction": "The 'ammonia addition' doesn't happen as simply as Shulgin theorized in 1963. Instead: liver enzymes create 1'-oxo intermediates, these condense with endogenous amines (not ammonia), products are aminopropiophenones NOT amphetamines. But the basic principle holds: essential oils → psychoactive metabolites",
+      "framework_importance": [
+        "A systematic catalog of psychoactive plant sources",
+        "Structural understanding of which plants work",
+        "Prediction of relative potencies",
+        "Foundation for oilahuasca theory"
+      ]
+    },
+
+    "category_1_4_methoxy": {
+      "category_name": "4-Methoxy Pattern",
+      "essential_oil": "Estragole (4-allylanisole, methylchavicol)",
+      "shulgin_description": "The pivotal essential oil is 4-allylanisole, or methyl chavicol, or estragole. This allyl compound is found in turpentine, anise, fennel, bay, tarragon, and basil. Its smell is light, and reminiscent of fennel.",
+      "plant_sources": {
+        "basil": {"content": "70-85% of essential oil", "latin": "Ocimum basilicum"},
+        "fennel": {"content": "5-10% of essential oil", "latin": "Foeniculum vulgare"},
+        "tarragon": {"content": "major component", "latin": "Artemisia dracunculus"},
+        "anise": {"content": "some varieties", "latin": "Pimpinella anisum"},
+        "bay_laurel": {"content": "minor component", "latin": "Laurus nobilis"}
+      },
+      "propenyl_isomer": {
+        "name": "Anethole (anise camphor)",
+        "description": "The propenyl analogue is called anethole. It is a waxy solid with very intense smell of anise or fennel. At low concentrations, it is sweet, as in magnolia blossoms.",
+        "critical_difference": {
+          "estragole_allyl": "Benzene-CH2-CH=CH2 → CAN form aminopropiophenones",
+          "anethole_propenyl": "Benzene-CH=CH-CH3 → CANNOT form aminopropiophenones"
+        }
+      },
+      "absinthe_connection": {
+        "shulgin_quote": "The drinks that turn cloudy with water dilution (Pernod-like liqueurs, and ouzo and roki), are heavy with it, since it was the natural flavoring in the original absinthe. That drink was very popular in the last century, as an intoxicant which produced an altered state of consciousness beyond that which could be ascribed to alcohol alone.",
+        "modern_understanding": [
+          "Thujone (from wormwood) was blamed, but levels were low",
+          "Anethole from anise/fennel provided flavor",
+          "Estragole may have contributed psychoactive effects (oilahuasca-like)",
+          "High alcohol content was primary intoxicant"
+        ]
+      },
+      "target_amphetamine": {
+        "name": "4-MA (4-Methoxyamphetamine)",
+        "actual_pathway": "Estragole → 1'-Hydroxyestragole → 1'-Oxoestragole → 4-Methoxy aminopropiophenones",
+        "properties": ["Mild stimulant", "Some empathogenic qualities", "Less potent than MDA or MMDA"]
+      }
+    },
+
+    "category_2_3_4_dimethoxy": {
+      "category_name": "3,4-Dimethoxy Pattern",
+      "essential_oil": "Methyleugenol (4-allyl-1,2-dimethoxybenzene)",
+      "shulgin_description": "The main actor here is methyleugenol. This is located in almost every item in the spice cabinet. It is in citronella, bay (which is laurel, which is myrtle), pimiento, allspice, pepper, tree-tea oil, and on and on. It has a faint smell of cloves, and when dilute is immediately mistaken for carnations.",
+      "ubiquity_note": "Methyleugenol is one of the MOST COMMON allylbenzenes in nature",
+      "plant_sources": {
+        "bay_leaves": {"content": "major component", "latin": "Laurus nobilis"},
+        "allspice": {"content": "significant amount", "latin": "Pimenta dioica"},
+        "black_pepper": {"content": "moderate amount", "latin": "Piper nigrum"},
+        "cloves": {"content": "small amount", "latin": "Syzygium aromaticum"},
+        "basil": {"content": "minor component (some varieties)"},
+        "citronella": {"latin": "Cymbopogon"},
+        "tea_tree_oil": {"content": "trace amounts", "latin": "Melaleuca alternifolia"},
+        "nutmeg": {"content": "trace amounts", "latin": "Myristica fragrans"}
+      },
+      "subcategory_eugenol": {
+        "name": "4-Hydroxy-3-Methoxy Pattern (Eugenol)",
+        "essential_oil": "Eugenol (4-allylguaiacol)",
+        "shulgin_description": "The compounds missing that methyl group on the 4-oxygen are famous. The allyl material is eugenol. It is in cinnamon, nutmeg, cloves, sassafras and myrrh. You taste it and it burns. You smell it and think immediately of cloves.",
+        "structure_difference": {
+          "methyleugenol": "Benzene with 3-OCH3 and 4-OCH3 (two methoxy groups)",
+          "eugenol": "Benzene with 3-OCH3 and 4-OH (methoxy + hydroxyl)"
+        },
+        "anesthetic_property": "Its property as an anesthetic, in the form of a clove, is well known in the folk-treatment of toothaches. FDA-approved topical anesthetic.",
+        "clove_cigarette_phenomenon": "The eugenol that is present numbs the throat, and allows many strong cigarettes to be smoked without pain. Respiratory damage masked by anesthetic effect.",
+        "plant_sources": ["Cloves (70-90% eugenol)", "Cinnamon", "Nutmeg", "Allspice", "Bay leaves"]
+      },
+      "subcategory_chavibetol": {
+        "name": "3-Hydroxy-4-Methoxy Pattern (Chavibetol)",
+        "description": "The isomer with the other methyl group missing is chavibetol (3-hydroxy-4-methoxyallylbenzene) and is found in the pepper leaf that is used with betel nut.",
+        "uniqueness": "Appears to be specific to betel leaf (Piper betle) - unique allylbenzene not found in other common spices"
+      },
+      "other_isomers": {
+        "2_4_dimethoxy": {
+          "name": "Osmorhizole",
+          "sources": "Carrot-like vegetables",
+          "target": "Would theoretically form 2,4-DMA",
+          "rarity": "Much less common than 3,4-dimethoxy pattern"
+        },
+        "3_5_dimethoxy": {
+          "sources": ["Mugwort (Artemisia vulgaris)", "Sage (Salvia officinalis)"],
+          "traditional_use": "Dream enhancement, opium antagonist (traditional claim)",
+          "target": "3,5-DMA - Unexplored territory"
+        }
+      },
+      "target_amphetamine": {
+        "name": "3,4-DMA (3,4-Dimethoxyamphetamine)",
+        "actual_products": "3,4-Dimethoxy aminopropiophenones (NOT amphetamines)",
+        "expected_properties": ["Mild psychoactive effects", "Less potent than methylenedioxy compounds"]
+      }
+    },
+
+    "category_3_methylenedioxy": {
+      "category_name": "3,4-Methylenedioxy Pattern",
+      "essential_oil": "Safrole (4-allyl-1,2-methylenedioxybenzene)",
+      "shulgin_description": "One of the most famous essential oils is safrole. This is the mainstay of sassafras oil, and it and its conjugated isomer isosafrole have a smell that is immediately familiar: root beer!",
+      "aroma": "Traditional root beer, sweet, aromatic - instantly recognizable",
+      "widespread_distribution": "These are among the most widely distributed essential oils, being present in most of the spices, including the heavies such as cinnamon and nutmeg.",
+      "plant_sources": {
+        "sassafras": {"content": "70-90% in root bark oil", "latin": "Sassafras albidum", "note": "PRIMARY SOURCE"},
+        "cinnamon": {"content": "0.5-2%", "latin": "Cinnamomum spp."},
+        "nutmeg": {"content": "0.5-2%", "latin": "Myristica fragrans"},
+        "betel_leaf": {"content": "up to 1.5%", "latin": "Piper betle"},
+        "star_anise": {"content": "trace amounts", "latin": "Illicium verum"},
+        "black_pepper": {"content": "trace amounts", "latin": "Piper nigrum"},
+        "brazilian_sassafras": {"content": "high content", "latin": "Ocotea odorifera"}
+      },
+      "historical_use": {
+        "traditional_root_beer": "Made from sassafras root bark with high safrole content",
+        "fda_ban_1960": "Safrole identified as hepatotoxic in rats, removed from approved food additives",
+        "current_status": "Safrole is DEA List I chemical, precursor for MDA/MDMA synthesis"
+      },
+      "metabolism": {
+        "pathway": "Safrole → 1'-Hydroxysafrole → 1'-Oxosafrole → MDA-type aminopropiophenones",
+        "enzymes": "CYP2E1 (primary), CYP1A2",
+        "animal_studies": "Proven to form all three types of aminopropiophenone metabolites: dimethylamine, piperidine, and pyrrolidine conjugates"
+      },
+      "target_amphetamine": {
+        "name": "MDA (3,4-Methylenedioxyamphetamine)",
+        "aka": "The Love Drug (1960s)",
+        "properties": ["Empathogen-entactogen", "Mild psychedelic", "More stimulating than MDMA", "Longer duration (8-12 hours)", "Schedule I (1985)"],
+        "relationship_to_mdma": "MDMA is N-methylated version - gentler, less psychedelic, more empathogenic"
+      },
+      "practical_sources_for_oilahuasca": {
+        "recommended": ["Cinnamon (0.5-2%)", "Nutmeg (0.5-2%)", "Betel leaf (up to 1.5%)"],
+        "avoid": "Sassafras oil (too concentrated, restricted, toxic)"
+      }
+    },
+
+    "category_4_myristicin": {
+      "category_name": "3-Methoxy-4,5-Methylenedioxy Pattern",
+      "essential_oil": "Myristicin (5-allyl-1-methoxy-2,3-methylenedioxybenzene)",
+      "keystone_status": "THE KEYSTONE COMPOUND OF OILAHUASCA",
+      "shulgin_description": "The parent compound is myristicin, and the source of this is nutmeg (or the botanically parallel material, mace). The nutmeg is the seed of the tree Myristica fragrans and mace is the fibrous covering of the seed. The two spices are virtually identical as to their chemical composition.",
+      "plant_sources": {
+        "primary": {
+          "nutmeg": {"content": "1-3%", "latin": "Myristica fragrans", "part": "seed"},
+          "mace": {"content": "1-3%", "latin": "Myristica fragrans", "part": "seed covering"}
+        },
+        "secondary": {
+          "parsley_oil": {"latin": "Petroselinum crispum", "part": "seeds and leaves"},
+          "dill": {"latin": "Anethum graveolens", "part": "seeds"}
+        }
+      },
+      "critical_research": {
+        "shulgin_statement": "This was the oil that was actually shown to be converted to MMDA by the addition of ammonia by passage through an in vitro liver preparation.",
+        "rabbit_liver_study": "Myristicin extracted from nutmeg, passed through isolated rabbit liver preparation, products analyzed, MMDA (or MMDA-like compounds) detected. Proof that biological conversion can occur.",
+        "modern_understanding": "Products were likely aminopropiophenones (not true MMDA), but the principle was correct"
+      },
+      "myristin_vs_myristicin_warning": {
+        "myristicin": "Essential oil (volatile), psychoactive, 5-allyl-1-methoxy-2,3-methylenedioxybenzene",
+        "myristin_trimyristin": "Triglyceride (fat), NOT psychoactive, glycerol + three myristic acid chains, 30-40% of nutmeg by weight",
+        "note": "Often confused even in scientific literature due to similar names"
+      },
+      "target_amphetamine": {
+        "name": "MMDA (3-Methoxy-4,5-methylenedioxyamphetamine)",
+        "aka": "The insight drug",
+        "properties_synthesized": {
+          "duration": "8-12 hours",
+          "onset": "1-2 hours",
+          "dose": "100-250mg",
+          "effects": ["Empathogenic", "Mild psychedelic", "Introspective", "Less stimulating than MDA", "More cerebral than MDMA", "Gentler overall"]
+        }
+      },
+      "nutmeg_vs_pure_mmda_comparison": {
+        "nutmeg_natural": {
+          "dose": "5-15g powder",
+          "onset": "2-8 hours (very delayed)",
+          "duration": "24-72 hours (extremely long)",
+          "effects": "Visual distortions, dissociation, dream-like, sedating",
+          "side_effects": "Nausea, tachycardia, dry mouth, anxiety (common)"
+        },
+        "mmda_synthesized": {
+          "dose": "100-250mg",
+          "onset": "1-2 hours",
+          "duration": "8-12 hours",
+          "effects": "Empathogenic, introspective, mild psychedelic",
+          "side_effects": "Minimal (similar to MDMA)"
+        },
+        "difference_explanation": [
+          "Nutmeg contains many compounds (myristicin, elemicin, safrole, etc.)",
+          "Metabolites are aminopropiophenones, NOT pure MMDA",
+          "Different pharmacology",
+          "Anticholinergic effects from other nutmeg compounds",
+          "Large doses required → more side effects"
+        ]
+      },
+      "oilahuasca_importance": [
+        "Is psychoactive (or metabolites are)",
+        "Inhibits CYP1A2 (blocks own and others' metabolism)",
+        "Induces CYP450s (chronic effect)",
+        "Inhibits MAO (secondary effect)",
+        "Well-researched",
+        "Readily available (nutmeg)",
+        "Inexpensive"
+      ]
+    },
+
+    "category_5_croweacin": {
+      "category_name": "2-Methoxy-3,4-Methylenedioxy Pattern",
+      "essential_oil": "Croweacin (2-methoxy-3,4-methylenedioxyallylbenzene)",
+      "shulgin_description": "This is the second of the three natural methoxy methylenedioxy orientations. Croweacin takes its name from the binomial for the plant Eriostemon crowei from the worlds of rue and the citrus plants.",
+      "plant_family": "Rutaceae - Rue and citrus family",
+      "plant_sources": {
+        "eriostemon_crowei": "From rue family (Ruta)",
+        "common_rue": {"latin": "Ruta graveolens", "aroma": "Pungent, unpleasant (to many people)", "shulgin_note": "smelled to me, for all the world, like cat urine"}
+      },
+      "shulgin_arthritis_remedy": {
+        "recipe": "Equal quantities of Ruta graveolens (rue), Rosmarinus officinalis (rosemary), and Cannabis sativa (marijuana)",
+        "preparation": "Three plants soaked in rubbing alcohol for a few weeks, extracts clarified and evaporated to thick sludge",
+        "application": "Rubbed on skin where arthritis was troublesome, always rubbed in direction of extremity",
+        "source_note": "From a very conservative Republican friend!",
+        "mechanism_speculative": ["Cannabinoids: Anti-inflammatory, analgesic", "Rosemary: Anti-inflammatory compounds", "Rue: Unknown active compounds", "Alcohol: Solvent and penetration enhancer"]
+      },
+      "target_amphetamine": {
+        "name": "MMDA-3a (2-Methoxy-3,4-methylenedioxyamphetamine)",
+        "properties": "Unknown (not synthesized/tested by Shulgin as documented)"
+      },
+      "practical_use": {
+        "availability": "Rue plants available from herb suppliers",
+        "safety_concerns": ["Rue is TOXIC in moderate amounts", "Abortifacient (causes miscarriage)", "Photosensitizing", "Hepatotoxic"],
+        "recommendation": "NOT RECOMMENDED for internal use"
+      }
+    },
+
+    "category_6_asaricin": {
+      "category_name": "2-Methoxy-4,5-Methylenedioxy Pattern",
+      "essential_oils": "Asaricin and Carpacin",
+      "shulgin_description": "The methoxy-methylenedioxy pattern is also found in nature with the 2,4,5-orientation pattern. The allyl-2,4,5-isomer is called asaricin. It, and its propenyl-isomer, carpacin, are from the Carpano tree which grows in the Solomon Islands. All these plants are used in folk medicine.",
+      "compounds": {
+        "asaricin": "Allyl compound (can form aminopropiophenones)",
+        "carpacin": "Propenyl isomer (cannot form aminopropiophenones naturally)"
+      },
+      "plant_source": {
+        "carpano_tree": {"location": "Solomon Islands", "use": "Traditional medicine", "availability": "Not commonly available in West"}
+      },
+      "target_amphetamine": {
+        "name": "MMDA-2 (2-Methoxy-4,5-methylenedioxyamphetamine)",
+        "properties": "Unknown",
+        "availability": "Extremely rare, not practical for oilahuasca"
+      }
+    },
+
+    "category_7_elemicin": {
+      "category_name": "3,4,5-Trimethoxy Pattern",
+      "essential_oil": "Elemicin (5-allyl-1,2,3-trimethoxybenzene)",
+      "shulgin_description": "Elemicin is the well studied essential oil, primarily from the oil of elemi. It is, like myristicin, a component of the Oil of Nutmeg, but it is also found in several of the Oils of Camphor, and in the resin of the Pili in the Philippines.",
+      "plant_sources": {
+        "primary": {
+          "elemi": {"content": "10-30%", "latin": "Canarium luzonicum", "part": "resin/gum", "location": "Philippines"}
+        },
+        "secondary": {
+          "nutmeg": {"content": "trace to moderate", "latin": "Myristica fragrans"},
+          "camphor_oils": {"latin": "Various Cinnamomum species"},
+          "pili_tree": {"latin": "Canarium ovatum", "location": "Philippines"}
+        }
+      },
+      "methoxyeugenol_note": {
+        "shulgin_discovery": "I had found a trace component in nutmeg many years ago that proved to be 5-methoxyeugenol, or elemicin without the 4-methyl group; it is also present in the magnolia plant.",
+        "syringaldehyde_connection": "Any natural product with a syring somewhere in it has a hydroxy between two methoxys."
+      },
+      "metabolism": {
+        "note": "Elemicin proven to form ALL THREE types of aminopropiophenone metabolites",
+        "products": ["Dimethylamine conjugates", "Piperidine conjugates", "Pyrrolidine conjugates"]
+      },
+      "target_amphetamine": {
+        "name": "TMA (3,4,5-Trimethoxyamphetamine)",
+        "properties": {
+          "duration": "6-8 hours",
+          "dose": "100-250mg",
+          "effects": ["Psychedelic", "Visual", "Less empathogenic than MDA/MMDA", "More classical psychedelic feel", "Visual patterning", "Less body load than mescaline"]
+        }
+      },
+      "nutmeg_synergy": "When using nutmeg, you get myristicin (MMDA pathway) + elemicin (TMA pathway) + safrole (MDA pathway) - multiple pathways activated simultaneously. This multi-pathway activation may explain nutmeg's complex, long-lasting effects."
+    },
+
+    "category_8_asarone": {
+      "category_name": "2,4,5-Trimethoxy Pattern",
+      "essential_oil": "α-Asarone (trans-asarone)",
+      "shulgin_description": "There is an essential oil called asarone that is 2,4,5-trimethoxy-1-propenylbenzene. It is the trans- or α-isomer, and the cis-isomer is known as β-asarone. It is the isomerization analogue of the much more rare γ-asarone, or euasarone, or sekishone.",
+      "three_isomers": {
+        "alpha_asarone_trans": {"type": "Propenyl (conjugated)", "note": "Most common, does NOT form aminopropiophenones naturally"},
+        "beta_asarone_cis": {"type": "Propenyl (conjugated)", "note": "Less common, does NOT form aminopropiophenones, CARCINOGENIC"},
+        "gamma_asarone_euasarone": {"type": "Allyl (non-conjugated)", "note": "RARE, CAN form aminopropiophenones - this is the psychoactive precursor"}
+      },
+      "primary_source_calamus": {
+        "shulgin_description": "Asarone is the major component of Oil of Calamus obtained from the rhizomes of Acorus calamus, the common Sweet Flag that grows wild on the edges of swamps throughout North America, Europe, and Asia.",
+        "latin": "Acorus calamus",
+        "common_names": ["Sweet Flag", "Rat-root (Cree Indians)", "Indian-root (Icelandic settlers)"],
+        "oil_content": "70-90% asarones (mostly α and β), small amount of γ-asarone"
+      },
+      "traditional_uses": {
+        "flavoring": "Used as flavoring of liqueurs",
+        "medicinal": ["Digestive aid", "Toothache relief", "Wound poultice", "General tonic", "Fever reducer"],
+        "ayurvedic": {"name": "Vacha", "uses": ["Brain tonic", "Memory enhancer", "Nervine stimulant"]},
+        "tcm": {"name": "Shi Chang Pu", "uses": ["Opens orifices", "Resolves phlegm", "Calms spirit"]}
+      },
+      "beta_asarone_safety_issue": {
+        "carcinogenicity": "β-asarone causes liver tumors in rats (long-term, high-dose studies)",
+        "geographic_variation": {
+          "north_american_diploid": {"variety": "Acorus americanus", "beta_asarone": "NOT detectable (SAFE)"},
+          "european_asian_varieties": {"variety": "Acorus calamus triploid/tetraploid", "beta_asarone": "Present (UNSAFE)"}
+        },
+        "fda_action": "Calamus banned as food additive (1968) due to β-asarone carcinogenicity",
+        "recommendation": "ONLY use North American diploid variety (Acorus americanus) or avoid entirely"
+      },
+      "cyp450_interactions": {
+        "research": "Interaction of the standardized extract of Acorus calamus with Cytochrome P450 enzyme",
+        "enzymes_affected": ["CYP3A4: Inhibited", "CYP2D6: Inhibited"],
+        "note": "Makes calamus a potential enzyme modulator for oilahuasca"
+      },
+      "target_amphetamine": {
+        "name": "TMA-2 (2,4,5-Trimethoxyamphetamine)",
+        "potency": "HIGHLY POTENT",
+        "properties": {
+          "dose": "20-40mg (compare to mescaline 200-400mg)",
+          "duration": "8-12 hours",
+          "effects": ["Strong psychedelic", "Visual", "Introspective", "Full-spectrum psychedelic experience", "Enhanced colors/patterns"]
+        },
+        "2_4_5_pattern_note": "The 2,4,5-substitution pattern seems to be optimal for psychedelic activity. Other potent 2,4,5 compounds: DOM (STP), 2C-B"
+      }
+    },
+
+    "category_9_apiole": {
+      "category_name": "2,5-Dimethoxy-3,4-Methylenedioxy Pattern",
+      "essential_oil": "Apiole (2,5-dimethoxy-3,4-methylenedioxyallylbenzene)",
+      "shulgin_description": "The parent compound is apiole (with a final 'e') or parsley camphor, and it is the major component of parsley seed oil. Its conjugated isomer is called isoapiole, and they are valuable as the chemical precursors to the amination product, DMMDA.",
+      "apiole_vs_apiol_distinction": {
+        "apiole_with_e": "Essential oil, white crystalline solid, psychoactive precursor",
+        "apiol_without_e": "Historical medicine name, green or yellow liquid, crude extract containing apiole + chlorophyll + fats",
+        "historical_forms": {
+          "green_apiol": "Crude ether extract (with chlorophyll)",
+          "yellow_apiol": "Chlorophyll removed",
+          "apiolin": "Fats removed (saponified)",
+          "apiole": "Pure, distilled essential oil (white crystals)"
+        }
+      },
+      "primary_source": {
+        "plant": "Parsley (Petroselinum crispum)",
+        "content": {
+          "parsley_seed_oil": "10-30% apiole",
+          "fresh_parsley_leaves": "Much lower (<0.1%)"
+        },
+        "physical_properties": "Crystallizes into white needles or plates, melting point ~30°C (86°F)"
+      },
+      "cyp450_inhibition": {
+        "research_quote": "Apiole, an important constituent of parsley, is a mixed-type inhibitor of the CYP1A subfamily",
+        "enzymes_affected": ["CYP1A1: Inhibited", "CYP1A2: Inhibited (PRIMARY allylbenzene metabolizer)"],
+        "inhibition_type": "Mixed-type (both competitive and non-competitive components)",
+        "significance": "Apiole plays dual role: Substrate (forms DMMDA-type aminopropiophenones) AND Inhibitor (blocks CYP1A1/1A2)"
+      },
+      "historical_medical_use": {
+        "abortifacient_warning": "Apiole/apiol was used historically to induce abortion - dangerous, often ineffective, sometimes fatal",
+        "modern_status": "No longer used medically. ABSOLUTELY AVOID during pregnancy"
+      },
+      "target_amphetamine": {
+        "name": "DMMDA (2,5-Dimethoxy-3,4-methylenedioxyamphetamine)",
+        "research_citation": "Psychotropic phenylisopropylamines derived from apiole and dillapiole (PMID: 4861200)",
+        "properties": {
+          "dose": "50-75mg (VERY POTENT)",
+          "duration": "8-12 hours",
+          "effects": "Similar to MDA",
+          "shulgin_quote": "At 50mg, DMMDA produces a distinct MDA-like intoxication"
+        },
+        "potency_note": "DMMDA (from apiole) might be MORE POTENT than MMDA (from myristicin)"
+      },
+      "oilahuasca_importance": {
+        "critical_addition": "Apiole may be THE MOST IMPORTANT addition to basic oilahuasca formula (coffee, nutmeg, cinnamon)",
+        "reasons": [
+          "Provides potent substrate (DMMDA pathway)",
+          "Inhibits CYP1A1/1A2 (blocks primary metabolic pathway)",
+          "Synergizes with myristicin (both substrates, both inhibitors)",
+          "Readily available (parsley seed oil is commercial product)",
+          "Well-studied (Shulgin synthesized and tested DMMDA)"
+        ],
+        "optimal_dosing": {
+          "parsley_seed_oil": "10-20 drops (0.5-1ml), contains ~50-200mg apiole",
+          "crushed_parsley_seeds": "1-2 tablespoons (10-20g)"
+        }
+      }
+    },
+
+    "category_10_dillapiole": {
+      "category_name": "2,3-Dimethoxy-4,5-Methylenedioxy Pattern",
+      "essential_oil": "Dillapiole (1-allyl-2,3-dimethoxy-4,5-methylenedioxybenzene)",
+      "shulgin_description": "The second of the three tetraoxygenated essential oils is dillapiole and it comes, not surprisingly, from the oils of any of the several dill plants around the world. It is a thick, almost colorless liquid, but its isomerization product, isodillapiole, is a white crystalline product which melts sharply.",
+      "tetraoxygenated_oils": {
+        "note": "All have FOUR oxygen atoms in substituents",
+        "the_three": ["Apiole (2,5-dimethoxy-3,4-methylenedioxy)", "Dillapiole (2,3-dimethoxy-4,5-methylenedioxy)", "Tetramethoxy-allylbenzene"]
+      },
+      "primary_source": {
+        "plant": "Dill (Anethum graveolens)",
+        "content": {
+          "dill_seed_oil": "10-50% dillapiole (varies by variety)",
+          "fresh_dill_leaves": "Much lower, mainly carvone"
+        },
+        "physical_properties": "Thick, almost colorless liquid"
+      },
+      "relationship_to_myristicin": {
+        "structural_similarity": "Dillapiole = Myristicin + one more methoxy group",
+        "comparison": {
+          "myristicin": "3-Methoxy-4,5-methylenedioxy (THREE oxygens)",
+          "dillapiole": "2,3-Dimethoxy-4,5-methylenedioxy (FOUR oxygens)"
+        },
+        "implications": ["Similar metabolism expected", "Similar CYP450 interactions likely", "Possibly similar or greater potency"]
+      },
+      "target_amphetamine": {
+        "name": "DMMDA-2 (2,3-Dimethoxy-4,5-methylenedioxyamphetamine)",
+        "research_citation": "DMMDA-2 is a bioactive phenethylamine discussed by Alexander Shulgin in PiHKAL",
+        "properties": {
+          "dose": "50mg (VERY POTENT)",
+          "effects": "Similar effects to MDA",
+          "duration": "Presumably 8-12 hours",
+          "potency_note": "DMMDA-2 is equivalent to 5 mescaline units"
+        },
+        "comparison": "Both DMMDA and DMMDA-2 appear MORE POTENT than MMDA (~100-150mg)"
+      },
+      "the_power_trio": {
+        "formula": "Nutmeg + Parsley Seed + Dill Seed = Maximum Allylbenzene Loading",
+        "pathways": ["Myristicin → MMDA pathway", "Apiole → DMMDA pathway", "Dillapiole → DMMDA-2 pathway"],
+        "benefits": [
+          "Three distinct pathways (MMDA, DMMDA, DMMDA-2)",
+          "All highly potent (50-100mg range for pure compounds)",
+          "Multiple CYP450 inhibitors (blocks metabolism)",
+          "Synergistic enhancement"
+        ],
+        "note": "This is likely THE MOST POTENT oilahuasca formulation possible using readily available herbs"
+      },
+      "practical_sourcing": {
+        "dill_seed_oil": "10-20 drops (0.5-1ml)",
+        "dill_seeds_whole": "1-2 tablespoons (10-20g), crush or grind",
+        "fresh_dill": "Not useful - very low dillapiole"
+      },
+      "safety": {
+        "abortifacient_concerns": "Like apiole, dillapiole may have uterine-stimulating properties. AVOID during pregnancy!",
+        "culinary_safety": "Dill seeds used culinarily (GRAS), short-term use probably safe"
+      }
+    },
+
+    "category_bonus_tetramethoxy": {
+      "category_name": "2,3,4,5-Tetramethoxy Pattern (The Tenth)",
+      "essential_oil": "1-Allyl-2,3,4,5-tetramethoxybenzene",
+      "shulgin_note": "The third and last of the tetra-oxygenated essential oils. This is present as a minor component in the oil of parsley, but it is much more easily obtained by synthesis.",
+      "plant_source": "Parsley oil (minor component)",
+      "target_amphetamine": "TA (Tetramethoxyamphetamine) or 2,3,4,5-TMA",
+      "practical_relevance": "Too rare in nature to be useful. Would require synthesis. Not relevant for natural oilahuasca."
+    }
+  }
+}

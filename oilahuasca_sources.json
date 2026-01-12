@@ -1,0 +1,198 @@
+{
+  "oilahuasca_sources": {
+    "document_info": {
+      "title": "Oilahuasca Research Sources and Attribution",
+      "purpose": "Documentation of original sources, forum posts, and research lineage"
+    },
+
+    "original_discovery": {
+      "discoverer": "Ron69",
+      "discovery_context": "Stumbled upon CYP450 enzyme research when studying how nutmeg's psychoactive effect works on PubMed",
+      "primary_publication": {
+        "site": "HerbPedia Wikidot",
+        "page": "Oilahuasca Activation",
+        "url": "herbpedia.wikidot.com (oilahuasca-activation page)"
+      },
+      "key_insight": "Applied the ayahuasca principle (enzyme inhibition to activate compounds) to culinary spices using CYP450 enzymes instead of MAO enzymes"
+    },
+
+    "expansion_research": {
+      "researcher": "Rev. Ryan Sasha-Shai Van Kush",
+      "online_aliases": ["OnlineAngelicalist", "Phoenixian", "Angelicalist", "FinShaggy", "punicwax"],
+      "location": "Dallas, TX (DFW area)",
+      "research_method": "Extended discussions with Claude.ai to verify and expand Ron69's original theory using modern research",
+      "date": "July 2025",
+      "contributions": [
+        "Confirmed the theory using NCBI/PubMed citations",
+        "Integrated Shulgin's Ten Essential Oils framework",
+        "Developed detailed CYP450 enzyme interaction database",
+        "Created comprehensive herb database with mechanisms",
+        "Established three-phase strategic protocol",
+        "Documented safety concerns and harm reduction"
+      ]
+    },
+
+    "forum_post": {
+      "title": "Oilahuasca - Expanding on the Theory",
+      "author": "OnlineAngelicalist",
+      "author_title": "Phoenixian",
+      "location": "Dallas, TX",
+      "post_date": "07/01/25 08:39 PM",
+      "post_id": "#29266237",
+      "thread_context": "Posted to update 10+ year old threads on the topic with new research",
+      "favorite_quote": "Some people have reported Psychedelic effects from Mixing just Coffee, Almond, Cinnamon, Vanilla and Nutmeg",
+      "claude_conversation_links": [
+        "https://claude.ai/share/7d220aee-4d46-441c-baaf-32235898c8a5",
+        "https://claude.ai/share/3487b6cf-8ab7-4c81-87e5-b8021f8664dd",
+        "https://claude.ai/share/89947b2f-82da-4bd1-baa0-a22372945e0f",
+        "https://claude.ai/share/0fab27eb-bd9e-4a8f-ab78-3eaa6a0f23c3"
+      ],
+      "full_post_text": "There are several Threads here about this already but they are all 10 Years Old and more, so I wanted to Share a Discussion I had with Claude.ai Yesterday, which confirms the Theory and even expands on it. The Original Theory or Discovery was made by someone with the Username 'Ron69' on various Websites, he says he stumbled upon CYP450 Enzyme Research when studying the way Nutmegs Psychoactive effect Works, on PubMed. Most information available Today is on the Herbpedia Wikidot 'Oilahusca Activation' Page.\n\nBut this Discussion I had with Claude.ai Yesterday Helps to Confirm the Theory, and actually Expand it. It is a lot to Read but it adds a lot to the Theory, using information provided by Dr. Sasha Shulgin in PIHKAL and Things I asked the Artificial Intelligence to Research during the Discussion.\n\nMy Favorite Quote about Oilahuasca for Years now has been,\n'Some people have reported Psychedelic effects from Mixing just Coffee, Almond, Cinnamon, Vanilla and Nutmeg'"
+    },
+
+    "primary_sources": {
+      "shulgin_works": {
+        "pihkal": {
+          "full_title": "PiHKAL: A Chemical Love Story",
+          "author": "Dr. Alexander 'Sasha' Shulgin and Ann Shulgin",
+          "year": 1991,
+          "relevance": "Contains Ten Essential Oils framework and TMA recipe commentary",
+          "key_section": "TMA entry discussing essential oils that can theoretically form amphetamines"
+        },
+        "tihkal": {
+          "full_title": "TiHKAL: The Continuation",
+          "author": "Dr. Alexander 'Sasha' Shulgin and Ann Shulgin",
+          "year": 1997,
+          "relevance": "Additional tryptamine chemistry and metabolism discussions"
+        }
+      },
+      "scientific_literature": {
+        "myristicin_cyp450": {
+          "pmid": "12523956",
+          "title": "Roles of human liver cytochrome P450 3A4 and 1A2 enzymes in the oxidation of myristicin",
+          "finding": "CYP1A2 > CYP3A4 for myristicin metabolism"
+        },
+        "myristicin_mechanism_based": {
+          "pmid": "26091900",
+          "title": "Identification and characterization of reactive metabolites in myristicin-mediated mechanism-based inhibition of CYP1A2",
+          "finding": "3.21-fold IC50 shift proves mechanism-based inhibition"
+        },
+        "myristicin_induction": {
+          "pmid": "8554622",
+          "title": "Induction of rat hepatic cytochrome P450 enzymes by myristicin",
+          "finding": "2-20 fold increases in CYP1A1/2, 2B1/2, 2E1"
+        },
+        "myristicin_gst": {
+          "pmid": "9245741",
+          "title": "Preferential overexpression of a class MU glutathione S-transferase subunit in mouse liver by myristicin",
+          "finding": "4-14 fold increase in GST activity"
+        },
+        "myristicin_mao": {
+          "citation": "Truitt, E.B., Duritz, G., Ebersberger, E.M. (1963)",
+          "title": "Evidence of Monoamine Oxidase Inhibition by Myristicin and Nutmeg",
+          "finding": "Central MAO inhibition demonstrated"
+        },
+        "dmmda_synthesis": {
+          "pmid": "4861200",
+          "title": "Psychotropic phenylisopropylamines derived from apiole and dillapiole",
+          "finding": "DMMDA synthesized directly from apiole, 50mg produces MDA-like effects"
+        },
+        "apiole_cyp1a": {
+          "title": "Apiole is a mixed-type inhibitor of the CYP1A subfamily",
+          "finding": "Mixed-type inhibition of CYP1A1 and CYP1A2"
+        },
+        "piperine_cyp3a4": {
+          "title": "Piperine inhibits human P-glycoprotein and CYP3A4",
+          "finding": "Selective CYP3A4 inhibition + P-gp inhibition"
+        },
+        "cinnamon_gsh": {
+          "title": "Induction of apoptosis by cinnamaldehyde through ROS production and glutathione depletion",
+          "finding": "Cinnamaldehyde causes glutathione depletion"
+        },
+        "calamus_cyp": {
+          "title": "Interaction of Acorus calamus extract with Cytochrome P450 enzyme",
+          "finding": "Inhibits CYP3A4 and CYP2D6"
+        }
+      },
+      "traditional_knowledge": {
+        "ayahuasca_principle": "DMT + MAO inhibitor (B. caapi) = oral activity. Applied analogously: allylbenzenes + CYP450 inhibitors = enhanced activity",
+        "nutmeg_intoxication": "Long documented history of nutmeg's psychoactive effects at 5-15g doses",
+        "calamus_traditional": "Vacha (Ayurveda), Shi Chang Pu (TCM) - used as brain tonic and memory enhancer for millennia"
+      }
+    },
+
+    "connection_to_van_kush_family": {
+      "temple_relevance": "The Shaivite Temple tradition includes sacred plant knowledge spanning 75,000 years",
+      "book_of_tanit": "This research compiled as part of the expanding Book of Tanit manuscript",
+      "educational_purpose": "Document created for harm reduction and educational purposes",
+      "cryptocurrency_connection": "Research associated with VKBT and CURE token ecosystem on HIVE blockchain"
+    },
+
+    "research_timeline": {
+      "original_discovery": "Ron69's research, published on HerbPedia Wikidot (date unknown, threads 10+ years old)",
+      "shulgin_foundation": "1963-1991 - Shulgin's essential oils research and PiHKAL publication",
+      "expansion_research": "July 2025 - Claude.ai discussions with Rev. Ryan Van Kush",
+      "public_sharing": "07/01/25 - Forum post sharing expanded theory",
+      "personal_testing": "07/11/25 - Ordered supplies for personal experimentation",
+      "bot_integration": "January 2026 - Integration into Van Kush Bot knowledgebase"
+    },
+
+    "forum_thread_full_context": {
+      "moderator_warning": {
+        "added_by": "Sugabearcrisp",
+        "date": "07/13/25 07:01 AM",
+        "text": "Warning this discussion is speculative and involves compounds that are known to be harmful with little recreational or shamanistic benefit. It is based on content by 69ron a known pusher of pseudoscience and misinformation. This misinformation is now being regurgitated by AI and referenced as factual science by OP. AI is not god and content it generates is not fact.",
+        "response": "The research includes PubMed citations (PMID references) that independently verify the CYP450 mechanisms. The theory may be speculative but the underlying enzyme science is documented in peer-reviewed literature."
+      },
+      "forum_criticism": {
+        "user": "phytophthora",
+        "post": "Please don't fucking spank down a ton of nutmeg. There are many, many, better, safer options.",
+        "response_from_op": "Actually the Original Theory doesn't require 'A bunch of Nutmeg' but is more about using the Essential Oils like Elemicin. Also, the Expanded Theory here includes adding Isomers of the Original Essential Oils like Sarisan, Croweacin, and Isoelemicin"
+      },
+      "clarification_about_essential_oils": "The theory is NOT about eating large amounts of nutmeg, but about strategic use of specific essential oils and CYP450 modulation"
+    },
+
+    "personal_testing_update": {
+      "post_date": "07/11/25 04:08 PM",
+      "post_id": "#29277276",
+      "researcher_credentials": {
+        "statement": "I have Personal Experience with Mushrooms, LSD, MDMA, to a lesser extent Amphetamines, but also Things like Allylescaline, 2C-I, 25-I, 4-Aco-DMT, 4-HO-MiPT, etc.",
+        "value": "So oftentimes when You get Oilahuasca Experience Reports it is from someone who has no Experience with anything, but says 'I've never Tried MDMA but it was like MDMA', my Reports will be more accurate than their's because I do have the Experience."
+      },
+      "supplies_ordered": [
+        "Clove Oil",
+        "Nutmeg Oil",
+        "Parsley Oil",
+        "Dill Oil",
+        "Betel Nut Powder (quarter pound)",
+        "Planning to add: Cinnamon, Pepper"
+      ],
+      "testing_plan": "Various Tests, including Things other People have never even mentioned",
+      "betel_research": {
+        "observation": "Something never mentioned by Oilahuasca People is Tests done with Betel",
+        "basil_connection": "They do use Basil, which contains Chavicol, and Chavicol could potentially cause the Effects People claim",
+        "betel_difference": "But Betel contains Methyl-Chavicol, which is used widely in India Sublingually, and is as Common almost as Cigarettes in India",
+        "traditional_use": "Said to be a Stimulant when Chewed with Slack Lime/Edible Lime/Pickling Lime",
+        "hypothesis": "Thinking I can make it active by Oral Ingestion using the Oilahuasca Tek"
+      },
+      "carcinogen_warning": {
+        "statement": "I do want to Warn that from what I have Read it is Possible that doing this, Oilahuasca, can lead to the body Creating Carcinogens with the Herbs",
+        "mechanism": "Possibility when messing with the Breakdown of various Molecules",
+        "known_cases": "No one as far as I know from my research has ever developed Cancer from Oilahuasca",
+        "but": "There is the Possibility to raise the levels of Carcinogens in the Body, which has been heavily linked to many Cancers"
+      }
+    },
+
+    "entheogen_etymology": {
+      "context": "Post referencing Dr. Carl Ruck, co-inventor of the term 'Entheogen'",
+      "coined": "1979 by Carl A. P. Ruck, Jeremy Bigwood, Danny Staples, Richard Evans Schultes, Jonathan Ott and R. Gordon Wasson",
+      "etymology": {
+        "entheos": "Greek - 'full of the god, inspired, possessed' - root of English 'enthusiasm'",
+        "genesthai": "Greek - 'to come into being'",
+        "meaning": "A drug that causes one to become inspired or experience feelings of inspiration, often in a religious or spiritual manner"
+      },
+      "why_coined": "Replacement for 'hallucinogen' (associated with delirium/insanity) and 'psychedelic' (associated with 1960s pop culture and psychosis)",
+      "connection_to_oilahuasca": "Ancient peoples may have been using enzyme modulation similarly to how MAOI/DMT use was discovered by tribes (e.g., Ubulawu, possibly Xhosa Tea, 'Magic' mixtures containing Parsley)"
+    }
+  }
+}
