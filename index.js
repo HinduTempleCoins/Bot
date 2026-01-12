@@ -192,6 +192,211 @@ function getOilahuascaResponse(topic) {
 
 loadOilahuascaKnowledge();
 
+// ========================================
+// ENHANCED CRYPTOLOGY FREE CHAT SYSTEM
+// ========================================
+// Tracks users in free-chat mode (not button-driven)
+const cryptologyFreeChatSessions = new Map();
+
+// Topic categories for dynamic button generation
+const cryptologyTopicMap = {
+  oilahuasca: {
+    keywords: ['oilahuasca', 'oil ahuasca', 'spice', 'nutmeg', 'myristicin'],
+    related: ['cyp450', 'allylbenzenes', 'space_paste', '17bhsd2', 'shulgin'],
+    emoji: '🔮'
+  },
+  cyp450: {
+    keywords: ['cyp', 'enzyme', 'liver', 'metabolism', 'cytochrome', 'p450'],
+    related: ['oilahuasca', 'inhibitor', 'inducer', 'glutathione', 'phase2'],
+    emoji: '🧬'
+  },
+  allylbenzenes: {
+    keywords: ['allylbenzene', 'myristicin', 'elemicin', 'safrole', 'estragole', 'dillapiole'],
+    related: ['shulgin', 'oilahuasca', 'essential_oils', 'amphetamines'],
+    emoji: '🧪'
+  },
+  space_paste: {
+    keywords: ['space paste', 'recipe', 'formula', 'ingredients', '69ron'],
+    related: ['oilahuasca', 'cinnamon', 'turmeric', 'pepper', 'dosing'],
+    emoji: '🌿'
+  },
+  '17bhsd2': {
+    keywords: ['17bhsd2', '17b-hsd2', 'hsd2', 'master enzyme', 'activation'],
+    related: ['oilahuasca', 'nad+', 'vitamin_d', 'quercetin'],
+    emoji: '🔑'
+  },
+  shulgin: {
+    keywords: ['shulgin', 'pihkal', 'tihkal', 'essential oils', 'amphetamines'],
+    related: ['allylbenzenes', 'mda', 'mmda', 'tma'],
+    emoji: '👨‍🔬'
+  },
+  safety: {
+    keywords: ['safe', 'danger', 'warning', 'contraindication', 'risk', 'help', 'scared'],
+    related: ['duration', 'dosing', 'emergency', 'support'],
+    emoji: '⚠️'
+  },
+  experience: {
+    keywords: ['feeling', 'experiencing', 'right now', 'currently', 'trip', 'tripping', 'high'],
+    related: ['safety', 'support', 'duration', 'grounding'],
+    emoji: '🌀'
+  }
+};
+
+// Build comprehensive oilahuasca context for AI
+function buildOilahuascaContext() {
+  let context = `\n\n=== OILAHUASCA KNOWLEDGE BASE ===
+You have EXPERT knowledge on Oilahuasca theory. Use this information:
+
+**CORE DEFINITION**: Oilahuasca (oil + ayahuasca) is CYP450 enzyme manipulation of allylbenzene compounds.
+It is NOT "DMT in an oil carrier" - completely different mechanism.
+
+**THREE PILLARS**:
+1. Allylbenzene Substrates (myristicin, elemicin, safrole, estragole)
+2. CYP450 Enzyme Manipulation (INDUCE then INHIBIT)
+3. Endogenous Amine Adduct Formation (1'-oxo metabolites + gut amines)
+
+**KEY ENZYMES**:
+- CYP1A2: Primary metabolism enzyme, induced by coffee, inhibited by myristicin
+- 17β-HSD2: Master activation enzyme, converts to 1'-oxo metabolites
+- SSAO: Destroys amines - block with glucosamine
+
+**SPACE PASTE RECIPE** (69ron analysis):
+- 4 parts: Nutmeg, Almonds, Pistachios
+- 2 parts: Cinnamon (CYP450 inhibitor + glutathione depleter)
+- 1 part: Cumin, Tarragon, Oregano, Basil, Turmeric
+- 0.5 parts: Cayenne, Black Pepper (CYP3A4 inhibitor + piperidine source)
+
+**SAFETY CRITICAL**:
+- Duration: 24-72 hours - DO NOT REDOSE
+- Onset: 2-8 hours delayed
+- Never exceed 10g whole nutmeg
+- Contraindicated with: SSRIs, MAOIs, liver conditions
+
+**SHULGIN'S 10 ESSENTIAL OILS**:
+Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMMDA
+
+`;
+
+  // Add loaded knowledge base content if available
+  if (Object.keys(oilahuascaKnowledge).length > 0) {
+    context += '\n**DETAILED KNOWLEDGE BASE LOADED**: ';
+    context += Object.keys(oilahuascaKnowledge).join(', ');
+  }
+
+  return context;
+}
+
+// Generate dynamic buttons based on conversation content
+function generateDynamicCryptologyButtons(aiResponse, currentTopic, conversationHistory = []) {
+  const response = aiResponse.toLowerCase();
+  const suggestedTopics = new Set();
+
+  // Scan response for keywords and suggest related topics
+  for (const [topic, data] of Object.entries(cryptologyTopicMap)) {
+    if (topic === currentTopic) continue; // Skip current topic
+
+    // Check if any keywords appear in the response
+    if (data.keywords.some(kw => response.includes(kw))) {
+      suggestedTopics.add(topic);
+    }
+  }
+
+  // Also add related topics from current topic
+  if (currentTopic && cryptologyTopicMap[currentTopic]) {
+    for (const related of cryptologyTopicMap[currentTopic].related.slice(0, 2)) {
+      suggestedTopics.add(related);
+    }
+  }
+
+  // Always offer safety if not already discussed
+  if (!response.includes('safety') && !response.includes('warning')) {
+    suggestedTopics.add('safety');
+  }
+
+  // Convert to button array (max 4 buttons + "Ask anything" option)
+  const buttons = [];
+  let i = 0;
+  for (const topic of suggestedTopics) {
+    if (i >= 3) break;
+    const topicData = cryptologyTopicMap[topic] || { emoji: '📖' };
+    const label = topic.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    buttons.push({
+      id: `crypto_chat_${topic}`,
+      label: `${topicData.emoji} ${label}`,
+      style: i === 0 ? 'Primary' : 'Secondary'
+    });
+    i++;
+  }
+
+  // Always add "Ask Anything" button
+  buttons.push({
+    id: 'crypto_chat_free',
+    label: '💬 Ask Anything',
+    style: 'Success'
+  });
+
+  return buttons;
+}
+
+// Detect if user is having a live experience and needs support
+function detectExperienceReport(message) {
+  const lowerMsg = message.toLowerCase();
+  const experienceIndicators = [
+    'im feeling', "i'm feeling", 'i feel', 'right now',
+    'currently experiencing', 'i took', 'i ate', 'hours ago',
+    'tripping', 'high', 'scared', 'anxious', 'worried',
+    'help me', 'is this normal', 'how long', 'when will'
+  ];
+
+  return experienceIndicators.some(indicator => lowerMsg.includes(indicator));
+}
+
+// Build supportive context for experience reports
+function buildExperienceSupportContext() {
+  return `
+
+=== EXPERIENCE SUPPORT MODE ===
+The user appears to be having a LIVE EXPERIENCE. Your role is now SUPPORTIVE GUIDE:
+
+1. **REASSURE**: Remind them this is temporary. Oilahuasca typically lasts 24-72 hours.
+2. **GROUND**: Suggest grounding techniques - hold ice, smell something strong, drink water
+3. **NORMALIZE**: Common experiences include time dilation, visual changes, body sensations
+4. **SAFETY CHECK**: Gently ask if they're hydrated, have food available, someone nearby
+5. **NO JUDGMENT**: Be warm and supportive, no lectures about what they "should have done"
+6. **TIMELINE**: Remind them the peak is usually 8-16 hours, then gradual decline
+
+If they mention concerning symptoms (chest pain, severe confusion, trouble breathing):
+- Take seriously but stay calm
+- Suggest they contact someone in person or medical help if severe
+
+Your tone should be: calm, warm, present, reassuring. Like a wise friend sitting with them.
+`;
+}
+
+// Start or continue free chat session
+function startCryptologyFreeChat(userId, topic = 'oilahuasca') {
+  const session = {
+    startTime: Date.now(),
+    currentTopic: topic,
+    conversationHistory: [],
+    isExperienceReport: false
+  };
+  cryptologyFreeChatSessions.set(userId, session);
+  return session;
+}
+
+function getCryptologySession(userId) {
+  return cryptologyFreeChatSessions.get(userId);
+}
+
+function updateCryptologySession(userId, updates) {
+  const session = cryptologyFreeChatSessions.get(userId);
+  if (session) {
+    Object.assign(session, updates);
+    cryptologyFreeChatSessions.set(userId, session);
+  }
+}
+
 // Create system context from knowledge base
 const systemContext = `You are the ${knowledgeBase.bot_identity.name}.
 
@@ -1300,6 +1505,114 @@ client.on('interactionCreate', async (interaction) => {
         });
       }
     }
+
+    // Handle FREE CHAT buttons (crypto_chat_*)
+    if (interaction.customId.startsWith('crypto_chat_')) {
+      await interaction.deferUpdate();
+
+      const action = interaction.customId.replace('crypto_chat_', '');
+
+      // Handle end chat
+      if (action === 'end') {
+        cryptologyFreeChatSessions.delete(userId);
+        await interaction.editReply({
+          content: '🔮 **Oilahuasca Free Chat ended.**\n\nThank you for exploring with us! Use `/oilchat` anytime to start a new conversation.',
+          embeds: [],
+          components: []
+        });
+        return;
+      }
+
+      // Handle "Ask Anything" - just prompt for free input
+      if (action === 'free') {
+        const embed = new EmbedBuilder()
+          .setColor(0x9b59b6)
+          .setTitle('💬 Ask Anything')
+          .setDescription("Type your question in chat! I'll respond with AI-powered knowledge from our oilahuasca database.\n\nJust mention the bot or reply to this message with your question.")
+          .setFooter({ text: 'Free-form conversation mode active' });
+
+        await interaction.editReply({
+          embeds: [embed],
+          components: []
+        });
+        return;
+      }
+
+      // Handle topic button click - generate AI response for that topic
+      const topicName = action.replace(/_/g, ' ');
+      const session = getCryptologySession(userId) || startCryptologyFreeChat(userId, action);
+
+      // Update session with new topic
+      updateCryptologySession(userId, { currentTopic: action });
+
+      // Build context and generate AI response
+      let chatContext = buildOilahuascaContext();
+      if (session.isExperienceReport) {
+        chatContext += buildExperienceSupportContext();
+      }
+
+      let aiResponse;
+      try {
+        const prompt = `${chatContext}\n\nUser clicked "${topicName}" topic button. Provide a comprehensive but conversational explanation of ${topicName} in the context of oilahuasca theory. Include key facts, mechanisms, and any safety considerations. Keep response under 1500 characters.`;
+        const result = await model.generateContent(prompt);
+        aiResponse = result.response.text();
+        if (aiResponse.length > 1800) {
+          aiResponse = aiResponse.substring(0, 1800) + '...';
+        }
+      } catch (error) {
+        console.error('Gemini error in crypto_chat button:', error);
+        // Fallback to static response
+        aiResponse = getOilahuascaResponse(topicName) ||
+          `🔮 **${topicName.charAt(0).toUpperCase() + topicName.slice(1)}**\n\nLet me tell you about ${topicName} in the context of oilahuasca theory. Feel free to ask specific questions!`;
+      }
+
+      // Generate new dynamic buttons based on new response
+      const dynamicButtons = generateDynamicCryptologyButtons(aiResponse, action);
+
+      // Create button rows
+      const rows = [];
+      let currentRow = new ActionRowBuilder();
+      let buttonCount = 0;
+
+      for (const btn of dynamicButtons) {
+        const button = new ButtonBuilder()
+          .setCustomId(btn.id)
+          .setLabel(btn.label)
+          .setStyle(btn.style === 'Primary' ? ButtonStyle.Primary :
+                    btn.style === 'Success' ? ButtonStyle.Success :
+                    btn.style === 'Danger' ? ButtonStyle.Danger :
+                    ButtonStyle.Secondary);
+
+        currentRow.addComponents(button);
+        buttonCount++;
+
+        if (buttonCount >= 4) {
+          rows.push(currentRow);
+          currentRow = new ActionRowBuilder();
+          buttonCount = 0;
+        }
+      }
+
+      // Add "End Chat" button
+      currentRow.addComponents(
+        new ButtonBuilder()
+          .setCustomId('crypto_chat_end')
+          .setLabel('🚪 End Chat')
+          .setStyle(ButtonStyle.Danger)
+      );
+      rows.push(currentRow);
+
+      const embed = new EmbedBuilder()
+        .setColor(session.isExperienceReport ? 0xe74c3c : 0x9b59b6)
+        .setTitle(`🔮 ${topicName.charAt(0).toUpperCase() + topicName.slice(1)}`)
+        .setDescription(aiResponse)
+        .setFooter({ text: 'Type freely or click buttons • AI + Local Knowledge Base' });
+
+      await interaction.editReply({
+        embeds: [embed],
+        components: rows
+      });
+    }
   } catch (error) {
     console.error('❌ Interaction error:', error);
 
@@ -1458,6 +1771,106 @@ client.on('messageCreate', async (message) => {
 
         await message.reply({ embeds: [embed] });
       }
+      return;
+    }
+
+    // /oilchat command - Free-flowing oilahuasca conversation with AI
+    if (command === 'oilchat' || command === 'oilhelp' || command === 'spicechat') {
+      await message.channel.sendTyping();
+
+      // Get any initial question from args
+      const userQuestion = args.slice(1).join(' ');
+
+      // Start a free chat session
+      const session = startCryptologyFreeChat(message.author.id, 'oilahuasca');
+
+      // Check if this might be an experience report
+      const isExperience = userQuestion && detectExperienceReport(userQuestion);
+      if (isExperience) {
+        session.isExperienceReport = true;
+        updateCryptologySession(message.author.id, { isExperienceReport: true });
+      }
+
+      // Build context with oilahuasca knowledge
+      let chatContext = buildOilahuascaContext();
+      if (isExperience) {
+        chatContext += buildExperienceSupportContext();
+      }
+
+      // Generate AI response using Gemini
+      let aiResponse;
+      if (userQuestion) {
+        try {
+          const prompt = `${chatContext}\n\nUser asks: "${userQuestion}"\n\nProvide a helpful, knowledgeable response about oilahuasca/allylbenzene theory. Be conversational but informative. Keep response under 1500 characters.`;
+          const result = await model.generateContent(prompt);
+          aiResponse = result.response.text();
+          if (aiResponse.length > 1800) {
+            aiResponse = aiResponse.substring(0, 1800) + '...';
+          }
+        } catch (error) {
+          console.error('Gemini error in oilchat:', error);
+          aiResponse = getOilahuascaResponse(userQuestion) ||
+            "🔮 Welcome to the Oilahuasca knowledge chat! I'm here to discuss CYP450 enzyme manipulation, allylbenzenes, space paste recipes, and more. What would you like to explore?";
+        }
+      } else {
+        aiResponse = `🔮 **Welcome to Oilahuasca Free Chat**
+
+I'm your guide to understanding the science of sacred spice alchemy. Unlike the button-driven Cryptology system, here we can have a **free-flowing conversation**.
+
+**What I can help with:**
+• The science of CYP450 enzyme manipulation
+• Allylbenzene compounds and their metabolism
+• Space paste recipes and ingredient analysis
+• Shulgin's essential oil research
+• Safety information and harm reduction
+• **Live experience support** - if you're currently experiencing effects
+
+Just type your questions naturally, or click a topic button below to explore. I'm here to help! 🌿`;
+      }
+
+      // Generate dynamic buttons based on response
+      const dynamicButtons = generateDynamicCryptologyButtons(aiResponse, 'oilahuasca');
+
+      // Create button rows
+      const rows = [];
+      let currentRow = new ActionRowBuilder();
+      let buttonCount = 0;
+
+      for (const btn of dynamicButtons) {
+        const button = new ButtonBuilder()
+          .setCustomId(btn.id)
+          .setLabel(btn.label)
+          .setStyle(btn.style === 'Primary' ? ButtonStyle.Primary :
+                    btn.style === 'Success' ? ButtonStyle.Success :
+                    btn.style === 'Danger' ? ButtonStyle.Danger :
+                    ButtonStyle.Secondary);
+
+        currentRow.addComponents(button);
+        buttonCount++;
+
+        if (buttonCount >= 4) {
+          rows.push(currentRow);
+          currentRow = new ActionRowBuilder();
+          buttonCount = 0;
+        }
+      }
+
+      // Add "End Chat" button
+      currentRow.addComponents(
+        new ButtonBuilder()
+          .setCustomId('crypto_chat_end')
+          .setLabel('🚪 End Chat')
+          .setStyle(ButtonStyle.Danger)
+      );
+      rows.push(currentRow);
+
+      const embed = new EmbedBuilder()
+        .setColor(isExperience ? 0xe74c3c : 0x9b59b6)
+        .setTitle(isExperience ? '🌀 Experience Support Mode' : '🔮 Oilahuasca Free Chat')
+        .setDescription(aiResponse)
+        .setFooter({ text: 'Type freely or click buttons • Knowledge from local database + AI' });
+
+      await message.reply({ embeds: [embed], components: rows });
       return;
     }
 
@@ -1719,7 +2132,7 @@ client.on('messageCreate', async (message) => {
         .addFields(
           { name: '💎 Trading & Portfolio', value: '`/portfolio` - Show wallet holdings\n`/vkbt` - VKBT token status\n`/cure` - CURE token status\n`/pnl` - Profit/loss report\n`/arbitrage` - Recent opportunities\n`/bots` - Bot status dashboard' },
           { name: '💰 Market Data', value: '`/price [token]` - HIVE-Engine token price\nExample: `/price BEE`' },
-          { name: '🎨 AI & Content', value: '`/generate [prompt]` - Generate AI art\nExample: `/generate Hathor goddess vaporwave`\n`/cryptology [topic]` - Explore mysteries\nExample: `/cryptology nephilim`' },
+          { name: '🎨 AI & Content', value: '`/generate [prompt]` - Generate AI art\n`/cryptology [topic]` - Explore mysteries (button-driven)\n`/oilchat [question]` - **FREE CHAT** about oilahuasca\nExample: `/oilchat what is myristicin`' },
           { name: '⚔️ Gaming', value: '`/rs3 [item]` - RuneScape 3 prices\nExample: `/rs3 Dragon bones`' },
           { name: '❓ Help', value: '`/help` - Show this message' },
           { name: '💬 Chat Features', value: '• @mention me or DM me to chat!\n• I search Wikipedia, Google, Discord\n• I summarize YouTube videos\n• I respond to keywords (VKBT, quest, price)\n• I can analyze images!' },
@@ -2080,6 +2493,20 @@ client.on('messageCreate', async (message) => {
         personalizedContext += `\nThis user values deep knowledge. Provide detailed, academic-level responses.`;
       } else if (tone === 'cautious') {
         personalizedContext += `\nBe diplomatic and rebuild trust. Avoid controversial topics.`;
+      }
+    }
+
+    // Check if message is about oilahuasca topics - add knowledge context
+    const lowerUserMessage = userMessage.toLowerCase();
+    const oilahuascaKeywords = ['oilahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil'];
+    const isOilahuascaTopic = oilahuascaKeywords.some(kw => lowerUserMessage.includes(kw));
+
+    if (isOilahuascaTopic) {
+      personalizedContext += buildOilahuascaContext();
+
+      // Check if this might be an experience report
+      if (detectExperienceReport(userMessage)) {
+        personalizedContext += buildExperienceSupportContext();
       }
     }
 
