@@ -430,17 +430,27 @@ async function analyzeToken(symbol) {
 // ========================================
 
 function openPosition(symbol, entryPrice, quantity) {
+  // VKBT and CURE have special sell targets: 1 HIVE each (1:1 parity)
+  let takeProfit;
+  if (symbol === 'VKBT' || symbol === 'CURE') {
+    takeProfit = 1.0; // Sell at 1:1 parity with HIVE
+    console.log(`   🎯 Special target: ${symbol} will sell at 1.0 HIVE (1:1 parity)`);
+  } else {
+    takeProfit = entryPrice * (1 + CONFIG.TAKE_PROFIT_PERCENT / 100);
+  }
+
   activePositions[symbol] = {
     entryPrice,
     quantity,
     entryTime: Date.now(),
     entryTimeISO: new Date().toISOString(),
     stopLoss: entryPrice * (1 - CONFIG.STOP_LOSS_PERCENT / 100),
-    takeProfit: entryPrice * (1 + CONFIG.TAKE_PROFIT_PERCENT / 100)
+    takeProfit
   };
 
   savePositions();
   console.log(`   ✅ Opened position: ${quantity.toFixed(4)} ${symbol} @ ${entryPrice.toFixed(8)} HIVE`);
+  console.log(`   📈 Take profit: ${takeProfit.toFixed(8)} HIVE | Stop loss: ${activePositions[symbol].stopLoss.toFixed(8)} HIVE`);
 }
 
 function closePosition(symbol, exitPrice, reason) {
@@ -564,7 +574,7 @@ async function scanForOpportunities() {
       return volume >= CONFIG.MIN_VOLUME_24H && price > 0;
     })
     .filter(m => !activePositions.hasOwnProperty(m.symbol)) // Don't already have position
-    .filter(m => !['SWAP.HIVE', 'VKBT', 'CURE'].includes(m.symbol)) // Don't trade these (VKBT/CURE handled by market maker)
+    .filter(m => m.symbol !== 'SWAP.HIVE') // Don't trade SWAP.HIVE itself
     .slice(0, 20); // Top 20
 
   console.log(`\n🔎 Scanning ${candidates.length} candidate tokens...`);
