@@ -24,7 +24,7 @@ const CONFIG = {
 
   // Trading parameters
   DRY_RUN: process.env.DRY_RUN === 'true', // LIVE trading by default
-  BASE_TRADE_SIZE_HIVE: 0.01, // Base trade size (will adjust based on confidence)
+  CAPITAL_ALLOCATION_PERCENT: 10, // Use 10% of available HIVE per trade (scales with signal strength)
   MIN_PROFIT_PERCENT: 3.0, // Minimum 3% profit target
 
   // Signal strength thresholds
@@ -548,14 +548,30 @@ async function scanForOpportunities() {
     if (tokenAnalysis.analysis.signal.signal === 'BUY') {
       console.log(`\n🚨 STRONG BUY SIGNAL: ${candidate.symbol}`);
 
+      // Get available HIVE balance
+      const availableHIVE = getAccountBalance(CONFIG.ACCOUNT, 'SWAP.HIVE');
+      console.log(`   Available: ${availableHIVE.toFixed(4)} SWAP.HIVE`);
+
+      if (availableHIVE < 0.001) {
+        console.log(`   ❌ Insufficient balance`);
+        continue;
+      }
+
       const entryPrice = parseFloat(tokenAnalysis.metrics.lowestAsk || tokenAnalysis.metrics.lastPrice);
 
-      // Scale trade size based on signal strength (60-100 range)
-      const strengthMultiplier = (tokenAnalysis.analysis.signal.strength - 60) / 40; // 0 to 1
-      const tradeSize = CONFIG.BASE_TRADE_SIZE_HIVE * (1 + strengthMultiplier); // 0.01 to 0.02 HIVE
+      // Calculate trade size dynamically based on:
+      // 1. Signal strength (60-100 maps to 60%-100% of allocation)
+      // 2. Available capital
+      const signalStrength = tokenAnalysis.analysis.signal.strength;
+      const strengthFactor = signalStrength / 100; // 0.6 to 1.0
+      const baseAllocation = (availableHIVE * CONFIG.CAPITAL_ALLOCATION_PERCENT / 100);
+      const tradeSize = baseAllocation * strengthFactor;
       const quantity = tradeSize / entryPrice;
 
-      const result = executeBuy(candidate.symbol, quantity, entryPrice);
+      console.log(`   Trade size: ${tradeSize.toFixed(4)} HIVE (${(strengthFactor * 100).toFixed(0)}% allocation)`);
+      console.log(`   Quantity: ${quantity.toFixed(8)} ${candidate.symbol}`);
+
+      const result = await executeBuy(candidate.symbol, quantity, entryPrice);
 
       if (result.success) {
         openPosition(candidate.symbol, entryPrice, quantity);
