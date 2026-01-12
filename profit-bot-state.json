@@ -1,0 +1,334 @@
+{
+  "openOrders": {
+    "dry-1768232891152": {
+      "symbol": "SWAP.GIFU",
+      "side": "SELL",
+      "price": 0.00998999,
+      "quantity": 16340.91128625,
+      "timestamp": 1768232891152
+    },
+    "dry-1768232894630": {
+      "symbol": "BEE",
+      "side": "SELL",
+      "price": 0.74999999,
+      "quantity": 1.69159534,
+      "timestamp": 1768232894630,
+      "strategy": "CAUTIOUS"
+    },
+    "dry-1768232897890": {
+      "symbol": "TOOFUCKEH",
+      "side": "SELL",
+      "price": 0.00999999,
+      "quantity": 387.62831915,
+      "timestamp": 1768232897891,
+      "strategy": "DUMP"
+    },
+    "dry-1768232903178": {
+      "symbol": "SWAP.BUSD",
+      "side": "SELL",
+      "price": 2.0999999899999997,
+      "quantity": 0.0066,
+      "timestamp": 1768232903178
+    },
+    "dry-1768232915186": {
+      "symbol": "SWAP.HBD",
+      "side": "BUY",
+      "price": 2.00000001,
+      "quantity": 1.6803056225984718,
+      "timestamp": 1768232915186,
+      "strategy": "SPREAD_CAPTURE",
+      "targetSellPrice": 10.099999989999999
+    },
+    "dry-1768232958244": {
+      "symbol": "SWAP.GIFU",
+      "side": "SELL",
+      "price": 0.00998999,
+      "quantity": 16340.91128625,
+      "timestamp": 1768232958244
+    },
+    "dry-1768232960667": {
+      "symbol": "BEE",
+      "side": "SELL",
+      "price": 0.74999999,
+      "quantity": 1.69159534,
+      "timestamp": 1768232960667,
+      "strategy": "CAUTIOUS"
+    },
+    "dry-1768232963091": {
+      "symbol": "TOOFUCKEH",
+      "side": "SELL",
+      "price": 0.00999999,
+      "quantity": 387.62831915,
+      "timestamp": 1768232963091,
+      "strategy": "DUMP"
+    },
+    "dry-1768232968332": {
+      "symbol": "SWAP.BUSD",
+      "side": "SELL",
+      "price": 2.0999999899999997,
+      "quantity": 0.0066,
+      "timestamp": 1768232968332
+    },
+    "dry-1768232975513": {
+      "symbol": "SWAP.HBD",
+      "side": "BUY",
+      "price": 2.00000001,
+      "quantity": 1.6803056225984718,
+      "timestamp": 1768232975513,
+      "strategy": "SPREAD_CAPTURE",
+      "targetSellPrice": 10.099999989999999
+    },
+    "dry-1768232988489": {
+      "symbol": "SWAP.GIFU",
+      "side": "SELL",
+      "price": 0.00998999,
+      "quantity": 16340.91128625,
+      "timestamp": 1768232988489
+    },
+    "dry-1768232990907": {
+      "symbol": "BEE",
+      "side": "SELL",
+      "price": 0.74999999,
+      "quantity": 1.69159534,
+      "timestamp": 1768232990907,
+      "strategy": "CAUTIOUS"
+    },
+    "dry-1768232993333": {
+      "symbol": "TOOFUCKEH",
+      "side": "SELL",
+      "price": 0.00999999,
+      "quantity": 387.62831915,
+      "timestamp": 1768232993333,
+      "strategy": "DUMP"
+    }
+  },
+  "fills": [],
+  "performance": {
+    "totalTrades": 0,
+    "profitableTrades": 0,
+    "totalProfit": 0,
+    "strategyPerformance": {}
+  },
+  "tokenCache": {
+    "SWAP.BLURT": {
+      "symbol": "SWAP.BLURT",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 0.76,
+      "buyRatio": 0.24,
+      "sellRatio": 0.76,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232862551
+    },
+    "POB": {
+      "symbol": "POB",
+      "behavior": "HIGH_VOLUME",
+      "strategy": "TREND_FOLLOW",
+      "confidence": 0.7,
+      "buyRatio": 0.5111111111111111,
+      "sellRatio": 0.4888888888888889,
+      "tradeCount": 45,
+      "lastAnalyzed": 1768232865047
+    },
+    "BBH": {
+      "symbol": "BBH",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.6666666666666666,
+      "sellRatio": 0.3333333333333333,
+      "tradeCount": 21,
+      "lastAnalyzed": 1768232867522
+    },
+    "SPS": {
+      "symbol": "SPS",
+      "behavior": "BUY_SUPPORT",
+      "strategy": "SPREAD_CAPTURE",
+      "confidence": 0.73,
+      "buyRatio": 0.73,
+      "sellRatio": 0.27,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232868906
+    },
+    "WAIV": {
+      "symbol": "WAIV",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 0.8,
+      "buyRatio": 0.2,
+      "sellRatio": 0.8,
+      "tradeCount": 75,
+      "lastAnalyzed": 1768232871371
+    },
+    "SCRAP": {
+      "symbol": "SCRAP",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.375,
+      "sellRatio": 0.625,
+      "tradeCount": 16,
+      "lastAnalyzed": 1768232873508
+    },
+    "PEPE": {
+      "symbol": "PEPE",
+      "behavior": "BUY_SUPPORT",
+      "strategy": "SPREAD_CAPTURE",
+      "confidence": 0.86,
+      "buyRatio": 0.86,
+      "sellRatio": 0.14,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232875009
+    },
+    "LEO": {
+      "symbol": "LEO",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.3888888888888889,
+      "sellRatio": 0.6111111111111112,
+      "tradeCount": 36,
+      "lastAnalyzed": 1768232876279
+    },
+    "PIMP": {
+      "symbol": "PIMP",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 0.7368421052631579,
+      "buyRatio": 0.2631578947368421,
+      "sellRatio": 0.7368421052631579,
+      "tradeCount": 19,
+      "lastAnalyzed": 1768232878168
+    },
+    "SWAP.HBD": {
+      "symbol": "SWAP.HBD",
+      "behavior": "BUY_SUPPORT",
+      "strategy": "SPREAD_CAPTURE",
+      "confidence": 0.8813559322033898,
+      "buyRatio": 0.8813559322033898,
+      "sellRatio": 0.11864406779661017,
+      "tradeCount": 59,
+      "lastAnalyzed": 1768232880295
+    },
+    "FOODIE": {
+      "symbol": "FOODIE",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.5833333333333334,
+      "sellRatio": 0.4166666666666667,
+      "tradeCount": 12,
+      "lastAnalyzed": 1768232882541
+    },
+    "CTP": {
+      "symbol": "CTP",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 1,
+      "buyRatio": 0,
+      "sellRatio": 1,
+      "tradeCount": 12,
+      "lastAnalyzed": 1768232883785
+    },
+    "SLOTHBUZZ": {
+      "symbol": "SLOTHBUZZ",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.5,
+      "sellRatio": 0.5,
+      "tradeCount": 12,
+      "lastAnalyzed": 1768232886439
+    },
+    "AFIT": {
+      "symbol": "AFIT",
+      "behavior": "BUY_SUPPORT",
+      "strategy": "SPREAD_CAPTURE",
+      "confidence": 0.7272727272727273,
+      "buyRatio": 0.7272727272727273,
+      "sellRatio": 0.2727272727272727,
+      "tradeCount": 11,
+      "lastAnalyzed": 1768232887710
+    },
+    "VYB": {
+      "symbol": "VYB",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 1,
+      "buyRatio": 0,
+      "sellRatio": 1,
+      "tradeCount": 11,
+      "lastAnalyzed": 1768232889164
+    },
+    "BEE": {
+      "symbol": "BEE",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.62,
+      "sellRatio": 0.38,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232894122
+    },
+    "TOOFUCKEH": {
+      "symbol": "TOOFUCKEH",
+      "behavior": "CASHOUT",
+      "strategy": "DUMP",
+      "confidence": 1,
+      "buyRatio": 0,
+      "sellRatio": 1,
+      "tradeCount": 11,
+      "lastAnalyzed": 1768232897477
+    },
+    "SWAP.BTC": {
+      "symbol": "SWAP.BTC",
+      "behavior": "BUY_SUPPORT",
+      "strategy": "SPREAD_CAPTURE",
+      "confidence": 0.7352941176470589,
+      "buyRatio": 0.7352941176470589,
+      "sellRatio": 0.2647058823529412,
+      "tradeCount": 34,
+      "lastAnalyzed": 1768232907031
+    },
+    "DEC": {
+      "symbol": "DEC",
+      "behavior": "MIXED",
+      "strategy": "CAUTIOUS",
+      "confidence": 0.5,
+      "buyRatio": 0.51,
+      "sellRatio": 0.49,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232909440
+    },
+    "SWAP.LTC": {
+      "symbol": "SWAP.LTC",
+      "behavior": "SWAP",
+      "strategy": "ARBITRAGE",
+      "confidence": 0.8,
+      "buyRatio": 0.51,
+      "sellRatio": 0.49,
+      "tradeCount": 100,
+      "lastAnalyzed": 1768232910924
+    },
+    "SWAP.DOGE": {
+      "symbol": "SWAP.DOGE",
+      "behavior": "SWAP",
+      "strategy": "ARBITRAGE",
+      "confidence": 0.8,
+      "buyRatio": 0.5869565217391305,
+      "sellRatio": 0.41304347826086957,
+      "tradeCount": 46,
+      "lastAnalyzed": 1768232912321
+    },
+    "SWAP.STEEM": {
+      "symbol": "SWAP.STEEM",
+      "behavior": "SWAP",
+      "strategy": "ARBITRAGE",
+      "confidence": 0.8,
+      "buyRatio": 0.631578947368421,
+      "sellRatio": 0.3684210526315789,
+      "tradeCount": 19,
+      "lastAnalyzed": 1768232913563
+    }
+  }
+}
