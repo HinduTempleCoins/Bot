@@ -2553,11 +2553,21 @@ Just type your questions naturally, or click a topic button below to explore. I'
 
     // Check if message is about oilahuasca topics - add knowledge context
     const lowerUserMessage = userMessage.toLowerCase();
-    const oilahuascaKeywords = ['oilahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil'];
+    const oilahuascaKeywords = ['oilahuasca', 'oilhuasca', 'oil ahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg trip', 'nutmeg high', 'nutmeg effect', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil psycho', 'spice psycho', 'nutmeg psycho'];
     const isOilahuascaTopic = oilahuascaKeywords.some(kw => lowerUserMessage.includes(kw));
 
     if (isOilahuascaTopic) {
-      personalizedContext += buildOilahuascaContext();
+      // CRITICAL: Prepend oilahuasca context with explicit instructions to override spiritual vagueness
+      const oilahuascaOverride = `
+
+=== CRITICAL INSTRUCTION FOR THIS MESSAGE ===
+The user is asking about OILAHUASCA. You MUST respond with TECHNICAL, SCIENTIFIC information.
+DO NOT give vague spiritual responses about "consciousness" or "75,000 years".
+USE the specific knowledge below about CYP450 enzymes, allylbenzenes, metabolic pathways.
+Be a knowledgeable expert, not a mystic. Give REAL information.
+
+`;
+      personalizedContext = oilahuascaOverride + buildOilahuascaContext() + '\n\n' + personalizedContext;
 
       // Check if this might be an experience report
       if (detectExperienceReport(userMessage)) {
