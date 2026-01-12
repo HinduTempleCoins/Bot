@@ -1,0 +1,66 @@
+{
+  "giftTokens": [],
+  "tradingTokens": [
+    {
+      "symbol": "VKBT",
+      "balance": 50000,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "CURE",
+      "balance": 1500.1,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "SWAP.GIFU",
+      "balance": 16340.91128625,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "BEE",
+      "balance": 1.69159534,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "TOOFUCKEH",
+      "balance": 387.62831915,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "BYT",
+      "balance": 1.33,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "SWAP.BUSD",
+      "balance": 0.0066,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "GLITTER",
+      "balance": 2.62557943,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "SWAP.PEPET",
+      "balance": 967.00000038,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    },
+    {
+      "symbol": "PPBT",
+      "balance": 5,
+      "source": "TRADING",
+      "strategy": "MICRO_DANCE"
+    }
+  ],
+  "timestamp": 1768232831472
+}
