@@ -1,0 +1,371 @@
+{
+  "cyp450_enzyme_database": {
+    "document_info": {
+      "title": "CYP450 Enzyme Database for Oilahuasca",
+      "subtitle": "Comprehensive Analysis of Cytochrome P450 Interactions with Herbs and Spices",
+      "purpose": "Understanding enzyme modulation for strategic oilahuasca formulation"
+    },
+
+    "cyp450_overview": {
+      "what_are_cyp450_enzymes": {
+        "definition": "Heme-containing monooxygenase proteins that insert oxygen into substrates",
+        "location": "Primarily in liver (also intestine, kidney, lung), membrane-bound (endoplasmic reticulum)",
+        "function": "Essential for xenobiotic metabolism (drugs, toxins, foreign compounds)",
+        "research_quote": "Human cytochrome P450 (CYP) enzymes play important roles in the detoxification of drugs, cellular metabolism, and homeostasis. Almost 80% of oxidative metabolism and approximately 50% of the overall elimination of common clinical drugs can be attributed to CYP450."
+      },
+      "hepatic_distribution": {
+        "CYP3A4": {"percentage": "~30% of hepatic CYP450", "drugs_metabolized": ">50%", "note": "MOST IMPORTANT clinically, also in intestine"},
+        "CYP2C9": {"percentage": "~20%", "drugs_metabolized": "~15%", "note": "Important for NSAIDs, warfarin"},
+        "CYP1A2": {"percentage": "~13%", "drugs_metabolized": "~10%", "note": "PRIMARY for allylbenzenes, highly inducible by coffee/smoking"},
+        "CYP2E1": {"percentage": "~7%", "note": "Ethanol metabolism, some allylbenzene metabolism"},
+        "CYP2D6": {"percentage": "~2%", "drugs_metabolized": "~25%", "note": "Highly polymorphic (genetic variation), many antidepressants/opioids"}
+      },
+      "genetic_polymorphism": {
+        "poor_metabolizers_pm": "Deficient enzyme activity, drugs accumulate, higher risk of side effects",
+        "extensive_metabolizers_em": "Normal enzyme activity, standard drug metabolism",
+        "ultra_rapid_metabolizers_um": "Extra gene copies, very fast metabolism, may need higher doses",
+        "oilahuasca_implication": "CYP1A2 polymorphism could affect myristicin metabolism - some individuals more sensitive, others may need higher doses"
+      },
+      "phase_i_functions": ["Oxidation (most common)", "Reduction", "Hydrolysis", "Introduces functional groups (-OH, -NH2, -COOH)", "Makes compounds more reactive (paradoxically sometimes MORE toxic)"],
+      "induction_vs_inhibition": {
+        "induction": {
+          "definition": "Increases enzyme synthesis",
+          "mechanism": "More enzyme protein produced",
+          "time_course": "Takes 24-72 hours (requires gene transcription)",
+          "duration": "Sustained effect (days to weeks)",
+          "examples": "Coffee (CYP1A2), St. John's Wort (CYP3A4)"
+        },
+        "inhibition": {
+          "definition": "Blocks enzyme activity",
+          "time_course": "Can be immediate (minutes to hours)",
+          "types": "Reversible or irreversible",
+          "examples": "Grapefruit juice (CYP3A4), Nutmeg (CYP1A2)"
+        },
+        "oilahuasca_strategy": "Coffee: Inducer (prepare system) + Nutmeg, cinnamon, pepper: Inhibitors (block metabolism) = Maximum effect"
+      }
+    },
+
+    "coffee_caffeine_detailed": {
+      "role": "CYP1A2 INDUCER - Preparation Phase",
+      "caffeine_as_substrate": {
+        "primary_metabolism": {
+          "enzyme": "CYP1A2 (95% of metabolism)",
+          "products": {
+            "paraxanthine": "80% (1,7-dimethylxanthine)",
+            "theobromine": "10% (3,7-dimethylxanthine)",
+            "theophylline": "5% (1,3-dimethylxanthine)"
+          }
+        },
+        "specificity": "95% of caffeine metabolism via CYP1A2"
+      },
+      "caffeine_as_inducer": {
+        "mechanism": {
+          "step_1": "Caffeine (or other coffee compounds) bind to AhR (Aryl hydrocarbon Receptor)",
+          "step_2": "AhR translocates to nucleus",
+          "step_3": "AhR binds to XRE (Xenobiotic Response Elements) in CYP1A2 gene promoter",
+          "step_4": "Increased CYP1A2 gene transcription",
+          "step_5": "More CYP1A2 mRNA produced",
+          "step_6": "More CYP1A2 protein synthesized",
+          "result": "2-3× increase in enzyme activity"
+        },
+        "time_course": {
+          "0_6_hours": "Minimal effect",
+          "6_24_hours": "Beginning induction",
+          "24_72_hours": "Maximum induction with regular use",
+          "cessation": "Returns to baseline in 3-7 days"
+        },
+        "magnitude": {
+          "regular_coffee_drinkers": "2-3× higher CYP1A2 activity",
+          "heavy_smokers": "Up to 5× higher (also AhR agonists)"
+        }
+      },
+      "other_coffee_compounds": {
+        "chlorogenic_acids": "Polyphenols (antioxidants), may contribute to CYP1A2 induction",
+        "kahweol_cafestol": "Diterpenes in unfiltered coffee (French press, espresso), may induce Phase II enzymes (GST)"
+      },
+      "mao_interaction": {
+        "caffeine_itself": "Very weak MAO inhibitor (probably negligible)",
+        "note": "Main role is CYP1A2 induction; myristicin provides MAO inhibition"
+      },
+      "optimal_use_in_oilahuasca": {
+        "acute_protocol": {
+          "dose": "2-4 cups strong coffee (200-400mg caffeine)",
+          "timing": "30-60 minutes before allylbenzenes",
+          "purpose": "Allows early phase induction to begin"
+        },
+        "chronic_protocol_maximum_effect": {
+          "dose": "3-5 cups per day (300-500mg caffeine daily)",
+          "duration": "3-7 days prior",
+          "purpose": "Maximizes CYP1A2 induction"
+        },
+        "form_considerations": {
+          "brewed_coffee": "Best (full spectrum of compounds)",
+          "espresso": "Concentrated (good)",
+          "french_press": "High kahweol/cafestol (may help)",
+          "caffeine_pills": "Caffeine only (missing co-factors)"
+        }
+      }
+    },
+
+    "nutmeg_myristicin_detailed": {
+      "role": "PRIMARY CYP1A2 INHIBITOR - Keystone Compound",
+      "as_substrate": {
+        "enzymes_involved": {
+          "CYP1A2": "Primary enzyme",
+          "CYP3A4": "Secondary enzyme",
+          "CYP2E1": "Minor contribution"
+        },
+        "major_metabolite": "5-allyl-1-methoxy-2,3-dihydroxybenzene (demethylenation product)"
+      },
+      "mechanism_based_inhibition": {
+        "research_quote": "CYP cocktail assays showed that myristicin most significantly inhibits CYP1A2 among five CYP enzymes (CYP1A2, CYP2D6, CYP2E1, CYP3A4 and CYP2C19) from human liver microsomes. The 3.21-fold IC50 shift value of CYP1A2 indicates that myristicin may be a mechanism-based inhibitor of CYP1A2.",
+        "specificity_profile": {
+          "CYP1A2": "████████████ Highest inhibition",
+          "CYP3A4": "████░░░░░░░░ Moderate",
+          "CYP2D6": "███░░░░░░░░░ Low",
+          "CYP2E1": "██░░░░░░░░░░ Minimal",
+          "CYP2C19": "█░░░░░░░░░░░ Very low"
+        },
+        "ic50_shift_meaning": "Without pre-incubation IC50 = X; with 30-min pre-incubation IC50 = X/3.21. Inhibition becomes 3.21× stronger with time - diagnostic of mechanism-based inhibition."
+      },
+      "mechanism_detailed": {
+        "step_1_binding": "Myristicin enters CYP1A2 active site, heme iron binds to substrate",
+        "step_2_oxidation": "Normal catalytic cycle begins (Fe³⁺ + O₂ → Compound I)",
+        "step_3_product_formation": {
+          "pathway_a": "1'-Hydroxymyristicin (intended product)",
+          "pathway_b": "2',3'-Epoxy-myristicin (reactive intermediate) OR myristicin radical cation"
+        },
+        "step_4_inactivation": "Reactive intermediate + enzyme active site amino acids → Covalent adduct → Enzyme PERMANENTLY modified → Cannot function → Must be degraded and replaced (24-72 hours)"
+      },
+      "glutathione_rescue_experiment": {
+        "research_quote": "Reduced glutathione was shown to block the inhibition of CYP1A2, indicating that myristicin utilized a mechanism-based inhibition.",
+        "results": {
+          "without_gsh": "80% enzyme inactivation",
+          "with_gsh_5mM": "20% enzyme inactivation"
+        },
+        "conclusion": "GSH traps reactive intermediate before it can attack enzyme",
+        "clinical_implication": "When glutathione is depleted (by cinnamon), mechanism-based inhibition is ENHANCED (no rescue)"
+      },
+      "enzyme_induction_paradox": {
+        "research_quote": "Treatment of rats with myristicin caused 2-20 fold increases in liver P450 1A1/2, 2B1/2, and 2E1 enzyme activities relative to controls.",
+        "enzymes_induced": ["CYP1A1/1A2: 2-20× increase", "CYP2B1/2: 2-20× increase", "CYP2E1: 2-20× increase"],
+        "time_course": "Single dose: Inhibition dominates (hours); Repeated dosing: Induction accumulates (days)",
+        "mechanism": "Myristicin (or metabolites) activate AhR, CAR, PXR receptors → induce CYP450 genes"
+      },
+      "temporal_profile_single_dose": {
+        "T_0": "Myristicin administered",
+        "T_0_4hr": "Absorption, distribution",
+        "T_2_8hr": "Peak plasma levels",
+        "T_4_12hr": "Mechanism-based inhibition accumulating, CYP1A2 activity declining",
+        "T_12_24hr": "Minimum CYP1A2 activity, psychoactive effects emerging",
+        "T_24_48hr": "Gene induction beginning, new enzyme synthesis",
+        "T_48_72hr": "Enzyme activity recovering, effects declining"
+      },
+      "mao_inhibition": {
+        "historical_research": "Nutmeg and its active component, myristicin, show evidence of central monoamine oxidase (MAO) inhibition (1963)",
+        "evidence": ["Lowered convulsive dose of tryptamine (MAO substrate)", "Increased brain 5-HT (serotonin) levels"],
+        "type": "Probably both MAO-A and MAO-B, moderate potency",
+        "relevance": "Contributes to psychoactive effects, may enhance endogenous monoamines"
+      },
+      "gst_induction": {
+        "research_quote": "A/J albino mice, given 5 to 50 mg doses of myristicin, showed 4- to 14-fold increase in liver GST specific activity",
+        "paradox": "Myristicin induces GST (should INCREASE detox) BUT cinnamon depletes GSH (substrate for GST). No substrate → GST can't function even if induced."
+      },
+      "dose_dependent_effects": {
+        "culinary_0_5_1g": "No psychoactive effects, minimal CYP450 effects, safe",
+        "low_1_2g": "Mild psychoactive effects, some CYP1A2 inhibition, generally tolerable",
+        "medium_2_5g": "Clear psychoactive effects, significant CYP1A2 inhibition, moderate side effects",
+        "high_5_10g": "Strong psychoactive effects, near-complete CYP1A2 inhibition, severe side effects common",
+        "toxic_over_10g": "Dangerous, medical attention may be required"
+      }
+    },
+
+    "cinnamon_cinnamaldehyde_detailed": {
+      "role": "MULTI-CYP450 INHIBITOR + GLUTATHIONE DEPLETOR",
+      "multiple_cyp450_inhibition": {
+        "research_citation": "Effects of mace and nutmeg on human cytochrome P450 3A4 and 2C9 activity... Cinnamon significantly inhibited CYP3A4 or CYP2C9 activity.",
+        "enzymes_affected": {
+          "CYP2C9": "Strongly inhibited",
+          "CYP3A4": "Strongly inhibited",
+          "CYP2A6": "Inhibited (time-dependent)",
+          "CYP1A2": "Inhibited (moderate)",
+          "CYP2D": "Some inhibition"
+        }
+      },
+      "time_dependent_inhibition": {
+        "research": "Mechanisms of Herb-Drug Interactions Involving Cinnamon and Cytochrome P450 2A6: Focus on Time-dependent Inhibition by Cinnamaldehyde",
+        "finding": "Pre-incubation increases inhibition, similar to mechanism-based inhibition",
+        "active_inhibitors": ["Cinnamaldehyde (main)", "2-Methoxycinnamaldehyde"]
+      },
+      "active_compounds": {
+        "cinnamaldehyde": "Main flavor compound (65-80% of bark oil), reactive aldehyde group",
+        "2_methoxycinnamaldehyde": "Smaller amounts, also inhibits CYP2A6",
+        "eugenol": "Especially in cassia cinnamon, anesthetic properties",
+        "coumarin": "In cassia (not Ceylon), hepatotoxic in high doses"
+      },
+      "glutathione_depletion_critical": {
+        "research_quote": "Induction of apoptosis by cinnamaldehyde through reactive oxygen species production, glutathione depletion, and caspase activation",
+        "mechanism": {
+          "step_1_ros_production": "Cinnamaldehyde disrupts mitochondrial function → Reactive Oxygen Species generated → Oxidative stress",
+          "step_2_gsh_depletion": "ROS accumulate + Glutathione (antioxidant) → GSH oxidized (used up) → GSH stores depleted",
+          "step_3_consequences": "Low GSH → Cannot neutralize ROS → Cannot conjugate Phase II metabolites → Metabolites accumulate → Prolonged drug effects",
+          "step_4_high_doses": "Severe oxidative stress → Caspase cascade → Apoptosis (cell death)"
+        },
+        "oilahuasca_relevance": "At oilahuasca doses: Steps 1-2 occur (beneficial for potentiation). At very high doses: Step 4 occurs (toxicity)."
+      },
+      "triple_mechanism_for_oilahuasca": {
+        "mechanism_1_cyp450_inhibition": "Blocks CYP3A4 (backup pathway), CYP2C9, CYP2A6, 2D (prevents alternative routes)",
+        "mechanism_2_gsh_depletion": "GSH used up by ROS, Phase II detox compromised, cannot conjugate metabolites, prolongs effects",
+        "mechanism_3_gst_substrate_depletion": "Even if GST enzyme induced, no glutathione substrate available, GST cannot function",
+        "combined_result": "Phase I: Blocked (CYP450 inhibition) + Phase II: Blocked (GSH depletion) + Alternative Pathways: Blocked = MAXIMUM METABOLITE ACCUMULATION"
+      },
+      "cassia_vs_ceylon": {
+        "cassia": {"type": "Chinese cinnamon", "cost": "Cheaper, more common", "coumarin": "Higher (hepatotoxic)", "flavor": "Stronger", "cinnamaldehyde": "More"},
+        "ceylon": {"type": "True cinnamon", "cost": "More expensive", "coumarin": "Very low (safer)", "flavor": "Milder", "cinnamaldehyde": "Still present"},
+        "recommendation": "Ceylon preferred (lower toxicity); Cassia acceptable for single use"
+      },
+      "optimal_dosing": {
+        "timing": "30-60 minutes before allylbenzenes (allows GSH depletion and CYP450 inhibition to establish)",
+        "amount": "1-2 teaspoons ground cinnamon (2-4g) OR cinnamon stick tea (steep 2 sticks) OR cinnamon extract",
+        "form": "Ground bark most common; cinnamon oil very concentrated (use 5-10 drops)"
+      },
+      "safety_considerations": {
+        "coumarin_toxicity": "Tolerable daily intake: 0.1 mg/kg body weight. Single doses for oilahuasca: Probably safe.",
+        "cinnamaldehyde": "GI irritation at very high doses, generally safe at 2-4g",
+        "drug_interactions": "Will increase levels of ANY CYP3A4/2C9 substrate including many prescription medications"
+      }
+    },
+
+    "black_pepper_piperine_detailed": {
+      "role": "SELECTIVE CYP3A4 INHIBITOR - Blocks Backup Pathway",
+      "selective_inhibition": {
+        "research_quote": "Piperine is a relatively selective CYP3A4 inhibitor",
+        "selectivity_profile": {
+          "CYP3A4": "████████████ Strong inhibition",
+          "CYP2C9": "░░░░░░░░░░░░ Minimal",
+          "CYP1A2": "░░░░░░░░░░░░ Minimal",
+          "CYP2D6": "░░░░░░░░░░░░ Minimal",
+          "CYP2E1": "░░░░░░░░░░░░ None"
+        },
+        "value": "Specifically blocks CYP3A4 (main backup pathway) without interfering with CYP1A2 (myristicin's target)"
+      },
+      "dual_mechanism": {
+        "action_1_cyp3a4_inhibition": "Competitive inhibition, piperine competes with substrates, reversible, dose-dependent",
+        "action_2_p_glycoprotein_inhibition": "P-gp = efflux pump in intestinal cells, pumps drugs back into gut, piperine blocks this pump, increases oral bioavailability",
+        "combined_effect": "Drug absorption ↑ (P-gp blocked) + Drug metabolism ↓ (CYP3A4 blocked) = MUCH higher bioavailability"
+      },
+      "bioavailability_enhancement_example": {
+        "curcumin_without_piperine": "1% bioavailable (extensive first-pass metabolism, P-gp efflux)",
+        "curcumin_with_piperine_20mg": "2000% increase in bioavailability",
+        "commercial_product": "BioPerine® (standardized 95% piperine), FDA-approved GRAS"
+      },
+      "piperine_content": {
+        "black_pepper": "5-10%",
+        "white_pepper": "2-4%",
+        "long_pepper": "3-5%",
+        "cubeb_pepper": "1-2%",
+        "calculation": "1g black pepper = 50-100mg piperine; Effective dose: 5-20mg; Required: 100-400mg black pepper"
+      },
+      "oilahuasca_role": {
+        "the_backup_pathway_problem": "CYP1A2 (blocked by myristicin) → Body tries CYP3A4 as backup → Piperine blocks CYP3A4 → No backup pathway available → Accumulation",
+        "strategic_importance": "Without piperine, when CYP1A2 is saturated, CYP3A4 takes over. Piperine ensures this doesn't happen."
+      },
+      "other_compounds": {
+        "chavicine": "Geometric isomer of piperine, similar properties, also present (~1-3%)",
+        "essential_oil": "β-caryophyllene (major), limonene, pinene",
+        "methyleugenol": "Trace amounts, adds to allylbenzene load (minimal)"
+      },
+      "optimal_use": {
+        "fresh_ground_black_pepper": "500mg-1g (about 1/4-1/2 teaspoon), grind fresh",
+        "long_pepper": "Traditional Ayurvedic use, similar piperine content",
+        "bioperine_extract": "10-20mg piperine (standardized)",
+        "timing": "30-60 minutes before allylbenzenes (allows enzyme binding) or concurrent with other inhibitors"
+      },
+      "synergy_with_cinnamon": {
+        "research": "Cinnamon, black pepper, ginger, mace, and nutmeg significantly inhibited CYP3A4 or CYP2C9 activity",
+        "combined": "Cinnamon (CYP3A4 + CYP2C9 + others) + Pepper (CYP3A4 selective) = Stronger CYP3A4 inhibition, additive or synergistic"
+      },
+      "safety": {
+        "culinary_doses": "500mg-1g pepper: Very safe, used worldwide in cooking",
+        "high_doses": ">5g pepper: GI irritation possible, burning sensation",
+        "drug_interactions": ["Statins (atorvastatin, simvastatin)", "Calcium channel blockers", "Benzodiazepines", "Immunosuppressants"]
+      }
+    },
+
+    "parsley_apiole_detailed": {
+      "role": "CYP1A INHIBITOR + DMMDA SUBSTRATE - Dual Action Like Myristicin",
+      "mixed_type_inhibition": {
+        "research_quote": "Apiole, an important constituent of parsley, is a mixed-type inhibitor of the CYP1A subfamily",
+        "what_is_mixed_type": {
+          "competitive_component": "Apiole competes with substrates for active site, reversible, increases Km",
+          "non_competitive_component": "Apiole binds elsewhere on enzyme, changes enzyme shape, decreases Vmax",
+          "both_operating": "Both mechanisms operating simultaneously = Mixed-Type"
+        },
+        "enzymes_affected": {
+          "CYP1A1": "Inhibited",
+          "CYP1A2": "Inhibited (THIS IS KEY!)"
+        },
+        "assays_used": "EROD (CYP1A1 marker), MROD (CYP1A2 marker) - both inhibited by apiole"
+      },
+      "docking_studies": {
+        "research": "Docking assays explain how apiole interacts with the CYP1A subfamily",
+        "findings": ["Apiole fits well into CYP1A active site", "Methylenedioxy ring interacts with heme", "Methoxy groups interact with enzyme protein", "Explains high specificity for CYP1A"]
+      },
+      "dual_role_like_myristicin": {
+        "role_1_substrate": "Apiole → 1'-Hydroxyapiole → 1'-Oxoapiole → DMMDA-type aminopropiophenones",
+        "role_2_inhibitor": "Apiole binds to CYP1A1/1A2 → Blocks enzyme active site → Prevents metabolism of self and others → Substrate accumulation",
+        "significance": "Like myristicin, apiole BOTH is psychoactive AND blocks its own metabolism - SELF-POTENTIATING!"
+      },
+      "synergy_with_myristicin": {
+        "when_combined": "Nutmeg + Parsley Seed",
+        "both_provide_substrates": ["Myristicin → MMDA pathway", "Apiole → DMMDA pathway"],
+        "both_inhibit_cyp1a": ["Myristicin: Strong CYP1A2 inhibitor (mechanism-based)", "Apiole: Strong CYP1A1/1A2 inhibitor (mixed-type)"],
+        "combined_effect": "More total substrate loading + Stronger enzyme inhibition + Different inhibition mechanisms = DRAMATICALLY ENHANCED EFFECT"
+      },
+      "parsley_leaf_vs_seed": {
+        "fresh_parsley_leaves": "Low essential oil (~0.05-0.1%), would need massive amounts, not practical",
+        "parsley_seeds": "High essential oil (~2-7%), oil is 10-30% apiole, practical source",
+        "parsley_seed_essential_oil": "Commercial product, concentrated, easier to dose, 10-20 drops = significant apiole"
+      },
+      "safety": {
+        "abortifacient_warning": "Apiole was used historically to induce abortion - dangerous, often ineffective, sometimes fatal",
+        "modern_status": "No longer used medically. ABSOLUTELY AVOID during pregnancy.",
+        "otherwise": "Relatively safe at oilahuasca doses, long-term toxicity unknown"
+      }
+    },
+
+    "strategic_enzyme_modulation_summary": {
+      "the_complete_oilahuasca_strategy": {
+        "preparation_phase": {
+          "agent": "Coffee (caffeine)",
+          "action": "CYP1A2 INDUCTION",
+          "timing": "24-72 hours before (regular drinking) or 30-60 min before",
+          "result": "2-3× more CYP1A2 enzyme available"
+        },
+        "inhibitor_loading_phase": {
+          "agents": ["Cinnamon", "Black pepper", "Fennel"],
+          "actions": ["Block CYP3A4, CYP2C9, CYP2A6", "Deplete glutathione"],
+          "timing": "30-60 minutes before allylbenzenes",
+          "result": "Alternative pathways blocked, Phase II compromised"
+        },
+        "substrate_loading_phase": {
+          "agents": ["Nutmeg (myristicin)", "Parsley seed (apiole)", "Dill seed (dillapiole)", "Basil (estragole)"],
+          "actions": ["Multiple allylbenzenes compete for remaining enzyme", "Myristicin/apiole inactivate CYP1A2"],
+          "timing": "T=0 (main dose)",
+          "result": "Phase I minimal metabolism + Phase II blocked = METABOLITE ACCUMULATION"
+        }
+      },
+      "the_induction_inhibition_paradox_explained": {
+        "question": "Why would you both INDUCE (increase) and INHIBIT (block) the same enzyme?",
+        "naive_logic": "More enzyme + Blocked enzyme = Cancel out?",
+        "actual_result": "More enzyme + Blocked enzyme = MAXIMUM ACCUMULATION",
+        "analogy": "Like building more highway lanes right before blocking them all - the bigger the highway, the worse the traffic jam when blocked"
+      },
+      "phase_i_and_ii_double_blockade": {
+        "phase_i_blocked": "CYP450 enzymes inhibited (myristicin mechanism-based, apiole mixed-type, cinnamon/pepper competitive)",
+        "phase_ii_blocked": "Cinnamon depletes glutathione (GSH), even if GST induced, no substrate available",
+        "result": "Metabolites cannot be formed quickly AND cannot be excreted quickly = maximum accumulation and prolonged effects"
+      }
+    }
+  }
+}
