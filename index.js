@@ -659,7 +659,12 @@ const cryptologyDialogues = {
     hive: ['hive', 'steem', 'blurt', 'social fi', 'proof of brain'],
     vankush: ['vkbt', 'cure', 'punic', 'puco', 'puti', 'van kush'],
     burnmining: ['burn mining', 'proof of burn', 'pob', 'burn mine'],
-    karma: ['karma', 'merit', 'siring', 'curation', 'dharma']
+    karma: ['karma', 'merit', 'siring', 'curation', 'dharma'],
+    // OILAHUASCA TRIGGERS
+    oilahuasca: ['oilahuasca', 'oil ahuasca', 'spice trip', 'nutmeg high', 'myristicin'],
+    allylbenzenes: ['allylbenzene', 'allyl benzene', 'essential oil', 'estragole', 'safrole', 'elemicin'],
+    cyp450: ['cyp450', 'cytochrome', 'p450', 'liver enzyme', 'drug metabolism'],
+    shulgin: ['shulgin', 'pihkal', 'tihkal', 'essential amphetamines']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -797,6 +802,326 @@ const cryptologyDialogues = {
         { id: 'karma_pyramid', label: '🔺 Multi-Layer Pyramid', interest: {philosophy: 15} },
         { id: 'karma_analytics', label: '📈 Siring Chart Analytics', interest: {philosophy: 10} },
         { id: 'back', label: '← Back to Karma Overview', interest: {} }
+      ]
+    },
+    // ========================================
+    // OILAHUASCA DIALOGUE TREES
+    // ========================================
+    oilahuasca: {
+      intro: "Oilahuasca - the theory that culinary spices can produce psychoactive effects through CYP450 enzyme manipulation, analogous to how ayahuasca uses MAO inhibitors. What aspect intrigues you?",
+      choices: [
+        { id: 'oilahuasca_theory', label: '🧪 The Theory Explained', interest: {esoteric: 15, philosophy: 10} },
+        { id: 'oilahuasca_shulgin', label: '👨‍🔬 Shulgin\'s Framework', interest: {philosophy: 15} },
+        { id: 'oilahuasca_metabolism', label: '🔬 Metabolic Pathway', interest: {philosophy: 20} },
+        { id: 'oilahuasca_herbs', label: '🌿 Key Herbs', interest: {esoteric: 10} }
+      ]
+    },
+    oilahuasca_theory: {
+      intro: "The Oilahuasca theory proposes that common spices (nutmeg, cinnamon, basil, pepper) contain allylbenzenes that can be 'activated' by manipulating CYP450 liver enzymes - just like ayahuasca uses MAOIs to activate DMT. The key insight: INDUCE enzymes (coffee), then BLOCK them (nutmeg) = maximum accumulation.",
+      choices: [
+        { id: 'oilahuasca_paradox', label: '🤔 The Paradox Explained', interest: {philosophy: 15} },
+        { id: 'oilahuasca_adducts', label: '🧬 Endogenous Amine Adducts', interest: {philosophy: 20} },
+        { id: 'oilahuasca_formula', label: '📋 Original Formula', interest: {esoteric: 15} },
+        { id: 'back', label: '← Back to Oilahuasca', interest: {} }
+      ]
+    },
+    oilahuasca_paradox: {
+      intro: "Why INDUCE and INHIBIT the same enzyme? Naive logic says they cancel out. Reality: More enzyme (from coffee) = more 'targets' to block = BIGGER traffic jam when inhibited. Like building more highway lanes right before blocking them all - the bigger the highway, the worse the jam!",
+      choices: [
+        { id: 'oilahuasca_coffee', label: '☕ Coffee\'s Role (Inducer)', interest: {philosophy: 10} },
+        { id: 'oilahuasca_nutmeg', label: '🥜 Nutmeg\'s Role (Inhibitor)', interest: {philosophy: 10} },
+        { id: 'oilahuasca_mechanism_based', label: '💀 Mechanism-Based Inhibition', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_adducts: {
+      intro: "REVOLUTIONARY: Allylbenzenes don't simply convert to amphetamines. They form 1'-oxo metabolites via 17bHSD2 enzyme, which then react with ENDOGENOUS AMINES (dimethylamine, piperidine, pyrrolidine from gut bacteria) to create NOVEL compounds unique to each individual!",
+      choices: [
+        { id: 'oilahuasca_17bhsd2', label: '🔑 17bHSD2 Master Enzyme', interest: {philosophy: 20} },
+        { id: 'oilahuasca_amines', label: '🦠 Gut Microbiome Amines', interest: {philosophy: 15} },
+        { id: 'oilahuasca_variation', label: '🎲 Individual Variation', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Theory', interest: {} }
+      ]
+    },
+    oilahuasca_17bhsd2: {
+      intro: "17β-HSD2 is the MASTER activation enzyme. Normally inactivates steroids (testosterone→androstenedione). In oilahuasca: converts 1'-hydroxyallylbenzenes → 1'-oxo metabolites (reactive ketones). Requires NAD+ cofactor. Induced by: Gallic acid, Vitamin D3, Vitamin A.",
+      choices: [
+        { id: 'oilahuasca_nad', label: '⚡ NAD+ Cofactor (Niacinamide)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_inducers', label: '📈 17bHSD2 Inducers', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Adducts', interest: {} }
+      ]
+    },
+    oilahuasca_amines: {
+      intro: "Endogenous amines for adduct formation come from: 1) GUT BACTERIA - Bacteroides, Clostridium produce dimethylamine, 2) L-LYSINE → Piperidine (colonic conversion, 3+ hours), 3) BLACK PEPPER TEA - direct piperidine source. SSAO enzyme destroys amines - block with GLUCOSAMINE.",
+      choices: [
+        { id: 'oilahuasca_piperidine', label: '🌶️ Piperidine Sources', interest: {philosophy: 15} },
+        { id: 'oilahuasca_ssao', label: '🛡️ SSAO Inhibition', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Adducts', interest: {} }
+      ]
+    },
+    oilahuasca_shulgin: {
+      intro: "Dr. Alexander Shulgin (1925-2014) proposed that 10 essential oils could convert to psychoactive compounds via liver metabolism. He called them 'Essential Amphetamines' - though modern research shows they actually form aminopropiophenones, not amphetamines.",
+      choices: [
+        { id: 'oilahuasca_ten_oils', label: '🧴 The 10 Essential Oils', interest: {esoteric: 15, philosophy: 10} },
+        { id: 'oilahuasca_correction', label: '⚠️ Critical Correction', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Oilahuasca', interest: {} }
+      ]
+    },
+    oilahuasca_ten_oils: {
+      intro: "Shulgin's 10 Essential Oils → Theoretical Targets:\n• Estragole (basil) → 4-MA\n• Methyleugenol (bay) → 3,4-DMA\n• Safrole (sassafras) → MDA\n• Myristicin (nutmeg) → MMDA ★KEY\n• Elemicin (nutmeg) → TMA\n• Asarone (calamus) → TMA-2\n• Apiole (parsley) → DMMDA ★POTENT\n• Dillapiole (dill) → DMMDA-2 ★POTENT",
+      choices: [
+        { id: 'oilahuasca_myristicin', label: '⭐ Myristicin (The Key)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_methoxy', label: '🔬 Methoxy Pattern Matrix', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back to Shulgin', interest: {} }
+      ]
+    },
+    oilahuasca_methoxy: {
+      intro: "THREE methoxy patterns in nutmeg create metabolic complexity:\n1) METHYLENEDIOXY (myristicin) - CYP1A2 inhibitor\n2) TRIMETHOXY (elemicin) - like mescaline core\n3) HYDROXY-DIMETHOXY (5-methoxyeugenol) - PPAR-gamma activator\nEach saturates DIFFERENT enzymes = total metabolic overwhelm!",
+      choices: [
+        { id: 'oilahuasca_elemicin', label: '🌿 Elemicin (Trimethoxy)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_5me', label: '✨ 5-Methoxyeugenol', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Essential Oils', interest: {} }
+      ]
+    },
+    oilahuasca_metabolism: {
+      intro: "The 3-Step Pathway:\n1️⃣ CYP450 oxidation: Allylbenzene → 1'-Hydroxyallylbenzene\n2️⃣ 17bHSD2 + NAD+: → 1'-Oxo metabolite (reactive ketone)\n3️⃣ Spontaneous Mannich: + Endogenous amines → Tertiary aminopropiophenones\nStep 3 requires NO enzyme - it's spontaneous chemistry!",
+      choices: [
+        { id: 'oilahuasca_cyp1a2', label: '🔑 CYP1A2 (Primary Enzyme)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_phase2', label: '🚫 Phase II Blockade', interest: {philosophy: 15} },
+        { id: 'oilahuasca_glutathione', label: '🛡️ Glutathione Depletion', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Oilahuasca', interest: {} }
+      ]
+    },
+    oilahuasca_cyp1a2: {
+      intro: "CYP1A2 - The primary enzyme for allylbenzene metabolism:\n• Also metabolizes caffeine (95%)\n• Induced by coffee (2-3x increase over 24-72h)\n• Inhibited by myristicin (mechanism-based - PERMANENT)\n• The KEY target in oilahuasca strategy",
+      choices: [
+        { id: 'oilahuasca_coffee', label: '☕ Coffee Induction', interest: {philosophy: 10} },
+        { id: 'oilahuasca_mechanism_based', label: '💀 Mechanism-Based Inhibition', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Metabolism', interest: {} }
+      ]
+    },
+    oilahuasca_phase2: {
+      intro: "Phase II enzymes must ALL be blocked:\n• UGT (glucuronidation) - Block with STEVIOSIDES\n• SULT (sulfation) - Block with EGCG from green tea\n• GST (glutathione) - Deplete GSH with CINNAMON\n• SSAO (amine oxidase) - Block with GLUCOSAMINE\nNo escape routes = metabolite accumulation!",
+      choices: [
+        { id: 'oilahuasca_glutathione', label: '🛡️ Glutathione Strategy', interest: {philosophy: 15} },
+        { id: 'oilahuasca_blockers', label: '🚫 Complete Blocker List', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Metabolism', interest: {} }
+      ]
+    },
+    oilahuasca_glutathione: {
+      intro: "CRITICAL: Glutathione (GSH) BLOCKS myristicin's CYP1A2 inhibition! Depleting GSH removes this 'brake'. CINNAMON (cinnamaldehyde) depletes GSH to ~40% of normal. BUT: Vitamin D3 INDUCES GSH synthesis - must balance with extra cinnamon!",
+      choices: [
+        { id: 'oilahuasca_cinnamon', label: '🌿 Cinnamon Mechanism', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_herbs: {
+      intro: "Key herbs in oilahuasca formulations:\n☕ COFFEE - CYP1A2 inducer (preparation)\n🥜 NUTMEG - CYP1A2 inhibitor + psychoactive precursors\n🌿 CINNAMON - Multi-CYP inhibitor + GSH depletion\n🌶️ BLACK PEPPER - CYP3A4 inhibitor + piperidine source\n🌿 BASIL - SULT inhibitor + estragole substrate",
+      choices: [
+        { id: 'oilahuasca_coffee', label: '☕ Coffee (Inducer)', interest: {philosophy: 10} },
+        { id: 'oilahuasca_nutmeg', label: '🥜 Nutmeg (Star Player)', interest: {esoteric: 15} },
+        { id: 'oilahuasca_blockers', label: '🚫 Pathway Blockers', interest: {philosophy: 10} },
+        { id: 'oilahuasca_safety', label: '⚠️ Safety & Risks', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to Oilahuasca', interest: {} }
+      ]
+    },
+    oilahuasca_coffee: {
+      intro: "Coffee induces CYP1A2 by 2-3x over 24-72 hours. Also contains β-CARBOLINES (harman, norharman) - the SAME MAO inhibitors found in ayahuasca! Coffee = enzyme inducer + MAO inhibitor. The paradox: more enzyme = more targets to block = bigger metabolic traffic jam.",
+      choices: [
+        { id: 'oilahuasca_betacarbolines', label: '🍵 β-Carbolines (MAOIs)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_paradox', label: '🤔 The Paradox', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Herbs', interest: {} }
+      ]
+    },
+    oilahuasca_nutmeg: {
+      intro: "Nutmeg is the KEYSTONE:\n• Contains myristicin, elemicin, 5-methoxyeugenol (3 methoxy patterns!)\n• MECHANISM-BASED CYP1A2 inhibitor (kills enzyme permanently)\n• Also has MAO inhibitory properties (Truitt 1963)\n⚠️ Toxic at 10g+, effects last 24-72 hours!",
+      choices: [
+        { id: 'oilahuasca_mechanism_based', label: '💀 Mechanism-Based Inhibition', interest: {philosophy: 20} },
+        { id: 'oilahuasca_myristicin', label: '🔬 Myristicin Studies', interest: {philosophy: 15} },
+        { id: 'oilahuasca_safety', label: '⚠️ Safety Concerns', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to Herbs', interest: {} }
+      ]
+    },
+    oilahuasca_mechanism_based: {
+      intro: "Mechanism-based inhibition = 'suicide inhibition'. Enzyme processes myristicin → creates REACTIVE intermediate → permanently destroys enzyme. Evidence: 3.21-fold IC50 shift (gets stronger over time). Unlike regular inhibitors, enzyme must be RE-SYNTHESIZED (takes days)!",
+      choices: [
+        { id: 'oilahuasca_glutathione', label: '🛡️ Glutathione Rescue', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_blockers: {
+      intro: "When CYP1A2 blocked, body tries alternate routes. Block these too:\n🌿 CINNAMON - CYP3A4, 2C9, 2A6 + GSH depletion\n🌶️ PEPPER - CYP3A4 + P-glycoprotein\n🫖 GREEN TEA - SULT1A1/1A3 (EGCG)\n🍬 STEVIA - UGT2B7\n💊 GLUCOSAMINE - SSAO\n💊 BERBERINE - CYP2D6, CYP3A4 (NOT CYP2E1!)",
+      choices: [
+        { id: 'oilahuasca_berberine', label: '💊 Berberine (Key Inhibitor)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_cyp2e1', label: '🔥 CYP2E1 (Must INDUCE)', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Herbs', interest: {} }
+      ]
+    },
+    oilahuasca_berberine: {
+      intro: "BERBERINE (500-1000mg) is critical:\n• Potent CYP2D6 inhibitor (CYP2D6 is DETRIMENTAL to activation!)\n• Also inhibits CYP2C9 and CYP3A4\n• Does NOT inhibit CYP2E1 (this selectivity is crucial!)\nCYP2D6 genetic variants explain why some people never respond to nutmeg.",
+      choices: [
+        { id: 'oilahuasca_cyp2e1', label: '🔥 CYP2E1 (Vital Activator)', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Blockers', interest: {} }
+      ]
+    },
+    oilahuasca_cyp2e1: {
+      intro: "CYP2E1 is the VITAL ACTIVATOR - must be INDUCED, not inhibited!\n• Smallest active site of all human P450s\n• Perfect for small hydrophobic allylbenzenes\n• INDUCE with: Glycerol (5-10g), ketogenic diet\n• AVOID inhibitors: Excessive piperine inhibits CYP2E1 (filter black pepper tea!)",
+      choices: [
+        { id: 'back', label: '← Back to Blockers', interest: {} }
+      ]
+    },
+    oilahuasca_safety: {
+      intro: "⚠️ SERIOUS SAFETY CONCERNS:\n• Nutmeg toxic at 10g+ (nausea, tachycardia, convulsions)\n• Effects last 24-72 HOURS (extremely long)\n• Safrole/estragole are hepatotoxic & potentially carcinogenic\n• CYP inhibition affects ALL prescription drugs\n• NO controlled human studies exist\n• This is EXPERIMENTAL - harm reduction essential",
+      choices: [
+        { id: 'oilahuasca_harm_reduction', label: '🛡️ Harm Reduction', interest: {philosophy: 10} },
+        { id: 'oilahuasca_drugs', label: '💊 Drug Interactions', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Herbs', interest: {} }
+      ]
+    },
+    oilahuasca_harm_reduction: {
+      intro: "If exploring (NOT a recommendation):\n• Start with VERY LOW doses\n• Never use alone - have a sitter\n• Plan for 24-72 hour duration\n• AVOID if on ANY prescription meds\n• Do NOT use chronically (carcinogenicity)\n• Stay hydrated, do not drive for 3 days\n• Know emergency resources",
+      choices: [
+        { id: 'oilahuasca_drugs', label: '💊 Drug Interactions', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back to Safety', interest: {} }
+      ]
+    },
+    oilahuasca_drugs: {
+      intro: "⚠️ CRITICAL DRUG INTERACTIONS:\nCYP450 inhibition affects metabolism of:\n• SSRIs, antidepressants - SEROTONIN SYNDROME risk\n• Benzodiazepines - prolonged sedation\n• Opioids - respiratory depression\n• Blood thinners - bleeding risk\n• Statins - muscle damage\nWait 2 weeks after stopping oilahuasca before resuming meds!",
+      choices: [
+        { id: 'back', label: '← Back to Safety', interest: {} }
+      ]
+    },
+    oilahuasca_formula: {
+      intro: "Original anecdotal formula: Coffee + Almond + Cinnamon + Vanilla + Nutmeg\n☕ Coffee: CYP1A2 induction + β-carbolines\n🥜 Nutmeg: Myristicin/elemicin + CYP1A2 inhibition\n🌿 Cinnamon: Multi-CYP inhibition + GSH depletion\n🍦 Vanilla: Metabolic modulator\n🥜 Almond: Minor (benzaldehyde)",
+      choices: [
+        { id: 'oilahuasca_herbs', label: '🌿 All Key Herbs', interest: {philosophy: 10} },
+        { id: 'oilahuasca_complete', label: '🧪 Complete Protocol', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back to Theory', interest: {} }
+      ]
+    },
+    oilahuasca_complete: {
+      intro: "COMPLETE ENZYMATIC PROTOCOL:\nPHASE 1 (1-4h before): Gallic acid, Vit D3, Vit A, Niacinamide, Glycerol\nPHASE 2 (with dose): Steviosides, EGCG, Cinnamon, Glucosamine\nPHASE 3 (with dose): Berberine, Coffee, Nutmeg\nPHASE 4: L-Lysine (3h+ before) OR Black pepper tea (filtered)",
+      choices: [
+        { id: 'oilahuasca_17bhsd2', label: '🔑 Phase 1: 17bHSD2 Induction', interest: {philosophy: 15} },
+        { id: 'oilahuasca_phase2', label: '🚫 Phase 2: Pathway Blockade', interest: {philosophy: 15} },
+        { id: 'oilahuasca_safety', label: '⚠️ Safety First', interest: {philosophy: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_myristicin: {
+      intro: "Myristicin (5-allyl-1-methoxy-2,3-methylenedioxybenzene):\n• Primary psychoactive in nutmeg (1-3%)\n• CYP1A2 substrate AND mechanism-based inhibitor\n• Metabolites: piperidine + pyrrolidine conjugates\n• PMID 26091900: 'most significantly inhibits CYP1A2'\n• Induces GST 4-14 fold (but depleted GSH = no substrate)",
+      choices: [
+        { id: 'oilahuasca_studies', label: '📚 Research Citations', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_studies: {
+      intro: "Key Research Citations:\n• PMID 12523956: CYP3A4 and CYP1A2 in myristicin oxidation\n• PMID 26091900: Myristicin mechanism-based CYP1A2 inhibition\n• PMID 8554622: Myristicin induces CYP450s 2-20 fold\n• PMID 9245741: Myristicin induces GST 4-14 fold\n• Truitt 1963: MAO inhibition evidence",
+      choices: [
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    allylbenzenes: {
+      intro: "Allylbenzenes: benzene ring + allyl chain (-CH2-CH=CH2) + oxygen substituents. CRITICAL: Only ALLYLbenzenes form psychoactive metabolites - PROPENYLbenzenes (like anethole) do NOT because the conjugated double bond blocks oxidation at the 1' position.",
+      choices: [
+        { id: 'oilahuasca_allyl_vs_propenyl', label: '⚗️ Allyl vs Propenyl', interest: {philosophy: 15} },
+        { id: 'oilahuasca_ten_oils', label: '🧴 The 10 Essential Oils', interest: {esoteric: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_allyl_vs_propenyl: {
+      intro: "ALLYL: Benzene-CH2-CH=CH2 (oxidizable at 1') ✓\nPROPENYL: Benzene-CH=CH-CH3 (conjugated, blocked) ✗\n\nActive (allyl): myristicin, safrole, estragole, elemicin, apiole\nNOT active (propenyl): anethole, asarone, isosafrole\n\nFennel is 80-90% anethole (NOT active) but 5-10% estragole (active)",
+      choices: [
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    cyp450: {
+      intro: "Cytochrome P450 (CYP450) enzymes are the liver's primary drug metabolizers. CYP3A4 handles >50% of all drugs. CYP1A2 handles allylbenzenes + caffeine. CYP2E1 activates small molecules. CYP2D6 DEACTIVATES (must inhibit!). Oilahuasca = precise enzyme orchestra.",
+      choices: [
+        { id: 'oilahuasca_cyp1a2', label: '🔑 CYP1A2 (Primary)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_cyp2e1', label: '🔥 CYP2E1 (Activator)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_berberine', label: '💊 CYP2D6 (Block It!)', interest: {philosophy: 15} },
+        { id: 'oilahuasca_drugs', label: '💊 Drug Implications', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    shulgin: {
+      intro: "Dr. Alexander 'Sasha' Shulgin (1925-2014) - the godfather of psychedelic chemistry. Author of PIHKAL and TIHKAL. Synthesized and self-tested 230+ psychoactive compounds. His 'Essential Amphetamines' theory sparked oilahuasca research.",
+      choices: [
+        { id: 'oilahuasca_shulgin', label: '🧴 Essential Oils Theory', interest: {philosophy: 15} },
+        { id: 'oilahuasca_correction', label: '⚠️ Modern Corrections', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_correction: {
+      intro: "CRITICAL CORRECTION: Modern research (1977-2024) shows allylbenzenes do NOT form amphetamines in vivo. They form TERTIARY AMINOPROPIOPHENONES (Mannich bases) via endogenous amine adduct formation - structurally different with different pharmacology than Shulgin predicted.",
+      choices: [
+        { id: 'oilahuasca_adducts', label: '🧬 Adduct Formation', interest: {philosophy: 20} },
+        { id: 'oilahuasca_metabolism', label: '🔬 Actual Pathway', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Shulgin', interest: {} }
+      ]
+    },
+    oilahuasca_variation: {
+      intro: "Why same dose affects people differently:\n• Different microbiomes = different endogenous amines\n• CYP2D6 ultra-rapid metabolizers may never respond\n• Different 17bHSD2 levels = different 1'-oxo formation\n• Different NAD+ status = different enzyme activity\n• Recent antibiotics = depleted amine-producing bacteria",
+      choices: [
+        { id: 'oilahuasca_amines', label: '🦠 Microbiome Factor', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Adducts', interest: {} }
+      ]
+    },
+    oilahuasca_betacarbolines: {
+      intro: "Coffee contains β-CARBOLINES formed during roasting:\n• Harman (1-methyl-9H-pyrido[3,4-b]indole)\n• Norharman\nThese are the SAME compounds in ayahuasca (Banisteriopsis caapi)! They inhibit MAO-A and MAO-B. Coffee = natural MAOI + CYP1A2 inducer.",
+      choices: [
+        { id: 'oilahuasca_mao', label: '🧠 MAO Inhibition', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back to Coffee', interest: {} }
+      ]
+    },
+    oilahuasca_mao: {
+      intro: "MAO (Monoamine Oxidase) breaks down serotonin, dopamine, tyramine. Coffee β-carbolines + nutmeg myristicin both inhibit MAO. This is why oilahuasca parallels ayahuasca - both combine psychoactive precursors with MAO inhibition to prevent breakdown of active compounds.",
+      choices: [
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_cinnamon: {
+      intro: "CINNAMON (cinnamaldehyde 100-200mg):\n• Depletes glutathione to ~40% of normal\n• Inhibits CYP3A4, CYP2C9, CYP2A6\n• The reactive aldehyde directly binds GSH\n• Removes the 'brake' on myristicin's CYP1A2 inhibition\n• Essential for the mechanism to work!",
+      choices: [
+        { id: 'oilahuasca_glutathione', label: '🛡️ GSH Depletion', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    oilahuasca_piperidine: {
+      intro: "PIPERIDINE sources:\n1) L-LYSINE (1000-3000mg) → Gut bacteria convert to cadaverine → piperidine (takes 3+ hours to reach colon)\n2) BLACK PEPPER TEA: 5-10g in hot water, FILTER SOLIDS (removes piperine which inhibits CYP2E1)\nPiperidine forms 6-membered ring adducts with unique pharmacology.",
+      choices: [
+        { id: 'back', label: '← Back to Amines', interest: {} }
+      ]
+    },
+    oilahuasca_ssao: {
+      intro: "SSAO (Semicarbazide-Sensitive Amine Oxidase) destroys primary amines needed for adduct formation. Block with GLUCOSAMINE (1500mg) - acts as competitive inhibitor. Dose 1 hour before and every 4-6 hours. Different from MAO - both must be addressed!",
+      choices: [
+        { id: 'back', label: '← Back to Amines', interest: {} }
+      ]
+    },
+    oilahuasca_nad: {
+      intro: "NAD+ is ESSENTIAL - 17bHSD2 cannot function without it!\nNiacinamide (500-1000mg) → NMN → NAD+\nUse NIACINAMIDE not niacin (niacin causes flushing)\nDose 1 hour before for optimal levels\nWhy some don't respond: Poor NAD+ synthesis, B-vitamin deficiency, aging",
+      choices: [
+        { id: 'back', label: '← Back to 17bHSD2', interest: {} }
+      ]
+    },
+    oilahuasca_inducers: {
+      intro: "17bHSD2 INDUCERS (take 1-4h before):\n• Gallic acid (500mg) - BUT also induces SULT (pair with EGCG)\n• Vitamin D3 (2000-5000 IU) - BUT induces GSH (pair with extra cinnamon)\n• Vitamin A (5000-10,000 IU)\n• AVOID Genistein - binds 5-HT receptors, may reduce effects",
+      choices: [
+        { id: 'back', label: '← Back to 17bHSD2', interest: {} }
+      ]
+    },
+    oilahuasca_elemicin: {
+      intro: "ELEMICIN (3,4,5-trimethoxybenzene pattern):\n• Same trimethoxy pattern as MESCALINE\n• May convert to TMA (trimethoxyamphetamine)\n• Requires sequential demethylation (multiple enzyme steps)\n• Creates 'traffic jam' when combined with myristicin\n• Hepatotoxicity documented - affects gut microbiota",
+      choices: [
+        { id: 'back', label: '← Back to Methoxy Patterns', interest: {} }
+      ]
+    },
+    oilahuasca_5me: {
+      intro: "5-METHOXYEUGENOL (syring pattern: OH between two methoxys):\n• Found in nutmeg CRUDE EXTRACT but NOT essential oil!\n• Activates PPAR-gamma (affects liver metabolism broadly)\n• Requires specialized enzymes (SyoA) for demethylation\n• Rate-limiting = forces alternative pathways\n• Also in magnolia",
+      choices: [
+        { id: 'back', label: '← Back to Methoxy Patterns', interest: {} }
       ]
     }
   }
@@ -1090,7 +1415,7 @@ client.on('messageCreate', async (message) => {
           .setTitle('🔮 Crypt-ology: The Not-a-Game')
           .setDescription('Explore esoteric knowledge through guided conversations. Choose a topic to begin your journey into ancient mysteries.' + suggestionText)
           .addFields(
-            { name: '📖 Available Topics', value: '• **nephilim** - Giants, Watchers, Book of Enoch\n• **phoenicians** - Tanit, Carthage, Punic Wars\n• **egypt** - Hathor, Osiris, Ancient Mysteries\n• **denisovans** - 75,000-year lineage, human origins\n• **angels** - Archangels, celestial beings\n• **greece** - Olympic gods, mythology' },
+            { name: '📖 Available Topics', value: '• **nephilim** - Giants, Watchers, Book of Enoch\n• **phoenicians** - Tanit, Carthage, Punic Wars\n• **egypt** - Hathor, Osiris, Ancient Mysteries\n• **denisovans** - 75,000-year lineage, human origins\n• **oilahuasca** - CYP450 enzyme activation, allylbenzenes\n• **shulgin** - Essential oils, psychedelic chemistry\n• **cyp450** - Liver enzymes, drug metabolism' },
             { name: '🎮 How to Play', value: 'Type `/cryptology [topic]` to explore\nExample: `/cryptology nephilim`\n\nOr just mention keywords like "Nephilim" or "Hathor" in conversation!' }
           )
           .setFooter({ text: 'Your choices shape our future conversations' });
