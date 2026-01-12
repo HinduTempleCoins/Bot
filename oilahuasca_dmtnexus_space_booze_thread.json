@@ -1,0 +1,363 @@
+{
+  "metadata": {
+    "title": "Space Booze! Space Paste EtOH Extraction SUCCESS!",
+    "source": "DMT-Nexus Forum",
+    "thread_date": "2014-02-12",
+    "original_poster": "oilman",
+    "key_contributors": ["oilman", "PowerfulMedicine", "PrimalWisdom"],
+    "category": "oilahuasca-extraction",
+    "significance": "First documented ethanol extraction of Space Paste - bridges whole spice and essential oil approaches"
+  },
+
+  "space_booze_theory": {
+    "problem_solved": [
+      "Space paste lasts 30+ hours - impractical",
+      "Space paste tastes terrible - hard to consume",
+      "Whole nutmeg causes gastric pain, lethargy, flu-like symptoms"
+    ],
+    "hypothesis": "Extracting ethanol-soluble hallucinogenic fraction from whole spice produces more pleasant experience with better dosing control",
+    "key_insight": "Space paste actives are ethanol-soluble; extraction allows lower doses to go further via Trojan Horse effect (ethanol crosses blood-brain barrier, carries lipophilic compounds)"
+  },
+
+  "extraction_protocol": {
+    "materials": {
+      "ethanol": "750mL high proof (at least 75.5% ABV) - must be consumable",
+      "space_paste_modified": "Full recipe WITHOUT almonds, pistachios, or maple syrup",
+      "container": "Glass or stainless steel only - plastic/other metals will leach toxins"
+    },
+    "procedure": [
+      "Make space paste leaving out nuts and syrup (1 part = 1 tablespoon)",
+      "Mix entire batch with 750mL high proof ethanol",
+      "Shake for ~5 minutes",
+      "Let settle 15 minutes - two layers form (red ethanol on top, solids on bottom)",
+      "Repeat shaking/settling for 3-5 days",
+      "Decant clear red liquid from solids",
+      "Ready to use after 3-5 days"
+    ],
+    "final_product": "Dark reddish, clear liquid with strong spice smell"
+  },
+
+  "dosing_information": {
+    "theoretical_calculation": {
+      "batch_contains": "6 doses equivalent to 2 tablespoons paste each",
+      "per_dose": "125mL (DO NOT take this much - dangerous alcohol content)"
+    },
+    "recommended_starting_dose": "1 shot (1.5 oz / 45mL)",
+    "oilman_experience": {
+      "effects": "Pleasant, noticeable all day (~14 hours)",
+      "intensity": "About 25% less intense than 2 tablespoons straight paste",
+      "next_day": "No residual effects",
+      "character": "More like classic psychedelic (shrooms) vs space paste (heavy oral THC)"
+    },
+    "onset": "Effects begin immediately, pronounced effects after 4 hours",
+    "administration": "Mix with grape juice or other beverage to mask taste"
+  },
+
+  "trial_report": {
+    "subject": "30 year old male",
+    "dose": "1.5 oz space booze in 8 oz grape juice",
+    "timeline": {
+      "T0_10": "Subject comments 'It tastes like chili'",
+      "T0_25": "Subject: 'I am very not sober'",
+      "T0_45": "Feels jazzed up, judgment altered, asked out a girl he normally wouldn't talk to",
+      "T4_00": "Reports dose was 'great', feeling tired, takes nap",
+      "T14_00": "Next day: 'That stuff you gave me was great. I was high all day, even after my nap'"
+    },
+    "subject_description": "Like being a little bit drunk, but saw tracers and felt very excited. Got tired toward end, deep sleep."
+  },
+
+  "nutmeg_quality_discussion": {
+    "oilman_color_theory": {
+      "good_nutmeg": "Red/gold color - indicates myristicin (red) and elemicin (gold) presence",
+      "bad_nutmeg": "Sandy brown color - mostly pulp, minimal psychedelics, causes sickness",
+      "visual_test": "Subtle difference, visible when comparing side by side"
+    },
+    "powerfulmedicine_position": {
+      "freshness_most_important": "Always grind from whole nuts",
+      "country_of_origin": "Indonesian (East Indian) > Indian > West Indian (Grenada/Jamaica)",
+      "evidence": "Multiple studies show East Indian nutmeg has 13.5% myristicin vs West Indian <1%"
+    },
+    "oilman_counter": "Studies show wide variance even within same country - color is more reliable indicator than origin"
+  },
+
+  "theoretical_discussion": {
+    "why_space_paste_works": {
+      "CYP3A4_inhibition": "60% of first pass liver metabolism - ingredients knock this out",
+      "MAO_inhibition": "Black pepper + turmeric provide this",
+      "aldehyde_contribution": "Link up with allylbenzenes to activate them",
+      "ethanol_extraction": "Captures aldehydes, MAOIs, CYP3A4 inhibitors, allylbenzenes, and terpenes"
+    },
+    "space_paste_equals_oilahuasca": "Same principle - compounds need activation by inhibiting some enzymes and allowing reactions to occur",
+    "space_booze_advantage": "Better dosing control than whole spice"
+  },
+
+  "powerfulmedicine_contributions": {
+    "enzyme_theory": {
+      "AlDH_inhibition": "Aldehydes inhibit aldehyde dehydrogenase - prevents allylbenzenes from becoming inactive carboxylic acids",
+      "ADH_induction": "Alcohol dehydrogenase turns alcohols into aldehydes (wanted)",
+      "17bHSD2": "Oxidative enzyme - turns alcohol forms of allylbenzenes into phenyl vinyl ketones",
+      "UGT1A9_UGT2B7": "Glucuronosyltransferase enzymes - inactivate allylbenzenes by conjugation"
+    },
+    "genistein_importance": {
+      "sources": "Pistachios, soy milk",
+      "actions": [
+        "Inhibits UGT1A9 and UGT2B7 (prevents inactivation)",
+        "Induces Oxidative 17bHSD2 (promotes activation)"
+      ],
+      "recommendation": "Drink space booze with soy milk, or add pistachios back"
+    },
+    "methylchavicol_notes": {
+      "found_in": "Sweet basil oil",
+      "effects": "Dreamy, sedative, semi-psychedelic, mild cannabis-like",
+      "reverse_tolerance": "Depletes enzymes over time, eventually activates without helpers",
+      "competitive_inhibitor": "May protect other allylbenzenes by occupying destructive enzymes"
+    }
+  },
+
+  "oilman_nutmeg_butter_research": {
+    "context": "Investigating why whole nutmeg works but essential oil doesn't for most people",
+    "non_volatile_compounds": {
+      "trimyristin": {
+        "percentage": "20-25% dry weight of nutmeg kernel",
+        "properties": "Saturated fat, sedative",
+        "effects": "Increases anxiety and depression in mice studies",
+        "theory": "May act as transport system for allylbenzenes - explains time delay (saturated fats slow to process)"
+      },
+      "macelignan": {
+        "properties": "Enzyme inhibitor (inhibits melanin synthesis)",
+        "theory": "May contribute to inhibition that opens door to allylbenzene activation"
+      },
+      "myrislignan": {
+        "effects": "Reduces feeding activity (may cause nausea)",
+        "note": "Forms interesting metabolites in rat liver studies"
+      }
+    },
+    "conclusion": "Nutmeg butter compounds may be why whole nutmeg works vs pure essential oil"
+  },
+
+  "issues_with_essential_oils": {
+    "absorption": "Very oily substances hard to absorb; bodies are mostly water",
+    "processing_time": "Takes long time for body to process lipophilic compounds",
+    "unwanted_compounds": "Essential oils contain undesirable high-lipidity compounds (e.g., carvone) that cause gastric pain, headaches",
+    "oilman_solution": "Use whole spices with extraction rather than pure essential oils"
+  },
+
+  "primalwisdom_experience": {
+    "method": "2 whole nuts with mace, ground, extracted in 54% vodka for 1 week",
+    "dose": "2 shots",
+    "effects": {
+      "negative": "Hideously nauseous, sweaty, tunnel vision, spaced out for 26+ hours",
+      "positive": "Swaying/pulsing visuals suggested potential worth exploring"
+    },
+    "oilman_analysis": "Likely overdose - 2 shots may be too much; should start with less"
+  },
+
+  "key_insights": {
+    "ethanol_trojan_horse": "Ethanol is water-miscible so crosses blood-brain barrier, carries lipophilic allylbenzenes with it",
+    "less_is_more": "Extraction allows lower doses to produce effects because absorption is enhanced",
+    "why_nutmeg_works_universally": "Contains non-volatile compounds (trimyristin, macelignan, myrislignan) that may aid activation",
+    "space_paste_not_random": "Every ingredient serves a purpose - removing any breaks the chain",
+    "oilahuasca_theory_incomplete": "If oilahuasca worked for everyone, people would use it - something in whole nutmeg is still not understood"
+  },
+
+  "practical_recommendations": {
+    "substitute_nuts": {
+      "almonds": "Replace with bitter almond extract (aldehydes) or increase cumin",
+      "pistachios": "Replace with soy milk (genistein, daidzein)"
+    },
+    "administration": "Mix space booze with soy milk for genistein + fat + palatability",
+    "starting_dose": "0.25-0.5mL of nutmeg tincture produced effects in trials",
+    "avoid": "50% ABV vodka - too weak; 75.5%+ works fine"
+  },
+
+  "historical_significance": {
+    "year": 2014,
+    "contribution": "Bridge between whole-spice space paste and pure essential oil oilahuasca",
+    "innovation": "Ethanol extraction removes unpleasant solids while preserving synergistic compounds",
+    "theoretical_advances": [
+      "17bHSD2 enzyme discussion",
+      "Genistein/UGT enzyme interaction",
+      "Nutmeg butter compounds (trimyristin, macelignan, myrislignan)",
+      "Methylchavicol reverse tolerance theory"
+    ]
+  },
+
+  "olive_oil_extraction_experiment": {
+    "poster": "oilman",
+    "date": "2014-02-27",
+    "method": {
+      "nutmeg": "2 tablespoons ground (red/gold color)",
+      "oil": "Twice volume of olive oil",
+      "duration": "2 days, stirring every few hours",
+      "recovery": "Pipette off oil from above solids (~1.3 oz)"
+    },
+    "results": {
+      "onset": "12 hours (vs normal 4 hours for nutmeg)",
+      "effects": "All normal nutmeg effects but almost NO sedation",
+      "character": "Felt like amphetamine - very stimulating",
+      "duration": "12 hours after onset, couldn't sleep"
+    },
+    "theory": "Olive oil takes ~3.25 hours to digest; allylbenzenes protected until oil metabolized. Trimyristin (saturated fat in whole nutmeg) may similarly transport and protect allylbenzenes."
+  },
+
+  "downwardsfromzero_experiments": {
+    "nutmeg_tincture": {
+      "method": "11 nutmegs ground, soaked in 2x volume high-proof alcohol for 2 weeks",
+      "yield": "100mL brownish-red tincture",
+      "effective_dose": "5-10mL",
+      "administration": "In black coffee (ouzo effect visible)",
+      "onset": "2-3 hours, continues building for 6+ hours",
+      "effects": [
+        "Varying degrees of euphoria",
+        "Feelings of relaxation",
+        "Improved sociability",
+        "Paraesthesias (tingling sensations)",
+        "Color and sound enhancement",
+        "Mild closed-eye visuals later on",
+        "Sexual enhancement"
+      ],
+      "negatives": [
+        "Cognition significantly impaired",
+        "Feelings akin to mild concussion",
+        "Mild incoordination"
+      ],
+      "duration": "18-30 hours",
+      "sleep": "No difficulty; dreaming clear, colorful, positive",
+      "aftereffect": "Cognition seems improved after experience",
+      "note": "Effects can be rekindled by small amount of cannabis"
+    },
+    "double_space_tincture": {
+      "method": "Distilled volatile components of space paste mixture, then used distillate to extract full space paste",
+      "result": "Bright yellow liquid with bite",
+      "effective_dose": "As little as 5 DROPS showed noticeable effects",
+      "recommendation": "Double space tincture is 'best of the bunch' and most forgiving"
+    },
+    "combination_with_classical_psychedelics": {
+      "tested": "Nutmeg tincture + distilled space tincture + cactus or mushrooms",
+      "result": "Very interesting - aroma ingredients create buoyantly positive mindset",
+      "note": "Allylbenzenes may act as amplifiers of classical psychedelic effects"
+    },
+    "dill_seed_caution": "May cause headache from carvone content; resolved by curry with turmeric, ginger, garlic, black pepper"
+  },
+
+  "lysurgeon_dill_seed_work": {
+    "preference": "Dillapiole is favorite psychedelic allylbenzene",
+    "reason": "Experiences 'pretty astounding' - visually active with LSD-like visual style",
+    "dill_tincture_recipe": {
+      "seeds": "48g dill seeds (McCormick brand)",
+      "alcohol": "~1 cup 150 proof, two 1-day soaks",
+      "effective_dose": "Amount corresponding to ~7g dill seeds"
+    },
+    "pre_dosing": {
+      "black_pepper_tea": "5g ground black pepper",
+      "activation_tincture": "20ml alcohol + 6 drops cassia oil + 5 drops German chamomile oil"
+    },
+    "best_dill": "Indian 'sowa' (Anethum sowa) - higher dillapiole content",
+    "contrast_with_nutmeg": "Nutmeg felt similar to anticholinergic for him"
+  },
+
+  "piperidine_dimethylamine_discussion": {
+    "source": "downwardsfromzero citing 69ron's research",
+    "piperidine_sources": {
+      "black_pepper_tea": "Direct piperidine source",
+      "L_lysine": "Converted to piperidine by gut flora over days"
+    },
+    "piperidine_benefits": [
+      "Longer and more intense trip",
+      "Higher XlogP values (better brain penetration)",
+      "Less susceptible to MAO"
+    ],
+    "dimethylamine_sources_to_avoid": {
+      "choline": "Converts to dimethylamine in vivo",
+      "lecithin": "Same mechanism as choline",
+      "trimethylamine": "Converts to dimethylamine",
+      "fish": "High in dimethylamine",
+      "red_meat": "Carnitine converts to trimethylamine"
+    },
+    "why_avoid_dimethylamine": [
+      "Creates weaker, shorter-lasting effects",
+      "Dimethylamine adducts more susceptible to MAO",
+      "Some allylbenzene dimethylamine versions completely inactive (e.g., methyleugenol)"
+    ]
+  },
+
+  "17bHSD2_inhibitors_to_avoid": {
+    "source": "69ron research via downwardsfromzero",
+    "critical_importance": "17bHSD2 is the SINGLE MOST IMPORTANT enzyme to induce - if not functioning, allylbenzenes cannot produce psychedelic activity",
+    "quercetin": {
+      "effect": "Potent 17bHSD2 inhibitor",
+      "duration": "Can completely inactivate allylbenzenes for 3-4 hours",
+      "may_explain": "Why nutmeg sometimes doesn't work or has delayed onset"
+    },
+    "naringenin": {
+      "source": "Grapefruit",
+      "effect": "Prevents psychedelic action of allylbenzenes",
+      "duration": "4-8 hours inhibition"
+    },
+    "foods_to_avoid_4_8_hours_before": [
+      "Apples (0.0263% quercetin)",
+      "Cabbage (0.01% quercetin)",
+      "Cranberry (0.025% quercetin)",
+      "Garlic (0.02% quercetin)",
+      "Grapefruit (naringenin, kaempferol, galangin, quercetin)",
+      "Neem (0.1% quercetin)",
+      "Oats (0.031% quercetin)",
+      "Onions (4.81% quercetin)",
+      "Orange (4.58% naringenin)",
+      "Tea (10-25 mg/L quercetin, 6.3-17 mg/L kaempferol)",
+      "Tomato (kaempferol, naringenin)"
+    ]
+  },
+
+  "peele_oswald_metabolism_pathway": {
+    "significance": "First published work on allylbenzene alkaloid formation in vivo",
+    "attached_by": "oilman",
+    "key_finding": "Allylbenzenes form alkaloids by reaction with amines (piperidine, dimethylamine) in vivo",
+    "pathway_steps": [
+      "Allylbenzene → alcohol form (CYP2C9/CYP2E1)",
+      "Alcohol → aldehyde/phenyl vinyl ketone (ADH or 17bHSD2)",
+      "Aldehyde/ketone + amine → alkaloid adduct",
+      "Note: Addition of nitrogen in final step"
+    ]
+  },
+
+  "shulgin_myristicin_study": {
+    "cited_by": "oilman",
+    "finding": "Only 4 of 10 subjects got effects from pure myristicin at 400mg",
+    "notable_subject": "Jazz musician experienced with many drugs - no effects from 400mg myristicin",
+    "self_experiment": "Author Callaway took nutmeg and became 'highly suggestible' - took whiskey, methamphetamine, dimenhydrinate suggested by others; 'unable to think clearly'"
+  },
+
+  "hepatotoxicity_discussion": {
+    "year": 2022,
+    "poster": "downwardsfromzero and Brennendes Wasser",
+    "curcumin_risk": {
+      "mechanism": "Some people genetically form hepatotoxic metabolite",
+      "exacerbated_by": "Piperine enhancement of curcumin absorption",
+      "risk_level": "Rare, due to genetic variability in metabolic enzymes"
+    },
+    "safrole_concerns": {
+      "noted_hazards": "Possibly genetic defects, possibly cancer",
+      "methylenedioxy_ring": "Can form carbene and bind directly to cytochromes",
+      "context": "All spices contain trace safrole; reasonable use likely safe"
+    },
+    "perspective": "Ethanol remains major cause of liver disease compared to these spice compounds"
+  },
+
+  "water_extract_theory": {
+    "oilman_explanation": "Nutmeg constituents mildly water-soluble",
+    "extraction_ratio": "2 tablespoons nutmeg + 1L water (heated) extracts all actives",
+    "mechanism": "Trojan Horse effect - actives sneak into brain with water despite XlogP values",
+    "dilution_factor": "~300mg actives in 1L water - possibly too dilute for destructive enzymes to fully act"
+  },
+
+  "thread_timeline": {
+    "2014_02": "oilman posts original Space Booze recipe and theory",
+    "2014_02_to_03": "Discussion with PowerfulMedicine on enzymes, trimyristin, olive oil extraction",
+    "2014_07": "downwardsfromzero reports successful nutmeg tincture experiments",
+    "2015_04": "lysurgeon shares dill seed tincture success with dillapiole",
+    "2015_09": "downwardsfromzero tests combinations with cactus/mushrooms",
+    "2019_01": "Double space tincture confirmed effective at 2 teaspoons",
+    "2022_11": "Hepatotoxicity discussion; double space tincture recommended as 'best and most forgiving'"
+  }
+}
