@@ -11,7 +11,14 @@ require('dotenv').config();
 const { execSync } = require('child_process');
 const fs = require('fs');
 const dhive = require('@hiveio/dhive');
-const technicalIndicators = require('./technical-indicators.cjs');
+const {
+  analyzeSellWall,
+  analyzeBuyWall,
+  checkMarketHealth,
+  findBestPushOpportunity,
+  getOrderBook,
+  getMarketMetrics
+} = require('./wall-analyzer.cjs');
 
 // ========================================
 // CONFIGURATION
@@ -333,18 +340,17 @@ function isTokenTradeable(metrics, orderBook) {
   return { tradeable: true };
 }
 
-function analyzeToken(symbol) {
+async function analyzeToken(symbol) {
   console.log(`\n🔍 Analyzing ${symbol}...`);
 
   // Get market data
-  const metrics = getMarketMetrics(symbol);
+  const metrics = await getMarketMetrics(symbol);
   if (!metrics) {
     console.log(`   ⚠️ No metrics available`);
     return null;
   }
 
-  const orderBook = getOrderBook(symbol);
-  const tradeHistory = getTradeHistory(symbol, CONFIG.PRICE_HISTORY_LIMIT);
+  const orderBook = await getOrderBook(symbol);
 
   // Check if tradeable
   const tradeableCheck = isTokenTradeable(metrics, orderBook);
@@ -353,42 +359,68 @@ function analyzeToken(symbol) {
     return null;
   }
 
-  // Build price history from trades
-  if (tradeHistory.length < 20) {
-    console.log(`   ⚠️ Insufficient trade history (${tradeHistory.length} trades)`);
+  // Check market health
+  const health = await checkMarketHealth(symbol);
+  if (!health.isHealthy) {
+    console.log(`   ⚠️ Market unhealthy: ${health.reason}`);
     return null;
   }
 
-  const priceHistory = tradeHistory
-    .reverse() // Oldest first
-    .map(trade => parseFloat(trade.price));
+  const currentPrice = parseFloat(metrics.lastPrice);
+  console.log(`   📊 Current price: ${currentPrice.toFixed(8)} HIVE`);
 
-  // Run technical analysis
-  const analysis = technicalIndicators.analyzeTechnicals(priceHistory);
+  // Analyze buy wall (can we sell profitably?)
+  const buyWallAnalysis = await analyzeBuyWall(symbol, currentPrice * 1.05); // 5% profit target
+  console.log(`   💰 Buy wall support: ${buyWallAnalysis.totalLiquidity.toFixed(4)} HIVE`);
 
-  if (analysis.error) {
-    console.log(`   ❌ ${analysis.error}`);
-    return null;
+  // Analyze sell wall (can we buy cheaply?)
+  const sellWallAnalysis = await analyzeSellWall(symbol, currentPrice);
+  console.log(`   📈 Sell wall cost: ${sellWallAnalysis.costToTarget.toFixed(4)} HIVE`);
+
+  // Determine trading signal based on wall analysis
+  let signal = 'HOLD';
+  let strength = 0;
+  const reasons = [];
+
+  // BUY signal if sell wall is thin (cheap to push price up)
+  if (sellWallAnalysis.isAffordable && sellWallAnalysis.costUSD < 2.0) {
+    signal = 'BUY';
+    strength = Math.min(100, (2.0 - sellWallAnalysis.costUSD) / 2.0 * 100);
+    reasons.push(`Thin sell wall ($${sellWallAnalysis.costUSD.toFixed(2)})`);
   }
 
-  console.log(`   📊 Price: ${analysis.currentPrice.toFixed(8)} HIVE`);
-  console.log(`   📈 Signal: ${analysis.signal.signal} (${analysis.signal.strength}/100 - ${analysis.signal.confidence})`);
-  console.log(`   💡 Reasons: ${analysis.signal.reasons.join(', ')}`);
-
-  if (analysis.indicators.rsi !== null) {
-    console.log(`   📉 RSI: ${analysis.indicators.rsi.toFixed(1)}`);
+  // SELL signal if buy wall is strong (good exit liquidity)
+  if (buyWallAnalysis.hasLiquidity && buyWallAnalysis.canSellProfitably) {
+    if (signal === 'HOLD') {
+      signal = 'SELL';
+      strength = 70;
+      reasons.push(`Strong buy wall support`);
+    }
   }
 
-  if (analysis.indicators.bollingerBands) {
-    const bb = analysis.indicators.bollingerBands;
-    console.log(`   📊 BB: L=${bb.lower.toFixed(8)} M=${bb.middle.toFixed(8)} U=${bb.upper.toFixed(8)} (%B=${(bb.percentB * 100).toFixed(0)}%)`);
+  // Add spread analysis
+  const spreadPercent = ((parseFloat(metrics.lowestAsk) - parseFloat(metrics.highestBid)) / parseFloat(metrics.highestBid)) * 100;
+  if (spreadPercent < 2) {
+    strength += 20;
+    reasons.push(`Tight spread (${spreadPercent.toFixed(1)}%)`);
   }
+
+  console.log(`   🎯 Signal: ${signal} (${strength}/100)`);
+  console.log(`   💡 Reasons: ${reasons.join(', ')}`);
 
   return {
     symbol,
     metrics,
     orderBook,
-    analysis,
+    signal: {
+      signal,
+      strength,
+      reasons,
+      confidence: strength >= 60 ? 'HIGH' : strength >= 40 ? 'MEDIUM' : 'LOW'
+    },
+    buyWallAnalysis,
+    sellWallAnalysis,
+    hasSignal: strength >= 40,
     timestamp: Date.now()
   };
 }
@@ -462,14 +494,14 @@ function saveHistory() {
 // TRADING LOGIC
 // ========================================
 
-function checkExitConditions(symbol, currentPrice) {
+async function checkExitConditions(symbol, currentPrice) {
   const position = activePositions[symbol];
   if (!position) return;
 
   // Check stop loss
   if (currentPrice <= position.stopLoss) {
     console.log(`   🛑 STOP LOSS triggered for ${symbol}`);
-    executeSell(symbol, position.quantity, currentPrice);
+    await executeSell(symbol, position.quantity, currentPrice);
     closePosition(symbol, currentPrice, 'Stop loss');
     return true;
   }
@@ -477,7 +509,7 @@ function checkExitConditions(symbol, currentPrice) {
   // Check take profit
   if (currentPrice >= position.takeProfit) {
     console.log(`   🎯 TAKE PROFIT triggered for ${symbol}`);
-    executeSell(symbol, position.quantity, currentPrice);
+    await executeSell(symbol, position.quantity, currentPrice);
     closePosition(symbol, currentPrice, 'Take profit');
     return true;
   }
@@ -493,10 +525,10 @@ async function scanForOpportunities() {
   // Check existing positions first
   console.log('\n📊 Checking existing positions...');
   for (const symbol of Object.keys(activePositions)) {
-    const metrics = getMarketMetrics(symbol);
+    const metrics = await getMarketMetrics(symbol);
     if (metrics) {
       const currentPrice = parseFloat(metrics.lastPrice);
-      checkExitConditions(symbol, currentPrice);
+      await checkExitConditions(symbol, currentPrice);
     }
   }
 
@@ -538,14 +570,14 @@ async function scanForOpportunities() {
   console.log(`\n🔎 Scanning ${candidates.length} candidate tokens...`);
 
   for (const candidate of candidates) {
-    const tokenAnalysis = analyzeToken(candidate.symbol);
+    const tokenAnalysis = await analyzeToken(candidate.symbol);
 
     if (!tokenAnalysis) continue;
-    if (!tokenAnalysis.analysis.hasSignal) continue;
-    if (tokenAnalysis.analysis.signal.strength < CONFIG.MIN_SIGNAL_STRENGTH) continue;
+    if (!tokenAnalysis.hasSignal) continue;
+    if (tokenAnalysis.signal.strength < CONFIG.MIN_SIGNAL_STRENGTH) continue;
 
     // Only act on BUY signals
-    if (tokenAnalysis.analysis.signal.signal === 'BUY') {
+    if (tokenAnalysis.signal.signal === 'BUY') {
       console.log(`\n🚨 STRONG BUY SIGNAL: ${candidate.symbol}`);
 
       // Get available HIVE balance
