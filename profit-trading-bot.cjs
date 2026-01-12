@@ -604,7 +604,7 @@ async function scanForOpportunities() {
       // Calculate trade size dynamically based on:
       // 1. Signal strength (60-100 maps to 60%-100% of allocation)
       // 2. Available capital
-      const signalStrength = tokenAnalysis.analysis.signal.strength;
+      const signalStrength = tokenAnalysis.signal.strength;
       const strengthFactor = signalStrength / 100; // 0.6 to 1.0
       const baseAllocation = (availableHIVE * CONFIG.CAPITAL_ALLOCATION_PERCENT / 100);
       const tradeSize = baseAllocation * strengthFactor;
