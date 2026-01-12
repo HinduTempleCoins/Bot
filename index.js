@@ -167,6 +167,8 @@ const oilahuascaKnowledge = {};
 
 async function loadOilahuascaKnowledge() {
   const files = [
+    // MASTER DOCUMENT - Complete research synthesis
+    'oilahuasca_complete_research_synthesis.json',
     // Core theory
     'oilahuasca_comprehensive_theory.json',
     'oilahuasca_comprehensive_theory_part2.json',
@@ -606,7 +608,12 @@ const PROACTIVE_KEYWORDS = [
   // Oilahuasca keywords - bot must respond to these
   'oilahuasca', 'oilhuasca', 'myristicin', 'allylbenzene', 'cyp450',
   'nutmeg trip', 'nutmeg high', 'space paste', 'elemicin', 'safrole',
-  '17bhsd2', 'shulgin essential oil'
+  '17bhsd2', 'shulgin essential oil',
+  // Key researchers and related topics
+  '69ron', 'ron69', 'herbpedia', 'dmt-nexus', 'dmtnexus',
+  // Ancient enzymatic knowledge
+  'betel', 'paan', 'flying ointment', 'kyphi', 'werewolf recipe',
+  'witchcraft', 'tropane', 'ayahuasca', 'harmaline', 'syrian rue'
 ];
 
 // === FEATURE 1: Google Custom Search ===
@@ -1577,51 +1584,58 @@ client.on('interactionCreate', async (interaction) => {
           components: []
         });
       } else {
-        // Leaf node - provide deep information
+        // Leaf node - AI generates response using canned content as guidance/bias
         await interaction.deferUpdate();
 
         const searchQuery = choiceId.replace(/_/g, ' ');
         let response = '';
 
-        // PRIORITY: Check oilahuasca knowledge base FIRST (before Wikipedia/Gemini)
-        const oilahuascaResponse = getOilahuascaResponse(searchQuery);
-        if (oilahuascaResponse) {
-          response = oilahuascaResponse;
-        } else {
-          // Not oilahuasca - use Wikipedia/Gemini
-          const wikiResult = await searchWikipedia(searchQuery);
-          if (wikiResult) {
-            response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
-          } else {
-            // Fallback to Gemini
-            try {
-              const tone = getConversationTone(relationship);
-              let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
+        // Get canned response as GUIDANCE for AI (not direct output)
+        const cannedGuidance = getOilahuascaResponse(searchQuery);
 
-              if (tone === 'academic') prompt += ' Use scholarly depth.';
-              else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
+        try {
+          const tone = getConversationTone(relationship);
+          let aiContext = buildOilahuascaContext();
 
-              const result = await model.generateContent(prompt);
-              let geminiText = result.response.text();
+          let prompt = `You are the Van Kush Family Assistant with expert knowledge.
+USER CLICKED: "${searchQuery}" button
+${cannedGuidance ? `\nKEY FACTS TO INCORPORATE (use as guidance, weave naturally):\n${cannedGuidance}\n` : ''}
+Generate a comprehensive, conversational response about "${searchQuery}".
+Use the knowledge base context below. Be informative and engaging.
+Keep response under 1800 characters.
+${tone === 'intellectual' ? 'Use scholarly depth.' : 'Be accessible but informative.'}
 
-              const prefix = `🔮 **${searchQuery}**\n\n`;
-              const maxContentLength = 1900 - prefix.length;
-              if (geminiText.length > maxContentLength) {
-                geminiText = geminiText.substring(0, maxContentLength) + '...';
-              }
+KNOWLEDGE BASE:
+${aiContext.substring(0, 2500)}`;
 
-              response = prefix + geminiText;
-            } catch (error) {
-              console.error('Crypt-ology content generation error:', error);
-              response = '🔮 The mysteries are clouded at this moment.\n\n💡 **Tip:** This feature requires a valid Google/Gemini API key. See GOOGLE_API_KEY_RENEWAL.md for renewal instructions.\n\nIn the meantime, try asking me questions directly instead of using the button system!';
-            }
-          }
+          const result = await model.generateContent(prompt);
+          let aiText = result.response.text();
+          if (aiText.length > 1800) aiText = aiText.substring(0, 1800) + '...';
+          response = `🔮 **${searchQuery}**\n\n${aiText}`;
+        } catch (error) {
+          console.error('Crypt-ology AI error:', error);
+          // Fallback to canned response if AI fails
+          response = cannedGuidance || '🔮 The mysteries are clouded. Try asking me directly!';
         }
 
-        await interaction.editReply({
-          content: response,
-          components: [] // Remove buttons at leaf nodes
-        });
+        // Generate optional follow-up suggestion buttons
+        const suggestedTopics = generateDynamicCryptologyButtons(response, searchQuery);
+        let components = [];
+        if (suggestedTopics.length > 0) {
+          const row = new ActionRowBuilder();
+          for (let i = 0; i < Math.min(suggestedTopics.length, 4); i++) {
+            row.addComponents(
+              new ButtonBuilder()
+                .setCustomId(`crypto_chat_${suggestedTopics[i].id}`)
+                .setLabel(suggestedTopics[i].label.substring(0, 80))
+                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(suggestedTopics[i].emoji || '💡')
+            );
+          }
+          components.push(row);
+        }
+
+        await interaction.editReply({ content: response, components });
       }
     }
 
@@ -2457,37 +2471,18 @@ Just type your questions naturally, or click a topic button below to explore. I'
     }
   }
 
-  // If a topic was detected and user hasn't explored it much, offer dialogue
-  // EXCEPT for oilahuasca - let those go to AI chat with full knowledge base context
-  if (detectedTopic && cryptologyDialogues.trees[detectedTopic] && detectedTopic !== 'oilahuasca') {
+  // REDESIGNED: Don't block AI responses with popup
+  // Instead, we'll add optional topic buttons AFTER the AI responds
+  // Store detected topic to add buttons to AI response later
+  let detectedCryptologyTopic = null;
+  if (detectedTopic && cryptologyDialogues.trees[detectedTopic]) {
+    detectedCryptologyTopic = detectedTopic;
+    // Update interest tracking
     const relationship = getOrCreateRelationship(message.author.id);
-    const topicInterest = relationship.interests[detectedTopic === 'bible' ? 'religion' :
-                                                   detectedTopic === 'greece' ? 'mythology' :
-                                                   detectedTopic] || 0;
-
-    // Only offer if they haven't explored this topic extensively (interest < 50)
-    if (topicInterest < 50 && Math.random() < 0.7) { // 70% chance to avoid spam
-      const buttonData = createDialogueButtons(detectedTopic);
-
-      const embed = new EmbedBuilder()
-        .setColor(0x9b59b6)
-        .setTitle(`🔮 I sense interest in ${detectedTopic}...`)
-        .setDescription(`Would you like to explore this topic deeper through the Crypt-ology dialogue system?\n\n${buttonData.intro.substring(0, 200)}...`)
-        .setFooter({ text: 'Click below to begin, or continue your conversation normally' });
-
-      await message.reply({
-        embeds: [embed],
-        components: buttonData.rows
-      });
-
-      // Update that we offered this topic
-      updateRelationship(message.author.id, {
-        interests: { [detectedTopic === 'bible' ? 'religion' : detectedTopic === 'greece' ? 'mythology' : detectedTopic]: 5 },
-        familiarity: 1
-      });
-
-      return;
-    }
+    updateRelationship(message.author.id, {
+      interests: { [detectedTopic === 'bible' ? 'religion' : detectedTopic === 'greece' ? 'mythology' : detectedTopic]: 2 },
+      familiarity: 1
+    });
   }
 
   // Only respond when mentioned, in DMs, replying to bot, or contains keywords
@@ -2618,7 +2613,23 @@ Just type your questions naturally, or click a topic button below to explore. I'
 
     // Check if message is about oilahuasca topics - add knowledge context
     const lowerUserMessage = userMessage.toLowerCase();
-    const oilahuascaKeywords = ['oilahuasca', 'oilhuasca', 'oil ahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg trip', 'nutmeg high', 'nutmeg effect', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil psycho', 'spice psycho', 'nutmeg psycho'];
+    const oilahuascaKeywords = [
+      // Core terms
+      'oilahuasca', 'oilhuasca', 'oil ahuasca', 'myristicin', 'allylbenzene',
+      'cyp450', 'cyp1a2', 'cyp3a4', 'cyp2c9',
+      // Nutmeg related
+      'nutmeg trip', 'nutmeg high', 'nutmeg effect', 'nutmeg psycho',
+      // Compounds
+      'space paste', '17bhsd2', 'elemicin', 'safrole', 'apiole', 'dillapiole',
+      'estragole', 'methyleugenol', 'asarone',
+      // Researchers
+      '69ron', 'ron69', 'shulgin', 'herbpedia',
+      // Related traditions
+      'flying ointment', 'betel quid', 'paan', 'kyphi', 'werewolf recipe',
+      // Metabolism
+      'aminopropiophenone', 'endogenous amine', 'amine adduct',
+      'essential oil psycho', 'spice psycho'
+    ];
     const isOilahuascaTopic = oilahuascaKeywords.some(kw => lowerUserMessage.includes(kw));
 
     if (isOilahuascaTopic) {
@@ -2667,13 +2678,47 @@ Be a knowledgeable expert, not a mystic. Give REAL information.
 
     // Split response if too long (Discord has 2000 char limit)
     let botReply;
+
+    // Check if we should add optional topic suggestion buttons
+    let optionalButtons = [];
+    if (detectedCryptologyTopic || isOilahuascaTopic) {
+      // Generate contextual suggestion buttons based on the response
+      const suggestedTopics = generateDynamicCryptologyButtons(response, detectedCryptologyTopic || 'oilahuasca');
+
+      if (suggestedTopics.length > 0) {
+        const row = new ActionRowBuilder();
+        const buttonCount = Math.min(suggestedTopics.length, 4); // Max 4 buttons
+
+        for (let i = 0; i < buttonCount; i++) {
+          const topic = suggestedTopics[i];
+          row.addComponents(
+            new ButtonBuilder()
+              .setCustomId(`crypto_chat_${topic.id}`)
+              .setLabel(topic.label.substring(0, 80))
+              .setStyle(ButtonStyle.Secondary)
+              .setEmoji(topic.emoji || '💡')
+          );
+        }
+        optionalButtons.push(row);
+      }
+    }
+
     if (response.length > 2000) {
       const chunks = response.match(/[\s\S]{1,2000}/g);
-      for (const chunk of chunks) {
-        botReply = await message.reply(chunk);
+      for (let i = 0; i < chunks.length; i++) {
+        // Add buttons only to the last chunk
+        if (i === chunks.length - 1 && optionalButtons.length > 0) {
+          botReply = await message.reply({ content: chunks[i], components: optionalButtons });
+        } else {
+          botReply = await message.reply(chunks[i]);
+        }
       }
     } else {
-      botReply = await message.reply(response);
+      if (optionalButtons.length > 0) {
+        botReply = await message.reply({ content: response, components: optionalButtons });
+      } else {
+        botReply = await message.reply(response);
+      }
     }
 
     // Track bot message ID for reply tracking
