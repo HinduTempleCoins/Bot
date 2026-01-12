@@ -179,7 +179,7 @@
 
 **What Actually Needs to Be Built (Jan 12 Discussion)**:
 
-### 🎯 PROFIT BOT REQUIREMENTS (Complete Rebuild Needed)
+### 🚨 URGENT: LESS THAN 16 HOURS TO MAKE $600
 
 **Current Problem**: Bot was completely rebuilt (profit-trading-bot.cjs) but has NO profit mechanism
 - Buys tokens with 20% of HIVE then does nothing (HODL bot)
@@ -188,7 +188,17 @@
 - No strategy for different token types
 - Lost track of 23 existing sell orders that need management
 
-**What It Actually Needs to Do**:
+**Bare Minimum to Make Money NOW**:
+1. Read wallet tokens (all of them, including 23 open orders)
+2. Check competition on those 23 orders - who's undercutting us?
+3. Cancel and replace undercut orders (micro-dance: price - 0.00000001)
+4. For free balance tokens - place competitive sell orders
+5. Track fills - record what sold and profit made
+
+**Skip for now**: Learning systems, SMA comparison, multi-strategy classification, BEE mechanics
+**Focus**: Get competitive orders placed and start making money from fills
+
+### 🎯 FULL SYSTEM REQUIREMENTS (Build After Making $600)
 
 #### 1. **Multi-Strategy Adaptive System**
 Not a single strategy bot - needs different approaches for different tokens:
@@ -374,19 +384,14 @@ Must use, not ignore:
 - Bot 4: Order manager (dynamic strategy adjustment)
 - Bot 5: Performance tracker (learning system)
 
-**Recommendation**: Build incrementally, one bot at a time
-1. Start: Token behavior analyzer (identifies buy-support vs cashout)
-2. Then: Sell-side micro-dance (manage 23 orders)
-3. Then: Buy opportunities with immediate sell orders
-4. Then: Performance tracking vs SMA
-5. Finally: Full adaptive multi-strategy system
+**Build Order** (AFTER making $600):
+1. Token behavior analyzer (identifies buy-support vs cashout)
+2. Sell-side micro-dance (manage orders)
+3. Buy opportunities with immediate sell orders
+4. Performance tracking vs SMA
+5. Full adaptive multi-strategy system
 
-**Timeline**:
-- Week 1: Token behavior analyzer + basic sell order management
-- Week 2: Micro-dance competition + order tracking
-- Week 3: Buy side with immediate sells + profit tracking
-- Week 4: SMA comparison + learning system
-- Month 2+: Multi-strategy system, BEE mechanics, full adaptation
+All 5 components in ONE bot file (profit-trading-bot.cjs), not 5 separate bots.
 
 ### 🌐 Future: Coinbase Wallet Integration
 
