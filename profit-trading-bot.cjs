@@ -532,7 +532,7 @@ async function scanForOpportunities() {
       return volume >= CONFIG.MIN_VOLUME_24H && price > 0;
     })
     .filter(m => !activePositions.hasOwnProperty(m.symbol)) // Don't already have position
-    .filter(m => m.symbol !== 'SWAP.HIVE') // Don't trade SWAP.HIVE itself
+    .filter(m => !['SWAP.HIVE', 'VKBT', 'CURE'].includes(m.symbol)) // Don't trade these (VKBT/CURE handled by market maker)
     .slice(0, 20); // Top 20
 
   console.log(`\n🔎 Scanning ${candidates.length} candidate tokens...`);
