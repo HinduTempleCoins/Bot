@@ -1,0 +1,209 @@
+{
+  "oilahuasca_experience_reports": {
+    "document_info": {
+      "title": "Oilahuasca Experience Reports",
+      "disclaimer": "THIS IS DOCUMENTATION OF REPORTS, NOT ADVICE OR GUIDELINES",
+      "purpose": "Recording of actual experience reports for research documentation"
+    },
+
+    "pure_myristicin_study": {
+      "source": "Quote from 'Nicky the Nickname' on Shroomery",
+      "finding": "In one study, pure myristicin (from nutmeg) produced psychedelic effects in 6/10 participants",
+      "non_responders": "The other 4 felt very little",
+      "note": "Individual variation likely due to CYP450 polymorphism"
+    },
+
+    "eugenol_myristicin_combination": {
+      "source": "Report from 'Nicky the Nickname'",
+      "observations": {
+        "nutmeg_oil_alone": "Very lightly psychedelic",
+        "with_enzyme_inhibitors": "Can be highly psychedelic if combined with the right enzyme inhibitors",
+        "eugenol_enhancement": "Eugenol enhanced myristicin effects",
+        "eugenol_alone_high_dose": "Eugenol on its own (in very high, stupid doses) produced body dissociation and a powerful dream-like awareness"
+      },
+      "inspiration": "69ron from DMT-Nexus inspired the experimentation"
+    },
+
+    "angelicalist_initial_test": {
+      "date": "07/16/25 02:24 AM",
+      "post_id": "#29282730",
+      "disclaimer": "THIS IS A REPORT, NOT ADVICE OR GUIDELINES",
+      "protocol": {
+        "step_1": "Drank some Coffee",
+        "step_2": "5-8 Drops of Clove Oil (poured tiny bit in cap of bottle)",
+        "step_3": "2 more sips of Coffee",
+        "step_4": "Waited about 20 Minutes",
+        "step_5": "0.5-1ml of Nutmeg Extract",
+        "nutmeg_extract_strength": "Label indicates concentrated extract"
+      },
+      "timeline": {
+        "onset": "Effects building over 1.5-2 hours",
+        "duration_note": "Still present at 1.5-2 hour mark, tapering off slowly"
+      },
+      "effects_reported": {
+        "physical": [
+          "Warm Feeling inside",
+          "Stimulant Effect",
+          "Causing sweating a little",
+          "Moving feet around a lot (while standing at work)"
+        ],
+        "mental": [
+          "Time moving quickly",
+          "Not overwhelming at all"
+        ],
+        "comparison_to_caffeine": "Could be mistaken for Caffeine Effect, but Different - no Jitters like Caffeine",
+        "comparison_to_mescaline": "69Ron and Others said 'Mescaline' but this is nothing like Mescaline or Allylescaline - not like that at all"
+      },
+      "mechanism_notes": {
+        "elemicin_role": "According to the Method, it is actually supposedly the Elemicin that does most of Everything - Elemicin is the Input mainly",
+        "eugenol_role": "Eugenol (from Clove Oil) is meant to Inhibit CYP Enzymes",
+        "myristicin_role": "Myristicin also meant to inhibit CYP enzymes",
+        "formulation_used": "Clove Oil + Nutmeg Oil + Coffee"
+      },
+      "setting": "At work, standing"
+    },
+
+    "notes_on_effect_variability": {
+      "6_out_of_10_responders": "Pure myristicin study showed only 60% of participants responded",
+      "possible_reasons": {
+        "cyp1a2_polymorphism": "Some people are ultra-rapid metabolizers - break down compounds too fast",
+        "cyp2d6_polymorphism": "Affects secondary metabolism pathways",
+        "gut_microbiome": "Endogenous amine availability (dimethylamine, piperidine, pyrrolidine) varies",
+        "diet_factors": "Recent food intake affects enzyme activity"
+      },
+      "enhancement_strategy": "Enzyme inhibitors (eugenol, piperine, etc.) may help non-responders by blocking rapid metabolism"
+    },
+
+    "angelicalist_extended_report": {
+      "4_5_to_5_5_hour_mark": {
+        "post_id": "#29282756",
+        "time": "4.5-5.5 Hours after Ingesting",
+        "effects": [
+          "Still experiencing Stimulant Effect",
+          "Not Tired but could easily fall asleep if wanted",
+          "Time still moving quickly",
+          "Possibly Euphoria still present",
+          "Got everything done at Work, dealt with issues easier than normal"
+        ],
+        "comparison_to_ephedrine": "Had more Stimulant Effect from Clove/Nutmeg/Coffee than from the 25mg Ephedrine taken 6-7 hours before",
+        "no_crash": "Coffee has a Crash after 5 Hours - this didn't crash, still feeling the maybe 'Euphoria'"
+      },
+      "6_5_hour_mark": {
+        "post_id": "#29282791",
+        "time": "6.5+ Hours",
+        "status": "Still Up, not Lethargic",
+        "context": "12 Hour Work Day completed",
+        "conclusion": "Headed Home, Definitely will be able to Sleep now",
+        "assessment": "Very Small amount of Oil was used, but Definitely Worked"
+      },
+      "duration_explanation": {
+        "statement": "Effects are at least like 6+ Hours, which is to be expected",
+        "mechanism": "The whole Reason this Works is that we are using Eugenol and Myristicin to cause a Build up of Elemicin in the Body, and then Coffee to cause Breakdown into Metabolites",
+        "goal": "Overall the Goal is to Build up the Metabolites and Elemicin",
+        "logic": "Because we are Blocking Breakdown to cause Buildup, we would expect a longer Duration"
+      }
+    },
+
+    "planned_second_test": {
+      "post_date": "07/16/25 05:46 PM",
+      "post_id": "#29283434",
+      "protocol": {
+        "same_as_before": "Few Drops of Clove Oil, then about 1ml of Nutmeg",
+        "addition": "Few Hours Later will take another 0.5-1ml of Nutmeg Extract",
+        "purpose": "See what happens with redosing the Nutmeg"
+      },
+      "preparation": "Drinking Coffee now, took 25mg Ephedrine, will do Oil test in 5-6 Hours",
+      "awaiting": "Parsley Oil, Dill Oil, and Powdered Betel Nut have not arrived yet"
+    },
+
+    "scientific_references_from_thread": {
+      "older_thread_reference": "https://www.shroomery.org/forums/showflat.php/Number/22559527",
+      "phase_1_metabolism_study": "https://www.mdpi.com/1420-3049/26/19/5914",
+      "additional_studies": [
+        "https://www.sciencedirect.com/science/article/abs/pii/S0731708523003345",
+        "https://www.sciencedirect.com/topics/medicine-and-dentistry/elemicin"
+      ],
+      "nutmeg_toxicity_studies": {
+        "nutmeg_and_psychosis": "https://www.sciencedirect.com/science/article/abs/pii/S0920996402002049",
+        "fatal_case_report": "https://www.sciencedirect.com/science/article/abs/pii/S0379073500003698"
+      }
+    },
+
+    "ancient_knowledge_hypothesis": {
+      "statement": "I Personally believe that Ancient People knew about this",
+      "motivation": "That is a big part of why I am doing this, I Believe this is actually a Lost Science from the Ancient World",
+      "conclusion": "I don't think 69Ron was the First Person to come across this"
+    },
+
+    "second_test_redose_experiment": {
+      "post_date": "07/16/25 10:47 PM",
+      "post_id": "#29283757",
+      "purpose": "Testing if redosing can be done WITHOUT the Clove Oil primer the 2nd time",
+      "protocol": {
+        "initial_dose": "5-7 Drops of Clove Oil (tiny amount in lid)",
+        "timing": "15 Minutes later",
+        "nutmeg_dose": "0.75ml Dropper of Nutmeg Extract",
+        "planned_redose": "Will redose Nutmeg Extract later WITHOUT additional Clove Oil"
+      },
+      "hypothesis": "Testing if Eugenol inhibition persists long enough that redosing doesn't require additional primer"
+    },
+
+    "structural_chemistry_insight": {
+      "context": "Examining relatives of Wellbutrin (Cathinones) and Ephedrine (Amphetamines)",
+      "key_realization": {
+        "statement": "The aminopropiophenones from allylbenzene metabolism are structurally similar to CATHINONES, NOT amphetamines",
+        "evidence": "Both cathinones and aminopropiophenones have the ketone (C=O) group that amphetamines lack"
+      },
+      "structural_comparison": {
+        "amphetamine": "Benzene-CH2-CH(NH2)-CH3 (NO ketone)",
+        "cathinone": "Benzene-C(=O)-CH(NH2)-CH3 (HAS ketone)",
+        "aminopropiophenone": "Benzene-C(=O)-CH(NR2)-CH3 (HAS ketone + tertiary amine)"
+      },
+      "cathinone_examples": ["Bupropion (Wellbutrin)", "Mephedrone", "Methylone", "Methcathinone", "MDPV"],
+      "entourage_effect": "There might be some kind of 'Entourage Effect' - more than just enzyme blocking, something similar to how MAOIs block the Body from breaking down DMT"
+    },
+
+    "phenethylamine_family_relationships": {
+      "post_date": "07/16/25 11:47 PM",
+      "post_id": "#29283832",
+      "key_relationships": {
+        "ephedrine_connections": [
+          "Amphetamine (structurally similar)",
+          "Synephrine (decongestant)",
+          "Octopamine (invertebrate hormone - 'Bug Hormone')",
+          "Pseudoephedrine (Sudafed - now requires ID due to meth precursor)",
+          "Methamphetamine (can be synthesized from ephedrine)"
+        ],
+        "octopamine_note": "Flowers use Octopamine to Stimulate Bugs, Invertebrates use it like Adrenaline",
+        "adrenaline_note": "Adrenaline is 'Epinephrine' - also similar in structure",
+        "cathinones": "Closely related as well"
+      },
+      "biosynthesis_pathway": {
+        "amino_acids": "L-phenylalanine → L-tyrosine → L-DOPA",
+        "catecholamines": "Dopamine → Noradrenaline → Adrenaline (Epinephrine)",
+        "note": "All endogenous human neurotransmitters/hormones"
+      },
+      "similarity_assessment": "Not 'Substantially Similar' but definitely 'Somewhat Similar'"
+    },
+
+    "second_test_redose_taken": {
+      "post_date": "07/17/25 12:22 AM",
+      "post_id": "#29283847",
+      "action": "Took another 0.75ml of Nutmeg Extract",
+      "methodology_note": "What I am doing is very Incremental"
+    },
+
+    "shulgin_tasting_methodology": {
+      "description": "How Sasha Shulgin established dosages for PiHKAL",
+      "procedure": {
+        "step_1": "Start with very low dose (e.g., 50 micrograms)",
+        "step_2": "Incrementally increase (100mcg, 250mcg, 500mcg, 1mg)",
+        "step_3": "Wait 4 Days between each test",
+        "step_4": "Continue increasing (2mg, 5mg, 10mg, 20mg for something like 2C-I)",
+        "step_5": "When active dose found, add to List and submit to PiHKAL"
+      },
+      "shulgin_scale": "Used to rate effects at each dose level",
+      "note": "Some of the book is more speculative, based on prisoner studies and other studies, but ones where he ingested himself were all done by 'Tasting'"
+    }
+  }
+}

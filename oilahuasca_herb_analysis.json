@@ -1,0 +1,404 @@
+{
+  "oilahuasca_herb_analysis": {
+    "document_info": {
+      "title": "Detailed Herb Analysis for Oilahuasca",
+      "compiled_from": "Claude.ai discussions with Rev. Ryan Van Kush",
+      "date": "July 2025"
+    },
+
+    "parsley_analysis": {
+      "botanical_name": "Petroselinum crispum",
+      "active_compound": "Apiole (1-allyl-2,5-dimethoxy-3,4-methylenedioxybenzene)",
+      "target_metabolite": "DMMDA (2,5-dimethoxy-3,4-methylenedioxyamphetamine)",
+
+      "source_comparison": {
+        "fresh_parsley_leaves": {
+          "essential_oil_content": "0.05-0.1%",
+          "practicality": "Impractical - would need HUGE amounts",
+          "apiole_myristicin": "Present but dilute"
+        },
+        "parsley_seeds": {
+          "essential_oil_content": "2-7%",
+          "apiole_in_oil": "10-30%",
+          "assessment": "Concentrated source, practical to use"
+        },
+        "parsley_seed_essential_oil": {
+          "type": "Commercial product",
+          "concentration": "Very concentrated",
+          "apiole_content": "10-30%",
+          "myristicin_content": "5-15% typically",
+          "dosing": "Easy to dose (drops)"
+        }
+      },
+
+      "research_on_extract": {
+        "quote": "Apiole (1-allyl-2,5-dimethoxy-3,4-methylenedioxybenzene) and parsley leaves ethanolic extract containing it inhibit the rat liver microsomal... activities",
+        "finding": "Even crude parsley extract (not pure apiole) shows CYP1A inhibition",
+        "implication": "Don't need pure apiole - parsley seed oil or crushed seeds work"
+      },
+
+      "historical_use_abortifacient": {
+        "warning": "CRITICAL SAFETY - AVOID DURING PREGNANCY",
+        "dangerous_traditional_use": {
+          "mechanism": "Stimulates uterine contractions, increases menstrual flow",
+          "efficacy": "Often ineffective",
+          "risk": "Sometimes fatal"
+        },
+        "modern_status": "No longer used medically - safer alternatives available",
+        "other_historical_uses": ["Diuretic (dropsy treatment)", "Menstrual regulator", "Fever reducer", "Digestive aid"]
+      },
+
+      "apiole_in_nutmeg": {
+        "note": "Nutmeg contains trace amounts of apiole in addition to myristicin and elemicin",
+        "nutmeg_provides": {
+          "myristicin": "Major",
+          "elemicin": "Moderate",
+          "apiole": "Minor",
+          "safrole": "Trace"
+        },
+        "significance": "Multi-pathway activation from single source!"
+      },
+
+      "optimal_use_for_oilahuasca": {
+        "parsley_seed_essential_oil": {
+          "dose": "10-20 drops (0.5-1ml)",
+          "advantages": ["Most convenient", "Reliable apiole content", "Can mix into formulation"]
+        },
+        "crushed_parsley_seeds": {
+          "dose": "1-2 tablespoons (10-20g seeds)",
+          "method": "Crush or grind fresh, steep in hot water or add to smoothie",
+          "note": "More natural but less concentrated"
+        },
+        "fresh_parsley": {
+          "recommendation": "Not recommended (too dilute)",
+          "reason": "Would need enormous amounts"
+        },
+        "timing": "Give with nutmeg (T-0) - both will inhibit CYP1A together"
+      },
+
+      "content_estimation": {
+        "using_1ml_parsley_seed_oil": {
+          "typical_apiole_content": "~20%",
+          "apiole_amount": "~200mg apiole"
+        },
+        "comparison_to_dmmda": {
+          "dmmda_active_dose": "50-75mg (synthesized)",
+          "if_10_percent_conversion": "Need 500-750mg apiole",
+          "if_5_percent_conversion": "Need 1000-1500mg apiole",
+          "assessment": "200mg apiole from 1ml oil = reasonable starting point"
+        }
+      }
+    },
+
+    "sweet_flag_analysis": {
+      "botanical_name": "Acorus calamus",
+      "common_names": ["Sweet Flag", "Calamus", "Vacha (Ayurveda)", "Shi Chang Pu (TCM)", "Rat-root (Cree)"],
+      "active_compounds": ["α-Asarone", "β-Asarone (CARCINOGENIC)", "γ-Asarone (rare, allyl form)", "Acoramone"],
+
+      "cyp450_inhibition": {
+        "research_citation": "Metabolism mediated interaction of α-asarone and Acorus calamus with Cytochrome P450 enzyme",
+        "study_design": {
+          "extract": "Standardized extract of Acorus calamus",
+          "analysis": "α-asarone quantified by RP-HPLC",
+          "evaluation": "In vitro interaction evaluated"
+        },
+        "enzymes_inhibited": {
+          "CYP3A4": "Inhibited",
+          "CYP2D6": "Inhibited"
+        },
+        "clinical_significance": {
+          "cyp3a4": "Backup pathway (already blocked by cinnamon/pepper)",
+          "cyp2d6": "Metabolizes many antidepressants, opioids",
+          "value": "Adding calamus provides additional enzyme blockade"
+        }
+      },
+
+      "asarone_isomers": {
+        "alpha_asarone": {
+          "structure": "Benzene-CH=CH-CH3 (PROPENYL - conjugated)",
+          "metabolic_fate": "Does NOT form aminopropiophenones",
+          "reason": "Propenyl compounds cannot form reactive intermediates"
+        },
+        "gamma_asarone": {
+          "structure": "Benzene-CH2-CH=CH2 (ALLYL - non-conjugated)",
+          "metabolic_fate": "CAN form aminopropiophenones",
+          "availability": "RARE in most calamus varieties"
+        },
+        "oilahuasca_value": "Primary value is as CYP450 inhibitor, not psychoactive substrate (unless γ-asarone present)"
+      },
+
+      "beta_asarone_safety_critical": {
+        "warning": "CRITICAL SAFETY ISSUE",
+        "three_varieties": {
+          "diploid_north_american": {
+            "species": "Acorus americanus",
+            "chromosomes": "2n = 24",
+            "contains": "α-asarone",
+            "beta_asarone": "NO - NOT DETECTABLE",
+            "safety": "SAFE",
+            "origin": "Indigenous to North America"
+          },
+          "triploid_european": {
+            "chromosomes": "3n = 36",
+            "contains": "α-asarone + β-asarone",
+            "safety": "CARCINOGENIC"
+          },
+          "tetraploid_asian": {
+            "chromosomes": "4n = 48",
+            "contains": "α-asarone + HIGH β-asarone",
+            "safety": "CARCINOGENIC"
+          }
+        },
+        "research_verification": "β-asarone was not detectable in the North American spontaneous diploid Acorus [Calamus var. Americanus]",
+        "critical_rule": "ONLY use North American diploid variety - must verify source or avoid entirely"
+      },
+
+      "beta_asarone_carcinogenicity": {
+        "animal_studies": "Long-term, high-dose feeding in rats caused liver tumors (hepatocarcinogenic)",
+        "fda_action_1968": "Calamus banned as food additive based on β-asarone content in Asian variety",
+        "current_status": {
+          "legal": "Not illegal to possess/sell (in US)",
+          "food_additive": "Not approved as food additive",
+          "herbal_market": "Still available as supplement"
+        }
+      },
+
+      "traditional_use_reassuring": {
+        "extensive_history": {
+          "cree_indians": "Rat-root",
+          "ayurveda": "Vacha (brain tonic)",
+          "tcm": "Shi Chang Pu (opens orifices)",
+          "duration": "Used for centuries with no obvious cancer epidemic"
+        },
+        "why_historical_safety": [
+          "North American natives used diploid (no β-asarone)",
+          "Asian use was often external or low-dose",
+          "Not used chronically in high amounts"
+        ]
+      },
+
+      "psychoactive_reports": {
+        "shulgin_note": "There apparently is no report of central effects",
+        "modern_anecdotal": ["Dream enhancement", "Lucid dreaming aid", "Mild stimulation/clarity", "Not confirmed scientifically"],
+        "possible_explanations": ["Placebo effect", "γ-asarone content (varies)", "Other compounds in plant", "CYP450 inhibition affecting endogenous compounds"]
+      },
+
+      "other_compounds": {
+        "acoramone": {
+          "structure": "2,4,5-Trimethoxyphenylacetone",
+          "relation": "Ketone precursor to TMA-2",
+          "presence": "Present in oil",
+          "psychoactivity": "Not itself psychoactive"
+        }
+      },
+
+      "oilahuasca_use_recommendations": {
+        "primary_value": "CYP450 inhibition (CYP3A4, CYP2D6)",
+        "secondary_value": "Trace γ-asarone (if present) → TMA-2 pathway",
+        "dosing_if_using": {
+          "dried_rhizome_powder": "1-2g",
+          "requirement": "North American diploid ONLY"
+        },
+        "alternatives_given_safety_concerns": [
+          "Black pepper (CYP3A4 - safer)",
+          "Cinnamon (multiple CYPs - safer)",
+          "Skip calamus entirely"
+        ],
+        "only_use_if": [
+          "Source verified as North American diploid",
+          "Comfortable with uncertainty",
+          "Want TMA-2 pathway included (speculative)"
+        ]
+      }
+    },
+
+    "fennel_analysis": {
+      "botanical_name": "Foeniculum vulgare",
+      "active_compounds": ["Anethole (80-90%)", "Estragole (5-10%)", "Fenchone (minor)"],
+
+      "cyp3a4_inhibition": {
+        "research_citation": "Fennel was found having inhibitory effect on CYP 3A4",
+        "full_study": "Inhibition on Human Liver Cytochrome P450 3A4 by Constituents of Fennel: Identification and Characterization of a Mechanism-Based Inactivator",
+        "key_finding": "Fennel contains mechanism-based inactivators of CYP3A4!",
+        "type_of_inhibition": {
+          "not": "Just competitive (reversible)",
+          "is": "Mechanism-based (irreversible)",
+          "mechanism": "Reactive metabolites form and covalently modify enzyme",
+          "result": "Enzyme must be replaced"
+        },
+        "significance": "This is like myristicin/CYP1A2!"
+      },
+
+      "responsible_compounds": {
+        "not_anethole": "Anethole is propenyl (doesn't form reactive intermediates same way)",
+        "possibly": ["Estragole (allyl, can form reactive metabolites)", "Other minor allylbenzenes", "Furan derivatives?"],
+        "status": "More research needed to identify exact inactivating compounds"
+      },
+
+      "dual_contribution": {
+        "estragole_psychoactive_substrate": {
+          "pathway": "Estragole → 1'-Hydroxyestragole → 1'-Oxoestragole → 4-MA aminopropiophenones"
+        },
+        "unknown_compounds_cyp3a4_inactivators": {
+          "pathway": "Fennel compounds → Metabolized by CYP3A4 → Reactive intermediates → CYP3A4 covalently modified → Enzyme dead"
+        }
+      },
+
+      "synergy_with_other_inhibitors": {
+        "multi_cyp3a4_blockade": {
+          "cinnamon": "CYP3A4 inhibitor (time-dependent)",
+          "black_pepper": "CYP3A4 inhibitor (competitive)",
+          "fennel": "CYP3A4 inactivator (mechanism-based)"
+        },
+        "all_three_hitting_same_enzyme": {
+          "mechanisms": "Different mechanisms",
+          "effect": "Likely additive or synergistic",
+          "result": "Maximum CYP3A4 blockade"
+        }
+      },
+
+      "content": {
+        "fennel_seeds_essential_oil": {
+          "anethole": "80-90% (propenyl, not psychoactive substrate)",
+          "estragole": "5-10% (allyl, psychoactive substrate)",
+          "fenchone": "Minor component"
+        },
+        "amount_in_seeds": {
+          "essential_oil": "~2-6% by weight",
+          "estragole": "0.1-0.6% by weight"
+        },
+        "calculation": "10g fennel seeds × 0.3% estragole = 30mg estragole (modest, but contributes)"
+      },
+
+      "pleasant_flavor_advantage": {
+        "taste": "Licorice/anise taste (from anethole)",
+        "benefits": ["Makes formulations more palatable", "Digestive aid (reduces nausea)", "Widely accepted flavor"],
+        "use_as_carrier": "Fennel tea base can mask bitter/unpleasant tastes of other herbs"
+      },
+
+      "optimal_use": {
+        "fennel_seeds": {
+          "amount": "1-2 tablespoons crushed (10-20g)",
+          "method": "Grind or crush, steep in hot water (tea) or add to smoothie"
+        },
+        "fennel_essential_oil": {
+          "amount": "5-10 drops",
+          "caution": "High concentration - careful with dose (estragole concerns)"
+        },
+        "timing": "30-60 min before allylbenzenes (enzyme inhibition) or concurrent"
+      },
+
+      "safety": {
+        "estragole_concerns": {
+          "long_term_high_dose": "Hepatotoxic in animals",
+          "genotoxic": "In some studies",
+          "short_term_single_dose": "Probably safe",
+          "culinary_use": "GRAS"
+        },
+        "recommendation": "Use fennel seeds (not concentrated oil), keep to reasonable amounts, don't use chronically"
+      }
+    },
+
+    "basil_analysis": {
+      "botanical_name": "Ocimum basilicum (Sweet Basil)",
+      "active_compounds": ["Estragole (70-85%)", "Methyleugenol (3-10%)", "Nevadensin (flavonoid)"],
+
+      "unique_contribution_sult_inhibition": {
+        "research_finding": "Sweet basil contains nevadensin, which is a SULT inhibitor",
+        "what_is_sult": {
+          "full_name": "Sulfotransferase",
+          "type": "Phase II enzyme",
+          "function": "Adds sulfate groups to compounds, makes them water-soluble for excretion"
+        },
+        "nevadensin": {
+          "type": "Flavonoid glycoside",
+          "source": "Found specifically in sweet basil (Ocimum basilicum)",
+          "action": "Inhibits SULT enzyme activity"
+        }
+      },
+
+      "sult_role_in_metabolism": {
+        "normal_function": "Lipophilic compound + PAPS → [SULT enzyme] → Sulfate conjugate → Water-soluble → EXCRETED in urine",
+        "with_sult_inhibition": "Lipophilic compound + PAPS → [SULT BLOCKED] → Cannot sulfate → Remains lipophilic → ACCUMULATES"
+      },
+
+      "phase_ii_blockade_strategy": {
+        "already_blocked": {
+          "glutathione_conjugation": "GSH depleted (cinnamon)",
+          "gst_function": "No substrate even if enzyme present"
+        },
+        "now_also_blocked": {
+          "sulfate_conjugation": "SULT inhibited (basil)"
+        },
+        "result": "Phase I metabolites cannot be conjugated by GSH (depleted) or sulfate (SULT blocked) → ACCUMULATE → Prolonged effects"
+      },
+
+      "estragole_content": {
+        "basil_essential_oil": "70-85% estragole (methylchavicol)",
+        "significance": "Major component, allyl compound (psychoactive precursor)",
+        "target_metabolite": "Estragole → 1'-Hydroxyestragole → 1'-Oxoestragole → 4-MA aminopropiophenones"
+      },
+
+      "methyleugenol_secondary": {
+        "content": "~3-10% of basil essential oil (varies by variety)",
+        "target": "Methyleugenol → 3,4-DMA aminopropiophenones"
+      },
+
+      "triple_contribution": {
+        "from_basil": [
+          "Estragole (psychoactive substrate)",
+          "Methyleugenol (secondary psychoactive substrate)",
+          "Nevadensin (SULT inhibitor)"
+        ],
+        "assessment": "Elegant pharmacology - plant provides both 'drug' and 'potentiator' in one package!"
+      },
+
+      "optimal_use": {
+        "fresh_sweet_basil": {
+          "amount": "2-4 tablespoons chopped (4-8g)",
+          "method": "Eaten raw or added to smoothie",
+          "note": "Nevadensin content uncertain (may be higher in fresh)"
+        },
+        "dried_basil": {
+          "amount": "1-2 teaspoons (2-4g)",
+          "note": "Essential oils more concentrated, convenient"
+        },
+        "basil_essential_oil": {
+          "amount": "5-10 drops",
+          "caution": "Very high estragole concentration - use cautiously (estragole toxicity concerns)"
+        },
+        "basil_tea": {
+          "method": "Steep fresh or dried basil",
+          "may_extract": "Both oils and nevadensin",
+          "palatability": "Pleasant"
+        }
+      },
+
+      "timing": {
+        "option_a_with_inhibitors": {
+          "time": "T-60 to T-30 min",
+          "rationale": "Allows SULT inhibition to establish, ready when Phase I metabolites form"
+        },
+        "option_b_with_allylbenzenes": {
+          "time": "T-0",
+          "rationale": "Estragole contributes to substrate loading, SULT inhibition develops over hours"
+        },
+        "recommendation": "Option A is probably better (pre-administration for enzyme inhibition)"
+      },
+
+      "safety": {
+        "estragole_concerns": {
+          "long_term_high_dose": "Hepatotoxic (animal studies)",
+          "genotoxic": "At very high doses",
+          "short_term_use": "Probably safe",
+          "culinary_amounts": "GRAS"
+        },
+        "nevadensin": {
+          "type": "Flavonoid (generally safe)",
+          "toxicity": "No known toxicity at culinary amounts"
+        },
+        "recommendation": "Use fresh or dried basil leaves (not concentrated oil) - safer than pure estragole, provides SULT inhibition benefit"
+      }
+    }
+  }
+}

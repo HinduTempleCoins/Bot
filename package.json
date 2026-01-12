@@ -1,0 +1,35 @@
+{
+  "name": "van-kush-discord-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Temple of Van Kush using Gemini API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "trade": "node hive-trading-bot.js",
+    "trade:dev": "node --watch hive-trading-bot.js",
+    "scan-tokens": "node hive-token-scanner.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "gemini",
+    "van-kush"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@hive-engine/sscjs": "^0.0.9",
+    "@hiveio/dhive": "^1.3.2",
+    "axios": "^1.6.5",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "node-cache": "^5.1.2",
+    "node-cron": "^3.0.3",
+    "sscjs": "^0.0.9",
+    "wtf_wikipedia": "^10.3.0",
+    "youtube-transcript": "^1.2.1"
+  }
+}
