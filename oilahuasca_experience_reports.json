@@ -133,6 +133,77 @@
       "statement": "I Personally believe that Ancient People knew about this",
       "motivation": "That is a big part of why I am doing this, I Believe this is actually a Lost Science from the Ancient World",
       "conclusion": "I don't think 69Ron was the First Person to come across this"
+    },
+
+    "second_test_redose_experiment": {
+      "post_date": "07/16/25 10:47 PM",
+      "post_id": "#29283757",
+      "purpose": "Testing if redosing can be done WITHOUT the Clove Oil primer the 2nd time",
+      "protocol": {
+        "initial_dose": "5-7 Drops of Clove Oil (tiny amount in lid)",
+        "timing": "15 Minutes later",
+        "nutmeg_dose": "0.75ml Dropper of Nutmeg Extract",
+        "planned_redose": "Will redose Nutmeg Extract later WITHOUT additional Clove Oil"
+      },
+      "hypothesis": "Testing if Eugenol inhibition persists long enough that redosing doesn't require additional primer"
+    },
+
+    "structural_chemistry_insight": {
+      "context": "Examining relatives of Wellbutrin (Cathinones) and Ephedrine (Amphetamines)",
+      "key_realization": {
+        "statement": "The aminopropiophenones from allylbenzene metabolism are structurally similar to CATHINONES, NOT amphetamines",
+        "evidence": "Both cathinones and aminopropiophenones have the ketone (C=O) group that amphetamines lack"
+      },
+      "structural_comparison": {
+        "amphetamine": "Benzene-CH2-CH(NH2)-CH3 (NO ketone)",
+        "cathinone": "Benzene-C(=O)-CH(NH2)-CH3 (HAS ketone)",
+        "aminopropiophenone": "Benzene-C(=O)-CH(NR2)-CH3 (HAS ketone + tertiary amine)"
+      },
+      "cathinone_examples": ["Bupropion (Wellbutrin)", "Mephedrone", "Methylone", "Methcathinone", "MDPV"],
+      "entourage_effect": "There might be some kind of 'Entourage Effect' - more than just enzyme blocking, something similar to how MAOIs block the Body from breaking down DMT"
+    },
+
+    "phenethylamine_family_relationships": {
+      "post_date": "07/16/25 11:47 PM",
+      "post_id": "#29283832",
+      "key_relationships": {
+        "ephedrine_connections": [
+          "Amphetamine (structurally similar)",
+          "Synephrine (decongestant)",
+          "Octopamine (invertebrate hormone - 'Bug Hormone')",
+          "Pseudoephedrine (Sudafed - now requires ID due to meth precursor)",
+          "Methamphetamine (can be synthesized from ephedrine)"
+        ],
+        "octopamine_note": "Flowers use Octopamine to Stimulate Bugs, Invertebrates use it like Adrenaline",
+        "adrenaline_note": "Adrenaline is 'Epinephrine' - also similar in structure",
+        "cathinones": "Closely related as well"
+      },
+      "biosynthesis_pathway": {
+        "amino_acids": "L-phenylalanine → L-tyrosine → L-DOPA",
+        "catecholamines": "Dopamine → Noradrenaline → Adrenaline (Epinephrine)",
+        "note": "All endogenous human neurotransmitters/hormones"
+      },
+      "similarity_assessment": "Not 'Substantially Similar' but definitely 'Somewhat Similar'"
+    },
+
+    "second_test_redose_taken": {
+      "post_date": "07/17/25 12:22 AM",
+      "post_id": "#29283847",
+      "action": "Took another 0.75ml of Nutmeg Extract",
+      "methodology_note": "What I am doing is very Incremental"
+    },
+
+    "shulgin_tasting_methodology": {
+      "description": "How Sasha Shulgin established dosages for PiHKAL",
+      "procedure": {
+        "step_1": "Start with very low dose (e.g., 50 micrograms)",
+        "step_2": "Incrementally increase (100mcg, 250mcg, 500mcg, 1mg)",
+        "step_3": "Wait 4 Days between each test",
+        "step_4": "Continue increasing (2mg, 5mg, 10mg, 20mg for something like 2C-I)",
+        "step_5": "When active dose found, add to List and submit to PiHKAL"
+      },
+      "shulgin_scale": "Used to rate effects at each dose level",
+      "note": "Some of the book is more speculative, based on prisoner studies and other studies, but ones where he ingested himself were all done by 'Tasting'"
     }
   }
 }
