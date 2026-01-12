@@ -166,7 +166,15 @@ try {
 const oilahuascaKnowledge = {};
 
 async function loadOilahuascaKnowledge() {
-  const files = ['oilahuasca_comprehensive_theory.json', 'oilahuasca_theory.json', 'oilahuasca_space_paste_recipe.json', 'cyp450_enzyme_database.json', 'shulgin_ten_essential_oils.json'];
+  const files = [
+    'oilahuasca_comprehensive_theory.json',
+    'oilahuasca_theory.json',
+    'oilahuasca_space_paste_recipe.json',
+    'cyp450_enzyme_database.json',
+    'shulgin_ten_essential_oils.json',
+    'oilahuasca_amino_acid_metabolism.json',
+    'oilahuasca_allylbenzene_metabolism_complete.json'
+  ];
   for (const file of files) {
     try {
       const data = await readFile(`./${file}`, 'utf8');
@@ -185,8 +193,11 @@ function getOilahuascaResponse(topic) {
   if (t.includes('cyp') || t.includes('enzyme')) return `🧬 **CYP450 in Oilahuasca**\n\n**CYP1A2**: Primary - metabolizes allylbenzenes AND caffeine\n**17bHSD2**: Master activation enzyme\n\n**Strategy**: INDUCE CYP1A2 (coffee), then INHIBIT (myristicin)`;
   if (t.includes('17bhsd2')) return `🔑 **17β-HSD2: Master Activation Enzyme**\n\nConverts 1'-hydroxyallylbenzenes → 1'-oxo metabolites\nRequires: NAD+ (niacinamide), Vitamin D3\nAvoid: Quercetin, Naringenin - these BLOCK it!`;
   if (t.includes('allylbenzene')) return `🧪 **Allylbenzenes**\n\n• **Myristicin** (nutmeg) - most reliable\n• **Elemicin** (elemi oil) - mescaline-like\n• **Safrole** (sassafras) - MDA-like\n• **Dillapiole** (dill) - "LSD-like visuals"\n\nPRODRUGS - inactive until CYP450 → 17bHSD2 → amine adduct`;
-  if (t.includes('shulgin')) return `👨‍🔬 **Shulgin's Research**\n\nSafrole → MDA, Elemicin → TMA, Myristicin → MMDA\nAllylbenzenes share ring-substitution patterns with known psychedelics.`;
-  if (t.includes('safety')) return `⚠️ **Safety**\n\nDuration: 24-72h, Onset: 2-8h - DO NOT REDOSE\nContraindications: SSRIs, MAOIs, liver conditions\nWhole nutmeg over 10g is dangerous`;
+  if (t.includes('shulgin')) return `👨‍🔬 **Shulgin's Research**\n\nSafrole → MDA, Elemicin → TMA, Myristicin → MMDA\nAllylbenzenes share ring-substitution patterns with known psychedelics.\n\n⚠️ **CORRECTION**: These are NOT actually amphetamines - they're tertiary aminopropiophenones (different structure, similar effects)`;
+  if (t.includes('safety')) return `⚠️ **Safety**\n\nDuration: 24-72h, Onset: 2-8h - DO NOT REDOSE\nContraindications: SSRIs, MAOIs, liver conditions\nWhole nutmeg over 10g is dangerous\n\n**For Safer Experience**:\n• Glycine 3-5g supports detoxification\n• Stay hydrated\n• Have trip sitter`;
+  if (t.includes('glycine') || t.includes('amino acid') || t.includes('conjugation')) return `🧬 **Glycine Conjugation System**\n\n**Key Finding**: Glycine conjugation COMPETES with alkaloid formation!\n\n**Enzymes**: ACSM2B → GLYAT (in mitochondria)\n**Function**: Converts toxic aldehydes to water-soluble glycine conjugates for excretion\n\n**Safety Implication**:\n• Glycine supplementation (3-5g) = Enhanced detox = SAFER\n• Glycine depletion = More alkaloids = MORE TOXIC\n\n⚠️ Glycine also needed for glutathione (antioxidant) - don't deplete!`;
+  if (t.includes('alkaloid') || t.includes('aminopropiophenone')) return `⚗️ **CORRECTED: Alkaloid Metabolites**\n\n**NOT amphetamines!** Actual metabolites are TERTIARY AMINOPROPIOPHENONES:\n\n**Three Types**:\n1. Dimethylamines\n2. Piperidines (6-member ring)\n3. Pyrrolidines (5-member ring)\n\n**Compound Profiles**:\n• Elemicin: ALL THREE types ✓\n• Safrole: ALL THREE types ✓\n• Myristicin: Only Piperidines + Pyrrolidines (no dimethylamine)\n\n⚠️ ONLY allyl forms (NOT propenyl) make these alkaloids`;
+  if (t.includes('metabol') || t.includes('phase')) return `🔄 **Allylbenzene Metabolism**\n\n**Phase I (CYP450)**:\n1. 1'-Hydroxylation → Alcohol\n2. Oxidation → Aldehyde (FORK POINT!)\n3. Either: Carboxylic acid OR Amine adduct\n\n**Phase II (Conjugation)**:\nGlycine conjugation = Detox pathway\nAmine adduct formation = Alkaloid pathway\n\n**Key**: These pathways COMPETE!\nMore glycine = more detox, less alkaloid`;
   return null;
 }
 
@@ -239,6 +250,21 @@ const cryptologyTopicMap = {
     keywords: ['feeling', 'experiencing', 'right now', 'currently', 'trip', 'tripping', 'high'],
     related: ['safety', 'support', 'duration', 'grounding'],
     emoji: '🌀'
+  },
+  glycine: {
+    keywords: ['glycine', 'amino acid', 'conjugation', 'detox', 'detoxification', 'taurine', 'glutamine'],
+    related: ['safety', 'alkaloid', 'metabolism', 'supplement'],
+    emoji: '🧬'
+  },
+  alkaloid: {
+    keywords: ['alkaloid', 'aminopropiophenone', 'pyrrolidine', 'piperidine', 'dimethylamine', 'amphetamine'],
+    related: ['metabolism', 'glycine', 'shulgin', 'allylbenzenes'],
+    emoji: '⚗️'
+  },
+  metabolism: {
+    keywords: ['metabol', 'phase 1', 'phase 2', 'phase i', 'phase ii', 'liver', 'oxidation'],
+    related: ['cyp450', 'glycine', 'alkaloid', '17bhsd2'],
+    emoji: '🔄'
   }
 };
 
@@ -274,6 +300,35 @@ It is NOT "DMT in an oil carrier" - completely different mechanism.
 
 **SHULGIN'S 10 ESSENTIAL OILS**:
 Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMMDA
+
+**CRITICAL CORRECTION - ALKALOID FORMATION (NOT AMPHETAMINES)**:
+- Shulgin theorized allylbenzenes → amphetamines. THIS IS INCORRECT.
+- Actual metabolites: TERTIARY AMINOPROPIOPHENONES (three subtypes)
+- Dimethylamines, Piperidines, Pyrrolidines
+- Elemicin: Forms ALL THREE types (full-spectrum)
+- Safrole: Forms ALL THREE types
+- Myristicin: Only forms Piperidines + Pyrrolidines (NO dimethylamines)
+- ONLY ALLYL FORMS make alkaloids (NOT propenyl forms like anethole, isosafrole)
+
+**GLYCINE CONJUGATION - COMPETING PATHWAY**:
+- Glycine conjugation COMPETES with alkaloid formation at aldehyde stage
+- This is a PROTECTIVE/DETOX mechanism
+- Glycine depletion could shift balance toward alkaloid formation (DANGEROUS)
+- Glycine supplementation enhances detoxification (SAFER)
+- Key enzymes: ACSM2B (acyl-CoA synthetase), GLYAT (glycine N-acyltransferase)
+- Located in mitochondria of liver/kidney
+
+**AMINO ACID SAFETY RECOMMENDATIONS**:
+- FOR SAFETY: Glycine 3-5g before/during exposure supports detoxification
+- Support glutathione synthesis (glycine + cysteine + glutamate)
+- Taurine as backup conjugation pathway
+- DO NOT deplete glycine - increases toxicity risk
+
+**HUMAN vs ANIMAL METABOLISM**:
+- Animal studies show alkaloid formation
+- Human studies show primarily: O-demethylation, dihydroxylation, demethylenation
+- Whether humans form same alkaloids as animals is UNCERTAIN
+- Major research gap exists
 
 `;
 
