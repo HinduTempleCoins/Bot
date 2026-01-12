@@ -60,8 +60,9 @@ echo "5. Price Pusher (LIVE - real trades!)"
 echo "6. HIVE Content Bot (Daily VKBT/CURE posts + tips)"
 echo "7. All bots (Portfolio + Market Maker + Content)"
 echo "8. Test bots (run once, no PM2)"
+echo "9. 💰 PROFIT TRADING BOT (LIVE - BB/RSI/SMA trading for HIVE profits!)"
 echo ""
-read -p "Choose option (1-8): " OPTION
+read -p "Choose option (1-9): " OPTION
 
 case $OPTION in
     1)
@@ -259,6 +260,35 @@ case $OPTION in
         echo "✅ All tests complete!"
         echo "   Review output above for any errors"
         exit 0
+        ;;
+
+    9)
+        echo ""
+        echo "💰 Deploying PROFIT TRADING BOT (LIVE)..."
+        echo "   Strategy: Technical indicators (BB, RSI, SMA)"
+        echo "   Scans top volume tokens for entry/exit signals"
+        echo "   Trade size: 0.5-2 HIVE per trade"
+        echo "   Take profit: 8% | Stop loss: 5%"
+        echo "   Max positions: 5 concurrent"
+        echo ""
+        echo "⚠️  WARNING: LIVE TRADING MODE"
+        echo "   This bot will execute REAL trades with REAL HIVE"
+        echo ""
+        read -p "Are you sure you want to start LIVE trading? (yes/no): " confirm
+
+        if [ "$confirm" != "yes" ]; then
+            echo "❌ Deployment cancelled"
+            exit 0
+        fi
+
+        echo ""
+        echo "🚀 Starting profit trading bot..."
+        pm2 start profit-trading-bot.cjs --name profit-trader
+        pm2 save
+        echo "✅ Profit trading bot started!"
+        echo "   View logs: pm2 logs profit-trader"
+        echo "   Monitor positions: cat trading-positions.json"
+        echo "   View history: cat trading-history.json"
         ;;
 
     *)
