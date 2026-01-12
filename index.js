@@ -160,6 +160,38 @@ try {
   process.exit(1);
 }
 
+// ========================================
+// OILAHUASCA KNOWLEDGE BASE LOADER
+// ========================================
+const oilahuascaKnowledge = {};
+
+async function loadOilahuascaKnowledge() {
+  const files = ['oilahuasca_comprehensive_theory.json', 'oilahuasca_theory.json', 'oilahuasca_space_paste_recipe.json', 'cyp450_enzyme_database.json', 'shulgin_ten_essential_oils.json'];
+  for (const file of files) {
+    try {
+      const data = await readFile(`./${file}`, 'utf8');
+      oilahuascaKnowledge[file.replace('.json', '')] = JSON.parse(data);
+    } catch (e) { /* skip */ }
+  }
+  console.log(`✅ Oilahuasca KB: ${Object.keys(oilahuascaKnowledge).length} files loaded`);
+}
+
+function getOilahuascaResponse(topic) {
+  const t = topic.toLowerCase().replace(/_/g, ' ');
+  if (t.includes('oilahuasca') && !t.includes('theory') && !t.includes('recipe')) {
+    return `🔮 **Oilahuasca: Sacred Spice Alchemy**\n\n**Definition**: Oilahuasca (oil + ayahuasca) is a theoretical framework for understanding how essential oils containing allylbenzene compounds (myristicin, elemicin, estragole) become psychoactive through CYP450 enzyme manipulation.\n\n**The Three Pillars**:\n1. **Allylbenzene Substrates** - Myristicin (nutmeg), Elemicin, Safrole\n2. **CYP450 Enzyme Manipulation** - INDUCE first (coffee), then BLOCK (spices)\n3. **Endogenous Amine Adducts** - 1'-oxo metabolites + gut amines = novel compounds\n\n⚠️ **NOT** DMT in an oil carrier. Completely different mechanism.`;
+  }
+  if (t.includes('space paste') || t.includes('recipe')) return `🌿 **Space Paste Recipe**\n\n**Origin**: J. Tye, 1991 Usenet\n\n**Recipe**: 4 parts Nutmeg/Almonds/Pistachios, 2 parts Cinnamon, 1 part Cumin/Tarragon/Oregano/Basil/Turmeric, 0.5 parts Cayenne/Black Pepper\n\n**Why It Works**: Each spice targets specific CYP450 enzymes.`;
+  if (t.includes('cyp') || t.includes('enzyme')) return `🧬 **CYP450 in Oilahuasca**\n\n**CYP1A2**: Primary - metabolizes allylbenzenes AND caffeine\n**17bHSD2**: Master activation enzyme\n\n**Strategy**: INDUCE CYP1A2 (coffee), then INHIBIT (myristicin)`;
+  if (t.includes('17bhsd2')) return `🔑 **17β-HSD2: Master Activation Enzyme**\n\nConverts 1'-hydroxyallylbenzenes → 1'-oxo metabolites\nRequires: NAD+ (niacinamide), Vitamin D3\nAvoid: Quercetin, Naringenin - these BLOCK it!`;
+  if (t.includes('allylbenzene')) return `🧪 **Allylbenzenes**\n\n• **Myristicin** (nutmeg) - most reliable\n• **Elemicin** (elemi oil) - mescaline-like\n• **Safrole** (sassafras) - MDA-like\n• **Dillapiole** (dill) - "LSD-like visuals"\n\nPRODRUGS - inactive until CYP450 → 17bHSD2 → amine adduct`;
+  if (t.includes('shulgin')) return `👨‍🔬 **Shulgin's Research**\n\nSafrole → MDA, Elemicin → TMA, Myristicin → MMDA\nAllylbenzenes share ring-substitution patterns with known psychedelics.`;
+  if (t.includes('safety')) return `⚠️ **Safety**\n\nDuration: 24-72h, Onset: 2-8h - DO NOT REDOSE\nContraindications: SSRIs, MAOIs, liver conditions\nWhole nutmeg over 10g is dangerous`;
+  return null;
+}
+
+loadOilahuascaKnowledge();
+
 // Create system context from knowledge base
 const systemContext = `You are the ${knowledgeBase.bot_identity.name}.
 
@@ -1221,40 +1253,44 @@ client.on('interactionCreate', async (interaction) => {
           components: []
         });
       } else {
-        // Leaf node - provide deep information using Wikipedia/Gemini
+        // Leaf node - provide deep information
         await interaction.deferUpdate();
 
-        // Search for information on the topic
         const searchQuery = choiceId.replace(/_/g, ' ');
-        const wikiResult = await searchWikipedia(searchQuery);
-
         let response = '';
-        if (wikiResult) {
-          // Use Wikipedia summary
-          response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
+
+        // PRIORITY: Check oilahuasca knowledge base FIRST (before Wikipedia/Gemini)
+        const oilahuascaResponse = getOilahuascaResponse(searchQuery);
+        if (oilahuascaResponse) {
+          response = oilahuascaResponse;
         } else {
-          // Fallback to Gemini
-          try {
-            const tone = getConversationTone(relationship);
-            let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
+          // Not oilahuasca - use Wikipedia/Gemini
+          const wikiResult = await searchWikipedia(searchQuery);
+          if (wikiResult) {
+            response = `📚 **${searchQuery}**\n\n${wikiResult.substring(0, 1500)}...\n\n_Want to explore deeper? Try asking me specific questions!_`;
+          } else {
+            // Fallback to Gemini
+            try {
+              const tone = getConversationTone(relationship);
+              let prompt = `Explain ${searchQuery} in relation to ancient mysteries, archaeology, and mythology.`;
 
-            if (tone === 'academic') prompt += ' Use scholarly depth.';
-            else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
+              if (tone === 'academic') prompt += ' Use scholarly depth.';
+              else if (tone === 'welcoming') prompt += ' Keep it accessible for newcomers.';
 
-            const result = await model.generateContent(prompt);
-            let geminiText = result.response.text();
+              const result = await model.generateContent(prompt);
+              let geminiText = result.response.text();
 
-            // Truncate if too long for Discord (2000 char limit)
-            const prefix = `🔮 **${searchQuery}**\n\n`;
-            const maxContentLength = 1900 - prefix.length; // Leave buffer
-            if (geminiText.length > maxContentLength) {
-              geminiText = geminiText.substring(0, maxContentLength) + '...';
+              const prefix = `🔮 **${searchQuery}**\n\n`;
+              const maxContentLength = 1900 - prefix.length;
+              if (geminiText.length > maxContentLength) {
+                geminiText = geminiText.substring(0, maxContentLength) + '...';
+              }
+
+              response = prefix + geminiText;
+            } catch (error) {
+              console.error('Crypt-ology content generation error:', error);
+              response = '🔮 The mysteries are clouded at this moment.\n\n💡 **Tip:** This feature requires a valid Google/Gemini API key. See GOOGLE_API_KEY_RENEWAL.md for renewal instructions.\n\nIn the meantime, try asking me questions directly instead of using the button system!';
             }
-
-            response = prefix + geminiText;
-          } catch (error) {
-            console.error('Crypt-ology content generation error:', error);
-            response = '🔮 The mysteries are clouded at this moment.\n\n💡 **Tip:** This feature requires a valid Google/Gemini API key. See GOOGLE_API_KEY_RENEWAL.md for renewal instructions.\n\nIn the meantime, try asking me questions directly instead of using the button system!';
           }
         }
 
