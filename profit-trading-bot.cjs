@@ -23,6 +23,10 @@ const {
   checkMarketHealth,
   getMarketMetrics
 } = require('./wall-analyzer.cjs');
+const {
+  getTokenClassification,
+  isGiftToken
+} = require('./gift-scanner.cjs');
 
 // ========================================
 // CONFIGURATION
@@ -335,21 +339,42 @@ async function manageSellOrder(symbol, balance, analysis) {
 
   console.log(`   📊 Top bid: ${topBid.toFixed(8)} | Lowest ask: ${lowestAsk.toFixed(8)}`);
 
+  // Check if this is a gift token (seed capital from @KaliVanKush)
+  const isGift = isGiftToken(symbol);
+
+  if (isGift) {
+    console.log(`   🎁 SEED CAPITAL (from @KaliVanKush) - strategic liquidation`);
+  }
+
   // Strategy-based pricing
   let targetPrice;
 
-  if (analysis.behavior === 'BUY_SUPPORT') {
-    // Place sell order just below lowest ask (micro-undercut)
-    targetPrice = lowestAsk - CONFIG.MICRO_UNDERCUT;
-    console.log(`   🎯 BUY SUPPORT: Undercut lowest ask → ${targetPrice.toFixed(8)}`);
-  } else if (analysis.behavior === 'CASHOUT') {
-    // Dump to top buy order
-    targetPrice = topBid;
-    console.log(`   🎯 CASHOUT: Dump to top bid → ${targetPrice.toFixed(8)}`);
+  if (isGift) {
+    // GIFT TOKENS: Strategic liquidation - sell at competitive price or to top bid
+    // Option 1: Place sell order at competitive price (micro-undercut lowest ask)
+    // Option 2: If market is dead/horrible, consider selling to top bid
+
+    // Check market health
+    const spreadPercent = ((lowestAsk - topBid) / topBid) * 100;
+
+    if (spreadPercent > 50 || analysis.behavior === 'CASHOUT' && analysis.confidence > 0.9) {
+      // Market is terrible or clearly dying - this token is "horrible"
+      // Liquidate to top buy order to get HIVE now
+      console.log(`   ⚠️ Poor market (${spreadPercent.toFixed(1)}% spread) - liquidate to top bid`);
+      targetPrice = topBid;
+    } else {
+      // Market has some activity - place competitive sell order
+      // Micro-undercut lowest ask to be first in line when buyers come
+      targetPrice = lowestAsk - CONFIG.MICRO_UNDERCUT;
+      console.log(`   🎯 STRATEGIC: Competitive sell order → ${targetPrice.toFixed(8)}`);
+    }
   } else {
-    // Default: mid-spread
-    targetPrice = (topBid + lowestAsk) / 2;
-    console.log(`   🎯 DEFAULT: Mid-spread → ${targetPrice.toFixed(8)}`);
+    // TRADING TOKENS: Full micro-dance, never dump
+    // These are tokens the bot bought - treat them as real positions
+
+    // Always use micro-dance strategy for trading tokens
+    targetPrice = lowestAsk - CONFIG.MICRO_UNDERCUT;
+    console.log(`   💰 TRADING TOKEN: Micro-dance sell → ${targetPrice.toFixed(8)}`);
   }
 
   // Check minimum profit margin
@@ -657,15 +682,21 @@ async function manageAllOrders() {
       console.log(`      ✅ Still competitive`);
     }
 
-    // Check if behavior changed
-    if (analysis.behavior === 'CASHOUT' && analysis.confidence > 0.8) {
-      console.log(`      ⚠️ Token behavior changed to CASHOUT - canceling order`);
-      await cancelOrder(order.txId, 'sell');
+    // Check if behavior changed (only matters for gift tokens)
+    const isGift = isGiftToken(symbol);
+    if (isGift && analysis.behavior === 'CASHOUT' && analysis.confidence > 0.9) {
+      const spreadPercent = orderBook.asks.length > 0 ?
+        ((parseFloat(orderBook.asks[0].price) - parseFloat(orderBook.bids[0].price)) / parseFloat(orderBook.bids[0].price)) * 100 : 100;
 
-      // Market sell instead
-      if (orderBook.bids.length > 0) {
-        const topBid = parseFloat(orderBook.bids[0].price);
-        await placeSellOrder(symbol, ourQuantity, topBid);
+      if (spreadPercent > 50) {
+        // Market is dead and token is seed capital - liquidate for HIVE now
+        console.log(`      ⚠️ Gift token market is dead - liquidating to top bid`);
+        await cancelOrder(order.txId, 'sell');
+
+        if (orderBook.bids.length > 0) {
+          const topBid = parseFloat(orderBook.bids[0].price);
+          await placeSellOrder(symbol, ourQuantity, topBid);
+        }
       }
     }
   }
