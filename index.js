@@ -332,10 +332,53 @@ Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMM
 
 `;
 
-  // Add loaded knowledge base content if available
+  // Add ACTUAL content from loaded knowledge base files
   if (Object.keys(oilahuascaKnowledge).length > 0) {
-    context += '\n**DETAILED KNOWLEDGE BASE LOADED**: ';
-    context += Object.keys(oilahuascaKnowledge).join(', ');
+    context += '\n\n=== DETAILED KNOWLEDGE BASE CONTENT ===\n';
+
+    // Include key sections from each loaded file
+    for (const [filename, data] of Object.entries(oilahuascaKnowledge)) {
+      if (!data) continue;
+
+      // Add title/overview if present
+      if (data.title) {
+        context += `\n**${data.title}**\n`;
+      }
+      if (data.overview) {
+        context += `Overview: ${JSON.stringify(data.overview).slice(0, 500)}...\n`;
+      }
+
+      // Extract key findings from different file structures
+      if (data.core_definition) {
+        context += `Definition: ${JSON.stringify(data.core_definition).slice(0, 300)}\n`;
+      }
+      if (data.key_findings) {
+        context += `Key Findings: ${JSON.stringify(data.key_findings).slice(0, 500)}\n`;
+      }
+      if (data.executive_summary) {
+        context += `Summary: ${JSON.stringify(data.executive_summary).slice(0, 500)}\n`;
+      }
+      if (data.conclusions) {
+        context += `Conclusions: ${JSON.stringify(data.conclusions).slice(0, 500)}\n`;
+      }
+      if (data.safety_summary) {
+        context += `Safety: ${JSON.stringify(data.safety_summary).slice(0, 400)}\n`;
+      }
+      if (data.practical_recommendations) {
+        context += `Recommendations: ${JSON.stringify(data.practical_recommendations).slice(0, 400)}\n`;
+      }
+
+      // Include specific topic content
+      if (data.part4_corrected_alkaloid_understanding) {
+        context += `Alkaloid Formation: ${JSON.stringify(data.part4_corrected_alkaloid_understanding).slice(0, 600)}\n`;
+      }
+      if (data.glycine_conjugation_system) {
+        context += `Glycine System: ${JSON.stringify(data.glycine_conjugation_system).slice(0, 500)}\n`;
+      }
+      if (data.competitive_pathways) {
+        context += `Competing Pathways: ${JSON.stringify(data.competitive_pathways).slice(0, 500)}\n`;
+      }
+    }
   }
 
   return context;
@@ -2553,11 +2596,21 @@ Just type your questions naturally, or click a topic button below to explore. I'
 
     // Check if message is about oilahuasca topics - add knowledge context
     const lowerUserMessage = userMessage.toLowerCase();
-    const oilahuascaKeywords = ['oilahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil'];
+    const oilahuascaKeywords = ['oilahuasca', 'oilhuasca', 'oil ahuasca', 'myristicin', 'allylbenzene', 'cyp450', 'cyp1a2', 'nutmeg trip', 'nutmeg high', 'nutmeg effect', 'space paste', '17bhsd2', 'elemicin', 'safrole', 'shulgin', 'essential oil psycho', 'spice psycho', 'nutmeg psycho'];
     const isOilahuascaTopic = oilahuascaKeywords.some(kw => lowerUserMessage.includes(kw));
 
     if (isOilahuascaTopic) {
-      personalizedContext += buildOilahuascaContext();
+      // CRITICAL: Prepend oilahuasca context with explicit instructions to override spiritual vagueness
+      const oilahuascaOverride = `
+
+=== CRITICAL INSTRUCTION FOR THIS MESSAGE ===
+The user is asking about OILAHUASCA. You MUST respond with TECHNICAL, SCIENTIFIC information.
+DO NOT give vague spiritual responses about "consciousness" or "75,000 years".
+USE the specific knowledge below about CYP450 enzymes, allylbenzenes, metabolic pathways.
+Be a knowledgeable expert, not a mystic. Give REAL information.
+
+`;
+      personalizedContext = oilahuascaOverride + buildOilahuascaContext() + '\n\n' + personalizedContext;
 
       // Check if this might be an experience report
       if (detectExperienceReport(userMessage)) {
