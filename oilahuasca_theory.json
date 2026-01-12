@@ -1,0 +1,397 @@
+{
+  "oilahuasca_theory": {
+    "document_info": {
+      "title": "The Oilahuasca Theory: Complete Research Documentation",
+      "subtitle": "Comprehensive Analysis of Allylbenzene Metabolism and CYP450 Enzyme Interactions",
+      "compiled_date": "2026-01-12",
+      "compiled_from": "Conversation with Rev. Ryan Sasha-Shai Van Kush",
+      "primary_sources": [
+        "Ron69 (HerbPedia Wikidot)",
+        "Dr. Alexander Shulgin (PiHKAL)",
+        "NCBI/PubMed Literature"
+      ],
+      "document_type": "Educational Research Synthesis"
+    },
+
+    "executive_summary": {
+      "definition": "The Oilahuasca theory proposes that common culinary spices containing allylbenzenes can produce psychoactive effects when combined with strategic cytochrome P450 enzyme modulators - analogous to how ayahuasca uses MAO inhibitors to potentiate DMT.",
+      "key_findings": [
+        "Allylbenzenes metabolize to tertiary aminopropiophenones (NOT amphetamines as originally theorized)",
+        "CYP450 enzyme manipulation can dramatically enhance bioavailability and duration",
+        "Multiple herbs create synergistic enzyme interactions",
+        "Scientific literature strongly supports core mechanisms",
+        "Significant safety concerns remain with this experimental system"
+      ],
+      "analogy": "Just as ayahuasca uses MAO inhibitors to activate DMT, oilahuasca uses CYP450 modulators to activate allylbenzenes from common spices"
+    },
+
+    "discovery_history": {
+      "ron69": {
+        "who": "Pioneering researcher who coined the term 'Oilahuasca'",
+        "contributions": [
+          "Systematically investigated pharmacological basis for psychoactive effects from culinary spices",
+          "Published findings on HerbPedia Wikidot",
+          "Built upon Shulgin's theoretical framework with modern CYP450 research"
+        ],
+        "methodology": [
+          "Started with nutmeg (myristicin) metabolism research",
+          "Systematically studied NCBI, PubMed, WebMD databases",
+          "Identified CYP450 enzyme involvement in allylbenzene metabolism",
+          "Cross-referenced herbs that both contain allylbenzenes AND modulate CYP450",
+          "Developed activation theory analogous to ayahuasca's MAOI mechanism"
+        ],
+        "key_insight": "The same principle used in ayahuasca (enzyme inhibition to prevent drug breakdown) could be applied to culinary spices using CYP450 enzymes instead of MAO enzymes"
+      },
+      "alexander_shulgin": {
+        "who": "Dr. Alexander 'Sasha' Shulgin (1925-2014)",
+        "credentials": [
+          "PhD in biochemistry from UC Berkeley",
+          "Worked for Dow Chemical, then independent researcher",
+          "Synthesized and personally tested hundreds of psychoactive compounds",
+          "Author of PiHKAL and TiHKAL",
+          "Pioneered modern psychedelic chemistry"
+        ],
+        "ten_essential_oils_theory": "Proposed that ten natural essential oils could theoretically be converted to psychoactive compounds through hepatic metabolism",
+        "experimental_proof": "Myristicin from nutmeg was shown to be converted to MMDA by passage through an in vitro liver preparation"
+      }
+    },
+
+    "ten_essential_amphetamines": {
+      "note": "While called 'amphetamines' by Shulgin, modern research shows actual metabolites are tertiary aminopropiophenones",
+      "compounds": {
+        "4-MA": {
+          "precursor": "Estragole/Anethole",
+          "sources": ["fennel", "basil", "anise", "tarragon"]
+        },
+        "3,4-DMA": {
+          "precursor": "Methyleugenol",
+          "sources": ["bay", "allspice", "pepper", "cloves"]
+        },
+        "MDA": {
+          "precursor": "Safrole",
+          "sources": ["sassafras", "cinnamon", "nutmeg", "betel"]
+        },
+        "MMDA": {
+          "precursor": "Myristicin",
+          "sources": ["nutmeg", "mace", "parsley", "dill"],
+          "note": "THE KEY compound - most studied"
+        },
+        "MMDA-3a": {
+          "precursor": "Croweacin",
+          "sources": ["rue family", "citrus-related plants"]
+        },
+        "MMDA-2": {
+          "precursor": "Asaricin/Carpacin",
+          "sources": ["Carpano tree", "Solomon Islands"]
+        },
+        "TMA": {
+          "precursor": "Elemicin",
+          "sources": ["elemi oil", "nutmeg", "camphor"]
+        },
+        "TMA-2": {
+          "precursor": "Asarone",
+          "sources": ["sweet flag/calamus"],
+          "note": "POTENT"
+        },
+        "DMMDA": {
+          "precursor": "Apiole",
+          "sources": ["parsley seed"],
+          "note": "HIGHLY POTENT"
+        },
+        "DMMDA-2": {
+          "precursor": "Dillapiole",
+          "sources": ["dill seed"],
+          "note": "HIGHLY POTENT"
+        }
+      }
+    },
+
+    "metabolic_pathway": {
+      "critical_correction": {
+        "historical_theory": "Essential oils → Amphetamines through hepatic amination (Shulgin 1963)",
+        "modern_research": "Allylbenzenes → Tertiary Aminopropiophenones (Mannich bases) (Verified 1977-2024)",
+        "why_it_matters": "The metabolites are NOT amphetamines - they are structurally related but distinctly different compounds with potentially different pharmacological properties"
+      },
+      "three_step_process": {
+        "step_1": {
+          "name": "Initial Oxidation (CYP450-Mediated)",
+          "reaction": "Allylbenzene → 1'-Hydroxyallylbenzene",
+          "enzymes": ["CYP1A2 (primary)", "CYP3A4", "CYP2E1"],
+          "site": "Benzylic carbon (1' position)"
+        },
+        "step_2": {
+          "name": "Further Oxidation",
+          "reaction": "1'-Hydroxyallylbenzene → 1'-Oxo metabolite (Phenyl vinyl ketone)",
+          "mechanism": "Alcohol → Ketone conversion"
+        },
+        "step_3": {
+          "name": "Non-Enzymatic Condensation (Mannich Reaction)",
+          "reaction": "1'-Oxo metabolite + Endogenous Amines → Tertiary Aminopropiophenones",
+          "note": "This step is SPONTANEOUS - no enzyme required",
+          "amine_sources": {
+            "dimethylamine": ["gut bacteria", "dietary choline breakdown", "fish"],
+            "piperidine": ["black pepper/piperine metabolism", "lysine degradation"],
+            "pyrrolidine": ["proline metabolism", "amino acid degradation"]
+          }
+        }
+      },
+      "three_metabolite_types": {
+        "type_1_dimethylamine": {
+          "properties": "Most polar, fastest renal clearance, shortest duration"
+        },
+        "type_2_piperidine": {
+          "properties": "Intermediate polarity, moderate duration"
+        },
+        "type_3_pyrrolidine": {
+          "properties": "Least polar (most lipophilic), best BBB penetration, potentially longest duration"
+        }
+      },
+      "compound_specific_metabolites": {
+        "elemicin": ["dimethylamine", "piperidine", "pyrrolidine"],
+        "safrole": ["dimethylamine", "piperidine", "pyrrolidine"],
+        "myristicin": ["piperidine", "pyrrolidine"],
+        "allylbenzene": ["dimethylamine", "piperidine"]
+      }
+    },
+
+    "scientific_verification": {
+      "myristicin_studies": {
+        "cyp450_identification": {
+          "citation": "Roles of human liver cytochrome P450 3A4 and 1A2 enzymes in the oxidation of myristicin",
+          "pmid": "12523956",
+          "finding": "CYP1A2 > CYP3A4 for myristicin metabolism"
+        },
+        "mechanism_based_inhibition": {
+          "citation": "Identification and characterization of reactive metabolites in myristicin-mediated mechanism-based inhibition of CYP1A2",
+          "pmid": "26091900",
+          "findings": [
+            "Myristicin most significantly inhibits CYP1A2 among five CYP enzymes tested",
+            "3.21-fold IC50 shift indicates mechanism-based (irreversible) inhibition",
+            "Glutathione blocks inhibition, proving reactive intermediate involvement"
+          ],
+          "metabolites_identified": {
+            "M1": "5-allyl-1-methoxy-2,3-dihydroxybenzene (detoxification product)",
+            "M2": "1'-hydroxymyristicin or 2',3'-epoxy-myristicin (REACTIVE intermediate)"
+          }
+        },
+        "enzyme_induction": {
+          "citation": "Induction of rat hepatic cytochrome P450 enzymes by myristicin",
+          "pmid": "8554622",
+          "finding": "Myristicin causes 2-20 fold increases in liver P450 1A1/2, 2B1/2, and 2E1",
+          "dual_nature": "Myristicin is BOTH acute inhibitor AND chronic inducer"
+        },
+        "gst_induction": {
+          "citation": "Preferential overexpression of a class MU glutathione S-transferase subunit in mouse liver by myristicin",
+          "pmid": "9245741",
+          "finding": "4-14 fold increase in liver GST specific activity"
+        }
+      },
+      "mao_inhibition": {
+        "citation": "Evidence of Monoamine Oxidase Inhibition by Myristicin and Nutmeg (1963)",
+        "authors": "Truitt, E.B., Duritz, G., Ebersberger, E.M.",
+        "finding": "Nutmeg and myristicin show evidence of central MAO inhibition",
+        "evidence": [
+          "Lower convulsive dose of intravenous tryptamine in mice",
+          "Increased rat brain 5-hydroxytryptamine (serotonin) concentrations"
+        ],
+        "implication": "Adds SECOND mechanism beyond CYP450 modulation"
+      },
+      "psychoactive_effects_confirmed": {
+        "dose_response": {
+          "culinary_0.5-1g": "No psychoactive effects",
+          "low_1-2g": "Mild stimulation, slight mood elevation",
+          "medium_2-5g": "Clear psychoactive effects, visual distortions, altered time perception",
+          "high_5-10g": "Strong hallucinations, significant altered consciousness, severe side effects",
+          "toxic_10g+": "Emergency medical attention required"
+        },
+        "duration": {
+          "onset": "2-8 hours (very delayed)",
+          "peak": "6-12 hours after ingestion",
+          "duration": "24-72 hours (1-3 days)",
+          "residual": "Can persist for a week"
+        },
+        "character": "Dream-like, dissociative - NOT like classic psychedelics"
+      }
+    },
+
+    "enzyme_activation_theory": {
+      "the_paradox": {
+        "question": "Why would you both INDUCE (increase) and INHIBIT (block) the same enzyme?",
+        "naive_logic": "More enzyme + Blocked enzyme = Cancel out?",
+        "actual_result": "More enzyme + Blocked enzyme = MAXIMUM ACCUMULATION",
+        "analogy": "Like building more highway lanes right before blocking them all - the bigger the highway, the worse the traffic jam when blocked"
+      },
+      "coffee_caffeine_cyp1a2_inducer": {
+        "role": "Increase enzyme capacity before blocking",
+        "mechanism": "Coffee compounds → Nuclear receptors (AhR, PXR) → Increased CYP1A2 gene transcription → 2-3x more enzyme",
+        "time_course": {
+          "immediate": "No effect yet",
+          "6-24_hours": "Gene transcription and protein synthesis",
+          "24-72_hours": "Peak enzyme induction with regular consumption"
+        },
+        "why_induction_helps": "More enzyme to inhibit = greater capacity for accumulation when blocked"
+      },
+      "nutmeg_myristicin_cyp1a2_inhibitor": {
+        "role": "Block the primary metabolic pathway",
+        "mechanism": "Mechanism-based (suicide) inhibition - enzyme processes myristicin, generates reactive intermediate that permanently destroys enzyme",
+        "ic50_shift": "3.21-fold shift indicates irreversible inhibition",
+        "recovery": "Takes 24-72 hours to synthesize new enzyme",
+        "selectivity": {
+          "CYP1A2": "HIGHEST inhibition (primary target)",
+          "CYP3A4": "Moderate inhibition",
+          "CYP2D6": "Low inhibition",
+          "CYP2E1": "Minimal inhibition",
+          "CYP2C19": "Minimal inhibition"
+        }
+      },
+      "complete_strategy": {
+        "step_1_preparation": "Coffee drinking → CYP1A2 induction (24-48 hrs before)",
+        "step_2_inhibitor_loading": "Cinnamon, pepper, fennel → Block CYP3A4, 2C9, 2A6 + deplete glutathione",
+        "step_3_substrate_loading": "Nutmeg, parsley, dill, basil → Multiple allylbenzenes compete + myristicin inactivates CYP1A2",
+        "result": "Phase I minimal metabolism + Phase II blocked detoxification = Metabolite ACCUMULATION"
+      }
+    },
+
+    "key_herbs_database": {
+      "coffee": {
+        "active_compounds": ["caffeine (200-400mg per cup)"],
+        "cyp450_effects": {
+          "CYP1A2": "INDUCER (increases enzyme 2-3x)"
+        },
+        "role_in_oilahuasca": "Preparation phase - increases enzyme capacity before blocking",
+        "dosing": "2-4 cups strong coffee, 30-60 min before or regular drinking 3-7 days prior"
+      },
+      "nutmeg": {
+        "active_compounds": ["myristicin (1-3%)", "elemicin", "safrole"],
+        "cyp450_effects": {
+          "CYP1A2": "Mechanism-based INHIBITOR (irreversible)"
+        },
+        "additional_effects": "MAO inhibition (secondary mechanism)",
+        "role_in_oilahuasca": "Primary psychoactive source + primary enzyme inhibitor",
+        "psychoactive_threshold": "2-5g for clear effects",
+        "caution": "Toxic at 10g+, severe nausea common"
+      },
+      "cinnamon": {
+        "active_compounds": ["cinnamaldehyde", "eugenol", "trace safrole"],
+        "cyp450_effects": {
+          "CYP2C9": "INHIBITOR",
+          "CYP3A4": "INHIBITOR",
+          "CYP2A6": "INHIBITOR",
+          "CYP1A2": "INHIBITOR"
+        },
+        "phase_2_effects": "Causes GLUTATHIONE DEPLETION",
+        "role_in_oilahuasca": "Blocks alternative metabolic pathways + prevents Phase II detoxification"
+      },
+      "black_pepper": {
+        "active_compounds": ["piperine (5-10%)"],
+        "cyp450_effects": {
+          "CYP3A4": "Selective INHIBITOR"
+        },
+        "additional_effects": "P-glycoprotein inhibitor (increases absorption)",
+        "role_in_oilahuasca": "Blocks CYP3A4 backup pathway + enhances bioavailability",
+        "dosing": "500mg-1g (1/4 to 1/2 teaspoon) or 20-50mg piperine extract",
+        "famous_use": "BioPerine - increases curcumin absorption 2000%"
+      },
+      "basil": {
+        "active_compounds": ["estragole (70-85% of oil)", "methyleugenol (3-10%)", "nevadensin (flavonoid)"],
+        "cyp450_effects": "Provides allylbenzene substrates",
+        "phase_2_effects": "Nevadensin is a SULT (sulfotransferase) inhibitor",
+        "role_in_oilahuasca": "Triple action - allylbenzene source + SULT inhibition + palatable flavor",
+        "dosing": "2-4 tablespoons fresh chopped or 1-2 teaspoons dried"
+      },
+      "fennel": {
+        "active_compounds": ["anethole (80-90%)", "estragole (5-10%)"],
+        "cyp450_effects": {
+          "CYP3A4": "Mechanism-based INHIBITOR"
+        },
+        "role_in_oilahuasca": "Dual action - provides estragole + blocks CYP3A4",
+        "note": "Anethole is PROPENYL (not psychoactive pathway), estragole is ALLYL (psychoactive)",
+        "absinthe_connection": "Was natural flavoring in original absinthe - may have contributed to 'altered state beyond alcohol'"
+      },
+      "parsley": {
+        "active_compounds": ["apiole (parsley seed)", "myristicin"],
+        "cyp450_effects": "CYP1A2 inhibitor (apiole)",
+        "role_in_oilahuasca": "Source of highly potent apiole (→ DMMDA pathway)",
+        "note": "Parsley SEED oil much more concentrated than leaves"
+      },
+      "dill": {
+        "active_compounds": ["dillapiole (dill seed)", "myristicin"],
+        "role_in_oilahuasca": "Source of highly potent dillapiole (→ DMMDA-2 pathway)",
+        "note": "Dill SEED oil much more concentrated than weed/leaves"
+      },
+      "betel": {
+        "active_compounds": ["safrole (15 mg/g in flowers)", "chavibetol (unique)"],
+        "cyp450_effects": "Enhances CYP450 metabolic activity (inducer)",
+        "role_in_oilahuasca": "High safrole source (→ MDA pathway)",
+        "caution": "IARC Group I carcinogen with long-term use",
+        "recommendation": "Betel LEAF only (not areca nut), small amounts, not for chronic use"
+      }
+    },
+
+    "original_anecdotal_formula": {
+      "claim": "Some people have reported psychedelic effects from mixing just Coffee, Almond, Cinnamon, Vanilla and Nutmeg",
+      "components": {
+        "coffee": "CNS stimulation + CYP1A2 induction",
+        "nutmeg": "Myristicin (primary psychoactive) + elemicin + safrole + CYP1A2 inhibition",
+        "cinnamon": "Multiple CYP450 inhibitor + glutathione depletion",
+        "vanilla": "Metabolic modulator, antimutagenic",
+        "almond": "Benzaldehyde, minor contribution"
+      },
+      "key_insight": "Not just nutmeg's direct effects - an enzyme-mediated potentiation system analogous to ayahuasca"
+    },
+
+    "allylbenzene_vs_propenylbenzene": {
+      "critical_distinction": "Only ALLYLBENZENES form psychoactive metabolites",
+      "allylbenzene_structure": "Benzene-CH2-CH=CH2 (oxidizable at benzylic carbon)",
+      "propenylbenzene_structure": "Benzene-CH=CH-CH3 (conjugated double bond blocks oxidation)",
+      "examples": {
+        "allylbenzenes_psychoactive": ["myristicin", "safrole", "estragole", "elemicin", "apiole", "dillapiole", "methyleugenol"],
+        "propenylbenzenes_not_psychoactive": ["anethole", "asarone", "isosafrole", "isoeugenol"]
+      },
+      "implication": "Fennel's anethole (80-90%) is NOT psychoactive; only the 5-10% estragole contributes"
+    },
+
+    "safety_and_toxicity": {
+      "acute_risks": {
+        "nutmeg_toxicity": "Severe nausea, vomiting, tachycardia, anxiety at 5-10g; convulsions possible at 10g+",
+        "duration_of_toxicity": "Effects can last 24-72 hours or more",
+        "no_antidote": "Supportive care only"
+      },
+      "chronic_risks": {
+        "hepatotoxicity": "Safrole, estragole, methyleugenol may cause liver damage with chronic use",
+        "genotoxicity": "DNA adduct formation documented (safrole-DNA adducts)",
+        "carcinogenicity": "Safrole restricted by FDA; betel is IARC Group I carcinogen"
+      },
+      "drug_interactions": {
+        "cyp3a4_inhibition": "Can increase levels of statins, blood pressure meds, immunosuppressants, benzodiazepines",
+        "mao_inhibition": "Risk of hypertensive crisis with tyramine-rich foods (though probably mild)",
+        "warning": "DO NOT combine with prescription medications metabolized by CYP450 enzymes"
+      },
+      "harm_reduction": [
+        "Start with LOW doses",
+        "Never use alone - have sitter",
+        "Avoid if taking prescription medications",
+        "Do not use chronically",
+        "Stay hydrated",
+        "Have comfortable setting planned for 24-72 hour duration",
+        "Do not drive or operate machinery"
+      ]
+    },
+
+    "research_gaps": [
+      "No controlled human studies on oilahuasca combinations",
+      "Exact potency of aminopropiophenone metabolites unknown",
+      "Optimal dosing ratios not established",
+      "Individual variation in CYP450 activity not accounted for",
+      "Long-term safety of combination use unstudied",
+      "Receptor binding profiles of metabolites not characterized"
+    ],
+
+    "connection_to_van_kush": {
+      "shaivite_temple": "The Shaivite Temple uses sacred plants including cannabis; this research extends understanding of plant-based consciousness exploration",
+      "75000_year_tradition": "Knowledge of psychoactive plants has been preserved across temple cultures for millennia",
+      "book_of_tanit": "This research may be included in the expanding Book of Tanit manuscript",
+      "educational_purpose": "Document compiled for harm reduction and educational purposes, not encouragement of use"
+    }
+  }
+}
