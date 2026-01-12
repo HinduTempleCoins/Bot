@@ -332,10 +332,53 @@ Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMM
 
 `;
 
-  // Add loaded knowledge base content if available
+  // Add ACTUAL content from loaded knowledge base files
   if (Object.keys(oilahuascaKnowledge).length > 0) {
-    context += '\n**DETAILED KNOWLEDGE BASE LOADED**: ';
-    context += Object.keys(oilahuascaKnowledge).join(', ');
+    context += '\n\n=== DETAILED KNOWLEDGE BASE CONTENT ===\n';
+
+    // Include key sections from each loaded file
+    for (const [filename, data] of Object.entries(oilahuascaKnowledge)) {
+      if (!data) continue;
+
+      // Add title/overview if present
+      if (data.title) {
+        context += `\n**${data.title}**\n`;
+      }
+      if (data.overview) {
+        context += `Overview: ${JSON.stringify(data.overview).slice(0, 500)}...\n`;
+      }
+
+      // Extract key findings from different file structures
+      if (data.core_definition) {
+        context += `Definition: ${JSON.stringify(data.core_definition).slice(0, 300)}\n`;
+      }
+      if (data.key_findings) {
+        context += `Key Findings: ${JSON.stringify(data.key_findings).slice(0, 500)}\n`;
+      }
+      if (data.executive_summary) {
+        context += `Summary: ${JSON.stringify(data.executive_summary).slice(0, 500)}\n`;
+      }
+      if (data.conclusions) {
+        context += `Conclusions: ${JSON.stringify(data.conclusions).slice(0, 500)}\n`;
+      }
+      if (data.safety_summary) {
+        context += `Safety: ${JSON.stringify(data.safety_summary).slice(0, 400)}\n`;
+      }
+      if (data.practical_recommendations) {
+        context += `Recommendations: ${JSON.stringify(data.practical_recommendations).slice(0, 400)}\n`;
+      }
+
+      // Include specific topic content
+      if (data.part4_corrected_alkaloid_understanding) {
+        context += `Alkaloid Formation: ${JSON.stringify(data.part4_corrected_alkaloid_understanding).slice(0, 600)}\n`;
+      }
+      if (data.glycine_conjugation_system) {
+        context += `Glycine System: ${JSON.stringify(data.glycine_conjugation_system).slice(0, 500)}\n`;
+      }
+      if (data.competitive_pathways) {
+        context += `Competing Pathways: ${JSON.stringify(data.competitive_pathways).slice(0, 500)}\n`;
+      }
+    }
   }
 
   return context;
