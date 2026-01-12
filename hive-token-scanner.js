@@ -14,13 +14,13 @@ dotenv.config();
 
 const HIVE_ENGINE_API = 'https://api.hive-engine.com/rpc/contracts';
 
-// Token health criteria
+// Token health criteria (RELAXED - most tokens don't meet strict thresholds)
 const HEALTH_CRITERIA = {
-  MIN_24H_VOLUME: parseFloat(process.env.MIN_24H_VOLUME || '50'), // Minimum 50 HIVE volume
-  MIN_LIQUIDITY: parseFloat(process.env.MIN_LIQUIDITY || '100'), // Minimum 100 HIVE total liquidity
-  MIN_HOLDERS: parseInt(process.env.MIN_HOLDERS || '10'), // Minimum 10 holders
-  MAX_DAYS_SINCE_TRADE: parseInt(process.env.MAX_DAYS_SINCE_TRADE || '7'), // Must have trade within 7 days
-  MIN_MARKET_CAP: parseFloat(process.env.MIN_MARKET_CAP || '500'), // Minimum 500 HIVE market cap
+  MIN_24H_VOLUME: parseFloat(process.env.MIN_24H_VOLUME || '0.1'), // Minimum 0.1 HIVE volume (lowered from 50)
+  MIN_LIQUIDITY: parseFloat(process.env.MIN_LIQUIDITY || '1'), // Minimum 1 HIVE total liquidity (lowered from 100)
+  MIN_HOLDERS: parseInt(process.env.MIN_HOLDERS || '3'), // Minimum 3 holders (lowered from 10)
+  MAX_DAYS_SINCE_TRADE: parseInt(process.env.MAX_DAYS_SINCE_TRADE || '60'), // Trade within 60 days (relaxed from 7)
+  MIN_MARKET_CAP: parseFloat(process.env.MIN_MARKET_CAP || '1'), // Minimum 1 HIVE market cap (lowered from 500)
 };
 
 // Van Kush Family Tokens - These get special analysis

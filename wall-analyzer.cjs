@@ -151,6 +151,68 @@ async function analyzeSellWall(token, targetPrice = null) {
 }
 
 /**
+ * Analyze troll bot buy orders - detect suppression tactics
+ * @param {string} token - Token symbol
+ * @returns {Object} Troll bot analysis
+ */
+async function analyzeTrollBotOrders(token) {
+  console.log(`\n🎯 Detecting troll bot orders for ${token}...`);
+
+  const orderBook = await getOrderBook(token);
+
+  if (!orderBook.bids || orderBook.bids.length === 0) {
+    console.log(`   No buy orders - troll bots may be absent or market is dead`);
+    return {
+      token,
+      hasBuyOrders: false,
+      highestBid: 0,
+      trollBotDetected: false,
+      recommendation: 'PLACE_INITIAL_BID'
+    };
+  }
+
+  if (!orderBook.asks || orderBook.asks.length === 0) {
+    console.log(`   No sell orders - cannot calculate spread`);
+    return {
+      token,
+      hasBuyOrders: true,
+      highestBid: parseFloat(orderBook.bids[0].price),
+      trollBotDetected: false,
+      recommendation: 'NEED_SELL_ORDERS'
+    };
+  }
+
+  const highestBid = parseFloat(orderBook.bids[0].price);
+  const lowestAsk = parseFloat(orderBook.asks[0].price);
+  const spread = ((lowestAsk - highestBid) / highestBid) * 100;
+
+  // Troll bot indicators:
+  // 1. Massive spread (>100%) = price suppression
+  // 2. Very low buy prices compared to historical
+  // 3. Suspiciously round numbers
+  const trollBotDetected = spread > 100;
+
+  console.log(`   Highest buy: ${highestBid.toFixed(8)} HIVE`);
+  console.log(`   Lowest sell: ${lowestAsk.toFixed(8)} HIVE`);
+  console.log(`   Spread: ${spread.toFixed(2)}%`);
+  if (trollBotDetected) {
+    console.log(`   🚨 TROLL BOT DETECTED: Suppression active (${spread.toFixed(0)}% spread)`);
+    console.log(`   Strategy: Outbid gradually, expect dumps when price rises`);
+  }
+
+  return {
+    token,
+    hasBuyOrders: true,
+    highestBid,
+    lowestAsk,
+    spread,
+    trollBotDetected,
+    outbidPrice: highestBid + 0.00000010, // Outbid by tiny increment
+    recommendation: trollBotDetected ? 'OUTBID_TROLL_BOTS' : 'NORMAL_BIDDING'
+  };
+}
+
+/**
  * Analyze buy wall depth to determine optimal sell quantity
  * @param {string} token - Token symbol
  * @param {number} quantity - How many tokens we want to sell
@@ -392,6 +454,7 @@ function calculateOpportunityScore(analysis, health) {
 module.exports = {
   analyzeSellWall,
   analyzeBuyWall,
+  analyzeTrollBotOrders,
   checkMarketHealth,
   findBestPushOpportunity,
   getOrderBook,

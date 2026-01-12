@@ -22,6 +22,10 @@ const {
   checkCapitalNeeds,
   checkTradeableTokens
 } = require('./capital-manager.cjs');
+const {
+  getBuyBook,
+  getSellBook
+} = require('./hive-engine-api.cjs');
 
 // ========================================
 // CONFIGURATION
@@ -44,6 +48,14 @@ const CONFIG = {
   MAJOR_PUSH_COOLDOWN_HOURS: 6,     // Wait 6h between big buys
   MICRO_PUSH_COOLDOWN_HOURS: 1,     // Wait 1h between micro-pushes
   CHECK_INTERVAL_MINUTES: 15,       // Check opportunities every 15 min
+
+  // Competitive bidding
+  BID_MONITOR_INTERVAL_MINUTES: 5,  // Check order book every 5 minutes
+  BID_INCREMENT_HIVE: 0.00000010,   // Outbid by 0.00000010 HIVE (tiny increment)
+  MAX_BID_ROUNDS: 50,               // Max number of competitive bids per session (increased from 10)
+  COMPETITIVE_BID_BUDGET: 0.01,     // Max 0.01 HIVE per competitive bidding session (~$0.003 USD)
+  MAX_PRICE_INCREASE_PERCENT: 5,    // Never push price more than 5% higher per session (prevents troll dumps)
+  BID_SESSION_COOLDOWN_HOURS: 0.25, // Wait 15 min between sessions (not 6 hours!)
 
   // Market health
   MIN_TRADES_WEEKLY: 5,             // Market must be alive
@@ -79,7 +91,13 @@ const botState = {
   dailyResetTime: Date.now(),
   totalPushes: 0,
   totalSpent: 0,
-  startTime: Date.now()
+  startTime: Date.now(),
+  // Competitive bidding state
+  activeBids: {},         // token -> { price, quantity, txId, timestamp }
+  lastBidCheck: {},       // token -> timestamp
+  bidRounds: {},          // token -> number of rounds this session
+  bidSessionStart: {},    // token -> { startPrice, startTime } for tracking session limits
+  lastBidSession: {}      // token -> timestamp of last bidding session (for 6h cooldown)
 };
 
 // ========================================
@@ -276,6 +294,186 @@ async function executeMicroPush(token, targetPrice) {
   }
 }
 
+// ========================================
+// COMPETITIVE BIDDING LOGIC
+// ========================================
+
+async function executeCompetitiveBidding(token, targetPrice, currentPrice) {
+  console.log(`\n🎯 COMPETITIVE BIDDING: ${token}`);
+  console.log(`   Current price: ${currentPrice.toFixed(8)} HIVE`);
+  console.log(`   Target price: ${targetPrice.toFixed(8)} HIVE`);
+  console.log(`   Strategy: Gradual outbidding - patient price discovery`);
+
+  // Check cooldown from last bidding session (prevents troll bot dumps)
+  const lastSession = botState.lastBidSession[token];
+  if (lastSession) {
+    const hoursSince = (Date.now() - lastSession) / (1000 * 60 * 60);
+    if (hoursSince < CONFIG.BID_SESSION_COOLDOWN_HOURS) {
+      console.log(`⏰ Bidding session cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h)`);
+      console.log('   Waiting before starting new session (prevents pushing price too fast)');
+      return false;
+    }
+  }
+
+  // Initialize or reset bidding session tracking
+  if (!botState.bidRounds[token] || botState.bidRounds[token] === 0) {
+    // Starting new session - track starting price
+    botState.bidSessionStart[token] = {
+      startPrice: currentPrice,
+      startTime: Date.now()
+    };
+    botState.bidRounds[token] = 0;
+    console.log(`🆕 Starting new competitive bidding session`);
+    console.log(`   Session start price: ${currentPrice.toFixed(8)} HIVE`);
+  }
+
+  // Calculate maximum allowed price for this session (prevents going too high too fast)
+  const sessionStart = botState.bidSessionStart[token];
+  const maxSessionPrice = sessionStart.startPrice * (1 + CONFIG.MAX_PRICE_INCREASE_PERCENT / 100);
+
+  console.log(`📊 Session limits:`);
+  console.log(`   Max price this session: ${maxSessionPrice.toFixed(8)} HIVE (+${CONFIG.MAX_PRICE_INCREASE_PERCENT}% from ${sessionStart.startPrice.toFixed(8)})`);
+  console.log(`   Bid rounds: ${botState.bidRounds[token]}/${CONFIG.MAX_BID_ROUNDS}`);
+
+  // Check if we've exceeded max rounds - end session
+  if (botState.bidRounds[token] >= CONFIG.MAX_BID_ROUNDS) {
+    console.log(`✅ Max bid rounds (${CONFIG.MAX_BID_ROUNDS}) reached - ending session`);
+    console.log(`   Final price: ${currentPrice.toFixed(8)} HIVE (started at ${sessionStart.startPrice.toFixed(8)} HIVE)`);
+    console.log(`   Will resume bidding after ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h cooldown`);
+
+    // Reset for next session
+    botState.bidRounds[token] = 0;
+    botState.lastBidSession[token] = Date.now();
+    delete botState.bidSessionStart[token];
+    return false;
+  }
+
+  try {
+    // Get current buy orders
+    const buyBook = await getBuyBook(token, 10);
+
+    if (!buyBook || buyBook.length === 0) {
+      // No buy orders exist - place initial bid using budget and target price from analysis
+      console.log(`📝 No buy orders exist for ${token} - placing initial competitive bid`);
+      console.log(`   Target price: ${targetPrice.toFixed(8)} HIVE`);
+      console.log(`   Budget: ${CONFIG.COMPETITIVE_BID_BUDGET} HIVE per session`);
+
+      // Place bid well below target to start the competitive bidding
+      // Use a fraction of target price to leave room for gradual increases
+      const initialBidPrice = Math.min(currentPrice * 0.5, targetPrice * 0.1);
+      const quantity = CONFIG.COMPETITIVE_BID_BUDGET / initialBidPrice;
+
+      console.log(`   Initial bid: ${initialBidPrice.toFixed(8)} HIVE for ${quantity.toFixed(4)} ${token}`);
+      console.log(`   Total cost: ${CONFIG.COMPETITIVE_BID_BUDGET} HIVE`);
+
+      const result = await buyToken(token, quantity, initialBidPrice);
+
+      if (result.success) {
+        console.log(`✅ Initial competitive bid placed! TX: ${result.txId}`);
+        botState.activeBids[token] = {
+          price: initialBidPrice,
+          quantity: quantity,
+          txId: result.txId,
+          timestamp: Date.now()
+        };
+        botState.bidRounds[token]++;
+        botState.dailySpent += CONFIG.COMPETITIVE_BID_BUDGET;
+        botState.totalSpent += CONFIG.COMPETITIVE_BID_BUDGET;
+        return true;
+      }
+      return false;
+    }
+
+    // Find highest buy order (excluding our own if we can identify it)
+    const highestBid = buyBook[0];  // Buy book is sorted highest first
+    const highestPrice = parseFloat(highestBid.price);
+
+    console.log(`📊 Current highest bid: ${highestPrice.toFixed(8)} HIVE (${highestBid.quantity} ${token})`);
+
+    // Check if we already have an active bid
+    const ourBid = botState.activeBids[token];
+    if (ourBid) {
+      const minutesSinceBid = (Date.now() - ourBid.timestamp) / (1000 * 60);
+      console.log(`💰 Our active bid: ${ourBid.price.toFixed(8)} HIVE (${minutesSinceBid.toFixed(1)} min ago)`);
+
+      // If our bid is still the highest, wait
+      if (Math.abs(ourBid.price - highestPrice) < 0.000000001) {
+        console.log(`✅ Our bid is still highest - waiting for competition`);
+        return true;
+      }
+
+      // Someone outbid us!
+      console.log(`🔔 Someone outbid us! ${highestPrice.toFixed(8)} > ${ourBid.price.toFixed(8)} HIVE`);
+    }
+
+    // Calculate our new bid price (outbid by increment)
+    let newBidPrice = highestPrice + CONFIG.BID_INCREMENT_HIVE;
+
+    // Don't bid above session max price (prevents going too high too fast - troll bot protection)
+    if (newBidPrice > maxSessionPrice) {
+      console.log(`⚠️  New bid ${newBidPrice.toFixed(8)} would exceed session limit ${maxSessionPrice.toFixed(8)} HIVE`);
+      console.log(`   🛡️  TROLL BOT PROTECTION: Not raising price more than ${CONFIG.MAX_PRICE_INCREASE_PERCENT}% per session`);
+      console.log(`   Ending session - will resume after ${CONFIG.BID_SESSION_COOLDOWN_HOURS}h cooldown`);
+
+      // End session early - hit price limit
+      botState.bidRounds[token] = 0;
+      botState.lastBidSession[token] = Date.now();
+      delete botState.bidSessionStart[token];
+      return false;
+    }
+
+    // Don't bid above target price
+    if (newBidPrice > targetPrice) {
+      console.log(`⚠️  New bid ${newBidPrice.toFixed(8)} would exceed target ${targetPrice.toFixed(8)} HIVE`);
+      console.log('   Capping bid at target price');
+      newBidPrice = targetPrice;
+    }
+
+    // Calculate quantity for competitive bid
+    const quantity = CONFIG.COMPETITIVE_BID_BUDGET / newBidPrice;
+
+    console.log(`📈 Placing competitive bid: ${newBidPrice.toFixed(8)} HIVE for ${quantity.toFixed(4)} ${token}`);
+    console.log(`   Cost: ${CONFIG.COMPETITIVE_BID_BUDGET.toFixed(4)} HIVE (~$${(CONFIG.COMPETITIVE_BID_BUDGET * CONFIG.HIVE_PRICE_USD).toFixed(3)} USD)`);
+
+    const result = await buyToken(token, quantity, newBidPrice);
+
+    if (result.success) {
+      console.log(`✅ Competitive bid placed! TX: ${result.txId}`);
+
+      // Update state
+      botState.activeBids[token] = {
+        price: newBidPrice,
+        quantity: quantity,
+        txId: result.txId,
+        timestamp: Date.now()
+      };
+      botState.bidRounds[token]++;
+      botState.dailySpent += CONFIG.COMPETITIVE_BID_BUDGET;
+      botState.totalSpent += CONFIG.COMPETITIVE_BID_BUDGET;
+      botState.totalPushes++;
+
+      console.log(`📊 Bid round ${botState.bidRounds[token]}/${CONFIG.MAX_BID_ROUNDS} for this session`);
+
+      return true;
+    } else {
+      console.error(`❌ Competitive bid failed: ${result.error}`);
+      return false;
+    }
+
+  } catch (error) {
+    console.error(`❌ Competitive bidding error:`, error.message);
+    return false;
+  }
+}
+
+function canExecuteCompetitiveBid(token) {
+  const lastCheck = botState.lastBidCheck[token];
+  if (!lastCheck) return true;
+
+  const minutesSince = (Date.now() - lastCheck) / (1000 * 60);
+  return minutesSince >= CONFIG.BID_MONITOR_INTERVAL_MINUTES;
+}
+
 function canExecuteMajorPush(token) {
   const lastPush = botState.lastMajorPush[token];
   if (!lastPush) return true;
@@ -362,93 +560,103 @@ async function processOpportunity() {
     return;
   }
 
-  // Find best opportunity
-  const opportunity = await findBestPushOpportunity();
+  // Process BOTH target tokens (VKBT and CURE) - don't just pick one!
+  for (const targetToken of CONFIG.TARGET_TOKENS) {
+    console.log(`\n${'─'.repeat(60)}`);
+    console.log(`🔍 Checking ${targetToken}...`);
+    console.log('─'.repeat(60));
 
-  if (!opportunity) {
-    console.log('⚠️ No viable opportunities found');
-    return;
-  }
+    // Analyze this specific token
+    const { analyzeSellWall, checkMarketHealth } = require('./wall-analyzer.cjs');
+    const analysis = await analyzeSellWall(targetToken);
+    const health = await checkMarketHealth(targetToken);
 
-  const token = opportunity.token;
-
-  // Decide action based on cost and cooldowns
-  if (opportunity.recommendation === 'ALREADY_AT_TARGET') {
-    console.log(`✅ ${token} already at target price - no action needed`);
-    return;
-  }
-
-  if (opportunity.recommendation === 'PLACE_BUY_ORDER') {
-    console.log(`💡 ${token} needs buy support to push price from ${opportunity.currentPrice.toFixed(4)} → ${opportunity.targetPrice.toFixed(4)} HIVE`);
-    console.log(`   Current price: ${opportunity.currentPrice.toFixed(4)} HIVE (below target)`);
-    console.log(`   Sell wall floor: ${opportunity.sellWallFloor.toFixed(4)} HIVE (above target - paper wall)`);
-    console.log(`   Strategy: Place buy orders to create floor and push price up`);
-
-    // For now, use micro push to nudge price upward
-    // TODO: Implement strategic buy order placement
-    if (canExecuteMicroPush(token)) {
-      await executeMicroPush(token, opportunity.currentPrice * 1.1); // 10% above current
-    } else {
-      console.log('⏰ Micro push on cooldown - waiting');
+    if (!health.isAlive) {
+      console.log(`⚠️ ${targetToken} market not alive - skipping`);
+      continue;
     }
-    return;
-  }
 
-  if (opportunity.recommendation === 'BUY_UP_WALL') {
-    // Affordable to buy up wall - but check cooldown
-    if (!canExecuteMajorPush(token)) {
-      const lastPush = botState.lastMajorPush[token];
-      const hoursSince = (Date.now() - lastPush) / (1000 * 60 * 60);
-      console.log(`⏰ Major push cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.MAJOR_PUSH_COOLDOWN_HOURS}h)`);
-      console.log('   Falling back to micro push...');
+    if (analysis.recommendation === 'ALREADY_AT_TARGET') {
+      console.log(`✅ ${targetToken} already at target price - no action needed`);
+      continue;
+    }
 
-      if (canExecuteMicroPush(token)) {
-        await executeMicroPush(token, opportunity.targetPrice);
+    if (analysis.recommendation === 'PLACE_BUY_ORDER') {
+      console.log(`💡 ${targetToken} needs buy support to push price from ${analysis.currentPrice.toFixed(8)} → ${analysis.targetPrice.toFixed(8)} HIVE`);
+      console.log(`   Current price: ${analysis.currentPrice.toFixed(8)} HIVE (below target)`);
+      console.log(`   Strategy: Competitive bidding - outbid existing buyers gradually`);
+
+      // Use competitive bidding to gradually push price up
+      if (canExecuteCompetitiveBid(targetToken)) {
+        const success = await executeCompetitiveBidding(targetToken, analysis.targetPrice, analysis.currentPrice);
+        if (success) {
+          botState.lastBidCheck[targetToken] = Date.now();
+        }
       } else {
-        console.log('⏰ Micro push also on cooldown - waiting');
+        const lastCheck = botState.lastBidCheck[targetToken];
+        const minutesSince = (Date.now() - lastCheck) / (1000 * 60);
+        console.log(`⏰ Competitive bidding check on cooldown (${minutesSince.toFixed(1)}m / ${CONFIG.BID_MONITOR_INTERVAL_MINUTES}m)`);
+        console.log('   Waiting for next monitoring window...');
       }
-      return;
+      continue;
     }
 
-    // Check if we have enough budget and balance
-    if (opportunity.costToTarget > remainingBudget) {
-      console.log(`⚠️ Push costs ${opportunity.costToTarget.toFixed(4)} HIVE but only ${remainingBudget.toFixed(4)} HIVE remaining in daily budget`);
-      console.log('   Falling back to micro push...');
+    if (analysis.recommendation === 'BUY_UP_WALL') {
+      // Affordable to buy up wall - but check cooldown
+      if (!canExecuteMajorPush(targetToken)) {
+        const lastPush = botState.lastMajorPush[targetToken];
+        const hoursSince = (Date.now() - lastPush) / (1000 * 60 * 60);
+        console.log(`⏰ Major push cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.MAJOR_PUSH_COOLDOWN_HOURS}h)`);
+        console.log('   Falling back to micro push...');
 
-      if (canExecuteMicroPush(token)) {
-        await executeMicroPush(token, opportunity.targetPrice);
+        if (canExecuteMicroPush(targetToken)) {
+          await executeMicroPush(targetToken, analysis.targetPrice);
+        } else {
+          console.log('⏰ Micro push also on cooldown - waiting');
+        }
+        continue;
       }
-      return;
+
+      // Check if we have enough budget and balance
+      if (analysis.costToTarget > remainingBudget) {
+        console.log(`⚠️ Push costs ${analysis.costToTarget.toFixed(4)} HIVE but only ${remainingBudget.toFixed(4)} HIVE remaining in daily budget`);
+        console.log('   Falling back to micro push...');
+
+        if (canExecuteMicroPush(targetToken)) {
+          await executeMicroPush(targetToken, analysis.targetPrice);
+        }
+        continue;
+      }
+
+      if (analysis.costToTarget > hiveBalance) {
+        console.log(`⚠️ Push costs ${analysis.costToTarget.toFixed(4)} HIVE but only ${hiveBalance.toFixed(4)} HIVE in wallet`);
+        continue;
+      }
+
+      // All checks passed - execute major push!
+      await executeMajorPush(targetToken, analysis);
+
+    } else if (analysis.recommendation === 'MICRO_PUSH' || analysis.recommendation === 'TOO_EXPENSIVE') {
+      // Either super cheap (micro-push) or too expensive (fall back to micro-push)
+
+      if (!canExecuteMicroPush(targetToken)) {
+        const lastPush = botState.lastMicroPush[targetToken];
+        const hoursSince = (Date.now() - lastPush) / (1000 * 60 * 60);
+        console.log(`⏰ Micro push cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.MICRO_PUSH_COOLDOWN_HOURS}h)`);
+        continue;
+      }
+
+      if (CONFIG.MICRO_PUSH_HIVE > remainingBudget) {
+        console.log(`⚠️ Micro push costs ${CONFIG.MICRO_PUSH_HIVE} HIVE but only ${remainingBudget.toFixed(4)} HIVE remaining`);
+        continue;
+      }
+
+      await executeMicroPush(targetToken, analysis.targetPrice);
+
+    } else {
+      console.log(`⚠️ No action for recommendation: ${analysis.recommendation}`);
     }
-
-    if (opportunity.costToTarget > hiveBalance) {
-      console.log(`⚠️ Push costs ${opportunity.costToTarget.toFixed(4)} HIVE but only ${hiveBalance.toFixed(4)} HIVE in wallet`);
-      return;
-    }
-
-    // All checks passed - execute major push!
-    await executeMajorPush(token, opportunity);
-
-  } else if (opportunity.recommendation === 'MICRO_PUSH' || opportunity.recommendation === 'TOO_EXPENSIVE') {
-    // Either super cheap (micro-push) or too expensive (fall back to micro-push)
-
-    if (!canExecuteMicroPush(token)) {
-      const lastPush = botState.lastMicroPush[token];
-      const hoursSince = (Date.now() - lastPush) / (1000 * 60 * 60);
-      console.log(`⏰ Micro push cooldown active (${hoursSince.toFixed(1)}h / ${CONFIG.MICRO_PUSH_COOLDOWN_HOURS}h)`);
-      return;
-    }
-
-    if (CONFIG.MICRO_PUSH_HIVE > remainingBudget) {
-      console.log(`⚠️ Micro push costs ${CONFIG.MICRO_PUSH_HIVE} HIVE but only ${remainingBudget.toFixed(4)} HIVE remaining`);
-      return;
-    }
-
-    await executeMicroPush(token, opportunity.targetPrice);
-
-  } else {
-    console.log(`⚠️ No action for recommendation: ${opportunity.recommendation}`);
-  }
+  } // End of for loop
 }
 
 // ========================================
