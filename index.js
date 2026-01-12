@@ -167,13 +167,30 @@ const oilahuascaKnowledge = {};
 
 async function loadOilahuascaKnowledge() {
   const files = [
+    // Core theory
     'oilahuasca_comprehensive_theory.json',
+    'oilahuasca_comprehensive_theory_part2.json',
     'oilahuasca_theory.json',
+    'oilahuasca_core_principles.json',
+    // Recipes and practical
     'oilahuasca_space_paste_recipe.json',
+    'oilahuasca_practical_formulations.json',
+    // Enzyme and metabolism
     'cyp450_enzyme_database.json',
-    'shulgin_ten_essential_oils.json',
     'oilahuasca_amino_acid_metabolism.json',
-    'oilahuasca_allylbenzene_metabolism_complete.json'
+    'oilahuasca_allylbenzene_metabolism_complete.json',
+    'oilahuasca_allylbenzene_research_compilation.json',
+    'oilahuasca_phase2_metabolism.json',
+    'oilahuasca_mechanistic_model.json',
+    // Shulgin and research
+    'shulgin_ten_essential_oils.json',
+    'oilahuasca_dmtnexus_69ron_thread.json',
+    'oilahuasca_dmtnexus_space_booze_thread.json',
+    // Herbs, safety, experience
+    'oilahuasca_herb_analysis.json',
+    'oilahuasca_safety_profile.json',
+    'oilahuasca_experience_reports.json',
+    'oilahuasca_sources.json'
   ];
   for (const file of files) {
     try {
@@ -585,7 +602,11 @@ const botMessageIds = new Set();
 const PROACTIVE_KEYWORDS = [
   'vkbt', 'cure', 'van kush', 'runescape', 'rs3', 'quest',
   'price', 'crypto', 'hive', 'token', 'denisovan', 'phoenician',
-  'tanit', 'hathor', 'shaivite', 'temple', 'angel', 'watcher'
+  'tanit', 'hathor', 'shaivite', 'temple', 'angel', 'watcher',
+  // Oilahuasca keywords - bot must respond to these
+  'oilahuasca', 'oilhuasca', 'myristicin', 'allylbenzene', 'cyp450',
+  'nutmeg trip', 'nutmeg high', 'space paste', 'elemicin', 'safrole',
+  '17bhsd2', 'shulgin essential oil'
 ];
 
 // === FEATURE 1: Google Custom Search ===
