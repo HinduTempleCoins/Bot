@@ -2437,7 +2437,8 @@ Just type your questions naturally, or click a topic button below to explore. I'
   }
 
   // If a topic was detected and user hasn't explored it much, offer dialogue
-  if (detectedTopic && cryptologyDialogues.trees[detectedTopic]) {
+  // EXCEPT for oilahuasca - let those go to AI chat with full knowledge base context
+  if (detectedTopic && cryptologyDialogues.trees[detectedTopic] && detectedTopic !== 'oilahuasca') {
     const relationship = getOrCreateRelationship(message.author.id);
     const topicInterest = relationship.interests[detectedTopic === 'bible' ? 'religion' :
                                                    detectedTopic === 'greece' ? 'mythology' :
