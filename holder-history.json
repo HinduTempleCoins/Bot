@@ -1,0 +1,404 @@
+{
+  "VKBT": [
+    {
+      "symbol": "VKBT",
+      "timestamp": "2026-01-10T04:20:44.500Z",
+      "supply": {
+        "total": 1930339,
+        "circulating": 1927897.18190339,
+        "held": 1344111.4742037682,
+        "accountedPercent": 69.63085106832365
+      },
+      "holders": {
+        "unique": 986,
+        "micro": 611,
+        "small": 274,
+        "medium": 94,
+        "whales": 7
+      },
+      "concentration": {
+        "giniCoefficient": 0.9485233639320791,
+        "top10Holders": 53.47343541419408,
+        "whalePercent": 52.18846033654554,
+        "distributionScore": 12
+      },
+      "whales": [
+        {
+          "account": "kalivankush",
+          "total": 848922.9195000799,
+          "percentOfSupply": 43.97791887850165
+        },
+        {
+          "account": "lightsplasher",
+          "total": 59836.24492416,
+          "percentOfSupply": 3.099779102228158
+        },
+        {
+          "account": "vankushfamily",
+          "total": 27900.24120949,
+          "percentOfSupply": 1.445354479678958
+        },
+        {
+          "account": "marsresident",
+          "total": 27684.292936780002,
+          "percentOfSupply": 1.4341674149866943
+        },
+        {
+          "account": "davidthompson57",
+          "total": 16015.30982566,
+          "percentOfSupply": 0.8296630708730437
+        },
+        {
+          "account": "iamraincrystal",
+          "total": 13547.88462028,
+          "percentOfSupply": 0.7018396571938919
+        },
+        {
+          "account": "actifit.pay",
+          "total": 13507.31035942,
+          "percentOfSupply": 0.6997377330831528
+        }
+      ],
+      "top10": [
+        {
+          "account": "kalivankush",
+          "total": 848922.9195000799,
+          "percentOfSupply": 43.97791887850165
+        },
+        {
+          "account": "lightsplasher",
+          "total": 59836.24492416,
+          "percentOfSupply": 3.099779102228158
+        },
+        {
+          "account": "vankushfamily",
+          "total": 27900.24120949,
+          "percentOfSupply": 1.445354479678958
+        },
+        {
+          "account": "marsresident",
+          "total": 27684.292936780002,
+          "percentOfSupply": 1.4341674149866943
+        },
+        {
+          "account": "davidthompson57",
+          "total": 16015.30982566,
+          "percentOfSupply": 0.8296630708730437
+        },
+        {
+          "account": "iamraincrystal",
+          "total": 13547.88462028,
+          "percentOfSupply": 0.7018396571938919
+        },
+        {
+          "account": "actifit.pay",
+          "total": 13507.31035942,
+          "percentOfSupply": 0.6997377330831528
+        },
+        {
+          "account": "manuvert",
+          "total": 8786.2985068,
+          "percentOfSupply": 0.455168677978324
+        },
+        {
+          "account": "mnurhiver",
+          "total": 8238.108291139999,
+          "percentOfSupply": 0.42677002801787656
+        },
+        {
+          "account": "ben.haase",
+          "total": 7779.96826619,
+          "percentOfSupply": 0.4030363716523367
+        }
+      ]
+    },
+    {
+      "symbol": "VKBT",
+      "timestamp": "2026-01-10T15:19:14.460Z",
+      "supply": {
+        "total": 1930997,
+        "circulating": 1928555.18183187,
+        "held": 1343660.734570899,
+        "accountedPercent": 69.5837815683245
+      },
+      "holders": {
+        "unique": 986,
+        "micro": 613,
+        "small": 272,
+        "medium": 94,
+        "whales": 7
+      },
+      "concentration": {
+        "giniCoefficient": 0.9489923385390215,
+        "top10Holders": 53.51538195652815,
+        "whalePercent": 52.23037201132161,
+        "distributionScore": 12
+      },
+      "whales": [
+        {
+          "account": "kalivankush",
+          "total": 850061.12649506,
+          "percentOfSupply": 44.02187711814467
+        },
+        {
+          "account": "lightsplasher",
+          "total": 59836.24492416,
+          "percentOfSupply": 3.0987228319961138
+        },
+        {
+          "account": "vankushfamily",
+          "total": 27900.24120949,
+          "percentOfSupply": 1.4448619655799568
+        },
+        {
+          "account": "marsresident",
+          "total": 27684.292936780002,
+          "percentOfSupply": 1.433678712953982
+        },
+        {
+          "account": "davidthompson57",
+          "total": 16020.43663696,
+          "percentOfSupply": 0.8296458584327162
+        },
+        {
+          "account": "iamraincrystal",
+          "total": 13551.54046311,
+          "percentOfSupply": 0.7017898247956884
+        },
+        {
+          "account": "actifit.pay",
+          "total": 13513.0339619,
+          "percentOfSupply": 0.699795699418487
+        }
+      ],
+      "top10": [
+        {
+          "account": "kalivankush",
+          "total": 850061.12649506,
+          "percentOfSupply": 44.02187711814467
+        },
+        {
+          "account": "lightsplasher",
+          "total": 59836.24492416,
+          "percentOfSupply": 3.0987228319961138
+        },
+        {
+          "account": "vankushfamily",
+          "total": 27900.24120949,
+          "percentOfSupply": 1.4448619655799568
+        },
+        {
+          "account": "marsresident",
+          "total": 27684.292936780002,
+          "percentOfSupply": 1.433678712953982
+        },
+        {
+          "account": "davidthompson57",
+          "total": 16020.43663696,
+          "percentOfSupply": 0.8296458584327162
+        },
+        {
+          "account": "iamraincrystal",
+          "total": 13551.54046311,
+          "percentOfSupply": 0.7017898247956884
+        },
+        {
+          "account": "actifit.pay",
+          "total": 13513.0339619,
+          "percentOfSupply": 0.699795699418487
+        },
+        {
+          "account": "manuvert",
+          "total": 8792.02843293,
+          "percentOfSupply": 0.4553103103179342
+        },
+        {
+          "account": "mnurhiver",
+          "total": 8238.108291139999,
+          "percentOfSupply": 0.42662460330803204
+        },
+        {
+          "account": "ben.haase",
+          "total": 7783.36676757,
+          "percentOfSupply": 0.4030750315805773
+        }
+      ]
+    }
+  ],
+  "CURE": [
+    {
+      "symbol": "CURE",
+      "timestamp": "2026-01-10T04:20:46.622Z",
+      "supply": {
+        "total": 55565.6,
+        "circulating": 55550.43694692,
+        "held": 44853.48561257,
+        "accountedPercent": 80.72167962295018
+      },
+      "holders": {
+        "unique": 999,
+        "micro": 975,
+        "small": 22,
+        "medium": 0,
+        "whales": 2
+      },
+      "concentration": {
+        "giniCoefficient": 0.9543401907720781,
+        "top10Holders": 64.52799500143975,
+        "whalePercent": 60.67782843539889,
+        "distributionScore": 4
+      },
+      "whales": [
+        {
+          "account": "kalivankush",
+          "total": 32580.61933403,
+          "percentOfSupply": 58.634513681180444
+        },
+        {
+          "account": "ezun1",
+          "total": 1135.38010307,
+          "percentOfSupply": 2.043314754218437
+        }
+      ],
+      "top10": [
+        {
+          "account": "kalivankush",
+          "total": 32580.61933403,
+          "percentOfSupply": 58.634513681180444
+        },
+        {
+          "account": "ezun1",
+          "total": 1135.38010307,
+          "percentOfSupply": 2.043314754218437
+        },
+        {
+          "account": "reward.app",
+          "total": 442.51933164,
+          "percentOfSupply": 0.7963908094936436
+        },
+        {
+          "account": "actifit.pay",
+          "total": 429.19642842,
+          "percentOfSupply": 0.7724139187194955
+        },
+        {
+          "account": "master-lamps",
+          "total": 327.16660142999996,
+          "percentOfSupply": 0.588793428722087
+        },
+        {
+          "account": "tom45p",
+          "total": 196.49361232,
+          "percentOfSupply": 0.3536245668543128
+        },
+        {
+          "account": "elizabethbit",
+          "total": 191.49318649,
+          "percentOfSupply": 0.34462542740472524
+        },
+        {
+          "account": "ben.haase",
+          "total": 189.11608502,
+          "percentOfSupply": 0.34034741822278536
+        },
+        {
+          "account": "quduus1",
+          "total": 184.043069,
+          "percentOfSupply": 0.33121764005067883
+        },
+        {
+          "account": "princekham",
+          "total": 179.3398391,
+          "percentOfSupply": 0.3227533565731316
+        }
+      ]
+    },
+    {
+      "symbol": "CURE",
+      "timestamp": "2026-01-10T15:19:16.635Z",
+      "supply": {
+        "total": 55592,
+        "circulating": 55556.73131423,
+        "held": 44882.14055843,
+        "accountedPercent": 80.73489091673262
+      },
+      "holders": {
+        "unique": 999,
+        "micro": 975,
+        "small": 22,
+        "medium": 0,
+        "whales": 2
+      },
+      "concentration": {
+        "giniCoefficient": 0.954422795938231,
+        "top10Holders": 64.56852648015902,
+        "whalePercent": 60.71790938188949,
+        "distributionScore": 4
+      },
+      "whales": [
+        {
+          "account": "kalivankush",
+          "total": 32618.92008051,
+          "percentOfSupply": 58.67556497429487
+        },
+        {
+          "account": "ezun1",
+          "total": 1135.38010307,
+          "percentOfSupply": 2.042344407594618
+        }
+      ],
+      "top10": [
+        {
+          "account": "kalivankush",
+          "total": 32618.92008051,
+          "percentOfSupply": 58.67556497429487
+        },
+        {
+          "account": "ezun1",
+          "total": 1135.38010307,
+          "percentOfSupply": 2.042344407594618
+        },
+        {
+          "account": "reward.app",
+          "total": 442.52854699,
+          "percentOfSupply": 0.7960291894337314
+        },
+        {
+          "account": "actifit.pay",
+          "total": 429.78673279,
+          "percentOfSupply": 0.7731089595445387
+        },
+        {
+          "account": "master-lamps",
+          "total": 327.1715799,
+          "percentOfSupply": 0.58852277288099
+        },
+        {
+          "account": "tom45p",
+          "total": 196.61031436,
+          "percentOfSupply": 0.3536665605842567
+        },
+        {
+          "account": "elizabethbit",
+          "total": 191.79280122,
+          "percentOfSupply": 0.34500072172255
+        },
+        {
+          "account": "ben.haase",
+          "total": 189.19689381,
+          "percentOfSupply": 0.34033115162253563
+        },
+        {
+          "account": "quduus1",
+          "total": 184.07723934999999,
+          "percentOfSupply": 0.33112181491941284
+        },
+        {
+          "account": "princekham",
+          "total": 179.47094884999998,
+          "percentOfSupply": 0.32283592756151963
+        }
+      ]
+    }
+  ]
+}

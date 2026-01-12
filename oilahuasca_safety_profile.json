@@ -1,0 +1,123 @@
+{
+  "oilahuasca_safety_profile": {
+    "document_info": {
+      "title": "Complete Oilahuasca Safety Profile",
+      "compiled_from": "Claude.ai discussions with Rev. Ryan Van Kush, scientific literature",
+      "date": "July 2025",
+      "disclaimer": "FOR HARM REDUCTION AND EDUCATIONAL PURPOSES ONLY"
+    },
+
+    "nutmeg_toxicity": {
+      "toxic_dose": ">5g",
+      "symptoms": ["Hallucinations", "Nausea", "Tachycardia", "Severe vomiting", "Delirium"],
+      "duration": "24-72 hours",
+      "treatment": "No antidote - supportive care only",
+      "fatal_cases": "Documented in literature"
+    },
+
+    "beta_asarone_sweet_flag": {
+      "compound": "β-Asarone",
+      "source": "Triploid (European) and Tetraploid (Asian) Acorus calamus varieties",
+      "toxicity": "Carcinogenic in rats (hepatocarcinogenic)",
+      "safe_variety": "ONLY North American diploid (Acorus americanus) - no detectable β-asarone",
+      "fda_status": "Banned as food additive (1968)",
+      "recommendation": "Must verify variety or avoid entirely"
+    },
+
+    "safrole_toxicity": {
+      "compound": "Safrole",
+      "sources": "Sassafras, trace amounts in nutmeg",
+      "long_term": "Hepatotoxic",
+      "carcinogenicity": "Carcinogenic in animal studies",
+      "assessment": "Small amounts in spices probably safe for occasional use"
+    },
+
+    "apiole_dillapiole_pregnancy_warning": {
+      "compounds": ["Apiole", "Dillapiole"],
+      "sources": ["Parsley seed oil", "Dill seed oil"],
+      "historical_use": "Abortifacient properties - used traditionally to induce abortion",
+      "mechanism": "Stimulates uterine contractions, increases menstrual flow",
+      "warning": "ABSOLUTE CONTRAINDICATION IN PREGNANCY",
+      "modern_status": "No longer used medically - often ineffective, sometimes fatal"
+    },
+
+    "drug_interactions_critical": {
+      "mechanism": "All CYP450-metabolized medications affected by oilahuasca herbs",
+      "affected_drug_classes": [
+        "Blood thinners (warfarin)",
+        "Statins (atorvastatin, simvastatin)",
+        "Benzodiazepines (midazolam, triazolam)",
+        "Opioids (codeine, tramadol)",
+        "Antidepressants (SSRIs, SNRIs, Wellbutrin, MAOIs)",
+        "ADHD medications (Strattera, Ritalin)",
+        "Antipsychotics (Abilify, others)",
+        "Immunosuppressants (cyclosporine, tacrolimus)",
+        "Blood pressure medications",
+        "Calcium channel blockers",
+        "Anti-arrhythmics (amiodarone)"
+      ],
+      "percentage_affected": "Approximately 80% of drugs use CYP450 metabolism",
+      "critical_rule": "NEVER combine oilahuasca herbs with prescription medications that use CYP450 metabolism"
+    },
+
+    "wellbutrin_strattera_example": {
+      "warning": "NO ONE SHOULD MIX Wellbutrin, Abilify, Ephedrine, and Caffeine",
+      "risk": "Can lead to HEART ATTACKS AND SEIZURES",
+      "mechanism": "Wellbutrin inhibits CYP2D6, causing blood level accumulation",
+      "combination_potentiation": "Combinations can be 5-10x stronger than expected",
+      "seizure_risk": "Blood concentration at any given moment determines seizure threshold"
+    },
+
+    "grapefruit_juice_analogy": {
+      "statement": "Medications that say 'Do not take with Grapefruit Juice' - this is very serious",
+      "mechanism": "Grapefruit juice inhibits CYP3A4",
+      "effect": "Medications with low bioavailability become MORE bioavailable",
+      "result": "Can cause dangerous overdose-level blood concentrations",
+      "connection": "This danger is actually what the Oilahuasca Theory is based on"
+    },
+
+    "absolute_contraindications": {
+      "pregnancy_breastfeeding": "Apiole/dillapiole are abortifacients",
+      "liver_disease": "Impaired metabolism increases toxicity risk",
+      "kidney_disease": "Impaired elimination increases accumulation",
+      "current_medications": "CYP450 substrates will have dangerous interactions",
+      "psychiatric_conditions": "Risk of psychotic episodes or destabilization",
+      "cardiovascular_disease": "Risk of tachycardia, arrhythmias",
+      "children_adolescents": "Developing brains vulnerable to toxicity"
+    },
+
+    "harm_reduction_principles": {
+      "start_low": "Begin with 1/4 to 1/2 recommended doses",
+      "no_combinations": "Never combine with other substances (alcohol, cannabis, other drugs)",
+      "sober_sitter": "Always have someone sober present",
+      "clear_schedule": "Allow 2-3 days with no obligations",
+      "emergency_contacts": "Have contacts available",
+      "medical_supervision": "Ideal if possible",
+      "wait_between_experiments": "4+ days between attempts",
+      "verify_sources": "Especially for calamus - verify North American diploid variety"
+    },
+
+    "estragole_concerns": {
+      "sources": ["Basil", "Fennel", "Tarragon"],
+      "long_term_high_dose": "Hepatotoxic in animal studies",
+      "genotoxic": "In some studies at high doses",
+      "short_term_single_dose": "Probably safe",
+      "culinary_use": "GRAS (Generally Recognized As Safe)",
+      "recommendation": "Use whole herbs, not concentrated oils; don't use chronically"
+    },
+
+    "carcinogen_warning": {
+      "statement": "Possibility that oilahuasca can lead to body creating carcinogens",
+      "mechanism": "Possible when manipulating breakdown of various molecules",
+      "known_cases": "No one as far as known has developed cancer from oilahuasca",
+      "but": "Possibility to raise carcinogen levels in body exists"
+    },
+
+    "duration_considerations": {
+      "typical_duration": "24-72 hours",
+      "extreme_cases": "Up to 1 week residual effects possible",
+      "why_so_long": "Enzyme blockade means slow clearance",
+      "clinical_impracticality": "Duration makes this impractical for therapeutic use"
+    }
+  }
+}
