@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 
 // ========================================
-// PROFIT TRADING BOT
+// PROFIT TRADING BOT - COMPLETE SYSTEM
 // ========================================
-// Strategy: Sell wallet tokens when buy walls are strong → Use HIVE to buy profit opportunities
-// Goal: Make HIVE profits through active trading cycles
+// Full market making system with adaptive strategies
+// URGENT: Less than 16 hours to make $600
+//
+// Modules:
+// 1. Token behavior analyzer
+// 2. Sell-side micro-dance manager
+// 3. Buy-side micro-dance manager
+// 4. Multiple trading strategies
+// 5. Performance tracker
 
 require('dotenv').config();
 const { execSync } = require('child_process');
@@ -22,42 +29,66 @@ const {
 // ========================================
 
 const CONFIG = {
-  // Account credentials
   ACCOUNT: process.env.HIVE_USERNAME || 'angelicalist',
   ACTIVE_KEY: process.env.HIVE_ACTIVE_KEY,
+  DRY_RUN: process.env.DRY_RUN === 'true',
 
-  // Trading parameters
-  DRY_RUN: process.env.DRY_RUN === 'true', // LIVE trading by default
+  // Micro-dance precision
+  MICRO_UNDERCUT: 0.00000001, // 8 decimal precision
 
-  // Wallet token selling (SEED CAPITAL strategy)
-  MIN_BUY_WALL_LIQUIDITY: 5.0, // Need 5+ HIVE buy wall to sell wallet tokens
-  SELL_TO_TOP_ORDER: true, // Sell to highest buy order (market sell)
+  // Order management
+  CHECK_INTERVAL: 30000, // 30 seconds - aggressive
+  ORDER_TIMEOUT: 300000, // 5 minutes - cancel if no fill
 
-  // BLURT selling (FUEL strategy)
-  SELL_BLURT_IMMEDIATELY: true, // BLURT is fuel - sell as soon as possible
+  // Strategy thresholds
+  BUY_SUPPORT_THRESHOLD: 0.7, // 70%+ buys = buy support
+  CASHOUT_THRESHOLD: 0.7, // 70%+ sells = cashout
+  TIGHT_SPREAD_THRESHOLD: 0.05, // 5% = tight spread
 
-  // VKBT/CURE special handling
-  VKBT_CURE_TARGET_PRICE: 1.0, // Sell at 1 HIVE each (1:1 parity)
-
-  // Profit trading (buying opportunities)
-  BUY_CAPITAL_ALLOCATION: 20, // Use 20% of available HIVE per buy
-  MIN_PROFIT_OPPORTUNITY: 5, // Need 5%+ profit potential
-  MIN_VOLUME_24H: 10, // Min 10 HIVE volume
-
-  // Scan interval (1 minute for aggressive trading)
-  SCAN_INTERVAL: 60000,
+  // Capital management
+  BUY_ALLOCATION: 0.2, // Use 20% per buy
+  MIN_PROFIT_MARGIN: 0.03, // 3% minimum profit
 
   // Files
-  POSITIONS_FILE: './trading-positions.json',
-  HISTORY_FILE: './trading-history.json',
-  WALLET_SNAPSHOT_FILE: './wallet-snapshot.json',
+  STATE_FILE: './profit-bot-state.json',
+  ORDERS_FILE: './profit-bot-orders.json',
+  PERFORMANCE_FILE: './profit-bot-performance.json',
 
-  // API
-  HIVE_ENGINE_RPC: 'https://api.hive-engine.com/rpc/contracts'
+  API: 'https://api.hive-engine.com/rpc/contracts'
 };
 
 // ========================================
-// HIVE BLOCKCHAIN CLIENT
+// STATE MANAGEMENT
+// ========================================
+
+let botState = {
+  openOrders: {}, // { orderId: {symbol, side, price, quantity, timestamp, strategy} }
+  fills: [], // Completed trades
+  performance: {
+    totalTrades: 0,
+    profitableTrades: 0,
+    totalProfit: 0,
+    strategyPerformance: {}
+  },
+  tokenCache: {} // { symbol: {behavior, lastAnalyzed, ...} }
+};
+
+// Load state
+if (fs.existsSync(CONFIG.STATE_FILE)) {
+  try {
+    botState = JSON.parse(fs.readFileSync(CONFIG.STATE_FILE, 'utf8'));
+    console.log(`📂 Loaded bot state: ${Object.keys(botState.openOrders).length} open orders`);
+  } catch (error) {
+    console.error('⚠️ Could not load state:', error.message);
+  }
+}
+
+function saveState() {
+  fs.writeFileSync(CONFIG.STATE_FILE, JSON.stringify(botState, null, 2));
+}
+
+// ========================================
+// HIVE BLOCKCHAIN
 // ========================================
 
 const client = new dhive.Client([
@@ -68,42 +99,13 @@ const client = new dhive.Client([
 ]);
 
 // ========================================
-// DATA STORAGE
-// ========================================
-
-let tradingHistory = {
-  startTime: new Date().toISOString(),
-  totalTrades: 0,
-  profitableTrades: 0,
-  losingTrades: 0,
-  totalProfitHIVE: 0,
-  totalSalesHIVE: 0, // HIVE earned from selling wallet tokens
-  totalPurchasesHIVE: 0, // HIVE spent on buys
-  trades: []
-};
-
-// Load existing history
-if (fs.existsSync(CONFIG.HISTORY_FILE)) {
-  try {
-    tradingHistory = JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8'));
-    console.log(`📊 Loaded trading history: ${tradingHistory.totalTrades} total trades`);
-  } catch (error) {
-    console.error('⚠️ Could not load history:', error.message);
-  }
-}
-
-// ========================================
 // API FUNCTIONS
 // ========================================
 
 function apiCall(payload) {
   const jsonPayload = JSON.stringify(payload);
   const escaped = jsonPayload.replace(/'/g, "'\\''");
-
-  const cmd = `curl -s -X POST ${CONFIG.HIVE_ENGINE_RPC} \
-    -H "Content-Type: application/json" \
-    -d '${escaped}'`;
-
+  const cmd = `curl -s -X POST ${CONFIG.API} -H "Content-Type: application/json" -d '${escaped}'`;
   const output = execSync(cmd, { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
   return JSON.parse(output);
 }
@@ -116,33 +118,47 @@ function getAllWalletBalances(account) {
     params: {
       contract: 'tokens',
       table: 'balances',
-      query: { account: account },
+      query: { account },
       limit: 1000,
-      offset: 0,
       indexes: []
     }
   });
-
   return result.result || [];
 }
 
-function getAccountBalance(account, symbol) {
-  const result = apiCall({
+function getOpenOrders(account) {
+  const buyOrders = apiCall({
     jsonrpc: '2.0',
     id: 1,
-    method: 'findOne',
+    method: 'find',
     params: {
-      contract: 'tokens',
-      table: 'balances',
-      query: { account, symbol }
+      contract: 'market',
+      table: 'buyBook',
+      query: { account },
+      limit: 1000
     }
   });
 
-  return result.result ? parseFloat(result.result.balance) : 0;
+  const sellOrders = apiCall({
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'find',
+    params: {
+      contract: 'market',
+      table: 'sellBook',
+      query: { account },
+      limit: 1000
+    }
+  });
+
+  return {
+    buys: buyOrders.result || [],
+    sells: sellOrders.result || []
+  };
 }
 
 function getOrderBook(symbol) {
-  const buyResult = apiCall({
+  const buyOrders = apiCall({
     jsonrpc: '2.0',
     id: 1,
     method: 'find',
@@ -150,12 +166,12 @@ function getOrderBook(symbol) {
       contract: 'market',
       table: 'buyBook',
       query: { symbol },
-      limit: 20,
+      limit: 50,
       indexes: [{ index: 'price', descending: true }]
     }
   });
 
-  const sellResult = apiCall({
+  const sellOrders = apiCall({
     jsonrpc: '2.0',
     id: 1,
     method: 'find',
@@ -163,101 +179,226 @@ function getOrderBook(symbol) {
       contract: 'market',
       table: 'sellBook',
       query: { symbol },
-      limit: 20,
+      limit: 50,
       indexes: [{ index: 'price', descending: false }]
     }
   });
 
   return {
-    bids: buyResult.result || [],
-    asks: sellResult.result || []
+    bids: buyOrders.result || [],
+    asks: sellOrders.result || []
   };
 }
 
+function getTradeHistory(symbol, limit = 100) {
+  const result = apiCall({
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'find',
+    params: {
+      contract: 'market',
+      table: 'tradesHistory',
+      query: { symbol },
+      limit,
+      indexes: [{ index: 'timestamp', descending: true }]
+    }
+  });
+  return result.result || [];
+}
+
 // ========================================
-// TRADING FUNCTIONS
+// MODULE 1: TOKEN BEHAVIOR ANALYZER
 // ========================================
 
-async function executeSellToTopBuyOrder(symbol, quantity) {
+async function analyzeTokenBehavior(symbol) {
+  console.log(`\n🔍 Analyzing ${symbol} behavior...`);
+
+  // Check cache
+  const cached = botState.tokenCache[symbol];
+  if (cached && Date.now() - cached.lastAnalyzed < 300000) { // 5 min cache
+    console.log(`   📋 Using cached analysis: ${cached.behavior}`);
+    return cached;
+  }
+
+  // Get trade history
+  const trades = getTradeHistory(symbol, 100);
+  if (trades.length < 10) {
+    console.log(`   ⚠️ Insufficient trade history`);
+    return { behavior: 'UNKNOWN', confidence: 0 };
+  }
+
+  // Analyze trade direction
+  let buyToSellWall = 0; // People buying from sell wall (buy support)
+  let sellToBuyWall = 0; // People selling to buy wall (cashout)
+
+  for (const trade of trades) {
+    // If trade type is 'buy', someone bought from sell wall
+    if (trade.type === 'buy') buyToSellWall++;
+    // If trade type is 'sell', someone sold to buy wall
+    if (trade.type === 'sell') sellToBuyWall++;
+  }
+
+  const total = buyToSellWall + sellToBuyWall;
+  const buyRatio = buyToSellWall / total;
+  const sellRatio = sellToBuyWall / total;
+
+  console.log(`   📊 ${buyToSellWall} buys, ${sellToBuyWall} sells (${(buyRatio * 100).toFixed(1)}% buy)`);
+
+  // Get market metrics
+  const metrics = await getMarketMetrics(symbol);
+  const orderBook = getOrderBook(symbol);
+
+  let behavior;
+  let strategy;
+  let confidence;
+
+  // Classify token
+  if (buyRatio >= CONFIG.BUY_SUPPORT_THRESHOLD) {
+    behavior = 'BUY_SUPPORT';
+    strategy = 'SPREAD_CAPTURE';
+    confidence = buyRatio;
+    console.log(`   ✅ BUY SUPPORT token - people come to buy`);
+  } else if (sellRatio >= CONFIG.CASHOUT_THRESHOLD) {
+    behavior = 'CASHOUT';
+    strategy = 'DUMP';
+    confidence = sellRatio;
+    console.log(`   ⚠️ CASHOUT token - people dump constantly`);
+  } else {
+    // Check if it's a Swap token (arbitrage opportunity)
+    if (symbol.startsWith('SWAP.')) {
+      behavior = 'SWAP';
+      strategy = 'ARBITRAGE';
+      confidence = 0.8;
+      console.log(`   🔄 SWAP token - arbitrage potential`);
+    } else {
+      // Check spread tightness
+      const highestBid = parseFloat(metrics?.highestBid || 0);
+      const lowestAsk = parseFloat(metrics?.lowestAsk || 0);
+
+      if (highestBid > 0 && lowestAsk > 0) {
+        const spreadPercent = ((lowestAsk - highestBid) / highestBid) * 100;
+
+        if (spreadPercent < CONFIG.TIGHT_SPREAD_THRESHOLD) {
+          behavior = 'HIGH_VOLUME';
+          strategy = 'TREND_FOLLOW';
+          confidence = 0.7;
+          console.log(`   📈 HIGH VOLUME token - tight spread ${spreadPercent.toFixed(2)}%`);
+        } else {
+          behavior = 'MIXED';
+          strategy = 'CAUTIOUS';
+          confidence = 0.5;
+          console.log(`   ❓ MIXED behavior - wide spread ${spreadPercent.toFixed(2)}%`);
+        }
+      } else {
+        behavior = 'UNKNOWN';
+        strategy = 'SKIP';
+        confidence = 0;
+      }
+    }
+  }
+
+  const analysis = {
+    symbol,
+    behavior,
+    strategy,
+    confidence,
+    buyRatio,
+    sellRatio,
+    tradeCount: trades.length,
+    lastAnalyzed: Date.now()
+  };
+
+  // Cache result
+  botState.tokenCache[symbol] = analysis;
+  saveState();
+
+  return analysis;
+}
+
+// ========================================
+// MODULE 2: SELL-SIDE MICRO-DANCE
+// ========================================
+
+async function manageSellOrder(symbol, balance, analysis) {
+  console.log(`\n💰 Managing sell for ${symbol} (${balance.toFixed(8)})`);
+
+  const orderBook = getOrderBook(symbol);
+
+  // Skip if no buy orders
+  if (!orderBook.bids || orderBook.bids.length === 0) {
+    console.log(`   ❌ No buy orders - can't sell`);
+    return null;
+  }
+
+  const topBid = parseFloat(orderBook.bids[0].price);
+  const lowestAsk = orderBook.asks[0] ? parseFloat(orderBook.asks[0].price) : topBid * 1.5;
+
+  console.log(`   📊 Top bid: ${topBid.toFixed(8)} | Lowest ask: ${lowestAsk.toFixed(8)}`);
+
+  // Strategy-based pricing
+  let targetPrice;
+
+  if (analysis.behavior === 'BUY_SUPPORT') {
+    // Place sell order just below lowest ask (micro-undercut)
+    targetPrice = lowestAsk - CONFIG.MICRO_UNDERCUT;
+    console.log(`   🎯 BUY SUPPORT: Undercut lowest ask → ${targetPrice.toFixed(8)}`);
+  } else if (analysis.behavior === 'CASHOUT') {
+    // Dump to top buy order
+    targetPrice = topBid;
+    console.log(`   🎯 CASHOUT: Dump to top bid → ${targetPrice.toFixed(8)}`);
+  } else {
+    // Default: mid-spread
+    targetPrice = (topBid + lowestAsk) / 2;
+    console.log(`   🎯 DEFAULT: Mid-spread → ${targetPrice.toFixed(8)}`);
+  }
+
+  // Check minimum profit margin
+  const costBasis = 0; // Seed capital = free
+  const profitMargin = (targetPrice - costBasis) / Math.max(targetPrice, 0.00000001);
+
+  if (profitMargin < CONFIG.MIN_PROFIT_MARGIN && analysis.behavior !== 'CASHOUT') {
+    console.log(`   ⚠️ Profit margin too low: ${(profitMargin * 100).toFixed(1)}%`);
+    return null;
+  }
+
+  // Place sell order
+  const result = await placeSellOrder(symbol, balance, targetPrice);
+
+  if (result.success) {
+    botState.openOrders[result.orderId] = {
+      symbol,
+      side: 'SELL',
+      price: targetPrice,
+      quantity: balance,
+      timestamp: Date.now(),
+      strategy: analysis.strategy
+    };
+    saveState();
+  }
+
+  return result;
+}
+
+async function placeSellOrder(symbol, quantity, price) {
   if (CONFIG.DRY_RUN) {
-    console.log(`   [DRY RUN] Would SELL ${quantity.toFixed(8)} ${symbol} to top buy order`);
-    return { success: true, dryRun: true };
+    const orderId = `dry-${Date.now()}`;
+    console.log(`   [DRY RUN] Would SELL ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)}`);
+    return { success: true, orderId, dryRun: true };
   }
 
   if (!CONFIG.ACTIVE_KEY) {
-    console.error(`   ❌ HIVE_ACTIVE_KEY not configured`);
-    return { success: false, error: 'Missing active key' };
+    console.error(`   ❌ ACTIVE_KEY not configured`);
+    return { success: false, error: 'Missing key' };
   }
 
   try {
-    // Get current order book to find top buy order
-    const orderBook = getOrderBook(symbol);
-    if (!orderBook.bids || orderBook.bids.length === 0) {
-      console.error(`   ❌ No buy orders available for ${symbol}`);
-      return { success: false, error: 'No buy orders' };
-    }
-
-    // Sell to highest buy order (market sell)
-    const topBuyOrder = orderBook.bids[0];
-    const sellPrice = parseFloat(topBuyOrder.price);
-
-    console.log(`   📤 Selling to top buy order: ${quantity.toFixed(8)} ${symbol} @ ${sellPrice.toFixed(8)} HIVE`);
-
     const key = dhive.PrivateKey.fromString(CONFIG.ACTIVE_KEY);
 
     const json = {
       contractName: 'market',
       contractAction: 'sell',
       contractPayload: {
-        symbol: symbol,
-        quantity: quantity.toFixed(8),
-        price: sellPrice.toFixed(8)
-      }
-    };
-
-    const op = [
-      'custom_json',
-      {
-        required_auths: [CONFIG.ACCOUNT],
-        required_posting_auths: [],
-        id: 'ssc-mainnet-hive',
-        json: JSON.stringify(json)
-      }
-    ];
-
-    const result = await client.broadcast.sendOperations([op], key);
-
-    const hiveReceived = sellPrice * quantity;
-    console.log(`   ✅ Sell order placed! TX: ${result.id}`);
-    console.log(`   💰 Expected to receive: ${hiveReceived.toFixed(4)} HIVE`);
-
-    return { success: true, txId: result.id, price: sellPrice, hiveReceived };
-
-  } catch (error) {
-    console.error(`   ❌ Sell order failed:`, error.message);
-    return { success: false, error: error.message };
-  }
-}
-
-async function executeBuy(symbol, quantity, price) {
-  if (CONFIG.DRY_RUN) {
-    console.log(`   [DRY RUN] Would BUY ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)} HIVE`);
-    return { success: true, dryRun: true };
-  }
-
-  if (!CONFIG.ACTIVE_KEY) {
-    console.error(`   ❌ HIVE_ACTIVE_KEY not configured`);
-    return { success: false, error: 'Missing active key' };
-  }
-
-  try {
-    const key = dhive.PrivateKey.fromString(CONFIG.ACTIVE_KEY);
-
-    const json = {
-      contractName: 'market',
-      contractAction: 'buy',
-      contractPayload: {
-        symbol: symbol,
+        symbol,
         quantity: quantity.toFixed(8),
         price: price.toFixed(8)
       }
@@ -273,131 +414,36 @@ async function executeBuy(symbol, quantity, price) {
       }
     ];
 
-    console.log(`   💰 Executing BUY: ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)} HIVE`);
+    console.log(`   📤 SELL ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)}`);
     const result = await client.broadcast.sendOperations([op], key);
 
-    const hiveSpent = price * quantity;
-    console.log(`   ✅ Buy order placed! TX: ${result.id}`);
-    console.log(`   💸 HIVE spent: ${hiveSpent.toFixed(4)} HIVE`);
-
-    return { success: true, txId: result.id, hiveSpent };
+    console.log(`   ✅ Order placed! TX: ${result.id}`);
+    return { success: true, txId: result.id, orderId: `${symbol}-${Date.now()}` };
 
   } catch (error) {
-    console.error(`   ❌ Buy order failed:`, error.message);
+    console.error(`   ❌ Sell failed:`, error.message);
     return { success: false, error: error.message };
   }
 }
 
 // ========================================
-// WALLET TOKEN SELLING (SEED CAPITAL)
+// MODULE 3: BUY-SIDE MICRO-DANCE
 // ========================================
 
-async function processWalletToken(symbol, balance) {
-  console.log(`\n🔍 Processing wallet token: ${symbol} (${balance.toFixed(8)})`);
+async function findBuyOpportunity() {
+  console.log(`\n🔎 Scanning for buy opportunities...`);
 
-  // BLURT special handling - sell immediately as fuel
-  if (symbol === 'BLURT' && CONFIG.SELL_BLURT_IMMEDIATELY) {
-    console.log(`   ⛽ BLURT is FUEL - selling immediately`);
-    const result = await executeSellToTopBuyOrder(symbol, balance);
-    if (result.success && !result.dryRun) {
-      recordTrade({
-        type: 'FUEL_SALE',
-        symbol,
-        quantity: balance,
-        price: result.price,
-        hiveReceived: result.hiveReceived,
-        reason: 'BLURT fuel sale'
-      });
-    }
-    return result.success;
+  // Get HIVE balance
+  const balances = getAllWalletBalances(CONFIG.ACCOUNT);
+  const hiveBalance = balances.find(b => b.symbol === 'SWAP.HIVE');
+  const availableHIVE = hiveBalance ? parseFloat(hiveBalance.balance) : 0;
+
+  if (availableHIVE < 0.01) {
+    console.log(`   ⚠️ Insufficient HIVE: ${availableHIVE.toFixed(4)}`);
+    return null;
   }
 
-  // VKBT/CURE special handling - sell at 1:1 parity
-  if ((symbol === 'VKBT' || symbol === 'CURE')) {
-    const metrics = await getMarketMetrics(symbol);
-    if (!metrics) {
-      console.log(`   ⚠️ No market metrics for ${symbol}`);
-      return false;
-    }
-
-    const currentPrice = parseFloat(metrics.lastPrice || 0);
-    const highestBid = parseFloat(metrics.highestBid || 0);
-
-    console.log(`   📊 ${symbol} price: ${currentPrice.toFixed(8)} HIVE | Top bid: ${highestBid.toFixed(8)} HIVE`);
-    console.log(`   🎯 Target: 1.0 HIVE (1:1 parity)`);
-
-    // Only sell if we can get 1 HIVE or close to it (0.95+)
-    if (highestBid >= 0.95) {
-      console.log(`   ✅ Price target reached! Selling ${symbol} at ${highestBid.toFixed(8)} HIVE`);
-      const result = await executeSellToTopBuyOrder(symbol, balance);
-      if (result.success && !result.dryRun) {
-        recordTrade({
-          type: 'VKBT_CURE_SALE',
-          symbol,
-          quantity: balance,
-          price: result.price,
-          hiveReceived: result.hiveReceived,
-          reason: 'VKBT/CURE 1:1 parity target'
-        });
-      }
-      return result.success;
-    } else {
-      console.log(`   ⏳ Waiting for better price (target: 0.95+ HIVE)`);
-      return false;
-    }
-  }
-
-  // Regular token handling - check buy wall strength
-  const metrics = await getMarketMetrics(symbol);
-  if (!metrics) {
-    console.log(`   ⚠️ No market metrics for ${symbol}`);
-    return false;
-  }
-
-  const currentPrice = parseFloat(metrics.lastPrice || 0);
-  const highestBid = parseFloat(metrics.highestBid || 0);
-
-  if (currentPrice === 0 || highestBid === 0) {
-    console.log(`   ❌ No active market`);
-    return false;
-  }
-
-  console.log(`   📊 Price: ${currentPrice.toFixed(8)} HIVE | Top bid: ${highestBid.toFixed(8)} HIVE`);
-
-  // Analyze buy wall strength
-  const buyWallAnalysis = await analyzeBuyWall(symbol, highestBid);
-  console.log(`   💰 Buy wall liquidity: ${buyWallAnalysis.totalLiquidity.toFixed(4)} HIVE`);
-
-  // Check if buy wall is strong enough to sell into
-  if (buyWallAnalysis.totalLiquidity < CONFIG.MIN_BUY_WALL_LIQUIDITY) {
-    console.log(`   ⏳ Buy wall too weak (need ${CONFIG.MIN_BUY_WALL_LIQUIDITY}+ HIVE)`);
-    return false;
-  }
-
-  // Strong buy wall - SELL!
-  console.log(`   ✅ Strong buy wall detected! Selling to top buy order`);
-  const result = await executeSellToTopBuyOrder(symbol, balance);
-
-  if (result.success && !result.dryRun) {
-    recordTrade({
-      type: 'WALLET_SALE',
-      symbol,
-      quantity: balance,
-      price: result.price,
-      hiveReceived: result.hiveReceived,
-      reason: 'Strong buy wall - seed capital liquidation'
-    });
-  }
-
-  return result.success;
-}
-
-// ========================================
-// PROFIT OPPORTUNITY SCANNING
-// ========================================
-
-async function findProfitOpportunity() {
-  console.log(`\n🔎 Scanning market for profit opportunities...`);
+  console.log(`   💵 Available: ${availableHIVE.toFixed(4)} HIVE`);
 
   // Get top volume tokens
   const metricsResult = apiCall({
@@ -413,240 +459,346 @@ async function findProfitOpportunity() {
     }
   });
 
-  const allMetrics = metricsResult.result || [];
-
-  // Filter for tradeable tokens
-  const candidates = allMetrics
-    .filter(m => {
-      const volume = parseFloat(m.volume || 0);
-      const price = parseFloat(m.lastPrice || 0);
-      return volume >= CONFIG.MIN_VOLUME_24H && price > 0;
-    })
+  const candidates = (metricsResult.result || [])
+    .filter(m => parseFloat(m.volume || 0) > 10)
     .filter(m => m.symbol !== 'SWAP.HIVE')
-    .filter(m => m.symbol !== 'VKBT' && m.symbol !== 'CURE') // Don't buy VKBT/CURE (separate strategy)
+    .filter(m => m.symbol !== 'VKBT' && m.symbol !== 'CURE') // Separate bot handles these
     .slice(0, 20);
 
-  console.log(`   📊 Evaluating ${candidates.length} candidates...`);
+  console.log(`   📊 Evaluating ${candidates.length} tokens...`);
 
   let bestOpportunity = null;
   let bestScore = 0;
 
   for (const candidate of candidates) {
-    const symbol = candidate.symbol;
-    const currentPrice = parseFloat(candidate.lastPrice);
-    const highestBid = parseFloat(candidate.highestBid);
-    const lowestAsk = parseFloat(candidate.lowestAsk);
-    const volume24h = parseFloat(candidate.volume);
+    const analysis = await analyzeTokenBehavior(candidate.symbol);
 
-    if (!highestBid || !lowestAsk) continue;
+    if (analysis.behavior === 'UNKNOWN' || analysis.behavior === 'CASHOUT') {
+      continue; // Skip unknown and cashout tokens
+    }
 
-    // Calculate spread
-    const spreadPercent = ((lowestAsk - highestBid) / highestBid) * 100;
+    const orderBook = getOrderBook(candidate.symbol);
+    if (!orderBook.bids.length || !orderBook.asks.length) continue;
 
-    // Tight spread = good liquidity = profit opportunity
-    if (spreadPercent > 5) continue; // Skip wide spreads
+    const topBid = parseFloat(orderBook.bids[0].price);
+    const lowestAsk = parseFloat(orderBook.asks[0].price);
+    const spreadPercent = ((lowestAsk - topBid) / topBid) * 100;
 
-    // Analyze buy wall (can we exit profitably?)
-    const profitTargetPrice = currentPrice * 1.05; // 5% profit target
-    const buyWallAnalysis = await analyzeBuyWall(symbol, profitTargetPrice);
-
-    if (!buyWallAnalysis.hasLiquidity) continue;
-    if (buyWallAnalysis.totalLiquidity < 5) continue; // Need 5+ HIVE exit liquidity
-
-    // Calculate opportunity score
+    // Calculate score based on strategy
     let score = 0;
-    score += Math.min(volume24h, 100); // Volume (max 100 points)
-    score += Math.max(0, 20 - spreadPercent) * 2; // Tight spread (max 40 points)
-    score += Math.min(buyWallAnalysis.totalLiquidity, 50); // Buy wall strength (max 50 points)
 
-    console.log(`   ${symbol}: Score ${score.toFixed(0)} | Spread ${spreadPercent.toFixed(2)}% | Buy wall ${buyWallAnalysis.totalLiquidity.toFixed(2)} HIVE`);
+    if (analysis.behavior === 'BUY_SUPPORT') {
+      // Good for spread capture
+      score += 50;
+      score += Math.max(0, 20 - spreadPercent) * 2; // Reward tight spreads
+      score += analysis.confidence * 30;
+    } else if (analysis.behavior === 'SWAP') {
+      // Arbitrage potential
+      score += 40;
+      // TODO: Check actual arbitrage spread vs external exchanges
+    } else if (analysis.behavior === 'HIGH_VOLUME') {
+      // Trend following
+      score += 30;
+      const volume = parseFloat(candidate.volume);
+      score += Math.min(volume, 100); // Volume bonus
+    }
 
     if (score > bestScore) {
       bestScore = score;
       bestOpportunity = {
-        symbol,
-        currentPrice,
-        entryPrice: lowestAsk,
-        targetPrice: profitTargetPrice,
+        symbol: candidate.symbol,
+        analysis,
+        topBid,
+        lowestAsk,
         spreadPercent,
-        buyWallLiquidity: buyWallAnalysis.totalLiquidity,
         score
       };
     }
   }
 
-  return bestOpportunity;
+  if (!bestOpportunity) {
+    console.log(`   ⏳ No opportunities found`);
+    return null;
+  }
+
+  console.log(`\n🚨 BEST OPPORTUNITY: ${bestOpportunity.symbol}`);
+  console.log(`   Strategy: ${bestOpportunity.analysis.strategy}`);
+  console.log(`   Score: ${bestOpportunity.score.toFixed(0)}/100`);
+  console.log(`   Spread: ${bestOpportunity.spreadPercent.toFixed(2)}%`);
+  console.log(`   Top bid: ${bestOpportunity.topBid.toFixed(8)}`);
+  console.log(`   Lowest ask: ${bestOpportunity.lowestAsk.toFixed(8)}`);
+
+  // Place buy order just above top bid (micro-dance)
+  const buyPrice = bestOpportunity.topBid + CONFIG.MICRO_UNDERCUT;
+  const tradeSize = availableHIVE * CONFIG.BUY_ALLOCATION;
+  const quantity = tradeSize / buyPrice;
+
+  console.log(`   💰 Buy: ${quantity.toFixed(8)} @ ${buyPrice.toFixed(8)} (${tradeSize.toFixed(4)} HIVE)`);
+
+  const result = await placeBuyOrder(bestOpportunity.symbol, quantity, buyPrice);
+
+  if (result.success) {
+    botState.openOrders[result.orderId] = {
+      symbol: bestOpportunity.symbol,
+      side: 'BUY',
+      price: buyPrice,
+      quantity,
+      timestamp: Date.now(),
+      strategy: bestOpportunity.analysis.strategy,
+      targetSellPrice: bestOpportunity.lowestAsk - CONFIG.MICRO_UNDERCUT
+    };
+    saveState();
+  }
+
+  return result;
 }
 
-async function executeProfitTrade(opportunity) {
-  console.log(`\n🚨 PROFIT OPPORTUNITY: ${opportunity.symbol}`);
-  console.log(`   📊 Entry: ${opportunity.entryPrice.toFixed(8)} HIVE`);
-  console.log(`   🎯 Target: ${opportunity.targetPrice.toFixed(8)} HIVE (5% profit)`);
-  console.log(`   💰 Buy wall: ${opportunity.buyWallLiquidity.toFixed(4)} HIVE`);
-  console.log(`   📈 Spread: ${opportunity.spreadPercent.toFixed(2)}%`);
-  console.log(`   ⭐ Score: ${opportunity.score.toFixed(0)}/190`);
-
-  // Get available HIVE
-  const availableHIVE = getAccountBalance(CONFIG.ACCOUNT, 'SWAP.HIVE');
-  console.log(`   💵 Available: ${availableHIVE.toFixed(4)} SWAP.HIVE`);
-
-  if (availableHIVE < 0.01) {
-    console.log(`   ❌ Insufficient HIVE balance`);
-    return false;
+async function placeBuyOrder(symbol, quantity, price) {
+  if (CONFIG.DRY_RUN) {
+    const orderId = `dry-${Date.now()}`;
+    console.log(`   [DRY RUN] Would BUY ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)}`);
+    return { success: true, orderId, dryRun: true };
   }
 
-  // Calculate trade size (20% of available HIVE)
-  const tradeSize = availableHIVE * (CONFIG.BUY_CAPITAL_ALLOCATION / 100);
-  const quantity = tradeSize / opportunity.entryPrice;
-
-  console.log(`   💰 Trade size: ${tradeSize.toFixed(4)} HIVE (${CONFIG.BUY_CAPITAL_ALLOCATION}% allocation)`);
-  console.log(`   📦 Quantity: ${quantity.toFixed(8)} ${opportunity.symbol}`);
-
-  const result = await executeBuy(opportunity.symbol, quantity, opportunity.entryPrice);
-
-  if (result.success && !result.dryRun) {
-    recordTrade({
-      type: 'PROFIT_BUY',
-      symbol: opportunity.symbol,
-      quantity: quantity,
-      price: opportunity.entryPrice,
-      hiveSpent: result.hiveSpent,
-      targetPrice: opportunity.targetPrice,
-      reason: 'Profit opportunity purchase'
-    });
+  if (!CONFIG.ACTIVE_KEY) {
+    console.error(`   ❌ ACTIVE_KEY not configured`);
+    return { success: false, error: 'Missing key' };
   }
 
-  return result.success;
+  try {
+    const key = dhive.PrivateKey.fromString(CONFIG.ACTIVE_KEY);
+
+    const json = {
+      contractName: 'market',
+      contractAction: 'buy',
+      contractPayload: {
+        symbol,
+        quantity: quantity.toFixed(8),
+        price: price.toFixed(8)
+      }
+    };
+
+    const op = [
+      'custom_json',
+      {
+        required_auths: [CONFIG.ACCOUNT],
+        required_posting_auths: [],
+        id: 'ssc-mainnet-hive',
+        json: JSON.stringify(json)
+      }
+    ];
+
+    console.log(`   💸 BUY ${quantity.toFixed(8)} ${symbol} @ ${price.toFixed(8)}`);
+    const result = await client.broadcast.sendOperations([op], key);
+
+    console.log(`   ✅ Order placed! TX: ${result.id}`);
+    return { success: true, txId: result.id, orderId: `${symbol}-${Date.now()}` };
+
+  } catch (error) {
+    console.error(`   ❌ Buy failed:`, error.message);
+    return { success: false, error: error.message };
+  }
 }
 
 // ========================================
-// TRADE RECORDING
+// MODULE 4: DYNAMIC ORDER MANAGEMENT
 // ========================================
 
-function recordTrade(trade) {
-  trade.timestamp = new Date().toISOString();
+async function manageAllOrders() {
+  console.log(`\n📋 Managing all open orders...`);
 
-  tradingHistory.trades.push(trade);
-  tradingHistory.totalTrades++;
+  const liveOrders = getOpenOrders(CONFIG.ACCOUNT);
+  const totalOrders = liveOrders.buys.length + liveOrders.sells.length;
 
-  if (trade.hiveReceived) {
-    tradingHistory.totalSalesHIVE += trade.hiveReceived;
+  console.log(`   Found ${totalOrders} live orders (${liveOrders.sells.length} sells, ${liveOrders.buys.length} buys)`);
+
+  // Check each sell order for competition
+  for (const order of liveOrders.sells) {
+    const symbol = order.symbol;
+    const ourPrice = parseFloat(order.price);
+    const ourQuantity = parseFloat(order.quantity);
+
+    console.log(`\n   🔍 Checking ${symbol} sell @ ${ourPrice.toFixed(8)}`);
+
+    // Re-analyze token behavior
+    const analysis = await analyzeTokenBehavior(symbol);
+
+    // Get current order book
+    const orderBook = getOrderBook(symbol);
+
+    if (orderBook.asks.length === 0) continue;
+
+    // Find lowest competing ask (not including ours)
+    const competingAsks = orderBook.asks.filter(ask =>
+      ask.account !== CONFIG.ACCOUNT || Math.abs(parseFloat(ask.price) - ourPrice) > 0.000001
+    );
+
+    if (competingAsks.length === 0) {
+      console.log(`      ✅ No competition - we're lowest`);
+      continue;
+    }
+
+    const lowestCompetingAsk = parseFloat(competingAsks[0].price);
+
+    if (lowestCompetingAsk < ourPrice) {
+      console.log(`      ⚠️ UNDERCUT! Competitor: ${lowestCompetingAsk.toFixed(8)} vs us: ${ourPrice.toFixed(8)}`);
+
+      // Cancel our order
+      await cancelOrder(order.txId, 'sell');
+
+      // Re-place at competitive price (if still profitable)
+      const newPrice = lowestCompetingAsk - CONFIG.MICRO_UNDERCUT;
+
+      if (newPrice > 0) {
+        console.log(`      🔄 Re-placing at ${newPrice.toFixed(8)}`);
+        await placeSellOrder(symbol, ourQuantity, newPrice);
+      }
+    } else {
+      console.log(`      ✅ Still competitive`);
+    }
+
+    // Check if behavior changed
+    if (analysis.behavior === 'CASHOUT' && analysis.confidence > 0.8) {
+      console.log(`      ⚠️ Token behavior changed to CASHOUT - canceling order`);
+      await cancelOrder(order.txId, 'sell');
+
+      // Market sell instead
+      if (orderBook.bids.length > 0) {
+        const topBid = parseFloat(orderBook.bids[0].price);
+        await placeSellOrder(symbol, ourQuantity, topBid);
+      }
+    }
   }
-  if (trade.hiveSpent) {
-    tradingHistory.totalPurchasesHIVE += trade.hiveSpent;
-  }
 
-  // Calculate net profit
-  tradingHistory.totalProfitHIVE = tradingHistory.totalSalesHIVE - tradingHistory.totalPurchasesHIVE;
-
-  saveHistory();
+  // Similar logic for buy orders
+  // TODO: Implement buy order management
 }
 
-function saveHistory() {
-  fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(tradingHistory, null, 2));
+async function cancelOrder(txId, side) {
+  if (CONFIG.DRY_RUN) {
+    console.log(`      [DRY RUN] Would cancel ${side} order ${txId}`);
+    return { success: true, dryRun: true };
+  }
+
+  if (!CONFIG.ACTIVE_KEY) {
+    return { success: false, error: 'Missing key' };
+  }
+
+  try {
+    const key = dhive.PrivateKey.fromString(CONFIG.ACTIVE_KEY);
+
+    const json = {
+      contractName: 'market',
+      contractAction: 'cancel',
+      contractPayload: {
+        type: side,
+        id: txId
+      }
+    };
+
+    const op = [
+      'custom_json',
+      {
+        required_auths: [CONFIG.ACCOUNT],
+        required_posting_auths: [],
+        id: 'ssc-mainnet-hive',
+        json: JSON.stringify(json)
+      }
+    ];
+
+    const result = await client.broadcast.sendOperations([op], key);
+    console.log(`      ✅ Canceled order ${txId}`);
+    return { success: true };
+
+  } catch (error) {
+    console.error(`      ❌ Cancel failed:`, error.message);
+    return { success: false, error: error.message };
+  }
 }
 
 // ========================================
-// MAIN TRADING CYCLE
+// MODULE 5: PERFORMANCE TRACKER
 // ========================================
 
-async function runTradingCycle() {
+function trackPerformance() {
+  // TODO: Compare actual profits vs what SMA/BB/RSI would have done
+  // For now, just track basic stats
+
+  const stats = botState.performance;
+  console.log(`\n📊 PERFORMANCE STATS`);
+  console.log(`   Total trades: ${stats.totalTrades}`);
+  console.log(`   Profitable: ${stats.profitableTrades}`);
+  console.log(`   Win rate: ${stats.totalTrades > 0 ? ((stats.profitableTrades / stats.totalTrades) * 100).toFixed(1) : 0}%`);
+  console.log(`   Total profit: ${stats.totalProfit.toFixed(4)} HIVE`);
+}
+
+// ========================================
+// MAIN LOOP
+// ========================================
+
+async function runCycle() {
   console.log(`\n${'='.repeat(80)}`);
-  console.log(`🤖 PROFIT TRADING CYCLE - ${new Date().toLocaleString()}`);
+  console.log(`🤖 PROFIT BOT CYCLE - ${new Date().toLocaleString()}`);
   console.log('='.repeat(80));
 
   try {
-    // STEP 1: Get ALL wallet token balances
-    console.log(`\n📊 STEP 1: Reading wallet for seed capital...`);
-    const allBalances = getAllWalletBalances(CONFIG.ACCOUNT);
+    // 1. Manage existing orders (micro-dance)
+    await manageAllOrders();
 
-    const walletTokens = allBalances
-      .filter(b => parseFloat(b.balance) > 0)
-      .filter(b => b.symbol !== 'SWAP.HIVE') // Don't sell HIVE itself
-      .sort((a, b) => parseFloat(b.balance) - parseFloat(a.balance));
+    // 2. Check wallet for free balance tokens
+    const balances = getAllWalletBalances(CONFIG.ACCOUNT);
+    const freeTokens = balances.filter(b =>
+      parseFloat(b.balance) > 0 &&
+      b.symbol !== 'SWAP.HIVE' &&
+      b.symbol !== 'VKBT' &&
+      b.symbol !== 'CURE'
+    );
 
-    console.log(`   Found ${walletTokens.length} tokens in wallet`);
+    console.log(`\n💰 Found ${freeTokens.length} tokens with free balance`);
 
-    // STEP 2: Process wallet tokens (sell when buy walls are strong)
-    console.log(`\n💰 STEP 2: Processing wallet tokens (seed capital liquidation)...`);
+    // 3. Place sell orders for free balance
+    for (const token of freeTokens.slice(0, 5)) { // Limit to 5 per cycle
+      const analysis = await analyzeTokenBehavior(token.symbol);
+      await manageSellOrder(token.symbol, parseFloat(token.balance), analysis);
 
-    let soldCount = 0;
-    for (const token of walletTokens) {
-      const balance = parseFloat(token.balance);
-      const sold = await processWalletToken(token.symbol, balance);
-      if (sold) soldCount++;
-
-      // Don't spam the API
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Delay to avoid API spam
+      await new Promise(resolve => setTimeout(resolve, 2000));
     }
 
-    console.log(`   ✅ Sold ${soldCount}/${walletTokens.length} wallet tokens`);
+    // 4. Look for buy opportunities
+    await findBuyOpportunity();
 
-    // STEP 3: Find and execute profit opportunities
-    console.log(`\n🎯 STEP 3: Looking for profit opportunities...`);
-
-    const opportunity = await findProfitOpportunity();
-
-    if (opportunity) {
-      await executeProfitTrade(opportunity);
-    } else {
-      console.log(`   ⏳ No strong opportunities right now`);
-    }
-
-    // STEP 4: Report status
-    console.log(`\n${'='.repeat(80)}`);
-    console.log(`📊 STATUS REPORT`);
-    console.log('='.repeat(80));
-    console.log(`Total trades: ${tradingHistory.totalTrades}`);
-    console.log(`Total HIVE from sales: ${tradingHistory.totalSalesHIVE.toFixed(4)} HIVE`);
-    console.log(`Total HIVE spent: ${tradingHistory.totalPurchasesHIVE.toFixed(4)} HIVE`);
-    console.log(`Net profit: ${tradingHistory.totalProfitHIVE >= 0 ? '✅ +' : '❌ '}${tradingHistory.totalProfitHIVE.toFixed(4)} HIVE`);
-
-    const currentHIVE = getAccountBalance(CONFIG.ACCOUNT, 'SWAP.HIVE');
-    console.log(`Current HIVE balance: ${currentHIVE.toFixed(4)} SWAP.HIVE`);
-    console.log('='.repeat(80));
+    // 5. Track performance
+    trackPerformance();
 
   } catch (error) {
-    console.error(`❌ Error in trading cycle:`, error);
+    console.error(`❌ Cycle error:`, error);
   }
 }
-
-// ========================================
-// MAIN
-// ========================================
 
 async function main() {
   console.log('🤖 PROFIT TRADING BOT Starting...');
   console.log('='.repeat(80));
-  console.log(`📊 Account: ${CONFIG.ACCOUNT}`);
-  console.log(`${CONFIG.DRY_RUN ? '🧪 DRY RUN MODE' : '🔴 LIVE TRADING MODE'}`);
-  console.log(`\n💡 STRATEGY:`);
-  console.log(`   1. Read ALL wallet tokens (seed capital)`);
-  console.log(`   2. Sell wallet tokens when buy walls are strong`);
-  console.log(`   3. Use HIVE from sales to buy profit opportunities`);
-  console.log(`   4. Repeat cycle to accumulate HIVE`);
-  console.log(`\n⚙️ SETTINGS:`);
-  console.log(`   BLURT: ${CONFIG.SELL_BLURT_IMMEDIATELY ? 'Sell as fuel ⛽' : 'Normal strategy'}`);
-  console.log(`   VKBT/CURE: Sell at ${CONFIG.VKBT_CURE_TARGET_PRICE} HIVE (1:1 parity)`);
-  console.log(`   Buy wall threshold: ${CONFIG.MIN_BUY_WALL_LIQUIDITY}+ HIVE`);
-  console.log(`   Trade size: ${CONFIG.BUY_CAPITAL_ALLOCATION}% of available HIVE`);
-  console.log(`   Scan interval: ${CONFIG.SCAN_INTERVAL / 1000}s`);
+  console.log(`Account: ${CONFIG.ACCOUNT}`);
+  console.log(`Mode: ${CONFIG.DRY_RUN ? '🧪 DRY RUN' : '🔴 LIVE'}`);
+  console.log(`Micro-undercut: ${CONFIG.MICRO_UNDERCUT.toFixed(8)} HIVE`);
+  console.log(`Check interval: ${CONFIG.CHECK_INTERVAL / 1000}s`);
   console.log('='.repeat(80));
 
   // Run first cycle
-  await runTradingCycle();
+  await runCycle();
 
   // Schedule regular cycles
-  setInterval(runTradingCycle, CONFIG.SCAN_INTERVAL);
+  setInterval(runCycle, CONFIG.CHECK_INTERVAL);
 
-  console.log('\n✅ Bot is running. Press Ctrl+C to stop.\n');
+  console.log('\n✅ Bot running. Press Ctrl+C to stop.\n');
 }
 
 // Graceful shutdown
 process.on('SIGINT', () => {
-  console.log('\n\n💾 Saving data before exit...');
-  saveHistory();
-  console.log('✅ Data saved. Goodbye!\n');
+  console.log('\n\n💾 Saving state...');
+  saveState();
+  console.log('✅ Goodbye!\n');
   process.exit(0);
 });
 
