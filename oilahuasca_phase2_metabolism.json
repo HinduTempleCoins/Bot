@@ -1,0 +1,79 @@
+{
+  "oilahuasca_phase2_metabolism": {
+    "document_info": {
+      "title": "Glutathione and Phase II Metabolism in Oilahuasca",
+      "compiled_from": "Claude.ai discussions with Rev. Ryan Van Kush",
+      "date": "July 2025"
+    },
+
+    "glutathione_critical_roles": {
+      "role_1_antioxidant": "Neutralizes reactive oxygen species (ROS)",
+      "role_2_phase_ii_substrate": "GSH conjugates with compounds for excretion",
+      "role_3_enzyme_protector": "Traps reactive intermediates that could damage enzymes"
+    },
+
+    "cinnamon_depletion_mechanism": {
+      "pathway": "ROS production → GSH oxidation → Depletion",
+      "result": "No GSH = No Phase II detoxification = Accumulation of metabolites"
+    },
+
+    "myristicin_gst_paradox": {
+      "finding": "Myristicin induces GST (glutathione S-transferase) 4-14 fold",
+      "but": "Cinnamon depletes the substrate (GSH)",
+      "result": "Enzyme present but non-functional (no substrate to work with)"
+    },
+
+    "basil_sult_inhibition": {
+      "mechanism": "Nevadensin (from basil) inhibits sulfotransferase (SULT)",
+      "effect": "Alternative Phase II pathway blocked",
+      "combined_with_gsh_depletion": "Double blockade of Phase II metabolism",
+      "result": "Maximum metabolite accumulation"
+    },
+
+    "complete_phase_ii_shutdown_strategy": {
+      "step_1": "Deplete glutathione with cinnamon (blocks GSH conjugation)",
+      "step_2": "Induce GST with myristicin but without substrate (non-functional)",
+      "step_3": "Inhibit SULT with basil (blocks sulfate conjugation)",
+      "outcome": "Phase II metabolism effectively non-functional → metabolites cannot be cleared"
+    },
+
+    "four_tier_herb_system": {
+      "tier_1_primary_psychoactive_sources": {
+        "herbs": ["Nutmeg (myristicin)", "Parsley seed (apiole)", "Dill seed (dillapiole)", "Sweet flag (if safe variety verified)"],
+        "function": "Provide allylbenzene substrates that convert to aminopropiophenones"
+      },
+      "tier_2_secondary_sources": {
+        "herbs": ["Basil (estragole + SULT inhibition)", "Fennel (estragole + CYP3A4 inhibition)", "Bay leaf", "Allspice", "Betel"],
+        "function": "Provide additional allylbenzenes and enzyme modulation"
+      },
+      "tier_3_cyp450_modulators": {
+        "herbs": ["Coffee (CYP1A2 inducer)", "Cinnamon (multi-CYP inhibitor + GSH depletion)", "Black pepper (CYP3A4 inhibitor)"],
+        "function": "Modulate Phase I metabolism"
+      },
+      "tier_4_phase_ii_modulators": {
+        "herbs": ["Cinnamon (GSH depletion)", "Basil (SULT inhibition)"],
+        "function": "Block Phase II elimination pathways"
+      }
+    },
+
+    "complete_cyp450_modulation_summary": {
+      "primary_pathway_cyp1a2": {
+        "induced_by": "Coffee",
+        "inhibited_by": "Myristicin, Apiole",
+        "result": "Competitive saturation → accumulation"
+      },
+      "backup_pathways": {
+        "cyp3a4": "Inhibited by cinnamon, pepper, fennel, calamus",
+        "cyp2c9": "Inhibited by cinnamon",
+        "cyp2d6": "Inhibited by calamus"
+      },
+      "phase_ii": {
+        "gsh": "Depleted by cinnamon",
+        "sult": "Inhibited by basil"
+      },
+      "net_effect": "All metabolic pathways blocked → Maximum substrate accumulation → Prolonged, enhanced effects"
+    },
+
+    "scientific_basis": "This is the complete scientific basis for oilahuasca!"
+  }
+}
