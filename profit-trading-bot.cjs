@@ -24,8 +24,7 @@ const CONFIG = {
 
   // Trading parameters
   DRY_RUN: process.env.DRY_RUN === 'true', // LIVE trading by default
-  MIN_TRADE_SIZE_HIVE: 0.05, // Minimum 0.05 HIVE per trade
-  MAX_TRADE_SIZE_HIVE: 0.3, // Maximum 0.3 HIVE per trade
+  BASE_TRADE_SIZE_HIVE: 0.01, // Base trade size (will adjust based on confidence)
   MIN_PROFIT_PERCENT: 3.0, // Minimum 3% profit target
 
   // Signal strength thresholds
@@ -533,7 +532,7 @@ async function scanForOpportunities() {
       return volume >= CONFIG.MIN_VOLUME_24H && price > 0;
     })
     .filter(m => !activePositions.hasOwnProperty(m.symbol)) // Don't already have position
-    .filter(m => !['VKBT', 'CURE', 'SWAP.HIVE'].includes(m.symbol)) // Don't trade these
+    .filter(m => m.symbol !== 'SWAP.HIVE') // Don't trade SWAP.HIVE itself
     .slice(0, 20); // Top 20
 
   console.log(`\n🔎 Scanning ${candidates.length} candidate tokens...`);
@@ -550,8 +549,10 @@ async function scanForOpportunities() {
       console.log(`\n🚨 STRONG BUY SIGNAL: ${candidate.symbol}`);
 
       const entryPrice = parseFloat(tokenAnalysis.metrics.lowestAsk || tokenAnalysis.metrics.lastPrice);
-      const tradeSize = CONFIG.MIN_TRADE_SIZE_HIVE +
-        (Math.random() * (CONFIG.MAX_TRADE_SIZE_HIVE - CONFIG.MIN_TRADE_SIZE_HIVE));
+
+      // Scale trade size based on signal strength (60-100 range)
+      const strengthMultiplier = (tokenAnalysis.analysis.signal.strength - 60) / 40; // 0 to 1
+      const tradeSize = CONFIG.BASE_TRADE_SIZE_HIVE * (1 + strengthMultiplier); // 0.01 to 0.02 HIVE
       const quantity = tradeSize / entryPrice;
 
       const result = executeBuy(candidate.symbol, quantity, entryPrice);
