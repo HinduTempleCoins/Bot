@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "title": "Space Paste: Community Oilahuasca Formulation",
+    "source": "r/nutmeg Reddit",
+    "thread_date": "2021 (approximately 3 years ago from 2024)",
+    "original_poster": "CalligrapherBusy8314",
+    "category": "oilahuasca-formulations",
+    "type": "community_recipe"
+  },
+
+  "space_paste_original_recipe": {
+    "description": "Traditional community recipe combining nutmeg with synergistic spices and nuts",
+    "ingredients": {
+      "primary_psychoactive": {
+        "nutmeg": {
+          "parts": 4,
+          "notes": "Ground from whole nutmeg - freshly ground is essential"
+        }
+      },
+      "nuts_fats": {
+        "almonds": {
+          "parts": 4,
+          "preparation": "Soak overnight and rinse",
+          "purpose": "Fat content aids absorption, benzaldehyde compounds"
+        },
+        "raw_pistachios": {
+          "parts": 4,
+          "notes": "Can be swapped for chocolate in improved versions"
+        }
+      },
+      "cyp450_modulators": {
+        "cinnamon": {
+          "parts": 2,
+          "mechanism": "CYP3A4/2C9/2A6 inhibitor, glutathione depleter"
+        },
+        "black_pepper": {
+          "parts": 0.5,
+          "mechanism": "CYP3A4 inhibitor, P-glycoprotein inhibitor, piperidine source"
+        }
+      },
+      "herbs_with_allylbenzenes": {
+        "basil": {
+          "parts": 1,
+          "active_compound": "Estragole - allylbenzene substrate"
+        },
+        "tarragon": {
+          "parts": 1,
+          "active_compound": "Estragole - same as basil"
+        },
+        "oregano": {
+          "parts": 1,
+          "notes": "Contains various phenylpropanoids"
+        }
+      },
+      "additional_spices": {
+        "cumin": {
+          "parts": 1,
+          "notes": "Digestive aid, flavor"
+        },
+        "turmeric": {
+          "parts": 1,
+          "notes": "Anti-inflammatory, CYP modulator"
+        },
+        "cayenne_pepper": {
+          "parts": 0.5,
+          "notes": "Capsaicin increases absorption"
+        }
+      },
+      "sweetener": {
+        "maple_syrup": {
+          "amount": "To taste",
+          "purpose": "Palatability"
+        }
+      }
+    }
+  },
+
+  "dosing_information": {
+    "standard_dose": "2 tablespoons of finished paste",
+    "enhanced_dose": "4 tablespoons (when mixed with chocolate)",
+    "administration": {
+      "parachuting": "Wrap thick paste in rice paper to avoid taste",
+      "chocolate_method": "Fold into tempered chocolate at 92°F for palatability",
+      "wash_down": "Milk helps more than water"
+    }
+  },
+
+  "community_improvements": {
+    "weight_ratios": "Use weight measurements instead of volume for consistency",
+    "chocolate_substitution": {
+      "swap": "Replace pistachios with chocolate",
+      "method": "Temper chocolate, fold in space paste at 92°F until even blend",
+      "benefit": "Much more palatable, easier to consume larger doses"
+    },
+    "preparation_notes": [
+      "Recipe is very hard to swallow without modifications",
+      "Maple syrup alone doesn't solve palatability",
+      "Requires significant liquid to wash down",
+      "Gentle heating can improve texture"
+    ]
+  },
+
+  "theoretical_analysis": {
+    "why_this_recipe_works": {
+      "nutmeg": "Primary source of myristicin, elemicin, 5-methoxyeugenol - three methoxy patterns",
+      "cinnamon": "Depletes glutathione, removes 'brake' on CYP1A2 inhibition",
+      "black_pepper": "CYP3A4 inhibition blocks escape pathway, provides piperidine for adduct formation",
+      "basil_tarragon": "Additional estragole (allylbenzene) substrates",
+      "fats_from_nuts": "Essential for absorption of lipophilic compounds",
+      "almonds_soaked": "Removes enzyme inhibitors, improves digestibility"
+    },
+    "missing_elements_from_full_protocol": {
+      "coffee": "No CYP1A2 induction phase - could add for enhanced effect",
+      "17bHSD2_inducers": "No gallic acid, vitamin D3, vitamin A",
+      "NAD_cofactor": "No niacinamide supplementation",
+      "SULT_inhibitors": "No EGCG/green tea",
+      "SSAO_inhibitor": "No glucosamine for amine protection",
+      "CYP2D6_inhibitor": "No berberine"
+    }
+  },
+
+  "enhanced_space_paste_protocol": {
+    "description": "Theoretical improvement combining space paste with full oilahuasca protocol",
+    "phase_1_preparation": {
+      "timing": "1-4 hours before space paste",
+      "additions": [
+        "Strong coffee (CYP1A2 induction + β-carbolines)",
+        "Niacinamide 500mg (NAD+ for 17bHSD2)",
+        "Vitamin D3 2000 IU (17bHSD2 induction)"
+      ]
+    },
+    "phase_2_with_paste": {
+      "timing": "With space paste consumption",
+      "additions": [
+        "Green tea extract or EGCG 400mg (SULT inhibition)",
+        "Glucosamine 1500mg (SSAO inhibition)",
+        "Berberine 500mg (CYP2D6 inhibition)"
+      ]
+    },
+    "phase_3_amine_provision": {
+      "timing": "3+ hours before OR at time of dosing",
+      "options": [
+        "L-Lysine 1500mg 3+ hours before (colonic piperidine synthesis)",
+        "Black pepper tea (filtered) at dosing time (direct piperidine)"
+      ]
+    }
+  },
+
+  "safety_notes": {
+    "warnings": [
+      "Duration: Effects last 24-72 hours",
+      "Onset: 2-8 hours delayed - do not redose",
+      "Toxicity: Nutmeg toxic at high doses (>10g)",
+      "Drug interactions: CYP inhibition affects all medications",
+      "No driving for 3 days minimum",
+      "Have a sitter present",
+      "Stay hydrated"
+    ],
+    "contraindications": [
+      "Prescription medications (especially SSRIs, MAOIs, benzodiazepines)",
+      "Pregnancy",
+      "Liver conditions",
+      "Psychiatric conditions",
+      "Heart conditions"
+    ]
+  },
+
+  "reddit_discussion_notes": {
+    "palatability_solutions": [
+      "Rice paper parachuting",
+      "Chocolate tempering method",
+      "Milk wash-down better than water"
+    ],
+    "community_experience": "Recipe considered difficult to consume but effective",
+    "historical_note": "One of the earliest documented community oilahuasca formulations on Reddit"
+  }
+}
