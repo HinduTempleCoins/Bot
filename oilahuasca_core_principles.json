@@ -1,0 +1,174 @@
+{
+  "oilahuasca_core_principles": {
+    "document_info": {
+      "title": "Oilahuasca Core Principles and Advanced Concepts",
+      "compiled_from": "Forum posts by OnlineAngelicalist/Angelicalist (Rev. Ryan Van Kush)",
+      "date": "July 2025"
+    },
+
+    "the_fundamental_insight": {
+      "post_date": "07/12/25 04:36 AM",
+      "post_id": "#29277698",
+      "key_statement": "Theoretically You could drink Gallons of Elemi Oil, full of Elemicin, and have no Psychoactive Effect. Same with Myristicin, You Theoretically could get it PURE, and Drink it in Gallons, and have no Effect.",
+      "the_revelation": "But somehow, Nutmeg contains both, and because it contains both, they Activate each other.",
+      "this_activation": "That Activation is the basis of all Oilahuasca Science",
+      "the_question": "People asked 'Why?', as in 'Why is there no Effect from either one, but there is when they are mixed?', that is why Nutmeg comes up",
+      "clarification": "Not because we want People to go get High off of Spoonfulls of Nutmeg, but because the Mechanisms of the Nutmeg 'High' are the basis for all of this Science"
+    },
+
+    "betel_leaf_phytochemicals": {
+      "citation": "https://www.sciencedirect.com/science/article/pii/S2772753X2300357X",
+      "compounds_found": [
+        "estragol",
+        "eugenol",
+        "methyl eugenol",
+        "hydroxy catechol",
+        "caryophyllene",
+        "1,8-cineole",
+        "chavibetol",
+        "chavicol",
+        "hydroxychavicol"
+      ],
+      "note": "Betel nut active compound is arecoline (different from the leaf compounds)"
+    },
+
+    "psilocin_potentiation": {
+      "discovery": "Key CYP enzymes involved in psilocin metabolism",
+      "enzymes": {
+        "CYP2D6": "Extensively metabolizes psilocin",
+        "CYP3A4": "Contributes moderately to psilocin metabolism (approximately 40%)"
+      },
+      "implication": "Oilahuasca herbs that inhibit CYP2D6 and CYP3A4 could POTENTIATE PSILOCYBIN MUSHROOMS",
+      "examples": {
+        "eugenol_from_cloves": "Inhibits CYP2D6 and CYP3A4",
+        "piperine_from_pepper": "Inhibits CYP3A4",
+        "cinnamon": "Inhibits CYP3A4"
+      },
+      "potential": "The 'Perfect context to Discuss Oilahuasca and CYP450 Enzymes'"
+    },
+
+    "eugenol_cyp450_effects": {
+      "source": "Google AI / Scientific Literature",
+      "inhibition": {
+        "enzymes_inhibited": ["CYP1A2", "CYP2C9", "CYP2D6", "CYP3A4"],
+        "dose_dependent": "Higher concentrations result in greater inhibition",
+        "ic50_values": "Reported for CYP2D6 and CYP3A4"
+      },
+      "induction": {
+        "enzyme": "CYP1A1",
+        "context": "Studies in rats - dietary eugenol induces CYP1A1 expression in liver"
+      },
+      "clinical_relevance": {
+        "drug_interactions": "Can affect plasma levels and pharmacological effects of drugs metabolized by these enzymes",
+        "cyp2d6_cyp3a4_substrates": "Eugenol could reduce metabolism, leading to increased drug levels",
+        "cyp1a1_substrates": "Eugenol could increase metabolism of CYP1A1 substrates"
+      }
+    },
+
+    "the_sequence_principle": {
+      "statement": "It matters WHAT ORDER YOU TAKE THINGS IN, it matters WHAT SEQUENCE YOU INGEST THINGS IN",
+      "effects": "Can have Profound, Entheogenic, Psychedelic, Medical, and even Deadly Effect",
+      "historical_claim": "I believe, I can nearly even Prove, Ancient People understood this",
+      "examples": {
+        "maois_and_dmt": "How MAOIs Work to allow DMT to be active",
+        "myrcene_and_thc": "How Myrcene Helps THC cross the Blood Brain Barrier",
+        "cinnamon_vanilla_alcohol": "How Cinnamon or Vanilla Inhibit Glutathione which causes a Person to get drunker for a longer Period of Time"
+      }
+    },
+
+    "shulgin_pseunut_cocktail": {
+      "source": "Erowid PiHKAL Entry #157 (TMA)",
+      "url": "https://www.erowid.org/library/books_online/pihkal/pihkal157.shtml",
+      "experiment": "Shulgin's attempt to challenge the 'oil-to-amphetamine' concept",
+      "recipe": {
+        "composition": "1 part MDA, 2 parts TMA, 5 parts MMDA",
+        "name": "Pseunut Cocktail (pseudo-nutmeg)",
+        "rationale": "Should be equivalent to the safrole, elemicin and myristicin in 5 grams of nutmeg"
+      },
+      "results": {
+        "dose_tested": "100 milligrams total",
+        "effects": "Produced quite a sparkle and considerable eye-dilation",
+        "note": "Shulgin never took 5 grams of nutmeg for comparison"
+      },
+      "failed_experiments": {
+        "methoxyeugenol": "Assayed up to 10mg - no effects",
+        "asarone": "Assayed up to 70mg - no effects"
+      }
+    },
+
+    "mmda_from_pihkal": {
+      "source": "Erowid PiHKAL Entry #132 (MMDA)",
+      "url": "https://erowid.org/library/books_online/pihkal/pihkal132.shtml",
+      "key_quotes": {
+        "brain_movies": "The phrase that had been used by several of the subjects was 'brain movies.' Apparently the richest of the effects were to be had with the eyes closed.",
+        "rabbit_liver_proof": "It has been reported that the passage of this oil [myristicin] through the liver of a rabbit will generate MMDA in that animal.",
+        "structural_relationship": "The only difference between the two molecules, structurally, are the elements of ammonia. Myristicin plus ammonia gives MMDA.",
+        "parsley_rumor": "A rumor that had currency in the 1960's, that parsley could get you high, probably had its origins in the reports of myristicin being present, coupled with myristicin being the principal source of MMDA.",
+        "essential_amphetamine": "The relationship to myristicin (an essential oil) led to the classifying of MMDA as a Essential Amphetamine."
+      },
+      "discovery_context": {
+        "synthesized": "1962 by Shulgin",
+        "parallel_discovery": "Dr. Gordon A. Alles also synthesized and named it MMDA in 1962",
+        "alles_death": "Alles died in 1963 at age 62, before they could share ideas"
+      }
+    },
+
+    "defending_the_science": {
+      "criticism": "69ron is part of an online puppet swarm that generated dangerous pseudoscience",
+      "response": {
+        "shulgin_connection": "The Studies Sasha Shulgin did elaborate on the Subject",
+        "solid_science": "The Oilahuasca Science is Solid - has a lot of Legitimate stuff going on",
+        "expanded_theory": "My Point in expanding on the Theory is to Create a kind of Pharmahuasca that expands beyond Oilahuasca and Ayahuasca",
+        "legitimate_science": "What I am Talking about is the Legitimate Science behind CYP Enzymes",
+        "regardless": "Regardless of other Things 69Ron might have been Wrong about, he absolutely was onto something. It's not just some Snake Oil Salesman pitch, it's Really got Science behind it."
+      }
+    },
+
+    "future_applications": {
+      "statement": "This is the Future",
+      "potentiation_applications": [
+        "Kava Potentiation",
+        "Kratom Potentiation",
+        "Psychedelic Potentiation (mushrooms via CYP2D6/CYP3A4 inhibition)",
+        "Cannabis Potentiation (myrcene for BBB crossing)"
+      ],
+      "research_direction": "Expanding on what was Real in what 69Ron was Studying, using modern CYP450 science"
+    },
+
+    "essential_oil_safety_dosing": {
+      "post_date": "07/15/25 11:59 PM",
+      "post_id": "#29282664",
+      "critical_statement": "You are only supposed to take a few Drops",
+      "context": "As like adding Flavor to Coffee",
+      "warning": "Don't consume essential oils orally in large quantities as it poses significant risks including death",
+      "safety_notes": [
+        "Clove Oil alone is used to Numb Teeth - has legitimate medicinal use",
+        "Nutmeg is not Dangerous unless taken in large quantities",
+        "Essential oils are CONCENTRATED - few drops = significant amount of active compounds"
+      ],
+      "analogies": [
+        "Like Ayahuasca in terms of using MAOIs to make DMT active Orally",
+        "Like taking MAGLs before smoking Marijuana",
+        "Like Terpenes (such as Myrcene) before smoking Marijuana",
+        "Like Depleting Glutathione before drinking Alcohol"
+      ]
+    },
+
+    "old_theory_vs_new_theory": {
+      "old_theory": {
+        "proponents": "Sasha Shulgin and others",
+        "claim": "Allylbenzenes would be turned into Amphetamines when passed through the Human Liver"
+      },
+      "new_theory": {
+        "mechanism": "CYP450 Enzymes and other Mechanisms",
+        "finding": "3 non-Amphetamine Alkaloid Families are Created from Allylbenzenes",
+        "the_three_families": {
+          "family_1": "Dimethylamine conjugates (most polar, fastest clearance, shortest duration)",
+          "family_2": "Piperidine conjugates (intermediate polarity, moderate duration)",
+          "family_3": "Pyrrolidine conjugates (least polar/most lipophilic, best BBB penetration, longest duration)"
+        }
+      },
+      "affirmation": "It's all Real"
+    }
+  }
+}
