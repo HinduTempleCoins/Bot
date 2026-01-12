@@ -24,8 +24,8 @@ const CONFIG = {
 
   // Trading parameters
   DRY_RUN: process.env.DRY_RUN === 'true', // LIVE trading by default
-  MIN_TRADE_SIZE_HIVE: 0.5, // Minimum 0.5 HIVE per trade
-  MAX_TRADE_SIZE_HIVE: 2.0, // Maximum 2 HIVE per trade
+  MIN_TRADE_SIZE_HIVE: 0.05, // Minimum 0.05 HIVE per trade
+  MAX_TRADE_SIZE_HIVE: 0.3, // Maximum 0.3 HIVE per trade
   MIN_PROFIT_PERCENT: 3.0, // Minimum 3% profit target
 
   // Signal strength thresholds
