@@ -33,8 +33,7 @@ async function main() {
 
   const tokens = (balances.result || [])
     .filter(b => parseFloat(b.balance) > 0)
-    .filter(b => b.symbol !== 'SWAP.HIVE')
-    .slice(0, 15);
+    .filter(b => b.symbol !== 'SWAP.HIVE');
 
   console.log(`Found ${tokens.length} tokens in wallet\n`);
 
