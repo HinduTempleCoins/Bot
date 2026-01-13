@@ -211,7 +211,8 @@ async function loadOilahuascaKnowledge() {
     'dmtnexus_changa_enhanced_leaf.json',
     // Botanical and chemical references
     'dmtnexus_5meo_dmt_sources.json',
-    'dmtnexus_jungle_spice.json'
+    'dmtnexus_jungle_spice.json',
+    'dmtnexus_crystallization_salting.json'
   ];
   for (const file of files) {
     try {
