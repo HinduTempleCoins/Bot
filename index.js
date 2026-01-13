@@ -216,7 +216,9 @@ async function loadOilahuascaKnowledge() {
     // Marijuana extraction knowledge
     'marijuana_extraction_history.json',
     // Advanced marijuana growing
-    'marijuana_advanced_growing.json'
+    'marijuana_advanced_growing.json',
+    // Global resins and consciousness art
+    'global_resins_encaustic_consciousness.json'
   ];
   for (const file of files) {
     try {
@@ -345,6 +347,50 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('scrog') || t.includes('screen of green') || t.includes('cinderblock') || t.includes('outdoor grow')) {
     return `🌿 **SCROG & Outdoor Techniques**\n\n**SCROG (Screen of Green)**: Train plants horizontally through screen for even canopy\n\n**Back Country Method**:\n• Take 4ft+ outdoor plant\n• Tie cinderblock to top with rope/fishing line\n• Lay plant sideways\n• Effect: 1 plant → equivalent of 3+ plants\n\n**Origin**: Most marijuana tek comes from tomato farming\n**Additions**: Closet/greenhouse methods added due to illegality`;
+  }
+
+  // Global Resins & Encaustic Consciousness Art
+  if (t.includes('encaustic') || t.includes('beeswax art') || t.includes('wax art')) {
+    return `🕯️ **Encaustic Art - Beeswax Medium**\n\n**Standard Formula**: Beeswax + Damar Resin\n\n**Damar Functions**:\n• Raises melting point (145°F → 180-200°F)\n• Hardening agent\n• Prevents blooming\n• Adds translucency\n\n**Resin Ratios**:\n• Primary: 15-20% by weight\n• Secondary: 5-10%\n• Trace: 1-5%\n• Max total: 30%\n\n**Temperature**: Most resins activate 180-220°F\n\n**Consciousness Application**: Resins contain terpenes that interface with CYP450 enzymes - same mechanism as Oilahuasca!`;
+  }
+  if (t.includes('frankincense') || t.includes('boswellia') || t.includes('olibanum')) {
+    return `🔥 **Frankincense (Boswellia spp.)**\n\n**Species**: B. sacra, B. frereana, B. serrata, B. papyrifera\n\n**Names**:\n• Tigrinya: ዓንበሳ፡ዕፀ (anbesa itse)\n• Amharic: እንዳፋ (indafa)\n\n**Properties**:\n• High heat resistance\n• Consciousness enhancement\n• Hardening agent\n\n**Use**: Ancient temple incense, spiritual conductor\n\n**Encaustic**: Excellent heat resistance enhancer`;
+  }
+  if (t.includes('myrrh') || t.includes('commiphora')) {
+    return `🌿 **Myrrh (Commiphora myrrha)**\n\n**Names**:\n• Amharic: በሰበጣ (besebeta)\n• Somali: Malmal\n\n**Properties**:\n• Anti-septic\n• Anti-inflammatory\n• Preservative\n\n**Use**: Temple incense, consciousness interface, healing\n\n**Related**: Guggul (C. wightii) - Ayurvedic purification resin`;
+  }
+  if (t.includes('copal') || t.includes('protium') || t.includes('breu')) {
+    return `✨ **Copal & Breu Resins**\n\n**Copal Types**:\n• Mesoamerican (Protium, Bursera spp.)\n• Peruvian (Dacryodes peruviana)\n• African (Hymenaea verrucosa)\n\n**Breu Varieties** (Amazonian):\n• **Breu Branco**: White incense - purification, shamanic tool\n• **Breu Preto**: Black incense - grounding, protection\n\n**Properties**: Semi-fossilized, amber-like, good hardener\n\n**Consciousness**: Time-bridging energy, shamanic interface`;
+  }
+  if (t.includes('dragon') && t.includes('blood')) {
+    return `🐉 **Dragon's Blood Resins**\n\n**Two Species**:\n\n**African** (Dracaena cinnabari):\n• Arabic: دم التنين (dam al-tannin)\n• Deep red, high heat resistance\n\n**Asian** (Daemonorops draco):\n• Chinese: 血竭 (xuè jié)\n• Medicinal red resin\n\n**Properties**: Intense red pigmentation, protection, healing\n\n**Encaustic**: Natural red pigment + hardening`;
+  }
+  if (t.includes('copaiba') || t.includes('copaifera')) {
+    return `🌳 **Copaiba (Copaifera spp.)**\n\n**Names**:\n• Portuguese: Copaíba\n• Spanish: Aceite de copaiba\n\n**Key Compound**: HIGH in Beta-caryophyllene!\n\n**Properties**:\n• Anti-inflammatory balsam\n• CB2 receptor agonist (like black pepper!)\n• Plant teacher medicine\n\n**CYP450 Connection**: Beta-caryophyllene bridges to cannabis/Oilahuasca framework\n\n**Use**: Healing art, emotional healing, consciousness interface`;
+  }
+  if (t.includes('palo santo') || t.includes('bursera graveolens')) {
+    return `🪵 **Palo Santo (Bursera graveolens)**\n\n**Meaning**: "Holy Wood" (Spanish)\n\n**Key Compound**: HIGH in Limonene!\n\n**Properties**:\n• Sacred wood resin\n• Purification\n• Consciousness cleansing\n\n**CYP450 Connection**: Limonene is a CYP INDUCER - speeds metabolism\n\n**Use**: Space clearing, protection formulas, uplifting`;
+  }
+  if (t.includes('damar') || t.includes('shorea')) {
+    return `💎 **Damar Gum (Shorea spp.)**\n\n**Origin**: Southeast Asia (Dipterocarpaceae family)\n\n**Standard Encaustic Resin** - most tested and reliable\n\n**Functions**:\n• Raises melting point (145°F → 180-200°F)\n• Hardening agent\n• Prevents blooming\n• Adds translucency and durability\n\n**Ratio**: 10-25% by weight to beeswax\n\n**Related**: Sal Resin (Shorea robusta) - Buddha's birth tree`;
+  }
+  if (t.includes('mastic') || t.includes('pistacia')) {
+    return `🌟 **Mastic (Pistacia lentiscus)**\n\n**Names**:\n• Greek: Μαστίχα (masticha)\n• Arabic: مستكة (mastaka)\n\n**Origin**: Mediterranean (Greece, Turkey)\n\n**Properties**:\n• Hard, clear resin\n• Excellent adhesion\n• Ancient consciousness conductor\n• Preservative\n\n**Encaustic**: 5-15% for hardening without brittleness`;
+  }
+  if (t.includes('amber') || t.includes('fossilized resin')) {
+    return `⏳ **Amber - Ancient Fossilized Resin**\n\n**Types**:\n• Baltic Amber (Pinus succinifera) - German: Bernstein\n• Kauri Gum (Agathis australis) - Māori: Kapia\n• Fossil Copal\n\n**Properties**:\n• Ancient consciousness trapped in resin\n• Time-bridging energy\n• Extreme hardness\n\n**Consciousness**: Contains millions of years of preserved energy\n\n**Encaustic**: Premium hardening, golden color`;
+  }
+  if (t.includes('gum arabic') || t.includes('acacia') && t.includes('gum')) {
+    return `🌾 **Gum Arabic (Acacia spp.)**\n\n**Best Quality**: A. senegal (Gum Hashab)\n\n**Names**:\n• Arabic: الصمغ العربي (al-samgh al-arabi)\n• Hausa: Dakwara\n\n**Properties**:\n• Water-soluble binding agent\n• Emulsification\n• Paint consistency control\n\n**Use**: Not for encaustic (water-soluble), but excellent for watercolor, gouache, ink`;
+  }
+  if (t.includes('benzoin') || t.includes('styrax')) {
+    return `🍯 **Benzoin (Styrax benzoin)**\n\n**Names**:\n• Hindi: लोबान (loban)\n• Arabic: Lubān jāwī\n\n**Properties**:\n• Sweet vanilla-like resin\n• Incense base\n• Consciousness enhancement\n• Sacred space creation\n\n**Use**: Meditation enhancement formulas, temple blends`;
+  }
+  if (t.includes('resin') && (t.includes('consciousness') || t.includes('spiritual') || t.includes('shamanic'))) {
+    return `🔮 **Consciousness Interface Resins**\n\n**Shamanic**: Breu varieties, Palo Santo, Copaiba\n**Temple**: Frankincense, Myrrh, Benzoin\n**Healing**: Sangre de Drago, Guggul, Copaiba\n**Protection**: Breu Preto, Dragon's Blood, Mastic\n\n**CYP450 Connection**:\nMany resins contain terpenes (limonene, beta-caryophyllene, pinene) that modulate CYP450 enzymes - same mechanism as Oilahuasca!\n\n**Application**: Create consciousness-conducting artworks`;
+  }
+  if (t.includes('sangre de drago') || t.includes('croton lechleri') || t.includes('dragon blood tree')) {
+    return `🩸 **Sangre de Drago (Croton lechleri)**\n\n**Names**:\n• Spanish: Sangre de drago/dragón\n• Portuguese: Sangue de dragão\n• Quechua: Racurana\n\n**Properties**:\n• Healing latex\n• Bright red color\n• Wound healing\n\n**Use**: Physical healing art, natural red pigment\n\n**Different from**: Asian/African Dragon's Blood (different species)`;
   }
   return null;
 }
@@ -560,6 +606,52 @@ const cryptologyTopicMap = {
     keywords: ['scrog', 'screen of green', 'training', 'outdoor', 'topping', 'fim'],
     related: ['cannabis_breeding', 'marijuana_extraction'],
     emoji: '🌿'
+  },
+  // Global Resins & Encaustic Consciousness Art
+  encaustic: {
+    keywords: ['encaustic', 'beeswax art', 'wax art', 'wax painting', 'hot wax'],
+    related: ['damar', 'resins', 'consciousness_art'],
+    emoji: '🕯️'
+  },
+  resins: {
+    keywords: ['resin', 'gum', 'balsam', 'tree resin', 'plant resin'],
+    related: ['encaustic', 'frankincense', 'copal', 'consciousness_art'],
+    emoji: '✨'
+  },
+  frankincense: {
+    keywords: ['frankincense', 'boswellia', 'olibanum', 'incense'],
+    related: ['myrrh', 'resins', 'consciousness_art'],
+    emoji: '🔥'
+  },
+  myrrh: {
+    keywords: ['myrrh', 'commiphora', 'guggul'],
+    related: ['frankincense', 'resins', 'healing'],
+    emoji: '🌿'
+  },
+  copal: {
+    keywords: ['copal', 'breu', 'protium', 'breu branco', 'breu preto'],
+    related: ['resins', 'consciousness_art', 'shamanic'],
+    emoji: '✨'
+  },
+  dragons_blood: {
+    keywords: ['dragon blood', 'dracaena', 'daemonorops', 'sangre de drago'],
+    related: ['resins', 'healing', 'protection'],
+    emoji: '🐉'
+  },
+  copaiba: {
+    keywords: ['copaiba', 'copaifera', 'beta-caryophyllene', 'amazonian'],
+    related: ['resins', 'cyp450', 'healing', 'consciousness_art'],
+    emoji: '🌳'
+  },
+  palo_santo: {
+    keywords: ['palo santo', 'holy wood', 'bursera', 'limonene'],
+    related: ['resins', 'cyp450', 'purification'],
+    emoji: '🪵'
+  },
+  consciousness_art: {
+    keywords: ['consciousness art', 'spiritual art', 'shamanic art', 'sacred art'],
+    related: ['encaustic', 'resins', 'frankincense', 'copal'],
+    emoji: '🔮'
   }
 };
 
