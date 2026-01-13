@@ -214,7 +214,9 @@ async function loadOilahuascaKnowledge() {
     'dmtnexus_jungle_spice.json',
     'dmtnexus_crystallization_salting.json',
     // Marijuana extraction knowledge
-    'marijuana_extraction_history.json'
+    'marijuana_extraction_history.json',
+    // Advanced marijuana growing
+    'marijuana_advanced_growing.json'
   ];
   for (const file of files) {
     try {
@@ -314,6 +316,35 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('dr atomic') || t.includes('marijuana multiplier')) {
     return `📚 **Dr. Atomic's Marijuana Multiplier**\n\n**Era**: 1970s counterculture classic\n\n**Content**:\n• Acetone extraction methods\n• Isomerization techniques\n• Potency enhancement methods\n• Solvent selection and safety\n\n**Historical Significance**: Foundational DIY cannabis extraction text\n\n**Personal Note**: "Goldmine of information" - started many extractors' journeys\n\n**Method**: Simple acetone pull → "black goop" → apply to bowls or re-infuse plant material`;
+  }
+
+  // Advanced Marijuana Growing
+  if (t.includes('frass') || t.includes('black soldier fly') || t.includes('bsfl') || t.includes('chitin')) {
+    return `🪰 **Frass & Black Soldier Fly Larvae**\n\n**What is Frass?**: Digested organic matter from BSFL - contains all plant nutrients + chitin\n\n**Chitin Mechanism**:\n• Plant thinks it's being attacked by bugs\n• Triggers defense response → stronger plant\n• Plant digests chitin and uses it (like Venus Flytraps)\n\n**BSFL Composting Advantages**:\n• Can compost MEAT (unlike worms)\n• Can compost WOOD\n• Suppresses rotting smells\n• Fast: half cantaloupe in 8 hours\n\n**Setup**: LED breeding lights mimic BSF mating time for indoor production`;
+  }
+  if (t.includes('silica') || t.includes('silicon') || t.includes('orthosilicic')) {
+    return `💎 **Silica/Silicon for Cannabis**\n\n**Best Form**: OrthoSilicic Acid (OSA/28) - plant-available silicon\n\n**Benefits**:\n• Larger plants\n• Higher yields\n• Stronger cell walls\n• More resistant to physical damage\n• Pest resistance\n\n**Key Insight**: Not all silica forms are absorbed equally - orthosilicic acid is the bioavailable form\n\n**Origin**: Same tech used to grow giant, tear-resistant banana trees`;
+  }
+  if (t.includes('auxin') || t.includes('cytokinin') || t.includes('plant hormone') || t.includes('pgr')) {
+    return `🧬 **Plant Growth Regulators (PGRs)**\n\n**Two Main Types for Cannabis**:\n\n**Auxins** (Root/Cell Growth):\n• Indole-3-Acetic Acid (IAA) - most studied\n• Controls root development, cell elongation\n\n**Cytokinins** (Shoot/Bud Growth):\n• 6-Benzylaminopurine (BAP)\n• Cell division, shoot growth, delays aging\n• Can increase budset and productivity\n\n**Brassinosteroids**: 6th class of plant hormone - understudied for cannabis\n\n⚠️ Not for organic grows. Research before using.`;
+  }
+  if (t.includes('molasses') || t.includes('bud candy') || t.includes('carbohydrate') || t.includes('sugar') && t.includes('plant')) {
+    return `🍯 **Carbohydrates for Cannabis**\n\n**Commercial**: Advanced Nutrients Bud Candy\n\n**DIY Alternatives**:\n• Molasses - not just emergency nutrient!\n• Sucanat (whole cane sugar)\n• Mannitol\n\n**Mechanism**: Feeds soil microbes, provides energy for bud development\n\n⚠️ **Important**: Only for SOIL grows!\nSugar does nothing for synthetic salt/coco grows - just makes a mess.`;
+  }
+  if (t.includes('kelp') || t.includes('seaweed') || t.includes('ascophyllum')) {
+    return `🌊 **Kelp for Cannabis**\n\n**Best Variety**: Ascophyllum Nodosum (Canadian kelp)\n\n**Active Compound**: Cytokinin\n\n**Cytokinin Effect**: Causes plants to bloom - even in petri dishes!\n\n**Harvest Timing**: Higher cytokinin when harvested at right time\n\n**Products**: Growmore Avalanche, various kelp bloom boosters\n\n**Benefits**: Natural source of plant hormones for organic grows`;
+  }
+  if (t.includes('amino acid') && t.includes('plant')) {
+    return `🧪 **Amino Acids for Cannabis**\n\n**L-Glycine**:\n• Amplifies photosynthesis\n• Promotes tissue growth\n• Same glycine in Oilahuasca detox pathway!\n\n**L-Arginine**:\n• Enhances flower growth\n\n**L-Aspartic Acid**:\n• Building block amino\n• Can become any amino acid the plant needs\n\n**Connection**: Amino acids bridge human and plant biochemistry`;
+  }
+  if (t.includes('unified theory') || (t.includes('fertilizer') && t.includes('theory'))) {
+    return `🔬 **Unified Theory of Fertilizer**\n\n**Five Interconnected Areas**:\n\n1. **Marijuana Strains & Terpenes** - Phytochemical profiles\n2. **Yeast & Fermentation** - Nutrient cycling\n3. **Marine Natural Products** - Kelp, seaweed compounds\n4. **CYP450 Enzymes** - CONNECTS TO OILAHUASCA!\n5. **Aromatic Compounds** - Indoles, Tryptamines, Phenethylamines\n\n**Key Insight**: CYP450 enzyme manipulation applies to BOTH human pharmacology AND plant biochemistry\n\n**Application**: Understanding enzymes helps optimize both grows and experiences`;
+  }
+  if (t.includes('breeding') || t.includes('feminize') || t.includes('ga3') || t.includes('gibberellic')) {
+    return `🌱 **Cannabis Breeding & Feminization**\n\n**GA3 (Gibberellic Acid)**:\n• Get feminized seeds from known female\n• Forces female to produce male flowers\n• No hermie genetics passed on\n\n**Breeding Crosses** (SashaShiva):\n• Malawi Gold × Strawberry Diesel\n• Banana Crack × Early Durban\n• Hindu Kush crosses\n\n**Techniques**: See 420 Magazine breeding threads for dominant/recessive trait info`;
+  }
+  if (t.includes('scrog') || t.includes('screen of green') || t.includes('cinderblock') || t.includes('outdoor grow')) {
+    return `🌿 **SCROG & Outdoor Techniques**\n\n**SCROG (Screen of Green)**: Train plants horizontally through screen for even canopy\n\n**Back Country Method**:\n• Take 4ft+ outdoor plant\n• Tie cinderblock to top with rope/fishing line\n• Lay plant sideways\n• Effect: 1 plant → equivalent of 3+ plants\n\n**Origin**: Most marijuana tek comes from tomato farming\n**Additions**: Closet/greenhouse methods added due to illegality`;
   }
   return null;
 }
@@ -488,6 +519,47 @@ const cryptologyTopicMap = {
     keywords: ['dr atomic', 'marijuana multiplier', 'acetone extraction', '1970s'],
     related: ['marijuana_extraction', 'edibles'],
     emoji: '📚'
+  },
+  // Advanced Marijuana Growing Topics
+  frass: {
+    keywords: ['frass', 'black soldier fly', 'bsfl', 'chitin', 'insect compost'],
+    related: ['organic_growing', 'nutrients', 'silica'],
+    emoji: '🪰'
+  },
+  silica: {
+    keywords: ['silica', 'silicon', 'orthosilicic', 'osa', 'cell wall'],
+    related: ['frass', 'nutrients', 'plant_strength'],
+    emoji: '💎'
+  },
+  plant_hormones: {
+    keywords: ['auxin', 'cytokinin', 'pgr', 'plant hormone', 'bap', 'iaa', 'brassinosteroid'],
+    related: ['kelp', 'bloom_boosters', 'unified_theory'],
+    emoji: '🧬'
+  },
+  bloom_boosters: {
+    keywords: ['molasses', 'bud candy', 'carbohydrate', 'sugar plant', 'bloom booster'],
+    related: ['kelp', 'frass', 'nutrients'],
+    emoji: '🍯'
+  },
+  kelp: {
+    keywords: ['kelp', 'seaweed', 'ascophyllum', 'cytokinin natural'],
+    related: ['plant_hormones', 'bloom_boosters', 'organic_growing'],
+    emoji: '🌊'
+  },
+  unified_theory: {
+    keywords: ['unified theory', 'fertilizer theory', 'cyp450 plant'],
+    related: ['cyp450', 'oilahuasca', 'plant_hormones', 'terpenes'],
+    emoji: '🔬'
+  },
+  cannabis_breeding: {
+    keywords: ['breeding', 'feminize', 'ga3', 'gibberellic', 'seeds', 'genetics'],
+    related: ['marijuana_extraction', 'strains'],
+    emoji: '🌱'
+  },
+  scrog: {
+    keywords: ['scrog', 'screen of green', 'training', 'outdoor', 'topping', 'fim'],
+    related: ['cannabis_breeding', 'marijuana_extraction'],
+    emoji: '🌿'
   }
 };
 
