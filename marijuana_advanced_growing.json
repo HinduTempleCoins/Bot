@@ -42,32 +42,80 @@
 
   "frass_and_chitin": {
     "source": "Black Soldier Fly Larvae (BSFL)",
+    "thread": "Frass & Composting - 420 Magazine (Oct 2017 - Jul 2022)",
     "what_is_frass": "Digested organic matter released by larvae, contains all plant nutrients plus chitin",
+    "discovery": "Wikipedia says BSFL make 'valuable product called Frass' - basically plant steroid with tons of nutrients",
     "chitin_mechanism": {
       "trigger": "Plant thinks it's being attacked by bugs",
       "response": "Plant strengthens itself, builds stronger structure",
-      "absorption": "Plant breaks down chitin and uses it (like Venus Flytraps digesting insects)"
+      "absorption": "Plant breaks down chitin and uses it (like Venus Flytraps digesting insects)",
+      "analogy": "Frass comes out of BSFL the same way goo comes out of slugs"
     },
     "benefits": [
       "Full nutrient profile",
       "Chitin for plant defense activation",
       "Natural and organic",
-      "Can be produced from composting"
+      "Can be produced from composting",
+      "Doesn't burn baby roots",
+      "No nutrient block issues",
+      "pH stays balanced"
     ],
     "bsfl_composting": {
       "advantages": [
         "Can compost MEAT (unlike worms)",
         "Can compost WOOD",
         "Suppress rotting smells",
-        "Fast decomposition (half cantaloupe in 8 hours)"
+        "Fast decomposition (half cantaloupe in 8 hours)",
+        "Self-propagating colony"
       ],
-      "food_sources": ["Kitchen scraps", "Meat", "Dead animals", "Feces", "Wood"],
+      "food_sources": ["Kitchen scraps", "Meat", "Fish carcasses", "Dead animals", "Dog poop (dewormer free)", "Old fruit/vegetables", "Wood"],
       "breeding_light": "LED with specific Hz and spectrum mimics BSF breeding time for indoor breeding"
+    },
+    "practical_bin_setup": {
+      "contributor": "Mike N (420 Magazine, Jul 2022)",
+      "container": "2'x4' galvanized water trough",
+      "cover": "Plywood lid held slightly ajar with thin strip of wood",
+      "purpose": "Lets adults in and pupae out",
+      "bedding": "Peat moss",
+      "amendment": "Crushed lump charcoal for inoculated biochar",
+      "harvest_time": "Late winter to prep super soil",
+      "liquid_leachate": "Harvest throughout growing season, apply directly to soil",
+      "pest_notes": "Only minor issues with ants and spiders, no rats/raccoons with covered bin"
+    },
+    "community_results": {
+      "comparison": "On par with DIY Subcool super soil mix",
+      "baby_roots": "Doesn't burn",
+      "nutrients": "No nutrient block",
+      "ph": "Seems okay without adjustment",
+      "pests": "Haven't been an issue",
+      "flowers": "Smooth and potent",
+      "vegetables": "Also love growing with this"
+    },
+    "alternative_chitin_sources": {
+      "contributor": "Stunger (New Zealand, Jul 2020)",
+      "problem": "Frass not available in NZ",
+      "solutions": [
+        "Dried shrimps from Asian food shop (soak to flush salt before amending)",
+        "Crab/crustacean meal",
+        "Let compost into soil 2-3 months before planting"
+      ],
+      "clackamas_coot_tip": {
+        "source": "Interview with Clackamas Coot",
+        "method": "Diastatic Malted Barley contains Chitinase enzyme",
+        "effect": "Makes chitin bioavailable to plants"
+      }
+    },
+    "worm_synergy": {
+      "finding": "Worms really like frass",
+      "method": "Feed BSFL frass to separate worm bin",
+      "result": "Combined BSFL frass + worm castings = excellent soil amendment"
     },
     "resources": [
       "Symton BSF - Compost-grade larvae",
       "EVO BSF - Breeding LED lights",
-      "The Little Worm Farm - Egg collection"
+      "The Little Worm Farm - Egg collection",
+      "Amazon - Frass available",
+      "eBay - BSFL cheap"
     ]
   },
 
