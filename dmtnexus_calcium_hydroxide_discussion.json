@@ -1,0 +1,166 @@
+{
+  "dmtnexus_calcium_hydroxide_discussion": {
+    "document_info": {
+      "title": "Calcium Hydroxide Instead of Lye - Forum Discussion",
+      "source": "DMT-Nexus Forum",
+      "date": "November 14-23, 2009",
+      "thread_starter": "mattritt",
+      "purpose": "Discussion of calcium hydroxide as safer alternative to sodium hydroxide (lye)",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry discussions."
+    },
+
+    "original_question": {
+      "poster": "mattritt",
+      "question": "Would I be able to use Calcium Hydroxide instead of NaOH?",
+      "reason": "Have bunch already, would rather not work with lye",
+      "concern": "Would same proportioning work?"
+    },
+
+    "key_responses": {
+      "69ron_definitive_answer": {
+        "user": "69ron",
+        "credentials": "Senior DMT-Nexus member (5826 posts)",
+        "key_points": {
+          "best_use": "Calcium hydroxide is BEST for STB tek designed specifically for it",
+          "solubility_issue": "Poorly soluble in water - doesn't work well in A/B teks (will work, just not well)",
+          "stb_ratio": "Need about 50:50 calcium hydroxide to powdered bark",
+          "water_amount": "Just enough water to make it WET",
+          "procedure": [
+            "Mix lime and bark 1:1",
+            "Add just enough water to wet",
+            "Let sit few hours, mixing occasionally",
+            "Keep it wet",
+            "Pull with naphtha"
+          ]
+        },
+        "chemistry_explanation": {
+          "dmt_freebase_ph": {
+            "99_percent": "pH 10.68",
+            "99.9_percent": "pH 11.68",
+            "overkill": "Anything pH 12+ is overkill for DMT"
+          },
+          "why_people_use_naoh": "Helps break down plant fibers better - has NOTHING to do with DMT",
+          "mimosa_vs_others": {
+            "mimosa": "Harder to extract - NaOH helps degrade plant matter, making extraction more efficient",
+            "chacruna_chaliponga": "Higher pH makes things WORSE - soap forms from fats, causing emulsions"
+          }
+        }
+      },
+
+      "endlessness_moderator": {
+        "user": "endlessness",
+        "credentials": "Moderator (14191 posts)",
+        "questions_raised": [
+          "How well does calcium hydroxide dissolve in water?",
+          "What pH does it take to?"
+        ],
+        "recommendation": "If using calcium hydroxide, make A/B instead of STB - increases chances of working"
+      },
+
+      "biopsylo_contributions": {
+        "user": "biopsylo",
+        "credentials": "Member (752 posts)",
+        "on_koh": {
+          "quality": "Very high quality reagent",
+          "amount": "Requires about same as NaOH",
+          "safety": "KOH flakes relatively safe to handle even with bare hands",
+          "warning": "Don't try this with NaOH - lye eats tissue"
+        },
+        "sodium_carbonate_success": "Had quite good success with A/B using only sodium carbonate as base",
+        "sodium_carbonate_preparation": "Bake sodium bicarbonate in oven 2 hrs @ 400F in clean baking dish",
+        "ph_values": {
+          "calcium_hydroxide": "12.3-12.4 (per Wikipedia)",
+          "sodium_carbonate": "pH 11.6 @ 45.5g/100ml aqueous solution"
+        }
+      },
+
+      "tryptographer_experiment": {
+        "user": "tryptographer",
+        "credentials": "Member (760 posts)",
+        "experiment": {
+          "method": "Wet lime STB at high temperature",
+          "ratio": "1 part Ca(OH)2 : 1 part MHRB powder : 10 parts water",
+          "result": "PURE WHITE DMT without any yellow oil after freeze prep",
+          "note": "Didn't even stick to bottom",
+          "yield": "Lowish (didn't weigh)",
+          "conclusion": "More experiments needed for reproducibility"
+        },
+        "safety_note": "Calcium hydroxide is strong base - don't let it touch eyes or skin. But doesn't dissolve tissue like lye.",
+        "endorsement": "Calcium hydroxide is one of the most useful substances to the psychonaut!"
+      },
+
+      "touche_guevara_ideas": {
+        "user": "Touche Guevara",
+        "suggestions": [
+          "Maybe freeze-thaw cycles to break down mimosa without NaOH?",
+          "Could perform cactus non-toxic tek with mimosa and lime 1:1",
+          "Use naphtha instead of limonene (limo leaves residue if evaporated)",
+          "Freeze precip instead of salting with vinegar"
+        ]
+      }
+    },
+
+    "base_comparisons": {
+      "sodium_hydroxide_naoh": {
+        "common_name": "Lye",
+        "solubility": "Highly soluble in water",
+        "ph": "~14 in solution",
+        "pros": ["Very effective", "Breaks down plant fibers well"],
+        "cons": ["Extremely caustic", "Eats tissue", "Watched chemical in US (meth precursor)"],
+        "best_for": "STB teks, especially with Mimosa"
+      },
+      "potassium_hydroxide_koh": {
+        "quality": "Very high quality reagent",
+        "amount_needed": "About same as NaOH",
+        "safety": "Flakes relatively safe to handle",
+        "availability": "Less watched than NaOH"
+      },
+      "calcium_hydroxide": {
+        "common_names": ["Pickling lime", "Slaked lime", "Hydrated lime"],
+        "solubility": "Poorly soluble in water",
+        "ph": "12.3-12.4",
+        "pros": ["Doesn't dissolve tissue", "Food grade available", "Not watched chemical"],
+        "cons": ["Doesn't work well in traditional A/B", "Requires specific tek design"],
+        "best_for": "Limtek/dry tek style extractions",
+        "ratio": "1:1 with bark (or 1:2 bark:lime)",
+        "key_technique": "Keep mixture WET, use minimal water"
+      },
+      "sodium_carbonate": {
+        "common_name": "Washing soda",
+        "preparation": "Bake baking soda at 400F for 2 hours",
+        "ph": "~11.6",
+        "use_case": "A/B extractions, product washes",
+        "pros": ["Very safe", "Easy to make", "Food grade"],
+        "cons": ["Lower pH than other bases"]
+      }
+    },
+
+    "key_insights": {
+      "ph_requirements": {
+        "minimum_needed": "pH 10.68 for 99% freebase conversion",
+        "optimal": "pH 11.68 for 99.9% freebase",
+        "overkill": "pH 12+ unnecessary for chemistry, but helps with plant breakdown"
+      },
+      "plant_material_differences": {
+        "mimosa": "Hard fibers - benefits from strong base to break down",
+        "chacruna": "High fat content - high pH causes emulsion-forming soap",
+        "chaliponga": "Similar to chacruna - avoid very high pH"
+      },
+      "calcium_hydroxide_tek_design": {
+        "key_principle": "Due to low water solubility, must be used as PASTE not solution",
+        "water_amount": "Minimal - just enough to wet",
+        "contact_time": "Let sit hours, keep wet, mix occasionally"
+      }
+    },
+
+    "practical_applications": {
+      "for_beginners": "Calcium hydroxide is safer starting point than lye",
+      "for_nontoxic_extraction": "Enables fully food-grade extraction process",
+      "ratio_guidance": {
+        "conservative": "1:1 lime to bark",
+        "69ron_recommendation": "50:50 (same as 1:1)",
+        "other_references": "Some sources say 25g lime per 100g MHRB"
+      }
+    }
+  }
+}
