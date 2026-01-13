@@ -658,6 +658,28 @@ function getOilahuascaResponse(topic) {
   if (t.includes('biblepay') || t.includes('proof of bible')) {
     return `📖 **BiblePay [BBP] - Sister Project**\n\n**Concept**: "Proof of Bible" cryptocurrency\n\n**Connection**: Mentioned in Temple Coin Syllabus\n\n**Model**: Charity mining\n\n**Status 2026**: Near-zero volume, considered inactive/dead\n\n**Problem**: Struggled to maintain secure hashrate\n\n**Lesson**: Novelty concepts need sustainable tokenomics`;
   }
+  // Temple Coin Syllabus Details
+  if (t.includes('armenia') && (t.includes('temple') || t.includes('mining') || t.includes('headquarters'))) {
+    return `🇦🇲 **Armenia - Temple Coin Headquarters Plan**\n\n**Why Armenia**:\n• "IBM of the USSR" - tech infrastructure\n• $0.01/kWh electricity (cheap mining)\n• Corps can buy land outright\n\n**Regional Resources**:\n• Ararat Valley: Gold, Cannabis\n• Sevan: Poppy production\n• Syunik: Minerals, mountain defenses\n\n**Cultural Goal**: Revive Armenian Gampr guardian dogs\n\n**Strategy**: MiniPC mining farms with 2.7% tariff`;
+  }
+  if (t.includes('earthship') || t.includes('cob house') || t.includes('start a town')) {
+    return `🏠 **How to Start a Town - Temple Coin Guide**\n\n**Political Tactics**:\n• Run for Sheriff/Judge/DA (often unopposed)\n• Local roles = more daily power than President\n\n**Infrastructure**:\n• Earthships: Tire/cement houses, self-sustaining\n• Cob houses: Clay and straw\n• 6+ acres to incorporate as town\n\n**Ecological Engineering**:\n• Guinea chickens: Tick/spider control\n• San Pedro cactus: Natural fencing\n• Dragonflies: Pest control`;
+  }
+  if (t.includes('spice cabinet') || (t.includes('shulgin') && t.includes('essential'))) {
+    return `🌿 **Shulgin's Spice Cabinet - Essential Oil Alchemy**\n\n**Theory**: Nature provides scaffolding - add amine to essential oils\n\n**Conversions**:\n• Nutmeg (Myristicin) → MMDA\n• Sassafras (Safrole) → MDA\n• Parsley/Dill (Apiole) → DMMDA\n• Calamus (Asarone) → TMA-2\n\n**Philosophy**: Blurs synthetic/natural line\n\n**Shulgin Motto**: "Make 'em and taste 'em"\n\n⚠️ This is historical/educational - many now controlled`;
+  }
+  if (t.includes('thcv') || (t.includes('breeding') && t.includes('cannabis'))) {
+    return `🌱 **THCv Breeding Program - Lost Genetics**\n\n**Goal**: High THCv (Tetrahydrocannabivarin) cannabis\n\n**Landrace Strains**:\n• Malawi (African)\n• Kwazulu (South African)\n\n**Comparison**: Like creating Girl Scout Cookies\n\n**Claim**: Accessing "hidden genes" to change medical market\n\n**THCv Properties**: Appetite suppressant, different high profile`;
+  }
+  if (t.includes('analogue act') || t.includes('α-et') || t.includes('alpha-et')) {
+    return `⚖️ **Federal Analogue Act Strategy**\n\n**Case Study**: α-ET (Monase antidepressant)\n\n**1992 Denver Case**: "Substantially similar" undefined\n• Similar in structure? Effect? Both?\n• Charges dismissed for vagueness\n\n**Temple Strategy**: Use unscheduled compounds with legal defense\n\n**Precedent**: Temple of True Inner Light (NYC) uses DPT as sacrament`;
+  }
+  if (t.includes('taco truck') || t.includes('meme magic') && t.includes('temple')) {
+    return `🌮 **#TacoTrucksOnEveryCorner - Meme Engineering**\n\n**Claim**: Created viral 2016 hashtags\n\n**Hashtags**: #Fuckabee, #TacoTrucksOnEveryCorner\n\n**Origin**: Turned Trump surrogate remark into Google+ joke\n\n**Result**: Co-opted by Democratic party marketing\n\n**Demonstration**: Advanced Knowledge Engineering and Meme Magic\n\n**Lesson**: Ideas can be injected into global consciousness`;
+  }
+  if (t.includes('biological converter') || t.includes('venter') || t.includes('dna print')) {
+    return `🧬 **Digital Biological Converter - Venter Model**\n\n**Concept**: DNA as downloadable/printable software\n\n**Process**:\n1. Download DNA sequences from cloud\n2. Print using biological converter\n3. Create medicine, food, organisms\n\n**Biological Sovereignty**: Print own medicine, no supply chains\n\n**Mars Connection**: Send digital DNA to rebuild life on other planets\n\n**Vision**: Biology is just code`;
+  }
   return null;
 }
 
