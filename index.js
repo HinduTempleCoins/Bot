@@ -192,7 +192,13 @@ async function loadOilahuascaKnowledge() {
     'oilahuasca_herb_analysis.json',
     'oilahuasca_safety_profile.json',
     'oilahuasca_experience_reports.json',
-    'oilahuasca_sources.json'
+    'oilahuasca_sources.json',
+    // DMT-Nexus Extraction Teks (reference material)
+    'oilahuasca_dmtnexus_extraction_teks.json',
+    // Consciousness & Entity Research
+    'entity_communication_historical_figures.json',
+    'consciousness_space_colonization.json',
+    'consciousness_linguistics_archaeology.json'
   ];
   for (const file of files) {
     try {
