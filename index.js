@@ -212,7 +212,9 @@ async function loadOilahuascaKnowledge() {
     // Botanical and chemical references
     'dmtnexus_5meo_dmt_sources.json',
     'dmtnexus_jungle_spice.json',
-    'dmtnexus_crystallization_salting.json'
+    'dmtnexus_crystallization_salting.json',
+    // Marijuana extraction knowledge
+    'marijuana_extraction_history.json'
   ];
   for (const file of files) {
     try {
@@ -274,6 +276,44 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('5-meo') || t.includes('5meo') || t.includes('bufo')) {
     return `🐸 **5-MeO-DMT**\n\n**Sources**:\n• Bufo alvarius toad (5-15% in glands)\n• Various plants (Anadenanthera, Virola, some Acacias)\n\n**Key Differences from N,N-DMT**:\n• MUCH more potent (5-15mg vs 30-50mg)\n• Different character - more "white light" dissolution\n• Less visual, more ego-dissolution\n\n**Highest Sources**:\n• Bufo toad glands: 5-15%\n• A. peregrina roots: 0.678%\n• Nyakwana snuff: 9.68%\n\n⚠️ EXTREME CAUTION - very potent. Never combine with MAOIs!`;
+  }
+
+  // Marijuana Extraction Knowledge
+  if (t.includes('marijuana extraction') || t.includes('cannabis extraction') || t.includes('weed extraction') || (t.includes('marijuana') && t.includes('extract'))) {
+    return `🌿 **Marijuana Extraction Overview**\n\n**Methods by Era**:\n• **1970s**: Acetone pulls, Dr. Atomic's Marijuana Multiplier\n• **1990s-2000s**: Butter/oil infusions, polar/non-polar separation\n• **2010s**: BHO (shatter/wax), dry ice hash, bubble hash (Matt Rize)\n• **2020s**: CO2 closed-loop, distillate, 510 vapes\n\n**Key Techniques**:\n• Dry ice + bubble bags → kief\n• Ice water + agitation → bubble hash\n• Butane extraction → shatter/wax (DANGEROUS indoors!)\n• Separatory funnel + naphtha → golden oil\n• Short-path distillation → pure distillate\n\n**CYP450 Connection**: Cannabis shares enzyme manipulation principles with Oilahuasca!`;
+  }
+  if (t.includes('bho') || t.includes('butane') || t.includes('shatter') || t.includes('dab')) {
+    return `💨 **BHO - Butane Hash Oil**\n\n**Products**: Shatter, Wax, Budder, Live Resin\n\n**Process**:\n1. Pack marijuana in extraction tube\n2. Blast with butane\n3. Evaporate/purge solvent\n4. Vacuum purge for safety\n\n**Results**: High-potency concentrate (60-90% THC)\n\n⚠️ **EXTREME DANGER**:\n• Butane is heavier than air - pools on floor\n• ANY spark = explosion\n• Many deaths from indoor BHO\n• NEVER extract indoors with butane\n\n**Legal Note**: BHO extraction heavily regulated due to accidents`;
+  }
+  if (t.includes('bubble hash') || t.includes('ice hash') || t.includes('matt rize') || t.includes('ice water hash')) {
+    return `🧊 **Bubble Hash / Ice Water Extraction**\n\n**Method**: Agitation + ice water separates trichomes\n\n**Equipment**:\n• Bubble bags (various micron sizes)\n• Ice water\n• Agitation device (Matt Rize used camping washing machine)\n\n**Process**:\n1. Mix trim/flower with ice water\n2. Agitate to knock off trichomes\n3. Filter through bubble bags\n4. Collect hash from each micron level\n\n**Result**: Clean bubble hash, wax consistency\n**Advantage**: Solventless - no chemicals needed`;
+  }
+  if (t.includes('dry ice') || t.includes('kief')) {
+    return `❄️ **Dry Ice Hash Extraction**\n\n**Equipment**:\n• Bubble bags\n• Dry ice (solid CO2)\n• Mirror or glass table for collection\n\n**Process**:\n1. Put ground marijuana in bubble bag with dry ice\n2. Shake over mirror/glass surface\n3. Trichomes freeze and fall through micron screen\n4. Collect kief from surface\n\n**Result**: Fine kief/hash powder\n**Note**: Quick and effective but can include plant material`;
+  }
+  if (t.includes('distillate') || t.includes('510') || t.includes('vape cart')) {
+    return `💉 **Cannabis Distillate**\n\n**What It Is**: Purified cannabinoids via short-path distillation\n\n**Purity**: 90-99% cannabinoid content\n**Appearance**: Clear, viscous oil\n\n**Advantages**:\n• Higher purity than any solvent extraction\n• Works perfectly in 510 vape cartridges\n• Can isolate specific cannabinoids\n• Consistent potency\n\n**Comparison**: Surpassed the 1940s-70s polar/non-polar methods\n\n**Modern Standard**: 510 thread vapes became industry standard`;
+  }
+  if (t.includes('delta-8') || t.includes('delta 8') || t.includes('delta-10') || t.includes('thcp') || t.includes('thc-jd') || t.includes('hemp derived')) {
+    return `🧬 **Hemp-Derived Cannabinoids**\n\n**Legal Context**: 2018 Farm Bill opened hemp market\n\n**Compounds**:\n• **Delta-8-THC**: Milder than D9, less anxiety (converted from CBD)\n• **Delta-10-THC**: More energetic/sativa-like\n• **THCp**: 33x more potent than D9 (longer alkyl chain)\n• **THC-JD**: 8-carbon chain, claimed extremely potent\n\n**Production**: Most isomerized from CBD isolate\n\n**Note**: Legality varies by state - research local laws`;
+  }
+  if (t.includes('myrcene') || (t.includes('mango') && (t.includes('thc') || t.includes('weed') || t.includes('high')))) {
+    return `🥭 **Myrcene & THC Potentiation**\n\n**Mechanisms**:\n1. Opens Blood-Brain Barrier → more THC reaches brain\n2. Inhibits CYP450 → slows THC breakdown\n3. Activates alpha-2 adrenergic receptors → sedation\n\n**Route Matters**:\n• **Smoked/Vaped**: INCREASED potency (slower metabolism)\n• **Edibles**: May DECREASE potency (blocks 11-OH-THC formation)\n\n**Mango Myth**: Mangoes likely have insufficient myrcene to matter\n\n**Sources**: Lemongrass, hops, cannabis terpenes\n\n**Personal Finding**: BHO + lemongrass was notably stronger`;
+  }
+  if (t.includes('black pepper') || (t.includes('pepper') && (t.includes('anxiety') || t.includes('high') || t.includes('too high')))) {
+    return `🌶️ **Black Pepper for Cannabis Anxiety**\n\n**The Remedy**: Chew/smell black peppercorns when too high\n\n**Active Compound**: Beta-caryophyllene\n\n**Mechanism**:\n• CB2 receptor agonist\n• Modulates THC-induced anxiety\n• Anti-inflammatory effects\n\n**How to Use**:\n• Chew 2-3 whole peppercorns\n• Or just smell cracked pepper\n\n**Note**: Folk remedy with actual pharmacological basis`;
+  }
+  if (t.includes('cannabutter') || t.includes('canna butter') || t.includes('butter extraction') || t.includes('edible')) {
+    return `🧈 **Cannabutter & Edibles**\n\n**Classic Method**:\n1. Decarboxylate flower (240°F, 40 min)\n2. Simmer with butter/oil on low heat\n3. Strain through cheesecloth\n4. Refrigerate to solidify\n\n**Oil vs Butter**: Oil often works better (higher fat content coconut oil)\n\n**Dosing**: Start low (5-10mg THC), wait 2 hours\n\n**Why Edibles Hit Different**:\nLiver converts THC → 11-OH-THC (more potent metabolite)\n\n**Note**: CYP450 inhibitors (grapefruit, myrcene) may affect edible potency`;
+  }
+  if (t.includes('kava') && (t.includes('weed') || t.includes('cannabis') || t.includes('marijuana') || t.includes('thc'))) {
+    return `🍵 **Kava + Cannabis Interactions**\n\n**Yangonin Discovery**: This kavalactone binds to CB1 receptors!\n\n**Combined Effects**:\n• Enhanced relaxation\n• Different character than either alone\n• Potentially synergistic\n\n**CYP450 Concern**:\n• Both affect liver enzymes\n• Kavalactones inhibit multiple CYPs\n• Potential for drug interactions\n\n**Research Status**: Limited formal studies on combination`;
+  }
+  if (t.includes('thc') && t.includes('cyp')) {
+    return `🧬 **THC & CYP450 Metabolism**\n\n**THC Metabolism**:\n• Primary: CYP2C9 → 11-OH-THC (ACTIVE)\n• Secondary: CYP2C19, CYP3A4\n• Final: → THC-COOH (inactive, detected in drug tests)\n\n**THC Inhibits**: CYP1A2, CYP2B6, CYP2C9, CYP2D6\n\n**CBD Inhibits**: CYP3A4, CYP2B6, CYP2C9, CYP2D6, CYP2E1\n\n**2025 Research**: Monoterpenoids (myrcene, limonene, pinene) directly activate CB1 receptor!\n\n**Oilahuasca Parallel**: Both systems use CYP450 manipulation\n• Oilahuasca: INDUCE then INHIBIT CYP1A2\n• Cannabis: Primarily INHIBIT CYP2C9/3A4`;
+  }
+  if (t.includes('dr atomic') || t.includes('marijuana multiplier')) {
+    return `📚 **Dr. Atomic's Marijuana Multiplier**\n\n**Era**: 1970s counterculture classic\n\n**Content**:\n• Acetone extraction methods\n• Isomerization techniques\n• Potency enhancement methods\n• Solvent selection and safety\n\n**Historical Significance**: Foundational DIY cannabis extraction text\n\n**Personal Note**: "Goldmine of information" - started many extractors' journeys\n\n**Method**: Simple acetone pull → "black goop" → apply to bowls or re-infuse plant material`;
   }
   return null;
 }
@@ -392,6 +432,62 @@ const cryptologyTopicMap = {
     keywords: ['smoke', 'vaporize', 'oral', 'sublingual', 'insufflat', 'buccal', 'roa', 'route'],
     related: ['changa', 'pharmahuasca', 'dosing'],
     emoji: '🎯'
+  },
+  // Marijuana Extraction Topics
+  marijuana_extraction: {
+    keywords: ['marijuana extraction', 'cannabis extraction', 'weed extraction', 'thc extraction', 'hash'],
+    related: ['bho', 'bubble_hash', 'distillate', 'edibles', 'myrcene'],
+    emoji: '🌿'
+  },
+  bho: {
+    keywords: ['bho', 'butane', 'shatter', 'wax', 'dab', 'budder', 'live resin'],
+    related: ['marijuana_extraction', 'distillate', 'concentrates'],
+    emoji: '💨'
+  },
+  bubble_hash: {
+    keywords: ['bubble hash', 'ice hash', 'ice water', 'matt rize', 'bubble bag', 'solventless'],
+    related: ['marijuana_extraction', 'dry_ice_hash', 'kief'],
+    emoji: '🧊'
+  },
+  dry_ice_hash: {
+    keywords: ['dry ice', 'kief', 'dry sift', 'trichome'],
+    related: ['bubble_hash', 'marijuana_extraction'],
+    emoji: '❄️'
+  },
+  distillate: {
+    keywords: ['distillate', '510', 'vape cart', 'short path', 'thc oil'],
+    related: ['marijuana_extraction', 'hemp_cannabinoids'],
+    emoji: '💉'
+  },
+  hemp_cannabinoids: {
+    keywords: ['delta-8', 'delta 8', 'delta-10', 'thcp', 'thc-jd', 'hemp derived', 'cbd'],
+    related: ['distillate', 'marijuana_extraction'],
+    emoji: '🧬'
+  },
+  myrcene: {
+    keywords: ['myrcene', 'mango', 'lemongrass', 'terpene', 'potentiate', 'entourage'],
+    related: ['marijuana_extraction', 'cyp450', 'edibles'],
+    emoji: '🥭'
+  },
+  edibles: {
+    keywords: ['edible', 'cannabutter', 'butter', 'brownie', 'oil infusion', '11-oh-thc'],
+    related: ['marijuana_extraction', 'myrcene', 'cyp450'],
+    emoji: '🧈'
+  },
+  cannabis_cyp450: {
+    keywords: ['thc cyp', 'cbd cyp', 'cannabis metabolism', 'thc liver', '11-oh-thc'],
+    related: ['cyp450', 'myrcene', 'edibles', 'oilahuasca'],
+    emoji: '🧬'
+  },
+  kava_cannabis: {
+    keywords: ['kava weed', 'kava cannabis', 'yangonin', 'kavalactone thc'],
+    related: ['myrcene', 'cannabis_cyp450'],
+    emoji: '🍵'
+  },
+  dr_atomic: {
+    keywords: ['dr atomic', 'marijuana multiplier', 'acetone extraction', '1970s'],
+    related: ['marijuana_extraction', 'edibles'],
+    emoji: '📚'
   }
 };
 
