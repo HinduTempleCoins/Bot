@@ -497,7 +497,7 @@
     "identity": "immakingacoin / Sasha Gallagher is Van Kush Family",
     "timeline": {
       "2017": "Temple Coin Pre-Announcement",
-      "2018": "Temple Coin Syllabus",
+      "2018": "Temple Coin Syllabus and Commercial Launch (January 20)",
       "2020": "Van-Kush v. DEA lawsuit",
       "2024": "Pivot to HIVE-Engine (VKBT, CURE)"
     },
@@ -512,5 +512,493 @@
       "from_legal_battle": "To educational 501(c)(3) approach",
       "from_physical_infrastructure": "To digital infrastructure focus"
     }
+  },
+
+  "advanced_extraction_methods": {
+    "ten_on_one_standardization": {
+      "concept": "Reduce 10 lbs of herb to 1 lb standardized extract",
+      "process": "QWET (Quick Wash Ethanol) using food-grade alcohol",
+      "result": "Consistent dosing regardless of plant variation",
+      "use_case": "Patients know exact dose every time"
+    },
+    "isomerization": {
+      "technique": "Convert CBD to delta-9-THC using acid catalysis",
+      "legality_loophole": "Hemp-derived CBD (legal) converted to THC",
+      "delta_8_connection": "Similar process creates delta-8 THC",
+      "pharma_parallel": "Standard technique in pharmaceutical industry"
+    },
+    "short_path_distillation": {
+      "purpose": "Purify cannabinoids to 95%+ purity",
+      "equipment": "Lab-grade glassware, vacuum pumps",
+      "result": "Crystal-clear distillate",
+      "commercial_application": "Foundation of legal cannabis concentrate industry"
+    },
+    "philosophy": "Nature provides raw materials, chemistry refines them"
+  },
+
+  "bsfl_frass_chitin": {
+    "bsfl": "Black Soldier Fly Larvae",
+    "frass": {
+      "definition": "Insect excrement - concentrated plant nutrients",
+      "npk_boost": "High nitrogen, phosphorus, potassium",
+      "application": "Organic fertilizer for cannabis cultivation"
+    },
+    "chitin": {
+      "source": "Insect exoskeletons (also in crustaceans)",
+      "plant_response": "Triggers systemic acquired resistance (SAR)",
+      "mechanism": "Plant thinks insects are attacking, increases defenses",
+      "result": "Stronger terpene production, pest resistance"
+    },
+    "circular_economy": {
+      "process": "BSFL eat food waste, produce frass",
+      "harvest": "Larvae become protein source or fish food",
+      "waste_reduction": "Closes agricultural loop"
+    }
+  },
+
+  "plant_growth_regulators": {
+    "auxins": {
+      "natural_source": "IAA (Indole-3-Acetic Acid) from tryptophan",
+      "function": "Root development, stem elongation",
+      "diy_source": "Willow bark extract (contains natural auxins)"
+    },
+    "cytokinins": {
+      "example": "6-BAP (6-Benzylaminopurine)",
+      "function": "Cell division, shoot growth, delay senescence",
+      "application": "Increase node production, bushier plants"
+    },
+    "gibberellins": {
+      "function": "Stem elongation, seed germination",
+      "cannabis_use": "Force male flowers on female plants for feminized seeds"
+    },
+    "amino_acids": {
+      "building_blocks": "Proteins, enzymes, terpenes",
+      "chelation": "Help plants absorb micronutrients",
+      "stress_recovery": "Speed healing from environmental damage"
+    },
+    "brassinosteroids": {
+      "type": "Steroid hormones in plants",
+      "function": "Growth, stress tolerance, pathogen resistance",
+      "research_frontier": "Less studied than auxins/cytokinins"
+    }
+  },
+
+  "genetic_engineering_vision": {
+    "glowing_plant_reference": {
+      "project": "Kickstarter project for bioluminescent plants",
+      "technique": "Agrobacterium-mediated gene transfer",
+      "significance": "Proved DIY genetic engineering possible"
+    },
+    "gene_transfer_methods": {
+      "electroporation": "Electric pulses open cell membranes for DNA insertion",
+      "gene_gun": "Shoot DNA-coated particles into cells",
+      "agrobacterium": "Natural plant pathogen delivers genes"
+    },
+    "temple_vision": {
+      "goal": "Engineer novel cannabinoid pathways",
+      "precedent": "Yeast engineered to produce opioids (UC Berkeley)",
+      "application": "Biosynthesis of rare cannabinoids without plants"
+    }
+  },
+
+  "commercial_launch_2018": {
+    "date": "January 20, 2018",
+    "inauguration_timing": "Aligned with presidential inauguration anniversary",
+    "temple_strains": {
+      "la_reina_dido": {
+        "meaning": "The Queen Dido (Carthaginian founder)",
+        "genetics": "THCv-focused breeding",
+        "seeds": "Feminized seeds for distribution"
+      }
+    },
+    "launch_components": [
+      "Graphene blockchain activation",
+      "Seed distribution to members",
+      "Witness node establishment"
+    ]
+  },
+
+  "ind_program_strategy": {
+    "ind": "Investigational New Drug application",
+    "dea_quota": {
+      "process": "Researchers must get DEA quota to possess Schedule I",
+      "bottleneck": "DEA controls who can research"
+    },
+    "temple_argument": {
+      "anti_trust": "DEA monopoly on research = restraint of trade",
+      "religious_research": "Temple conducting 'religious research' on sacraments",
+      "fda_parallel": "Religious use as form of clinical trial"
+    }
+  },
+
+  "iachr_international_strategy": {
+    "body": "Inter-American Commission on Human Rights",
+    "jurisdiction": "OAS member states including USA",
+    "temple_petition": {
+      "argument": "US violating international human rights obligations",
+      "precedent": "IACHR has ruled against US before",
+      "goal": "International pressure on domestic policy"
+    },
+    "peyote_way_precedent": {
+      "case": "Peyote Way Church of God",
+      "outcome": "Non-Native American church won limited peyote exemption",
+      "significance": "Religious exemption possible outside NAC"
+    },
+    "temple_of_true_inner_light": {
+      "sacrament": "DPT (N,N-Dipropyltryptamine)",
+      "status": "Operating in NYC for decades",
+      "significance": "Proof that gray-area sacraments can persist"
+    }
+  },
+
+  "technical_bible": {
+    "overview": "Curated reading list for Temple technical skills",
+    "programming_stack": {
+      "powershell": "Windows automation and system administration",
+      "python": "Data science, web scraping, bot development",
+      "csharp": "Enterprise applications, Unity game dev",
+      "sql": "Database management",
+      "javascript": "Web development, Discord bots"
+    },
+    "enterprise_tools": {
+      "pmbok": "Project Management Body of Knowledge",
+      "sparx_enterprise_architect": "UML and system modeling",
+      "oracle": "Enterprise database and applications"
+    },
+    "knowledge_engineering": {
+      "expert_systems": "Encoding human expertise into software",
+      "ontologies": "Structured knowledge representation",
+      "inference_engines": "Automated reasoning from rules"
+    },
+    "github_resources": {
+      "open_source_synthesis": "Chemistry literature repositories",
+      "bot_frameworks": "Discord, Telegram, HIVE bot code",
+      "blockchain_tutorials": "Graphene, HIVE-Engine examples"
+    }
+  },
+
+  "tdcs_brain_enhancement": {
+    "technology": "Transcranial Direct Current Stimulation",
+    "mechanism": "Low electrical current through scalp to modulate brain activity",
+    "temple_application": {
+      "enhanced_meditation": "Facilitate altered states",
+      "accelerated_learning": "Speed skill acquisition",
+      "mood_regulation": "Non-pharmacological intervention"
+    },
+    "diy_community": {
+      "resources": "r/tDCS, DIY headset designs",
+      "safety": "Low current (1-2 mA) generally safe",
+      "caution": "Proper electrode placement critical"
+    },
+    "connection_to_sacraments": "Synergy between electrical and chemical approaches to consciousness"
+  },
+
+  "tax_strategy_501c3": {
+    "organization_type": "501(c)(3) Religious Educational Organization",
+    "benefits": {
+      "tax_exempt": "No federal income tax on donations",
+      "donor_deduction": "Contributors can deduct donations",
+      "credibility": "Official nonprofit status"
+    },
+    "temple_application": {
+      "educational_mission": "Teaching blockchain, chemistry, agriculture",
+      "religious_mission": "Angelicalism / Shaivite practices",
+      "hybrid_model": "Educational wrapper for religious activities"
+    },
+    "strategic_advantage": {
+      "versus_church": "Educational nonprofits face less IRS scrutiny",
+      "documentation": "Clear paper trail for all activities",
+      "mainstream_integration": "Can work with schools and corporations"
+    }
+  },
+
+  "temple_dao_2026_evolution": {
+    "discovery": "TempleDAO emerged as separate project (not Van Kush affiliated)",
+    "metrics_2026": {
+      "market_cap": "$92-96 million USD",
+      "token_price": "Approximately $3.92",
+      "nature": "DeFi protocol on Ethereum"
+    },
+    "relationship_to_temple_coin": {
+      "coincidence": "Name similarity but different project",
+      "validation": "Temple concept resonated with broader crypto",
+      "lesson": "Ideas spread even when original project doesn't"
+    },
+    "van_kush_position": {
+      "not_affiliated": "TempleDAO is separate from Shaivite Temple",
+      "philosophical_alignment": "Similar themes of sovereignty and community",
+      "opportunity": "Potential collaboration or distinction needed"
+    }
+  },
+
+  "anti_bitcoiner_recruitment": {
+    "strategy": "Target people skeptical of mainstream crypto",
+    "reasoning": {
+      "fresh_minds": "No preconceptions about how crypto 'should' work",
+      "mission_focus": "Attracted to purpose, not speculation",
+      "diverse_skills": "Bring non-technical expertise"
+    },
+    "vivekananda_tesla_connection": {
+      "historical": "Swami Vivekananda influenced Nikola Tesla",
+      "lesson": "Eastern spirituality + Western technology = innovation",
+      "application": "Temple merges Hindu philosophy with blockchain tech"
+    }
+  },
+
+  "trade_instrument_philosophy": {
+    "core_principle": "Currency as tool, not end goal",
+    "contrast": {
+      "bitcoin_maximalism": "Bitcoin is the point",
+      "temple_view": "Coin serves community, not vice versa"
+    },
+    "practical_application": {
+      "local_currencies": "City coins for local trade",
+      "specialized_tokens": "Purpose-built for specific uses",
+      "interoperability": "Exchange between community currencies"
+    }
+  },
+
+  "wada_human_optimization": {
+    "source": "World Anti-Doping Agency ban list as optimization guide",
+    "philosophy": "What's banned for athletes = most effective for performance",
+    "categories": {
+      "biological_performance": {
+        "blood_doping": "Enhanced oxygen delivery to muscles",
+        "artificial_oxygen_carriers": "Synthetic alternatives to hemoglobin"
+      },
+      "hormonal_control": {
+        "sarms": "Selective Androgen Receptor Modulators for testosterone effects",
+        "aromatase_inhibitors": "Control estrogen conversion",
+        "purpose": "Hormonal balance without full steroid commitment"
+      },
+      "myostatin_inhibitors": {
+        "example": "YK-11",
+        "effect": "Remove genetic limit on muscle growth",
+        "claim": "Gorilla-strength potential"
+      },
+      "metabolic_modulators": {
+        "purpose": "Optimize energy systems",
+        "application": "Not just sports - healthy citizens of sovereign town"
+      }
+    }
+  },
+
+  "five_step_roadmap_sovereignty": {
+    "overview": "Concrete order of operations for Town creation",
+    "step_1_tech_base": {
+      "location": "Armenia",
+      "action": "Launch cryptocurrency company",
+      "goal": "Build exchanges, relaunch STEEM/Bitshares algorithms"
+    },
+    "step_2_physical_base": {
+      "location": "Armenia farm",
+      "activities": ["Dog breeding (Armenian Gampr)", "Horse breeding", "Plant cultivation"],
+      "funding": "Gemstone import/export business"
+    },
+    "step_3_global_networking": {
+      "method": "Backpacking recruitment trips",
+      "target": "International founders and commodity traders",
+      "route": "Silk Road connections"
+    },
+    "step_4_micronation": {
+      "options": ["Localized towns", "Private island purchase"],
+      "legal": "Municipal incorporation or sovereign territory"
+    },
+    "step_5_expansion": {
+      "ocean": "Seasteading - floating sovereign platforms",
+      "space": "Beyond terrestrial jurisdiction entirely"
+    }
+  },
+
+  "religion_definition_criteria": {
+    "purpose": "Meet DEA/Supreme Court criteria for religious exemption",
+    "five_pillars": {
+      "ultimate_ideas": "Addresses life, purpose, and death",
+      "metaphysical_beliefs": "Reality beyond physical world",
+      "moral_ethical_system": "Specific prescribed way of living",
+      "comprehensive_beliefs": "Answers to fundamental human problems",
+      "accouterments": "External signs, symbols, and rituals"
+    },
+    "application": "Framework ensures First Amendment protection"
+  },
+
+  "werewolf_ointment_pharmacology": {
+    "historical_context": "Medieval 'flying ointments' analyzed through modern science",
+    "key_insight": "CYP450 enzyme inhibition",
+    "mechanism": {
+      "parsley_role": "Not psychoactive itself - acts as potentiator",
+      "enzyme_inhibition": "Prevents liver from breaking down other compounds",
+      "prolonged_effect": "Henbane, opium, hemlock effects extended"
+    },
+    "delivery": "Lard-based ointment for transdermal absorption",
+    "ritual_framework": "Circles, iron pots, spells provide mental context",
+    "connection": "Bridge between Oilahuasca theory and historical practices"
+  },
+
+  "golem_creative_mysticism": {
+    "source": "Jewish mysticism - Talmud and Zohar",
+    "concept": "Power to create through language and ritual",
+    "golem": {
+      "definition": "Homunculus from virgin soil",
+      "mechanism": "221 gates of the alphabet",
+      "significance": "Universe created through specific 'names' or frequencies"
+    },
+    "temple_application": "Community not just building - invoking reality through laws, symbols, technology"
+  },
+
+  "tabernacle_construction": {
+    "source": "Exodus 26 - biblical dimensions as tech spec",
+    "acacia_significance": {
+      "hebrew": "Shittim wood",
+      "dmt_content": "Acacia trees contain high concentrations of DMT",
+      "burning_bush_theory": "Moses' encounter was chemical event",
+      "fire_resistant": "Tree produces fire-resistant gases - burns without consuming"
+    },
+    "materials": {
+      "silver_bases": "Foundation elements",
+      "gold_overlays": "Sacred coating",
+      "goat_hair_curtains": "Specific insulation"
+    },
+    "modern_application": "Blueprint for physical Temple location"
+  },
+
+  "laboratory_equipment_list": {
+    "purpose": "Professional-grade sacrament production",
+    "extraction_equipment": {
+      "soxhlet_extractor": "Continuous solvent extraction",
+      "rotary_evaporator": "Solvent recovery and concentration",
+      "vacuum_purge_system": "Remove residual solvents"
+    },
+    "advanced_chemistry": {
+      "schlenk_line": "Air-sensitive chemistry under inert atmosphere",
+      "distillation_apparatus": "Purification of compounds"
+    },
+    "goal": "Pharmaceutical precision for religious sacraments",
+    "targets": ["DMT", "Muscimol", "5-OH-DMT", "Extracted alkaloids"]
+  },
+
+  "datura_kali_path": {
+    "plant": "Datura (Angel's Trumpet)",
+    "deity_association": "Goddess Kali - destruction and transformation",
+    "experience_type": "Delirium (not hallucination)",
+    "characteristics": {
+      "phantom_objects": "Smoking non-existent cigarettes",
+      "ghost_encounters": "Meeting deceased relatives",
+      "physical_spirituality": "More 'real' feeling than psychedelics"
+    },
+    "dosage_range": "2-5 flowers (highly variable - dangerous)",
+    "warning": "Acknowledged as poison - for extreme practitioners",
+    "comparison": "Similar to extreme fasting for spiritual encounter"
+  },
+
+  "ayurvedic_bhasma_nanotech": {
+    "concept": "Ancient nano-medicine",
+    "definition": "Metal-based preparations reduced to nanoparticles",
+    "traditional_metals": ["Gold (Swarna)", "Silver (Rajata)", "Iron (Loha)", "Copper (Tamra)"],
+    "process": "Multiple calcinations with herbal juices",
+    "modern_parallel": "Nanoparticle drug delivery systems",
+    "temple_view": "Ancient civilizations had advanced chemistry"
+  },
+
+  "nootropics_detailed_stack": {
+    "acetylcholine_optimization": {
+      "alpha_gpc": "Choline source for neurotransmitter synthesis",
+      "piracetam": "Original racetam - enhances ACh receptor sensitivity",
+      "goal": "Perfect memory and dream recall"
+    },
+    "egyptian_soul_connection": {
+      "sheut": "The Shadow aspect of soul",
+      "ba": "Personality - can be preserved",
+      "technology": "Modern nootropics as soul-enhancement"
+    }
+  },
+
+  "recruitment_freemasonic_model": {
+    "principle": "Must ask to join (not recruited)",
+    "vetting_process": {
+      "social_visit": "Temple leaders visit applicant's family/roommates",
+      "purpose": "Ensure stable social integration",
+      "community_buy_in": "Not individual hobby but family commitment"
+    },
+    "legal_structure": {
+      "registration": "Shaivite Temple registered as Colorado Non-Profit",
+      "function": "Legal vessel for Temple Coins as religious currency"
+    },
+    "membership_tiers": "ID card system with multiple levels"
+  },
+
+  "ethnobotanical_compendium": {
+    "stimulants_adaptogens": ["Guyusa", "Yerba Mate", "Guarana", "Guayusa"],
+    "dream_herbs_oneirogens": {
+      "imphepho": "Hotentot Tea - African dream herb",
+      "calea_zacatechichi": "Bitter Calea - Aztec dream grass",
+      "silene_capensis": "African dream root"
+    },
+    "historical_brews": {
+      "soma": "Vedic - possibly Amanita or Ephedra mixture",
+      "ambrosia": "Greek - possibly opium and honey",
+      "kykeon": "Eleusinian - possibly ergot-based"
+    }
+  },
+
+  "celestial_mechanics_astrology": {
+    "principle": "As Above, So Below",
+    "seven_heavenly_bodies": {
+      "saturday": {"planet": "Saturn", "metal": "Lead"},
+      "sunday": {"planet": "Sun", "metal": "Gold"},
+      "monday": {"planet": "Moon", "metal": "Silver"},
+      "tuesday": {"planet": "Mars", "metal": "Iron"},
+      "wednesday": {"planet": "Mercury", "metal": "Quicksilver"},
+      "thursday": {"planet": "Jupiter", "metal": "Tin"},
+      "friday": {"planet": "Venus", "metal": "Copper"}
+    },
+    "solar_wall": {
+      "concept": "Track 365-day year by marking sunrises",
+      "method": "Physical wall as horizon calendar",
+      "civilizations": ["Mayan", "Egyptian", "Stonehenge builders"]
+    }
+  },
+
+  "piezoelectric_magic_stones": {
+    "concept": "Bridge between mysticism and physics",
+    "quartz_properties": {
+      "piezoelectricity": "Generates electricity under pressure",
+      "applications": ["Radio oscillators", "Watches", "Solar cells"]
+    },
+    "mantis_shrimp_vision": {
+      "color_perception": "16 base colors vs human 3",
+      "implication": "Technology could expand human perception"
+    },
+    "temple_view": "Ancient 'magic stones' had real physical properties"
+  },
+
+  "tibetan_dream_yoga": {
+    "purpose": "Dream World as secondary meeting place",
+    "progression": {
+      "step_1": "Realize you are dreaming (Lucidity)",
+      "step_2": "Overcome fear (Walk through fire, jump off cliffs)",
+      "step_3": "Manipulate physics (Shrink mountains, change suns)"
+    },
+    "raom_gaom_mantra": "Specific ritual for dream recall",
+    "group_dreaming": "Goal of shared dream experiences among members"
+  },
+
+  "panchaloha_sacred_metallurgy": {
+    "definition": "Five Metals alloy for Hindu temple Murtis",
+    "traditional_composition": ["Gold", "Silver", "Copper", "Iron", "Lead"],
+    "modern_variations": "Zinc or Tin sometimes substituted",
+    "thokcha_sky_iron": {
+      "tradition": "Tibetan",
+      "material": "Meteoric iron",
+      "purpose": "Infuse objects with celestial energy"
+    }
+  },
+
+  "sessions_memo_context": {
+    "date": "January 4, 2018",
+    "event": "AG Jeff Sessions rescinded Cole Memorandum",
+    "impact": "Removed federal protection for state-legal cannabis",
+    "temple_response": "Immediate pivot to religious exemption strategy",
+    "significance": "Explains urgency of RFRA and religious framing"
   }
 }

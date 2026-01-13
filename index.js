@@ -680,6 +680,86 @@ function getOilahuascaResponse(topic) {
   if (t.includes('biological converter') || t.includes('venter') || t.includes('dna print')) {
     return `🧬 **Digital Biological Converter - Venter Model**\n\n**Concept**: DNA as downloadable/printable software\n\n**Process**:\n1. Download DNA sequences from cloud\n2. Print using biological converter\n3. Create medicine, food, organisms\n\n**Biological Sovereignty**: Print own medicine, no supply chains\n\n**Mars Connection**: Send digital DNA to rebuild life on other planets\n\n**Vision**: Biology is just code`;
   }
+  // Temple Coin Advanced Syllabus topics
+  if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
+    return `⚡ **tDCS - Transcranial Direct Current Stimulation**\n\n**Mechanism**: Low current (1-2 mA) through scalp modulates brain activity\n\n**Temple Applications**:\n• Enhanced meditation states\n• Accelerated learning\n• Mood regulation (non-pharmacological)\n\n**DIY Community**: r/tDCS, DIY headset designs\n\n**Synergy**: Combines with sacramental approaches to consciousness\n\n⚠️ Proper electrode placement is critical`;
+  }
+  if (t.includes('501(c)(3)') || t.includes('501c3') || t.includes('nonprofit') || t.includes('tax exempt')) {
+    return `🏛️ **501(c)(3) Tax Strategy - Temple Structure**\n\n**Organization Type**: Religious Educational Nonprofit\n\n**Benefits**:\n• Tax-exempt status\n• Donor deductions\n• Official credibility\n\n**Temple Application**:\n• Educational: blockchain, chemistry, agriculture\n• Religious: Angelicalism/Shaivite practices\n\n**Strategic Advantage**: Educational nonprofits face less IRS scrutiny than churches\n\n**Integration**: Work with schools and corporations`;
+  }
+  if (t.includes('templedao') || t.includes('temple dao')) {
+    return `🏛️ **TempleDAO - 2026 Status**\n\n**Discovery**: Separate DeFi project (NOT Van Kush affiliated)\n\n**Metrics**:\n• Market Cap: $92-96 million USD\n• Token Price: ~$3.92\n• Platform: Ethereum DeFi\n\n**Relationship**: Name coincidence, different project\n\n**Validation**: Temple concept resonated broadly in crypto\n\n**Van Kush Position**: Not affiliated but philosophically aligned`;
+  }
+  if (t.includes('la reina dido') || t.includes('reina dido') || t.includes('queen dido') || t.includes('temple strain')) {
+    return `👑 **La Reina Dido - Temple Strain**\n\n**Meaning**: "The Queen Dido" (Carthaginian founder)\n\n**Genetics**: THCv-focused breeding program\n\n**Distribution**: Feminized seeds for members\n\n**Launch Date**: January 20, 2018 (inauguration anniversary)\n\n**Significance**: First official Temple cannabis strain\n\n**Legacy**: Foundation of Temple's botanical program`;
+  }
+  if (t.includes('cbd to thc') || t.includes('isomerization') || t.includes('delta 8') || t.includes('hemp loophole')) {
+    return `🔄 **CBD to THC Isomerization**\n\n**Technique**: Acid catalysis converts CBD → delta-9-THC\n\n**Hemp Loophole**: Legal hemp CBD → controlled THC\n\n**Delta-8 Connection**: Similar process creates delta-8 THC\n\n**Pharma Standard**: Standard technique in pharmaceutical industry\n\n**Temple Strategy**: Understanding chemistry = sovereignty\n\n⚠️ Legal status varies by jurisdiction`;
+  }
+  if (t.includes('short path') || t.includes('distillation') || t.includes('10 on 1') || t.includes('standardization')) {
+    return `🧪 **Advanced Extraction - Temple Methods**\n\n**10-on-1 Standardization**:\n• Reduce 10 lbs herb → 1 lb standardized extract\n• QWET (Quick Wash Ethanol) with food-grade alcohol\n• Result: Consistent dosing every time\n\n**Short Path Distillation**:\n• Purify cannabinoids to 95%+ purity\n• Crystal-clear distillate\n• Industry standard\n\n**Philosophy**: Nature provides materials, chemistry refines`;
+  }
+  if (t.includes('electroporation') || t.includes('gene gun') || t.includes('agrobacterium') || t.includes('gene transfer')) {
+    return `🧬 **Gene Transfer Methods - Temple Biotech**\n\n**Electroporation**: Electric pulses open cell membranes for DNA insertion\n\n**Gene Gun**: Shoot DNA-coated particles into cells\n\n**Agrobacterium**: Natural plant pathogen delivers genes\n\n**Glowing Plant Reference**: Kickstarter proved DIY genetic engineering possible\n\n**Temple Vision**: Engineer novel cannabinoid pathways\n\n**Precedent**: UC Berkeley engineered yeast to produce opioids`;
+  }
+  if (t.includes('iachr') || t.includes('inter-american') || t.includes('human rights commission')) {
+    return `🌎 **IACHR - International Strategy**\n\n**Body**: Inter-American Commission on Human Rights\n\n**Jurisdiction**: OAS member states including USA\n\n**Temple Petition**: US violating international human rights obligations\n\n**Precedent**: IACHR has ruled against US before\n\n**Goal**: International pressure on domestic drug policy\n\n**Significance**: Taking the fight beyond US courts`;
+  }
+  if (t.includes('peyote way') || t.includes('non-native exemption') || t.includes('religious exemption')) {
+    return `🌵 **Peyote Way Precedent**\n\n**Case**: Peyote Way Church of God\n\n**Outcome**: Non-Native American church won limited peyote exemption\n\n**Significance**: Religious exemption possible outside Native American Church\n\n**Temple of True Inner Light**: NYC church using DPT sacrament for decades\n\n**DPT Status**: Historically occupied legal gray area\n\n**Temple Strategy**: Replicate model with specific legal compounds`;
+  }
+  if (t.includes('ind program') || t.includes('dea quota') || t.includes('anti-trust') || t.includes('research monopoly')) {
+    return `⚖️ **IND Program Strategy - Anti-Trust Angle**\n\n**IND**: Investigational New Drug application\n\n**DEA Quota**: Researchers need DEA approval to possess Schedule I\n\n**Temple Argument**:\n• DEA monopoly = restraint of trade\n• Religious research on sacraments\n• Religious use as form of clinical trial\n\n**Anti-Trust**: DEA controlling who can research = market manipulation`;
+  }
+  if (t.includes('technical bible') || t.includes('knowledge engineering') || t.includes('temple programming')) {
+    return `📚 **Technical Bible - Temple Skills**\n\n**Programming Stack**:\n• PowerShell: Windows automation\n• Python: Data science, bots\n• C#: Enterprise, Unity\n• SQL: Databases\n• JavaScript: Web, Discord bots\n\n**Enterprise Tools**:\n• PMBOK: Project Management\n• Sparx Enterprise Architect\n• Oracle: Enterprise systems\n\n**Knowledge Engineering**: Encoding expertise into software`;
+  }
+  if (t.includes('commercial launch') || t.includes('january 20 2018') || t.includes('january 2018')) {
+    return `🚀 **Temple Coin Commercial Launch**\n\n**Date**: January 20, 2018 (inauguration anniversary)\n\n**Components**:\n• Graphene blockchain activation\n• Seed distribution (La Reina Dido)\n• Witness node establishment\n\n**Significance**: Transition from planning to operational phase\n\n**Vision**: Complete sovereign ecosystem launch`;
+  }
+  if (t.includes('vivekananda') || t.includes('tesla') && t.includes('spiritual')) {
+    return `⚡ **Vivekananda-Tesla Connection**\n\n**Historical**: Swami Vivekananda influenced Nikola Tesla\n\n**Meeting**: 1893-1896 discussions on energy and consciousness\n\n**Tesla's Interest**: Eastern concepts of Prana and Akasha\n\n**Lesson**: Eastern spirituality + Western technology = innovation\n\n**Temple Application**: Merging Hindu philosophy with blockchain technology`;
+  }
+  // Additional Temple Coin Syllabus triggers
+  if (t.includes('wada') || t.includes('human optimization') || t.includes('myostatin') || t.includes('yk-11') || t.includes('sarms')) {
+    return `💪 **WADA Human Optimization - Temple Approach**\n\n**Philosophy**: What's banned for athletes = most effective\n\n**Categories**:\n• Blood Doping/Oxygen Carriers\n• SARMs (testosterone effects)\n• Myostatin Inhibitors (YK-11) - remove muscle limits\n• Metabolic Modulators\n\n**Goal**: Optimized citizens for sovereign town\n\n**Source**: WADA ban list as "shopping list"`;
+  }
+  if (t.includes('five step') || t.includes('roadmap') && t.includes('sovereignty') || t.includes('order of operations')) {
+    return `🗺️ **Five-Step Roadmap to Sovereignty**\n\n**Step 1**: Tech Base (Armenia) - crypto company\n**Step 2**: Physical Base - farm, breeding, gemstones\n**Step 3**: Global Networking - backpacking recruitment\n**Step 4**: Micronation - town or island purchase\n**Step 5**: Expansion - Seasteading then Space\n\n**Vision**: From digital currency to extraterrestrial sovereignty`;
+  }
+  if (t.includes('werewolf') || t.includes('flying ointment') || t.includes('lycanthrop')) {
+    return `🐺 **Werewolf Ointment - CYP450 Connection**\n\n**Historical**: Medieval "flying ointments" analyzed\n\n**Key Insight**: CYP450 enzyme inhibition\n\n**Mechanism**:\n• Parsley inhibits liver enzymes\n• Extends effects of Henbane, Opium, Hemlock\n• Lard base for transdermal delivery\n\n**Connection**: Bridge between Oilahuasca and historical practices`;
+  }
+  if (t.includes('tabernacle') || t.includes('acacia') && t.includes('dmt') || t.includes('burning bush') || t.includes('shittim')) {
+    return `🌳 **Tabernacle Construction - Acacia/DMT Theory**\n\n**Source**: Exodus 26 as "tech spec"\n\n**Acacia Significance**:\n• Hebrew: Shittim wood\n• Contains high DMT concentrations\n• "Burning Bush" = vaporized DMT\n• Fire-resistant gases\n\n**Materials**: Silver bases, gold overlays, goat-hair curtains\n\n**Modern**: Blueprint for physical Temple`;
+  }
+  if (t.includes('golem') || t.includes('221 gates') || t.includes('name magic')) {
+    return `🧱 **Golem Mysticism - Creative Power**\n\n**Source**: Talmud and Zohar\n\n**Concept**: Power to create through language\n\n**Golem**: Homunculus from virgin soil via 221 gates of alphabet\n\n**Significance**: Universe created through "names" (frequencies)\n\n**Temple Application**: Not just building - invoking reality through laws, symbols, technology`;
+  }
+  if (t.includes('datura') || t.includes('angel trumpet') || t.includes('kali path') || t.includes('delirium')) {
+    return `🌙 **Datura - The Kali Path**\n\n**Plant**: Angel's Trumpet\n**Deity**: Goddess Kali - destruction/transformation\n\n**Experience**: Delirium (not hallucination)\n• Phantom objects (smoking non-existent cigarettes)\n• Ghost encounters\n• More "real" feeling\n\n**Dosage**: 2-5 flowers (HIGHLY DANGEROUS)\n\n⚠️ Acknowledged poison - extreme practitioners only`;
+  }
+  if (t.includes('bhasma') || t.includes('ayurvedic nano') || t.includes('ancient nano')) {
+    return `🧬 **Ayurvedic Bhasma - Ancient Nanotech**\n\n**Concept**: Metal-based nano-medicine\n\n**Process**: Multiple calcinations with herbal juices\n\n**Traditional Metals**:\n• Swarna (Gold)\n• Rajata (Silver)\n• Loha (Iron)\n• Tamra (Copper)\n\n**Modern Parallel**: Nanoparticle drug delivery\n\n**Temple View**: Ancients had advanced chemistry`;
+  }
+  if (t.includes('dream yoga') || t.includes('lucid dream') || t.includes('raom gaom')) {
+    return `💭 **Tibetan Dream Yoga - Temple Practice**\n\n**Purpose**: Dream World as secondary meeting place\n\n**Progression**:\n1. Realize you're dreaming (Lucidity)\n2. Overcome fear (walk through fire)\n3. Manipulate physics (shrink mountains)\n\n**RAOM GAOM Mantra**: For dream recall\n\n**Goal**: Shared dreams among Temple members`;
+  }
+  if (t.includes('panchaloha') || t.includes('five metals') || t.includes('thokcha') || t.includes('sky iron') || t.includes('meteoric')) {
+    return `⚗️ **Panchaloha - Sacred Metallurgy**\n\n**Definition**: Five Metals alloy for Hindu Murtis\n\n**Composition**: Gold, Silver, Copper, Iron, Lead\n\n**Thokcha (Sky-Iron)**:\n• Tibetan tradition\n• Meteoric iron in sacred objects\n• Infuses celestial energy\n\n**Temple Application**: Sacred objects with cosmic connection`;
+  }
+  if (t.includes('sessions memo') || t.includes('cole memo') || t.includes('january 4 2018')) {
+    return `📜 **Sessions Memo Context - January 4, 2018**\n\n**Event**: AG Jeff Sessions rescinded Cole Memorandum\n\n**Impact**: Removed federal protection for state-legal cannabis\n\n**Temple Response**: Immediate pivot to religious exemption strategy\n\n**Significance**: Explains urgency of RFRA and religious framing\n\n**Result**: Religious law became only viable shield`;
+  }
+  if (t.includes('lab equipment') || t.includes('soxhlet') || t.includes('rotovap') || t.includes('schlenk')) {
+    return `🧪 **Temple Laboratory Equipment**\n\n**Extraction**:\n• Soxhlet Extractor - continuous extraction\n• Rotary Evaporator - solvent recovery\n• Vacuum Purge - remove residuals\n\n**Advanced**:\n• Schlenk Line - air-sensitive chemistry\n• Distillation apparatus\n\n**Goal**: Pharmaceutical precision for sacraments`;
+  }
+  if (t.includes('seasteading') || t.includes('floating') && t.includes('platform') || t.includes('sealand') || t.includes('blue seed')) {
+    return `🚢 **Seasteading - Ocean Sovereignty**\n\n**Concept**: Floating sovereign platforms\n\n**Case Studies**:\n• Sealand - legal micronation precedent\n• Blue Seed ships - tech incubators\n• Kowloon - extreme urban density\n\n**Temple Step 5**: Beyond terrestrial jurisdiction\n\n**Vision**: Ocean base before space expansion`;
+  }
+  if (t.includes('antinomy') || t.includes('conflictus legem') || t.includes('sub rosa') || t.includes('hidden church')) {
+    return `⚖️ **Antinomy Brief - Legal Strategy**\n\n**Concept**: Church Law as sovereign power\n\n**Key Arguments**:\n• Comity Inter Gentes - religions predate states\n• Sub Rosa - secrecy from persecution ≠ insincerity\n• Gerrymandering - corps allowed, churches banned\n\n**Causes**: RFRA violation, Medical Monopoly, Volstead Precedent\n\n**Latin Maxims**: Ab Initio, Ultra Vires, Conflictus Legem`;
+  }
   return null;
 }
 
