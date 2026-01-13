@@ -248,7 +248,9 @@ async function loadOilahuascaKnowledge() {
     // HIVE-Engine ecosystem
     'hive_engine_ecosystem.json',
     // Van Kush consulting services
-    'vankush_consulting_services.json'
+    'vankush_consulting_services.json',
+    // DevCoin complete history
+    'devcoin_history.json'
   ];
   for (const file of files) {
     try {
@@ -591,8 +593,30 @@ function getOilahuascaResponse(topic) {
   if (t.includes('memeable money') || t.includes('property dollar')) {
     return `💵 **Memeable Money & Property Dollars**\n\n**Memeable Money**: Local business tokens driven by hashtags/social media\n\n**Property Dollars**: Currencies backed by real land/businesses\n\n**Example**: Pizza parlor accepting its own token\n\n**PIZZA Token Lesson**: Failed by NOT linking to physical business\n\n**Van Kush Model**: Tokens must have real-world backing to succeed`;
   }
-  if (t.includes('devcoin') || t.includes('bounty system') || t.includes('csv payout')) {
-    return `📜 **DevCoin Lessons - Historical Context**\n\n**Model**: 1,000 words per share - paid Wikipedia\n\n**Innovation**: Streaming income from consistent writing\n\n**Peak**: $0.0015 in 2014 (massive gains for early writers)\n\n**Death**: Hyper-inflation without burn mechanism\n\n**Golden Ratio Code**: Fair payout order (not alphabetical)\n\n**Lesson**: Burn mechanics essential - HIVE-Engine tokens learned this`;
+  // DevCoin Complete History
+  if (t.includes('devcoin') && (t.includes('history') || t.includes('what is') || t.includes('about'))) {
+    return `📜 **DevCoin - The First Proof-of-Value Cryptocurrency (2011-2014)**\n\n**Innovation**: First crypto to pay writers for content\n\n**Tokenomics**:\n• SHA-256 merge-mined with Bitcoin\n• 50,000 DVC per block (no halving)\n• 90% to writers/devs, 10% to miners\n\n**DevTome**: Paid Wikipedia - writers earned shares per word\n\n**Peak**: $0.0015 in 2014\n**Death**: Hyper-inflation without burn mechanism\n\n**Van Kush Connection**: FinShaggy scaled it from 15 to 75+ writers before being banned`;
+  }
+  if (t.includes('devcoin') || t.includes('devtome') && t.includes('wiki')) {
+    return `📚 **DevTome - The Paid Wikipedia**\n\n**Model**: Writers earned DVC shares based on word count\n\n**Rate (Round 24)**: ~$13 per share, ~$3 per hour\n\n**Global Arbitrage**: $3/hour = great money in emerging countries\n\n**Streaming Income**: Consistent writing = continuous payment stream\n\n**Limitation**: English-only rule killed global potential\n\n**Legacy**: Vision lives on through HIVE blogging rewards`;
+  }
+  if (t.includes('receiver file') || t.includes('devcoin payout') || t.includes('csv payout')) {
+    return `📋 **DevCoin Receiver File System**\n\n**Innovation**: First to use Receiver Files in coinbase transactions\n\n**Round System**: Every 4,000 blocks (~1 month)\n\n**Formula**: Total Rewards / Total Shares = Value per Share\n\n**Golden Ratio Algorithm**: Fair payout order (not alphabetical)\n\n**Transparency**: CSV files showing every address and payment block\n\n**Daily Script**: Ran 00:30 UTC to update earnings`;
+  }
+  if (t.includes('finshaggy') || (t.includes('devcoin') && t.includes('ban'))) {
+    return `⚡ **The FinShaggy/DevCoin Controversy**\n\n**Achievement**: Scaled DevTome from 15 to 75+ writers\n\n**Vision**: Global workforce earning crypto for content\n\n**The Conflict**: Core 15 saw growth as "dilution" threat\n\n**The Lie**: Accused of paying "Fiverr Girl" for YouTube\n**Truth**: Was a personal friend helping voluntarily\n\n**Result**: Banned June 30, 2013 - "rescinded" admin offer\n\n**Irony**: Banning the growth agent ensured shares became worthless\n\n**Identity**: FinShaggy IS Van Kush Family founder`;
+  }
+  if (t.includes('core 15') || (t.includes('devcoin') && t.includes('governance'))) {
+    return `👥 **DevCoin Core 15 - Governance Failure**\n\n**The Problem**: Manual governance of automated protocol\n\n**Admin Selection**: By invitation based on "politeness" = Yes-Man culture\n\n**No Appeals**: Single leader could ban anyone, no court of appeal\n\n**Share Dilution Fear**: Saw new writers as "doom" not growth\n\n**Content Police**: Created "faux article" labels to ban high-volume writers\n\n**Fatal Mistake**: Prioritized individual share size over network value\n\n**Lesson**: Distribution IS value - more users = more demand`;
+  }
+  if (t.includes('bounty system') || t.includes('share') && t.includes('devcoin')) {
+    return `💰 **DevCoin Share/Bounty System**\n\n**Pool per Round**: ~180,000,000 DVC distributed\n\n**Share Sources**:\n• Writers: Word count on DevTome wiki\n• Developers: Fixed shares for completed tasks (6-12 shares)\n• Admins: Capped at ~6.7%\n\n**Round 24 Math**: 1 Share ≈ 141,000 DVC ≈ 0.125 BTC ≈ $13 USD\n\n**Transparency**: Public CSV files auditable by community\n\n**Script**: Daily 00:30 UTC word count lockdown`;
+  }
+  if ((t.includes('1000') && t.includes('ratio')) || (t.includes('devcoin') && t.includes('prediction'))) {
+    return `📈 **DevCoin $1 Prediction - Why It Failed**\n\n**The Theory**: DVC would track BTC at 1000:1 ratio\n\n**Prediction**: $1,000 BTC = $1 DVC\n\n**Reality Check**: $1 DVC = $7-9 billion market cap\n\n**What Happened**: $1,000 BTC came true (Nov 2013)\n$1 DVC NEVER materialized\n\n**Why**: DVC inflation vs BTC scarcity broke the ratio\n\n**Lesson**: Token supply matters - burn mechanics essential`;
+  }
+  if (t.includes('devcoin death') || t.includes('why devcoin failed')) {
+    return `💀 **Why DevCoin Died**\n\n**Inflation**: 50,000 DVC/block with NO halving, NO burn\n\n**Exchange Delistings**: Mt. Gox collapse, Cryptsy/Vircurex failures\n\n**Competition**: Ethereum (2015), Steemit (2016) offered better models\n\n**DevTome Offline**: Wiki went down, taking all content with it\n\n**Governance**: Manual bans killed growth potential\n\n**Survivor Status**: Still has blockchain record - outlived 99% of 2013 peers\n\n**Legacy**: Proved bounty model works IF you include burn mechanics`;
   }
   if (t.includes('buy wall') || t.includes('pump') && t.includes('strategy')) {
     return `📊 **Market Manipulation Theory**\n\n**Buy Wall**:\n• Large order preventing price drop\n• Psychology: Encourages dumping (guaranteed exit)\n\n**Pump**:\n• Buying above market to create FOMO\n• Psychology: Makes people hold/buy more\n\n**Smart Money View**: Artificial pumps are short-term schemes\n\n**Real Growth**: Requires genuine demand and liquidity\n\n**Order Priority**: First In, First Out - bid 1 sat higher to jump queue`;
