@@ -1,0 +1,197 @@
+{
+  "dmtnexus_extraction_methods": {
+    "document_info": {
+      "title": "STB and Limtek Extraction Methods - Technical Reference",
+      "source": "DMT-Nexus Wiki / The Nexian DMT Handbook",
+      "purpose": "Comprehensive guide to Straight-To-Base and Limtek extraction techniques",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "straight_to_base": {
+      "abbreviation": "STB",
+      "definition": "Simplest extraction technique using strong base to convert DMT salt to freebase",
+      "mechanism": "Strong base breaks down source material and converts product from natural salt form to freebase, which is more soluble in NPS than basic aqueous solution",
+
+      "considerations": {
+        "pros": [
+          "Requires little experience or technical know-how",
+          "Best for quick, non-labor-intensive crude bulk extractions",
+          "No straining or cooking required",
+          "Enables more thorough exhaustion of product from material",
+          "Ideal for shredded material requiring no defatting"
+        ],
+        "cons": [
+          "Requires time for soaking and separation",
+          "Tends to yield greater array of botanical impurities",
+          "Lack of straining and defatting"
+        ]
+      },
+
+      "materials_required": {
+        "source_material": "DMT-containing material requiring no defatting",
+        "solvents": ["NPS (various)", "Water"],
+        "reagents": "Strong base (typically lye/NaOH)",
+        "equipment": [
+          "Chemically resistant vessel for reaction and agitation",
+          "Separatory device"
+        ]
+      },
+
+      "material_considerations": {
+        "lye_warning": "Extremely toxic and hazardous, though most find easy to handle safely",
+        "solvent_volume": "STB methods generally demand hefty volume of solvents",
+        "solvent_options": {
+          "naphtha_heptane": {
+            "purity": "Pull more pure product",
+            "dmt_solubility": "Poor - requires heating for considerable pulls",
+            "advantage": "Allows freeze-precipitation"
+          },
+          "toluene_xylene": {
+            "dmt_solubility": "Dissolve DMT more easily",
+            "range": "Wider range of alkaloids and other substances",
+            "methods": "Do not facilitate freeze-precipitation but DO facilitate FASA"
+          },
+          "dcm": {
+            "range": "Even fuller range of alkaloids",
+            "unique": "Unlike other NPS, it SINKS in water"
+          },
+          "diethyl_ether_heptane": {
+            "type": "Binary solvent combination",
+            "range": "Pulls full-range alkaloids",
+            "technique": "Ether distilled off rapidly, leaving alkaloid-saturated heptane ready for freeze precipitation",
+            "warning": "Diethyl ether is EXTREMELY FLAMMABLE - exercise extreme caution"
+          },
+          "limonene": {
+            "popularity": "Solvent of choice for many",
+            "advantage": "Nontoxic",
+            "disadvantage": "More expensive, harder to find",
+            "methods": "Does not facilitate FASA or freeze-precipitation BUT does facilitate FASW and FASIPA"
+          },
+          "evaporation_note": "Most solvents do not facilitate expedient or clean evaporation; heptane and naphtha tend to be most effective"
+        }
+      },
+
+      "material_preparation": "Source material must be at least shredded, preferably powdered. Pre-treating with acid soak (with or without heat) prior to basic solution found beneficial",
+
+      "procedure": [
+        "1. Prepare basic solution pH 12-14 by adding base to appropriate amount of water",
+        "2. Immerse pulverized source material in basic solution",
+        "3. Allow time for material breakdown and freebase conversion",
+        "4. Stir or shake in target solvent to ensure adequate dissolution",
+        "5. Allow solvent to separate into two distinct layers",
+        "6. Separate using appropriate methods (siphoning, pipetting, separatory funnel)",
+        "7. Collect solvent and proceed with crystallization"
+      ],
+
+      "resources": {
+        "tek_directory": "Directory of Current STB Teks",
+        "forum": "Forum on the Topic of STB Extraction"
+      }
+    },
+
+    "limtek_extraction": {
+      "name_origin": "Named for d-Limonene and pickling Lime",
+      "distinguishing_feature": "Unique way lime must be used (similar to drytek) plus hygrophobic properties of limonene",
+
+      "lime_chemistry": {
+        "solubility": "Very low solubility in water",
+        "behavior": "Qualifies as strong base but does NOT behave as such in solution",
+        "key_technique": "Must be mixed into PASTE with source material and MINIMAL water to behave as strong base"
+      },
+
+      "limonene_advantage": {
+        "property": "Hygrophobic (water-repelling)",
+        "benefit": "Source material can remain moist throughout extraction",
+        "comparison": "Drytek requires moisture removal which terminates reaction - limtek does not"
+      },
+
+      "considerations": {
+        "nontoxic": "Food-grade throughout, using no toxic or hazardous materials",
+        "minimal_volume": "Uses absolute minimum material and volume possible",
+        "no_aqueous_phase": "No proper aqueous phase means no separatory methods needed prior to salting",
+        "disposal": "Facilitates solid disposal instead of dumping large toxic solution volumes",
+        "legal_benefit": "Bears least resemblance to production of other substances, reducing legal risks",
+        "odor": "Reduced chemical odors"
+      },
+
+      "materials_required": {
+        "source_material": "DMT-containing botanical material",
+        "solvents": ["Water", "NPS (typically d-Limonene)"],
+        "reagents": "Calcium Hydroxide (Pickling Lime)"
+      },
+
+      "material_considerations": {
+        "acid_for_salting": {
+          "requirement": "Aqueous food-grade acid to remain nontoxic",
+          "FASW": "Fumaric Acid Saturated Water - evaporates to crystalline DMT fumarate",
+          "vinegar": "Achieves DMT acetate but will NOT crystallize"
+        },
+        "solvent_substitution": "Limonene can be replaced with other NPS but process ceases to be nontoxic"
+      },
+
+      "procedure": [
+        {
+          "step": 1,
+          "action": "Mix powdered material with lime between 1:2 and 1:1 ratio, mix thoroughly",
+          "note": "No reaction occurs yet - thorough mixing ensures even reaction later"
+        },
+        {
+          "step": 2,
+          "action": "Thoroughly moisten mixture while stirring - no dry spots, doughy/pasty consistency",
+          "chemistry": [
+            "Water facilitates reaction and basic environment",
+            "Helps break down plant material",
+            "Acid component of natural salt-form is neutralized",
+            "Yields freebase product"
+          ]
+        },
+        {
+          "step": 3,
+          "action": "Ensure thoroughly homogeneous mixture, allot time and stirring for complete reaction",
+          "importance": "MOST IMPORTANT PART for successful yield",
+          "reason": "Lack of proper aqueous phase requires stronger manual facilitation"
+        },
+        {
+          "step": 4,
+          "action": "Wash mixture with NPS by stirring and decanting to collect NPS",
+          "tip": "More contact between material and solvent = more successful extraction",
+          "next": "Proceed to appropriate crystallization method"
+        }
+      ],
+
+      "resources": {
+        "tek_directory": "Directory of Current Limteks",
+        "discussions": [
+          "A Poll to Gauge Members' Success w/ Lime",
+          "Pickling lime instead of lye?",
+          "Calcium Hydroxide instead of lye?"
+        ]
+      }
+    },
+
+    "method_comparison": {
+      "stb_vs_limtek": {
+        "base_used": {
+          "STB": "Sodium hydroxide (lye) - strong base in solution",
+          "Limtek": "Calcium hydroxide (lime) - requires paste form"
+        },
+        "toxicity": {
+          "STB": "Uses toxic/hazardous lye",
+          "Limtek": "Completely nontoxic/food-grade"
+        },
+        "aqueous_phase": {
+          "STB": "Requires proper aqueous phase and separation",
+          "Limtek": "No aqueous phase - paste/dough method"
+        },
+        "solvent_volume": {
+          "STB": "Demands hefty solvent volumes",
+          "Limtek": "Minimum possible volume"
+        },
+        "disposal": {
+          "STB": "Large volumes of toxic solution",
+          "Limtek": "Solid disposal"
+        }
+      }
+    }
+  }
+}
