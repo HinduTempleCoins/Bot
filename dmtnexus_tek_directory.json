@@ -1,0 +1,193 @@
+{
+  "dmtnexus_tek_directory": {
+    "document_info": {
+      "title": "DMT-Nexus Extraction Tek Directory",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Comprehensive index of all extraction techniques by substance and method",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "introduction": {
+      "what_is_tek": "An Extraction Tek is a manual to extract certain chemicals from a given source",
+      "learning_resources": ["FAQ", "Extraction Overview", "Read multiple teks even if not planning to use them"],
+      "encouragement": "One does not need to be a chemist to perform an extraction",
+      "safety_notes": [
+        "Don't worry about not understanding everything at first",
+        "Keep reading and inform yourself",
+        "Take safety precautions",
+        "Don't throw anything away before done with extraction",
+        "Don't consume anything you're not sure is clean"
+      ]
+    },
+
+    "dmt_teks": {
+      "acid_base": {
+        "category": "A/B",
+        "teks": [
+          {"name": "Lextek", "type": "A/B"},
+          {"name": "Marsofold's tek", "type": "A/B"},
+          {"name": "Shaggy's Jungle Tek", "type": "A/B"},
+          {"name": "The DMT Handbook", "type": "A/B"},
+          {"name": "Vovin's tek", "type": "A/B"},
+          {"name": "ACRB Tek By Thick-Light", "type": "A/B", "material": "ACRB"},
+          {"name": "ACRB TEK 100g PICS (Newbie Friendly)", "type": "A/B", "material": "ACRB"},
+          {"name": "The Wanderer's Tek", "type": "A/B"},
+          {"name": "SP's ACRB Extraction Tek", "type": "A/B", "material": "ACRB"}
+        ]
+      },
+      "straight_to_base": {
+        "category": "STB",
+        "teks": [
+          {"name": "Jorkest's D-Limonene and Fumaric Acid Approach", "type": "STB"},
+          {"name": "Lazyman's tek", "type": "STB"},
+          {"name": "Noman's tek", "type": "STB"},
+          {"name": "STC - Dream Weaver's tek", "type": "STB"}
+        ]
+      },
+      "hybrid": {
+        "category": "STB-A/B hybrid",
+        "teks": [
+          {"name": "BLAB", "type": "Hybrid"},
+          {"name": "PanoraMIX European AB", "type": "Hybrid"},
+          {"name": "SyZyGyPSy's Nontoxic Limomene Tek", "type": "Hybrid"},
+          {"name": "Cyb's Hybrid ATB 'Salt' Tek", "type": "Hybrid"},
+          {"name": "Cyb's MAX ION Tek", "type": "Hybrid"}
+        ]
+      },
+      "dry_tek": {
+        "category": "Dry tek",
+        "teks": [
+          {"name": "Amor fati's Nontoxic Approach to Spice Extraction", "type": "Dry"},
+          {"name": "Q21Q21's Vinegar/Lime A/B Extraction Tek", "type": "Dry"},
+          {"name": "HIELO", "type": "Dry"}
+        ]
+      }
+    },
+
+    "mescaline_teks": {
+      "acid_base": {
+        "teks": [{"name": "Kash's A/B Mescaline Extraction", "type": "A/B"}]
+      },
+      "straight_to_base": {
+        "teks": [{"name": "LucidLemonade's sunflower oil mescaline extraction", "type": "STB"}]
+      },
+      "crude_extract": {
+        "teks": [{"name": "House's cacti preparation tek", "type": "Crude"}]
+      },
+      "dry_tek": {
+        "teks": [
+          {"name": "69ron's D-Limonene Mescaline Extraction", "type": "Dry"},
+          {"name": "CIELO", "type": "Dry"}
+        ]
+      }
+    },
+
+    "bufotenine_teks": {
+      "dry_tek": {
+        "teks": [
+          {"name": "Jorkest's D-Limonene Bufotenine Extraction", "type": "Dry"},
+          {"name": "No smell bufo extraction", "type": "Dry"},
+          {"name": "BW's Bufotenine Dry Tek", "type": "Dry"},
+          {"name": "Bufotenine Benzoate", "type": "Dry"}
+        ]
+      },
+      "ipa_extract": {
+        "teks": [{"name": "Bufotenine IPA Extraction and Bufojam Changa Tek", "type": "IPA"}]
+      },
+      "full_spectrum": {
+        "teks": [{"name": "2023 Full Spectrum Anadenathera Seed Extraction Technique", "type": "Full Spectrum"}]
+      }
+    },
+
+    "harmala_teks": {
+      "acid_base": {
+        "teks": [
+          {"name": "Harmalas Extraction and Separation Guide", "type": "A/B"},
+          {"name": "EASY Harmaloid Freebase TEK", "type": "A/B"},
+          {"name": "Easy Caapi Vine Alkaloid Extraction Guide", "type": "A/B"},
+          {"name": "Enoons Cold Caapi Tek", "type": "A/B"},
+          {"name": "The Tao of Rue Extraction", "type": "A/B"}
+        ]
+      },
+      "crude_manske": {
+        "teks": [{"name": "Harmine Crystals from Syrian Rue", "type": "Manske"}]
+      },
+      "dry_tek": {
+        "teks": [{"name": "Ethyl Acetate Approach Harmala", "type": "Dry"}]
+      }
+    },
+
+    "lsa_teks": {
+      "ipa_extract": {
+        "teks": [{"name": "PanoraMIX HBWR Extract", "type": "IPA"}]
+      },
+      "acetone_extract": {
+        "teks": [{"name": "Kash's Advanced LSA Extraction", "type": "Acetone"}]
+      }
+    },
+
+    "salvia_teks": {
+      "acetone_extract": {
+        "teks": [
+          {"name": "PanoraMIX salvia extract", "type": "Acetone"},
+          {"name": "Chilled Acetone with IPA and Naphtha re-X", "type": "Acetone"}
+        ]
+      }
+    },
+
+    "iboga_teks": {
+      "teks": [{"name": "Scaled Down Chris Jenks Ibogaine Extraction Tek", "type": "A/B"}]
+    },
+
+    "conversion_teks": {
+      "teks": [
+        {"name": "DMT Fumarate to DMT Freebase", "type": "Conversion"},
+        {"name": "THH_reduction", "type": "Conversion"}
+      ]
+    },
+
+    "categories": {
+      "by_method": ["Acid/Base", "Drytek", "Limtek", "Method Tek", "Straight To Base"],
+      "recommended": "Recommended Tek category exists for vetted methods"
+    },
+
+    "all_wiki_pages": [
+      "69ron's D-Limonene Mescaline Extraction",
+      "Amor fati's Compendium for the Extraction of Jurema",
+      "Amor fati's Nontoxic Approach to Spice Extraction",
+      "BLAB - The Big Leisurely A/B",
+      "Bufotenine IPA Extraction and Bufojam Changa Tek",
+      "Crystallization",
+      "Cybs' Hybrid ATB 'Salt' Tek",
+      "Easy Caapi Vine Alkaloid Extraction Guide",
+      "EASY Harmaloid Freebase TEK",
+      "Enoons Cold Caapi Tek",
+      "Harmalas Extraction and Separation Guide",
+      "Harmine Crystals from Syrian Rue",
+      "House's cacti preparation tek",
+      "House's Trichocereus Tea",
+      "Jorkest's D-Limonene and Fumaric Acid Approach",
+      "Jorkest's D-Limonene Bufotenine Extraction",
+      "Kash's A/B Mescaline Extraction",
+      "Kash's Advanced LSA Extraction",
+      "Lazyman's tek",
+      "Lextek",
+      "LucidLemonade's sunflower oil mescaline extraction",
+      "Marsofold's tek",
+      "Noman's tek",
+      "Nontoxic limonene tek",
+      "PanoraMIX European AB",
+      "PanoraMIX HBWR Extract",
+      "PanoraMIX salvia extact",
+      "Phlux's Telepathine Tek",
+      "Pure Passion Flower Extraction",
+      "Q21Q21's Vinegar/Lime A/B Extraction Tek",
+      "Shaggy's Jungle Tek",
+      "The DMT Handbook",
+      "The FASA Method",
+      "The Nexian DMT Handbook",
+      "The Tao of Rue Extraction",
+      "Vovin's tek"
+    ]
+  }
+}

@@ -1,0 +1,272 @@
+{
+  "dmtnexus_extraction_overview": {
+    "document_info": {
+      "title": "DMT Extraction Overview - A Concordance of Teks",
+      "source": "DMT-Nexus Wiki",
+      "original_author": "Entropymancer",
+      "type": "Comprehensive extraction methodology guide",
+      "purpose": "NOT a tek itself, but a concordance/comparison of all extraction methods",
+      "key_insight": "All DMT extractions follow the same basic process - they differ only in whether initial extract is acidified and what purification techniques they prefer",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "fundamental_principle": {
+      "universal_process": [
+        "1. Extract DMT into an aqueous solution",
+        "2. Collect DMT as freebase in nonpolar solvent",
+        "3. Recover the freebase as a solid"
+      ],
+      "key_statement": "All differences between teks are just differences in purification techniques"
+    },
+
+    "quick_recommendation": {
+      "for_mimosa_hostilis": {
+        "recommended_teks": ["Noman's tek", "Marsofold's tek"],
+        "modification": "Instead of ammonia wash of final product, use sodium carbonate wash from Vovin's tek (Step 7, pg 12)",
+        "caveat": "A desire for simple answers may not serve you so well in your encounters with the spice"
+      }
+    },
+
+    "starting_materials": {
+      "popular_choices": ["Mimosa hostilis root bark", "Acacia species"],
+      "mimosa_advantage": "Many report surprisingly pure product with minimal purification",
+      "acacia_note": "Good option but ensure at least one acid-base process in procedure",
+      "other_materials": "Consider fat content - include more optional purification steps",
+      "reference": "See 'DMT is Everywhere' chapter of TiHKAL for full list"
+    },
+
+    "step_1_extraction_methods": {
+      "acid_base_extraction": {
+        "process": "Heat plant material in water acidified to pH 2-4",
+        "result": "Water soluble DMT salt solution",
+        "acids_used": {
+          "hydrochloric": "Common choice",
+          "acetic": "Common choice (vinegar)",
+          "phosphoric": "Works well",
+          "citric": "Works well",
+          "tartaric": "Works well"
+        },
+        "recommended_for": "Any plant material OTHER than Mimosa",
+        "reason": "Lends itself to more thorough purification"
+      },
+      "straight_to_base": {
+        "process": "Cover root bark with water basified to pH ~13 and pulverize",
+        "result": "Aqueous solution where DMT freebase is not very soluble",
+        "mechanism": "Excess hydroxide physically breaks down bark, exposes DMT to nonpolar solvent",
+        "bases_used": {
+          "sodium_hydroxide": "By far most popular",
+          "potassium_hydroxide": "Alternative option"
+        },
+        "popular_with": "Mimosa hostilis root bark",
+        "reason": "Low total extraction time (Lazy Man's Tek etc.)",
+        "warning": "Basic polar wash on nonpolar solvent practically a MUST - otherwise residual lye makes product harsh",
+        "us_legal_note": "NaOH is watched chemical due to meth production - ordering online/credit card could have consequences"
+      }
+    },
+
+    "optional_first_defat": {
+      "applies_to": "Acid/Base extraction ONLY",
+      "process": "Extract acidic solution with couple volumes of nonpolar solvent, discard solvent",
+      "purpose": "Remove unwanted plant fats and impurities",
+      "solvents": ["Naphtha", "Toluene", "Xylene"]
+    },
+
+    "step_2_nonpolar_extraction": {
+      "purpose": "Recover DMT freebase into nonpolar solvent",
+      "solvents": {
+        "recommended": {
+          "naphtha": "Most commonly used",
+          "diethyl_ether": "Used successfully",
+          "DCM": "Methylene chloride - used successfully",
+          "hexanes": "Used successfully"
+        },
+        "not_recommended": {
+          "xylene": "Carries red pigment from Mimosa into final product",
+          "toluene": "Carries red pigment from Mimosa into final product",
+          "note": "Some people INTENTIONALLY use these to extract the psychoactive red pigment"
+        }
+      },
+      "technique_warning": "SWIRL or GENTLY MIX layers - do NOT shake. Nasty emulsions form and must be avoided at all costs",
+
+      "for_acid_base_extractors": {
+        "process": "Deprotonate DMT back to freebase by adjusting to pH >~9.5",
+        "methods": {
+          "sodium_hydroxide": "Typical choice",
+          "calcium_carbonate": "Alternative depending on target pH",
+          "calcium_hydroxide": "Alternative depending on target pH"
+        },
+        "steps": [
+          "Reduce volume of acidic solution if necessary",
+          "Basify solution",
+          "Extract with several volumes of nonpolar solvent",
+          "Pool extractions",
+          "Discard basic solution (now stripped of DMT)"
+        ],
+        "ph_debate": {
+          "chacruna": "pH 9 sufficient for maximum yields",
+          "mimosa": "Much higher pH necessary - due to phytochemical solutes affecting aqueous phase polarity",
+          "theory": "Excess salt added before defatting might accomplish same as excess hydroxide - not yet confirmed successful"
+        }
+      },
+
+      "for_straight_to_base_extractors": {
+        "process": "Solution already basic - just extract bark mixture with several volumes of nonpolar solvent and pool"
+      }
+    },
+
+    "optional_acid_base_purification": {
+      "when_useful": {
+        "acid_base_extractors": "Probably unnecessary, especially if defatted before recovering freebase",
+        "straight_to_base": "Could be worth it - allows defatting",
+        "mimosa_note": "Many find Mimosa has little enough fat that defatting causes unnecessary product loss"
+      },
+      "process": [
+        "Extract nonpolar DMT freebase solution with several volumes of water acidified to pH 3-4",
+        "Pool extracts",
+        "Optional: Defat acidic solution with couple volumes of nonpolar solvent",
+        "Basify to regenerate freebase",
+        "Extract with several volumes of extracting solvent",
+        "Pool extracts"
+      ],
+      "acids": ["Hydrochloric", "Acetic", "Tartaric"],
+      "solvents": ["Naphtha", "Toluene", "DCM", "Hexanes"]
+    },
+
+    "optional_nonpolar_wash": {
+      "source": "Vovin's tek",
+      "purpose": "Neutralize residual lye in nonpolar phase - BEST option for this concern",
+      "note": "Many teks don't include this but it's highly recommended",
+      "process": [
+        "Wash nonpolar freebase solution with small volume of dilute sodium carbonate (washing soda)",
+        "Target pH: ~8.5",
+        "Important: This is NOT baking soda (sodium bicarbonate)"
+      ],
+      "technique": {
+        "separation": "Layers separate easily without emulsion - shake away",
+        "drain": "Drain water from bottom (assuming naphtha - organic layer on top)",
+        "temperature": "Use room temperature water to avoid cooling naphtha and encouraging precipitation",
+        "optional_followup": "Quick washes with neutral (unbasified) water to remove sodium carbonate traces"
+      }
+    },
+
+    "step_3_recovery_methods": {
+      "two_schools": {
+        "evaporation": {
+          "use_case": "Fine if doing further purification",
+          "recommendation": "Still freeze-precipitate majority first before evaporating"
+        },
+        "freeze_precipitation": {
+          "process": [
+            "Put nonpolar solvent in freezer (coldest setting)",
+            "Allow to sit overnight",
+            "DMT precipitates as nice crystals",
+            "Remove crystals - dry quickly or in cold environment (redissolve as solvent warms)"
+          ],
+          "repeat_process": [
+            "Reduce nonpolar solution to <half original volume",
+            "Freeze precipitate again",
+            "Repeat until no crystals or visible impurities in crystals"
+          ],
+          "final_step": "Either discard remaining mess or evaporate and purify further",
+          "crystal_growing_tip": "Transfer recrystallizing solution back and forth between freezer and fridge every few hours for larger crystals"
+        }
+      }
+    },
+
+    "purification_methods": {
+      "ammonia_wash": {
+        "method": "Wash Crystals with Cold Aqueous Ammonia",
+        "recommendation": "NOT RECOMMENDED",
+        "purpose": "Simple way to wash out minor impurities and discoloration",
+        "process": "Set up filtration, put crude DMT on filter, rinse with small volume ice-cold 10% aqueous ammonia",
+        "problem": "Many people have ammonia dissolve away their product - difficult to recover"
+      },
+
+      "hot_solvent_recrystallization": {
+        "method": "Recrystallize from Hot Solvent",
+        "benefits": "Reduces impurities, gives sharper melting point",
+        "limitation": "Won't reduce discoloration much unless combined with activated charcoal",
+        "process": [
+          "Dissolve product in minimal volume hot solvent (~20mL naphtha per gram DMT)",
+          "Allow solution to cool slowly with minimal agitation",
+          "Once at room temperature, transfer to fridge for couple hours",
+          "Then transfer to freezer",
+          "Optional: Add small DMT crystal to seed recrystallization"
+        ],
+        "result": "Nice crop of crystals precipitates - collect by filtration",
+        "if_unsatisfied": "Reheat to redissolve, reduce volume, repeat cooling",
+        "solvents": ["Naphtha (most common)", "Hexane"]
+      },
+
+      "activated_charcoal": {
+        "method": "Clean with Activated Charcoal",
+        "effectiveness": "MOST effective and reliable for removing discoloration",
+        "process": [
+          "Dissolve DMT in hot solvent (as for recrystallization)",
+          "Add small quantity of crushed activated charcoal",
+          "Swirl occasionally, sustaining heat for ~10 minutes",
+          "Decant hot solvent from charcoal",
+          "Allow to crystallize as usual"
+        ],
+        "note": "Removes only discoloration impurities - requires fairly clean starting material",
+        "not_recommended": "With crude nonpolar freebase solution prior to initial freeze-precipitation"
+      },
+
+      "acid_base_cleanup": {
+        "method": "Acid/Base Purification and Defatting (Post-Recovery)",
+        "use_case": "Total overkill unless extraction was extremely messy",
+        "when_to_use": "To recover DMT from gunk after evaporating solvent post-freeze-precipitation",
+        "process": [
+          "Take crude material in water adjusted to pH 3-4 with chosen acid",
+          "Defat if desired",
+          "Basify, extract, and precipitate"
+        ],
+        "alternative": "If product is roughly crystalline, ammonia wash + recrystallization with charcoal should suffice"
+      },
+
+      "column_chromatography": {
+        "method": "Purify by Column Chromatography",
+        "audience": "NOT for average extractor - requires chromatography column or buret",
+        "when_needed": "Analytic purity or godawful extraction goo needing heavy-duty purification",
+        "dmt_visualization": "Blue spot under UV light",
+        "process": [
+          "Plug stopcock end with glass wool (or cotton) filter",
+          "Cover with small portion of sand",
+          "Fill column with silica slurry",
+          "Load crude sample",
+          "Elute with chosen solvent pair",
+          "Monitor DMT progress with UV light",
+          "Capture correct fraction"
+        ],
+        "optional_prep": "Run TLC first with same solvent pair",
+        "note": "If you don't understand this, you probably shouldn't attempt it"
+      }
+    },
+
+    "key_terminology": {
+      "freebase": "Non-salt form of DMT - not water soluble, soluble in nonpolar solvents",
+      "salt_form": "Water soluble form of DMT (e.g., DMT acetate, DMT fumarate)",
+      "nonpolar_solvent": "Solvents like naphtha, hexane, DCM - dissolve freebase DMT",
+      "defat": "Remove plant fats/oils using nonpolar solvent on acidic solution",
+      "emulsion": "Problematic mix of polar/nonpolar layers - avoid by gentle swirling not shaking",
+      "recrystallization": "Purification by dissolving in hot solvent and allowing slow crystallization",
+      "freeze_precipitation": "Causing crystals to form by cooling saturated solvent solution"
+    },
+
+    "common_problems_addressed": {
+      "purity_issues": "Often from following tek too closely without understanding pH targets",
+      "harsh_product": "Usually residual lye - use sodium carbonate wash (Vovin's method)",
+      "discoloration": "Use activated charcoal treatment",
+      "gunk_instead_of_crystals": "Use acid/base cleanup or column chromatography",
+      "ammonia_dissolving_product": "Avoid ammonia wash - use alternatives"
+    },
+
+    "ph_guidelines": {
+      "acidification": "pH 2-4",
+      "basification_general": "pH >9.5",
+      "basification_stb": "pH ~13",
+      "sodium_carbonate_wash": "pH ~8.5",
+      "defat_recovery": "pH 3-4"
+    }
+  }
+}
