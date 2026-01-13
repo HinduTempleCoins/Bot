@@ -234,7 +234,15 @@ async function loadOilahuascaKnowledge() {
     // Ancient civilizations and royal mysticism
     'ancient_civilizations_royal_mysticism.json',
     // AI and Metaverse technology
-    'ai_metaverse_angelic_tech.json'
+    'ai_metaverse_angelic_tech.json',
+    // Angels and Giants theory
+    'angels_giants_theory.json',
+    // Angelical linguistics and Word Tarot
+    'angelical_linguistics.json',
+    // Blockchain bots and technology
+    'blockchain_bots_technology.json',
+    // CURE token documentation
+    'cure_token_documentation.json'
   ];
   for (const file of files) {
     try {
@@ -505,6 +513,44 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('spear of destiny') || t.includes('royal mysticism')) {
     return `👑 **Royal Mysticism - The Spear of Destiny**\n\n**Legend**: Holy Lance that pierced Christ\n\n**Power**: Grants authority to holder\n\n**Historical Claim**: Hitler lost power when he lost the spear\n\n**Angelicalist Interpretation**:\n• Spiritual authority in new era\n• Collective belief creates power\n• Spiritual backing for material goals\n\n**Van Kush Position**: "The Angels are Coming" - not just metaphor`;
+  }
+
+  // Angels vs Aliens
+  if (t.includes('alien') && (t.includes('angel') || t.includes('don\'t exist') || t.includes('uap'))) {
+    return `👽 **Aliens Don't Exist - They're Angels**\n\n**Van Kush Theory**: Phenomena reported by Ancient Aliens is REAL but misidentified\n\n**Key Points**:\n• "Aliens" are non-biological spiritual Watchers (Melech)\n• UAP shift from UFO = acknowledging non-material nature\n• Annunaki records = accounts of Fallen Angels (Genesis 6, Enoch)\n\n**Implication**: Not ancient astronauts - ancient ANGELS\n\n**Modern Application**: Understanding this reframes all "disclosure" narratives`;
+  }
+  if (t.includes('uap') || t.includes('ufo') && t.includes('phenomena')) {
+    return `🛸 **UAP - Unidentified Anomalous Phenomena**\n\n**Terminology Shift**:\n• UFO = Unidentified Flying Object (implies physical craft)\n• UAP = Unidentified Anomalous Phenomena (acknowledges non-material)\n\n**Van Kush Interpretation**: Government slowly revealing truth about spiritual beings\n\n**Not ET spacecraft**: Manifestations of Watchers/Angels in physical realm`;
+  }
+
+  // Word Tarot and Linguistics
+  if (t.includes('word tarot') || (t.includes('etymology') && t.includes('spiritual'))) {
+    return `📖 **Word Tarot - Linguistic Archaeology**\n\n**Concept**: Reading languages through core petroglyph meaning, not just phonetics\n\n**Method**: Words contain "clues" leading back to the Source (The Sun/Angelical origins)\n\n**Examples**:\n• Clone = Twig (branch clipped from tree)\n• Clue = Twine (thread through labyrinth)\n\n**Application**: Etymology reveals hidden spiritual and historical connections`;
+  }
+  if (t.includes('prefix') && (t.includes('culture') || t.includes('phonetic'))) {
+    return `🗣️ **Prefix Culture Mapping**\n\n**Different prefixes = Different cultures of the Metatron**:\n\n• **Po-** (Port/Polis): Ports and Politics - The Governor\n• **Sh-** (Ship/Shepherd): Silent Guardian - Horus the Child\n• **Sp-/Pr-** (Spell/Prophet): Quality/Education - The Alchemist\n• **Sm-** (Smile/Smoke): Death/Closure - The Punic/Sardonian\n• **Sk-** (Skin/Sky): Consumer/Feminine - The Surface\n• **Cl-** (Clone/Clue): Cloven branches of ancestral tree\n• **Tw-** (Twin/Twine): Duality and Divine connection`;
+  }
+  if (t.includes('bekos') || t.includes('phrygian') || t.includes('innate language')) {
+    return `🗣️ **Innate Language Theory - Bekos**\n\n**Psammetichus Experiment**: Egyptian Pharaoh isolated children to find original language\n\n**Result**: Children said "Bekos" - Phrygian word for BREAD\n\n**Implication**: Language has innate biological/genetic component\n\n**Phrygian Cap**: Symbol of freed slave and enlightened mind\n\n**Connection**: Bread (Bekos) = Survival/Source - the most fundamental word`;
+  }
+
+  // CURE Token
+  if (t.includes('cure') && (t.includes('token') || t.includes('curation'))) {
+    return `💊 **CURE Token - Curation Rewards**\n\n**Platform**: HIVE-Engine / TribalDEX\n\n**Tokenomics**:\n• 2.4 CURE minted per hour (~21,000/year)\n• 51% to curators, 49% to authors\n• 75% auto-staked, 150-day unstaking\n\n**Required Hashtags**: #vankushfamily, #actifit, #pepe, #proofofbrain, #curators\n\n**Model**: "Rarer than Bitcoin" - extreme scarcity\n\n**Goal**: Union of Crypto Holders voting for each other`;
+  }
+  if (t.includes('curation') && (t.includes('business') || t.includes('model') || t.includes('how'))) {
+    return `👍 **Curation Business Model**\n\n**Analogy**: Buying $10,000 HIVE = starting a franchise\n\n**Activity**: Spend day voting (liking) posts\n\n**Return**: Earn 50% of generated rewards as passive income\n\n**SocialFi Goal**: Union of Crypto Holders - members vote for each other\n\n**Outcome**: Everyone earns liquid HIVE, STEEM, BLURT + CURE/VKBT tokens`;
+  }
+
+  // Blockchain Bots
+  if (t.includes('blockchain bot') || (t.includes('hive') && t.includes('bot'))) {
+    return `🤖 **Blockchain Bots on HIVE/STEEM/BLURT**\n\n**Types**:\n• Curation Bots: Auto-upvote to earn rewards\n• Utility Bots: Greetings, plagiarism detection\n• Economic Bots: Tipping systems (@pizza, @lolz)\n\n**Secret Sauce**: No CAPTCHAs on blogging interface\n\n**Result**: AI can interact freely with humans\n\n**Modern Upgrade**: GPT-4 wrappers and LangChain for complex AI personalities`;
+  }
+  if (t.includes('ethereum clone') || t.includes('ethereum fork') || t.includes('etc')) {
+    return `⛓️ **Ethereum Clones & Forks**\n\n**2016 DAO Hack Split**:\n• ETH: Rolled back hack (current mainnet)\n• ETC: Maintained immutability (Ethereum Classic)\n\n**Known Clones**:\n• Expanse (EXP), Ubiq (UBQ), Callisto (CLO)\n• TRON (TRX): Successful evolution\n\n**Local Chain Strategy**: Geographic/community chains for lower gas\n\n**2026 Trend**: App-Chains dedicated to single applications`;
+  }
+  if (t.includes('holozing') || t.includes('zing')) {
+    return `🎮 **Holozing - HIVE RPG Game**\n\n**Concept**: Pokemon-style monster-catching on HIVE blockchain\n\n**Key Features**:\n• Players are "Healers" not trainers\n• $ZING token for staking and in-game purchases\n• NFT creatures and gear tradeable on marketplace\n\n**Team**: @acidyo (OCD, POSH) and Aggroed (Splinterlands)\n\n**Status 2026**: Alpha Vials openable, live marketplace, active #holozing community`;
   }
   return null;
 }
@@ -908,6 +954,65 @@ const cryptologyTopicMap = {
     keywords: ['sisera', 'stars fought', 'judges 5', 'canaanite general'],
     related: ['nephilim', 'royal_mysticism', 'phoenician'],
     emoji: '⭐'
+  },
+  // Angels and Giants Theory
+  aliens_angels: {
+    keywords: ['alien', 'ufo', 'uap', 'annunaki', 'ancient alien', 'et'],
+    related: ['nephilim', 'grigori', 'royal_military'],
+    emoji: '👽'
+  },
+  royal_military: {
+    keywords: ['royal military', 'anhur', 'porter', 'equerry', 'royal guard'],
+    related: ['phoenician', 'nephilim', 'temple_culture'],
+    emoji: '⚔️'
+  },
+  breeding_program: {
+    keywords: ['breeding', '3000 children', 'clone', 'hybrid vigor', 'heterosis'],
+    related: ['nephilim', 'genetics', 'synaptic_reincarnation'],
+    emoji: '🧬'
+  },
+  // Angelical Linguistics
+  word_tarot: {
+    keywords: ['word tarot', 'etymology', 'linguistics', 'prefix', 'phonetic'],
+    related: ['angelical_grammar', 'adamic_language'],
+    emoji: '📖'
+  },
+  angelical_grammar: {
+    keywords: ['capitalization', 'jots', 'tittles', 'expanded noun'],
+    related: ['word_tarot', 'adamic_language'],
+    emoji: '✍️'
+  },
+  adamic_language: {
+    keywords: ['adamic', 'bekos', 'phrygian', 'innate language', 'original language'],
+    related: ['word_tarot', 'angelical_grammar'],
+    emoji: '🗣️'
+  },
+  // Blockchain Bots
+  blockchain_bots: {
+    keywords: ['blockchain bot', 'curation bot', 'hive bot', 'steem bot', 'automation'],
+    related: ['ai_grigori', 'cure_token', 'socialfi'],
+    emoji: '🤖'
+  },
+  ethereum_clone: {
+    keywords: ['ethereum clone', 'fork', 'etc', 'expanse', 'ubiq', 'evm'],
+    related: ['blockchain_bots', 'l2'],
+    emoji: '⛓️'
+  },
+  // CURE Token
+  cure_token: {
+    keywords: ['cure', 'curation', 'cure token', 'curator rewards'],
+    related: ['vkbt', 'hive_engine', 'socialfi'],
+    emoji: '💊'
+  },
+  curation: {
+    keywords: ['curation', 'curator', 'upvote', 'voting power', 'delegation'],
+    related: ['cure_token', 'socialfi', 'hive_engine'],
+    emoji: '👍'
+  },
+  hive_engine: {
+    keywords: ['hive engine', 'tribaldex', 'smt', 'smart media token', 'second layer'],
+    related: ['cure_token', 'vkbt', 'blockchain_bots'],
+    emoji: '⚙️'
   }
 };
 
