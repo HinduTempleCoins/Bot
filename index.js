@@ -212,7 +212,13 @@ async function loadOilahuascaKnowledge() {
     // Botanical and chemical references
     'dmtnexus_5meo_dmt_sources.json',
     'dmtnexus_jungle_spice.json',
-    'dmtnexus_crystallization_salting.json'
+    'dmtnexus_crystallization_salting.json',
+    // Marijuana extraction knowledge
+    'marijuana_extraction_history.json',
+    // Advanced marijuana growing
+    'marijuana_advanced_growing.json',
+    // Global resins and consciousness art
+    'global_resins_encaustic_consciousness.json'
   ];
   for (const file of files) {
     try {
@@ -237,6 +243,155 @@ function getOilahuascaResponse(topic) {
   if (t.includes('glycine') || t.includes('amino acid') || t.includes('conjugation')) return `🧬 **Glycine Conjugation System**\n\n**Key Finding**: Glycine conjugation COMPETES with alkaloid formation!\n\n**Enzymes**: ACSM2B → GLYAT (in mitochondria)\n**Function**: Converts toxic aldehydes to water-soluble glycine conjugates for excretion\n\n**Safety Implication**:\n• Glycine supplementation (3-5g) = Enhanced detox = SAFER\n• Glycine depletion = More alkaloids = MORE TOXIC\n\n⚠️ Glycine also needed for glutathione (antioxidant) - don't deplete!`;
   if (t.includes('alkaloid') || t.includes('aminopropiophenone')) return `⚗️ **CORRECTED: Alkaloid Metabolites**\n\n**NOT amphetamines!** Actual metabolites are TERTIARY AMINOPROPIOPHENONES:\n\n**Three Types**:\n1. Dimethylamines\n2. Piperidines (6-member ring)\n3. Pyrrolidines (5-member ring)\n\n**Compound Profiles**:\n• Elemicin: ALL THREE types ✓\n• Safrole: ALL THREE types ✓\n• Myristicin: Only Piperidines + Pyrrolidines (no dimethylamine)\n\n⚠️ ONLY allyl forms (NOT propenyl) make these alkaloids`;
   if (t.includes('metabol') || t.includes('phase')) return `🔄 **Allylbenzene Metabolism**\n\n**Phase I (CYP450)**:\n1. 1'-Hydroxylation → Alcohol\n2. Oxidation → Aldehyde (FORK POINT!)\n3. Either: Carboxylic acid OR Amine adduct\n\n**Phase II (Conjugation)**:\nGlycine conjugation = Detox pathway\nAmine adduct formation = Alkaloid pathway\n\n**Key**: These pathways COMPETE!\nMore glycine = more detox, less alkaloid`;
+
+  // DMT Extraction Knowledge
+  if (t.includes('extraction') || t.includes('extract') || t.includes('tek') || t.includes('stb') || t.includes('a/b') || t.includes('acid base') || t.includes('acid/base')) {
+    return `🧪 **DMT Extraction Overview**\n\n**Main Methods**:\n• **STB (Straight-to-Base)**: Simplest - basify bark directly, pull with NPS\n• **A/B (Acid/Base)**: More thorough - acid soak first, then basify\n• **Limtek**: Uses d-limonene instead of naphtha\n• **Cold Water Extraction (CWE)**: Non-toxic - freeze/thaw cycles with lime water\n\n**Key Chemicals**:\n• **Base**: Sodium Hydroxide (lye) or Calcium Hydroxide (lime)\n• **NPS**: Naphtha, Heptane, or Limonene\n• **Acid**: Vinegar or citric acid (for A/B)\n\n**Popular Sources**: Mimosa hostilis root bark (MHRB), Acacia confusa root bark (ACRB)\n\n⚠️ Safety: Use proper PPE, ventilation, and research thoroughly before attempting.`;
+  }
+  if (t.includes('naphtha') || t.includes('solvent') || t.includes('nps')) {
+    return `🧴 **Solvents for DMT Extraction**\n\n**Naphtha/Heptane** (Non-polar):\n• Pulls primarily N,N-DMT\n• Results in white-yellow crystals\n• More selective for DMT\n\n**Xylene/Toluene**:\n• Pulls wider range of alkaloids\n• Results in "Jungle Spice" - red/dark product\n• Less selective, more "full spectrum"\n\n**D-Limonene**:\n• Orange oil - food safe\n• Used in Limtek\n• Requires FASA/FASI precipitation\n\n⚠️ Always use proper ventilation and safety equipment.`;
+  }
+  if (t.includes('limtek') || t.includes('limonene')) {
+    return `🍊 **Limtek - D-Limonene Extraction**\n\n**Advantages**:\n• Food-safe solvent (orange oil)\n• Non-toxic compared to naphtha\n• Pleasant smell\n\n**Process**:\n1. Standard A/B or STB preparation\n2. Pull with d-limonene instead of naphtha\n3. Precipitate with FASA (Fumaric Acid Saturated Acetone)\n4. Results in DMT fumarate salt\n\n**Note**: Cannot freeze-precipitate like naphtha - requires salting out.`;
+  }
+  if (t.includes('cold water') || t.includes('cwe') || t.includes('freeze')) {
+    return `❄️ **Cold Water Extraction (CWE)**\n\n**Concept**: Uses freeze-thaw cycles to rupture cell walls and lime water for basification\n\n**Process**:\n1. Powder bark finely\n2. Mix with lime (calcium hydroxide) and water\n3. Freeze overnight, thaw, repeat 3+ times\n4. Filter and pull with NPS\n\n**Advantages**:\n• Uses food-safe lime instead of lye\n• Gentler process\n• Less caustic\n\n**2025 Research**: User blig-blug reports successful yields with optimized CWE method.`;
+  }
+  if (t.includes('jungle') || t.includes('full spectrum') || t.includes('red spice')) {
+    return `🌴 **Jungle Spice - Mystery Alkaloids**\n\n**Definition**: Non-DMT alkaloid fraction from Mimosa, pulled with xylene/toluene AFTER naphtha pulls are exhausted\n\n**Appearance**: Red/dark colored, waxy or crystalline\n\n**Effects**: Different character than white DMT - earthier, more body load, possibly longer duration\n\n**Extraction**: Only appears after naphtha pulls exhausted - use xylene or toluene\n\n**Note**: Composition varies based on source material and extraction conditions.`;
+  }
+  if (t.includes('recrystalliz') || t.includes('crystalliz') || t.includes('purif') || t.includes('salting')) {
+    return `💎 **Purification Techniques**\n\n**Recrystallization**:\n• Dissolve crude DMT in warm naphtha\n• Let cool slowly → crystals form\n• Repeat for higher purity\n\n**Hot Naphtha Wash**:\n• Wash crude with hot naphtha\n• Removes plant oils/fats\n• Cleaner final product\n\n**Salting**:\n• **Fumarate**: FASA precipitation (stable, storable)\n• **Acetate**: Vinegar evaporation\n• **Citrate**: Citric acid method\n\n**Why Salt?**: More stable for storage, precise dosing, different ROA options.`;
+  }
+  if (t.includes('mhrb') || t.includes('mimosa') || t.includes('hostilis')) {
+    return `🌿 **Mimosa Hostilis Root Bark (MHRB)**\n\n**Also Known As**: Jurema, Mimosa tenuiflora\n\n**Alkaloid Content**: ~1-2% DMT in root bark\n\n**Preferred For**:\n• High DMT content\n• Relatively clean extractions\n• Well-documented teks\n\n**Forms**: Whole bark, shredded, or powdered (powder extracts fastest)\n\n**Note**: "Jungle Spice" (mystery alkaloids) primarily associated with MHRB.`;
+  }
+  if (t.includes('acrb') || t.includes('acacia') || t.includes('confusa')) {
+    return `🌳 **Acacia Confusa Root Bark (ACRB)**\n\n**Alkaloid Content**: ~1-1.5% total alkaloids\n\n**Key Difference**: Contains NMT (N-methyltryptamine) alongside DMT\n\n**Extraction Notes**:\n• A/B generally preferred over STB\n• May require defat step\n• Different alkaloid profile than MHRB\n\n**Effects**: Some report slightly different experience due to NMT content.`;
+  }
+  if (t.includes('changa') || t.includes('enhanced leaf') || t.includes('smoking blend')) {
+    return `🍃 **Changa - Smokable DMT Blend**\n\n**Definition**: Smoking mixture containing DMT + MAOI herbs (similar ingredients to Ayahuasca)\n\n**Key Ingredients**:\n• DMT freebase\n• MAOI herb (typically B. caapi or Passionflower)\n• Optional: Dream herbs, lotus, mullein\n\n**Effects**:\n• More grounded than freebase alone\n• Similar to short Ayahuasca trip\n• Slightly longer duration (up to 12 min)\n\n**Advantage**: Much easier to smoke than pure DMT freebase - can use ordinary pipe.\n\n**Popular Blends**: Electric Sheep, Minty Blast, Witch Drum`;
+  }
+  if (t.includes('pharmahuasca') || t.includes('pharmaceutical aya')) {
+    return `💊 **Pharmahuasca - Pharmaceutical Ayahuasca**\n\n**Definition**: Purified/pharmaceutical version of ayahuasca using isolated compounds\n\n**Components**:\n• MAOI: Harmine, Harmaline, or THH (100mg typical)\n• DMT: Freebase or salt form\n\n**Dosing Rule**: NO MORE than 1mg DMT per pound body weight\n\n**Procedure**:\n1. Take MAOI capsule, wait 10-20 min\n2. Take HALF DMT dose\n3. Wait 10 min, take remaining half\n\n**Advantages**: Precise dosing, reduced nausea, faster onset\n\n⚠️ Be aware of MAOI dietary restrictions!`;
+  }
+  if (t.includes('smoke') || t.includes('vaporiz') || (t.includes('how') && t.includes('use'))) {
+    return `🎯 **DMT Administration Methods**\n\n**Vaporization/Smoking**:\n• Most common - rapid onset (seconds)\n• Methods: Glass pipe, dab rig, vaporizer, changa\n• Duration: 5-20 minutes\n\n**Oral (requires MAOI)**:\n• Ayahuasca, Pharmahuasca\n• Onset: 30-60 min, Duration: 4-6 hours\n\n**Sublingual/Buccal**:\n• Juremala/Mucosahuasca method\n• Absorbed through mouth tissue\n• Requires MAOI for oral route\n\n**Note**: DMT is NOT orally active without MAOI - stomach enzymes (MAO) destroy it.`;
+  }
+  if (t.includes('5-meo') || t.includes('5meo') || t.includes('bufo')) {
+    return `🐸 **5-MeO-DMT**\n\n**Sources**:\n• Bufo alvarius toad (5-15% in glands)\n• Various plants (Anadenanthera, Virola, some Acacias)\n\n**Key Differences from N,N-DMT**:\n• MUCH more potent (5-15mg vs 30-50mg)\n• Different character - more "white light" dissolution\n• Less visual, more ego-dissolution\n\n**Highest Sources**:\n• Bufo toad glands: 5-15%\n• A. peregrina roots: 0.678%\n• Nyakwana snuff: 9.68%\n\n⚠️ EXTREME CAUTION - very potent. Never combine with MAOIs!`;
+  }
+
+  // Marijuana Extraction Knowledge
+  if (t.includes('marijuana extraction') || t.includes('cannabis extraction') || t.includes('weed extraction') || (t.includes('marijuana') && t.includes('extract'))) {
+    return `🌿 **Marijuana Extraction Overview**\n\n**Methods by Era**:\n• **1970s**: Acetone pulls, Dr. Atomic's Marijuana Multiplier\n• **1990s-2000s**: Butter/oil infusions, polar/non-polar separation\n• **2010s**: BHO (shatter/wax), dry ice hash, bubble hash (Matt Rize)\n• **2020s**: CO2 closed-loop, distillate, 510 vapes\n\n**Key Techniques**:\n• Dry ice + bubble bags → kief\n• Ice water + agitation → bubble hash\n• Butane extraction → shatter/wax (DANGEROUS indoors!)\n• Separatory funnel + naphtha → golden oil\n• Short-path distillation → pure distillate\n\n**CYP450 Connection**: Cannabis shares enzyme manipulation principles with Oilahuasca!`;
+  }
+  if (t.includes('bho') || t.includes('butane') || t.includes('shatter') || t.includes('dab')) {
+    return `💨 **BHO - Butane Hash Oil**\n\n**Products**: Shatter, Wax, Budder, Live Resin\n\n**Process**:\n1. Pack marijuana in extraction tube\n2. Blast with butane\n3. Evaporate/purge solvent\n4. Vacuum purge for safety\n\n**Results**: High-potency concentrate (60-90% THC)\n\n⚠️ **EXTREME DANGER**:\n• Butane is heavier than air - pools on floor\n• ANY spark = explosion\n• Many deaths from indoor BHO\n• NEVER extract indoors with butane\n\n**Legal Note**: BHO extraction heavily regulated due to accidents`;
+  }
+  if (t.includes('bubble hash') || t.includes('ice hash') || t.includes('matt rize') || t.includes('ice water hash')) {
+    return `🧊 **Bubble Hash / Ice Water Extraction**\n\n**Method**: Agitation + ice water separates trichomes\n\n**Equipment**:\n• Bubble bags (various micron sizes)\n• Ice water\n• Agitation device (Matt Rize used camping washing machine)\n\n**Process**:\n1. Mix trim/flower with ice water\n2. Agitate to knock off trichomes\n3. Filter through bubble bags\n4. Collect hash from each micron level\n\n**Result**: Clean bubble hash, wax consistency\n**Advantage**: Solventless - no chemicals needed`;
+  }
+  if (t.includes('dry ice') || t.includes('kief')) {
+    return `❄️ **Dry Ice Hash Extraction**\n\n**Equipment**:\n• Bubble bags\n• Dry ice (solid CO2)\n• Mirror or glass table for collection\n\n**Process**:\n1. Put ground marijuana in bubble bag with dry ice\n2. Shake over mirror/glass surface\n3. Trichomes freeze and fall through micron screen\n4. Collect kief from surface\n\n**Result**: Fine kief/hash powder\n**Note**: Quick and effective but can include plant material`;
+  }
+  if (t.includes('distillate') || t.includes('510') || t.includes('vape cart')) {
+    return `💉 **Cannabis Distillate**\n\n**What It Is**: Purified cannabinoids via short-path distillation\n\n**Purity**: 90-99% cannabinoid content\n**Appearance**: Clear, viscous oil\n\n**Advantages**:\n• Higher purity than any solvent extraction\n• Works perfectly in 510 vape cartridges\n• Can isolate specific cannabinoids\n• Consistent potency\n\n**Comparison**: Surpassed the 1940s-70s polar/non-polar methods\n\n**Modern Standard**: 510 thread vapes became industry standard`;
+  }
+  if (t.includes('delta-8') || t.includes('delta 8') || t.includes('delta-10') || t.includes('thcp') || t.includes('thc-jd') || t.includes('hemp derived')) {
+    return `🧬 **Hemp-Derived Cannabinoids**\n\n**Legal Context**: 2018 Farm Bill opened hemp market\n\n**Compounds**:\n• **Delta-8-THC**: Milder than D9, less anxiety (converted from CBD)\n• **Delta-10-THC**: More energetic/sativa-like\n• **THCp**: 33x more potent than D9 (longer alkyl chain)\n• **THC-JD**: 8-carbon chain, claimed extremely potent\n\n**Production**: Most isomerized from CBD isolate\n\n**Note**: Legality varies by state - research local laws`;
+  }
+  if (t.includes('myrcene') || (t.includes('mango') && (t.includes('thc') || t.includes('weed') || t.includes('high')))) {
+    return `🥭 **Myrcene & THC Potentiation**\n\n**Mechanisms**:\n1. Opens Blood-Brain Barrier → more THC reaches brain\n2. Inhibits CYP450 → slows THC breakdown\n3. Activates alpha-2 adrenergic receptors → sedation\n\n**Route Matters**:\n• **Smoked/Vaped**: INCREASED potency (slower metabolism)\n• **Edibles**: May DECREASE potency (blocks 11-OH-THC formation)\n\n**Mango Myth**: Mangoes likely have insufficient myrcene to matter\n\n**Sources**: Lemongrass, hops, cannabis terpenes\n\n**Personal Finding**: BHO + lemongrass was notably stronger`;
+  }
+  if (t.includes('black pepper') || (t.includes('pepper') && (t.includes('anxiety') || t.includes('high') || t.includes('too high')))) {
+    return `🌶️ **Black Pepper for Cannabis Anxiety**\n\n**The Remedy**: Chew/smell black peppercorns when too high\n\n**Active Compound**: Beta-caryophyllene\n\n**Mechanism**:\n• CB2 receptor agonist\n• Modulates THC-induced anxiety\n• Anti-inflammatory effects\n\n**How to Use**:\n• Chew 2-3 whole peppercorns\n• Or just smell cracked pepper\n\n**Note**: Folk remedy with actual pharmacological basis`;
+  }
+  if (t.includes('cannabutter') || t.includes('canna butter') || t.includes('butter extraction') || t.includes('edible')) {
+    return `🧈 **Cannabutter & Edibles**\n\n**Classic Method**:\n1. Decarboxylate flower (240°F, 40 min)\n2. Simmer with butter/oil on low heat\n3. Strain through cheesecloth\n4. Refrigerate to solidify\n\n**Oil vs Butter**: Oil often works better (higher fat content coconut oil)\n\n**Dosing**: Start low (5-10mg THC), wait 2 hours\n\n**Why Edibles Hit Different**:\nLiver converts THC → 11-OH-THC (more potent metabolite)\n\n**Note**: CYP450 inhibitors (grapefruit, myrcene) may affect edible potency`;
+  }
+  if (t.includes('kava') && (t.includes('weed') || t.includes('cannabis') || t.includes('marijuana') || t.includes('thc'))) {
+    return `🍵 **Kava + Cannabis Interactions**\n\n**Yangonin Discovery**: This kavalactone binds to CB1 receptors!\n\n**Combined Effects**:\n• Enhanced relaxation\n• Different character than either alone\n• Potentially synergistic\n\n**CYP450 Concern**:\n• Both affect liver enzymes\n• Kavalactones inhibit multiple CYPs\n• Potential for drug interactions\n\n**Research Status**: Limited formal studies on combination`;
+  }
+  if (t.includes('thc') && t.includes('cyp')) {
+    return `🧬 **THC & CYP450 Metabolism**\n\n**THC Metabolism**:\n• Primary: CYP2C9 → 11-OH-THC (ACTIVE)\n• Secondary: CYP2C19, CYP3A4\n• Final: → THC-COOH (inactive, detected in drug tests)\n\n**THC Inhibits**: CYP1A2, CYP2B6, CYP2C9, CYP2D6\n\n**CBD Inhibits**: CYP3A4, CYP2B6, CYP2C9, CYP2D6, CYP2E1\n\n**2025 Research**: Monoterpenoids (myrcene, limonene, pinene) directly activate CB1 receptor!\n\n**Oilahuasca Parallel**: Both systems use CYP450 manipulation\n• Oilahuasca: INDUCE then INHIBIT CYP1A2\n• Cannabis: Primarily INHIBIT CYP2C9/3A4`;
+  }
+  if (t.includes('dr atomic') || t.includes('marijuana multiplier')) {
+    return `📚 **Dr. Atomic's Marijuana Multiplier**\n\n**Era**: 1970s counterculture classic\n\n**Content**:\n• Acetone extraction methods\n• Isomerization techniques\n• Potency enhancement methods\n• Solvent selection and safety\n\n**Historical Significance**: Foundational DIY cannabis extraction text\n\n**Personal Note**: "Goldmine of information" - started many extractors' journeys\n\n**Method**: Simple acetone pull → "black goop" → apply to bowls or re-infuse plant material`;
+  }
+
+  // Advanced Marijuana Growing
+  if (t.includes('frass') || t.includes('black soldier fly') || t.includes('bsfl') || t.includes('chitin')) {
+    return `🪰 **Frass & Black Soldier Fly Larvae**\n\n**What is Frass?**: Digested organic matter from BSFL - plant steroid with full nutrients + chitin\n\n**Chitin Mechanism**:\n• Plant thinks it's being attacked by bugs\n• Triggers defense response → stronger plant\n• Digests chitin like Venus Flytraps eat insects\n\n**BSFL Bin Setup** (Mike N):\n• 2'x4' galvanized trough + plywood lid\n• Feed: scraps, meat, fish, dog poop\n• Bedding: peat moss + lump charcoal (biochar)\n• Harvest leachate throughout season\n\n**Results**: On par with Subcool super soil!\n\n**No Frass Available?** (Clackamas Coot tip):\nDiastatic Malted Barley contains Chitinase enzyme - makes chitin bioavailable`;
+  }
+  if (t.includes('silica') || t.includes('silicon') || t.includes('orthosilicic')) {
+    return `💎 **Silica/Silicon for Cannabis**\n\n**Best Form**: OrthoSilicic Acid (OSA/28) - plant-available silicon\n\n**Benefits**:\n• Larger plants\n• Higher yields\n• Stronger cell walls\n• More resistant to physical damage\n• Pest resistance\n\n**Key Insight**: Not all silica forms are absorbed equally - orthosilicic acid is the bioavailable form\n\n**Origin**: Same tech used to grow giant, tear-resistant banana trees`;
+  }
+  if (t.includes('auxin') || t.includes('cytokinin') || t.includes('plant hormone') || t.includes('pgr')) {
+    return `🧬 **Plant Growth Regulators (PGRs)**\n\n**Two Main Types for Cannabis**:\n\n**Auxins** (Root/Cell Growth):\n• Indole-3-Acetic Acid (IAA) - most studied\n• Controls root development, cell elongation\n\n**Cytokinins** (Shoot/Bud Growth):\n• 6-Benzylaminopurine (BAP)\n• Cell division, shoot growth, delays aging\n• Can increase budset and productivity\n\n**Brassinosteroids**: 6th class of plant hormone - understudied for cannabis\n\n⚠️ Not for organic grows. Research before using.`;
+  }
+  if (t.includes('molasses') || t.includes('bud candy') || t.includes('carbohydrate') || t.includes('sugar') && t.includes('plant')) {
+    return `🍯 **Carbohydrates for Cannabis**\n\n**Commercial**: Advanced Nutrients Bud Candy\n\n**DIY Alternatives**:\n• Molasses - not just emergency nutrient!\n• Sucanat (whole cane sugar)\n• Mannitol\n\n**Mechanism**: Feeds soil microbes, provides energy for bud development\n\n⚠️ **Important**: Only for SOIL grows!\nSugar does nothing for synthetic salt/coco grows - just makes a mess.`;
+  }
+  if (t.includes('kelp') || t.includes('seaweed') || t.includes('ascophyllum')) {
+    return `🌊 **Kelp for Cannabis**\n\n**Best Variety**: Ascophyllum Nodosum (Canadian kelp)\n\n**Active Compound**: Cytokinin\n\n**Cytokinin Effect**: Causes plants to bloom - even in petri dishes!\n\n**Harvest Timing**: Higher cytokinin when harvested at right time\n\n**Products**: Growmore Avalanche, various kelp bloom boosters\n\n**Benefits**: Natural source of plant hormones for organic grows`;
+  }
+  if (t.includes('amino acid') && t.includes('plant')) {
+    return `🧪 **Amino Acids for Cannabis**\n\n**L-Glycine**:\n• Amplifies photosynthesis\n• Promotes tissue growth\n• Same glycine in Oilahuasca detox pathway!\n\n**L-Arginine**:\n• Enhances flower growth\n\n**L-Aspartic Acid**:\n• Building block amino\n• Can become any amino acid the plant needs\n\n**Connection**: Amino acids bridge human and plant biochemistry`;
+  }
+  if (t.includes('unified theory') || (t.includes('fertilizer') && t.includes('theory'))) {
+    return `🔬 **Unified Theory of Fertilizer**\n\n**Five Interconnected Areas**:\n\n1. **Marijuana Strains & Terpenes** - Phytochemical profiles\n2. **Yeast & Fermentation** - Nutrient cycling\n3. **Marine Natural Products** - Kelp, seaweed compounds\n4. **CYP450 Enzymes** - CONNECTS TO OILAHUASCA!\n5. **Aromatic Compounds** - Indoles, Tryptamines, Phenethylamines\n\n**Key Insight**: CYP450 enzyme manipulation applies to BOTH human pharmacology AND plant biochemistry\n\n**Application**: Understanding enzymes helps optimize both grows and experiences`;
+  }
+  if (t.includes('breeding') || t.includes('feminize') || t.includes('ga3') || t.includes('gibberellic')) {
+    return `🌱 **Cannabis Breeding & Feminization**\n\n**GA3 (Gibberellic Acid)**:\n• Get feminized seeds from known female\n• Forces female to produce male flowers\n• No hermie genetics passed on\n\n**Breeding Crosses** (SashaShiva):\n• Malawi Gold × Strawberry Diesel\n• Banana Crack × Early Durban\n• Hindu Kush crosses\n\n**Techniques**: See 420 Magazine breeding threads for dominant/recessive trait info`;
+  }
+  if (t.includes('scrog') || t.includes('screen of green') || t.includes('cinderblock') || t.includes('outdoor grow')) {
+    return `🌿 **SCROG & Outdoor Techniques**\n\n**SCROG (Screen of Green)**: Train plants horizontally through screen for even canopy\n\n**Back Country Method**:\n• Take 4ft+ outdoor plant\n• Tie cinderblock to top with rope/fishing line\n• Lay plant sideways\n• Effect: 1 plant → equivalent of 3+ plants\n\n**Origin**: Most marijuana tek comes from tomato farming\n**Additions**: Closet/greenhouse methods added due to illegality`;
+  }
+
+  // Global Resins & Encaustic Consciousness Art
+  if (t.includes('encaustic') || t.includes('beeswax art') || t.includes('wax art')) {
+    return `🕯️ **Encaustic Art - Beeswax Medium**\n\n**Standard Formula**: Beeswax + Damar Resin\n\n**Damar Functions**:\n• Raises melting point (145°F → 180-200°F)\n• Hardening agent\n• Prevents blooming\n• Adds translucency\n\n**Resin Ratios**:\n• Primary: 15-20% by weight\n• Secondary: 5-10%\n• Trace: 1-5%\n• Max total: 30%\n\n**Temperature**: Most resins activate 180-220°F\n\n**Consciousness Application**: Resins contain terpenes that interface with CYP450 enzymes - same mechanism as Oilahuasca!`;
+  }
+  if (t.includes('frankincense') || t.includes('boswellia') || t.includes('olibanum')) {
+    return `🔥 **Frankincense (Boswellia spp.)**\n\n**Species**: B. sacra, B. frereana, B. serrata, B. papyrifera\n\n**Names**:\n• Tigrinya: ዓንበሳ፡ዕፀ (anbesa itse)\n• Amharic: እንዳፋ (indafa)\n\n**Properties**:\n• High heat resistance\n• Consciousness enhancement\n• Hardening agent\n\n**Use**: Ancient temple incense, spiritual conductor\n\n**Encaustic**: Excellent heat resistance enhancer`;
+  }
+  if (t.includes('myrrh') || t.includes('commiphora')) {
+    return `🌿 **Myrrh (Commiphora myrrha)**\n\n**Names**:\n• Amharic: በሰበጣ (besebeta)\n• Somali: Malmal\n\n**Properties**:\n• Anti-septic\n• Anti-inflammatory\n• Preservative\n\n**Use**: Temple incense, consciousness interface, healing\n\n**Related**: Guggul (C. wightii) - Ayurvedic purification resin`;
+  }
+  if (t.includes('copal') || t.includes('protium') || t.includes('breu')) {
+    return `✨ **Copal & Breu Resins**\n\n**Copal Types**:\n• Mesoamerican (Protium, Bursera spp.)\n• Peruvian (Dacryodes peruviana)\n• African (Hymenaea verrucosa)\n\n**Breu Varieties** (Amazonian):\n• **Breu Branco**: White incense - purification, shamanic tool\n• **Breu Preto**: Black incense - grounding, protection\n\n**Properties**: Semi-fossilized, amber-like, good hardener\n\n**Consciousness**: Time-bridging energy, shamanic interface`;
+  }
+  if (t.includes('dragon') && t.includes('blood')) {
+    return `🐉 **Dragon's Blood Resins**\n\n**Two Species**:\n\n**African** (Dracaena cinnabari):\n• Arabic: دم التنين (dam al-tannin)\n• Deep red, high heat resistance\n\n**Asian** (Daemonorops draco):\n• Chinese: 血竭 (xuè jié)\n• Medicinal red resin\n\n**Properties**: Intense red pigmentation, protection, healing\n\n**Encaustic**: Natural red pigment + hardening`;
+  }
+  if (t.includes('copaiba') || t.includes('copaifera')) {
+    return `🌳 **Copaiba (Copaifera spp.)**\n\n**Names**:\n• Portuguese: Copaíba\n• Spanish: Aceite de copaiba\n\n**Key Compound**: HIGH in Beta-caryophyllene!\n\n**Properties**:\n• Anti-inflammatory balsam\n• CB2 receptor agonist (like black pepper!)\n• Plant teacher medicine\n\n**CYP450 Connection**: Beta-caryophyllene bridges to cannabis/Oilahuasca framework\n\n**Use**: Healing art, emotional healing, consciousness interface`;
+  }
+  if (t.includes('palo santo') || t.includes('bursera graveolens')) {
+    return `🪵 **Palo Santo (Bursera graveolens)**\n\n**Meaning**: "Holy Wood" (Spanish)\n\n**Key Compound**: HIGH in Limonene!\n\n**Properties**:\n• Sacred wood resin\n• Purification\n• Consciousness cleansing\n\n**CYP450 Connection**: Limonene is a CYP INDUCER - speeds metabolism\n\n**Use**: Space clearing, protection formulas, uplifting`;
+  }
+  if (t.includes('damar') || t.includes('shorea')) {
+    return `💎 **Damar Gum (Shorea spp.)**\n\n**Origin**: Southeast Asia (Dipterocarpaceae family)\n\n**Standard Encaustic Resin** - most tested and reliable\n\n**Functions**:\n• Raises melting point (145°F → 180-200°F)\n• Hardening agent\n• Prevents blooming\n• Adds translucency and durability\n\n**Ratio**: 10-25% by weight to beeswax\n\n**Related**: Sal Resin (Shorea robusta) - Buddha's birth tree`;
+  }
+  if (t.includes('mastic') || t.includes('pistacia')) {
+    return `🌟 **Mastic (Pistacia lentiscus)**\n\n**Names**:\n• Greek: Μαστίχα (masticha)\n• Arabic: مستكة (mastaka)\n\n**Origin**: Mediterranean (Greece, Turkey)\n\n**Properties**:\n• Hard, clear resin\n• Excellent adhesion\n• Ancient consciousness conductor\n• Preservative\n\n**Encaustic**: 5-15% for hardening without brittleness`;
+  }
+  if (t.includes('amber') || t.includes('fossilized resin')) {
+    return `⏳ **Amber - Ancient Fossilized Resin**\n\n**Types**:\n• Baltic Amber (Pinus succinifera) - German: Bernstein\n• Kauri Gum (Agathis australis) - Māori: Kapia\n• Fossil Copal\n\n**Properties**:\n• Ancient consciousness trapped in resin\n• Time-bridging energy\n• Extreme hardness\n\n**Consciousness**: Contains millions of years of preserved energy\n\n**Encaustic**: Premium hardening, golden color`;
+  }
+  if (t.includes('gum arabic') || t.includes('acacia') && t.includes('gum')) {
+    return `🌾 **Gum Arabic (Acacia spp.)**\n\n**Best Quality**: A. senegal (Gum Hashab)\n\n**Names**:\n• Arabic: الصمغ العربي (al-samgh al-arabi)\n• Hausa: Dakwara\n\n**Properties**:\n• Water-soluble binding agent\n• Emulsification\n• Paint consistency control\n\n**Use**: Not for encaustic (water-soluble), but excellent for watercolor, gouache, ink`;
+  }
+  if (t.includes('benzoin') || t.includes('styrax')) {
+    return `🍯 **Benzoin (Styrax benzoin)**\n\n**Names**:\n• Hindi: लोबान (loban)\n• Arabic: Lubān jāwī\n\n**Properties**:\n• Sweet vanilla-like resin\n• Incense base\n• Consciousness enhancement\n• Sacred space creation\n\n**Use**: Meditation enhancement formulas, temple blends`;
+  }
+  if (t.includes('resin') && (t.includes('consciousness') || t.includes('spiritual') || t.includes('shamanic'))) {
+    return `🔮 **Consciousness Interface Resins**\n\n**Shamanic**: Breu varieties, Palo Santo, Copaiba\n**Temple**: Frankincense, Myrrh, Benzoin\n**Healing**: Sangre de Drago, Guggul, Copaiba\n**Protection**: Breu Preto, Dragon's Blood, Mastic\n\n**CYP450 Connection**:\nMany resins contain terpenes (limonene, beta-caryophyllene, pinene) that modulate CYP450 enzymes - same mechanism as Oilahuasca!\n\n**Application**: Create consciousness-conducting artworks`;
+  }
+  if (t.includes('sangre de drago') || t.includes('croton lechleri') || t.includes('dragon blood tree')) {
+    return `🩸 **Sangre de Drago (Croton lechleri)**\n\n**Names**:\n• Spanish: Sangre de drago/dragón\n• Portuguese: Sangue de dragão\n• Quechua: Racurana\n\n**Properties**:\n• Healing latex\n• Bright red color\n• Wound healing\n\n**Use**: Physical healing art, natural red pigment\n\n**Different from**: Asian/African Dragon's Blood (different species)`;
+  }
   return null;
 }
 
@@ -304,6 +459,199 @@ const cryptologyTopicMap = {
     keywords: ['metabol', 'phase 1', 'phase 2', 'phase i', 'phase ii', 'liver', 'oxidation'],
     related: ['cyp450', 'glycine', 'alkaloid', '17bhsd2'],
     emoji: '🔄'
+  },
+  extraction: {
+    keywords: ['extraction', 'extract', 'tek', 'stb', 'a/b', 'acid base', 'naphtha', 'limonene', 'limtek', 'dmt extraction'],
+    related: ['solvents', 'mhrb', 'acrb', 'purification', 'jungle_spice'],
+    emoji: '🧪'
+  },
+  solvents: {
+    keywords: ['solvent', 'naphtha', 'heptane', 'xylene', 'toluene', 'limonene', 'nps', 'non-polar'],
+    related: ['extraction', 'purification', 'jungle_spice'],
+    emoji: '🧴'
+  },
+  mhrb: {
+    keywords: ['mhrb', 'mimosa', 'hostilis', 'jurema', 'tenuiflora', 'root bark'],
+    related: ['extraction', 'acrb', 'jungle_spice'],
+    emoji: '🌿'
+  },
+  acrb: {
+    keywords: ['acrb', 'acacia', 'confusa', 'nmt'],
+    related: ['extraction', 'mhrb'],
+    emoji: '🌳'
+  },
+  jungle_spice: {
+    keywords: ['jungle', 'jungle spice', 'red spice', 'full spectrum', 'mystery alkaloid'],
+    related: ['extraction', 'solvents', 'mhrb'],
+    emoji: '🌴'
+  },
+  purification: {
+    keywords: ['recrystalliz', 'crystalliz', 'purif', 'salting', 'fumarate', 'fasa', 'clean'],
+    related: ['extraction', 'solvents'],
+    emoji: '💎'
+  },
+  cold_water: {
+    keywords: ['cold water', 'cwe', 'freeze', 'lime', 'calcium hydroxide'],
+    related: ['extraction', 'mhrb'],
+    emoji: '❄️'
+  },
+  changa: {
+    keywords: ['changa', 'enhanced leaf', 'smoking blend', 'maoi herb', 'caapi'],
+    related: ['pharmahuasca', 'administration'],
+    emoji: '🍃'
+  },
+  pharmahuasca: {
+    keywords: ['pharmahuasca', 'pharmaceutical', 'oral dmt', 'harmine', 'harmaline', 'syrian rue'],
+    related: ['changa', 'administration', 'maoi'],
+    emoji: '💊'
+  },
+  administration: {
+    keywords: ['smoke', 'vaporize', 'oral', 'sublingual', 'insufflat', 'buccal', 'roa', 'route'],
+    related: ['changa', 'pharmahuasca', 'dosing'],
+    emoji: '🎯'
+  },
+  // Marijuana Extraction Topics
+  marijuana_extraction: {
+    keywords: ['marijuana extraction', 'cannabis extraction', 'weed extraction', 'thc extraction', 'hash'],
+    related: ['bho', 'bubble_hash', 'distillate', 'edibles', 'myrcene'],
+    emoji: '🌿'
+  },
+  bho: {
+    keywords: ['bho', 'butane', 'shatter', 'wax', 'dab', 'budder', 'live resin'],
+    related: ['marijuana_extraction', 'distillate', 'concentrates'],
+    emoji: '💨'
+  },
+  bubble_hash: {
+    keywords: ['bubble hash', 'ice hash', 'ice water', 'matt rize', 'bubble bag', 'solventless'],
+    related: ['marijuana_extraction', 'dry_ice_hash', 'kief'],
+    emoji: '🧊'
+  },
+  dry_ice_hash: {
+    keywords: ['dry ice', 'kief', 'dry sift', 'trichome'],
+    related: ['bubble_hash', 'marijuana_extraction'],
+    emoji: '❄️'
+  },
+  distillate: {
+    keywords: ['distillate', '510', 'vape cart', 'short path', 'thc oil'],
+    related: ['marijuana_extraction', 'hemp_cannabinoids'],
+    emoji: '💉'
+  },
+  hemp_cannabinoids: {
+    keywords: ['delta-8', 'delta 8', 'delta-10', 'thcp', 'thc-jd', 'hemp derived', 'cbd'],
+    related: ['distillate', 'marijuana_extraction'],
+    emoji: '🧬'
+  },
+  myrcene: {
+    keywords: ['myrcene', 'mango', 'lemongrass', 'terpene', 'potentiate', 'entourage'],
+    related: ['marijuana_extraction', 'cyp450', 'edibles'],
+    emoji: '🥭'
+  },
+  edibles: {
+    keywords: ['edible', 'cannabutter', 'butter', 'brownie', 'oil infusion', '11-oh-thc'],
+    related: ['marijuana_extraction', 'myrcene', 'cyp450'],
+    emoji: '🧈'
+  },
+  cannabis_cyp450: {
+    keywords: ['thc cyp', 'cbd cyp', 'cannabis metabolism', 'thc liver', '11-oh-thc'],
+    related: ['cyp450', 'myrcene', 'edibles', 'oilahuasca'],
+    emoji: '🧬'
+  },
+  kava_cannabis: {
+    keywords: ['kava weed', 'kava cannabis', 'yangonin', 'kavalactone thc'],
+    related: ['myrcene', 'cannabis_cyp450'],
+    emoji: '🍵'
+  },
+  dr_atomic: {
+    keywords: ['dr atomic', 'marijuana multiplier', 'acetone extraction', '1970s'],
+    related: ['marijuana_extraction', 'edibles'],
+    emoji: '📚'
+  },
+  // Advanced Marijuana Growing Topics
+  frass: {
+    keywords: ['frass', 'black soldier fly', 'bsfl', 'chitin', 'insect compost'],
+    related: ['organic_growing', 'nutrients', 'silica'],
+    emoji: '🪰'
+  },
+  silica: {
+    keywords: ['silica', 'silicon', 'orthosilicic', 'osa', 'cell wall'],
+    related: ['frass', 'nutrients', 'plant_strength'],
+    emoji: '💎'
+  },
+  plant_hormones: {
+    keywords: ['auxin', 'cytokinin', 'pgr', 'plant hormone', 'bap', 'iaa', 'brassinosteroid'],
+    related: ['kelp', 'bloom_boosters', 'unified_theory'],
+    emoji: '🧬'
+  },
+  bloom_boosters: {
+    keywords: ['molasses', 'bud candy', 'carbohydrate', 'sugar plant', 'bloom booster'],
+    related: ['kelp', 'frass', 'nutrients'],
+    emoji: '🍯'
+  },
+  kelp: {
+    keywords: ['kelp', 'seaweed', 'ascophyllum', 'cytokinin natural'],
+    related: ['plant_hormones', 'bloom_boosters', 'organic_growing'],
+    emoji: '🌊'
+  },
+  unified_theory: {
+    keywords: ['unified theory', 'fertilizer theory', 'cyp450 plant'],
+    related: ['cyp450', 'oilahuasca', 'plant_hormones', 'terpenes'],
+    emoji: '🔬'
+  },
+  cannabis_breeding: {
+    keywords: ['breeding', 'feminize', 'ga3', 'gibberellic', 'seeds', 'genetics'],
+    related: ['marijuana_extraction', 'strains'],
+    emoji: '🌱'
+  },
+  scrog: {
+    keywords: ['scrog', 'screen of green', 'training', 'outdoor', 'topping', 'fim'],
+    related: ['cannabis_breeding', 'marijuana_extraction'],
+    emoji: '🌿'
+  },
+  // Global Resins & Encaustic Consciousness Art
+  encaustic: {
+    keywords: ['encaustic', 'beeswax art', 'wax art', 'wax painting', 'hot wax'],
+    related: ['damar', 'resins', 'consciousness_art'],
+    emoji: '🕯️'
+  },
+  resins: {
+    keywords: ['resin', 'gum', 'balsam', 'tree resin', 'plant resin'],
+    related: ['encaustic', 'frankincense', 'copal', 'consciousness_art'],
+    emoji: '✨'
+  },
+  frankincense: {
+    keywords: ['frankincense', 'boswellia', 'olibanum', 'incense'],
+    related: ['myrrh', 'resins', 'consciousness_art'],
+    emoji: '🔥'
+  },
+  myrrh: {
+    keywords: ['myrrh', 'commiphora', 'guggul'],
+    related: ['frankincense', 'resins', 'healing'],
+    emoji: '🌿'
+  },
+  copal: {
+    keywords: ['copal', 'breu', 'protium', 'breu branco', 'breu preto'],
+    related: ['resins', 'consciousness_art', 'shamanic'],
+    emoji: '✨'
+  },
+  dragons_blood: {
+    keywords: ['dragon blood', 'dracaena', 'daemonorops', 'sangre de drago'],
+    related: ['resins', 'healing', 'protection'],
+    emoji: '🐉'
+  },
+  copaiba: {
+    keywords: ['copaiba', 'copaifera', 'beta-caryophyllene', 'amazonian'],
+    related: ['resins', 'cyp450', 'healing', 'consciousness_art'],
+    emoji: '🌳'
+  },
+  palo_santo: {
+    keywords: ['palo santo', 'holy wood', 'bursera', 'limonene'],
+    related: ['resins', 'cyp450', 'purification'],
+    emoji: '🪵'
+  },
+  consciousness_art: {
+    keywords: ['consciousness art', 'spiritual art', 'shamanic art', 'sacred art'],
+    related: ['encaustic', 'resins', 'frankincense', 'copal'],
+    emoji: '🔮'
   }
 };
 
