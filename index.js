@@ -237,6 +237,44 @@ function getOilahuascaResponse(topic) {
   if (t.includes('glycine') || t.includes('amino acid') || t.includes('conjugation')) return `🧬 **Glycine Conjugation System**\n\n**Key Finding**: Glycine conjugation COMPETES with alkaloid formation!\n\n**Enzymes**: ACSM2B → GLYAT (in mitochondria)\n**Function**: Converts toxic aldehydes to water-soluble glycine conjugates for excretion\n\n**Safety Implication**:\n• Glycine supplementation (3-5g) = Enhanced detox = SAFER\n• Glycine depletion = More alkaloids = MORE TOXIC\n\n⚠️ Glycine also needed for glutathione (antioxidant) - don't deplete!`;
   if (t.includes('alkaloid') || t.includes('aminopropiophenone')) return `⚗️ **CORRECTED: Alkaloid Metabolites**\n\n**NOT amphetamines!** Actual metabolites are TERTIARY AMINOPROPIOPHENONES:\n\n**Three Types**:\n1. Dimethylamines\n2. Piperidines (6-member ring)\n3. Pyrrolidines (5-member ring)\n\n**Compound Profiles**:\n• Elemicin: ALL THREE types ✓\n• Safrole: ALL THREE types ✓\n• Myristicin: Only Piperidines + Pyrrolidines (no dimethylamine)\n\n⚠️ ONLY allyl forms (NOT propenyl) make these alkaloids`;
   if (t.includes('metabol') || t.includes('phase')) return `🔄 **Allylbenzene Metabolism**\n\n**Phase I (CYP450)**:\n1. 1'-Hydroxylation → Alcohol\n2. Oxidation → Aldehyde (FORK POINT!)\n3. Either: Carboxylic acid OR Amine adduct\n\n**Phase II (Conjugation)**:\nGlycine conjugation = Detox pathway\nAmine adduct formation = Alkaloid pathway\n\n**Key**: These pathways COMPETE!\nMore glycine = more detox, less alkaloid`;
+
+  // DMT Extraction Knowledge
+  if (t.includes('extraction') || t.includes('extract') || t.includes('tek') || t.includes('stb') || t.includes('a/b') || t.includes('acid base') || t.includes('acid/base')) {
+    return `🧪 **DMT Extraction Overview**\n\n**Main Methods**:\n• **STB (Straight-to-Base)**: Simplest - basify bark directly, pull with NPS\n• **A/B (Acid/Base)**: More thorough - acid soak first, then basify\n• **Limtek**: Uses d-limonene instead of naphtha\n• **Cold Water Extraction (CWE)**: Non-toxic - freeze/thaw cycles with lime water\n\n**Key Chemicals**:\n• **Base**: Sodium Hydroxide (lye) or Calcium Hydroxide (lime)\n• **NPS**: Naphtha, Heptane, or Limonene\n• **Acid**: Vinegar or citric acid (for A/B)\n\n**Popular Sources**: Mimosa hostilis root bark (MHRB), Acacia confusa root bark (ACRB)\n\n⚠️ Safety: Use proper PPE, ventilation, and research thoroughly before attempting.`;
+  }
+  if (t.includes('naphtha') || t.includes('solvent') || t.includes('nps')) {
+    return `🧴 **Solvents for DMT Extraction**\n\n**Naphtha/Heptane** (Non-polar):\n• Pulls primarily N,N-DMT\n• Results in white-yellow crystals\n• More selective for DMT\n\n**Xylene/Toluene**:\n• Pulls wider range of alkaloids\n• Results in "Jungle Spice" - red/dark product\n• Less selective, more "full spectrum"\n\n**D-Limonene**:\n• Orange oil - food safe\n• Used in Limtek\n• Requires FASA/FASI precipitation\n\n⚠️ Always use proper ventilation and safety equipment.`;
+  }
+  if (t.includes('limtek') || t.includes('limonene')) {
+    return `🍊 **Limtek - D-Limonene Extraction**\n\n**Advantages**:\n• Food-safe solvent (orange oil)\n• Non-toxic compared to naphtha\n• Pleasant smell\n\n**Process**:\n1. Standard A/B or STB preparation\n2. Pull with d-limonene instead of naphtha\n3. Precipitate with FASA (Fumaric Acid Saturated Acetone)\n4. Results in DMT fumarate salt\n\n**Note**: Cannot freeze-precipitate like naphtha - requires salting out.`;
+  }
+  if (t.includes('cold water') || t.includes('cwe') || t.includes('freeze')) {
+    return `❄️ **Cold Water Extraction (CWE)**\n\n**Concept**: Uses freeze-thaw cycles to rupture cell walls and lime water for basification\n\n**Process**:\n1. Powder bark finely\n2. Mix with lime (calcium hydroxide) and water\n3. Freeze overnight, thaw, repeat 3+ times\n4. Filter and pull with NPS\n\n**Advantages**:\n• Uses food-safe lime instead of lye\n• Gentler process\n• Less caustic\n\n**2025 Research**: User blig-blug reports successful yields with optimized CWE method.`;
+  }
+  if (t.includes('jungle') || t.includes('full spectrum') || t.includes('red spice')) {
+    return `🌴 **Jungle Spice - Mystery Alkaloids**\n\n**Definition**: Non-DMT alkaloid fraction from Mimosa, pulled with xylene/toluene AFTER naphtha pulls are exhausted\n\n**Appearance**: Red/dark colored, waxy or crystalline\n\n**Effects**: Different character than white DMT - earthier, more body load, possibly longer duration\n\n**Extraction**: Only appears after naphtha pulls exhausted - use xylene or toluene\n\n**Note**: Composition varies based on source material and extraction conditions.`;
+  }
+  if (t.includes('recrystalliz') || t.includes('crystalliz') || t.includes('purif') || t.includes('salting')) {
+    return `💎 **Purification Techniques**\n\n**Recrystallization**:\n• Dissolve crude DMT in warm naphtha\n• Let cool slowly → crystals form\n• Repeat for higher purity\n\n**Hot Naphtha Wash**:\n• Wash crude with hot naphtha\n• Removes plant oils/fats\n• Cleaner final product\n\n**Salting**:\n• **Fumarate**: FASA precipitation (stable, storable)\n• **Acetate**: Vinegar evaporation\n• **Citrate**: Citric acid method\n\n**Why Salt?**: More stable for storage, precise dosing, different ROA options.`;
+  }
+  if (t.includes('mhrb') || t.includes('mimosa') || t.includes('hostilis')) {
+    return `🌿 **Mimosa Hostilis Root Bark (MHRB)**\n\n**Also Known As**: Jurema, Mimosa tenuiflora\n\n**Alkaloid Content**: ~1-2% DMT in root bark\n\n**Preferred For**:\n• High DMT content\n• Relatively clean extractions\n• Well-documented teks\n\n**Forms**: Whole bark, shredded, or powdered (powder extracts fastest)\n\n**Note**: "Jungle Spice" (mystery alkaloids) primarily associated with MHRB.`;
+  }
+  if (t.includes('acrb') || t.includes('acacia') || t.includes('confusa')) {
+    return `🌳 **Acacia Confusa Root Bark (ACRB)**\n\n**Alkaloid Content**: ~1-1.5% total alkaloids\n\n**Key Difference**: Contains NMT (N-methyltryptamine) alongside DMT\n\n**Extraction Notes**:\n• A/B generally preferred over STB\n• May require defat step\n• Different alkaloid profile than MHRB\n\n**Effects**: Some report slightly different experience due to NMT content.`;
+  }
+  if (t.includes('changa') || t.includes('enhanced leaf') || t.includes('smoking blend')) {
+    return `🍃 **Changa - Smokable DMT Blend**\n\n**Definition**: Smoking mixture containing DMT + MAOI herbs (similar ingredients to Ayahuasca)\n\n**Key Ingredients**:\n• DMT freebase\n• MAOI herb (typically B. caapi or Passionflower)\n• Optional: Dream herbs, lotus, mullein\n\n**Effects**:\n• More grounded than freebase alone\n• Similar to short Ayahuasca trip\n• Slightly longer duration (up to 12 min)\n\n**Advantage**: Much easier to smoke than pure DMT freebase - can use ordinary pipe.\n\n**Popular Blends**: Electric Sheep, Minty Blast, Witch Drum`;
+  }
+  if (t.includes('pharmahuasca') || t.includes('pharmaceutical aya')) {
+    return `💊 **Pharmahuasca - Pharmaceutical Ayahuasca**\n\n**Definition**: Purified/pharmaceutical version of ayahuasca using isolated compounds\n\n**Components**:\n• MAOI: Harmine, Harmaline, or THH (100mg typical)\n• DMT: Freebase or salt form\n\n**Dosing Rule**: NO MORE than 1mg DMT per pound body weight\n\n**Procedure**:\n1. Take MAOI capsule, wait 10-20 min\n2. Take HALF DMT dose\n3. Wait 10 min, take remaining half\n\n**Advantages**: Precise dosing, reduced nausea, faster onset\n\n⚠️ Be aware of MAOI dietary restrictions!`;
+  }
+  if (t.includes('smoke') || t.includes('vaporiz') || (t.includes('how') && t.includes('use'))) {
+    return `🎯 **DMT Administration Methods**\n\n**Vaporization/Smoking**:\n• Most common - rapid onset (seconds)\n• Methods: Glass pipe, dab rig, vaporizer, changa\n• Duration: 5-20 minutes\n\n**Oral (requires MAOI)**:\n• Ayahuasca, Pharmahuasca\n• Onset: 30-60 min, Duration: 4-6 hours\n\n**Sublingual/Buccal**:\n• Juremala/Mucosahuasca method\n• Absorbed through mouth tissue\n• Requires MAOI for oral route\n\n**Note**: DMT is NOT orally active without MAOI - stomach enzymes (MAO) destroy it.`;
+  }
+  if (t.includes('5-meo') || t.includes('5meo') || t.includes('bufo')) {
+    return `🐸 **5-MeO-DMT**\n\n**Sources**:\n• Bufo alvarius toad (5-15% in glands)\n• Various plants (Anadenanthera, Virola, some Acacias)\n\n**Key Differences from N,N-DMT**:\n• MUCH more potent (5-15mg vs 30-50mg)\n• Different character - more "white light" dissolution\n• Less visual, more ego-dissolution\n\n**Highest Sources**:\n• Bufo toad glands: 5-15%\n• A. peregrina roots: 0.678%\n• Nyakwana snuff: 9.68%\n\n⚠️ EXTREME CAUTION - very potent. Never combine with MAOIs!`;
+  }
   return null;
 }
 
@@ -304,6 +342,56 @@ const cryptologyTopicMap = {
     keywords: ['metabol', 'phase 1', 'phase 2', 'phase i', 'phase ii', 'liver', 'oxidation'],
     related: ['cyp450', 'glycine', 'alkaloid', '17bhsd2'],
     emoji: '🔄'
+  },
+  extraction: {
+    keywords: ['extraction', 'extract', 'tek', 'stb', 'a/b', 'acid base', 'naphtha', 'limonene', 'limtek', 'dmt extraction'],
+    related: ['solvents', 'mhrb', 'acrb', 'purification', 'jungle_spice'],
+    emoji: '🧪'
+  },
+  solvents: {
+    keywords: ['solvent', 'naphtha', 'heptane', 'xylene', 'toluene', 'limonene', 'nps', 'non-polar'],
+    related: ['extraction', 'purification', 'jungle_spice'],
+    emoji: '🧴'
+  },
+  mhrb: {
+    keywords: ['mhrb', 'mimosa', 'hostilis', 'jurema', 'tenuiflora', 'root bark'],
+    related: ['extraction', 'acrb', 'jungle_spice'],
+    emoji: '🌿'
+  },
+  acrb: {
+    keywords: ['acrb', 'acacia', 'confusa', 'nmt'],
+    related: ['extraction', 'mhrb'],
+    emoji: '🌳'
+  },
+  jungle_spice: {
+    keywords: ['jungle', 'jungle spice', 'red spice', 'full spectrum', 'mystery alkaloid'],
+    related: ['extraction', 'solvents', 'mhrb'],
+    emoji: '🌴'
+  },
+  purification: {
+    keywords: ['recrystalliz', 'crystalliz', 'purif', 'salting', 'fumarate', 'fasa', 'clean'],
+    related: ['extraction', 'solvents'],
+    emoji: '💎'
+  },
+  cold_water: {
+    keywords: ['cold water', 'cwe', 'freeze', 'lime', 'calcium hydroxide'],
+    related: ['extraction', 'mhrb'],
+    emoji: '❄️'
+  },
+  changa: {
+    keywords: ['changa', 'enhanced leaf', 'smoking blend', 'maoi herb', 'caapi'],
+    related: ['pharmahuasca', 'administration'],
+    emoji: '🍃'
+  },
+  pharmahuasca: {
+    keywords: ['pharmahuasca', 'pharmaceutical', 'oral dmt', 'harmine', 'harmaline', 'syrian rue'],
+    related: ['changa', 'administration', 'maoi'],
+    emoji: '💊'
+  },
+  administration: {
+    keywords: ['smoke', 'vaporize', 'oral', 'sublingual', 'insufflat', 'buccal', 'roa', 'route'],
+    related: ['changa', 'pharmahuasca', 'dosing'],
+    emoji: '🎯'
   }
 };
 
