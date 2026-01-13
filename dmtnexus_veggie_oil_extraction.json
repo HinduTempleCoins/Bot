@@ -1,0 +1,333 @@
+{
+  "metadata": {
+    "title": "DMT-Nexus Veggie Oil Extraction Research",
+    "source": "DMT-Nexus Forum",
+    "thread": "Veggie Oil Extraction Log",
+    "primary_author": "amor_fati",
+    "date_range": "February-April 2011",
+    "category": "extraction_chemistry",
+    "related_topics": ["limtek", "FASW", "food-safe extraction", "harm reduction"]
+  },
+
+  "key_contributors": {
+    "BecometheOther": {
+      "alias": "Harmalosa",
+      "focus": "Vinegar + lime + veggie oil combo testing",
+      "results": "Hash-like tar, ~1% yield from MHRB"
+    },
+    "Curiouskid": {
+      "focus": "Sunflower oil extraction",
+      "results": "450mg from 25g but potency issues reported"
+    },
+    "endlessness": {
+      "role": "Moderator",
+      "contribution": "Slow crystallization method documentation on wiki"
+    },
+    "amor_fati": {
+      "role": "Chemical expert, Senior Member",
+      "contributions": [
+        "Veggie Oil Extraction Log",
+        "Compendium for the Extraction of Jurema",
+        "Poor Man's Tek",
+        "Nontoxic Approach to DMT Extraction",
+        "DMT-Nexus Wiki contributor"
+      ],
+      "philosophy": "Food-safe, grocery store accessible extraction methods",
+      "projects": ["Juremala development", "Inspirator mkII"]
+    },
+    "logos2012": {
+      "focus": "Olive oil extraction research"
+    },
+    "biopsylo": {
+      "focus": "Biodiesel/ethyl ester solvent research"
+    },
+    "downwardsfromzero": {
+      "role": "Boundary condition, Chemical expert",
+      "note": "Identified soap formation risk with lye + oils"
+    }
+  },
+
+  "veggie_oil_extraction_theory": {
+    "principle": "Vegetable oils can serve as non-polar solvents for alkaloid extraction, similar to how limonene or naphtha work",
+    "advantages": [
+      "100% food-safe materials",
+      "Available at any grocery store",
+      "Non-toxic",
+      "Cheaper than specialty solvents",
+      "Can be combined with limonene to extend expensive solvent"
+    ],
+    "oils_tested": {
+      "soy_oil": {
+        "notes": "Often sold as generic 'vegetable oil'",
+        "results": "Produces pale, fluffy extract easy to scrape",
+        "recommendation": "amor_fati's preferred choice"
+      },
+      "olive_oil": {
+        "notes": "Extra virgin tested",
+        "results": "More powdery, less oily than soy; orangish-pink color",
+        "researcher": "logos2012"
+      },
+      "sunflower_oil": {
+        "notes": "Tested by Curiouskid",
+        "results": "Works but may have freezing complications"
+      }
+    },
+    "key_insight": "Dual-solvent mixture of limonene and veggie-oil extends viability of insufficient limonene amounts, reducing costs substantially"
+  },
+
+  "limtek_overview": {
+    "definition": "Lime-based extraction technique using calcium hydroxide (pickling lime) instead of lye",
+    "why_lime_over_lye": [
+      "Avoids soap formation (saponification) when using oils",
+      "Safer to handle than NaOH",
+      "Food-grade material",
+      "No emulsion problems typical of wet lye teks"
+    ],
+    "basic_process": [
+      "Mix plant material with lime and minimal water to form 'bark dough'",
+      "Add heated veggie oil (or oil/limonene mix)",
+      "Stir to extract alkaloids into oil",
+      "Decant oil through filter",
+      "Salt out alkaloids using FASW or vinegar"
+    ]
+  },
+
+  "FASW_technique": {
+    "full_name": "Fumaric Acid Saturated Water",
+    "purpose": "Converts freebase alkaloids to fumarate salts, pulling them from oil into water layer",
+    "process": [
+      "Add FASW to alkaloid-laden oil",
+      "Shake/mix thoroughly",
+      "Freeze mixture",
+      "Oil layer gels/slushes while water layer freezes solid",
+      "Remove gelled oil (squeeze out if in plastic container)",
+      "Thaw water layer and evaporate to obtain fumarate crystals"
+    ],
+    "results": {
+      "from_pure_veggie_oil": "Pale color, fairly fluffy, easy to scrape",
+      "from_pure_limonene": "Flakey and sticky, tends to jump around when scraped",
+      "from_oil_limonene_mix": "Far easier to scrape than pure limonene"
+    }
+  },
+
+  "vinegar_salting_alternative": {
+    "discovery": "Vinegar works for salting, at least with veggie oil/limonene mix",
+    "method": "Distilled white vinegar diluted with water (approximately 1:5 ratio)",
+    "advantages": [
+      "Available at any grocery store",
+      "No need for specialty fumaric acid",
+      "Reduces acetic acid contamination when diluted"
+    ],
+    "acetate_handling": {
+      "method": "Heat-induced dissociation of acetates",
+      "equipment": "Food dehydrator OR double-boiler/steambath (crockpot)",
+      "technique": "Repeated manual crystallization to expose acetates and release acetic acid",
+      "optional_purification": "Quick rinse with saturated sodium carbonate solution, then cold water rinse"
+    },
+    "significance": "Enables fully grocery-store-sourced extraction with no specialty chemicals"
+  },
+
+  "freeze_precipitation": {
+    "purpose": "Separates polar and non-polar layers, breaks emulsions",
+    "observations": {
+      "normal": "Polar (water/vinegar) layer freezes solid, oil layer gels or becomes slushy",
+      "occasional": "Sometimes polar freezes while oil gels - still workable",
+      "handling": "Shake and squeeze out slushy oil from plastic container, or scoop from glass"
+    },
+    "troubleshooting": {
+      "emulsions": "Freezing quells emulsions; partial freezing may help",
+      "residual_oil": "IPA wash cleans residual oil from frozen polar layer"
+    }
+  },
+
+  "IPA_washing": {
+    "discovery": "IPA (isopropyl alcohol) not very soluble in veggie oil but reduces its viscosity",
+    "uses": [
+      "Clean residual oil from frozen polar layer",
+      "Clean up acetates without losing product",
+      "Even 90% IPA works - water content separates when mixed with salts"
+    ],
+    "alternative": "Light limonene wash followed by IPA"
+  },
+
+  "wet_tek_warnings": {
+    "problem": "Using lye (NaOH) with oils causes saponification (soap formation)",
+    "symptoms": [
+      "Gray, sparkly layer instead of expected oil color",
+      "Creamy middle layer between oil and aqueous",
+      "Difficult separation"
+    ],
+    "prevention": "Use lime-based teks (limtek) instead of lye-based wet teks",
+    "salvage": "If soap forms, freezing and careful separation may still recover product"
+  },
+
+  "biodiesel_connection": {
+    "researcher": "biopsylo",
+    "theory": "Ethyl esters (biodiesel) may work as extraction solvents",
+    "observations": [
+      "Biodiesel has excellent solvent properties (frees rusty parts, etc.)",
+      "Glycerine substituted for alcohol changes properties vs pure veggie oil",
+      "ASTM spec biodiesel is methyl ester processed with NaOH and methanol",
+      "Ethyl esters can be made with KOH or even hardwood potash"
+    ],
+    "recommendation": "Use virgin vegetable oil (inexpensive) rather than recycled - fewer impurities",
+    "unknown": "Whether glycerine leg of triglyceride helps or hinders extraction"
+  },
+
+  "practical_tips": {
+    "stirring": "Keep material in jar for stirring, decant through THP (turkey baster/pipette)",
+    "filtering": "Use lighter filtering for cleaner product",
+    "multiple_pulls": "Keep performing flushes - with THP employment, everything drains eventually",
+    "yield_factors": "Depends mainly on quality of basification (adequate lime, water, stirring)",
+    "container_choice": "HDPE plastic jugs work well - can squeeze out gelled oil",
+    "limonene_conservation": "Limonene diluted with veggie oil less prone to dissolving plastics"
+  },
+
+  "purity_comparison": {
+    "pure_veggie_oil": {
+      "extract_quality": "More pure product",
+      "appearance": "Pale, fluffy",
+      "best_use": "Vaporization"
+    },
+    "oil_limonene_mix": {
+      "extract_quality": "Less pure but wider range of molecules",
+      "appearance": "Easier to work with than pure limonene",
+      "best_use": "Juremala (oral preparation)"
+    },
+    "pure_limonene": {
+      "extract_quality": "Full spectrum",
+      "appearance": "Sticky, flakey, jumps when scraped",
+      "best_use": "When maximum extraction needed"
+    }
+  },
+
+  "related_resources": {
+    "wiki_page": "https://wiki.dmt-nexus.me/Amor_fati%27s_Compendium_for_the_Extraction_of_Jurema",
+    "related_threads": [
+      "The Poor Mans Tek - A 100% Fat Free, Food Safe, Grocery Store Solution to DMT Extraction",
+      "amor_fati's Nontoxic Approach to the Extraction of DMT",
+      "No d-Limo, No NP Solvent, No Acetone, All-Natural Extraction?"
+    ]
+  },
+
+  "experience_reports": {
+    "BecometheOther_friend": {
+      "method": "Veggie oil + vinegar + lime, freebased via oven heat",
+      "product": "Hash-like tar",
+      "experience": "Transported to temple/pyramid structure with Mayan/Incan theme, surrounded by waterfalls coming down walls",
+      "assessment": "Very positive experience"
+    },
+    "comparison_to_naphtha": "Friend reported veggie oil extract 'just as good as the other spice made with naphtha'"
+  },
+
+  "chacruna_considerations": {
+    "n_oxide_issue": "Chacruna may have most DMT in N-oxide form",
+    "implications": "Sodium carbonate paste method only pulls freebase, leaving 90% of N-oxide behind",
+    "solutions": {
+      "ammonia_freebasing": "Use ammonia (gaseous base) to freebase N-oxide",
+      "zinc_reduction": "Zinc in acidic environment converts N-oxide to freebase",
+      "limtek_advantage": "No polar layer in limtek may allow N-oxides to be pulled in oil flush"
+    },
+    "source": "Phlux via logos2012"
+  },
+
+  "vinegar_issues": {
+    "problem_discovered": "ALL tested vinegar brands leave impurities that gum up product",
+    "symptoms": [
+      "Sweet smell",
+      "Caramelizes when attempting to vaporize",
+      "Sugar-like residue",
+      "Dry powder clogs smoking device airflow",
+      "Throws off product weight"
+    ],
+    "brands_tested": {
+      "generic": "Failed - impurities present",
+      "heinz_distilled_white": "Failed - same impurities when evaporated straight"
+    },
+    "theory": "Impurities added after distillation - unclear why",
+    "acetone_wash": "May filter out some impurities but results inconsistent",
+    "IPA_drytek": "Did not adequately purify - product still had awful smell and was too hydroscopic",
+    "conclusion": "amor_fati 'threw in the towel' on vinegar as salting reagent",
+    "potential_solution": "Home distillation of vinegar might work but impractical"
+  },
+
+  "glacial_acetic_acid_solution": {
+    "discovery_date": "August 2011",
+    "discoverer": "amor_fati",
+    "method": "Salt with water + small amount of glacial acetic acid instead of vinegar",
+    "evaporation_temp": "150F after separating from oil",
+    "result": "No detectable hint of residual acetic acid, very nice familiar odor",
+    "experience_report": "Some of the best visuals yet, most satisfying session in a while",
+    "advantage": "Quickest way to achieve smokable product straight from extraction",
+    "note": "q21q21's instincts on acetate approach confirmed correct",
+    "recommendation": "Forgo vinegar, use glacial acetic acid OR stick with fumaric acid"
+  },
+
+  "final_recommendations": {
+    "best_salting_reagent": "Fumaric acid (FASW) - most reliable",
+    "alternative": "Glacial acetic acid - works well, quickest method",
+    "avoid": "Store-bought vinegar - impurities cause problems",
+    "note": "Fumaric acid is cheap to order online"
+  },
+
+  "sodium_carbonate_freebasing": {
+    "problem": "Spiceman's tek calls for 1/3 as much sodium carb as acidic water",
+    "result": "Massive excess sodium carbonate after evaporation",
+    "issue": "Sodium carb absorbs acetone, won't release it - lose yield",
+    "observation": "More of a PULL than a wash due to quantity",
+    "alternatives": {
+      "heat_dissociation": "Freebase via heat in food dehydrator or oven",
+      "ice_house_tek": "Freeze precipitation method",
+      "drytek": "Should work with vinegar/acetates",
+      "manual_crystallization": "amor_fati's method with minimal sodium carb"
+    }
+  },
+
+  "yield_data": {
+    "BecometheOther": {
+      "source": "100g MHRB",
+      "yield": "~1g (1%)",
+      "method": "Lime + veggie oil + vinegar, heat freebase",
+      "product_form": "Hash-like tar"
+    },
+    "Curiouskid": {
+      "source": "25g MHRB",
+      "yield": "450mg (1.8%)",
+      "method": "Sunflower oil + vinegar",
+      "note": "Low potency reported - possibly technique issues"
+    },
+    "amor_fati_shoddy": {
+      "note": "Even with inadequate lime and shredded (not powdered) bark, still achieved smokable product",
+      "yield": "~0.25%+",
+      "conclusion": "Wide threshold for error - simplification improves quality"
+    }
+  },
+
+  "product_naming": {
+    "Extra_Virgin_Delight": {
+      "creator": "logos2012",
+      "description": "Olive oil extracted product",
+      "appearance": "Nice powder, not oily",
+      "note": "Named because first users were 'virgins' to smoking DMT"
+    }
+  },
+
+  "slow_crystallization_method": {
+    "source": "endlessness, documented on DMT-Nexus Wiki",
+    "original_discovery": "infundibulum",
+    "process": [
+      "Dissolve fumarates in water",
+      "Mix with saturated sodium carbonate solution",
+      "Refrigerate for ~3 days",
+      "Retrieve crystals",
+      "Freeze and thaw water to recover remaining crystals"
+    ]
+  },
+
+  "harm_reduction_notes": {
+    "legal_status": "DMT is a controlled substance in most jurisdictions",
+    "purpose_of_documentation": "Historical record of harm reduction community research",
+    "safety": "All extraction involves chemical handling risks - proper safety equipment essential",
+    "context": "DMT-Nexus community focused on harm reduction and responsible research"
+  }
+}

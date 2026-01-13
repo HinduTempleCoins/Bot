@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "title": "Lazyman's Tek - STB Extraction Guide",
+    "source": "DMT-Nexus Wiki",
+    "original_author": "Vortex",
+    "original_date": "October 2006",
+    "category": "extraction_chemistry",
+    "type": "Straight To Base (STB)",
+    "significance": "First MHRB tek for broken/whole bark without powdering"
+  },
+
+  "overview": {
+    "simplicity": "Much simpler than earlier A-B teks requiring acid and pH meters",
+    "key_innovation": "Extract whole broken pieces of root bark without powdering",
+    "basic_process": [
+      "Submerge broken bark pieces in NaOH-basified water",
+      "Wait an hour for bark to soften",
+      "Add naphtha and stir",
+      "Pour naphtha off for evaporation"
+    ],
+    "advantages": [
+      "Less time and work than A-B teks",
+      "No pH papers needed",
+      "No separatory funnel needed",
+      "No need to powder bark",
+      "Higher yields than many other methods",
+      "Can continue extracting same material"
+    ]
+  },
+
+  "equipment": {
+    "mixing_bowl": "5L ceramic or stainless steel",
+    "masher": "Stainless steel potato masher",
+    "measuring_cup": "2000 mL",
+    "evap_dish": "Large flat glass baking pan",
+    "fan": "For speeding evaporation",
+    "solvent": "VM&P Naphtha (hardware store)",
+    "base": "NaOH sodium hydroxide (Red Devil Lye)"
+  },
+
+  "ratios": {
+    "root_bark": "400-500g broken pieces",
+    "NaOH": "200g dissolved in water",
+    "water": "2000-3000 mL",
+    "naphtha": "250-400 mL per pull"
+  },
+
+  "yield_data": {
+    "source": "One pound (454g) inner MHRB",
+    "timeline": {
+      "2.5_hours": "1g extracted",
+      "7_hours": "4g total (cumulative)",
+      "48_hours": "7.5g total"
+    },
+    "percentage": "Approximately 1.5% yield"
+  },
+
+  "detailed_process": {
+    "step_1_preparation": {
+      "action": "Break bark into small pieces (no piece longer than 3 inches)",
+      "container": "Large 5L mixing bowl with extra room"
+    },
+    "step_2_basify": {
+      "action": "Dissolve 200g NaOH (~13 tablespoons) into 2L tap water",
+      "pH_achieved": "Near pH 13.5 or higher"
+    },
+    "step_3_soak": {
+      "action": "Add basified water to bark, stir, set aside 2+ hours",
+      "note": "Longer is better"
+    },
+    "step_4_mash": {
+      "action": "Mash softened bark with potato masher 20-30 minutes",
+      "note": "Bark will still be fairly hard if only soaking 2 hours"
+    },
+    "step_5_extract": {
+      "action": "Add 250-400mL naphtha, stir 20-30 minutes",
+      "note": "More naphtha makes separation easier"
+    },
+    "step_6_separate": {
+      "action": "Pour clear naphtha from top, leaving dark soup behind",
+      "caution": "Do not allow dark water or emulsion bubbles into collection"
+    },
+    "step_7_evaporate": {
+      "action": "Pour naphtha into flat glass pan, evaporate with fan",
+      "result": "White DMT bumps stuck to glass"
+    },
+    "step_8_collect": {
+      "action": "Scrape with flat blade after completely solidified",
+      "note": "Wait for shiny clear film to solidify white before scraping"
+    }
+  },
+
+  "extraction_log": {
+    "first_extraction": {
+      "soak_time": "1 hour",
+      "NaOH": "75g in 2L",
+      "mash_time": "30 minutes",
+      "stir_with_naphtha": "30 minutes",
+      "yield": "1g white alkaloid",
+      "total_time": "2.5 hours"
+    },
+    "second_extraction": {
+      "NaOH_added": "75g more (doubled total)",
+      "water_added": "750mL",
+      "yield": "1.5g (50% increase from doubling NaOH)",
+      "recommendation": "Minimum 150g NaOH per 2L for 250-500g bark"
+    },
+    "third_extraction": {
+      "timing": "Same day as first two",
+      "yield": "1.25g",
+      "cumulative": "~3.75g in a few hours"
+    },
+    "fourth_extraction": {
+      "soak_time": "24 hours",
+      "observation": "Bark much softer, almost slimy",
+      "yield": "1.5g",
+      "cumulative": "~5g total"
+    },
+    "fifth_extraction": {
+      "soak_time": "Another 24 hours",
+      "temperature": "Warmed to 120°F, stirred 20 minutes before pull",
+      "yield": "2g (highest single extraction)",
+      "cumulative": "~6.5g total",
+      "note": "Warming made significant difference"
+    },
+    "sixth_extraction": {
+      "temperature": "130°F for 1 hour",
+      "yield": "~2g yellowish extract",
+      "problem": "Did not firm up quickly - soft sticky for 8 hours",
+      "cause": "Likely fatty impurities released from excessive heat",
+      "alternative_theory": "Possibly polymerized DMT (2021 edit)"
+    }
+  },
+
+  "temperature_guidelines": {
+    "room_temp": "Safe, minimal impurities",
+    "100F": "Increased yield, still relatively clean",
+    "120F": "Upper recommended limit",
+    "130F_plus": "Risk of gummy impurities",
+    "recommendation": "Soak at room temp for 72+ hours, only warm to 120°F briefly before pull"
+  },
+
+  "dry_defat_method": {
+    "necessity": "Not normally needed for MHRB (very low fat content)",
+    "principle": "Alkaloid already in salt form in dried bark, naphtha won't extract without basification",
+    "process": [
+      "Mix dry powder into naphtha (no water)",
+      "Stir for 5 minutes",
+      "Strain out solvent",
+      "Repeat 3 times for thoroughness",
+      "Save strained naphtha - fine particles settle overnight",
+      "Proceed with extraction after defat"
+    ],
+    "extreme_defat": "Heat naphtha to 100°F+ before stirring with powder",
+    "fat_content_note": "Only orange fats extracted, no alkaloid without basification"
+  },
+
+  "separation_tips": {
+    "emulsion_handling": "Wait a few minutes to an hour for emulsion to settle",
+    "pouring_technique": "Use measuring cup with spout for controlled pouring",
+    "clarity": "Only collect clear solvent, leave dark water and bubbles behind"
+  },
+
+  "long_soak_method": {
+    "description": "Alternative to multiple quick extractions",
+    "process": [
+      "500g broken bark + 2L water + 200g NaOH + 750mL naphtha",
+      "Set aside for 3 days",
+      "Stir once daily for 20 minutes",
+      "Single large pull may contain 2/3 of total alkaloid"
+    ],
+    "follow_up": "Still need 3+ re-extractions after initial pull"
+  },
+
+  "degradation_warning": {
+    "report": "DMT may break down in high pH solution over time",
+    "status": "Not verified by original author"
+  },
+
+  "comparison_to_limtek": {
+    "lazyman_pros": [
+      "No need for lime",
+      "Works well for broken bark",
+      "Higher yields reported"
+    ],
+    "lazyman_cons": [
+      "Risk of soap formation if using oils",
+      "NaOH more caustic than lime",
+      "Not suitable for veggie oil extraction"
+    ],
+    "limtek_pros": [
+      "Safe with vegetable oils",
+      "Food-safe materials",
+      "No soap formation risk"
+    ]
+  },
+
+  "harm_reduction_notes": {
+    "legal_status": "DMT is a controlled substance in most jurisdictions",
+    "purpose": "Historical documentation of harm reduction community research",
+    "NaOH_safety": "Sodium hydroxide is highly caustic - use protective equipment"
+  }
+}

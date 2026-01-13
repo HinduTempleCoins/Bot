@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "title": "Shaggy's Jungle Tek - Full Spectrum A/B Extraction",
+    "source": "DMT-Nexus Wiki",
+    "original_author": "Shaggy",
+    "original_date": "July 2008",
+    "category": "extraction_chemistry",
+    "type": "Acid/Base (A/B)",
+    "signature_product": "Orange Deemsters / Jungle Spice"
+  },
+
+  "overview": {
+    "principle": "Use citric acid to pull alkaloids into solution, then NaOH to freebase and break down cell walls",
+    "solvents": "Toluene for extraction, heptane for separation",
+    "products": {
+      "full_spectrum": "Orange Deemsters - contains DMT + Yuremamine + beta-carbolines",
+      "separated_white": "Pure DMT (heptane soluble)",
+      "separated_red": "Red Jungle Spice - Yuremamine + other alkaloids (heptane insoluble)"
+    },
+    "yield": "10-14g from 500g stellar bark (8g considered success with average bark)"
+  },
+
+  "materials": {
+    "plant_material": "500g Mimosa Hostilis Root Bark powder",
+    "solvents": {
+      "toluene": "Ace Hardware 'Toluol' in paint thinner section (or xylene substitute)",
+      "acetone": "Any hardware store or Walmart",
+      "heptane": "For separation step only"
+    },
+    "chemicals": {
+      "sodium_hydroxide": "Roebic crystal drain opener (Lowe's plumbing section)",
+      "citric_acid": "Available at grocery stores"
+    },
+    "equipment": [
+      "6-liter crockpot",
+      "Hotplate with temperature dial",
+      "Pyrex dishes (average and large surface area)",
+      "Test tubes, stoppers, clamps (hobby stores)",
+      "Pipettes and eye droppers",
+      "1-gallon wine jug (Carlo Rossi shape ideal)",
+      "Mason jars",
+      "Large funnel",
+      "Digital scale (500g capacity, 0.01g precision)",
+      "Safety equipment (goggles, gloves)"
+    ],
+    "optional_lab_upgrade": [
+      "Basic laboratory glassware set",
+      "Laboratory hardware set",
+      "Basic laboratory tool set",
+      "Vacuum filtration kit",
+      "Separatory funnel"
+    ]
+  },
+
+  "process": {
+    "step_1_acid_extraction": {
+      "preparation": "Dissolve 30g citric acid in 1 gallon distilled water in crockpot",
+      "add_bark": "Stir in 500g MHRB powder",
+      "cook": "Crockpot on high, boil 6-8 hours, stir regularly",
+      "cool": "Remove lid, let steam and cool (reduces volume, needs cooling)"
+    },
+    "step_2_basification": {
+      "prepare_lye": "250ml warm distilled water + 200g NaOH (CAUTION: exothermic!)",
+      "caution": "Solution gets very hot very quickly - avoid skin/eye contact",
+      "add_to_jug": "Pour NaOH solution into bottom of gallon wine jug first",
+      "add_soup": "Ladle soup (bark and all) into jug through funnel",
+      "volume": "Fill to base of neck, leaving neck empty - add water if needed"
+    },
+    "step_3_np_extraction": {
+      "add_toluene": "Fill empty neck with toluene (1/4 inch from mouth)",
+      "mix": "Cap jug, gently invert 10 minutes - mix without creating foam",
+      "separate": "Set upright, let layers separate (minutes to hours)",
+      "collect": "Siphon toluene layer with pipettes into mason jar",
+      "critical": "DO NOT suck up dark bottom layer - toxic",
+      "repeat": "At least 4 pulls until toluene comes up lighter colored",
+      "settling": "Let toluene sit 1 hour before proceeding - particles settle"
+    },
+    "step_4_evaporation": {
+      "safety": "Toluene flammable - well ventilated area, avoid ignition sources",
+      "method_outdoor": "Pour into large pyrex pan, fan blowing, evaporate outside",
+      "method_indoor": "Pyrex on hotplate at 200°F with fan on surface",
+      "result": "Reddish yellow oil remains",
+      "smell_test": "Should smell of DMT only, not solvent - crank to 300°F if needed",
+      "technique": "Blow on oil while cooking to move around and evap all solvent",
+      "solidify": "Cool under fan, scrape with razor until hardened"
+    },
+    "step_5_acetone_wash": {
+      "setup": "Near-boiling water bath in small pot",
+      "process": "Fill test tube halfway with extract, rest with acetone",
+      "stopper": "Use stopper with hole to prevent pressure buildup",
+      "dissolve": "Dip in water bath until acetone bubbles, shake, settle",
+      "collect": "Siphon acetone with no solids onto hot pyrex dish (200°F)",
+      "repeat": "Until all extract dissolved - insoluble material stays in tube",
+      "evap": "Acetone evaps quickly but gets cold - keep heated to avoid moisture",
+      "result": "Full-spectrum Mimosa extract - Orange Deemsters"
+    },
+    "step_6_separation_optional": {
+      "critical": "NO TOLUENE allowed - use clean equipment only",
+      "heat_heptane": "Small mason jar in crockpot on high, no water, lid on",
+      "melt_extract": "Test tube with extract in crockpot until melted",
+      "wash": "Fill tube with hot heptane, forcefully mix layers with pipette",
+      "separate": "Keep hot - white DMT falls back into red if cooled",
+      "collect": "Quickly siphon heptane layer onto large pyrex dish",
+      "repeat": "3 times total",
+      "white_product": "Heptane evap = yellow-white DMT",
+      "red_product": "Oil in tube = Red Jungle Spice"
+    }
+  },
+
+  "products_explained": {
+    "orange_deemsters": {
+      "description": "Full-spectrum extract after acetone wash",
+      "contents": "DMT + Yuremamine + beta-carbolines",
+      "experience": "Longer duration than pure white, more defined OEVs",
+      "philosophy": "Keeps spirit of mimosa intact - all alkaloids present",
+      "preference": "Shaggy's preferred form"
+    },
+    "white_dmt": {
+      "description": "Heptane-soluble fraction",
+      "contents": "Pure DMT",
+      "extraction": "Heptane wash of orange extract"
+    },
+    "red_jungle_spice": {
+      "description": "Heptane-insoluble fraction",
+      "contents": "Yuremamine + suspected MAO-inhibiting beta-carbolines",
+      "note": "Remains in test tube after heptane separation"
+    }
+  },
+
+  "temperature_reference": {
+    "evaporation_initial": "200°F",
+    "final_drying": "300°F",
+    "acetone_dissolve": "Near boiling water bath"
+  },
+
+  "troubleshooting": {
+    "wont_solidify": "Scrape around with razor, move oil, fan dry, repeat",
+    "toluene_smell_remains": "Increase heat to 300°F",
+    "white_falls_into_red": "Keep solution hot during separation"
+  },
+
+  "comparison_to_other_teks": {
+    "vs_lazyman": "More complex but yields full spectrum with yuremamine",
+    "vs_limtek": "Uses NaOH instead of lime - not safe for veggie oil",
+    "unique_feature": "Can separate white DMT from red jungle spice"
+  },
+
+  "harm_reduction_notes": {
+    "legal_status": "DMT is Schedule I in most jurisdictions",
+    "toluene_safety": "Flammable, toxic vapors - ventilation essential",
+    "naoh_safety": "Caustic - protect eyes and skin",
+    "purpose": "Historical documentation of harm reduction research"
+  }
+}
