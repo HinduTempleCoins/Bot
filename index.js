@@ -207,8 +207,11 @@ async function loadOilahuascaKnowledge() {
     // Administration and ingestion methods
     'dmtnexus_juremala_mucosahuasca_guide.json',
     'dmtnexus_ingestion_methods.json',
+    'dmtnexus_pharmahuasca_guide.json',
+    'dmtnexus_changa_enhanced_leaf.json',
     // Botanical and chemical references
-    'dmtnexus_5meo_dmt_sources.json'
+    'dmtnexus_5meo_dmt_sources.json',
+    'dmtnexus_jungle_spice.json'
   ];
   for (const file of files) {
     try {
