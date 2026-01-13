@@ -1,0 +1,162 @@
+{
+  "dmtnexus_ingestion_methods": {
+    "document_info": {
+      "title": "DMT Ingestion Methods Overview",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Comprehensive guide to different routes of administration",
+      "disclaimer": "Educational reference only. Documents historical administration research."
+    },
+
+    "vaporizing_smoking": {
+      "description": "Most common method for freebase DMT",
+      "by_substance": {
+        "reference": "DMT vaporization"
+      },
+      "equipment_guides": [
+        {
+          "name": "The Inspirator",
+          "type": "Custom device"
+        },
+        {
+          "name": "The Inspirator mkII",
+          "type": "Improved custom device"
+        },
+        {
+          "name": "The (mini) Machine",
+          "type": "Step by step guide"
+        },
+        {
+          "name": "Machine-Style Bubbler Piece",
+          "type": "Water filtration variant"
+        },
+        {
+          "name": "Machine-Style Bubbler Stem",
+          "type": "Water filtration variant"
+        },
+        {
+          "name": "Blow Your Own Spice Pipe",
+          "type": "DIY glass pipe"
+        },
+        {
+          "name": "Vaporgenie",
+          "type": "Commercial vaporizer"
+        },
+        {
+          "name": "The E-Cig Approach",
+          "type": "Electronic vaporization"
+        },
+        {
+          "name": "DMT Salt Vape",
+          "type": "Salt-form vaporization"
+        }
+      ]
+    },
+
+    "oral": {
+      "description": "Traditional ayahuasca-style consumption",
+      "reference": "How to brew ayahuasca and analogues",
+      "requirement": "MAOI (harmalas) required for oral activity",
+      "methods": [
+        "Traditional ayahuasca brew",
+        "Pharmahuasca (purified substances)",
+        "Mimosahuasca",
+        "Cold water extraction"
+      ]
+    },
+
+    "sublingual": {
+      "description": "Absorption through oral mucosa",
+      "primary_reference": "Amor fati's Guide to Juremala",
+      "advantages": [
+        "Bypasses digestive tract inconsistency",
+        "Faster onset than oral",
+        "Reduced dosage possible"
+      ]
+    },
+
+    "insufflating_snorting": {
+      "warning": {
+        "severity": "CRITICAL",
+        "reports": [
+          "Can be INTOLERABLY PAINFUL",
+          "Potentially create real physical damage",
+          "May cause allergic-like reactions"
+        ],
+        "user_description": "The sensation can be like if someone poured hydrochloric acid, lava, liquid nitrogen, or straight up liquid fire into your brain",
+        "recommendation": "Start with VERY small amounts as test before proceeding"
+      },
+      "related_threads": [
+        "Preparations to make DMT insufflation more tolerable",
+        "Snorting nn DMT",
+        "Snorting DMT works"
+      ],
+      "hyperspace_fools_coco_tek": {
+        "author": "Hyperspace Fool",
+        "purpose": "Make insufflation more tolerable using coconut cream",
+        "procedure": [
+          "1. Take dose of DMT, place in small shotglass",
+          "2. Mix with enough mildly hot water so 1 drop = 20mg spice (use more water if needed to dissolve)",
+          "3. Add touch of vinegar to convert freebase to acetate (not needed with salt spice)",
+          "4. Add few drops of COCONUT CREAM (not oil, not water) until solution is cloudy white",
+          "5. Mix thoroughly, suck into eyedropper",
+          "6. Drop into nostril while inhaling to spread over larger surface of nasal mucosa"
+        ],
+        "result": "~10-15mg per drop",
+        "notes": {
+          "watery_warning": "Too watery = too much drip",
+          "nasal_spray": "Fine atomizing spray is nice but not necessary",
+          "duration": "Longer than vaped spice - attractive ROA"
+        },
+        "harmalas_addition": {
+          "effect": "Potentiates spice further - longer effect, less DMT required",
+          "warning": "With enough harmalas, insufflated can last long time, more like Aya",
+          "combo": "Using when already on oral harmalas is fantastic"
+        },
+        "flexibility_note": {
+          "dosage_variance": "Some need 15mg, others over 100mg for effects",
+          "customization": "Ratios are personal preference",
+          "vinegar_note": "If used vinegar, might want more cream",
+          "reassurance": "Can't really mess up - just dissolve spice fully, cream to taste",
+          "drip_management": "Lean head off mattress/couch to keep solution in nasal cavities"
+        }
+      }
+    },
+
+    "anal_rectal": {
+      "technical_term": "Intrarectal administration",
+      "reference": "Intrarectal administration guide",
+      "notes": "Alternative route bypassing first-pass metabolism"
+    },
+
+    "iv_im": {
+      "routes": ["Intravenous (IV)", "Intramuscular (IM)"],
+      "references": [
+        "Safe IV use procedure",
+        "Can DMT be IVed?"
+      ],
+      "warning": "Highest risk route - requires medical knowledge and sterile technique"
+    },
+
+    "route_comparison": {
+      "by_onset": {
+        "fastest": "IV/IM (seconds)",
+        "fast": "Vaporized (seconds to minutes)",
+        "medium": "Insufflated (minutes)",
+        "slower": "Sublingual (minutes)",
+        "slowest": "Oral (30-60 minutes)"
+      },
+      "by_duration": {
+        "shortest": "Vaporized (5-20 minutes)",
+        "short": "IV/IM (15-30 minutes)",
+        "medium": "Insufflated (30-60 minutes)",
+        "longer": "Sublingual (varies)",
+        "longest": "Oral with MAOI (2-6 hours)"
+      },
+      "maoi_requirement": {
+        "required": ["Oral"],
+        "enhances": ["Insufflated", "Sublingual"],
+        "not_required": ["Vaporized", "IV/IM"]
+      }
+    }
+  }
+}

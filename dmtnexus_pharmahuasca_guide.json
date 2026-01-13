@@ -1,0 +1,76 @@
+{
+  "dmtnexus_pharmahuasca": {
+    "document_info": {
+      "title": "Pharmahuasca - Pharmaceutical Ayahuasca Guide",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Guide to pharmaceutical version of ayahuasca using purified substances",
+      "disclaimer": "Educational reference only. Documents historical administration research."
+    },
+
+    "definition": {
+      "term": "Pharmahuasca",
+      "description": "Pharmaceutical version of the entheogenic brew ayahuasca",
+      "traditional_comparison": {
+        "traditional_ayahuasca": "MAOI-containing Banisteriopsis caapi vine brewed with DMT-containing plant (e.g., Psychotria viridis)",
+        "pharmahuasca": "Uses pharmaceutical/purified MAOI instead of plant material"
+      }
+    },
+
+    "dosage_guidelines": {
+      "general_rule": "NO MORE THAN 1mg DMT per pound of body weight",
+      "assumption": "Approximately 100mg MAOI taken first",
+      "example": {
+        "body_weight": "150 lbs",
+        "max_dmt_dose": "150mg total (split into two 75mg doses)"
+      },
+      "warning": "This is considered a HIGH dose"
+    },
+
+    "procedure": {
+      "step_1": {
+        "action": "Take one MAOI capsule (100mg)",
+        "wait": "10-20 minutes"
+      },
+      "step_2": {
+        "action": "Take first DMT capsule containing HALF the dose",
+        "example": "75mg for 150lb person",
+        "wait": "10 minutes",
+        "reason": "Reduces likelihood of vomiting"
+      },
+      "step_3": {
+        "action": "Take second DMT capsule containing remaining half dose"
+      },
+      "step_4": {
+        "action": "Experiment to find personal optimal dose"
+      }
+    },
+
+    "safety_warnings": {
+      "dose_sensitivity": "Small changes in dose weight can have LARGE effects",
+      "machinery": "Do NOT attempt to operate machinery during trip",
+      "duration": "Expect to be lying down for couple hours",
+      "starting_low": "Always start with lower doses and work up"
+    },
+
+    "advantages_over_traditional": [
+      "Precise dosing possible",
+      "More predictable effects",
+      "No plant material to digest",
+      "Reduced nausea compared to brew",
+      "Faster onset than traditional brew"
+    ],
+
+    "maoi_options": {
+      "harmine": "Primary beta-carboline from B. caapi",
+      "harmaline": "Stronger MAOI, more sedating",
+      "thh": "Tetrahydroharmine - milder, longer acting",
+      "syrian_rue": "Contains harmine and harmaline (plant source)",
+      "pharmaceutical": "Purified harmalas or synthetic MAOIs"
+    },
+
+    "references": {
+      "forum_topic": "Pharmahuasca forum topic on DMT-Nexus",
+      "wikipedia": "wikipedia:Pharmahuasca"
+    }
+  }
+}

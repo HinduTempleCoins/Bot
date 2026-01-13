@@ -1,0 +1,109 @@
+{
+  "dmtnexus_jungle_spice": {
+    "document_info": {
+      "title": "Jungle Spice - Mystery Alkaloids of Mimosa Root Bark",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Documentation of non-DMT alkaloid fraction from Mimosa",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "definition": {
+      "term": "Jungle Spice",
+      "description": "Non-DMT alkaloid fraction isolated from commercially available Mimosa root bark",
+      "general_extraction": "Alkaloid fraction obtained from aqueous basic phase by pulling with xylene or toluene AFTER DMT ceases to be pulled by aliphatic hydrocarbon solvents (naphtha, heptane)",
+      "composition": "Almost always contains some N,N-DMT in addition to mysterious alkaloids"
+    },
+
+    "extraction_method": {
+      "basic_process": [
+        "Standard A/B extraction to basic aqueous phase",
+        "Pull DMT with naphtha/heptane until exhausted",
+        "Switch to xylene or toluene for additional pulls",
+        "Xylene/toluene pulls contain 'jungle spice'"
+      ],
+      "optional_purification": {
+        "method": "Hot naphtha wash",
+        "purpose": "Remove residual DMT for pure 'jungle' experience",
+        "alternative": "Use jungle/DMT mixture as-is"
+      }
+    },
+
+    "ambiguity_factors": {
+      "diversity_of_compounds": "Great diversity of compounds can be isolated with xylene/toluene",
+      "variables_affecting_composition": [
+        "Source and botanical identity of root bark",
+        "Conditions of cultivation/harvest",
+        "pH throughout extraction process",
+        "Temperature considerations",
+        "Airflow considerations"
+      ],
+      "certainty": "Contains SOME psychoactive material that isn't N,N-DMT"
+    },
+
+    "yuremamine_hypothesis": {
+      "speculation": "Compound may be yuremamine (novel phytoindole from M. tenuiflora, characterized 2005)",
+      "assessment": "Appears EXCEEDINGLY UNLIKELY based on evidence",
+      "evidence_against": {
+        "base_instability": "Yuremamine known to be unstable to base",
+        "heat_instability": "Speculated instability to heat",
+        "extraction_conditions": "Basic conditions in extraction would degrade yuremamine"
+      },
+      "confirmation_needed": "LC-MS with molecular ion at 477.1 m/z would confirm yuremamine",
+      "current_conclusion": "Safe to assume yuremamine is NOT the red alkaloid isolated by home extractors"
+    },
+
+    "appearance": {
+      "color": "Often red/dark colored",
+      "texture": "Variable - can be waxy, crystalline, or gooey",
+      "nickname_origin": "Red color and 'full spectrum' nature led to 'jungle' name"
+    },
+
+    "effects_reported": {
+      "compared_to_white_dmt": "Different character, often described as 'earthier'",
+      "duration": "May be longer lasting",
+      "visual_quality": "Different visual character reported",
+      "body_load": "Often more body sensation"
+    },
+
+    "solvents_comparison": {
+      "naphtha_heptane": {
+        "pulls": "Primarily N,N-DMT",
+        "result": "White to yellow crystals",
+        "selectivity": "More selective for DMT"
+      },
+      "xylene_toluene": {
+        "pulls": "Wider range of alkaloids including 'jungle' compounds",
+        "result": "Red/dark colored product",
+        "selectivity": "Less selective, pulls more compounds"
+      }
+    },
+
+    "botanical_confusion": {
+      "reference": "See 'Botanical Confustication' discussion",
+      "issue": "Commercial MHRB may be from different Mimosa species or varieties",
+      "implication": "Alkaloid content varies based on actual botanical source"
+    },
+
+    "research_references": {
+      "analytical_work": "Summary of jungle spice analytical work on DMT-Nexus",
+      "main_thread": "'Jungle Spice' - Mystery Alkaloids of Mimosa Root Bark",
+      "pdf": "Entropymancer's 'Jungle Spice' - Mystery Alkaloids of Mimosa Root Bark.pdf",
+      "yuremamine_paper": "Vepsäläinen JJ et al. 2005. 'Isolation and characterization of yuremamine, a new phytoindole.' Planta Med. 71(11):1053-7"
+    },
+
+    "historical_threads": {
+      "doctorcito_2006": "Yuremamine: Solving the Mystery of Jurema Preta? (Ayahuasca Forums)",
+      "donpeyote_2006": "Jungle DMT? (Drugs-Forum)",
+      "lemmiwinks_2007": "Red Spice? (Entheogen.com Forums)",
+      "fuego_2007": "Doing xylol extraction (DMT-Nexus)",
+      "marsofold_2005": "Extraction Of An Alternate Alkaloid From Mimosa (The Nook Forums)",
+      "noman_2006": "Dark DMT - the Other Alkaloid (DMT-Nexus and Lycaeum)"
+    },
+
+    "practical_notes": {
+      "extraction_tip": "Only appears after naphtha/heptane pulls are exhausted",
+      "solvent_choice": "Xylene or toluene required - won't come out in naphtha",
+      "mixing_decision": "Personal preference whether to separate from DMT or use mixed"
+    }
+  }
+}
