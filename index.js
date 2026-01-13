@@ -192,7 +192,18 @@ async function loadOilahuascaKnowledge() {
     'oilahuasca_herb_analysis.json',
     'oilahuasca_safety_profile.json',
     'oilahuasca_experience_reports.json',
-    'oilahuasca_sources.json'
+    'oilahuasca_sources.json',
+    // DMT-Nexus Extraction Knowledge Base
+    'dmtnexus_extraction_overview.json',
+    'dmtnexus_stb_limtek_methods.json',
+    'dmtnexus_tek_directory.json',
+    'dmtnexus_calcium_hydroxide_discussion.json',
+    'dmtnexus_amor_fati_nontoxic_tek.json',
+    'dmtnexus_veggie_oil_extraction.json',
+    'dmtnexus_acidbase_technique_qa.json',
+    'dmtnexus_cold_water_extraction_2011.json',
+    'dmtnexus_cold_water_extraction_2025.json',
+    'angelicalist_extraction_findings.json'
   ];
   for (const file of files) {
     try {
