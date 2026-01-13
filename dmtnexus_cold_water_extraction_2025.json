@@ -1,0 +1,273 @@
+{
+  "dmtnexus_cold_water_extraction_2025": {
+    "document_info": {
+      "title": "Efficiency of Mimosa Cold Water Extraction - 2025 Discussion",
+      "source": "DMT-Nexus Forum",
+      "thread_starter": "blig-blug (Staff Moderator)",
+      "date": "July 17-20, 2025",
+      "purpose": "Discussion on cold water extraction as gentler alternative to boiling for mimosahuasca",
+      "disclaimer": "Educational reference only. Documents extraction chemistry discussions."
+    },
+
+    "original_question": {
+      "poster": "blig-blug",
+      "credentials": "Staff Moderator, 1164 merits",
+      "context": "Reading old threads on cold water extraction for Mimosa",
+      "consensus_from_old_threads": "Much less tannins and gunk extracted compared to boiling",
+      "personal_reason": "Body seemed to reject tannins (egg tek wasn't enough) - stopped using Mimosa",
+      "historical_note": "Many old CWEs done for drinking without harmalas - requires much higher dose",
+      "key_question": "How efficient is CWE compared to simmering for mimosahuasca use?",
+      "only_data_found": "Single comment saying around 80% efficiency"
+    },
+
+    "yuremamine_consideration": {
+      "raised_by": "northape (Custodian of Wisdom)",
+      "concern": "Don't forget about Yuremamine with cold soak",
+      "wiki_reference": "Yuremamine - DMT-Nexus Wiki",
+      "solution": "If reducing tea later, not a problem",
+      "harmala_interaction": "Unknown beyond potentiating MAOI - advised caution"
+    },
+
+    "proposed_preparation_methods": {
+      "sakkadelic_proposal": {
+        "user": "Sakkadelic (Titanium Teammate, Senior Member)",
+        "steps": [
+          "Finely powdered bark",
+          "Soak and hydrate with minimal water",
+          "Freeze/thaw 3x",
+          "12/24h CWE with equal volume water (regular mixing)",
+          "Filter and squeeze through cotton cloth 3x",
+          "Let settle and filter with coffee filter"
+        ],
+        "recommendation": "Works best in batch rather than 1 dose",
+        "test_plan": "Try 25g of 10-year-old ACRB"
+      },
+      "blig_blug_approach": {
+        "decision": "NOT doing freeze/thaw cycles initially",
+        "reason": "Worried it could extract other troublesome substances better too",
+        "test_plan": "20g mimosa for first batch",
+        "acid_addition": "Will squeeze lemon, try more acid if doesn't work well"
+      }
+    },
+
+    "the_herbal_percolator_thp": {
+      "mentioned_by": "Transform (Staff Moderator)",
+      "description": "Process essentially identical to cold-brewing coffee",
+      "historical_name": "THP (The Herbal Percolator)",
+      "ice_block_variant": {
+        "process": "Freeze powdered plant material into block of ice, let percolate as it thaws",
+        "endorsement": "Transform made coffee this way - recommends as summer treat",
+        "suggestion": "No reason not to try with mimosa or acacia - slow but relaxed"
+      },
+      "water_requirements": {
+        "ratio": "1g:150ml (from wiki)",
+        "comparison": "Five times more than warm water decoction",
+        "example": "100g caapi needs 15 liters of water"
+      },
+      "historical_note": "northape remembers from ayaforum days - at least one person extracted caapi/mimosa with awesome results"
+    },
+
+    "cold_oil_extraction_idea": {
+      "proposed_by": "blig-blug",
+      "inspiration": "How people make St. John's wort oil",
+      "method": "Crush/powder plant, put in bottle with good quality oil, soak for weeks, shake sometimes",
+      "question": "Could very long soak without freebasing work and extract other actives?",
+      "potential_problem": "May not be concentrated enough - large oil amount needed = stomach trouble",
+      "responses": {
+        "northape": "Ingesting large quantities of oil with harmalas sounds like disaster",
+        "transform": "Maybe for skin-care but doubt viable psychoactive use"
+      },
+      "sakkadelic_note": "Does this for mandrake extraction - warm baths or cold works equally well",
+      "follow_up_question": "What if acidic water added to enriched oil - would DMT migrate to water layer?"
+    },
+
+    "caapi_dosage_discussion": {
+      "thp_report": "Author reports needing only 10g caapi for Aya",
+      "northape_opinion": "10g feels like wishful thinking",
+      "variability": "Caapi vine on market varies greatly in strength",
+      "northape_personal": "Uses ~200g per dose normally (extreme case), but recent red vine only needs 50g for heavy dose"
+    },
+
+    "key_technical_points": {
+      "water_ratios": {
+        "decoction_general": "30ml per gram",
+        "cwe_percolator": "150ml per gram (5x more)",
+        "sakkadelic_minimal": "Try to keep water minimal to avoid reduction step"
+      },
+      "water_type": "Distilled or slightly acidic recommended",
+      "ph_mention": "Some posts mention pH 3",
+      "extraction_time": "May need more than 12/24 hours depending on climate",
+      "dmt_solubility": "Quite soluble in water at cold/room temp",
+      "tannin_note": "Other stuff tends to appear more when solution is heated"
+    },
+
+    "practical_tips": {
+      "save_bark": "Keep bark after CWE - use in next extraction if CWE was ineffective",
+      "batch_processing": "Easier to process larger batches than single doses",
+      "squeezing": "Can minimize water by squeezing through cloth - forces water out vs relying on diffusion"
+    },
+
+    "oil_extraction_chemistry": {
+      "freebasing_first": "Makes sense to freebase before adding oil (lime to avoid saponification?)",
+      "backsalting": "Add acidic water to enriched oil - DMT should migrate to water layer",
+      "transform_suggestion": "DMT benzoate may be soluble in vegetable oil",
+      "data_needed": "Would be nice to get solubility data for DMT salts and freebase in different vegetable oils"
+    },
+
+    "reasons_for_interest": {
+      "tannin_sensitivity": "Some people's bodies reject tannins from boiled mimosa",
+      "egg_tek_insufficient": "Standard tannin removal not enough for some",
+      "eco_extraction": "No proper protection/smells of heptane or naphtha could attract attention",
+      "cost": "Caapi expensive if 50-100g needed per dose"
+    },
+
+    "participants": {
+      "blig_blug": {
+        "role": "Staff Moderator",
+        "status": "Thread starter, will experiment"
+      },
+      "northape": {
+        "role": "Custodian of Wisdom, Senior Member",
+        "expertise": "Memory of ayaforum methods"
+      },
+      "sakkadelic": {
+        "role": "Titanium Teammate, Senior Member",
+        "plan": "Will try with 25g ACRB"
+      },
+      "transform": {
+        "role": "Staff Moderator",
+        "contribution": "THP/ice block method info"
+      }
+    },
+
+    "related_topics": {
+      "yuremamine": "Active compound in Mimosa that degrades with heat",
+      "thp": "The Herbal Percolator - cold brewing method",
+      "eco_teks": "Extraction methods avoiding toxic solvents",
+      "mimosahuasca": "Ayahuasca-style brew using Mimosa"
+    },
+
+    "experimental_results": {
+      "blig_blug_test": {
+        "date": "July 20, 2025",
+        "parameters": {
+          "mhrb_amount": "15g batch, tested 3g equivalent (90ml)",
+          "water_ratio": "30ml per gram",
+          "water_type": "Spring water with dash of vinegar",
+          "harmalas": "230mg"
+        },
+        "results": {
+          "strength": "EXCELLENT - considerably stronger than same amount in normal brew",
+          "duration": "Almost 4 hours (vs usual 2h with boiled)",
+          "comparison": "Similarly strong to pharma dosing (40mg DMT + 30mg redose)",
+          "character": "Noticeably different from pharma experience"
+        },
+        "sediment": "Absolutely no sediment without decanting - major plus",
+        "tannin_issue": "Hopes for less tannin didn't materialize - seemed same as boiled",
+        "side_effects": "Not much nausea but very strong stomach pain throughout",
+        "conclusion": "CWE is SUPERIOR to boiling - simpler method, stronger and longer lasting result"
+      },
+      "blimey_test": {
+        "date": "November 10, 2025",
+        "parameters": {
+          "mhrb_amount": "7.5g very roughly ground",
+          "water_amount": "~250ml",
+          "soak_time": "3 days",
+          "additional_settling": "3 more days for gunk to sink, then decanted again",
+          "harmalas": "200mg freebase in capsule, 50 mins before drinking"
+        },
+        "consumption": "Drunk over 10 minutes",
+        "palatability": "Fairly astringent but not too tanniny, fairly palatable",
+        "onset": "Within 20-30 mins knew it would work",
+        "purge": "Purged once during come up, nausea faded after",
+        "duration": "Around 5 hours of quality therapeutic solo time in forest",
+        "comparison_to_boiled": "CWE much easier (less variables), albeit more time consuming",
+        "vinegar_note": "Would leave out vinegar - may affect yuremamine"
+      }
+    },
+
+    "cwe_tek_procedure": {
+      "author": "blig-blug",
+      "date": "July 22, 2025",
+      "steps": [
+        "1. Put MHRB in vessel, add 30ml non-chlorinated water per gram",
+        "2. Add dash of vinegar or lemon juice, shake well",
+        "3. Let rest 24h in fridge or cool place, shaking from time to time",
+        "4. Strain and filter finer sediments (paper towel on strainer works)"
+      ],
+      "dosing": {
+        "moderate_dose": "90ml with >200mg harmalas",
+        "beginner": "Start with 45ml, redose after 2 hours if not strong enough",
+        "experienced": "Use same equivalent grams as with boiled brew"
+      },
+      "notes": "Amounts and durations are somewhat arbitrary - experimentation needed"
+    },
+
+    "tannin_removal_attempts": {
+      "egg_tek_limitation": "Involves boiling - destroys heat sensitive components like yuremamine",
+      "lime_addition": "Tannins precipitate when lime added - leaves golden solution of freebase",
+      "pvpp_option": "Substance used to remove tannins from wine - to be tested",
+      "vodka_extraction": "Tannins apparently precipitate in 40% ethanol",
+      "agar_agar_idea": "northape suggested using instead of egg whites to bind tannins",
+      "transform_advice": {
+        "sodium_carbonate": "Tannins might stay dissolved - hoping for clean separation is far-fetched",
+        "dmt_behavior": "As likely to float as sink, may oil out rather than behave conveniently",
+        "salt_addition": "Can add salt to ensure alkaloids float - spoon off goo or swirl onto toothpick"
+      }
+    },
+
+    "vinho_da_jurema": {
+      "reference": "Search 'vinho da jurema' on YouTube for native methods",
+      "observations": {
+        "bark_preparation": "Many use shredded bark, not powdered - possibly convenience",
+        "consumption": "Some report sipping throughout the day",
+        "no_harmalas": "Natives don't use harmalas - hard to compare efficiency to simmering"
+      },
+      "significance": "Connection to tradition - natives drink CWE for a reason"
+    },
+
+    "yuremamine_insights": {
+      "effect_hypothesis": "May give extra MAOI boost explaining longer duration",
+      "heat_sensitivity": "Doesn't survive basic conditions or boiling",
+      "preservation": "CWE without reduction preserves yuremamine",
+      "vinegar_concern": "Vinegar may affect yuremamine according to some"
+    },
+
+    "angelicalist_experiment": {
+      "date": "August 8-14, 2025",
+      "setup": {
+        "mhrb": "12.47g shredded",
+        "water": "Mexican Sprite bottle 355ml (~30ml/g)",
+        "method": "24h in walk-in fridge, then room temp for almost a week"
+      },
+      "status": "Ready to consume but delayed due to work schedule"
+    },
+
+    "additional_ideas": {
+      "cold_everclear_extraction": {
+        "proposed_by": "Rocky Rockhead",
+        "context": "Made tincture with everclear and hot water bath",
+        "new_idea": "Try cold extraction into everclear for mimosa, caapi, and rue",
+        "motivation": "Caapi makes sicker than mimosa, tastes awful"
+      },
+      "base_precipitation": {
+        "test_by": "blig-blug",
+        "observation": "Adding base changed clear red to opaque black, stuff precipitated",
+        "transform_response": "Worth trying sodium carbonate for gentler action",
+        "reference": "Extracting DMT with ethanol, vinegar and sodium carbonate tek"
+      }
+    },
+
+    "key_findings_summary": {
+      "cwe_vs_boiled": {
+        "strength": "CWE stronger than boiled equivalent",
+        "duration": "CWE lasts ~2x longer (4h vs 2h)",
+        "ease": "CWE simpler with fewer variables",
+        "time": "CWE more time consuming (24h+ soak)"
+      },
+      "tannin_status": "CWE does NOT significantly reduce tannin extraction",
+      "yuremamine_benefit": "Preserved in CWE, may contribute to strength/duration",
+      "recommendation": "CWE is superior method for mimosahuasca"
+    }
+  }
+}
