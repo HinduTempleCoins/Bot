@@ -1,0 +1,301 @@
+{
+  "title": "Bloom Boosters & Plant Steroids - Advanced Marijuana Growing",
+  "author": "SashaShiva (Angelicalist / Van Kush Family)",
+  "source": "420 Magazine Forums - October 2017 to April 2019",
+  "overview": "Advanced growing techniques including plant hormones, silica, frass, and a unified theory connecting fertilizer to CYP450 enzyme systems",
+
+  "unified_theory_of_fertilizer": {
+    "description": "Five interconnected areas that form a unified approach to advanced plant nutrition",
+    "components": {
+      "1_strains_terpenes": "Marijuana Strains and Terpenes, and Phytochemicals",
+      "2_fermentation": "Yeast Strains and Alcohol Fermentation",
+      "3_marine_products": "Marine Natural Products",
+      "4_cyp450": "CYP450 Enzymes - CONNECTS TO OILAHUASCA FRAMEWORK",
+      "5_aromatics": "Aromatic Compounds (Indoles, Tryptamines, Phenethylamines, etc)"
+    },
+    "key_insight": "CYP450 enzyme manipulation applies to both human pharmacology AND plant biochemistry"
+  },
+
+  "silica_supplementation": {
+    "product": "OSA/28 - OrthoSilicic Acid",
+    "description": "Supercharged Plant Available Silicon Fertilizer",
+    "benefits": [
+      "Larger plants",
+      "Higher yields",
+      "Stronger cell walls",
+      "More resistant to physical damage"
+    ],
+    "origin_story": "At age 14, saw investor pitch for silicate product that made banana trees larger, held more bananas, and harder to tear down",
+    "key_point": "Certain forms of silicate are better absorbed by plants - orthosilicic acid is plant-available"
+  },
+
+  "carbohydrate_supplementation": {
+    "commercial_product": "Advanced Nutrients Bud Candy",
+    "diy_alternatives": [
+      "Molasses - not just emergency nutrient, adds carbs",
+      "Sucanat (whole cane sugar)",
+      "Mannitol"
+    ],
+    "mechanism": "Feeds soil microbes, provides energy for bud development",
+    "note": "More for soil grows - sugar does nothing for synthetic salt coco grows"
+  },
+
+  "frass_and_chitin": {
+    "source": "Black Soldier Fly Larvae (BSFL)",
+    "thread": "Frass & Composting - 420 Magazine (Oct 2017 - Jul 2022)",
+    "what_is_frass": "Digested organic matter released by larvae, contains all plant nutrients plus chitin",
+    "discovery": "Wikipedia says BSFL make 'valuable product called Frass' - basically plant steroid with tons of nutrients",
+    "chitin_mechanism": {
+      "trigger": "Plant thinks it's being attacked by bugs",
+      "response": "Plant strengthens itself, builds stronger structure",
+      "absorption": "Plant breaks down chitin and uses it (like Venus Flytraps digesting insects)",
+      "analogy": "Frass comes out of BSFL the same way goo comes out of slugs"
+    },
+    "benefits": [
+      "Full nutrient profile",
+      "Chitin for plant defense activation",
+      "Natural and organic",
+      "Can be produced from composting",
+      "Doesn't burn baby roots",
+      "No nutrient block issues",
+      "pH stays balanced"
+    ],
+    "bsfl_composting": {
+      "advantages": [
+        "Can compost MEAT (unlike worms)",
+        "Can compost WOOD",
+        "Suppress rotting smells",
+        "Fast decomposition (half cantaloupe in 8 hours)",
+        "Self-propagating colony"
+      ],
+      "food_sources": ["Kitchen scraps", "Meat", "Fish carcasses", "Dead animals", "Dog poop (dewormer free)", "Old fruit/vegetables", "Wood"],
+      "breeding_light": "LED with specific Hz and spectrum mimics BSF breeding time for indoor breeding"
+    },
+    "practical_bin_setup": {
+      "contributor": "Mike N (420 Magazine, Jul 2022)",
+      "container": "2'x4' galvanized water trough",
+      "cover": "Plywood lid held slightly ajar with thin strip of wood",
+      "purpose": "Lets adults in and pupae out",
+      "bedding": "Peat moss",
+      "amendment": "Crushed lump charcoal for inoculated biochar",
+      "harvest_time": "Late winter to prep super soil",
+      "liquid_leachate": "Harvest throughout growing season, apply directly to soil",
+      "pest_notes": "Only minor issues with ants and spiders, no rats/raccoons with covered bin"
+    },
+    "community_results": {
+      "comparison": "On par with DIY Subcool super soil mix",
+      "baby_roots": "Doesn't burn",
+      "nutrients": "No nutrient block",
+      "ph": "Seems okay without adjustment",
+      "pests": "Haven't been an issue",
+      "flowers": "Smooth and potent",
+      "vegetables": "Also love growing with this"
+    },
+    "alternative_chitin_sources": {
+      "contributor": "Stunger (New Zealand, Jul 2020)",
+      "problem": "Frass not available in NZ",
+      "solutions": [
+        "Dried shrimps from Asian food shop (soak to flush salt before amending)",
+        "Crab/crustacean meal",
+        "Let compost into soil 2-3 months before planting"
+      ],
+      "clackamas_coot_tip": {
+        "source": "Interview with Clackamas Coot",
+        "method": "Diastatic Malted Barley contains Chitinase enzyme",
+        "effect": "Makes chitin bioavailable to plants"
+      }
+    },
+    "worm_synergy": {
+      "finding": "Worms really like frass",
+      "method": "Feed BSFL frass to separate worm bin",
+      "result": "Combined BSFL frass + worm castings = excellent soil amendment"
+    },
+    "resources": [
+      "Symton BSF - Compost-grade larvae",
+      "EVO BSF - Breeding LED lights",
+      "The Little Worm Farm - Egg collection",
+      "Amazon - Frass available",
+      "eBay - BSFL cheap"
+    ]
+  },
+
+  "kelp_and_cytokinins": {
+    "kelp_benefits": "Good fertilizer especially for bloom, contains plant hormones",
+    "best_variety": "Ascophyllum Nodosum (Canadian kelp)",
+    "active_compound": "Cytokinin",
+    "cytokinin_effect": "Causes plants to bloom - even in petri dishes with agar",
+    "harvest_timing": "Higher cytokinin content when harvested at right time"
+  },
+
+  "plant_growth_regulators": {
+    "overview": "Auxins and Cytokinins are the 2 types of plant regulators for marijuana growing",
+    "note": "Not for organic growers, but organic sources may exist as these are natural plant hormones",
+
+    "auxins": {
+      "primary": "Indole-3-Acetic Acid (IAA)",
+      "description": "Most studied auxin in the world",
+      "source": "Caisson Laboratories",
+      "function": "Root development, cell elongation, apical dominance"
+    },
+
+    "cytokinins": {
+      "primary": "6-Benzylaminopurine (BAP)",
+      "description": "Well-studied cytokinin",
+      "source": "Caisson Laboratories",
+      "function": "Cell division, shoot growth, delays senescence",
+      "marijuana_use": "Possibly increase budset and productivity",
+      "reference": "International Cannagraphic Magazine Forums discussion"
+    },
+
+    "brassinosteroids": {
+      "description": "The 6th class of plant hormone according to Wikipedia",
+      "product": "Brassinolide 0.15%",
+      "research": "TUM studies on how steroid hormones enable plant growth",
+      "note": "Understudied for marijuana - potential frontier"
+    }
+  },
+
+  "amino_acids_for_marijuana": {
+    "l_glycine": {
+      "function": "Amplifies photosynthesis and plant tissue growth",
+      "connection": "Same glycine important in Oilahuasca detox pathway!"
+    },
+    "l_arginine": {
+      "function": "Enhance flower growth"
+    },
+    "l_aspartic_acid": {
+      "function": "Building block - can become any needed amino acid for the plant"
+    },
+    "source": "Marijuana Growing PlanetSkunk - importance of aminos in yields"
+  },
+
+  "other_additives": {
+    "lactic_acid_bacteria": {
+      "method": "LABS - Lactic Acid Bacterium Rice Wash",
+      "benefit": "Beneficial microbes for soil health"
+    },
+    "kelp_bloom_booster": {
+      "product_example": "Growmore Avalanche"
+    },
+    "mulch": {
+      "function": "Moisture retention, temperature regulation, slow nutrient release"
+    }
+  },
+
+  "acetals_chemistry": {
+    "context": "Making esters from ketones and aldehydes",
+    "examples": {
+      "damascone": "Main ingredient in rose perfume (ketone)",
+      "ionone": "Main ingredient in violet perfume (ketone)",
+      "cinnamaldehyde": "Cinnamon main component (aldehyde)",
+      "vanillin": "Vanilla main component (aldehyde)"
+    },
+    "method_1": "Add alcohol drops to ketone/aldehyde until reaction stops",
+    "method_2": "Mix equal molecular parts, add acid until reaction stops",
+    "definition": "Acetals are basically ketone/aldehyde esters"
+  },
+
+  "gmo_discussion": {
+    "context": "2019 with 8 recreational states, 28 medical states, 20 federal companies",
+    "point": "We haven't figured everything out yet - much more to discover",
+    "researchers_to_study": [
+      "Norman Borlaug",
+      "Craig Venter"
+    ],
+    "techniques": [
+      "Digital Biological Converter",
+      "Biological Teleportation",
+      "Gene Gun",
+      "Electroporation",
+      "Microinjection",
+      "Agrobacterium transformation",
+      "Somatic Cell Nuclear Transfer",
+      "S.M.A.R.T. Breeding"
+    ],
+    "simple_example": "Yeast DNA can be altered by exposing to UV light",
+    "future_possibilities": [
+      "Giant nug GMO marijuana",
+      "9-inch diameter branch genetics",
+      "Tobacco leaf with THC",
+      "Tomato with THC"
+    ]
+  },
+
+  "outdoor_growing_tek": {
+    "origin": "Most marijuana tek comes from tomato farming",
+    "additions": "Closet and greenhouse methods added due to illegality",
+    "sideways_plant_method": {
+      "description": "Take 4ft+ plant, tie cinderblock to top with rope/fishing line, lay sideways",
+      "effect": "Same as SCROG - turns 1 plant into equivalent of 3+ plants",
+      "type": "Back country method for outdoor grows"
+    }
+  },
+
+  "breeding_thread_reference": {
+    "title": "Crossing Malawi Gold, Strawberry Diesel, Banana Crack, Early Durban, Hindu Kush",
+    "source": "420 Magazine",
+    "note": "See that thread to learn about breeding techniques"
+  },
+
+  "ga3_feminization": {
+    "compound": "GA3 (Gibberellic Acid)",
+    "use": "Get feminized seed from known non-hermie female plant",
+    "contributor": "thegeek01"
+  },
+
+  "cyp450_plant_connection": {
+    "key_insight": "CYP450 enzymes are not just human - plants have them too",
+    "relevance": "Understanding enzyme manipulation helps both human pharmacology AND plant growth",
+    "oilahuasca_parallel": "Same CYP450 framework applies to understanding how compounds are metabolized",
+    "terpene_connection": "Plant terpenes affect both human CYP450 and plant metabolic processes"
+  },
+
+  "ancient_knowledge_section": {
+    "context": "Posted alongside fertilizer theory in 2014",
+    "kairos_chronos": {
+      "chronos": "Clock time - 'A watched pot never boils'",
+      "kairos": "Experiential time - 'Time flies when having fun'",
+      "application": "Time dilation through experience"
+    },
+    "planetary_correspondences": {
+      "days": {
+        "saturday": "Saturn",
+        "sunday": "Sun",
+        "monday": "Moon",
+        "tuesday": "Mars",
+        "wednesday": "Mercury",
+        "thursday": "Jupiter",
+        "friday": "Venus"
+      },
+      "metals": {
+        "gold": "Sun",
+        "silver": "Moon",
+        "mercury": "Mercury",
+        "copper": "Venus",
+        "iron": "Mars",
+        "tin": "Jupiter",
+        "lead": "Saturn"
+      }
+    },
+    "astrology_agriculture": {
+      "note": "Astrology originated as agricultural calendar system",
+      "farmers_almanac": "Still used today for planting timing",
+      "zodiac": "Constellations the Sun passes through during year"
+    },
+    "chakra_crystals": {
+      "crown": "Clear Quartz",
+      "third_eye": "Amethyst",
+      "throat": "Sodalite",
+      "heart": "Rose Quartz",
+      "solar_plexus": "Citrine",
+      "sacral": "Carnelian",
+      "root": "Hematite"
+    }
+  },
+
+  "safety_notes": {
+    "pgr_caution": "Plant Growth Regulators are not for organic growers",
+    "application_timing": "Don't spray on buds with trichomes forming",
+    "research_first": "These are advanced techniques - understand before applying"
+  }
+}
