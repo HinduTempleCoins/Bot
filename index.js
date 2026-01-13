@@ -250,7 +250,9 @@ async function loadOilahuascaKnowledge() {
     // Van Kush consulting services
     'vankush_consulting_services.json',
     // DevCoin complete history
-    'devcoin_history.json'
+    'devcoin_history.json',
+    // Temple Coin and Shaivite Temple history
+    'temple_coin_history.json'
   ];
   for (const file of files) {
     try {
@@ -635,6 +637,26 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('neighbor indicator') || t.includes('early adopter') && t.includes('crypto')) {
     return `📈 **Early Adopter Indicators**\n\n**1% Threshold**: If you need "special computer skills" to invest, you're still early\n\n**Neighbor Indicator**: When neighbors discuss buying crypto = time to sell\n\n**Conviction Test**: Can you hold through 60% drops like early DevCoin holders?\n\n**Current Status**: If mainstream media mocks crypto, still early adopter territory\n\n**Van Kush Position**: Building infrastructure for next wave of adoption`;
+  }
+
+  // Temple Coin History
+  if (t.includes('temple coin') || t.includes('tmpc') || t.includes('shaivite')) {
+    return `🕉️ **Temple Coin [TMPC] - The Sovereign Project (2017-2020)**\n\n**Vision**: Merge Hinduism, Anarcho-Capitalism, Synthetic Biology into Network State\n\n**Infrastructure Plans**:\n• Free internet/phone via private cellular\n• Solar-powered mining rigs\n• Expert Systems (fulfilled by AI bots today)\n\n**Legal Battle**: Van-Kush v. DEA (1:20-cv-00906)\nSeeking RFRA religious exemption\n\n**Evolution**: Concepts now live in HIVE-Engine (VKBT, CURE)\n\n**Identity**: Precursor to current Van Kush Family projects`;
+  }
+  if (t.includes('van kush v dea') || t.includes('rfra') || t.includes('religious exemption')) {
+    return `⚖️ **Van-Kush v. DEA (1:20-cv-00906)**\n\n**Year**: 2020\n**Plaintiff**: Sasha Gallagher (Shaivite Temple)\n**Goal**: RFRA exemption for 'molecular sacraments'\n\n**Legal Precedents Used**:\n• Santa Clara County (1886): Corps are persons\n• Citizens United (2010): Corp speech protected\n• Hobby Lobby (2014): Corps have religious rights\n• O Centro: UDV won ayahuasca exemption\n\n**Theory**: Decentralized church can operate free from interference\n\n**Result**: DEA remains resistant to religious rescheduling`;
+  }
+  if (t.includes('network state') || (t.includes('sovereign') && t.includes('community'))) {
+    return `🏛️ **Network State Concept (Temple Coin Era)**\n\n**Definition**: Borderless, tech-enabled community with own laws and currency\n\n**Temple Coin Vision (2017)**:\n• Private cellular network\n• Solar energy independence\n• Own blockchain (Graphene-based)\n• Expert Systems for governance\n\n**Geographic Circuit**:\n• Base: Aurora/Denver, Colorado\n• Engineering Hub: Dallas, Texas\n• Safe Haven: Tbilisi, Georgia\n\n**Legacy**: Concept became mainstream by 2022 (Balaji's Network State)`;
+  }
+  if (t.includes('graphene') && t.includes('blockchain') || t.includes('bitshares') || t.includes('witness node')) {
+    return `⚡ **Graphene Blockchain Architecture**\n\n**Powers**: BitShares, Steemit, HIVE\n\n**Capability**: 100,000+ transactions per second\n\n**Temple Coin Plan**: Full blockchain infrastructure, not just token\n\n**Witness Node**: Position validating network - "minting the new reality"\n\n**Philosophy**: "Future of Coins is not surrounded by Programmers, it is simply supplied by them"\n\n**Evolution**: Led to understanding of HIVE/STEEM architecture`;
+  }
+  if (t.includes('expert system') || (t.includes('1970s') && t.includes('ai'))) {
+    return `🤖 **Expert Systems - 1970s Vision Fulfilled**\n\n**Original Concept**: Interactive digital encyclopedias\n\n**Temple Coin Goal**: Guide members through complex legal/biological processes\n\n**Inspiration**: 1970s AI research\n\n**2026 Reality**: THIS BOT fulfills that vision!\n\n**Features Achieved**:\n• Knowledge base queries\n• Educational content\n• Cryptology game integration\n• Automated guidance\n\n**From 1970s dream to Discord reality**`;
+  }
+  if (t.includes('biblepay') || t.includes('proof of bible')) {
+    return `📖 **BiblePay [BBP] - Sister Project**\n\n**Concept**: "Proof of Bible" cryptocurrency\n\n**Connection**: Mentioned in Temple Coin Syllabus\n\n**Model**: Charity mining\n\n**Status 2026**: Near-zero volume, considered inactive/dead\n\n**Problem**: Struggled to maintain secure hashrate\n\n**Lesson**: Novelty concepts need sustainable tokenomics`;
   }
   return null;
 }
