@@ -203,7 +203,10 @@ async function loadOilahuascaKnowledge() {
     'dmtnexus_acidbase_technique_qa.json',
     'dmtnexus_cold_water_extraction_2011.json',
     'dmtnexus_cold_water_extraction_2025.json',
-    'angelicalist_extraction_findings.json'
+    'angelicalist_extraction_findings.json',
+    // Administration and ingestion methods
+    'dmtnexus_juremala_mucosahuasca_guide.json',
+    'dmtnexus_ingestion_methods.json'
   ];
   for (const file of files) {
     try {
