@@ -606,6 +606,18 @@ function getOilahuascaResponse(topic) {
   if (t.includes('finshaggy') || (t.includes('devcoin') && t.includes('ban'))) {
     return `⚡ **The FinShaggy/DevCoin Controversy**\n\n**Achievement**: Scaled DevTome from 15 to 75+ writers\n\n**Vision**: Global workforce earning crypto for content\n\n**The Conflict**: Core 15 saw growth as "dilution" threat\n\n**The Lie**: Accused of paying "Fiverr Girl" for YouTube\n**Truth**: Was a personal friend helping voluntarily\n\n**Result**: Banned June 30, 2013 - "rescinded" admin offer\n\n**Irony**: Banning the growth agent ensured shares became worthless\n\n**Identity**: FinShaggy IS Van Kush Family founder`;
   }
+  if (t.includes('bitcoin town') || (t.includes('finshaggy') && t.includes('project'))) {
+    return `🏘️ **Bitcoin Town - FinShaggy's Vision (2013)**\n\n**Concept**: Physical community centered on cryptocurrency\n\n**Status**: Never materialized as physical city\n\n**Reception**: Dismissed by critics as too ambitious\n\n**Legacy**: Precursor to:\n• El Salvador's Bitcoin City\n• Satoshi Island experiments\n• Crypto community real estate projects\n\n**Significance**: Early vision of crypto-based communities that became mainstream by 2020s`;
+  }
+  if (t.includes('play to earn') && t.includes('devcoin') || t.includes('xbox') && t.includes('dvc')) {
+    return `🎮 **FinShaggy's Play-to-Earn Vision (June 2013)**\n\n**Pioneering Concepts** (30-day roadmap):\n\n• **Play Xbox for DVC**: P2E gaming before the term existed\n• **Post on Forums for DVC**: SocialFi before Steemit\n• **DVC Store**: Marketplace for parts, games, herbals\n\n**Significance**: These concepts were REVOLUTIONARY in 2013\n\n**Vindication**: Became mainstream by 2021 (Axie Infinity, etc.)\n\n**Connection**: Van Kush Family continues this vision with HIVE gaming`;
+  }
+  if (t.includes('faucet') && t.includes('devcoin') || t.includes('signature bounty')) {
+    return `🚿 **DevCoin Faucet System**\n\n**Developer**: emfox - awarded 2 million DVC + 8 ongoing shares\n\n**Innovation**: Linked to Bitcointalk forum rank to prevent bots\n\n**Rewards**:\n• Jr. Member: 50 DVC immediately\n• Signature Bonus: 100 DVC for keeping "Earn Devcoins by Writing" in sig\n\n**Significance**: Beginning of "signature bounty" era\n\n**Model**: Forum profiles became advertising billboards`;
+  }
+  if (t.includes('round 24') || (t.includes('devcoin') && t.includes('payout') && t.includes('block'))) {
+    return `📊 **DevCoin Round 24 Specifics**\n\n**Receiver Lines**: 1,277 addresses\n\n**Value per Share**:\n• ~140,955 DVC\n• ~0.125 BTC\n• ~$13 USD\n\n**Admin Cap**: 6.7% of total rewards\n\n**Payment Block**: 96,000\n\n**Exchange Rate**: 1 BTC = 1,000,000+ DVC\n\n**Example**: 30+ shares = 3,000,000 DVC payout`;
+  }
   if (t.includes('core 15') || (t.includes('devcoin') && t.includes('governance'))) {
     return `👥 **DevCoin Core 15 - Governance Failure**\n\n**The Problem**: Manual governance of automated protocol\n\n**Admin Selection**: By invitation based on "politeness" = Yes-Man culture\n\n**No Appeals**: Single leader could ban anyone, no court of appeal\n\n**Share Dilution Fear**: Saw new writers as "doom" not growth\n\n**Content Police**: Created "faux article" labels to ban high-volume writers\n\n**Fatal Mistake**: Prioritized individual share size over network value\n\n**Lesson**: Distribution IS value - more users = more demand`;
   }
