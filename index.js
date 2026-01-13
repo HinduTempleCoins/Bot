@@ -242,7 +242,13 @@ async function loadOilahuascaKnowledge() {
     // Blockchain bots and technology
     'blockchain_bots_technology.json',
     // CURE token documentation
-    'cure_token_documentation.json'
+    'cure_token_documentation.json',
+    // Terracore Play-to-Earn game
+    'terracore_play2earn.json',
+    // HIVE-Engine ecosystem
+    'hive_engine_ecosystem.json',
+    // Van Kush consulting services
+    'vankush_consulting_services.json'
   ];
   for (const file of files) {
     try {
@@ -551,6 +557,48 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('holozing') || t.includes('zing')) {
     return `🎮 **Holozing - HIVE RPG Game**\n\n**Concept**: Pokemon-style monster-catching on HIVE blockchain\n\n**Key Features**:\n• Players are "Healers" not trainers\n• $ZING token for staking and in-game purchases\n• NFT creatures and gear tradeable on marketplace\n\n**Team**: @acidyo (OCD, POSH) and Aggroed (Splinterlands)\n\n**Status 2026**: Alpha Vials openable, live marketplace, active #holozing community`;
+  }
+
+  // Terracore Play-to-Earn
+  if (t.includes('terracore') || t.includes('scrap') && t.includes('game')) {
+    return `🎮 **Terracore - HIVE Play-to-Earn**\n\n**Type**: Post-apocalyptic idle strategy (like Mafia Wars)\n\n**Core Loop**:\n• Mine $SCRAP with Engineering stat\n• 8 attacks per day to steal from others\n• High Defense protects your stash\n\n**Advanced Features**:\n• $FLUX token for ships, bosses, quests\n• Relics → Crates → NFTs (traded for HIVE)\n\n**Van Kush Strategy**: $30-40 investment, 300+ stats, 80 SCRAP/hour = passive income\n\n**Key**: Burning SCRAP for stats combats inflation`;
+  }
+  if (t.includes('scrap') && (t.includes('token') || t.includes('terracore') || t.includes('mining'))) {
+    return `💰 **$SCRAP Token - Terracore Currency**\n\n**Nature**: Highly inflationary (continuous mining)\n\n**Mitigation**:\n• Burning: Destroy SCRAP to upgrade stats\n• Staking: Hold SCRAP for Luck/Favor bonuses\n\n**Trading**: Available on TribalDEX\n\n**Van Kush Goal**: Stake 1,000,000+ SCRAP for supply control\n\n**DevCoin Lesson**: Burn mechanics prevent DevCoin-style inflation death`;
+  }
+  if (t.includes('relic') || t.includes('crate') && t.includes('terracore')) {
+    return `🎁 **Terracore Relics & Crates**\n\n**Relics**: Earned from quest completion - raw NFT materials\n\n**Crates**: Forge 100 Relics = 1 Crate\n\n**NFT Drops**: Common to Legendary character enhancements\n\n**Market Advantage**: NFTs trade for HIVE (more liquid than $SCRAP)\n\n**Strategy**: Focus on Luck/Favor stats for better Relic drops`;
+  }
+
+  // HIVE-Engine Ecosystem
+  if (t.includes('hive engine') || t.includes('hive-engine') || t.includes('tribaldex')) {
+    return `⚙️ **HIVE-Engine / TribalDEX**\n\n**Definition**: Smart contract side-chain for HIVE blockchain\n\n**Capabilities**:\n• Mint custom tokens\n• Operate DEX\n• Create NFTs & liquidity pools\n\n**US Advantage**: Decentralized - no KYC required\n\n**Key Tools**:\n• Hive Keychain: Web3 wallet\n• TribalDEX: Token trading interface\n• PeakD: Better blogging frontend\n\n**Perfect for**: Americans restricted from centralized exchanges`;
+  }
+  if (t.includes('bbh') || t.includes('bitcoin backed hive')) {
+    return `🏦 **BBH - Bitcoin Backed HIVE**\n\n**Unique Feature**: Pays holders in other tokens just for holding!\n\n**Minimum**: 10,000 BBH required for rewards\n\n**Payouts Include**: CTP, PEPE, other HIVE-Engine tokens\n\n**Strategy**: Passive income through token distribution\n\n**How**: Hold BBH → Receive daily/weekly token airdrops`;
+  }
+  if (t.includes('power down') || (t.includes('hive') && t.includes('unstaking'))) {
+    return `⏳ **HIVE Power Down**\n\n**Period**: 13 weeks total\n\n**Purpose**: Maintains network stability and long-term commitment\n\n**Mechanism**: Weekly installments over 13 weeks\n\n**CURE Comparison**: 150 days (50 installments every 3 days)\n\n**Strategy**: Power down = reduces influence but provides liquidity`;
+  }
+  if (t.includes('steem') && t.includes('hive') && (t.includes('split') || t.includes('fork'))) {
+    return `⚔️ **STEEM/HIVE Split (2020)**\n\n**Cause**: Justin Sun's hostile takeover of Steemit\n\n**Response**: Community forked to create HIVE\n\n**Participants**: Anarchocapitalists and Linux developers\n\n**Result**: HIVE became truly community-governed\n\n**HIVE is NOT an ICO**: Airdropped to Steem holders - no presale`;
+  }
+
+  // Van Kush Consulting
+  if (t.includes('consulting') || t.includes('blockchain creation') || t.includes('token creation service')) {
+    return `💼 **Van Kush Consulting Services**\n\n**Technical**:\n• Custom blockchain in 15 minutes\n• HIVE-Engine & Polygon tokens\n• Bot development\n\n**Marketing**:\n• Domain Authority & Trust Flow\n• DFW physical branding\n\n**Strategic**:\n• Social blockchain politics\n• Regulatory navigation (501(c)(3))\n\n**Philosophy**: Statist integration - work WITH systems, not against`;
+  }
+  if (t.includes('memeable money') || t.includes('property dollar')) {
+    return `💵 **Memeable Money & Property Dollars**\n\n**Memeable Money**: Local business tokens driven by hashtags/social media\n\n**Property Dollars**: Currencies backed by real land/businesses\n\n**Example**: Pizza parlor accepting its own token\n\n**PIZZA Token Lesson**: Failed by NOT linking to physical business\n\n**Van Kush Model**: Tokens must have real-world backing to succeed`;
+  }
+  if (t.includes('devcoin') || t.includes('bounty system') || t.includes('csv payout')) {
+    return `📜 **DevCoin Lessons - Historical Context**\n\n**Model**: 1,000 words per share - paid Wikipedia\n\n**Innovation**: Streaming income from consistent writing\n\n**Peak**: $0.0015 in 2014 (massive gains for early writers)\n\n**Death**: Hyper-inflation without burn mechanism\n\n**Golden Ratio Code**: Fair payout order (not alphabetical)\n\n**Lesson**: Burn mechanics essential - HIVE-Engine tokens learned this`;
+  }
+  if (t.includes('buy wall') || t.includes('pump') && t.includes('strategy')) {
+    return `📊 **Market Manipulation Theory**\n\n**Buy Wall**:\n• Large order preventing price drop\n• Psychology: Encourages dumping (guaranteed exit)\n\n**Pump**:\n• Buying above market to create FOMO\n• Psychology: Makes people hold/buy more\n\n**Smart Money View**: Artificial pumps are short-term schemes\n\n**Real Growth**: Requires genuine demand and liquidity\n\n**Order Priority**: First In, First Out - bid 1 sat higher to jump queue`;
+  }
+  if (t.includes('neighbor indicator') || t.includes('early adopter') && t.includes('crypto')) {
+    return `📈 **Early Adopter Indicators**\n\n**1% Threshold**: If you need "special computer skills" to invest, you're still early\n\n**Neighbor Indicator**: When neighbors discuss buying crypto = time to sell\n\n**Conviction Test**: Can you hold through 60% drops like early DevCoin holders?\n\n**Current Status**: If mainstream media mocks crypto, still early adopter territory\n\n**Van Kush Position**: Building infrastructure for next wave of adoption`;
   }
   return null;
 }
