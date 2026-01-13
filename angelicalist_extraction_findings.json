@@ -1,0 +1,152 @@
+{
+  "angelicalist_extraction_findings": {
+    "document_info": {
+      "title": "Angelicalist's Extraction Journey - From Tea to Straight Up Eating It",
+      "author": "Angelicalist",
+      "date": "2025",
+      "purpose": "First-hand experimental findings on mimosa extraction and consumption methods",
+      "type": "Personal research compilation",
+      "disclaimer": "Educational reference documenting personal experimentation."
+    },
+
+    "learning_progression": {
+      "summary": "Journey from complex extraction attempts to discovering simplest effective method",
+      "key_insight": "Extraction takes TIME - complexity doesn't equal effectiveness",
+      "final_discovery": "Simplest method (no extraction) works best for oral consumption"
+    },
+
+    "experiment_1_purple_tea": {
+      "title": "Initial Tea Attempt",
+      "equipment": [
+        "Metal pot",
+        "Hot plate",
+        "Lemon juice"
+      ],
+      "method": "Heated MHRB with water and lemon juice for about 1 hour",
+      "result": "Purple tea produced",
+      "problems": [
+        "Didn't have time for full boil-down and re-extract cycles",
+        "Thought lemon juice would speed up extraction - it doesn't work that way",
+        "Tea method requires much more time than expected"
+      ],
+      "lesson_learned": "Tea extraction takes LONG time - cannot be rushed with acid"
+    },
+
+    "experiment_2_vegetable_oil_tea": {
+      "title": "Vegetable Oil Tea (THC Butter Style)",
+      "hypothesis": "DMT is non-polar (opposite of water), so oil should extract it like THC extracts into butter",
+      "method": "Made tea with vegetable oil similar to making marijuana butter",
+      "result": "DID NOT WORK",
+      "reason": "MHRB DMT is in acidic salt form naturally - doesn't extract into oil like THC does",
+      "key_realization": "Tea is actually the WORST method for extraction due to time requirements"
+    },
+
+    "experiment_3_limtek_to_oil": {
+      "title": "Limtek + Oil Extraction",
+      "discovery": "DMT must be BASIFIED first before oil extraction works",
+      "correct_procedure": [
+        "Use Limtek process to basify the DMT (convert to freebase)",
+        "THEN add oil to extract the freebase",
+        "Oil pulls the non-polar freebase DMT effectively"
+      ],
+      "use_case": "Making Ayahuasca cooking oil for culinary use",
+      "assessment": "One of the EASIEST extraction methods when goal is NOT pure crystals",
+      "advantage": "Good for making edible oil preparations"
+    },
+
+    "experiment_4_cold_water_extraction": {
+      "title": "Cold Water Extraction (Blig-Blug Method)",
+      "source": "DMT-Nexus 2025 thread by blig-blug",
+      "result": "THIS ACTUALLY WORKS",
+      "method": {
+        "ingredients": ["Cold water", "Lemon juice", "Shredded or powdered MHRB"],
+        "container": "Mason jar",
+        "duration": "24-48 hours",
+        "storage": "Blig-blug recommends fridge, but sitting anywhere works"
+      },
+      "key_insight": "The extraction just takes TIME - that's the main factor",
+      "advantage": "Much easier than active extraction - just set and forget",
+      "comparison": "Easier to put mason jar in closet than to make tea or do limtek"
+    },
+
+    "experiment_5_straight_up_eating_it": {
+      "title": "Straight Up Eating It Tek",
+      "author": "Angelicalist",
+      "discovery": "Easiest method is NO EXTRACTION at all",
+      "assessment": "SIMPLEST and most effective method for oral ayahuasca",
+
+      "procedure": {
+        "step_1": {
+          "action": "Take Syrian Rue seeds like pills",
+          "method": "Swallow whole with water - NO CHEWING",
+          "amount": "Standard MAOI dose"
+        },
+        "step_2": {
+          "action": "Wait 10 minutes (optional)",
+          "note": "Can skip waiting if desired"
+        },
+        "step_3": {
+          "action": "Mix MHRB into yogurt",
+          "amount": "3-7 grams",
+          "yogurt_type": "Regular grocery store yogurt - even Walmart brand works",
+          "method": "Mix thoroughly and eat"
+        }
+      },
+
+      "why_it_works": {
+        "maoi_first": "Syrian Rue provides MAO inhibition",
+        "stomach_digestion": "Stomach acid and digestion extract DMT naturally",
+        "yogurt_benefit": "Masks taste, provides medium for consumption"
+      },
+
+      "advantages": [
+        "No extraction equipment needed",
+        "No chemicals needed",
+        "No waiting days for extraction",
+        "No heat or special preparation",
+        "Grocery store ingredients only",
+        "Works reliably"
+      ]
+    },
+
+    "method_comparison": {
+      "by_complexity": {
+        "most_complex": "Traditional multi-boil tea reduction",
+        "medium_complex": "Limtek + oil extraction",
+        "simple": "Cold water extraction (24-48h soak)",
+        "simplest": "Straight Up Eating It Tek (no extraction)"
+      },
+      "by_effectiveness_for_oral_use": {
+        "tea": "Works but takes very long time, easy to mess up",
+        "oil_without_base": "Does NOT work - DMT in salt form",
+        "limtek_to_oil": "Works well for cooking oil preparation",
+        "cwe": "Works well, just requires patience",
+        "straight_eating": "Works well, fastest preparation"
+      }
+    },
+
+    "key_scientific_insights": {
+      "dmt_polarity": {
+        "freebase_form": "Non-polar - dissolves in oils and non-polar solvents",
+        "salt_form": "Polar - dissolves in water (acidic)",
+        "natural_state_in_mhrb": "Acidic salt form"
+      },
+      "why_butter_method_fails": "MHRB DMT is in salt form, not freebase - won't extract into oil without basification",
+      "why_cwe_works": "Water slowly extracts the polar salt-form DMT over time",
+      "why_eating_works": "Stomach provides acid environment, digestion extracts DMT naturally"
+    },
+
+    "practical_recommendations": {
+      "for_beginners": "Start with Straight Up Eating It Tek - simplest and effective",
+      "for_cooking_oil": "Use Limtek to basify, then extract with oil",
+      "for_tea_lovers": "Use Cold Water Extraction - less work than boiling",
+      "avoid": "Trying to extract into oil without basifying first"
+    },
+
+    "dosage_guidelines": {
+      "mhrb_oral": "3-7 grams mixed in yogurt",
+      "syrian_rue": "Standard MAOI dose, swallowed whole",
+      "note": "Start low, individual sensitivity varies"
+    }
+  }
+}
