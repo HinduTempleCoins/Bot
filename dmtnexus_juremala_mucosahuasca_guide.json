@@ -1,0 +1,165 @@
+{
+  "dmtnexus_juremala_mucosahuasca_guide": {
+    "document_info": {
+      "title": "Amor fati's Guide to Juremala (Mucosahuasca)",
+      "source": "DMT-Nexus Wiki",
+      "author": "amor_fati",
+      "type": "Administration Tek",
+      "status": "Work in progress - development tracked",
+      "purpose": "Sublingual administration of jurema extract with harmaloids",
+      "disclaimer": "Educational reference only. Documents historical administration research."
+    },
+
+    "juremala_definition": {
+      "term": "Juremala",
+      "description": "Character and method of administration unique to jurema-extracted spice",
+      "method": "Jurema extract used with harmaloids to achieve extended duration of psychedelia",
+      "common_harmaloid_routes": [
+        "Sublingual (to potentiate inspirated spice vapor)",
+        "Oral (mimicking traditional ayahuasca methods)"
+      ],
+      "key_insight": "Purified substances are far-cry from crude traditional preparations - alternative routes available"
+    },
+
+    "why_sublingual": {
+      "digestive_tract_problems": {
+        "issue": "Digestive tract is one of the most reliably INCONSISTENT factors",
+        "negative_factors": [
+          "Capsules",
+          "Time gaps between spice and harmaloid dosage",
+          "Over-dilution",
+          "Improper acidification",
+          "Irritation",
+          "Diet"
+        ]
+      },
+      "solution": "Subtract digestive tract entirely - absorb directly into bloodstream",
+      "oral_workaround": {
+        "method": "Mix substances in salt form into shot, take all at once",
+        "theory": "Good portion absorbed on the way down, rest shortly after",
+        "implication": "Stomach and intestines may NOT be chief absorption locations",
+        "evidence": "Reports of experience coming in waves rather than all at once"
+      }
+    },
+
+    "ideal_preparation": {
+      "goal": "Expedited pre-digestive absorption",
+      "form": "Small volume tincture with absorption-promoting substances",
+      "dosage_advantage": "Far more localized absorption = greatly reduced dosage for like magnitude effects",
+      "analog_theory": {
+        "observation": "Reports indicate analogs most readily absorb through oral mucosa",
+        "practical_implication": "Can remove pure substances for other use, leave analogs for sublingual"
+      }
+    },
+
+    "tincture_production": {
+      "spice_acetate_method": {
+        "concentration": "~74mg/mL full-range freebase",
+        "procedure": [
+          "Add freebase to intended dropper bottle",
+          "Dissolve in distilled white vinegar (5% acetic acid) - converts to acetate salt",
+          "Shake vigorously and submerge in hot-water bath",
+          "Evaporate contents in food-dehydrator below 39C (102F)",
+          "Stabilize opened bottle as close to fan as possible",
+          "Refill with vinegar (pH 4 max) OR 50% glycerin/water to preserve and create tincture"
+        ]
+      },
+      "spice_fumarate_method": {
+        "concentration": "~86mg/mL full-range water-purified fumarates",
+        "procedure": [
+          "Add fumarates to intended dropper bottle",
+          "Dissolve in 50% glycerin/water",
+          "Shake vigorously and submerge in hot-water bath"
+        ],
+        "resulting_concentration": {
+          "dmt_per_ml": "~66mg/mL",
+          "dmt_per_drop": "~2.3mg/drop"
+        }
+      }
+    },
+
+    "dosage_guidelines": {
+      "tincture_advantage": "Easier to measure - drops determine amounts by known concentration",
+      "spice_amounts": {
+        "sublingual": "30-40mg full alkaloid spice acetate or fumarate",
+        "form": "Dry or concentrated tincture"
+      },
+      "harmaloid_amounts": {
+        "sublingual_activation": ">40mg THH to activate sublingual spice",
+        "vapor_potentiation": "15-30mg THH to potentiate vaporized spice"
+      },
+      "ratios": {
+        "sublingual_activation": "1:1 to 1:2 spice to total harmaloids",
+        "note": "Less harmaloids necessary with stronger RIMAs like harmaline"
+      }
+    },
+
+    "maximizing_oral_mucosa_absorption": {
+      "common_mistake": {
+        "method": "Leave powder in pile or tincture in puddle, wait 5min in agony",
+        "problem": "Saliva builds up, inefficient absorption"
+      },
+      "correct_technique": {
+        "step_1": {
+          "action": "Apply thinly",
+          "benefits": ["Reduces burn (for tinctures)", "Increases surface area contact"]
+        },
+        "step_2": {
+          "action": "Spread rapidly with bottom of tongue",
+          "benefit": "Maximizes surface area contact, hastens absorption"
+        },
+        "step_3": {
+          "action": "Prevent saliva dilution - keep mouth as dry as possible",
+          "problems_from_dilution": [
+            "Hampers contact between agent and mucous membrane",
+            "May wash substance too far into digestive tract"
+          ]
+        },
+        "step_4": {
+          "action": "Swallow saliva before it accumulates, as rapidly as possible",
+          "note": "Any agent reaching throat (oropharynx) absorbs there before reaching digestive tract"
+        },
+        "step_5": {
+          "action": "Refrain from drinking fluids too soon after administration",
+          "purpose": "Guarantee maximized effectiveness"
+        }
+      },
+      "tincture_application": {
+        "drop_sets": "Apply in minimal sets of ~5-6 drops",
+        "speed": "Each set administered as rapidly as possible",
+        "total_time": "Total dosage within 1-2 minutes"
+      }
+    },
+
+    "key_principles": {
+      "surface_area": "Maximize surface area contact",
+      "dilution": "Minimize dilution by saliva",
+      "spreading": "Spread agent as much as possible upon application",
+      "swallowing": "Avoid swallowing tincture/powder as much as possible",
+      "dryness": "Keep mouth as dry as possible throughout"
+    },
+
+    "terminology": {
+      "juremala": "Sublingual/mucosahuasca administration of jurema extracts",
+      "mucosahuasca": "Absorption through oral mucosa (sublingual, buccal, oropharyngeal)",
+      "RIMA": "Reversible Inhibitor of Monoamine Oxidase A",
+      "THH": "Tetrahydroharmine - harmaloid used for activation/potentiation",
+      "harmaline": "Stronger RIMA than THH",
+      "oral_mucosa": "Mucous membrane lining the mouth",
+      "oropharynx": "Throat portion of oral mucosa"
+    },
+
+    "advantages_summary": [
+      "Bypasses unreliable digestive tract",
+      "More consistent effects",
+      "Reduced dosage for equivalent effects",
+      "Faster onset than oral",
+      "Can use analog-rich extracts specifically",
+      "Avoids capsule timing issues"
+    ],
+
+    "reference": {
+      "forum_thread": "amor_fati's Guide to Mucosahuasca WIP Forum Thread"
+    }
+  }
+}
