@@ -1,0 +1,335 @@
+{
+  "dmtnexus_5meo_dmt_sources": {
+    "document_info": {
+      "title": "Life-forms Containing 5-MeO-DMT",
+      "source": "DMT-Nexus Wiki / Trout's Notes",
+      "primary_reference": "Trout's Notes - comprehensive alkaloid database",
+      "analysis_note": "Alkaloid information from TLC analysis is TENTATIVE - needs confirmation with GC-MS or other appropriate analytical methods",
+      "disclaimer": "Educational reference only. Documents botanical chemistry research."
+    },
+
+    "acacia_species": {
+      "analysis_note": "TLC analysis by J. Appleseed using Xanthydrol spray unless noted",
+      "species": {
+        "acacia_albida": {
+          "parts": "twigs",
+          "amount": "traces",
+          "date": "5 Oct 1995",
+          "co_occurring": "suspected DMT"
+        },
+        "acacia_angustissima": {
+          "parts": ["roots (unconfirmed)", "seeds"],
+          "amount": "trace",
+          "date": "March 1995",
+          "note": "Not observed in second assay of roots"
+        },
+        "acacia_auriculiformis": {
+          "parts": "stem-bark",
+          "amount": "trace",
+          "date": "25 April 1995"
+        },
+        "acacia_cultriformis": {
+          "parts": ["branch stems", "phyllodes", "flowering spikes"],
+          "source": "Commercial florist's material",
+          "date": "Sept 1996"
+        },
+        "acacia_difformis": {
+          "parts": ["roots of 2-year-old seedlings", "stems"],
+          "date": "1996",
+          "note": "Not observed in roots Sept 1996"
+        },
+        "acacia_farnesiana": {
+          "parts": "green fruit only",
+          "amount": "traces",
+          "date": "24 July 1995",
+          "note": "Not present in ripe fruit. Also contained suspected beta-carboline"
+        },
+        "acacia_maidenii": {
+          "parts": ["wood", "twigs", "phyllodes"],
+          "amount": "traces",
+          "dates": "October 1995, 26 July, 27 Oct 1995",
+          "co_occurring": "DMT in phyllodes and twigs",
+          "note": "Sole alkaloid when just using twigs. NOT observed in bark or root bark"
+        },
+        "acacia_nilorica": {
+          "parts": ["stem", "roots", "leaves"],
+          "amount": "faint traces",
+          "date": "Sept 1996"
+        },
+        "acacia_obtusifolia": {
+          "parts": "some samples as minor component",
+          "source": "Pers. comm. with Snu Voogelbreinder",
+          "note": "Needs confirmation. NOT observed in bark or root bark"
+        },
+        "acacia_victoriae": {
+          "parts": "roots of 2-year-old seedlings",
+          "amount": "strong blue band",
+          "date": "1996"
+        }
+      }
+    },
+
+    "anadenanthera_species": {
+      "species": {
+        "anadenanthera_general": {
+          "seedlings": {
+            "amount": "0.001%",
+            "percentage_of_total": "4% of 29mg total alkaloid/100g dry",
+            "reference": "Schultes et al 1977"
+          }
+        },
+        "anadenanthera_colubrina": {
+          "note": "Conflicting reports - most find only bufotenine in seeds",
+          "archaeological_snuff": {
+            "location": "Argentina",
+            "finding": "Torres et al. 1991 detected DMT, 5-MeO-DMT, and bufotenine",
+            "caveat": "No analysis of seeds or verifiable plant materials reported"
+          }
+        },
+        "anadenanthera_peregrina": {
+          "bark": {
+            "amount": "0.025%",
+            "source": "Boa Vista, Brazil (No.24625)",
+            "reference": "Agurell et al. 1969"
+          },
+          "leaf": {
+            "amount": "0.006%",
+            "reference": "Agurell et al. 1969"
+          },
+          "detailed_analysis": {
+            "source": "R.E.Schultes 26363, Puerto Rico",
+            "immature_seeds": "0.04% (19% of total alkaloid)",
+            "seedlings": "0.024% (95% of total)",
+            "pods_without_seeds": "0.012% (91% of total)",
+            "leaves": "0.094% (88% of total)",
+            "twigs": "0.0357% (94% of total)",
+            "bark": "0.39% (95% of 0.41% total)",
+            "roots": "0.678% (97% of 0.69% total)",
+            "reference": "Schultes et al. 1977"
+          }
+        }
+      },
+      "snuffs": {
+        "epena_waica": {
+          "source": "George Seitz from Waica",
+          "finding": "5-MeO-DMT was major alkaloid, bufotenine minor",
+          "note": "Claimed Virola source questioned due to chemistry"
+        },
+        "parica": {
+          "source": "Piaroa Indians, collected 1955",
+          "alkaloids": ["5-MeO-DMT", "DMT", "Bufotenine"],
+          "reference": "Holmstedt & Lindgren 1967"
+        },
+        "yopo": {
+          "sources": ["Pixi-asi-teri Upper Orinoco", "Colombia 1956"],
+          "alkaloids": ["5-MeO-DMT", "DMT", "Bufotenine"]
+        }
+      }
+    },
+
+    "grasses": {
+      "arundo_donax": {
+        "parts": ["leaf", "flower"],
+        "reference": "Ghosal 1972a"
+      },
+      "bromus_breviaristatus": {
+        "status": "potentially present in some specimens",
+        "date": "1996",
+        "analyst": "J. Appleseed"
+      },
+      "digitaria_sanguinalis": {
+        "common_name": "Crab grass",
+        "status": "potentially present",
+        "date": "1996"
+      },
+      "sorghum_halepense": {
+        "common_names": ["Johnson Grass", "Aleppo Grass", "Egyptian Millet"],
+        "parts": "leaf only",
+        "amount": "low levels",
+        "location": "Central Texas",
+        "date": "1996"
+      },
+      "phalaris_species": {
+        "note": "HIGHLY VARIABLE - concentrations and proportions vary year to year with dramatic seasonal fluctuations",
+        "phalaris_aquatica": {
+          "leaf_amount": "0.01-0.28%",
+          "source": "California material",
+          "variability": "Not present in all clones (4 out of 12)"
+        },
+        "phalaris_arundinacea": {
+          "parts": ["leaf", "whole plant"],
+          "amount_range": "0.0002-0.0067%",
+          "source": "British Columbia",
+          "cv_turkey_red": "0.0025-0.045% total alkaloid, 5-MeO predominant"
+        }
+      }
+    },
+
+    "desmodium_species": {
+      "desmodium_gangeticum": {
+        "aerial_parts": "0.057% wet weight",
+        "reference": "Banerjee & Ghosal 1969",
+        "additional": "In roots, stems, leaves after 2 years old"
+      },
+      "desmodium_gyrans": {
+        "parts": ["leaves", "stem/leaves", "roots"],
+        "leaf_amount": "35+ mg from 2 kg",
+        "reference": "Ghosal et al 1972a"
+      },
+      "desmodium_pulchellum": {
+        "whole_plant": "0.2-0.25% dry weight",
+        "reference": "Ghosal & Mukherjee 1964-1966",
+        "detailed": {
+          "stem_leaf_mature": "0.476% (34% of 1.4% total)",
+          "root_mature": "0.132% (12% of 1.1% total)",
+          "seeds_ripe": "0.002% (10% of 0.02% total)"
+        }
+      }
+    },
+
+    "delosperma_species": {
+      "analyst": "Johnny Appleseed TLC assays",
+      "species": {
+        "delosperma_cooperi": "3 positives with Xanthydrol, co-occurrence with DMT",
+        "delosperma_ecklonis": "nice single blue band",
+        "delosperma_harazianum_audhali": "dark band, co-occurring with DMT",
+        "delosperma_klinghardtiana": "nice band, co-occurrence with DMT",
+        "delosperma_pageanum": "consistent positives across multiple assays"
+      }
+    },
+
+    "caesalpinia_species": {
+      "caesalpinia_gilliesii": {
+        "parts": ["stem-bark", "roots"],
+        "date": "1995-1996"
+      },
+      "caesalpinia_pulcherrima": {
+        "parts": ["flowers", "buds", "roots"],
+        "date": "August 1995, June 1995-1996"
+      }
+    },
+
+    "other_plants": {
+      "dictyoloma_incanescens": {
+        "amount": "0.04%",
+        "parts": "dry bark",
+        "location": "Rio de Janeiro, winter collection",
+        "reference": "Pachter et al 1959"
+      },
+      "dutaillyea_drupacea": {
+        "location": "New Caledonia",
+        "leaves": "0.04% (sole alkaloid, 98%)",
+        "note": "Published 0.4% is TYPO",
+        "trunk_bark": "absent"
+      },
+      "evodia_rutaecarpa": {
+        "parts": ["unripe fruit", "roots"],
+        "unripe_fruit": "0.00015% dry weight"
+      },
+      "hugonia_oreogena": {
+        "parts": "rootbark",
+        "amount": "traces (0.5mg from 140g)"
+      },
+      "justicia_pectoralis": {
+        "parts": "leaf",
+        "var_stenophylla": "faint blue band co-chromatographing with 5-MeO-DMT"
+      },
+      "lespedeza_bicolor": {
+        "parts": ["leaf", "root bark", "seeds", "pods"],
+        "root_bark": "less than 0.1%"
+      },
+      "mimosa_pudica": {
+        "parts": ["stem", "leaf", "roots", "branches"],
+        "note": "Low amounts in stem/leaf after first year, higher in roots",
+        "dmf_note": "DMT didn't show until after second year"
+      },
+      "mucuna_pruriens": {
+        "parts": ["leaf", "seed", "stem", "roots", "pod"],
+        "fresh_leaves": "0.01%"
+      },
+      "umbellularia_californica": {
+        "parts": "stembark",
+        "status": "needs confirmation"
+      }
+    },
+
+    "diplopterys_cabrerana": {
+      "note": "5-MeO-DMT NOT found by McKenna 1984 or Endlessness",
+      "agurell_1968": {
+        "dried_stem": "0.0035% 5-MeO-DMT with 0.16638% DMT",
+        "note": "Misidentified as Banisteriopsis rusbyana"
+      }
+    },
+
+    "virola_species": {
+      "snuffs_and_products": {
+        "arrow_poison_yanomamo": "8% by dry weight",
+        "epena_araraibo": "5-MeO-DMT with DMT",
+        "epena_tucano": "5-MeO-DMT with DMT and 5-MeO-MMT",
+        "epena_waica": "5-MeO-DMT with NMT and DMT",
+        "epena_rio_cauaburi": "0.5%",
+        "nyakwana_tototobi": "9.68%"
+      },
+      "species": {
+        "virola_callophylla": {
+          "parts": "wood",
+          "status": "major alkaloid",
+          "co_occurring": ["2-MTHBC", "nicotine"]
+        },
+        "virola_elongata": {
+          "note": "NOT found in all samples",
+          "bark": "0.245 mg/g dry bark"
+        },
+        "virola_rufula": {
+          "bark": "0.008-0.19%",
+          "roots": "0.135%"
+        },
+        "virola_theiodora": {
+          "bark": "0.062-0.11%",
+          "roots": "0.001-0.011%",
+          "leaves": "traces"
+        }
+      }
+    },
+
+    "animals": {
+      "bufo_alvarius": {
+        "common_name": "Colorado River Toad / Sonoran Desert Toad",
+        "cutaneous_glands": "60-160 mg/g dry tissue",
+        "parotid_coxal_glands": "5-15% dry weight",
+        "non_glandular_skin": "1.0-3.5 mg/g",
+        "reference": "Erspamer et al. 1965, 1967",
+        "note": "Occurs with its N-sulfate"
+      },
+      "humans": {
+        "cerebrospinal_fluid": {
+          "finding": "Detected in CSF of some psychotics and few normal people",
+          "references": ["Christian et al. 1975", "Corbett et al. 1978", "Narasimhachari et al. 1971b"],
+          "note": "More common in psychotics than normals"
+        }
+      }
+    },
+
+    "key_high_content_sources": {
+      "highest_plant": {
+        "species": "Anadenanthera peregrina roots",
+        "amount": "0.678%"
+      },
+      "highest_snuff": {
+        "name": "nyakwana (Tototobi, Brazil)",
+        "amount": "9.68%"
+      },
+      "highest_animal": {
+        "species": "Bufo alvarius parotid/coxal glands",
+        "amount": "5-15% dry weight"
+      }
+    },
+
+    "analysis_methods_note": {
+      "tlc": "Thin Layer Chromatography - tentative identification",
+      "xanthydrol": "Common spray reagent for indole detection",
+      "ehrlichs": "Does not differentiate between DMT and 5-MeO-DMT",
+      "confirmation_needed": "GC-MS or other appropriate analytical methods required"
+    }
+  }
+}
