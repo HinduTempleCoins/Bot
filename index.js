@@ -206,7 +206,9 @@ async function loadOilahuascaKnowledge() {
     'angelicalist_extraction_findings.json',
     // Administration and ingestion methods
     'dmtnexus_juremala_mucosahuasca_guide.json',
-    'dmtnexus_ingestion_methods.json'
+    'dmtnexus_ingestion_methods.json',
+    // Botanical and chemical references
+    'dmtnexus_5meo_dmt_sources.json'
   ];
   for (const file of files) {
     try {
