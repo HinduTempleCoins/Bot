@@ -1,0 +1,213 @@
+{
+  "dmtnexus_changa_enhanced_leaf": {
+    "document_info": {
+      "title": "Changa and Enhanced Leaf - Smokable DMT Preparations",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Guide to creating smokable DMT herb blends",
+      "disclaimer": "Educational reference only. Documents historical administration research."
+    },
+
+    "enhanced_leaf": {
+      "definition": "Method of administration where DMT freebase is dissolved in solvent with smokable herb and allowed to evaporate",
+      "advantage": "Easier administration than pure freebase DMT",
+      "procedure": {
+        "step_1": {
+          "action": "Thoroughly dissolve freebase DMT in warm solvent",
+          "solvent_options": ["Ethyl Alcohol", "Acetone", "Isopropyl Alcohol"],
+          "ratio": "About 40ml solvent per gram of DMT"
+        },
+        "step_2": {
+          "action": "Use dish with width allowing leaf to sit 5-10mm high"
+        },
+        "step_3": {
+          "action": "Add leaf to DMT-saturated solvent, swirl for even distribution"
+        },
+        "step_4": {
+          "action": "Add more solvent if needed so leaf is well covered"
+        },
+        "step_5": {
+          "action": "Place dish somewhere undisturbed for several days until completely dry"
+        },
+        "step_6": {
+          "action": "Weigh dried leaf - should be heavier by amount of DMT added"
+        }
+      },
+      "smoking_technique": {
+        "method": "Load cone and pull VERY SLOWLY",
+        "warning": "Pulling too fast won't vaporize DMT properly - wastes material"
+      }
+    },
+
+    "changa": {
+      "definition": "Smoking mixture containing similar ingredients to Ayahuasca",
+      "key_ingredients": {
+        "required": ["DMT", "MAOI (typically harmalas)"],
+        "variable": "Many varieties with different herb combinations"
+      },
+      "effects": {
+        "character": "More grounded than freebase DMT alone",
+        "comparison": "Similar to short Ayahuasca trip",
+        "duration": "Slightly longer than freebase - reports up to 12 minutes",
+        "combination_use": "Can be used with Ayahuasca to intensify and revisit experience"
+      },
+      "advantages": [
+        "Much easier to use than freebase DMT",
+        "Can be smoked in ordinary pipe or water pipe",
+        "DMT freebase difficult to vaporize on its own - changa solves this"
+      ],
+      "typical_mixture": {
+        "characteristic": "Breakthrough experiences at approximately one pipe",
+        "joint_use": "Reports of breakthroughs with changa rolled into joints"
+      }
+    },
+
+    "herbs_and_properties": {
+      "maoi_herbs": {
+        "passionflower": {
+          "effect": "MAOI - potentiates and lengthens experience"
+        },
+        "banisteriopsis_caapi": {
+          "effect": "Adds spirit quality, potentiates and lengthens experience"
+        }
+      },
+      "dream_herbs": {
+        "calea_zacatechichi": {
+          "common_name": "Dream herb",
+          "effect": "Perfect synergy with DMT"
+        },
+        "silene_capensis": {
+          "common_name": "African dream herb"
+        },
+        "mugwort": {
+          "effect": "Dream synergy and mystical powers"
+        }
+      },
+      "lotus_flowers": {
+        "blue_white_pink_lotus": {
+          "effect": "Distinct pleasurable and bright character"
+        }
+      },
+      "soothing_herbs": {
+        "peppermint": {
+          "effect": "Adds fresh soothing qualities"
+        },
+        "mullein": {
+          "effect": "Respiratory healing and soothing qualities"
+        }
+      },
+      "sedating_herbs": {
+        "pedicularis_densiflora": {
+          "effect": "Psychoactive sedating effects"
+        },
+        "sculcap": {
+          "effect": "Strengthens, calms and sedates nervous system"
+        },
+        "wild_lettuce": {
+          "effect": "Strengthens, calms and sedates nervous system"
+        }
+      },
+      "psychoactive_herbs": {
+        "pau_darco": {
+          "effect": "Rich and exuberant meadows of pleasure"
+        },
+        "damiana": {
+          "effect": "Unique vibrance and taste"
+        },
+        "brugmansia_flowers": {
+          "effect": "Distinct otherworldly character"
+        },
+        "heimia_salicifolia": {
+          "effect": "Increases auditory hallucinations"
+        },
+        "salvia_divinorum": {
+          "effect": "Acts as opener and enabler"
+        },
+        "chaliponga": {
+          "effect": "Adds spirit quality and more magic"
+        },
+        "lions_tail": {
+          "effect": "Euphoric smoking herb"
+        },
+        "synaptolepis_kirkii": {
+          "effect": "Adds clear minded, visionary quality"
+        }
+      },
+      "utility_herbs": {
+        "justicia_pectoralis": {
+          "effect": "Smoother taste and nice smell"
+        }
+      },
+      "miscellaneous": [
+        "Calendula",
+        "Pituri",
+        "Lavender",
+        "White sage"
+      ]
+    },
+
+    "additives": {
+      "harmala_extract": "MAOI to potentiate",
+      "bufotenine": "Additional tryptamine",
+      "5_meo_dmt": "Additional tryptamine (use with extreme caution)"
+    },
+
+    "named_blends": {
+      "ayahuasca_android": {
+        "composition": "70% Caapi - 30% Chaliponga",
+        "character": "Traditional ayahuasca-like"
+      },
+      "dream_scape": {
+        "composition": "60% Calea - 40% Brugmansia",
+        "character": "Dream-oriented"
+      },
+      "electric_sheep": {
+        "composition": "50% Blue Lotus - 50% Calea",
+        "character": "Dream and pleasure"
+      },
+      "minty_blast": {
+        "composition": "40% Caapi - 35% Peppermint - 25% Mullein",
+        "character": "Fresh and soothing"
+      },
+      "the_mekong": {
+        "composition": "50% Passionflower - 50% Blue Lotus",
+        "character": "Relaxing"
+      },
+      "twisted_fruit": {
+        "composition": "50% Caapi - 20% Salvia - 30% Mugwort + Bufotenine",
+        "character": "Complex psychoactive"
+      },
+      "xnga_blend": {
+        "composition": {
+          "peppermint": "450mg",
+          "caapi_leaf": "450mg",
+          "dmt_freebase": "800mg (washed, recrystallized)",
+          "harmala_freebase": "300mg (from Caapi or Syrian Rue)"
+        }
+      },
+      "witch_drum": {
+        "herb_blend": {
+          "total": "1000mg",
+          "blue_lotus": "40%",
+          "calea_zacatechichi": "40%",
+          "passionflower": "20%"
+        },
+        "harmala_freebase": "300mg",
+        "dmt_freebase": "1000mg",
+        "ratio": "1:1 DMT to herb"
+      }
+    },
+
+    "dosing_considerations": {
+      "dmt_to_herb_ratio": "Variable - common ratios from 1:2 to 1:1",
+      "harmala_amount": "Typically 25-50% of DMT weight",
+      "breakthrough_dose": "Varies by blend - typically one full pipe"
+    },
+
+    "safety_notes": {
+      "maoi_interactions": "Be aware of MAOI dietary and drug interactions",
+      "brugmansia_warning": "Brugmansia is deliriant - use sparingly",
+      "salvia_warning": "Salvia can significantly alter experience character",
+      "5meo_warning": "5-MeO-DMT extremely potent - measure carefully"
+    }
+  }
+}
