@@ -1,0 +1,182 @@
+{
+  "dmtnexus_crystallization_salting": {
+    "document_info": {
+      "title": "Manual Crystallization and Salting Techniques",
+      "source": "DMT-Nexus Wiki",
+      "purpose": "Guide to crystallization and salt conversion procedures",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "manual_crystallization": {
+      "description": "Procedure to convert oily freebase to solid chunks",
+      "applicability": {
+        "primary_use": "Following freebase conversion from fumarate",
+        "alternative_use": "With freebase spice moistened with water for recrystallization"
+      },
+      "procedure": {
+        "step_1": {
+          "action": "Use razor blade to spread oily product thinly and firmly across dish",
+          "technique": "Cross-hatched fashion"
+        },
+        "step_2": {
+          "action": "When oil thickens to pasty consistency, use lab spatula to repeatedly scrape up and spread out",
+          "goal": "Product thickens noticeably more with each cycle"
+        },
+        "step_3": {
+          "action": "Spread product thinly across dish",
+          "wait": "Allow to harden to clay-like consistency"
+        },
+        "step_4": {
+          "action": "Scrape up and mold to desired form and density"
+        },
+        "step_5": {
+          "action": "Store properly",
+          "conditions": [
+            "Cool, dark place",
+            "Sealed container",
+            "Protected from moisture",
+            "Protected from oxygen"
+          ],
+          "note": "Handle with care and sincerity"
+        }
+      },
+      "result": "Freebase chunks - solid form easier to handle and dose"
+    },
+
+    "salting": {
+      "definition": "Process by which freebase DMT is reacted with acid to create water-soluble salt form",
+      "natural_occurrence": "DMT in botanical sources tends to be in salt-form naturally",
+      "purpose": "Facilitates simple aqueous extraction for brews and A/B extraction",
+      "common_applications": [
+        "Aqueous acid extractions from plant material",
+        "Preparing DMT-containing brews",
+        "A/B (Acid/Base) extraction procedures"
+      ],
+      "crystallization_challenge": {
+        "problem": "Salt-form rarely lends itself to proper crystallization",
+        "typical_result": "Usually isolated as oil",
+        "solution": "Very specific methods and materials required for crystalline salt"
+      }
+    },
+
+    "common_salts": {
+      "dmt_acetate": {
+        "acid_used": "Acetic acid (vinegar)",
+        "solubility": "Water soluble",
+        "form": "Usually oily/gooey",
+        "notes": "Can use dilute vinegar or glacial acetic acid"
+      },
+      "dmt_fumarate": {
+        "acid_used": "Fumaric acid",
+        "solubility": "Water soluble",
+        "form": "Can crystallize more readily than acetate",
+        "advantages": [
+          "More stable than freebase",
+          "Easier to handle",
+          "Known conversion ratio (76% DMT by weight)"
+        ]
+      },
+      "dmt_citrate": {
+        "acid_used": "Citric acid",
+        "solubility": "Water soluble",
+        "form": "Variable"
+      },
+      "dmt_tartrate": {
+        "acid_used": "Tartaric acid",
+        "solubility": "Water soluble"
+      }
+    },
+
+    "salting_methods": {
+      "fasw": {
+        "name": "Fumaric Acid Saturated Water",
+        "description": "Saturated solution of fumaric acid in water",
+        "process": [
+          "Prepare saturated fumaric acid solution",
+          "Mix with nonpolar solvent containing freebase",
+          "Shake/mix to transfer DMT to water layer as fumarate",
+          "Separate layers",
+          "Evaporate water to obtain DMT fumarate"
+        ]
+      },
+      "fasa": {
+        "name": "Fumaric Acid Saturated Acetone",
+        "description": "Fumaric acid dissolved in acetone",
+        "advantage": "Faster evaporation than water"
+      },
+      "fasipa": {
+        "name": "Fumaric Acid Saturated Isopropyl Alcohol",
+        "description": "Alternative to FASA"
+      },
+      "vinegar_salting": {
+        "description": "Using dilute acetic acid (vinegar)",
+        "caution": "Commercial vinegar may contain impurities",
+        "preference": "Glacial acetic acid produces cleaner product"
+      }
+    },
+
+    "freebase_conversion": {
+      "from_fumarate": {
+        "methods": [
+          {
+            "name": "Sodium carbonate paste",
+            "process": "Mix fumarate with sodium carbonate and minimal water"
+          },
+          {
+            "name": "Ammonia wash",
+            "process": "Wash fumarate with dilute ammonia solution"
+          },
+          {
+            "name": "Slow crystallization",
+            "process": "Dissolve fumarate in water, add sodium carbonate solution, refrigerate for days"
+          }
+        ]
+      },
+      "from_acetate": {
+        "methods": [
+          {
+            "name": "Heat dissociation",
+            "process": "Gentle heat causes acetic acid to evaporate, leaving freebase",
+            "reference": "q21q21's findings"
+          },
+          {
+            "name": "Base conversion",
+            "process": "Add base to neutralize acid and convert to freebase"
+          }
+        ]
+      }
+    },
+
+    "troubleshooting": {
+      "oily_product": {
+        "cause": "Common with salt forms and impure freebase",
+        "solution": "Manual crystallization technique"
+      },
+      "hygroscopic_product": {
+        "cause": "Some salts absorb moisture from air",
+        "solution": "Store in airtight container with desiccant"
+      },
+      "impurities": {
+        "cause": "Plant fats, other alkaloids, solvent residue",
+        "solutions": ["Recrystallization", "A/B cleanup", "Activated charcoal"]
+      }
+    },
+
+    "storage_recommendations": {
+      "freebase": {
+        "stability": "Less stable than salts",
+        "conditions": "Cool, dark, dry, airtight",
+        "oxidation": "Protect from air/oxygen"
+      },
+      "fumarate": {
+        "stability": "More stable than freebase",
+        "conditions": "Room temperature acceptable, keep dry"
+      },
+      "general": {
+        "container": "Glass preferred, avoid plastic for long-term",
+        "light": "Keep away from light",
+        "temperature": "Cool storage extends shelf life"
+      }
+    }
+  }
+}
