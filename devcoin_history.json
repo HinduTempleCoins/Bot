@@ -73,6 +73,21 @@
       "method": "Recruited writers from emerging countries",
       "vision": "Global workforce earning cryptocurrency for content"
     },
+    "bitcoin_town_project": {
+      "concept": "Physical community centered on cryptocurrency",
+      "status": "Never materialized as physical city",
+      "legacy": "Precursor to El Salvador Bitcoin City and Satoshi Island experiments",
+      "reception": "Dismissed by critics as too ambitious, defended against 'trolls'"
+    },
+    "ecosystem_vision_2013": {
+      "date": "June 2013 - 30 day roadmap",
+      "pioneering_concepts": {
+        "play_to_earn": "Play Xbox for DVC - P2E before the term existed",
+        "social_fi": "Post on Forums for DVC - incentivized social media before Steemit",
+        "dvc_store": "Marketplace for computer parts, games, alternative medicine/herbals"
+      },
+      "significance": "These concepts were revolutionary in 2013, became mainstream by 2021"
+    },
     "the_scaling_crisis": {
       "phase_a_the_club": {
         "authors": "~15 sharing reward pool",
@@ -172,6 +187,85 @@
       "1_percent_rule": "If you need 'special computer skills' to invest, still early",
       "neighbor_indicator": "When neighbors talk crypto = time to sell",
       "media_indicator": "Mainstream media mocking = still early adopter territory"
+    }
+  },
+
+  "community_infrastructure_2013": {
+    "faucet_system": {
+      "developer": "emfox - awarded 2 million DVC + 8 ongoing shares",
+      "innovation": "Linked to Bitcointalk forum rank to prevent bots",
+      "rewards": {
+        "jr_member": "50 DVC immediately",
+        "signature_bonus": "100 DVC extra for keeping 'Earn Devcoins by Writing' in signature for a week"
+      },
+      "significance": "Beginning of 'signature bounty' era - profiles became billboards"
+    },
+    "exchange_listings": {
+      "mcxnow": {
+        "date": "June 2013",
+        "bounty": "9 shares of block generation",
+        "significance": "Major legitimacy boost - exchange listing was primary indicator of coin validity"
+      },
+      "vircurex": "Early trading venue with buy walls",
+      "cryptsy": "Later delisted DVC/BTC due to decimal place issues"
+    },
+    "escrow_services": {
+      "koolio_escrow": {
+        "url": "KoolioEscrow.com",
+        "fee": "3%",
+        "trust_factor": "Operator was BTC-e exchange moderator",
+        "significance": "Precursor to smart contract escrow"
+      }
+    },
+    "commercial_wiki_proposal": {
+      "proposer": "killerstorm",
+      "concept": "Realms - user-created niche wikis (news, fiction, mining info)",
+      "revenue_model": "Pageviews and ad revenue instead of word count",
+      "moderation": "Democratic voting to punish cheaters",
+      "forkable": "Communities could fork poorly-managed Realms",
+      "status": "Proposed but not implemented"
+    },
+    "link_bounties": {
+      "concept": "Pay users for linking to DevTome from external sites",
+      "mechanism": "Verify link exists, send DVC to address on linking page",
+      "ongoing_rewards": "Additional rewards for keeping link active"
+    },
+    "content_rules": {
+      "images": "Only 10 words credit per image to prevent image spam",
+      "copyright_warning": "Getty Images and copyrighted material strictly forbidden",
+      "gambling": "Allowed but 'Satoshi Dice' style blockchain spam forbidden"
+    }
+  },
+
+  "round_24_specifics": {
+    "receiver_lines": 1277,
+    "value_per_share": {
+      "dvc": "~140,955 DVC",
+      "btc": "~0.125 BTC",
+      "usd": "~$13 USD"
+    },
+    "admin_cap": "6.7% of total rewards",
+    "payment_block": 96000,
+    "exchange_rate": "1 BTC = 1,000,000+ DVC (June 2013)",
+    "example_payout": "30+ shares = 3,000,000 DVC"
+  },
+
+  "security_debates_2013": {
+    "cold_storage": {
+      "status": "Recommended but poorly understood",
+      "barrier": "High technical barrier for non-technical users"
+    },
+    "paper_wallets": {
+      "status": "Gold standard but confusing",
+      "evolution": "Replaced by hardware wallets and MPC by 2026"
+    },
+    "coinbase_desire": {
+      "request": "User-friendly service like Coinbase for DVC",
+      "problem": "Never materialized - every user had to run local client"
+    },
+    "web_wallet_incompatibility": {
+      "issue": "Generated coins (coinbase transactions) not recognized",
+      "result": "Forced self-custody on everyone"
     }
   },
 
@@ -288,6 +382,26 @@
         "q": "What lie was used to justify banning FinShaggy?",
         "a": "Accused of paying a 'Fiverr Girl' for YouTube videos",
         "explanation": "Was actually a personal friend helping voluntarily"
+      },
+      {
+        "q": "What pioneering concept did FinShaggy propose in June 2013?",
+        "a": "Play Xbox for DVC - Play-to-Earn before the term existed",
+        "explanation": "Also proposed forum posting for DVC (SocialFi) and a DVC store"
+      },
+      {
+        "q": "How much was the faucet developer emfox awarded?",
+        "a": "2 million DVC + 8 ongoing shares",
+        "explanation": "For creating Bitcointalk-linked faucet that prevented bot abuse"
+      },
+      {
+        "q": "What was the admin cap percentage for Round 24?",
+        "a": "6.7% of total rewards",
+        "explanation": "Remaining 93.3% went to writers and developers"
+      },
+      {
+        "q": "What was 'Bitcoin Town'?",
+        "a": "FinShaggy's concept for a physical crypto community",
+        "explanation": "Never built but was precursor to El Salvador Bitcoin City"
       }
     ],
     "achievement_unlocks": [
