@@ -1,0 +1,329 @@
+{
+  "title": "Marijuana Extraction: A Personal History & Technical Overview",
+  "author": "Angelicalist (Van Kush Family)",
+  "source": "Personal experience from McKinney TX through Colorado era to modern distillate",
+  "overview": "Evolution of cannabis extraction from simple acetone pulls to modern distillation, covering bubble hash, BHO, CO2, and hemp-derived cannabinoids",
+
+  "early_extractions": {
+    "location": "McKinney, TX - High School era",
+    "reference_text": "Dr. Atomic's Marijuana Multiplier Book",
+    "method": "Simple acetone extraction",
+    "process": {
+      "solvent": "Acetone from Home Depot",
+      "result": "Black goop",
+      "applications": [
+        "Applied to bowls of weed",
+        "Reapplied to plant material to increase potency"
+      ]
+    },
+    "source_material": {
+      "name": "Corn",
+      "description": "Midgrade weed",
+      "price": "$30/oz or less",
+      "uses": ["Extraction base", "Edibles/brownies"]
+    },
+    "butter_extraction": {
+      "original_method": "Butter extraction for brownies",
+      "evolution": "Later switched to oil - found it to be better",
+      "note": "Oil extractions became preferred method"
+    }
+  },
+
+  "colorado_era": {
+    "context": "After leaving Texas, traveling through California, Florida, Mexico, New Mexico",
+    "dry_ice_extraction": {
+      "equipment": [
+        "Bubble bag",
+        "Dry ice (CO2)",
+        "Mirror or glass table for collection"
+      ],
+      "process": "Shake bubble bag with ground marijuana, dry ice causes trichomes to fall through silk screen microns",
+      "result": "Kief collected on mirror/table surface",
+      "type": "Bubble Hash / Dry Sift"
+    },
+    "matt_rize_ice_tek": {
+      "innovator": "Matt Rize",
+      "method": "Ice water extraction",
+      "equipment": "Camping washing machine for agitation",
+      "result": "Clean bubble hash, wax consistency",
+      "status": "Top of the line at the time"
+    }
+  },
+
+  "bho_era": {
+    "full_name": "Butane Hash Oil",
+    "products": ["Shatter", "Wax", "Oil"],
+    "timeline": "Before BHO laws were written",
+    "dangers": {
+      "incidents": "People setting themselves on fire, blowing up houses",
+      "cause": "Indoor BHO extractions with improper ventilation",
+      "result": "Led to extensive BHO regulations"
+    },
+    "personal_experiment": {
+      "ingredients": ["Marijuana", "Lemon Grass"],
+      "result": "Stronger than marijuana alone",
+      "active_compound": "Myrcene from lemongrass",
+      "mechanism": "Myrcene crosses Blood-Brain Barrier (BBB)"
+    }
+  },
+
+  "myrcene_research": {
+    "compound": "Myrcene (β-myrcene)",
+    "natural_sources": ["Lemongrass", "Mango", "Hops/Beer", "Cannabis itself"],
+    "mechanisms_of_potentiation": {
+      "bbb_opening": "Opens Blood-Brain Barrier allowing more THC to reach receptors",
+      "cyp450_inhibition": "Blocks CYP450 enzymes that break down THC",
+      "alpha2_adrenergic": "Activates alpha-2 adrenergic receptors (sedation, lower BP, slower HR)"
+    },
+    "route_dependent_effects": {
+      "inhaled_thc": "INCREASED potency - CYP inhibition slows metabolism",
+      "edible_thc": "POTENTIALLY DECREASED - blocks conversion to active 11-OH-THC metabolite",
+      "note": "This is why smoking with myrcene feels stronger but edibles may be weaker"
+    },
+    "mango_myth": {
+      "claim": "Eating mango before cannabis increases effects",
+      "reality": "Mangoes contain insufficient myrcene quantities to meaningfully affect potency",
+      "source": "Cannabis Life Network research"
+    },
+    "commercial_applications": "Mango-flavored marijuana vapes capitalize on perceived synergy",
+    "personal_observation": {
+      "method": "Butter extraction with lemongrass",
+      "result": "Substance separated on bottom - assumed to be myrcene",
+      "note": "Terpene separation during cooling"
+    },
+    "toxicity_paradox": {
+      "toxic_doses": "Myrcene shows toxic effects at doses humans don't normally encounter",
+      "protective_effect": "Blocks CYP enzymes that activate carcinogens and aflatoxin B"
+    },
+    "folk_remedy": {
+      "claim": "Eating black pepper helps bad marijuana effects",
+      "compound": "Beta-caryophyllene in pepper",
+      "mechanism": "CB2 receptor agonist, may modulate THC-induced anxiety"
+    },
+    "research_sources": [
+      "Frontiers in Pharmacology 2025 - Cannabinoids and CYP450 review",
+      "Cannabis Life Network - Myrcene research"
+    ]
+  },
+
+  "classic_solvent_extraction": {
+    "era": "1940s-1970s established, remained gold standard for decades",
+    "method": "Polar/Non-polar solvent separation",
+    "equipment": [
+      "Separatory funnel",
+      "Naphtha (non-polar solvent of choice)",
+      "Vacuum purge system"
+    ],
+    "process": [
+      "Extract with polar solvent (alcohol/water)",
+      "Separate alkaloids/cannabinoids with non-polar solvent",
+      "Use separatory funnel to isolate layers",
+      "Vacuum purge to remove residual solvents"
+    ],
+    "result": "Golden oil - pure cannabis extract",
+    "reference": "Dr. Atomic's Marijuana Multiplier - goldmine of information"
+  },
+
+  "co2_extraction_era": {
+    "method": "Supercritical/Subcritical CO2 Extraction",
+    "equipment": "Closed loop systems",
+    "characteristics": {
+      "color": "Orange-ish (distinctive)",
+      "consistency": "Different from BHO"
+    },
+    "limitations": {
+      "vape_performance": "Didn't work well in vapes",
+      "issue": "Lot left in vape cartridge that couldn't be used",
+      "viscosity": "Required cutting agents or had poor wicking"
+    }
+  },
+
+  "modern_distillate_era": {
+    "advancement": "Distillation surpassed 1940s-70s methods",
+    "hardware": "510 thread vape cartridges became standard",
+    "process": "Short-path distillation for pure cannabinoids",
+    "advantages": [
+      "Higher purity than solvent extraction",
+      "Consistent potency",
+      "Works well in vape cartridges",
+      "Can isolate specific cannabinoids"
+    ]
+  },
+
+  "hemp_derived_cannabinoids": {
+    "legal_context": "2018 Farm Bill opened hemp market",
+    "compounds": {
+      "delta_8_thc": {
+        "name": "Delta-8-THC",
+        "source": "Converted from CBD",
+        "effects": "Milder than Delta-9, less anxiety"
+      },
+      "delta_10_thc": {
+        "name": "Delta-10-THC",
+        "source": "Converted from CBD",
+        "effects": "More energetic/sativa-like"
+      },
+      "thcp": {
+        "name": "THCp (Tetrahydrocannabiphorol)",
+        "potency": "Allegedly 33x more potent than Delta-9",
+        "binding": "Longer alkyl side chain = stronger CB1 binding"
+      },
+      "thc_jd": {
+        "name": "THC-JD (Tetrahydrocannabioctyl)",
+        "structure": "8-carbon side chain",
+        "potency": "Claimed to be extremely potent",
+        "status": "Newer to market, less research"
+      }
+    },
+    "production": "Most converted from CBD isolate through isomerization"
+  },
+
+  "cyp450_cannabis_connections": {
+    "relevance": "Connects to Oilahuasca knowledge base - same CYP450 enzyme manipulation principles",
+    "research_source": "Frontiers in Pharmacology 2025, PubMed studies",
+    "thc_metabolism": {
+      "primary_enzymes": ["CYP2C9", "CYP2C19", "CYP3A4"],
+      "first_step": "Hydroxylation via CYP2C9 to 11-OH-THC (active metabolite)",
+      "metabolites": {
+        "11_oh_thc": "11-hydroxy-THC - ACTIVE, more potent than THC itself",
+        "thc_cooh": "THC-COOH - INACTIVE, what drug tests detect"
+      }
+    },
+    "thc_cyp_inhibition": {
+      "inhibits": ["CYP1A2", "CYP2B6", "CYP2C9", "CYP2D6"],
+      "type": "Competitive inhibition",
+      "implication": "THC can affect metabolism of other drugs"
+    },
+    "cbd_cyp_interactions": {
+      "metabolized_by": ["CYP2C19", "CYP3A4"],
+      "metabolite": "7-OH-CBD via same pathways as THC",
+      "inhibits": ["CYP3A4", "CYP2B6", "CYP2C9", "CYP2D6", "CYP2E1"],
+      "drug_interactions": "CBD significantly affects levels of medications metabolized by these enzymes"
+    },
+    "cbn_interactions": {
+      "inhibits": ["CYP2B6", "CYP2C9", "CYP2E1"],
+      "note": "CBN (oxidized THC) also affects drug metabolism"
+    },
+    "terpene_enzyme_interactions": {
+      "myrcene": {
+        "action": "CYP450 inhibitor",
+        "effect_smoked": "Increases potency by slowing THC breakdown",
+        "effect_edibles": "May DECREASE potency by blocking 11-OH-THC formation"
+      },
+      "limonene": "CYP inducer - may speed metabolism (found in citrus, cannabis)",
+      "beta_caryophyllene": "CB2 agonist - anti-anxiety, anti-inflammatory",
+      "monoterpenoids": "2025 research: α-pinene, limonene directly activate CB1 receptor"
+    },
+    "potentiation_strategies": {
+      "mango_method": {
+        "claim": "Eat mango 45min before",
+        "reality": "Likely insufficient myrcene in mango to matter"
+      },
+      "grapefruit": "CYP3A4 inhibitor - may increase THC duration and intensity",
+      "black_pepper": "Beta-caryophyllene for anxiety reduction via CB2"
+    },
+    "oilahuasca_parallel": {
+      "shared_principle": "Both systems use CYP450 manipulation to alter drug effects",
+      "difference": "Oilahuasca: INDUCE then INHIBIT CYP1A2 | Cannabis: mostly INHIBIT CYP2C9/3A4",
+      "terpene_role": "Terpenes in both systems modulate enzyme activity"
+    }
+  },
+
+  "kava_cannabis_interactions": {
+    "kava_compounds": {
+      "kavalactones": "Primary active compounds in kava",
+      "yangonin": "Specific kavalactone with CB1 affinity"
+    },
+    "yangonin_research": {
+      "finding": "Yangonin binds to CB1 receptors",
+      "implication": "May synergize with or modulate cannabis effects",
+      "cyp_interaction": "Kavalactones inhibit multiple CYP enzymes"
+    },
+    "combination_effects": {
+      "reported": "Enhanced relaxation, different character than either alone",
+      "caution": "Both affect CYP enzymes - potential for interactions",
+      "research_status": "Limited formal research on combination"
+    }
+  },
+
+  "dr_atomic_marijuana_multiplier": {
+    "title": "Dr. Atomic's Marijuana Multiplier",
+    "era": "1970s counterculture classic",
+    "content": [
+      "Acetone extraction methods",
+      "Isomerization techniques",
+      "Potency enhancement methods",
+      "Solvent selection and safety"
+    ],
+    "historical_significance": "Foundational text for DIY cannabis extraction",
+    "note": "Goldmine of information for extraction techniques"
+  },
+
+  "extraction_method_comparison": {
+    "acetone_pull": {
+      "difficulty": "Easy",
+      "equipment": "Minimal",
+      "result": "Black goop, full spectrum",
+      "purity": "Low"
+    },
+    "butter_oil": {
+      "difficulty": "Easy",
+      "equipment": "Kitchen items",
+      "result": "Edible fat infusion",
+      "best_for": "Edibles"
+    },
+    "dry_ice_hash": {
+      "difficulty": "Moderate",
+      "equipment": "Bubble bags, dry ice",
+      "result": "Kief/hash",
+      "purity": "Medium"
+    },
+    "ice_water_hash": {
+      "difficulty": "Moderate",
+      "equipment": "Bubble bags, ice, agitation",
+      "result": "Bubble hash, wax",
+      "purity": "Medium-High"
+    },
+    "bho": {
+      "difficulty": "Dangerous",
+      "equipment": "Extraction tube, butane, vacuum",
+      "result": "Shatter, wax",
+      "purity": "High",
+      "warning": "Fire/explosion risk"
+    },
+    "polar_nonpolar": {
+      "difficulty": "Advanced",
+      "equipment": "Separatory funnel, multiple solvents, vacuum",
+      "result": "Golden oil",
+      "purity": "Very High"
+    },
+    "co2_extraction": {
+      "difficulty": "Professional",
+      "equipment": "Closed loop CO2 system",
+      "result": "Orange extract",
+      "purity": "High"
+    },
+    "distillation": {
+      "difficulty": "Professional",
+      "equipment": "Short-path distillation apparatus",
+      "result": "Clear distillate",
+      "purity": "Highest"
+    }
+  },
+
+  "safety_notes": {
+    "bho_warnings": [
+      "NEVER extract indoors with butane",
+      "Butane is heavier than air - pools on floor",
+      "Any spark can cause explosion",
+      "Many deaths and injuries from indoor BHO"
+    ],
+    "solvent_safety": [
+      "Always use proper ventilation",
+      "Full vacuum purge required for consumable products",
+      "Test for residual solvents",
+      "Use food-grade solvents when possible"
+    ],
+    "legal_considerations": "Laws vary by jurisdiction - research local regulations"
+  }
+}
