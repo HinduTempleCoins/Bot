@@ -179,6 +179,33 @@
     "conclusion": "Do not fear the halving - it was planned for a long time"
   },
 
+  "steemit_press_pass_proposal": {
+    "source": "Steemit Should Provide Press Passes - @marsresident 2016",
+    "concept": "Citizen journalism platform unprecedented in history",
+    "author_credential": "Hindu Minister with press passes from interfaith Churches",
+    "vision": {
+      "independent_news": "Each person covers stories they want, how they want",
+      "no_central_desk": "No corporate news direction or editorial control",
+      "value_proposition": "Steemians on scene when news breaks adds immense value",
+      "monetization": "Already getting paid - just need credentials"
+    },
+    "implementation_ideas": {
+      "steemit_official": "Provide press passes, sell in wallet for STEEM",
+      "whale_funded": "Any wealthy account could start press pass business",
+      "website_shop": "Create central site for Steemit Journalists"
+    },
+    "early_steem_whales_2016": {
+      "note": "Each had $250,000+ (quarter million) in STEEM Power",
+      "founders": ["@steemit", "@ned", "@dan", "@dantheman", "@bytemaster"],
+      "major_whales": ["@blocktrades", "@jamesc", "@berniesanders", "@smooth", "@freedom", "@abit", "@arhag"],
+      "witnesses": ["@pharesim", "@smooth.witness", "@witness.svk", "@roadscape", "@xeldal", "@clayop"],
+      "early_bots": ["@wang", "@itsascam", "@steemed", "@steemroller"],
+      "other_notable": ["@stellabelle", "@donkeypong", "@onceuponatime", "@kushed", "@wackou", "@xeroc"]
+    },
+    "prediction": "First wave of STEEM businesses would emerge from these whales",
+    "significance": "Early vision of blockchain-based independent media"
+  },
+
   "temple_coin_connection": {
     "philosophy": "Coins as trade instruments, not ends in themselves",
     "network_state": "Real assets + crypto = sovereign community",
