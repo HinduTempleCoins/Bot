@@ -342,10 +342,25 @@
   },
 
   "venter_biological_teleportation": {
-    "concept": "DNA as downloadable/printable software",
-    "digital_biological_converter": "Print medicine, food, specialized organisms",
+    "pioneer": "Craig Venter - sequenced human genome, compared to ape",
+    "concept": "DNA as downloadable/printable software (1s and 0s)",
+    "digital_biological_converter": "Machine converts DNA to computer code and back",
+    "yeast_discovery": {
+      "observation": "Add simple compounds, yeast makes new chromosomes",
+      "technique": "Yeast Artificial Chromosome (YAC)",
+      "compounds": "Likely just amino acids"
+    },
+    "cell_as_hardware": {
+      "analogy": "Cell = computer, DNA = software disc",
+      "principle": "Any cell runs any DNA - cell becomes whatever DNA says",
+      "implication": "Create organisms that never existed"
+    },
     "biological_sovereignty": "Community prints own medicine rather than importing",
-    "mars_connection": "Send digital DNA to other planets to rebuild life"
+    "mars_connection": {
+      "vision": "Create organisms living on Mars with no oxygen",
+      "function": "Produce oxygen from Mars materials (Iron, CO2)",
+      "method": "Engineer novel DNA, transmit digitally, print on Mars"
+    }
   },
 
   "synthetic_library": {

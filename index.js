@@ -252,7 +252,11 @@ async function loadOilahuascaKnowledge() {
     // DevCoin complete history
     'devcoin_history.json',
     // Temple Coin and Shaivite Temple history
-    'temple_coin_history.json'
+    'temple_coin_history.json',
+    // STEEM Bots history and automation ecosystem
+    'steem_bots_history.json',
+    // Expert Systems and Business Rules Engine resources
+    'expert_systems_resources.json'
   ];
   for (const file of files) {
     try {
@@ -677,8 +681,8 @@ function getOilahuascaResponse(topic) {
   if (t.includes('taco truck') || t.includes('meme magic') && t.includes('temple')) {
     return `🌮 **#TacoTrucksOnEveryCorner - Meme Engineering**\n\n**Claim**: Created viral 2016 hashtags\n\n**Hashtags**: #Fuckabee, #TacoTrucksOnEveryCorner\n\n**Origin**: Turned Trump surrogate remark into Google+ joke\n\n**Result**: Co-opted by Democratic party marketing\n\n**Demonstration**: Advanced Knowledge Engineering and Meme Magic\n\n**Lesson**: Ideas can be injected into global consciousness`;
   }
-  if (t.includes('biological converter') || t.includes('venter') || t.includes('dna print')) {
-    return `🧬 **Digital Biological Converter - Venter Model**\n\n**Concept**: DNA as downloadable/printable software\n\n**Process**:\n1. Download DNA sequences from cloud\n2. Print using biological converter\n3. Create medicine, food, organisms\n\n**Biological Sovereignty**: Print own medicine, no supply chains\n\n**Mars Connection**: Send digital DNA to rebuild life on other planets\n\n**Vision**: Biology is just code`;
+  if (t.includes('biological converter') || t.includes('venter') || t.includes('dna print') || t.includes('biological teleportation') || t.includes('yeast chromosome')) {
+    return `🧬 **Digital Biological Converter - Craig Venter**\n\n**Pioneer**: Sequenced human genome, compared to ape\n\n**Key Discovery**: DNA is literally 1s and 0s (computer code)\n\n**Yeast Insight**: Add amino acids → yeast makes new chromosomes\n\n**Cell = Hardware, DNA = Software**:\n• Any cell runs any DNA\n• Create organisms that never existed\n\n**Mars Vision**: Engineer organisms to produce O2 from Iron/CO2\n\n**Biological Sovereignty**: Print medicine, no supply chains`;
   }
   // Temple Coin Advanced Syllabus topics
   if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
@@ -759,6 +763,32 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('antinomy') || t.includes('conflictus legem') || t.includes('sub rosa') || t.includes('hidden church')) {
     return `⚖️ **Antinomy Brief - Legal Strategy**\n\n**Concept**: Church Law as sovereign power\n\n**Key Arguments**:\n• Comity Inter Gentes - religions predate states\n• Sub Rosa - secrecy from persecution ≠ insincerity\n• Gerrymandering - corps allowed, churches banned\n\n**Causes**: RFRA violation, Medical Monopoly, Volstead Precedent\n\n**Latin Maxims**: Ab Initio, Ultra Vires, Conflictus Legem`;
+  }
+  // STEEM Bots history triggers
+  if (t.includes('steem bot') || t.includes('steemit bot') || t.includes('blockchain bot') || t.includes('marsresident')) {
+    return `🤖 **STEEM Bots - Automation Ecosystem (2016-2018)**\n\n**First Documentation**: July 2016 by @marsresident (Van Kush Family)\n\n**Original 7 Bots**:\n• @wang - Greeted users, made $1M+ SP\n• @cheetah - Plagiarism detection (@anyx)\n• @curator - Data-based voting\n• @steemed - Whale automation\n\n**Philosophy**: "Don't hate the Bots - they clean algae and create compost"\n\n**Key Insight**: No CAPTCHAs = robots participate freely\n\n**Evolution**: STEEM → HIVE → AI Discord bots`;
+  }
+  if (t.includes('cheetah bot') || t.includes('plagiarism bot') || t.includes('@anyx')) {
+    return `🐆 **@cheetah - Anti-Plagiarism Bot**\n\n**Creator**: @anyx (July 2016)\n\n**Contributors**: @xeroc, @pharesim, @pfunk, @cryptoctopus, @ash, @tuck-fheman, @neoxian, @positive\n\n**Function**: Automatically finds similar content, flags plagiarism\n\n**Approach**: Lets people know content exists elsewhere\n\n**Legacy**: Model for content verification bots`;
+  }
+  if (t.includes('minnow support') || t.includes('@minnowsupport') || t.includes('aggroed')) {
+    return `🐟 **Minnow Support Project**\n\n**Launch**: July 2017\n\n**Creators**: @aggroed, @ausbitbank, @teamsteem, @theprophet0, @someguy123\n\n**Mechanism**: Discord cyborg with posting key to @minnowsupport\n\n**Function**: Users send commands in Discord → bot upvotes posts\n\n**Significance**: First major Discord-blockchain integration`;
+  }
+  if (t.includes('sybil attack') || t.includes('vote manipulation') || t.includes('bot controversy')) {
+    return `⚠️ **STEEM Bot Controversy - Sybil Attack**\n\n**Accuser**: @senseiteekay (January 2017)\n\n**Targets**: Steemvoter, Streemian, voting scripts\n\n**Argument**: Bots manipulate post value against whitepaper\n\n**Quote**: "How retain 'fair assessment of subjective value' if manipulated?"\n\n**Counter**: @personz - "Society is made of people, not robots"\n\n**Defense**: Better bot reply than no reply at all`;
+  }
+  // Expert Systems triggers
+  if (t.includes('expert system') || t.includes('mycin') || t.includes('inference engine')) {
+    return `🧠 **Expert Systems - Temple Technical Foundation**\n\n**Definition**: Software encoding human expertise into rules\n\n**MYCIN Example**: Classic medical diagnosis system\n• Rule: Human(x) => Mortal(x)\n• Bayesian probability for uncertainty\n\n**Temple Vision**: 1970s AI concept finally fulfilled\n\n**This Bot**: Expert System encoding Van Kush Family knowledge\n\n**Evolution**: Rule-based → ML → LLM → This conversation`;
+  }
+  if (t.includes('business rules') || t.includes('rule engine') || t.includes('brms')) {
+    return `📋 **Business Rules Engines - Temple Infrastructure**\n\n**Purpose**: Encode organizational logic into software\n\n**Key Systems**:\n• Oracle Business Rules\n• SAP BRFplus\n• OpenRules\n\n**GitHub Resources**:\n• NxBRE (.NET)\n• json-rules-engine (JS)\n• Rulette (Java)\n\n**Temple Application**: Algorithmic governance before DAOs`;
+  }
+  if (t.includes('knowledge representation') || t.includes('knowledge engineering') || t.includes('ontology')) {
+    return `📚 **Knowledge Engineering - Temple Technical Bible**\n\n**Definition**: Formal methods for encoding knowledge\n\n**Formats**:\n• Ontologies - Structured relationships\n• Semantic Networks - Concept graphs\n• Rules - If-then logic\n• Frames - Object-like structures\n\n**Resources**: Stanford CS227, Handbook of KR\n\n**This Bot**: Knowledge representation in action`;
+  }
+  if (t.includes('piston') || t.includes('xeroc') || t.includes('python steem')) {
+    return `🐍 **Piston - Python STEEM Library**\n\n**Creator**: @xeroc\n\n**Significance**: "Write a bot in about 10 lines of code"\n\n**URL**: http://piston.rocks\n\n**Version**: v0.1.1 (2016)\n\n**Legacy**: Foundation for STEEM/HIVE bot development\n\n**Modern Equivalent**: beem (HIVE Python library)`;
   }
   return null;
 }
