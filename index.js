@@ -785,6 +785,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('alternator') || t.includes('faraday') || t.includes('maxwell equation')) {
     return `⚡ **Electrical Engineering Fundamentals (@marsresident 2016)**\n\n**Alternators**:\n• Convert mechanical → AC electrical energy\n• Rotating magnetic field + stationary armature\n• Why driving recharges car battery after jump\n\n**Faraday's Law**:\n• Magnetic field + circuit = EMF\n• Foundation of motors, generators, transformers\n\n**Maxwell's Equations**:\n• Foundation of classical electrodynamics\n• Underlie all modern electrical technology\n\n**Temple Application**: Understanding infrastructure for sovereign community`;
   }
+  // Political Philosophy
+  if (t.includes('machiavelli') || t.includes('the prince') || t.includes('machiavellianism')) {
+    return `📜 **Machiavelli - Political Philosophy (@marsresident 2016)**\n\n**Machiavellianism**: Philosophy of force and action over all else\n• "Kill or be killed" mentality\n• Many lawyers/politicians believe this directly\n\n**Historical Context**:\n• 1400s-1500s Italy, City States under Pope\n• Mercenary politicians, Church power\n• Origin of word "Thug" - Italian enforcers\n\n**The Prince**: "Mirror for Princes" genre\n• Founded Political Ethics as field\n• Before: Politics = Divine Right\n• After: "Politicians are slimy" common knowledge\n\n**Tupac**: Called himself Makaveli, created "Thug Life" after reading\n\n**Temple View**: Know thy enemy to build something better`;
+  }
 
   // Temple Coin Advanced Syllabus topics
   if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
