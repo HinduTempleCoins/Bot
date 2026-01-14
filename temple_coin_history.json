@@ -363,6 +363,27 @@
     }
   },
 
+  "edgewood_arsenal_research": {
+    "what": "US Army human experiments with psychotropic chemicals",
+    "location": "Edgewood Arsenal, Maryland",
+    "period": "1948-1975",
+    "substances_tested": ["LSD", "BZ (3-Quinuclidinyl benzilate)", "Mescaline", "Barbiturates", "Nerve agents"],
+    "subjects": "Approximately 7,000 US soldiers",
+    "cbrn_context": {
+      "abbreviation": "Chemical, Biological, Radiological and Nuclear",
+      "nato_protocols": "Standardized response procedures",
+      "military_application": "Incapacitating agents research"
+    },
+    "shulgin_connection": {
+      "lecture": "Sasha Shulgin discusses US and Russian government psychotropic research",
+      "context": "Government programs informed academic research",
+      "legacy": "Some compounds later studied in civilian contexts"
+    },
+    "documentary_evidence": "News documentary available on YouTube",
+    "erowid_reports": "First-person accounts archived on Erowid",
+    "temple_relevance": "Understanding history of institutional psychedelic research"
+  },
+
   "synthetic_library": {
     "pharma_research": "Open source synthesis literature",
     "key_references": {
