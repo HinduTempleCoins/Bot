@@ -206,6 +206,82 @@
     "significance": "Early vision of blockchain-based independent media"
   },
 
+  "cryptocurrency_creation_guide": {
+    "source": "A Guide to Cryptocurrencies + Resources to Create Your Own Currency - @marsresident 2016",
+    "coin_types": {
+      "sha256": "Bitcoin",
+      "scrypt": "DOGE, Litecoin",
+      "x11": "Dash",
+      "blake256": "Decred",
+      "cryptonight": "Monero",
+      "dagger_hashimoto": "Ethereum",
+      "1cc_2cc_twn": "Primecoin",
+      "ecdsa": "Ripple"
+    },
+    "currency_use_cases": {
+      "social_media": "STEEM - changing how websites work in 100 years",
+      "fundraising": "NASA or political campaigns could create mining-supported coins",
+      "local_currencies": {
+        "examples": ["Arizona Dollars", "Ithaca Hour", "Berkley Bread"],
+        "vision": "NY Coin or LA Coin with flyers, billboards, mining tutorials",
+        "gap": "No local cryptocurrencies caught on yet"
+      },
+      "redeemable": {
+        "concept": "Small businesses create coins redeemable for products",
+        "example": "Sandwich shop: 100 coins = sandwich, 50 coins = drink",
+        "applications": ["Bakeries", "Print shops", "Boutiques", "State Fairs", "Cell Phone companies"]
+      },
+      "club_currencies": "Church, union, organization trades at own decided value",
+      "bounty_currencies": {
+        "model": "Percent to miners, percent to bounty share system",
+        "example": "DevCoin paid writers and developers",
+        "permanence": "Bounties can be one-time or permanent"
+      },
+      "stored_value": "Acts like gold - hard to get, stable, possibly commodity-backed"
+    },
+    "pos_vs_pow": {
+      "pow": {
+        "definition": "Proof-of-Work - hardware and electricity",
+        "coins": ["Bitcoin", "Litecoin", "Feathercoin", "DOGE"]
+      },
+      "pos": {
+        "definition": "Proof-of-Stake - hold coins, keep wallet connected",
+        "first": "Peercoin (PPC)",
+        "process": "Minting = mining equivalent",
+        "steem_advantage": "STEEM makes POS more accessible than ever"
+      },
+      "regular_pos": {
+        "rate": "10%-99% yearly interest",
+        "coins": ["Peercoin", "Bottlecaps", "DubaiCoin"]
+      },
+      "high_rate_pos": {
+        "rate": "100%-10000%+ yearly interest",
+        "coins": ["Sprouts", "Paycon"],
+        "sprouts_example": "100% return in ~40 days (1M in = 2M out)"
+      }
+    },
+    "notable_coin_concepts": {
+      "bitshares": "Create tradeable assets on OpenLedger",
+      "steem": "Delegated-Proof-of-Work social blockchain",
+      "namecoin": "Host domain names in wallet",
+      "auroracoin": "Distributed to all Iceland citizens via public record",
+      "devcoin": "Lifetime bounties for dev work, monthly writer payments",
+      "clams": "Proof-of-Key - anyone with BTC/LTC/DOGE address gets coins"
+    },
+    "github_resources": {
+      "peercoin": "Most POS repositories based on it",
+      "steemit": "Open source - anyone can copy and rename",
+      "video_guide": "steemit.com/steem/@marsresident/make-your-own-cryptocurrency-video-tutorial",
+      "written_guide": "Google Drive folder with documentation"
+    },
+    "community_response": {
+      "monopoly_man": "This has to be the cryptocurrency bible",
+      "marsresident_reply": "Would need 15 more books: Book of Satoshi, Book of Github, Book of Faucets, etc.",
+      "sustainarchist": "Trying to create a bioregional based coin"
+    },
+    "significance": "Technical foundation that led directly to Temple Coin project"
+  },
+
   "temple_coin_connection": {
     "philosophy": "Coins as trade instruments, not ends in themselves",
     "network_state": "Real assets + crypto = sovereign community",
