@@ -702,6 +702,20 @@ function getOilahuascaResponse(topic) {
   if (t.includes('biological converter') || t.includes('venter') || t.includes('dna print') || t.includes('biological teleportation') || t.includes('yeast chromosome')) {
     return `🧬 **Digital Biological Converter - Craig Venter**\n\n**Pioneer**: Sequenced human genome, compared to ape\n\n**Key Discovery**: DNA is literally 1s and 0s (computer code)\n\n**Yeast Insight**: Add amino acids → yeast makes new chromosomes\n\n**Cell = Hardware, DNA = Software**:\n• Any cell runs any DNA\n• Create organisms that never existed\n\n**Mars Vision**: Engineer organisms to produce O2 from Iron/CO2\n\n**Biological Sovereignty**: Print medicine, no supply chains`;
   }
+  // Church of Neuroscience and Biohacking
+  if (t.includes('church of neuroscience') || t.includes('neurospiritual') || t.includes('dr. jeremy kerr') || t.includes('jeremy kerr')) {
+    return `🧠 **Church of Neuroscience - Biohacking Origins**\n\n**Founder**: Dr. Jeremy Kerr\n**@marsresident Membership**: Since 2010\n\n**Core Philosophy**: Brain chemistry doesn't diminish spiritual experiences\n• Love = Theobromine + Oxytocin, but love is MORE than chemistry\n• Shiva = Dance, Meditation, Bhang - real phenomena with brain correlates\n\n**Eucharist Approach**: Physical/spiritual enlightenment through neuroactive substances\n\n**Biohacking Curriculum**:\n• Nootropics, Herbs, CYP450 Enzymes\n• EEG/Neulog monitoring\n• tDCS, TMS, TENS\n• Dream Yoga, Life Extension\n\n**Legacy**: Foundation for Temple Coin's scientific approach`;
+  }
+  if (t.includes('biohacking') || (t.includes('bio') && t.includes('hacking'))) {
+    return `🔬 **Biohacking - Temple Approach**\n\n**Definition**: Optimizing biology through science + spirituality\n\n**Van Kush Curriculum** (2016 STEEM post):\n• **Nootropics**: Memory, focus, mental speed\n• **Herbs**: Ceremonial + Oilahuasca research\n• **CYP450 Enzymes**: Create new molecules in your body\n• **Electronic Medicine**: Light therapy, tDCS, TMS\n• **Dream Yoga**: Tibetan lucid dreaming progression\n• **Life Extension**: Telomere research\n\n**Clinical Method**: T+0:00, T+0:30, T+1:00 reports\n\n**Goal**: Cutting edge of Biohacking through Neurospirituality`;
+  }
+  if (t.includes('telomere') || t.includes('life extension') || t.includes('biological immortality') || t.includes('immortal animal')) {
+    return `🧬 **Life Extension - Telomere Research**\n\n**Why We Age**: Telomeres (DNA end caps) shorten with each cell division\n\n**Biologically Immortal Animals**:\n• Jellyfish, Lobsters - telomeres don't shorten\n• Live 100+ years in the wild\n\n**Research Goals**:\n• Reduce telomere loss per split\n• Elongate shortened telomeres\n• Deactivate splitting enzymes\n\n**Status**: Research exists, needs time to prove (live to 150-200)\n\n**Temple Interest**: Optimal healthspan for sovereign community`;
+  }
+  if (t.includes('melanopsin') || (t.includes('blue light') && (t.includes('brain') || t.includes('alert') || t.includes('caffeine')))) {
+    return `💡 **Electronic Medicine - Light Therapy**\n\n**Melanopsin**: Eye receptor determining time of day\n\n**Blue Light** = Like Caffeine:\n• Increases alertness\n• Why screens keep you awake\n\n**Color Effects**:\n• Orange light: Different cognitive test results\n• Ear canal light: Increases brain function\n\n**Research Sources**: Light Research Center, Harvard\n\n**Temple Application**: Non-pharmacological performance optimization`;
+  }
+
   // Temple Coin Advanced Syllabus topics
   if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
     return `⚡ **tDCS - Transcranial Direct Current Stimulation**\n\n**Mechanism**: Low current (1-2 mA) through scalp modulates brain activity\n\n**Temple Applications**:\n• Enhanced meditation states\n• Accelerated learning\n• Mood regulation (non-pharmacological)\n\n**DIY Community**: r/tDCS, DIY headset designs\n\n**Synergy**: Combines with sacramental approaches to consciousness\n\n⚠️ Proper electrode placement is critical`;
