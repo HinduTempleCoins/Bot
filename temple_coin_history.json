@@ -1157,5 +1157,403 @@
       ],
       "lesson": "Early adoption of fringe concepts = future mainstream trends"
     }
+  },
+
+  "building_brains_research": {
+    "title": "Building Brains - Van Kush Original Research (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post - 'Building Brains'",
+    "focus": "Traumatic Brain Injury cure and brain enhancement",
+
+    "life_extension_molecules": {
+      "cycloastragenol": {
+        "source": "Extracted from Astragalus plant",
+        "function": "Improves health at DNA level",
+        "mechanism": "May need primer causing Chemically Induced Dimerization",
+        "primer_candidate": "Tacrolimus",
+        "status": "No one has taken long enough to verify longevity claims"
+      },
+      "carnosine": {
+        "function": "Life extension molecule present in brain",
+        "synergy": "Mixed with Vitamin E more effective for life extension",
+        "brain_benefit": "Having more carnosine = good for brain"
+      }
+    },
+
+    "einstein_brain_discovery": {
+      "fact": "Einstein's brain preserved and distributed for research",
+      "finding": "Einstein had more Glial Cells than average",
+      "old_theory": "Glial Cells thought to be just 'glue' for neurons",
+      "new_understanding": "Glial Cells play active role in brain activity"
+    },
+
+    "glial_cell_types": {
+      "oligodendrocytes": {
+        "function": "Support brain function",
+        "enhancement_process": "Remyelination",
+        "enhancement_method": "OTC Anti-Histamine: Clemastine"
+      },
+      "astrocytes": {
+        "function": "Support brain function",
+        "enhancement_method": "Block Adenosine Receptors",
+        "molecule": "Regadenoson"
+      }
+    },
+
+    "dendrites_and_ampakines": {
+      "dendrites": "Arms extending from Neurons allowing electrochemical signaling",
+      "ampakines": "Molecules that grow dendrites",
+      "examples": ["Aniracetam", "CX-614 (stronger)"]
+    },
+
+    "neuroprotectants": {
+      "primary": "2-AG (endocannabinoid)",
+      "application": "Tell doctors about 2-AG for coma patients",
+      "problem": "Many doctors completely unaware of it"
+    },
+
+    "significance": "More comprehensive brain repair research than any single lab"
+  },
+
+  "neurogenesis_synaptogenesis_research": {
+    "title": "Neurogenesis, Neuroprotectants and Synaptogenesis (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "breakthrough": "Brain cells CAN be regenerated - contrary to old belief",
+
+    "key_definitions": {
+      "neurogenesis": "Formation of new Brain Cells (Neurons)",
+      "synaptogenesis": "Creation of new pathways between Neurons",
+      "neurons": "Brain cells themselves",
+      "synapses": "Electrochemical signals of Neurons",
+      "dendrites": "Arms extending from Neurons for signaling"
+    },
+
+    "cognition_explained": {
+      "metaphor": "Gears in a machine - one gear spins others",
+      "example": "Hear song → remember what you were doing first time you heard it",
+      "mechanism": "First spark causes series of other sparks along pathways"
+    },
+
+    "endocannabinoid_system": {
+      "abbreviation": "ECS",
+      "role": "Important in different Neural functions including Neurogenesis",
+      "key_compound": "2-AG (2-Arachidonoylglycerol)"
+    },
+
+    "2ag_neuroprotection": {
+      "discovery_2001": "Protects brain from brain damage",
+      "discovery_2003": "Can reverse brain swelling (Edema)",
+      "application": "Critical for coma patients, stroke recovery",
+      "tragedy": "Not used in ANY hospital despite patent and research",
+      "patent": "WO2001097793A2 documents 2-AG medical uses"
+    },
+
+    "ampakines_for_synaptogenesis": {
+      "function": "Create new pathways within hours",
+      "potential": "Could replace MAOIs and SSRIs",
+      "hospital_use": "Ketamine used like Opioid alternative",
+      "examples": ["CX-614", "Aniracetam", "MXP"],
+      "untapped": "Not used for pathway creation despite research"
+    },
+
+    "hospital_gap": {
+      "problem": "Research not making it into hospitals",
+      "colorado_example": "Cannabis legal but hospitals don't have 2-AG",
+      "dispensary_model": "Separate from hospital system",
+      "marsresident_frustration": "Why no IV 2-AG for Traumatic Brain Injury?"
+    }
+  },
+
+  "building_muscle_tissue_research": {
+    "title": "Building Muscle Tissue - Van Kush Original Research (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "applications": ["Bodybuilding", "Long-term Wound Treatment", "Spinal Cord Injury"],
+
+    "creatine_medical_use": {
+      "common_perception": "Just a bodybuilding supplement",
+      "reality": "Normal part of everyday body health",
+      "quality_indicator": "Higher creatine in steak = better quality meat",
+      "medical_research": {
+        "spinal_protection": "Helps protect from Spinal Cord Injury",
+        "spinal_recovery": "Helps recovery after Spinal Cord Injury"
+      },
+      "problem": "Doctors don't suggest it because they think it's just for bodybuilding"
+    },
+
+    "amino_acid_synergy": {
+      "creatine": "Base supplement",
+      "arginine": "Doctor-suggested, should use WITH creatine",
+      "citrulline": "Another useful amino acid",
+      "principle": "All closely related, play role in Muscle Health"
+    },
+
+    "s4_sarm": {
+      "full_name": "S4 - Selective Androgen Receptor Modulator",
+      "status": "Not even close to being used by doctors",
+      "potential_uses": {
+        "atrophy_reduction": "Person in full body cast keeps muscle mass",
+        "rehabilitation": "People learning to walk rebuild leg muscles faster",
+        "wound_treatment": "Long-term wound treatment faster and easier"
+      },
+      "research": {
+        "function_paper": "NCBI PMC2907129",
+        "spinal_application": "NCBI PMC2944863"
+      }
+    },
+
+    "significance": "Bridging gap between bodybuilding supplements and medical treatment"
+  },
+
+  "brain_balance_research": {
+    "title": "Brain Balance - Soviet Science and Psychedelic Therapy (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "theme": "Cold War scientific split left entire research fields abandoned",
+
+    "soviet_scientific_split": {
+      "context": "US/Soviet Cold War isolated scientific communities",
+      "lasting_effect": "Split continues today",
+      "examples": {
+        "olympic_doping": "Russia prescribes molecules banned for athletes nationally",
+        "piracetam": "In US not considered medicine, in Russia prescribed for cognition"
+      }
+    },
+
+    "soviet_contributions": {
+      "pharmacology": "Annual Reviews documented contributions",
+      "physiology": "NCBI documented contributions",
+      "anti_radiological": "After Hiroshima, Soviets researched Tryptamines for radiation protection",
+      "melatonin_research": "Led to understanding Tryptamines' role in brain"
+    },
+
+    "psychedelic_psychiatry": {
+      "forgotten_era": "Psychedelics used in psychiatry with great success",
+      "mdma_history": {
+        "1970s_status": "Considered Miracle drug for psychiatric treatment",
+        "current_name": "Ecstasy",
+        "therapeutic_uses": "All kinds of Psychiatric treatment"
+      },
+      "edgewood_arsenal": "Government tested array of psychoactives on Air Force volunteers"
+    },
+
+    "modern_validation": {
+      "2016_research": "NCBI published MDMA and Psilocybin therapy studies",
+      "no_long_term_harm": "Psilocybin and Mescaline don't cause long-term mental health problems",
+      "native_american_study": {
+        "comparison": "Peyote-using Native Americans vs Alcoholics",
+        "result": "Native Americans showed NO neuropsychological deficit",
+        "contrast": "Alcoholics showed STRONG deficit"
+      }
+    },
+
+    "significance": "Entire scientific field left hanging after Cold War - now being rediscovered"
+  },
+
+  "biological_immortality_research": {
+    "title": "Biological Immortality - Van Kush Original Research (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "focus": "Telomeres, Senescence, and Life Extension",
+
+    "senescence_explained": {
+      "key_insight": "You don't age because of TIME but because of SENESCENCE",
+      "process": "Cell Deterioration as cells split over and over",
+      "variation": "Not everyone same age has same Senescence rate",
+      "example": "A 60-year-old could theoretically have same Senescence rate as 20-year-old"
+    },
+
+    "telomere_mechanism": {
+      "function": "Protective caps at ends of DNA",
+      "problem": "As cells split, DNA rips apart",
+      "protection": "Telomere sacrificed instead of DNA data",
+      "aging": "Telomeres shorten → Senescence increases"
+    },
+
+    "biologically_immortal_animals": {
+      "definition": "Animals that do not go through Senescence",
+      "examples": ["Lobsters", "Jellyfish", "Hydra", "some Bacteria", "some Yeast"],
+      "lifespans": "Can live 100-200+ years in wild",
+      "true_immortal": "Turritopsis Nutricula Jellyfish"
+    },
+
+    "cancer_connection": {
+      "key_insight": "Life extension and Cancer research almost one and the same",
+      "reason": "Tumors/Cancer ARE immortal",
+      "research_focus": "Most scientific research focused on DNA"
+    },
+
+    "key_molecules": {
+      "cycloastragenol": {
+        "function": "Activates Telomerase (extends telomeres)",
+        "additional": "Can suppress lung damage",
+        "source": "Astragalus plant"
+      },
+      "telomerase": {
+        "function": "Enzyme adding nucleotides to Telomeres",
+        "effect": "Extends telomere length"
+      },
+      "dmso": {
+        "function": "Can INHIBIT Telomerase",
+        "application": "Limits lifespan of cancer cells"
+      },
+      "htert": {
+        "importance": "One of most important research targets",
+        "capability": "Can immortalize human cells"
+      }
+    },
+
+    "antisense_agents": {
+      "definition": "Nucleotide sequences that bind to coding sequences",
+      "examples": ["2-MOE", "2-5A"],
+      "application": "Cancer treatment"
+    },
+
+    "epigenetics": {
+      "breakthrough": "DNA can actually CHANGE based on different factors",
+      "inheritance": "Changes during life can be passed to offspring",
+      "significance": "New field revolutionizing understanding of genetics"
+    },
+
+    "community_response": {
+      "lifeworship": "Mice age by oxidative stress, not telomere shortening"
+    }
+  },
+
+  "chemistry_and_brain_research": {
+    "title": "Chemistry and Your Brain - Van Kush Original Research (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "focus": "Neuropeptides, Receptors, and Nootropics",
+
+    "brain_structure_review": {
+      "neurons": "Brain Cells",
+      "dendrites": "Arms/Branches of Neurons",
+      "synapses": "Connection points between Neuron dendrites",
+      "fuel": "Electrochemical signaling",
+      "neuropeptides": "Chemicals that effect emotions and brain function"
+    },
+
+    "neuropeptides": {
+      "function": "Effect emotions and form memories/ideas",
+      "discovery": "Also found OUTSIDE brain in Gut-Brain Axis",
+      "gut_brain": "Literal biological basis for 'gut feelings'"
+    },
+
+    "glial_cells_review": {
+      "name_origin": "Glia = Greek for 'Glue'",
+      "old_theory": "Just held brain together",
+      "new_understanding": "Play active role in brain function",
+      "nickname": "The Other Brain",
+      "subtypes": ["Oligodendrocytes", "Astrocytes"]
+    },
+
+    "receptor_systems": {
+      "5ht_serotonin": {
+        "status": "Most well known",
+        "enhancement": "5-HTP (5-Hydroxytryptophan)",
+        "mechanism": "Closely related to Serotonin, hits 5-HT receptors"
+      },
+      "cholinergic": "Effected by Nicotine",
+      "gaba": "Effected by Benzos",
+      "esterase": "Enzymes that eat extra molecules before reaching receptors - can be blocked"
+    },
+
+    "nootropics_compendium": {
+      "melatonin": "Sleep/circadian regulation",
+      "piracetam": "Cognitive enhancement (prescribed in Russia, not US)",
+      "choline": "Acetylcholine precursor",
+      "piracetam_choline_combo": "Synergistic stack",
+      "phenylpiracetam": "Stronger piracetam variant",
+      "galantamine": "Acetylcholinesterase inhibitor",
+      "alpha_gpc": "Choline source",
+      "triacetyluridine": "Cognitive enhancement",
+      "phenylalanine": "Amino acid precursor",
+      "phenibut": "GABA agonist",
+      "noopept": "Potent nootropic",
+      "prl_8_53": "Memory enhancement",
+      "synaptolepis_kirkii": "African dream herb",
+      "ubulawu": "South African dream plants"
+    }
+  },
+
+  "wada_list_biohacking": {
+    "title": "Using the WADA List Outside of Professional Sports (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "philosophy": "If you're not a professional athlete, WADA banned substances are research goldmine",
+
+    "blood_doping_alternatives": {
+      "blood_doping": {
+        "method": "Blood drawn, then reinfused later",
+        "effect": "Abnormal red blood cells → more oxygen → better muscle performance"
+      },
+      "artificial_oxygen_carriers": {
+        "function": "Same as red blood cells",
+        "advantage": "No blood drawing required"
+      },
+      "prp": {
+        "full_name": "Platelet Rich Plasma",
+        "status": "NOT actually banned by WADA",
+        "uses": "Healing, regeneration"
+      }
+    },
+
+    "erythropoiesis": {
+      "definition": "Production of red blood cells",
+      "esa": "Erythropoiesis Stimulating Agents"
+    },
+
+    "respiratory_enhancement": {
+      "beta_2_agonists": "Improve lung/breathing function"
+    },
+
+    "hormone_modulators": {
+      "aromatase_inhibitors": "Control estrogen levels",
+      "sarms": {
+        "full_name": "Selective Androgen Receptor Modulators",
+        "effect": "Affect testosterone production",
+        "example": "S4"
+      },
+      "serms": {
+        "full_name": "Selective Estrogen Receptor Modulators",
+        "effect": "Affect estrogen production"
+      }
+    },
+
+    "myostatin_inhibitors": {
+      "gorilla_example": "Gorillas don't lift weights but have huge muscles",
+      "reason": "Lower myostatin expression",
+      "human_problem": "Myostatin over-expressed, caps muscle growth",
+      "solution": "Myostatin inhibitors allow easier muscle growth",
+      "examples": ["Follistatin", "YK-11"]
+    },
+
+    "other_categories": {
+      "metabolic_modulators": "Control muscle metabolism",
+      "glucocorticoids": "Steroid hormones"
+    },
+
+    "stimulants_and_supplements": {
+      "octopamine": {
+        "nature": "Natural molecule closely related to Adrenaline",
+        "source": "Weight loss supplements"
+      },
+      "synephrine": {
+        "nature": "Natural molecule closely related to Adrenaline (Epinephrine)",
+        "source": "Bitter Orange Extract"
+      },
+      "fucoxanthin": {
+        "nature": "Burns fat",
+        "source": "Certain seaweeds"
+      },
+      "cordyceps": {
+        "nature": "Various health benefits, improves energy",
+        "source": "Mushrooms"
+      }
+    },
+
+    "significance": "Athletes can't use these, but everyone else can benefit from this research"
   }
 }
