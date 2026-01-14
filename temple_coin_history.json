@@ -1555,5 +1555,314 @@
     },
 
     "significance": "Athletes can't use these, but everyone else can benefit from this research"
+  },
+
+  "farming_creatures_compendium": {
+    "title": "Farming: Birds (Fowl), Reptiles, Insects & Fungi (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "earnings": "$4.36 with 20 votes",
+    "focus": "Complete guide to alternative creature farming for sovereign communities",
+
+    "fowl_beyond_chickens": {
+      "standard_chickens": {
+        "incubation": "Tupperware container or fish tank with overhead heat lamp",
+        "sourcing": "eBay or specialty hatchery websites",
+        "seasonality": "Eggs are seasonal - some seasons have more availability"
+      },
+      "specialty_chickens": {
+        "guinea_chickens": "Smaller eggs, act as alarms for strangers",
+        "featherfoot_chickens": "Decorative feathered feet",
+        "tophat_chickens": "Distinctive head plumage",
+        "cochin_chickens": "Fluffy appearance",
+        "malay_chickens": "Tall variety",
+        "brahma_chickens": "Larger breed",
+        "cornish_game_chicken": "Source of Cornish Game Hens"
+      },
+      "ducks": {
+        "cayuga_duck": "Dark coloring",
+        "indian_runner_duck": "Upright posture"
+      },
+      "other_fowl": {
+        "geese": "Canadian Geese, Swans, various species",
+        "turkeys": "Standard farm fowl",
+        "quail": "Smaller eggs, fast reproduction",
+        "pheasant": "Come in all colors",
+        "peafowl": "Decorative, peacocks",
+        "dove": "Smaller bird",
+        "ostrich": "Large eggs, exotic",
+        "rhea": "South American ostrich-like",
+        "emu": "Australian large bird"
+      }
+    },
+
+    "reptiles": {
+      "alligators_crocodiles": {
+        "caiman": "Smaller species",
+        "dwarf_caiman": "Don't get too big - manageable size"
+      },
+      "lizards": {
+        "bearded_dragon": "Popular pet, farmable",
+        "chameleons": "Various species available"
+      },
+      "amphibians": {
+        "bufo_alvarius": "Unconfirmed record of dog-sized specimens",
+        "cane_toad": "Bufo Alvarius cousins",
+        "waxy_monkey_tree_frog": "Kambo source species"
+      }
+    },
+
+    "beneficial_insects": {
+      "composting_insects": {
+        "red_worms": {
+          "function": "Create compost fertilizer",
+          "diet": "Cellulose and nitrogen-rich foods (scraps, paper, cardboard, sawdust)"
+        },
+        "soldier_flies": {
+          "function": "Compost everything including MEAT",
+          "benefit": "Neutralize smell of compost pile"
+        },
+        "rhinoceros_beetle": {
+          "larvae": "Large grubs that compost plant matter including wood",
+          "adults": "Eat fruit"
+        },
+        "stag_beetle": "Same as Rhinoceros Beetles",
+        "dung_beetles": "Clean up after farm animals"
+      },
+      "pollinators": {
+        "bumblebees": "Pollinate plants, make honey",
+        "hoverflies": "More precise than bees, attracted by specific plants",
+        "butterflies": "Different plants attract different species"
+      },
+      "pest_control": {
+        "ladybugs": "Eat aphids - gallon costs $70+",
+        "praying_mantis": "Eat any bugs, even each other",
+        "dragonflies": "Eat mosquitoes",
+        "damselflies": "Eat mosquitoes",
+        "assassin_bugs": "Eat cockroaches and bedbugs",
+        "soldier_bug": "Eat over 100 kinds of pests",
+        "green_lacewings": "Eat mites and aphids",
+        "encarsia_formosa": "Most widely used organic insecticide - eats whiteflies"
+      }
+    },
+
+    "feeder_insects": {
+      "aphids": {
+        "farming": "65-80°F, fine screen top, grow fava/alfalfa as food",
+        "use": "Food for other bugs"
+      },
+      "ants": {
+        "farming": "Jar with dirt/sand mix, Queen Ant required",
+        "special_species": "Lasius Niger & Flavus farm Aphids themselves"
+      },
+      "crickets": {
+        "diet": "Lettuce and oatmeal",
+        "use": "Food for animals and humans"
+      },
+      "mealworms": {
+        "diet": "Oats",
+        "use": "Food for lizards, people"
+      }
+    },
+
+    "edible_insects": {
+      "commonly_eaten": {
+        "cicadas": "Common in Southern US",
+        "locusts": "Biblical food, tastes best on sesame leaves",
+        "katydids": "Biblical food",
+        "hornworms": "Taste like shrimp",
+        "longhorn_beetles": "Most commonly eaten bug in world",
+        "emperor_moth_larvae": "Mopane worms - common food source",
+        "silkworms": "Produce silk, need Mulberry trees"
+      },
+      "exotic_edibles": {
+        "golden_orb_weaver_spider": {
+          "web": "6x strength of steel, golden sheen",
+          "medicinal": "Web said to repair nerve damage when eaten",
+          "taste": "Fried tastes like peanut butter"
+        },
+        "scorpions": "Like desert crab",
+        "tarantulas": "Like woods crab",
+        "diving_beetles": "Prized in Asian countries, more expensive than meat"
+      }
+    },
+
+    "ant_specialists": {
+      "ant_eaters": {
+        "antlions": "Create conical traps for ants",
+        "oogpister_beetle": "Eats ants, sprays formic acid at attackers"
+      },
+      "ant_mimics": {
+        "allopeas_snail": "Smells like food, gets carried to pile, eats their food",
+        "eucharitid_wasp": "Larvae smell like ants, feed on ants until becoming wasps",
+        "microdon_maggot": "Shell protects from ant bites, eats eggs",
+        "blue_butterfly_caterpillar": "Smells like Queen, ants feed and protect it",
+        "paussinea_beetle": "Ants carry them by antennae to pile",
+        "ant_mugging_flies": "Use antennae to talk to ants, ants regurgitate food"
+      }
+    },
+
+    "specialty_insects": {
+      "silk_production": {
+        "silkworms": "Produce silk from cocoons",
+        "requirement": "Mulberry trees"
+      },
+      "dye_production": {
+        "cochineal": "Produce red dye (British Red Coats)",
+        "requirement": "Prickly Pear Cacti"
+      }
+    },
+
+    "mushroom_farming": {
+      "method": "Buy plugs with spores, drill holes in correct wood type",
+      "varieties": {
+        "chicken_of_woods": "Tastes like chicken",
+        "shiitake": "Popular culinary mushroom",
+        "oyster_mushrooms": "Various kinds",
+        "hericium": "Tastes like lobster (Lion's Mane)",
+        "maitake": "Hen of the Woods",
+        "reishi": "Medicinal mushroom",
+        "fairy_ring": "Marasmius Oreades"
+      }
+    },
+
+    "cloning_technique": {
+      "method": "Inject DNA of mother into egg",
+      "application": "Clone egg-laying animals"
+    },
+
+    "breeding_vision": {
+      "new_species": "Breed different kinds together",
+      "cultivars": "Create new varieties"
+    },
+
+    "community_response": {
+      "compumatrix": "Farming crocodiles and ostriches booming in Philippines, might add to 10-hectare farm"
+    },
+
+    "temple_application": {
+      "self_sufficiency": "Sovereign community food production",
+      "pest_management": "Biological pest control without chemicals",
+      "protein_sources": "Insect protein for sustainability",
+      "medicinal": "Mushrooms and specialty creatures for health"
+    },
+
+    "significance": "Complete guide for sovereign community self-sufficiency through alternative agriculture"
+  },
+
+  "electricity_photovoltaics_research": {
+    "title": "Electricity & Photovoltaics - Van Kush Technical Research (2016)",
+    "author": "marsresident / Van Kush Family",
+    "source": "Steemit Original Post",
+    "focus": "Solar power infrastructure for sovereign community",
+    "note": "Compilation post critiqued for heavy Wikipedia sourcing, but valuable as resource list",
+
+    "electrical_fundamentals": {
+      "alternators": {
+        "function": "Convert mechanical energy to AC electrical energy",
+        "mechanism": "Rotating magnetic field with stationary armature",
+        "applications": ["Power plants", "Car battery recharging", "Generators"],
+        "car_example": "Why driving recharges battery after jump start"
+      },
+      "faradays_law": {
+        "principle": "Magnetic field interacting with circuit produces EMF",
+        "applications": ["Transformers", "Inductors", "Motors", "Generators", "Solenoids"]
+      },
+      "maxwells_equations": {
+        "foundation": "Classical electrodynamics, optics, electric circuits",
+        "applications": "Modern electrical and communications technologies"
+      }
+    },
+
+    "photovoltaic_technology": {
+      "history": {
+        "inventor": "Alexandre Edmond Becquerel (1839)",
+        "first_cell": "Silver chloride in acidic solution with platinum electrodes",
+        "becquerel_effect": "Original name for photovoltaic effect"
+      },
+      "mechanism": {
+        "principle": "Light frees electrons in crystals (silicon, germanium)",
+        "junction": "Dissimilar crystals create voltage difference",
+        "output": "Current flows as long as light falls on materials"
+      }
+    },
+
+    "advanced_photovoltaics": {
+      "quantum_dots": {
+        "advantage": "Bandgaps tunable by changing dot size",
+        "vs_bulk": "Bulk materials have fixed bandgap",
+        "application": "Multi-junction cells harvesting multiple spectrum portions"
+      },
+      "dye_sensitized": {
+        "type": "Low-cost thin film solar cell",
+        "inventors": "Brian O'Regan and Michael Grätzel (1988)",
+        "institution": "UC Berkeley, later École Polytechnique Fédérale de Lausanne"
+      },
+      "carrier_multiplication": {
+        "phenomenon": "Single photon excites multiple electrons",
+        "advantage": "More useful work from high-energy photons",
+        "vs_conventional": "Normal cells: 1 photon = 1 electron, excess = heat"
+      },
+      "thermophotovoltaic": {
+        "principle": "Direct heat to electricity via photons",
+        "components": "Thermal emitter + photovoltaic diode cell"
+      }
+    },
+
+    "photovoltaic_materials": {
+      "amorphous_silicon": {
+        "form": "Non-crystalline silicon",
+        "advantage": "Environmentally friendly - no toxic heavy metals",
+        "limitation": "Lower efficiency",
+        "substrates": "Glass, metal, plastic (flexible)"
+      },
+      "gallium_arsenide": {
+        "type": "III-V direct bandgap semiconductor",
+        "applications": ["Solar cells", "LEDs", "Laser diodes", "Microwave circuits"]
+      },
+      "cadmium_telluride": {
+        "structure": "Sandwiched with cadmium sulfide (p-n junction)",
+        "type": "n-i-p structure typically"
+      },
+      "cigs": {
+        "full_name": "Copper Indium Gallium Selenide",
+        "bandgap": "1.0-1.7 eV (tunable with composition)",
+        "structure": "Chalcopyrite crystal"
+      }
+    },
+
+    "concentration_systems": {
+      "cpv": {
+        "method": "Lenses and curved mirrors focus sunlight",
+        "cells": "Small but highly efficient multi-junction cells",
+        "enhancements": "Solar trackers, cooling systems",
+        "cost": "$0.08-$0.15 per kWh in high irradiance areas"
+      },
+      "csp": {
+        "method": "Mirrors/lenses concentrate large area onto small",
+        "output": "Heat drives steam turbine or thermochemical reaction"
+      }
+    },
+
+    "photonics": {
+      "definition": "Science of light generation, detection, manipulation",
+      "pic": {
+        "name": "Photonic Integrated Circuit",
+        "function": "Multiple photonic functions on single device",
+        "wavelengths": "Visible to near-infrared (850-1650nm)"
+      }
+    },
+
+    "temple_application": {
+      "solar_mining": "Solar-powered cryptocurrency mining rigs",
+      "off_grid": "Energy independence for sovereign community",
+      "infrastructure": "Self-sufficient power generation"
+    },
+
+    "community_response": {
+      "lemouth": "Critiqued heavy Wikipedia sourcing without proper citation"
+    },
+
+    "significance": "Technical resource list for Temple's energy infrastructure plans"
   }
 }
