@@ -256,7 +256,11 @@ async function loadOilahuascaKnowledge() {
     // STEEM Bots history and automation ecosystem
     'steem_bots_history.json',
     // Expert Systems and Business Rules Engine resources
-    'expert_systems_resources.json'
+    'expert_systems_resources.json',
+    // Oilahuasca original research from marsresident
+    'oilahuasca_marsresident_research.json',
+    // STEEM economics and trade theory
+    'steem_economics_marsresident.json'
   ];
   for (const file of files) {
     try {
