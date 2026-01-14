@@ -1,0 +1,317 @@
+{
+  "title": "STEEM Bots - The Automation Ecosystem (2016-2018)",
+  "author": "marsresident / Van Kush Family + Steem Wiki",
+  "period": "2016-2018 (STEEM Bot Era)",
+  "source": "Steemit Archive Posts, Steem Wiki",
+  "overview": "Comprehensive documentation of bot ecosystem on STEEM blockchain - foundation for current HIVE automation strategies",
+
+  "definition": {
+    "what_is_bot": "Software application running automated tasks (scripts) over internet or blockchain",
+    "characteristics": "Simple, structurally repetitive tasks at superhuman speed",
+    "internet_stat": "More than half of all web traffic is bots",
+    "largest_use": "Web spidering/crawling - fetching and analyzing data"
+  },
+
+  "bot_vs_script": {
+    "bot": "Watches for events to act upon, runs continuously",
+    "script": "Runs once to perform specific operation, then quits",
+    "example_bot": "Watch for new posts and vote on them",
+    "example_script": "Vote on a specific post and quit",
+    "key_difference": "Bots run for long periods looking for criteria"
+  },
+
+  "complexity_levels": {
+    "simple_bot": "Limited conditions - 'if new post, upvote it'",
+    "complex_bot": "Multiple conditions - 'upvote unless already voted'",
+    "ai_bot": "Machine learning for context-aware decisions"
+  },
+
+  "philosophy": {
+    "core_insight": "No CAPTCHAs on blogging interface = AI can interact freely",
+    "bazillion_beings": "Army of automated agents working for members",
+    "passive_income": "Bots generate revenue while you sleep",
+    "evolution": "Early experiments led to modern HIVE curation bots"
+  },
+
+  "original_7_bots_july_2016": {
+    "post_earnings": "$29.96 with 51 votes",
+    "context": "200-400 posts per day in early days, grew to 8,000+ posts/day",
+    "philosophy_quote": "Don't hate the Bots, they are an important part of the Steemit Ecosystem",
+    "vision": "Loosely Organized Steemit Bot Making Society for sharing ideas and downloads",
+    "bots": {
+      "1_wang": {
+        "url": "steemit.com/@wang/transfers",
+        "function": "Greeted new users in 'introduceyourself' tag",
+        "earnings": "Made over $1,000,000 estimated value in STEEM Power",
+        "creator_speculation": "@ned or @dan or someone at @steemit"
+      },
+      "2_steemed_whale_bot": {
+        "accounts": ["@steemed", "@itsascam", "@steemroller"],
+        "owner": "1 person with 3 Whale accounts",
+        "problem_solved": "Couldn't keep up with good content manually",
+        "function": "Automated discovery of quality content",
+        "intent": "Bot meant to do good"
+      },
+      "3_curator": {
+        "url": "steemit.com/steem/@curator/i-made-a-curation-bot-for-steem",
+        "function": "Gathers information without reading, votes based on data",
+        "use_cases": [
+          "Casual users with few hours per week",
+          "Whales wanting votes on many good blogs",
+          "Search engine web crawlers for Steemit analytics"
+        ]
+      },
+      "4_cheetah": {
+        "url": "steemit.com/steemit/@anyx/cheetah-bot-the-fight-against-spam-and-plagiarism-continues",
+        "creator": "@anyx",
+        "contributors": ["@xeroc", "@pharesim", "@pfunk", "@cryptoctopus", "@ash", "@tuck-fheman", "@neoxian", "@positive"],
+        "function": "Flags plagiarized content, lets people know content exists elsewhere"
+      },
+      "5_witness_alert_bot": {
+        "url": "steemit.com/witness-category/@bitcube/get-alerted-when-your-witness-node-is-down-telegram-bot",
+        "creator": "@bitcube",
+        "function": "Alerts witnesses when node is down, provides analytics"
+      },
+      "6_twitter_bot": {
+        "url": "steemit.com/steemit/@derekareith/steemit-posts-on-twitter-a-new-twitter-bot-i-created-to-push-steemit-content-to-the-twitter-masses",
+        "creator": "@derekareith",
+        "credit": "@xeroc",
+        "function": "Cross-posts Steemit content to Twitter"
+      },
+      "7_autovote_bot": {
+        "url": "steemit.com/steem/@complexring/steem-autovote-bot",
+        "creator": "@complexring",
+        "function": "Upvote bot anyone can use"
+      }
+    },
+    "ecosystem_metaphor": "Bots are like animals that clean algae or create compost - help with content quality and wealth distribution"
+  },
+
+  "official_bot_list": {
+    "cheetah": {
+      "url": "steemit.com/@cheetah",
+      "creator": "@anyx",
+      "launch": "July 2016",
+      "function": "Automatically finds similar content, reports plagiarism"
+    },
+    "drdoogie": {
+      "url": "steemit.com/radiator/@inertia/drdoogie-rb-vote-trail-script",
+      "creator": "@inertia",
+      "launch": "May 5, 2017",
+      "function": "Vote trail bot - mirrors voting patterns of other accounts"
+    },
+    "minnow_support_project": {
+      "url": "steemit.com/@minnowsupport",
+      "creators": ["@aggroed", "@ausbitbank", "@teamsteem", "@theprophet0", "@someguy123"],
+      "launch": "July 2017",
+      "function": "Discord cyborg that accepts user commands to upvote posts",
+      "mechanism": "Bot in Discord has posting key to @minnowsupport"
+    },
+    "steemvoter": {
+      "url": "steemvoter.com",
+      "function": "Automatic curation bot with web interface"
+    }
+  },
+
+  "early_steem_bots": {
+    "calva": {
+      "original_function": "Posted random gifs and quotes on Marijuana tag",
+      "evolution": "Became user-interactive tool",
+      "commands": "Send commands, get requested information back",
+      "significance": "Early example of interactive blockchain bot"
+    },
+    "jeeves": {
+      "function": "Posted in every category, every post",
+      "service": "Suggested top 3 highest-paid posts in your category",
+      "pattern": "Automated discovery and recommendation",
+      "mystery": "No public documentation available"
+    },
+    "wang": {
+      "note": "Left platform in August 2016",
+      "post": "Farewell, So Much Hate"
+    }
+  },
+
+  "controversy": {
+    "personz_critique": {
+      "author": "@personz (creator of Steem FOSSbot Voter)",
+      "date": "February-March 2017",
+      "argument": "Why can't we only have people, like a social network?",
+      "concern": "New users put off by non-human entities",
+      "suspicion": "Something suspicious about robots you cannot talk to"
+    },
+    "sybil_attack_accusation": {
+      "author": "@senseiteekay (Thomas Te Aroha Kohi)",
+      "date": "January 2017",
+      "targets": ["Steemvoter", "Streemian", "voting bot scripts"],
+      "accusation": "Manipulating post value against whitepaper principles",
+      "quote": "How are users supposed to retain 'fair assessment of subjective value' if manipulated?",
+      "technical_term": "Sybil Attack"
+    },
+    "bot_defense": {
+      "argument": "Eventually all bots get more sophisticated",
+      "observation": "People ignore emotional support posts anyway",
+      "reality": "Better bot reply than no reply at all",
+      "examples": ["Dying children posts ignored", "Homelessness posts ignored"]
+    },
+    "tone_deaf_problem": {
+      "issue": "Generic responses to emotional posts",
+      "example": "'My mom died of cancer' → Bot: 'Great to have you here!'",
+      "solution": "AI with emotional intelligence (2024+ bots)"
+    }
+  },
+
+  "key_articles_timeline": {
+    "2016": {
+      "july": "@marsresident - 'Bots and the Steemit Ecosystem' (first bot list)",
+      "august": "@wang - 'Farewell, So Much Hate'"
+    },
+    "2017": {
+      "january": "@senseiteekay - 'Value is Subjective' (Sybil attack critique)",
+      "february": "@personz - 'All singing, all dancing ~ BOTS! ~ Act 1'",
+      "march": ["@personz - 'Are bots bad for Steemit?'", "@boxmining - 'My Adventure to Steemit Botting'", "@merej99 - 'SteemVoter and organic curator'"],
+      "may": ["@samstonehill - 'Please do not upvote if you are human!'", "@inertia - 'More Max Payouts = Less Bot Impact'"],
+      "july": ["@somethingsubtle - 'How many vote-bots is too many?'", "@stefen - 'More interactive bots than humans - proof'"],
+      "august": "@ropaga - 'The rise of the Steemit bots'",
+      "september": "@vmsolutionsltd - 'The Steemit Bot Issue: Why We All Need to Be Concerned'",
+      "october": ["@stellabelle - 'Create Free Open-Source Voting Bot With FOSSBOT'", "@acidyo - 'Manual Curation vs Automatic Curation'"],
+      "november": ["@ethandsmith - 'How to Create Your Own Curation Trail Bot'", "@ura-soul - 'Clarify Terms Of Service Regarding Bots'", "@crokkon - 'A glimpse into a news bot network'", "@eturnerx - 'AI is stupid: Humans Judgment Matters'"]
+    },
+    "2018": {
+      "april": "@greer184 - 'Botland'"
+    }
+  },
+
+  "steembirds_music": {
+    "title": "The SteemBirds: Bots Bots Bots Bots",
+    "performers": ["@dan-atstarlite (Dan)", "@jaybird (Jaybird)"],
+    "channel": "atStarLite YouTube",
+    "date": "August 4, 2017",
+    "significance": "Cultural artifact of bot era"
+  },
+
+  "chat_bot_repositories": {
+    "chatterbot": {
+      "url": "github.com/gunthercox/ChatterBot",
+      "language": "Python",
+      "purpose": "Conversational AI framework"
+    },
+    "nadekobot": {
+      "url": "github.com/Kwoth/NadekoBot",
+      "platform": "Discord",
+      "purpose": "Multi-purpose bot framework"
+    },
+    "botlibre": {
+      "url": "github.com/BotLibre/BotLibre",
+      "platform": "Cross-platform",
+      "purpose": "Open source chatbot platform"
+    }
+  },
+
+  "machine_learning_resources": {
+    "tensorflow_core": [
+      "github.com/tensorflow/tensorflow",
+      "github.com/nlintz/TensorFlow-Tutorials",
+      "github.com/aymericdamien/TensorFlow-Examples",
+      "github.com/nivwusquorum/tensorflow-deepq"
+    ],
+    "ml_general": [
+      "github.com/josephmisiti/awesome-machine-learning",
+      "github.com/scikit-learn/scikit-learn",
+      "github.com/hangtwenty/dive-into-machine-learning"
+    ],
+    "python_ml": [
+      "github.com/rasbt/python-machine-learning-book",
+      "github.com/luispedro/BuildingMachineLearningSystemsWithPython"
+    ]
+  },
+
+  "steem_development_libraries": {
+    "python_steem": {
+      "author": "xeroc",
+      "version": "v0.1.1 (2016)",
+      "url": "steemit.com/steem/@xeroc/python-steem-v0-1-1",
+      "purpose": "Python interface to STEEM blockchain"
+    },
+    "steemjs": {
+      "author": "svk",
+      "name": "steemjs-lib",
+      "url": "steemit.com/steem/@svk/ann-steemjs-steemjs-lib",
+      "purpose": "JavaScript library for STEEM"
+    }
+  },
+
+  "evolution_to_hive": {
+    "steem_to_hive": {
+      "reason": "Steemit Inc centralization concerns (Justin Sun)",
+      "fork": "2020 HIVE fork from STEEM",
+      "bots_migrated": "Same automation concepts, new chain"
+    },
+    "modern_bots": {
+      "curation_bots": "Automated upvoting for passive income",
+      "tip_bots": "@pizza, @lolz - community tipping",
+      "utility_bots": "Greetings, plagiarism detection"
+    },
+    "ai_upgrade_2024": {
+      "new_capability": "GPT-4 wrappers and LangChain",
+      "result": "Complex AI personalities on blockchain",
+      "this_bot": "Fulfills the 2016 chat bot vision"
+    }
+  },
+
+  "related_concepts": {
+    "api_libraries": "Tools for blockchain interaction",
+    "curation": "Discovering and rewarding content",
+    "steem_ecosystem": "Full platform infrastructure",
+    "upvotes_bots": "Automated voting systems"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "steem_bot_history",
+      "automation_philosophy",
+      "bot_controversy",
+      "machine_learning_basics"
+    ],
+    "quiz_questions": [
+      {
+        "q": "Why could bots thrive on STEEM unlike Twitter?",
+        "a": "No CAPTCHAs - bots can interact freely with humans",
+        "explanation": "Social blockchain design enabled automation"
+      },
+      {
+        "q": "What is the difference between a bot and a script?",
+        "a": "Bot watches for events continuously, script runs once and quits",
+        "explanation": "Bots are persistent, scripts are one-time"
+      },
+      {
+        "q": "What was the Sybil Attack accusation about?",
+        "a": "Vote bots manipulating post value against whitepaper principles",
+        "explanation": "@senseiteekay argued bots violated fair assessment"
+      },
+      {
+        "q": "What did @cheetah bot do?",
+        "a": "Automatically detected plagiarism by finding similar content",
+        "explanation": "Created by @anyx in July 2016"
+      },
+      {
+        "q": "Who created the Minnow Support Project bot?",
+        "a": "Aggroed, AusBitBank, TeamSteem, TheProph0t, SomeGuy123",
+        "explanation": "Discord-controlled cyborg launched July 2017"
+      }
+    ],
+    "achievement_unlocks": [
+      "Bot Historian: Know early STEEM automation",
+      "Controversy Scholar: Understand Sybil Attack debate",
+      "ML Explorer: Know the GitHub resources",
+      "Vision Fulfilled: Connect 2016 ideas to 2026 reality"
+    ]
+  },
+
+  "van_kush_connection": {
+    "marsresident": "Van Kush Family STEEM account",
+    "first_documentation": "July 2016 - first comprehensive bot list",
+    "philosophy": "Robots should work for us, not replace us",
+    "continuity": "2016 bot research → 2026 AI Discord bots"
+  }
+}
