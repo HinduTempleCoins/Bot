@@ -790,6 +790,9 @@ function getOilahuascaResponse(topic) {
   if (t.includes('piston') || t.includes('xeroc') || t.includes('python steem')) {
     return `🐍 **Piston - Python STEEM Library**\n\n**Creator**: @xeroc\n\n**Significance**: "Write a bot in about 10 lines of code"\n\n**URL**: http://piston.rocks\n\n**Version**: v0.1.1 (2016)\n\n**Legacy**: Foundation for STEEM/HIVE bot development\n\n**Modern Equivalent**: beem (HIVE Python library)`;
   }
+  if (t.includes('edgewood') || t.includes('cbrn') || t.includes('bz agent') || t.includes('army experiment')) {
+    return `🔬 **Edgewood Arsenal - Government Psychotropic Research**\n\n**What**: US Army human experiments with psychotropic chemicals\n**Location**: Edgewood Arsenal, Maryland\n**Period**: 1948-1975\n\n**Substances Tested**:\n• LSD, Mescaline\n• BZ (3-Quinuclidinyl benzilate)\n• Nerve agents\n\n**Subjects**: ~7,000 US soldiers\n\n**Shulgin Connection**: Discussed US/Russian government research\n\n**CBRN**: Chemical, Biological, Radiological, Nuclear protocols`;
+  }
   return null;
 }
 
