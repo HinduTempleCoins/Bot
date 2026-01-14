@@ -532,6 +532,31 @@ function getOilahuascaResponse(topic) {
   if (t.includes('spear of destiny') || t.includes('royal mysticism')) {
     return `👑 **Royal Mysticism - The Spear of Destiny**\n\n**Legend**: Holy Lance that pierced Christ\n\n**Power**: Grants authority to holder\n\n**Historical Claim**: Hitler lost power when he lost the spear\n\n**Angelicalist Interpretation**:\n• Spiritual authority in new era\n• Collective belief creates power\n• Spiritual backing for material goals\n\n**Van Kush Position**: "The Angels are Coming" - not just metaphor`;
   }
+  // Symbolism, Culture & Gods
+  if (t.includes('symbolism') || t.includes('chirality') || (t.includes('symbol') && t.includes('meaning'))) {
+    return `🔯 **Symbolism & Chirality (@marsresident)**\n\n**Symbolism**: Related to Symmetry - symbols should be "the same on both sides" when placed next to their meaning\n\n**Examples**: Eagle (America), Cross (Christianity), Lotus (Hinduism), Lion (universal)\n\n**Chirality**: Like hands - same but opposite (mirror relationship)\n\n**Geographic Symbolism**: Memphis TN named for Memphis Egypt (similar river positions)\n\n**Power**: Sacred images evoke emotions, some feel "God is watching"`;
+  }
+  if (t.includes('evil eye') || t.includes('nazar')) {
+    return `👁️ **Evil Eye / Nazar**\n\n**Purpose**: Keep away "evil eyes" (envy)\n\n**Belief**: When someone looks with envy, you receive a curse\n\n**Function**: Protection amulet against curses\n\n**Prevalence**: Popular in India and Turkey\n\n**In Sacred Art**: Often used as underlying protective layer in composite images`;
+  }
+  if (t.includes('eye of wadjet') || t.includes('eye of horus') || (t.includes('egyptian') && t.includes('eye'))) {
+    return `👁️ **Eye of Wadjet / Eye of Horus**\n\n**Note**: Different from Eye of Ra\n\n**Wadjet**: Protector of Kings & Country, Goddess of Oracles\n\n**Merger**: Eventually became Wadjet-Bast (connection to feline goddess)\n\n**Afterlife Power**: Allows the dead to see - bridge between Life and Afterlife\n\n**Par-Oh Clarification**: "Pharaoh" was the PALACE name, not king's title. Par-Oh housed the King, Apis Bull, Twins`;
+  }
+  if (t.includes('borjgali') || (t.includes('tree of life') && !t.includes('kabbalah'))) {
+    return `🌳 **Borjgali - Georgian Tree of Life**\n\n**Meanings**: Tree of Life, Eternity, Past-Present-Future continuity\n\n**Structure**: Roots = Past, Branches = Future\n\n**Cross-Cultural**: \n• Egypt: Pre-Biblical hierarchical chain of creation\n• Judaism: Sephirot / Tree of Knowledge\n• Native American: Various traditions\n\n**Significance**: Universal symbol predating all Abrahamic religions`;
+  }
+  if (t.includes('khepri') || t.includes('scarab') || t.includes('dung beetle')) {
+    return `🪲 **Khepri - The Keeper (Scarab God)**\n\n**Representation**: Dung Beetle\n\n**Symbolism**:\n• Metamorphosis (like butterfly with deeper meaning)\n• Ball-rolling = force moving Sun across sky\n• Meanings: Eternity, Creation, Rebirth\n\n**Solar Trinity**:\n• Khepri = Morning Sun\n• Ra = Mid-Day Sun\n• Atum = Setting Sun`;
+  }
+  if (t.includes('hathor') || (t.includes('horns') && (t.includes('divine') || t.includes('symbol') || t.includes('egypt')))) {
+    return `🐄 **Hathor & The True Meaning of Horns**\n\n**Hathor**: Mother of Apis, depicted with horns\n\n**Horns DID NOT Mean Evil**: In Ancient Egypt, horns symbolized:\n• The Ba soul (1 of 5 souls)\n• Divinity/spirit within person\n• That figure was a God\n\n**Evidence**: Alexander the Great depicted with horns on coins to show divinity\n\n**Bat Goddess**: Pre-Dynastic horned goddess of Duality (before King Scorpion united Egypt)`;
+  }
+  if (t.includes('punt') || t.includes('land of the gods')) {
+    return `🏛️ **Punt - The Land of the Gods**\n\n**Age**: Older than Egypt (Egypt is 4000+ years old)\n\n**Egyptian Name**: "The Land of the Gods"\n\n**Status**: Never been found - one of archaeology's great mysteries\n\n**Evidence**: Egyptians traded with Punt\n\n**Significance**: Source civilization even older than Kemet`;
+  }
+  if (t.includes('liberty pole') || (t.includes('phrygian') && t.includes('cap'))) {
+    return `🗽 **Phrygian Cap & Liberty Pole**\n\n**Origin**: Phrygia (modern Turkey)\n\n**Meaning**: Symbolizes Liberty\n\n**Roman Usage**: Worn by freed slaves\n\n**Liberty Pole Origin**: First appeared after Julius Caesar assassination\n\n**Modern Appearances**: US Senate Seal, US Army Seal, French Revolution (Statue of Liberty)\n\n**Divine Connection**: Symbol of God Mithra\n\n**Theory**: Most likely origin of FLAGS`;
+  }
 
   // Angels vs Aliens
   if (t.includes('alien') && (t.includes('angel') || t.includes('don\'t exist') || t.includes('uap'))) {
