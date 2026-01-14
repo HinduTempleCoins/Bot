@@ -653,6 +653,13 @@ function getOilahuascaResponse(topic) {
   if (t.includes('satoshi unit') || (t.includes('satoshi') && (t.includes('amount') || t.includes('small') || t.includes('0.00000001')))) {
     return `🔬 **The Satoshi - Bitcoin's Smallest Unit**\n\n**Value**: 1 Satoshi = 0.00000001 Bitcoin\n\n**Why Created**: BTC got so valuable, trading 0.0001 BTC became awkward\n\n**Future Prediction** (@marsresident 2016): People will trade in Satoshis, not Bitcoins\n\n**Halving Connection**: Each halving increases scarcity → price rises → Satoshis more practical\n\n**Analogy**: Like trading cents instead of dollars as currency inflates in VALUE (opposite of fiat)`;
   }
+  // Press Pass and Citizen Journalism
+  if (t.includes('press pass') || t.includes('citizen journalism') || (t.includes('steemit') && t.includes('journalist'))) {
+    return `📰 **Steemit Press Pass Vision (2016)**\n\n**Concept**: Independent news platform like world has never seen\n\n**Vision**:\n• Each person covers stories THEY want, HOW they want\n• No central news desk or corporate direction\n• Already getting paid - just need credentials\n\n**Implementation Ideas**:\n• Steemit sells passes in wallet for STEEM\n• Whale-funded press pass business\n• Central website for Steemit Journalists\n\n**Author**: @marsresident (Hindu Minister with interfaith church press passes)\n\n**Legacy**: Early vision of blockchain-based independent media`;
+  }
+  if (t.includes('early whale') || t.includes('steem whale') || (t.includes('2016') && t.includes('whale'))) {
+    return `🐋 **Early STEEM Whales (2016)**\n\n**Threshold**: $250,000+ in STEEM Power\n\n**Founders**: @steemit, @ned, @dan, @dantheman, @bytemaster\n\n**Major Whales**: @blocktrades, @jamesc, @berniesanders, @smooth, @freedom, @abit, @arhag\n\n**Witnesses**: @pharesim, @smooth.witness, @witness.svk, @roadscape, @xeldal, @clayop\n\n**Early Bots**: @wang, @itsascam, @steemed, @steemroller\n\n**Notable**: @stellabelle, @donkeypong, @onceuponatime, @kushed, @wackou, @xeroc\n\n**Prediction**: First wave of STEEM businesses would emerge from these whales`;
+  }
 
   // Temple Coin History
   if (t.includes('temple coin') || t.includes('tmpc') || t.includes('shaivite')) {
