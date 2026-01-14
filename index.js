@@ -756,6 +756,35 @@ function getOilahuascaResponse(topic) {
   if (t.includes('creatine') && (t.includes('spinal') || t.includes('medical') || t.includes('injury'))) {
     return `💪 **Creatine - Beyond Bodybuilding (@marsresident 2016)**\n\n**Common Perception**: Just a bodybuilding supplement\n**Reality**: Normal part of everyday body health\n\n**Quality Indicator**: Higher creatine in steak = better quality meat\n\n**Medical Research**:\n• Helps PROTECT from Spinal Cord Injury\n• Helps RECOVERY after Spinal Cord Injury\n\n**Synergy**: Use with Arginine and Citrulline\n\n**Problem**: Doctors don't suggest it because they think it's just for gym bros\n\n**Van Kush Vision**: Bridge bodybuilding supplements to medical treatment`;
   }
+  // Alternative Farming (2016 Research)
+  if (t.includes('insect farming') || t.includes('edible insect') || t.includes('entomophagy') || (t.includes('eat') && t.includes('bug'))) {
+    return `🦗 **Edible Insects - Alternative Protein (@marsresident 2016)**\n\n**Commonly Eaten**:\n• Cicadas (common in Southern US)\n• Locusts/Katydids (Biblical food)\n• Hornworms (taste like shrimp)\n• Longhorn beetles (most eaten bug worldwide)\n• Mopane worms (Emperor moth larvae)\n\n**Exotic**:\n• Golden Orb Weaver Spider (fried = peanut butter taste)\n• Scorpions (like desert crab)\n• Tarantulas (like woods crab)\n• Diving beetles (prized in Asia, more expensive than meat)\n\n**Temple Application**: Sustainable protein for sovereign community`;
+  }
+  if (t.includes('mushroom farm') || t.includes('mushroom plug') || t.includes('shiitake') || t.includes('lion') && t.includes('mane')) {
+    return `🍄 **Mushroom Farming (@marsresident 2016)**\n\n**Method**: Buy plugs with spores, drill holes in correct wood type\n\n**Varieties**:\n• Chicken of the Woods (tastes like chicken)\n• Hericium/Lion's Mane (tastes like lobster)\n• Shiitake (culinary)\n• Oyster mushrooms\n• Maitake (Hen of the Woods)\n• Reishi (medicinal)\n• Fairy Ring (Marasmius Oreades)\n\n**Temple Application**: Food production + medicinal mushrooms for sovereign community`;
+  }
+  if (t.includes('specialty chicken') || t.includes('guinea fowl') || t.includes('quail') || t.includes('pheasant farm')) {
+    return `🐔 **Alternative Fowl Farming (@marsresident 2016)**\n\n**Beyond Standard Chickens**:\n• Guinea chickens (alarm for strangers)\n• Featherfoot, Tophat, Cochin chickens\n• Malay (tall), Brahma (large)\n• Cornish Game Hens\n\n**Other Fowl**: Ducks, Geese, Turkeys, Quail, Pheasant, Peafowl, Dove\n\n**Exotic**: Ostrich, Rhea, Emu\n\n**Incubation**: Tupperware/fish tank + heat lamp\n\n**Cloning**: Inject mother's DNA into egg\n\n**Sourcing**: eBay, specialty hatcheries (seasonal)`;
+  }
+  if (t.includes('beneficial insect') || t.includes('pest control bug') || t.includes('ladybug') || t.includes('praying mantis')) {
+    return `🐞 **Beneficial Insects for Pest Control (@marsresident 2016)**\n\n**Predators**:\n• Ladybugs ($70+/gallon) - eat aphids\n• Praying Mantis - eat any bugs\n• Assassin bugs - cockroaches/bedbugs\n• Soldier bugs - 100+ pest types\n• Green Lacewings - mites/aphids\n\n**Mosquito Control**: Dragonflies, Damselflies\n\n**Organic Insecticide**: Encarsia Formosa (eats whiteflies)\n\n**Pollinators**: Bumblebees, Hoverflies, Butterflies\n\n**Temple Application**: Chemical-free pest management`;
+  }
+  if (t.includes('composting worm') || t.includes('vermicompost') || t.includes('soldier fly compost') || t.includes('dung beetle')) {
+    return `♻️ **Composting Insects (@marsresident 2016)**\n\n**Red Worms**: Cellulose + nitrogen-rich foods (scraps, paper, cardboard)\n\n**Black Soldier Fly Larvae**:\n• Compost EVERYTHING including meat\n• Neutralize compost smell\n• Larvae = protein for other animals\n\n**Rhinoceros/Stag Beetles**: Compost plant matter + wood\n\n**Dung Beetles**: Clean up after farm animals\n\n**Circular Economy**: BSFL eat waste → frass fertilizer + larvae protein\n\n**Temple Application**: Zero-waste sovereign agriculture`;
+  }
+  if (t.includes('ant mimic') || t.includes('antlion') || t.includes('ant specialist')) {
+    return `🐜 **Ant Specialists - Nature's Infiltrators (@marsresident 2016)**\n\n**Ant Eaters**:\n• Antlions (Doodlebugs) - conical trap builders\n• Oogpister Beetle - sprays formic acid at attackers\n\n**Ant Mimics/Tricksters**:\n• Allopeas Snail - smells like food, raids ant pile\n• Eucharitid Wasp - larvae smell like ants\n• Blue Butterfly Caterpillar - smells like Queen ant\n• Paussinea Beetle - carried by antennae to pile\n• Ant Mugging Flies - use antennae to "talk" ants into regurgitating food\n\n**Fascinating biology of deception and symbiosis**`;
+  }
+  if (t.includes('silk') && t.includes('worm') || t.includes('cochineal') || t.includes('red dye') && t.includes('insect')) {
+    return `🧵 **Specialty Insect Products (@marsresident 2016)**\n\n**Silk Production**:\n• Silkworms produce silk from cocoons\n• Requires Mulberry trees\n\n**Dye Production**:\n• Cochineal insects produce red dye\n• Same dye used for British "Red Coats"\n• Requires Prickly Pear Cacti\n\n**Golden Orb Weaver Web**:\n• 6x strength of steel\n• Golden sheen\n• Said to repair nerve damage when eaten\n\n**Temple Application**: Self-sufficiency in materials production`;
+  }
+  // Solar and Electrical Infrastructure
+  if (t.includes('solar') && (t.includes('mining') || t.includes('power') || t.includes('panel')) || t.includes('photovoltaic')) {
+    return `☀️ **Solar Power Infrastructure (@marsresident 2016)**\n\n**Photovoltaic Types**:\n• Amorphous Silicon (flexible, no toxic metals)\n• Gallium Arsenide (high efficiency)\n• CIGS (tunable bandgap)\n• Quantum Dots (harvest multiple spectrum portions)\n\n**Advanced Tech**:\n• Carrier Multiplication (1 photon → multiple electrons)\n• Dye-Sensitized (low cost, Grätzel cell)\n• Thermophotovoltaic (heat → electricity)\n\n**Concentration**:\n• CPV: Lenses focus light on efficient cells\n• Cost: $0.08-$0.15/kWh in high-sun areas\n\n**Temple Application**: Solar-powered crypto mining, off-grid sovereignty`;
+  }
+  if (t.includes('alternator') || t.includes('faraday') || t.includes('maxwell equation')) {
+    return `⚡ **Electrical Engineering Fundamentals (@marsresident 2016)**\n\n**Alternators**:\n• Convert mechanical → AC electrical energy\n• Rotating magnetic field + stationary armature\n• Why driving recharges car battery after jump\n\n**Faraday's Law**:\n• Magnetic field + circuit = EMF\n• Foundation of motors, generators, transformers\n\n**Maxwell's Equations**:\n• Foundation of classical electrodynamics\n• Underlie all modern electrical technology\n\n**Temple Application**: Understanding infrastructure for sovereign community`;
+  }
 
   // Temple Coin Advanced Syllabus topics
   if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
