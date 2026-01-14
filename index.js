@@ -728,6 +728,34 @@ function getOilahuascaResponse(topic) {
   if (t.includes('melanopsin') || (t.includes('blue light') && (t.includes('brain') || t.includes('alert') || t.includes('caffeine')))) {
     return `💡 **Electronic Medicine - Light Therapy**\n\n**Melanopsin**: Eye receptor determining time of day\n\n**Blue Light** = Like Caffeine:\n• Increases alertness\n• Why screens keep you awake\n\n**Color Effects**:\n• Orange light: Different cognitive test results\n• Ear canal light: Increases brain function\n\n**Research Sources**: Light Research Center, Harvard\n\n**Temple Application**: Non-pharmacological performance optimization`;
   }
+  // Detailed Biohacking Research (2016 Posts)
+  if (t.includes('neurogenesis') || t.includes('synaptogenesis') || t.includes('2-ag') || t.includes('2ag')) {
+    return `🧠 **Neurogenesis & 2-AG Research (@marsresident 2016)**\n\n**Breakthrough**: Brain cells CAN be regenerated!\n\n**Neurogenesis**: Formation of new Neurons\n**Synaptogenesis**: New pathways between Neurons\n\n**2-AG (Endocannabinoid)**:\n• Protects brain from damage (2001 study)\n• Reverses brain swelling/edema (2003 study)\n• Critical for coma patients, stroke recovery\n• Patent WO2001097793A2 documents uses\n\n**Hospital Tragedy**: NOT used in ANY hospital despite research!\n@marsresident: "Why no IV 2-AG for Traumatic Brain Injury?"`;
+  }
+  if (t.includes('glial cell') || t.includes('astrocyte') || t.includes('oligodendrocyte') || (t.includes('einstein') && t.includes('brain'))) {
+    return `🧠 **Glial Cells - Einstein's Brain Secret (@marsresident 2016)**\n\n**Discovery**: Einstein had MORE Glial Cells than average\n\n**Old Theory**: Just "glue" holding neurons together\n**Reality**: Active role in brain function ("The Other Brain")\n\n**Types**:\n• **Oligodendrocytes**: Enhanced via Remyelination (Clemastine - OTC antihistamine)\n• **Astrocytes**: Enhanced by blocking Adenosine Receptors (Regadenoson)\n\n**Van Kush Research**: More comprehensive than most labs at the time`;
+  }
+  if (t.includes('ampakine') || t.includes('aniracetam') || t.includes('cx-614') || t.includes('dendrite')) {
+    return `🔌 **Ampakines - Growing New Brain Pathways (@marsresident 2016)**\n\n**Function**: Create new neural pathways within HOURS\n\n**Dendrites**: Arms of neurons for electrochemical signaling\n**Ampakines**: Molecules that grow dendrites\n\n**Examples**:\n• Aniracetam (milder)\n• CX-614 (stronger)\n• MXP\n• Ketamine (used in hospitals as opioid alternative)\n\n**Potential**: Could replace MAOIs and SSRIs\n\n**Hospital Gap**: Not used for pathway creation despite research`;
+  }
+  if (t.includes('nootropic') || t.includes('piracetam') || t.includes('phenylpiracetam') || t.includes('noopept')) {
+    return `💊 **Nootropics Compendium (@marsresident 2016)**\n\n**Core Stack**:\n• Piracetam + Choline (synergistic)\n• Phenylpiracetam (stronger variant)\n• Noopept (potent, small doses)\n\n**Cholinergics**:\n• Alpha-GPC, Galantamine\n\n**Others**:\n• 5-HTP (serotonin precursor)\n• Phenibut (GABA agonist)\n• PRL-8-53 (memory)\n• Triacetyluridine\n\n**East/West Split**: Piracetam prescribed in Russia, not considered medicine in US\n\n**Dream Herbs**: Synaptolepis Kirkii, Ubulawu`;
+  }
+  if (t.includes('sarm') || t.includes('myostatin') || t.includes('follistatin') || t.includes('yk-11')) {
+    return `💪 **SARMs & Myostatin Inhibitors (@marsresident 2016)**\n\n**SARMs** (Selective Androgen Receptor Modulators):\n• S4 example - affect testosterone production\n• Reduce atrophy, rebuild muscles faster\n• Could help people in body casts keep muscle mass\n\n**Myostatin Inhibitors**:\n• **Gorilla Example**: Never lift weights, still huge muscles\n• Myostatin CAPS muscle growth (over-expressed in humans)\n• Inhibitors: Follistatin, YK-11\n\n**Medical Gap**: Not used by doctors despite research\n**Source**: WADA banned list = research goldmine for non-athletes`;
+  }
+  if (t.includes('wada') || t.includes('blood doping') || t.includes('erythropoiesis') || t.includes('prp')) {
+    return `🏋️ **WADA List for Non-Athletes (@marsresident 2016)**\n\n**Philosophy**: If you're not competing, WADA bans = research goldmine\n\n**Blood Enhancement**:\n• Blood Doping: Reinfuse stored blood → more oxygen\n• Artificial Oxygen Carriers: Same effect, no drawing\n• PRP (Platelet Rich Plasma): NOT banned, aids healing\n\n**Hormone Modulators**:\n• SARMs (testosterone), SERMs (estrogen)\n• Aromatase Inhibitors\n\n**Stimulants**:\n• Octopamine, Synephrine (Bitter Orange)\n• Cordyceps mushrooms\n• Fucoxanthin (seaweed fat burner)`;
+  }
+  if (t.includes('senescence') || t.includes('cycloastragenol') || t.includes('htert') || t.includes('telomerase')) {
+    return `⏳ **Senescence & Telomerase (@marsresident 2016)**\n\n**Key Insight**: You age from SENESCENCE, not time itself\n\n**Telomere Mechanism**:\n• DNA splits → telomeres sacrificed instead of data\n• Repeated splitting → shorter telomeres → aging\n\n**Key Molecules**:\n• **Cycloastragenol**: Activates Telomerase (from Astragalus)\n• **hTERT**: Can immortalize human cells\n• **DMSO**: INHIBITS Telomerase (kills cancer cells)\n\n**Epigenetics**: DNA changes during life can be passed to offspring\n\n**Cancer Connection**: Tumors ARE immortal - same research field`;
+  }
+  if (t.includes('neuropeptide') || t.includes('gut brain') || t.includes('gut-brain') || t.includes('gut feeling')) {
+    return `🧠 **Neuropeptides & Gut-Brain Axis (@marsresident 2016)**\n\n**Brain Structure**:\n• Neurons (brain cells) → Dendrites (arms) → Synapses (connections)\n• Fueled by electrochemical signaling\n\n**Neuropeptides**: Chemicals affecting emotions, memories, ideas\n\n**Gut-Brain Discovery**: Neuropeptides found OUTSIDE brain!\n• Literal biological basis for "gut feelings"\n• Gut-Brain Axis is real science\n\n**Receptor Systems**:\n• 5-HT (Serotonin) - most well known\n• Cholinergic (Nicotine)\n• GABA (Benzos)\n• Esterase can be blocked to increase receptor activation`;
+  }
+  if (t.includes('creatine') && (t.includes('spinal') || t.includes('medical') || t.includes('injury'))) {
+    return `💪 **Creatine - Beyond Bodybuilding (@marsresident 2016)**\n\n**Common Perception**: Just a bodybuilding supplement\n**Reality**: Normal part of everyday body health\n\n**Quality Indicator**: Higher creatine in steak = better quality meat\n\n**Medical Research**:\n• Helps PROTECT from Spinal Cord Injury\n• Helps RECOVERY after Spinal Cord Injury\n\n**Synergy**: Use with Arginine and Citrulline\n\n**Problem**: Doctors don't suggest it because they think it's just for gym bros\n\n**Van Kush Vision**: Bridge bodybuilding supplements to medical treatment`;
+  }
 
   // Temple Coin Advanced Syllabus topics
   if (t.includes('tdcs') || t.includes('transcranial') || t.includes('brain stimulation')) {
