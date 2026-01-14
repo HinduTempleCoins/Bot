@@ -1031,5 +1031,97 @@
     "impact": "Removed federal protection for state-legal cannabis",
     "temple_response": "Immediate pivot to religious exemption strategy",
     "significance": "Explains urgency of RFRA and religious framing"
+  },
+
+  "church_of_neuroscience_biohacking": {
+    "source": "The Church of Neuroscience and Biohacking - @marsresident 2016",
+    "founder": "Dr. Jeremy Kerr",
+    "author_membership": "Member since 2010",
+    "author_identity": "Shaivite Hindu Neurospiritualist",
+    "core_philosophy": {
+      "neurospirituality": "Brain chemistry doesn't diminish spiritual experiences",
+      "love_analogy": "Theobromine and Oxytocin are Love chemicals, but love is more than chemistry",
+      "alzheimer_example": "Lucid moments before death - chemical but profoundly meaningful",
+      "shiva_as_phenomenon": "God is Dance, Meditation, Bhang - real experiences with brain correlates"
+    },
+    "religious_comparisons": {
+      "santo_daime": "Hoasca (Ayahuasca)",
+      "native_american_church": "Peyote",
+      "church_true_inner_light": "DPT",
+      "christianity": "Wine as sacrament",
+      "mazatec": "Salvia for Ska Pastora (The Shepherdess)"
+    },
+    "biohacking_curriculum": {
+      "nootropics": {
+        "definition": "Dietary supplements supporting memory, mental speed, focus",
+        "methodology": "T-0:00 ingestion, T+0:30, T+1:00 clinical reports",
+        "sources": ["Powder City", "Nootropics Depot"]
+      },
+      "herbs": {
+        "ceremonial": ["Ubulawu", "Wormwood", "Hottentot Tea", "Ayahuasca", "Ibogaine", "San Pedro", "Rivea Corymbosa", "Datura", "Kava"],
+        "oilahuasca": "Explicitly mentioned as research target",
+        "general": ["Ginseng", "Ginkgo Biloba", "Kanna", "Betel Nut"],
+        "sources": ["Starwest Botanicals", "Bouncing Bear Botanicals"]
+      },
+      "structure_activity_relationship": {
+        "goal": "Catalog molecular structures and compare effects",
+        "example": "AceOxy chain in Racetam vs Choline family",
+        "question": "Can structural similarities predict similar effects?"
+      },
+      "cyp450_enzymes": {
+        "definition": "Digestive enzymes that transform molecules",
+        "aspirin_example": "Pro-drug activated by CYP450",
+        "dmt_example": "Must inhibit enzymes for oral activity",
+        "grapefruit_warning": "Can make medications 100% bioavailable (dangerous)",
+        "goal": "Create new active molecules using own body"
+      },
+      "neulog_eeg": {
+        "neulog": "Computer-based clinical monitoring (ECG, heart rate, GSR, etc.)",
+        "eeg": "Brain wave monitoring for clinical evidence"
+      },
+      "life_extension": {
+        "telomeres": "DNA end caps that shorten with cell division",
+        "biological_immortality": "Jellyfish, lobsters have non-shortening telomeres",
+        "research_goal": "Elongate or preserve telomeres"
+      },
+      "electronic_medicine_light": {
+        "melanopsin": "Eye receptor determining time of day",
+        "blue_light": "Similar to caffeine - increases alertness",
+        "orange_light": "Different cognitive test results",
+        "ear_canal_light": "Increases brain cognitive function"
+      },
+      "electronic_medicine_current": {
+        "tdcs": "Transcranial Direct Current Stimulation",
+        "tms": "Transcranial Magnetic Stimulation",
+        "tens": "Transcutaneous Electrical Nerve Stimulation",
+        "lucid_dreaming": "Electric currents can induce lucid dreams"
+      },
+      "dream_yoga": {
+        "tradition": "Tibetan Buddhist",
+        "step_1": "Realize you are dreaming",
+        "step_2": "Eliminate fears (breathe underwater, put out fire)",
+        "step_3": "Contemplate reality while dreaming",
+        "step_4": "Control dream physics (move sun, shrink mountains)",
+        "step_5": "Transform yourself into other things",
+        "step_6": "Contact entities (Yidam), travel to worlds (Loka)",
+        "raom_gaom_mantra": "RRRAAAOOOMMMM GGGGAAAOOOMMM for dream recall",
+        "ah_syllable": "Tibetan symbol visualized in chest for vivid dreams"
+      },
+      "additional_topics": [
+        "Lab Equipment and Hydrogen Bonds",
+        "Plant Seeds, Growing, Breeding",
+        "Cacti (Serotonin-like molecules)",
+        "Mushrooms (Serotonin-like molecules)",
+        "CB Receptors, FAAH Inhibitors, Cancer Research",
+        "SARMs, Myostatin Inhibitors, HcG",
+        "Syntheses",
+        "Making Extractions"
+      ]
+    },
+    "community_response": {
+      "alkemix": "Thank you for posting this valuable information",
+      "sardonyx": "We need to create new religion for new circumstances - science and religion working together"
+    },
+    "significance": "Foundational document establishing Van Kush biohacking philosophy before Temple Coin"
   }
 }
