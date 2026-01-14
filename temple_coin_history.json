@@ -712,23 +712,18 @@
     }
   },
 
-  "temple_dao_2026_evolution": {
-    "discovery": "TempleDAO emerged as separate project (not Van Kush affiliated)",
-    "metrics_2026": {
+  "temple_dao_2026_note": {
+    "important_clarification": "TempleDAO is NOT us - completely unrelated project",
+    "what_it_is": {
+      "nature": "Separate DeFi protocol on Ethereum",
+      "affiliation": "ZERO connection to Van Kush Family or Shaivite Temple",
+      "coincidence": "Name similarity is purely coincidental"
+    },
+    "market_data_2026": {
       "market_cap": "$92-96 million USD",
-      "token_price": "Approximately $3.92",
-      "nature": "DeFi protocol on Ethereum"
+      "token_price": "Approximately $3.92"
     },
-    "relationship_to_temple_coin": {
-      "coincidence": "Name similarity but different project",
-      "validation": "Temple concept resonated with broader crypto",
-      "lesson": "Ideas spread even when original project doesn't"
-    },
-    "van_kush_position": {
-      "not_affiliated": "TempleDAO is separate from Shaivite Temple",
-      "philosophical_alignment": "Similar themes of sovereignty and community",
-      "opportunity": "Potential collaboration or distinction needed"
-    }
+    "why_mentioned": "To prevent confusion - people may ask about it due to similar name"
   },
 
   "anti_bitcoiner_recruitment": {
