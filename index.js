@@ -646,6 +646,13 @@ function getOilahuascaResponse(topic) {
   if (t.includes('neighbor indicator') || t.includes('early adopter') && t.includes('crypto')) {
     return `📈 **Early Adopter Indicators**\n\n**1% Threshold**: If you need "special computer skills" to invest, you're still early\n\n**Neighbor Indicator**: When neighbors discuss buying crypto = time to sell\n\n**Conviction Test**: Can you hold through 60% drops like early DevCoin holders?\n\n**Current Status**: If mainstream media mocks crypto, still early adopter territory\n\n**Van Kush Position**: Building infrastructure for next wave of adoption`;
   }
+  // Bitcoin Halving and Economics
+  if (t.includes('halving') || t.includes('halvening') || (t.includes('bitcoin') && t.includes('mining reward'))) {
+    return `⛏️ **Bitcoin Halving - Why It's Good (2016 Analysis)**\n\n**Event**: Mining reward cuts in half (~every 4 years)\n\n**Fear 1**: "Bitcoin dies when rewards end"\n**Reality**: Pools mine BTC + altcoins together, transactions still verified\n\n**Fear 2**: "Amounts too small to trade"\n**Solution**: The Satoshi (0.00000001 BTC) - future will trade Satoshis, not Bitcoins\n\n**Halving Effect**: Miners hoard → scarcity → price rises\n\n**Fear 3**: "Another coin will replace BTC"\n**Reality**: BTC is gold standard - altcoins orbit it. Very unlikely to be replaced.\n\n**@marsresident 2016**: "Do not fear the halving - it was planned for a long time"`;
+  }
+  if (t.includes('satoshi unit') || (t.includes('satoshi') && (t.includes('amount') || t.includes('small') || t.includes('0.00000001')))) {
+    return `🔬 **The Satoshi - Bitcoin's Smallest Unit**\n\n**Value**: 1 Satoshi = 0.00000001 Bitcoin\n\n**Why Created**: BTC got so valuable, trading 0.0001 BTC became awkward\n\n**Future Prediction** (@marsresident 2016): People will trade in Satoshis, not Bitcoins\n\n**Halving Connection**: Each halving increases scarcity → price rises → Satoshis more practical\n\n**Analogy**: Like trading cents instead of dollars as currency inflates in VALUE (opposite of fiat)`;
+  }
 
   // Temple Coin History
   if (t.includes('temple coin') || t.includes('tmpc') || t.includes('shaivite')) {
