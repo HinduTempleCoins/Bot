@@ -1,0 +1,262 @@
+{
+  "title": "Oilahuasca - Van Kush Original Research (2016)",
+  "author": "marsresident / Van Kush Family",
+  "source": "Steemit Original Post - 'The Future of Medicine and Psychedelics'",
+  "period": "2016 (STEEM Era)",
+  "overview": "Comprehensive CYP450 enzyme manipulation theory for activating kitchen spice allylbenzenes",
+
+  "shulgin_pihkal_connection": {
+    "observation": "Hidden in PIHKAL if read carefully",
+    "magical_half_dozen": "2C-I, etc.",
+    "ten_classic_ladies": "Florence, Ganesha, etc.",
+    "hidden_chapter": {
+      "theory": "Create molecules using your own liver by turning enzymes on and off",
+      "spice_cabinet": "List of Phenethylamines from kitchen spices",
+      "key_insight": "Just need to be Aminized - in liver or lab - to become active"
+    }
+  },
+
+  "oilahuasca_proven_discovery": {
+    "proof": "Theory proven by Oilahuasca experiments",
+    "basic_recipe_effects": "Coffee, Almond, Cinnamon, Vanilla, Nutmeg",
+    "mechanism": "Pro-Drugs and CYP450 Enzymes (similar to MAOs/MAOIs)",
+    "comparison": "Like Safrole from Sassafras → MDA/Ecstasy conversion"
+  },
+
+  "benzene_ring_positions": {
+    "position_1_black": "Allyl side chain - required for alkaloid conversion",
+    "position_2_brown": "Methoxy group here → LSD-like mental effects",
+    "position_3_red": "Variable substitution",
+    "position_4_green": "MUST be methoxy or methylenedioxy for psychedelic activity",
+    "position_5_blue": "Methoxy/methylenedioxy → enhanced visuals",
+    "position_6_purple": "Methoxy → amphetamine-style speedy effects",
+    "critical_rule": "Position 4 CANNOT be hydroxy (eugenol, chavicol) - only stimulant, not psychedelic"
+  },
+
+  "allylbenzene_activity_chart": {
+    "no_psychedelic_activity": {
+      "compounds": ["Eugenol", "Hydroxychavicol", "Chavicol"],
+      "reason": "Hydroxy group on position 4"
+    },
+    "psychedelic_active": {
+      "methyl_chavicol": "Light speedy LSD-like",
+      "methyl_eugenol": "Psychedelic when properly metabolized",
+      "apiole": "Psychedelic, speedy (position 6 methoxy)",
+      "safrole": "MDMA-like when properly metabolized",
+      "myristicin": "Psychedelic when properly metabolized",
+      "dillapiole": "Potent, LSD-like mental effects (position 2 methoxy)",
+      "elemicin": "Mescaline-like when properly metabolized"
+    },
+    "rare_unknown": {
+      "sarisan": "Positional isomer of myristicin - likely LSD-like",
+      "gamma_asarone": "Main active in Nepali calamus oil - LSD-like",
+      "croweacin": "Positional isomer of myristicin - probably speedy like apiole"
+    }
+  },
+
+  "critical_correction_alkaloid_formation": {
+    "old_theory": "Shulgin theorized allylbenzenes → amphetamines",
+    "actual_science": "They do NOT form amphetamines in vivo",
+    "real_metabolites": "Tertiary aminopropiophenones of 3 subtypes",
+    "three_subtypes": ["Dimethylamines", "Piperidines", "Pyrrolidines"],
+    "elemicin_special": "Forms ALL THREE alkaloid metabolites",
+    "safrole_proven": "Forms all three alkaloid metabolites",
+    "myristicin_limited": "Only forms piperidines and pyrrolidines (no dimethylamines)",
+    "propenylbenzenes": "Asarone, anethole do NOT form alkaloid metabolites"
+  },
+
+  "sassafras_cinnamon_experiment": {
+    "problem": "Safrole inactivated by CYP2A6 → 1-hydroxysafrole",
+    "solution": "Cinnamon bark oil is potent CYP2A6 inhibitor",
+    "theory": "2-5g cinnamon or 5-10 drops cinnamon essential oil",
+    "carcinogenicity_reduction": "Inhibiting CYP2A6 also reduces carcinogenic metabolite",
+    "xlogp_analysis": {
+      "safrole": "XLogP 3 (crosses blood-brain barrier easily)",
+      "mdma": "XLogP 2.2",
+      "1_hydroxysafrole": "XLogP 1.9 (too polar, blocked from brain)"
+    },
+    "experiment_result": {
+      "dose": "5g sassafras bark + lecithin + milk + 6 drops cinnamon + 3 drops chamomile",
+      "effects": "NICE euphoria, enhanced touch, mildly psychedelic, no sedation",
+      "conclusion": "Worked to produce phenethylamine-like effects"
+    }
+  },
+
+  "oilahuasca_procedure": {
+    "step_1_base": "Pepper tea (solids filtered out)",
+    "step_2_activators": "Anise Oil, B9 (Folate), or Valerian Root (Chinese)",
+    "step_3_enzyme_inhibitors": {
+      "vanilla_cinnamon": "Pick one or both (need Aldehyde structure)",
+      "chamomile_options": "German Chamomile, Cayenne, or Tangerine Skin",
+      "additional": "Almond extract, Anise, Lemon peel, Lime peel, or Nicotine",
+      "cyp2c9": "CBD, Echinacea Purpurea, Pomegranate, Pummelo, or Calamus",
+      "cyp3a4": "Clove oil, Catechin, Dill seed, or Goldenseal",
+      "final": "Kudzu, Glycerin, or Caffeine"
+    },
+    "best_substrate": "Sweet Basil Extract (pure Methyl Chavicol)",
+    "timing": "Take inhibitors 30-60 minutes before substrate"
+  },
+
+  "enzyme_priority_list": {
+    "most_important": [
+      "CYP2C9 Induction",
+      "Alcohol Dehydrogenase Induction",
+      "Aldehyde Dehydrogenase Inhibition",
+      "Piperidine and/or Dimethylamine Supplementation",
+      "Methyl from foods",
+      "Exercise or exercise-mimetic compounds"
+    ],
+    "less_important": [
+      "SSAO Inhibition (Caffeine, Phenethylamine, Tryptamine)",
+      "MAO-A Induction",
+      "MAO-B Induction",
+      "NMDA Antagonism",
+      "Prolactin Inhibition"
+    ]
+  },
+
+  "compound_specific_enzymes": {
+    "myristicin": {
+      "sources": "Hungarian Parsley Seed (better than Nutmeg)",
+      "effects_activated": "Mescaline + MDMA combined",
+      "inhibit": ["CYP1A2", "CYP3A4"],
+      "possibly_important": "CYP2D6"
+    },
+    "elemicin": {
+      "acquisition": "Chromatography knowledge or small purchases",
+      "effects_activated": "Mescaline-like",
+      "effects_wrong": "Melatonin-like (sleepy)",
+      "inhibit": ["CYP1A1", "CYP1B1", "CYP1A2", "CYP2A6", "CYP2C9", "CYP2E1"],
+      "possibly_important": "CYP2D6"
+    },
+    "safrole": {
+      "effects_activated": "MDMA-like",
+      "effects_wrong": "Melatonin-like",
+      "inhibit": ["CYP2A6", "CYP2C9", "CYP2E1"],
+      "possibly_important": "CYP2D6"
+    },
+    "methyl_chavicol": {
+      "effects_activated": "Light speedy LSD",
+      "effects_wrong": "Almost like Marijuana",
+      "inhibit": ["CYP1A2", "CYP2A6"],
+      "possibly_important": "CYP2D6",
+      "special_property": "No tolerance - gets STRONGER with use"
+    }
+  },
+
+  "17bhsd2_critical_enzyme": {
+    "role": "Single most important enzyme to INDUCE (not inhibit)",
+    "warning": "If not functioning, allylbenzenes CANNOT produce psychedelic activity",
+    "inhibitors_to_avoid": {
+      "quercetin": "Most common inhibitor",
+      "naringenin": "In grapefruit - potent inhibitor",
+      "kaempferol": "Common in foods",
+      "galangin": "In grapefruit"
+    },
+    "avoidance_window": "4-8 hours before allylbenzenes"
+  },
+
+  "oilahuasca_diet_avoid_list": {
+    "quercetin_sources": [
+      "Apples (0.0263%)",
+      "Cabbage (0.01%)",
+      "Cranberry (0.025%)",
+      "Evening-Primrose (20%!)",
+      "Garlic (0.02%)",
+      "Himalayan Mayapple (1.2%)",
+      "Mayapple (5%)",
+      "Neem (0.1%)",
+      "Oats (0.031%)",
+      "Onions (4.81%!)",
+      "Tea (10-25 mg/L)"
+    ],
+    "naringenin_sources": [
+      "Grapefruit (also kaempferol, galangin, quercetin)",
+      "Orange (4.58%)",
+      "Yuzu"
+    ],
+    "other_avoid": [
+      "Tomato (kaempferol, naringenin)"
+    ],
+    "avoidance_period": "4-8 hours prior to allylbenzenes"
+  },
+
+  "serotonin_receptor_plants": {
+    "5ht1a_agonists": [
+      "Graviola",
+      "C. Foetida L.",
+      "Yokukansan"
+    ],
+    "5ht1a_5ht1d_5ht7": "Black Cohosh",
+    "5ht1_general": [
+      "Turmeric", "Ginger", "Ginkgo Biloba",
+      "Lemon Essential Oil", "Rauwolfia", "Valerian", "Yohimbe"
+    ],
+    "5ht2a_agonists": [
+      "Elemicin (Nutmeg)",
+      "Myristicin (Nutmeg)",
+      "Estragole (Sweet Basil)",
+      "Safrole (Sassafras)"
+    ],
+    "nmda_receptor_plants": [
+      "Uncaria Rhynchophyllia",
+      "Psychotria Colorata",
+      "Huperzia Serrata"
+    ]
+  },
+
+  "cyp_inhibitor_sources": {
+    "cyp2a6_cyp2e1": "Cinnamon Bark (depletes glutathione - take 1hr before)",
+    "cyp2c9_cyp3a4_cyp1a1_cyp1b1": "Clove Leaf",
+    "cyp1a2": ["German Chamomile", "Caffeine", "Goldenseal", "Echinacea purpurea"],
+    "broad_spectrum": [
+      "Black seed oil",
+      "50% EGCG",
+      "Valerian root oil",
+      "Pomegranate",
+      "Vitamin B9",
+      "40% Ellagic extract",
+      "Rooibos 20% Gallic acid",
+      "Rutin", "B3", "Kudzu"
+    ]
+  },
+
+  "phenylpropanoid_list": {
+    "note": "Cinnamon is Phenylpropanoid made from Phenylalanine",
+    "compounds": [
+      "Caffeyl Alcohol", "Cinnamaldehyde", "Cinnamyl alcohol",
+      "alpha-Cyano-4-hydroxycinnamic acid", "Ethyl Cinnamate",
+      "Lignin", "2,4-Methylenedioxypropiophenone", "Neoflavonoids",
+      "Nordihydroguaiaretic acid", "Phenylpropanoic acid",
+      "Phloretic acid", "Rhododendrin", "Suberin"
+    ]
+  },
+
+  "allylbenzene_complete_list": [
+    "Anethole", "Apiol", "Asarone", "Carpacin", "Chavibetol",
+    "Chavicol", "Dillapiole", "Eugenol", "Isoeugenol", "Isosafrole",
+    "Methyl Eugenol", "Methyl Isoeugenol"
+  ],
+
+  "van_kush_connection": {
+    "author": "@marsresident = Van Kush Family",
+    "significance": "Original STEEM documentation of Oilahuasca theory",
+    "context": "Part of Temple Coin Technical Bible",
+    "legacy": "Foundation for this bot's Oilahuasca knowledge base"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "oilahuasca_fundamentals",
+      "enzyme_manipulation",
+      "allylbenzene_chemistry",
+      "shulgin_connection"
+    ],
+    "achievement_unlocks": [
+      "Enzyme Alchemist: Understand CYP450 manipulation",
+      "Shulgin Scholar: Know the PIHKAL hidden chapter",
+      "Position Master: Understand benzene ring substitution",
+      "Diet Practitioner: Know 17bHSD2 inhibitors to avoid"
+    ]
+  }
+}
