@@ -993,6 +993,34 @@ function getOilahuascaResponse(topic) {
   if (t.includes('fossil record') || t.includes('sahelanthropus') || t.includes('mitochondrial eve') || t.includes('human evolution') || t.includes('denisovan')) {
     return `🦴 **Humanity: The Fossil Record (@marsresident 2017)**\n\n**Timeline**: 7 Million years of human ancestors\n\n**Key Specimens**:\n• Sahelanthropus (7M years) - oldest\n• Laetoli Footprints (3.6M) - first walking upright\n• Lucy (3.2M)\n• Homo Habilis (1.4-2.3M)\n• Neanderthal 1 (40K)\n\n**DNA Discoveries**:\n• Mitochondrial Eve: Theoretical mother of humanity\n• Denisovans: Interbred with modern humans\n• 4-6% Neanderthal DNA in most humans (except Sub-Saharan Africans)\n\n**Key Insight**: Not linear evolution - species MIXING, mutants, recombination`;
   }
+  // Business Rules Engines (@marsresident 2016)
+  if (t.includes('business rules') || t.includes('expert system') || t.includes('inference engine') || t.includes('mycin') || t.includes('forward chaining') || t.includes('backward chaining')) {
+    return `⚙️ **Business Rules Engines (@marsresident 2016)**\n\n**Core Thesis**: Government & Business run on BREs - Crypto + BREs = Decentralized Democracy\n\n**Expert Systems**: MYCIN (medical), PROSPECTOR (geology), DENDRAL (chemistry)\n\n**Inference Engines**:\n• Forward Chaining: Data-driven (start with facts)\n• Backward Chaining: Goal-driven (start with hypothesis)\n\n**Production Rules**: IF condition THEN action\n\n**Crypto Application**: Each wallet = 1 vote, rules submitted and voted by community\n\n**Vision**: Coins could become democratic structures, not just currencies`;
+  }
+  // Bots & Machines (@marsresident 2016)
+  if (t.includes('bazillion beings') || (t.includes('bot') && t.includes('future')) || t.includes('there\'s a bot')) {
+    return `🤖 **Let The Machines Do The Work (@marsresident 2016)**\n\n**Prediction**: "There's an app for that" → "There's a bot for that"\n\n**Bazillion Beings** (Armenia):\n• App that hosts bots - no need to know specific bot exists\n• Bots learn about you, get smarter\n• Mix best features from others' bots\n• Bots earn cryptocurrency FOR you\n\n**Revolutionary Aspect**: Started OUTSIDE crypto world reaching in\n\n**NGO Vision**: Red Cross, NASA could have currencies - fundraise like Steemit\n\n**Philosophy**: Let machines work so humans can create and connect`;
+  }
+  // Federalism & US Law (@marsresident 2016)
+  if (t.includes('federalism') || t.includes('three forms of law') || t.includes('case law') || t.includes('statutory law') || t.includes('writ writer')) {
+    return `⚖️ **Intro to Federalism (@marsresident 2016)**\n\n**Core Principle**: Voluntary governance, no ruling class, 3 competing branches\n\n**Three Forms of Law**:\n1. **Fundamental**: Constitution - the Contract\n2. **Statutory**: Acts of Congress (USC)\n3. **Case Law**: THE REAL LAW - 300 years of interpretation\n\n**vs Personal Law** (India): Religions have different rights\n**US**: States are the "personal" part - all submit to Constitution\n\n**Writ Writers**: Almost all started as Jailhouse Lawyers - learned law in prison, not law school\n\n**Warning**: Republicans/Democrats are factions that may be downfall of America`;
+  }
+  // Revolution Foundations (@marsresident 2016)
+  if (t.includes('eldridge cleaver') || t.includes('fred hampton') || (t.includes('revolution') && t.includes('driver'))) {
+    return `✊ **Revolution Foundations (@marsresident 2016)**\n\n**Livy**: "Avarice and luxury - two plagues that have been ruin of every great empire"\n\n**Actual Drivers**: Wealth Distribution & Freedom Distribution imbalance\n\n**Eldridge Cleaver**: "Spirit of the people is greater than all Government's Technology"\n• Local Police = occupying army (Algerian parallel)\n\n**Fred Hampton**: "Revolution without education = new oppressor"\n• Kenyatta, Papa Doc became oppressors - no education\n\n**Essential Reading**: Art of War, Federalist Papers, Civil Disobedience, Rules for Radicals`;
+  }
+  // Guerilla Warfare (@marsresident 2016)
+  if (t.includes('guerilla') || t.includes('hannibal barca') || t.includes('psychological operations') || t.includes('battle of cannae')) {
+    return `⚔️ **Guerilla Warfare (@marsresident 2016)**\n\n**CIA Manual**: Guerillas must make people believe guns are FOR them\n• Hang up guns, help community\n• Tell community to be transparent with Government\n\n**Hannibal Barca**:\n• Oath: "Never be friend to Rome" (sworn over fire)\n• Battle of Cannae: 45,000 defeated 85,000\n• Killed 25-30% of Roman Senate in one day\n• Maharbal: "You know how to gain victory, but not how to use one"\n\n**Antifa Origin**: Italian WWII resistance, NOT American - never anti-violence from inception`;
+  }
+  // Steal This Book (@marsresident 2016)
+  if (t.includes('steal this book') || t.includes('abbie hoffman') || t.includes('yippie') || t.includes('chicago 7')) {
+    return `📖 **Steal This Book Historical (@marsresident 2016)**\n\n**Author**: Abbie Hoffman (1971) - Chicago 7 defendant\n**Yippie Slogan**: "A Yippie is a Hippie that was beaten by the Cops"\n\n**Book Sections**:\n• FIGHT: Demonstrations, guerilla tactics\n• SURVIVE: Free food, shelter, communication\n• LIBERATE: Underground networks\n\n**Underground Press**: 500+ newspapers, UPS network\n**Guerrilla Broadcasting**: Legal to broadcast 100mW without license\n\n**Quote**: "Those who say demonstration should be education rather than theater don't understand either"`;
+  }
+  // Ancient Egypt / Kemet (@marsresident 2016)
+  if (t.includes('kemet') || t.includes('imhotep') || t.includes('ptahhotep') || t.includes('kemetic') || (t.includes('egypt') && t.includes('ancient'))) {
+    return `🏛️ **Knowledge in Ancient Egypt (@marsresident 2016)**\n\n**Timeline**: Egypt existed 3000+ years - US less than 300\n\n**Kemet** = "The Black Land" (fertile soil around Nile)\n\n**Imhotep** (2600 BC): Invented Surgery, Medicine, Columns, Stairs\n• READ BOOKS while other Viziers read entrails\n• Temple became first Hospital\n\n**Ptahhotep** (2500 BC): 110 years old, wrote 37 Maxims\n\n**Kemetic Soul**: Sheut (Shadow), Ren (Name), Ka (Life Spark), Ib (Heart), Ba (Personality), Akh (Mind)\n\n**Scarab Discovery** (2014): Beetles use stars to navigate - may have mapped stars for Egyptians`;
+  }
   return null;
 }
 
