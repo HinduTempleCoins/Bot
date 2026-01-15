@@ -1,0 +1,153 @@
+{
+  "title": "Revolution Part 4 - Rebellion & Uprising",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/revolution/@marsresident",
+  "overview": "Understanding the relationship between Revolution, Rebellion, Uprising, Protest, Demonstration, and Riot - the battles within the war",
+
+  "definitions": {
+    "uprising": "An act of resistance or rebellion; a revolt",
+    "rebellion": {
+      "primary": "An act of violent or open resistance to an established government or ruler",
+      "secondary": "The action or process of resisting authority, control, or convention"
+    },
+    "revolution": {
+      "primary": "A forcible overthrow of a government or social order in favor of a new system",
+      "secondary": "A dramatic and wide-reaching change in the way something works or is organized",
+      "metaphor": "Like Earth going around Sun - one full Revolution = one year"
+    },
+    "protest": "A statement or action expressing disapproval of or objection to something",
+    "demonstration": "A public meeting or march protesting against something or expressing views on a political issue",
+    "riot": "A violent disturbance of the peace by a crowd"
+  },
+
+  "key_insight": {
+    "war_vs_battles": "Revolution is the War; Demonstrations, Riots, Uprisings, Rebellions are the Battles",
+    "not_new": "Revolution is not something new - has happened in pretty much every society ever",
+    "distinctions": "Revolution is not a Renaissance, not a Revival, not a Rebellion - but all may contribute to one"
+  },
+
+  "jefferson_quotes": {
+    "rebellion_necessary": "God forbid we should ever be 20 years without such a rebellion",
+    "spirit_of_resistance": "Liberties are ensured by the spirit of resistance"
+  },
+
+  "historical_examples": {
+    "powder_alarm_1774": {
+      "event": "British Army attempted to seize Gunpowder from Magazine in Boston",
+      "response": "Thousands went to Boston to protest",
+      "result": "British Army and Loyalists retreated",
+      "timeline": "2 years BEFORE Lexington and Concord",
+      "context": "Gunpowder stored in structures called Magazines (like grain silos)"
+    },
+    "gandhi_salt_march": {
+      "distance": "240 miles",
+      "started_with": "12 followers",
+      "gathered": "Hundreds of thousands along the way",
+      "action": "Made Salt from Saltwater in defiance of British law",
+      "british_law": "Banned personal creation of Salt, taxed sale of Salt",
+      "result": "60,000 arrested - Imperial system ground to halt",
+      "outcome": "India gained Independence"
+    },
+    "attica_prison_riot": {
+      "location": "New York",
+      "action": "Prisoners took over prison, took guards hostage, made demands",
+      "ending": "State moved in, killed prisoners",
+      "comparison": "Seen as similar to Kent State - Government overstepping authority"
+    },
+    "third_servile_war_spartacus": {
+      "year": "73 BC",
+      "began_with": "70 slave-gladiators escaping from gladiator school in Capua",
+      "grew_to": "120,000 men, women and children within two years",
+      "achievement": "Repeatedly defeated Roman military - local patrols to trained legions",
+      "rebellion_vs_revolution": "If they had taken over Rome, would have been Revolution"
+    }
+  },
+
+  "rebellion_vs_revolution": {
+    "final_step": "Rebellion or Revolt is the final step in most Revolutions",
+    "spark": "A Protest, Demonstration, or Riot can spark a Revolution",
+    "spartacus_example": "If Spartacus had taken over Rome and become new rulers = Revolution, not just Rebellion"
+  },
+
+  "mob_and_riot_control": {
+    "media_narrative": "News always supports Police like a sport - talks about pushing people back",
+    "air_of_powerlessness": "Talks about people as if they are powerless, just 'a Consumer'",
+    "reality": "Rioters start breaking things, pushing cops back - no matter force, can't contain it",
+    "outcome": "Sometimes police literally knocked to ground, unable to arrest anyone",
+    "media_reaction": "Always sense of dread: 'How? This is horrible.'",
+    "cycle": "Rebuild same confidence every time, shocked again next time"
+  },
+
+  "yippie_manifesto_18_points": {
+    "context": "Abbie Hoffman's testimony about why they came to Chicago",
+    "key_demands": [
+      "End to Vietnam War, abolition of draft",
+      "Freedom for Huey Newton and all black prisoners",
+      "Legalization of marijuana and all psychedelic drugs",
+      "Prison system based on rehabilitation not punishment",
+      "Abolition of laws for victimless crimes",
+      "Total disarmament beginning with police",
+      "Abolition of money - free housing, food, education, healthcare",
+      "Full unemployment society - 'Let the machines do it'",
+      "Ecological development encouraging rural living",
+      "Free birth control and abortions",
+      "Student power in education system",
+      "Open and free use of media",
+      "End to all censorship",
+      "Political system responsive to all people regardless of age, sex, race",
+      "Program encouraging the arts",
+      "Blank point for anyone to fill in"
+    ],
+    "closing": "We recognize we are America; we are free men. We are the second American Revolution."
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "revolution_definitions",
+      "historical_examples",
+      "rebellion_vs_revolution",
+      "riot_dynamics"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the relationship between Revolution and Rebellion?",
+        "a": "Revolution is the WAR; Rebellion/Protest/Riot are the BATTLES within that war",
+        "explanation": "All may contribute to Revolution but Revolution is the full transformation"
+      },
+      {
+        "q": "What was the Powder Alarm and why is it significant?",
+        "a": "1774 - British tried to seize gunpowder, thousands protested, British retreated - 2 years BEFORE Lexington",
+        "explanation": "Shows Revolution builds through smaller confrontations"
+      },
+      {
+        "q": "How did Gandhi's Salt March end British rule?",
+        "a": "240 miles, gathered hundreds of thousands, 60,000 arrested - Imperial system ground to halt",
+        "explanation": "Nonviolent demonstration can be as powerful as armed rebellion"
+      },
+      {
+        "q": "Why is Spartacus called a Rebellion and not a Revolution?",
+        "a": "They didn't take over Rome - if they had become new rulers, it would have been a Revolution",
+        "explanation": "Revolution requires actual replacement of the system, not just resistance"
+      },
+      {
+        "q": "What cycle does @marsresident observe about riot coverage?",
+        "a": "Media builds confidence → gets shocked → rebuilds confidence → gets shocked again",
+        "explanation": "Media treats people as powerless despite evidence otherwise"
+      }
+    ],
+    "achievement_unlocks": [
+      "Terminology Master: Know the difference between rebellion, revolution, uprising",
+      "Historical Analyst: Understand Powder Alarm, Salt March, Spartacus",
+      "Media Critic: See through riot coverage narratives",
+      "Yippie Scholar: Know the 18-point manifesto"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Understanding the stages and types of resistance",
+    "application": "Van Kush builds infrastructure for long-term transformation, not just rebellion",
+    "philosophy": "Revolution is war, not a single battle - requires strategy across time"
+  }
+}

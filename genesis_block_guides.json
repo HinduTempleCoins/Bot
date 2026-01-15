@@ -1,0 +1,168 @@
+{
+  "title": "Genesis Block Guides Collection - Complete Cryptocurrency Creation Resources",
+  "author": "punicwax / Van Kush Family",
+  "period": "2019 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/@punicwax (Token Discussion community)",
+  "overview": "Comprehensive collection of guides for creating cryptocurrencies, genesis blocks, mining portals, and wallets - with note that Ethereum is easier than all Bitcoin-based methods",
+
+  "key_insight": "Ethereum is easier than all of these Bitcoin cloning methods",
+
+  "bitcoin_cloning_guides": {
+    "main_guide": "https://bitcointalk.org/index.php?topic=1019508.0",
+    "additional_guides": [
+      "https://bitcointalk.org/index.php?topic=1030365.0",
+      "https://bitcointalk.org/index.php?topic=420896.0"
+    ],
+    "problem_thread": "https://bitcointalk.org/index.php?topic=871564.0"
+  },
+
+  "genesis_block_resources": {
+    "stackoverflow": "http://stackoverflow.com/questions/20772606/how-to-create-a-genesis-block-of-my-altercoin",
+    "bitcoin_stackexchange": "https://bitcoin.stackexchange.com/questions/21303/how-can-i-create-a-new-genesis-block",
+    "bitcointalk_threads": [
+      "https://bitcointalk.org/index.php?topic=651695.0",
+      "https://bitcointalk.org/index.php?topic=1011041.0"
+    ],
+    "quora": "https://www.quora.com/I-want-to-create-a-new-altcoin-How-do-I-generate-the-Genesis-Block",
+    "generator_tool": "https://bitcointalk.org/index.php?topic=181981.0"
+  },
+
+  "educational_coins": {
+    "learncoin": {
+      "description": "The coin in the video guides",
+      "pdf": "https://www.ocf.berkeley.edu/~baisang/LearnCoin.pdf",
+      "source": "UC Berkeley"
+    },
+    "practicecoin": {
+      "pdf": "http://practicecoin.com/wp-content/uploads/2017/04/Cloning-Bitcoin-0.8.99.pdf",
+      "bitcointalk": "https://bitcointalk.org/index.php?topic=1850047.0"
+    }
+  },
+
+  "academic_resources": {
+    "thesis": "http://www.theseus.fi/bitstream/handle/10024/123896/Sikorski_Timothy.pdf?sequence=1",
+    "bitcoin_protocol": "https://pdfs.semanticscholar.org/e85a/a20a544f521b9ac529027fce3cbd28dc637b.pdf",
+    "altcoin_treatise": "https://download.wpsoftware.net/bitcoin/alts.pdf"
+  },
+
+  "ethereum_resources": {
+    "forking_discussion": "https://ethereum.stackexchange.com/questions/2014/how-to-fork-my-own-version-of-eth",
+    "easy_clone_claim": {
+      "source": "https://bitcointalk.org/index.php?topic=1361504.msg13857758#msg13857758",
+      "claim": "Only 2 steps to clone Ethereum"
+    },
+    "serpent_tutorial": "https://mc2-umd.github.io/ethereumlab/docs/serpent_tutorial.pdf"
+  },
+
+  "cryptonote_resources": {
+    "starter_guide": "https://cryptonotestarter.org/"
+  },
+
+  "development_tools": {
+    "gitian_builder": "https://github.com/devrandom/gitian-builder",
+    "mining_portal": "https://github.com/UNOMP/unified-node-open-mining-portal"
+  },
+
+  "wallet_building_guides": {
+    "windows_qt": "https://cryptocointalk.com/topic/13204-how-to-build-a-windows-qt-wallet-for-any-coin-yourself-from-source-code-step-by-step-instructions/",
+    "bitcointalk_guides": [
+      "https://bitcointalk.org/index.php?topic=586844.0",
+      "https://bitcointalk.org/index.php?topic=498746.0"
+    ],
+    "headless_windows": "https://bitcointalk.org/index.php?topic=149479.0"
+  },
+
+  "proof_of_stake_guide": {
+    "url": "https://steemit.com/altcoins/@complexring/how-to-build-proof-of-stake-altcoins-and-stake-coins-on-a-remote-ubuntu-server",
+    "platform": "Ubuntu server"
+  },
+
+  "free_paid_services": {
+    "wallet_builders": "https://www.walletbuilders.com/",
+    "colored_coins": "http://coloredcoins.org/",
+    "build_a_coin": "http://build-a-co.in/"
+  },
+
+  "token_platforms": {
+    "ethereum_tokens": {
+      "url": "https://www.ethereum.org/token",
+      "note": "Not really coins - contracts like company shares represented by tokens"
+    },
+    "bitshares_assets": {
+      "url": "bitshares.openledger.info/account/(username)/assets/",
+      "note": "Usually advertised as cryptocurrency but are not really"
+    }
+  },
+
+  "cloning_guides": {
+    "general": [
+      "https://forum.gethashing.com/t/how-to-clone-a-coin-links-and-resources/3833",
+      "http://dillingers.com/blog/2015/04/18/how-to-make-an-altcoin/",
+      "http://www.0speed.net/2016/10/24/how-to-make-an-altcoin/"
+    ],
+    "peercoin_clone": "https://talk.peercoin.net/t/creating-a-genesis-block/4337",
+    "scrypt_sha256": "https://cryptocointalk.com/topic/3140-shakezulas-scrypt-and-sha256-cryptocurrency-clone-guides/"
+  },
+
+  "premine_guide": "http://dillingers.com/blog/2015/04/23/adding-a-premine-to-an-altcoin/",
+
+  "cross_compile": {
+    "windows_on_linux": "https://bitcointalk.org/index.php?topic=1080289.0"
+  },
+
+  "video_guides": {
+    "main": "https://bitcointalk.org/index.php?topic=1278734.0"
+  },
+
+  "ranked_guide_list": "https://bitcointalk.org/index.php?topic=1801477.0",
+
+  "in_wallet_creators": {
+    "claim1": "https://bitcointalk.org/index.php?topic=1287935.0",
+    "claim2": "https://bitcointalk.org/index.php?topic=1699319.0",
+    "note": "May be like Ethereum/Bitshares assets, or actual in-wallet coin creator"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "bitcoin_cloning",
+      "genesis_blocks",
+      "wallet_building",
+      "ethereum_forking"
+    ],
+    "quiz_questions": [
+      {
+        "q": "According to @punicwax, which blockchain is easiest to clone?",
+        "a": "Ethereum - easier than all Bitcoin-based cloning methods",
+        "explanation": "One source claims only 2 steps to clone Ethereum"
+      },
+      {
+        "q": "What is LearningCoin/PracticeCoin?",
+        "a": "Educational cryptocurrencies used in video guides to teach coin creation",
+        "explanation": "LearningCoin has PDF on UC Berkeley's website"
+      },
+      {
+        "q": "What is the difference between tokens and actual cryptocurrencies?",
+        "a": "Tokens (Ethereum ERC-20, Bitshares assets) are contracts like company shares - not independent blockchains",
+        "explanation": "Often advertised as cryptocurrency but are not really"
+      },
+      {
+        "q": "What tool is used for deterministic builds of cryptocurrency software?",
+        "a": "Gitian Builder - https://github.com/devrandom/gitian-builder",
+        "explanation": "Creates reproducible builds for security verification"
+      }
+    ],
+    "achievement_unlocks": [
+      "Genesis Master: Know the resources for creating genesis blocks",
+      "Clone Expert: Understand different cloning methods",
+      "Wallet Builder: Know how to build wallets from source",
+      "Resource Collector: Have comprehensive cryptocurrency development links"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "punicwax is Van Kush Family STEEM account",
+    "relevance": "Complete resource collection for Van Kush cryptocurrency development",
+    "application": "All guides needed to create independent Van Kush blockchain",
+    "philosophy": "Knowledge should be collected and shared - open source development"
+  }
+}
