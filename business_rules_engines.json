@@ -1,0 +1,328 @@
+{
+  "title": "Business Rules Engines - Expert Systems & Cryptocurrency Applications",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/steemit/@marsresident",
+  "overview": "Comprehensive guide to Business Rules Engines (BREs), Expert Systems, Knowledge Engineering, and their potential application to cryptocurrencies for decentralized democratic governance",
+
+  "core_thesis": {
+    "government_business_foundation": "The entire Government and Business world runs on Business Rules Engines (BREs) stipulated by Policy or Law",
+    "crypto_application": "Coins with BREs attached could become Decentralized Democratic Structures",
+    "community_governance": {
+      "concept": "People submit new Rules to website, voted on by Community",
+      "mechanism": "Each wallet gets 1 vote, votes could be done in wallet",
+      "choice": "If people don't like certain coin's rules, they go to another one"
+    },
+    "example_controversial": "Income Redistribution or similar rules",
+    "existing_examples": ["Bitshares", "Steemit"]
+  },
+
+  "expert_systems": {
+    "definition": "Programs that reason with judgmental knowledge as well as formal knowledge",
+    "characteristics": {
+      "heuristic": "Reasons with judgmental knowledge, not just formal theories",
+      "transparent": "Provides explanations of reasoning and answers queries",
+      "flexible": "Integrates new knowledge incrementally"
+    },
+    "historical_systems": {
+      "MYCIN": {
+        "function": "Analyzes medical data about patients with severe infections",
+        "era": "1970s Stanford",
+        "significance": "Pioneered rule-based medical diagnosis"
+      },
+      "PROSPECTOR": {
+        "function": "Analyzes geological data for mineral exploration",
+        "significance": "Union of multiple expert knowledge bases"
+      },
+      "DENDRAL": {
+        "function": "Organic chemistry analysis",
+        "era": "Mid-1960s",
+        "significance": "First expert systems emphasizing performance"
+      },
+      "MACSYMA": {
+        "function": "Symbolic integration",
+        "era": "Mid-1960s"
+      },
+      "PUFF": {
+        "function": "Analyzes respiratory problems"
+      }
+    },
+    "benefits": {
+      "replication_of_expertise": "Many electronic copies available when expert unavailable",
+      "union_of_expertise": "Combine what several experts know about different specialties",
+      "documentation": "Clear record of best knowledge for training"
+    }
+  },
+
+  "production_systems": {
+    "definition": "Computational models viewing computation as applying transformation rules determined by data",
+    "three_components": {
+      "global_database": "Facts/assertions about particular problem being solved",
+      "rulebase": "General knowledge about problem domain",
+      "rule_interpreter": "Carries out problem solving process"
+    },
+    "rule_format": {
+      "basic": "IF <condition> THEN <action>",
+      "examples": [
+        "IF the 'traffic light' is 'green' THEN the action is go",
+        "IF the 'traffic light' is 'red' THEN the action is stop"
+      ],
+      "compound_and": "IF <antecedent 1> AND <antecedent 2> ... AND <antecedent n> THEN <consequent>",
+      "compound_or": "IF <antecedent 1> OR <antecedent 2> ... OR <antecedent n> THEN <consequent>"
+    },
+    "inference_cycle": "Select-Execute loop (recognize-act or situation-action loop)"
+  },
+
+  "inference_engines": {
+    "forward_chaining": {
+      "approach": "Data-driven - process initial facts first, draw new conclusions",
+      "process": "Start with Rule 1, go downward until rule fires, iterate with new facts",
+      "appropriate_when": "Data expensive to collect but few in quantity"
+    },
+    "backward_chaining": {
+      "approach": "Goal-driven - process hypothesis first, find rules to conclude it",
+      "process": "Start with desired goal, find evidence, set subgoals",
+      "appropriate_when": "Quantity of data potentially very large, specific characteristic of interest"
+    },
+    "example_walkthrough": {
+      "rules": [
+        "Rule 1: If A and C then Y",
+        "Rule 2: If A and X then Z",
+        "Rule 3: If B then X",
+        "Rule 4: If Z then D"
+      ],
+      "task": "Prove D is true, given A and B are true",
+      "forward_solution": "Rule 3 fires (X true) → Rule 2 fires (Z true) → Rule 4 fires (D true)",
+      "backward_solution": "Need D → Rule 4 needs Z → Rule 2 needs X (A known) → Rule 3 needs B (given) → D proven"
+    }
+  },
+
+  "conflict_resolution_methods": {
+    "priority_based": "Use rule with highest priority (works well for ~100 rules)",
+    "specificity": "Use most specific rule (longest matching strategy)",
+    "recency": "Use rule with most recently entered data (time tags on facts)"
+  },
+
+  "uncertainty_handling": {
+    "certainty_factors": {
+      "range": "Real number 0 to 1 or -1 to 1",
+      "combining_and": "cf(P1 and P2) = min(cf(P1), cf(P2))",
+      "combining_or": "cf(P1 or P2) = max(cf(P1), cf(P2))",
+      "rule_application": "cf(P2) = cf(P1) * C where C is rule certainty"
+    },
+    "belief_networks": {
+      "definition": "Mathematically sound technique from probability theory",
+      "components": {
+        "qualitative": "Directed acyclic graph of variables and relationships",
+        "quantitative": "Assessment functions for relationship strengths"
+      }
+    },
+    "modus_ponens": {
+      "format": "IF B IS TRUE AND B IMPLIES C, THEN C IS TRUE",
+      "role": "Primary rule of inference for adding new facts"
+    }
+  },
+
+  "knowledge_representation": {
+    "definition": "Commitment to vocabulary, data structures, and programs for domain knowledge",
+    "fact_format": "Attribute-Object-Value triples with certainty",
+    "example": "The <attribute> of <object> is <value> with certainty <CF>",
+    "EMYCIN_syntax": {
+      "premise": "($AND (<clause1>...<clause-n>))",
+      "action": "(CONCLUDE <new-fact> <CF>)"
+    }
+  },
+
+  "knowledge_engineering": {
+    "definition": "Process of building knowledge bases from expert knowledge",
+    "extraction_methods": {
+      "CWA": "Cognitive Work Analysis - analyze human-computer interactive systems",
+      "CTA": "Cognitive Task Analysis - identify cognitive skills and mental demands"
+    },
+    "development_team": [
+      "Domain Expert",
+      "Knowledge Engineer",
+      "Programmer",
+      "Project Manager",
+      "End User"
+    ],
+    "knowledge_engineer_role": "Understands framework syntax, rule interpreter, construction process, psychology of interacting with experts"
+  },
+
+  "system_design_principles": {
+    "modularity": {
+      "definition": "Degree of separation of functional units into isolatable pieces",
+      "goal": "Any unit can be changed without unanticipated change to others",
+      "inverse_relation": "Modularity inversely related to coupling strength"
+    },
+    "extendability": {
+      "requirement": "Allow extensions without substantial revisions",
+      "reason": "Experts give new heuristics, new cases require new distinctions",
+      "method": "Incremental improvement over weeks/months"
+    },
+    "simplicity": {
+      "goal": "Conceptual simplicity and uniformity for access routines",
+      "methods": ["Homogeneous knowledge form", "Special access functions"]
+    },
+    "explicitness": {
+      "purpose": "Easy inspection and debugging of knowledge base",
+      "benefit": "Experts can determine what items present/absent"
+    }
+  },
+
+  "expert_system_shells": {
+    "CLIPS": {
+      "full_name": "C Language Integrated Production System",
+      "paradigms": ["Rule-based", "Object-oriented", "Procedural"],
+      "language": "Written in C for portability and speed"
+    },
+    "other_shells": [
+      {"name": "EMYCIN", "origin": "Stanford University"},
+      {"name": "OPS", "origin": "Carnegie-Mellon University"},
+      {"name": "EXPERT", "origin": "Rutgers University"},
+      {"name": "KAS", "origin": "SRI International"},
+      {"name": "AL/X", "origin": "University of Edinburgh"},
+      {"name": "ROSIE", "origin": "Fain81"}
+    ]
+  },
+
+  "dialog_systems_and_bots": {
+    "historical_bots": {
+      "ELIZA": "Early conversational program",
+      "Jabberwacky": "Learns from conversations",
+      "AIML": "Artificial Intelligence Markup Language",
+      "ALICE": "Artificial Linguistic Internet Computer Entity",
+      "Verbot": "Virtual robot conversation",
+      "Microsoft_Tay": "Learned from Twitter (went wrong)",
+      "Xiaoice": "Chinese conversational AI"
+    },
+    "key_concepts": {
+      "Markov_chains": "Statistical text generation",
+      "evolutionary_algorithms": "Evolving responses over time"
+    },
+    "implementation_languages": ["Visual Basic", "VB.NET", "Jess", "C", "C++", "Lisp", "PROLOG"]
+  },
+
+  "evolutionary_computation": {
+    "definition": "Population-based adaptive method based on genetic processes",
+    "principle": "Mimics natural selection and 'survival of the fittest'",
+    "chromosome": "Problem representation encoding",
+    "fuzzy_rule_approaches": {
+      "michigan": "Fuzzy knowledge base adapted through competition/cooperation of rules",
+      "pittsburgh": "Evolves population of knowledge bases, not individual rules",
+      "iterative": "Best individual forms part of solution, others discarded"
+    }
+  },
+
+  "application_domains": {
+    "analysis_problems": [
+      "Data Interpretation",
+      "Classification",
+      "Situation Assessment",
+      "Diagnosis",
+      "Troubleshooting",
+      "Fault Isolation",
+      "Debugging",
+      "Crisis Management"
+    ],
+    "synthesis_problems": [
+      "Planning",
+      "Fault Repair",
+      "Process Specification",
+      "Design",
+      "Configuration",
+      "Therapy Planning",
+      "Automatic Programming"
+    ],
+    "specific_applications": {
+      "chemistry": "DENDRAL organic chemistry",
+      "genetics": "Molecular genetics experiments",
+      "medical": "MYCIN infections, PUFF respiratory",
+      "geology": "PROSPECTOR mineral exploration",
+      "electronics": "Troubleshooting and design",
+      "military": "Situation assessment, mission planning"
+    }
+  },
+
+  "business_process_integration": {
+    "BPMN": "Business Process Modeling Notation",
+    "BPMS": "Business Process Management System",
+    "decision_representations": ["Decision tables", "Decision trees", "Decision graphs"],
+    "PMML": "Predictive Model Markup Language for analytics models",
+    "ruleflows": "Mechanisms to orchestrate rulesets in sequence"
+  },
+
+  "design_requirements": {
+    "narrow_scope": "Task must be narrow enough to encode expertise",
+    "expert_existence": "Must have actual experts in the domain",
+    "expert_agreement": "Experts should generally agree on solutions",
+    "data_availability": "Test data must be available, preferably online",
+    "definable_milestones": "Task can be broken into subtasks",
+    "knowledge_separation": "Task-specific knowledge separate from program"
+  },
+
+  "wisdom_quote": {
+    "source": "Albert Einstein (via wise-old-man commenter)",
+    "quote": "Information is not knowledge"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "expert_systems",
+      "inference_engines",
+      "knowledge_engineering",
+      "cryptocurrency_governance"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the core thesis about BREs and cryptocurrency?",
+        "a": "Coins with Business Rules Engines could become Decentralized Democratic Structures with community voting",
+        "explanation": "Each wallet gets a vote, rules submitted and voted on by community"
+      },
+      {
+        "q": "What are the three components of a production system?",
+        "a": "Global database (facts), Rulebase (domain knowledge), Rule interpreter (problem solving)",
+        "explanation": "These work together in a recognize-act cycle"
+      },
+      {
+        "q": "What's the difference between forward and backward chaining?",
+        "a": "Forward is data-driven (start with facts), Backward is goal-driven (start with hypothesis)",
+        "explanation": "Forward for scarce data, Backward for large data with specific goals"
+      },
+      {
+        "q": "What was MYCIN?",
+        "a": "1970s Stanford expert system that analyzed medical data for severe infections",
+        "explanation": "Pioneered rule-based medical diagnosis"
+      },
+      {
+        "q": "How do you combine certainty factors for AND conditions?",
+        "a": "cf(P1 AND P2) = min(cf(P1), cf(P2))",
+        "explanation": "Take the minimum certainty; for OR take the maximum"
+      }
+    ],
+    "achievement_unlocks": [
+      "Expert Systems Scholar: Understand MYCIN and rule-based systems",
+      "Inference Master: Know forward vs backward chaining",
+      "Knowledge Engineer: Understand how to build knowledge bases",
+      "Crypto Governance Visionary: See BRE application to decentralized democracy"
+    ]
+  },
+
+  "github_resources": {
+    "rule_engines": [
+      "NxBRE", "RulesEngine", "MicroRuleEngine", "business-rules-engine",
+      "json-rules-engine", "Ruler", "rules", "Rulette", "rulu"
+    ],
+    "expert_systems": [
+      "RuleBasedSystem", "Rule-based_Expert_System", "ExpertSystem",
+      "RuleBasedExpertSystemsWithCLIPS", "Mobile-Phone-recommendation-expert-system"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Building intelligent systems for community governance",
+    "application": "Van Kush bot infrastructure uses these principles",
+    "philosophy": "Knowledge engineering enables decentralized wisdom systems"
+  }
+}

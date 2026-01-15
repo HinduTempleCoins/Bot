@@ -1,0 +1,107 @@
+{
+  "title": "Lucid Dreaming: WILD, MILD & DILD Techniques",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/life/@marsresident",
+  "overview": "Practical techniques for inducing lucid dreams including reality checks, dream journaling, and timed waking methods",
+
+  "technique_1_awake_hand": {
+    "rank": "Absolute best way to induce lucid dream",
+    "method": "Write 'AWAKE' on your hand",
+    "how_it_works": {
+      "day_habit": "Look at it throughout the day",
+      "dream_effect": "Will look at it as reflex in dream",
+      "trigger": "In dreams, words change and move around",
+      "result": "When it says something different, you realize you're dreaming"
+    },
+    "research": "Studies show in dreams you can read, but words will change and move",
+    "also_works_with": "Watches and clocks - look away and they change"
+  },
+
+  "technique_2_light_switches": {
+    "method": "Flip light switches to check if dreaming",
+    "reason": "Lights don't always work the same in dreams",
+    "reference": "From movie where guy constantly checks switches"
+  },
+
+  "technique_3_hand_focus": {
+    "origin": "Similar to string on finger to remember something",
+    "cartoon_joke": "Remember to remember, but forget what",
+    "research": "Looking at your hands helps stay asleep while becoming lucid",
+    "why": "Hands are focal point allowing focus without waking fully"
+  },
+
+  "technique_4_countable_jewelry": {
+    "method": "Wear beads or jewelry you can count all day",
+    "alternative": "Rubber band to snap yourself",
+    "goal": "Make these habits in waking life to recognize differences in dream"
+  },
+
+  "technique_classifications": {
+    "dild": {
+      "name": "Dream Induced Lucid Dreaming",
+      "method": "Discover you are in a dream",
+      "techniques": "Reality checks like AWAKE hand, light switches"
+    },
+    "mild": {
+      "name": "Mnemonic Induced Lucid Dream",
+      "method": "Write down dreams every night and do rituals",
+      "goal": "Help yourself wake up in the dream"
+    },
+    "wild": {
+      "name": "Wake Induced Lucid Dream",
+      "method": "Set alarm 2 hours before normal wake time",
+      "reason": "Go back to sleep with brain already more awake"
+    }
+  },
+
+  "purpose_of_lucid_dreaming": {
+    "not": "Wishing or wanting - has nothing to do with desire",
+    "is": "Learning experience",
+    "deeper_practice": "Dream Yoga - Tibetan practice over 1,000 years old",
+    "ties_into": "Hindu meditation and dreaming practices"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "reality_checks",
+      "dild_techniques",
+      "mild_techniques",
+      "wild_techniques"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the best way to induce a lucid dream according to @marsresident?",
+        "a": "Write 'AWAKE' on your hand and look at it throughout the day - in dreams words change/move",
+        "explanation": "Looking at hand becomes reflex, changed text triggers lucidity"
+      },
+      {
+        "q": "Why do hands help with lucid dreaming?",
+        "a": "They're a focal point that allows focus without waking up fully",
+        "explanation": "Research shows looking at hands helps stay asleep while becoming lucid"
+      },
+      {
+        "q": "What is the difference between MILD and WILD?",
+        "a": "MILD uses dream journals and rituals; WILD uses timed alarm 2hrs early to go back to sleep more alert",
+        "explanation": "MILD is Mnemonic (memory aids), WILD is Wake Induced"
+      },
+      {
+        "q": "What is the deeper purpose of lucid dreaming?",
+        "a": "Learning, not wishing - connects to Dream Yoga, a 1,000+ year old Tibetan practice",
+        "explanation": "Dreams are learning experiences, not about desire"
+      }
+    ],
+    "achievement_unlocks": [
+      "Dream Walker: Know the three main lucid dreaming techniques",
+      "Reality Checker: Master the AWAKE hand method",
+      "Oneironaut: Understand purpose beyond entertainment"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Consciousness exploration through dreaming connects to Oilahuasca work",
+    "application": "Van Kush temple could teach Dream Yoga alongside sacrament practices",
+    "philosophy": "Multiple paths to consciousness exploration - chemical, electronic, and dream states"
+  }
+}

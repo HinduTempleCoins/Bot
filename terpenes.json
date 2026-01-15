@@ -1,0 +1,112 @@
+{
+  "title": "Terpenes - Cannabis Chemistry and Natural Medicine",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/health/@marsresident",
+  "overview": "Introduction to terpenes as the chemistry behind natural smells and medicines, with focus on cannabis terpenes and their effects",
+
+  "caryophyllene": {
+    "significance": "What dogs are trained to smell for marijuana detection",
+    "receptor": "Attaches to CB1 receptor",
+    "not_illegal_because": "Not similar to THC in structure",
+    "fda_status": "First cannabinoid approved as food additive by FDA",
+    "sources": {
+      "marijuana": "Contains good amount",
+      "other_plants": ["Cloves", "Hops", "Basil", "Oregano"],
+      "best_source": "Uziza leaf or Uziza Peppercorns"
+    },
+    "uziza": {
+      "relation": "Related to pepper plant",
+      "popularity": "Popular in Nigeria",
+      "europe_history": "Not common since Middle Ages",
+      "similar_spices": "Grains of Paradise"
+    },
+    "wikipedia": "http://en.wikipedia.org/wiki/Caryophyllene"
+  },
+
+  "limonene": {
+    "also_called": "Biphenyl",
+    "type": "Major terpene in cannabis",
+    "effect": "Can affect mood when smoked or ingested",
+    "research": "Further research likely to show limonoids are entire class of cannabinoids",
+    "wikipedia": "http://en.wikipedia.org/wiki/Limonoid"
+  },
+
+  "myrcene": {
+    "type": "Major terpene in cannabis",
+    "abundance": "Most abundant terpene in hops (large portion of what makes beer)",
+    "other_sources": ["Lemon Grass", "Indian Bay Leaves"],
+    "effects": {
+      "direct": "Opioid analgesic (pain killer) effects",
+      "synergy": "Helps THC cross blood-brain barrier",
+      "result": "Less marijuana/hash has more effect"
+    },
+    "wikipedia": "http://en.wikipedia.org/wiki/Myrcene"
+  },
+
+  "terpene_classifications": {
+    "overview": "Overarching group with subclasses",
+    "types": {
+      "sesquiterpenes": "http://en.wikipedia.org/wiki/Sesquiterpene",
+      "diterpenes": "http://en.wikipedia.org/wiki/Diterpene",
+      "triterpenes": "http://en.wikipedia.org/wiki/Triterpene",
+      "tetraterpenes": "http://en.wikipedia.org/wiki/Tetraterpene"
+    },
+    "ubiquity": "Found in pretty much every plant"
+  },
+
+  "terpene_applications": {
+    "natural_smells": "Terpenes make up entire world of natural smells",
+    "medicines": "Terpenes make up entire world of natural medicines",
+    "examples": [
+      "Lemon peels",
+      "Tree sap",
+      "Cooking herbs",
+      "Catnip",
+      "Essential oils",
+      "Aromatherapy oils"
+    ]
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "terpene_basics",
+      "cannabis_terpenes",
+      "entourage_effect"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is caryophyllene and why is it significant?",
+        "a": "Terpene used to train dogs to smell marijuana, attaches to CB1 receptor, first cannabinoid FDA approved as food additive",
+        "explanation": "Legal because not similar to THC structure despite being cannabinoid"
+      },
+      {
+        "q": "What does myrcene do in combination with THC?",
+        "a": "Helps THC cross blood-brain barrier, making less marijuana have more effect",
+        "explanation": "Also has direct opioid analgesic (pain killer) effects"
+      },
+      {
+        "q": "What is the best source of caryophyllene?",
+        "a": "Uziza leaf or Uziza Peppercorns - popular in Nigeria, related to pepper plant",
+        "explanation": "Not common in Europe since Middle Ages"
+      },
+      {
+        "q": "What do terpenes make up?",
+        "a": "Entire world of natural smells and medicines - found in almost every plant",
+        "explanation": "From lemon peels to tree sap to cooking herbs to aromatherapy"
+      }
+    ],
+    "achievement_unlocks": [
+      "Terpene Scholar: Know the major cannabis terpenes",
+      "Entourage Expert: Understand terpene-cannabinoid synergy",
+      "Natural Chemist: Know terpene classifications"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Terpene science crucial for Oilahuasca understanding",
+    "application": "Van Kush spice blends and essential oil formulations",
+    "philosophy": "Understanding plant chemistry enables better sacrament preparation"
+  }
+}

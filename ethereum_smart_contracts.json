@@ -1,0 +1,201 @@
+{
+  "title": "How to Create Ethereum Smart Contracts",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016-2018 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/ethereum/@marsresident",
+  "overview": "Detailed technical guide for creating Ethereum smart contracts including genesis block configuration, geth commands, Solidity programming, and deployment via Remix IDE",
+
+  "genesis_block_config": {
+    "directory_setup": [
+      "mkdir my-eth-chain",
+      "cd my-eth-chain",
+      "gedit myGenesis.json"
+    ],
+    "example_genesis": {
+      "config": {
+        "chainId": 15,
+        "homesteadBlock": 0,
+        "eip155Block": 0,
+        "eip158Block": 0
+      },
+      "difficulty": "0x400",
+      "gasLimit": "0x2100000",
+      "alloc": {
+        "description": "Pre-allocate ether to accounts",
+        "format": "address: { balance: hex_value }"
+      }
+    }
+  },
+
+  "genesis_parameters_explained": {
+    "chainId": {
+      "purpose": "Send transactions that work on ethereum without working on ETC or testnets",
+      "known_ids": {
+        "ethereum_mainnet": 1,
+        "morden_expanse": 2,
+        "ropsten": 3,
+        "rinkeby": 4,
+        "rootstock_mainnet": 30,
+        "rootstock_testnet": 31,
+        "kovan": 42,
+        "ethereum_classic_mainnet": 61,
+        "ethereum_classic_testnet": 62,
+        "geth_private_chains_default": 1337
+      },
+      "note": "Use unused number like 15 for private chains"
+    },
+    "homesteadBlock": {
+      "value": 0,
+      "meaning": "Using Ethereum Homestead release (2nd major release)",
+      "note": "Byzantium release came October 16, 2017"
+    },
+    "eip155Block": {
+      "value": 0,
+      "meaning": "Block supports EIP 155",
+      "eip_definition": "Ethereum Improvement Proposals - standards for platform"
+    },
+    "eip158Block": {
+      "value": 0,
+      "meaning": "Block supports EIP 158"
+    },
+    "difficulty": {
+      "description": "Value for nonce discovery difficulty",
+      "impact": "Lower = faster block times for testing"
+    },
+    "gasLimit": {
+      "definition": "Internal pricing for running transactions/contracts",
+      "mechanism": "Each EVM instruction costs specific gas",
+      "failure": "Transaction fails if not enough gas provided",
+      "block_limit": "Aggregated gasLimit from all transactions in block"
+    },
+    "alloc": {
+      "purpose": "Pre-allocate ether to accounts from genesis block"
+    }
+  },
+
+  "geth_startup": {
+    "basic_command": "geth --mine --rpc --networkid 1999 --datadir <path-to-data-directory>",
+    "important": "CHANGE THE 1999 VALUE to unique network ID",
+    "parameters": {
+      "networkid": {
+        "description": "Network identifier",
+        "examples": {"olympic": 0, "frontier": 1, "morden": 2, "ropsten": 3}
+      },
+      "mine": "Enables mining",
+      "rpc": "Enables HTTP-RPC server for wallet connections",
+      "rpcaddr": "HTTP-RPC listening interface (default: localhost)",
+      "rpcport": "HTTP-RPC listening port (default: 8545)",
+      "rpcapi": "APIs offered over HTTP-RPC (default: eth,net,web3)"
+    },
+    "full_rpc_command": "geth --mine --rpc --rpcapi \"web3,eth\" --rpccorsdomain \"*\" --networkid 1999 --datadir /path/to/data/dir console",
+    "attach_command": "geth --datadir /path/to/data/dir attach ipc:/path/to/data/dir/geth.ipc"
+  },
+
+  "geth_console_commands": {
+    "list_accounts": "eth.accounts",
+    "get_balance": "eth.getBalance(\"0x_your_address\")",
+    "unlock_account": "personal.unlockAccount(\"0x_address\", \"password\")",
+    "send_transaction": {
+      "setup": [
+        "var sender = \"0x_sender_address\"",
+        "var receiver = \"0x_receiver_address\"",
+        "var amount = web3.toWei(1, \"ether\")"
+      ],
+      "execute": "eth.sendTransaction({from:sender, to:receiver, value: amount})"
+    }
+  },
+
+  "metamask": {
+    "purpose": "Browser wallet for interacting with Ethereum",
+    "download": "https://metamask.io/"
+  },
+
+  "remix_ide": {
+    "url": "https://remix.ethereum.org/",
+    "purpose": "Browser-based Solidity IDE for smart contract development",
+    "connect_to_private_network": {
+      "steps": [
+        "Change Environment to Web3 Provider under Run tab",
+        "Set Web3 Provider Endpoint to http://localhost:8545",
+        "Default mining node uses port 8545"
+      ],
+      "requirement": "Must start geth with --rpccorsdomain \"*\""
+    }
+  },
+
+  "sample_smart_contract": {
+    "language": "Solidity",
+    "pragma": "^0.4.11",
+    "contract_name": "Hello",
+    "components": {
+      "state_variable": "string public greeting",
+      "constructor": "function Hello(string _greeting) { greeting = _greeting; }",
+      "setter": "function setGreeting(string _greeting) { greeting = _greeting; }",
+      "getter": "function greet() constant returns (string _greeting) { _greeting = greeting; }"
+    },
+    "full_code": "pragma solidity ^0.4.11;\ncontract Hello {\n    string public greeting;\n    function Hello(string _greeting) { greeting = _greeting; }\n    function setGreeting(string _greeting) { greeting = _greeting; }\n    function greet() constant returns (string _greeting) { _greeting = greeting; }\n}"
+  },
+
+  "deployment_steps": {
+    "step1": "Click Details button in Remix to see bytecode/ABI",
+    "step2": "Under Run tab, select correct ethereum account",
+    "step3": "Set appropriate gas limit",
+    "step4": "Gas price and value can be zero for testing",
+    "step5": "Unlock account: personal.unlockAccount(\"address\", \"password\")",
+    "step6": "Click Create button to deploy"
+  },
+
+  "cryptokitties_game_guide": {
+    "tutorial": "https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game-on-ethereum-7c8ac86a4eb3",
+    "concept": "Use smart contracts for collectible breeding games"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "genesis_configuration",
+      "geth_commands",
+      "solidity_basics",
+      "contract_deployment"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the purpose of chainId in genesis.json?",
+        "a": "Provides way to send transactions that work on your chain without working on mainnet, ETC, or testnets",
+        "explanation": "EIP 155 specifies different chainIds for different networks"
+      },
+      {
+        "q": "What is gas in Ethereum?",
+        "a": "Internal pricing for running transactions or contracts - each EVM instruction costs specific amount",
+        "explanation": "Transaction fails if required gas not provided before completion"
+      },
+      {
+        "q": "How do you connect Remix IDE to a private network?",
+        "a": "Change Environment to Web3 Provider, set endpoint to http://localhost:8545",
+        "explanation": "Requires geth to start with --rpccorsdomain \"*\" flag"
+      },
+      {
+        "q": "What is the 'alloc' field in genesis.json?",
+        "a": "Pre-allocates ether to one or more accounts from the genesis block",
+        "explanation": "Set up test accounts with balance before network starts"
+      },
+      {
+        "q": "What command unlocks an account for transactions?",
+        "a": "personal.unlockAccount(\"address\", \"password\")",
+        "explanation": "Must unlock before sending transactions or deploying contracts"
+      }
+    ],
+    "achievement_unlocks": [
+      "Genesis Master: Configure all genesis.json parameters correctly",
+      "Geth Operator: Run private Ethereum network",
+      "Solidity Coder: Write your first smart contract",
+      "Contract Deployer: Deploy smart contract via Remix"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Smart contracts enable programmatic agreements and governance",
+    "application": "Van Kush could deploy custom contracts for community coordination",
+    "philosophy": "Code is law - smart contracts execute without intermediaries"
+  }
+}
