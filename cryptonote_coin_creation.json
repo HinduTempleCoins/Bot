@@ -1,0 +1,183 @@
+{
+  "title": "Cryptonote Coin Creation Guide - The Easiest Way to Create Your Own Cryptocurrency",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/steemit/@marsresident",
+  "overview": "Step-by-step technical guide for creating a Cryptonote-based cryptocurrency using Ubuntu, Forknote generator, and DigitalOcean droplets",
+
+  "requirements": {
+    "hardware": {
+      "computer": "At least 100 GB free space",
+      "media": "Empty USB or DVD",
+      "connection": "Internet connection with Ethernet cable"
+    },
+    "services": {
+      "digitalocean": "At least 2 droplet servers ($10+ each)",
+      "tip": "Google promo codes for at least 1 free month"
+    },
+    "optional": ["External hard drive", "VPS"]
+  },
+
+  "ubuntu_setup": {
+    "required_version": {
+      "version": "Ubuntu 14.4.5 (Trusty Tahr)",
+      "warning": "Must be 14.4.5, NOT newest version",
+      "context": "Like choosing Windows 7 or 10 instead of Windows 8"
+    },
+    "optional_version": {
+      "version": "Ubuntu 16 (Xenial Xerus)",
+      "use_case": "For Generator method - will need to switch between versions"
+    },
+    "installation_methods": ["DVD", "USB installer (Google 'USB installer')"]
+  },
+
+  "dual_boot_setup": {
+    "windows_boot_menu": {
+      "step1": "Click Windows Start icon",
+      "step2": "Click power button",
+      "step3": "Hold Shift key and click Restart",
+      "step4": "Choose to boot from USB or DVD"
+    },
+    "ubuntu_live": "Click 'Try Ubuntu without installing'",
+    "partition_setup": {
+      "tool": "Gparted",
+      "access": "Click circle swish icon top left, search Gparted",
+      "steps": [
+        "Find main hard drive (look for 100GB+ free space)",
+        "Warning: Do NOT delete MB sized files, only resize GB files",
+        "Right click and choose 'resize'",
+        "Create space that is not being used",
+        "Click OK, then click green CheckMark at top",
+        "Wait up to 10 minutes for changes"
+      ],
+      "why_needed": "Computer will not automatically recognize empty space unless you do this"
+    },
+    "install_alongside": "Choose option to install Ubuntu alongside Windows/current OS"
+  },
+
+  "initial_setup_commands": {
+    "open_terminal": "Ctrl+Alt+T",
+    "first_command": "sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install git -y",
+    "wifi": "Google how to install Wifi or continue with Ethernet"
+  },
+
+  "coin_creation_resources": {
+    "official_guides": [
+      {
+        "name": "Cryptonote Starter - Build Environment",
+        "url": "https://cryptonotestarter.org/kb/build-environment-setup.html"
+      },
+      {
+        "name": "Cryptonote Starter - Inner Guide",
+        "url": "https://cryptonotestarter.org/inner.html"
+      }
+    ],
+    "forknote_generator": {
+      "step1": {
+        "name": "Create coin configuration",
+        "url": "http://forknote.net/create/#/",
+        "action": "Fill out form and copy generated .json file"
+      },
+      "step2": {
+        "name": "Use generator repository",
+        "url": "https://github.com/forknote/cryptonote-generator",
+        "action": "Follow instructions with your .json file"
+      }
+    }
+  },
+
+  "digitalocean_setup": {
+    "droplets_needed": "At least 2 Ubuntu-based servers",
+    "cost": "$10+ each",
+    "billing": "Charged as used, not upfront - charged when destroyed or end of month",
+    "usage": "Get IP addresses and input as nodes in Forknote page"
+  },
+
+  "genesis_block_steps": {
+    "after_first_compile": {
+      "guide": "http://forknote.net/guides/setup-private-blockchain/",
+      "action": "Setup private blockchain"
+    },
+    "connect_seed_nodes": {
+      "guide": "http://forknote.net/guides/starting-seed-node/",
+      "action": "Connect seed nodes, then do 2nd compile"
+    },
+    "dns_servers": {
+      "guide": "https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean",
+      "info": "More info on DNS server setup"
+    }
+  },
+
+  "wallet_creation": {
+    "url": "https://cryptonotestarter.org/create-wallet.html",
+    "when": "After your coin is running"
+  },
+
+  "cryptonote_basics": {
+    "what_is_cryptonote": "Privacy-focused cryptocurrency protocol",
+    "features": [
+      "Ring signatures for transaction privacy",
+      "One-time addresses",
+      "Untraceable payments",
+      "CPU-friendly mining (egalitarian)"
+    ],
+    "notable_cryptonote_coins": ["Monero (XMR)", "Bytecoin (BCN)", "Electroneum", "Haven Protocol"],
+    "forknote": "Tool for creating Cryptonote-based blockchains without coding from scratch"
+  },
+
+  "technical_context": {
+    "genesis_block": "First block in blockchain - must be generated to start chain",
+    "seed_nodes": "Initial nodes that help new nodes discover the network",
+    "compile": "Process of building the coin software from source code",
+    "droplet": "DigitalOcean's term for virtual private server (VPS)"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "ubuntu_setup",
+      "partition_management",
+      "coin_generation",
+      "node_deployment"
+    ],
+    "quiz_questions": [
+      {
+        "q": "Why must you use Ubuntu 14.4.5 (Trusty Tahr) specifically?",
+        "a": "Compatibility with Cryptonote build tools - newer versions may not work correctly",
+        "explanation": "Like choosing Windows 7 or 10 instead of Windows 8 for compatibility"
+      },
+      {
+        "q": "What is Gparted used for in this process?",
+        "a": "Resizing hard drive partitions to create space for Ubuntu dual boot",
+        "explanation": "Computer won't automatically recognize empty space without this step"
+      },
+      {
+        "q": "How many DigitalOcean droplets are needed minimum?",
+        "a": "At least 2 droplets at $10+ each to serve as seed nodes",
+        "explanation": "These provide the IP addresses used as nodes in Forknote configuration"
+      },
+      {
+        "q": "What is a genesis block?",
+        "a": "The first block in a blockchain - must be generated to start the chain",
+        "explanation": "After first compile, setup private blockchain, then connect seed nodes for 2nd compile"
+      },
+      {
+        "q": "What is Forknote?",
+        "a": "A tool for creating Cryptonote-based blockchains without coding from scratch",
+        "explanation": "Generates configuration and provides guides for deployment"
+      }
+    ],
+    "achievement_unlocks": [
+      "Linux Navigator: Successfully setup Ubuntu dual boot",
+      "Partition Master: Understand Gparted and disk management",
+      "Coin Creator: Generate your own Cryptonote cryptocurrency",
+      "Node Operator: Deploy and connect seed nodes"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Technical sovereignty - creating your own currency is ultimate financial independence",
+    "application": "Van Kush cryptocurrency infrastructure could use these methods",
+    "philosophy": "Technology should be accessible - anyone can create a cryptocurrency"
+  }
+}
