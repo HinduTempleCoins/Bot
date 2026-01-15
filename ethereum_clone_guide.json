@@ -1,0 +1,186 @@
+{
+  "title": "How to Clone Ethereum & What Ethereum Offers",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016-2018 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/ethereum/@marsresident",
+  "overview": "Complete guide to cloning Ethereum - easier than creating a Cryptonote. Two-part guide covering genesis block generation, network setup, and dApps development for beginners who can copy/paste into Linux command line",
+
+  "key_insight": {
+    "discovery": "It is actually easier to create an Ethereum Fork than it is to create a CryptoNote",
+    "prerequisite": "Can clone Ethereum using Linux even with no prior cryptocurrency experience",
+    "skill_needed": "Only need to copy and paste into Linux command line"
+  },
+
+  "part1_installation": {
+    "install_commands": [
+      "sudo apt-get install software-properties-common",
+      "sudo add-apt-repository -y ppa:ethereum/ethereum",
+      "sudo apt-get update",
+      "sudo apt-get install ethereum"
+    ],
+    "bleeding_edge": "Install ethereum-unstable package instead for latest",
+    "first_account": "geth account new",
+    "run_geth": "geth",
+    "help": "geth --help"
+  },
+
+  "genesis_block_method1": {
+    "download": "https://raw.githubusercontent.com/ethereum/genesis_block_generator/master/mk_genesis_block.py",
+    "command": "python mk_genesis_block.py --extradata 0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa > genesis_block.json",
+    "next_step": "https://blog.ethereum.org/2015/07/27/final-steps/"
+  },
+
+  "part2_manual_setup": {
+    "create_directory": [
+      "mkdir my-eth-chain",
+      "cd my-eth-chain"
+    ],
+    "genesis_file": {
+      "command": "gedit myGenesis.json",
+      "content": {
+        "config": {
+          "chainId": 1994,
+          "homesteadBlock": 0,
+          "eip155Block": 0,
+          "eip158Block": 0,
+          "byzantiumBlock": 0
+        },
+        "difficulty": "400",
+        "gasLimit": "2000000",
+        "alloc": {
+          "note": "Replace addresses with your own",
+          "example_balance": "100000000000000000000000"
+        }
+      }
+    },
+    "initialize": "geth --datadir ./myDataDir init ./myGenesis.json",
+    "start_network": "geth --datadir ./myDataDir --networkid 1114 console 2>> myEth.log",
+    "important": "CHANGE THE 1114 to something unique"
+  },
+
+  "second_terminal_setup": {
+    "commands": [
+      "cd my-eth-chain",
+      "tail -f myEth2.log"
+    ]
+  },
+
+  "geth_console_commands": {
+    "create_account": "personal.newAccount(\"your_password\")",
+    "check_coinbase": "eth.coinbase",
+    "check_balance": "eth.getBalance(eth.coinbase)",
+    "start_mining": "miner.start()"
+  },
+
+  "bootnode_setup": {
+    "generate_key": "bootnode --genkey=boot.key",
+    "start_bootnode": "bootnode --nodekey=boot.key",
+    "purpose": "Get your Public URL for everyone to connect",
+    "connect_command": "geth --datadir path/to/custom/data/folder --networkid 15 --bootnodes <bootnode_url>",
+    "mining_command": "geth --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000"
+  },
+
+  "consensus_method": {
+    "process": "Put your Genesis.json file into Ethereum Wallet",
+    "result": "Turns old Wallet into a Wallet for your new Blockchain"
+  },
+
+  "dapps_explained": {
+    "definition": "Decentralized Apps - apps that run on blockchain",
+    "significance": "Most people miss this part in the world of Bitcoin, Ethereum, and ICOs",
+    "what_you_create": "Clone of what Ethereum offers, but on a NEW Network",
+    "smart_contracts": {
+      "description": "Contracts that work like currencies but have underlying operations",
+      "examples": [
+        "Animals that can be bred and traded (CryptoKitties)",
+        "Fuel for game actions that can be lost/gained between players",
+        "Exchanges for trading Smart Contract tokens"
+      ]
+    }
+  },
+
+  "famous_dapps": {
+    "cryptokitties": {
+      "description": "Ethereum app for breeding and trading digital cats",
+      "impact": "Showed mainstream potential of blockchain apps",
+      "reference": "https://www.theverge.com/2017/12/13/16754266/cryptokitties-ethereum-ether-game-cats"
+    },
+    "etherdelta": "Exchange on Ethereum for trading Smart Contract Tokens",
+    "other_dapps": [
+      "ICO Wizard", "Decentrex", "Bitok Dice", "Decentraland",
+      "SportCrypt", "BlockJack", "EtherWall", "Slotthereum",
+      "Realms of Ether", "Ether Rock", "TipETH", "CryptoFace", "Smartex"
+    ]
+  },
+
+  "development_tools": {
+    "truffle": {
+      "description": "Development framework for Ethereum",
+      "url": "http://truffleframework.com/"
+    },
+    "ganache": {
+      "description": "Personal blockchain for Ethereum development",
+      "url": "https://github.com/trufflesuite/ganache-cli"
+    },
+    "mist": {
+      "description": "Ethereum network browser for dApps",
+      "url": "https://github.com/ethereum/mist/releases"
+    }
+  },
+
+  "additional_resources": {
+    "build_own_blockchain": "https://medium.facilelogin.com/build-your-own-blockchain-b8eaeea2f891",
+    "video_tutorial": "https://www.youtube.com/watch?v=Vn73EX7zbCc",
+    "ethereum_cookbook": "https://github.com/hpyhacking/notes/blob/master/ethereum-cookbook.markdown",
+    "state_of_dapps": "https://www.stateofthedapps.com/"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "ethereum_installation",
+      "genesis_block_creation",
+      "network_setup",
+      "dapps_development"
+    ],
+    "quiz_questions": [
+      {
+        "q": "Why is Ethereum cloning easier than Cryptonote according to @marsresident?",
+        "a": "The process is more straightforward - can be done by anyone who can copy/paste into Linux command line",
+        "explanation": "Two-part guide covers everything from installation to dApps"
+      },
+      {
+        "q": "What is the purpose of the Genesis.json file?",
+        "a": "Defines the initial state of your blockchain - putting it in Ethereum Wallet turns it into a wallet for your new chain",
+        "explanation": "Contains chainId, difficulty, gasLimit, and initial account allocations"
+      },
+      {
+        "q": "What are dApps?",
+        "a": "Decentralized Apps - applications that run on blockchain, not controlled by single entity",
+        "explanation": "Smart contracts enable breeding games, exchanges, and more"
+      },
+      {
+        "q": "What is Truffle?",
+        "a": "Development framework for Ethereum - helps build, test, and deploy smart contracts",
+        "explanation": "Used with Ganache for local blockchain testing"
+      },
+      {
+        "q": "What made CryptoKitties significant?",
+        "a": "Showed mainstream potential of blockchain apps - collectible cats that can be bred and traded",
+        "explanation": "Demonstrated smart contracts could create engaging user experiences"
+      }
+    ],
+    "achievement_unlocks": [
+      "Ethereum Cloner: Successfully fork Ethereum",
+      "Genesis Creator: Generate your own genesis block",
+      "dApp Developer: Understand decentralized applications",
+      "Network Operator: Setup bootnodes and connect peers"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Ethereum cloning enables custom blockchain ecosystems",
+    "application": "Van Kush could deploy custom dApps and smart contracts",
+    "philosophy": "Blockchain democratizes application development - anyone can build"
+  }
+}
