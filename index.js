@@ -961,6 +961,38 @@ function getOilahuascaResponse(topic) {
   if (t.includes('snowden') || t.includes('prism') || t.includes('nsa') || t.includes('foia') || t.includes('privacy act') || t.includes('surveillance')) {
     return `🔒 **Snowden Revelations & Privacy (@marsresident 2016)**\n\n**PRISM**: NSA using Google, Facebook, Yahoo servers for mass collection\n\n**Your Rights**:\n• FOIA Request: Get records about YOU\n• Privacy Act Request: Standard for personal records\n• Can file BOTH simultaneously\n\n**Key Cases**:\n• Katz v. US: Reasonable expectation of privacy\n• Riley v. California: Cell phone records protected\n• Kyllo v. US: Thermal imaging = search requiring warrant\n\n**ECPA Penalties**: Up to 5 years prison, $250K fines\n\n**Van Kush Philosophy**: Knowledge of rights enables their exercise`;
   }
+  // Revolution Series Complete (@marsresident 2016)
+  if (t.includes('revolution series') || t.includes('8 parts') || (t.includes('revolution') && t.includes('parts'))) {
+    return `📜 **@marsresident Revolution Series (8 Parts)**\n\n1. **Revolutionary Generation**: How revolutions are BUILT over 300 years\n2. **Guerilla Warfare**: Tactical concepts from historical movements\n3. **Steal This Book**: Abbie Hoffman's 1971 counterculture guide\n4. **Rebellion**: Revolution is War, Rebellions are Battles\n5. **Liberty**: Phrygian Cap journey from Phrygia to Statue of Liberty\n6. **Education**: Why education must precede revolution (Texas model)\n7. **Music & Harmony**: Revolution as retuning, not destruction\n8. **Justice & Politics**: COINTELPRO, court system reality\n\n**Core Insight**: Revolutions are BUILT over generations, not spontaneous`;
+  }
+  // Liberty & Phrygian Cap (@marsresident 2016)
+  if (t.includes('liberty pole') || t.includes('liberty cap') || (t.includes('liberty') && t.includes('symbol'))) {
+    return `🗽 **Liberty & The Phrygian Cap (@marsresident 2016)**\n\n**Origins**: Phrygia (modern Turkey) - known for cherries, roses, red things\n\n**Bekos Experiment**: Pharaoh raised children in isolation - first word was 'Bekos' (Phrygian for 'Bread')\n\n**Journey Through History**:\n• Julius Caesar assassination → Brutus held cap on pole → Liberty Pole\n• US Senate Seal, US Army Seal\n• French Revolution (Guillotine paired with cap)\n• Santa Claus wears Phrygian Cap!\n• Statue of Liberty wears crown of Mithras\n\n**Mithras Connection**: Cap is symbol of God Mithras, whose rituals established Bullfighting`;
+  }
+  // Revolutionary Education (@marsresident 2016)
+  if (t.includes('revolutionary education') || t.includes('texas revolution') || t.includes('rites of passage') || t.includes('come and take it')) {
+    return `📚 **Revolutionary Education (@marsresident 2016)**\n\n**Fred Hampton**: "Revolution without education leads to new oppression"\n• Jomo Kenyatta, Papa Doc became oppressors - no education\n• Right: Hate the OPPRESSOR, not a race\n\n**Texas Model**:\n• 6th grade: Texas Revolution of 1836 (not 1776 powdered wigs)\n• "Come and Take It" flag - Mexico wanted cannon back\n• Cities named for revolutionaries: Austin, Houston\n\n**Rites of Passage**: Bar Mitzvah, Quinceanera, Driver's License - all shape identity\n\n**Insight**: Revolution must include Education or provide it`;
+  }
+  // Rebellion & Uprising (@marsresident 2016)
+  if (t.includes('rebellion') || t.includes('uprising') || t.includes('spartacus') || t.includes('salt march') || t.includes('powder alarm')) {
+    return `⚔️ **Rebellion & Uprising (@marsresident 2016)**\n\n**Key Insight**: Revolution is WAR; Rebellions are BATTLES\n\n**Historical Examples**:\n• Powder Alarm 1774: 2 years BEFORE Lexington - British tried to seize gunpowder\n• Gandhi Salt March: 240 miles, 60,000 arrested, Imperial system halted\n• Spartacus: If he'd taken Rome = Revolution, not just Rebellion\n\n**Jefferson**: "God forbid 20 years without such a rebellion"\n\n**Yippie 18-Point Manifesto**: "We are the second American Revolution"`;
+  }
+  // Revolutionary Music & Harmony (@marsresident 2016)
+  if (t.includes('revolutionary music') || (t.includes('revolution') && t.includes('harmony')) || t.includes('star spangled') || t.includes('la cucaracha')) {
+    return `🎵 **Revolution & Harmony (@marsresident 2016)**\n\n**Core Concept**: Revolution is NOT about violence - it's achieving NEW HARMONY\n\n**Harmony Phenomenon**: Multiple people hitting same pitch - sound amplifies\n\n**Jefferson**: "A little rebellion now and then is a good thing - medicine for government"\n\n**Revolutionary Songs**:\n• Star Spangled Banner (American)\n• La Cucaracha (Mexican)\n• Soviet anthems\n\n**Revolution = Retuning**: American Revolution was time of Anarchy → new Harmony`;
+  }
+  // Justice & COINTELPRO (@marsresident 2016)
+  if (t.includes('cointelpro') || t.includes('hanrahan') || (t.includes('justice') && t.includes('revolution')) || t.includes('bounds v smith')) {
+    return `⚖️ **Justice & Politics (@marsresident 2016)**\n\n**Justice**: Amorphous God - when scales tip toward Government, there is Revolution\n\n**Fred Hampton Assassination**:\n• FBI + Chicago DA Edward Hanrahan\n• Killed in bed, claimed gun fight\n• Hanrahan v. Hampton 446 U.S. 754 (1980) - revealed after 20 years\n\n**Court Reality** (Bounds v. Smith):\n• 99% waive trial\n• 0.5% present case law\n• "Dedicated judges overlook meritorious cases without adversary presentation"`;
+  }
+  // Antifa & Violence Justification (@marsresident 2017)
+  if (t.includes('antifa') || t.includes('violence justif') || t.includes('e tu brute') || (t.includes('protest') && t.includes('violent'))) {
+    return `✊ **Violence Justification Analysis (@marsresident 2017)**\n\n**Thesis**: Violence can be justified and is sometimes necessary\n\n**Antifa Origins**: GDR Germany (Berlin Wall era) - NOT America\n• Anti-Fascists were NEVER Anti-Violence from inception\n• Hijacked Anti-War rally - wanted war with Fascists\n\n**Black Panthers**: Self Defense against police in segregated America\n• Huey Newton - shot first by officer, charges dropped by CA Supreme Court\n\n**Hypocrisy**: Same people who say "violence never justified" justify police killings\n\n**Note**: Not a call TO violence - analysis of WHY violence gets justified`;
+  }
+  // Humanity & Fossil Record (@marsresident 2017)
+  if (t.includes('fossil record') || t.includes('sahelanthropus') || t.includes('mitochondrial eve') || t.includes('human evolution') || t.includes('denisovan')) {
+    return `🦴 **Humanity: The Fossil Record (@marsresident 2017)**\n\n**Timeline**: 7 Million years of human ancestors\n\n**Key Specimens**:\n• Sahelanthropus (7M years) - oldest\n• Laetoli Footprints (3.6M) - first walking upright\n• Lucy (3.2M)\n• Homo Habilis (1.4-2.3M)\n• Neanderthal 1 (40K)\n\n**DNA Discoveries**:\n• Mitochondrial Eve: Theoretical mother of humanity\n• Denisovans: Interbred with modern humans\n• 4-6% Neanderthal DNA in most humans (except Sub-Saharan Africans)\n\n**Key Insight**: Not linear evolution - species MIXING, mutants, recombination`;
+  }
   return null;
 }
 
