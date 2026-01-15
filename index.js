@@ -1045,6 +1045,38 @@ function getOilahuascaResponse(topic) {
   if (t.includes('steem gold') || t.includes('coin cap') || t.includes('devcoin') || t.includes('crypto economics') || (t.includes('bitcoin') && t.includes('value'))) {
     return `💎 **Crypto Economics & Coin Caps (@marsresident 2016)**\n\n**Question**: Why can't I buy Gold with Steem yet?\n\n**Bitcoin Value Source**: NOT greed or security - Novelty + being used to purchase things\n• Started with Silk Road - utility drives value\n\n**Coin Caps**:\n• Devcoin: No cap, 180B/month - like holding Milk not Gold\n• Capped coins: More rare = higher value potential\n• Bitcoin at cap: Miners paid other ways or high tx fees\n\n**DOGE Success**: Started as joke - worked because people gave away 50K-100K freely\n\n**Thesis**: Linking crypto to real assets (gold) increases utility and value\n\n**History**: Author watched Bitcoin at $5 - "I know what I'm talking about"`;
   }
+  // Cryptocurrency Towns Part 1 (@marsresident 2016)
+  if (t.includes('crypto town') || t.includes('cryptocurrency town') || t.includes('earthship') || t.includes('cob house') || t.includes('adobe house') || t.includes('start a town') || t.includes('town charter')) {
+    return `🏘️ **Cryptocurrency Towns Part 1 (@marsresident 2016)**\n\n**Vision**: 25,000 people with solar mining could outmine all BTC/LTC/ETH farms\n\n**Town Basics**:\n• Minimum ~6 acres\n• Need County approval or vote from splitting town\n• Requires Town Charter (constitution)\n\n**Housing**: Earthships (tires+cement, east-west, solar), Cob (clay+straw, fire/earthquake resistant), Adobe\n\n**First Priority**: Well Digger - everything expands from there, can find minerals/oil\n\n**Greek Model**: Polis (city-state) + Agora (voting center) - 12 Tribes, 1 People\n\n**Key Elections**: Sheriff, Judge, DA, Mayor - NOT President\n\n**Equipment**: Well digger, tractors, cement trucks, bulldozers, excavators`;
+  }
+  // Mystery Schools / Ogdoad (@marsresident 2016)
+  if (t.includes('ogdoad') || t.includes('mystery school') || t.includes('asclepeion') || t.includes('isopsephy') || t.includes('gematria') || t.includes('abraxas')) {
+    return `🔮 **Mystery Schools & Ogdoad (@marsresident 2016)**\n\n**Ogdoad**: Your calendar is a God - 7 days based on visible planets\n• Saturday=Saturn, Sunday=Sun, Monday=Moon, Thursday=Thor/Jupiter\n• Each associated with metals, gems, plants, animals\n\n**Asclepeion**: Temple hospitals - snakes, dogs, dreams for healing\n\n**Egyptian Soul** (6 parts): Sheut (Shadow), Ren (Name), Ka (Life Spark), Ib (Heart), Ba (Personality), Akh (Mind)\n\n**Abraxas**: Ἀβραξας = 365 (days/spirits)\n\n**Gematria**: Words with same numerical value are equivalent\n\n**Hindu Preservation**: Same temples/gods 4,500+ years - 90% of world's diamonds crafted in one place in India`;
+  }
+  // Punic Wax (@punicwax 2019)
+  if (t.includes('punic wax') || t.includes('encaustic') || t.includes('saponified beeswax') || t.includes('carthage') || t.includes('tyrian purple') || t.includes('phoenician')) {
+    return `🐝 **Punic Wax - Saponified Beeswax (@punicwax 2019)**\n\n**Definition**: Saponified Beeswax = Beeswax + Salt water + Baking soda/Ashes/Potash\n\n**Fritz Faiss Discovery**: Boiling 3x in seawater+soda raises melting point 60°C→100°C\n\n**Uses**: Soap, Paint, Incense + Resins/Gums/Oils/Fats\n\n**Carthage Achievements**:\n• Mini-skyscrapers, ocean-faring boats\n• Invented Phoenetic languages, clear glass\n• Tyrian Purple from conch shells\n\n**Gods**: Tannit (female chief), Baal-Hammon, Eshmun (Imhotep form)\n\n**Tel Arad Discovery**: 8th century BCE altars had cannabis + frankincense residues`;
+  }
+  // Neurospirituality (@punicwax 2019)
+  if (t.includes('neurospirituality') || t.includes('neuro spirit') || (t.includes('brain') && t.includes('god')) || (t.includes('sacrament') && t.includes('science'))) {
+    return `🧠 **Neurospirituality (@punicwax 2019)**\n\n**Definition**: Non-denominational philosophy that God impacts the brain in scientifically measurable ways\n\n**Core Thesis**: Religious experience is replicable through Sacrament or Eucharist\n\n**Quote**: "The sacraments, those sacred mixtures of matter and the Holy Spirit, fulfill that need" for tangible connection to the divine\n\n**Research**: https://www.researchgate.net/publication/308584387_NEUROSPIRITUALITY\n\n**Implication**: Science and religion both reveal truth about consciousness`;
+  }
+  // Genesis Block Guides Collection (@punicwax 2019)
+  if (t.includes('genesis block') || t.includes('clone coin') || t.includes('learncoin') || t.includes('practicecoin') || t.includes('gitian builder') || t.includes('wallet builder')) {
+    return `⛏️ **Genesis Block Guides Collection (@punicwax 2019)**\n\n**Key Insight**: Ethereum is easier than all Bitcoin cloning methods!\n\n**Resources**:\n• LearningCoin PDF: ocf.berkeley.edu/~baisang/LearnCoin.pdf\n• Gitian Builder: github.com/devrandom/gitian-builder\n• Mining Portal: github.com/UNOMP/unified-node-open-mining-portal\n\n**Free Services**: walletbuilders.com, coloredcoins.org, build-a-co.in\n\n**Note**: Ethereum/Bitshares tokens are contracts like company shares - NOT independent blockchains\n\n**PoS Guide**: steemit.com/altcoins/@complexring/how-to-build-proof-of-stake-altcoins`;
+  }
+  // EIP 1167 Token Cloning (@punicwax 2019)
+  if (t.includes('eip 1167') || t.includes('eip-1167') || t.includes('clone token') || t.includes('minimal proxy')) {
+    return `🔄 **EIP 1167: Cheap Token Cloning (@punicwax 2019)**\n\n**What It Does**: Drastically reduces cost of cloning Ethereum tokens\n\n**Specification**: github.com/ethereum/EIPs/blob/master/EIPS/eip-1167.md\n\n**Example**: 0xBitcoin - Bitcoin principles as Ethereum token\n• Add ETH as gas, mine the token\n• Bitcoin on Ethereum blockchain\n\n**Application**: PGL can create entire ecosystem of tokens cheaply\n\n**Gas**: Price of taking action on Ethereum blockchain`;
+  }
+  // Steemit History & TRON Takeover (@punicwax 2020)
+  if (t.includes('steemit history') || t.includes('tron takeover') || t.includes('justin sun') || t.includes('hive fork') || t.includes('graphene blockchain') || t.includes('delegated proof of stake')) {
+    return `📜 **Steemit History & TRON Takeover (@punicwax 2020)**\n\n**Author's BTC History**: Discovered at $5 via Silk Road → Bitcointalk.org\n\n**Steemit Tech**: Graphene Blockchain (Dan & Ned) - same as Bitshares, IBM uses it\n\n**DPoS Explained**:\n• Delegated = Voting\n• Proof of Work = Only voted Witnesses mine\n• Staking = Interest on holdings\n\n**TRON Takeover**: Ned sold to Justin Sun → Witness war → HIVE fork\n\n**Now 2 Platforms**: STEEM (Justin) and HIVE (Witnesses)\n\n**Communities**: Like Reddit subreddits, added by TRON team`;
+  }
+  // Medical Applications of Light (@marsresident 2015)
+  if (t.includes('melanopsin') || t.includes('blue light') || t.includes('circadian') || t.includes('light therapy') || t.includes('phytochrome')) {
+    return `💡 **Medical Applications of Light (@marsresident 2015)**\n\n**Melanopsin**: Photoreceptor in eye that maintains sleep cycle (not just receptor - affects brain deeper)\n\n**Blue Light**: Computer screens keep you awake - studies show similar to caffeine effects\n\n**Red Light**: Phytochrome in plants responds to red spectrum (flower cycles)\n\n**Ear Canal Light**: Double-blind study showed ear light exposure increases cognitive function!\n\n**Practical**: Reduce blue light before bed, strategic light exposure for mental performance`;
+  }
   return null;
 }
 
