@@ -1089,6 +1089,18 @@ function getOilahuascaResponse(topic) {
   if (t.includes('gold certificate') || t.includes('nixon shock') || t.includes('gold backed') || (t.includes('gold') && t.includes('steem')) || (t.includes('precious metals') && t.includes('crypto'))) {
     return `🥇 **Gold, Silver & STEEM Community (@marsresident 2016)**\n\n**Existing**: Buy gold/silver with BTC, LTC, DOGE, ETH at JMBullion, Amagimetals, Provident\n\n**Nixon Shock**: When USD gold backing was removed by Nixon\n\n**Gold Certificates**: Documents tradeable for gold - what money used to be\n\n**Dealer Strategy**: Sell gold for STEEM → hold as value rises → trade for BTC → buy more gold than sold\n\n**Buying Advice**: Only buy for purity/weight - sentimental value lost when melted\n\n**Vision**: Gold-backed STEEM operations = more valuable community`;
   }
+  // Terpenes (@marsresident 2016)
+  if (t.includes('terpene') || t.includes('caryophyllene') || t.includes('myrcene') || t.includes('limonene') || t.includes('uziza')) {
+    return `🌿 **Terpenes - Cannabis Chemistry (@marsresident 2016)**\n\n**Caryophyllene**: Dogs trained to smell this for marijuana. Attaches to CB1 receptor. First cannabinoid FDA approved as food additive. Best source: Uziza (Nigerian pepper)\n\n**Myrcene**: Most abundant in hops. Has opioid analgesic effects. Helps THC cross blood-brain barrier = less needed for same effect\n\n**Limonene**: Affects mood when smoked/ingested. Research suggests limonoids are entire cannabinoid class\n\n**Found In**: Lemon peels, tree sap, cooking herbs, essential oils - entire world of natural smells and medicines`;
+  }
+  // Lucid Dreaming (@marsresident 2016)
+  if (t.includes('lucid dream') || t.includes('wild technique') || t.includes('mild technique') || t.includes('dild') || t.includes('dream induc')) {
+    return `💭 **Lucid Dreaming Techniques (@marsresident 2016)**\n\n**Best Method**: Write "AWAKE" on hand - look at it during day. In dreams, words change/move. This triggers lucidity.\n\n**Light Switch Test**: Lights don't work same in dreams - flip switches to check\n\n**Hand Focus**: Looking at hands helps stay asleep while becoming lucid\n\n**Techniques**:\n• DILD: Dream Induced - discover you're dreaming\n• MILD: Mnemonic Induced - write dreams, do rituals\n• WILD: Wake Induced - alarm 2hrs early, go back to sleep with more alert brain\n\n**Purpose**: Lucid dreaming is learning, not wishing - see Dream Yoga (Tibetan 1000+ year practice)`;
+  }
+  // Dream Yoga (@marsresident 2016)
+  if (t.includes('dream yoga') || t.includes('raom gaom') || t.includes('yidam') || t.includes('loka') || t.includes('tibetan dream')) {
+    return `🧘 **Dream Yoga - Tibetan Practice (@marsresident 2016)**\n\n**Key Difference**: "Realize you're dreaming" is STEP 1, not the final goal\n\n**6 Steps**:\n1. Realize dreaming\n2. Eliminate fear (breathe underwater, jump off cliff)\n3. Contemplate reality while dreaming\n4. Control physics (move sun/moon, shrink mountains)\n5. Transform yourself\n6. Contact Yidam entities, travel to Loka worlds\n\n**RAOM GAOM Mantra**: Say when waking to remember dreams\n**Ah Syllable**: Imagine in chest before sleep for lucid entry\n\n**Ultimate Goal**: Treat dream and reality the same`;
+  }
   return null;
 }
 
