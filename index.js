@@ -1101,6 +1101,18 @@ function getOilahuascaResponse(topic) {
   if (t.includes('dream yoga') || t.includes('raom gaom') || t.includes('yidam') || t.includes('loka') || t.includes('tibetan dream')) {
     return `🧘 **Dream Yoga - Tibetan Practice (@marsresident 2016)**\n\n**Key Difference**: "Realize you're dreaming" is STEP 1, not the final goal\n\n**6 Steps**:\n1. Realize dreaming\n2. Eliminate fear (breathe underwater, jump off cliff)\n3. Contemplate reality while dreaming\n4. Control physics (move sun/moon, shrink mountains)\n5. Transform yourself\n6. Contact Yidam entities, travel to Loka worlds\n\n**RAOM GAOM Mantra**: Say when waking to remember dreams\n**Ah Syllable**: Imagine in chest before sleep for lucid entry\n\n**Ultimate Goal**: Treat dream and reality the same`;
   }
+  // Solid Perfume Making (Soapmaking Forum)
+  if (t.includes('solid perfume') || t.includes('perfume balm') || t.includes('cera bellina') || t.includes('lauryl laurate')) {
+    return `🌸 **Solid Perfume Making (Soapmaking Forum)**\n\n**Base Ratios** (oil:wax by weight):\n• 4:1 = soft (cold climates)\n• 3:1 = medium (all-around)\n• 2:1 = firm (warm climates)\n\n**Pro Recipe**: 1/3 beeswax + 1/3 oil (SAO/jojoba) + 1/3 fragrance\n\n**Wax Options**: Beeswax (traditional), Cera Bellina (more glide), Candelilla (vegan, less sticky)\n\n**Lauryl Laurate**: De-greases formulations, adds slip - use tiny amounts\n\n**IFRA Note**: Following guidelines makes solid perfumes like light cologne (~2hr longevity)`;
+  }
+  // Cold Process Soapmaking (Soapmaking Forum)
+  if (t.includes('cold process') || t.includes('saponification') || t.includes('soap trace') || t.includes('superfat') || t.includes('lye discount')) {
+    return `🧼 **Cold Process Soapmaking (Soapmaking Forum)**\n\n**Definition**: Soap = salt of fatty acid (oils + lye → saponification)\n\n**Basic Recipe**: 60% lard, 20% coconut, 20% olive, 5% superfat\n\n**Critical Rules**:\n• Add LYE to WATER (never reverse!)\n• Use cold water/liquid\n• All by WEIGHT, not volume\n• Run ANY recipe through calculator\n\n**Trace**: When spoon leaves visible line in batter\n\n**Cure**: 4-6 weeks for milder, sudsier bars\n\n**No lye in finished soap** - completely reacted`;
+  }
+  // Soapmaking Glossary/Acronyms
+  if (t.includes('dos soap') || t.includes('dreaded orange spots') || t.includes('cphp') || t.includes('cpop') || t.includes('soap acronym') || t.includes('zap test')) {
+    return `📖 **Soapmaking Glossary (Soapmaking Forum)**\n\n**Process Types**:\n• CP = Cold Process\n• HP = Hot Process\n• CPHP = Crock Pot Hot Process\n• CPOP = Cold Process Oven Process\n\n**DOS** = Dreaded Orange Spots (oxidation of fatty acids)\n• Prevention: ROE, low linoleic (<15%), avoid metal racks\n\n**Zap Test**: Touch lathered soap to tongue - sting = unsafe lye remains\n\n**Superfat vs Lye Discount**: Same concept - extra oil for safety margin\n\n**Gel Phase**: Batter darkens/clears, faster saponification, brighter colors`;
+  }
   return null;
 }
 
