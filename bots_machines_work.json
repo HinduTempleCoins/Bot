@@ -1,0 +1,157 @@
+{
+  "title": "Let The Machines Do The Work - Bots & Cryptocurrency Future",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/robots/@marsresident",
+  "overview": "Vision for bot-based smartphone apps that earn cryptocurrency, make bots accessible to everyone, and transform what it means to own a smartphone",
+
+  "core_prediction": {
+    "current_phrase": "There's an app for that",
+    "future_phrase": "There's a bot for that",
+    "timeline": "Within a few years according to entire Tech community"
+  },
+
+  "types_of_bots": {
+    "physical_bots": ["Roomba", "Cooking bots", "Cleaning bots", "Drones", "Drone cars"],
+    "non_physical_bots": {
+      "chat_bots": "Conversational AI",
+      "siri_type": "Voice assistants",
+      "wikipedia_bots": "Keep Wikipedia from being vandalized",
+      "personal_assistant_bots": "Respond to emails, schedule meetings",
+      "gaming_bots": "Automate repetitive game tasks"
+    },
+    "captcha_context": "Are you a robot? / Prove you are not a robot"
+  },
+
+  "bazillion_beings": {
+    "location": "Armenia",
+    "mission": "Making bots available to everyone in unprecedented way",
+    "app_concept": {
+      "hosts_bots": "App that hosts bots - no need to know specific bot exists",
+      "no_viruses": "Safe environment, no worry about malware",
+      "easy_access": "Just use app store and click things"
+    },
+    "bot_capabilities": [
+      "Create/find blogs",
+      "Create/find webpages",
+      "Create/find playlists",
+      "Create/find backgrounds",
+      "Find local places of interest",
+      "Find people you might want to meet",
+      "Find other bots to download",
+      "Learn about you and get smarter",
+      "Ask questions about food/drink pairings",
+      "Suggest places based on actual menus and preferences"
+    ],
+    "bot_ecosystem": {
+      "learning": "As bot learns about you, it gets smarter",
+      "sharing": "Other people can download your bot",
+      "mixing": "Download others' bots and mix best features",
+      "release": "Release new bot for others to download",
+      "earnings": "Earn money on bots created from your bot by others"
+    }
+  },
+
+  "revolutionary_aspects": {
+    "first_time_ever": [
+      "Someone who hardly knows how to use computer can pick up phone, download app, pick bot, earn money",
+      "With few clicks, create new bot and release to world",
+      "Share on Facebook and Twitter for non-technical users",
+      "Non-technical people can use AND create bots and earn money"
+    ],
+    "paradigm_shift": "Not starting inside Bitcoin world trying to reach out - starting OUTSIDE crypto reaching in",
+    "google_coin_analogy": "If Google created Google coin, more popular than Bitcoin because reaches past Bitcoin community"
+  },
+
+  "cryptocurrency_mechanics": {
+    "traditional_mining": {
+      "POW": "Proof of Work - complex math problems (Blocks) solved by computers/ASICs",
+      "POS": "Proof of Stake - coins in wallet automatically mine",
+      "distribution": "Most coins distribute 100% through these methods"
+    },
+    "bazillion_model": {
+      "difference": "Percentage of coin goes to Bots and their creators/users",
+      "earning": "Use or create bots = earn coins like someone mining"
+    },
+    "cash_out_process": {
+      "step_1": "Trade coins for Bitcoin on Bittrex or C-Cex",
+      "step_2": "Turn Bitcoin to cash on Coinbase",
+      "step_3": "Deposit in bank account"
+    }
+  },
+
+  "blocks_explained": {
+    "creation": "Blocks created by transactions (e.g., I send you a coin)",
+    "solving": "As Blocks solved, transaction goes through",
+    "reward": "Person/pool who solved Block gets paid = new coins generated"
+  },
+
+  "ngo_cryptocurrency_vision": {
+    "applicable_organizations": [
+      "Red Cross",
+      "Green Peace",
+      "Peace Corps",
+      "Doctors Without Borders",
+      "FEMA",
+      "NASA",
+      "Non-Authoritarian Public Sector groups",
+      "NGOs"
+    ],
+    "fundraising_model": "Same way Steemit works - no one actually gives money, but money circulates",
+    "bot_applications": {
+      "disaster_relief": "Rebuilding after Hurricanes, Tornadoes, Floods, Fires",
+      "space_travel": "Currency for space exploration",
+      "medical": "Bringing Doctors to places that need them"
+    },
+    "existing_example": "Bots already find most popular Steemit posts, vote early to earn STEEM"
+  },
+
+  "related_posts": {
+    "altcoin_genesis": "steemit.com/bitcoin/@marsresident/the-altcoin-book-of-genesis",
+    "business_rules_engines": "steemit.com/steemit/@marsresident/business-rules-engines"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "bot_types",
+      "cryptocurrency_mining",
+      "bot_ecosystems",
+      "ngo_applications"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What phrase will replace 'There's an app for that'?",
+        "a": "There's a bot for that",
+        "explanation": "Bots will become as ubiquitous as apps"
+      },
+      {
+        "q": "What makes Bazillion Beings different from other crypto projects?",
+        "a": "Started OUTSIDE crypto world reaching in, not inside reaching out",
+        "explanation": "Like if Google made a coin - reaches past Bitcoin community"
+      },
+      {
+        "q": "What's the difference between POW and POS?",
+        "a": "POW = Proof of Work (solving math problems), POS = Proof of Stake (coins in wallet mine)",
+        "explanation": "Traditional ways coins are distributed"
+      },
+      {
+        "q": "How could NGOs use cryptocurrency according to @marsresident?",
+        "a": "Fundraise like Steemit - no one gives money directly but money circulates",
+        "explanation": "Bots could automate disaster relief, medical, space travel currencies"
+      }
+    ],
+    "achievement_unlocks": [
+      "Bot Futurist: Understand the coming bot revolution",
+      "Mining Scholar: Know POW vs POS",
+      "Ecosystem Builder: Understand bot sharing and mixing",
+      "NGO Innovator: See crypto applications for non-profits"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Van Kush builds bot infrastructure for community benefit",
+    "application": "This very bot embodies the vision described",
+    "philosophy": "Let the machines work so humans can create and connect"
+  }
+}

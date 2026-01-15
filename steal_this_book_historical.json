@@ -1,0 +1,255 @@
+{
+  "title": "Revolution Part 3 - Steal This Book Historical Analysis",
+  "author": "marsresident / Van Kush Family (presenting Abbie Hoffman 1971)",
+  "period": "2016 STEEM Era (original text 1971)",
+  "source": "Steemit Post - steemit.com/revolution/@marsresident",
+  "overview": "Historical documentation of Abbie Hoffman's 1971 counterculture survival guide 'Steal This Book' - a defining text of the Yippie movement that was so subversive many printers refused to print it",
+
+  "historical_context": {
+    "author": "Abbie Hoffman",
+    "published": "1971",
+    "significance": "Defining text of Yippie/counterculture movement",
+    "title_meaning": "Meant to have people steal the book when they see it",
+    "chicago_7": "Hoffman was one of the Chicago 7 who incited riot at 1968 Democratic National Convention",
+    "yippie_slogan": "A Yippie is a Hippie that was beaten by the Cops",
+    "legal_note": "Book was considered so subversive that many refused to print it",
+    "hoffman_background": "Had been in MGM movies, had book deals"
+  },
+
+  "book_structure": {
+    "fight_chapter": "Demonstrations, guerilla tactics, street action",
+    "survive_chapter": "Free food, shelter, transportation, communication",
+    "liberate_chapter": "Underground networks, alternative systems"
+  },
+
+  "printing_workshop_section": {
+    "thesis": "Leaflets, posters, newsletters, pamphlets important to any revolution",
+    "equipment_covered": ["Mimeograph machines", "Duplicators", "Electronic stencils", "Silk screening"],
+    "cost_estimate": "Can begin with less than $100 and some space",
+    "gestener_note": "Silk Screen Duplicator turns out stuff almost as good as offset printing"
+  },
+
+  "underground_newspapers_section": {
+    "importance": "If your scene doesn't have a paper, you probably don't have a scene together",
+    "count_at_time": "Over 500 regularly publishing with readerships from few hundred to 500,000+",
+    "startup_cost": "$2,500 for firmly established paper",
+    "first_issue_cost": "About $300 to print 8 pages, 5,000 copies",
+    "equipment_needed": ["IBM Selectric typewriter", "Light-table", "Camera", "Layout supplies"],
+    "ups": "Underground Press Syndicate - $25 to join, helps with national ads, legal advice, directory"
+  },
+
+  "high_school_papers_section": {
+    "critique": "Usual high school paper run by puppet lackeys of administration",
+    "purpose": "To piss off the principal and radicalize the students",
+    "court_victory": "1970 Connecticut ruling - students can publish without prior screening by officials",
+    "aclu_resource": "Academic Freedom in Secondary Schools pamphlet for 25 cents"
+  },
+
+  "gi_papers_section": {
+    "challenge": "Heavier scene than even high schools",
+    "method": "Seek buddies, meet off base, contact civilian support (coffee house, anti-war org)",
+    "printing": "Done off base, avoid government equipment",
+    "catch_22": "No printed matter may be distributed on military base without CO permission (never granted)",
+    "advice": "Use civilian volunteers in public roles"
+  },
+
+  "news_services_listed": {
+    "lns": "Liberation News Service - packets once a week, 30 pages, $15/month",
+    "ups": "Underground Press Syndicate - association of papers"
+  },
+
+  "switchboards_section": {
+    "definition": "Central telephone number anyone can call night or day for information",
+    "telephone_tree": "Pyramid system - core places 5 calls each, those call 5 each = 1000 people in under an hour",
+    "san_francisco": "Longest and most extensive Switchboard operation",
+    "locations_listed": "California, other Western states, Eastern states, other countries"
+  },
+
+  "guerrilla_broadcasting_section": {
+    "legal_radio": "FCC allows 100 milliwatt AM broadcast without license on free band space",
+    "antenna_limit": "Up to 12 feet legal",
+    "range": "2-20 block radius depending on antenna height and building density",
+    "carrier_current": "Plugging transmitter into wall socket, broadcasts on electrical wiring",
+    "if_caught": "Warning first time, possible fine for repeaters",
+    "radio_amateurs_handbook": "Recommended resource from American Radio Relay League"
+  },
+
+  "guerrilla_television_section": {
+    "three_tv_systems": ["Broadcast", "Cable", "Closed Circuit"],
+    "cable_tapping": "Can be tapped at source or any point along cable",
+    "rf_signal": "TV camera with RF output can send to receiver",
+    "video_tape": "Sony CV series recorders becoming available",
+    "equipment_needed": ["RF modulator", "Linear amplifier", "Antenna"],
+    "quote": "One pirate picture on Amerika's living rooms is worth a thousand wasted words"
+  },
+
+  "demonstrations_section": {
+    "definition": "Different from other protest forms because it invites people via publicity",
+    "key_factors": ["Timing", "Choice of target", "Tactics", "Theater"],
+    "critical_element": "Theater - education AND theater needed, not either/or",
+    "permit_negotiations": "Can be used for added publicity",
+    "preparation": "Map immediate vicinity, alternative actions, rendezvous point"
+  },
+
+  "street_fighting_equipment": {
+    "protective_gear": {
+      "clothing": "Tight fitting, covers body surface, protection from gas and dragging",
+      "shoes": "High sneakers for running or boots for kicking",
+      "jock_strap": "Men should wear protective cup",
+      "rib_guards": "About $6 at sporting goods"
+    },
+    "helmets": {
+      "steel_tank": "$3, heavy but bulletproof with ear protection",
+      "civil_defense": "$5, lighter, no ear protection",
+      "construction": "$8-10, very light but can dent/crack",
+      "m1_army": "$2-10, good all-around",
+      "motorcycle_crash": "$10-40, best but most expensive"
+    },
+    "gas_masks": {
+      "wwii_army": "$5, doesn't cover full face",
+      "officer_civil_defense": "$5, full face, convenient filter",
+      "m9a1_combat": "$10, replaceable filters",
+      "navy_nd_mark_iv": "$12, most effective"
+    },
+    "other": ["Walkie-talkies ($18+)", "First aid kit", "Sign on strong pole", "Two numbers on arm (coordination center, lawyer)"]
+  },
+
+  "trashing_section": {
+    "definition": "Not exactly rioting, not exactly guerilla warfare",
+    "guideline": "Do as much property destruction as possible without getting caught or hurt",
+    "target_selection": ["Banks", "Large corporations (especially military suppliers)", "Federal buildings", "Courthouses", "Police stations", "Selective Service", "Campus warfare research", "ROTC"],
+    "vehicle_targets": "Only police vehicles and very expensive cars",
+    "principle": "Every rock should make obvious political point - random violence produces random propaganda"
+  },
+
+  "people_chemistry_section": {
+    "historical_note": "Documents 1960s-70s counterculture improvised materials",
+    "items_mentioned": ["Stink bombs (buteric acid)", "Smoke bombs (sugar + saltpeter)", "Various street items"],
+    "lace_joke": "LSD + DMSO + water claimed to cause 'chromosome damage' - counterculture humor",
+    "molotov_historical": "Classic street weapon 'served up around the world'"
+  },
+
+  "first_aid_section": {
+    "importance": "As revolutionary struggle intensifies, injuries increase",
+    "hospital_warning": "Hospitals border on riot areas used by police to apprehend",
+    "reporting_laws": "Knife and gunshot wounds must be reported by law",
+    "key_skills": ["Pulse checking", "CPR", "Mouth-to-mouth", "Bleeding control", "Tourniquets", "Splints"],
+    "shock_symptoms": "High pulse, cold/clammy/pale skin, trembling, unconsciousness",
+    "head_injury_warning": "Watch for sleepiness, headaches, vomiting, dizziness for 24 hours",
+    "medical_committees": "Medical Committees for Human Rights listed in multiple cities"
+  },
+
+  "legal_section": {
+    "rule_one": "Right to remain silent - give only name and address",
+    "search_rights": "Police cannot search without warrant or probable cause - do not consent",
+    "at_station": "Insist on calling lawyer, always have dimes hidden",
+    "arraignment": "Legal Aid lawyers free and often as good as private for arraignment",
+    "national_lawyers_guild": "Provides free legal services for political prisoners",
+    "aclu": "Will provide lawyers for civil liberty cases"
+  },
+
+  "draft_resistance_section": {
+    "first_rule": "No one shall serve in army of foreign power with which we have no alliance",
+    "deferment_options": ["Medical", "Conscientious Objection", "Psychiatric"],
+    "co_status": "Sincere moral objections to war without necessarily belief in supreme being",
+    "psychiatric_advice": "Mental hospital stay can convince induction center shrink",
+    "physical_exam_tips": "Long hair helps - army doesn't want troublemakers"
+  },
+
+  "exile_section": {
+    "country_categories": {
+      "safest": "Countries with mutual offense treaties (Cuba, North Korea, Iron Curtain)",
+      "next_safest": "Unfriendly to US but risk of military coup (Algeria)",
+      "sweden": "Political asylum for draft dodgers and deserters, ~35,000 exiles",
+      "canada": "No political asylum but allows ~50,000 to live unmolested"
+    },
+    "sweden_process": "Go to police, state seeking asylum, fill form - stamp passport",
+    "canada_process": "Don't say deserter at border, qualify for landed immigration (point system)",
+    "warning": "Life in exile is not all a neat deal - most people unhappy"
+  },
+
+  "monkey_warfare_section": {
+    "definition": "Ideal for people uptight about guns - imaginative protest forms",
+    "examples_mentioned": ["Lock jamming", "IBM card punching", "Payment card bending", "Computer tape erasing"],
+    "safe_deposit_fish": "Rent box with fake name, deposit fish, smell impossible to trace",
+    "mass_action": "10,000 people turning on all appliances at given time can cause blackout"
+  },
+
+  "underground_section": {
+    "premise": "Amerika is just another Latin dictatorship",
+    "fugitives_mentioned": ["Bernadine Dohrn", "Rap Brown", "Mark Rudd", "Angela Davis"],
+    "culture_defense": "Our culture is our chief defense - FBI would stand out trying to infiltrate",
+    "usual_capture": "People caught for minor offense, fingerprints give them away",
+    "10_most_wanted": "Public relations gimmick - signal FBI conducting manhunt",
+    "identification_section": "Discusses phony papers creation",
+    "communication": "Use pay phones, keep calls short, disguise voice",
+    "weathermen_praised": "Communications brilliantly conceived",
+    "final_advice": "Dress warm in winter, cool in summer, stay high and keep on truckin"
+  },
+
+  "weapons_section_historical": {
+    "note": "Historical document of 1960s-70s counterculture attitudes",
+    "handguns_discussed": ["Colt 45", "Parabellum 9mm", ".38 Special", ".357 Magnum"],
+    "rifles_discussed": ["M-1 carbine", "Springfield", "Mauser", "AR-18"],
+    "shotguns_discussed": ["Pump action", "Semi-automatic", "12 gauge"],
+    "training_advice": "Contact National Rifle Association for gun club info",
+    "gun_laws": "Government Printing Office manual: Published Ordinances: Firearms"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "counterculture_history",
+      "underground_press",
+      "demonstration_tactics",
+      "legal_rights"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What was 'Steal This Book' and who wrote it?",
+        "a": "1971 counterculture survival guide by Abbie Hoffman - many printers refused to print it",
+        "explanation": "Defining text of Yippie movement, title meant to encourage shoplifting"
+      },
+      {
+        "q": "What was the Yippie slogan according to Hoffman?",
+        "a": "A Yippie is a Hippie that was beaten by the Cops",
+        "explanation": "Yippies were politicized hippies after police violence"
+      },
+      {
+        "q": "What did Hoffman say about education vs theater in demonstrations?",
+        "a": "Those who say demonstration should be education rather than theater don't understand either",
+        "explanation": "Both are necessary for successful demonstration"
+      },
+      {
+        "q": "What was the Underground Press Syndicate (UPS)?",
+        "a": "$25 to join, helped with national ads, legal advice, directory, news service",
+        "explanation": "Network connecting 500+ underground newspapers"
+      },
+      {
+        "q": "What was Hoffman's warning about life in exile?",
+        "a": "Life in exile is not all a neat deal - most people unhappy, removed from struggle",
+        "explanation": "Many returned to join underground rather than stay in exile"
+      }
+    ],
+    "achievement_unlocks": [
+      "Counterculture Historian: Know Steal This Book context",
+      "Media Guerrilla: Understand underground press network",
+      "Legal Scholar: Know demonstration rights",
+      "Movement Archaeologist: Understand 1960s-70s tactics"
+    ]
+  },
+
+  "historical_significance": {
+    "era": "Late 1960s-early 1970s American counterculture",
+    "movements": ["Yippies", "Anti-war movement", "Civil rights", "Student movement"],
+    "chicago_7_trial": "Hoffman and Rubin were defendants in famous political trial",
+    "fbi_response": "COINTELPRO targeted these movements",
+    "legacy": "Book became symbol of counterculture resistance"
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Historical documentation of revolutionary movements",
+    "application": "Understanding past movements informs present organizing",
+    "philosophy": "Those who don't understand history are doomed to repeat its mistakes"
+  }
+}
