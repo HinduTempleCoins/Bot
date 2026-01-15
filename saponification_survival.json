@@ -1,0 +1,149 @@
+{
+  "title": "What Survives Saponification? - Soap Ingredient Reality Check",
+  "author": "Soapmaking Forum Community",
+  "period": "2025",
+  "source": "Soapmaking Forum - soapmakingforum.com/threads/what-survives-saponification",
+  "overview": "Community discussion on what ingredient properties actually survive the saponification process, debunking marketing claims about herbal infusions and extracts in soap",
+
+  "short_answer": {
+    "summary": "Not much survives saponification",
+    "reality": "Not enough to honestly claim anything medicinal",
+    "rinse_off_factor": "Even if something survived, contact time is nearly nil",
+    "enjoy_for": "Fun, nostalgia, or color where they last"
+  },
+
+  "medical_claims_legality": {
+    "us_law": "Claiming medical effects for soap is illegal without rigorous testing",
+    "drug_claims": "Curing disease, treating acne = drug claims requiring FDA approval",
+    "facility_requirements": "Expensive testing and facility inspection required",
+    "hair_regrowth_claims": "Dishonest - no evidence for any herbal/fruit extract",
+    "company_tactics": "Set up biased tests to get desired marketing results"
+  },
+
+  "what_doesnt_work": {
+    "herbal_infused_oils": {
+      "salves_balms": "Properties work in leave-on products",
+      "soap": "Properties destroyed during saponification"
+    },
+    "blueberry_extract": {
+      "claim": "Hair regrowth",
+      "reality": "No evidence - dishonest marketing",
+      "applies_to": "Any herbal or fruit extract making drug claims"
+    },
+    "adding_at_trace": {
+      "misconception": "Adding after trace preserves properties",
+      "reality": "Soap still going through saponification at trace",
+      "wont_help": true
+    },
+    "pine_tar_soap": {
+      "history": "Long anecdotal testimonies",
+      "science": "Doesn't do well in science-based studies"
+    }
+  },
+
+  "methods_to_preserve_ingredients": {
+    "hot_process_after_cook": {
+      "method": "Add ingredients AFTER HP cook is complete",
+      "why_works": "Saponification finished by then",
+      "timing": "At end of cook, not during",
+      "note": "Some success reported by HP soapers"
+    },
+    "superfat_method": {
+      "technique": "Make HP with 0% superfat in calculator",
+      "then": "Add oils/butters after cook as the superfat",
+      "result": "These oils escape saponification",
+      "example": "Adding shea butter at end as superfat",
+      "calculation": "Superfat weight = percent of total oils"
+    },
+    "late_addition": {
+      "principle": "Add extras at last possible moment before solidification",
+      "reason": "Less lost during remaining saponification",
+      "applies_to": "Essential oils and other additives",
+      "leverages": "Superfat percentage that won't be saponified"
+    },
+    "syndet_bars": {
+      "definition": "Synthetic detergent bars - NOT soap",
+      "advantage": "No saponification occurs",
+      "result": "Ingredients remain intact",
+      "important_distinction": "Not all 'shampoo bars' are soap"
+    }
+  },
+
+  "shampoo_bar_warnings": {
+    "high_ph_issue": {
+      "problem": "Soap has high pH that some hair doesn't tolerate",
+      "irony": "Soap shampoo bars can CAUSE hair loss for some",
+      "root_causes": "Hair loss caused by myriad issues, beginning with diet"
+    },
+    "recommendation": "Steer clear of medicinal ingredient claims unless making syndet bars"
+  },
+
+  "honest_approach": {
+    "herb_infused_oils": {
+      "example": "Peppermint, rosemary, horsetail infused oil",
+      "honest_claim": "Smells good",
+      "never_suggest": "That it does anything medicinal"
+    },
+    "research_resource": "Chemist's Corner - for veracity and hype in ingredient claims",
+    "reputable_companies": "Don't use or tone down marketing hype"
+  },
+
+  "key_takeaways": {
+    "1": "Saponification destroys most beneficial properties of ingredients",
+    "2": "Rinse-off products have minimal contact time anyway",
+    "3": "Medical claims for soap are illegal without FDA approval",
+    "4": "HP soap with post-cook additions can preserve some ingredients",
+    "5": "Syndet bars preserve ingredients (no saponification)",
+    "6": "Use extracts for fun, color, scent - not medical claims",
+    "7": "Hair regrowth claims from any plant extract are false"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "saponification_chemistry",
+      "ingredient_survival",
+      "fda_regulations",
+      "honest_marketing"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What survives saponification in soap?",
+        "a": "Not much - not enough to honestly claim medicinal benefits",
+        "explanation": "Plus rinse-off products have minimal contact time anyway"
+      },
+      {
+        "q": "Does adding ingredients at trace preserve their properties?",
+        "a": "No - soap is still undergoing saponification at trace",
+        "explanation": "Need to add AFTER saponification is complete (HP method)"
+      },
+      {
+        "q": "How can you preserve ingredient properties in Hot Process soap?",
+        "a": "Add oils/ingredients AFTER the cook is complete, when saponification is finished",
+        "explanation": "Can use 0% superfat in calculator, then add superfat oils at end"
+      },
+      {
+        "q": "What are syndet bars and why do they preserve ingredients?",
+        "a": "Synthetic detergent bars - not soap, so no saponification occurs",
+        "explanation": "Not all shampoo bars are soap - syndet bars keep ingredients intact"
+      },
+      {
+        "q": "Are hair regrowth claims from blueberry extract or herbs legitimate?",
+        "a": "No - dishonest marketing with no scientific evidence",
+        "explanation": "Such claims would require expensive FDA testing and approval"
+      }
+    ],
+    "achievement_unlocks": [
+      "Saponification Scientist: Know what survives the process",
+      "Claim Debunker: Understand FDA regulations on soap claims",
+      "HP Master: Know how to preserve ingredients in hot process",
+      "Syndet Scholar: Understand soap vs syndet distinction"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "Soapmaking Forum community wisdom",
+    "relevance": "Understanding chemical processes for honest product formulation",
+    "application": "Van Kush herbal products should use appropriate delivery methods",
+    "philosophy": "Honesty in claims - use salves/balms for medicinal herbs, not rinse-off soap"
+  }
+}
