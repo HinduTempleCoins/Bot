@@ -1,0 +1,67 @@
+{
+  "title": "Neurospirituality - The Science of Religious Experience",
+  "author": "punicwax / Van Kush Family",
+  "period": "2019 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/science/@punicwax (Religious Marijuana community)",
+  "overview": "Non-denominational religious philosophy that God impacts the brain in scientifically measurable ways, replicable through sacrament or eucharist",
+
+  "core_definition": {
+    "philosophy": "Neurospirituality",
+    "type": "Non-Denominational Religious Philosophy",
+    "compatibility": "Can be held by member of any or all religions",
+    "thesis": "God impacts the brain in ways visible to human science, and this can be replicated by Sacrament or Eucharist"
+  },
+
+  "key_research": {
+    "reference": "https://www.researchgate.net/publication/308584387_NEUROSPIRITUALITY",
+    "field": "Intersection of neuroscience and spirituality"
+  },
+
+  "sacrament_quote": {
+    "source": "'The Sacramentals: What are they?' by Regina Doman",
+    "text": "There is a part of us that longs for something tangible [that reminds us of, and connects us to God, Grace, & Spirit], that interacts with the senses. The sacraments, those sacred mixtures of matter and the Holy Spirit, fulfill that need."
+  },
+
+  "implications": {
+    "religious": "Validates religious experiences through scientific observation",
+    "scientific": "Provides measurable framework for spiritual phenomena",
+    "practical": "Sacraments and eucharist can produce replicable spiritual experiences"
+  },
+
+  "related_concepts": {
+    "entheogen": "Substance that generates the divine within",
+    "religious_marijuana": "Cannabis as sacramental substance",
+    "oilahuasca": "Spice-based sacramental practice"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "neurospirituality_basics",
+      "sacrament_science",
+      "religious_experience"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is Neurospirituality?",
+        "a": "Non-denominational philosophy that God impacts the brain in scientifically measurable ways, replicable through sacrament",
+        "explanation": "Compatible with any religion - bridges science and spirituality"
+      },
+      {
+        "q": "According to the sacramentals quote, what do sacraments fulfill?",
+        "a": "The human need for something tangible that interacts with the senses and connects us to God, Grace, & Spirit",
+        "explanation": "Sacred mixtures of matter and Holy Spirit"
+      }
+    ],
+    "achievement_unlocks": [
+      "Neurospiritual Scholar: Understand the science-spirit connection",
+      "Sacrament Student: Know how sacraments function neurologically"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "punicwax is Van Kush Family STEEM account",
+    "relevance": "Scientific foundation for religious marijuana and Oilahuasca practices",
+    "application": "Van Kush temple sacramental practices backed by neuroscience",
+    "philosophy": "Religion and science are not opposed - both reveal truth about consciousness"
+  }
+}
