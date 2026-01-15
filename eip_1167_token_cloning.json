@@ -1,0 +1,76 @@
+{
+  "title": "EIP 1167: Ethereum Token Cloning Made Cheap",
+  "author": "punicwax / Van Kush Family",
+  "period": "2019 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/@punicwax (Token Discussion community)",
+  "overview": "EIP 1167 has drastically reduced the cost of cloning Ethereum tokens, enabling entire ecosystems of tokens to be created cheaply",
+
+  "eip_1167": {
+    "name": "Minimal Proxy Contract",
+    "effect": "Drastically cheaper token cloning on Ethereum",
+    "github": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1167.md",
+    "official": "https://eips.ethereum.org/EIPS/eip-1167"
+  },
+
+  "application": {
+    "teaching": "PGL will teach people how to launch tokens",
+    "community": "Token Discussion group for spreading tokens before launch",
+    "ecosystem": "PGL can create entire ecosystem of tokens"
+  },
+
+  "example_token": {
+    "name": "0xBitcoin",
+    "description": "Bitcoin but on Ethereum blockchain as a token",
+    "how_it_works": "Add Ethereum as gas, mine the token",
+    "principle": "Uses Bitcoin principles on Ethereum blockchain",
+    "source": "https://cointelegraph.com/news/mining-with-no-special-equipment-token-uses-bitcoin-principles-on-ethereum-blockchain"
+  },
+
+  "gas_explained": {
+    "definition": "The price of taking an action on the Ethereum blockchain",
+    "eip_1167_benefit": "Reduces gas costs for deploying clone contracts"
+  },
+
+  "technical_details": {
+    "minimal_proxy": "Small contract that delegates all calls to master implementation",
+    "deployment_cost": "Significantly lower than full contract deployment",
+    "use_case": "Creating many instances of same contract type cheaply"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "eip_1167_basics",
+      "token_cloning",
+      "gas_optimization"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What does EIP 1167 do?",
+        "a": "Drastically reduces the cost of cloning Ethereum tokens through minimal proxy contracts",
+        "explanation": "Enables entire ecosystems of tokens to be created cheaply"
+      },
+      {
+        "q": "What is 0xBitcoin?",
+        "a": "Bitcoin principles implemented as an Ethereum token - add ETH as gas and mine the token",
+        "explanation": "Example of first tokens created using new cheap cloning methods"
+      },
+      {
+        "q": "What is 'gas' on Ethereum?",
+        "a": "The price of taking an action on the Ethereum blockchain",
+        "explanation": "EIP 1167 reduces gas costs for deploying clone contracts"
+      }
+    ],
+    "achievement_unlocks": [
+      "EIP Scholar: Understand Ethereum Improvement Proposals",
+      "Token Cloner: Know how to cheaply clone tokens",
+      "Gas Optimizer: Understand gas costs and optimization"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "punicwax is Van Kush Family STEEM account",
+    "relevance": "Cheap token creation for Van Kush ecosystem",
+    "application": "PGL token ecosystem development",
+    "philosophy": "Lower barriers to cryptocurrency creation"
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "title": "Steemit: Under New Management - Complete History of STEEM and the TRON Takeover",
+  "author": "punicwax / Van Kush Family",
+  "period": "2020 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/@punicwax (Steemit Nursery community)",
+  "overview": "Comprehensive history of cryptocurrency from Silk Road to Steemit, the TRON takeover, the HIVE fork, and how the platform works under new management",
+
+  "crypto_history_firsthand": {
+    "2008": "First heard about Silk Road and cryptocurrency",
+    "2011": "News articles about Silk Road, visited via Onion Browser",
+    "discovery": "Saw Bitcoin symbol (฿) used like $ on Silk Road, copied into Google",
+    "bitcointalk": "Found Bitcointalk.org, learned about Satoshi Nakamoto",
+    "community_goal": "Everyone would use cryptocurrency - decentralized, not government fiat",
+    "price_history": {
+      "first_saw": "$5.00 each",
+      "soon_after": "$30.00, then $100.00",
+      "prediction": "Some said bubble, others predicted trading in 'Satoshis'"
+    },
+    "mtgox": "Main trading platform - 'Magic the Gathering Online Exchange', used money orders"
+  },
+
+  "mining_evolution": {
+    "butterfly_labs": "First mining farms, ASICs overtook laptops and GPUs",
+    "litecoin": "Created after Bitcoin ASICs",
+    "feathercoin_doge": "Created after Litecoin ASICs",
+    "cryptonote": "Algorithm to counter ASICs - Monero is CryptoNote based"
+  },
+
+  "steemit_emergence": {
+    "ethereum": "Blockchain cloud with dApps - Infrastructure as a Service (IaaS) and Platform as a Service (PaaS)",
+    "bitshares": {
+      "creators": "Dan and Ned",
+      "blockchain": "Graphene Blockchain",
+      "public_release": "OpenLedger Fabric (IBM uses it)",
+      "bitsharestalk": "Similar to Bitcointalk, where ICO trend incubated, where Steemit Witnesses came from"
+    },
+    "steemit_nature": {
+      "blockchain": "Graphene Blockchain",
+      "should_be_copied": "Any Forum, City, Charity could launch a Graphene chain",
+      "features": ["Witnesses", "Nodes", "Currency", "Voting", "User rewards"]
+    }
+  },
+
+  "anarcho_capitalist_era": {
+    "timing": "About 3 years ago (from 2020)",
+    "ideology": "Libertarians to extreme - sidewalks/roads should be private property",
+    "effect": "Changed from crypto posts trending to anarchy podcasts",
+    "author_response": "Left the platform"
+  },
+
+  "tron_takeover": {
+    "sale": "Ned sold Steemit INC to Justin Sun (TRON founder)",
+    "problem": "Ned implied full control without mentioning Witnesses (Board of Directors) were Bitshares people",
+    "witness_war": "War between Justin and Witnesses",
+    "result": "Witnesses forked Steemit → HIVE"
+  },
+
+  "hive_fork": {
+    "what_happened": "New STEEM currency and blockchain created from before Justin owned it",
+    "name": "HIVE",
+    "result": "Now basically 2 Steemits"
+  },
+
+  "delegated_proof_of_stake_explained": {
+    "delegated": "Voting - upvote posts, vote for Witnesses",
+    "proof_of_work": "Mining - only voted-for Witnesses can mine STEEM",
+    "staking": "Interest associated with holding STEEM"
+  },
+
+  "old_hardfork_rules": {
+    "beta_rules": {
+      "payout": "24 hours",
+      "users": "OpenLedger people"
+    },
+    "new_rules": {
+      "first_payout": "7 days",
+      "second_payout": "30 days if new votes after 7 days",
+      "multiple_posts": "Posting 2x divides earnings by 2, 3x by 3",
+      "follow_feature": "Added followers/following"
+    }
+  },
+
+  "communities_feature": {
+    "added_by": "TRON team",
+    "purpose": "Places of Collective Wealth with like-minded people",
+    "comparison": "Like Reddit Subreddits (/r/)",
+    "effect": "10,000 groups makes Steemit seem much larger",
+    "new_topic": "Directories - lists of communities"
+  },
+
+  "new_user_programs": {
+    "steemit_nursery": "2 month incubation for new users",
+    "minnow_support": "500SP Minnow Support Program",
+    "newcomers_achievements": "Achievement tasks and resources",
+    "community_support_program": "#1000DaysofSTEEM"
+  },
+
+  "steem_greeters_team": {
+    "achievement_1_greeters": ["fendit", "tocho2", "randulakoralage", "tarpan", "beautychicks", "njaywan", "radjasalman", "cryptokannon"],
+    "greeter_fairy_team": ["belenguerra", "girolamomarotta", "besticofinder"],
+    "curators_500sp": ["rex-sumon", "edlili24"]
+  },
+
+  "recommended_witness": {
+    "username": "@exnihilo.witness",
+    "benefit": "Distributes 50% of mined to voters"
+  },
+
+  "getting_started_2020": {
+    "steps": [
+      "Join Communities and get Minnow Support",
+      "Use Coinbase Promo for free crypto, convert to STEEM",
+      "Use @upvu",
+      "Use SBD to buy BLURT (price rise coming), convert back to STEEM",
+      "Make a Steem-Engine Token"
+    ]
+  },
+
+  "historical_posts_archive": {
+    "steem_white_paper": "steemit.com/steemit/@marsresident/the-steem-white-paper",
+    "steem_for_noobs": "steemit.com/steemhelp/@aem/steem-for-noobs",
+    "crypto_taxes": "steemit.com/money/@marsresident/you-do-not-have-to-pay-taxes-on-cryptocurrencies-until-you-sell-them",
+    "voting_witnesses": "steemit.com/steem/@marsresident/vote-for-steem",
+    "economics_101": "steemit.com/money/@marsresident/474mst-economics-101",
+    "minnows_dolphins_whales": "steemit.com/steemit/@crypt0/steemit-whales-dolphins-and-minnows-the-importance-of-steem-power-on-steemit",
+    "create_currency": "steemit.com/steem/@marsresident/make-your-own-cryptocurrency-video-tutorial"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "crypto_history",
+      "steemit_mechanics",
+      "tron_takeover",
+      "hive_fork"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What was Bitcoin's price when @punicwax first discovered it?",
+        "a": "$5.00, then quickly went to $30, then $100",
+        "explanation": "Discovered via Silk Road → Google → Bitcointalk.org"
+      },
+      {
+        "q": "What is Steemit's underlying blockchain technology?",
+        "a": "Graphene Blockchain - created by Dan and Ned, also used by Bitshares and IBM's OpenLedger Fabric",
+        "explanation": "Any website could use Graphene to have Witnesses, Nodes, Currency, and Voting"
+      },
+      {
+        "q": "What does 'Delegated Proof of Stake' mean?",
+        "a": "Delegated = Voting; Proof of Work = Mining (only voted-for Witnesses mine); Staking = Interest on holdings",
+        "explanation": "Combination of voting, mining, and interest systems"
+      },
+      {
+        "q": "What is HIVE and why does it exist?",
+        "a": "Fork of Steemit created by Witnesses after Justin Sun bought Steemit INC - now two parallel platforms",
+        "explanation": "Witnesses forked when war broke out over control of the platform"
+      },
+      {
+        "q": "What changed from Steemit Beta to the new rules?",
+        "a": "Payout went from 24 hours to 7 days (+ 30 day second payout), multiple daily posts divide earnings, added follow feature",
+        "explanation": "Original rules didn't give posts enough time to collect views and earnings"
+      }
+    ],
+    "achievement_unlocks": [
+      "Crypto Historian: Know the history from Silk Road to Steemit",
+      "Graphene Expert: Understand Steemit's blockchain technology",
+      "Fork Scholar: Know why HIVE exists",
+      "Platform Navigator: Understand Steemit communities and programs"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "punicwax is Van Kush Family STEEM account",
+    "relevance": "Understanding platform mechanics for Van Kush community building",
+    "application": "Van Kush could deploy own Graphene blockchain for community rewards",
+    "philosophy": "Any organization can have its own cryptocurrency and voting system"
+  }
+}
