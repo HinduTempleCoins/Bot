@@ -1,0 +1,169 @@
+{
+  "title": "Roles in a Company - Corporate Structure Guide",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/business/@marsresident",
+  "overview": "Comprehensive guide to corporate roles and hierarchy for entrepreneurs and those interested in business structure",
+
+  "commonly_known_roles": {
+    "list": ["CEO", "Chairman", "President", "Vice President", "Managers"],
+    "lesser_known": "CIO and other Chief roles not widely understood"
+  },
+
+  "chief_roles": {
+    "resource_operations": {
+      "CRO": "Chief Resource Officer",
+      "CAO_admin": "Chief Administrative Officer",
+      "COO": "Chief Operating Officer",
+      "CPO": "Chief Procurement Officer"
+    },
+    "technology_data": {
+      "CTO": "Chief Technology Officer",
+      "CIO_info": "Chief Information Officer",
+      "CISO": "Chief Information Security Officer",
+      "CDO": "Chief Data Officer",
+      "CAO_analytics": "Chief Analytics Officer",
+      "CA": "Chief Architect",
+      "CWO": "Chief Web Officer"
+    },
+    "science_strategy": {
+      "CSO_science": "Chief Science Officer",
+      "CSO_strategy": "Chief Strategy Officer",
+      "CKO": "Chief Knowledge Officer"
+    },
+    "business_development": {
+      "CEO": "Chief Executive Officer",
+      "CBO": "Chief Business Officer",
+      "CBDO": "Chief Business Development Officer",
+      "CCO_commercial": "Chief Commercial Officer"
+    },
+    "finance_investment": {
+      "CFO": "Chief Financial Officer",
+      "CIO_investment": "Chief Investment Officer"
+    },
+    "people_culture": {
+      "CHRO": "Chief Human Resource Officer",
+      "CXO": "Chief Experience Officer"
+    },
+    "communications_marketing": {
+      "CCO_communication": "Chief Communication Officer",
+      "CCO_content": "Chief Content Officer",
+      "CMO_marketing": "Chief Marketing Officer"
+    },
+    "specialized": {
+      "CLO": "Chief Legal Officer",
+      "CMO_medical": "Chief Medical Officer",
+      "CAO_academic": "Chief Academic Officer",
+      "CNO": "Chief Networking Officer",
+      "CQO": "Chief Quality Officer"
+    }
+  },
+
+  "department_hierarchy": {
+    "tier_1_top": {
+      "roles": ["Chairman", "Vice Chairman"],
+      "function": "Board level governance"
+    },
+    "tier_2_executive": {
+      "roles": ["President", "Deputy President", "Senior Executive Vice President"],
+      "function": "Top executive leadership"
+    },
+    "tier_3_senior_management": {
+      "roles": ["Executive Vice President", "Executive Director", "Senior Vice President", "Managing Director"],
+      "function": "Senior operational leadership"
+    },
+    "tier_4_management": {
+      "roles": ["Vice President", "General Manager", "Department Head", "Deputy General Manager"],
+      "function": "Department level leadership"
+    },
+    "tier_5_team_leadership": {
+      "roles": ["Manager", "Section Head", "Assistant Manager", "Team Leader"],
+      "function": "Team level leadership"
+    },
+    "tier_6_support": {
+      "roles": ["Chief of Staff", "Staff", "Secretary", "Notary", "Clerk"],
+      "function": "Operational support"
+    }
+  },
+
+  "role_disambiguation": {
+    "cso_dual_meaning": {
+      "science": "Chief Science Officer - technical/R&D focus",
+      "strategy": "Chief Strategy Officer - business planning focus"
+    },
+    "cio_dual_meaning": {
+      "information": "Chief Information Officer - IT/data systems",
+      "investment": "Chief Investment Officer - financial investments"
+    },
+    "cmo_dual_meaning": {
+      "marketing": "Chief Marketing Officer - brand/advertising",
+      "medical": "Chief Medical Officer - healthcare/pharma"
+    },
+    "cco_triple_meaning": {
+      "commercial": "Chief Commercial Officer - sales/revenue",
+      "communication": "Chief Communication Officer - PR/messaging",
+      "content": "Chief Content Officer - media/publishing"
+    },
+    "cao_triple_meaning": {
+      "administrative": "Chief Administrative Officer - operations",
+      "analytics": "Chief Analytics Officer - data analysis",
+      "academic": "Chief Academic Officer - education"
+    }
+  },
+
+  "entrepreneurial_application": {
+    "starting_company": "Know which roles you need to fill",
+    "growth_planning": "Understand hierarchy for scaling",
+    "title_selection": "Choose appropriate titles for your stage",
+    "investor_communication": "Speak the language of corporate structure"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "corporate_structure",
+      "chief_roles",
+      "hierarchy_levels",
+      "title_disambiguation"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What's the difference between CIO (Information) and CIO (Investment)?",
+        "a": "Chief Information Officer handles IT/data systems; Chief Investment Officer handles financial investments",
+        "explanation": "Same acronym, completely different functions"
+      },
+      {
+        "q": "What are the three possible meanings of CCO?",
+        "a": "Chief Commercial Officer, Chief Communication Officer, Chief Content Officer",
+        "explanation": "Context determines which CCO is meant"
+      },
+      {
+        "q": "Where does 'Chief of Staff' fit in the hierarchy?",
+        "a": "Tier 6 - Support level, below Team Leaders",
+        "explanation": "Despite 'Chief' in title, it's a support role"
+      },
+      {
+        "q": "What's the difference between CTO and CIO?",
+        "a": "CTO focuses on technology/product development; CIO focuses on information systems/IT infrastructure",
+        "explanation": "CTO builds tech products, CIO manages tech operations"
+      },
+      {
+        "q": "What level is 'Managing Director' equivalent to?",
+        "a": "Tier 3 - Same level as Senior Vice President",
+        "explanation": "Different companies use different titles for same level"
+      }
+    ],
+    "achievement_unlocks": [
+      "Corporate Literate: Know the C-suite roles",
+      "Hierarchy Navigator: Understand organizational tiers",
+      "Title Decoder: Disambiguate similar acronyms",
+      "Entrepreneur Ready: Know roles for your company"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Building organizations requires understanding structure",
+    "application": "Van Kush ecosystem has its own governance structure",
+    "philosophy": "Knowledge of how organizations work enables building alternatives"
+  }
+}

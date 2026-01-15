@@ -1,0 +1,130 @@
+{
+  "title": "FDA Soap Regulations and TikTok Selling - What You Need to Know",
+  "author": "Soapmaking Forum Community",
+  "period": "2025",
+  "source": "Soapmaking Forum - soapmakingforum.com/threads/contacting-the-fda",
+  "overview": "Community clarification on FDA jurisdiction over soap, TikTok selling requirements, MOCRA exemptions, and avoiding scam 'exemption services'",
+
+  "key_revelation": {
+    "fda_and_soap": "FDA does NOT regulate true soap",
+    "jurisdiction": "FDA has no jurisdiction over true soap",
+    "wrong_agency": "Asking FDA for soap exemption is asking wrong agency",
+    "confusion_source": "TikTok and social media spreading misinformation"
+  },
+
+  "soap_vs_cosmetic": {
+    "true_soap": {
+      "definition": "Soap with no claims and no obviously cosmetic ingredients",
+      "fda_status": "Not regulated by FDA",
+      "tiktok_note": "Doesn't even appear in TikTok's product search list"
+    },
+    "cosmetic_soap": {
+      "definition": "Soap with cosmetic claims or cosmetic ingredients",
+      "fda_status": "Subject to cosmetics regulations",
+      "registration": "May require FDA registration number"
+    }
+  },
+
+  "tiktok_requirements": {
+    "what_they_want": "FDA registration number for cosmetics sellers",
+    "problem": "Small businesses exempt from registration but TikTok doesn't understand this",
+    "true_soap_solution": "True soap is NOT a cosmetic - no registration needed",
+    "cosmetic_solution": "Write your own MOCRA exemption letter"
+  },
+
+  "mocra_small_business_exemption": {
+    "what_is_mocra": "Modernization of Cosmetics Regulation Act",
+    "who_qualifies": "Small businesses meeting income criteria",
+    "what_you_need": "Letter YOU write attesting to meeting exemption criteria",
+    "disclosure": "Must disclose business income over MOCRA period",
+    "cost": "Free - you write it yourself",
+    "warning": "Do NOT pay vulture companies to write it for you"
+  },
+
+  "common_misconceptions": {
+    "fda_approved": {
+      "myth": "Products can be 'FDA approved'",
+      "reality": "FDA does NOT approve products",
+      "example": "No such thing as 'FDA approved skin whitening soap'"
+    },
+    "need_letter_from_fda": {
+      "myth": "Need letter of exemption FROM the FDA",
+      "reality": "You write the exemption letter yourself",
+      "attesting_to": "That you meet MOCRA small biz exemption criteria"
+    },
+    "all_soap_needs_registration": {
+      "myth": "All soap sellers need FDA registration",
+      "reality": "True soap isn't regulated by FDA at all"
+    }
+  },
+
+  "scam_warnings": {
+    "fake_fda_sites": "Many scam sites with 'fda' in URL pretending to be official",
+    "exemption_services": "Companies charging to write exemption letters",
+    "reality": "Exemption letter is free - you write it yourself",
+    "advice": "Be very careful when searching for TikTok cosmetics selling help"
+  },
+
+  "selling_requirements_us": {
+    "state_business_rules": "Conform to your state's business regulations",
+    "sales_tax": "Collect applicable sales tax if state requires",
+    "exporting": "Must conform to destination country rules",
+    "true_soap": "No FDA involvement needed"
+  },
+
+  "community_wisdom": {
+    "experience_first": "Gain more experience before selling anywhere",
+    "learn_craft": "More time learning the craft before selling is beneficial",
+    "platform_specific": "Each platform has its own quirks and requirements",
+    "do_homework": "Research platform requirements before selling there"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "fda_jurisdiction",
+      "soap_vs_cosmetic",
+      "mocra_exemption",
+      "selling_regulations"
+    ],
+    "quiz_questions": [
+      {
+        "q": "Does the FDA regulate true soap?",
+        "a": "No - FDA has no jurisdiction over true soap",
+        "explanation": "True soap (no claims, no cosmetic ingredients) is not FDA regulated"
+      },
+      {
+        "q": "What is the difference between true soap and cosmetic soap?",
+        "a": "True soap has no claims or cosmetic ingredients; cosmetic soap makes claims or has cosmetic ingredients",
+        "explanation": "Only cosmetic soap falls under FDA cosmetics regulations"
+      },
+      {
+        "q": "Do you need to pay a company to get an FDA exemption letter?",
+        "a": "No - you write the MOCRA exemption letter yourself for free",
+        "explanation": "Companies charging for this are 'vultures' - it's a scam"
+      },
+      {
+        "q": "Does the FDA 'approve' soap products?",
+        "a": "No - FDA does NOT approve products at all",
+        "explanation": "There is no such thing as 'FDA approved soap'"
+      },
+      {
+        "q": "What do you need to sell true soap in the US?",
+        "a": "Conform to state business regulations and collect sales tax if required",
+        "explanation": "No FDA involvement needed for true soap"
+      }
+    ],
+    "achievement_unlocks": [
+      "Regulation Scholar: Understand FDA jurisdiction limits",
+      "Scam Spotter: Know to avoid fake exemption services",
+      "MOCRA Master: Understand small business exemptions",
+      "True Soap Expert: Know soap vs cosmetic distinction"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "Soapmaking Forum community wisdom",
+    "relevance": "Understanding regulations for legal product sales",
+    "application": "Van Kush products should understand true soap vs cosmetic distinction",
+    "philosophy": "Honest claims and proper regulatory compliance"
+  }
+}
