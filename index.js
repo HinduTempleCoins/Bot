@@ -1077,6 +1077,18 @@ function getOilahuascaResponse(topic) {
   if (t.includes('melanopsin') || t.includes('blue light') || t.includes('circadian') || t.includes('light therapy') || t.includes('phytochrome')) {
     return `💡 **Medical Applications of Light (@marsresident 2015)**\n\n**Melanopsin**: Photoreceptor in eye that maintains sleep cycle (not just receptor - affects brain deeper)\n\n**Blue Light**: Computer screens keep you awake - studies show similar to caffeine effects\n\n**Red Light**: Phytochrome in plants responds to red spectrum (flower cycles)\n\n**Ear Canal Light**: Double-blind study showed ear light exposure increases cognitive function!\n\n**Practical**: Reduce blue light before bed, strategic light exposure for mental performance`;
   }
+  // Electronic Medicine & VR (@marsresident 2015)
+  if (t.includes('tdcs') || t.includes('transcranial') || t.includes('tens') || t.includes('brain stimulation') || (t.includes('vr') && t.includes('rehabilitation'))) {
+    return `⚡ **Electronic Medicine & VR (@marsresident 2015)**\n\n**tDCS**: Transcranial Direct Stimulation - currents through skull change brainwaves\n**TMS**: Transcranial Magnetic Stimulation - magnets change brainwaves\n**TENS**: Transcutaneous Electrical Nerve Stimulation - currents through skin\n**EEG**: Measures brain activity to perfect stimulation\n\n**Medical Use**: tDCS + VR for limb rehabilitation - show VR limbs moving while stimulating brain\n\n**Enhancement**: Woman with device had better accuracy, time felt different\n\n**Future**: VR training for sports, combat, reflexes - learning could feel like cocaine`;
+  }
+  // DogeCoin Success Story (@marsresident 2015)
+  if (t.includes('dogecoin') || t.includes('doge coin') || t.includes('much wow') || t.includes('to the moon')) {
+    return `🐕 **How DogeCoin Overtook Cryptocurrencies (@marsresident 2015)**\n\n**No Tech Innovation**: Simple Litecoin clone with no new features\n\n**Factor 1 - Memeability**: "so coin, much wow, very money" - easy community entry, spread to 4Chan/Facebook/Twitter\n\n**Factor 2 - Giveaways** (you had to be there):\n• Started at $0 - people gave 100,000+ coins freely\n• Value increased → giveaways dropped to 10,000, then 1,000, then faucets\n• Giveaways increased trade volume + new adopters simultaneously\n\n**Result**: Spirit of community giving drove value - "I have some DogeCoins" was the goal`;
+  }
+  // Gold & Silver in Crypto (@marsresident 2016)
+  if (t.includes('gold certificate') || t.includes('nixon shock') || t.includes('gold backed') || (t.includes('gold') && t.includes('steem')) || (t.includes('precious metals') && t.includes('crypto'))) {
+    return `🥇 **Gold, Silver & STEEM Community (@marsresident 2016)**\n\n**Existing**: Buy gold/silver with BTC, LTC, DOGE, ETH at JMBullion, Amagimetals, Provident\n\n**Nixon Shock**: When USD gold backing was removed by Nixon\n\n**Gold Certificates**: Documents tradeable for gold - what money used to be\n\n**Dealer Strategy**: Sell gold for STEEM → hold as value rises → trade for BTC → buy more gold than sold\n\n**Buying Advice**: Only buy for purity/weight - sentimental value lost when melted\n\n**Vision**: Gold-backed STEEM operations = more valuable community`;
+  }
   return null;
 }
 
