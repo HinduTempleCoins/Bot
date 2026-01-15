@@ -1,0 +1,244 @@
+{
+  "title": "Large Scale Cryptocurrency Project Guide - Minting Your Own Money",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016-2018 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/bitcoin/@marsresident",
+  "overview": "Comprehensive guide for creating mining pools, social media blockchains, Steemit/Bitshares clones, and complete cryptocurrency ecosystems using Graphene blockchain",
+
+  "requirements": {
+    "vm_instance": {
+      "os": "Ubuntu 14.4.5 Trusty Tahr",
+      "vcpu": "2 vCPU",
+      "ram": "8 or 13 GB"
+    }
+  },
+
+  "mining_pool_setup": {
+    "commands": [
+      "sudo apt-get install git",
+      "sudo apt-get install redis-server",
+      "sudo apt-get install libboost1.55-all-dev",
+      "sudo apt-get install nodejs-dev",
+      "sudo apt-get install nodejs-legacy",
+      "sudo apt-get install npm",
+      "sudo apt-get install cmake",
+      "sudo apt-get install libssl-dev",
+      "git clone https://github.com/fancoder/cryptonote-universal-pool.git pool",
+      "cd pool",
+      "npm update",
+      "nano config.json",
+      "node init.js"
+    ],
+    "config_note": "Replace XDN Wallet Address in config.json with your own",
+    "mining_portal": "https://github.com/UNOMP/unified-node-open-mining-portal"
+  },
+
+  "graphene_ecosystem": {
+    "bitshares": {
+      "significance": "First coin to allow Smart Contracts/Tokens (before Ethereum)",
+      "tokens": "User Issued Assets (UIAs)",
+      "github_core": "https://github.com/bitshares/bitshares-core",
+      "github_ui": "https://github.com/bitshares/bitshares-ui"
+    },
+    "openledger": {
+      "description": "Decentralized Exchange Platform",
+      "operation": "Nodes held open by voted-for people - no single company operates it",
+      "url": "https://openledger.info/",
+      "explorer": "http://cryptofresh.com/"
+    },
+    "graphene_blockchain": {
+      "github": "https://github.com/cryptonomex/graphene",
+      "tutorial": "https://objectcomputing.com/resources/publications/sett/march-2017-graphene-an-open-source-blockchain/"
+    }
+  },
+
+  "steemit_ecosystem": {
+    "description": "Like OpenLedger but Social - like Reddit with voting",
+    "url": "https://steemit.com/",
+    "fork_example": "https://github.com/Someguy123/understeem",
+    "precursor": {
+      "name": "Synereo",
+      "note": "Steemit copied Synereo",
+      "url": "http://www.synereo.com/",
+      "bitcointalk": ["topic=827782", "topic=2413752"]
+    }
+  },
+
+  "social_blockchain_resources": {
+    "goal": "Create any kind of Social Media Platform on the Blockchain",
+    "bitcointalk_threads": "30+ social/social media blockchain project threads listed",
+    "graphene_bots": {
+      "voter_bot": "https://steemit.com/bots/@personz/a-new-voter-bot-newer-smarter-freer",
+      "bot_guide": "https://steemit.com/guide/@bitcoinparadise/do-you-want-to-run-you-own-voting-bot"
+    }
+  },
+
+  "coin_creation_resources": {
+    "video_guides": "https://bitcointalk.org/index.php?topic=1278734.0",
+    "cryptonote_starter": "https://cryptonotestarter.org/",
+    "free_paid_services": {
+      "wallet_builders": "https://www.walletbuilders.com/",
+      "colored_coins": "http://coloredcoins.org/",
+      "build_a_coin": "http://build-a-co.in/"
+    },
+    "token_creation": {
+      "ethereum": "https://www.ethereum.org/token",
+      "bitshares": "bitshares.openledger.info/account/(username)/assets/",
+      "note": "These are contracts like company shares, not true cryptocurrencies"
+    }
+  },
+
+  "wallet_building_guides": {
+    "windows_qt": "https://cryptocointalk.com/topic/13204-how-to-build-a-windows-qt-wallet/",
+    "bitcointalk_guides": ["topic=586844", "topic=498746"],
+    "pos_coin_guide": "https://steemit.com/altcoins/@complexring/how-to-build-proof-of-stake-altcoins"
+  },
+
+  "cloning_guides": {
+    "bitcoin_clone": "https://bitcointalk.org/index.php?topic=1019508.0",
+    "peercoin_clone": "https://talk.peercoin.net/t/creating-a-genesis-block/4337",
+    "ethereum_fork": {
+      "discussion": "https://ethereum.stackexchange.com/questions/2014/how-to-fork-my-own-version-of-eth",
+      "note": "According to some, cloning Ethereum is extremely easy - only 2 steps"
+    },
+    "general_guides": [
+      "https://forum.gethashing.com/t/how-to-clone-a-coin-links-and-resources/3833",
+      "http://dillingers.com/blog/2015/04/18/how-to-make-an-altcoin/"
+    ]
+  },
+
+  "forking_coin_steps": {
+    "github_fork": "Find coin on Github, click the fork icon",
+    "important_changes": [
+      {
+        "item": "Coin names",
+        "action": "Find and replace all old coin names in main.cpp (check lowercase, uppercase, with 'coin')"
+      },
+      {
+        "item": "Identifiers",
+        "action": "Replace coin identifiers (e.g., LTC to DOGE)"
+      },
+      {
+        "item": "Block reward",
+        "action": "Change number of coins rewarded where it says 'Subsidy'"
+      },
+      {
+        "item": "Block time",
+        "action": "Change block time"
+      },
+      {
+        "item": "Difficulty",
+        "action": "Change difficulty (called 'Target')"
+      },
+      {
+        "item": "Halving",
+        "action": "Change block height and halving time"
+      },
+      {
+        "item": "Genesis block",
+        "action": "Set to 'x0' - delete all numbers after x0"
+      },
+      {
+        "item": "Merkle root",
+        "action": "Remove for clones (may differ for forks)"
+      },
+      {
+        "item": "Headline",
+        "action": "Change to headline from creation day"
+      },
+      {
+        "item": "Epoch time",
+        "action": "Change to current epoch time"
+      },
+      {
+        "item": "Nnonce",
+        "action": "Remove"
+      },
+      {
+        "item": "Checkpoints",
+        "action": "Remove all but 1"
+      },
+      {
+        "item": "Ports",
+        "action": "Change if desired"
+      }
+    ],
+    "after_changes": [
+      "Compile coin and run with fatal error to get Merkle and Nnonce",
+      "Mine Genesis block",
+      "Use Gitian Builder for wallet",
+      "Upload to Github and mine"
+    ]
+  },
+
+  "genesis_block_resources": {
+    "generator": "https://bitcointalk.org/index.php?topic=181981.0",
+    "stack_overflow": "http://stackoverflow.com/questions/20772606/how-to-create-a-genesis-block",
+    "bitcoin_stackexchange": "https://bitcoin.stackexchange.com/questions/21303/how-can-i-create-a-new-genesis-block"
+  },
+
+  "developer_resources": {
+    "gitian_builder": "https://github.com/devrandom/gitian-builder",
+    "ethereum_serpent": "https://mc2-umd.github.io/ethereumlab/docs/serpent_tutorial.pdf",
+    "altcoin_treatise": "https://download.wpsoftware.net/bitcoin/alts.pdf",
+    "bitcoin_protocol": "https://pdfs.semanticscholar.org/e85a/a20a544f521b9ac529027fce3cbd28dc637b.pdf",
+    "learncoin_berkeley": "https://www.ocf.berkeley.edu/~baisang/LearnCoin.pdf",
+    "practicecoin": "http://practicecoin.com/wp-content/uploads/2017/04/Cloning-Bitcoin-0.8.99.pdf",
+    "premine_guide": "http://dillingers.com/blog/2015/04/23/adding-a-premine-to-an-altcoin/"
+  },
+
+  "cryptonote_note": {
+    "philosophy": "They don't mind people making new coins and believe in plurality",
+    "benefit": "Refreshing difference compared to normal 'shitcoin' reception new coins get",
+    "forknote_errors": "https://bytecointalk.org/showthread.php?tid=1218"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "mining_pool_setup",
+      "graphene_ecosystem",
+      "coin_forking",
+      "genesis_block_creation"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What was Bitshares' innovation that came before Ethereum?",
+        "a": "First coin to allow Smart Contracts/Tokens - called User Issued Assets (UIAs)",
+        "explanation": "Ethereum popularized the concept but Bitshares did it first"
+      },
+      {
+        "q": "What is OpenLedger?",
+        "a": "Decentralized Exchange Platform where nodes are held by voted-for people - no single company operates it",
+        "explanation": "Exists entirely on blockchain with Cryptofresh explorer"
+      },
+      {
+        "q": "What platform did Steemit copy according to @marsresident?",
+        "a": "Synereo - a social blockchain platform that preceded Steemit",
+        "explanation": "Steemit is like OpenLedger but Social, like Reddit with voting"
+      },
+      {
+        "q": "What must you change when forking a coin?",
+        "a": "Coin names, identifiers, block reward (Subsidy), block time, difficulty (Target), halving, genesis block, Merkle root, headline, epoch time, Nnonce, checkpoints, ports",
+        "explanation": "Then compile, get Merkle/Nnonce from fatal error, mine genesis block"
+      },
+      {
+        "q": "What tool is used to build the wallet after forking?",
+        "a": "Gitian Builder - https://github.com/devrandom/gitian-builder",
+        "explanation": "Final step before uploading to Github and mining"
+      }
+    ],
+    "achievement_unlocks": [
+      "Pool Operator: Setup your own mining pool",
+      "Graphene Developer: Understand Bitshares/Steemit ecosystem",
+      "Coin Forker: Know all the steps to fork a cryptocurrency",
+      "Genesis Miner: Create genesis blocks for new chains"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Complete technical sovereignty - build entire cryptocurrency ecosystems",
+    "application": "Van Kush could deploy social blockchain platforms",
+    "philosophy": "Knowledge of money creation is power - anyone can mint their own money"
+  }
+}

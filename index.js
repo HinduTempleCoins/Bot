@@ -532,6 +532,31 @@ function getOilahuascaResponse(topic) {
   if (t.includes('spear of destiny') || t.includes('royal mysticism')) {
     return `👑 **Royal Mysticism - The Spear of Destiny**\n\n**Legend**: Holy Lance that pierced Christ\n\n**Power**: Grants authority to holder\n\n**Historical Claim**: Hitler lost power when he lost the spear\n\n**Angelicalist Interpretation**:\n• Spiritual authority in new era\n• Collective belief creates power\n• Spiritual backing for material goals\n\n**Van Kush Position**: "The Angels are Coming" - not just metaphor`;
   }
+  // Symbolism, Culture & Gods
+  if (t.includes('symbolism') || t.includes('chirality') || (t.includes('symbol') && t.includes('meaning'))) {
+    return `🔯 **Symbolism & Chirality (@marsresident)**\n\n**Symbolism**: Related to Symmetry - symbols should be "the same on both sides" when placed next to their meaning\n\n**Examples**: Eagle (America), Cross (Christianity), Lotus (Hinduism), Lion (universal)\n\n**Chirality**: Like hands - same but opposite (mirror relationship)\n\n**Geographic Symbolism**: Memphis TN named for Memphis Egypt (similar river positions)\n\n**Power**: Sacred images evoke emotions, some feel "God is watching"`;
+  }
+  if (t.includes('evil eye') || t.includes('nazar')) {
+    return `👁️ **Evil Eye / Nazar**\n\n**Purpose**: Keep away "evil eyes" (envy)\n\n**Belief**: When someone looks with envy, you receive a curse\n\n**Function**: Protection amulet against curses\n\n**Prevalence**: Popular in India and Turkey\n\n**In Sacred Art**: Often used as underlying protective layer in composite images`;
+  }
+  if (t.includes('eye of wadjet') || t.includes('eye of horus') || (t.includes('egyptian') && t.includes('eye'))) {
+    return `👁️ **Eye of Wadjet / Eye of Horus**\n\n**Note**: Different from Eye of Ra\n\n**Wadjet**: Protector of Kings & Country, Goddess of Oracles\n\n**Merger**: Eventually became Wadjet-Bast (connection to feline goddess)\n\n**Afterlife Power**: Allows the dead to see - bridge between Life and Afterlife\n\n**Par-Oh Clarification**: "Pharaoh" was the PALACE name, not king's title. Par-Oh housed the King, Apis Bull, Twins`;
+  }
+  if (t.includes('borjgali') || (t.includes('tree of life') && !t.includes('kabbalah'))) {
+    return `🌳 **Borjgali - Georgian Tree of Life**\n\n**Meanings**: Tree of Life, Eternity, Past-Present-Future continuity\n\n**Structure**: Roots = Past, Branches = Future\n\n**Cross-Cultural**: \n• Egypt: Pre-Biblical hierarchical chain of creation\n• Judaism: Sephirot / Tree of Knowledge\n• Native American: Various traditions\n\n**Significance**: Universal symbol predating all Abrahamic religions`;
+  }
+  if (t.includes('khepri') || t.includes('scarab') || t.includes('dung beetle')) {
+    return `🪲 **Khepri - The Keeper (Scarab God)**\n\n**Representation**: Dung Beetle\n\n**Symbolism**:\n• Metamorphosis (like butterfly with deeper meaning)\n• Ball-rolling = force moving Sun across sky\n• Meanings: Eternity, Creation, Rebirth\n\n**Solar Trinity**:\n• Khepri = Morning Sun\n• Ra = Mid-Day Sun\n• Atum = Setting Sun`;
+  }
+  if (t.includes('hathor') || (t.includes('horns') && (t.includes('divine') || t.includes('symbol') || t.includes('egypt')))) {
+    return `🐄 **Hathor & The True Meaning of Horns**\n\n**Hathor**: Mother of Apis, depicted with horns\n\n**Horns DID NOT Mean Evil**: In Ancient Egypt, horns symbolized:\n• The Ba soul (1 of 5 souls)\n• Divinity/spirit within person\n• That figure was a God\n\n**Evidence**: Alexander the Great depicted with horns on coins to show divinity\n\n**Bat Goddess**: Pre-Dynastic horned goddess of Duality (before King Scorpion united Egypt)`;
+  }
+  if (t.includes('punt') || t.includes('land of the gods')) {
+    return `🏛️ **Punt - The Land of the Gods**\n\n**Age**: Older than Egypt (Egypt is 4000+ years old)\n\n**Egyptian Name**: "The Land of the Gods"\n\n**Status**: Never been found - one of archaeology's great mysteries\n\n**Evidence**: Egyptians traded with Punt\n\n**Significance**: Source civilization even older than Kemet`;
+  }
+  if (t.includes('liberty pole') || (t.includes('phrygian') && t.includes('cap'))) {
+    return `🗽 **Phrygian Cap & Liberty Pole**\n\n**Origin**: Phrygia (modern Turkey)\n\n**Meaning**: Symbolizes Liberty\n\n**Roman Usage**: Worn by freed slaves\n\n**Liberty Pole Origin**: First appeared after Julius Caesar assassination\n\n**Modern Appearances**: US Senate Seal, US Army Seal, French Revolution (Statue of Liberty)\n\n**Divine Connection**: Symbol of God Mithra\n\n**Theory**: Most likely origin of FLAGS`;
+  }
 
   // Angels vs Aliens
   if (t.includes('alien') && (t.includes('angel') || t.includes('don\'t exist') || t.includes('uap'))) {
@@ -665,6 +690,19 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('bounty currency') || t.includes('devcoin model') || (t.includes('dev') && t.includes('bounty'))) {
     return `🎯 **Bounty Currencies - The DevCoin Model**\n\n**Concept**: Percent to miners, percent to bounty share system\n\n**DevCoin Example**:\n• Paid writers monthly based on word count\n• Developers earned lifetime bounties\n• $13 per share, ~$3 per hour\n\n**Mechanism**:\n• Bounties can be one-time or permanent\n• "Streaming income" for continuous work\n• CSV receiver files for transparency\n\n**Van Kush Connection**: Van Kush was top DevCoin earner for MONTHS\n\n**Legacy**: HIVE blogging rewards are spiritual successor`;
+  }
+  // CryptoNight and CPU Mining (2016)
+  if (t.includes('cryptonight') || t.includes('cryptonote') || (t.includes('cpu') && t.includes('mining'))) {
+    return `⛏️ **CryptoNight - CPU Mining Revolution (@marsresident 2016)**\n\n**Problem**: Bitcoin/Litecoin became ASIC-only, regular people excluded\n\n**Solution**: CryptoNight algorithm (Kryptonite = ASIC weakness)\n\n**Key Feature**: CPU-mineable, GPUs work at reduced rates\n\n**Major CryptoNote Coins**:\n• Monero (largest)\n• Aeon (lightweight)\n• Boolberry (privacy)\n• Dashcoin (not DASH)\n\n**Vision**: Server mining, cloud VM mining, democratized wealth creation\n\n**Technical Note**: Need 2MB cache per CPU core (not just RAM)\n\n**Legacy**: Monero became major privacy coin`;
+  }
+  if (t.includes('asic') || t.includes('asic resistance') || (t.includes('mining') && t.includes('hardware'))) {
+    return `🔧 **ASIC Mining Evolution**\n\n**Phase 1 (2009-10)**: Laptop CPUs - anyone could mine\n**Phase 2 (2010-12)**: GPUs - parallel processing advantage\n**Phase 3 (2013+)**: ASICs - specialized chips dominate\n\n**Early ASIC Makers**: Butterfly Labs, Block Erupter USBs\n\n**Result**: CPU mining became pointless - electricity > returns\n\n**CryptoNight Solution**: Algorithm designed to resist ASICs\n\n**STEEM Approach**: DPoS means no hardware advantage\n\n**@marsresident 2016**: "CPU mining brings new demographics to crypto"`;
+  }
+  if (t.includes('cloud mining') || t.includes('vm mining') || (t.includes('azure') && t.includes('mining'))) {
+    return `☁️ **Cloud/VM Mining Theory (@marsresident 2016)**\n\n**Concept**: Mine crypto using cloud virtual machines\n\n**Platforms**: Amazon AWS, Microsoft Azure, Windows Cloud\n\n**Traditional Coins**: NOT profitable via cloud\n**CryptoNotes**: COULD be profitable (CPU-friendly algorithm)\n\n**Vision**: "Server coin" or "Ubuntu coin" optimized for cloud\n\n**Significance**: Anyone with cloud access can participate\n\n**Reality Check**: Many cloud mining services turned out to be scams\n\n**Legacy**: Idea predated Ethereum staking services`;
+  }
+  if (t.includes('server mining') || t.includes('holdcoin')) {
+    return `🖥️ **Server Mining Concept (2016)**\n\n**Theory**: Point idle servers at CryptoNight coins\n\n**Hash Rate Factors**: CPU cores + cache (NOT RAM)\n\n**Example**: HoldCoin - mined on servers\n\n**Use Case**: 100 servers for a week = significant mining\n\n**Server Coin Vision**: Modify CryptoNote specifically for server optimization\n\n**@marsresident**: "Could change cryptocurrency if done right"`;
   }
   // Press Pass and Citizen Journalism
   if (t.includes('press pass') || t.includes('citizen journalism') || (t.includes('steemit') && t.includes('journalist'))) {
@@ -898,6 +936,194 @@ function getOilahuascaResponse(topic) {
   }
   if (t.includes('edgewood') || t.includes('cbrn') || t.includes('bz agent') || t.includes('army experiment')) {
     return `🔬 **Edgewood Arsenal - Government Psychotropic Research**\n\n**What**: US Army human experiments with psychotropic chemicals\n**Location**: Edgewood Arsenal, Maryland\n**Period**: 1948-1975\n\n**Substances Tested**:\n• LSD, Mescaline\n• BZ (3-Quinuclidinyl benzilate)\n• Nerve agents\n\n**Subjects**: ~7,000 US soldiers\n\n**Shulgin Connection**: Discussed US/Russian government research\n\n**CBRN**: Chemical, Biological, Radiological, Nuclear protocols`;
+  }
+  // Christmas and Mithraic Origins (@marsresident 2016)
+  if (t.includes('christmas') || t.includes('mithras') || t.includes('mithra') || t.includes('saturnalia') || t.includes('yule') || t.includes('jeremiah 10')) {
+    return `🎄 **The Real Meaning of Christmas (@marsresident 2016)**\n\n**Pre-Christian Origins**:\n• Saturnalia (Roman): Dec 17-23, gift giving, role reversals\n• Yule (Germanic): Winter solstice, Yule log, mistletoe\n• Dies Natalis Solis Invicti: Dec 25, Birthday of Unconquered Sun\n\n**Mithraic Connection**:\n• Mithras born Dec 25 from a rock (Petra Genetrix)\n• Shepherds witnessed the birth\n• Sol Invictus cult merged with early Christianity\n\n**Biblical Prohibition**: Jeremiah 10:2-4 warns against decorating trees\n\n**Van Kush View**: Understanding origins doesn't diminish celebration - adds depth`;
+  }
+  // Mystery Schools Comprehensive (@marsresident 2016)
+  if (t.includes('mystery school') || t.includes('golden dawn') || t.includes('amorc') || t.includes('rosicrucian') || t.includes('fire temple') || t.includes('abraxas')) {
+    return `🔯 **Mystery Schools - Esoteric Traditions (@marsresident 2016)**\n\n**Fire Temples**: Most common Mystery School today (Zoroastrian/Hindu)\n\n**Western Traditions**:\n• Hermetic Order of Golden Dawn (UK) - Regardie's text still used\n• AMORC (Rosicrucians) - "What many call the Illuminati"\n• Church of Light (1932) - Aquarian Age teachings\n\n**Mathematical Mysticism**:\n• Abraxas = 365 (Greek letter values)\n• Gematria: Words with same value = "the same"\n• Pythagorean numerology: All reduces to 1-10\n\n**Egyptian Foundations**: 5 aspects of soul (Sheut, Ren, Ka, Ib, Ba, Akh)`;
+  }
+  // Steemit Earning Guide (@marsresident 2016)
+  if (t.includes('steemit earn') || t.includes('steem money') || t.includes('voting power') || (t.includes('steem') && t.includes('guide'))) {
+    return `💰 **How to Earn on Steemit (@marsresident 2016)**\n\n**Core Concept**: "No one gives you money - upvotes GENERATE money via STEEM"\n\n**Earning Methods**:\n• Posting: Main content creation\n• Commenting: Comments earn rewards too\n• Curating: Vote early on good content\n\n**Building Power**:\n• Buy & Load: $50K at $0.10 = massive voting power\n• Group Strategy: Coordinate voting, help each other rise\n• Buy when LOW, sell when RISING\n\n**Time Advantage**: Early adopters compound power over 2, 5, 10 years\n\n**Rhetorical Question**: "How many times has Facebook paid you for a post?"`;
+  }
+  // Revolutionary Generation (@marsresident 2016)
+  if (t.includes('revolutionary generation') || t.includes('founding fathers') || (t.includes('washington') && t.includes('lineage')) || (t.includes('franklin') && t.includes('mason'))) {
+    return `🗽 **The Revolutionary Generation (@marsresident 2016)**\n\n**Key Insight**: 300 years between Columbus and Revolution - revolutions are BUILT\n\n**Washington Lineage**:\n• Great-great-grandfather lost Oxford position for being Royalist\n• Multi-generational grievance against Parliament\n• DC flag = Washington Family Coat of Arms\n\n**Franklin's Significance**:\n• ONLY confirmed Founding Father Mason (1734 letter proves it)\n• Self-educated through reading (only 2 years college)\n• About 70 years old when Revolution started\n\n**Pattern**: Self-education, insider defection, secret societies`;
+  }
+  // Black Panther Revolutionary Analysis (@marsresident 2016)
+  if (t.includes('black panther') || t.includes('eldridge cleaver') || t.includes('fred hampton') || t.includes('colonial analysis') || t.includes('internal colony')) {
+    return `✊ **Black Panther Revolutionary Analysis (@marsresident 2016)**\n\n**Colonial Framework** (from Algerian FLN):\n• Local police = colonial occupying army\n• Black community = internal colony of America\n• Three classes of evil: Businessmen, Politicians, Police\n\n**Fred Hampton on Education**:\n• "Revolution without education leads to new oppression"\n• Wrong: Hate white people\n• Right: Hate the OPPRESSOR - any color\n\n**Eldridge Cleaver**: "Spirit of the people is greater than all government technology"\n\n**"Law and Order"**: Decoded as "Slavery, Suffering and Death"`;
+  }
+  // Snowden/NSA Privacy (@marsresident 2016)
+  if (t.includes('snowden') || t.includes('prism') || t.includes('nsa') || t.includes('foia') || t.includes('privacy act') || t.includes('surveillance')) {
+    return `🔒 **Snowden Revelations & Privacy (@marsresident 2016)**\n\n**PRISM**: NSA using Google, Facebook, Yahoo servers for mass collection\n\n**Your Rights**:\n• FOIA Request: Get records about YOU\n• Privacy Act Request: Standard for personal records\n• Can file BOTH simultaneously\n\n**Key Cases**:\n• Katz v. US: Reasonable expectation of privacy\n• Riley v. California: Cell phone records protected\n• Kyllo v. US: Thermal imaging = search requiring warrant\n\n**ECPA Penalties**: Up to 5 years prison, $250K fines\n\n**Van Kush Philosophy**: Knowledge of rights enables their exercise`;
+  }
+  // Revolution Series Complete (@marsresident 2016)
+  if (t.includes('revolution series') || t.includes('8 parts') || (t.includes('revolution') && t.includes('parts'))) {
+    return `📜 **@marsresident Revolution Series (8 Parts)**\n\n1. **Revolutionary Generation**: How revolutions are BUILT over 300 years\n2. **Guerilla Warfare**: Tactical concepts from historical movements\n3. **Steal This Book**: Abbie Hoffman's 1971 counterculture guide\n4. **Rebellion**: Revolution is War, Rebellions are Battles\n5. **Liberty**: Phrygian Cap journey from Phrygia to Statue of Liberty\n6. **Education**: Why education must precede revolution (Texas model)\n7. **Music & Harmony**: Revolution as retuning, not destruction\n8. **Justice & Politics**: COINTELPRO, court system reality\n\n**Core Insight**: Revolutions are BUILT over generations, not spontaneous`;
+  }
+  // Liberty & Phrygian Cap (@marsresident 2016)
+  if (t.includes('liberty pole') || t.includes('liberty cap') || (t.includes('liberty') && t.includes('symbol'))) {
+    return `🗽 **Liberty & The Phrygian Cap (@marsresident 2016)**\n\n**Origins**: Phrygia (modern Turkey) - known for cherries, roses, red things\n\n**Bekos Experiment**: Pharaoh raised children in isolation - first word was 'Bekos' (Phrygian for 'Bread')\n\n**Journey Through History**:\n• Julius Caesar assassination → Brutus held cap on pole → Liberty Pole\n• US Senate Seal, US Army Seal\n• French Revolution (Guillotine paired with cap)\n• Santa Claus wears Phrygian Cap!\n• Statue of Liberty wears crown of Mithras\n\n**Mithras Connection**: Cap is symbol of God Mithras, whose rituals established Bullfighting`;
+  }
+  // Revolutionary Education (@marsresident 2016)
+  if (t.includes('revolutionary education') || t.includes('texas revolution') || t.includes('rites of passage') || t.includes('come and take it')) {
+    return `📚 **Revolutionary Education (@marsresident 2016)**\n\n**Fred Hampton**: "Revolution without education leads to new oppression"\n• Jomo Kenyatta, Papa Doc became oppressors - no education\n• Right: Hate the OPPRESSOR, not a race\n\n**Texas Model**:\n• 6th grade: Texas Revolution of 1836 (not 1776 powdered wigs)\n• "Come and Take It" flag - Mexico wanted cannon back\n• Cities named for revolutionaries: Austin, Houston\n\n**Rites of Passage**: Bar Mitzvah, Quinceanera, Driver's License - all shape identity\n\n**Insight**: Revolution must include Education or provide it`;
+  }
+  // Rebellion & Uprising (@marsresident 2016)
+  if (t.includes('rebellion') || t.includes('uprising') || t.includes('spartacus') || t.includes('salt march') || t.includes('powder alarm')) {
+    return `⚔️ **Rebellion & Uprising (@marsresident 2016)**\n\n**Key Insight**: Revolution is WAR; Rebellions are BATTLES\n\n**Historical Examples**:\n• Powder Alarm 1774: 2 years BEFORE Lexington - British tried to seize gunpowder\n• Gandhi Salt March: 240 miles, 60,000 arrested, Imperial system halted\n• Spartacus: If he'd taken Rome = Revolution, not just Rebellion\n\n**Jefferson**: "God forbid 20 years without such a rebellion"\n\n**Yippie 18-Point Manifesto**: "We are the second American Revolution"`;
+  }
+  // Revolutionary Music & Harmony (@marsresident 2016)
+  if (t.includes('revolutionary music') || (t.includes('revolution') && t.includes('harmony')) || t.includes('star spangled') || t.includes('la cucaracha')) {
+    return `🎵 **Revolution & Harmony (@marsresident 2016)**\n\n**Core Concept**: Revolution is NOT about violence - it's achieving NEW HARMONY\n\n**Harmony Phenomenon**: Multiple people hitting same pitch - sound amplifies\n\n**Jefferson**: "A little rebellion now and then is a good thing - medicine for government"\n\n**Revolutionary Songs**:\n• Star Spangled Banner (American)\n• La Cucaracha (Mexican)\n• Soviet anthems\n\n**Revolution = Retuning**: American Revolution was time of Anarchy → new Harmony`;
+  }
+  // Justice & COINTELPRO (@marsresident 2016)
+  if (t.includes('cointelpro') || t.includes('hanrahan') || (t.includes('justice') && t.includes('revolution')) || t.includes('bounds v smith')) {
+    return `⚖️ **Justice & Politics (@marsresident 2016)**\n\n**Justice**: Amorphous God - when scales tip toward Government, there is Revolution\n\n**Fred Hampton Assassination**:\n• FBI + Chicago DA Edward Hanrahan\n• Killed in bed, claimed gun fight\n• Hanrahan v. Hampton 446 U.S. 754 (1980) - revealed after 20 years\n\n**Court Reality** (Bounds v. Smith):\n• 99% waive trial\n• 0.5% present case law\n• "Dedicated judges overlook meritorious cases without adversary presentation"`;
+  }
+  // Antifa & Violence Justification (@marsresident 2017)
+  if (t.includes('antifa') || t.includes('violence justif') || t.includes('e tu brute') || (t.includes('protest') && t.includes('violent'))) {
+    return `✊ **Violence Justification Analysis (@marsresident 2017)**\n\n**Thesis**: Violence can be justified and is sometimes necessary\n\n**Antifa Origins**: GDR Germany (Berlin Wall era) - NOT America\n• Anti-Fascists were NEVER Anti-Violence from inception\n• Hijacked Anti-War rally - wanted war with Fascists\n\n**Black Panthers**: Self Defense against police in segregated America\n• Huey Newton - shot first by officer, charges dropped by CA Supreme Court\n\n**Hypocrisy**: Same people who say "violence never justified" justify police killings\n\n**Note**: Not a call TO violence - analysis of WHY violence gets justified`;
+  }
+  // Humanity & Fossil Record (@marsresident 2017)
+  if (t.includes('fossil record') || t.includes('sahelanthropus') || t.includes('mitochondrial eve') || t.includes('human evolution') || t.includes('denisovan')) {
+    return `🦴 **Humanity: The Fossil Record (@marsresident 2017)**\n\n**Timeline**: 7 Million years of human ancestors\n\n**Key Specimens**:\n• Sahelanthropus (7M years) - oldest\n• Laetoli Footprints (3.6M) - first walking upright\n• Lucy (3.2M)\n• Homo Habilis (1.4-2.3M)\n• Neanderthal 1 (40K)\n\n**DNA Discoveries**:\n• Mitochondrial Eve: Theoretical mother of humanity\n• Denisovans: Interbred with modern humans\n• 4-6% Neanderthal DNA in most humans (except Sub-Saharan Africans)\n\n**Key Insight**: Not linear evolution - species MIXING, mutants, recombination`;
+  }
+  // Business Rules Engines (@marsresident 2016)
+  if (t.includes('business rules') || t.includes('expert system') || t.includes('inference engine') || t.includes('mycin') || t.includes('forward chaining') || t.includes('backward chaining')) {
+    return `⚙️ **Business Rules Engines (@marsresident 2016)**\n\n**Core Thesis**: Government & Business run on BREs - Crypto + BREs = Decentralized Democracy\n\n**Expert Systems**: MYCIN (medical), PROSPECTOR (geology), DENDRAL (chemistry)\n\n**Inference Engines**:\n• Forward Chaining: Data-driven (start with facts)\n• Backward Chaining: Goal-driven (start with hypothesis)\n\n**Production Rules**: IF condition THEN action\n\n**Crypto Application**: Each wallet = 1 vote, rules submitted and voted by community\n\n**Vision**: Coins could become democratic structures, not just currencies`;
+  }
+  // Bots & Machines (@marsresident 2016)
+  if (t.includes('bazillion beings') || (t.includes('bot') && t.includes('future')) || t.includes('there\'s a bot')) {
+    return `🤖 **Let The Machines Do The Work (@marsresident 2016)**\n\n**Prediction**: "There's an app for that" → "There's a bot for that"\n\n**Bazillion Beings** (Armenia):\n• App that hosts bots - no need to know specific bot exists\n• Bots learn about you, get smarter\n• Mix best features from others' bots\n• Bots earn cryptocurrency FOR you\n\n**Revolutionary Aspect**: Started OUTSIDE crypto world reaching in\n\n**NGO Vision**: Red Cross, NASA could have currencies - fundraise like Steemit\n\n**Philosophy**: Let machines work so humans can create and connect`;
+  }
+  // Federalism & US Law (@marsresident 2016)
+  if (t.includes('federalism') || t.includes('three forms of law') || t.includes('case law') || t.includes('statutory law') || t.includes('writ writer')) {
+    return `⚖️ **Intro to Federalism (@marsresident 2016)**\n\n**Core Principle**: Voluntary governance, no ruling class, 3 competing branches\n\n**Three Forms of Law**:\n1. **Fundamental**: Constitution - the Contract\n2. **Statutory**: Acts of Congress (USC)\n3. **Case Law**: THE REAL LAW - 300 years of interpretation\n\n**vs Personal Law** (India): Religions have different rights\n**US**: States are the "personal" part - all submit to Constitution\n\n**Writ Writers**: Almost all started as Jailhouse Lawyers - learned law in prison, not law school\n\n**Warning**: Republicans/Democrats are factions that may be downfall of America`;
+  }
+  // Revolution Foundations (@marsresident 2016)
+  if (t.includes('eldridge cleaver') || t.includes('fred hampton') || (t.includes('revolution') && t.includes('driver'))) {
+    return `✊ **Revolution Foundations (@marsresident 2016)**\n\n**Livy**: "Avarice and luxury - two plagues that have been ruin of every great empire"\n\n**Actual Drivers**: Wealth Distribution & Freedom Distribution imbalance\n\n**Eldridge Cleaver**: "Spirit of the people is greater than all Government's Technology"\n• Local Police = occupying army (Algerian parallel)\n\n**Fred Hampton**: "Revolution without education = new oppressor"\n• Kenyatta, Papa Doc became oppressors - no education\n\n**Essential Reading**: Art of War, Federalist Papers, Civil Disobedience, Rules for Radicals`;
+  }
+  // Guerilla Warfare (@marsresident 2016)
+  if (t.includes('guerilla') || t.includes('hannibal barca') || t.includes('psychological operations') || t.includes('battle of cannae')) {
+    return `⚔️ **Guerilla Warfare (@marsresident 2016)**\n\n**CIA Manual**: Guerillas must make people believe guns are FOR them\n• Hang up guns, help community\n• Tell community to be transparent with Government\n\n**Hannibal Barca**:\n• Oath: "Never be friend to Rome" (sworn over fire)\n• Battle of Cannae: 45,000 defeated 85,000\n• Killed 25-30% of Roman Senate in one day\n• Maharbal: "You know how to gain victory, but not how to use one"\n\n**Antifa Origin**: Italian WWII resistance, NOT American - never anti-violence from inception`;
+  }
+  // Steal This Book (@marsresident 2016)
+  if (t.includes('steal this book') || t.includes('abbie hoffman') || t.includes('yippie') || t.includes('chicago 7')) {
+    return `📖 **Steal This Book Historical (@marsresident 2016)**\n\n**Author**: Abbie Hoffman (1971) - Chicago 7 defendant\n**Yippie Slogan**: "A Yippie is a Hippie that was beaten by the Cops"\n\n**Book Sections**:\n• FIGHT: Demonstrations, guerilla tactics\n• SURVIVE: Free food, shelter, communication\n• LIBERATE: Underground networks\n\n**Underground Press**: 500+ newspapers, UPS network\n**Guerrilla Broadcasting**: Legal to broadcast 100mW without license\n\n**Quote**: "Those who say demonstration should be education rather than theater don't understand either"`;
+  }
+  // Ancient Egypt / Kemet (@marsresident 2016)
+  if (t.includes('kemet') || t.includes('imhotep') || t.includes('ptahhotep') || t.includes('kemetic') || (t.includes('egypt') && t.includes('ancient'))) {
+    return `🏛️ **Knowledge in Ancient Egypt (@marsresident 2016)**\n\n**Timeline**: Egypt existed 3000+ years - US less than 300\n\n**Kemet** = "The Black Land" (fertile soil around Nile)\n\n**Imhotep** (2600 BC): Invented Surgery, Medicine, Columns, Stairs\n• READ BOOKS while other Viziers read entrails\n• Temple became first Hospital\n\n**Ptahhotep** (2500 BC): 110 years old, wrote 37 Maxims\n\n**Kemetic Soul**: Sheut (Shadow), Ren (Name), Ka (Life Spark), Ib (Heart), Ba (Personality), Akh (Mind)\n\n**Scarab Discovery** (2014): Beetles use stars to navigate - may have mapped stars for Egyptians`;
+  }
+  // Sa Neter TV / House of Konsciousness (@marsresident 2016)
+  if (t.includes('sa neter') || t.includes('house of konsciousness') || t.includes('hebrew israelite') || t.includes('moorish science') || t.includes('noble drew ali')) {
+    return `📺 **Sa Neter TV - House of Konsciousness (@marsresident 2016)**\n\n**Platform**: Brings together divided Black consciousness movements\n\n**Movements United**:\n• Kemetic/Egyptian consciousness\n• Hebrew Israelites\n• Moorish Science Temple (Noble Drew Ali)\n• Nation of Islam\n• Black Panther ideology\n\n**Leaders Referenced**: Elijah Muhammad, Noble Drew Ali, Marcus Garvey, Fred Hampton, Malcolm X, Dr. York\n\n**Debate Value**: More important than Christian/Atheist debates - addresses Black historical identity\n\n**Protest Tactics**: Show of force, Kumkuma powder (Hindu sacred powder)\n\n**Philosophy**: Unity through dialogue, not uniformity`;
+  }
+  // Cryptonote Coin Creation (@marsresident 2016)
+  if (t.includes('cryptonote') || t.includes('forknote') || t.includes('create coin') || t.includes('make coin') || t.includes('digitalocean droplet')) {
+    return `💰 **Cryptonote Coin Creation Guide (@marsresident 2016)**\n\n**Requirements**:\n• Ubuntu 14.4.5 (Trusty Tahr) - NOT newest version\n• 100GB+ free space\n• 2 DigitalOcean droplets ($10+ each)\n\n**Key Commands**:\nsudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install git -y\n\n**Resources**:\n• http://forknote.net/create/# - Fill form, get .json\n• https://github.com/forknote/cryptonote-generator\n\n**Steps**: Generate config → Setup droplets as nodes → Compile → Genesis block → Connect seed nodes → Create wallet\n\n**Insight**: Easier than most people think - anyone can create cryptocurrency`;
+  }
+  // Large Scale Crypto Project (@marsresident 2016)
+  if (t.includes('mining pool') || t.includes('graphene blockchain') || t.includes('bitshares') || t.includes('openledger') || t.includes('steemit clone') || t.includes('fork coin')) {
+    return `🏗️ **Large Scale Crypto Project Guide (@marsresident 2016)**\n\n**Mining Pool Setup**: redis-server, libboost, nodejs, npm, cmake, cryptonote-universal-pool\n\n**Graphene Ecosystem**:\n• Bitshares: First Smart Contracts/Tokens (before Ethereum) - UIAs\n• OpenLedger: Decentralized Exchange - no single operator\n• Steemit: Social blockchain (copied Synereo)\n\n**Forking a Coin**:\n1. Fork on GitHub\n2. Change: coin names, identifiers, Subsidy, block time, difficulty, genesis to x0\n3. Remove Merkle root, change epoch time, remove Nnonce\n4. Compile, mine genesis, use Gitian Builder for wallet\n\n**Philosophy**: Knowledge of money creation is power`;
+  }
+  // Ethereum Clone Guide (@marsresident 2016)
+  if (t.includes('clone ethereum') || t.includes('ethereum fork') || t.includes('geth') || t.includes('genesis.json') || t.includes('private blockchain')) {
+    return `⛓️ **How to Clone Ethereum (@marsresident 2016)**\n\n**Key Insight**: Easier to clone Ethereum than create Cryptonote!\n\n**Install**:\nsudo add-apt-repository -y ppa:ethereum/ethereum && sudo apt-get install ethereum\n\n**Genesis.json Key Fields**:\n• chainId: Unique network ID\n• difficulty: Lower = faster blocks for testing\n• gasLimit: Max gas per block\n• alloc: Pre-allocate ether to accounts\n\n**Start Network**:\ngeth --datadir ./myDataDir --networkid 1114 console\n\n**dApps**: Decentralized Apps - CryptoKitties showed mainstream potential\n\n**Tools**: Truffle, Ganache, Mist browser`;
+  }
+  // Ethereum Smart Contracts (@marsresident 2016)
+  if (t.includes('smart contract') || t.includes('solidity') || t.includes('remix ide') || t.includes('metamask') || t.includes('deploy contract')) {
+    return `📜 **Ethereum Smart Contracts (@marsresident 2016)**\n\n**Remix IDE**: https://remix.ethereum.org/ - Browser-based Solidity IDE\n\n**Connect to Private Network**: Environment → Web3 Provider → localhost:8545\n\n**Geth Commands**:\n• personal.newAccount("password")\n• personal.unlockAccount("address", "password")\n• miner.start()\n\n**Gas**: Internal pricing for EVM instructions - tx fails if not enough\n\n**Sample Contract** (Solidity):\npragma solidity ^0.4.11;\ncontract Hello { string public greeting; ... }\n\n**Deployment**: Unlock account → Set gas limit → Click Create\n\n**CryptoKitties Tutorial**: https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game`;
+  }
+  // Steem Gold & Crypto Economics (@marsresident 2016)
+  if (t.includes('steem gold') || t.includes('coin cap') || t.includes('devcoin') || t.includes('crypto economics') || (t.includes('bitcoin') && t.includes('value'))) {
+    return `💎 **Crypto Economics & Coin Caps (@marsresident 2016)**\n\n**Question**: Why can't I buy Gold with Steem yet?\n\n**Bitcoin Value Source**: NOT greed or security - Novelty + being used to purchase things\n• Started with Silk Road - utility drives value\n\n**Coin Caps**:\n• Devcoin: No cap, 180B/month - like holding Milk not Gold\n• Capped coins: More rare = higher value potential\n• Bitcoin at cap: Miners paid other ways or high tx fees\n\n**DOGE Success**: Started as joke - worked because people gave away 50K-100K freely\n\n**Thesis**: Linking crypto to real assets (gold) increases utility and value\n\n**History**: Author watched Bitcoin at $5 - "I know what I'm talking about"`;
+  }
+  // Cryptocurrency Towns Part 1 (@marsresident 2016)
+  if (t.includes('crypto town') || t.includes('cryptocurrency town') || t.includes('earthship') || t.includes('cob house') || t.includes('adobe house') || t.includes('start a town') || t.includes('town charter')) {
+    return `🏘️ **Cryptocurrency Towns Part 1 (@marsresident 2016)**\n\n**Vision**: 25,000 people with solar mining could outmine all BTC/LTC/ETH farms\n\n**Town Basics**:\n• Minimum ~6 acres\n• Need County approval or vote from splitting town\n• Requires Town Charter (constitution)\n\n**Housing**: Earthships (tires+cement, east-west, solar), Cob (clay+straw, fire/earthquake resistant), Adobe\n\n**First Priority**: Well Digger - everything expands from there, can find minerals/oil\n\n**Greek Model**: Polis (city-state) + Agora (voting center) - 12 Tribes, 1 People\n\n**Key Elections**: Sheriff, Judge, DA, Mayor - NOT President\n\n**Equipment**: Well digger, tractors, cement trucks, bulldozers, excavators`;
+  }
+  // Mystery Schools / Ogdoad (@marsresident 2016)
+  if (t.includes('ogdoad') || t.includes('mystery school') || t.includes('asclepeion') || t.includes('isopsephy') || t.includes('gematria') || t.includes('abraxas')) {
+    return `🔮 **Mystery Schools & Ogdoad (@marsresident 2016)**\n\n**Ogdoad**: Your calendar is a God - 7 days based on visible planets\n• Saturday=Saturn, Sunday=Sun, Monday=Moon, Thursday=Thor/Jupiter\n• Each associated with metals, gems, plants, animals\n\n**Asclepeion**: Temple hospitals - snakes, dogs, dreams for healing\n\n**Egyptian Soul** (6 parts): Sheut (Shadow), Ren (Name), Ka (Life Spark), Ib (Heart), Ba (Personality), Akh (Mind)\n\n**Abraxas**: Ἀβραξας = 365 (days/spirits)\n\n**Gematria**: Words with same numerical value are equivalent\n\n**Hindu Preservation**: Same temples/gods 4,500+ years - 90% of world's diamonds crafted in one place in India`;
+  }
+  // Punic Wax (@punicwax 2019)
+  if (t.includes('punic wax') || t.includes('encaustic') || t.includes('saponified beeswax') || t.includes('carthage') || t.includes('tyrian purple') || t.includes('phoenician')) {
+    return `🐝 **Punic Wax - Saponified Beeswax (@punicwax 2019)**\n\n**Definition**: Saponified Beeswax = Beeswax + Salt water + Baking soda/Ashes/Potash\n\n**Fritz Faiss Discovery**: Boiling 3x in seawater+soda raises melting point 60°C→100°C\n\n**Uses**: Soap, Paint, Incense + Resins/Gums/Oils/Fats\n\n**Carthage Achievements**:\n• Mini-skyscrapers, ocean-faring boats\n• Invented Phoenetic languages, clear glass\n• Tyrian Purple from conch shells\n\n**Gods**: Tannit (female chief), Baal-Hammon, Eshmun (Imhotep form)\n\n**Tel Arad Discovery**: 8th century BCE altars had cannabis + frankincense residues`;
+  }
+  // Neurospirituality (@punicwax 2019)
+  if (t.includes('neurospirituality') || t.includes('neuro spirit') || (t.includes('brain') && t.includes('god')) || (t.includes('sacrament') && t.includes('science'))) {
+    return `🧠 **Neurospirituality (@punicwax 2019)**\n\n**Definition**: Non-denominational philosophy that God impacts the brain in scientifically measurable ways\n\n**Core Thesis**: Religious experience is replicable through Sacrament or Eucharist\n\n**Quote**: "The sacraments, those sacred mixtures of matter and the Holy Spirit, fulfill that need" for tangible connection to the divine\n\n**Research**: https://www.researchgate.net/publication/308584387_NEUROSPIRITUALITY\n\n**Implication**: Science and religion both reveal truth about consciousness`;
+  }
+  // Genesis Block Guides Collection (@punicwax 2019)
+  if (t.includes('genesis block') || t.includes('clone coin') || t.includes('learncoin') || t.includes('practicecoin') || t.includes('gitian builder') || t.includes('wallet builder')) {
+    return `⛏️ **Genesis Block Guides Collection (@punicwax 2019)**\n\n**Key Insight**: Ethereum is easier than all Bitcoin cloning methods!\n\n**Resources**:\n• LearningCoin PDF: ocf.berkeley.edu/~baisang/LearnCoin.pdf\n• Gitian Builder: github.com/devrandom/gitian-builder\n• Mining Portal: github.com/UNOMP/unified-node-open-mining-portal\n\n**Free Services**: walletbuilders.com, coloredcoins.org, build-a-co.in\n\n**Note**: Ethereum/Bitshares tokens are contracts like company shares - NOT independent blockchains\n\n**PoS Guide**: steemit.com/altcoins/@complexring/how-to-build-proof-of-stake-altcoins`;
+  }
+  // EIP 1167 Token Cloning (@punicwax 2019)
+  if (t.includes('eip 1167') || t.includes('eip-1167') || t.includes('clone token') || t.includes('minimal proxy')) {
+    return `🔄 **EIP 1167: Cheap Token Cloning (@punicwax 2019)**\n\n**What It Does**: Drastically reduces cost of cloning Ethereum tokens\n\n**Specification**: github.com/ethereum/EIPs/blob/master/EIPS/eip-1167.md\n\n**Example**: 0xBitcoin - Bitcoin principles as Ethereum token\n• Add ETH as gas, mine the token\n• Bitcoin on Ethereum blockchain\n\n**Application**: PGL can create entire ecosystem of tokens cheaply\n\n**Gas**: Price of taking action on Ethereum blockchain`;
+  }
+  // Steemit History & TRON Takeover (@punicwax 2020)
+  if (t.includes('steemit history') || t.includes('tron takeover') || t.includes('justin sun') || t.includes('hive fork') || t.includes('graphene blockchain') || t.includes('delegated proof of stake')) {
+    return `📜 **Steemit History & TRON Takeover (@punicwax 2020)**\n\n**Author's BTC History**: Discovered at $5 via Silk Road → Bitcointalk.org\n\n**Steemit Tech**: Graphene Blockchain (Dan & Ned) - same as Bitshares, IBM uses it\n\n**DPoS Explained**:\n• Delegated = Voting\n• Proof of Work = Only voted Witnesses mine\n• Staking = Interest on holdings\n\n**TRON Takeover**: Ned sold to Justin Sun → Witness war → HIVE fork\n\n**Now 2 Platforms**: STEEM (Justin) and HIVE (Witnesses)\n\n**Communities**: Like Reddit subreddits, added by TRON team`;
+  }
+  // Medical Applications of Light (@marsresident 2015)
+  if (t.includes('melanopsin') || t.includes('blue light') || t.includes('circadian') || t.includes('light therapy') || t.includes('phytochrome')) {
+    return `💡 **Medical Applications of Light (@marsresident 2015)**\n\n**Melanopsin**: Photoreceptor in eye that maintains sleep cycle (not just receptor - affects brain deeper)\n\n**Blue Light**: Computer screens keep you awake - studies show similar to caffeine effects\n\n**Red Light**: Phytochrome in plants responds to red spectrum (flower cycles)\n\n**Ear Canal Light**: Double-blind study showed ear light exposure increases cognitive function!\n\n**Practical**: Reduce blue light before bed, strategic light exposure for mental performance`;
+  }
+  // Electronic Medicine & VR (@marsresident 2015)
+  if (t.includes('tdcs') || t.includes('transcranial') || t.includes('tens') || t.includes('brain stimulation') || (t.includes('vr') && t.includes('rehabilitation'))) {
+    return `⚡ **Electronic Medicine & VR (@marsresident 2015)**\n\n**tDCS**: Transcranial Direct Stimulation - currents through skull change brainwaves\n**TMS**: Transcranial Magnetic Stimulation - magnets change brainwaves\n**TENS**: Transcutaneous Electrical Nerve Stimulation - currents through skin\n**EEG**: Measures brain activity to perfect stimulation\n\n**Medical Use**: tDCS + VR for limb rehabilitation - show VR limbs moving while stimulating brain\n\n**Enhancement**: Woman with device had better accuracy, time felt different\n\n**Future**: VR training for sports, combat, reflexes - learning could feel like cocaine`;
+  }
+  // DogeCoin Success Story (@marsresident 2015)
+  if (t.includes('dogecoin') || t.includes('doge coin') || t.includes('much wow') || t.includes('to the moon')) {
+    return `🐕 **How DogeCoin Overtook Cryptocurrencies (@marsresident 2015)**\n\n**No Tech Innovation**: Simple Litecoin clone with no new features\n\n**Factor 1 - Memeability**: "so coin, much wow, very money" - easy community entry, spread to 4Chan/Facebook/Twitter\n\n**Factor 2 - Giveaways** (you had to be there):\n• Started at $0 - people gave 100,000+ coins freely\n• Value increased → giveaways dropped to 10,000, then 1,000, then faucets\n• Giveaways increased trade volume + new adopters simultaneously\n\n**Result**: Spirit of community giving drove value - "I have some DogeCoins" was the goal`;
+  }
+  // Gold & Silver in Crypto (@marsresident 2016)
+  if (t.includes('gold certificate') || t.includes('nixon shock') || t.includes('gold backed') || (t.includes('gold') && t.includes('steem')) || (t.includes('precious metals') && t.includes('crypto'))) {
+    return `🥇 **Gold, Silver & STEEM Community (@marsresident 2016)**\n\n**Existing**: Buy gold/silver with BTC, LTC, DOGE, ETH at JMBullion, Amagimetals, Provident\n\n**Nixon Shock**: When USD gold backing was removed by Nixon\n\n**Gold Certificates**: Documents tradeable for gold - what money used to be\n\n**Dealer Strategy**: Sell gold for STEEM → hold as value rises → trade for BTC → buy more gold than sold\n\n**Buying Advice**: Only buy for purity/weight - sentimental value lost when melted\n\n**Vision**: Gold-backed STEEM operations = more valuable community`;
+  }
+  // Terpenes (@marsresident 2016)
+  if (t.includes('terpene') || t.includes('caryophyllene') || t.includes('myrcene') || t.includes('limonene') || t.includes('uziza')) {
+    return `🌿 **Terpenes - Cannabis Chemistry (@marsresident 2016)**\n\n**Caryophyllene**: Dogs trained to smell this for marijuana. Attaches to CB1 receptor. First cannabinoid FDA approved as food additive. Best source: Uziza (Nigerian pepper)\n\n**Myrcene**: Most abundant in hops. Has opioid analgesic effects. Helps THC cross blood-brain barrier = less needed for same effect\n\n**Limonene**: Affects mood when smoked/ingested. Research suggests limonoids are entire cannabinoid class\n\n**Found In**: Lemon peels, tree sap, cooking herbs, essential oils - entire world of natural smells and medicines`;
+  }
+  // Lucid Dreaming (@marsresident 2016)
+  if (t.includes('lucid dream') || t.includes('wild technique') || t.includes('mild technique') || t.includes('dild') || t.includes('dream induc')) {
+    return `💭 **Lucid Dreaming Techniques (@marsresident 2016)**\n\n**Best Method**: Write "AWAKE" on hand - look at it during day. In dreams, words change/move. This triggers lucidity.\n\n**Light Switch Test**: Lights don't work same in dreams - flip switches to check\n\n**Hand Focus**: Looking at hands helps stay asleep while becoming lucid\n\n**Techniques**:\n• DILD: Dream Induced - discover you're dreaming\n• MILD: Mnemonic Induced - write dreams, do rituals\n• WILD: Wake Induced - alarm 2hrs early, go back to sleep with more alert brain\n\n**Purpose**: Lucid dreaming is learning, not wishing - see Dream Yoga (Tibetan 1000+ year practice)`;
+  }
+  // Dream Yoga (@marsresident 2016)
+  if (t.includes('dream yoga') || t.includes('raom gaom') || t.includes('yidam') || t.includes('loka') || t.includes('tibetan dream')) {
+    return `🧘 **Dream Yoga - Tibetan Practice (@marsresident 2016)**\n\n**Key Difference**: "Realize you're dreaming" is STEP 1, not the final goal\n\n**6 Steps**:\n1. Realize dreaming\n2. Eliminate fear (breathe underwater, jump off cliff)\n3. Contemplate reality while dreaming\n4. Control physics (move sun/moon, shrink mountains)\n5. Transform yourself\n6. Contact Yidam entities, travel to Loka worlds\n\n**RAOM GAOM Mantra**: Say when waking to remember dreams\n**Ah Syllable**: Imagine in chest before sleep for lucid entry\n\n**Ultimate Goal**: Treat dream and reality the same`;
+  }
+  // Solid Perfume Making (Soapmaking Forum)
+  if (t.includes('solid perfume') || t.includes('perfume balm') || t.includes('cera bellina') || t.includes('lauryl laurate')) {
+    return `🌸 **Solid Perfume Making (Soapmaking Forum)**\n\n**Base Ratios** (oil:wax by weight):\n• 4:1 = soft (cold climates)\n• 3:1 = medium (all-around)\n• 2:1 = firm (warm climates)\n\n**Pro Recipe**: 1/3 beeswax + 1/3 oil (SAO/jojoba) + 1/3 fragrance\n\n**Wax Options**: Beeswax (traditional), Cera Bellina (more glide), Candelilla (vegan, less sticky)\n\n**Lauryl Laurate**: De-greases formulations, adds slip - use tiny amounts\n\n**IFRA Note**: Following guidelines makes solid perfumes like light cologne (~2hr longevity)`;
+  }
+  // Cold Process Soapmaking (Soapmaking Forum)
+  if (t.includes('cold process') || t.includes('saponification') || t.includes('soap trace') || t.includes('superfat') || t.includes('lye discount')) {
+    return `🧼 **Cold Process Soapmaking (Soapmaking Forum)**\n\n**Definition**: Soap = salt of fatty acid (oils + lye → saponification)\n\n**Basic Recipe**: 60% lard, 20% coconut, 20% olive, 5% superfat\n\n**Critical Rules**:\n• Add LYE to WATER (never reverse!)\n• Use cold water/liquid\n• All by WEIGHT, not volume\n• Run ANY recipe through calculator\n\n**Trace**: When spoon leaves visible line in batter\n\n**Cure**: 4-6 weeks for milder, sudsier bars\n\n**No lye in finished soap** - completely reacted`;
+  }
+  // Soapmaking Glossary/Acronyms
+  if (t.includes('dos soap') || t.includes('dreaded orange spots') || t.includes('cphp') || t.includes('cpop') || t.includes('soap acronym') || t.includes('zap test')) {
+    return `📖 **Soapmaking Glossary (Soapmaking Forum)**\n\n**Process Types**:\n• CP = Cold Process\n• HP = Hot Process\n• CPHP = Crock Pot Hot Process\n• CPOP = Cold Process Oven Process\n\n**DOS** = Dreaded Orange Spots (oxidation of fatty acids)\n• Prevention: ROE, low linoleic (<15%), avoid metal racks\n\n**Zap Test**: Touch lathered soap to tongue - sting = unsafe lye remains\n\n**Superfat vs Lye Discount**: Same concept - extra oil for safety margin\n\n**Gel Phase**: Batter darkens/clears, faster saponification, brighter colors`;
+  }
+  // What Survives Saponification (Soapmaking Forum)
+  if (t.includes('survives saponification') || t.includes('survive saponification') || t.includes('herbal infused oil') || t.includes('syndet bar') || t.includes('hair regrowth soap')) {
+    return `🔬 **What Survives Saponification? (Soapmaking Forum)**\n\n**Short Answer**: Not much survives saponification\n\n**Reality Check**:\n• Herbal properties destroyed during saponification\n• Rinse-off = minimal contact time anyway\n• Hair regrowth claims from extracts = DISHONEST\n• Can't make medical claims without FDA approval\n\n**How to Preserve Ingredients**:\n• HP Soap: Add AFTER cook is complete\n• 0% Superfat Method: Add oils at end as superfat\n• Syndet Bars: No saponification = ingredients intact\n\n**Adding at trace WON'T help** - soap still saponifying\n\n**Honest approach**: Use for scent/color, not medicine`;
+  }
+  // FDA Soap Regulations / TikTok Selling
+  if (t.includes('fda soap') || t.includes('tiktok soap') || t.includes('mocra') || t.includes('fda approved soap') || t.includes('cosmetics exemption')) {
+    return `⚖️ **FDA Soap Regulations (Soapmaking Forum)**\n\n**Key Fact**: FDA does NOT regulate true soap\n\n**True Soap vs Cosmetic**:\n• True soap (no claims) = NOT FDA regulated\n• Cosmetic claims = subject to FDA regs\n\n**TikTok Selling**:\n• They want FDA # for cosmetics\n• True soap not even in their product list\n• Small biz can write OWN MOCRA exemption letter\n\n**FDA Does NOT Approve Products**\n• No such thing as "FDA approved soap"\n• Scam sites charge for exemption letters YOU can write free\n\n**To Sell True Soap**: Just follow state biz regs + collect sales tax`;
+  }
+  // Canada CNF (Cosmetic Notification Form)
+  if (t.includes('canada soap') || t.includes('cnf') || t.includes('health canada') || t.includes('cosmetic notification') || t.includes('canadian soap')) {
+    return `🍁 **Canada CNF Regulations (Soapmaking Forum)**\n\n**CNF** = Cosmetic Notification Form (submitted to Health Canada)\n\n**Key Point**: CNF is NOTIFICATION, not approval\n\n**When Can You Sell?**\n• Immediately after submitting CNF\n• No waiting for approval required\n• Health Canada contacts you only if there's an issue\n\n**What They Check**:\n• Not using banned/controlled ingredients\n• They do NOT approve/disapprove formulas\n\n**Canada vs US vs UK**: Each country has different rules - don't mix them up!\n\n**Resource**: Handcrafted Bath & Body Guild for CNF help`;
   }
   return null;
 }

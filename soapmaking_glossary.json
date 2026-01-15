@@ -1,0 +1,258 @@
+{
+  "title": "Soapmaking Acronyms and Glossary - Complete Reference",
+  "author": "Soapmaking Forum Community / @IanT / @IrishLass",
+  "period": "2008-2024",
+  "source": "soapmakingforum.com/threads/the-acronym-and-abbreviation-definition-thread",
+  "overview": "Comprehensive glossary of soapmaking acronyms, bath and body terms, supplier codes, and technical definitions",
+
+  "soap_bath_body_acronyms": {
+    "oils_and_fats": {
+      "AKO": "Apricot Kernel Oil",
+      "AVO": "Avocado Oil",
+      "CO": "Coconut Oil",
+      "EVO/EVOO": "Extra Virgin Olive Oil",
+      "HOSO": "High Oleic Sunflower Oil",
+      "OO": "Olive Oil",
+      "PKF": "Palm Kernel Flakes",
+      "PKO": "Palm Kernel Oil",
+      "PO": "Palm Oil",
+      "RBO": "Rice Bran Oil",
+      "SAO": "Sweet Almond Oil",
+      "SO": "Sunflower Oil"
+    },
+    "waxes_and_additives": {
+      "BW": "Beeswax",
+      "SW": "Soy Wax",
+      "ROE": "Rosemary Oleoresin / Rosemary Oil Extract",
+      "SL": "Sodium Lactate",
+      "TD": "Titanium Dioxide",
+      "IPM": "Isopropyl Myristate"
+    },
+    "lye_and_chemicals": {
+      "NaOH": "Sodium Hydroxide (bar soap lye)",
+      "KOH": "Potassium Hydroxide (liquid soap lye)",
+      "H2O": "Water",
+      "SAP": "Saponification Values"
+    },
+    "processes": {
+      "CP": "Cold Process",
+      "HP": "Hot Process",
+      "CPHP": "Crock Pot Hot Process",
+      "CPOP": "Cold Process Oven Process",
+      "DBHP": "Double Boiler Hot Process",
+      "DHHP": "Direct Heat Hot Process",
+      "MWHP": "Microwave Hot Process",
+      "OHP": "Oven Hot Process",
+      "MP": "Melt and Pour",
+      "DWCP/DW": "Discounted Water Cold Process"
+    },
+    "techniques": {
+      "ITM_swirl": "In The Mold swirl",
+      "ITP_swirl": "In The Pot swirl",
+      "SF": "Superfat",
+      "PPO": "Per Pound of Oil"
+    },
+    "equipment": {
+      "SB": "Stick Blender (or Shea Butter)",
+      "SS": "Skin Safe, also Stainless Steel",
+      "RT": "Room Temperature"
+    },
+    "ingredients": {
+      "AVG": "Aloe Vera Gel",
+      "CM": "Coconut Milk",
+      "GM": "Goat Milk",
+      "GMP": "Goat Milk Powder",
+      "DSM": "Dead Sea Mud",
+      "OM": "Oatmeal",
+      "OMH": "Oatmeal Milk and Honey",
+      "EO": "Essential Oil",
+      "FO": "Fragrance Oil"
+    },
+    "problems": {
+      "DOS": "Dreaded Orange Spots"
+    },
+    "other": {
+      "B_and_B": "Bath and Body",
+      "Dupe": "Duplicate",
+      "OOB": "Out Of the Bottle"
+    }
+  },
+
+  "supplier_acronyms": {
+    "BB": "Brambleberry",
+    "BC/BCN": "Bittercreek Candle Supply (North)",
+    "BCS": "Bittercreek South Candle and Soap Supply",
+    "CS": "Candlescience",
+    "DS": "Day-Star Candle and Soap Supply",
+    "EB_and_B": "Elements Bath and Body",
+    "ED": "Essential Depot",
+    "EW": "Essential Wholesale",
+    "ITDF": "Ingredients To Die For",
+    "MMS": "Majestic Mountain Sage",
+    "NDA": "New Directions Aromatics",
+    "NG": "Nature's Garden Candle and Soap Supplies",
+    "OT": "Oregon Trail Soaper's Supply",
+    "Peak": "Peak Candle Making Supplies",
+    "SC/CF": "Soaper's Choice / Columbus Foods",
+    "SGS": "Southern Garden Scents",
+    "SW": "The Scent Works",
+    "SWC": "Sweet Cakes Soapmaking Supplies",
+    "WSP/WSSP": "Wholesale Supplies Plus"
+  },
+
+  "process_definitions": {
+    "CP": {
+      "full_name": "Cold Process",
+      "description": "No external heat applied to raw soap batter to achieve saponification",
+      "advantages": "Free-flowing batter for complex swirling, smooth finished bars"
+    },
+    "HP": {
+      "full_name": "Hot Process",
+      "description": "Raw traced soap batter cooked until full saponification (no unreacted lye)",
+      "texture": "Thick and mashed potato-like at pour time",
+      "look": "More rustic appearance",
+      "fluidity_tips": [
+        "Don't use huge water discounts",
+        "Add sodium lactate up front",
+        "Add dissolved sugar up front",
+        "Add powdered goat milk or coconut milk during cook"
+      ]
+    },
+    "CPHP": {
+      "full_name": "Crock Pot Hot Process",
+      "description": "Raw traced batter cooked in crock pot on low until full saponification"
+    },
+    "CPOP": {
+      "full_name": "Cold Process Oven Process",
+      "description": "Normal CP brought to trace and molded, then placed in warm oven to encourage gel",
+      "purpose": "Speeds up saponification for those who prefer gelled soap"
+    }
+  },
+
+  "key_definitions": {
+    "saponification": "Chemical reaction whereby oil/fat turns into soap by mixing with alkali (NaOH or KOH)",
+    "superfat": {
+      "definition": "Adding extra oil/fat to soap batter beyond 1:1 ratio with lye",
+      "purpose": "Safety cushion to prevent lye-heaviness, adds conditioning",
+      "timing_CP": "At trace",
+      "timing_HP": "After the cook"
+    },
+    "lye_discount": {
+      "definition": "Using less lye than needed to saponify all oils 1:1",
+      "difference_from_superfat": "Calculated up-front rather than added at trace",
+      "purpose": "Same as superfat - prevents lye-heaviness"
+    },
+    "cure": {
+      "definition": "Setting freshly cut soap aside for days/weeks/months",
+      "purpose": "Soap dries out, hardens, improves pH, gentleness, longevity, lathering",
+      "minimum": "4 weeks for both CP and HP",
+      "note": "May need longer depending on recipe"
+    },
+    "gel_phase": {
+      "definition": "Exothermic reaction speeds up, batter enters temporary liquid crystalline state",
+      "appearance": "Darkens, turns translucent, starts from middle spreads outward",
+      "advantages": [
+        "Full saponification achieved quicker, less likely to zap",
+        "Soap can be unmolded and cut quicker",
+        "Colors more brilliant (reds stay red instead of pink)",
+        "Less chance of heavy ash on surface",
+        "Gelled soap slightly less water soluble (lasts longer)"
+      ]
+    },
+    "DOS": {
+      "full_name": "Dreaded Orange Spots",
+      "appearance": "Orange, yellow or brown spots on finished bars",
+      "timing": "Usually 4+ weeks, sometimes months",
+      "cause": "Oxidation of unsaturated fatty acids in presence of trace metals (Dr. Kevin Dunn)",
+      "prevention": [
+        "Limit linoleic acid to no more than 15%",
+        "Add ROE to unsaturated oils stored at room temp",
+        "Avoid curing on metal racks (use parchment paper barrier)",
+        "Add tetrasodium EDTA (diluted) to bind metals",
+        "Use BHT (antioxidant) + sodium citrate (chelator)"
+      ]
+    },
+    "trace": {
+      "definition": "When spoon moved through batter leaves visible line/trail",
+      "indicates": "Emulsification complete, ready to add additives and pour"
+    },
+    "tongue_test_zap_test": {
+      "purpose": "Discern if unreacted lye remains in soap",
+      "CP_timing": "When unmolded soap is 3 days to 1 week old",
+      "HP_timing": "After gel stage complete",
+      "liquid_soap_timing": "After paste stage complete",
+      "method": "Wet finger, rub soap surface for lather, touch tip of tongue",
+      "zap": "Immediate stinging = not safe yet, test again in few days",
+      "no_zap": "Safe to use (still needs to cure)"
+    }
+  },
+
+  "other_definitions": {
+    "absolute": "Most concentrated form of fragrance from semi-solid essential oil extract",
+    "carrier_oil": "Oil used to carry fragrance, usually oils without strong scent (like sweet almond)",
+    "decoction": "Herbal preparation made by heating herb in water and reducing by evaporation",
+    "essential_oil": "Volatile oil from plants with characteristic odor, used in perfumes, flavors, pharmaceuticals",
+    "exfoliant": "Product/ingredient to remove dead skin cells and dirt",
+    "fractionated_oil": "Oil processed to separate components for specific properties",
+    "hydrosol": "Fragrant water from steam distillation of essential oils (flower water)",
+    "infused_oil": "Oil produced from herbs steeped for weeks/months to absorb properties",
+    "rebatch": "Melting and redoing a recipe with ingredient changes",
+    "sniffie": "Fragrance oil sample on cotton ball or Q-tip",
+    "tincture": "Herbal preparation from steeping in alcohol"
+  },
+
+  "general_acronyms": {
+    "BTW": "By The Way",
+    "DH/DW/DS/DD": "Dear Husband/Wife/Son/Daughter",
+    "GROT": "General Rule of Thumb",
+    "HTH": "Hope This Helps",
+    "IMHO": "In My Humble Opinion",
+    "IMO": "In My Opinion",
+    "ISO": "In Search Of",
+    "LOL": "Laughing Out Loud",
+    "TIA": "Thanks In Advance",
+    "YMMV": "Your Mileage May Vary"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "oil_acronyms",
+      "process_types",
+      "technical_definitions",
+      "troubleshooting"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What does DOS stand for and what causes it?",
+        "a": "Dreaded Orange Spots - caused by oxidation of unsaturated fatty acids in presence of trace metals",
+        "explanation": "Prevent with ROE, low linoleic acid, EDTA, avoiding metal racks"
+      },
+      {
+        "q": "What is the difference between superfat and lye discount?",
+        "a": "Same concept - superfat adds extra oil at trace/after cook; lye discount reduces lye in up-front calculations",
+        "explanation": "Both provide safety cushion against lye-heavy soap"
+      },
+      {
+        "q": "What does CPOP mean?",
+        "a": "Cold Process Oven Process - normal CP molded then placed in warm oven to encourage gel",
+        "explanation": "Used by those who prefer gelled soap for faster saponification"
+      },
+      {
+        "q": "What is the zap test?",
+        "a": "Touch lathered soap to tongue tip - stinging/zap means unreacted lye remains, not safe yet",
+        "explanation": "Test CP soap at 3 days to 1 week, HP after gel stage"
+      }
+    ],
+    "achievement_unlocks": [
+      "Acronym Master: Know all the soapmaking abbreviations",
+      "Process Expert: Understand CP, HP, CPHP, CPOP differences",
+      "Troubleshooter: Know DOS prevention and zap testing"
+    ]
+  },
+
+  "van_kush_connection": {
+    "relevance": "Technical vocabulary for Van Kush soap and bath product development",
+    "application": "Understanding supplier codes and process names for ordering and production",
+    "philosophy": "Professional knowledge enables professional products"
+  }
+}

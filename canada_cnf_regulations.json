@@ -1,0 +1,112 @@
+{
+  "title": "Canada CNF (Cosmetic Notification Form) - Selling Soap in Canada",
+  "author": "Soapmaking Forum Community",
+  "period": "2025",
+  "source": "Soapmaking Forum - soapmakingforum.com/threads/cosmetic-notification-form",
+  "overview": "Canadian-specific regulations for selling soap and cosmetics, including CNF submission process and Health Canada requirements",
+
+  "cnf_basics": {
+    "full_name": "Cosmetic Notification Form",
+    "submitted_to": "Health Canada",
+    "purpose": "Notify Health Canada about your products and ingredients",
+    "not_an_approval": "CNF is NOT an approval procedure of your formula"
+  },
+
+  "key_principle": {
+    "notification_not_approval": true,
+    "what_health_canada_checks": "That you're not using banned, controlled, or prohibited ingredients",
+    "what_they_dont_do": "Approve or disapprove your product/formula"
+  },
+
+  "when_can_you_sell": {
+    "answer": "Once CNF is submitted, you're good to sell",
+    "waiting_required": false,
+    "if_theres_issue": "Health Canada will contact you for clarification",
+    "if_no_contact": "You've done your part and you're good to go"
+  },
+
+  "what_you_receive": {
+    "cosmetic_number": "Identifier for your cosmetic product",
+    "case_number": "Reference number for your submission",
+    "note": "These are identifiers, not approval confirmations"
+  },
+
+  "canada_vs_us_vs_uk": {
+    "canada": {
+      "agency": "Health Canada",
+      "process": "Submit CNF, can sell immediately",
+      "approval_needed": false
+    },
+    "us": {
+      "agency": "FDA (for cosmetics, not true soap)",
+      "true_soap": "Not regulated by FDA",
+      "cosmetics": "MOCRA exemption for small businesses"
+    },
+    "uk": {
+      "note": "Different rules - may need to wait for approval",
+      "caution": "Don't apply UK rules to Canada or US"
+    }
+  },
+
+  "resources": {
+    "free_workshops": {
+      "who": "Cathy Westrop (former Health Canada employee)",
+      "where": "Facebook, Zoom workshops",
+      "cost": "Free",
+      "duration": "About 2 hours",
+      "value": "Well worth the time, even for experienced sellers"
+    },
+    "organizations": {
+      "handcrafted_bath_body_guild": "Resource for CNF questions and procedures"
+    }
+  },
+
+  "community_wisdom": {
+    "experience_matters": "Even 7-year veteran sellers learn new things from workshops",
+    "ask_questions": "Don't hesitate to ask about CNF procedure",
+    "country_specific": "Always verify which country's rules apply to your situation"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "canadian_cnf_process",
+      "health_canada_requirements",
+      "international_regulations",
+      "selling_timeline"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is a CNF in Canadian soap selling?",
+        "a": "Cosmetic Notification Form - submitted to Health Canada to notify about products and ingredients",
+        "explanation": "It's a notification, not an approval process"
+      },
+      {
+        "q": "Can you sell soap in Canada immediately after submitting CNF?",
+        "a": "Yes - once CNF is submitted, you're good to sell",
+        "explanation": "Health Canada will contact you only if there's an issue"
+      },
+      {
+        "q": "Does Health Canada approve or disapprove your soap formula?",
+        "a": "No - they just check you're not using banned/controlled ingredients",
+        "explanation": "CNF is notification only, not approval"
+      },
+      {
+        "q": "What's the difference between Canada and UK soap selling rules?",
+        "a": "Canada allows immediate selling after CNF; UK may require waiting for approval",
+        "explanation": "Different countries have different regulatory approaches"
+      }
+    ],
+    "achievement_unlocks": [
+      "CNF Scholar: Understand Canadian notification process",
+      "Global Seller: Know differences between US, Canada, UK rules",
+      "Compliance Expert: Know when you can start selling"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "Soapmaking Forum community wisdom",
+    "relevance": "Understanding international regulations for legal product sales",
+    "application": "Van Kush products sold internationally need country-specific compliance",
+    "philosophy": "Each jurisdiction has different rules - know before you sell"
+  }
+}
