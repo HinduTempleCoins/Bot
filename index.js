@@ -937,6 +937,30 @@ function getOilahuascaResponse(topic) {
   if (t.includes('edgewood') || t.includes('cbrn') || t.includes('bz agent') || t.includes('army experiment')) {
     return `🔬 **Edgewood Arsenal - Government Psychotropic Research**\n\n**What**: US Army human experiments with psychotropic chemicals\n**Location**: Edgewood Arsenal, Maryland\n**Period**: 1948-1975\n\n**Substances Tested**:\n• LSD, Mescaline\n• BZ (3-Quinuclidinyl benzilate)\n• Nerve agents\n\n**Subjects**: ~7,000 US soldiers\n\n**Shulgin Connection**: Discussed US/Russian government research\n\n**CBRN**: Chemical, Biological, Radiological, Nuclear protocols`;
   }
+  // Christmas and Mithraic Origins (@marsresident 2016)
+  if (t.includes('christmas') || t.includes('mithras') || t.includes('mithra') || t.includes('saturnalia') || t.includes('yule') || t.includes('jeremiah 10')) {
+    return `🎄 **The Real Meaning of Christmas (@marsresident 2016)**\n\n**Pre-Christian Origins**:\n• Saturnalia (Roman): Dec 17-23, gift giving, role reversals\n• Yule (Germanic): Winter solstice, Yule log, mistletoe\n• Dies Natalis Solis Invicti: Dec 25, Birthday of Unconquered Sun\n\n**Mithraic Connection**:\n• Mithras born Dec 25 from a rock (Petra Genetrix)\n• Shepherds witnessed the birth\n• Sol Invictus cult merged with early Christianity\n\n**Biblical Prohibition**: Jeremiah 10:2-4 warns against decorating trees\n\n**Van Kush View**: Understanding origins doesn't diminish celebration - adds depth`;
+  }
+  // Mystery Schools Comprehensive (@marsresident 2016)
+  if (t.includes('mystery school') || t.includes('golden dawn') || t.includes('amorc') || t.includes('rosicrucian') || t.includes('fire temple') || t.includes('abraxas')) {
+    return `🔯 **Mystery Schools - Esoteric Traditions (@marsresident 2016)**\n\n**Fire Temples**: Most common Mystery School today (Zoroastrian/Hindu)\n\n**Western Traditions**:\n• Hermetic Order of Golden Dawn (UK) - Regardie's text still used\n• AMORC (Rosicrucians) - "What many call the Illuminati"\n• Church of Light (1932) - Aquarian Age teachings\n\n**Mathematical Mysticism**:\n• Abraxas = 365 (Greek letter values)\n• Gematria: Words with same value = "the same"\n• Pythagorean numerology: All reduces to 1-10\n\n**Egyptian Foundations**: 5 aspects of soul (Sheut, Ren, Ka, Ib, Ba, Akh)`;
+  }
+  // Steemit Earning Guide (@marsresident 2016)
+  if (t.includes('steemit earn') || t.includes('steem money') || t.includes('voting power') || (t.includes('steem') && t.includes('guide'))) {
+    return `💰 **How to Earn on Steemit (@marsresident 2016)**\n\n**Core Concept**: "No one gives you money - upvotes GENERATE money via STEEM"\n\n**Earning Methods**:\n• Posting: Main content creation\n• Commenting: Comments earn rewards too\n• Curating: Vote early on good content\n\n**Building Power**:\n• Buy & Load: $50K at $0.10 = massive voting power\n• Group Strategy: Coordinate voting, help each other rise\n• Buy when LOW, sell when RISING\n\n**Time Advantage**: Early adopters compound power over 2, 5, 10 years\n\n**Rhetorical Question**: "How many times has Facebook paid you for a post?"`;
+  }
+  // Revolutionary Generation (@marsresident 2016)
+  if (t.includes('revolutionary generation') || t.includes('founding fathers') || (t.includes('washington') && t.includes('lineage')) || (t.includes('franklin') && t.includes('mason'))) {
+    return `🗽 **The Revolutionary Generation (@marsresident 2016)**\n\n**Key Insight**: 300 years between Columbus and Revolution - revolutions are BUILT\n\n**Washington Lineage**:\n• Great-great-grandfather lost Oxford position for being Royalist\n• Multi-generational grievance against Parliament\n• DC flag = Washington Family Coat of Arms\n\n**Franklin's Significance**:\n• ONLY confirmed Founding Father Mason (1734 letter proves it)\n• Self-educated through reading (only 2 years college)\n• About 70 years old when Revolution started\n\n**Pattern**: Self-education, insider defection, secret societies`;
+  }
+  // Black Panther Revolutionary Analysis (@marsresident 2016)
+  if (t.includes('black panther') || t.includes('eldridge cleaver') || t.includes('fred hampton') || t.includes('colonial analysis') || t.includes('internal colony')) {
+    return `✊ **Black Panther Revolutionary Analysis (@marsresident 2016)**\n\n**Colonial Framework** (from Algerian FLN):\n• Local police = colonial occupying army\n• Black community = internal colony of America\n• Three classes of evil: Businessmen, Politicians, Police\n\n**Fred Hampton on Education**:\n• "Revolution without education leads to new oppression"\n• Wrong: Hate white people\n• Right: Hate the OPPRESSOR - any color\n\n**Eldridge Cleaver**: "Spirit of the people is greater than all government technology"\n\n**"Law and Order"**: Decoded as "Slavery, Suffering and Death"`;
+  }
+  // Snowden/NSA Privacy (@marsresident 2016)
+  if (t.includes('snowden') || t.includes('prism') || t.includes('nsa') || t.includes('foia') || t.includes('privacy act') || t.includes('surveillance')) {
+    return `🔒 **Snowden Revelations & Privacy (@marsresident 2016)**\n\n**PRISM**: NSA using Google, Facebook, Yahoo servers for mass collection\n\n**Your Rights**:\n• FOIA Request: Get records about YOU\n• Privacy Act Request: Standard for personal records\n• Can file BOTH simultaneously\n\n**Key Cases**:\n• Katz v. US: Reasonable expectation of privacy\n• Riley v. California: Cell phone records protected\n• Kyllo v. US: Thermal imaging = search requiring warrant\n\n**ECPA Penalties**: Up to 5 years prison, $250K fines\n\n**Van Kush Philosophy**: Knowledge of rights enables their exercise`;
+  }
   return null;
 }
 
