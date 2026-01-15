@@ -1,0 +1,126 @@
+{
+  "title": "Revolution Part 7 - Music & Harmony",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/revolution/@marsresident",
+  "overview": "The role of harmony in revolution - both musical and social. Revolution is not about violence but achieving a new harmony, like retuning an instrument",
+
+  "jefferson_on_harmony": {
+    "restore_harmony": "Let us restore to social intercourse that harmony and affection without which liberty and even life itself are but dreary things",
+    "religious_intolerance": "Having banished religious intolerance, we gain little if we countenance political intolerance",
+    "music_taste": "Mr. Jefferson had a most decided taste for music and great natural dispositions for it",
+    "voice": "His voice was sweet and clear and continued unbroken to a very late period of his life",
+    "freedom_and_harmony": "I expect steady conduct will rally to a proper system - great good to the cause of Freedom & Harmony"
+  },
+
+  "jefferson_on_government": {
+    "three_forms": {
+      "without_government": "As among our Indians",
+      "will_of_every_one": "As in England slightly, and in our states greatly",
+      "government_of_force": "All other monarchies and most republics - wolves over sheep"
+    },
+    "best_form": "Not clear the first condition (no government) is not the best, but inconsistent with large population",
+    "second_form_assessment": "Has evils (turbulence) but weigh against monarchy oppression - becomes nothing",
+    "latin_maxim": "Malo periculosam, libertatem quam quietam servitutem (I prefer dangerous liberty to peaceful servitude)",
+    "rebellion_medicine": "A little rebellion now and then is a good thing - medicine necessary for sound health of government"
+  },
+
+  "hamilton_vs_jefferson": {
+    "jeffersons_trinity": "Bacon, Newton, Locke - three greatest men the world ever produced",
+    "hamiltons_response": "The greatest man that ever lived was Julius Caesar",
+    "jeffersons_assessment": "Adams was honest as politician and man; Hamilton honest as man but believed in force or corruption to govern"
+  },
+
+  "harmony_phenomenon": {
+    "exercise": {
+      "participants": "Two or more people",
+      "action": "Hum loudly (hmmm) or make high pitched 'eee' sound",
+      "requirement": "Must hit the same pitch",
+      "phenomenon": "Sound bounces off each other, giving more volume",
+      "name": "Harmony"
+    },
+    "scaling": "The more people doing it, the louder it gets"
+  },
+
+  "revolution_as_retuning": {
+    "core_concept": "Revolution is not about violence - it is about achieving a new Harmony",
+    "retuning_metaphor": "Revolution is like a retuning",
+    "gandhi_example": "Revolution does not have to be violent, as shown by Gandhi",
+    "reality_check": "Government often becomes violent, then people struggle to resist revenge/pre-emptive attacks",
+    "jefferson_conflict": "Some considered him Anarchist; he realized he created moments of Anarchy to achieve Harmony",
+    "american_revolution": "Was a time of Anarchy - British Monarchy had little or no control of population",
+    "constitutional_evolution": "Articles of Confederation written first, replaced by US Constitution"
+  },
+
+  "revolutionary_music": {
+    "purpose": {
+      "quote": "Song is an enormous force for communications with the masses",
+      "breaks_barriers": "Breaks down barriers like illiteracy that impede dialogue with the people"
+    },
+    "characteristics": {
+      "gives_understanding": "Makes you understand the cause",
+      "evokes_emotions": "May evoke emotions, especially about loss",
+      "speaks_to_regular_people": "That is what Revolutionary music should do"
+    },
+    "examples": {
+      "american": "The Star Spangled Banner - important to American Revolution",
+      "mexican": "La Cucaracha (The Cockroach) - important to Mexican Revolution",
+      "soviet": "Communist Music - extensive catalog from Soviet Union"
+    }
+  },
+
+  "closing_wisdom": {
+    "jefferson_prayer": "Cherish mutual good will, promote harmony and conciliation",
+    "above_all": "Let the love of our country soar above all minor passions",
+    "french_phrase": "Apres Moi le Deluge (After me, the flood)"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "harmony_concept",
+      "revolutionary_music",
+      "government_forms",
+      "revolution_as_retuning"
+    ],
+    "quiz_questions": [
+      {
+        "q": "According to @marsresident, what is Revolution really about?",
+        "a": "Not violence - achieving a new Harmony, like retuning an instrument",
+        "explanation": "Gandhi showed revolution doesn't have to be violent"
+      },
+      {
+        "q": "What is the harmony phenomenon described?",
+        "a": "Multiple people hitting same pitch - sound bounces, amplifies, creates harmony",
+        "explanation": "The more people doing it, the louder it gets"
+      },
+      {
+        "q": "What did Jefferson say about rebellion?",
+        "a": "A little rebellion now and then is a good thing - medicine for sound health of government",
+        "explanation": "Latin: Malo periculosam libertatem quam quietam servitutem"
+      },
+      {
+        "q": "What were Jefferson's three forms of government?",
+        "a": "1) No government (Indians), 2) Will of everyone (America), 3) Government of force (monarchies)",
+        "explanation": "Jefferson wasn't sure the first wasn't best, but incompatible with large population"
+      },
+      {
+        "q": "What is the purpose of revolutionary music according to Holden/Zolov?",
+        "a": "Enormous force for communication - breaks barriers like illiteracy to reach the people",
+        "explanation": "Examples: Star Spangled Banner, La Cucaracha, Soviet anthems"
+      }
+    ],
+    "achievement_unlocks": [
+      "Harmony Seeker: Understand revolution as retuning, not destruction",
+      "Music Revolutionary: Know the role of song in movements",
+      "Government Philosopher: Know Jefferson's three forms",
+      "Rebellion Advocate: Understand rebellion as medicine for government"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Van Kush culture emphasizes harmony through coordinated action",
+    "application": "Cryptology game creates harmony through shared knowledge",
+    "philosophy": "Revolution is collective retuning to higher frequency"
+  }
+}

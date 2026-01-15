@@ -1,0 +1,208 @@
+{
+  "title": "Humanity Part 2 - The Fossil Record",
+  "author": "marsresident / Van Kush Family",
+  "period": "2017 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/earth/@marsresident",
+  "overview": "Comprehensive timeline of human evolution fossils from 7 million years ago to present, with DNA record discoveries",
+
+  "key_insights": {
+    "why_mostly_skulls": "Skulls made to handle impact - last longer than other body parts",
+    "modern_human_marker": "Teeth mark the true shift into modern type of humans",
+    "evolution_misconception": "Not 'evolving to eventually become us' - Species mixing, mutants, recombination, new immune systems/teeth/brain capacity"
+  },
+
+  "dna_record_discoveries": {
+    "pit_of_bones_spain": {
+      "location": "Atapuerca Mountains, Spain",
+      "significance": "Oldest traces of DNA found in ancient person that exists in people today",
+      "related_to": "Denisovans"
+    },
+    "mitochondrial_eve": {
+      "concept": "Theoretical mother of humanity found by looking into human genome",
+      "application": "Allowed mapping of human migration patterns",
+      "cataclysm_markers": "Small populations indicate limited mate choices at certain times"
+    },
+    "denisovan_discovery": {
+      "finding": "Denisovan DNA had traces of modern human DNA",
+      "age_range": "40,000-700,000 years ago",
+      "significance": "Interbred with modern humans"
+    },
+    "tianyuan_cave": {
+      "age": "40,000 years ago",
+      "finding": "People in Asia related to Native Americans"
+    },
+    "malta_siberia": {
+      "age": "24,000 years ago",
+      "finding": "Siberians related to Native Americans"
+    },
+    "brazil_polynesia": {
+      "finding": "Native Brazilian 'Indians' had Polynesian DNA"
+    }
+  },
+
+  "fossil_timeline": {
+    "7_million_years": {"name": "Sahelanthropus"},
+    "6_million_years": {"name": "Orririn", "range": "6.1-5.7 Million"},
+    "4.4_million_years": {"name": "Ardi"},
+    "3.6_million_years": [
+      {"name": "Laetoli Footprints", "significance": "First evidence of walking upright"},
+      {"name": "Australopithecus Bahrelghazali (Abel)"}
+    ],
+    "3.5_million_years": {"name": "Kenyathropus"},
+    "3.3_million_years": [
+      {"name": "Little Foot Fossil"},
+      {"name": "Lucy's Baby"}
+    ],
+    "3.2_million_years": {"name": "Lucy"},
+    "3_million_years": {"name": "AL-200-1"},
+    "2.7_million_years": {"name": "STS-14"},
+    "2.5_million_years": [
+      {"name": "Mrs. Ples"},
+      {"name": "Taung Child"},
+      {"name": "The Black Skull"},
+      {"name": "STS-71"}
+    ],
+    "2_million_years": {"name": "Nutcracker Man"},
+    "1.4_to_2.3_million_years": {"name": "Homo Habilis"},
+    "1.9_million_years": [
+      {"name": "KNM-ER-1813"},
+      {"name": "KNM-ER-1470"}
+    ],
+    "1.8_million_years": [
+      {"name": "D2700 Dmansi Skull"},
+      {"name": "OH24 'Twiggy'"},
+      {"name": "KNM-ER-3733"}
+    ],
+    "1.7_million_years": [
+      {"name": "TM-1517"},
+      {"name": "Yuanmou Man"},
+      {"name": "KNM-ER-406"}
+    ],
+    "1.5_million_years": [
+      {"name": "KNM-ER-992"},
+      {"name": "Turkana Boy"}
+    ],
+    "1_million_years": {"name": "Daka Skull"},
+    "750000_to_800000_years": [
+      {"name": "Gran Dolina"},
+      {"name": "Peking Man"}
+    ],
+    "700000_years": {"name": "Petralona Cave Man"},
+    "600000_years": [
+      {"name": "Bodo"},
+      {"name": "Mauer 1"}
+    ],
+    "400000_to_450000_years": [
+      {"name": "Tautavel Man"},
+      {"name": "Miguelon"},
+      {"name": "Alta Mura Man"},
+      {"name": "Swanscombe Man"},
+      {"name": "Spanish DNA from Pit of Bones"}
+    ],
+    "350000_years": [
+      {"name": "Pit of Bones", "significance": "Murder scene"},
+      {"name": "Steinheim Skull"}
+    ],
+    "125000_to_300000_years": {"name": "Kabwe Homo Rhodesiensis"},
+    "230000_years": {"name": "Bontnewydd"},
+    "200000_years": {"name": "Dali Skull"},
+    "100000_to_200000_years": {"name": "Mitochondrial Eve"},
+    "195000_years": {"name": "Omo Remains"},
+    "160000_years": {"name": "Idaltu"},
+    "100000_to_127000_years": {"name": "Krapina Fossils"},
+    "125000_years": {"name": "Klasies River Caves"},
+    "120000_years": {"name": "Tabun Cave Woman"},
+    "80000_to_100000_years": {"name": "Skhuland Qafzeh Hominids"},
+    "13000_to_94000_years": {"name": "Homo Floresienses"},
+    "60000_to_80000_years": {"name": "Shanider Cave"},
+    "60000_years": {"name": "La Chapelle Aux Saints"},
+    "50000_years": {"name": "Mungo Man"},
+    "45000_years": {"name": "Le Moustier"},
+    "40000_years": {"name": "Neanderthal 1"},
+    "37800_years": {"name": "Pestra Cu Oase"},
+    "37000_years": {"name": "Hofmeyr Skull"},
+    "35000_years": {"name": "Kent's Cavern"},
+    "33000_years": {"name": "Red Lady of Paviland"},
+    "32000_years": {"name": "Yamashita Cave Men"},
+    "27500_years": {"name": "Cro Magnon 1"},
+    "25000_to_30000_years": {"name": "Predmost 3"},
+    "17000_years": {"name": "Clogg's Cave"},
+    "15000_years": {"name": "Minatogawa Man"},
+    "13600_years": {"name": "Eve of Naharon"},
+    "11500_years": {"name": "Luzia Woman"},
+    "10000_years": [
+      {"name": "La Brea Woman"},
+      {"name": "Spirit Cave Mummy", "age": "9,400 years"}
+    ],
+    "8000_years": {"name": "Minnesota Woman"},
+    "5000_to_8000_years": {"name": "Uan Muhuggiag"},
+    "9000_BC_to_present": {"name": "Bog Bodies"},
+    "7575_BC": {"name": "Combe Capelle"},
+    "7150_BC": {"name": "Cheddar Man"},
+    "1800_to_7020_BC": {"name": "Chinchorro Mummies"},
+    "3300_BC": {"name": "Otzi"},
+    "1800_BC": {"name": "Tarim Mummies"},
+    "1390_BC": {"name": "Egtvedgirl"},
+    "1213_BC": {"name": "Ramses II"}
+  },
+
+  "genetic_composition_today": {
+    "most_humans": "4-6% Neanderthal DNA",
+    "exception": "Sub-Saharan Africans are 100% Homo Sapien",
+    "papua_new_guinea": "Also have Denisovan DNA"
+  },
+
+  "stereotypical_neanderthal": {
+    "specimen": "Shanider Cave 60,000-80,000 years ago",
+    "note": "This is the stereotypical Neanderthal Cave Man that you think of"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "dna_record",
+      "fossil_timeline",
+      "human_migration",
+      "species_mixing"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the oldest human ancestor in the fossil record?",
+        "a": "Sahelanthropus - 7 Million years ago",
+        "explanation": "Mind-blowing that humans started taking shape so long ago"
+      },
+      {
+        "q": "What do the Laetoli Footprints represent?",
+        "a": "First evidence of walking upright - 3.6 Million years ago",
+        "explanation": "Crucial milestone in human evolution"
+      },
+      {
+        "q": "What marks the true shift into modern humans?",
+        "a": "Teeth - our teeth are our most notable modern human feature",
+        "explanation": "Not a gradual evolution but species mixing, mutants, recombination"
+      },
+      {
+        "q": "What percentage of Neanderthal DNA do most humans have?",
+        "a": "4-6%, except Sub-Saharan Africans who are 100% Homo Sapien",
+        "explanation": "Papua New Guinea people also have Denisovan DNA"
+      },
+      {
+        "q": "What did the Malta, Siberia discovery show?",
+        "a": "24,000 years ago Siberians were related to Native Americans",
+        "explanation": "Along with Tianyuan cave showing Asia-Native American connection"
+      }
+    ],
+    "achievement_unlocks": [
+      "Fossil Scholar: Know the major specimens in timeline",
+      "DNA Decoder: Understand genetic discoveries",
+      "Migration Mapper: Know the routes humans traveled",
+      "Evolution Corrector: Understand species mixing vs linear evolution"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Understanding deep human history and genetic connections",
+    "application": "Van Kush traces lineages and genetic heritage (Denisovan, Nephilim theories)",
+    "philosophy": "Knowing where we came from informs where we can go"
+  }
+}
