@@ -1113,6 +1113,18 @@ function getOilahuascaResponse(topic) {
   if (t.includes('dos soap') || t.includes('dreaded orange spots') || t.includes('cphp') || t.includes('cpop') || t.includes('soap acronym') || t.includes('zap test')) {
     return `📖 **Soapmaking Glossary (Soapmaking Forum)**\n\n**Process Types**:\n• CP = Cold Process\n• HP = Hot Process\n• CPHP = Crock Pot Hot Process\n• CPOP = Cold Process Oven Process\n\n**DOS** = Dreaded Orange Spots (oxidation of fatty acids)\n• Prevention: ROE, low linoleic (<15%), avoid metal racks\n\n**Zap Test**: Touch lathered soap to tongue - sting = unsafe lye remains\n\n**Superfat vs Lye Discount**: Same concept - extra oil for safety margin\n\n**Gel Phase**: Batter darkens/clears, faster saponification, brighter colors`;
   }
+  // What Survives Saponification (Soapmaking Forum)
+  if (t.includes('survives saponification') || t.includes('survive saponification') || t.includes('herbal infused oil') || t.includes('syndet bar') || t.includes('hair regrowth soap')) {
+    return `🔬 **What Survives Saponification? (Soapmaking Forum)**\n\n**Short Answer**: Not much survives saponification\n\n**Reality Check**:\n• Herbal properties destroyed during saponification\n• Rinse-off = minimal contact time anyway\n• Hair regrowth claims from extracts = DISHONEST\n• Can't make medical claims without FDA approval\n\n**How to Preserve Ingredients**:\n• HP Soap: Add AFTER cook is complete\n• 0% Superfat Method: Add oils at end as superfat\n• Syndet Bars: No saponification = ingredients intact\n\n**Adding at trace WON'T help** - soap still saponifying\n\n**Honest approach**: Use for scent/color, not medicine`;
+  }
+  // FDA Soap Regulations / TikTok Selling
+  if (t.includes('fda soap') || t.includes('tiktok soap') || t.includes('mocra') || t.includes('fda approved soap') || t.includes('cosmetics exemption')) {
+    return `⚖️ **FDA Soap Regulations (Soapmaking Forum)**\n\n**Key Fact**: FDA does NOT regulate true soap\n\n**True Soap vs Cosmetic**:\n• True soap (no claims) = NOT FDA regulated\n• Cosmetic claims = subject to FDA regs\n\n**TikTok Selling**:\n• They want FDA # for cosmetics\n• True soap not even in their product list\n• Small biz can write OWN MOCRA exemption letter\n\n**FDA Does NOT Approve Products**\n• No such thing as "FDA approved soap"\n• Scam sites charge for exemption letters YOU can write free\n\n**To Sell True Soap**: Just follow state biz regs + collect sales tax`;
+  }
+  // Canada CNF (Cosmetic Notification Form)
+  if (t.includes('canada soap') || t.includes('cnf') || t.includes('health canada') || t.includes('cosmetic notification') || t.includes('canadian soap')) {
+    return `🍁 **Canada CNF Regulations (Soapmaking Forum)**\n\n**CNF** = Cosmetic Notification Form (submitted to Health Canada)\n\n**Key Point**: CNF is NOTIFICATION, not approval\n\n**When Can You Sell?**\n• Immediately after submitting CNF\n• No waiting for approval required\n• Health Canada contacts you only if there's an issue\n\n**What They Check**:\n• Not using banned/controlled ingredients\n• They do NOT approve/disapprove formulas\n\n**Canada vs US vs UK**: Each country has different rules - don't mix them up!\n\n**Resource**: Handcrafted Bath & Body Guild for CNF help`;
+  }
   return null;
 }
 
