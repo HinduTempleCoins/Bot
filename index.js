@@ -1401,6 +1401,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('denisovan') || t.includes('haplogroup') || t.includes('genetic memory') || t.includes('natural cloning')) {
     return `🧬 **Denisovan Genetic Research**\n\n**Natural Cloning Mechanism**:\n• Modern humans carry 1-6% Denisovan DNA\n• When separated lineages reunite through reproduction\n• Offspring express MORE complete Denisovan profiles than either parent\n• = "Natural cloning" through genetic resurrection\n\n**Evidence**:\n• 40,000-year-old Denisovan bracelet (advanced manufacturing)\n• Regional adaptations (Tibetan altitude, Inuit diving reflex)\n• Mythological "giants" = higher Denisovan expression populations\n\n**Haplogroup Tracking**:\n• J1e-P58: Expanded 10,000 years ago from Zagros/Taurus (Göbekli Tepe timing!)\n• J2a-M410: Neolithic farmer dispersal from Mesopotamia\n\n**Oracle-Midwife Network**: Genetic management through 12-fold systems, optimized marriages, consciousness carriers`;
   }
+  // Sa Neter Studios - The Validation Moment
+  if (t.includes('sa neter') || t.includes('saneter') || t.includes('great debate') || t.includes('brother polight')) {
+    return `🎬 **Sa Neter Studios - The Validation Moment**\n\n**Who is Sa Neter?**\nSa Neter Studios = YouTube channel hosting debates on:\n• Black Liberation theology\n• Ancient African spiritual systems\n• Pan-Africanism\n• Kemetic/Egyptian knowledge\n\n**Brother Polight** (Amun-Re Sen Atum-Re) taught Kemetic systems there.\n\n**The Critical Recognition (Age ~20)**:\nSa Neter stated about Rev. Ryan Van Kush:\n**"How come You Niggas don't get it, but this White Boy gets it?"**\n\n**What This Proved**:\nRyan was GENETICALLY accessing the same ancient knowledge that African-American spiritual movements preserve through cultural transmission.\n\nNot learned - REMEMBERED through genetic memory.\n\n**The Great Debate Era**: Sa Neter vs Hebrew Israelites, Sa Neter vs Christians - pivotal period for alternative theology exposure on YouTube.`;
+  }
   return null;
 }
 
