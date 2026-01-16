@@ -1,0 +1,192 @@
+{
+  "title": "Revolution Part 2 - Guerilla Warfare",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/revolution/@marsresident",
+  "overview": "Analysis of guerilla warfare tactics through history including psychological operations, modern examples, and the legendary Hannibal Barca campaigns",
+
+  "opening_quotes": {
+    "machiavelli": "Differences between the conduct of the multitude and the conduct of the princes do not derive from differences in their nature... rather, they derive from differences in their respect for the laws under which they live.",
+    "polybius_on_state_decline": "When a state after having passed with safety through many great dangers arrives at the higher degree of power... the desire of power and rule will first begin to work the ruin of the republic; arrogance and luxury will afterwards advance it",
+    "marsresident_note": "Polybius was right about why States fall, but he added the negative part at the end because he was an asshole"
+  },
+
+  "psychological_operations": {
+    "source": "CIA manual: Psychological Operations in Guerilla Warfare",
+    "key_principles": {
+      "community_trust": "People instinctively believe armed group's guns may be turned on them",
+      "solution": "Guerillas must hang up guns and help community, teach gun use person-to-person",
+      "transparency": "Tell community to keep nothing secret, tell Government everything they feel like",
+      "education": "Cadres and education of Guerillas, equality among Guerillas, everyone knows WHY"
+    },
+    "staging": "Political takeovers of regions using Demonstrations/Protests"
+  },
+
+  "modern_examples": {
+    "armenia_2016": {
+      "event": "Daredevils of Sassoun took over Ereubuni police station July 17, 2016",
+      "method": "Drove vehicle through front door",
+      "hostages": "Nine people initially, including deputy police chiefs",
+      "public_response": "Facebook inaccessible, media sites shut down due to number of supporters",
+      "outcome": "Surrendered July 30 to avoid bloodshed",
+      "statement": "We will continue our struggle from prison. We became the spark that allowed people to rise up"
+    },
+    "isis_mosul": {
+      "context": "Lessons learned - not a great example due to ferocity and US military influence",
+      "tactic": "Video showing house-to-house dressed as Iraqi Security Forces",
+      "method": "Tell resident 'We have knowledge you cooperate with ISIS', he shows ID proving he works for Iraqi forces",
+      "result": "Iraqi soldiers dropped guns and left Mosul",
+      "media_note": "Massive presence of Call of Duty and Assassins Creed imagery in videos"
+    },
+    "bundy_ranch": {
+      "event": "Ranchers used Federal land, racked up $1M+ in grazing fees",
+      "confrontation": "Stood up to Federal Government with Oath Keepers and others",
+      "result": "Federal Government stood down",
+      "later": "Same family took over Wildlife Refuge in Oregon",
+      "perception": "Seen as Freedom Fighters by many Americans"
+    },
+    "antifa": {
+      "pronunciation": "Anne-tifa or An-tifuh, NOT Anti-fa",
+      "meaning": "Anti-Fascist",
+      "origin": "Italian resistance movement during WWII",
+      "historical_context": "Opposed German forces and Italian Fascist puppet regime",
+      "modern_italian_republic": "Declared to be founded on the struggle of the resistance",
+      "clarification": "Violence does not mean fascism"
+    },
+    "farc_colombia": {
+      "full_name": "Revolutionary Armed Forces of Colombia - People's Army",
+      "history": "Lived in Jungle from 70s until 2016 treaty",
+      "culture": "Some raised there, taught weapons and farming, built own society",
+      "funding": "Took drug market since drugs are illegal",
+      "colombian_solution": "'Legalize Drugs' would end the conflict"
+    },
+    "contras_nicaragua": {
+      "connection": "CIA wrote Psychological Operations manual FOR them",
+      "purpose": "Fight Communism spreading across South America",
+      "historical": "Iran-Contra deal"
+    }
+  },
+
+  "assassin_culture": {
+    "etymology": "Hashashins - Islamic origin",
+    "book": "The Ancient Art of Strangulation",
+    "method": "Kill target, anyone around, and often die themselves",
+    "infiltration": "Become slaves/servants for years, eventually kill target",
+    "old_man_of_mountain": "Leader of Hashashins",
+    "fort_capture": "Slowly became majority of soldiers, then killed everyone else",
+    "king_story": "King sleeping in desert, Assassins placed cake (poison warning) - knew guards were Assassins",
+    "christian_version": "Crusaders",
+    "indian_thuggee": {
+      "origin": "Word 'Thug' comes from them",
+      "worship": "Kali, Goddess of Death",
+      "desire": "Die in battle or run off cliff",
+      "british_name": "'Noose Operators'",
+      "method": "Pretend to be travelers, join caravan, lead to kill spot"
+    }
+  },
+
+  "hannibal_barca": {
+    "polybius_quote": "Of all that befell the Romans, the cause was one man and one mind. Hannibal.",
+    "roman_response": "Banned the word 'Peace', coined 'Hannibal is at the gates'",
+    "background": {
+      "origin": "North African from Carthage (included Sicily)",
+      "era": "Before Rome was great Empire",
+      "father": "Hamilcar Barca (Barca = 'Thunder')",
+      "religion": "Primary God was Hercules",
+      "brother": "Mago - Commander AND Fire Eater (both equally important)",
+      "weapons": "Used Elephants"
+    },
+    "oath": {
+      "event": "Father held young Hannibal over sacrificial fire to Ba'alhammon",
+      "oath": "Swear to never be a friend to Rome"
+    },
+    "nueva_carthago": "Father established New Carthage in Spain/France from Roman negotiations",
+    "war_trigger": {
+      "event": "Attacked city on his side of river, Rome claimed it was their ally",
+      "emissary": "'In the folds of my toga I hold peace and war, which will you have'",
+      "carthage_response": "'You choose'",
+      "emissary_decision": "'Then war it will be'"
+    },
+    "route": "Through Alps via Hercules path instead of boats from Africa",
+    "campaigns": {
+      "battle_of_trebia": {
+        "date": "December 218 BC",
+        "achievement": "Forced Romans to evacuate plain of Lombardy",
+        "note": "Scipio severely injured, saved only by son who rescued him"
+      },
+      "battle_of_lake_trasimene": {
+        "date": "217 BC",
+        "achievement": "Destroyed Flaminius' army in waters or adjoining slopes, killed Flaminius",
+        "significance": "Most costly ambush Romans sustained until Battle of Carrhae against Parthians",
+        "innovation": "First recorded turning movement in military history"
+      },
+      "battle_of_cannae": {
+        "date": "Spring 216 BC",
+        "hannibal_forces": "About 45,000 men",
+        "roman_forces": "About 85,000 men",
+        "gisgo_exchange": {
+          "gisgo": "'It is most amazing thing to see such a number of men'",
+          "hannibal": "'I'll tell you something more amazing. In all those numbers, there is not one among them named Gisgo'"
+        },
+        "tactic": "Envelopment - weak center with strong wings, cavalry attack from behind",
+        "result": "50,000-70,000 Romans killed or captured",
+        "casualties": "Roman Consul, two previous year consuls, two quaestors, 29 of 48 military tribunes, 80 senators (25-30% of Senate)",
+        "significance": "One of most catastrophic defeats in Roman history, one of bloodiest battles in human history (single day)"
+      }
+    },
+    "aftermath": {
+      "roman_response": "Never confronted Hannibal in pitched battle again",
+      "maharbal_quote": "'Hannibal, you know how to gain a victory, but not how to use one'",
+      "alliances": "Greek cities in Sicily revolted, Macedonian King Philip V allied, First Macedonian War began"
+    }
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "psychological_operations",
+      "modern_guerilla_examples",
+      "hannibal_campaigns",
+      "assassin_history"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the key principle of psychological operations according to the CIA manual?",
+        "a": "Guerillas must make people believe guns are there FOR them, not against them - help community, be transparent",
+        "explanation": "Tell community to tell Government everything - builds trust"
+      },
+      {
+        "q": "What oath did young Hannibal swear to his father?",
+        "a": "To never be a friend to Rome - sworn over sacrificial fire to Ba'alhammon",
+        "explanation": "Father Hamilcar Barca raised him to defeat Rome"
+      },
+      {
+        "q": "What was unprecedented about the Battle of Cannae?",
+        "a": "45,000 defeated 85,000 through envelopment - killed 25-30% of Roman Senate in one day",
+        "explanation": "One of bloodiest single-day battles in human history"
+      },
+      {
+        "q": "What does 'Antifa' actually mean and where does it come from?",
+        "a": "Anti-Fascist - from Italian resistance movement against German/Fascist occupation in WWII",
+        "explanation": "Modern Italian Republic declared to be founded on resistance struggle"
+      },
+      {
+        "q": "What did Maharbal say after Cannae about Hannibal?",
+        "a": "'Hannibal, you know how to gain a victory, but not how to use one'",
+        "explanation": "Hannibal never attacked Rome directly despite destroying their armies"
+      }
+    ],
+    "achievement_unlocks": [
+      "Psychological Operator: Understand guerilla community trust building",
+      "Modern Analyst: Know contemporary guerilla movements",
+      "Hannibal Scholar: Understand the greatest tactical general",
+      "Assassin Historian: Know Hashashin and Thuggee origins"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Understanding guerilla tactics is understanding power dynamics",
+    "application": "Van Kush operates through psychological and cultural influence",
+    "philosophy": "Victory comes through cunning and community trust, not brute force"
+  }
+}

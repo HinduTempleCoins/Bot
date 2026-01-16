@@ -1,0 +1,501 @@
+{
+  "dmtnexus_veggie_oil_extraction": {
+    "document_info": {
+      "title": "Veggie Oil Extraction Log - amor_fati's Compendium Research",
+      "source": "DMT-Nexus Forum",
+      "thread_url": "dmt-nexus.me/forum - Veggie Oil Extraction Log Options",
+      "primary_author": "amor_fati",
+      "author_credentials": "DMT-Nexus Chemical Expert, Senior Member, 2291 posts",
+      "date_started": "February 9, 2011",
+      "purpose": "Development of food-safe, grocery-store-only extraction methodology using vegetable oil as primary solvent",
+      "related_projects": [
+        "Compendium for the Extraction of Jurema",
+        "Juremala development",
+        "The Inspirator mkII"
+      ],
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "core_concept": {
+      "principle": "Using heated vegetable oil as a nonpolar solvent to extract alkaloids, replacing toxic solvents like naphtha",
+      "goals": [
+        "Obtain reasonably pure extract comparable to heptane using only heated veggie oil",
+        "Extract to exhaustion for maximum yield",
+        "Obtain less pure but active extract by adding small amount of limonene to used oil",
+        "Pure extract for vaporization, mixed extract for Juremala (oral preparation)"
+      ],
+      "key_discovery": "Dual-solvent mixture of limonene and veggie-oil extends viability of insufficient amounts of limonene, reducing extraction costs substantially"
+    },
+
+    "related_prior_work": {
+      "threads_referenced": [
+        {
+          "title": "The Poor Mans Tek",
+          "description": "100% Fat Free, Food Safe, Grocery Store Solution to DMT Extraction"
+        },
+        {
+          "title": "amor_fati's Nontoxic Approach to the Extraction of DMT",
+          "description": "Early nontoxic methodology development"
+        },
+        {
+          "title": "No d-Limo, No NP Solvent, No Acetone, All-Natural Extraction?",
+          "description": "Exploration of fully natural extraction methods"
+        }
+      ]
+    },
+
+    "experimental_results": {
+      "pure_veggie_oil_extraction": {
+        "appearance": "Quite pale in color, fairly fluffy",
+        "workability": "Easy to scrape up",
+        "retrieval_method": "FASW (Freeze And Separate Water technique)",
+        "notes": "Yield smaller due to lighter filtering than normal and stirring in THP"
+      },
+      "pure_limonene_extraction": {
+        "appearance": "Fairly flakey and sticky",
+        "workability": "Tends to jump around when scraped up - troublesome",
+        "remedy": "Add bit of water, scrape into pile, re-evaporate"
+      },
+      "veggie_oil_freebase_conversion": {
+        "method": "Freebase conversion + manual crystallization",
+        "result": "Points to veggie-oil pulling MORE PURE product than limonene or mixture",
+        "issue_noted": "Contamination possible if sodium carbonate not thoroughly washed off"
+      },
+      "limonene_veggie_oil_mixture": {
+        "appearance": "Far easier to scrape up than pure limonene",
+        "advantage": "Best of both worlds - easier handling"
+      }
+    },
+
+    "procedure_notes": {
+      "oil_traces": {
+        "issue": "FASW evap likely to leave traces of oil behind",
+        "solutions": [
+          "Light IPA wash followed by quick thorough drying",
+          "Limonene wash followed by IPA",
+          "Fumarate purification by water (in development)"
+        ],
+        "interesting_note": "Product doesn't seem quite soluble in veggie-oil, opening interesting possibilities"
+      },
+      "recommended_oils": {
+        "primary": "Soy oil (often sold as generic vegetable oil)",
+        "alternative": "Olive oil (logos2012 has this covered)",
+        "advice": "Try different oils - the cheaper the better",
+        "warning": "NOT recommended with water-intensive teks (typically using NaOH) - reports fairly negative"
+      },
+      "salting_methods": {
+        "FASW": "Recommended - Freeze And Separate Water",
+        "vinegar": "Be wary, though more reports needed",
+        "plastic_safety": "Limonene diluted with veggie oil seems less prone to dissolving plastics"
+      }
+    },
+
+    "february_22_update": {
+      "vinegar_salting_confirmed": {
+        "status": "Works fine for salting",
+        "tested_with": "Veggie oil with limonene added (less than 3:1 ratio)",
+        "technique": "Freeze mixture to separate polar and nonpolar layers, decant nonpolar - emulsions never a bother",
+        "vinegar_preparation": "Distilled white vinegar diluted with water (~1:5) - reduces acetic acid contamination"
+      },
+      "heat_induced_dissociation": {
+        "based_on": "q21q21's findings on acetate dissociation",
+        "methods_successful": [
+          "Food dehydrator",
+          "Double boiler style dish over steambath (crockpot for steam)"
+        ],
+        "technique": "Repeated manual crystallization to expose more acetates and release acetic acid",
+        "potential_improvement": "Quick rinse with saturated sodium carbonate solution followed by cold water rinse"
+      },
+      "grocery_store_goal": "Everything necessary can be obtained at grocery store - no specialty materials like fumaric acid needed"
+    },
+
+    "community_contributions": {
+      "logos2012_olive_oil_notes": {
+        "user": "logos2012",
+        "observations": [
+          "Soy oil turns out quite yellow, not orangish",
+          "Soy seems more peanut buttery oily than olive oil",
+          "Olive oil result more powdery and less oily",
+          "Olive oil looks more like limo extracted but lighter color, bit pink",
+          "After iso pulls from freebased fumarates, dries to clear dense oil",
+          "Dries white color, then orangish pink when scraped up"
+        ],
+        "concern": "Most soy in stores is GMO - organic available online"
+      },
+      "curiouskid_sunflower_experiment": {
+        "user": "Curiouskid",
+        "oil_used": "Sunflower oil",
+        "issue": "Freezer caused everything to be frozen-liquefied",
+        "solution_provided": "Shake and squeeze out like shampoo, leaving solid FASW chunk in bottom"
+      },
+      "big_inhale_stb_issue": {
+        "user": "Big Inhale",
+        "setup": "50g MHRB + 750ml lye water + 150ml EVOO + 50ml limo",
+        "problem": "Gray and sparkly top layer instead of olive oil color - emulsion",
+        "advice": "Wet teks may be troublesome with oils. Freezing may help. Use lime instead of lye for better results."
+      }
+    },
+
+    "technical_tips": {
+      "stirring_method": "Keep material in jar for stirring, decant through THP, only dump directly into THP on final pull",
+      "yield_factors": "Yield in limtek depends mainly on quality of basification (adequate lime, water, and stirring)",
+      "solvent_retention": "Basified mixture may hold onto some oil - keep performing flushes, with THP it will all drain",
+      "emulsion_handling": "Freeze to separate - emulsions never a bother with this technique"
+    },
+
+    "wiki_resource": {
+      "title": "Amor_fati's Compendium for the Extraction of Jurema",
+      "url": "wiki.dmt-nexus.me/Amor_fati%27s_Compendium_for_the_Extraction_of_Jurema",
+      "status": "In development at time of thread"
+    },
+
+    "key_terminology": {
+      "FASW": "Freeze And Separate Water - technique to separate polar and nonpolar layers by freezing",
+      "THP": "The Herbal Percolator - filtering/draining apparatus",
+      "limtek": "Limonene-based extraction technique using calcium hydroxide (lime)",
+      "STB": "Straight To Base - extraction method",
+      "MHRB": "Mimosa Hostilis Root Bark - common DMT-containing plant material",
+      "Juremala": "Oral DMT preparation (like ayahuasca but using Jurema/Mimosa)",
+      "HDPE": "High-Density Polyethylene - solvent-resistant plastic type"
+    },
+
+    "safety_and_food_grade": {
+      "advantage": "All materials obtainable at grocery store",
+      "solvents": "Food-safe vegetable oils replace toxic petroleum solvents",
+      "caution": "Be wary of plastic compatibility even with diluted limonene",
+      "storage": "Use HDPE, glass, or metal containers"
+    },
+
+    "march_2011_experiments": {
+      "curiouskid_sunflower_full_report": {
+        "user": "Curiouskid",
+        "date": "March 1, 2011",
+        "method": "Q21Q21 style with 25g MHRB using straight sunflower oil",
+        "pulls": "About four pulls, each salted 4 times",
+        "yield": "About 450mg",
+        "appearance": {
+          "first_salting": "Crystalline, tan color",
+          "subsequent_saltings": "More waxy and reddish"
+        },
+        "smell": "Smelled like spice when burned, also smelled like french fries",
+        "problem": "25mg in GVG - nothing! Only subtle effect. 30mg in bong - same!",
+        "process_used": [
+          "Acidification with vinegar + near boiling water",
+          "Basification with lime",
+          "NP wash with sunflower oil (heated on electric heater for better fluidity)",
+          "Salting with water-vinegar (5:1)",
+          "Evaporation in glass dish on electric heater overnight"
+        ]
+      },
+      "amor_fati_shoddy_experiment": {
+        "user": "amor_fati",
+        "date": "March 2, 2011",
+        "material": "200+g shredded MHRB (not pre-powdered, blender burnt out)",
+        "base_mixture": "Quarter cup lime + just over half sodium carbonate + bit of bicarbonate = ~1 cup total",
+        "reason": "Ran low on lime, decided to experiment",
+        "process": {
+          "extraction": [
+            "Acid bath on shredded bark as-is",
+            "Distributed base mixture evenly between two halves",
+            "Stirred and added water",
+            "Submerged in minimal soybean oil to cover shreds",
+            "Decanting tricky - shredded bark and sodium carb/bicarb don't absorb water well"
+          ],
+          "salting": [
+            "Dilute vinegar (at least 1:5 distilled white to tap water)",
+            "Vigorous shaking, no more than 5 minutes",
+            "Froze HDPE jug overnight",
+            "Oil froze to gel-like slush, polar layer froze solid",
+            "Shook to break up oil slush, squeezed out like shampoo",
+            "Added tiny bit limonene and dash 90% IPA, shook, poured off"
+          ],
+          "crystallization": [
+            "Hot water bath to thaw",
+            "Poured into gravy separator",
+            "Evaporated vinegar/acetate solution at 68C for a day",
+            "Left oil droplets and acetate resin",
+            "IPA wash to remove oil droplets",
+            "Partial manual crystallization scraping and smearing",
+            "Back to dehydrator, repeated process several times"
+          ]
+        },
+        "key_observations": [
+          "After IPA wash, simultaneous odor of acetic acid and freebase detected",
+          "Each scrape/smear cycle: acetic smell subsided, freebase smell became more prevalent",
+          "Confirms heat-dissociation theory regarding acetates",
+          "Gooey mixture solidified more and more as process repeated"
+        ],
+        "result": {
+          "appearance": "Super hard, dark resin ball - seemed sketchy but quite pungent",
+          "further_processing": "Dropwise saturated sodium carbonate solution, flattening with spatula",
+          "manual_crystallization": "Could only achieve soft, slightly sticky ball with odd coloration",
+          "bioassay": "36mg loaded into Inspirator mkII - definite breakthrough, slightly weaker than expected"
+        },
+        "conclusions": [
+          "Lack of adequate lime contributed to impurities",
+          "Excessive liquid in basification problematic",
+          "IPA wash between dehydrator sessions may have helped",
+          "Sodium carbonate solution freebase conversion may have been unnecessary",
+          "Simplification would have improved quality",
+          "Wide threshold for error - still achieved smokable product despite worst efforts"
+        ]
+      }
+    },
+
+    "chacruna_discussion": {
+      "date": "March 4, 2011",
+      "user": "logos2012",
+      "question": "How to do veggie oil extraction with Chacruna?",
+      "concern": "N-oxide form - most DMT in Chacruna reportedly in N-oxide form",
+      "phlux_quote": {
+        "key_point": "Chacruna has most of its spice in n-oxide form",
+        "implication": "Sodium carbonate paste method for freebasing - acetone pulls only pull DMT, leaving 90% behind",
+        "solutions": [
+          "Freebase using ammonia then evap (DMT-N-oxide insoluble in acetone)",
+          "Convert N-oxide to DMT using zinc in acidic environment, then freebase with sodium carbonate"
+        ]
+      },
+      "amor_fati_response": "Zinc in acid bath might help. Limteks should pull N-oxides in oil flush since no polar layer to contend with. Salting phase would grab them if present in oil."
+    },
+
+    "harmalosa_experiments": {
+      "user": "BecometheOther (Harmalosa)",
+      "first_experiment": {
+        "date": "March 7, 2011",
+        "method": "Veggie oil extraction following Q21 lime tech mixed with Spiceman's Poor Man's Tech",
+        "salting": "Vinegar",
+        "freebasing": "Heat from oven (no IPA or acetone re-x)",
+        "goal": "Test if possible using only lime, vinegar, and oil",
+        "result": "Tar somewhat resembling hash, high yield (~1%)",
+        "additional": "Mixed with caapi while heating in oven to freebase",
+        "bioassay_reports": {
+          "friend_1": "Just as good as other spice made with naphtha",
+          "friend_2_female": "Mixed results, somewhat scared, thought messing with something too powerful"
+        },
+        "trip_report": "Transported to temple/pyramid structure, Mayan/Incan theme, surrounded by waterfalls coming down walls. Very positive experience."
+      },
+      "second_experiment": {
+        "date": "April 11, 2011",
+        "base_used": "Pickling lime (confirmed)",
+        "changes": "Freebasing with sodium carb instead of heat, acetone wash on final product",
+        "yield": "Little less than 1g from 100g - could have pulled more from oil",
+        "result": "Two different substances - white semi-crystalline sparkly dry gunk AND lighter tan resin ball",
+        "sodium_carb_problem": {
+          "issue": "Spiceman's tech calls for 1/3 as much sodium carb as acidic water = huge excess after evaporation",
+          "acetone_wash_issue": "Excess sodium carb soaks up acetone, won't release it - more of a PULL than a wash",
+          "yield_loss": "Losing yield because sodium carb absorbs and holds acetone until it evaporates"
+        },
+        "call_to_action": "THERE MUST BE A BETTER WAY TO FREEBASE THE FINAL PRODUCT!"
+      },
+      "manual_crystallization_attempt": {
+        "date": "April 18, 2011",
+        "process": [
+          "Evaporated acidic water",
+          "Added water and sodium carb, spread into paste",
+          "Dried, added few drops of water, swirled, poured drops onto glass tray"
+        ],
+        "results": [
+          "Resin ball turned into dry brown flakes, seemed to gain mass",
+          "Poured-off water drops (after drying): white/semi-yellow crystals on TOP of sodium carb/yellow gunk",
+          "Definite nice crystals formed!"
+        ],
+        "followup": "Acetone washing the flakes yielded a resin ball like others",
+        "question": "Why did this happen? How can we use it to get crystals from this tek?"
+      }
+    },
+
+    "logos2012_virgin_delight": {
+      "user": "logos2012",
+      "product_name": "Extra Virgin Delight (from olive oil extraction)",
+      "organic_soy_experiment": {
+        "date": "March 9, 2011",
+        "oil": "Organic Eden soy oil",
+        "goal": "Compare organic soy vs organic EVOO experience",
+        "olive_oil_result": "Nice powder, not oily at all (possibly due to IPA pull of freebase)",
+        "plan": "Try just water wash of freebase with organic soy"
+      },
+      "freebase_water_wash_issue": {
+        "date": "March 17, 2011",
+        "problem": "Fumarates did not stick to dish, mostly washed in water",
+        "cause": "Not oily enough",
+        "solution": "Evaporated water, will pull with IPA",
+        "considering": "The slow pure white crystallization method"
+      },
+      "virgin_experience_reports": "Two friends tried it - both virgins to smoking DMT. All had great and visual experiences."
+    },
+
+    "slow_crystallization_method": {
+      "discussed_by": "endlessness (Moderator)",
+      "date": "March 17, 2011",
+      "credit": "infundibulum gave heads up on this possibility",
+      "process": [
+        "Fumarates dissolved in water",
+        "Mix saturated sodium carb solution",
+        "Into fridge for 3 or so days",
+        "After retrieving crystals, freeze and thaw water to retrieve last bits"
+      ],
+      "documentation": "Put up with pics on wiki"
+    },
+
+    "vinegar_impurity_issue": {
+      "discovered_by": "amor_fati",
+      "date": "April 5, 2011",
+      "problem": "Something gumming up product, almost like sugar",
+      "symptoms": [
+        "Sweet smell",
+        "Caramelizes when attempting to vaporize"
+      ],
+      "suspected_source": "Vinegar itself - evaporating straight vinegar left a powder",
+      "affected_both": "Limonene AND veggie oil salting",
+      "possible_cause": "Unique to particular generic brand of vinegar",
+      "solution_attempt": "Try evaporating Heinz distilled white vinegar instead",
+      "related_issue": {
+        "reference": "Similar to goo factor in mescaline acetate discussion",
+        "user_ragabr_note": "Got goo using glacial acetic acid first time, vinegar recently was much gooier and doesn't evap clean"
+      }
+    },
+
+    "bufotenine_question": {
+      "asked_by": "logos2012",
+      "date": "April 8, 2011",
+      "question": "Anyone tried veggie extraction of Bufotenine? Would it pull the nasties or not?",
+      "speculation": "Perhaps right oil or combination could do close to same as naphtha and heptane"
+    },
+
+    "freebasing_methods_comparison": {
+      "options_discussed": [
+        {
+          "method": "Heat dissociation (oven/dehydrator)",
+          "pros": "Simple, no extra chemicals",
+          "cons": "Can produce tar/resin"
+        },
+        {
+          "method": "Sodium carbonate paste",
+          "pros": "Effective conversion",
+          "cons": "Huge excess sodium carb, absorbs acetone, yield loss"
+        },
+        {
+          "method": "Ice House's 10min tek",
+          "pros": "Recommended by amor_fati",
+          "cons": "May only work well with fumarates"
+        },
+        {
+          "method": "Simple drytek",
+          "pros": "Should work with vinegar",
+          "cons": "Unknown"
+        },
+        {
+          "method": "Manual crystallization",
+          "pros": "Can produce nice crystals",
+          "cons": "No one else accomplished without a hitch besides amor_fati"
+        },
+        {
+          "method": "Slow pure white crystallization",
+          "pros": "Produces white crystals, documented on wiki",
+          "cons": "Takes 3+ days in fridge"
+        }
+      ],
+      "amor_fati_preference": "Leaning toward recommending Ice House's tek or simple drytek"
+    },
+
+    "april_2011_vinegar_impurity_analysis": {
+      "date": "April 19-21, 2011",
+      "experimenter": "amor_fati",
+      "detailed_findings": {
+        "photo_1_description": "Precipitates after evaping vinegar used in salting (diluted ~1:2 with water), after IPA wash to remove residual oil and air-drying. Bone dry.",
+        "photo_2_description": "Precipitates scraped up - waxy consistency but doesn't adhere easily, quite flaky, could only be compressed into resin for solid chunk",
+        "photo_3_description": "Remnants of vaporization - dry powder with sweet taste as if caramelizing"
+      },
+      "problems_identified": [
+        "Powder throws off weight of product",
+        "Clogs air passage in smoking device if allowed to accumulate",
+        "Sweet taste, caramelizes when vaporized"
+      ],
+      "source_investigation": {
+        "tested": "Heinz distilled white vinegar evaporated straight from store",
+        "result": "Same impurities present - NOT from extraction, FROM the vinegar itself",
+        "conclusion": "Impurities are in commercial vinegar, not carried over from oil/limonene"
+      },
+      "mystery": "Can't imagine how impurities make it through distillation since they're not volatile - must be added after the fact"
+    },
+
+    "manual_crystallization_clarification": {
+      "date": "April 19, 2011",
+      "from": "amor_fati",
+      "harmalosa_experiment_analysis": {
+        "issue_1": "A few drops of water insufficient for washing",
+        "issue_2": "Mass gain indicates leftover sodium carbonate not washed away",
+        "warning": "Freebase droplets may float around - need to make them stick together and adhere to dish",
+        "vinegar_problem": "Too much freebase may end up in suspension and be washed away"
+      },
+      "key_statement": "The ONLY way to get proper freebase crystals from any tek is with slow crystallization and/or heptane. Manual crystallization will yield waxy, clay-like chunks."
+    },
+
+    "acetone_wash_question": {
+      "asked_by": "BecometheOther",
+      "question": "Would vinegar impurities make it through acetone wash?",
+      "amor_fati_response": "Wouldn't think so, but will report when tested"
+    },
+
+    "may_2011_vinegar_verdict": {
+      "date": "May 13-20, 2011",
+      "conclusion": "SWIM about ready to throw in the towel on vinegar as salting reagent",
+      "reasons": [
+        "Haven't been able to get near as decent a product as with fumaric acid",
+        "Simple drytek with IPA didn't work for purifying",
+        "Product still had awful smell",
+        "Far too hygroscopic compared to typical freebase"
+      ],
+      "action": "Teks will be updated accordingly",
+      "possible_solution": "Simple home distillation of vinegar may be the only way to rectify this",
+      "IPA_filtration_note": "Could be that filtration was slightly inadequate, but works well in every other case except this one",
+      "final_recommendation": "Fumaric acid is really cheap - just order it"
+    },
+
+    "august_2011_glacial_acetic_breakthrough": {
+      "date": "August 25, 2011",
+      "experimenter": "amor_fati",
+      "discovery": "Glacial acetic acid works MUCH better than commercial vinegar",
+      "process": {
+        "salting": "Water with a bit of glacial acetic acid",
+        "evaporation": "About 150F after separating from oil",
+        "result": "No detectable hint of residual acetic acid, very nice and familiar odor"
+      },
+      "product_form": "Could have solidified with technique, but used as goo",
+      "smoking_method": "Fashioned cone with stainless steel pipe screen, scooped up goo, loaded into piece screen and all",
+      "experience": "Some of the BEST visuals yet, one of the most satisfying sessions in a while",
+      "validation": "q21q21's instincts on acetate approach are definitely correct",
+      "key_warning": "Beware of vinegar - go for GLACIAL ACETIC ACID if you can get it",
+      "final_verdict": "This is the QUICKEST way of achieving smoke-able product straight from extraction",
+      "future_plan": "Will forgo usual fumaric approach for acetic in coming trials"
+    },
+
+    "thread_conclusions": {
+      "vinegar_vs_glacial_acetic": {
+        "commercial_vinegar": "NOT RECOMMENDED - contains impurities that caramelize, taste sweet, clog devices",
+        "glacial_acetic_acid": "RECOMMENDED - clean product, no residual acetic acid smell, excellent results"
+      },
+      "oil_recommendations": {
+        "best_overall": "Soy oil (generic vegetable oil)",
+        "alternative": "Organic extra virgin olive oil ('Extra Virgin Delight')",
+        "tested": "Sunflower oil (works but mixed results)",
+        "not_recommended": "Water-intensive teks with oils"
+      },
+      "final_workflow": {
+        "extraction": "Lime-based tek (limtek) with vegetable oil",
+        "salting": "Glacial acetic acid (preferred) OR fumaric acid",
+        "separation": "FASW technique (Freeze And Separate Water)",
+        "evaporation": "150F after separating from oil",
+        "cleanup": "Acetone wash removes most impurities"
+      },
+      "key_learnings": [
+        "Veggie oil produces PURER product than limonene alone",
+        "Limonene/veggie oil mixture gives best handling properties",
+        "Commercial vinegar contains unknown impurities - avoid",
+        "Glacial acetic acid is the quickest path to smokable product",
+        "Wide threshold for error - even shoddy experiments yield smokable product",
+        "Lime preferred over lye for oil-based extractions"
+      ]
+    }
+  }
+}

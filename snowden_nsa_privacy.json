@@ -1,0 +1,174 @@
+{
+  "title": "Snowden Revelations and Suing the NSA",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/politics/@marsresident",
+  "overview": "Comprehensive guide to NSA surveillance programs, FOIA requests, privacy laws, and legal resources for protecting civil liberties",
+
+  "prism_program": {
+    "definition": "NSA program using Google, Facebook, Yahoo servers to collect information",
+    "resources": {
+      "washington_post": "washingtonpost.com/news/wonk/wp/2013/06/12/heres-everything-we-know-about-prism-to-date/",
+      "wikipedia": "en.wikipedia.org/wiki/PRISM_(surveillance_program)",
+      "guardian": "theguardian.com/us-news/2016/mar/08/fbi-changes-privacy-rules-accessing-nsa-prism-data",
+      "abc_news": "abcnews.go.com/topics/news/nsa-prism.htm"
+    }
+  },
+
+  "foia_requests": {
+    "purpose": "Get records about YOU from the NSA",
+    "standard_request": "Privacy Act Request (most common)",
+    "resources": {
+      "sample_letters": "nfoic.org/sample-foia-request-letters",
+      "submit_foia": "nsa.gov/resources/everyone/foia/submit-foia-request/",
+      "submit_privacy_act": "nsa.gov/resources/everyone/foia/submit-privacy-act-request/"
+    },
+    "recommendation": "Can file BOTH FOIA and Privacy Act requests"
+  },
+
+  "privacy_laws": {
+    "ecpa": {
+      "name": "Electronic Communications Privacy Act",
+      "resources": [
+        "epic.org/privacy/ecpa/",
+        "epic.org/privacy/laws/privacy_act.html"
+      ],
+      "criminal_penalties": "Up to 5 years prison, fines up to $250,000",
+      "civil_remedies": "Actual damages, punitive damages, attorney's fees"
+    },
+    "fisa": {
+      "name": "Foreign Intelligence Surveillance Act",
+      "description": "Where FISA courts come from",
+      "resources": [
+        "uscode.house.gov/view.xhtml?path=/prelim@title50/chapter36&edition=prelim",
+        "govtrack.us/congress/bills/110/hr6304/text"
+      ]
+    },
+    "privacy_act_applications": {
+      "divorce_context": "rosen.com/divorce/divorcearticles/electronic-communications-privacy-act/",
+      "general_analysis": "jurist.org/hotline/2014/01/khaliah-barnes-privacy-act.php"
+    }
+  },
+
+  "legal_codes_for_action": {
+    "civil_rights_lawsuit": {
+      "code": "42 U.S. Code § 1983",
+      "purpose": "Lawsuit for Violation of Rights"
+    },
+    "criminal_charges_officers": {
+      "code": "18 U.S. Code § 242",
+      "purpose": "Criminal charges for government officers using status to infringe rights"
+    },
+    "suing_government_officers": {
+      "code": "28 USC § 1442",
+      "purpose": "Bringing lawsuit against government officers"
+    },
+    "procedure": {
+      "code": "Title II Rule 3 & 5",
+      "purpose": "Procedure for suing government agencies"
+    }
+  },
+
+  "key_court_cases": {
+    "tax_misuse": {
+      "case": "Flast v. Cohen",
+      "holding": "You can sue the Government for misuse of tax funds"
+    },
+    "national_security_balance": {
+      "case": "Air Wisconsin v. Hoeper",
+      "topic": "Balancing National Security"
+    },
+    "privacy_expectation": {
+      "case": "Katz v. United States",
+      "holding": "Reasonable expectation of Privacy established"
+    },
+    "wiretapping": {
+      "case": "United States v. United States District Court",
+      "topic": "Wiretapping limitations"
+    },
+    "cell_phone_records": {
+      "case": "Riley v. California",
+      "topic": "Cell Phone Records protection"
+    },
+    "government_conspiracies": {
+      "case": "United States v. Guest",
+      "holding": "Protection from Government Conspiracies"
+    },
+    "congressional_limits": {
+      "case": "Watkins v. United States",
+      "holding": "Congress' Power is not Unlimited"
+    },
+    "investigation_immunity": {
+      "case": "Buckley v. Fitzsimmons",
+      "holding": "No Immunity for Illegal investigations"
+    },
+    "government_conspiracy_example": {
+      "case": "Hanrahan v. Hampton",
+      "description": "Extensive Government Conspiracy hashed out in Court for 20 years"
+    },
+    "thermal_imaging": {
+      "case": "Kyllo v. United States, 533 U.S. 27 (2001)",
+      "holding": "Thermal imaging (FLIR) from public vantage point to monitor home radiation is a 'search' requiring warrant"
+    }
+  },
+
+  "government_corruption_examples": {
+    "patriot_act_abuse": {
+      "source": "ACLU",
+      "article": "aclu.org/news/fbi-audit-exposes-widespread-abuse-patriot-act-powers"
+    },
+    "whitey_bulger": {
+      "source": "Washington Post",
+      "article": "washingtonpost.com/politics/james-whitey-bulgers-capture-could-cause-trouble-inside-the-fbi/2011/06/24/AGis2cjH_story.html"
+    }
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "surveillance_awareness",
+      "foia_procedures",
+      "privacy_laws",
+      "legal_remedies"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is PRISM?",
+        "a": "NSA program using Google, Facebook, Yahoo servers to collect information about users",
+        "explanation": "Revealed by Snowden - mass surveillance infrastructure"
+      },
+      {
+        "q": "What is the difference between FOIA and Privacy Act requests?",
+        "a": "Privacy Act is standard for personal records; FOIA is broader but both can be filed",
+        "explanation": "Privacy Act specifically for records about YOU"
+      },
+      {
+        "q": "What penalties exist for ECPA violations?",
+        "a": "Up to 5 years prison, $250,000 fines, plus civil damages and attorney fees",
+        "explanation": "Both criminal and civil remedies available"
+      },
+      {
+        "q": "Which case established you can sue government for tax misuse?",
+        "a": "Flast v. Cohen",
+        "explanation": "Taxpayer standing to challenge government spending"
+      },
+      {
+        "q": "What did Kyllo v. United States establish about thermal imaging?",
+        "a": "Using FLIR to monitor home heat radiation is a 'search' requiring a warrant",
+        "explanation": "Technology doesn't eliminate Fourth Amendment protections"
+      }
+    ],
+    "achievement_unlocks": [
+      "Surveillance Aware: Understand PRISM and mass collection",
+      "FOIA Practitioner: Know how to request your records",
+      "Legal Scholar: Know the key privacy cases",
+      "Rights Defender: Understand legal remedies available"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "Privacy and sovereignty are core Van Kush values",
+    "philosophy": "Knowledge of rights enables their exercise",
+    "continuity": "Legal knowledge is power against overreach"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "oilahuasca_practical_formulations": {
+    "document_info": {
+      "title": "Practical Oilahuasca Formulations",
+      "compiled_from": "Claude.ai discussions with Rev. Ryan Van Kush, Ron69 original research",
+      "date": "July 2025",
+      "disclaimer": "FOR EDUCATIONAL PURPOSES ONLY - NOT ADVICE OR GUIDELINES"
+    },
+
+    "formula_a_ron69_basic": {
+      "name": "Ron69's Basic Oilahuasca",
+      "source": "Original Ron69/HerbPedia formulation",
+      "ingredients": {
+        "coffee": "8-16oz (200-400mg caffeine)",
+        "nutmeg": "1-2 tsp (2-4g)",
+        "cinnamon": "1 tsp (2g)",
+        "vanilla": "1 tsp",
+        "almond": "1 tsp"
+      },
+      "expected_effects": {
+        "onset": "2-8 hours",
+        "duration": "12-36 hours"
+      },
+      "notes": "The original 'psychedelic effects from coffee, almond, cinnamon, vanilla and nutmeg' formulation"
+    },
+
+    "formula_b_enhanced_multi_pathway": {
+      "name": "Enhanced Multi-Pathway Formulation",
+      "purpose": "Maximum enzyme blockade with multiple allylbenzene sources",
+      "protocol": {
+        "t_minus_60_cyp_inhibitors": {
+          "time": "T-60 minutes",
+          "ingredients": {
+            "black_pepper": "1/4 tsp",
+            "cinnamon": "1 tsp",
+            "fennel_seeds": "1 tbsp crushed"
+          },
+          "purpose": "Pre-block CYP3A4 and CYP2C9"
+        },
+        "t_minus_30_inducer": {
+          "time": "T-30 minutes",
+          "ingredients": {
+            "coffee": "16oz (400mg caffeine)"
+          },
+          "purpose": "Induce CYP1A2 expression"
+        },
+        "t_0_allylbenzene_loading": {
+          "time": "T-0",
+          "ingredients": {
+            "nutmeg": "2 tsp",
+            "parsley_oil": "10-20 drops",
+            "dill_oil": "10-20 drops",
+            "basil": "2 tbsp fresh",
+            "bay_leaves": "2",
+            "allspice": "1/2 tsp"
+          },
+          "purpose": "Load multiple allylbenzene substrates"
+        },
+        "t_plus_30_additional": {
+          "time": "T+30 minutes",
+          "ingredients": {
+            "vanilla": "1 tsp",
+            "almond": "1 tsp",
+            "additional_cinnamon": "Optional"
+          },
+          "purpose": "Flavor and additional compounds"
+        }
+      }
+    },
+
+    "formula_c_parsley_dill_focused": {
+      "name": "Parsley-Dill Focused (DMMDA)",
+      "rationale": "Both DMMDA compounds highly potent (50-75mg active doses)",
+      "ingredients": {
+        "parsley_seed_oil": "20-30 drops",
+        "dill_seed_oil": "20-30 drops",
+        "nutmeg": "1 tsp (supporting)",
+        "coffee": "Standard dose",
+        "cinnamon": "Standard dose",
+        "black_pepper": "Standard dose"
+      },
+      "target_metabolites": ["DMMDA (from apiole)", "DMMDA-2 (from dillapiole)"],
+      "expected": "Potentially more potent than nutmeg-focused formulations"
+    },
+
+    "formula_d_sweet_flag_dominant": {
+      "name": "Sweet Flag Dominant (TMA-2)",
+      "critical_safety": "ONLY use if verified North American diploid variety!",
+      "ingredients": {
+        "sweet_flag_powder": "2-3g (NORTH AMERICAN DIPLOID ONLY)",
+        "nutmeg": "1 tsp",
+        "basil": "4-6g",
+        "coffee": "Lower dose (200mg caffeine)"
+      },
+      "target": "TMA-2 pathway via γ-asarone (if present)",
+      "warning": "SAFETY CRITICAL - verify variety or do not use"
+    },
+
+    "formula_e_theoretical_maximum": {
+      "name": "Theoretical Maximum",
+      "warning": "NOT RECOMMENDED - included for theoretical completeness only",
+      "description": "Extreme CYP450 saturation with all herbs at high doses",
+      "expected_duration": "48-96 hours",
+      "risk_level": "HIGH - do not attempt"
+    },
+
+    "general_timing_principles": {
+      "cyp_inhibitors_first": "30-60 min before allylbenzenes",
+      "inducers_next": "30 min before substrates",
+      "substrates_last": "After enzymes are modulated",
+      "rationale": "Allows enzyme modulation to establish before substrates are introduced"
+    },
+
+    "dosing_principles": {
+      "essential_oils": "Only a few drops - highly concentrated",
+      "whole_spices": "1-2 teaspoons typical",
+      "start_low": "Begin with 1/4 to 1/2 recommended doses",
+      "titrate_slowly": "Wait 4+ days between experiments"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "title": "How to Earn Money by Posting on Social Media (STEEM Guide)",
+  "author": "marsresident / Van Kush Family",
+  "period": "2016 (STEEM Era)",
+  "source": "Steemit Post - steemit.com/steemit/@marsresident",
+  "overview": "Introductory guide for newcomers explaining how STEEM cryptocurrency rewards work, and strategies for building voting power over time",
+
+  "core_concept": {
+    "not_gofundme": "No one is giving you their money",
+    "upvote_mechanism": "People click upvote (like button) and money is GENERATED via STEEM",
+    "posting_as_mining": "Posting on Steemit is to STEEM what mining is to Bitcoin",
+    "conversion_path": "STEEM → Bitcoin → USD (via Coinbase) → Bank account"
+  },
+
+  "earning_methods": {
+    "posting": "Main content creation - $ amount shown at bottom of post",
+    "commenting": "Comments can also earn rewards",
+    "curating": {
+      "definition": "Voting on posts before they get popular",
+      "reward": "Early voters earn curation rewards"
+    }
+  },
+
+  "time_advantage": {
+    "beta_stage": "Platform was still in Beta (test product) in 2016",
+    "compounding_power": {
+      "2_years": "More people but you have more voting power",
+      "5_years": "Even more people, even more voting power",
+      "10_years": "Like Facebook/Twitter scale but with veteran voting power"
+    },
+    "first_mover": "First cryptocurrency offering simple GUI for earning (vs complicated mining)"
+  },
+
+  "strategies_for_voting_power": {
+    "buy_and_load": {
+      "example": "$50,000 worth of STEEM at $0.10 each",
+      "benefit": "Immediately able to boost others' posts",
+      "ripple_effect": "One person's votes help many others build power",
+      "investment_potential": "$50,000 at $0.10 → $500,000-$1,000,000 if STEEM reaches $1-2"
+    },
+    "group_strategy": {
+      "method": "Use Steemit as a coordinated group",
+      "progression": [
+        "One person gets good payouts",
+        "Start voting on each other's posts",
+        "Help each other rise in rankings",
+        "Give each other cents, then $0.10-0.20, then $1.00",
+        "After years: $10-50 votes for each other"
+      ],
+      "acceleration": "Group members buying STEEM speeds the process",
+      "buying_strategy": "Buy when going DOWN and when LOW, sell when RISING"
+    }
+  },
+
+  "meritocracy_concern": {
+    "user": "@patriciakm",
+    "valid_point": "Group dynamics may compromise meritocracy",
+    "risk_1": "Members upvoting unworthy content at full power",
+    "risk_2": "Resentment when told contribution isn't worthy",
+    "risk_3": "Reputational damage to upvoters"
+  },
+
+  "rhetorical_question": "How many times have you been paid by Facebook or Twitter for a post?",
+
+  "historical_context": {
+    "launch": "July 2016",
+    "status": "Extremely new but with huge staying power",
+    "evolution": "Later forked to HIVE (2020) after centralization concerns"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "steem_basics",
+      "voting_power",
+      "group_strategies",
+      "long_term_thinking"
+    ],
+    "quiz_questions": [
+      {
+        "q": "How is posting on Steemit like mining Bitcoin?",
+        "a": "Both generate cryptocurrency - posting creates STEEM, mining creates BTC",
+        "explanation": "First platform to offer simple GUI for earning crypto without technical mining"
+      },
+      {
+        "q": "What is the optimal time to buy STEEM?",
+        "a": "When it's going DOWN and when it's already LOW",
+        "explanation": "Buy low, sell when rising - not the other way around"
+      },
+      {
+        "q": "Why does early adoption matter on STEEM?",
+        "a": "Voting power compounds over time - 2 years, 5 years, 10 years of growth",
+        "explanation": "Early users have more power as platform scales"
+      }
+    ],
+    "achievement_unlocks": [
+      "STEEM Initiate: Understand the basic earning mechanism",
+      "Voting Strategist: Know how to build power over time",
+      "Group Coordinator: Understand collective strategies"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "marsresident is Van Kush Family STEEM account",
+    "relevance": "This guide was entry point for many into Van Kush ecosystem",
+    "continuity": "Same principles now apply to HIVE, BLURT, and HIVE-Engine tokens",
+    "philosophy": "Building collective wealth through coordinated action"
+  }
+}

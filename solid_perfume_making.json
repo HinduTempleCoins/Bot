@@ -1,0 +1,157 @@
+{
+  "title": "Solid Perfume Making - Comprehensive Guide from Soapmaking Forum",
+  "author": "Soapmaking Forum Community",
+  "period": "2022-2025",
+  "source": "soapmakingforum.com/threads/solid-perfume-questions",
+  "overview": "Community-sourced guide to making solid perfumes with various wax and oil ratios, climate considerations, and professional tips",
+
+  "base_formulations": {
+    "standard_ratios": {
+      "soft": "4:1 liquid oil to beeswax (by weight)",
+      "medium": "3:1 liquid oil to beeswax - good all-around choice",
+      "firm": "2:1 liquid oil to beeswax"
+    },
+    "professional_perfumist_recipe": {
+      "source": "@cmzaha - sold professionally for years",
+      "formula": "1/3 beeswax, 1/3 liquid oil (prefer SAO), 1/3 fragrance or EO",
+      "note": "Higher fragrance ratio than typical - remember solid perfumes only used on small areas",
+      "container": "Little lip balm pots"
+    },
+    "mandy_aftel_recipe": {
+      "source": "@bwtapestry citing perfume expert",
+      "formula": "5ml jojoba oil + 1/2 heaping tsp beeswax + ~20 drops scent",
+      "tip": "Test by dropping melted mix on plate, rub after 1 minute to check firmness"
+    }
+  },
+
+  "wax_options": {
+    "beeswax": {
+      "pros": "Traditional, easy to find, good hold",
+      "cons": "Can be sticky, not vegan"
+    },
+    "cera_bellina": {
+      "description": "Polyglycerol-3 beeswax",
+      "effect": "More glide/slip than regular beeswax",
+      "bonus": "Reduces or eliminates graininess in shea butter"
+    },
+    "candelilla": {
+      "source": "@Ochre+Co recommendation",
+      "pros": "Less sticky than beeswax, vegan friendly",
+      "ratio": "Same ratios as beeswax work fine"
+    },
+    "carnauba": {
+      "user": "@KiwiMoose",
+      "note": "Harder wax, good for humid climates"
+    }
+  },
+
+  "oil_options": {
+    "jojoba": "Preferred for fast absorption, non-greasy",
+    "fractionated_coconut": "Excellent for wood butter, fast absorbing",
+    "sweet_almond_oil": "Professional choice for skin feel",
+    "hemp_oil": "Alternative option",
+    "meadowfoam": "Under exploration by community",
+    "sunflower": "Works well, budget friendly"
+  },
+
+  "climate_considerations": {
+    "warm_climates": "Use 2:1 or 3:1 ratio (more wax)",
+    "cold_climates": "Use 4:1 ratio (less wax)",
+    "moderate_all_year": "3:1 works for most situations",
+    "indoor_storage": "Homes are fairly temperate - 3:1 good default",
+    "purse_carry": "More vulnerable to temperature - go firmer"
+  },
+
+  "advanced_ingredients": {
+    "lauryl_laurate": {
+      "source": "@not_ally recommendation from Lotioncrafter/TKB",
+      "description": "Solid, fast-melting ester with dry powdery feel",
+      "effect": "De-greases formulations while providing slip",
+      "usage": "Tiny amounts or formula becomes runny",
+      "application": "Great in lotion bars"
+    },
+    "cetyl_alcohol": {
+      "use": "In place of some wax for similar degreasing effect"
+    },
+    "shea_butter": {
+      "ratio_example": "10% wax, 50% shea, 40% liquid oil stays solid",
+      "graininess": "May get grainy with temperature changes - grains melt on contact",
+      "tip": "Add ROE (rosemary oleoresin extract) to prevent rancidity"
+    }
+  },
+
+  "fragrance_considerations": {
+    "discoloration": "Strongly discoloring FOs tend to discolor solid perfumes too",
+    "ifra_guidelines": "Following IFRA makes solid perfumes less concentrated than Eau de Parfum",
+    "longevity": "2 hours maximum for most blends - similar to light cologne",
+    "base_notes": "Not always the longest lasting - results vary"
+  },
+
+  "lip_balm_crossover_recipe": {
+    "source": "@Ephemerella tested formula",
+    "ratios": "Approximately 10% wax, 50% shea, 40% liquid oil",
+    "result": "Stays solid even in yoga pants pocket all day",
+    "application": "Disappears quickly on skin, non-greasy"
+  },
+
+  "wood_butter_recipe": {
+    "formula": "4:1 fractionated coconut to wax",
+    "uses": "Wooden utensils, bowls, dog paws in winter",
+    "optional": "Add Grapefruit EO"
+  },
+
+  "steamer_trunk_recipe": {
+    "source": "Humblebee and Me website",
+    "note": "Bergamot and nutmeg go into red zone quickly on EOCalc",
+    "modification": "Use candelilla instead of beeswax for less stickiness"
+  },
+
+  "process_tips": {
+    "melting": "Melt wax in water bath, add oil, add scent last to prevent evaporation",
+    "testing": "Drop on plate, check firmness after 1 minute",
+    "containers": "Small tins, lip balm pots work well",
+    "shelf_life": "With ROE, balms can last 2+ years without rancidity"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "wax_ratios",
+      "oil_selection",
+      "fragrance_usage",
+      "climate_adjustment"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the recommended all-around ratio for solid perfume?",
+        "a": "3:1 liquid oil to beeswax by weight - works for most climates and storage situations",
+        "explanation": "4:1 is too soft for warm areas, 2:1 doesn't have much glide"
+      },
+      {
+        "q": "What is cera bellina and why use it?",
+        "a": "Polyglycerol-3 beeswax that provides more glide/slip and reduces shea butter graininess",
+        "explanation": "Good substitute when you want smoother application"
+      },
+      {
+        "q": "What is Lauryl Laurate used for?",
+        "a": "De-greases formulations while providing slip - use tiny amounts or formula gets runny",
+        "explanation": "Creates dry, powdery feel on skin"
+      },
+      {
+        "q": "Why might solid perfumes not last as long as commercial perfumes?",
+        "a": "Following IFRA guidelines makes them less concentrated - similar to light cologne (2 hours)",
+        "explanation": "Commercial perfumes may use higher fragrance concentrations"
+      }
+    ],
+    "achievement_unlocks": [
+      "Perfume Chemist: Know the wax and oil ratios",
+      "Climate Adjuster: Formulate for different temperatures",
+      "Professional Formulator: Use advanced ingredients like Lauryl Laurate"
+    ]
+  },
+
+  "van_kush_connection": {
+    "relevance": "Solid perfume making connects to Divine Mystical Expressions spell shop products",
+    "application": "Van Kush could create ritual solid perfumes with sacred oils",
+    "philosophy": "Natural perfumery using traditional wax and oil techniques"
+  }
+}

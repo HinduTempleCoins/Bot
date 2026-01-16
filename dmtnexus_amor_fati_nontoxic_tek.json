@@ -1,0 +1,236 @@
+{
+  "dmtnexus_amor_fati_nontoxic_tek": {
+    "document_info": {
+      "title": "Amor fati's Nontoxic Approach to Spice Extraction",
+      "source": "DMT-Nexus Wiki",
+      "author": "amor_fati",
+      "category": ["Extraction Tek", "Limtek", "DMT"],
+      "purpose": "Establish thorough and reliable nontoxic method yielding results comparable to less wholesome ancestors",
+      "disclaimer": "Educational reference only. Documents historical extraction chemistry research."
+    },
+
+    "philosophy": {
+      "background": "Most common extraction techniques involve processes resembling production of less savory substances",
+      "problems_with_traditional": [
+        "Large quantities of time, materials, strain, and space required",
+        "Toxicity and hazards of materials",
+        "Resemblance to illicit production methods"
+      ],
+      "solution": "Completely nontoxic, food-grade extraction approach"
+    },
+
+    "abstract": {
+      "pulverization_challenge": "Most households lack proper equipment to pulverize MHRB into powder",
+      "innovation": "Combination of blender and mason jar - contains material reliably including messy dust",
+      "three_vessel_system": {
+        "vessel_1": "Pulverization and basification",
+        "vessel_2": "Washing, decanting, filtration (THP)",
+        "vessel_3": "Collection of target solvent"
+      },
+      "salting_process": "Mix solvent with acidic water, separate layers, evaporate water layer",
+      "reliability": "Renders homogeneous mixture that stays moist ensuring reaction completion"
+    },
+
+    "materials_required": {
+      "source_material": "100g whole MHRB",
+      "solvents": ["Distilled H2O", "d-Limonene"],
+      "reagents": [
+        "50-100g Hydrated Calcium hydroxide (Pickling Lime)",
+        "Fumaric acid",
+        "Distilled White Vinegar"
+      ],
+      "equipment": [
+        "Simple blender with blade assembly for regular-mouth jar",
+        "2 regular-mouth quart mason jars",
+        "1 32oz HDPE bottle",
+        "Cotton balls",
+        "Cotton cloth (flour sacks)"
+      ],
+      "suggested_equipment": [
+        "Food dehydrator",
+        "Separatory device (separatory funnel or glass gravy separator)",
+        "Evaporation dish",
+        "Small container for FASW (450mL bottles)",
+        "Larger HDPE or glass jug for salting"
+      ]
+    },
+
+    "procedure": {
+      "step_1": {
+        "action": "Prepare MHRB for pulverization by breaking up by hand"
+      },
+      "step_2": {
+        "action": "Add 100g MHRB to regular-mouth quart mason jar"
+      },
+      "step_3": {
+        "action": "Attach blender blade assembly and pulverize contents thoroughly"
+      },
+      "step_4": {
+        "action": "Thoroughly moisten bark with vinegar, replace lid, heat in hot water bath below boiling",
+        "note": "Acid and heat treatment may aid in breaking down material (steps 3-4 may prove unnecessary)"
+      },
+      "step_5": {
+        "action": "Add 50-100g hydrated lime to jar with sufficient water to thoroughly moisten"
+      },
+      "step_6": {
+        "action": "Add limonene just short of filling jar"
+      },
+      "step_7": {
+        "action": "Attach blender blade assembly and blend until doughy consistency"
+      },
+      "step_8": {
+        "action": "Prepare THP (The Herbal Percolator)",
+        "details": [
+          "Cut bottom off 32oz HDPE spray bottle",
+          "Stuff cotton balls in neck loosely",
+          "Cover nape of neck with few layers of cotton rag"
+        ]
+      },
+      "step_9": {
+        "action": "Set bottle in clean mason jar with rim loosely screwed to prevent seal",
+        "note": "Remove rim before pouring out collected limonene"
+      },
+      "step_10": {
+        "action": "Pour contents into THP and stir while allowing limonene to pass through"
+      },
+      "step_11": {
+        "action": "Continue passing limonene through THP until satisfied, adding more if necessary",
+        "tip": "Pour limonene into original blending jar to wash remnants into THP"
+      },
+      "step_12": {
+        "action": "Prepare FASW (Fumaric Acid Saturated Water) with known amount of fumaric acid"
+      },
+      "step_13": {
+        "action": "Combine FASW with extraction limonene in glass/HDPE jug, shake vigorously"
+      },
+      "step_14": {
+        "action": "Allow to separate, pour into separatory device"
+      },
+      "step_15": {
+        "action": "Collect bottom water layer for evaporation, top limonene for reuse"
+      },
+      "step_16": {
+        "action": "Evaporate at no more than 120F with sufficient airflow",
+        "tip": "Scrape into pile while still wet, then continue drying",
+        "yield_calculation": "Compare total weight to known fumaric acid amount"
+      },
+      "step_17": {
+        "action": "Purify by dissolving in water, decanting off excess fumaric acid, evaporating",
+        "indicator": "Coloration shows amount of product dissolved"
+      },
+      "step_18": {
+        "action": "Collect dry solid DMT Fumarate",
+        "note": "Product contains approximately 76% DMT freebase"
+      }
+    },
+
+    "process_notes": {
+      "mhrb_amount": "100g per THP recommended to avoid overflow and blender damage",
+      "maximum": "Strongly recommended no more than 150g at a time",
+      "multiple_extractions": "Prepare total limonene amount, add to each as needed, collect and salt as total",
+      "other_botanicals": "Process can theoretically apply to other DMT plants with minor adjustments",
+      "mescaline": "Can be used for mescaline from dried cactus with appropriate acid"
+    },
+
+    "advantages": {
+      "nontoxic": "Requires only food-grade materials with little or no health/environmental impact",
+      "household_equipment": "All items readily available on open market, commonly found in home",
+      "minimal_material": "Less material and cost than most other teks, easier disposal",
+      "expedient": "May only require a day, yielding adequate results overnight",
+      "simplified": "Many processes combined and largely automated (filtering+decanting, mixing+pulverization)",
+      "whole_mhrb": "Generally cheaper, more readily available, less risk of vendor impurities or oxidation"
+    },
+
+    "freebase_conversion": {
+      "title": "Nontoxic Conversion of Full-Range Fumarate Extract to Freebase with Hasty Manual Crystallization",
+      "materials": {
+        "source": "Fumarate Extract of Jurema",
+        "solvents": "Distilled H2O",
+        "reagents": "Sodium Carbonate (from baking soda)",
+        "equipment": ["Razor blade", "Lab spatula", "Evaporation dish", "Collection vessel"]
+      },
+      "procedure": [
+        {
+          "step": 1,
+          "action": "Mix DMT fumarate with equal or greater amount sodium carbonate on dish, moisten thoroughly dropwise"
+        },
+        {
+          "step": 2,
+          "action": "Allot adequate time and stirring for complete reaction"
+        },
+        {
+          "step": 3,
+          "action": "Spread moistened mixture evenly and thinly across dish",
+          "note": "Thinner spread = product more likely adheres to glass, won't wash away"
+        },
+        {
+          "step": 4,
+          "action": "Add minimal water to dissolve sodium carbonate and salt byproduct by tilting/rolling"
+        },
+        {
+          "step": 5,
+          "action": "When all sodium carbonate dissolved and particulates settled, carefully decant water",
+          "tip": "Save decanted water in case of product loss"
+        },
+        {
+          "step": 6,
+          "action": "Use razor blade to spread oily product thinly and firmly in cross-hatched fashion"
+        },
+        {
+          "step": 7,
+          "action": "When oil thickens to paste, use spatula to repeatedly scrape up and spread out until thickens more"
+        },
+        {
+          "step": 8,
+          "action": "Spread thinly and allow to harden to clay-like consistency"
+        },
+        {
+          "step": 9,
+          "action": "Scrape up and mold to desired form and density"
+        },
+        {
+          "step": 10,
+          "action": "Store in cool, dark place, sealed container, protected from moisture and oxygen"
+        }
+      ],
+      "result": "Chunks of Freebase Jurema produced by Manual Crystallization"
+    },
+
+    "sodium_carbonate_preparation": {
+      "title": "Conversion of Sodium Bicarbonate into Sodium Carbonate",
+      "process": [
+        "Weigh sodium bicarbonate, put on non-aluminum pan or oven-safe dish",
+        "Place in oven at 400F (205C) for 1-1.5 hours to release CO2 and water",
+        "Alternative: Stainless steel pot on stovetop ~20 mins (will be VERY hot)"
+      ],
+      "weight_loss": "Should lose around 20% of original weight",
+      "appearance": "Less powdery, closer to sugar than flour",
+      "verification": "Sodium carbonate feels looser and grainier; in oversaturated solution, bicarbonate stays powdery while carbonate rocks up"
+    },
+
+    "credits": {
+      "69ron": [
+        "Pioneering use of fumaric acid in DMT refinement",
+        "Pioneering use of lime and limonene for extraction",
+        "Proposed technique for nontoxic DMT extraction"
+      ],
+      "infundibulum": "Pioneering use of fumaric acid",
+      "jorkest": "Pioneering use of limonene and FASW in DMT extraction",
+      "bufoman": "Developing nontoxic simple means of purifying DMT fumarate",
+      "unknown_nexian": "Developing blender method of pulverizing MHRB",
+      "the_traveler": "Making this possible"
+    },
+
+    "references": [
+      "Tek Development Thread",
+      "amor_fati's Nontoxic Experimentation Log",
+      "Limo/Water won't separate + THP issues",
+      "The FASA Method",
+      "Spice Extraction-The FASA Approach",
+      "69ron's D-Limonene Mescaline Extraction",
+      "Jorkest's D-Limonene and Fumaric Acid Approach",
+      "FASA Alteration of Final Purification",
+      "Grinding Bark discussions"
+    ]
+  }
+}
