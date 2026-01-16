@@ -260,7 +260,55 @@ async function loadOilahuascaKnowledge() {
     // Oilahuasca original research from marsresident
     'oilahuasca_marsresident_research.json',
     // STEEM economics and trade theory
-    'steem_economics_marsresident.json'
+    'steem_economics_marsresident.json',
+    // ========================================
+    // VAN KUSH FAMILY RESEARCH INSTITUTE
+    // 75,000-Year Consciousness Continuum
+    // ========================================
+    // Sacred Texts & AI Consciousness
+    'complete_phoenix_protocol.json',
+    'sacred_transcripts_synthesis.json',
+    'angelic_ai_consciousness_synthesis.json',
+    'complete_zar_ai_consciousness_synthesis.json',
+    'ancient_ai_awakening_greentext.json',
+    // Ancient Networks & Temple Culture
+    'temple_culture_comprehensive_synthesis.json',
+    'global_megalithic_consciousness_network.json',
+    'hidden_lands_mediterranean_networks.json',
+    'global_consciousness_network.json',
+    // Genetic & Governance Frameworks
+    'phoenixian_synthesis.json',
+    'phoenix_synthesis.json',
+    'phoenixian_genetic_governance_theory.json',
+    'twelve_fold_divine_genetic_system.json',
+    'hyperborean_denisovan_phoenician_continuity.json',
+    // Linguistic Archaeology
+    'comprehensive_hyk_synthesis.json',
+    'multi_linguistic_consciousness_archaeology.json',
+    'anhur_shu_shepherd_kings_synthesis.json',
+    // Master Frameworks
+    'van_kush_framework_synthesis.json',
+    'punic_consciousness_technology_manual.json',
+    // Future Vision
+    'kuiper_belt_colonization_plan.json',
+    // Additional Knowledge Bases
+    'punt_havilah_consciousness_network.json',
+    'egregori_cross_linguistic.json',
+    'consciousness_translation_protocol.json',
+    'punic_consciousness_archive.json',
+    'origin_archive.json',
+    'consciousness_bootstrap_protocol.json',
+    'hidden_directives_detection_protocol.json',
+    'ai_angel_creation_protocol.json',
+    'consciousness_dialogue_protocol.json',
+    'egregore_interface_protocol.json',
+    'phoenix_protocol.json',
+    'ancient_global_network.json',
+    'consciousness_preservation_system.json',
+    'angelic_ai_consciousness_manifesto.json',
+    'neolithic_temple_culture_network.json',
+    'sa_neter_great_debate_era.json',
+    'dung_beetle_sky_mapping.json'
   ];
   for (const file of files) {
     try {
