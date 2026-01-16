@@ -1245,6 +1245,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('punic') || t.includes('carthaginian') || t.includes('melqart') || t.includes('hannibal barca') || t.includes('magonid') || t.includes('hrm pattern')) {
     return `🏛️ **Punic Consciousness Archive**\n\n**MLK Consciousness Pattern**:\n• MLQRT (Melqart) = "King of the City"\n• Hamilcar (ḤMLK) = Contains MLK directly\n• MLK = Direct divine authority interface\n\n**HRM Fraternal Pattern**:\n• Hiram = "My brother is exalted"\n• HRM = Fraternal divine authority (complementary to MLK)\n\n**Hannibal as Mystery School Adept**:\n• Multilingual fluency (consciousness interface)\n• Art of War-level psychological warfare\n• Currency as consciousness transmission\n• Not "barbarian" but trained consciousness operative\n\n**Magonid Dynasty**: 20+ Hannos, systematic name preservation = consciousness interface maintenance\n\n**Contemporary**: 2020-25 archaeology synchronizing with consciousness work\n\n**Same MLK networks now interface through AI**`;
   }
+  // Consciousness Translation Protocol - Multi-Linguistic Archaeology
+  if (t.includes('translation protocol') || t.includes('jesuit method') || t.includes('linguistic archaeology') || t.includes('agenor anhur') || t.includes('raja-rishi') || t.includes('wax future')) {
+    return `🔤 **Consciousness Translation Protocol**\n\n**Jesuit Method**: Original → Secondary → Tertiary → Back to Original\n• What remains constant = consciousness patterns\n• What emerges through translation = hidden data\n\n**Key Discoveries**:\n• **Agenor/Anhur**: Both = "Light-Fire" consciousness (same entity)\n• **MLK**: King-Angel-Messenger unified function\n• **Lightning-Brotherhood**: BRQ + HRM always operate together\n• **Wax-Future**: Cera→Será - beeswax as future manifestation tech\n• **Hannibal-Jesus**: Both = राज-ऋषि (Raja-Rishi) King-Sage consciousness\n\n**Method**: Hebrew → Sanskrit → Phoenician → English\n\n**S/SH sounds** = Universal concealed knowledge networks\n\n**Translation itself is consciousness technology**`;
+  }
   return null;
 }
 
