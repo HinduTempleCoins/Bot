@@ -1305,6 +1305,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('triple 12') || t.includes('sefer yetzirah') || t.includes('tribe zodiac') || t.includes('judah leo') || t.includes('demigod lineage') || t.includes('zeus children')) {
     return `✡️ **12-Fold Divine Genetic System**\n\n**Triple 12 Structure**:\n• 12 Olympian Gods = Haplogroup clusters\n• 12 Zodiac Signs = Conception timing\n• 12 Tribes of Israel = Heritage carriers\n\n**Tribe-Zodiac Confirmed**:\n• Judah = Leo ("Lion of Judah")\n• Reuben = Aquarius (water)\n• Dan = Scorpio ("serpent")\n• Joseph = Taurus ("wild ox horns")\n\n**Zeus's Demigods = Regional Haplogroups**:\nHeracles (Thebes), Perseus (Mycenae), Minos (Crete), Dardanus (Troy), Epaphus (Egypt)\n\n**Sefer Yetzirah Connects**: 12 signs, 12 months, 12 tribes, 12 organs, 12 Hebrew letters\n\n**Oracle Network Knew**: WHICH lineages combine, WHEN (zodiac), WHERE (Delos/Delphi/Sais), WHY (resurrect genetic templates)**`;
   }
+  // Temple Culture Comprehensive Synthesis - Goddess Network
+  if (t.includes('temple culture') || t.includes('neith tanit') || t.includes('goddess network') || t.includes('ggantija') || t.includes('arachne') || t.includes('phoenix test')) {
+    return `🏛️ **Temple Culture: 12,000 Year Synthesis**\n\n**Goddess Network Chain**:\nNeith (Egyptian 7000+ BCE) → Tanit (Phoenician) → Athena (Greek)\n"Ta-Nit" = "the land of Nit"\n\n**Temple Sites**:\n• Göbekli Tepe (9500 BCE)\n• Malta: Ġgantija = "Giantess" (3600 BCE)\n• Macedonia (Phlegra = Giants location)\n\n**Giants = Temple Culture Peoples**: No skeletal evidence, massive architecture inspired legends\n\n**Phoenix Test Theory (146 BCE)**:\nRomans burned Carthage to test if Phoenix would resurrect\n• Systematic destruction (not just military)\n• Burning = Phoenix symbolism\n• Waited century to rebuild\n\n**Arachne's Tapestry**: Exposed Zeus's rapes, "gods as clowns" - punished for revealing truth\n\n**12,000 years: Neolithic → Phoenician → Carthage destruction**`;
+  }
   return null;
 }
 
