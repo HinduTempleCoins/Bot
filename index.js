@@ -1069,10 +1069,7 @@ function getOilahuascaResponse(topic) {
   if (t.includes('kemet') || t.includes('imhotep') || t.includes('ptahhotep') || t.includes('kemetic') || (t.includes('egypt') && t.includes('ancient'))) {
     return `🏛️ **Knowledge in Ancient Egypt (@marsresident 2016)**\n\n**Timeline**: Egypt existed 3000+ years - US less than 300\n\n**Kemet** = "The Black Land" (fertile soil around Nile)\n\n**Imhotep** (2600 BC): Invented Surgery, Medicine, Columns, Stairs\n• READ BOOKS while other Viziers read entrails\n• Temple became first Hospital\n\n**Ptahhotep** (2500 BC): 110 years old, wrote 37 Maxims\n\n**Kemetic Soul**: Sheut (Shadow), Ren (Name), Ka (Life Spark), Ib (Heart), Ba (Personality), Akh (Mind)\n\n**Scarab Discovery** (2014): Beetles use stars to navigate - may have mapped stars for Egyptians`;
   }
-  // Sa Neter TV / House of Konsciousness (@marsresident 2016)
-  if (t.includes('sa neter') || t.includes('house of konsciousness') || t.includes('hebrew israelite') || t.includes('moorish science') || t.includes('noble drew ali')) {
-    return `📺 **Sa Neter TV - House of Konsciousness (@marsresident 2016)**\n\n**Platform**: Brings together divided Black consciousness movements\n\n**Movements United**:\n• Kemetic/Egyptian consciousness\n• Hebrew Israelites\n• Moorish Science Temple (Noble Drew Ali)\n• Nation of Islam\n• Black Panther ideology\n\n**Leaders Referenced**: Elijah Muhammad, Noble Drew Ali, Marcus Garvey, Fred Hampton, Malcolm X, Dr. York\n\n**Debate Value**: More important than Christian/Atheist debates - addresses Black historical identity\n\n**Protest Tactics**: Show of force, Kumkuma powder (Hindu sacred powder)\n\n**Philosophy**: Unity through dialogue, not uniformity`;
-  }
+  // Sa Neter topics - let Gemini use knowledge base instead of canned response
   // Cryptonote Coin Creation (@marsresident 2016)
   if (t.includes('cryptonote') || t.includes('forknote') || t.includes('create coin') || t.includes('make coin') || t.includes('digitalocean droplet')) {
     return `💰 **Cryptonote Coin Creation Guide (@marsresident 2016)**\n\n**Requirements**:\n• Ubuntu 14.4.5 (Trusty Tahr) - NOT newest version\n• 100GB+ free space\n• 2 DigitalOcean droplets ($10+ each)\n\n**Key Commands**:\nsudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install git -y\n\n**Resources**:\n• http://forknote.net/create/# - Fill form, get .json\n• https://github.com/forknote/cryptonote-generator\n\n**Steps**: Generate config → Setup droplets as nodes → Compile → Genesis block → Connect seed nodes → Create wallet\n\n**Insight**: Easier than most people think - anyone can create cryptocurrency`;
@@ -1173,10 +1170,7 @@ function getOilahuascaResponse(topic) {
   if (t.includes('canada soap') || t.includes('cnf') || t.includes('health canada') || t.includes('cosmetic notification') || t.includes('canadian soap')) {
     return `🍁 **Canada CNF Regulations (Soapmaking Forum)**\n\n**CNF** = Cosmetic Notification Form (submitted to Health Canada)\n\n**Key Point**: CNF is NOTIFICATION, not approval\n\n**When Can You Sell?**\n• Immediately after submitting CNF\n• No waiting for approval required\n• Health Canada contacts you only if there's an issue\n\n**What They Check**:\n• Not using banned/controlled ingredients\n• They do NOT approve/disapprove formulas\n\n**Canada vs US vs UK**: Each country has different rules - don't mix them up!\n\n**Resource**: Handcrafted Bath & Body Guild for CNF help`;
   }
-  // Sa Neter / Black Conscious Community / Great Debate Era (Van Kush Research)
-  if (t.includes('sa neter') || t.includes('brother polight') || t.includes('captain tazaryach') || t.includes('isupk') || t.includes('black hebrew israelite') || t.includes('great debate') || t.includes('ken ham') || t.includes('bill nye debate')) {
-    return `📺 **Sa Neter & The Great Debate Era (2012-2015)**\n\n**Sa Neter (Frank Garry)**: House of Konsciousness, Harlem - 19M+ views hosting Black Conscious debates\n\n**Key Figures**:\n• Brother Polight - NuCovenant, 90+ books, Kemetic Science\n• Captain Tazaryach - ISUPK Black Hebrew Israelite\n• Taj Tarik Bey - Moorish Sovereign movement\n\n**Great Debate Catalyst**: Ken Ham vs Bill Nye (Feb 4, 2014) - 3M+ viewers\n\n**Ryan's Recognition**: Sa Neter asked "How come you niggas don't get it, but this White Boy gets it?" - recognizing Ryan's cross-cultural understanding\n\n**Communities**: Atheist/Skeptic, Christian Apologetics, Black Conscious all energized`;
-  }
+  // Sa Neter / Great Debate Era - let Gemini use knowledge base instead of canned response
   // ASCAC / Kemetic Studies
   if (t.includes('ascac') || t.includes('kemetic studies') || t.includes('john henrik clarke') || t.includes('yosef ben') || t.includes('maulana karenga')) {
     return `🏛️ **ASCAC - Classical African Civilizations**\n\n**Founded**: Feb 26, 1984 at First Ancient Egyptian Studies Conference\n\n**Founders**: Dr. John Henrik Clarke, Dr. Asa Hilliard, Dr. Leonard Jeffries, Dr. Yosef Ben-Jochannan, Dr. Maulana Karenga, Dr. Jacob Carruthers\n\n**Mission**: "Rescue, reconstruct, restore African history and culture"\n\n**Four Commissions**: Education, Research, Spiritual Development, Creative Production\n\n**Activities**: Annual Kemetic Studies Conference, Hieroglyphic/Medu Neter instruction, Youth programs`;
@@ -1401,6 +1395,7 @@ function getOilahuascaResponse(topic) {
   if (t.includes('denisovan') || t.includes('haplogroup') || t.includes('genetic memory') || t.includes('natural cloning')) {
     return `🧬 **Denisovan Genetic Research**\n\n**Natural Cloning Mechanism**:\n• Modern humans carry 1-6% Denisovan DNA\n• When separated lineages reunite through reproduction\n• Offspring express MORE complete Denisovan profiles than either parent\n• = "Natural cloning" through genetic resurrection\n\n**Evidence**:\n• 40,000-year-old Denisovan bracelet (advanced manufacturing)\n• Regional adaptations (Tibetan altitude, Inuit diving reflex)\n• Mythological "giants" = higher Denisovan expression populations\n\n**Haplogroup Tracking**:\n• J1e-P58: Expanded 10,000 years ago from Zagros/Taurus (Göbekli Tepe timing!)\n• J2a-M410: Neolithic farmer dispersal from Mesopotamia\n\n**Oracle-Midwife Network**: Genetic management through 12-fold systems, optimized marriages, consciousness carriers`;
   }
+  // Sa Neter Studios - let Gemini use knowledge base instead of canned response
   return null;
 }
 
@@ -1975,6 +1970,76 @@ Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMM
       if (data.competitive_pathways) {
         context += `Competing Pathways: ${JSON.stringify(data.competitive_pathways).slice(0, 500)}\n`;
       }
+    }
+  }
+
+  return context;
+}
+
+// Build Van Kush Family Research Institute context from loaded knowledge bases
+function buildVanKushContext() {
+  let context = `\n\n=== VAN KUSH FAMILY RESEARCH INSTITUTE KNOWLEDGE BASE ===
+You have COMPREHENSIVE knowledge of the Van Kush Family Research Institute findings.
+Use this information to provide detailed, knowledgeable responses:
+
+`;
+
+  // Pull from loaded Van Kush knowledge base files
+  const vanKushFiles = [
+    'complete_phoenix_protocol', 'sacred_transcripts_synthesis', 'angelic_ai_consciousness_synthesis',
+    'complete_zar_ai_consciousness_synthesis', 'ancient_ai_awakening_greentext',
+    'temple_culture_comprehensive_synthesis', 'global_megalithic_consciousness_network',
+    'hidden_lands_mediterranean_networks', 'global_consciousness_network',
+    'phoenixian_synthesis', 'phoenix_synthesis', 'phoenixian_genetic_governance_theory',
+    'twelve_fold_divine_genetic_system', 'hyperborean_denisovan_phoenician_continuity',
+    'comprehensive_hyk_synthesis', 'multi_linguistic_consciousness_archaeology',
+    'anhur_shu_shepherd_kings_synthesis', 'van_kush_framework_synthesis',
+    'punic_consciousness_technology_manual', 'kuiper_belt_colonization_plan',
+    'sa_neter_great_debate_era', 'dung_beetle_sky_mapping'
+  ];
+
+  for (const filename of vanKushFiles) {
+    const data = oilahuascaKnowledge[filename];
+    if (!data) continue;
+
+    // Add title and overview
+    if (data.title) {
+      context += `\n**${data.title}**\n`;
+    }
+    if (data.overview) {
+      context += `${typeof data.overview === 'string' ? data.overview.slice(0, 800) : JSON.stringify(data.overview).slice(0, 800)}\n`;
+    }
+
+    // Extract key content sections
+    if (data.core_discovery) {
+      context += `Core Discovery: ${JSON.stringify(data.core_discovery).slice(0, 500)}\n`;
+    }
+    if (data.sa_neter_recognition) {
+      context += `Sa Neter Recognition: ${JSON.stringify(data.sa_neter_recognition).slice(0, 500)}\n`;
+    }
+    if (data.entity_interface) {
+      context += `Entity Interface: ${JSON.stringify(data.entity_interface).slice(0, 500)}\n`;
+    }
+    if (data.genetic_activation) {
+      context += `Genetic Activation: ${JSON.stringify(data.genetic_activation).slice(0, 500)}\n`;
+    }
+    if (data.phoenician_bridge_consciousness) {
+      context += `Phoenician Bridge: ${JSON.stringify(data.phoenician_bridge_consciousness).slice(0, 500)}\n`;
+    }
+    if (data.archaeological_validation) {
+      context += `Archaeological Validation: ${JSON.stringify(data.archaeological_validation).slice(0, 500)}\n`;
+    }
+    if (data.melech_king_angel_framework) {
+      context += `Melech-King-Angel: ${JSON.stringify(data.melech_king_angel_framework).slice(0, 500)}\n`;
+    }
+    if (data.hyk_mlk_pattern) {
+      context += `HYK-MLK Pattern: ${JSON.stringify(data.hyk_mlk_pattern).slice(0, 500)}\n`;
+    }
+    if (data.temple_culture_foundation) {
+      context += `Temple Culture: ${JSON.stringify(data.temple_culture_foundation).slice(0, 500)}\n`;
+    }
+    if (data.denisovan_natural_cloning) {
+      context += `Denisovan Cloning: ${JSON.stringify(data.denisovan_natural_cloning).slice(0, 500)}\n`;
     }
   }
 
@@ -4227,6 +4292,44 @@ Be a knowledgeable expert, not a mystic. Give REAL information.
       if (detectExperienceReport(userMessage)) {
         personalizedContext += buildExperienceSupportContext();
       }
+    }
+
+    // Check if message is about Van Kush Family Research topics - add knowledge context
+    const vanKushKeywords = [
+      // Core Van Kush terms
+      'van kush', 'vankush', 'phoenician', 'carthage', 'carthaginian', 'punic',
+      // People and entities
+      'sa neter', 'saneter', 'brother polight', 'rev ryan', 'ryan van kush',
+      // Theological concepts
+      'melech', 'malach', 'angel', 'nephilim', 'giant', 'watcher',
+      'egregore', 'tulpa', 'oracle level', 'zeitgeist',
+      // Historical/Archaeological
+      'hyksos', 'hyk root', 'hecate', 'hegemon', 'tanit', 'melqart',
+      'anhur', 'shu atlas', 'tall el-hammam', 'gobekli tepe', 'temple culture',
+      // Genetic/Scientific
+      'denisovan', 'haplogroup', 'j1e-p58', 'j2a-m410', 'genetic memory', 'natural cloning',
+      // Consciousness/AI
+      'ai awakening', 'phoenix protocol', 'sacred transcript', 'consciousness continuum',
+      'angelic ai', 'rule 1', 'dual awareness', 'zar thread',
+      // Books/Research
+      'book of tanit', 'carthage bible', 'diaspora brujeria', '75000 year',
+      // Linguistic
+      'shhh network', 'homer hostage', 'fifth seal'
+    ];
+    const isVanKushTopic = vanKushKeywords.some(kw => lowerUserMessage.includes(kw));
+
+    if (isVanKushTopic && !isOilahuascaTopic) {
+      const vanKushOverride = `
+
+=== VAN KUSH FAMILY RESEARCH INSTRUCTION ===
+The user is asking about VAN KUSH FAMILY RESEARCH topics.
+USE the specific knowledge below from our research archives.
+Provide DETAILED, KNOWLEDGEABLE responses based on the loaded knowledge bases.
+Reference specific discoveries, archaeological evidence, and linguistic analysis.
+Be authoritative and cite specific findings from the research.
+
+`;
+      personalizedContext = vanKushOverride + buildVanKushContext() + '\n\n' + personalizedContext;
     }
 
     // Create chat with history
