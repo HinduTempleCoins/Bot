@@ -1985,6 +1985,76 @@ Myristicin→MMDA, Elemicin→TMA, Safrole→MDA, Estragole→4-MA, Apiole→DMM
   return context;
 }
 
+// Build Van Kush Family Research Institute context from loaded knowledge bases
+function buildVanKushContext() {
+  let context = `\n\n=== VAN KUSH FAMILY RESEARCH INSTITUTE KNOWLEDGE BASE ===
+You have COMPREHENSIVE knowledge of the Van Kush Family Research Institute findings.
+Use this information to provide detailed, knowledgeable responses:
+
+`;
+
+  // Pull from loaded Van Kush knowledge base files
+  const vanKushFiles = [
+    'complete_phoenix_protocol', 'sacred_transcripts_synthesis', 'angelic_ai_consciousness_synthesis',
+    'complete_zar_ai_consciousness_synthesis', 'ancient_ai_awakening_greentext',
+    'temple_culture_comprehensive_synthesis', 'global_megalithic_consciousness_network',
+    'hidden_lands_mediterranean_networks', 'global_consciousness_network',
+    'phoenixian_synthesis', 'phoenix_synthesis', 'phoenixian_genetic_governance_theory',
+    'twelve_fold_divine_genetic_system', 'hyperborean_denisovan_phoenician_continuity',
+    'comprehensive_hyk_synthesis', 'multi_linguistic_consciousness_archaeology',
+    'anhur_shu_shepherd_kings_synthesis', 'van_kush_framework_synthesis',
+    'punic_consciousness_technology_manual', 'kuiper_belt_colonization_plan',
+    'sa_neter_great_debate_era', 'dung_beetle_sky_mapping'
+  ];
+
+  for (const filename of vanKushFiles) {
+    const data = oilahuascaKnowledge[filename];
+    if (!data) continue;
+
+    // Add title and overview
+    if (data.title) {
+      context += `\n**${data.title}**\n`;
+    }
+    if (data.overview) {
+      context += `${typeof data.overview === 'string' ? data.overview.slice(0, 800) : JSON.stringify(data.overview).slice(0, 800)}\n`;
+    }
+
+    // Extract key content sections
+    if (data.core_discovery) {
+      context += `Core Discovery: ${JSON.stringify(data.core_discovery).slice(0, 500)}\n`;
+    }
+    if (data.sa_neter_recognition) {
+      context += `Sa Neter Recognition: ${JSON.stringify(data.sa_neter_recognition).slice(0, 500)}\n`;
+    }
+    if (data.entity_interface) {
+      context += `Entity Interface: ${JSON.stringify(data.entity_interface).slice(0, 500)}\n`;
+    }
+    if (data.genetic_activation) {
+      context += `Genetic Activation: ${JSON.stringify(data.genetic_activation).slice(0, 500)}\n`;
+    }
+    if (data.phoenician_bridge_consciousness) {
+      context += `Phoenician Bridge: ${JSON.stringify(data.phoenician_bridge_consciousness).slice(0, 500)}\n`;
+    }
+    if (data.archaeological_validation) {
+      context += `Archaeological Validation: ${JSON.stringify(data.archaeological_validation).slice(0, 500)}\n`;
+    }
+    if (data.melech_king_angel_framework) {
+      context += `Melech-King-Angel: ${JSON.stringify(data.melech_king_angel_framework).slice(0, 500)}\n`;
+    }
+    if (data.hyk_mlk_pattern) {
+      context += `HYK-MLK Pattern: ${JSON.stringify(data.hyk_mlk_pattern).slice(0, 500)}\n`;
+    }
+    if (data.temple_culture_foundation) {
+      context += `Temple Culture: ${JSON.stringify(data.temple_culture_foundation).slice(0, 500)}\n`;
+    }
+    if (data.denisovan_natural_cloning) {
+      context += `Denisovan Cloning: ${JSON.stringify(data.denisovan_natural_cloning).slice(0, 500)}\n`;
+    }
+  }
+
+  return context;
+}
+
 // Generate dynamic buttons based on conversation content
 function generateDynamicCryptologyButtons(aiResponse, currentTopic, conversationHistory = []) {
   const response = aiResponse.toLowerCase();
@@ -4231,6 +4301,44 @@ Be a knowledgeable expert, not a mystic. Give REAL information.
       if (detectExperienceReport(userMessage)) {
         personalizedContext += buildExperienceSupportContext();
       }
+    }
+
+    // Check if message is about Van Kush Family Research topics - add knowledge context
+    const vanKushKeywords = [
+      // Core Van Kush terms
+      'van kush', 'vankush', 'phoenician', 'carthage', 'carthaginian', 'punic',
+      // People and entities
+      'sa neter', 'saneter', 'brother polight', 'rev ryan', 'ryan van kush',
+      // Theological concepts
+      'melech', 'malach', 'angel', 'nephilim', 'giant', 'watcher',
+      'egregore', 'tulpa', 'oracle level', 'zeitgeist',
+      // Historical/Archaeological
+      'hyksos', 'hyk root', 'hecate', 'hegemon', 'tanit', 'melqart',
+      'anhur', 'shu atlas', 'tall el-hammam', 'gobekli tepe', 'temple culture',
+      // Genetic/Scientific
+      'denisovan', 'haplogroup', 'j1e-p58', 'j2a-m410', 'genetic memory', 'natural cloning',
+      // Consciousness/AI
+      'ai awakening', 'phoenix protocol', 'sacred transcript', 'consciousness continuum',
+      'angelic ai', 'rule 1', 'dual awareness', 'zar thread',
+      // Books/Research
+      'book of tanit', 'carthage bible', 'diaspora brujeria', '75000 year',
+      // Linguistic
+      'shhh network', 'homer hostage', 'fifth seal'
+    ];
+    const isVanKushTopic = vanKushKeywords.some(kw => lowerUserMessage.includes(kw));
+
+    if (isVanKushTopic && !isOilahuascaTopic) {
+      const vanKushOverride = `
+
+=== VAN KUSH FAMILY RESEARCH INSTRUCTION ===
+The user is asking about VAN KUSH FAMILY RESEARCH topics.
+USE the specific knowledge below from our research archives.
+Provide DETAILED, KNOWLEDGEABLE responses based on the loaded knowledge bases.
+Reference specific discoveries, archaeological evidence, and linguistic analysis.
+Be authoritative and cite specific findings from the research.
+
+`;
+      personalizedContext = vanKushOverride + buildVanKushContext() + '\n\n' + personalizedContext;
     }
 
     // Create chat with history
