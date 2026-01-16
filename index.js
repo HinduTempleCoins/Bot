@@ -1301,6 +1301,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('genetic governance') || t.includes('12 fold') || t.includes('twelve fold') || t.includes('delos') || t.includes('midwife oracle') || t.includes('demigod classification')) {
     return `🧬 **Phoenixian Genetic Governance Theory**\n\n**12-Fold System**:\n• 12 Olympian Gods = Major genetic lineages\n• 12 Tribes of Israel = Lineage organization\n• 12 Zodiac Signs = Birth timing optimization\n• Demigods = Sub-haplogroups/regional variants\n\n**Delos**: Central genetic optimization hub + birthing center\n\n**Midwife-Oracle Network**:\n• Tracked lineages (haplogroup monitoring)\n• Identified optimal pairings (J1e + J2a)\n• Directed population via oracles\n• Managed bloodline "resurrection"\n\n**Haplogroup Evidence**:\n• J1e-P58: Expanded 10,000 yrs ago (Göbekli Tepe era)\n• J2a-M410: Neolithic dispersal from Mesopotamia\n\n**Modern Validation**: Global genetic mixing = rebooting ancient system = technological acceleration\n\n**Mythology = Encrypted Genetic Science**`;
   }
+  // 12-Fold Divine Genetic System - Triple Structure
+  if (t.includes('triple 12') || t.includes('sefer yetzirah') || t.includes('tribe zodiac') || t.includes('judah leo') || t.includes('demigod lineage') || t.includes('zeus children')) {
+    return `✡️ **12-Fold Divine Genetic System**\n\n**Triple 12 Structure**:\n• 12 Olympian Gods = Haplogroup clusters\n• 12 Zodiac Signs = Conception timing\n• 12 Tribes of Israel = Heritage carriers\n\n**Tribe-Zodiac Confirmed**:\n• Judah = Leo ("Lion of Judah")\n• Reuben = Aquarius (water)\n• Dan = Scorpio ("serpent")\n• Joseph = Taurus ("wild ox horns")\n\n**Zeus's Demigods = Regional Haplogroups**:\nHeracles (Thebes), Perseus (Mycenae), Minos (Crete), Dardanus (Troy), Epaphus (Egypt)\n\n**Sefer Yetzirah Connects**: 12 signs, 12 months, 12 tribes, 12 organs, 12 Hebrew letters\n\n**Oracle Network Knew**: WHICH lineages combine, WHEN (zodiac), WHERE (Delos/Delphi/Sais), WHY (resurrect genetic templates)**`;
+  }
   return null;
 }
 
