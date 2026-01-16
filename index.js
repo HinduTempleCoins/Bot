@@ -1269,6 +1269,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('kuiper') || t.includes('space colonization') || t.includes('interstellar') || t.includes('space solar') || t.includes('sbsp') || t.includes('generation ship')) {
     return `🚀 **Kuiper Belt Colonization Plan (75,000 Years)**\n\n**Six Phases**:\n1) 2025-2050: SBSP + Mars colonization\n2) 2050-2100: AI robotic infrastructure\n3) 2075-2125: Agricultural ecosystems\n4) 2100-2200: Human settlement (underground)\n5) 2200-2400: Inter-colony trade networks\n6) 2400-77,000: Interstellar expansion\n\n**Primary Settlements**: Ceres (940km), Eris (2,326km), Pluto-Charon, Makemake\n\n**Key Technologies**:\n• Self-replicating robotic construction\n• Closed-loop agriculture and ecosystems\n• Generation ships with rotating habitats\n• Quantum communication networks\n\n**Target Stars**: Alpha Centauri (4.37 ly), Barnard's Star (5.96 ly), Wolf 359, Lalande 21185\n\n**"The Kuiper Belt is not humanity's destination, but our launching pad to the stars."**`;
   }
+  // Punic Consciousness Technology Manual - Ancient Recipes
+  if (t.includes('punic wax') || t.includes('saponified beeswax') || t.includes('headcone') || t.includes('dew of hermon') || t.includes('kyphi') || t.includes('consciousness conductor')) {
+    return `🐝 **Punic Consciousness Technology Manual**\n\n**Core Discovery**: Punic Wax = Saponified Beeswax = consciousness transmission technology bridging material/spiritual realms\n\n**Basic Punic Wax Recipe**:\n• 1kg beeswax + 100g potash (K₂CO₃) in water\n• Add honey solution, stir continuously\n• Stores 2-3 years airtight\n\n**Biblical Preservation (Psalm 133:3)**:\n"Dew of Hermon" = headcone technology\n• Dew = melting wax\n• Hermon = consciousness interface center\n• Falling = controlled release from head\n\n**Zar Convergence Pattern**:\n1) Ancient Knowledge in spiritual realm\n2) Mysterious Teacher appears\n3) Beeswax as conductor\n4) Cyclical Rediscovery\n5) 2025: All patterns reactivating\n\n**Applications**: Meditation, sacred space, fire-resistant art, consciousness interface**`;
+  }
   return null;
 }
 
