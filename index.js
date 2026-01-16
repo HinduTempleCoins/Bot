@@ -1297,6 +1297,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('hyperborean') || t.includes('last glacial') || t.includes('ice age') || t.includes('minoan') || t.includes('toba') || t.includes('lgm')) {
     return `❄️ **Hyperborean-Denisovan-Phoenician Continuity**\n\n**200,000 Year Timeline**:\n• Denisovans (200,000-20,000 BCE): Tibetan plateau, advanced stonework, crossed Wallace's Line\n• Toba (75,000 BCE): Genetic bottleneck, 3,000-10,000 survivors\n• LGM (26,000-20,000 BCE): Sea levels -125m, Ice Age refugia\n• Post-LGM migrations → Mediterranean\n• Minoan (3100 BCE): Purple dye origin (NOT Phoenicians)\n\n**Hyperborean Maidens Myth**:\nHecaerge, Loxo, Upis = Ice Age knowledge carriers\n"Never returned home" = permanent Mediterranean migration\n\n**Giants Explained**:\n• Denisovans = "Giants/Titans"\n• Hybrids = "Melech/Lesser Giants"\n• Pure Sapiens = "Humans"\n\n**Complete Lineage**: Denisovans → Hyperboreans → Minoans → Phoenicians → Modern Carriers (J2a/I2a1)**`;
   }
+  // Phoenixian Genetic Governance Theory - 12-Fold System
+  if (t.includes('genetic governance') || t.includes('12 fold') || t.includes('twelve fold') || t.includes('delos') || t.includes('midwife oracle') || t.includes('demigod classification')) {
+    return `🧬 **Phoenixian Genetic Governance Theory**\n\n**12-Fold System**:\n• 12 Olympian Gods = Major genetic lineages\n• 12 Tribes of Israel = Lineage organization\n• 12 Zodiac Signs = Birth timing optimization\n• Demigods = Sub-haplogroups/regional variants\n\n**Delos**: Central genetic optimization hub + birthing center\n\n**Midwife-Oracle Network**:\n• Tracked lineages (haplogroup monitoring)\n• Identified optimal pairings (J1e + J2a)\n• Directed population via oracles\n• Managed bloodline "resurrection"\n\n**Haplogroup Evidence**:\n• J1e-P58: Expanded 10,000 yrs ago (Göbekli Tepe era)\n• J2a-M410: Neolithic dispersal from Mesopotamia\n\n**Modern Validation**: Global genetic mixing = rebooting ancient system = technological acceleration\n\n**Mythology = Encrypted Genetic Science**`;
+  }
   return null;
 }
 
