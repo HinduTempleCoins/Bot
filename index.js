@@ -1125,6 +1125,26 @@ function getOilahuascaResponse(topic) {
   if (t.includes('canada soap') || t.includes('cnf') || t.includes('health canada') || t.includes('cosmetic notification') || t.includes('canadian soap')) {
     return `🍁 **Canada CNF Regulations (Soapmaking Forum)**\n\n**CNF** = Cosmetic Notification Form (submitted to Health Canada)\n\n**Key Point**: CNF is NOTIFICATION, not approval\n\n**When Can You Sell?**\n• Immediately after submitting CNF\n• No waiting for approval required\n• Health Canada contacts you only if there's an issue\n\n**What They Check**:\n• Not using banned/controlled ingredients\n• They do NOT approve/disapprove formulas\n\n**Canada vs US vs UK**: Each country has different rules - don't mix them up!\n\n**Resource**: Handcrafted Bath & Body Guild for CNF help`;
   }
+  // Sa Neter / Black Conscious Community / Great Debate Era (Van Kush Research)
+  if (t.includes('sa neter') || t.includes('brother polight') || t.includes('captain tazaryach') || t.includes('isupk') || t.includes('black hebrew israelite') || t.includes('great debate') || t.includes('ken ham') || t.includes('bill nye debate')) {
+    return `📺 **Sa Neter & The Great Debate Era (2012-2015)**\n\n**Sa Neter (Frank Garry)**: House of Konsciousness, Harlem - 19M+ views hosting Black Conscious debates\n\n**Key Figures**:\n• Brother Polight - NuCovenant, 90+ books, Kemetic Science\n• Captain Tazaryach - ISUPK Black Hebrew Israelite\n• Taj Tarik Bey - Moorish Sovereign movement\n\n**Great Debate Catalyst**: Ken Ham vs Bill Nye (Feb 4, 2014) - 3M+ viewers\n\n**Ryan's Recognition**: Sa Neter asked "How come you niggas don't get it, but this White Boy gets it?" - recognizing Ryan's cross-cultural understanding\n\n**Communities**: Atheist/Skeptic, Christian Apologetics, Black Conscious all energized`;
+  }
+  // ASCAC / Kemetic Studies
+  if (t.includes('ascac') || t.includes('kemetic studies') || t.includes('john henrik clarke') || t.includes('yosef ben') || t.includes('maulana karenga')) {
+    return `🏛️ **ASCAC - Classical African Civilizations**\n\n**Founded**: Feb 26, 1984 at First Ancient Egyptian Studies Conference\n\n**Founders**: Dr. John Henrik Clarke, Dr. Asa Hilliard, Dr. Leonard Jeffries, Dr. Yosef Ben-Jochannan, Dr. Maulana Karenga, Dr. Jacob Carruthers\n\n**Mission**: "Rescue, reconstruct, restore African history and culture"\n\n**Four Commissions**: Education, Research, Spiritual Development, Creative Production\n\n**Activities**: Annual Kemetic Studies Conference, Hieroglyphic/Medu Neter instruction, Youth programs`;
+  }
+  // Moorish Movement / Noble Drew Ali
+  if (t.includes('moorish') || t.includes('noble drew ali') || t.includes('moorish science') || t.includes('el bey') || t.includes('1786 treaty')) {
+    return `🌙 **Moorish Movement**\n\n**Origins**: Moorish Science Temple of America, founded 1913 by Noble Drew Ali (Timothy Drew)\n\n**Core Beliefs**:\n• Black Americans = descendants of Moors (Moroccan origin)\n• El/Bey suffix = Moorish nationality\n• 1786 Treaty with Morocco grants special status\n• Black/Negro = slave designations, not nationalities\n\n**Sovereign Overlap** (1990s+): Washitaw Nation, Nuwaubian Nation of Moors\n\n**Note**: Official MSTA has disavowed sovereign citizen interpretations`;
+  }
+  // Dung Beetle Sky Mapping Theory (Van Kush Original)
+  if (t.includes('dung beetle') || t.includes('scarab') || t.includes('nabta playa') || t.includes('khepri') || t.includes('beetle navigation') || t.includes('milky way navigation')) {
+    return `🪲 **Dung Beetle Sky Mapping Theory (Ryan Van Kush)**\n\n**2013 Discovery**: Dung beetles use Milky Way for navigation - FIRST animal documented to do so (Dacke et al., Current Biology)\n\n**Ryan's Core Insight**: "The beetles were the mathematicians. Humans were the stenographers."\n\n**Nabta Playa** (6400 BCE): Oldest astronomical site - stone alignments are essentially LITHIFIED BEETLE TRACKS\n\n**Khepri Connection**: Beetle-headed sun god encoded genuine observational science, not just metaphor\n\n**Theory**: Ancient astronomy originated from observing beetle behavior, not human calculation\n\n**Beetles = Teacher Species** transmitting celestial knowledge to humans`;
+  }
+  // Think Free Indiana / Steve Tillman
+  if (t.includes('think free indiana') || t.includes('steve tillman') || t.includes('matt dillahunty') || t.includes('aron ra') || t.includes('sye ten')) {
+    return `🎙️ **Think Free Indiana & Great Debate Community**\n\n**Host**: Steve Tillman (Indiana) - later transitioned to motivational speaking\n\n**Ryan's Appearances**: Discussed dung beetle theory and cross-cultural knowledge during 2012-2015\n\n**Key Atheist Figures**: Matt Dillahunty (Atheist Experience), Aron Ra, David Silverman, Lawrence Krauss\n\n**Christian Apologetics**: Sye Ten Bruggencate (presuppositional), NephilimFree, Brett Keane\n\n**Era Significance**: Peak of YouTube religious/philosophical debate culture`;
+  }
   return null;
 }
 
