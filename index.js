@@ -1145,6 +1145,30 @@ function getOilahuascaResponse(topic) {
   if (t.includes('think free indiana') || t.includes('steve tillman') || t.includes('matt dillahunty') || t.includes('aron ra') || t.includes('sye ten')) {
     return `🎙️ **Think Free Indiana & Great Debate Community**\n\n**Host**: Steve Tillman (Indiana) - later transitioned to motivational speaking\n\n**Ryan's Appearances**: Discussed dung beetle theory and cross-cultural knowledge during 2012-2015\n\n**Key Atheist Figures**: Matt Dillahunty (Atheist Experience), Aron Ra, David Silverman, Lawrence Krauss\n\n**Christian Apologetics**: Sye Ten Bruggencate (presuppositional), NephilimFree, Brett Keane\n\n**Era Significance**: Peak of YouTube religious/philosophical debate culture`;
   }
+  // Active vs Passive Knowledge / Science Follows Practice (Van Kush Epistemology)
+  if (t.includes('active knowledge') || t.includes('passive knowledge') || t.includes('science follows practice') || t.includes('practice precedes') || t.includes('folk knowledge')) {
+    return `🧠 **Active Knowledge Epistemology (Van Kush)**\n\n**Core Thesis**: Practice often precedes scientific understanding\n\n**Space Paste Example**: Worked in 1990s → CYP450 mechanism understood in 2000s-2010s → Now mainstream pharmacology\n\n**Active Knowledge** (has stakes):\n• Nation-building, legal status, economics\n• Identity formation, community education\n• Information governments track\n\n**Passive Knowledge** (abstract):\n• Does God exist? Evolution debates\n• Historical trivia without stakes\n\n**Principle**: Science is not the arbiter of what is real. Science is one method of understanding what already works.`;
+  }
+  // Frances Cress Welsing / Isis Papers
+  if (t.includes('frances cress') || t.includes('cress welsing') || t.includes('isis papers') || t.includes('color confrontation') || t.includes('melanin theory')) {
+    return `📖 **Dr. Frances Cress Welsing (1935-2016)**\n\n**Credentials**: Psychiatrist (Howard University M.D., 1962)\n\n**Key Work**: The Isis Papers: The Keys to the Colors (1991)\n\n**Theory**: Cress Theory of Color-Confrontation (1970)\n\n**Influence**:\n• Public Enemy album "Fear of a Black Planet"\n• Hidden Colors documentary series\n• Major influence on Black Conscious community\n\n**Note**: Controversial but massively influential in melanin theory discourse`;
+  }
+  // Medu Neter / Rkhty Amen / Hieroglyphics
+  if (t.includes('medu neter') || t.includes('rkhty amen') || t.includes('kemetic philology') || t.includes('hieroglyphic') || t.includes('living language')) {
+    return `𓂀 **Medu Neter - Divine Words**\n\n**Rkhty Amen**: Linguist/Kemetologist\n• Founded Institute of Kemetic Philology (1987)\n• Teaching Medu Neter (hieroglyphics) for 35+ years\n• Goal: Revive Medu Neter as a LIVING language\n\n**What It Means**: "Medu Neter" = "Words of the Gods" (Egyptian hieroglyphics)\n\n**Significance**: Provides PRIMARY SOURCE access to Kemetic texts\n\n**This is REAL scholarship** - engaged with primary sources, making falsifiable claims`;
+  }
+  // Professor James Small
+  if (t.includes('james small') || t.includes('priest of oya') || t.includes('babalorisha') || t.includes('sanaa lodge')) {
+    return `🔯 **Professor James Small**\n\n**Spiritual Titles**:\n• Priest of Oya, Babalorisha in Ifa Tradition\n• Former Imam of Muslim Mosque Inc. (Malcolm X's mosque)\n\n**Positions**:\n• Past President, ASCAC Eastern Region\n• International VP, Organization of Afro-American Unity\n• CEO, Sanaa Lodge Enterprise (Ghana)\n\n**Teaching**: Yoruba Ifa, Akan systems, Vodun, Kemetic sacred science\n\n**Activities**: Educational tours to Africa, Haiti, archaeological sites`;
+  }
+  // Dr. Yosef Ben-Jochannan (Dr. Ben)
+  if (t.includes('dr ben') || t.includes('ben jochannan') || t.includes('yosef ben') || t.includes('alkebu-lan') || t.includes('black man of the nile')) {
+    return `📚 **Dr. Yosef Ben-Jochannan "Dr. Ben" (1918-2015)**\n\n**Legacy**: 49 books on Nile Valley civilizations\n\n**Tours**: Dr. Ben's Alkebu-Lan Educational Tours - 200 people/season to Egypt\n\n**Key Works**: Black Man of the Nile, African Origins of Western Religions\n\n**Donation**: 35,000 volumes to Nation of Islam (2002)\n\n**Positions**: City College, Cornell (adjunct 1973-1987)\n\n**Note**: Controversial credentials but UNCONTESTED INFLUENCE on African-centered scholarship`;
+  }
+  // Convergence Point / Same Evidence Different Frameworks
+  if (t.includes('convergence') || t.includes('same evidence') || t.includes('different framework') || t.includes('ancient aliens') || t.includes('shared evidence')) {
+    return `🔄 **Convergence Point - Same Evidence, Different Frameworks**\n\n**Shared Evidence Base**:\n• Megalithic structures (pyramids, Stonehenge, Göbekli Tepe)\n• Global flood narratives\n• Animal-headed deity iconography\n• Astronomical alignments\n• Giant/Nephilim traditions\n\n**Different Interpretations**:\n• Kemetic: African origins of civilization\n• Hebrew Israelite: Biblical identity\n• Ancient Aliens: Extraterrestrial intervention\n• Atlantis: Lost advanced civilization\n• Van Kush: Phoenician network culture\n\n**Key Insight**: Watch Ancient Aliens or Sa Neter - SAME evidence, different frameworks`;
+  }
   return null;
 }
 
