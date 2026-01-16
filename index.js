@@ -1169,6 +1169,26 @@ function getOilahuascaResponse(topic) {
   if (t.includes('convergence') || t.includes('same evidence') || t.includes('different framework') || t.includes('ancient aliens') || t.includes('shared evidence')) {
     return `🔄 **Convergence Point - Same Evidence, Different Frameworks**\n\n**Shared Evidence Base**:\n• Megalithic structures (pyramids, Stonehenge, Göbekli Tepe)\n• Global flood narratives\n• Animal-headed deity iconography\n• Astronomical alignments\n• Giant/Nephilim traditions\n\n**Different Interpretations**:\n• Kemetic: African origins of civilization\n• Hebrew Israelite: Biblical identity\n• Ancient Aliens: Extraterrestrial intervention\n• Atlantis: Lost advanced civilization\n• Van Kush: Phoenician network culture\n\n**Key Insight**: Watch Ancient Aliens or Sa Neter - SAME evidence, different frameworks`;
   }
+  // Neolithic Temple Culture Network (Van Kush Framework)
+  if (t.includes('neolithic temple') || t.includes('temple culture network') || t.includes('global university') || t.includes('prehistoric fallacy') || t.includes('institutional continuity')) {
+    return `🏛️ **Neolithic Temple Culture Network (Van Kush)**\n\n**Core Thesis**: Global civilization of interconnected educational, technological, and diplomatic institutions (30,000 BCE - classical period)\n\n**Evidence**:\n• Venus figurines (30,000 BCE): 200+ similar across France to Siberia\n• Göbekli Tepe (9,000 BCE): Predates Stonehenge by 6,000 years\n• Sais Medical School: 2,500+ years continuous operation\n\n**Key Insight**: "Pre-historic" was never pre-historic - continuous institutional operation\n\n**The Network Was**: Humanity's first global university system\n\n**Paradigm Shift**: Abandon evolutionary primitivism for network models`;
+  }
+  // Venus Figurines / Prehistoric Connectivity
+  if (t.includes('venus figurine') || t.includes('prehistoric art') || t.includes('paleolithic') || t.includes('ice age art')) {
+    return `🗿 **Venus Figurine Network (30,000-20,000 BCE)**\n\n**Evidence**: 200+ similar figurines from France to Siberia\n**Range**: 10,000+ kilometers\n\n**Consistent Features**:\n• Standardized artistic conventions\n• Shared symbolic systems\n• Evidence of active cultural exchange\n\n**Implications**:\n• Sophisticated communication systems BEFORE agriculture\n• Coordinated cultural development across continents\n• Shared educational/religious frameworks\n• Global connectivity 25,000+ years ago\n\n**Challenges**: "Isolated primitive cultures" narrative`;
+  }
+  // Sais Medical School / Temple of Neith
+  if (t.includes('sais') || t.includes('temple of neith') || t.includes('ancient medical school') || t.includes('sonchis') || t.includes('egyptian medicine')) {
+    return `⚕️ **Sais Medical School (3000+ BCE)**\n\n**Duration**: Continuous operation for 2,500+ years\n**Location**: Temple of Neith, Egypt\n**Specialization**: Gynecology/Obstetrics\n**Faculty**: Female priests and physicians\n**Students**: International student body\n\n**Sonchis**: Priest preserving 9,000+ years of records (Atlantis account)\n\n**Neith**: Goddess of both WAR and WEAVING\n• Diplomatic protocols through weaving symbolism\n• Treaties "woven together"\n\n**Kadesh Treaty** (1259 BCE): Required sophisticated pre-existing diplomatic traditions`;
+  }
+  // Göbekli Tepe
+  if (t.includes('gobekli') || t.includes('göbekli') || t.includes('karahantepe') || t.includes('turkish megalith')) {
+    return `🗿 **Göbekli Tepe Complex (9,000+ BCE)**\n\n**Location**: Turkey\n**Significance**: Predates Stonehenge by 6,000+ years\n\n**Related Sites**: Karahantepe, Harbetsuvan, Gürcütepe (12+ interconnected)\n\n**Features**:\n• Sophisticated astronomical alignments\n• Evidence of international pilgrimage centers\n• Organized construction requiring coordination\n• Advanced engineering knowledge\n\n**Implication**: Challenges "primitive Neolithic" assumptions\n\n**Part of**: Neolithic Temple Culture Network`;
+  }
+  // Joseph Model / Learning Pilgrimage
+  if (t.includes('joseph model') || t.includes('learning pilgrimage') || t.includes('knowledge transfer') || t.includes('alexandria library') || t.includes('ancient education')) {
+    return `📚 **Joseph Model - Ancient Knowledge Transfer**\n\n**Process**:\n1. Individual travels to major learning center\n2. Acquires specialized knowledge/skills\n3. Returns to home community\n4. Creates global knowledge transfer networks\n\n**Examples**:\n• Alexandria Library: International scholars, systematic collection\n• Temple networks: Specialized priests carrying knowledge\n• Trade routes: Merchants as knowledge carriers\n\n**Information Transmission**:\n• Textile-based records (weaving as encoding)\n• Chemical knowledge in religious practices\n• Temple-based laboratories\n\n**Result**: Global "university system" millennia before modern academia`;
+  }
   return null;
 }
 
