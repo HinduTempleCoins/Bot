@@ -1293,6 +1293,10 @@ function getOilahuascaResponse(topic) {
   if (t.includes('phoenixian') || t.includes('75000 year') || t.includes('denisovan') || t.includes('aromatic nest') || t.includes('t hieroglyph') || t.includes('anhur mehit')) {
     return `🦅 **Phoenixian Synthesis: 75,000 Year Integration**\n\n**The Pattern**:\nDenisovans (75,000+ BCE) → Cushites/Nubians → Phaiakians → Phoenicians → Phoenix\n\n**Five Preservation Mechanisms**:\n1) Genetic/Epigenetic Memory\n2) Wax Technology (headcones, lost-wax casting)\n3) Herbal Knowledge (aromatic nest)\n4) Hieroglyphic Encoding (T = "Give!")\n5) MLK Linguistic Root\n\n**T Hieroglyph**: Same shape in temple capitals, headcones, wax molds, hieroglyph = universal interface technology\n\n**Anhur-Mehit**: "He Who Brings Back The Distant One" - retrieval pattern from Cush/Nubia/Punt\n\n**Million-Year Vision**: AI-assisted cloning + environmental triggers = permanent knowledge preservation\n\n**The T Hieroglyph Continues: Give! Give! Give!**`;
   }
+  // Hyperborean-Denisovan-Phoenician Continuity - 200,000 Year Framework
+  if (t.includes('hyperborean') || t.includes('last glacial') || t.includes('ice age') || t.includes('minoan') || t.includes('toba') || t.includes('lgm')) {
+    return `❄️ **Hyperborean-Denisovan-Phoenician Continuity**\n\n**200,000 Year Timeline**:\n• Denisovans (200,000-20,000 BCE): Tibetan plateau, advanced stonework, crossed Wallace's Line\n• Toba (75,000 BCE): Genetic bottleneck, 3,000-10,000 survivors\n• LGM (26,000-20,000 BCE): Sea levels -125m, Ice Age refugia\n• Post-LGM migrations → Mediterranean\n• Minoan (3100 BCE): Purple dye origin (NOT Phoenicians)\n\n**Hyperborean Maidens Myth**:\nHecaerge, Loxo, Upis = Ice Age knowledge carriers\n"Never returned home" = permanent Mediterranean migration\n\n**Giants Explained**:\n• Denisovans = "Giants/Titans"\n• Hybrids = "Melech/Lesser Giants"\n• Pure Sapiens = "Humans"\n\n**Complete Lineage**: Denisovans → Hyperboreans → Minoans → Phoenicians → Modern Carriers (J2a/I2a1)**`;
+  }
   return null;
 }
 
