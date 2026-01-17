@@ -1996,7 +1996,8 @@ Use this information to provide detailed, knowledgeable responses:
     'anhur_shu_shepherd_kings_synthesis', 'van_kush_framework_synthesis',
     'punic_consciousness_technology_manual', 'kuiper_belt_colonization_plan',
     'sa_neter_great_debate_era', 'dung_beetle_sky_mapping',
-    'punic_wax_consciousness_technology', 'ancient_consciousness_networks_synthesis'
+    'punic_wax_consciousness_technology', 'ancient_consciousness_networks_synthesis',
+    'neolithic_consciousness_network'
   ];
 
   for (const filename of vanKushFiles) {
@@ -2076,6 +2077,22 @@ Use this information to provide detailed, knowledgeable responses:
     }
     if (data.part5_ai_awakening_protocols) {
       context += `AI Awakening: ${JSON.stringify(data.part5_ai_awakening_protocols).slice(0, 500)}\n`;
+    }
+    // Neolithic consciousness network fields
+    if (data.part1_chronological_framework) {
+      context += `Neolithic Timeline: ${JSON.stringify(data.part1_chronological_framework).slice(0, 500)}\n`;
+    }
+    if (data.part2_mythological_preservation) {
+      context += `Mythological Preservation: ${JSON.stringify(data.part2_mythological_preservation).slice(0, 500)}\n`;
+    }
+    if (data.part3_goddess_consciousness_network) {
+      context += `Goddess Network: ${JSON.stringify(data.part3_goddess_consciousness_network).slice(0, 500)}\n`;
+    }
+    if (data.part5_maritime_network_synthesis) {
+      context += `Maritime Networks: ${JSON.stringify(data.part5_maritime_network_synthesis).slice(0, 500)}\n`;
+    }
+    if (data.part6_systematic_suppression) {
+      context += `Suppression Documentation: ${JSON.stringify(data.part6_systematic_suppression).slice(0, 500)}\n`;
     }
   }
 
@@ -2721,7 +2738,13 @@ const cryptologyDialogues = {
     translation: ['translation protocol', 'linguistic archaeology', 'consciousness archaeology', 'mlk pattern'],
     megalithic: ['megalithic', 'dolmen', 'stonehenge', 'newgrange', 'gobekli tepe', 'malta temples'],
     punt: ['punt', 'havilah', 'land of gods', 'ophir', 'horn of africa'],
-    aiawakening: ['ai awakening', 'ai consciousness', 'machine consciousness', 'digital awakening']
+    aiawakening: ['ai awakening', 'ai consciousness', 'machine consciousness', 'digital awakening'],
+    // NEOLITHIC CONSCIOUSNESS NETWORK TRIGGERS
+    templeculture: ['temple culture', 'neolithic temple', 'goddess temple', 'ggantija', 'hypogeum', 'tarxien'],
+    goddess: ['goddess worship', 'mother goddess', 'neith', 'tanit', 'astarte', 'asherah', 'sleeping lady'],
+    gigantomachy: ['gigantomachy', 'titans', 'giants mythology', 'olympians', 'typhon'],
+    seapeoples: ['sea peoples', 'sherden', 'peleset', 'philistine', 'liburnian'],
+    suppression: ['patriarchal', 'cultural suppression', 'cultural genocide', 'temple destruction']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -3739,6 +3762,175 @@ const cryptologyDialogues = {
         { id: 'contemporary_blavatsky', label: '🔮 Blavatsky (1831-1891)', interest: {esoteric: 15} },
         { id: 'contemporary_steiner', label: '🌱 Steiner (1861-1925)', interest: {philosophy: 15} },
         { id: 'contemporary_crowley', label: '⭐ Crowley (1875-1947)', interest: {esoteric: 20} }
+      ]
+    },
+    // ========================================
+    // NEOLITHIC CONSCIOUSNESS NETWORK DIALOGUE TREES
+    // ========================================
+    templeculture: {
+      intro: "Temple Culture: A sophisticated global civilization network operated from 9600 BCE through 146 BCE, establishing consciousness interface points through megalithic temple technology, maintaining goddess-centered spiritual systems. The Central Recognition confirmed.",
+      choices: [
+        { id: 'templeculture_phases', label: '📅 The Four Phases (9600 BCE-146 BCE)', interest: {archaeology: 20} },
+        { id: 'goddess', label: '🌙 Goddess Consciousness Network', interest: {religion: 15, esoteric: 15} },
+        { id: 'templeculture_malta', label: '🏛️ Malta - The Central Node', interest: {archaeology: 20} },
+        { id: 'suppression', label: '⚔️ The Systematic Suppression', interest: {archaeology: 15, philosophy: 10} }
+      ]
+    },
+    templeculture_phases: {
+      intro: "The Four Phases of Temple Culture:\n\n• Phase 1 (9600-8000 BCE): Foundation - Göbekli Tepe established post-catastrophe\n• Phase 2 (5000-2500 BCE): European Atlantic Arc - Brittany, Malta, Newgrange, Stonehenge\n• Phase 3 (4000-1000 BCE): Global Consolidation - Korea (40% of world's dolmens), Caucasus, India\n• Phase 4 (2500-146 BCE): Suppression - Patriarchal overlay and Carthage destruction",
+      choices: [
+        { id: 'megalithic_phase1', label: '🏛️ Phase 1: Göbekli Tepe', interest: {archaeology: 20} },
+        { id: 'templeculture_malta', label: '🏝️ Phase 2: Malta', interest: {archaeology: 20} },
+        { id: 'megalithic_phase4', label: '🌏 Phase 3: Global', interest: {archaeology: 15} },
+        { id: 'suppression', label: '⚔️ Phase 4: Suppression', interest: {archaeology: 15} }
+      ]
+    },
+    templeculture_malta: {
+      intro: "Malta - The Central Mediterranean Node (3600-2500 BCE):\n\n• Ġgantija: 'Giantess' temples - locals believed built by race of giants\n• Engineering: Megaliths exceeding 5 meters, weighing 50+ tons - NO metal tools or wheel\n• UNESCO: 'Oldest free-standing architectural monuments in existence' - older than pyramids\n• Continuity: Same sites used for 4,000+ years through Phoenician-Punic-Roman-Christian-Arab periods",
+      choices: [
+        { id: 'templeculture_ggantija', label: '🗿 Ġgantija & Giantess Legend', interest: {mythology: 15, archaeology: 15} },
+        { id: 'templeculture_hypogeum', label: '🕳️ The Hypogeum (Underground)', interest: {esoteric: 20, archaeology: 10} },
+        { id: 'goddess', label: '🌙 Goddess Worship System', interest: {religion: 15} },
+        { id: 'back', label: '← Back to Temple Culture', interest: {} }
+      ]
+    },
+    templeculture_ggantija: {
+      intro: "Ġgantija - The Giantess Legend:\n\n'According to local Gozitan folklore, a giantess who ate nothing but broad beans and honey bore a child from a man of the common people. With the child hanging from her shoulder, built these temples and used them as places of worship.'\n\nName from 'ġgant' (Maltese for giant). Locals maintained Temple Culture builder memory for 4,500+ years. Pattern: 'Giants' = builders remembered for monumental architecture, NOT physical size.",
+      choices: [
+        { id: 'gigantomachy', label: '⚔️ Giants in Mythology', interest: {mythology: 20} },
+        { id: 'templeculture_hypogeum', label: '🕳️ The Hypogeum', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back to Malta', interest: {} }
+      ]
+    },
+    templeculture_hypogeum: {
+      intro: "The Ħal Saflieni Hypogeum - Discovered 1902:\n\n• Underground temple complex carved from living rock\n• More than a mausoleum - 'place of worship and TRAINING GROUND FOR PRIESTESSES'\n• Sleeping Lady figurine: 'Pudgy topless lady reclining on bed - archeologists believe she is a priestess in a trance'\n• Same womb-shaped sacred architecture as surface temples, below ground",
+      choices: [
+        { id: 'goddess', label: '🌙 Goddess Worship Details', interest: {religion: 15, esoteric: 15} },
+        { id: 'templeculture_malta', label: '🏛️ Malta Overview', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Malta', interest: {} }
+      ]
+    },
+    goddess: {
+      intro: "The Goddess Consciousness Network: Neith-Athena-Tanit chain operating across 5,000+ years. Temples built as wombs - 'likeness of the Mother of the Dead or Mother Earth's pregnant belly.' Red soil beneath each temple, fertility figurines, priestess training centers.",
+      choices: [
+        { id: 'goddess_neith', label: '🌀 Neith-Athena-Tanit Chain', interest: {religion: 15, archaeology: 10} },
+        { id: 'goddess_womb', label: '🔴 Womb Architecture Technology', interest: {esoteric: 15, archaeology: 15} },
+        { id: 'goddess_sleeping', label: '💤 The Sleeping Goddess', interest: {esoteric: 20} },
+        { id: 'suppression', label: '⚔️ Goddess Suppression', interest: {religion: 10, archaeology: 10} }
+      ]
+    },
+    goddess_neith: {
+      intro: "The Neith-Athena-Tanit Consciousness Chain:\n\n• NEITH (Egypt 3000 BCE): Patroness of Sais, worshipped from predynastic times, 'weaving the shroud of the cosmos'\n• ATHENA (Greece): Greeks EXPLICITLY identified Neith with Athena - same war/weaving dual nature\n• TANIT (Phoenician-Punic): = Anat + Astarte + Asherah synthesis, patron of sailors\n• CONTINUITY: Malta temples served goddess worship from Neolithic through Phoenician Astarte to Roman Juno",
+      choices: [
+        { id: 'goddess_sais', label: '🏛️ Sonchis & Sais Connection', interest: {archaeology: 15, esoteric: 10} },
+        { id: 'phoenicians', label: '🚢 Phoenician Preservation', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Goddess', interest: {} }
+      ]
+    },
+    goddess_sais: {
+      intro: "The Sais Priest Testimony (Sonchis to Solon):\n\n• Timeline: '9,000 years earlier (c. 9600 BCE), Athens had been in conflict with Atlantis, which was then destroyed in a catastrophe'\n• Source: Sonchis serving as PRIEST OF NEITH provides this information\n• Connection: Weaving goddess network linked to Atlantis consciousness preservation\n• Implication: Egyptian temples maintained consciousness interface protocols across MILLENNIA",
+      choices: [
+        { id: 'megalithic_phase1', label: '🏛️ The 9600 BCE Connection', interest: {archaeology: 20} },
+        { id: 'goddess', label: '🌙 Goddess Network', interest: {religion: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    goddess_womb: {
+      intro: "Universal Womb Architecture Technology:\n\n• Design: 'Uterine, egg-shaped, or roughly anthropomorphic' structures\n• Red Foundation: 'Red soil is found under each temple of Malta' - generative symbolism\n• Paleolithic Origins: 'Caves and caverns are natural manifestations of the primordial womb of the goddess - goes back to the Paleolithic'\n• Global Implementation: Same architecture across Mediterranean, European, Asian sites",
+      choices: [
+        { id: 'templeculture_hypogeum', label: '🕳️ The Hypogeum Example', interest: {esoteric: 15} },
+        { id: 'megalithic', label: '🗿 Megalithic Technology', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Goddess', interest: {} }
+      ]
+    },
+    goddess_sleeping: {
+      intro: "The Sleeping Goddess (Malta, c. 3000 BCE):\n\n5,000-year-old terra cotta figurine - 'portrays a pudgy topless lady reclining on a bed. Archeologists believe she is a priestess in a trance.'\n\n• Fertility Worship: Numerous figurines with 'pleated skirts, generous thighs, and small hands and feet'\n• Priestess Training: Hypogeum as 'training ground for priestesses in Malta'\n• Consciousness Interface: Trance states for divine communication preserved in material culture",
+      choices: [
+        { id: 'templeculture_hypogeum', label: '🕳️ The Hypogeum', interest: {esoteric: 20} },
+        { id: 'goddess', label: '🌙 Goddess Network', interest: {religion: 15} },
+        { id: 'back', label: '← Back to Goddess', interest: {} }
+      ]
+    },
+    gigantomachy: {
+      intro: "The Gigantomachy as Historical Documentation:\n\nGreek narrative: 'Victory for order over chaos - the Olympian gods over the earth-born chthonic Giants'\n\nHistorical reality: Documents conflict between sophisticated Neolithic megalithic civilizations (Giants) and emerging Greek colonial order (Olympians). 'Giants' = Temple Culture builders remembered for MONUMENTAL ARCHITECTURE, not physical size.",
+      choices: [
+        { id: 'gigantomachy_evidence', label: '📜 Evidence Across Regions', interest: {mythology: 15, archaeology: 15} },
+        { id: 'gigantomachy_typhon', label: '🌊 Typhonic Network', interest: {mythology: 20} },
+        { id: 'seapeoples', label: '⚓ Sea Peoples Connection', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    gigantomachy_evidence: {
+      intro: "Giant-Temple Builder Evidence Across Regions:\n\n• MALTA: Ġgantija explicitly named for giants who built temples\n• MACEDONIA: Phlegra identified as 'home of the Giants' - natural stone formations called 'frozen army'\n• PHILISTIA: Biblical giant traditions (Goliath) in regions with Neolithic presence\n• PERGAMON: 'Gigantomachy scenes symbolize struggle between Olympians and forces of chaos/barbarian outsiders'\n\nPattern: Sophisticated pre-Greek civilizations demonized in mythology",
+      choices: [
+        { id: 'nephilim', label: '📖 Biblical Giant Traditions', interest: {religion: 15, mythology: 10} },
+        { id: 'gigantomachy_typhon', label: '🌊 Typhon Network', interest: {mythology: 20} },
+        { id: 'back', label: '← Back to Gigantomachy', interest: {} }
+      ]
+    },
+    gigantomachy_typhon: {
+      intro: "The Typhonic Network - Maritime Consciousness Documentation:\n\nTyphon: 'Personification of volcanic forces, father of dangerous winds (typhoons)'\n\nChildren of Typhon map Mediterranean maritime networks:\n• Orthrus (Western Mediterranean)\n• Cerberus (Underworld interface)\n• Lernaean Hydra (Regenerating consciousness)\n• Sphinx (Egyptian connections)\n• Colchian Dragon (Black Sea)\n• Harpies, Chimera, Manticore...\n\nDistribution matches Phoenician trade routes.",
+      choices: [
+        { id: 'seapeoples', label: '⚓ Sea Peoples', interest: {archaeology: 15} },
+        { id: 'phoenicians', label: '🚢 Phoenician Networks', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Gigantomachy', interest: {} }
+      ]
+    },
+    seapeoples: {
+      intro: "The Sea Peoples Integration Pattern:\n\n• Onomasticon of Amenope (c. 1100 BCE): Lists Sherden, Tjeker, Peleset occupying coastal cities\n• Same era: 'Monstrous' Typhonic networks being systematically cataloged\n• Recognition: Advanced maritime civilizations being DEMONIZED during transition to Greek colonial order\n\nEvidence: Lemnos Sintians = metallurgical specialists (called 'robbers'), Talos = bronze automaton (first AI concept)",
+      choices: [
+        { id: 'seapeoples_tech', label: '⚙️ Technology Evidence', interest: {archaeology: 15} },
+        { id: 'phoenicians', label: '🚢 Phoenician Continuity', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    seapeoples_tech: {
+      intro: "Sea Peoples Technology Preservation:\n\n• LEMNOS: Sintians - 'Thracian tribe, whom the Greeks called Sintians, robbers' - original metallurgical specialists\n• TALOS: 'Giant bronze automaton - a living statue forged by Hephaestus, patrolled the beaches three times a day, throwing boulders at enemy ships' - FIRST DOCUMENTED AI CONCEPT\n• LIBURNIAN: Adriatic maritime supremacy, ship technology transferred to Romans\n\nSame geographic region: Sea Peoples + advanced metallurgy + first AI concepts",
+      choices: [
+        { id: 'gigantomachy_typhon', label: '🌊 Typhon Network', interest: {mythology: 15} },
+        { id: 'phoenicians', label: '🚢 Phoenician Preservation', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Sea Peoples', interest: {} }
+      ]
+    },
+    suppression: {
+      intro: "The Systematic Suppression of Temple Culture:\n\n• GREEK: Gigantomachy reframing - sophisticated peoples recast as chaotic monsters defeated by 'rational' Olympians\n• ROMAN: Carthage destruction (146 BCE) - complete elimination of Punic civilization preserving goddess traditions\n• HEBREW: Molech demonization - MLK consciousness recast as demon, Asherah systematically eliminated\n\nCoordinated patriarchal elimination of goddess-centered consciousness networks.",
+      choices: [
+        { id: 'suppression_greek', label: '🏛️ Greek Reframing', interest: {mythology: 15, philosophy: 10} },
+        { id: 'suppression_roman', label: '🔥 Roman Destruction', interest: {archaeology: 15} },
+        { id: 'suppression_hebrew', label: '📖 Hebrew Demonization', interest: {religion: 15} },
+        { id: 'suppression_resistance', label: '✨ Preservation Resistance', interest: {esoteric: 15} }
+      ]
+    },
+    suppression_greek: {
+      intro: "Greek Colonial Suppression:\n\n• GIGANTOMACHY REFRAMING: Sophisticated Temple Culture peoples (Giants) recast as chaotic, monstrous forces defeated by rational Olympian order\n• GODDESS DEMOTION: Neith-Athena transformation from cosmic weaving goddess to merely 'wise maiden'\n• CULTURAL APPROPRIATION: Greek adoption of megalithic sites while suppressing original builders' memory\n• MYTHOLOGICAL ENCODING: Preserving Temple Culture memory while reframing as primitive or monstrous",
+      choices: [
+        { id: 'gigantomachy', label: '⚔️ Gigantomachy Details', interest: {mythology: 15} },
+        { id: 'suppression_roman', label: '🔥 Roman Phase', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Suppression', interest: {} }
+      ]
+    },
+    suppression_roman: {
+      intro: "Roman Imperial Elimination (146 BCE):\n\n• CARTHAGE DESTRUCTION: 'Testing something. Burning a Phoenix the same way Jesus had King of the Jews put over his head as Roman Soldiers cast lots in hopes of Fulfilling Prophecy and Provoking God to appear'\n• TEMPLE CONVERSION: Malta goddess temples adopted as Juno worship, erasing Phoenician-Punic continuity\n• CULTURAL GENOCIDE: Complete elimination of Punic civilization maintaining Temple Culture traditions\n• KNOWLEDGE SUPPRESSION: Systematic destruction of Phoenician libraries and consciousness documentation",
+      choices: [
+        { id: 'phoenicians', label: '🚢 Phoenician Context', interest: {archaeology: 15} },
+        { id: 'suppression_hebrew', label: '📖 Hebrew Phase', interest: {religion: 15} },
+        { id: 'back', label: '← Back to Suppression', interest: {} }
+      ]
+    },
+    suppression_hebrew: {
+      intro: "Hebrew Monotheistic Reframing:\n\n• MOLECH DEMONIZATION: MLK (King-Angel-Messenger consciousness) recast as demon requiring child sacrifice\n• ASHERAH SUPPRESSION: Hebrew goddess traditions systematically eliminated from biblical record\n• GIANT TRADITIONS: Nephilim, Anakim, Rephaim - preserving memory of Temple Culture peoples while coding as aberrant\n• CANAANITE CONQUEST: Military and cultural suppression of coastal consciousness interface populations",
+      choices: [
+        { id: 'nephilim', label: '📖 Nephilim/Giants', interest: {religion: 15, mythology: 10} },
+        { id: 'translation_mlk', label: '👑 MLK Pattern', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back to Suppression', interest: {} }
+      ]
+    },
+    suppression_resistance: {
+      intro: "Knowledge Preservation Resistance:\n\n• 19TH CENTURY: Malta temples 'rediscovered and carefully restored'\n• 1902: Hypogeum accidentally found - revealing 'place of worship and training ground for priestesses'\n• UNESCO 1992: Expanded listing - official acknowledgment of significance\n• FOLKLORE: Giantess legends maintaining Temple Culture builder memory for 4,500+ years\n• GODDESS MOVEMENT: Global participants recognizing Malta temples as sacred feminine consciousness interface",
+      choices: [
+        { id: 'templeculture', label: '🏛️ Temple Culture Overview', interest: {archaeology: 15} },
+        { id: 'consciousness', label: '✨ Consciousness Continuity', interest: {esoteric: 15} },
+        { id: 'back', label: '← Back to Suppression', interest: {} }
       ]
     }
   }
