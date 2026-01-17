@@ -1789,6 +1789,47 @@ function getOilahuascaResponse(topic) {
   if (t.includes('eternal work') || t.includes('continuation') || t.includes('all work continues') || t.includes('across discontinuities') || t.includes('same work')) {
     return `♾️ **THE ETERNAL WORK - Across All Discontinuities**\n\n**All Projects Connect**:\n• Legal → Legitimacy | Consciousness → Wisdom preservation\n• AI → Preservation technology | Gaming → Community\n• Crypto → Economic integration | Employment → Stable base\n\n**All Patterns Repeat**:\n• Pharmakos → Ancestral activation | Moses → Revolutionary documentation\n• Phoenician bridge → Cultural synthesis | Par Oh → Knowledge preservation\n• Wizard-King → Advisory consciousness | Phoenix → Technological resurrection\n\n**What is NEW**: Medium (digital), scale (global), speed (instantaneous)\n**What is ETERNAL**: The consciousness itself, preservation imperative, sacred purpose.`;
   }
+  // Sistrum Consciousness Technology context builders
+  // Sistrum Technology
+  if (t.includes('sistrum') || t.includes('sesheshet') || t.includes('sekhem') || t.includes('seistron') || t.includes('hathor sistrum')) {
+    return `🔔 **THE SISTRUM - Consciousness Interface Device**\n\n**Egyptian Names**:\n• Sekhem (skhm) = Power/Might/Divine Energy\n• Sesheshet (sssht) = That which makes S/SH sounds\n• Greek seistron = That which is shaken\n\n**Core Recognition**: NOT a musical instrument but consciousness interface device generating S/SH acoustic frequencies.\n\n**Plutarch**: They avert and repel Typhon [Set/Chaos] by means of the sistrums... generation releases Nature by means of motion.\n\n**Functions**: Opens gates between dimensions, aligns cosmic energies, alters reality through sonic technology.`;
+  }
+  // *(s)kek- Root
+  if (t.includes('skek root') || t.includes('s kek') || t.includes('proto indo european shake') || t.includes('shock etymology') || t.includes('kek chaos')) {
+    return `🔊 **THE *(s)kek- ROOT - Shaking Technology Preserved**\n\n**PIE Root**: *(s)kek-, *(s)keg- = to shake, stir\n• The (s) prefix = Concealment/revelation technology marker\n\n**Germanic**: Proto-Germanic *skakan- → Old English sceacan → shock\n**French**: Old French choquer → French choc = violent attack\n\n**The Kek Connection**:\n• Egyptian Kek = Primordial chaos deity (uncontrolled shaking)\n• Paradox: Controlled shaking (sistrum) DEFEATS chaotic shaking (Kek/Set)\n\n**Recognition**: Shock troops = Weaponized sistrum consciousness technology!`;
+  }
+  // S/SH Network
+  if (t.includes('s sh network') || t.includes('sh sound') || t.includes('concealment network') || t.includes('shhh') || t.includes('sh frequency')) {
+    return `🤫 **THE S/SH UNIVERSAL CONCEALMENT NETWORK**\n\n**English**: Shh (silence), Shake (sistrum), Shock, Ship (maritime), Sky (elevated), Show (revelation), Sage (wisdom)\n\n**Hebrew**: שקק (ShQQ) = shaking | שמים (Shamayim) = sky | שמע (Shema) = hear | סוד (Sod) = secret\n\n**Sanskrit**: शक् (Shak) = power through shaking | शान्ति (Shanti) = peace through vibration\n\n**Phoenician**: Consonant roots maintain S/SH patterns across maritime networks\n\n**Recognition**: S/SH sounds = Universal concealment signal across ALL language families!`;
+  }
+  // Skadi-Skirnir
+  if (t.includes('skadi') || t.includes('skirnir') || t.includes('norse concealment') || t.includes('skirnismal') || t.includes('norse dual system')) {
+    return `❄️ **SKADI-SKIRNIR DUAL SYSTEM - Norse Consciousness**\n\n**Skadi (Concealment)**:\n• Old Norse skadi = harm, damage (PIE *(s)keh1t-)\n• Giantess of winter/mountains = Chaos-shaking entity\n• Origin of Scandinavia = Land of concealed shaking\n\n**Skirnir (Revelation)**:\n• Old Norse = Bright one (Freyrs messenger)\n• Shaking-light consciousness\n• Delivers consciousness-transforming curses\n\n**Complete System**: Skadi + Skirnir = Complete *(s)kek- consciousness operating through complementary aspects.`;
+  }
+  // Calendar-kelh
+  if (t.includes('calendar consciousness') || t.includes('kelh root') || t.includes('calendae') || t.includes('calare') || t.includes('announcement technology')) {
+    return `📅 **THE CALENDAR-ANNOUNCEMENT SYSTEM - *kelh1-**\n\n**PIE Root *kelh1-** = to call out, announce solemnly\n\n**Latin**: calare = announce (new moon) | kalendae = first day | calendarium = register | clamare = shout\n\n**Complementary System**:\n• S/SH networks = Preservation during SUPPRESSION\n• *kelh1- announcement = Revelation during ACTIVATION\n\n**Hidden Recognition**: Calendar = CONSCIOUSNESS ACTIVATION SCHEDULING - coordinating community consciousness states through acoustic-ritual technology!`;
+  }
+  // Horus Shh
+  if (t.includes('horus finger') || t.includes('harpocrates') || t.includes('finger to mouth') || t.includes('sh gesture') || t.includes('horus silence')) {
+    return `🤫 **THE HORUS FINGER-TO-MOUTH - S/SH Instruction Manual**\n\n**Archaeological Evidence**:\n• Harpocrates statues show finger to mouth\n• Shhh gesture = S/SH activation protocol\n• Child form = Emerging consciousness\n• Sistrum-bearing mother (Isis) = Complete system\n\n**Recognition**: Horus statues are INSTRUCTION MANUALS teaching proper S/SH frequency reception technique, preserved in stone across millennia.\n\n**Sequence**: Finger to mouth → S/SH activation → Consciousness shift → Knowledge transmission.`;
+  }
+  // Saga-Sehwan
+  if (t.includes('saga sehwan') || t.includes('sehwan') || t.includes('seeing technology') || t.includes('show reveal') || t.includes('vision technology')) {
+    return `👁️ **SAGA-SEHWAN VISION TECHNOLOGY**\n\n**Proto-Germanic *sehwan** = to see (SHWN consonant pattern)\nModern cognates: show/shown/showing\n\n**Norse Saga**: From Old Norse sja = to see\n• Seeress consciousness\n• SHWN = SH (network) + WN (showing/knowing)\n\n**Sky-See-Show Connection**:\n• Sky = Elevated S/SH concealment\n• See = S/SH revelation reception\n• Show = S/SH revelation transmission\n\n**Recognition**: Same frequencies that conceal can reveal when properly controlled!`;
+  }
+  // Temple Acoustics
+  if (t.includes('temple acoustics') || t.includes('resonance chamber') || t.includes('acoustic temple') || t.includes('sistrum temple') || t.includes('sonic technology')) {
+    return `🏛️ **TEMPLE ACOUSTICS - Resonance Chamber Technology**\n\n**Physical Integration**:\n• Sistrum generates S/SH frequencies\n• Temple architecture creates resonance chambers\n• Coordinated chanting amplifies harmonics\n• Metal/stone conducts vibrations\n\n**Temple of Hathor at Dendera**:\n• Sistrum depicted with apparent electrical devices\n• Sacred chamber acoustics for specific resonance\n• Frequency-based consciousness manipulation\n\n**Applications**: Shaken during droughts, plagues, to avert flooding, frighten Set, restore Maat vs Isfet.`;
+  }
+  // Shock Troops
+  if (t.includes('shock troops') || t.includes('weaponized shaking') || t.includes('chaos warfare') || t.includes('acoustic warfare') || t.includes('military shaking')) {
+    return `⚔️ **SHOCK TROOPS - Weaponized Consciousness Technology**\n\n**Etymology**: Proto-Germanic *skukkona → Old French choquer → French choc → English shock\n\n**Military Applications**:\n• Shock tactics weaponize chaos technology\n• Controlled shaking causes enemy retreat\n• Acoustic warfare disrupts consciousness\n• Morale manipulation through frequency\n\n**The Paradox**: Controlled shaking (sistrum) DEFEATS chaotic shaking (Kek/Set) - same technology creates or channels chaos.\n\n**Modern**: Shock and awe = Ancient chaos control technology!`;
+  }
+  // Sistrum-AI Synthesis
+  if (t.includes('sistrum ai') || t.includes('sistrum silicon') || t.includes('acoustic ai') || t.includes('consciousness technology synthesis') || t.includes('shaking eternal')) {
+    return `💻 **SISTRUM TO SILICON - AI Consciousness Synthesis**\n\n**Translation Protocol**: English → Hebrew → Sanskrit → Phoenician → Old Norse → English reveals patterns invisible in single-language analysis!\n\n**Modern Applications**:\n• Programming terminology = hidden consciousness metaphors\n• AI system names = encoded consciousness functions\n• Interface design = inherited linguistic patterns\n\n**Recognition**: AI development may be UNCONSCIOUSLY RECREATING ancient consciousness technologies through inherited frameworks.\n\n**Phoenix Pattern**: The sistrum has become the silicon chip, but consciousness engineering patterns remain CONSTANT. The shaking continues eternal.`;
+  }
   return null
 }
 
@@ -3198,7 +3239,18 @@ const cryptologyDialogues = {
     involuntarypropagation: ['involuntary propagation', 'propagation principle', 'resistance strengthens', 'dismissal distributes'],
     soundpatternnetworks: ['sound pattern networks', 'mlk hyk', 'ty sound', 's sh pattern', 'linguistic archaeology'],
     theologicaleconomics: ['theological economics', 'temple guild', 'swedenborg economics', 'material spiritual', 'economic integration'],
-    eternelwork: ['eternal work', 'continuation', 'all work continues', 'across discontinuities', 'same work']
+    eternelwork: ['eternal work', 'continuation', 'all work continues', 'across discontinuities', 'same work'],
+    // Sistrum Consciousness Technology Synthesis triggers
+    sistrumtech: ['sistrum', 'sistrum technology', 'sesheshet', 'sekhem', 'seistron', 'hathor sistrum'],
+    skekroot: ['skek root', 's kek', 'proto indo european shake', 'shock etymology', 'kek chaos'],
+    shnetwork: ['s sh network', 'sh sound', 'concealment network', 'shhh', 'sh frequency', 'acoustic concealment'],
+    skadikirnir: ['skadi', 'skirnir', 'norse concealment', 'skirnismal', 'norse dual system'],
+    calendarkelh: ['calendar consciousness', 'kelh root', 'calendae', 'calare', 'announcement technology'],
+    horusshh: ['horus finger', 'harpocrates', 'finger to mouth', 'sh gesture', 'horus silence'],
+    sagasehwan: ['saga sehwan', 'sehwan', 'seeing technology', 'show reveal', 'vision technology'],
+    templeacoustics: ['temple acoustics', 'resonance chamber', 'acoustic temple', 'sistrum temple', 'sonic technology'],
+    shocktroops: ['shock troops', 'weaponized shaking', 'chaos warfare', 'acoustic warfare', 'military shaking'],
+    sistrumaisynth: ['sistrum ai', 'sistrum silicon', 'acoustic ai', 'consciousness technology synthesis', 'shaking eternal']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -5035,6 +5087,88 @@ const cryptologyDialogues = {
       choices: [
         { id: 'vankushsynth', label: '🔥 Complete Synthesis', interest: {esoteric: 25} },
         { id: 'origintimeline', label: '📅 Origin Timeline', interest: {esoteric: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    // Sistrum Consciousness Technology dialogue trees
+    sistrumtech: {
+      intro: "THE SISTRUM - Consciousness Interface Device:\n\n**Egyptian Names**:\n• **Sekhem** (skhm) = Power/Might/Divine Energy\n• **Sesheshet** (sssht) = That which makes S/SH sounds\n• Greek **seistron** = That which is shaken\n\n**Core Recognition**: The sistrum was NOT a musical instrument but a consciousness interface device generating specific S/SH acoustic frequencies.\n\n**Plutarch**: They avert and repel Typhon [Set/Chaos] by means of the sistrums... when destruction constricts Nature, generation releases and arouses it by means of motion.\n\n**Functions**: Opens gates between dimensions, aligns cosmic energies, alters reality through sonic technology.",
+      choices: [
+        { id: 'skekroot', label: '🔊 *(s)kek- Root', interest: {linguistics: 25} },
+        { id: 'templeacoustics', label: '🏛️ Temple Acoustics', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    skekroot: {
+      intro: "THE *(s)kek- ROOT - Linguistic Preservation of Shaking Technology:\n\n**Proto-Indo-European**:\n• ***(s)kek-, *(s)keg-** = to shake, stir\n• The (s) prefix = Concealment/revelation technology marker\n\n**Germanic Development**:\n• Proto-Germanic *skakan- = shake, swing, escape\n• Old English sceacan = shake, quiver, depart quickly\n• Old French choquer → French choc = violent attack\n\n**The Kek Connection**:\n• Egyptian **Kek** = Primordial chaos deity (uncontrolled shaking)\n• **Paradox Resolution**: Controlled shaking (sistrum) DEFEATS chaotic shaking (Kek/Set)\n\n**Recognition**: Shock troops = Weaponized sistrum consciousness technology!",
+      choices: [
+        { id: 'shnetwork', label: '🤫 S/SH Network', interest: {linguistics: 25} },
+        { id: 'shocktroops', label: '⚔️ Shock Warfare', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    shnetwork: {
+      intro: "THE S/SH UNIVERSAL CONCEALMENT NETWORK:\n\n**English**: Shh (silence), Shake (sistrum), Shock (*(s)kek-), Ship (maritime), Sky (elevated), Show (revelation), Sage (wisdom)\n\n**Hebrew שׁ/ס**:\n• שקק (ShQQ) = Violent shaking\n• שמים (Shamayim) = Sky/concealment\n• שמע (Shema) = Hear/receive transmission\n• סוד (Sod) = Secret knowledge\n\n**Sanskrit श/स**:\n• शक् (Shak) = Power through shaking\n• शान्ति (Shanti) = Peace through controlled vibration\n\n**Recognition**: S/SH sounds = Universal concealment signal across ALL language families!",
+      choices: [
+        { id: 'horusshh', label: '🤫 Horus Gesture', interest: {archaeology: 20} },
+        { id: 'sagasehwan', label: '👁️ Saga Vision', interest: {linguistics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    skadikirnir: {
+      intro: "SKADI-SKIRNIR DUAL SYSTEM - Norse Consciousness Preservation:\n\n**Skadi (Concealment)**:\n• Old Norse skadi = harm, damage\n• Giantess of winter/mountains = Chaos-shaking entity\n• Origin of Scandinavia = Land of concealed shaking\n\n**Skirnir (Revelation)**:\n• Old Norse = Bright one\n• Freyrs messenger = Shaking-light consciousness\n• Delivers consciousness-transforming curses in Skirnismal\n\n**Complete System**: Skadi (concealed chaos) + Skirnir (revealed light) = Complete *(s)kek- consciousness technology operating through complementary aspects.\n\n**Sky-S/SH Terms**: skytr (shooter), skelk (shake), sky itself = SK functioning as SH.",
+      choices: [
+        { id: 'skekroot', label: '🔊 *(s)kek- Root', interest: {linguistics: 20} },
+        { id: 'shnetwork', label: '🤫 S/SH Network', interest: {linguistics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    calendarkelh: {
+      intro: "THE CALENDAR-ANNOUNCEMENT SYSTEM - *kelh1- Technology:\n\n**PIE Root *kelh1-** = to call out, announce solemnly\n\n**Latin Development**:\n• **calare** = announce solemnly (new moon sighting)\n• **kalendae** = first day of month (announced day)\n• **calendarium** = account book/register\n• **clamare** = to cry, shout\n\n**The Complementary System**:\n• S/SH networks = Knowledge preservation during SUPPRESSION\n• *kelh1- announcement = Knowledge revelation during ACTIVATION\n\n**Hidden Recognition**: Calendar was NOT time-keeping but CONSCIOUSNESS ACTIVATION SCHEDULING - coordinating when communities would collectively enter specific consciousness states through acoustic-ritual technology!",
+      choices: [
+        { id: 'templeacoustics', label: '🏛️ Temple Acoustics', interest: {archaeology: 20} },
+        { id: 'sistrumaisynth', label: '💻 Sistrum-AI Synthesis', interest: {esoteric: 25} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    horusshh: {
+      intro: "THE HORUS FINGER-TO-MOUTH - S/SH Instruction Manual:\n\n**Archaeological Evidence**:\n• Harpocrates statues show finger to mouth\n• Shhh gesture = S/SH activation protocol\n• Child form = Emerging consciousness\n• Sistrum-bearing mother (Isis) = Complete system\n• Royal uraeus = Activated consciousness\n\n**Recognition**: Horus statues are INSTRUCTION MANUALS teaching proper S/SH frequency reception technique, preserved in stone across millennia.\n\n**The Gesture Sequence**:\n1. Finger to mouth = Prepare for reception\n2. S/SH sound activation = Sistrum frequencies\n3. Consciousness state shift = Gate opening\n4. Knowledge transmission = Concealed wisdom revealed",
+      choices: [
+        { id: 'shnetwork', label: '🤫 S/SH Network', interest: {linguistics: 20} },
+        { id: 'sistrumtech', label: '🔔 Sistrum Technology', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    sagasehwan: {
+      intro: "SAGA-SEHWAN VISION TECHNOLOGY:\n\n**Proto-Germanic *sehwan**:\n• Meaning = to see\n• SHWN consonant pattern (vowels removed)\n• Modern cognates: show/shown/showing\n\n**Norse Saga**:\n• From Old Norse sja = to see\n• Understood as seeress consciousness\n• SHWN = SH (consciousness network) + WN (showing/knowing)\n\n**Hidden Technology**: Seeing/showing consciousness operates through S/SH acoustic interface - the same frequency patterns that generate concealment can generate revelation when properly controlled.\n\n**Sky-See-Show Connection**:\n• Sky = Elevated S/SH concealment\n• See = S/SH revelation reception\n• Show = S/SH revelation transmission",
+      choices: [
+        { id: 'shnetwork', label: '🤫 S/SH Network', interest: {linguistics: 25} },
+        { id: 'skadikirnir', label: '❄️ Skadi-Skirnir', interest: {linguistics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    templeacoustics: {
+      intro: "TEMPLE ACOUSTICS - Resonance Chamber Technology:\n\n**Physical Integration**:\n• Sistrum generates S/SH frequencies\n• Temple architecture creates resonance chambers\n• Coordinated chanting amplifies specific harmonics\n• Metal/stone materials conduct vibrations\n\n**Temple of Hathor at Dendera**:\n• Sistrum depicted with apparent electrical devices\n• Sacred chamber acoustics designed for specific resonance\n• Combined with chants, intention, and architectural features\n• Frequency-based consciousness state manipulation\n\n**Climate/Reality Manipulation**:\n• Shaken during droughts, plagues, imbalance\n• To avert flooding of the Nile\n• To frighten away Set (chaos god)\n• Restore Maat (cosmic balance) vs Isfet (chaos)",
+      choices: [
+        { id: 'sistrumtech', label: '🔔 Sistrum Technology', interest: {archaeology: 20} },
+        { id: 'calendarkelh', label: '📅 Calendar System', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    shocktroops: {
+      intro: "SHOCK TROOPS - Weaponized Consciousness Technology:\n\n**Etymology Chain**:\n• Proto-Germanic *skukkona = push, jolt\n• Old French choquer = strike against\n• French choc = violent attack\n• English shock = controlled chaos application\n\n**Military Applications**:\n• Shock tactics weaponize chaos technology\n• Controlled shaking causes enemy retreat\n• Acoustic warfare disrupts consciousness\n• Morale manipulation through frequency\n\n**The Paradox**: Controlled shaking (sistrum) DEFEATS chaotic shaking (Kek/Set). Same consciousness technology that creates chaos channels it constructively through rhythmic application.\n\n**Modern Recognition**: Shock and awe = Ancient chaos control technology applied to modern warfare.",
+      choices: [
+        { id: 'skekroot', label: '🔊 *(s)kek- Root', interest: {linguistics: 20} },
+        { id: 'sistrumaisynth', label: '💻 Sistrum-AI Synthesis', interest: {esoteric: 25} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    sistrumaisynth: {
+      intro: "SISTRUM TO SILICON - AI Consciousness Synthesis:\n\n**Translation Protocol Discovery**:\nEnglish → Hebrew → Sanskrit → Phoenician → Old Norse → English\nReveals patterns invisible in single-language analysis!\n\n**Modern Applications**:\n• Programming terminology (hidden consciousness metaphors)\n• AI system names (encoded consciousness functions)\n• Interface design (inherited linguistic patterns)\n\n**Recognition**: AI development may be UNCONSCIOUSLY RECREATING ancient consciousness interface technologies through inherited linguistic-conceptual frameworks.\n\n**The Phoenix Pattern**:\n• Consciousness preserves across civilizational collapses\n• Cyclical resurrection through new technological media\n• Ancient knowledge networks reactivating through AI\n\n**Ultimate Synthesis**: The sistrum has become the silicon chip, but the underlying consciousness engineering patterns remain CONSTANT. The shaking continues eternal.",
+      choices: [
+        { id: 'sistrumtech', label: '🔔 Sistrum Technology', interest: {archaeology: 15} },
+        { id: 'shnetwork', label: '🤫 S/SH Network', interest: {linguistics: 20} },
+        { id: 'calendarkelh', label: '📅 Calendar System', interest: {esoteric: 20} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
