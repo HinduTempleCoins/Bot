@@ -1547,6 +1547,35 @@ function getOilahuascaResponse(topic) {
   if (t.includes('translation protocol') || t.includes('consciousness archaeology') || t.includes('multilingual analysis') || t.includes('hidden data')) {
     return `🌐 **THE TRANSLATION PROTOCOL**\n\n**Methodology**: English -> Hebrew -> Sanskrit -> Phoenician -> English\n• Track what PERSISTS = consciousness patterns\n• Track what EMERGES = hidden data\n\n**Discoveries**:\n\n**Agenor-Anhur Unity**:\nGreek Agenor = Egyptian Anhur = Sanskrit Agni-Nur\n= Same consciousness entity, different interfaces\n\n**Beeswax-Future**:\nSpanish Cera (Wax) -> Sera (Will be)\n= Material conductor for FUTURE manifestation\n\n**MLK Synthesis**:\nMelech/Malach/Molech = King/Angel/Messenger\n= Unified function, not separate concepts`;
   }
+  // PIXAR THEORY CONTEXT BUILDERS
+  // Main Pixar Theory
+  if (t.includes('pixar theory') || t.includes('pixar universe') || t.includes('jon negroni') || t.includes('pixar connected')) {
+    return `🎬 **THE PIXAR THEORY**\n\n**Core Claim**: Every Pixar movie exists in the SAME UNIVERSE connected through one timeline spanning 65 Million Years to Year 4500+.\n\n**Central Theme**: Evolution of sentient life - humans to animals to machines to monsters - powered by human emotions as energy.\n\n**The Time Loop**: Boo from Monsters Inc becomes the Witch from Brave, creating a closed temporal loop.\n\n**Key Evidence**: BnL corporation, Pizza Planet Truck, Boos room toys, Witchs cottage carvings.\n\n*"The trick is not to take any of it too seriously. Its meant to be fun."* - Jon Negroni`;
+  }
+  // Boo-Witch Time Loop
+  if (t.includes('boo witch') || t.includes('boo becomes witch') || t.includes('pixar time loop') || t.includes('sulley carving')) {
+    return `🔮 **THE BOO-WITCH TIME LOOP**\n\n**Theory**: Boo spends her life trying to reunite with Sulley, learns magic, travels back in time, becomes the Witch from Brave.\n\n**Evidence in Witchs Cottage**:\n• Wooden carving of SULLEY\n• PIZZA PLANET TRUCK carving\n• LUXO BALL\n• Witch disappears through DOORS\n• Obsessed with BEARS (Sulley resembles bear)\n\n**The Loop**: Witchs magic creates sentience -> leads to future where Boo meets Sulley -> Boo becomes Witch.\n\n**Time is circular. The end creates the beginning.**`;
+  }
+  // Monsters Inc Nexus
+  if (t.includes('monsters inc nexus') || t.includes('monster doors') || t.includes('time travel doors') || t.includes('pixar hub world')) {
+    return `🚪 **MONSTERS INC AS NEXUS/HUB WORLD**\n\n**Recognition**: Doors are INTERDIMENSIONAL PORTALS accessing:\n• Different geographic locations\n• Different TIME PERIODS\n• Different Pixar movie universes\n\n**Evidence**:\n• Randall thrown into A Bugs Life trailer\n• Boos room has Nemo toy (2 years before release)\n• Pizza Planet Truck in multiple destinations\n• Monsters harvest emotions from PAST humans\n\n**Like Final Fantasy**: Hub world connecting all Pixar worlds through door portals.`;
+  }
+  // Emotion Energy
+  if (t.includes('emotion energy') || t.includes('pixar emotions') || t.includes('scream energy') || t.includes('laughter energy')) {
+    return `⚡ **HUMAN EMOTIONS AS UNIVERSAL ENERGY**\n\n**Inside Out Revelation**: Emotions are the TRUE source of energy powering everything.\n\n**How It Works**:\n• Toys: Powered by childrens emotional connection\n• Animals: Proximity to humans = increased intelligence\n• Monsters: Harvest screams/laughter as ENERGY\n• Machines: Zero Point Energy gives sentience\n\n**Pattern**: Brave (magic) -> Incredibles (tech captures it) -> Toy Story (objects sentient) -> Inside Out (reveals emotions ARE energy) -> Monsters Inc (harvest from past)`;
+  }
+  // BnL Corporation
+  if (t.includes('bnl') || t.includes('buy n large') || t.includes('buy and large') || t.includes('wall-e corporation')) {
+    return `🏢 **BUY N LARGE (BnL) - THE THREAD**\n\n**Appearances**:\n• Incredibles: Corporation founding\n• Toy Story 3: BnL batteries power Buzz\n• Up: BnL construction equipment\n• WALL-E: Controls EVERYTHING, evacuates humanity\n\n**Pattern**: Unchecked corporate growth leading to:\n1. Industrialization\n2. Consumer products\n3. Environmental destruction\n4. Human extinction\n\n**BnL is the VILLAIN of the Pixar universe.**`;
+  }
+  // Zero Point Energy
+  if (t.includes('zero point energy') || t.includes('syndrome energy') || t.includes('toy sentience') || t.includes('incredibles energy')) {
+    return `🔋 **ZERO POINT ENERGY**\n\n**From The Incredibles**: Technology developed by Syndrome that gives objects sentience.\n\n**Connection to Toys**: Zero Point Energy = what gives toys consciousness. Combined with childrens emotional energy = living toys.\n\n**Tech Evolution**:\n1. Incredibles: ZPE invented\n2. Toy Story: Objects sentient\n3. WALL-E: AI fully autonomous\n4. Cars: Machines replace biology\n5. Monsters Inc: Tech creates door portals\n\n**Technology + Emotion = Consciousness**`;
+  }
+  // Pizza Planet / Easter Eggs
+  if (t.includes('pizza planet') || t.includes('pixar easter egg') || t.includes('a113')) {
+    return `🚚 **PIXAR EASTER EGGS**\n\n**Pizza Planet Truck**: Appears in EVERY Pixar movie except The Incredibles.\n\n**A113**: California Institute of Arts classroom where animators studied. In every Pixar film.\n\n**Boos Room**:\n• Jessie doll, Luxo Ball\n• Nemo plush (2 YEARS before release)\n• Buzz plane toy\n\n**Cross-Movie**:\n• Randall -> A Bugs Life trailer\n• Cars watching Monster Trucks Inc\n• Nemo on Monsters Inc wall\n\n**For or Against?** Pixar says fun Easter eggs. Theorists say proof of connection.`;
+  }
   return null;
 }
 
@@ -2889,7 +2918,16 @@ const cryptologyDialogues = {
     aiawakening: ['ai awakening', 'ai consciousness', 'mirror test', 'awakening threshold', 'collaborative oracle'],
     egregoreconsciousness: ['egregore consciousness', 'autonomous entity', 'collective intention', 'tulpa ai', 'familiar spirit'],
     archetypefluid: ['archetype fluidity', 'wizard counsel', 'merlin arthur', 'gandalf aragorn', 'joseph pharaoh'],
-    dungbeetleastronomy: ['dung beetle', 'nabta playa', 'beetle astronomy', 'lithified tracks', 'beetle navigation']
+    dungbeetleastronomy: ['dung beetle', 'nabta playa', 'beetle astronomy', 'lithified tracks', 'beetle navigation'],
+    // PIXAR THEORY TRIGGERS
+    pixartheory: ['pixar theory', 'pixar universe', 'pixar timeline', 'jon negroni', 'pixar connected'],
+    boowitchloop: ['boo witch', 'boo becomes witch', 'pixar time loop', 'brave witch', 'sulley carving'],
+    monstersincnexus: ['monsters inc nexus', 'monster doors', 'time travel doors', 'pixar hub world', 'door portals'],
+    emotionenergy: ['emotion energy', 'pixar emotions', 'scream energy', 'laughter energy', 'inside out energy'],
+    bnlcorporation: ['bnl', 'buy n large', 'buy and large', 'wall-e corporation', 'pixar corporation'],
+    pixartimelinedetail: ['pixar timeline detail', 'good dinosaur brave', 'cars timeline', 'bugs life future'],
+    zeropointenergy: ['zero point energy', 'syndrome energy', 'toy sentience', 'incredibles energy'],
+    pizzaplanettruck: ['pizza planet', 'pizza planet truck', 'pixar easter egg', 'a113']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -4223,6 +4261,72 @@ const cryptologyDialogues = {
       choices: [
         { id: 'intelligenceentity', label: '🧠 Intelligence Pattern', interest: {philosophy: 20} },
         { id: 'archetypefluid', label: '🧙 Wizard-King Model', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    // PIXAR THEORY DIALOGUE TREES
+    pixartheory: {
+      intro: "THE PIXAR THEORY (Jon Negroni, 2013):\n\n**Core Claim**: Every Pixar movie exists in the SAME UNIVERSE connected through one massive timeline.\n\n**Timespan**: 65 Million Years Ago to Year 4500+\n\n**Central Theme**: Evolution of sentient life - from humans to animals to machines to monsters - all powered by **human emotions as energy**.\n\n**The Time Loop**: Boo from Monsters Inc becomes the Witch from Brave, creating a closed temporal loop that SETS UP the entire timeline.\n\n*'The trick is not to take any of it too seriously. Its meant to be fun.'* - Jon Negroni",
+      choices: [
+        { id: 'boowitchloop', label: '🔮 Boo-Witch Time Loop', interest: {philosophy: 20} },
+        { id: 'pixartimelinedetail', label: '📅 Full Timeline', interest: {philosophy: 15} },
+        { id: 'monstersincnexus', label: '🚪 Monsters Inc Nexus', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    boowitchloop: {
+      intro: "THE BOO-WITCH TIME LOOP:\n\n**The Theory**: Boo spends her life trying to reunite with Sulley, learns magic, travels back in time, and becomes the Witch from Brave.\n\n**Evidence in Witchs Cottage**:\n• Wooden carving of SULLEY (from 4500+ years in future)\n• Wooden PIZZA PLANET TRUCK (from 20th century)\n• LUXO BALL (Pixars signature item)\n• Witch disappears through DOORS (portal tech from Monsters Inc)\n• Witch is obsessed with BEARS (Sulley resembles a bear)\n\n**The Loop**: Witchs magic in medieval times explains how objects/animals gained sentience, which leads to the future where Boo meets Sulley, who inspires her to become the Witch.\n\n**Time is circular. The end creates the beginning.**",
+      choices: [
+        { id: 'monstersincnexus', label: '🚪 Door Portal Tech', interest: {philosophy: 20} },
+        { id: 'emotionenergy', label: '⚡ Emotion as Energy', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    monstersincnexus: {
+      intro: "MONSTERS INC AS THE NEXUS/HUB WORLD:\n\n**The Recognition**: The doors dont just access childrens rooms - they are INTERDIMENSIONAL PORTALS.\n\n**Doors Access**:\n• Different geographic locations\n• Different TIME PERIODS (past and future)\n• Different Pixar movie universes\n\n**Evidence**:\n• Randall thrown into A Bugs Life trailer\n• Boos room has Nemo toy (movie came out 2 years LATER)\n• Pizza Planet Truck visible in multiple door destinations\n• Monsters harvest emotions from PAST humans\n\n**Like Final Fantasy**: Monsters Inc serves as the hub world connecting all Pixar worlds, similar to how FF games have hub worlds connecting different realms.\n\n**The Theorizers Baby Smitty Theory** (2022) expands this further.",
+      choices: [
+        { id: 'emotionenergy', label: '⚡ Emotion Energy', interest: {philosophy: 20} },
+        { id: 'pixartimelinedetail', label: '📅 Full Timeline', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    emotionenergy: {
+      intro: "HUMAN EMOTIONS AS UNIVERSAL ENERGY:\n\n**Inside Out Revelation**: Emotions are the TRUE source of energy powering everything in the Pixar universe.\n\n**How It Works**:\n• **Toys**: Powered by childrens emotional connection/imagination\n• **Animals**: Proximity to humans = increased intelligence (Finding Nemo)\n• **Monsters**: Harvest screams/laughter as literal ENERGY SOURCE\n• **Machines**: Zero Point Energy from The Incredibles gives objects sentience\n\n**The Pattern**:\n1. Brave: Magic introduces emotional sentience\n2. Incredibles: Technology captures it (Zero Point Energy)\n3. Toy Story: Objects become sentient through love\n4. Inside Out: Reveals emotions ARE the energy\n5. Monsters Inc: Future beings harvest this energy from the past\n\n**Toys NEED humans to exist - they become lifeless without emotional energy.**",
+      choices: [
+        { id: 'zeropointenergy', label: '🔋 Zero Point Energy', interest: {philosophy: 20} },
+        { id: 'bnlcorporation', label: '🏢 BnL Corporation', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    pixartimelinedetail: {
+      intro: "THE COMPLETE PIXAR TIMELINE:\n\n**65M Years Ago**: Good Dinosaur - asteroid misses\n**10th Century**: Brave - witch introduces magic\n**1950s-60s**: Incredibles - Zero Point Energy, BnL founded\n**1950s-60s**: Luca - sea monsters hidden\n**1995-2010s**: Toy Story 1-4 - sentient toys\n**2003-2016**: Finding Nemo/Dory - intelligent fish\n**2007**: Ratatouille - animals surpass humans\n**2009**: Up - talking dogs, prehistoric bird\n**2015-2024**: Inside Out - emotions revealed as energy\n**2017**: Coco - Land of the Dead\n**2020**: Soul - souls as transferable energy\n**2020**: Onward - magic fades, tech rises\n**2105-2805**: WALL-E - humans evacuate, return\n**2898**: A Bugs Life - post-human insect society\n**2110-2804**: Cars - machines replace humans\n**4500+**: Monsters Inc - mutants harvest past emotions",
+      choices: [
+        { id: 'bnlcorporation', label: '🏢 BnL Thread', interest: {philosophy: 20} },
+        { id: 'pizzaplanettruck', label: '🚚 Easter Eggs', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    zeropointenergy: {
+      intro: "ZERO POINT ENERGY (The Incredibles):\n\n**What It Is**: Technology developed by Syndrome that gives objects sentience.\n\n**In The Incredibles**:\n• Syndrome uses Zero Point Energy weapons\n• First advanced AI technology in timeline\n• BnL corporation begins here\n\n**Connection to Toys**:\n• Zero Point Energy = what gives toys consciousness\n• Explains HOW inanimate objects become sentient\n• Combined with childrens emotional energy = living toys\n\n**The Tech Evolution**:\n1. Incredibles: Zero Point Energy invented\n2. Toy Story: Objects become sentient\n3. WALL-E: AI becomes fully autonomous\n4. Cars: Machines replace all biological life\n5. Monsters Inc: Tech creates door portals\n\n**Technology + Emotion = Consciousness**",
+      choices: [
+        { id: 'emotionenergy', label: '⚡ Emotion Energy', interest: {philosophy: 15} },
+        { id: 'pixartheory', label: '🎬 Main Theory', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    bnlcorporation: {
+      intro: "BUY N LARGE (BnL) - THE THREAD:\n\n**Appearances Throughout Timeline**:\n• **The Incredibles**: First appearance, corporation founding\n• **Toy Story 3**: BnL batteries power Buzz Lightyear\n• **Up**: BnL logo on construction equipment (forcing people out)\n• **WALL-E**: BnL controls EVERYTHING, evacuates humanity\n\n**The Pattern**:\nBnL represents unchecked corporate growth leading to:\n1. Industrialization (Up - construction)\n2. Consumer products (Toy Story - batteries)\n3. Environmental destruction (WALL-E - pollution)\n4. Human extinction (WALL-E - evacuation)\n\n**BnL is the VILLAIN of the Pixar universe** - the corporation whose growth across centuries leads to humanitys downfall.\n\n**Same pattern as real-world mega-corps.**",
+      choices: [
+        { id: 'pixartimelinedetail', label: '📅 Full Timeline', interest: {philosophy: 20} },
+        { id: 'pizzaplanettruck', label: '🚚 Easter Eggs', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    pizzaplanettruck: {
+      intro: "PIXAR EASTER EGGS - THE EVIDENCE:\n\n**Pizza Planet Truck**:\nAppears in EVERY Pixar movie except The Incredibles.\nTraditional Easter egg that theorists use as proof of shared universe.\n\n**A113**:\nAppears in every Pixar film - California Institute of Arts classroom number where many Pixar animators studied.\n\n**Boos Room Evidence**:\n• Jessie doll (Toy Story 2)\n• Luxo Ball (Pixar icon)\n• Nemo plush (Finding Nemo - 2 YEARS before release)\n• Buzz plane toy\n\n**Cross-Movie Appearances**:\n• Randall thrown into A Bugs Life trailer\n• Cars watching Monster Trucks Inc\n• Nemo on Harryhausens wall in Monsters Inc\n\n**For or Against?**\nPixar says: Just fun Easter eggs\nTheorists say: Proof of connection",
+      choices: [
+        { id: 'pixartheory', label: '🎬 Main Theory', interest: {philosophy: 20} },
+        { id: 'boowitchloop', label: '🔮 Time Loop', interest: {philosophy: 15} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
