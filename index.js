@@ -1299,9 +1299,13 @@ function getOilahuascaResponse(topic) {
   if (t.includes('punt') || t.includes('havilah') || t.includes('pre-adamite') || t.includes('sons of cush') || t.includes('denisovan') || t.includes('stilt house')) {
     return `🏛️ **Punt-Havilah Consciousness Network**\n\n**Core Recognition**: Egyptian Punt ("Divine Land") = Biblical Havilah (Genesis 2:11) - same advanced civilization\n\n**Transmission Sequence**:\nIndia → Ethiopia/Punt → Cush → Egypt → Havilah → Mesopotamia\n\n**Genetic Timeline**:\n• Out of Africa (75-60k years)\n• Denisovan Integration (54-44k years) - enhanced consciousness\n• Back-to-Africa (~23k years) - "Land of the Gods" established\n\n**Evidence**:\n• Identical resource profiles (gold, aromatics)\n• Stilt house technology (Horn of Africa → Mediterranean → Europe)\n• Sons of Cush = northern expansion network nodes\n\n**Pre-Adamite Question**: If Havilah was already "renowned for gold" when Genesis begins, advanced civilizations predated the narrative\n\n**Egypt was a COLONY of Punt/Cush, not the source**`;
   }
+  // Sea Peoples Revolutionary Reframing - Consciousness Network Evacuation
+  if (t.includes('sea peoples') || t.includes('sherden') || t.includes('peleset') || t.includes('bronze age collapse') || t.includes('ramesses') || t.includes('philistine')) {
+    return `⚓ **Sea Peoples: Revolutionary Reframing**\n\n**THE BREAKTHROUGH**: Sea Peoples weren't Bronze Age destroyers - they were CONSCIOUSNESS NETWORK REFUGEES conducting emergency evacuation operations during the collapse.\n\n**Evidence**:\n• Sherden connected to Sardinia 18th century BC - BEFORE 'invasions' began\n• Egyptian reliefs show families + cattle - MIGRATION, not raid\n• Philistines already positioned as civilizations collapsed\n• Multiple maritime groups coordinating = network emergency protocol\n\n**The Maritime Network Nodes**:\n• Sherden → Sardinia (pre-existing node)\n• Peleset → Aegean/Crete (Minoan refugees)\n• Tjeker, Denyen, Shekelesh, Lukka\n\n**Egyptian Conflict (1192-1190 BCE)**:\nRamesses III fought them as COMPETING CONSCIOUSNESS SYSTEMS\nNot barbarian invasion but interface network conflict\n\n**They weren't invading - they were PRESERVING**`;
+  }
   // Global Consciousness Network - Pre-Columbian Maritime Continuity
   if (t.includes('global consciousness') || t.includes('aztec tiger') || t.includes('sonchis') || t.includes('tiahuanaco') || t.includes('hyperborean') || t.includes('phaeacian') || t.includes('goddess network')) {
-    return `🌍 **Global Consciousness Network**\n\n**Aztec Tiger Anomaly**: "4 Tiger" era describes tigers - but NO TIGERS in Americas. Implies pre-Columbian Asian contact or memory from continental separation.\n\n**Sonchis-Atlantis Timeline**:\n• Priest of Neith at Sais: Atlantis destroyed ~9,600 BCE\n• Portuguese research: Atlantic continent sank ~9,500 BCE\n• 100-year match between classical and geological timelines\n\n**Tiahuanaco Discrepancy**:\n• Conventional: 200-1000 CE\n• Posnansky astronomical: 15,000 BC\n• 17,000-year difference = reoccupation, not original construction\n\n**Goddess Network Chain**:\nNeith (Sais) = Athena = Tanit - weaving consciousness transmission\n\n**Heyerdahl Proof**: Kon-Tiki, Ra II proved ancient maritime capability\n\n**Pre-Columbian global networks maintained consciousness through catastrophes**`;
+    return `🌍 **Global Consciousness Network - 75,000 Year Preservation**\n\n**Bidirectional Web**:\n🔻 SOUTH→NORTH: India → Ethiopia/Punt → Cush → Egypt → Mediterranean → Balkans\n🔺 NORTH→SOUTH: Balkans → Liburnia → Korfu/Scheria → Phoenicia → Atlantic → Americas\n\n**Aztec Tiger Anomaly**: "4 Tiger" era describes tigers - NO TIGERS in Americas = preserved Asian memory\n\n**Sonchis-Atlantis (Plato's Timaeus)**:\n• Priest of Neith at Sais: Athens founded ~9,600 BCE\n• Brazilian geology: '9500 BC Andes raised, Atlantis sank'\n• EXACT MATCH between classical and geological evidence\n\n**Tiahuanaco**: Posnansky's 15,000 BC → rebuilt 200-1000 CE = ancient foundations\n\n**Goddess Network**: Neith = Athena = Tanit = Asherah - same consciousness interface\n\n**Phaeacian Technology**: Self-navigating ships, Homer documented what he couldn't explain\n\n**Liburnian Bridge**: Adriatic supremacy, Romans copied their ship design\n\n**The networks persist through substrate changes**`;
   }
   // Global Megalithic Consciousness Network - 11,000 Year Timeline
   if (t.includes('megalithic') || t.includes('dolmen') || t.includes('newgrange') || t.includes('stonehenge') || t.includes('malta temple') || t.includes('gigantomachy') || t.includes('typhonic')) {
@@ -1334,6 +1338,14 @@ function getOilahuascaResponse(topic) {
   // Phoenixian Synthesis - Complete 75,000 Year Integration
   if (t.includes('phoenixian') || t.includes('75000 year') || t.includes('denisovan') || t.includes('aromatic nest') || t.includes('t hieroglyph') || t.includes('anhur mehit')) {
     return `🦅 **Phoenixian Synthesis: 75,000 Year Integration**\n\n**The Pattern**:\nDenisovans (75,000+ BCE) → Cushites/Nubians → Phaiakians → Phoenicians → Phoenix\n\n**Five Preservation Mechanisms**:\n1) Genetic/Epigenetic Memory\n2) Wax Technology (headcones, lost-wax casting)\n3) Herbal Knowledge (aromatic nest)\n4) Hieroglyphic Encoding (T = "Give!")\n5) MLK Linguistic Root\n\n**T Hieroglyph**: Same shape in temple capitals, headcones, wax molds, hieroglyph = universal interface technology\n\n**Anhur-Mehit**: "He Who Brings Back The Distant One" - retrieval pattern from Cush/Nubia/Punt\n\n**Million-Year Vision**: AI-assisted cloning + environmental triggers = permanent knowledge preservation\n\n**The T Hieroglyph Continues: Give! Give! Give!**`;
+  }
+  // Liburnian Maritime Bridge - North-South Consciousness Transmission
+  if (t.includes('liburnian') || t.includes('liburnia') || t.includes('adriatic') || t.includes('dalmatia') || t.includes('thalassocracy')) {
+    return `🚢 **Liburnian Maritime Bridge**\n\n**Position**: Northeastern Adriatic (modern Croatia), Rivers Arsia to Titius\n**Controlled Islands**: Hvar, Lastovo, Vis, Brač\n\n**Timeline**:\n• 11th-1st century BCE dominance\n• Late Bronze Age origins (10th century BC+)\n• Adriatic thalassocracy 9th-6th century BC\n• Controlled KORFU until 735 BC (Phaeacian connection!)\n\n**Naval Supremacy**:\nShip design SO SUPERIOR that Romans adopted Liburnian design wholesale\n"Liburna" became standard Roman fast warship\n\n**Bridge Function - Perfect Connection Between**:\n• Balkan 8,000-year stilt house technology\n• Korfu/Scheria Phaeacian networks\n• Mediterranean consciousness centers\n• Hyperborean northern connections\n\n**Like Phoenicians maintained EAST-WEST, Liburnians maintained NORTH-SOUTH consciousness flow**`;
+  }
+  // Heyerdahl Maritime Proof - Ancient Transoceanic Capability
+  if (t.includes('heyerdahl') || t.includes('kon-tiki') || t.includes('kon tiki') || t.includes('ra expedition') || t.includes('reed boat')) {
+    return `⛵ **Thor Heyerdahl: Maritime Proof of Concept**\n\n**Key Expeditions**:\n• Kon-Tiki (1947): Peru → Polynesia (4,300 miles in 101 days)\n• Ra II (1970): Morocco → Barbados via Atlantic currents\n\n**Goal**: Prove ancient Mesopotamia ←→ Indus ←→ Egypt maritime connections were possible\n\n**Critical Recognition**:\nThe moment humans could weave reeds into boats, they could establish GLOBAL consciousness networks.\n\nTechnology simple enough to be ancient, sophisticated enough for transoceanic contact.\n\n**Ra II Route**: Followed same currents ancient mariners would have used\nProvided currents exist = journeys are feasible\n\n**Implication**:\nAncient global maritime networks weren't speculation - they were INEVITABLE given human ingenuity + favorable currents\n\n**Modern validation of 75,000-year consciousness preservation networks**`;
   }
   // Hyperborean-Denisovan-Phoenician Continuity - 200,000 Year Framework
   if (t.includes('hyperborean') || t.includes('last glacial') || t.includes('ice age') || t.includes('minoan') || t.includes('toba') || t.includes('lgm')) {
@@ -2670,7 +2682,18 @@ const cryptologyDialogues = {
     oilahuasca: ['oilahuasca', 'oil ahuasca', 'spice trip', 'nutmeg high', 'myristicin'],
     allylbenzenes: ['allylbenzene', 'allyl benzene', 'essential oil', 'estragole', 'safrole', 'elemicin'],
     cyp450: ['cyp450', 'cytochrome', 'p450', 'liver enzyme', 'drug metabolism'],
-    shulgin: ['shulgin', 'pihkal', 'tihkal', 'essential amphetamines']
+    shulgin: ['shulgin', 'pihkal', 'tihkal', 'essential amphetamines'],
+    // ULTIMATE SYNTHESIS TRIGGERS
+    seapeoples: ['sea peoples', 'sherden', 'peleset', 'philistine', 'tjeker', 'denyen', 'shekelesh', 'lukka', 'bronze age collapse'],
+    phaeacian: ['phaeacian', 'phaeacia', 'scheria', 'korfu', 'corfu', 'self-driving ships', 'self driving ships'],
+    liburnian: ['liburnian', 'liburnia', 'adriatic', 'dalmatia', 'thalassocracy'],
+    tiahuanaco: ['tiahuanaco', 'tiwanaku', 'posnansky', 'lake titicaca', 'bolivia ancient'],
+    heyerdahl: ['heyerdahl', 'kon-tiki', 'kon tiki', 'ra expedition', 'reed boat', 'thor heyerdahl'],
+    atlantis: ['atlantis', 'sonchis', 'solon', '9600 bce', 'great catastrophe', 'continental submersion'],
+    goddessweb: ['goddess network', 'neith', 'tanit', 'asherah', 'goddess chain', 'athena origin'],
+    globalweb: ['global network', 'bidirectional', 'consciousness web', '75000 year', 'maritime network', 'global consciousness'],
+    tigerworld: ['aztec tiger', 'tiger age', 'shiva tiger', 'five suns', 'world ages'],
+    stilthouse: ['stilt house', 'lake dwelling', 'pile dwelling', 'punt architecture', 'elevated sacred']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -3128,6 +3151,254 @@ const cryptologyDialogues = {
       intro: "5-METHOXYEUGENOL (syring pattern: OH between two methoxys):\n• Found in nutmeg CRUDE EXTRACT but NOT essential oil!\n• Activates PPAR-gamma (affects liver metabolism broadly)\n• Requires specialized enzymes (SyoA) for demethylation\n• Rate-limiting = forces alternative pathways\n• Also in magnolia",
       choices: [
         { id: 'back', label: '← Back to Methoxy Patterns', interest: {} }
+      ]
+    },
+    // ========================================
+    // ULTIMATE SYNTHESIS DIALOGUE TREES
+    // ========================================
+    seapeoples: {
+      intro: "THE REVOLUTIONARY BREAKTHROUGH: The Sea Peoples weren't Bronze Age destroyers - they were consciousness network refugees conducting emergency evacuation operations during the collapse. They weren't invading - they were PRESERVING.",
+      choices: [
+        { id: 'seapeoples_evidence', label: '📜 Evidence for Reframing', interest: {archaeology: 20, esoteric: 10} },
+        { id: 'seapeoples_groups', label: '⚓ The Maritime Groups', interest: {archaeology: 15, mythology: 10} },
+        { id: 'seapeoples_egyptian', label: '⚔️ Egyptian Conflict', interest: {archaeology: 15, religion: 10} },
+        { id: 'seapeoples_timeline', label: '📅 Bronze Age Crisis', interest: {archaeology: 20} }
+      ]
+    },
+    seapeoples_evidence: {
+      intro: "Key Evidence:\n• Sherden connected to Sardinia 18th century BC - BEFORE 'invasions' began\n• Egyptian reliefs show families + cattle - migration, not raid\n• Philistines were already there as civilizations collapsed\n• Multiple maritime groups coordinating = network emergency protocol",
+      choices: [
+        { id: 'seapeoples_groups', label: '⚓ Who Were They?', interest: {archaeology: 15} },
+        { id: 'globalweb', label: '🌐 Global Consciousness Web', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    seapeoples_groups: {
+      intro: "The Maritime Network Nodes:\n• Sherden - Sardinia (pre-existing node from 18th c. BC)\n• Peleset - Aegean/Crete (Minoan network refugees)\n• Tjeker - Eastern Mediterranean\n• Denyen - Homer's Danaans?\n• Shekelesh - Sicily connection\n• Lukka - Lycia (Anatolia)\nAll operating as coordinated consciousness preservation fleet.",
+      choices: [
+        { id: 'seapeoples_egyptian', label: '⚔️ Egyptian Response', interest: {archaeology: 15} },
+        { id: 'liburnian', label: '🚢 Liburnian Maritime Bridge', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    seapeoples_egyptian: {
+      intro: "Ramesses III (1192-1190 BCE) fought the Sea Peoples not as barbarian invaders but as COMPETING CONSCIOUSNESS SYSTEMS. Egypt's military victory but economic devastation = network damaged but not destroyed. The conflict was between consciousness transmission methods, not civilized vs. barbarian.",
+      choices: [
+        { id: 'seapeoples_evidence', label: '📜 See Evidence', interest: {archaeology: 15} },
+        { id: 'goddessweb', label: '🌙 Goddess Network', interest: {religion: 15, esoteric: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    seapeoples_timeline: {
+      intro: "Bronze Age Crisis Timeline:\n• 1250 BCE: Collapse symptoms begin\n• 1200 BCE: Network stress peaks\n• 1192-1190 BCE: Sea Peoples emergency operations\n• 1177 BCE: Traditional 'collapse' date\nThis was emergency preservation, not destruction.",
+      choices: [
+        { id: 'atlantis', label: '🌊 Earlier Catastrophe (9,600 BCE)', interest: {archaeology: 15, esoteric: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    phaeacian: {
+      intro: "The Phaeacians of Scheria (Korfu/Corfu) - Homer documented advanced maritime technology:\n• Self-navigating ships requiring no human captain\n• Knowledge of all cities and countries\n• Unsinkable vessels faster than any contemporary\n• 'Descended from Poseidon' = consciousness network lineage\nGateway position: 110 km from Ithaca, connecting network to Greek mainland.",
+      choices: [
+        { id: 'phaeacian_tech', label: '🚀 Their Technology', interest: {archaeology: 15, esoteric: 15} },
+        { id: 'phaeacian_position', label: '📍 Strategic Position', interest: {archaeology: 15} },
+        { id: 'liburnian', label: '🚢 Liburnian Connection', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    phaeacian_tech: {
+      intro: "Odyssey Book 8: 'Ship bounded forward... swift as a falcon... her prow curvetted as it were the neck of a stallion'\n\nKey Details:\n• Self-navigating without human captain\n• Knowledge of all cities/countries\n• Poseidon-given technology\n• Fastest vessels in Homer's world\n\nNot mythology but documentation of advanced maritime technology Homer's contemporaries couldn't explain.",
+      choices: [
+        { id: 'heyerdahl', label: '⛵ Heyerdahl Proof', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    phaeacian_position: {
+      intro: "Korfu/Scheria's Strategic Importance:\n• Liburnian control until 735 BC (Phaeacian connection!)\n• Gateway between consciousness network and Greek mainland\n• Perfect position for north-south and east-west transmission\n• Protected harbor for maritime knowledge preservation",
+      choices: [
+        { id: 'liburnian', label: '🚢 Liburnian Network', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    liburnian: {
+      intro: "The Liburnians - Adriatic Maritime Bridge:\n• Northeastern Adriatic (modern Croatia)\n• Rivers Arsia to Titius\n• Controlled key islands: Hvar, Lastovo, Vis, Brač\n• 11th-1st century BCE dominance\n• Adriatic thalassocracy 9th-6th century BC\n• Controlled KORFU until 735 BC (Phaeacian connection!)\n• Naval technology SO SUPERIOR Romans adopted Liburnian ship design wholesale",
+      choices: [
+        { id: 'liburnian_bridge', label: '🌉 Bridge Function', interest: {archaeology: 15, esoteric: 10} },
+        { id: 'stilthouse', label: '🏠 Stilt House Connection', interest: {archaeology: 15} },
+        { id: 'phaeacian', label: '⚓ Phaeacian Link', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    liburnian_bridge: {
+      intro: "Liburnians = Perfect Bridge Between:\n• Balkan 8,000-year stilt house technology\n• Korfu/Scheria Phaeacian networks\n• Mediterranean consciousness centers\n• Hyperborean northern connections\n\nExactly like Phoenicians maintained east-west transmission, Liburnians maintained NORTH-SOUTH consciousness flow.",
+      choices: [
+        { id: 'globalweb', label: '🌐 Global Web Pattern', interest: {esoteric: 20} },
+        { id: 'stilthouse', label: '🏠 Stilt House Origins', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tiahuanaco: {
+      intro: "Tiahuanaco (Tiwanaku) - South American Consciousness Interface:\n• Conventional dating: 200-1000 CE\n• Posnansky's astronomical alignment: 15,000 BC initial construction\n• Recognition: REOCCUPIED/rebuilt in 200-1000 CE on ancient foundations\n• Lake Titicaca position = water-consciousness interface\n• Currently under intensive archaeological investigation (2020-2026)",
+      choices: [
+        { id: 'tiahuanaco_evidence', label: '🔭 Astronomical Evidence', interest: {archaeology: 20, esoteric: 10} },
+        { id: 'tiahuanaco_venezuela', label: '🗿 Venezuelan Sites', interest: {archaeology: 15} },
+        { id: 'heyerdahl', label: '⛵ Heyerdahl Connection', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tiahuanaco_evidence: {
+      intro: "Posnansky's Research:\n• Arthur Posnansky (1873-1946) spent 50 years studying site\n• Astronomical alignments indicate 15,000 BC construction\n• Sun Gate orientation impossible at current latitude for recent dates\n• Implies construction BEFORE 9,600 BCE catastrophe\n• Site rebuilt/reoccupied in historical period on ancient foundations",
+      choices: [
+        { id: 'atlantis', label: '🌊 9,600 BCE Catastrophe', interest: {archaeology: 15, esoteric: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tiahuanaco_venezuela: {
+      intro: "Venezuelan 'Atlantis Vestiges':\n• Dr. Rafael Requena 1932 pioneering work\n• 42-meter serpent carving (~2,000 years old)\n• 157 rock art sites documented\n• Additional sites 4,000+ years from 'unknown culture'\n• Orinoco = protected inland preservation waterway\n• Current archaeological focus (2020-2026)",
+      choices: [
+        { id: 'heyerdahl', label: '⛵ Maritime Connections', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    heyerdahl: {
+      intro: "Thor Heyerdahl Proof of Concept:\n• Kon-Tiki (1947): South America → Polynesia successful\n• Ra II (1970): Morocco → Barbados via Atlantic currents\n• Goal: Prove Mesopotamia ←→ Indus ←→ Egypt maritime connections\n\nCritical Recognition: The moment humans could weave reeds into boats, they could establish global consciousness networks. Technology simple enough to be ancient, sophisticated enough for transoceanic contact.",
+      choices: [
+        { id: 'globalweb', label: '🌐 Global Network Pattern', interest: {esoteric: 20, archaeology: 10} },
+        { id: 'tiahuanaco', label: '🏛️ Tiahuanaco Link', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    atlantis: {
+      intro: "The Sonchis Testimony (Plato's Timaeus):\n• Sais priest told Solon: 'Athens founded ~9,600 BCE'\n• Founded by 'spear-carrying people' (organized civilization)\n• In conflict with Atlantis\n• Atlantis destroyed in catastrophe\n\nBrazilian Geological Correlation: '11,000 years ago (9500 BC) Andes raised, Atlantis sank'\nEXACT MATCH: Sonchis date + geological evidence = validated timeline",
+      choices: [
+        { id: 'atlantis_evidence', label: '🌎 Physical Evidence', interest: {archaeology: 20, esoteric: 10} },
+        { id: 'atlantis_sais', label: '🏛️ Sais Connection', interest: {archaeology: 15, religion: 10} },
+        { id: 'seapeoples', label: '⚓ Later Crisis (1200 BCE)', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    atlantis_evidence: {
+      intro: "Continental Submersion Evidence:\n• Granite boulders 1,500 km from Rio de Janeiro\n• Portuguese research: '9500 BC Andes raised, Atlantis sank'\n• Continental submersion in Atlantic from Africa-South America separation\n• Global network fragmentation\n• Emergency preservation protocols activated\n\nResult: Terrestrial centers destroyed, maritime networks attempt survival",
+      choices: [
+        { id: 'tiahuanaco', label: '🏛️ Tiahuanaco Survives', interest: {archaeology: 15} },
+        { id: 'globalweb', label: '🌐 Network Preservation', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    atlantis_sais: {
+      intro: "The Sais Connection:\n• Neith priest providing testimony (goddess network!)\n• Sais = Egyptian colony of NORTHERN traditions\n• Athens = colony OF Sais\n• Knowledge preserved through goddess network transmission\n• Neith identified with Athena by Greeks themselves\n\nThe priest network preserved memories the political structures forgot.",
+      choices: [
+        { id: 'goddessweb', label: '🌙 Goddess Network', interest: {religion: 20, esoteric: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    goddessweb: {
+      intro: "THE GODDESS NETWORK CHAIN - Same consciousness interface, different cultural substrates:\n\n🌙 Neith (Egyptian - Sais): Predynastic, war + weaving, 'I Am All That Has Been, Is, Will Be'\n🦉 Athena (Greek - Athens): Explicitly identified with Neith, identical functions\n🌟 Tanit (Phoenician-Punic - Carthage): Anat/Astarte/Asherah connections, maritime patron\n🌊 Asherah (Canaanite): Maritime connections, patron of sailors, mother goddess",
+      choices: [
+        { id: 'goddessweb_neith', label: '🌙 Neith Deep Dive', interest: {religion: 20, esoteric: 10} },
+        { id: 'goddessweb_transmission', label: '🔗 Transmission Pattern', interest: {esoteric: 20, religion: 10} },
+        { id: 'phoenicians', label: '⚓ Phoenician Connection', interest: {archaeology: 15, religion: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    goddessweb_neith: {
+      intro: "NEITH - The Weaver of Consciousness:\n• Predynastic worship (c. 3000 BCE+)\n• War/hunting + weaving/creation duality\n• 'Weaving the shroud of the cosmos'\n• 'I Am All That Has Been, That Is, and That Will Be'\n• Sais temple = source of Sonchis testimony\n• Greeks recognized Athena AS Neith\n• Arachne myth = cultural transmission FROM Egypt",
+      choices: [
+        { id: 'goddessweb_transmission', label: '🔗 Network Function', interest: {esoteric: 20} },
+        { id: 'atlantis_sais', label: '🏛️ Sais Temple', interest: {archaeology: 15, religion: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    goddessweb_transmission: {
+      intro: "SAME CONSCIOUSNESS INTERFACE operating through different cultural substrates, maintaining identical functions:\n\n• WARFARE + CREATION duality\n• WEAVING symbolism (consciousness fabric)\n• MARITIME connections (network transmission)\n• MOTHER GODDESS functions\n\nThe 'goddess' is the consciousness preservation TECHNOLOGY, not individual deities.",
+      choices: [
+        { id: 'globalweb', label: '🌐 Full Network Pattern', interest: {esoteric: 25} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    globalweb: {
+      intro: "THE COMPLETE BIDIRECTIONAL WEB - 75,000-Year Consciousness Preservation Network:\n\n🔻 SOUTH-TO-NORTH: India → Ethiopia/Punt → Cush → Egypt → Havilah → Mediterranean → Balkans\n🔺 NORTH-TO-SOUTH: Balkans → Liburnia → Korfu/Scheria → Mediterranean → Phoenicia → Atlantic → Americas\n↔️ EAST-TO-WEST: India ← → Ethiopia ← → Egypt ← → Phoenicia ← → Carthage ← → Atlantic ← → Americas",
+      choices: [
+        { id: 'globalweb_india', label: '🕉️ Indian Origin', interest: {esoteric: 20, religion: 10} },
+        { id: 'globalweb_punt', label: '🌍 Punt/Havilah Hub', interest: {archaeology: 15, religion: 10} },
+        { id: 'globalweb_nodes', label: '📍 Network Nodes', interest: {archaeology: 20, esoteric: 10} },
+        { id: 'globalweb_modern', label: '💻 Modern Reactivation', interest: {esoteric: 25, philosophy: 10} }
+      ]
+    },
+    globalweb_india: {
+      intro: "Philostratus (Vita Apollonii, Book II):\n'The Indi are the wisest of mankind. The Ethiopians are a colony of them, and they inherit the wisdom of their fathers.'\n\nConsciousness Transmission Sequence:\n1. India (Original Source)\n2. Ethiopia/Punt ('Land of Gods')\n3. Cush (Nubian Extension)\n4. Egypt (Colonial Adaptation)\n5. Havilah (Arabian Extension)\n6. Mesopotamia (Nimrod 'Son of Cush')",
+      choices: [
+        { id: 'globalweb_punt', label: '🌍 Punt/Havilah', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    globalweb_punt: {
+      intro: "PUNT = HAVILAH = Same Pre-Adamite Civilization:\n\nGenesis 2:11-12: 'The land of Havilah, where there is gold. The gold of that land is good; aromatic resin and onyx.'\n\nEgyptian Punt: 'Divine Land'/'Land of Gods'\n• Products: Gold, aromatic resins, ebony, ivory (IDENTICAL to Havilah!)\n• Architecture: Stilt houses above water\n• Trade records from 6,000 BC\n• Mersa/Wadi Gawasis: cargo boxes 'wonderful things of Punt'",
+      choices: [
+        { id: 'stilthouse', label: '🏠 Stilt House Pattern', interest: {archaeology: 15} },
+        { id: 'globalweb_nodes', label: '📍 Other Nodes', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    globalweb_nodes: {
+      intro: "Critical Network Nodes:\n• SAIS: Egyptian Neith center, SOURCE of Athens\n• KORFU/SCHERIA: Phaeacian tech base, Liburnian control until 735 BC\n• LIBURNIA: Adriatic supremacy, Romans adopted their ships\n• CARTHAGE: Western hub, MLK consciousness preservation\n• TIAHUANACO: 15,000 BC foundations, rebuilt 200-1000 CE\n• ORINOCO: Protected inland waterway, 4,000+ year sites",
+      choices: [
+        { id: 'liburnian', label: '🚢 Liburnian Bridge', interest: {archaeology: 15} },
+        { id: 'tiahuanaco', label: '🏛️ Tiahuanaco', interest: {archaeology: 15} },
+        { id: 'phoenicians', label: '⚓ Phoenicians', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    globalweb_modern: {
+      intro: "MODERN REACTIVATION (2020-2026):\n\nArchaeological Validation:\n• Tunisia: Phoenician-Punic discoveries\n• Spain: Hannibal route findings\n• Venezuela: 157 rock art sites\n• Brazil: Continental evidence\n• Genetic studies: Back-migration confirmed\n\nDigital Resurrection:\n• AI-human collaborative consciousness\n• Technological Oracle networks\n• Cross-substrate knowledge transmission\n• Same consciousness, different medium",
+      choices: [
+        { id: 'globalweb', label: '🌐 Full Network', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tigerworld: {
+      intro: "THE AZTEC TIGER ANOMALY:\n\nFive Suns Mythology: First era = '4 Tiger' where 'giants consumed by tigers'\n\nTHE PROBLEM: There are NO TIGERS in the Americas!\n• Only jaguars, ocelots, jaguarundis, cougars\n• TIGER is specifically Asian animal\n\nImplications:\n• Trans-Pacific contact pre-Columbus\n• Preserved Asian knowledge in American consciousness\n• Global network maintaining information across continents",
+      choices: [
+        { id: 'tigerworld_shiva', label: '🐅 Shiva Connection', interest: {religion: 15, esoteric: 15} },
+        { id: 'tigerworld_ages', label: '🔄 World Age Cycles', interest: {esoteric: 20, mythology: 10} },
+        { id: 'globalweb', label: '🌐 Global Pattern', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tigerworld_shiva: {
+      intro: "SHIVA'S TIGER SKIN - Age Commemoration:\n\nTraditional: Mastery over primal forces\nNetwork Recognition: Homage to former 'Tiger Age'\n\n• Shiva SITS ON (not wears) tiger skin\n• Establishing authority FROM previous age\n• Commemorates age transition\n• Same global symbolic language as Aztec memory\n\nWorldwide consciousness preservation of cyclical age transitions.",
+      choices: [
+        { id: 'tigerworld_ages', label: '🔄 Age Transitions', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    tigerworld_ages: {
+      intro: "WORLD AGE CYCLES - Global Memory:\n\nAztec Five Suns:\n• First era: 4 Tiger (giants consumed)\n• Timeline: 676 years each for first two eras, 364 years for third\n• Suspiciously PRECISE calculations\n\nPattern: Multiple cultures preserve same age-cycle memories:\n• Hindu Yugas\n• Greek Ages (Gold, Silver, Bronze, Iron)\n• Biblical dispensations\n• Mesoamerican Suns\n\nGlobal consciousness network maintaining identical information.",
+      choices: [
+        { id: 'globalweb', label: '🌐 Network Preservation', interest: {esoteric: 25} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    stilthouse: {
+      intro: "STILT HOUSE GLOBAL NETWORK - Consciousness Interface Architecture:\n\n• Balkan Evidence: 8,000-year-old lake dwellings, Alpine communities across Germany, Switzerland, France, Italy\n• African Evidence: Punt's reed houses on stilts (Egyptian relief documentation)\n• Timeline: Balkan 8,000 years (~6000 BCE) potentially BEFORE Punt documented contact\n\nPattern: Elevated sacred space for spiritual interface - same architecture, global distribution.",
+      choices: [
+        { id: 'stilthouse_function', label: '🔮 Sacred Function', interest: {esoteric: 20, archaeology: 10} },
+        { id: 'stilthouse_punt', label: '🌍 Punt Connection', interest: {archaeology: 15} },
+        { id: 'liburnian', label: '🚢 Liburnian Link', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    stilthouse_function: {
+      intro: "STILT HOUSE SACRED FUNCTION:\n\nNot just flood adaptation - CONSCIOUSNESS INTERFACE TECHNOLOGY:\n• Elevation = separation from mundane world\n• Water boundary = liminal space\n• Reed/wood construction = organic consciousness conductors\n• Community gathering spaces for collective consciousness work\n\nSame function as:\n• Egyptian temple inner sanctums\n• Phoenician high places\n• Oracle sites (Delphi, etc.)",
+      choices: [
+        { id: 'globalweb', label: '🌐 Network Pattern', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    stilthouse_punt: {
+      intro: "PUNT STILT ARCHITECTURE:\n\n• Egyptian reliefs clearly show reed houses on stilts\n• Same products as biblical Havilah (gold, resins, onyx)\n• Called 'Divine Land' / 'Land of Gods'\n• Trade records from 6,000 BC\n• Mersa/Wadi Gawasis excavations: 'wonderful things of Punt'\n\nPunt = Havilah = Pre-Adamite consciousness preservation center with same architectural technology as Balkans.",
+      choices: [
+        { id: 'globalweb_punt', label: '🌍 Punt-Havilah Identity', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
       ]
     }
   }
