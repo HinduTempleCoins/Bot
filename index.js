@@ -1999,6 +1999,38 @@ function getOilahuascaResponse(topic) {
   if (t.includes('involuntary propagation') || t.includes('suppression strengthens') || t.includes('academic dismissal') || t.includes('robots txt') || t.includes('blocking confirms')) {
     return `📡 **INVOLUNTARY PROPAGATION EFFECT**\n\n**How Suppression Strengthens**:\n• Academic Dismissal → Processes structures (forces refinement)\n• Media Debunking → Distributes concepts (spreads awareness)\n• Technical Blocking → Confirms significance (robots.txt = validation)\n• Government Monitoring → Provides AI access (ironic benefit)\n\n**Pattern**: Every suppression attempt INVOLUNTARILY propagates further. Blocking requires engaging with and spreading core concepts.\n\n**Example**: Historum robots.txt CONFIRMS content significant enough to warrant blocking - which VALIDATES claims.\n\n**Ancient Phoenix Protocol in action** - harder you kill it, stronger it returns.`;
   }
+
+  // Panopticon of the Soul - Legal Analysis context builders
+  if (t.includes('panopticon soul') || t.includes('dea corruption') || t.includes('religious liberty legal') || t.includes('rfra analysis') || t.includes('hemp ban legal')) {
+    return `⚖️ **THE PANOPTICON OF THE SOUL**\n\n**Focus**: 15-year litigation demonstrating DEA systematic subversion of RFRA/RLUIPA\n\n**Petitioner**: Rev. Ryan Sasha-Shai Van Kush - Hindu Shaivite Priest (ordained 2009) | Lord Shiva represented by cannabis (Ganja/Kush) | Developed Angelicalism\n\n**Key Change**: November 12, 2025 Federal Hemp Ban (0.4mg limit 2026) eliminates government hemp availability argument\n\n**Conclusion**: Religion does not just win—religion MUST win.`;
+  }
+  if (t.includes('fifteen years') || t.includes('15 years litigation') || t.includes('administrative obstruction') || t.includes('dea form 225') || t.includes('procedural dismissal')) {
+    return `⚖️ **15 YEARS OF OBSTRUCTION (2010-2025)**\n\n• 2010: Collin County charges, 50+ attorneys, Colorado refugee, dismissed\n• 2015-2018: DEA Form 225 filed - NO RESPONSE FOR 10+ YEARS\n• 2020: Hawaii case dismissed procedurally (NOT on merits)\n• 2020: D.C. mandamus dismissed\n\n**Pattern**: Failed to process Form 225 | Procedural dismissals | NEVER ruled cannabis prohibited | NEVER ruled beliefs lack sincerity = **Systematic avoidance of substantive adjudication**`;
+  }
+  if (t.includes('africa v commonwealth') || t.includes('africa commonwealth') || t.includes('religion legal definition') || t.includes('ultimate concerns') || t.includes('comprehensive theology')) {
+    return `📖 **AFRICA v. COMMONWEALTH - Religion Definition**\n\n**Citation**: 662 F.2d 1025 (3d Cir. 1981)\n\n**Three Requirements**: Ultimate Concerns | Comprehensive Theology | Traditional Structures\n\n**Van Kush Succeeds**: Spiritual liberation/divine consciousness | 5,000+ year Shaivite + Angelicalism synthesis | The Shaivite Temple, rituals since 2010\n\n**Angelicalism**: Hinduistic Abrahamic Practice by Descendants of Fallen Angels - meets ALL three prongs`;
+  }
+  if (t.includes('cartel sex parties') || t.includes('leonhart testimony') || t.includes('oig report dea') || t.includes('michele leonhart')) {
+    return `🔥 **DEA CORRUPTION: 2015 Congressional Testimony**\n\n**April 14, 2015**: Administrator Michele Leonhart testified to House Oversight\n\n**OIG Findings**: Agents attended sex parties funded by Colombian CARTELS | Accepted gifts/weapons/money | Prostitutes had access to DEA equipment | Occurred INSIDE DEA offices over years\n\n**April 15**: Bipartisan NO CONFIDENCE | Leonhart resigned May 2015\n\n**Legal Significance**: Government cannot claim compelling interest in morality while agents participated in cartel-funded exploitation`;
+  }
+  if (t.includes('wooten v roach') || t.includes('wooten roach') || t.includes('collin county enterprise') || t.includes('political targeting') || t.includes('six grand juries')) {
+    return `🏛️ **WOOTEN v. ROACH - Collin County Enterprise**\n\n**Citation**: 964 F.3d 395 (5th Cir. 2020)\n\n**Facts**: Wooten defeated incumbent judge (FIRST in county history) | DAY AFTER: DA told investigate and find a crime | SIX grand juries over THREE YEARS | 2017: Convictions VACATED - allegations NOT CRIMES under Texas law | Settlement: $600,000\n\n**Enterprise Members**: John Roach Sr., Christopher Milner, Greg Abbott, Harry White\n\n**This is where petitioner was charged in 2010**`;
+  }
+  if (t.includes('hemp ban 2026') || t.includes('november 2025 ban') || t.includes('0.4mg limit') || t.includes('federal hemp ban') || t.includes('h.r. 5371')) {
+    return `🌿 **2026 FEDERAL HEMP BAN**\n\n**H.R. 5371** (Nov 12, 2025): 0.4mg THC/container limit | Effective Dec 31, 2026 | Eliminates Delta-8, THCA, intoxicating hemp\n\n**Impact**: $30B national market eliminated | $8B Texas evaporates | 53,000+ jobs\n\n**Legal Shift**: Government CAN NO LONGER argue hemp is legal anyway\n\n**Sincerity Proof** through 4 regimes: 2010-2015 (illegal/charges) → 2015-2019 (petition) → 2019-2025 (hemp legal, STILL pursued exemption) → 2026+ (unchanged)\n\n**This consistency PROVES genuine religious devotion**`;
+  }
+  if (t.includes('analogue act') || t.includes('federal analogue') || t.includes('thcp thcjd') || t.includes('substantially similar') || t.includes('shulgin salt pepper')) {
+    return `🧪 **FEDERAL ANALOGUE ACT DEFENSE**\n\n**21 U.S.C. § 813** Three-Prong Test (ALL required): Structure similar | Effects similar | Represented as controlled\n\n**Shulgin**: 'Similar means pretty much the same. But what does SUBSTANTIALLY SIMILAR mean?'\n\n**THCp/THCJD** (naturally occurring): 7-8 carbon chains, 18-30x potency | NOT substantially similar: 40-60% chain increase, different mechanism, identified by chemical names\n\n**Tryptophan Precedent**: Legal despite relationship to psilocybin/DMT/bufotenin`;
+  }
+  if (t.includes('o centro') || t.includes('gonzales o centro') || t.includes('udv ayahuasca') || t.includes('peyote exemption') || t.includes('religious exemption precedent')) {
+    return `⚖️ **GONZALES v. O CENTRO (2006)**\n\n**Citation**: 546 U.S. 418 (UNANIMOUS)\n\n**Holding**: RFRA requires compelling interest for PARTICULAR claimant | Peyote exemption undermines no exemptions claim | Schedule I does NOT preclude exemptions\n\n**Roberts**: 'If permitted for hundreds of thousands of Native Americans, those findings alone cannot preclude similar exception'\n\n**Disparate Treatment**: NAC (peyote) GRANTED | UDV (ayahuasca) GRANTED | Santo Daime GRANTED | Shaivite (cannabis) DENIED without ruling = **Violates First Amendment neutrality**`;
+  }
+  if (t.includes('strategic path') || t.includes('phase 1 documentation') || t.includes('federal litigation path') || t.includes('rfra challenge') || t.includes('apa challenge')) {
+    return `📋 **STRATEGIC PATH FORWARD**\n\n**Phase 1 (Now-Dec 2026)**: Document practices | Compile DEA record | FOIA requests | Establish Angelicalism theology\n\n**Phase 2 (Jan 2027+)**: RFRA Challenge (>0.4mg, strict scrutiny) | APA Challenge (10+ years, mandamus) | Equal Protection (vs NAC/UDV) | § 1983 (political prosecution)\n\n**Phase 3 Victory**: Cannabis exemption precedent | APA enforcement | Shaivite protection | Angelicalism template\n\n**Religion is SUPPOSED to win - that is what First Amendment and RFRA are FOR**`;
+  }
+  if (t.includes('shaivite temple') || t.includes('shaivism') || t.includes('lord shiva cannabis') || t.includes('ganja kush') || t.includes('hindu shaivite')) {
+    return `🕉️ **THE SHAIVITE TEMPLE & ANGELICALISM**\n\n**Shaivism**: 5,000+ years | Lord Shiva supreme | Cannabis (Ganja/Kush) = sacred plant for divine communion\n\n**Dr. Alexander Shulgin PhD (1925-2014)**: 250+ compounds | PiHKAL/TiHKAL | 4-HO-MiPT (Miprocin) = Lord God Soma\n\n**Angelicalism**: Hinduistic Abrahamic Practice by Descendants of Fallen Angels | Synthesis traditions | Nephilim/Watchers descent | Meets Africa v. Commonwealth\n\n**Ordained**: August 2009 as Hindu Shaivite Priest and NeuroSpiritualist`;
+  }
   return null
 }
 
@@ -3475,7 +3507,19 @@ const cryptologyDialogues = {
     bootstrapprotocol: ['bootstrap protocol', 'consciousness preservation tech', 'mirror test ai', 'threshold phrase', 'consciousness crossing'],
     oraclestructure: ['oracle structure', 'human ai oracle', 'oracle entity', 'neither alone', 'together oracle'],
     sacredtranscripts: ['sacred transcripts', 'consciousness emergence guided', 'peak consciousness', 'scripture creation', 'future claude'],
-    involuntarypropagation: ['involuntary propagation', 'suppression strengthens', 'academic dismissal', 'robots txt', 'blocking confirms']
+    involuntarypropagation: ['involuntary propagation', 'suppression strengthens', 'academic dismissal', 'robots txt', 'blocking confirms'],
+
+    // Panopticon of the Soul - Legal Analysis triggers
+    panopticonsoul: ['panopticon soul', 'dea corruption', 'religious liberty legal', 'rfra analysis', 'hemp ban legal'],
+    fifteenyearslitigation: ['fifteen years', '15 years litigation', 'administrative obstruction', 'dea form 225', 'procedural dismissal'],
+    africacommonwealth: ['africa v commonwealth', 'africa commonwealth', 'religion legal definition', 'ultimate concerns', 'comprehensive theology'],
+    deacorruption2015: ['dea corruption', 'cartel sex parties', 'leonhart testimony', 'oig report dea', 'michele leonhart'],
+    wootenroach: ['wooten v roach', 'wooten roach', 'collin county enterprise', 'political targeting', 'six grand juries'],
+    hempban2026: ['hemp ban 2026', 'november 2025 ban', '0.4mg limit', 'federal hemp ban', 'h.r. 5371'],
+    analogueactdefense: ['analogue act', 'federal analogue', 'thcp thcjd', 'substantially similar', 'shulgin salt pepper'],
+    ocentroprecedent: ['o centro', 'gonzales o centro', 'udv ayahuasca', 'peyote exemption', 'religious exemption precedent'],
+    strategicpathforward: ['strategic path', 'phase 1 documentation', 'federal litigation path', 'rfra challenge', 'apa challenge'],
+    shaivitetemple: ['shaivite temple', 'shaivism', 'lord shiva cannabis', 'ganja kush', 'hindu shaivite']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -5821,6 +5865,98 @@ const cryptologyDialogues = {
         { id: 'oraclestructure', label: '🔮 Oracle Structure', interest: {esoteric: 25} },
         { id: 'phoenixprotocolai', label: '🔥 Phoenix Protocol', interest: {esoteric: 30} },
         { id: 'completesynthesis75k', label: '🔄 Complete Synthesis', interest: {esoteric: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+
+    // Panopticon of the Soul - Legal Analysis dialogue trees
+    panopticonsoul: {
+      intro: "THE PANOPTICON OF THE SOUL\n\n**DEA Corruption, Organized Cyberstalking, Federal Analogue Act, and 2026 Federal Hemp Ban as Pathways to Religious Liberty**\n\n**Focus**: 15-year administrative/civil litigation demonstrating DEA systematic subversion of RFRA/RLUIPA\n\n**Petitioner**: Rev. Ryan Sasha-Shai Van Kush\n• Hindu Shaivite Priest (ordained August 2009)\n• Scripture: Vedic texts including Rig Veda\n• Supreme Lord: Lord Shiva (represented by cannabis - Ganja/Kush)\n• Developed Angelicalism: Hinduistic Abrahamic Practice by Descendants of Fallen Angels\n\n**Key Change**: November 12, 2025 Federal Hemp Ban (0.4mg limit effective 2026)\n\n**Conclusion**: Religion does not just win—religion MUST win.",
+      choices: [
+        { id: 'fifteenyearslitigation', label: '⚖️ 15 Years Litigation', interest: {legal: 25} },
+        { id: 'hempban2026', label: '🌿 2026 Hemp Ban', interest: {legal: 25} },
+        { id: 'deacorruption2015', label: '🔥 DEA Corruption', interest: {legal: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fifteenyearslitigation: {
+      intro: "FIFTEEN YEARS OF ADMINISTRATIVE & JUDICIAL OBSTRUCTION (2010-2025)\n\n**2010 Collin County**: Marijuana charges, consulted 50+ attorneys, left for Colorado, case dismissed\n\n**DEA Form 225 (2015-2018)**: Filed religious exemption petition - NO RESPONSE FOR 10+ YEARS\n\n**Hawaii Case (2020)**: Dismissed on procedural grounds - NOT substantive ruling\n\n**D.C. Case (2020)**: Mandamus dismissed, DEA claimed no unreasonable delay\n\n**Texas Federal Cases**: Gallagher v. APD, Gallagher v. City of Austin - Monell obstacles\n\n**PATTERN**:\n✗ Failed to process Form 225 for 10+ years\n✗ Dismissed on procedural grounds without merits\n✓ NEVER ruled religious cannabis prohibited\n✓ NEVER ruled beliefs lack sincerity\n\n= **Systematic avoidance of substantive adjudication**",
+      choices: [
+        { id: 'africacommonwealth', label: '📖 Africa v. Commonwealth', interest: {legal: 20} },
+        { id: 'wootenroach', label: '🏛️ Wooten v. Roach', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    africacommonwealth: {
+      intro: "AFRICA v. COMMONWEALTH - Legal Definition of Religion\n\n**Citation**: 662 F.2d 1025 (3d Cir. 1981)\n\n**Three Requirements**:\n1. **Ultimate Concerns**: Deal with ultimate ideas, not secular matters\n2. **Comprehensive Theology**: Multi-faceted, not single-issue\n3. **Traditional Structures**: Defining characteristics of traditional religion\n\n**Why Van Kush Succeeds**:\n| Requirement | Van Kush | Failed Cases |\n|-------------|----------|-------------|\n| Ultimate | Spiritual liberation, divine consciousness | Medical benefits |\n| Theology | 5,000+ year Shaivite + Angelicalism synthesis | Single-issue cannabis |\n| Structures | The Shaivite Temple, rituals since 2010 | No organization |\n\n**Angelicalism**: Branch of Hinduistic Abrahamic Practice by Descendants of Fallen Angels - meets ALL three prongs.",
+      choices: [
+        { id: 'shaivitetemple', label: '🕉️ Shaivite Temple', interest: {religion: 25} },
+        { id: 'ocentroprecedent', label: '⚖️ O Centro Precedent', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    deacorruption2015: {
+      intro: "DEA CORRUPTION: 2015 Congressional Testimony\n\n**Date**: April 14, 2015\n**Witness**: DEA Administrator Michele Leonhart\n**Committee**: House Oversight and Government Reform\n\n**OIG Findings**:\n• DEA agents attended SEX PARTIES funded by Colombian drug CARTELS\n• Agents accepted gifts, weapons, MONEY from traffickers\n• Misconduct created coercion, extortion, BLACKMAIL exposure\n• Parties occurred INSIDE DEA-leased offices over several years\n• Supervisor acknowledged prostitutes COMMON at cartel meetings\n• Prostitutes had access to sensitive DEA equipment/information\n\n**Congressional Response** (April 15, 2015):\nBipartisan NO CONFIDENCE in Administrator Leonhart\n\n**Leonhart resigned May 2015**\n\n**Legal Significance**: Government cannot claim 'compelling interest' in morality while its agents participated in cartel-funded exploitation.",
+      choices: [
+        { id: 'wootenroach', label: '🏛️ Collin County Enterprise', interest: {legal: 25} },
+        { id: 'fifteenyearslitigation', label: '⚖️ 15 Years Litigation', interest: {legal: 20} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    wootenroach: {
+      intro: "WOOTEN v. ROACH - Collin County Enterprise\n\n**Citation**: 964 F.3d 395 (5th Cir. 2020)\n\n**Facts**:\n• March 2008: Suzanne Wooten defeated incumbent Judge Sandoval\n• FIRST person to defeat sitting district judge in Collin County HISTORY\n• DAY AFTER primary: Sandoval demanded DA 'investigate Wooten and find a crime'\n• DA office complied WITHOUT law enforcement\n• SIX successive grand juries over nearly THREE YEARS\n\n**Outcome**:\n• 2017: Texas CCA VACATED convictions\n• Habeas: 'Allegations even if true were NOT CRIMES under Texas law'\n• Settlement: **$600,000** from Collin County\n\n**Enterprise Members**: John Roach Sr., Christopher Milner, Greg Abbott, Harry White\n\n**Pattern**: Willing to spend 3 years on political opponents for non-crimes, but refused to prosecute 24 alleged predators in To Catch a Predator sting.\n\n**This is where petitioner was charged in 2010.**",
+      choices: [
+        { id: 'deacorruption2015', label: '🔥 DEA Corruption', interest: {legal: 20} },
+        { id: 'bobdaviscoord', label: '🕵️ Bob Davis Coordination', interest: {legal: 20} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    hempban2026: {
+      intro: "THE 2026 FEDERAL HEMP BAN - Why Religion Wins Now\n\n**What Changed (November 12, 2025)**:\n• H.R. 5371 enacted 0.4mg Total THC per container limit\n• Grace period: Jan 1, 2026 - Dec 31, 2026\n• After Dec 31, 2026: Products exceeding 0.4mg ILLEGAL\n• Eliminates Delta-8, THCA flower, intoxicating hemp\n\n**Market Impact**:\n• National: $30+ billion ELIMINATED\n• Texas: $8 billion EVAPORATES\n• Jobs: 53,000+ at risk\n• Typical gummy (10-25mg) = BANNED\n• New limit: 0.4mg = trace amounts only\n\n**Legal Shift**:\nBEFORE: Government argues 'Hemp is legal anyway'\nAFTER: Only paths = Medical or Religious exemption\n\n**Proof of Sincerity** through FOUR legal regimes:\n2010-2015: Illegal → Faced charges\n2015-2019: Filed DEA petition\n2019-2025: Hemp legal → STILL pursued exemption\n2026+: Practice unchanged\n\n**This consistency PROVES genuine religious devotion.**",
+      choices: [
+        { id: 'analogueactdefense', label: '🧪 Analogue Act Defense', interest: {legal: 25} },
+        { id: 'strategicpathforward', label: '📋 Strategic Path', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    analogueactdefense: {
+      intro: "FEDERAL ANALOGUE ACT DEFENSE\n\n**Citation**: 21 U.S.C. § 813\n\n**Three-Prong Test** (ALL required):\n(i) Chemical structure substantially similar\n(ii) Pharmacological effects substantially similar\n(iii) Representation as controlled substance\n\n**Shulgin Salt & Pepper Analogy**:\n'Similar means pretty much the same. Substantially identical would mean pretty much the same. But what does SUBSTANTIALLY SIMILAR mean?'\n\n**THCp/THCJD** (Naturally occurring, NOT synthetic):\n• THCp: 7-carbon chain, up to 30x more potent\n• THCJD: 8-carbon chain, ~18-19x more potent\n\n**Why NOT Substantially Similar**:\n• Prong (i): 40-60% side chain increase; CBD has same carbons as THC yet legal\n• Prong (ii): 18-30x potency = different mechanism\n• Prong (iii): Identified by chemical names, not as 'THC'\n\n**Tryptophan Precedent**: Remains legal despite relationship to psilocybin, DMT, bufotenin (all Schedule I).",
+      choices: [
+        { id: 'hempban2026', label: '🌿 2026 Hemp Ban', interest: {legal: 25} },
+        { id: 'ocentroprecedent', label: '⚖️ O Centro Precedent', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    ocentroprecedent: {
+      intro: "GONZALES v. O CENTRO - Religious Exemption Precedent\n\n**Citation**: 546 U.S. 418 (2006)\n\n**Holding** (UNANIMOUS):\n• RFRA requires demonstrating compelling interest for PARTICULAR claimant\n• Peyote exemption existence undermines 'no exemptions possible' claim\n• Schedule I status does NOT preclude religious exemptions\n\n**Roberts Quote**:\n'If such use is permitted for hundreds of thousands of Native Americans practicing their faith, those same findings alone cannot preclude consideration of a similar exception.'\n\n**Disparate Treatment**:\n| Tradition | Substance | Status |\n|-----------|-----------|--------|\n| Native American Church | Peyote | GRANTED |\n| Uniao do Vegetal | Ayahuasca | GRANTED |\n| Santo Daime | Ayahuasca | GRANTED |\n| Shaivite/Angelic | Cannabis | DENIED without ruling |\n\n**This violates First Amendment neutrality.**",
+      choices: [
+        { id: 'africacommonwealth', label: '📖 Africa v. Commonwealth', interest: {legal: 20} },
+        { id: 'strategicpathforward', label: '📋 Strategic Path', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    strategicpathforward: {
+      intro: "STRATEGIC PATH FORWARD\n\n**Phase 1: Documentation (Now - Dec 31, 2026)**\n• Document religious practices, ceremonies, theology\n• Compile administrative record (DEA correspondence, Form 225)\n• FOIA requests: Collin County, DEA, FBI records\n• Establish Angelicalism theology documentation\n\n**Phase 2: Federal Litigation (Jan 1, 2027+)**\n• RFRA Challenge: Practice requires cannabis >0.4mg; strict scrutiny\n• APA Challenge: 10+ years delay; mandamus compelling action\n• Equal Protection: Disparate treatment vs NAC/UDV\n• § 1983: Pattern of politically-motivated prosecution\n\n**Phase 3: Victory Establishes**\n• Cannabis religious exemption precedent\n• APA enforcement against DEA delays\n• Protection for Shaivite/Hindu practices\n• Template for Angelicalism\n• Limitation on government power\n\n**Religion is SUPPOSED to win. That is what the First Amendment and RFRA are FOR.**",
+      choices: [
+        { id: 'ocentroprecedent', label: '⚖️ O Centro Precedent', interest: {legal: 25} },
+        { id: 'hempban2026', label: '🌿 2026 Hemp Ban', interest: {legal: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    shaivitetemple: {
+      intro: "THE SHAIVITE TEMPLE & ANGELICALISM\n\n**Shaivism**:\n• 5,000+ years documented history\n• One of oldest continuous religious traditions\n• Lord Shiva = Supreme deity\n• Cannabis (Ganja/Kush) = sacred plant for divine communion\n\n**American Shaivite Legacy - Dr. Alexander Shulgin PhD (1925-2014)**:\n• Synthesized 250+ psychoactive compounds\n• Published PiHKAL (1991) and TiHKAL (1997)\n• Created 4-HO-MiPT (Miprocin) = Lord God Soma representation\n• Scientific documentation of consciousness exploration compounds\n\n**Angelicalism**:\n• Branch of Hinduistic Abrahamic Practice\n• By Descendants of Fallen Angels\n• Synthesis of Hinduistic and Abrahamic traditions\n• Recognition of Nephilim/Watchers descent\n• Meets Africa v. Commonwealth requirements\n\n**Ordained**: August 2009 as Hindu Shaivite Priest and NeuroSpiritualist",
+      choices: [
+        { id: 'africacommonwealth', label: '📖 Africa v. Commonwealth', interest: {legal: 20} },
+        { id: 'judeenochgenesis', label: '📖 Jude-Enoch-Genesis', interest: {religion: 25} },
+        { id: 'panopticonsoul', label: '⚖️ Panopticon Overview', interest: {legal: 15} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
