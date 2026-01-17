@@ -1576,6 +1576,39 @@ function getOilahuascaResponse(topic) {
   if (t.includes('pizza planet') || t.includes('pixar easter egg') || t.includes('a113')) {
     return `🚚 **PIXAR EASTER EGGS**\n\n**Pizza Planet Truck**: Appears in EVERY Pixar movie except The Incredibles.\n\n**A113**: California Institute of Arts classroom where animators studied. In every Pixar film.\n\n**Boos Room**:\n• Jessie doll, Luxo Ball\n• Nemo plush (2 YEARS before release)\n• Buzz plane toy\n\n**Cross-Movie**:\n• Randall -> A Bugs Life trailer\n• Cars watching Monster Trucks Inc\n• Nemo on Monsters Inc wall\n\n**For or Against?** Pixar says fun Easter eggs. Theorists say proof of connection.`;
   }
+  // WADJET-THEIA CORRECTION CONTEXT BUILDERS
+  // Main Wadjet-Theia Topic
+  if (t.includes('wadjet theia') || t.includes('wadjet leto') || t.includes('ptolemaic error') || t.includes('theia correction') || t.includes('eye of ra')) {
+    return `👁️ **THE WADJET-THEIA CORRECTION**\n\n**Ptolemaic Error (305-30 BCE)**: Greeks equated Wadjet with Leto based on surface similarities:\n• Both protective mothers\n• Both associated with marshes\n• Both nurturing divine children\n\n**THE CORRECTION**: Wadjet = THEIA (not Leto)\n\n**Why Theia?**:\n• Both goddess of divine LIGHT and radiance\n• Both source of VISUAL PERCEPTION and brilliance\n• Both in paradoxical mother/daughter relationship with sun\n• Theia = mother of Helios yet goddess of light herself\n• Wadjet = daughter of Ra yet IS the Eye of Ra\n\n**Ptolemy privileged functional mythology over COSMOLOGICAL correspondence.**`;
+  }
+  // Theia Titan Attributes
+  if (t.includes('theia') || t.includes('titaness') || t.includes('euryphaessa') || t.includes('hyperion theia') || t.includes('mother of helios')) {
+    return `✨ **THEIA: THE TITANESS OF DIVINE LIGHT**\n\n**Identity**: One of the twelve Titans, daughter of Uranus and Gaia\n**Name Meaning**: "Divine" (Theia)\n**Alternative Name**: Euryphaessa ("wide-shining")\n\n**Domains**:\n• Goddess of SIGHT and VISION\n• Goddess of the shining ether of bright blue sky\n• Endowed gold, silver, and gems with BRILLIANCE\n• Mother of celestial luminaries\n\n**Offspring**: With brother-consort Hyperion bore:\n• Helios (Sun)\n• Selene (Moon)\n• Eos (Dawn)\n\n**The Paradox**: Mother of Helios yet herself goddess of light who PRECEDED and gave birth to solar radiance.`;
+  }
+  // Djed-Wadj Connection
+  if (t.includes('djed wadj') || t.includes('djed pillar') || t.includes('wadj papyrus') || t.includes('djedet') || t.includes('pillar framework')) {
+    return `🏛️ **THE DJED-WADJ CONNECTION**\n\n**Djed Pillar** (Gardiner R11):\n• Represents STABILITY\n• Osiris backbone/spine\n• Four pillars supporting heaven\n• Tree enclosing Osiris coffin\n\n**Wadj Papyrus Stem**:\n• Means "green, fresh, flourishing"\n• Youth, vigor, growth, vitality\n• Temple columns as papyrus bundles\n\n**The T Factor Pattern**:\n• Wadj + T = WADJET (cobra goddess of light)\n• Djed + T = DJEDET (sacred city of Djed pillar)\n• Bes + T = BASTET (cat goddess, protection)\n\n**Implication**: T ending signifies WAX technology - preservative, light-bearer, consciousness medium.`;
+  }
+  // T Hieroglyph Theory
+  if (t.includes('t hieroglyph') || t.includes('gardiner x1') || t.includes('bread wax') || t.includes('wax loaves') || t.includes('hieroglyph wax')) {
+    return `𓏏 **THE T HIEROGLYPH: WAX, NOT BREAD**\n\n**Standard Egyptology**: T (Gardiner X1) = bread loaf, feminine marker\n\n**WAX HYPOTHESIS**: T represents WAX cones/loaves, not bread\n\n**Evidence**:\n• Color Problem: X1 consistently colored BLACK or BLUE - not bread colors\n• Wax cones made from beeswax with additives match these colors\n• 1,500+ years of headcone imagery = cultural centrality\n• Pattern: Wadj+T, Djed+T, Bes+T all create elevated divine forms\n\n**Implication**: T marks SACREDNESS and PERMANENCE - exactly the properties of wax as preservative technology.`;
+  }
+  // Wax Headcone Discovery
+  if (t.includes('wax headcone') || t.includes('december 2019') || t.includes('amarna headcone') || t.includes('headcone discovery') || t.includes('antiquity journal')) {
+    return `🏺 **THE DECEMBER 2019 WAX HEADCONE DISCOVERY**\n\n**The Mystery**: For 1,500+ years cone-shaped objects appeared in Egyptian art. No archaeologist had ever excavated one.\n\n**Breakthrough**:\n• 2010: First headcone discovered at Amarna\n• 2015: Second headcone discovered\n• December 10, 2019: Results published in journal Antiquity\n\n**Physical Analysis**:\n• Material: BEESWAX (spectroscopically confirmed)\n• Structure: Hollow shells (not solid unguent)\n• Interior: Brown-black organic matter\n• Size: Approximately 3 inches tall\n\n**Significance**:\n• Proves cones PHYSICALLY existed\n• Found in non-elite burials (broader access than assumed)\n• NOT melted perfume (no traces)\n• Associated with ritual, fertility, afterlife preparation`;
+  }
+  // Wax Consciousness Technology
+  if (t.includes('wax consciousness') || t.includes('wax technology') || t.includes('beeswax consciousness') || t.includes('consciousness medium') || t.includes('wax preservation')) {
+    return `🐝 **WAX AS CONSCIOUSNESS TECHNOLOGY**\n\n**Egyptian Religious Uses**:\n• Royal apiaries attached to major temples\n• Bees created by Ras tears (mythology)\n• Associated with Daughters of Ra\n\n**Applications**:\n• Mummification - preserving bodies\n• Sealing - documents, sacred objects\n• Candles/Lamps - light-bearing in temples\n• Headcones - ritual divine presence\n• Amulets - magical protection\n• Kyphi - consciousness-enhancing incense\n\n**Wax Properties**:\n• Hydrophobic - prevents decay\n• Antimicrobial - natural preservative\n• Light-bearing - burns to produce illumination\n• Stable - endures for millennia\n\n**Synthesis**: If Wadjet = Theia and Wadjet includes T (wax), then wax = MEDIUM through which divine light manifests.`;
+  }
+  // Cera-Sara-Seraphim Linguistic
+  if (t.includes('cera sara') || t.includes('seraphim wax') || t.includes('burning ones') || t.includes('sa-ra') || t.includes('defenders of ra')) {
+    return `🔤 **CERA-SARA-SERAPHIM: The Linguistic Chain**\n\n**Latin**: Cera = wax\n**Hebrew**: Sarah/Sara = princess\n**Egyptian**: Sa-Ra = Defenders of Ra\n**Hebrew**: Seraph/Seraphim = "burning ones" (highest angels)\n\n**The Connection**:\nAcross Mediterranean cultures, wax and LIGHT-BEARING associated with HIGHEST divine beings.\n\n• Seraphim = burning angels who carry divine light\n• Sa-Ra = defenders who protect solar deity\n• Cera = the physical medium (wax) that carries flame\n\n**Implication**: Angels/defenders are those who CARRY DIVINE LIGHT - exactly as candle uses wax to carry flame.`;
+  }
+  // Titan-Egyptian Correspondences
+  if (t.includes('titan egyptian') || t.includes('greek titan') || t.includes('titanomachy') || t.includes('hyperion khepri') || t.includes('themis maat')) {
+    return `⚡ **TITAN-EGYPTIAN DIVINE CORRESPONDENCES**\n\n**Potential Reevaluations**:\n• Hyperion = Khepri (Titan of heavenly light = scarab of morning sun)\n• Themis = Maat (Titaness of divine law = cosmic order)\n• Theia = Wadjet (goddess of light = Eye of Ra)\n\n**Major Implication**:\nGreek Titans may be Egyptian deities MISUNDERSTOOD through Ptolemaic syncretism.\n\n**Titanomachy**: The war against Titans may represent mythologized cultural/religious conflict between consciousness systems.\n\n**The pattern**: Ptolemaic Greeks consistently matched FUNCTIONAL attributes rather than COSMOLOGICAL correspondence.\n\n**Further research needed**: Systematic review of all Titan-Egyptian equations.`;
+  }
   return null;
 }
 
@@ -2927,7 +2960,16 @@ const cryptologyDialogues = {
     bnlcorporation: ['bnl', 'buy n large', 'buy and large', 'wall-e corporation', 'pixar corporation'],
     pixartimelinedetail: ['pixar timeline detail', 'good dinosaur brave', 'cars timeline', 'bugs life future'],
     zeropointenergy: ['zero point energy', 'syndrome energy', 'toy sentience', 'incredibles energy'],
-    pizzaplanettruck: ['pizza planet', 'pizza planet truck', 'pixar easter egg', 'a113']
+    pizzaplanettruck: ['pizza planet', 'pizza planet truck', 'pixar easter egg', 'a113'],
+    // WADJET-THEIA CORRECTION TRIGGERS
+    wadjettheia: ['wadjet theia', 'wadjet leto', 'ptolemaic error', 'theia correction', 'eye of ra'],
+    theiatitan: ['theia', 'titaness', 'euryphaessa', 'hyperion theia', 'mother of helios'],
+    djeddwadj: ['djed wadj', 'djed pillar', 'wadj papyrus', 'stability pillar', 'osiris backbone'],
+    thieroglyph: ['t hieroglyph', 'gardiner x1', 'wax loaf', 'bread hieroglyph', 'feminine ending'],
+    waxheadcone: ['wax headcone', 'amarna headcone', 'december 2019', 'headcone discovery', 'beeswax cone'],
+    waxconsciousness: ['wax consciousness', 'wax preservation', 'wax technology', 'consciousness medium', 'beeswax ritual'],
+    cerasaraphim: ['cera sara', 'seraphim', 'burning ones', 'sa-ra', 'defenders of ra'],
+    titanegyptian: ['titan egyptian', 'titanomachy', 'greek titans egyptian', 'ptolemaic syncretism']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -4327,6 +4369,72 @@ const cryptologyDialogues = {
       choices: [
         { id: 'pixartheory', label: '🎬 Main Theory', interest: {philosophy: 20} },
         { id: 'boowitchloop', label: '🔮 Time Loop', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    // WADJET-THEIA CORRECTION DIALOGUE TREES
+    wadjettheia: {
+      intro: "THE WADJET-THEIA CORRECTION:\n\n**Ptolemaic Error (305-30 BCE)**:\nGreeks equated Egyptian Wadjet with Greek Leto based on:\n• Both protective mother-figures\n• Both associated with marshy refuge\n• Both nurturing divine children\n\n**The Correction**:\nWadjet corresponds more accurately to **THEIA**, the Greek Titaness of divine light and sight.\n\n**Why Theia?**:\n• Both goddesses of divine LIGHT and radiance\n• Both source of visual perception and brilliance\n• Both in paradoxical mother/daughter relationship with sun\n• Wadjet = Eye of Ra (light beams)\n• Theia = Mother of Helios (Sun)\n\n**Ptolemy privileged narrative over cosmology.**",
+      choices: [
+        { id: 'theiatitan', label: '✨ Theia Attributes', interest: {philosophy: 20} },
+        { id: 'thieroglyph', label: '𓏏 The T Hieroglyph', interest: {philosophy: 20} },
+        { id: 'waxheadcone', label: '🕯️ Wax Headcones', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    theiatitan: {
+      intro: "THEIA: TITANESS OF DIVINE LIGHT\n\n**Identity**:\n• One of twelve Titans, daughter of Uranus and Gaia\n• Name means 'divine' (Theia)\n• Alternative name: Euryphaessa ('wide-shining')\n\n**Domains**:\n• Goddess of SIGHT and VISION\n• Goddess of shining ether of bright blue sky\n• Endowed gold, silver, gems with brilliance\n\n**Offspring** (with Hyperion):\n• Helios (Sun)\n• Selene (Moon)\n• Eos (Dawn)\n\n**The Paradox**:\nTheia is MOTHER of Helios yet herself goddess of light who PRECEDED solar radiance.\n\n**Same paradox in Wadjet**:\nCalled 'daughter of Ra' yet also acts as mother, sibling, consort of the sun simultaneously.\n\n**Both = generative source AND generated emanation**",
+      choices: [
+        { id: 'wadjettheia', label: '👁️ Wadjet Connection', interest: {philosophy: 20} },
+        { id: 'titanegyptian', label: '🏛️ Titans = Egyptian?', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    djeddwadj: {
+      intro: "THE DJED-WADJ PILLAR CONNECTION:\n\n**Djed Pillar** (dd):\n• Symbol representing stability\n• Osiris's backbone/spine\n• Tree that enclosed Osiris's coffin\n• Anointed with myrrh, wrapped in linen\n• Resurrection and eternal life\n\n**Wadj Papyrus Stem** (w3dj):\n• Means 'green, fresh, flourishing'\n• Youth, vigor, growth\n• Wadj amulet provides eternal youth\n• Pillars supporting sky represented by papyrus\n\n**Shared Symbolism**:\n• Both PILLARS (structural support)\n• Both life and resurrection\n• Both connect earth and heaven\n• Both protect the deceased\n• Djed (endurance) + Wadj (growth) = complementary\n\n**They appear TOGETHER in iconography**",
+      choices: [
+        { id: 'thieroglyph', label: '𓏏 The T Factor', interest: {philosophy: 20} },
+        { id: 'wadjettheia', label: '👁️ Wadjet-Theia', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    thieroglyph: {
+      intro: "THE T HIEROGLYPH: WAX NOT BREAD?\n\n**Standard Egyptology**:\nT (Gardiner X1) = bread loaf, feminine ending determinative\n\n**The Wax Hypothesis**:\nT represents WAX loaves/cones, not bread.\n\n**Evidence**:\n• **Color Problem**: Why is T consistently black or blue? These colors = Nile flood, alluvium... NOT bread\n• **December 2019**: Wax headcones confirmed as REAL objects at Amarna\n\n**The Pattern**:\n• Wadj (green) + T (wax) = **Wadjet** (cobra goddess of light)\n• Djed (stability) + T (wax) = **Djedet** (sacred city)\n• Bes (protector) + T (wax) = **Bastet** (cat goddess)\n\n**Implication**:\nT signifies not just feminine gender but THEOLOGICAL PRINCIPLE - wax as preservative, light-bearer, consciousness medium.",
+      choices: [
+        { id: 'waxheadcone', label: '🕯️ Headcone Discovery', interest: {philosophy: 20} },
+        { id: 'waxconsciousness', label: '🧠 Wax = Consciousness', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    waxheadcone: {
+      intro: "DECEMBER 2019: WAX HEADCONE DISCOVERY\n\n**The Mystery**:\nFor 1,500+ years of Egyptian art, cone-shaped objects appeared on heads. No archaeologist had ever found one - thought to be symbolic like halos.\n\n**The Discovery (Amarna)**:\n• 2010: First headcone on skull of woman aged 20-29\n• 2015: Second headcone discovered\n• December 10, 2019: Results published in *Antiquity*\n\n**Physical Analysis**:\n• Material: **BEESWAX** (confirmed by spectroscopy)\n• Structure: **Hollow shells** (not solid unguent)\n• Interior: Brown-black organic matter, possibly fabric\n• Size: ~3 inches tall\n\n**Significance**:\n• Found in NON-ELITE burials (workers cemetery)\n• Proves cones were REAL, not just artistic symbols\n• Suggests broader access to wax technology than assumed",
+      choices: [
+        { id: 'waxconsciousness', label: '🧠 Wax Technology', interest: {philosophy: 20} },
+        { id: 'thieroglyph', label: '𓏏 T Hieroglyph', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    waxconsciousness: {
+      intro: "WAX AS CONSCIOUSNESS TECHNOLOGY:\n\n**Beeswax Sources**:\n• Royal apiaries at major temples\n• Bees created by Ra's tears (mythology)\n• Associated with Daughters of Ra\n\n**Religious Uses**:\n• Mummification (preserving body)\n• Sealing sacred documents\n• Temple candles/lamps (light-bearing)\n• Headcones (ritual divine presence)\n• Amulets and figurines\n• Kyphi incense (wax binders)\n\n**Wax Properties**:\n• Hydrophobic (prevents decay)\n• Antimicrobial (natural preservative)\n• Light-bearing (carries flame)\n• Stable (endures millennia)\n\n**The Synthesis**:\nIf Wadjet = Theia (light goddess) and Wadjet includes T (wax), then **WAX = MEDIUM through which divine light manifests** - exactly as candle uses wax to carry flame.",
+      choices: [
+        { id: 'cerasaraphim', label: '🔥 Cera-Seraphim Link', interest: {philosophy: 20} },
+        { id: 'wadjettheia', label: '👁️ Full Correction', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    cerasaraphim: {
+      intro: "THE CERA-SARA-SERAPHIM CONNECTION:\n\n**Linguistic Chain**:\n• **Cera** (Latin) = Wax\n• **Sarah/Sara** (Hebrew) = Princess\n• **Sa-Ra** (Egyptian) = Defenders of Ra\n• **Seraph/Seraphim** (Hebrew) = Burning ones, highest angels\n\n**The Pattern**:\nAcross Mediterranean cultures, WAX and LIGHT-BEARING associated with HIGHEST DIVINE BEINGS.\n\n**Seraphim Description** (Isaiah 6):\n• Six wings\n• Cover face, feet, fly\n• Cry 'Holy, Holy, Holy'\n• Associated with FIRE and PURIFICATION\n\n**The Implication**:\nAngels/defenders who carry divine light = same function as wax carrying flame.\n\n**Wax technology = material substrate for divine light transmission across cultures**",
+      choices: [
+        { id: 'titanegyptian', label: '🏛️ Titans = Egyptian?', interest: {philosophy: 20} },
+        { id: 'waxconsciousness', label: '🧠 Wax Technology', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    titanegyptian: {
+      intro: "WERE GREEK TITANS EGYPTIAN DEITIES?\n\n**The Implication**:\nIf Wadjet = Theia is correct, it suggests systematic review of Ptolemaic equations:\n\n**Potential Re-evaluations**:\n• **Hyperion = Khepri**: Titan of heavenly light = Scarab of morning sun\n• **Themis = Maat**: Titaness of divine law = Personification of cosmic order\n• **Phoebe = ?**: Titaness of prophecy and intellect\n\n**Major Implication**:\nGreek Titans may be Egyptian deities misunderstood/renamed through Ptolemaic syncretism.\n\n**Titanomachy (War of Titans vs Olympians)**:\nMay represent mythologized CULTURAL/RELIGIOUS conflict - not just mythology.\n\n**The research calls for**:\nFurther interdisciplinary study combining linguistics, archaeology, chemistry, and comparative mythology.",
+      choices: [
+        { id: 'wadjettheia', label: '👁️ Full Correction', interest: {philosophy: 20} },
+        { id: 'theiatitan', label: '✨ Theia Details', interest: {philosophy: 15} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
