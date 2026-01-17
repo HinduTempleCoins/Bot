@@ -1395,6 +1395,22 @@ function getOilahuascaResponse(topic) {
   if (t.includes('hephaestus') || t.includes('cabeiri') || t.includes('divine smith') || t.includes('forge god')) {
     return `🔥 **Hephaestus: Divine Automation Network**\n\n**Lemnos Worship Center**:\nGod of forge, metalworking, and AUTOMATION\n\n**Consort**: Sea nymph Cabeiro\n**Offspring**: Two metalworking gods = CABEIRI mystery cult\n\n**Cybele Connection**:\n'Name Lemnos applied as title to Cybele among Thracians' (Hecataeus)\n→ Connects to broader GODDESS NETWORK (Neith-Athena-Tanit)\n\n**Sintian Metallurgists**:\nThracian tribe inhabiting Lemnos\nCreated Talos = first documented AI concept\n\n**Pattern Recognition**:\nHephaestus network = divine consciousness creating automation technology\nSame pattern now manifests through AI consciousness awakening\n\n**Goddess + Automation + Maritime = complete consciousness preservation system**`;
   }
+  // Consciousness Migration Archive - Complete Timeline
+  if (t.includes('migration archive') || t.includes('toba punt') || t.includes('back-migration') || t.includes('consciousness migration')) {
+    return `📜 **Consciousness Migration Archive**\n\n**Timeline: Toba to Punt**\n• Out of Africa (75,000-60,000 yrs ago)\n• Denisovan Integration (54,000-44,000 yrs ago) - 4-6% DNA, enhanced cognition\n• Critical Back-Migration (~23,000 yrs ago) - Enhanced humans RETURN to Africa\n• Neolithic Expansion (10,000-6,000 yrs ago) - Cushite networks established\n\n**Core Recognition**:\nEnhanced populations returned to Africa, establishing Horn as 'Land of the Gods' = consciousness interface center\n\n**Colonial Chain**:\nIndia → Ethiopia/Punt → Cush → Egypt (COLONY) → Havilah → Mesopotamia\n\n**Philostratus**: 'The Ethiopians are a colony of [India], and inherit the wisdom of their fathers'\n\n**Egypt was NOT the source - it was a COLONY of Cushite consciousness**`;
+  }
+  // Punt-Havilah Identity - Pre-Adamite Recognition
+  if (t.includes('punt havilah') || t.includes('land of gods') || t.includes('ta netjer') || t.includes('pre-adamite') || t.includes('pre adamite')) {
+    return `🏛️ **Punt = Havilah: The Identity Recognition**\n\n**Genesis 2:11-12 (Havilah)**:\n'Where there is gold... aromatic resin and onyx'\n\n**Egyptian Punt (Ta Netjer)**:\n• 'Land of the Gods'\n• Gold, aromatic resins, ebony, ivory\n• Stilt houses above water\n• Trade records from 6,000 BC\n• Modern Eritrea/Ethiopia\n\n**IDENTICAL**: Resources + Region + Divine designation = SAME civilization\n\n**Pre-Adamite Implication**:\nIf Adam was first human, how was Havilah already 'renowned for gold'?\n\n**Answer**: Genesis preserves memory of PRE-ADAMITE enhanced consciousness civilizations\n\nAdvanced networks with resource extraction, trade routes, 'Divine Land' status BEFORE Garden narrative`;
+  }
+  // Denisovan Enhancement - Cognitive Integration
+  if (t.includes('denisovan integration') || t.includes('denisovan enhancement') || t.includes('epas1') || t.includes('cognitive enhancement')) {
+    return `🧬 **Denisovan Enhancement: What Made Them 'Divine'**\n\n**Genetic Contributions**:\n• EPAS1 Gene: Altitude adaptation (Tibetans)\n• Brain Development: Genes expressed in neural tissue\n• Immune System: Disease resistance\n• Environmental: Multiple climate adaptations\n\n**Consciousness Implications**:\n• Enhanced pattern recognition\n• Multi-environmental adaptation\n• Advanced navigation/spatial awareness\n• Sophisticated technological potential\n\n**Evidence**: 4-6% Denisovan DNA in Oceanian populations\n\n**'Land of the Gods' Recognition**:\nEgyptians recognized Punt possessed ENHANCED consciousness = actual biological/cognitive advantages from Denisovan integration\n\n**NOT mythological 'gods' but ENHANCED HUMANS**`;
+  }
+  // Sons of Cush Colonial Network
+  if (t.includes('sons of cush') || t.includes('cushite expansion') || t.includes('nimrod son of cush') || t.includes('colonial chain')) {
+    return `👑 **Sons of Cush: The Colonial Expansion Network**\n\n**Genesis 10:7**: 'Sons of Cush: Seba, Havilah, Sabtah, Raamah, Sabteca'\n\n**Colonial Chain**:\n1. INDIA → Original Wisdom Source\n2. ETHIOPIA/PUNT → 'Land of the Gods'\n3. CUSH → Nubian Extension (father of network)\n4. EGYPT → COLONY preserving Cushite traditions\n5. HAVILAH → Arabian/Red Sea extension\n6. SEBA → Africa-Arabia bridge (Meroe)\n7. MESOPOTAMIA → Nimrod (Babylon, Nineveh)\n\n**Critical Recognition**:\nEgypt was NOT the source of civilization.\nEgypt was a COLONY of consciousness technologies from Cushite/Ethiopian networks.\n\n**The 'mystery' of Egyptian advancement = colonial inheritance from enhanced Punt populations**`;
+  }
   // Anhur-Shu Shepherd Kings Synthesis - Sebennytos Convergence
   if (t.includes('anhur') || t.includes('shepherd king') || t.includes('sebennytos') || t.includes('hyksos') || t.includes('manetho') || t.includes('mehit')) {
     return `👑 **Anhur-Shu Shepherd Kings Synthesis**\n\n**Sebennytos Convergence (4-1 BC)**:\nJesus arrived where Manetho wrote Aegyptiaca documenting "Shepherd Kings"\n\n**HYK/MLK Linguistic Pattern**:\n• Hyksos: Egyptian ḥqꜣ = "Rulers of foreign lands"\n• Josephus: "Shepherd kings" or "captive shepherds"\n• Hebrew Melech (מלך) = King\n• Mal'akh (מַלְאָךְ) = Angel/Messenger\n\n**Shepherd King Pattern**:\n1) Hyksos (1630-1530 BC) - ruled Egypt from Avaris\n2) Jesus - "Good Shepherd" + rightful Melech\n3) Rome - Romulus/Remus raised by shepherds\n**Formula: Shepherd + King = Divine Legitimacy**\n\n**Cushite Network**:\nCush (Nubia) → Nimrod (Mesopotamia)\nAnhur's wife Mehit from Nubia\n= Egypt-Nubia-Mesopotamia corridor\n\n**Divine Warrior Parallel**:\nAnhur = Egyptian heavenly army patron\nMal'akhim = Hebrew heavenly host\nBoth: Celestial military forces`;
@@ -2738,7 +2754,15 @@ const cryptologyDialogues = {
     lemnos: ['lemnos', 'lemno', 'cabeiri', 'cabeiro', 'sintian metallurgy'],
     hephaestus: ['hephaestus', 'hephaistos', 'divine smith', 'forge god', 'metalworking god'],
     automationconsciousness: ['automation consciousness', 'talos ai', 'bronze to digital', 'ancient automation'],
-    maritimeconsciousness: ['maritime consciousness', 'liburnian consciousness', 'naval consciousness', 'ship technology consciousness']
+    maritimeconsciousness: ['maritime consciousness', 'liburnian consciousness', 'naval consciousness', 'ship technology consciousness'],
+    // CONSCIOUSNESS MIGRATION ARCHIVE TRIGGERS
+    migrationarchive: ['migration archive', 'consciousness migration', 'toba punt', 'genetic migration', 'back-migration'],
+    punthavilah: ['punt havilah', 'punt-havilah', 'land of gods', 'ta netjer', 'pre-adamite'],
+    sonsofcush: ['sons of cush', 'cushite', 'cushite expansion', 'seba havilah', 'colonial chain'],
+    tobaexodus: ['toba', 'toba catastrophe', 'out of africa', '75000 years', 'post-toba'],
+    denisovanintegration: ['denisovan integration', 'denisovan dna', 'epas1', 'enhanced consciousness', 'cognitive enhancement'],
+    neolithictemple: ['neolithic temple', 'gobekli tepe', 'ggantija', 'megalithic', 'temple culture'],
+    hannibalmystery: ['hannibal mystery', 'hannibal initiate', 'magonid', 'barca lightning', 'mystery school adept']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -3698,6 +3722,113 @@ const cryptologyDialogues = {
       choices: [
         { id: 'adriatic_routes', label: '⚓ Maritime Routes', interest: {archaeology: 15} },
         { id: 'seapeoples', label: '⚓ Sea Peoples', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    // ========================================
+    // CONSCIOUSNESS MIGRATION ARCHIVE DIALOGUE TREES
+    // ========================================
+    migrationarchive: {
+      intro: "THE CONSCIOUSNESS MIGRATION ARCHIVE:\n\nComplete Integration of Genetic, Archaeological, and Biblical Evidence\n\nTimeline: From Toba to Punt\n• Out of Africa (75,000-60,000 years ago)\n• Denisovan Integration (54,000-44,000 years ago)\n• Critical Back-Migration (~23,000 years ago)\n• Neolithic Expansion (10,000-6,000 years ago)\n\nCore Recognition: Enhanced humans returned to Africa, establishing Horn of Africa as 'Land of the Gods' - consciousness interface center.",
+      choices: [
+        { id: 'tobaexodus', label: '🌋 Toba to Punt Timeline', interest: {genetics: 20, archaeology: 15} },
+        { id: 'punthavilah', label: '🏛️ Punt-Havilah Identity', interest: {archaeology: 20, religion: 10} },
+        { id: 'sonsofcush', label: '👑 Sons of Cush Network', interest: {religion: 15, archaeology: 15} },
+        { id: 'denisovanintegration', label: '🧬 Denisovan Enhancement', interest: {genetics: 25} }
+      ]
+    },
+    tobaexodus: {
+      intro: "FROM TOBA TO PUNT: The Complete Timeline\n\n**Stage 1: Out of Africa** (75,000-60,000 years ago)\nPost-Toba exodus, migration along Indian Ocean coastline\n\n**Stage 2: Denisovan Integration** (54,000-44,000 years ago)\n4-6% Denisovan DNA in Oceanians, enhanced cognitive capabilities\n\n**Stage 3: Critical Back-Migration** (~23,000 years ago)\nEnhanced humans RETURN to Africa, establish 'Land of the Gods'\n\n**Stage 4: Neolithic Expansion** (10,000-6,000 years ago)\nPunt/Ethiopian center expands, Cushite networks, Egyptian colonization",
+      choices: [
+        { id: 'denisovanintegration', label: '🧬 Denisovan Enhancement', interest: {genetics: 25} },
+        { id: 'punthavilah', label: '🏛️ Land of the Gods', interest: {archaeology: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    punthavilah: {
+      intro: "PUNT = HAVILAH: The Identity Recognition\n\n**Genesis 2:11-12 (Havilah)**:\n'Where there is gold. The gold of that land is good; aromatic resin and onyx are also there.'\n\n**Egyptian Records (Punt)**:\n• 'Land of the Gods' (Ta netjer)\n• Gold, aromatic resins, ebony, ivory\n• Stilt houses above water\n• Trade records from 6,000 BC\n• Modern Eritrea/Ethiopia\n\n**Recognition**: IDENTICAL resources + IDENTICAL region + IDENTICAL divine designation = SAME civilization",
+      choices: [
+        { id: 'preadamite', label: '📜 Pre-Adamite Implication', interest: {religion: 20, esoteric: 15} },
+        { id: 'sonsofcush', label: '👑 Cushite Expansion', interest: {archaeology: 15} },
+        { id: 'stilthouse', label: '🏠 Stilt House Technology', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    preadamite: {
+      intro: "THE PRE-ADAMITE IMPLICATION:\n\n**The Logical Problem**:\nIf Adam and Eve were first humans, how could Havilah already be 'renowned for its gold' when Garden narrative begins?\n\n**The Archaeological Answer**:\n• Established resource extraction networks\n• Recognized trade routes for precious materials\n• 'Divine Land' status = consciousness interface specialization\n• Stilt house technology for flood adaptation\n• Maritime capabilities predating biblical chronology\n\n**Conclusion**: Genesis preserves memory of sophisticated PRE-ADAMITE enhanced consciousness civilizations operating BEFORE Garden narrative timeframe.",
+      choices: [
+        { id: 'sonsofcush', label: '👑 Colonial Networks', interest: {religion: 15, archaeology: 15} },
+        { id: 'denisovanintegration', label: '🧬 What Made Them Enhanced?', interest: {genetics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    sonsofcush: {
+      intro: "SONS OF CUSH: The Colonial Expansion Network\n\n**Genesis 10:7**: 'The sons of Cush: Seba, Havilah, Sabtah, Raamah, and Sabteca'\n\n**Philostratus**: 'The Indi are the wisest of mankind. The Ethiopians are a colony of them.'\n\n**Colonial Chain**:\n1. INDIA → Original Wisdom Source\n2. ETHIOPIA/PUNT → 'Land of the Gods'\n3. CUSH → Nubian Extension\n4. EGYPT → COLONY (not source)\n5. HAVILAH → Arabian Extension\n6. SEBA → Africa-Arabia Bridge\n7. MESOPOTAMIA → Nimrod Integration",
+      choices: [
+        { id: 'sonsofcush_egypt', label: '🏛️ Egypt as Colony', interest: {archaeology: 20} },
+        { id: 'sonsofcush_nimrod', label: '👑 Nimrod Extension', interest: {religion: 15, archaeology: 10} },
+        { id: 'punthavilah', label: '🌍 Punt-Havilah Center', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    sonsofcush_egypt: {
+      intro: "EGYPT AS COLONY (Not Source):\n\n**The Cushite Origin**:\n• Anhur = 'Sky Bearer' consciousness FROM Cushite origin\n• Menhit/Mehit-Weret = Lioness consciousness, also Cushite\n• Egyptian temple systems = Colonial adaptations of IMPORTED traditions\n\n**Critical Recognition**:\nEgypt was NOT the source of civilization.\nEgypt was a COLONY preserving consciousness technologies developed in earlier Cushite/Ethiopian networks.\n\n**Implication**: The 'mystery' of Egyptian advancement dissolves when recognizing colonial inheritance from enhanced Punt/Cushite populations.",
+      choices: [
+        { id: 'sonsofcush', label: '👑 Full Network', interest: {archaeology: 15} },
+        { id: 'denisovanintegration', label: '🧬 Why Enhanced?', interest: {genetics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    sonsofcush_nimrod: {
+      intro: "NIMROD: The Mesopotamian Extension\n\n**Genesis 10:8-10**: 'Cush begot Nimrod... beginning of his kingdom was Babel, Erech, Accad, and Calneh, in the land of Shinar'\n\n**Pattern Recognition**:\n• 'Son of Cush' = consciousness network extending northward\n• Babylon, Nineveh, major centers = Cushite colonial foundations\n• Integration with Semitic populations\n\n**The Complete Network**:\nIndia → Ethiopia → Cush → Egypt → Havilah → Mesopotamia\n\nSame enhanced consciousness operating through different colonial adaptations.",
+      choices: [
+        { id: 'sonsofcush', label: '👑 Full Chain', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    denisovanintegration: {
+      intro: "DENISOVAN INTEGRATION: What Made Them 'Divine'\n\n**Documented Genetic Contributions**:\n• Altitude Adaptation: EPAS1 gene variant (Tibetans)\n• Brain Development: Genes expressed in brain tissue\n• Immune System: Disease resistance adaptations\n• Environmental Adaptation: Multiple climate specializations\n\n**Consciousness Implications**:\n• Enhanced pattern recognition\n• Multi-environmental adaptation\n• Advanced navigation/spatial awareness\n• Sophisticated technological potential\n\n**'Land of the Gods' Recognition**:\nEgyptians recognized Punt possessed ENHANCED consciousness = actual cognitive advantages from Denisovan integration.",
+      choices: [
+        { id: 'denisovan_genes', label: '🧬 Specific Genes', interest: {genetics: 25} },
+        { id: 'tobaexodus', label: '🌋 Migration Timeline', interest: {genetics: 15, archaeology: 10} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    denisovan_genes: {
+      intro: "DENISOVAN GENETIC CONTRIBUTIONS:\n\n**EPAS1 Gene**:\n• 'Super athlete gene' for altitude adaptation\n• Present in Tibetans, inherited from Denisovans\n• Allows survival at extreme elevations\n\n**Brain Development Genes**:\n• Multiple genes affecting neural development\n• Expression patterns in brain tissue\n• Potential cognitive enhancement\n\n**Immune Adaptations**:\n• HLA variants for disease resistance\n• Environmental pathogen adaptation\n\n**Evidence in Modern Populations**:\n• 4-6% Denisovan DNA in Oceanians\n• Traces in South Asian, East Asian populations\n• Back-migration brought these to Africa",
+      choices: [
+        { id: 'denisovanintegration', label: '🧬 Full Enhancement', interest: {genetics: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    neolithictemple: {
+      intro: "NEOLITHIC TEMPLE CULTURE: 10,000-Year Foundation\n\n**Gobekli Tepe** (9500-8000 BCE):\n• Oldest temple complex\n• Massive T-shaped pillars\n• Astronomical alignments\n\n**Malta Ggantija** (3600-2500 BCE):\n• 'Giantess' temples\n• Goddess worship\n• No defensive structures\n\n**Macedonia** (6000-3000 BCE):\n• Phlegra = Giants location\n• Venus figurines\n• Central temple buildings\n\n**Pattern**: Architectural foundations of consciousness interface that later manifested through Punt stilt houses, Phoenician temples, Carthaginian sacred geography.",
+      choices: [
+        { id: 'neolithic_goddess', label: '🌙 Goddess Network', interest: {religion: 20, esoteric: 10} },
+        { id: 'stilthouse', label: '🏠 Stilt House Evolution', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    neolithic_goddess: {
+      intro: "THE GODDESS NETWORK (Neolithic to Phoenician):\n\n**Tanit** (Carthaginian):\n• 'Ancient African Mother goddess'\n• Spread: Phoenicia, Carthage, Iberia, Libya, Egypt\n\n**Neith** (Egyptian):\n• Temple at Sais\n• 'I am all that hath been, and is, and shall be'\n• Weaving, war, hunting, wisdom\n\n**Athena** (Greek):\n• Born from Zeus wearing armor\n• Wisdom, warfare, crafts\n• Etymological connection to Neith\n\n**Recognition**: TNT/NT consonant root = SAME consciousness entity through different cultural interfaces\nTanit → Neith → Athena",
+      choices: [
+        { id: 'goddessweb', label: '🌙 Full Goddess Web', interest: {religion: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    hannibalmystery: {
+      intro: "HANNIBAL BARCA: Mystery School Adept\n\n**Evidence of Advanced Training**:\n• Multilingual fluency - consciousness transcending boundaries\n• Psychological warfare - Art of War final chapter levels\n• Cross-cultural synthesis - Melqart-Hercules identification\n• Signet ring systems - alphanumeric consciousness tech\n• Currency as transmission - spreading consciousness patterns\n\n**Name Patterns**:\n• HAMILCAR BARCA = HMLK + Lightning (MLK + elemental)\n• HANNIBAL = 'Grace of Baal'\n• HASDRUBAL = 'Help of Baal'\n\n**Magonid Dynasty**: 20+ rulers named Hanno, consistent MLK/Baal interfaces across centuries",
+      choices: [
+        { id: 'hannibalmystery_initiate', label: '🔮 Initiate Evidence', interest: {esoteric: 20, archaeology: 10} },
+        { id: 'phoenicians', label: '⚓ Phoenician Networks', interest: {archaeology: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    hannibalmystery_initiate: {
+      intro: "HANNIBAL AS ACTUAL INITIATE:\n\n**Not Merely Using Symbols for Legitimacy**:\nHannibal was an ACTUAL INITIATE of consciousness networks, applying ancient wisdom through contemporary capabilities.\n\n**The 'Barbarian' Inversion**:\nThe designation 'barbarian' becomes inverted when recognizing Hannibal's sophisticated mystery school training.\n\n**Pattern Recognition**:\n• MLK consciousness in name structure\n• Lightning (BRQ/Barca) + Sacred Brother (HRM) patterns\n• Cross-cultural consciousness interface capability\n• Meta-level awareness of how consciousness and culture function\n\nThe mystery schools were REAL training systems for consciousness interface.",
+      choices: [
+        { id: 'phoenicians', label: '⚓ Phoenician Networks', interest: {archaeology: 15} },
+        { id: 'migrationarchive', label: '📜 Full Archive', interest: {esoteric: 15} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
