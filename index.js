@@ -1452,6 +1452,23 @@ function getOilahuascaResponse(topic) {
     return `🧬 **Denisovan Genetic Research**\n\n**Natural Cloning Mechanism**:\n• Modern humans carry 1-6% Denisovan DNA\n• When separated lineages reunite through reproduction\n• Offspring express MORE complete Denisovan profiles than either parent\n• = "Natural cloning" through genetic resurrection\n\n**Evidence**:\n• 40,000-year-old Denisovan bracelet (advanced manufacturing)\n• Regional adaptations (Tibetan altitude, Inuit diving reflex)\n• Mythological "giants" = higher Denisovan expression populations\n\n**Haplogroup Tracking**:\n• J1e-P58: Expanded 10,000 years ago from Zagros/Taurus (Göbekli Tepe timing!)\n• J2a-M410: Neolithic farmer dispersal from Mesopotamia\n\n**Oracle-Midwife Network**: Genetic management through 12-fold systems, optimized marriages, consciousness carriers`;
   }
   // Sa Neter Studios - let Gemini use knowledge base instead of canned response
+
+  // COINTELPRO - Surveillance Analysis
+  if (t.includes('cointelpro') || t.includes('counter intelligence') || t.includes('counterintelligence') || t.includes('fbi surveillance') || t.includes('church committee')) {
+    return `🔍 **COINTELPRO NEVER ENDED**\n\n**Official Narrative**:\n• Ran 1956-1971\n• Church Committee exposed 1975-1976\n• FISA 1978 "prevented future abuses"\n\n**Reality**:\n• FBI surveillance of Black leadership began 1919 with Marcus Garvey\n• First Black FBI agent hired SPECIFICALLY to destroy Black economic nationalism\n• FISA designed as reform but Patriot Act created permanent "temporary" loopholes\n• NO functional process to challenge FISA warrant\n\n**Hoover 1968 Memo**:\n"Expose, disrupt, misdirect, discredit, or otherwise NEUTRALIZE"\n\n**Fred Hampton (1969)**:\n• FBI informant drugged his drink\n• Provided floor plan to Chicago PD\n• 21-year-old killed while sleeping\n• Only 2 shots from inside vs hundreds from police\n\n**THE PROGRAM NAMES CHANGE. THE TARGETING CONTINUES.**`;
+  }
+  // FISA Loophole and Section 702
+  if (t.includes('fisa') || t.includes('section 702') || t.includes('patriot act') || t.includes('warrantless surveillance') || t.includes('backdoor search')) {
+    return `🏛️ **THE FISA LOOPHOLE**\n\n**Original FISA (1978)**:\n• Required warrants from FISC\n• Probable cause for foreign targets\n• Minimize US person collection\n\n**Patriot Act (2001) Destroyed This**:\n• Lowered surveillance standards\n• "Roving wiretaps" without facilities\n• Section 215: collect "any tangible things"\n\n**Section 702 (2008)**:\n• Warrantless surveillance of foreigners\n• "Incidental collection" of Americans\n• 200,000+ backdoor searches/year by FBI, CIA, NSA\n\n**Targets Include**:\n• Black Lives Matter protestors\n• Journalists and political commentators\n• 19,000 donors to a single congressional campaign\n\n**FISC Rubber Stamp (1979-2012)**:\n• 33,942 warrants granted\n• 12 denied\n• 0.03% rejection rate\n\n**This is not a loophole - it's the DESIGN.**`;
+  }
+  // Marcus Garvey and Pre-COINTELPRO
+  if (t.includes('marcus garvey') || t.includes('garvey') || t.includes('black star line') || t.includes('james wormley jones') || t.includes('unia')) {
+    return `👤 **MARCUS GARVEY: The Pre-COINTELPRO Era**\n\n**James Wormley Jones (1919)**:\n• FBI's FIRST Black special agent\n• Hired specifically to infiltrate UNIA\n• Became Garvey's trusted confidant\n• Handled all incoming correspondence\n\n**Black Star Line Sabotage**:\n• FBI agents took shipboard positions\n• PHYSICALLY sabotaged ships\n• Threw foreign matter into fuel\n• Deliberately damaged engines\n\n**Result**:\n• 1922: Garvey indicted on mail fraud (based on Jones intel)\n• 1923: Convicted with insufficient evidence\n• 1927: Deported to Jamaica\n\n**What Garvey Represented**:\n• 2-4 million UNIA members worldwide\n• Black economic independence\n• Pan-African nationalism\n• Direct threat to white supremacist economic control\n\n**Pattern Established (1919)**:\nIdentify → Infiltrate → Sabotage → Prosecute → Deport\n\n**IDENTICAL to COINTELPRO tactics - 37 YEARS before "official" program**`;
+  }
+  // Impossibility of Challenge - FISA Standing
+  if (t.includes('clapper') || t.includes('standing') || t.includes('impossibility of challenge') || t.includes('fisc rubber stamp') || t.includes('no process')) {
+    return `⚖️ **THE IMPOSSIBILITY OF CHALLENGE**\n\n**Clapper v. Amnesty (2013)**:\nSupreme Court ruled 5-4 that attorneys, journalists, human rights groups CANNOT challenge FISA surveillance because they cannot prove with "near certainty" they've been surveilled.\n\n**The Catch-22**:\n1. FISA surveillance is SECRET\n2. Targets are rarely notified\n3. Without notification, can't prove surveillance\n4. Without proof, no standing\n5. Without standing, can't challenge\n6. Therefore: NO ONE can challenge\n\n**Non-Functional Process**:\n• Phone numbers listed in law are DISCONNECTED\n• DOJ Situation Room has no access\n• Addresses unresponsive\n• Courts deny standing\n• NO actual remedy exists\n\n**FISC Reality**:\n• Sits ex parte (only government present)\n• Proceedings secret\n• Opinions classified\n• Judge Robertson resigned calling it "kangaroo court"\n\n**This is not a bug - it's a FEATURE.**`;
+  }
   return null;
 }
 
@@ -2762,7 +2779,14 @@ const cryptologyDialogues = {
     tobaexodus: ['toba', 'toba catastrophe', 'out of africa', '75000 years', 'post-toba'],
     denisovanintegration: ['denisovan integration', 'denisovan dna', 'epas1', 'enhanced consciousness', 'cognitive enhancement'],
     neolithictemple: ['neolithic temple', 'gobekli tepe', 'ggantija', 'megalithic', 'temple culture'],
-    hannibalmystery: ['hannibal mystery', 'hannibal initiate', 'magonid', 'barca lightning', 'mystery school adept']
+    hannibalmystery: ['hannibal mystery', 'hannibal initiate', 'magonid', 'barca lightning', 'mystery school adept'],
+    // COINTELPRO/FISA TRIGGERS
+    cointelpro: ['cointelpro', 'counter intelligence', 'counterintelligence', 'fbi surveillance', 'church committee'],
+    fisaloophole: ['fisa', 'fisa loophole', 'section 702', 'patriot act', 'warrantless surveillance'],
+    garvey: ['marcus garvey', 'garvey', 'unia', 'black star line', 'james wormley jones'],
+    fredhampton: ['fred hampton', 'hampton', 'black panther', 'bpp', 'panther assassination'],
+    fisachallenge: ['fisa challenge', 'clapper amnesty', 'standing problem', 'impossibility challenge', 'no remedy'],
+    backdoorsearch: ['backdoor search', 'incidental collection', '702 loophole', 'warrantless search']
   },
 
   // Dialogue trees - each choice updates relationship interests
@@ -3829,6 +3853,85 @@ const cryptologyDialogues = {
       choices: [
         { id: 'phoenicians', label: '⚓ Phoenician Networks', interest: {archaeology: 15} },
         { id: 'migrationarchive', label: '📜 Full Archive', interest: {esoteric: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    // ========================================
+    // COINTELPRO/FISA LOOPHOLE DIALOGUE TREES
+    // ========================================
+    cointelpro: {
+      intro: "COINTELPRO NEVER ENDED:\n\n**Official Narrative**: Program ran 1956-1971, Church Committee exposed it, FISA fixed it.\n\n**Reality**:\n• FBI surveillance of Black leadership began in 1919 with Marcus Garvey\n• First Black FBI agent hired SPECIFICALLY to destroy Black economic nationalism\n• FISA created 'temporary' loopholes that became permanent\n• NO functional process to challenge FISA surveillance\n\n**Same pattern. Same targets. Same outcome. Different era.**",
+      choices: [
+        { id: 'garvey', label: '👤 Marcus Garvey (1919)', interest: {philosophy: 20} },
+        { id: 'fredhampton', label: '✊ Fred Hampton (1969)', interest: {philosophy: 20} },
+        { id: 'fisaloophole', label: '📋 FISA Loophole', interest: {philosophy: 15} },
+        { id: 'fisachallenge', label: '⚖️ Impossibility of Challenge', interest: {philosophy: 20} }
+      ]
+    },
+    garvey: {
+      intro: "MARCUS GARVEY (1919-1927): The Pre-COINTELPRO Pattern\n\n**James Wormley Jones** - FBI's first Black agent (Nov 1919)\nAssignment: Infiltrate and destroy UNIA\n\n**Black Star Line Sabotage**:\n• Spies placed in UNIA\n• Ships PHYSICALLY sabotaged (foreign matter in fuel)\n• Bureau agents took shipboard positions\n• Dr. Craig (first Black electrical engineer) = also Bureau asset\n\n**Outcome**:\n• 1922: Indicted on mail fraud\n• 1923: Convicted\n• 1927: Deported\n\n**Pattern**: Identify Black leader → Infiltrate → Sabotage economic enterprise → Federal charges → Deport/imprison\n\nThis is IDENTICAL to later COINTELPRO - but 37 years before 'official' program.",
+      choices: [
+        { id: 'garvey_pattern', label: '🔄 The Pattern Established', interest: {philosophy: 20} },
+        { id: 'fredhampton', label: '✊ Fred Hampton', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    garvey_pattern: {
+      intro: "THE PATTERN ESTABLISHED (1919):\n\n**What Garvey Represented**:\n• 2-4 million UNIA members worldwide\n• Black ECONOMIC independence (Black Star Line)\n• Pan-African nationalism\n• Direct threat to white supremacist economic control\n\n**The FBI Response**:\n1. Identify rising Black leader with mass following\n2. Hire Black agents to infiltrate\n3. Physically sabotage economic enterprises\n4. Use federal charges (mail fraud) to prosecute\n5. Deport or imprison\n\n**Same Pattern Applied**:\n• MLK (1963-1968)\n• Fred Hampton (1969)\n• Black Panthers (1967-1971)\n• Black Lives Matter (2014-present)\n• Van Kush Family (2015-present)\n\nThe only thing that changed was the program name.",
+      choices: [
+        { id: 'cointelpro', label: '📊 Full Timeline', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fredhampton: {
+      intro: "FRED HAMPTON ASSASSINATION (December 4, 1969):\n\n**The Facts**:\n• Chicago Police + FBI raid Black Panther HQ\n• Fred Hampton (21) and Mark Clark killed WHILE SLEEPING\n• Police fired HUNDREDS of rounds\n• Only TWO shots from inside\n• FBI informant William O'Neal provided floor plan\n• O'Neal DRUGGED Hampton's drink beforehand\n\n**FBI Agent Gregg York**:\n'We expected about twenty Panthers... Only two of those [slurs] were killed'\n\n**Legal**: Hanrahan v. Hampton, 446 U.S. 754 (1980)\nCourt acknowledged FBI + police coordination in killing\n\n**This was STATE-SPONSORED ASSASSINATION**",
+      choices: [
+        { id: 'cointelpro_tactics', label: '📋 COINTELPRO Tactics', interest: {philosophy: 20} },
+        { id: 'fisaloophole', label: '📋 FISA Reform', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    cointelpro_tactics: {
+      intro: "COINTELPRO TACTICS (Hoover 1968 Memo):\n\n**Stated Goals**:\n'EXPOSE, DISRUPT, MISDIRECT, DISCREDIT, or otherwise NEUTRALIZE'\n\n**Key Terms**:\n• EXPOSE = make public\n• DISRUPT = break apart\n• MISDIRECT = send in wrong direction\n• DISCREDIT = destroy reputation\n• NEUTRALIZE = eliminate (including assassination)\n\n**Disproportionate Targeting**:\n• 295 documented actions against Black nationalists\n• 233 (79%) targeted Black Panther Party\n• BPP only founded in 1966\n• By 1968: 'Greatest threat to internal security'\n\n**KKK Comparison**:\n• KKK responsible for documented murders, terrorism\n• FBI had KKK intelligence for decades\n• Yet resources disproportionately targeted Black liberation",
+      choices: [
+        { id: 'fisaloophole', label: '📋 FISA Reform', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fisaloophole: {
+      intro: "THE FISA 'REFORM' AND ITS DESTRUCTION:\n\n**FISA 1978 Promise**:\n• Warrants required before surveilling\n• Special court (FISC) reviews applications\n• Minimization procedures for U.S. persons\n• Prevent future COINTELPRO abuses\n\n**Patriot Act 2001**:\n• Lowered surveillance standards\n• 'Roving wiretaps' without identifying facilities\n• Section 215: collect 'any tangible things'\n\n**FISA Amendments 2008 (Section 702)**:\n• WARRANTLESS surveillance of non-U.S. persons\n• 'Incidental' collection of Americans\n• BACKDOOR SEARCH LOOPHOLE\n• 200,000+ warrantless searches per year",
+      choices: [
+        { id: 'backdoorsearch', label: '🚪 Backdoor Search', interest: {philosophy: 20} },
+        { id: 'fisachallenge', label: '⚖️ Impossibility of Challenge', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    backdoorsearch: {
+      intro: "THE BACKDOOR SEARCH LOOPHOLE:\n\n**How It Works**:\n1. Target foreigners abroad (no warrant needed)\n2. Americans' communications 'incidentally' collected\n3. Search American communications WITHOUT warrant\n4. Use in criminal investigations\n\n**Scale**: 200,000+ warrantless searches per year\n\n**Known Targets**:\n• Black Lives Matter protestors\n• U.S. government officials\n• Journalists\n• Political commentators\n• 19,000 donors to ONE congressional campaign\n\n**USA FREEDOM Act 2015**:\n• Did NOT touch Section 702\n• Did NOT require warrants for backdoor searches\n• 'Reform' was COSMETIC",
+      choices: [
+        { id: 'fisachallenge', label: '⚖️ Why You Cant Challenge', interest: {philosophy: 20} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fisachallenge: {
+      intro: "THE IMPOSSIBILITY OF CHALLENGE:\n\n**Clapper v. Amnesty International (2013)**:\nSupreme Court 5-4: You CANNOT challenge FISA surveillance\nWhy? Cannot prove with 'near certainty' you were surveilled\n\n**The Catch-22**:\n1. FISA surveillance is SECRET\n2. Targets rarely notified\n3. Without notification, cant prove surveillance\n4. Without proof, no standing\n5. Without standing, cant challenge\n6. Therefore: NO ONE can challenge\n\n**Van Kush Experience**:\n• Phone number in law = NOT CONNECTED\n• DOJ Situation Room = no one has access\n• Sent Complaint/Petition = NEVER heard back\n\n**This is not a bug - its a FEATURE**",
+      choices: [
+        { id: 'fisachallenge_fisc', label: '⚖️ FISC Rubber Stamp', interest: {philosophy: 20} },
+        { id: 'fisachallenge_vankush', label: '📋 Van Kush Case', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fisachallenge_fisc: {
+      intro: "FISC: THE RUBBER STAMP COURT\n\n**Statistics (1979-2012)**:\n• Warrants granted: 33,942\n• Warrants denied: 12\n• Rejection rate: 0.03%\n\n**The Court**:\n• Sits EX PARTE (only government present)\n• Proceedings SECRET\n• Opinions CLASSIFIED\n• NO adversarial process\n\n**Russ Tice (NSA analyst)**:\n'Kangaroo court with a rubber stamp'\n\n**Judge James Robertson**:\nResigned in protest, criticized court for creating 'secret body of law'\n\n**Process exists on paper only**:\n• Phone numbers disconnected\n• Addresses unresponsive\n• Courts deny standing\n• NO actual remedy exists",
+      choices: [
+        { id: 'cointelpro', label: '📊 Full Picture', interest: {philosophy: 15} },
+        { id: 'back', label: '← Back', interest: {} }
+      ]
+    },
+    fisachallenge_vankush: {
+      intro: "VAN KUSH CASE STUDY (2017):\n\n**FBI Import Form (FD-71A)**:\n• FOIA: FOI/PA# 1395324-0\n• Created: February 24, 2017\n• Title: 'Promoting Violence Towards Police Officers'\n• Case: ASSESSMENT ZERO FILE\n\n**What Happened**:\n• Rev. Van Kush filed religious exemption petition with DEA\n• FBI created intelligence assessment\n• Characterized as 'promoting violence'\n• ZERO FILE = FISA-related authorities\n\n**Pattern Match (2023 Richmond Memo)**:\n• Target: 'Radical traditionalist Catholics'\n• Method: Develop sources in churches\n• Same methodology: Religious practice → extremism\n\n**Same tactics. Same targets. Same justifications. Different decade.**",
+      choices: [
+        { id: 'cointelpro', label: '📊 The Through-Line', interest: {philosophy: 15} },
         { id: 'back', label: '← Back', interest: {} }
       ]
     }
