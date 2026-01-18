@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "title": "Sasha Shulgin - PIHKAL & TIHKAL Quotes and Commentary",
+    "author_original": "Alexander 'Sasha' Shulgin",
+    "books": {
+      "PIHKAL": "Phenethylamines I Have Known And Loved (1991)",
+      "TIHKAL": "Tryptamines I Have Known And Loved (1997)"
+    },
+    "purpose": "Extensions, commentary, and philosophical analysis of Shulgin's writings",
+    "note": "This collection includes direct quotes, contextual commentary, and extended reasoning on the philosophical and scientific implications"
+  },
+  "categories": [
+    {
+      "id": "consciousness_philosophy",
+      "name": "Consciousness & Philosophy",
+      "description": "Shulgin's thoughts on consciousness, awareness, and the nature of mind"
+    },
+    {
+      "id": "chemistry_as_art",
+      "name": "Chemistry as Art",
+      "description": "The intersection of scientific method and creative exploration"
+    },
+    {
+      "id": "self_experimentation",
+      "name": "Self-Experimentation Ethics",
+      "description": "The philosophy and methodology of self-exploration"
+    },
+    {
+      "id": "legal_freedom",
+      "name": "Legal & Personal Freedom",
+      "description": "Thoughts on cognitive liberty and the right to explore one's own mind"
+    },
+    {
+      "id": "relationship_insights",
+      "name": "Relationship & Human Connection",
+      "description": "Insights on love, partnership, and human bonds (especially with Ann Shulgin)"
+    },
+    {
+      "id": "scientific_method",
+      "name": "Scientific Method & Discovery",
+      "description": "On the nature of research, hypothesis, and discovery"
+    },
+    {
+      "id": "psychedelic_philosophy",
+      "name": "Psychedelic Philosophy",
+      "description": "Core philosophical positions on psychedelics and their role"
+    }
+  ],
+  "files_in_collection": [
+    "pihkal_quotes.json",
+    "tihkal_quotes.json",
+    "commentary_extensions.json",
+    "personal_reflections.json"
+  ]
+}
