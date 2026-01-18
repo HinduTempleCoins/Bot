@@ -230,6 +230,45 @@
       "significance": "Rare instance of Shulgin expressing personal reluctance to explore higher doses",
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 6,
+      "code": "ALEPH-6",
+      "chemical_name": "2,5-Dimethoxy-4-phenylthioamphetamine",
+      "extensions_and_commentary": "In a sense, this compound was a disappointment. The beauty of putting a whole new ring into an active structure is that it provides a marvelous vehicle for introducing new substituents in new arrangements. Had Aleph-6 been a cleanly active and potent compound, then the new phenyl group could have been made electronegative to varying degrees (with methoxy substitution for example) or electropositive to varying degrees (with trifluoromethyls or nitros) and this fine-tuning could have been extremely rewarding.\n\nBut this material had the earmarks of one of those forever threshold things. The 40 milligram experiment was hopelessly compromised, and nothing higher was ever scheduled or tried. The two-carbon homologue, 2,5-dimethoxy-4-phenylthiophenethylamine, or 2C-T-6, has never even been synthesized, let alone assayed.",
+      "structural_promise": {
+        "concept": "New phenyl ring as vehicle for substituent exploration",
+        "electronegative_options": "methoxy substitution",
+        "electropositive_options": "trifluoromethyls or nitros",
+        "outcome": "Promise unfulfilled - compound was disappointment"
+      },
+      "activity": {
+        "description": "Forever threshold thing",
+        "40mg_experiment": "Hopelessly compromised",
+        "higher_doses": "Never scheduled or tried"
+      },
+      "related_compounds": {
+        "2C-T-6": {
+          "name": "2,5-dimethoxy-4-phenylthiophenethylamine",
+          "status": "Never synthesized, let alone assayed"
+        }
+      },
+      "key_themes": [
+        "structural_promise_unfulfilled",
+        "forever_threshold",
+        "fine_tuning_potential",
+        "abandoned_avenue",
+        "disappointment"
+      ],
+      "notable_quotes": [
+        "In a sense, this compound was a disappointment.",
+        "The beauty of putting a whole new ring into an active structure is that it provides a marvelous vehicle for introducing new substituents in new arrangements.",
+        "But this material had the earmarks of one of those forever threshold things.",
+        "The 40 milligram experiment was hopelessly compromised.",
+        "2C-T-6 has never even been synthesized, let alone assayed."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
