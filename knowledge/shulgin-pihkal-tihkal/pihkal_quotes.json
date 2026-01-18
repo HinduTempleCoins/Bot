@@ -4152,6 +4152,239 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 61,
+      "code": "DOAM",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-amylamphetamine",
+      "extensions_and_commentary": "The actual procedure that was published for the isolation of this final amine was a different one, one that would certainly work, but which was based on the procedures tried and proven with the lower homologues. The process described above is just a bit bizarre (a sulfate salt extracting into methylene chloride) but it was the actual thing that was done. The work was started towards two additional compounds but these never got past the first \"ketone and phenol\" stage. p-Dimethoxybenzene was brought into reaction with n-caproic acid with polyphosphoric acid (aiming towards 2,5-dimethoxy-4-(n)-hexylamphetamine, DOHE) but this was dropped when DOAM proved to be down in potency. And the reaction between p-dimethoxybenzene and benzoyl chloride with anh. aluminum chloride went well (aiming towards 2,5-dimethoxy-4-benzylamphetamine, DOBZ). A goodly amount of the phenol (2-hydroxy-5-methoxybenzophenone) was obtained as fine yellow crystals, but this line of inquiry was also dropped.\n\nThe preparation of DOAM was, as a matter of fact, the last of the homol-ogous series of compounds actually completed, which stemmed from the original discovery of DOM. The \"Ten Classic Ladies\" concept was mentioned under ARIADNE, and the adding of a methyl group in the place of a hydrogen atom at the 4-position-methyl led to the synthesis of Ms. HECATE and gave rise to DOET. The whole series of methyl-ethyl-propyl-butyl-amyl compounds was appealing to me, in that the potency seemed to increase initially as the chain got longer, and then it abruptly dropped off. Wouldn't it be nice, I thought, if I could interest some pharmacologist in looking at this tight set of drugs with some animal model, to see if there is some neurotransmitter activity that would show a parallel action.\n\nI learned of a curious young researcher in Washington who had an elegant procedure for measuring serotonin agonist action using the (otherwise) discarded sheep umbilical artery strips. These become available each year at lambing time, do not cost the life of anything, and require very little compound. He assayed my compounds and, lo and behold, the serotonin activity also went through a maximum in the middle of this series. We published a short paper to this effect, which served as a excellent vehicle to get the cogent human data into the scientific literature.\n\nI have never understood the reasons that there might be connection between the twitching of a umbilical artery in a sheep and the appearance of an insight in the mind of man. And, I have never personally met this pharmacologist. Some day, I hope to do both.",
+      "synthesis_note": {
+        "published_vs_actual": "Published procedure different from actual bizarre process",
+        "bizarre_detail": "Sulfate salt extracting into methylene chloride"
+      },
+      "abandoned_compounds": {
+        "DOHE": {
+          "full_name": "2,5-dimethoxy-4-(n)-hexylamphetamine",
+          "synthesis_attempt": "p-Dimethoxybenzene + n-caproic acid + polyphosphoric acid",
+          "status": "Dropped when DOAM proved down in potency"
+        },
+        "DOBZ": {
+          "full_name": "2,5-dimethoxy-4-benzylamphetamine",
+          "synthesis_attempt": "p-Dimethoxybenzene + benzoyl chloride + anhydrous aluminum chloride",
+          "intermediate": "2-hydroxy-5-methoxybenzophenone (fine yellow crystals)",
+          "status": "Line of inquiry dropped"
+        }
+      },
+      "homologous_series": {
+        "significance": "Last compound completed in series from DOM discovery",
+        "series": ["methyl", "ethyl", "propyl", "butyl", "amyl"],
+        "potency_pattern": "Increased initially as chain got longer, then abruptly dropped off",
+        "classic_ladies_reference": "ARIADNE recipe; Ms. HECATE gave rise to DOET"
+      },
+      "sheep_umbilical_research": {
+        "researcher_location": "Washington",
+        "method": "Sheep umbilical artery strips for serotonin agonist action",
+        "advantages": ["Available at lambing time", "Do not cost the life of anything", "Require very little compound"],
+        "finding": "Serotonin activity went through maximum in middle of series",
+        "publication": "Short paper - vehicle to get human data into scientific literature"
+      },
+      "philosophical_musing": {
+        "question": "Connection between twitching of umbilical artery in sheep and insight in mind of man",
+        "understanding": "Never understood the reasons",
+        "personal_note": "Never personally met this pharmacologist. Some day, I hope to do both."
+      },
+      "key_themes": [
+        "last_DOM_homologue",
+        "potency_chain_length_relationship",
+        "Ten_Classic_Ladies",
+        "sheep_umbilical_artery",
+        "serotonin_agonist_correlation",
+        "abandoned_DOHE_DOBZ",
+        "bizarre_synthesis"
+      ],
+      "notable_quotes": [
+        "The process described above is just a bit bizarre (a sulfate salt extracting into methylene chloride) but it was the actual thing that was done.",
+        "The preparation of DOAM was, as a matter of fact, the last of the homologous series of compounds actually completed, which stemmed from the original discovery of DOM.",
+        "The whole series of methyl-ethyl-propyl-butyl-amyl compounds was appealing to me, in that the potency seemed to increase initially as the chain got longer, and then it abruptly dropped off.",
+        "These become available each year at lambing time, do not cost the life of anything, and require very little compound.",
+        "Lo and behold, the serotonin activity also went through a maximum in the middle of this series.",
+        "I have never understood the reasons that there might be connection between the twitching of a umbilical artery in a sheep and the appearance of an insight in the mind of man.",
+        "I have never personally met this pharmacologist. Some day, I hope to do both."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 62,
+      "code": "DOB",
+      "chemical_name": "2,5-Dimethoxy-4-bromoamphetamine",
+      "extensions_and_commentary": "The stars had clearly lined up in favor of making DOB and exploring its biological activity. This preparation had been completed in 1967 and the report of this compound and its unprecedently high potency published in 1971. And very shortly, two additional papers appeared completely independently. One described DOB made via a different route, and describing high activity in rats. The other described DOB and a couple of closely related brominated amphetamines and their action in man.\n\nThis is one of the last of the experimental compounds within the phenethylamine family on which any animal toxicity studies were performed by me prior to human studies. A mouse injected with 50 mg/Kg (ip) showed considerable twitching and was irritable. Another, at 100 mg/Kg (ip), had overt shaking at 20 minutes, which evolved into persistent hyperactivity that lasted several hours. Yet another, at 125 mg/Kg (ip), lost much of her righting reflex within 15 minutes, entered into convulsions at 50 minutes, and was dead a half hour later. A fourth mouse, at 150 mg/Kg (ip), entered into spontaneous convulsions within 10 minutes, and expired in what looked like an uncomfortable death at 22 minutes following injection. What was learned? That the LD/50 was somewhere between 100 and 125 mg/Kg for the mouse. And an effective dose in man of maybe 2 mg (for an 80 Kg man) is equivalent to 25 ug/Kg. Therefore the index of safety (the therapeutic index, the lethal dose divided by the effective dose) is well over a thousand. I feel that two mice were killed without anything of value having been received in return.\n\nActually, it is very likely that the damaging, if not lethal, level of DOB in man is a lot lower than this ratio would imply. There was a report of a death of a young lady following the snorting of an amount of DOB so massive, there was the actual recovery of over nine milligrams of the drug from her body tissues in the post-mortem examination. It was said that she and her companion had thought that the drug they were using was MDA and, taking a dosage appropriate for this, effectively overdosed themselves. He survived, following convulsions and an extended period (several weeks) of being in a comatose state. Tragic examples have been reported that involve arterial vascular spasm. But in most overdose cases ascribed to DOB, the identity of the drug has remained unestablished.\n\nAs with DOI, the presence of a heavy atom, the bromine atom, in DOB makes the radioactive isotope labelled material a powerful research tool. Studies with DOB labelled with either 82Br or 77Br have been used in human subjects to follow the distribution of the drug. The use of a whole body scanner permits the imaging of the intact body, with the travelings of the radioactivity easily followed from outside. A fascinating finding is that DOB goes first and foremost to the human lung where it accumulates for a couple of hours. It is only afterwards that the brain level builds up. There is a strong implication that some metabolic conversion occurs in the lung, and it is only after this that the truly active metabolite is available for central action. This is consistent with the relatively slow onset of effect, and the very long duration of action.\n\nAs with all the other psychedelics which can and have been studied as their optical isomers, it is the \"R\" isomer of DOB that is the more active than the racemic mixture, and the \"S\" is certainly much less active, but it has never been run up to fully active levels. The alpha-ethyl homologue of DOB is mentioned under ARIADNE. The positionally rearranged isomers of DOB are discussed under META-DOB.",
+      "discovery_history": {
+        "synthesis_completed": 1967,
+        "publication": 1971,
+        "significance": "Unprecedentedly high potency",
+        "independent_confirmations": [
+          "DOB via different route, high activity in rats",
+          "DOB and related brominated amphetamines, action in man"
+        ]
+      },
+      "mouse_toxicity_studies": {
+        "context": "One of last compounds with animal toxicity studies before human trials",
+        "results": [
+          {"dose": "50 mg/Kg ip", "effect": "Considerable twitching, irritable"},
+          {"dose": "100 mg/Kg ip", "effect": "Overt shaking at 20 min, persistent hyperactivity for hours"},
+          {"dose": "125 mg/Kg ip", "effect": "Lost righting reflex at 15 min, convulsions at 50 min, dead 30 min later"},
+          {"dose": "150 mg/Kg ip", "effect": "Spontaneous convulsions at 10 min, uncomfortable death at 22 min"}
+        ],
+        "LD50": "Between 100-125 mg/Kg for mouse",
+        "human_effective_dose": "~2 mg for 80 Kg man = 25 ug/Kg",
+        "therapeutic_index": "Well over 1000",
+        "shulgin_regret": "Two mice were killed without anything of value having been received in return"
+      },
+      "human_toxicity": {
+        "fatal_case": {
+          "victim": "Young lady",
+          "route": "Snorting",
+          "post_mortem_recovery": "Over 9 mg from body tissues",
+          "mistaken_identity": "Thought drug was MDA, took appropriate MDA dose",
+          "companion": "Survived after convulsions and several weeks comatose"
+        },
+        "other_cases": "Arterial vascular spasm reported",
+        "caveat": "Most overdose cases ascribed to DOB, drug identity remained unestablished"
+      },
+      "radioactive_isotope_studies": {
+        "isotopes_used": ["82Br", "77Br"],
+        "method": "Whole body scanner imaging in human subjects",
+        "key_finding": "DOB goes first to lung, accumulates for couple hours, then brain level builds",
+        "implication": "Metabolic conversion in lung produces truly active metabolite",
+        "consistency": "Explains slow onset and very long duration of action"
+      },
+      "optical_isomers": {
+        "more_active": "R isomer",
+        "less_active": "S isomer (never run to fully active levels)"
+      },
+      "related_compounds": {
+        "alpha_ethyl_homologue": "See ARIADNE",
+        "positional_isomers": "See META-DOB"
+      },
+      "key_themes": [
+        "unprecedented_potency",
+        "1967_synthesis_1971_publication",
+        "mouse_toxicity_regret",
+        "therapeutic_index",
+        "fatal_overdose_MDA_confusion",
+        "radioactive_bromine_imaging",
+        "lung_accumulation",
+        "metabolic_conversion",
+        "R_isomer_activity"
+      ],
+      "notable_quotes": [
+        "The stars had clearly lined up in favor of making DOB and exploring its biological activity.",
+        "I feel that two mice were killed without anything of value having been received in return.",
+        "There was a report of a death of a young lady following the snorting of an amount of DOB so massive, there was the actual recovery of over nine milligrams of the drug from her body tissues in the post-mortem examination.",
+        "It was said that she and her companion had thought that the drug they were using was MDA.",
+        "A fascinating finding is that DOB goes first and foremost to the human lung where it accumulates for a couple of hours.",
+        "There is a strong implication that some metabolic conversion occurs in the lung, and it is only after this that the truly active metabolite is available for central action."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 63,
+      "code": "DOBU",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-butylamphetamine",
+      "extensions_and_commentary": "It is not possible to give a dosage range for DOBU. There is no question but that whatever is occurring is slow of onset, and very long lived. In general, the effects resemble stimulation more that anything else.\n\nA butyl group has four carbons, and they can be interconnected in four ways (as long as you don't connect them in rings). If all four of them are in a straight chain, you have the so-called normal butyl (or n-butyl) group, and this is the exact arrangement that is found in the DOBU. The atoms can be numbered #1 through #4, going outwards from the point of attachment. The chain can, however, be only three carbons long, and the fourth or extra carbon attached on the #2 carbon atom; this is called the iso-butyl (or i-butyl) group. Or the extra left-over carbon can be attached to the #1 carbon atom; this is called the secondary butyl (or sec-butyl or s-butyl) group. Or lastly, the atoms can be all scrunched up, with the chain only two carbons long, and the other two left-over methyl carbons attached to the #1 carbon atom. This isomer is called the tertiary butyl (or tert-butyl or t-butyl) group. In animal studies, and in preliminary human studies, the activity of these compounds drops as the butyl group gets more and more scrunched.\n\nThe isomer with the iso-butyl group has been synthesized by the Friedel- Crafts reaction of isobutyryl chloride with p-dimethoxybenzene, followed by reduction of the ketone to an alcohol, dehydration to a dimethylstyrene, and final hydrogenation to a hydrocarbon. The formation of the benzaldehyde, reaction with nitroethane, and final lithium aluminum hydride reduction to 2,5-dimethoxy-4-(2-methylpropyl)-amphetamine hydrochloride (DOIB, mp 164-166 °C) were completely conventional. In drug discrimination studies in rats, DOIB was only a third as active as DOM, and in humans the activity falls in the 10 to 15 milligram area. The isomer with the sec-butyl group was made in a somewhat similar manner, from 2,5-dimeth-oxyacetophenone. The addition of ethyl magnesium bromide gave an alcohol which with dehydration yielded a pair of dimethylstyrenes isomeric to the compound mentioned above. From there an identical sequence of steps (hydrogenation, benzaldehyde synthesis, nitrostyrene, and lithium aluminum hydride reduction) produced 2,5-dimethoxy-4-(1-methylpropyl)amphetamine hydrochloride (DOSB, mp 168-170 °C.). In the rat studies it was only a twelfth the potency of DOM, and in man the active dose is in the 25 to 30 milligram area. As with the normal butyl compound, there is a strong stimulation factor, with real and long-lasting sleep disturbance.\n\nThe last of the butyl isomers, the tert-butyl compound, was made from a much more obvious starting material. This is the commercially available tert-butyl hydroquinone. It was methylated in sodium hydroxide with methyl iodide, and then carried through the above sequence (benzaldehyde. mp 124 °C from cyclohexane, nitrostyrene, yellow crystals from methanol, mp 95-96.5 °C, and lithium aluminum hydride reduction) to give 2,5-dimethoxy-4-(1,1-dimethylethyl)amphetamine hydrochloride (DOTB, mp 168 °C). Rats trained in a process called the Sidman Avoidance Schedule gave behavior that suggested that DOTB had no activity at all, and in human trials, doses of up to 25 milligrams were totally without effect.\n\nAn effort was made to prepare a butyl analogue containing a ring, but it was never completed. This was the cyclopropylmethyl isomer, 2,5-dimethoxy-4-cyclo-propylmethylamphetamine hydrochloride, DOCPM. Only the first step of its synthesis was complete (the reaction of cyclopropylcarboxylic acid chloride with p-dimethoxybenzene) and even it went badly. The desired ketone (2,5-dimethoxyphenyl cyclopropyl ketone) was most difficult to separate from the recovered starting ether. A promising approach would be the isolation of the phenol (2-hydroxy-5-methoxyphenyl cyclopropyl ketone) which is a beautiful yellow solid with a melting point of 99-100 °C from methanol. Anal. (C11H12O3) C,H. It then could be methylated to the wanted intermediate. It is the major product when the reaction is conducted with anhydrous aluminum chloride in methylene chloride.\n\nThe 2-carbon phenethylamine homologues of these compounds could all, in principle be easily made by using nitromethane instead of nitroethane with the intermediary benzaldehydes. But, as of the present time, none of them have been made, so their pharmacology remains completely unknown.",
+      "dosage_info": {
+        "range": "Not possible to give",
+        "onset": "Slow",
+        "duration": "Very long lived",
+        "character": "Effects resemble stimulation more than anything else"
+      },
+      "butyl_isomer_chemistry": {
+        "explanation": "Four carbons can be interconnected in four ways (excluding rings)",
+        "n-butyl": {
+          "description": "All four in straight chain, numbered #1 through #4 outward",
+          "compound": "DOBU"
+        },
+        "iso-butyl": {
+          "description": "Three carbon chain, fourth attached to #2 carbon",
+          "compound": "DOIB"
+        },
+        "sec-butyl": {
+          "description": "Extra carbon attached to #1 carbon",
+          "compound": "DOSB"
+        },
+        "tert-butyl": {
+          "description": "All scrunched up - two carbon chain with two methyls on #1",
+          "compound": "DOTB"
+        },
+        "activity_pattern": "Drops as butyl group gets more and more scrunched"
+      },
+      "butyl_isomer_compounds": {
+        "DOIB": {
+          "full_name": "2,5-dimethoxy-4-(2-methylpropyl)amphetamine",
+          "mp": "164-166°C",
+          "synthesis": "Friedel-Crafts with isobutyryl chloride, ketone reduction, dehydration, hydrogenation",
+          "rat_potency": "One third as active as DOM",
+          "human_dose": "10-15 mg"
+        },
+        "DOSB": {
+          "full_name": "2,5-dimethoxy-4-(1-methylpropyl)amphetamine",
+          "mp": "168-170°C",
+          "synthesis": "From 2,5-dimethoxyacetophenone + ethyl magnesium bromide",
+          "rat_potency": "One twelfth the potency of DOM",
+          "human_dose": "25-30 mg",
+          "effects": "Strong stimulation factor, real and long-lasting sleep disturbance"
+        },
+        "DOTB": {
+          "full_name": "2,5-dimethoxy-4-(1,1-dimethylethyl)amphetamine",
+          "mp": "168°C",
+          "starting_material": "Commercially available tert-butyl hydroquinone",
+          "benzaldehyde_mp": "124°C from cyclohexane",
+          "nitrostyrene_mp": "95-96.5°C (yellow crystals from methanol)",
+          "rat_result": "Sidman Avoidance Schedule suggested no activity",
+          "human_result": "Up to 25 mg totally without effect"
+        }
+      },
+      "incomplete_compound": {
+        "name": "DOCPM",
+        "full_name": "2,5-dimethoxy-4-cyclopropylmethylamphetamine",
+        "status": "Never completed",
+        "problem": "Ketone difficult to separate from starting ether",
+        "promising_approach": {
+          "intermediate": "2-hydroxy-5-methoxyphenyl cyclopropyl ketone",
+          "appearance": "Beautiful yellow solid",
+          "mp": "99-100°C from methanol",
+          "method": "Anhydrous aluminum chloride in methylene chloride"
+        }
+      },
+      "phenethylamine_homologues": {
+        "synthesis": "Could use nitromethane instead of nitroethane",
+        "status": "None made",
+        "pharmacology": "Completely unknown"
+      },
+      "key_themes": [
+        "butyl_isomer_chemistry",
+        "scrunching_reduces_activity",
+        "DOM_potency_comparison",
+        "stimulation_character",
+        "sleep_disturbance",
+        "DOTB_inactive",
+        "DOCPM_incomplete",
+        "phenethylamine_homologues_unknown"
+      ],
+      "notable_quotes": [
+        "It is not possible to give a dosage range for DOBU.",
+        "In general, the effects resemble stimulation more that anything else.",
+        "A butyl group has four carbons, and they can be interconnected in four ways (as long as you don't connect them in rings).",
+        "In animal studies, and in preliminary human studies, the activity of these compounds drops as the butyl group gets more and more scrunched.",
+        "As with the normal butyl compound, there is a strong stimulation factor, with real and long-lasting sleep disturbance.",
+        "Rats trained in a process called the Sidman Avoidance Schedule gave behavior that suggested that DOTB had no activity at all.",
+        "The desired ketone was most difficult to separate from the recovered starting ether.",
+        "The 2-carbon phenethylamine homologues of these compounds could all, in principle be easily made... But, as of the present time, none of them have been made."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
