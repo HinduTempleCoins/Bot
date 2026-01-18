@@ -153,6 +153,55 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 4,
+      "code": "ALEPH-2",
+      "chemical_name": "2,5-Dimethoxy-4-ethylthioamphetamine",
+      "extensions_and_commentary": "As with ALEPH itself, and in most ways with the entire ALEPH family, there is no predictability of the dose/response relationship. One person had expressed his psychic isolation by taking and maintaining a fetal position in relative hibernation for several hours and with substantial amnesia; this at a four milligram dose. Yet another person, at fully twice this amount, was aware of a slight light-headedness that could in no way be measured as more than a bare threshold. But by the time this erratic nature had become apparent, the ALEPHS had been assigned and made, up to and including ALEPH-7.\n\nALEPH-3 was intended to be the methallylthio compound, 2,5-dimethoxy-4-(beta-methallylthio)amphetamine. [Detailed synthesis attempted but abandoned - aldehyde obtained was 'a mess']. Several years later, this entire project was reinitiated, and the aldehyde was obtained as a yellow crystal, but again it was not pursued. At that time, the earlier try had been totally forgotten, and a brand new ALEPH- (or 2C-T-) number had been assigned; i.e., 20. Thus, the corresponding phenethylamine, had it ever been made, which it was not, would have been called either 2C-T-3 or 2C-T-20, and the amphetamine homologue would probably have been ALEPH-20.\n\nA closely related 2C-T-X compound was also started quite a while later - this was the allylthio homologue (2C-T-16). The nitrostyrene was made but has not yet been reduced to the final amine.\n\nALEPH-5 was to be the cyclohexylthio analogue. The nitrostyrene was prepared but 'sits there on the shelf to be reduced to ALEPH-5 some inspired day.' The two-carbon homologue will someday be called 2C-T-5 (if it is ever made).\n\nThe remaining members of this family, ALEPH-4, ALEPH-6, and ALEPH-7 have actually been prepared and they have all been entered here in Book II, under their own names.",
+      "erratic_nature": {
+        "example_1": "4mg - fetal position, hibernation for hours, substantial amnesia",
+        "example_2": "8mg - barely threshold, slight light-headedness",
+        "conclusion": "No predictability of dose/response relationship"
+      },
+      "unfinished_compounds": [
+        {
+          "code": "ALEPH-3 / ALEPH-20",
+          "name": "2,5-dimethoxy-4-(beta-methallylthio)amphetamine",
+          "status": "Abandoned twice - project forgotten and renumbered",
+          "phenethylamine_version": "Would be 2C-T-3 or 2C-T-20 (never made)"
+        },
+        {
+          "code": "ALEPH-5",
+          "name": "2,5-dimethoxy-4-cyclohexylthioamphetamine",
+          "status": "Nitrostyrene sits on shelf awaiting reduction 'some inspired day'",
+          "phenethylamine_version": "2C-T-5 (if ever made)"
+        },
+        {
+          "code": "ALEPH-16",
+          "name": "2,5-dimethoxy-4-allylthioamphetamine",
+          "status": "Nitrostyrene made, not reduced",
+          "phenethylamine_version": "2C-T-16"
+        }
+      ],
+      "completed_family_members": ["ALEPH-4", "ALEPH-6", "ALEPH-7"],
+      "key_themes": [
+        "erratic_compounds",
+        "individual_variation",
+        "abandoned_projects",
+        "lab_notebook_archaeology",
+        "numbering_confusion",
+        "unfinished_work"
+      ],
+      "notable_quotes": [
+        "There is no predictability of the dose/response relationship.",
+        "At that time, the earlier try had been totally forgotten, and a brand new ALEPH- (or 2C-T-) number had been assigned.",
+        "This has not yet been reduced to the final amine.",
+        "Sits there on the shelf to be reduced to ALEPH-5 some inspired day.",
+        "Will someday be called 2C-T-5 (if it is ever made)."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
