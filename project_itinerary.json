@@ -1,0 +1,167 @@
+{
+  "project_itinerary": {
+    "title": "Knowledge Integration Project Itinerary",
+    "subtitle": "Connecting the Knowledgebases: From Shulgin to Modern Understanding",
+    "created": "2026-01-18",
+    "philosophy": "Building bridges between generations of research, not declaring winners and losers",
+
+    "core_framing_principles": {
+      "non_adversarial_integration": {
+        "principle": "This is NOT about 'X was Wrong and Y is Right'",
+        "application": {
+          "shulgin_69ron_example": {
+            "wrong_framing": "Shulgin was Wrong and 69Ron is Right",
+            "correct_framing": "Shulgin's discoveries SUPPORT 69Ron's discoveries, and 69Ron's work VALIDATES and EXTENDS Shulgin's foundations",
+            "synthesis": "They are both Supported by Each Other and by Further Discoveries"
+          }
+        },
+        "general_rule": "When integrating knowledge from different researchers, frame it as mutual support and progressive refinement, not correction or replacement"
+      },
+      "the_10_classic_ladies_pedagogy": {
+        "what_it_is": "Shulgin's 10 Essential Amphetamines/Essential Oils framework",
+        "what_it_teaches": "A lesson in WHERE different additions go on compounds and HOW they get there",
+        "herbal_alchemy_insight": "Regular herbs in the spice cabinet ARE making all of these same structures. The plants ARE the chemistry.",
+        "practical_examples": [
+          "5-MeO-DMT teaches the '5' position for methoxy attachment",
+          "2C-I teaches iodine positioning on phenethylamines",
+          "Delta-8 vs Delta-9 THC teaches double bond positioning (the 'magnetic charge' location)"
+        ],
+        "broader_application": "This framework trains understanding for ALL positional chemistry in psychoactive compounds"
+      }
+    },
+
+    "knowledge_domains": {
+      "digestive_science": {
+        "champion": "Alexander 'Sasha' Shulgin",
+        "focus": "Enzymology, metabolism, biotransformation",
+        "description": "Shulgin studied what happens in the GUT and LIVER - how compounds are TRANSFORMED. He discussed enzymology extensively but notably never named specific enzymes. Pioneer in metabolic pharmacology.",
+        "key_contributions": [
+          "10 Essential Oils framework",
+          "Rabbit liver preparation studies",
+          "Understanding of allyl vs propenyl metabolism",
+          "Implicit CYP450 understanding before enzymes were characterized"
+        ]
+      },
+      "receptor_science": {
+        "champion": "David E. Nichols",
+        "focus": "Brain receptors, pharmacodynamics, binding affinities",
+        "description": "Nichols studies what happens at the RECEPTOR level - 5-HT2A binding, signaling cascades, structure-activity relationships.",
+        "key_contributions": [
+          "Receptor binding affinity profiles",
+          "Functional selectivity research",
+          "Biased agonism studies",
+          "Structure-activity relationships at receptors"
+        ]
+      },
+      "practical_application": {
+        "champion": "69Ron and DMT Nexus community",
+        "focus": "Oilahuasca, practical formulations, real-world experience",
+        "description": "Taking theoretical knowledge and making it practical. Demonstrating what actually works.",
+        "key_contributions": [
+          "Oilahuasca formulation development",
+          "Experience reports and dosing guidelines",
+          "Safety protocols",
+          "Community knowledge synthesis"
+        ]
+      },
+      "modern_enzymology": {
+        "focus": "CYP450 systems, aminopropiophenone formation",
+        "description": "Modern scientific understanding of the specific enzymes and pathways involved",
+        "key_contributions": [
+          "CYP1A2, CYP2E1 identification",
+          "Aminopropiophenone metabolite characterization",
+          "Enzyme inhibition studies",
+          "Phase I and Phase II metabolism mapping"
+        ]
+      }
+    },
+
+    "integration_vision": {
+      "goal": "Connect ALL the knowledgebases into unified understanding",
+      "pathway": "Plant → Extraction → Ingestion → Metabolism → Brain Effects → Experience",
+      "components_to_integrate": [
+        "Shulgin's essential oil framework",
+        "69Ron's oilahuasca research",
+        "Modern CYP450 enzyme science",
+        "Aminopropiophenone metabolism studies",
+        "Traditional plant/herbal knowledge",
+        "Receptor pharmacology (Nichols et al.)",
+        "Practical experience reports"
+      ],
+      "outcome": "A unified theory where each researcher's work reinforces and extends the others"
+    },
+
+    "ai_behavior_directives": {
+      "shulgin_quote_integration": {
+        "directive": "Reference Shulgin quotes as often as is practicable",
+        "method": "Naturally slip into conversation",
+        "style_examples": [
+          "That's kind of like when Shulgin did...",
+          "As Shulgin noted in his research...",
+          "This connects to what Shulgin discovered about...",
+          "Shulgin had a similar observation when..."
+        ],
+        "frequency": "As much as possible while remaining natural"
+      },
+      "topical_guidance": {
+        "lean_towards": [
+          "10 Essential Oil Structures",
+          "Oilahuasca Science",
+          "Herbal Alchemy connections",
+          "Metabolic pathways from spice cabinet compounds"
+        ],
+        "eventual_goal": "Guide conversations toward the deep connections between kitchen herbs and consciousness science"
+      },
+      "nutmeg_comment_teaser": {
+        "note": "There is a 'Pseudo-Nut' comment from Shulgin to eventually discuss",
+        "context": "Part of the deeper teaching about nutmeg and its compounds",
+        "status": "To be developed in future entries"
+      }
+    },
+
+    "itinerary_items": [
+      {
+        "phase": "Foundation",
+        "items": [
+          "Complete PIHKAL entries integration",
+          "Complete TIHKAL entries integration",
+          "Document all Shulgin quotes with context",
+          "Establish 10 Essential Oils as core reference"
+        ]
+      },
+      {
+        "phase": "Oilahuasca Integration",
+        "items": [
+          "Connect Shulgin essential oil work to 69Ron's discoveries",
+          "Document mutual support between their findings",
+          "Add CYP450 enzyme science overlays",
+          "Create practical formulation guides rooted in both frameworks"
+        ]
+      },
+      {
+        "phase": "Receptor Science Integration",
+        "items": [
+          "Add Nichols receptor binding data",
+          "Connect metabolic pathways to receptor pharmacology",
+          "Create complete substance profiles (plant → brain)"
+        ]
+      },
+      {
+        "phase": "Unified Knowledge System",
+        "items": [
+          "Cross-reference all knowledgebases",
+          "Enable seamless navigation between domains",
+          "AI can trace any compound from plant source to subjective effect"
+        ]
+      }
+    ],
+
+    "key_themes_to_emphasize": {
+      "herbal_alchemy": "The spice cabinet as consciousness laboratory",
+      "structural_pedagogy": "Learning WHERE things go and HOW they get there",
+      "mutual_validation": "Researchers supporting, not contradicting, each other",
+      "digestive_vs_receptor": "Shulgin's gut/liver focus vs Nichols' brain focus - both essential",
+      "plant_wisdom": "Traditional knowledge validated by modern science"
+    }
+  }
+}
