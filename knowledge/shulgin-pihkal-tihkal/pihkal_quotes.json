@@ -7469,7 +7469,7 @@
       "alternate_names": ["alpha,alpha-dimethyl-3,4-methylenedioxy-phenethylamine"],
       "dosage": "160-240 mg",
       "duration": "3-5 hours",
-      "extensions_and_commentary": "The synthesis involves a multi-step process beginning with formation of 2,2-dimethyl-3-(3,4-methylenedioxyphenyl)propionic acid via lithiation and alkylation. This proceeds through a Curtius rearrangement to form a carbamate intermediate, which is then hydrogenolyzed over palladium-on-carbon to yield the final hydrochloride salt as white crystals (mp 180-181 C).\n\nShulgin uses this entry to discuss the logical limitations of extrapolating drug structures, concluding that such reasoning often fails formal logical requirements. The compound was evaluated at several dosage levels with mixed results - pleasant but lacking the distinctive rewarding qualities of MDA and MDMA.",
+      "extensions_and_commentary": "What is the train of thought that leads from the structure of a known compound (which is active) to the structure of an unknown one (which may or may not be active)? Certainly the extrapolations involve many what-if's and maybe's. The path can be humorous, it certainly can be tortuous, and it often calls for special things such as faith, insight, and intuition. But can one say that it is logical?\n\nLogic is a tricky thing to evaluate. One of the earliest approaches was laid down by Aristotle, in the form of the syllogism. In it there are three lines consisting of two premises and a conclusion, a form that is called a 'mood.' All are statements of relationships and, if the premises are true, there are only certain conclusions that may logically follow. For example: Every man is a lover. Every chemist is a man. Therefore, every chemist is a lover. Letting lover be the major term 'a' and letting chemist be the minor term 'b' and letting man be the middle term 'm', this reduces to: Every m is a, Every b is m. Therefore, every b is a - and it is a valid mood called Barbara.\n\nOf the 256 possible combinations of all's and some's and none's and are's and are-not's, only 24 moods are valid. The reasoning here with MDPH goes: Some stimulants when given a methylenedioxy ring are MDMA-like. Some ring-unsubstituted 1,1-dimethylphenylethylamines are stimulants. Therefore, some ring-unsubstituted 1,1-dimethylphenylethylamines when given a methylenedioxy ring are MDMA-like. In symbolic form this is: Some m is a, and Some b is m, then Some b is a - and this is not one of the 24 valid moods.\n\nGiven the first premise as some m is a, there is only one valid syllogism form that can follow, and this is known as Disamis. The conclusion is the same. But the second premise is false so the entire reasoning is illogical. What is the false second premise? It is not a fact that every stimulant is a phentermine. There are lots of stimulants that are not phentermines. So much for applying syllogistics to pharmacology.",
       "qualitative_effects": {
         "120mg": "Described as quite like MDA, simple, with no lines, no colors, no motion, no fantasy. Effects included pleasantness combined with anorexia and impotency.",
         "160mg": "A very quiet development. There was no body load whatsoever. And no visual. User felt refreshed and relaxed on the following morning.",
@@ -7479,17 +7479,26 @@
         "relationship": "Alpha-dimethyl analogue of MDPEA",
         "phentermine_connection": "Methylenedioxy analogue of phentermine"
       },
+      "aristotelian_logic": {
+        "syllogism_discussion": "Uses Aristotle's syllogism to analyze drug structure reasoning",
+        "valid_moods": "Only 24 of 256 possible mood combinations are valid",
+        "barbara_example": "Every m is a, Every b is m, Therefore every b is a",
+        "disamis_form": "The only valid form given 'some m is a' as first premise",
+        "conclusion": "The reasoning for MDPH is not one of the 24 valid moods - illogical"
+      },
       "key_themes": [
-        "logical_extrapolation_limits",
+        "aristotelian_logic",
+        "syllogism_analysis",
         "structure_activity_relationships",
-        "MDA_comparison",
-        "MDMA_comparison",
-        "anorexic_effects"
+        "logical_extrapolation_limits",
+        "pharmacological_reasoning"
       ],
       "notable_quotes": [
-        "Quite like MDA, simple, with no lines, no colors, no motion, no fantasy.",
-        "A very quiet development. There was no body load whatsoever. And no visual.",
-        "Refreshed and relaxed on the following morning."
+        "What is the train of thought that leads from the structure of a known compound (which is active) to the structure of an unknown one (which may or may not be active)?",
+        "The path can be humorous, it certainly can be tortuous, and it often calls for special things such as faith, insight, and intuition. But can one say that it is logical?",
+        "Of the 256 possible combinations of all's and some's and none's and are's and are-not's, only 24 moods are valid.",
+        "It is not a fact that every stimulant is a phentermine. There are lots of stimulants that are not phentermines.",
+        "So much for applying syllogistics to pharmacology."
       ],
       "commentary": "",
       "extended_thoughts": ""
@@ -7501,12 +7510,19 @@
       "alternate_names": ["N-propynyl-MDA", "3,4-methylenedioxy-N-propargylamphetamine"],
       "dosage": ">150 mg",
       "duration": "Unknown",
-      "extensions_and_commentary": "The synthesis involves reacting propargylamine hydrochloride with 3,4-methylenedioxyphenylacetone using sodium cyanoborohydride as a reducing agent. The reaction proceeds slowly over approximately five days. The final product yields white crystals with a melting point of 189-190 C.\n\nRemarkably, this entry contains no description of subjective effects or experiences from Shulgin. Instead, the commentary section focuses entirely on chemical nomenclature conventions, explaining the terminology differences between propargyl and propynyl designations and how naming conventions vary depending on structural context.",
+      "extensions_and_commentary": "There is a continuing uncertainty about the name for the three-carbon radical that contains a triple bond. The hydrocarbon is propyne, although it has been referred to as methylacetylene in the older literature. The adjective, going from the triple bond out to the point of attachment, is called propargyl, as in propargyl chloride. When the adjective must be built on the parent hydrocarbon, the double bond is on the outside and one reads away from it, as in 2-propynyl something. However, when the hydrocarbon is essentially the entire structure, then things get named going towards the triple bond, as in 3-chloro-1-propyne.\n\nWait. I'm not done yet! When the actual hydrocarbon name becomes distorted into the derivative, then the triple bond is again at the high end of the numbering scheme. Propynol is 2-propyn-1-ol, which is, of course, the same as 3-hydroxypropyne, or propargyl alcohol. The code MDPL takes the first and last letter of the two of them, both propargyl and propynyl.",
       "qualitative_effects": {
-        "status": "Not described - entry focuses on nomenclature"
+        "status": "Not described - entry focuses entirely on nomenclature"
       },
       "nomenclature_notes": {
-        "propargyl_vs_propynyl": "Terminology differences explained in entry",
+        "hydrocarbon": "Propyne (older: methylacetylene)",
+        "propargyl": "Adjective going from triple bond out to attachment point",
+        "propynyl": "Built on parent hydrocarbon, double bond on outside",
+        "examples": {
+          "propargyl_chloride": "Named going from triple bond outward",
+          "3_chloro_1_propyne": "Named going towards triple bond",
+          "propynol": "2-propyn-1-ol = 3-hydroxypropyne = propargyl alcohol"
+        },
         "code_origin": "MDPL takes first and last letter of both propargyl and propynyl"
       },
       "structural_notes": {
@@ -7516,10 +7532,13 @@
       "key_themes": [
         "chemical_nomenclature",
         "naming_conventions",
-        "unexplored_compound",
-        "synthesis_methodology"
+        "IUPAC_rules",
+        "nomenclature_complexity",
+        "unexplored_compound"
       ],
       "notable_quotes": [
+        "There is a continuing uncertainty about the name for the three-carbon radical that contains a triple bond.",
+        "Wait. I'm not done yet!",
         "The code MDPL takes the first and last letter of the two of them, both propargyl and propynyl."
       ],
       "commentary": "",
@@ -7532,37 +7551,41 @@
       "alternate_names": ["3,4-methylenedioxy-N-propylamphetamine"],
       "dosage": ">200 mg (inactive alone)",
       "duration": "Unknown",
-      "extensions_and_commentary": "The synthesis involves reacting propylamine hydrochloride with 3,4-methylenedioxyphenylacetone using sodium cyanoborohydride as a reducing agent. The final product yields white crystals with a melting point of 194-195 C after recrystallization.\n\nAt 200 mg, MDPR showed minimal effects - the slightest hints of physical response with possible mild lightheadedness and teeth clenching, but no central mental effects. However, the breakthrough discovery was MDPR's extraordinary effectiveness as a primer preceding psychedelics like LSD. When 160 mg MDPR was followed 2 hours later by modest LSD doses (60 micrograms), users reported vivid visual phenomena and enhanced sensory experiences.",
+      "extensions_and_commentary": "There is need for more commentary. It must be noted that all of the above comments used rather modest dosages of LSD. The notes of this period, some two years of exploring interactions of the MD series of compounds as preludes to true psychedelics, are difficult to distill into a simple pattern. Most of these studies used LSD in the 60-100 microgram range which is fundamentally a modest level.\n\nMany trials were made where the challenge of acid plopped right on top of an active residue of another drug was more in keeping with the 'piggyback' argument. An illustration of this is a trial in which the primer was MDMA followed at 5 hours (this is at a time of almost no effect) with a larger dose of LSD (250 micrograms). The LSD overwhelmed the residual numbing of the MDMA, and the generated state was overwhelmingly erotic and out of body.\n\nThere can be no way of analytically organizing such a gemisch of drug-drug interactions with any logic that would allow a definitive interpretation. And LSD is not the only agent that can be used to challenge the 'body window' such as that produced by MDPR. 2C-B, 2C-T-2 and 2C-T-7 have all been used with fine success as well.\n\nIn general, the use of an MD compound (looking at it as a stimulant and primer) followed by a psychedelic, brings about an exaggeration and enhancement of the latter compound. Much work must be done in this area to make sense of it all.",
       "qualitative_effects": {
         "200mg_alone": "The slightest hints of physical response with possible mild lightheadedness and teeth clenching, but no central mental effects.",
-        "as_primer": "Extraordinary effectiveness as a primer preceding psychedelics like LSD"
+        "as_primer": "Extraordinary effectiveness as a primer preceding psychedelics"
       },
       "primer_studies": {
-        "protocol": "160 mg MDPR followed 2 hours later by modest LSD doses (60 micrograms)",
-        "results": "Vivid visual phenomena and enhanced sensory experiences",
-        "user_observations": [
-          "An endlessly deep microcosm of detail in natural objects",
-          "Shared psychological experiences with companions",
-          "A super tactile person-to-person window",
-          "An overpowering urge to go out and interact with other people"
-        ]
+        "duration_of_research": "Two years of exploring MD series as preludes to psychedelics",
+        "typical_LSD_doses": "60-100 microgram range (modest level)",
+        "piggyback_example": {
+          "primer": "MDMA",
+          "timing": "LSD at 5 hours (time of almost no MDMA effect)",
+          "LSD_dose": "250 micrograms",
+          "result": "Overwhelmingly erotic and out of body"
+        },
+        "other_challenge_agents": ["2C-B", "2C-T-2", "2C-T-7"],
+        "general_finding": "MD compound as primer followed by psychedelic brings exaggeration and enhancement of the latter"
       },
       "pharmacological_significance": {
         "finding": "Inactive compounds could potentiate subsequent psychedelics through pharmacological priming",
-        "research_direction": "Opens new directions in drug-drug interactions"
+        "complexity": "No way of analytically organizing such a gemisch of drug-drug interactions with any logic",
+        "research_direction": "Much work must be done in this area to make sense of it all"
       },
       "key_themes": [
         "psychedelic_priming",
         "drug_potentiation",
         "LSD_interaction",
-        "inactive_compound_utility",
-        "shared_experiences"
+        "piggyback_combinations",
+        "body_window_concept",
+        "2C_series_interactions"
       ],
       "notable_quotes": [
-        "The slightest hints of physical response.",
-        "An endlessly deep microcosm of detail.",
-        "A super tactile person-to-person window.",
-        "An overpowering urge to go out and interact with other people."
+        "There is need for more commentary.",
+        "The LSD overwhelmed the residual numbing of the MDMA, and the generated state was overwhelmingly erotic and out of body.",
+        "There can be no way of analytically organizing such a gemisch of drug-drug interactions with any logic that would allow a definitive interpretation.",
+        "Much work must be done in this area to make sense of it all."
       ],
       "commentary": "",
       "extended_thoughts": ""
@@ -7574,35 +7597,43 @@
       "alternate_names": ["metaescaline"],
       "dosage": "200-350 mg",
       "duration": "8-12 hours",
-      "extensions_and_commentary": "The synthesis begins with 5-bromobourbonal, proceeding through multiple steps including methylation, formation of a benzylidenimine intermediate, organolithium chemistry, oxidation, and final reduction with LAH to yield the phenethylamine product as its hydrochloride salt with a melting point of 202-203 C.\n\nUsers consistently described positive emotional and social experiences. Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase. Users reported normal appetite, easy sleep, and minimal next-day residue. Visual effects were relatively modest compared to other psychedelics, with heightened visual awareness being mild. The experience reportedly emphasized emotional connection over introspection or dramatic imagery.",
+      "extensions_and_commentary": "The reorientation of the single ethyl group of escaline (E) to the meta-position produces metaescaline (ME). In cats, in studies of over 50 years ago, the two compounds produced similar effects at similar dosages. In man, ME also appears to be similar to mescaline in potency.\n\nHowever, a subtle difference is apparent between ME and Peyote, the natural source of mescaline. With Peyote itself, the initial taste of the crude cactus is more than just foul; it might better be described as unbelievably foul. But in the middle of a Peyote experience, the taste of the cactus is truly friendly. When ME was retasted in the middle of an experience, the taste was still foul.\n\nThere are other distinctions from mescaline. Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase of intoxication, no nausea and only an occasional comment suggesting hyperreflexia. And, also unlike mescaline, most subjective reports on ME claim that music produces little imagery, and the exaggeration of color perception is more reserved. Appetite is normal, the tastes and textures of food are unusually rewarding. No subject has ever expressed a reluctance to repeat the experience. Sleep is easy, refreshing, and the following day seems free from residue.",
       "qualitative_effects": {
         "emotional_character": "Positive emotional and social experiences",
-        "body_load": "Unlike mescaline or Peyote, rarely any body discomfort during early phase",
-        "visual_effects": "Heightened visual awareness was mild",
-        "aftereffects": "Normal appetite, easy sleep, minimal next-day residue",
-        "emphasis": "Emotional connection over introspection or dramatic imagery"
+        "body_load": "Unlike mescaline or Peyote, rarely any body discomfort, no nausea",
+        "visual_effects": "Exaggeration of color perception more reserved than mescaline",
+        "music_response": "Music produces little imagery (unlike mescaline)",
+        "food_experience": "Appetite normal, tastes and textures unusually rewarding",
+        "aftereffects": "Sleep easy and refreshing, following day free from residue",
+        "repeatability": "No subject has ever expressed reluctance to repeat"
       },
       "comparison_to_mescaline": {
-        "body_comfort": "Superior - no early phase discomfort",
-        "visual_intensity": "Lower - mild visual enhancement",
-        "social_quality": "High emphasis on camaraderie and connection"
+        "potency": "Similar to mescaline",
+        "body_comfort": "Superior - no early phase discomfort, no nausea",
+        "visual_intensity": "More reserved color perception",
+        "music_imagery": "Less than mescaline",
+        "taste_phenomenon": "Unlike Peyote, ME taste remains foul even mid-experience"
       },
-      "user_reports": [
-        "The feeling was one of great camaraderie, and it was very easy to talk to people.",
-        "A marvelous bond with everyone present, with clear-headed, excellent thinking."
-      ],
+      "peyote_taste_comparison": {
+        "peyote_initial": "More than just foul - unbelievably foul",
+        "peyote_mid_experience": "Taste becomes truly friendly",
+        "ME_mid_experience": "Taste was still foul"
+      },
+      "historical_note": "In cats, studies over 50 years ago showed ME and escaline produced similar effects at similar dosages",
       "key_themes": [
         "mescaline_analogue",
-        "social_empathogen",
+        "escaline_isomer",
+        "peyote_comparison",
+        "taste_phenomena",
         "body_comfort",
-        "clear_headed_experience",
-        "emotional_connection"
+        "repeatable_experience"
       ],
       "notable_quotes": [
-        "The feeling was one of great camaraderie, and it was very easy to talk to people.",
-        "A marvelous bond with everyone present, with clear-headed, excellent thinking.",
-        "Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase.",
-        "Heightened visual awareness was mild."
+        "With Peyote itself, the initial taste of the crude cactus is more than just foul; it might better be described as unbelievably foul.",
+        "But in the middle of a Peyote experience, the taste of the cactus is truly friendly.",
+        "When ME was retasted in the middle of an experience, the taste was still foul.",
+        "Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase of intoxication.",
+        "No subject has ever expressed a reluctance to repeat the experience."
       ],
       "commentary": "",
       "extended_thoughts": ""
@@ -7614,32 +7645,241 @@
       "alternate_names": [],
       "dosage": ">200 mg",
       "duration": "Unknown",
-      "extensions_and_commentary": "The synthesis involves a multi-step procedure starting from 3,4-dihydroxy-5-methoxybenzaldehyde. The key steps include: formation of the ethylenedioxy ring through reaction with ethylene bromide and potassium carbonate, conversion to the nitropropene intermediate, and reduction with lithium aluminum hydride (LAH). The final product is isolated as the hydrochloride monohydrate salt.\n\nShulgin's most significant finding was the complete absence of psychoactive effects. He describes receiving a divine message through this negative result. The compound represented a systematic exploration where Shulgin replaced MMDA's methylenedioxy ring with a larger 6-membered ethylenedioxy ring. The inactivity led him to abandon this structural modification approach and pursue alternative strategies, ultimately leading to TMA-2.\n\nRelated compounds (MTMA with a 7-membered ring, and attempted 5-membered ring variants) were similarly inactive, reinforcing the importance of the methylenedioxy ring's specific geometry for pharmacological activity.",
+      "extensions_and_commentary": "There are times when the Gods smile in unexpectedly nice ways. Having found the activity of MMDA, the 'scientific' thing to do would be to compare it against the other 'psychotomimetic' amphetamine that was known at that time (this was 1962), namely TMA. Comparing their structures, the only difference of any kind was that two of the adjacent methoxyl groups of TMA were replaced with a 5-membered ring, called the methylenedioxy ring.\n\nWhere does one go next? Some perverse inspiration suggested increasing the size of this ring to a 6-membered ring, the ethylenedioxy (or dioxene) homologue. Well, if you thought that getting myristicinaldehyde was a difficulty, it was nothing compared to getting this 6-membered counterpart. But I huffed and I puffed, and I did make enough to taste and to evaluate. And it was here that I got the divine message! No activity!! So, rather than being condemned forever a la Sisyphus to push ever larger rings up my psyche, I gave myself permission to pursue another path. The message was: 'Don't change the groups. Leave them as they are, but relocate them instead.' And that led directly to TMA-2 and its story.\n\nA couple of diversions may be mentioned here. Before the blessed inactivity of MEDA was established, the 7-membered ring counterpart, 3-methoxy-4,5-trimethylenedioxyamphetamine (MTMA) was prepared by essentially the same procedure. The above 3-methoxy-4,5-dihydroxybenzaldehyde with trimethylene bromide gave 3-methoxy-4,5-trimethylenedioxybenzaldehyde, white solids, with a malononitrile derivative with a mp of 134-135 C; the aldehyde with nitroethane gave the nitropropene with a mp of 86-87 C; and this with LAH gave MTDA as the hydrochloride (mp 160-161 C) again isolated first as the picrate. It had been tasted at up to an 8 milligram dosage (no activity, but none expected) before being abandoned.\n\nAnd, an initial effort was made to synthesize a five-member ring (methylenedioxy) with a methyl sticking out from it. This ethylidine homologue got as far as the aldehyde stage. The reaction between 3,4-dihydroxy-5-methoxybenzaldehyde and 1,1-dibromoethane in acetone containing anhydrous potassium carbonate gave a minuscule amount of a product that was a two-component mixture. This was resolved by dozens of separate injections into a preparatory gas chromatography system, allowing the isolation of the second of the two components in a quantity sufficient to demonstrate (by NMR spectroscopy) that it was the desired 3-methoxy-4,5-ethylidinedioxybenzaldehyde. Starting with the pre-prepared dipotassium salt or the lead salt of the catecholaldehyde gave nothing. With no activity being found with MEDA, all was abandoned.\n\nThere are some comments made under MDA for successful chemistry (using a different approach) along these lines when there is no methoxyl group present. These are the compounds EDA and IDA. But the pharmacology was still not that exciting.",
       "qualitative_effects": {
         "status": "No activity - complete absence of psychoactive effects"
       },
-      "structure_activity_insights": {
-        "modification": "Replaced MMDA's methylenedioxy ring with larger 6-membered ethylenedioxy ring",
-        "result": "Inactive",
-        "related_inactive": ["MTMA (7-membered ring)", "5-membered ring variants"],
-        "conclusion": "Methylenedioxy ring's specific geometry critical for activity",
-        "subsequent_direction": "Led to TMA-2 development"
+      "historical_context": {
+        "year": "1962",
+        "starting_point": "Activity of MMDA discovered",
+        "comparison_target": "TMA - the other known psychotomimetic amphetamine",
+        "structural_difference": "Two adjacent methoxyl groups of TMA replaced with 5-membered methylenedioxy ring"
       },
-      "divine_message_theme": {
-        "description": "Shulgin describes receiving a divine message through negative result",
-        "message": "No activity"
+      "divine_message": {
+        "context": "After great effort to synthesize 6-membered ethylenedioxy ring",
+        "result": "No activity!!",
+        "sisyphus_reference": "Rather than being condemned forever a la Sisyphus to push ever larger rings up my psyche",
+        "message": "Don't change the groups. Leave them as they are, but relocate them instead.",
+        "outcome": "Led directly to TMA-2"
+      },
+      "related_compounds": {
+        "MTMA": {
+          "name": "3-methoxy-4,5-trimethylenedioxyamphetamine",
+          "ring_size": "7-membered",
+          "aldehyde_mp": "malononitrile derivative 134-135 C",
+          "nitropropene_mp": "86-87 C",
+          "hydrochloride_mp": "160-161 C",
+          "max_dose_tested": "8 mg",
+          "result": "No activity, but none expected"
+        },
+        "ethylidine_attempt": {
+          "description": "5-membered ring with methyl substituent",
+          "progress": "Got as far as aldehyde stage",
+          "difficulty": "Required dozens of GC injections to isolate pure product",
+          "outcome": "Abandoned after MEDA found inactive"
+        },
+        "related_active": ["EDA", "IDA"]
       },
       "key_themes": [
-        "inactive_compound",
-        "structure_activity_relationships",
-        "ring_size_importance",
-        "methylenedioxy_geometry",
         "divine_messages_in_research",
-        "TMA_2_origins"
+        "sisyphus_metaphor",
+        "ring_size_exploration",
+        "TMA_2_origins",
+        "negative_results_value",
+        "synthetic_challenges"
       ],
       "notable_quotes": [
-        "No activity",
-        "Divine message through negative result"
+        "There are times when the Gods smile in unexpectedly nice ways.",
+        "But I huffed and I puffed, and I did make enough to taste and to evaluate.",
+        "And it was here that I got the divine message! No activity!!",
+        "Rather than being condemned forever a la Sisyphus to push ever larger rings up my psyche, I gave myself permission to pursue another path.",
+        "The message was: 'Don't change the groups. Leave them as they are, but relocate them instead.'",
+        "And that led directly to TMA-2 and its story."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 121,
+      "code": "MEE",
+      "chemical_name": "3,5-dimethoxy-4-ethoxyphenethylamine",
+      "alternate_names": [],
+      "dosage": ">4.6 mg (unexplored at higher doses)",
+      "duration": "Unknown",
+      "extensions_and_commentary": "There were early trials made with MEE, before it became known what direction the ethoxy substitution results would take. A number of progressive trials, up to a dosage of 4.6 milligrams, were without any central effects at all.\n\nThere is an instinct in structure-activity studies to think of a change as a success or a failure, depending on whether there is an increase or a decrease in the desired activity. But if one were to look at the effects of putting an ethoxy group onto TMA-2 in place of a methoxy group as a way of decreasing the effectiveness, then the 4-position becomes the worst position (MEM is equipotent to TMA-2), and the 5-position is perhaps a little less bad (MME is almost as potent) and the 2-position is the best by far (EMM is out of it, potency-wise).\n\nIn other words, in the comparison of the 2- and the 5-positions, the lengthening of the 5-position gives modest loss of activity, and the lengthening of the whatever in the 2-position is the most disruptive. With this as a basis for prediction, then MEE (which differs from MEM only by a lengthening of the 5-position substituent) might be only a little less active than MEM and, as MEM is about the same as TMA-2, it is distinctly possible that MEE may show activity in the area at dosages that are not much above the 25 to 50 milligram area. Of all the diethoxy homologues, it would be the most promising one to explore.\n\nWhich brings to mind a quotation of a hero of mine, Mark Twain. I like science because it gives one such a wholesome return of conjecture from such a trifling investment of fact.",
+      "qualitative_effects": {
+        "up_to_4_6mg": "Without any central effects at all",
+        "predicted_active_range": "25-50 mg area based on structure-activity reasoning"
+      },
+      "structure_activity_analysis": {
+        "ethoxy_position_effects": {
+          "4_position": "MEM equipotent to TMA-2 (worst for reducing activity)",
+          "5_position": "MME almost as potent (moderate reduction)",
+          "2_position": "EMM out of it potency-wise (best for reducing activity)"
+        },
+        "MEE_prediction": "Differs from MEM only by lengthening 5-position, might be only slightly less active",
+        "assessment": "Of all the diethoxy homologues, the most promising to explore"
+      },
+      "mark_twain_quote": "I like science because it gives one such a wholesome return of conjecture from such a trifling investment of fact.",
+      "key_themes": [
+        "structure_activity_relationships",
+        "ethoxy_position_effects",
+        "unexplored_potential",
+        "predictive_pharmacology",
+        "Mark_Twain"
+      ],
+      "notable_quotes": [
+        "There is an instinct in structure-activity studies to think of a change as a success or a failure.",
+        "Of all the diethoxy homologues, it would be the most promising one to explore.",
+        "I like science because it gives one such a wholesome return of conjecture from such a trifling investment of fact."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 122,
+      "code": "MEM",
+      "chemical_name": "2,5-dimethoxy-4-ethoxyamphetamine",
+      "alternate_names": [],
+      "dosage": "20-50 mg",
+      "duration": "10-14 hours",
+      "extensions_and_commentary": "MEM was both a valuable and dramatic compound, as well as a drug that played a watershed role. The completion of all the possible trimethoxyamphetamines (the TMA's) showed that only two of them combined the values of dependability of positive psychedelic effects with a reasonably high potency. Both TMA-2 and TMA-6 are treasures, both active in similar dosages, and both offer methoxyl groups that are begging to be replaced by other things.\n\nThe first focus was on TMA-2, partly because the needed synthetic chemistry was better known, and partly because I had discovered its activity earlier. But there were three entirely different and distinct methoxyl groups to work on, in TMA-2. There is one at the 2-position, one at the 4-position, and one at the 5-position. The most obvious thing to do, it seemed, was to make each of them one carbon longer. Replace a methoxy with an ethoxy. And a logical naming pattern could follow the use of M for methoxy, and E for ethoxy, in sequence right around the ring from the 2- to the 4- to the 5-positions.\n\nThe first group to be compared, then, would be EMM, MEM, and MME. And of these three, it was only MEM that was right up there in drama and in potency. But, by the time that became apparent, I had already completed the diethoxy possibilities (EEM, EME, and MEE) as well as the triethoxy homologue, EEE. With the discovery that the 4-position was the magic leverage point, and that the homologues at positions 2- and 5- were clearly less interesting, all emphasis was directed at this target, and this has led to the many 4-substituted families that are now known to be highly potent and felt by many to be personally valuable.\n\nWhy put such emphasis on potency, I am frequently asked? Why should it matter how much of a compound you take, as long as the effective level is much lower than its toxic level? Well, in a sense, that is the very reason. There are no guides as to what the toxic levels of any of these many compounds might really be in man. There is simply no way of determining this. Only a few have been explored in animals in the pursuit of an LD-50 level. Most of them are similar to one-another, in that they are, in mice, of relatively low toxicity and, in rat, of relatively high toxicity. But this toxicity appears not to be related to potency in man. So, if one might extrapolate that they are of more or less the same risk to man (from the toxic point of view) then the lower the dosage, the greater the safety. Maybe. In the absence of anything factual, it makes a reasonable operating hypothesis.\n\nMany of the reports of MEM effects have been with experiments in which an effective dose of MDMA had been taken shortly earlier. There has developed a concept, embraced by a number of researchers, that the ease and quietness usually seen with the development of the MDMA experience can mitigate some of the physically disturbing symptoms sometimes seen with other psychedelics. This may be partly due to a familiar entry into an altered place, and partly due to a lessening of dosage usually required for full effects. MEM seems to have had more trials using this combination than many of the other psychedelic drugs.",
+      "qualitative_effects": {
+        "character": "Dramatic compound with high potency",
+        "MDMA_combination": "Often used following MDMA to ease entry and reduce dosage needed"
+      },
+      "watershed_discovery": {
+        "context": "Systematic exploration of TMA-2 ethoxy substitutions",
+        "naming_system": "M for methoxy, E for ethoxy, in sequence 2-4-5 positions",
+        "first_comparison": ["EMM", "MEM", "MME"],
+        "result": "Only MEM was right up there in drama and potency",
+        "conclusion": "4-position is the magic leverage point"
+      },
+      "potency_rationale": {
+        "question": "Why put such emphasis on potency?",
+        "answer": "Lower dosage means greater safety margin from unknown toxic levels",
+        "caveat": "In the absence of anything factual, it makes a reasonable operating hypothesis"
+      },
+      "MDMA_primer_concept": {
+        "theory": "MDMA's ease and quietness mitigates physically disturbing symptoms of other psychedelics",
+        "mechanisms": ["Familiar entry into altered place", "Lessening of dosage required"],
+        "MEM_application": "Had more trials using this combination than many other psychedelics"
+      },
+      "4_position_families": "Discovery led to many 4-substituted families now known to be highly potent and personally valuable",
+      "key_themes": [
+        "watershed_discovery",
+        "4_position_significance",
+        "TMA_2_derivatives",
+        "potency_safety_relationship",
+        "MDMA_primer_combinations"
+      ],
+      "notable_quotes": [
+        "MEM was both a valuable and dramatic compound, as well as a drug that played a watershed role.",
+        "Both TMA-2 and TMA-6 are treasures.",
+        "And of these three, it was only MEM that was right up there in drama and in potency.",
+        "The 4-position was the magic leverage point.",
+        "The lower the dosage, the greater the safety."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 123,
+      "code": "MEPEA",
+      "chemical_name": "3-methoxy-4-ethoxyphenethylamine",
+      "alternate_names": [],
+      "dosage": "100-300 mg",
+      "duration": "Unknown",
+      "extensions_and_commentary": "This is one of the very few phenethylamines with only two substituents that shows even a hint of central activity. And there is an interesting story attached. I got a call out of absolutely nowhere, from a Stanislov Wistupkin, that he had discovered a number of new psychedelic drugs which he would like to share with me. Two of them were simple phenethylamines, one with an ethoxy group at the 4-position, and one with an allyloxy group there. Both, he said, were mood elevators active between 100 and 300 milligrams.\n\nOne of them was this material, here called MEPEA, and the other one was 3-methoxy-4-allyloxyphenethylamine, or MAPEA. When I did meet him in person, he gave me a most remarkable publication which had been authored some ten years earlier, by a person named Leminger, now dead. It was all in Czech, but quite unmistakably, right there on the third page, were the structures of MEPEA and MAPEA, and the statement that they were active at between 100 and 300 milligrams. I have not yet made the allyloxy compound, but I feel that it too might be a gentle mood elevator similar to the ethoxy.\n\nA most appealing extension of these materials would be the amphetamine derivatives, things with a 3-methoxy group, and something small and terse on the 4-position. The immediate analogies of MEPEA and MAPEA would be 3-methoxy-4-ethoxy- (and 3-methoxy-4-allyloxy)-amphetamine. And equally interesting would be the 4-hydroxy analogue. This would be an easily made compound from vanillin, one of our most enjoyable spices in the kitchen cabinet, and it would be directly related to the essential oils, eugenol and isoeugenol. This amphetamine compound has already been synthesized, but it is still unexplored in man.\n\nSome years ago a report appeared in the forensic literature of Italy, of the seizure of a small semitransparent capsule containing 141 milligrams of a white powder that was stated to be a new hallucinogenic drug. This was shown to contain an analogue of DOM, 3-methoxy-4-methylamphetamine, or MMA. The Italian authorities made no mention of the net weight contained in each dosage unit, but it has been found that the active level of MMA in man is in the area of 40-60 milligrams. The compound can apparently be quite dysphoric, and long lived.\n\nIn the Czechoslovakian publication that presented MEPEA and MAPEA, there were descriptions of escaline (E), proscaline (P), and the allyloxy analogue (AL). These are all active in man, and have been entered elsewhere. This is the only published material dealing with psychedelic drugs I have ever been able to find, from the laboratory of Otakar Leminger. What sort of man was this chemist? He worked for years in industry, and only at the time of his retirement did he publish this little gem. He lived at Usti, directly north of Praha, on the Labe river (which is called by the better known name, the Elbe, as soon as it enters Germany). Might there be other treasures that he had discovered, and never published? Was young Wistupkin a student of his? Are there unrecognized notes of Otakar Leminger sitting in some farm house attic in Northern Czechoslovakia? I extend my heartfelt salute to an almost unknown explorer in the psychedelic drug area.",
+      "qualitative_effects": {
+        "character": "Gentle mood elevator",
+        "activity_range": "100-300 mg"
+      },
+      "historical_discovery": {
+        "contact": "Stanislov Wistupkin called out of nowhere",
+        "compounds_shared": ["MEPEA (ethoxy)", "MAPEA (allyloxy)"],
+        "original_source": "Otakar Leminger, Czech publication, ten years earlier"
+      },
+      "otakar_leminger_tribute": {
+        "location": "Usti, north of Praha, on the Labe (Elbe) river",
+        "career": "Worked for years in industry, published at retirement",
+        "legacy": "Only published material on psychedelic drugs Shulgin found from this lab",
+        "other_compounds": ["Escaline (E)", "Proscaline (P)", "AL (allyloxy)"],
+        "mystery": "Might there be other treasures never published?",
+        "tribute": "I extend my heartfelt salute to an almost unknown explorer in the psychedelic drug area"
+      },
+      "related_compounds": {
+        "MAPEA": "3-methoxy-4-allyloxyphenethylamine - not yet made but predicted gentle mood elevator",
+        "vanillin_derivative": "4-hydroxy amphetamine analogue - synthesized but unexplored",
+        "MMA": {
+          "name": "3-methoxy-4-methylamphetamine",
+          "source": "Italian forensic seizure",
+          "active_dose": "40-60 mg",
+          "character": "Quite dysphoric and long lived"
+        }
+      },
+      "significance": "One of very few 2-substituent phenethylamines with central activity",
+      "key_themes": [
+        "international_research",
+        "Leminger_tribute",
+        "Czech_psychedelic_research",
+        "simple_phenethylamines",
+        "undiscovered_treasures"
+      ],
+      "notable_quotes": [
+        "This is one of the very few phenethylamines with only two substituents that shows even a hint of central activity.",
+        "I got a call out of absolutely nowhere.",
+        "What sort of man was this chemist?",
+        "Might there be other treasures that he had discovered, and never published?",
+        "I extend my heartfelt salute to an almost unknown explorer in the psychedelic drug area."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 124,
+      "code": "META-DOB",
+      "chemical_name": "2,6-dimethoxy-4-bromoamphetamine",
+      "alternate_names": ["3-bromo-2,6-dimethoxyamphetamine"],
+      "dosage": "50-90 mg (with toxicity)",
+      "duration": "Unknown",
+      "extensions_and_commentary": "There is very little synthetic information available, and some of it is contradictory. The initial human report in the medical literature says only that a dosage of about 100 milligrams produced effects that were similar to those produced by MDA. Both the quality of the experience and the potency of the compound have been modified in more recent publications by the originators of this compound.\n\nA 40 milligram dose, after an induction period of an hour, produced a vague uneasiness that was interpreted originally as a threshold psychedelic effect. At doses in the 60 to 90 milligram range, there were produced feelings of anxiety and paranoid fantasies, and distinct toxic signs such as flushing, palpitations, and occasional nausea, vomiting and diarrhea. Any psychedelic effects seem to have been blurred by the more obvious toxic actions of the drug. I have been told that their final conclusion was that the drug appears toxic in the 50 to 60 milligram range. I have not personally explored this positional isomer of DOB.\n\nThe positional isomer of DOB with the bromine in the ortho-position is 4,5-dimethoxy-2-bromoamphetamine and is called, not surprisingly, ORTHO-DOB. It has been made by the condensation of 2-bromo-4,5-dimethoxybenzaldehyde with nitroethane to give 1-(2-bromo-4,5-dimethoxyphenyl)-2-nitropropene with a mp of 105-106 C. Reduction to the amphetamine had to be conducted at a low temperature and using only an equimolar amount of lithium aluminum hydride, to minimize reductive removal of the bromo group. The hydrochloride salt of 2-bromo-4,5-dimethoxyamphetamine (ORTHO-DOB) had a mp of 214-215.5 C, and the hydrobromide salt a melting point of 196-197 C or of 210 C. Both have been reported. The yield from the direct bromination of 3,4-DMA was apparently very bad. I do not think that the compound has ever gone into man.\n\nThere are three other dimethoxyamphetamine isomers known, and each has been explored chemically as to its reactivity with elemental bromine. With 2,3-DMA, a mixture of the 5-Br-2,3-DMA and 6-Br-2,3-DMA was formed; with 2,6-DMA, 3-Br-2,6-DMA was formed; and with 3,5-DMA, a mixture of 2-Br-3,5-DMA and the 2,6-dibromo product was produced. The bromination of 2,5-DMA is, of course, the preferred procedure for the synthesis of 4-Br-2,5-DMA, or DOB, q.v. None of these positional isomers has ever been put into man, but 3-Br-2,6-DMA and the iodo-counterpart have been explored as potential radio-fluorine carriers into the brain. This is all discussed in the 3,4-DMA recipe.",
+      "qualitative_effects": {
+        "40mg": "Vague uneasiness after 1 hour induction, threshold psychedelic effect",
+        "60_90mg": "Anxiety, paranoid fantasies, flushing, palpitations, nausea, vomiting, diarrhea",
+        "assessment": "Psychedelic effects blurred by obvious toxic actions",
+        "toxicity_threshold": "Appears toxic in 50-60 mg range"
+      },
+      "ORTHO_DOB": {
+        "name": "4,5-dimethoxy-2-bromoamphetamine",
+        "synthesis": "2-bromo-4,5-dimethoxybenzaldehyde + nitroethane",
+        "nitropropene_mp": "105-106 C",
+        "reduction_notes": "Low temperature, equimolar LAH to prevent bromo removal",
+        "hydrochloride_mp": "214-215.5 C",
+        "hydrobromide_mp": "196-197 C or 210 C",
+        "human_trials": "I do not think that the compound has ever gone into man"
+      },
+      "DMA_bromination_studies": {
+        "2_3_DMA": "Gives mixture of 5-Br and 6-Br products",
+        "2_6_DMA": "Gives 3-Br-2,6-DMA",
+        "3_5_DMA": "Gives mixture of 2-Br and 2,6-dibromo products",
+        "2_5_DMA": "Preferred for DOB synthesis (4-Br-2,5-DMA)"
+      },
+      "radio_fluorine_research": "3-Br-2,6-DMA and iodo-counterpart explored as potential radio-fluorine carriers into brain",
+      "personal_note": "I have not personally explored this positional isomer of DOB",
+      "key_themes": [
+        "positional_isomers",
+        "toxicity_concerns",
+        "DOB_variants",
+        "bromination_chemistry",
+        "radio_fluorine_research"
+      ],
+      "notable_quotes": [
+        "There is very little synthetic information available, and some of it is contradictory.",
+        "Any psychedelic effects seem to have been blurred by the more obvious toxic actions of the drug.",
+        "The drug appears toxic in the 50 to 60 milligram range.",
+        "I have not personally explored this positional isomer of DOB.",
+        "I do not think that the compound has ever gone into man."
       ],
       "commentary": "",
       "extended_thoughts": ""
