@@ -573,6 +573,48 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 13,
+      "code": "BOB",
+      "chemical_name": "4-Bromo-2,5,beta-trimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound, BOB, is the most potent of the BOX series. And yet, as with all of the members of this family, there are overtones of physical concern, and of some worry as to the integrity of the body. There may well be a separation of activity with the two optical isomers, but there is not a tremendous push to explore this particular family much further. They can't all be winners, I guess. What would be the activities of compounds with a sulfur instead of an oxygen at the beta-oxygen position? What would be the nature of action if there were an alpha-methyl group, making all of these into amphetamine derivatives? Or what about both a sulfur and a methyl group? And what about the isomers that are intrinsic to all of this, the threo- and the erythro- and the 'D's' and the 'L's'? All this is terra incognita, and must someday be looked into. It is chemically simple, and pharmacologically provocative. Someone, somewhere, someday, answer these questions!",
+      "box_series": {
+        "position": "Most potent of the BOX series",
+        "family_concern": "All members have overtones of physical concern and worry about body integrity",
+        "exploration_status": "Not a tremendous push to explore further"
+      },
+      "unanswered_questions": [
+        "Sulfur instead of oxygen at beta-oxygen position?",
+        "Alpha-methyl group (amphetamine derivatives)?",
+        "Both sulfur and methyl group?",
+        "Optical isomers - separation of activity?",
+        "Threo- and erythro- isomers?",
+        "D and L isomers?"
+      ],
+      "call_to_future_researchers": {
+        "status": "Terra incognita - unexplored territory",
+        "assessment": "Chemically simple, pharmacologically provocative",
+        "plea": "Someone, somewhere, someday, answer these questions!"
+      },
+      "philosophical_note": "They can't all be winners, I guess.",
+      "key_themes": [
+        "body_integrity_concerns",
+        "unanswered_questions",
+        "terra_incognita",
+        "call_to_future_researchers",
+        "acceptance_of_limits"
+      ],
+      "notable_quotes": [
+        "This compound, BOB, is the most potent of the BOX series.",
+        "There are overtones of physical concern, and of some worry as to the integrity of the body.",
+        "They can't all be winners, I guess.",
+        "All this is terra incognita, and must someday be looked into.",
+        "It is chemically simple, and pharmacologically provocative.",
+        "Someone, somewhere, someday, answer these questions!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
