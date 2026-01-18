@@ -1490,6 +1490,72 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 25,
+      "code": "3C-E",
+      "chemical_name": "3,5-Dimethoxy-4-ethoxyamphetamine",
+      "extensions_and_commentary": "This is an interesting closing of the circle. Although mescaline launched the entire show, the first half could be called the amphetamine period, with variations made on all aspects of the molecule except for that three-carbon chain. And it was found that the 4-substitution position was of paramount importance in both the potency and the quality of action of a compound. Then, looking at the long-ignored chain, lengthening it by the addition of a carbon atom eliminated all psychedelic effects and gave materials with reduced action. The action present was that of an antidepressant. But removing a carbon atom? This returned the search to the world of mescaline, but with the knowledge of the strong influence of the 4-position substituent. The two-carbon side-chain world was rediscovered, principally with 2C-B and 2C-D, and the 4-ethoxy-analogue of mescaline, E. This second half of the show could be called the phenethylamine period. And with compounds such as 3C-E which is, quite simply, Escaline (or E) reextended again to a 3-carbon chain amphetamine, there is a kind of satisfying closure. A fascinating compound, but for most subjects a little too heavy on the body.",
+      "research_arc_philosophy": {
+        "opening": "Mescaline launched the entire show",
+        "first_half": {
+          "name": "The Amphetamine Period",
+          "focus": "Variations on all aspects of the molecule except the three-carbon chain",
+          "key_discovery": "4-substitution position is of paramount importance in both potency and quality of action"
+        },
+        "chain_length_experiments": {
+          "lengthening": {
+            "modification": "Addition of a carbon atom",
+            "result": "Eliminated all psychedelic effects",
+            "action_present": "Antidepressant"
+          },
+          "shortening": {
+            "modification": "Removing a carbon atom",
+            "result": "Returned to world of mescaline, but with knowledge of 4-position influence"
+          }
+        },
+        "second_half": {
+          "name": "The Phenethylamine Period",
+          "rediscovery": "Two-carbon side-chain world",
+          "principal_compounds": ["2C-B", "2C-D", "E (Escaline, 4-ethoxy-analogue of mescaline)"]
+        },
+        "closure": {
+          "compound": "3C-E",
+          "description": "Escaline (E) re-extended again to a 3-carbon chain amphetamine",
+          "significance": "A kind of satisfying closure"
+        }
+      },
+      "activity_assessment": {
+        "character": "Fascinating compound",
+        "limitation": "For most subjects a little too heavy on the body"
+      },
+      "structural_relationship": {
+        "parent": "Escaline (E)",
+        "modification": "Re-extended to 3-carbon chain amphetamine"
+      },
+      "key_themes": [
+        "closing_the_circle",
+        "research_arc_summary",
+        "amphetamine_period",
+        "phenethylamine_period",
+        "4_position_importance",
+        "chain_length_effects",
+        "satisfying_closure",
+        "body_load"
+      ],
+      "notable_quotes": [
+        "This is an interesting closing of the circle.",
+        "Although mescaline launched the entire show, the first half could be called the amphetamine period.",
+        "It was found that the 4-substitution position was of paramount importance in both the potency and the quality of action of a compound.",
+        "Lengthening it by the addition of a carbon atom eliminated all psychedelic effects and gave materials with reduced action. The action present was that of an antidepressant.",
+        "Removing a carbon atom? This returned the search to the world of mescaline, but with the knowledge of the strong influence of the 4-position substituent.",
+        "The two-carbon side-chain world was rediscovered, principally with 2C-B and 2C-D, and the 4-ethoxy-analogue of mescaline, E.",
+        "This second half of the show could be called the phenethylamine period.",
+        "There is a kind of satisfying closure.",
+        "A fascinating compound, but for most subjects a little too heavy on the body."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
