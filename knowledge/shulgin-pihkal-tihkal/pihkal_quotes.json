@@ -6821,6 +6821,189 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 104,
+      "code": "MDCPM",
+      "chemical_name": "N-Cyclopropylmethyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The record of the tasting assay of this compound is pretty embarrassing. The highest level tried was 10 milligrams, which showed no hint of activity. But in light of the rather colorful activities of other cyclopropylmethyl things such as CPM and 2C-T-8, this compound might someday warrant reinvestigation. It is a certainty that the yield could only be improved with a careful resynthesis.",
+      "assay_record": {
+        "assessment": "Pretty embarrassing",
+        "max_dose": "10 mg",
+        "result": "No hint of activity"
+      },
+      "reinvestigation_warranted": {
+        "reason": "Colorful activities of other cyclopropylmethyl compounds",
+        "examples": ["CPM", "2C-T-8"]
+      },
+      "synthesis_note": "Yield could only be improved with careful resynthesis",
+      "key_themes": [
+        "cyclopropylmethyl",
+        "incomplete_assay",
+        "reinvestigation_warranted",
+        "CPM_2C-T-8_comparison"
+      ],
+      "notable_quotes": [
+        "The record of the tasting assay of this compound is pretty embarrassing.",
+        "The highest level tried was 10 milligrams, which showed no hint of activity.",
+        "In light of the rather colorful activities of other cyclopropylmethyl things such as CPM and 2C-T-8, this compound might someday warrant reinvestigation.",
+        "It is a certainty that the yield could only be improved with a careful resynthesis."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 105,
+      "code": "MDDM",
+      "chemical_name": "N,N-Dimethyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "I cannot attest for the actual drug that had been used in the two larger-dose reports above. These are from an anonymous source associated with clandestine syntheses. If this material does eventually prove to be active, it is going to require a pretty hefty dose. But it may well have some activity, as there have been reports in the forensic literature of its preparation, or at least its intended preparation, in illicit laboratories. It seems unlikely that much effort would be directed towards the synthesis of a completely inactive compound.",
+      "source_caveat": {
+        "attestation": "Cannot attest for actual drug in larger-dose reports",
+        "source": "Anonymous, associated with clandestine syntheses"
+      },
+      "activity_prediction": {
+        "if_active": "Pretty hefty dose required",
+        "evidence": "Reports in forensic literature of preparation in illicit labs",
+        "logic": "Unlikely much effort directed towards completely inactive compound"
+      },
+      "reduced_potency_exploitation": {
+        "premise": "Dialkylation makes compound less active but doesn't interfere with brain entry",
+        "application": "Medical diagnosis - organ visualization"
+      },
+      "PET_imaging": {
+        "modality": "Positron camera / Positron Emission Tomography",
+        "mechanism": {
+          "positron_emission": "From radioactive unstable atom",
+          "annihilation": "Positron interacts with electron, mass converts to energy",
+          "detection": "Pair of annihilation gamma rays establish line of interaction",
+          "result": "Photograph of brain tissue, observe abnormalities"
+        },
+        "requirements": [
+          "Molecule carrying unstable positron-emitting atom",
+          "Molecule that goes to brain",
+          "No altered state of consciousness for patient"
+        ],
+        "ideal_isotope": "Iodine-122 (perfect for positron emission)"
+      },
+      "DOI_to_IDNNA": {
+        "logic": "Take DOI (has iodine, goes to brain) + dimethyl on nitrogen (reduce activity)",
+        "result": "Labels brain, shows promise as flow indicator",
+        "cross_reference": "IDNNA recipe discusses this and close relatives"
+      },
+      "key_themes": [
+        "N_N_dimethyl",
+        "clandestine_source",
+        "PET_imaging",
+        "positron_emission",
+        "iodine_122",
+        "DOI_derivatization",
+        "IDNNA_connection"
+      ],
+      "notable_quotes": [
+        "I cannot attest for the actual drug that had been used in the two larger-dose reports above.",
+        "If this material does eventually prove to be active, it is going to require a pretty hefty dose.",
+        "It seems unlikely that much effort would be directed towards the synthesis of a completely inactive compound.",
+        "The reduced potency of MDDM has been exploited in an unexpected way.",
+        "One of the very best unstable atoms for the formation of positrons is iodine, where there is an isotope of mass 122 which is perfect for these needs.",
+        "The world of the psychedelic drugs is tailor-made to provide compounds that go to the brain.",
+        "The last thing that the physician wants, with the diagnostic use of such tools, would be to have the patient bouncing around in some turned-on altered state of consciousness."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 106,
+      "code": "MDE",
+      "chemical_name": "N-Ethyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "This immediate homologue of MDMA has a very similar chronology but requires a slightly larger dose. Another similarity is the occasional report of teeth clenching, especially following the use of supplemental dosages intended to extend the effects of the drug.",
+      "MDMA_comparison": {
+        "chronology": "Very similar",
+        "dose": "Slightly larger required",
+        "shared_effect": "Occasional teeth clenching, especially with supplements"
+      },
+      "supplements": {
+        "range": "50-75 mg",
+        "timing": "Usually at 2 hour point"
+      },
+      "clinical_experiment": {
+        "protocol": "MDMA session extended with MDE instead of MDMA at 1h 45min",
+        "result": "Time extended but group fell surprisingly quiet",
+        "observation": "Drop in usual urge to converse and interact"
+      },
+      "differences_from_MDMA": {
+        "magic": "Particular magic and affective transference not there",
+        "intoxication": "Stoning intoxication like MDA",
+        "dose_response": "Unrewarding aspect to upping dosages (like MDA)",
+        "communication": "Easy communication and positive self-viewing of MDMA absent",
+        "S_isomer_speculation": "Maybe S isomer has these properties, lost in racemate due to more potent intoxicating R isomer",
+        "optical_isomers": "Never evaluated separately in man"
+      },
+      "drug_interactions": {
+        "two_types": {
+          "synergism": "Two active materials interact, consequence different than expected sum",
+          "potentiation": "One drug active, second inactive drug enhances first"
+        },
+        "MDE_category": "Synergism (first category)"
+      },
+      "piggy_back_studies": {
+        "discovery": "First discovered and explored with MDE",
+        "extension": "Subsequently extended most successfully with MDMA",
+        "procedure": "Assay modest quantities of active materials at drop-off period",
+        "exploitation": "Open and benign state present",
+        "dosage": "Only fraction of standard dosage necessary for full experience",
+        "psychotherapy": "MDMA followed by second material to modify and expand opening"
+      },
+      "street_history": {
+        "appearance": "After MDMA scheduled in 1985",
+        "names": {
+          "EVE": "Perverse logic - MDMA was ADAM",
+          "INTELLECT": "No apparent reason advanced"
+        }
+      },
+      "nomenclature_note": "Old literature MDE = 3,4-methylenedioxyethanolamine (see DME recipe)",
+      "trifluoroethyl_analogue": {
+        "structure": "3,4-methylenedioxy-N-(2,2,2-trifluoroethyl)amphetamine",
+        "mp": "207-209 C (hydrochloride)",
+        "synthesis": "Trifluoroethylamine + 3,4-methylenedioxyphenylacetone + sodium cyanoborohydride",
+        "pharmaceutical_comparison": "N-trifluoroethyl group common to Quazepam",
+        "assessment": "Possibly active",
+        "heroic_trial": {
+          "dose": "500 mg total in three portions over 5-6 hours",
+          "result": "Very mild intoxication, little or no sympathomimetic effects, quickly gone"
+        }
+      },
+      "Muni_Metro": {
+        "MDE_name": "ETHYL-I",
+        "chain_lengths": {
+          "H": "Two-carbon chain",
+          "I": "Amphetamine chain",
+          "J": "Four-carbon chain"
+        },
+        "cross_reference": "METHYL-J explains Muni-Metro concept"
+      },
+      "key_themes": [
+        "MDMA_homologue",
+        "EVE",
+        "piggy_back_studies",
+        "synergism",
+        "stoning_quality",
+        "optical_isomers",
+        "trifluoroethyl_analogue",
+        "Muni_Metro"
+      ],
+      "notable_quotes": [
+        "This immediate homologue of MDMA has a very similar chronology but requires a slightly larger dose.",
+        "The group fell surprisingly quiet, with a drop in the usual urge to converse and interact.",
+        "The particular magic, and affective transference, does not appear to be there.",
+        "There is a stoning intoxication, as there is with MDA.",
+        "The properties of unusually easy communication and positive self-viewing of MDMA seem to be absent.",
+        "There are only two ways in which two drugs can interact to produce a result that is not obvious from the summing of their individual actions.",
+        "The 'piggy-back' or 'window exploitation' studies were first discovered and explored with MDE.",
+        "It had been called EVE, which carries some perverse logic in light of the nickname used occasionally for MDMA, which was ADAM.",
+        "The best final line for this compound is that it is 'possibly active.'"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
