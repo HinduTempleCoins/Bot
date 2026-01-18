@@ -5643,6 +5643,202 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 86,
+      "code": "G-N",
+      "chemical_name": "2,5-Dimethoxy-3,4-(trimethylene)amphetamine",
+      "extensions_and_commentary": "The evaluation of this compound is not yet complete. An initial trial at the 2 milligram level showed neither central action, nor toxicity. It could be guessed from the activity of the two-carbon counterpart, that an active level will be found in the tens of milligrams area. But, as of the moment, this level is not known to anyone, anywhere, because no one has yet defined it. And when the potency is finally found out, the nature of the activity will also have been found out, all the result of a magical interaction of a virgin compound with a virgin psyche. At the immediate moment, the nature of G-N is not only unknown, it has not yet even been sculpted. There can be no more exciting area of research than this, anywhere in the sentient world.",
+      "evaluation_status": "Not yet complete",
+      "initial_trial": {
+        "dose": "2 mg",
+        "central_action": "None observed",
+        "toxicity": "None observed"
+      },
+      "predictions": {
+        "active_level": "Tens of milligrams area (guessed from 2C counterpart)",
+        "current_knowledge": "Not known to anyone, anywhere"
+      },
+      "virgin_compound_concept": {
+        "potency": "Not yet defined",
+        "nature": "Not only unknown, not yet even sculpted",
+        "interaction": "Magical interaction of virgin compound with virgin psyche"
+      },
+      "key_themes": [
+        "GANESHA_series",
+        "incomplete_evaluation",
+        "virgin_compound",
+        "virgin_psyche",
+        "excitement_of_unknown",
+        "sculpting_nature"
+      ],
+      "notable_quotes": [
+        "The evaluation of this compound is not yet complete.",
+        "An initial trial at the 2 milligram level showed neither central action, nor toxicity.",
+        "As of the moment, this level is not known to anyone, anywhere, because no one has yet defined it.",
+        "And when the potency is finally found out, the nature of the activity will also have been found out, all the result of a magical interaction of a virgin compound with a virgin psyche.",
+        "At the immediate moment, the nature of G-N is not only unknown, it has not yet even been sculpted.",
+        "There can be no more exciting area of research than this, anywhere in the sentient world."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 87,
+      "code": "HOT-2",
+      "chemical_name": "2,5-Dimethoxy-4-ethylthio-N-hydroxyphenethylamine",
+      "extensions_and_commentary": "Again, a case of where the potency range of the 'hot,' or hydroxylated compound (HOT-2, 10 to 18 milligrams) is very similar to that of the non-hydroxylated prototype (2C-T-2, 12-25 milligrams). It seems to be a well tolerated, and generally pleasant material, with a mixture of sensory as well as insightful aspects. Something for everyone.",
+      "potency_comparison": {
+        "HOT_2_range": "10-18 mg",
+        "2C_T_2_range": "12-25 mg",
+        "relationship": "Very similar"
+      },
+      "effects": {
+        "tolerance": "Well tolerated",
+        "character": "Generally pleasant",
+        "aspects": ["Sensory", "Insightful"],
+        "verdict": "Something for everyone"
+      },
+      "N_hydroxy_series": "HOT family (HO on T compound)",
+      "key_themes": [
+        "HOT_series",
+        "N_hydroxy_analogue",
+        "2C-T-2_comparison",
+        "similar_potency",
+        "well_tolerated",
+        "sensory_insightful"
+      ],
+      "notable_quotes": [
+        "Again, a case of where the potency range of the 'hot,' or hydroxylated compound (HOT-2, 10 to 18 milligrams) is very similar to that of the non-hydroxylated prototype.",
+        "It seems to be a well tolerated, and generally pleasant material, with a mixture of sensory as well as insightful aspects.",
+        "Something for everyone."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 88,
+      "code": "HOT-7",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-propylthio-N-hydroxyphenethylamine",
+      "extensions_and_commentary": "There is a working hypothesis that has been growing in substance over the last few years in this strange and marvelous area of psychedelic drugs. It all was an outgrowth of the rather remarkable coincidence that I had mentioned in the discussion that followed MDOH.",
+      "working_hypothesis": {
+        "statement": "AN N-HYDROXY AMINE HAS APPROXIMATELY THE SAME POTENCY AND THE SAME ACTION AS ITS N-HYDROGEN COUNTERPART",
+        "origin": "MDOH/MDA coincidence - decomposed sample gave same activity as true MDOH",
+        "possible_mechanisms": [
+          "N-hydroxy reduces to N-H in body (N-H is active agent)",
+          "N-H oxidizes to N-hydroxy in body (N-hydroxy is active agent)"
+        ],
+        "precedent": "Either direction is reasonable with precedent for each"
+      },
+      "MDOH_story": {
+        "initial_assay": "What was thought to be MDOH had activity identical to MDA",
+        "discovery": "Material had decomposed to form MDA",
+        "outcome": "MDA was in essence rediscovered",
+        "validation": "True undecomposed MDOH had same potency as MDA"
+      },
+      "HOT_nomenclature": {
+        "origin": "HO (hydroxy) + T (thio) = HOT",
+        "definition": "Family of N-hydroxy analogues of N-H amines"
+      },
+      "comparison_with_2C_T_7": {
+        "potency": "Almost identical",
+        "dose_center": "20 mg",
+        "duration": "Perhaps slightly less long lived"
+      },
+      "key_themes": [
+        "HOT_series",
+        "N_hydroxy_hypothesis",
+        "MDOH_MDA_equivalence",
+        "working_hypothesis",
+        "metabolic_interconversion",
+        "2C-T-7_comparison"
+      ],
+      "notable_quotes": [
+        "There is a working hypothesis that has been growing in substance over the last few years in this strange and marvelous area of psychedelic drugs.",
+        "AN N-HYDROXY AMINE HAS APPROXIMATELY THE SAME POTENCY AND THE SAME ACTION AS ITS N-HYDROGEN COUNTERPART.",
+        "Maybe the N-hydroxy compound reduces to the N-H material in the body, and the latter is the intrinsically active agent.",
+        "Maybe the N-H material oxidizes to the N-hydroxy material in the body, and the latter is the intrinsically active agent.",
+        "Either direction is reasonable, and there is precedent for each.",
+        "The equivalence of MDA and MDOH was the first suggestion of this.",
+        "If you put a hydroxy (HO) group on a thio material (T), you have a HOT compound.",
+        "How does HOT-7 compare with 2C-T-7? They are almost identical.",
+        "Lets try some other N-hydroxys!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 89,
+      "code": "HOT-17",
+      "chemical_name": "2,5-Dimethoxy-4-(s)-butylthio-N-hydroxyphenethylamine",
+      "extensions_and_commentary": "Two virtues sought by some users of psychedelic drugs are high intensity and brief action. They want a quicky. Something that is really effective for a short period of time, then lets you quickly return to baseline, and presumably back to the real world out there.",
+      "quicky_phenomenon": {
+        "virtues_sought": ["High intensity", "Brief action"],
+        "desire": "Effective for short period, quick return to baseline"
+      },
+      "intensity_and_dose": {
+        "relationship": "Often dose-dependent",
+        "principle": "More you take, more you get",
+        "side_effect": "Often longer duration comes as added property"
+      },
+      "brevity_critique": {
+        "underlying_question": "Reasons for using psychedelic drugs",
+        "tradeoffs": [
+          "Learning vs entertainment",
+          "Achieving something vs appearance of achieving",
+          "Substance vs image (classical concepts)"
+        ],
+        "belief": "Many truly believe they cannot afford time/energy for deep search into themselves",
+        "excuses": ["Making a living", "Social life", "Multitude of obligations"],
+        "substitutions": {
+          "deep_concept": "Read the book review instead",
+          "helping_others": "Go to church on Sunday morning instead",
+          "inner_search": "Use a short-acting psychedelic instead"
+        },
+        "assessment": "The world is too much with us"
+      },
+      "HOT_17_properties": {
+        "potency": "By no means particularly potent",
+        "dose_area": "Hundred milligram area",
+        "potency_concern": "Kiss of death to several materials - physical concerns at these levels",
+        "duration": "Certainly not short lived",
+        "value": "Long lived materials most memorable - entertainment passes, then time for deep thought"
+      },
+      "long_duration_value": {
+        "access": "Dipping deeply into rich areas of thought process",
+        "capability": "Working through ideas and concepts easily available",
+        "coupling": "Talking and writing capability",
+        "result": "Rewarding experience often the result"
+      },
+      "asymmetric_carbon": {
+        "location": "(s)-butyl side chain",
+        "implication": "Allows separation into two distinct components",
+        "racemic_mixture": "Activity often amalgamation of both sets of properties",
+        "potential": "Separate assay can result in fascinating and unexpected fractionation"
+      },
+      "key_themes": [
+        "HOT_series",
+        "quicky_critique",
+        "substance_vs_image",
+        "learning_vs_entertainment",
+        "long_duration_value",
+        "deep_thought_access",
+        "asymmetric_carbon",
+        "optical_isomer_separation"
+      ],
+      "notable_quotes": [
+        "Two virtues sought by some users of psychedelic drugs are high intensity and brief action. They want a quicky.",
+        "It is instructive to inquire into the rationale that promotes brevity as a virtue.",
+        "A trade off between learning and entertainment. Or between the achieving of something and the appearance of achieving something. Or, in the concepts of the classics, between substance and image.",
+        "Many people truly believe that they cannot afford the time or energy required for a deep search into themselves.",
+        "The world is too much with us.",
+        "The hundred milligram area actually has been the kiss of death to several materials.",
+        "The long lived materials have proven to be the most memorable, in that once the entertainment aspect of the experience is past you, there is time for dipping deeply into the rich areas of the thought process.",
+        "And when this access is coupled to the capability of talking and writing, then a rewarding experience is often the result.",
+        "The activity of the racemic mixture often is an amalgamation of both sets of properties, and the separate assay of each component can often result in a fascinating and unexpected fractionation of these properties."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
