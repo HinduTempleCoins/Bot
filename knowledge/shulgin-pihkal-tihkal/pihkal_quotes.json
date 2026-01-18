@@ -4622,6 +4622,221 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 68,
+      "code": "DOM",
+      "chemical_name": "2,5-Dimethoxy-4-methylamphetamine",
+      "extensions_and_commentary": "The rationale for the design and making of DOM has already been discussed. One could predict that it could have been, theoretically, a totally inactive compound and maybe an effective blocker for whatever receptor sites are being occupied by other psychoactive drugs and even for strange things that some unbalanced people might actually make within their bodies, using their own personal chemistry. On the other hand, it could have been a potent psychedelic in its own rights, and if so, probably long lived. The latter \"could have been\" proved to be so.\n\nThe very modest amount of study of the individual optical isomers clearly indicates that the \"R\" isomer is the more active. The sparse comments suggest that some of the heavier physical aspects of the racemate might be due to contributions from the \"inactive\" \"S\" isomer. It is, after all, the \"S\" isomer of amphetamine that carries the major punch of that stimulant. Maybe if that isomer were removed, and one were to explore the pure \"R\" isomer of DOM, the dramatic visual aspects of the larger dosages might not be complicated with a troublesome physical component.\n\nThis compound, unbeknownst to me, was scattered widely and plentifully in the heyday of the Haight-Ashbury in San Francisco, in mid-1967. It was distributed under the name STP, which was said to stand for Serenity, Tranquility, and Peace. It was also claimed to represent Super Terrific Psychedelic, or Stop The Police. The police called it: Too Stupid to Puke. Actually, the name was taken from the initials of a motor additive which was completely unrelated chemically. Incredibly, and sadly, one of the avowed experts in the area of the \"sensuous drugs\" actually stated that STP, the motor oil additive, was really one and the same as STP, the highly dangerous psychedelic. The motor oil additive, he wrote in a book of his, had properties somewhat related to those of LSD, mescaline, and the amphetamines. How fortunate that the love children of the time didn't do much reading, for they might have gotten into yet deeper pharmacological troubles with drug raids on the local gasoline stations.\n\nTwo complications became apparent during this first appearance and they led to serious difficulties. One, there was no equation made between STP and DOM. No one knew what this drug was which had been distributed in a cavalier way throughout the city. There could be no educated guess as to the best treatment of overdose emergencies. And secondly, the initial tablets that had been distributed apparently contained 20 milligrams of DOM per tablet; later, it was dropped to 10 milligrams. Either of these, in retrospect, is now known to be a thoroughly whopping dose. The overdose situation was aggravated by the slow onset of DOM. The user may be aware of some initial effects at the half-hour point, there will be what might be called a + or ++ at the end of the first hour, and the full impact of the drug is not appreciated until some two hours have elapsed. But many of the recipients of the free handouts of DOM were familiar with LSD which can show its alert in 15 to 20 minutes, or even sooner with a large dose, and there is already a deep and compelling intoxication felt at the half-hour point. They, quite reasonably, expected this familiar activity pattern with STP and assumed, when there was little if any activity noted at the half-hour point, that the potency was less than expected. They took one or even two additional dosage units. Thus, some of the overdose victims of that period may well have taken as much as 30 mg of DOM. The slow onset of action, coupled with the remarkably long duration, caught many innocent users unprepared.\n\nClinical studies have documented the rapid tolerance development from repeated exposures to DOM. Five volunteers were given 6 milligrams daily for three days. Objectively, psychological tests showed a decrease in responses. Subjectively, all found extremely intense effects on the first day, and all but one found it unpleasant. By the third exposure on the third day, all had diminished responses, ranging from only \"moderately strong\" to \"felt absolutely nothing.\" One actually slept during the experience on the third day.\n\nThe hexadeutero-analogue (deuterium atoms on the two methoxyl groups) has been prepared as an internal standard for analytical work, but there are no reports of its human pharmacology. A study with this sort of derivative would be a fine companion to the studies already underway with the mescaline analogues that are similarly substituted. A difference exists, however. With mescaline, it is believed that the loss of a methoxyl group is a step towards the inactivation of the compound, whereas with DOM this loss may be associated with the formation of an active metabolite. The several fascinating questions raised by possible differences in both the rates and the degree of demethylation of these two compounds are well worth trying to answer.\n\nA number of compounds related to DOM had been synthesized and studied at the University of California at San Francisco, at about this time. Two of these were simply the juggling of the two methoxyl groups and the methyl group on the ring, still maintaining the 2,4,5-ness relative to the amphetamine chain. These are 2,4-dimethoxy-5-methylamphetamine and 4,5-dimethoxy-2-methylamphetamine. Since the slang name for DOM in and about the medical center was STP, and since STP was the name of a motor oil additive, it is not unreasonable that the first of these to be synthesized, the 2,4-dimethoxy-5-methyl isomer, was referred to by the name of another motor oil additive popular at that time, F-310. The Vilsmeier reaction between 2,4-dimethoxytoluene and the Vilsmeier complex of POCl3 and N-methylformanilide gave the benzaldehyde (mp 117-118 °C) with a yellow malononitrile derivative from EtOH with a mp of 193-194 °C. The nitrostyrene from this and nitroethane formed yellow crystals from CH3CN, with a mp 138-139 °C. The amine formed easily with LAH in ether, and the product F-310 (or 5-DOM) gave white crystals from CH3CN with a mp of 182-183 °C.\n\nAnd the other isomer, the 4,5-dimethoxy-2-methyl counterpart, became known familiarly as F-320, or sometimes simply 2-DOM. Its preparation followed an identical procedure, starting from 3,4-dimethoxytoluene. I have been told that F-310 is not active even at 20 milligrams in man, which would make it several times less potent than DOM (STP). I know of no trials with F-320. The use of the letter RFS does not imply any relationship between these two compounds and the series described elsewhere with the RFS code followed by other numbers, such as F-2 and F-22. These latter are F's because they are furans, not motor oil additives. And yet another oil additive, well known at the time as Z-7, became associated with the synthesis of the DOM (STP) isomer with its groups in the 2,4,6-positions. This is entered separately under gamma-DOM.",
+      "design_rationale": {
+        "possibilities": ["Totally inactive receptor blocker", "Potent long-lived psychedelic"],
+        "outcome": "The latter 'could have been' proved to be so"
+      },
+      "optical_isomers": {
+        "R_isomer": "More active",
+        "S_isomer_hypothesis": "Heavier physical aspects may be due to inactive S isomer",
+        "amphetamine_comparison": "S isomer carries major punch of amphetamine stimulant",
+        "speculation": "Pure R isomer might have dramatic visuals without troublesome physical component"
+      },
+      "STP_history": {
+        "location": "Haight-Ashbury, San Francisco",
+        "date": "Mid-1967",
+        "distribution": "Scattered widely and plentifully, unbeknownst to Shulgin",
+        "name_interpretations": [
+          "Serenity, Tranquility, and Peace",
+          "Super Terrific Psychedelic",
+          "Stop The Police",
+          "Too Stupid to Puke (police version)"
+        ],
+        "actual_origin": "Motor oil additive initials (Scientifically Treated Petroleum)",
+        "expert_error": "Avowed expert claimed motor oil additive had properties of LSD, mescaline, amphetamines",
+        "dark_humor": "Fortunate love children didn't read much, or might have raided gasoline stations"
+      },
+      "overdose_complications": {
+        "problem_1": "No equation between STP and DOM - unknown drug distributed cavalier way",
+        "problem_2": "Initial tablets 20mg, later 10mg - both thoroughly whopping doses",
+        "slow_onset": {
+          "30_min": "Some initial effects",
+          "1_hour": "+ or ++",
+          "2_hours": "Full impact"
+        },
+        "LSD_comparison": "Alert in 15-20 minutes, deep intoxication at 30 minutes",
+        "result": "Users assumed low potency, took additional doses",
+        "worst_case": "Some overdose victims may have taken 30mg DOM"
+      },
+      "tolerance_study": {
+        "subjects": 5,
+        "dose": "6 mg daily for three days",
+        "objective": "Psychological tests showed decreased responses",
+        "subjective_day_1": "Extremely intense effects, all but one found it unpleasant",
+        "day_3": "Diminished responses - 'moderately strong' to 'felt absolutely nothing'",
+        "remarkable": "One actually slept during the experience on the third day"
+      },
+      "hexadeutero_analogue": {
+        "purpose": "Internal standard for analytical work",
+        "human_pharmacology": "No reports",
+        "mescaline_comparison": {
+          "mescaline": "Loss of methoxyl group = inactivation",
+          "DOM": "Loss may be associated with formation of active metabolite"
+        }
+      },
+      "motor_oil_isomers": {
+        "F-310": {
+          "aka": "5-DOM",
+          "full_name": "2,4-dimethoxy-5-methylamphetamine",
+          "origin": "Chevron Oil product additive name",
+          "mp": "182-183°C",
+          "activity": "Not active even at 20 mg"
+        },
+        "F-320": {
+          "aka": "2-DOM",
+          "full_name": "4,5-dimethoxy-2-methylamphetamine",
+          "origin": "UCSF chemists 'funny drugs'",
+          "trials": "None known"
+        },
+        "Z-7": {
+          "full_name": "2,4,6-positional isomer",
+          "origin": "Pennzoil Oil Company additive",
+          "note": "Entered separately under gamma-DOM"
+        },
+        "clarification": "F codes here unrelated to furan F-2, F-22 series"
+      },
+      "key_themes": [
+        "STP_Haight_Ashbury_1967",
+        "motor_oil_additive_confusion",
+        "slow_onset_overdose_problem",
+        "R_isomer_activity",
+        "rapid_tolerance_development",
+        "hexadeutero_analogue",
+        "positional_isomers_F-310_F-320",
+        "active_metabolite_hypothesis"
+      ],
+      "notable_quotes": [
+        "The latter 'could have been' proved to be so.",
+        "Maybe if that isomer were removed, and one were to explore the pure 'R' isomer of DOM, the dramatic visual aspects of the larger dosages might not be complicated with a troublesome physical component.",
+        "This compound, unbeknownst to me, was scattered widely and plentifully in the heyday of the Haight-Ashbury in San Francisco, in mid-1967.",
+        "The police called it: Too Stupid to Puke.",
+        "The motor oil additive, he wrote in a book of his, had properties somewhat related to those of LSD, mescaline, and the amphetamines.",
+        "How fortunate that the love children of the time didn't do much reading, for they might have gotten into yet deeper pharmacological troubles with drug raids on the local gasoline stations.",
+        "Either of these, in retrospect, is now known to be a thoroughly whopping dose.",
+        "The slow onset of action, coupled with the remarkably long duration, caught many innocent users unprepared.",
+        "One actually slept during the experience on the third day.",
+        "With mescaline, it is believed that the loss of a methoxyl group is a step towards the inactivation of the compound, whereas with DOM this loss may be associated with the formation of an active metabolite."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 69,
+      "code": "psi-DOM",
+      "chemical_name": "2,6-Dimethoxy-4-methylamphetamine; Z-7",
+      "extensions_and_commentary": "I can't remember the exact names of the companies that went with the oil additives. STP was, I believe, it's own thing, and originally stood for Scientifically Treated Petroleum. And F-310 was, I believe, a Chevron Oil product. F-320 was, of course, the product of the wild and happy chemists at the Pharmaceutical Chemistry Department at the University of California in San Francisco, playing with what they fondly called \"funny drugs.\" And when the 2,4,6-orientation became an obvious positional isomer, the Pennzoil Oil Company's additive, Z-7, was a natural to have its name volunteered to the cause. There was one additional isomer possible, with the methyl in the 2-position and the methoxyl groups at the 4- and 6-positions. This followed the more conventional aldehyde made from 3,5-dimethoxytoluene via the Vilsmeier process, with POCl3 and N-methylformanilide. This material (2,4-dimethoxy-6-methylbenzaldehyde with mp 64-65 °C from cyclohexane or from MeOH) is completely distinct from the isomer used above (2,6-dimethoxy-4-methylbenzaldehyde with a mp of 92-93 °C from MeOH). The amphetamine from this isomer is 2,4-dimethoxy-6-methylamphetamine, and had been christened by the chemistry crowd as Z-7.1.\n\nMuch effort had been put forth in research by this medical school group of graduate students and graduate advisors, to try to explain the biological activity of the 2,4,5-things such as TMA-2 and DOM (STP). And a considerable investment had been made in the attempt to tie together the amphetamine world of psychedelics with the indole world of psychedelics. The convenience of having two methoxy groups para to one another was a clear invitation to speculate upon the formation of a benzoquinone intermediate of some kind, and this would require the loss of the methyl groups which were already known to be metabolically labile. This \"quinone-like\" intermediate was the cornerstone of a \"hydroquinone hypothesis,\" as it allowed further condensation within the molecule itself involving the primary amine group, to form something called an indolene which, with some arcane electron pushing and removal, could eventually become an indole. There. We now have a tie-in to the tryptamine world, and to serotonin, and that entire neurotransmitter magic.\n\nThere was only one small fly in the ointment. No matter how the 2,4,5-things were explained, none of the proposed mechanisms could allow for the 2,4,6-things to also be active.\n\nHow can one accommodate such blasphemy? The first and obvious approach was the simplest. Denial. The 2,4,6-things aren't really active at all. Placebo stuff. There is a commonly used phrase, \"bad science\" which is an in-famous term used to belittle findings that do not fit with one's theories or purposes. But that simply didn't wash, because I knew, as did a few others who chose not to identify themselves too publicly, that TMA-2 and TMA-6 were both fully active in the 40 to 50 milligram area. And although not as potent as DOM, the compound of this recipe, psi-DOM or Z-7, was certainly an active one. So, since approach number one didn't work, try approach number two. Make the shoe fit the wearer, without respect to the size of his foot. One single size shoe fits all. One single mechanistic hypothesis explains all. It was obvious that for the \"hydroquinone\" hypothesis to survive, Z-7 would have to undergo some metabolic oxidation--phenol formation--in the 3-position.\n\nAnd guess who was actually euchred into embarking onto the synthesis of this hypothetical metabolic Lucy [that's the anthropological-type, not the LSD-type Lucy]? Moi! On to a new methoxylated amphetamine which would be called Z-7.2. Oxidation of the above 2,4-dimethoxy-6-methylbenzaldehyde with metachloroperoxybenzoic acid gave 2,4-dimethoxy-6-methylphenol which smoothly methylated (KOH, CH3I) to give 2,3,5-trimethoxytoluene as a white oil, bp 59-62 °C at 0.1 mm/Hg. This formed the anion between the meta-methoxy groups with butyllithium, and N-methylformanilide gave the new compound 2,3,6-trimethoxy-4-methylbenzaldehyde, also an oil (bp 130-140 °C at 0.7 mm/Hg) with an excellent NMR spectrum. This formed the 3-carbon nitrostyrene with nitroethane, as bright yellow crystals from methanol with a mp 67-68.5 °C (and excellent NMR and microanalysis, C,H,N). Lithium aluminum hydride reduction gave rise to what I was assuming would be the target amphetamine, 4-methyl-2,3,6-trimethoxyamphetamine or Z-7.2. This formed a hydrochloride salt which, although analytically excellent, insisted in remaining as an ether and chloroform-soluble oil which had an excellent NMR spectrum. This was certainly MY target compound, but it was not THEIR target compound. The upper echelons who were running the show were serious about this hydroquinone thing. Therefore, this product Z-7.2, that should have been entered into human evaluation, was instead processed further by the substitution of a t-BOC on the amine group, oxidation to the quinone with ceric ammonium nitrate, reduction to the hydroquinone with dithionite, and finally deprotection of the blocking t-BOC group by hydrochloric acid. The final product, 2,5-dihydroxy-6-methoxy-4-methylamphetamine hydrochloride, was an extremely light-sensitive solid which was looked at by NMR (excellent spectrum in D2O) and by cyclic voltimetry (destructive and uninformative) but which would have been totally worthless to have tasted.\n\nIn fact, the whole 2,4,6 substitution concept is just now beginning to explode. Fully half of the drugs described in this Book II are of the classical 2,4,5-trisubstitution pattern, and it is becoming evident that every one of them will have a 2,4,6-trisubstituted counterpart that bids fair to be an active psychedelic. Diligence could thus easily double the number of known psychedelics. The nickname \"pseudo\" is really the Greek letter \"psi\" which looks like a candelabrum standing on the table holding up three candles. If I can find the type in some font, I will simply precede each known drug with this letter, to indicate that the 2,4,5-ness has become a 2,4,6-ness. Therefore, Z-7 is also pseudo-DOM.\n\nZ-7.2 might have been an interesting compound to taste. But the academic climate was not appropriate at that time (early 1977) for such honesty. The \"hydro-quinone hypothesis\" is now not much more than a minor bit of history. And anyhow, it was just about this time that I had uncovered a slick way of getting a sulfur atom into the amphetamine molecule. I quickly lost interest in the pursuit of other people's hypotheses that didn't seem to lead anywhere. Maybe, someday, some single earth-shaking mechanism will emerge to explain everything. But in the meantime, the best contribution I can make to this \"grand unified theory of psychedelic activity\" is to continue to make new and unexpected things which, if they are active, will effectively destroy any hypothesis that just happens to be popular at the moment. It is a lot more exciting, too.",
+      "motor_oil_nomenclature": {
+        "STP": "Scientifically Treated Petroleum (its own thing)",
+        "F-310": "Chevron Oil product",
+        "F-320": "UCSF Pharmaceutical Chemistry 'funny drugs'",
+        "Z-7": "Pennzoil Oil Company additive - natural for 2,4,6-orientation"
+      },
+      "Z-7.1_isomer": {
+        "full_name": "2,4-dimethoxy-6-methylamphetamine",
+        "position": "Methyl in 2-position, methoxyl at 4- and 6-positions",
+        "aldehyde_mp": "64-65°C (from cyclohexane or MeOH)",
+        "distinction": "Completely distinct from 2,6-dimethoxy-4-methylbenzaldehyde (mp 92-93°C)"
+      },
+      "hydroquinone_hypothesis": {
+        "goal": "Tie amphetamine psychedelics to indole psychedelics",
+        "mechanism": {
+          "step_1": "Two para methoxy groups form benzoquinone intermediate",
+          "step_2": "Requires loss of metabolically labile methyl groups",
+          "step_3": "Quinone-like intermediate allows condensation with primary amine",
+          "step_4": "Forms indolene",
+          "step_5": "Arcane electron pushing becomes indole"
+        },
+        "result": "Tie-in to tryptamine world, serotonin, neurotransmitter magic"
+      },
+      "hypothesis_problem": {
+        "fly_in_ointment": "No proposed mechanism could allow 2,4,6-things to be active",
+        "approach_1": {
+          "name": "Denial",
+          "claim": "2,4,6-things aren't really active - placebo",
+          "term": "'Bad science' - belittle findings that don't fit theories",
+          "failure": "TMA-2 and TMA-6 both fully active at 40-50mg; psi-DOM certainly active"
+        },
+        "approach_2": {
+          "name": "Make the shoe fit",
+          "method": "One size fits all - one hypothesis explains all",
+          "requirement": "Z-7 would need metabolic oxidation at 3-position"
+        }
+      },
+      "Z-7.2_synthesis": {
+        "full_name": "4-methyl-2,3,6-trimethoxyamphetamine",
+        "aka": "Hypothetical metabolic Lucy (anthropological, not LSD)",
+        "shulgin_role": "Euchred into synthesizing hypothetical metabolite",
+        "synthesis_steps": [
+          "Oxidation of aldehyde with metachloroperoxybenzoic acid → 2,4-dimethoxy-6-methylphenol",
+          "Methylation (KOH, CH3I) → 2,3,5-trimethoxytoluene (white oil, bp 59-62°C at 0.1 mm/Hg)",
+          "Butyllithium + N-methylformanilide → 2,3,6-trimethoxy-4-methylbenzaldehyde",
+          "Nitroethane → nitrostyrene (bright yellow crystals, mp 67-68.5°C)",
+          "LAH reduction → Z-7.2 hydrochloride (remained as oil)"
+        ],
+        "conflict": {
+          "shulgin_target": "Evaluate Z-7.2 in humans",
+          "their_target": "Further processing for hydroquinone hypothesis",
+          "further_processing": "t-BOC protection, ceric ammonium nitrate oxidation, dithionite reduction, HCl deprotection",
+          "final_product": "2,5-dihydroxy-6-methoxy-4-methylamphetamine hydrochloride",
+          "result": "Extremely light-sensitive, totally worthless to taste"
+        }
+      },
+      "psi_nomenclature": {
+        "meaning": "Greek letter psi (ψ) - looks like candelabrum holding three candles",
+        "usage": "Precede known drug to indicate 2,4,5 became 2,4,6",
+        "therefore": "Z-7 is also pseudo-DOM"
+      },
+      "2,4,6_explosion": {
+        "claim": "Half of Book II drugs are 2,4,5 pattern",
+        "prediction": "Every one will have active 2,4,6 counterpart",
+        "implication": "Diligence could easily double number of known psychedelics"
+      },
+      "philosophical_conclusion": {
+        "Z-7.2_missed": "Might have been interesting to taste",
+        "climate": "Academic climate not appropriate (early 1977) for such honesty",
+        "hydroquinone_fate": "Now not much more than a minor bit of history",
+        "new_direction": "Uncovered slick way of getting sulfur into amphetamine",
+        "lost_interest": "Pursuit of other people's hypotheses that didn't lead anywhere",
+        "grand_unified_theory": "Maybe someday single mechanism will explain everything",
+        "best_contribution": "Make new unexpected things that destroy popular hypotheses if active",
+        "final_assessment": "It is a lot more exciting, too"
+      },
+      "key_themes": [
+        "motor_oil_nomenclature",
+        "hydroquinone_hypothesis",
+        "2,4,6_vs_2,4,5_problem",
+        "denial_and_bad_science",
+        "Z-7.2_lost_opportunity",
+        "psi_Greek_letter",
+        "double_psychedelics_prediction",
+        "hypothesis_destruction",
+        "sulfur_introduction"
+      ],
+      "notable_quotes": [
+        "Playing with what they fondly called 'funny drugs.'",
+        "There was only one small fly in the ointment.",
+        "How can one accommodate such blasphemy?",
+        "There is a commonly used phrase, 'bad science' which is an in-famous term used to belittle findings that do not fit with one's theories or purposes.",
+        "Make the shoe fit the wearer, without respect to the size of his foot.",
+        "And guess who was actually euchred into embarking onto the synthesis of this hypothetical metabolic Lucy?",
+        "This was certainly MY target compound, but it was not THEIR target compound.",
+        "The final product... would have been totally worthless to have tasted.",
+        "Fully half of the drugs described in this Book II are of the classical 2,4,5-trisubstitution pattern, and it is becoming evident that every one of them will have a 2,4,6-trisubstituted counterpart.",
+        "Diligence could thus easily double the number of known psychedelics.",
+        "The nickname 'pseudo' is really the Greek letter 'psi' which looks like a candelabrum standing on the table holding up three candles.",
+        "Z-7.2 might have been an interesting compound to taste. But the academic climate was not appropriate at that time (early 1977) for such honesty.",
+        "The 'hydro-quinone hypothesis' is now not much more than a minor bit of history.",
+        "The best contribution I can make to this 'grand unified theory of psychedelic activity' is to continue to make new and unexpected things which, if they are active, will effectively destroy any hypothesis that just happens to be popular at the moment.",
+        "It is a lot more exciting, too."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
