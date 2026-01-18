@@ -72,6 +72,42 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 2,
+      "code": "AL",
+      "chemical_name": "4-Allyloxy-3,5-dimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound was first explored in Prague by Leminger. He provided only the synthetic details and the statement that it was the most active compound that he had studied, with activity at 20 milligrams, with perceptual changes, color enhancement, and difficult dreams during sleep that night. Some effects persisted for more than 12 hours. Dosages above 35 milligrams remain unexplored.\n\nAs AL is one of the most potent 3,4,5-trisubstituted phenethylamines yet described, and since the corresponding amphetamines are of yet greater potency, it would be a good guess that 4-allyloxy-3,5-dimethoxyamphetamine (3C-AL) would be an interesting compound to explore. It could be made from syringaldehyde in reaction with allyl iodide, followed by the formation of a nitrostyrene with nitroethane, followed by reduction with aluminum hydride. It is, as of the present time, both unsynthesized and unexplored.",
+      "first_reported_by": "Leminger (Prague)",
+      "dosage_info": {
+        "active_dose": "20 mg",
+        "unexplored_above": "35 mg",
+        "duration": "12+ hours"
+      },
+      "effects_noted": [
+        "perceptual changes",
+        "color enhancement",
+        "difficult dreams during sleep"
+      ],
+      "related_compounds": {
+        "3C-AL": {
+          "name": "4-allyloxy-3,5-dimethoxyamphetamine",
+          "status": "unsynthesized and unexplored",
+          "predicted_potency": "greater than AL",
+          "proposed_synthesis": "syringaldehyde + allyl iodide → nitrostyrene with nitroethane → reduction with aluminum hydride"
+        }
+      },
+      "key_themes": [
+        "international_research",
+        "unexplored_territory",
+        "potency_comparison",
+        "future_directions"
+      ],
+      "notable_quotes": [
+        "It is, as of the present time, both unsynthesized and unexplored."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
