@@ -1324,6 +1324,96 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 23,
+      "code": "2C-C",
+      "chemical_name": "2,5-Dimethoxy-4-chlorophenethylamine",
+      "extensions_and_commentary": "Other reports mention usage of up to 50 milligrams which seems to increase yet further the intensity and the duration. I have one report of an intravenous administration of 20 milligrams, and the response was described as overwhelming. The effects peaked at about 5 minutes and lasted for perhaps 15 minutes.\n\nThe halogens represent a small group of atoms that are unique for a couple of reasons. They are all located in a single column of the periodic table, being monovalent and negative. That means that they can be reasonably stable things when attached to an aromatic nucleus. But, being monovalent, they cannot be modified or extended in any way. Thus, they are kind of a dead end, at least as far as the 2C-X series is considered. The heaviest, iodine, was explored as the phenethylamine, as 2C-I, and as the amphetamine as DOI. These are the most potent. The next lighter is bromine, where the phenethylamine is 2C-B and the amphetamine is DOB. These two are a bit less potent, and are by far the most broadly explored of all the halides. Here, in the above recipe, we have the chlorine counterpart, 2C-C. There is also the corresponding amphetamine DOC. These are less potent still, and much less explored. Why? Perhaps because chlorine is a gas and troublesome to handle (bromine is a liquid, and iodine is a solid). The fluorine analogue is yet harder to make, and requires procedures that are indirect, because fluorine (the lightest of all the halides) is not only a gas, but is dangerous to handle and does not react in the usual halogen way. There will be mention made of 2C-F, but DOF is still unexplored.\n\nThe treatment of the 2C-B phthalimide described above, with cuprous cyanide rather than cuprous chloride, gave rise to the cyano analog which, on hydrolysis with hydrazine, yielded 2,5-dimethoxy-4-cyanophenethylamine (2C-CN). Hydrolysis of this with hot, strong base gave the corresponding acid, 2,5-dimethoxy-4-carboxyphenethylamine, 2C-COOH. No evaluation of either of these compounds has been made in the human animal, as far as I know.",
+      "high_dose_reports": {
+        "oral_50mg": "Increases intensity and duration further",
+        "intravenous_20mg": {
+          "response": "Described as overwhelming",
+          "peak": "About 5 minutes",
+          "duration": "Perhaps 15 minutes"
+        }
+      },
+      "halogen_chemistry_lesson": {
+        "periodic_table": "All halogens in single column - monovalent and negative",
+        "aromatic_stability": "Reasonably stable when attached to aromatic nucleus",
+        "structural_limitation": "Being monovalent, cannot be modified or extended in any way",
+        "conclusion": "Kind of a dead end, at least as far as the 2C-X series is considered"
+      },
+      "halogen_potency_series": {
+        "order": "Iodine > Bromine > Chlorine > Fluorine",
+        "compounds": {
+          "iodine": {
+            "phenethylamine": "2C-I",
+            "amphetamine": "DOI",
+            "potency": "Most potent"
+          },
+          "bromine": {
+            "phenethylamine": "2C-B",
+            "amphetamine": "DOB",
+            "potency": "A bit less potent",
+            "exploration": "By far the most broadly explored of all the halides"
+          },
+          "chlorine": {
+            "phenethylamine": "2C-C",
+            "amphetamine": "DOC",
+            "potency": "Less potent still",
+            "exploration": "Much less explored",
+            "handling": "Gas, troublesome to handle"
+          },
+          "fluorine": {
+            "phenethylamine": "2C-F (mentioned)",
+            "amphetamine": "DOF (unexplored)",
+            "synthesis": "Yet harder to make, requires indirect procedures",
+            "handling": "Gas, dangerous to handle, does not react in usual halogen way"
+          }
+        },
+        "physical_states": {
+          "fluorine": "Gas (dangerous)",
+          "chlorine": "Gas (troublesome)",
+          "bromine": "Liquid",
+          "iodine": "Solid"
+        }
+      },
+      "related_compounds": {
+        "2C_CN": {
+          "name": "2,5-dimethoxy-4-cyanophenethylamine",
+          "synthesis": "2C-B phthalimide + cuprous cyanide, then hydrolysis with hydrazine",
+          "human_evaluation": "None as far as known"
+        },
+        "2C_COOH": {
+          "name": "2,5-dimethoxy-4-carboxyphenethylamine",
+          "synthesis": "Hydrolysis of 2C-CN with hot, strong base",
+          "human_evaluation": "None as far as known"
+        }
+      },
+      "key_themes": [
+        "halogen_series",
+        "periodic_table_chemistry",
+        "potency_vs_atomic_weight",
+        "structural_dead_end",
+        "handling_difficulties",
+        "intravenous_effects",
+        "unexplored_analogues"
+      ],
+      "notable_quotes": [
+        "I have one report of an intravenous administration of 20 milligrams, and the response was described as overwhelming.",
+        "The effects peaked at about 5 minutes and lasted for perhaps 15 minutes.",
+        "The halogens represent a small group of atoms that are unique for a couple of reasons.",
+        "Being monovalent, they cannot be modified or extended in any way. Thus, they are kind of a dead end, at least as far as the 2C-X series is considered.",
+        "The heaviest, iodine, was explored as the phenethylamine, as 2C-I, and as the amphetamine as DOI. These are the most potent.",
+        "These two are a bit less potent, and are by far the most broadly explored of all the halides.",
+        "Why? Perhaps because chlorine is a gas and troublesome to handle (bromine is a liquid, and iodine is a solid).",
+        "Fluorine (the lightest of all the halides) is not only a gas, but is dangerous to handle and does not react in the usual halogen way.",
+        "DOF is still unexplored.",
+        "No evaluation of either of these compounds has been made in the human animal, as far as I know."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
