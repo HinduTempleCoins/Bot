@@ -269,6 +269,47 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 7,
+      "code": "ALEPH-7",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-propylthioamphetamine",
+      "extensions_and_commentary": "This drug was the first definition of the term, Beth state.\n\nThere is something of the Fournier Transform in any and all drug experiments. A psychedelic drug experience is a complex combination of many signals going all at the same time. Something like the sound of an oboe playing the notes of the A-major scale. There are events that occur in sequence, such as the initial A, followed by B, followed by C-sharp and on and on. That is the chronology of the experience, and it can be written down as a series of perceived phenomena. The notes of the scale. Black quarter notes, with flags at the tops of their staffs, going up the page of music.\n\nBut within each of these single events, during the sounding of the note 'A,' for example, there is a complex combination of harmonics being produced at the same time, including all components from the fundamental oscillation on up through all harmonics into the inaudible. This mixture defines the played instrument as being an oboe. Each component may be shared by many instruments, but the particular combination is the unique signature of the oboe.\n\nThis analogy applies precisely to the study of psychedelic drugs and their actions. Each drug has a chronology of effect, like the notes of the A-major scale. But there are many components of a drug's action, like the harmonics from the fundamental to the inaudible which, taken in concert, defines the drug. With musical instruments, these components can be shown as sine waves on an oscilloscope. One component, 22%, was a sine wave at a frequency of 1205 cycles, and a phase angle of +55°. But in psychopharmacology? There is no psychic oscilloscope. There are no easily defined and measured harmonics or phase angles. Certainly, any eventual definition of a drug will require some such dissection into components each of which makes some contribution to the complex whole. The mental process may some day be defined by a particular combination of these components. And one of them is this Beth state. It is a state of uncaring, of anhedonia, and of emotionlessness.\n\nMany drugs have a touch of this Beth state, ALEPH-7 more than most. If a sufficient alphabet of effects (I am using the Alephs, Beths, Gimels, and Daleths of the Hebrew as token starters only) were to be accumulated and defined, the actions of new materials might someday be more exactly documented. Could depression, euphoria, and disinhibition for example, all be eventually seen as being made up of their component parts, each contributing in some measured way to the sum, to the human experience? The psychologists of the world would be ecstatic. And drugs such as ALEPH-7 might be useful in helping to define one of these parts.",
+      "historical_significance": "First definition of the 'Beth state'",
+      "beth_state": {
+        "definition": "A state of uncaring, of anhedonia, and of emotionlessness",
+        "presence_in_ALEPH7": "More than most drugs"
+      },
+      "fourier_transform_analogy": {
+        "concept": "Drug experiences as complex combinations of simultaneous signals",
+        "chronology": "Sequential events like notes of a scale (A, B, C-sharp...)",
+        "harmonics": "Simultaneous components within each event, like oboe harmonics",
+        "unique_signature": "Particular combination defines the drug, like harmonics define an instrument",
+        "limitation": "No psychic oscilloscope exists to measure these components"
+      },
+      "hebrew_alphabet_framework": {
+        "proposed_use": "Alphabet of effects to document drug actions",
+        "examples": ["Aleph", "Beth", "Gimel", "Daleth"],
+        "potential": "Could dissect depression, euphoria, disinhibition into component parts"
+      },
+      "key_themes": [
+        "theoretical_framework",
+        "fourier_analysis_analogy",
+        "beth_state_definition",
+        "psychopharmacology_vision",
+        "component_analysis",
+        "anhedonia"
+      ],
+      "notable_quotes": [
+        "This drug was the first definition of the term, Beth state.",
+        "There is something of the Fournier Transform in any and all drug experiments.",
+        "There is no psychic oscilloscope.",
+        "It is a state of uncaring, of anhedonia, and of emotionlessness.",
+        "Many drugs have a touch of this Beth state, ALEPH-7 more than most.",
+        "The psychologists of the world would be ecstatic."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
