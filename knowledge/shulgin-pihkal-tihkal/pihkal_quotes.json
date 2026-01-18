@@ -1,0 +1,1686 @@
+{
+  "source": "PIHKAL: Phenethylamines I Have Known And Loved",
+  "author": "Alexander & Ann Shulgin",
+  "year": 1991,
+  "structure": {
+    "part_one": "The Love Story (Autobiographical)",
+    "part_two": "The Chemical Story (179 Compound Entries)"
+  },
+  "general_quotes": [
+    {
+      "id": "pihkal_gen_001",
+      "quote": "I am completely convinced that there is a wealth of information built into us, with miles of intuitive knowledge tucked away in the genetic material of every one of our cells. Something akin to a library containing uncountable reference volumes, but encyclopedias whose indexes and tables of contents are still far from being compiled.",
+      "chapter": "Introduction",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_gen_002",
+      "quote": "Our generation is the first, ever, to have made the search for self-awareness a crime, if that search takes place through the use of tools denied by law.",
+      "chapter": "Story Section",
+      "category": "legal_freedom",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_gen_003",
+      "quote": "Use them with care, and use them with respect as to the potential they have for serious change in the chemistry of your mind, and how that chemistry might affect others. These are truly blessed tools for exploring the depths of the human psyche.",
+      "chapter": "Epilogue",
+      "category": "psychedelic_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_gen_004",
+      "quote": "The most compelling insight of that day was that this awesome recall had been brought about by a fraction of a gram of a white solid, but that in no way whatsoever could it be argued that these memories had been contained in the white solid. Everything I had ever learned or experienced was still part of me.",
+      "chapter": "First Mescaline Experience",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    }
+  ],
+  "compound_entries": [
+    {
+      "entry_number": 1,
+      "code": "AEM",
+      "chemical_name": "Alpha-Ethyl-Mescaline",
+      "extensions_and_commentary": "The extension of the two-carbon chain of mescaline by alpha-methylation to the three carbon chain of TMA approximately doubled the potency of the compound. And it was felt to be a completely logical possibility that, by extending it one more carbon atom, to the four carbon chain of alpha-ethyl-mescaline, it might double again. And following that logical progression, the doubling of potency with each additional carbon atom, the factor would be 2 to the 7th power by the alpha-octyl (or 256x that of mescaline, or a milligram as active dose) and with a side chain of a 70-carbon alkyl group (alpha-heptacontylmescaline) it would take just a single molecule to be intoxicating. This was rich fantasy stuff. As an active compound, just where would it go in the brain? With an 80-carbon side-chain, would one-thousandth of a single molecule be enough for a person? Or might a single molecule intoxicate a thousand people? And how long a chain on the alpha-position might be sufficient that, by merely writing down the structure on a piece of paper, you would get high? Maybe just conceiving the structure in your mind would do it. That is, after all, the way of homeopathy.\n\nMaybe it was just as well that this added two-carbon side-chain with lowered activity was already enough to disprove the doubling pattern. But by the time this non-activity had been learned, the alpha series had already been pushed out quite aways. The machinery of making the appropriate nitroalkane was straightforward, by reaction of the alkyl halide with nitrous acid, and separating the unwanted nitrite ester from the wanted nitroalkane by fractional distillation. The nitrostyrenes all formed reasonably although often in terrible yields, and reduced reasonably, and all formed crystalline picrates for isolation and crystalline hydrochloride salts for pharmacological manipulation. But since the first of these, AEM, was not active, there was no enthusiasm for tasting anything higher. This family was never published; why publish presumably inactive and thus uninteresting material?",
+      "data_table": {
+        "title": "Physical Properties of the alpha-Alkylmescaline Homologues and their Precursor Nitrostyrenes",
+        "compounds": [
+          {"code": "APM", "name": "Alpha-propylmescaline", "NS_mp_C": "82-83", "picrate_mp_C": null, "HCl_mp_C": "214-218"},
+          {"code": "ABM", "name": "Alpha-butylmescaline", "NS_mp_C": "73-74", "picrate_mp_C": "169-174", "HCl_mp_C": "182-184"},
+          {"code": "AAM", "name": "Alpha-amylmescaline", "NS_mp_C": "54-55", "picrate_mp_C": "162-163", "HCl_mp_C": "155-158"},
+          {"code": "AHM", "name": "Alpha-hexylmescaline", "NS_mp_C": "51-52", "picrate_mp_C": null, "HCl_mp_C": null},
+          {"code": "ASM", "name": "Alpha-heptylmescaline", "NS_mp_C": "43-44", "picrate_mp_C": null, "HCl_mp_C": null, "note": "S is for septyl, to distinguish heptyl from hexyl"},
+          {"code": "AOM", "name": "Alpha-octylmescaline", "NS_mp_C": null, "picrate_mp_C": null, "HCl_mp_C": null, "note": "Never made, as no nonylbromide could be located to make the needed nitrononane"},
+          {"code": "ANM", "name": "Alpha-nonylmescaline", "NS_mp_C": "46-47", "picrate_mp_C": null, "HCl_mp_C": null, "note": "Synthesis got as far as the nitrostyrene stage when inactivity of AEM was determined, project dropped"},
+          {"code": "AUM", "name": "Alpha-undecylmescaline", "NS_mp_C": null, "picrate_mp_C": null, "HCl_mp_C": null, "note": "Synthesis got as far as the nitrostyrene stage when inactivity of AEM was determined, project dropped"}
+        ]
+      },
+      "key_themes": [
+        "scientific_method",
+        "hypothesis_testing",
+        "reductio_ad_absurdum",
+        "homeopathy_critique",
+        "unpublished_research"
+      ],
+      "notable_quotes": [
+        "And how long a chain on the alpha-position might be sufficient that, by merely writing down the structure on a piece of paper, you would get high? Maybe just conceiving the structure in your mind would do it. That is, after all, the way of homeopathy.",
+        "This family was never published; why publish presumably inactive and thus uninteresting material?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 2,
+      "code": "AL",
+      "chemical_name": "4-Allyloxy-3,5-dimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound was first explored in Prague by Leminger. He provided only the synthetic details and the statement that it was the most active compound that he had studied, with activity at 20 milligrams, with perceptual changes, color enhancement, and difficult dreams during sleep that night. Some effects persisted for more than 12 hours. Dosages above 35 milligrams remain unexplored.\n\nAs AL is one of the most potent 3,4,5-trisubstituted phenethylamines yet described, and since the corresponding amphetamines are of yet greater potency, it would be a good guess that 4-allyloxy-3,5-dimethoxyamphetamine (3C-AL) would be an interesting compound to explore. It could be made from syringaldehyde in reaction with allyl iodide, followed by the formation of a nitrostyrene with nitroethane, followed by reduction with aluminum hydride. It is, as of the present time, both unsynthesized and unexplored.",
+      "first_reported_by": "Leminger (Prague)",
+      "dosage_info": {
+        "active_dose": "20 mg",
+        "unexplored_above": "35 mg",
+        "duration": "12+ hours"
+      },
+      "effects_noted": [
+        "perceptual changes",
+        "color enhancement",
+        "difficult dreams during sleep"
+      ],
+      "related_compounds": {
+        "3C-AL": {
+          "name": "4-allyloxy-3,5-dimethoxyamphetamine",
+          "status": "unsynthesized and unexplored",
+          "predicted_potency": "greater than AL",
+          "proposed_synthesis": "syringaldehyde + allyl iodide → nitrostyrene with nitroethane → reduction with aluminum hydride"
+        }
+      },
+      "key_themes": [
+        "international_research",
+        "unexplored_territory",
+        "potency_comparison",
+        "future_directions"
+      ],
+      "notable_quotes": [
+        "It is, as of the present time, both unsynthesized and unexplored."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 3,
+      "code": "ALEPH",
+      "chemical_name": "2,5-Dimethoxy-4-methylthiophenethylamine",
+      "extensions_and_commentary": "This specific compound is probably the first sulfur-containing phenethylamine to have been evaluated as a potentially active CNS stimulant or psychedelic. It was a complete, total, absolute unknown. The first trials were made at the sub-microgram level, specifically at 0.25 micrograms, at 11:30 AM on September 3, 1975. Part of this extreme precaution was due to the uniqueness of a new heteroatom in a phenethylamine system. But part was due to the strange manic excitement that occurred at the time of the isolation and characterizing of the final product in the laboratory. Although it was certainly all placebo response, I was jumpy and unable to stay in the lab for more than a few minutes at a time. Maybe dust in the air? Maybe some skin contact with the free base? Now, I know there was nothing, but the possibility of extraordinary potency was real, and I did indeed wash everything down anyway. In fact, it took a total of 18 trials to work the experimental dosage up to as much as a single milligram. In retrospect, overly cautious. But retrospection, as they say, is cheap.\n\nThe 5 milligram experiment, briefly quoted from above, is the stuff of Chapter 14 of this book, important in that it gives an interesting example of some thought processes associated with psychedelic intoxication, ego-inflation, and what might be thought of as bits of mania. As is always the case with peak experiences that happen to be catalyzed by drugs, this extraordinary event could not be duplicated. At 7 milligrams there was an uneventful +1, and some 10 milligrams was needed to generate a full +3 experience. The first clue of the erratic nature of the Aleph family came from an independent assay by a colleague of mine, one who was very familiar with such states of consciousness, but for whom this was not a time for peak experiences. At 10 milligrams he told me that he had had only mild effects which he found relatively uninteresting.\n\nAs it stands, ALEPH remains relatively unexplored. Its two positional isomers are entered here as ORTHO-DOT and META-DOT. Three higher homologues have been more thoroughly looked at, and the generic name ALEPH (the first letter of the Hebrew alphabet) was given this group on the basis that they might have extraordinary properties in common. But the real treasure came in the exploring of the 2-carbon homologues, the compounds that make up the 2C-T family. Here, there proved to be much less uncertainty as to reasonable dosages, and much more richness in the subjective nature of the experience.",
+      "historical_significance": "First sulfur-containing phenethylamine evaluated as psychedelic",
+      "first_trial": {
+        "date": "September 3, 1975",
+        "time": "11:30 AM",
+        "dose": "0.25 micrograms",
+        "trials_to_1mg": 18
+      },
+      "dosage_info": {
+        "5mg": "Peak experience - Chapter 14 material, ego-inflation, mania (unreproducible)",
+        "7mg": "Uneventful +1",
+        "10mg": "Full +3 experience (but erratic - colleague found it uninteresting)"
+      },
+      "effects_noted": [
+        "ego-inflation",
+        "manic thought processes",
+        "erratic response between individuals"
+      ],
+      "related_compounds": {
+        "positional_isomers": ["ORTHO-DOT", "META-DOT"],
+        "higher_homologues": "Three explored more thoroughly",
+        "2C-T_family": "The real treasure - 2-carbon homologues with more predictable dosages and richer experiences"
+      },
+      "naming": "ALEPH - first letter of Hebrew alphabet, given to group for potentially extraordinary shared properties",
+      "key_themes": [
+        "pioneering_research",
+        "extreme_caution",
+        "placebo_effects",
+        "unreproducible_peak_experiences",
+        "individual_variation",
+        "erratic_compounds"
+      ],
+      "notable_quotes": [
+        "It was a complete, total, absolute unknown.",
+        "In retrospect, overly cautious. But retrospection, as they say, is cheap.",
+        "As is always the case with peak experiences that happen to be catalyzed by drugs, this extraordinary event could not be duplicated.",
+        "But the real treasure came in the exploring of the 2-carbon homologues, the compounds that make up the 2C-T family."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 4,
+      "code": "ALEPH-2",
+      "chemical_name": "2,5-Dimethoxy-4-ethylthioamphetamine",
+      "extensions_and_commentary": "As with ALEPH itself, and in most ways with the entire ALEPH family, there is no predictability of the dose/response relationship. One person had expressed his psychic isolation by taking and maintaining a fetal position in relative hibernation for several hours and with substantial amnesia; this at a four milligram dose. Yet another person, at fully twice this amount, was aware of a slight light-headedness that could in no way be measured as more than a bare threshold. But by the time this erratic nature had become apparent, the ALEPHS had been assigned and made, up to and including ALEPH-7.\n\nALEPH-3 was intended to be the methallylthio compound, 2,5-dimethoxy-4-(beta-methallylthio)amphetamine. [Detailed synthesis attempted but abandoned - aldehyde obtained was 'a mess']. Several years later, this entire project was reinitiated, and the aldehyde was obtained as a yellow crystal, but again it was not pursued. At that time, the earlier try had been totally forgotten, and a brand new ALEPH- (or 2C-T-) number had been assigned; i.e., 20. Thus, the corresponding phenethylamine, had it ever been made, which it was not, would have been called either 2C-T-3 or 2C-T-20, and the amphetamine homologue would probably have been ALEPH-20.\n\nA closely related 2C-T-X compound was also started quite a while later - this was the allylthio homologue (2C-T-16). The nitrostyrene was made but has not yet been reduced to the final amine.\n\nALEPH-5 was to be the cyclohexylthio analogue. The nitrostyrene was prepared but 'sits there on the shelf to be reduced to ALEPH-5 some inspired day.' The two-carbon homologue will someday be called 2C-T-5 (if it is ever made).\n\nThe remaining members of this family, ALEPH-4, ALEPH-6, and ALEPH-7 have actually been prepared and they have all been entered here in Book II, under their own names.",
+      "erratic_nature": {
+        "example_1": "4mg - fetal position, hibernation for hours, substantial amnesia",
+        "example_2": "8mg - barely threshold, slight light-headedness",
+        "conclusion": "No predictability of dose/response relationship"
+      },
+      "unfinished_compounds": [
+        {
+          "code": "ALEPH-3 / ALEPH-20",
+          "name": "2,5-dimethoxy-4-(beta-methallylthio)amphetamine",
+          "status": "Abandoned twice - project forgotten and renumbered",
+          "phenethylamine_version": "Would be 2C-T-3 or 2C-T-20 (never made)"
+        },
+        {
+          "code": "ALEPH-5",
+          "name": "2,5-dimethoxy-4-cyclohexylthioamphetamine",
+          "status": "Nitrostyrene sits on shelf awaiting reduction 'some inspired day'",
+          "phenethylamine_version": "2C-T-5 (if ever made)"
+        },
+        {
+          "code": "ALEPH-16",
+          "name": "2,5-dimethoxy-4-allylthioamphetamine",
+          "status": "Nitrostyrene made, not reduced",
+          "phenethylamine_version": "2C-T-16"
+        }
+      ],
+      "completed_family_members": ["ALEPH-4", "ALEPH-6", "ALEPH-7"],
+      "key_themes": [
+        "erratic_compounds",
+        "individual_variation",
+        "abandoned_projects",
+        "lab_notebook_archaeology",
+        "numbering_confusion",
+        "unfinished_work"
+      ],
+      "notable_quotes": [
+        "There is no predictability of the dose/response relationship.",
+        "At that time, the earlier try had been totally forgotten, and a brand new ALEPH- (or 2C-T-) number had been assigned.",
+        "This has not yet been reduced to the final amine.",
+        "Sits there on the shelf to be reduced to ALEPH-5 some inspired day.",
+        "Will someday be called 2C-T-5 (if it is ever made)."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 5,
+      "code": "ALEPH-4",
+      "chemical_name": "2,5-Dimethoxy-4-isopropylthioamphetamine",
+      "extensions_and_commentary": "Again, there are hints and suggestions of complexities. These, and several other reports, suggest some sensory confusion, and interpretive aspects that are to some extent threatening. There is an underlying suggestion of body toxicity. I know of no experiment that exceeded 12 milligrams and I would not be able to predict what might come forth at higher dosages. I personally choose not to try them.",
+      "warnings": {
+        "sensory_confusion": true,
+        "threatening_interpretations": true,
+        "body_toxicity_suggested": true,
+        "max_explored_dose": "12 mg",
+        "shulgin_personal_limit": "Chose not to try higher doses"
+      },
+      "key_themes": [
+        "caution",
+        "body_toxicity",
+        "unpredictable_effects",
+        "personal_limits",
+        "threatening_experiences"
+      ],
+      "notable_quotes": [
+        "There is an underlying suggestion of body toxicity.",
+        "I would not be able to predict what might come forth at higher dosages.",
+        "I personally choose not to try them."
+      ],
+      "significance": "Rare instance of Shulgin expressing personal reluctance to explore higher doses",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 6,
+      "code": "ALEPH-6",
+      "chemical_name": "2,5-Dimethoxy-4-phenylthioamphetamine",
+      "extensions_and_commentary": "In a sense, this compound was a disappointment. The beauty of putting a whole new ring into an active structure is that it provides a marvelous vehicle for introducing new substituents in new arrangements. Had Aleph-6 been a cleanly active and potent compound, then the new phenyl group could have been made electronegative to varying degrees (with methoxy substitution for example) or electropositive to varying degrees (with trifluoromethyls or nitros) and this fine-tuning could have been extremely rewarding.\n\nBut this material had the earmarks of one of those forever threshold things. The 40 milligram experiment was hopelessly compromised, and nothing higher was ever scheduled or tried. The two-carbon homologue, 2,5-dimethoxy-4-phenylthiophenethylamine, or 2C-T-6, has never even been synthesized, let alone assayed.",
+      "structural_promise": {
+        "concept": "New phenyl ring as vehicle for substituent exploration",
+        "electronegative_options": "methoxy substitution",
+        "electropositive_options": "trifluoromethyls or nitros",
+        "outcome": "Promise unfulfilled - compound was disappointment"
+      },
+      "activity": {
+        "description": "Forever threshold thing",
+        "40mg_experiment": "Hopelessly compromised",
+        "higher_doses": "Never scheduled or tried"
+      },
+      "related_compounds": {
+        "2C-T-6": {
+          "name": "2,5-dimethoxy-4-phenylthiophenethylamine",
+          "status": "Never synthesized, let alone assayed"
+        }
+      },
+      "key_themes": [
+        "structural_promise_unfulfilled",
+        "forever_threshold",
+        "fine_tuning_potential",
+        "abandoned_avenue",
+        "disappointment"
+      ],
+      "notable_quotes": [
+        "In a sense, this compound was a disappointment.",
+        "The beauty of putting a whole new ring into an active structure is that it provides a marvelous vehicle for introducing new substituents in new arrangements.",
+        "But this material had the earmarks of one of those forever threshold things.",
+        "The 40 milligram experiment was hopelessly compromised.",
+        "2C-T-6 has never even been synthesized, let alone assayed."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 7,
+      "code": "ALEPH-7",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-propylthioamphetamine",
+      "extensions_and_commentary": "This drug was the first definition of the term, Beth state.\n\nThere is something of the Fournier Transform in any and all drug experiments. A psychedelic drug experience is a complex combination of many signals going all at the same time. Something like the sound of an oboe playing the notes of the A-major scale. There are events that occur in sequence, such as the initial A, followed by B, followed by C-sharp and on and on. That is the chronology of the experience, and it can be written down as a series of perceived phenomena. The notes of the scale. Black quarter notes, with flags at the tops of their staffs, going up the page of music.\n\nBut within each of these single events, during the sounding of the note 'A,' for example, there is a complex combination of harmonics being produced at the same time, including all components from the fundamental oscillation on up through all harmonics into the inaudible. This mixture defines the played instrument as being an oboe. Each component may be shared by many instruments, but the particular combination is the unique signature of the oboe.\n\nThis analogy applies precisely to the study of psychedelic drugs and their actions. Each drug has a chronology of effect, like the notes of the A-major scale. But there are many components of a drug's action, like the harmonics from the fundamental to the inaudible which, taken in concert, defines the drug. With musical instruments, these components can be shown as sine waves on an oscilloscope. One component, 22%, was a sine wave at a frequency of 1205 cycles, and a phase angle of +55°. But in psychopharmacology? There is no psychic oscilloscope. There are no easily defined and measured harmonics or phase angles. Certainly, any eventual definition of a drug will require some such dissection into components each of which makes some contribution to the complex whole. The mental process may some day be defined by a particular combination of these components. And one of them is this Beth state. It is a state of uncaring, of anhedonia, and of emotionlessness.\n\nMany drugs have a touch of this Beth state, ALEPH-7 more than most. If a sufficient alphabet of effects (I am using the Alephs, Beths, Gimels, and Daleths of the Hebrew as token starters only) were to be accumulated and defined, the actions of new materials might someday be more exactly documented. Could depression, euphoria, and disinhibition for example, all be eventually seen as being made up of their component parts, each contributing in some measured way to the sum, to the human experience? The psychologists of the world would be ecstatic. And drugs such as ALEPH-7 might be useful in helping to define one of these parts.",
+      "historical_significance": "First definition of the 'Beth state'",
+      "beth_state": {
+        "definition": "A state of uncaring, of anhedonia, and of emotionlessness",
+        "presence_in_ALEPH7": "More than most drugs"
+      },
+      "fourier_transform_analogy": {
+        "concept": "Drug experiences as complex combinations of simultaneous signals",
+        "chronology": "Sequential events like notes of a scale (A, B, C-sharp...)",
+        "harmonics": "Simultaneous components within each event, like oboe harmonics",
+        "unique_signature": "Particular combination defines the drug, like harmonics define an instrument",
+        "limitation": "No psychic oscilloscope exists to measure these components"
+      },
+      "hebrew_alphabet_framework": {
+        "proposed_use": "Alphabet of effects to document drug actions",
+        "examples": ["Aleph", "Beth", "Gimel", "Daleth"],
+        "potential": "Could dissect depression, euphoria, disinhibition into component parts"
+      },
+      "key_themes": [
+        "theoretical_framework",
+        "fourier_analysis_analogy",
+        "beth_state_definition",
+        "psychopharmacology_vision",
+        "component_analysis",
+        "anhedonia"
+      ],
+      "notable_quotes": [
+        "This drug was the first definition of the term, Beth state.",
+        "There is something of the Fournier Transform in any and all drug experiments.",
+        "There is no psychic oscilloscope.",
+        "It is a state of uncaring, of anhedonia, and of emotionlessness.",
+        "Many drugs have a touch of this Beth state, ALEPH-7 more than most.",
+        "The psychologists of the world would be ecstatic."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 8,
+      "code": "ARIADNE",
+      "chemical_name": "2,5-Dimethoxy-4-methylamphetamine, alpha-ethyl homologue",
+      "extensions_and_commentary_summary": "Massive entry covering drug discovery philosophy, the commercial failure of Dimoxamine, and introduction of the Ten Classic Ladies systematic exploration of DOM hydrogen replacements.",
+      "drug_discovery_philosophy": {
+        "problem": "How to discover drugs for uniquely human conditions (anxiety, psychosis, paranoia, depression) that don't exist in animals?",
+        "traditional_approach": "Use known drug as calibration, search structurally related compounds",
+        "alternative": "Stumble into it via human experimentation with psychedelics",
+        "challenge": "Difficult to identify anti-depressants if you're not depressed"
+      },
+      "commercial_history": {
+        "trade_name": "Dimoxamine",
+        "rejected_name": "Ariadnamine",
+        "patent_coverage": "R isomer for restoring motivation in senile geriatric patients",
+        "animal_tests": {
+          "cat_test": "Not hallucinogenic (no tail erection unlike DOM)",
+          "monkey_test": "Re-motivation (old maze-running monkeys changed their minds)"
+        },
+        "outcome": "Didn't make it to commercial market"
+      },
+      "ten_classic_ladies": {
+        "concept": "Systematically replace each of DOM's 10 unique hydrogen types with a methyl group",
+        "total_hydrogens_in_DOM": 19,
+        "unique_hydrogen_types": 10,
+        "ladies": [
+          {"name": "ARIADNE", "position": "alpha-methyl (amphetamine chain)", "mythology": "Gave thread to Theseus for the Labyrinth"},
+          {"name": "BEATRICE", "position": "nitrogen atom", "mythology": "Dante's lady from Divina Commedia"},
+          {"name": "CHARMIAN", "position": "alpha-hydrogen (phentermine analogue)", "mythology": "Named for friend's wife with gentle schizophrenia"},
+          {"name": "DAPHNE", "position": "beta-hydrogen (threo-isomer)", "mythology": "Escaped Apollo by becoming laurel tree"},
+          {"name": "ELVIRA", "position": "beta-hydrogen (erythro-isomer)", "mythology": "Mozart's 21st piano concerto theme"},
+          {"name": "FLORENCE", "position": "2-methoxy → 2-ethoxy", "mythology": "English translation of Firenze"},
+          {"name": "GANESHA", "position": "3-hydrogen → 3-methyl", "mythology": "Oops - elephant-headed Indian God, not a lady!"},
+          {"name": "HECATE", "position": "4-methyl → 4-ethyl (= DOET)", "mythology": "Goddess of magic arts and spells"},
+          {"name": "IRIS", "position": "5-methoxy → 5-ethoxy", "mythology": "Goddess of the rainbow"},
+          {"name": "JUNO", "position": "6-hydrogen → 6-methyl", "mythology": "A lady's lady", "note": "On shelf 14 years untasted"}
+        ]
+      },
+      "substitution_patterns": {
+        "normal": "2,4,5 - known most potent pattern",
+        "pseudo": "2,4,6 - equipotent in many ways, 'true pseudo'",
+        "near_pseudo": {
+          "patterns": ["2,3,6", "2,3,5"],
+          "prediction": "Will produce treasures every bit as unexpected as normal or pseudo",
+          "naming": "Will find a name from Greek alphabet when time comes"
+        }
+      },
+      "key_themes": [
+        "drug_discovery_philosophy",
+        "systematic_exploration",
+        "ten_classic_ladies",
+        "commercial_failure",
+        "substitution_patterns",
+        "unexplored_compounds",
+        "naming_methodology"
+      ],
+      "notable_quotes": [
+        "How does one discover a new drug for a malady that does not exist in experimental animals?",
+        "It is really difficult to pick up the clues as to what will be a good anti-depressant if you are not depressed.",
+        "It didn't have what was needed to make it all the way to the commercial market.",
+        "Here I really blew it; the Classic Lady turned out to be a Classic Gentleman.",
+        "I am willing to bet that the rather easily obtained 2,3,6-trisubstitution pattern... will produce treasures every bit as unexpected and remarkable.",
+        "Rather amazingly, I have had JUNO on the shelf for almost 14 years and have not yet gotten around to tasting it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 9,
+      "code": "ASB",
+      "chemical_name": "Asymbescaline; 3,4-Diethoxy-5-methoxyphenethylamine",
+      "extensions_and_commentary": "This specific amine was a target for a single study in cats many years ago, in Holland, using material obtained from Hoffman La Roche in Basel. Their findings are hard to evaluate, in that 200 milligrams was injected into a 3.75 kilogram cat (53 mg/Kg), or about twice the dosage that they used in their studies with metaescaline. Within 5 minutes there were indications of catatonia, and within a half hour the animal was unable to walk. This condition persisted for two days, at which time the animal died. Although this dose was many times that used in man, perhaps hints of the physical unease and long action are there to be gleaned. The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced.\n\nA comment is needed on the strange name asymbescaline! In the marvelous world of chemical nomenclature, bi- (or di-) usually means two of something, and tri- and tetra- quite reasonably mean three and four of something. But occasionally there can be an ambiguity with bi (or tri or tetra) in that bi some-thing-or-other might be two something-or-others hooked together or it might be two things hooked onto a something-or-other. So, the former is called bi- and the latter is called bis-. This compound is not two escalines hooked together (bi-escaline) but is only one of them with two ethyl groups attached (bis-escaline or bescaline). And since there are two ways that this can be done (either symmetrically or asymmetrically) the symmetric one is called symbescaline (or SB for short) and this one is called asymbescaline (or ASB for short). To complete the terminology lecture, the term tri- becomes tris- (the name given for the drug with all three ethoxy groups present in place of the methoxys of mescaline) and the term tetra- mutates into the rather incredible tetrakis-!",
+      "cat_study": {
+        "location": "Holland",
+        "source_material": "Hoffman La Roche, Basel",
+        "dose": "200 mg into 3.75 kg cat (53 mg/kg)",
+        "comparison": "About twice the metaescaline dose",
+        "timeline": {
+          "5_minutes": "Indications of catatonia",
+          "30_minutes": "Unable to walk",
+          "2_days": "Animal died"
+        },
+        "interpretation": "Hints of physical unease and long action"
+      },
+      "human_trials": {
+        "number_of_experiments": "Over half dozen",
+        "consensus": "Not enough value to offset the body load"
+      },
+      "nomenclature_lesson": {
+        "bi_vs_bis": {
+          "bi": "Two things hooked together",
+          "bis": "Two things hooked onto something"
+        },
+        "bescaline_explanation": "Not bi-escaline (two escalines together) but bis-escaline (one escaline with two ethyl groups)",
+        "sym_vs_asym": {
+          "symbescaline_SB": "Symmetric placement of two ethyl groups",
+          "asymbescaline_ASB": "Asymmetric placement of two ethyl groups"
+        },
+        "higher_prefixes": {
+          "tri_becomes": "tris- (all three ethoxy groups)",
+          "tetra_becomes": "tetrakis- ('rather incredible')"
+        }
+      },
+      "key_themes": [
+        "body_load",
+        "animal_study_mortality",
+        "nomenclature_education",
+        "negative_risk_benefit",
+        "chemical_naming_conventions"
+      ],
+      "notable_quotes": [
+        "Within 5 minutes there were indications of catatonia, and within a half hour the animal was unable to walk. This condition persisted for two days, at which time the animal died.",
+        "The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced.",
+        "A comment is needed on the strange name asymbescaline!",
+        "In the marvelous world of chemical nomenclature...",
+        "The term tetra- mutates into the rather incredible tetrakis-!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 10,
+      "code": "B",
+      "chemical_name": "Buscaline; 3,5-Dimethoxy-4-butoxyphenethylamine",
+      "extensions_and_commentary": "There is a jingle heard occasionally in chemical circles, concerning the homologues of methyl. It goes, 'There's ethyl and propyl, but butyl is futile.' And to a large measure this is true with the 4-position homologues of mescaline. This butyl compound, B or Buscaline, had originally been patented in England in 1930 without any physical or pharmacological description, and the few physical studies that had involved it (lipophilic this and serotonin that) suggested that it was less active than mescaline.\n\nIn principle, the 5-, the 6-, the 7- and the on-up homologues might be called amylescaline (possibly pentescaline?), hexescaline, heptescaline (possibly septescaline), and God-knows-what-scaline. They would certainly be easily makeable, but there would be little value that could be anticipated from nibbling them. In keeping with the name B (for butoxy), these would be known as A (for amyloxy, as the use of a P could confuse pentoxy with propoxy), as H (for hexyloxy, but careful; this letter has been used occasionally for DMPEA, which is Homopiperonylamine), and as S (the H for heptyloxy has been consumed by the hexyloxy, so let's shift from the Greek hepta to the Latin septum for the number seven). It seems most likely that the toxic symptoms that might well come along with these phenethylamines would discourage the use of the dosage needed to affect the higher centers of the brain. The same generally negative feeling applies to the amphetamine counterparts 3C-B, 3C-A, 3C-H and 3C-S.\n\nA brief reiteration of the 2C-3C nomenclature, to avoid a possible misunderstanding. The drug 2C-B is so named in that it is the two-carbon chain analogue of the three-carbon chain compound DOB. The drug 3C-B is so named because it is the three-carbon chain analogue of the two-carbon chain compound Buscaline, or more simply, B. There is no logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B.",
+      "the_jingle": "There's ethyl and propyl, but butyl is futile.",
+      "history": {
+        "patent": "England, 1930",
+        "description": "No physical or pharmacological description provided",
+        "activity": "Less active than mescaline"
+      },
+      "higher_homologues": {
+        "naming_scheme": [
+          {"code": "A", "for": "amyloxy (5-carbon)", "note": "P avoided to prevent pentoxy/propoxy confusion"},
+          {"code": "H", "for": "hexyloxy (6-carbon)", "warning": "Letter used occasionally for DMPEA (Homopiperonylamine)"},
+          {"code": "S", "for": "septyloxy (7-carbon)", "note": "Greek hepta → Latin septum since H was consumed"}
+        ],
+        "potential_names": ["amylescaline/pentescaline", "hexescaline", "heptescaline/septescaline", "God-knows-what-scaline"],
+        "assessment": "Easily makeable but little value anticipated - toxic symptoms would likely discourage needed dosages"
+      },
+      "nomenclature_clarification": {
+        "2C_B": "Two-carbon chain analogue of three-carbon DOB",
+        "3C_B": "Three-carbon chain analogue of two-carbon Buscaline (B)",
+        "relationship": "NO logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B"
+      },
+      "key_themes": [
+        "homologue_futility",
+        "nomenclature_education",
+        "historical_patents",
+        "predicted_toxicity",
+        "naming_conventions"
+      ],
+      "notable_quotes": [
+        "There's ethyl and propyl, but butyl is futile.",
+        "God-knows-what-scaline",
+        "It seems most likely that the toxic symptoms that might well come along with these phenethylamines would discourage the use of the dosage needed to affect the higher centers of the brain.",
+        "There is no logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 11,
+      "code": "BEATRICE",
+      "chemical_name": "N-Methyl-DOM; N-Methyl-2,5-dimethoxy-4-methylamphetamine",
+      "ten_classic_ladies": "Second of the Ten Classic Ladies - methyl on nitrogen atom",
+      "extensions_and_commentary": "This is another example of the N-methyl homologues of the psychedelics. None of them seem to produce stuff of elegance. It is clear that the adding of an N-methyl group onto DOM certainly cuts down the activity by a factor of ten-fold, and even then results in something that is not completely good. Three milligrams of DOM is a winner, but even ten times this, thirty milligrams of N-methyl-DOM, is somewhat fuzzy. In the rabbit hyperthermia studies, this compound was some 25 times less active than DOM, so even animal tests say this is way down there in value. This particular measure suggests that the active level in man might be 75 milligrams. Well, maybe, but I am not at all comfortable in trying it at that level. In fact I do not intend to explore this any further whatsoever, unless there is a compelling reason, and I see no such reason. For the moment, let us leave this one to others, who might be more adventurous but less discriminating.\n\nIn browsing through my notes I discovered that I had made another N-substitution product of DOM. Efforts to fuse free-base DOM with the ethyl cyclopropane carboxylate failed, but the reaction between it and the acid chloride in pyridine gave the corresponding amide, with a mp of 156-157 °C from MeOH. This reduced smoothly to the corresponding amine, N-cyclopropyl-2,5-dimethoxy-4-methylamphetamine which formed a hydrochloride salt melting at 153-156 °C. I can't remember the reasoning that led to this line of synthesis, but it must not have been too exciting, as I never tasted the stuff.",
+      "n_methyl_pattern": {
+        "general_finding": "N-methyl homologues don't produce 'stuff of elegance'",
+        "activity_reduction": "10-fold reduction from parent compound",
+        "comparison": {
+          "DOM_3mg": "A winner",
+          "N_methyl_DOM_30mg": "Somewhat fuzzy, not completely good"
+        }
+      },
+      "animal_studies": {
+        "rabbit_hyperthermia": "25 times less active than DOM",
+        "extrapolated_human_dose": "75 mg",
+        "shulgin_response": "Not at all comfortable trying it at that level"
+      },
+      "decision": {
+        "further_exploration": "Do not intend to explore any further whatsoever",
+        "reason": "No compelling reason to do so",
+        "recommendation": "Leave this one to others, who might be more adventurous but less discriminating"
+      },
+      "other_n_substituted_compounds": {
+        "N_cyclopropyl_DOM": {
+          "synthesis": "Made via acid chloride in pyridine, reduced to amine",
+          "amide_mp": "156-157°C from MeOH",
+          "hydrochloride_mp": "153-156°C",
+          "status": "Never tasted",
+          "reasoning": "Can't remember the reasoning - must not have been too exciting"
+        }
+      },
+      "key_themes": [
+        "n_methylation_reduces_activity",
+        "ten_classic_ladies",
+        "negative_assessment",
+        "deliberate_non_exploration",
+        "adventurous_vs_discriminating"
+      ],
+      "notable_quotes": [
+        "None of them seem to produce stuff of elegance.",
+        "Three milligrams of DOM is a winner, but even ten times this, thirty milligrams of N-methyl-DOM, is somewhat fuzzy.",
+        "I am not at all comfortable in trying it at that level.",
+        "I do not intend to explore this any further whatsoever, unless there is a compelling reason, and I see no such reason.",
+        "Let us leave this one to others, who might be more adventurous but less discriminating.",
+        "I can't remember the reasoning that led to this line of synthesis, but it must not have been too exciting, as I never tasted the stuff."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 12,
+      "code": "BIS-TOM",
+      "chemical_name": "2,5-Bis-(methylthio)-4-methylamphetamine",
+      "extensions_and_commentary": "It is reasonable, in retrospect, to accept that BIS-TOM is not an active compound. The replacement of the 2-position oxygen of DOM with a sulfur atom (to give 2-TOM) dropped the potency by a factor of 15x, and the replacement of the 5-position oxygen with a sulfur atom (to give 5-TOM) dropped the potency by a factor of about 10x. It would be a logical calculation that the replacement of both oxygen atoms with sulfur might drop the potency by a factor of 150x. So, with DOM being active at maybe 5 milligrams, a logical prediction of the active level of BIS-TOM would be 750 milligrams. And maybe this would be the right level, but with the hints of neurological disturbance that seemed to be there at 160 mg, there was no desire to go up by a factor of five again. The rewards would simply not be worth the risks.\n\nThe 2-carbon analogue, 2C-BIS-TOM, was prepared from the intermediate aldehyde above, first by reaction with nitromethane to give the nitrostyrene as tomato-colored crystals from EtOAc, mp 145-146 °C. This was reduced with AH to give 2,5-bis-(methylthio)-4-methylphenethylamine hydrochloride as ivory-colored crystals with a mp of 273-277 °C.\n\nAlthough there are many interesting psychedelic drugs with sulfur atoms in them (the TOM's, the TOET's, the ALEPH's and all of the 2C-T's), there just aren't many that contain two sulfur atoms. BIS-TOM bombed out, and 2C-BIS-TOM remains untried, but will probably also fail, as the phenethylamines are rarely more potent than the corresponding amphetamines. This leaves 2C-T-14 as the remaining hope, and its synthesis is still underway.",
+      "potency_calculation": {
+        "2_TOM_reduction": "15x less potent than DOM",
+        "5_TOM_reduction": "10x less potent than DOM",
+        "combined_prediction": "150x reduction (15 × 10)",
+        "DOM_active_dose": "5 mg",
+        "predicted_BIS_TOM_dose": "750 mg",
+        "actual_trial": "160 mg showed hints of neurological disturbance"
+      },
+      "risk_assessment": {
+        "neurological_concerns": "Hints of neurological disturbance at 160 mg",
+        "dose_gap": "Would need to go up 5x more to reach predicted active level",
+        "decision": "No desire to continue - rewards not worth the risks"
+      },
+      "related_compounds": {
+        "2C_BIS_TOM": {
+          "status": "Made but untried",
+          "nitrostyrene": "Tomato-colored crystals, mp 145-146°C",
+          "hydrochloride": "Ivory-colored crystals, mp 273-277°C",
+          "prediction": "Will probably also fail - phenethylamines rarely more potent than amphetamines"
+        },
+        "2C_T_14": {
+          "status": "Synthesis underway",
+          "assessment": "Remaining hope for two-sulfur compounds"
+        }
+      },
+      "two_sulfur_observation": {
+        "successful_one_sulfur_compounds": ["TOMs", "TOETs", "ALEPHs", "2C-Ts"],
+        "two_sulfur_outcome": "Just aren't many that work - BIS-TOM bombed out"
+      },
+      "key_themes": [
+        "logical_potency_calculation",
+        "multiplicative_reduction",
+        "risk_benefit_analysis",
+        "neurological_concerns",
+        "two_sulfur_failure"
+      ],
+      "notable_quotes": [
+        "It is reasonable, in retrospect, to accept that BIS-TOM is not an active compound.",
+        "It would be a logical calculation that the replacement of both oxygen atoms with sulfur might drop the potency by a factor of 150x.",
+        "The rewards would simply not be worth the risks.",
+        "BIS-TOM bombed out, and 2C-BIS-TOM remains untried, but will probably also fail.",
+        "This leaves 2C-T-14 as the remaining hope, and its synthesis is still underway."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 13,
+      "code": "BOB",
+      "chemical_name": "4-Bromo-2,5,beta-trimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound, BOB, is the most potent of the BOX series. And yet, as with all of the members of this family, there are overtones of physical concern, and of some worry as to the integrity of the body. There may well be a separation of activity with the two optical isomers, but there is not a tremendous push to explore this particular family much further. They can't all be winners, I guess. What would be the activities of compounds with a sulfur instead of an oxygen at the beta-oxygen position? What would be the nature of action if there were an alpha-methyl group, making all of these into amphetamine derivatives? Or what about both a sulfur and a methyl group? And what about the isomers that are intrinsic to all of this, the threo- and the erythro- and the 'D's' and the 'L's'? All this is terra incognita, and must someday be looked into. It is chemically simple, and pharmacologically provocative. Someone, somewhere, someday, answer these questions!",
+      "box_series": {
+        "position": "Most potent of the BOX series",
+        "family_concern": "All members have overtones of physical concern and worry about body integrity",
+        "exploration_status": "Not a tremendous push to explore further"
+      },
+      "unanswered_questions": [
+        "Sulfur instead of oxygen at beta-oxygen position?",
+        "Alpha-methyl group (amphetamine derivatives)?",
+        "Both sulfur and methyl group?",
+        "Optical isomers - separation of activity?",
+        "Threo- and erythro- isomers?",
+        "D and L isomers?"
+      ],
+      "call_to_future_researchers": {
+        "status": "Terra incognita - unexplored territory",
+        "assessment": "Chemically simple, pharmacologically provocative",
+        "plea": "Someone, somewhere, someday, answer these questions!"
+      },
+      "philosophical_note": "They can't all be winners, I guess.",
+      "key_themes": [
+        "body_integrity_concerns",
+        "unanswered_questions",
+        "terra_incognita",
+        "call_to_future_researchers",
+        "acceptance_of_limits"
+      ],
+      "notable_quotes": [
+        "This compound, BOB, is the most potent of the BOX series.",
+        "There are overtones of physical concern, and of some worry as to the integrity of the body.",
+        "They can't all be winners, I guess.",
+        "All this is terra incognita, and must someday be looked into.",
+        "It is chemically simple, and pharmacologically provocative.",
+        "Someone, somewhere, someday, answer these questions!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 14,
+      "code": "BOD",
+      "chemical_name": "4-Methyl-2,5,beta-trimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound, BOD, was the first exploratory member of a new family of phenethylamines. This family is called the BOX series, a code that is derived from the unique Beta-methOXy group which is their common feature. The letters B-O-X define an unchanging structural feature, and one needs only add a suffix letter to indicate a specific member of this family. That letter is directly related to the 4-position substituent. The letter 'D' is related to desoxy or methyl, as in DOM, and the other members of this family have a similar nomenclatural genesis. The term BOB comes from the bromine, BOH from the 2-hydroxy (beta-methoxy-2C-H), BOM from the methoxy, and so on.\n\nI came so close to giving one of these materials an extremely inflammatory name. The nitrostyrene that was to be reduced to the free base, was a beta-methoxy derivative, which dictates the BO-something name structure. And the 4-position substituent on the ring was a methylenedioxy group, which is symbolized by 'M'. The temptation was real, but the better angels of my nature prevailed.\n\nThis is as good a place as any to discuss the three-letter acronyms that have become attached to so many drugs. I have heard that the initializing of pharmaceuticals started with the first of the modern psychiatric drugs, chlorpromazine, which was given the name Thorazine by its makers. Whether this was an accident or a plan, every time some character in a movie is given a sedative by a nurse, the audience hears the magic word, Thorazine. Free advertisement forever. It is now the rule rather than the exception to see a drug identified with its three initials. PCP, LSD, DMT, STP, THC, GHB, MDA; they are all instantly recognized. Apparently there is some secret arm of the Government at work, trying to capture all three letter acronyms for themselves. There is the CIA, the DEA, the FBI, the FDA, the IRS, the INS, and many others. Maybe there is an unknown body, the United Amalgamation of Government Acronym Swipers, known only by its acronym, UAGAS.\n\nA small detour into biochemistry. The decarboxylation product of tyrosine is tyramine. The para-hydroxylation product of tyramine is dopamine. The beta-hydroxylation product of dopamine is norepinephrine. Now, where would one find tyrosine without the para-hydroxy group? Why, in phenylalanine, of course. And what is the decarboxylation product of phenylalanine? It is phenethylamine. And what is the beta-hydroxy derivative of phenethylamine? It is a compound known as phenylethanolamine. And what is the para-hydroxy derivative of phenylethanolamine? It is a compound which was first found in nature, not in the human, but in the salivary glands of the octopus. And so it is called octopamine. And I have always wanted to express my admiration and respect for whoever it was, who was curious enough about what might be in the salivary glands of the octopus, to actually look. My kind of scientist.\n\nA few words on optical isomers here. This is a family of compounds that has an asymmetric carbon atom in the aliphatic chain. It is called the beta-carbon atom, and it is the one that carries the methoxy group. So, there must always be two isomers, an 'R' and an 'S', or to use the older nomenclature, a 'D' and an 'L', and the synthetic material will always be the 50/50 mixture known as the racemate.\n\nThere is an ethoxy homologue of this compound (BOED) that has been synthesized and evaluated. At levels between 70 and 75 milligrams, there was a consistent experience of about 10 hours duration, distinctly less intense than BOD itself. Higher levels have not been explored.",
+      "box_series": {
+        "significance": "First exploratory member of the BOX series",
+        "naming_origin": "Beta-methOXy group is common feature",
+        "structure": "B-O-X defines unchanging structural feature, suffix indicates 4-position substituent",
+        "members": {
+          "BOD": "D from desoxy/methyl (as in DOM)",
+          "BOB": "B from bromine",
+          "BOH": "H from 2-hydroxy (beta-methoxy-2C-H)",
+          "BOM": "M from methoxy"
+        }
+      },
+      "bomb_near_miss": {
+        "situation": "Beta-methoxy derivative with 4-position methylenedioxy group",
+        "would_have_spelled": "BO + M = BOMB",
+        "outcome": "The better angels of my nature prevailed"
+      },
+      "drug_naming_discussion": {
+        "origin_theory": "Started with chlorpromazine → Thorazine",
+        "effect": "Free advertisement forever in movies",
+        "examples": ["PCP", "LSD", "DMT", "STP", "THC", "GHB", "MDA"],
+        "government_acronyms": ["CIA", "DEA", "FBI", "FDA", "IRS", "INS"],
+        "joke": "UAGAS - United Amalgamation of Government Acronym Swipers"
+      },
+      "biochemistry_lesson": {
+        "pathway": [
+          "Tyrosine → (decarboxylation) → Tyramine",
+          "Tyramine → (para-hydroxylation) → Dopamine",
+          "Dopamine → (beta-hydroxylation) → Norepinephrine"
+        ],
+        "parallel_pathway": [
+          "Phenylalanine (tyrosine without para-hydroxy)",
+          "Phenylalanine → (decarboxylation) → Phenethylamine",
+          "Phenethylamine → (beta-hydroxylation) → Phenylethanolamine",
+          "Phenylethanolamine → (para-hydroxylation) → Octopamine"
+        ],
+        "octopamine": {
+          "first_found_in": "Salivary glands of the octopus",
+          "naming": "Named after the octopus"
+        },
+        "admiration": "Whoever was curious enough to look in octopus salivary glands - my kind of scientist"
+      },
+      "chirality_education": {
+        "asymmetric_carbon": "Beta-carbon atom (carries the methoxy group)",
+        "isomer_types": {
+          "modern_nomenclature": ["R", "S"],
+          "older_nomenclature": ["D", "L"]
+        },
+        "synthetic_material": "Always 50/50 mixture known as the racemate"
+      },
+      "related_compounds": {
+        "BOED": {
+          "name": "Ethoxy homologue of BOD",
+          "dosage": "70-75 mg",
+          "duration": "About 10 hours",
+          "intensity": "Distinctly less intense than BOD",
+          "higher_levels": "Not explored"
+        }
+      },
+      "key_themes": [
+        "box_series_naming",
+        "drug_acronym_humor",
+        "bomb_name_near_miss",
+        "biochemistry_education",
+        "octopamine_discovery",
+        "chirality_explanation",
+        "curiosity_as_scientific_virtue"
+      ],
+      "notable_quotes": [
+        "This compound, BOD, was the first exploratory member of a new family of phenethylamines.",
+        "The temptation was real, but the better angels of my nature prevailed.",
+        "Maybe there is an unknown body, the United Amalgamation of Government Acronym Swipers, known only by its acronym, UAGAS.",
+        "I have always wanted to express my admiration and respect for whoever it was, who was curious enough about what might be in the salivary glands of the octopus, to actually look. My kind of scientist.",
+        "The synthetic material will always be the 50/50 mixture known as the racemate."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 15,
+      "code": "BOH",
+      "chemical_name": "2,5,beta-Trimethoxy-4-hydroxyphenethylamine",
+      "extensions_and_commentary": "There are several reports of a nice, mild mood enhancement in the 20-40 milligram dosage area, but searches for psychedelic effects at higher levels gave a strange mix of some sort of an altered state along with bodily discomfort. The BOH name for this member of the BOX family follows the convention discussed in the BOD recipe--with RHS for homopiperonylamine, the simplest of the muni-metro family, q.v. The demethylated homologue of BOH is BOHH, and is the methylenedioxy analogue of norepinephrine. It might well hydrolytically open up in the body to provide this neurotransmitter, and serve as some sort of transmitter in its own right. It is discussed under DME.\n\nMaybe there is something to the concept that when you imitate a neurotransmitter too closely, you get a hybrid gemisch of activity. The term \"pro-drug\" is used to identify a compound that may not be intrinsically active, but one which metabolizes in the body to provide an active drug. I feel the term should have been pre-drug, but pro-drug was the word that caught on. BOH may well act in the body as a pro-drug to norepinephrine, but with the temporary blocking of the polar functions with ether groups, it can gain access to the brain. And once there, it can be stripped of these shields and play a direct neurological role. I uncovered a very similar analogy in the tryptamine world some years ago. Just as norepinephrine is a neurotransmitter, so is serotonin. And I found that by putting an O-ether on the indolic phenol (to hide its polarity) and an alpha-methyl group next to the primary amine (to protect it from metabolic deaminase), it became an extremely potent, and most complex, psychedelic. This was the compound alpha,O-dimethylserotonin, or a,O-DMS. There is an uncanny analogy between this tryptamine and the phenethylamine BOH.\n\nSomehow the quiet voice deep inside me says, don't use too much, too quickly. Maybe one of the optical isomers is the body thing, and the other isomer is the mind thing. So far, only the racemic mixture has been tasted, to the best of my knowledge.",
+      "dosage_info": {
+        "20_to_40_mg": "Nice, mild mood enhancement",
+        "higher_doses": "Strange mix of altered state with bodily discomfort"
+      },
+      "naming": {
+        "BOH": "Follows BOX convention from BOD recipe",
+        "RHS": "Homopiperonylamine - simplest of muni-metro family"
+      },
+      "related_compounds": {
+        "BOHH": {
+          "description": "Demethylated homologue of BOH",
+          "significance": "Methylenedioxy analogue of norepinephrine",
+          "potential": "May hydrolytically open to provide neurotransmitter",
+          "discussed_under": "DME"
+        }
+      },
+      "prodrug_concept": {
+        "definition": "Compound not intrinsically active, but metabolizes to provide active drug",
+        "terminology_opinion": "Should have been 'pre-drug' but 'pro-drug' caught on",
+        "BOH_mechanism": {
+          "polar_blocking": "Ether groups temporarily block polar functions",
+          "brain_access": "Blocking allows brain access",
+          "activation": "Shields stripped once in brain for direct neurological role"
+        }
+      },
+      "neurotransmitter_mimicry": {
+        "concept": "Imitating a neurotransmitter too closely gives hybrid gemisch of activity",
+        "german_term": "gemisch = mixture"
+      },
+      "tryptamine_analogy": {
+        "compound": "alpha,O-dimethylserotonin (a,O-DMS)",
+        "modifications": {
+          "O_ether": "On indolic phenol to hide polarity",
+          "alpha_methyl": "Next to primary amine to protect from metabolic deaminase"
+        },
+        "result": "Extremely potent, most complex psychedelic",
+        "parallel": "Uncanny analogy between tryptamine a,O-DMS and phenethylamine BOH"
+      },
+      "intuition_warning": {
+        "inner_voice": "Don't use too much, too quickly",
+        "speculation": "One optical isomer may be body thing, other may be mind thing",
+        "current_status": "Only racemic mixture has been tasted"
+      },
+      "key_themes": [
+        "prodrug_mechanism",
+        "neurotransmitter_mimicry",
+        "tryptamine_phenethylamine_parallels",
+        "polar_function_blocking",
+        "intuitive_caution",
+        "optical_isomer_speculation",
+        "terminology_critique"
+      ],
+      "notable_quotes": [
+        "When you imitate a neurotransmitter too closely, you get a hybrid gemisch of activity.",
+        "I feel the term should have been pre-drug, but pro-drug was the word that caught on.",
+        "With the temporary blocking of the polar functions with ether groups, it can gain access to the brain. And once there, it can be stripped of these shields and play a direct neurological role.",
+        "There is an uncanny analogy between this tryptamine and the phenethylamine BOH.",
+        "Somehow the quiet voice deep inside me says, don't use too much, too quickly.",
+        "Maybe one of the optical isomers is the body thing, and the other isomer is the mind thing."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 16,
+      "code": "BOHD",
+      "chemical_name": "beta-Hydroxy-3,4-dimethoxy-4-methylphenethylamine",
+      "extensions_and_commentary": "The usual method of making beta-ethanolamine such as this is through the reduction of the cyanohydrin of the corresponding benzaldehyde and, in fact, that method is described in the recipe for DME. This above procedure was actually part of an exploration of different agents that might be used in the reduction of the intermediate nitroalkane. This product was the unexpected result of trying zinc.\n\nWhy the potent cardiovascular effect seen by this compound? There are a couple of points that might argue for some adrenolytic toxicity. This material is a beta-ethanolamine and, with maybe one or two exceptions, clinically used beta-receptor blockers are beta-ethanolamines. In fact, a few of these so-called beta-blockers actually have two methoxy groups on the aromatic rings, also a property of BOHD. The antidiabetic drug Butaxamine (BW 64-9 in the code of Burroughs Wellcome) is identical to BOHD except that the 4-methyl group is on the alpha-carbon instead, and there is a tertiary butyl group on the nitrogen atom. Another point involves the proximity of the beta-hydroxy group and the methoxyl oxygen atom in the 2-position of the ring. There is going to be a strong hydrogen-bonding with this orientation, with the formation of a stable six-membered ring. This might help obscure the hydrophilic nature of the free hydroxyl group and allow the compound to pass into the brain easily. If this group is masked by an easily removed group such as an acetate ester, one gets the compound beta-acetoxy-3,4-dimethoxy-4-methylphenethylamine (BOAD) which is similar to BOHD as a hypotensive.\n\nThe code-naming procedure used here (and elsewhere here in Book II) is: (1) to use RBOS as the alert to there being an oxygen on the benzyl carbon of a phenethylamine (it is a benzyl alcohol); (2) if there is just one more letter (a third and last letter) it will identify the 2C-X parent from which it has been derived [RBS comes from 2C-B, RDS comes from 2C-D, RHS comes from homopiperonylamine (MDPEA) rather than from 2C-H, RMS comes from mescaline, and in every case the beta-substituent is a methoxy group]; and (3) if there are four letters, then the fourth letter is as above, and the third letter (the next to last letter) is the substituent on that benzylic oxygen. With a three letter code, the substituent is a methyl group, an RHS for a third letter of four makes it a hydroxyl group, and an RAS for the third letter is an acetyl group, and an RES is for an ethyl group. A similar sort of cryptographic music was composed by Du Pont in their three-number codes for the Freons. The first number was one less than the number of carbons in the molecule, the second number was one more than the number of hydrogens in the molecule, the third number was the exact number of fluorines in the molecule, and the rest of the bonds were filled with chlorines, Thus Freon 11 (really Freon 011) was trichlorofluoromethane and Freon 116 was hexafluoroethane.\n\nComplex, yes. But both systems are completely straightforward, and flexible for future creations. A few additional examples of similar beta-ethanolamines are scattered throughout Book II and they have, in general, proved to be uninteresting, at least as potential psychedelic compounds.",
+      "synthesis_method": {
+        "usual_method": "Reduction of cyanohydrin of corresponding benzaldehyde",
+        "described_in": "DME recipe",
+        "actual_synthesis": "Exploration of different reduction agents for intermediate nitroalkane",
+        "unexpected_result": "Zinc reduction produced this compound unexpectedly"
+      },
+      "cardiovascular_effects": {
+        "observation": "Potent cardiovascular effect",
+        "proposed_mechanism": "Adrenolytic toxicity",
+        "structural_similarities": {
+          "beta_blockers": {
+            "common_feature": "Clinically used beta-receptor blockers are beta-ethanolamines",
+            "methoxy_groups": "Some beta-blockers have two methoxy groups on aromatic rings, like BOHD"
+          },
+          "butaxamine": {
+            "other_name": "BW 64-9 (Burroughs Wellcome code)",
+            "type": "Antidiabetic drug",
+            "similarity": "Identical to BOHD except 4-methyl group on alpha-carbon instead, tertiary butyl on nitrogen"
+          }
+        }
+      },
+      "hydrogen_bonding": {
+        "structural_feature": "Proximity of beta-hydroxy group and 2-position methoxyl oxygen",
+        "result": "Strong hydrogen-bonding forming stable six-membered ring",
+        "significance": "May obscure hydrophilic nature of free hydroxyl, allowing brain penetration"
+      },
+      "related_compounds": {
+        "BOAD": {
+          "name": "beta-acetoxy-3,4-dimethoxy-4-methylphenethylamine",
+          "relationship": "Acetate ester variant of BOHD (hydroxyl masked)",
+          "properties": "Similar to BOHD as a hypotensive"
+        }
+      },
+      "code_naming_system": {
+        "rbos_alert": "Indicates oxygen on benzyl carbon of phenethylamine (benzyl alcohol)",
+        "three_letter_codes": {
+          "third_letter": "Identifies 2C-X parent compound",
+          "examples": {
+            "RBS": "From 2C-B",
+            "RDS": "From 2C-D",
+            "RHS": "From homopiperonylamine (MDPEA), not 2C-H",
+            "RMS": "From mescaline"
+          },
+          "default_beta_substituent": "Methoxy group"
+        },
+        "four_letter_codes": {
+          "fourth_letter": "Same as three-letter system (parent compound)",
+          "third_letter": "Substituent on benzylic oxygen",
+          "examples": {
+            "H_third": "Hydroxyl group",
+            "A_third": "Acetyl group",
+            "E_third": "Ethyl group"
+          }
+        }
+      },
+      "freon_comparison": {
+        "du_pont_system": "Three-number codes for Freons",
+        "encoding_rules": {
+          "first_number": "One less than number of carbons",
+          "second_number": "One more than number of hydrogens",
+          "third_number": "Exact number of fluorines",
+          "remaining_bonds": "Filled with chlorines"
+        },
+        "examples": {
+          "freon_11": "Freon 011 = trichlorofluoromethane",
+          "freon_116": "Hexafluoroethane"
+        },
+        "assessment": "Similar sort of cryptographic music - both systems completely straightforward and flexible"
+      },
+      "beta_ethanolamine_family": {
+        "distribution": "Additional examples scattered throughout Book II",
+        "assessment": "In general, proved to be uninteresting as potential psychedelic compounds"
+      },
+      "key_themes": [
+        "unexpected_synthesis",
+        "cardiovascular_toxicity",
+        "beta_blocker_similarity",
+        "hydrogen_bonding_brain_access",
+        "code_naming_cryptography",
+        "freon_nomenclature_parallel",
+        "pharmacological_disappointment"
+      ],
+      "notable_quotes": [
+        "This product was the unexpected result of trying zinc.",
+        "Why the potent cardiovascular effect seen by this compound?",
+        "There is going to be a strong hydrogen-bonding with this orientation, with the formation of a stable six-membered ring.",
+        "This might help obscure the hydrophilic nature of the free hydroxyl group and allow the compound to pass into the brain easily.",
+        "A similar sort of cryptographic music was composed by Du Pont in their three-number codes for the Freons.",
+        "Complex, yes. But both systems are completely straightforward, and flexible for future creations.",
+        "They have, in general, proved to be uninteresting, at least as potential psychedelic compounds."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 17,
+      "code": "BOM",
+      "chemical_name": "3,4,5,beta-Tetramethoxyphenethylamine",
+      "extensions_and_commentary": "There are some indicators of central activity with assays involving both the 120 milligram and the 180 milligram levels, but nothing that can be rated as over a plus one. It can be seen with the two active members of the BOX series (BOD and BOB) that the potency is about equal to, or a little more (up to a factor of maybe x2), than the analogue without the methoxyl group on the aliphatic chain. If this formula were to hold in the relationship between mescaline and BOM, the active level might well be in the 200-400 milligram range. But at the moment, it remains unknown.\n\nAgain, the name of the compound (BOM) is from the RBO-S prefix of this family (from benzyl + oxy), plus the RMS of mescaline (which has provided the ring substitution pattern).",
+      "box_series": {
+        "family": "BOX series (Beta-methOXy phenethylamines)",
+        "active_members": ["BOD", "BOB"],
+        "naming_origin": {
+          "prefix": "RBO-S (from benzyl + oxy)",
+          "suffix": "M from RMS of mescaline (ring substitution pattern)"
+        }
+      },
+      "activity_assessment": {
+        "doses_tested": ["120 mg", "180 mg"],
+        "result": "Some indicators of central activity",
+        "rating": "Nothing over a plus one"
+      },
+      "potency_analysis": {
+        "box_series_pattern": "Potency equal to, or up to 2x, the non-methoxyl analogues",
+        "reference_compounds": ["BOD", "BOB"],
+        "mescaline_extrapolation": {
+          "predicted_active_level": "200-400 mg range",
+          "status": "Remains unknown at the moment"
+        }
+      },
+      "key_themes": [
+        "box_series_member",
+        "mescaline_derivative",
+        "subthreshold_activity",
+        "potency_extrapolation",
+        "unexplored_higher_doses"
+      ],
+      "notable_quotes": [
+        "There are some indicators of central activity with assays involving both the 120 milligram and the 180 milligram levels, but nothing that can be rated as over a plus one.",
+        "It can be seen with the two active members of the BOX series (BOD and BOB) that the potency is about equal to, or a little more (up to a factor of maybe x2), than the analogue without the methoxyl group on the aliphatic chain.",
+        "If this formula were to hold in the relationship between mescaline and BOM, the active level might well be in the 200-400 milligram range.",
+        "But at the moment, it remains unknown."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 18,
+      "code": "4-BR-3,5-DMA",
+      "chemical_name": "4-Bromo-3,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "Here is a complex and, at the moment, totally undefined drug. There were two independent reports of analgesia, yet a thorough screen in experimental animals, conducted by a major pharmaceutical house, failed to confirm any of it. A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it. In other words, if you were experiencing the effects of a drug that would in your judgment interfere with safe and good driving, this would be a ++ whether your performance was being limited by a psychedelic, a stimulant, a hypnotic or a narcotic. None of the quantitative reports ever mentioned any sensory distortion (analgesia is a loss, not a distortion) or visual effect. Perhaps 4-BR-3,5-DMA showed its ++ as a narcotic. But then, the rats had said no.",
+      "status": "Complex and totally undefined",
+      "analgesia_reports": {
+        "human_reports": "Two independent reports of analgesia",
+        "animal_screen": {
+          "conducted_by": "Major pharmaceutical house",
+          "result": "Failed to confirm any analgesic activity"
+        }
+      },
+      "rating_system_clarification": {
+        "plus_plus_meaning": "Represents extent of impairment of function, regardless of drug nature",
+        "driving_analogy": "A ++ means effects would interfere with safe driving",
+        "applicable_to": ["psychedelics", "stimulants", "hypnotics", "narcotics"],
+        "key_distinction": "Does not necessarily reflect a psychedelic effect"
+      },
+      "observations": {
+        "sensory_distortion": "None mentioned in any reports",
+        "visual_effects": "None mentioned",
+        "analgesia_note": "Analgesia is a loss, not a distortion"
+      },
+      "speculation": {
+        "possible_mechanism": "Perhaps showed its ++ as a narcotic",
+        "contradiction": "But then, the rats had said no"
+      },
+      "key_themes": [
+        "undefined_drug",
+        "human_animal_discrepancy",
+        "rating_system_explanation",
+        "analgesia_without_psychedelia",
+        "narcotic_speculation",
+        "pharmaceutical_screening"
+      ],
+      "notable_quotes": [
+        "Here is a complex and, at the moment, totally undefined drug.",
+        "A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it.",
+        "In other words, if you were experiencing the effects of a drug that would in your judgment interfere with safe and good driving, this would be a ++ whether your performance was being limited by a psychedelic, a stimulant, a hypnotic or a narcotic.",
+        "None of the quantitative reports ever mentioned any sensory distortion (analgesia is a loss, not a distortion) or visual effect.",
+        "Perhaps 4-BR-3,5-DMA showed its ++ as a narcotic. But then, the rats had said no."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 19,
+      "code": "2-BR-4,5-MDA",
+      "chemical_name": "2-Bromo-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "Both the synthetic and the pharmacological details for this compound are sparse. There has been only a single report of the human activity of this drug in the literature, and the statement has been offered that the effects are amphetamine-like. No other qualitative comments have been made available, and neither I nor anyone in my circle has tried it, personally. Someday, perhaps. But at that high level, perhaps not.",
+      "data_availability": {
+        "synthetic_details": "Sparse",
+        "pharmacological_details": "Sparse",
+        "literature_reports": "Only a single report of human activity"
+      },
+      "reported_effects": {
+        "description": "Amphetamine-like",
+        "qualitative_details": "None available"
+      },
+      "personal_experience": {
+        "shulgin": "Never tried personally",
+        "research_group": "No one in his circle has tried it"
+      },
+      "future_exploration": {
+        "attitude": "Someday, perhaps",
+        "hesitation": "But at that high level, perhaps not"
+      },
+      "key_themes": [
+        "sparse_data",
+        "single_literature_report",
+        "amphetamine_like_effects",
+        "untried_personally",
+        "high_dose_concern",
+        "future_uncertainty"
+      ],
+      "notable_quotes": [
+        "Both the synthetic and the pharmacological details for this compound are sparse.",
+        "There has been only a single report of the human activity of this drug in the literature, and the statement has been offered that the effects are amphetamine-like.",
+        "No other qualitative comments have been made available, and neither I nor anyone in my circle has tried it, personally.",
+        "Someday, perhaps. But at that high level, perhaps not."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 20,
+      "code": "2C-B",
+      "chemical_name": "4-Bromo-2,5-dimethoxyphenethylamine",
+      "extensions_and_commentary": "Four quotations were chosen arbitrarily from literally hundreds that have worked their ways into the files. The vast majority are positive, ranging from the colorful to the ecstatic. But not all are. There are people who choose not to go into the corporeal but, rather, prefer the out-of-body experience. They express discomfort with 2C-B, and seem to lean more to the Ketamine form of altered state, one which dissociates body from mind.\n\nThere have been reports of several overdoses that prove the intrinsic safety of this compound. Prove is used here in the classic British sense; i.e., to challenge. \"The proof of the pudding is in the eating,\" is not a verification of quality, but an inquiry into the quality itself. (The French simplify all this by using two separate verbs for prove.) One overdose was intentional, the other accidental.\n\n(with 64 mg) I found only mild visual and emotional effects at the 20 milligram dose, so I took the remaining 44 milligrams. I was propelled into something not of my choosing. Everything that was alive was completely fearsome. I could look at a picture of a bush, and it was just that, a picture, and it posed no threat to me. Then my gaze moved to the right, and caught a bush growing outside the window, and I was petrified. A life-form I could not understand, and thus could not control. And I felt that my own life-form was not a bit more controllable. This was from the comments of a physician who assured me that he saw no neurological concerns during this dramatic and frightening experience.\n\n(with 100 mg) I had weighed correctly. I had simply picked up the wrong vial. And my death was to be a consequence of a totally stupid mistake. I wanted to walk outside, but there was a swimming pool there and I didn't dare fall into it. A person may believe that he has prepared himself for his own death, but when the moment comes, he is completely alone, and totally unprepared. Why now? Why me? Two hours later, I knew that I would live after all, and the experience became really marvelous. But the moment of facing death is a unique experience. In my case, I will some day meet it again, and I fear that I will be no more comfortable with it then than I was just now. This was from the comments of a psychologist who will, without doubt, use psychedelics again in the future, as a probe into the unknown.\n\nMany of the reports that have come in over the years have mentioned the combination of MDMA and 2C-B. The most successful reports have followed a program in which the two drugs are not used at the same time, nor even too closely spaced. It appears that the optimum time for the 2C-B is at, or just before, the final baseline recovery of the MDMA. It is as if the mental and emotional discoveries can be mobilized, and something done about them. This combination has several enthusiastic advocates in the psychotherapy world, and should be the basis of careful research when these materials become legal, and accepted by the medical community.\n\nA generalized spectrum of 2C-B action can be gleaned from the many reports that have been written describing its effects. (1) There is a steep dose response curve. Over the 12 to 24 milligram range, every 2 milligrams can make a profound increase or change of response. Initially, one should go lightly, and increase the dosage in subsequent trials by small increments. A commonly used term for a level that produces a just perceptible effect is \"museum level.\" This is a slightly-over-threshold level which allows public activities (such as viewing paintings in a museum or scenery watching as a passenger in a car) to be entered into without attracting attention. There can be considerable discomfort associated with being in the public eye, with higher doses. (2) The 2C-B experience is one of the shortest of any major psychedelic drug. Wherever you might be, hang on. In an hour or so you will be approaching familiar territory again. (3) If there is anything ever found to be an effective aphrodisiac, it will probably be patterned after 2C-B in structure.\n\nThere are two \"Tweetios\" known that are related to 2C-B. (See recipe #23 for the origin of this phrase.) The 2-EtO- homologue of 2C-B is 4-bromo-2-ethoxy-5-methoxyphenethylamine, or 2CB-2ETO. The unbrominated benzaldehyde (2-ethoxy-5-methoxybenzaldehyde) had a melting point of 47.5-48.5 °C, the unbrominated nitrostyrene intermediate a melting point of 76-77 °C, and the final hydrochloride a melting point of 185-186 °C. The hydrobromide salt had a melting point of 168.5-169.5 °C. It seems that one gets about as much effect as can be had, with a dosage of about 15 milligrams, and increases above this, to 30 and to 50 milligrams merely prolong the activity (from about 3 hours to perhaps 6 hours). At no dose was there an intensity that in any way resembled that of 2C-B.\n\nThe 2,5-DiEtO- homologue of 2C-B is 4-bromo-2,5-diethoxyphenethylamine, or 2CB-2,5-DIETO. The unbrominated impure benzaldehyde (2,5-diethoxybenzaldehyde) had a melting point of about 57 °C, the unbrominated impure nitrostyrene intermediate a melting point of about 60 °C, and the final hydrochloride a melting point of 230-231 °C. The hydrobromide salt had a melting point of 192-193 °C. At levels of 55 milligrams, there was only a restless sleep, and strange dreams. The active level is not yet known.\n\nI have been told of some studies that have involved a positional rearrangement analogue of 2C-B. This is 2-bromo-4,5-dimethoxyphenethylamine (or 6-BR-DMPEA). This would be the product of the elemental bromination of DMPEA, and it has been assayed as the hydrobromide salt. Apparently, the intravenous injection of 60 milligrams gave a rapid rush, with intense visual effects reported, largely yellow and black. Orally, there may be some activity at the 400 to 500 milligram area, but the reports described mainly sleep disturbance. This would suggest a stimulant component. The N-methyl homologue of this rearranged compound was even less active.",
+      "report_volume": {
+        "quantity": "Literally hundreds of reports in the files",
+        "selection": "Four quotations chosen arbitrarily",
+        "tone": "Vast majority positive, ranging from colorful to ecstatic"
+      },
+      "individual_variation": {
+        "corporeal_preference": "Some prefer the embodied experience",
+        "dissociative_preference": "Others express discomfort, prefer Ketamine-style out-of-body dissociation"
+      },
+      "overdose_reports": {
+        "linguistic_note": {
+          "prove_definition": "Used in classic British sense - to challenge, not verify",
+          "pudding_proverb": "The proof of the pudding is in the eating - an inquiry into quality, not verification",
+          "french_solution": "Two separate verbs for prove"
+        },
+        "intentional_overdose_64mg": {
+          "context": "Physician found 20mg mild, took remaining 44mg",
+          "experience": "Propelled into something not of my choosing",
+          "key_insight": "Everything alive was completely fearsome",
+          "bush_analogy": "Picture of bush - no threat. Living bush outside window - petrified",
+          "interpretation": "A life-form I could not understand, and thus could not control",
+          "medical_note": "No neurological concerns despite dramatic experience"
+        },
+        "accidental_overdose_100mg": {
+          "cause": "Picked up wrong vial - totally stupid mistake",
+          "initial_response": "Believed death was imminent",
+          "pool_fear": "Didn't dare go outside near swimming pool",
+          "mortality_insight": "A person may believe he has prepared himself for death, but when the moment comes, he is completely alone, and totally unprepared",
+          "questions": "Why now? Why me?",
+          "resolution": "Two hours later, knew would live - experience became marvelous",
+          "future_reflection": "Will meet death again someday, fear will be no more comfortable",
+          "reporter": "Psychologist who will use psychedelics again as probe into unknown"
+        }
+      },
+      "mdma_combination": {
+        "popularity": "Many reports over the years",
+        "optimal_timing": "At or just before final baseline recovery of MDMA",
+        "not_recommended": "Simultaneous or too closely spaced",
+        "therapeutic_concept": "Mental and emotional discoveries can be mobilized, and something done about them",
+        "advocacy": "Several enthusiastic advocates in psychotherapy world",
+        "future": "Should be basis of careful research when legal"
+      },
+      "generalized_spectrum": {
+        "dose_response": {
+          "characteristic": "Steep dose response curve",
+          "critical_range": "12 to 24 milligrams",
+          "sensitivity": "Every 2 milligrams can make profound increase or change",
+          "advice": "Go lightly initially, increase by small increments"
+        },
+        "museum_level": {
+          "definition": "Slightly-over-threshold level",
+          "purpose": "Allows public activities without attracting attention",
+          "examples": ["Viewing paintings in museum", "Scenery watching as car passenger"],
+          "warning": "Considerable discomfort in public eye with higher doses"
+        },
+        "duration": {
+          "characteristic": "One of the shortest of any major psychedelic",
+          "advice": "Wherever you might be, hang on. In an hour or so you will be approaching familiar territory again"
+        },
+        "aphrodisiac_potential": {
+          "assessment": "If anything ever found to be effective aphrodisiac, will probably be patterned after 2C-B in structure"
+        }
+      },
+      "related_compounds": {
+        "tweetios_reference": "See recipe #23 for origin of phrase",
+        "2CB_2ETO": {
+          "name": "4-bromo-2-ethoxy-5-methoxyphenethylamine",
+          "relationship": "2-EtO- homologue of 2C-B",
+          "melting_points": {
+            "benzaldehyde": "47.5-48.5°C",
+            "nitrostyrene": "76-77°C",
+            "hydrochloride": "185-186°C",
+            "hydrobromide": "168.5-169.5°C"
+          },
+          "activity": {
+            "ceiling_dose": "About 15mg gets maximum effect",
+            "higher_doses": "30-50mg merely prolong activity (3 to 6 hours)",
+            "intensity_comparison": "At no dose resembled 2C-B intensity"
+          }
+        },
+        "2CB_2_5_DIETO": {
+          "name": "4-bromo-2,5-diethoxyphenethylamine",
+          "relationship": "2,5-DiEtO- homologue of 2C-B",
+          "melting_points": {
+            "benzaldehyde": "About 57°C (impure)",
+            "nitrostyrene": "About 60°C (impure)",
+            "hydrochloride": "230-231°C",
+            "hydrobromide": "192-193°C"
+          },
+          "activity": {
+            "55mg_result": "Only restless sleep and strange dreams",
+            "active_level": "Not yet known"
+          }
+        },
+        "6_BR_DMPEA": {
+          "name": "2-bromo-4,5-dimethoxyphenethylamine",
+          "relationship": "Positional rearrangement analogue of 2C-B",
+          "synthesis": "Elemental bromination of DMPEA",
+          "assay_form": "Hydrobromide salt",
+          "activity": {
+            "IV_60mg": "Rapid rush, intense visual effects (yellow and black)",
+            "oral_400_500mg": "Mainly sleep disturbance",
+            "interpretation": "Suggests stimulant component"
+          },
+          "N_methyl_homologue": "Even less active"
+        }
+      },
+      "key_themes": [
+        "extensive_report_database",
+        "corporeal_vs_dissociative",
+        "overdose_safety_challenge",
+        "mortality_confrontation",
+        "mdma_combination_therapy",
+        "museum_level_concept",
+        "steep_dose_response",
+        "short_duration",
+        "aphrodisiac_potential",
+        "tweetio_homologues",
+        "positional_isomers"
+      ],
+      "notable_quotes": [
+        "Four quotations were chosen arbitrarily from literally hundreds that have worked their ways into the files.",
+        "There are people who choose not to go into the corporeal but, rather, prefer the out-of-body experience.",
+        "There have been reports of several overdoses that prove the intrinsic safety of this compound. Prove is used here in the classic British sense; i.e., to challenge.",
+        "Everything that was alive was completely fearsome.",
+        "A life-form I could not understand, and thus could not control.",
+        "A person may believe that he has prepared himself for his own death, but when the moment comes, he is completely alone, and totally unprepared.",
+        "Why now? Why me?",
+        "It is as if the mental and emotional discoveries can be mobilized, and something done about them.",
+        "A commonly used term for a level that produces a just perceptible effect is 'museum level.'",
+        "The 2C-B experience is one of the shortest of any major psychedelic drug. Wherever you might be, hang on.",
+        "If there is anything ever found to be an effective aphrodisiac, it will probably be patterned after 2C-B in structure."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 21,
+      "code": "3C-BZ",
+      "chemical_name": "3,5-Dimethoxy-4-benzyloxyamphetamine",
+      "extensions_and_commentary": "Two points are worthy of commentary; the potency and the promise of 3C-BZ.\n\nAs to potency, there is such uncertainty as to the effective dose, that it is for all intents and purposes impossible to predict just what dose should be considered for a person's first time with this. The choice of quotations was made with the intention of giving a picture of this scatter. A total of ten subjects have explored this compound, and the very broad range given above, 25 to 200 milligrams, reflects the degree of variation that has been encountered.\n\nWhich is a shame, because the concept of a new ring such as is found here on the 4-position would have allowed an extremely wide array of substituents. Electron-rich things, electron-poor things, heavy things, light things, and on and on. This could have been a location of much variation, but it is a possibility that the uncertainties of dosage might extrapolate to these novel ring substitutions as well. Only a single variation was made, the 4-fluorobenzyl analogue. This was prepared following exactly the procedure given here for 3C-BZ, except for the replacement of benzyl chloride with 4-fluorobenzyl chloride. The allyl intermediate was an oil, but the propenyl isomer gave solids with a melting point of 59-60 °C from hexane. The nitrostyrene was a yellow crystalline solid from methanol with a melting point of 98-99 °C. The end product, 3,5-dimethoxy-4-(4-fluorobenzyloxy)amphetamine hydrochloride (3C-FBZ) was a white solid with a melting point of 149-150 °C. It has been assayed only up to 4 milligrams and there was absolutely no activity of any kind observed at that level.",
+      "commentary_focus": ["Potency uncertainty", "Unfulfilled promise"],
+      "potency_problem": {
+        "dose_range": "25 to 200 milligrams",
+        "variation": "Extremely broad - impossible to predict first-time dose",
+        "subjects": "Ten subjects have explored this compound",
+        "quotation_selection": "Made to illustrate the scatter in responses"
+      },
+      "structural_promise": {
+        "concept": "New ring on 4-position would allow wide array of substituents",
+        "possibilities": {
+          "electronic": ["Electron-rich things", "Electron-poor things"],
+          "physical": ["Heavy things", "Light things"],
+          "scope": "And on and on"
+        },
+        "assessment": "Could have been a location of much variation",
+        "limitation": "Dosage uncertainties might extrapolate to novel ring substitutions"
+      },
+      "related_compounds": {
+        "3C_FBZ": {
+          "name": "3,5-dimethoxy-4-(4-fluorobenzyloxy)amphetamine hydrochloride",
+          "relationship": "4-fluorobenzyl analogue of 3C-BZ",
+          "synthesis": {
+            "procedure": "Exactly as 3C-BZ, replacing benzyl chloride with 4-fluorobenzyl chloride",
+            "allyl_intermediate": "Oil",
+            "propenyl_isomer_mp": "59-60°C from hexane",
+            "nitrostyrene_mp": "98-99°C (yellow crystalline solid from methanol)",
+            "final_product_mp": "149-150°C (white solid)"
+          },
+          "activity": {
+            "highest_dose_tested": "4 milligrams",
+            "result": "Absolutely no activity of any kind observed"
+          },
+          "status": "Only variation made"
+        }
+      },
+      "key_themes": [
+        "extreme_dose_variation",
+        "unpredictable_potency",
+        "unfulfilled_structural_promise",
+        "wide_substituent_possibilities",
+        "dosage_uncertainty_extrapolation",
+        "single_analogue_tested"
+      ],
+      "notable_quotes": [
+        "Two points are worthy of commentary; the potency and the promise of 3C-BZ.",
+        "There is such uncertainty as to the effective dose, that it is for all intents and purposes impossible to predict just what dose should be considered for a person's first time with this.",
+        "The very broad range given above, 25 to 200 milligrams, reflects the degree of variation that has been encountered.",
+        "Which is a shame, because the concept of a new ring such as is found here on the 4-position would have allowed an extremely wide array of substituents.",
+        "Electron-rich things, electron-poor things, heavy things, light things, and on and on.",
+        "This could have been a location of much variation, but it is a possibility that the uncertainties of dosage might extrapolate to these novel ring substitutions as well.",
+        "It has been assayed only up to 4 milligrams and there was absolutely no activity of any kind observed at that level."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 22,
+      "code": "2C-D",
+      "chemical_name": "2,5-Dimethoxy-4-methylphenethylamine",
+      "extensions_and_commentary": "Wow! This particular compound is what I call a pharmacological tofu. It doesn't seem to do too much by itself, always teasing, until you get to heroic levels. But a goodly number of experimental therapists have said that it is excellent in extending the action of some other materials. It seems to boost the waning action of another drug, without adding its own color to the experience. Yet, the comment above, on the high level of 150 milligrams, is a direct quote from the use of this compound in Germany (where it is called LE-25) in therapeutic research.\n\nThis is probably the most dramatic example of the loss of potency from an amphetamine (DOM, active at maybe 3 milligrams) to a phenethylamine (only one tenth as active). It is so often the case that the first of a series is not the most interesting nor the most potent member. As intriguing and as difficult-to-define as the 2C-D story might be, the next higher homologue of this set, 2C-E, is maximally active at the 15 to 20 milligram level, and is, without any question, a complete psychedelic.\n\nThe N-monomethyl and the N,N-dimethyl homologues of 2C-D have been synthesized from 2C-D. The N-monomethyl compound was obtained by the quaternization of the Schiff's base formed between 2C-D and benzaldehyde with methyl sulfate, followed by hydrolysis; the hydrochloride salt had a melting point of 150-151 °C, from EtOH. The N,N-dimethyl compound resulted from the action of formaldehyde-formic acid on 2C-D; the hydrochloride salt had a melting point of 168-169 °C from EtOH/ether. These two compounds were some ten times less effective in interfering with conditioned responses in experimental rats. There is no report of their having been explored in man.\n\n[ Erowid Addition: Darrell Lemaire's Contribution: In January, 2015, chemist and psychonaut Darrell Lemaire announced that he had decided to come out publicly as the author \"Lazar\" who conducted the \"extensive study\" referenced in the following paragraph. For many years, Mr. Lemaire had preferred to remain anonymous, but the Shulgin Team is helping add credit for his work back into the literature. See Darrell Lemaire Character Vault.]\n\nI have learned of an extensive study of ethoxy homologues of a number of the phenethylamines in the 2C-X series; they have been collectively called the \"Tweetios.\" This Sylvester and Tweety-bird allusion came directly from the compulsive habit of trying to alleviate the boredom of driving long distances (not under the influence of anything) by the attempt to pronounce the license plates of cars as they passed. The first of this series of compounds had a name that indicated that there was an ethoxy group at the 2-position, or 2-EtO, or Tweetio, and the rest is history. In every compound to be found in the 2C-X family, there are two methoxy groups, one at the 2-position and one at the 5-position. There are thus three possible tweetio compounds, a 2-EtO-, a 5-EtO- and a 2,5-di-EtO-. Those that have been evaluated in man are included after each of the 2C-X's that has served as the prototype. In general, the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all.\n\nThe 2-EtO-homologue of 2C-D is 2-ethoxy-5-methoxy-4-methylphenethylamine, or 2CD-2ETO. The benzaldehyde (2-ethoxy-5-methoxy-4-tolualdehyde) had a melting point of 60.5-61 °C, the nitrostyrene intermediate a melting point of 110.5-111.5 °C, and the final hydrochloride a melting point of 207-208 °C. The hydrobromide salt had a melting point of 171-173 °C. At levels of 60 milligrams, there was the feeling of closeness between couples, without an appreciable state of intoxication. The duration was about 4 hours.\n\nThe 5-EtO- homologue of 2C-D is 5-ethoxy-2-methoxy-4-methylphenethylamine, or 2CD-5ETO. The benzaldehyde (5-ethoxy-2-ethoxy-4-tolualdehyde) had a melting point of 81-82 °C, and the details of this synthesis are given in the recipe for IRIS. The nitrostyrene intermediate had a melting point of 112.5-113.5 °C and the final hydrochloride salt had a melting point of 197-198 °C. The hydrobromide salt had a melting point of 158-159 °C. At dosage levels of 40 to 50 milligrams, there was a slow, gradual climb to the full effects that were noted in about 2 hours. The experience was largely free from excitement, but with a friendly openness and outgoingness that allowed easy talk, interaction, humor, and a healthy appetite. The duration of effects was 12 hours.\n\nThe 2,5-di-EtO- homologue of 2C-D is 2,5-diethoxy-4-methylphenethylamine, or 2CD-2,5-DIETO. The benzaldehyde (2,5-diethoxy-4-tolualdehyde) had a melting point of 102-103 °C, the nitrostyrene intermediate a melting point of 108-109 °C, and the final hydrochloride salt a melting point of 251-252 °C. At a level of 55 milligrams, a plus one was reached, and what effects there were, were gone after four hours.",
+      "pharmacological_tofu": {
+        "concept": "Doesn't do much by itself, always teasing until heroic levels",
+        "therapeutic_use": "Excellent in extending action of other materials",
+        "mechanism": "Boosts waning action of another drug without adding its own color",
+        "german_name": "LE-25",
+        "high_dose_report": "150mg in German therapeutic research"
+      },
+      "potency_comparison": {
+        "significance": "Most dramatic example of amphetamine→phenethylamine potency loss",
+        "DOM": "Active at maybe 3mg",
+        "2C_D": "Only one tenth as active (~30mg)",
+        "lesson": "First of a series is often not the most interesting nor most potent"
+      },
+      "series_context": {
+        "next_homologue": "2C-E",
+        "2C_E_potency": "15-20mg maximally active",
+        "2C_E_assessment": "Without any question, a complete psychedelic"
+      },
+      "n_substituted_homologues": {
+        "N_monomethyl": {
+          "synthesis": "Quaternization of Schiff's base (2C-D + benzaldehyde) with methyl sulfate, then hydrolysis",
+          "hydrochloride_mp": "150-151°C from EtOH"
+        },
+        "N_N_dimethyl": {
+          "synthesis": "Formaldehyde-formic acid on 2C-D",
+          "hydrochloride_mp": "168-169°C from EtOH/ether"
+        },
+        "rat_activity": "Ten times less effective in interfering with conditioned responses",
+        "human_trials": "No report of having been explored in man"
+      },
+      "erowid_addition": {
+        "researcher": "Darrell Lemaire (pseudonym: 'Lazar')",
+        "revealed": "January 2015",
+        "contribution": "Conducted extensive Tweetio study",
+        "note": "Shulgin Team helping add credit back into literature"
+      },
+      "tweetio_system": {
+        "name_origin": {
+          "activity": "Pronouncing license plates while driving long distances",
+          "derivation": "2-EtO → Tweetio (Sylvester and Tweety-bird allusion)",
+          "context": "Not under the influence of anything"
+        },
+        "structure": "2C-X family has methoxy at 2-position and 5-position",
+        "three_variations": {
+          "2_EtO": {
+            "position": "Ethoxy at 2-position",
+            "general_effect": "Shorter duration, lower potency"
+          },
+          "5_EtO": {
+            "position": "Ethoxy at 5-position",
+            "general_effect": "Unchanged potency, longer duration"
+          },
+          "2_5_di_EtO": {
+            "position": "Ethoxy at both positions",
+            "general_effect": "Very weak, if active at all"
+          }
+        }
+      },
+      "tweetio_compounds": {
+        "2CD_2ETO": {
+          "name": "2-ethoxy-5-methoxy-4-methylphenethylamine",
+          "melting_points": {
+            "benzaldehyde": "60.5-61°C",
+            "nitrostyrene": "110.5-111.5°C",
+            "hydrochloride": "207-208°C",
+            "hydrobromide": "171-173°C"
+          },
+          "activity": {
+            "dose": "60mg",
+            "effects": "Feeling of closeness between couples, without appreciable intoxication",
+            "duration": "About 4 hours"
+          }
+        },
+        "2CD_5ETO": {
+          "name": "5-ethoxy-2-methoxy-4-methylphenethylamine",
+          "synthesis_reference": "IRIS recipe",
+          "melting_points": {
+            "benzaldehyde": "81-82°C",
+            "nitrostyrene": "112.5-113.5°C",
+            "hydrochloride": "197-198°C",
+            "hydrobromide": "158-159°C"
+          },
+          "activity": {
+            "dose": "40-50mg",
+            "onset": "Slow, gradual climb to full effects in about 2 hours",
+            "effects": "Largely free from excitement, friendly openness and outgoingness, easy talk, interaction, humor, healthy appetite",
+            "duration": "12 hours"
+          }
+        },
+        "2CD_2_5_DIETO": {
+          "name": "2,5-diethoxy-4-methylphenethylamine",
+          "melting_points": {
+            "benzaldehyde": "102-103°C",
+            "nitrostyrene": "108-109°C",
+            "hydrochloride": "251-252°C"
+          },
+          "activity": {
+            "dose": "55mg",
+            "effects": "Plus one reached",
+            "duration": "Effects gone after 4 hours"
+          }
+        }
+      },
+      "key_themes": [
+        "pharmacological_tofu",
+        "therapeutic_extender",
+        "amphetamine_phenethylamine_potency_loss",
+        "tweetio_system_origin",
+        "license_plate_etymology",
+        "darrell_lemaire_credit",
+        "ethoxy_homologue_patterns",
+        "2C_E_comparison"
+      ],
+      "notable_quotes": [
+        "Wow! This particular compound is what I call a pharmacological tofu.",
+        "It doesn't seem to do too much by itself, always teasing, until you get to heroic levels.",
+        "It seems to boost the waning action of another drug, without adding its own color to the experience.",
+        "This is probably the most dramatic example of the loss of potency from an amphetamine (DOM, active at maybe 3 milligrams) to a phenethylamine (only one tenth as active).",
+        "It is so often the case that the first of a series is not the most interesting nor the most potent member.",
+        "2C-E is, without any question, a complete psychedelic.",
+        "This Sylvester and Tweety-bird allusion came directly from the compulsive habit of trying to alleviate the boredom of driving long distances (not under the influence of anything) by the attempt to pronounce the license plates of cars as they passed.",
+        "The first of this series of compounds had a name that indicated that there was an ethoxy group at the 2-position, or 2-EtO, or Tweetio, and the rest is history.",
+        "In general, the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 23,
+      "code": "2C-C",
+      "chemical_name": "2,5-Dimethoxy-4-chlorophenethylamine",
+      "extensions_and_commentary": "Other reports mention usage of up to 50 milligrams which seems to increase yet further the intensity and the duration. I have one report of an intravenous administration of 20 milligrams, and the response was described as overwhelming. The effects peaked at about 5 minutes and lasted for perhaps 15 minutes.\n\nThe halogens represent a small group of atoms that are unique for a couple of reasons. They are all located in a single column of the periodic table, being monovalent and negative. That means that they can be reasonably stable things when attached to an aromatic nucleus. But, being monovalent, they cannot be modified or extended in any way. Thus, they are kind of a dead end, at least as far as the 2C-X series is considered. The heaviest, iodine, was explored as the phenethylamine, as 2C-I, and as the amphetamine as DOI. These are the most potent. The next lighter is bromine, where the phenethylamine is 2C-B and the amphetamine is DOB. These two are a bit less potent, and are by far the most broadly explored of all the halides. Here, in the above recipe, we have the chlorine counterpart, 2C-C. There is also the corresponding amphetamine DOC. These are less potent still, and much less explored. Why? Perhaps because chlorine is a gas and troublesome to handle (bromine is a liquid, and iodine is a solid). The fluorine analogue is yet harder to make, and requires procedures that are indirect, because fluorine (the lightest of all the halides) is not only a gas, but is dangerous to handle and does not react in the usual halogen way. There will be mention made of 2C-F, but DOF is still unexplored.\n\nThe treatment of the 2C-B phthalimide described above, with cuprous cyanide rather than cuprous chloride, gave rise to the cyano analog which, on hydrolysis with hydrazine, yielded 2,5-dimethoxy-4-cyanophenethylamine (2C-CN). Hydrolysis of this with hot, strong base gave the corresponding acid, 2,5-dimethoxy-4-carboxyphenethylamine, 2C-COOH. No evaluation of either of these compounds has been made in the human animal, as far as I know.",
+      "high_dose_reports": {
+        "oral_50mg": "Increases intensity and duration further",
+        "intravenous_20mg": {
+          "response": "Described as overwhelming",
+          "peak": "About 5 minutes",
+          "duration": "Perhaps 15 minutes"
+        }
+      },
+      "halogen_chemistry_lesson": {
+        "periodic_table": "All halogens in single column - monovalent and negative",
+        "aromatic_stability": "Reasonably stable when attached to aromatic nucleus",
+        "structural_limitation": "Being monovalent, cannot be modified or extended in any way",
+        "conclusion": "Kind of a dead end, at least as far as the 2C-X series is considered"
+      },
+      "halogen_potency_series": {
+        "order": "Iodine > Bromine > Chlorine > Fluorine",
+        "compounds": {
+          "iodine": {
+            "phenethylamine": "2C-I",
+            "amphetamine": "DOI",
+            "potency": "Most potent"
+          },
+          "bromine": {
+            "phenethylamine": "2C-B",
+            "amphetamine": "DOB",
+            "potency": "A bit less potent",
+            "exploration": "By far the most broadly explored of all the halides"
+          },
+          "chlorine": {
+            "phenethylamine": "2C-C",
+            "amphetamine": "DOC",
+            "potency": "Less potent still",
+            "exploration": "Much less explored",
+            "handling": "Gas, troublesome to handle"
+          },
+          "fluorine": {
+            "phenethylamine": "2C-F (mentioned)",
+            "amphetamine": "DOF (unexplored)",
+            "synthesis": "Yet harder to make, requires indirect procedures",
+            "handling": "Gas, dangerous to handle, does not react in usual halogen way"
+          }
+        },
+        "physical_states": {
+          "fluorine": "Gas (dangerous)",
+          "chlorine": "Gas (troublesome)",
+          "bromine": "Liquid",
+          "iodine": "Solid"
+        }
+      },
+      "related_compounds": {
+        "2C_CN": {
+          "name": "2,5-dimethoxy-4-cyanophenethylamine",
+          "synthesis": "2C-B phthalimide + cuprous cyanide, then hydrolysis with hydrazine",
+          "human_evaluation": "None as far as known"
+        },
+        "2C_COOH": {
+          "name": "2,5-dimethoxy-4-carboxyphenethylamine",
+          "synthesis": "Hydrolysis of 2C-CN with hot, strong base",
+          "human_evaluation": "None as far as known"
+        }
+      },
+      "key_themes": [
+        "halogen_series",
+        "periodic_table_chemistry",
+        "potency_vs_atomic_weight",
+        "structural_dead_end",
+        "handling_difficulties",
+        "intravenous_effects",
+        "unexplored_analogues"
+      ],
+      "notable_quotes": [
+        "I have one report of an intravenous administration of 20 milligrams, and the response was described as overwhelming.",
+        "The effects peaked at about 5 minutes and lasted for perhaps 15 minutes.",
+        "The halogens represent a small group of atoms that are unique for a couple of reasons.",
+        "Being monovalent, they cannot be modified or extended in any way. Thus, they are kind of a dead end, at least as far as the 2C-X series is considered.",
+        "The heaviest, iodine, was explored as the phenethylamine, as 2C-I, and as the amphetamine as DOI. These are the most potent.",
+        "These two are a bit less potent, and are by far the most broadly explored of all the halides.",
+        "Why? Perhaps because chlorine is a gas and troublesome to handle (bromine is a liquid, and iodine is a solid).",
+        "Fluorine (the lightest of all the halides) is not only a gas, but is dangerous to handle and does not react in the usual halogen way.",
+        "DOF is still unexplored.",
+        "No evaluation of either of these compounds has been made in the human animal, as far as I know."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 24,
+      "code": "2C-E",
+      "chemical_name": "2,5-Dimethoxy-4-ethylphenethylamine",
+      "extensions_and_commentary": "Here is another of the magical half-dozen. The range is purposefully broad. At 10 milligrams there have been some pretty rich +++ experiences, and yet I have had the report from one young lady of a 30 milligram trial that was very frightening. My first experience with 2C-E was really profound, and it is the substance of a chapter within the story. The amphetamine homologue is DOET, which is not only much longer in action, but considerably more potent. Several people have said, about 2C-E, \"I don't think I like it, since it isn't that much fun. But I intend to explore it again.\" There is something here that will reward the experimenter. Someday, the full character of 2C-E will be understood, but for the moment, let it rest as being a difficult and worth-while material. A very much worth-while material. One Tweetio of 2C-E is known. The 5-EtO-homologue of 2C-E is 5-ethoxy-4-ethyl-2-methoxyphenethylamine, or 2CE-5ETO. The nitrostyrene intermediate had a melting point of 110-110.5 °C, and the final hydrochloride a melting point of 184-185 °C. The effective level of 2CE-5ETO is in the 10 to 15 milligram range. It is gentle, forgiving, and extremely long lived. Some 3 to 4 hours were needed to achieve plateau, and on occasion experiments were interrupted with Valium or Halcion at the 16 hour point. After a night's sleep, there were still some effects evident the next day. Thus, the dose is comparable to the parent compound 2C-E, but the duration is 2 to 3 times longer. It was given the nickname \"Eternity\" by one subject.",
+      "magical_half_dozen": true,
+      "dose_range": {
+        "purposefully_broad": true,
+        "low_end": {
+          "dose": "10 milligrams",
+          "effects": "Some pretty rich +++ experiences"
+        },
+        "high_end": {
+          "dose": "30 milligrams",
+          "effects": "Very frightening (one young lady's report)"
+        }
+      },
+      "personal_significance": {
+        "first_experience": "Really profound",
+        "book_reference": "Substance of a chapter within the story"
+      },
+      "amphetamine_homologue": {
+        "name": "DOET",
+        "duration": "Much longer in action",
+        "potency": "Considerably more potent"
+      },
+      "character_assessment": {
+        "common_sentiment": "I don't think I like it, since it isn't that much fun. But I intend to explore it again.",
+        "promise": "There is something here that will reward the experimenter",
+        "current_understanding": "Someday, the full character of 2C-E will be understood",
+        "summary": "A difficult and worth-while material. A very much worth-while material."
+      },
+      "tweetio_compound": {
+        "2CE_5ETO": {
+          "name": "5-ethoxy-4-ethyl-2-methoxyphenethylamine",
+          "relationship": "5-EtO-homologue of 2C-E",
+          "melting_points": {
+            "nitrostyrene": "110-110.5°C",
+            "hydrochloride": "184-185°C"
+          },
+          "activity": {
+            "effective_level": "10 to 15 milligram range",
+            "character": "Gentle, forgiving, and extremely long lived",
+            "onset": "3 to 4 hours needed to achieve plateau",
+            "extreme_duration": "Experiments sometimes interrupted with Valium or Halcion at 16 hour point",
+            "next_day_effects": "Still some effects evident after a night's sleep",
+            "comparison_to_parent": "Dose comparable to 2C-E, but duration 2 to 3 times longer"
+          },
+          "nickname": "Eternity"
+        }
+      },
+      "key_themes": [
+        "magical_half_dozen",
+        "broad_dose_range",
+        "difficult_but_worthwhile",
+        "not_fun_but_compelling",
+        "profound_first_experience",
+        "DOET_comparison",
+        "eternity_tweetio",
+        "extreme_duration"
+      ],
+      "notable_quotes": [
+        "Here is another of the magical half-dozen.",
+        "The range is purposefully broad.",
+        "At 10 milligrams there have been some pretty rich +++ experiences, and yet I have had the report from one young lady of a 30 milligram trial that was very frightening.",
+        "My first experience with 2C-E was really profound, and it is the substance of a chapter within the story.",
+        "I don't think I like it, since it isn't that much fun. But I intend to explore it again.",
+        "There is something here that will reward the experimenter.",
+        "Someday, the full character of 2C-E will be understood, but for the moment, let it rest as being a difficult and worth-while material.",
+        "A very much worth-while material.",
+        "It is gentle, forgiving, and extremely long lived.",
+        "It was given the nickname 'Eternity' by one subject."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 25,
+      "code": "3C-E",
+      "chemical_name": "3,5-Dimethoxy-4-ethoxyamphetamine",
+      "extensions_and_commentary": "This is an interesting closing of the circle. Although mescaline launched the entire show, the first half could be called the amphetamine period, with variations made on all aspects of the molecule except for that three-carbon chain. And it was found that the 4-substitution position was of paramount importance in both the potency and the quality of action of a compound. Then, looking at the long-ignored chain, lengthening it by the addition of a carbon atom eliminated all psychedelic effects and gave materials with reduced action. The action present was that of an antidepressant. But removing a carbon atom? This returned the search to the world of mescaline, but with the knowledge of the strong influence of the 4-position substituent. The two-carbon side-chain world was rediscovered, principally with 2C-B and 2C-D, and the 4-ethoxy-analogue of mescaline, E. This second half of the show could be called the phenethylamine period. And with compounds such as 3C-E which is, quite simply, Escaline (or E) reextended again to a 3-carbon chain amphetamine, there is a kind of satisfying closure. A fascinating compound, but for most subjects a little too heavy on the body.",
+      "research_arc_philosophy": {
+        "opening": "Mescaline launched the entire show",
+        "first_half": {
+          "name": "The Amphetamine Period",
+          "focus": "Variations on all aspects of the molecule except the three-carbon chain",
+          "key_discovery": "4-substitution position is of paramount importance in both potency and quality of action"
+        },
+        "chain_length_experiments": {
+          "lengthening": {
+            "modification": "Addition of a carbon atom",
+            "result": "Eliminated all psychedelic effects",
+            "action_present": "Antidepressant"
+          },
+          "shortening": {
+            "modification": "Removing a carbon atom",
+            "result": "Returned to world of mescaline, but with knowledge of 4-position influence"
+          }
+        },
+        "second_half": {
+          "name": "The Phenethylamine Period",
+          "rediscovery": "Two-carbon side-chain world",
+          "principal_compounds": ["2C-B", "2C-D", "E (Escaline, 4-ethoxy-analogue of mescaline)"]
+        },
+        "closure": {
+          "compound": "3C-E",
+          "description": "Escaline (E) re-extended again to a 3-carbon chain amphetamine",
+          "significance": "A kind of satisfying closure"
+        }
+      },
+      "activity_assessment": {
+        "character": "Fascinating compound",
+        "limitation": "For most subjects a little too heavy on the body"
+      },
+      "structural_relationship": {
+        "parent": "Escaline (E)",
+        "modification": "Re-extended to 3-carbon chain amphetamine"
+      },
+      "key_themes": [
+        "closing_the_circle",
+        "research_arc_summary",
+        "amphetamine_period",
+        "phenethylamine_period",
+        "4_position_importance",
+        "chain_length_effects",
+        "satisfying_closure",
+        "body_load"
+      ],
+      "notable_quotes": [
+        "This is an interesting closing of the circle.",
+        "Although mescaline launched the entire show, the first half could be called the amphetamine period.",
+        "It was found that the 4-substitution position was of paramount importance in both the potency and the quality of action of a compound.",
+        "Lengthening it by the addition of a carbon atom eliminated all psychedelic effects and gave materials with reduced action. The action present was that of an antidepressant.",
+        "Removing a carbon atom? This returned the search to the world of mescaline, but with the knowledge of the strong influence of the 4-position substituent.",
+        "The two-carbon side-chain world was rediscovered, principally with 2C-B and 2C-D, and the 4-ethoxy-analogue of mescaline, E.",
+        "This second half of the show could be called the phenethylamine period.",
+        "There is a kind of satisfying closure.",
+        "A fascinating compound, but for most subjects a little too heavy on the body."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 26,
+      "code": "2C-F",
+      "chemical_name": "2,5-Dimethoxy-4-fluorophenethylamine",
+      "extensions_and_commentary": "A number of graded acute dosages were tried, and it was only with amounts in excess of 100 milligrams that there were any baseline disturbances at all. And at no dose that was tried was there any convincing indication of believable central effects.\n\nThe three-carbon amphetamine analogue of 2C-F would quite logically be called DOF (2,5-dimethoxy-4-fluoroamphetamine). It has been prepared by reaction of the above benzaldehyde with nitroethane (giving 1-(2,5-dimethoxy-4-fluorophenyl)-2-nitropropene, with a melting point of 128-129 °C from ethanol) followed by LAH reduction to DOF (the hydrochloride salt has a melting point of 166-167 °C, after recrystallization from ether/ethyl acetate/ethanol). Animal studies that have compared DOF to the highly potent DOI and DOB imply that the human activity will be some four to six times less than these two heavier halide analogues. As of the present time, no human trials of DOF have been made.",
+      "activity_profile": {
+        "threshold": "In excess of 100 milligrams",
+        "effects_at_threshold": "Only baseline disturbances",
+        "central_effects": "No convincing indication of believable central effects at any dose tried",
+        "assessment": "Essentially inactive"
+      },
+      "amphetamine_analogue": {
+        "name": "DOF",
+        "full_name": "2,5-dimethoxy-4-fluoroamphetamine",
+        "human_trials": "None as of present time",
+        "synthesis": {
+          "step_1": {
+            "reagents": "Benzaldehyde + nitroethane",
+            "product": "1-(2,5-dimethoxy-4-fluorophenyl)-2-nitropropene",
+            "melting_point": "128-129°C",
+            "recrystallization": "Ethanol"
+          },
+          "step_2": {
+            "reagent": "LAH reduction",
+            "product": "DOF hydrochloride",
+            "melting_point": "166-167°C",
+            "recrystallization": "Ether/ethyl acetate/ethanol"
+          }
+        },
+        "potency_prediction": {
+          "basis": "Animal studies comparing DOF to DOI and DOB",
+          "estimate": "Four to six times less potent than DOI and DOB",
+          "comparison_compounds": ["DOI", "DOB"]
+        }
+      },
+      "halogen_series_position": {
+        "element": "Fluorine",
+        "atomic_weight": "Lightest halogen",
+        "potency_rank": "Lowest in halogen series",
+        "series_order": "Iodine > Bromine > Chlorine > Fluorine"
+      },
+      "key_themes": [
+        "halogen_series",
+        "lightest_halogen",
+        "minimal_activity",
+        "essentially_inactive",
+        "high_threshold",
+        "DOF_synthesis",
+        "unexplored_amphetamine",
+        "animal_study_predictions",
+        "potency_extrapolation"
+      ],
+      "notable_quotes": [
+        "A number of graded acute dosages were tried, and it was only with amounts in excess of 100 milligrams that there were any baseline disturbances at all.",
+        "And at no dose that was tried was there any convincing indication of believable central effects.",
+        "The three-carbon amphetamine analogue of 2C-F would quite logically be called DOF.",
+        "Animal studies that have compared DOF to the highly potent DOI and DOB imply that the human activity will be some four to six times less than these two heavier halide analogues.",
+        "As of the present time, no human trials of DOF have been made."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 27,
+      "code": "2C-G",
+      "chemical_name": "2,5-Dimethoxy-3,4-dimethylphenethylamine",
+      "extensions_and_commentary": "Here is the first example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine. At first approximation, one is hard put to distinguish, from the recorded notes, any major differences either in potency, in duration, or in the nature of activity, between 2C-G and GANESHA itself.\n\nI had always thought of the phenethylamines as being somewhat weaker than the corresponding amphetamines. Sometimes a little weaker and sometimes a lot weaker. But that is a totally prejudiced point of view, an outgrowth of my earliest comparisons of mescaline and TMA. That's the kind of thing that can color one's thinking and obscure what may be valuable observations. It is equally valid to think of the phenethylamines as the prototypes, and that the amphetamines are somewhat stronger than the corresponding phenethylamines. Sometimes a little stronger and sometimes a lot stronger. Then the question suddenly shifts from asking what is different about the phenethylamines, to what is different about the amphetamines? It is simply a historic fact, that in most of my exploring, the amphetamine was made and evaluated first, and so tended to slip into the role of the prototype. In any case, here the two potencies converge.",
+      "historic_significance": {
+        "claim": "First example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine",
+        "comparison": "2C-G vs GANESHA",
+        "distinguishability": "Hard to distinguish any major differences in potency, duration, or nature of activity"
+      },
+      "amphetamine_analogue": {
+        "name": "GANESHA",
+        "potency_relationship": "Equivalent",
+        "duration_relationship": "Equivalent",
+        "activity_relationship": "Equivalent"
+      },
+      "paradigm_shift": {
+        "old_assumption": {
+          "view": "Phenethylamines as somewhat weaker than corresponding amphetamines",
+          "range": "Sometimes a little weaker and sometimes a lot weaker",
+          "origin": "Outgrowth of earliest comparisons of mescaline and TMA",
+          "assessment": "A totally prejudiced point of view"
+        },
+        "new_perspective": {
+          "view": "Phenethylamines as the prototypes, amphetamines as stronger variants",
+          "range": "Sometimes a little stronger and sometimes a lot stronger",
+          "question_shift": "From 'what is different about phenethylamines' to 'what is different about amphetamines'"
+        },
+        "historical_bias": {
+          "fact": "In most exploring, the amphetamine was made and evaluated first",
+          "consequence": "Tended to slip into the role of the prototype"
+        },
+        "resolution": "Here the two potencies converge"
+      },
+      "scientific_philosophy": {
+        "warning": "Prejudiced points of view can color one's thinking and obscure valuable observations",
+        "lesson": "Challenge assumptions about which compound class is the 'prototype'"
+      },
+      "key_themes": [
+        "potency_convergence",
+        "paradigm_shift",
+        "first_ever_equivalent",
+        "phenethylamine_vs_amphetamine",
+        "historical_bias",
+        "prototype_question",
+        "mescaline_TMA_comparison",
+        "GANESHA_relationship",
+        "scientific_self_reflection"
+      ],
+      "notable_quotes": [
+        "Here is the first example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine.",
+        "At first approximation, one is hard put to distinguish, from the recorded notes, any major differences either in potency, in duration, or in the nature of activity, between 2C-G and GANESHA itself.",
+        "I had always thought of the phenethylamines as being somewhat weaker than the corresponding amphetamines. Sometimes a little weaker and sometimes a lot weaker.",
+        "But that is a totally prejudiced point of view, an outgrowth of my earliest comparisons of mescaline and TMA.",
+        "That's the kind of thing that can color one's thinking and obscure what may be valuable observations.",
+        "It is equally valid to think of the phenethylamines as the prototypes, and that the amphetamines are somewhat stronger than the corresponding phenethylamines.",
+        "Then the question suddenly shifts from asking what is different about the phenethylamines, to what is different about the amphetamines?",
+        "It is simply a historic fact, that in most of my exploring, the amphetamine was made and evaluated first, and so tended to slip into the role of the prototype.",
+        "In any case, here the two potencies converge."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    }
+  ]
+}

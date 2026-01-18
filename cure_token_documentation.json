@@ -1,0 +1,146 @@
+{
+  "title": "CURE Token - Curation Rewards Token Documentation",
+  "author": "VanKushFamily.com",
+  "platform": "HIVE-Engine / TribalDEX",
+  "source": "Forum Discussions May 2024 - June 2025",
+  "overview": "A specialized Smart Media Token designed to reward curation (voting on content) within the HIVE ecosystem, with extreme rarity as core value proposition",
+
+  "tokenomics": {
+    "inflation_rate": {
+      "minting": "2.4 CURE tokens per hour",
+      "annual": "Approximately 21,000 tokens per year",
+      "comparison": "Claimed rarer than Bitcoin"
+    },
+    "reward_split": {
+      "curators": "51% of minted tokens go to voters",
+      "authors": "49% go to content creators receiving votes"
+    },
+    "staking": {
+      "auto_stake": "75% of rewards automatically staked",
+      "unstaking_period": "150 days total",
+      "payout_schedule": "50 installments every 3 days"
+    },
+    "voting_power": {
+      "100_percent_vote": "Consumes 2% of Vote Power",
+      "regeneration": "24 hours to fully regenerate",
+      "downvotes": "Consume 100% of downvote power",
+      "downvote_regen": "30 days to regenerate"
+    }
+  },
+
+  "earning_requirements": {
+    "hashtags_required": [
+      "#vankushfamily",
+      "#actifit",
+      "#pepe",
+      "#proofofbrain",
+      "#curators"
+    ],
+    "mechanism": "Posts with these tags are eligible for CURE rewards",
+    "curation": "Voting on tagged posts earns CURE"
+  },
+
+  "market_strategy": {
+    "stabilization": {
+      "target_price": "$0.01 (1 penny)",
+      "method": "Buy-back events due to low total supply",
+      "cost_analysis": "~$210 could buy all 21,000 tokens"
+    },
+    "price_pumping": {
+      "method": "Tearing down sell walls by buying own tokens",
+      "achieved": "10 HIVE per CURE at peak"
+    },
+    "capital_reinvestment": {
+      "policy": "100% of HIVE earned reinvested into HIVE Power",
+      "benefit": "Increases voting influence, earns more for community"
+    }
+  },
+
+  "curation_business_model": {
+    "business_analogy": {
+      "comparison": "Buying $10,000 HIVE = starting a franchise",
+      "activity": "Spend day voting (liking) posts",
+      "return": "Earn 50% of generated rewards as passive income"
+    },
+    "socialfi_goal": {
+      "union": "Union of Crypto Holders",
+      "mechanism": "Members vote for each other",
+      "outcome": "Everyone earns liquid HIVE, STEEM, BLURT + CURE"
+    }
+  },
+
+  "roadmap": {
+    "cross_chain_expansion": {
+      "planned_bridges": ["Polygon (MATIC)", "TON", "BSC", "ETH"],
+      "purpose": "Expand CURE and VKBT accessibility"
+    },
+    "real_world_backing": {
+      "plan": "Sell gemstones and silver for CURE",
+      "purpose": "Provide hard value backing"
+    },
+    "organizational_structure": {
+      "type": "Cryptocurrency 501(c)(3) Educational Organization",
+      "symbol": "Caduceus (Hermes/Mercury)",
+      "meaning": "Ancient world connection to commerce"
+    }
+  },
+
+  "current_status_2026": {
+    "platform": "TribalDEX",
+    "category": "Specialized niche token",
+    "liquidity": "Low - single large orders can shift price",
+    "automation": "CURE bots automate curation for delegators"
+  },
+
+  "connection_to_vkbt": {
+    "vkbt": "Van Kush Beauty Token",
+    "cure": "Curation rewards token",
+    "ecosystem": "Both part of Van Kush Family token ecosystem",
+    "synergy": "VKBT for products, CURE for content curation"
+  },
+
+  "how_to_earn": {
+    "step_1": "Create HIVE account",
+    "step_2": "Post content with required hashtags",
+    "step_3": "Vote on others' content with hashtags",
+    "step_4": "Stake CURE to increase voting power",
+    "step_5": "Delegate to CURE bots for passive income"
+  },
+
+  "cryptology_game_integration": {
+    "lesson_modules": [
+      "cure_tokenomics",
+      "curation_mechanics",
+      "market_stabilization",
+      "socialfi_model"
+    ],
+    "quiz_questions": [
+      {
+        "q": "How many CURE tokens are minted per hour?",
+        "a": "2.4 tokens",
+        "explanation": "Approximately 21,000 per year - extreme rarity"
+      },
+      {
+        "q": "What percentage of CURE rewards go to curators vs. authors?",
+        "a": "51% curators, 49% authors",
+        "explanation": "Slight advantage to voters to encourage curation"
+      },
+      {
+        "q": "How long does unstaking (power down) take for CURE?",
+        "a": "150 days in 50 installments",
+        "explanation": "Paid out every 3 days"
+      },
+      {
+        "q": "What hashtags are required to earn CURE?",
+        "a": "#vankushfamily, #actifit, #pepe, #proofofbrain, #curators",
+        "explanation": "Posts must include these to be eligible"
+      }
+    ],
+    "achievement_unlocks": [
+      "CURE Holder: Acquire first CURE tokens",
+      "Curator: Earn CURE through voting",
+      "Staker: Stake CURE for power",
+      "Delegator: Set up passive curation income"
+    ]
+  }
+}

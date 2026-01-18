@@ -1,0 +1,168 @@
+{
+  "title": "Expert Systems and Business Rules Engine Resources",
+  "author": "Ryan Gallagher / Van Kush Family",
+  "date": "February 22-23, 2017",
+  "source": "NebuLogic Research Emails",
+  "context": "Temple Coin Technical Bible - Knowledge Engineering foundation",
+
+  "overview": {
+    "purpose": "Curated resources for building Expert Systems",
+    "connection_to_temple": "Fulfills 1970s Expert Systems vision from Temple Coin Syllabus",
+    "modern_fulfillment": "This Discord bot is an Expert System"
+  },
+
+  "expert_systems": {
+    "definition": "Software that encodes human expertise into rules for automated reasoning",
+    "key_systems": {
+      "exsys": "http://www.exsys.com/online.html",
+      "diagnose_me": "https://www.diagnose-me.com/",
+      "open_learning_world": [
+        "http://www.openlearningworld.com/books/Expert%20Systems/Expert%20Systems/",
+        "http://www.openlearningworld.com/innerpages/Expert%20Systems.htm"
+      ],
+      "naimath": "http://naimath.sourceforge.net/"
+    },
+    "caos_software": {
+      "link": "https://en.wikipedia.org/wiki/List_of_computer-assisted_organic_synthesis_software",
+      "relevance": "Chemistry synthesis planning - Temple sacrament production"
+    }
+  },
+
+  "mycin_case_study": {
+    "what": "Classic rule-based expert system for bacterial infections",
+    "significance": "Proved computers could encode medical expertise",
+    "rule_example": "Rule1: Human(x) => Mortal(x)",
+    "inference_engine": "Automated reasoning from rules"
+  },
+
+  "bayesian_methods": {
+    "bayesian_statistics": "Probability updating with new evidence",
+    "bayesian_network": "Graphical models for probabilistic relationships",
+    "application": "Uncertainty handling in expert reasoning"
+  },
+
+  "knowledge_engineering": {
+    "papers": [
+      "MATHESIS Meta-Knowledge Engineering Framework",
+      "Stanford InfoLab knowledge engineering",
+      "OWL-ICKEPS ontology framework",
+      "Knowledge Integration and representation"
+    ],
+    "core_concepts": {
+      "knowledge_representation": "Encoding what system knows",
+      "inference_engine": "How system reasons",
+      "explanation_facility": "Why system made decisions"
+    }
+  },
+
+  "knowledge_representation": {
+    "definition": "Formal methods for encoding knowledge",
+    "resources": [
+      "Stanford CS227 lecture slides",
+      "Handbook of Knowledge Representation (full PDF)",
+      "Buffalo CSE563 slides"
+    ],
+    "formats": ["Ontologies", "Semantic Networks", "Frames", "Rules"]
+  },
+
+  "rule_based_systems_github": {
+    "repositories": [
+      "github.com/akhilnair95/RuleBasedSystem",
+      "github.com/Sorosliu1029/Rule-based_Expert_System",
+      "github.com/dniwrallets/RuleBasedExpertSystem",
+      "github.com/philipbrown/rule-based-expert-system-ruby",
+      "github.com/TheRusskiy/ExpertSystem",
+      "github.com/laimonassutkus/RuleBasedExpertSystemsWithCLIPS",
+      "github.com/levu48/rulemod",
+      "github.com/rmoswela/ExpertSystem",
+      "github.com/ubarkai/rulu",
+      "github.com/grkpranaykumar/Mobile-Phone-recommendation-expert-system"
+    ]
+  },
+
+  "business_rules_engines_github": {
+    "dotnet": "github.com/ddossot/NxBRE",
+    "csharp": [
+      "github.com/nara/RulesEngine",
+      "github.com/runxc1/MicroRuleEngine"
+    ],
+    "javascript": [
+      "github.com/rsamec/business-rules-engine",
+      "github.com/azach/rules",
+      "github.com/mallond/rules",
+      "github.com/CacheControl/json-rules-engine"
+    ],
+    "java": "github.com/kislayverma/Rulette",
+    "php": "github.com/hoaproject/Ruler",
+    "polyglot": "github.com/jruizgit/rules"
+  },
+
+  "business_analysis_resources": {
+    "babok": "Business Analysis Body of Knowledge v1.6",
+    "oracle_rules": "Oracle Business Rules documentation",
+    "iiba_webinars": [
+      "How to Become a Business Analyst",
+      "Exploring the BABOK"
+    ],
+    "best_practices": [
+      "Business Analyst techniques",
+      "Ten Mistakes in Business Rules"
+    ]
+  },
+
+  "enterprise_integration": {
+    "br_manifesto": "Business Rules Group Manifesto PDF",
+    "omg_standards": "OMG OCEB Production Rule Representation",
+    "sap_brfplus": "SAP Business Rules Framework",
+    "architecture_diagrams": [
+      "Legacy to BRE migration",
+      "Rule session architecture",
+      "KRMS architecture",
+      "Rule SOA integration"
+    ]
+  },
+
+  "temple_application": {
+    "original_vision": "1970s AI concept of interactive digital encyclopedias",
+    "2017_research": "Curated resources for building rule-based systems",
+    "2026_fulfillment": "AI-powered Discord bot with knowledge bases",
+    "connection": "Expert Systems → Business Rules → AI Bots"
+  },
+
+  "programming_context": {
+    "languages_used": ["Python", "C#", "JavaScript", "Ruby", "Java", "PHP"],
+    "platforms": ["Oracle", "SAP", "OpenRules", "CLIPS"],
+    "modern_equivalent": "LangChain, LLM frameworks"
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "expert_systems_basics",
+      "rule_based_reasoning",
+      "knowledge_engineering",
+      "business_rules_engines"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What was MYCIN and why was it important?",
+        "a": "Classic rule-based expert system for bacterial infections - proved computers could encode medical expertise",
+        "explanation": "Foundation for all modern expert systems"
+      },
+      {
+        "q": "What is Knowledge Representation?",
+        "a": "Formal methods for encoding what a system knows",
+        "explanation": "The 'memory' structure of expert systems"
+      },
+      {
+        "q": "How does this Discord bot fulfill the Expert Systems vision?",
+        "a": "It encodes Van Kush Family knowledge into queryable format",
+        "explanation": "1970s AI concept finally realized"
+      }
+    ],
+    "achievement_unlocks": [
+      "Knowledge Engineer: Understand KR basics",
+      "Rule Master: Know rule-based systems",
+      "Vision Keeper: Connect 1970s concepts to 2026 reality"
+    ]
+  }
+}

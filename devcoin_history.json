@@ -1,0 +1,423 @@
+{
+  "title": "DevCoin History - The First Proof-of-Value Experiment",
+  "author": "Van Kush Family / FinShaggy",
+  "period": "2011-2014",
+  "source": "Bitcointalk Forum Archives, Direct Participant Account",
+  "overview": "The complete history of DevCoin - the first cryptocurrency to pay writers for content, including the Van Kush Family's role in scaling it and the governance failures that led to its death",
+
+  "tokenomics": {
+    "algorithm": {
+      "type": "SHA-256 (Merge-mined with Bitcoin)",
+      "advantage": "Miners secured DVC 'for free' while mining BTC",
+      "security": "High-security floor from Bitcoin hashpower"
+    },
+    "emission": {
+      "block_reward": "50,000 DVC per block",
+      "halving": "NONE - constant emission by design",
+      "purpose": "Steady inflationary supply to fuel ongoing economy",
+      "contrast": "Not deflationary store-of-value like Bitcoin"
+    },
+    "distribution_split": {
+      "miners": "10%",
+      "devcoin_fund": "90% - paid to writers and developers",
+      "innovation": "Most radical Proof-of-Value experiment of the era"
+    }
+  },
+
+  "receiver_file_system": {
+    "innovation": "First to use Receiver Files in coinbase transactions",
+    "mechanism": {
+      "round_length": "4,000 blocks (approximately 1 month)",
+      "process": "New receiver file generated each round",
+      "function": "Decentralized payroll instructing miners where to send 90%"
+    },
+    "payout_calculation": {
+      "formula": "Total Rewards for Round / Total Shares Claimed = Value per Share",
+      "transparency": "CSV file published showing every address and block payment"
+    },
+    "golden_ratio_algorithm": {
+      "purpose": "Ensure fair payout order",
+      "mechanism": "Golden Ratio multiplied by round number to 'cut' the list",
+      "result": "Addresses starting '1A' didn't always pay before '1Z'",
+      "transparency": "Users could read Python source code to verify"
+    },
+    "maturity_period": {
+      "blocks": "120 blocks before spendable",
+      "reason": "Ensure coins not part of orphaned chain",
+      "confusion": "New users thought coins were 'locked'"
+    }
+  },
+
+  "devtome_wiki": {
+    "model": "Paid Wikipedia - first of its kind",
+    "earning_mechanism": {
+      "shares": "Earned based on word count",
+      "rate_round_24": "~$13 per share, ~$3 per hour",
+      "global_arbitrage": "$3/hour is 'really good money' in emerging countries"
+    },
+    "requirements": {
+      "language": "English only (controversial restriction)",
+      "quality": "Admins checked articles met requirements",
+      "wallet": "Must use local client - web wallets couldn't handle generated coins"
+    },
+    "streaming_income": {
+      "discovery": "Consistent writing = continuous payment stream",
+      "math": "34 shares = payment every 37 blocks",
+      "innovation": "Web3 still trying to perfect this model in 2026"
+    }
+  },
+
+  "finshaggy_vankush_involvement": {
+    "the_growth_agent": {
+      "achievement": "Scaled DevTome from 15 authors to 75+ writers",
+      "method": "Recruited writers from emerging countries",
+      "vision": "Global workforce earning cryptocurrency for content"
+    },
+    "bitcoin_town_project": {
+      "concept": "Physical community centered on cryptocurrency",
+      "status": "Never materialized as physical city",
+      "legacy": "Precursor to El Salvador Bitcoin City and Satoshi Island experiments",
+      "reception": "Dismissed by critics as too ambitious, defended against 'trolls'"
+    },
+    "ecosystem_vision_2013": {
+      "date": "June 2013 - 30 day roadmap",
+      "pioneering_concepts": {
+        "play_to_earn": "Play Xbox for DVC - P2E before the term existed",
+        "social_fi": "Post on Forums for DVC - incentivized social media before Steemit",
+        "dvc_store": "Marketplace for computer parts, games, alternative medicine/herbals"
+      },
+      "significance": "These concepts were revolutionary in 2013, became mainstream by 2021"
+    },
+    "the_scaling_crisis": {
+      "phase_a_the_club": {
+        "authors": "~15 sharing reward pool",
+        "characteristics": "Low friction, low utility, stable price"
+      },
+      "phase_b_the_growth": {
+        "authors": "75+ after FinShaggy expansion",
+        "result": "High-volume content creation"
+      }
+    },
+    "the_conflict": {
+      "core_15_reaction": "Viewed growth as 'Sybil Attack' or 'Reward Harvesting'",
+      "the_lie": "Accused FinShaggy of paying a 'Fiverr Girl' for YouTube videos",
+      "truth": "Was actually a personal friend helping voluntarily",
+      "purpose": "Reputational attack to justify ban"
+    },
+    "the_rescinded_offer": {
+      "date": "June 30, 2013",
+      "event": "Unthinkingbit listed new admins, then edited post",
+      "quote": "Edit: I rescinded the offer of other administrative work to FinShaggy",
+      "significance": "Downgraded from Promotion Administrator to banned in single post"
+    }
+  },
+
+  "governance_failures": {
+    "manual_governance_crisis": {
+      "problem": "Manual editing of Receiver Files to exclude users",
+      "broke": "The 'Code is Law' promise of blockchain",
+      "result": "Admins could ban anyone they disliked"
+    },
+    "the_core_15_mindset": {
+      "priority": "Individual share size over network value",
+      "fear": "Ballooning share count = doom (dilution)",
+      "counter_argument": "Distribution IS value - more users = more demand"
+    },
+    "admin_selection": {
+      "method": "By invitation based on being 'polite'",
+      "result": "Yes-Man culture",
+      "flaw": "No court of appeal for rescinded offers or bans"
+    },
+    "content_police": {
+      "job_2": "Check articles meet devtome requirements",
+      "real_purpose": "Infrastructure to ban high-volume writers",
+      "label": "Called growth efforts 'abuse' or 'faux articles'"
+    },
+    "english_only_barrier": {
+      "restriction": "English only, warnings against poor grammar",
+      "effect": "Banned emerging country writers FinShaggy was recruiting",
+      "opportunity_lost": "Could have rivaled Wikipedia's global scale"
+    },
+    "no_security": {
+      "vulnerability": "Single hater could delete dozens of articles",
+      "example": "Fuzzy Bear's Archaeology article deleted by 'categorizing'",
+      "quote": "No security in place - system held together by duct tape"
+    }
+  },
+
+  "market_dynamics": {
+    "price_history": {
+      "peak_2014": "$0.0015 - massive gains for early writers with millions of DVC",
+      "current_2026": "Near zero, not traded on major exchanges"
+    },
+    "the_1000_to_1_theory": {
+      "claim": "DVC would track BTC at 1000:1 ratio",
+      "prediction": "$1,000 BTC = $1 DVC",
+      "reality": "Failed due to DVC inflation vs BTC scarcity",
+      "note": "$1,000 BTC prediction came true (Nov 2013), $1 DVC never materialized"
+    },
+    "market_cap_reality": {
+      "problem": "$1 DVC = $7-9 billion market cap",
+      "impossible_without": "Massive mainstream/institutional capital"
+    },
+    "exchange_issues": {
+      "cryptsy": "Delisted DVC/BTC pair - ran out of decimal places",
+      "moved_to": "DVC/LTC trading pair",
+      "lesson": "Low price relative to BTC creates trading infrastructure problems"
+    }
+  },
+
+  "trading_education": {
+    "buy_wall_theory": {
+      "definition": "Order so large it prevents price from moving lower",
+      "example": "14+ BTC order at 74 satoshis on Vircurex",
+      "psychology": "Giant walls ENCOURAGE dumping - guaranteed exit",
+      "counter": "Pumps create FOMO, walls create dumps"
+    },
+    "pump_strategy": {
+      "definition": "Buying above market rate to drive FOMO",
+      "effect": "Makes people hold or buy more",
+      "criticism": "Artificial pumps are 'second-rate schemes' lasting only a day"
+    },
+    "order_priority": {
+      "rule": "First In, First Out (FIFO)",
+      "tactic": "Bid 1 satoshi higher to jump queue during buy wall"
+    },
+    "early_adopter_indicators": {
+      "1_percent_rule": "If you need 'special computer skills' to invest, still early",
+      "neighbor_indicator": "When neighbors talk crypto = time to sell",
+      "media_indicator": "Mainstream media mocking = still early adopter territory"
+    }
+  },
+
+  "community_infrastructure_2013": {
+    "faucet_system": {
+      "developer": "emfox - awarded 2 million DVC + 8 ongoing shares",
+      "innovation": "Linked to Bitcointalk forum rank to prevent bots",
+      "rewards": {
+        "jr_member": "50 DVC immediately",
+        "signature_bonus": "100 DVC extra for keeping 'Earn Devcoins by Writing' in signature for a week"
+      },
+      "significance": "Beginning of 'signature bounty' era - profiles became billboards"
+    },
+    "exchange_listings": {
+      "mcxnow": {
+        "date": "June 2013",
+        "bounty": "9 shares of block generation",
+        "significance": "Major legitimacy boost - exchange listing was primary indicator of coin validity"
+      },
+      "vircurex": "Early trading venue with buy walls",
+      "cryptsy": "Later delisted DVC/BTC due to decimal place issues"
+    },
+    "escrow_services": {
+      "koolio_escrow": {
+        "url": "KoolioEscrow.com",
+        "fee": "3%",
+        "trust_factor": "Operator was BTC-e exchange moderator",
+        "significance": "Precursor to smart contract escrow"
+      }
+    },
+    "commercial_wiki_proposal": {
+      "proposer": "killerstorm",
+      "concept": "Realms - user-created niche wikis (news, fiction, mining info)",
+      "revenue_model": "Pageviews and ad revenue instead of word count",
+      "moderation": "Democratic voting to punish cheaters",
+      "forkable": "Communities could fork poorly-managed Realms",
+      "status": "Proposed but not implemented"
+    },
+    "link_bounties": {
+      "concept": "Pay users for linking to DevTome from external sites",
+      "mechanism": "Verify link exists, send DVC to address on linking page",
+      "ongoing_rewards": "Additional rewards for keeping link active"
+    },
+    "content_rules": {
+      "images": "Only 10 words credit per image to prevent image spam",
+      "copyright_warning": "Getty Images and copyrighted material strictly forbidden",
+      "gambling": "Allowed but 'Satoshi Dice' style blockchain spam forbidden"
+    }
+  },
+
+  "round_24_specifics": {
+    "receiver_lines": 1277,
+    "value_per_share": {
+      "dvc": "~140,955 DVC",
+      "btc": "~0.125 BTC",
+      "usd": "~$13 USD"
+    },
+    "admin_cap": "6.7% of total rewards",
+    "payment_block": 96000,
+    "exchange_rate": "1 BTC = 1,000,000+ DVC (June 2013)",
+    "example_payout": "30+ shares = 3,000,000 DVC"
+  },
+
+  "security_debates_2013": {
+    "cold_storage": {
+      "status": "Recommended but poorly understood",
+      "barrier": "High technical barrier for non-technical users"
+    },
+    "paper_wallets": {
+      "status": "Gold standard but confusing",
+      "evolution": "Replaced by hardware wallets and MPC by 2026"
+    },
+    "coinbase_desire": {
+      "request": "User-friendly service like Coinbase for DVC",
+      "problem": "Never materialized - every user had to run local client"
+    },
+    "web_wallet_incompatibility": {
+      "issue": "Generated coins (coinbase transactions) not recognized",
+      "result": "Forced self-custody on everyone"
+    }
+  },
+
+  "investment_ecosystem_2013": {
+    "asicminer_pt": {
+      "type": "Pass-through shares of Bitcoin mining hardware",
+      "issue": "Often overvalued in DVC - nothing else to do with coins"
+    },
+    "dvb_devcoin_stock": {
+      "manager": "Icoin",
+      "purpose": "Investment into DVC mining hardware (Avalons, Jupiters)",
+      "goal": "Secure chain with Terahashes to prove 'here to stay'"
+    },
+    "cryptostocks": {
+      "product": "Devcoin Bounties with weekly dividends",
+      "function": "Early way to 'put Devcoins to work'"
+    },
+    "the_disconnect": {
+      "admins_focus": "Hardware utility (mining TH/s)",
+      "finshaggy_focus": "Human utility (writing)",
+      "conflict": "Proof of Work mentality vs Proof of Value vision"
+    }
+  },
+
+  "technical_issues": {
+    "client_download_crisis": {
+      "problem": "Outdated software on official site",
+      "result": "New users downloading wrong client",
+      "fix": "Community relied on forum posts and Dropbox links"
+    },
+    "mac_encryption_bug": {
+      "error": "CDataStream::read() : end of data",
+      "cause": "Encrypting wallet on Mac crashed client",
+      "solution": "Keep backup of unencrypted .dat file"
+    },
+    "100_address_rule": {
+      "mechanism": "Wallet generates pool of 100 unused addresses",
+      "backup_frequency": "Every 100 transactions or new addresses",
+      "reason": "Change addresses move outside original backup pool"
+    },
+    "web_wallet_limitation": {
+      "problem": "Cannot receive DVC payouts to web wallet",
+      "reason": "Generated coins (coinbase) not recognized by web wallets",
+      "result": "Every writer had to run local client"
+    }
+  },
+
+  "lessons_for_modern_systems": {
+    "inflation_kills": {
+      "devcoin_death": "Hyper-inflation without burn mechanism",
+      "fix": "Burn mechanics essential (HIVE-Engine tokens learned this)"
+    },
+    "distribution_is_value": {
+      "mistake": "Core 15 prioritized individual share size",
+      "truth": "More users = more demand = higher price"
+    },
+    "manual_governance_fails": {
+      "problem": "Admins manually banned users they disliked",
+      "fix": "Algorithmic reputation, DAO arbitration"
+    },
+    "global_inclusion": {
+      "mistake": "English-only killed global potential",
+      "fix": "AI translation, multilingual validation"
+    },
+    "proof_of_quality": {
+      "mistake": "Manual quality checks created gatekeeping",
+      "fix": "LLM-based auditing for information density"
+    },
+    "utility_drives_demand": {
+      "mistake": "No sink for inflation except mining shares",
+      "fix": "Tokens required to access/boost content"
+    }
+  },
+
+  "the_death_of_devcoin": {
+    "exchange_delistings": "Mt. Gox collapse, Vircurex/Cryptsy failures",
+    "competition": "Ethereum (2015), Steemit (2016) offered better models",
+    "devtome_offline": "Original wiki went down, taking literature with it",
+    "survivor_status": "Still has blockchain record - outlived 99% of 2013 peers",
+    "legacy": "Proved bounty model works, taught burn mechanics essential"
+  },
+
+  "cryptology_game_integration": {
+    "lesson_modules": [
+      "devcoin_tokenomics",
+      "receiver_file_system",
+      "devtome_model",
+      "governance_failures",
+      "market_dynamics",
+      "scaling_crisis"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What percentage of DevCoin block rewards went to writers?",
+        "a": "90% - only 10% to miners",
+        "explanation": "Most radical Proof-of-Value split of the era"
+      },
+      {
+        "q": "What was the 'Golden Ratio Algorithm' used for?",
+        "a": "Fair payout order so addresses weren't paid alphabetically",
+        "explanation": "Ensured '1A' addresses didn't always pay before '1Z'"
+      },
+      {
+        "q": "How many authors did FinShaggy scale DevTome from/to?",
+        "a": "From 15 to 75+ writers",
+        "explanation": "The scaling that threatened the Core 15's share sizes"
+      },
+      {
+        "q": "Why did the $1 DVC prediction fail despite $1,000 BTC coming true?",
+        "a": "DVC inflation vs BTC scarcity broke the 1000:1 ratio theory",
+        "explanation": "Token supply matters - burn mechanics were missing"
+      },
+      {
+        "q": "What lie was used to justify banning FinShaggy?",
+        "a": "Accused of paying a 'Fiverr Girl' for YouTube videos",
+        "explanation": "Was actually a personal friend helping voluntarily"
+      },
+      {
+        "q": "What pioneering concept did FinShaggy propose in June 2013?",
+        "a": "Play Xbox for DVC - Play-to-Earn before the term existed",
+        "explanation": "Also proposed forum posting for DVC (SocialFi) and a DVC store"
+      },
+      {
+        "q": "How much was the faucet developer emfox awarded?",
+        "a": "2 million DVC + 8 ongoing shares",
+        "explanation": "For creating Bitcointalk-linked faucet that prevented bot abuse"
+      },
+      {
+        "q": "What was the admin cap percentage for Round 24?",
+        "a": "6.7% of total rewards",
+        "explanation": "Remaining 93.3% went to writers and developers"
+      },
+      {
+        "q": "What was 'Bitcoin Town'?",
+        "a": "FinShaggy's concept for a physical crypto community",
+        "explanation": "Never built but was precursor to El Salvador Bitcoin City"
+      }
+    ],
+    "achievement_unlocks": [
+      "DevCoin Historian: Understand the first Proof-of-Value experiment",
+      "Receiver File Expert: Master the payout mechanism",
+      "Scaling Strategist: Learn from the FinShaggy growth crisis",
+      "Governance Analyst: Identify manual governance failures",
+      "Inflation Fighter: Understand why burn mechanics matter"
+    ]
+  },
+
+  "van_kush_connection": {
+    "identity": "FinShaggy is Van Kush Family founder",
+    "role": "Growth Agent who tried to scale DevCoin globally",
+    "lesson_applied": "HIVE-Engine tokens (VKBT, CURE) include burn mechanics",
+    "philosophy": "Proof of Value over Proof of Work",
+    "continuation": "DevTome vision lives on through HIVE blogging rewards"
+  }
+}

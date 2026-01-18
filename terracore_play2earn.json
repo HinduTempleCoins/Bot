@@ -1,0 +1,154 @@
+{
+  "title": "Terracore - HIVE Blockchain Play-to-Earn Guide",
+  "author": "VanKushFamily.com",
+  "platform": "HIVE Blockchain",
+  "source": "Forum Discussions 2024-2025",
+  "overview": "Post-apocalyptic idle strategy game on HIVE - not just entertainment but strategic investment vehicle for the Van Kush community",
+
+  "core_gameplay": {
+    "game_type": "Base attack idle game (similar to Mafia Wars)",
+    "primary_loop": {
+      "mining": {
+        "resource": "$SCRAP (native currency)",
+        "stat": "Engineering determines mining rate",
+        "passive": "Can check once daily at high levels"
+      },
+      "attacking": {
+        "limit": "8 attacks per day",
+        "purpose": "Steal $SCRAP from other players",
+        "counter": "High Defense stat protects your stash"
+      },
+      "defending": {
+        "stat": "Defense",
+        "recommended": "300+ for profitable gameplay"
+      }
+    },
+    "staking_burning": {
+      "staking": "Hold $SCRAP to increase rewards/luck",
+      "burning": "Permanently destroy $SCRAP to upgrade stats",
+      "anti_inflation": "Key mechanism to combat token devaluation"
+    },
+    "advanced_play": {
+      "flux_token": "Secondary token for advanced features",
+      "uses": ["Fuel ships", "Visit other planets", "Fight bosses", "Complete quests"]
+    }
+  },
+
+  "nft_economy": {
+    "relics": {
+      "source": "Earned by completing quests",
+      "function": "Raw materials for NFTs"
+    },
+    "crates": {
+      "creation": "Forge 100 Relics = 1 Crate",
+      "drops": "Character-enhancing NFTs",
+      "rarities": ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
+    },
+    "market": {
+      "platform": "HIVE marketplace",
+      "advantage": "NFTs traded for HIVE (more liquid than $SCRAP)",
+      "bridge": "In-game progress converts to major cryptocurrency"
+    }
+  },
+
+  "vankush_strategy": {
+    "investment_thesis": {
+      "problem": "Most players fail trying to play free or with $5",
+      "solution": "$30-40 initial investment",
+      "targets": {
+        "defense": "300+",
+        "offense": "300+",
+        "engineering": "High enough for 80 $SCRAP/hour"
+      }
+    },
+    "luck_over_aggression": {
+      "priority_stats": ["Luck", "Favor"],
+      "why": "Boss fights and Relic hunts reward Luck more than raw attack",
+      "staking": "Increases Favor stat"
+    },
+    "passive_income": {
+      "target_rank": "#38 or higher",
+      "engineering_goal": "80 $SCRAP per hour",
+      "playstyle": "Check once daily, collect rewards",
+      "defense_bonus": "Nearly immune to attacks at high Defense"
+    }
+  },
+
+  "community_integration": {
+    "market_making": {
+      "plan": "Use VKBT and MATIC profits to buy $SCRAP",
+      "effect": "Act as market maker for Van Kush community",
+      "control": "Stake 1,000,000+ SCRAP for supply control"
+    },
+    "onboarding": {
+      "method": "Forum threads as official HIVE onboarding",
+      "content": "Players post Terracore progress on HIVE blog",
+      "reward": "Earn curation rewards for gameplay posts"
+    }
+  },
+
+  "tokenomics_2026": {
+    "scrap_token": {
+      "nature": "Highly inflationary (mining generates new tokens)",
+      "mitigation": "Burning and Staking mechanics",
+      "trading": "Available on TribalDEX"
+    },
+    "flux_token": {
+      "nature": "Secondary utility token",
+      "scarcity": "Less inflationary than $SCRAP",
+      "uses": "Advanced gameplay features"
+    }
+  },
+
+  "comparison_to_devcoin": {
+    "devcoin_lesson": {
+      "peak": "$0.0015 in 2014 (massive gains for early writers)",
+      "failure": "Hyper-inflation - millions of new coins per round",
+      "death": "No burn mechanism, no cap on rewards"
+    },
+    "terracore_improvement": {
+      "burn_mechanism": "Stats upgrade by destroying tokens",
+      "staking_incentive": "Luck/Favor rewards for holding",
+      "game_utility": "Tokens have in-game use beyond speculation"
+    },
+    "key_takeaway": "Bounty models work temporarily, but inflation kills without burn mechanics"
+  },
+
+  "cryptology_game_integration": {
+    "lesson_modules": [
+      "play2earn_fundamentals",
+      "terracore_strategy",
+      "nft_economics",
+      "passive_income_gaming"
+    ],
+    "quiz_questions": [
+      {
+        "q": "How many attacks per day are allowed in Terracore?",
+        "a": "8 attacks",
+        "explanation": "Limited attacks create strategic gameplay"
+      },
+      {
+        "q": "What is the recommended initial investment for profitable Terracore play?",
+        "a": "$30-40 to boost stats to 300+",
+        "explanation": "Free players struggle to compete"
+      },
+      {
+        "q": "How many Relics are needed to create a Crate?",
+        "a": "100 Relics",
+        "explanation": "Crates drop NFTs of varying rarities"
+      },
+      {
+        "q": "What mechanism combats $SCRAP inflation?",
+        "a": "Burning tokens to upgrade stats",
+        "explanation": "Permanently destroys supply while improving your character"
+      }
+    ],
+    "achievement_unlocks": [
+      "Terracore Recruit: Start playing the game",
+      "Scrap Collector: Mine 10,000 $SCRAP",
+      "Relic Hunter: Earn first Relic from quest",
+      "Crate Opener: Forge and open first Crate",
+      "Market Maker: Stake 100,000+ $SCRAP"
+    ]
+  }
+}
