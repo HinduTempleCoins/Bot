@@ -1919,6 +1919,53 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 31,
+      "code": "2C-G-N",
+      "chemical_name": "2,5-Dimethoxy-3,4-(2,3-naphtho)phenethylamine",
+      "extensions_and_commentary": "There is always a wish in the design of new compounds to find something that is of interesting activity, with an aromatic ring at some location pretty much away from the site of activity. This would then allow some subtle fine-tuning of the nature of the action by putting any of a wide range of electron pushing or electron pulling groups on that ring. But here, with 2C-G-N, by the time the ring got put into place, the activity was already on the wane, and the action was too long, and there are indicators of some not completely friendly effects. Ah well, some other molecule, some other time.",
+      "design_philosophy": {
+        "goal": "Find compound with aromatic ring away from site of activity",
+        "purpose": "Allow subtle fine-tuning of nature of action",
+        "mechanism": "Placing electron pushing or electron pulling groups on that ring",
+        "scope": "Wide range of potential modifications"
+      },
+      "outcome": {
+        "activity": "Already on the wane by the time ring was in place",
+        "duration": "Action was too long",
+        "side_effects": "Indicators of some not completely friendly effects",
+        "assessment": "Did not achieve design goals"
+      },
+      "philosophical_acceptance": {
+        "conclusion": "Ah well, some other molecule, some other time",
+        "tone": "Graceful acceptance of negative result"
+      },
+      "structural_note": {
+        "N_designation": "Naphtho - fused naphthalene ring at 3,4-position",
+        "relationship": "Extended aromatic system in GANESHA series"
+      },
+      "key_themes": [
+        "design_philosophy",
+        "aromatic_ring_placement",
+        "electron_effects",
+        "fine_tuning_concept",
+        "diminished_activity",
+        "excessive_duration",
+        "unfriendly_effects",
+        "philosophical_acceptance",
+        "research_setback",
+        "graceful_failure"
+      ],
+      "notable_quotes": [
+        "There is always a wish in the design of new compounds to find something that is of interesting activity, with an aromatic ring at some location pretty much away from the site of activity.",
+        "This would then allow some subtle fine-tuning of the nature of the action by putting any of a wide range of electron pushing or electron pulling groups on that ring.",
+        "But here, with 2C-G-N, by the time the ring got put into place, the activity was already on the wane.",
+        "The action was too long, and there are indicators of some not completely friendly effects.",
+        "Ah well, some other molecule, some other time."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
