@@ -615,6 +615,156 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 14,
+      "code": "BOD",
+      "chemical_name": "4-Methyl-2,5,beta-trimethoxyphenethylamine",
+      "extensions_and_commentary": "This compound, BOD, was the first exploratory member of a new family of phenethylamines. This family is called the BOX series, a code that is derived from the unique Beta-methOXy group which is their common feature. The letters B-O-X define an unchanging structural feature, and one needs only add a suffix letter to indicate a specific member of this family. That letter is directly related to the 4-position substituent. The letter 'D' is related to desoxy or methyl, as in DOM, and the other members of this family have a similar nomenclatural genesis. The term BOB comes from the bromine, BOH from the 2-hydroxy (beta-methoxy-2C-H), BOM from the methoxy, and so on.\n\nI came so close to giving one of these materials an extremely inflammatory name. The nitrostyrene that was to be reduced to the free base, was a beta-methoxy derivative, which dictates the BO-something name structure. And the 4-position substituent on the ring was a methylenedioxy group, which is symbolized by 'M'. The temptation was real, but the better angels of my nature prevailed.\n\nThis is as good a place as any to discuss the three-letter acronyms that have become attached to so many drugs. I have heard that the initializing of pharmaceuticals started with the first of the modern psychiatric drugs, chlorpromazine, which was given the name Thorazine by its makers. Whether this was an accident or a plan, every time some character in a movie is given a sedative by a nurse, the audience hears the magic word, Thorazine. Free advertisement forever. It is now the rule rather than the exception to see a drug identified with its three initials. PCP, LSD, DMT, STP, THC, GHB, MDA; they are all instantly recognized. Apparently there is some secret arm of the Government at work, trying to capture all three letter acronyms for themselves. There is the CIA, the DEA, the FBI, the FDA, the IRS, the INS, and many others. Maybe there is an unknown body, the United Amalgamation of Government Acronym Swipers, known only by its acronym, UAGAS.\n\nA small detour into biochemistry. The decarboxylation product of tyrosine is tyramine. The para-hydroxylation product of tyramine is dopamine. The beta-hydroxylation product of dopamine is norepinephrine. Now, where would one find tyrosine without the para-hydroxy group? Why, in phenylalanine, of course. And what is the decarboxylation product of phenylalanine? It is phenethylamine. And what is the beta-hydroxy derivative of phenethylamine? It is a compound known as phenylethanolamine. And what is the para-hydroxy derivative of phenylethanolamine? It is a compound which was first found in nature, not in the human, but in the salivary glands of the octopus. And so it is called octopamine. And I have always wanted to express my admiration and respect for whoever it was, who was curious enough about what might be in the salivary glands of the octopus, to actually look. My kind of scientist.\n\nA few words on optical isomers here. This is a family of compounds that has an asymmetric carbon atom in the aliphatic chain. It is called the beta-carbon atom, and it is the one that carries the methoxy group. So, there must always be two isomers, an 'R' and an 'S', or to use the older nomenclature, a 'D' and an 'L', and the synthetic material will always be the 50/50 mixture known as the racemate.\n\nThere is an ethoxy homologue of this compound (BOED) that has been synthesized and evaluated. At levels between 70 and 75 milligrams, there was a consistent experience of about 10 hours duration, distinctly less intense than BOD itself. Higher levels have not been explored.",
+      "box_series": {
+        "significance": "First exploratory member of the BOX series",
+        "naming_origin": "Beta-methOXy group is common feature",
+        "structure": "B-O-X defines unchanging structural feature, suffix indicates 4-position substituent",
+        "members": {
+          "BOD": "D from desoxy/methyl (as in DOM)",
+          "BOB": "B from bromine",
+          "BOH": "H from 2-hydroxy (beta-methoxy-2C-H)",
+          "BOM": "M from methoxy"
+        }
+      },
+      "bomb_near_miss": {
+        "situation": "Beta-methoxy derivative with 4-position methylenedioxy group",
+        "would_have_spelled": "BO + M = BOMB",
+        "outcome": "The better angels of my nature prevailed"
+      },
+      "drug_naming_discussion": {
+        "origin_theory": "Started with chlorpromazine → Thorazine",
+        "effect": "Free advertisement forever in movies",
+        "examples": ["PCP", "LSD", "DMT", "STP", "THC", "GHB", "MDA"],
+        "government_acronyms": ["CIA", "DEA", "FBI", "FDA", "IRS", "INS"],
+        "joke": "UAGAS - United Amalgamation of Government Acronym Swipers"
+      },
+      "biochemistry_lesson": {
+        "pathway": [
+          "Tyrosine → (decarboxylation) → Tyramine",
+          "Tyramine → (para-hydroxylation) → Dopamine",
+          "Dopamine → (beta-hydroxylation) → Norepinephrine"
+        ],
+        "parallel_pathway": [
+          "Phenylalanine (tyrosine without para-hydroxy)",
+          "Phenylalanine → (decarboxylation) → Phenethylamine",
+          "Phenethylamine → (beta-hydroxylation) → Phenylethanolamine",
+          "Phenylethanolamine → (para-hydroxylation) → Octopamine"
+        ],
+        "octopamine": {
+          "first_found_in": "Salivary glands of the octopus",
+          "naming": "Named after the octopus"
+        },
+        "admiration": "Whoever was curious enough to look in octopus salivary glands - my kind of scientist"
+      },
+      "chirality_education": {
+        "asymmetric_carbon": "Beta-carbon atom (carries the methoxy group)",
+        "isomer_types": {
+          "modern_nomenclature": ["R", "S"],
+          "older_nomenclature": ["D", "L"]
+        },
+        "synthetic_material": "Always 50/50 mixture known as the racemate"
+      },
+      "related_compounds": {
+        "BOED": {
+          "name": "Ethoxy homologue of BOD",
+          "dosage": "70-75 mg",
+          "duration": "About 10 hours",
+          "intensity": "Distinctly less intense than BOD",
+          "higher_levels": "Not explored"
+        }
+      },
+      "key_themes": [
+        "box_series_naming",
+        "drug_acronym_humor",
+        "bomb_name_near_miss",
+        "biochemistry_education",
+        "octopamine_discovery",
+        "chirality_explanation",
+        "curiosity_as_scientific_virtue"
+      ],
+      "notable_quotes": [
+        "This compound, BOD, was the first exploratory member of a new family of phenethylamines.",
+        "The temptation was real, but the better angels of my nature prevailed.",
+        "Maybe there is an unknown body, the United Amalgamation of Government Acronym Swipers, known only by its acronym, UAGAS.",
+        "I have always wanted to express my admiration and respect for whoever it was, who was curious enough about what might be in the salivary glands of the octopus, to actually look. My kind of scientist.",
+        "The synthetic material will always be the 50/50 mixture known as the racemate."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 15,
+      "code": "BOH",
+      "chemical_name": "2,5,beta-Trimethoxy-4-hydroxyphenethylamine",
+      "extensions_and_commentary": "There are several reports of a nice, mild mood enhancement in the 20-40 milligram dosage area, but searches for psychedelic effects at higher levels gave a strange mix of some sort of an altered state along with bodily discomfort. The BOH name for this member of the BOX family follows the convention discussed in the BOD recipe--with RHS for homopiperonylamine, the simplest of the muni-metro family, q.v. The demethylated homologue of BOH is BOHH, and is the methylenedioxy analogue of norepinephrine. It might well hydrolytically open up in the body to provide this neurotransmitter, and serve as some sort of transmitter in its own right. It is discussed under DME.\n\nMaybe there is something to the concept that when you imitate a neurotransmitter too closely, you get a hybrid gemisch of activity. The term \"pro-drug\" is used to identify a compound that may not be intrinsically active, but one which metabolizes in the body to provide an active drug. I feel the term should have been pre-drug, but pro-drug was the word that caught on. BOH may well act in the body as a pro-drug to norepinephrine, but with the temporary blocking of the polar functions with ether groups, it can gain access to the brain. And once there, it can be stripped of these shields and play a direct neurological role. I uncovered a very similar analogy in the tryptamine world some years ago. Just as norepinephrine is a neurotransmitter, so is serotonin. And I found that by putting an O-ether on the indolic phenol (to hide its polarity) and an alpha-methyl group next to the primary amine (to protect it from metabolic deaminase), it became an extremely potent, and most complex, psychedelic. This was the compound alpha,O-dimethylserotonin, or a,O-DMS. There is an uncanny analogy between this tryptamine and the phenethylamine BOH.\n\nSomehow the quiet voice deep inside me says, don't use too much, too quickly. Maybe one of the optical isomers is the body thing, and the other isomer is the mind thing. So far, only the racemic mixture has been tasted, to the best of my knowledge.",
+      "dosage_info": {
+        "20_to_40_mg": "Nice, mild mood enhancement",
+        "higher_doses": "Strange mix of altered state with bodily discomfort"
+      },
+      "naming": {
+        "BOH": "Follows BOX convention from BOD recipe",
+        "RHS": "Homopiperonylamine - simplest of muni-metro family"
+      },
+      "related_compounds": {
+        "BOHH": {
+          "description": "Demethylated homologue of BOH",
+          "significance": "Methylenedioxy analogue of norepinephrine",
+          "potential": "May hydrolytically open to provide neurotransmitter",
+          "discussed_under": "DME"
+        }
+      },
+      "prodrug_concept": {
+        "definition": "Compound not intrinsically active, but metabolizes to provide active drug",
+        "terminology_opinion": "Should have been 'pre-drug' but 'pro-drug' caught on",
+        "BOH_mechanism": {
+          "polar_blocking": "Ether groups temporarily block polar functions",
+          "brain_access": "Blocking allows brain access",
+          "activation": "Shields stripped once in brain for direct neurological role"
+        }
+      },
+      "neurotransmitter_mimicry": {
+        "concept": "Imitating a neurotransmitter too closely gives hybrid gemisch of activity",
+        "german_term": "gemisch = mixture"
+      },
+      "tryptamine_analogy": {
+        "compound": "alpha,O-dimethylserotonin (a,O-DMS)",
+        "modifications": {
+          "O_ether": "On indolic phenol to hide polarity",
+          "alpha_methyl": "Next to primary amine to protect from metabolic deaminase"
+        },
+        "result": "Extremely potent, most complex psychedelic",
+        "parallel": "Uncanny analogy between tryptamine a,O-DMS and phenethylamine BOH"
+      },
+      "intuition_warning": {
+        "inner_voice": "Don't use too much, too quickly",
+        "speculation": "One optical isomer may be body thing, other may be mind thing",
+        "current_status": "Only racemic mixture has been tasted"
+      },
+      "key_themes": [
+        "prodrug_mechanism",
+        "neurotransmitter_mimicry",
+        "tryptamine_phenethylamine_parallels",
+        "polar_function_blocking",
+        "intuitive_caution",
+        "optical_isomer_speculation",
+        "terminology_critique"
+      ],
+      "notable_quotes": [
+        "When you imitate a neurotransmitter too closely, you get a hybrid gemisch of activity.",
+        "I feel the term should have been pre-drug, but pro-drug was the word that caught on.",
+        "With the temporary blocking of the polar functions with ether groups, it can gain access to the brain. And once there, it can be stripped of these shields and play a direct neurological role.",
+        "There is an uncanny analogy between this tryptamine and the phenethylamine BOH.",
+        "Somehow the quiet voice deep inside me says, don't use too much, too quickly.",
+        "Maybe one of the optical isomers is the body thing, and the other isomer is the mind thing."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
