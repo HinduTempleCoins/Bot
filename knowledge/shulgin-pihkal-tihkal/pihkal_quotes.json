@@ -906,6 +906,52 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 18,
+      "code": "4-BR-3,5-DMA",
+      "chemical_name": "4-Bromo-3,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "Here is a complex and, at the moment, totally undefined drug. There were two independent reports of analgesia, yet a thorough screen in experimental animals, conducted by a major pharmaceutical house, failed to confirm any of it. A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it. In other words, if you were experiencing the effects of a drug that would in your judgment interfere with safe and good driving, this would be a ++ whether your performance was being limited by a psychedelic, a stimulant, a hypnotic or a narcotic. None of the quantitative reports ever mentioned any sensory distortion (analgesia is a loss, not a distortion) or visual effect. Perhaps 4-BR-3,5-DMA showed its ++ as a narcotic. But then, the rats had said no.",
+      "status": "Complex and totally undefined",
+      "analgesia_reports": {
+        "human_reports": "Two independent reports of analgesia",
+        "animal_screen": {
+          "conducted_by": "Major pharmaceutical house",
+          "result": "Failed to confirm any analgesic activity"
+        }
+      },
+      "rating_system_clarification": {
+        "plus_plus_meaning": "Represents extent of impairment of function, regardless of drug nature",
+        "driving_analogy": "A ++ means effects would interfere with safe driving",
+        "applicable_to": ["psychedelics", "stimulants", "hypnotics", "narcotics"],
+        "key_distinction": "Does not necessarily reflect a psychedelic effect"
+      },
+      "observations": {
+        "sensory_distortion": "None mentioned in any reports",
+        "visual_effects": "None mentioned",
+        "analgesia_note": "Analgesia is a loss, not a distortion"
+      },
+      "speculation": {
+        "possible_mechanism": "Perhaps showed its ++ as a narcotic",
+        "contradiction": "But then, the rats had said no"
+      },
+      "key_themes": [
+        "undefined_drug",
+        "human_animal_discrepancy",
+        "rating_system_explanation",
+        "analgesia_without_psychedelia",
+        "narcotic_speculation",
+        "pharmaceutical_screening"
+      ],
+      "notable_quotes": [
+        "Here is a complex and, at the moment, totally undefined drug.",
+        "A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it.",
+        "In other words, if you were experiencing the effects of a drug that would in your judgment interfere with safe and good driving, this would be a ++ whether your performance was being limited by a psychedelic, a stimulant, a hypnotic or a narcotic.",
+        "None of the quantitative reports ever mentioned any sensory distortion (analgesia is a loss, not a distortion) or visual effect.",
+        "Perhaps 4-BR-3,5-DMA showed its ++ as a narcotic. But then, the rats had said no."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
