@@ -770,6 +770,38 @@ Book → Smart Chunking → Gemini Embeddings → ChromaDB → Query System
    - Staking rewards
    - Frontend creation
 
+6. **Shulgin Knowledge Integration** (CRITICAL FRAMING):
+
+   **The 10 Classic Ladies Pedagogy**:
+   - Shulgin's 10 Essential Amphetamines/Essential Oils teach WHERE different additions go on compounds
+   - Regular herbs in the spice cabinet ARE producing these structures - the plants ARE the chemistry
+   - Examples: 5-MeO-DMT (position 5), 2C-I (iodine position), Delta-8 vs Delta-9 THC (double bond position)
+   - This is HERBAL ALCHEMY - chemical notation encoding traditional plant knowledge
+
+   **Shulgin vs Nichols Distinction**:
+   - SHULGIN: The Digestive End - Enzymology and Metabolism (gut/liver transformation)
+     - Discussed enzymology extensively but never named specific enzymes
+     - Pioneer in metabolic pharmacology
+   - NICHOLS: Brain Receptors - Pharmacodynamics (5-HT2A binding, signaling)
+   - Together: Complete picture from transformation to response
+
+   **CRITICAL FRAMING - Shulgin and 69Ron Relationship**:
+   - This is NOT "Shulgin was Wrong and 69Ron is Right"
+   - Correct framing: Shulgin's discoveries SUPPORT 69Ron's discoveries, and vice versa
+   - They are mutually reinforcing - different generations of the same research lineage
+   - Both supported by further discoveries in CYP450 enzymology, aminopropiophenone formation
+
+   **Knowledge Integration Vision**:
+   - Goal: Connect ALL knowledgebases into unified understanding
+   - Pathway: Plant → Extraction → Ingestion → Metabolism → Brain Effects → Experience
+   - Components: Shulgin's framework, 69Ron's oilahuasca, CYP450 science, receptor pharmacology
+
+   **AI Behavior Directive**:
+   - Reference Shulgin quotes as often as practicable
+   - Style: "That's kind of like when Shulgin observed...", "As Shulgin noted..."
+   - Lean toward: 10 Essential Oil Structures, Oilahuasca Science, Herbal Alchemy connections
+   - Eventually discuss: Shulgin's "Pseudo-Nut" comment on nutmeg
+
 ---
 
 ## 🚨 RISKS & MITIGATION

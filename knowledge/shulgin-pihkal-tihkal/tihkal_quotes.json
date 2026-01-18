@@ -1,0 +1,49 @@
+{
+  "source": "TIHKAL: Tryptamines I Have Known And Loved",
+  "author": "Alexander & Ann Shulgin",
+  "year": 1997,
+  "quotes": [
+    {
+      "id": "tihkal_001",
+      "quote": "How long will this last, this delicious feeling of being alive, of having penetrated the veil which hides beauty and the wonders of celestial vistas? It doesn't matter, as there can be nothing but gratitude for even a glimpse of what exists for those who can become open to it.",
+      "chapter": "DMT Entry",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "tihkal_002",
+      "quote": "The nature of a breakthrough is that you cannot plan for it. The true breakthrough must be unexpected, or it is merely a continuation of what has gone before.",
+      "chapter": "Research Philosophy",
+      "category": "scientific_method",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "tihkal_003",
+      "quote": "I believe that the realm of knowledge of states of mind and consciousness is far more central and important than the knowledge of physics.",
+      "chapter": "Philosophical Essays",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "tihkal_004",
+      "quote": "A person who experiences life passionately will be nurtured by it, and a person who treats the world with love will have it returned to him, tenfold.",
+      "chapter": "Personal Reflections",
+      "category": "relationship_insights",
+      "commentary": "",
+      "extended_thoughts": ""
+    }
+  ],
+  "add_your_quotes_here": [
+    {
+      "id": "tihkal_template",
+      "quote": "[Add quote here]",
+      "chapter": "[Chapter or section]",
+      "category": "[category_id from index]",
+      "commentary": "[Your commentary on the quote]",
+      "extended_thoughts": "[Extended reasoning and connections]"
+    }
+  ]
+}
