@@ -7461,6 +7461,188 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 116,
+      "code": "MDPH",
+      "chemical_name": "3,4-methylenedioxyphentermine",
+      "alternate_names": ["alpha,alpha-dimethyl-3,4-methylenedioxy-phenethylamine"],
+      "dosage": "160-240 mg",
+      "duration": "3-5 hours",
+      "extensions_and_commentary": "The synthesis involves a multi-step process beginning with formation of 2,2-dimethyl-3-(3,4-methylenedioxyphenyl)propionic acid via lithiation and alkylation. This proceeds through a Curtius rearrangement to form a carbamate intermediate, which is then hydrogenolyzed over palladium-on-carbon to yield the final hydrochloride salt as white crystals (mp 180-181 C).\n\nShulgin uses this entry to discuss the logical limitations of extrapolating drug structures, concluding that such reasoning often fails formal logical requirements. The compound was evaluated at several dosage levels with mixed results - pleasant but lacking the distinctive rewarding qualities of MDA and MDMA.",
+      "qualitative_effects": {
+        "120mg": "Described as quite like MDA, simple, with no lines, no colors, no motion, no fantasy. Effects included pleasantness combined with anorexia and impotency.",
+        "160mg": "A very quiet development. There was no body load whatsoever. And no visual. User felt refreshed and relaxed on the following morning.",
+        "200mg": "Unpleasant taste, mild nausea, brief forgotten daydreams, and minor physical effects. Lacked the rewarding qualities of MDA and MDMA."
+      },
+      "structural_notes": {
+        "relationship": "Alpha-dimethyl analogue of MDPEA",
+        "phentermine_connection": "Methylenedioxy analogue of phentermine"
+      },
+      "key_themes": [
+        "logical_extrapolation_limits",
+        "structure_activity_relationships",
+        "MDA_comparison",
+        "MDMA_comparison",
+        "anorexic_effects"
+      ],
+      "notable_quotes": [
+        "Quite like MDA, simple, with no lines, no colors, no motion, no fantasy.",
+        "A very quiet development. There was no body load whatsoever. And no visual.",
+        "Refreshed and relaxed on the following morning."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 117,
+      "code": "MDPL",
+      "chemical_name": "N-propargyl-MDA",
+      "alternate_names": ["N-propynyl-MDA", "3,4-methylenedioxy-N-propargylamphetamine"],
+      "dosage": ">150 mg",
+      "duration": "Unknown",
+      "extensions_and_commentary": "The synthesis involves reacting propargylamine hydrochloride with 3,4-methylenedioxyphenylacetone using sodium cyanoborohydride as a reducing agent. The reaction proceeds slowly over approximately five days. The final product yields white crystals with a melting point of 189-190 C.\n\nRemarkably, this entry contains no description of subjective effects or experiences from Shulgin. Instead, the commentary section focuses entirely on chemical nomenclature conventions, explaining the terminology differences between propargyl and propynyl designations and how naming conventions vary depending on structural context.",
+      "qualitative_effects": {
+        "status": "Not described - entry focuses on nomenclature"
+      },
+      "nomenclature_notes": {
+        "propargyl_vs_propynyl": "Terminology differences explained in entry",
+        "code_origin": "MDPL takes first and last letter of both propargyl and propynyl"
+      },
+      "structural_notes": {
+        "N_substituent": "Propargyl (prop-2-yn-1-yl) group on nitrogen",
+        "triple_bond": "Contains alkyne functionality"
+      },
+      "key_themes": [
+        "chemical_nomenclature",
+        "naming_conventions",
+        "unexplored_compound",
+        "synthesis_methodology"
+      ],
+      "notable_quotes": [
+        "The code MDPL takes the first and last letter of the two of them, both propargyl and propynyl."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 118,
+      "code": "MDPR",
+      "chemical_name": "N-propyl-MDA",
+      "alternate_names": ["3,4-methylenedioxy-N-propylamphetamine"],
+      "dosage": ">200 mg (inactive alone)",
+      "duration": "Unknown",
+      "extensions_and_commentary": "The synthesis involves reacting propylamine hydrochloride with 3,4-methylenedioxyphenylacetone using sodium cyanoborohydride as a reducing agent. The final product yields white crystals with a melting point of 194-195 C after recrystallization.\n\nAt 200 mg, MDPR showed minimal effects - the slightest hints of physical response with possible mild lightheadedness and teeth clenching, but no central mental effects. However, the breakthrough discovery was MDPR's extraordinary effectiveness as a primer preceding psychedelics like LSD. When 160 mg MDPR was followed 2 hours later by modest LSD doses (60 micrograms), users reported vivid visual phenomena and enhanced sensory experiences.",
+      "qualitative_effects": {
+        "200mg_alone": "The slightest hints of physical response with possible mild lightheadedness and teeth clenching, but no central mental effects.",
+        "as_primer": "Extraordinary effectiveness as a primer preceding psychedelics like LSD"
+      },
+      "primer_studies": {
+        "protocol": "160 mg MDPR followed 2 hours later by modest LSD doses (60 micrograms)",
+        "results": "Vivid visual phenomena and enhanced sensory experiences",
+        "user_observations": [
+          "An endlessly deep microcosm of detail in natural objects",
+          "Shared psychological experiences with companions",
+          "A super tactile person-to-person window",
+          "An overpowering urge to go out and interact with other people"
+        ]
+      },
+      "pharmacological_significance": {
+        "finding": "Inactive compounds could potentiate subsequent psychedelics through pharmacological priming",
+        "research_direction": "Opens new directions in drug-drug interactions"
+      },
+      "key_themes": [
+        "psychedelic_priming",
+        "drug_potentiation",
+        "LSD_interaction",
+        "inactive_compound_utility",
+        "shared_experiences"
+      ],
+      "notable_quotes": [
+        "The slightest hints of physical response.",
+        "An endlessly deep microcosm of detail.",
+        "A super tactile person-to-person window.",
+        "An overpowering urge to go out and interact with other people."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 119,
+      "code": "ME",
+      "chemical_name": "3,4-dimethoxy-5-ethoxyphenethylamine",
+      "alternate_names": ["metaescaline"],
+      "dosage": "200-350 mg",
+      "duration": "8-12 hours",
+      "extensions_and_commentary": "The synthesis begins with 5-bromobourbonal, proceeding through multiple steps including methylation, formation of a benzylidenimine intermediate, organolithium chemistry, oxidation, and final reduction with LAH to yield the phenethylamine product as its hydrochloride salt with a melting point of 202-203 C.\n\nUsers consistently described positive emotional and social experiences. Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase. Users reported normal appetite, easy sleep, and minimal next-day residue. Visual effects were relatively modest compared to other psychedelics, with heightened visual awareness being mild. The experience reportedly emphasized emotional connection over introspection or dramatic imagery.",
+      "qualitative_effects": {
+        "emotional_character": "Positive emotional and social experiences",
+        "body_load": "Unlike mescaline or Peyote, rarely any body discomfort during early phase",
+        "visual_effects": "Heightened visual awareness was mild",
+        "aftereffects": "Normal appetite, easy sleep, minimal next-day residue",
+        "emphasis": "Emotional connection over introspection or dramatic imagery"
+      },
+      "comparison_to_mescaline": {
+        "body_comfort": "Superior - no early phase discomfort",
+        "visual_intensity": "Lower - mild visual enhancement",
+        "social_quality": "High emphasis on camaraderie and connection"
+      },
+      "user_reports": [
+        "The feeling was one of great camaraderie, and it was very easy to talk to people.",
+        "A marvelous bond with everyone present, with clear-headed, excellent thinking."
+      ],
+      "key_themes": [
+        "mescaline_analogue",
+        "social_empathogen",
+        "body_comfort",
+        "clear_headed_experience",
+        "emotional_connection"
+      ],
+      "notable_quotes": [
+        "The feeling was one of great camaraderie, and it was very easy to talk to people.",
+        "A marvelous bond with everyone present, with clear-headed, excellent thinking.",
+        "Unlike mescaline or Peyote, there is rarely any body discomfort during the early phase.",
+        "Heightened visual awareness was mild."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 120,
+      "code": "MEDA",
+      "chemical_name": "3-methoxy-4,5-ethylenedioxyamphetamine",
+      "alternate_names": [],
+      "dosage": ">200 mg",
+      "duration": "Unknown",
+      "extensions_and_commentary": "The synthesis involves a multi-step procedure starting from 3,4-dihydroxy-5-methoxybenzaldehyde. The key steps include: formation of the ethylenedioxy ring through reaction with ethylene bromide and potassium carbonate, conversion to the nitropropene intermediate, and reduction with lithium aluminum hydride (LAH). The final product is isolated as the hydrochloride monohydrate salt.\n\nShulgin's most significant finding was the complete absence of psychoactive effects. He describes receiving a divine message through this negative result. The compound represented a systematic exploration where Shulgin replaced MMDA's methylenedioxy ring with a larger 6-membered ethylenedioxy ring. The inactivity led him to abandon this structural modification approach and pursue alternative strategies, ultimately leading to TMA-2.\n\nRelated compounds (MTMA with a 7-membered ring, and attempted 5-membered ring variants) were similarly inactive, reinforcing the importance of the methylenedioxy ring's specific geometry for pharmacological activity.",
+      "qualitative_effects": {
+        "status": "No activity - complete absence of psychoactive effects"
+      },
+      "structure_activity_insights": {
+        "modification": "Replaced MMDA's methylenedioxy ring with larger 6-membered ethylenedioxy ring",
+        "result": "Inactive",
+        "related_inactive": ["MTMA (7-membered ring)", "5-membered ring variants"],
+        "conclusion": "Methylenedioxy ring's specific geometry critical for activity",
+        "subsequent_direction": "Led to TMA-2 development"
+      },
+      "divine_message_theme": {
+        "description": "Shulgin describes receiving a divine message through negative result",
+        "message": "No activity"
+      },
+      "key_themes": [
+        "inactive_compound",
+        "structure_activity_relationships",
+        "ring_size_importance",
+        "methylenedioxy_geometry",
+        "divine_messages_in_research",
+        "TMA_2_origins"
+      ],
+      "notable_quotes": [
+        "No activity",
+        "Divine message through negative result"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
