@@ -5223,6 +5223,237 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 79,
+      "code": "F-2",
+      "chemical_name": "6-(2-Aminopropyl)-5-methoxy-2-methyl-2,3-dihydrobenzofuran",
+      "extensions_and_commentary": "This material, which is certainly a mixture of two diastereoisomeric pairs of racemates since there are two chiral centers present, showed no effects at levels of up to 15 milligrams orally. Doses of 100 mg/Kg were without effects in mice following i.p. injections, although half again this amount proved to be lethal. In rats trained to discriminate LSD from saline, F-2 proved to be about 40 times less potent than the reference compound DOM, requiring some 5 mg/Kg for positive responses. But the human trials were only up to about 0.2 mg/Kg.",
+      "stereochemistry": {
+        "chiral_centers": 2,
+        "isomer_mixture": "Two diastereoisomeric pairs of racemates"
+      },
+      "human_trials": {
+        "max_dose": "15 mg orally",
+        "max_dose_per_kg": "About 0.2 mg/Kg",
+        "effects": "No effects"
+      },
+      "animal_studies": {
+        "mice": {
+          "dose_no_effect": "100 mg/Kg i.p.",
+          "lethal_dose": "150 mg/Kg (half again this amount)"
+        },
+        "rats_LSD_discrimination": {
+          "potency_vs_DOM": "About 40 times less potent",
+          "effective_dose": "5 mg/Kg for positive responses"
+        }
+      },
+      "sweden_conference_1968": {
+        "context": "Paper at marijuana conference",
+        "actual_topic": "Marijuana and the Psychedelic Amphetamines",
+        "elephant_joke": {
+          "german": "8-hour day on 21 volume treatise on elephant anatomy/physiology",
+          "french": "Slide show on mating rituals and rutting behavior",
+          "rabbi": "Elephants and the Jewish Problem"
+        },
+        "memorable_story": "Meeting Swedish narcotics chief, ended up playing Mozart sonatas in his attic"
+      },
+      "THC_analogue_concept": {
+        "goal": "Imitate two of three rings of tetrahydrocannabinol",
+        "THC_structure": "Aromatic ring (alkyl group + two oxygens) fused to pyran ring with methyl groups",
+        "approach": "Tie 4-position methyl of DOM to 5-position oxygen with short carbon chain",
+        "result": "Could squint and say resulting amphetamine was kinda like THC analogue"
+      },
+      "naming_system": {
+        "F_series": "Benzofuran (5-membered ring)",
+        "P_series": "Benzopyran (6-membered ring)",
+        "numbers": "Indicate methyl group positions",
+        "examples": ["F-22", "P-2234"],
+        "abandoned_system": "2-M naming abandoned when pyran world would screw everything up"
+      },
+      "F_plain_compound": {
+        "chemical_name": "6-(2-Aminopropyl)-5-methoxy-2,3-dihydrobenzofuran",
+        "code": "F (no numbers = no methyl groups)",
+        "aldehyde_mp": "79-80 C",
+        "nitrostyrene_mp": "89-91 C (orange needles)",
+        "final_salt": "Methane sulfonate, mp 141-144 C",
+        "rat_potency": "3x more potent than F-2, still 15x less than DOM",
+        "human_trials": "Up to 30 mg, no effects"
+      },
+      "unexpected_benzaldehyde": {
+        "compound": "7-formyl-5-methoxy-2-methyl-2,3-dihydrobenzofuran",
+        "potential_amphetamine": "7-(2-aminopropyl)-5-methoxy-2-methyl-2,3-dihydrobenzofuran",
+        "similarity": "2,3,5-trisubstituted, similar to unmade MMDA-4",
+        "outcome": "Temptation to divert lasted only a few minutes, project shelved"
+      },
+      "key_themes": [
+        "dihydrobenzofuran",
+        "THC_analogue_attempt",
+        "Sweden_1968_conference",
+        "Mozart_sonatas_attic",
+        "elephant_joke",
+        "naming_system_F_P",
+        "low_potency",
+        "stereoisomer_complexity"
+      ],
+      "notable_quotes": [
+        "This material, which is certainly a mixture of two diastereoisomeric pairs of racemates since there are two chiral centers present.",
+        "This was the prototype compound that was originally put together to justify giving a paper at a marijuana conference in Sweden, in 1968.",
+        "My Swedish talk should have been named 'Marijuana and the Psychedelic Amphetamines.'",
+        "The memorable story of meeting the chief of the Swedish equivalent of the Bureau of Narcotics, and ending up playing Mozart sonatas in the attic of his home.",
+        "So, if one were to tie the methyl group at the 4-position of DOM around with a short carbon chain into the oxygen atom at the five position, one could squint and say that the resulting amphetamine was kinda something like an analogue of THC.",
+        "Someday, when there are buckets of spare time or hosts of eager graduate students, some fascinating chemistry might lie this way."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 80,
+      "code": "F-22",
+      "chemical_name": "6-(2-Aminopropyl)-5-methoxy-2,2-dimethyl-2,3-dihydrobenzofuran",
+      "extensions_and_commentary": "And here is yet another dihydrobenzofuran which is not of a very high potency if, indeed, it is active at all. This particular dihydrobenzofuran analogue, F-22, had sort of tickled my fancy as being an especially good candidate for activity. It had a certain swing to it. F-22, like LSD-25.",
+      "human_trials": {
+        "starting_dose": "10 micrograms (unusually low)",
+        "second_dose": "25 micrograms (2 days later)",
+        "third_dose": "50 micrograms (on polar flight to Copenhagen)",
+        "timing": "Five days before marijuana congress paper",
+        "results": "No activity at any level"
+      },
+      "LSD_comparison_fantasy": {
+        "appeal": "F-22 like LSD-25 - had a certain swing to it",
+        "hope": "Could this possibly be another LSD?",
+        "outcome": "Another Walter Mitty fantasy down the tubes"
+      },
+      "project_aftermath": {
+        "status": "Entire project ran out of steam",
+        "condition": "Would have pursued if any activity promised"
+      },
+      "F_233_attempt": {
+        "target": "6-(2-aminopropyl)-5-methoxy-2,3,3-trimethyl-2,3-dihydrobenzofuran",
+        "starting_material": "4-methoxyphenol + 1-chloro-3-methyl-2-butene",
+        "claisen_rearrangement": "2-(1,1-dimethylallyl)-4-methoxyphenol, bp 148-157 C at 30 mm/Hg",
+        "intermediate_purity": "Only 80% pure by GC",
+        "benzaldehyde_stage": "Four benzaldehydes in oil, refused to crystallize",
+        "nitroethane_condensation": "Even worse mixture",
+        "outcome": "Nothing crystallized, junk, put on shelf",
+        "quote": "When sheer desperation replaced hope"
+      },
+      "F_23_attempt": {
+        "target": "6-(2-aminopropyl)-2,3-dimethyl-5-methoxy-2,3-dihydrobenzofuran",
+        "problem_1": "Three chiral centers = four racemic pairs of diastereoisomers",
+        "problem_2": "Crotyl chloride only 80% pure, 20% 3-chloro-1-butene",
+        "byproduct": "Would produce 2-ethyl analogue with two more pairs",
+        "total_mess": "At least six discrete compounds, not counting optical isomers",
+        "new_coding_needed": "Would need entirely new coding system"
+      },
+      "benzopyran_THC_analogues": {
+        "original_rationale": "THC analogues that started whole project",
+        "status": "Never even begun",
+        "journal_article": "Recent J Med Chem - reaction of 6-methoxytetrahydrobenzopyran with dichloromethyl methyl ether gave equal amounts of all three isomers",
+        "prototype_target": "7-(2-aminopropyl)-6-methoxy-1,2,3,4-tetrahydrobenzopyran",
+        "naming_conflict": "P also used for proscaline"
+      },
+      "abandonment": {
+        "decision": "Time to abandon ship",
+        "facilitator": "Had just synthesized and discovered strange activity of ARIADNE",
+        "quote": "Made ship abandonment quite a bit easier to accept"
+      },
+      "key_themes": [
+        "dihydrobenzofuran",
+        "LSD_fantasy",
+        "Walter_Mitty",
+        "project_abandonment",
+        "stereoisomer_nightmare",
+        "crystallization_failure",
+        "ARIADNE_discovery",
+        "THC_analogue_never_made"
+      ],
+      "notable_quotes": [
+        "It had a certain swing to it. F-22, like LSD-25.",
+        "Could this possibly be another LSD?",
+        "I was sufficiently convinced that the possibility was real, that I actually started the screening process at a most unusually low level of 10 micrograms.",
+        "Shoot the works. If I were to blossom all over the tourist section of the SAS plane, well, it would be quite a paper to give.",
+        "No activity. Another Walter Mitty fantasy down the tubes.",
+        "And then (when sheer desperation replaced hope) these were condensed with nitroethane to form an even worse mixture.",
+        "Everything was simply put on the shelf where it still rests today.",
+        "Time to abandon ship.",
+        "The fact that I had just synthesized and discovered the strange activity of ARIADNE at about this time, made the ship abandonment quite a bit easier to accept."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 81,
+      "code": "FLEA",
+      "chemical_name": "N-Hydroxy-N-methyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "Most people who were involved with the evaluation of FLEA quite logically compared it with MDMA, as it was presented as being a very close analogue which might share some of the latter's properties. And to a large measure, the comparison was favorable.",
+      "MDMA_comparison": {
+        "dosages": "Almost identical",
+        "duration": "Almost identical",
+        "effects": "Distinct similarities",
+        "consensus_differences": [
+          "Not quite as enabling for closeness with others",
+          "More move towards introspection",
+          "Slightly increased discoordination in thought processes"
+        ],
+        "verdict": "Were MDMA unknown, this material would have played its role completely"
+      },
+      "N_hydroxy_hypothesis": {
+        "first_observation": "N-hydroxy-MDA (MDOH) equipotent and virtually identical to MDA",
+        "FLEA_evidence": "Simple addition of hydroxyl to MDMA nitrogen produces drug identical in most properties",
+        "extensions": {
+          "2C-T-2": "HOT-2",
+          "2C-T-7": "HOT-7",
+          "2C-T-17": "HOT-17"
+        },
+        "results": "All active, compared very closely with non-hydroxylated prototypes"
+      },
+      "pharmaceutical_implications": {
+        "question": "What if N-hydroxyl analogs of active amines have similar action/duration as parent?",
+        "scope": "Perhaps 90% of commercially available mental-state drugs are amines",
+        "subset": "Goodly number are primary or secondary amines",
+        "patent_bypass": "Each could be converted to N-hydroxyl analogue, bypassing patent protection"
+      },
+      "Prozac_example": {
+        "generic": "Fluoxetine",
+        "company": "Eli Lilly",
+        "proposed_analog": "N-hydroxy-N-methyl-3-phenyl-3-((a,a,a-trifluoro-p-tolyl)oxy)propylamine",
+        "prediction": "Would be an active antidepressant",
+        "taunt": "Remember, Mr. Eli Lilly and Company; you read about it first, right here!"
+      },
+      "naming_etymology": {
+        "ADAM": "Common code name for MDMA",
+        "MADAM": "6-methyl homologue of MDMA (perverse logic)",
+        "FLADAM": "6-fluoro analogue pattern",
+        "HADAM_to_FLEA": {
+          "N_hydroxy_pattern": "Would suggest HADAM",
+          "poem_reference": "Adam's earliest complaint - infestation of fleas",
+          "poem": "Adam had 'em",
+          "result": "HAD 'EM became FLEA"
+        }
+      },
+      "key_themes": [
+        "N_hydroxy_analogue",
+        "MDMA_comparison",
+        "introspection",
+        "patent_bypass_concept",
+        "Prozac_challenge",
+        "ADAM_naming_tradition",
+        "HOT_series",
+        "pharmaceutical_industry_havoc"
+      ],
+      "notable_quotes": [
+        "Most people who were involved with the evaluation of FLEA quite logically compared it with MDMA.",
+        "Were MDMA unknown, this material would have played its role completely.",
+        "I first observed the intimate connection between an amine and a hydroxylamine with the discovery that N-hydroxy-MDA (MDOH) was equipotent and of virtually identical activity to the non-hydroxylated counterpart.",
+        "Just how general might this concept be, that an N-hydroxyl analog of an active amine shall be of similar action and duration as the parent drug?",
+        "What havoc it would wreak in the pharmaceutical industry!",
+        "Perhaps 90% of all the commercially available drugs that are concerned with the human mental state are amines.",
+        "Remember, Mr. Eli Lilly and Company; you read about it first, right here!",
+        "Adam had 'em."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
