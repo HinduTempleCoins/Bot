@@ -377,6 +377,59 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 9,
+      "code": "ASB",
+      "chemical_name": "Asymbescaline; 3,4-Diethoxy-5-methoxyphenethylamine",
+      "extensions_and_commentary": "This specific amine was a target for a single study in cats many years ago, in Holland, using material obtained from Hoffman La Roche in Basel. Their findings are hard to evaluate, in that 200 milligrams was injected into a 3.75 kilogram cat (53 mg/Kg), or about twice the dosage that they used in their studies with metaescaline. Within 5 minutes there were indications of catatonia, and within a half hour the animal was unable to walk. This condition persisted for two days, at which time the animal died. Although this dose was many times that used in man, perhaps hints of the physical unease and long action are there to be gleaned. The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced.\n\nA comment is needed on the strange name asymbescaline! In the marvelous world of chemical nomenclature, bi- (or di-) usually means two of something, and tri- and tetra- quite reasonably mean three and four of something. But occasionally there can be an ambiguity with bi (or tri or tetra) in that bi some-thing-or-other might be two something-or-others hooked together or it might be two things hooked onto a something-or-other. So, the former is called bi- and the latter is called bis-. This compound is not two escalines hooked together (bi-escaline) but is only one of them with two ethyl groups attached (bis-escaline or bescaline). And since there are two ways that this can be done (either symmetrically or asymmetrically) the symmetric one is called symbescaline (or SB for short) and this one is called asymbescaline (or ASB for short). To complete the terminology lecture, the term tri- becomes tris- (the name given for the drug with all three ethoxy groups present in place of the methoxys of mescaline) and the term tetra- mutates into the rather incredible tetrakis-!",
+      "cat_study": {
+        "location": "Holland",
+        "source_material": "Hoffman La Roche, Basel",
+        "dose": "200 mg into 3.75 kg cat (53 mg/kg)",
+        "comparison": "About twice the metaescaline dose",
+        "timeline": {
+          "5_minutes": "Indications of catatonia",
+          "30_minutes": "Unable to walk",
+          "2_days": "Animal died"
+        },
+        "interpretation": "Hints of physical unease and long action"
+      },
+      "human_trials": {
+        "number_of_experiments": "Over half dozen",
+        "consensus": "Not enough value to offset the body load"
+      },
+      "nomenclature_lesson": {
+        "bi_vs_bis": {
+          "bi": "Two things hooked together",
+          "bis": "Two things hooked onto something"
+        },
+        "bescaline_explanation": "Not bi-escaline (two escalines together) but bis-escaline (one escaline with two ethyl groups)",
+        "sym_vs_asym": {
+          "symbescaline_SB": "Symmetric placement of two ethyl groups",
+          "asymbescaline_ASB": "Asymmetric placement of two ethyl groups"
+        },
+        "higher_prefixes": {
+          "tri_becomes": "tris- (all three ethoxy groups)",
+          "tetra_becomes": "tetrakis- ('rather incredible')"
+        }
+      },
+      "key_themes": [
+        "body_load",
+        "animal_study_mortality",
+        "nomenclature_education",
+        "negative_risk_benefit",
+        "chemical_naming_conventions"
+      ],
+      "notable_quotes": [
+        "Within 5 minutes there were indications of catatonia, and within a half hour the animal was unable to walk. This condition persisted for two days, at which time the animal died.",
+        "The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced.",
+        "A comment is needed on the strange name asymbescaline!",
+        "In the marvelous world of chemical nomenclature...",
+        "The term tetra- mutates into the rather incredible tetrakis-!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
