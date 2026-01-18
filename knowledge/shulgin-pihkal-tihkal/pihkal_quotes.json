@@ -2895,6 +2895,284 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 44,
+      "code": "2C-T-8",
+      "chemical_name": "2,5-Dimethoxy-4-cyclopropylmethylthiophenethylamine",
+      "extensions_and_commentary": "With 2C-T-8, there are as many negatives as there are positives, and the particular substitution pattern is not one to set the world on fire. The first step was made towards the synthesis of the 3-carbon counterpart, 2,5-dimethoxy-4-cyclopropylmethylthioamphetamine, ALEPH-8. The above benzaldehyde (2.2 g) was cooked overnight on the steam bath in nitroethane (20 mL) containing ammonium acetate (0.4 g) and when the solvent was removed, the residue was converted to orange crystals by the addition of a little MeOH. This was not pursued further. Although the cyclopropylmethyl group was quite something on the mescaline oxygen atom, it is less appealing on the 2C-T-X sulfur atom, and there is even less enthusiasm to put it into an ALEPH. That's the way it is, and who could have guessed!",
+      "assessment": {
+        "balance": "As many negatives as positives",
+        "conclusion": "Not one to set the world on fire"
+      },
+      "amphetamine_analog": {
+        "name": "ALEPH-8",
+        "full_name": "2,5-dimethoxy-4-cyclopropylmethylthioamphetamine",
+        "synthesis_started": true,
+        "nitrostyrene": {
+          "starting_material": "Benzaldehyde (2.2g)",
+          "reagent": "Nitroethane (20mL) with ammonium acetate (0.4g)",
+          "conditions": "Cooked overnight on steam bath",
+          "product": "Orange crystals with addition of MeOH"
+        },
+        "status": "Not pursued further"
+      },
+      "cyclopropylmethyl_comparison": {
+        "on_mescaline_oxygen": "Quite something",
+        "on_2C_T_X_sulfur": "Less appealing",
+        "on_ALEPH": "Even less enthusiasm",
+        "lesson": "That's the way it is, and who could have guessed!"
+      },
+      "key_themes": [
+        "mixed_results",
+        "cyclopropylmethyl_group",
+        "oxygen_vs_sulfur",
+        "abandoned_ALEPH",
+        "unpredictable_outcomes"
+      ],
+      "notable_quotes": [
+        "With 2C-T-8, there are as many negatives as there are positives, and the particular substitution pattern is not one to set the world on fire.",
+        "Although the cyclopropylmethyl group was quite something on the mescaline oxygen atom, it is less appealing on the 2C-T-X sulfur atom.",
+        "There is even less enthusiasm to put it into an ALEPH.",
+        "That's the way it is, and who could have guessed!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 45,
+      "code": "2C-T-9",
+      "chemical_name": "2,5-Dimethoxy-4-(t)-butylthiophenethylamine",
+      "extensions_and_commentary": "The three-carbon analog of 2C-T-9 (this would be one of the ALEPH series) has never been made and, for that matter, none of the higher numbered 2C-T's have had the amphetamine counterparts synthesized. They are, as of the present time, unknown compounds. This nifty reaction with di-(t)-butyl disulfide worked so well, that three additional disulfides that were at hand were immediately thrown into the chemical program, with the quick assignment of the names 2C-T-10, 2C-T-11, and 2C-T-12.\n\nThe lithiated dimethoxybenzene reaction with 2,2-dipyridyl disulfide produced 2,5-dimethoxyphenyl 2-pyridyl sulfide which distilled at 135-150 °C at 0.4 mm/Hg and could be recrystallized from cyclohexane containing 2% EtOH to give a product that melted at 66-67.5 °C. Anal. (C13H13NO2S) C,H. This would have produced 2,5-dimethoxy-4-(2-pyridylthio)phenethylamine (2C-T-10) but it was never pursued.\n\nThe same reaction with di-(4-bromophenyl) disulfide produced 2,5-dimethoxyphenyl 4-bromophenyl sulfide which distilled at 150-170 °C at 0.5 mm/Hg and could be recrystallized from MeOH to give a product that melted at 72-73 °C. Anal. (C14H13BrO2S) C,H. This was being directed towards 2,5-dimethoxy-4-(4-bromophenylthio)phenethylamine (2C-T-11) but it also was abandoned.\n\nThe same reaction with N,N-dimorpholinyl disulfide produced virtually no product at all, completely defusing any plans for the synthesis of a novel sulfur-nitrogen bonded base 2,5-dimethoxy-4-(1-morpholinothio)phenethylamine (2C-T-12). One additional effort was made to prepare a 2C-T-X thing with a sulfur-nitrogen bond. The acid chloride intermediate in the preparation of 2,5-dimethoxythiophenol (as described in the recipe for 2C-T-2) is 2,5-dimethoxybenzenesulfonyl chloride. It reacted smoothly with an excess of diethylamine to produce 2,5-dimethoxy-N,N-diethylbenzenesulfonamide which distilled at 155 °C at 0.13 mm/Hg and which could be recrystallized from a 4:1 mixture of cyclohexane/benzene to give a product with a melting point of 41-42 °C and an excellent proton NMR. This amide proved totally refractory to all efforts at reduction, so the target compound, 2,5-dimethoxy-4-diethylaminothiophenethylamine, has not been made. It has not even been given a 2C-T-X number.",
+      "amphetamine_analog": {
+        "status": "Never been made",
+        "note": "None of the higher numbered 2C-T's have had amphetamine counterparts synthesized",
+        "classification": "Unknown compounds as of present time"
+      },
+      "disulfide_reaction_success": {
+        "reaction": "Di-(t)-butyl disulfide",
+        "result": "Worked so well",
+        "consequence": "Three additional disulfides immediately thrown into chemical program"
+      },
+      "abandoned_compounds": {
+        "2C-T-10": {
+          "name": "2,5-dimethoxy-4-(2-pyridylthio)phenethylamine",
+          "disulfide": "2,2-dipyridyl disulfide",
+          "intermediate": "2,5-dimethoxyphenyl 2-pyridyl sulfide",
+          "melting_point": "66-67.5°C",
+          "distillation": "135-150°C at 0.4 mm/Hg",
+          "status": "Never pursued"
+        },
+        "2C-T-11": {
+          "name": "2,5-dimethoxy-4-(4-bromophenylthio)phenethylamine",
+          "disulfide": "Di-(4-bromophenyl) disulfide",
+          "intermediate": "2,5-dimethoxyphenyl 4-bromophenyl sulfide",
+          "melting_point": "72-73°C",
+          "distillation": "150-170°C at 0.5 mm/Hg",
+          "status": "Abandoned"
+        },
+        "2C-T-12": {
+          "name": "2,5-dimethoxy-4-(1-morpholinothio)phenethylamine",
+          "disulfide": "N,N-dimorpholinyl disulfide",
+          "result": "Virtually no product at all",
+          "status": "Plans completely defused",
+          "feature": "Novel sulfur-nitrogen bonded base"
+        }
+      },
+      "sulfur_nitrogen_bond_attempt": {
+        "approach": "Via sulfonamide reduction",
+        "intermediate": "2,5-dimethoxy-N,N-diethylbenzenesulfonamide",
+        "melting_point": "41-42°C",
+        "distillation": "155°C at 0.13 mm/Hg",
+        "NMR": "Excellent proton NMR",
+        "reduction_result": "Totally refractory to all efforts",
+        "target": "2,5-dimethoxy-4-diethylaminothiophenethylamine",
+        "numbering": "Has not even been given a 2C-T-X number"
+      },
+      "key_themes": [
+        "successful_disulfide_reaction",
+        "spawned_multiple_compounds",
+        "abandoned_projects",
+        "sulfur_nitrogen_bond",
+        "refractory_reduction",
+        "unknown_amphetamines"
+      ],
+      "notable_quotes": [
+        "The three-carbon analog of 2C-T-9 (this would be one of the ALEPH series) has never been made.",
+        "None of the higher numbered 2C-T's have had the amphetamine counterparts synthesized. They are, as of the present time, unknown compounds.",
+        "This nifty reaction with di-(t)-butyl disulfide worked so well, that three additional disulfides that were at hand were immediately thrown into the chemical program.",
+        "This would have produced 2C-T-10 but it was never pursued.",
+        "This was being directed towards 2C-T-11 but it also was abandoned.",
+        "Produced virtually no product at all, completely defusing any plans for the synthesis of 2C-T-12.",
+        "This amide proved totally refractory to all efforts at reduction.",
+        "It has not even been given a 2C-T-X number."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 46,
+      "code": "2C-T-13",
+      "chemical_name": "2,5-Dimethoxy-4-(2-methoxyethylthio)phenethylamine",
+      "extensions_and_commentary": "Most of the synthetic adventures of putting a basic something aways out from the benzene ring, at the four-position, have involved subtle things such as unsaturated bonds or three-membered rings. This was the first try with the actual use of a different atom (an oxygen). What about other heteroatoms such as sulfur or nitrogen or silicon or phosphorus, or some-such?\n\nThe sulfur counterpart of 2C-T-13 was named 2C-T-14, and was immediately launched. The reaction of 2,5-dimethoxythiophenol and KOH with 2-methylthioethyl chloride in hot MeOH gave 2,5-dimethoxyphenyl 2-methylthioethyl sulfide as a white oil (boiling point of 140-160 °C at 0.3 mm/Hg). This underwent a normal Vilsmeier reaction (phosphorous oxychloride and N-methylformanilide) to give 2,5-dimethoxy-4-(2-methylthioethylthio)benzaldehyde with a melting point of 64-64.5 °C from MeOH. This, in nitromethane containing a little ammonium acetate, was heated on the steam bath for 10 hours and worked up to give an excellent yield of 2,5-dimethoxy-4-(2-methylthioethylthio)-beta-nitrostyrene as garish orange-red \"Las Vegas\" colored crystals from acetonitrile, with a melting point of 126-127 °C. And as of the moment, this is sitting on the shelf waiting to be reduced to the target compound 2,5-dimethoxy-4-(2-methylthioethylthio)phenethylamine hydrochloride, or 2C-T-14. Will it be active? I rather suspect that it will be, and I'll bet it will be longer-lived than the oxygen model, 2C-T-13.",
+      "synthetic_novelty": {
+        "previous_approaches": "Unsaturated bonds or three-membered rings",
+        "this_compound": "First try with a different atom (oxygen)",
+        "future_questions": "What about sulfur, nitrogen, silicon, phosphorus, or some-such?"
+      },
+      "related_compound": {
+        "name": "2C-T-14",
+        "relationship": "Sulfur counterpart of 2C-T-13",
+        "full_name": "2,5-dimethoxy-4-(2-methylthioethylthio)phenethylamine",
+        "synthesis": {
+          "step_1": {
+            "reagents": "2,5-dimethoxythiophenol + KOH + 2-methylthioethyl chloride",
+            "solvent": "Hot MeOH",
+            "product": "2,5-dimethoxyphenyl 2-methylthioethyl sulfide",
+            "form": "White oil",
+            "boiling_point": "140-160°C at 0.3 mm/Hg"
+          },
+          "step_2": {
+            "reaction": "Normal Vilsmeier reaction",
+            "reagents": "Phosphorous oxychloride and N-methylformanilide",
+            "product": "2,5-dimethoxy-4-(2-methylthioethylthio)benzaldehyde",
+            "melting_point": "64-64.5°C from MeOH"
+          },
+          "step_3": {
+            "reagents": "Nitromethane with ammonium acetate",
+            "conditions": "Heated on steam bath for 10 hours",
+            "product": "2,5-dimethoxy-4-(2-methylthioethylthio)-beta-nitrostyrene",
+            "yield": "Excellent",
+            "appearance": "Garish orange-red 'Las Vegas' colored crystals",
+            "recrystallization": "Acetonitrile",
+            "melting_point": "126-127°C"
+          }
+        },
+        "current_status": "Sitting on the shelf waiting to be reduced",
+        "prediction": {
+          "activity": "I rather suspect that it will be active",
+          "duration": "I'll bet it will be longer-lived than the oxygen model, 2C-T-13"
+        }
+      },
+      "key_themes": [
+        "heteroatom_exploration",
+        "oxygen_in_chain",
+        "2C-T-14_synthesis",
+        "Las_Vegas_crystals",
+        "shelf_waiting",
+        "activity_prediction"
+      ],
+      "notable_quotes": [
+        "Most of the synthetic adventures of putting a basic something aways out from the benzene ring, at the four-position, have involved subtle things such as unsaturated bonds or three-membered rings.",
+        "This was the first try with the actual use of a different atom (an oxygen).",
+        "What about other heteroatoms such as sulfur or nitrogen or silicon or phosphorus, or some-such?",
+        "The sulfur counterpart of 2C-T-13 was named 2C-T-14, and was immediately launched.",
+        "Garish orange-red 'Las Vegas' colored crystals from acetonitrile.",
+        "As of the moment, this is sitting on the shelf waiting to be reduced.",
+        "Will it be active? I rather suspect that it will be, and I'll bet it will be longer-lived than the oxygen model, 2C-T-13."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 47,
+      "code": "2C-T-15",
+      "chemical_name": "2,5-Dimethoxy-4-cyclopropylthiophenethylamine",
+      "extensions_and_commentary": "The commonly used name for 2C-T-15, during its synthesis, was SESQUI. The general name for a 15-carbon terpene is sesquiterpene, from the Latin prefix for one and a half. The active level of 2C-T-15 is not known. The highest level yet tried was 30 milligrams orally, and there had been threshold reports pretty regularly all the way up from 6 milligrams. But no definite activity yet. This compound is isosteric with the isopropyl group as seen in the analogous compound 2C-T-4 (the three carbons are in exactly the same positions, only the electrons are located differently) and it is a little surprising that the potency appears to be considerably less. Just over 20 milligrams of the latter compound was overwhelmingly psychedelic.\n\nThe entire mini-project of hanging cyclic things onto the sulfur atom was an interesting problem. This is the three carbon ring. The six carbon ring (the cyclohexyl homologue) was discussed as 2C-T-5 in the recipe for ALEPH-2. The cyclobutyl and cyclopentyl homologs were assigned the names of 2C-T-18 and 2C-T-23, respectively, and their preparations taken as far as the nitrostyrene and the aldehyde stages, respectively, before the project ran out of steam.\n\nTowards the cyclobutyl homologue, a solution of 2,5-dimethoxythiophenol and cyclobutyl bromide in DMSO containing anhydrous potassium carbonate was stirred for several hours at room temperature and yielded 2,5-dimethoxyphenyl cyclobutyl sulfide as a white oil that boiled at 135-140 °C at 0.3 mm/Hg. Anal. (C12H16O2S) C,H. This was brought to react with a mixture of phosphorus oxychloride and N-methylformanilide producing 2,5-dimethoxy-4-(cyclobutylthio)benzaldehyde that had a melting point of 108-109.5 °C from MeOH. Anal. (C13H16O3S) C,H. Coupling with nitromethane in the presence of ammonium acetate produced 2,5-dimethoxy-4-cyclobutylthio-beta-nitrostyrene as lustrous orange crystals from boiling acetonitrile, melting point 160-161 °C. Anal. (C14H17NO4S) C,H. This will some day be reduced to 2,5-dimethoxy-4-cyclobutylthiophenethylamine hydrochloride, 2C-T-18.\n\nTowards the cyclopentyl homologue, a solution of 2,5-dimethoxythiophenol and cyclopentyl bromide in DMSO containing anhydrous potassium carbonate was stirred for several hours at room temperature and yielded 2,5-dimethoxyphenyl cyclopentyl sulfide as a white oil that boiled at 135-145 °C at 0.3 mm/Hg. This was brought to react with a mixture of phosphorus oxychloride and N-methylformanilide producing 2,5-dimethoxy-4-(cyclopentylthio)benzaldehyde as yellow crystals from MeOH. This will some day be converted to the nitrostyrene and then reduced to 2,5-dimethoxy-4-cyclopentylthiophenethylamine hydrochloride, 2C-T-23.",
+      "nickname": {
+        "name": "SESQUI",
+        "origin": "General name for 15-carbon terpene is sesquiterpene",
+        "etymology": "Latin prefix for one and a half"
+      },
+      "activity_status": {
+        "active_level": "Not known",
+        "highest_tried": "30 milligrams orally",
+        "threshold_reports": "Pretty regularly from 6 milligrams up",
+        "conclusion": "No definite activity yet"
+      },
+      "isosteric_comparison": {
+        "compared_to": "2C-T-4 (isopropyl group)",
+        "relationship": "Three carbons in exactly the same positions, only electrons located differently",
+        "potency_difference": "Considerably less potent",
+        "2C_T_4_reference": "Just over 20 milligrams was overwhelmingly psychedelic",
+        "assessment": "A little surprising"
+      },
+      "cyclic_sulfur_project": {
+        "description": "Hanging cyclic things onto the sulfur atom",
+        "compounds": {
+          "three_carbon": "2C-T-15 (cyclopropyl)",
+          "four_carbon": "2C-T-18 (cyclobutyl)",
+          "five_carbon": "2C-T-23 (cyclopentyl)",
+          "six_carbon": "2C-T-5 (cyclohexyl, discussed in ALEPH-2 recipe)"
+        },
+        "project_status": "Ran out of steam"
+      },
+      "future_compounds": {
+        "2C-T-18": {
+          "name": "2,5-dimethoxy-4-cyclobutylthiophenethylamine",
+          "ring": "Cyclobutyl",
+          "synthesis_progress": "Taken to nitrostyrene stage",
+          "intermediates": {
+            "sulfide": {
+              "name": "2,5-dimethoxyphenyl cyclobutyl sulfide",
+              "form": "White oil",
+              "boiling_point": "135-140°C at 0.3 mm/Hg"
+            },
+            "aldehyde": {
+              "name": "2,5-dimethoxy-4-(cyclobutylthio)benzaldehyde",
+              "melting_point": "108-109.5°C from MeOH"
+            },
+            "nitrostyrene": {
+              "name": "2,5-dimethoxy-4-cyclobutylthio-beta-nitrostyrene",
+              "appearance": "Lustrous orange crystals",
+              "melting_point": "160-161°C from acetonitrile"
+            }
+          },
+          "status": "Will some day be reduced"
+        },
+        "2C-T-23": {
+          "name": "2,5-dimethoxy-4-cyclopentylthiophenethylamine",
+          "ring": "Cyclopentyl",
+          "synthesis_progress": "Taken to aldehyde stage",
+          "intermediates": {
+            "sulfide": {
+              "name": "2,5-dimethoxyphenyl cyclopentyl sulfide",
+              "form": "White oil",
+              "boiling_point": "135-145°C at 0.3 mm/Hg"
+            },
+            "aldehyde": {
+              "name": "2,5-dimethoxy-4-(cyclopentylthio)benzaldehyde",
+              "appearance": "Yellow crystals from MeOH"
+            }
+          },
+          "status": "Will some day be converted to nitrostyrene and reduced"
+        }
+      },
+      "key_themes": [
+        "SESQUI_nickname",
+        "isosteric_comparison",
+        "potency_puzzle",
+        "cyclic_sulfur_series",
+        "ran_out_of_steam",
+        "future_compounds",
+        "2C-T-18",
+        "2C-T-23"
+      ],
+      "notable_quotes": [
+        "The commonly used name for 2C-T-15, during its synthesis, was SESQUI.",
+        "The general name for a 15-carbon terpene is sesquiterpene, from the Latin prefix for one and a half.",
+        "The active level of 2C-T-15 is not known.",
+        "There had been threshold reports pretty regularly all the way up from 6 milligrams. But no definite activity yet.",
+        "This compound is isosteric with the isopropyl group as seen in the analogous compound 2C-T-4 (the three carbons are in exactly the same positions, only the electrons are located differently).",
+        "It is a little surprising that the potency appears to be considerably less.",
+        "Just over 20 milligrams of the latter compound was overwhelmingly psychedelic.",
+        "The entire mini-project of hanging cyclic things onto the sulfur atom was an interesting problem.",
+        "The project ran out of steam.",
+        "This will some day be reduced to 2C-T-18.",
+        "This will some day be converted to the nitrostyrene and then reduced to 2C-T-23."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
