@@ -1556,6 +1556,68 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 26,
+      "code": "2C-F",
+      "chemical_name": "2,5-Dimethoxy-4-fluorophenethylamine",
+      "extensions_and_commentary": "A number of graded acute dosages were tried, and it was only with amounts in excess of 100 milligrams that there were any baseline disturbances at all. And at no dose that was tried was there any convincing indication of believable central effects.\n\nThe three-carbon amphetamine analogue of 2C-F would quite logically be called DOF (2,5-dimethoxy-4-fluoroamphetamine). It has been prepared by reaction of the above benzaldehyde with nitroethane (giving 1-(2,5-dimethoxy-4-fluorophenyl)-2-nitropropene, with a melting point of 128-129 °C from ethanol) followed by LAH reduction to DOF (the hydrochloride salt has a melting point of 166-167 °C, after recrystallization from ether/ethyl acetate/ethanol). Animal studies that have compared DOF to the highly potent DOI and DOB imply that the human activity will be some four to six times less than these two heavier halide analogues. As of the present time, no human trials of DOF have been made.",
+      "activity_profile": {
+        "threshold": "In excess of 100 milligrams",
+        "effects_at_threshold": "Only baseline disturbances",
+        "central_effects": "No convincing indication of believable central effects at any dose tried",
+        "assessment": "Essentially inactive"
+      },
+      "amphetamine_analogue": {
+        "name": "DOF",
+        "full_name": "2,5-dimethoxy-4-fluoroamphetamine",
+        "human_trials": "None as of present time",
+        "synthesis": {
+          "step_1": {
+            "reagents": "Benzaldehyde + nitroethane",
+            "product": "1-(2,5-dimethoxy-4-fluorophenyl)-2-nitropropene",
+            "melting_point": "128-129°C",
+            "recrystallization": "Ethanol"
+          },
+          "step_2": {
+            "reagent": "LAH reduction",
+            "product": "DOF hydrochloride",
+            "melting_point": "166-167°C",
+            "recrystallization": "Ether/ethyl acetate/ethanol"
+          }
+        },
+        "potency_prediction": {
+          "basis": "Animal studies comparing DOF to DOI and DOB",
+          "estimate": "Four to six times less potent than DOI and DOB",
+          "comparison_compounds": ["DOI", "DOB"]
+        }
+      },
+      "halogen_series_position": {
+        "element": "Fluorine",
+        "atomic_weight": "Lightest halogen",
+        "potency_rank": "Lowest in halogen series",
+        "series_order": "Iodine > Bromine > Chlorine > Fluorine"
+      },
+      "key_themes": [
+        "halogen_series",
+        "lightest_halogen",
+        "minimal_activity",
+        "essentially_inactive",
+        "high_threshold",
+        "DOF_synthesis",
+        "unexplored_amphetamine",
+        "animal_study_predictions",
+        "potency_extrapolation"
+      ],
+      "notable_quotes": [
+        "A number of graded acute dosages were tried, and it was only with amounts in excess of 100 milligrams that there were any baseline disturbances at all.",
+        "And at no dose that was tried was there any convincing indication of believable central effects.",
+        "The three-carbon amphetamine analogue of 2C-F would quite logically be called DOF.",
+        "Animal studies that have compared DOF to the highly potent DOI and DOB imply that the human activity will be some four to six times less than these two heavier halide analogues.",
+        "As of the present time, no human trials of DOF have been made."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
