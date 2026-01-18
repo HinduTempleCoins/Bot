@@ -2112,6 +2112,229 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 34,
+      "code": "2C-N",
+      "chemical_name": "2,5-Dimethoxy-4-nitrophenethylamine",
+      "extensions_and_commentary": "A most consistent feature with 2C-N was the fact that in every report, somewhere, there is the note that it somehow came up just a little short of expectations. From the esthetic point of view, the pure salt is yellow rather than the usual white color, so the solutions that are to be consumed are by definition also yellow colored. From the structural point of view, the 4-nitro group, like the 4-bromo group of 2C-B, is a dead-end. It cannot be stretched or compressed or lengthened or shortened. This unique aspect demands that you have to live with what you have, as there are no subtle ways of modifying the molecule. With 2C-B, the end product was a total winner; there was no wish to modify it. With 2C-N the end product is something a little less, and there is no way to modify it.",
+      "consistent_finding": {
+        "observation": "In every report, somewhere, the note that it came up just a little short of expectations",
+        "pattern": "Most consistent feature"
+      },
+      "aesthetic_note": {
+        "salt_color": "Yellow rather than the usual white",
+        "solution_color": "Yellow colored by definition"
+      },
+      "structural_limitation": {
+        "4_nitro_group": "Dead-end like 4-bromo of 2C-B",
+        "modifications": "Cannot be stretched, compressed, lengthened, or shortened",
+        "consequence": "Have to live with what you have, no subtle ways of modifying"
+      },
+      "comparison_to_2C_B": {
+        "2C_B": "Total winner, no wish to modify it",
+        "2C_N": "Something a little less, and there is no way to modify it"
+      },
+      "key_themes": [
+        "short_of_expectations",
+        "yellow_compound",
+        "structural_dead_end",
+        "nitro_group",
+        "no_modifications_possible",
+        "2C-B_comparison",
+        "disappointment"
+      ],
+      "notable_quotes": [
+        "A most consistent feature with 2C-N was the fact that in every report, somewhere, there is the note that it somehow came up just a little short of expectations.",
+        "From the esthetic point of view, the pure salt is yellow rather than the usual white color.",
+        "The 4-nitro group, like the 4-bromo group of 2C-B, is a dead-end.",
+        "It cannot be stretched or compressed or lengthened or shortened.",
+        "This unique aspect demands that you have to live with what you have, as there are no subtle ways of modifying the molecule.",
+        "With 2C-B, the end product was a total winner; there was no wish to modify it.",
+        "With 2C-N the end product is something a little less, and there is no way to modify it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 35,
+      "code": "2C-O-4",
+      "chemical_name": "2,5-Dimethoxy-4-(i)-propoxyphenethylamine",
+      "extensions_and_commentary": "The full activity of 2C-O-4 is yet to be discovered. It represents an interesting hybrid lying in between several fascinating compounds.\n\nFirst and foremost, all these carry the 2,4,5-trisubstitution which has consistently proven to be the most interesting and the most active of the phenethylamines. And with very few exceptions, the 2- and the 5- are methoxyl groups.\n\nThe sulfur analogues in this area, compounds with an alkylthio group at the 4-position of the 2,5-dimethoxyphenethylamine backbone, are the 2C-T things. The replacement of a sulfur with an oxygen, quite rightly, should give rise to the 2C-O counterparts. And they have been given the same numbering system that was bestowed upon the RTS series. 2C-T-4 was the 4-isopropylthio compound and one of the most interesting of this family. And so, quite reasonably, the oxygen counterpart should be the 2C-O-4 analogue, and should be one of the first explored.\n\nThe extension of the 4-alkoxy-group led to the discovery of the TMA-2 --MEM--MIPM--MPM--MBM series of amphetamine analogues. The 2-carbon counterparts of these would be a fascinating series to explore, I thought, if there was some encouragement to be had from a preliminary try in this field.\n\nThis was a first shot in the dark, the actual trial example, and it certainly didn't provide much encouragement. The three-carbon analogue, MIPM, was made (q.v.) but not explored, following the disappointing trials of MPM. If this area is ever re-opened, the numbering should reasonably follow the sulfur materials. The 4-ethoxy material would be 2C-O-2, the 4-(n)-propoxy compound 2C-O-7, and the 4-(n)-butoxy compound 2C-O-19. These are the exact analogues of 2C-T-2, 2C-T-7, and 2C-T-19, resp., and the 2-carbon homologues of MEM, MPM, and MBM. The simplest member of this series, the methyl counterpart, is 2C-O, and it is the obvious analogue of 2C-T. This is also called 2,4,5-TMPEA, and its story is presented elsewhere.\n\nBut, with the probable low eventual potency of 2C-O-4, I feel that the 2C-O series will not be an exciting one.",
+      "status": {
+        "activity": "Full activity yet to be discovered",
+        "description": "Interesting hybrid lying between several fascinating compounds"
+      },
+      "substitution_pattern": {
+        "pattern": "2,4,5-trisubstitution",
+        "significance": "Consistently proven to be the most interesting and most active of phenethylamines",
+        "standard": "2- and 5- are methoxyl groups with very few exceptions"
+      },
+      "nomenclature_system": {
+        "relationship_to_2C_T": "2C-O counterparts from replacing sulfur with oxygen",
+        "numbering": "Same system as 2C-T series",
+        "rationale": "2C-T-4 was 4-isopropylthio, so 2C-O-4 is 4-isopropoxy"
+      },
+      "series_mapping": {
+        "2C-O-2": {
+          "substituent": "4-ethoxy",
+          "2C_T_analog": "2C-T-2",
+          "amphetamine_homologue": "MEM"
+        },
+        "2C-O-7": {
+          "substituent": "4-(n)-propoxy",
+          "2C_T_analog": "2C-T-7",
+          "amphetamine_homologue": "MPM"
+        },
+        "2C-O-19": {
+          "substituent": "4-(n)-butoxy",
+          "2C_T_analog": "2C-T-19",
+          "amphetamine_homologue": "MBM"
+        },
+        "2C-O": {
+          "substituent": "4-methoxy",
+          "2C_T_analog": "2C-T",
+          "also_called": "2,4,5-TMPEA"
+        }
+      },
+      "experimental_outcome": {
+        "description": "First shot in the dark",
+        "result": "Didn't provide much encouragement",
+        "related_work": "MIPM made but not explored after disappointing MPM trials"
+      },
+      "prognosis": {
+        "potency_prediction": "Probable low eventual potency",
+        "series_outlook": "The 2C-O series will not be an exciting one"
+      },
+      "key_themes": [
+        "oxygen_sulfur_analogy",
+        "2C-T_relationship",
+        "nomenclature_system",
+        "trisubstitution_pattern",
+        "disappointing_preliminary",
+        "series_mapping",
+        "low_potency_prediction"
+      ],
+      "notable_quotes": [
+        "The full activity of 2C-O-4 is yet to be discovered.",
+        "It represents an interesting hybrid lying in between several fascinating compounds.",
+        "The 2,4,5-trisubstitution has consistently proven to be the most interesting and the most active of the phenethylamines.",
+        "The replacement of a sulfur with an oxygen, quite rightly, should give rise to the 2C-O counterparts.",
+        "2C-T-4 was the 4-isopropylthio compound and one of the most interesting of this family.",
+        "This was a first shot in the dark, the actual trial example, and it certainly didn't provide much encouragement.",
+        "But, with the probable low eventual potency of 2C-O-4, I feel that the 2C-O series will not be an exciting one."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 36,
+      "code": "2C-P",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-propylphenethylamine",
+      "extensions_and_commentary": "There is certainly a broad mixture of experiences with 2C-P but, on the whole, probably more favorable than not. There was one report of an experience in which a single dosage of 16 mg was clearly an overdose, with the entire experiment labeled a physical disaster, not to be repeated. A consistent observation is that there may not be too much latitude in dosage between that which would be modest, or adequate, and that which would be excessive. The need for individual titration would be most important with this compound.",
+      "experience_profile": {
+        "overall": "Broad mixture of experiences",
+        "balance": "Probably more favorable than not"
+      },
+      "dosage_concerns": {
+        "overdose_report": {
+          "dose": "16 milligrams",
+          "assessment": "Clearly an overdose",
+          "description": "Physical disaster, not to be repeated"
+        },
+        "latitude": "May not be too much latitude between modest/adequate and excessive",
+        "recommendation": "Need for individual titration would be most important"
+      },
+      "safety_profile": {
+        "concern": "Narrow therapeutic window",
+        "caution": "Individual titration essential"
+      },
+      "key_themes": [
+        "mixed_experiences",
+        "narrow_dose_range",
+        "overdose_risk",
+        "individual_titration",
+        "physical_disaster_potential",
+        "more_favorable_than_not"
+      ],
+      "notable_quotes": [
+        "There is certainly a broad mixture of experiences with 2C-P but, on the whole, probably more favorable than not.",
+        "There was one report of an experience in which a single dosage of 16 mg was clearly an overdose, with the entire experiment labeled a physical disaster, not to be repeated.",
+        "A consistent observation is that there may not be too much latitude in dosage between that which would be modest, or adequate, and that which would be excessive.",
+        "The need for individual titration would be most important with this compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 37,
+      "code": "CPM",
+      "chemical_name": "4-Cyclopropylmethoxy-3,5-dimethoxyphenethylamine",
+      "extensions_and_commentary": "In the literary world, the guy who is on your side, your leader, your champion, is the protagonist and the guy he battles, your enemy, is the antagonist. These same roles are played in the world of pharmacology, but the names are slightly changed. A drug which does the needed or expected thing is called the agonist rather than protagonist, but the drug that gets in its way is still called the antagonist.\n\nThe cyclopropylmethyl group plays an interesting role in the world of narcotics. There are numerous examples of opiates with a methyl group attached to a nitrogen atom which are famous for being valuable in producing analgesia and sedation. These run the gamut from natural alkaloids such as morphine and codeine, to synthetic variants such as Dilaudid and Percodan. And yet, with most of these narcotics, when the methyl on the nitrogen is removed, and a cyclopropylmethyl group put into its place, the agonist becomes an antagonist. Oxycodone (the active narcotic thing in Percodan) becomes Naltrexone, a drug that will immediately snap a heroin victim out of his overdose.\n\nCyclopropylmescaline (CPM) is a molecule that is very simply mescaline itself, with a methyl group removed from an oxygen atom and a cyclopropylmethyl group put on instead. Might CPM be not only inactive, but actually block the action of mescaline? Interesting concept. But it turned out to be entirely wrong.\n\nThe amphetamine analog of CPM should be easily made from the alkylation of syringaldehyde with cyclopropyl chloride, followed by conventional reaction of the resulting aldehyde with nitroethane, and finally a reduction step. There is no reason to believe that the resulting compound 3,5-dimethoxy-4-cyclopropyloxyamphetamine (3C-CPM) would be any shorter acting than CPM.",
+      "pharmacology_lesson": {
+        "literary_analogy": {
+          "protagonist": "On your side, your leader, your champion",
+          "antagonist": "The guy he battles, your enemy"
+        },
+        "pharmacology_terms": {
+          "agonist": "Drug which does the needed or expected thing",
+          "antagonist": "Drug that gets in its way"
+        }
+      },
+      "cyclopropylmethyl_in_narcotics": {
+        "pattern": "N-methyl opiates converted to antagonists by cyclopropylmethyl substitution",
+        "agonist_examples": {
+          "natural": ["Morphine", "Codeine"],
+          "synthetic": ["Dilaudid", "Percodan"]
+        },
+        "transformation": "Methyl removed from nitrogen, cyclopropylmethyl put in its place",
+        "result": "Agonist becomes antagonist",
+        "example": {
+          "agonist": "Oxycodone (active narcotic in Percodan)",
+          "antagonist": "Naltrexone",
+          "effect": "Will immediately snap a heroin victim out of his overdose"
+        }
+      },
+      "hypothesis": {
+        "question": "Might CPM be not only inactive, but actually block the action of mescaline?",
+        "assessment": "Interesting concept",
+        "result": "Turned out to be entirely wrong"
+      },
+      "structural_relationship": {
+        "parent": "Mescaline",
+        "modification": "Methyl group removed from oxygen, cyclopropylmethyl group put on instead"
+      },
+      "amphetamine_analog": {
+        "name": "3C-CPM",
+        "full_name": "3,5-dimethoxy-4-cyclopropyloxyamphetamine",
+        "synthesis": {
+          "step_1": "Alkylation of syringaldehyde with cyclopropyl chloride",
+          "step_2": "Reaction of aldehyde with nitroethane",
+          "step_3": "Reduction step"
+        },
+        "duration_prediction": "No reason to believe it would be any shorter acting than CPM"
+      },
+      "key_themes": [
+        "agonist_antagonist",
+        "literary_analogy",
+        "cyclopropylmethyl_group",
+        "narcotic_pharmacology",
+        "naltrexone",
+        "mescaline_modification",
+        "hypothesis_testing",
+        "wrong_prediction",
+        "3C-CPM_synthesis"
+      ],
+      "notable_quotes": [
+        "In the literary world, the guy who is on your side, your leader, your champion, is the protagonist and the guy he battles, your enemy, is the antagonist.",
+        "A drug which does the needed or expected thing is called the agonist rather than protagonist, but the drug that gets in its way is still called the antagonist.",
+        "The cyclopropylmethyl group plays an interesting role in the world of narcotics.",
+        "With most of these narcotics, when the methyl on the nitrogen is removed, and a cyclopropylmethyl group put into its place, the agonist becomes an antagonist.",
+        "Oxycodone (the active narcotic thing in Percodan) becomes Naltrexone, a drug that will immediately snap a heroin victim out of his overdose.",
+        "Might CPM be not only inactive, but actually block the action of mescaline? Interesting concept. But it turned out to be entirely wrong."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
