@@ -7004,6 +7004,244 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 107,
+      "code": "MDHOET",
+      "chemical_name": "N-(2-Hydroxyethyl)-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "Most compounds with bare, exposed polar groups like hydroxyls are not centrally active, as they simply do not have any way of getting into the brain. MDHOET is certainly not very active, if it is active at all.",
+      "polar_group_problem": {
+        "issue": "Bare exposed polar groups (hydroxyls) prevent brain entry",
+        "MDHOET_activity": "Certainly not very active, if active at all"
+      },
+      "high_dose_report": {
+        "doses": "Several hundreds of milligrams",
+        "effects": "Changes in perceived color and depth perception",
+        "no_euphoria": true,
+        "comparison": "Said to resemble a mild dose of ketamine"
+      },
+      "ketamine_connection": {
+        "ketamine_use": "Major medical use as anesthetic",
+        "MDHOET_property": "Among most effective N-substituted MDA derivatives in animal analgesia models"
+      },
+      "key_themes": [
+        "polar_group_barrier",
+        "brain_entry_problem",
+        "ketamine_resemblance",
+        "analgesia",
+        "color_depth_perception"
+      ],
+      "notable_quotes": [
+        "Most compounds with bare, exposed polar groups like hydroxyls are not centrally active, as they simply do not have any way of getting into the brain.",
+        "MDHOET is certainly not very active, if it is active at all.",
+        "It was said to resemble a mild dose of ketamine.",
+        "This is an interesting comment, in that ketamine has found its major medical use as an anesthetic, and MDHOET is among the most effective of all the N-substituted MDA derivatives assayed in several animal analgesia models."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 108,
+      "code": "MDIP",
+      "chemical_name": "N-Isopropyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The structure of MDIP can be looked at as exactly that of MDE but with an additional methyl group (one carbon) hanging off the ethyl that is on the nitrogen. And with that slight additional weight, the activity has disappeared.",
+      "structural_relationship": {
+        "base": "MDE with additional methyl on ethyl nitrogen",
+        "weight_change": "Slight additional weight",
+        "result": "Activity has disappeared"
+      },
+      "primer_experiments": {
+        "concept": "Take advantage of inactive compound sitting in receptor site",
+        "question": "Might its presence augment or interfere with another compound?",
+        "goal": "Milk additional information out of new trial"
+      },
+      "primer_example": {
+        "protocol": {
+          "initial": "120 mg MDIP (inactive - slight disturbance at 1h, nothing at 2h)",
+          "wait": "5 hours",
+          "calibration": "80 mg MDMA"
+        },
+        "MDMA_onset": "33 minutes, plus one at 1 hour",
+        "supplement": "Second 80 mg MDMA added",
+        "result": "Effects completely explained by MDMA alone",
+        "conclusion": "Two drugs did not see one-another"
+      },
+      "piggyback_example": {
+        "protocol": {
+          "initial": "140 mg MDE (light experience, plus one, 2 hours)",
+          "wait": "5 hours",
+          "supplement": "200 mg MDIP"
+        },
+        "result": "Rekindled +1 experience, pleasant MDE-type intoxication",
+        "side_effects": "Invested with tremor and eye-popping feelings",
+        "observation": "Physical toxic effects outweighed mental virtues"
+      },
+      "iceberg_metaphor": {
+        "description": "MDE submerged into invisibility",
+        "MDIP_effect": "Refloated bit of otherwise unseeable MDE"
+      },
+      "key_themes": [
+        "MDE_homologue",
+        "inactive",
+        "primer_experiments",
+        "piggybacking",
+        "iceberg_metaphor",
+        "drug_interactions"
+      ],
+      "notable_quotes": [
+        "The structure of MDIP can be looked at as exactly that of MDE but with an additional methyl group hanging off the ethyl that is on the nitrogen.",
+        "And with that slight additional weight, the activity has disappeared.",
+        "Why not take advantage of the fact that an 'inactive' compound might well be sitting in some receptor site in the brain without doing anything?",
+        "It was obvious that the two drugs did not see one-another.",
+        "It was almost as if the physical toxic effects outweighed the mental virtues.",
+        "Imagine an iceberg, with the bulk of its mass underwater.",
+        "The response to a little bit of an otherwise inactive MDIP was to refloat a bit of the otherwise unseeable MDE."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 109,
+      "code": "MDMA",
+      "chemical_name": "N-Methyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "In clinical use, largely in psychotherapeutic sessions of which there were many in the early years of MDMA study, it became a common procedure to provide a supplemental dosage of the drug at about the one and a half hour point of the session.",
+      "clinical_protocol": {
+        "initial_dose": "120 mg",
+        "supplement": {
+          "dose": "40 mg",
+          "timing": "1.5 hour point",
+          "effect": "Extend effects for about 1 additional hour"
+        },
+        "side_effects": "Modest exacerbation of teeth clenching and eye twitching",
+        "second_supplement": "Rarely warranted (e.g., 40 mg at 2.5 hour point)",
+        "next_day": "Reports of tiredness and lethargy - consider in session planning"
+      },
+      "optical_isomers": {
+        "reversal": "Usual assignments reversed from all known psychedelics",
+        "more_potent": "S isomer (same as amphetamine and methamphetamine)",
+        "significance": "First clear distinction between MDMA and structurally related psychedelics"
+      },
+      "tolerance_study": {
+        "protocol": {
+          "day_1": "120 mg at 9 AM",
+          "days_2_to_6": "160 mg each day at 9 AM",
+          "day_5": "No effects except mydriasis",
+          "day_6": "Even mydriasis lost"
+        },
+        "cross_tolerance_test": {
+          "day_7": "120 mg MDA",
+          "result": "Substantially normal response - proper chronology, teeth clench, slight decrease in mental change"
+        },
+        "recovery": {
+          "holiday": "6 days drug-free",
+          "result": "120 mg MDMA had substantially full expected effects"
+        },
+        "conclusion": "MDMA and MDA not cross-tolerant - act in different ways at different brain sites"
+      },
+      "legal_history": {
+        "popularization": "1984-1985 social use",
+        "concern": "Serotonin nerve changes in animal models from MDA",
+        "action": "Administrative move for legal control",
+        "placement": "Most restrictive category of Federal Controlled Substances Act",
+        "effect": "Effectively removed from clinical experimentation and human research",
+        "future": "Medical potential probably developed through overseas studies"
+      },
+      "piperonylacetone_warning": {
+        "ambiguity": "Devilish ambiguity in commercial market",
+        "controversy": "Two separate chemical definitions of prefix 'piperonyl'",
+        "three_carbon": {
+          "description": "Two-ring thing WITHOUT extra carbon + acetone (3 carbons out)",
+          "products": "MDA, MDMA, and interesting homologues",
+          "appearance": "Yellow oil with sassafras smell",
+          "source": "Usual item of commerce"
+        },
+        "four_carbon": {
+          "description": "Two-ring thing WITH extra carbon + acetone (4 carbons out)",
+          "products": "Totally weird stuff without psychedelic relationship",
+          "appearance": "White crystalline with weak terpene smell"
+        },
+        "fraud_warning": "Unprincipled charlatans can add mineral oil and butter yellow to white solids",
+        "advice": "Caveat emptor"
+      },
+      "key_themes": [
+        "ADAM",
+        "clinical_protocol",
+        "S_isomer_potency",
+        "tolerance",
+        "cross_tolerance",
+        "Schedule_I",
+        "serotonin_neurotoxicity",
+        "piperonylacetone_ambiguity"
+      ],
+      "notable_quotes": [
+        "In clinical use, largely in psychotherapeutic sessions of which there were many in the early years of MDMA study, it became a common procedure to provide a supplemental dosage.",
+        "There are, more often than not, reports of tiredness and lethargy on the day following the use of MDMA.",
+        "With MDMA, the usual assignments of activity to optical isomers is reversed from all of the known psychedelic drugs.",
+        "The more potent isomer is the 'S' isomer, which is the more potent form of amphetamine and methamphetamine.",
+        "This was one of the first clear distinctions that was apparent between MDMA and the structurally related psychedelics.",
+        "The fact that MDMA and MDA are not cross-tolerant strengthens the argument that they act in different ways, and at different sites in the brain.",
+        "The placement of MDMA into the most restrictive category of the Federal Controlled Substances Act has effectively removed it from the area of clinical experimentation and human research.",
+        "The medical potential of this material will probably have to be developed through studies overseas.",
+        "Does this make sense?",
+        "Caveat emptor."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 110,
+      "code": "MDMC",
+      "chemical_name": "3,4-Ethylidenedioxyamphetamine; 1-(3,4-Ethylidenedioxyphenyl)-2-aminopropane",
+      "alternate_name": "EDMA",
+      "extensions_and_commentary": "What a strange and completely unsatisfactory compound! In the original run-up from low levels to increasing higher levels, there never was a dosage that was a minus, that had no effect. At every level, something was thought to be there, usually at a level of a single plus or thereabouts. But with different people, different responses. There is no way of guessing what an active level might be, or how consistent that level might be between different people, or for that matter what the responses are that might be expected at that level.",
+      "assessment": "Strange and completely unsatisfactory compound",
+      "dose_response": {
+        "pattern": "Never a minus at any level",
+        "typical_effect": "Something there, usually single plus",
+        "variability": "Different people, different responses",
+        "unpredictability": "No way of guessing active level, consistency, or expected responses"
+      },
+      "research_goal": {
+        "objective": "Find MDMA-like substitute by miniscule manipulation",
+        "hope": "Small change might preserve MDMA magic but eliminate serotonin neuron problem",
+        "question": "Maybe serotonin neuron change essential for MDMA action - who can tell?"
+      },
+      "naming_history": {
+        "ADAM_tradition": "Based on MDMA nickname",
+        "related_names": {
+          "HAD_EM": "Hydroxy compound",
+          "MADAM": "6-methyl homologue",
+          "FLADAM": "6-fluoro analogue"
+        },
+        "MACADAM": {
+          "origin": "Horrible black gooey mess at aldehyde stage",
+          "evolution": "Shortened to C, then C added to MDMA → MDMC"
+        },
+        "logic": "MDMC doesn't really make sense; EDMA is more reasonable",
+        "conclusion": "No reason why MDMC should make sense"
+      },
+      "key_themes": [
+        "unsatisfactory_compound",
+        "variable_response",
+        "MDMA_analogue",
+        "serotonin_neuron_question",
+        "MACADAM_naming",
+        "unpredictable_effects"
+      ],
+      "notable_quotes": [
+        "What a strange and completely unsatisfactory compound!",
+        "There never was a dosage that was a minus, that had no effect.",
+        "At every level, something was thought to be there, usually at a level of a single plus or thereabouts.",
+        "But with different people, different responses.",
+        "There is no way of guessing what an active level might be.",
+        "This was yet one more effort to find an MDMA-like substitute by the miniscule manipulation of the MDMA molecule.",
+        "Perhaps a small molecular change might leave the particular magic of the MDMA action alone, but eliminate the serotonin neuron problem in test animals.",
+        "Maybe the serotonin neuron change is essential for MDMA to have the action it has. Who can tell?",
+        "This compound got the sobriquet MACADAM from that horrible black gooey mess generated at the aldehyde stage.",
+        "It doesn't really make sense; EDMA is more reasonable. But then there is no reason why MDMC should make sense."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
