@@ -471,6 +471,57 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 11,
+      "code": "BEATRICE",
+      "chemical_name": "N-Methyl-DOM; N-Methyl-2,5-dimethoxy-4-methylamphetamine",
+      "ten_classic_ladies": "Second of the Ten Classic Ladies - methyl on nitrogen atom",
+      "extensions_and_commentary": "This is another example of the N-methyl homologues of the psychedelics. None of them seem to produce stuff of elegance. It is clear that the adding of an N-methyl group onto DOM certainly cuts down the activity by a factor of ten-fold, and even then results in something that is not completely good. Three milligrams of DOM is a winner, but even ten times this, thirty milligrams of N-methyl-DOM, is somewhat fuzzy. In the rabbit hyperthermia studies, this compound was some 25 times less active than DOM, so even animal tests say this is way down there in value. This particular measure suggests that the active level in man might be 75 milligrams. Well, maybe, but I am not at all comfortable in trying it at that level. In fact I do not intend to explore this any further whatsoever, unless there is a compelling reason, and I see no such reason. For the moment, let us leave this one to others, who might be more adventurous but less discriminating.\n\nIn browsing through my notes I discovered that I had made another N-substitution product of DOM. Efforts to fuse free-base DOM with the ethyl cyclopropane carboxylate failed, but the reaction between it and the acid chloride in pyridine gave the corresponding amide, with a mp of 156-157 °C from MeOH. This reduced smoothly to the corresponding amine, N-cyclopropyl-2,5-dimethoxy-4-methylamphetamine which formed a hydrochloride salt melting at 153-156 °C. I can't remember the reasoning that led to this line of synthesis, but it must not have been too exciting, as I never tasted the stuff.",
+      "n_methyl_pattern": {
+        "general_finding": "N-methyl homologues don't produce 'stuff of elegance'",
+        "activity_reduction": "10-fold reduction from parent compound",
+        "comparison": {
+          "DOM_3mg": "A winner",
+          "N_methyl_DOM_30mg": "Somewhat fuzzy, not completely good"
+        }
+      },
+      "animal_studies": {
+        "rabbit_hyperthermia": "25 times less active than DOM",
+        "extrapolated_human_dose": "75 mg",
+        "shulgin_response": "Not at all comfortable trying it at that level"
+      },
+      "decision": {
+        "further_exploration": "Do not intend to explore any further whatsoever",
+        "reason": "No compelling reason to do so",
+        "recommendation": "Leave this one to others, who might be more adventurous but less discriminating"
+      },
+      "other_n_substituted_compounds": {
+        "N_cyclopropyl_DOM": {
+          "synthesis": "Made via acid chloride in pyridine, reduced to amine",
+          "amide_mp": "156-157°C from MeOH",
+          "hydrochloride_mp": "153-156°C",
+          "status": "Never tasted",
+          "reasoning": "Can't remember the reasoning - must not have been too exciting"
+        }
+      },
+      "key_themes": [
+        "n_methylation_reduces_activity",
+        "ten_classic_ladies",
+        "negative_assessment",
+        "deliberate_non_exploration",
+        "adventurous_vs_discriminating"
+      ],
+      "notable_quotes": [
+        "None of them seem to produce stuff of elegance.",
+        "Three milligrams of DOM is a winner, but even ten times this, thirty milligrams of N-methyl-DOM, is somewhat fuzzy.",
+        "I am not at all comfortable in trying it at that level.",
+        "I do not intend to explore this any further whatsoever, unless there is a compelling reason, and I see no such reason.",
+        "Let us leave this one to others, who might be more adventurous but less discriminating.",
+        "I can't remember the reasoning that led to this line of synthesis, but it must not have been too exciting, as I never tasted the stuff."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
