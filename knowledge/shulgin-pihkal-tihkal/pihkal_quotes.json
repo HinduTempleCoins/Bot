@@ -108,6 +108,51 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 3,
+      "code": "ALEPH",
+      "chemical_name": "2,5-Dimethoxy-4-methylthiophenethylamine",
+      "extensions_and_commentary": "This specific compound is probably the first sulfur-containing phenethylamine to have been evaluated as a potentially active CNS stimulant or psychedelic. It was a complete, total, absolute unknown. The first trials were made at the sub-microgram level, specifically at 0.25 micrograms, at 11:30 AM on September 3, 1975. Part of this extreme precaution was due to the uniqueness of a new heteroatom in a phenethylamine system. But part was due to the strange manic excitement that occurred at the time of the isolation and characterizing of the final product in the laboratory. Although it was certainly all placebo response, I was jumpy and unable to stay in the lab for more than a few minutes at a time. Maybe dust in the air? Maybe some skin contact with the free base? Now, I know there was nothing, but the possibility of extraordinary potency was real, and I did indeed wash everything down anyway. In fact, it took a total of 18 trials to work the experimental dosage up to as much as a single milligram. In retrospect, overly cautious. But retrospection, as they say, is cheap.\n\nThe 5 milligram experiment, briefly quoted from above, is the stuff of Chapter 14 of this book, important in that it gives an interesting example of some thought processes associated with psychedelic intoxication, ego-inflation, and what might be thought of as bits of mania. As is always the case with peak experiences that happen to be catalyzed by drugs, this extraordinary event could not be duplicated. At 7 milligrams there was an uneventful +1, and some 10 milligrams was needed to generate a full +3 experience. The first clue of the erratic nature of the Aleph family came from an independent assay by a colleague of mine, one who was very familiar with such states of consciousness, but for whom this was not a time for peak experiences. At 10 milligrams he told me that he had had only mild effects which he found relatively uninteresting.\n\nAs it stands, ALEPH remains relatively unexplored. Its two positional isomers are entered here as ORTHO-DOT and META-DOT. Three higher homologues have been more thoroughly looked at, and the generic name ALEPH (the first letter of the Hebrew alphabet) was given this group on the basis that they might have extraordinary properties in common. But the real treasure came in the exploring of the 2-carbon homologues, the compounds that make up the 2C-T family. Here, there proved to be much less uncertainty as to reasonable dosages, and much more richness in the subjective nature of the experience.",
+      "historical_significance": "First sulfur-containing phenethylamine evaluated as psychedelic",
+      "first_trial": {
+        "date": "September 3, 1975",
+        "time": "11:30 AM",
+        "dose": "0.25 micrograms",
+        "trials_to_1mg": 18
+      },
+      "dosage_info": {
+        "5mg": "Peak experience - Chapter 14 material, ego-inflation, mania (unreproducible)",
+        "7mg": "Uneventful +1",
+        "10mg": "Full +3 experience (but erratic - colleague found it uninteresting)"
+      },
+      "effects_noted": [
+        "ego-inflation",
+        "manic thought processes",
+        "erratic response between individuals"
+      ],
+      "related_compounds": {
+        "positional_isomers": ["ORTHO-DOT", "META-DOT"],
+        "higher_homologues": "Three explored more thoroughly",
+        "2C-T_family": "The real treasure - 2-carbon homologues with more predictable dosages and richer experiences"
+      },
+      "naming": "ALEPH - first letter of Hebrew alphabet, given to group for potentially extraordinary shared properties",
+      "key_themes": [
+        "pioneering_research",
+        "extreme_caution",
+        "placebo_effects",
+        "unreproducible_peak_experiences",
+        "individual_variation",
+        "erratic_compounds"
+      ],
+      "notable_quotes": [
+        "It was a complete, total, absolute unknown.",
+        "In retrospect, overly cautious. But retrospection, as they say, is cheap.",
+        "As is always the case with peak experiences that happen to be catalyzed by drugs, this extraordinary event could not be duplicated.",
+        "But the real treasure came in the exploring of the 2-carbon homologues, the compounds that make up the 2C-T family."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
