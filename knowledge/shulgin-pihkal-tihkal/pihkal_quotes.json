@@ -1618,6 +1618,69 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 27,
+      "code": "2C-G",
+      "chemical_name": "2,5-Dimethoxy-3,4-dimethylphenethylamine",
+      "extensions_and_commentary": "Here is the first example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine. At first approximation, one is hard put to distinguish, from the recorded notes, any major differences either in potency, in duration, or in the nature of activity, between 2C-G and GANESHA itself.\n\nI had always thought of the phenethylamines as being somewhat weaker than the corresponding amphetamines. Sometimes a little weaker and sometimes a lot weaker. But that is a totally prejudiced point of view, an outgrowth of my earliest comparisons of mescaline and TMA. That's the kind of thing that can color one's thinking and obscure what may be valuable observations. It is equally valid to think of the phenethylamines as the prototypes, and that the amphetamines are somewhat stronger than the corresponding phenethylamines. Sometimes a little stronger and sometimes a lot stronger. Then the question suddenly shifts from asking what is different about the phenethylamines, to what is different about the amphetamines? It is simply a historic fact, that in most of my exploring, the amphetamine was made and evaluated first, and so tended to slip into the role of the prototype. In any case, here the two potencies converge.",
+      "historic_significance": {
+        "claim": "First example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine",
+        "comparison": "2C-G vs GANESHA",
+        "distinguishability": "Hard to distinguish any major differences in potency, duration, or nature of activity"
+      },
+      "amphetamine_analogue": {
+        "name": "GANESHA",
+        "potency_relationship": "Equivalent",
+        "duration_relationship": "Equivalent",
+        "activity_relationship": "Equivalent"
+      },
+      "paradigm_shift": {
+        "old_assumption": {
+          "view": "Phenethylamines as somewhat weaker than corresponding amphetamines",
+          "range": "Sometimes a little weaker and sometimes a lot weaker",
+          "origin": "Outgrowth of earliest comparisons of mescaline and TMA",
+          "assessment": "A totally prejudiced point of view"
+        },
+        "new_perspective": {
+          "view": "Phenethylamines as the prototypes, amphetamines as stronger variants",
+          "range": "Sometimes a little stronger and sometimes a lot stronger",
+          "question_shift": "From 'what is different about phenethylamines' to 'what is different about amphetamines'"
+        },
+        "historical_bias": {
+          "fact": "In most exploring, the amphetamine was made and evaluated first",
+          "consequence": "Tended to slip into the role of the prototype"
+        },
+        "resolution": "Here the two potencies converge"
+      },
+      "scientific_philosophy": {
+        "warning": "Prejudiced points of view can color one's thinking and obscure valuable observations",
+        "lesson": "Challenge assumptions about which compound class is the 'prototype'"
+      },
+      "key_themes": [
+        "potency_convergence",
+        "paradigm_shift",
+        "first_ever_equivalent",
+        "phenethylamine_vs_amphetamine",
+        "historical_bias",
+        "prototype_question",
+        "mescaline_TMA_comparison",
+        "GANESHA_relationship",
+        "scientific_self_reflection"
+      ],
+      "notable_quotes": [
+        "Here is the first example, ever, of a phenethylamine that is of about the same potency as the related three-carbon amphetamine.",
+        "At first approximation, one is hard put to distinguish, from the recorded notes, any major differences either in potency, in duration, or in the nature of activity, between 2C-G and GANESHA itself.",
+        "I had always thought of the phenethylamines as being somewhat weaker than the corresponding amphetamines. Sometimes a little weaker and sometimes a lot weaker.",
+        "But that is a totally prejudiced point of view, an outgrowth of my earliest comparisons of mescaline and TMA.",
+        "That's the kind of thing that can color one's thinking and obscure what may be valuable observations.",
+        "It is equally valid to think of the phenethylamines as the prototypes, and that the amphetamines are somewhat stronger than the corresponding phenethylamines.",
+        "Then the question suddenly shifts from asking what is different about the phenethylamines, to what is different about the amphetamines?",
+        "It is simply a historic fact, that in most of my exploring, the amphetamine was made and evaluated first, and so tended to slip into the role of the prototype.",
+        "In any case, here the two potencies converge."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
