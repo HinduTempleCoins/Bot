@@ -3344,6 +3344,223 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 50,
+      "code": "4-D",
+      "chemical_name": "4-Trideuteromethoxy-3,5-dimethoxyphenethylamine",
+      "extensions_and_commentary": "The effects of 4-D and beta-D are similar to one-another, both as to dosage and effect. And with both, there is a close parallel to those reported from mescaline. It is reasonable to assume that the human body handles these materials in the same manner, although no metabolic studies have ever been published.\n\nA similar deuterium substitution pattern is of course completely feasible with TMA and related 3,4,5-trimethoxy-substituted analogues. Some studies have supported the idea that the ability to remove methyl groups from such aromatic ethers might be correlated to endogenous schizophrenia. It is possible to imagine that, in such individuals, the effects of substituting trideuteromethyl groups for normal methyl groups might result in psychopharmacological differences of action. Two reports exist that describe metabolic products of mescaline that have lost this methyl group on the 4-position oxygen. It is possible that these might be produced in abnormal quantities in mentally ill subjects. There are also similar reports of the 3-methoxyl group being demethylated in man. Here, studies with 3,5-D (3,5-bis-trideuteromethoxy-4-methoxyphenethylamine) might reveal some differences in quantitative responses in man. These are extremely minor metabolites, however. I suspect that more extensive studies will establish that 4-D, 3,5-D and beta-D all have properties indistinguishable from one-another, at least in healthy subjects.",
+      "deuterium_isotope_effects": {
+        "principle": "Deuterium substitution affects rate of enzymatic demethylation",
+        "metabolic_significance": "Ability to remove methyl groups from aromatic ethers may correlate to endogenous schizophrenia",
+        "clinical_hypothesis": "Trideuteromethyl substitution might produce psychopharmacological differences in schizophrenic individuals"
+      },
+      "related_deuterium_compounds": {
+        "4-D": "4-position trideuteromethoxy",
+        "3,5-D": "3,5-bis-trideuteromethoxy-4-methoxyphenethylamine",
+        "beta-D": "beta-position deuteration"
+      },
+      "demethylation_research": {
+        "4_position": "Two reports describe metabolic products of mescaline that have lost this methyl group",
+        "3_position": "Similar reports of 3-methoxyl group being demethylated in man",
+        "minor_metabolites": "These are extremely minor metabolites"
+      },
+      "prediction": "4-D, 3,5-D and beta-D all have properties indistinguishable from one-another, at least in healthy subjects",
+      "key_themes": [
+        "deuterium_isotope_effects",
+        "metabolic_demethylation",
+        "schizophrenia_hypothesis",
+        "mescaline_metabolism",
+        "minor_metabolites"
+      ],
+      "notable_quotes": [
+        "The effects of 4-D and beta-D are similar to one-another, both as to dosage and effect.",
+        "Some studies have supported the idea that the ability to remove methyl groups from such aromatic ethers might be correlated to endogenous schizophrenia.",
+        "These are extremely minor metabolites, however."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 51,
+      "code": "beta-D",
+      "chemical_name": "N-(beta,beta-Dideutero-3,4,5-trimethoxyphenethyl)amine",
+      "extensions_and_commentary": "The 4-D and the beta-D are two of five obvious deuterium isomer derivatives of mescaline. The three remaining are: (1) 3,5-D (4-methoxy-3,5-bis-trideuteromethoxyphenethylamine); (2) 2,6-D (2,6-di-deutero-3,4,5-trimethoxyphenethylamine); and (3) alpha-D (alpha,alpha-dideutero-3,4,5-tri-methoxyphenethylamine). I fully expect both 3,5-D and 2,6-D to be indistinguishable from mescaline in effect, since it is known that not much metabolism takes place in man at these locations of the molecule.\n\nThe last compound, alpha-D, could be quite a different matter. The principal metabolite of mescaline is 3,4,5-trimethoxyphenylacetic acid, and this product requires enzymatic attack at the exact position where the deuteriums will be located. To the extent that they are harder to remove (come off more slowly or to a lesser degree), to that extent the molecule will be more potent in man, and the dosage required for effects will be less. The compound will be easily made by the reduction of 3,4,5-trimethoxyphenylacetonitrile with lithium aluminum deuteride. And if there is a believable difference between alpha-D and mescaline, it will be necessary to synthesize each of the two optically active alpha-mono-deutero analogs. That will be quite a challenge.\n\nSome years ago I performed a fascinating series of experiments with another isotopically labeled mescaline derivative. This was beta-14C labeled material, which I self-administered on three occasions, at three different levels. One dosage was with 350 milligrams, a second a few weeks later was with 4 milligrams, and a third was a few weeks later yet, with about 60 micrograms. In each case, exactly the same absolute quantity of radioactivity was administered, so the metabolic distribution was equally visible. Only the weight dosage was different. Urinary analysis was run for each experiment for the presence of unchanged mescaline, and for the primary metabolite, 3,4,5-trimethoxyphenylacetic acid. The smaller the dosage, the proportionately larger amount of mescaline was oxidized to the inactive acetic acid, and the smaller amount was excreted in an unchanged state. It seemed to me that there might be a finite capacity of the body to oxidatively deaminate mescaline, and at larger and larger dosages, this capacity became increasingly depleted. Perhaps this is why mescaline requires such a large dosage to be effective in man.",
+      "five_deuterium_isomers": {
+        "1_4-D": "4-trideuteromethoxy",
+        "2_beta-D": "beta,beta-dideutero",
+        "3_3,5-D": "4-methoxy-3,5-bis-trideuteromethoxyphenethylamine",
+        "4_2,6-D": "2,6-di-deutero-3,4,5-trimethoxyphenethylamine",
+        "5_alpha-D": "alpha,alpha-dideutero-3,4,5-trimethoxyphenethylamine"
+      },
+      "alpha_D_significance": {
+        "principal_metabolite": "3,4,5-trimethoxyphenylacetic acid",
+        "mechanism": "Requires enzymatic attack at exact position where deuteriums located",
+        "prediction": "Harder to remove = more potent, lower dosage required",
+        "synthesis": "Reduction of 3,4,5-trimethoxyphenylacetonitrile with lithium aluminum deuteride",
+        "challenge": "Would need to synthesize two optically active alpha-mono-deutero analogs"
+      },
+      "C14_self_experiment": {
+        "compound": "beta-14C labeled mescaline",
+        "doses_tested": ["350 mg", "4 mg", "60 micrograms"],
+        "design": "Same absolute quantity of radioactivity at each dose level",
+        "analysis": "Urinary analysis for unchanged mescaline and 3,4,5-trimethoxyphenylacetic acid",
+        "finding": "Smaller dosage = proportionately larger oxidation to inactive acetic acid",
+        "hypothesis": "Finite capacity of body to oxidatively deaminate mescaline - becomes depleted at larger doses",
+        "implication": "Perhaps this is why mescaline requires such a large dosage to be effective in man"
+      },
+      "key_themes": [
+        "deuterium_isomers",
+        "alpha_D_potency_prediction",
+        "C14_self_experimentation",
+        "metabolic_saturation",
+        "mescaline_high_dose_requirement",
+        "oxidative_deamination"
+      ],
+      "notable_quotes": [
+        "The last compound, alpha-D, could be quite a different matter.",
+        "To the extent that they are harder to remove (come off more slowly or to a lesser degree), to that extent the molecule will be more potent in man.",
+        "It seemed to me that there might be a finite capacity of the body to oxidatively deaminate mescaline, and at larger and larger dosages, this capacity became increasingly depleted.",
+        "Perhaps this is why mescaline requires such a large dosage to be effective in man."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 52,
+      "code": "DESOXY",
+      "chemical_name": "4-Desoxymescaline; 3,5-Dimethoxy-4-methylphenethylamine",
+      "extensions_and_commentary": "All substituents that are involved with the several drugs being discussed in this writing are really things that are stuck like warts on the benzene ring that is central to every phenethylamine. Some of these warts are things attached with an oxygen atom; there are some of these in every single compound in this story. No oxygen atom, no psychedelic effect. Without them, one has stimulants or, more frequently, no effects at all.\n\nBut the removal of an oxygen atom (in those cases where there is more than one) can radically change the nature of the effects seen. This is the exact meaning of the term 'desoxy.' 'Des', without, and 'oxy', the oxygen. Since this drug is simply the structure of mescaline with the oxygen at the 4-position plucked out of the picture, the first impulse was to abbreviate this compound as DOM for des-oxymescaline. However, a long, long time ago, in a universe far, far away, a compound was synthesized that had a methoxy group replaced by a methyl, and it was already named DOM. This was the first of the STP analogs, and the initials stood for desoxy (DO, losing an oxygen) and methyl (M, having it replaced with a methyl group). These are two different worlds. One M stands for Mescaline, and the other M stands for Methyl. Let's call it 4-desoxymescaline, or simply DESOXY, and be exact.\n\nThis drug is a prime example of a pharmacological challenge directed to the metabolic attack at the 4-position as a mechanism for the expression of biological activity. A methoxy group there would allow easy removal of the methyl group from the oxygen by some demethylation process, but a bare methyl group there cannot be removed by any simple process. It must be removed by a very difficult oxidation.\n\nThis is not the first time that oxygen atoms have been removed from the mescaline molecule. Both the 3,5-dideoxymescaline (3,5-dimethyl-4-methoxyphenethylamine) and 3,4,5-trideoxymescaline (also called desoxymescaline in the literature, but really tri-desoxymescaline or 3,4,5-trimethylphenethylamine) have been studied in the cat, and have shown extraordinary pharmacological profiles of CNS action. The trimethyl compound showed behavior that was interpreted as being intense mental turmoil, accompanied by a startling rise in body temperature. The significance is hard to determine, in that LSD gave similar responses in the cat, but mescaline was without effects at all. No human studies have been made on these compounds, just animal studies. But they might prove upon trial in man to be most revealing. They would have to be performed with exceptional care.\n\nThe 3-carbon chain amphetamines that correspond to these mescaline look-alikes with one or more methoxy groups replaced with methyl groups, are largely untested and would require independent and novel syntheses. The 3,4,5-trimethylamphetamine is known, and is known to be very hard on experimental cats.\n\nA mescaline analogue with a bromo atom in place of the 4-methoxyl group is an analogue of mescaline in exactly the same way that DOB (a very potent amphetamine) is an analog of TMA-2 (the original trisubstituted amphetamine). This analogue, 3,5-dimethoxy-4-bromoamphetamine, has been found to be a most effective serotonin agonist, and it is a possibility that it could be a most potent phenethylamine. But, as of the present time, it has never been assayed in man.",
+      "nomenclature_confusion": {
+        "problem": "DOM already taken for 2,5-dimethoxy-4-methylamphetamine (STP)",
+        "DOM_original": "Desoxy (DO) + Methyl (M) - first STP analog",
+        "DOM_confusion": "One M = Mescaline, other M = Methyl",
+        "resolution": "Call it 4-desoxymescaline or DESOXY"
+      },
+      "desoxy_meaning": {
+        "etymology": "'Des' = without, 'oxy' = oxygen",
+        "structure": "Mescaline with oxygen at 4-position removed"
+      },
+      "metabolic_significance": {
+        "methoxy_group": "Allows easy removal of methyl group by demethylation",
+        "bare_methyl": "Cannot be removed by simple process - requires very difficult oxidation",
+        "principle": "Pharmacological challenge to metabolic attack at 4-position"
+      },
+      "related_desoxy_compounds": {
+        "3,5-dideoxymescaline": {
+          "name": "3,5-dimethyl-4-methoxyphenethylamine",
+          "studies": "Cat studies - extraordinary CNS pharmacological profiles"
+        },
+        "3,4,5-trideoxymescaline": {
+          "name": "3,4,5-trimethylphenethylamine",
+          "cat_effects": "Intense mental turmoil, startling rise in body temperature",
+          "comparison": "LSD gave similar responses in cat, mescaline without effects",
+          "human_studies": "None - would require exceptional care"
+        },
+        "3,4,5-trimethylamphetamine": {
+          "status": "Known, very hard on experimental cats"
+        }
+      },
+      "bromo_analog": {
+        "name": "3,5-dimethoxy-4-bromophenethylamine",
+        "amphetamine_analog": "3,5-dimethoxy-4-bromoamphetamine",
+        "relationship": "Analog of mescaline as DOB is analog of TMA-2",
+        "pharmacology": "Most effective serotonin agonist",
+        "potential": "Could be most potent phenethylamine",
+        "human_status": "Never been assayed in man"
+      },
+      "key_themes": [
+        "desoxy_nomenclature",
+        "DOM_name_conflict",
+        "oxygen_requirement_for_psychedelics",
+        "metabolic_demethylation_block",
+        "cat_CNS_studies",
+        "untested_compounds",
+        "bromo_serotonin_agonist"
+      ],
+      "notable_quotes": [
+        "All substituents that are involved with the several drugs being discussed in this writing are really things that are stuck like warts on the benzene ring.",
+        "No oxygen atom, no psychedelic effect. Without them, one has stimulants or, more frequently, no effects at all.",
+        "The removal of an oxygen atom (in those cases where there is more than one) can radically change the nature of the effects seen.",
+        "A long, long time ago, in a universe far, far away, a compound was synthesized that had a methoxy group replaced by a methyl, and it was already named DOM.",
+        "A bare methyl group there cannot be removed by any simple process. It must be removed by a very difficult oxidation.",
+        "The trimethyl compound showed behavior that was interpreted as being intense mental turmoil, accompanied by a startling rise in body temperature."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 53,
+      "code": "2,4-DMA",
+      "chemical_name": "2,4-Dimethoxyamphetamine",
+      "extensions_and_commentary": "What can one say as to the active dosage of 2,4-DMA? Nothing. What can one say as to the duration? Probably short. The 60 milligram report given above is the highest level that I personally know of having been tried in man, and there is no hint as to what might be found at a fully active dose, or just where that dose might be. It might be fully speedy. It might be fully psychedelic. It might give a cardiovascular push that would be scary. Studies of 2,4-DMA on vascular strips (associated with serotonin action) were not impressive in comparison with structurally related psychedelics, and it seems as if its action might involve norepinephrine release. It is a reasonable guess that there would be cardio-vascular activity at higher levels. But it will only be with human trials, someday, that the answer will be known for sure.\n\nThe meta-orientation of the two methoxyl groups does, however, greatly increase the susceptibility of the aromatic ring to electrophilic attack. This is one of the three possible meta-dimethoxy substituted amphetamines, and it is the best studied one in the pursuit of potential radio-halogen substituted brain blood-flow agents. This strategy is discussed under IDNNA; the other two meta-compounds are discussed under 3,4-DMA.\n\nThe homologues of 2,4-DMA that were iodinated (or occasionally fluorinated) were mono- or di-alkylated on the nitrogen, and the precursor that was common to all was the corresponding acetone. The above nitrostyrene, 1-(2,4-dimethoxyphenyl)-2-nitropropene, was reduced in acetic acid with elemental iron, and the base-washed extracts stripped of solvent and distilled (125-145 °C at 0.5 mm/Hg) to give 2,4-dimethoxyphenylacetone as a water-white oil. The principal reductive amination product of this, the one that was most thoroughly explored with various halogenation schemes, was obtained by the reaction of 2,4-dimethoxyphenylacetone with dimethylamine and sodium cyanoborohydride. This product, 2,4-dimethoxy-N,N-dimethylamphetamine or 2,4-DNNA, distilled at 105-115 °C at 0.4 mm/Hg and formed a perchlorate salt that melted at 98-98.5 °C.\n\nA large family of other N-substituted homologues of 2,4-DMA were similarly prepared from the above ketone and sodium cyanoborohydride. Methylamine, ethylamine, propylamine, isopropylamine and hexylamine gave the corresponding N-alkyl homologues. The N,N-diethyl homologue was made from the primary amine, 2,4-DMA itself, with acetaldehyde and sodium cyanoborohydride but the product, N,N-diethyl-2,4-dimethoxyamphetamine, could not be converted into a crystalline hydrochloride salt.\n\nYet another variation on these structures was launched, again with the design of making radio-iodination targets which are not psychedelic and thus might be useful clinically. In this variation, the nitrogen atom substitution pattern was held constant, with two methyl groups, as were the ring locations of the two oxygen atoms. But the identities of the alkyl groups on these oxygen atoms were varied. Following this reaction scheme, five amphetamine homologues of 2,4-DMA were made, three with the 4-methoxy group maintained but the 2-position extended, and two with both groups extended symmetrically. These are: (1) N,N-dimethyl-2-ethoxy-4-methoxyamphetamine; (2) 2-(n)-butyloxy-N,N-dimethyl-4-methoxy-amphetamine; (3) 2-(n)-decyloxy-N,N-dimethylamphetamine; (4) 2,4-diethoxy-N,N-dimethylamphetamine; and (5) N,N-dimethyl-2,4-di-(i)-propoxyamphetamine. I believe that most of these have been iodinated and assayed in rats, and several of them appear quite promising. But none of them have been assayed in man, yet. The bromination product of 2,4-DMA (5-bromo-2,4-dimethoxyamphetamine, 5-Br-2,4-DMA) is way down in activity (see its recipe, separately). Since all iodo analogues are of about the same potency as the bromo counterparts, and since the addition of two methyl groups on the nitrogen does not appear to enhance central activity, I feel the iodination products of these N,N-dialkyl-dialkoxyamphetamines would not have any interesting psychopharmacology.\n\nThere is something vaguely counterproductive, in my evaluation of things, when the goal of a research project is to avoid activity rather than to create it. Although this chemistry was completely fascinating and could have produced the world's best positron-emitting, brain-scanning diagnostic compound, I feel it quite unlikely that it would have produced the world's best insight-revealing, empathy-enhancing psychedelic, so this research direction never totally caught my fancy. I went on to other things.",
+      "dosage_status": {
+        "highest_tried": "60 mg",
+        "active_dose": "Unknown",
+        "duration": "Probably short"
+      },
+      "pharmacology_speculation": {
+        "possibilities": ["Fully speedy", "Fully psychedelic", "Scary cardiovascular push"],
+        "vascular_studies": "Not impressive compared to structurally related psychedelics",
+        "mechanism": "Action might involve norepinephrine release",
+        "prediction": "Reasonable guess of cardiovascular activity at higher levels"
+      },
+      "meta_orientation_significance": {
+        "effect": "Greatly increases susceptibility of aromatic ring to electrophilic attack",
+        "position": "One of three possible meta-dimethoxy substituted amphetamines",
+        "research_purpose": "Best studied for potential radio-halogen brain blood-flow agents"
+      },
+      "N_substituted_homologues": {
+        "base_compound": "2,4-dimethoxyphenylacetone",
+        "method": "Reductive amination with sodium cyanoborohydride",
+        "2,4-DNNA": {
+          "name": "2,4-dimethoxy-N,N-dimethylamphetamine",
+          "bp": "105-115°C at 0.4 mm/Hg",
+          "perchlorate_mp": "98-98.5°C"
+        },
+        "other_amines_used": ["methylamine", "ethylamine", "propylamine", "isopropylamine", "hexylamine"]
+      },
+      "alkoxy_variations": {
+        "purpose": "Radio-iodination targets that are not psychedelic - clinically useful",
+        "compounds": [
+          "N,N-dimethyl-2-ethoxy-4-methoxyamphetamine",
+          "2-(n)-butyloxy-N,N-dimethyl-4-methoxyamphetamine",
+          "2-(n)-decyloxy-N,N-dimethylamphetamine",
+          "2,4-diethoxy-N,N-dimethylamphetamine",
+          "N,N-dimethyl-2,4-di-(i)-propoxyamphetamine"
+        ],
+        "rat_studies": "Several appear quite promising",
+        "human_studies": "None"
+      },
+      "bromo_analog": {
+        "name": "5-bromo-2,4-dimethoxyamphetamine (5-Br-2,4-DMA)",
+        "activity": "Way down"
+      },
+      "philosophical_note": {
+        "observation": "Something vaguely counterproductive when goal is to avoid activity rather than create it",
+        "evaluation": "Chemistry was fascinating, could have produced world's best positron-emitting brain-scanning compound",
+        "but": "Quite unlikely to produce world's best insight-revealing, empathy-enhancing psychedelic",
+        "conclusion": "This research direction never totally caught my fancy. I went on to other things."
+      },
+      "key_themes": [
+        "unknown_active_dose",
+        "norepinephrine_release",
+        "meta_dimethoxy_pattern",
+        "radio_halogen_brain_imaging",
+        "N_substituted_homologues",
+        "avoiding_psychedelic_activity",
+        "research_philosophy"
+      ],
+      "notable_quotes": [
+        "What can one say as to the active dosage of 2,4-DMA? Nothing.",
+        "It might be fully speedy. It might be fully psychedelic. It might give a cardiovascular push that would be scary.",
+        "But it will only be with human trials, someday, that the answer will be known for sure.",
+        "The meta-orientation of the two methoxyl groups does, however, greatly increase the susceptibility of the aromatic ring to electrophilic attack.",
+        "There is something vaguely counterproductive, in my evaluation of things, when the goal of a research project is to avoid activity rather than to create it.",
+        "I feel it quite unlikely that it would have produced the world's best insight-revealing, empathy-enhancing psychedelic, so this research direction never totally caught my fancy. I went on to other things."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
