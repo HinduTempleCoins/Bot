@@ -2531,6 +2531,293 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 40,
+      "code": "2C-T-2",
+      "chemical_name": "2,5-Dimethoxy-4-ethylthiophenethylamine",
+      "extensions_and_commentary": "There is a considerable parallel between 2C-T-2 and 2C-T-7, and both have proven to be excellent tools for introspection. The differences are largely physical. With 2C-T-2, there is more of a tendency to have physical disturbances such as nausea and diarrhea. And the experience is distinctly shorter. With 2C-T-7, physical disturbances are less common, but you are into the effects for almost twice as long. Both have been frequently used in therapy as follow-ups to MDMA.\n\nA point of potential misidentification should be mentioned here. 2C-T-2 has occasionally been called, simply, T-2. This abbreviated nickname has also been used for T-2 Toxin, a mycotoxin of the Tricothecene group, formed mainly by the Fusarium spp. This is the infamous \"warfare agent\" in Southeast Asia, which was finally identified as bee feces rather than a Soviet military adventure. T-2 and 2C-T-2 are radically different compounds.\n\nAll three Tweetios of 2C-T-2 have been made and looked at through human eyes. The 2-EtO-homologue of 2C-T-2 is 2-ethoxy-4-ethylthio-5-methoxyphenethylamine, or 2CT2-2ETO. The benzaldehyde (2-ethoxy-4-ethylthio-5-methoxybenzaldehyde) had a melting point of 73-75 °C, the nitrostyrene intermediate a melting point of 122-123 °C, and the final hydrochloride a melting point of 202-204 °C. Fifty milligrams was a completely effective level. The effects were felt very quickly. Vision was blurred, and there were intense eyes-closed visuals and the generation of a pleasant, contemplative mood. Baseline was re-established in five or six hours, but sleep was restless, with weird dreams. Nasal administration showed considerable variation between individuals, but a typical dose was 10 milligrams.\n\nThe 5-EtO-homologue of 2C-T-2 is 5-ethoxy-4-ethylthio-2-methoxyphenethylamine, or 2CT2-5ETO. The benzaldehyde (5-ethoxy-4-ethylthio-2-methoxybenzaldehyde) had a melting point of 49 °C, but it was impure. The nitrostyrene intermediate melted at 107-108 °C, and the final hydrochloride had a melting point of 180 °C. At levels of 20 milligrams, there was a slow, gentle climb to a full effect at the third or fourth hour. The flooding of thoughts and easy conversation lasted for many hours, and on some occasion a sedative was needed at the 16 hour point. There was a feeling of being drained for the following day or two. Some intoxication was still noted in the second day. Again it is true here, as had been stated as a generality, that the 5-Tweetio analogues have potencies similar to that of the parent compound, but show a much longer duration. The nickname of \"forever yours\" had been applied. There may indeed be insight, but 24 hours' worth is an awful lot of insight.\n\nThe 2,5-DiEtO-homologue of 2C-T-2 is 2,5-diethoxy-4-ethylthiophenethylamine, or 2CT2-2,5DIETO. The benzaldehyde, 2,5-diethoxy-4-(ethylthio)benzaldehyde, had a melting point of 84-85 °C, the nitrostyrene intermediate a melting point of 123-124 °C, and the final hydrochloride a melting point of 220-221 °C. Levels that were evaluated from 10 to 50 milligrams were not particularly different in intensity, but were progressively longer in duration. At 50 milligrams there was a nervousness and edginess during the early part of the experience, but for the next several hours there was evident both energy and high attentiveness. There were few if any sensory alterations. There were no negatives on the following day. The duration was perhaps nine hours.",
+      "comparison_to_2C_T_7": {
+        "parallels": "Both excellent tools for introspection",
+        "differences": "Largely physical",
+        "2C_T_2": {
+          "physical": "More tendency for nausea and diarrhea",
+          "duration": "Distinctly shorter"
+        },
+        "2C_T_7": {
+          "physical": "Less common disturbances",
+          "duration": "Almost twice as long"
+        },
+        "therapeutic_use": "Both frequently used as follow-ups to MDMA"
+      },
+      "misidentification_warning": {
+        "nickname": "T-2",
+        "confusion_with": "T-2 Toxin",
+        "T2_toxin": {
+          "type": "Mycotoxin of Tricothecene group",
+          "source": "Mainly Fusarium spp.",
+          "history": "Infamous 'warfare agent' in Southeast Asia",
+          "resolution": "Finally identified as bee feces rather than Soviet military adventure"
+        },
+        "conclusion": "T-2 and 2C-T-2 are radically different compounds"
+      },
+      "tweetio_compounds": {
+        "2CT2_2ETO": {
+          "name": "2-ethoxy-4-ethylthio-5-methoxyphenethylamine",
+          "relationship": "2-EtO-homologue of 2C-T-2",
+          "melting_points": {
+            "benzaldehyde": "73-75°C",
+            "nitrostyrene": "122-123°C",
+            "hydrochloride": "202-204°C"
+          },
+          "activity": {
+            "effective_dose": "50 milligrams",
+            "onset": "Effects felt very quickly",
+            "effects": ["Vision blurred", "Intense eyes-closed visuals", "Pleasant contemplative mood"],
+            "duration": "Baseline in five or six hours",
+            "sleep": "Restless, with weird dreams",
+            "nasal_dose": "Typically 10 milligrams (considerable individual variation)"
+          }
+        },
+        "2CT2_5ETO": {
+          "name": "5-ethoxy-4-ethylthio-2-methoxyphenethylamine",
+          "relationship": "5-EtO-homologue of 2C-T-2",
+          "nickname": "Forever yours",
+          "melting_points": {
+            "benzaldehyde": "49°C (impure)",
+            "nitrostyrene": "107-108°C",
+            "hydrochloride": "180°C"
+          },
+          "activity": {
+            "dose": "20 milligrams",
+            "onset": "Slow, gentle climb to full effect at third or fourth hour",
+            "effects": ["Flooding of thoughts", "Easy conversation"],
+            "duration": "Many hours, sedative sometimes needed at 16 hour point",
+            "aftereffects": "Feeling drained for following day or two, some intoxication on second day"
+          },
+          "general_principle": "5-Tweetio analogues have similar potency but much longer duration",
+          "assessment": "There may indeed be insight, but 24 hours' worth is an awful lot of insight"
+        },
+        "2CT2_2_5DIETO": {
+          "name": "2,5-diethoxy-4-ethylthiophenethylamine",
+          "relationship": "2,5-DiEtO-homologue of 2C-T-2",
+          "melting_points": {
+            "benzaldehyde": "84-85°C",
+            "nitrostyrene": "123-124°C",
+            "hydrochloride": "220-221°C"
+          },
+          "activity": {
+            "dose_range": "10 to 50 milligrams",
+            "dose_response": "Not particularly different in intensity, but progressively longer duration",
+            "at_50mg": {
+              "early": "Nervousness and edginess",
+              "later": "Energy and high attentiveness"
+            },
+            "sensory": "Few if any sensory alterations",
+            "duration": "Perhaps nine hours",
+            "next_day": "No negatives"
+          }
+        }
+      },
+      "key_themes": [
+        "introspection_tool",
+        "2C-T-7_comparison",
+        "MDMA_followup",
+        "T2_toxin_confusion",
+        "bee_feces_history",
+        "three_tweetios",
+        "forever_yours",
+        "duration_extension",
+        "nasal_administration"
+      ],
+      "notable_quotes": [
+        "There is a considerable parallel between 2C-T-2 and 2C-T-7, and both have proven to be excellent tools for introspection.",
+        "With 2C-T-2, there is more of a tendency to have physical disturbances such as nausea and diarrhea.",
+        "Both have been frequently used in therapy as follow-ups to MDMA.",
+        "This is the infamous 'warfare agent' in Southeast Asia, which was finally identified as bee feces rather than a Soviet military adventure.",
+        "T-2 and 2C-T-2 are radically different compounds.",
+        "The nickname of 'forever yours' had been applied.",
+        "There may indeed be insight, but 24 hours' worth is an awful lot of insight."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 41,
+      "code": "2C-T-4",
+      "chemical_name": "2,5-Dimethoxy-4-(i)-propylthiophenethylamine",
+      "extensions_and_commentary": "There are shades of the variability of the Alephs. Some observers are overwhelmed with colors and visual activity; others volunteer their absence. And a very wide range of dosages represented, from an estimated 4 or so milligrams for full effects, to something over 20 milligrams without any loss of control. That is an unusually wide latitude of activity. And a rich variety of effects that might be experienced. The same wide range of effective dosages was also observed with the corresponding Tweetio. The 2-EtO-homologue of 2C-T-4 is 2-ethoxy-5-methoxy-4-(i)-propylthiophenethylamine, or 2CT4-2ETO. The benzaldehyde (2-ethoxy-5-methoxy-4-(i-propylthio)benzaldehyde had a melting point of 43-44 °C, the nitrostyrene intermediate a melting point of 77-79 °C, and the final hydrochloride a melting point of 153.5-154 °C. There were practically no differences between trials at 5 milligram increments within the 10 and 25 milligram range. Each produced a gentle plus two level of effect which lasted for some 10 hours. A code name of \"tenderness\" was felt to be appropriate, as there was a peaceful meditative inner receptiveness and clarity noted, with an honest connection felt with those who were present during the experience. Sleep was not comfortable.\n\nI have heard 2C-T-4 referred to as T-4. There is a potent explosive used by terrorists called cyclotrimethylenetrinitramine, known by the code name RDX, or T-4. There is also a T-4 term that refers to thyroxine, an amino acid in the body. The drug 2C-T-4 is neither an explosive nor an amino acid, I am happy to say.",
+      "variability": {
+        "comparison": "Shades of the variability of the Alephs",
+        "visual_effects": {
+          "some_observers": "Overwhelmed with colors and visual activity",
+          "others": "Volunteer their absence"
+        },
+        "dose_range": {
+          "low_end": "Estimated 4 or so milligrams for full effects",
+          "high_end": "Over 20 milligrams without any loss of control",
+          "assessment": "Unusually wide latitude of activity"
+        },
+        "effects_variety": "Rich variety of effects that might be experienced"
+      },
+      "tweetio_compound": {
+        "2CT4_2ETO": {
+          "name": "2-ethoxy-5-methoxy-4-(i)-propylthiophenethylamine",
+          "relationship": "2-EtO-homologue of 2C-T-4",
+          "melting_points": {
+            "benzaldehyde": "43-44°C",
+            "nitrostyrene": "77-79°C",
+            "hydrochloride": "153.5-154°C"
+          },
+          "activity": {
+            "dose_range": "10 to 25 milligrams (5mg increments)",
+            "dose_response": "Practically no differences between trials",
+            "effect_level": "Gentle plus two",
+            "duration": "Some 10 hours",
+            "sleep": "Not comfortable"
+          },
+          "code_name": "Tenderness",
+          "character": {
+            "qualities": ["Peaceful", "Meditative inner receptiveness", "Clarity"],
+            "social": "Honest connection felt with those present during experience"
+          },
+          "variability": "Same wide range of effective dosages as parent compound"
+        }
+      },
+      "misidentification_warning": {
+        "nickname": "T-4",
+        "confusion_1": {
+          "compound": "RDX (cyclotrimethylenetrinitramine)",
+          "also_called": "T-4",
+          "nature": "Potent explosive used by terrorists"
+        },
+        "confusion_2": {
+          "compound": "Thyroxine",
+          "also_called": "T-4",
+          "nature": "Amino acid in the body"
+        },
+        "clarification": "2C-T-4 is neither an explosive nor an amino acid, I am happy to say"
+      },
+      "key_themes": [
+        "ALEPH_variability",
+        "wide_dose_range",
+        "visual_variability",
+        "tenderness",
+        "peaceful_meditative",
+        "honest_connection",
+        "T4_confusion",
+        "RDX_explosive",
+        "thyroxine"
+      ],
+      "notable_quotes": [
+        "There are shades of the variability of the Alephs.",
+        "Some observers are overwhelmed with colors and visual activity; others volunteer their absence.",
+        "That is an unusually wide latitude of activity.",
+        "A code name of 'tenderness' was felt to be appropriate.",
+        "There was a peaceful meditative inner receptiveness and clarity noted, with an honest connection felt with those who were present during the experience.",
+        "I have heard 2C-T-4 referred to as T-4.",
+        "The drug 2C-T-4 is neither an explosive nor an amino acid, I am happy to say."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 42,
+      "code": "psi-2C-T-4",
+      "chemical_name": "2,6-Dimethoxy-4-(i)-propylthiophenethylamine",
+      "extensions_and_commentary": "Here is another example of the presentation of a compound for which there has not yet been an effective level determined. Why? For a very good reason. This is an example of a whole class of compounds that I have called the pseudos, or the psi-compounds. Pseudo- as a prefix in the literary world generally stands for \"false.\" A pseudopod is a thing that looks like a foot, but isn't one. A pseudonym is a fictitious name. But in chemistry, it has quite a different meaning. If something has a common name, and there is a second form (or isomer, or shape, or orientation) that is possible and it doesn't have a common name, it can be given the name of the first form with a pseudo- attached. Ephedrine is the erythro-isomer of N-methyl-beta-hydroxyamphetamine. There is a second stereoisomer, the threo- isomer, but it has no trivial name. So it is called pseudoephedrine, or the \"Sudafed\" of sinus decongestant fame.\n\nThe pseudo-psychedelics are the 2,4,6-trisubstituted counterparts of the 2,4,5-trisubstituted psychedelics. Almost all of the 2,5-dimethoxy-4-something-or-other compounds are active and interesting whether they be phenethylamines or amphetamines, and it is an exciting fact that the 2,6-dimethoxy-4-something-or-other compounds are going be just as active and just as interesting. A number of examples have already been mentioned. TMA-2 is 2,4,5-trimethoxyamphetamine (a 2,5-dimethoxy-substituted compound with a methoxyl at the 4-position). The pseudo- analogue is TMA-6 (2,4,6-trimethoxyamphetamine) and it is every bit as potent and fascinating. Z-7 could be called pseudo-DOM, and although it is quite a bit down in potency, it is an active drug and will both demand and receive much more clinical study some day.\n\nWill the other 2,4,5-things spawn 2,4,6-things that are active? Without a shadow of a doubt. Chemically, they are much more difficult to synthesize. The 2,5-dimethoxy orientation made the 4-position a natural and easy target. The 2,6-dimethoxy orientation pushes for 3-substitution, and the 4-position is completely unnatural. Tricks are needed, but tricks have now been found. The above synthesis of pseudo-2C-T-4 shows one such trick. This is, in my opinion, the exciting chemistry and psychopharmacology of the next decade. Well over half of all the psychedelic drugs mentioned in Book II are 2,4,5-trisubstituted compounds, and every one of them has a (potentially active) 2,4,6-pseudo-counterpart.\n\nIt goes yet further. The antidepressant series of \"Ariadne\" compounds are 1-phenyl-2-aminobutanes. But the 1-phenyl is again a 2,4,5-trisubstituted compound. The 2,4,6-isomer will give rise to a pseudo-Ariadne family, and I will bet that they too will be antidepressants. The 1-phenyl-2-aminobutane analog of psi-2C-T-4 is the 2,4,6-analogue and it has been prepared as far as the nitrostyrene. It has not yet been reduced, so it is not yet been evaluated, but it could be a most remarkable psychopharmacological probe.\n\nAnd it goes yet yet further. Think back to the six possible TMA's. TMA and TMA-3 were relatively inactive. And TMA-2 and TMA-6 were the interesting ones. The first gave rise to the last twenty years of psychedelic chemistry, and the other (as speculated upon above) will give rise to the forthcoming ten years. But what of TMA-4 and TMA-5? Both showed activity that was more than TMA but less than that of the -2 or -6 isomers. Could they, some day, provoke yet other families of psychedelics? Maybe the 3-position of these two might be focal points of leverage as to psychological activity. What are the letters that follow y in the Greek alphabet? If I remember correctly, the next letter is the last letter, omega. So, I guess that Nature is trying to tell us something, that the -4 and -5 isomers will not engender interesting families. What a pity. The chemistry is so unthinkably difficult that it would have been a true challenge. My next incarnation, maybe?",
+      "status": {
+        "effective_level": "Not yet determined",
+        "reason": "Example of the psi-compounds class"
+      },
+      "pseudo_nomenclature": {
+        "literary_meaning": "False (pseudopod, pseudonym)",
+        "chemistry_meaning": "Second form/isomer without common name given parent name with pseudo- attached",
+        "example": {
+          "ephedrine": "erythro-isomer of N-methyl-beta-hydroxyamphetamine",
+          "pseudoephedrine": "threo-isomer, no trivial name",
+          "brand": "Sudafed sinus decongestant"
+        }
+      },
+      "pseudo_psychedelics": {
+        "definition": "2,4,6-trisubstituted counterparts of 2,4,5-trisubstituted psychedelics",
+        "prediction": "2,6-dimethoxy-4-something compounds will be just as active and interesting as 2,5-dimethoxy-4-something",
+        "examples": {
+          "TMA_2": {
+            "structure": "2,4,5-trimethoxyamphetamine",
+            "pseudo_analogue": "TMA-6 (2,4,6-trimethoxyamphetamine)",
+            "comparison": "Every bit as potent and fascinating"
+          },
+          "DOM": {
+            "pseudo_analogue": "Z-7 (could be called pseudo-DOM)",
+            "potency": "Quite a bit down in potency",
+            "status": "Active, will demand and receive more clinical study"
+          }
+        }
+      },
+      "synthetic_challenges": {
+        "2_5_dimethoxy": "4-position is natural and easy target",
+        "2_6_dimethoxy": "Pushes for 3-substitution, 4-position completely unnatural",
+        "solution": "Tricks are needed, but tricks have now been found"
+      },
+      "future_vision": {
+        "next_decade": "The exciting chemistry and psychopharmacology",
+        "scope": "Well over half of Book II drugs are 2,4,5-trisubstituted",
+        "implication": "Every one has a potentially active 2,4,6-pseudo-counterpart"
+      },
+      "ariadne_extension": {
+        "ariadne_compounds": "1-phenyl-2-aminobutanes (antidepressants)",
+        "structure": "1-phenyl is again 2,4,5-trisubstituted",
+        "prediction": "2,4,6-isomer will give pseudo-Ariadne family, also antidepressants",
+        "current_status": "2,4,6-analogue prepared as far as nitrostyrene, not yet reduced or evaluated",
+        "potential": "Could be a most remarkable psychopharmacological probe"
+      },
+      "TMA_series_reflection": {
+        "inactive": ["TMA", "TMA-3"],
+        "interesting": {
+          "TMA_2": "Gave rise to last twenty years of psychedelic chemistry",
+          "TMA_6": "Will give rise to forthcoming ten years"
+        },
+        "moderate": {
+          "compounds": ["TMA-4", "TMA-5"],
+          "activity": "More than TMA but less than -2 or -6 isomers",
+          "speculation": "Could they provoke yet other families? Maybe 3-position is focal point"
+        },
+        "greek_alphabet_musing": {
+          "observation": "Letter after psi is omega, the last letter",
+          "interpretation": "Nature is trying to tell us the -4 and -5 isomers will not engender interesting families",
+          "lament": "The chemistry is so unthinkably difficult that it would have been a true challenge",
+          "hope": "My next incarnation, maybe?"
+        }
+      },
+      "key_themes": [
+        "pseudo_compounds",
+        "psi_nomenclature",
+        "2_4_6_trisubstitution",
+        "future_of_psychedelic_chemistry",
+        "synthetic_challenges",
+        "TMA_series_history",
+        "pseudo_Ariadne",
+        "greek_alphabet",
+        "next_incarnation"
+      ],
+      "notable_quotes": [
+        "This is an example of a whole class of compounds that I have called the pseudos, or the psi-compounds.",
+        "Pseudo- as a prefix in the literary world generally stands for 'false.' But in chemistry, it has quite a different meaning.",
+        "The pseudo-psychedelics are the 2,4,6-trisubstituted counterparts of the 2,4,5-trisubstituted psychedelics.",
+        "It is an exciting fact that the 2,6-dimethoxy-4-something-or-other compounds are going be just as active and just as interesting.",
+        "TMA-6 is every bit as potent and fascinating.",
+        "Will the other 2,4,5-things spawn 2,4,6-things that are active? Without a shadow of a doubt.",
+        "The 2,6-dimethoxy orientation pushes for 3-substitution, and the 4-position is completely unnatural. Tricks are needed, but tricks have now been found.",
+        "This is, in my opinion, the exciting chemistry and psychopharmacology of the next decade.",
+        "Well over half of all the psychedelic drugs mentioned in Book II are 2,4,5-trisubstituted compounds, and every one of them has a (potentially active) 2,4,6-pseudo-counterpart.",
+        "The 2,4,6-isomer will give rise to a pseudo-Ariadne family, and I will bet that they too will be antidepressants.",
+        "TMA-2 gave rise to the last twenty years of psychedelic chemistry, and TMA-6 will give rise to the forthcoming ten years.",
+        "What are the letters that follow y in the Greek alphabet? If I remember correctly, the next letter is the last letter, omega.",
+        "The chemistry is so unthinkably difficult that it would have been a true challenge. My next incarnation, maybe?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
