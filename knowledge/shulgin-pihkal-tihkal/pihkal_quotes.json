@@ -1757,6 +1757,90 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 29,
+      "code": "2C-G-4",
+      "chemical_name": "2,5-Dimethoxy-3,4-(tetramethylene)phenethylamine",
+      "extensions_and_commentary": "The road getting to this final product reminded me of the reasons why, during the first few billion years of the universe following the big bang, there was only hydrogen and helium. Nothing heavier. When everything had expanded enough to cool things sufficiently for the first actual matter to form, all was simply very energetic protons and neutrons. These were banging into one-another, making deuterium nuclei, and some of these got banged up even all the way to helium, but every time a helium nucleus collided with a particle of mass one, to try for something with mass five, the products simply couldn't exist. Both Lithium-5 and Helium-5 have the impossible half-lives of 10 to the minus 21 seconds. Hence, in the primordial soup, the only way to get into something heavier than helium was to have a collision between a couple of the relatively scarcer heavy nuclei, or to have a three body collision. Both of these would be extremely rare events, statistically. And if a few got through, there was another forbidden barrier at mass 8, since Beryllium-8 has a half life of 10 to the minus 16 seconds. So everything had to wait for a few suns to burn down so that they could process enough helium into heavy atoms, to achieve some nuclear chemistry that was not allowed in the early history of the universe.\n\nAnd in the same way, there were two nearly insurmountable barriers encountered in getting to 2C-G-4 and G-4. The simple act of methylating an aromatic hydroxyl group provided mixtures that could only be resolved into components by some pretty intricate maneuvers. And when that product was indeed gotten, the conversion of it into a simple aromatic aldehyde resisted the classic procedures completely, either giving complex messes, or nothing. And even now, with these two hurdles successfully passed, the presumed simple last step has not yet been done. The product 2C-G-4 lies just one synthetic step (the LAH reduction) away from completion, and the equally fascinating G-4 also that one last reduction step from being completed. Having gotten through the worst of the swamp, let's get into the lab and finish up this challenge. They will both be active compounds.",
+      "cosmological_analogy": {
+        "premise": "Synthesis barriers remind of early universe nucleosynthesis",
+        "early_universe": {
+          "initial_state": "Only hydrogen and helium for first few billion years",
+          "reason": "Everything was very energetic protons and neutrons",
+          "process": "Banging into one-another, making deuterium nuclei, some up to helium"
+        },
+        "mass_5_barrier": {
+          "problem": "Helium nucleus + mass one particle couldn't form stable mass five",
+          "unstable_isotopes": ["Lithium-5", "Helium-5"],
+          "half_life": "10 to the minus 21 seconds",
+          "description": "Impossible half-lives"
+        },
+        "mass_8_barrier": {
+          "unstable_isotope": "Beryllium-8",
+          "half_life": "10 to the minus 16 seconds",
+          "another": "Forbidden barrier"
+        },
+        "workarounds": {
+          "options": ["Collision between scarcer heavy nuclei", "Three body collision"],
+          "probability": "Extremely rare events, statistically"
+        },
+        "resolution": "Had to wait for suns to burn down and process helium into heavy atoms"
+      },
+      "synthetic_barriers": {
+        "barrier_1": {
+          "step": "Methylating an aromatic hydroxyl group",
+          "problem": "Provided mixtures",
+          "solution": "Pretty intricate maneuvers to resolve into components"
+        },
+        "barrier_2": {
+          "step": "Conversion to simple aromatic aldehyde",
+          "problem": "Resisted classic procedures completely",
+          "outcomes": ["Complex messes", "Nothing"]
+        },
+        "current_status": {
+          "hurdles_passed": "Two hurdles successfully passed",
+          "remaining": "One synthetic step (LAH reduction)",
+          "metaphor": "Gotten through the worst of the swamp"
+        }
+      },
+      "completion_status": {
+        "2C-G-4": "One LAH reduction step away from completion",
+        "G-4": "One reduction step from being completed",
+        "call_to_action": "Let's get into the lab and finish up this challenge",
+        "prediction": "They will both be active compounds"
+      },
+      "amphetamine_analogue": {
+        "name": "G-4",
+        "status": "Equally fascinating, also one step from completion"
+      },
+      "key_themes": [
+        "cosmological_analogy",
+        "nucleosynthesis_barriers",
+        "big_bang_chemistry",
+        "synthetic_obstacles",
+        "insurmountable_barriers",
+        "intricate_maneuvers",
+        "unfinished_synthesis",
+        "one_step_away",
+        "optimistic_prediction",
+        "stellar_nucleosynthesis"
+      ],
+      "notable_quotes": [
+        "The road getting to this final product reminded me of the reasons why, during the first few billion years of the universe following the big bang, there was only hydrogen and helium.",
+        "Both Lithium-5 and Helium-5 have the impossible half-lives of 10 to the minus 21 seconds.",
+        "The only way to get into something heavier than helium was to have a collision between a couple of the relatively scarcer heavy nuclei, or to have a three body collision.",
+        "Beryllium-8 has a half life of 10 to the minus 16 seconds.",
+        "Everything had to wait for a few suns to burn down so that they could process enough helium into heavy atoms.",
+        "There were two nearly insurmountable barriers encountered in getting to 2C-G-4 and G-4.",
+        "The simple act of methylating an aromatic hydroxyl group provided mixtures that could only be resolved into components by some pretty intricate maneuvers.",
+        "The conversion of it into a simple aromatic aldehyde resisted the classic procedures completely, either giving complex messes, or nothing.",
+        "The product 2C-G-4 lies just one synthetic step (the LAH reduction) away from completion.",
+        "Having gotten through the worst of the swamp, let's get into the lab and finish up this challenge.",
+        "They will both be active compounds."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
