@@ -522,6 +522,57 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 12,
+      "code": "BIS-TOM",
+      "chemical_name": "2,5-Bis-(methylthio)-4-methylamphetamine",
+      "extensions_and_commentary": "It is reasonable, in retrospect, to accept that BIS-TOM is not an active compound. The replacement of the 2-position oxygen of DOM with a sulfur atom (to give 2-TOM) dropped the potency by a factor of 15x, and the replacement of the 5-position oxygen with a sulfur atom (to give 5-TOM) dropped the potency by a factor of about 10x. It would be a logical calculation that the replacement of both oxygen atoms with sulfur might drop the potency by a factor of 150x. So, with DOM being active at maybe 5 milligrams, a logical prediction of the active level of BIS-TOM would be 750 milligrams. And maybe this would be the right level, but with the hints of neurological disturbance that seemed to be there at 160 mg, there was no desire to go up by a factor of five again. The rewards would simply not be worth the risks.\n\nThe 2-carbon analogue, 2C-BIS-TOM, was prepared from the intermediate aldehyde above, first by reaction with nitromethane to give the nitrostyrene as tomato-colored crystals from EtOAc, mp 145-146 °C. This was reduced with AH to give 2,5-bis-(methylthio)-4-methylphenethylamine hydrochloride as ivory-colored crystals with a mp of 273-277 °C.\n\nAlthough there are many interesting psychedelic drugs with sulfur atoms in them (the TOM's, the TOET's, the ALEPH's and all of the 2C-T's), there just aren't many that contain two sulfur atoms. BIS-TOM bombed out, and 2C-BIS-TOM remains untried, but will probably also fail, as the phenethylamines are rarely more potent than the corresponding amphetamines. This leaves 2C-T-14 as the remaining hope, and its synthesis is still underway.",
+      "potency_calculation": {
+        "2_TOM_reduction": "15x less potent than DOM",
+        "5_TOM_reduction": "10x less potent than DOM",
+        "combined_prediction": "150x reduction (15 × 10)",
+        "DOM_active_dose": "5 mg",
+        "predicted_BIS_TOM_dose": "750 mg",
+        "actual_trial": "160 mg showed hints of neurological disturbance"
+      },
+      "risk_assessment": {
+        "neurological_concerns": "Hints of neurological disturbance at 160 mg",
+        "dose_gap": "Would need to go up 5x more to reach predicted active level",
+        "decision": "No desire to continue - rewards not worth the risks"
+      },
+      "related_compounds": {
+        "2C_BIS_TOM": {
+          "status": "Made but untried",
+          "nitrostyrene": "Tomato-colored crystals, mp 145-146°C",
+          "hydrochloride": "Ivory-colored crystals, mp 273-277°C",
+          "prediction": "Will probably also fail - phenethylamines rarely more potent than amphetamines"
+        },
+        "2C_T_14": {
+          "status": "Synthesis underway",
+          "assessment": "Remaining hope for two-sulfur compounds"
+        }
+      },
+      "two_sulfur_observation": {
+        "successful_one_sulfur_compounds": ["TOMs", "TOETs", "ALEPHs", "2C-Ts"],
+        "two_sulfur_outcome": "Just aren't many that work - BIS-TOM bombed out"
+      },
+      "key_themes": [
+        "logical_potency_calculation",
+        "multiplicative_reduction",
+        "risk_benefit_analysis",
+        "neurological_concerns",
+        "two_sulfur_failure"
+      ],
+      "notable_quotes": [
+        "It is reasonable, in retrospect, to accept that BIS-TOM is not an active compound.",
+        "It would be a logical calculation that the replacement of both oxygen atoms with sulfur might drop the potency by a factor of 150x.",
+        "The rewards would simply not be worth the risks.",
+        "BIS-TOM bombed out, and 2C-BIS-TOM remains untried, but will probably also fail.",
+        "This leaves 2C-T-14 as the remaining hope, and its synthesis is still underway."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
