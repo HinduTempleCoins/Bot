@@ -1,0 +1,49 @@
+{
+  "source": "PIHKAL: Phenethylamines I Have Known And Loved",
+  "author": "Alexander & Ann Shulgin",
+  "year": 1991,
+  "quotes": [
+    {
+      "id": "pihkal_001",
+      "quote": "I am completely convinced that there is a wealth of information built into us, with miles of intuitive knowledge tucked away in the genetic material of every one of our cells. Something akin to a library containing uncountable reference volumes, but encyclopedias whose indexes and tables of contents are still far from being compiled.",
+      "chapter": "Introduction",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_002",
+      "quote": "Our generation is the first, ever, to have made the search for self-awareness a crime, if that search takes place through the use of tools denied by law.",
+      "chapter": "Story Section",
+      "category": "legal_freedom",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_003",
+      "quote": "Use them with care, and use them with respect as to the potential they have for serious change in the chemistry of your mind, and how that chemistry might affect others. These are truly blessed tools for exploring the depths of the human psyche.",
+      "chapter": "Epilogue",
+      "category": "psychedelic_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "id": "pihkal_004",
+      "quote": "The most compelling insight of that day was that this awesome recall had been brought about by a fraction of a gram of a white solid, but that in no way whatsoever could it be argued that these memories had been contained in the white solid. Everything I had ever learned or experienced was still part of me.",
+      "chapter": "First Mescaline Experience",
+      "category": "consciousness_philosophy",
+      "commentary": "",
+      "extended_thoughts": ""
+    }
+  ],
+  "add_your_quotes_here": [
+    {
+      "id": "pihkal_template",
+      "quote": "[Add quote here]",
+      "chapter": "[Chapter or section]",
+      "category": "[category_id from index]",
+      "commentary": "[Your commentary on the quote]",
+      "extended_thoughts": "[Extended reasoning and connections]"
+    }
+  ]
+}
