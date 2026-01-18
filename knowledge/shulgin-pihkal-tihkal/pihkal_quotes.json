@@ -3790,6 +3790,201 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 56,
+      "code": "DMCPA",
+      "chemical_name": "trans-2-(2,5-Dimethoxy-4-methylphenyl)cyclopropylamine",
+      "extensions_and_commentary": "Most of the human trials took place in the fifteen to twenty milligram range. Several reports describe some muscular tremor, especially in the earliest part of the experience, but this never seemed to be a concern. The efforts to lock imagery to music were not too successful. All of these clinical studies were conducted on the trans-compound, but on the racemic mixture. This has been resolved into the two optical isomers, but they have not been compared in man. The cis-mixture is unknown.\n\nThis material is intimately related to tranylcypromine, a clinically proven antidepressant. This drug is a known monoamine oxidase inhibitor, and it is certainly possible that some of this pharmacological property might be found in DMCPA if it were to be looked for. The hints of physical toxicity at the higher doses assayed might suggest some such activity.\n\nThis compound, DMCPA, was modeled directly after the structure of DOM, with the 2,5-dimethoxy-4-methyl substitution pattern. Another analogue of tranylcypromine, similarly modeled, is 3,4,5-trimethoxytranylcypromine, or trans-2-(3,4,5-trimethoxyphenyl)cyclopropylamine (TMT). It has been evaluated at levels of only 13 milligrams orally, and at this dose there were no hints of central activity.",
+      "dosage_info": {
+        "trial_range": "15-20 mg",
+        "form_tested": "trans-compound, racemic mixture"
+      },
+      "effects_noted": {
+        "muscular_tremor": "Several reports, especially early in experience",
+        "concern_level": "Never seemed to be a concern",
+        "music_imagery": "Efforts to lock imagery to music not too successful"
+      },
+      "stereochemistry": {
+        "tested": "trans-compound (racemic)",
+        "resolved": "Two optical isomers resolved but not compared in man",
+        "cis_mixture": "Unknown"
+      },
+      "tranylcypromine_relationship": {
+        "drug_class": "Clinically proven antidepressant",
+        "mechanism": "Monoamine oxidase inhibitor",
+        "DMCPA_implication": "Possible MAO inhibition if looked for",
+        "toxicity_hint": "Physical toxicity at higher doses might suggest MAO activity"
+      },
+      "structural_modeling": {
+        "based_on": "DOM",
+        "substitution_pattern": "2,5-dimethoxy-4-methyl"
+      },
+      "related_compound": {
+        "name": "TMT",
+        "full_name": "trans-2-(3,4,5-trimethoxyphenyl)cyclopropylamine",
+        "aka": "3,4,5-trimethoxytranylcypromine",
+        "dose_tested": "13 mg orally",
+        "result": "No hints of central activity"
+      },
+      "key_themes": [
+        "cyclopropylamine_structure",
+        "tranylcypromine_analogue",
+        "MAO_inhibitor_possibility",
+        "DOM_substitution_pattern",
+        "optical_isomers_uncompared",
+        "music_imagery_attempts"
+      ],
+      "notable_quotes": [
+        "Most of the human trials took place in the fifteen to twenty milligram range.",
+        "Several reports describe some muscular tremor, especially in the earliest part of the experience, but this never seemed to be a concern.",
+        "The efforts to lock imagery to music were not too successful.",
+        "This material is intimately related to tranylcypromine, a clinically proven antidepressant.",
+        "The hints of physical toxicity at the higher doses assayed might suggest some such activity.",
+        "This compound, DMCPA, was modeled directly after the structure of DOM."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 57,
+      "code": "DME",
+      "chemical_name": "3,4-Dimethoxy-beta-hydroxyphenethylamine; 3,4-Dimethoxyphenyl-beta-ethanolamine",
+      "extensions_and_commentary": "The rationale for exploring the beta-hydroxylated phenethylamines, especially those with oxygens at the biologically important 3- and 4-positions, has already been presented. Norepinephrine is a beta-hydroxylated phenethylamine with oxygens at these two ring positions. With DME, these are masked as two methyl ethers, and the initials DME stand for 3,4-dimethoxyphenyl-beta-ethanolamine. This is an alternate name for 3,4-dimethoxy-beta-hydroxyphenethylamine.\n\nAn exactly analogous compound is 3,4-methylenedioxy-beta-ethanolamine, where the masking is done with the biologically more fragile methylenedioxy ether. Originally I had called this compound MDE (methylenedioxyethanolamine) but that code has been, since 1975, used exclusively for 3,4-methylenedioxy-N-ethylamphetamine, which is a recipe all by itself. Under the discussion of members of the BOX series, there is a methylenedioxyphenethylamine with a methoxyl group at the beta-position, and it is called BOH (q.v.). There, a reasonable code name for this specific compound is given, namely BOHH. RBOS stands for the beta-oxygen function on a phenethylamine; this is the heart of the BOX family. The RHS which is the third letter of BOHH stands for the free hydroxyl group. And the final RHS is for homopiperonylamine (which is the trivial name for the compound without the hydroxyl group). BOHH, or 3,4-methylenedioxy-beta-hydroxyphenethylamine, or 3,4-methylenedioxy-beta-ethanolamine, has also be assayed in man at up to 100 milligrams without any effects, and must be considered, as of now, to be inactive centrally. The possible toxic roles of beta-ethanolamines as potential adrenolytic agents, have been discussed in the BOHD recipe. And beware of the use of the code name MDE in the very old literature. It might be this BOHH compound.",
+      "norepinephrine_relationship": {
+        "rationale": "Beta-hydroxylated phenethylamines with oxygens at 3- and 4-positions",
+        "norepinephrine": "Beta-hydroxylated phenethylamine with oxygens at these ring positions",
+        "DME_masking": "Two methyl ethers"
+      },
+      "nomenclature": {
+        "DME_meaning": "3,4-dimethoxyphenyl-beta-ethanolamine",
+        "alternate_name": "3,4-dimethoxy-beta-hydroxyphenethylamine"
+      },
+      "BOHH_compound": {
+        "full_name": "3,4-methylenedioxy-beta-hydroxyphenethylamine",
+        "aka": "3,4-methylenedioxy-beta-ethanolamine",
+        "masking": "Biologically more fragile methylenedioxy ether",
+        "original_code": "MDE (methylenedioxyethanolamine)",
+        "code_conflict": "MDE used since 1975 for 3,4-methylenedioxy-N-ethylamphetamine",
+        "dose_tested": "Up to 100 mg",
+        "result": "No effects, inactive centrally"
+      },
+      "BOX_nomenclature": {
+        "RBOS": "Beta-oxygen function on phenethylamine (heart of BOX family)",
+        "BOHH_breakdown": {
+          "BO": "Beta-oxygen",
+          "first_H": "Free hydroxyl group",
+          "second_H": "Homopiperonylamine (compound without hydroxyl)"
+        }
+      },
+      "warnings": {
+        "old_literature": "Beware of code name MDE - might be BOHH compound",
+        "toxicity": "Possible toxic roles as potential adrenolytic agents (see BOHD recipe)"
+      },
+      "key_themes": [
+        "beta_hydroxylated_phenethylamine",
+        "norepinephrine_analogue",
+        "nomenclature_confusion",
+        "MDE_code_conflict",
+        "BOX_family",
+        "inactive_centrally",
+        "adrenolytic_toxicity_concern"
+      ],
+      "notable_quotes": [
+        "Norepinephrine is a beta-hydroxylated phenethylamine with oxygens at these two ring positions.",
+        "With DME, these are masked as two methyl ethers.",
+        "Originally I had called this compound MDE (methylenedioxyethanolamine) but that code has been, since 1975, used exclusively for 3,4-methylenedioxy-N-ethylamphetamine.",
+        "BOHH has also be assayed in man at up to 100 milligrams without any effects, and must be considered, as of now, to be inactive centrally.",
+        "Beware of the use of the code name MDE in the very old literature. It might be this BOHH compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 58,
+      "code": "DMMDA",
+      "chemical_name": "2,5-Dimethoxy-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "DMMDA was the first of the tetraoxygenated amphetamine derivatives that was ever explored in man, back in 1962. And it is not easy to find an acceptable single phrase to describe its action or an acceptable number to describe its potency. I have put the value of 10 mescaline units (M.U.) into the literature and this would imply that maybe 30 milligrams was an active dose. This is probably too low, and some day I would like to run an experiment with the entire research group with this compound to see just what it really does.\n\nThe essential oil that corresponds to DMMDA is, of course, apiole from the Oil of Parsley, which again ties together the spice world and the amphetamine world. And there is isoapiole, also a natural thing. This pair represents the ring-substitution pattern of one of the ten essential oils and DMMDA is one of the ten essential amphetamines.\n\nSeveral people have asked me what I thought about the potential activity of a compound with a methyl group added to DMMDA. One of these possibilities would be the N-methylated derivative, 2,5-dimethoxy-N-methyl-3,4-methylenedioxyamphetamine, or METHYL-DMMDA (or DMMDMA for the dimethoxy-methylenedioxy-methamphetamine nomenclature). It is a MDMA analogue, and is described in the recipe for METHYL-MMDA-2.\n\nThe placement of an added methyl group onto the beta-position of DMMDA, rather than on the nitrogen atom, produces a pair of stereoisomeric homologues. These are the threo- (or-trans-) and erythro- (or cis)-2,5-dimethoxy-beta-methyl-3,4-methylenedioxyamphetamines. They have never been assigned trivial names (my original codes for them were S-1495 and S-1496 which is not too intuitively informative). Their chemically proper names would have the 2-amino-3-substituted phenylbutane form. The synthesis of these DMMDA homologues started with the reduction of the nitrosyrene to the ketone (see under METHYL-MMDA-2 for this preparation), followed by methylation with fresh sodium isopropoxide and methyl iodide, to give the beta-methyl product. This formed the two possible oximes, one with a mp of 120 °C, and the other from MeOH with a mp of 146 °C. The 120 °C oxime, with fresh sodium ethoxide gave threo-2-amino-3-(2,5-dimethoxy-3,4-methylenedioxyphenyl)butane hydrochloride. This salt had a mp of 247-249 °C. The 146 °C oxime gave erythro-2-amino-3-(2,5-dimethoxy-3,4-methylenedioxyphenyl)butane hydrochloride with a mp of 188-189 °C. The threo-isomer showed a possible threshold effect at 80 milligrams, with hyperventilation and perhaps some mental muddiness. The erythro-isomer showed no effects, but it had been taken up only to 10 milligrams.\n\nThe only other beta-methyl homologue of an active material that was explored chemically, was related to MDA. The ketone (3,4-piperonylacetone, see under MDMA) was methylated with sodium isopropoxide and methyl iodide, and a crystalline oxime was obtained. Reduction with Zn dust gave what appeared to be 2-amino-3-(3,4-methylenedioxyphenyl)butane hydrochloride, but there were sufficient uncertainties (possible dimethylation, only one oxime isolated, the need of strong reducing conditions) that the entire project was placed in, and still is in, an indefinite holding pattern. The similar analogues for DOM are the two Classic Ladies, DAPHNE and ELVIRA, and they, too, are for some time in the future.",
+      "historical_significance": {
+        "claim": "First tetraoxygenated amphetamine derivative explored in man",
+        "year": 1962
+      },
+      "potency_assessment": {
+        "mescaline_units": 10,
+        "implied_active_dose": "Maybe 30 mg",
+        "caveat": "This is probably too low",
+        "future_plan": "Run experiment with entire research group to see what it really does"
+      },
+      "essential_oil_connection": {
+        "corresponding_oil": "Apiole from Oil of Parsley",
+        "isomer": "Isoapiole (also natural)",
+        "significance": "Ties together spice world and amphetamine world",
+        "classification": "One of ten essential oils/amphetamines"
+      },
+      "N_methyl_derivative": {
+        "name": "METHYL-DMMDA",
+        "full_name": "2,5-dimethoxy-N-methyl-3,4-methylenedioxyamphetamine",
+        "alternate_code": "DMMDMA",
+        "relationship": "MDMA analogue",
+        "see_recipe": "METHYL-MMDA-2"
+      },
+      "beta_methyl_homologues": {
+        "threo_isomer": {
+          "aka": "trans",
+          "original_code": "S-1495",
+          "chemical_name": "threo-2-amino-3-(2,5-dimethoxy-3,4-methylenedioxyphenyl)butane",
+          "oxime_mp": "120°C",
+          "hydrochloride_mp": "247-249°C",
+          "dose_tested": "80 mg",
+          "effects": "Possible threshold effect with hyperventilation and perhaps some mental muddiness"
+        },
+        "erythro_isomer": {
+          "aka": "cis",
+          "original_code": "S-1496",
+          "chemical_name": "erythro-2-amino-3-(2,5-dimethoxy-3,4-methylenedioxyphenyl)butane",
+          "oxime_mp": "146°C (from MeOH)",
+          "hydrochloride_mp": "188-189°C",
+          "dose_tested": "Up to 10 mg",
+          "effects": "No effects"
+        },
+        "synthesis": "Reduction of nitrostyrene to ketone, methylation with sodium isopropoxide and methyl iodide"
+      },
+      "MDA_beta_methyl_project": {
+        "target": "2-amino-3-(3,4-methylenedioxyphenyl)butane",
+        "starting_material": "3,4-piperonylacetone",
+        "reduction": "Zn dust",
+        "uncertainties": ["Possible dimethylation", "Only one oxime isolated", "Need of strong reducing conditions"],
+        "status": "Indefinite holding pattern"
+      },
+      "DOM_analogues": {
+        "names": ["DAPHNE", "ELVIRA"],
+        "description": "The two Classic Ladies",
+        "status": "For some time in the future"
+      },
+      "key_themes": [
+        "first_tetraoxygenated_amphetamine",
+        "1962_exploration",
+        "mescaline_units",
+        "apiole_parsley_oil",
+        "ten_essential_amphetamines",
+        "MDMA_analogue",
+        "beta_methyl_stereoisomers",
+        "threo_erythro_isomers",
+        "Classic_Ladies_DAPHNE_ELVIRA",
+        "projects_on_hold"
+      ],
+      "notable_quotes": [
+        "DMMDA was the first of the tetraoxygenated amphetamine derivatives that was ever explored in man, back in 1962.",
+        "It is not easy to find an acceptable single phrase to describe its action or an acceptable number to describe its potency.",
+        "I have put the value of 10 mescaline units (M.U.) into the literature and this would imply that maybe 30 milligrams was an active dose. This is probably too low.",
+        "Some day I would like to run an experiment with the entire research group with this compound to see just what it really does.",
+        "The essential oil that corresponds to DMMDA is, of course, apiole from the Oil of Parsley, which again ties together the spice world and the amphetamine world.",
+        "DMMDA is one of the ten essential amphetamines.",
+        "They have never been assigned trivial names (my original codes for them were S-1495 and S-1496 which is not too intuitively informative).",
+        "The similar analogues for DOM are the two Classic Ladies, DAPHNE and ELVIRA, and they, too, are for some time in the future."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
