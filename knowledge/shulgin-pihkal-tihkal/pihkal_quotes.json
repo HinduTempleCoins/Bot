@@ -1681,6 +1681,82 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 28,
+      "code": "2C-G-3",
+      "chemical_name": "2,5-Dimethoxy-3,4-(trimethylene)phenethylamine",
+      "extensions_and_commentary": "The positives of a completely intriguing altered state free from apparent physical threats, are here coupled with the negative of having to invest such a long period of time. There is a merry nuttiness which can give a joyous intoxication, but with the underlying paranoia of how it looks to others. There is an ease of communication, but only within surroundings that are well-known and friendly. This might be a truly frightening experience if it were in an unfamiliar or unstructured environment.\n\nThe numbering of this compound, and all the extensions of GANESHA, have been made on the basis of the nature of the stuff at the 3,4-position. Here there are three atoms (the trimethylene bridge) and so 2C-G-3 seems reasonable. With this logic, the dimethylene bridge would be 2C-G-2 (and the corresponding amphetamine would be G-2, of course). But these compounds call upon a common intermediate which is a benzocyclobutene, OK in principle but not yet OK in practice. The right benzyne reaction will be there someday, and the dimethylene analogues will be made and assayed. But, in the meantime, at least the names have been assigned.",
+      "experience_profile": {
+        "positives": {
+          "altered_state": "Completely intriguing",
+          "safety": "Free from apparent physical threats",
+          "character": "Merry nuttiness",
+          "effect": "Joyous intoxication",
+          "social": "Ease of communication"
+        },
+        "negatives": {
+          "duration": "Long period of time investment required",
+          "paranoia": "Underlying paranoia of how it looks to others",
+          "environment_dependence": "Only comfortable in well-known and friendly surroundings"
+        },
+        "warning": "Might be a truly frightening experience in unfamiliar or unstructured environment"
+      },
+      "set_and_setting_importance": {
+        "requirement": "Well-known and friendly surroundings",
+        "risk": "Truly frightening in unfamiliar or unstructured environment"
+      },
+      "nomenclature_system": {
+        "basis": "Nature of the substituent at 3,4-position",
+        "this_compound": {
+          "bridge": "Trimethylene (three atoms)",
+          "name": "2C-G-3"
+        },
+        "related_compounds": {
+          "2C-G-2": {
+            "bridge": "Dimethylene (two atoms)",
+            "amphetamine_analogue": "G-2",
+            "status": "Named but not yet synthesized"
+          }
+        }
+      },
+      "synthetic_challenges": {
+        "required_intermediate": "Benzocyclobutene",
+        "current_status": "OK in principle but not yet OK in practice",
+        "future_approach": "The right benzyne reaction",
+        "outlook": "Will be made and assayed someday",
+        "current_state": "At least the names have been assigned"
+      },
+      "amphetamine_analogue": {
+        "name": "G-3 (GANESHA-3)",
+        "relationship": "Extension of GANESHA series"
+      },
+      "key_themes": [
+        "duration_investment",
+        "merry_nuttiness",
+        "joyous_intoxication",
+        "underlying_paranoia",
+        "set_and_setting",
+        "environment_dependence",
+        "nomenclature_logic",
+        "trimethylene_bridge",
+        "benzocyclobutene_synthesis",
+        "future_compounds",
+        "names_before_compounds"
+      ],
+      "notable_quotes": [
+        "The positives of a completely intriguing altered state free from apparent physical threats, are here coupled with the negative of having to invest such a long period of time.",
+        "There is a merry nuttiness which can give a joyous intoxication, but with the underlying paranoia of how it looks to others.",
+        "There is an ease of communication, but only within surroundings that are well-known and friendly.",
+        "This might be a truly frightening experience if it were in an unfamiliar or unstructured environment.",
+        "The numbering of this compound, and all the extensions of GANESHA, have been made on the basis of the nature of the stuff at the 3,4-position.",
+        "Here there are three atoms (the trimethylene bridge) and so 2C-G-3 seems reasonable.",
+        "These compounds call upon a common intermediate which is a benzocyclobutene, OK in principle but not yet OK in practice.",
+        "The right benzyne reaction will be there someday, and the dimethylene analogues will be made and assayed.",
+        "But, in the meantime, at least the names have been assigned."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
