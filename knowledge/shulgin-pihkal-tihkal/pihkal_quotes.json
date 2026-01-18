@@ -5839,6 +5839,276 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 90,
+      "code": "IDNNA",
+      "chemical_name": "2,5-Dimethoxy-N,N-dimethyl-4-iodoamphetamine",
+      "extensions_and_commentary": "This base, if it were given a code name based upon its substituents arranged in their proper alphabetical order, would have to be called something like DNDIA, which is quite unpronounceable. But by a rearrangement of these terms, one can achieve IDNNA (Iodo-Dimethoxy-N,N-dimethyl-Amphetamine) which has a nice lilt to it.",
+      "naming": {
+        "alphabetical": "DNDIA (unpronounceable)",
+        "chosen": "IDNNA (Iodo-Dimethoxy-N,N-dimethyl-Amphetamine)",
+        "rationale": "Has a nice lilt to it"
+      },
+      "nuclear_medicine_application": {
+        "goal": "Demonstrate brain blood flow pattern",
+        "required_properties": [
+          "Carry radioactive positron-emitting isotope (fluorine or iodine) that attaches quickly and stays on",
+          "Rapid and extensive brain uptake without selective site concentration - go where blood goes",
+          "Strong enough absorption to stay in brain, not wash out quickly",
+          "Without pharmacological action"
+        ],
+        "IDNNA_performance": "Went in quickly, extensively, quite diffusely, stayed in long time"
+      },
+      "pharmacological_activity_question": {
+        "animal_studies": "Quite inert",
+        "problem": "Close analogue to extremely potent DOI, animal assays useless for psychedelic properties",
+        "human_assay": {
+          "max_tested": "2.6 mg orally",
+          "result": "No activity at levels where DOI would be active",
+          "statement": "Less active than DOI itself in man"
+        },
+        "practical_consideration": "Radioactive 122I requires only microgram quantities, not milligrams"
+      },
+      "analogues_prepared": {
+        "count": "Fifteen close analogues",
+        "goal": "Better balance of biological properties",
+        "N_alkyl_variants": ["methyl", "isopropyl", "cyclopropylmethyl", "hexyl", "dodecyl", "benzyl", "cyanomethyl", "3-(dimethylaminopropyl)"],
+        "N_dialkyl_variants": ["dimethyl (IDNNA)", "diethyl", "isopropyl-methyl", "benzyl-methyl"],
+        "outcome": "None superior to IDNNA in rat model, none tasted for psychedelic potential"
+      },
+      "DEDMA": {
+        "name": "2,5-dimethoxy-N,N-diethylamphetamine",
+        "preparation": "Reductive alkylation of DMA with acetaldehyde and sodium cyanoborohydride",
+        "properties": "Clear white oil, bp 82-92 C at 0.15 mm/Hg, no crystalline hydrochloride",
+        "interesting_note": "Beta-hydroxy derivative is antitussive with potency same as codeine"
+      },
+      "key_themes": [
+        "nuclear_medicine",
+        "brain_blood_flow",
+        "radioactive_labelling",
+        "DOI_analogue",
+        "pharmacological_inertness",
+        "DEDMA_antitussive"
+      ],
+      "notable_quotes": [
+        "This base, if it were given a code name based upon its substituents arranged in their proper alphabetical order, would have to be called something like DNDIA, which is quite unpronounceable.",
+        "One of the major goals of research in nuclear medicine is a drug that can be used to demonstrate the brain blood flow pattern.",
+        "It is widely admitted that animal assays are of no use in trying to determine this specific pharmacological property.",
+        "So, a quiet human assay was called for.",
+        "Let's wave our hands a bit, and make our statement with aggressive confidence.",
+        "IDNNA has shown no activity in the human CNS at any level that has been evaluated.",
+        "Just don't go too far up there, and don't look too carefully.",
+        "An interesting measure of just how different these N,N-dialkylated homologues can be from the psychedelic primary amines, pharmacologically, can be seen in the published report that the beta-hydroxy derivative of DEDMA is an antitussive, with a potency the same as codeine."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 91,
+      "code": "IM",
+      "chemical_name": "2,3,4-Trimethoxyphenethylamine",
+      "extensions_and_commentary": "Some fifty years ago this material was given the name 'reciprocal mescaline' in that it was believed to exacerbate the clinical symptoms in schizophrenic patients.",
+      "reciprocal_mescaline": {
+        "name_origin": "Fifty years ago",
+        "original_finding": {
+          "mescaline_3_4_5": "Produces stronger intoxication in normal subjects than schizophrenics",
+          "IM_2_3_4": "Little action in healthy individuals, very potent in schizophrenics",
+          "quote": "Extremely remarkable dependency of intoxicating action upon position of three methoxy groups"
+        },
+        "promised_followup": "Metabolic conversion products to be studied - never appeared"
+      },
+      "modern_assessment": {
+        "medical_community": "No qualms about discarding original claims",
+        "lost_potential": "All may be forgotten as far as potential new discoveries"
+      },
+      "recent_related_study": {
+        "method": "Radioactive labelling to measure demethylation",
+        "finding": "With methionine loading, schizophrenics showed lesser demethylation",
+        "methionine_role": "Principal source of body's methyl groups"
+      },
+      "diagnostic_test_question": {
+        "current_thinking": "Probably cannot be diagnostic test for schizophrenia",
+        "reason": "Illness has social and genetic contributions",
+        "simple_measures": "Response to almost-psychedelic or urinary metabolite pattern unlikely to be believed",
+        "confirmation": "No independent confirmation reported",
+        "caveat": "But maybe findings are valid"
+      },
+      "obstacles": {
+        "not_research_protocols": "Major problem not complex research",
+        "real_barriers": "Regulatory restrictions and Federal law structure",
+        "assessment": "Formidable obstacles"
+      },
+      "key_themes": [
+        "reciprocal_mescaline",
+        "schizophrenia",
+        "positional_isomer",
+        "demethylation_metabolism",
+        "methionine_loading",
+        "regulatory_obstacles",
+        "lost_research"
+      ],
+      "notable_quotes": [
+        "Some fifty years ago this material was given the name 'reciprocal mescaline' in that it was believed to exacerbate the clinical symptoms in schizophrenic patients.",
+        "Thus we have discovered an extremely remarkable dependency of the intoxicating action upon the position of the three methoxy groups.",
+        "Mescaline, the 3,4,5-trimethoxy-beta-phenethylamine, produces in the normal subject a much stronger over-all intoxication than in the schizophrenic patient, whereas 2,3,4-trimethoxy-beta-phenethylamine has quite the opposite effect.",
+        "It has little action in healthy individuals, being almost without intoxicating properties, but it is very potent in the schizophrenic.",
+        "This is a pretty rich offering, and one that the present medical community has no qualms about discarding.",
+        "The promised further studies have never appeared, so all may be forgotten.",
+        "But maybe these findings are valid.",
+        "What must be addressed are the present regulatory restrictions and the Federal law structure. And these are formidable obstacles."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 92,
+      "code": "IP",
+      "chemical_name": "3,5-Dimethoxy-4-isopropoxyphenethylamine",
+      "extensions_and_commentary": "These two excerpts give the color and complexity of IP. It has proven to be a completely fascinating phenethylamine. And, as with all the phenethylamines, there is an amphetamine that corresponds to it.",
+      "3C_IP_amphetamine": {
+        "name": "3,5-dimethoxy-4-isopropoxyamphetamine (3C-IP)",
+        "synthesis_route": "O-isopropoxylation of syringaldehyde, nitrostyrene with nitroethane, LiAlH4 reduction",
+        "status": "Not synthesized, probably not evaluated in man",
+        "predicted_potency": "More potent than IP, maybe 30 mg area"
+      },
+      "room_temperature_aside": {
+        "english_meaning": "Natural temperature if put on table, neither heated nor cooled",
+        "french_problem": "Completely un-understandable - a room has no temperature, only things in rooms",
+        "french_expression": "Temperature normale d'interieur (about 15-16 C)",
+        "laboratory_parlance": "Temperature d'ambiance",
+        "discovery_location": "Year at Gif"
+      },
+      "iso_prefix_clarification": {
+        "general_meaning": "The other one of two possibilities",
+        "house_paint_analogy": "If green is used, red could be called iso-green",
+        "isoproscaline_case": {
+          "change": "Propyl group rearranged to branched isopropyl",
+          "ring_pattern": "Still 3,4,5-orientation"
+        },
+        "isomescaline_case": {
+          "change": "Rearrangement of substitution pattern on ring",
+          "from": "3,4,5-arrangement",
+          "to": "2,3,4-arrangement",
+          "moved": "Side-chain took other of two possible positions"
+        },
+        "warning": "Term 'iso' must always be interpreted in precise context"
+      },
+      "key_themes": [
+        "isopropoxy_substitution",
+        "3C_IP_prediction",
+        "room_temperature_French",
+        "temperature_d_ambiance",
+        "iso_prefix_clarification",
+        "nomenclature_precision"
+      ],
+      "notable_quotes": [
+        "These two excerpts give the color and complexity of IP. It has proven to be a completely fascinating phenethylamine.",
+        "What would be the active level? It would probably be more potent than IP, but I would guess not by much. Maybe in the 30 milligram area.",
+        "Room temperature, as used above, means the natural temperature that something comes to if it is put on the table and is neither heated nor cooled.",
+        "The phrase, I discovered during my year at Gif, is completely un-understandable in French. A room has no temperature. Only things in rooms have temperatures.",
+        "In general, the term 'iso' means the other one of two possibilities.",
+        "If you are allowed to paint a house only with green paint or red paint, and green is the color you actually use, then red could be called iso-green.",
+        "The term 'iso' must always be interpreted in precise context."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 93,
+      "code": "IRIS",
+      "chemical_name": "5-Ethoxy-2-methoxy-4-methylamphetamine",
+      "extensions_and_commentary": "This is one of the ten Classic Ladies, the ten possible homologues of DOM, which I had discussed under ARIADNE (the first of the Ladies). The active level is unknown, but it is higher than 9 milligrams (the highest dose tried) and since DOM itself would have been smashingly active at this level, it is obvious that IRIS is a homologue with decreased potency.",
+      "classic_ladies": {
+        "position": "One of ten possible",
+        "cross_reference": "ARIADNE (first of the Ladies)"
+      },
+      "potency": {
+        "active_level": "Unknown, higher than 9 mg",
+        "comparison": "DOM smashingly active at 9 mg",
+        "conclusion": "Decreased potency homologue"
+      },
+      "reasonably_complex_concept": {
+        "meaning": "Not just many facets to tally",
+        "importance": "Intrinsic complexity implied"
+      },
+      "godel_theorem": {
+        "statement": "Anything reasonably complex cannot have explanation both completely satisfactory AND satisfactorily complete",
+        "his_term": "Interesting (rather than reasonably complex)",
+        "implication_factual": "If factual, cannot be entirely complete",
+        "implication_complete": "If complete, cannot be entirely factual",
+        "conclusion": "We will never know, cannot ever know, every fact constituting explanation",
+        "book_analogy": "Complete book of knowledge must contain errors; error-free book must be incomplete"
+      },
+      "warning_light": {
+        "trigger": "Someone explaining complex phenomenon with confidence",
+        "problem": "Intense familiarity with one discipline, viewed through those eyes",
+        "red_flag_phrase": "We are not yet completely sure of exactly how it works",
+        "actual_meaning": "We haven't the slightest idea of how it really works"
+      },
+      "pigeon_hole_approach": {
+        "chemist_view": "Compare structures of active vs inactive molecules",
+        "example_holes": ["Methoxyl groups (#1)", "Bicyclic (#2)", "Bicyclic with heteroatoms (#2A)", "Bicyclic without heteroatoms (#2B)"],
+        "molecular_biologist_view": "Analyze intimate geometry of brain receptor sites",
+        "receptor_subdivision": ["5-HT1", "5-HT2A", "5-HT2B", "5-HT2C", "5-HT2D"],
+        "serotonin": "Favorite neurotransmitter of the moment",
+        "admission": "Neither approach has come much closer to understanding mechanism"
+      },
+      "harvard_professor_quote": "We must recognize for what it is, man's predilection for dividing things into tidy categories, irrespective of whether clarity is gained or lost thereby",
+      "jigsaw_puzzle_metaphor": {
+        "pieces": "Zillion zillion",
+        "progress": "Occasionally find piece that matches, rarely provides insight into final picture",
+        "final_picture": "Will remain mystery unless saw box cover in other incarnation",
+        "joy": "Oh my, what fun it is, whenever you do happen to find a new piece that fits!"
+      },
+      "ethoxy_in_place_of_methoxy": {
+        "pigeon_hole_name": "Ethoxy In Place of Methoxy",
+        "compounds": "Perhaps twenty pairs",
+        "potency_outcomes": {
+          "decrease": "IRIS and most Tweetios",
+          "maintain": "TMA-2/MEM pair",
+          "increase": "Mescaline/escaline pair"
+        },
+        "subdivision_fad": "Create sub-pigeon holes by position",
+        "end_point": "As many pigeon holes as compounds!"
+      },
+      "wrong_questions": {
+        "chemist_asks": "What are they? (molecules)",
+        "biologist_asks": "Where do they go?",
+        "overlooked_question": "What do they do?",
+        "word_substitution_problem": "Easy to replace 'mind' with 'brain'"
+      },
+      "conclusion": {
+        "mind_classification": "Reasonably complex phenomenon",
+        "godel_term": "Interesting phenomenon"
+      },
+      "key_themes": [
+        "Classic_Ladies",
+        "Godel_theorem",
+        "reasonably_complex",
+        "pigeon_hole_classification",
+        "5HT_receptors",
+        "ethoxy_methoxy_comparison",
+        "mind_vs_brain",
+        "jigsaw_puzzle",
+        "limits_of_knowledge"
+      ],
+      "notable_quotes": [
+        "This is one of the ten Classic Ladies, the ten possible homologues of DOM.",
+        "I have referred to a drug's action on the mind, quite frequently in these notes, with the phrase 'reasonably complex.'",
+        "If your collection of information is factual, it cannot be entirely complete. And if it is complete, it cannot be entirely factual.",
+        "A complete book of knowledge must contain errors, and an error-free book of knowledge must be incomplete.",
+        "There is a small warning light deep inside me that starts flashing any time I hear someone begin to advance an explanation of some reasonably complex phenomenon with an air of confidence.",
+        "Be attentive to the phrase, 'We are not yet completely sure of exactly how it works.' What is really meant is, 'We haven't the slightest idea of how it really works.'",
+        "We must recognize for what it is, man's predilection for dividing things into tidy categories, irrespective of whether clarity is gained or lost thereby.",
+        "No. No one will ever have it all together.",
+        "But Oh my, what fun it is, whenever you do happen to find a new piece that fits!",
+        "Perhaps both my neighboring molecular biologist and I are asking the wrong questions.",
+        "It is so easy to replace the word 'mind,' in our inquiries, with the word 'brain.'",
+        "The mind is without question an 'interesting' phenomenon."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
