@@ -6453,6 +6453,374 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 99,
+      "code": "MAL",
+      "chemical_name": "Methallylescaline; 3,5-Dimethoxy-4-(2-methallyoxy)phenethylamine",
+      "extensions_and_commentary": "This testimony can be accurately described as a mixed bag!",
+      "structural_relationships": {
+        "hybrid_of": ["AL", "CPM"],
+        "AL_relationship": "Olefin (place of unsaturation)",
+        "CPM_relationship": "Isostere (same carbon atom locations, different bond positions)",
+        "third_compound": "PROPYNYL"
+      },
+      "activity_differences": {
+        "CPM": "Leads largely to fantasy",
+        "MAL": "Leads largely to visual imagery",
+        "AL": "Twice as potent as either, but shows neither effect",
+        "PROPYNYL": "Almost without any action at all",
+        "lesson": "Such great differences from extremely close structural similarities - cannot generalize"
+      },
+      "DRED_marijuana_story": {
+        "experience": "Most difficult",
+        "feeling": "Felt I had been poisoned",
+        "lesson": "Beware and believe in whatever common name a drug might have",
+        "MAL_outcome": "Fortunately did not live up to its name (for me)"
+      },
+      "oxygen_analogue_attempt": {
+        "concept": "Hang negative something (oxygen) at end of chain",
+        "reaction": "Homosyringonitrile + methoxyethyl chloride",
+        "target": "3,5-dimethoxy-4-(2-methoxyethoxy)phenethylamine",
+        "outcome": "Yield so bad project abandoned",
+        "sulfur_success": "Same grouping with sulfur gave 2C-T-13 - potent and interesting"
+      },
+      "naming_problem": {
+        "issue": "Methallylescaline is completely unsound",
+        "reality": "Not methallyl + escaline, but mescaline with 2-propene on 4-methoxy",
+        "proper_name": "4-methylallyldesmethylmescaline",
+        "abbreviation_would_be": "MAD (difficult to deal with)",
+        "chosen": "MAL is preferable"
+      },
+      "key_themes": [
+        "olefin",
+        "isostere",
+        "visual_imagery",
+        "structural_similarity_different_effects",
+        "DRED_warning",
+        "naming_difficulties",
+        "2C-T-13_connection"
+      ],
+      "notable_quotes": [
+        "This testimony can be accurately described as a mixed bag!",
+        "Although all of them have extremely close structural similarities, there are such great differences in action that one does not dare to generalize.",
+        "Speaking of generalization, I am glad that there are always exceptions.",
+        "The only word that I can use to describe my response to it is to say that I felt I had been poisoned.",
+        "From this I warned myself to beware (and to believe in) whatever common name a drug might have been given.",
+        "Fortunately, MAL did not live up to its name (at least for me).",
+        "The name methallylescaline actually is completely unsound.",
+        "MAL is preferable."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 100,
+      "code": "MDA",
+      "chemical_name": "3,4-Methylenedioxyamphetamine",
+      "extensions_and_commentary": "There are about twenty different synthetic routes in the literature for the preparation of MDA. Many start with piperonal, and employ it to make methylenedioxyphenylacetone or a methylenedioxydihydrocinnamic acid amide instead of the nitrostyrene.",
+      "synthesis": {
+        "routes": "About twenty in literature",
+        "starting_materials": ["Piperonal", "Safrole", "Isosafrole", "Sassafras root bark"],
+        "intermediates": ["Methylenedioxyphenylacetone", "Methylenedioxydihydrocinnamic acid amide"],
+        "ten_essential_oils": "Safrole makes MDA one of the Ten Essential Amphetamines (see TMA)"
+      },
+      "history": {
+        "military_intelligence": {
+          "era": "Just after World War II",
+          "goal": "Truth serums and incapacitating agents",
+          "method": "Giving unexplored drugs to knowing and unknowing subjects"
+        },
+        "howard_blauer_case": {
+          "year": 1953,
+          "victim": "Psychiatric patient Howard Blauer",
+          "location": "New York State Psychiatric Institute",
+          "contractor": "Army contract with physicians",
+          "code": "EA-1298 (Edgewood Arsenal)",
+          "fatal_dose": "500 mg intravenous"
+        }
+      },
+      "medical_explorations": {
+        "trade_name": "Amphedoxamine (SKF-5)",
+        "application": "Anorexic agent",
+        "promise": "Treatment of psychoneurotic depression",
+        "book": "Claudio Naranjo's The Healing Journey"
+      },
+      "street_history": {
+        "era": "Late 1960's psychedelic explosion",
+        "nickname": "Hug-drug",
+        "claimed_meaning": "Mellow Drug of America",
+        "availability": "Research chemical from scientific supply houses, inexpensive"
+      },
+      "optical_isomers": {
+        "R_isomer": "Higher potency (consistent with all psychedelics)",
+        "S_isomer": "More peaceful, MDMA-like at lower doses, toxic signs at higher levels"
+      },
+      "structural_variants": {
+        "ALPHA": {
+          "name": "Alpha-ethyl-3,4-methylenedioxybenzylamine",
+          "structure": "Amine moved to alpha-carbon (benzylamine)",
+          "mp": "199-201 C (hydrochloride)",
+          "threshold": "10 mg area",
+          "effects": "Eyes-closed dreams, body tingling, pleasant positive feeling",
+          "duration": "About 3 hours",
+          "not_anorexic": true
+        },
+        "M_ALPHA": {
+          "name": "Alpha-ethyl-N-methyl-3,4-methylenedioxybenzylamine",
+          "potency": "Twice as potent as ALPHA",
+          "dose": "60 mg for plus one or plus two",
+          "duration": "Twice as long as ALPHA"
+        },
+        "GAMMA": {
+          "name": "Gamma-3,4-methylenedioxyphenylpropylamine",
+          "structure": "Amine moved to gamma-carbon (n-propylamine)",
+          "mp": "204-205 C (hydrochloride)",
+          "dose": "200 mg",
+          "effects": "Physical ill-at-ease, time distortion, keenly aware",
+          "duration": "4 hours"
+        }
+      },
+      "related_compounds": {
+        "MDPEA": "Phenethylamine (remove alpha-methyl) = H in Muni-Metro",
+        "J_series": "Add carbon to alpha-methyl → J, K, L etc (see METHYL-J)",
+        "aminoindane": "Bend alpha-methyl back to ring",
+        "aminotetralin": "From J bent back",
+        "toxicity_note": "Both react like MDMA in discrimination, appear free of neurochemical toxicity"
+      },
+      "methylenedioxy_homologues": {
+        "EDA": {
+          "structure": "Ethylidene (acetaldehyde addition)",
+          "potency": "2-3 fold down from MDA",
+          "trials": "Up to 150 mg - threshold light-headedness at best"
+        },
+        "IDA": {
+          "structure": "Isopropylidine (acetone addition)",
+          "potency": "2-3 fold down from EDA",
+          "trials": "Untested"
+        },
+        "MDMC": "Carbon in rather than on methylenedioxy ring - separate entry"
+      },
+      "ORTHO_MDA": {
+        "structure": "2,3-methylenedioxyamphetamine",
+        "effect": "Stimulant rather than MDA",
+        "trial": "50 mg - awake and alert all night, no MDA-like effects"
+      },
+      "duration_revision": {
+        "date": "September 2001",
+        "change": "8-12 hours → 3-6 hours",
+        "source": "Erowid after discussion with Sasha"
+      },
+      "key_themes": [
+        "ten_essential_amphetamines",
+        "safrole",
+        "hug_drug",
+        "Howard_Blauer_tragedy",
+        "EA_1298",
+        "optical_isomers",
+        "ALPHA_GAMMA_variants",
+        "Muni_Metro",
+        "aminoindane"
+      ],
+      "notable_quotes": [
+        "There are about twenty different synthetic routes in the literature for the preparation of MDA.",
+        "It is because safrole is one of the ten essential oils that MDA can humorously be referred to as one of the Ten Essential Amphetamines.",
+        "There is a broad and checkered history concerning the use and abuse of MDA, and it is not the case that all the use was medical and all the abuse was social.",
+        "The giving of relatively unexplored drugs in a cavalier manner to knowing and unknowing subjects was commonplace.",
+        "The last and lethal injection into Blauer was an intravenous dose of 500 milligrams.",
+        "MDA was called the 'hug-drug' and was said to stand for Mellow Drug of America.",
+        "There was no difficulty in obtaining unending quantities of it, as it was available as a research chemical from several scientific supply houses."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 101,
+      "code": "MDAL",
+      "chemical_name": "N-Allyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "Here is another inactive probe, like MDPR, that could possibly serve as a primer to LSD. The three carbon chain on the nitrogen seen with MDPR is almost identical to the three carbon chain on the nitrogen atom of MDAL.",
+      "MDPR_comparison": {
+        "similarity": "Almost identical three carbon chain on nitrogen",
+        "MDPR_effect": "180 mg inactive alone but fantastic LSD enhancer",
+        "MDAL_effect": "180 mg does not enhance, actually somewhat antagonizes LSD"
+      },
+      "hydrogen_difference": {
+        "observation": "All this difference from just a couple of hydrogen atoms",
+        "MDPR_formula": "C13H20ClNO2",
+        "MDAL_formula": "C13H18ClNO2",
+        "identical": ["Carbon atoms", "Oxygen atoms", "Nitrogen atom", "All in identical places"]
+      },
+      "key_themes": [
+        "LSD_interaction",
+        "inactive_probe",
+        "MDPR_comparison",
+        "antagonist_vs_enhancer",
+        "hydrogen_atom_difference"
+      ],
+      "notable_quotes": [
+        "Here is another inactive probe, like MDPR, that could possibly serve as a primer to LSD.",
+        "The three carbon chain on the nitrogen seen with MDPR is almost identical to the three carbon chain on the nitrogen atom of MDAL.",
+        "Where an 'inactive' level of 180 milligrams of MDPR is a rather fantastic enhancer of LSD action, the same weight of this compound not only does not enhance, but actually seems to somewhat antagonize the action of LSD.",
+        "All this difference from just a couple of hydrogen atoms.",
+        "Identical carbon atoms, identical oxygen atoms, and an identical nitrogen atom. And all in identical places."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 102,
+      "code": "MDBU",
+      "chemical_name": "N-Butyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "Straight chain homologues on the nitrogen atom of MDA longer than two carbons are probably not active. This butyl compound provoked no interest, and although the longer chain counterparts were made by the general sodium cyanoborohydride method (see under MDBZ), they were not tasted.",
+      "activity": {
+        "status": "Provoked no interest",
+        "chain_length_rule": "N-alkyl longer than 2 carbons probably not active",
+        "longer_chains": "Made but not tasted"
+      },
+      "mouse_assays": {
+        "finding": "Consistent decrease in action with longer alkyl chains",
+        "measures": ["Anesthetic potency", "Motor activity"]
+      },
+      "synthetic_method": {
+        "reagents": ["Amine hydrochloride", "Sodium cyanoborohydride", "Methanol"],
+        "ketone": "3,4-methylenedioxyphenylacetone",
+        "generality": "Works with phenyl-2-propanone (P-2-P) equally well",
+        "pH": 6
+      },
+      "P_2_P_examples": {
+        "N_butylamphetamine": {
+          "yield": "23.4 g from 16.3 g P-2-P",
+          "bp": "70-75 C at 0.3 mm/Hg"
+        },
+        "N_ethylamphetamine": "22.4 g from 22.1 g P-2-P",
+        "N_methylamphetamine": "24.6 g from 26.8 g P-2-P",
+        "ammonia_note": "Ammonium acetate gives consistently poor yields"
+      },
+      "key_themes": [
+        "N_alkyl_chain_length",
+        "inactive",
+        "sodium_cyanoborohydride",
+        "P_2_P_synthesis",
+        "mouse_assays"
+      ],
+      "notable_quotes": [
+        "Straight chain homologues on the nitrogen atom of MDA longer than two carbons are probably not active.",
+        "This butyl compound provoked no interest.",
+        "Although the longer chain counterparts were made by the general sodium cyanoborohydride method, they were not tasted.",
+        "All mouse assays that compared this homologous series showed a consistent decrease in action as the alkyl chain on the nitrogen atoms was lengthened.",
+        "The reaction with simple ammonia (as ammonium acetate) gives consistently poor yields in these reactions."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 103,
+      "code": "MDBZ",
+      "chemical_name": "N-Benzyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The benzyl group is a good ally in the synthetic world of the organic chemist, in that it can be easily removed by catalytic hydrogenation. This is a trick often used to protect (for a step or series of steps) a position on the molecule, and allowing it to become free and available at a later part in a synthetic scheme. In pharmacology, however, it is often a disappointment.",
+      "benzyl_group": {
+        "synthetic_utility": "Easily removed by catalytic hydrogenation",
+        "use": "Protecting group trick",
+        "pharmacology": "Often a disappointment"
+      },
+      "phenethylamine_requirement": {
+        "structure": "Two-carbon separation between aromatic ring (weak base) and nitrogen (strong base)",
+        "etymology": {
+          "phen": "Shortened form of phenyl, from phenol (simplest aromatic alcohol)",
+          "ethyl": "Two carbon chain",
+          "amine": "Basic nitrogen"
+        },
+        "benzylamine": "One carbon removed - usually different pharmacology or inactive"
+      },
+      "Fentanyl_example": {
+        "observation": "Phenethyl → benzyl replacement virtually eliminates analgesic potency"
+      },
+      "MDBZ_activity": "Little if any activity",
+      "separation_problems": {
+        "issue": "Separating starting amine from product amine",
+        "solutions": ["Boiling point differences", "Relative polarities", "Ion-pair extraction"],
+        "fallback": "Careful crystallization"
+      },
+      "N_homologues_made": {
+        "MDIB": {
+          "name": "3,4-methylenedioxy-N-(i)-butylamphetamine",
+          "bp": "95-105 C at 0.15 mm/Hg",
+          "mp": "179-180 C (hydrochloride)"
+        },
+        "MDTB": {
+          "name": "3,4-methylenedioxy-N-(t)-butylamphetamine",
+          "yield": "Miniscule"
+        },
+        "MDAM": {
+          "name": "3,4-methylenedioxy-N-amylamphetamine",
+          "bp": "110-120 C at 0.2 mm/Hg",
+          "mp": "164-166 C (hydrochloride)"
+        },
+        "MDHE": {
+          "name": "3,4-methylenedioxy-N-(n)-hexylamphetamine",
+          "bp": "110-115 C at 0.2 mm/Hg",
+          "mp": "188-189 C (hydrochloride)",
+          "quirk": "Sulfate salt soluble in methylene chloride, not water or ether"
+        },
+        "MDSE": {
+          "name": "3,4-methylenedioxy-N-(4-heptyl)-amphetamine",
+          "naming": "SE for septyl (not HE for heptyl to avoid hexyl ambiguity)",
+          "outcome": "Product lost down sink with organic extracts",
+          "lesson": "Use ether as solvent or citric acid next time"
+        },
+        "MDOC": {
+          "name": "3,4-methylenedioxy-N-(n)-octylamphetamine",
+          "bp": "130-135 C at 0.2 mm/Hg",
+          "mp": "206-208 C (hydrochloride)",
+          "sulfate": "Water-insoluble, ether-insoluble, methylene chloride-soluble"
+        }
+      },
+      "N_N_dialkyl_homologues": {
+        "MDDM": "N,N-dimethyl - separate entry",
+        "MDDE": {
+          "name": "3,4-methylenedioxy-N,N-diethylamphetamine",
+          "preparation_problem": "Diethylamine + ketone with cyanoborohydride hopelessly slow",
+          "solution": "Reverse functionality - MDA + acetaldehyde + sodium borohydride",
+          "bp": "85-90 C at 0.15 mm/Hg",
+          "mp": "177-178 C (hydrochloride)"
+        }
+      },
+      "weird_N_substituted": {
+        "MDCM": {
+          "name": "3,4-methylenedioxy-N-cyanomethylamphetamine",
+          "bp": "About 160 C at 0.3 mm/Hg",
+          "mp": "156-158 C (hydrochloride)",
+          "NMR": "N-cyanomethylene protons singlet at 4.38 ppm",
+          "note": "Ammonia generated during synthesis, MDA in fore-run"
+        },
+        "MDBA": {
+          "name": "3,4-methylenedioxy-N-(t)-butylaminoamphetamine",
+          "bp": "95-105 C at 0.10 mm/Hg",
+          "mp": "220-222 C with decomposition (hydrochloride)",
+          "analysis": "N calcd 9.77, found 10.67, 10.84"
+        }
+      },
+      "key_themes": [
+        "benzyl_protecting_group",
+        "phenethylamine_vs_benzylamine",
+        "Fentanyl_analogy",
+        "N_homologue_series",
+        "sulfate_solubility_quirk",
+        "MDSE_lost_product",
+        "MDDE_reversed_synthesis"
+      ],
+      "notable_quotes": [
+        "The benzyl group is a good ally in the synthetic world of the organic chemist.",
+        "In pharmacology, however, it is often a disappointment.",
+        "With most centrally active alkaloids, there is a two-carbon separation between the weak base that is called the aromatic ring, and the strong base that is called the nitrogen.",
+        "If one carbon is removed, one has a benzylamine, and it is usually identified with an entirely different pharmacology, or is most often simply not active.",
+        "The replacement of the phenethyl group, attached to the nitrogen atom with a benzyl group, virtually eliminates its analgesic potency.",
+        "Here too, there appears to be little if any activity in the N-benzyl analogue of MDA.",
+        "In retrospect, it had been assumed that the sulfate salt would have extracted into methylene chloride.",
+        "Next time maybe ether as a solvent, or citric acid as an acid."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
