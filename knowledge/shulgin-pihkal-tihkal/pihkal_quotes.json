@@ -3173,6 +3173,177 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 48,
+      "code": "2C-T-17",
+      "chemical_name": "2,5-Dimethoxy-4-(s)-butylthiophenethylamine",
+      "extensions_and_commentary": "An interesting, and quite logical, habit that seems to always pop up when a lot of talk and energy become directed at a specific compound, is the habit of using a nickname for it. The Tweetios are an example, and in the 2C-T-X family I had mentioned the term SESQUI. Here, this compound was called NIMITZ, for the obvious reason that the major freeway from Oakland to San Jose, the Nimitz freeway, was also called State Highway 17. Its name has been changed to Interstate 880, and I guess it could now only be used as a reference point if efforts were being made for a 2C-T-880.\n\nThe reason that 2C-T-17 is of special theoretic interest is that it is one of the very first of the active psychedelic compounds (along with 2C-G-5) to have a potential optically active center on the side of the ring away from the nitrogen atom. One of the oldest and best studied variants of the phenethylamine chain are the alpha-methyl homologues, the substituted amphetamines. Here there is an asymmetric carbon atom right next to the amine group, allowing the molecule to be prepared in either a right-hand way or a left-hand way. The \"R\" or the \"S\" isomer. And in the several studies that have looked at such isomers separately, it has always been the \"R\" isomer that has carried the psychedelic effects. This probably says something about the nitrogen end, the metabolic end, the \"north\" end of the receptor site that recognizes these compounds, and suggests that there is some intrinsic asymmetry in the area that binds near to the basic nitrogen atom.\n\nBut very little is known of the receptor's \"south\" end, so to speak, the geometry of the area where the opposite end of the molecule has to fit. Here, with 2C-T-17, there is a secondary butyl group, and this contains an asymmetric carbon atom. But now this center of asymmetry is clear across the benzene ring from the nitrogen, and should certainly be in some entirely new part of the receptor site. Why not make this compound with the \"R\" and the \"S\" forms in this new and unusual location? Why not, indeed! Why not call them the right-lane and the left lane of the Nimitz? Fortunately, both \"R\" and \"S\" secondary butyl alcohols were easily obtained, and the synthesis given above for the racemic compound was paralleled for each of these isomers, separately. Is there any chemistry that is different with the specific optical isomers from that which has been reported with the racemic? There certainly is for the first step, since the butyl alcohols rather than the butyl bromides must be used, and this first step must go by inversion, and it cannot be allowed any racemization (loss of the optical purity of the chiral center).\n\nThe synthesis of 2C-T-17 \"R\" required starting with the \"S\" isomer of secondary butanol. The \"S\" 2-butanol in petroleum ether gave the lithium salt with butyllithium which was treated with tosyl chloride (freshly crystallized from naphtha, hexane washed, used in toluene solution) and the solvent was removed. The addition of 2,5-dimethoxythiophenol, anhydrous potassium carbonate, and DMF produced \"S\"-2,5-dimethoxyphenyl s-butyl sulfide. The conversion to \"R\"-2,5-dimethoxy-4-(s-butylthio)benzaldehyde (which melted at 78-79 °C compared to 86-87 °C for the racemic counterpart) and its conversion in turn to the nitrostyrene, \"S\"-2,5-dimethoxy-4-(s)-butylthio-beta-nitrostyrene which melted at 70-71 °C compared to 68-69 °C for the racemic counterpart, followed the specific recipes above. The preparation of the intermediates to 2C-T-17 \"S\" follows the above precisely, but starting with \"R\" 2-butanol instead. And it is at these nitrostyrene stages that this project stands at the moment.\n\nIt would be fascinating if one of the two optically active 2C-T-17's carried all of the central activity, and the other, none of it. What is more likely is that the spectrum of effects will be teased apart, with one isomer responsible for some of them and the other isomer responsible for the others. Then, again, maybe the south end of the receptor site in the brain is totally symmetric, and the two optical antipodes will be indistinguishable.\n\nAn incidental bit of trivia--yet another bit of evidence that we are all totally asymmetric in our personal body chemistry. \"R\" and \"S\" secondary butanols smell different. The \"R\" has a subtle smell, which is rather fragrant. The \"S\" is stronger, hits the nasal passages harder, and reminds one of isopropanol more than does the \"R\" isomer.",
+      "nickname": {
+        "name": "NIMITZ",
+        "origin": "Nimitz freeway from Oakland to San Jose was State Highway 17",
+        "update": "Now Interstate 880",
+        "joke": "Could now only be used if making 2C-T-880"
+      },
+      "theoretical_significance": {
+        "importance": "One of the very first active psychedelics with optically active center away from nitrogen",
+        "shared_with": "2C-G-5",
+        "feature": "Secondary butyl group contains asymmetric carbon across benzene ring from nitrogen"
+      },
+      "receptor_geometry": {
+        "north_end": {
+          "location": "Near basic nitrogen atom",
+          "known_asymmetry": "R isomer always carries psychedelic effects in amphetamines",
+          "implication": "Intrinsic asymmetry in area binding near nitrogen"
+        },
+        "south_end": {
+          "location": "Opposite end of molecule from nitrogen",
+          "knowledge": "Very little is known",
+          "opportunity": "2C-T-17 probes this entirely new part of receptor site"
+        }
+      },
+      "optical_isomer_project": {
+        "concept": "Right-lane and left lane of the Nimitz",
+        "R_isomer": {
+          "requires": "Starting with S-secondary butanol",
+          "aldehyde_mp": "78-79°C (vs 86-87°C racemic)",
+          "nitrostyrene_mp": "70-71°C (vs 68-69°C racemic)"
+        },
+        "S_isomer": {
+          "requires": "Starting with R-secondary butanol"
+        },
+        "current_status": "At nitrostyrene stages",
+        "synthesis_note": "Must go by inversion, cannot allow racemization"
+      },
+      "predictions": {
+        "scenario_1": "One isomer carries all activity, other none",
+        "scenario_2": "Spectrum of effects teased apart between isomers",
+        "scenario_3": "South end totally symmetric, antipodes indistinguishable"
+      },
+      "butanol_smell_trivia": {
+        "observation": "R and S secondary butanols smell different",
+        "R_isomer": "Subtle smell, rather fragrant",
+        "S_isomer": "Stronger, hits nasal passages harder, reminds of isopropanol",
+        "significance": "Evidence we are all totally asymmetric in personal body chemistry"
+      },
+      "key_themes": [
+        "NIMITZ_nickname",
+        "optical_activity",
+        "receptor_south_end",
+        "R_vs_S_isomers",
+        "chiral_center_location",
+        "freeway_nomenclature",
+        "smell_asymmetry",
+        "unfinished_project"
+      ],
+      "notable_quotes": [
+        "Here, this compound was called NIMITZ, for the obvious reason that the major freeway from Oakland to San Jose, the Nimitz freeway, was also called State Highway 17.",
+        "I guess it could now only be used as a reference point if efforts were being made for a 2C-T-880.",
+        "This is one of the very first of the active psychedelic compounds (along with 2C-G-5) to have a potential optically active center on the side of the ring away from the nitrogen atom.",
+        "It has always been the 'R' isomer that has carried the psychedelic effects.",
+        "But very little is known of the receptor's 'south' end, so to speak.",
+        "Why not call them the right-lane and the left lane of the Nimitz?",
+        "It would be fascinating if one of the two optically active 2C-T-17's carried all of the central activity, and the other, none of it.",
+        "Maybe the south end of the receptor site in the brain is totally symmetric, and the two optical antipodes will be indistinguishable.",
+        "'R' and 'S' secondary butanols smell different.",
+        "Yet another bit of evidence that we are all totally asymmetric in our personal body chemistry."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 49,
+      "code": "2C-T-21",
+      "chemical_name": "2,5-Dimethoxy-4-(2-fluoroethylthio)phenethylamine",
+      "extensions_and_commentary": "This is about as potent a phenethylamine as they come. There are a couple in the 2C-G family that are similar in potency, but they are much longer lived. The motivation for the use of the beta-fluoroethyl group can be seen under the discussion of DOEF, where there was an amalgamation of two lines of reasoning: the imitation of potent serotonin agonists with a need of including an atom (the fluorine) that is potentially labelable with a positron emitter. And the mass-18 isotope of fluorine, with a half-life of just under 2 hours, is ideal for many biological studies. In fact, much of the research work being carried out by the Nuclear Medicine group in Berkeley is based on the analogy between a halogen atom and a beta-fluoroethyl group. There are some similarities in pharmacology so that if there is a bromine or an iodo atom present in a drug, it is a fair guess that the corresponding beta-fluoroethyl would also be active. In a sense, the cute (and chemically impossible) idea of putting a bromo atom on the sulfur of the 2C-T family is nicely satisfied by using the beta-fluoroethyl group instead (which is chemically completely possible).\n\nA logical extension of 2C-T-21 is the three carbon amphetamine analogue which should be, by comparing structures and activities, a very potent and interesting material in its own rights. This would be 2,5-dimethoxy-4-(2-fluoroethylthio)amphetamine or, following the nomenclature used with the earlier members of this series, ALEPH-21. A solution of 2,5-dimethoxy-4-(2-fluoroethylthio)benzaldehyde (see earlier in this recipe) in nitroethane with ammonium acetate gave 1-(2,5-dimethoxy-4-(2-fluoroethylthio)phenyl)-2-nitropropene as yellow-orange crystals from MeOH with a melting point of 102-104 °C. And that is where the project now stands. It has not yet been reduced to the amine.\n\nThis phenethylamine, 2C-T-21, was the last of the 2C-T's to be completed. A couple of other sulfur analogues have been given numbers, and have been started, but the syntheses are still at some intermediate state.\n\nThe (n)-butyl compound, named 2C-T-19, has been taken to the nitrostyrene stage. Reaction between 2,5-dimethoxythiophenol and (n)-butylbromide with KOH gave 2,5-dimethoxyphenyl (n)-butyl sulfide as a colorless oil. This, with phosphorus oxychloride and N-methylformanilide, provided 2,5-dimethoxy-4-(n-butylthio)benzaldehyde as pale orange solids from MeOH, with a melting point of 78-79 °C. This, with nitromethane and ammonium acetate, gave 2,5-dimethoxy-4-(n-butylthio)-beta-nitrostyrene, with a melting point of 133-134 °C from either IPA or acetonitrile.\n\nThe 2,2,2-trifluoroethyl compound, which I have named 2C-T-22, has been taken to the benzaldehyde stage. Reaction between 2,5-dimethoxythiophenol and 2,2,2-trifluoroethyliodide with KOH gives 2,5-dimethoxyphenyl 2,2,2-trifluoroethyl sulfide as a very pale amber oil. This, with phosphorus oxychloride and N-methylformanilide provided 2,5-dimethoxy-4-(2,2,2-trifluoroethyl)benzaldehyde as crystals that proved to be exceedingly difficult to purify. Yellow solids can be obtained from several solvents, and they melt in the 70 °C area. The initially isolated fraction melted at 69-72 °C and showed three major spots by both TLC and GCMS. The largest GC peak was the correct product with a parent peak of 280 m/e, and cracking fragments at 154 and 234 m/e. A small sample was finally obtained from hexane with a melting point of 78-79 °C but I am not sure that even it is particularly pure. Not surprisingly, the reaction of this crude benzaldehyde with nitromethane and ammonium acetate gave a nitrostyrene product that was a complex mixture. And there that project also rests.\n\nA couple of additional efforts warrant comment. The reaction between trifluoromethyliodide and 2,5-dimethoxythiophenol should have produced 2,5-dimethoxyphenyl trifluoromethyl sulfide, but it didn't produce anything. And one more. What about a bare thio group at the 4-position in this 2C-T-family? Maybe this can be protected through everything as the disulfide, and be reduced at the last step! The disulfide, 2,5-dimethoxyphenyl disulfide (see under 2C-T-15) was aimed towards the needed bis-aldehyde with phosphorus oxychloride and N-methylformanilide, but all that came out of this were black oils and tars. This has also been abandoned for now.\n\nAnd it has just occurred to me that there is yet another effort that is certainly worth making, inspired by the observation that 2,2-difluoroethyl iodide is commercially available and not prohibitively expensive. It, with 2,5-dimethoxythiophenol, and following the obvious steps to the aldehyde, the nitrostyrene, and the final amine, would produce 2,5-dimethoxy-4-(2,2-difluoroethylthio)phenethylamine hydrochloride. It lies exactly half way between the highly potent 2C-T-21 (the mono-fluoro), and the yet to be finished 2C-T-22 (the trifluoro). Let's be weird, and call it 2C-T-21.5. I will wager mucho that it will be very potent.",
+      "potency_assessment": {
+        "claim": "About as potent a phenethylamine as they come",
+        "comparison": "A couple in 2C-G family similar in potency, but much longer lived"
+      },
+      "beta_fluoroethyl_rationale": {
+        "motivation_1": "Imitation of potent serotonin agonists",
+        "motivation_2": "Include fluorine labelable with positron emitter",
+        "F_18": {
+          "half_life": "Just under 2 hours",
+          "application": "Ideal for many biological studies"
+        },
+        "nuclear_medicine": "Berkeley research based on halogen/beta-fluoroethyl analogy",
+        "pharmacology_principle": "If bromine or iodo present, beta-fluoroethyl likely active too",
+        "elegant_solution": "Cute (chemically impossible) idea of bromo on sulfur satisfied by beta-fluoroethyl (chemically possible)"
+      },
+      "amphetamine_analog": {
+        "name": "ALEPH-21",
+        "full_name": "2,5-dimethoxy-4-(2-fluoroethylthio)amphetamine",
+        "prediction": "Very potent and interesting",
+        "synthesis": {
+          "nitropropene": "Yellow-orange crystals from MeOH",
+          "melting_point": "102-104°C"
+        },
+        "status": "Not yet been reduced to the amine"
+      },
+      "historical_note": "Last of the 2C-T's to be completed",
+      "related_incomplete_compounds": {
+        "2C-T-19": {
+          "name": "2,5-dimethoxy-4-(n-butylthio)phenethylamine",
+          "substituent": "(n)-butyl",
+          "progress": "Taken to nitrostyrene stage",
+          "aldehyde_mp": "78-79°C",
+          "nitrostyrene_mp": "133-134°C"
+        },
+        "2C-T-22": {
+          "name": "2,5-dimethoxy-4-(2,2,2-trifluoroethylthio)phenethylamine",
+          "substituent": "2,2,2-trifluoroethyl",
+          "progress": "Taken to benzaldehyde stage",
+          "problem": "Exceedingly difficult to purify",
+          "aldehyde_mp": "78-79°C (not sure if pure)",
+          "nitrostyrene": "Complex mixture",
+          "status": "Project rests"
+        }
+      },
+      "failed_attempts": {
+        "trifluoromethyl": {
+          "target": "2,5-dimethoxyphenyl trifluoromethyl sulfide",
+          "result": "Didn't produce anything"
+        },
+        "bare_thio": {
+          "concept": "Bare thio group at 4-position, protected as disulfide",
+          "result": "Black oils and tars",
+          "status": "Abandoned for now"
+        }
+      },
+      "future_compound": {
+        "name": "2C-T-21.5",
+        "full_name": "2,5-dimethoxy-4-(2,2-difluoroethylthio)phenethylamine",
+        "reagent": "2,2-difluoroethyl iodide (commercially available, not prohibitively expensive)",
+        "position": "Exactly half way between 2C-T-21 (mono-fluoro) and 2C-T-22 (trifluoro)",
+        "naming": "Let's be weird",
+        "prediction": "I will wager mucho that it will be very potent"
+      },
+      "key_themes": [
+        "extreme_potency",
+        "positron_emission",
+        "F-18_labeling",
+        "beta_fluoroethyl_bioisostere",
+        "last_2C-T_completed",
+        "ALEPH-21",
+        "2C-T-19",
+        "2C-T-22_purification_nightmare",
+        "2C-T-21.5_proposal"
+      ],
+      "notable_quotes": [
+        "This is about as potent a phenethylamine as they come.",
+        "The mass-18 isotope of fluorine, with a half-life of just under 2 hours, is ideal for many biological studies.",
+        "If there is a bromine or an iodo atom present in a drug, it is a fair guess that the corresponding beta-fluoroethyl would also be active.",
+        "The cute (and chemically impossible) idea of putting a bromo atom on the sulfur of the 2C-T family is nicely satisfied by using the beta-fluoroethyl group instead (which is chemically completely possible).",
+        "This phenethylamine, 2C-T-21, was the last of the 2C-T's to be completed.",
+        "Crystals that proved to be exceedingly difficult to purify.",
+        "I am not sure that even it is particularly pure.",
+        "All that came out of this were black oils and tars.",
+        "Let's be weird, and call it 2C-T-21.5.",
+        "I will wager mucho that it will be very potent."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
