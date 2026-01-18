@@ -1132,6 +1132,66 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 21,
+      "code": "3C-BZ",
+      "chemical_name": "3,5-Dimethoxy-4-benzyloxyamphetamine",
+      "extensions_and_commentary": "Two points are worthy of commentary; the potency and the promise of 3C-BZ.\n\nAs to potency, there is such uncertainty as to the effective dose, that it is for all intents and purposes impossible to predict just what dose should be considered for a person's first time with this. The choice of quotations was made with the intention of giving a picture of this scatter. A total of ten subjects have explored this compound, and the very broad range given above, 25 to 200 milligrams, reflects the degree of variation that has been encountered.\n\nWhich is a shame, because the concept of a new ring such as is found here on the 4-position would have allowed an extremely wide array of substituents. Electron-rich things, electron-poor things, heavy things, light things, and on and on. This could have been a location of much variation, but it is a possibility that the uncertainties of dosage might extrapolate to these novel ring substitutions as well. Only a single variation was made, the 4-fluorobenzyl analogue. This was prepared following exactly the procedure given here for 3C-BZ, except for the replacement of benzyl chloride with 4-fluorobenzyl chloride. The allyl intermediate was an oil, but the propenyl isomer gave solids with a melting point of 59-60 °C from hexane. The nitrostyrene was a yellow crystalline solid from methanol with a melting point of 98-99 °C. The end product, 3,5-dimethoxy-4-(4-fluorobenzyloxy)amphetamine hydrochloride (3C-FBZ) was a white solid with a melting point of 149-150 °C. It has been assayed only up to 4 milligrams and there was absolutely no activity of any kind observed at that level.",
+      "commentary_focus": ["Potency uncertainty", "Unfulfilled promise"],
+      "potency_problem": {
+        "dose_range": "25 to 200 milligrams",
+        "variation": "Extremely broad - impossible to predict first-time dose",
+        "subjects": "Ten subjects have explored this compound",
+        "quotation_selection": "Made to illustrate the scatter in responses"
+      },
+      "structural_promise": {
+        "concept": "New ring on 4-position would allow wide array of substituents",
+        "possibilities": {
+          "electronic": ["Electron-rich things", "Electron-poor things"],
+          "physical": ["Heavy things", "Light things"],
+          "scope": "And on and on"
+        },
+        "assessment": "Could have been a location of much variation",
+        "limitation": "Dosage uncertainties might extrapolate to novel ring substitutions"
+      },
+      "related_compounds": {
+        "3C_FBZ": {
+          "name": "3,5-dimethoxy-4-(4-fluorobenzyloxy)amphetamine hydrochloride",
+          "relationship": "4-fluorobenzyl analogue of 3C-BZ",
+          "synthesis": {
+            "procedure": "Exactly as 3C-BZ, replacing benzyl chloride with 4-fluorobenzyl chloride",
+            "allyl_intermediate": "Oil",
+            "propenyl_isomer_mp": "59-60°C from hexane",
+            "nitrostyrene_mp": "98-99°C (yellow crystalline solid from methanol)",
+            "final_product_mp": "149-150°C (white solid)"
+          },
+          "activity": {
+            "highest_dose_tested": "4 milligrams",
+            "result": "Absolutely no activity of any kind observed"
+          },
+          "status": "Only variation made"
+        }
+      },
+      "key_themes": [
+        "extreme_dose_variation",
+        "unpredictable_potency",
+        "unfulfilled_structural_promise",
+        "wide_substituent_possibilities",
+        "dosage_uncertainty_extrapolation",
+        "single_analogue_tested"
+      ],
+      "notable_quotes": [
+        "Two points are worthy of commentary; the potency and the promise of 3C-BZ.",
+        "There is such uncertainty as to the effective dose, that it is for all intents and purposes impossible to predict just what dose should be considered for a person's first time with this.",
+        "The very broad range given above, 25 to 200 milligrams, reflects the degree of variation that has been encountered.",
+        "Which is a shame, because the concept of a new ring such as is found here on the 4-position would have allowed an extremely wide array of substituents.",
+        "Electron-rich things, electron-poor things, heavy things, light things, and on and on.",
+        "This could have been a location of much variation, but it is a possibility that the uncertainties of dosage might extrapolate to these novel ring substitutions as well.",
+        "It has been assayed only up to 4 milligrams and there was absolutely no activity of any kind observed at that level."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
