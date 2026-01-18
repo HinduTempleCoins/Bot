@@ -202,6 +202,34 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 5,
+      "code": "ALEPH-4",
+      "chemical_name": "2,5-Dimethoxy-4-isopropylthioamphetamine",
+      "extensions_and_commentary": "Again, there are hints and suggestions of complexities. These, and several other reports, suggest some sensory confusion, and interpretive aspects that are to some extent threatening. There is an underlying suggestion of body toxicity. I know of no experiment that exceeded 12 milligrams and I would not be able to predict what might come forth at higher dosages. I personally choose not to try them.",
+      "warnings": {
+        "sensory_confusion": true,
+        "threatening_interpretations": true,
+        "body_toxicity_suggested": true,
+        "max_explored_dose": "12 mg",
+        "shulgin_personal_limit": "Chose not to try higher doses"
+      },
+      "key_themes": [
+        "caution",
+        "body_toxicity",
+        "unpredictable_effects",
+        "personal_limits",
+        "threatening_experiences"
+      ],
+      "notable_quotes": [
+        "There is an underlying suggestion of body toxicity.",
+        "I would not be able to predict what might come forth at higher dosages.",
+        "I personally choose not to try them."
+      ],
+      "significance": "Rare instance of Shulgin expressing personal reluctance to explore higher doses",
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
