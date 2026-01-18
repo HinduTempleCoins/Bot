@@ -1841,6 +1841,84 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 30,
+      "code": "2C-G-5",
+      "chemical_name": "2,5-Dimethoxy-3,4-(norbornyl)phenethylamine",
+      "extensions_and_commentary": "In the eventual potency assessment of a drug, there must be some consideration of not only the dosage needed, but the duration of effects. The area under the curve, so to speak. By these measures, this phenethylamine is a record breaker, in that it is not only amongst the most potent, but it goes on and on and on.\n\nThere are a couple of chemical commentaries. One, the miserable phenol-to-ether-to-aldehyde series of steps, so maddeningly unsatisfactory in the 2C-G-4 process, was completely comfortable here. The reactions rolled, and the yields were most satisfactory. Secondly, this is one of the few phenethylamines that is a racemate. The strange geometry of the norbornane ring carries within it a chiral character, so this compound is potentially resolvable into two optically active forms. That might be quite a task, but it would have the value of providing for the first time a pair of isomers that were asymmetric in the 3,4-aliphatic part of the molecule. To the extent that some insight into the geometry of the receptor site can be gleaned from the absolute configurations of active agonists, here is a compound where the subtle variations are over there at the ring substitution area of the structure, rather than at the well-explored alpha-carbon atom. Some day I might try to resolve this drug into its optical isomers. But I suspect that it might be quite difficult.\n\nA number of chemical variations of 2C-G-5 are obvious. The dihydroxybenzonorbornane compound that was the starting point of all this was certainly the adduct of cyclopentadiene and benzoquinone, with the double bond reduced. The same chemistry with 1,3-cyclohexadiene would give a two-carbon bridge instead of the one-carbon bridge of norbornane and, after hydrogenation, would provide a non-chiral analog with two ethylene bridges between the 3- and 4-position carbons. This is a cyclohexane ring connected, by its 1- and 4-positions, to the two methyl groups of 2C-G. With six carbons in this aliphatic mess, the compound is probably best called 2C-G-6. It should be easily made, and it is certain to be very potent. And there are potentially several other Diels Alder dienes that might serve with benzoquinone as the dieneophile. There are aliphatic things such as hexa-2,4-diene and 2,3-dimethylbutadiene. The textbooks are filled with dozens of diene candidates, and benzoquinone will always provide the two oxygens needed for the eventual 2,5-dimethoxy groups of the phenethylamine.",
+      "potency_assessment": {
+        "principle": "Must consider both dosage needed and duration of effects",
+        "metric": "Area under the curve",
+        "record_status": "Record breaker",
+        "characteristics": ["Amongst the most potent", "Goes on and on and on"]
+      },
+      "chemical_commentary": {
+        "synthesis_comparison": {
+          "2C-G-4": "Miserable phenol-to-ether-to-aldehyde series, maddeningly unsatisfactory",
+          "2C-G-5": "Completely comfortable, reactions rolled, yields most satisfactory"
+        },
+        "chirality": {
+          "status": "One of the few phenethylamines that is a racemate",
+          "source": "Strange geometry of the norbornane ring carries chiral character",
+          "potential": "Resolvable into two optically active forms",
+          "difficulty": "Might be quite difficult",
+          "scientific_value": "First pair of isomers asymmetric in 3,4-aliphatic part of molecule"
+        },
+        "receptor_insight": {
+          "opportunity": "Insight into geometry of receptor site from absolute configurations",
+          "novelty": "Subtle variations at ring substitution area, not at well-explored alpha-carbon atom"
+        }
+      },
+      "future_variations": {
+        "2C-G-6": {
+          "starting_diene": "1,3-cyclohexadiene (instead of cyclopentadiene)",
+          "bridge": "Two-carbon bridge (instead of one-carbon norbornane bridge)",
+          "chirality": "Non-chiral analog",
+          "structure": "Cyclohexane ring connected by 1- and 4-positions to 2C-G methyl groups",
+          "carbons": "Six carbons in aliphatic portion",
+          "synthesis_outlook": "Should be easily made",
+          "potency_prediction": "Certain to be very potent"
+        },
+        "diels_alder_possibilities": {
+          "dieneophile": "Benzoquinone",
+          "advantage": "Always provides two oxygens needed for eventual 2,5-dimethoxy groups",
+          "candidate_dienes": ["hexa-2,4-diene", "2,3-dimethylbutadiene"],
+          "scope": "Textbooks filled with dozens of diene candidates"
+        }
+      },
+      "synthesis_origin": {
+        "starting_material": "Dihydroxybenzonorbornane",
+        "formation": "Adduct of cyclopentadiene and benzoquinone, with double bond reduced"
+      },
+      "key_themes": [
+        "record_breaker",
+        "area_under_curve",
+        "extreme_potency",
+        "extreme_duration",
+        "racemate",
+        "norbornane_chirality",
+        "optical_resolution",
+        "receptor_geometry",
+        "diels_alder_chemistry",
+        "future_compounds",
+        "2C-G-6_prediction"
+      ],
+      "notable_quotes": [
+        "In the eventual potency assessment of a drug, there must be some consideration of not only the dosage needed, but the duration of effects.",
+        "The area under the curve, so to speak.",
+        "By these measures, this phenethylamine is a record breaker, in that it is not only amongst the most potent, but it goes on and on and on.",
+        "The miserable phenol-to-ether-to-aldehyde series of steps, so maddeningly unsatisfactory in the 2C-G-4 process, was completely comfortable here.",
+        "The reactions rolled, and the yields were most satisfactory.",
+        "This is one of the few phenethylamines that is a racemate.",
+        "The strange geometry of the norbornane ring carries within it a chiral character.",
+        "Here is a compound where the subtle variations are over there at the ring substitution area of the structure, rather than at the well-explored alpha-carbon atom.",
+        "Some day I might try to resolve this drug into its optical isomers. But I suspect that it might be quite difficult.",
+        "It should be easily made, and it is certain to be very potent.",
+        "The textbooks are filled with dozens of diene candidates, and benzoquinone will always provide the two oxygens needed for the eventual 2,5-dimethoxy groups of the phenethylamine."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
