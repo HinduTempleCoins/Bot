@@ -1414,6 +1414,82 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 24,
+      "code": "2C-E",
+      "chemical_name": "2,5-Dimethoxy-4-ethylphenethylamine",
+      "extensions_and_commentary": "Here is another of the magical half-dozen. The range is purposefully broad. At 10 milligrams there have been some pretty rich +++ experiences, and yet I have had the report from one young lady of a 30 milligram trial that was very frightening. My first experience with 2C-E was really profound, and it is the substance of a chapter within the story. The amphetamine homologue is DOET, which is not only much longer in action, but considerably more potent. Several people have said, about 2C-E, \"I don't think I like it, since it isn't that much fun. But I intend to explore it again.\" There is something here that will reward the experimenter. Someday, the full character of 2C-E will be understood, but for the moment, let it rest as being a difficult and worth-while material. A very much worth-while material. One Tweetio of 2C-E is known. The 5-EtO-homologue of 2C-E is 5-ethoxy-4-ethyl-2-methoxyphenethylamine, or 2CE-5ETO. The nitrostyrene intermediate had a melting point of 110-110.5 °C, and the final hydrochloride a melting point of 184-185 °C. The effective level of 2CE-5ETO is in the 10 to 15 milligram range. It is gentle, forgiving, and extremely long lived. Some 3 to 4 hours were needed to achieve plateau, and on occasion experiments were interrupted with Valium or Halcion at the 16 hour point. After a night's sleep, there were still some effects evident the next day. Thus, the dose is comparable to the parent compound 2C-E, but the duration is 2 to 3 times longer. It was given the nickname \"Eternity\" by one subject.",
+      "magical_half_dozen": true,
+      "dose_range": {
+        "purposefully_broad": true,
+        "low_end": {
+          "dose": "10 milligrams",
+          "effects": "Some pretty rich +++ experiences"
+        },
+        "high_end": {
+          "dose": "30 milligrams",
+          "effects": "Very frightening (one young lady's report)"
+        }
+      },
+      "personal_significance": {
+        "first_experience": "Really profound",
+        "book_reference": "Substance of a chapter within the story"
+      },
+      "amphetamine_homologue": {
+        "name": "DOET",
+        "duration": "Much longer in action",
+        "potency": "Considerably more potent"
+      },
+      "character_assessment": {
+        "common_sentiment": "I don't think I like it, since it isn't that much fun. But I intend to explore it again.",
+        "promise": "There is something here that will reward the experimenter",
+        "current_understanding": "Someday, the full character of 2C-E will be understood",
+        "summary": "A difficult and worth-while material. A very much worth-while material."
+      },
+      "tweetio_compound": {
+        "2CE_5ETO": {
+          "name": "5-ethoxy-4-ethyl-2-methoxyphenethylamine",
+          "relationship": "5-EtO-homologue of 2C-E",
+          "melting_points": {
+            "nitrostyrene": "110-110.5°C",
+            "hydrochloride": "184-185°C"
+          },
+          "activity": {
+            "effective_level": "10 to 15 milligram range",
+            "character": "Gentle, forgiving, and extremely long lived",
+            "onset": "3 to 4 hours needed to achieve plateau",
+            "extreme_duration": "Experiments sometimes interrupted with Valium or Halcion at 16 hour point",
+            "next_day_effects": "Still some effects evident after a night's sleep",
+            "comparison_to_parent": "Dose comparable to 2C-E, but duration 2 to 3 times longer"
+          },
+          "nickname": "Eternity"
+        }
+      },
+      "key_themes": [
+        "magical_half_dozen",
+        "broad_dose_range",
+        "difficult_but_worthwhile",
+        "not_fun_but_compelling",
+        "profound_first_experience",
+        "DOET_comparison",
+        "eternity_tweetio",
+        "extreme_duration"
+      ],
+      "notable_quotes": [
+        "Here is another of the magical half-dozen.",
+        "The range is purposefully broad.",
+        "At 10 milligrams there have been some pretty rich +++ experiences, and yet I have had the report from one young lady of a 30 milligram trial that was very frightening.",
+        "My first experience with 2C-E was really profound, and it is the substance of a chapter within the story.",
+        "I don't think I like it, since it isn't that much fun. But I intend to explore it again.",
+        "There is something here that will reward the experimenter.",
+        "Someday, the full character of 2C-E will be understood, but for the moment, let it rest as being a difficult and worth-while material.",
+        "A very much worth-while material.",
+        "It is gentle, forgiving, and extremely long lived.",
+        "It was given the nickname 'Eternity' by one subject."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
