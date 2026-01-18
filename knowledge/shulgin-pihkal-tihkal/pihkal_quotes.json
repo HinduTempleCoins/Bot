@@ -430,6 +430,47 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 10,
+      "code": "B",
+      "chemical_name": "Buscaline; 3,5-Dimethoxy-4-butoxyphenethylamine",
+      "extensions_and_commentary": "There is a jingle heard occasionally in chemical circles, concerning the homologues of methyl. It goes, 'There's ethyl and propyl, but butyl is futile.' And to a large measure this is true with the 4-position homologues of mescaline. This butyl compound, B or Buscaline, had originally been patented in England in 1930 without any physical or pharmacological description, and the few physical studies that had involved it (lipophilic this and serotonin that) suggested that it was less active than mescaline.\n\nIn principle, the 5-, the 6-, the 7- and the on-up homologues might be called amylescaline (possibly pentescaline?), hexescaline, heptescaline (possibly septescaline), and God-knows-what-scaline. They would certainly be easily makeable, but there would be little value that could be anticipated from nibbling them. In keeping with the name B (for butoxy), these would be known as A (for amyloxy, as the use of a P could confuse pentoxy with propoxy), as H (for hexyloxy, but careful; this letter has been used occasionally for DMPEA, which is Homopiperonylamine), and as S (the H for heptyloxy has been consumed by the hexyloxy, so let's shift from the Greek hepta to the Latin septum for the number seven). It seems most likely that the toxic symptoms that might well come along with these phenethylamines would discourage the use of the dosage needed to affect the higher centers of the brain. The same generally negative feeling applies to the amphetamine counterparts 3C-B, 3C-A, 3C-H and 3C-S.\n\nA brief reiteration of the 2C-3C nomenclature, to avoid a possible misunderstanding. The drug 2C-B is so named in that it is the two-carbon chain analogue of the three-carbon chain compound DOB. The drug 3C-B is so named because it is the three-carbon chain analogue of the two-carbon chain compound Buscaline, or more simply, B. There is no logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B.",
+      "the_jingle": "There's ethyl and propyl, but butyl is futile.",
+      "history": {
+        "patent": "England, 1930",
+        "description": "No physical or pharmacological description provided",
+        "activity": "Less active than mescaline"
+      },
+      "higher_homologues": {
+        "naming_scheme": [
+          {"code": "A", "for": "amyloxy (5-carbon)", "note": "P avoided to prevent pentoxy/propoxy confusion"},
+          {"code": "H", "for": "hexyloxy (6-carbon)", "warning": "Letter used occasionally for DMPEA (Homopiperonylamine)"},
+          {"code": "S", "for": "septyloxy (7-carbon)", "note": "Greek hepta → Latin septum since H was consumed"}
+        ],
+        "potential_names": ["amylescaline/pentescaline", "hexescaline", "heptescaline/septescaline", "God-knows-what-scaline"],
+        "assessment": "Easily makeable but little value anticipated - toxic symptoms would likely discourage needed dosages"
+      },
+      "nomenclature_clarification": {
+        "2C_B": "Two-carbon chain analogue of three-carbon DOB",
+        "3C_B": "Three-carbon chain analogue of two-carbon Buscaline (B)",
+        "relationship": "NO logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B"
+      },
+      "key_themes": [
+        "homologue_futility",
+        "nomenclature_education",
+        "historical_patents",
+        "predicted_toxicity",
+        "naming_conventions"
+      ],
+      "notable_quotes": [
+        "There's ethyl and propyl, but butyl is futile.",
+        "God-knows-what-scaline",
+        "It seems most likely that the toxic symptoms that might well come along with these phenethylamines would discourage the use of the dosage needed to affect the higher centers of the brain.",
+        "There is no logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
