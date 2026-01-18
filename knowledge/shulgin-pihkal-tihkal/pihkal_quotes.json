@@ -1192,6 +1192,138 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 22,
+      "code": "2C-D",
+      "chemical_name": "2,5-Dimethoxy-4-methylphenethylamine",
+      "extensions_and_commentary": "Wow! This particular compound is what I call a pharmacological tofu. It doesn't seem to do too much by itself, always teasing, until you get to heroic levels. But a goodly number of experimental therapists have said that it is excellent in extending the action of some other materials. It seems to boost the waning action of another drug, without adding its own color to the experience. Yet, the comment above, on the high level of 150 milligrams, is a direct quote from the use of this compound in Germany (where it is called LE-25) in therapeutic research.\n\nThis is probably the most dramatic example of the loss of potency from an amphetamine (DOM, active at maybe 3 milligrams) to a phenethylamine (only one tenth as active). It is so often the case that the first of a series is not the most interesting nor the most potent member. As intriguing and as difficult-to-define as the 2C-D story might be, the next higher homologue of this set, 2C-E, is maximally active at the 15 to 20 milligram level, and is, without any question, a complete psychedelic.\n\nThe N-monomethyl and the N,N-dimethyl homologues of 2C-D have been synthesized from 2C-D. The N-monomethyl compound was obtained by the quaternization of the Schiff's base formed between 2C-D and benzaldehyde with methyl sulfate, followed by hydrolysis; the hydrochloride salt had a melting point of 150-151 °C, from EtOH. The N,N-dimethyl compound resulted from the action of formaldehyde-formic acid on 2C-D; the hydrochloride salt had a melting point of 168-169 °C from EtOH/ether. These two compounds were some ten times less effective in interfering with conditioned responses in experimental rats. There is no report of their having been explored in man.\n\n[ Erowid Addition: Darrell Lemaire's Contribution: In January, 2015, chemist and psychonaut Darrell Lemaire announced that he had decided to come out publicly as the author \"Lazar\" who conducted the \"extensive study\" referenced in the following paragraph. For many years, Mr. Lemaire had preferred to remain anonymous, but the Shulgin Team is helping add credit for his work back into the literature. See Darrell Lemaire Character Vault.]\n\nI have learned of an extensive study of ethoxy homologues of a number of the phenethylamines in the 2C-X series; they have been collectively called the \"Tweetios.\" This Sylvester and Tweety-bird allusion came directly from the compulsive habit of trying to alleviate the boredom of driving long distances (not under the influence of anything) by the attempt to pronounce the license plates of cars as they passed. The first of this series of compounds had a name that indicated that there was an ethoxy group at the 2-position, or 2-EtO, or Tweetio, and the rest is history. In every compound to be found in the 2C-X family, there are two methoxy groups, one at the 2-position and one at the 5-position. There are thus three possible tweetio compounds, a 2-EtO-, a 5-EtO- and a 2,5-di-EtO-. Those that have been evaluated in man are included after each of the 2C-X's that has served as the prototype. In general, the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all.\n\nThe 2-EtO-homologue of 2C-D is 2-ethoxy-5-methoxy-4-methylphenethylamine, or 2CD-2ETO. The benzaldehyde (2-ethoxy-5-methoxy-4-tolualdehyde) had a melting point of 60.5-61 °C, the nitrostyrene intermediate a melting point of 110.5-111.5 °C, and the final hydrochloride a melting point of 207-208 °C. The hydrobromide salt had a melting point of 171-173 °C. At levels of 60 milligrams, there was the feeling of closeness between couples, without an appreciable state of intoxication. The duration was about 4 hours.\n\nThe 5-EtO- homologue of 2C-D is 5-ethoxy-2-methoxy-4-methylphenethylamine, or 2CD-5ETO. The benzaldehyde (5-ethoxy-2-ethoxy-4-tolualdehyde) had a melting point of 81-82 °C, and the details of this synthesis are given in the recipe for IRIS. The nitrostyrene intermediate had a melting point of 112.5-113.5 °C and the final hydrochloride salt had a melting point of 197-198 °C. The hydrobromide salt had a melting point of 158-159 °C. At dosage levels of 40 to 50 milligrams, there was a slow, gradual climb to the full effects that were noted in about 2 hours. The experience was largely free from excitement, but with a friendly openness and outgoingness that allowed easy talk, interaction, humor, and a healthy appetite. The duration of effects was 12 hours.\n\nThe 2,5-di-EtO- homologue of 2C-D is 2,5-diethoxy-4-methylphenethylamine, or 2CD-2,5-DIETO. The benzaldehyde (2,5-diethoxy-4-tolualdehyde) had a melting point of 102-103 °C, the nitrostyrene intermediate a melting point of 108-109 °C, and the final hydrochloride salt a melting point of 251-252 °C. At a level of 55 milligrams, a plus one was reached, and what effects there were, were gone after four hours.",
+      "pharmacological_tofu": {
+        "concept": "Doesn't do much by itself, always teasing until heroic levels",
+        "therapeutic_use": "Excellent in extending action of other materials",
+        "mechanism": "Boosts waning action of another drug without adding its own color",
+        "german_name": "LE-25",
+        "high_dose_report": "150mg in German therapeutic research"
+      },
+      "potency_comparison": {
+        "significance": "Most dramatic example of amphetamine→phenethylamine potency loss",
+        "DOM": "Active at maybe 3mg",
+        "2C_D": "Only one tenth as active (~30mg)",
+        "lesson": "First of a series is often not the most interesting nor most potent"
+      },
+      "series_context": {
+        "next_homologue": "2C-E",
+        "2C_E_potency": "15-20mg maximally active",
+        "2C_E_assessment": "Without any question, a complete psychedelic"
+      },
+      "n_substituted_homologues": {
+        "N_monomethyl": {
+          "synthesis": "Quaternization of Schiff's base (2C-D + benzaldehyde) with methyl sulfate, then hydrolysis",
+          "hydrochloride_mp": "150-151°C from EtOH"
+        },
+        "N_N_dimethyl": {
+          "synthesis": "Formaldehyde-formic acid on 2C-D",
+          "hydrochloride_mp": "168-169°C from EtOH/ether"
+        },
+        "rat_activity": "Ten times less effective in interfering with conditioned responses",
+        "human_trials": "No report of having been explored in man"
+      },
+      "erowid_addition": {
+        "researcher": "Darrell Lemaire (pseudonym: 'Lazar')",
+        "revealed": "January 2015",
+        "contribution": "Conducted extensive Tweetio study",
+        "note": "Shulgin Team helping add credit back into literature"
+      },
+      "tweetio_system": {
+        "name_origin": {
+          "activity": "Pronouncing license plates while driving long distances",
+          "derivation": "2-EtO → Tweetio (Sylvester and Tweety-bird allusion)",
+          "context": "Not under the influence of anything"
+        },
+        "structure": "2C-X family has methoxy at 2-position and 5-position",
+        "three_variations": {
+          "2_EtO": {
+            "position": "Ethoxy at 2-position",
+            "general_effect": "Shorter duration, lower potency"
+          },
+          "5_EtO": {
+            "position": "Ethoxy at 5-position",
+            "general_effect": "Unchanged potency, longer duration"
+          },
+          "2_5_di_EtO": {
+            "position": "Ethoxy at both positions",
+            "general_effect": "Very weak, if active at all"
+          }
+        }
+      },
+      "tweetio_compounds": {
+        "2CD_2ETO": {
+          "name": "2-ethoxy-5-methoxy-4-methylphenethylamine",
+          "melting_points": {
+            "benzaldehyde": "60.5-61°C",
+            "nitrostyrene": "110.5-111.5°C",
+            "hydrochloride": "207-208°C",
+            "hydrobromide": "171-173°C"
+          },
+          "activity": {
+            "dose": "60mg",
+            "effects": "Feeling of closeness between couples, without appreciable intoxication",
+            "duration": "About 4 hours"
+          }
+        },
+        "2CD_5ETO": {
+          "name": "5-ethoxy-2-methoxy-4-methylphenethylamine",
+          "synthesis_reference": "IRIS recipe",
+          "melting_points": {
+            "benzaldehyde": "81-82°C",
+            "nitrostyrene": "112.5-113.5°C",
+            "hydrochloride": "197-198°C",
+            "hydrobromide": "158-159°C"
+          },
+          "activity": {
+            "dose": "40-50mg",
+            "onset": "Slow, gradual climb to full effects in about 2 hours",
+            "effects": "Largely free from excitement, friendly openness and outgoingness, easy talk, interaction, humor, healthy appetite",
+            "duration": "12 hours"
+          }
+        },
+        "2CD_2_5_DIETO": {
+          "name": "2,5-diethoxy-4-methylphenethylamine",
+          "melting_points": {
+            "benzaldehyde": "102-103°C",
+            "nitrostyrene": "108-109°C",
+            "hydrochloride": "251-252°C"
+          },
+          "activity": {
+            "dose": "55mg",
+            "effects": "Plus one reached",
+            "duration": "Effects gone after 4 hours"
+          }
+        }
+      },
+      "key_themes": [
+        "pharmacological_tofu",
+        "therapeutic_extender",
+        "amphetamine_phenethylamine_potency_loss",
+        "tweetio_system_origin",
+        "license_plate_etymology",
+        "darrell_lemaire_credit",
+        "ethoxy_homologue_patterns",
+        "2C_E_comparison"
+      ],
+      "notable_quotes": [
+        "Wow! This particular compound is what I call a pharmacological tofu.",
+        "It doesn't seem to do too much by itself, always teasing, until you get to heroic levels.",
+        "It seems to boost the waning action of another drug, without adding its own color to the experience.",
+        "This is probably the most dramatic example of the loss of potency from an amphetamine (DOM, active at maybe 3 milligrams) to a phenethylamine (only one tenth as active).",
+        "It is so often the case that the first of a series is not the most interesting nor the most potent member.",
+        "2C-E is, without any question, a complete psychedelic.",
+        "This Sylvester and Tweety-bird allusion came directly from the compulsive habit of trying to alleviate the boredom of driving long distances (not under the influence of anything) by the attempt to pronounce the license plates of cars as they passed.",
+        "The first of this series of compounds had a name that indicated that there was an ethoxy group at the 2-position, or 2-EtO, or Tweetio, and the rest is history.",
+        "In general, the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
