@@ -5454,6 +5454,195 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 82,
+      "code": "G-3",
+      "chemical_name": "3,4-Dimethyl-2,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "In a comparison between the 2-carbon compound (2C-G-3) and the 3-carbon compound (G-3) the vote goes towards the phenethylamine (the 2-carbon compound). With the first member of this series (2C-G versus GANESHA) this was a stand-off, both as to quantitative effects (potency) and qualitative effects (nature of activity). Here, with the somewhat bulkier group located at the definitive 3,4-positions, the nod is to the shorter chain, for the first time ever. The potency differences are small, and maybe the amphetamine is still a bit more potent. But there are hints of discomfort with this latter compound that seem to be absent with the phenethylamine. The more highly substituted compounds (q.v.) more clearly define these differences.",
+      "comparison_2C_vs_3C": {
+        "vote": "Towards phenethylamine (2C-G-3)",
+        "first_in_series": "2C-G vs GANESHA was a stand-off (potency and nature)",
+        "significance": "First time ever the nod goes to shorter chain",
+        "potency_difference": "Small, amphetamine maybe still slightly more potent",
+        "comfort": "Hints of discomfort with amphetamine absent with phenethylamine"
+      },
+      "structural_notes": {
+        "bulkier_group": "Somewhat bulkier at 3,4-positions",
+        "higher_substituted": "More highly substituted compounds define differences more clearly"
+      },
+      "key_themes": [
+        "GANESHA_series",
+        "phenethylamine_vs_amphetamine",
+        "2C_preferred_first_time",
+        "discomfort_hints",
+        "3_4_dimethyl"
+      ],
+      "notable_quotes": [
+        "In a comparison between the 2-carbon compound (2C-G-3) and the 3-carbon compound (G-3) the vote goes towards the phenethylamine.",
+        "Here, with the somewhat bulkier group located at the definitive 3,4-positions, the nod is to the shorter chain, for the first time ever.",
+        "The potency differences are small, and maybe the amphetamine is still a bit more potent.",
+        "But there are hints of discomfort with this latter compound that seem to be absent with the phenethylamine.",
+        "The more highly substituted compounds more clearly define these differences."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 83,
+      "code": "G-4",
+      "chemical_name": "2,5-Dimethoxy-3,4-(tetramethylene)amphetamine",
+      "extensions_and_commentary": "The discussion that appeared in the commentary section under 2C-G-4 applies here as well. The major struggles were in the preparation of the aldehyde itself. And although the final product has not yet been made, this last synthetic step should be, as Bobby Fischer once said in his analysis of a master's chess game following a blunder by his opponent, simply a matter of technique.",
+      "synthesis_status": {
+        "final_product": "Not yet made",
+        "major_struggles": "Preparation of the aldehyde",
+        "last_step_assessment": "Simply a matter of technique"
+      },
+      "bobby_fischer_quote": {
+        "context": "Analysis of a master's chess game following a blunder",
+        "quote": "Simply a matter of technique"
+      },
+      "structural_position": {
+        "intermediate_between": ["G-3", "G-5"],
+        "both_potent": true,
+        "prediction": "Axiomatic it will be potent"
+      },
+      "cross_reference": "2C-G-4 commentary applies here",
+      "key_themes": [
+        "GANESHA_series",
+        "incomplete_synthesis",
+        "Bobby_Fischer",
+        "matter_of_technique",
+        "aldehyde_struggles",
+        "predicted_potent"
+      ],
+      "notable_quotes": [
+        "The major struggles were in the preparation of the aldehyde itself.",
+        "And although the final product has not yet been made, this last synthetic step should be, as Bobby Fischer once said in his analysis of a master's chess game following a blunder by his opponent, simply a matter of technique.",
+        "As with the phenethylamine counterpart, G-4 has a structure that lies intermediate between G-3 and G-5, both potent compounds.",
+        "It is axiomatic that it too will be a potent thing, and all that now needs be done is to complete its synthesis and taste it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 84,
+      "code": "G-5",
+      "chemical_name": "2,5-Dimethoxy-3,4-(norbornyl)amphetamine",
+      "extensions_and_commentary": "This is as potent as any of the three-carbon Ganesha compounds, but it somehow lacks a little something that would have made it a completely favorite winner. Perhaps it is the generally commented upon absence of visual and related sensory entertainment. There seems to be no bodily threat to discourage further exploration, but there simply was not the drive to explore it much.",
+      "potency": "As potent as any three-carbon Ganesha compounds",
+      "limitations": {
+        "missing_element": "Lacks something for favorite winner status",
+        "visual_effects": "Generally commented upon absence of visual and sensory entertainment",
+        "body_load": "No bodily threat to discourage exploration",
+        "motivation": "Simply was not the drive to explore it much"
+      },
+      "norbornane_structure": {
+        "description": "One carbon bridge and two carbon bridge at odd angles",
+        "shrubbery": "About as bulky as ever put onto centrally active molecule",
+        "asymmetry": {
+          "centers": 2,
+          "locations": ["Alpha-carbon on amphetamine chain", "Norbornyl area"],
+          "result": "Mixture of two racemic diastereoisomers"
+        }
+      },
+      "G_6_proposal": {
+        "modification": "Replace one-carbon bridge with second two-carbon bridge",
+        "feasibility": "Would be makeable",
+        "advantage": "Would be single compound (only racemate), not diastereoisomer mixture",
+        "question": "Is there really a driving reason to do so?"
+      },
+      "key_themes": [
+        "GANESHA_series",
+        "norbornane",
+        "maximum_bulk",
+        "absent_visuals",
+        "no_body_threat",
+        "low_exploration_drive",
+        "diastereoisomer_mixture",
+        "G_6_speculation"
+      ],
+      "notable_quotes": [
+        "This is as potent as any of the three-carbon Ganesha compounds, but it somehow lacks a little something that would have made it a completely favorite winner.",
+        "Perhaps it is the generally commented upon absence of visual and related sensory entertainment.",
+        "There seems to be no bodily threat to discourage further exploration, but there simply was not the drive to explore it much.",
+        "The 'shrubbery' that is the hallmark of the Ganesha family is, with G-5, about as bulky as has ever been put onto a centrally active molecule.",
+        "The norbornane group has a one carbon bridge and a two carbon bridge sticking out of it at odd angles.",
+        "It would be makeable, but is there really a driving reason to do so?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 85,
+      "code": "GANESHA",
+      "chemical_name": "3,4-Dimethyl-2,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "This compound was the seventh of the ten possible Classic Ladies. I have mentioned the concept already under the discussions on ARIADNE. This is the teutonic replacement of each of the distinguishable hydrogen atoms of DOM with a methyl group.",
+      "classic_ladies": {
+        "position": "Seventh of ten possible",
+        "concept": "Teutonic replacement of distinguishable H atoms of DOM with methyl",
+        "cross_reference": "ARIADNE discussions"
+      },
+      "surprising_findings": {
+        "expected": "Minor influence from extending 3-position hydrogen with methyl",
+        "actual": "Full order of magnitude decrease in potency",
+        "interpretation": {
+          "position_importance": "3-position affected by metabolism",
+          "mechanism": "Blocking metabolic promotion of DOM-like things to active intermediates",
+          "key_insight": "Not presence of methyl but REMOVAL of hydrogen that decimated potency"
+        }
+      },
+      "remarkable_point": "Placement of dull methyl group at dull position actually inactivated (for all intents and purposes) the activity of DOM",
+      "hypothesis_exploration": {
+        "premise": "If structure gives unusual response, vary it slightly",
+        "application": "Same concept that led to ten Classic Ladies",
+        "note": "This Lady actually turned out to be a gentleman"
+      },
+      "homologation_study": {
+        "two_methyl_groups": ["3-position", "4-position"],
+        "proposed_variations": "Homologate each to ethyl, then both to ethyl",
+        "study_dimensions": [
+          "Effects of homologation at 3- and 4-positions",
+          "Effects of phenethylamine (2C) vs amphetamine (3C) chain"
+        ],
+        "six_compounds": {
+          "2C-G-12_and_G-12": "3-methyl, 4-ethyl (related to DOET and 2C-E)",
+          "2C-G-21_and_G-21": "3-ethyl, 4-methyl (related to 2C-D and DOM)",
+          "2C-G-22_and_G-22": "3-ethyl, 4-ethyl (diethyl homologues)"
+        },
+        "naming_system": "Paired numbers = chain lengths at 3- and 4-positions",
+        "expandability": ["2C-G-31 (3-propyl, 4-methyl)", "2C-G-41 (3-butyl, 4-methyl)"]
+      },
+      "synthesis_outcome": {
+        "six_proposed": "Resisted all logical approaches, still unknown",
+        "what_worked": "Building up big bulky hydrocarbon glob at positions",
+        "unexpected_result": "Remarkable enhancement of potency"
+      },
+      "key_themes": [
+        "Classic_Ladies",
+        "seventh_of_ten",
+        "DOM_derivative",
+        "hydrogen_removal_key",
+        "metabolism_blocking",
+        "potency_loss",
+        "homologation_study",
+        "G_numbering_system",
+        "synthesis_resistance",
+        "bulky_group_potency"
+      ],
+      "notable_quotes": [
+        "This compound was the seventh of the ten possible Classic Ladies.",
+        "This is the teutonic replacement of each of the distinguishable hydrogen atoms of DOM with a methyl group.",
+        "The findings with GANESHA were a total surprise.",
+        "The remarkable point being emphasized here is that the placement of a dull methyl group at a dull position of the DOM molecule actually inactivated (for all intents and purposes) the activity of DOM.",
+        "It is not the presence of the methyl that has decimated the potency, but the removal of the hydrogen atom.",
+        "A historic premise of the medicinal chemist is that if a structure gives an unusual response in a receptor, vary it slightly and see how the response varies.",
+        "This Lady actually turned out to be a gentleman.",
+        "Unfortunately, these six initially proposed compounds have so far resisted all logical approaches to synthesis, and are at present still unknown.",
+        "As with all true exploration into areas of the unknown, the deeper you get, the less you understand."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
