@@ -2335,6 +2335,202 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 38,
+      "code": "2C-SE",
+      "chemical_name": "2,5-Dimethoxy-4-methylselenophenethylamine",
+      "extensions_and_commentary": "With an entirely new hetero atom in the molecule (the selenium), and with clear indications that large dosages would be needed (100 milligrams or more), some discretion was felt desirable. There was certainly an odd taste and an odd smell. I remember some early biochemical work where selenium replaced sulfur in some amino acid chemistry, and things got pretty toxic. It might be appropriate to get some general animal toxicity data before exploring those dosages that might get to a +++.\n\nWhat doors are opened by the observation that the selenium analog of 2C-T is an active compound? The potency appears to be in the same ball park, whether there is a sulfur atom or a selenium atom there.\n\nFrom the point of view of the thing that is hung onto the hetero-atom, the selenium, the most active (and as first approximation the most safe) analogue would be the same ones that are the most potent with sulfur. These would probably be the Se-ethyl, the Se-propyl, or the Se-isopropyl, the analogs of S-ethyl, S-propyl, and S-isopropyl. If one were to be systematic, these would be called 2C-SE-2, 2C-SE-4, and 2C-SE-7. And a very special place might be held for 2C-SE-21, the analogue of 2C-T-21. Not only is this of high potential potency, but it would certainly be the first time that both fluorine and selenium are in the same centrally active drug. In fact, might not this compound, 2C-SE, be the first compound active within the human CNS with a selenium atom in it? It is certainly the first psychedelic with this atom in it!\n\nFrom the point of view of the hetero-atom itself, there are two more known below selenium in the Periodic Table. Each deserves some special comment. The next atom, directly below selenium, is tellurium. It is more metallic, and its compounds have a worse smell yet. I heard a story about a German chemist, many years ago, who was carrying a vial of dibutyl telluride in his pocket in a passenger coach from here to there in Germany, back at about the turn of the century. It fell to the floor and broke. No one could remain in the car, and no amount of decontamination could effectively make the smell tolerable. Scratch one railway coach. But the compound, 2C-TE, would be readily makeable. Dimethyl ditelluride is a known thing.\n\nHowever, the atom below tellurium (and at the bottom of that particular column of the Periodic Table) is the element polonium. Here one must deal in terms of theory, as far as human activity goes, since there are no non-radioactive isotopes of polonium. The only readily available isotope is that with mass 210, which is also called Radium F, and is an alpha-particle emitter. If this were ever to be put into a living organism, and if it were to seek out and hang around some particular site of action, that area would be thoroughly and completely cooked by alpha-particle emission. It would be a fun academic exercise to make 2C-PO (2,5-dimethoxy-4-methylpoloneophenethylamine), but in no way could it ever go into anyone. I knew an eminent physiologist named Dr. Hardin Jones (now dead) who always argued that the continuing use of drugs would burn out the pleasure center of the brain. It is a certainty that 2C-PO would, quite literally, do this. If I ever made it, I would call it HARDINAMINE in his honor.\n\nThere was an interesting observation associated with the making of 2C-SE. In the synthesis of many of the sulfur compounds (of the 2C-T family) it was quite common to find, when there was a quantity of some organic sulfide let go as a by-product of a reaction on a warm summer night, a number of flies coming into the lab to pay a visit. On the first synthesis of the starting material for 2C-SE, a quantity of CH3SeH was let go into the environment. Within minutes, there were two beautiful dragonflies in the lab. A coincidence certainly, but somehow, it was a nice message to receive.",
+      "novel_heteroatom": {
+        "element": "Selenium",
+        "significance": "Entirely new hetero atom in the molecule",
+        "historical_claim": "First psychedelic with selenium atom",
+        "possible_first": "First compound active within human CNS with selenium"
+      },
+      "safety_concerns": {
+        "dosage_needed": "100 milligrams or more",
+        "discretion": "Some discretion was felt desirable",
+        "sensory": "Odd taste and odd smell",
+        "toxicity_concern": "Selenium replacing sulfur in amino acid chemistry got pretty toxic",
+        "recommendation": "Get general animal toxicity data before exploring +++ dosages"
+      },
+      "potency_comparison": {
+        "vs_sulfur": "Potency appears to be in the same ball park",
+        "observation": "Whether sulfur or selenium atom there"
+      },
+      "proposed_analogues": {
+        "systematic_naming": {
+          "2C-SE-2": "Se-ethyl (analog of S-ethyl)",
+          "2C-SE-4": "Se-propyl (analog of S-propyl)",
+          "2C-SE-7": "Se-isopropyl (analog of S-isopropyl)"
+        },
+        "special_compound": {
+          "name": "2C-SE-21",
+          "analog_of": "2C-T-21",
+          "significance": "First time both fluorine and selenium in same centrally active drug"
+        }
+      },
+      "periodic_table_exploration": {
+        "tellurium": {
+          "position": "Directly below selenium",
+          "character": "More metallic",
+          "smell": "Worse smell yet",
+          "anecdote": {
+            "story": "German chemist with dibutyl telluride in pocket on passenger coach",
+            "era": "About the turn of the century",
+            "incident": "Vial fell and broke",
+            "result": "No one could remain in the car, no decontamination worked",
+            "conclusion": "Scratch one railway coach"
+          },
+          "compound": "2C-TE would be readily makeable",
+          "reagent": "Dimethyl ditelluride is a known thing"
+        },
+        "polonium": {
+          "position": "Bottom of column, below tellurium",
+          "problem": "No non-radioactive isotopes",
+          "isotope": "Po-210, also called Radium F, alpha-particle emitter",
+          "consequence": "Area would be thoroughly and completely cooked by alpha-particle emission",
+          "compound": "2C-PO (2,5-dimethoxy-4-methylpoloneophenethylamine)",
+          "assessment": "Fun academic exercise but could never go into anyone",
+          "proposed_name": "HARDINAMINE",
+          "namesake": {
+            "person": "Dr. Hardin Jones",
+            "description": "Eminent physiologist (now dead)",
+            "argument": "Continuing use of drugs would burn out the pleasure center of the brain",
+            "irony": "2C-PO would, quite literally, do this"
+          }
+        }
+      },
+      "dragonfly_observation": {
+        "context": "Sulfur compound synthesis attracted flies on warm summer nights",
+        "2C_SE_synthesis": "CH3SeH was let go into environment",
+        "result": "Within minutes, two beautiful dragonflies in the lab",
+        "interpretation": "A coincidence certainly, but a nice message to receive"
+      },
+      "key_themes": [
+        "novel_heteroatom",
+        "selenium_first",
+        "toxicity_caution",
+        "periodic_table_column",
+        "tellurium_anecdote",
+        "polonium_impossibility",
+        "HARDINAMINE",
+        "dragonfly_omen",
+        "sulfur_selenium_comparison"
+      ],
+      "notable_quotes": [
+        "With an entirely new hetero atom in the molecule (the selenium), and with clear indications that large dosages would be needed (100 milligrams or more), some discretion was felt desirable.",
+        "It might be appropriate to get some general animal toxicity data before exploring those dosages that might get to a +++.",
+        "The potency appears to be in the same ball park, whether there is a sulfur atom or a selenium atom there.",
+        "Might not this compound, 2C-SE, be the first compound active within the human CNS with a selenium atom in it? It is certainly the first psychedelic with this atom in it!",
+        "I heard a story about a German chemist, many years ago, who was carrying a vial of dibutyl telluride in his pocket in a passenger coach... It fell to the floor and broke. No one could remain in the car.",
+        "Scratch one railway coach.",
+        "If this were ever to be put into a living organism, and if it were to seek out and hang around some particular site of action, that area would be thoroughly and completely cooked by alpha-particle emission.",
+        "It would be a fun academic exercise to make 2C-PO, but in no way could it ever go into anyone.",
+        "I knew an eminent physiologist named Dr. Hardin Jones who always argued that the continuing use of drugs would burn out the pleasure center of the brain. It is a certainty that 2C-PO would, quite literally, do this.",
+        "If I ever made it, I would call it HARDINAMINE in his honor.",
+        "Within minutes, there were two beautiful dragonflies in the lab. A coincidence certainly, but somehow, it was a nice message to receive."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 39,
+      "code": "2C-T",
+      "chemical_name": "2,5-Dimethoxy-4-methylthiophenethylamine",
+      "extensions_and_commentary": "The earliest work with the sulfur atom was with the three-carbon chain materials, the ALEPHs. It was only after a considerable time of working with them, and trying to come to peace with their property of being so different from person to person as to potency, that the two-carbon homologues were looked at. Although the first of these (this compound, called 2C-T) was prepared at the same time as ALEPH-1, there was a lapse of about four years between their trials. The relatively low potency of 2C-T was a bit discouraging. But the methodical pursuit of the higher 2C-T's (to parallel the higher ALEPHs) proved to be a treasure house, and they have been explored much further than any of the ALEPHs.\n\nA note on the RTS in 2C-T. Many, in fact most, of the 2C's have their name based on the last letter of the amphetamine prototype. 2C-B from DOB, 2C-C from DOC, 2C-I from DOI, 2C-N from DON, etc. And since the original name for ALEPH-1 was DOT (the desoxy- and a thiomethyl group at the 4-position), the 2C-T naming followed this general pattern. And as a note on the subsequent numbering, they (both the ALEPHs and the 2C-T's) are assigned numbers as they are thought up. There is no structural significance in the number but they have been, like the houses on the streets in residential Tokyo, assigned numbers in strict historical order, documenting the sequence of construction rather than the relative position down the side of the street.\n\nBoth of the homologous mono-ethoxy Tweetios of 2C-T have been synthesized and evaluated. The 2-EtO-homologue of 2C-T is 2-ethoxy-5-methoxy-4-methylthiophenethylamine, or 2CT-2ETO. The benzaldehyde (2-ethoxy-5-methoxy-4-(methylthio)benzaldehyde) was an oil, the nitrostyrene intermediate had a melting point of 137-138 °C, and the final hydrochloride a melting point of 215-216 °C. The effects were felt very quickly, and there was a blurring of vision. However, the highest dose tried, 50 milligrams, was not able to produce a greater-than-plus one state, and what did occur, lasted for only 4 hours.\n\nThe 5-EtO-homologue of 2C-T is 5-ethoxy-2-methoxy-4-methylthio-phenethylamine, or 2CT-5ETO. The benzaldehyde (5-ethoxy-2-methoxy-4-(methyl-thio)benzaldehyde) was impure, and had a melting point of about 66 °C, the nitrostyrene intermediate a melting point of 133-134 °C, and the final hydrochloride a melting point of 184-185 °C. There was a body awareness and modest eyes-closed visuals following the use of 30 milligrams of 2CT-5ETO. The experience was quiet, peaceful, contemplative, and insightful. The duration was perhaps 15 hours and Halcion was needed to allow sleep. There were a lot of dreams, and the next day was restful.",
+      "historical_context": {
+        "earliest_sulfur_work": "Three-carbon chain materials, the ALEPHs",
+        "ALEPH_challenge": "So different from person to person as to potency",
+        "2C_T_preparation": "Prepared at same time as ALEPH-1",
+        "trial_delay": "Four years between preparation and trial",
+        "initial_assessment": "Relatively low potency, a bit discouraging",
+        "subsequent_discovery": "Methodical pursuit of higher 2C-T's proved to be a treasure house",
+        "exploration": "Explored much further than any of the ALEPHs"
+      },
+      "nomenclature": {
+        "naming_pattern": "2C's named based on last letter of amphetamine prototype",
+        "examples": {
+          "2C-B": "from DOB",
+          "2C-C": "from DOC",
+          "2C-I": "from DOI",
+          "2C-N": "from DON"
+        },
+        "2C-T_origin": "ALEPH-1 was originally called DOT (desoxy- and thiomethyl at 4-position)",
+        "numbering_system": {
+          "method": "Assigned as they are thought up",
+          "significance": "No structural significance in the number",
+          "analogy": "Like houses on streets in residential Tokyo",
+          "meaning": "Documents sequence of construction rather than relative position"
+        }
+      },
+      "tweetio_compounds": {
+        "2CT_2ETO": {
+          "name": "2-ethoxy-5-methoxy-4-methylthiophenethylamine",
+          "relationship": "2-EtO-homologue of 2C-T",
+          "benzaldehyde": {
+            "name": "2-ethoxy-5-methoxy-4-(methylthio)benzaldehyde",
+            "form": "Oil"
+          },
+          "melting_points": {
+            "nitrostyrene": "137-138°C",
+            "hydrochloride": "215-216°C"
+          },
+          "activity": {
+            "onset": "Effects felt very quickly",
+            "effect": "Blurring of vision",
+            "maximum_dose": "50 milligrams",
+            "maximum_effect": "Not greater than plus one",
+            "duration": "Only 4 hours"
+          }
+        },
+        "2CT_5ETO": {
+          "name": "5-ethoxy-2-methoxy-4-methylthiophenethylamine",
+          "relationship": "5-EtO-homologue of 2C-T",
+          "benzaldehyde": {
+            "name": "5-ethoxy-2-methoxy-4-(methylthio)benzaldehyde",
+            "purity": "Impure",
+            "melting_point": "About 66°C"
+          },
+          "melting_points": {
+            "nitrostyrene": "133-134°C",
+            "hydrochloride": "184-185°C"
+          },
+          "activity": {
+            "dose": "30 milligrams",
+            "effects": ["Body awareness", "Modest eyes-closed visuals"],
+            "character": "Quiet, peaceful, contemplative, and insightful",
+            "duration": "Perhaps 15 hours",
+            "sleep": "Halcion was needed to allow sleep",
+            "dreams": "A lot of dreams",
+            "next_day": "Restful"
+          }
+        }
+      },
+      "key_themes": [
+        "sulfur_series_origin",
+        "ALEPH_relationship",
+        "treasure_house",
+        "naming_convention",
+        "DOT_origin",
+        "tokyo_numbering",
+        "historical_order",
+        "tweetio_variants",
+        "potency_differences"
+      ],
+      "notable_quotes": [
+        "The earliest work with the sulfur atom was with the three-carbon chain materials, the ALEPHs.",
+        "It was only after a considerable time of working with them, and trying to come to peace with their property of being so different from person to person as to potency, that the two-carbon homologues were looked at.",
+        "Although the first of these (this compound, called 2C-T) was prepared at the same time as ALEPH-1, there was a lapse of about four years between their trials.",
+        "The relatively low potency of 2C-T was a bit discouraging.",
+        "But the methodical pursuit of the higher 2C-T's (to parallel the higher ALEPHs) proved to be a treasure house.",
+        "Many, in fact most, of the 2C's have their name based on the last letter of the amphetamine prototype.",
+        "The original name for ALEPH-1 was DOT (the desoxy- and a thiomethyl group at the 4-position).",
+        "They have been, like the houses on the streets in residential Tokyo, assigned numbers in strict historical order, documenting the sequence of construction rather than the relative position down the side of the street.",
+        "The experience was quiet, peaceful, contemplative, and insightful."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
