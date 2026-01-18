@@ -2,9 +2,13 @@
   "source": "PIHKAL: Phenethylamines I Have Known And Loved",
   "author": "Alexander & Ann Shulgin",
   "year": 1991,
-  "quotes": [
+  "structure": {
+    "part_one": "The Love Story (Autobiographical)",
+    "part_two": "The Chemical Story (179 Compound Entries)"
+  },
+  "general_quotes": [
     {
-      "id": "pihkal_001",
+      "id": "pihkal_gen_001",
       "quote": "I am completely convinced that there is a wealth of information built into us, with miles of intuitive knowledge tucked away in the genetic material of every one of our cells. Something akin to a library containing uncountable reference volumes, but encyclopedias whose indexes and tables of contents are still far from being compiled.",
       "chapter": "Introduction",
       "category": "consciousness_philosophy",
@@ -12,7 +16,7 @@
       "extended_thoughts": ""
     },
     {
-      "id": "pihkal_002",
+      "id": "pihkal_gen_002",
       "quote": "Our generation is the first, ever, to have made the search for self-awareness a crime, if that search takes place through the use of tools denied by law.",
       "chapter": "Story Section",
       "category": "legal_freedom",
@@ -20,7 +24,7 @@
       "extended_thoughts": ""
     },
     {
-      "id": "pihkal_003",
+      "id": "pihkal_gen_003",
       "quote": "Use them with care, and use them with respect as to the potential they have for serious change in the chemistry of your mind, and how that chemistry might affect others. These are truly blessed tools for exploring the depths of the human psyche.",
       "chapter": "Epilogue",
       "category": "psychedelic_philosophy",
@@ -28,7 +32,7 @@
       "extended_thoughts": ""
     },
     {
-      "id": "pihkal_004",
+      "id": "pihkal_gen_004",
       "quote": "The most compelling insight of that day was that this awesome recall had been brought about by a fraction of a gram of a white solid, but that in no way whatsoever could it be argued that these memories had been contained in the white solid. Everything I had ever learned or experienced was still part of me.",
       "chapter": "First Mescaline Experience",
       "category": "consciousness_philosophy",
@@ -36,14 +40,38 @@
       "extended_thoughts": ""
     }
   ],
-  "add_your_quotes_here": [
+  "compound_entries": [
     {
-      "id": "pihkal_template",
-      "quote": "[Add quote here]",
-      "chapter": "[Chapter or section]",
-      "category": "[category_id from index]",
-      "commentary": "[Your commentary on the quote]",
-      "extended_thoughts": "[Extended reasoning and connections]"
+      "entry_number": 1,
+      "code": "AEM",
+      "chemical_name": "Alpha-Ethyl-Mescaline",
+      "extensions_and_commentary": "The extension of the two-carbon chain of mescaline by alpha-methylation to the three carbon chain of TMA approximately doubled the potency of the compound. And it was felt to be a completely logical possibility that, by extending it one more carbon atom, to the four carbon chain of alpha-ethyl-mescaline, it might double again. And following that logical progression, the doubling of potency with each additional carbon atom, the factor would be 2 to the 7th power by the alpha-octyl (or 256x that of mescaline, or a milligram as active dose) and with a side chain of a 70-carbon alkyl group (alpha-heptacontylmescaline) it would take just a single molecule to be intoxicating. This was rich fantasy stuff. As an active compound, just where would it go in the brain? With an 80-carbon side-chain, would one-thousandth of a single molecule be enough for a person? Or might a single molecule intoxicate a thousand people? And how long a chain on the alpha-position might be sufficient that, by merely writing down the structure on a piece of paper, you would get high? Maybe just conceiving the structure in your mind would do it. That is, after all, the way of homeopathy.\n\nMaybe it was just as well that this added two-carbon side-chain with lowered activity was already enough to disprove the doubling pattern. But by the time this non-activity had been learned, the alpha series had already been pushed out quite aways. The machinery of making the appropriate nitroalkane was straightforward, by reaction of the alkyl halide with nitrous acid, and separating the unwanted nitrite ester from the wanted nitroalkane by fractional distillation. The nitrostyrenes all formed reasonably although often in terrible yields, and reduced reasonably, and all formed crystalline picrates for isolation and crystalline hydrochloride salts for pharmacological manipulation. But since the first of these, AEM, was not active, there was no enthusiasm for tasting anything higher. This family was never published; why publish presumably inactive and thus uninteresting material?",
+      "data_table": {
+        "title": "Physical Properties of the alpha-Alkylmescaline Homologues and their Precursor Nitrostyrenes",
+        "compounds": [
+          {"code": "APM", "name": "Alpha-propylmescaline", "NS_mp_C": "82-83", "picrate_mp_C": null, "HCl_mp_C": "214-218"},
+          {"code": "ABM", "name": "Alpha-butylmescaline", "NS_mp_C": "73-74", "picrate_mp_C": "169-174", "HCl_mp_C": "182-184"},
+          {"code": "AAM", "name": "Alpha-amylmescaline", "NS_mp_C": "54-55", "picrate_mp_C": "162-163", "HCl_mp_C": "155-158"},
+          {"code": "AHM", "name": "Alpha-hexylmescaline", "NS_mp_C": "51-52", "picrate_mp_C": null, "HCl_mp_C": null},
+          {"code": "ASM", "name": "Alpha-heptylmescaline", "NS_mp_C": "43-44", "picrate_mp_C": null, "HCl_mp_C": null, "note": "S is for septyl, to distinguish heptyl from hexyl"},
+          {"code": "AOM", "name": "Alpha-octylmescaline", "NS_mp_C": null, "picrate_mp_C": null, "HCl_mp_C": null, "note": "Never made, as no nonylbromide could be located to make the needed nitrononane"},
+          {"code": "ANM", "name": "Alpha-nonylmescaline", "NS_mp_C": "46-47", "picrate_mp_C": null, "HCl_mp_C": null, "note": "Synthesis got as far as the nitrostyrene stage when inactivity of AEM was determined, project dropped"},
+          {"code": "AUM", "name": "Alpha-undecylmescaline", "NS_mp_C": null, "picrate_mp_C": null, "HCl_mp_C": null, "note": "Synthesis got as far as the nitrostyrene stage when inactivity of AEM was determined, project dropped"}
+        ]
+      },
+      "key_themes": [
+        "scientific_method",
+        "hypothesis_testing",
+        "reductio_ad_absurdum",
+        "homeopathy_critique",
+        "unpublished_research"
+      ],
+      "notable_quotes": [
+        "And how long a chain on the alpha-position might be sufficient that, by merely writing down the structure on a piece of paper, you would get high? Maybe just conceiving the structure in your mind would do it. That is, after all, the way of homeopathy.",
+        "This family was never published; why publish presumably inactive and thus uninteresting material?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
