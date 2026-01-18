@@ -1966,6 +1966,63 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 32,
+      "code": "2C-H",
+      "chemical_name": "2,5-Dimethoxyphenethylamine",
+      "extensions_and_commentary": "I know of no record of 2C-H ever having been tried by man. It has been assumed by everyone (and probably correctly so) that this amine, being an excellent substrate for the amino oxidase systems in man, will be completely destroyed by the body as soon as it gets into it, and thus be without action. In virtually all animal assays where it has been compared with known psychoactive drugs, it remains at the \"less-active\" end of the ranking.\n\nIt is, however, one of the most magnificent launching pads for a number of rather unusual and, in a couple of cases, extraordinary drugs. In the lingo of the chemist, it is amenable to \"electrophilic attack at the 4-position.\" And, in the lingo of the psychopharmacologist, the \"4-position is where the action is.\" From this (presumably) inactive thing have evolved end products such as 2C-B, 2C-I, 2C-C, and 2C-N. And in the future, many possible things as might come from a carbinol group, an amine function, or anything that can stem from a lithium atom.",
+      "human_trials": {
+        "status": "No record of ever having been tried by man",
+        "reason": "Excellent substrate for amino oxidase systems",
+        "expected_fate": "Completely destroyed by the body as soon as it gets into it",
+        "expected_activity": "Without action"
+      },
+      "animal_studies": {
+        "comparison": "Compared with known psychoactive drugs",
+        "ranking": "Less-active end"
+      },
+      "synthetic_importance": {
+        "description": "One of the most magnificent launching pads",
+        "for": "Number of rather unusual and extraordinary drugs",
+        "chemistry_lingo": "Amenable to electrophilic attack at the 4-position",
+        "pharmacology_lingo": "The 4-position is where the action is"
+      },
+      "derived_compounds": {
+        "existing": ["2C-B", "2C-I", "2C-C", "2C-N"],
+        "future_possibilities": {
+          "functional_groups": ["Carbinol group", "Amine function"],
+          "methodology": "Anything that can stem from a lithium atom"
+        }
+      },
+      "paradox": {
+        "inactive_itself": "Presumably inactive",
+        "yet": "Parent of extraordinary drugs",
+        "significance": "The unsubstituted 4-position enables all modifications"
+      },
+      "key_themes": [
+        "untested_in_humans",
+        "amino_oxidase_substrate",
+        "metabolic_destruction",
+        "magnificent_launching_pad",
+        "electrophilic_attack",
+        "4_position_importance",
+        "synthetic_intermediate",
+        "parent_compound",
+        "future_chemistry",
+        "lithium_chemistry"
+      ],
+      "notable_quotes": [
+        "I know of no record of 2C-H ever having been tried by man.",
+        "It has been assumed by everyone (and probably correctly so) that this amine, being an excellent substrate for the amino oxidase systems in man, will be completely destroyed by the body as soon as it gets into it, and thus be without action.",
+        "In virtually all animal assays where it has been compared with known psychoactive drugs, it remains at the \"less-active\" end of the ranking.",
+        "It is, however, one of the most magnificent launching pads for a number of rather unusual and, in a couple of cases, extraordinary drugs.",
+        "In the lingo of the chemist, it is amenable to \"electrophilic attack at the 4-position.\"",
+        "And, in the lingo of the psychopharmacologist, the \"4-position is where the action is.\"",
+        "From this (presumably) inactive thing have evolved end products such as 2C-B, 2C-I, 2C-C, and 2C-N."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
