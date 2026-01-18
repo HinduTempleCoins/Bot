@@ -310,6 +310,73 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 8,
+      "code": "ARIADNE",
+      "chemical_name": "2,5-Dimethoxy-4-methylamphetamine, alpha-ethyl homologue",
+      "extensions_and_commentary_summary": "Massive entry covering drug discovery philosophy, the commercial failure of Dimoxamine, and introduction of the Ten Classic Ladies systematic exploration of DOM hydrogen replacements.",
+      "drug_discovery_philosophy": {
+        "problem": "How to discover drugs for uniquely human conditions (anxiety, psychosis, paranoia, depression) that don't exist in animals?",
+        "traditional_approach": "Use known drug as calibration, search structurally related compounds",
+        "alternative": "Stumble into it via human experimentation with psychedelics",
+        "challenge": "Difficult to identify anti-depressants if you're not depressed"
+      },
+      "commercial_history": {
+        "trade_name": "Dimoxamine",
+        "rejected_name": "Ariadnamine",
+        "patent_coverage": "R isomer for restoring motivation in senile geriatric patients",
+        "animal_tests": {
+          "cat_test": "Not hallucinogenic (no tail erection unlike DOM)",
+          "monkey_test": "Re-motivation (old maze-running monkeys changed their minds)"
+        },
+        "outcome": "Didn't make it to commercial market"
+      },
+      "ten_classic_ladies": {
+        "concept": "Systematically replace each of DOM's 10 unique hydrogen types with a methyl group",
+        "total_hydrogens_in_DOM": 19,
+        "unique_hydrogen_types": 10,
+        "ladies": [
+          {"name": "ARIADNE", "position": "alpha-methyl (amphetamine chain)", "mythology": "Gave thread to Theseus for the Labyrinth"},
+          {"name": "BEATRICE", "position": "nitrogen atom", "mythology": "Dante's lady from Divina Commedia"},
+          {"name": "CHARMIAN", "position": "alpha-hydrogen (phentermine analogue)", "mythology": "Named for friend's wife with gentle schizophrenia"},
+          {"name": "DAPHNE", "position": "beta-hydrogen (threo-isomer)", "mythology": "Escaped Apollo by becoming laurel tree"},
+          {"name": "ELVIRA", "position": "beta-hydrogen (erythro-isomer)", "mythology": "Mozart's 21st piano concerto theme"},
+          {"name": "FLORENCE", "position": "2-methoxy → 2-ethoxy", "mythology": "English translation of Firenze"},
+          {"name": "GANESHA", "position": "3-hydrogen → 3-methyl", "mythology": "Oops - elephant-headed Indian God, not a lady!"},
+          {"name": "HECATE", "position": "4-methyl → 4-ethyl (= DOET)", "mythology": "Goddess of magic arts and spells"},
+          {"name": "IRIS", "position": "5-methoxy → 5-ethoxy", "mythology": "Goddess of the rainbow"},
+          {"name": "JUNO", "position": "6-hydrogen → 6-methyl", "mythology": "A lady's lady", "note": "On shelf 14 years untasted"}
+        ]
+      },
+      "substitution_patterns": {
+        "normal": "2,4,5 - known most potent pattern",
+        "pseudo": "2,4,6 - equipotent in many ways, 'true pseudo'",
+        "near_pseudo": {
+          "patterns": ["2,3,6", "2,3,5"],
+          "prediction": "Will produce treasures every bit as unexpected as normal or pseudo",
+          "naming": "Will find a name from Greek alphabet when time comes"
+        }
+      },
+      "key_themes": [
+        "drug_discovery_philosophy",
+        "systematic_exploration",
+        "ten_classic_ladies",
+        "commercial_failure",
+        "substitution_patterns",
+        "unexplored_compounds",
+        "naming_methodology"
+      ],
+      "notable_quotes": [
+        "How does one discover a new drug for a malady that does not exist in experimental animals?",
+        "It is really difficult to pick up the clues as to what will be a good anti-depressant if you are not depressed.",
+        "It didn't have what was needed to make it all the way to the commercial market.",
+        "Here I really blew it; the Classic Lady turned out to be a Classic Gentleman.",
+        "I am willing to bet that the rather easily obtained 2,3,6-trisubstitution pattern... will produce treasures every bit as unexpected and remarkable.",
+        "Rather amazingly, I have had JUNO on the shelf for almost 14 years and have not yet gotten around to tasting it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
