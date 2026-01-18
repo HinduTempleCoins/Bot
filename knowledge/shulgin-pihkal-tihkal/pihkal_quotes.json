@@ -2818,6 +2818,83 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 43,
+      "code": "2C-T-7",
+      "chemical_name": "2,5-Dimethoxy-4-(n)-propylthiophenethylamine",
+      "extensions_and_commentary": "If all the phenethylamines were to be ranked as to their acceptability and their intrinsic richness, 2C-T-7 would be right up there near the top, along with 2C-T-2, 2C-B, mescaline and 2C-E. The range is intentionally extended on the lower side to include 10 milligrams, as there have been numerous people who have found 10 or so milligrams to be quite adequate for their tastes.\n\nOne Tweetio related to 2C-T-7 has been made and evaluated. This is the 2-EtO-homologue of 2C-T-7, 2-ethoxy-5-methoxy-4-(n)-propylthiophenethylamine, or 2CT7-2ETO. The benzaldehyde (2-ethoxy-5-methoxy-4-(n-propylthio)benzaldehyde had a melting point of 69-71 °C, the nitrostyrene intermediate a melting point of 106-106.5 °C, and the final hydrochloride a melting point of 187-189 °C. At the 20 milligram level, the effects were felt quickly, and the eyes-closed visuals were modest but real. It was very short-lived, with baseline recovery at about the fifth hour. The next day there was an uncomfortable headache which seemed on an intuitive level to be an after-effect of the compound.\n\nThe unusual properties of a number of N-methyl-N-(i)-propyltryptamines suggested the possibility of something like a similar set of N-methyl-N-(i)-propylphenethylamines. Why not try one from 2C-T-7? The thought was, maybe N-methylate this compound, then put on an isopropyl group with reductive alkylation, using acetone as the carbon source and sodium cyanoborohydride. Towards this end, the free base of 2C-T-7 (from one gram of the hydrochloride) was refluxed for 2 h in 1.3 g butyl formate, and on removing the solvent/reactant the residue spontaneously crystallized. This formamide (0.7 g) was reduced with lithium hydride in cold THF to provide 2,5-dimethoxy-4-(n)-propyl-N-methyl-phenethylamine, METHYL-2C-T-7, which distilled at 150-170 °C at 0.4 mm/Hg. A very small amount of the hydrochloride salt was obtained (65 milligrams) and it had a brown color. Too small an amount of an impure product; the entire project was dropped.",
+      "ranking": {
+        "position": "Right up there near the top",
+        "peers": ["2C-T-2", "2C-B", "mescaline", "2C-E"],
+        "criteria": "Acceptability and intrinsic richness"
+      },
+      "dose_range": {
+        "lower_extension": "Intentionally extended to include 10 milligrams",
+        "reason": "Numerous people have found 10 or so milligrams to be quite adequate for their tastes"
+      },
+      "tweetio_compound": {
+        "2CT7_2ETO": {
+          "name": "2-ethoxy-5-methoxy-4-(n)-propylthiophenethylamine",
+          "relationship": "2-EtO-homologue of 2C-T-7",
+          "melting_points": {
+            "benzaldehyde": "69-71°C",
+            "nitrostyrene": "106-106.5°C",
+            "hydrochloride": "187-189°C"
+          },
+          "activity": {
+            "dose": "20 milligrams",
+            "onset": "Effects felt quickly",
+            "effects": "Eyes-closed visuals modest but real",
+            "duration": "Very short-lived, baseline at about fifth hour",
+            "aftereffect": "Uncomfortable headache next day, intuitively an after-effect of compound"
+          }
+        }
+      },
+      "n_substitution_exploration": {
+        "inspiration": "Unusual properties of N-methyl-N-(i)-propyltryptamines",
+        "goal": "N-methyl-N-(i)-propylphenethylamines from 2C-T-7",
+        "approach": {
+          "step_1": "N-methylate the compound",
+          "step_2": "Isopropyl group via reductive alkylation",
+          "carbon_source": "Acetone",
+          "reducing_agent": "Sodium cyanoborohydride"
+        },
+        "synthesis": {
+          "starting_material": "Free base of 2C-T-7 (from 1g hydrochloride)",
+          "formamide_formation": "Refluxed 2h in 1.3g butyl formate",
+          "formamide_yield": "0.7g (spontaneously crystallized)",
+          "reduction": "Lithium hydride in cold THF",
+          "product": "METHYL-2C-T-7 (2,5-dimethoxy-4-(n)-propyl-N-methylphenethylamine)",
+          "distillation": "150-170°C at 0.4 mm/Hg"
+        },
+        "outcome": {
+          "yield": "65 milligrams hydrochloride",
+          "purity": "Brown color, impure",
+          "conclusion": "Too small an amount of an impure product; the entire project was dropped"
+        }
+      },
+      "key_themes": [
+        "top_tier_compound",
+        "intrinsic_richness",
+        "low_dose_adequacy",
+        "tweetio_headache",
+        "short_duration",
+        "N_methyl_exploration",
+        "tryptamine_inspiration",
+        "abandoned_project"
+      ],
+      "notable_quotes": [
+        "If all the phenethylamines were to be ranked as to their acceptability and their intrinsic richness, 2C-T-7 would be right up there near the top, along with 2C-T-2, 2C-B, mescaline and 2C-E.",
+        "The range is intentionally extended on the lower side to include 10 milligrams, as there have been numerous people who have found 10 or so milligrams to be quite adequate for their tastes.",
+        "It was very short-lived, with baseline recovery at about the fifth hour.",
+        "The next day there was an uncomfortable headache which seemed on an intuitive level to be an after-effect of the compound.",
+        "The unusual properties of a number of N-methyl-N-(i)-propyltryptamines suggested the possibility of something like a similar set of N-methyl-N-(i)-propylphenethylamines.",
+        "Why not try one from 2C-T-7?",
+        "Too small an amount of an impure product; the entire project was dropped."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
