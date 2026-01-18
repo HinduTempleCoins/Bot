@@ -864,6 +864,48 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 17,
+      "code": "BOM",
+      "chemical_name": "3,4,5,beta-Tetramethoxyphenethylamine",
+      "extensions_and_commentary": "There are some indicators of central activity with assays involving both the 120 milligram and the 180 milligram levels, but nothing that can be rated as over a plus one. It can be seen with the two active members of the BOX series (BOD and BOB) that the potency is about equal to, or a little more (up to a factor of maybe x2), than the analogue without the methoxyl group on the aliphatic chain. If this formula were to hold in the relationship between mescaline and BOM, the active level might well be in the 200-400 milligram range. But at the moment, it remains unknown.\n\nAgain, the name of the compound (BOM) is from the RBO-S prefix of this family (from benzyl + oxy), plus the RMS of mescaline (which has provided the ring substitution pattern).",
+      "box_series": {
+        "family": "BOX series (Beta-methOXy phenethylamines)",
+        "active_members": ["BOD", "BOB"],
+        "naming_origin": {
+          "prefix": "RBO-S (from benzyl + oxy)",
+          "suffix": "M from RMS of mescaline (ring substitution pattern)"
+        }
+      },
+      "activity_assessment": {
+        "doses_tested": ["120 mg", "180 mg"],
+        "result": "Some indicators of central activity",
+        "rating": "Nothing over a plus one"
+      },
+      "potency_analysis": {
+        "box_series_pattern": "Potency equal to, or up to 2x, the non-methoxyl analogues",
+        "reference_compounds": ["BOD", "BOB"],
+        "mescaline_extrapolation": {
+          "predicted_active_level": "200-400 mg range",
+          "status": "Remains unknown at the moment"
+        }
+      },
+      "key_themes": [
+        "box_series_member",
+        "mescaline_derivative",
+        "subthreshold_activity",
+        "potency_extrapolation",
+        "unexplored_higher_doses"
+      ],
+      "notable_quotes": [
+        "There are some indicators of central activity with assays involving both the 120 milligram and the 180 milligram levels, but nothing that can be rated as over a plus one.",
+        "It can be seen with the two active members of the BOX series (BOD and BOB) that the potency is about equal to, or a little more (up to a factor of maybe x2), than the analogue without the methoxyl group on the aliphatic chain.",
+        "If this formula were to hold in the relationship between mescaline and BOM, the active level might well be in the 200-400 milligram range.",
+        "But at the moment, it remains unknown."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
