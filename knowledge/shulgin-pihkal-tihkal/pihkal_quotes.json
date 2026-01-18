@@ -5014,6 +5014,215 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 73,
+      "code": "EEE",
+      "chemical_name": "2,4,5-Triethoxyamphetamine",
+      "extensions_and_commentary": "This amphetamine, the final item on the ethoxy homologue of TMA-2 project, has never been tried in man. I do not know how it tastes, but I suspect that it is probably bitter. An interesting sidelight concerning this project, and one which can serve as a measure of the enthusiasm that went into it, is that (except for the 2-ethoxy homologue EMM) all of the possible ethoxy homologues of TMA-2, including MEM, MME, EEM, EME, MEE and EEE, their precursor nitrostyrenes, the precursor aldehydes (and their malononitrile derivatives), the precursor ethers, and the precursor phenols, for a total of 33 compounds, were all synthesized, purified, and characterized within a period of just over three weeks. Actually it was 23 days, and that was a magically exciting time.",
+      "human_trials": false,
+      "taste": "Suspected bitter (unknown)",
+      "TMA_2_ethoxy_project": {
+        "relationship": "Final item - triethoxy homologue of TMA-2",
+        "compounds_synthesized": ["MEM", "MME", "EEM", "EME", "MEE", "EEE"],
+        "exception": "EMM (2-ethoxy homologue) not included in 23-day period",
+        "total_compounds": 33,
+        "compound_types": [
+          "Ethoxy homologues",
+          "Precursor nitrostyrenes",
+          "Precursor aldehydes",
+          "Malononitrile derivatives",
+          "Precursor ethers",
+          "Precursor phenols"
+        ],
+        "timeframe": "23 days",
+        "assessment": "Magically exciting time"
+      },
+      "key_themes": [
+        "TMA-2_ethoxy_homologue",
+        "untested_in_humans",
+        "synthetic_marathon",
+        "33_compounds_23_days",
+        "precursor_chemistry",
+        "enthusiasm_measure"
+      ],
+      "notable_quotes": [
+        "This amphetamine, the final item on the ethoxy homologue of TMA-2 project, has never been tried in man.",
+        "I do not know how it tastes, but I suspect that it is probably bitter.",
+        "An interesting sidelight concerning this project, and one which can serve as a measure of the enthusiasm that went into it.",
+        "For a total of 33 compounds, were all synthesized, purified, and characterized within a period of just over three weeks.",
+        "Actually it was 23 days, and that was a magically exciting time."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 74,
+      "code": "EEM",
+      "chemical_name": "2,5-Diethoxy-4-methoxyamphetamine",
+      "extensions_and_commentary": "This particular identity and arrangement of the alkoxy groups on the amphetamine molecule, EEM, is a totally unexplored molecule. It is reasonable to assume that it would be way down in potency, but there is no way of guessing what the nature of its activity might be at the dosage that would be active.",
+      "human_trials": false,
+      "status": "Totally unexplored",
+      "potency_prediction": {
+        "assumption": "Way down in potency",
+        "activity_nature": "No way of guessing",
+        "caveat": "Unknown what activity might be at active dosage"
+      },
+      "key_themes": [
+        "unexplored_molecule",
+        "potency_speculation",
+        "TMA-2_ethoxy_homologue",
+        "activity_unknown"
+      ],
+      "notable_quotes": [
+        "This particular identity and arrangement of the alkoxy groups on the amphetamine molecule, EEM, is a totally unexplored molecule.",
+        "It is reasonable to assume that it would be way down in potency.",
+        "There is no way of guessing what the nature of its activity might be at the dosage that would be active."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 75,
+      "code": "EME",
+      "chemical_name": "2,4-Diethoxy-5-methoxyamphetamine",
+      "extensions_and_commentary": "This is another of the collection of all possible ethoxy homologues of TMA-2. The latter and heavier members of this series were synthesized and completed before the directions of biological activity had become evident from the earlier ones. This compound has never been assayed, and it is a reasonable guess that it will have a very low potency, with hints of toxicity at higher dose levels. I suspect that it will never be assayed, certainly not by me.",
+      "human_trials": false,
+      "series_context": {
+        "collection": "All possible ethoxy homologues of TMA-2",
+        "synthesis_timing": "Heavier members synthesized before biological activity directions evident from earlier ones"
+      },
+      "predictions": {
+        "potency": "Very low",
+        "toxicity": "Hints at higher dose levels",
+        "future_assay": "Suspected never to be assayed"
+      },
+      "personal_statement": "I suspect that it will never be assayed, certainly not by me",
+      "key_themes": [
+        "TMA-2_ethoxy_homologue",
+        "unassayed",
+        "low_potency_prediction",
+        "toxicity_concern",
+        "synthesis_timing",
+        "personal_limits"
+      ],
+      "notable_quotes": [
+        "This is another of the collection of all possible ethoxy homologues of TMA-2.",
+        "The latter and heavier members of this series were synthesized and completed before the directions of biological activity had become evident from the earlier ones.",
+        "This compound has never been assayed, and it is a reasonable guess that it will have a very low potency, with hints of toxicity at higher dose levels.",
+        "I suspect that it will never be assayed, certainly not by me."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 76,
+      "code": "EMM",
+      "chemical_name": "2-Ethoxy-4,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "This was the first of the ethoxy homologues of TMA-2, and it was immediately (well, within a couple of months) run up from an initial dab to 25 milligrams. This was in early 1963, and the lack of activity of EMM was keenly disappointing. This was a level at which the prototype, TMA-2, was very active, and the conclusion was that maybe any change on the molecule would result in a loss of activity. So this approach was shelved for a while, and all efforts were directed into the relocation, rather than the elongation, of the methoxy groups. A few months later, the ethoxy question was addressed again, and the discovery of MEM rekindled full interest in this ethoxy question.",
+      "human_trials": true,
+      "dosage_tested": "Up to 25 mg",
+      "historical_context": {
+        "timing": "Early 1963",
+        "significance": "First of the ethoxy homologues of TMA-2",
+        "escalation": "Initial dab to 25 mg within a couple of months"
+      },
+      "results": {
+        "activity": "Lack of activity",
+        "emotional_response": "Keenly disappointing",
+        "comparison": "TMA-2 very active at this level"
+      },
+      "conclusions_drawn": {
+        "initial_conclusion": "Maybe any change on the molecule would result in loss of activity",
+        "research_shift": "Shelved ethoxy approach, directed efforts to relocation rather than elongation of methoxy groups"
+      },
+      "rekindling": {
+        "trigger": "Discovery of MEM",
+        "effect": "Rekindled full interest in the ethoxy question"
+      },
+      "key_themes": [
+        "first_ethoxy_homologue",
+        "1963_research",
+        "disappointment",
+        "inactive_at_25mg",
+        "TMA-2_comparison",
+        "research_pivot",
+        "MEM_rekindling"
+      ],
+      "notable_quotes": [
+        "This was the first of the ethoxy homologues of TMA-2.",
+        "It was immediately (well, within a couple of months) run up from an initial dab to 25 milligrams.",
+        "This was in early 1963, and the lack of activity of EMM was keenly disappointing.",
+        "This was a level at which the prototype, TMA-2, was very active.",
+        "The conclusion was that maybe any change on the molecule would result in a loss of activity.",
+        "So this approach was shelved for a while, and all efforts were directed into the relocation, rather than the elongation, of the methoxy groups.",
+        "A few months later, the ethoxy question was addressed again, and the discovery of MEM rekindled full interest in this ethoxy question."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 77,
+      "code": "ETHYL-J",
+      "chemical_name": "N-Ethyl-1-(1,3-benzodioxol-5-yl)-2-butanamine",
+      "extensions_and_commentary": "And nothing higher has ever been looked at. If the analogy with the amphetamine counterparts (J with MDA, METHYL-J with MDMA, and this, with MDE) were to hold up (a drop of about a third in potency with the lengthening of the chain by a carbon atom), one might guess that this compound would be an interesting intoxicant, but probably not until you got up into the area at or above a 200 milligram dose. And that is a lot of chemical for the body to have to handle. Some day, maybe.",
+      "human_trials": false,
+      "highest_homologue": true,
+      "analogy_system": {
+        "J_analog": "MDA",
+        "METHYL_J_analog": "MDMA",
+        "ETHYL_J_analog": "MDE",
+        "potency_relationship": "Drop of about a third with each carbon atom lengthening"
+      },
+      "predictions": {
+        "activity_type": "Interesting intoxicant",
+        "estimated_active_dose": "At or above 200 mg",
+        "concern": "A lot of chemical for the body to handle"
+      },
+      "future_outlook": "Some day, maybe",
+      "key_themes": [
+        "highest_homologue",
+        "MDA_MDMA_MDE_analogy",
+        "potency_drop_pattern",
+        "high_dose_requirement",
+        "body_burden_concern",
+        "future_possibility"
+      ],
+      "notable_quotes": [
+        "And nothing higher has ever been looked at.",
+        "If the analogy with the amphetamine counterparts (J with MDA, METHYL-J with MDMA, and this, with MDE) were to hold up (a drop of about a third in potency with the lengthening of the chain by a carbon atom).",
+        "One might guess that this compound would be an interesting intoxicant, but probably not until you got up into the area at or above a 200 milligram dose.",
+        "And that is a lot of chemical for the body to have to handle.",
+        "Some day, maybe."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 78,
+      "code": "ETHYL-K",
+      "chemical_name": "N-Ethyl-1-(1,3-benzodioxol-5-yl)-2-pentanamine",
+      "extensions_and_commentary": "And that is as high a dose as has apparently ever been tried with ETHYL-K. The compounds with the hexane chain (L-series) rather than the pentane chain of the K-series have been made, but they have been spun into the recipe for METHYL-K.",
+      "human_trials": true,
+      "dosage_limit": "As high as apparently ever tried",
+      "series_context": {
+        "current_series": "K-series (pentane chain)",
+        "higher_series": "L-series (hexane chain)",
+        "L_series_status": "Made, but spun into METHYL-K recipe"
+      },
+      "key_themes": [
+        "K_series_pentane_chain",
+        "L_series_hexane_chain",
+        "dosage_ceiling",
+        "cross_reference_METHYL_K"
+      ],
+      "notable_quotes": [
+        "And that is as high a dose as has apparently ever been tried with ETHYL-K.",
+        "The compounds with the hexane chain (L-series) rather than the pentane chain of the K-series have been made.",
+        "They have been spun into the recipe for METHYL-K."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
