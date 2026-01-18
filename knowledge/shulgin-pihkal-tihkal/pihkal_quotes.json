@@ -6109,6 +6109,350 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 94,
+      "code": "J",
+      "chemical_name": "1-(1,3-Benzodioxol-5-yl)-2-aminobutane",
+      "extensions_and_commentary": "In general, all subjects who have explored J have accepted it and commented favorably. Perhaps those who have used supplements (in an imitation of the common MDMA procedure) achieved an additional period of effect, but also tended to drop to baseline afterwards more rapidly. The physical side effects, such as teeth clench and nystagmus, were infrequent. The consensus is that J is a bit more 'stoning' than MDMA, more like MDA, but with a chronology that is very much the same.",
+      "effects": {
+        "reception": "All subjects accepted and commented favorably",
+        "supplements": "Additional period of effect, but more rapid drop to baseline",
+        "side_effects": "Teeth clench and nystagmus infrequent",
+        "comparison": "Bit more stoning than MDMA, more like MDA",
+        "chronology": "Very much the same as MDMA"
+      },
+      "nomenclature_problems": {
+        "first_problem": "Chemical Abstracts vs logical/intuitive terminology",
+        "second_problem": "Muni-Metro concept (discussed under METHYL-J)"
+      },
+      "naming_systems": {
+        "old_system": {
+          "basis": "Methylenedioxybenzene / methylenedioxyphenyl-something",
+          "J_name": "2-amino-1-(3,4-methylenedioxyphenyl)butane",
+          "approach": "Name as if no methylenedioxy ring, then attach as afterthought"
+        },
+        "current_system": {
+          "basis": "1,3-benzodioxole / 1,3-benzodioxol-5-yl-something",
+          "J_name": "1-(1,3-benzodioxol-5-yl)-2-aminobutane",
+          "code": "BDB",
+          "N_methyl": "MBDB or METHYL-J"
+        }
+      },
+      "psychological_nuance": {
+        "MDMA_virtues": "Facilitating communication and introspection without psychedelic overlay",
+        "entactogen": {
+          "term": "New pharmacological class name",
+          "etymology": "Greek roots for 'touching within'"
+        },
+        "MDMA_problems": [
+          "Wide popular misuse",
+          "Precipitous Schedule I placement",
+          "Flood of negative neurotoxicological animal studies"
+        ],
+        "naming_strategy": "Avoid pejorative 'MD' prefix, use obscure BDB/MBDB or simple J/METHYL-J"
+      },
+      "key_themes": [
+        "alpha_ethyl_MDA",
+        "BDB_nomenclature",
+        "entactogen",
+        "MDMA_comparison",
+        "stoning_quality",
+        "MD_prefix_avoidance"
+      ],
+      "notable_quotes": [
+        "In general, all subjects who have explored J have accepted it and commented favorably.",
+        "The consensus is that J is a bit more 'stoning' than MDMA, more like MDA, but with a chronology that is very much the same.",
+        "The virtues and potential medical value of MDMA lie in its most remarkable property of facilitating communication and introspective states without an overlay of psychedelic action.",
+        "This property has prompted the coining of a new pharmacological class name, Entactogen, which comes from the Greek roots for 'touching within.'",
+        "MDMA has been badly smeared in both the public and the scientific view.",
+        "Why not avoid the 'MD' prefix that, in many eyes, is pejorative?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 95,
+      "code": "LOPHOPHINE",
+      "chemical_name": "3-Methoxy-4,5-methylenedioxyphenethylamine",
+      "extensions_and_commentary": "It looks as if this compound is not active. There is an excellent argument as to why it really should be, and the fact that it is not active is completely unexpected. Let me try to explain.",
+      "activity_status": "Appears not active",
+      "paradox": {
+        "expectation": "Should be active",
+        "reality": "Not active - completely unexpected"
+      },
+      "mescaline_cyclization": {
+        "mescaline": "Major component and centrally active alkaloid of Peyote",
+        "products": "Tetrahydroisoquinolines - anhalonine, O-methylanhalonidine",
+        "description": "Marvelously complex alkaloids, natural cactus components"
+      },
+      "missing_precursor_theory": {
+        "expected_precursor": "3-methoxy-4,5-methylenedioxyphenethylamine",
+        "status": "Should be in cactus but is not",
+        "would_produce": "Tetrahydroisoquinolines - anhalonine, lophophorine, peyophorine",
+        "naming_rationale": "Lophophora williamsii (plant binomial) → LOPHOPHINE"
+      },
+      "predictions": {
+        "discovery": "Inevitable - will be found when tools sensitive enough exist",
+        "activity": "Reasonable to expect psychedelic activity like cousin mescaline"
+      },
+      "current_status": {
+        "in_plant": "Not known to be present",
+        "in_man": "Not known to be active",
+        "confidence": "Both statuses will change in the future"
+      },
+      "key_themes": [
+        "peyote_alkaloid",
+        "missing_precursor",
+        "Lophophora_williamsii",
+        "tetrahydroisoquinoline",
+        "predicted_discovery",
+        "mescaline_cousin"
+      ],
+      "notable_quotes": [
+        "It looks as if this compound is not active. There is an excellent argument as to why it really should be, and the fact that it is not active is completely unexpected.",
+        "This is 3-methoxy-4,5-methylenedioxyphenethylamine. I feel that some day it will be discovered as a plant component.",
+        "And so, I have named it, but I have not found it, nor has anyone else. Yet.",
+        "It is inevitable that this simple and most appealing precursor will be found to be present in the cactus, at some future time when we will have tools of sufficient sensitivity to detect it.",
+        "LOPHOPHINE is not known to be present in the plant, and it is not known to be active in man. I am confident that both statuses will change in the future."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 96,
+      "code": "M",
+      "chemical_name": "3,4,5-Trimethoxyphenethylamine",
+      "extensions_and_commentary": "Mescaline is one of the oldest psychedelics known to man. It is the major active component of the small dumpling cactus known as Peyote.",
+      "historical_significance": "One of the oldest psychedelics known to man",
+      "source": {
+        "plant": "Peyote (small dumpling cactus)",
+        "botanical_names": ["Lophophora williamsii", "Anhalonium lewinii"],
+        "geography": "Southwestern United States and Northern Mexico",
+        "use": "Intimate component of native Indian religious traditions",
+        "appearance": "Small round shape, tufts of soft fuzz instead of spines",
+        "consumption": "Few to couple dozen dried buttons in ceremony"
+      },
+      "salt_forms": {
+        "clinical_use": "Sulfate salt (synthetic material)",
+        "melting_point": "Miserable (contains water of crystallization, depends on heating rate)",
+        "crystals": "Magnificent - long glistening needles, signature and mark of purity",
+        "actual_use": "Usually hydrochloride"
+      },
+      "central_standard": {
+        "role": "Reference against which all compounds viewed",
+        "US_Chemical_Warfare": "Reference for quantitative and qualitative comparisons",
+        "Edgewood_Arsenal_code": "EA-1306",
+        "comparison_phrases": ["Twice the potency of mescaline", "Twice as long-lived as mescaline"],
+        "mescaline_units": {
+          "definition": "3.75 mg/kg level = 1 M.U.",
+          "example": "80 kg person = 300 mg dose",
+          "calculation": "30 mg active = M.U. of 10"
+        },
+        "limitation": "Numbers don't represent the magic, the nature of experience"
+      },
+      "book_philosophy": "Only one line to dosage, but full page to qualitative comments",
+      "N_modified_analogues": {
+        "N_acetyl_mescaline": {
+          "source": "Found in peyote, major human metabolite",
+          "preparation": "Gentle reaction with acetic anhydride",
+          "cyclization_warning": "Too much heat → dihydroisoquinoline (mp 160-161 C)",
+          "trials": "300-750 mg range",
+          "result": "Very little activity, suggestions of drowsiness, no psychedelic effects"
+        },
+        "N_methyl_mescaline": {
+          "preparation": "Ethyl formate → N-formylmescaline → LiAlH4 reduction",
+          "source": "Trace component in Peyote",
+          "trials": "Up to 25 mg",
+          "result": "No obvious activity (but note MDA→MDMA exception)"
+        },
+        "trichocerine": {
+          "structure": "N,N-dimethylmescaline",
+          "source": "Trichocereus cacti, never in Peyote",
+          "trials": "Over 500 mg parenterally",
+          "result": "Inactive",
+          "exploitation": "Used in iodinated radiopharmaceutical development"
+        },
+        "TMPEA": {
+          "structure": "3,4,5-trimethoxyphenylacetic acid (nitrogen removed)",
+          "type": "Mescaline metabolite",
+          "trials": "Up to 750 mg orally",
+          "result": "No physiological or psychological changes"
+        }
+      },
+      "aminoethyl_phenyl_ethers": {
+        "mescaline_related": {
+          "structure": "2-(3,4,5-trimethoxyphenoxy)ethylamine",
+          "trials": "10-300 mg",
+          "result": "No effects"
+        },
+        "trichocerine_related": {
+          "structure": "N,N-dimethyl-2-(3,4,5-trimethoxyphenoxy)ethylamine",
+          "trials": "10-400 mg",
+          "result": "Inactive",
+          "control": "Mescaline 420 mg"
+        }
+      },
+      "key_themes": [
+        "oldest_psychedelic",
+        "peyote",
+        "central_standard",
+        "mescaline_units",
+        "EA_1306",
+        "qualitative_over_quantitative",
+        "N_modifications_inactive",
+        "trichocerine"
+      ],
+      "notable_quotes": [
+        "Mescaline is one of the oldest psychedelics known to man.",
+        "It is the major active component of the small dumpling cactus known as Peyote.",
+        "Long, glistening needles that are, in a sense, its signature and its mark of purity.",
+        "Mescaline has always been the central standard against which all other compounds are viewed.",
+        "This simple drug is truly the central prototype against which everything else is measured.",
+        "The behavioral biologists were happy, because now they had numbers to represent psychological properties. But in truth, none of this represented the magic of this material, the nature of the experience itself.",
+        "That is why, in this Book II, there is only one line given to 'dosage,' but a full page given to 'qualitative comments'."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 97,
+      "code": "4-MA",
+      "chemical_name": "4-Methoxyamphetamine",
+      "extensions_and_commentary": "This is another of the essential amphetamines, because of the appearance of the 4-methoxy group in two most important essential oils. These are the allylbenzene (estragole or esdragol) and the propenyl isomer (anethole). Their natural sources have been discussed under TMA.",
+      "essential_oils": {
+        "estragole": "Allylbenzene form",
+        "anethole": "Propenyl isomer",
+        "cross_reference": "Natural sources discussed under TMA"
+      },
+      "amphetamine_psychosis_theory": {
+        "background": "Major metabolite of amphetamine is 4-hydroxyamphetamine",
+        "tolerance": "Chronic use generates tolerance, encouraging 200+ mg daily doses",
+        "psychosis": "Subject can become quite psychotic at high doses",
+        "question": "Does chronic user methylate 4-hydroxyamphetamine to 4-MA, causing psychosis?",
+        "study_design": "See if 4-MA produces psychotic state in normal subjects",
+        "results": {
+          "max_dose": "75 mg",
+          "psychosis": "None produced",
+          "excretion": "4-MA seen in urine even at 10 mg",
+          "effects": "Excitation and CNS effects, adrenergic pressor effects",
+          "no_crazies": "No amphetamine-like crazies"
+        },
+        "reverse_test": "600 mg amphetamine produced no detectable 4-MA in urine",
+        "conclusion": "Theory of psychotomimesis not valid"
+      },
+      "tragedy": {
+        "distribution": "US (sulfate salt), Canada (hydrochloride)",
+        "inspiration": "Rat studies reported second only to LSD in hallucinogen potency",
+        "deaths": "Several occurred, probably from overdose",
+        "forensics": "4-MA isolated from urine and tissue at post mortem",
+        "street_names": ["Chicken Power", "Chicken Yellow"],
+        "sold_as": "Promoted as MDA",
+        "dosages": "Implied hundreds of milligrams ingested"
+      },
+      "positional_analogues": {
+        "3_MA": {
+          "synthesis": "Straightforward",
+          "trials": "50 mg (2x25 mg, 3 hours apart)",
+          "result": "No central effects noted"
+        },
+        "2_MA": {
+          "trials": "No report of human trial",
+          "N_methyl_homologue": {
+            "name": "Methoxyphenamine (Orthoxine)",
+            "use": "Commercial adrenergic bronchodilator",
+            "application": "Prevention of acute asthma attacks",
+            "dose": "Up to 200 mg",
+            "effects": "Only slight central stimulation"
+          }
+        }
+      },
+      "4_EA": {
+        "appearance": "Recently on Canadian streets",
+        "dosage": "Not reported",
+        "response": "Promptly illegalized"
+      },
+      "key_themes": [
+        "essential_amphetamine",
+        "estragole_anethole",
+        "amphetamine_psychosis_theory",
+        "Chicken_Power",
+        "street_deaths",
+        "methoxyphenamine_bronchodilator"
+      ],
+      "notable_quotes": [
+        "This is another of the essential amphetamines, because of the appearance of the 4-methoxy group in two most important essential oils.",
+        "The question was asked: might the chronic amphetamine user be methylating his endogenously produced 4-hydroxyamphetamine to produce 4-MA, and maybe this is the agent that promotes the psychosis?",
+        "It produced excitation and other central effects, it produced adrenergic pressor effects, and it consistently produced measurable quantities of 4-MA in the urine, but it produced no amphetamine-like crazies.",
+        "On the tragic side, a few years later, 4-MA became widely distributed.",
+        "The several deaths that occurred probably followed overdose.",
+        "It had been sold under the names of Chicken Power and Chicken Yellow, and was promoted as being MDA."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 98,
+      "code": "MADAM-6",
+      "chemical_name": "N-Methyl-6-methyl-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The structure of MADAM-6 was designed to be that of MDMA, with a methyl group attached at what should be a reasonably indifferent position. In fact, that is the genesis of the name. MDMA has been called ADAM, and with a methyl group in the 6-position, MADAM-6 is quite understandable.",
+      "naming": {
+        "MDMA_nickname": "ADAM",
+        "logic": "ADAM + methyl at 6-position = MADAM-6",
+        "other_position": "2-position would give MADAM-2",
+        "numbering_apology": "Rules say 3,4,6 should be renumbered as 2,4,5 - quietly ignored here"
+      },
+      "activity": {
+        "status": "Not active",
+        "MDMA_comparison": "At least 3x less potent"
+      },
+      "bump_theory": {
+        "observation": "Small methyl group effectively changes compound action",
+        "implication": "Big activity change from small structure change = vital point",
+        "possible_reasons": [
+          "Target of metabolism",
+          "Point of critical fit in receptor site"
+        ],
+        "6_bump_MDMA": "Position must be unbumpy for MDMA action",
+        "hypotheses": [
+          "Body may want to put hydroxyl group there (6-hydroxy-dopamine act)",
+          "Isopropylamine side chain may need swing-around freedom",
+          "All kinds of other speculations"
+        ]
+      },
+      "MADAM_2_quiz": {
+        "structure": "2,N-dimethyl-3,4-methylenedioxyamphetamine",
+        "question": "Will it be: (1) Much reduced activity like MADAM-6, (2) Similar to MDMA, or (3) Something unexpected?",
+        "answer": "Only one way of finding out",
+        "synthesis_route": [
+          "Schiffs base between piperonal and cyclohexylamine",
+          "Treat with butyl lithium in hexane with TMEDA",
+          "Add N-methylformanilide",
+          "Convert benzaldehyde to nitrostyrene with nitroethane",
+          "Reduce with elemental iron to phenylacetone",
+          "Reduce with methylamine and sodium cyanoborohydride",
+          "Taste the result"
+        ]
+      },
+      "key_themes": [
+        "MDMA_analogue",
+        "ADAM_MADAM_naming",
+        "bump_theory",
+        "position_6_sensitivity",
+        "metabolism_target",
+        "MADAM_2_prediction"
+      ],
+      "notable_quotes": [
+        "The structure of MADAM-6 was designed to be that of MDMA, with a methyl group attached at what should be a reasonably indifferent position.",
+        "MDMA has been called ADAM, and with a methyl group in the 6-position, MADAM-6 is quite understandable.",
+        "How fascinating it is, that a small methyl group, something that is little more than one more minor bump on the surface of a molecule that is lumpy and bumpy anyway, can so effectively change the action of a compound.",
+        "A big activity change from a small structure change usually implies that the bump is at a vital point.",
+        "The implication is that the action of MDMA requires some unbumpiness at this position for its particular action.",
+        "A quiz for the reader! Will 2,N-dimethyl-3,4-methylenedioxyamphetamine (MADAM-2) be: (1) Of much reduced activity, (2) Of potency similar to MDMA, or (3) Something unexpected?",
+        "I know only one way of finding out... then taste the result."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
