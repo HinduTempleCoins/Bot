@@ -2023,6 +2023,95 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 33,
+      "code": "2C-I",
+      "chemical_name": "2,5-Dimethoxy-4-iodophenethylamine",
+      "extensions_and_commentary": "The frequent comparisons between 2C-I and 2C-B stem, without doubt, from a bit of chemical suggestion. The two compounds have structures that are truly analogous, in technical terms. In one, there is a strategically located iodine atom, and in the other, an identically placed bromine atom. These are directly above and below one-another in the periodic table. And what is particularly maddening to the synthetic diddler, is that they cannot be lengthened, or shortened, or squooshed around in any way. You can't make a longer and narrower version of a bromine atom, as you can do with, say, a butyl group. You've got what you've got, like it or not. No subtle variations.\n\nBut, on the brighter side of the picture, you have a heavy atom here, and this atom is intrinsic to the central activity of the compound. So, these materials are naturals for radio-labelling experiments. 2C-I has been made radioactive with radio-iodine, but the most impressive findings have been made with the 3-carbon analog, DOI.\n\nOne quotation from an observer of a group experiment is enclosed; an experiment with zero milligrams being taken. This is a instructive observation of what has been called a contact high.\n\nThere is one Iodotweetio known. In Scrabble, would you challenge a word that had seven of its eleven letters as vowels? Especially if the vowels were, specifically, iooeeio? It sounds just a little like the noise coming out of Old McDonald's farm. But a Tweetio there is, namely, the 2-EtO-homologue of 2C-I. This is 2-ethoxy-4-iodo-5-methoxyphenethylamine, or 2CI-2ETO. The hydrochloride salt was a white, crystalline product with a melting point of 175-175.5 °C. The threshold level of activity was seen at an oral dose of 5 milligrams, and the generated effects were completely dispersed in a couple of hours. Most interestingly, larger doses, of up to 50 milligrams orally, seem to produce no more intense an effect, but simply to stretch out this threshold for an additional couple of hours. At no level that has been tried, has 2CI-2EtO produced even a plus-two response.\n\nWhere else can one go, from 2C-I? The iodine is the fourth, and the last of the so-called halogens, at the bottom of the classical periodic table. But, thanks to the miracles that have accompanied us into the nuclear age, there is a fifth halide now known, Astatine. All of its isotopes are radioactive, however, and it seems unlikely that there will ever be an entry (other than this one) for 2,5-dimethoxy-4-astatophenethylamine. What might be speculated as to its activity? Probably similar in potency to 2C-I, requiring maybe 10 or 20 milligrams. The duration would be dicey to measure, since the isotope with the longest known half-life is half decayed in about 8 hours, and the longest lived natural isotope (for those who insist on natural rather than man-made things) is half decayed in less than a minute. Two predictions would be pretty solid. You might have quite a job accumulating your 10 milligrams of Astatine, as the most that has so far been made at one time is only about 0.05 micrograms, approximately a millionth of the amount needed. And the second prediction? You would not survive the screaming radiation that would bombard you if you could get the needed 5 or 10 milligrams of radio-astatine onto that magic 4-position, and the resulting 2C-A into your tummy!",
+      "comparison_to_2C_B": {
+        "basis": "Chemical suggestion - truly analogous structures",
+        "difference": "Iodine vs bromine at identical position",
+        "periodic_relationship": "Directly above and below one-another in periodic table",
+        "limitation": "Cannot be lengthened, shortened, or squooshed around",
+        "frustration": "You've got what you've got, like it or not. No subtle variations."
+      },
+      "radio_labelling": {
+        "advantage": "Heavy atom intrinsic to central activity",
+        "application": "Naturals for radio-labelling experiments",
+        "2C_I_status": "Has been made radioactive with radio-iodine",
+        "most_impressive": "DOI (3-carbon analog)"
+      },
+      "contact_high_observation": {
+        "experiment": "Group experiment with zero milligrams taken",
+        "phenomenon": "Instructive observation of contact high"
+      },
+      "tweetio_compound": {
+        "2CI_2ETO": {
+          "name": "2-ethoxy-4-iodo-5-methoxyphenethylamine",
+          "relationship": "2-EtO-homologue of 2C-I",
+          "nickname_humor": "Iodotweetio - seven of eleven letters are vowels (iooeeio), sounds like Old McDonald's farm",
+          "melting_point": "175-175.5°C",
+          "salt_form": "White, crystalline hydrochloride",
+          "activity": {
+            "threshold": "5 milligrams oral",
+            "duration_at_threshold": "Couple of hours",
+            "dose_response": "Larger doses (up to 50mg) don't increase intensity, just extend threshold duration",
+            "maximum_effect": "Never produced even a plus-two response"
+          }
+        }
+      },
+      "astatine_speculation": {
+        "compound": "2C-A (2,5-dimethoxy-4-astatophenethylamine)",
+        "element": "Astatine - fifth halogen, bottom of periodic table",
+        "radioactivity": "All isotopes radioactive",
+        "predicted_potency": "Similar to 2C-I, maybe 10 or 20 milligrams",
+        "duration_problem": {
+          "longest_half_life": "About 8 hours",
+          "natural_isotope": "Half decayed in less than a minute"
+        },
+        "practical_problems": {
+          "availability": "Most made at one time is 0.05 micrograms - millionth of needed amount",
+          "radiation": "Would not survive the screaming radiation"
+        },
+        "conclusion": "Unlikely there will ever be an entry for 2C-A"
+      },
+      "halogen_series_position": {
+        "element": "Iodine",
+        "position": "Fourth and last of classical halogens",
+        "bottom_of_table": true
+      },
+      "key_themes": [
+        "halogen_comparison",
+        "2C-B_analogy",
+        "periodic_table",
+        "no_subtle_variations",
+        "radio_labelling",
+        "contact_high",
+        "iodotweetio",
+        "ceiling_effect",
+        "astatine_speculation",
+        "nuclear_age",
+        "practical_impossibility",
+        "screaming_radiation"
+      ],
+      "notable_quotes": [
+        "The frequent comparisons between 2C-I and 2C-B stem, without doubt, from a bit of chemical suggestion.",
+        "These are directly above and below one-another in the periodic table.",
+        "What is particularly maddening to the synthetic diddler, is that they cannot be lengthened, or shortened, or squooshed around in any way.",
+        "You can't make a longer and narrower version of a bromine atom, as you can do with, say, a butyl group.",
+        "You've got what you've got, like it or not. No subtle variations.",
+        "These materials are naturals for radio-labelling experiments.",
+        "This is a instructive observation of what has been called a contact high.",
+        "In Scrabble, would you challenge a word that had seven of its eleven letters as vowels?",
+        "It sounds just a little like the noise coming out of Old McDonald's farm.",
+        "At no level that has been tried, has 2CI-2EtO produced even a plus-two response.",
+        "Thanks to the miracles that have accompanied us into the nuclear age, there is a fifth halide now known, Astatine.",
+        "The most that has so far been made at one time is only about 0.05 micrograms, approximately a millionth of the amount needed.",
+        "You would not survive the screaming radiation that would bombard you if you could get the needed 5 or 10 milligrams of radio-astatine onto that magic 4-position, and the resulting 2C-A into your tummy!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
