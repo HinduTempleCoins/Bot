@@ -4385,6 +4385,243 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 64,
+      "code": "DOC",
+      "chemical_name": "2,5-Dimethoxy-4-chloroamphetamine",
+      "extensions_and_commentary": "It is clear that the three halo-amphetamine derivatives, DOI, DOB and DOC, are all pretty much of the same potency. And all of them very long lived. The difference between the various halogen atoms was brought up under the 2C-C discussion. DOC is clearly a long-lasting, dyed-in-the-wool psychedelic.\n\nIn the making of this, by the procedures that have been followed in Canada, there are two chemical intermediates which might, some day, be looked at as potential psychedelics under their own colors. Reduction of the compound that is called DON in this Book II (2,5-dimethoxy-4-nitroamphetamine hydrochloride) with Pd/charcoal and hydrogen, gives the 4-amino derivative. This is 2,5-dimethoxy-4-aminoamphetamine dihydrochloride, DOA, which melts at 248-250 °C. And the reduction of an oxime intermediate gives rise to the acetamido analogue, 2,5-dimethoxy-4-acetamidoamphetamine hydrochloride, DOAA, with a mp of 249-250 °C. Neither compound has been tasted, but someday this omission will be corrected. DOA and DOAA have a sinister ring to them, however, and some changes of terminology might be needed. DOA, in the coroner's vocabulary, means Dead-On-Arrival. But then, AMA (the American Medical Association) just happens to also mean (in the jargon of emergency medicine) Against-Medical-Advice. Everything averages out, somehow. Remember that the amyl homolog (amyl at the 4-position) follows the 4-letter convention of all of the DOM homo-logues, and has the code name of DOAM. Thus, DOA, amino; DOAA, acetamido, and DOAM, amyl.\n\nOne must learn to keep one's sense of humor. The immortal humorist Wavy Gravy once said, \"If you can't laugh at life, it just isn't funny anymore.\" The code name of this compound, 2,5-dimethoxy-4-chloroamphetamine is, after, all, DOC. This should certainly appeal to some physicians.",
+      "potency_comparison": {
+        "compounds": ["DOI", "DOB", "DOC"],
+        "assessment": "All pretty much the same potency",
+        "duration": "All very long lived",
+        "character": "Dyed-in-the-wool psychedelic"
+      },
+      "untested_intermediates": {
+        "DOA": {
+          "full_name": "2,5-dimethoxy-4-aminoamphetamine dihydrochloride",
+          "mp": "248-250°C",
+          "synthesis": "Reduction of DON with Pd/charcoal and hydrogen",
+          "status": "Never tasted"
+        },
+        "DOAA": {
+          "full_name": "2,5-dimethoxy-4-acetamidoamphetamine hydrochloride",
+          "mp": "249-250°C",
+          "synthesis": "Reduction of oxime intermediate",
+          "status": "Never tasted"
+        }
+      },
+      "nomenclature_humor": {
+        "DOA_problem": "In coroner's vocabulary means Dead-On-Arrival",
+        "AMA_parallel": "American Medical Association also means Against-Medical-Advice in emergency medicine",
+        "resolution": "Everything averages out, somehow",
+        "code_clarification": {
+          "DOA": "amino",
+          "DOAA": "acetamido",
+          "DOAM": "amyl"
+        }
+      },
+      "wavy_gravy_quote": "If you can't laugh at life, it just isn't funny anymore.",
+      "physician_humor": "The code name DOC should certainly appeal to some physicians",
+      "key_themes": [
+        "halo_amphetamine_equivalence",
+        "long_duration",
+        "untested_DOA_DOAA",
+        "nomenclature_humor",
+        "Dead_On_Arrival_joke",
+        "Wavy_Gravy",
+        "physician_appeal"
+      ],
+      "notable_quotes": [
+        "It is clear that the three halo-amphetamine derivatives, DOI, DOB and DOC, are all pretty much of the same potency.",
+        "DOC is clearly a long-lasting, dyed-in-the-wool psychedelic.",
+        "Neither compound has been tasted, but someday this omission will be corrected.",
+        "DOA and DOAA have a sinister ring to them, however, and some changes of terminology might be needed.",
+        "DOA, in the coroner's vocabulary, means Dead-On-Arrival.",
+        "Everything averages out, somehow.",
+        "One must learn to keep one's sense of humor.",
+        "If you can't laugh at life, it just isn't funny anymore.",
+        "The code name of this compound... is, after, all, DOC. This should certainly appeal to some physicians."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 65,
+      "code": "DOEF",
+      "chemical_name": "2,5-Dimethoxy-4-(2-fluoroethyl)amphetamine",
+      "extensions_and_commentary": "I was asked by a student of mine a while ago, when I told him of this material, just why would anyone just happen to place a fluorine atom at the end of the 4-ethyl group of DOET? It wasn't the sort of thing that someone would just happen to do. If there were a rationale, then that's fine. But by capricious impulse, no. But there is a rationale of sorts, which I just hinted at in the discussion under 2C-T-21.\n\nThis argument of reason goes as follows. Assume that I would like to put a fluorine atom into a drug that does not normally have one. Why would I want to? Because I want to have the molecule carry a radioactive fluorine atom into some inner recess of the brain. Why? Because by using a positron-emitting fluorine I could possibly visualize the area of the brain that the drug went to. And if it went there in some abnormal way, the exact measure of that abnormality might give some clue as to potential brain misfunctioning.\n\nBut, if you put a fluorine atom on a drug, it becomes a totally new drug and, quite reasonably, a pharmacologically different drug. However, a body of evidence is being accumulated that if a halogen, such as a bromine or an iodine atom, is replaced by a beta-fluoroethyl group, the electronic and polar properties of the drug can be pretty much the same. So, what psychedelics have a bromo or an iodo group? Obviously, DOB and DOI. Thus, DOEF is a natural candidate for fluorine-18 positron emission tomography, and also a natural candidate for clinical trials. And, voila, it is an active material.\n\nAnd I'll bet you dollars to doughnuts, that if one were to make the two-carbon analog 2,5-dimethoxy-4-(2-fluoroethyl)-phenethylamine, it would be every bit as much a treasure and ally as is 2C-B or 2C-I. In fact, I am sure enough about this prediction that I am willing to name the stuff 2C-EF. It will be easily made from 2C-B by the same reaction scheme that was used above for DOEF. And I will even guess that its activity level will be in the 20-30 milligram area.",
+      "rationale": {
+        "student_question": "Why place a fluorine at the end of 4-ethyl group of DOET?",
+        "answer": "Not capricious impulse - there is a rationale",
+        "goal": "Carry radioactive fluorine atom into inner recess of brain",
+        "purpose": "Visualize brain area drug goes to using positron-emitting fluorine",
+        "clinical_application": "Measure abnormality as clue to brain misfunctioning"
+      },
+      "bioisostere_principle": {
+        "problem": "Fluorine makes it a pharmacologically different drug",
+        "solution": "Beta-fluoroethyl group can replace bromine or iodine",
+        "evidence": "Electronic and polar properties can be pretty much the same",
+        "applicable_psychedelics": ["DOB", "DOI"],
+        "conclusion": "DOEF is natural candidate for F-18 PET and clinical trials"
+      },
+      "predicted_compound": {
+        "name": "2C-EF",
+        "full_name": "2,5-dimethoxy-4-(2-fluoroethyl)phenethylamine",
+        "confidence": "Dollars to doughnuts",
+        "prediction": "Every bit as much a treasure and ally as 2C-B or 2C-I",
+        "synthesis": "From 2C-B by same reaction scheme as DOEF",
+        "predicted_dose": "20-30 mg"
+      },
+      "key_themes": [
+        "fluorine_rationale",
+        "positron_emission_tomography",
+        "beta_fluoroethyl_bioisostere",
+        "DOB_DOI_replacement",
+        "2C-EF_prediction",
+        "brain_imaging"
+      ],
+      "notable_quotes": [
+        "It wasn't the sort of thing that someone would just happen to do.",
+        "Assume that I would like to put a fluorine atom into a drug that does not normally have one.",
+        "Because I want to have the molecule carry a radioactive fluorine atom into some inner recess of the brain.",
+        "If you put a fluorine atom on a drug, it becomes a totally new drug.",
+        "If a halogen, such as a bromine or an iodine atom, is replaced by a beta-fluoroethyl group, the electronic and polar properties of the drug can be pretty much the same.",
+        "DOEF is a natural candidate for fluorine-18 positron emission tomography.",
+        "And, voila, it is an active material.",
+        "I'll bet you dollars to doughnuts, that if one were to make the two-carbon analog... it would be every bit as much a treasure and ally as is 2C-B or 2C-I.",
+        "I am sure enough about this prediction that I am willing to name the stuff 2C-EF."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 66,
+      "code": "DOET",
+      "chemical_name": "2,5-Dimethoxy-4-ethylamphetamine",
+      "extensions_and_commentary": "The original code for this compound was DOE, which was completely logical based on DOM being the methyl member of this series (DO for the removal of the oxygen, desoxy, and M for putting a methyl in its place). And the putting of the ethyl thence should be DOE. This was fine until it was pointed out to me by a close colleague that DOE was a classic abbreviation for desoxyephedrine, a synonym for methamphetamine. The pressure to add the RTS of the RETS of the ethyl was heightened by looking ahead to other members of the series. DOA became DOAM, DOE became DOET, but DOM was already too firmly set in popular usage. And, anyway, DOME really looked strange.\n\nThe original publications of the action of DOM clearly documented the compound as being a psychedelic and one with a sizeable measure of potential abuse. And, it is not a surprise that it was quickly shuffled into a legal classification that effectively precluded any further study of it. So, when this immediate homologue of DOM was studied and discussed in the literature, all reported dosages were those that were at the lowest levels, and no disturbing hints of abusability were mentioned. And this particular homologue has so far escaped the attention and restrictive action of the drug enforcement agencies, although the specific wording of the Controlled Substance Analogue Enforcement Act of 1986 might make this point moot, at least as far as human trials are concerned. At modest levels, DOET has the reputation of being a cognitive enhancer and is largely free of those sensory distortions that would catch the attention of the authorities who cannot tolerate drugs that distort the senses. The higher levels mentioned here have never been put into the published literature. It must be noted that there is a considerable variation of individual responses to this material. The effective dose range stated is quite broad. Some people are quite sensitive. This is, after all, one of the Classic Ladies, namely HECATE.\n\nThe young experimental subject who had the dramatic relief from menstrual cramps at the one milligram dose tried the compound again the following month, and again had complete relief. But another volunteer, also plagued with severe cramping at that particular time of month, found no relief at all. A 50% success rate. No one else has, to my knowledge, explored this particular property.",
+      "nomenclature_history": {
+        "original_code": "DOE",
+        "logic": "DO (desoxy) + E (ethyl), following DOM pattern",
+        "problem": "DOE is classic abbreviation for desoxyephedrine (methamphetamine)",
+        "solution": "Add T from ethyl - became DOET",
+        "series_changes": ["DOA became DOAM", "DOE became DOET"],
+        "DOM_unchanged": "Already too firmly set in popular usage; DOME looked strange"
+      },
+      "legal_status": {
+        "DOM_fate": "Quickly shuffled into legal classification precluding further study",
+        "DOET_strategy": "Reported only lowest dosages, no hints of abusability",
+        "current_status": "Escaped attention of drug enforcement agencies",
+        "caveat": "Controlled Substance Analogue Enforcement Act of 1986 might make this moot"
+      },
+      "pharmacology": {
+        "reputation": "Cognitive enhancer at modest levels",
+        "sensory_distortion": "Largely free of distortions that catch authorities' attention",
+        "unpublished": "Higher levels never put into published literature",
+        "individual_variation": "Considerable variation; some people quite sensitive",
+        "dose_range": "Quite broad"
+      },
+      "classic_lady": "HECATE",
+      "menstrual_cramp_relief": {
+        "first_subject": {
+          "dose": "1 mg",
+          "result": "Dramatic relief, repeated next month with complete relief"
+        },
+        "second_subject": {
+          "result": "No relief at all"
+        },
+        "success_rate": "50%",
+        "further_exploration": "No one else has explored this property"
+      },
+      "key_themes": [
+        "DOE_to_DOET_renaming",
+        "desoxyephedrine_conflict",
+        "legal_strategy",
+        "cognitive_enhancer",
+        "Classic_Lady_HECATE",
+        "menstrual_cramp_relief",
+        "individual_variation"
+      ],
+      "notable_quotes": [
+        "DOE was a classic abbreviation for desoxyephedrine, a synonym for methamphetamine.",
+        "DOM was already too firmly set in popular usage. And, anyway, DOME really looked strange.",
+        "It is not a surprise that it was quickly shuffled into a legal classification that effectively precluded any further study of it.",
+        "All reported dosages were those that were at the lowest levels, and no disturbing hints of abusability were mentioned.",
+        "At modest levels, DOET has the reputation of being a cognitive enhancer.",
+        "This is, after all, one of the Classic Ladies, namely HECATE.",
+        "The young experimental subject who had the dramatic relief from menstrual cramps at the one milligram dose tried the compound again the following month, and again had complete relief.",
+        "A 50% success rate. No one else has, to my knowledge, explored this particular property."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 67,
+      "code": "DOI",
+      "chemical_name": "2,5-Dimethoxy-4-iodoamphetamine",
+      "extensions_and_commentary": "Again, as with every other psychedelic amphetamine analogue which has a chiral center and has been explored as the individual optical isomers, it is the \"R\" isomer that is the more potent. And again, the other isomer, the \"S\" isomer, still shows some activity. The same was true with DOB, and DOM, and MDA. The only exception was MDMA, but then that is more of a stimulant, and there is virtually no psychedelic component to its action. Rat studies, where there is a measure of the discrimination of a test compound from saline, have shown the \"R\" isomer to have about twice the potency of the \"S\" isomer. That the \"R\" is more potent is certain, but the above reports would suggest that the factor would be closer to times-four rather than times-two.\n\nA number of studies with DOI in animal models have shown it to have an extremely high binding capacity to what are called the 5-HT2 receptors. Serotonin is a vital neurotransmitter in the brain, and is strongly implicated in the action of all of the phenethylamine psychedelics. The place where it acts, at the molecular level, is called its receptor site. As an outgrowth of the cooperative studies of the medicinal chemists working closely with the neuropharmacologists, a number of compounds have emerged that interact with these sites. But this one interacts with these sites and not those, and that one interacts with those sites and not these. So, there has developed a collection of sub-divisions and sub-subdivisions of receptor sites, all related to serotonin, but each defined by the particular compound that interacts most tightly with it.\n\nThus, there were serotonin \"1\" receptors, and then there were \"1\" and \"2\" receptors, and then \"1a\" and \"1b\" and \"2a\" and \"2b\" receptors, and on and on. These are called 5-HT receptors, since the chemical name for serotonin is 5-hydroxytryptamine, and the scientist would never want to let the layman know just what he is talking about. DOI has been synthesized with a variety of radioactive iodine isotopes in it, and these tools have been of considerable value in mapping out its brain distribution. And by extrapolation, the possible localization of other psychedelic compounds that cannot be so easily labelled. A small neurochemical research company on the East Coast picked up on these properties of DOI, and offered it as a commercial item for research experiments. But I doubt that they are completely innocent of the fact that DOI is an extremely potent psychedelic and that it is still unrecognized by the Federal drug laws since, in their most recent catalog, the price had almost doubled and a note had been added to the effect that telephone orders cannot be accepted for this compound.\n\nThe four-carbon butylamine homologue (the ARIADNE analogue) of DOI has been synthesized. A mixture of the free base of 1-(2,5-dimethoxyphenyl)-2-aminobutane (see preparation under DOB) and phthalic anhydride was fused, cooled, and recrystallized from either methanol or cyclohexane to give crystals of N-[1-(2,5-dimethoxyphenyl)-2-butyl]phthalimide with a melting point of 76-77 °C and an analysis (C20H21NO4) C,H,N. This was iodinated with iodine monochloride in acetic acid to give N-[1-(2,5-dimethoxy-4-iodophenyl)-2-butyl]phthalimide which was chromatographically distinct from the uniodinated starting material (silica gel, CH2Cl2 ), but which did not crystallize. This was treated with hydrazine hydrate in ethanol to provide 1-(2,5-dimethoxy-4-iodophenyl)-2-aminobutane hydrochloride which was crystallized from CH3CN/EtOH to give white crystals with a mp of 217-218.5 °C and an analysis (C12H19CINO2) C,H,N. This butyl homolog of DOI has been assayed at up to four milligrams, and is without any central effects whatsoever. An experiment with 12.4 microcuries of 131I labelled material with the whole body scanner showed most of it accumulating in the gut and liver, with almost none to the brain.\n\nFor those who find such statistics interesting, the parent compound DOI vies with DOB as probably the most potent of the phenethylamine psychedelics as of the moment, and certainly one of the most long lived.\n\nA very important, centrally pivotal, and completely paradoxical compound in this area, is the N,N-dimethyl homologue of DOI, or 2,5-dimethoxy-N,N-dimethyl-4-iodoamphetamine (IDNNA). This compound was the starting point of the study of a large number of homologues and it deserves, and has received, a separate recipe.",
+      "optical_isomers": {
+        "pattern": "R isomer more potent (same as DOB, DOM, MDA)",
+        "exception": "MDMA (more stimulant, virtually no psychedelic component)",
+        "S_isomer": "Still shows some activity",
+        "rat_studies": "R isomer about twice potency of S",
+        "human_reports": "Suggest factor closer to times-four"
+      },
+      "5HT2_receptor_binding": {
+        "finding": "Extremely high binding capacity to 5-HT2 receptors",
+        "serotonin_role": "Vital neurotransmitter, strongly implicated in phenethylamine psychedelics",
+        "receptor_evolution": "1 → 1 and 2 → 1a, 1b, 2a, 2b → and on",
+        "nomenclature_joke": "5-HT (5-hydroxytryptamine) - scientist would never want layman to know what he's talking about"
+      },
+      "radioactive_research": {
+        "isotopes": "Variety of radioactive iodine isotopes",
+        "value": "Mapping brain distribution, extrapolating localization of other psychedelics",
+        "commercial_availability": {
+          "source": "Small neurochemical research company on East Coast",
+          "suspicion": "Doubt they're completely innocent of DOI's potency and unrecognized legal status",
+          "evidence": "Price almost doubled, telephone orders no longer accepted"
+        }
+      },
+      "butyl_homologue": {
+        "name": "ARIADNE analogue of DOI",
+        "final_product": "1-(2,5-dimethoxy-4-iodophenyl)-2-aminobutane hydrochloride",
+        "mp": "217-218.5°C",
+        "assay_result": "Up to 4 mg without any central effects whatsoever",
+        "radioactive_study": "12.4 microcuries 131I - accumulated in gut and liver, almost none to brain"
+      },
+      "potency_ranking": {
+        "claim": "DOI vies with DOB as probably most potent phenethylamine psychedelics",
+        "duration": "Certainly one of the most long lived"
+      },
+      "related_compound": {
+        "name": "IDNNA",
+        "full_name": "2,5-dimethoxy-N,N-dimethyl-4-iodoamphetamine",
+        "significance": "Very important, centrally pivotal, completely paradoxical",
+        "role": "Starting point for study of large number of homologues",
+        "note": "Deserves and has received separate recipe"
+      },
+      "key_themes": [
+        "R_isomer_potency",
+        "5-HT2_receptor_binding",
+        "radioactive_iodine_research",
+        "commercial_availability_suspicion",
+        "inactive_butyl_homologue",
+        "most_potent_phenethylamine",
+        "IDNNA_pivotal_compound"
+      ],
+      "notable_quotes": [
+        "Again, as with every other psychedelic amphetamine analogue which has a chiral center... it is the 'R' isomer that is the more potent.",
+        "The only exception was MDMA, but then that is more of a stimulant, and there is virtually no psychedelic component to its action.",
+        "DOI has been shown to have an extremely high binding capacity to what are called the 5-HT2 receptors.",
+        "These are called 5-HT receptors, since the chemical name for serotonin is 5-hydroxytryptamine, and the scientist would never want to let the layman know just what he is talking about.",
+        "I doubt that they are completely innocent of the fact that DOI is an extremely potent psychedelic.",
+        "In their most recent catalog, the price had almost doubled and a note had been added to the effect that telephone orders cannot be accepted for this compound.",
+        "This butyl homolog of DOI has been assayed at up to four milligrams, and is without any central effects whatsoever.",
+        "DOI vies with DOB as probably the most potent of the phenethylamine psychedelics as of the moment.",
+        "A very important, centrally pivotal, and completely paradoxical compound in this area, is the N,N-dimethyl homologue of DOI."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
