@@ -9886,6 +9886,192 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 163,
+      "code": "3-TME",
+      "chemical_name": "3-methylthio-4,5-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["3-Thio-metaescaline"],
+      "extensions_and_commentary": "A short unraveling of the codes used here for the various materials is very much needed. There are 3's and 4's and M's and I's and incipient confusion. Mescaline is mescaline. That much is simple. All homologs are the first letter of the homolog. Escaline is E, Proscaline is P, etc. If the group is at the three-position, then the term 'meta' is used and an M precedes the name of the homolog, i.e., ME is Metaescaline. The number (3- or 4- or 5-) gives the position of the sulfur, which is represented by the prefix 'Thio' so this compound, 3-TME, has the sulfur at the 3-position, and by chance, the ethyl group there as well.",
+      "naming_system_explanation": {
+        "mescaline": "Mescaline is mescaline",
+        "homolog_letters": "First letter of homolog (E=Escaline, P=Proscaline)",
+        "meta_prefix": "M precedes name if group at 3-position (ME=Metaescaline)",
+        "thio_number": "Number (3-, 4-, 5-) gives position of sulfur"
+      },
+      "rosetta_stone": {
+        "no_ethyl_groups": {
+          "all_oxygen": "M (Mescaline)",
+          "one_sulfur": ["3-TM", "4-TM"]
+        },
+        "one_ethyl_group": {
+          "all_oxygen": ["E (Escaline)", "ME (Metaescaline)"],
+          "one_sulfur": ["3-TE", "4-TE", "3-TME", "4-TME", "5-TME"]
+        },
+        "two_ethyl_groups": {
+          "all_oxygen": ["SB (Symbescaline)", "ASB (Asymbescaline)"],
+          "one_sulfur": ["3-TSB", "4-TSB", "3-TASB", "4-TASB", "5-TASB"]
+        },
+        "three_ethyl_groups": {
+          "all_oxygen": "TRIS",
+          "one_sulfur": ["3-T-TRIS", "4-T-TRIS"]
+        }
+      },
+      "key_themes": [
+        "nomenclature_system",
+        "Rosetta_Stone",
+        "thio_analogues",
+        "systematic_naming"
+      ],
+      "notable_quotes": [
+        "A short unraveling of the codes used here for the various materials is very much needed.",
+        "There are 3's and 4's and M's and I's and incipient confusion.",
+        "Mescaline is mescaline. That much is simple."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 164,
+      "code": "4-TME",
+      "chemical_name": "4-methylthio-3,5-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["4-Thio-metaescaline"],
+      "extensions_and_commentary": "Sometimes things work well in their mysterious ways. The reports with 4-TME were more to the toxic than to the joyous side, and this by chance with a compound that could only be obtained in an atrociously small yield.",
+      "activity_assessment": {
+        "character": "More to the toxic than to the joyous side",
+        "synthesis": "Atrociously small yield"
+      },
+      "mysterious_ways": "Sometimes things work well in their mysterious ways",
+      "key_themes": [
+        "toxic_effects",
+        "low_yield_synthesis",
+        "mysterious_ways"
+      ],
+      "notable_quotes": [
+        "Sometimes things work well in their mysterious ways.",
+        "The reports with 4-TME were more to the toxic than to the joyous side.",
+        "A compound that could only be obtained in an atrociously small yield."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 165,
+      "code": "5-TME",
+      "chemical_name": "5-methylthio-3,4-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["5-Thio-metaescaline"],
+      "extensions_and_commentary": "Nothing comes to mind. This, along with most of the di- and triethylated thiomescaline analogues, represents a lot of synthetic effort without useful qualitative data. If there is any activity, it would only be seen with monster dosages, and why put the body through such potential impact?",
+      "activity_assessment": {
+        "status": "Nothing comes to mind",
+        "effort_vs_data": "Lot of synthetic effort without useful qualitative data",
+        "activity_prediction": "Only seen with monster dosages if any"
+      },
+      "philosophical_question": "Why put the body through such potential impact?",
+      "key_themes": [
+        "futile_synthesis",
+        "no_useful_data",
+        "body_protection",
+        "monster_dosages"
+      ],
+      "notable_quotes": [
+        "Nothing comes to mind.",
+        "This represents a lot of synthetic effort without useful qualitative data.",
+        "If there is any activity, it would only be seen with monster dosages, and why put the body through such potential impact?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 166,
+      "code": "2T-MMDA-3a",
+      "chemical_name": "2-methylthio-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "And visions of sugar-plums danced through their heads. There are many trisubstituted amphetamine analogues that have been documented with varying degrees of activity. There are six TMA's and if one were to systematically make every possible thio-analogue of each of these, there would be a total of sixteen thio-analogues of the TMA. Let's go for it, said I to myself. Let's get the 16 thio analogues in hand. That is where the action's at. But hold on a minute. Each and every MMDA isomer has, by definition, three possible thio analogues, so there are eighteen more possible thio compounds just with them. Sure, let's make them all!",
+      "manic_program": {
+        "inspiration": "Visions of sugar-plums",
+        "TMA_thio_analogues": "16 total (6 TMA isomers × various thio positions)",
+        "MMDA_thio_analogues": "18 more (each MMDA isomer has 3 possible thio analogues)",
+        "total_proposed": "34 compounds",
+        "goal": "Unprecedented coup for structure-activity relationships",
+        "hope": "Maybe begin to understand why active ones are active. And maybe not."
+      },
+      "assessment": {
+        "description": "Most manic of all manic programs ever involving thio-analogues",
+        "character": "Totally compelling"
+      },
+      "5T_MMDA_possibility": {
+        "route": "Vanillin + sodium thiocyanate → cyclic carbonate → 3-methoxy-5,4-methylenethiooxyamphetamine",
+        "status": "Two of the magic analogues made, 32 to go"
+      },
+      "graduate_student_paradox": {
+        "proposal": "What a marvelous task for a graduate student",
+        "reality": "What a horribly dull task for a graduate student",
+        "outcome": "No graduate student available, end of the line"
+      },
+      "current_status": "Some day, let's make all these possibilities. A magnificent tour-de-force, but at present time, not worth the effort. Other directions are more exciting and more appealing.",
+      "TMEDA_humor": {
+        "compound": "N,N,N',N'-tetramethylethylenediamine (TMEDA)",
+        "pattern": "Inner clique condenses complex concepts into simple terms",
+        "example": "We 'MOM-ed the hydroxy group of the T-BOC-ed amine'",
+        "pronunciation": "TMEDA spoken sounds like 'tomato' by native of the Bronx"
+      },
+      "key_themes": [
+        "manic_programs",
+        "systematic_synthesis",
+        "structure_activity_relationships",
+        "graduate_student_tasks",
+        "chemist_jargon"
+      ],
+      "notable_quotes": [
+        "And visions of sugar-plums danced through their heads.",
+        "Let's go for it, said I to myself.",
+        "Sure, let's make them all! It will be an unprecedented coup for students of structure-activity relationships.",
+        "What a marvelous task for a graduate student. (What a horribly dull task for a graduate student.)",
+        "A magnificent tour-de-force, but at the present time, not worth the effort.",
+        "It sounds very much like 'tomato' spoken by a native of the Bronx."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 167,
+      "code": "4T-MMDA-2",
+      "chemical_name": "6-methoxy-4-methyl-1,3-benzoxathiole-5-isopropylamine",
+      "alternate_names": ["4-thio-MMDA-2"],
+      "extensions_and_commentary": "There is no logical way to try to guess where the active level of this might be. In a comparison of 4-oxy with 4-thio- and with 4-alkyl (as, for example, TMA-2, PARA-DOT and DOM) the analogue with the sulfur atom lies intermediate in potency between the oxygen atom and the carbon atom. Then, perhaps, 4T-MMDA-2 should be somewhat more potent than MMDA-2. Which is where the trials have gone to, and the absence of effects therefore declares that line of reasoning invalid.",
+      "potency_prediction_failure": {
+        "comparison": "4-oxy vs 4-thio vs 4-alkyl (TMA-2, PARA-DOT, DOM)",
+        "pattern": "Sulfur lies intermediate between oxygen and carbon",
+        "prediction": "4T-MMDA-2 should be more potent than MMDA-2",
+        "result": "Absence of effects - line of reasoning invalid"
+      },
+      "benzofuran_clue": {
+        "observation": "Benzofuran project (same cyclic nature) was without activity",
+        "difference": "Carbon where sulfur is in 4T-MMDA-2",
+        "implication": "By that reckoning, this compound should be even less active"
+      },
+      "bottom_line": "None of these extrapolations can hold a candle to the only experiment that can give believable findings, the actual trial of a new compound in man.",
+      "positional_isomer_5T_MMDA_2": {
+        "starting_material": "Resorcinol + ammonium thiocyanate (copper sulfate catalyst)",
+        "product": "Thioxolone (6-hydroxy-1,3-benzoxathiol-2-one)",
+        "availability": "Commercially available",
+        "final_product": "5T-MMDA-2 (5-(2-aminopropyl)-6-methoxy-1,3-benzoxathiole)",
+        "prediction": "Based on 5-TOM vs DOM comparison, relatively low-potency",
+        "synthesis_note": "At least should be easy to make"
+      },
+      "key_themes": [
+        "prediction_failure",
+        "extrapolation_limits",
+        "human_trials_primacy",
+        "benzoxathiole_chemistry"
+      ],
+      "notable_quotes": [
+        "There is no logical way to try to guess where the active level of this might be.",
+        "The absence of effects therefore declares that line of reasoning invalid.",
+        "None of these extrapolations can hold a candle to the only experiment that can give believable findings, the actual trial of a new compound in man.",
+        "At least it should be an easy one to make!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
