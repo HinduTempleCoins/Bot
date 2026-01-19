@@ -9311,6 +9311,367 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 156,
+      "code": "TM",
+      "chemical_name": "3,5-dimethoxy-4-methylthiophenethylamine",
+      "alternate_names": ["Thiomescaline"],
+      "extensions_and_commentary": "The dosage range has been broadened to include the 20 milligram level, in that several subjects found that even with that small amount there was difficulty in walking and in keeping one's equilibrium. Walking was described as a floating procedure, and one could tilt to one side or the other if care was not taken. Anorexia was occasionally noted, and most people commented on some degree of anesthesia to touch.",
+      "effects": {
+        "low_dose_20mg": "Difficulty walking and keeping equilibrium",
+        "walking_description": "A floating procedure, could tilt to one side or other if care not taken",
+        "other_effects": ["Anorexia occasionally noted", "Anesthesia to touch"]
+      },
+      "overall_assessment": "A mixed bag of responses",
+      "potency_discovery": {
+        "comparison": "Dramatic increase over parent prototype mescaline",
+        "magnitude": "Ten-fold increase",
+        "mechanism": "Substitution of sulfur atom for oxygen atom",
+        "complexity": "No apparent decrease in complexity of action"
+      },
+      "periodic_table_explanation": {
+        "purpose": "Explaining sulfur-for-oxygen replacement for non-chemists",
+        "periodic_table_beauty": "One of the most exciting bits of architecture in science",
+        "horizontal_pattern": "Simple binding on left, complex in center with polarity change, simple with opposite charge on right",
+        "vertical_pattern": "Bonding complexity stays same but atom gets more massive going down"
+      },
+      "organic_chemistry_explanation": {
+        "four_elements": ["Carbon", "Nitrogen", "Oxygen", "Hydrogen"],
+        "significance": "Chemistry of life - every molecule in body, food, drugs",
+        "combinations": "Infinity of ways, dozens of atoms hooked together"
+      },
+      "thio_definition": {
+        "meaning": "Sulfur-in-place-of-an-oxygen, with everything else left alone",
+        "sulfur_position": "Directly below oxygen in periodic table",
+        "properties": "Same binding complexity, twice as massive",
+        "implication": "Every oxy anything can have a thio something as spatially similar analogue"
+      },
+      "mescaline_to_thiomescaline": {
+        "mescaline_composition": "11 carbon, 3 oxygen, 1 nitrogen, 17 hydrogen atoms",
+        "central_oxygen": "Holds central position, other two are indistinguishable reflections",
+        "thiomescaline_creation": "Pluck out central oxygen, put sulfur back in its place"
+      },
+      "key_themes": [
+        "sulfur_for_oxygen",
+        "periodic_table_education",
+        "potency_increase",
+        "organic_chemistry_basics",
+        "thio_definition"
+      ],
+      "notable_quotes": [
+        "Walking was described as a floating procedure, and one could tilt to one side or the other if care was not taken.",
+        "The substitution of a sulfur atom for an oxygen atom increased the power of the drug some ten-fold, without any apparent decrease in complexity of action.",
+        "One of the most exciting bits of architecture in science is the Periodic Table.",
+        "It is easier to simply give the music.",
+        "The definition of the term 'thio' is quite simple--it means a sulfur-in-place-of-an-oxygen, with everything else left alone.",
+        "It is a little awe-inspiring to think that every oxy anything can have a thio something as a spatially similar analogue."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 157,
+      "code": "TMA",
+      "chemical_name": "3,4,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "TMA was the very first totally synthetic psychedelic phenethylamine that was found to be active in man, for which there had been any attempt to describe such drug effects in any detail. This was the report of research done in Canada, and it appeared in 1955, six years before my own report on the material.",
+      "historical_significance": {
+        "claim": "Very first totally synthetic psychedelic phenethylamine found active in man with detailed description",
+        "canadian_research": "1955 report",
+        "shulgin_report": "1961, six years later"
+      },
+      "earlier_reports": {
+        "TMPEA": "Earlier report but few details",
+        "adrenochrome": {
+          "observation": "Old discolored adrenalin seemed to elicit central effects",
+          "products": ["Adrenochrome (deeply colored indolic)", "Adrenolutin (colorless)"],
+          "status": "Controversy died away, never accepted as psychedelic, considered historical footnote",
+          "note": "Not phenethylamines, not part of book"
+        }
+      },
+      "canadian_studies": {
+        "tool": "Stroboscope for induction of visual phenomena",
+        "dosage_range": "50-150 milligrams",
+        "pretreatment": "Dramamine for nausea prevention",
+        "effects": ["Giddiness", "Light-headedness", "Flash-induced visualizations"],
+        "higher_levels": "Visual syntheses present without external stimulation",
+        "negativity": "Thread of negativity pervades experience at higher levels"
+      },
+      "military_interest": {
+        "code_name": "EA-1319",
+        "studies": "Chemical warfare studies, human trials with psychiatric patients",
+        "publication": "No details published"
+      },
+      "impurity_question": {
+        "contaminant": "3,5-dimethoxy-4-hydroxyamphetamine",
+        "canadian_material": "mp 219-220 C, probably impurity-free",
+        "army_material": "Unreported melting point",
+        "shulgin_material": "Lower melting product used",
+        "unanswered_question": "What contribution did phenolic component make to observed effects?"
+      },
+      "chain_extension_concept": {
+        "pattern": "Mescaline (no carbons) → TMA (one carbon) → AEM (two carbons)",
+        "naming": "TMA = alpha-methylmescaline (AMM)",
+        "AEM": "Alpha-ethyl mescaline, 2-amino-1-(3,4,5-trimethoxyphenyl)butane"
+      },
+      "ten_essential_amphetamines": {
+        "concept": "Ten essential oils with three carbon chains, each lacks only ammonia to become amphetamine",
+        "naming": "Originally 'natural amphetamines', son suggested 'essential amphetamines'",
+        "folk_wisdom": "Nature is trying to tell us something",
+        "organization_choice": "By ring substitution pattern of amphetamine, gathering spices and oils as secondary collection"
+      },
+      "essential_oil_1_4_methoxy": {
+        "pattern": "4-methoxy",
+        "pivotal_oil": "4-allylanisole (methyl chavicol, estragole)",
+        "sources": ["Turpentine", "Anise", "Fennel", "Bay", "Tarragon", "Basil"],
+        "smell": "Light, reminiscent of fennel",
+        "propenyl_analogue": {
+          "name": "Anethole (anise camphor)",
+          "sources": ["Anise", "Camphor", "Magnolia blossoms"],
+          "properties": "Waxy solid, intense anise smell, sweet at low concentrations"
+        },
+        "absinthe_connection": "Natural flavoring, produced altered state beyond alcohol alone",
+        "old_anethole": "Gets thick, sticky, yellowish, disagreeable - why discard old spices",
+        "amphetamine": "4-MA"
+      },
+      "essential_oil_2_3_4_dimethoxy": {
+        "pattern": "3,4-dimethoxy",
+        "main_oil": "Methyleugenol (4-allyl-1,2-dimethoxybenzene)",
+        "sources": ["Citronella", "Bay/laurel/myrtle", "Pimiento", "Allspice", "Pepper", "Tea-tree oil"],
+        "smell": "Faint cloves, mistaken for carnations when dilute",
+        "eugenol": {
+          "name": "4-allylguaiacol",
+          "sources": ["Cinnamon", "Nutmeg", "Cloves", "Sassafras", "Myrrh"],
+          "properties": "Burns on taste, smells of cloves, anesthetic (toothache remedy)",
+          "clove_cigarettes": "Eugenol numbs throat, allows many strong cigarettes without pain"
+        },
+        "chavibetol": "3-hydroxy-4-methoxyallylbenzene, in betel pepper leaf",
+        "isomers": {
+          "osmorrhizole": "2,4-isomer from carrot-like vegetables → 2,4-DMA",
+          "mugwort_sage": "3,5-dimethoxy isomer → 3,5-DMA, unexplored, folklore: opium antidote and stimulant"
+        },
+        "amphetamine": "3,4-DMA"
+      },
+      "essential_oil_3_methylenedioxy": {
+        "pattern": "3,4-methylenedioxy",
+        "famous_oil": "Safrole (4-allyl-1,2-methylenedioxybenzene)",
+        "source": "Sassafras oil mainstay",
+        "smell": "Root beer!",
+        "distribution": "Most widely distributed, in most spices including cinnamon and nutmeg",
+        "amphetamine": "MDA"
+      },
+      "essential_oil_4_methoxy_methylenedioxy": {
+        "pattern": "3-methoxy-4,5-methylenedioxy",
+        "parent_oil": "Myristicin (5-allyl-1-methoxy-2,3-methylenedioxybenzene)",
+        "sources": ["Nutmeg", "Mace (fibrous seed covering)", "Parsley oil", "Dill"],
+        "liver_conversion": "Actually shown to be converted to MMDA by ammonia addition through in vitro liver preparation",
+        "significance": "Major justification for equation between essential oils and Essential Amphetamines",
+        "myristicin_vs_myristin": {
+          "myristicin": "Essential oil",
+          "myristin": "Fat (trimyristin, glyceryl trimyristate from nutmeg and coconut)",
+          "warning": "Names often interchanged even in scientific literature"
+        },
+        "amphetamine": "MMDA"
+      },
+      "essential_oil_5_croweacin": {
+        "pattern": "2-methoxy-3,4-methylenedioxy",
+        "oil": "Croweacin",
+        "source": "Eriostemon crowei, rue and citrus plants (Family Rutaceae)",
+        "rue_memory": "Ruta graveolens smelled like cat urine",
+        "arthritis_recipe": {
+          "source": "Very conservative Republican fellow-club member after rehearsal",
+          "origin": "Native decoction from Mexico",
+          "ingredients": ["Ruta graveolens (rue - repentance)", "Rosmarinus officinalis (rosemary - remembrance)", "Cannabis sativa (marijuana)"],
+          "preparation": "Equal quantities soaked in rubbing alcohol for weeks, clarified, evaporated to thick sludge",
+          "application": "Rubbed on skin where arthritis troublesome, always in direction of extremity - onto not into body"
+        },
+        "amphetamine": "MMDA-3a"
+      },
+      "essential_oil_5b_asaricin": {
+        "pattern": "2-methoxy-4,5-methylenedioxy (2,4,5-orientation)",
+        "oils": ["Asaricin (allyl)", "Carpacin (propenyl)"],
+        "source": "Carpano tree, Solomon Islands",
+        "use": "Folk medicine",
+        "amphetamine": "MMDA-2"
+      },
+      "essential_oil_6_trimethoxy": {
+        "pattern": "3,4,5-trimethoxy",
+        "oil": "Elemicin (5-allyl-1,2,3-trimethoxybenzene)",
+        "source": "Oil of Elemi (Pili tree, Philippines)",
+        "also_found": ["Oil of Nutmeg", "Oils of Camphor"],
+        "trace_component": "5-methoxyeugenol (elemicin without 4-methyl) in nutmeg and magnolia",
+        "syringaldehyde_note": "Any natural product with 'syring' has hydroxy between two methoxys",
+        "amphetamine": "TMA"
+      },
+      "essential_oil_7_2_4_5_trimethoxy": {
+        "pattern": "2,4,5-trimethoxy",
+        "oils": {
+          "alpha_asarone": "trans-propenyl",
+          "beta_asarone": "cis-propenyl",
+          "gamma_asarone": "allyl (euasarone, sekishone) - much more rare"
+        },
+        "source": "Oil of Calamus from Acorus calamus (Sweet Flag)",
+        "habitat": "Edges of swamps throughout North America, Europe, Asia",
+        "uses": ["Liqueur flavoring", "Medicine"],
+        "cree_name": "Rat-root (Lake Winnipeg area)",
+        "icelandic_name": "Indian-root",
+        "traditional_use": "External for wounds, internal for most illnesses, no central effects reported",
+        "acoramone": "2,4,5-trimethoxyphenylacetone, also present",
+        "nomenclature_problem": "Asiasarum (wild ginger Genus) looks like asarone (from Acorus)",
+        "asarum_species": {
+          "forbesi": "Central China, gives pleasant smell to body",
+          "seiboldi": "Korea and Manchuria, treats deafness, epilepsy, rheumatism"
+        },
+        "amphetamine": "TMA-2"
+      },
+      "essential_oil_8_tetraoxy_apiole": {
+        "pattern": "2,5-dimethoxy-3,4-methylenedioxy",
+        "oil": "Apiole (parsley camphor)",
+        "source": "Major component of parsley seed oil",
+        "forms": {
+          "apiole_with_e": "White solid essential oil",
+          "apiol_without_e": "Green oily liquid medicine (ether extraction)",
+          "yellow_apiol": "Chlorophyll removed",
+          "apiolin": "Fats removed by saponification and distillation"
+        },
+        "amphetamine": "DMMDA"
+      },
+      "essential_oil_9_dillapiole": {
+        "pattern": "2,3-dimethoxy-4,5-methylenedioxy",
+        "oil": "Dillapiole (1-allyl-2,3-dimethoxy-4,5-methylenedioxybenzene)",
+        "source": "Oils of dill plants worldwide",
+        "properties": "Thick, almost colorless liquid",
+        "isodillapiole": "White crystalline, melts sharply",
+        "amphetamine": "DMMDA-2"
+      },
+      "essential_oil_10_tetramethoxy": {
+        "pattern": "2,3,4,5-tetramethoxy",
+        "oil": "1-allyl-2,3,4,5-tetramethoxybenzene",
+        "source": "Minor component in parsley oil, easier by synthesis",
+        "amphetamine": "TA"
+      },
+      "essential_definition": {
+        "clarification": "Essential has nothing to do with needed or required",
+        "origin": "From essence - something with odor or smell",
+        "essential_oils": "Oils with fragrance",
+        "essential_amphetamines": "Compounds that can in principle be made from them by ammonia addition in body"
+      },
+      "experimental_trials": {
+        "methoxyeugenol": "Up to 10 mg, no effects",
+        "asarone": "Up to 70 mg, no effects",
+        "pseunut_cocktail": {
+          "composition": "1 part MDA, 2 parts TMA, 5 parts MMDA",
+          "rationale": "100 mg equivalent to safrole, elemicin, myristicin in 5g nutmeg",
+          "result": "Quite a sparkle and considerable eye-dilation",
+          "comparison": "Never taken 5g nutmeg to compare"
+        }
+      },
+      "key_themes": [
+        "first_synthetic_psychedelic_phenethylamine",
+        "Ten_Essential_Amphetamines",
+        "Essential_Oils",
+        "spice_cabinet_alchemy",
+        "military_interest_EA1319",
+        "nature_telling_us_something"
+      ],
+      "notable_quotes": [
+        "TMA was the very first totally synthetic psychedelic phenethylamine that was found to be active in man.",
+        "Nature is trying to tell us something.",
+        "The bane of the archivist is having to choose one pattern of organization over another.",
+        "The drinks that turn cloudy with water dilution are heavy with it, since it was the natural flavoring in the original absinthe.",
+        "This was the oil that was actually shown to be converted to MMDA by the addition of ammonia by passage through an in vitro liver preparation.",
+        "The definition of 'essential' has nothing to do with needed or required. The word's origin is essence, something with an odor or smell.",
+        "100 milligrams indeed produced quite a sparkle and considerable eye-dilation."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 158,
+      "code": "TMA-2",
+      "chemical_name": "2,4,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "There was absolutely no reason to suspect that the simple rearrangement of the methoxy groups of TMA from the classic 3,4,5-positions to this new, 2,4,5-orientation, would dramatically increase potency like this. Mescaline, 3,4,5-trimethoxyphenethylamine, is an extraordinary compound, but it is not particularly potent, requiring hundreds of milligrams for a trip. And going from its 3,4,5-pattern to the 2,4,5-pattern of TMPEA makes the compound even less potent. There was essentially nothing reported in the scientific literature about central activity of 2,4,5-substituted stuff, so there could not have been any logical preparation for the activity of TMA-2.",
+      "discovery_surprise": {
+        "expectation": "No reason to suspect rearrangement would increase potency",
+        "mescaline_context": "Extraordinary but not potent - hundreds of milligrams",
+        "TMPEA_precedent": "2,4,5-pattern made compound even less potent",
+        "literature": "Essentially nothing reported about central activity of 2,4,5-substituted compounds"
+      },
+      "discovery_experiment": {
+        "date": "November 26, 1962",
+        "time": "6:00 AM",
+        "first_dose": "12 mg - inactive",
+        "second_dose": "12 mg one hour later",
+        "total": "24 mg - the discovery experiment",
+        "anxiety_note": "Thrust into unknown certainly played role in psychosomatic difficulties"
+      },
+      "potency_implications": {
+        "magnitude": "Ten-fold increase from single methoxy group relocation",
+        "priority": "Further juggling of methoxy groups given very high priority",
+        "six_arrangements": ["3,4,5 (TMA)", "2,4,5 (TMA-2)", "2,3,4 (TMA-3)", "2,3,5 (TMA-4)", "2,3,6 (TMA-5)", "2,4,6 (TMA-6)"],
+        "status": "All totally unknown at that time, all made, all included in book"
+      },
+      "essential_amphetamine_status": {
+        "natural_equivalents": "Alpha-asarone (trans-propenyl), beta-asarone (cis-propenyl), gamma-asarone/euasarone (allyl)",
+        "asarone_tasting": "Up to 70 mg without effects"
+      },
+      "incomplete_studies": {
+        "optical_isomers": {
+          "progress": "Up to 6 mg on each separate isomer",
+          "rabbit_finding": "R isomer much more potent in rabbit assays",
+          "human_status": "Comparisons remain unknown"
+        },
+        "metabolite_study": {
+          "setup": "14C labeled racemate (5 microcuries in 40 mg)",
+          "purpose": "Metabolite analysis",
+          "status": "Abandoned before results obtained",
+          "rat_finding": "4-methoxyl carbon appeared as expired CO2 to ~20%, four times amount from other methoxyl carbons"
+        }
+      },
+      "nature_review_memory": {
+        "publication": "British journal Nature, ~20 years prior",
+        "topic": "Structure-activity relationships of simpler one-ringed psychotomimetics",
+        "purpose": "Also vehicle for mentioning newly-discovered compounds",
+        "proposed_compound": {
+          "name": "2,beta-dihydroxy-4,5-dimethoxyphenethylamine",
+          "rationale": "Embraced every clue tying to neurological process",
+          "components": ["6-hydroxydopamine hydroxy group", "Dopamine molecule (two methoxyl groups)", "Beta-hydroxy (norepinephrine touch)"],
+          "proposed_as": "An endogenous psychotogen",
+          "sample_received": "From respected scientist, synthesized for investigations",
+          "trials": "Four graded dosages up to only 250 micrograms",
+          "fate": "Sample became brown, decomposing, project abandoned"
+        }
+      },
+      "nature_journal_lament": {
+        "query": "Twenty year retrospective by three original authors",
+        "author_paths": "Each followed divergent paths, all still keen researchers",
+        "response": "Polite but negative - unsuitable for publication at present",
+        "current_nature": "Dedicated to neutron stars and x-ray sources",
+        "assessment": "Not the grand and curious lady she used to be"
+      },
+      "science_journal_lament": {
+        "similar_deterioration": "Abandoned multidisciplinary interest",
+        "current_focus": "Chromosomes, nucleotide identification, human genome project",
+        "sardonic_note": "Go there to publish if you've unraveled DNA sequence from the Latvian cockroach"
+      },
+      "key_themes": [
+        "unexpected_potency_discovery",
+        "2_4_5_substitution_pattern",
+        "methoxy_group_rearrangement",
+        "TMA_series_origin",
+        "journal_deterioration",
+        "multidisciplinary_loss"
+      ],
+      "notable_quotes": [
+        "There was absolutely no reason to suspect that the simple rearrangement of the methoxy groups would dramatically increase potency like this.",
+        "There could not have been any logical preparation for the activity of TMA-2.",
+        "The unexpected ten-fold increase of effectiveness uncovered by the simple relocation of a single methoxy group gave the further juggling of methoxy groups a very high priority.",
+        "With due modesty, we proposed that it might be 'an endogenous psychotogen.'",
+        "The respected old English journal of interdisciplinary interests is not the grand and curious lady she used to be.",
+        "There is where you automatically go to publish, now, if you have unraveled some DNA sequence from the Latvian cockroach."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
