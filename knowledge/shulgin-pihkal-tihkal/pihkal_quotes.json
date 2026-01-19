@@ -10253,6 +10253,369 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 172,
+      "code": "5-TOM",
+      "chemical_name": "5-methoxy-4-methyl-5-(methylthio)amphetamine",
+      "extensions_and_commentary": "The bottom line is that 5-TOM is a pretty heavy-duty experience, with more negative reports than positive ones. I have received no mentions of a completely ecstatic time, and not even very many neutral experiences. The consensus is that it wasn't worth the struggle. Some cramping, some nausea, and a generalized discomfort. And that one case of a catatonic response. An approach to possible individual variation in the metabolic handling of the sulfur atom is the rationale for the preparation of the compound TOMSO, and it is discussed there. The two-carbon homologue of 5-TOM has been prepared. It uses, of course, the same aldehyde, but the condensation was with nitromethane which yielded the nitrostyrene as an orange powder with a melting point of 118-119 °C from methanol. This was reduced with LAH in ether containing anhydrous AlCl3, giving 2-methoxy-4-methyl-5-methylthiophenethylamine hydrochloride as white crystals with a melting point of 257-258 °C. It has been named 2C-5-TOM, but it has not yet been entered into the screening program so it is pharmacologically still a mystery.",
+      "overall_assessment": {
+        "character": "Heavy-duty experience",
+        "report_balance": "More negative reports than positive ones",
+        "ecstatic_experiences": "None mentioned",
+        "consensus": "Wasn't worth the struggle"
+      },
+      "negative_effects": [
+        "Some cramping",
+        "Some nausea",
+        "Generalized discomfort",
+        "One case of catatonic response"
+      ],
+      "metabolic_considerations": {
+        "individual_variation": "Possible individual variation in metabolic handling of sulfur atom",
+        "rationale_for_TOMSO": "Investigation of sulfur metabolism led to TOMSO synthesis"
+      },
+      "phenethylamine_analogue_2C_5_TOM": {
+        "aldehyde": "Same as 5-TOM",
+        "condensation": "With nitromethane",
+        "nitrostyrene_appearance": "Orange powder",
+        "nitrostyrene_mp": "118-119 °C from methanol",
+        "reduction": "LAH in ether containing anhydrous AlCl3",
+        "product": "2-methoxy-4-methyl-5-methylthiophenethylamine hydrochloride",
+        "product_appearance": "White crystals",
+        "product_mp": "257-258 °C",
+        "name": "2C-5-TOM",
+        "status": "Not yet entered into screening program, pharmacologically still a mystery"
+      },
+      "key_themes": [
+        "negative_experience_predominance",
+        "physical_side_effects",
+        "catatonic_response",
+        "sulfur_metabolism",
+        "individual_variation",
+        "phenethylamine_analogue"
+      ],
+      "notable_quotes": [
+        "The bottom line is that 5-TOM is a pretty heavy-duty experience, with more negative reports than positive ones.",
+        "I have received no mentions of a completely ecstatic time, and not even very many neutral experiences.",
+        "The consensus is that it wasn't worth the struggle.",
+        "And that one case of a catatonic response."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 173,
+      "code": "TOMSO",
+      "chemical_name": "5-methoxy-4-methyl-5-(methylsulfinyl)amphetamine",
+      "extensions_and_commentary": "This entire venture into the study of TOMSO was an outgrowth of the extraordinary response that had been shown by one person to 5-TOM. There were two obvious approaches that might throw some light on the reason for this dramatic sensitivity. One would be to see if he was unusually capable of metabolizing sulfur-containing molecules, and the second would be to assume he was, and to try to guess just what product he had manufactured with his liver. The individual sensitivity question was addressed in a tidy and direct manner. Why not study a simple sulfur-containing model compound that would probably be metabolized only at the sulfur and that would itself probably be pharmacologically inactive in its own rights? Sounded OK to me, so I made up a goodly supply of 4-tert-butyl thioanisole, which proved to be a gorgeous white crystalline solid. It seemed quite logical that this would be metabolized at the sulfur atom to produce either or both the sulfoxide and the sulfone. So I treated a methanol solution of this with a little hydrogen peroxide and distilled the neutral extracts at 100-115 °C at 0.2 mm/Hg to give the sulfoxide as a solid that melted at 76-77 °C from hexane. On the other hand, if a solution of the thioanisole in acetic acid containing hydrogen peroxide was heated on the steam bath for a few hours and then worked up, a new solid was isolated that proved to be the sulfone (a negative Fries-Vogt test). This was obtained as white crystals with a mp of 94-95 °C from aqueous methanol. And I found that these three compounds separated well from one another by GC, and that they could be extracted from urine. Everything was falling into place. My thought was to determine a safe (inactive) level of the parent thioanisole, and determine the distribution of metabolites in my urine, and then in the urine of several other people, and then finally in the urine of the person who was the intense reactor to 5-TOM. I found that there were no effects, either physical or psychological, at an oral dose of 60 milligrams of 4-tert-butyl-thioanisole. But then everything fell apart. There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine. The material was obviously being completely converted to one or more metabolites, but the sulfoxide and sulfone were not among them. It would be fun, someday, to methodically trace the fate of this compound. So, on to the second approach. What might the active metabolite of 5-TOM actually be? The sulfoxide seemed completely reasonable, and that encouraged the synthesis of TOMSO. This name was given, as it is the sulfoxide analogue (SO) of 5-TOM. And since only one of these analogues has been made, the R5S distinction is not needed. But it is apparent that this approach to the finding of an explanation for the idiosyncratic sensitivity to 5-TOM also failed, in that TOMSO itself appeared to be without activity. But the fallout of this study was the uncovering of an unusual property that alcohol can occasionally have when it follows the ingestion of certain inactive drugs. Or if it is used at the tail end of an experience with an active drug. Usually some alcohol has been employed as a softener of the residual effects of the day's experiment, or as a social habit to accompany the post-mortem discussions of a day's experiences, and perhaps as a help to sleeping. But if there is a rekindling of the effect, rather than the sedation expected, then the verb 'to tomso' can be used in the notes. It represents the promotion of an inactive situation into an active one, with the catalysis of alcohol. But the effect is not that of alcohol. Might the extreme sensitivity of some alcoholics to even a small amount of alcohol be due to some endogenous 'inactive' factor that is promoted in this way into some centrally florid toxicity? I remember seeing proposals of some tetrahydroisoquinolines as potential mis-metabolites in efforts to explain the toxicity of alcohol. Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine. And the person is tomsoing with his small amount of alcohol.",
+      "research_motivation": {
+        "origin": "Outgrowth of extraordinary response shown by one person to 5-TOM",
+        "approaches": [
+          "See if subject was unusually capable of metabolizing sulfur-containing molecules",
+          "Assume he was and try to guess what product his liver manufactured"
+        ]
+      },
+      "model_compound_study": {
+        "compound": "4-tert-butyl thioanisole",
+        "appearance": "Gorgeous white crystalline solid",
+        "rationale": "Simple sulfur-containing compound, probably metabolized only at sulfur, probably pharmacologically inactive",
+        "expected_metabolites": ["Sulfoxide", "Sulfone"],
+        "sulfoxide_synthesis": "Treated methanol solution with hydrogen peroxide, distilled at 100-115 °C at 0.2 mm/Hg",
+        "sulfoxide_mp": "76-77 °C from hexane",
+        "sulfone_synthesis": "Thioanisole in acetic acid with hydrogen peroxide, heated on steam bath",
+        "sulfone_mp": "94-95 °C from aqueous methanol",
+        "gc_separation": "Three compounds separated well by GC, extractable from urine",
+        "inactive_dose": "60 mg oral of 4-tert-butyl-thioanisole - no effects",
+        "unexpected_result": "No detectable trace of parent or metabolites in urine",
+        "conclusion": "Material completely converted to unknown metabolites"
+      },
+      "TOMSO_result": {
+        "naming": "Sulfoxide analogue (SO) of 5-TOM",
+        "activity": "Appeared to be without activity",
+        "conclusion": "This approach to explaining idiosyncratic sensitivity to 5-TOM also failed"
+      },
+      "tomso_verb_concept": {
+        "definition": "The promotion of an inactive situation into an active one, with the catalysis of alcohol",
+        "usage": "When alcohol rekindles effect rather than producing expected sedation",
+        "context": "Following ingestion of inactive drugs or at tail end of active drug experience",
+        "effect_clarification": "Effect is not that of alcohol"
+      },
+      "alcoholism_hypothesis": {
+        "question": "Might extreme sensitivity of some alcoholics to small amounts of alcohol be due to endogenous 'inactive' factor promoted to centrally florid toxicity?",
+        "tetrahydroisoquinolines": "Proposed as potential mis-metabolites to explain alcohol toxicity",
+        "speculation": "Maybe they are psychedelics thought to be inactive, but ignited with a glass of wine"
+      },
+      "key_themes": [
+        "individual_sensitivity",
+        "sulfur_metabolism",
+        "metabolite_investigation",
+        "model_compound_study",
+        "tomso_verb_creation",
+        "alcohol_catalysis",
+        "alcoholism_hypothesis",
+        "tetrahydroisoquinolines"
+      ],
+      "notable_quotes": [
+        "This entire venture into the study of TOMSO was an outgrowth of the extraordinary response that had been shown by one person to 5-TOM.",
+        "Everything was falling into place... But then everything fell apart.",
+        "There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine.",
+        "The verb 'to tomso' can be used in the notes. It represents the promotion of an inactive situation into an active one, with the catalysis of alcohol.",
+        "Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 174,
+      "code": "TP",
+      "chemical_name": "3,4,5-trimethoxyphenyl-N,N-dimethylthiopropylamine",
+      "extensions_and_commentary": "There is a high potency here, but clearly there are signs of increased toxicity as well even over the ethyl homologue, TE. The butyl compound (see TB) was the last of this series of phenethylamines and as is noted there, the physical problems lessen, but so do the psychedelic properties. The three-carbon amphetamine homologues are completely unexplored. The most reasonable starting material for these would be 4-thiosyringaldehyde, with S-alkylation and then the conventional nitroethane coupling followed with LAH reduction. The most appealing target as a potential psychedelic would be the methylthio homologue (3,5-dimethoxy-4-methylthioamphetamine, 3C-TM) or, as a potential euphoriant, the butylthio homologue (3,5-dimethoxy-4-(n)-butylthioamphetamine, 3C-TB). I am not sure that these alkylthio analogues would justify the labor needed to make them.",
+      "potency_assessment": {
+        "potency": "High",
+        "toxicity": "Signs of increased toxicity even over TE (ethyl homologue)"
+      },
+      "series_comparison": {
+        "TE": "Ethyl homologue - less toxic than TP",
+        "TB": "Butyl compound - last of series, physical problems lessen but so do psychedelic properties"
+      },
+      "unexplored_amphetamine_homologues": {
+        "status": "Completely unexplored",
+        "starting_material": "4-thiosyringaldehyde",
+        "synthesis_route": "S-alkylation, then conventional nitroethane coupling, followed with LAH reduction",
+        "potential_targets": {
+          "3C_TM": {
+            "full_name": "3,5-dimethoxy-4-methylthioamphetamine",
+            "potential": "Potential psychedelic"
+          },
+          "3C_TB": {
+            "full_name": "3,5-dimethoxy-4-(n)-butylthioamphetamine",
+            "potential": "Potential euphoriant"
+          }
+        },
+        "assessment": "Not sure these alkylthio analogues would justify the labor needed to make them"
+      },
+      "key_themes": [
+        "high_potency",
+        "increased_toxicity",
+        "series_progression",
+        "unexplored_amphetamine_homologues",
+        "synthesis_suggestions",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "There is a high potency here, but clearly there are signs of increased toxicity as well even over the ethyl homologue, TE.",
+        "The butyl compound (see TB) was the last of this series of phenethylamines and as is noted there, the physical problems lessen, but so do the psychedelic properties.",
+        "The three-carbon amphetamine homologues are completely unexplored.",
+        "I am not sure that these alkylthio analogues would justify the labor needed to make them."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 175,
+      "code": "TRIS",
+      "chemical_name": "3,4,5-triethoxyphenethylamine",
+      "extensions_and_commentary": "With the progressive diminution of human potency with increased ethylation of the mescaline molecule, there is no surprise in finding that this base is devoid of activity. Studies done years ago in the cat at a dosage of 25 mg/Kg (i.m.) gave none of the expected, and looked for, signs of behavioral changes (pilomotor activity, pupillary dilation, growling, hissing, aggressive behavior, withdrawal, or salivation) that are often seen with the less bulky substituents. It was without action. More lengthy substituents in the 3,4,5-positions (with combinations of ethyls and propyls, for example) are presently unknown compounds, and there is small incentive to make them.",
+      "activity_assessment": {
+        "status": "Devoid of activity",
+        "rationale": "Progressive diminution of human potency with increased ethylation of mescaline molecule"
+      },
+      "animal_studies": {
+        "species": "Cat",
+        "dose": "25 mg/Kg (i.m.)",
+        "timeframe": "Years ago",
+        "behavioral_signs_tested": [
+          "Pilomotor activity",
+          "Pupillary dilation",
+          "Growling",
+          "Hissing",
+          "Aggressive behavior",
+          "Withdrawal",
+          "Salivation"
+        ],
+        "result": "None of the expected signs, without action"
+      },
+      "structure_activity": {
+        "pattern": "Progressive diminution with increased ethylation",
+        "mescaline_comparison": "Mescaline (trimethoxy) active, TRIS (triethoxy) inactive",
+        "bulkier_substituents": "Often associated with loss of activity"
+      },
+      "future_compounds": {
+        "status": "Presently unknown",
+        "examples": "Combinations of ethyls and propyls in 3,4,5-positions",
+        "incentive": "Small incentive to make them"
+      },
+      "key_themes": [
+        "progressive_potency_loss",
+        "ethylation_effect",
+        "mescaline_analogue",
+        "devoid_of_activity",
+        "animal_studies",
+        "structure_activity_relationship"
+      ],
+      "notable_quotes": [
+        "With the progressive diminution of human potency with increased ethylation of the mescaline molecule, there is no surprise in finding that this base is devoid of activity.",
+        "Studies done years ago in the cat at a dosage of 25 mg/Kg (i.m.) gave none of the expected, and looked for, signs of behavioral changes.",
+        "It was without action.",
+        "More lengthy substituents in the 3,4,5-positions are presently unknown compounds, and there is small incentive to make them."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 176,
+      "code": "3-TSB",
+      "chemical_name": "4-ethyl-3-ethylthio-5-methoxyphenethylamine",
+      "extensions_and_commentary": "The elephant labored and brought forth a mouse. A lot of work for a material without activity. I have used the term 'scrudge' in this and other recipes, without defining it. With this aldehyde, as with most aldehydes in this nitrostyrene synthesis reaction where there is no ortho-substituent on the benzaldehyde, the reaction progress should be carefully followed by thin-layer chromatography. As the aldehyde disappears from the reaction mixture, the nitrostyrene appears, but there is usually the development of one or more slower moving components as seen by TLC. Such a wrong-product is called scrudge. The reaction should be continuously titrated, and stopped when there is a favorable balance between the aldehyde being mostly gone, the nitrostyrene being mostly made, and the slower-moving scrudge components being not yet too plentiful. Methylene chloride is an excellent solvent to try first, with silica gel plates and UV detection. The nitrostyrene is always the fastest moving component of the reaction mixture and often fluoresces a dull purple. The starting aldehyde is the second spot and usually fluoresces white or pale yellow. The scrudge spots then occur in a cascade from the aldehyde to the origin. A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene. Usually, they are high melting. In this preparation, there was not one but several scrudges, and little if any nitrostyrene. The same was true for the other of the diethyl compounds such as 3-TASB, 5-TASB and 3-T-TRIS. Thus, it is preferable to circumvent this usual synthetic step by using the Wittig reaction instead, as described here.",
+      "activity_assessment": {
+        "status": "Without activity",
+        "effort_assessment": "A lot of work for a material without activity",
+        "metaphor": "The elephant labored and brought forth a mouse"
+      },
+      "scrudge_definition": {
+        "term": "Scrudge",
+        "meaning": "Wrong-product that develops as slower moving components on TLC during nitrostyrene synthesis",
+        "appearance": "Yellow or brown colored",
+        "melting_point": "Usually high melting",
+        "deceptive_property": "In probe mass spectrograph can crack to give rise to what appears to be the right nitrostyrene"
+      },
+      "tlc_monitoring": {
+        "when_needed": "Most aldehydes without ortho-substituent on benzaldehyde",
+        "solvent": "Methylene chloride (excellent first choice)",
+        "plates": "Silica gel",
+        "detection": "UV",
+        "nitrostyrene_behavior": "Fastest moving component, often fluoresces dull purple",
+        "aldehyde_behavior": "Second spot, usually fluoresces white or pale yellow",
+        "scrudge_behavior": "Cascade from aldehyde to origin",
+        "stopping_point": "Favorable balance: aldehyde mostly gone, nitrostyrene mostly made, scrudge not yet too plentiful"
+      },
+      "synthetic_challenges": {
+        "this_compound": "Not one but several scrudges, little if any nitrostyrene",
+        "similar_problems": ["3-TASB", "5-TASB", "3-T-TRIS"],
+        "solution": "Circumvent with Wittig reaction instead"
+      },
+      "key_themes": [
+        "inactive_compound",
+        "scrudge_definition",
+        "tlc_monitoring",
+        "synthetic_difficulties",
+        "wittig_alternative",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "The elephant labored and brought forth a mouse.",
+        "A lot of work for a material without activity.",
+        "Such a wrong-product is called scrudge.",
+        "A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene.",
+        "Thus, it is preferable to circumvent this usual synthetic step by using the Wittig reaction instead."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 177,
+      "code": "4-TSB",
+      "chemical_name": "3-ethyl-4-ethylthio-5-methoxyphenethylamine",
+      "extensions_and_commentary": "Here is an excellent presentation of a report that shows false positives or maybe false negatives. Something at low levels. Nothing at higher levels. Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error.",
+      "activity_assessment": {
+        "low_levels": "Something observed",
+        "high_levels": "Nothing observed",
+        "interpretation": "False positives or maybe false negatives"
+      },
+      "experimental_principle": {
+        "rule": "Always tend to trust the absence of an effect in preference to the presence of an effect",
+        "condition": "If one of the two observations is presumed to be in error"
+      },
+      "key_themes": [
+        "false_positives",
+        "false_negatives",
+        "dose_response_paradox",
+        "experimental_methodology",
+        "absence_versus_presence"
+      ],
+      "notable_quotes": [
+        "Here is an excellent presentation of a report that shows false positives or maybe false negatives.",
+        "Something at low levels. Nothing at higher levels.",
+        "Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 178,
+      "code": "3-T-TRIS",
+      "chemical_name": "3,5-diethyl-4-ethylthiophenethylamine",
+      "extensions_and_commentary": "The term 'M.U.' pops up here and there in a lot of the earlier literature on these phenethylamines. It stands for 'mescaline units' and was used to give a quantitative measure for the relative potency of a compound. Since it became obvious quite early in these studies that mescaline, although the prototypic compound, was probably going to remain the least potent, it seemed reasonable to use it as a bench mark of unity. By dividing the dose needed of mescaline (to produce central effects) by the dose needed of another drug, one would generate a number that represented just how many times more potent this new drug was than mescaline. I used this term in a very early review of the one-ring psychotomimetics, and it served satisfactorily for quite a while. Its intrinsic worth proved, however, to be its very limitation. It was quickly apparent that the principal value, to behavioral researchers, of the reports of new hallucinogenic drugs, was not in the nature of their action but in the amount of stuff needed to produce that action. This was an essential axis against which the animal pharmacologist could plot his findings. A number was wanted, and the mescaline unit was just that number. Sadly, the major question that is asked by most academic researchers in their evaluation of the psychedelic materials is, 'How much does it take,' rather than 'What does it do.' The marvelous nuances of action, the subtle variations of effect, are dismissed as being hopelessly subjective and thus without scientific worth. But they are, I believe, of great worth. That is exactly what this book is all about.",
+      "mescaline_units_concept": {
+        "abbreviation": "M.U.",
+        "full_name": "Mescaline units",
+        "purpose": "Quantitative measure for relative potency of a compound",
+        "calculation": "Dose of mescaline / Dose of new drug = potency multiple",
+        "rationale": "Mescaline as prototypic compound, probably least potent, reasonable benchmark of unity",
+        "early_use": "Used in very early review of one-ring psychotomimetics"
+      },
+      "critique_of_quantitative_focus": {
+        "limitation": "Intrinsic worth proved to be its very limitation",
+        "researcher_focus": "Principal value was amount needed, not nature of action",
+        "sad_reality": "Major question asked is 'How much does it take' rather than 'What does it do'",
+        "dismissed_aspects": "Marvelous nuances of action, subtle variations of effect",
+        "dismissal_reason": "Being hopelessly subjective and thus without scientific worth"
+      },
+      "shulgin_philosophy": {
+        "belief": "Nuances and variations are of great worth",
+        "book_purpose": "That is exactly what this book is all about"
+      },
+      "key_themes": [
+        "mescaline_units",
+        "potency_measurement",
+        "quantitative_versus_qualitative",
+        "scientific_reductionism",
+        "subjective_experience_value",
+        "book_philosophy"
+      ],
+      "notable_quotes": [
+        "The term 'M.U.' pops up here and there in a lot of the earlier literature on these phenethylamines. It stands for 'mescaline units'.",
+        "Its intrinsic worth proved, however, to be its very limitation.",
+        "Sadly, the major question that is asked by most academic researchers in their evaluation of the psychedelic materials is, 'How much does it take,' rather than 'What does it do.'",
+        "The marvelous nuances of action, the subtle variations of effect, are dismissed as being hopelessly subjective and thus without scientific worth.",
+        "But they are, I believe, of great worth. That is exactly what this book is all about."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 179,
+      "code": "4-T-TRIS",
+      "chemical_name": "3,5-diethyl-4-ethylthiophenethylamine",
+      "extensions_and_commentary": "As with the sulfur-free counterpart, the phenethylamine with three ethyl groups hanging out from it is not active in man. It doesn't matter where the sulfur is, since the 3-T-TRIS isomer is also without action. The labor of making the amphetamine analogues of these triethylated things seems hardly worth the effort.",
+      "activity_assessment": {
+        "status": "Not active in man",
+        "comparison": "Same as sulfur-free counterpart",
+        "sulfur_position": "Doesn't matter where the sulfur is",
+        "isomer_comparison": "3-T-TRIS isomer also without action"
+      },
+      "structure_activity": {
+        "pattern": "Three ethyl groups = inactivity",
+        "sulfur_effect": "Sulfur position does not rescue activity"
+      },
+      "future_work_assessment": {
+        "amphetamine_analogues": "Labor seems hardly worth the effort"
+      },
+      "key_themes": [
+        "inactive_compound",
+        "triethyl_substitution",
+        "sulfur_position_irrelevant",
+        "isomer_comparison",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "As with the sulfur-free counterpart, the phenethylamine with three ethyl groups hanging out from it is not active in man.",
+        "It doesn't matter where the sulfur is, since the 3-T-TRIS isomer is also without action.",
+        "The labor of making the amphetamine analogues of these triethylated things seems hardly worth the effort."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
