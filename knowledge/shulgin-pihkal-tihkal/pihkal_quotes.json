@@ -8997,6 +8997,171 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 147,
+      "code": "4-TASB",
+      "chemical_name": "4-thio-asymbescaline",
+      "extensions_and_commentary": "Again, another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto. Some day this will all make sense!",
+      "activity_assessment": {
+        "character": "More physical problems than psychic virtue",
+        "structural_insight": "No obvious structural feature to hang it all onto"
+      },
+      "future_hope": "Some day this will all make sense!",
+      "key_themes": [
+        "physical_side_effects",
+        "unexplained_structure_activity",
+        "optimism"
+      ],
+      "notable_quotes": [
+        "Again, another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto.",
+        "Some day this will all make sense!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 148,
+      "code": "5-TASB",
+      "chemical_name": "5-thio-asymbescaline",
+      "extensions_and_commentary": "There is a ponderousness about adding a couple of ethyl groups and a sulfur that seems to say, 'no fun.' 5-TASB has something going for it (but not much) and 3-TASB is quite a bit more peppy and, actually, 4-TASB has quite a bit of life. But there is a sense of 'why bother?' There were a couple of bouts of light-headedness, but there was no unexpected excitement discovered in this methodical study. No surprises. Keep the chain lengths down.",
+      "TASB_series_comparison": {
+        "5_TASB": "Has something going for it (but not much)",
+        "3_TASB": "Quite a bit more peppy",
+        "4_TASB": "Has quite a bit of life",
+        "overall_sense": "Why bother?"
+      },
+      "study_outcome": {
+        "effects_noted": "Couple of bouts of light-headedness",
+        "excitement": "No unexpected excitement discovered",
+        "surprises": "None"
+      },
+      "conclusion": "Keep the chain lengths down.",
+      "key_themes": [
+        "methodical_study",
+        "ponderousness",
+        "chain_length_importance",
+        "no_surprises"
+      ],
+      "notable_quotes": [
+        "There is a ponderousness about adding a couple of ethyl groups and a sulfur that seems to say, 'no fun.'",
+        "There is a sense of 'why bother?'",
+        "No unexpected excitement discovered in this methodical study. No surprises.",
+        "Keep the chain lengths down."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 149,
+      "code": "TB",
+      "chemical_name": "4-thio-3,5-dimethoxyphenethylamine",
+      "alternate_names": ["Thiobuscaline"],
+      "extensions_and_commentary": "There is a term 'dose-dependent' in pharmacology. When there is a complex action produced by a drug, then each of the components of this mixture of effects should be expected to become more intense following a bigger dose of the drug. This is certainly true with most of the actions of psychoactive drugs.",
+      "dose_dependent_effects": {
+        "definition": "Each component of complex action becomes more intense with bigger dose",
+        "psychedelic_aspects": {
+          "visual_eyes_open": "Edge-ripples or colors or retinal games",
+          "visual_eyes_closed": "Images of elaborately decorated doors of the mosque, or orchestra floating suspended by its music",
+          "fantasy": "Moving beyond confines of body and invading someone else's space",
+          "other": ["Tactile enhancement", "Anaesthetic component", "Depth of insight"],
+          "pattern": "More drug = more effect, up to toxicity"
+        },
+        "stimulant_aspects": {
+          "description": "Person gets wired up, no sleep, cascade of images and meanings",
+          "body_state": "Lies there unwilling to yield guard - pounding heart and interpretive psyche demanding attention",
+          "pattern": "Also intensifies with higher doses"
+        }
+      },
+      "euphoria_exception": {
+        "nature": "Exception to dose-dependence",
+        "description": "Continuing 'threshold' that makes you aware, fluffs the senses, but never takes over or commands the ship",
+        "character": "Truly catalytic on or off. You are or you are not.",
+        "TOMSO_comparison": "Disinhibition with alcohol allows central intoxication regardless of drug amount",
+        "TB_character": "Perpetual series of thresholds - never the psychedelic or stimulant that increases with dose",
+        "essence": "Simple and ephemeral catalyst of euphoria without substance and without body"
+      },
+      "classification_problem": "A compound that can never be pinned and labeled in the butterfly collection since it defies accepted classification",
+      "ARIADNE_connection": {
+        "precedent": "This action was seen first with ARIADNE",
+        "commercial_interest": "When called an anti-depressant, proved commercially interesting",
+        "TB_potential": "Fully possible TB would be of value to certain depressed people in exactly the same way"
+      },
+      "key_themes": [
+        "dose_dependence",
+        "euphoria_threshold",
+        "classification_defiance",
+        "antidepressant_potential",
+        "TOMSO_effect",
+        "butterfly_collection"
+      ],
+      "notable_quotes": [
+        "There is a term 'dose-dependent' in pharmacology.",
+        "Images of the elaborately decorated doors of the mosque, or of an orchestra floating suspended by its music.",
+        "It is truly a catalytic on or off. You are or you are not.",
+        "Always the simple and ephemeral catalyst of euphoria without substance and without body.",
+        "It is a compound that can never be pinned and labeled in the butterfly collection since it defies an accepted classification."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 150,
+      "code": "3-TE",
+      "chemical_name": "3-thioescaline",
+      "extensions_and_commentary": "There is a good lesson to be learned in the attempts to predict the potency of 3-TE before it was actually explored. All pharmacological prediction follows pretty much a single mechanism. Find things that are close in some way, and arrange them in a manner that allows comparison. A relates to B in this way, and A relates to C in that way, and since D incorporates both this and that of each, it will probably be such-and-such. The Roman square.",
+      "prediction_methodology": {
+        "principle": "Find close things, arrange for comparison",
+        "logic": "A relates to B this way, A relates to C that way, D incorporates both = such-and-such",
+        "name": "The Roman square"
+      },
+      "roman_square_1": {
+        "horizontal_arrow": "Adding sulfur in 3-position",
+        "vertical_arrow": "Adding ethyl in place of methyl at 4-position",
+        "grid": {
+          "top_left": {"compound": "Mescaline", "dose": "200-400 mg"},
+          "top_right": {"compound": "3-TM", "dose": "60-100 mg", "factor": "x 3.5"},
+          "bottom_left": {"compound": "Escaline", "dose": "40-60 mg", "factor": "x 6"},
+          "bottom_right": {"compound": "3-TE", "predicted": "10-20 mg", "factor": "x 20"}
+        },
+        "prediction": "20x mescaline potency, ~15 mg range"
+      },
+      "roman_square_2": {
+        "horizontal_arrow": "Relocating sulfur from 4-position to 3-position",
+        "vertical_arrow": "Adding ethyl in place of methyl at 4-position",
+        "grid": {
+          "top_left": {"compound": "Thiomescaline", "dose": "20-30 mg"},
+          "top_right": {"compound": "3-Thiomescaline", "dose": "60-100 mg", "factor": "x 0.3"},
+          "bottom_left": {"compound": "Thioescaline", "dose": "20-30 mg", "factor": "x 1"},
+          "bottom_right": {"compound": "3-TE", "predicted": "60-100 mg", "factor": "x 0.3"}
+        },
+        "prediction": "1/3 thiomescaline potency, ~80 mg range"
+      },
+      "outcome": {
+        "accurate_square": "Second square gave prediction very close to observed potency",
+        "warning": "Would be careless, and probably wrong, to assume latter relationships had more significance than former"
+      },
+      "computer_warning": {
+        "temptation": "As compounds accumulate, tempting to draw complex relationships and be seduced into believing they must explain things",
+        "beware": "The multivariable power of the computer which can explore monstrous numbers of variables at breakneck speeds, and spew forth fantastic correlations with marvelous ease"
+      },
+      "ultimate_truth": "But nothing can ever substitute for the simple art of tasting something new.",
+      "key_themes": [
+        "Roman_square_prediction",
+        "structure_activity_relationships",
+        "computer_correlation_warning",
+        "tasting_primacy",
+        "prediction_vs_reality"
+      ],
+      "notable_quotes": [
+        "All pharmacological prediction follows pretty much a single mechanism.",
+        "A relates to B in this way, and A relates to C in that way, and since D incorporates both this and that of each, it will probably be such-and-such. The Roman square.",
+        "It would be careless, and probably wrong, to assume that the latter relationships had any more significance than the former ones.",
+        "Beware the multivariable power of the computer which can explore monstrous numbers of variables at breakneck speeds, and spew forth fantastic correlations with marvelous ease.",
+        "But nothing can ever substitute for the simple art of tasting something new."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
