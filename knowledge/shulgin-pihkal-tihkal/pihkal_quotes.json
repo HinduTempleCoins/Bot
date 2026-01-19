@@ -8637,6 +8637,366 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 139,
+      "code": "ORTHO-DOT",
+      "chemical_name": "4,5-dimethoxy-2-methylthioamphetamine",
+      "extensions_and_commentary": "This material, ORTHO-DOT, can be looked at as the sulfur homologue of TMA-2 with the sulfur atom located in place of the oxygen at the 2-position of the molecule. At what level this compound might show activity is completely unknown, but wherever that might be, it is at a dosage greater than that for the PARA-DOT isomer, ALEPH-1 (or ALEPH), which was fully active at 10 milligrams (ALEPH can be looked at as TMA-2 with the sulfur atom located in place of the oxygen at the 4-position of the molecule). A lot of variations are easily makable based on this structure, but why bother? ALEPH is the much more appealing candidate for structural manipulation.",
+      "structural_analysis": {
+        "relationship": "Sulfur homologue of TMA-2 with sulfur at 2-position instead of oxygen",
+        "comparison_to_ALEPH": "ALEPH (PARA-DOT) has sulfur at 4-position, fully active at 10mg",
+        "activity_prediction": "Unknown, but greater dosage than ALEPH required"
+      },
+      "research_priority": {
+        "variations_possible": "A lot of variations are easily makable",
+        "conclusion": "Why bother? ALEPH is the much more appealing candidate for structural manipulation"
+      },
+      "key_themes": [
+        "positional_isomers",
+        "sulfur_substitution",
+        "TMA_2_relationship",
+        "ALEPH_comparison",
+        "research_priorities"
+      ],
+      "notable_quotes": [
+        "At what level this compound might show activity is completely unknown.",
+        "A lot of variations are easily makable based on this structure, but why bother?",
+        "ALEPH is the much more appealing candidate for structural manipulation."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 140,
+      "code": "P",
+      "chemical_name": "3,5-dimethoxy-4-(n)-propoxyphenethylamine",
+      "alternate_names": ["Proscaline"],
+      "extensions_and_commentary": "There is a very early report describing the human use of proscaline tucked away in the Czechoslovakian literature that describes experiments at up to 80 milligrams. At these dosages, there were reported some difficulty with dreams, and the residual effects were still apparent even after 12 hours.",
+      "czechoslovakian_report": {
+        "dosage": "Up to 80 milligrams",
+        "effects": "Difficulty with dreams",
+        "duration": "Residual effects still apparent after 12 hours"
+      },
+      "amphetamine_homologue_3C_P": {
+        "name": "3,5-dimethoxy-4-(n)-propoxy-amphetamine",
+        "status": "Unexplored compound",
+        "synthesis_note": "Could not be achieved in parallel to P description",
+        "proposed_synthesis": "Propylation of syringaldehyde → 3,5-dimethoxy-4-(n)-propoxybenzaldehyde → coupling with nitroethane → reduction with LAH",
+        "predicted_activity": "Active psychedelic in 20-40 mg range"
+      },
+      "key_themes": [
+        "Czech_research",
+        "dream_effects",
+        "proscaline",
+        "unexplored_amphetamine_homologue"
+      ],
+      "notable_quotes": [
+        "There is a very early report describing the human use of proscaline tucked away in the Czechoslovakian literature.",
+        "At these dosages, there were reported some difficulty with dreams, and the residual effects were still apparent even after 12 hours.",
+        "I would guess it would be active, and a psychedelic, in the 20 to 40 milligram range."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 141,
+      "code": "PE",
+      "chemical_name": "3,5-dimethoxy-4-phenethyloxyphenethylamine",
+      "extensions_and_commentary": "There is not much there, so there is not much to make commentary on. This response is called a 'threshold' effect, and cannot be used to predict with any confidence just what level (if any) would produce psychological effects.",
+      "activity_assessment": {
+        "response_type": "Threshold effect",
+        "predictive_value": "Cannot be used to predict what level would produce psychological effects"
+      },
+      "BZ_nomenclature_discussion": {
+        "benzyloxy_compound": "4-benzescaline or BZ (phenylmescaline, PM)",
+        "naming_conflict_1": {
+          "name": "Quinuclidin-3-yl benzilate",
+          "context": "Chemical and biological warfare (CBW) incapacitating agent",
+          "military_stockpile": "20,000 pounds currently being stored"
+        },
+        "naming_conflict_2": "BZ also used for benzodiazepine receptors (BZ-receptors)",
+        "shulgin_decision": "Let's be awkward and misleading, and call this benzyloxy-base BZ"
+      },
+      "related_compounds": {
+        "3C_BZ": "Three-carbon analogue already described",
+        "3C_FBZ": "4-fluoro analogue mentioned",
+        "BZ_synthesis": "Made like escaline but with sodium borohydride/cobalt chloride reduction instead of catalytic hydrogenation",
+        "BZ_pharmacology": "Effective serotonin agonist, may warrant human experimentation"
+      },
+      "conclusion": "PE may be active at very high levels, and I am not sure just how to get there safely.",
+      "key_themes": [
+        "threshold_effects",
+        "nomenclature_conflicts",
+        "CBW_agents",
+        "serotonin_agonists",
+        "safety_concerns"
+      ],
+      "notable_quotes": [
+        "There is not much there, so there is not much to make commentary on.",
+        "Let's be awkward and misleading, and call this benzyloxy-base BZ.",
+        "It has been shown to be an effective serotonin agonist, and may warrant human experimentation.",
+        "PE may be active at very high levels, and I am not sure just how to get there safely."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 142,
+      "code": "PEA",
+      "chemical_name": "Phenethylamine",
+      "extensions_and_commentary": "Here is the chemical that is central to this entire book. This is the structural point of departure for every compound that is discussed here. It is the RPS in PIHKAL. It is without activity in man! Certainly not for the lack of trying, as some of the dosage trials that are tucked away in the literature (as abstracted in the 'Qualitative Comments' given above) are pretty heavy duty. Actually, I truly doubt that all of the experimenters used exactly that phrase, 'No effects,' but it is patently obvious that no effects were found. It happened to be the phrase I had used in my own notes.",
+      "central_importance": {
+        "role": "Chemical central to entire book",
+        "significance": "Structural point of departure for every compound discussed",
+        "meaning": "The RPS in PIHKAL",
+        "irony": "Without activity in man!"
+      },
+      "psychopharmacology_interest": {
+        "reasons": ["Structurally clean", "Naturally present in human fluids and tissues", "Close chemical relationship to amphetamine and neurotransmitters"],
+        "mental_illness_theories": {
+          "depression": "Levels may be decreased in urine",
+          "paranoid_schizophrenia": "Levels may be increased",
+          "stress": "Maybe also increased"
+        },
+        "clinical_findings": "Some clinicians reported intense headaches in depressives, others saw nothing",
+        "diagnostic_value": "Jury is still out"
+      },
+      "natural_occurrence": {
+        "distribution": "Throughout nature, in plants and animals",
+        "origin": "End product of phenylalanine in putrefaction of tissue",
+        "chocolate_myth": {
+          "claim": "Major component of chocolate, the love-sickness chemical",
+          "theory": "Those falling out of love are compulsive chocolate eaters trying to replenish body's loss",
+          "reality": "Voraciously metabolized to phenylacetic acid and some tyramine"
+        },
+        "illicit_connection": "Phenylacetic acid is major precursor in illicit amphetamine/methamphetamine synthesis"
+      },
+      "pharmacology": {
+        "intrinsic_property": "Stimulant",
+        "limitation": "Doesn't last long enough to express this property",
+        "reason": "Rapidly and completely destroyed in human body",
+        "solution": "Substituent groups placed on molecule avoid metabolic fate"
+      },
+      "chain_modifications_survey": {
+        "alpha_methyl": {
+          "result": "Amphetamine (phenylisopropylamine)",
+          "status": "One of richest families of psychedelic drugs, over half of Book II recipes"
+        },
+        "N_methyl_of_amphetamine": {
+          "result": "Methamphetamine",
+          "general_trend": "Quality and potency down with ring substituents",
+          "exception": "MDMA - the most remarkable"
+        },
+        "cyclopropyl": {
+          "result": "Tranylcypromine (Parnate)",
+          "properties": "MAO inhibitor, antidepressant, mild stimulant causing insomnia, restlessness, photophobia",
+          "ring_substitutions": "Not too promising, DOM analogue (DMCPA) active, mescaline analogue (TMT) inactive"
+        },
+        "one_carbon_less_benzylamine": {
+          "general": "Basically inactive nucleus",
+          "PCP_area": "Phenylcyclohexylpiperidine, ketamine - analgesics and anesthetics",
+          "benzylpiperazine": "Pure stimulant, 20-100mg, amphetamine-like",
+          "suggested_compounds": ["N-(3,4-methylenedioxybenzyl)piperazine", "2,5-dimethoxy-4-methylbenzylpiperazine"]
+        },
+        "phenylpiperazines": {
+          "3_trifluoromethylphenylpiperazine": "Active hallucinogen at 50mg sublingual or 15mg IV",
+          "3_chloro_analogue": "20-40mg oral or 8mg IV caused panic attacks in 10% but no psychedelic effects"
+        },
+        "three_carbon_chain": {
+          "parent": "Phenyl-(n)-propylamine",
+          "status": "Inactive as stimulants",
+          "piperonylacetone_confusion": {
+            "correct": "3,4-methylenedioxyphenylacetone gives MDA/MDMA",
+            "incorrect": "3,4-methylenedioxybenzylacetone gives unexplored gamma-amines"
+          }
+        },
+        "ring_tethered_chains": {
+          "2_aminobenzoindanes": "One-carbon link to ring, fair stimulants",
+          "2_aminotetralines": "Two-carbon link to ring, fair stimulants",
+          "DOM_analogues": "DOM-AI and DOM-AT made but not tried in man"
+        },
+        "N_N_dimethyl": {
+          "parent": "N,N-dimethylamphetamine",
+          "legal_status": "Scheduled drug in US",
+          "origin": "From N-methylephedrine when ephedrine became restricted",
+          "properties": "Dubious stimulant properties",
+          "ring_substituted": "Explored as iodinated brain-flow indicators, no psychedelic action"
+        }
+      },
+      "simple_phenethylamines": {
+        "MPEA": {
+          "name": "4-methoxyphenethylamine",
+          "relation": "2-carbon analog of 4-MA, cousin to DMPEA",
+          "schizophrenia_research": "Controversial, no confirmed relationship to diagnosis",
+          "activity": "No activity up to 400mg in man"
+        },
+        "4_Cl_PEA": {
+          "name": "4-chlorophenethylamine",
+          "activity": "No activity up to 500mg orally"
+        },
+        "3_MPEA": {
+          "name": "3-methoxyphenethylamine",
+          "trivia": "Edgewood Arsenal code number EA-1302",
+          "human_trials": "None reported"
+        }
+      },
+      "key_themes": [
+        "foundational_compound",
+        "inactive_parent",
+        "chocolate_myth",
+        "chain_modifications",
+        "structure_activity_relationships",
+        "metabolic_destruction"
+      ],
+      "notable_quotes": [
+        "Here is the chemical that is central to this entire book.",
+        "It is the RPS in PIHKAL. It is without activity in man!",
+        "Phenethylamine is intrinsically a stimulant, although it doesn't last long enough to express this property.",
+        "It is rapidly and completely destroyed in the human body.",
+        "The one exception, the N-methyl analogue of MDA, proved to be the most remarkable MDMA.",
+        "I truly doubt that all of the experimenters used exactly that phrase, 'No effects,' but it is patently obvious that no effects were found."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 143,
+      "code": "PROPYNYL",
+      "chemical_name": "3,5-dimethoxy-4-propargyloxyphenethylamine",
+      "alternate_names": ["Propynylescaline"],
+      "extensions_and_commentary": "No experiments have been performed that describe the action of this drug at full level. This compound does not seem to have the magic that would encourage exploration at higher levels.",
+      "activity_assessment": {
+        "status": "No full-level experiments performed",
+        "appeal": "Does not seem to have the magic that would encourage exploration at higher levels"
+      },
+      "key_themes": [
+        "unexplored_compound",
+        "lack_of_promise",
+        "propargyl_substitution"
+      ],
+      "notable_quotes": [
+        "No experiments have been performed that describe the action of this drug at full level.",
+        "This compound does not seem to have the magic that would encourage exploration at higher levels."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 144,
+      "code": "SB",
+      "chemical_name": "3,5-dimethoxy-4-butylthiophenethylamine",
+      "alternate_names": ["Symescabutyl", "4-thiobutyl-3,5-dimethoxyphenethylamine"],
+      "extensions_and_commentary": "It must be concluded that SB is 'probably' not active. There was no convincing evidence for much effect at levels that would clearly be active for mescaline. This is the kind of result that puts some potentially ambiguous numbers in the literature. One cannot say that it is inactive, for there might well be something at 400 or 800 or 1200 milligrams. But since it has been tried only up to 240 milligrams, I have used the phrase that the activity is greater than 240 milligrams. This will be interpreted by some people as saying that it is active, but only at dosages higher than 240 milligrams. What is meant, is that there was no activity observed at the highest level tried, and so if it is active, the active dose will be greater than 240 milligrams, and so the potency will be less than that of mescaline. However you phrase it, someone will misinterpret it.",
+      "activity_assessment": {
+        "conclusion": "Probably not active",
+        "evidence": "No convincing evidence for effect at mescaline-active levels",
+        "highest_tested": "240 milligrams",
+        "possibility": "Might be something at 400, 800, or 1200 mg"
+      },
+      "literature_ambiguity_problem": {
+        "statement_used": "Activity is greater than 240 milligrams",
+        "misinterpretation_1": "Some will think it's active but only at higher dosages",
+        "actual_meaning": "No activity at highest level tried, so if active, dose will be >240mg, potency less than mescaline",
+        "frustration": "However you phrase it, someone will misinterpret it"
+      },
+      "key_themes": [
+        "probably_inactive",
+        "literature_interpretation",
+        "ambiguous_reporting",
+        "mescaline_comparison"
+      ],
+      "notable_quotes": [
+        "It must be concluded that SB is 'probably' not active.",
+        "This is the kind of result that puts some potentially ambiguous numbers in the literature.",
+        "One cannot say that it is inactive, for there might well be something at 400 or 800 or 1200 milligrams.",
+        "However you phrase it, someone will misinterpret it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 145,
+      "code": "TA",
+      "chemical_name": "2,3,4,5-tetramethoxyamphetamine",
+      "extensions_and_commentary": "This is pretty thin stuff from which to go out into a world that is populated by pharmacological sharks and stake out claims as to psychedelic potency. The structure of this molecule has everything going for it. It is an overlay of TMA (active) and TMA-2 (even more active) so it is completely reasonable that it should be doing something at a rational dosage. But that dosage might well be in the many tens of milligrams.",
+      "structural_analysis": {
+        "promise": "Structure has everything going for it",
+        "relationship": "Overlay of TMA (active) and TMA-2 (even more active)",
+        "expectation": "Completely reasonable it should do something at rational dosage",
+        "predicted_dosage": "Might be in the many tens of milligrams"
+      },
+      "tens_of_milligrams_essay": {
+        "topic": "The art of assigning exact or fuzzy numbers to collections",
+        "latin_greek_rules": {
+          "latin_stem_latin_prefix": "Latus (side) → unilateral, bilateral, trilateral, quadrilateral, multilateral",
+          "greek_stem_greek_prefix": "Hedra (face) → monohedron, dihedron, trihedron, tetrahedron, polyhedron"
+        },
+        "poly_note": "Initially Greek, wandered East to West, ended up Latin as well",
+        "undefined_number_terms": ["Some", "Several", "Few", "Number of", "Numerous", "Handful"],
+        "collective_nouns": "Pride of lions, host of daffodils",
+        "oligo_prefix": {
+          "meaning": "A few, not a lot, not sure how many",
+          "example": "Oligopeptide - a few peptide units, not sure how many"
+        },
+        "british_stone": "Weight dimension of about 14 pounds, used to hide physical weight with modesty"
+      },
+      "essential_amphetamine_status": "Since 1-allyl-2,3,4,5-tetramethoxybenzene is one of ten essential oils, amination would make TA one of the Ten Essential Amphetamines",
+      "key_themes": [
+        "TMA_overlay",
+        "fuzzy_numbers",
+        "linguistic_precision",
+        "oligo_prefix",
+        "Essential_Amphetamine",
+        "pharmacological_sharks"
+      ],
+      "notable_quotes": [
+        "This is pretty thin stuff from which to go out into a world that is populated by pharmacological sharks and stake out claims as to psychedelic potency.",
+        "It is an overlay of TMA (active) and TMA-2 (even more active) so it is completely reasonable that it should be doing something.",
+        "I love the British modesty that is shown by hiding a person's physical weight by referring to it with the dimension known as the stone.",
+        "An oligopeptide means that there are a few peptide units, I'm not sure how many. This may well be the most accurate description of just what you have."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 146,
+      "code": "3-TASB",
+      "chemical_name": "3-thio-asymbescaline",
+      "extensions_and_commentary": "No pharmacological agent has an action that is pure this or pure that. Some pain-killing narcotics can produce reverie and some sedatives can produce paranoia. And just as surely, some psychedelics can produce stimulation. With 3-TASB we may be seeing the shift from sensory effects over to out-and-out stimulation. It would be an interesting challenge to take these polyethylated phenethylamines and assay them strictly for their amphetamine-like action. Sadly, the potencies are by and large so low, that the human animal can't be used, and any sub-human experimental animal would not enable the psychedelic part of the equation to be acknowledged. If an order of magnitude of increased potency could be bought by some minor structural change, this question could be addressed. Maybe as the three-carbon amphetamine homologs, or as the 2,4,5- or 2,4,6- substitution patterns, rather than the 3,4,5-pattern used in this set.",
+      "pharmacological_observation": {
+        "principle": "No pharmacological agent has pure action",
+        "examples": ["Pain-killing narcotics can produce reverie", "Sedatives can produce paranoia", "Psychedelics can produce stimulation"],
+        "3_TASB_case": "May be seeing shift from sensory effects to out-and-out stimulation"
+      },
+      "research_challenge": {
+        "proposal": "Assay polyethylated phenethylamines strictly for amphetamine-like action",
+        "problem": "Potencies too low for human animal",
+        "limitation": "Sub-human animals can't acknowledge psychedelic part of equation"
+      },
+      "potential_solutions": {
+        "goal": "Order of magnitude increased potency through minor structural change",
+        "possibilities": [
+          "Three-carbon amphetamine homologs",
+          "2,4,5-substitution pattern",
+          "2,4,6-substitution pattern instead of 3,4,5-pattern"
+        ]
+      },
+      "key_themes": [
+        "mixed_pharmacology",
+        "stimulant_vs_psychedelic",
+        "potency_limitations",
+        "substitution_patterns",
+        "research_challenges"
+      ],
+      "notable_quotes": [
+        "No pharmacological agent has an action that is pure this or pure that.",
+        "Some pain-killing narcotics can produce reverie and some sedatives can produce paranoia.",
+        "With 3-TASB we may be seeing the shift from sensory effects over to out-and-out stimulation.",
+        "Sadly, the potencies are by and large so low, that the human animal can't be used."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
