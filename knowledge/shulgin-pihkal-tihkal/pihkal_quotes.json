@@ -9162,6 +9162,155 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 151,
+      "code": "TE",
+      "chemical_name": "3,5-dimethoxy-4-ethylthiophenethylamine",
+      "alternate_names": ["Thioescaline"],
+      "extensions_and_commentary": "Although the ethyl group (of the ethylthio on the 4-position) is just one carbon atom longer than the methyl group (of TM) that small change already produces hints and indicators of some physical toxicity. The propyl compound (see TP) is still of similar potency, but appears to be yet more difficult, physically. The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well. All that was left to come through was the euphoria. If this 4-position sulfur analogue series of mescaline is ever to be more carefully explored, it must almost certainly be with the shortest possible chain (TM, as a psychedelic) or with long, long chains (the four-carbon chain of the butyl group in TB), as a feel-good compound.",
+      "chain_length_analysis": {
+        "TM_methyl": "Reference compound",
+        "TE_ethyl": "One carbon longer, already hints of physical toxicity",
+        "TP_propyl": "Similar potency but more physically difficult",
+        "TB_butyl": "Never made it as psychedelic, but physical difficulties less, euphoria comes through"
+      },
+      "future_exploration_recommendation": {
+        "for_psychedelic": "Shortest possible chain (TM)",
+        "for_feel_good": "Long, long chains (four-carbon butyl in TB)"
+      },
+      "key_themes": [
+        "chain_length_toxicity",
+        "sulfur_analogues",
+        "psychedelic_vs_euphoria",
+        "physical_side_effects"
+      ],
+      "notable_quotes": [
+        "That small change already produces hints and indicators of some physical toxicity.",
+        "The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well.",
+        "All that was left to come through was the euphoria.",
+        "It must almost certainly be with the shortest possible chain (TM, as a psychedelic) or with long, long chains (the four-carbon chain of the butyl group in TB), as a feel-good compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 152,
+      "code": "2-TIM",
+      "chemical_name": "2-methylthio-3,4-dimethoxyphenethylamine",
+      "extensions_and_commentary": "The problems that might be associated with the making of the three amphetamines that correspond to 2-TIM, 3-TIM and 4-TIM might very well prove quite exciting. These would be the three thio analogues of TMA-3; vis, 3,4-dimethoxy-2-methylthioamphetamine, 2,4-dimethoxy-3-methylthioamphetamine, and 2,3-dimethoxy-4-thioamphetamine. The first challenge would be to name them. Using the 2C-3C convention, they would be the 3C analogs of trivially named 2-carbon compounds, namely 3C-2-TIM, 3C-3-TIM and 3C-4-TIM. Using the thio convention (the number before the T is the position of the sulfur atom), they would be 2-T-TMA-3, 3-T-TMA-3 and 4-T-TMA-3. The second challenge would be their actual synthesis. The information gained from the separation of the 2-carbon nitrostyrenes and that most remarkable mixed-nitrostyrene thing that acted as a single pure material, would not be usable. But it is intriguing to speculate if there might be some parallel problems in the 3-carbon world. It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry. Some day, maybe.",
+      "amphetamine_homologues": {
+        "compounds": [
+          "3,4-dimethoxy-2-methylthioamphetamine",
+          "2,4-dimethoxy-3-methylthioamphetamine",
+          "2,3-dimethoxy-4-thioamphetamine"
+        ],
+        "relationship": "Three thio analogues of TMA-3"
+      },
+      "naming_challenge": {
+        "2C_3C_convention": ["3C-2-TIM", "3C-3-TIM", "3C-4-TIM"],
+        "thio_convention": ["2-T-TMA-3", "3-T-TMA-3", "4-T-TMA-3"],
+        "thio_convention_rule": "Number before the T is position of sulfur atom"
+      },
+      "synthesis_challenge": {
+        "2_carbon_experience": "Information from nitrostyrene separation and remarkable mixed-nitrostyrene would not be usable",
+        "speculation": "Intriguing if parallel problems might exist in 3-carbon world"
+      },
+      "pharmacology_prediction": "Almost certain none would be pharmacologically active",
+      "motivation": "The incentive would be the challenge of the chemistry. Some day, maybe.",
+      "key_themes": [
+        "naming_conventions",
+        "synthesis_challenges",
+        "TMA_3_analogues",
+        "chemistry_for_chemistry_sake"
+      ],
+      "notable_quotes": [
+        "The first challenge would be to name them.",
+        "That most remarkable mixed-nitrostyrene thing that acted as a single pure material.",
+        "It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry.",
+        "Some day, maybe."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 153,
+      "code": "3-TIM",
+      "chemical_name": "3-methylthio-2,4-dimethoxyphenethylamine",
+      "extensions_and_commentary": "Isomescaline itself is not active, but there is no way of knowing just how 'non-active' it really is. If it were to be active just beyond the levels assayed, then the introduction of a sulfur into the molecule in place of an oxygen could have increased the potency to where it might have some effect. The absence of any activity from this TIM, and the other two TIMs, might well suggest that isomescaline is really very 'non-active,' if that makes sense!",
+      "isomescaline_analysis": {
+        "parent_activity": "Not active",
+        "uncertainty": "No way of knowing just how 'non-active' it really is",
+        "hypothesis": "If active just beyond levels assayed, sulfur introduction could have increased potency to show effect"
+      },
+      "TIM_series_conclusion": {
+        "observation": "Absence of activity from this TIM and other two TIMs",
+        "implication": "Suggests isomescaline is really very 'non-active'"
+      },
+      "key_themes": [
+        "isomescaline_inactivity",
+        "degrees_of_inactivity",
+        "sulfur_potency_boost",
+        "TIM_series"
+      ],
+      "notable_quotes": [
+        "Isomescaline itself is not active, but there is no way of knowing just how 'non-active' it really is.",
+        "The absence of any activity from this TIM, and the other two TIMs, might well suggest that isomescaline is really very 'non-active,' if that makes sense!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 154,
+      "code": "4-TIM",
+      "chemical_name": "4-methylthio-2,3-dimethoxyphenethylamine",
+      "extensions_and_commentary": "There has been much noise made about the effectiveness of an unusual substitution group at the 4-position of the phenethylamine molecule. Here is a methylthio group at this position, and it is an inactive compound. I was just a little bit surprised.",
+      "4_position_hypothesis": {
+        "claim": "Much noise made about effectiveness of unusual substitution at 4-position",
+        "test": "Methylthio group at 4-position",
+        "result": "Inactive compound"
+      },
+      "shulgin_reaction": "I was just a little bit surprised.",
+      "key_themes": [
+        "4_position_importance",
+        "hypothesis_testing",
+        "unexpected_inactivity",
+        "methylthio_substitution"
+      ],
+      "notable_quotes": [
+        "There has been much noise made about the effectiveness of an unusual substitution group at the 4-position of the phenethylamine molecule.",
+        "Here is a methylthio group at this position, and it is an inactive compound.",
+        "I was just a little bit surprised."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 155,
+      "code": "3-TM",
+      "chemical_name": "3-methylthio-4,5-dimethoxyphenethylamine",
+      "alternate_names": ["3-Thiomescaline"],
+      "extensions_and_commentary": "The amphetamine which would correspond with this base would be 3,4-dimethoxy-5-methylthioamphetamine (3-T-TMA) and should be an active compound. Its synthesis should be straightforward from the benzaldehyde described above, employing nitroethane rather than nitromethane. It is apparently an unknown compound.",
+      "amphetamine_homologue": {
+        "name": "3,4-dimethoxy-5-methylthioamphetamine",
+        "code": "3-T-TMA",
+        "prediction": "Should be an active compound",
+        "synthesis": "Straightforward from benzaldehyde using nitroethane instead of nitromethane",
+        "status": "Apparently an unknown compound"
+      },
+      "key_themes": [
+        "unknown_amphetamine",
+        "synthesis_prediction",
+        "thiomescaline_series",
+        "unexplored_territory"
+      ],
+      "notable_quotes": [
+        "The amphetamine which would correspond with this base would be 3,4-dimethoxy-5-methylthioamphetamine (3-T-TMA) and should be an active compound.",
+        "Its synthesis should be straightforward.",
+        "It is apparently an unknown compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
