@@ -7883,6 +7883,259 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 125,
+      "code": "META-DOT",
+      "chemical_name": "4-methylthio-2,6-dimethoxyamphetamine",
+      "alternate_names": ["3,5-dimethoxy-4-methylthioamphetamine"],
+      "extensions_and_commentary": "Again, as with the studies with ORTHO-DOT, it is apparent that the activity of META-DOT is going to be way down from the most interesting of these isomers, PARA-DOT (ALEPH-1, or just ALEPH). In the rectal hyperthermia assay (which calculates the psychedelic potential of compounds by seeing how they influence the body temperature of experimental animals in comparison to known psychedelics) the three DOT's were compared with DOM. And the results fell into line in keeping with the activities (or loss of activities) found in man. PARA-DOT was about half as active as DOM, but both ORTHO-DOT and the compound described here, META-DOT, were down by factors of 50x and 30x respectively. These animal studies certainly seem to give results that are reasonable with a view to other known psychedelic drugs, in that mescaline was down from DOM by a factor of more than 1000x, and LSD was some 33x more potent than DOM.",
+      "animal_assay_comparison": {
+        "assay_type": "Rabbit rectal hyperthermia",
+        "purpose": "Calculates psychedelic potential by body temperature influence",
+        "results_relative_to_DOM": {
+          "PARA_DOT_ALEPH": "About half as active as DOM",
+          "ORTHO_DOT": "Down by factor of 50x",
+          "META_DOT": "Down by factor of 30x",
+          "mescaline": "Down by factor of more than 1000x",
+          "LSD": "33x more potent than DOM"
+        }
+      },
+      "shulgin_opinion_on_assay": {
+        "view": "Somewhat jaundiced",
+        "objection": "Pushing thermocouples into the rear ends of restrained rabbits somehow does not appeal to me",
+        "preference": "I would rather determine both of these parameters from human studies"
+      },
+      "related_compounds": {
+        "PARA_DOT": "ALEPH-1 or ALEPH - the most interesting isomer",
+        "ORTHO_DOT": "Also way down in activity"
+      },
+      "key_themes": [
+        "positional_isomers",
+        "animal_assays",
+        "potency_comparisons",
+        "ethics_of_animal_testing",
+        "human_vs_animal_studies"
+      ],
+      "notable_quotes": [
+        "It is apparent that the activity of META-DOT is going to be way down from the most interesting of these isomers, PARA-DOT.",
+        "I have a somewhat jaundiced view of this rabbit rectal hyperthermia business.",
+        "The concept of pushing thermocouples into the rear ends of restrained rabbits somehow does not appeal to me.",
+        "I would rather determine both of these parameters from human studies."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 126,
+      "code": "METHYL-DMA",
+      "chemical_name": "N-methyl-2,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "This is a difficult compound to pin down in the anthology of drugs. For some reason it has intrigued several independent, quiet researchers, and I have accumulated a number of interesting reports over the years. One person told me that he had felt nothing at up to 60 milligrams. Another had found a threshold at 50 milligrams, and had complete and thorough experiences at both 150 and 200 milligrams. Yet another person described two incidents involving separate individuals, with intravenous administrations of 0.2 mg/Kg, which would be maybe 15 or 20 milligrams. Both claimed a real awareness in a matter of minutes, one with a tingling in the genitalia and the other with a strange presence in the spine. Both subjects reported increases in body temperature and in blood pressure. Apparently the effects were felt to persist for many hours.",
+      "dosage_reports": {
+        "oral_inactive": "Up to 60 mg - nothing felt (one person)",
+        "oral_threshold": "50 mg threshold, 150-200 mg complete experiences (another person)",
+        "intravenous": "0.2 mg/Kg (15-20 mg) - real awareness in minutes",
+        "IV_effects": ["Tingling in genitalia", "Strange presence in spine", "Increased body temperature", "Increased blood pressure"],
+        "duration": "Effects persisted for many hours"
+      },
+      "methoxyphenamine_connection": {
+        "drug_name": "Methoxyphenamine (Orthoxine by Upjohn)",
+        "structure": "2-methoxy-N-methylamphetamine",
+        "use": "Bronchodilator for asthma and allergenic conditions",
+        "typical_dosage": "Perhaps 100 milligrams, several times a day",
+        "side_effects": "No changes in blood pressure, only slight cardiac stimulation",
+        "major_metabolite": "5-hydroxy-2-methoxy-N-methylamphetamine",
+        "metabolite_relationship": "Just a methyl group away from METHYL-DMA - could be methylated to complete synthesis, or METHYL-DMA could be demethylated to form this phenol"
+      },
+      "metabolic_intersection_insight": "It is always intriguing when drugs which show distinctly different actions can, in principle, intersect metabolically at a single structure. One wonders just what the pharmacology of that common intermediate might be.",
+      "related_N_methyl_compounds": {
+        "METHYL_TMA": {
+          "name": "N-methyl-3,4,5-trimethoxyamphetamine",
+          "max_tested": "240 mg",
+          "effects": "Some mental disturbances only at highest level"
+        },
+        "METHYL_TMA_2": {
+          "name": "N-methyl-2,4,5-trimethoxyamphetamine",
+          "max_tested": "120 mg",
+          "effects": "Without any effects"
+        },
+        "METHYL_TMA_6": {
+          "name": "N-methyl-2,4,6-trimethoxyamphetamine",
+          "max_tested": "30 mg",
+          "effects": "Apparently without effects"
+        },
+        "synthesis_method": "Reduction of formamide of parent primary amine with LAH",
+        "source": "Personal correspondence, not personal experience"
+      },
+      "general_pattern": "With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained.",
+      "key_themes": [
+        "variable_responses",
+        "independent_researchers",
+        "metabolic_intersections",
+        "N_methylation_effects",
+        "bronchodilator_connection",
+        "unpublished_research"
+      ],
+      "notable_quotes": [
+        "This is a difficult compound to pin down in the anthology of drugs.",
+        "For some reason it has intrigued several independent, quiet researchers.",
+        "It is always intriguing when drugs which show distinctly different actions can, in principle, intersect metabolically at a single structure.",
+        "One wonders just what the pharmacology of that common intermediate might be.",
+        "With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 127,
+      "code": "METHYL-DOB",
+      "chemical_name": "N-methyl-2,5-dimethoxy-4-bromoamphetamine",
+      "extensions_and_commentary": "The mention above, of the 10 milligrams of METHYL-DOB followed by 5 milligrams of psilocybin, leads to some interesting speculation. The usual pattern that is seen when two psychedelic drugs are taken too closely together is that the second experience is less effective than would have been expected. This is the property that is called tolerance, and it is frequently seen in pharmacology. The two exposures may be to a single drug, or they may be to two different drugs which usually have some properties in common. It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate. When there is a demand for a repeat of full effectiveness, the user will customarily increase the dosage of the drug that is used. It is one of the built-in protections, in the area of psychedelics that, after one experience, you must wait for a period of time to lose the refractoriness that has set in.",
+      "tolerance_explanation": {
+        "definition": "Second experience less effective than expected when drugs taken too closely together",
+        "mechanism_metaphor": "As if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate",
+        "user_response": "Customarily increase dosage for repeat full effectiveness",
+        "built_in_protection": "After one experience, must wait to lose refractoriness"
+      },
+      "cross_tolerance_concept": {
+        "definition": "Measure of degree of tolerance shared between different drugs",
+        "use": "Estimate of similarities of mechanisms of action",
+        "example_similar": "If A and B seen as similar by body, normally effective dose of A makes next-day dose of B weaker",
+        "example_different": "If drugs different in mechanisms, often no cross-tolerance",
+        "MDMA_MDA_example": "Person tolerant to MDMA had normal response to MDA - drugs not cross-tolerant, body recognizes them as distinct individuals"
+      },
+      "potentiation_phenomenon": {
+        "definition": "One drug promotes or exaggerates effect of another",
+        "significance": "Can be clue to dynamics in brain or body",
+        "METHYL_DOB_psilocybin": "METHYL-DOB somehow sensitized subject to light dosage of psilocybin",
+        "dextro_DOM_hashish": "Inactive dextro-isomer of DOM followed by severe reaction to 'poor' hashish",
+        "TOMSO_alcohol": "Inactive drug plus modest alcohol created unexpectedly intense intoxication",
+        "pattern_noted": "In each case, phenethylamine interacting with non-phenethylamine (psilocybin=indole, hashish=terpene, alcohol)"
+      },
+      "conclusion": "The bottom line with METHYL-DOB is, as with the other N-methylated psychedelics, that it is way down in potency, and probably not worth pursuing.",
+      "key_themes": [
+        "tolerance",
+        "cross_tolerance",
+        "potentiation",
+        "drug_interactions",
+        "N_methylation_reduces_potency",
+        "phenethylamine_nonphenethylamine_interactions"
+      ],
+      "notable_quotes": [
+        "It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate.",
+        "It is one of the built-in protections, in the area of psychedelics that, after one experience, you must wait for a period of time to lose the refractoriness that has set in.",
+        "The drugs are not cross-tolerant and the body recognizes them as distinct individuals.",
+        "The bottom line with METHYL-DOB is, as with the other N-methylated psychedelics, that it is way down in potency, and probably not worth pursuing."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 128,
+      "code": "METHYL-J",
+      "chemical_name": "N-methyl-1-(1,3-benzodioxol-5-yl)-2-butanamine",
+      "alternate_names": ["MBDB"],
+      "extensions_and_commentary": "An observer who was familiar with the outwardly apparent effects with groups experimenting with MDMA felt that, although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug. The dosage range explored is remarkably tight, attesting to a consistency of response. The typical supplement used, if any, was 70 milligrams or less, just before the two hour point. This indicates a chronology similar to that of MDMA, and about two thirds the potency.",
+      "comparison_to_MDMA": {
+        "favorable_comments": "Most subjects commented favorably",
+        "lacking": "Some of the spontaneity, the warmth, and the clear intimacy",
+        "dosage_consistency": "Remarkably tight range, attesting to consistency of response",
+        "supplement": "70 mg or less, just before two hour point",
+        "chronology": "Similar to MDMA",
+        "relative_potency": "About two thirds the potency of MDMA"
+      },
+      "muni_metro_naming_system": {
+        "context": "San Francisco Municipal Metropolitan System - underground streetcar connecting to bus network",
+        "streetcar_lines": {
+          "J": "Church Street line",
+          "K": "Ingelside line",
+          "L": "Taraval line",
+          "M": "Ocean line",
+          "N": "Judah line"
+        },
+        "pharmacological_naming": {
+          "H_compounds": "No alpha-substituent (phenethylamines) - H for 'homopiperonylamine'",
+          "I_compounds": "One carbon at alpha (already known as MDA, MDMA, MDE)",
+          "J_compounds": "Alpha-ethyl group (two carbons) - from 'Jacobamine' after famous chemist",
+          "K_compounds": "Three-carbon propyl group at alpha",
+          "L_compounds": "Four-carbon butyl group at alpha"
+        },
+        "logic": "One carbon is precisely half-way between no carbons and two carbons, and I is half-way between H and J",
+        "prefixes": "METHYL- and ETHYL- for N-substituted versions"
+      },
+      "key_themes": [
+        "MDMA_comparison",
+        "entactogens",
+        "Muni_Metro_naming",
+        "dosage_consistency",
+        "alpha_chain_extension"
+      ],
+      "notable_quotes": [
+        "Although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug.",
+        "The dosage range explored is remarkably tight, attesting to a consistency of response.",
+        "It is quite obvious, that with one carbon atom lying on that alpha-position, you are precisely half-way between no carbons and two carbons."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 129,
+      "code": "METHYL-K",
+      "chemical_name": "N-methyl-1-(1,3-benzodioxol-5-yl)-2-pentanamine",
+      "extensions_and_commentary": "The well appears to be running dry, with a pentane chain as a basic skeleton. METHYL-J, at this level, was already showing a number of hints and clues, largely physical such as coldness in the feet and a slight mastoidal pressure, that activity was right around the corner. But METHYL-K gave no such hints. The unmethylated homologue, 2-amino-1-(3,4-methylenedioxyphenyl)pentane (K), was also made, by the reductive amination of 1-(3,4-methylene-dioxyphenyl)-2-pentanone with ammonium acetate and sodium cyanoborohydride in methanol. It was a white crystalline solid, mp 202-203 C, but is given here in the comments only, as its human assaying had never even been initiated.",
+      "activity_assessment": {
+        "METHYL_J_hints": "Coldness in feet, slight mastoidal pressure - activity right around the corner",
+        "METHYL_K_result": "Gave no such hints",
+        "conclusion": "The well appears to be running dry with pentane chain"
+      },
+      "compound_K": {
+        "name": "2-amino-1-(3,4-methylenedioxyphenyl)pentane",
+        "synthesis": "Reductive amination of 1-(3,4-methylenedioxyphenyl)-2-pentanone with ammonium acetate and sodium cyanoborohydride in methanol",
+        "appearance": "White crystalline solid",
+        "melting_point": "202-203 C",
+        "human_trials": "Never even been initiated",
+        "note": "Given in comments only, no separate recipe"
+      },
+      "L_series_compounds": {
+        "description": "Six-carbon hexyl chain - end of the Taraval line",
+        "ketone_precursor": {
+          "name": "1-(3,4-methylenedioxyphenyl)-2-hexanone",
+          "synthesis": "Grignard of n-amyl bromide with piperonal → 1-hydroxy-1-(3,4-methylenedioxyphenyl)hexane → dehydration with potassium bisulfate → olefin → oxidation with hydrogen peroxide and formic acid",
+          "appearance": "Orange-colored liquid",
+          "bp": "125-135 C at 0.3 mm/Hg"
+        },
+        "L": {
+          "name": "2-amino-1-(3,4-methylenedioxyphenyl)hexane hydrochloride",
+          "synthesis": "Reductive amination with ammonium acetate and sodium cyanoborohydride in methanol",
+          "appearance": "White crystalline product",
+          "mp": "157-158 C"
+        },
+        "METHYL_L": {
+          "name": "2-methylamino-1-(3,4-methylenedioxyphenyl)hexane hydrochloride",
+          "synthesis": "Reductive amination with methylamine hydrochloride and amalgamated aluminum in isopropanol",
+          "appearance": "White crystalline product",
+          "mp": "139-141 C"
+        },
+        "ETHYL_L": {
+          "name": "2-ethylamino-1-(3,4-methylenedioxyphenyl)hexane",
+          "synthesis": "Similar reduction with ethylamine hydrochloride"
+        },
+        "human_trials": "None of this series has yet been explored either as psychedelic or entactogenic materials"
+      },
+      "key_themes": [
+        "diminishing_returns",
+        "chain_length_limits",
+        "Muni_Metro_series",
+        "unexplored_compounds",
+        "synthesis_documentation"
+      ],
+      "notable_quotes": [
+        "The well appears to be running dry, with a pentane chain as a basic skeleton.",
+        "METHYL-J, at this level, was already showing a number of hints and clues... that activity was right around the corner. But METHYL-K gave no such hints.",
+        "None of this series has yet been explored either as psychedelic or entactogenic materials."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
