@@ -7883,6 +7883,2739 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 125,
+      "code": "META-DOT",
+      "chemical_name": "4-methylthio-2,6-dimethoxyamphetamine",
+      "alternate_names": ["3,5-dimethoxy-4-methylthioamphetamine"],
+      "extensions_and_commentary": "Again, as with the studies with ORTHO-DOT, it is apparent that the activity of META-DOT is going to be way down from the most interesting of these isomers, PARA-DOT (ALEPH-1, or just ALEPH). In the rectal hyperthermia assay (which calculates the psychedelic potential of compounds by seeing how they influence the body temperature of experimental animals in comparison to known psychedelics) the three DOT's were compared with DOM. And the results fell into line in keeping with the activities (or loss of activities) found in man. PARA-DOT was about half as active as DOM, but both ORTHO-DOT and the compound described here, META-DOT, were down by factors of 50x and 30x respectively. These animal studies certainly seem to give results that are reasonable with a view to other known psychedelic drugs, in that mescaline was down from DOM by a factor of more than 1000x, and LSD was some 33x more potent than DOM.",
+      "animal_assay_comparison": {
+        "assay_type": "Rabbit rectal hyperthermia",
+        "purpose": "Calculates psychedelic potential by body temperature influence",
+        "results_relative_to_DOM": {
+          "PARA_DOT_ALEPH": "About half as active as DOM",
+          "ORTHO_DOT": "Down by factor of 50x",
+          "META_DOT": "Down by factor of 30x",
+          "mescaline": "Down by factor of more than 1000x",
+          "LSD": "33x more potent than DOM"
+        }
+      },
+      "shulgin_opinion_on_assay": {
+        "view": "Somewhat jaundiced",
+        "objection": "Pushing thermocouples into the rear ends of restrained rabbits somehow does not appeal to me",
+        "preference": "I would rather determine both of these parameters from human studies"
+      },
+      "related_compounds": {
+        "PARA_DOT": "ALEPH-1 or ALEPH - the most interesting isomer",
+        "ORTHO_DOT": "Also way down in activity"
+      },
+      "key_themes": [
+        "positional_isomers",
+        "animal_assays",
+        "potency_comparisons",
+        "ethics_of_animal_testing",
+        "human_vs_animal_studies"
+      ],
+      "notable_quotes": [
+        "It is apparent that the activity of META-DOT is going to be way down from the most interesting of these isomers, PARA-DOT.",
+        "I have a somewhat jaundiced view of this rabbit rectal hyperthermia business.",
+        "The concept of pushing thermocouples into the rear ends of restrained rabbits somehow does not appeal to me.",
+        "I would rather determine both of these parameters from human studies."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 126,
+      "code": "METHYL-DMA",
+      "chemical_name": "N-methyl-2,5-dimethoxyamphetamine",
+      "extensions_and_commentary": "This is a difficult compound to pin down in the anthology of drugs. For some reason it has intrigued several independent, quiet researchers, and I have accumulated a number of interesting reports over the years. One person told me that he had felt nothing at up to 60 milligrams. Another had found a threshold at 50 milligrams, and had complete and thorough experiences at both 150 and 200 milligrams. Yet another person described two incidents involving separate individuals, with intravenous administrations of 0.2 mg/Kg, which would be maybe 15 or 20 milligrams. Both claimed a real awareness in a matter of minutes, one with a tingling in the genitalia and the other with a strange presence in the spine. Both subjects reported increases in body temperature and in blood pressure. Apparently the effects were felt to persist for many hours.",
+      "dosage_reports": {
+        "oral_inactive": "Up to 60 mg - nothing felt (one person)",
+        "oral_threshold": "50 mg threshold, 150-200 mg complete experiences (another person)",
+        "intravenous": "0.2 mg/Kg (15-20 mg) - real awareness in minutes",
+        "IV_effects": ["Tingling in genitalia", "Strange presence in spine", "Increased body temperature", "Increased blood pressure"],
+        "duration": "Effects persisted for many hours"
+      },
+      "methoxyphenamine_connection": {
+        "drug_name": "Methoxyphenamine (Orthoxine by Upjohn)",
+        "structure": "2-methoxy-N-methylamphetamine",
+        "use": "Bronchodilator for asthma and allergenic conditions",
+        "typical_dosage": "Perhaps 100 milligrams, several times a day",
+        "side_effects": "No changes in blood pressure, only slight cardiac stimulation",
+        "major_metabolite": "5-hydroxy-2-methoxy-N-methylamphetamine",
+        "metabolite_relationship": "Just a methyl group away from METHYL-DMA - could be methylated to complete synthesis, or METHYL-DMA could be demethylated to form this phenol"
+      },
+      "metabolic_intersection_insight": "It is always intriguing when drugs which show distinctly different actions can, in principle, intersect metabolically at a single structure. One wonders just what the pharmacology of that common intermediate might be.",
+      "related_N_methyl_compounds": {
+        "METHYL_TMA": {
+          "name": "N-methyl-3,4,5-trimethoxyamphetamine",
+          "max_tested": "240 mg",
+          "effects": "Some mental disturbances only at highest level"
+        },
+        "METHYL_TMA_2": {
+          "name": "N-methyl-2,4,5-trimethoxyamphetamine",
+          "max_tested": "120 mg",
+          "effects": "Without any effects"
+        },
+        "METHYL_TMA_6": {
+          "name": "N-methyl-2,4,6-trimethoxyamphetamine",
+          "max_tested": "30 mg",
+          "effects": "Apparently without effects"
+        },
+        "synthesis_method": "Reduction of formamide of parent primary amine with LAH",
+        "source": "Personal correspondence, not personal experience"
+      },
+      "general_pattern": "With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained.",
+      "key_themes": [
+        "variable_responses",
+        "independent_researchers",
+        "metabolic_intersections",
+        "N_methylation_effects",
+        "bronchodilator_connection",
+        "unpublished_research"
+      ],
+      "notable_quotes": [
+        "This is a difficult compound to pin down in the anthology of drugs.",
+        "For some reason it has intrigued several independent, quiet researchers.",
+        "It is always intriguing when drugs which show distinctly different actions can, in principle, intersect metabolically at a single structure.",
+        "One wonders just what the pharmacology of that common intermediate might be.",
+        "With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 127,
+      "code": "METHYL-DOB",
+      "chemical_name": "N-methyl-2,5-dimethoxy-4-bromoamphetamine",
+      "extensions_and_commentary": "The mention above, of the 10 milligrams of METHYL-DOB followed by 5 milligrams of psilocybin, leads to some interesting speculation. The usual pattern that is seen when two psychedelic drugs are taken too closely together is that the second experience is less effective than would have been expected. This is the property that is called tolerance, and it is frequently seen in pharmacology. The two exposures may be to a single drug, or they may be to two different drugs which usually have some properties in common. It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate. When there is a demand for a repeat of full effectiveness, the user will customarily increase the dosage of the drug that is used. It is one of the built-in protections, in the area of psychedelics that, after one experience, you must wait for a period of time to lose the refractoriness that has set in.",
+      "tolerance_explanation": {
+        "definition": "Second experience less effective than expected when drugs taken too closely together",
+        "mechanism_metaphor": "As if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate",
+        "user_response": "Customarily increase dosage for repeat full effectiveness",
+        "built_in_protection": "After one experience, must wait to lose refractoriness"
+      },
+      "cross_tolerance_concept": {
+        "definition": "Measure of degree of tolerance shared between different drugs",
+        "use": "Estimate of similarities of mechanisms of action",
+        "example_similar": "If A and B seen as similar by body, normally effective dose of A makes next-day dose of B weaker",
+        "example_different": "If drugs different in mechanisms, often no cross-tolerance",
+        "MDMA_MDA_example": "Person tolerant to MDMA had normal response to MDA - drugs not cross-tolerant, body recognizes them as distinct individuals"
+      },
+      "potentiation_phenomenon": {
+        "definition": "One drug promotes or exaggerates effect of another",
+        "significance": "Can be clue to dynamics in brain or body",
+        "METHYL_DOB_psilocybin": "METHYL-DOB somehow sensitized subject to light dosage of psilocybin",
+        "dextro_DOM_hashish": "Inactive dextro-isomer of DOM followed by severe reaction to 'poor' hashish",
+        "TOMSO_alcohol": "Inactive drug plus modest alcohol created unexpectedly intense intoxication",
+        "pattern_noted": "In each case, phenethylamine interacting with non-phenethylamine (psilocybin=indole, hashish=terpene, alcohol)"
+      },
+      "conclusion": "The bottom line with METHYL-DOB is, as with the other N-methylated psychedelics, that it is way down in potency, and probably not worth pursuing.",
+      "key_themes": [
+        "tolerance",
+        "cross_tolerance",
+        "potentiation",
+        "drug_interactions",
+        "N_methylation_reduces_potency",
+        "phenethylamine_nonphenethylamine_interactions"
+      ],
+      "notable_quotes": [
+        "It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate.",
+        "It is one of the built-in protections, in the area of psychedelics that, after one experience, you must wait for a period of time to lose the refractoriness that has set in.",
+        "The drugs are not cross-tolerant and the body recognizes them as distinct individuals.",
+        "The bottom line with METHYL-DOB is, as with the other N-methylated psychedelics, that it is way down in potency, and probably not worth pursuing."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 128,
+      "code": "METHYL-J",
+      "chemical_name": "N-methyl-1-(1,3-benzodioxol-5-yl)-2-butanamine",
+      "alternate_names": ["MBDB"],
+      "extensions_and_commentary": "An observer who was familiar with the outwardly apparent effects with groups experimenting with MDMA felt that, although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug. The dosage range explored is remarkably tight, attesting to a consistency of response. The typical supplement used, if any, was 70 milligrams or less, just before the two hour point. This indicates a chronology similar to that of MDMA, and about two thirds the potency.",
+      "comparison_to_MDMA": {
+        "favorable_comments": "Most subjects commented favorably",
+        "lacking": "Some of the spontaneity, the warmth, and the clear intimacy",
+        "dosage_consistency": "Remarkably tight range, attesting to consistency of response",
+        "supplement": "70 mg or less, just before two hour point",
+        "chronology": "Similar to MDMA",
+        "relative_potency": "About two thirds the potency of MDMA"
+      },
+      "muni_metro_naming_system": {
+        "context": "San Francisco Municipal Metropolitan System - underground streetcar connecting to bus network",
+        "streetcar_lines": {
+          "J": "Church Street line",
+          "K": "Ingelside line",
+          "L": "Taraval line",
+          "M": "Ocean line",
+          "N": "Judah line"
+        },
+        "pharmacological_naming": {
+          "H_compounds": "No alpha-substituent (phenethylamines) - H for 'homopiperonylamine'",
+          "I_compounds": "One carbon at alpha (already known as MDA, MDMA, MDE)",
+          "J_compounds": "Alpha-ethyl group (two carbons) - from 'Jacobamine' after famous chemist",
+          "K_compounds": "Three-carbon propyl group at alpha",
+          "L_compounds": "Four-carbon butyl group at alpha"
+        },
+        "logic": "One carbon is precisely half-way between no carbons and two carbons, and I is half-way between H and J",
+        "prefixes": "METHYL- and ETHYL- for N-substituted versions"
+      },
+      "key_themes": [
+        "MDMA_comparison",
+        "entactogens",
+        "Muni_Metro_naming",
+        "dosage_consistency",
+        "alpha_chain_extension"
+      ],
+      "notable_quotes": [
+        "Although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug.",
+        "The dosage range explored is remarkably tight, attesting to a consistency of response.",
+        "It is quite obvious, that with one carbon atom lying on that alpha-position, you are precisely half-way between no carbons and two carbons."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 129,
+      "code": "METHYL-K",
+      "chemical_name": "N-methyl-1-(1,3-benzodioxol-5-yl)-2-pentanamine",
+      "extensions_and_commentary": "The well appears to be running dry, with a pentane chain as a basic skeleton. METHYL-J, at this level, was already showing a number of hints and clues, largely physical such as coldness in the feet and a slight mastoidal pressure, that activity was right around the corner. But METHYL-K gave no such hints. The unmethylated homologue, 2-amino-1-(3,4-methylenedioxyphenyl)pentane (K), was also made, by the reductive amination of 1-(3,4-methylene-dioxyphenyl)-2-pentanone with ammonium acetate and sodium cyanoborohydride in methanol. It was a white crystalline solid, mp 202-203 C, but is given here in the comments only, as its human assaying had never even been initiated.",
+      "activity_assessment": {
+        "METHYL_J_hints": "Coldness in feet, slight mastoidal pressure - activity right around the corner",
+        "METHYL_K_result": "Gave no such hints",
+        "conclusion": "The well appears to be running dry with pentane chain"
+      },
+      "compound_K": {
+        "name": "2-amino-1-(3,4-methylenedioxyphenyl)pentane",
+        "synthesis": "Reductive amination of 1-(3,4-methylenedioxyphenyl)-2-pentanone with ammonium acetate and sodium cyanoborohydride in methanol",
+        "appearance": "White crystalline solid",
+        "melting_point": "202-203 C",
+        "human_trials": "Never even been initiated",
+        "note": "Given in comments only, no separate recipe"
+      },
+      "L_series_compounds": {
+        "description": "Six-carbon hexyl chain - end of the Taraval line",
+        "ketone_precursor": {
+          "name": "1-(3,4-methylenedioxyphenyl)-2-hexanone",
+          "synthesis": "Grignard of n-amyl bromide with piperonal → 1-hydroxy-1-(3,4-methylenedioxyphenyl)hexane → dehydration with potassium bisulfate → olefin → oxidation with hydrogen peroxide and formic acid",
+          "appearance": "Orange-colored liquid",
+          "bp": "125-135 C at 0.3 mm/Hg"
+        },
+        "L": {
+          "name": "2-amino-1-(3,4-methylenedioxyphenyl)hexane hydrochloride",
+          "synthesis": "Reductive amination with ammonium acetate and sodium cyanoborohydride in methanol",
+          "appearance": "White crystalline product",
+          "mp": "157-158 C"
+        },
+        "METHYL_L": {
+          "name": "2-methylamino-1-(3,4-methylenedioxyphenyl)hexane hydrochloride",
+          "synthesis": "Reductive amination with methylamine hydrochloride and amalgamated aluminum in isopropanol",
+          "appearance": "White crystalline product",
+          "mp": "139-141 C"
+        },
+        "ETHYL_L": {
+          "name": "2-ethylamino-1-(3,4-methylenedioxyphenyl)hexane",
+          "synthesis": "Similar reduction with ethylamine hydrochloride"
+        },
+        "human_trials": "None of this series has yet been explored either as psychedelic or entactogenic materials"
+      },
+      "key_themes": [
+        "diminishing_returns",
+        "chain_length_limits",
+        "Muni_Metro_series",
+        "unexplored_compounds",
+        "synthesis_documentation"
+      ],
+      "notable_quotes": [
+        "The well appears to be running dry, with a pentane chain as a basic skeleton.",
+        "METHYL-J, at this level, was already showing a number of hints and clues... that activity was right around the corner. But METHYL-K gave no such hints.",
+        "None of this series has yet been explored either as psychedelic or entactogenic materials."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 130,
+      "code": "METHYL-MA",
+      "chemical_name": "4-methoxy-N-methylamphetamine",
+      "alternate_names": ["Doonesamine", "RDOONES"],
+      "extensions_and_commentary": "Why would there be interest in this particular compound? The track record from the comparison of active compounds that are primary amines, and their N-methyl homologues, has shown that, in general, the stimulant component might be maintained, but the 'psychedelic' contribution is generally much reduced. MDMA is, of course, an exception, but then, that particular compound is a one-of-a-kind thing which simply defies all the rules anyway, and I drop it from this kind of reasoning. And as 4-MA is a pretty pushy stimulant with little if any sensory sparkle, why bother with the N-methyl compound at all?",
+      "doonesbury_connection": {
+        "reason": "For a completely silly and romantic reason",
+        "date": "August 19, 1985",
+        "cartoonist": "Gary Trudeau",
+        "context": "MDMA story became front-page news mid-1985, two-week Doonesbury feature",
+        "strip_content": {
+          "setting": "Duke, president of Baby Doc College",
+          "characters": "Drug design team from USC - brilliant twins Drs. Albie and Bunny Gorp",
+          "drug_name": "Intensity",
+          "claim": "MDMA with one of the two oxygens removed - 'Legal as sea salt'",
+          "promised_effect": "Should give the illusion of substance to one's alter ego"
+        },
+        "shulgin_naming": "Called it Doonesamine, or simply RDOONES",
+        "dune_reference": "Maybe also a homonym for Frank Herbert's 'Dune' - magical drug 'spice' providing remarkable alteration of consciousness"
+      },
+      "designer_drugs_origin": {
+        "significance": "First nationally distributed allusion to the term 'designer drugs'",
+        "consequence": "Perhaps lent unexpected support for passage of Controlled Substances Analogue Enforcement Act of 1986",
+        "shulgin_critique": "This intentionally vague piece of legislation makes the giving of, or the taking of, or even the possession with the intent to take, any drug that in any way alters your state of consciousness, a felony. A shameful and desperate effort by the governmental authorities to maintain the image of control in a lost situation."
+      },
+      "animal_studies": {
+        "species": "Mice and rats",
+        "finding": "Exceptionally potent agent in creating catatonia",
+        "other_effects": "Locomotor stimulation and some central effects, but somehow different than simple amphetamine-like agent",
+        "researcher_conclusion": "Human experimentation should be discouraged due to structural resemblance to 4-MA, proclivity to produce catatonia, and possibility of unsuspected neurochemical changes"
+      },
+      "shulgin_conclusion": "I have come to the same conclusion, but in my case this is based on a much more succinct observation: I tried it and I didn't like it.",
+      "dimethyl_homologues": {
+        "4_MNNA": {
+          "name": "4-methoxy-N,N-dimethylamphetamine",
+          "synthesis": "Reductive amination of 4-methoxyphenylacetone with dimethylamine",
+          "appearance": "Colorless oil",
+          "bp": "70-85 C at 0.3 mm/Hg",
+          "fluorination": "3% yield with 18F labelled acetyl hypofluorite"
+        },
+        "2_MNNA": {
+          "name": "2-methoxy-N,N-dimethylamphetamine",
+          "synthesis": "Similarly made",
+          "appearance": "Colorless oil",
+          "bp": "Same as 4-MNNA",
+          "fluorination": "6% yield",
+          "purpose": "Brain blood flow indicator research - not pursued further"
+        }
+      },
+      "key_themes": [
+        "Doonesbury_cultural_moment",
+        "designer_drugs_legislation",
+        "N_methylation_effects",
+        "catatonia_in_animals",
+        "personal_negative_experience",
+        "Dune_reference"
+      ],
+      "notable_quotes": [
+        "MDMA is, of course, an exception, but then, that particular compound is a one-of-a-kind thing which simply defies all the rules anyway.",
+        "For a completely silly and romantic reason.",
+        "Voila. Legal as sea salt.",
+        "A shameful and desperate effort by the governmental authorities to maintain the image of control in a lost situation.",
+        "I tried it and I didn't like it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 131,
+      "code": "METHYL-MMDA-2",
+      "chemical_name": "N-methyl-2-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "With the effective dosage of the unmethylated homologue being the range of 25 to 50 milligrams, this N-methyl compound is, as with the other N-methylated materials discussed here, again of reduced activity. The highest dose yet reported was 70 milligrams, and there is no way of estimating what might be an active level nor, once there, what the quality of the effects might be.",
+      "dosage_info": {
+        "parent_compound_MMDA_2": "25-50 mg effective",
+        "highest_tested": "70 mg",
+        "assessment": "No way of estimating active level or quality of effects"
+      },
+      "related_compound_METHYL_DMMDA": {
+        "alternate_name": "DMMDMA",
+        "synthesis": {
+          "starting_material": "Isoapiole",
+          "oxidation": "Formic acid and hydrogen peroxide",
+          "ketone": "2,5-dimethoxy-3,4-methylenedioxyphenylacetone, mp 75-76 C from methanol",
+          "amination": "Reductive amination with methylamine and amalgamated aluminum",
+          "product": "2,5-dimethoxy-N-methyl-3,4-methylenedioxyamphetamine hydrobromide monohydrate",
+          "appearance": "White crystalline solid",
+          "mp": "91-92 C",
+          "hydrochloride": "Hygroscopic solid"
+        },
+        "status": "Not yet launched into evaluation program",
+        "predicted_dosage": "Might be over 100 milligrams"
+      },
+      "underground_chemists_tribute": "I feel quite sure that the answers may be known in the near future. There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories. They are truly the astronauts of inner space.",
+      "key_themes": [
+        "N_methylation_reduces_activity",
+        "unexplored_compounds",
+        "underground_researchers",
+        "astronauts_of_inner_space"
+      ],
+      "notable_quotes": [
+        "This N-methyl compound is, as with the other N-methylated materials discussed here, again of reduced activity.",
+        "There is no way of estimating what might be an active level nor, once there, what the quality of the effects might be.",
+        "There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories.",
+        "They are truly the astronauts of inner space."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 132,
+      "code": "MMDA",
+      "chemical_name": "3-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The phrase that had been used by several of the subjects in the early trials with MMDA, again and again, was 'brain movies.' Apparently the richest of the effects were to be had with the eyes closed. This is the compound that I had first completed in 1962, and had named it MMDA, and had begun the exploring of it when I heard that Dr. Gordon A. Alles, a professor of pharmacology at U. C. L. A. who had his own private laboratory in Los Angeles, had also synthesized it in 1962, had also named it MMDA, and had also begun exploring it. We made a date to meet and share ideas, and then he died, at the age of 62, in 1963.",
+      "characteristic_effects": {
+        "phrase": "Brain movies",
+        "best_conditions": "Eyes closed",
+        "quality": "Richest effects"
+      },
+      "historical_discovery": {
+        "shulgin_completion": "1962",
+        "parallel_discovery": {
+          "researcher": "Dr. Gordon A. Alles",
+          "position": "Professor of pharmacology at UCLA",
+          "location": "Private laboratory in Los Angeles",
+          "year": "1962",
+          "same_name": "Also named it MMDA",
+          "tragic_end": "Died at age 62 in 1963 before they could meet and share ideas"
+        }
+      },
+      "nutmeg_connection": {
+        "theory": "Might be contributing factor to pharmacology of nutmeg",
+        "major_oil": "Myristicin",
+        "conversion": "Passage of myristicin through liver of rabbit generates MMDA",
+        "structural_difference": "Only elements of ammonia - myristicin + ammonia = MMDA",
+        "other_source": "Oil of Parsley (also excellent source of apiole)",
+        "1960s_rumor": "Parsley could get you high - probably from reports of myristicin presence + MMDA connection",
+        "classification": "Essential Amphetamine"
+      },
+      "legal_history": {
+        "timing": "Mid-1960s FDA proclamation of dangerous drugs",
+        "status_then": "Being talked about, just became commercially available in England through Koch Light Industries",
+        "street_presence": "Never appeared on the street",
+        "assessment": "Swept into listings of evil drugs simply a coincidence of bad timing"
+      },
+      "MMDA_vs_MDMA_confusion": "The close resemblance of initials between MMDA, and the currently notorious MDMA, has led to no small amount of confusion in the popular press. They remain totally separate and completely different drugs.",
+      "key_themes": [
+        "brain_movies",
+        "parallel_discovery",
+        "Gordon_Alles",
+        "nutmeg_pharmacology",
+        "myristicin_metabolism",
+        "Essential_Amphetamine",
+        "MMDA_MDMA_confusion"
+      ],
+      "notable_quotes": [
+        "The phrase that had been used by several of the subjects in the early trials with MMDA, again and again, was 'brain movies.'",
+        "We made a date to meet and share ideas, and then he died, at the age of 62, in 1963.",
+        "It has been reported that the passage of this oil through the liver of a rabbit will generate MMDA in that animal.",
+        "A rumor that had currency in the 1960's, that parsley could get you high, probably had its origins in the reports of myristicin being present.",
+        "They remain totally separate and completely different drugs."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 133,
+      "code": "MMDA-2",
+      "chemical_name": "2-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "A comparison of this material to MDA was often made by subjects who were familiar with both. But it is hard to separate that which is intellectualized from that which is felt. An awareness of the chemical structure immediately shows, of course, the close resemblance. There is the complete MDA molecule, with the addition of a methoxy group. And for the non-chemist, the name itself (MMDA-2) represents the second possible methoxy-MDA. Certainly one property that is shared with MDA is the broad variety of opinions as to the quality of its action. Some like it much, and some like it not at all. The N-methyl homologue was indeed made, for direct evaluation in comparison to N-methyl MDA (which is MDMA).",
+      "MDA_comparison": {
+        "structural_relationship": "Complete MDA molecule with addition of methoxy group",
+        "naming": "Second possible methoxy-MDA",
+        "shared_property": "Broad variety of opinions - some like it much, some not at all",
+        "intellectual_vs_felt": "Hard to separate that which is intellectualized from that which is felt"
+      },
+      "phenethylamine_analog_2C_2": {
+        "synthesis": "Condensation of benzaldehyde with nitromethane (acetic acid, ammonium acetate catalyst)",
+        "nitrostyrene": "Deep orange crystals, mp 166-167 C from ethyl acetate",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "2-methoxy-4,5-methylenedioxyphenethylamine hydrochloride",
+        "mp": "218-219 C",
+        "trials": "No effects at up to 2.6 mg, no higher trials made"
+      },
+      "four_carbon_analog_4C_2": {
+        "synthesis": "Aldehyde + nitropropane with tert-butylammonium acetate (100% excess) in isopropanol",
+        "nitrostyrene": "Orange crystals, mp 98-99 C from methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "1-(2-methoxy-4,5-methylenedioxyphenyl)-2-aminobutane hydrochloride",
+        "mp": "172-174 C",
+        "status": "Never even been tasted"
+      },
+      "tweetio_homologue_EMDA_2": {
+        "name": "2-ethoxy-4,5-methylenedioxyamphetamine",
+        "synthesis": "Allyl ether of sesamol rearranged to 2-allyl phenol, converted to ethyl ether, reaction with tetranitromethane",
+        "nitrostyrene_mp": "120-121 C",
+        "final_hydrochloride_mp": "188-188.5 C",
+        "effects_135mg": "Eyes-closed visual phenomena with intense colors",
+        "effects_185mg": "Intensified feelings, 'marvelous eyes-closed visuals (the colors were incredible)', good concentration, distinct body-tingles and rushes",
+        "duration": "About 12 hours, impossible to sleep afterwards",
+        "relative_potency": "About a third the potency of MMDA-2"
+      },
+      "key_themes": [
+        "MDA_structural_relationship",
+        "variable_opinions",
+        "phenethylamine_analogs",
+        "Tweetio_homologues",
+        "visual_phenomena"
+      ],
+      "notable_quotes": [
+        "It is hard to separate that which is intellectualized from that which is felt.",
+        "Certainly one property that is shared with MDA is the broad variety of opinions as to the quality of its action. Some like it much, and some like it not at all.",
+        "This material has never even been tasted.",
+        "The colors were incredible."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 134,
+      "code": "MMDA-3a",
+      "chemical_name": "2-methoxy-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The term MMDA-3a has the feel of being complicated, but there is a reason for the code. As had been mentioned, MMDA was the initials for methoxy (the M) methylenedioxy (the MD) amphetamine (the A). And with a molecule of amphetamine there are six ways of sticking these two groupings on the aromatic ring. The numbers 1-6 had already been assigned to the six ways of sticking three methoxyl groups onto an amphetamine molecule (with the trimethoxyamphetamines, the TMA's) and I decided to hew to the same convention with the methylenedioxy counterparts.",
+      "naming_explanation": {
+        "MMDA_breakdown": "Methoxy (M) + Methylenedioxy (MD) + Amphetamine (A)",
+        "six_positions": "Six ways of sticking two groupings on aromatic ring",
+        "TMA_convention": "Numbers 1-6 assigned to trimethoxyamphetamines",
+        "two_number_3s": "Methoxy and methylenedioxy can go onto three oxygens in a row in two different ways",
+        "no_number_6": "Methylenedioxy must have two adjacent oxygens, none in 2,4,6-orientation of TMA-6",
+        "a_and_b_distinction": "With two possible MMDA-3's, naming one 'a' and other 'b' becomes essential"
+      },
+      "natural_source": {
+        "essential_oil": "Croweacin (1-allyl-2-methoxy-3,4-methylenedioxybenzene)",
+        "classification": "Essential Amphetamine - can arise by amination in liver in vivo",
+        "practical_note": "Croweacin is certainly not a practical starting material in synthesis"
+      },
+      "clinical_reports": {
+        "source": "Number of clinical trials at higher levels, details sketchy",
+        "trials_80mg": "Three trials",
+        "trials_100mg": "One trial",
+        "comparison": "Both quantity and quality compared to 100 micrograms of LSD",
+        "concerning_events": {
+          "event_1": "One subject had spontaneous peak experience five days after experiment",
+          "event_2": "Another made symbolic suicide attempt",
+          "caveat": "May or may not be related to trials"
+        }
+      },
+      "phenethylamine_analog_2C_3a": {
+        "synthesis": "7.6g benzaldehyde + nitromethane (acetic acid, ammonium acetate)",
+        "nitrostyrene": "5.4g, mp 115.5-116.5 C from methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "2-methoxy-3,4-methylenedioxyphenethylamine hydrochloride",
+        "mp": "143-145 C",
+        "effects": {
+          "40mg": "Perhaps hint of psychic energizer",
+          "65mg": "Pleasant mood elevation",
+          "80mg": "Brief paresthetic twinge at 1.5 hours",
+          "120mg": "About the same at one hour, then nothing"
+        },
+        "observation": "Modest change over three-fold dose range suggests merit as anti-depressant",
+        "question": "Would be interesting to know if it blocks serotonin reuptake!"
+      },
+      "four_carbon_analog_4C_3a": {
+        "synthesis": "Aldehyde + nitropropane with tert-butylammonium acetate (100% excess) in isopropanol",
+        "nitrostyrene": "Bright yellow crystals, mp 105.5-106.5 C from 25 volumes boiling methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "1-(2-methoxy-3,4-methylenedioxyphenyl)-2-aminobutane hydrochloride",
+        "mp": "183-185 C with prior sintering at 173 C",
+        "trials": "Tasted at up to 3.5 mg with nothing noted, no higher trials"
+      },
+      "key_themes": [
+        "naming_system_explanation",
+        "Essential_Amphetamine",
+        "croweacin",
+        "LSD_comparison",
+        "delayed_effects",
+        "antidepressant_potential"
+      ],
+      "notable_quotes": [
+        "The term MMDA-3a has the feel of being complicated, but there is a reason for the code.",
+        "With two possible MMDA-3's it becomes reasonable, in fact essential, to name one of them 'a' and the other 'b'.",
+        "One subject had a spontaneous peak experience five days after the experiment, and another made a symbolic suicide attempt.",
+        "The fact that there can be such a modest change of effect over a three-fold range of dosage suggests that this compound might have some merit as an anti-depressant.",
+        "It would be interesting to know if it blocks serotonin reuptake!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 135,
+      "code": "MMDA-3b",
+      "chemical_name": "3-methoxy-2,3-methylenedioxyamphetamine",
+      "extensions_and_commentary": "And that's all there is known as to the activity of MMDA-3b in man. Very, very little. Nothing has ever been tried in excess of 80 milligrams that I know of, and the above trials were made over 20 years ago. There can be little argument that the 3b is less effective than the 3a, but no one can say by how much. The literature statement is that it is threefold less, but that was based on the relative responses at just-above-threshold levels. The effects here are hand-wavingly similar to those reported for MMDA-3a at 20 milligrams, but these are difficult to compare accurately as they were reported by different people. There have been absolutely no animal studies reported with MMDA-3b in the scientific literature. And neither the 2-carbon nor the 4-carbon analogues of MMDA-3b has even been prepared.",
+      "knowledge_status": {
+        "assessment": "Very, very little known",
+        "max_dose_tried": "80 milligrams",
+        "when": "Over 20 years ago",
+        "animal_studies": "Absolutely none reported in scientific literature",
+        "analogs": "Neither 2-carbon nor 4-carbon analogues even prepared"
+      },
+      "comparison_to_3a": {
+        "relative_potency": "3b less effective than 3a",
+        "literature_claim": "Threefold less",
+        "basis": "Relative responses at just-above-threshold levels",
+        "comparison_difficulty": "Effects hand-wavingly similar to MMDA-3a at 20mg but reported by different people"
+      },
+      "MMDA_5_isomer": {
+        "structure": "2,3,6-isomer (6-methoxy-2,3-methylenedioxyamphetamine)",
+        "synthesis_flow": "Sesamol → methylated with methyl iodide → aldehyde via butyllithium and N-methylformanilide → nitrostyrene with nitroethane → reduction with LAH in ether",
+        "reports": {
+          "30mg": "Modestly active but not particularly pleasant",
+          "15mg": "Tried but effects not mentioned"
+        },
+        "personal_experience": "I have not tried it myself",
+        "mescaline_comparison_story": {
+          "pressure": "Succumbed to pressure of experimental pharmacologists for 'Y-axis' number",
+          "reasoning": "If active at 30mg and mescaline at 300mg, why not say 10x activity of mescaline?",
+          "confidence": "I have absolutely no confidence in that number"
+        }
+      },
+      "MMDA_4_mystery": {
+        "status": "Nothing known at all - compound itself is unknown",
+        "reason": "No one has yet found a way of making it",
+        "related_to": "TMA-4 analogue"
+      },
+      "key_themes": [
+        "sparse_data",
+        "relative_potency",
+        "unmade_compounds",
+        "arbitrary_numbers",
+        "unknown_chemistry"
+      ],
+      "notable_quotes": [
+        "And that's all there is known as to the activity of MMDA-3b in man. Very, very little.",
+        "There can be little argument that the 3b is less effective than the 3a, but no one can say by how much.",
+        "There have been absolutely no animal studies reported with MMDA-3b in the scientific literature.",
+        "So I said to myself, if this is active at 30 milligrams, and mescaline is active at 300 milligrams, why not say that it is 10x the activity of mescaline? So I did. But I have absolutely no confidence in that number.",
+        "No one has yet found a way of making it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 136,
+      "code": "MME",
+      "chemical_name": "2-methoxy-4,5-dimethoxyamphetamine",
+      "alternate_names": ["Methyl-methoxy-ethoxy positional study"],
+      "extensions_and_commentary": "This is one of the very few compounds with which I actually risked (and took) the lives of experimental animals. I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data. And I had access to an experimental mouse colony at the University.",
+      "mouse_experiments": {
+        "context": "Still impressed by scientific myth that research needed animal support data",
+        "first_mouse": {
+          "dose": "300 mg/Kg i.p.",
+          "procedure_description": "Picked up mouse by scruff, turned hand over belly-up, ring finger over hind leg, syringe with fine needle containing 8mg MME in water solution, pushed needle to where navel would be, pulled back slightly to peritoneum, pushed plunger home squirting into area surrounding intestines",
+          "observation": "Usually at this point there is a little urine evident where there had been none before",
+          "result": "Twitching clonic convulsions, dead in 5 minutes"
+        },
+        "subsequent_mice": [
+          {"dose": "175 mg/Kg", "result": "Dead in 6 minutes"},
+          {"dose": "107 mg/Kg", "result": "Dead in 5 minutes"},
+          {"dose": "75 mg/Kg", "result": "Looked sick, had shakes, then seemed OK"},
+          {"dose": "100 mg/Kg x5", "result": "Four died within 20 minutes, one survivor"}
+        ],
+        "survivor": "I took in my hands the sole survivor, and I went outside the laboratory and let him loose on the hillside. He scampered away and I never saw him again."
+      },
+      "what_was_learned": {
+        "scientific": "Maybe LD-50 somewhere around 60 or 80 mg/Kg for mice, not men",
+        "irrelevance": "Would have made no difference if LD-50 had been 600 mg/Kg or 6 mg/Kg - still took trial dose",
+        "actual_learning": "Not a damned thing",
+        "personal_trial": "Took 300 micrograms, absolutely no effects"
+      },
+      "never_again_confession": {
+        "statement": "I never killed another mouse again",
+        "correction": "No, that is simply out-and-out dishonest",
+        "field_mice_story": "Invasion last winter through hole behind garbage holder under kitchen sink, blocked hole but also set traps, caught a couple",
+        "final_position": "But never again for the simple and stupid reasons of being able to say that 'This compound has an LD-50 in the mouse of 70 mg/Kg.' Who cares? Why kill?"
+      },
+      "valuable_findings": {
+        "finding_1": "MME is an active compound warranting additional attention",
+        "finding_2": "As one of three possible ethoxy homologues of TMA-2, it is less active than MEM",
+        "finding_3": "EMM is even less active",
+        "conclusion": "Thus it is MEM, only, that maintains the potency of TMA-2",
+        "significance": "Initial observation that really focused attention on the importance of the 4-position"
+      },
+      "key_themes": [
+        "animal_experimentation_ethics",
+        "scientific_myth_debunking",
+        "LD50_meaninglessness",
+        "4_position_importance",
+        "TMA_2_homologues",
+        "moral_reckoning"
+      ],
+      "notable_quotes": [
+        "I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data.",
+        "Fired with the lust for killing, I grabbed another mouse.",
+        "I took in my hands the sole survivor, and I went outside the laboratory and let him loose on the hillside. He scampered away and I never saw him again.",
+        "And what did I learn, at the cost of seven precious lives which I can never replace? Not a damned thing.",
+        "Who cares? Why kill?",
+        "This was the initial observation that really focused my attention on the importance of the 4-position."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 137,
+      "code": "MP",
+      "chemical_name": "3,4-dimethoxy-5-propoxyphenethylamine",
+      "alternate_names": ["Metaproscaline"],
+      "extensions_and_commentary": "The loss of activity on lengthening the carbon chain on the meta-oxygen from two to three (from metaescaline to metaproscaline) discouraged any further exploration at this specific point of the molecule. The isopropyl analog (3,4-dimethoxy-5-(i)-propoxyphenethylamine, metaisoproscaline, MIP) was started and carried along as far as the aldehyde, and abandoned with the discovery that metaproscaline was without activity. There were other fish to fry.",
+      "activity_assessment": {
+        "result": "Loss of activity on lengthening carbon chain from two to three carbons",
+        "comparison": "Metaescaline → Metaproscaline",
+        "consequence": "Discouraged any further exploration at this specific point"
+      },
+      "abandoned_compound_MIP": {
+        "name": "Metaisoproscaline",
+        "full_name": "3,4-dimethoxy-5-(i)-propoxyphenethylamine",
+        "progress": "Started and carried as far as the aldehyde",
+        "fate": "Abandoned with discovery that metaproscaline was without activity"
+      },
+      "shulgin_philosophy": "There were other fish to fry.",
+      "key_themes": [
+        "chain_length_limits",
+        "abandoned_projects",
+        "meta_position_exploration",
+        "practical_research_decisions"
+      ],
+      "notable_quotes": [
+        "The loss of activity on lengthening the carbon chain on the meta-oxygen from two to three discouraged any further exploration at this specific point of the molecule.",
+        "There were other fish to fry."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 138,
+      "code": "MPM",
+      "chemical_name": "2,5-dimethoxy-4-propoxyamphetamine",
+      "extensions_and_commentary": "The 4-propoxy homologue of TMA-2 and MEM is clearly less active, and this has discouraged me from putting too much more effort in this direction. Three additional materials of this pattern were prepared and either shown to be even less active, or simply were not assayed at all. These are the 4-isopropoxy isomer (MIPM), the (n)-butoxy homologue (MBM), and the (n)-amyl homologue (MAM). They scarcely warrant separate recipes as they were all made in a manner similar to this one describing MPM.",
+      "activity_assessment": {
+        "result": "Clearly less active than TMA-2 and MEM",
+        "consequence": "Discouraged further effort in this direction"
+      },
+      "related_compounds": {
+        "MIPM": {
+          "name": "2,5-dimethoxy-4-(i)-propoxyamphetamine",
+          "synthesis": {
+            "alkylation": "2,5-dimethoxyphenol with isopropyl bromide in methanolic KOH",
+            "ether": "2,5-dimethoxy-1-(i)-propoxybenzene (oil)",
+            "aldehyde": "Vilsmeier conditions, mp 77-78 C from hexane",
+            "malononitrile": "Yellow, mp 171.5-173 C",
+            "nitrostyrene": "Orange, mp 100-101 C from methanol or hexane",
+            "reduction": "Lithium aluminum hydride in ether"
+          },
+          "product_issues": "Strange properties - soluble in acetone but not water, microanalysis low in carbon",
+          "structural_appeal": "Complete reflection symmetry between amphetamine side chain and isopropoxy side chain",
+          "status": "No assay ever started - nature of product had no appeal"
+        },
+        "MBM": {
+          "name": "4-(n)-butoxy-2,5-dimethoxyamphetamine",
+          "synthesis": {
+            "alkylation": "2-(n)-butoxy-1,4-dimethoxybenzene in methanolic KOH with n-butyl bromide",
+            "aldehyde_mp": "79.5-81 C from methanol",
+            "malononitrile_mp": "134.5-135 C",
+            "nitrostyrene_mp": "71-72 C from methanol",
+            "reduction": "LAH in ether, ether-insoluble chloroform-soluble product"
+          },
+          "product_mp": "128-130 C",
+          "integrity": "Met all tests for structural integrity",
+          "trials": "Up to 12.0 mg - no effects noted"
+        },
+        "MAM": {
+          "name": "4-(n)-amyl-2,5-dimethoxyamphetamine",
+          "synthesis": "Exact same sequence with n-amyl bromide",
+          "aldehyde_mp": "79-80 C from methanol",
+          "malononitrile": "Bright yellow, mp 103-104 C",
+          "nitrostyrene_mp": "57-58.5 C (difficult to separate from aldehyde)",
+          "product_mp": "125-127 C",
+          "trials": {
+            "dose": "Up to 16 mg",
+            "effects": "Heaviness in chest and head at 2-hour point",
+            "other": "No cardiovascular disturbance, no mydriasis",
+            "assessment": "Called inactive level, no higher tried"
+          }
+        }
+      },
+      "key_themes": [
+        "diminishing_returns",
+        "4_position_chain_length",
+        "synthesis_documentation",
+        "inactive_compounds",
+        "structure_activity_relationships"
+      ],
+      "notable_quotes": [
+        "The 4-propoxy homologue of TMA-2 and MEM is clearly less active, and this has discouraged me from putting too much more effort in this direction.",
+        "They scarcely warrant separate recipes as they were all made in a manner similar to this one.",
+        "The molecular structure had a pleasant appeal to it, with a complete reflection symmetry shown by the atoms of the amphetamine side chain and the isopropoxy side chain. But the nature of the actual product in hand had no appeal at all.",
+        "This was called an inactive level, and no higher one has yet been tried."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 139,
+      "code": "ORTHO-DOT",
+      "chemical_name": "4,5-dimethoxy-2-methylthioamphetamine",
+      "extensions_and_commentary": "This material, ORTHO-DOT, can be looked at as the sulfur homologue of TMA-2 with the sulfur atom located in place of the oxygen at the 2-position of the molecule. At what level this compound might show activity is completely unknown, but wherever that might be, it is at a dosage greater than that for the PARA-DOT isomer, ALEPH-1 (or ALEPH), which was fully active at 10 milligrams (ALEPH can be looked at as TMA-2 with the sulfur atom located in place of the oxygen at the 4-position of the molecule). A lot of variations are easily makable based on this structure, but why bother? ALEPH is the much more appealing candidate for structural manipulation.",
+      "structural_analysis": {
+        "relationship": "Sulfur homologue of TMA-2 with sulfur at 2-position instead of oxygen",
+        "comparison_to_ALEPH": "ALEPH (PARA-DOT) has sulfur at 4-position, fully active at 10mg",
+        "activity_prediction": "Unknown, but greater dosage than ALEPH required"
+      },
+      "research_priority": {
+        "variations_possible": "A lot of variations are easily makable",
+        "conclusion": "Why bother? ALEPH is the much more appealing candidate for structural manipulation"
+      },
+      "key_themes": [
+        "positional_isomers",
+        "sulfur_substitution",
+        "TMA_2_relationship",
+        "ALEPH_comparison",
+        "research_priorities"
+      ],
+      "notable_quotes": [
+        "At what level this compound might show activity is completely unknown.",
+        "A lot of variations are easily makable based on this structure, but why bother?",
+        "ALEPH is the much more appealing candidate for structural manipulation."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 140,
+      "code": "P",
+      "chemical_name": "3,5-dimethoxy-4-(n)-propoxyphenethylamine",
+      "alternate_names": ["Proscaline"],
+      "extensions_and_commentary": "There is a very early report describing the human use of proscaline tucked away in the Czechoslovakian literature that describes experiments at up to 80 milligrams. At these dosages, there were reported some difficulty with dreams, and the residual effects were still apparent even after 12 hours.",
+      "czechoslovakian_report": {
+        "dosage": "Up to 80 milligrams",
+        "effects": "Difficulty with dreams",
+        "duration": "Residual effects still apparent after 12 hours"
+      },
+      "amphetamine_homologue_3C_P": {
+        "name": "3,5-dimethoxy-4-(n)-propoxy-amphetamine",
+        "status": "Unexplored compound",
+        "synthesis_note": "Could not be achieved in parallel to P description",
+        "proposed_synthesis": "Propylation of syringaldehyde → 3,5-dimethoxy-4-(n)-propoxybenzaldehyde → coupling with nitroethane → reduction with LAH",
+        "predicted_activity": "Active psychedelic in 20-40 mg range"
+      },
+      "key_themes": [
+        "Czech_research",
+        "dream_effects",
+        "proscaline",
+        "unexplored_amphetamine_homologue"
+      ],
+      "notable_quotes": [
+        "There is a very early report describing the human use of proscaline tucked away in the Czechoslovakian literature.",
+        "At these dosages, there were reported some difficulty with dreams, and the residual effects were still apparent even after 12 hours.",
+        "I would guess it would be active, and a psychedelic, in the 20 to 40 milligram range."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 141,
+      "code": "PE",
+      "chemical_name": "3,5-dimethoxy-4-phenethyloxyphenethylamine",
+      "extensions_and_commentary": "There is not much there, so there is not much to make commentary on. This response is called a 'threshold' effect, and cannot be used to predict with any confidence just what level (if any) would produce psychological effects.",
+      "activity_assessment": {
+        "response_type": "Threshold effect",
+        "predictive_value": "Cannot be used to predict what level would produce psychological effects"
+      },
+      "BZ_nomenclature_discussion": {
+        "benzyloxy_compound": "4-benzescaline or BZ (phenylmescaline, PM)",
+        "naming_conflict_1": {
+          "name": "Quinuclidin-3-yl benzilate",
+          "context": "Chemical and biological warfare (CBW) incapacitating agent",
+          "military_stockpile": "20,000 pounds currently being stored"
+        },
+        "naming_conflict_2": "BZ also used for benzodiazepine receptors (BZ-receptors)",
+        "shulgin_decision": "Let's be awkward and misleading, and call this benzyloxy-base BZ"
+      },
+      "related_compounds": {
+        "3C_BZ": "Three-carbon analogue already described",
+        "3C_FBZ": "4-fluoro analogue mentioned",
+        "BZ_synthesis": "Made like escaline but with sodium borohydride/cobalt chloride reduction instead of catalytic hydrogenation",
+        "BZ_pharmacology": "Effective serotonin agonist, may warrant human experimentation"
+      },
+      "conclusion": "PE may be active at very high levels, and I am not sure just how to get there safely.",
+      "key_themes": [
+        "threshold_effects",
+        "nomenclature_conflicts",
+        "CBW_agents",
+        "serotonin_agonists",
+        "safety_concerns"
+      ],
+      "notable_quotes": [
+        "There is not much there, so there is not much to make commentary on.",
+        "Let's be awkward and misleading, and call this benzyloxy-base BZ.",
+        "It has been shown to be an effective serotonin agonist, and may warrant human experimentation.",
+        "PE may be active at very high levels, and I am not sure just how to get there safely."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 142,
+      "code": "PEA",
+      "chemical_name": "Phenethylamine",
+      "extensions_and_commentary": "Here is the chemical that is central to this entire book. This is the structural point of departure for every compound that is discussed here. It is the RPS in PIHKAL. It is without activity in man! Certainly not for the lack of trying, as some of the dosage trials that are tucked away in the literature (as abstracted in the 'Qualitative Comments' given above) are pretty heavy duty. Actually, I truly doubt that all of the experimenters used exactly that phrase, 'No effects,' but it is patently obvious that no effects were found. It happened to be the phrase I had used in my own notes.",
+      "central_importance": {
+        "role": "Chemical central to entire book",
+        "significance": "Structural point of departure for every compound discussed",
+        "meaning": "The RPS in PIHKAL",
+        "irony": "Without activity in man!"
+      },
+      "psychopharmacology_interest": {
+        "reasons": ["Structurally clean", "Naturally present in human fluids and tissues", "Close chemical relationship to amphetamine and neurotransmitters"],
+        "mental_illness_theories": {
+          "depression": "Levels may be decreased in urine",
+          "paranoid_schizophrenia": "Levels may be increased",
+          "stress": "Maybe also increased"
+        },
+        "clinical_findings": "Some clinicians reported intense headaches in depressives, others saw nothing",
+        "diagnostic_value": "Jury is still out"
+      },
+      "natural_occurrence": {
+        "distribution": "Throughout nature, in plants and animals",
+        "origin": "End product of phenylalanine in putrefaction of tissue",
+        "chocolate_myth": {
+          "claim": "Major component of chocolate, the love-sickness chemical",
+          "theory": "Those falling out of love are compulsive chocolate eaters trying to replenish body's loss",
+          "reality": "Voraciously metabolized to phenylacetic acid and some tyramine"
+        },
+        "illicit_connection": "Phenylacetic acid is major precursor in illicit amphetamine/methamphetamine synthesis"
+      },
+      "pharmacology": {
+        "intrinsic_property": "Stimulant",
+        "limitation": "Doesn't last long enough to express this property",
+        "reason": "Rapidly and completely destroyed in human body",
+        "solution": "Substituent groups placed on molecule avoid metabolic fate"
+      },
+      "chain_modifications_survey": {
+        "alpha_methyl": {
+          "result": "Amphetamine (phenylisopropylamine)",
+          "status": "One of richest families of psychedelic drugs, over half of Book II recipes"
+        },
+        "N_methyl_of_amphetamine": {
+          "result": "Methamphetamine",
+          "general_trend": "Quality and potency down with ring substituents",
+          "exception": "MDMA - the most remarkable"
+        },
+        "cyclopropyl": {
+          "result": "Tranylcypromine (Parnate)",
+          "properties": "MAO inhibitor, antidepressant, mild stimulant causing insomnia, restlessness, photophobia",
+          "ring_substitutions": "Not too promising, DOM analogue (DMCPA) active, mescaline analogue (TMT) inactive"
+        },
+        "one_carbon_less_benzylamine": {
+          "general": "Basically inactive nucleus",
+          "PCP_area": "Phenylcyclohexylpiperidine, ketamine - analgesics and anesthetics",
+          "benzylpiperazine": "Pure stimulant, 20-100mg, amphetamine-like",
+          "suggested_compounds": ["N-(3,4-methylenedioxybenzyl)piperazine", "2,5-dimethoxy-4-methylbenzylpiperazine"]
+        },
+        "phenylpiperazines": {
+          "3_trifluoromethylphenylpiperazine": "Active hallucinogen at 50mg sublingual or 15mg IV",
+          "3_chloro_analogue": "20-40mg oral or 8mg IV caused panic attacks in 10% but no psychedelic effects"
+        },
+        "three_carbon_chain": {
+          "parent": "Phenyl-(n)-propylamine",
+          "status": "Inactive as stimulants",
+          "piperonylacetone_confusion": {
+            "correct": "3,4-methylenedioxyphenylacetone gives MDA/MDMA",
+            "incorrect": "3,4-methylenedioxybenzylacetone gives unexplored gamma-amines"
+          }
+        },
+        "ring_tethered_chains": {
+          "2_aminobenzoindanes": "One-carbon link to ring, fair stimulants",
+          "2_aminotetralines": "Two-carbon link to ring, fair stimulants",
+          "DOM_analogues": "DOM-AI and DOM-AT made but not tried in man"
+        },
+        "N_N_dimethyl": {
+          "parent": "N,N-dimethylamphetamine",
+          "legal_status": "Scheduled drug in US",
+          "origin": "From N-methylephedrine when ephedrine became restricted",
+          "properties": "Dubious stimulant properties",
+          "ring_substituted": "Explored as iodinated brain-flow indicators, no psychedelic action"
+        }
+      },
+      "simple_phenethylamines": {
+        "MPEA": {
+          "name": "4-methoxyphenethylamine",
+          "relation": "2-carbon analog of 4-MA, cousin to DMPEA",
+          "schizophrenia_research": "Controversial, no confirmed relationship to diagnosis",
+          "activity": "No activity up to 400mg in man"
+        },
+        "4_Cl_PEA": {
+          "name": "4-chlorophenethylamine",
+          "activity": "No activity up to 500mg orally"
+        },
+        "3_MPEA": {
+          "name": "3-methoxyphenethylamine",
+          "trivia": "Edgewood Arsenal code number EA-1302",
+          "human_trials": "None reported"
+        }
+      },
+      "key_themes": [
+        "foundational_compound",
+        "inactive_parent",
+        "chocolate_myth",
+        "chain_modifications",
+        "structure_activity_relationships",
+        "metabolic_destruction"
+      ],
+      "notable_quotes": [
+        "Here is the chemical that is central to this entire book.",
+        "It is the RPS in PIHKAL. It is without activity in man!",
+        "Phenethylamine is intrinsically a stimulant, although it doesn't last long enough to express this property.",
+        "It is rapidly and completely destroyed in the human body.",
+        "The one exception, the N-methyl analogue of MDA, proved to be the most remarkable MDMA.",
+        "I truly doubt that all of the experimenters used exactly that phrase, 'No effects,' but it is patently obvious that no effects were found."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 143,
+      "code": "PROPYNYL",
+      "chemical_name": "3,5-dimethoxy-4-propargyloxyphenethylamine",
+      "alternate_names": ["Propynylescaline"],
+      "extensions_and_commentary": "No experiments have been performed that describe the action of this drug at full level. This compound does not seem to have the magic that would encourage exploration at higher levels.",
+      "activity_assessment": {
+        "status": "No full-level experiments performed",
+        "appeal": "Does not seem to have the magic that would encourage exploration at higher levels"
+      },
+      "key_themes": [
+        "unexplored_compound",
+        "lack_of_promise",
+        "propargyl_substitution"
+      ],
+      "notable_quotes": [
+        "No experiments have been performed that describe the action of this drug at full level.",
+        "This compound does not seem to have the magic that would encourage exploration at higher levels."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 144,
+      "code": "SB",
+      "chemical_name": "3,5-dimethoxy-4-butylthiophenethylamine",
+      "alternate_names": ["Symescabutyl", "4-thiobutyl-3,5-dimethoxyphenethylamine"],
+      "extensions_and_commentary": "It must be concluded that SB is 'probably' not active. There was no convincing evidence for much effect at levels that would clearly be active for mescaline. This is the kind of result that puts some potentially ambiguous numbers in the literature. One cannot say that it is inactive, for there might well be something at 400 or 800 or 1200 milligrams. But since it has been tried only up to 240 milligrams, I have used the phrase that the activity is greater than 240 milligrams. This will be interpreted by some people as saying that it is active, but only at dosages higher than 240 milligrams. What is meant, is that there was no activity observed at the highest level tried, and so if it is active, the active dose will be greater than 240 milligrams, and so the potency will be less than that of mescaline. However you phrase it, someone will misinterpret it.",
+      "activity_assessment": {
+        "conclusion": "Probably not active",
+        "evidence": "No convincing evidence for effect at mescaline-active levels",
+        "highest_tested": "240 milligrams",
+        "possibility": "Might be something at 400, 800, or 1200 mg"
+      },
+      "literature_ambiguity_problem": {
+        "statement_used": "Activity is greater than 240 milligrams",
+        "misinterpretation_1": "Some will think it's active but only at higher dosages",
+        "actual_meaning": "No activity at highest level tried, so if active, dose will be >240mg, potency less than mescaline",
+        "frustration": "However you phrase it, someone will misinterpret it"
+      },
+      "key_themes": [
+        "probably_inactive",
+        "literature_interpretation",
+        "ambiguous_reporting",
+        "mescaline_comparison"
+      ],
+      "notable_quotes": [
+        "It must be concluded that SB is 'probably' not active.",
+        "This is the kind of result that puts some potentially ambiguous numbers in the literature.",
+        "One cannot say that it is inactive, for there might well be something at 400 or 800 or 1200 milligrams.",
+        "However you phrase it, someone will misinterpret it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 145,
+      "code": "TA",
+      "chemical_name": "2,3,4,5-tetramethoxyamphetamine",
+      "extensions_and_commentary": "This is pretty thin stuff from which to go out into a world that is populated by pharmacological sharks and stake out claims as to psychedelic potency. The structure of this molecule has everything going for it. It is an overlay of TMA (active) and TMA-2 (even more active) so it is completely reasonable that it should be doing something at a rational dosage. But that dosage might well be in the many tens of milligrams.",
+      "structural_analysis": {
+        "promise": "Structure has everything going for it",
+        "relationship": "Overlay of TMA (active) and TMA-2 (even more active)",
+        "expectation": "Completely reasonable it should do something at rational dosage",
+        "predicted_dosage": "Might be in the many tens of milligrams"
+      },
+      "tens_of_milligrams_essay": {
+        "topic": "The art of assigning exact or fuzzy numbers to collections",
+        "latin_greek_rules": {
+          "latin_stem_latin_prefix": "Latus (side) → unilateral, bilateral, trilateral, quadrilateral, multilateral",
+          "greek_stem_greek_prefix": "Hedra (face) → monohedron, dihedron, trihedron, tetrahedron, polyhedron"
+        },
+        "poly_note": "Initially Greek, wandered East to West, ended up Latin as well",
+        "undefined_number_terms": ["Some", "Several", "Few", "Number of", "Numerous", "Handful"],
+        "collective_nouns": "Pride of lions, host of daffodils",
+        "oligo_prefix": {
+          "meaning": "A few, not a lot, not sure how many",
+          "example": "Oligopeptide - a few peptide units, not sure how many"
+        },
+        "british_stone": "Weight dimension of about 14 pounds, used to hide physical weight with modesty"
+      },
+      "essential_amphetamine_status": "Since 1-allyl-2,3,4,5-tetramethoxybenzene is one of ten essential oils, amination would make TA one of the Ten Essential Amphetamines",
+      "key_themes": [
+        "TMA_overlay",
+        "fuzzy_numbers",
+        "linguistic_precision",
+        "oligo_prefix",
+        "Essential_Amphetamine",
+        "pharmacological_sharks"
+      ],
+      "notable_quotes": [
+        "This is pretty thin stuff from which to go out into a world that is populated by pharmacological sharks and stake out claims as to psychedelic potency.",
+        "It is an overlay of TMA (active) and TMA-2 (even more active) so it is completely reasonable that it should be doing something.",
+        "I love the British modesty that is shown by hiding a person's physical weight by referring to it with the dimension known as the stone.",
+        "An oligopeptide means that there are a few peptide units, I'm not sure how many. This may well be the most accurate description of just what you have."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 146,
+      "code": "3-TASB",
+      "chemical_name": "3-thio-asymbescaline",
+      "extensions_and_commentary": "No pharmacological agent has an action that is pure this or pure that. Some pain-killing narcotics can produce reverie and some sedatives can produce paranoia. And just as surely, some psychedelics can produce stimulation. With 3-TASB we may be seeing the shift from sensory effects over to out-and-out stimulation. It would be an interesting challenge to take these polyethylated phenethylamines and assay them strictly for their amphetamine-like action. Sadly, the potencies are by and large so low, that the human animal can't be used, and any sub-human experimental animal would not enable the psychedelic part of the equation to be acknowledged. If an order of magnitude of increased potency could be bought by some minor structural change, this question could be addressed. Maybe as the three-carbon amphetamine homologs, or as the 2,4,5- or 2,4,6- substitution patterns, rather than the 3,4,5-pattern used in this set.",
+      "pharmacological_observation": {
+        "principle": "No pharmacological agent has pure action",
+        "examples": ["Pain-killing narcotics can produce reverie", "Sedatives can produce paranoia", "Psychedelics can produce stimulation"],
+        "3_TASB_case": "May be seeing shift from sensory effects to out-and-out stimulation"
+      },
+      "research_challenge": {
+        "proposal": "Assay polyethylated phenethylamines strictly for amphetamine-like action",
+        "problem": "Potencies too low for human animal",
+        "limitation": "Sub-human animals can't acknowledge psychedelic part of equation"
+      },
+      "potential_solutions": {
+        "goal": "Order of magnitude increased potency through minor structural change",
+        "possibilities": [
+          "Three-carbon amphetamine homologs",
+          "2,4,5-substitution pattern",
+          "2,4,6-substitution pattern instead of 3,4,5-pattern"
+        ]
+      },
+      "key_themes": [
+        "mixed_pharmacology",
+        "stimulant_vs_psychedelic",
+        "potency_limitations",
+        "substitution_patterns",
+        "research_challenges"
+      ],
+      "notable_quotes": [
+        "No pharmacological agent has an action that is pure this or pure that.",
+        "Some pain-killing narcotics can produce reverie and some sedatives can produce paranoia.",
+        "With 3-TASB we may be seeing the shift from sensory effects over to out-and-out stimulation.",
+        "Sadly, the potencies are by and large so low, that the human animal can't be used."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 147,
+      "code": "4-TASB",
+      "chemical_name": "4-thio-asymbescaline",
+      "extensions_and_commentary": "Again, another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto. Some day this will all make sense!",
+      "activity_assessment": {
+        "character": "More physical problems than psychic virtue",
+        "structural_insight": "No obvious structural feature to hang it all onto"
+      },
+      "future_hope": "Some day this will all make sense!",
+      "key_themes": [
+        "physical_side_effects",
+        "unexplained_structure_activity",
+        "optimism"
+      ],
+      "notable_quotes": [
+        "Again, another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto.",
+        "Some day this will all make sense!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 148,
+      "code": "5-TASB",
+      "chemical_name": "5-thio-asymbescaline",
+      "extensions_and_commentary": "There is a ponderousness about adding a couple of ethyl groups and a sulfur that seems to say, 'no fun.' 5-TASB has something going for it (but not much) and 3-TASB is quite a bit more peppy and, actually, 4-TASB has quite a bit of life. But there is a sense of 'why bother?' There were a couple of bouts of light-headedness, but there was no unexpected excitement discovered in this methodical study. No surprises. Keep the chain lengths down.",
+      "TASB_series_comparison": {
+        "5_TASB": "Has something going for it (but not much)",
+        "3_TASB": "Quite a bit more peppy",
+        "4_TASB": "Has quite a bit of life",
+        "overall_sense": "Why bother?"
+      },
+      "study_outcome": {
+        "effects_noted": "Couple of bouts of light-headedness",
+        "excitement": "No unexpected excitement discovered",
+        "surprises": "None"
+      },
+      "conclusion": "Keep the chain lengths down.",
+      "key_themes": [
+        "methodical_study",
+        "ponderousness",
+        "chain_length_importance",
+        "no_surprises"
+      ],
+      "notable_quotes": [
+        "There is a ponderousness about adding a couple of ethyl groups and a sulfur that seems to say, 'no fun.'",
+        "There is a sense of 'why bother?'",
+        "No unexpected excitement discovered in this methodical study. No surprises.",
+        "Keep the chain lengths down."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 149,
+      "code": "TB",
+      "chemical_name": "4-thio-3,5-dimethoxyphenethylamine",
+      "alternate_names": ["Thiobuscaline"],
+      "extensions_and_commentary": "There is a term 'dose-dependent' in pharmacology. When there is a complex action produced by a drug, then each of the components of this mixture of effects should be expected to become more intense following a bigger dose of the drug. This is certainly true with most of the actions of psychoactive drugs.",
+      "dose_dependent_effects": {
+        "definition": "Each component of complex action becomes more intense with bigger dose",
+        "psychedelic_aspects": {
+          "visual_eyes_open": "Edge-ripples or colors or retinal games",
+          "visual_eyes_closed": "Images of elaborately decorated doors of the mosque, or orchestra floating suspended by its music",
+          "fantasy": "Moving beyond confines of body and invading someone else's space",
+          "other": ["Tactile enhancement", "Anaesthetic component", "Depth of insight"],
+          "pattern": "More drug = more effect, up to toxicity"
+        },
+        "stimulant_aspects": {
+          "description": "Person gets wired up, no sleep, cascade of images and meanings",
+          "body_state": "Lies there unwilling to yield guard - pounding heart and interpretive psyche demanding attention",
+          "pattern": "Also intensifies with higher doses"
+        }
+      },
+      "euphoria_exception": {
+        "nature": "Exception to dose-dependence",
+        "description": "Continuing 'threshold' that makes you aware, fluffs the senses, but never takes over or commands the ship",
+        "character": "Truly catalytic on or off. You are or you are not.",
+        "TOMSO_comparison": "Disinhibition with alcohol allows central intoxication regardless of drug amount",
+        "TB_character": "Perpetual series of thresholds - never the psychedelic or stimulant that increases with dose",
+        "essence": "Simple and ephemeral catalyst of euphoria without substance and without body"
+      },
+      "classification_problem": "A compound that can never be pinned and labeled in the butterfly collection since it defies accepted classification",
+      "ARIADNE_connection": {
+        "precedent": "This action was seen first with ARIADNE",
+        "commercial_interest": "When called an anti-depressant, proved commercially interesting",
+        "TB_potential": "Fully possible TB would be of value to certain depressed people in exactly the same way"
+      },
+      "key_themes": [
+        "dose_dependence",
+        "euphoria_threshold",
+        "classification_defiance",
+        "antidepressant_potential",
+        "TOMSO_effect",
+        "butterfly_collection"
+      ],
+      "notable_quotes": [
+        "There is a term 'dose-dependent' in pharmacology.",
+        "Images of the elaborately decorated doors of the mosque, or of an orchestra floating suspended by its music.",
+        "It is truly a catalytic on or off. You are or you are not.",
+        "Always the simple and ephemeral catalyst of euphoria without substance and without body.",
+        "It is a compound that can never be pinned and labeled in the butterfly collection since it defies an accepted classification."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 150,
+      "code": "3-TE",
+      "chemical_name": "3-thioescaline",
+      "extensions_and_commentary": "There is a good lesson to be learned in the attempts to predict the potency of 3-TE before it was actually explored. All pharmacological prediction follows pretty much a single mechanism. Find things that are close in some way, and arrange them in a manner that allows comparison. A relates to B in this way, and A relates to C in that way, and since D incorporates both this and that of each, it will probably be such-and-such. The Roman square.",
+      "prediction_methodology": {
+        "principle": "Find close things, arrange for comparison",
+        "logic": "A relates to B this way, A relates to C that way, D incorporates both = such-and-such",
+        "name": "The Roman square"
+      },
+      "roman_square_1": {
+        "horizontal_arrow": "Adding sulfur in 3-position",
+        "vertical_arrow": "Adding ethyl in place of methyl at 4-position",
+        "grid": {
+          "top_left": {"compound": "Mescaline", "dose": "200-400 mg"},
+          "top_right": {"compound": "3-TM", "dose": "60-100 mg", "factor": "x 3.5"},
+          "bottom_left": {"compound": "Escaline", "dose": "40-60 mg", "factor": "x 6"},
+          "bottom_right": {"compound": "3-TE", "predicted": "10-20 mg", "factor": "x 20"}
+        },
+        "prediction": "20x mescaline potency, ~15 mg range"
+      },
+      "roman_square_2": {
+        "horizontal_arrow": "Relocating sulfur from 4-position to 3-position",
+        "vertical_arrow": "Adding ethyl in place of methyl at 4-position",
+        "grid": {
+          "top_left": {"compound": "Thiomescaline", "dose": "20-30 mg"},
+          "top_right": {"compound": "3-Thiomescaline", "dose": "60-100 mg", "factor": "x 0.3"},
+          "bottom_left": {"compound": "Thioescaline", "dose": "20-30 mg", "factor": "x 1"},
+          "bottom_right": {"compound": "3-TE", "predicted": "60-100 mg", "factor": "x 0.3"}
+        },
+        "prediction": "1/3 thiomescaline potency, ~80 mg range"
+      },
+      "outcome": {
+        "accurate_square": "Second square gave prediction very close to observed potency",
+        "warning": "Would be careless, and probably wrong, to assume latter relationships had more significance than former"
+      },
+      "computer_warning": {
+        "temptation": "As compounds accumulate, tempting to draw complex relationships and be seduced into believing they must explain things",
+        "beware": "The multivariable power of the computer which can explore monstrous numbers of variables at breakneck speeds, and spew forth fantastic correlations with marvelous ease"
+      },
+      "ultimate_truth": "But nothing can ever substitute for the simple art of tasting something new.",
+      "key_themes": [
+        "Roman_square_prediction",
+        "structure_activity_relationships",
+        "computer_correlation_warning",
+        "tasting_primacy",
+        "prediction_vs_reality"
+      ],
+      "notable_quotes": [
+        "All pharmacological prediction follows pretty much a single mechanism.",
+        "A relates to B in this way, and A relates to C in that way, and since D incorporates both this and that of each, it will probably be such-and-such. The Roman square.",
+        "It would be careless, and probably wrong, to assume that the latter relationships had any more significance than the former ones.",
+        "Beware the multivariable power of the computer which can explore monstrous numbers of variables at breakneck speeds, and spew forth fantastic correlations with marvelous ease.",
+        "But nothing can ever substitute for the simple art of tasting something new."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 151,
+      "code": "TE",
+      "chemical_name": "3,5-dimethoxy-4-ethylthiophenethylamine",
+      "alternate_names": ["Thioescaline"],
+      "extensions_and_commentary": "Although the ethyl group (of the ethylthio on the 4-position) is just one carbon atom longer than the methyl group (of TM) that small change already produces hints and indicators of some physical toxicity. The propyl compound (see TP) is still of similar potency, but appears to be yet more difficult, physically. The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well. All that was left to come through was the euphoria. If this 4-position sulfur analogue series of mescaline is ever to be more carefully explored, it must almost certainly be with the shortest possible chain (TM, as a psychedelic) or with long, long chains (the four-carbon chain of the butyl group in TB), as a feel-good compound.",
+      "chain_length_analysis": {
+        "TM_methyl": "Reference compound",
+        "TE_ethyl": "One carbon longer, already hints of physical toxicity",
+        "TP_propyl": "Similar potency but more physically difficult",
+        "TB_butyl": "Never made it as psychedelic, but physical difficulties less, euphoria comes through"
+      },
+      "future_exploration_recommendation": {
+        "for_psychedelic": "Shortest possible chain (TM)",
+        "for_feel_good": "Long, long chains (four-carbon butyl in TB)"
+      },
+      "key_themes": [
+        "chain_length_toxicity",
+        "sulfur_analogues",
+        "psychedelic_vs_euphoria",
+        "physical_side_effects"
+      ],
+      "notable_quotes": [
+        "That small change already produces hints and indicators of some physical toxicity.",
+        "The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well.",
+        "All that was left to come through was the euphoria.",
+        "It must almost certainly be with the shortest possible chain (TM, as a psychedelic) or with long, long chains (the four-carbon chain of the butyl group in TB), as a feel-good compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 152,
+      "code": "2-TIM",
+      "chemical_name": "2-methylthio-3,4-dimethoxyphenethylamine",
+      "extensions_and_commentary": "The problems that might be associated with the making of the three amphetamines that correspond to 2-TIM, 3-TIM and 4-TIM might very well prove quite exciting. These would be the three thio analogues of TMA-3; vis, 3,4-dimethoxy-2-methylthioamphetamine, 2,4-dimethoxy-3-methylthioamphetamine, and 2,3-dimethoxy-4-thioamphetamine. The first challenge would be to name them. Using the 2C-3C convention, they would be the 3C analogs of trivially named 2-carbon compounds, namely 3C-2-TIM, 3C-3-TIM and 3C-4-TIM. Using the thio convention (the number before the T is the position of the sulfur atom), they would be 2-T-TMA-3, 3-T-TMA-3 and 4-T-TMA-3. The second challenge would be their actual synthesis. The information gained from the separation of the 2-carbon nitrostyrenes and that most remarkable mixed-nitrostyrene thing that acted as a single pure material, would not be usable. But it is intriguing to speculate if there might be some parallel problems in the 3-carbon world. It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry. Some day, maybe.",
+      "amphetamine_homologues": {
+        "compounds": [
+          "3,4-dimethoxy-2-methylthioamphetamine",
+          "2,4-dimethoxy-3-methylthioamphetamine",
+          "2,3-dimethoxy-4-thioamphetamine"
+        ],
+        "relationship": "Three thio analogues of TMA-3"
+      },
+      "naming_challenge": {
+        "2C_3C_convention": ["3C-2-TIM", "3C-3-TIM", "3C-4-TIM"],
+        "thio_convention": ["2-T-TMA-3", "3-T-TMA-3", "4-T-TMA-3"],
+        "thio_convention_rule": "Number before the T is position of sulfur atom"
+      },
+      "synthesis_challenge": {
+        "2_carbon_experience": "Information from nitrostyrene separation and remarkable mixed-nitrostyrene would not be usable",
+        "speculation": "Intriguing if parallel problems might exist in 3-carbon world"
+      },
+      "pharmacology_prediction": "Almost certain none would be pharmacologically active",
+      "motivation": "The incentive would be the challenge of the chemistry. Some day, maybe.",
+      "key_themes": [
+        "naming_conventions",
+        "synthesis_challenges",
+        "TMA_3_analogues",
+        "chemistry_for_chemistry_sake"
+      ],
+      "notable_quotes": [
+        "The first challenge would be to name them.",
+        "That most remarkable mixed-nitrostyrene thing that acted as a single pure material.",
+        "It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry.",
+        "Some day, maybe."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 153,
+      "code": "3-TIM",
+      "chemical_name": "3-methylthio-2,4-dimethoxyphenethylamine",
+      "extensions_and_commentary": "Isomescaline itself is not active, but there is no way of knowing just how 'non-active' it really is. If it were to be active just beyond the levels assayed, then the introduction of a sulfur into the molecule in place of an oxygen could have increased the potency to where it might have some effect. The absence of any activity from this TIM, and the other two TIMs, might well suggest that isomescaline is really very 'non-active,' if that makes sense!",
+      "isomescaline_analysis": {
+        "parent_activity": "Not active",
+        "uncertainty": "No way of knowing just how 'non-active' it really is",
+        "hypothesis": "If active just beyond levels assayed, sulfur introduction could have increased potency to show effect"
+      },
+      "TIM_series_conclusion": {
+        "observation": "Absence of activity from this TIM and other two TIMs",
+        "implication": "Suggests isomescaline is really very 'non-active'"
+      },
+      "key_themes": [
+        "isomescaline_inactivity",
+        "degrees_of_inactivity",
+        "sulfur_potency_boost",
+        "TIM_series"
+      ],
+      "notable_quotes": [
+        "Isomescaline itself is not active, but there is no way of knowing just how 'non-active' it really is.",
+        "The absence of any activity from this TIM, and the other two TIMs, might well suggest that isomescaline is really very 'non-active,' if that makes sense!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 154,
+      "code": "4-TIM",
+      "chemical_name": "4-methylthio-2,3-dimethoxyphenethylamine",
+      "extensions_and_commentary": "There has been much noise made about the effectiveness of an unusual substitution group at the 4-position of the phenethylamine molecule. Here is a methylthio group at this position, and it is an inactive compound. I was just a little bit surprised.",
+      "4_position_hypothesis": {
+        "claim": "Much noise made about effectiveness of unusual substitution at 4-position",
+        "test": "Methylthio group at 4-position",
+        "result": "Inactive compound"
+      },
+      "shulgin_reaction": "I was just a little bit surprised.",
+      "key_themes": [
+        "4_position_importance",
+        "hypothesis_testing",
+        "unexpected_inactivity",
+        "methylthio_substitution"
+      ],
+      "notable_quotes": [
+        "There has been much noise made about the effectiveness of an unusual substitution group at the 4-position of the phenethylamine molecule.",
+        "Here is a methylthio group at this position, and it is an inactive compound.",
+        "I was just a little bit surprised."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 155,
+      "code": "3-TM",
+      "chemical_name": "3-methylthio-4,5-dimethoxyphenethylamine",
+      "alternate_names": ["3-Thiomescaline"],
+      "extensions_and_commentary": "The amphetamine which would correspond with this base would be 3,4-dimethoxy-5-methylthioamphetamine (3-T-TMA) and should be an active compound. Its synthesis should be straightforward from the benzaldehyde described above, employing nitroethane rather than nitromethane. It is apparently an unknown compound.",
+      "amphetamine_homologue": {
+        "name": "3,4-dimethoxy-5-methylthioamphetamine",
+        "code": "3-T-TMA",
+        "prediction": "Should be an active compound",
+        "synthesis": "Straightforward from benzaldehyde using nitroethane instead of nitromethane",
+        "status": "Apparently an unknown compound"
+      },
+      "key_themes": [
+        "unknown_amphetamine",
+        "synthesis_prediction",
+        "thiomescaline_series",
+        "unexplored_territory"
+      ],
+      "notable_quotes": [
+        "The amphetamine which would correspond with this base would be 3,4-dimethoxy-5-methylthioamphetamine (3-T-TMA) and should be an active compound.",
+        "Its synthesis should be straightforward.",
+        "It is apparently an unknown compound."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 156,
+      "code": "TM",
+      "chemical_name": "3,5-dimethoxy-4-methylthiophenethylamine",
+      "alternate_names": ["Thiomescaline"],
+      "extensions_and_commentary": "The dosage range has been broadened to include the 20 milligram level, in that several subjects found that even with that small amount there was difficulty in walking and in keeping one's equilibrium. Walking was described as a floating procedure, and one could tilt to one side or the other if care was not taken. Anorexia was occasionally noted, and most people commented on some degree of anesthesia to touch.",
+      "effects": {
+        "low_dose_20mg": "Difficulty walking and keeping equilibrium",
+        "walking_description": "A floating procedure, could tilt to one side or other if care not taken",
+        "other_effects": ["Anorexia occasionally noted", "Anesthesia to touch"]
+      },
+      "overall_assessment": "A mixed bag of responses",
+      "potency_discovery": {
+        "comparison": "Dramatic increase over parent prototype mescaline",
+        "magnitude": "Ten-fold increase",
+        "mechanism": "Substitution of sulfur atom for oxygen atom",
+        "complexity": "No apparent decrease in complexity of action"
+      },
+      "periodic_table_explanation": {
+        "purpose": "Explaining sulfur-for-oxygen replacement for non-chemists",
+        "periodic_table_beauty": "One of the most exciting bits of architecture in science",
+        "horizontal_pattern": "Simple binding on left, complex in center with polarity change, simple with opposite charge on right",
+        "vertical_pattern": "Bonding complexity stays same but atom gets more massive going down"
+      },
+      "organic_chemistry_explanation": {
+        "four_elements": ["Carbon", "Nitrogen", "Oxygen", "Hydrogen"],
+        "significance": "Chemistry of life - every molecule in body, food, drugs",
+        "combinations": "Infinity of ways, dozens of atoms hooked together"
+      },
+      "thio_definition": {
+        "meaning": "Sulfur-in-place-of-an-oxygen, with everything else left alone",
+        "sulfur_position": "Directly below oxygen in periodic table",
+        "properties": "Same binding complexity, twice as massive",
+        "implication": "Every oxy anything can have a thio something as spatially similar analogue"
+      },
+      "mescaline_to_thiomescaline": {
+        "mescaline_composition": "11 carbon, 3 oxygen, 1 nitrogen, 17 hydrogen atoms",
+        "central_oxygen": "Holds central position, other two are indistinguishable reflections",
+        "thiomescaline_creation": "Pluck out central oxygen, put sulfur back in its place"
+      },
+      "key_themes": [
+        "sulfur_for_oxygen",
+        "periodic_table_education",
+        "potency_increase",
+        "organic_chemistry_basics",
+        "thio_definition"
+      ],
+      "notable_quotes": [
+        "Walking was described as a floating procedure, and one could tilt to one side or the other if care was not taken.",
+        "The substitution of a sulfur atom for an oxygen atom increased the power of the drug some ten-fold, without any apparent decrease in complexity of action.",
+        "One of the most exciting bits of architecture in science is the Periodic Table.",
+        "It is easier to simply give the music.",
+        "The definition of the term 'thio' is quite simple--it means a sulfur-in-place-of-an-oxygen, with everything else left alone.",
+        "It is a little awe-inspiring to think that every oxy anything can have a thio something as a spatially similar analogue."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 157,
+      "code": "TMA",
+      "chemical_name": "3,4,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "TMA was the very first totally synthetic psychedelic phenethylamine that was found to be active in man, for which there had been any attempt to describe such drug effects in any detail. This was the report of research done in Canada, and it appeared in 1955, six years before my own report on the material.",
+      "historical_significance": {
+        "claim": "Very first totally synthetic psychedelic phenethylamine found active in man with detailed description",
+        "canadian_research": "1955 report",
+        "shulgin_report": "1961, six years later"
+      },
+      "earlier_reports": {
+        "TMPEA": "Earlier report but few details",
+        "adrenochrome": {
+          "observation": "Old discolored adrenalin seemed to elicit central effects",
+          "products": ["Adrenochrome (deeply colored indolic)", "Adrenolutin (colorless)"],
+          "status": "Controversy died away, never accepted as psychedelic, considered historical footnote",
+          "note": "Not phenethylamines, not part of book"
+        }
+      },
+      "canadian_studies": {
+        "tool": "Stroboscope for induction of visual phenomena",
+        "dosage_range": "50-150 milligrams",
+        "pretreatment": "Dramamine for nausea prevention",
+        "effects": ["Giddiness", "Light-headedness", "Flash-induced visualizations"],
+        "higher_levels": "Visual syntheses present without external stimulation",
+        "negativity": "Thread of negativity pervades experience at higher levels"
+      },
+      "military_interest": {
+        "code_name": "EA-1319",
+        "studies": "Chemical warfare studies, human trials with psychiatric patients",
+        "publication": "No details published"
+      },
+      "impurity_question": {
+        "contaminant": "3,5-dimethoxy-4-hydroxyamphetamine",
+        "canadian_material": "mp 219-220 C, probably impurity-free",
+        "army_material": "Unreported melting point",
+        "shulgin_material": "Lower melting product used",
+        "unanswered_question": "What contribution did phenolic component make to observed effects?"
+      },
+      "chain_extension_concept": {
+        "pattern": "Mescaline (no carbons) → TMA (one carbon) → AEM (two carbons)",
+        "naming": "TMA = alpha-methylmescaline (AMM)",
+        "AEM": "Alpha-ethyl mescaline, 2-amino-1-(3,4,5-trimethoxyphenyl)butane"
+      },
+      "ten_essential_amphetamines": {
+        "concept": "Ten essential oils with three carbon chains, each lacks only ammonia to become amphetamine",
+        "naming": "Originally 'natural amphetamines', son suggested 'essential amphetamines'",
+        "folk_wisdom": "Nature is trying to tell us something",
+        "organization_choice": "By ring substitution pattern of amphetamine, gathering spices and oils as secondary collection"
+      },
+      "essential_oil_1_4_methoxy": {
+        "pattern": "4-methoxy",
+        "pivotal_oil": "4-allylanisole (methyl chavicol, estragole)",
+        "sources": ["Turpentine", "Anise", "Fennel", "Bay", "Tarragon", "Basil"],
+        "smell": "Light, reminiscent of fennel",
+        "propenyl_analogue": {
+          "name": "Anethole (anise camphor)",
+          "sources": ["Anise", "Camphor", "Magnolia blossoms"],
+          "properties": "Waxy solid, intense anise smell, sweet at low concentrations"
+        },
+        "absinthe_connection": "Natural flavoring, produced altered state beyond alcohol alone",
+        "old_anethole": "Gets thick, sticky, yellowish, disagreeable - why discard old spices",
+        "amphetamine": "4-MA"
+      },
+      "essential_oil_2_3_4_dimethoxy": {
+        "pattern": "3,4-dimethoxy",
+        "main_oil": "Methyleugenol (4-allyl-1,2-dimethoxybenzene)",
+        "sources": ["Citronella", "Bay/laurel/myrtle", "Pimiento", "Allspice", "Pepper", "Tea-tree oil"],
+        "smell": "Faint cloves, mistaken for carnations when dilute",
+        "eugenol": {
+          "name": "4-allylguaiacol",
+          "sources": ["Cinnamon", "Nutmeg", "Cloves", "Sassafras", "Myrrh"],
+          "properties": "Burns on taste, smells of cloves, anesthetic (toothache remedy)",
+          "clove_cigarettes": "Eugenol numbs throat, allows many strong cigarettes without pain"
+        },
+        "chavibetol": "3-hydroxy-4-methoxyallylbenzene, in betel pepper leaf",
+        "isomers": {
+          "osmorrhizole": "2,4-isomer from carrot-like vegetables → 2,4-DMA",
+          "mugwort_sage": "3,5-dimethoxy isomer → 3,5-DMA, unexplored, folklore: opium antidote and stimulant"
+        },
+        "amphetamine": "3,4-DMA"
+      },
+      "essential_oil_3_methylenedioxy": {
+        "pattern": "3,4-methylenedioxy",
+        "famous_oil": "Safrole (4-allyl-1,2-methylenedioxybenzene)",
+        "source": "Sassafras oil mainstay",
+        "smell": "Root beer!",
+        "distribution": "Most widely distributed, in most spices including cinnamon and nutmeg",
+        "amphetamine": "MDA"
+      },
+      "essential_oil_4_methoxy_methylenedioxy": {
+        "pattern": "3-methoxy-4,5-methylenedioxy",
+        "parent_oil": "Myristicin (5-allyl-1-methoxy-2,3-methylenedioxybenzene)",
+        "sources": ["Nutmeg", "Mace (fibrous seed covering)", "Parsley oil", "Dill"],
+        "liver_conversion": "Actually shown to be converted to MMDA by ammonia addition through in vitro liver preparation",
+        "significance": "Major justification for equation between essential oils and Essential Amphetamines",
+        "myristicin_vs_myristin": {
+          "myristicin": "Essential oil",
+          "myristin": "Fat (trimyristin, glyceryl trimyristate from nutmeg and coconut)",
+          "warning": "Names often interchanged even in scientific literature"
+        },
+        "amphetamine": "MMDA"
+      },
+      "essential_oil_5_croweacin": {
+        "pattern": "2-methoxy-3,4-methylenedioxy",
+        "oil": "Croweacin",
+        "source": "Eriostemon crowei, rue and citrus plants (Family Rutaceae)",
+        "rue_memory": "Ruta graveolens smelled like cat urine",
+        "arthritis_recipe": {
+          "source": "Very conservative Republican fellow-club member after rehearsal",
+          "origin": "Native decoction from Mexico",
+          "ingredients": ["Ruta graveolens (rue - repentance)", "Rosmarinus officinalis (rosemary - remembrance)", "Cannabis sativa (marijuana)"],
+          "preparation": "Equal quantities soaked in rubbing alcohol for weeks, clarified, evaporated to thick sludge",
+          "application": "Rubbed on skin where arthritis troublesome, always in direction of extremity - onto not into body"
+        },
+        "amphetamine": "MMDA-3a"
+      },
+      "essential_oil_5b_asaricin": {
+        "pattern": "2-methoxy-4,5-methylenedioxy (2,4,5-orientation)",
+        "oils": ["Asaricin (allyl)", "Carpacin (propenyl)"],
+        "source": "Carpano tree, Solomon Islands",
+        "use": "Folk medicine",
+        "amphetamine": "MMDA-2"
+      },
+      "essential_oil_6_trimethoxy": {
+        "pattern": "3,4,5-trimethoxy",
+        "oil": "Elemicin (5-allyl-1,2,3-trimethoxybenzene)",
+        "source": "Oil of Elemi (Pili tree, Philippines)",
+        "also_found": ["Oil of Nutmeg", "Oils of Camphor"],
+        "trace_component": "5-methoxyeugenol (elemicin without 4-methyl) in nutmeg and magnolia",
+        "syringaldehyde_note": "Any natural product with 'syring' has hydroxy between two methoxys",
+        "amphetamine": "TMA"
+      },
+      "essential_oil_7_2_4_5_trimethoxy": {
+        "pattern": "2,4,5-trimethoxy",
+        "oils": {
+          "alpha_asarone": "trans-propenyl",
+          "beta_asarone": "cis-propenyl",
+          "gamma_asarone": "allyl (euasarone, sekishone) - much more rare"
+        },
+        "source": "Oil of Calamus from Acorus calamus (Sweet Flag)",
+        "habitat": "Edges of swamps throughout North America, Europe, Asia",
+        "uses": ["Liqueur flavoring", "Medicine"],
+        "cree_name": "Rat-root (Lake Winnipeg area)",
+        "icelandic_name": "Indian-root",
+        "traditional_use": "External for wounds, internal for most illnesses, no central effects reported",
+        "acoramone": "2,4,5-trimethoxyphenylacetone, also present",
+        "nomenclature_problem": "Asiasarum (wild ginger Genus) looks like asarone (from Acorus)",
+        "asarum_species": {
+          "forbesi": "Central China, gives pleasant smell to body",
+          "seiboldi": "Korea and Manchuria, treats deafness, epilepsy, rheumatism"
+        },
+        "amphetamine": "TMA-2"
+      },
+      "essential_oil_8_tetraoxy_apiole": {
+        "pattern": "2,5-dimethoxy-3,4-methylenedioxy",
+        "oil": "Apiole (parsley camphor)",
+        "source": "Major component of parsley seed oil",
+        "forms": {
+          "apiole_with_e": "White solid essential oil",
+          "apiol_without_e": "Green oily liquid medicine (ether extraction)",
+          "yellow_apiol": "Chlorophyll removed",
+          "apiolin": "Fats removed by saponification and distillation"
+        },
+        "amphetamine": "DMMDA"
+      },
+      "essential_oil_9_dillapiole": {
+        "pattern": "2,3-dimethoxy-4,5-methylenedioxy",
+        "oil": "Dillapiole (1-allyl-2,3-dimethoxy-4,5-methylenedioxybenzene)",
+        "source": "Oils of dill plants worldwide",
+        "properties": "Thick, almost colorless liquid",
+        "isodillapiole": "White crystalline, melts sharply",
+        "amphetamine": "DMMDA-2"
+      },
+      "essential_oil_10_tetramethoxy": {
+        "pattern": "2,3,4,5-tetramethoxy",
+        "oil": "1-allyl-2,3,4,5-tetramethoxybenzene",
+        "source": "Minor component in parsley oil, easier by synthesis",
+        "amphetamine": "TA"
+      },
+      "essential_definition": {
+        "clarification": "Essential has nothing to do with needed or required",
+        "origin": "From essence - something with odor or smell",
+        "essential_oils": "Oils with fragrance",
+        "essential_amphetamines": "Compounds that can in principle be made from them by ammonia addition in body"
+      },
+      "experimental_trials": {
+        "methoxyeugenol": "Up to 10 mg, no effects",
+        "asarone": "Up to 70 mg, no effects",
+        "pseunut_cocktail": {
+          "composition": "1 part MDA, 2 parts TMA, 5 parts MMDA",
+          "rationale": "100 mg equivalent to safrole, elemicin, myristicin in 5g nutmeg",
+          "result": "Quite a sparkle and considerable eye-dilation",
+          "comparison": "Never taken 5g nutmeg to compare"
+        }
+      },
+      "key_themes": [
+        "first_synthetic_psychedelic_phenethylamine",
+        "Ten_Essential_Amphetamines",
+        "Essential_Oils",
+        "spice_cabinet_alchemy",
+        "military_interest_EA1319",
+        "nature_telling_us_something"
+      ],
+      "notable_quotes": [
+        "TMA was the very first totally synthetic psychedelic phenethylamine that was found to be active in man.",
+        "Nature is trying to tell us something.",
+        "The bane of the archivist is having to choose one pattern of organization over another.",
+        "The drinks that turn cloudy with water dilution are heavy with it, since it was the natural flavoring in the original absinthe.",
+        "This was the oil that was actually shown to be converted to MMDA by the addition of ammonia by passage through an in vitro liver preparation.",
+        "The definition of 'essential' has nothing to do with needed or required. The word's origin is essence, something with an odor or smell.",
+        "100 milligrams indeed produced quite a sparkle and considerable eye-dilation."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 158,
+      "code": "TMA-2",
+      "chemical_name": "2,4,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "There was absolutely no reason to suspect that the simple rearrangement of the methoxy groups of TMA from the classic 3,4,5-positions to this new, 2,4,5-orientation, would dramatically increase potency like this. Mescaline, 3,4,5-trimethoxyphenethylamine, is an extraordinary compound, but it is not particularly potent, requiring hundreds of milligrams for a trip. And going from its 3,4,5-pattern to the 2,4,5-pattern of TMPEA makes the compound even less potent. There was essentially nothing reported in the scientific literature about central activity of 2,4,5-substituted stuff, so there could not have been any logical preparation for the activity of TMA-2.",
+      "discovery_surprise": {
+        "expectation": "No reason to suspect rearrangement would increase potency",
+        "mescaline_context": "Extraordinary but not potent - hundreds of milligrams",
+        "TMPEA_precedent": "2,4,5-pattern made compound even less potent",
+        "literature": "Essentially nothing reported about central activity of 2,4,5-substituted compounds"
+      },
+      "discovery_experiment": {
+        "date": "November 26, 1962",
+        "time": "6:00 AM",
+        "first_dose": "12 mg - inactive",
+        "second_dose": "12 mg one hour later",
+        "total": "24 mg - the discovery experiment",
+        "anxiety_note": "Thrust into unknown certainly played role in psychosomatic difficulties"
+      },
+      "potency_implications": {
+        "magnitude": "Ten-fold increase from single methoxy group relocation",
+        "priority": "Further juggling of methoxy groups given very high priority",
+        "six_arrangements": ["3,4,5 (TMA)", "2,4,5 (TMA-2)", "2,3,4 (TMA-3)", "2,3,5 (TMA-4)", "2,3,6 (TMA-5)", "2,4,6 (TMA-6)"],
+        "status": "All totally unknown at that time, all made, all included in book"
+      },
+      "essential_amphetamine_status": {
+        "natural_equivalents": "Alpha-asarone (trans-propenyl), beta-asarone (cis-propenyl), gamma-asarone/euasarone (allyl)",
+        "asarone_tasting": "Up to 70 mg without effects"
+      },
+      "incomplete_studies": {
+        "optical_isomers": {
+          "progress": "Up to 6 mg on each separate isomer",
+          "rabbit_finding": "R isomer much more potent in rabbit assays",
+          "human_status": "Comparisons remain unknown"
+        },
+        "metabolite_study": {
+          "setup": "14C labeled racemate (5 microcuries in 40 mg)",
+          "purpose": "Metabolite analysis",
+          "status": "Abandoned before results obtained",
+          "rat_finding": "4-methoxyl carbon appeared as expired CO2 to ~20%, four times amount from other methoxyl carbons"
+        }
+      },
+      "nature_review_memory": {
+        "publication": "British journal Nature, ~20 years prior",
+        "topic": "Structure-activity relationships of simpler one-ringed psychotomimetics",
+        "purpose": "Also vehicle for mentioning newly-discovered compounds",
+        "proposed_compound": {
+          "name": "2,beta-dihydroxy-4,5-dimethoxyphenethylamine",
+          "rationale": "Embraced every clue tying to neurological process",
+          "components": ["6-hydroxydopamine hydroxy group", "Dopamine molecule (two methoxyl groups)", "Beta-hydroxy (norepinephrine touch)"],
+          "proposed_as": "An endogenous psychotogen",
+          "sample_received": "From respected scientist, synthesized for investigations",
+          "trials": "Four graded dosages up to only 250 micrograms",
+          "fate": "Sample became brown, decomposing, project abandoned"
+        }
+      },
+      "nature_journal_lament": {
+        "query": "Twenty year retrospective by three original authors",
+        "author_paths": "Each followed divergent paths, all still keen researchers",
+        "response": "Polite but negative - unsuitable for publication at present",
+        "current_nature": "Dedicated to neutron stars and x-ray sources",
+        "assessment": "Not the grand and curious lady she used to be"
+      },
+      "science_journal_lament": {
+        "similar_deterioration": "Abandoned multidisciplinary interest",
+        "current_focus": "Chromosomes, nucleotide identification, human genome project",
+        "sardonic_note": "Go there to publish if you've unraveled DNA sequence from the Latvian cockroach"
+      },
+      "key_themes": [
+        "unexpected_potency_discovery",
+        "2_4_5_substitution_pattern",
+        "methoxy_group_rearrangement",
+        "TMA_series_origin",
+        "journal_deterioration",
+        "multidisciplinary_loss"
+      ],
+      "notable_quotes": [
+        "There was absolutely no reason to suspect that the simple rearrangement of the methoxy groups would dramatically increase potency like this.",
+        "There could not have been any logical preparation for the activity of TMA-2.",
+        "The unexpected ten-fold increase of effectiveness uncovered by the simple relocation of a single methoxy group gave the further juggling of methoxy groups a very high priority.",
+        "With due modesty, we proposed that it might be 'an endogenous psychotogen.'",
+        "The respected old English journal of interdisciplinary interests is not the grand and curious lady she used to be.",
+        "There is where you automatically go to publish, now, if you have unraveled some DNA sequence from the Latvian cockroach."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 159,
+      "code": "TMA-3",
+      "chemical_name": "2,3,4-trimethoxyamphetamine",
+      "extensions_and_commentary": "There is a small lesson to be learned from this completely inactive compound. There is no way of saying that it is or is not inactive. All that can be said is that trials were made (in this case using three separate individuals) at an oral level of 100 milligrams. And, at this level, nothing happened. And since a bottom threshold for mescaline would be perhaps 200 milligrams, it can be honestly said that the activity of this compound, if expressed relative to mescaline (using mescaline units) is less than 2 M.U.",
+      "mescaline_units_lesson": {
+        "trial_details": "Three separate individuals at 100 mg oral",
+        "result": "Nothing happened",
+        "mescaline_threshold": "Perhaps 200 mg",
+        "reported_activity": "< 2.0 M.U."
+      },
+      "interpretation_problem": {
+        "misreading": "Many readers interpreted '< 2.0 M.U.' as indicating TMA-3 was active but at dosages >100 mg",
+        "actual_meaning": "If there is activity, it will be at oral levels greater than 100 mg",
+        "current_status": "As far as I know, not active in man, but no trials in excess of 100 mg"
+      },
+      "admonition": "This admonition applies to all the published M.U. values that are preceded by the 'less than' sign, the '<'.",
+      "key_themes": [
+        "mescaline_units",
+        "interpretation_problems",
+        "less_than_notation",
+        "inactive_compounds"
+      ],
+      "notable_quotes": [
+        "There is a small lesson to be learned from this completely inactive compound.",
+        "There is no way of saying that it is or is not inactive.",
+        "This admonition applies to all the published M.U. values that are preceded by the 'less than' sign."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 160,
+      "code": "TMA-4",
+      "chemical_name": "2,3,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "That is the sum total of the knowledge of subjective effects that exist. There was such a precious small amount of the final hydrochloride salt that, by the time the needed build-up of dosage had been completed, there was just enough left for this single trial, which was conducted in South America. Based upon the volunteered comparisons to LSD and TMA, a potency for this compound has been published that states that it is 4x the potency of mescaline, or 4 M.U. The material must be re-synthesized, and re-evaluated with the now-accepted protocol.",
+      "trial_circumstances": {
+        "amount": "Precious small amount of final salt",
+        "location": "South America",
+        "basis": "Single trial after dosage build-up",
+        "comparisons": "LSD and TMA",
+        "published_potency": "4x mescaline (4 M.U.)",
+        "needed": "Re-synthesis and re-evaluation with accepted protocol"
+      },
+      "synthesis_difficulties": {
+        "problem": "Products became progressively thick and blacker",
+        "solution_needed": "Kugel-Rohr apparatus for distillation at each stage",
+        "intermediates": "Certainly white oils when properly purified"
+      },
+      "2_3_5_pattern_challenge": {
+        "assessment": "Far and away the most difficult tri-substitution pattern known to chemists",
+        "reason": "Just isn't any simple way to put it together"
+      },
+      "related_compounds": {
+        "2_3_5_TMPEA": {
+          "status": "Synthesized quite a while ago",
+          "studies": "Substrate for liver amine oxidase in vitro",
+          "human_trials": "Never tried in man"
+        },
+        "MMDA_4": {
+          "name": "2,3-methylenedioxy-5-methoxyamphetamine",
+          "appeal": "Theoretical (one of six possible MMDA derivatives)",
+          "challenge": "Everything is simply in the wrong position",
+          "status": "Unknown pharmacology - never been synthesized",
+          "DEA_paradox": {
+            "situation": "DEA named it as Schedule I, entered into Chemical Abstracts",
+            "reality": "Listed in literature but completely unknown in reality",
+            "consequence": "Moment it is made, illegal act will have occurred"
+          }
+        },
+        "2C_MMDA_4": "2,3-methylenedioxy-5-methoxyphenethylamine - also unknown"
+      },
+      "key_themes": [
+        "synthesis_difficulty",
+        "2_3_5_pattern",
+        "DEA_scheduling_paradox",
+        "unknown_compounds",
+        "single_trial_data"
+      ],
+      "notable_quotes": [
+        "That is the sum total of the knowledge of subjective effects that exist.",
+        "This 2,3,5-orientation of the methoxy groups on the aromatic ring is far and away the most difficult tri-substitution pattern known to chemists.",
+        "There just isn't any simple way to put it together.",
+        "It is listed in the literature, at least it is in the Chem. Abstracts. But it is in reality completely unknown.",
+        "The moment it is made, an illegal act will have occurred."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 161,
+      "code": "TMA-5",
+      "chemical_name": "2,3,6-trimethoxyamphetamine",
+      "extensions_and_commentary": "TMA-5, as was the case with TMA-4, has only been superficially explored. The above two quotations are from two different people, and together no more than hint at the possibility that it might be active in the several tens of milligrams.",
+      "exploration_status": "Superficially explored, two different people, hints at activity in several tens of milligrams",
+      "animal_model_discussion": {
+        "two_questions": {
+          "qualitative": "Is the drug a psychedelic?",
+          "quantitative": "How potent is it?"
+        },
+        "qualitative_method": {
+          "approach": "Take known psychedelics, search for common animal responses",
+          "logic": "Animals can't experience altered states, must look for objective signs",
+          "examples": "Conditioned responses to stimuli, unusual behavior",
+          "inference": "If 10 known psychedelics produce bizarre nest-building, and 11th does same, 11th suspected psychedelic"
+        },
+        "quantitative_method": {
+          "name": "Dose-response curve",
+          "principle": "More drug = more response",
+          "purpose": "Confidence drug is responsible + quantitative measure"
+        },
+        "fundamental_limitation": "Entire discipline depends on accepting first ten drugs are indeed psychedelic - inputs can only come from human trials"
+      },
+      "TMA_5_validity_problem": {
+        "published_claims": "Psychedelic, ~10x mescaline potency (30-50 mg range)",
+        "basis": "Above two studies only",
+        "assessment": "Both statements may be true, but confidence must await more extensive trials"
+      },
+      "phenethylamine_analogue": {
+        "name": "2,3,6-trimethoxyphenethylamine (2C-TMA-5, 2,3,6-TMPEA)",
+        "status": "Known material, some controversy on physical properties",
+        "studies": "Monoamine oxidase systems - competitive substrate or inhibitor",
+        "human_trials": "No one has nibbled it, human activity unknown"
+      },
+      "key_themes": [
+        "animal_model_limitations",
+        "dose_response_curves",
+        "human_trial_necessity",
+        "preliminary_data",
+        "MAO_interactions"
+      ],
+      "notable_quotes": [
+        "Together no more than hint at the possibility that it might be active in the several tens of milligrams.",
+        "Since there is little logic in the argument that animals can experience, let alone reveal, altered states of consciousness or fantasy fugues or colored imagery, the investigator must look for objective signs.",
+        "This entire discipline depends on the acceptance of the fact that the first ten drugs are indeed psychedelic materials. And these inputs can only come from human trials.",
+        "Both statements may be true, but confidence in these conclusions must await more extensive trials.",
+        "No one has nibbled it, so its human activity is unknown."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 162,
+      "code": "TMA-6",
+      "chemical_name": "2,4,6-trimethoxyamphetamine",
+      "extensions_and_commentary": "Here is a simple and easily made compound that might well bid fair to be one of the most rewarding and pleasurable of the methoxylated amphetamines. It is fully as potent as its counterpart, TMA-2. This latter compound, with its 2,4,5-trisubstitution pattern, has served as a template from which an immense family of very active and fascinating drugs have arisen. The 2,5-dimethoxy aspect has been kept intact, and modifications in the 4-position have given rise to treasures such as DOM, DOB, DOET, DOI, and the Aleph compounds. And, of course, the entire world of the 2C-X's has exploited this same orientation.",
+      "assessment": {
+        "character": "Simple and easily made",
+        "potential": "Might bid fair to be one of most rewarding and pleasurable methoxylated amphetamines",
+        "potency": "Fully as potent as TMA-2"
+      },
+      "TMA_2_template_legacy": {
+        "pattern": "2,4,5-trisubstitution",
+        "kept_intact": "2,5-dimethoxy aspect",
+        "4_position_modifications": ["DOM", "DOB", "DOET", "DOI", "Aleph compounds"],
+        "also": "Entire world of 2C-X's"
+      },
+      "TMA_6_as_new_template": {
+        "call": "Blatant, parallel call from TMA-6 as 2,4,6-counterpart",
+        "kept_intact": "2,6-dimethoxy aspect",
+        "series_name": "psu-series or psi-series (abbreviation for pseudo)",
+        "differentiation": "Greek letter Psi vs 2,4,5-things",
+        "potential_compounds": ["psi-DOM (Z-7, certainly active)", "psi-DOB", "psi-DOET", "psi-DOI", "psi-ALEPH compounds", "psi-2C-X counterparts"],
+        "prediction": "Would expect all to be active, certainly some interesting",
+        "synthesis_note": "Considerably more difficult to synthesize",
+        "progress": "psi-2C-T-4 already prepared and being evaluated"
+      },
+      "erowid_note": "Original digital transcription error: uppercase Greek letter Psi was transcribed as 'Gamma' throughout - now fixed",
+      "synthesis_philosophy": {
+        "premise": "Make all recipes employ commercially available starting materials",
+        "benzaldehyde_availability": "2,4,6-trimethoxybenzaldehyde easily obtained ($2/g)",
+        "why_start_earlier": "Valid paranoia of our times"
+      },
+      "future_availability_concerns": {
+        "optimistic_scenario": "World-wide acknowledgment that 'war on drugs' is more destructive than any drug, laws transformed to educate and allow choice",
+        "pessimistic_scenario": "No fine chemicals permitted except licensed chemists in authorized laboratories, black market $1000/g plus $1000 for protection"
+      },
+      "phloroglucinol_permanence": {
+        "statement": "Impossible to remove phloroglucinol from availability",
+        "natural_sources_free_form": ["Cones of Sequoia sempervirens (coast redwood)", "Species of Camellia (tea leaves)"],
+        "as_glucoside_phlorin": ["Citrus fruit rinds", "Eucalyptus resins"],
+        "as_phloridzin": "Dihydrochalcone glucoside - practically drips out of all parts of apple and pear trees except fruit itself",
+        "conversion_chain": "Phloridzin → (base hydrolysis) → Phlorin → (acid hydrolysis) → Phloroglucinol → (methanol + sulfuric acid) → the ether",
+        "conclusion": "Nature is indeed most bountiful"
+      },
+      "phenethylamine_analogue": {
+        "name": "2,4,6-trimethoxyphenethylamine (2,4,6-TMPEA, 2C-TMA-6)",
+        "synthesis": "Benzaldehyde + nitromethane in glacial acetic acid with ammonium acetate → nitrostyrene (mp 177-177.5 C) → LAH reduction",
+        "salts": {
+          "picrate": "mp 204-205 C",
+          "hydrochloride": "mp 234-235 C"
+        },
+        "MAO_status": "Not a substrate to soluble amine oxidase from rabbit liver (shares with mescaline)",
+        "human_activity": "Unknown"
+      },
+      "key_themes": [
+        "psi_series_template",
+        "TMA_2_parallel",
+        "future_availability",
+        "phloroglucinol_permanence",
+        "nature_bountiful",
+        "war_on_drugs_critique"
+      ],
+      "notable_quotes": [
+        "Here is a simple and easily made compound that might well bid fair to be one of the most rewarding and pleasurable of the methoxylated amphetamines.",
+        "Here, there is the blatant, parallel call from TMA-6.",
+        "There might be a world-wide acknowledgment that the 'war on drugs' is more destructive than any drug itself could ever be.",
+        "It will be impossible to remove phloroglucinol from availability.",
+        "Phloridzin practically drips out of all parts of the apple and pear trees except the apple or pear itself.",
+        "Nature is indeed most bountiful."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 163,
+      "code": "3-TME",
+      "chemical_name": "3-methylthio-4,5-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["3-Thio-metaescaline"],
+      "extensions_and_commentary": "A short unraveling of the codes used here for the various materials is very much needed. There are 3's and 4's and M's and I's and incipient confusion. Mescaline is mescaline. That much is simple. All homologs are the first letter of the homolog. Escaline is E, Proscaline is P, etc. If the group is at the three-position, then the term 'meta' is used and an M precedes the name of the homolog, i.e., ME is Metaescaline. The number (3- or 4- or 5-) gives the position of the sulfur, which is represented by the prefix 'Thio' so this compound, 3-TME, has the sulfur at the 3-position, and by chance, the ethyl group there as well.",
+      "naming_system_explanation": {
+        "mescaline": "Mescaline is mescaline",
+        "homolog_letters": "First letter of homolog (E=Escaline, P=Proscaline)",
+        "meta_prefix": "M precedes name if group at 3-position (ME=Metaescaline)",
+        "thio_number": "Number (3-, 4-, 5-) gives position of sulfur"
+      },
+      "rosetta_stone": {
+        "no_ethyl_groups": {
+          "all_oxygen": "M (Mescaline)",
+          "one_sulfur": ["3-TM", "4-TM"]
+        },
+        "one_ethyl_group": {
+          "all_oxygen": ["E (Escaline)", "ME (Metaescaline)"],
+          "one_sulfur": ["3-TE", "4-TE", "3-TME", "4-TME", "5-TME"]
+        },
+        "two_ethyl_groups": {
+          "all_oxygen": ["SB (Symbescaline)", "ASB (Asymbescaline)"],
+          "one_sulfur": ["3-TSB", "4-TSB", "3-TASB", "4-TASB", "5-TASB"]
+        },
+        "three_ethyl_groups": {
+          "all_oxygen": "TRIS",
+          "one_sulfur": ["3-T-TRIS", "4-T-TRIS"]
+        }
+      },
+      "key_themes": [
+        "nomenclature_system",
+        "Rosetta_Stone",
+        "thio_analogues",
+        "systematic_naming"
+      ],
+      "notable_quotes": [
+        "A short unraveling of the codes used here for the various materials is very much needed.",
+        "There are 3's and 4's and M's and I's and incipient confusion.",
+        "Mescaline is mescaline. That much is simple."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 164,
+      "code": "4-TME",
+      "chemical_name": "4-methylthio-3,5-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["4-Thio-metaescaline"],
+      "extensions_and_commentary": "Sometimes things work well in their mysterious ways. The reports with 4-TME were more to the toxic than to the joyous side, and this by chance with a compound that could only be obtained in an atrociously small yield.",
+      "activity_assessment": {
+        "character": "More to the toxic than to the joyous side",
+        "synthesis": "Atrociously small yield"
+      },
+      "mysterious_ways": "Sometimes things work well in their mysterious ways",
+      "key_themes": [
+        "toxic_effects",
+        "low_yield_synthesis",
+        "mysterious_ways"
+      ],
+      "notable_quotes": [
+        "Sometimes things work well in their mysterious ways.",
+        "The reports with 4-TME were more to the toxic than to the joyous side.",
+        "A compound that could only be obtained in an atrociously small yield."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 165,
+      "code": "5-TME",
+      "chemical_name": "5-methylthio-3,4-dimethoxy-beta-ethoxyphenethylamine",
+      "alternate_names": ["5-Thio-metaescaline"],
+      "extensions_and_commentary": "Nothing comes to mind. This, along with most of the di- and triethylated thiomescaline analogues, represents a lot of synthetic effort without useful qualitative data. If there is any activity, it would only be seen with monster dosages, and why put the body through such potential impact?",
+      "activity_assessment": {
+        "status": "Nothing comes to mind",
+        "effort_vs_data": "Lot of synthetic effort without useful qualitative data",
+        "activity_prediction": "Only seen with monster dosages if any"
+      },
+      "philosophical_question": "Why put the body through such potential impact?",
+      "key_themes": [
+        "futile_synthesis",
+        "no_useful_data",
+        "body_protection",
+        "monster_dosages"
+      ],
+      "notable_quotes": [
+        "Nothing comes to mind.",
+        "This represents a lot of synthetic effort without useful qualitative data.",
+        "If there is any activity, it would only be seen with monster dosages, and why put the body through such potential impact?"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 166,
+      "code": "2T-MMDA-3a",
+      "chemical_name": "2-methylthio-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "And visions of sugar-plums danced through their heads. There are many trisubstituted amphetamine analogues that have been documented with varying degrees of activity. There are six TMA's and if one were to systematically make every possible thio-analogue of each of these, there would be a total of sixteen thio-analogues of the TMA. Let's go for it, said I to myself. Let's get the 16 thio analogues in hand. That is where the action's at. But hold on a minute. Each and every MMDA isomer has, by definition, three possible thio analogues, so there are eighteen more possible thio compounds just with them. Sure, let's make them all!",
+      "manic_program": {
+        "inspiration": "Visions of sugar-plums",
+        "TMA_thio_analogues": "16 total (6 TMA isomers × various thio positions)",
+        "MMDA_thio_analogues": "18 more (each MMDA isomer has 3 possible thio analogues)",
+        "total_proposed": "34 compounds",
+        "goal": "Unprecedented coup for structure-activity relationships",
+        "hope": "Maybe begin to understand why active ones are active. And maybe not."
+      },
+      "assessment": {
+        "description": "Most manic of all manic programs ever involving thio-analogues",
+        "character": "Totally compelling"
+      },
+      "5T_MMDA_possibility": {
+        "route": "Vanillin + sodium thiocyanate → cyclic carbonate → 3-methoxy-5,4-methylenethiooxyamphetamine",
+        "status": "Two of the magic analogues made, 32 to go"
+      },
+      "graduate_student_paradox": {
+        "proposal": "What a marvelous task for a graduate student",
+        "reality": "What a horribly dull task for a graduate student",
+        "outcome": "No graduate student available, end of the line"
+      },
+      "current_status": "Some day, let's make all these possibilities. A magnificent tour-de-force, but at present time, not worth the effort. Other directions are more exciting and more appealing.",
+      "TMEDA_humor": {
+        "compound": "N,N,N',N'-tetramethylethylenediamine (TMEDA)",
+        "pattern": "Inner clique condenses complex concepts into simple terms",
+        "example": "We 'MOM-ed the hydroxy group of the T-BOC-ed amine'",
+        "pronunciation": "TMEDA spoken sounds like 'tomato' by native of the Bronx"
+      },
+      "key_themes": [
+        "manic_programs",
+        "systematic_synthesis",
+        "structure_activity_relationships",
+        "graduate_student_tasks",
+        "chemist_jargon"
+      ],
+      "notable_quotes": [
+        "And visions of sugar-plums danced through their heads.",
+        "Let's go for it, said I to myself.",
+        "Sure, let's make them all! It will be an unprecedented coup for students of structure-activity relationships.",
+        "What a marvelous task for a graduate student. (What a horribly dull task for a graduate student.)",
+        "A magnificent tour-de-force, but at the present time, not worth the effort.",
+        "It sounds very much like 'tomato' spoken by a native of the Bronx."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 167,
+      "code": "4T-MMDA-2",
+      "chemical_name": "6-methoxy-4-methyl-1,3-benzoxathiole-5-isopropylamine",
+      "alternate_names": ["4-thio-MMDA-2"],
+      "extensions_and_commentary": "There is no logical way to try to guess where the active level of this might be. In a comparison of 4-oxy with 4-thio- and with 4-alkyl (as, for example, TMA-2, PARA-DOT and DOM) the analogue with the sulfur atom lies intermediate in potency between the oxygen atom and the carbon atom. Then, perhaps, 4T-MMDA-2 should be somewhat more potent than MMDA-2. Which is where the trials have gone to, and the absence of effects therefore declares that line of reasoning invalid.",
+      "potency_prediction_failure": {
+        "comparison": "4-oxy vs 4-thio vs 4-alkyl (TMA-2, PARA-DOT, DOM)",
+        "pattern": "Sulfur lies intermediate between oxygen and carbon",
+        "prediction": "4T-MMDA-2 should be more potent than MMDA-2",
+        "result": "Absence of effects - line of reasoning invalid"
+      },
+      "benzofuran_clue": {
+        "observation": "Benzofuran project (same cyclic nature) was without activity",
+        "difference": "Carbon where sulfur is in 4T-MMDA-2",
+        "implication": "By that reckoning, this compound should be even less active"
+      },
+      "bottom_line": "None of these extrapolations can hold a candle to the only experiment that can give believable findings, the actual trial of a new compound in man.",
+      "positional_isomer_5T_MMDA_2": {
+        "starting_material": "Resorcinol + ammonium thiocyanate (copper sulfate catalyst)",
+        "product": "Thioxolone (6-hydroxy-1,3-benzoxathiol-2-one)",
+        "availability": "Commercially available",
+        "final_product": "5T-MMDA-2 (5-(2-aminopropyl)-6-methoxy-1,3-benzoxathiole)",
+        "prediction": "Based on 5-TOM vs DOM comparison, relatively low-potency",
+        "synthesis_note": "At least should be easy to make"
+      },
+      "key_themes": [
+        "prediction_failure",
+        "extrapolation_limits",
+        "human_trials_primacy",
+        "benzoxathiole_chemistry"
+      ],
+      "notable_quotes": [
+        "There is no logical way to try to guess where the active level of this might be.",
+        "The absence of effects therefore declares that line of reasoning invalid.",
+        "None of these extrapolations can hold a candle to the only experiment that can give believable findings, the actual trial of a new compound in man.",
+        "At least it should be an easy one to make!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 168,
+      "code": "TMPEA",
+      "chemical_name": "2,4,5-trimethoxyphenethylamine",
+      "extensions_and_commentary": "The code letters used for this drug are not as ambiguous as they might seem at first glance. A large number of the 2-carbon homologues are given names based on the code for the 3-carbon compound. On that basis, this should be 2C-TMA-2, since it is the 2-carbon counterpart of TMA-2. But since the first of the trimethoxyphenethylamines already had a trivial name, mescaline, the code TMPEA was unassigned. So, here is the logical place to use it.",
+      "naming_logic": {
+        "expected_name": "2C-TMA-2 (2-carbon counterpart of TMA-2)",
+        "reason_for_TMPEA": "First trimethoxyphenethylamine already had trivial name (mescaline), so TMPEA was unassigned"
+      },
+      "published_reports": {
+        "total": "Just two reports of self-experimentation",
+        "first_report_1931": {
+          "administration": "Injection (intramuscular?)",
+          "dose": "Not given, but less than Beringer's mescaline studies (300-500 mg)",
+          "assessment": "Leaves much to be desired",
+          "conclusion": "TMPEA apparently did not measure up to mescaline"
+        },
+        "second_report_40_years_later": {
+          "administration": "Oral",
+          "method": "Battery of psychological tests for statistical validity",
+          "finding": "Not active in own right, but when preliminary to mescaline, greatly enhanced effects of the latter"
+        }
+      },
+      "6_hydroxydopamine_connection": {
+        "relationship": "Stripping all three O-methyl groups from TMPEA gives 6-hydroxydopamine",
+        "6_OHDA_properties": "Extremely potent neurotoxin, produces sympathectomy (destroys sympathetic nervous system)",
+        "metabolism_note": "Some methyl groups of TMPEA known to be stripped off through normal liver metabolism",
+        "research_suggestion": "Intriguing to see biochemical overlap between metabolism of centrally active drugs and 6-hydroxydopamine fate",
+        "caveat": "In a test animal, of course, rather than in man"
+      },
+      "para_methoxyl_significance": "Many fascinating psychedelics have signature of methoxyl groups para to one another. They too can lose a methyl group or two.",
+      "key_themes": [
+        "naming_conventions",
+        "historical_reports",
+        "mescaline_enhancement",
+        "6_hydroxydopamine",
+        "neurotoxicity_connection"
+      ],
+      "notable_quotes": [
+        "The code letters used for this drug are not as ambiguous as they might seem at first glance.",
+        "TMPEA apparently did not measure up to mescaline in his comparisons.",
+        "The drug was not active in its own right, but when employed preliminary to mescaline, greatly enhanced the effects of the latter.",
+        "The simple compound that results from the stripping of all three of the O-methyl groups from TMPEA is the extremely potent neurotoxin, 6-hydroxydopamine.",
+        "This is an area of research that deserves more attention."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 169,
+      "code": "2-TOET",
+      "chemical_name": "4-ethyl-5-methoxy-2-(methylthio)amphetamine",
+      "extensions_and_commentary": "It seems as if the sulfur in the 2-position makes things less interesting, and less potent, than when it is in the 5-position. 2-TOM required twice the dosage of 5-TOM, and here it appears that it could well take a dosage of twice that required for 5-TOET, to get 2-TOET off the ground. There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.",
+      "position_comparison": {
+        "pattern": "Sulfur in 2-position less interesting and less potent than 5-position",
+        "TOM_comparison": "2-TOM required twice dosage of 5-TOM",
+        "TOET_prediction": "Could take twice 5-TOET dosage to get 2-TOET off ground"
+      },
+      "reluctance_to_push": {
+        "reason": "Physical discomfort outweighs mental effects",
+        "observations_50mg": ["Inability to effect erection", "Light-headedness", "Disinterest in food"],
+        "interpretation": "Suggests involvement with sympathetic nervous system",
+        "persistence": "Subtle effects persisting into next day"
+      },
+      "decision": "Instinct said to leave it alone. So I left it alone.",
+      "phenethylamine_analogue_2C_2_TOET": {
+        "synthesis": "From same aldehyde intermediate",
+        "nitrostyrene": "Glistening pumpkin-orange crystals from methanol, mp 93-94 C",
+        "reduction": "Aluminum hydride in THF",
+        "final_salt": "White crystalline mass, mp 226-227 C",
+        "status": "Remains untasted as of the moment"
+      },
+      "key_themes": [
+        "position_effects",
+        "physical_discomfort",
+        "instinct_guidance",
+        "sympathetic_nervous_system"
+      ],
+      "notable_quotes": [
+        "It seems as if the sulfur in the 2-position makes things less interesting, and less potent, than when it is in the 5-position.",
+        "There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.",
+        "There is nothing tangible here.",
+        "Instinct said to leave it alone. So I left it alone."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 170,
+      "code": "5-TOET",
+      "chemical_name": "4-ethyl-2-methoxy-5-(methylthio)amphetamine",
+      "extensions_and_commentary": "With the extraordinary experience that had been observed with one person with 5-TOM, this ethyl homologue was not only run up with special caution, but that individual ran his own personal titration. And he proved to be perhaps twice as sensitive to 5-TOET than any of the other subjects. An approach to what might just be some unusual metabolic idiosyncrasy on the part of his liver, is discussed in the recipe for TOMSO.",
+      "special_caution": {
+        "reason": "Extraordinary experience with 5-TOM",
+        "approach": "Run up with special caution",
+        "individual_titration": "That person ran his own personal titration",
+        "sensitivity": "Proved perhaps twice as sensitive as other subjects",
+        "explanation": "Unusual metabolic idiosyncrasy of liver, discussed under TOMSO"
+      },
+      "naming_etymology": {
+        "TOM_to_TOET": "Exactly parallel to DOM to DOET relationship",
+        "T_prefix": "Thio - chemical term for replacing oxygen with sulfur"
+      },
+      "pronunciation_peculiarities": {
+        "TOM": "No problem",
+        "TOET_options": ["Two-it", "Tow-it", "Too-wet"],
+        "actual_pronunciation": "One syllable: 'Twat'",
+        "family_name": "Toms and Twats",
+        "social_consequence": "Almost-obscene meaning progressively forgotten, raised eyebrows at seminars"
+      },
+      "theater_anecdote": {
+        "location": "Between-acts intermission at Berkeley Repertory Theater",
+        "result": "Stunned silence within circle of hearing, given extra room immediately thereafter"
+      },
+      "phenethylamine_analogue_2C_5_TOET": {
+        "aldehyde": "4-ethyl-2-methoxy-5-(methylthio)benzaldehyde",
+        "nitrostyrene": "Spectacular canary-yellow electrostatic crystals, mp 91-92 C",
+        "reduction": "Aluminum hydride from cold THF-dissolved LAH and 100% sulfuric acid",
+        "product": "4-ethyl-2-methoxy-5-methylthiophenethylamine",
+        "drying": "100 C under hard vacuum to remove water of hydration",
+        "mp": "216-217 C",
+        "status": "Never started in human evaluation"
+      },
+      "key_themes": [
+        "individual_sensitivity",
+        "metabolic_idiosyncrasy",
+        "pronunciation_humor",
+        "social_awkwardness",
+        "Toms_and_Twats"
+      ],
+      "notable_quotes": [
+        "That individual ran his own personal titration.",
+        "He proved to be perhaps twice as sensitive to 5-TOET than any of the other subjects.",
+        "Somehow the one syllable term 'Twat' became regularly used, and the family was generally referred to as the 'Toms and Twats.'",
+        "The almost-obscene meaning of the latter was progressively forgotten with usage, and has led to some raised eyebrows at occasional seminars.",
+        "There was a stunned silence about us within the circle of hearing, and we seemed to have been given a little extra room immediately thereafter."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 171,
+      "code": "2-TOM",
+      "chemical_name": "5-methoxy-4-methyl-2-(methylthio)amphetamine",
+      "extensions_and_commentary": "There is a most extraordinary loss of potency with the simple substitution of a sulfur atom for an oxygen atom. DOM is fully active at the 5 or so milligram area, whereas 2-TOM is active at maybe the 80 milligram area, a loss of potency by a factor of x15 or so. And the duration is quite a bit shorter. It might take a fair amount of learning to become completely at peace with it, but it might be worth the effort. And there are none of the disturbing hints of neurological and physical roughness of 5-TOM.",
+      "potency_comparison": {
+        "DOM": "Fully active at ~5 mg",
+        "2_TOM": "Active at ~80 mg",
+        "potency_loss": "Factor of x15 or so",
+        "duration": "Quite a bit shorter"
+      },
+      "character_assessment": {
+        "learning_curve": "Might take fair amount of learning to become at peace with it",
+        "worth_it": "Might be worth the effort",
+        "advantage": "None of the disturbing hints of neurological and physical roughness of 5-TOM"
+      },
+      "phenethylamine_analogue_2C_2_TOM": {
+        "aldehyde": "5-methoxy-4-methyl-2-(methylthio)benzaldehyde",
+        "nitrostyrene_synthesis": "Condensed with nitromethane and ammonium acetate",
+        "nitrostyrene_mp": "118-118.5 C from ethanol",
+        "reduction": "Aluminum hydride in THF",
+        "product": "Crystalline free base",
+        "hydrochloride_mp": "233-234 C",
+        "name": "2C-2-TOM",
+        "status": "Synthesized but not yet evaluated"
+      },
+      "key_themes": [
+        "potency_loss",
+        "sulfur_substitution",
+        "DOM_comparison",
+        "physical_smoothness"
+      ],
+      "notable_quotes": [
+        "There is a most extraordinary loss of potency with the simple substitution of a sulfur atom for an oxygen atom.",
+        "DOM is fully active at the 5 or so milligram area, whereas 2-TOM is active at maybe the 80 milligram area.",
+        "It might take a fair amount of learning to become completely at peace with it, but it might be worth the effort.",
+        "There are none of the disturbing hints of neurological and physical roughness of 5-TOM."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 172,
+      "code": "5-TOM",
+      "chemical_name": "5-methoxy-4-methyl-5-(methylthio)amphetamine",
+      "extensions_and_commentary": "The bottom line is that 5-TOM is a pretty heavy-duty experience, with more negative reports than positive ones. I have received no mentions of a completely ecstatic time, and not even very many neutral experiences. The consensus is that it wasn't worth the struggle. Some cramping, some nausea, and a generalized discomfort. And that one case of a catatonic response. An approach to possible individual variation in the metabolic handling of the sulfur atom is the rationale for the preparation of the compound TOMSO, and it is discussed there. The two-carbon homologue of 5-TOM has been prepared. It uses, of course, the same aldehyde, but the condensation was with nitromethane which yielded the nitrostyrene as an orange powder with a melting point of 118-119 °C from methanol. This was reduced with LAH in ether containing anhydrous AlCl3, giving 2-methoxy-4-methyl-5-methylthiophenethylamine hydrochloride as white crystals with a melting point of 257-258 °C. It has been named 2C-5-TOM, but it has not yet been entered into the screening program so it is pharmacologically still a mystery.",
+      "overall_assessment": {
+        "character": "Heavy-duty experience",
+        "report_balance": "More negative reports than positive ones",
+        "ecstatic_experiences": "None mentioned",
+        "consensus": "Wasn't worth the struggle"
+      },
+      "negative_effects": [
+        "Some cramping",
+        "Some nausea",
+        "Generalized discomfort",
+        "One case of catatonic response"
+      ],
+      "metabolic_considerations": {
+        "individual_variation": "Possible individual variation in metabolic handling of sulfur atom",
+        "rationale_for_TOMSO": "Investigation of sulfur metabolism led to TOMSO synthesis"
+      },
+      "phenethylamine_analogue_2C_5_TOM": {
+        "aldehyde": "Same as 5-TOM",
+        "condensation": "With nitromethane",
+        "nitrostyrene_appearance": "Orange powder",
+        "nitrostyrene_mp": "118-119 °C from methanol",
+        "reduction": "LAH in ether containing anhydrous AlCl3",
+        "product": "2-methoxy-4-methyl-5-methylthiophenethylamine hydrochloride",
+        "product_appearance": "White crystals",
+        "product_mp": "257-258 °C",
+        "name": "2C-5-TOM",
+        "status": "Not yet entered into screening program, pharmacologically still a mystery"
+      },
+      "key_themes": [
+        "negative_experience_predominance",
+        "physical_side_effects",
+        "catatonic_response",
+        "sulfur_metabolism",
+        "individual_variation",
+        "phenethylamine_analogue"
+      ],
+      "notable_quotes": [
+        "The bottom line is that 5-TOM is a pretty heavy-duty experience, with more negative reports than positive ones.",
+        "I have received no mentions of a completely ecstatic time, and not even very many neutral experiences.",
+        "The consensus is that it wasn't worth the struggle.",
+        "And that one case of a catatonic response."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 173,
+      "code": "TOMSO",
+      "chemical_name": "5-methoxy-4-methyl-5-(methylsulfinyl)amphetamine",
+      "extensions_and_commentary": "This entire venture into the study of TOMSO was an outgrowth of the extraordinary response that had been shown by one person to 5-TOM. There were two obvious approaches that might throw some light on the reason for this dramatic sensitivity. One would be to see if he was unusually capable of metabolizing sulfur-containing molecules, and the second would be to assume he was, and to try to guess just what product he had manufactured with his liver. The individual sensitivity question was addressed in a tidy and direct manner. Why not study a simple sulfur-containing model compound that would probably be metabolized only at the sulfur and that would itself probably be pharmacologically inactive in its own rights? Sounded OK to me, so I made up a goodly supply of 4-tert-butyl thioanisole, which proved to be a gorgeous white crystalline solid. It seemed quite logical that this would be metabolized at the sulfur atom to produce either or both the sulfoxide and the sulfone. So I treated a methanol solution of this with a little hydrogen peroxide and distilled the neutral extracts at 100-115 °C at 0.2 mm/Hg to give the sulfoxide as a solid that melted at 76-77 °C from hexane. On the other hand, if a solution of the thioanisole in acetic acid containing hydrogen peroxide was heated on the steam bath for a few hours and then worked up, a new solid was isolated that proved to be the sulfone (a negative Fries-Vogt test). This was obtained as white crystals with a mp of 94-95 °C from aqueous methanol. And I found that these three compounds separated well from one another by GC, and that they could be extracted from urine. Everything was falling into place. My thought was to determine a safe (inactive) level of the parent thioanisole, and determine the distribution of metabolites in my urine, and then in the urine of several other people, and then finally in the urine of the person who was the intense reactor to 5-TOM. I found that there were no effects, either physical or psychological, at an oral dose of 60 milligrams of 4-tert-butyl-thioanisole. But then everything fell apart. There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine. The material was obviously being completely converted to one or more metabolites, but the sulfoxide and sulfone were not among them. It would be fun, someday, to methodically trace the fate of this compound. So, on to the second approach. What might the active metabolite of 5-TOM actually be? The sulfoxide seemed completely reasonable, and that encouraged the synthesis of TOMSO. This name was given, as it is the sulfoxide analogue (SO) of 5-TOM. And since only one of these analogues has been made, the R5S distinction is not needed. But it is apparent that this approach to the finding of an explanation for the idiosyncratic sensitivity to 5-TOM also failed, in that TOMSO itself appeared to be without activity. But the fallout of this study was the uncovering of an unusual property that alcohol can occasionally have when it follows the ingestion of certain inactive drugs. Or if it is used at the tail end of an experience with an active drug. Usually some alcohol has been employed as a softener of the residual effects of the day's experiment, or as a social habit to accompany the post-mortem discussions of a day's experiences, and perhaps as a help to sleeping. But if there is a rekindling of the effect, rather than the sedation expected, then the verb 'to tomso' can be used in the notes. It represents the promotion of an inactive situation into an active one, with the catalysis of alcohol. But the effect is not that of alcohol. Might the extreme sensitivity of some alcoholics to even a small amount of alcohol be due to some endogenous 'inactive' factor that is promoted in this way into some centrally florid toxicity? I remember seeing proposals of some tetrahydroisoquinolines as potential mis-metabolites in efforts to explain the toxicity of alcohol. Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine. And the person is tomsoing with his small amount of alcohol.",
+      "research_motivation": {
+        "origin": "Outgrowth of extraordinary response shown by one person to 5-TOM",
+        "approaches": [
+          "See if subject was unusually capable of metabolizing sulfur-containing molecules",
+          "Assume he was and try to guess what product his liver manufactured"
+        ]
+      },
+      "model_compound_study": {
+        "compound": "4-tert-butyl thioanisole",
+        "appearance": "Gorgeous white crystalline solid",
+        "rationale": "Simple sulfur-containing compound, probably metabolized only at sulfur, probably pharmacologically inactive",
+        "expected_metabolites": ["Sulfoxide", "Sulfone"],
+        "sulfoxide_synthesis": "Treated methanol solution with hydrogen peroxide, distilled at 100-115 °C at 0.2 mm/Hg",
+        "sulfoxide_mp": "76-77 °C from hexane",
+        "sulfone_synthesis": "Thioanisole in acetic acid with hydrogen peroxide, heated on steam bath",
+        "sulfone_mp": "94-95 °C from aqueous methanol",
+        "gc_separation": "Three compounds separated well by GC, extractable from urine",
+        "inactive_dose": "60 mg oral of 4-tert-butyl-thioanisole - no effects",
+        "unexpected_result": "No detectable trace of parent or metabolites in urine",
+        "conclusion": "Material completely converted to unknown metabolites"
+      },
+      "TOMSO_result": {
+        "naming": "Sulfoxide analogue (SO) of 5-TOM",
+        "activity": "Appeared to be without activity",
+        "conclusion": "This approach to explaining idiosyncratic sensitivity to 5-TOM also failed"
+      },
+      "tomso_verb_concept": {
+        "definition": "The promotion of an inactive situation into an active one, with the catalysis of alcohol",
+        "usage": "When alcohol rekindles effect rather than producing expected sedation",
+        "context": "Following ingestion of inactive drugs or at tail end of active drug experience",
+        "effect_clarification": "Effect is not that of alcohol"
+      },
+      "alcoholism_hypothesis": {
+        "question": "Might extreme sensitivity of some alcoholics to small amounts of alcohol be due to endogenous 'inactive' factor promoted to centrally florid toxicity?",
+        "tetrahydroisoquinolines": "Proposed as potential mis-metabolites to explain alcohol toxicity",
+        "speculation": "Maybe they are psychedelics thought to be inactive, but ignited with a glass of wine"
+      },
+      "key_themes": [
+        "individual_sensitivity",
+        "sulfur_metabolism",
+        "metabolite_investigation",
+        "model_compound_study",
+        "tomso_verb_creation",
+        "alcohol_catalysis",
+        "alcoholism_hypothesis",
+        "tetrahydroisoquinolines"
+      ],
+      "notable_quotes": [
+        "This entire venture into the study of TOMSO was an outgrowth of the extraordinary response that had been shown by one person to 5-TOM.",
+        "Everything was falling into place... But then everything fell apart.",
+        "There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine.",
+        "The verb 'to tomso' can be used in the notes. It represents the promotion of an inactive situation into an active one, with the catalysis of alcohol.",
+        "Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 174,
+      "code": "TP",
+      "chemical_name": "3,4,5-trimethoxyphenyl-N,N-dimethylthiopropylamine",
+      "extensions_and_commentary": "There is a high potency here, but clearly there are signs of increased toxicity as well even over the ethyl homologue, TE. The butyl compound (see TB) was the last of this series of phenethylamines and as is noted there, the physical problems lessen, but so do the psychedelic properties. The three-carbon amphetamine homologues are completely unexplored. The most reasonable starting material for these would be 4-thiosyringaldehyde, with S-alkylation and then the conventional nitroethane coupling followed with LAH reduction. The most appealing target as a potential psychedelic would be the methylthio homologue (3,5-dimethoxy-4-methylthioamphetamine, 3C-TM) or, as a potential euphoriant, the butylthio homologue (3,5-dimethoxy-4-(n)-butylthioamphetamine, 3C-TB). I am not sure that these alkylthio analogues would justify the labor needed to make them.",
+      "potency_assessment": {
+        "potency": "High",
+        "toxicity": "Signs of increased toxicity even over TE (ethyl homologue)"
+      },
+      "series_comparison": {
+        "TE": "Ethyl homologue - less toxic than TP",
+        "TB": "Butyl compound - last of series, physical problems lessen but so do psychedelic properties"
+      },
+      "unexplored_amphetamine_homologues": {
+        "status": "Completely unexplored",
+        "starting_material": "4-thiosyringaldehyde",
+        "synthesis_route": "S-alkylation, then conventional nitroethane coupling, followed with LAH reduction",
+        "potential_targets": {
+          "3C_TM": {
+            "full_name": "3,5-dimethoxy-4-methylthioamphetamine",
+            "potential": "Potential psychedelic"
+          },
+          "3C_TB": {
+            "full_name": "3,5-dimethoxy-4-(n)-butylthioamphetamine",
+            "potential": "Potential euphoriant"
+          }
+        },
+        "assessment": "Not sure these alkylthio analogues would justify the labor needed to make them"
+      },
+      "key_themes": [
+        "high_potency",
+        "increased_toxicity",
+        "series_progression",
+        "unexplored_amphetamine_homologues",
+        "synthesis_suggestions",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "There is a high potency here, but clearly there are signs of increased toxicity as well even over the ethyl homologue, TE.",
+        "The butyl compound (see TB) was the last of this series of phenethylamines and as is noted there, the physical problems lessen, but so do the psychedelic properties.",
+        "The three-carbon amphetamine homologues are completely unexplored.",
+        "I am not sure that these alkylthio analogues would justify the labor needed to make them."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 175,
+      "code": "TRIS",
+      "chemical_name": "3,4,5-triethoxyphenethylamine",
+      "extensions_and_commentary": "With the progressive diminution of human potency with increased ethylation of the mescaline molecule, there is no surprise in finding that this base is devoid of activity. Studies done years ago in the cat at a dosage of 25 mg/Kg (i.m.) gave none of the expected, and looked for, signs of behavioral changes (pilomotor activity, pupillary dilation, growling, hissing, aggressive behavior, withdrawal, or salivation) that are often seen with the less bulky substituents. It was without action. More lengthy substituents in the 3,4,5-positions (with combinations of ethyls and propyls, for example) are presently unknown compounds, and there is small incentive to make them.",
+      "activity_assessment": {
+        "status": "Devoid of activity",
+        "rationale": "Progressive diminution of human potency with increased ethylation of mescaline molecule"
+      },
+      "animal_studies": {
+        "species": "Cat",
+        "dose": "25 mg/Kg (i.m.)",
+        "timeframe": "Years ago",
+        "behavioral_signs_tested": [
+          "Pilomotor activity",
+          "Pupillary dilation",
+          "Growling",
+          "Hissing",
+          "Aggressive behavior",
+          "Withdrawal",
+          "Salivation"
+        ],
+        "result": "None of the expected signs, without action"
+      },
+      "structure_activity": {
+        "pattern": "Progressive diminution with increased ethylation",
+        "mescaline_comparison": "Mescaline (trimethoxy) active, TRIS (triethoxy) inactive",
+        "bulkier_substituents": "Often associated with loss of activity"
+      },
+      "future_compounds": {
+        "status": "Presently unknown",
+        "examples": "Combinations of ethyls and propyls in 3,4,5-positions",
+        "incentive": "Small incentive to make them"
+      },
+      "key_themes": [
+        "progressive_potency_loss",
+        "ethylation_effect",
+        "mescaline_analogue",
+        "devoid_of_activity",
+        "animal_studies",
+        "structure_activity_relationship"
+      ],
+      "notable_quotes": [
+        "With the progressive diminution of human potency with increased ethylation of the mescaline molecule, there is no surprise in finding that this base is devoid of activity.",
+        "Studies done years ago in the cat at a dosage of 25 mg/Kg (i.m.) gave none of the expected, and looked for, signs of behavioral changes.",
+        "It was without action.",
+        "More lengthy substituents in the 3,4,5-positions are presently unknown compounds, and there is small incentive to make them."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 176,
+      "code": "3-TSB",
+      "chemical_name": "4-ethyl-3-ethylthio-5-methoxyphenethylamine",
+      "extensions_and_commentary": "The elephant labored and brought forth a mouse. A lot of work for a material without activity. I have used the term 'scrudge' in this and other recipes, without defining it. With this aldehyde, as with most aldehydes in this nitrostyrene synthesis reaction where there is no ortho-substituent on the benzaldehyde, the reaction progress should be carefully followed by thin-layer chromatography. As the aldehyde disappears from the reaction mixture, the nitrostyrene appears, but there is usually the development of one or more slower moving components as seen by TLC. Such a wrong-product is called scrudge. The reaction should be continuously titrated, and stopped when there is a favorable balance between the aldehyde being mostly gone, the nitrostyrene being mostly made, and the slower-moving scrudge components being not yet too plentiful. Methylene chloride is an excellent solvent to try first, with silica gel plates and UV detection. The nitrostyrene is always the fastest moving component of the reaction mixture and often fluoresces a dull purple. The starting aldehyde is the second spot and usually fluoresces white or pale yellow. The scrudge spots then occur in a cascade from the aldehyde to the origin. A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene. Usually, they are high melting. In this preparation, there was not one but several scrudges, and little if any nitrostyrene. The same was true for the other of the diethyl compounds such as 3-TASB, 5-TASB and 3-T-TRIS. Thus, it is preferable to circumvent this usual synthetic step by using the Wittig reaction instead, as described here.",
+      "activity_assessment": {
+        "status": "Without activity",
+        "effort_assessment": "A lot of work for a material without activity",
+        "metaphor": "The elephant labored and brought forth a mouse"
+      },
+      "scrudge_definition": {
+        "term": "Scrudge",
+        "meaning": "Wrong-product that develops as slower moving components on TLC during nitrostyrene synthesis",
+        "appearance": "Yellow or brown colored",
+        "melting_point": "Usually high melting",
+        "deceptive_property": "In probe mass spectrograph can crack to give rise to what appears to be the right nitrostyrene"
+      },
+      "tlc_monitoring": {
+        "when_needed": "Most aldehydes without ortho-substituent on benzaldehyde",
+        "solvent": "Methylene chloride (excellent first choice)",
+        "plates": "Silica gel",
+        "detection": "UV",
+        "nitrostyrene_behavior": "Fastest moving component, often fluoresces dull purple",
+        "aldehyde_behavior": "Second spot, usually fluoresces white or pale yellow",
+        "scrudge_behavior": "Cascade from aldehyde to origin",
+        "stopping_point": "Favorable balance: aldehyde mostly gone, nitrostyrene mostly made, scrudge not yet too plentiful"
+      },
+      "synthetic_challenges": {
+        "this_compound": "Not one but several scrudges, little if any nitrostyrene",
+        "similar_problems": ["3-TASB", "5-TASB", "3-T-TRIS"],
+        "solution": "Circumvent with Wittig reaction instead"
+      },
+      "key_themes": [
+        "inactive_compound",
+        "scrudge_definition",
+        "tlc_monitoring",
+        "synthetic_difficulties",
+        "wittig_alternative",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "The elephant labored and brought forth a mouse.",
+        "A lot of work for a material without activity.",
+        "Such a wrong-product is called scrudge.",
+        "A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene.",
+        "Thus, it is preferable to circumvent this usual synthetic step by using the Wittig reaction instead."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 177,
+      "code": "4-TSB",
+      "chemical_name": "3-ethyl-4-ethylthio-5-methoxyphenethylamine",
+      "extensions_and_commentary": "Here is an excellent presentation of a report that shows false positives or maybe false negatives. Something at low levels. Nothing at higher levels. Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error.",
+      "activity_assessment": {
+        "low_levels": "Something observed",
+        "high_levels": "Nothing observed",
+        "interpretation": "False positives or maybe false negatives"
+      },
+      "experimental_principle": {
+        "rule": "Always tend to trust the absence of an effect in preference to the presence of an effect",
+        "condition": "If one of the two observations is presumed to be in error"
+      },
+      "key_themes": [
+        "false_positives",
+        "false_negatives",
+        "dose_response_paradox",
+        "experimental_methodology",
+        "absence_versus_presence"
+      ],
+      "notable_quotes": [
+        "Here is an excellent presentation of a report that shows false positives or maybe false negatives.",
+        "Something at low levels. Nothing at higher levels.",
+        "Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 178,
+      "code": "3-T-TRIS",
+      "chemical_name": "3,5-diethyl-4-ethylthiophenethylamine",
+      "extensions_and_commentary": "The term 'M.U.' pops up here and there in a lot of the earlier literature on these phenethylamines. It stands for 'mescaline units' and was used to give a quantitative measure for the relative potency of a compound. Since it became obvious quite early in these studies that mescaline, although the prototypic compound, was probably going to remain the least potent, it seemed reasonable to use it as a bench mark of unity. By dividing the dose needed of mescaline (to produce central effects) by the dose needed of another drug, one would generate a number that represented just how many times more potent this new drug was than mescaline. I used this term in a very early review of the one-ring psychotomimetics, and it served satisfactorily for quite a while. Its intrinsic worth proved, however, to be its very limitation. It was quickly apparent that the principal value, to behavioral researchers, of the reports of new hallucinogenic drugs, was not in the nature of their action but in the amount of stuff needed to produce that action. This was an essential axis against which the animal pharmacologist could plot his findings. A number was wanted, and the mescaline unit was just that number. Sadly, the major question that is asked by most academic researchers in their evaluation of the psychedelic materials is, 'How much does it take,' rather than 'What does it do.' The marvelous nuances of action, the subtle variations of effect, are dismissed as being hopelessly subjective and thus without scientific worth. But they are, I believe, of great worth. That is exactly what this book is all about.",
+      "mescaline_units_concept": {
+        "abbreviation": "M.U.",
+        "full_name": "Mescaline units",
+        "purpose": "Quantitative measure for relative potency of a compound",
+        "calculation": "Dose of mescaline / Dose of new drug = potency multiple",
+        "rationale": "Mescaline as prototypic compound, probably least potent, reasonable benchmark of unity",
+        "early_use": "Used in very early review of one-ring psychotomimetics"
+      },
+      "critique_of_quantitative_focus": {
+        "limitation": "Intrinsic worth proved to be its very limitation",
+        "researcher_focus": "Principal value was amount needed, not nature of action",
+        "sad_reality": "Major question asked is 'How much does it take' rather than 'What does it do'",
+        "dismissed_aspects": "Marvelous nuances of action, subtle variations of effect",
+        "dismissal_reason": "Being hopelessly subjective and thus without scientific worth"
+      },
+      "shulgin_philosophy": {
+        "belief": "Nuances and variations are of great worth",
+        "book_purpose": "That is exactly what this book is all about"
+      },
+      "key_themes": [
+        "mescaline_units",
+        "potency_measurement",
+        "quantitative_versus_qualitative",
+        "scientific_reductionism",
+        "subjective_experience_value",
+        "book_philosophy"
+      ],
+      "notable_quotes": [
+        "The term 'M.U.' pops up here and there in a lot of the earlier literature on these phenethylamines. It stands for 'mescaline units'.",
+        "Its intrinsic worth proved, however, to be its very limitation.",
+        "Sadly, the major question that is asked by most academic researchers in their evaluation of the psychedelic materials is, 'How much does it take,' rather than 'What does it do.'",
+        "The marvelous nuances of action, the subtle variations of effect, are dismissed as being hopelessly subjective and thus without scientific worth.",
+        "But they are, I believe, of great worth. That is exactly what this book is all about."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 179,
+      "code": "4-T-TRIS",
+      "chemical_name": "3,5-diethyl-4-ethylthiophenethylamine",
+      "extensions_and_commentary": "As with the sulfur-free counterpart, the phenethylamine with three ethyl groups hanging out from it is not active in man. It doesn't matter where the sulfur is, since the 3-T-TRIS isomer is also without action. The labor of making the amphetamine analogues of these triethylated things seems hardly worth the effort.",
+      "activity_assessment": {
+        "status": "Not active in man",
+        "comparison": "Same as sulfur-free counterpart",
+        "sulfur_position": "Doesn't matter where the sulfur is",
+        "isomer_comparison": "3-T-TRIS isomer also without action"
+      },
+      "structure_activity": {
+        "pattern": "Three ethyl groups = inactivity",
+        "sulfur_effect": "Sulfur position does not rescue activity"
+      },
+      "future_work_assessment": {
+        "amphetamine_analogues": "Labor seems hardly worth the effort"
+      },
+      "key_themes": [
+        "inactive_compound",
+        "triethyl_substitution",
+        "sulfur_position_irrelevant",
+        "isomer_comparison",
+        "labor_versus_reward"
+      ],
+      "notable_quotes": [
+        "As with the sulfur-free counterpart, the phenethylamine with three ethyl groups hanging out from it is not active in man.",
+        "It doesn't matter where the sulfur is, since the 3-T-TRIS isomer is also without action.",
+        "The labor of making the amphetamine analogues of these triethylated things seems hardly worth the effort."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
