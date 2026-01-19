@@ -8136,6 +8136,507 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 130,
+      "code": "METHYL-MA",
+      "chemical_name": "4-methoxy-N-methylamphetamine",
+      "alternate_names": ["Doonesamine", "RDOONES"],
+      "extensions_and_commentary": "Why would there be interest in this particular compound? The track record from the comparison of active compounds that are primary amines, and their N-methyl homologues, has shown that, in general, the stimulant component might be maintained, but the 'psychedelic' contribution is generally much reduced. MDMA is, of course, an exception, but then, that particular compound is a one-of-a-kind thing which simply defies all the rules anyway, and I drop it from this kind of reasoning. And as 4-MA is a pretty pushy stimulant with little if any sensory sparkle, why bother with the N-methyl compound at all?",
+      "doonesbury_connection": {
+        "reason": "For a completely silly and romantic reason",
+        "date": "August 19, 1985",
+        "cartoonist": "Gary Trudeau",
+        "context": "MDMA story became front-page news mid-1985, two-week Doonesbury feature",
+        "strip_content": {
+          "setting": "Duke, president of Baby Doc College",
+          "characters": "Drug design team from USC - brilliant twins Drs. Albie and Bunny Gorp",
+          "drug_name": "Intensity",
+          "claim": "MDMA with one of the two oxygens removed - 'Legal as sea salt'",
+          "promised_effect": "Should give the illusion of substance to one's alter ego"
+        },
+        "shulgin_naming": "Called it Doonesamine, or simply RDOONES",
+        "dune_reference": "Maybe also a homonym for Frank Herbert's 'Dune' - magical drug 'spice' providing remarkable alteration of consciousness"
+      },
+      "designer_drugs_origin": {
+        "significance": "First nationally distributed allusion to the term 'designer drugs'",
+        "consequence": "Perhaps lent unexpected support for passage of Controlled Substances Analogue Enforcement Act of 1986",
+        "shulgin_critique": "This intentionally vague piece of legislation makes the giving of, or the taking of, or even the possession with the intent to take, any drug that in any way alters your state of consciousness, a felony. A shameful and desperate effort by the governmental authorities to maintain the image of control in a lost situation."
+      },
+      "animal_studies": {
+        "species": "Mice and rats",
+        "finding": "Exceptionally potent agent in creating catatonia",
+        "other_effects": "Locomotor stimulation and some central effects, but somehow different than simple amphetamine-like agent",
+        "researcher_conclusion": "Human experimentation should be discouraged due to structural resemblance to 4-MA, proclivity to produce catatonia, and possibility of unsuspected neurochemical changes"
+      },
+      "shulgin_conclusion": "I have come to the same conclusion, but in my case this is based on a much more succinct observation: I tried it and I didn't like it.",
+      "dimethyl_homologues": {
+        "4_MNNA": {
+          "name": "4-methoxy-N,N-dimethylamphetamine",
+          "synthesis": "Reductive amination of 4-methoxyphenylacetone with dimethylamine",
+          "appearance": "Colorless oil",
+          "bp": "70-85 C at 0.3 mm/Hg",
+          "fluorination": "3% yield with 18F labelled acetyl hypofluorite"
+        },
+        "2_MNNA": {
+          "name": "2-methoxy-N,N-dimethylamphetamine",
+          "synthesis": "Similarly made",
+          "appearance": "Colorless oil",
+          "bp": "Same as 4-MNNA",
+          "fluorination": "6% yield",
+          "purpose": "Brain blood flow indicator research - not pursued further"
+        }
+      },
+      "key_themes": [
+        "Doonesbury_cultural_moment",
+        "designer_drugs_legislation",
+        "N_methylation_effects",
+        "catatonia_in_animals",
+        "personal_negative_experience",
+        "Dune_reference"
+      ],
+      "notable_quotes": [
+        "MDMA is, of course, an exception, but then, that particular compound is a one-of-a-kind thing which simply defies all the rules anyway.",
+        "For a completely silly and romantic reason.",
+        "Voila. Legal as sea salt.",
+        "A shameful and desperate effort by the governmental authorities to maintain the image of control in a lost situation.",
+        "I tried it and I didn't like it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 131,
+      "code": "METHYL-MMDA-2",
+      "chemical_name": "N-methyl-2-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "With the effective dosage of the unmethylated homologue being the range of 25 to 50 milligrams, this N-methyl compound is, as with the other N-methylated materials discussed here, again of reduced activity. The highest dose yet reported was 70 milligrams, and there is no way of estimating what might be an active level nor, once there, what the quality of the effects might be.",
+      "dosage_info": {
+        "parent_compound_MMDA_2": "25-50 mg effective",
+        "highest_tested": "70 mg",
+        "assessment": "No way of estimating active level or quality of effects"
+      },
+      "related_compound_METHYL_DMMDA": {
+        "alternate_name": "DMMDMA",
+        "synthesis": {
+          "starting_material": "Isoapiole",
+          "oxidation": "Formic acid and hydrogen peroxide",
+          "ketone": "2,5-dimethoxy-3,4-methylenedioxyphenylacetone, mp 75-76 C from methanol",
+          "amination": "Reductive amination with methylamine and amalgamated aluminum",
+          "product": "2,5-dimethoxy-N-methyl-3,4-methylenedioxyamphetamine hydrobromide monohydrate",
+          "appearance": "White crystalline solid",
+          "mp": "91-92 C",
+          "hydrochloride": "Hygroscopic solid"
+        },
+        "status": "Not yet launched into evaluation program",
+        "predicted_dosage": "Might be over 100 milligrams"
+      },
+      "underground_chemists_tribute": "I feel quite sure that the answers may be known in the near future. There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories. They are truly the astronauts of inner space.",
+      "key_themes": [
+        "N_methylation_reduces_activity",
+        "unexplored_compounds",
+        "underground_researchers",
+        "astronauts_of_inner_space"
+      ],
+      "notable_quotes": [
+        "This N-methyl compound is, as with the other N-methylated materials discussed here, again of reduced activity.",
+        "There is no way of estimating what might be an active level nor, once there, what the quality of the effects might be.",
+        "There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories.",
+        "They are truly the astronauts of inner space."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 132,
+      "code": "MMDA",
+      "chemical_name": "3-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The phrase that had been used by several of the subjects in the early trials with MMDA, again and again, was 'brain movies.' Apparently the richest of the effects were to be had with the eyes closed. This is the compound that I had first completed in 1962, and had named it MMDA, and had begun the exploring of it when I heard that Dr. Gordon A. Alles, a professor of pharmacology at U. C. L. A. who had his own private laboratory in Los Angeles, had also synthesized it in 1962, had also named it MMDA, and had also begun exploring it. We made a date to meet and share ideas, and then he died, at the age of 62, in 1963.",
+      "characteristic_effects": {
+        "phrase": "Brain movies",
+        "best_conditions": "Eyes closed",
+        "quality": "Richest effects"
+      },
+      "historical_discovery": {
+        "shulgin_completion": "1962",
+        "parallel_discovery": {
+          "researcher": "Dr. Gordon A. Alles",
+          "position": "Professor of pharmacology at UCLA",
+          "location": "Private laboratory in Los Angeles",
+          "year": "1962",
+          "same_name": "Also named it MMDA",
+          "tragic_end": "Died at age 62 in 1963 before they could meet and share ideas"
+        }
+      },
+      "nutmeg_connection": {
+        "theory": "Might be contributing factor to pharmacology of nutmeg",
+        "major_oil": "Myristicin",
+        "conversion": "Passage of myristicin through liver of rabbit generates MMDA",
+        "structural_difference": "Only elements of ammonia - myristicin + ammonia = MMDA",
+        "other_source": "Oil of Parsley (also excellent source of apiole)",
+        "1960s_rumor": "Parsley could get you high - probably from reports of myristicin presence + MMDA connection",
+        "classification": "Essential Amphetamine"
+      },
+      "legal_history": {
+        "timing": "Mid-1960s FDA proclamation of dangerous drugs",
+        "status_then": "Being talked about, just became commercially available in England through Koch Light Industries",
+        "street_presence": "Never appeared on the street",
+        "assessment": "Swept into listings of evil drugs simply a coincidence of bad timing"
+      },
+      "MMDA_vs_MDMA_confusion": "The close resemblance of initials between MMDA, and the currently notorious MDMA, has led to no small amount of confusion in the popular press. They remain totally separate and completely different drugs.",
+      "key_themes": [
+        "brain_movies",
+        "parallel_discovery",
+        "Gordon_Alles",
+        "nutmeg_pharmacology",
+        "myristicin_metabolism",
+        "Essential_Amphetamine",
+        "MMDA_MDMA_confusion"
+      ],
+      "notable_quotes": [
+        "The phrase that had been used by several of the subjects in the early trials with MMDA, again and again, was 'brain movies.'",
+        "We made a date to meet and share ideas, and then he died, at the age of 62, in 1963.",
+        "It has been reported that the passage of this oil through the liver of a rabbit will generate MMDA in that animal.",
+        "A rumor that had currency in the 1960's, that parsley could get you high, probably had its origins in the reports of myristicin being present.",
+        "They remain totally separate and completely different drugs."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 133,
+      "code": "MMDA-2",
+      "chemical_name": "2-methoxy-4,5-methylenedioxyamphetamine",
+      "extensions_and_commentary": "A comparison of this material to MDA was often made by subjects who were familiar with both. But it is hard to separate that which is intellectualized from that which is felt. An awareness of the chemical structure immediately shows, of course, the close resemblance. There is the complete MDA molecule, with the addition of a methoxy group. And for the non-chemist, the name itself (MMDA-2) represents the second possible methoxy-MDA. Certainly one property that is shared with MDA is the broad variety of opinions as to the quality of its action. Some like it much, and some like it not at all. The N-methyl homologue was indeed made, for direct evaluation in comparison to N-methyl MDA (which is MDMA).",
+      "MDA_comparison": {
+        "structural_relationship": "Complete MDA molecule with addition of methoxy group",
+        "naming": "Second possible methoxy-MDA",
+        "shared_property": "Broad variety of opinions - some like it much, some not at all",
+        "intellectual_vs_felt": "Hard to separate that which is intellectualized from that which is felt"
+      },
+      "phenethylamine_analog_2C_2": {
+        "synthesis": "Condensation of benzaldehyde with nitromethane (acetic acid, ammonium acetate catalyst)",
+        "nitrostyrene": "Deep orange crystals, mp 166-167 C from ethyl acetate",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "2-methoxy-4,5-methylenedioxyphenethylamine hydrochloride",
+        "mp": "218-219 C",
+        "trials": "No effects at up to 2.6 mg, no higher trials made"
+      },
+      "four_carbon_analog_4C_2": {
+        "synthesis": "Aldehyde + nitropropane with tert-butylammonium acetate (100% excess) in isopropanol",
+        "nitrostyrene": "Orange crystals, mp 98-99 C from methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "1-(2-methoxy-4,5-methylenedioxyphenyl)-2-aminobutane hydrochloride",
+        "mp": "172-174 C",
+        "status": "Never even been tasted"
+      },
+      "tweetio_homologue_EMDA_2": {
+        "name": "2-ethoxy-4,5-methylenedioxyamphetamine",
+        "synthesis": "Allyl ether of sesamol rearranged to 2-allyl phenol, converted to ethyl ether, reaction with tetranitromethane",
+        "nitrostyrene_mp": "120-121 C",
+        "final_hydrochloride_mp": "188-188.5 C",
+        "effects_135mg": "Eyes-closed visual phenomena with intense colors",
+        "effects_185mg": "Intensified feelings, 'marvelous eyes-closed visuals (the colors were incredible)', good concentration, distinct body-tingles and rushes",
+        "duration": "About 12 hours, impossible to sleep afterwards",
+        "relative_potency": "About a third the potency of MMDA-2"
+      },
+      "key_themes": [
+        "MDA_structural_relationship",
+        "variable_opinions",
+        "phenethylamine_analogs",
+        "Tweetio_homologues",
+        "visual_phenomena"
+      ],
+      "notable_quotes": [
+        "It is hard to separate that which is intellectualized from that which is felt.",
+        "Certainly one property that is shared with MDA is the broad variety of opinions as to the quality of its action. Some like it much, and some like it not at all.",
+        "This material has never even been tasted.",
+        "The colors were incredible."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 134,
+      "code": "MMDA-3a",
+      "chemical_name": "2-methoxy-3,4-methylenedioxyamphetamine",
+      "extensions_and_commentary": "The term MMDA-3a has the feel of being complicated, but there is a reason for the code. As had been mentioned, MMDA was the initials for methoxy (the M) methylenedioxy (the MD) amphetamine (the A). And with a molecule of amphetamine there are six ways of sticking these two groupings on the aromatic ring. The numbers 1-6 had already been assigned to the six ways of sticking three methoxyl groups onto an amphetamine molecule (with the trimethoxyamphetamines, the TMA's) and I decided to hew to the same convention with the methylenedioxy counterparts.",
+      "naming_explanation": {
+        "MMDA_breakdown": "Methoxy (M) + Methylenedioxy (MD) + Amphetamine (A)",
+        "six_positions": "Six ways of sticking two groupings on aromatic ring",
+        "TMA_convention": "Numbers 1-6 assigned to trimethoxyamphetamines",
+        "two_number_3s": "Methoxy and methylenedioxy can go onto three oxygens in a row in two different ways",
+        "no_number_6": "Methylenedioxy must have two adjacent oxygens, none in 2,4,6-orientation of TMA-6",
+        "a_and_b_distinction": "With two possible MMDA-3's, naming one 'a' and other 'b' becomes essential"
+      },
+      "natural_source": {
+        "essential_oil": "Croweacin (1-allyl-2-methoxy-3,4-methylenedioxybenzene)",
+        "classification": "Essential Amphetamine - can arise by amination in liver in vivo",
+        "practical_note": "Croweacin is certainly not a practical starting material in synthesis"
+      },
+      "clinical_reports": {
+        "source": "Number of clinical trials at higher levels, details sketchy",
+        "trials_80mg": "Three trials",
+        "trials_100mg": "One trial",
+        "comparison": "Both quantity and quality compared to 100 micrograms of LSD",
+        "concerning_events": {
+          "event_1": "One subject had spontaneous peak experience five days after experiment",
+          "event_2": "Another made symbolic suicide attempt",
+          "caveat": "May or may not be related to trials"
+        }
+      },
+      "phenethylamine_analog_2C_3a": {
+        "synthesis": "7.6g benzaldehyde + nitromethane (acetic acid, ammonium acetate)",
+        "nitrostyrene": "5.4g, mp 115.5-116.5 C from methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "2-methoxy-3,4-methylenedioxyphenethylamine hydrochloride",
+        "mp": "143-145 C",
+        "effects": {
+          "40mg": "Perhaps hint of psychic energizer",
+          "65mg": "Pleasant mood elevation",
+          "80mg": "Brief paresthetic twinge at 1.5 hours",
+          "120mg": "About the same at one hour, then nothing"
+        },
+        "observation": "Modest change over three-fold dose range suggests merit as anti-depressant",
+        "question": "Would be interesting to know if it blocks serotonin reuptake!"
+      },
+      "four_carbon_analog_4C_3a": {
+        "synthesis": "Aldehyde + nitropropane with tert-butylammonium acetate (100% excess) in isopropanol",
+        "nitrostyrene": "Bright yellow crystals, mp 105.5-106.5 C from 25 volumes boiling methanol",
+        "reduction": "Lithium aluminum hydride in ether",
+        "product": "1-(2-methoxy-3,4-methylenedioxyphenyl)-2-aminobutane hydrochloride",
+        "mp": "183-185 C with prior sintering at 173 C",
+        "trials": "Tasted at up to 3.5 mg with nothing noted, no higher trials"
+      },
+      "key_themes": [
+        "naming_system_explanation",
+        "Essential_Amphetamine",
+        "croweacin",
+        "LSD_comparison",
+        "delayed_effects",
+        "antidepressant_potential"
+      ],
+      "notable_quotes": [
+        "The term MMDA-3a has the feel of being complicated, but there is a reason for the code.",
+        "With two possible MMDA-3's it becomes reasonable, in fact essential, to name one of them 'a' and the other 'b'.",
+        "One subject had a spontaneous peak experience five days after the experiment, and another made a symbolic suicide attempt.",
+        "The fact that there can be such a modest change of effect over a three-fold range of dosage suggests that this compound might have some merit as an anti-depressant.",
+        "It would be interesting to know if it blocks serotonin reuptake!"
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 135,
+      "code": "MMDA-3b",
+      "chemical_name": "3-methoxy-2,3-methylenedioxyamphetamine",
+      "extensions_and_commentary": "And that's all there is known as to the activity of MMDA-3b in man. Very, very little. Nothing has ever been tried in excess of 80 milligrams that I know of, and the above trials were made over 20 years ago. There can be little argument that the 3b is less effective than the 3a, but no one can say by how much. The literature statement is that it is threefold less, but that was based on the relative responses at just-above-threshold levels. The effects here are hand-wavingly similar to those reported for MMDA-3a at 20 milligrams, but these are difficult to compare accurately as they were reported by different people. There have been absolutely no animal studies reported with MMDA-3b in the scientific literature. And neither the 2-carbon nor the 4-carbon analogues of MMDA-3b has even been prepared.",
+      "knowledge_status": {
+        "assessment": "Very, very little known",
+        "max_dose_tried": "80 milligrams",
+        "when": "Over 20 years ago",
+        "animal_studies": "Absolutely none reported in scientific literature",
+        "analogs": "Neither 2-carbon nor 4-carbon analogues even prepared"
+      },
+      "comparison_to_3a": {
+        "relative_potency": "3b less effective than 3a",
+        "literature_claim": "Threefold less",
+        "basis": "Relative responses at just-above-threshold levels",
+        "comparison_difficulty": "Effects hand-wavingly similar to MMDA-3a at 20mg but reported by different people"
+      },
+      "MMDA_5_isomer": {
+        "structure": "2,3,6-isomer (6-methoxy-2,3-methylenedioxyamphetamine)",
+        "synthesis_flow": "Sesamol → methylated with methyl iodide → aldehyde via butyllithium and N-methylformanilide → nitrostyrene with nitroethane → reduction with LAH in ether",
+        "reports": {
+          "30mg": "Modestly active but not particularly pleasant",
+          "15mg": "Tried but effects not mentioned"
+        },
+        "personal_experience": "I have not tried it myself",
+        "mescaline_comparison_story": {
+          "pressure": "Succumbed to pressure of experimental pharmacologists for 'Y-axis' number",
+          "reasoning": "If active at 30mg and mescaline at 300mg, why not say 10x activity of mescaline?",
+          "confidence": "I have absolutely no confidence in that number"
+        }
+      },
+      "MMDA_4_mystery": {
+        "status": "Nothing known at all - compound itself is unknown",
+        "reason": "No one has yet found a way of making it",
+        "related_to": "TMA-4 analogue"
+      },
+      "key_themes": [
+        "sparse_data",
+        "relative_potency",
+        "unmade_compounds",
+        "arbitrary_numbers",
+        "unknown_chemistry"
+      ],
+      "notable_quotes": [
+        "And that's all there is known as to the activity of MMDA-3b in man. Very, very little.",
+        "There can be little argument that the 3b is less effective than the 3a, but no one can say by how much.",
+        "There have been absolutely no animal studies reported with MMDA-3b in the scientific literature.",
+        "So I said to myself, if this is active at 30 milligrams, and mescaline is active at 300 milligrams, why not say that it is 10x the activity of mescaline? So I did. But I have absolutely no confidence in that number.",
+        "No one has yet found a way of making it."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 136,
+      "code": "MME",
+      "chemical_name": "2-methoxy-4,5-dimethoxyamphetamine",
+      "alternate_names": ["Methyl-methoxy-ethoxy positional study"],
+      "extensions_and_commentary": "This is one of the very few compounds with which I actually risked (and took) the lives of experimental animals. I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data. And I had access to an experimental mouse colony at the University.",
+      "mouse_experiments": {
+        "context": "Still impressed by scientific myth that research needed animal support data",
+        "first_mouse": {
+          "dose": "300 mg/Kg i.p.",
+          "procedure_description": "Picked up mouse by scruff, turned hand over belly-up, ring finger over hind leg, syringe with fine needle containing 8mg MME in water solution, pushed needle to where navel would be, pulled back slightly to peritoneum, pushed plunger home squirting into area surrounding intestines",
+          "observation": "Usually at this point there is a little urine evident where there had been none before",
+          "result": "Twitching clonic convulsions, dead in 5 minutes"
+        },
+        "subsequent_mice": [
+          {"dose": "175 mg/Kg", "result": "Dead in 6 minutes"},
+          {"dose": "107 mg/Kg", "result": "Dead in 5 minutes"},
+          {"dose": "75 mg/Kg", "result": "Looked sick, had shakes, then seemed OK"},
+          {"dose": "100 mg/Kg x5", "result": "Four died within 20 minutes, one survivor"}
+        ],
+        "survivor": "I took in my hands the sole survivor, and I went outside the laboratory and let him loose on the hillside. He scampered away and I never saw him again."
+      },
+      "what_was_learned": {
+        "scientific": "Maybe LD-50 somewhere around 60 or 80 mg/Kg for mice, not men",
+        "irrelevance": "Would have made no difference if LD-50 had been 600 mg/Kg or 6 mg/Kg - still took trial dose",
+        "actual_learning": "Not a damned thing",
+        "personal_trial": "Took 300 micrograms, absolutely no effects"
+      },
+      "never_again_confession": {
+        "statement": "I never killed another mouse again",
+        "correction": "No, that is simply out-and-out dishonest",
+        "field_mice_story": "Invasion last winter through hole behind garbage holder under kitchen sink, blocked hole but also set traps, caught a couple",
+        "final_position": "But never again for the simple and stupid reasons of being able to say that 'This compound has an LD-50 in the mouse of 70 mg/Kg.' Who cares? Why kill?"
+      },
+      "valuable_findings": {
+        "finding_1": "MME is an active compound warranting additional attention",
+        "finding_2": "As one of three possible ethoxy homologues of TMA-2, it is less active than MEM",
+        "finding_3": "EMM is even less active",
+        "conclusion": "Thus it is MEM, only, that maintains the potency of TMA-2",
+        "significance": "Initial observation that really focused attention on the importance of the 4-position"
+      },
+      "key_themes": [
+        "animal_experimentation_ethics",
+        "scientific_myth_debunking",
+        "LD50_meaninglessness",
+        "4_position_importance",
+        "TMA_2_homologues",
+        "moral_reckoning"
+      ],
+      "notable_quotes": [
+        "I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data.",
+        "Fired with the lust for killing, I grabbed another mouse.",
+        "I took in my hands the sole survivor, and I went outside the laboratory and let him loose on the hillside. He scampered away and I never saw him again.",
+        "And what did I learn, at the cost of seven precious lives which I can never replace? Not a damned thing.",
+        "Who cares? Why kill?",
+        "This was the initial observation that really focused my attention on the importance of the 4-position."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 137,
+      "code": "MP",
+      "chemical_name": "3,4-dimethoxy-5-propoxyphenethylamine",
+      "alternate_names": ["Metaproscaline"],
+      "extensions_and_commentary": "The loss of activity on lengthening the carbon chain on the meta-oxygen from two to three (from metaescaline to metaproscaline) discouraged any further exploration at this specific point of the molecule. The isopropyl analog (3,4-dimethoxy-5-(i)-propoxyphenethylamine, metaisoproscaline, MIP) was started and carried along as far as the aldehyde, and abandoned with the discovery that metaproscaline was without activity. There were other fish to fry.",
+      "activity_assessment": {
+        "result": "Loss of activity on lengthening carbon chain from two to three carbons",
+        "comparison": "Metaescaline → Metaproscaline",
+        "consequence": "Discouraged any further exploration at this specific point"
+      },
+      "abandoned_compound_MIP": {
+        "name": "Metaisoproscaline",
+        "full_name": "3,4-dimethoxy-5-(i)-propoxyphenethylamine",
+        "progress": "Started and carried as far as the aldehyde",
+        "fate": "Abandoned with discovery that metaproscaline was without activity"
+      },
+      "shulgin_philosophy": "There were other fish to fry.",
+      "key_themes": [
+        "chain_length_limits",
+        "abandoned_projects",
+        "meta_position_exploration",
+        "practical_research_decisions"
+      ],
+      "notable_quotes": [
+        "The loss of activity on lengthening the carbon chain on the meta-oxygen from two to three discouraged any further exploration at this specific point of the molecule.",
+        "There were other fish to fry."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 138,
+      "code": "MPM",
+      "chemical_name": "2,5-dimethoxy-4-propoxyamphetamine",
+      "extensions_and_commentary": "The 4-propoxy homologue of TMA-2 and MEM is clearly less active, and this has discouraged me from putting too much more effort in this direction. Three additional materials of this pattern were prepared and either shown to be even less active, or simply were not assayed at all. These are the 4-isopropoxy isomer (MIPM), the (n)-butoxy homologue (MBM), and the (n)-amyl homologue (MAM). They scarcely warrant separate recipes as they were all made in a manner similar to this one describing MPM.",
+      "activity_assessment": {
+        "result": "Clearly less active than TMA-2 and MEM",
+        "consequence": "Discouraged further effort in this direction"
+      },
+      "related_compounds": {
+        "MIPM": {
+          "name": "2,5-dimethoxy-4-(i)-propoxyamphetamine",
+          "synthesis": {
+            "alkylation": "2,5-dimethoxyphenol with isopropyl bromide in methanolic KOH",
+            "ether": "2,5-dimethoxy-1-(i)-propoxybenzene (oil)",
+            "aldehyde": "Vilsmeier conditions, mp 77-78 C from hexane",
+            "malononitrile": "Yellow, mp 171.5-173 C",
+            "nitrostyrene": "Orange, mp 100-101 C from methanol or hexane",
+            "reduction": "Lithium aluminum hydride in ether"
+          },
+          "product_issues": "Strange properties - soluble in acetone but not water, microanalysis low in carbon",
+          "structural_appeal": "Complete reflection symmetry between amphetamine side chain and isopropoxy side chain",
+          "status": "No assay ever started - nature of product had no appeal"
+        },
+        "MBM": {
+          "name": "4-(n)-butoxy-2,5-dimethoxyamphetamine",
+          "synthesis": {
+            "alkylation": "2-(n)-butoxy-1,4-dimethoxybenzene in methanolic KOH with n-butyl bromide",
+            "aldehyde_mp": "79.5-81 C from methanol",
+            "malononitrile_mp": "134.5-135 C",
+            "nitrostyrene_mp": "71-72 C from methanol",
+            "reduction": "LAH in ether, ether-insoluble chloroform-soluble product"
+          },
+          "product_mp": "128-130 C",
+          "integrity": "Met all tests for structural integrity",
+          "trials": "Up to 12.0 mg - no effects noted"
+        },
+        "MAM": {
+          "name": "4-(n)-amyl-2,5-dimethoxyamphetamine",
+          "synthesis": "Exact same sequence with n-amyl bromide",
+          "aldehyde_mp": "79-80 C from methanol",
+          "malononitrile": "Bright yellow, mp 103-104 C",
+          "nitrostyrene_mp": "57-58.5 C (difficult to separate from aldehyde)",
+          "product_mp": "125-127 C",
+          "trials": {
+            "dose": "Up to 16 mg",
+            "effects": "Heaviness in chest and head at 2-hour point",
+            "other": "No cardiovascular disturbance, no mydriasis",
+            "assessment": "Called inactive level, no higher tried"
+          }
+        }
+      },
+      "key_themes": [
+        "diminishing_returns",
+        "4_position_chain_length",
+        "synthesis_documentation",
+        "inactive_compounds",
+        "structure_activity_relationships"
+      ],
+      "notable_quotes": [
+        "The 4-propoxy homologue of TMA-2 and MEM is clearly less active, and this has discouraged me from putting too much more effort in this direction.",
+        "They scarcely warrant separate recipes as they were all made in a manner similar to this one.",
+        "The molecular structure had a pleasant appeal to it, with a complete reflection symmetry shown by the atoms of the amphetamine side chain and the isopropoxy side chain. But the nature of the actual product in hand had no appeal at all.",
+        "This was called an inactive level, and no higher one has yet been tried."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
