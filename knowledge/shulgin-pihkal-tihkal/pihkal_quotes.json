@@ -10072,6 +10072,187 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 168,
+      "code": "TMPEA",
+      "chemical_name": "2,4,5-trimethoxyphenethylamine",
+      "extensions_and_commentary": "The code letters used for this drug are not as ambiguous as they might seem at first glance. A large number of the 2-carbon homologues are given names based on the code for the 3-carbon compound. On that basis, this should be 2C-TMA-2, since it is the 2-carbon counterpart of TMA-2. But since the first of the trimethoxyphenethylamines already had a trivial name, mescaline, the code TMPEA was unassigned. So, here is the logical place to use it.",
+      "naming_logic": {
+        "expected_name": "2C-TMA-2 (2-carbon counterpart of TMA-2)",
+        "reason_for_TMPEA": "First trimethoxyphenethylamine already had trivial name (mescaline), so TMPEA was unassigned"
+      },
+      "published_reports": {
+        "total": "Just two reports of self-experimentation",
+        "first_report_1931": {
+          "administration": "Injection (intramuscular?)",
+          "dose": "Not given, but less than Beringer's mescaline studies (300-500 mg)",
+          "assessment": "Leaves much to be desired",
+          "conclusion": "TMPEA apparently did not measure up to mescaline"
+        },
+        "second_report_40_years_later": {
+          "administration": "Oral",
+          "method": "Battery of psychological tests for statistical validity",
+          "finding": "Not active in own right, but when preliminary to mescaline, greatly enhanced effects of the latter"
+        }
+      },
+      "6_hydroxydopamine_connection": {
+        "relationship": "Stripping all three O-methyl groups from TMPEA gives 6-hydroxydopamine",
+        "6_OHDA_properties": "Extremely potent neurotoxin, produces sympathectomy (destroys sympathetic nervous system)",
+        "metabolism_note": "Some methyl groups of TMPEA known to be stripped off through normal liver metabolism",
+        "research_suggestion": "Intriguing to see biochemical overlap between metabolism of centrally active drugs and 6-hydroxydopamine fate",
+        "caveat": "In a test animal, of course, rather than in man"
+      },
+      "para_methoxyl_significance": "Many fascinating psychedelics have signature of methoxyl groups para to one another. They too can lose a methyl group or two.",
+      "key_themes": [
+        "naming_conventions",
+        "historical_reports",
+        "mescaline_enhancement",
+        "6_hydroxydopamine",
+        "neurotoxicity_connection"
+      ],
+      "notable_quotes": [
+        "The code letters used for this drug are not as ambiguous as they might seem at first glance.",
+        "TMPEA apparently did not measure up to mescaline in his comparisons.",
+        "The drug was not active in its own right, but when employed preliminary to mescaline, greatly enhanced the effects of the latter.",
+        "The simple compound that results from the stripping of all three of the O-methyl groups from TMPEA is the extremely potent neurotoxin, 6-hydroxydopamine.",
+        "This is an area of research that deserves more attention."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 169,
+      "code": "2-TOET",
+      "chemical_name": "4-ethyl-5-methoxy-2-(methylthio)amphetamine",
+      "extensions_and_commentary": "It seems as if the sulfur in the 2-position makes things less interesting, and less potent, than when it is in the 5-position. 2-TOM required twice the dosage of 5-TOM, and here it appears that it could well take a dosage of twice that required for 5-TOET, to get 2-TOET off the ground. There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.",
+      "position_comparison": {
+        "pattern": "Sulfur in 2-position less interesting and less potent than 5-position",
+        "TOM_comparison": "2-TOM required twice dosage of 5-TOM",
+        "TOET_prediction": "Could take twice 5-TOET dosage to get 2-TOET off ground"
+      },
+      "reluctance_to_push": {
+        "reason": "Physical discomfort outweighs mental effects",
+        "observations_50mg": ["Inability to effect erection", "Light-headedness", "Disinterest in food"],
+        "interpretation": "Suggests involvement with sympathetic nervous system",
+        "persistence": "Subtle effects persisting into next day"
+      },
+      "decision": "Instinct said to leave it alone. So I left it alone.",
+      "phenethylamine_analogue_2C_2_TOET": {
+        "synthesis": "From same aldehyde intermediate",
+        "nitrostyrene": "Glistening pumpkin-orange crystals from methanol, mp 93-94 C",
+        "reduction": "Aluminum hydride in THF",
+        "final_salt": "White crystalline mass, mp 226-227 C",
+        "status": "Remains untasted as of the moment"
+      },
+      "key_themes": [
+        "position_effects",
+        "physical_discomfort",
+        "instinct_guidance",
+        "sympathetic_nervous_system"
+      ],
+      "notable_quotes": [
+        "It seems as if the sulfur in the 2-position makes things less interesting, and less potent, than when it is in the 5-position.",
+        "There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.",
+        "There is nothing tangible here.",
+        "Instinct said to leave it alone. So I left it alone."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 170,
+      "code": "5-TOET",
+      "chemical_name": "4-ethyl-2-methoxy-5-(methylthio)amphetamine",
+      "extensions_and_commentary": "With the extraordinary experience that had been observed with one person with 5-TOM, this ethyl homologue was not only run up with special caution, but that individual ran his own personal titration. And he proved to be perhaps twice as sensitive to 5-TOET than any of the other subjects. An approach to what might just be some unusual metabolic idiosyncrasy on the part of his liver, is discussed in the recipe for TOMSO.",
+      "special_caution": {
+        "reason": "Extraordinary experience with 5-TOM",
+        "approach": "Run up with special caution",
+        "individual_titration": "That person ran his own personal titration",
+        "sensitivity": "Proved perhaps twice as sensitive as other subjects",
+        "explanation": "Unusual metabolic idiosyncrasy of liver, discussed under TOMSO"
+      },
+      "naming_etymology": {
+        "TOM_to_TOET": "Exactly parallel to DOM to DOET relationship",
+        "T_prefix": "Thio - chemical term for replacing oxygen with sulfur"
+      },
+      "pronunciation_peculiarities": {
+        "TOM": "No problem",
+        "TOET_options": ["Two-it", "Tow-it", "Too-wet"],
+        "actual_pronunciation": "One syllable: 'Twat'",
+        "family_name": "Toms and Twats",
+        "social_consequence": "Almost-obscene meaning progressively forgotten, raised eyebrows at seminars"
+      },
+      "theater_anecdote": {
+        "location": "Between-acts intermission at Berkeley Repertory Theater",
+        "result": "Stunned silence within circle of hearing, given extra room immediately thereafter"
+      },
+      "phenethylamine_analogue_2C_5_TOET": {
+        "aldehyde": "4-ethyl-2-methoxy-5-(methylthio)benzaldehyde",
+        "nitrostyrene": "Spectacular canary-yellow electrostatic crystals, mp 91-92 C",
+        "reduction": "Aluminum hydride from cold THF-dissolved LAH and 100% sulfuric acid",
+        "product": "4-ethyl-2-methoxy-5-methylthiophenethylamine",
+        "drying": "100 C under hard vacuum to remove water of hydration",
+        "mp": "216-217 C",
+        "status": "Never started in human evaluation"
+      },
+      "key_themes": [
+        "individual_sensitivity",
+        "metabolic_idiosyncrasy",
+        "pronunciation_humor",
+        "social_awkwardness",
+        "Toms_and_Twats"
+      ],
+      "notable_quotes": [
+        "That individual ran his own personal titration.",
+        "He proved to be perhaps twice as sensitive to 5-TOET than any of the other subjects.",
+        "Somehow the one syllable term 'Twat' became regularly used, and the family was generally referred to as the 'Toms and Twats.'",
+        "The almost-obscene meaning of the latter was progressively forgotten with usage, and has led to some raised eyebrows at occasional seminars.",
+        "There was a stunned silence about us within the circle of hearing, and we seemed to have been given a little extra room immediately thereafter."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 171,
+      "code": "2-TOM",
+      "chemical_name": "5-methoxy-4-methyl-2-(methylthio)amphetamine",
+      "extensions_and_commentary": "There is a most extraordinary loss of potency with the simple substitution of a sulfur atom for an oxygen atom. DOM is fully active at the 5 or so milligram area, whereas 2-TOM is active at maybe the 80 milligram area, a loss of potency by a factor of x15 or so. And the duration is quite a bit shorter. It might take a fair amount of learning to become completely at peace with it, but it might be worth the effort. And there are none of the disturbing hints of neurological and physical roughness of 5-TOM.",
+      "potency_comparison": {
+        "DOM": "Fully active at ~5 mg",
+        "2_TOM": "Active at ~80 mg",
+        "potency_loss": "Factor of x15 or so",
+        "duration": "Quite a bit shorter"
+      },
+      "character_assessment": {
+        "learning_curve": "Might take fair amount of learning to become at peace with it",
+        "worth_it": "Might be worth the effort",
+        "advantage": "None of the disturbing hints of neurological and physical roughness of 5-TOM"
+      },
+      "phenethylamine_analogue_2C_2_TOM": {
+        "aldehyde": "5-methoxy-4-methyl-2-(methylthio)benzaldehyde",
+        "nitrostyrene_synthesis": "Condensed with nitromethane and ammonium acetate",
+        "nitrostyrene_mp": "118-118.5 C from ethanol",
+        "reduction": "Aluminum hydride in THF",
+        "product": "Crystalline free base",
+        "hydrochloride_mp": "233-234 C",
+        "name": "2C-2-TOM",
+        "status": "Synthesized but not yet evaluated"
+      },
+      "key_themes": [
+        "potency_loss",
+        "sulfur_substitution",
+        "DOM_comparison",
+        "physical_smoothness"
+      ],
+      "notable_quotes": [
+        "There is a most extraordinary loss of potency with the simple substitution of a sulfur atom for an oxygen atom.",
+        "DOM is fully active at the 5 or so milligram area, whereas 2-TOM is active at maybe the 80 milligram area.",
+        "It might take a fair amount of learning to become completely at peace with it, but it might be worth the effort.",
+        "There are none of the disturbing hints of neurological and physical roughness of 5-TOM."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
