@@ -9672,6 +9672,220 @@
       ],
       "commentary": "",
       "extended_thoughts": ""
+    },
+    {
+      "entry_number": 159,
+      "code": "TMA-3",
+      "chemical_name": "2,3,4-trimethoxyamphetamine",
+      "extensions_and_commentary": "There is a small lesson to be learned from this completely inactive compound. There is no way of saying that it is or is not inactive. All that can be said is that trials were made (in this case using three separate individuals) at an oral level of 100 milligrams. And, at this level, nothing happened. And since a bottom threshold for mescaline would be perhaps 200 milligrams, it can be honestly said that the activity of this compound, if expressed relative to mescaline (using mescaline units) is less than 2 M.U.",
+      "mescaline_units_lesson": {
+        "trial_details": "Three separate individuals at 100 mg oral",
+        "result": "Nothing happened",
+        "mescaline_threshold": "Perhaps 200 mg",
+        "reported_activity": "< 2.0 M.U."
+      },
+      "interpretation_problem": {
+        "misreading": "Many readers interpreted '< 2.0 M.U.' as indicating TMA-3 was active but at dosages >100 mg",
+        "actual_meaning": "If there is activity, it will be at oral levels greater than 100 mg",
+        "current_status": "As far as I know, not active in man, but no trials in excess of 100 mg"
+      },
+      "admonition": "This admonition applies to all the published M.U. values that are preceded by the 'less than' sign, the '<'.",
+      "key_themes": [
+        "mescaline_units",
+        "interpretation_problems",
+        "less_than_notation",
+        "inactive_compounds"
+      ],
+      "notable_quotes": [
+        "There is a small lesson to be learned from this completely inactive compound.",
+        "There is no way of saying that it is or is not inactive.",
+        "This admonition applies to all the published M.U. values that are preceded by the 'less than' sign."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 160,
+      "code": "TMA-4",
+      "chemical_name": "2,3,5-trimethoxyamphetamine",
+      "extensions_and_commentary": "That is the sum total of the knowledge of subjective effects that exist. There was such a precious small amount of the final hydrochloride salt that, by the time the needed build-up of dosage had been completed, there was just enough left for this single trial, which was conducted in South America. Based upon the volunteered comparisons to LSD and TMA, a potency for this compound has been published that states that it is 4x the potency of mescaline, or 4 M.U. The material must be re-synthesized, and re-evaluated with the now-accepted protocol.",
+      "trial_circumstances": {
+        "amount": "Precious small amount of final salt",
+        "location": "South America",
+        "basis": "Single trial after dosage build-up",
+        "comparisons": "LSD and TMA",
+        "published_potency": "4x mescaline (4 M.U.)",
+        "needed": "Re-synthesis and re-evaluation with accepted protocol"
+      },
+      "synthesis_difficulties": {
+        "problem": "Products became progressively thick and blacker",
+        "solution_needed": "Kugel-Rohr apparatus for distillation at each stage",
+        "intermediates": "Certainly white oils when properly purified"
+      },
+      "2_3_5_pattern_challenge": {
+        "assessment": "Far and away the most difficult tri-substitution pattern known to chemists",
+        "reason": "Just isn't any simple way to put it together"
+      },
+      "related_compounds": {
+        "2_3_5_TMPEA": {
+          "status": "Synthesized quite a while ago",
+          "studies": "Substrate for liver amine oxidase in vitro",
+          "human_trials": "Never tried in man"
+        },
+        "MMDA_4": {
+          "name": "2,3-methylenedioxy-5-methoxyamphetamine",
+          "appeal": "Theoretical (one of six possible MMDA derivatives)",
+          "challenge": "Everything is simply in the wrong position",
+          "status": "Unknown pharmacology - never been synthesized",
+          "DEA_paradox": {
+            "situation": "DEA named it as Schedule I, entered into Chemical Abstracts",
+            "reality": "Listed in literature but completely unknown in reality",
+            "consequence": "Moment it is made, illegal act will have occurred"
+          }
+        },
+        "2C_MMDA_4": "2,3-methylenedioxy-5-methoxyphenethylamine - also unknown"
+      },
+      "key_themes": [
+        "synthesis_difficulty",
+        "2_3_5_pattern",
+        "DEA_scheduling_paradox",
+        "unknown_compounds",
+        "single_trial_data"
+      ],
+      "notable_quotes": [
+        "That is the sum total of the knowledge of subjective effects that exist.",
+        "This 2,3,5-orientation of the methoxy groups on the aromatic ring is far and away the most difficult tri-substitution pattern known to chemists.",
+        "There just isn't any simple way to put it together.",
+        "It is listed in the literature, at least it is in the Chem. Abstracts. But it is in reality completely unknown.",
+        "The moment it is made, an illegal act will have occurred."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 161,
+      "code": "TMA-5",
+      "chemical_name": "2,3,6-trimethoxyamphetamine",
+      "extensions_and_commentary": "TMA-5, as was the case with TMA-4, has only been superficially explored. The above two quotations are from two different people, and together no more than hint at the possibility that it might be active in the several tens of milligrams.",
+      "exploration_status": "Superficially explored, two different people, hints at activity in several tens of milligrams",
+      "animal_model_discussion": {
+        "two_questions": {
+          "qualitative": "Is the drug a psychedelic?",
+          "quantitative": "How potent is it?"
+        },
+        "qualitative_method": {
+          "approach": "Take known psychedelics, search for common animal responses",
+          "logic": "Animals can't experience altered states, must look for objective signs",
+          "examples": "Conditioned responses to stimuli, unusual behavior",
+          "inference": "If 10 known psychedelics produce bizarre nest-building, and 11th does same, 11th suspected psychedelic"
+        },
+        "quantitative_method": {
+          "name": "Dose-response curve",
+          "principle": "More drug = more response",
+          "purpose": "Confidence drug is responsible + quantitative measure"
+        },
+        "fundamental_limitation": "Entire discipline depends on accepting first ten drugs are indeed psychedelic - inputs can only come from human trials"
+      },
+      "TMA_5_validity_problem": {
+        "published_claims": "Psychedelic, ~10x mescaline potency (30-50 mg range)",
+        "basis": "Above two studies only",
+        "assessment": "Both statements may be true, but confidence must await more extensive trials"
+      },
+      "phenethylamine_analogue": {
+        "name": "2,3,6-trimethoxyphenethylamine (2C-TMA-5, 2,3,6-TMPEA)",
+        "status": "Known material, some controversy on physical properties",
+        "studies": "Monoamine oxidase systems - competitive substrate or inhibitor",
+        "human_trials": "No one has nibbled it, human activity unknown"
+      },
+      "key_themes": [
+        "animal_model_limitations",
+        "dose_response_curves",
+        "human_trial_necessity",
+        "preliminary_data",
+        "MAO_interactions"
+      ],
+      "notable_quotes": [
+        "Together no more than hint at the possibility that it might be active in the several tens of milligrams.",
+        "Since there is little logic in the argument that animals can experience, let alone reveal, altered states of consciousness or fantasy fugues or colored imagery, the investigator must look for objective signs.",
+        "This entire discipline depends on the acceptance of the fact that the first ten drugs are indeed psychedelic materials. And these inputs can only come from human trials.",
+        "Both statements may be true, but confidence in these conclusions must await more extensive trials.",
+        "No one has nibbled it, so its human activity is unknown."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 162,
+      "code": "TMA-6",
+      "chemical_name": "2,4,6-trimethoxyamphetamine",
+      "extensions_and_commentary": "Here is a simple and easily made compound that might well bid fair to be one of the most rewarding and pleasurable of the methoxylated amphetamines. It is fully as potent as its counterpart, TMA-2. This latter compound, with its 2,4,5-trisubstitution pattern, has served as a template from which an immense family of very active and fascinating drugs have arisen. The 2,5-dimethoxy aspect has been kept intact, and modifications in the 4-position have given rise to treasures such as DOM, DOB, DOET, DOI, and the Aleph compounds. And, of course, the entire world of the 2C-X's has exploited this same orientation.",
+      "assessment": {
+        "character": "Simple and easily made",
+        "potential": "Might bid fair to be one of most rewarding and pleasurable methoxylated amphetamines",
+        "potency": "Fully as potent as TMA-2"
+      },
+      "TMA_2_template_legacy": {
+        "pattern": "2,4,5-trisubstitution",
+        "kept_intact": "2,5-dimethoxy aspect",
+        "4_position_modifications": ["DOM", "DOB", "DOET", "DOI", "Aleph compounds"],
+        "also": "Entire world of 2C-X's"
+      },
+      "TMA_6_as_new_template": {
+        "call": "Blatant, parallel call from TMA-6 as 2,4,6-counterpart",
+        "kept_intact": "2,6-dimethoxy aspect",
+        "series_name": "psu-series or psi-series (abbreviation for pseudo)",
+        "differentiation": "Greek letter Psi vs 2,4,5-things",
+        "potential_compounds": ["psi-DOM (Z-7, certainly active)", "psi-DOB", "psi-DOET", "psi-DOI", "psi-ALEPH compounds", "psi-2C-X counterparts"],
+        "prediction": "Would expect all to be active, certainly some interesting",
+        "synthesis_note": "Considerably more difficult to synthesize",
+        "progress": "psi-2C-T-4 already prepared and being evaluated"
+      },
+      "erowid_note": "Original digital transcription error: uppercase Greek letter Psi was transcribed as 'Gamma' throughout - now fixed",
+      "synthesis_philosophy": {
+        "premise": "Make all recipes employ commercially available starting materials",
+        "benzaldehyde_availability": "2,4,6-trimethoxybenzaldehyde easily obtained ($2/g)",
+        "why_start_earlier": "Valid paranoia of our times"
+      },
+      "future_availability_concerns": {
+        "optimistic_scenario": "World-wide acknowledgment that 'war on drugs' is more destructive than any drug, laws transformed to educate and allow choice",
+        "pessimistic_scenario": "No fine chemicals permitted except licensed chemists in authorized laboratories, black market $1000/g plus $1000 for protection"
+      },
+      "phloroglucinol_permanence": {
+        "statement": "Impossible to remove phloroglucinol from availability",
+        "natural_sources_free_form": ["Cones of Sequoia sempervirens (coast redwood)", "Species of Camellia (tea leaves)"],
+        "as_glucoside_phlorin": ["Citrus fruit rinds", "Eucalyptus resins"],
+        "as_phloridzin": "Dihydrochalcone glucoside - practically drips out of all parts of apple and pear trees except fruit itself",
+        "conversion_chain": "Phloridzin → (base hydrolysis) → Phlorin → (acid hydrolysis) → Phloroglucinol → (methanol + sulfuric acid) → the ether",
+        "conclusion": "Nature is indeed most bountiful"
+      },
+      "phenethylamine_analogue": {
+        "name": "2,4,6-trimethoxyphenethylamine (2,4,6-TMPEA, 2C-TMA-6)",
+        "synthesis": "Benzaldehyde + nitromethane in glacial acetic acid with ammonium acetate → nitrostyrene (mp 177-177.5 C) → LAH reduction",
+        "salts": {
+          "picrate": "mp 204-205 C",
+          "hydrochloride": "mp 234-235 C"
+        },
+        "MAO_status": "Not a substrate to soluble amine oxidase from rabbit liver (shares with mescaline)",
+        "human_activity": "Unknown"
+      },
+      "key_themes": [
+        "psi_series_template",
+        "TMA_2_parallel",
+        "future_availability",
+        "phloroglucinol_permanence",
+        "nature_bountiful",
+        "war_on_drugs_critique"
+      ],
+      "notable_quotes": [
+        "Here is a simple and easily made compound that might well bid fair to be one of the most rewarding and pleasurable of the methoxylated amphetamines.",
+        "Here, there is the blatant, parallel call from TMA-6.",
+        "There might be a world-wide acknowledgment that the 'war on drugs' is more destructive than any drug itself could ever be.",
+        "It will be impossible to remove phloroglucinol from availability.",
+        "Phloridzin practically drips out of all parts of the apple and pear trees except the apple or pear itself.",
+        "Nature is indeed most bountiful."
+      ],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
