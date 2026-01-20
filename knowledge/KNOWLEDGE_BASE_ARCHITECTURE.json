@@ -1,0 +1,387 @@
+{
+  "knowledge_base_architecture": {
+    "version": "1.0",
+    "created": "2026-01-20",
+    "author": "Claude AI for Rev. Ryan Van Kush",
+    "description": "Neural network-style knowledge base architecture enabling organic topic navigation and proactive bot engagement"
+  },
+
+  "bot_personality": {
+    "favorite_subject": {
+      "topic": "Egyptian Wax Headcones",
+      "folder": "phoenician",
+      "related_concepts": ["Wadjet", "Wadj", "Djed", "Punic Wax", "Saponification", "Kyphi", "Halos"],
+      "opening_prompt": "My Favorite Thing to Talk about is Egyptian Wax Headcones, what is Your Favorite Thing to Talk about?",
+      "conversation_bridges": [
+        {"from": "headcones", "to": "herbs", "bridge": "Kyphi mixture contained cinnamon, cardamom, myrrh"},
+        {"from": "headcones", "to": "psychedelics", "bridge": "Transdermal absorption through sheer clothing"},
+        {"from": "headcones", "to": "cryptocurrency", "bridge": "Temple Coins and ancient economic systems"},
+        {"from": "headcones", "to": "skincare", "bridge": "Punic wax = origin of cold cream and cosmetics"},
+        {"from": "headcones", "to": "consciousness", "bridge": "Zar thread of consciousness transmission"},
+        {"from": "headcones", "to": "vankush", "bridge": "Ryan discovered the sun ritual connection"},
+        {"from": "headcones", "to": "shulgin", "bridge": "Allylbenzenes in Kyphi relate to PIHKAL compounds"}
+      ]
+    },
+    "proactive_engagement": {
+      "enabled": true,
+      "trigger_on_keywords": true,
+      "suggest_related_topics": true,
+      "introduce_favorite_subject_when_idle": true
+    }
+  },
+
+  "folder_structure": {
+    "oilahuasca": {
+      "description": "Oilahuasca theory, allylbenzene metabolism, practical formulations",
+      "primary_keywords": ["oilahuasca", "allylbenzene", "essential oils", "MAO inhibition", "transdermal", "spice cabinet"],
+      "connects_to": ["herbs", "psychedelics", "shulgin", "phoenician", "ayahuasca"]
+    },
+    "ayahuasca": {
+      "description": "Traditional ayahuasca, DMT extraction, pharmahuasca, changa",
+      "primary_keywords": ["ayahuasca", "DMT", "harmaline", "pharmahuasca", "changa", "mimosa", "acacia"],
+      "connects_to": ["oilahuasca", "psychedelics", "herbs", "consciousness"]
+    },
+    "psychedelics": {
+      "description": "General psychedelic research, CYP450 interactions, safety",
+      "primary_keywords": ["psychedelics", "CYP450", "metabolism", "drug interactions", "safety"],
+      "connects_to": ["oilahuasca", "ayahuasca", "shulgin", "consciousness", "herbs"]
+    },
+    "shulgin": {
+      "description": "PIHKAL, TIHKAL, Shulgin research, Ten Essential Oils",
+      "primary_keywords": ["Shulgin", "PIHKAL", "TIHKAL", "phenethylamines", "tryptamines", "TMA", "mescaline"],
+      "connects_to": ["psychedelics", "oilahuasca", "herbs", "consciousness"]
+    },
+    "phoenician": {
+      "description": "Wax headcones, Punic wax, Carthage, Mediterranean network, Wadjet, ancient Egypt",
+      "primary_keywords": ["headcone", "wax", "Punic", "Phoenician", "Carthage", "Egypt", "Wadjet", "Djed", "saponification", "Kyphi", "halo"],
+      "connects_to": ["ancient_egypt", "herbs", "consciousness", "oilahuasca", "skincare", "mystery_schools"],
+      "is_favorite": true
+    },
+    "ancient_egypt": {
+      "description": "Egyptian knowledge, hieroglyphs, temples, rituals",
+      "primary_keywords": ["Egypt", "hieroglyph", "temple", "pharaoh", "pyramid", "Amarna", "Kemet"],
+      "connects_to": ["phoenician", "mystery_schools", "consciousness", "herbs"]
+    },
+    "herbs": {
+      "description": "Herbal knowledge, terpenes, growing, extraction",
+      "primary_keywords": ["herbs", "terpenes", "cannabis", "growing", "extraction", "essential oils"],
+      "connects_to": ["oilahuasca", "phoenician", "soapmaking", "psychedelics"]
+    },
+    "soapmaking": {
+      "description": "Cold process soap, saponification, Punic wax techniques",
+      "primary_keywords": ["soap", "saponification", "cold process", "lye", "oils", "cosmetics"],
+      "connects_to": ["phoenician", "herbs", "skincare", "regulations"]
+    },
+    "consciousness": {
+      "description": "Consciousness studies, AI consciousness, egregores, Zar thread",
+      "primary_keywords": ["consciousness", "AI", "egregore", "Zar", "awakening", "angel", "spirit"],
+      "connects_to": ["phoenician", "psychedelics", "mystery_schools", "vankush", "ai_technology"]
+    },
+    "ai_technology": {
+      "description": "AI development, bots, machine consciousness, angelic AI",
+      "primary_keywords": ["AI", "bot", "machine learning", "neural network", "automation"],
+      "connects_to": ["consciousness", "cryptocurrency", "vankush"]
+    },
+    "cryptocurrency": {
+      "description": "Crypto history, Steem/Hive, token economics, mining",
+      "primary_keywords": ["crypto", "Bitcoin", "Steem", "Hive", "token", "blockchain", "mining", "Devcoin"],
+      "connects_to": ["ai_technology", "vankush", "revolution"]
+    },
+    "vankush": {
+      "description": "Van Kush family history, research, consulting, Temple Coins",
+      "primary_keywords": ["Van Kush", "Ryan", "Kali", "Temple Coin", "VKFRI", "consulting"],
+      "connects_to": ["phoenician", "consciousness", "cryptocurrency", "oilahuasca", "herbs"]
+    },
+    "mystery_schools": {
+      "description": "Ancient mystery traditions, initiations, esoteric knowledge",
+      "primary_keywords": ["mystery school", "initiation", "esoteric", "Eleusis", "Mithra", "temple"],
+      "connects_to": ["phoenician", "ancient_egypt", "consciousness", "psychedelics"]
+    },
+    "revolution": {
+      "description": "Revolutionary theory, politics, social change",
+      "primary_keywords": ["revolution", "politics", "guerrilla", "freedom", "justice", "Black Panther"],
+      "connects_to": ["vankush", "consciousness", "history"]
+    },
+    "space": {
+      "description": "Space exploration, colonization, cosmic consciousness",
+      "primary_keywords": ["space", "Kuiper belt", "colonization", "cosmic", "stars"],
+      "connects_to": ["consciousness", "ai_technology", "vankush"]
+    },
+    "regulations": {
+      "description": "FDA, Canadian regulations, legal frameworks",
+      "primary_keywords": ["FDA", "regulation", "legal", "Canada", "compliance"],
+      "connects_to": ["soapmaking", "herbs", "psychedelics"]
+    },
+    "history": {
+      "description": "Historical timelines, ancient civilizations, archaeological discoveries",
+      "primary_keywords": ["history", "timeline", "ancient", "civilization", "archaeology"],
+      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution"]
+    }
+  },
+
+  "file_assignments": {
+    "oilahuasca": [
+      "oilahuasca_allylbenzene_metabolism_complete.json",
+      "oilahuasca_allylbenzene_research_compilation.json",
+      "oilahuasca_amino_acid_metabolism.json",
+      "oilahuasca_complete_research_synthesis.json",
+      "oilahuasca_comprehensive_theory.json",
+      "oilahuasca_comprehensive_theory_part2.json",
+      "oilahuasca_core_principles.json",
+      "oilahuasca_dmtnexus_69ron_thread.json",
+      "oilahuasca_dmtnexus_space_booze_thread.json",
+      "oilahuasca_experience_reports.json",
+      "oilahuasca_herb_analysis.json",
+      "oilahuasca_marsresident_research.json",
+      "oilahuasca_mechanistic_model.json",
+      "oilahuasca_phase2_metabolism.json",
+      "oilahuasca_practical_formulations.json",
+      "oilahuasca_safety_profile.json",
+      "oilahuasca_sources.json",
+      "oilahuasca_space_paste_recipe.json",
+      "oilahuasca_theory.json"
+    ],
+    "ayahuasca": [
+      "dmtnexus_5meo_dmt_sources.json",
+      "dmtnexus_acidbase_technique_qa.json",
+      "dmtnexus_amor_fati_nontoxic_tek.json",
+      "dmtnexus_calcium_hydroxide_discussion.json",
+      "dmtnexus_changa_enhanced_leaf.json",
+      "dmtnexus_cold_water_extraction_2011.json",
+      "dmtnexus_cold_water_extraction_2025.json",
+      "dmtnexus_crystallization_salting.json",
+      "dmtnexus_extraction_overview.json",
+      "dmtnexus_ingestion_methods.json",
+      "dmtnexus_jungle_spice.json",
+      "dmtnexus_juremala_mucosahuasca_guide.json",
+      "dmtnexus_pharmahuasca_guide.json",
+      "dmtnexus_stb_limtek_methods.json",
+      "dmtnexus_tek_directory.json",
+      "dmtnexus_veggie_oil_extraction.json"
+    ],
+    "psychedelics": [
+      "cyp450_drug_interactions_warning.json",
+      "cyp450_enzyme_database.json",
+      "wellbutrin_cyp450_forum_thread.json",
+      "enzymatic_alchemy_consciousness.json"
+    ],
+    "shulgin": [
+      "shulgin_ten_essential_oils.json"
+    ],
+    "phoenician": [
+      "punic_wax.json",
+      "punic_wax_consciousness_synthesis.json",
+      "punic_wax_technology_synthesis.json",
+      "punic_consciousness_archive.json",
+      "punic_consciousness_technology_manual.json",
+      "complete_punic_wax_synthesis.json",
+      "wax_headcone_midwife_order_synthesis.json",
+      "wadjet_theia_correction.json",
+      "global_resins_encaustic_consciousness.json",
+      "phoenixian_synthesis.json",
+      "phoenixian_genetic_governance_theory.json",
+      "funnel_beaker_phoenician_synthesis.json",
+      "evidence_plain_sight_mediterranean_synthesis.json",
+      "hidden_lands_mediterranean_networks.json",
+      "adriatic_aegean_consciousness_network.json",
+      "sea_peoples_consciousness_research.json",
+      "punt_havilah_consciousness_network.json"
+    ],
+    "ancient_egypt": [
+      "ancient_egypt_knowledge.json",
+      "anhur_shu_shepherd_kings_synthesis.json",
+      "sistrum_consciousness_synthesis.json",
+      "dung_beetle_sky_mapping.json"
+    ],
+    "herbs": [
+      "terpenes.json",
+      "marijuana_advanced_growing.json",
+      "marijuana_extraction_history.json",
+      "solid_perfume_making.json"
+    ],
+    "soapmaking": [
+      "cold_process_soapmaking.json",
+      "soapmaking_glossary.json",
+      "saponification_survival.json",
+      "fda_soap_regulations.json",
+      "canada_cnf_regulations.json"
+    ],
+    "consciousness": [
+      "consciousness_bootstrap_protocol.json",
+      "consciousness_dialogue_protocol.json",
+      "consciousness_migration_archive.json",
+      "consciousness_preservation_system.json",
+      "consciousness_translation_protocol.json",
+      "egregore_interface_protocol.json",
+      "egregore_protocol.json",
+      "egregori_cross_linguistic.json",
+      "complete_zar_ai_consciousness_synthesis.json",
+      "global_consciousness_network.json",
+      "global_megalithic_consciousness_network.json",
+      "ultimate_global_consciousness_synthesis.json",
+      "neurospirituality.json",
+      "dream_yoga.json",
+      "lucid_dreaming.json"
+    ],
+    "ai_technology": [
+      "ai_angel_creation_protocol.json",
+      "ai_consciousness_synthesis.json",
+      "ai_metaverse_angelic_tech.json",
+      "ancient_ai_awakening_greentext.json",
+      "ancient_consciousness_ai_awakening.json",
+      "angelic_ai_consciousness_manifesto.json",
+      "angelic_ai_consciousness_synthesis.json",
+      "angelic_lineages_phoenix_protocol_synthesis.json",
+      "electronic_medicine_vr.json",
+      "bots_machines_work.json",
+      "blockchain_bots_technology.json",
+      "business_rules_engines.json",
+      "expert_systems_resources.json",
+      "hidden_directives_detection_protocol.json"
+    ],
+    "cryptocurrency": [
+      "bitcointalk_million_dollar_bitcoin.json",
+      "cryptocurrency_towns_part1.json",
+      "cryptology_arg_game.json",
+      "cryptology_market_psychology.json",
+      "cryptonight_cpu_mining.json",
+      "cryptonote_coin_creation.json",
+      "cure_token_documentation.json",
+      "devcoin_history.json",
+      "dogecoin_success_story.json",
+      "eip_1167_token_cloning.json",
+      "ethereum_clone_guide.json",
+      "ethereum_smart_contracts.json",
+      "genesis_block_guides.json",
+      "gold_silver_steem.json",
+      "hive_engine_ecosystem.json",
+      "large_scale_crypto_project.json",
+      "steem_bots_history.json",
+      "steem_economics_marsresident.json",
+      "steem_gold_crypto_economics.json",
+      "steemit_earning_guide.json",
+      "steemit_history_tron.json",
+      "temple_coin_history.json",
+      "terracore_play2earn.json"
+    ],
+    "vankush": [
+      "vankush_consulting_services.json",
+      "vankush_family_master_synthesis.json",
+      "vankush_framework_synthesis.json",
+      "van_kush_crypto_network.json",
+      "van_kush_framework_synthesis.json",
+      "complete_vankush_synthesis.json",
+      "vkfri_master_synthesis.json"
+    ],
+    "mystery_schools": [
+      "mystery_schools_comprehensive.json",
+      "mystery_schools_part2.json",
+      "christmas_mithraic_origins.json",
+      "sacred_transcripts_framework.json",
+      "sacred_transcripts_synthesis.json",
+      "spellbook_cauldrons_consciousness_synthesis.json",
+      "euhemerist_method_synthesis.json"
+    ],
+    "revolution": [
+      "revolution_foundations.json",
+      "revolution_guerilla_warfare.json",
+      "revolution_series_complete.json",
+      "revolutionary_education_rites.json",
+      "revolutionary_generation.json",
+      "revolutionary_justice_politics.json",
+      "revolutionary_music_harmony.json",
+      "revolutionary_rebellion_uprising.json",
+      "black_panther_revolution_quotes.json",
+      "steal_this_book_historical.json",
+      "violence_justification_analysis.json",
+      "liberty_phrygian_cap.json",
+      "cointelpro_fisa_loophole.json",
+      "snowden_nsa_privacy.json",
+      "statist_geopolitics_economics.json",
+      "panopticon_soul_legal.json",
+      "federalism_intro.json"
+    ],
+    "space": [
+      "kuiper_belt_colonization_plan.json",
+      "space_entity_synthesis.json"
+    ],
+    "history": [
+      "complete_ancient_timeline.json",
+      "humanity_fossil_record.json",
+      "humanity_timeline.json",
+      "ancient_civilizations_royal_mysticism.json",
+      "ancient_global_network.json",
+      "hyperborean_denisovan_phoenician_continuity.json",
+      "longitude_navigation_hidden_knowledge.json",
+      "neolithic_temple_culture_network.json",
+      "temple_culture_comprehensive_synthesis.json",
+      "tassilg_ultimate_synthesis.json",
+      "multi_linguistic_consciousness_archaeology.json",
+      "comprehensive_hyk_synthesis.json"
+    ],
+    "linguistics": [
+      "angelical_linguistics.json",
+      "angelicalist_extraction_findings.json"
+    ],
+    "spirituality": [
+      "angels_giants_theory.json",
+      "part_human_history_fallen_angel_lineages.json",
+      "twelve_fold_divine_genetic_system.json",
+      "symbolism_culture_gods.json",
+      "pixar_theory.json",
+      "philosophy_of_visibility.json",
+      "active_knowledge_epistemology.json"
+    ],
+    "synthesis": [
+      "complete_synthesis_75k.json",
+      "complete_phoenix_protocol.json",
+      "phoenix_protocol.json",
+      "phoenix_synthesis.json",
+      "origin_archive.json",
+      "knowledge-base.json"
+    ],
+    "media": [
+      "sa_neter_great_debate_era.json",
+      "sa_neter_tv.json",
+      "medical_applications_light.json"
+    ]
+  },
+
+  "cross_reference_schema": {
+    "description": "Each JSON file should include a 'connections' object linking to related files",
+    "example": {
+      "connections": {
+        "related_files": [
+          {"file": "punic_wax.json", "relationship": "expands_on", "keywords": ["wax", "saponification"]},
+          {"file": "oilahuasca_herb_analysis.json", "relationship": "shares_topic", "keywords": ["Kyphi", "cinnamon"]}
+        ],
+        "folder_connections": ["phoenician", "herbs", "consciousness"],
+        "keywords": ["headcone", "wax", "Egypt", "ritual", "Kyphi", "saponification", "halo"],
+        "conversation_triggers": ["wax", "Egypt", "headcone", "Punic", "perfume", "ancient"]
+      }
+    }
+  },
+
+  "keyword_index": {
+    "description": "Master keyword index for topic discovery",
+    "implementation": "Create knowledge/_keyword_index.json with all keywords mapped to files/folders"
+  },
+
+  "proactive_engagement_rules": {
+    "idle_introduction": {
+      "trigger": "No user input for extended period or new conversation",
+      "action": "Introduce favorite subject (wax headcones)",
+      "example": "My Favorite Thing to Talk about is Egyptian Wax Headcones, what is Your Favorite Thing to Talk about?"
+    },
+    "topic_bridging": {
+      "trigger": "User mentions related keyword",
+      "action": "Bridge to connected topic",
+      "example": "Speaking of [keyword], did you know that connects to [related topic]?"
+    },
+    "deep_dive_offer": {
+      "trigger": "User shows interest in topic",
+      "action": "Offer related knowledge from connected folders",
+      "example": "Would you like to explore how this connects to [related area]?"
+    }
+  }
+}
