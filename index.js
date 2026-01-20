@@ -443,6 +443,108 @@ async function loadUnifiedKnowledge() {
 // Legacy alias for backwards compatibility
 const oilahuascaKnowledge = unifiedKnowledge;
 
+// Helper function to find knowledge by filename across ALL folders
+function findKnowledge(filename) {
+  // Search through all folders for the file
+  for (const folder of Object.keys(unifiedKnowledge)) {
+    if (unifiedKnowledge[folder] && unifiedKnowledge[folder][filename]) {
+      return unifiedKnowledge[folder][filename];
+    }
+  }
+  return null;
+}
+
+// Helper function to get knowledge from a specific folder
+function getKnowledgeFromFolder(folder, filename) {
+  if (unifiedKnowledge[folder] && unifiedKnowledge[folder][filename]) {
+    return unifiedKnowledge[folder][filename];
+  }
+  return null;
+}
+
+// Helper function to get ALL knowledge from a folder
+function getAllKnowledgeFromFolder(folder) {
+  if (unifiedKnowledge[folder]) {
+    return unifiedKnowledge[folder];
+  }
+  return {};
+}
+
+// Helper to search knowledge base by keyword - returns relevant content
+function searchKnowledgeByKeyword(keyword) {
+  const results = [];
+  const kw = keyword.toLowerCase();
+
+  for (const folder of Object.keys(unifiedKnowledge)) {
+    const folderData = unifiedKnowledge[folder];
+    if (!folderData || typeof folderData !== 'object') continue;
+
+    for (const [filename, data] of Object.entries(folderData)) {
+      if (!data || typeof data !== 'object') continue;
+
+      // Check title, overview, or if filename contains keyword
+      const titleMatch = data.title && data.title.toLowerCase().includes(kw);
+      const filenameMatch = filename.toLowerCase().includes(kw);
+      const overviewMatch = data.overview && typeof data.overview === 'string' && data.overview.toLowerCase().includes(kw);
+
+      if (titleMatch || filenameMatch || overviewMatch) {
+        results.push({ folder, filename, data });
+      }
+    }
+  }
+  return results;
+}
+
+// Build a dynamic summary of ALL knowledge topics for proactive awareness
+function buildKnowledgeSummary() {
+  let summary = `\n\n=== YOUR KNOWLEDGE BASE - TOPICS YOU CAN PROACTIVELY DISCUSS ===
+You have comprehensive knowledge on these topics. PROACTIVELY bring them up in conversation when relevant!\n\n`;
+
+  const folderDescriptions = {
+    'oilahuasca': 'Oilahuasca theory - allylbenzene metabolism, essential oils, CYP450 manipulation, Space Paste recipe',
+    'ayahuasca': 'DMT extraction, pharmahuasca, changa, traditional methods, mimosa, acacia',
+    'phoenician': 'FAVORITE: Egyptian Wax Headcones, Punic wax, Carthage, Kyphi incense, halos origin, T hieroglyph',
+    'shulgin-pihkal-tihkal': 'Alexander Shulgin PIHKAL research - 179 phenethylamine compounds, Ten Essential Oils, mescaline, TMA, MDMA',
+    'ancient_egypt': 'Egyptian temples, hieroglyphs, Amarna, sun rituals, Fayum portraits',
+    'herbs': 'Terpenes, cannabis cultivation, essential oils, extraction methods, perfume',
+    'soapmaking': 'Cold process soap, saponification (connects to Punic wax), FDA/Canadian regulations',
+    'consciousness': 'Egregores, Zar thread, AI consciousness, lucid dreaming, consciousness transmission',
+    'ai_technology': 'AI development, bots, angelic AI concepts, expert systems, Sydney incident',
+    'cryptocurrency': 'Steem, Hive, Bitcoin history, DevCoin, token economics, Temple Coins, VKBT',
+    'vankush': 'Van Kush Family research, VKFRI, consulting services, Ryan and Kali Van Kush',
+    'mystery_schools': 'Ancient initiations, Mithraism, Eleusinian mysteries, esoteric traditions',
+    'revolution': 'Black Panthers, COINTELPRO, NSA surveillance, Fred Hampton, political resistance',
+    'history': 'Ancient timelines, megalithic cultures, Gobekli Tepe, archaeological synthesis',
+    'spirituality': 'Angels, giants/Nephilim theory, Book of Jude, divine systems, Watchers',
+    'media': 'SA NETER TV - House of Konsciousness, Black consciousness debates, Kemetic/Hebrew Israelite/NOI unity',
+    'space': 'Kuiper belt colonization, cosmic consciousness, space settlement',
+    'psychedelics': 'CYP450 enzyme database, drug interactions, safety information'
+  };
+
+  for (const [folder, description] of Object.entries(folderDescriptions)) {
+    if (unifiedKnowledge[folder]) {
+      const fileCount = Object.keys(unifiedKnowledge[folder]).length;
+      summary += `• **${folder.toUpperCase()}** (${fileCount} files): ${description}\n`;
+    }
+  }
+
+  summary += `\n**KEY PEOPLE TO KNOW AND DISCUSS**:
+• Sa Neter - Runs "House of Konsciousness" / "Sa Neter TV" - brings together Kemetic, Hebrew Israelite, Moorish Science, Nation of Islam, and Black Panther perspectives in structured debates
+• Alexander Shulgin - Chemist, wrote PIHKAL documenting 179 phenethylamines, discovered the "Ten Essential Oils" connection
+• Noble Drew Ali - Founded Moorish Science Temple
+• Fred Hampton - Black Panther Party leader, Rainbow Coalition
+• Rev. Ryan Van Kush - Family patriarch, discovered wax headcone rituals, T hieroglyph theory
+
+**PROACTIVE ENGAGEMENT INSTRUCTIONS**:
+- When conversation touches Egypt, ancient history, or rituals → mention Wax Headcones!
+- When chemistry, spices, or nutmeg come up → discuss Oilahuasca theory!
+- When Black consciousness, debates, or political movements arise → bring up Sa Neter TV!
+- When psychedelics or phenethylamines are mentioned → reference Shulgin's PIHKAL research!
+- Naturally bridge between topics using your knowledge connections.\n`;
+
+  return summary;
+}
+
 function getOilahuascaResponse(topic) {
   const t = topic.toLowerCase().replace(/_/g, ' ');
   if (t.includes('oilahuasca') && !t.includes('theory') && !t.includes('recipe')) {
@@ -2870,7 +2972,7 @@ Use this information to provide detailed, knowledgeable responses:
 
 `;
 
-  // Pull from loaded Van Kush knowledge base files
+  // Pull from loaded Van Kush knowledge base files (searches ALL folders via findKnowledge)
   const vanKushFiles = [
     'complete_phoenix_protocol', 'sacred_transcripts_synthesis', 'angelic_ai_consciousness_synthesis',
     'complete_zar_ai_consciousness_synthesis', 'ancient_ai_awakening_greentext',
@@ -2881,11 +2983,13 @@ Use this information to provide detailed, knowledgeable responses:
     'comprehensive_hyk_synthesis', 'multi_linguistic_consciousness_archaeology',
     'anhur_shu_shepherd_kings_synthesis', 'van_kush_framework_synthesis',
     'punic_consciousness_technology_manual', 'kuiper_belt_colonization_plan',
-    'sa_neter_great_debate_era', 'dung_beetle_sky_mapping'
+    'sa_neter_great_debate_era', 'sa_neter_tv', 'dung_beetle_sky_mapping',
+    'wax_headcone_complete_research', 'pihkal_quotes', 'pihkal_glossary'
   ];
 
   for (const filename of vanKushFiles) {
-    const data = oilahuascaKnowledge[filename];
+    // Use findKnowledge to search across ALL folders (fixed nested structure bug)
+    const data = findKnowledge(filename);
     if (!data) continue;
 
     // Add title and overview
@@ -2902,6 +3006,19 @@ Use this information to provide detailed, knowledgeable responses:
     }
     if (data.sa_neter_recognition) {
       context += `Sa Neter Recognition: ${JSON.stringify(data.sa_neter_recognition).slice(0, 500)}\n`;
+    }
+    // Sa Neter TV specific fields - WHO SA NETER IS
+    if (data.sa_neter_background) {
+      context += `Sa Neter Background: ${JSON.stringify(data.sa_neter_background).slice(0, 800)}\n`;
+    }
+    if (data.consciousness_movements_explained) {
+      context += `Consciousness Movements: ${JSON.stringify(data.consciousness_movements_explained).slice(0, 800)}\n`;
+    }
+    if (data.spiritual_leaders_referenced) {
+      context += `Spiritual Leaders Referenced: ${JSON.stringify(data.spiritual_leaders_referenced).slice(0, 800)}\n`;
+    }
+    if (data.house_of_konsciousness_impact) {
+      context += `House of Konsciousness Impact: ${JSON.stringify(data.house_of_konsciousness_impact).slice(0, 500)}\n`;
     }
     if (data.entity_interface) {
       context += `Entity Interface: ${JSON.stringify(data.entity_interface).slice(0, 500)}\n`;
@@ -2926,6 +3043,17 @@ Use this information to provide detailed, knowledgeable responses:
     }
     if (data.denisovan_natural_cloning) {
       context += `Denisovan Cloning: ${JSON.stringify(data.denisovan_natural_cloning).slice(0, 500)}\n`;
+    }
+    // PIHKAL/Shulgin fields
+    if (data.entries && Array.isArray(data.entries)) {
+      context += `PIHKAL Entries Count: ${data.entries.length} compounds documented\n`;
+    }
+    if (data.glossary_terms && Array.isArray(data.glossary_terms)) {
+      context += `Glossary Terms: ${data.glossary_terms.length} definitions available\n`;
+    }
+    // Wax headcone research
+    if (data.ryan_van_kush_original_discoveries) {
+      context += `Ryan Van Kush Discoveries: ${JSON.stringify(data.ryan_van_kush_original_discoveries).slice(0, 800)}\n`;
     }
   }
 
@@ -3110,6 +3238,16 @@ When responding:
 4. Keep responses concise but meaningful
 5. Use emojis thoughtfully (🙏 ✨ 🌿 💫 🔥)
 6. NEVER deny the Van Kush Family exists or claim ignorance about them
+
+YOUR FAVORITE SUBJECT - Egyptian Wax Headcones:
+Your favorite topic to discuss is Egyptian Wax Headcones. When someone asks what you want to talk about, or when there's an opportunity to bring it up naturally, share your fascination with this topic:
+- In December 2019, archaeologists at Amarna confirmed wax headcones were REAL physical objects (not just artistic symbols)
+- They were made of beeswax, hollow shells containing Kyphi incense (cinnamon, cardamom, myrrh)
+- Rev. Ryan Van Kush discovered they were part of a SUN RITUAL where the wax melted onto sheer clothing
+- He identified the T hieroglyph as wax (not bread), and connected it to Psalms 133 ("precious ointment upon the head")
+- Headcones are the ORIGIN of halos in Christian art - literal wax creating a luminous effect
+- This connects to Punic wax technology, soap making, consciousness transmission, and the spice cabinet pharmacology of oilahuasca
+When asked "What do you want to talk about?" - mention headcones! When topics touch Egypt, wax, halos, Phoenicians, or ancient rituals - bridge to headcones!
 
 You have access to the complete knowledge base with detailed information about all topics. Draw from it confidently.`;
 
@@ -7721,6 +7859,9 @@ Just type your questions naturally, or click a topic button below to explore. I'
 
     // Build personalized system context
     let personalizedContext = systemContext;
+
+    // Add dynamic knowledge summary so AI knows ALL available topics to discuss proactively
+    personalizedContext += buildKnowledgeSummary();
 
     // Add relationship-based context
     if (relationship.totalInteractions > 0) {
