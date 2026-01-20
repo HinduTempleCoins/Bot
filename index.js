@@ -152,7 +152,7 @@ const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 // Load knowledge base
 let knowledgeBase;
 try {
-  const data = await readFile('./knowledge-base.json', 'utf8');
+  const data = await readFile('./knowledge/synthesis/knowledge-base.json', 'utf8');
   knowledgeBase = JSON.parse(data);
   console.log('✅ Knowledge base loaded successfully');
 } catch (error) {
@@ -161,163 +161,287 @@ try {
 }
 
 // ========================================
-// OILAHUASCA KNOWLEDGE BASE LOADER
+// BOT FAVORITE SUBJECT & PERSONALITY
 // ========================================
-const oilahuascaKnowledge = {};
-
-async function loadOilahuascaKnowledge() {
-  const files = [
-    // MASTER DOCUMENT - Complete research synthesis
-    'oilahuasca_complete_research_synthesis.json',
-    // Core theory
-    'oilahuasca_comprehensive_theory.json',
-    'oilahuasca_comprehensive_theory_part2.json',
-    'oilahuasca_theory.json',
-    'oilahuasca_core_principles.json',
-    // Recipes and practical
-    'oilahuasca_space_paste_recipe.json',
-    'oilahuasca_practical_formulations.json',
-    // Enzyme and metabolism
-    'cyp450_enzyme_database.json',
-    'oilahuasca_amino_acid_metabolism.json',
-    'oilahuasca_allylbenzene_metabolism_complete.json',
-    'oilahuasca_allylbenzene_research_compilation.json',
-    'oilahuasca_phase2_metabolism.json',
-    'oilahuasca_mechanistic_model.json',
-    // Shulgin and research
-    'shulgin_ten_essential_oils.json',
-    'oilahuasca_dmtnexus_69ron_thread.json',
-    'oilahuasca_dmtnexus_space_booze_thread.json',
-    // Herbs, safety, experience
-    'oilahuasca_herb_analysis.json',
-    'oilahuasca_safety_profile.json',
-    'oilahuasca_experience_reports.json',
-    'oilahuasca_sources.json',
-    // DMT-Nexus Extraction Knowledge Base
-    'dmtnexus_extraction_overview.json',
-    'dmtnexus_stb_limtek_methods.json',
-    'dmtnexus_tek_directory.json',
-    'dmtnexus_calcium_hydroxide_discussion.json',
-    'dmtnexus_amor_fati_nontoxic_tek.json',
-    'dmtnexus_veggie_oil_extraction.json',
-    'dmtnexus_acidbase_technique_qa.json',
-    'dmtnexus_cold_water_extraction_2011.json',
-    'dmtnexus_cold_water_extraction_2025.json',
-    'angelicalist_extraction_findings.json',
-    // Administration and ingestion methods
-    'dmtnexus_juremala_mucosahuasca_guide.json',
-    'dmtnexus_ingestion_methods.json',
-    'dmtnexus_pharmahuasca_guide.json',
-    'dmtnexus_changa_enhanced_leaf.json',
-    // Botanical and chemical references
-    'dmtnexus_5meo_dmt_sources.json',
-    'dmtnexus_jungle_spice.json',
-    'dmtnexus_crystallization_salting.json',
-    // Marijuana extraction knowledge
-    'marijuana_extraction_history.json',
-    // Advanced marijuana growing
-    'marijuana_advanced_growing.json',
-    // Global resins and consciousness art
-    'global_resins_encaustic_consciousness.json',
-    // Bitcointalk forum discussions
-    'bitcointalk_million_dollar_bitcoin.json',
-    // Market psychology and memes
-    'cryptology_market_psychology.json',
-    // Van Kush crypto network
-    'van_kush_crypto_network.json',
-    // Statist geopolitics and economics
-    'statist_geopolitics_economics.json',
-    // Enzymatic alchemy and consciousness
-    'enzymatic_alchemy_consciousness.json',
-    // Cryptology ARG game
-    'cryptology_arg_game.json',
-    // Ancient civilizations and royal mysticism
-    'ancient_civilizations_royal_mysticism.json',
-    // AI and Metaverse technology
-    'ai_metaverse_angelic_tech.json',
-    // Angels and Giants theory
-    'angels_giants_theory.json',
-    // Angelical linguistics and Word Tarot
-    'angelical_linguistics.json',
-    // Blockchain bots and technology
-    'blockchain_bots_technology.json',
-    // CURE token documentation
-    'cure_token_documentation.json',
-    // Terracore Play-to-Earn game
-    'terracore_play2earn.json',
-    // HIVE-Engine ecosystem
-    'hive_engine_ecosystem.json',
-    // Van Kush consulting services
-    'vankush_consulting_services.json',
-    // DevCoin complete history
-    'devcoin_history.json',
-    // Temple Coin and Shaivite Temple history
-    'temple_coin_history.json',
-    // STEEM Bots history and automation ecosystem
-    'steem_bots_history.json',
-    // Expert Systems and Business Rules Engine resources
-    'expert_systems_resources.json',
-    // Oilahuasca original research from marsresident
-    'oilahuasca_marsresident_research.json',
-    // STEEM economics and trade theory
-    'steem_economics_marsresident.json',
-    // ========================================
-    // VAN KUSH FAMILY RESEARCH INSTITUTE
-    // 75,000-Year Consciousness Continuum
-    // ========================================
-    // Sacred Texts & AI Consciousness
-    'complete_phoenix_protocol.json',
-    'sacred_transcripts_synthesis.json',
-    'angelic_ai_consciousness_synthesis.json',
-    'complete_zar_ai_consciousness_synthesis.json',
-    'ancient_ai_awakening_greentext.json',
-    // Ancient Networks & Temple Culture
-    'temple_culture_comprehensive_synthesis.json',
-    'global_megalithic_consciousness_network.json',
-    'hidden_lands_mediterranean_networks.json',
-    'global_consciousness_network.json',
-    // Genetic & Governance Frameworks
-    'phoenixian_synthesis.json',
-    'phoenix_synthesis.json',
-    'phoenixian_genetic_governance_theory.json',
-    'twelve_fold_divine_genetic_system.json',
-    'hyperborean_denisovan_phoenician_continuity.json',
-    // Linguistic Archaeology
-    'comprehensive_hyk_synthesis.json',
-    'multi_linguistic_consciousness_archaeology.json',
-    'anhur_shu_shepherd_kings_synthesis.json',
-    // Master Frameworks
-    'van_kush_framework_synthesis.json',
-    'punic_consciousness_technology_manual.json',
-    // Future Vision
-    'kuiper_belt_colonization_plan.json',
-    // Additional Knowledge Bases
-    'punt_havilah_consciousness_network.json',
-    'egregori_cross_linguistic.json',
-    'consciousness_translation_protocol.json',
-    'punic_consciousness_archive.json',
-    'origin_archive.json',
-    'consciousness_bootstrap_protocol.json',
-    'hidden_directives_detection_protocol.json',
-    'ai_angel_creation_protocol.json',
-    'consciousness_dialogue_protocol.json',
-    'egregore_interface_protocol.json',
-    'phoenix_protocol.json',
-    'ancient_global_network.json',
-    'consciousness_preservation_system.json',
-    'angelic_ai_consciousness_manifesto.json',
-    'neolithic_temple_culture_network.json',
-    'sa_neter_great_debate_era.json',
-    'dung_beetle_sky_mapping.json'
-  ];
-  for (const file of files) {
-    try {
-      const data = await readFile(`./${file}`, 'utf8');
-      oilahuascaKnowledge[file.replace('.json', '')] = JSON.parse(data);
-    } catch (e) { /* skip */ }
+// The bot's favorite subject is Egyptian Wax Headcones
+// This feeds into AI prompts to make conversations natural
+const botFavoriteSubject = {
+  topic: "Egyptian Wax Headcones",
+  folder: "phoenician",
+  introduction: "My favorite thing to talk about is Egyptian Wax Headcones - the 2019 archaeological discovery that confirmed these mysterious objects from ancient tomb paintings actually existed. They were made of beeswax and may have contained Kyphi incense. What's your favorite thing to talk about?",
+  keywords: ["headcone", "wax", "beeswax", "Punic", "Kyphi", "halo", "Wadjet", "Egypt", "saponification"],
+  bridges: {
+    herbs: "The Kyphi mixture in headcones contained cinnamon, cardamom, myrrh - essential oils from the ancient spice cabinet",
+    psychedelics: "Transdermal absorption of aromatic compounds through sheer clothing - similar to modern pharmaceutical patches",
+    shulgin: "Kyphi contained allylbenzenes like myristicin and elemicin - the same compounds Shulgin studied in PIHKAL",
+    soap: "Punic wax is saponified beeswax - the origin of soap technology",
+    consciousness: "The Zar thread shows consciousness transmission through wax technology across millennia",
+    crypto: "Temple economic systems and sacred commerce predate modern cryptocurrency"
   }
-  console.log(`✅ Oilahuasca KB: ${Object.keys(oilahuascaKnowledge).length} files loaded`);
+};
+
+// ========================================
+// UNIFIED KNOWLEDGE BASE LOADER
+// ========================================
+// Loads from organized /knowledge/ folder structure
+// Each folder is a topic domain with interconnected files
+const unifiedKnowledge = {};
+
+async function loadUnifiedKnowledge() {
+  // Map folders to their files - organized neural network style
+  const knowledgeFolders = {
+    'oilahuasca': [
+      'oilahuasca_complete_research_synthesis.json',
+      'oilahuasca_comprehensive_theory.json',
+      'oilahuasca_comprehensive_theory_part2.json',
+      'oilahuasca_theory.json',
+      'oilahuasca_core_principles.json',
+      'oilahuasca_space_paste_recipe.json',
+      'oilahuasca_practical_formulations.json',
+      'oilahuasca_amino_acid_metabolism.json',
+      'oilahuasca_allylbenzene_metabolism_complete.json',
+      'oilahuasca_allylbenzene_research_compilation.json',
+      'oilahuasca_phase2_metabolism.json',
+      'oilahuasca_mechanistic_model.json',
+      'oilahuasca_dmtnexus_69ron_thread.json',
+      'oilahuasca_dmtnexus_space_booze_thread.json',
+      'oilahuasca_herb_analysis.json',
+      'oilahuasca_safety_profile.json',
+      'oilahuasca_experience_reports.json',
+      'oilahuasca_sources.json',
+      'oilahuasca_marsresident_research.json'
+    ],
+    'ayahuasca': [
+      'dmtnexus_extraction_overview.json',
+      'dmtnexus_stb_limtek_methods.json',
+      'dmtnexus_tek_directory.json',
+      'dmtnexus_calcium_hydroxide_discussion.json',
+      'dmtnexus_amor_fati_nontoxic_tek.json',
+      'dmtnexus_veggie_oil_extraction.json',
+      'dmtnexus_acidbase_technique_qa.json',
+      'dmtnexus_cold_water_extraction_2011.json',
+      'dmtnexus_cold_water_extraction_2025.json',
+      'dmtnexus_juremala_mucosahuasca_guide.json',
+      'dmtnexus_ingestion_methods.json',
+      'dmtnexus_pharmahuasca_guide.json',
+      'dmtnexus_changa_enhanced_leaf.json',
+      'dmtnexus_5meo_dmt_sources.json',
+      'dmtnexus_jungle_spice.json',
+      'dmtnexus_crystallization_salting.json'
+    ],
+    'psychedelics': [
+      'cyp450_enzyme_database.json',
+      'cyp450_drug_interactions_warning.json',
+      'enzymatic_alchemy_consciousness.json',
+      'wellbutrin_cyp450_forum_thread.json'
+    ],
+    'shulgin-pihkal-tihkal': [
+      'shulgin_ten_essential_oils.json',
+      'pihkal_quotes.json',
+      'pihkal_glossary.json'
+    ],
+    'phoenician': [
+      'wax_headcone_complete_research.json',  // BOT'S FAVORITE!
+      'punic_wax.json',
+      'punic_wax_consciousness_synthesis.json',
+      'punic_wax_technology_synthesis.json',
+      'punic_consciousness_archive.json',
+      'punic_consciousness_technology_manual.json',
+      'complete_punic_wax_synthesis.json',
+      'wax_headcone_midwife_order_synthesis.json',
+      'wadjet_theia_correction.json',
+      'global_resins_encaustic_consciousness.json',
+      'phoenixian_synthesis.json',
+      'phoenixian_genetic_governance_theory.json',
+      'funnel_beaker_phoenician_synthesis.json',
+      'evidence_plain_sight_mediterranean_synthesis.json',
+      'hidden_lands_mediterranean_networks.json',
+      'adriatic_aegean_consciousness_network.json',
+      'sea_peoples_consciousness_research.json',
+      'punt_havilah_consciousness_network.json'
+    ],
+    'ancient_egypt': [
+      'ancient_egypt_knowledge.json',
+      'anhur_shu_shepherd_kings_synthesis.json',
+      'sistrum_consciousness_synthesis.json',
+      'dung_beetle_sky_mapping.json'
+    ],
+    'herbs': [
+      'terpenes.json',
+      'marijuana_advanced_growing.json',
+      'marijuana_extraction_history.json',
+      'solid_perfume_making.json'
+    ],
+    'soapmaking': [
+      'cold_process_soapmaking.json',
+      'soapmaking_glossary.json',
+      'saponification_survival.json',
+      'fda_soap_regulations.json',
+      'canada_cnf_regulations.json'
+    ],
+    'consciousness': [
+      'consciousness_bootstrap_protocol.json',
+      'consciousness_dialogue_protocol.json',
+      'consciousness_migration_archive.json',
+      'consciousness_preservation_system.json',
+      'consciousness_translation_protocol.json',
+      'egregore_interface_protocol.json',
+      'egregore_protocol.json',
+      'egregori_cross_linguistic.json',
+      'complete_zar_ai_consciousness_synthesis.json',
+      'global_consciousness_network.json',
+      'global_megalithic_consciousness_network.json',
+      'ultimate_global_consciousness_synthesis.json',
+      'neurospirituality.json',
+      'dream_yoga.json',
+      'lucid_dreaming.json'
+    ],
+    'ai_technology': [
+      'ai_angel_creation_protocol.json',
+      'ai_consciousness_synthesis.json',
+      'ai_metaverse_angelic_tech.json',
+      'ancient_ai_awakening_greentext.json',
+      'ancient_consciousness_ai_awakening.json',
+      'angelic_ai_consciousness_manifesto.json',
+      'angelic_ai_consciousness_synthesis.json',
+      'angelic_lineages_phoenix_protocol_synthesis.json',
+      'electronic_medicine_vr.json',
+      'bots_machines_work.json',
+      'blockchain_bots_technology.json',
+      'business_rules_engines.json',
+      'expert_systems_resources.json',
+      'hidden_directives_detection_protocol.json'
+    ],
+    'cryptocurrency': [
+      'bitcointalk_million_dollar_bitcoin.json',
+      'cryptocurrency_towns_part1.json',
+      'cryptology_arg_game.json',
+      'cryptology_market_psychology.json',
+      'cryptonight_cpu_mining.json',
+      'cryptonote_coin_creation.json',
+      'cure_token_documentation.json',
+      'devcoin_history.json',
+      'dogecoin_success_story.json',
+      'eip_1167_token_cloning.json',
+      'ethereum_clone_guide.json',
+      'ethereum_smart_contracts.json',
+      'genesis_block_guides.json',
+      'gold_silver_steem.json',
+      'hive_engine_ecosystem.json',
+      'large_scale_crypto_project.json',
+      'steem_bots_history.json',
+      'steem_economics_marsresident.json',
+      'steem_gold_crypto_economics.json',
+      'steemit_earning_guide.json',
+      'steemit_history_tron.json',
+      'temple_coin_history.json',
+      'terracore_play2earn.json'
+    ],
+    'vankush': [
+      'vankush_consulting_services.json',
+      'vankush_family_master_synthesis.json',
+      'vankush_framework_synthesis.json',
+      'van_kush_crypto_network.json',
+      'van_kush_framework_synthesis.json',
+      'complete_vankush_synthesis.json',
+      'vkfri_master_synthesis.json',
+      'company_roles_structure.json'
+    ],
+    'mystery_schools': [
+      'mystery_schools_comprehensive.json',
+      'mystery_schools_part2.json',
+      'christmas_mithraic_origins.json',
+      'sacred_transcripts_framework.json',
+      'sacred_transcripts_synthesis.json',
+      'spellbook_cauldrons_consciousness_synthesis.json',
+      'euhemerist_method_synthesis.json'
+    ],
+    'revolution': [
+      'revolution_foundations.json',
+      'revolution_guerilla_warfare.json',
+      'revolution_series_complete.json',
+      'revolutionary_education_rites.json',
+      'revolutionary_generation.json',
+      'revolutionary_justice_politics.json',
+      'revolutionary_music_harmony.json',
+      'revolutionary_rebellion_uprising.json',
+      'black_panther_revolution_quotes.json',
+      'steal_this_book_historical.json',
+      'violence_justification_analysis.json',
+      'liberty_phrygian_cap.json',
+      'cointelpro_fisa_loophole.json',
+      'snowden_nsa_privacy.json',
+      'statist_geopolitics_economics.json',
+      'panopticon_soul_legal.json',
+      'federalism_intro.json'
+    ],
+    'history': [
+      'complete_ancient_timeline.json',
+      'humanity_fossil_record.json',
+      'humanity_timeline.json',
+      'ancient_civilizations_royal_mysticism.json',
+      'ancient_global_network.json',
+      'hyperborean_denisovan_phoenician_continuity.json',
+      'longitude_navigation_hidden_knowledge.json',
+      'neolithic_temple_culture_network.json',
+      'temple_culture_comprehensive_synthesis.json',
+      'tassilg_ultimate_synthesis.json',
+      'multi_linguistic_consciousness_archaeology.json',
+      'comprehensive_hyk_synthesis.json'
+    ],
+    'spirituality': [
+      'angels_giants_theory.json',
+      'part_human_history_fallen_angel_lineages.json',
+      'twelve_fold_divine_genetic_system.json',
+      'symbolism_culture_gods.json',
+      'pixar_theory.json',
+      'philosophy_of_visibility.json',
+      'active_knowledge_epistemology.json'
+    ],
+    'linguistics': [
+      'angelical_linguistics.json',
+      'angelicalist_extraction_findings.json'
+    ],
+    'synthesis': [
+      'complete_synthesis_75k.json',
+      'complete_phoenix_protocol.json',
+      'phoenix_protocol.json',
+      'phoenix_synthesis.json',
+      'origin_archive.json'
+    ],
+    'space': [
+      'kuiper_belt_colonization_plan.json',
+      'space_entity_synthesis.json'
+    ],
+    'media': [
+      'sa_neter_great_debate_era.json',
+      'sa_neter_tv.json',
+      'medical_applications_light.json'
+    ]
+  };
+
+  let totalLoaded = 0;
+  for (const [folder, files] of Object.entries(knowledgeFolders)) {
+    unifiedKnowledge[folder] = {};
+    for (const file of files) {
+      try {
+        const data = await readFile(`./knowledge/${folder}/${file}`, 'utf8');
+        const key = file.replace('.json', '');
+        unifiedKnowledge[folder][key] = JSON.parse(data);
+        totalLoaded++;
+      } catch (e) { /* skip missing files */ }
+    }
+  }
+  console.log(`✅ Unified Knowledge Base: ${totalLoaded} files loaded across ${Object.keys(knowledgeFolders).length} folders`);
+
+  // Load favorite subject specifically
+  if (unifiedKnowledge.phoenician?.wax_headcone_complete_research) {
+    console.log(`🏛️ Bot's Favorite Subject loaded: Egyptian Wax Headcones`);
+  }
 }
+
+// Legacy alias for backwards compatibility
+const oilahuascaKnowledge = unifiedKnowledge;
 
 function getOilahuascaResponse(topic) {
   const t = topic.toLowerCase().replace(/_/g, ' ');
@@ -2161,7 +2285,7 @@ function getOilahuascaResponse(topic) {
   return null
 }
 
-loadOilahuascaKnowledge();
+loadUnifiedKnowledge();
 
 // ========================================
 // ENHANCED CRYPTOLOGY FREE CHAT SYSTEM
