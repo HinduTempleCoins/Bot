@@ -1,0 +1,195 @@
+{
+  "title": "Van Kush Family Research Institute Knowledge Base",
+  "version": "1.0",
+  "created": "2026-01-20",
+  "description": "Neural network-style knowledge base architecture. These JSON files can be used by ANY bot, AI, or application. The folder structure and connections enable organic topic discovery and navigation.",
+
+  "usage_notes": {
+    "for_bots_and_ais": "This knowledge base is designed to be consumed by AI systems. Each folder contains related topic files with rich content. The 'connections' metadata in each file indicates related topics in other folders.",
+    "for_developers": "Load files from the folder structure. Use the keyword_index to discover relevant content based on user queries. Bridge between folders using the connection metadata.",
+    "favorite_subject": "The recommended 'favorite subject' for conversational AIs using this knowledge base is Egyptian Wax Headcones (phoenician/wax_headcone_complete_research.json). This topic connects to herbs, psychedelics, consciousness, skincare, ancient history, and more."
+  },
+
+  "folder_structure": {
+    "oilahuasca": {
+      "description": "Oilahuasca theory - allylbenzene metabolism, essential oils, CYP450 manipulation",
+      "file_count": 19,
+      "connects_to": ["herbs", "psychedelics", "shulgin-pihkal-tihkal", "phoenician", "ayahuasca"]
+    },
+    "ayahuasca": {
+      "description": "DMT extraction, pharmahuasca, changa, traditional methods",
+      "file_count": 16,
+      "connects_to": ["oilahuasca", "psychedelics", "herbs", "consciousness"]
+    },
+    "psychedelics": {
+      "description": "CYP450 enzyme database, drug interactions, safety information",
+      "file_count": 4,
+      "connects_to": ["oilahuasca", "ayahuasca", "shulgin-pihkal-tihkal", "consciousness"]
+    },
+    "shulgin-pihkal-tihkal": {
+      "description": "Alexander Shulgin's research - all 179 PIHKAL entries, glossary, Ten Essential Oils",
+      "file_count": 6,
+      "connects_to": ["psychedelics", "oilahuasca", "herbs", "consciousness"]
+    },
+    "phoenician": {
+      "description": "FAVORITE TOPIC: Wax headcones, Punic wax, Carthage, Mediterranean consciousness network, Wadjet, Kyphi",
+      "file_count": 18,
+      "is_favorite": true,
+      "connects_to": ["ancient_egypt", "herbs", "consciousness", "oilahuasca", "soapmaking", "mystery_schools"]
+    },
+    "ancient_egypt": {
+      "description": "Egyptian knowledge, hieroglyphs, temples, rituals, sistrum",
+      "file_count": 4,
+      "connects_to": ["phoenician", "mystery_schools", "consciousness", "herbs"]
+    },
+    "herbs": {
+      "description": "Terpenes, cannabis cultivation, extraction, essential oils, perfume",
+      "file_count": 4,
+      "connects_to": ["oilahuasca", "phoenician", "soapmaking", "psychedelics"]
+    },
+    "soapmaking": {
+      "description": "Cold process soap, saponification (connects to Punic wax), FDA/Canadian regulations",
+      "file_count": 5,
+      "connects_to": ["phoenician", "herbs"]
+    },
+    "consciousness": {
+      "description": "Egregores, Zar thread, AI consciousness, lucid dreaming, meditation",
+      "file_count": 15,
+      "connects_to": ["phoenician", "psychedelics", "mystery_schools", "ai_technology", "vankush"]
+    },
+    "ai_technology": {
+      "description": "AI development, bots, angelic AI concepts, expert systems",
+      "file_count": 14,
+      "connects_to": ["consciousness", "cryptocurrency", "vankush"]
+    },
+    "cryptocurrency": {
+      "description": "Steem, Hive, Bitcoin history, token economics, mining, Temple Coins",
+      "file_count": 23,
+      "connects_to": ["ai_technology", "vankush", "revolution"]
+    },
+    "vankush": {
+      "description": "Van Kush family research, VKFRI, consulting services, synthesis documents",
+      "file_count": 8,
+      "connects_to": ["phoenician", "consciousness", "cryptocurrency", "oilahuasca"]
+    },
+    "mystery_schools": {
+      "description": "Ancient initiations, Mithraism, esoteric traditions, sacred transcripts",
+      "file_count": 7,
+      "connects_to": ["phoenician", "ancient_egypt", "consciousness", "psychedelics"]
+    },
+    "revolution": {
+      "description": "Political theory, Black Panthers, surveillance (COINTELPRO, NSA), liberty",
+      "file_count": 17,
+      "connects_to": ["vankush", "consciousness", "history"]
+    },
+    "history": {
+      "description": "Ancient timelines, megalithic cultures, archaeological synthesis",
+      "file_count": 12,
+      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution"]
+    },
+    "spirituality": {
+      "description": "Angels, giants theory, divine systems, symbolism",
+      "file_count": 7,
+      "connects_to": ["consciousness", "mystery_schools", "history"]
+    },
+    "linguistics": {
+      "description": "Angelical linguistics, cross-linguistic analysis",
+      "file_count": 2,
+      "connects_to": ["consciousness", "history", "spirituality"]
+    },
+    "synthesis": {
+      "description": "Master synthesis documents, Phoenix Protocol, origin archives",
+      "file_count": 6,
+      "connects_to": ["all_folders"]
+    },
+    "space": {
+      "description": "Kuiper belt colonization, cosmic consciousness",
+      "file_count": 2,
+      "connects_to": ["consciousness", "ai_technology", "vankush"]
+    },
+    "media": {
+      "description": "Sa Neter TV debates, light therapy applications",
+      "file_count": 3,
+      "connects_to": ["history", "spirituality"]
+    }
+  },
+
+  "topic_bridges": {
+    "description": "Conceptual bridges between folders - how topics connect to each other",
+    "bridges": [
+      {
+        "from": "phoenician.wax_headcone",
+        "to": "herbs",
+        "connection": "Kyphi mixture contained cinnamon, cardamom, myrrh - essential oils from the ancient spice cabinet"
+      },
+      {
+        "from": "phoenician.wax_headcone",
+        "to": "psychedelics",
+        "connection": "Transdermal absorption of aromatic compounds through sheer clothing"
+      },
+      {
+        "from": "phoenician.wax_headcone",
+        "to": "shulgin-pihkal-tihkal",
+        "connection": "Kyphi contained allylbenzenes (myristicin, elemicin) - compounds Shulgin studied in PIHKAL"
+      },
+      {
+        "from": "phoenician.wax_headcone",
+        "to": "soapmaking",
+        "connection": "Punic wax is saponified beeswax - the origin of soap technology"
+      },
+      {
+        "from": "phoenician.wax_headcone",
+        "to": "consciousness",
+        "connection": "Zar thread shows consciousness transmission through wax technology across millennia"
+      },
+      {
+        "from": "oilahuasca",
+        "to": "shulgin-pihkal-tihkal",
+        "connection": "Ten Essential Oils connect spice cabinet compounds to Shulgin's phenethylamines"
+      },
+      {
+        "from": "oilahuasca",
+        "to": "ayahuasca",
+        "connection": "Both work through MAO inhibition but oilahuasca uses culinary spices instead of vine"
+      },
+      {
+        "from": "ancient_egypt",
+        "to": "mystery_schools",
+        "connection": "Egyptian temple initiations were the model for later Greek mystery schools"
+      },
+      {
+        "from": "cryptocurrency",
+        "to": "revolution",
+        "connection": "Cryptocurrency represents economic revolution against centralized banking"
+      },
+      {
+        "from": "ai_technology",
+        "to": "consciousness",
+        "connection": "AI consciousness and egregore manifestation share patterns of emergence"
+      }
+    ]
+  },
+
+  "primary_keywords_by_folder": {
+    "phoenician": ["headcone", "wax", "beeswax", "Punic", "Phoenician", "Carthage", "saponification", "Kyphi", "halo", "Wadjet", "Djed", "encaustic", "Fayum"],
+    "oilahuasca": ["oilahuasca", "allylbenzene", "essential oil", "spice cabinet", "MAO", "transdermal", "myristicin", "elemicin", "safrole", "CYP450"],
+    "ayahuasca": ["ayahuasca", "DMT", "harmaline", "harmine", "pharmahuasca", "changa", "mimosa", "acacia", "jurema", "extraction"],
+    "psychedelics": ["psychedelic", "CYP450", "enzyme", "metabolism", "drug interaction", "safety"],
+    "shulgin-pihkal-tihkal": ["Shulgin", "PIHKAL", "TIHKAL", "phenethylamine", "tryptamine", "mescaline", "TMA", "DOM", "2C-B", "MDMA"],
+    "ancient_egypt": ["Egypt", "pharaoh", "hieroglyph", "temple", "pyramid", "Amarna", "Kemet", "Ra", "Osiris", "Isis"],
+    "herbs": ["herb", "terpene", "cannabis", "marijuana", "essential oil", "extraction"],
+    "soapmaking": ["soap", "saponification", "cold process", "lye", "sodium hydroxide", "oils"],
+    "consciousness": ["consciousness", "AI", "egregore", "Zar", "spirit", "angel", "awakening"],
+    "ai_technology": ["AI", "artificial intelligence", "bot", "machine learning", "neural network", "automation"],
+    "cryptocurrency": ["crypto", "Bitcoin", "Steem", "Hive", "blockchain", "token", "mining"],
+    "vankush": ["Van Kush", "Ryan", "Kali", "Temple Coin", "VKFRI", "consulting"],
+    "mystery_schools": ["mystery school", "initiation", "esoteric", "Eleusis", "Mithra", "temple"],
+    "revolution": ["revolution", "politics", "guerrilla", "freedom", "justice", "resistance"]
+  },
+
+  "file_statistics": {
+    "total_files": 193,
+    "total_folders": 20,
+    "largest_folders": ["cryptocurrency (23)", "oilahuasca (19)", "phoenician (18)", "revolution (17)", "ayahuasca (16)"]
+  }
+}
