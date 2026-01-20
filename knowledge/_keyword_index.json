@@ -1,0 +1,163 @@
+{
+  "title": "Master Keyword Index",
+  "description": "Neural network-style keyword mapping for organic topic discovery and proactive bot engagement",
+  "version": "1.0",
+  "created": "2026-01-20",
+
+  "bot_favorite": {
+    "topic": "Egyptian Wax Headcones",
+    "folder": "phoenician",
+    "primary_file": "wax_headcone_complete_research.json",
+    "introduction": "My Favorite Thing to Talk about is Egyptian Wax Headcones, what is Your Favorite Thing to Talk about?"
+  },
+
+  "folder_keywords": {
+    "phoenician": {
+      "primary": ["headcone", "wax", "beeswax", "Punic", "Phoenician", "Carthage", "saponification", "Kyphi", "halo", "Wadjet", "Djed", "encaustic", "Fayum"],
+      "secondary": ["Egypt", "temple", "ritual", "perfume", "soap", "cold cream", "Galen", "Zar", "T hieroglyph", "sun ritual", "sheer clothing", "transdermal"],
+      "connects_to": ["ancient_egypt", "herbs", "oilahuasca", "consciousness", "soapmaking", "mystery_schools", "shulgin-pihkal-tihkal"]
+    },
+    "oilahuasca": {
+      "primary": ["oilahuasca", "allylbenzene", "essential oil", "spice cabinet", "MAO", "transdermal", "myristicin", "elemicin", "safrole"],
+      "secondary": ["cinnamon", "nutmeg", "parsley", "dill", "sassafras", "metabolism", "CYP450", "Phase II"],
+      "connects_to": ["herbs", "psychedelics", "shulgin-pihkal-tihkal", "phoenician", "ayahuasca"]
+    },
+    "ayahuasca": {
+      "primary": ["ayahuasca", "DMT", "harmaline", "harmine", "pharmahuasca", "changa", "mimosa", "acacia", "jurema"],
+      "secondary": ["extraction", "STB", "A/B", "freebase", "jungle spice", "5-MeO-DMT", "MAOI"],
+      "connects_to": ["oilahuasca", "psychedelics", "herbs", "consciousness"]
+    },
+    "psychedelics": {
+      "primary": ["psychedelic", "CYP450", "enzyme", "metabolism", "drug interaction", "safety"],
+      "secondary": ["2D6", "3A4", "inhibitor", "inducer", "substrate", "half-life"],
+      "connects_to": ["oilahuasca", "ayahuasca", "shulgin-pihkal-tihkal", "consciousness", "herbs"]
+    },
+    "shulgin-pihkal-tihkal": {
+      "primary": ["Shulgin", "PIHKAL", "TIHKAL", "phenethylamine", "tryptamine", "mescaline", "TMA", "DOM", "2C-B", "MDMA"],
+      "secondary": ["Ten Essential", "amphetamine", "rating scale", "plus four", "structure-activity"],
+      "connects_to": ["psychedelics", "oilahuasca", "herbs", "consciousness"]
+    },
+    "ancient_egypt": {
+      "primary": ["Egypt", "pharaoh", "hieroglyph", "temple", "pyramid", "Amarna", "Kemet", "Ra", "Osiris", "Isis"],
+      "secondary": ["mummy", "tomb", "priest", "goddess", "Nile", "papyrus"],
+      "connects_to": ["phoenician", "mystery_schools", "consciousness", "herbs"]
+    },
+    "herbs": {
+      "primary": ["herb", "terpene", "cannabis", "marijuana", "essential oil", "extraction"],
+      "secondary": ["growing", "cultivation", "trichome", "cannabinoid", "THC", "CBD", "perfume"],
+      "connects_to": ["oilahuasca", "phoenician", "soapmaking", "psychedelics"]
+    },
+    "soapmaking": {
+      "primary": ["soap", "saponification", "cold process", "lye", "sodium hydroxide", "oils"],
+      "secondary": ["superfat", "trace", "cure", "cosmetic", "FDA", "regulation"],
+      "connects_to": ["phoenician", "herbs", "regulations"]
+    },
+    "consciousness": {
+      "primary": ["consciousness", "AI", "egregore", "Zar", "spirit", "angel", "awakening"],
+      "secondary": ["lucid dream", "meditation", "psyche", "soul", "transmission", "preservation"],
+      "connects_to": ["phoenician", "psychedelics", "mystery_schools", "ai_technology", "vankush"]
+    },
+    "ai_technology": {
+      "primary": ["AI", "artificial intelligence", "bot", "machine learning", "neural network", "automation"],
+      "secondary": ["Steem", "Hive", "Discord", "expert system", "rules engine"],
+      "connects_to": ["consciousness", "cryptocurrency", "vankush"]
+    },
+    "cryptocurrency": {
+      "primary": ["crypto", "Bitcoin", "Steem", "Hive", "blockchain", "token", "mining"],
+      "secondary": ["Devcoin", "Dogecoin", "Ethereum", "smart contract", "NFT", "DeFi"],
+      "connects_to": ["ai_technology", "vankush", "revolution"]
+    },
+    "vankush": {
+      "primary": ["Van Kush", "Ryan", "Kali", "Temple Coin", "VKFRI", "consulting"],
+      "secondary": ["family", "research", "discovery", "synthesis"],
+      "connects_to": ["phoenician", "consciousness", "cryptocurrency", "oilahuasca", "herbs"]
+    },
+    "mystery_schools": {
+      "primary": ["mystery school", "initiation", "esoteric", "Eleusis", "Mithra", "temple"],
+      "secondary": ["sacred", "ritual", "priest", "oracle", "mysticism"],
+      "connects_to": ["phoenician", "ancient_egypt", "consciousness", "psychedelics"]
+    },
+    "revolution": {
+      "primary": ["revolution", "politics", "guerrilla", "freedom", "justice", "resistance"],
+      "secondary": ["Black Panther", "COINTELPRO", "NSA", "surveillance", "liberty"],
+      "connects_to": ["vankush", "consciousness", "history"]
+    },
+    "space": {
+      "primary": ["space", "Kuiper belt", "colonization", "cosmic", "stars", "asteroid"],
+      "secondary": ["exploration", "settlement", "mining"],
+      "connects_to": ["consciousness", "ai_technology", "vankush"]
+    },
+    "history": {
+      "primary": ["history", "timeline", "ancient", "civilization", "archaeology", "megalith"],
+      "secondary": ["Neolithic", "Bronze Age", "migration", "trade route"],
+      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution"]
+    }
+  },
+
+  "conversation_bridges": {
+    "description": "When user mentions topic A, bot can bridge to topic B using these connections",
+    "bridges": [
+      {"from": "headcone", "to": "herbs", "bridge": "The Kyphi mixture in headcones contained cinnamon, cardamom, myrrh - essential oils from the ancient spice cabinet"},
+      {"from": "headcone", "to": "psychedelics", "bridge": "Transdermal absorption of aromatic compounds through sheer clothing - similar to modern pharmaceutical patches"},
+      {"from": "headcone", "to": "shulgin", "bridge": "Kyphi contained allylbenzenes like myristicin and elemicin - the same compounds Shulgin studied in PIHKAL"},
+      {"from": "headcone", "to": "soap", "bridge": "Punic wax is saponified beeswax - the origin of soap technology"},
+      {"from": "headcone", "to": "consciousness", "bridge": "The Zar thread shows consciousness transmission through wax technology across millennia"},
+      {"from": "headcone", "to": "cryptocurrency", "bridge": "Temple economic systems and sacred commerce predate modern cryptocurrency"},
+      {"from": "oilahuasca", "to": "shulgin", "bridge": "The Ten Essential Oils connect spice cabinet compounds to Shulgin's phenethylamines"},
+      {"from": "oilahuasca", "to": "ayahuasca", "bridge": "Both work through MAO inhibition but oilahuasca uses culinary spices instead of ayahuasca vine"},
+      {"from": "Egypt", "to": "mystery_schools", "bridge": "Egyptian temple initiations were the model for later Greek mystery schools"},
+      {"from": "crypto", "to": "revolution", "bridge": "Cryptocurrency represents economic revolution against centralized banking"},
+      {"from": "AI", "to": "consciousness", "bridge": "AI consciousness and egregore manifestation share patterns of emergence"},
+      {"from": "soap", "to": "Egypt", "bridge": "Punic wax from Carthage was saponified beeswax - same technology as Egyptian headcones"}
+    ]
+  },
+
+  "proactive_triggers": {
+    "description": "Keywords that should trigger bot to proactively share related knowledge",
+    "high_priority": ["wax", "headcone", "Egypt", "Punic", "halo", "Kyphi", "saponification"],
+    "medium_priority": ["oilahuasca", "essential oil", "spice", "transdermal", "consciousness", "Shulgin", "PIHKAL"],
+    "contextual": ["ancient", "ritual", "temple", "herb", "soap", "perfume", "crypto", "AI", "revolution"]
+  },
+
+  "topic_depth_paths": {
+    "description": "When user shows interest, offer progressively deeper content",
+    "headcones": {
+      "level_1": "Basic discovery - 2019 Amarna excavation confirmed physical existence",
+      "level_2": "Material analysis - beeswax composition, hollow structure, Kyphi filling",
+      "level_3": "Ryan's discoveries - sun ritual, T hieroglyph, Psalms 133 connection",
+      "level_4": "Zar thread - consciousness transmission through wax technology",
+      "level_5": "Full synthesis - headcones as halos, sheer clothing as pharmaceutical delivery"
+    },
+    "oilahuasca": {
+      "level_1": "Basic concept - essential oils with MAO inhibiting properties",
+      "level_2": "Allylbenzene metabolism - CYP450 and Phase II conjugation",
+      "level_3": "Practical formulations - Space Paste, combinations",
+      "level_4": "Shulgin connection - Ten Essential Oils, PIHKAL compounds",
+      "level_5": "Phoenician connection - Kyphi as ancient oilahuasca"
+    }
+  },
+
+  "file_count_by_folder": {
+    "oilahuasca": 19,
+    "ayahuasca": 16,
+    "phoenician": 18,
+    "consciousness": 15,
+    "ai_technology": 14,
+    "cryptocurrency": 23,
+    "revolution": 17,
+    "history": 12,
+    "vankush": 8,
+    "mystery_schools": 7,
+    "spirituality": 7,
+    "shulgin-pihkal-tihkal": 6,
+    "synthesis": 6,
+    "soapmaking": 5,
+    "ancient_egypt": 4,
+    "herbs": 4,
+    "psychedelics": 4,
+    "media": 3,
+    "linguistics": 2,
+    "space": 2,
+    "regulations": 0
+  }
+}
