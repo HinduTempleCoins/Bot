@@ -335,6 +335,7 @@ async function loadUnifiedKnowledge() {
       'hive_engine_ecosystem.json',
       'large_scale_crypto_project.json',
       'steem_bots_history.json',
+      'steem_bots_2020.json',
       'steem_economics_marsresident.json',
       'steem_gold_crypto_economics.json',
       'steemit_earning_guide.json',
