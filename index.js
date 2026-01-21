@@ -401,7 +401,8 @@ async function loadUnifiedKnowledge() {
       'symbolism_culture_gods.json',
       'pixar_theory.json',
       'philosophy_of_visibility.json',
-      'active_knowledge_epistemology.json'
+      'active_knowledge_epistemology.json',
+      'shiva_lord_of_bhang_comprehensive.json'
     ],
     'linguistics': [
       'angelical_linguistics.json',
