@@ -209,7 +209,8 @@ async function loadUnifiedKnowledge() {
       'oilahuasca_safety_profile.json',
       'oilahuasca_experience_reports.json',
       'oilahuasca_sources.json',
-      'oilahuasca_marsresident_research.json'
+      'oilahuasca_marsresident_research.json',
+      'neurogenesis_synaptogenesis_endocannabinoid_deep_dive.json'
     ],
     'ayahuasca': [
       'dmtnexus_extraction_overview.json',
