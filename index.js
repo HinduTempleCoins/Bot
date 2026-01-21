@@ -407,7 +407,8 @@ async function loadUnifiedKnowledge() {
       'active_knowledge_epistemology.json',
       'shiva_lord_of_bhang_comprehensive.json',
       'lord_of_ages_theological_synthesis.json',
-      'bitcointalk_jesus_thread.json'
+      'bitcointalk_jesus_thread.json',
+      'deviantart_angelicalism_thread.json'
     ],
     'linguistics': [
       'angelical_linguistics.json',
