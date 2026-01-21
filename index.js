@@ -390,6 +390,7 @@ async function loadUnifiedKnowledge() {
       'longitude_navigation_hidden_knowledge.json',
       'neolithic_temple_culture_network.json',
       'temple_culture_comprehensive_synthesis.json',
+      'temple_culture_comprehensive_framework.json',
       'tassilg_ultimate_synthesis.json',
       'multi_linguistic_consciousness_archaeology.json',
       'comprehensive_hyk_synthesis.json'
