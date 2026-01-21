@@ -315,7 +315,8 @@ async function loadUnifiedKnowledge() {
       'blockchain_bots_technology.json',
       'business_rules_engines.json',
       'expert_systems_resources.json',
-      'hidden_directives_detection_protocol.json'
+      'hidden_directives_detection_protocol.json',
+      'neural_networks_ai_history_angelic.json'
     ],
     'cryptocurrency': [
       'bitcointalk_million_dollar_bitcoin.json',
