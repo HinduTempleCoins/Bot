@@ -4,6 +4,32 @@
   "type": "Alternate Reality Game / Mystery School",
   "overview": "A scavenger hunt for Truth, Wealth, and Angelic Identity - bridging ancient Royal Mysticism with modern Metaverse technology",
 
+  "announcement_sources": {
+    "blurt_announcement": {
+      "author": "vankushfamily",
+      "platform": "BLURT Blog",
+      "community": "#blurtdallas",
+      "date": "2024",
+      "description": "Launching a 'Reality Game' or 'Not a Game' called 'Crypt-ology' to be presented on Creative Writing Forums"
+    },
+    "angelicalism_thread": {
+      "platform": "DeviantArt Forum",
+      "section": "devart/general",
+      "thread_id": "2771183",
+      "url": "https://www.deviantart.com/forum/devart/general/2771183",
+      "topic": "Angelicalism Movement details"
+    },
+    "cryptology_details_thread": {
+      "platform": "David Icke Forum",
+      "thread_title": "Angels and Giants - Aliens Don't Exist with Bodies",
+      "thread_id": "37839",
+      "page": 3,
+      "comment": "576031",
+      "url": "https://forum.davidicke.com/index.php?/topic/37839-angels-and-giants-aliens-don't-exist-with-bodies/page/3/#comment-576031",
+      "topic": "Crypt-ology game details and Angels/Giants thesis"
+    }
+  },
+
   "game_philosophy": {
     "not_a_game": {
       "explanation": "Called 'Not-a-Game' because the stakes are real",
