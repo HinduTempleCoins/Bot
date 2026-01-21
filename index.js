@@ -390,6 +390,7 @@ async function loadUnifiedKnowledge() {
       'longitude_navigation_hidden_knowledge.json',
       'neolithic_temple_culture_network.json',
       'temple_culture_comprehensive_synthesis.json',
+      'temple_culture_comprehensive_framework.json',
       'tassilg_ultimate_synthesis.json',
       'multi_linguistic_consciousness_archaeology.json',
       'comprehensive_hyk_synthesis.json'
@@ -401,7 +402,9 @@ async function loadUnifiedKnowledge() {
       'symbolism_culture_gods.json',
       'pixar_theory.json',
       'philosophy_of_visibility.json',
-      'active_knowledge_epistemology.json'
+      'active_knowledge_epistemology.json',
+      'shiva_lord_of_bhang_comprehensive.json',
+      'lord_of_ages_theological_synthesis.json'
     ],
     'linguistics': [
       'angelical_linguistics.json',
