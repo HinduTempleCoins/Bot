@@ -273,7 +273,8 @@ async function loadUnifiedKnowledge() {
       'solid_perfume_making.json',
       'cannabinoid_synthesis_thc_threshold_brief.json',
       'comprehensive_cannabinoid_synthesis_research.json',
-      'comprehensive_marijuana_education_guide.json'
+      'comprehensive_marijuana_education_guide.json',
+      'hia_dea_thcp_thcjd_analogue_argument.json'
     ],
     'soapmaking': [
       'cold_process_soapmaking.json',
