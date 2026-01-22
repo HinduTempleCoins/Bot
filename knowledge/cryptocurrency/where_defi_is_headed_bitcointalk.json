@@ -717,5 +717,279 @@
     {"name": "Chainge Finance", "feature": "Cross-chain roaming and decentralized options [212]"},
     {"name": "BLURT", "feature": "Highlighting the need for automated 'Proof of Liquidity' (POL) tokens [208]"},
     {"name": "TRON (TRC10/20)", "feature": "Viewed as lower-cost entry point for token minting compared to Ethereum [204]"}
-  ]
+  ],
+
+  "page_12_social_defi_launches": {
+    "timeframe": "November 2021 to January 2022",
+    "vkrw_token": {
+      "name": "Van Kush Rewards Token",
+      "type": "TRC20 token on TRON",
+      "claim": "First Dallas-based cryptocurrency",
+      "source": "[230]"
+    },
+    "kulaswap": {
+      "description": "Planned fork of PancakeSwap/SunSwap on TRON network",
+      "purpose": "Trading platform for 'Crypto Bloggers'",
+      "source": "[222]"
+    },
+    "candlebox_soapbox": {
+      "description": "Planned clones of the NutBox system",
+      "purpose": "'Vote buying' and delegation on Graphene-based blogs (Steemit, Blurt)",
+      "source": "[233]"
+    },
+    "burn_mines": {
+      "concept": "New tokens minted by 'burning' existing VKRW tokens",
+      "purpose": "Manage supply and demand",
+      "source": "[233]"
+    }
+  },
+
+  "page_12_tron_vs_ethereum": {
+    "sunswap_v2": {
+      "description": "Major upgrade to TRON's primary DEX (formerly JustSwap)",
+      "features": ["Direct token-to-token swaps without needing TRX as intermediary", "Automated swap routing"],
+      "source": "[228]"
+    },
+    "energy_model": {
+      "explanation": "Complex 'Energy' and 'Fee Limit' algorithm on TRON",
+      "mechanism": "Users need to stake TRX or 'rent' energy to execute smart contracts without high costs",
+      "source": "[228]"
+    },
+    "clonability": {
+      "argument": "TRON is a 'Java Clone' of Ethereum",
+      "benefit": "All ERC20 smart contracts can be easily ported to TRC20 with minimal changes",
+      "source": "[234]"
+    }
+  },
+
+  "page_12_localized_defi": {
+    "city_level_defi": {
+      "proposal": "Cities could use blockchain as a utility (like water or gas)",
+      "benefit": "Currency itself 'pays you' back for participation",
+      "source": "[233]"
+    },
+    "bank_backed_tokens": {
+      "vision": "Local banks holding USD (like they once held silver)",
+      "mechanism": "Issuing 'Promissory Note' tokens in exchange",
+      "result": "Stable local economy independent of Bitcoin's fluctuations",
+      "source": "[233]"
+    }
+  },
+
+  "page_12_legal_grievances": {
+    "bitcoin_town_claim": {
+      "assertion": "Originated the idea of cryptocurrency-based communities and cities (like Akoin) as early as 2013",
+      "source": "[235]"
+    },
+    "antitrust_allegations": {
+      "accused": ["Bitcoin Foundation", "Bitcointalk owners (Martti Malmi/Sirius)"],
+      "claims": "'Conspiracy' to ban and stifle competition",
+      "legal_basis": ["U.S. antitrust laws", "Sherman Act violations"]
+    },
+    "devcoin_history": {
+      "claim": "Involvement with early Devcoin project led to price surge",
+      "event": "Banned from forum during personal tragedy"
+    }
+  },
+
+  "page_12_karma_dharma_curation": {
+    "low_karma": {
+      "definition": "Voting for high-balance users just to get a return vote"
+    },
+    "high_karma": {
+      "definition": "Using whale-sized accounts to vote for the poorest users or those who are proven to be active, charitable curators themselves",
+      "source": "[235]"
+    },
+    "analytics_for_charity": {
+      "proposal": "Backend tools should measure who 'sires' the most beneficial curators rather than who has the most money"
+    }
+  },
+
+  "page_12_tron_energy_calculation": {
+    "formula_components": {
+      "F": "Daily energy from staking",
+      "E": "Remaining staked energy",
+      "L_times_R": "Dynamic fee limit set for the contract",
+      "T_times_C": "Energy that can be purchased via remaining TRX in wallet"
+    },
+    "source": "[228]"
+  },
+
+  "page_13_global_beauty_economy": {
+    "timeframe": "January to May 2022",
+    "matrifocal_economy": {
+      "description": "'Global Beauty Economy' designed specifically for women",
+      "existence": "Both on and off the blockchain",
+      "source": "[244]"
+    },
+    "dallas_takeover": {
+      "claim": "Started a 'Fire of Enlightenment' in Texas",
+      "assertion": "Team is 'taking over Dallas' with new Telegram bot and localized currency systems",
+      "source": "[247]"
+    },
+    "centralized_decentralization": {
+      "argument": "True decentralization requires central 'hubs' - city, religious, or company currencies",
+      "mechanism": "These hubs then trade against each other in a wider decentralized network",
+      "source": "[244]"
+    }
+  },
+
+  "page_13_defi_critiques": {
+    "failed_experiment_debate": {
+      "negative_view": "DeFi is failed project due to hacks (80% unreliable)",
+      "positive_view": {
+        "contributor": "Sayeds56",
+        "argument": "Just an 'immature' tech",
+        "example": "PancakeSwap as successful model"
+      },
+      "source": "[243]"
+    },
+    "liquidity_issues": {
+      "contributor": "goldkingcoiner",
+      "problem": "Lack of volume on DEXs",
+      "effect": "Slippage often makes it more expensive than trading on Centralized Exchanges",
+      "source": "[245]"
+    },
+    "scam_label": {
+      "timeframe": "By May 2022",
+      "sentiment": "Some members flatly labeling entire DeFi sector as scam designed to steal investor funds",
+      "source": "[258]"
+    }
+  },
+
+  "page_13_conflicts_revelations": {
+    "legal_threats": {
+      "targets": ["Bitcoin Foundation", "HIVE", "PoloniDEX"],
+      "reason": "Allegedly 'attacking' the Van Kush family and stifling dAppsy project",
+      "source": "[249]"
+    },
+    "elon_musk_china_warnings": {
+      "targets": ["Elon Musk", "Chinese government"],
+      "claim": "They are 'late' to the blockchain path and will face a 'rude awakening'",
+      "sources": "[254, 255]"
+    },
+    "biblical_rhetoric": {
+      "framing": "Current state of DeFi and world governments within context of 'Revelations from the Bible'",
+      "prediction": "Global shift that many would find impossible",
+      "source": "[250]"
+    }
+  },
+
+  "page_13_press_release_template": {
+    "purpose": "Professionalize the 'Van Kush' network",
+    "content": "Template for developers to coordinate media coverage",
+    "emphasis": "Importance of reaching audiences in the East",
+    "source": "[260]"
+  },
+
+  "page_13_project_status": {
+    "vkrw": "Expanding into Telegram-based rewards bot",
+    "dappsy": "Key platform in 'media network'",
+    "steemit_hive_clones": {
+      "prediction": "Wave of government-controlled clones (CeFi) emerging behind national firewalls",
+      "source": "[251]"
+    }
+  },
+
+  "page_14_van_kush_ecosystem_evolution": {
+    "timeframe": "June 2022 to October 2024",
+    "hive_engine_presence": {
+      "tokens": ["VKBT", "CURE"],
+      "duration": "Maintained for over two years",
+      "focus": "'SocialFi' (social media finance)",
+      "source": "[275]"
+    },
+    "polygon_expansion": {
+      "tokens": ["DFB", "DFC"],
+      "network": "Polygon (MATIC)",
+      "mechanism": "'Burn Mining' tokens",
+      "source": "[275]"
+    },
+    "peggy_multi_stake": {
+      "peggys": "Wrapped tokens to bridge Polygon tokens to HIVE-Engine DEX",
+      "multi_stake": "Contracts where users can stake assets like QUICK or MATIC to earn Van Kush rewards",
+      "source": "[275]"
+    },
+    "royal_family_branding": {
+      "identity": "'Royal Family on the Blockchain' rather than anti-statist anarchists",
+      "goal": "'Cryptocurrency Nation' model",
+      "source": "[271]"
+    }
+  },
+
+  "page_14_pizza_token_analysis": {
+    "critique": {
+      "problem": "PIZZA token failed because it didn't involve actual pizza shops or physical utility"
+    },
+    "proposed_model": {
+      "name": "'Pizza Shop Blockchain'",
+      "mechanism": "Customers mine coins via instructions on pizza boxes",
+      "benefit": "Use coins for 50% discount in-store",
+      "source": "[272]"
+    },
+    "comparison": {
+      "analogy": "Traditional grocery and restaurant reward cards",
+      "argument": "DeFi is simply a more advanced version of these existing loyalty systems",
+      "source": "[272]"
+    }
+  },
+
+  "page_14_reverse_satoshi_model": {
+    "coin_a_satoshis": {
+      "minting": "Massive quantities (e.g., 100 million per block)"
+    },
+    "coin_b_main_token": {
+      "minting": "Only by 'burning' huge amounts of Coin A (e.g., 100 million A = 1 B)"
+    },
+    "scarcity_driver": {
+      "mechanism": "'Satoshis' (Coin A) eventually become valuable as the only way to mint the primary asset",
+      "source": "[270]"
+    }
+  },
+
+  "page_14_community_sentiment": {
+    "defi_bubble": {
+      "contributor": "Sayeds56",
+      "observation": "2020-2021 DeFi bubble burst, leading to massive losses",
+      "suggestion": "Centralized platforms might have safer future despite contradicting spirit of decentralization",
+      "source": "[262]"
+    },
+    "socialfi_integration": {
+      "recommendation": "Study PNUT and its interaction with Steemit as blueprint for combining smart contracts with social media",
+      "source": "[263]"
+    },
+    "blurt_security_concerns": {
+      "contributor": "markm (Legendary member)",
+      "concern": "Login process feels 'suspicious' and doesn't integrate well with browser extensions like Keychain",
+      "source": "[278]"
+    }
+  },
+
+  "page_14_2024_outlook": {
+    "bitcoin_defi": {
+      "platform": "Stacks (STX)",
+      "prediction": "Will lead the charge for DeFi directly on the Bitcoin network",
+      "source": "[279]"
+    },
+    "business_applications": {
+      "missed_opportunity": "Lack of 'SubSandwich Coin' or 'Burger Coin'",
+      "potential": "Small businesses to create 'Memeable Money' for physical goods",
+      "source": "[265]"
+    }
+  },
+
+  "page_14_token_comparison": {
+    "hive_engine": {
+      "tokens": ["VKBT", "CURE"],
+      "focus": "Social interaction rewards and curation"
+    },
+    "polygon": {
+      "tokens": ["DFB", "DFC"],
+      "focus": "Burn-mining mechanics to manage supply and demand"
+    },
+    "planned_matic_token": {
+      "purpose": "Native functional token for future User Interface (UI) and gaming clones",
+      "source": "[275]"
+    }
+  }
 }
