@@ -211,5 +211,223 @@
     "real_world_utility": "Tokens need real-world grounding (Pizza Shop model, soap standard) to have lasting value",
     "survivor_rate": "Even if only 1% of projects succeed, the impact would be massive",
     "autopilot_wealth": "The most stable strategy is to automate content curation and use earnings to stake or launch tokens"
-  }
+  },
+
+  "page_5_market_maturation": {
+    "trillion_dollar_benchmark": {
+      "current_state": "Billions locked in DeFi (specifically on Binance Smart Chain)",
+      "disruption_threshold": "True disruption of the banking system requires a 100x increase, reaching at least $1 trillion in Total Value Locked (TVL)",
+      "source": "Bitgolden [87]"
+    },
+    "regulatory_clarity": {
+      "dependency": "Industry is heavily dependent on regulators",
+      "prediction": "Until the 'rules of the game' are defined, institutional investors will remain on the sidelines",
+      "shift": "Move away from 'farming tokens' toward projects with fundamental value",
+      "source": "Zasad@ [94]"
+    },
+    "hype_cycle": {
+      "comparison": "DeFi compared to ICO (2017) and IEO (2019) eras",
+      "prediction": "While the tech will improve, the current 'hype' will eventually fade as new crypto trends emerge",
+      "source": "Wiss19 [93]"
+    }
+  },
+
+  "page_5_tokenomics_strategies": {
+    "market_cornering": {
+      "method": "Buy up the vast majority of a coin's supply (e.g., 495,000 out of 500,000) at sub-penny prices",
+      "action": "Set high sell walls ($5.00)",
+      "effect": "Forces scarcity and psychologically impacts remaining sellers",
+      "source": "Tokenista [84]"
+    },
+    "loop_mining_model": {
+      "structure": "Token A (representing dividend stocks) is staked to mine Token B",
+      "benefit": "Creates a 'buy incentive' and prevents 51% takeovers",
+      "mechanism": "Owner lets investors mine the utility tokens while retaining fee-generating stock",
+      "duration": "20-year incentive structure for investors to stay engaged with a company",
+      "source": "Tokenista [95]"
+    },
+    "intrinsic_value": {
+      "requirement": "A coin needs a 'center'—a website, a game, or a corporation—to survive",
+      "historical_example": "The Silk Road gave Bitcoin its first real-world utility",
+      "source": "Tokenista [88]"
+    }
+  },
+
+  "page_5_service_to_earn": {
+    "uber_lyft_coin": {
+      "concept": "Drivers 'mine' coins per mile driven",
+      "redemption": "Coins could be redeemed for free rides or traded on the open market",
+      "result": "Creates symbiotic relationship between humans and automated systems"
+    },
+    "public_transportation": {
+      "concept": "Government could issue bus tickets as tokens",
+      "benefit": "Creates inherent floor value for a local currency"
+    },
+    "renaissance_man_concept": {
+      "argument": "As bots (like the 'Dr. Otto' bot on Steemit) handle mundane work, humans will move toward a 'Renaissance' state",
+      "result": "Focus on higher intelligence and specialized stations in life rather than minimum-wage labor",
+      "source": "Tokenista [98]"
+    }
+  },
+
+  "page_5_real_world_integration": {
+    "etsy_and_crypto": {
+      "business": "Trading soaps, oils, incense, and candles on Etsy",
+      "accepted_tokens": ["STEEM", "BLURT", "HIVE", "PUTI", "PUCO"]
+    },
+    "cross_chain_pegs": {
+      "plan": "Create TRC20 and ERC20 versions of these tokens",
+      "bridge": "Cross-chain peg between Steem-Engine and Hive-Engine to facilitate fluid trading",
+      "source": "Tokenista [99]"
+    }
+  },
+
+  "page_5_philosophical_foundation": {
+    "benjamin_franklin_quote": {
+      "source": "Benjamin Franklin's 1725 dissertation 'A Dissertation on Liberty and Necessity, Pleasure and Pain'",
+      "argument": "If a 'First Mover' is all-powerful, then all actions in the universe are ultimately 'good' and part of a regular, mechanical order",
+      "application": "Aligns with 'letting the machines do the work' and viewing the blockchain as an automated, impartial system that mirrors the regular 'natural world'",
+      "reference": "[100]"
+    }
+  },
+
+  "page_5_dex_vs_cex": {
+    "dex_success": {
+      "evidence": "Massive trading volume and liquidity on UniSwap, SushiSwap, and PancakeSwap",
+      "conclusion": "DeFi is 'going to the moon'",
+      "source": "Lmaooo [96]"
+    },
+    "cex_advantage": {
+      "counter_argument": "Centralized Exchanges (CEX) like Binance still generate significantly higher net profits",
+      "reason": "They don't distribute all revenue back to liquidity providers",
+      "source": "TastyChillySauce00 [97]"
+    }
+  },
+
+  "page_6_corporate_currencies": {
+    "pizza_shop_theory": {
+      "target": "Any business with perishable goods—bakeries, coffee shops, pizza parlors—should launch their own currency",
+      "strategy": "Accepting a custom token at a loss initially is viewed as a 'coupon campaign' to build a community",
+      "source": "Tokenista [101]"
+    },
+    "figurehead_developer": {
+      "argument": "A currency creator shouldn't be a dictator but a 'figurehead' like the Queen of England",
+      "goal": "The currency eventually exists and operates independently of the founder"
+    },
+    "real_world_pegs": {
+      "method": "Using tokens to buy tangible goods (like precious metals or soap) drives value",
+      "historical_example": "The ability to buy gift cards and gold historically boosted Bitcoin"
+    }
+  },
+
+  "page_6_technical_resources": {
+    "solidity_code": "Tokenista provides the Solidity code for a standard TRC20 token",
+    "compatibility": "TRC20 is compatible with Ethereum's ERC20 standard",
+    "educational_links": ["Medium tutorials", "GitHub repositories for OpenZeppelin", "Solidity Cookbooks"],
+    "tron_note": "TRON (TRC20) is essentially an 'ETH clone' with its own virtual machine (TVM), making it a high-speed, low-fee alternative for micropayments",
+    "source": "Tokenista [103]"
+  },
+
+  "page_6_power_down_philosophy": {
+    "original_steemit": {
+      "period": "104-week power down (two-year withdrawal period)",
+      "defense": "Long-term lockups act like a bank, allowing users to live on interest and curation rewards while preventing market dumps"
+    },
+    "decline_blame": {
+      "cause": "Shift to a 13-week (and later 4-week) withdrawal period",
+      "effect": "Incentivized users to dump tokens rather than HODL",
+      "consequence": "Blamed for the decline of STEEM's price"
+    }
+  },
+
+  "page_6_micropayments": {
+    "fee_efficiency": "TRC10/20 tokens are superior for micropayments ($1–$10)",
+    "problem": "Bitcoin and Ethereum fees (then $2.00+) make small transactions inefficient",
+    "ease_of_use": "TRC10 tokens can be created from a mobile phone, reducing the barrier to entry for the 'non-tech savvy'"
+  },
+
+  "page_6_punic_wax_business": {
+    "location": "Dallas-Fort Worth (DFW), Texas",
+    "platforms": ["Etsy shop for local currency", "Steem-Engine for crypto payments"],
+    "scale_plans": "20,000+ bars of soap per month",
+    "currency_integration": "PUTI and STEEM currency ecosystem",
+    "source": "Tokenista [103]"
+  },
+
+  "page_7_bitcoin_vs_defi": {
+    "security_vs_speed": {
+      "bitcoin_argument": "Primary use case is being 'secure and trustless'",
+      "defi_critique": "Mostly just 'farming and staking to sell'",
+      "source": "slaman29 [121]"
+    },
+    "shitcoin_argument": {
+      "counter": "Bitcoin is 'slow' and has 'nothing on top of it'",
+      "prediction": "Users with big ideas will eventually view it as a 'shitcoin' and move toward cloning Ethereum",
+      "reason": "ETH is more versatile",
+      "source": "Tokenista"
+    },
+    "bsc_dominance": {
+      "status": "Binance Smart Chain was winning the DeFi race due to low fees",
+      "laggards": "EOS, TRX, and NEO were falling behind"
+    }
+  },
+
+  "page_7_devcoin_analysis": {
+    "overview": "One of the earliest altcoins, illustrating how a currency can fund a community",
+    "merged_mining": "Designed to be mined alongside Bitcoin, with rewards moving toward Bitcoin development",
+    "devtome_wiki": {
+      "allocation": "10% of rewards went to 'Devtome,' a wiki where writers earned 'shares' for content",
+      "concept": "Precursor to modern DAO incentives"
+    },
+    "bounties": "System rewarded 3D files and other digital contributions with monthly payouts",
+    "source": "Tokenista [124]"
+  },
+
+  "page_7_psychology_game_theory": {
+    "personal_anecdote": {
+      "location": "Red River Academy (controversial boarding school)",
+      "purpose": "Explain how incentive systems can be used for 'programming' or brainwashing"
+    },
+    "points_system": {
+      "description": "High-stakes rewards system where minor infractions (like talking without permission) led to point losses and 'consequences' (essays)",
+      "warning": "Reward systems can become oppressive if they are used to force a specific mindset or 'rebuild' a person's identity"
+    },
+    "source": "Tokenista [124]"
+  },
+
+  "page_7_hannibal_barca_nation_building": {
+    "currency_as_sovereignty": {
+      "example": "Hannibal Barca minted his own currency in Hispania (New Carthage)",
+      "purpose": "Build a cohesive nation and military unit outside the control of the Carthaginian Council"
+    },
+    "racial_cultural_conflict": {
+      "interpretation": "The Punic Wars as a struggle against the 'White Scourge' (Rome/Zeus lineage)",
+      "hannibal_assessment": "A 'highly advanced mind' who used currency to establish independence"
+    },
+    "sources": "[129, 130]"
+  },
+
+  "page_7_2021_statistics": {
+    "total_value_locked": {
+      "april_2021": "Approximately $50 billion to $60 billion",
+      "year_prior": "Less than $1 billion"
+    },
+    "demographics_in_crypto": {
+      "source": "University of Chicago (NORC) 2021",
+      "finding": "Crypto investors were more diverse than traditional stock investors",
+      "breakdown": {
+        "black_african_american": "Approximately 25%",
+        "hispanic": "Approximately 15%",
+        "white": "Approximately 55%"
+      }
+    }
+  },
+
+  "page_5_7_projects_mentioned": [
+    {"name": "UniSwap / SushiSwap / PancakeSwap", "role": "Primary 'money-making' engines of the 2021 DeFi era"},
+    {"name": "SUN", "role": "Model for 'Sowing' and mining rewards"},
+    {"name": "HODLERS Network", "role": "Wallet ID-based networks"},
+    {"name": "Devcoin", "role": "Early altcoin model for funding communities"},
+    {"name": "Binance Smart Chain (BSC)", "role": "Won the DeFi race due to low fees"}
+  ]
 }
