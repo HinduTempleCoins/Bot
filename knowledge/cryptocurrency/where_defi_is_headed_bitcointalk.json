@@ -429,5 +429,82 @@
     {"name": "HODLERS Network", "role": "Wallet ID-based networks"},
     {"name": "Devcoin", "role": "Early altcoin model for funding communities"},
     {"name": "Binance Smart Chain (BSC)", "role": "Won the DeFi race due to low fees"}
+  ],
+
+  "page_11_social_media_defi_merger": {
+    "timeframe": "October to November 2021",
+    "steemit_tron_integration": {
+      "significance": "Watershed moment - TRON (TRX) in Steemit wallets",
+      "access": "Allows 'regular people' and those in poverty to access DeFi tools like JustSwap and Poloni DEX directly through their social media accounts",
+      "source": "[204]"
+    },
+    "nutbox_model": {
+      "url": "NutBox.io",
+      "description": "Successful example of 'social DeFi'",
+      "mechanism": "Users delegate STEEM to earn tokens (PNUT) and votes",
+      "bridge": "Creates bridge between social interaction and liquidity mining",
+      "source": "[209]"
+    },
+    "platform_adoption_prediction": {
+      "platforms": ["Facebook (via Diem)", "Discord", "Telegram"],
+      "prediction": "Will eventually host bots and toolkits allowing groups to launch their own tokens",
+      "comparison": "'Level Up' rewards systems similar to the MEE6 bot, but with real cryptocurrency",
+      "source": "[205]"
+    }
+  },
+
+  "page_11_blurt_trading_strategies": {
+    "price_high": "$0.04 during this period",
+    "arbitrage_opportunities": {
+      "stex_price": "Under $0.01",
+      "probit_price": "$0.04",
+      "argument": "Traders buying low and selling high on different platforms aren't 'ripping people off' but providing a service by balancing the trade spread and increasing liquidity",
+      "source": "[208]"
+    },
+    "stablecoin_problem": {
+      "issue": "BLURT lacks a 'Dollar Pegged Token' (unlike Steem's SBD or Hive's HBD)",
+      "workaround": "Traders must use external tokens on the Binance Smart Chain (BSC) or Ethereum to create stability within the ecosystem",
+      "source": "[208]"
+    }
+  },
+
+  "page_11_multi_chain_defi": {
+    "shift": "From Ethereum-dominance to multi-chain landscape",
+    "cross_chain_convenience": {
+      "contributors": ["josephdd1", "Fredomago"],
+      "prediction": "Future lies in 'multifunctional' platforms (like PancakeSwap) that operate across different chains",
+      "benefit": "Allows users to move capital without being locked into one ecosystem",
+      "source": "[203]"
+    },
+    "new_farms": {
+      "contributor": "otreza",
+      "observation": "'Huge infusion of money' into newer networks",
+      "networks": ["Avalanche", "Solana", "Fantom"],
+      "strategy": "Cloning established Ethereum protocols (Aave, Curve, Compound) to capture market share",
+      "source": "[211]"
+    }
+  },
+
+  "page_11_real_world_defi_applications": {
+    "decentralized_options": {
+      "contributor": "Fivestar4everMVP",
+      "platform": "Chainge Finance",
+      "blockchain": "Fusion",
+      "features": ["World's first decentralized options market", "Cross-chain roaming features"],
+      "source": "[212]"
+    },
+    "institutional_towns": {
+      "concept": "'Bitcoin Towns' and Akoin",
+      "proposal": "DeFi DAOs could be used to manage real-life properties",
+      "comparison": "Similar to a 'time share' or 'space share' on the blockchain",
+      "source": "[213]"
+    }
+  },
+
+  "page_11_ecosystem_participants": [
+    {"name": "NutBox", "feature": "Steem delegation for yield farming [209]"},
+    {"name": "Chainge Finance", "feature": "Cross-chain roaming and decentralized options [212]"},
+    {"name": "BLURT", "feature": "Highlighting the need for automated 'Proof of Liquidity' (POL) tokens [208]"},
+    {"name": "TRON (TRC10/20)", "feature": "Viewed as lower-cost entry point for token minting compared to Ethereum [204]"}
   ]
 }
