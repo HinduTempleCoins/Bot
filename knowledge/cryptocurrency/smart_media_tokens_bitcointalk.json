@@ -1,0 +1,169 @@
+{
+  "title": "Smart Media Tokens (SMTs) - Graphene-Based Community Cryptocurrencies",
+  "author": "Tokenista",
+  "platform": "Bitcoin Forum (Bitcointalk.org)",
+  "category": "cryptocurrency/tokenization",
+  "keywords": ["SMT", "Smart Media Tokens", "Graphene", "Steemit", "Hive", "BLURT", "Scot Bot", "Proof of Brain", "PUTI", "Steem-Engine", "OpenZeppelin", "TRC20", "Counterparty"],
+
+  "core_concept": {
+    "description": "Comprehensive resource for building community-driven cryptocurrencies on Graphene-based blockchains",
+    "target_platforms": ["Steemit", "Hive", "BLURT"],
+    "argument": "SMTs offer a superior GUI model and lower barrier to entry compared to Ethereum dApps",
+    "source": "[1]"
+  },
+
+  "technical_foundations": {
+    "core_protocols": {
+      "smt_whitepaper": {
+        "url": "https://github.com/steemit/smt-whitepaper",
+        "description": "Official Steemit SMT Whitepaper"
+      },
+      "easy_overview": {
+        "url": "https://steemit.com/smt/@nanzo-scoop/dissecting-the-smart-media-token-smt-whitepaper-an-easy-overview",
+        "description": "Dissecting the Smart Media Token Whitepaper"
+      }
+    },
+    "smart_contracts": {
+      "steem_smart_contracts": {
+        "author": "Harpagon",
+        "url": "https://github.com/harpagon210/steemsmartcontracts",
+        "description": "Steem Smart Contracts framework"
+      },
+      "ssc_tokens_history": {
+        "url": "https://github.com/harpagon210/ssc_tokens_history",
+        "description": "SSC Tokens History tracking"
+      }
+    },
+    "bot_frameworks": {
+      "steem_scot": {
+        "author": "Holgern",
+        "url": "https://github.com/holgern/steem-scot",
+        "purpose": "Launching 'Scot Bots'",
+        "source": "[9]"
+      }
+    },
+    "ancillary_tools": [
+      {"name": "LedgerConnect", "url": "https://github.com/ledgerconnect/steemconnect"},
+      {"name": "Steemitgram", "url": "https://github.com/selmi-karim/steemitgram"},
+      {"name": "Awesome-Steem", "url": "https://github.com/thilobillerbeck/awesome-steem"}
+    ]
+  },
+
+  "scot_bot_economic_model": {
+    "definition": "SMT with 'Proof of Brain' staking capabilities",
+    "function": "Allows communities to create their own tokens where users earn rewards by posting and voting within specific niches",
+    "examples": {
+      "appics": {
+        "url": "https://steemit.com/steem-engine/@aggroed/scotbot-launch-time-to-make-your-own-custom-token-powered-by-proof-of-brain-on-steem",
+        "description": "Custom token powered by Proof of Brain"
+      },
+      "dtube": {
+        "url": "https://steemit.com/dtube/@heimindanger/steem-engine-tokens-dtube-scottube",
+        "description": "Steem-Engine tokens for DTube"
+      }
+    },
+    "sources": "[9, 17]"
+  },
+
+  "puti_token": {
+    "name": "PUTI",
+    "distribution": {
+      "author_share": "65%",
+      "curator_share": "35%"
+    },
+    "integration": {
+      "network": "Punic Wax Network",
+      "url": "https://steemit.com/steemit/@marsresident/i-am-back-but-created-a-new-account-punicwax"
+    },
+    "trading": {
+      "platform": "Steem-Engine",
+      "url": "https://steem-engine.net/?p=market&t=PUTI"
+    },
+    "incentive_tags": ["projecthope", "ulogs"],
+    "source": "[16]"
+  },
+
+  "comparative_blockchain_landscape": {
+    "tron_trc20": {
+      "description": "ETH clone with its own TVM",
+      "repository": "https://github.com/tronprotocol/tron-contracts",
+      "use_case": "Moving into DeFi",
+      "source": "[6]"
+    },
+    "bitcoin_based": {
+      "counterparty": {
+        "url": "https://github.com/jsimnz/Counterparty",
+        "description": "The 'Steem-Engine of Bitcoin'"
+      },
+      "counterwallet": {
+        "url": "https://github.com/CounterpartyXCP/counterwallet",
+        "description": "Counterparty Web Wallet"
+      },
+      "mastercoin": {
+        "url": "https://github.com/mastercoin-MSC",
+        "description": "Early tokenization project"
+      },
+      "sources": "[3, 4]"
+    },
+    "ethereum": {
+      "openzeppelin": {
+        "url": "https://github.com/OpenZeppelin/openzeppelin-contracts",
+        "description": "Standard for ERC20 contracts"
+      },
+      "barrier": "High gas fees noted as obstacle",
+      "source": "[5]"
+    }
+  },
+
+  "advanced_concepts": {
+    "karma_dharma_model": {
+      "description": "Proposed ranking system where 'Whales' are incentivized to vote for the poorest users",
+      "mechanism": "Raise their own 'Siring Rank'",
+      "philosophy": "Turning charity into a commodity",
+      "source": "[7]"
+    },
+    "automated_liquidity": {
+      "evolution": ["Bitshares OpenLedger", "Hummingbot", "Hive's dApp focus"],
+      "repositories": {
+        "webblen_io": "https://github.com/mukai154/webblen-io",
+        "hummingbot": "https://hummingbot.io",
+        "openhive_network": "https://github.com/openhive-network/hive"
+      },
+      "goal": "Future where a 'Pizza shop owner' can easily issue coupon tokens",
+      "sources": "[10, 11]"
+    }
+  },
+
+  "additional_resources": {
+    "harpagon_tutorials": {
+      "url": "https://hive.blog/utopian-io/@howo/introducing-steempress-beta-a-wordpress-plugin-for-steem",
+      "topics": ["Sidechains", "Custom JSON operations", "Consensus layers"],
+      "source": "[14]"
+    },
+    "blurt_smt_guide": {
+      "url": "https://www.quora.com/unanswered/How-do-you-Build-Smart-Media-Token-gits-on-BLURT-a-Graphene-OpenLedger-Bitshares-Steemit-based-Blockchain",
+      "description": "Building SMT gits on BLURT"
+    }
+  },
+
+  "connection_to_ecosystem": {
+    "related_documents": [
+      "where_defi_is_headed_bitcointalk.json",
+      "karma_is_new_merit_proposal.json",
+      "burn_mines_bitcointalk.json"
+    ],
+    "concepts_connected": [
+      "Proof of Brain economics",
+      "Karma/Dharma curation model",
+      "PUTI token distribution",
+      "Graphene blockchain architecture"
+    ]
+  },
+
+  "key_insights": {
+    "smt_advantage": "Lower barrier to entry than Ethereum dApps with superior GUI model",
+    "scot_bot_power": "Enables niche communities to create earning ecosystems",
+    "cross_platform": "Concepts portable between Steem, Hive, and BLURT",
+    "real_world_utility": "Goal is enabling small businesses to issue tokens easily"
+  }
+}
