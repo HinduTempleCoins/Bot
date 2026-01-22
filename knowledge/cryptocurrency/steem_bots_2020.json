@@ -1,0 +1,198 @@
+{
+  "title": "STEEM Bots in 2020",
+  "author": "punicwax",
+  "platform": "Steemit",
+  "date": "2020",
+  "category": "cryptocurrency/blockchain_bots",
+  "keywords": ["STEEM", "Steemit", "blockchain bots", "resteem bots", "upvote bots", "expert systems", "automation", "cryptocurrency", "curation", "SBD"],
+
+  "introduction": {
+    "overview": "On Steemit there are several bots with various purposes that can be summoned by mentioning their names. Anyone can create these.",
+    "original_bot": "There was originally a bot that would greet all new users with a large amount of SP",
+    "recommendation": "Groups on Facebook associated with Steemit should teach people how to make STEEM bots and accept STEEM bots in their group"
+  },
+
+  "blockchain_bot_philosophy": {
+    "internet_bot_problem": "On most of the internet there is an issue with bots (Russian Troll bots, spam viagra ads)",
+    "blockchain_advantage": "On the Blockchain there is a strong need for bots",
+    "trade_bots": "Trade bots sit on the market and buy and sell micro price changes to earn you money, similar to Stock Exchange bots where you pay for your account to mimic an established trader",
+    "key_insight": "On the Blockchain what bots do is earn you money without you having to do anything",
+    "future_implication": "Once this is understood it won't be an issue for people to begin to be replaced by Robots in the work place. Blockchain bots are like having Robots that earn you money."
+  },
+
+  "bazillion_beings_project": {
+    "founders": ["Wolfram (famous mathematician)", "People from Bungie (Halo)", "Uber team members", "Twitter team members"],
+    "origin": "All from Armenia",
+    "status": "Project never launched",
+    "concept": {
+      "bot_creation": "System where you select bot features, it learns from you and asks questions",
+      "evolution": "You could give it new features, others could copy your bot if shared on social media",
+      "viral_growth": "New ones would learn and be added to, eventually unrecognizable, shared and copied always evolving"
+    },
+    "blockchain_integration": "These bots would have been on a blockchain earning cryptocurrency that would pay you and Bazillion Beings for hosting and development",
+    "capabilities": "They would make blogs, find pictures, music, local places, people, or anything"
+  },
+
+  "utility_bots": {
+    "originalworks": {
+      "url": "https://steemit.com/@originalworks",
+      "purpose": "Bot that upvotes original work",
+      "info_url": "https://steemit.com/writing/@originalworks/originalworks-bot-explanation-and-info"
+    },
+    "steem_untalented": {
+      "url": "https://steemit.com/@steem-untalented",
+      "purpose": "Similar to original works bot"
+    },
+    "minnowsupport": {
+      "url": "https://steemit.com/@minnowsupport",
+      "purpose": "Minnow support - helps new users"
+    },
+    "treeplanter": {
+      "url": "https://steemit.com/@treeplanter",
+      "purpose": "Allows you to support others and help plant trees"
+    }
+  },
+
+  "resteem_bots": {
+    "description": "Resteem bots basically do the STEEM version of Sharing or Retweeting your post",
+    "best_use_case": "Good if you have content that is extremely consumable, maybe with an interesting picture and title, because all a resteem does is put some eyeballs on a post",
+    "strategy": "If you use Resteem Bots correctly, as part of a overall larger plan, maybe with human resteems, social media, bringing friends and family members in to work with you, making a group on Facebook or Minds, etc",
+    "note": "Each bot is 1 user, so the more other things you have going on and the more bots you use the better off you are",
+
+    "economics": {
+      "for_spender": "Resteem bots are not inherently profitable to the person spending STEEM to get a Resteem",
+      "for_bot_owner": "Bot owner earns money as the bot is paid, and when a post they Resteem early becomes popular",
+      "community_support": "If everyone wants to support people, follow the Resteem bots and Resteem their Resteems",
+      "self_income": "Resteem bots are also a good way to earn money yourself"
+    },
+
+    "bot_list_2018": [
+      {"name": "@byresteem", "followers": 28450, "cost": "2 SBD or 2 STEEM", "cost_per_follower": "0.00007 STEEM"},
+      {"name": "@raise-me-up", "followers": 25509, "cost": "1.5 STEEM", "cost_per_follower": "0.00005 STEEM"},
+      {"name": "@sportic", "followers": 23861, "cost": "1 SBD or 1 STEEM", "cost_per_follower": "0.00004"},
+      {"name": "@hottopic", "followers": 20956, "cost": "1.5 SBD or STEEM", "cost_per_follower": "0.00007"},
+      {"name": "@resteem.bot", "followers": 19303, "cost": "0.200 STEEM or SBD", "cost_per_follower": "0.00001", "note": "comes with a comment with a yellow robot from Berlin"},
+      {"name": "@promotedpost", "followers": 15787, "cost": "1 SBD", "cost_per_follower": "0.00006", "note": "also comes with upvotes"},
+      {"name": "@hugo4u", "followers": 14783, "cost": "2.000 SBD", "cost_per_follower": "0.0001"},
+      {"name": "@talhadogan", "followers": 8130, "cost": "0.700 SBD or 0.700 STEEM", "cost_per_follower": "0.00008"},
+      {"name": "@resteembot", "followers": 6692, "cost": "0.044 for 44 reputation", "cost_per_follower": "0.00006"},
+      {"name": "@resteemy", "followers": 5253, "cost": "0.100 SBD", "cost_per_follower": "0.00001", "status": "bit slow sometimes/dead"},
+      {"name": "@booster007", "followers": 4980, "cost": "0.100 SBD/STEEM", "cost_per_follower": "0.00002", "status": "out of order/non responsive"},
+      {"name": "@blogbooster", "followers": 4961, "cost": "0.005 SBD/STEEM", "cost_per_follower": "0.00002", "status": "problematic - 48+ hour delays"},
+      {"name": "@reblogit", "followers": 3915, "cost": "0.03", "cost_per_follower": "0.000007", "note": "cheaper than most alternatives"},
+      {"name": "@marcocasario", "followers": 363, "cost": "unknown"}
+    ],
+
+    "other_resteem_services": [
+      {"name": "@anupbose", "cost": "0.1 SBD", "note": "Resteems to their account and @apukb, both with over 1,000 followers. Also upvotes your post"},
+      {"name": "@resteemable", "cost": "Free (donations appreciated)", "followers": "~2,700", "how_to_use": "Erase http:// from your post and type 're' in front of the url"},
+      {"name": "@superbot", "claim": "Best Resteem bot on Steemit supposedly", "url": "https://peakd.com/steemit/@superbot/superbot-the-best-resteem-bot-on-steemit"}
+    ],
+
+    "vote_timing_formula": "There have been tons of posts and development on the formula of when a bot should vote for a post (after X amount of votes or earnings) and your bot can use these formulas to almost predict popular posts and earn you STEEM"
+  },
+
+  "upvote_bots": {
+    "description": "An Upvote bot is inherently profitable for everyone",
+    "mechanism": "You send STEEM to the bot increasing their voting power, then they Upvote your post, giving you money. Some bots pay you a % of the curation reward.",
+    "note": "You can also make these bots, but need SP loaded on them for them to have any real purpose for a customer",
+
+    "bot_list": [
+      {"name": "@buildawhale", "min_bid": "2 SBD", "rounds": "2 hours 40 mins", "notes": "No Comment Votes & No Refunds"},
+      {"name": "@upmyvote", "min_bid": "1 SBD", "notes": "Will not upvote comments"},
+      {"name": "@postpromoter", "min_bid": "0.1 SBD or more", "rounds": "every 2.4 hours", "mechanism": "include your post in the memo to get a share of a 100% vote"},
+      {"name": "@appreciator", "min_bid": "2 SBD", "rounds": "2.4 hours", "vote_range": "0%-100% with full voting power"},
+      {"name": "@randowhale", "status": "not working at this moment"},
+      {"name": "@upme", "min_bid": "2.5 SBD", "rounds": "every 2.4 hours"},
+      {"name": "@pushup", "min_bid": "1 STEEM or SBD"},
+      {"name": "@sleeplesswhale", "min_bid": "0.1-0.3 SBD", "rounds": "every 2.4 hours", "note": "It never sleeps. Votes proportionally divided among all bidders"},
+      {"name": "@boomerang", "min_bid": "0.5 SBD or STEEM", "rounds": "every 3h (3600 blocks)"},
+      {"name": "@minnowhelper", "url": "https://steemit.com/@minnowhelper"},
+      {"name": "@earthnation-bot", "url": "https://steemit.com/@earthnation-bot"},
+      {"name": "@qurator", "url": "https://steemit.com/@qurator"},
+      {"name": "@lays", "url": "https://steemit.com/@lays"},
+      {"name": "@booster", "url": "https://steemit.com/@booster"}
+    ]
+  },
+
+  "expert_systems_context": {
+    "introduction": "The easiest way to understand bots more complex than this is to start with MYCIN",
+    "mycin": {
+      "description": "A system used by doctors to identify Meningitis",
+      "mechanism": "Goes through a prompt that asked them questions about what they were seeing and the patient's experience, and would give a result",
+      "legacy": "Became a whole ecosystem of AI that was not in fact AI as it did not learn, but instead used a database to get to a resolution"
+    },
+    "expert_systems_definition": {
+      "name": "Expert Systems",
+      "comparison": "Equivalent of a basic modern chatbot, with a higher degree of specialization and information",
+      "function": "Basically guides a professional through their procedures, and ensures they know everything they need to know about what they are doing",
+      "foundation": "Based on IF this THEN that, which are called 'If Then Statements' and are the basics of coding and programming",
+      "steem_application": "This is basically the route to look down to create more functional STEEM bots"
+    }
+  },
+
+  "development_resources": {
+    "dr_otto_bot": {
+      "description": "Vote bidding bot",
+      "info_url": "https://steemit.com/radiator/@inertia/dr-otto-vote-bidding-bot",
+      "account": "https://steemit.com/@drotto"
+    },
+    "steembot_github": {
+      "url": "https://github.com/charlesjlee/steemBot"
+    },
+    "steem_auto_resteem": {
+      "url": "https://steemit.com/steem/@reazuliqbal/steem-auto-resteem-bot"
+    }
+  },
+
+  "post_test_results": {
+    "bots_tested": ["@originalworks", "@steem-untalented", "@minnowsupport", "@cleverbot", "@trufflepig", "@steemeow"],
+    "responses_received": [
+      {"bot": "@cleverbot", "response": "Ok Cleverbot 2.0."},
+      {"bot": "@cleverbot", "response_to": "what do you do for people", "response": "I talk with over 30000 humans."},
+      {"bot": "@cleverbot", "response_to": "do you upvote", "response": "I am not Cleverbot, you are."},
+      {"bot": "@cleverbot", "response_to": "will you upvote my post please?", "response": "Why should I?"},
+      {"bot": "@steemvote", "response": "This post was resteemed by @steemvote and received a 46.94% Upvote. Send 0.5 SBD or STEEM to @steemvote"},
+      {"bot": "@boomerang", "response": "This post has received a 31.49% upvote from @boomerang."},
+      {"bot": "@drotto", "response": "This post has received a 3.13% upvote from @drotto thanks to: @punicwax."}
+    ],
+    "post_earnings": "$1.00",
+    "votes": 29
+  },
+
+  "exchange_outreach_list": {
+    "purpose": "Ask these places to list STEEM",
+    "contacts": [
+      "contact@bitmarket.net",
+      "support@nexchange.io",
+      "Support@coinsmarkets.com",
+      "team@remitano.com",
+      "feedback@coinmate.io",
+      "support@coinmate.io",
+      "info@go4cryptos.com",
+      "support@mercatox.com",
+      "info@mercatox.com",
+      "support@coinfalcon.com",
+      "support@crypto-bridge.org"
+    ],
+    "contact_forms": [
+      "https://cryptomate.co.uk/contact",
+      "https://www.coincorner.com/ContactUs",
+      "https://bitbay.net/en/contact",
+      "https://bitsane.com/contact",
+      "https://bleutrade.zendesk.com"
+    ]
+  },
+
+  "community_response": {
+    "notable_comment": {
+      "from": "@cryptokannon",
+      "content": "wow you are multitalented. you sound like aggroed the splinterland creator."
+    }
+  },
+
+  "meta": {
+    "series_note": "I am going to make this a short series, so that we can start to develop the STEEM bot community and there can be an extensive reference point for new Steemit users. I will test all of these and write a follow up.",
+    "tags": ["#steem", "#steemit", "#programming", "#bots"]
+  }
+}
