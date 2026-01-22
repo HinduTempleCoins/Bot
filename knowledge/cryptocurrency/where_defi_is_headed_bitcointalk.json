@@ -431,6 +431,217 @@
     {"name": "Binance Smart Chain (BSC)", "role": "Won the DeFi race due to low fees"}
   ],
 
+  "page_8_forking_and_security": {
+    "ethereum_vs_ethereum_classic": {
+      "context": "EtherDelta dApp hack and subsequent fork",
+      "result": "Created ETH and ETC split",
+      "source": "[143]"
+    },
+    "normalization_of_forks": {
+      "graphene_chains": ["Steemit", "HIVE", "BLURT"],
+      "explanation": "'Hard Forks' (HFs) have become a normal part of network evolution",
+      "purpose": "Maintain wallet balances while migrating to improved codebases"
+    }
+  },
+
+  "page_8_religious_tax_exemptions": {
+    "tax_exempt_status": {
+      "organization": "Tax-exempt religious organization with Federal Employer ID Number (FEIN)",
+      "source": "[144]"
+    },
+    "earn_vs_spend_distinction": {
+      "taxable": "Cashing out crypto for personal entertainment",
+      "non_taxable": "Spending on religious materials or production (like shipping religious art)"
+    },
+    "work_of_art_argument": {
+      "claim": "Cryptocurrency can be viewed as a 'work of art' or 'line of code' under tax law",
+      "comparison": "Similar to music rights, where taxes are only relevant at the point of income or sale"
+    }
+  },
+
+  "page_8_stadium_coins": {
+    "team_currencies": {
+      "purpose": "Revitalize stagnant markets",
+      "source": "[146]"
+    },
+    "access_credits": {
+      "concept": "Stadium coins as 'Attention Tokens'",
+      "earning": "Earned by fans for participating in stadium events or through Discord channels"
+    },
+    "dump_strategy_psa": {
+      "ethics": "Teams should warn their community before selling large amounts of tokens",
+      "benefit": "Fans can buy the dip or use their coins in the team shop first"
+    },
+    "convention_center_dexs": {
+      "proposal": "Large venues host their own Decentralized Exchanges (DEXs)",
+      "use_case": "Vendors and teams can launch their own tokens for tickets and food"
+    }
+  },
+
+  "page_8_soap_defi_punic_wax": {
+    "physical_production": {
+      "volume": "50-100 bars of soap per day",
+      "recipes": "Ancient recipes and oils (Lard, Canola, Olive)",
+      "source": "[152]"
+    },
+    "punic_wax_network": {
+      "resources": ["GitHub repositories", "Solidity Cookbooks"],
+      "purpose": "Teach others how to clone Ethereum and create their own tokens"
+    },
+    "utility_goal": {
+      "trade": "Soaps for cryptocurrencies like STEEM, BLURT, and HIVE",
+      "philosophy": "DeFi is about more than just 'holding and selling' - tangible transactions for hygiene products"
+    }
+  },
+
+  "page_8_market_sentiment_2021": {
+    "growth_numbers": {
+      "contributor": "MSTuTeJIb",
+      "observation": "Some new DeFi projects saw 14,000% growth in a few days",
+      "sources": "[147, 148, 149]"
+    },
+    "ponzi_vs_defi": {
+      "ponzi": "Using inflation as a fake ROI",
+      "true_defi": "Interest paid by borrowers, functioning more like a decentralized bank"
+    },
+    "platform_loyalty": {
+      "contributor": "btcltcdigger",
+      "assertion": "'ETH is and will remain the daddy of DeFi'"
+    }
+  },
+
+  "page_9_market_sentiment_security": {
+    "innovation_vs_security": {
+      "contributors": ["Sayeds56", "marine4u"],
+      "argument": "While DeFi is innovative, it lacks the security necessary for investors to feel confident",
+      "issues": "'Bearish' turn in 2021 and frequent 'rug pulls' have created a crisis of trust",
+      "sources": "[161, 166]"
+    },
+    "institutional_potential": {
+      "contributor": "Baihaki Khaizan",
+      "expectation": "Major financial players will eventually adopt DeFi technology",
+      "source": "[180]"
+    }
+  },
+
+  "page_9_beauty_token_launch": {
+    "platform": "HIVE-Engine",
+    "purpose": "Traded for handmade soap and herbs",
+    "sources": "[175, 177]",
+    "ico_plan": {
+      "pricing": "Very low-priced ICO to get tokens into circulation",
+      "ambassadors": "Recruitment of 'Ambassadors' on HIVE, STEEM, and BLURT to build a curation team"
+    },
+    "soap_defi_vision": {
+      "concept": "Soap and herbs as a 'Bank of Value'",
+      "argument": "Provides a tangible floor for the currency - crypto needs utility beyond mere speculation",
+      "sources": "[165, 174]"
+    },
+    "future_expansions": {
+      "plans": ["Punic Metals and Gemstones", "Ethereum clone called Akasha"],
+      "source": "[171]"
+    }
+  },
+
+  "page_9_crypto_history_commentary": {
+    "degratory_hodl": {
+      "critique": "Holding coins indefinitely if it leads to a lack of liquidity",
+      "comparison": "Like 'holding milk' until it spoils",
+      "source": "[163]"
+    },
+    "evolution_of_mining": {
+      "history": "DOGE and Litecoin",
+      "insight": "'Meme' coins succeed not just through tech, but by becoming cultural icons that are easily distributed to the public",
+      "source": "[174]"
+    },
+    "justin_sun_steem": {
+      "contributor": "LordMiguel",
+      "event": "Original STEEM platform lost its decentralized appeal after being sold to Justin Sun",
+      "result": "Led to the HIVE hard fork which most users migrated to",
+      "source": "[176]"
+    }
+  },
+
+  "page_9_personal_legal_anecdotes": {
+    "legal_actions": ["Department of Labor", "Facebook", "AT&T"],
+    "struggles": "Overcoming bigotry related to wife's business",
+    "source": "[162]",
+    "bitcoin_town_validation": {
+      "history": "'Bitcoin Town' concepts (similar to Akon City) were once attacked for being centralized",
+      "current": "Now being validated by mainstream adoption",
+      "source": "[172]"
+    }
+  },
+
+  "page_10_crypto_for_non_techy": {
+    "gofundme_of_crypto": {
+      "critique": "Bitcoin Foundation and early developers focus too much on complex ledger systems",
+      "goal": "'Commercial Off The Shelf' (COTS) tools that allow anyone (churches, states, small businesses) to mint tokens without programming knowledge",
+      "source": "[181]"
+    },
+    "programmers_as_hired_support": {
+      "vision": "Project managers run crypto projects and hire programmers via bounties",
+      "shift": "Rather than programmers being at the center of every project"
+    },
+    "steemit_clones_expansion": {
+      "vision": "Thousands of Steemit clones serving specific niches",
+      "examples": ["Amazon-style review payments", "Google Maps review rewards"],
+      "sources": "[181, 189]"
+    }
+  },
+
+  "page_10_beauty_economy": {
+    "goal": "Revive the '$10,000 post' era of Steemit",
+    "focus": "Beauty Economy centered around wife's business",
+    "philosophy": "Move beyond 'tech nerds' and create social media atmosphere that attracts mainstream users",
+    "sources": "[193, 196]"
+  },
+
+  "page_10_market_debate": {
+    "failed_experiment_argument": {
+      "contributor": "hichamito37",
+      "concerns": "Anonymous founders and frequent failures make DeFi a risky investment",
+      "source": "[195]"
+    },
+    "cherry_picking_strategy": {
+      "contributors": ["Sayeds56", "Fredomago"],
+      "counter": "DeFi isn't a failure but requires careful research",
+      "successful_platforms": ["Pancakeswap", "Apeswap", "Bakeryswap"],
+      "sources": "[182, 184]"
+    },
+    "gaming_and_farming_evolution": {
+      "contributor": "RussianEnglishTranslation",
+      "observation": "DeFi is evolving by merging with gaming and expanding into 'farming' and 'lending'",
+      "examples": ["Ref Finance", "Yearn Finance"],
+      "source": "[185]"
+    }
+  },
+
+  "page_10_strategic_models": {
+    "tewken_model": {
+      "description": "'Piggy bank' environment funded by outside sources (like gaming websites)",
+      "purpose": "Prevent it from becoming a Ponzi scheme",
+      "source": "[193]"
+    },
+    "pal_network_aggroed": {
+      "description": "Community-led effort that created its own DEX and token-minting tools",
+      "purpose": "Help 'little people' compete with whales"
+    }
+  },
+
+  "page_10_personal_hurdles": {
+    "texas_covid_funding": {
+      "issue": "Legal battle with the State of Texas regarding withheld COVID-19 relief funds",
+      "impact": "Project delay",
+      "sources": "[190, 191]"
+    },
+    "hive_trolls": {
+      "issue": "Conflicts with specific users on the HIVE blockchain",
+      "response": "Shift focus back to Steemit to create a 'Safe Zone' for community",
+      "source": "[190]"
+    }
+  },
+
   "page_11_social_media_defi_merger": {
     "timeframe": "October to November 2021",
     "steemit_tron_integration": {
