@@ -343,7 +343,8 @@ async function loadUnifiedKnowledge() {
       'steemit_history_tron.json',
       'temple_coin_history.json',
       'terracore_play2earn.json',
-      'where_defi_is_headed_bitcointalk.json'
+      'where_defi_is_headed_bitcointalk.json',
+      'karma_is_new_merit_proposal.json'
     ],
     'vankush': [
       'vankush_consulting_services.json',
