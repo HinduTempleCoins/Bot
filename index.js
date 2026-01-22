@@ -275,7 +275,8 @@ async function loadUnifiedKnowledge() {
       'cannabinoid_synthesis_thc_threshold_brief.json',
       'comprehensive_cannabinoid_synthesis_research.json',
       'comprehensive_marijuana_education_guide.json',
-      'hia_dea_thcp_thcjd_analogue_argument.json'
+      'hia_dea_thcp_thcjd_analogue_argument.json',
+      'ethnobotany_guidance_framework.json'
     ],
     'soapmaking': [
       'cold_process_soapmaking.json',
@@ -315,7 +316,8 @@ async function loadUnifiedKnowledge() {
       'blockchain_bots_technology.json',
       'business_rules_engines.json',
       'expert_systems_resources.json',
-      'hidden_directives_detection_protocol.json'
+      'hidden_directives_detection_protocol.json',
+      'neural_networks_ai_history_angelic.json'
     ],
     'cryptocurrency': [
       'bitcointalk_million_dollar_bitcoin.json',
@@ -335,12 +337,19 @@ async function loadUnifiedKnowledge() {
       'hive_engine_ecosystem.json',
       'large_scale_crypto_project.json',
       'steem_bots_history.json',
+      'steem_bots_2020.json',
       'steem_economics_marsresident.json',
       'steem_gold_crypto_economics.json',
       'steemit_earning_guide.json',
       'steemit_history_tron.json',
       'temple_coin_history.json',
-      'terracore_play2earn.json'
+      'terracore_play2earn.json',
+      'where_defi_is_headed_bitcointalk.json',
+      'karma_is_new_merit_proposal.json',
+      'burn_mines_bitcointalk.json',
+      'smart_media_tokens_bitcointalk.json',
+      'ethereum_clones_bitcointalk.json',
+      'tokenista_ecosystem_synthesis.json'
     ],
     'vankush': [
       'vankush_consulting_services.json',
@@ -350,7 +359,8 @@ async function loadUnifiedKnowledge() {
       'van_kush_framework_synthesis.json',
       'complete_vankush_synthesis.json',
       'vkfri_master_synthesis.json',
-      'company_roles_structure.json'
+      'company_roles_structure.json',
+      'infallible_ledger_synthesis.json'
     ],
     'mystery_schools': [
       'mystery_schools_comprehensive.json',
@@ -404,7 +414,9 @@ async function loadUnifiedKnowledge() {
       'philosophy_of_visibility.json',
       'active_knowledge_epistemology.json',
       'shiva_lord_of_bhang_comprehensive.json',
-      'lord_of_ages_theological_synthesis.json'
+      'lord_of_ages_theological_synthesis.json',
+      'bitcointalk_jesus_thread.json',
+      'deviantart_angelicalism_thread.json'
     ],
     'linguistics': [
       'angelical_linguistics.json',
