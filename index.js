@@ -358,7 +358,8 @@ async function loadUnifiedKnowledge() {
       'van_kush_framework_synthesis.json',
       'complete_vankush_synthesis.json',
       'vkfri_master_synthesis.json',
-      'company_roles_structure.json'
+      'company_roles_structure.json',
+      'infallible_ledger_synthesis.json'
     ],
     'mystery_schools': [
       'mystery_schools_comprehensive.json',
