@@ -344,7 +344,8 @@ async function loadUnifiedKnowledge() {
       'temple_coin_history.json',
       'terracore_play2earn.json',
       'where_defi_is_headed_bitcointalk.json',
-      'karma_is_new_merit_proposal.json'
+      'karma_is_new_merit_proposal.json',
+      'burn_mines_bitcointalk.json'
     ],
     'vankush': [
       'vankush_consulting_services.json',
