@@ -275,7 +275,8 @@ async function loadUnifiedKnowledge() {
       'cannabinoid_synthesis_thc_threshold_brief.json',
       'comprehensive_cannabinoid_synthesis_research.json',
       'comprehensive_marijuana_education_guide.json',
-      'hia_dea_thcp_thcjd_analogue_argument.json'
+      'hia_dea_thcp_thcjd_analogue_argument.json',
+      'ethnobotany_guidance_framework.json'
     ],
     'soapmaking': [
       'cold_process_soapmaking.json',
