@@ -318,7 +318,8 @@ async function loadUnifiedKnowledge() {
       'expert_systems_resources.json',
       'hidden_directives_detection_protocol.json',
       'neural_networks_ai_history_angelic.json',
-      'vankush_ai_collaboration_blurt.json'
+      'vankush_ai_collaboration_blurt.json',
+      'ryan_vankush_ai_interaction_timeline.json'
     ],
     'cryptocurrency': [
       'bitcointalk_million_dollar_bitcoin.json',
