@@ -347,7 +347,8 @@ async function loadUnifiedKnowledge() {
       'karma_is_new_merit_proposal.json',
       'burn_mines_bitcointalk.json',
       'smart_media_tokens_bitcointalk.json',
-      'ethereum_clones_bitcointalk.json'
+      'ethereum_clones_bitcointalk.json',
+      'tokenista_ecosystem_synthesis.json'
     ],
     'vankush': [
       'vankush_consulting_services.json',
