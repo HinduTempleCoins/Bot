@@ -1,0 +1,519 @@
+{
+  "title": "Ancient Ethnography in American Jurisprudence",
+  "subtitle": "A Comprehensive Survey of Court Cases Addressing Ancient Genetics, Race Classification, and Historical Civilizations",
+  "author": "Rev. Ryan Sasha-Shai Van Kush",
+  "institution": "Van Kush Family Research Institute",
+  "date": "January 2026",
+  "source": "74 Pages of Handwritten Case Law from Dallas County Jail FastCase System",
+  "case_count": "~872 Cases | 36+ Statutes",
+
+  "overview": "American courts have long engaged with questions of ancient ethnography, genetic classification, and historical civilizations. From citizenship cases determining who qualified as 'white' under naturalization law, to property disputes invoking Phoenician commercial practices, to religious freedom cases examining ancient belief systems, the judiciary has repeatedly been called upon to interpret and apply knowledge about the ancient world. This document compiles court cases demonstrating this enduring characteristic of American jurisprudence.",
+
+  "legal_relevance": {
+    "thesis": "Ancient history is not merely academic but has direct legal consequences for citizenship, property rights, religious liberty, and civil rights",
+    "applications": [
+      "Religious freedom claims invoking ancient traditions",
+      "Indigenous rights and ancestry determinations",
+      "Cultural heritage disputes",
+      "Genetic ancestry claims"
+    ],
+    "framework_continuity": "The same analytical frameworks used in 1909 to determine Armenian citizenship eligibility remain relevant today for religious freedom claims, indigenous rights, and cultural heritage disputes"
+  },
+
+  "part_1_race_classification_citizenship_law": {
+    "overview": "Between 1790 and 1952, American naturalization law restricted citizenship to 'free white persons' (and later 'persons of African nativity or descent'). This statutory language forced courts to engage in detailed ethnographic analysis of ancient civilizations to determine who qualified as 'white.'",
+    "foundational_framework": "Courts grappled with competing classification systems: Blumenbach's 'Caucasian' category, the 'Aryan' linguistic family, and various ethnological theories. Several landmark cases established that no single theory commanded universal acceptance.",
+    "key_cases": [
+      {
+        "case_name": "In Re: Halladjian",
+        "citation": "174 F. 834 (D. Mass.)",
+        "year": 1909,
+        "key_holdings": "Extensive definition of race; Greeks on both shores of Aegean; Persians, Romans, Goths, Saracens, Venetians, Hebrews, Ottoman Turks all ruled there"
+      },
+      {
+        "case_name": "Ex Parte Shahid",
+        "citation": "205 F. 812 (4th Cir.)",
+        "year": 1913,
+        "key_holdings": "'Aryan' is late coinage unknown in 1790; would exclude Semitics, Jews, Arabians, Magyars, Finns, Basques"
+      },
+      {
+        "case_name": "In re: Mudarri",
+        "citation": "176 F. 465 (D. Mass.)",
+        "year": 1910,
+        "key_holdings": "Syrians of mixed blood; no modern theory of racial classification has gained general acceptance"
+      },
+      {
+        "case_name": "United States v. Balsara",
+        "citation": "180 F. 694 (2nd Cir.)",
+        "year": 1910,
+        "key_holdings": "Parsees emigrated 1,200 years ago from Persia to India; Hebrew native to Jerusalem would not have been excluded in 1790"
+      },
+      {
+        "case_name": "In re: Young",
+        "citation": "198 F. 715 (9th Cir.)",
+        "year": 1912,
+        "key_holdings": "'Fair whites' or 'dark whites' as classified by Huxley; Southern European races technically classified as Mongolian or Tartar"
+      },
+      {
+        "case_name": "U.S. v. Bhagat Singh Thind",
+        "citation": "261 US 204 (SCOTUS)",
+        "year": 1923,
+        "key_holdings": "Aryan/Dravidian intermixture; 'dark-eyed, swarthy people of Alpine and Mediterranean Stock'"
+      },
+      {
+        "case_name": "United States v. Cartozian",
+        "citation": "6 F.2d 919 (D. Or.)",
+        "year": 1925,
+        "key_holdings": "Armenians as Phrygians per Herodotus; Brigians in Europe; Alpine stock; Indo-European migration from Black Sea steppes"
+      },
+      {
+        "case_name": "In re: Akhay Kumar Mozumdar",
+        "citation": "207 F. 115 (E.D. Wash.)",
+        "year": 1913,
+        "key_holdings": "High-caste Hindus of Brahmin faith distinguished from Hill Tribes and Mohammedan invaders"
+      }
+    ]
+  },
+
+  "part_2_habitancy_versus_descent": {
+    "overview": "A crucial legal distinction emerged in naturalization cases: the difference between residing in a location and descending from its ancient inhabitants. This doctrine has profound implications for understanding how courts view genetic and cultural continuity.",
+    "seminal_case": {
+      "case_name": "In Re: Dow",
+      "citation": "213 F. 355 (D.S.C. 1914)",
+      "year": 1914,
+      "principle": "Modern inhabitants cannot automatically claim descent from ancient builders of a region's monuments and civilizations",
+      "key_quote": "The Mongol or Bedouin Herdsman who occupies the sites of those cities is not thereby entitled to claim descent from the builders of Nineveh and Babylon. The modern swart Arabic-speaking fellahin of modern Egypt is not from that circumstance alone to be taken as a descendant from the builders of the pyramids and the carvers of the Hieroglyphic writings.",
+      "legal_significance": "This doctrine separates geographical presence from genetic lineage. It recognizes that populations shift, civilizations fall, and new inhabitants occupy ancient sites without inheriting the builders' identity.",
+      "historical_analysis": "The case also extensively discussed Hittite dominion over the Phoenician coast and Aramean regions, demonstrating court awareness of Bronze Age Near Eastern civilizations"
+    }
+  },
+
+  "part_3_phoenician_punic_references": {
+    "overview": "American courts have repeatedly invoked Phoenician and Carthaginian (Punic) civilization in legal contexts, from commercial law principles to character evidence. These references demonstrate the enduring influence of ancient Mediterranean legal and commercial systems.",
+    "punic_commercial_law_cases": [
+      {
+        "case_name": "Stakemann v. Olsen",
+        "citation": "1 V.I. 47 (D.V.I.)",
+        "year": 1924,
+        "reference": "Auction sales are of Ancient Origin. They are mentioned by Herodotus... and in Plautus... Punic authorship"
+      },
+      {
+        "case_name": "Calvin O. Gott v. R.M. Pulsifer",
+        "citation": "122 Mass. 235",
+        "year": 1877,
+        "reference": "Colossal Monolith... Phoenician image of the God Ba'al"
+      },
+      {
+        "case_name": "Tyler v. People",
+        "citation": "7 Mich. 161",
+        "year": 1859,
+        "reference": "Rhodian Laws, Consulato del Mare, Laws of Oleron, Wisby, Saxon, Norman, Saracen, CARTHAGINIAN, Rome"
+      },
+      {
+        "case_name": "U.S. v. Giertz",
+        "citation": "249 F.2d 662 (9th Cir.)",
+        "year": 1957,
+        "reference": "Stater of Ancient Carthage, Denarius of Ancient Rome, Shekel of Ancient Kingdom of Judea"
+      },
+      {
+        "case_name": "Love v. Yazoo City",
+        "citation": "91 Miss. 535",
+        "year": 1907,
+        "reference": "Ancient Rhodes, waterworks of Carthage, harbor of Syracuse under Archimedes"
+      }
+    ],
+    "punic_faith_doctrine": {
+      "definition": "The phrase 'Punic Faith' (fides Punica) entered English common law as a term for treachery, based on Roman propaganda about Carthaginian treaty violations",
+      "cases": [
+        {
+          "case_name": "Uhlig v. Garrison",
+          "citation": "2 Dakota 71",
+          "year": 1879,
+          "usage": "Punic Faith... Punic Faith became the synonym for the basest treachery"
+        },
+        {
+          "case_name": "Sayles v. Robison",
+          "citation": "170 S.W. 273 (Tex. Civ. App.)",
+          "year": 1914,
+          "usage": "Punic Faith... treacherous... faithless... violation of one's given word"
+        },
+        {
+          "case_name": "Jones v. Jones",
+          "citation": "1 Bland 443 (Md. Ch.)",
+          "year": 1828,
+          "usage": "Punic bad faith of Carthage in keeping Faith with Rome"
+        }
+      ]
+    },
+    "hannibal_carthage_references": [
+      {
+        "case_name": "Morgan Drexen v. CFPB",
+        "citation": "785 F.3d 684 (D.C. Cir.)",
+        "year": 2015,
+        "reference": "Hannibal at the Gate"
+      },
+      {
+        "case_name": "Tapp v. State",
+        "citation": "108 So.2d 793 (Fla.)",
+        "year": 1959,
+        "reference": "Delenda est Carthago - Carthage must be destroyed"
+      },
+      {
+        "case_name": "Indianapolis v. O'Donnell",
+        "citation": "35 Ind. App. 312",
+        "year": 1905,
+        "reference": "Rome, Sparta, Carthage - 'strangers to the Trial by Jury'"
+      }
+    ]
+  },
+
+  "part_4_genetic_science_haplogroup_analysis": {
+    "overview": "Modern courts increasingly encounter genetic evidence in cases involving indigenous rights, wildlife conservation, and ancestry claims. These cases establish legal frameworks for understanding haplogroups, mitochondrial DNA, and genetic drift.",
+    "foundational_cases": [
+      {
+        "case_name": "Bonnichsen v. United States",
+        "citation": "765 F.3d 1010 (9th Cir.)",
+        "year": 2014,
+        "genetic_science": "Pleistocene spans 2.6 Million to 11,700 years ago; Holocene spans 11,700 years ago to present. A 'Haplogroup' is a population sharing a common ancestor. Mitochondrial genome normally inherited only from mother.",
+        "significance": "Kennewick Man case - directly addressed whether ancient remains could be linked to modern indigenous populations through genetic analysis, establishing that haplogroup identification is a legitimate method for determining ancestry"
+      },
+      {
+        "case_name": "Ex Parte: Silver",
+        "citation": "Appeal 2021-003962 (PTAB)",
+        "year": 2022,
+        "genetic_science": "Genetic Recombination occurs during meiosis when Homologous Chromosomes swap segments by crossing over... in Silico simulation of biological reproduction to generate virtual progenies"
+      },
+      {
+        "case_name": "Northwest Ecosystem v. U.S. Fish & Wildlife",
+        "citation": "475 F.3d 1136 (9th Cir.)",
+        "year": 2007,
+        "genetic_science": "Effects of Small Population size and consequent inbreeding and genetic drift"
+      },
+      {
+        "case_name": "Wild Fish Conservancy v. Salazar",
+        "citation": "628 F.3d 513 (9th Cir.)",
+        "year": 2010,
+        "genetic_science": "Inbreeding, depression, genetic drift, and other consequences of very small population size"
+      },
+      {
+        "case_name": "Defenders of Wildlife v. Jewell",
+        "citation": "68 F.Supp.3d 193 (D.D.C.)",
+        "year": 2014,
+        "genetic_science": "Gene flow from one population to another can maintain and substantially increase variation in local populations"
+      },
+      {
+        "case_name": "Atchafalaya Basinkeeper v. Bernhardt",
+        "citation": "20-00651 (M.D. La.)",
+        "year": 2024,
+        "genetic_science": "Differentiation between subpopulations explained by restricted gene flow, accelerated genetic drift, and differing levels of genetic introgression"
+      }
+    ],
+    "legal_significance": "These cases establish that courts accept genetic science including haplogroup analysis, mitochondrial DNA inheritance patterns, and population genetics principles. This creates precedent for cases involving ancient population movements, indigenous ancestry claims, and genetic heritage arguments."
+  },
+
+  "part_5_ancient_legal_systems_as_precedent": {
+    "overview": "American courts have consistently looked to ancient legal systems - Mosaic, Egyptian, Babylonian, Rhodian, and Roman - as foundational precedents. This practice acknowledges that modern legal concepts have roots extending millennia into the past.",
+    "mosaic_law_references": [
+      {
+        "case_name": "Collins, Application of",
+        "citation": "497 P.2d 523, 108 Ariz. 310",
+        "year": 1972,
+        "reference": "Under the Law of Moses, an individual unable to pay a fine could be stoned to death, Exodus 21:29-31"
+      },
+      {
+        "case_name": "Cluck v. State",
+        "citation": "132 P. 930 (Okla. Crim. App.)",
+        "year": 1913,
+        "reference": "Under Mosaic Law, the penalty of death was inflicted... The Seducer was taken beyond the gates of the city and stoned to Death"
+      },
+      {
+        "case_name": "Frazee v. Dept. of Employment Sec.",
+        "citation": "512 N.E.2d 789 (Ill. App.)",
+        "year": 1987,
+        "reference": "In 1440 B.C.... man gathering sticks... ordered to be Stoned to Death"
+      },
+      {
+        "case_name": "Spearhawk v. Union Passenger Railway",
+        "citation": "54 Pa. 401",
+        "year": 1867,
+        "reference": "15th Chapter of Numbers: a man that gathered sticks upon the Sabbath Day was Stoned to Death"
+      },
+      {
+        "case_name": "Coleman v. State",
+        "citation": "118 P. 594 (Okla. Crim. App.)",
+        "year": 1911,
+        "reference": "Naboth/Jezebel perjured testimony leading to stoning"
+      }
+    ],
+    "deodand_doctrine": {
+      "definition": "The doctrine of Deodand - holding objects responsible for harm - derives from ancient legal systems and remains relevant in modern forfeiture cases",
+      "cases": [
+        {
+          "case_name": "U.S. v. Rembert",
+          "citation": "284 F. 996 (S.D. Tex.)",
+          "year": 1922,
+          "reference": "An animal or an inanimate object may itself be a violator of the Law... reference is made to the Law of Deodand"
+        },
+        {
+          "case_name": "Culley v. Marshall",
+          "citation": "144 S.Ct. 1142 (SCOTUS)",
+          "year": 2024,
+          "reference": "Deodand doctrine in civil forfeiture"
+        },
+        {
+          "case_name": "Jesionowski v. Boston",
+          "citation": "329 US 452 (SCOTUS)",
+          "year": 1947,
+          "reference": "History of Res Ipsa Loquitur"
+        },
+        {
+          "case_name": "U.S. v. Bissett-Berman",
+          "citation": "481 F.2d 764 (9th Cir.)",
+          "year": 1973,
+          "reference": "Deodand for moored Ship; Res Ipsa in Admiralty"
+        }
+      ]
+    },
+    "hostis_humani_generis": {
+      "definition": "This ancient concept - that certain actors are enemies of all humanity - has been applied to pirates, slavers, and modern international criminals",
+      "cases": [
+        {
+          "case_name": "U.S. v. Klintock",
+          "citation": "18 US 144 (SCOTUS)",
+          "year": 1820,
+          "application": "Hostis Humani Generis doctrine established"
+        },
+        {
+          "case_name": "Kiobel v. Royal Dutch Petroleum",
+          "citation": "133 S.Ct. 1659 (SCOTUS)",
+          "year": 2013,
+          "application": "Enemy of all mankind in human rights context"
+        },
+        {
+          "case_name": "Buckhannon v. Commonwealth",
+          "citation": "86 Ky. 110",
+          "year": 1887,
+          "application": "Intoxication... makes one Hostis Humani Generis"
+        }
+      ]
+    }
+  },
+
+  "part_6_indigenous_ancient_religious_practices": {
+    "overview": "Courts have been required to examine ancient and indigenous religious practices to determine First Amendment protections. These cases establish precedents for recognizing religious traditions with roots in ancient civilizations.",
+    "supreme_court_precedents": [
+      {
+        "case_name": "Church of Lukumi Babalu Aye v. Hialeah",
+        "citation": "508 U.S. 520 (SCOTUS)",
+        "year": 1993,
+        "religious_practice": "Santeria/Orisha animal sacrifice protected"
+      },
+      {
+        "case_name": "Gonzales v. O Centro Espirita",
+        "citation": "546 U.S. 418 (SCOTUS)",
+        "year": 2006,
+        "religious_practice": "Brazilian ayahuasca church under RFRA"
+      },
+      {
+        "case_name": "Employment Division v. Smith",
+        "citation": "494 U.S. 872 (SCOTUS)",
+        "year": 1990,
+        "religious_practice": "Native American Church peyote use"
+      },
+      {
+        "case_name": "Wisconsin v. Yoder",
+        "citation": "406 US 205 (SCOTUS)",
+        "year": 1972,
+        "religious_practice": "Amish practices 'not altered in fundamentals for centuries'"
+      },
+      {
+        "case_name": "U.S. v. Ballard",
+        "citation": "322 US 78 (SCOTUS)",
+        "year": 1944,
+        "religious_practice": "Government cannot determine if a Religion is True"
+      }
+    ],
+    "hawaiian_indigenous_religion": [
+      {
+        "case_name": "State v. Armitage",
+        "citation": "132 Hawai'i 36",
+        "year": 2014,
+        "hawaiian_practice": "Our Constitution in the Kingdom... said every man could practice his own Religion... the Kapu system"
+      },
+      {
+        "case_name": "In re: Conservation Dist. (Mauna Kea)",
+        "citation": "143-3568 (Haw.)",
+        "year": 2018,
+        "hawaiian_practice": "Native Hawaiian Religion on sacred mountain"
+      },
+      {
+        "case_name": "State v. Fergerstrom",
+        "citation": "101 P.3d 651 (Haw. App.)",
+        "year": 2004,
+        "hawaiian_practice": "Hawaiian Religion - specifically the Lono tradition"
+      },
+      {
+        "case_name": "Newman v. Hawaii",
+        "citation": "(2024)",
+        "year": 2024,
+        "hawaiian_practice": "Menehune Heritage and practicing Menehune Religion"
+      }
+    ],
+    "metaphysical_traditions": {
+      "earthkeepers_case": {
+        "case_name": "EarthKeepers LLC v. Haag",
+        "description": "Documented Katrina Raphaell's metaphysical crystal teachings, including references to 'Atlantean times,' 'Negative Entropy crystals,' and only 12 true Earth Keepers 'programmed from Ancient Times.'",
+        "significance": "Represents consciousness preservation technology entering the legal record"
+      },
+      "falun_gong_case": {
+        "case_name": "Zhang Jingrong",
+        "holding": "Court recognized Falun Gong as religion with 'complete Cosmology' and 'spiritual salvation' goal",
+        "significance": "Establishing precedent for recognizing traditions with comprehensive worldviews"
+      }
+    }
+  },
+
+  "part_7_eugenics_to_modern_genetics": {
+    "landmark_case": {
+      "case_name": "Students for Fair Admissions v. Harvard",
+      "citation": "143 S.Ct. 2141 (SCOTUS 2023)",
+      "year": 2023,
+      "key_statement": "Harvard played a prominent role in the Eugenics Movement",
+      "significance": "This acknowledgment connects modern civil rights jurisprudence to the history of racial classification that dominated early naturalization cases. The eugenics movement directly influenced the 'scientific' racial categories courts applied in cases like Thind, Cartozian, and Halladjian."
+    },
+    "evolution_of_understanding": {
+      "then_1909_1925": {
+        "methods": "Courts debated whether Armenians were 'Phrygians' or 'Alpine stock,' whether Syrians had 'mixed blood,' and whether the 'Aryan' category had any legal meaning",
+        "basis": "These debates relied on skull measurements, linguistic classifications, and speculative ethnology"
+      },
+      "now_2014_2024": {
+        "methods": "Courts evaluate haplogroup evidence, mitochondrial DNA inheritance, genetic drift in isolated populations, and gene flow between groups",
+        "basis": "The Bonnichsen case established that genetic analysis can determine ancestry more reliably than physical appearance or geographic origin"
+      }
+    },
+    "implications_for_modern_litigation": {
+      "religious_freedom_claims": "Can invoke genetic heritage to demonstrate sincere belief in ancestral practices. The precedent of courts examining Phoenician, Armenian, Hindu, and other ancient traditions establishes that ancient lineage claims are cognizable legal arguments.",
+      "indigenous_rights_cases": "Benefit from the genetic science precedents in wildlife conservation cases, which established legal frameworks for analyzing population genetics, genetic drift, and ancestral connections.",
+      "cultural_heritage_claims": "Can draw on the habitancy-versus-descent doctrine from In Re: Dow to argue that genetic and cultural continuity matters independently of current geographic location."
+    }
+  },
+
+  "conclusion": {
+    "summary": "This survey demonstrates that American courts have consistently engaged with ancient history, ethnography, and genetic classification across two centuries of jurisprudence. From determining whether Armenians descend from Phrygians, to evaluating Phoenician commercial law origins, to applying modern haplogroup analysis, courts have repeatedly been required to understand ancient civilizations to resolve legal disputes.",
+    "key_findings": [
+      "Courts have recognized that no single theory of racial classification commands universal acceptance (In re: Mudarri, Ex Parte Shahid). The term 'Aryan' was unknown in 1790 and would exclude numerous European populations.",
+      "The habitancy-versus-descent doctrine (In Re: Dow) establishes that modern inhabitants cannot automatically claim lineage from ancient builders, requiring actual genetic or cultural continuity.",
+      "Phoenician and Punic civilization has been repeatedly invoked in American commercial law, demonstrating the ancient Mediterranean origins of legal concepts like auction sales.",
+      "Modern genetic science, including haplogroup analysis and mitochondrial DNA inheritance, has entered legal precedent through wildlife conservation and indigenous rights cases.",
+      "Religious freedom jurisprudence has required courts to examine traditions from Hawaiian Kapu systems to Santeria Orisha worship to Falun Gong cosmology, establishing that ancient belief systems merit constitutional protection."
+    ],
+    "enduring_relevance": "These cases collectively establish that ancient history is not merely academic curiosity but has direct legal consequences. Claims based on Phoenician descent, ancient religious practices, or genetic heritage have been and will continue to be litigated in American courts."
+  },
+
+  "source_documentation": {
+    "primary_sources": {
+      "description": "Cases compiled from transcriptions across four primary conversations with Claude AI, totaling 74 pages of handwritten case law",
+      "conversations": [
+        {
+          "url": "https://claude.ai/chat/77cd8d1d-91a4-4d00-bd79-95d969b8b64c",
+          "pages": "1-8",
+          "case_count": "68 cases"
+        },
+        {
+          "url": "https://claude.ai/chat/82927e21-7e10-41a3-9538-776376114ba1",
+          "pages": "9-23",
+          "case_count": "248 cases + 30 statutes"
+        },
+        {
+          "url": "https://claude.ai/chat/87f62842-724c-4417-945a-d38feef89269",
+          "pages": "24-35",
+          "case_count": "~153 cases"
+        },
+        {
+          "url": "https://claude.ai/chat/4adf13d0-f427-4895-9245-ced2da4b40ca",
+          "pages": "36-74",
+          "case_count": "~403 cases"
+        }
+      ]
+    },
+    "supporting_research": [
+      {
+        "url": "https://claude.ai/chat/390007e7-b931-4ff5-8b62-6a5bbae4f015",
+        "topic": "Punic Libraries and Ancient Mediterranean Texts"
+      },
+      {
+        "url": "https://claude.ai/chat/a6526f6b-58d0-4da3-879b-efa635df3079",
+        "topic": "Byblos, Punt, and Ancient Mediterranean Trade Networks"
+      },
+      {
+        "url": "https://claude.ai/chat/ba5f303c-2de4-4cb2-9ddd-140270c6bc25",
+        "topic": "Punics and Phoenicians: The Forgotten Phoenix Civilization"
+      }
+    ],
+    "full_categories_documented": [
+      "APA/Arbitrary Enforcement",
+      "Self-Defense/Physical Disparity",
+      "True Threats/Counterman",
+      "Drug-Induced Consent",
+      "Character Assassination/Defamation",
+      "Judicial Complaints/Recusal",
+      "Religious Freedom/Indigenous Practices",
+      "Pre-Columbian/Ancient Civilizations",
+      "Family Privacy/Marital Rights",
+      "Resist Tyrannical Government",
+      "Prosecutorial Immunity/§1983",
+      "Surveillance/COINTELPRO/FISA",
+      "Remonstrance Privilege",
+      "Revolutionary Generation/Pamphlets",
+      "Public Integrity Unit/DOJ OIG",
+      "Judicial Ethics",
+      "Ancient Ethnography/Race Classification",
+      "Phoenician/Hittite/Armenian/Punic History",
+      "Hawaiian Water Rights",
+      "Speedy Trial/Competency",
+      "Next Friend Doctrine",
+      "Deodand/Res Ipsa Loquitur",
+      "Mosaic Law",
+      "Hostis Humani Generis",
+      "MOVE Organization/Definition of Religion",
+      "RLUIPA/RFRA/Prison Religion",
+      "Fighting Words/Context",
+      "Cyberstalking",
+      "Constable Blunders",
+      "Sanctions/Vexatious Litigant"
+    ]
+  },
+
+  "keywords": [
+    "American jurisprudence",
+    "ancient ethnography",
+    "race classification",
+    "naturalization law",
+    "citizenship cases",
+    "Phoenician law",
+    "Punic civilization",
+    "Carthage",
+    "haplogroup analysis",
+    "genetic evidence",
+    "mitochondrial DNA",
+    "indigenous rights",
+    "religious freedom",
+    "First Amendment",
+    "Mosaic law",
+    "deodand doctrine",
+    "hostis humani generis",
+    "habitancy versus descent",
+    "eugenics",
+    "Armenian ancestry",
+    "Syrian citizenship",
+    "Hindu naturalization",
+    "Hawaiian religion",
+    "Santeria",
+    "ayahuasca",
+    "RFRA",
+    "RLUIPA",
+    "cultural heritage",
+    "FastCase",
+    "Van Kush Family Research Institute"
+  ]
+}
