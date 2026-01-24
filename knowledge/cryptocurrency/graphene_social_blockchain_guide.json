@@ -1,0 +1,670 @@
+{
+  "title": "Graphene Social Blockchain Development Guide - Complete Tutorial for Cloning Steem, HIVE, BLURT",
+  "author": "Rev. Ryan Sasha-Shai Van Kush / Van Kush Family Research Institute",
+  "version": "1.0",
+  "year": "2025",
+  "source": "Van Kush Family Research Institute Documentation",
+  "overview": "Comprehensive technical guide for cloning and customizing Graphene-based social blockchains, including AI integration and custom frontend development for decentralized social media platforms",
+
+  "graphene_fundamentals": {
+    "creator": "Dan Larimer / Cryptonomex",
+    "description": "High-performance blockchain technology powering decentralized applications",
+    "key_features": [
+      "100,000+ transactions per second theoretical capacity",
+      "3-second block times for real-time applications",
+      "Delegated Proof of Stake (DPoS) consensus - energy efficient",
+      "Built-in governance via on-chain voting",
+      "User-Issued Assets (UIAs) for custom tokens",
+      "Native social features for posts, votes, and content rewards"
+    ],
+    "problems_solved": {
+      "centralized_control": "Content on immutable ledger, no single company ownership",
+      "no_user_ownership": "Users earn cryptocurrency for contributions",
+      "censorship": "Decentralized content storage",
+      "data_mining": "User data not sold, users compensated"
+    }
+  },
+
+  "blockchain_family_tree": {
+    "graphene_cryptonomex": {
+      "description": "The Foundation",
+      "year": "Original"
+    },
+    "bitshares": {
+      "year": 2014,
+      "purpose": "Decentralized Exchange (DEX)",
+      "features": ["User Issued Assets (UIAs)", "OpenLedger DEX", "Market Pegged Assets"]
+    },
+    "steem": {
+      "year": 2016,
+      "purpose": "Social Media Blockchain",
+      "frontend": "Steemit.com (Reddit-style)",
+      "forks": {
+        "hive": {
+          "year": 2020,
+          "reason": "Community fork due to centralization concerns",
+          "frontends": ["Hive.blog", "PeakD", "Ecency"]
+        },
+        "blurt": {
+          "year": 2020,
+          "reason": "Fork without downvotes for positive environment"
+        }
+      }
+    },
+    "synereo": {
+      "description": "Parallel social blockchain that influenced Steem"
+    }
+  },
+
+  "choosing_your_base": {
+    "steem": {
+      "best_for": "Learning, full features",
+      "complexity": "High",
+      "community": "Declining"
+    },
+    "hive": {
+      "best_for": "Production social apps",
+      "complexity": "High",
+      "community": "Very Active"
+    },
+    "blurt": {
+      "best_for": "Simple social apps",
+      "complexity": "Medium",
+      "community": "Growing"
+    },
+    "bitshares": {
+      "best_for": "DEX/trading focus",
+      "complexity": "High",
+      "community": "Stable"
+    },
+    "graphene_core": {
+      "best_for": "Custom applications",
+      "complexity": "Very High",
+      "community": "Limited"
+    }
+  },
+
+  "dpos_consensus": {
+    "how_it_works": [
+      "Token holders vote for witnesses",
+      "Top-voted witnesses produce blocks",
+      "Witnesses rotate in rounds (21 witnesses = 63 second rounds at 3 sec/block)",
+      "Poor-performing witnesses lose votes and are replaced"
+    ],
+    "witness_responsibilities": [
+      "Block production - create new blocks",
+      "Transaction validation - verify all transactions",
+      "Price feeds - publish exchange rates for stablecoin mechanisms",
+      "Parameter voting - set blockchain parameters like fees and inflation",
+      "Node operation - maintain reliable high-uptime servers"
+    ],
+    "important_note": "Witnesses are secretly important - anyone can become one by being voted for, but this isn't advertised to prevent hostile takeovers"
+  },
+
+  "tokenomics": {
+    "three_token_system": {
+      "liquid_token": {
+        "example": "STEEM",
+        "purpose": "Transfers, trading",
+        "properties": "Freely transferable, liquid"
+      },
+      "vested_token": {
+        "example": "STEEM POWER",
+        "purpose": "Voting, influence",
+        "properties": "Locked for 13 weeks, earns interest"
+      },
+      "stablecoin": {
+        "example": "SBD (Steem Backed Dollars)",
+        "purpose": "Stable value",
+        "properties": "Pegged to $1 USD via witnesses"
+      }
+    },
+    "reward_distribution": {
+      "content_rewards": "75% - split between authors (posting) and curators (voting)",
+      "vesting_rewards": "15% - interest paid to staked token holders",
+      "witness_rewards": "10% - payment to block producers"
+    },
+    "economic_parameters": {
+      "STEEM_INFLATION_RATE_START_PERCENT": "978 (9.78%) - initial annual inflation",
+      "STEEM_INFLATION_NARROWING_PERIOD": "250000 blocks between 0.01% reduction",
+      "STEEM_INFLATION_RATE_STOP_PERCENT": "95 (0.95%) - minimum inflation floor",
+      "STEEM_CONTENT_REWARD_PERCENT": "75% to authors and curators",
+      "STEEM_VESTING_FUND_PERCENT": "15% to staked token holders"
+    }
+  },
+
+  "system_requirements": {
+    "development": {
+      "os": "Ubuntu 16.04/18.04/20.04 LTS (64-bit required)",
+      "cpu": "2+ cores recommended",
+      "ram": "8 GB minimum (4 GB possible but slow)",
+      "storage": "20 GB SSD",
+      "network": "Stable internet connection"
+    },
+    "production_witness": {
+      "cpu": "4+ cores, high single-thread performance",
+      "ram": "16 GB minimum, 32 GB recommended",
+      "storage": "100+ GB SSD (grows with blockchain)",
+      "network": "Low-latency connection, static IP",
+      "uptime": "99.9%+ availability expected"
+    },
+    "full_rpc_node": {
+      "cpu": "8+ cores",
+      "ram": "64+ GB for full history",
+      "storage": "500+ GB NVMe SSD",
+      "network": "High bandwidth, DDoS protection"
+    },
+    "supported_os": [
+      "Ubuntu 16.04 LTS (64-bit) - Most tested",
+      "Ubuntu 18.04 LTS (64-bit) - Recommended",
+      "Ubuntu 20.04 LTS (64-bit) - Supported",
+      "Debian-based distributions - May work with modifications",
+      "macOS - Development only, not for production",
+      "Windows - Possible via WSL2, not recommended"
+    ]
+  },
+
+  "dependencies_installation": {
+    "quick_install": {
+      "description": "Graphene style with libboost-all-dev",
+      "commands": [
+        "sudo apt-get update",
+        "sudo apt-get install -y autoconf cmake make automake libtool git libboost-all-dev libssl-dev g++ libcurl4-openssl-dev"
+      ]
+    },
+    "detailed_install": {
+      "core_build_tools": [
+        "autoconf", "automake", "cmake", "g++", "git", "libbz2-dev",
+        "libsnappy-dev", "libssl-dev", "libtool", "make", "pkg-config",
+        "python3", "python3-jinja2"
+      ],
+      "boost_libraries": [
+        "libboost-chrono-dev", "libboost-context-dev", "libboost-coroutine-dev",
+        "libboost-date-time-dev", "libboost-filesystem-dev", "libboost-iostreams-dev",
+        "libboost-locale-dev", "libboost-program-options-dev", "libboost-serialization-dev",
+        "libboost-signals-dev", "libboost-system-dev", "libboost-test-dev", "libboost-thread-dev"
+      ]
+    }
+  },
+
+  "cloning_steem": {
+    "clone_commands": [
+      "git clone https://github.com/steemit/steem.git",
+      "cd steem",
+      "git checkout stable",
+      "git submodule update --init --recursive"
+    ],
+    "alternative_forks": {
+      "understeem": "git clone https://github.com/Someguy123/understeem.git",
+      "hive": "git clone https://github.com/openhive-network/hive.git",
+      "blurt": "git clone https://github.com/Blurt-Blockchain/blurt.git"
+    },
+    "repository_structure": {
+      "libraries/protocol": "Consensus rules, token definitions",
+      "libraries/protocol/include/steemit/protocol/config.hpp": "Main configuration",
+      "libraries/protocol/include/steemit/protocol/asset_symbol.hpp": "Token symbols (v0.20+)",
+      "libraries/chain": "Blockchain logic",
+      "libraries/fc": "Cryptography library",
+      "programs/steemd": "Node daemon",
+      "programs/cli_wallet": "Command-line wallet",
+      "contrib": "Scripts and tools"
+    }
+  },
+
+  "token_configuration": {
+    "example_chain": {
+      "name": "SOAP Blockchain",
+      "liquid_token": "SOAP",
+      "vested_token": "LATHER (LATHR)",
+      "stablecoin": "SUDS"
+    },
+    "asset_symbol_hpp": {
+      "file": "libraries/protocol/include/steemit/protocol/asset_symbol.hpp",
+      "vests_symbol": "LATHR encoded as uint64_t character shifts",
+      "main_symbol": "SOAP encoded as uint64_t character shifts",
+      "stablecoin_symbol": "SUDS encoded as uint64_t character shifts"
+    },
+    "config_hpp": {
+      "file": "libraries/protocol/include/steemit/protocol/config.hpp",
+      "address_prefix": "3 characters, e.g., 'SOP' - public keys will start with this",
+      "chain_id": "fc::sha256::hash('soapchain') - unique identifier preventing replay attacks",
+      "genesis_key": "Generate keypair using get_private_key_from_password in CLI wallet",
+      "hardfork_required_witnesses": "Set to 1 for testing",
+      "max_witnesses": "21 per round (affects decentralization vs speed)"
+    },
+    "genesis_key_generation": {
+      "command": "get_private_key_from_password initminer owner YOUR_SECURE_PASSWORD",
+      "output_format": "[public_key, private_key]",
+      "warning": "Save the private key securely - needed to start witness, cannot recover later"
+    }
+  },
+
+  "compilation": {
+    "standard_build": [
+      "mkdir build",
+      "cd build",
+      "cmake -DCMAKE_BUILD_TYPE=Release -DLOW_MEMORY_NODE=OFF ..",
+      "make -j$(nproc) steemd",
+      "make -j$(nproc) cli_wallet"
+    ],
+    "build_options": {
+      "Release": "Optimized for production",
+      "RelWithDebInfo": "Production with debug symbols",
+      "Debug": "Full debugging, slower",
+      "LOW_MEMORY_NODE_OFF": "Full consensus node",
+      "LOW_MEMORY_NODE_ON": "Reduced memory, limited API"
+    },
+    "compilation_time": "30-60 minutes typical",
+    "memory_issues": "Use make -j2 instead of -j$(nproc) if encountering memory problems",
+    "known_issues": {
+      "websocket_timer_expired": {
+        "affects": "Ubuntu 16.04, kernel > 4.4",
+        "fix": [
+          "cd ~/steem/libraries/fc/vendor/websocketpp",
+          "git remote set-url origin https://github.com/DECENTfoundation/websocketpp.git",
+          "git fetch",
+          "git checkout",
+          "Then rebuild"
+        ]
+      }
+    }
+  },
+
+  "witness_node_setup": {
+    "config_directory": {
+      "commands": [
+        "cd programs/steemd",
+        "mkdir mychain",
+        "nano mychain/config.ini"
+      ]
+    },
+    "config_ini_contents": {
+      "rpc-endpoint": "127.0.0.1:9876 - Port for CLI wallet and API connections",
+      "p2p-endpoint": "0.0.0.0:3333 - Port for peer-to-peer block sync",
+      "shared-file-size": "1G - Disk space for blockchain data",
+      "enable-stale-production": "true - Allow block production",
+      "witness": "initminer - Account name producing blocks",
+      "private-key": "Private key for signing blocks"
+    },
+    "start_command": "./steemd -d mychain",
+    "expected_output": "NEW CHAIN - Welcome to Graphene!",
+    "background_run": {
+      "detached": "./steemd -d mychain > /dev/null 2>&1 &",
+      "screen": "screen -S steemd followed by Ctrl+A, D to detach"
+    },
+    "hardfork_progression": "Genesis starts at v0.0.0, hardforks apply automatically as blocks produced"
+  },
+
+  "cli_wallet_operations": {
+    "connect": "./cli_wallet -s ws://127.0.0.1:9876",
+    "initial_setup": [
+      "set_password SUPER_SAFE_PASSWORD",
+      "unlock SUPER_SAFE_PASSWORD",
+      "import_key [PRIVATE_KEY]"
+    ],
+    "create_account": {
+      "generate_keys": "suggest_brain_key",
+      "derive_key_types": "get_private_key_from_password [name] [owner|active|posting|memo] [wif_priv_key]",
+      "create_command": "create_account_with_keys_delegated initminer [stake] [vest] [name] {} [owner_pub] [active_pub] [posting_pub] [memo_pub] true"
+    },
+    "register_witness": {
+      "import_key": "import_key [active_private_key]",
+      "update_witness": "update_witness [name] [url] [signing_key] {props} true"
+    },
+    "vote_for_witness": "vote_for_witness [voter] [witness] true true",
+    "publish_price_feed": "publish_feed [witness] {base:quote} true"
+  },
+
+  "multi_node_network": {
+    "second_node_config": {
+      "rpc-endpoint": "127.0.0.1:9876",
+      "p2p-endpoint": "0.0.0.0:3333",
+      "seed-node": "[FIRST_NODE_IP]:3333",
+      "shared-file-size": "1G",
+      "enable-stale-production": "true",
+      "witness": "[NEW_WITNESS_NAME]",
+      "private-key": "[WITNESS_SIGNING_PRIVATE_KEY]"
+    },
+    "multiple_seed_nodes": "Can specify multiple seed-node entries for redundancy",
+    "synchronization": [
+      "Nodes connect via P2P port",
+      "Exchange block information",
+      "Synchronize to same chain state",
+      "Take turns producing blocks based on witness schedule"
+    ],
+    "critical_requirement": "All nodes must use identical customization values (chain ID, token symbols, genesis key)"
+  },
+
+  "alternative_backends": {
+    "hive": {
+      "clone": "git clone https://github.com/openhive-network/hive.git",
+      "advantages": ["Active development community", "Regular security updates", "Enhanced API features", "Better documentation"],
+      "config_location": "libraries/protocol/include/hive/protocol/config.hpp",
+      "build": "mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc) hived cli_wallet"
+    },
+    "blurt": {
+      "clone": "git clone https://github.com/Blurt-Blockchain/blurt.git",
+      "advantages": ["Simpler reward mechanics", "No downvote complexity", "Cleaner codebase", "Good for positive-only communities"],
+      "build": "mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc) blurtd cli_wallet"
+    },
+    "graphene_core": {
+      "clone": "git clone https://github.com/cryptonomex/graphene.git",
+      "oci_fork": "git clone https://github.com/objectcomputing/graphene.git",
+      "executables": ["witness_node", "cli_wallet", "genesis_util"],
+      "run_witness": "./witness_node --rpc-endpoint 127.0.0.1:8090 --enable-stale-production -w '\"1.6.0\"'"
+    }
+  },
+
+  "condenser_frontend": {
+    "description": "React.js web interface for Steem-based blockchains (powers steemit.com)",
+    "technologies": ["React.js", "Redux", "Webpack", "Node.js", "steem-js"],
+    "docker_deployment": {
+      "install_docker": "curl -fsSL https://get.docker.com | sh && sudo usermod -aG docker $USER",
+      "build_image": "docker build -t mychain/condenser -f Dockerfile .",
+      "run": "docker run -it -p 8080:8080 mychain/condenser",
+      "environment_variables": {
+        "SDC_CLIENT_STEEMD_URL": "ws://your-node:9876",
+        "SDC_SERVER_STEEMD_URL": "ws://your-node:9876",
+        "SDC_SESSION_SECRETKEY": "Generate with: node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\""
+      }
+    },
+    "development_environment": {
+      "nodejs_install": "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash && nvm install v12",
+      "yarn_install": "npm install -g yarn",
+      "setup": "git clone https://github.com/steemit/condenser.git && cd condenser && mkdir tmp && yarn install --frozen-lockfile",
+      "configure": "cp config/steem-example.json config/steem-dev.json",
+      "run_dev": "yarn run start",
+      "run_prod": "yarn run production"
+    },
+    "customization": {
+      "assets": "src/app/assets/ - Images, logos",
+      "components": "src/app/components/ - React components",
+      "locales": "src/app/locales/ - Translations",
+      "chain_config": "src/shared/chain/config.js - Token configuration"
+    }
+  },
+
+  "custom_frontends": {
+    "api_connection": {
+      "websocket": "const ws = new WebSocket('ws://your-node:9876')",
+      "json_rpc_format": "{jsonrpc: '2.0', method: 'get_accounts', params: [['alice']], id: 1}"
+    },
+    "steem_js_library": {
+      "install": "npm install @steemit/steem-js",
+      "configure": "steem.api.setOptions({ url: 'ws://your-node:9876' })",
+      "key_operations": {
+        "get_account": "steem.api.getAccounts(['alice'], callback)",
+        "get_posts": "steem.api.getDiscussionsByCreated",
+        "create_post": "steem.broadcast.comment",
+        "vote": "steem.broadcast.vote",
+        "transfer": "steem.broadcast.transfer",
+        "follow": "steem.broadcast.follow"
+      }
+    },
+    "twitter_clone": {
+      "concept_mapping": {
+        "tweet": "Short post (no title, 280 chars max)",
+        "retweet": "Reblog operation via customJson",
+        "like": "Upvote with 10000 weight (100%)",
+        "reply": "Comment",
+        "follow": "Follow operation",
+        "timeline": "Feed query by followed accounts"
+      },
+      "implementation": {
+        "tweet": "steem.broadcast.comment with empty title, category 'tweets'",
+        "retweet": "steem.broadcast.customJson with 'follow' id and reblog action"
+      }
+    },
+    "facebook_clone": {
+      "concept_mapping": {
+        "post": "Post with optional images",
+        "comment": "Comment",
+        "like_react": "Vote with different weights",
+        "share": "Reblog",
+        "friend": "Mutual follow",
+        "group": "Tag-based community",
+        "page": "Dedicated account"
+      },
+      "rich_content": "Markdown with image embeds in post body",
+      "groups_via_tags": "Use consistent tag as category for group posts"
+    },
+    "youtube_clone": {
+      "concept_mapping": {
+        "video": "Post with video embed",
+        "subscribe": "Follow",
+        "like_dislike": "Upvote/Downvote",
+        "comment": "Comment",
+        "playlist": "Tag or custom_json",
+        "channel": "User account",
+        "monetization": "Post rewards"
+      },
+      "video_hosting_options": [
+        "IPFS - Decentralized, censorship-resistant",
+        "3Speak - Built for Steem/HIVE video",
+        "DTube - Decentralized YouTube alternative",
+        "Traditional CDN - Easier but centralized"
+      ],
+      "existing_platforms": ["3Speak (3speak.co)", "DTube (d.tube)", "Viewly"]
+    }
+  },
+
+  "ai_integration": {
+    "use_cases": [
+      "Content moderation - AI-assisted spam/abuse detection",
+      "Content enhancement - Auto-tagging, summarization",
+      "Curation - AI-powered content discovery",
+      "Translation - Automatic multi-language support",
+      "Bots - Automated voting, posting, engagement",
+      "Analytics - Trend detection, user insights"
+    ],
+    "api_design_for_ai": {
+      "structured_metadata": {
+        "ai_summary": "Brief AI-generated summary",
+        "ai_tags": "Auto-generated tags",
+        "ai_sentiment": "positive/negative/neutral",
+        "ai_language": "Language code"
+      }
+    },
+    "bot_framework": {
+      "pattern": "Combine steem-js with AI API (e.g., OpenAI)",
+      "example_flow": [
+        "Monitor new posts",
+        "Send content to AI for analysis",
+        "Post AI-generated comment or vote based on analysis"
+      ]
+    },
+    "existing_bots": ["Steemvoter - Automated voting", "Promotion bots", "Curation trails"]
+  },
+
+  "production_deployment": {
+    "infrastructure": {
+      "primary_witness_node": "Block production, highest priority",
+      "backup_witness_node": "Failover if primary goes down",
+      "seed_nodes": "2+ for P2P network backbone",
+      "rpc_api_nodes": "Public API access",
+      "frontend_servers": "Condenser or custom frontend"
+    },
+    "seed_node_config": {
+      "p2p-endpoint": "0.0.0.0:3333",
+      "seed-node": "[other-seeds]:3333",
+      "shared-file-size": "10G",
+      "note": "No witness or private-key lines"
+    },
+    "rpc_node_config": {
+      "rpc-endpoint": "0.0.0.0:9876",
+      "p2p-endpoint": "0.0.0.0:3333",
+      "plugins": [
+        "webserver", "p2p", "json_rpc", "witness", "account_by_key",
+        "tags", "follow", "market_history", "account_history",
+        "database_api", "account_by_key_api", "network_broadcast_api",
+        "tags_api", "follow_api", "market_history_api", "witness_api",
+        "condenser_api", "block_api", "account_history_api"
+      ]
+    }
+  },
+
+  "security": {
+    "ufw_firewall": {
+      "default_policies": ["ufw default deny incoming", "ufw default allow outgoing"],
+      "allow_ssh": "ufw allow 22",
+      "allow_p2p": "ufw allow 3333",
+      "allow_rpc": "ufw allow 9876 (only on API nodes)",
+      "allow_web": "ufw allow 80 && ufw allow 443",
+      "enable": "ufw enable"
+    },
+    "key_security": {
+      "warning": "Never commit private keys to git or share in logs",
+      "best_practices": [
+        "Use different keys for each witness node",
+        "Store owner keys offline",
+        "Use active keys for day-to-day operations",
+        "Posting keys for content only"
+      ]
+    },
+    "ddos_protection": [
+      "Use Cloudflare or similar CDN",
+      "Rate limit API endpoints",
+      "Run multiple geographically distributed nodes"
+    ]
+  },
+
+  "exchange_listing_preparation": {
+    "requirements": [
+      "Stable blockchain running 30+ days",
+      "Multiple independent witnesses",
+      "Public block explorer",
+      "Open source code",
+      "Clear documentation",
+      "Active community"
+    ],
+    "technical_requirements": [
+      "Reliable RPC endpoints",
+      "Deposit/withdrawal API documentation",
+      "Transaction confirmation reliability",
+      "Proper decimal handling"
+    ],
+    "community_building_channels": [
+      "Own platform",
+      "Existing Steem/HIVE/BLURT communities",
+      "Twitter, Discord, Telegram",
+      "BitcoinTalk announcement",
+      "Reddit crypto communities"
+    ]
+  },
+
+  "cli_wallet_command_reference": {
+    "get_account": "View account details",
+    "get_witness": "View witness info",
+    "list_witnesses": "List all witnesses",
+    "post_comment": "Create post/comment",
+    "vote": "Vote on content",
+    "get_state": "Get post state",
+    "get_block": "Get block transactions",
+    "vote_for_witness": "Vote for witness",
+    "update_witness": "Register/update witness",
+    "publish_feed": "Set price feed",
+    "transfer": "Transfer tokens",
+    "suggest_brain_key": "Generate new keypair"
+  },
+
+  "troubleshooting": {
+    "compilation_issues": {
+      "stops_at_26_percent": "Memory issue - use make -j2",
+      "boost_errors": "Ensure all boost libraries installed with correct version",
+      "websocket_timer_expired": "Apply websocketpp fix"
+    },
+    "runtime_issues": {
+      "list_my_accounts_empty": "Known issue with private chains - use get_account [name] instead",
+      "wrong_token_names": "Update asset_num_to_string function",
+      "nodes_not_syncing": "Verify identical chain_id, check firewall, confirm seed-node IP"
+    },
+    "frontend_issues": {
+      "connection_refused": "Check SDC_CLIENT_STEEMD_URL points to running node",
+      "build_fails": "Verify Node.js version matches requirements",
+      "blank_page": "Check browser console for errors, verify API responses"
+    }
+  },
+
+  "resource_links": {
+    "github_repositories": {
+      "steem": "https://github.com/steemit/steem",
+      "condenser": "https://github.com/steemit/condenser",
+      "hive": "https://github.com/openhive-network/hive",
+      "blurt": "https://github.com/Blurt-Blockchain/blurt",
+      "graphene": "https://github.com/cryptonomex/graphene",
+      "bitshares": "https://github.com/bitshares/bitshares-core"
+    },
+    "documentation": {
+      "bitshares_build_ubuntu": "https://github.com/bitshares/bitshares-core/wiki/BUILD_UBUNTU",
+      "bitshares_testnet": "http://docs.bitshares.org/testnet/private-testnet.html",
+      "graphene_overview": "https://objectcomputing.com/resources/publications/sett/march-2017-graphene-an-open-source-blockchain/"
+    },
+    "community_sites": {
+      "steemit": "https://steemit.com",
+      "hive": "https://hive.blog",
+      "blurt": "https://blurt.blog",
+      "bitsharestalk": "https://bitsharestalk.org"
+    },
+    "block_explorers": {
+      "steemd": "https://steemd.com",
+      "hiveblocks": "https://hiveblocks.com",
+      "cryptofresh": "https://cryptofresh.com"
+    }
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "graphene_fundamentals",
+      "dpos_consensus",
+      "tokenomics_design",
+      "backend_deployment",
+      "frontend_development",
+      "ai_integration",
+      "security_operations"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What makes Graphene different from Proof of Work blockchains like Bitcoin?",
+        "a": "Graphene uses Delegated Proof of Stake (DPoS) - token holders vote for witnesses who produce blocks, making it energy-efficient with 3-second block times and 100,000+ TPS capacity",
+        "explanation": "Unlike mining with computational power, DPoS uses democratic voting for consensus"
+      },
+      {
+        "q": "What are the three token types in Steem-style tokenomics?",
+        "a": "Liquid token (STEEM - freely transferable), Vested token (STEEM POWER - locked 13 weeks, voting power), Stablecoin (SBD - pegged to $1 via witnesses)",
+        "explanation": "This three-token system balances liquidity, governance, and stability"
+      },
+      {
+        "q": "Why is the genesis key so important?",
+        "a": "The genesis key is needed to start the first witness and produce the first blocks - it cannot be recovered if lost",
+        "explanation": "This key bootstraps the entire blockchain and must be saved securely"
+      },
+      {
+        "q": "What is the purpose of the chain ID?",
+        "a": "The chain ID uniquely identifies your blockchain and prevents replay attacks between different chains",
+        "explanation": "Transactions signed for one chain won't work on another with a different chain ID"
+      },
+      {
+        "q": "How do witnesses get elected in DPoS?",
+        "a": "Token holders vote for witnesses, and the top-voted witnesses take turns producing blocks in rotation rounds",
+        "explanation": "Poor performers lose votes and are replaced, ensuring accountability"
+      }
+    ],
+    "achievement_unlocks": [
+      "Graphene Scholar: Understand Graphene architecture and DPoS",
+      "Token Architect: Design custom tokenomics for a blockchain",
+      "Chain Forker: Successfully clone and customize Steem/HIVE/BLURT",
+      "Witness Operator: Run a block-producing witness node",
+      "Frontend Developer: Deploy custom social media interface",
+      "AI Integrator: Add AI capabilities to blockchain platform",
+      "Production Ready: Deploy secure multi-node network"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "Rev. Ryan Sasha-Shai Van Kush / Van Kush Family Research Institute",
+    "relevance": "Technical sovereignty - creating decentralized social media with cryptocurrency rewards",
+    "application": "Foundation for Van Kush family blockchain infrastructure and social platforms",
+    "philosophy": "Democratizing social media through blockchain - users own their data and earn from contributions",
+    "integration": "Connects with existing HIVE/STEEM ecosystem knowledge and trading bot infrastructure"
+  }
+}
