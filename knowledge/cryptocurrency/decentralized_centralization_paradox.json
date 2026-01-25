@@ -1,0 +1,477 @@
+{
+  "title": "Decentralized Centralization: The Blockchain Proliferation Paradox",
+  "subtitle": "Why Ten Years After Steemit There Are Not 200 Social Media Blockchains, Why Your Church Should Have a Cryptocurrency, And How Federated Hubs Create True Decentralization",
+  "author": "Rev. Ryan Sasha-Shai Van Kush / Van Kush Family Research Institute",
+  "version": "1.0",
+  "date": "January 2026",
+  "source": "Van Kush Family Research Institute",
+
+  "abstract": {
+    "central_thesis": "True decentralization requires many centralized hubs - just as the federal system of the United States creates genuine distributed power through strong state governments, blockchain adoption requires strong local implementations (churches, bars, restaurants, venues, libraries, municipal governments) each with their own currencies, mining opportunities, and community governance, all connected through federated exchange with the broader cryptocurrency ecosystem.",
+    "core_argument": "Rather than asking ordinary people to convert their dollars directly into Bitcoin, we should encourage the proliferation of thousands of localized, community-specific blockchains that then trade against Bitcoin and other major cryptocurrencies on decentralized exchanges.",
+    "historical_context": "The author proposed 'Bitcointown' on Bitcointalk.org in 2013, traced the emergence of corporate crypto-towns (Bud Light's Whatever USA), celebrity crypto-cities (Akon City - cancelled), and nation-state adoption (El Salvador's Bitcoin City - unbuilt).",
+    "paradox": "Despite the proof-of-concept provided by Steemit and Graphene blockchain in 2016, we do not have hundreds of social media platforms with their own witness systems and reward tokens ten years later."
+  },
+
+  "part_1_author_blockchain_history": {
+    "title": "The Author's Blockchain History",
+
+    "rolltitup_origins": {
+      "platform": "RollItUp.org",
+      "username": "FinShaggy",
+      "initial_search": "Religious protection for cannabis sacrament",
+      "problem_discovered": "Troubling absence of leadership - Keith Stroup and NORML existed, but no real religious authority building legal frameworks"
+    },
+
+    "youtube_expansion": {
+      "content_areas": [
+        "Marijuana cultivation",
+        "Mysticism",
+        "Revolutionary history (Black Panther movement, dollar bill symbolism)",
+        "Cryptocurrency"
+      ],
+      "dollar_bill_research": "Explored the owl in the corner, Eye of Providence, unfinished pyramid - not attacking Masons, but investigating what these symbols meant and why they were placed there"
+    },
+
+    "devtome_devcoin": {
+      "platform": "DevTome",
+      "cryptocurrency": "DevCoin",
+      "devcoin_launch": 2011,
+      "devcoin_description": "One of the first 'ethical cryptocurrencies' - distributing 90% of newly minted coins to open source developers and Creative Commons writers rather than miners",
+      "author_profile_quote": "A Writer, Bitcoin/Devcoin enthusiast, and Film Maker as well as an advocate for Marijuana, Personal liberties and the secession of Texas",
+      "peak_earnings": "$7,000 per month",
+      "significance": "Proof of concept that people would create substantial content for crypto rewards years before Steemit existed"
+    },
+
+    "devcoin_expansion_proposals": {
+      "dtv": "Devcoin Television Network",
+      "dev_for_humanity": "Free apartments funded by mining servers",
+      "devstate": "A university and eventually city/township",
+      "devatm": "Machines accepting cash for Devcoins on USB drives",
+      "devisland": "A rented island for Devcoin events",
+      "anticipation": "These proposals anticipated by years the crypto-cities and blockchain-powered communities that would later be attempted by celebrities and governments"
+    },
+
+    "bitcointown_proposal": {
+      "platform": "Bitcointalk.org",
+      "year": 2013,
+      "concept": "A physical community organized around cryptocurrency adoption - local merchants accept Bitcoin, residents mine, town serves as demonstration project for blockchain-based governance and commerce",
+      "corporate_mirrors_idea": "Cryptocurrency brands that would back their coins with real goods and services",
+      "ban_reason": "Too involved, but not being a developer or a nerd",
+      "lawsuit": {
+        "case": "Gallagher v. Bitcointalk.org",
+        "allegation": "Sherman Act violations - forum operated as illegal monopoly over cryptocurrency development access",
+        "outcome": "Dismissed when $400 filing fee went unpaid",
+        "documentation": "iPleaders.com documented as 'the first case of blockchain and antitrust'"
+      }
+    },
+
+    "subsequent_adoptions": {
+      "bud_light_whatever_usa": {
+        "year": 2014,
+        "location": "Crested Butte, Colorado",
+        "concept": "Temporarily transformed into a branded town with 'Mayor of Whatever USA' character in bright blue suit riding blue horse",
+        "significance": "Not cryptocurrency-based, but concept of temporary branded community with own governance and identity directly paralleled Bitcointown proposal"
+      },
+      "akon_city": {
+        "announced": 2018,
+        "investment": "$6 billion",
+        "description": "'Real-life Wakanda' in Senegal powered by Akoin cryptocurrency",
+        "promises": "Solar-powered infrastructure, universities, hospitals, marina",
+        "termination": "July 2025 - Senegal officially terminated after seven years of zero construction progress",
+        "akoin_value": "Fallen to $0.003 and delisted from exchanges"
+      },
+      "pattern_identified": "Ideas for cryptocurrency communities emerged from grassroots enthusiasts, were either suppressed or ignored by developer-centric establishment, and then were adopted (poorly) by corporations and celebrities who lacked authentic community connection"
+    }
+  },
+
+  "part_2_graphene_paradox": {
+    "title": "The Graphene Paradox",
+
+    "steemit_proof_of_concept": {
+      "launch_year": 2016,
+      "founders": ["Daniel Larimer (creator of BitShares)", "Ned Scott"],
+      "technology": "Graphene blockchain",
+      "july_4_2016_event": "$1.3 million worth of stored-up STEEM rewards released to early participants",
+      "revolutionary_concepts": [
+        "Content creators earn cryptocurrency for posts and comments",
+        "Voters (curators) earn for identifying quality content",
+        "Witnesses (Graphene equivalent of miners) validate transactions through Delegated Proof of Stake",
+        "Platform handles transaction volume of active social media site",
+        "Technology is open source and replicable"
+      ],
+      "luke_stokes_quote_1": "Through nothing short of a small miracle we have almost no viable competition",
+      "luke_stokes_quote_2": "Steemit is built using a very advanced blockchain database technology called Graphene 2.0 which can scale incredibly well"
+    },
+
+    "graphene_ecosystem": {
+      "powered_projects": [
+        "BitShares (decentralized exchange)",
+        "PeerPlays (peer-to-peer gambling)",
+        "Golos (Russian-language Steemit clone)",
+        "HIVE (forked from STEEM after corporate conflicts)"
+      ],
+      "status": "Technology proven, open source, available for anyone to fork and modify"
+    },
+
+    "the_missing_200_blockchains": {
+      "current_year": 2026,
+      "years_since_steemit": 10,
+      "question": "Where are the Twitter clones with witness systems? Where are the Facebook alternatives with reward tokens? Where are the forum platforms where moderation is decentralized and content cannot be censored by corporate policy changes?",
+      "answer": "The proliferation never happened"
+    },
+
+    "barriers_to_proliferation": {
+      "technical_complexity": {
+        "problem": "Despite being open source, deploying and maintaining a Graphene-based blockchain requires significant technical expertise",
+        "cultural_factor": "Cypherpunk culture of cryptocurrency development prioritizes technical purity over accessibility",
+        "documentation": "Assumes developer knowledge - community not structured to help non-technical people launch platforms"
+      },
+      "witness_economics": {
+        "requirement": "Blockchain requires witnesses (validators) to operate",
+        "incentive_problem": "Witnesses need share of newly minted tokens",
+        "chicken_egg_problem": "Need users for token value, need witnesses for operation, witnesses need token value for incentive"
+      },
+      "network_effects": {
+        "problem": "Social media platforms derive value from user networks",
+        "new_platform_challenge": "Starts with zero network value - users must be convinced to invest time and identity in unproven platform",
+        "first_mover_advantage": "Existing platforms (including Steemit/HIVE) have it"
+      },
+      "regulatory_uncertainty": {
+        "issue": "Launching a tradeable token raises securities law questions",
+        "sec_stance": "Unclear and threatening",
+        "effect": "Many potential platform creators deterred by legal risk"
+      },
+      "cultural_gatekeeping": {
+        "pattern": "Cryptocurrency community historically hostile to non-developer participation",
+        "example": "Author's experience - forums and development resources controlled by insiders who ban 'outsiders' who are 'too involved'",
+        "result": "Creates monoculture where innovation is stifled"
+      }
+    }
+  },
+
+  "part_3_localized_ethereum": {
+    "title": "The Case for Localized Ethereum",
+
+    "gas_fee_problem": {
+      "historical_issue": "During peak congestion periods in 2021, simple transactions could cost $50-100 or more in 'gas fees'",
+      "made_unsuitable_for": "Small transactions, community tokens, everyday commerce"
+    },
+
+    "2025_improvements": {
+      "dencun_upgrade_eip_4844": {
+        "feature": "Introduced 'blobs'",
+        "effect": "Reduced Layer 2 data posting costs by 50-90%"
+      },
+      "gas_fee_reduction": {
+        "early_2024": "Approximately $72 gwei",
+        "march_2025": "$2.7 gwei",
+        "reduction": "95%"
+      },
+      "layer_2_adoption": "Networks like Arbitrum, Optimism, and Base now handle over 58% of Ethereum transaction volume with fees often under $0.01"
+    },
+
+    "transaction_fee_comparison_2025": {
+      "ethereum_l1": {"avg_fee": "$0.44 - $3.78", "suitable_for": "Large settlements"},
+      "arbitrum": {"avg_fee": "$0.0088", "suitable_for": "DeFi, regular use"},
+      "base": {"avg_fee": "< $0.01", "suitable_for": "Consumer apps"},
+      "polygon": {"avg_fee": "$0.0075", "suitable_for": "Payments, gaming"},
+      "solana": {"avg_fee": "$0.00025", "suitable_for": "Microtransactions"}
+    },
+
+    "argument_for_community_chains": {
+      "community_discussion_centralization": {
+        "concept": "A church with its own blockchain has a native forum for community discussion",
+        "governance": "Decisions about token distribution, witness elections, and protocol changes become community governance decisions",
+        "permanence": "Discussion happens on-chain, permanently recorded, with voting weighted by community participation",
+        "distinction": "Fundamentally different from using someone else's platform"
+      },
+      "economic_velocity": {
+        "devcoin_observation": "When iGotSpots started trading precious metals directly for DevCoin, the token's economic health improved dramatically",
+        "steem_hive_problem": "When they lacked such direct commodity trading, they suffered",
+        "key_insight": "A local currency that can be directly exchanged for goods and services of its issuing community (food, drinks, services) has inherent velocity that purely speculative tokens lack"
+      },
+      "mining_as_participation": {
+        "current_problem": "Requiring people to buy Bitcoin with dollars",
+        "solution": "Community chain allows members to earn tokens through participation",
+        "mining_forms": "Running a node, volunteer work, content creation, event attendance, other forms of community contribution",
+        "result": "Currency reflects community values"
+      },
+      "speed_and_cost_optimization": {
+        "principle": "Community chain can be optimized for its specific use case",
+        "bar_example": "Doesn't need Bitcoin's security guarantees - needs fast, cheap transactions for tab management",
+        "church_example": "Doesn't need global consensus - needs transparent accounting for tithes and disbursements",
+        "conclusion": "Local optimization is impossible on global chains"
+      }
+    }
+  },
+
+  "part_4_mit_centralization": {
+    "title": "MIT and the Centralization of Decentralization",
+
+    "bitcoin_foundation_collapse": {
+      "year": 2015,
+      "cause": "Funding constraints and internal conflicts",
+      "mit_response": "Digital Currency Initiative (DCI) stepped in, providing institutional home for core developers Gavin Andresen, Cory Fields, and Wladimir van der Laan"
+    },
+
+    "mit_dci_goals": {
+      "stated_purpose": "To provide neutral, academic stewardship for Bitcoin development, to 'reduce bottlenecks in the development ecosystem which might lead to centralization'",
+      "irony": "An elite academic institution became the central point of coordination for a technology designed to have no central point"
+    },
+
+    "mit_dci_acknowledgment": {
+      "quote_1": "As the use of Bitcoin grows, and as it becomes more deeply embedded into our societies, the security of the network must grow and strengthen alongside it. Yet, as a common good, there is no one single Bitcoin protector or guardian to take on this formidable task.",
+      "quote_2": "Even in decentralized systems like Bitcoin, there has been a natural market consolidation in the form of large mining pools. This type of consolidation into a few super-participants might be inevitable due to economies of scale.",
+      "conclusion_drawn": "We are increasingly persuaded that this isn't necessarily a bad thing, and that a more realistic goal might be the development of a robust, competitive marketplace"
+    },
+
+    "paradox_of_neutral_leadership": {
+      "mit_position": "Accept that centralization happens, and focus on making it benevolent",
+      "critique": "Reasonable position for an institution like MIT, which is itself a centralized authority. But represents a fundamental departure from the cypherpunk vision of trustless systems."
+    },
+
+    "alternative_resolution": {
+      "proposal": "Rather than accepting Bitcoin will be governed by a few super-participants coordinated through MIT, embrace the multiplication of centralized hubs that connect in a decentralized manner",
+      "us_federal_analogy": {
+        "state_authority": "Each state is a centralized authority within its borders - governor, legislature, courts, enforcement mechanisms",
+        "collective_decentralization": "50 states together create genuine decentralization of power - no single state can dominate the others",
+        "federal_framework": "Provides framework for interstate commerce and dispute resolution, but substantive governance happens at state and local level"
+      },
+      "blockchain_application": {
+        "not": "No centers of authority",
+        "is": "Many centers of authority",
+        "church_example": "A church with its own blockchain is centralized within its community but decentralized relative to other churches",
+        "city_example": "A city with its own token is centralized within its boundaries but decentralized relative to other cities",
+        "connection_method": "Local authorities connect through exchange mechanisms - trading tokens against Bitcoin, Ethereum, HIVE, and each other - creating genuine distributed power"
+      }
+    }
+  },
+
+  "part_5_practical_proposal": {
+    "title": "The Practical Proposal",
+
+    "entities_that_should_have_cryptocurrencies": {
+      "churches_religious_organizations": {
+        "features": [
+          "Tithes and offerings recorded on-chain with full transparency",
+          "Members can see how funds are allocated",
+          "Volunteer work earns tokens",
+          "Community discusses and votes on major expenditures"
+        ],
+        "significance": "Not merely financial - spiritual accountability made manifest in code"
+      },
+      "bars_restaurants": {
+        "examples": ["PIZZA Coin", "Sandwich Coin"],
+        "token_mechanics": {
+          "earned_by": "Customers (loyalty)",
+          "redeemed_for": "Food (utility)",
+          "traded_on": "Exchanges (liquidity)"
+        },
+        "economic_feature": "Because food perishes, there is natural economic pressure to keep tokens circulating - solving the 'hodling' problem that makes some cryptocurrencies economically inert"
+      },
+      "entertainment_venues": {
+        "implementations": [
+          "Concert tickets as NFTs that become collectible trading cards after the event",
+          "Venue tokens that grant priority access",
+          "Fan tokens that allow voting on setlists or opening acts"
+        ],
+        "status": "Technology exists; implementation requires only will"
+      },
+      "local_governments": {
+        "uses": "Municipal tokens for parking, transit, library fines, and permits",
+        "earning_mechanism": "Citizens earn tokens through civic participation",
+        "potential": "Property taxes could be payable in local tokens acquired through community service",
+        "benefit": "Transparent budgeting on-chain"
+      },
+      "libraries": {
+        "significance": "Represent public commons",
+        "token_rewards_for": "Book returns, volunteer hours, program attendance, content contribution",
+        "governance": "Library governance could become genuinely democratic through token-weighted voting"
+      },
+      "wifi_cafes_coworking_spaces": {
+        "original_vision": "Making physical locations into mining hubs",
+        "mechanism": "Cafe runs a node, forms mining pools with other cafes, distributes tokens to customers",
+        "economics": "Cafe's internet connection generates revenue; customers' presence validates transactions"
+      }
+    },
+
+    "exchange_ecosystem_how_it_works": {
+      "key_insight": "No one should be asked to spend USD directly on Bitcoin as their first cryptocurrency experience",
+      "step_1": {
+        "action": "Person earns ChurchCoin by volunteering, or BarToken by frequent patronage, or CityScript by civic participation",
+        "result": "Cryptocurrency enters their life through activity they were already doing"
+      },
+      "step_2": {
+        "action": "They learn to use a wallet, check balances, and make transactions in a low-stakes environment",
+        "utility": "Tokens have direct utility (redeem for coffee, get priority seating, vote on church decisions)"
+      },
+      "step_3": {
+        "action": "They discover that their local token can be traded on decentralized exchanges for other tokens - including Bitcoin and Ethereum",
+        "example": "$50 worth of BarToken can become $50 worth of ETH"
+      },
+      "step_4": {
+        "result": "They now understand cryptocurrency through experience rather than speculation",
+        "choices": "May choose to hold ETH or BTC, or prefer local tokens, or both",
+        "nature": "On-ramp was natural rather than forced"
+      },
+      "step_5": {
+        "community_effect": "Local tokens gain legitimacy through utility and exchange value",
+        "bar_benefit": "Customers incentivized to return",
+        "church_benefit": "Giving is gamified",
+        "city_benefit": "Civic participation increases"
+      }
+    },
+
+    "corporate_mirror_concept": {
+      "advocacy_since": "Bitcointalk days",
+      "definition": "Cryptocurrency implementations by legitimate businesses that back their tokens with real goods and services",
+      "argument": "Cryptocurrency should not be solely the province of anarchists and speculators",
+      "dominos_example": {
+        "hypothetical": "If Domino's Pizza launched PIZZA Token, backed by guarantee that 1,000 PIZZA could always be redeemed for a large pizza",
+        "effect": "Token would have inherent floor value",
+        "activities": "People could mine PIZZA, trade PIZZA, speculate on PIZZA - but underlying utility remains",
+        "note": "Not the existing HIVE token, which came after the author proposed this concept"
+      },
+      "requires": "Corporations to think differently about loyalty programs",
+      "instead_of": "Proprietary points that expire and have restrictions",
+      "issue": "Blockchain tokens with real exchange value",
+      "marketing_value": "Being a 'crypto-forward' brand would offset the cost of redemptions",
+      "ecosystem_effect": "Many corporate tokens would provide the liquidity and legitimacy that cryptocurrency ecosystem currently lacks"
+    }
+  },
+
+  "part_6_why_this_hasnt_happened": {
+    "title": "Why This Hasn't Happened (Yet)",
+
+    "anarchist_capture_of_cryptocurrency": {
+      "reference": "Companion paper 'Federalism vs. Anarchy in Terms of Blockchain'",
+      "cypherpunks_manifesto_1993": "We the Cypherpunks are dedicated to building anonymous systems... Privacy is necessary for an open society in the electronic age.",
+      "ideological_effect": "This capture has prevented the technology from being deployed by institutions that cypherpunks distrust: governments, corporations, and religious organizations",
+      "developer_resistance": "Community has actively resisted mainstream adoption, preferring ideological purity to practical impact",
+      "gatekeeping_example": "Author's ban from Bitcointalk - for being 'too involved, but not being a developer or a nerd' - exemplifies this. Non-technical people with community-building ideas were excluded in favor of technically proficient anarchists"
+    },
+
+    "igotspots_lesson": {
+      "observation": "DevCoin's economic health improved dramatically when iGotSpots began trading precious metals directly for the token",
+      "mechanism": "Created real-world anchor for token value - you could exchange DevCoin for gold and silver, establishing a floor",
+      "steem_hive_problem": "When they lacked similar precious metals trading, their tokens floated freely based on speculation and network effects",
+      "lesson": "Cryptocurrencies need commodity anchors",
+      "examples": {
+        "church_token": "Backed by real services (weddings, funerals, counseling) is more stable than a token backed by nothing",
+        "restaurant_token": "Backed by food has inherent value"
+      },
+      "community_failure": "Cryptocurrency community has largely ignored this lesson, preferring speculative model where tokens are valued purely on anticipated future adoption - creating boom-and-bust cycles"
+    },
+
+    "missing_infrastructure": {
+      "easy_deployment_tools": {
+        "need": "A church administrator should be able to launch ChurchCoin without learning Solidity",
+        "status": "Templates and no-code tools exist in preliminary form but are not mature or user-friendly"
+      },
+      "federated_exchange_protocols": {
+        "need": "Local tokens need to be tradeable against each other and against major cryptocurrencies",
+        "status": "Decentralized exchanges exist but are not designed for the long tail of thousands of small community tokens"
+      },
+      "legal_frameworks": {
+        "problem": "SEC's hostility to tokens has chilled innovation",
+        "need": "Clear guidance distinguishing utility tokens from securities",
+        "potential": "Author's federal litigation for religious exemptions may provide precedent"
+      },
+      "educational_resources": {
+        "problem": "Most people don't understand cryptocurrency",
+        "need": "Educational materials pitched at community organizations rather than speculators",
+        "status": "Rare"
+      }
+    }
+  },
+
+  "conclusion": {
+    "title": "The Time Is Now",
+
+    "ten_year_failure": "Ten years after Steemit proved that social media could run on blockchain, we should have hundreds of competing platforms. We don't - because the technology was captured by an ideological movement that preferred purity to proliferation.",
+
+    "historical_pattern": {
+      "2013": "Author proposed Bitcointown",
+      "2014": "Bud Light made Whatever, USA",
+      "2018": "Akon announced Akon City (cancelled 2025)",
+      "2021": "El Salvador announced Bitcoin City (still unbuilt)",
+      "pattern": "Community-based cryptocurrency adoption ideas emerge from grassroots enthusiasts, are rejected by the developer establishment, and are then poorly executed by corporations and governments that lack authentic community connection"
+    },
+
+    "solution": {
+      "not": "Abandon the vision",
+      "is": "Implement it properly",
+      "true_decentralization": "Requires many centralized hubs: your church, your bar, your city, your library, your workplace",
+      "each_with": "Its own token, its own governance, its own community",
+      "all_connected": "Through federated exchange - trading against each other, against Bitcoin, against Ethereum, against HIVE"
+    },
+
+    "onramp_principle": "People should not be asked to spend dollars directly on Bitcoin. They should earn their first cryptocurrency through participation in communities they already belong to. The on-ramp should be natural, not forced.",
+
+    "technology_ready": {
+      "ethereum_gas_fees": "Dropped 95%",
+      "layer_2_solutions": "Enable transactions under a penny",
+      "graphene_style_blockchains": "Can handle social media scale",
+      "barriers": "Not technical - they are cultural, legal, and organizational"
+    },
+
+    "call_to_action": "It is time to build."
+  },
+
+  "references": [
+    {"source": "Barabas, C., Narula, N., & Zuckerman, E.", "title": "The Decentralized Web: Defending Internet Freedom through Decentralization: Back to the Future?", "publisher": "MIT Digital Currency Initiative", "year": 2017},
+    {"source": "CoinDesk", "title": "Steemit Bridges Blockchain and Social Media, But How Does It Work?", "year": 2016},
+    {"source": "DevTome", "title": "FinShaggy Profile", "url": "https://www.devtome.com/finshaggy", "year": 2013},
+    {"source": "Foreign Policy", "title": "How Akon's Crypto City in Senegal Failed", "year": 2024},
+    {"source": "iPleaders", "title": "The first case of blockchain and antitrust: Gallagher v. Bitcointalk.org", "year": 2021},
+    {"source": "MIT Digital Currency Initiative", "title": "Digital Currency Initiative Launches New Bitcoin Software and Security Effort", "year": 2021},
+    {"source": "Network Law Review", "title": "The first case of 'blockchain antitrust': Gallagher v. Bitcointalk.org", "year": 2024},
+    {"source": "Opensource.com", "title": "A cryptocurrency to support open source development", "year": 2014},
+    {"source": "SQ Magazine", "title": "Ethereum Gas Fees Statistics 2025: Real Numbers, Big Savings", "year": 2025},
+    {"source": "Steemit", "title": "Various community posts on Graphene blockchain technology", "years": "2016-2018"},
+    {"source": "The Marketing Society", "title": "Whatever, USA: How Bud Light created its very own branded town", "year": 2014},
+    {"source": "Van Kush Family Research Institute", "title": "Federalism vs. Anarchy in Terms of Blockchain", "year": 2026},
+    {"source": "Web3Africa", "title": "Senegal Cancels Akon City: Inside the $6B Crypto Dream Collapse", "year": 2025}
+  ],
+
+  "keywords": [
+    "decentralized centralization",
+    "blockchain proliferation",
+    "Steemit",
+    "Graphene blockchain",
+    "DevCoin",
+    "DevTome",
+    "Bitcointown",
+    "Bitcointalk",
+    "community cryptocurrency",
+    "church cryptocurrency",
+    "local tokens",
+    "federated hubs",
+    "MIT Digital Currency Initiative",
+    "Ethereum gas fees",
+    "Layer 2",
+    "Akon City",
+    "Whatever USA",
+    "Bitcoin City",
+    "El Salvador",
+    "corporate mirrors",
+    "PIZZA Coin",
+    "witness systems",
+    "Delegated Proof of Stake",
+    "iGotSpots",
+    "precious metals trading",
+    "commodity anchors",
+    "cryptocurrency adoption",
+    "mass adoption",
+    "cypherpunk gatekeeping"
+  ],
+
+  "related_documents": [
+    "federalism_vs_anarchy_blockchain.json",
+    "graphene_social_blockchain_guide.json",
+    "devcoin_history.json",
+    "steemit_history_tron.json",
+    "cryptocurrency_towns_part1.json"
+  ]
+}
