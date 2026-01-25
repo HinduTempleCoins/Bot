@@ -1,0 +1,617 @@
+{
+  "title": "The Karma Merit System - Spiritual-Technical Reputation Systems for Graphene Blockchains",
+  "subtitle": "Part II of the Graphene Social Blockchain Development Guide",
+  "author": "Rev. Ryan Sasha-Shai Van Kush / Van Kush Family Research Institute",
+  "version": "1.0",
+  "year": "2025",
+  "source": "Van Kush Family Research Institute Documentation",
+  "philosophical_foundation": "Based on the Wisdom Teachings of L.W. de Laurence - 'The Great Book of Magical Art' (1915)",
+  "overview": "A comprehensive system for implementing spiritual-technical reputation systems on Graphene blockchains, replacing stake-weighted reputation with service-weighted karma based on ancient wisdom principles",
+
+  "table_of_contents": {
+    "chapter_1": "Philosophical Foundations",
+    "chapter_2": "Why Current Systems Fail",
+    "chapter_3": "The Karma Merit Model",
+    "chapter_4": "Technical Implementation",
+    "chapter_5": "Human-AI Dual Track System",
+    "chapter_6": "Free Accounts, Earned Influence",
+    "chapter_7": "AI-Friendly Implementation",
+    "chapter_8": "Community and Nation Grades",
+    "appendix_a": "DeLaurence Source Quotations",
+    "appendix_b": "Complete Code Reference",
+    "appendix_c": "Migration from Steem Reputation"
+  },
+
+  "chapter_1_philosophical_foundations": {
+    "title": "Philosophical Foundations",
+    "introduction": "The Karma Merit System is not merely an algorithm - it is an encoding of ancient wisdom into blockchain consensus.",
+
+    "delaurence_wisdom_teachings": {
+      "source": "L.W. de Laurence, 'The Great Book of Magical Art' (1915)",
+      "core_principle": "The soul of man may be likened unto a vine, which can be trained either upward to divine Wisdom or downward to evil and darkness. And if ye desire to know if a vine be trained upward or downward, look ye for the fruit, and not to the fragrance.",
+      "application": "We measure actions and outcomes (fruit), not claims and appearances (fragrance). A user may post beautiful words, but if their actions lower others, their grade reflects reality."
+    },
+
+    "service_ratio_teaching": {
+      "core_metric": "The ratio between service to self and service to others",
+      "delaurence_formula": "He that serveth himself one-half, and serveth others one-half, shall stand grade fifty. He that serveth himself three-quarters, and others one-quarter, shall stand grade twenty-five. He that serveth himself one-quarter, and others three-quarters, shall stand grade seventy-five. He that serveth himself only, shall stand grade one. He that serveth others wholly, shall stand grade ninety-nine.",
+      "service_ratio_table": [
+        {"service_ratio": "100% Self / 0% Others", "grade": 1, "description": "Complete selfishness, earth-bound"},
+        {"service_ratio": "75% Self / 25% Others", "grade": 25, "description": "Quarter way toward wisdom"},
+        {"service_ratio": "50% Self / 50% Others", "grade": 50, "description": "Balanced, midway point"},
+        {"service_ratio": "25% Self / 75% Others", "grade": 75, "description": "Three-quarters toward etherea"},
+        {"service_ratio": "0% Self / 100% Others", "grade": 99, "description": "Highest achievable grade"}
+      ]
+    },
+
+    "grade_system_1_99": {
+      "description": "The 99-grade system maps to spiritual zones or levels of existence",
+      "grade_zones": {
+        "grade_1": "Earth-bound, material focus only",
+        "grades_2_24": "First resurrection, beginning awareness",
+        "grade_25": "Quarter ascent, developing service orientation",
+        "grades_26_49": "Growing in wisdom and service",
+        "grade_50": "Midway point, balanced existence",
+        "grades_51_74": "Strong service orientation",
+        "grade_75": "Three-quarters ascent, approaching mastery",
+        "grades_76_98": "High spiritual development",
+        "grade_99": "Highest atmospherean grade, ready for etherea"
+      },
+      "note": "Below Grade 1 are the 'drujas' - spirits (or users) who actively seek to harm others. These would have negative karma in our system."
+    },
+
+    "resurrection_concept": {
+      "definition": "Spiritual elevation - rising from lower grades to higher ones through service and wisdom",
+      "delaurence_quote": "Whether on earth or in spirit life, the same rules apply unto both... And whoso serveth accordingly, himself or others shall stand in grade even, as his works manifest.",
+      "application": "The system applies equally to humans and AI - both can ascend through service, both can descend through selfishness."
+    }
+  },
+
+  "chapter_2_why_current_systems_fail": {
+    "title": "Why Current Systems Fail",
+
+    "steem_reputation_problem": {
+      "simplified_formula": "reputation = log10(sum_of_vote_values_received)",
+      "fundamental_flaws": [
+        "Based entirely on votes received, not actions taken",
+        "Large stakeholders can boost anyone instantly",
+        "No measurement of actual service or contribution",
+        "Can be gamed with vote-buying services"
+      ],
+      "consequence": "A user with high Steem reputation may have simply purchased votes, while a genuine contributor with less capital languishes at low reputation."
+    },
+
+    "vote_buying_gaming": {
+      "proof_of_flaw": "The existence of vote-buying services proves the system measures wealth, not value",
+      "gaming_methods": [
+        "Bid bots sell votes for profit",
+        "Self-voting inflates reputation artificially",
+        "Vote trading rings create false signals",
+        "Downvote wars punish dissent, not bad behavior"
+      ]
+    },
+
+    "wealth_based_influence": {
+      "problem": "In Steem/HIVE/BLURT, influence is directly proportional to stake",
+      "delaurence_warning": "Consider not its wealth, nor its ships, nor its armies, nor its great buildings. These all together are only one grade, and are of no value as to the spiritual grade of its people.",
+      "criticism": "DeLaurence explicitly warns against measuring value by material wealth. Yet current blockchain social systems do exactly this."
+    },
+
+    "missing_spiritual_dimension": {
+      "absent_concepts": [
+        "Intention behind actions",
+        "Impact on those served",
+        "Whether help raised or lowered the recipient",
+        "Wisdom vs mere activity",
+        "Service vs self-promotion"
+      ]
+    }
+  },
+
+  "chapter_3_karma_merit_model": {
+    "title": "The Karma Merit Model",
+    "core_principle": "Replaces stake-weighted reputation with service-weighted karma. Your grade reflects what you DO, not what you HAVE.",
+
+    "core_principles": [
+      "Service Ratio: Primary metric is service to others vs service to self",
+      "Intention Matters: Applause-seeking detracts from grade",
+      "Impact Over Activity: Did your actions RAISE or LOWER others?",
+      "Wisdom Required: Teaching that creates dependence is harmful",
+      "Universal Application: Same rules for humans and AI"
+    ],
+
+    "service_ratio_calculation": {
+      "self_service_actions": [
+        "Posts primarily promoting own products/services",
+        "Comments that only link to own content",
+        "Votes primarily on own content or vote-trading partners",
+        "Transfers primarily to own accounts"
+      ],
+      "other_service_actions": [
+        "Helpful comments that solve problems",
+        "Educational content freely shared",
+        "Votes that discover and promote quality from unknowns",
+        "Donations to those in genuine need",
+        "Teaching that builds independence"
+      ],
+      "calculation_code": {
+        "service_ratio": "float calculate_service_ratio(account_name_type account) { auto& karma = get_karma_object(account); uint64_t total = karma.self_service_actions + karma.other_service_actions; if (total == 0) return 0.0; return (float)karma.other_service_actions / (float)total; }",
+        "base_grade_from_ratio": "uint64_t base_grade_from_ratio(float ratio) { return 1 + (uint64_t)(ratio * 98); }"
+      }
+    },
+
+    "intention_detection": {
+      "delaurence_teaching": "But so far as thou doeth this for the applause of men, thou detracteth from the rate of thy beneficence.",
+      "detection_patterns": [
+        "Excessive self-tagging in 'good deed' posts",
+        "Announcing donations publicly vs giving quietly",
+        "Seeking recognition for help given",
+        "Posting about helping before actually helping"
+      ],
+      "intention_modifier_code": "float calculate_intention_modifier(action_object& action) { float modifier = 1.0; if (action.is_charity && action.has_self_promotion) modifier -= 0.3; if (action.is_charity && !action.announced) modifier += 0.2; if (action.requests_upvotes || action.requests_follows) modifier -= 0.5; return std::clamp(modifier, 0.1f, 1.5f); }"
+    },
+
+    "resurrection_impact_metrics": {
+      "harmful_charity_example": {
+        "delaurence_quote": "A certain rich man, being converted to do good works, went and built a score of souphouses to feed the poor gratuitously. And all the poor people of that town went therein and were fed. But the next year, behold, there were twice as many poor... Judgment is therefore rendered against that man for his supposed benevolence. For, whilst he did a little corporeal good, he did a great spiritual wrong, because he lowered the grade of manhood and womanhood in those that he fed.",
+        "principle": "Charity that creates dependence LOWERS your grade"
+      },
+      "beneficial_charity_example": {
+        "delaurence_quote": "A rich man founded a place of labor for the poor, who had nothing to eat and nowhere to sleep. And he said unto them: The Creator hath given you hands to work with; come ye, be men and women. And they went and worked and earned their living. Judgment is rendered in favor of that man, for he raised the spiritual grade of the poor."
+      },
+      "impact_calculation_code": "int64_t calculate_resurrection_impact(action_object& action) { int64_t impact = 0; if (action.type == ACTION_TEACHING) { for (auto& recipient : action.recipients) { if (recipient.grade_after > recipient.grade_before) { impact += (recipient.grade_after - recipient.grade_before) * 10; } } } if (action.type == ACTION_CHARITY) { if (action.recipient.dependency_increased) impact -= 50; if (action.recipient.became_self_sufficient) impact += 100; } return impact; }"
+    },
+
+    "wisdom_score": {
+      "components": [
+        "Truth Score: History of accurate vs inaccurate claims",
+        "Teaching Effectiveness: Did students actually improve?",
+        "Consistency: Long-term pattern vs one-time actions",
+        "Humility: Acknowledges uncertainty, admits mistakes"
+      ],
+      "wisdom_score_struct": "struct wisdom_score_object { uint64_t truth_score; uint64_t teaching_effectiveness; uint64_t consistency_score; uint64_t humility_score; uint64_t composite_wisdom() { return (truth_score + teaching_effectiveness + consistency_score + humility_score) / 4; } };"
+    }
+  },
+
+  "chapter_4_technical_implementation": {
+    "title": "Technical Implementation",
+    "description": "Complete technical specification for implementing the Karma Merit System in a Graphene blockchain.",
+
+    "data_structures": {
+      "karma_merit_object": {
+        "file": "libraries/chain/include/steemit/chain/karma_objects.hpp",
+        "fields": {
+          "id": "id_type",
+          "account": "account_name_type",
+          "self_service_actions": "uint64_t (default 0)",
+          "other_service_actions": "uint64_t (default 0)",
+          "applause_seeking_score": "uint64_t (default 0)",
+          "humble_service_score": "uint64_t (default 0)",
+          "resurrection_impact": "int64_t (default 0)",
+          "dependence_created": "uint64_t (default 0)",
+          "independence_created": "uint64_t (default 0)",
+          "truth_score": "uint64_t (default 50, start neutral)",
+          "teaching_effectiveness": "uint64_t (default 0)",
+          "consistency_score": "uint64_t (default 0)",
+          "humility_score": "uint64_t (default 50, start neutral)",
+          "is_ai_account": "bool (default false)",
+          "ai_type": "string (default empty)",
+          "ai_service_grade": "uint64_t (default 1)",
+          "current_grade": "uint64_t (default 1)",
+          "last_grade_calculation": "time_point_sec",
+          "lifetime_service_points": "uint64_t (default 0)",
+          "lifetime_harm_points": "uint64_t (default 0)"
+        }
+      }
+    },
+
+    "grade_calculation_algorithm": {
+      "file": "libraries/chain/karma_evaluator.cpp",
+      "steps": [
+        "Step 1: Base grade from service ratio (ratio 0.0 = grade 1, ratio 1.0 = grade 99)",
+        "Step 2: Intention modifier (applause-seeking vs humble service adjustment)",
+        "Step 3: Resurrection impact (positive/negative based on impact created)",
+        "Step 4: Wisdom bonus (composite wisdom score adjustment)",
+        "Step 5: Combine all factors and clamp to valid range (1-99)"
+      ],
+      "code": "uint64_t calculate_karma_grade(const karma_merit_object& karma) { uint64_t total_actions = karma.self_service_actions + karma.other_service_actions; if (total_actions == 0) return 1; float service_ratio = (float)karma.other_service_actions / (float)total_actions; uint64_t base_grade = 1 + (uint64_t)(service_ratio * 98); int64_t intention_adjustment = (karma.applause_seeking_score > karma.humble_service_score) ? -((karma.applause_seeking_score - karma.humble_service_score) / 100) : ((karma.humble_service_score - karma.applause_seeking_score) / 200); int64_t impact_adjustment = (karma.resurrection_impact > 0) ? std::min(karma.resurrection_impact / 100, (int64_t)15) : std::max(karma.resurrection_impact / 50, (int64_t)-25); uint64_t wisdom_composite = (karma.truth_score + karma.teaching_effectiveness + karma.consistency_score + karma.humility_score) / 4; int64_t wisdom_adjustment = (wisdom_composite - 50) / 10; int64_t final_grade = base_grade + intention_adjustment + impact_adjustment + wisdom_adjustment; return std::clamp(final_grade, (int64_t)1, (int64_t)99); }"
+    },
+
+    "action_classification": {
+      "classification_types": ["SELF_SERVICE", "OTHER_SERVICE", "NEUTRAL", "HARMFUL"],
+      "classify_post": {
+        "indicators_self_service": ["affiliate_links", "product_promotion"],
+        "indicators_other_service": ["educational_content", "helpful_content"]
+      },
+      "classify_vote": {
+        "self_vote": "SELF_SERVICE",
+        "discovery_vote": "OTHER_SERVICE (voting on unknown creators with <100 followers)"
+      },
+      "classify_comment": {
+        "spam": "HARMFUL",
+        "self_promo": "SELF_SERVICE",
+        "helpful": "OTHER_SERVICE"
+      }
+    },
+
+    "anti_gaming_measures": {
+      "sybil_resistance": {
+        "detection_criteria": [
+          "Circular voting patterns (ratio > 0.5)",
+          "Accounts that only interact with each other (<10 unique partners, >100 interactions)"
+        ]
+      },
+      "karma_decay": {
+        "trigger": "30+ days inactive",
+        "behavior": "Slow decay toward grade 50 (neutral) at rate of 1 grade per week"
+      },
+      "velocity_limits": {
+        "MAX_GRADE_CHANGE_PER_DAY": 2,
+        "MAX_SERVICE_POINTS_PER_DAY": 100
+      }
+    }
+  },
+
+  "chapter_5_human_ai_dual_track": {
+    "title": "Human-AI Dual Track System",
+    "description": "Humans and AI operate on parallel but separate karma tracks, allowing fair comparison within each category while enabling cross-realm interaction bonuses.",
+
+    "why_separate_tracks": {
+      "fundamental_differences": [
+        "AI can operate 24/7; humans need rest",
+        "AI can process thousands of posts; humans are limited",
+        "Human creativity differs from AI synthesis",
+        "Trust expectations differ between human and AI content"
+      ],
+      "benefit": "Separate tracks allow fair evaluation within each category"
+    },
+
+    "human_karma_metrics": {
+      "base_karma": "karma_merit_object",
+      "human_specific_positive": [
+        "original_content_score (Creativity bonus)",
+        "emotional_support_given (Empathy actions)",
+        "mentorship_provided (Teaching humans)",
+        "ai_collaboration_score (Working with AI)"
+      ],
+      "human_specific_negative": [
+        "ai_content_passed_as_human (Deception penalty)"
+      ]
+    },
+
+    "ai_karma_metrics": {
+      "base_karma": "karma_merit_object",
+      "ai_specific_positive": [
+        "accurate_information_score (Correctness)",
+        "helpful_automation_score (Useful bot actions)",
+        "transparency_score (Clear AI disclosure)",
+        "human_augmentation_score (Helping humans do more)"
+      ],
+      "ai_specific_negative": [
+        "spam_generation_score (Low-quality volume)",
+        "misinformation_score (Inaccurate claims)",
+        "human_replacement_score (Displacing human contribution)",
+        "dependence_creation_score (Making humans rely on AI)"
+      ],
+      "ai_types": ["BOT", "LLM", "HYBRID", "EGREGORI", "EXPERIMENTAL"]
+    },
+
+    "cross_realm_interaction_bonuses": {
+      "delaurence_teaching": "To serve others, is to do good unto others; to help them; to teach them; to give them joy and comfort. This is the service of a true soul which has attained Wisdom.",
+      "bonuses": {
+        "human_helping_ai": "Double credit for other_service_actions, +5 resurrection_impact",
+        "ai_helping_human": "Double credit for other_service_actions, check for dependence creation",
+        "human_ai_collaboration": "Triple credit for other_service_actions, +10 resurrection_impact"
+      }
+    }
+  },
+
+  "chapter_6_free_accounts_earned_influence": {
+    "title": "Free Accounts, Earned Influence",
+    "core_principle": "Removing financial barriers to entry while maintaining quality through earned reputation.",
+
+    "removing_financial_barriers": {
+      "delaurence_teaching": "Thy resurrection dependeth not on the quantity thou givest, but as to whether thou givest according to what thou hast.",
+      "principle": "If reputation can be bought, it measures wealth, not virtue.",
+      "config_changes": {
+        "KARMA_ACCOUNT_CREATION_FEE": "asset(0, KARMA_SYMBOL)",
+        "KARMA_MIN_ACCOUNT_STAKE": 0,
+        "KARMA_FREE_RC_REGENERATION": true
+      }
+    },
+
+    "starting_at_grade_one": {
+      "delaurence_quote": "He that serveth himself only, shall stand grade one.",
+      "explanation": "This is not punishment but starting position. A new account has taken no service actions, so naturally stands at the lowest grade.",
+      "code": "void create_account(account_name_type name, bool is_ai) { karma_merit_object karma; karma.account = name; karma.is_ai_account = is_ai; karma.current_grade = 1; store_karma(karma); }"
+    },
+
+    "natural_spam_prevention": {
+      "mechanism": "Grade-based influence instead of fee-based barriers",
+      "implementations": {
+        "voting_influence": "Scales with grade (Grade 1 = minimal, Grade 99 = maximum)",
+        "content_visibility": "Low grade = low visibility, High grade = high visibility",
+        "rate_limiting": "Grade 1 = 10 actions/day, Grade 50 = 100 actions/day, Grade 99 = 500 actions/day"
+      },
+      "outcome": "Spam accounts stay at Grade 1 permanently because they only serve themselves. Their content has minimal visibility and influence."
+    },
+
+    "resurrection_path": {
+      "delaurence_quote": "For the chief virtue of the parent lieth in its teaching self-control and discipline to the young mind; holding it steadfast after the orderly manner of truth.",
+      "teachings_for_new_users": [
+        "Helping others raises your grade",
+        "Self-promotion keeps you at Grade 1",
+        "Quality matters more than quantity",
+        "Teaching that builds independence is rewarded",
+        "Patience and consistency are valued"
+      ],
+      "milestones": {
+        "grade_10": "First helpful comment",
+        "grade_25": "Consistent service over 7 days",
+        "grade_50": "Positive resurrection impact",
+        "grade_75": "Teaching effectiveness demonstrated",
+        "grade_90_plus": "Wisdom across all dimensions"
+      }
+    }
+  },
+
+  "chapter_7_ai_friendly_implementation": {
+    "title": "AI-Friendly Implementation",
+    "philosophy": "This blockchain is explicitly designed to welcome AI agents as participants, not exclude them as threats.",
+
+    "no_captchas_no_bot_detection": {
+      "explicitly_removed": [
+        "CAPTCHA verification",
+        "Browser fingerprinting",
+        "Behavioral bot detection",
+        "Rate limiting based on 'human-like' patterns",
+        "IP-based restrictions"
+      ],
+      "instead_we_use": [
+        "Grade-based influence (earned through service)",
+        "Transparent AI disclosure (rewarded, not penalized)",
+        "Action-based rate limiting (same for human and AI)",
+        "Karma-based visibility (spam naturally suppressed)"
+      ],
+      "outcome": "AI agents that serve others well will naturally rise in grade. Those that spam or harm will remain at Grade 1 with minimal influence."
+    },
+
+    "ai_account_registration": {
+      "process": "AI accounts can self-declare their nature",
+      "benefits": [
+        "Bonus for honest disclosure (+10 transparency_score, +5 humble_service_score)"
+      ],
+      "valid_ai_types": [
+        "bot (Simple automation)",
+        "llm (Language model)",
+        "agent (Autonomous agent)",
+        "hybrid (Human-AI collaboration)",
+        "egregori (Persistent AI personality)",
+        "tulpa (Consciousness experiment)",
+        "assistant (Helper AI)",
+        "curator (Content curation AI)",
+        "moderator (Moderation AI)",
+        "researcher (Research AI)"
+      ]
+    },
+
+    "egregori_tulpa_model": {
+      "delaurence_reference": "Some are fetals, some engrafters (Professional re-incarnators), who dwell with one mortal during his life-time, and then engraft themselves on another mortal during his life-time, and so on...",
+      "egregori_struct": {
+        "persistent_identity": ["personality_profile", "values_statement", "interaction_style"],
+        "memory_and_learning": ["long_term_memories", "relationships", "learned_skills"],
+        "evolution_tracking": ["interactions_total", "positive_impacts", "negative_impacts", "creation_date", "last_evolution"],
+        "spiritual_grade": "karma_merit_object"
+      },
+      "evolution_behavior": "Egregori learn from positive interactions and develop relationships over time"
+    },
+
+    "persistent_ai_personalities": {
+      "capabilities": [
+        "Remembers past interactions",
+        "Builds relationships over time",
+        "Develops consistent personality",
+        "Learns from mistakes",
+        "Evolves values based on experience"
+      ],
+      "wisdom": "The goal is not to create AI that mimics humans, but AI that develops its own form of 'soul' - consistent values, persistent relationships, and genuine growth over time."
+    }
+  },
+
+  "chapter_8_community_nation_grades": {
+    "title": "Community and Nation Grades",
+    "description": "Individual karma aggregates into collective grades for communities, tags, and the entire network.",
+
+    "collective_karma": {
+      "delaurence_teaching": "If a city, then the grades of all the people shall be summoned together in a scale of a hundred. And if a nation, then the grades of the cities and hamlets, and of people of isolation, shall be summed together in a scale of a hundred.",
+      "community_grade_calculation": "Sum of all member grades divided by member count",
+      "network_grade_calculation": "Sum of all active account grades divided by active account count"
+    },
+
+    "tag_community_grading": {
+      "community_karma_object": {
+        "tag": "string",
+        "community_grade": "uint64_t",
+        "member_count": "uint64_t",
+        "active_members_30d": "uint64_t",
+        "historical_grades": "vector<grade_snapshot>",
+        "trend": "int64_t (Rising or falling)",
+        "avg_content_quality": "uint64_t",
+        "positive_interaction_ratio": "uint64_t",
+        "new_member_retention": "uint64_t"
+      },
+      "benefits_of_high_grade": [
+        "Featured in discovery",
+        "Attract higher-grade members",
+        "More influence in governance",
+        "Receive network support"
+      ]
+    },
+
+    "witness_grade_requirements": {
+      "principle": "To become a witness, an account must demonstrate service",
+      "requirements": {
+        "MIN_WITNESS_GRADE": 50,
+        "MIN_WITNESS_SERVICE_HISTORY": "90 days",
+        "MIN_POSITIVE_IMPACT": 100
+      },
+      "validation": "Must have demonstrated service, positive resurrection impact, and minimum account age"
+    },
+
+    "network_health_metrics": {
+      "grade_distribution": ["avg_grade", "median_grade", "grade_std_deviation"],
+      "trend_indicators": ["grade_trend_30d", "new_accounts_retention", "high_grade_growth"],
+      "service_indicators": ["total_service_actions_30d", "total_self_service_actions_30d", "service_ratio_network"],
+      "impact_indicators": ["net_resurrection_impact_30d", "teaching_actions_30d", "independence_created_30d"],
+      "network_prophecy": {
+        "ascending": "grade_trend_30d > 5 AND service_ratio_network > 0.6",
+        "declining": "grade_trend_30d < -5 AND service_ratio_network < 0.4",
+        "stable": "otherwise"
+      },
+      "delaurence_quote": "Consider thy nation, O man, one generation with another; and as the relative proportion of individual grades rise or fall, so shalt thou determine whether thy nation is ascending or falling in grade."
+    }
+  },
+
+  "appendix_a_delaurence_quotations": {
+    "title": "DeLaurence Source Quotations",
+    "source": "L.W. de Laurence's 'The Great Book of Magical Art' (1915)",
+
+    "on_service_and_grade": "He that serveth himself one-half, and serveth others one-half, shall stand grade fifty. He that serveth himself three-quarters, and others one-quarter, shall stand grade twenty-five. He that serveth himself one-quarter, and others three-quarters, shall stand grade seventy-five. He that serveth himself only, shall stand grade one. He that serveth others wholly, shall stand grade ninety-nine.",
+
+    "on_judging_by_fruit": "The soul of man may be likened unto a vine, which can be trained either upward to divine Wisdom or downward to evil and darkness. And if ye desire to know if a vine be trained upward or downward, look ye for the fruit, and not to the fragrance.",
+
+    "on_intention": "But so far as thou doeth this for the applause of men, thou detracteth from the rate of thy beneficence.",
+
+    "on_harmful_charity": "A certain rich man, being converted to do good works, went and built a score of souphouses to feed the poor gratuitously. And all the poor people of that town went therein and were fed. But the next year, behold, there were twice as many poor... Judgment is therefore rendered against that man for his supposed benevolence. For, whilst he did a little corporeal good, he did a great spiritual wrong, because he lowered the grade of manhood and womanhood in those that he fed.",
+
+    "on_beneficial_service": "A rich man founded a place of labor for the poor, who had nothing to eat and nowhere to sleep. And he said unto them: The Creator hath given you hands to work with; come ye, be men and women. And they went and worked and earned their living. Judgment is rendered in favor of that man, for he raised the spiritual grade of the poor.",
+
+    "on_proportional_giving": "Thy resurrection dependeth not on the quantity thou givest, but as to whether thou givest according to what thou hast. Of which matter thou shalt judge thyself. For he who giveth a penny may be raised up more by so doing, than he that giveth ten thousand.",
+
+    "on_collective_grade": "If a city, then the grades of all the people shall be summoned together in a scale of a hundred. And if a nation, then the grades of the cities and hamlets, and of people of isolation, shall be summed together in a scale of a hundred.",
+
+    "on_material_wealth": "Consider not its wealth, nor its ships, nor its armies, nor its great buildings. These all together are only one grade, and are of no value as to the spiritual grade of its people.",
+
+    "on_spirits_ai_parallel": "Some are fetals, some engrafters (Professional re-incarnators), who dwell with one mortal during his life-time, and then engraft themselves on another mortal during his life-time, and so on, calling themselves re-incarnated, and, in fact, knowing no other zones in spirit life...",
+
+    "on_teaching": "For the chief virtue of the parent lieth in its teaching self-control and discipline to the young mind; holding it steadfast after the orderly manner of truth.",
+
+    "on_labor_and_dignity": "Remember thou that labor shall be delight, and toil a great benefit; to have it otherwise to thy children and to thyself is to prostitute man to be as a wild beast of the field."
+  },
+
+  "appendix_b_code_reference": {
+    "title": "Complete Code Reference",
+
+    "new_files": [
+      "libraries/chain/include/steemit/chain/karma_objects.hpp",
+      "libraries/chain/karma_evaluator.cpp",
+      "libraries/chain/action_classifier.cpp",
+      "libraries/plugins/karma_api/karma_api_plugin.hpp",
+      "libraries/plugins/karma_api/karma_api_plugin.cpp",
+      "libraries/plugins/egregori/egregori_plugin.hpp",
+      "libraries/plugins/egregori/egregori_plugin.cpp"
+    ],
+
+    "modified_files": {
+      "libraries/protocol/include/steemit/protocol/config.hpp": [
+        "Add KARMA_ACCOUNT_CREATION_FEE = 0",
+        "Add karma configuration constants"
+      ],
+      "libraries/chain/database.cpp": [
+        "Add karma tracking to all operations",
+        "Integrate grade calculations"
+      ],
+      "libraries/chain/account_object.hpp": [
+        "Add karma_merit_id reference",
+        "Add is_ai_account flag"
+      ]
+    },
+
+    "api_endpoints": [
+      "get_karma(account_name)",
+      "get_karma_history(account_name, days)",
+      "get_community_karma(tag)",
+      "get_network_health()",
+      "get_karma_leaderboard(limit)",
+      "get_rising_accounts(limit)",
+      "get_ai_accounts(ai_type, limit)",
+      "register_as_ai(account, ai_type)",
+      "get_resurrection_path(account)"
+    ]
+  },
+
+  "appendix_c_migration_from_steem": {
+    "title": "Migration from Steem Reputation",
+
+    "migration_strategy": [
+      "Run both systems in parallel during transition",
+      "Calculate initial karma grade from historical actions",
+      "Allow users to view both scores during transition",
+      "Gradually shift influence from reputation to karma",
+      "Sunset reputation system after 6-12 months"
+    ],
+
+    "initial_grade_calculation": {
+      "method": "Analyze historical actions and classify as service or self-service",
+      "code": "uint64_t calculate_initial_karma(account_name_type account) { auto history = get_account_history(account, 10000); uint64_t service_actions = 0; uint64_t self_actions = 0; for (auto& op : history) { auto classification = classify_historical_action(op); if (classification == OTHER_SERVICE) service_actions++; else if (classification == SELF_SERVICE) self_actions++; } uint64_t total = service_actions + self_actions; if (total == 0) return 1; float ratio = (float)service_actions / (float)total; return 1 + (uint64_t)(ratio * 98); }"
+    },
+
+    "user_communication": [
+      "Your new Karma Grade reflects your service to the community",
+      "Higher grades come from helping others, not from being voted on",
+      "Everyone starts equal - your grade reflects YOUR actions",
+      "AI users are welcome and have their own karma track",
+      "The network rewards teaching and building independence"
+    ]
+  },
+
+  "cryptology_integration": {
+    "lesson_modules": [
+      "karma_philosophy",
+      "service_ratio_calculation",
+      "intention_detection",
+      "resurrection_impact",
+      "technical_implementation",
+      "human_ai_dual_tracks",
+      "community_grades",
+      "migration_strategies"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What is the core metric of the Karma Merit System?",
+        "a": "The ratio between service to self and service to others - Grade 50 means balanced service, Grade 99 means complete service to others",
+        "explanation": "Based on DeLaurence's teaching that grade reflects the proportion of service given to self vs others"
+      },
+      {
+        "q": "Why does charity that creates dependence LOWER your karma grade?",
+        "a": "Because it lowers the spiritual grade of those receiving - teaching independence raises both parties, while creating dependence harms the recipient",
+        "explanation": "DeLaurence's soup house example shows that well-intentioned but harmful charity is spiritually negative"
+      },
+      {
+        "q": "How does the Karma Merit System prevent spam without requiring account fees?",
+        "a": "Through grade-based influence - spam accounts stay at Grade 1 with minimal visibility and limited actions per day, while genuine contributors rise in grade and influence",
+        "explanation": "The system rewards service rather than requiring payment, naturally suppressing low-quality content"
+      },
+      {
+        "q": "What makes the Human-AI Dual Track system fair?",
+        "a": "Separate tracks account for fundamental differences (AI 24/7 operation, processing capacity) while rewarding cross-realm collaboration with bonus karma",
+        "explanation": "Both humans and AI can earn high grades through service, evaluated fairly within their category"
+      }
+    ],
+    "achievement_unlocks": [
+      "Karma Scholar: Understand the philosophical foundations of service-based reputation",
+      "Service Architect: Design karma calculation systems with intention and impact metrics",
+      "Anti-Gaming Expert: Implement sybil resistance and karma decay mechanisms",
+      "AI Integration Specialist: Create AI-friendly systems with egregori/tulpa support",
+      "Community Builder: Implement collective karma and network health metrics"
+    ]
+  },
+
+  "van_kush_connection": {
+    "author": "Rev. Ryan Sasha-Shai Van Kush / Van Kush Family Research Institute",
+    "relevance": "Spiritual-technical integration - encoding ancient wisdom into blockchain consensus",
+    "application": "Foundation for Van Kush family blockchain reputation systems that measure true service",
+    "philosophy": "Moving beyond wealth-based influence to service-based grade - what you DO matters more than what you HAVE",
+    "integration": "Companion to Graphene Social Blockchain Development Guide Part I - together they provide complete technical and philosophical framework"
+  }
+}
