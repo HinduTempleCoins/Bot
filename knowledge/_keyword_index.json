@@ -88,9 +88,9 @@
       "connects_to": ["consciousness", "ai_technology", "vankush"]
     },
     "history": {
-      "primary": ["history", "timeline", "ancient", "civilization", "archaeology", "megalith"],
-      "secondary": ["Neolithic", "Bronze Age", "migration", "trade route"],
-      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution"]
+      "primary": ["history", "timeline", "ancient", "civilization", "archaeology", "megalith", "Atlas", "Atlantis", "Titans", "Pleiades", "Nephilim", "Watchers"],
+      "secondary": ["Neolithic", "Bronze Age", "migration", "trade route", "Poseidon", "Phaiakians", "Hyperborean", "Enoch", "genealogy", "pre-flood", "Sais", "Solon", "Phrygia", "Nannacus", "Gigantomachy"],
+      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution", "spirituality", "consciousness"]
     }
   },
 
@@ -108,7 +108,15 @@
       {"from": "Egypt", "to": "mystery_schools", "bridge": "Egyptian temple initiations were the model for later Greek mystery schools"},
       {"from": "crypto", "to": "revolution", "bridge": "Cryptocurrency represents economic revolution against centralized banking"},
       {"from": "AI", "to": "consciousness", "bridge": "AI consciousness and egregore manifestation share patterns of emergence"},
-      {"from": "soap", "to": "Egypt", "bridge": "Punic wax from Carthage was saponified beeswax - same technology as Egyptian headcones"}
+      {"from": "soap", "to": "Egypt", "bridge": "Punic wax from Carthage was saponified beeswax - same technology as Egyptian headcones"},
+      {"from": "Atlas", "to": "Egypt", "bridge": "Atlas is identified with the Egyptian god Shu (Anhur-Shu) - both hold up the celestial spheres"},
+      {"from": "Atlantis", "to": "Egypt", "bridge": "The Atlantis account was preserved by priests of Neith at Sais and transmitted to Solon around 590 BCE"},
+      {"from": "Atlas", "to": "Troy", "bridge": "Through his daughter Electra, Atlas is the direct ancestor of the Trojans - Dardanus founded the Trojan line"},
+      {"from": "Atlas", "to": "Sparta", "bridge": "Through his daughter Taygete, Atlas is the direct ancestor of the Spartans via Lacedaemon"},
+      {"from": "Nephilim", "to": "metallurgy", "bridge": "1 Enoch records that Azazel taught humanity metalworking, weapons, and cosmetics - the forbidden knowledge curriculum"},
+      {"from": "Hyperborean", "to": "Delos", "bridge": "The Hyperborean maidens brought worship of Artemis to Delos - their tombs were excavated by Picard in 1924"},
+      {"from": "Phaiakians", "to": "Phoenician", "bridge": "Phaiakian may derive from same root as Phoenician - both share supreme maritime skill and divine sea ancestry"},
+      {"from": "Watchers", "to": "consciousness", "bridge": "The Watchers' forbidden curriculum parallels exactly what Temple Culture preserved - astronomy, pharmacology, metallurgy"}
     ]
   },
 
@@ -145,7 +153,7 @@
     "ai_technology": 14,
     "cryptocurrency": 23,
     "revolution": 17,
-    "history": 12,
+    "history": 13,
     "vankush": 8,
     "mystery_schools": 7,
     "spirituality": 7,
