@@ -83,9 +83,9 @@
       "connects_to": ["vankush", "consciousness", "history"]
     },
     "history": {
-      "description": "Ancient timelines, megalithic cultures, archaeological synthesis",
-      "file_count": 12,
-      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution"]
+      "description": "Ancient timelines, megalithic cultures, archaeological synthesis, Atlas genealogy, Atlantis network",
+      "file_count": 13,
+      "connects_to": ["phoenician", "ancient_egypt", "mystery_schools", "revolution", "spirituality", "consciousness"]
     },
     "spirituality": {
       "description": "Angels, giants theory, divine systems, symbolism",
@@ -188,7 +188,7 @@
   },
 
   "file_statistics": {
-    "total_files": 193,
+    "total_files": 194,
     "total_folders": 20,
     "largest_folders": ["cryptocurrency (23)", "oilahuasca (19)", "phoenician (18)", "revolution (17)", "ayahuasca (16)"]
   }
