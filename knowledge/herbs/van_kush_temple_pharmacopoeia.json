@@ -1,0 +1,383 @@
+{
+  "title": "Van Kush Family Temple Pharmacopoeia",
+  "subtitle": "Botanical Preparations, Extraction Science, and Formulation Frameworks",
+  "institution": "Van Kush Family Research Institute",
+  "date": "January 2026",
+  "purpose": "Knowledgebase integration and AI character training",
+  "sections": {
+    "section_1_cannabinoid_oilahuasca": {
+      "title": "Cannabinoid Oilahuasca Framework",
+      "concept": "Extends traditional ayahuasca pharmacology to the endocannabinoid system. Just as classical ayahuasca combines DMT with MAO inhibitors, Cannabinoid Oilahuasca combines cannabinoids with MAGL and FAAH inhibitors to potentiate endocannabinoid signaling.",
+      "enzymes": {
+        "MAGL": {
+          "full_name": "Monoacylglycerol Lipase",
+          "function": "Degrades 2-AG (2-arachidonoylglycerol), the primary endocannabinoid",
+          "notes": "Responsible for 85% of 2-AG hydrolysis in the brain. Inhibiting MAGL elevates 2-AG levels and reduces arachidonic acid (inflammatory precursor)"
+        },
+        "FAAH": {
+          "full_name": "Fatty Acid Amide Hydrolase",
+          "function": "Degrades anandamide (AEA), the other major endocannabinoid",
+          "notes": "Inhibiting FAAH elevates anandamide levels, producing anxiolytic and analgesic effects"
+        }
+      },
+      "natural_MAGL_inhibitors": [
+        {
+          "compound": "8-Prenylnaringenin (8-PN)",
+          "source": "Hops (Humulus lupulus)",
+          "mechanism": "IC50 = 9.5 μM; most potent natural MAGL inhibitor identified; also potent phytoestrogen; promotes neurogenesis"
+        },
+        {
+          "compound": "Pristimerin",
+          "source": "Celastraceae family",
+          "mechanism": "Reversible MAGL inhibitor; terpenoid; less selective"
+        },
+        {
+          "compound": "Euphol",
+          "source": "Euphorbia species",
+          "mechanism": "Reversible MAGL inhibitor; triterpene; anti-inflammatory"
+        },
+        {
+          "compound": "β-Caryophyllene",
+          "source": "Black pepper, cloves, cannabis, Imphepho, Yin Chen Hao",
+          "mechanism": "Dietary CB2 agonist; FDA GRAS status; anti-inflammatory without psychoactivity"
+        }
+      ],
+      "natural_FAAH_inhibitors": [
+        {
+          "compound": "Yangonin",
+          "source": "Kava (Piper methysticum)",
+          "mechanism": "Kavalactone; CB1 binding affinity; anxiolytic"
+        },
+        {
+          "compound": "Guineensine",
+          "source": "Black pepper (Piper nigrum)",
+          "mechanism": "Piperidine alkaloid; FAAH and endocannabinoid reuptake inhibitor"
+        },
+        {
+          "compound": "Macamides",
+          "source": "Maca (Lepidium meyenii)",
+          "mechanism": "N-benzylamide alkaloids; FAAH inhibition; neuroprotective"
+        },
+        {
+          "compound": "Biochanin A",
+          "source": "Red clover, soy",
+          "mechanism": "Isoflavone; FAAH inhibitor; also estrogenic"
+        }
+      ],
+      "piperaceae_connection": {
+        "description": "The Piperaceae family (pepper family) contains multiple compounds affecting the endocannabinoid system",
+        "black_pepper": "Contains guineensine (FAAH/reuptake inhibitor) and piperine (bioavailability enhancer)",
+        "kava": "Contains yangonin and other kavalactones affecting CB1",
+        "long_pepper": "Piper longum contains similar alkaloids",
+        "significance": "This family represents a rich source for Oilahuasca formulation"
+      },
+      "myrcene_entourage": {
+        "compound": "Myrcene (β-myrcene)",
+        "sources": "Cannabis, hops, lemongrass, mangoes",
+        "mechanism": "Increases BBB permeability, potentially enhancing cannabinoid uptake into the brain",
+        "folk_practice": "Eating mango before cannabis consumption has pharmacological basis",
+        "additional_properties": "Sedative, analgesic, and anti-inflammatory properties independent of cannabinoid modulation"
+      },
+      "THC_O_acetate": {
+        "description": "Acetylated prodrug of THC with enhanced lipophilicity and potentially greater BBB penetration",
+        "mechanism": "Acetyl group cleaved by esterases after absorption, releasing active THC",
+        "parallel": "Prodrug approach parallels heroin (diacetylmorphine) vs morphine pharmacokinetics",
+        "note": "Legal status varies; documented for research purposes"
+      }
+    },
+    "section_2_bio_oil_replacement": {
+      "title": "Edible Bio-Oil Replacement Formula",
+      "concept": "A dual-use cosmeceutical that works topically AND can be consumed orally. Everything food-grade throughout. Inspired by Egyptian temple ointment traditions.",
+      "commercial_bio_oil_analysis": {
+        "base": ["Mineral oil (petroleum-derived)", "PurCellin Oil (cetearyl ethylhexanoate - synthetic ester)"],
+        "botanicals": ["Calendula extract", "rosemary oil", "lavender oil", "chamomile oil (bisabolol)"],
+        "vitamins": ["Retinyl palmitate (Vitamin A)", "Tocopheryl acetate (Vitamin E)"],
+        "carrier_oils": ["Sunflower seed oil", "soybean oil"],
+        "preservatives": ["BHT (synthetic antioxidant)"],
+        "colorant": ["CI 26100 (Red 17) - synthetic dye"]
+      },
+      "food_grade_replacement": [
+        {"layer": "Base", "ingredient": "Coconut MCT Oil", "function": "Fast absorption, antimicrobial, replaces mineral oil"},
+        {"layer": "Base", "ingredient": "Jojoba Oil", "function": "Mimics skin sebum (like PurCellin claims), shelf-stable"},
+        {"layer": "Base", "ingredient": "Sunflower Seed Oil", "function": "Linoleic acid for barrier repair"},
+        {"layer": "Botanical", "ingredient": "Calendula Extract/Oil", "function": "Lutein, zeaxanthin, wound healing (AREDS-2 connection)"},
+        {"layer": "Botanical", "ingredient": "Rosemary Extract", "function": "Carnosic acid preservation, NRF2 activation"},
+        {"layer": "Botanical", "ingredient": "Imphepho Extract/Oil", "function": "Wound healing, scar reduction, CB2 agonist (β-caryophyllene)"},
+        {"layer": "Vitamin", "ingredient": "Mixed Tocopherols (Vitamin E)", "function": "Real antioxidant form, not acetate ester"},
+        {"layer": "Vitamin", "ingredient": "Beta-carotene or Retinol", "function": "Active form, not weak retinyl palmitate"},
+        {"layer": "Optional", "ingredient": "Bisabolol (from chamomile)", "function": "Anti-inflammatory, penetration enhancer"}
+      ],
+      "calendula_AREDS2_connection": {
+        "description": "Calendula officinalis (pot marigold) is the primary natural source of lutein and zeaxanthin - the same carotenoids in the AREDS-2 eye health formula",
+        "content": "Marigold flowers contain approximately 80% lutein and 5% zeaxanthin",
+        "accumulation": "These carotenoids accumulate in both the macula (retina) and the skin, protecting against oxidative damage",
+        "AREDS2_formula": "10mg lutein, 2mg zeaxanthin reduces AMD progression by 25%",
+        "concept": "An edible skin cream functions as an AREDS-2 replacement through dual topical/oral route. Fat-soluble carotenoids are better absorbed with oils"
+      },
+      "rosemary_antioxidant": {
+        "compounds": [
+          {"name": "Carnosic acid", "content": "15-20% in extracts", "mechanism": "ROS quencher, converts to ortho-quinone under oxidative stress, activates NRF2 pathway"},
+          {"name": "Rosmarinic acid", "mechanism": "Metal chelation, prevents Fenton reaction oxidation"},
+          {"name": "Carnosol", "mechanism": "Direct lipid peroxidation inhibition"}
+        ],
+        "applications": "EU/US/Japan approved as food additive (E392), replaces synthetic BHA/BHT/TBHQ. Cosmetic usage at 0.2-2% extends shelf life",
+        "iron_fence_claim": "Validated - carnosic acid donates electrons to neutralize free radicals before substrate oxidation occurs"
+      }
+    },
+    "section_3_imphepho": {
+      "title": "Imphepho (Helichrysum) Pharmacology",
+      "description": "Several South African Helichrysum species used traditionally for ukuphahla (ancestral communication rituals). Botanical cousins of Italian Immortelle (Helichrysum italicum), one of the most expensive essential oils (~$2000/liter). South African species share similar compounds but remain largely uncommercialized.",
+      "species_profiles": [
+        {
+          "species": "H. odoratissimum",
+          "major_compounds": "1,8-Cineole (17.44%), α-Pinene (up to 43%), γ-Curcumene (15.76%)"
+        },
+        {
+          "species": "H. cymosum",
+          "major_compounds": "α-Pinene (29.82%), (E)-Caryophyllene (19.20% - CB2 agonist)"
+        },
+        {
+          "species": "H. petiolare",
+          "major_compounds": "Faurinone (20.66% - first identification in this species), (E)-β-Ocimene (17.21%)"
+        },
+        {
+          "species": "Common to all",
+          "major_compounds": "α-Pinene, 1,8-Cineole as major constituents; 4,5-Dicaffeoylquinic acid as marker compound"
+        }
+      ],
+      "pharmacological_properties": [
+        "Wound healing: Antimicrobial activity, tissue regeneration (same mechanism as Italian Immortelle)",
+        "Scar reduction: Collagenase/elastase inhibition via β-diketones (italidione in H. italicum)",
+        "Anti-inflammatory: Multiple pathways including CB2 activation via β-caryophyllene",
+        "Antioxidant: Moderate to high capacity (especially H. odoratissimum in FRAP/ORAC assays)",
+        "CNS effects: Smoke condensates contain different compounds than solvent extracts"
+      ],
+      "traditional_uses": [
+        "Burned as incense for ukuphahla (IsiXhosa: 'Impepho', IsiZulu: 'Imphepho')",
+        "Wound dressing: Ash from burnt plant combined with fresh/dried aerial parts",
+        "Tea (boiled in water or milk): Coughs, colds, fever, menstrual pain, headaches, insomnia, hypertension",
+        "Smoke inhalation: Pain relief, respiratory conditions"
+      ],
+      "smoke_profile": {
+        "finding": "Smoke condensates from burning Imphepho contain different compounds than solvent extracts",
+        "implication": "Chemical changes occur during combustion. Five major compounds were common to both H. odoratissimum and H. petiolare smoke, explaining their interchangeable use in traditional rituals",
+        "application": "Implications for vaporization vs combustion delivery methods"
+      },
+      "distillation_parameters": {
+        "yield": "0.15-0.25% (v/w)",
+        "example": "For 113g (1/4 lb) dried herb, expect approximately 0.17-0.28 mL essential oil",
+        "byproduct": "Hydrosol is valuable for toners and sprays",
+        "method": "Steam distillation preferred for terpene preservation"
+      }
+    },
+    "section_4_yin_chen_hao": {
+      "title": "Yerba Lena Yesca / Yin Chen Hao (Artemisia capillaris)",
+      "description": "One of the most important liver herbs in Chinese pharmacopoeia, with over 2000 years of documented use. Western herbal markets sell it as 'Yerba Lena Yesca' and market it as 'psychoactive,' which obscures its serious hepatoprotective applications.",
+      "key_bioactives": [
+        {"compound": "Scoparone (6,7-Dimethoxycoumarin)", "activity": "Promotes bile secretion, hepatocyte regeneration, anti-inflammatory, increases dopamine release in PC12 cells"},
+        {"compound": "Capillarisin", "activity": "Inhibits β-glucuronidase (enhances liver detox), antioxidant, protects against apoptosis via HO-1 pathway"},
+        {"compound": "Chlorogenic acid", "activity": "Antioxidant, regulates bile secretion, reduces gallbladder damage"},
+        {"compound": "β-Caryophyllene", "activity": "CB2 agonist (cannabinoid connection), anti-inflammatory"},
+        {"compound": "α-Humulene", "activity": "Anti-inflammatory, also found in hops"},
+        {"compound": "Quercetin", "activity": "Flavonoid antioxidant, hepatoprotective"}
+      ],
+      "pharmacological_effects": [
+        "Choleretic: Enhances gallbladder contraction, increases bile acid/phospholipid/cholesterol secretion",
+        "Hepatoprotective: Promotes hepatocyte regeneration, protects cell membrane integrity",
+        "Anti-inflammatory: Reduces transaminases, prevents hepatocyte necrosis",
+        "Antioxidant: Anti-lipid peroxidation, free radical scavenging",
+        "Antisteatotic: Reduces cholesterol/triglycerides in liver tissue"
+      ],
+      "TCM_context": {
+        "first_documentation": "Divine Husbandman's Herbal Foundation Canon (Shennong Bencao Jing)",
+        "traditional_applications": "Jaundice, cirrhosis, hepatitis, liver cancer support",
+        "harvest_timing": "'Yin Chen in February, Hao in March, lumber for burning in May' (二月茵陳三月蒿,五月茵陳當柴燒). Spring harvest yields maximum bioactive content",
+        "naming": "Spring = 'Yin Chen Hao', summer = 'Mian Yin Chen'"
+      },
+      "liver_brain_axis": {
+        "description": "Liver health directly impacts brain function through:",
+        "pathways": [
+          "Ammonia clearance (hepatic encephalopathy if impaired)",
+          "Bile acid signaling (FXR receptors affect neurotransmitters)",
+          "Detoxification capacity (clearance of neurotoxins)"
+        ],
+        "connection": "Connects Yin Chen Hao to nootropic stack work (L-Methylfolate, Galantamine) via metabolic support pathways"
+      }
+    },
+    "section_5_mucuna_extraction": {
+      "title": "Mucuna Pruriens L-DOPA Extraction",
+      "description": "Natural source of L-DOPA (levodopa), the direct precursor to dopamine. Seeds contain approximately 3.1-6.1% L-DOPA by weight. Used in traditional Ayurvedic medicine for 'Kampavata' (now understood as Parkinson's disease) since 1500 BC.",
+      "solubility_challenge": {
+        "issue": "L-DOPA is an amino acid (3,4-dihydroxyphenylalanine) that is water-soluble, not fat/oil-soluble",
+        "problem": "Raw Mucuna powder does not dissolve well in VG/PG vape bases because the powder contains plant fibers, starches, and other insolubles",
+        "commercial_solution": "Products like Hyla Dopa vapes use pre-extracted Mucuna pruriens extract, not raw powder"
+      },
+      "extraction_methods": {
+        "citric_acid_optimal": {
+          "solution": "58% citric acid aqueous solution at 60°C",
+          "ratio": "Solid:liquid ratio of 1:7",
+          "time": "90 minute extraction time",
+          "efficiency": "Achieves 9.2% L-DOPA extraction efficiency"
+        },
+        "ethanol_extraction": {
+          "solution": "50% ethanol with ascorbic acid (protects L-DOPA from oxidation)",
+          "technique": "Cold maceration technique",
+          "efficiency": "Achieves approximately 13.36% L-DOPA extraction efficiency"
+        }
+      },
+      "degradation_warning": {
+        "issue": "L-DOPA degrades rapidly - up to 52% degradation observed in extracts",
+        "mechanism": "Oxidizes to dopaquinone and other harmful quinones",
+        "required_stabilization": [
+          "Ascorbic acid (antioxidant) in extraction",
+          "Acidic pH (prevents oxidation)",
+          "Cold storage after extraction",
+          "Protection from light"
+        ],
+        "recommendation": "Fresh extracts should be used promptly or properly stabilized"
+      },
+      "vape_formulation_protocol": [
+        "Step 1: Extract Mucuna powder with acidified water (citric acid + ascorbic acid)",
+        "Step 2: Filter through silk screen, then coffee filter",
+        "Step 3: Concentrate extract (gentle heat, don't go completely dry)",
+        "Step 4: Mix concentrated extract into VG/PG base (start 10% extract, 90% VG/PG)",
+        "Step 5: Store in dark, cool place; monitor for color changes (darkening = oxidation)"
+      ],
+      "VG_PG_ratio": "50/50 or 60PG/40VG for better extract solubility. Higher PG content improves dissolution of water-soluble compounds"
+    },
+    "section_6_beta_caryophyllene": {
+      "title": "β-Caryophyllene as Unifying Compound",
+      "discovery": "Multiple botanicals in the Van Kush Family inventory contain β-caryophyllene, a dietary CB2 cannabinoid receptor agonist. This creates a unified cannabinoid system across preparations without requiring cannabis.",
+      "properties": [
+        "Sesquiterpene found in black pepper, cloves, hops, cannabis, copaiba, rosemary",
+        "Selective CB2 agonist (does not activate CB1, therefore non-psychoactive)",
+        "FDA GRAS (Generally Recognized as Safe) status as food additive",
+        "Anti-inflammatory, analgesic, anxiolytic, neuroprotective properties",
+        "Orally bioavailable unlike many terpenes"
+      ],
+      "sources_in_inventory": [
+        {"botanical": "Imphepho (H. cymosum)", "content": "19.20% of essential oil", "application": "Topical preparations, wound healing"},
+        {"botanical": "Yerba Lena Yesca (A. capillaris)", "content": "Present in volatile fraction", "application": "Liver tonics, internal preparations"},
+        {"botanical": "Black Pepper", "content": "7-35% of essential oil", "application": "Space Paste, bioavailability enhancement"},
+        {"botanical": "Hops", "content": "Variable, alongside 8-PN", "application": "MAGL inhibitor stacks"}
+      ],
+      "legal_cannabinoid_modulation": {
+        "description": "β-caryophyllene across these botanicals enables legal cannabinoid system modulation without cannabis",
+        "skin_cream": "Imphepho-based provides CB2 activation topically for anti-inflammatory and wound healing effects",
+        "liver_tonic": "Yin Chen Hao-based provides CB2 activation internally for hepatoprotective and systemic anti-inflammatory effects",
+        "space_paste": "Formulations can incorporate either or both for enhanced effects"
+      }
+    },
+    "section_7_dry_herb_vaporization": {
+      "title": "Dry Herb Vaporization Profiles",
+      "advantages": "No extraction needed, direct plant material use, temperature control enables selective compound release",
+      "temperature_targets": [
+        {"compound_class": "Monoterpenes (α-pinene, 1,8-cineole)", "temperature": "155-175°C (311-347°F)", "present_in": "Imphepho, Artemisia"},
+        {"compound_class": "Sesquiterpenes (β-caryophyllene)", "temperature": "175-200°C (347-392°F)", "present_in": "Imphepho (CB2 agonist)"},
+        {"compound_class": "Flavonoids", "temperature": "200-230°C (392-446°F)", "present_in": "Most herbs"},
+        {"compound_class": "Scoparone", "temperature": "~200°C", "present_in": "Artemisia capillaris"},
+        {"compound_class": "L-DOPA", "temperature": "Degrades >200°C", "present_in": "Mucuna (not ideal for vaporization)"}
+      ],
+      "recommendations": [
+        "Imphepho: Excellent candidate - releases terpenes cleanly at lower temperatures, including CB2-active β-caryophyllene",
+        "Artemisia capillaris: Releases volatile scoparone and essential oils effectively",
+        "Cannabis + Mucuna blend: Mucuna provides sublingual/oral L-DOPA absorption while cannabis provides the vaporized cannabinoids",
+        "Harsh herbs: Lower vaporization temperatures produce smoother vapor than combustion"
+      ]
+    },
+    "section_8_extraction_methods": {
+      "title": "Extraction and Processing Methods",
+      "available_equipment": [
+        "Distillation apparatus (steam distillation for essential oils/hydrosols)",
+        "Limtek basification supplies (for A/B extractions)",
+        "Gravy separator (crude separatory funnel applications)",
+        "Silk screens (filtration)",
+        "Lye-resistant containers (saponification, wax work)",
+        "Dry herb vaporizer (Wulf brand)"
+      ],
+      "method_tiers": {
+        "tier_1_simple_infusions": {
+          "method": "Mason jars with botanical + carrier oil or VG/PG. Long steep time (weeks). Filter through silk screens",
+          "works_for": "Terpene-rich materials and flavor extracts"
+        },
+        "tier_2_steam_distillation": {
+          "method": "Steam distillation of Imphepho, Artemisia, Sage. Collect essential oil + hydrosol. Add essential oil to VG/PG base or carrier oils",
+          "works_for": "Volatile compound extraction"
+        },
+        "tier_3_solvent_extraction": {
+          "method": "Ethanol extraction (with ascorbic acid for L-DOPA). Evaporate ethanol. Reconstitute in VG/PG or carrier oil",
+          "works_for": "Water-soluble and alcohol-soluble compounds"
+        },
+        "tier_4_acid_base_extraction": {
+          "method": "Acidic aqueous extraction, basification, non-polar solvent pull",
+          "works_for": "Alkaloids and amino acids in freebase forms"
+        }
+      },
+      "distillation_priorities": [
+        "Priority 1 - Imphepho Essential Oil: High value (South African Helichrysum not commercially available), use in skin formulations and wound healing",
+        "Priority 2 - Yerba Lena Yesca: Liver support tinctures, nootropic stack support, Space Paste adjunct",
+        "Priority 3 - White Sage: When wild-sourced; high thujone content requires careful dosing"
+      ]
+    },
+    "section_9_wax_theurgic": {
+      "title": "Wax and Theurgic Material Applications",
+      "description": "Wax serves as theurgic material in temple traditions, not merely practical. This connects the cold cream and saponified wax work to the broader Van Kush Family temple pharmacopoeia framework.",
+      "historical_applications": [
+        "Egyptian ushabti: Wax figures for afterlife service",
+        "Phoenician/Punic binding tablets: Wax seals curses and prayers",
+        "European poppets: Wax dolls for sympathetic magic",
+        "Ecclesiastical seals: Wax authenticates sacred documents"
+      ],
+      "wax_properties": [
+        "Holds intention: Moldable, inscribable, takes form",
+        "Preserves: Antimicrobial, seals against air and contamination",
+        "Transforms: Melts with heat, releases contents",
+        "Penetrates: Carries fat-soluble compounds into skin"
+      ],
+      "current_applications": [
+        "Cold cream formulations combine wax with botanical oils for transdermal delivery",
+        "Saponified wax preparations create cleansing products with preserved botanical actives",
+        "Wax amulets and ritual objects continue the temple tradition",
+        "T hieroglyph research (wax rather than bread interpretation) connects Egyptian practices to current work"
+      ]
+    },
+    "section_10_inventory": {
+      "title": "Current Botanical Inventory",
+      "distillation_ready": [
+        {"material": "Imphepho (Helichrysum spp.)", "quantity": "~1/4 lb (~113g)", "notes": "South African species; authentic ukuphahla material from SA merchant"},
+        {"material": "Yerba Lena Yesca (A. capillaris)", "quantity": "~1/2-1 lb", "notes": "= Yin Chen Hao; marketed as psychoactive but actually liver medicine"},
+        {"material": "Mucuna Pruriens Extract", "quantity": "1 lb powder", "notes": "L-DOPA source; requires aqueous extraction for VG/PG use"},
+        {"material": "Space Paste Ingredients", "quantity": "Complete set", "notes": "Ready for formulation"},
+        {"material": "White Sage (S. apiana)", "quantity": "To be sourced", "notes": "Wild collection pending; consider cultivated sources"}
+      ],
+      "perfume_materials": {
+        "perfume_oils": "~30 perfume oils (various)",
+        "absolutes": "~10 Indian absolutes (high-value concentrated extracts)"
+      },
+      "equipment_status": [
+        "Distillation machine: Ready",
+        "Lye-resistant containers: Ready",
+        "Cold cream/wax soap materials: Ready",
+        "Limtek basification supplies: Ready",
+        "Gravy separator: Ready",
+        "Silk screens: Ready (untested)",
+        "Dry herb vaporizer (Wulf): Ready"
+      ]
+    }
+  },
+  "key_concepts": {
+    "cannabinoid_oilahuasca": "Combining cannabinoids with MAGL/FAAH inhibitors to potentiate endocannabinoid signaling",
+    "beta_caryophyllene_unification": "Dietary CB2 agonist present across multiple inventory botanicals enabling legal cannabinoid modulation",
+    "edible_cosmeceutical": "Dual-use preparations that work both topically and orally",
+    "calendula_AREDS2": "Natural lutein/zeaxanthin source functioning as eye health formula",
+    "liver_brain_axis": "Hepatoprotective herbs supporting brain function through metabolic pathways",
+    "theurgic_wax": "Wax as consciousness interface material in temple traditions"
+  },
+  "cross_references": [
+    "Punic wax consciousness technology",
+    "Ayahuasca pharmacology (DMT + MAO inhibitors)",
+    "Space Paste formulation",
+    "Nootropic stack (L-Methylfolate, Galantamine)",
+    "T hieroglyph research"
+  ]
+}
