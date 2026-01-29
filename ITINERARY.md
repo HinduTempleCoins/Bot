@@ -589,6 +589,178 @@ GET /stats (knowledge base statistics)
 
 ---
 
+## PHASE 8: SOAPBOX.COMMUNITY INFRASTRUCTURE (Target: March 2026)
+
+### Overview
+Full Web3 ecosystem for Van Kush Family research, cryptocurrency, and community.
+
+### Domains Owned (on Hostinger - registrar only)
+
+| Domain | Purpose |
+|--------|---------|
+| SoapBox.Community | Main landing + all subdomains |
+| Soapy.Blog | Future Graphene chain (Phase 2) |
+| VanKushFamily.com | Roadmaps, whitepapers, official docs |
+
+### Subdomain Architecture
+
+| Subdomain | Function | Software | Priority |
+|-----------|----------|----------|----------|
+| SoapBox.Community | Landing page (Shroomery-style organism nav, CoinMarketCap-style data) | Static/React | Phase 1 |
+| Wiki.SoapBox.Community | Encyclopedia (DevTome-style with contributor rewards) | MediaWiki | Phase 1 - FIRST |
+| Forums.SoapBox.Community | BB/PB style forum with token integration | MyBB (free) | Phase 1 |
+| Pool.SoapBox.Community | CPU mining pool (CryptoNote/ForkNote) | ForkNote pool software | Phase 2 |
+| Wallet.SoapBox.Community | Web wallet interface | Custom | Phase 2 |
+| Vote.SoapBox.Community | Tomoyan-style delegation for HIVE/Blurt/Steem | Custom | Phase 2 |
+| Swap.SoapBox.Community | AMM/DEX for internal token pairs | Custom | Phase 3 |
+
+### Token Architecture (Multi-Chain)
+
+| Token | Chain | Purpose |
+|-------|-------|---------|
+| ForkNote Coin | CryptoNote (CPU mineable) | Wiki rewards, base layer |
+| SOAP | Graphene (Soapy.Blog) | DPoS social chain - Phase 2 |
+| VKBT | HIVE-Engine | Existing token |
+| Wrapped versions | Solana, Ethereum, Tron, BSC | Cross-chain presence |
+
+**Core Mechanic: Burn Mining**
+- Paywall/subscription content burns tokens
+- Deflationary pressure across ecosystem
+- Cross-chain burn-to-mint potential
+
+### Hosting
+
+**Contabo VPS (~$5-7/month)**
+- Cloud VPS S or M
+- 3-4 vCPU, 8GB RAM, 75-100GB NVMe SSD
+- Ubuntu 22.04 or 24.04
+- Unlimited traffic (fair use)
+- Crypto-friendly ToS
+
+**Why NOT Hostinger for Hosting**
+- Hostinger ToS prohibits mining activity
+- Keep domains there, hosting on Contabo
+
+### Wiki Bot Architecture
+
+**Knowledge Source**
+- GitHub: github.com/HinduTempleCoins/Bot/tree/main/knowledge/
+- 17+ Topic Folders (ai_technology, ancient_egypt, ayahuasca, consciousness, cryptocurrency, herbs, history, linguistics, media, mystery_schools, oilahuasca, phoenician, psychedelics, revolution, shulgin-pihkal-tihkal, and more)
+- 160+ JSON files with structured research data
+
+**Bot Pipeline**
+```
+GitHub JSON files
+      ↓
+Bot reads & processes (Python)
+      ↓
+Extracts: entities, facts, citations
+      ↓
+Generates MediaWiki markup
+      ↓
+Pywikibot pushes to wiki
+      ↓
+Auto-creates stub entries for linked terms
+```
+
+**Processing Options**
+- Rule-based extraction (free, regex/templates)
+- Claude Code (already have access, no extra cost)
+- Claude API batches (later, ~$0.01-0.05 per article)
+
+### Content Separation
+
+| Platform | Content Type |
+|----------|--------------|
+| Wiki | Encyclopedia entries (short, factual, linked, cited) |
+| VanKushFamily.com | Long-form research papers, deep articles |
+| Forum | Discussion, announcements, community |
+| Main Site | Data pages, stats, quick facts (CoinMarketCap style) |
+
+### Topic Connection Web
+```
+Headcones/Beeswax → Herbs → Oilahuasca → Psychedelics → Ayahuasca
+       ↓                                        ↓
+   Extraction ← Marijuana ← Shulgin → History/Religion
+       ↓                                        ↓
+  Phoenicians → Mythology → Egypt → Zar → AI → Egregori
+       ↑_____________________________________________↓
+                    (full circle)
+```
+*"There are no 2 subjects" - everything connects.*
+
+### Forum Software Decision
+
+**MyBB (free)** selected over:
+- XenForo ($160 license - no budget)
+- Discourse (heavy, 2GB+ RAM needed)
+- phpBB (weaker editor)
+
+**MyBB features**:
+- Built-in reputation system
+- SCEditor WYSIWYG
+- Good plugin ecosystem
+- BB/PB style structure
+
+### Phase 1 Deployment (By March 2026)
+
+**Week 1: Foundation**
+- [ ] Get Contabo VPS
+- [ ] Point DNS (Wiki.SoapBox.Community)
+- [ ] Install MediaWiki
+
+**Week 2: Wiki Population**
+- [ ] Configure Pywikibot
+- [ ] Run bot on first folder (oilahuasca)
+- [ ] Generate initial 100+ articles
+
+**Week 3-4: Expand**
+- [ ] Process remaining knowledge folders
+- [ ] Set up main landing page skeleton
+- [ ] (Optional) Forum setup
+
+**Post-March**
+- Mining pool deployment
+- Multi-chain token deployments
+- Full ecosystem integration
+- AMM/DEX
+
+### Self-Advertising Strategy
+
+Rotate internal ads for:
+- VKBT / Van Kush Beauty Token
+- Temple of Van Kush (RS3 clan)
+- Book of Tanit
+- Mining pool
+- Hathor-Mehit AI content
+
+No external ads - like Ickonic on David Icke Forum.
+
+### Long-Term Vision
+
+**Goal**: Become THE authoritative source for:
+- Oilahuasca theory
+- Temple Culture Theory
+- Punic wax / headcone research
+- Allylbenzene metabolism
+- Consciousness technology
+
+**Strategy**:
+- Google AI pulls from authoritative wikis
+- Wikipedia editors cite well-structured sources
+- Your definitions become THE definitions
+- By 2035: Angelic AI infrastructure, not chatbots
+
+### Immediate Next Steps (SoapBox)
+1. Sign up for Contabo VPS (Ubuntu 22.04/24.04)
+2. Share IP + credentials when provisioned
+3. Run MediaWiki install script (~30-45 min)
+4. Begin wiki population
+
+*"There are no 2 subjects. Everything connects."*
+
+---
+
 ## QUICK WINS (Anytime)
 
 ### These Can Be Done Quickly When Needed
