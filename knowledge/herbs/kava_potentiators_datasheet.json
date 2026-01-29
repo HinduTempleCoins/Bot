@@ -1,0 +1,285 @@
+{
+  "title": "KAVA POTENTIATORS DATASHEET",
+  "institution": "Van Kush Family Research Institute",
+  "source": "Reconstructed from 2020 KavaForums Thread + Current Research",
+  "date": "January 2026",
+  "project": "Temple Pharmacopoeia Project - Reconstructing the Potentiates Thread",
+  "overview": {
+    "title": "The Oilahuasca Principle Applied to Kava",
+    "description": "Just as Ayahuasca combines DMT with MAOIs to prevent breakdown, kava can be potentiated by targeting the enzymes and receptors involved in kavalactone metabolism and activity. Kava already contains FAAH and MAGL inhibitors (as established in the 2020 thread), plus yangonin binds CB1 at 720 nM - comparable to endocannabinoids. The key is understanding which compounds enhance these pathways."
+  },
+  "kava_native_mechanisms": {
+    "description": "Target Points for Potentiation",
+    "systems": [
+      {
+        "system": "GABA-A",
+        "mechanism": "Kavain, dihydrokavain, methysticin, dihydromethysticin, yangonin all potentiate GABA-A receptors"
+      },
+      {
+        "system": "CB1 Receptor",
+        "mechanism": "Yangonin binds CB1 at Ki 720 nM (comparable to 2-AG at 472 nM)"
+      },
+      {
+        "system": "MAO-B",
+        "mechanism": "All six major kavalactones reversibly inhibit MAO-B"
+      },
+      {
+        "system": "FAAH/MAGL",
+        "mechanism": "Kavalactones inhibit FAAH and MAGL (preserves anandamide and 2-AG)"
+      },
+      {
+        "system": "CYP450",
+        "mechanism": "Methysticin and dihydromethysticin are potent CYP inhibitors (2C9, 2C19, 3A4)"
+      },
+      {
+        "system": "Na+/Ca2+ Channels",
+        "mechanism": "Kavain and methysticin block voltage-gated channels"
+      },
+      {
+        "system": "Norepinephrine",
+        "mechanism": "Kavain and methysticin inhibit reuptake"
+      }
+    ]
+  },
+  "potentiator_categories": {
+    "category_1_GABA_transaminase_inhibitors": {
+      "title": "GABA-Transaminase Inhibitors",
+      "rationale": "GABA-T breaks down GABA. Inhibiting it allows GABA to remain in the synapse longer, synergizing with kava's GABA-A potentiation.",
+      "botanicals": [
+        {
+          "name": "Lemon Balm (Melissa officinalis)",
+          "active_compounds": "Rosmarinic acid, Ursolic acid, Oleanolic acid",
+          "mechanism": "Rosmarinic acid inhibits GABA-T at IC50 0.35 mg/mL (40% inhibition at 100 µg/mL). Also inhibits AChE. Already used in Kava Candy commercially."
+        },
+        {
+          "name": "Valerian (Valeriana officinalis)",
+          "active_compounds": "Valerenic acid",
+          "mechanism": "High affinity for GABA-A receptors, inhibits GABA-T. Combined with Lemon Balm normalizes brain GABA and glutamate levels."
+        },
+        {
+          "name": "American Skullcap (Scutellaria lateriflora)",
+          "active_compounds": "Baicalin, Baicalein",
+          "mechanism": "GABA-A positive allosteric modulator. User reports: 'makes the effect smoother, takes the edge off'"
+        }
+      ]
+    },
+    "category_2_CYP450_inhibitors": {
+      "title": "CYP450 Enzyme Inhibitors (Bioavailability Enhancers)",
+      "rationale": "CYP enzymes metabolize kavalactones. Inhibiting them slows breakdown and increases blood levels. This is the 'Parsley in the Werewolf Spell' principle.",
+      "botanicals": [
+        {
+          "name": "Black Pepper (Piper nigrum)",
+          "active_compounds": "Piperine",
+          "mechanism": "Inhibits CYP3A4, CYP2C9, CYP1A2 and P-glycoprotein. 20mg/day increased carbamazepine AUC by 47%. Kava's cousin plant."
+        },
+        {
+          "name": "Grapefruit",
+          "active_compounds": "Furanocoumarins (bergamottin)",
+          "mechanism": "Potent irreversible CYP3A4 inhibitor. Classic bioavailability enhancer. Also aids kavalactone extraction."
+        },
+        {
+          "name": "Turmeric (Curcuma longa)",
+          "active_compounds": "Curcumin",
+          "mechanism": "Inhibits multiple CYPs and SULTs. Raises brain anandamide levels. Best combined with piperine (20x bioavailability increase)."
+        },
+        {
+          "name": "Cinnamon/Vanilla",
+          "active_compounds": "Glutathione modulators",
+          "mechanism": "Glutathione breaks down kavalactones. These modulate glutathione activity. From 2020 thread discovery."
+        }
+      ]
+    },
+    "category_3_FAAH_inhibitors": {
+      "title": "FAAH Inhibitors (Endocannabinoid Preservation)",
+      "rationale": "FAAH breaks down anandamide. Since kava already contains FAAH inhibitors and yangonin hits CB1, additional FAAH inhibition amplifies the cannabimimetic effects.",
+      "botanicals": [
+        {
+          "name": "Ginger (Zingiber officinale)",
+          "active_compounds": "Gingerols, Shogaols",
+          "mechanism": "6x more potent FAAH inhibitor than kaempferol. Also anti-inflammatory."
+        },
+        {
+          "name": "Maca (Lepidium meyenii)",
+          "active_compounds": "Macamides",
+          "mechanism": "Structurally similar to anandamide. Confuses FAAH enzyme. Also inhibits anandamide uptake (IC50 670 nM)."
+        },
+        {
+          "name": "Kaempferol Foods (Broccoli, kale, tea)",
+          "active_compounds": "Kaempferol",
+          "mechanism": "Competitive FAAH inhibitor (Ki 5 µM). 95% inflammation reduction in studies. Also in green tea."
+        },
+        {
+          "name": "Biochanin A Sources (Red clover, soy)",
+          "active_compounds": "Biochanin A (isoflavone)",
+          "mechanism": "Significant anandamide hydrolysis inhibition at 0.5 µM. From Fabaceae family (prenylated isoflavones are potent FAAH inhibitors)."
+        }
+      ]
+    },
+    "category_4_endocannabinoid_reuptake_inhibitors": {
+      "title": "Endocannabinoid Reuptake Inhibitors",
+      "rationale": "These prevent anandamide and 2-AG from being removed from the synapse, amplifying CB1/CB2 signaling.",
+      "botanicals": [
+        {
+          "name": "Black Pepper (Piper nigrum)",
+          "active_compounds": "Guineensine",
+          "mechanism": "Nanomolar endocannabinoid uptake inhibitor (EC50 290 nM). Does NOT inhibit FAAH/MAGL - purely blocks reuptake. 95% inflammation reduction at 2.5 mg/kg."
+        },
+        {
+          "name": "Echinacea (Echinacea spp.)",
+          "active_compounds": "N-alkylamides",
+          "mechanism": "Contains anandamide-like compounds. WOBE437 (selective eCRI) was derived from Echinacea 2,4-dodecadienamide scaffold."
+        }
+      ]
+    },
+    "category_5_CB2_agonists": {
+      "title": "CB2 Agonists (Peripheral Cannabinoid Enhancement)",
+      "rationale": "While yangonin hits CB1, adding CB2 agonists provides anti-inflammatory and immune-modulating effects without psychoactivity.",
+      "botanicals": [
+        {
+          "name": "Black Pepper",
+          "active_compounds": "β-Caryophyllene",
+          "mechanism": "Dietary CB2 agonist (7-35% of black pepper EO). FDA GRAS. Also in cloves, hops, rosemary, oregano."
+        },
+        {
+          "name": "Uziza Leaf (Piper guineense)",
+          "active_compounds": "β-Caryophyllene",
+          "mechanism": "Kava's cousin (Piperaceae family). African spice. High in caryophyllene."
+        },
+        {
+          "name": "Acmella oleracea (Toothache Plant)",
+          "active_compounds": "Spilanthol + others",
+          "mechanism": "Highly active CB2 agonist AND FAAH inhibitor. Dual mechanism."
+        }
+      ]
+    },
+    "category_6_additional_synergists": {
+      "title": "Additional Synergists (From 2020 Thread + Forums)",
+      "botanicals": [
+        {
+          "name": "Raw Garlic",
+          "mechanism": "Allicin (forms after crushing). CYP inhibition, antimicrobial, detox.",
+          "user_reports": "'Strongest potentiator I have ever experienced.' Must be organic, crushed 10 min before use."
+        },
+        {
+          "name": "Cacao",
+          "mechanism": "Contains anandamide. MAO-B inhibition (theobromine). Serotonin precursors.",
+          "user_reports": "Traditional combination. Theobromine mentioned in 2020 thread."
+        },
+        {
+          "name": "Chamomile",
+          "mechanism": "Apigenin (GABA-A binding). Flavonoids.",
+          "user_reports": "'Hot herbal teas kick it into high gear.' Sedative synergy."
+        },
+        {
+          "name": "Kanna (Sceletium tortuosum)",
+          "mechanism": "SSRI, PDE4 inhibitor. Mesembrine alkaloids.",
+          "user_reports": "'Known potentiator of other herbs.' Increases euphoria. Use caution with MAOIs."
+        },
+        {
+          "name": "Blue Lotus (Nymphaea caerulea)",
+          "mechanism": "Aporphine alkaloids. D1/D2 dopamine modulation.",
+          "user_reports": "'Increase euphoria.' Ancient Egyptian sacrament."
+        },
+        {
+          "name": "Passionflower (Passiflora incarnata)",
+          "mechanism": "MAOI activity (harmine, harmaline). GABA-A.",
+          "user_reports": "'Works really well with kava presumably from the MAOI quality.'"
+        },
+        {
+          "name": "California Poppy (Eschscholzia californica)",
+          "mechanism": "GABA-A binding. Mild opioid receptor activity.",
+          "user_reports": "Combined with passionflower and skullcap for kava synergy."
+        },
+        {
+          "name": "Mucuna pruriens",
+          "mechanism": "L-DOPA precursor. Dopamine synthesis.",
+          "user_reports": "From 2020 thread potentiator stack. Synergizes with kava's NE reuptake inhibition."
+        },
+        {
+          "name": "Ginkgo biloba",
+          "mechanism": "PEP/PREP inhibitor. Protects oxytocin from cleavage.",
+          "user_reports": "2020 thread: Oxytocin as PAM. Also cerebral blood flow."
+        },
+        {
+          "name": "Black Seed Oil (Nigella sativa)",
+          "mechanism": "Thymoquinone. CYP interactions. p-Cymene.",
+          "user_reports": "2020 thread potentiator. 'Blessed seed' in Islamic tradition."
+        }
+      ]
+    }
+  },
+  "preparation_methods": {
+    "pre_dose_30_60_min": [
+      "GABA-T inhibitors (lemon balm tea)",
+      "CYP inhibitors (grapefruit juice, turmeric+pepper)"
+    ],
+    "in_the_grog": [
+      "Lecithin (emulsifier)",
+      "Coconut milk (fats)",
+      "Citrus juice (extraction aid)"
+    ],
+    "post_kava_chase_meal": [
+      "Spicy food (capsaicin, piperine)",
+      "Fatty food (aids absorption)",
+      "Hot tea (circulation)"
+    ],
+    "classic_forum_advice": "'The best potentiator for kava is more kava' - reverse tolerance/accumulation effect"
+  },
+  "black_pepper_ultimate_potentiator": {
+    "title": "Why Black Pepper is the Ultimate Kava Potentiator",
+    "family_relationship": "Black pepper (Piper nigrum) is kava's cousin in the Piperaceae family",
+    "four_mechanisms": [
+      {
+        "compound": "Piperine",
+        "action": "CYP3A4/2C9 inhibitor - slows kavalactone breakdown"
+      },
+      {
+        "compound": "Guineensine",
+        "action": "Endocannabinoid reuptake inhibitor (290 nM) - amplifies yangonin's CB1 effects"
+      },
+      {
+        "compound": "β-Caryophyllene",
+        "action": "CB2 agonist - adds peripheral cannabinoid effects"
+      },
+      {
+        "compound": "P-glycoprotein inhibition",
+        "action": "Increases absorption of everything"
+      }
+    ],
+    "practical_application": "This is why spicy food after kava works - you're literally administering the perfect potentiator cocktail."
+  },
+  "cautions_and_contraindications": [
+    {
+      "concern": "Liver load",
+      "details": "Both kava and CYP inhibitors affect the liver. Use noble varieties, water extraction, moderate doses."
+    },
+    {
+      "concern": "MAOI herbs",
+      "details": "Passionflower contains harmine/harmaline. Avoid tyramine-rich foods."
+    },
+    {
+      "concern": "Prescription medications",
+      "details": "CYP inhibitors (grapefruit, piperine) affect drug metabolism. Consult healthcare provider."
+    },
+    {
+      "concern": "CNS depressants",
+      "details": "Never combine with benzodiazepines, alcohol, or sedatives."
+    },
+    {
+      "concern": "Start low",
+      "details": "Potentiators can make kava unexpectedly strong. Reduce kava dose when experimenting."
+    }
+  ],
+  "key_concepts": {
+    "oilahuasca_principle": "Targeting enzyme inhibition to prevent breakdown and amplify effects",
+    "yangonin_CB1": "Kava kavalactone with 720 nM CB1 binding affinity",
+    "piperaceae_family": "Kava and black pepper are botanical cousins with complementary pharmacology",
+    "quadruple_mechanism": "Black pepper hits CYP, reuptake, CB2, and P-gp simultaneously"
+  },
+  "cross_references": [
+    "Cannabinoid Oilahuasca Framework",
+    "FAAH/MAGL inhibition research",
+    "β-Caryophyllene as unifying compound",
+    "Temple Pharmacopoeia"
+  ]
+}
