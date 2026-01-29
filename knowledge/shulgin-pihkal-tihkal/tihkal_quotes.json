@@ -2,48 +2,101 @@
   "source": "TIHKAL: Tryptamines I Have Known And Loved",
   "author": "Alexander & Ann Shulgin",
   "year": 1997,
-  "quotes": [
+  "structure": {
+    "part_one": "The Story Continues (Autobiographical)",
+    "part_two": "The Chemical Story (55 Compound Entries)"
+  },
+  "general_quotes": [],
+  "compound_entries": [
     {
-      "id": "tihkal_001",
-      "quote": "How long will this last, this delicious feeling of being alive, of having penetrated the veil which hides beauty and the wonders of celestial vistas? It doesn't matter, as there can be nothing but gratitude for even a glimpse of what exists for those who can become open to it.",
-      "chapter": "DMT Entry",
-      "category": "consciousness_philosophy",
+      "entry_number": 1,
+      "code": "AL-LAD",
+      "chemical_name": "N-Allyl-nor-LSD",
+      "extensions_and_commentary": "This is one of the several very potent compounds in a large series of 5-alkylated analogues of nor-LSD. Most of them proved to be less potent than LSD, and considerably less dramatic. The Inderal mentioned in one of the comments is a trade name for propranolol, an antihypertensive that reduces nervousness.\n\nA comment is appropriate concerning the use of the prefix \"nor,\" as in the name of this material N-allyl-nor-LSD and of its immediate precursor, nor-LSD. Its exact meaning is that there is an alkylated nitrogen atom somewhere that has lost an alkyl group. The original term is from the German phrase \"N-ohne-Radical\" meaning N (the nitrogen) without the radical (meaning the alkyl group). The removing of the N-methyl group of LSD to form the N-H counterpart is a text book example of this usage. Unfortunately its use has slopped over to embrace the removal of an alkyl group from a heteroatom of any sort. Recently I learned of a metabolite of ibogaine that has lost a methyl group from the indolic oxygen atom (a methoxy has become a hydroxy) and the compound was called noribogaine. The correct term, to retain the use of the parent ibogaine word in its name, would have been desmethyl ibogaine. The removal of something is usually indicated with a \"de-\" or a \"des\" prefix ahead of the item that has been lost, as in deoxy (or desoxy) ribonucleic acid, DNA, which is ribonucleic acid (RNA) missing an oxygen atom.",
+      "key_themes": ["LSD_analogues", "chemical_nomenclature", "nor_prefix_etymology", "desmethyl_terminology"],
+      "notable_quotes": ["The original term is from the German phrase 'N-ohne-Radical' meaning N (the nitrogen) without the radical (meaning the alkyl group)."],
       "commentary": "",
       "extended_thoughts": ""
     },
     {
-      "id": "tihkal_002",
-      "quote": "The nature of a breakthrough is that you cannot plan for it. The true breakthrough must be unexpected, or it is merely a continuation of what has gone before.",
-      "chapter": "Research Philosophy",
-      "category": "scientific_method",
+      "entry_number": 2,
+      "code": "DBT",
+      "chemical_name": "N,N-Dibutyltryptamine",
+      "extensions_and_commentary": "The earliest reports that mention any human responses to DBT suggested that with an i.m. injection of 1 mg/Kg there was less effect than with DMT or DET. This report was discussed in the commentary on DMT, and it was stated that the dihexyl- homologue (DHT) was without any activity at all. The monohexyl homologue (NHT, see below) has been described as being, \"inactive in a few patients,\" but has not been systematically studied.\n\nWhat kinds of homologues of DMT can exist out there on that tryptamine nitrogen? Methyls, ethyls, propyls, butyls? These are already part of this story, known as DMT, DET, DPT and DBT. The di-iso-butyl analogue of DBT may best be called DIBT and it comes from indo-3-yl-N,N-di-(i)-butylglyoxylamide and LAH in a manner parallel to the DBT procedure given above. The HCl salt has a mp of 202-204 C. The pairs of alkyl groups can go on and on forever, but the activity seems to drop off as they get longer. How about a pair of 5-carbon chains? Diamyltryptamine? DAT? I certainly can't use the alternate name dipentyltryptamine, as that would be in conflict with DPT which has already established a prior claim for use with dipropyltryptamine. And there is still some possible ambiguity in that there is one mention in the literature that N,N-diallyltryptamine is active, but neither dosage nor route was mentioned. Maybe it should be DALT. For carbon chains that are 7-carbons long, there can only be DST for diseptyltryptamine. The synonymous diheptyltryptamine would require DHT, and this has already been usurped by the 6-carbon job, dihexyltryptamine.\n\nAnd as to trying to name anything higher, such as the N,N-dioctyltryptamine, forget it. The code would have to be, following all this logic, DOT. That term, at least its use as a code for a psychedelic drug, is already assigned to ALEPH in the phenethylamine series. There it stood for DesOxyThio, the DOM analog with a sulfur atom put in the place of an oxygen atom at a critical substitution position. So that pretty much cools any efforts to get ever longer chains on that nitrogen atom. They simply cannot be named. After all, there are only 26 to the third power combinations of the letters of the alphabet, around 17,000 possible three letter codes.",
+      "key_themes": ["tryptamine_nomenclature", "chemical_naming_conventions", "three_letter_codes", "alkyl_chain_length_activity"],
+      "notable_quotes": ["After all, there are only 26 to the third power combinations of the letters of the alphabet, around 17,000 possible three letter codes."],
       "commentary": "",
       "extended_thoughts": ""
     },
     {
-      "id": "tihkal_003",
-      "quote": "I believe that the realm of knowledge of states of mind and consciousness is far more central and important than the knowledge of physics.",
-      "chapter": "Philosophical Essays",
-      "category": "consciousness_philosophy",
+      "entry_number": 3,
+      "code": "DET",
+      "chemical_name": "N,N-Diethyltryptamine",
+      "extensions_and_commentary": "I have to bear the responsibility for much of the mythology that maintains that DET is only active by some parenteral route. All of the published human studies that explicitly mentioned dose and dosage, involved intramuscular administrations. Most of the people with whom I had private conversations about this material had evaluated it through the smoking route. It was only recently that I began to hear of oral trials. I had assumed that it was inactive orally, and ha said so in a number of reviews that I had published over the years. As they say in Latin, mea culpa.\n\nIn 1956, Humphry Osmond suggested, at a New York Academy of Science meeting that it might be less pejorative to soften the prefix that was used to relate to the mind from psychoto- or psycho-(used in medical diagnoses that are largely negative) to a misspelled but softer alternative, psyche- (which had not yet been tarred by the image of medical pathology). His suggestion was \"psychedelic,\" it was aped in many trials with such creations as \"psychephoric\" (mind-moving), \"psychehormic\" (mind-rousing), \"psycheplastic\" (mind-molding), \"psychezymic\" (mind-fermenting), \"psycherhexic\" (mind-bursting-forth) and \"psychelytic\" (mind-releasing). But, psychedelic (mind-manifesting) has weathered all storms, and is now a fixed component of our vocabulary.",
+      "key_themes": ["scientific_error_correction", "set_and_setting", "psychotomimesis", "terminology_history", "psychedelic_etymology", "research_ethics"],
+      "notable_quotes": ["I had assumed that it was inactive orally, and ha said so in a number of reviews that I had published over the years. As they say in Latin, mea culpa.", "His suggestion was 'psychedelic,' it was aped in many trials with such creations as 'psychephoric' (mind-moving), 'psychehormic' (mind-rousing), 'psycheplastic' (mind-molding), 'psychezymic' (mind-fermenting), 'psycherhexic' (mind-bursting-forth) and 'psychelytic' (mind-releasing)."],
       "commentary": "",
       "extended_thoughts": ""
     },
     {
-      "id": "tihkal_004",
-      "quote": "A person who experiences life passionately will be nurtured by it, and a person who treats the world with love will have it returned to him, tenfold.",
-      "chapter": "Personal Reflections",
-      "category": "relationship_insights",
+      "entry_number": 4,
+      "code": "DIPT",
+      "chemical_name": "N,N-Diisopropyltryptamine",
+      "extensions_and_commentary": "Most psychedelic drugs affect, primarily, the visual sense, but here is one that shows its effects primarily in the auditory system. And it screws it up in a most unlinear manner, in that there in not just a simple decrease in pitch which would be as if someone had his thumb against the LP record and made everything come out at a 3/4 speed text, or a 1/2 speed text. Actual roportionality is lost, so there is complete harmonic distortion.\n\nI am in absolute agreement. Here is a drug that goes directly after the hearing system, rather than the seeing system. Let's stick a carbon 11 on one of those isopropyl groups, and see where the drug goes using the positron emission tomography camera. Will we highlight the auditory cortex? Or maybe some association area? But if we are indeed dealing only with musical pitch, not musical structure, there might be only a small part of that cortical region visible. This could well be a tool for two things. First, the localization of the pitch center in the brain. And second, it is a prototypic drug that might allow structural modification in several directions with several augmenting atoms. Some simple homologue might well have even more remarkable and specific properties. If you don't look, you won't find.",
+      "key_themes": ["auditory_psychedelics", "harmonic_distortion", "neuropharmacology", "PET_imaging", "absolute_pitch"],
+      "notable_quotes": ["Most psychedelic drugs affect, primarily, the visual sense, but here is one that shows its effects primarily in the auditory system.", "If you don't look, you won't find."],
       "commentary": "",
       "extended_thoughts": ""
-    }
-  ],
-  "add_your_quotes_here": [
+    },
     {
-      "id": "tihkal_template",
-      "quote": "[Add quote here]",
-      "chapter": "[Chapter or section]",
-      "category": "[category_id from index]",
-      "commentary": "[Your commentary on the quote]",
-      "extended_thoughts": "[Extended reasoning and connections]"
+      "entry_number": 5,
+      "code": "a,O-DMS",
+      "chemical_name": "Alpha,O-Dimethylserotonin",
+      "extensions_and_commentary": "From the point of view of the neuropharmacologist, this has to be one of the most appealing and seductive of compounds. Serotonin (5-HT) is the \"in\" neurotransmitter, and the first receptor system that is looked at in any research lab working with psychedelic drugs. An association with serotonin is a strong justification for grant writing and funds solicitation from the mother of most medical research funding, the branches of the National Institutes of Health in Washington. Although this specific neurotransmitter is a big item in the brain, if you feed it to a person, or put it into him via the blood or tissue, it can't get there. It has no way of moving this specific molecule from the outside of the brain (the periphery) into the brain itself (the central Kingdom).\n\nTwo obstacles effectively prohibit this availability. Serotonin has a free hydroxy group (the 5-hydroxy which is the H of 5-HT). This is a big polar water-loving pimple which denies it any passage across the brain's defensive Maginot Line, the blood-brain barrier.\n\nThis kind of molecular manipulation is the ultimate treasure of the research pharmacologist. The taking off of one atom and the replacement of it with another. This is the simplest single maneuver that can be done to a drug, and any change in the observed pharmacology must be the result of that change. All must eventually be explored if we ever hope to learn what is going on up there in the human mind.",
+      "key_themes": ["serotonin_pharmacology", "blood_brain_barrier", "MAO_inhibition", "chirality", "molecular_manipulation"],
+      "notable_quotes": ["This is a big polar water-loving pimple which denies it any passage across the brain's defensive Maginot Line, the blood-brain barrier.", "This kind of molecular manipulation is the ultimate treasure of the research pharmacologist."],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 6,
+      "code": "DMT",
+      "chemical_name": "N,N-Dimethyltryptamine",
+      "extensions_and_commentary": "There is a staggering body of information on the subject of intoxicating snuffs and their use throughout the area of the Caribbean, the Amazon, and on to the west, past the Andes, in Colombia and Peru. The literature that has accumulated over the last forty or so years is fascinating, but extremely difficult to organize. The problem lies in deciding on which discipline shall dictate the hierarchy of classification. Does one organize by snuff name? But each different tribe will have a different name. Does one classify by the plants employed? This requires actual observation in the field, but a given plant may have several native names. And one snuff may use any of several different plants or plant combinations, depending on cultural tradition. To add uncertainty to this complexity, these traditions are being rapidly lost, with the eradication of folklore. So perhaps one should turn to the snuff itself, and classify according to the chemical composition. This is appealing in that there are many museum samples available, as well as a host of anthropological artifacts such as snuff trays and botanical residues that can be identified. But that is a luxury that requires the sophistication of the laboratory, and precludes any botanic assignment.\n\nNo matter which system might eventually prove to be the best, the use of a chemical assignment of drug structure to the active components allows some form of clinical challenge to the native use in the field. DMT and 5-MeO-DMT are the mainstay chemicals in most snuffs, and can be introduced into the product from any of several plants.\n\nDMT is the only psychedelic tryptamine that has recently been taken through the Kafkaesque processes for approval for human studies (via the FDA, the DEA, and the other Health agencies of the Government) and is one of the few Schedule I drug that is being looked at clinically in this country today. It has been studied in New Mexico, in Albuquerque. The first published results of this study show a smooth grading of subjective effects as a function of injected dose.\n\nThanks to the existence of ever-increasingly sensitive scientific instruments, the search of body fluids for possible psychedelics has brought forth a number that appear to be natural components of the human animal. DMT has been reported to be in the urine of schizophrenic patients, and so have 5-MeO-DMT, bufotenine, and its demethylated homologue N-methylserotonin. The levels are increased with the administration of monoamineoxidase inhibitors. A methylating enzyme has been found in blood, capable of forming DMT in plasma, and it is present in both normal subjects and schizophrenics.\n\nThe principal reason that DMT must be administer parenterally is its rapid and efficient metabolism. It can be oxidized to the N-oxide. It can be cyclized to b-carbolines, both with and without an N-methyl group. It can be N-dealkylated to form NMT and simple tryptamine itself. Best known is its oxidative destruction, by the monoamine oxidase system, to the inactive indoleacetic acid.",
+      "key_themes": ["ethnobotany", "snuffs", "cohoba", "ayahuasca", "endogenous_psychedelics", "clinical_research", "metabolism", "MAO"],
+      "notable_quotes": ["DMT is the only psychedelic tryptamine that has recently been taken through the Kafkaesque processes for approval for human studies.", "DMT has been reported to be in the urine of schizophrenic patients, and so have 5-MeO-DMT, bufotenine, and its demethylated homologue N-methylserotonin."],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 7,
+      "code": "2,a-DMT",
+      "chemical_name": "2,Alpha-Dimethyltryptamine",
+      "extensions_and_commentary": "I do love the satisfying feeling that comes with the successful assignment of a pharmacological change as a function of a single structural change. This is the holy grail of every SAR enthusiast (SAR = Structure Activity Relationship). Make a change in structure, see a corresponding change in activity. There is a correlation. There is causality. And there you have a new, firmly established fact of science to add to the understanding of the universe.\n\nA case in point. What happens when you put a methyl group on the two-position of the indole ring of a tryptamine. In the three examples, examples of the best studied tryptamines that were not active orally, they all became orally active. DMT, DET and 5-MeO-DMT, the three major parenterally-only active psychedelics, all blossomed into orally active compounds with the addition of a simple methyl group to that indole 2-position. As I had smugly argued, in the discussions of 2-Me-DMT, 2-Me-DET and Indapex, it is as if that bit of bulk got in the way of the destructive amine oxidases, and protected the molecule from its expected first-pass metabolic destruction.\n\nSo what happens here? You take a compound, a-MT, that is already immune to this oxidase system and is already orally active. Add a 2-methyl group to give 2-Me-a-MT, or 2,a-DMT. And what happens? The potency goes down, not up, and by a factor of 10 times. And it ends up being more of a sedative than a stimulant. So much for generalities. I suspect that I do not understand the universe nearly as well as I thought I did.",
+      "key_themes": ["structure_activity_relationships", "oral_activity", "MAO_protection", "scientific_humility", "unexpected_results"],
+      "notable_quotes": ["This is the holy grail of every SAR enthusiast (SAR = Structure Activity Relationship). Make a change in structure, see a corresponding change in activity.", "So much for generalities. I suspect that I do not understand the universe nearly as well as I thought I did."],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 8,
+      "code": "a,N-DMT",
+      "chemical_name": "Alpha,N-Dimethyltryptamine",
+      "extensions_and_commentary": "The relationship between a-MT (alpha-methyl tryptamine) and this compound, a,N-DMT (alpha,N-dimethyltryptamine) is exactly analogous to that seen with the phenethylamine counterparts, between amphetamine (alpha-methylphenethylamine) and methamphetamine (alpha,N-dimethylphenethylamine). Both the primary and the secondary amine compounds retain activity. In the amphetamine camp, both compounds are dramatic stimulants showing a complete spectrum of sympathomimetic properties including cardiovascular excitement, loss of appetite, and sleeplessness. Here, the tryptamine counterparts are similar to one another, but it is not as clear that they are stimulants. In animal studies, they have been compared with each other and with amphetamine. Except of the speed of onset, both tryptamines caused amphetamine-like behavior in activity cages, but required some 10 times the dosage of amphetamine. In man there are some suggestion of this, the loss of appetite, the buzzy lightheadedness, and the absence of any of the usual suggestions of psychedelic action.\n\nI mentioned an appealing hypothesis in the commentary on a-MT, and it is applicable here. Both of these materials, a-MT and a,N-DMT, are effective monoamine oxidase inhibitors. Both of these materials show some of the syndrome that has been described for the monoamineoxidase inhibitors of the beta-carboline family.",
+      "key_themes": ["amphetamine_analogy", "stimulant_properties", "MAO_inhibition", "phenethylamine_tryptamine_parallel"],
+      "notable_quotes": ["The relationship between a-MT (alpha-methyl tryptamine) and this compound, a,N-DMT (alpha,N-dimethyltryptamine) is exactly analogous to that seen with the phenethylamine counterparts, between amphetamine (alpha-methylphenethylamine) and methamphetamine (alpha,N-dimethylphenethylamine)."],
+      "commentary": "",
+      "extended_thoughts": ""
+    },
+    {
+      "entry_number": 9,
+      "code": "DPT",
+      "chemical_name": "N,N-Dipropyltryptamine",
+      "extensions_and_commentary": "The earliest reports of human activity, at 1 mg/Kg, are mentioned under DMT. The clinical trials from which the 80 mg comment above was entered, were conducted on a population of physically sound alcoholics. It was not only a study to define the nature of action of DPT, but to challenge the idea that the metabolism of the dialkyltryptamine on the 6-hydroxyl position might give rise to active metabolites.\n\nStudies using lower dosages of DPT (15-30 mg intramuscularly) have been explored as adjuncts to psychotherapy with alcoholic patients. The enhancement of recall of memories and experiences, the greater emotional expressivenes and self-exploration, coupled with a consistently short duration, made the drug very attractive. Higher doses, up in the 100 milligram range, have been explored in psychotherapy, in the quest for peak experiences. Yet another study, in exploring the interaction of therapy counseling and DPT-induced peak experiences with patients who are dying, the i.m. dosage range was between 75 and 125 milligrams.\n\nThere is a rather remarkable religious group known as the Temple of the True Inner Light, in New York City, which has embraced as its Eucharist DPT which they refer to as a powerful Angel of the Host. Their communion is confirmed by either the smoking or the drinking of the sacrament, and they have been totally unbothered by any agency of the Federal Government, as far as I know. It is not as if they were unknown.\n\nI wish the True Inner Light congregation Godspeed, if you will excuse the expression. My impressions of them from our correspondence have left me totally convinced of their integrity and dedication.",
+      "key_themes": ["psychotherapy", "alcoholism_treatment", "end_of_life_therapy", "religious_use", "Temple_of_True_Inner_Light", "first_amendment"],
+      "notable_quotes": ["There is a rather remarkable religious group known as the Temple of the True Inner Light, in New York City, which has embraced as its Eucharist DPT which they refer to as a powerful Angel of the Host.", "I wish the True Inner Light congregation Godspeed, if you will excuse the expression."],
+      "commentary": "",
+      "extended_thoughts": ""
     }
   ]
 }
