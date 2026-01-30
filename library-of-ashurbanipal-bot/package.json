@@ -1,17 +1,16 @@
 {
-  "name": "library-of-ashurbanipal-bot",
+  "name": "library-of-ashurbanipal-wiki-bot",
   "version": "1.0.0",
-  "description": "Wiki Knowledge Bot for the Library of Ashurbanipal - SoapBox.Community Wiki ecosystem",
-  "main": "src/index.js",
+  "description": "Wiki Generator Bot - Synthesizes knowledge base into MediaWiki articles",
+  "main": "src/wikiGenerator.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "deploy-commands": "node src/deploy-commands.js"
+    "generate": "node src/wikiGenerator.js",
+    "generate:dry": "node src/wikiGenerator.js --dry-run",
+    "generate:limit": "node src/wikiGenerator.js --limit=3",
+    "watch": "node src/wikiGenerator.js --watch"
   },
   "keywords": [
-    "discord",
-    "bot",
     "wiki",
     "mediawiki",
     "knowledge-base",
@@ -22,13 +21,10 @@
   "author": "Van Kush Family Research Institute",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.14.1",
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
-    "node-cache": "^5.1.2",
-    "mammoth": "^1.6.0",
-    "marked": "^11.1.0"
+    "mammoth": "^1.6.0"
   },
   "engines": {
     "node": ">=18.0.0"
