@@ -1,0 +1,32 @@
+{
+  "name": "library-of-ashurbanipal-wiki-bot",
+  "version": "1.0.0",
+  "description": "Wiki Generator Bot - Synthesizes knowledge base into MediaWiki articles",
+  "main": "src/wikiGenerator.js",
+  "type": "module",
+  "scripts": {
+    "generate": "node src/wikiGenerator.js",
+    "generate:dry": "node src/wikiGenerator.js --dry-run",
+    "generate:limit": "node src/wikiGenerator.js --limit=3",
+    "watch": "node src/wikiGenerator.js --watch"
+  },
+  "keywords": [
+    "wiki",
+    "mediawiki",
+    "knowledge-base",
+    "gemini",
+    "oilahuasca",
+    "van-kush"
+  ],
+  "author": "Van Kush Family Research Institute",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "mammoth": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
