@@ -52,15 +52,22 @@ class WikiClient {
 
     try {
       // Step 1: Get login token
-      const tokenResponse = await this.apiRequest({
-        action: 'query',
-        meta: 'tokens',
-        type: 'login'
+      const tokenResponse = await axios.get(this.apiUrl, {
+        params: {
+          action: 'query',
+          meta: 'tokens',
+          type: 'login',
+          format: 'json'
+        },
+        headers: {
+          'User-Agent': 'LibraryOfAshurbanipalBot/1.0'
+        }
       });
 
-      const loginToken = tokenResponse.query.tokens.logintoken;
+      const loginToken = tokenResponse.data.query.tokens.logintoken;
+      const tokenCookies = tokenResponse.headers['set-cookie']?.join('; ') || '';
 
-      // Step 2: Login
+      // Step 2: Login with cookies from token request
       const loginResponse = await axios.post(this.apiUrl, new URLSearchParams({
         action: 'login',
         lgname: this.botUsername,
@@ -69,12 +76,14 @@ class WikiClient {
         format: 'json'
       }), {
         headers: {
-          'User-Agent': 'LibraryOfAshurbanipalBot/1.0'
+          'User-Agent': 'LibraryOfAshurbanipalBot/1.0',
+          'Cookie': tokenCookies
         }
       });
 
       if (loginResponse.data.login.result === 'Success') {
-        this.cookies = loginResponse.headers['set-cookie']?.join('; ');
+        const loginCookies = loginResponse.headers['set-cookie']?.join('; ') || '';
+        this.cookies = tokenCookies + '; ' + loginCookies;
         this.loggedIn = true;
         console.log('[WikiClient] Logged in successfully');
 
@@ -82,7 +91,7 @@ class WikiClient {
         await this.getEditToken();
         return true;
       } else {
-        console.error('[WikiClient] Login failed:', loginResponse.data.login.result);
+        console.error('[WikiClient] Login failed:', loginResponse.data.login.result, loginResponse.data.login);
         return false;
       }
     } catch (error) {
