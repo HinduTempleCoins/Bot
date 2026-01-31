@@ -15,9 +15,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 import KnowledgeLoader from './utils/knowledgeLoader.js';
-import GeminiClient from './utils/geminiClient.js';
+import OllamaClient from './utils/ollamaClient.js';
 import WikiClient from './utils/wikiClient.js';
-import TemplateGenerator from './utils/templateGenerator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -147,7 +146,7 @@ class WikiGenerator {
       path.join(__dirname, '..', '..', 'knowledge');
 
     this.knowledgeLoader = new KnowledgeLoader(knowledgeBasePath);
-    this.geminiClient = new GeminiClient(process.env.GEMINI_API_KEY);
+    this.aiClient = new OllamaClient(); // Local AI - no API key needed
     this.wikiClient = new WikiClient(
       process.env.WIKI_URL || 'http://5.252.53.79/wiki',
       process.env.WIKI_BOT_USERNAME,
@@ -221,9 +220,9 @@ class WikiGenerator {
 
         this.generatedArticles.set(articleDef.title, article);
 
-        // Rate limit - Gemini free tier is 15 requests/minute
-        console.log('  Waiting 5 seconds (rate limit)...');
-        await this.sleep(5000);
+        // Brief pause between articles
+        console.log('  Waiting 2 seconds...');
+        await this.sleep(2000);
 
       } catch (error) {
         console.error(`  ERROR: ${error.message}`);
@@ -306,15 +305,14 @@ class WikiGenerator {
       }))
     };
 
-    // Try Gemini first, fall back to template generator
+    // Generate with local Ollama AI
     let content;
     try {
-      content = await this.geminiClient.synthesizeArticle(title, context);
-      console.log('  [Gemini] Generated successfully');
+      content = await this.aiClient.synthesizeArticle(title, context);
+      console.log('  [Ollama] Generated successfully');
     } catch (error) {
-      console.log('  [Gemini] Failed, using template generator');
-      const templateGen = new TemplateGenerator();
-      content = templateGen.synthesizeArticle(title, context);
+      console.error('  [Ollama] Generation failed:', error.message);
+      throw error;
     }
 
     return {

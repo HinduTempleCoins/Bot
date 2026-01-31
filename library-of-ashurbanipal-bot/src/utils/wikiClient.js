@@ -11,15 +11,37 @@ class WikiClient {
     this.baseUrl = wikiUrl.replace('/api.php', '');
     this.botUsername = botUsername;
     this.botPassword = botPassword;
-    this.cookies = null;
+    this.cookies = {}; // Object for proper cookie merging
     this.editToken = null;
     this.loggedIn = false;
+  }
+
+  /**
+   * Parse set-cookie headers into cookie object
+   */
+  parseCookies(setCookieHeaders) {
+    if (!setCookieHeaders) return {};
+    const cookies = {};
+    for (const header of setCookieHeaders) {
+      const [nameValue] = header.split(';');
+      const [name, value] = nameValue.split('=');
+      cookies[name] = value;
+    }
+    return cookies;
+  }
+
+  /**
+   * Convert cookie object to header string
+   */
+  cookiesToString() {
+    return Object.entries(this.cookies).map(([k, v]) => `${k}=${v}`).join('; ');
   }
 
   /**
    * Make an API request to MediaWiki
    */
   async apiRequest(params, method = 'GET') {
+    const cookieHeader = this.cookiesToString();
     const config = {
       method,
       url: this.apiUrl,
@@ -27,13 +49,15 @@ class WikiClient {
       data: method === 'POST' ? new URLSearchParams({ ...params, format: 'json' }) : undefined,
       headers: {
         'User-Agent': 'LibraryOfAshurbanipalBot/1.0 (Discord Wiki Bot)',
-        ...(this.cookies ? { Cookie: this.cookies } : {})
+        ...(cookieHeader ? { Cookie: cookieHeader } : {})
       },
       timeout: 10000
     };
 
     try {
       const response = await axios(config);
+      // Merge any new cookies (newer values overwrite older)
+      Object.assign(this.cookies, this.parseCookies(response.headers['set-cookie']));
       return response.data;
     } catch (error) {
       console.error('[WikiClient] API error:', error.message);
@@ -65,7 +89,7 @@ class WikiClient {
       });
 
       const loginToken = tokenResponse.data.query.tokens.logintoken;
-      const tokenCookies = tokenResponse.headers['set-cookie']?.join('; ') || '';
+      Object.assign(this.cookies, this.parseCookies(tokenResponse.headers['set-cookie']));
 
       // Step 2: Login with cookies from token request
       const loginResponse = await axios.post(this.apiUrl, new URLSearchParams({
@@ -77,13 +101,12 @@ class WikiClient {
       }), {
         headers: {
           'User-Agent': 'LibraryOfAshurbanipalBot/1.0',
-          'Cookie': tokenCookies
+          'Cookie': this.cookiesToString()
         }
       });
 
       if (loginResponse.data.login.result === 'Success') {
-        const loginCookies = loginResponse.headers['set-cookie']?.join('; ') || '';
-        this.cookies = tokenCookies + '; ' + loginCookies;
+        Object.assign(this.cookies, this.parseCookies(loginResponse.headers['set-cookie']));
         this.loggedIn = true;
         console.log('[WikiClient] Logged in successfully');
 
@@ -207,9 +230,8 @@ class WikiClient {
       }
     }
 
-    if (!this.editToken) {
-      await this.getEditToken();
-    }
+    // Always get a fresh edit token right before editing
+    await this.getEditToken();
 
     const response = await axios.post(this.apiUrl, new URLSearchParams({
       action: 'edit',
@@ -221,9 +243,12 @@ class WikiClient {
     }), {
       headers: {
         'User-Agent': 'LibraryOfAshurbanipalBot/1.0',
-        Cookie: this.cookies
+        Cookie: this.cookiesToString()
       }
     });
+
+    // Merge any new cookies
+    Object.assign(this.cookies, this.parseCookies(response.headers['set-cookie']));
 
     if (response.data.edit?.result === 'Success') {
       return {
