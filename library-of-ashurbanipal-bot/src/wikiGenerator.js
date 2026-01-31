@@ -17,6 +17,7 @@ import { dirname } from 'path';
 import KnowledgeLoader from './utils/knowledgeLoader.js';
 import GeminiClient from './utils/geminiClient.js';
 import WikiClient from './utils/wikiClient.js';
+import TemplateGenerator from './utils/templateGenerator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -289,8 +290,8 @@ class WikiGenerator {
     // Build the synthesis prompt
     const prompt = this.buildSynthesisPrompt(title, description, primaryContent, crossRefContent);
 
-    // Generate with Gemini
-    const content = await this.geminiClient.synthesizeArticle(title, {
+    // Build context for generation
+    const context = {
       primary: primaryContent.map(p => ({
         id: p.source,
         domain: p.domain,
@@ -303,7 +304,18 @@ class WikiGenerator {
         connection: `Cross-reference from ${c.domain}`,
         excerpt: c.content
       }))
-    });
+    };
+
+    // Try Gemini first, fall back to template generator
+    let content;
+    try {
+      content = await this.geminiClient.synthesizeArticle(title, context);
+      console.log('  [Gemini] Generated successfully');
+    } catch (error) {
+      console.log('  [Gemini] Failed, using template generator');
+      const templateGen = new TemplateGenerator();
+      content = templateGen.synthesizeArticle(title, context);
+    }
 
     return {
       title,
