@@ -88,7 +88,7 @@ FORMAT PREFERENCES:
       });
 
       req.on('error', reject);
-      req.setTimeout(300000, () => { // 5 minute timeout for large articles
+      req.setTimeout(900000, () => { // 15 minute timeout for CPU-based generation
         req.destroy();
         reject(new Error('Ollama request timeout'));
       });
@@ -113,7 +113,7 @@ FORMAT PREFERENCES:
         stream: false,
         options: {
           temperature: 0.7,
-          num_predict: 4096
+          num_predict: 2048  // Reduced for faster generation
         }
       });
       return response;
@@ -174,20 +174,20 @@ Provide a comprehensive answer that:
 
     prompt += `KNOWLEDGE BASE SOURCES:\n\n`;
 
-    // Primary sources (limit to top 5 to keep prompt manageable)
+    // Primary sources (limit to 3 sources, 800 chars each for CPU performance)
     if (context.primary && context.primary.length > 0) {
       prompt += `=== PRIMARY SOURCES ===\n`;
-      for (const source of context.primary.slice(0, 5)) {
-        const excerpt = source.excerpt?.slice(0, 1500) || '';
+      for (const source of context.primary.slice(0, 3)) {
+        const excerpt = source.excerpt?.slice(0, 800) || '';
         prompt += `[${source.domain}/${source.id}]\n${excerpt}\n\n`;
       }
     }
 
-    // Related sources (limit to top 3)
+    // Related sources (limit to 2)
     if (context.related && context.related.length > 0) {
       prompt += `=== RELATED SOURCES ===\n`;
-      for (const source of context.related.slice(0, 3)) {
-        const excerpt = source.excerpt?.slice(0, 1000) || '';
+      for (const source of context.related.slice(0, 2)) {
+        const excerpt = source.excerpt?.slice(0, 500) || '';
         prompt += `[${source.domain}] (${source.connection})\n${excerpt}\n\n`;
       }
     }
@@ -200,12 +200,11 @@ Provide a comprehensive answer that:
       }
     }
 
-    prompt += `\nSYNTHESIZE a comprehensive wiki article that:
-1. Uses MediaWiki markup (== headers ==, [[links]], <ref> citations)
-2. Connects this topic to the broader knowledge framework
-3. Shows relationships to Oilahuasca/Headcones/Shulgin research where relevant
-4. Is well-structured with clear sections
-5. Is informative but not overly long (aim for 500-1500 words)`;
+    prompt += `\nSYNTHESIZE a wiki article that:
+1. Uses MediaWiki markup (== headers ==, [[links]])
+2. Connects this topic to Oilahuasca/Headcones/Shulgin research
+3. Is well-structured with 3-4 sections
+4. Is concise (aim for 300-600 words)`;
 
     return prompt;
   }
