@@ -1,0 +1,8 @@
+# Protect credentials
+user-password.py
+*.pyc
+__pycache__/
+throttle.ctrl
+apicache-py3/
+apicache/
+*.lwp
