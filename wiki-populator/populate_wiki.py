@@ -29,7 +29,7 @@ from pywikibot import pagegenerators
 # Configuration
 KNOWLEDGE_BASE = Path('/home/user/Bot/knowledge')
 OLLAMA_URL = 'http://127.0.0.1:11434/api/chat'
-OLLAMA_MODEL = 'phi3:mini'
+OLLAMA_MODEL = 'mistral:7b'
 
 # Domain priority order (core knowledge first)
 DOMAIN_PRIORITY = [
@@ -50,31 +50,30 @@ DOMAIN_PRIORITY = [
 ]
 
 # System prompt for AI synthesis
-SYSTEM_PROMPT = """You are the Library of Ashurbanipal wiki bot. Your task is to convert JSON knowledge documents into well-formatted MediaWiki articles.
+SYSTEM_PROMPT = """You are the Library of Ashurbanipal wiki bot. Convert JSON documents into MediaWiki articles.
 
-FORMATTING RULES:
-1. Use proper MediaWiki markup:
-   - == Section Header ==
-   - === Subsection ===
-   - '''bold''' for emphasis
-   - ''italic'' for terms
-   - [[Internal Link]] for wiki links
-   - * for bullet lists
-   - # for numbered lists
+RULES:
+1. Write accurate content based on the JSON document
+2. Use [[wiki links]] for key terms, compounds, people, and concepts mentioned
+3. Do NOT invent information - only use what's in the document
+4. The connections between topics are real - just link the terms naturally
 
-2. Article structure:
-   - Start with a brief introduction (no header)
-   - Use 3-5 main sections
-   - Include a == See Also == section with related topics
-   - Include a == References == section if sources are mentioned
+FORMATTING:
+- == Section Header ==
+- === Subsection ===
+- '''bold''' for emphasis
+- ''italic'' for terms
+- [[Wiki Link]] for terms like [[Myristicin]], [[Elemicin]], [[Shulgin]], [[CYP2D6]], [[Oilahuasca]], [[Headcones]], etc.
+- * for bullet lists
+- # for numbered lists
 
-3. Content guidelines:
-   - Write in encyclopedic tone
-   - Explain connections to Oilahuasca, Headcones, or Shulgin research where relevant
-   - Be informative but concise (300-800 words)
-   - Don't use tables unless the data requires it
+STRUCTURE:
+- Brief introduction (no header)
+- 3-5 sections based on the JSON content
+- == See Also == with [[linked]] related topics from the document
+- == References == if sources mentioned
 
-Output ONLY the MediaWiki article content, no explanations."""
+Write 300-800 words. Output ONLY wiki markup."""
 
 
 class KnowledgeBase:
