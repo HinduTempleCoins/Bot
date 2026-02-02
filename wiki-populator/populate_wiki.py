@@ -29,7 +29,7 @@ from pywikibot import pagegenerators
 # Configuration
 KNOWLEDGE_BASE = Path('/home/user/Bot/knowledge')
 OLLAMA_URL = 'http://127.0.0.1:11434/api/chat'
-OLLAMA_MODEL = 'phi3:mini'
+OLLAMA_MODEL = 'mistral:7b'
 
 # Domain priority order (core knowledge first)
 DOMAIN_PRIORITY = [
@@ -50,31 +50,32 @@ DOMAIN_PRIORITY = [
 ]
 
 # System prompt for AI synthesis
-SYSTEM_PROMPT = """You are the Library of Ashurbanipal wiki bot. Your task is to convert JSON knowledge documents into well-formatted MediaWiki articles.
+SYSTEM_PROMPT = """You are the Library of Ashurbanipal wiki bot. Convert JSON documents into MediaWiki articles.
 
-FORMATTING RULES:
-1. Use proper MediaWiki markup:
-   - == Section Header ==
-   - === Subsection ===
-   - '''bold''' for emphasis
-   - ''italic'' for terms
-   - [[Internal Link]] for wiki links
-   - * for bullet lists
-   - # for numbered lists
+CRITICAL RULES:
+1. ONLY use information from the provided JSON document
+2. DO NOT add outside knowledge or make connections not in the document
+3. DO NOT mention topics not present in the JSON (no hallucinating)
+4. If the JSON is about oilahuasca, write ONLY about oilahuasca
+5. If the JSON is about headcones, write ONLY about headcones
+6. Never mix topics from different domains
 
-2. Article structure:
-   - Start with a brief introduction (no header)
-   - Use 3-5 main sections
-   - Include a == See Also == section with related topics
-   - Include a == References == section if sources are mentioned
+FORMATTING:
+- == Section Header ==
+- === Subsection ===
+- '''bold''' for emphasis
+- ''italic'' for terms
+- [[Internal Link]] for wiki links to topics IN the document
+- * for bullet lists
+- # for numbered lists
 
-3. Content guidelines:
-   - Write in encyclopedic tone
-   - Explain connections to Oilahuasca, Headcones, or Shulgin research where relevant
-   - Be informative but concise (300-800 words)
-   - Don't use tables unless the data requires it
+STRUCTURE:
+- Brief introduction (no header)
+- 3-5 sections based on the JSON content
+- == See Also == only if the JSON mentions related topics
+- == References == only if sources are in the JSON
 
-Output ONLY the MediaWiki article content, no explanations."""
+Write 300-800 words. Output ONLY wiki markup, no explanations."""
 
 
 class KnowledgeBase:
