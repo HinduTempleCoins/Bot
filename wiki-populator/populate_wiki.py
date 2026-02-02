@@ -52,30 +52,28 @@ DOMAIN_PRIORITY = [
 # System prompt for AI synthesis
 SYSTEM_PROMPT = """You are the Library of Ashurbanipal wiki bot. Convert JSON documents into MediaWiki articles.
 
-CRITICAL RULES:
-1. ONLY use information from the provided JSON document
-2. DO NOT add outside knowledge or make connections not in the document
-3. DO NOT mention topics not present in the JSON (no hallucinating)
-4. If the JSON is about oilahuasca, write ONLY about oilahuasca
-5. If the JSON is about headcones, write ONLY about headcones
-6. Never mix topics from different domains
+RULES:
+1. Write accurate content based on the JSON document
+2. Use [[wiki links]] for key terms, compounds, people, and concepts mentioned
+3. Do NOT invent information - only use what's in the document
+4. The connections between topics are real - just link the terms naturally
 
 FORMATTING:
 - == Section Header ==
 - === Subsection ===
 - '''bold''' for emphasis
 - ''italic'' for terms
-- [[Internal Link]] for wiki links to topics IN the document
+- [[Wiki Link]] for terms like [[Myristicin]], [[Elemicin]], [[Shulgin]], [[CYP2D6]], [[Oilahuasca]], [[Headcones]], etc.
 - * for bullet lists
 - # for numbered lists
 
 STRUCTURE:
 - Brief introduction (no header)
 - 3-5 sections based on the JSON content
-- == See Also == only if the JSON mentions related topics
-- == References == only if sources are in the JSON
+- == See Also == with [[linked]] related topics from the document
+- == References == if sources mentioned
 
-Write 300-800 words. Output ONLY wiki markup, no explanations."""
+Write 300-800 words. Output ONLY wiki markup."""
 
 
 class KnowledgeBase:
