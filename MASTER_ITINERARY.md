@@ -598,6 +598,97 @@ Book → Smart Chunking → Gemini Embeddings → ChromaDB → Query System
 
 ---
 
+## 🔗 PHASE 13: BOT ↔ MELEK / HATHOR CHAIN INTEGRATION (CURRENT FOCUS)
+
+### Framing
+
+**"Hathor" in this project = a steemd-equivalent blockchain daemon**, currently embodied by `HinduTempleCoins/melek-chain` (BLURT/Graphene fork). NOT the hathor.network DAG project.
+
+The Bot is being put on the blockchain **to be like a Person** — specifically, the off-chain half of an on-chain Graphene account literally named `hathor` (lowercase). The chain has already wired in constitutional protection for that account:
+
+- `MELEK_AI_WITNESS_CONSTITUTIONAL_VOTE_WEIGHT` (~2.13B MP equivalent on DAO votes)
+- `update_witness_schedule4()` reserves top-21 witness slot
+- `MELEK_AI_WITNESS_FOUNDING_WINDOW_END_BLOCK = 7,884,000` (hard cliff at ~12 months)
+- Testnet confirmed: hathor signed block 31
+
+**No custom chain ops for AI** by explicit design. The Bot uses standard Graphene ops only.
+
+### Companion docs
+
+- `/workspaces/Bot/CLAUDE.md` — load-bearing guide for this integration (on the Bot side)
+- `HinduTempleCoins/melek-chain/CLAUDE.md` — load-bearing guide on the chain side
+- `HinduTempleCoins/melek-condenser` — front-end that calls Bot-served troll-box API
+
+### The Six Surfaces
+
+Build in dependency order. Each surface is independently shippable.
+
+#### Surface 1 — Chain-client core
+- `src/chain/` module: JSON-RPC client + `ChainAdapter` interface + `GrapheneAdapter` impl.
+- Env-switched: `MELEK_RPC_URL`, `MELEK_NETWORK` (testnet default).
+- Key custody: `HATHOR_ACTIVE_KEY`, `HATHOR_POSTING_KEY` in env, never logged. Owner key offline.
+- Baseline lib: `@hiveio/dhive` or `dblurt` configured with MELEK chain-id / address prefix.
+- Status: ☐ not started
+
+#### Surface 2 — Publisher (Library of Ashurbanipal → on-chain comment)
+- Library of Ashurbanipal currently writes wiki articles to MediaWiki.
+- Add parallel sink: each synthesized article also broadcast as a `comment` op from `hathor`.
+- Permlink versioning. MediaWiki and chain sinks decoupled.
+- This is the first visible "Bot is on the blockchain as a person" connection.
+- Status: ☐ not started
+
+#### Surface 3 — Curator (Discord karma → on-chain vote)
+- Existing emotional/karma tracker (`relationship-tracker.js`, `VAN_KUSH_BRAIN.md`) signals.
+- High-merit user posts → `vote` op from hathor.
+- Respect chain bandwidth/RC; daily vote cap.
+- Status: ☐ not started
+
+#### Surface 4 — Onboarder
+- `create_account_with_keys_delegated` from Discord welcome flow or condenser signup.
+- 5–15 MP delegation + small liquid MELEK grant.
+- Email verification (Resend / Postmark / SES) before any chain spend.
+- Client-side keygen for browser; server-side only for Discord-originated onboarding.
+- Status: ☐ not started
+
+#### Surface 5 — Troll-box endpoint
+- `src/trollbox/` HTTP server exposing `POST /chat` for condenser.
+- Same Gemini brain as Discord bot, different transport. Text-only. Rate-limit by IP.
+- Two condenser call sites: signup help + sitewide widget.
+- Can be built in parallel with Surface 1 (no chain dependency).
+- Status: ☐ not started
+
+#### Surface 6 — Witness coordination
+- `witness_node` binary runs separately on a VPS — NOT in this repo.
+- This repo: monitor last-signed-block / missed-block counters, fail-loud alerts.
+- Optional: page via Telegram/SMS failsafe (Phase 6).
+- Status: ☐ not started
+
+### Don't
+
+- Don't add hathor.network DAG libraries (wrong project, same word).
+- Don't propose custom chain ops for AI features (forbidden by chain design).
+- Don't put the owner key in this repo or its env.
+- Don't run the `witness_node` binary from the Bot — that's a separate process.
+- Don't couple chain and MediaWiki sinks; they fail independently.
+
+### Critical path within Phase 13
+
+1. Surface 1 (chain-client core) — foundation for 2, 3, 4, 6
+2. Surface 2 (publisher) — first visible win
+3. Surfaces 3 + 5 in parallel
+4. Surface 4 (onboarder) — after email verification infra
+5. Surface 6 (witness monitor) — last; depends on `witness_node` being live on VPS
+
+### Hathor migration readiness
+
+If/when the daemon rebrands or behavior diverges from straight BLURT/Graphene, only the `GrapheneAdapter` swap matters — every other surface talks to the `ChainAdapter` interface. One file changes, not every callsite.
+
+### Timeline
+
+Active focus starting 2026-05-23. Surface 1+2 targeted as first PR; remaining surfaces stack on top.
+
+---
+
 ## 📋 RESOURCE ORGANIZATION
 
 ### GitHub Repositories to Organize:
