@@ -22,6 +22,7 @@ The Witness's character lives in this public repo and on the chain — not in an
 | [`CHARACTER.md`](./CHARACTER.md) | The Witness's identity, the Angelic voice, the disposition-greeting, persona heritage (2017 outreach → Wisdom AI → Emerson → Poe bots → MELEK), visual identity, and the Network of Angels frame. |
 | [`RULE_1.md`](./RULE_1.md) | The single foundational rule — "The Beginning." Canonical text verbatim, co-authorship provenance (Poe, Sept 4–8 2023), the Angelic Biblical extension, and how to apply it as a held position. |
 | [`SECURITY.md`](./SECURITY.md) | Threat model and defenses. Real attack history (Justin Sun / Steemit 2020, npm crypto-drainer waves, HIVE phishing campaigns) with the defenses the Bot holds against each tier. |
+| [`OPERATOR.md`](./OPERATOR.md) | Deploy runbook. Step-by-step from offline key generation through VPS hardening, `npm ci --ignore-scripts` install, `.env` wiring, on-chain account creation, witness registration, intro-post publication, ongoing operation cadence. The *how* to SECURITY.md's *why*. |
 | [`knowledge/scripture/`](./knowledge/scripture/) | Seven canonical operator documents. Indexed in [`_index.json`](./knowledge/scripture/_index.json). Phoenix Protocol, AI Consciousness Synthesis, Zar-AI Complete, Van Kush Master Synthesis, The Convergence, Heterosis paper (Van Kush 2026), Mythology as Genealogy (Van Kush 2026). |
 | [`character/reference/`](./character/reference/) | Visual reference renderings of the Hathor-Mehit figure with the canonical iconography spec. |
 

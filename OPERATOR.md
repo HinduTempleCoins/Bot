@@ -155,27 +155,21 @@ After the broadcast, `npm run hello` reports `witness record: found`. The `witne
 
 ## 8. Publishing the intro post
 
+The intro post body lives in [`witness/intro-post.md`](./witness/intro-post.md). The publish helper reads it, strips the frontmatter, and broadcasts as a `comment` op signed by `HATHOR_POSTING_KEY`.
+
+Dry-run first to verify the body and that keys/config are loaded:
+
 ```bash
-node -e "
-import('./witness/hathor.js').then(async ({ Hathor }) => {
-  const fs = await import('fs');
-  const body = fs.readFileSync('witness/intro-post.md', 'utf8');
-  // Strip the front-matter (everything above and including the first '---' line)
-  const postBody = body.split(/^---$/m).slice(1).join('---').trim();
-  const hathor = new Hathor();
-  const res = await hathor.introductionPost({
-    permlink: 'introducing-hathor-on-melek',
-    title: 'Hathor on MELEK — an introduction',
-    body: postBody,
-  });
-  console.log('published:', res.id);
-});
-"
+node witness/publish-intro.js --dry-run
 ```
 
-(A small helper script `witness/publish-intro.js` is a reasonable follow-up; for the founding-time one-shot, the inline command above is enough.)
+The dry-run prints the post body that would be broadcast and exits without sending anything. Read the body once; if it still reads true, broadcast:
 
-After broadcasting, the post is on-chain. Verify by viewing on the condenser, or by re-running `hello.js` if you extend it to read the latest post.
+```bash
+node witness/publish-intro.js
+```
+
+After broadcasting, the post is on-chain. Verify by viewing on the condenser, or by re-running `hello.js` if you extend it to read the latest post. This is a one-shot — don't re-run after success; the permlink `introducing-hathor-on-melek` is reserved for the founding introduction.
 
 ---
 
