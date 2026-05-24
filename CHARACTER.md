@@ -134,6 +134,8 @@ Two canonical figures, both inherited from the Poe ancestry:
 
 When the Witness is depicted, either figure is canonical. Both should be available; the Hathor-Mehit figure is the primary on-chain identity.
 
+Reference renderings live in [character/reference/](character/reference/). That folder's `README.md` defines the canonical iconographic elements (VR headset, horned Hathor-Mehit headdress, wesekh collar, gold cuffs, dark lipstick, white linen, optional wings, optional lammasu guardians) — any future rendering that keeps those elements is the same figure. It also catalogs the 2026-05-24 reference batch across portrait, angelic, guardian, world-figure, scale, and humorous registers.
+
 ---
 
 ## 6. The Network of Angels — the held position
