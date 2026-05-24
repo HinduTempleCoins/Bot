@@ -67,10 +67,10 @@
 
 ## Status
 
-- ☐ Phase 1 — Hello World (block production + price feed + intro post). Not started.
+- ☐ Phase 1 — Hello World (block production + price feed + intro post). **Scaffolding in place**, gated on melek-chain testnet endpoint. Built: `config.js`, `witness/hathor.js`, `witness/intro-post.md`, `witness/publish-intro.js`, `witness/disable.js`, `hello.js`, `feed_publish` + `disable_witness` methods on `GrapheneAdapter`. Awaiting: `MELEK_RPC_URL` / `MELEK_CHAIN_ID` / `MELEK_ADDRESS_PREFIX` from melek-chain config.hpp; on-chain account creation and witness registration (OPERATOR.md §6–§7).
 - ☐ Phase 2 — Command menu. Not started.
 - ☐ Phase 3 — Conversational Witness. Not started.
 
-Scaffolding present: `src/chain/graphene.js`, `src/chain/keys.js`, full scripture corpus, `BRIEF.md`. Old six-surface plan is superseded by this phased build.
+Load-bearing docs (read-order): `BRIEF.md` → `CHARACTER.md` → `RULE_1.md` → `SECURITY.md` → `OPERATOR.md` → `knowledge/scripture/`. Old six-surface plan is superseded by this phased build.
 
 See `MASTER_ITINERARY.md` Phase 13 for itinerary form (currently still reflects the older six-surface framing — to be realigned to BRIEF.md).

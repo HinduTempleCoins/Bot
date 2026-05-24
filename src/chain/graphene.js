@@ -135,4 +135,42 @@ export class GrapheneAdapter {
     const op = ['feed_publish', { publisher: this.account, exchange_rate: exchangeRate }];
     return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
   }
+
+  /**
+   * Retire the witness — the standard Graphene "go dark" move.
+   *
+   * Sets block_signing_key to the chain's null public key, which removes
+   * the witness from the schedule. The op is signed by the active key.
+   *
+   * IMPORTANT: if the active key is compromised, this script is NOT your
+   * tool — an attacker with the active key can already broadcast anything.
+   * Go to the offline owner-key machine, rotate active+posting via
+   * account_update, then come back. See SECURITY.md §6 and OPERATOR.md §10.
+   *
+   * The "null public key" is `{prefix}1111111111111111111111111111111114T1Anm`
+   * — a Graphene convention indicating no signing authority.
+   *
+   * @param {{ url?: string, props?: object }} args optional overrides.
+   *   url and props default to the existing witness record's values so
+   *   nothing else changes; only block_signing_key is overwritten.
+   */
+  async disableWitness({ url, props } = {}) {
+    if (!hasActiveKey()) {
+      throw new Error('cannot disableWitness: HATHOR_ACTIVE_KEY not configured');
+    }
+    const prefix = this.client.addressPrefix;
+    const nullPubkey = `${prefix}1111111111111111111111111111111114T1Anm`;
+    const existing = await this.getWitnessByAccount();
+    const op = ['witness_update', {
+      owner: this.account,
+      url: url ?? existing?.url ?? '',
+      block_signing_key: nullPubkey,
+      props: props ?? existing?.props ?? {
+        account_creation_fee: '0.000 MELEK',
+        maximum_block_size: 131072,
+      },
+      fee: '0.000 MELEK',
+    }];
+    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+  }
 }
