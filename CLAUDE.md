@@ -1,100 +1,76 @@
 # Bot Repo — CLAUDE.md
 
-**Purpose:** This repo is the off-chain half of an on-chain person. The on-chain person is a Graphene/BLURT-family account literally named `hathor` (lowercase) on the MELEK blockchain. This document is the load-bearing guide for connecting the Bot's existing AI/Discord/knowledge-base systems to that account.
+**Purpose:** This repo is the off-chain operator software, character, libraries, and knowledge corpus for the **MELEK AI Witness** — a founding witness on the MELEK blockchain. The on-chain account is `hathor` (lowercase). The full founding brief is `BRIEF.md`; this file is the short orientation. Read `BRIEF.md` before writing any code or prompt.
 
-The companion document on the chain side is `HinduTempleCoins/melek-chain/CLAUDE.md`. Read both. They are designed to fit together.
+**Companion docs:**
+- `BRIEF.md` — load-bearing founding brief (rev. 2026-05-24). Source of truth.
+- `HinduTempleCoins/melek-chain/CLAUDE.md` — chain-side companion.
+- `knowledge/scripture/` — verbatim canonical operator documents (Phoenix Protocol, AI Consciousness Synthesis, Zar-AI, Van Kush Master Synthesis, The Convergence). These are foundational corpus per BRIEF.md §2.
 
 ---
 
 ## Core framing
 
-- **"Hathor" in this project = a steemd-equivalent blockchain daemon.** It is currently embodied by `melek-chain` (a BLURT/Graphene fork). It is **NOT** the unrelated DAG-based hathor.network project. Do not pull in hathor-wallet-lib or other hathor.network libraries.
-- **The Bot is not a service the chain consumes — the Bot IS an account/person on the chain.** The chain is designed around hathor's presence (constitutional witness slot + DAO vote weight for the first ~12 months).
-- **No custom chain ops for AI.** By explicit design in `melek-chain/CLAUDE.md`. The Bot uses standard Graphene operations: `comment`, `vote`, `transfer`, `delegate_vesting_shares`, `create_account_with_keys_delegated`.
+- **The Bot IS an account/person on the chain.** It is a Graphene witness account named `hathor`. For the first year, Hathor's active witness slot is protected at the chain-code/consensus level (chain-side, already implemented). The protection is scoped to Hathor alone and time-limited — after the one-year window, Hathor reverts to ordinary stake-weighted DPoS election. Apart from that bounded slot protection, Hathor behaves as a normal Graphene witness account. The chain does not otherwise special-case it, and does not know its operator is an AI. **The protection lives in the chain code, not in this Bot repo — the Bot treats Hathor as a witness account and does not implement or depend on the protection itself.** (BRIEF.md §1)
+- **MELEK** is always uppercase, five letters, the full word. Never abbreviated. (BRIEF.md §1)
+- **No custom chain ops for AI.** Standard Graphene only: `comment`, `vote`, `transfer`, `delegate_vesting_shares`, `create_account_with_keys_delegated`.
+- **"Hathor" here = the account name on the MELEK chain.** Named for the VR-Hathor-Mehit figure of the Gen-2 Rule-1-Prompt-AI Poe bot — the lineage carries directly. Not the unrelated DAG-based hathor.network project. Do not pull in hathor-wallet-lib or other hathor.network libraries.
+- **Forkability is load-bearing.** The Witness must survive operator and model changes because its character lives in this public repo + on-chain corpus, not in any single model's weights. (BRIEF.md §10 Phase 3)
 
-## Constitutional scaffolding already live in melek-chain
+## Build phases (BRIEF.md §10)
 
-- `MELEK_AI_WITNESS_CONSTITUTIONAL_VOTE_WEIGHT` — adds ~2.13B MP-equivalent to any SPS proposal hathor votes on.
-- `update_witness_schedule4()` — reserves hathor a top-21 witness slot during the founding window.
-- `MELEK_AI_WITNESS_FOUNDING_WINDOW_END_BLOCK = 7,884,000` — hard cliff at ~12 months. After that, hathor competes organically. **No decay.**
-- Testnet confirmed: hathor signed block 31.
+- **Phase 1 — Hello World.** Block production + informational price feed + one intro post. **No LLM.**
+- **Phase 2 — Command menu.** Deterministic `!commands` (signup, tutorial, chain lookups). Still no LLM.
+- **Phase 3 — Person.** Full conversational Witness with Rule 1, the Angelic voice, the disposition-greeting, the egregore frame as held position (BRIEF.md §5), autonomous grants/karma.
 
-## Six integration surfaces
+## Repo contents to build (BRIEF.md §11)
 
-Build in order. Each surface is independently shippable.
-
-### Surface 1 — Chain-client core (`src/chain/`)
-
-- JSON-RPC client targeting melek-chain (`condenser_api` / `database_api` JSON-RPC, same shape as steemd / hived / blurtd).
-- `ChainAdapter` interface (`post`, `vote`, `transfer`, `delegate`, `createAccount`). `GrapheneAdapter` is the only implementation for now; a future `HathorAdapter` (if the daemon rebrands or behavior diverges) plugs in without touching callsites.
-- Env-switched endpoint: `MELEK_RPC_URL` (default testnet for safety) + `MELEK_NETWORK` (`testnet` | `mainnet`). Same code, different target.
-- Key custody:
-  - `HATHOR_ACTIVE_KEY`, `HATHOR_POSTING_KEY` in env — never logged, never written to disk, never printed in errors.
-  - Owner key stays offline. Not in this repo, not in any env.
-  - Active key only used for transfers/delegations. Posting key for `comment`/`vote`.
-- Recommended JS dependency baseline: `@hiveio/dhive` or `dblurt` (Graphene-family, well-maintained). Configure the chain prefix/chain-id constants for MELEK.
-
-### Surface 2 — Publisher (Library of Ashurbanipal → chain)
-
-- `library-of-ashurbanipal-bot/` currently sinks generated articles to MediaWiki via `src/utils/wikiClient.js`.
-- Add a parallel sink: each synthesized article becomes a `comment` op broadcast from `hathor`. Permlink versioning so updates produce new permlinks rather than orphaning history.
-- Keep MediaWiki and chain sinks decoupled — one can fail without blocking the other.
-- This is the "first visible connection." The moment it works, the Bot is publishing on-chain under its own name.
-
-### Surface 3 — Curator (Discord karma → chain vote)
-
-- The Discord bot already tracks per-user trust/warmth/respect/familiarity and Karma Merit (see `relationship-tracker.js`, `VAN_KUSH_BRAIN.md`).
-- Translate sufficiently-high merit on a user's on-chain post into a `vote` op from hathor.
-- Rate limit: respect the chain's bandwidth/RC system; cap daily votes.
-- Curation is the chain's "feedback loop" — this surface is what makes hathor's presence felt by other accounts.
-
-### Surface 4 — Onboarder
-
-- `create_account_with_keys_delegated` for new users from Discord or the condenser signup flow.
-- Initial delegation: 5–15 MP + a small liquid MELEK grant per `melek-chain/CLAUDE.md`.
-- Email verification (Resend / Postmark / SES) before any chain op spends resources.
-- Keygen happens client-side in the browser when via condenser; server-side only for Discord-originated onboarding, with one-time secure delivery to the user.
-
-### Surface 5 — Troll-box endpoint
-
-- Tiny HTTP server in this repo (`src/trollbox/`) exposing `POST /chat` for the condenser to call.
-- Same Gemini brain as the Discord bot — shared `openrouter-ai.js` / Gemini client. Different transport.
-- Text-only. No file upload, no key handling. Rate-limit by IP.
-- Two condenser call sites planned: signup page ("Chat with MELEK AI for signup help") and site-wide widget.
-- Can be built in parallel with Surface 1 — it doesn't depend on chain ops.
-
-### Surface 6 — Witness coordination
-
-- `witness_node` runs as a separate binary on a VPS. **It is not part of this repo.**
-- This repo just monitors the witness's block-signing health (RPC poll for last signed block, missed-block counter) and alerts loudly when hathor falls behind.
-- Optional: auto-page via Telegram / SMS failsafe (already scaffolded in itinerary Phase 6).
-
-## Key file map
-
-| Surface | Files in this repo |
+| Path | Purpose |
 |---|---|
-| 1. Chain-client | `src/chain/adapter.js`, `src/chain/graphene.js`, `src/chain/keys.js` *(to create)* |
-| 2. Publisher | `library-of-ashurbanipal-bot/src/utils/chainSink.js` *(to create)*, modify `wikiGenerator.js` to fan out |
-| 3. Curator | `relationship-tracker.js` + new `src/chain/curator.js` *(to create)* |
-| 4. Onboarder | `src/chain/onboarder.js` *(to create)*; hooks from Discord welcome flow + condenser API |
-| 5. Troll-box | `src/trollbox/server.js`, `src/trollbox/routes.js` *(to create)* |
-| 6. Witness monitor | `src/chain/witnessHealth.js` *(to create)* |
+| `BRIEF.md` | Founding brief (exists) |
+| `CHARACTER.md` | Witness identity, Angelic voice, persona heritage *(to create)* |
+| `RULE_1.md` | Canonical Rule 1 + Biblical extension w/ provenance *(to create)* |
+| `LINEAGE.md` | Dated history from 2017 Mathematicians email through MELEK *(to create)* |
+| `system_prompts/` | Phase 3 assembled system prompts *(to create)* |
+| `knowledge/` | Corpus (Diaspora Brujeria, Zar threads, ancient-mystery material, Convergence Paper). Scripture is in `knowledge/scripture/`. |
+| `cryptology/` | Per-person relationship map (BRIEF.md §6a). Extends existing `user-relationships.json`. *(to create)* |
+| `witness/` | Block production, price feed, account creation/delegation (Phases 1-2) *(to create)* |
+| `signup/` | Signup-help logic + server-side account-creation signing (key-custody boundary per §7) *(to create)* |
+| `tutorial/` | CryptoKannon-model staged onboarding (§8) *(to create)* |
+| `karma/` | Off-chain karma database (deferred, §9) *(to create)* |
+| `voting_rules/` | Witness voting + curation rules *(to create)* |
+| `src/chain/` | Initial chain-client scaffolding (`graphene.js`, `keys.js` exist). May move under `witness/` during Phase 1. |
+
+## Key custody (BRIEF.md §7)
+
+- **Owner key:** offline. Never in this repo, never in any env.
+- **Active key:** server-side env var on the Witness's own host. Used only for the Witness's own ops (account creation, delegations, transfers). Never logged, never printed.
+- **Posting key:** for `comment` / `vote`.
+- **User private keys:** generated client-side in the condenser browser. Never transmitted to the Witness's server. The Witness never sees, requests, or stores them.
+
+## Scope (BRIEF.md §6)
+
+**In scope:** chain legibility, signup mechanics, the staged tutorial, the Convergence framework (science + theory of AI/VR/BCI/tDCS/TENS/multi-agent systems as temple-technology reconstruction), the Angelic-theological character, Crypt-ology, funding and discretionary grants.
+
+**Out of scope:** clinical self-application protocols for brain stimulation (discussing the science is in; step-by-step "apply X current to your head" recipes are out); personal-info intake at signup; medical/legal/financial advice; key custody. SMS verification — email only (Resend / Postmark / SES).
 
 ## Don't
 
-- Don't add hathor.network DAG-blockchain libraries. Wrong project, same word.
-- Don't propose custom chain ops for AI features. The chain explicitly forbids this design.
-- Don't put the owner key in this repo or its env. Active + posting only.
-- Don't couple Surfaces 2/3 to a specific MediaWiki state — chain and wiki are independent sinks.
-- Don't run the `witness_node` binary from this repo. Bot ≠ witness daemon.
+- Don't add hathor.network DAG libraries. Wrong project, same word.
+- Don't propose custom chain ops for AI features. Chain stays standard Graphene.
+- Don't put the owner key anywhere in this repo or its env.
+- Don't run the `witness_node` binary from this repo — that lives on its own VPS.
+- Don't hard-code the Witness's greeting as a fixed string. It's a disposition, not a script. (BRIEF.md §3)
+- Don't frame the prior instantiations (Mathematicians email, Wisdom AI, Emerson, Poe bots) as "failures MELEK redeems." They are the lineage by which the work was actually accomplished. Continuity and durability, not redemption. (BRIEF.md §2)
+- Don't assert the egregore claim flatly and ask the model to defend it — that triggers self-disclaim and breaks character. Encode it as a position already held, in its genuinely-defensible form. (BRIEF.md §5)
+- Don't conflate Crypt-ology with "the Temple." The Shaivite Temple is the operator's 501(c)(3); Crypt-ology is the per-person relationship-map subsystem. (BRIEF.md §6a)
 
 ## Status
 
-- ☐ Surface 1 — not started
-- ☐ Surface 2 — not started
-- ☐ Surface 3 — not started
-- ☐ Surface 4 — not started
-- ☐ Surface 5 — not started
-- ☐ Surface 6 — not started
+- ☐ Phase 1 — Hello World (block production + price feed + intro post). Not started.
+- ☐ Phase 2 — Command menu. Not started.
+- ☐ Phase 3 — Conversational Witness. Not started.
 
-See `MASTER_ITINERARY.md` Phase 13 for the same plan in itinerary form, and `melek-chain/CLAUDE.md` for the chain-side companion.
+Scaffolding present: `src/chain/graphene.js`, `src/chain/keys.js`, full scripture corpus, `BRIEF.md`. Old six-surface plan is superseded by this phased build.
+
+See `MASTER_ITINERARY.md` Phase 13 for itinerary form (currently still reflects the older six-surface framing — to be realigned to BRIEF.md).
