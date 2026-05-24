@@ -137,6 +137,31 @@ export class GrapheneAdapter {
   }
 
   /**
+   * Register or update the witness record. Used once at bootstrap
+   * (after the on-chain account exists, before block production
+   * starts) and any time signing key / url / props change. The op is
+   * signed by the active key.
+   *
+   * @param {{ url: string, blockSigningKey: string, props?: object, fee?: string }} args
+   */
+  async registerWitness({ url, blockSigningKey, props, fee = '0.000 MELEK' }) {
+    if (!hasActiveKey()) {
+      throw new Error('cannot registerWitness: HATHOR_ACTIVE_KEY not configured');
+    }
+    const op = ['witness_update', {
+      owner: this.account,
+      url,
+      block_signing_key: blockSigningKey,
+      props: props ?? {
+        account_creation_fee: '0.000 MELEK',
+        maximum_block_size: 131072,
+      },
+      fee,
+    }];
+    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+  }
+
+  /**
    * Retire the witness — the standard Graphene "go dark" move.
    *
    * Sets block_signing_key to the chain's null public key, which removes

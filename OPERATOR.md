@@ -141,15 +141,25 @@ Once the account exists on chain, run `npm run hello` again. You should see `on-
 
 ## 7. Registering as a witness
 
-Still bootstrap from outside this Bot — the `witness_update` op needs to be signed by Hathor's active key, which is the key you just put in `.env`. You can use `cli_wallet` for this one-time op or extend `src/chain/graphene.js` with a `registerWitness()` method (good follow-up work). The op carries:
+The `witness_update` op is signed by Hathor's active key (already in `.env` from §5). Use the bundled helper:
 
-- `owner: hathor`
-- `url`: a URL with the Witness's profile/intro (the published intro post location works)
-- `block_signing_key`: the public block-signing key generated in §2 (the corresponding private key lives on the `witness_node` host)
-- `props`: account creation fee, maximum block size, MELEK feed publication rate
-- `fee`: typically `0.000 MELEK`
+```bash
+# Fill in the registration-specific env vars in .env first:
+#   HATHOR_WITNESS_URL          (public URL — typically the intro post)
+#   HATHOR_BLOCK_SIGNING_PUBKEY (the public key matching the signing key on the witness_node host, §2)
+#   HATHOR_ACCOUNT_CREATION_FEE (default "0.000 MELEK")
+#   HATHOR_MAXIMUM_BLOCK_SIZE   (default 131072)
+
+# Preview, no broadcast:
+node witness/register.js --dry-run
+
+# Broadcast for real:
+node witness/register.js --yes
+```
 
 After the broadcast, `npm run hello` reports `witness record: found`. The `witness_node` daemon (separate host) should be running and will start signing blocks when the witness schedule picks it.
+
+To **update** the witness record later (rotate signing key, change URL, adjust props), edit the env vars and re-run `node witness/register.js --yes`. Same op, same key, just a new value.
 
 ---
 

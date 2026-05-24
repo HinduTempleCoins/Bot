@@ -97,6 +97,15 @@ export class Hathor {
   }
 
   /**
+   * Register or update the witness record. Active key required.
+   * Use once after the on-chain account exists to register hathor as a
+   * witness. See OPERATOR.md §7.
+   */
+  async registerWitness(args) {
+    return this.connect().registerWitness(args);
+  }
+
+  /**
    * Retire the witness (circuit breaker). Active key required.
    * Sets block_signing_key to the chain's null key. See SECURITY.md §6
    * and OPERATOR.md §10 for when to use this and when not to.

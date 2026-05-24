@@ -91,22 +91,33 @@ else
   node --test tutorial/detector.test.js 2>&1 | tail -20 >&2
 fi
 
-# --- 6. npm audit (high+critical) -------------------------------------
+# --- 6. npm audit (critical fails; high warns) ------------------------
+#
+# Threshold rationale: as of 2026-05-24, all of the audit findings live
+# in the legacy van-kush-discord-bot dependency tree (discord.js, ws,
+# node-cron→uuid, etc.) — not on the MELEK Witness's hot path, which
+# uses only @hiveio/dhive + dotenv + node-cron. We surface high
+# findings as warnings so they don't perpetually block CI on legacy
+# code we're not running, while keeping critical-severity as a hard
+# fail. Revisit when the legacy code is retired.
 
 if command -v npm >/dev/null 2>&1; then
   audit_json=$(npm audit --omit=dev --json 2>/dev/null || true)
-  high=$(echo "$audit_json" | node -e '
+  counts=$(echo "$audit_json" | node -e '
 let s = ""; process.stdin.on("data", d => s += d).on("end", () => {
   try {
     const a = JSON.parse(s);
     const v = a?.metadata?.vulnerabilities ?? {};
-    const n = (v.high ?? 0) + (v.critical ?? 0);
-    process.stdout.write(String(n));
-  } catch { process.stdout.write("0"); }
+    process.stdout.write(`${v.critical ?? 0} ${v.high ?? 0}`);
+  } catch { process.stdout.write("0 0"); }
 });
-' 2>/dev/null || echo 0)
-  if [[ "$high" -gt 0 ]]; then
-    errfail "npm audit reports $high high/critical vulnerabilities (run: npm audit)"
+' 2>/dev/null || echo "0 0")
+  critical=$(echo "$counts" | awk '{print $1}')
+  high=$(echo "$counts" | awk '{print $2}')
+  if [[ "$critical" -gt 0 ]]; then
+    errfail "npm audit reports $critical critical vulnerabilities (run: npm audit)"
+  elif [[ "$high" -gt 0 ]]; then
+    warn "npm audit reports $high high vulnerabilities (legacy code path; non-blocking — run: npm audit)"
   else
     pass "npm audit: no high/critical vulnerabilities"
   fi

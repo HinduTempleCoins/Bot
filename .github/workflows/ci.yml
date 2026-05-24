@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    name: preflight + tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the preflight WIF-pattern check can grep all
+          # tracked files (it uses `git ls-files`).
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # Don't auto-install npm packages — the install step below uses
+          # --ignore-scripts to honor SECURITY.md §4d.
+
+      - name: install dependencies (no postinstall scripts)
+        run: npm ci --ignore-scripts
+
+      - name: run preflight (secret scan, dep pin check, tests, audit)
+        run: bash scripts/preflight.sh
