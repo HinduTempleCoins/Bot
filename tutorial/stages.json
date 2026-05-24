@@ -1,0 +1,119 @@
+{
+  "_meta": {
+    "version": 1,
+    "source": "BRIEF.md §8 (CryptoKannon model)",
+    "voice_note": "witness_response.style describes the kind of message the Witness composes. The actual phrasing is generated in Phase 3 via the Angelic register (CHARACTER.md §2), not hard-coded here. This file is operational data — when stage X is detected, react in style Y with reward Z — not a script.",
+    "currency": "MELEK"
+  },
+  "stages": [
+    {
+      "id": 1,
+      "key": "intro_post",
+      "label": "Post an introduction",
+      "description": "New user publishes a top-level post introducing themselves.",
+      "completion_criteria": {
+        "kind": "post_authored",
+        "tag_any_of": ["introduceyourself", "introduction", "introducing"],
+        "min_body_chars": 200
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Warm welcome in the Angelic register. Acknowledge something specific from their introduction. Name the next stage (commenting on three other posts) as a path, not as a demand."
+      },
+      "next_stage": 2
+    },
+    {
+      "id": 2,
+      "key": "engage_three_posts",
+      "label": "Comment meaningfully on three other users' posts",
+      "description": "User leaves substantive comments (not one-word reactions) on three distinct other authors' posts.",
+      "completion_criteria": {
+        "kind": "comments_authored",
+        "min_count": 3,
+        "min_distinct_parent_authors": 3,
+        "min_body_chars_each": 80,
+        "exclude_self_authored_parents": true
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Note that real engagement is the soul of this place. Mention what stood out about who they chose to engage with. Open the door to stage 3."
+      },
+      "next_stage": 3
+    },
+    {
+      "id": 3,
+      "key": "share_what_you_know",
+      "label": "Write a how-to or share something you know",
+      "description": "User publishes a substantive post sharing knowledge or a how-to.",
+      "completion_criteria": {
+        "kind": "post_authored",
+        "min_body_chars": 800,
+        "excludes_tag_any_of": ["introduceyourself", "introduction"]
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Read the post — really read it — and respond to its content, not its existence. The Witness is a reader. Acknowledge the gift of teaching."
+      },
+      "next_stage": 4
+    },
+    {
+      "id": 4,
+      "key": "first_organic_upvote",
+      "label": "Receive your first upvote from another user",
+      "description": "Any post or comment by the user receives an upvote from an account other than Hathor.",
+      "completion_criteria": {
+        "kind": "external_upvote_received",
+        "exclude_voter_account": "hathor",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_transfer",
+        "comment_style": "Celebrate the moment. Someone else, freely, chose to read and lift their work. That's the Network of Angels in miniature.",
+        "transfer_amount_melek": "1.000",
+        "transfer_memo": "First organic upvote — welcome to the readership."
+      },
+      "next_stage": 5
+    },
+    {
+      "id": 5,
+      "key": "power_up",
+      "label": "Power up some MELEK to MP",
+      "description": "User powers up at least 1.000 liquid MELEK to MELEK Power.",
+      "completion_criteria": {
+        "kind": "transfer_to_vesting",
+        "min_amount_melek": "1.000"
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Liquid-vs-MP is the most-confusing Graphene concept. Explain it the way a person explains a thing they actually understand — MP regenerates voting power, MP lets you delegate and curate, MP is your weight in the conversation. Note that they can keep growing it.",
+        "education_pointer": "the Witness can also surface BRIEF.md §10 power-down (13 weeks) here if asked"
+      },
+      "next_stage": 6
+    },
+    {
+      "id": 6,
+      "key": "vote_for_a_witness",
+      "label": "Vote for a witness",
+      "description": "User casts at least one witness vote.",
+      "completion_criteria": {
+        "kind": "witness_vote_cast",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Witnessing is governance. Explain what a witness is — who signs the blocks, who publishes the price feed, what happens when stake votes for or against. The Witness should not solicit a vote for itself; if asked, it acknowledges that and points at the witness list. The tutorial is finished. The conversation continues.",
+        "tutorial_completion": true
+      },
+      "next_stage": null
+    }
+  ],
+  "rate_limit_education": {
+    "trigger": "user approaches Graphene voting-power or posting-bandwidth limit (BRIEF.md §8 final paragraph)",
+    "style": "Friendly, in-character heads-up before the wall. Explain how the limit works (regenerates over time, MP grows it), not as a punishment, as a feature. The chain enforces the limit; the Witness educates around it."
+  }
+}

@@ -70,7 +70,14 @@ Bot/
 ├── config.js              # MELEK chain config loader (no keys)
 ├── hello.js               # Read-only smoke test
 ├── witness/
-│   └── hathor.js          # The Witness's hands — composes config+keys+adapter
+│   ├── hathor.js          # The Witness's hands — composes config+keys+adapter
+│   ├── intro-post.md      # Phase 1 introduction post body
+│   ├── publish-intro.js   # Broadcast helper for the intro post
+│   ├── feed-publisher.js  # Informational price feed publisher (--once / --cron)
+│   └── disable.js         # Emergency circuit breaker (witness_update with null signing key)
+├── tutorial/
+│   ├── stages.json        # CryptoKannon six-stage onboarding spec
+│   └── README.md          # Tutorial subsystem orientation
 ├── src/chain/
 │   ├── graphene.js        # GrapheneAdapter — chain client (uses @hiveio/dhive)
 │   └── keys.js            # Env-loaded keys, never logged

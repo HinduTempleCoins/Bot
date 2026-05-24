@@ -178,7 +178,8 @@ After broadcasting, the post is on-chain. Verify by viewing on the condenser, or
 **Daily / cron:**
 
 - `witness_node` runs continuously on its own host; that's the chain daemon's job, not this Bot's.
-- The Bot's recurring work in Phase 1 is the **price feed** — `feed_publish` op at the cadence MELEK convention sets (every hour is typical). Wrap `Hathor#publishFeed` in a `node-cron` schedule once Phase 1 is funded enough to start running. (Note: MELEK has no internal stablecoin — the feed is informational only, per `melek-chain` CLAUDE.md.)
+- The Bot's recurring work in Phase 1 is the **price feed** — `feed_publish` op at the cadence MELEK convention sets (every hour is typical). Run `node witness/feed-publisher.js --cron` under systemd or pm2 to publish on the `FEED_CRON` schedule. Verify the rate first with `--dry-run`; publish-once with `--once`. (MELEK has no internal stablecoin — the feed is informational only, per `melek-chain` CLAUDE.md.)
+- The **emergency circuit breaker** is `node witness/disable.js --yes` (always preview with `--dry-run` first). Use it when the host is suspicious-but-key-still-yours; for compromised-active-key scenarios, go offline instead (see §10).
 
 **Weekly:**
 
