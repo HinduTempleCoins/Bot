@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
+    "test": "node --test tutorial/detector.test.js",
+    "preflight": "bash scripts/preflight.sh",
     "start": "node index.js",
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",
