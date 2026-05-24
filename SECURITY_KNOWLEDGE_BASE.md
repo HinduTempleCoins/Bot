@@ -102,10 +102,16 @@ python3 knowledge-base.py --serve --port 8765 --host 0.0.0.0
 
 ### .env file (NEVER share):
 ```env
-HIVE_USERNAME=angelicalist
-HIVE_ACTIVE_KEY=***REMOVED***  # PRIVATE!
-HIVE_POSTING_KEY=***REMOVED***  # PRIVATE!
+HIVE_USERNAME=your_hive_username
+HIVE_ACTIVE_KEY=<your-active-key-here>     # PRIVATE — real keys never in any committed file
+HIVE_POSTING_KEY=<your-posting-key-here>   # PRIVATE — real keys never in any committed file
 ```
+<!-- Note: this section previously included real-looking WIF-format strings that
+     were scrubbed on 2026-05-24 after the preflight script flagged them. The
+     strings remain in git history; if you believe those were ever real keys
+     for a still-active account, treat that account as compromised and rotate
+     via the offline owner key (see SECURITY.md §6 / OPERATOR.md §10). -->
+
 
 ### datasets/vkbt_cure_knowledge.jsonl (safe to share):
 ```json
