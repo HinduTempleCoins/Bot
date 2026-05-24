@@ -40,7 +40,7 @@ export class GrapheneAdapter {
       body,
       json_metadata: JSON.stringify({
         tags,
-        app: 'library-of-ashurbanipal/1.0',
+        app: 'hathor/0.1',
         format: 'markdown',
       }),
     }];
@@ -111,5 +111,28 @@ export class GrapheneAdapter {
   async getAccountInfo() {
     const [acct] = await this.client.database.getAccounts([this.account]);
     return acct || null;
+  }
+
+  async getHeadBlockNumber() {
+    const props = await this.client.database.getDynamicGlobalProperties();
+    return props.head_block_number;
+  }
+
+  async getWitnessByAccount(account = this.account) {
+    return this.client.database.call('get_witness_by_account', [account]);
+  }
+
+  /**
+   * Publish an informational price feed. MELEK has no internal stablecoin,
+   * so the feed is informational rather than enforcing conversion (see
+   * HinduTempleCoins/melek-chain CLAUDE.md "Single token").
+   * exchangeRate example: { base: "1.000 MELEK", quote: "1.000 USD" }
+   */
+  async publishFeed({ exchangeRate }) {
+    if (!hasActiveKey()) {
+      throw new Error('cannot publishFeed: HATHOR_ACTIVE_KEY not configured');
+    }
+    const op = ['feed_publish', { publisher: this.account, exchange_rate: exchangeRate }];
+    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
   }
 }

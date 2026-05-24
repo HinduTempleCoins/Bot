@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "hello": "node hello.js",
     "start": "node index.js",
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",
