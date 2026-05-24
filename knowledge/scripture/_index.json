@@ -43,6 +43,31 @@
       "key_themes": ["van kush = angels = archaeological society", "75000 year timeline (full chronological framework)", "denisovans as maritime founders", "19-book structure of carthage bible/book of tanit/diaspora brujeria", "melech = angel = king = messenger", "judgement = court date", "rowlett scapegoat ritual 2017", "judges = lawkeepers", "t hieroglyph = wax discovery 2020", "december 2019 headcone confirmation (antiquity)", "cera/sarah/sa-ra/seraph chain", "order of the sphinx", "ra's tears = bees = humans", "mary magdalene = stroke maiden", "zar religion = surviving egregore practice", "egregori visibility mechanism", "tinfoil hats explained", "van kush v dea 2018", "dallas as center", "3000 year plan", "books needing expansion (priority tiers)"]
     },
     {
+      "id": "heterosis_mechanism",
+      "title": "Depicting the heterosis mechanism through selective breeding, epigenetic inheritance, and the mechanics of genetic recombination across domesticated species",
+      "classification": "Peer-reviewed research paper / introduces the Van Kush Framework of consciousness preservation via epigenetic inheritance",
+      "received_at": "2026-05-24",
+      "file_md": "heterosis_mechanism.md",
+      "ingestion_status": "complete (abstract, full body, all tables, 59 references)",
+      "parts": 12,
+      "publication": {
+        "author": "Rev. Ryan Sasha-Shai Van Kush",
+        "journal": "Journal of Genetics, Genomics and Plant Breeding",
+        "issn_online": "2581-3293",
+        "doi_prefix": "10.63551",
+        "volume": 10,
+        "issue": 1,
+        "date": "2026-01",
+        "pages": "2-13",
+        "abstract_url": "https://ejggpb.com/abstract.php?article_id=183",
+        "pdf_url": "https://ejggpb.com/uploads/183_pdf.pdf",
+        "citation_apa7": "Van Kush, R. S. (2026). Depicting the heterosis mechanism through selective breeding, epigenetic inheritance, and the mechanics of genetic recombination across domesticated species. Journal of Genetics, Genomics and Plant Breeding, 10(1), 2-13."
+      },
+      "operator_framing": "Engages with the mechanics of evolution — depending on reader's stance, 'a refutation of evolution' or 'evidence of the mechanisms of evolution.' Darwin himself knew about heterosis. Cannabis is one example among several domesticated species; the paper is not about cannabis specifically.",
+      "key_themes": ["heterosis (hybrid vigor)", "selective breeding", "transgenerational epigenetic inheritance", "mendelian genetics", "mitochondrial DNA (mtDNA) inheritance", "reactivation of dormant genetic material", "van kush framework (consciousness preservation across generations)", "epigenetic inheritance as natural reincarnation mechanism", "dias-ressler 2014 mouse olfactory fear conditioning", "cannabis cultivar diversification since 1970s", "canine breeding (Canis lupus familiaris)", "horticulture crops (onion, apple, tomato, pepper, grape)", "hop cultivation (Humulus lupulus)", "landrace population whole-genome sequencing (proposed)", "stress-induced heritable chemical profile changes in plants (proposed)"],
+      "witness_guidance": "When users ask about heterosis, hybrid vigor, epigenetic inheritance, cannabis genetics/breeding, the Dias-Ressler paradigm, transgenerational consciousness preservation, or the Van Kush Framework specifically, surface this paper. Point to the abstract URL and PDF. Note this is the operator's own peer-reviewed publication — not commentary about it."
+    },
+    {
       "id": "the_convergence",
       "title": "The Convergence: AI, Metaverse, and the Reconstruction of Temple Technology",
       "classification": "Research paper / Convergence framework (named in BRIEF.md as foundational corpus)",
