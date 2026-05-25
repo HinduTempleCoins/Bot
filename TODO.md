@@ -124,6 +124,25 @@ Full design context: [[tutorial-design-2026-05-25]] memory.
 
 - [x] **Welcomer module** — single-thread @-mention model per operator's scope brief. `welcomer/` directory: state.js (last_processed_block cursor + welcomed-set), composer.js (4-variant deterministic, mentions @account, 2-4 sentences, no AI disclaimer), discover.js (block-scanner for account_create + account_create_with_delegation), config.js (env loader with MELEK_ fallbacks), index.js (Welcomer class + --once/--cron/--broadcast CLI, startup health checks). 42 passing tests. npm scripts `welcomer:once|cron|live`. .env.example documents all vars. Bootstraps from head block — no historical backfill. Pending: an authored Welcome / Tutorial Program post on chain (one-time admin task) to point `WELCOME_POST_AUTHOR/PERMLINK` at; the bot fails loudly at startup until it exists.
 
+### CheetahAdvanced — sibling bot to Hathor (not yet started)
+
+Brief added 2026-05-25 at [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md). Memory pointer: [[cheetah-advanced-brief]]. Read the brief before writing any Cheetah code — it carries non-obvious design constraints (state-facts-don't-accuse, credit-first-escalate-last, self-ID footer, frequency restraint, evidenced whitelist replacing the old hand-kept list, Hathor as the resolution layer).
+
+The build order from the brief, verbatim. First three are Phase-2-shaped (deterministic, no LLM); steps 4-5 gate on Phase 3 (resolution conversations need Hathor's conversational capacity; advanced discovery wants LLM-authored notes); step 6 (image detection) is genuinely hard and goes last so the resolution flow is solid before it can mis-credit anyone.
+
+- [ ] **1. Text detection layer.** Match post text against prior on-chain posts (cheap; same chain-reader pattern as the tutorial detector) and against web search results (needs a search backend — operator decision: which provider). Outputs `{match, source, confidence}`. NOT an LLM — text similarity / matching only.
+- [ ] **2. Comment layer + self-ID footer + crediting-note voice.** Phase-2 deterministic templates (same shape as `welcomer/composer.js`): short, factual, linky, always with source. Self-ID footer with what Cheetah is + how to opt out. Phase 3 swaps templates for LLM authoring without changing the call shape.
+- [ ] **3. Shared-store integration.** Cheetah writes findings + the evidenced whitelist/blacklist; Hathor reads. Multi-bot architectural decision: where the shared store lives (new top-level `shared/` or `data/` dir? extend the existing `cryptology/user-relationships.json` pattern?). Resolve before #3 ships.
+- [ ] **4. Resolution flow with Hathor** *(gates on Phase 3)*. Response → proof → Hathor weighs → record updates with reasoning. Image case is the load-bearing reason this exists — Cheetah WILL mis-credit images sometimes; the correction path is core, not optional.
+- [ ] **5. Discovery mode** *(gates on Phase 3 for warm LLM-authored notes; could ship Phase 2 with deterministic notes)*. "Find similar," biased toward internal MELEK creators (community-building). Per-author opt-out + relevance threshold + frequency cap built in from day one — MELEK has no r/botwatch equivalent enforcing restraint.
+- [ ] **6. Image detection (last).** Reverse-image search / perceptual hashing. Last because it's the most error-prone and the resolution flow must already work before it can fail safely.
+
+**Decisions pending operator:**
+- **Search backend** for the text detection layer (Google Custom Search, Bing, Serper, DuckDuckGo HTML scrape, etc.)
+- **Where the shared store lives** in the repo (multi-bot architectural call)
+- **Per-author opt-in vs opt-out** default — brief implies opt-out but doesn't fix it; on a fresh chain opt-in might be safer until norms form
+- **Cheetah's account name** on chain (presumably `cheetah` or `cheetahadvanced`, but operator's call)
+
 ### Operator-facing
 
 - [ ] **Out-of-band alerting on `transfer` ops from `hathor`.** Telegram bot or email-on-event. Operator gets a ping within seconds of any transfer; if it wasn't them, they have minutes to act. SECURITY.md §4d names this as load-bearing.
