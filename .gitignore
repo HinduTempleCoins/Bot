@@ -1,6 +1,14 @@
 # Environment variables
 .env
 
+# Tutorial runtime state (per-deployment, never committed)
+tutorial/.state.json
+tutorial/.state.json.tmp
+
+# Welcomer runtime state (per-deployment, never committed)
+welcomer/.state.json
+welcomer/.state.json.tmp
+
 # Datasets (may contain sensitive info from conversations)
 datasets/
 *.jsonl

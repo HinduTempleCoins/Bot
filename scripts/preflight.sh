@@ -8,7 +8,7 @@
 #      outside of SECURITY.md (where the pattern itself is documented).
 #   3. No Discord bot token pattern appears outside docs.
 #   4. All dependencies in package.json are exact versions (no ^ / ~).
-#   5. node --test passes (tutorial detector test suite).
+#   5. npm test passes (all tutorial + welcomer test suites).
 #   6. npm audit reports no high/critical vulnerabilities.
 #
 # Exit 0 if clean. Exit 1 if any check fails. Non-failure warnings go to
@@ -84,11 +84,11 @@ fi
 
 # --- 5. tests pass ----------------------------------------------------
 
-if node --test tutorial/detector.test.js >/dev/null 2>&1; then
-  pass "tutorial/detector.test.js — all tests pass"
+if npm test --silent >/dev/null 2>&1; then
+  pass "npm test — all tutorial + welcomer suites pass"
 else
-  errfail "tutorial/detector.test.js — test failures"
-  node --test tutorial/detector.test.js 2>&1 | tail -20 >&2
+  errfail "npm test — test failures"
+  npm test 2>&1 | tail -30 >&2
 fi
 
 # --- 6. npm audit (critical fails; high warns) ------------------------

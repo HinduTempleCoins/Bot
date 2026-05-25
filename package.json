@@ -6,8 +6,11 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/detector.test.js",
+    "test": "node --test tutorial/*.test.js welcomer/*.test.js",
     "preflight": "bash scripts/preflight.sh",
+    "welcomer:once": "node welcomer/index.js --once",
+    "welcomer:cron": "node welcomer/index.js --cron",
+    "welcomer:live": "node welcomer/index.js --cron --broadcast",
     "start": "node index.js",
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",

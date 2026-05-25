@@ -2,6 +2,40 @@
 
 **Status:** living document. When you say "continue" or "do what you were doing before," this file is where I start. Reorder, strike, or annotate as priorities shift.
 
+## End of 2026-05-25 session — pick up here
+
+**Where we are.** Phase 1 chain-access layer (Hathor + GrapheneAdapter + chain-reader + feed publisher + register / disable witness + intro post + smoke test) is built, tested, gated only on the chain-side melek-chain testnet RPC URL becoming available. This session shipped two new pieces of Phase-2 infrastructure: the **tutorial response composer + state store** and the **welcomer module end-to-end**. 49 passing tests; preflight green.
+
+**What's actually runnable today (no chain needed):**
+- `npm test` — full suite (tutorial detector + tutorial state + welcomer state/composer/discover/orchestrator)
+- `npm run preflight` — security + dep + test checks
+- `npm run welcomer:once` — dry-run a welcomer pass (needs CHAIN_RPC_URL + WELCOME_POST_* env)
+
+**What needs operator decisions before more code ships:**
+1. **Tutorial lesson plan locked in [[tutorial-design-2026-05-25]] memory — 19 lessons across three modes (A-Req / B-Placeholder / C-Read).** Doesn't yet exist in code. `tutorial/stages.json` currently has the 6-lesson CryptoKannon spine; needs expansion to the 19-lesson structure before tutorial scheduler (TODO #3) can be built meaningfully. Composer templates will need new entries for the new lessons.
+2. **Draft Tier-A lesson posts now (Phase-2 register) vs hold for Phase-3 Angelic-voice authoring?**
+3. **Existing operator-authored tutorials (@punicwax mining/witness, @marsresident token guides) — quote-and-port with attribution, or rewrite from scratch?** See [[operator-steemit-handles]].
+4. **Permlink/tag convention:** proposed `melek-lesson-N-<slug>` for Hathor's posts + `#melekachievementN` for user responses.
+5. **Grow the Topics (#5) subject menu** — operator named 6 (Crypto / Finance / Bio-hacking / Herbal / Esoteric / Religion) and said "just one example" so more are wanted.
+
+**What needs operator-side admin work before welcomer goes live:**
+- An authored **Welcome / Tutorial Program post** on whichever chain you target — `WELCOME_POST_AUTHOR/PERMLINK` env vars point at it. Bot reads, never authors. Welcomer's startup health check refuses to proceed without it.
+- The chain itself (MELEK launch + RPC published) for any real broadcasting. Per [[testing-happens-on-melek]] memory: don't test broadcast paths on Blurt/Steem; dry-run is fine against any chain.
+
+**Immediately buildable without more decisions (in priority order):**
+- **Out-of-band transfer alerts** (SECURITY.md §4d, load-bearing security)
+- **Forker docs bundle** (CONTRIBUTING.md + MELEK.md glossary + system_prompts/ stub README)
+- **Add `custom_json` + `reply()` to GrapheneAdapter** (~30 lines + tests, unblocks future Tier-B feature wiring)
+- **Welcomer integration hardening** (rate-limiting if needed, parallelism cap on block scans, better dry-run output formatting)
+
+**Memory pointers for next session:**
+- [[tutorial-design-2026-05-25]] — full 19-lesson design with mode classifications + ETH Clone framing + Hathor's PIZZA-bot scope there
+- [[operator-steemit-handles]] — @marsresident + @punicwax inventory + Steem RPC pattern
+- [[testing-happens-on-melek]] — don't test broadcast on Blurt/Steem; dry-run only
+- [[todo-pointer]] — this file is the cross-session work backlog
+
+---
+
 **Last session ended:** 2026-05-24. State of the world at that point: Phase 1 is feature-complete on the Bot side, all load-bearing docs (BRIEF, CHARACTER, RULE_1, SECURITY, OPERATOR, README) are in, scripture corpus has 7 documents, character/reference/ has 11 images, CI workflow runs preflight on every push. Bot is ready to connect when melek-chain exposes a testnet RPC.
 
 ---
@@ -34,10 +68,61 @@ I can do these in any session — say "continue" or pick one specifically.
 
 ### Phase 2 — command menu and tutorial wiring
 
-- [ ] **Tutorial scheduler.** Wires `witness/chain-reader.js` + `tutorial/detector.js` + a response composer + a cron loop. When stage X transitions to complete for user Y, the Bot fires the response action (comment + upvote + maybe transfer). Per-user state stored in a small persistence file so we don't double-respond.
-- [ ] **Response composer (Phase-2 deterministic variant).** Generates the comment text from the `style` field in `tutorial/stages.json` using simple templates with a small amount of variation. Phase 3 will replace this with LLM generation in the Angelic voice, but Phase 2 deserves a working deterministic version.
-- [ ] **Command menu — `!commands` deterministic handlers.** BRIEF.md §10 Phase 2. Signup help, tutorial lookups, chain queries (`!balance @user`, `!witness @user`, `!post-count @user`, etc.). No LLM. Reads chain via the existing adapter, formats output, replies as a comment or DM.
+**Tutorial scope (LOCKED 2026-05-25 — 19 lessons, three modes):**
+
+Modes: **A-Req** (must complete to graduate) / **B-Placeholder** (lesson published, achievement locked until infra ships — novel vs CryptoKannon) / **C-Read** (orientation/closer, completion = reading).
+
+1. Intro / Verification — A-Req
+2. Four Keys — A-Req
+3. Etiquette + **flag-not-downvote** — A-Req
+4. Markdown — A-Req
+5. **Topics + Tags + Posting** — A-Req. Subject menu (extensible): Cryptocurrency, Finance/Commodities, Bio-hacking, Herbal, Esoteric/Occult/Eastern, Religion (with Great Debate Landscape arc). Subject choice is user's; lesson completion = a tagged post in any one of them.
+6. MP / Voting / Delegation — A-Req
+7. Witnesses & Governance — A-Req (honest disclosure of 12-month founding-window slot protection)
+8. Basic Posting + Voting — A-Req
+9. Communities / Groups — B (needs hivemind-equivalent)
+10. AI Image Generation — A-Req
+11. CapCut / Video Basics — A-Req
+12. Google Colab / Make Your Own AI — A-Req
+13. Curation Rewards & Trails (advanced) — B
+14. **Tokens on the MELEK ETH Clone** — B. ETH Clone = our Hive-Engine, full separate EVM chain ("what STEEM and TRX are to each other"). Hathor on it = PIZZA-bot + chain-explorer scope.
+15. Videos (DTube + SCOT) — B
+16. Wiki (DevTome-style, paid) — B
+17. Trading MELEK — B
+18. AI on the Chain (Hathor explainer) — C-Read
+19. The Deeper Why — C-Read
+
+Full design context: [[tutorial-design-2026-05-25]] memory.
+
+**Tutorial scope (decisions still pending operator):**
+
+- [ ] **Decide: draft Tier-A lesson posts now in Phase-2 register, or hold for Phase-3 Angelic-voice authoring?**
+- [ ] **Decide: quote-and-port vs rewrite for existing operator tutorial posts.** @punicwax/`mining-steem-blurt-and-hive-what-is-a-witness-and-how-does-all-this-work` is ~90% ready for Lesson 7. TRC10/SMT/ETH-clone tutorials map onto Lesson 14. See [[operator-steemit-handles]] for the inventory.
+- [ ] **Decide: permlink/tag convention.** Proposed `melek-lesson-N-<slug>` for Hathor's lesson posts + `#melekachievementN` for user response posts.
+- [ ] **Grow the Topics subject menu** beyond the six named subjects (operator: "just one example" — more to come).
+- [ ] **Expand stages.json from 6 → 19 stages** before tutorial composer templates can be finalized for the new lessons. Detector functions for the new lessons (Topics, MP, Witnesses, Basic-Voting, Image-Gen, CapCut, Colab) need to be written too.
+
+**Tutorial code (structurally clear, content shapes still firming):**
+
+- [x] **`tutorial/composer.js`** — drafted 2026-05-25. Phase-2 deterministic template pool (3 variants per stage, picked by `sha256(account+stage_key)[0] % 3`). Templates honor the *kind* of voice each `stages.json` `style` field describes; not the Angelic register, that's Phase 3. Will need new templates if stages.json expands to 9.
+- [x] **`tutorial/state.js`** — built 2026-05-25. File-backed per-account response store, atomic write, treats malformed file as empty. 7 passing tests. Default path `tutorial/.state.json` (gitignored).
+- [ ] **`tutorial/scheduler.js`** — wires chain-reader → detector → state-check → composer → broadcast → state-write. CLI shape mirrors `witness/feed-publisher.js`: `--once`, `--dry-run`, `--cron`. Tracked-users source TBD (file vs auto-discover vs signup-driven; lean file for Phase 2).
+- [ ] **`tutorial/welcomer.js`** — new component from the 2026-05-25 conversation. Three surfaces: (1) comment on first post (@wang model), (2) transfer-memo fallback for silent accounts, (3) condenser troll-box / signup-chat hook (lives in condenser fork, this side is the chat-backend endpoint). Detects new accounts via `account_create_with_delegation` ops or similar. Not on the original task list.
+- [ ] **Composer tests** — composer is drafted but currently untested. State tests cover its sibling. Templates likely to change with lesson firming, so write tests against the structural contract (action shape, target derivation) rather than exact text.
+
+**Lesson content (drafting):**
+
+- [ ] **Tier A lessons — draftable now without further infra.** Intro/Verification, 4 Keys (security), Etiquette (must teach flag-not-downvote honestly), Markdown, How Tags Work (replaces "what earns money"), MP/Voting/Delegation, Witnesses/Governance (must honestly disclose the 12-month founding-window slot protection ending at block 7,884,000), Religion / Great Debate Landscape (Bill-Nye→Rabbi-Singer→Sa-Neter→esoteric arc), Bio-hacking/Herbal subject-matter, AI image generation, Google Colab/your-own-AI, CapCut/video basics.
+- [ ] **Tier C closer — AI on the Chain.** Hathor-explainer. PIZZA-bot-style entry point, pivot to Convergence material in `knowledge/scripture/`.
+
+**Other Phase 2 work (unchanged):**
+
+- [ ] **Command menu — `!commands` deterministic handlers.** BRIEF.md §10 Phase 2. Signup help, tutorial lookups, chain queries (`!balance @user`, `!witness @user`, `!post-count @user`, etc.). No LLM. Reads chain via the existing adapter, formats output, replies as a comment or the troll-box.
 - [ ] **Signup-help server-side flow.** Email verification (Resend / Postmark / SES — pick one; SECURITY.md says no SMS), then signs `account_create_with_delegation` from Hathor's active key. **Key custody boundary is absolute:** the new user's keys are generated client-side in the condenser browser; the server NEVER touches them.
+
+### Welcomer (built 2026-05-25)
+
+- [x] **Welcomer module** — single-thread @-mention model per operator's scope brief. `welcomer/` directory: state.js (last_processed_block cursor + welcomed-set), composer.js (4-variant deterministic, mentions @account, 2-4 sentences, no AI disclaimer), discover.js (block-scanner for account_create + account_create_with_delegation), config.js (env loader with MELEK_ fallbacks), index.js (Welcomer class + --once/--cron/--broadcast CLI, startup health checks). 42 passing tests. npm scripts `welcomer:once|cron|live`. .env.example documents all vars. Bootstraps from head block — no historical backfill. Pending: an authored Welcome / Tutorial Program post on chain (one-time admin task) to point `WELCOME_POST_AUTHOR/PERMLINK` at; the bot fails loudly at startup until it exists.
 
 ### Operator-facing
 
