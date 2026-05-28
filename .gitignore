@@ -1,6 +1,10 @@
 # Environment variables
 .env
 
+# Operator-only local notes — Stage briefs, VM credentials,
+# anything that should never reach a public commit.
+.local/
+
 # Tutorial runtime state (per-deployment, never committed)
 tutorial/.state.json
 tutorial/.state.json.tmp
@@ -8,6 +12,11 @@ tutorial/.state.json.tmp
 # Welcomer runtime state (per-deployment, never committed)
 welcomer/.state.json
 welcomer/.state.json.tmp
+
+# Watcher runtime state + alert log (per-deployment, never committed)
+watcher/.state.json
+watcher/.state.json.tmp
+watcher/alerts.jsonl
 
 # Datasets (may contain sensitive info from conversations)
 datasets/
