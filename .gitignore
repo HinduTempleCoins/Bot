@@ -38,6 +38,8 @@ datasets/*
 !datasets/ml-courses/**
 !datasets/ml-libs/
 !datasets/ml-libs/**
+!datasets/security-corpus/
+!datasets/security-corpus/**
 *.jsonl
 
 # Dependencies
