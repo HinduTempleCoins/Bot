@@ -20,7 +20,8 @@ watcher/alerts.jsonl
 
 # Datasets — operator's private knowledge JSONLs stay gitignored.
 # Openly-licensed reference corpus subdirs (cookbooks, hive-devportal,
-# chain-libs) are public reference material the AIs draw on — committed.
+# chain-libs, crypto-protocols, crypto-books, ml-courses, ml-libs)
+# are public reference material the AIs draw on — committed.
 datasets/*
 !datasets/README.md
 !datasets/cookbooks/
@@ -29,6 +30,14 @@ datasets/*
 !datasets/hive-devportal/**
 !datasets/chain-libs/
 !datasets/chain-libs/**
+!datasets/crypto-protocols/
+!datasets/crypto-protocols/**
+!datasets/crypto-books/
+!datasets/crypto-books/**
+!datasets/ml-courses/
+!datasets/ml-courses/**
+!datasets/ml-libs/
+!datasets/ml-libs/**
 *.jsonl
 
 # Dependencies
