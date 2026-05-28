@@ -108,6 +108,70 @@ export class GrapheneAdapter {
     return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
   }
 
+  /**
+   * Reply to an existing post or comment. Convenience wrapper around `post()`
+   * that fixes the title to '' (replies have no title in the Graphene op),
+   * derives a reasonable permlink if one isn't given, and routes through
+   * the same broadcast path so error handling stays identical.
+   *
+   * @param {{
+   *   parentAuthor: string,
+   *   parentPermlink: string,
+   *   body: string,
+   *   permlink?: string,
+   *   tags?: string[],
+   * }} args
+   */
+  async reply({ parentAuthor, parentPermlink, body, permlink, tags = ['reply'] }) {
+    if (!parentAuthor || !parentPermlink) {
+      throw new Error('reply: parentAuthor and parentPermlink required');
+    }
+    const pl = permlink || `re-${parentAuthor}-${parentPermlink}-${Date.now()}`
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '-')
+      .slice(0, 255);
+    return this.post({
+      title: '',
+      body,
+      tags,
+      permlink: pl,
+      parentAuthor,
+      parentPermlink,
+    });
+  }
+
+  /**
+   * Broadcast a custom_json op — the Graphene primitive that plugins (Hive-Engine,
+   * SCOT, EVM bridges, SMT-equivalents) listen on. Posting auth is the cheap
+   * common case; active auth is for higher-value plugins.
+   *
+   * @param {{
+   *   id: string,             // plugin identifier, e.g. "ssc-mainnet-hive"
+   *   json: object|string,    // payload (will JSON.stringify if not a string)
+   *   requiredAuths?: string[],         // accounts whose active key must sign
+   *   requiredPostingAuths?: string[],  // accounts whose posting key must sign
+   * }} args
+   */
+  async customJson({ id, json, requiredAuths = [], requiredPostingAuths }) {
+    const postingAuths = requiredPostingAuths ?? (requiredAuths.length ? [] : [this.account]);
+    const useActive = requiredAuths.length > 0;
+    if (useActive && !hasActiveKey()) {
+      throw new Error('cannot customJson with active auth: HATHOR_ACTIVE_KEY not configured');
+    }
+    if (!useActive && !hasPostingKey()) {
+      throw new Error('cannot customJson with posting auth: HATHOR_POSTING_KEY not configured');
+    }
+    const payload = typeof json === 'string' ? json : JSON.stringify(json);
+    const op = ['custom_json', {
+      required_auths: requiredAuths,
+      required_posting_auths: postingAuths,
+      id,
+      json: payload,
+    }];
+    const key = useActive ? getActiveKey() : getPostingKey();
+    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(key));
+  }
+
   async getAccountInfo() {
     const [acct] = await this.client.database.getAccounts([this.account]);
     return acct || null;

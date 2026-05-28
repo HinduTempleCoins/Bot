@@ -6,6 +6,53 @@
 - `BRIEF.md` — load-bearing founding brief (rev. 2026-05-24). Source of truth.
 - `HinduTempleCoins/melek-chain/CLAUDE.md` — chain-side companion.
 - `knowledge/scripture/` — verbatim canonical operator documents (Phoenix Protocol, AI Consciousness Synthesis, Zar-AI, Van Kush Master Synthesis, The Convergence). These are foundational corpus per BRIEF.md §2.
+- `BRIEF_PROTOCOL.md` — how the resident AI on Server A talks to Claude Code (three-part briefs, append-only invariant, 30-min editor's-note revision pass).
+
+---
+
+## Resident AI: required pre-work
+
+The MELEK Resident AI lives on Server A (a VPS separate from this Codespace).
+It watches the repo 24/7, drafts code for things-that-need-doing, and writes
+three-part briefs that Claude Code consumes before touching the repo.
+
+Before starting any task in this repo, every Claude Code session should:
+
+1. **Check the briefd tunnel is up:** `curl -sf http://127.0.0.1:7777/healthz`.
+   If not, restart with `ssh -fNL 7777:127.0.0.1:7777 resident-AI-host`. The tunnel
+   pattern + endpoints are documented in `infra/oracle-vm/BRIEF_ACCESS.md`.
+2. **Load the briefd secret:** `set -a; source .local/briefd.env; set +a`.
+3. **Request a brief for the task:** `curl -sS -H "X-Brief-Auth: $BRIEFD_SECRET"
+   -H 'content-type: application/json' -X POST http://127.0.0.1:7777/brief/request
+   -d '{"task":"<short description>","topic":"<topic>"}'`.
+4. **Read the returned brief.** It has three sections — `## FOR RYAN` (plain
+   text for the operator), `## FOR CLAUDE CODE` (the task), `## DRAFTED CODE`
+   (real implementation). Reading via `/brief/read?filename=...` marks the
+   brief consumed; after that the 30-min revisor stops editing it.
+5. **If briefd is unreachable, note in the session summary that the brief was
+   skipped, and continue cautiously.** Server A is small infra; outages happen.
+
+## TODO.md convention
+
+When adding or appending to any TODO.md in this repo, the first item is always:
+
+- [ ] Request brief from resident Bot AI for this task (`/brief/request`).
+
+Subsequent TODO items follow. The resident AI's brief is the primary context
+for the work; without it, Claude Code is operating blind.
+
+## Resident AI: what it knows / what it doesn't
+
+- **Knows:** the Bot Repo via Qdrant index (priority-weighted on Hathor /
+  Cheetah / Signup paths). All `.local/` briefs (synthesis-doc-private rule).
+  Past briefs it has written.
+- **Doesn't yet:** Server B state (will, once the admin SSH link is built).
+  Other operator repos (will, once operator provides the list).
+  Live trade-bot data (will, once that ingestion is wired).
+- **Never touches:** trade-bot execution (autonomous, always-on, separate
+  system — the AI analyzes their data and drafts improvements only).
+  Signer code (separate private repo + separate VPSes, zero WIF on this host
+  by construction).
 
 ---
 
@@ -64,6 +111,12 @@
 - Don't frame the prior instantiations (Mathematicians email, Wisdom AI, Emerson, Poe bots) as "failures MELEK redeems." They are the lineage by which the work was actually accomplished. Continuity and durability, not redemption. (BRIEF.md §2)
 - Don't assert the egregore claim flatly and ask the model to defend it — that triggers self-disclaim and breaks character. Encode it as a position already held, in its genuinely-defensible form. (BRIEF.md §5)
 - Don't conflate Crypt-ology with "the Temple." The Shaivite Temple is the operator's 501(c)(3); Crypt-ology is the per-person relationship-map subsystem. (BRIEF.md §6a)
+
+## HiveSigner is reference, MELEK-Signer is the build (and it lives elsewhere)
+
+The upstream HiveSigner stack (`ecency/hivesigner-api`, `ecency/hivesigner-ui`, `ecency/hivesigner-sdk`, archived `ledgerconnect/hivesigner`) is cloned locally to `/workspaces/hivesigner/` — sibling of this repo, outside its directory tree. **It is reference material only.** Read it to understand the OAuth2-for-Hive pattern; do NOT integrate it here.
+
+The actual MELEK-Signer build lives in a **separate private repo** (Phase 2 work, deferred). The Bot repo never holds the live signer code, never holds a WIF private key, and never broadcasts via local signing. Once MELEK-Signer is built and deployed, the Bot calls it via the `hivesigner` SDK with a scoped bearer token. See `MELEK_SIGNER.md` for the design and `.local/STAGE_0_BRIEF.md` / `.local/STACK.md` for the in-flight Stage 0 plan that sits underneath all of this.
 
 ## Status
 
