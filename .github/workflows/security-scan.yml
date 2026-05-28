@@ -1,0 +1,40 @@
+name: Secret scan
+
+# Operator framing 2026-05-28: "Claude IS A LEAKER, Leaked the Angelicalist
+# stuff for like 4 Months." This workflow runs gitleaks on every push and
+# PR to catch the next leak at the gate, not 4 months later.
+#
+# Config: .gitleaks.toml (Graphene-family WIF patterns, Discord webhook
+# tokens, API key shapes for Gemini / Anthropic / OpenAI / Serper /
+# Telegram / Resend, plus BRIEFD_SECRET). Allowlists the test
+# placeholders and the historical b4c4e55 scrubbed leak.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  gitleaks:
+    name: gitleaks secret scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # full history so gitleaks can scan commits, not just the diff
+          fetch-depth: 0
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+          # Don't fail CI for now — surface findings as PR comments. Flip
+          # to fail-on-finding once the operator has reviewed any historical
+          # false positives.
+          GITLEAKS_ENABLE_COMMENTS: "true"
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"

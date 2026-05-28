@@ -1,0 +1,167 @@
+# gitleaks config — prevents the next angelicalist-class leak at commit/push time.
+#
+# Operator framing 2026-05-28: "Claude IS A LEAKER, Leaked the Angelicalist
+# stuff for like 4 Months." The angelicalist HIVE keys were committed
+# 2026-01-10 (commit b4c4e55) and stayed public until 2026-05-27 (commit
+# d519cb1). Account is burned. This config catches the next one earlier.
+#
+# Scan modes:
+#   - GitHub Action runs on every push + PR (see .github/workflows/security-scan.yml)
+#   - Local pre-commit: install `gitleaks` and add to .git/hooks/pre-commit
+#   - Manual: `gitleaks detect --config .gitleaks.toml --no-banner`
+
+title = "MELEK Bot Repo — secret scan config"
+
+[extend]
+useDefault = true  # extend gitleaks' default ruleset, then add our patterns
+
+# ---- our patterns (Graphene-family + project-specific) ---------------------
+
+[[rules]]
+id = "graphene-wif-private-key"
+description = "Steem/Hive/MELEK/BLURT Graphene-family WIF private key (51 chars starting 5HJK)"
+regex = '''(?i)\b5[HJK][1-9A-HJ-NP-Za-km-z]{49}\b'''
+keywords = ["5J", "5K", "5H"]
+tags = ["key", "graphene", "hive", "steem", "melek"]
+
+[[rules]]
+id = "hive-encrypted-memo-key"
+description = "Hive-family encrypted memo key (60+ char base58)"
+regex = '''#[1-9A-HJ-NP-Za-km-z]{60,}'''
+keywords = ["#5"]
+tags = ["key", "memo"]
+
+[[rules]]
+id = "hathor-key-env"
+description = "HATHOR_*_KEY env literal (we may say `HATHOR_ACTIVE_KEY=` but never with a value after)"
+regex = '''HATHOR_(?:ACTIVE|POSTING|OWNER|MEMO)_KEY\s*=\s*5[HJK][1-9A-HJ-NP-Za-km-z]{49}'''
+keywords = ["HATHOR_ACTIVE_KEY", "HATHOR_POSTING_KEY", "HATHOR_OWNER_KEY"]
+tags = ["key", "env", "hathor"]
+
+[[rules]]
+id = "discord-webhook-with-token"
+description = "Discord webhook URL with embedded token"
+regex = '''https?:\/\/(?:discord(?:app)?|ptb\.discord|canary\.discord)\.com\/api\/webhooks\/\d{17,20}\/[\w-]{60,}'''
+keywords = ["discord.com/api/webhooks"]
+tags = ["webhook", "discord"]
+
+[[rules]]
+id = "discord-bot-token"
+description = "Discord bot token shape (3 dot-separated base64 segments, first decodes to bot ID)"
+regex = '''[MNZmnz][A-Za-z\d]{23,25}\.[\w-]{6,7}\.[\w-]{27,}'''
+keywords = ["DISCORD_TOKEN", "BOT_TOKEN"]
+tags = ["token", "discord"]
+
+[[rules]]
+id = "mediawiki-bot-password"
+description = "MediaWiki bot-password env literal (library-of-asherbanipal style)"
+regex = '''WIKI_BOT_PASSWORD\s*=\s*[A-Za-z0-9]{30,}'''
+keywords = ["WIKI_BOT_PASSWORD"]
+tags = ["password", "mediawiki"]
+
+[[rules]]
+id = "gemini-api-key"
+description = "Google Gemini / GenerativeAI API key shape"
+regex = '''AIza[0-9A-Za-z_-]{35}'''
+keywords = ["AIza", "GEMINI_API_KEY", "GOOGLE_API_KEY"]
+tags = ["key", "gemini", "google"]
+
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API key (sk-ant-*)"
+regex = '''sk-ant-[A-Za-z0-9_-]{32,}'''
+keywords = ["sk-ant-", "ANTHROPIC_API_KEY"]
+tags = ["key", "anthropic"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API key (sk-*)"
+regex = '''sk-(?:proj-)?[A-Za-z0-9]{32,}'''
+keywords = ["sk-proj-", "OPENAI_API_KEY"]
+tags = ["key", "openai"]
+
+[[rules]]
+id = "serper-api-key"
+description = "Serper.dev API key (for Cheetah's web search backend if chosen)"
+regex = '''SERPER_API_KEY\s*=\s*[a-f0-9]{40,}'''
+keywords = ["SERPER_API_KEY"]
+tags = ["key", "search"]
+
+[[rules]]
+id = "google-cse-key"
+description = "Google Custom Search Engine key"
+regex = '''GOOGLE_CSE_KEY\s*=\s*AIza[0-9A-Za-z_-]{35}'''
+keywords = ["GOOGLE_CSE_KEY"]
+tags = ["key", "google", "search"]
+
+[[rules]]
+id = "telegram-bot-token"
+description = "Telegram bot token (used by watcher/sinks/telegram.js)"
+regex = '''TELEGRAM_BOT_TOKEN\s*=\s*\d{8,12}:[A-Za-z0-9_-]{35}'''
+keywords = ["TELEGRAM_BOT_TOKEN"]
+tags = ["key", "telegram"]
+
+[[rules]]
+id = "resend-api-key"
+description = "Resend API key (used by watcher email sink)"
+regex = '''RESEND_API_KEY\s*=\s*re_[A-Za-z0-9_-]{30,}'''
+keywords = ["RESEND_API_KEY", "re_"]
+tags = ["key", "resend", "email"]
+
+[[rules]]
+id = "briefd-secret"
+description = "BRIEFD_SECRET — the auth shared between Codespace and briefd on Server A"
+regex = '''BRIEFD_SECRET\s*=\s*[A-Za-z0-9_-]{24,}'''
+keywords = ["BRIEFD_SECRET"]
+tags = ["secret", "briefd"]
+
+# ---- allowlists -----------------------------------------------------------
+#
+# Allow the known test placeholders + the dead/scrubbed historical leak.
+
+[allowlist]
+description = "Test placeholders + historical scrubbed leak + cookbook content"
+
+# Test fixtures: WIF placeholders in tests should be literally "TEST-..."
+# strings, monkey-patched into PrivateKey.fromString. Anything matching
+# this pattern below is intentional + safe.
+regexes = [
+  '''TEST-FAKE-[A-Z_-]+''',
+  '''TEST-FAKE-POSTING-KEY-DO-NOT-USE''',
+  '''TEST-FAKE-ACTIVE-KEY-DO-NOT-USE''',
+  # The classic test WIF (private key = 1) used as a known dummy in
+  # graphene tests historically. Already replaced with TEST- placeholders
+  # in graphene.test.js but we allowlist in case future tests use it.
+  '''***REMOVED***''',
+]
+
+# Specific files where the patterns are documentation, not real secrets.
+paths = [
+  '''(?i).*\.gitleaks\.toml$''',
+  '''(?i)\.gitleaks-allow\.txt$''',
+  # Cookbook + crypto-protocols dataset content may have example tokens
+  # in EIP/BIP text. They're not real secrets — they're documentation.
+  '''^datasets/cookbooks/''',
+  '''^datasets/crypto-protocols/''',
+  '''^datasets/crypto-books/''',
+  '''^datasets/ml-libs/''',
+  '''^datasets/ml-courses/''',
+  '''^datasets/hive-devportal/''',
+  # cheetah/security-scan.js HAS regex patterns matching secret shapes,
+  # by design — it's the detector. The patterns themselves are not secrets.
+  '''^cheetah/security-scan\.js$''',
+  # watcher/detect.js may also reference key shapes for its own detection.
+  '''^watcher/detect\.js$''',
+  # The policing/security docs reference patterns by example.
+  '''^cheetah/policing\.md$''',
+  '''^cheetah/security\.md$''',
+]
+
+# Allow the historical scrubbed commit (angelicalist key in
+# SECURITY_KNOWLEDGE_BASE.md, commit b4c4e55 → scrubbed in d519cb1).
+# These commits are in history; the keys are burned; scanning shouldn't
+# fail on the past. New commits stay fully scanned.
+commits = [
+  "b4c4e55",  # the leak — accepted as scrubbed history
+  "d519cb1",  # the scrub commit itself — references the keys to scrub
+]
