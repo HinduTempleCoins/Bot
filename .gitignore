@@ -18,8 +18,17 @@ watcher/.state.json
 watcher/.state.json.tmp
 watcher/alerts.jsonl
 
-# Datasets (may contain sensitive info from conversations)
-datasets/
+# Datasets — operator's private knowledge JSONLs stay gitignored.
+# Openly-licensed reference corpus subdirs (cookbooks, hive-devportal,
+# chain-libs) are public reference material the AIs draw on — committed.
+datasets/*
+!datasets/README.md
+!datasets/cookbooks/
+!datasets/cookbooks/**
+!datasets/hive-devportal/
+!datasets/hive-devportal/**
+!datasets/chain-libs/
+!datasets/chain-libs/**
 *.jsonl
 
 # Dependencies
