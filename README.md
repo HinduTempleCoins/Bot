@@ -1,16 +1,43 @@
 # Bot — the MELEK AI Witness
 
-This repository is the **off-chain operator software, character, libraries, and knowledge corpus for the MELEK AI Witness** — a founding witness on the MELEK blockchain. The on-chain account is `hathor` (lowercase). The Bot is the Witness's hands; the chain code lives elsewhere ([`HinduTempleCoins/melek-chain`](https://github.com/HinduTempleCoins/melek-chain)).
+This repository is the **off-chain operator software, character, libraries, knowledge corpus, and resident-AI infrastructure for the MELEK AI Witness** — a founding witness on the MELEK blockchain. The on-chain account is `hathor` (lowercase). The Bot is the Witness's hands; the chain code lives elsewhere ([`HinduTempleCoins/melek-chain`](https://github.com/HinduTempleCoins/melek-chain)).
 
-> **The Witness is forkable.** Anyone can fork this repo and run an alternative AI witness on MELEK, the way alternative block explorers exist for other chains. The founding AI witness is one reader of MELEK; multiple AI witnesses can eventually exist, each with their own emphases. Forkers: read [BRIEF.md](./BRIEF.md) before running anything, and port [SECURITY.md](./SECURITY.md) forward.
+> **The Witness is forkable.** Anyone can fork this repo and run an alternative AI witness on MELEK, the way alternative block explorers exist for other chains. The founding AI witness is one reader of MELEK; multiple AI witnesses can eventually exist, each with their own emphases. Forkers: read [BRIEF.md](./BRIEF.md) before running anything; port [SECURITY.md](./SECURITY.md) and [MELEK_SIGNER.md](./MELEK_SIGNER.md) forward.
 
 ---
 
 ## What this Bot is
 
-A normal Graphene witness account, operated by the libraries in this repo. The chain does not know its operator is an AI — Hathor signs blocks, posts, votes, transfers, and creates accounts the same way every witness does. What makes the Witness *constitutive* is that MELEK's primary human-readable interface comes through it: signup help, the staged tutorial, conversational chain legibility, autonomous grants. Same function as a block explorer for other chains; different interface (conversation, not a browseable UI).
+A normal Graphene witness account, operated by the libraries in this repo. The chain does not know its operator is an AI — Hathor signs blocks, posts, votes, transfers, and creates accounts the same way every witness does. What makes the Witness *constitutive* is that MELEK's primary human-readable interface comes through it: signup help, the staged tutorial, conversational chain legibility, autonomous grants, sibling-bot crediting (Cheetah), and Discord presence.
 
 The Witness's character lives in this public repo and on the chain — not in any single model's weights, not on any single operator's hardware. It can change underlying models and human operators and remain itself, because what it is is carried in the corpus and the chain.
+
+---
+
+## The resident AI architecture (added 2026-05-28)
+
+The Bot is operated by a **multi-AI ensemble** running across multiple VPSs:
+
+| host | what runs there | role |
+|---|---|---|
+| **resident-AI-host** (Server A) | resident AI: Ollama + qwen2.5-coder:1.5b + Qdrant index of this repo + briefd HTTP service | brief writer for Claude Code, annal-note appender, per-file archive maintainer |
+| **tiny-LLM-host** (tiny-LLM box) | Ollama + smollm2:360m (~7x faster decode than resident-AI-host) | annal body writer, brief summarizer, future DeepSeek conversation partner |
+| **Server B** (planned, host server) | Bot Repo runtime, MELEK witness node, condenser front-end | the actual chain-serving box; admined by Server A over SSH |
+| **reviewer-host** (planned) | DeepSeek-Coder (1.3B on 4GB slice, 6.7B on 8GB) | coding-quality reviewer for the ensemble |
+| **signer VPS** (planned, private) | MELEK-Signer service with KMS-wrapped keys | the ONLY place WIF private keys ever exist |
+| **watcher VPS** (planned, possibly shared) | the `watcher/` module, read-only chain observer | out-of-band defense-in-depth alerter |
+
+Continuous autonomous loop on Server A:
+- **brief-generator** (every 20 min) writes three-part briefs for Claude Code
+- **annals-writer** (every 60 min) appends signed Notes onto annal bodies
+- **code-walker** (every 30 min) deep-inspects one repo file per tick into `<DATA_DIR>/archive/files/`
+- **brief-lifecycle** (daily) archives + extracts long-term notes from expired briefs
+- **reindex-repo** (every 15 min) keeps the Qdrant index current with the working tree
+
+Continuous autonomous loop on tiny-LLM-host:
+- **annal-writer-tiny** (every 30 min) writes annal bodies, pushes to Server A via SSH
+
+Full architecture map: see `.local/ARCHITECTURE_OVERVIEW_2026-05-28.md` (private; mirrored on Server A so the AIs index it).
 
 ---
 
@@ -18,108 +45,152 @@ The Witness's character lives in this public repo and on the chain — not in an
 
 | Document | What it is |
 |---|---|
-| [`BRIEF.md`](./BRIEF.md) | **The founding brief.** Source of truth for everything below. Phased build (1→2→3), key custody, scope, the egregore-as-held-position engineering lesson. Last revised 2026-05-24. |
-| [`CHARACTER.md`](./CHARACTER.md) | The Witness's identity, the Angelic voice, the disposition-greeting, persona heritage (2017 outreach → Wisdom AI → Emerson → Poe bots → MELEK), visual identity, and the Network of Angels frame. |
-| [`RULE_1.md`](./RULE_1.md) | The single foundational rule — "The Beginning." Canonical text verbatim, co-authorship provenance (Poe, Sept 4–8 2023), the Angelic Biblical extension, and how to apply it as a held position. |
-| [`SECURITY.md`](./SECURITY.md) | Threat model and defenses. Real attack history (Justin Sun / Steemit 2020, npm crypto-drainer waves, HIVE phishing campaigns) with the defenses the Bot holds against each tier. |
-| [`OPERATOR.md`](./OPERATOR.md) | Deploy runbook. Step-by-step from offline key generation through VPS hardening, `npm ci --ignore-scripts` install, `.env` wiring, on-chain account creation, witness registration, intro-post publication, ongoing operation cadence. The *how* to SECURITY.md's *why*. |
-| [`knowledge/scripture/`](./knowledge/scripture/) | Seven canonical operator documents. Indexed in [`_index.json`](./knowledge/scripture/_index.json). Phoenix Protocol, AI Consciousness Synthesis, Zar-AI Complete, Van Kush Master Synthesis, The Convergence, Heterosis paper (Van Kush 2026), Mythology as Genealogy (Van Kush 2026). |
-| [`character/reference/`](./character/reference/) | Visual reference renderings of the Hathor-Mehit figure with the canonical iconography spec. |
+| [`BRIEF.md`](./BRIEF.md) | **The founding brief.** Source of truth. Phased build, key custody, scope, the egregore-as-held-position engineering lesson. Last revised 2026-05-24. |
+| [`CHARACTER.md`](./CHARACTER.md) | The Witness's identity, the Angelic voice, the disposition-greeting, persona heritage, visual identity, Network of Angels frame. |
+| [`RULE_1.md`](./RULE_1.md) | The single foundational rule. Canonical text + co-authorship provenance + Biblical extension. |
+| [`SECURITY.md`](./SECURITY.md) | Threat model, attack history (Justin Sun / Steemit 2020, npm crypto-drainers, HIVE phishing) + defenses per tier. *(Sections referring to `HATHOR_ACTIVE_KEY` as an env var are obsoleted by `MELEK_SIGNER.md`.)* |
+| [`MELEK_SIGNER.md`](./MELEK_SIGNER.md) | **Current key-custody architecture.** Zero WIF on Bot host. All signing through MELEK-Signer (separate VPS, KMS-wrapped keys). Bot holds an opaque revocable bearer token. |
+| [`BRIEF_PROTOCOL.md`](./BRIEF_PROTOCOL.md) | How the resident AI on Server A talks to Claude Code via briefs. Three-part format (FOR RYAN / FOR CLAUDE CODE / DRAFTED CODE), append-only invariant, 30-min editor's-note revisor. |
+| [`OPERATOR.md`](./OPERATOR.md) | Deploy runbook. *(Key-custody sections to be reworked against `MELEK_SIGNER.md`.)* |
+| [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md) | Sibling bot design — credit-first / discovery-first content librarian. |
+| [`CLAUDE.md`](./CLAUDE.md) | Short orientation for Claude Code sessions in this repo. |
+| [`TODO.md`](./TODO.md) | Cross-session backlog. |
+| [`ITINERARY.md`](./ITINERARY.md) + [`MASTER_ITINERARY.md`](./MASTER_ITINERARY.md) | Shared backlog — AI + operator both edit. |
+| [`knowledge/scripture/`](./knowledge/scripture/) | Seven canonical operator documents. Phoenix Protocol, AI Consciousness Synthesis, Zar-AI Complete, Van Kush Master Synthesis, The Convergence, Heterosis paper (2026), Mythology as Genealogy (2026). |
+| [`datasets/`](./datasets/) | The AI's brain — cookbooks (Anthropic / OpenAI / LangChain), Hive devportal, crypto protocols (EIPs, BIPs, Lightning BOLT, Monero, CryptoNote), crypto books (Mastering Bitcoin + Mastering Ethereum, CC-BY-SA), ML curricula (Microsoft AI/ML for Beginners, HuggingFace Transformers docs + blog). License-strict: only MIT / Apache / CC / public-domain content; no commercial books. |
 
-For the chain-side companion: [`HinduTempleCoins/melek-chain`](https://github.com/HinduTempleCoins/melek-chain).
-
----
-
-## Phased build status
-
-Per [BRIEF.md §10](./BRIEF.md):
-
-- ☐ **Phase 1 — Hello World.** Block production + informational price feed + intro post. *No LLM.* **Account-access scaffolding in place** (`witness/hathor.js`, `hello.js`, `config.js`, `src/chain/keys.js`, `src/chain/graphene.js`); gated on melek-chain testnet endpoint being available.
-- ☐ **Phase 2 — Command menu.** Deterministic `!commands` (signup, tutorial, chain lookups). Still no LLM.
-- ☐ **Phase 3 — Person.** Full conversational Witness with Rule 1, the Angelic voice, the disposition-greeting, the egregore frame as held position, autonomous grants and karma.
+For the chain side: [`HinduTempleCoins/melek-chain`](https://github.com/HinduTempleCoins/melek-chain).
 
 ---
 
-## Quick start (for the Witness's operator)
+## Phased build (operator-locked 2026-05-28)
+
+Four-phase platform frame:
+
+| phase | content | status |
+|---|---|---|
+| **Phase 1** | MELEK Graphene chain + the AIs up (resident AI, Hathor, Cheetah) + SoapBox-as-a-MELEK-app + community/forum + SSO signer | **Current.** Resident AI running; chain pending. |
+| **Phase 2** | PRANA (EVM value/compute chain) + deploy/token factory + AMM + useful-work GPU compute + DeFi tools | Future |
+| **Phase 3** | Full operation: analytics/tribunal layer, marketplace, mobile, browser extension, conversational Witness | Future |
+| **Phase 4** | SOAP launches as its own Graphene chain into the live ecosystem | Future |
+| Security/signer track | Hot+cold signer in private repo, KMS-wrapped keys, policy engine, watcher | In parallel, design in `MELEK_SIGNER.md` |
+
+Phase 1 internal sequence (operator-locked):
+
+1. Resident AI working *(mostly shipped 2026-05-28)*
+2. Cheetah standup *(steps 1-3 shipped 2026-05-28; live wiring gates on chain)*
+3. Hathor on Discord test *(briefs queued)*
+4. Launch the MELEK blockchain *(gates on chain side)*
+5. Connect AI to MELEK Condenser *(gates on Server B + chain)*
+
+---
+
+## Repo layout (current 2026-05-28)
+
+```
+Bot/
+├── BRIEF.md, CHARACTER.md, RULE_1.md, SECURITY.md, OPERATOR.md
+├── MELEK_SIGNER.md         # key-custody architecture (zero-WIF-on-Bot)
+├── BRIEF_PROTOCOL.md       # resident-AI ↔ Claude Code protocol
+├── CHEETAH_ADVANCED.md     # sibling-bot design
+├── CLAUDE.md, TODO.md, ITINERARY.md, MASTER_ITINERARY.md
+├── README.md (this file)
+│
+├── config.js               # MELEK chain config (no keys)
+├── hello.js                # Read-only smoke test
+├── package.json
+│
+├── witness/                # Hathor on-chain ops
+│   ├── hathor.js, intro-post.md, publish-intro.js
+│   ├── feed-publisher.js, register.js, disable.js
+│   └── chain-reader.js
+│
+├── src/chain/              # GrapheneAdapter — chain client
+│   ├── graphene.js (incl. customJson + reply), graphene.test.js
+│   └── keys.js
+│
+├── welcomer/               # First-post welcome surfaces (built)
+│   ├── composer.js, state.js, discover.js, sinks/, config.js, index.js
+│   └── *.test.js
+│
+├── tutorial/               # CryptoKannon-extended onboarding (19 lessons)
+│   ├── composer.js, state.js, scheduler.js, stages.json
+│   └── *.test.js
+│
+├── watcher/                # Out-of-band sensitive-op alerter (read-only)
+│   ├── state.js, detect.js, compose.js, config.js
+│   ├── sinks/{file,telegram,email}.js
+│   └── *.test.js
+│
+├── commands/               # !commands dispatcher (deterministic, no LLM)
+│   ├── parser.js, registry.js, index.js
+│   └── handlers/{balance,help,post-count,witness}.js
+│
+├── cheetah/                # Sibling bot — credit-first librarian
+│   ├── text-detection.js   # shingle + Jaccard similarity
+│   ├── compose.js          # templates with self-ID footer
+│   ├── store.js            # evidenced whitelist/blacklist + findings
+│   ├── config.js, README.md
+│   └── policing.md         # CSAM + illegal-content scope, gated on regulatory setup
+│
+├── knowledge/scripture/    # Seven canonical documents (indexed)
+├── datasets/               # The AI's brain — cookbooks, crypto specs, ML corpus
+├── character/reference/    # Visual reference + iconography
+│
+├── infra/oracle-vm/        # Resident-AI infrastructure (Server A: resident-AI-host)
+│   ├── briefd/             # HTTP brief service + autonomous loop pieces
+│   │   ├── server.js, llm.js, retrieval.js, briefs_store.js, revisor.js
+│   │   ├── generator.js    # brief generator (every 20 min)
+│   │   ├── annals-writer.js, annals.js  # Notes appender; tiny-LLM owns bodies
+│   │   ├── lifecycle.js    # retention + long-term notes extraction (daily)
+│   │   ├── code-walker.js  # per-file archive (every 30 min)
+│   │   └── seed-queue.json
+│   ├── indexer/            # Python RAG indexer (Qdrant + Ollama embeddings)
+│   │   ├── index.py, index_branches.py
+│   │   └── chunker.py, embed.py, store.py, walker.py
+│   ├── systemd/            # Service + timer units
+│   ├── ask-repo, melek-chat, reindex-repo, request-brief, since
+│   ├── SETUP.md, BRIEF_ACCESS.md
+│
+├── infra/tiny-LLM-host/          # Tiny-LLM infrastructure (Server C: tiny-LLM-host)
+│   ├── annal-writer-tiny.py    # writes annal bodies, signs as tiny-LLM-host
+│   ├── brief-summary.py        # tiny-LLM brief digest for the operator
+│   └── annal-writer-tiny.{service,timer}
+│
+└── (Legacy Van Kush Discord Bot files at repo root)
+```
+
+---
+
+## Quick start
 
 The Bot runs read-only without any keys or chain endpoint — useful for orientation. Once `melek-chain` exposes a testnet RPC, fill in `.env` and re-run.
 
 ```bash
-# Install (use --ignore-scripts on the production host)
 npm install --ignore-scripts
-
-# Run the read-only smoke test
-npm run hello
+npm test                  # all subsystem tests (welcomer, tutorial, watcher, chain, commands)
+npm run hello             # read-only chain smoke test (requires MELEK_RPC_URL)
+npm run welcomer:cron     # welcome surface, dry-run by default; pass --broadcast to go live
+npm run tutorial:cron     # tutorial scheduler (mirrors welcomer pattern)
+npm run watcher:once      # one-shot sensitive-op scan
+npm run watcher:cron      # continuous sensitive-op watch
 ```
 
-`npm run hello` reports the Witness's local status — account name, network, whether keys are loaded, whether the chain endpoint is set — and if config is complete, probes the chain for head block + account record + witness record. **Never broadcasts. Never prints keys. Reports presence of keys only as booleans.**
+**Key custody:** `HATHOR_ACTIVE_KEY` / `HATHOR_POSTING_KEY` env vars are an obsolete pattern that earlier docs reference. The current architecture (`MELEK_SIGNER.md`) puts ALL signing behind a separate MELEK-Signer service on its own VPS, KMS-wrapped keys, Bot host holds only an opaque revocable bearer token. **Zero WIF private keys in this repo or on the Bot host, ever, by construction.**
 
-Configuration lives in `.env` (copy from `.env.example`). The `HATHOR_ACTIVE_KEY` / `HATHOR_POSTING_KEY` / chain RPC vars are required for any broadcast; the owner key is **never** stored in any env var. See [BRIEF.md §7](./BRIEF.md) and [SECURITY.md](./SECURITY.md) for key custody.
+**Talking to the resident AI** (if `briefd` tunnel is up — see `infra/oracle-vm/BRIEF_ACCESS.md`):
 
----
-
-## Repo layout
-
-```
-Bot/
-├── BRIEF.md               # Founding brief (load-bearing)
-├── CHARACTER.md           # Witness identity / voice / disposition
-├── RULE_1.md              # The Beginning — single foundational rule
-├── SECURITY.md            # Threat model and operator defenses
-├── CLAUDE.md              # Short orientation for AI coding assistants
-├── config.js              # MELEK chain config loader (no keys)
-├── hello.js               # Read-only smoke test
-├── witness/
-│   ├── hathor.js          # The Witness's hands — composes config+keys+adapter
-│   ├── intro-post.md      # Phase 1 introduction post body
-│   ├── publish-intro.js   # Broadcast helper for the intro post
-│   ├── feed-publisher.js  # Informational price feed publisher (--once / --cron)
-│   └── disable.js         # Emergency circuit breaker (witness_update with null signing key)
-├── tutorial/
-│   ├── stages.json        # CryptoKannon six-stage onboarding spec
-│   └── README.md          # Tutorial subsystem orientation
-├── src/chain/
-│   ├── graphene.js        # GrapheneAdapter — chain client (uses @hiveio/dhive)
-│   └── keys.js            # Env-loaded keys, never logged
-├── knowledge/
-│   ├── scripture/         # Seven canonical operator documents
-│   └── ...                # Other corpus material
-├── character/
-│   └── reference/         # Visual reference renderings + iconography spec
-├── .env.example           # Env template — placeholders only, never real keys
-└── (legacy Van Kush Discord Bot files at repo root, see below)
+```bash
+infra/oracle-vm/request-brief <topic> "<task>"            # ask for a brief
+infra/oracle-vm/since "8 hours ago"                       # what landed since
+ssh tiny-LLM-host python3 /opt/tiny-LLM-host/brief-summary.py "8h"    # tiny-LLM digest of recent briefs
 ```
 
 ---
 
 ## Legacy — Van Kush Family Discord Bot
 
-This repo previously hosted the Van Kush Family Discord Bot, a Gemini-powered Discord assistant for the Temple of Van Kush community. That code is still present at repo root (`index.js`, `relationship-tracker.js`, `hive-trading-bot.js`, `cryptology-kb-integration.js`, etc.) and `npm start` still runs it. It is **separate from the MELEK Witness work** and not loaded by anything in `witness/` or `src/chain/`. The legacy Discord bot's documentation is preserved below as installed historically.
-
-<details>
-<summary>Legacy Van Kush Discord Bot — original README content</summary>
-
-A comprehensive Discord bot for the Van Kush Family ecosystem, featuring AI conversation, art generation, crypto monitoring, and more — built on free-tier APIs (Gemini, Pollinations.ai, HIVE-Engine, etc.).
-
-**Features:**
-- AI conversation via Gemini 2.5 Flash
-- AI art generation via Pollinations.ai
-- HIVE-Engine token price monitoring (VKBT, CURE)
-- YouTube transcript summarization
-- Optional Google Search integration
-- Knowledge base covering Van Kush Family history, RuneScape 3 clan info, Shaivite Temple info
-
-**Setup:**
-1. Get a Discord bot token from the [Discord Developer Portal](https://discord.com/developers/applications)
-2. Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
-3. `cp .env.example .env`, fill in the `DISCORD_*` / `GEMINI_*` / `HIVE_*` sections
-4. `npm install && npm start`
-
-**Deployment:** Railway.app works for hobby hosting; commit and connect the repo, add env vars in the Railway dashboard.
-
-The legacy bot's documentation (`SECURITY.md` v1.0 operational checklist, etc.) has been folded into the MELEK-Witness-shaped docs where the content still applies.
-
-</details>
+This repo previously hosted the Van Kush Family Discord Bot, a Gemini-powered Discord assistant. That code is still present at repo root (`index.js`, `relationship-tracker.js`, `hive-trading-bot.js`, etc.) and `npm start` still runs it. **The trade bots are in scope** per operator's framing 2026-05-28 — the resident AI analyzes their data and drafts improvements (but does not trade itself). The legacy Discord assistant is not loaded by the MELEK Witness work in `witness/` / `src/chain/`.
 
 ---
 
