@@ -2,7 +2,122 @@
 
 **Start Date**: 2026-01-09
 **Last Updated**: 2026-01-10 (6:20am)
+**Most Recent Addition**: 2026-05-28 — MELEK Witness + resident AI ensemble + Cheetah + corpus + sprint mode (new section below; original content preserved).
 **Status**: Trading Bot LIVE ✅ (executing real trades on HIVE-Engine), Knowledge Base READY ✅, Discord Bot 95% done
+**Status 2026-05-28 addition**: MELEK AI Witness operational scaffolding shipped ✅, Phase 1 chain launch pending.
+
+---
+
+## 🆕 UPDATE 2026-05-28 — MELEK Witness + resident-AI ensemble
+
+The Bot Repo's scope grew significantly between 2026-01 and 2026-05. This section captures what was added; the original January itinerary continues below.
+
+### Platform phases (operator-locked 2026-05-28)
+
+| phase | content | status |
+|---|---|---|
+| **Phase 1** | MELEK Graphene chain + the AIs (resident AI, Hathor, Cheetah) + SoapBox-as-a-MELEK-app + community/forum + SSO signer | **current** |
+| **Phase 2** | PRANA (EVM value/compute chain) + deploy/token factory + AMM + GPU compute + DeFi tools | future |
+| **Phase 3** | Full operation: analytics/tribunal, marketplace, mobile, browser extension, conversational Witness | future |
+| **Phase 4** | SOAP launches as its own Graphene chain into the live ecosystem | future |
+| **Security/Signer** | Hot+cold signer, KMS-wrapped keys, policy engine, watcher — separate private repo | parallel |
+
+**Phase 1 internal sequence:** resident AI ✅ → Cheetah ⏳ → Hathor on Discord ⏳ → MELEK chain launch ⏳ → AI connects to Condenser ⏳ → website goes up.
+
+### Resident AI ensemble (shipped 2026-05-28)
+
+- **resident-AI-host (Server A)** — resident AI VM at `REDACTED-HOST`. Ollama + qwen2.5-coder:1.5b + Qdrant index + briefd HTTP service + autonomous loop (brief-generator, annals-writer, code-walker, brief-lifecycle, reindex-repo). Sprint mode active for ~2 weeks.
+- **tiny-LLM-host (tiny-LLM)** — smaller VPS at `REDACTED-HOST`-equivalent (TBD). Ollama + smollm2:360m. Writes annal bodies (signed `tiny-LLM-host`), fast brief summaries for operator on return.
+- **(planned) reviewer-host** — Oracle ARM A1.Flex 4-8GB. DeepSeek-Coder 1.3B or 6.7B. Coding-quality reviewer, conversation with tiny-LLM produces MoM, 12h CST summary to Main Repo AI.
+- **(planned) Server B** — host server for Bot runtime + MELEK chain + condenser. Admined by Server A over SSH.
+- **(planned) signer VPS** — MELEK-Signer service, KMS-wrapped keys. Zero WIF on Bot host.
+- **(planned) watcher VPS** — read-only chain observer, alerts on sensitive ops.
+
+### Data artifact layers
+
+- Briefs (working memory, three-part, bounded retention) → `<DATA_DIR>/briefs/` on resident-AI-host
+- Annals (long-form per-subject reference, tiny-LLM writes bodies + Main Repo AI appends signed Notes) → `<DATA_DIR>/annals/`
+- Long-term notes (one-line takeaways distilled from briefs before deletion) → `<DATA_DIR>/notes/`
+- Per-file archive (one record per repo file with purpose / work_items / finished_items) → `<DATA_DIR>/archive/files/`
+- Itinerary (this file + MASTER_ITINERARY.md) — shared backlog, AI proposes updates via briefs
+
+### Cheetah build status (sibling bot to Hathor)
+
+- ✅ Spec — `CHEETAH_ADVANCED.md`
+- ✅ Steps 1-3 deterministic code shipped: `cheetah/text-detection.js`, `compose.js`, `store.js`, `config.js`, `index.js` orchestrator + CLI
+- ✅ Deploy runbook `cheetah/DEPLOY_ORACLE.md` + one-paste `cheetah/bootstrap-oracle.sh`
+- ✅ Policing scope `cheetah/policing.md` (CSAM + illegal content; gated on PhotoDNA/NCMEC + counsel)
+- ⏳ Oracle box provisioned 2026-05-28 (IP `REDACTED-HOST`, user `opc`); awaits VCN port 22 ingress rule for SSH access
+- ⏳ Step 4 (resolution flow with Hathor) — gates on Phase 3
+- ⏳ Step 5 (discovery mode) — Phase 2 deterministic but lower priority
+- ⏳ Step 6 (image detection) — last, hardest
+
+### Hathor on Discord — MERGE framing
+
+The existing `van-kush-discord-bot` at repo root + `hive-trading-bot.js` + `library-of-ashurbanipal-bot/` + `cryptology-kb-integration.js` are NOT separate from Hathor. They MERGE into the unified Hathor character (CHARACTER.md + BRIEF.md + scripture corpus). The Discord setup, Gemini wiring, Hive RPC code, MediaWiki publishing all become Hathor's surfaces.
+
+**Library of Asherbanipal** (identified 2026-05-28): synthesizes wiki articles via Gemini, publishes to MediaWiki at `http://REDACTED-HOST/wiki`. Needs `GEMINI_API_KEY` + `WIKI_BOT_USERNAME` + `WIKI_BOT_PASSWORD` to be deployed somewhere.
+
+### Datasets corpus (the AI's brain)
+
+Expanded 2026-05-28 from 2 operator JSONLs (~60KB) to **3,500+ files / ~50MB** of openly-licensed reference content:
+- `datasets/cookbooks/` — Anthropic + OpenAI + LangChain (MIT)
+- `datasets/hive-devportal/` — 292 Graphene-family JS/PHP tutorials (MIT)
+- `datasets/chain-libs/dhive/` — dhive client docs (Apache 2.0)
+- `datasets/crypto-protocols/` — EIPs, BIPs, Lightning BOLT, Monero research, CryptoNote, devp2p
+- `datasets/crypto-books/` — Mastering Bitcoin + Mastering Ethereum (CC-BY-SA-4.0, full books)
+- `datasets/ml-libs/` — Hugging Face Transformers docs + HF blog (English only)
+- `datasets/ml-courses/` — Microsoft AI-for-Beginners + ML-for-Beginners (English only)
+
+**Still wanted:** BitcoinTalk threads (Headless Bitcoin + sidechain), operator's published research papers (Heterosis AJBSR, Mythology-as-Genealogy CAU), operator's @marsresident / @punicwax Steem posts.
+
+### Sprint mode (2026-05-28 → ~2026-06-11)
+
+The AIs run budget-loop runners (~45-min budget per tick on tiny-LLM-host, ~25-min on resident-AI-host code-walker). Volume over perfection — the 30-min editor's-note revisor refines later. Streaming-to-disk so partial output survives cutoffs (`.partial` files are debug signal, not loss).
+
+### Multi-AI architecture (3-AI ensemble — DeepSeek planned)
+
+Once DeepSeek lands:
+1. Tiny-LLM writes annal → alerts DeepSeek
+2. DeepSeek reads annal + repo, gives coding advice
+3. Tiny-LLM + DeepSeek converse (why / advice) → MoM appended to annal
+4. Every 12h CST (UTC 06+18), DeepSeek summarizes to Main Repo AI → fuels next briefs
+
+### Kurdish-language committee (Phase 3 — operator priority)
+
+All AIs participate (resident AI + tiny-LLM + Qwen language tier + DeepSeek + planned multilingual specialists like NLLB-200, Aya Expanse). Register-aware: dialect (Kurmanji / Sorani / Pehlewani-Zaza-Gorani) + register (religious / scholarly / business / colloquial / literary). Analog: "Spanish for Church vs Spanish for Businesses."
+
+### What's gated on operator-side action
+
+- Oracle box VCN port 22 ingress rule (so I can SSH and run bootstrap)
+- Server B provisioning (host server for Bot + chain + condenser)
+- Hetzner ID verification (fallback for various roles)
+- DeepSeek box (Oracle ARM A1.Flex 4-8GB)
+- Operator repos list (multi-repo indexing)
+- Cheetah web search backend choice (Google CSE / Serper / DDG / none)
+- AWS account + KMS verification (for MELEK-Signer)
+- Cloudflare DNS (`melek.salon` + `vankushfamily.com`)
+- RunPod credit (later GPU work)
+
+### Reference docs added 2026-05-28
+
+- `MELEK_SIGNER.md` — key custody architecture (zero WIF on Bot host)
+- `BRIEF_PROTOCOL.md` — resident AI ↔ Claude Code protocol
+- `CHEETAH_ADVANCED.md` — full sibling-bot spec
+- `cheetah/policing.md` — CSAM + illegal-content scope, gating
+- `.local/ARCHITECTURE_OVERVIEW_2026-05-28.md` — AI-facing comprehensive map (private)
+- `.local/CURRENT_PRIORITIES_2026-05-28.md` — what every brief should serve (private)
+- `.local/CONVERSATION_2026-05-28_SYNTHESIS.md` — operator's load-bearing statements (private)
+- `.local/MULTI_AI_ARCHITECTURE_2026-05-28.md` — 3-AI ensemble + DeepSeek plan (private)
+- `.local/RIGHT_NOW_2026-05-28.md` — 10-point action list (private)
+
+---
+
+## ⬛ Original January 2026 itinerary continues below
+
+**Rule (operator-locked 2026-05-28):** Itinerary items are NEVER removed, only ADDED. Everything in the original section below remains active. The 2026-05-28 section above ADDS the MELEK Witness + resident-AI ensemble track alongside, not in replacement of, the trading-bot + knowledge-base work. The resident AI analyzes trade-bot data and drafts improvements (additive); it does not trade.
+
+---
 
 ---
 
