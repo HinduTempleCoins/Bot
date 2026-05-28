@@ -1,51 +1,189 @@
 # TODO — what's queued for the MELEK AI Witness Bot
 
-**Status:** living document. When you say "continue" or "do what you were doing before," this file is where I start. Reorder, strike, or annotate as priorities shift.
-
-## End of 2026-05-25 session — pick up here
-
-**Where we are.** Phase 1 chain-access layer (Hathor + GrapheneAdapter + chain-reader + feed publisher + register / disable witness + intro post + smoke test) is built, tested, gated only on the chain-side melek-chain testnet RPC URL becoming available. This session shipped two new pieces of Phase-2 infrastructure: the **tutorial response composer + state store** and the **welcomer module end-to-end**. 49 passing tests; preflight green.
-
-**What's actually runnable today (no chain needed):**
-- `npm test` — full suite (tutorial detector + tutorial state + welcomer state/composer/discover/orchestrator)
-- `npm run preflight` — security + dep + test checks
-- `npm run welcomer:once` — dry-run a welcomer pass (needs CHAIN_RPC_URL + WELCOME_POST_* env)
-
-**What needs operator decisions before more code ships:**
-1. **Tutorial lesson plan locked in [[tutorial-design-2026-05-25]] memory — 19 lessons across three modes (A-Req / B-Placeholder / C-Read).** Doesn't yet exist in code. `tutorial/stages.json` currently has the 6-lesson CryptoKannon spine; needs expansion to the 19-lesson structure before tutorial scheduler (TODO #3) can be built meaningfully. Composer templates will need new entries for the new lessons.
-2. **Draft Tier-A lesson posts now (Phase-2 register) vs hold for Phase-3 Angelic-voice authoring?**
-3. **Existing operator-authored tutorials (@punicwax mining/witness, @marsresident token guides) — quote-and-port with attribution, or rewrite from scratch?** See [[operator-steemit-handles]].
-4. **Permlink/tag convention:** proposed `melek-lesson-N-<slug>` for Hathor's posts + `#melekachievementN` for user responses.
-5. **Grow the Topics (#5) subject menu** — operator named 6 (Crypto / Finance / Bio-hacking / Herbal / Esoteric / Religion) and said "just one example" so more are wanted.
-
-**What needs operator-side admin work before welcomer goes live:**
-- An authored **Welcome / Tutorial Program post** on whichever chain you target — `WELCOME_POST_AUTHOR/PERMLINK` env vars point at it. Bot reads, never authors. Welcomer's startup health check refuses to proceed without it.
-- The chain itself (MELEK launch + RPC published) for any real broadcasting. Per [[testing-happens-on-melek]] memory: don't test broadcast paths on Blurt/Steem; dry-run is fine against any chain.
-
-**Immediately buildable without more decisions (in priority order):**
-- **Out-of-band transfer alerts** (SECURITY.md §4d, load-bearing security)
-- **Forker docs bundle** (CONTRIBUTING.md + MELEK.md glossary + system_prompts/ stub README)
-- **Add `custom_json` + `reply()` to GrapheneAdapter** (~30 lines + tests, unblocks future Tier-B feature wiring)
-- **Welcomer integration hardening** (rate-limiting if needed, parallelism cap on block scans, better dry-run output formatting)
-
-**Memory pointers for next session:**
-- [[tutorial-design-2026-05-25]] — full 19-lesson design with mode classifications + ETH Clone framing + Hathor's PIZZA-bot scope there
-- [[operator-steemit-handles]] — @marsresident + @punicwax inventory + Steem RPC pattern
-- [[testing-happens-on-melek]] — don't test broadcast on Blurt/Steem; dry-run only
-- [[todo-pointer]] — this file is the cross-session work backlog
+**Status:** living document. When operator says "continue" or "do what you were doing before," this file is where Claude Code starts. Reorder, strike, or annotate as priorities shift.
 
 ---
 
-**Last session ended:** 2026-05-24. State of the world at that point: Phase 1 is feature-complete on the Bot side, all load-bearing docs (BRIEF, CHARACTER, RULE_1, SECURITY, OPERATOR, README) are in, scripture corpus has 7 documents, character/reference/ has 11 images, CI workflow runs preflight on every push. Bot is ready to connect when melek-chain exposes a testnet RPC.
+## Resident AI autonomous loop shipped mid-session 2026-05-28
+
+After this morning's audit confirming the resident AI had been sitting idle overnight (no autonomous loop, request/response only, `briefd` couldn't even complete a brief because of stacked timeouts), the autonomous infrastructure was shipped this afternoon:
+
+- **Streaming Ollama integration.** `llm.js` now uses `stream: true` + a custom undici dispatcher with `headersTimeout/bodyTimeout` disabled. Previously, undici's default 5-min timeouts were firing during the long prefill phase on the 1-core box (~8K-token context + 1.5B model) before Ollama could emit a single byte, so every brief request died at exactly 5 min. First real brief landed 12:44Z: `2026-05-28T12-44-14Z-hathor.md` on Server A. Compose time on this box is ~10 min.
+- **SYSTEM_PROMPT rewritten to insider voice.** The first brief read like a tourist's wiki blurb. The prompt was telling the AI "plain text, no code blocks, terse" + listing "files you do NOT touch." Both were lobotomizing. New prompt: insider voice, scripture corpus + operator's research as context, deployment boundaries explicit but no analysis restrictions.
+- **`brief-generator.service` + `brief-generator.timer` (every 20 min).** Autonomous brief writer. Pops from `<DATA_DIR>/queue.json` (FIFO seed queue) → falls through to standing rotation across Hathor / Cheetah / Signup / Infra / general. Seed queue front-loaded with: stand-up-Cheetah brief, README drift detection, Itinerary integration, Hathor-on-Discord test plan, signup-pipeline next-unit.
+- **`brief-lifecycle.service` + `brief-lifecycle.timer` (daily).** Briefs are working memory: consumed → archived to `<DATA_DIR>/archive/briefs/<YYYY-MM>/` after 7 days; everything → deleted after 30 days. Before deletion, the AI distills a one-line takeaway into `<DATA_DIR>/notes/<topic>.jsonl` — the long-term-knowledge layer the operator described.
+- **`code-walker.service` + `code-walker.timer` (every 30 min).** Per-file archive at `<DATA_DIR>/archive/files/<flat>.json`. Cheap metadata every tick (mtime, size, line count); one file deep-inspected by the LLM per tick for purpose + work_items + finished_items. Round-robin cursor at `<DATA_DIR>/walker-cursor.json`. This is what makes the AI "an expert on everything in the repo."
+- **`reindex-repo.timer` was disabled — now enabled.** 15-min cadence pull + reindex. Without this the index would have stayed frozen at last night's one-shot.
+
+## Where we are right now (2026-05-28)
+
+**Architectural refresh, 2026-05-28** (full brief in `.local/STAGE_0_UPDATE_2026-05-28.md`, came out of a Claude Regular session). The original "one Oracle VM for everything" plan didn't fit the resident-AI role. New shape:
+
+- **Server A — Admin / Resident-AI VM.** Where the resident AI lives (Ollama, indexer, Qdrant, `briefd`). Also acts as the AI's SSH-driven admin terminal into Server B. Codespace → Server A → Server B is the chain. **Provider:** operator is trying ServerHost first for this box; Hetzner is the fallback once the manual ID check clears.
+- **Server B — Host server.** Runs the Bot Repo runtime, the MELEK chain (witness node), and the condenser. Likely a bigger box than Server A.
+- **Signer / Watcher VPSs** — unchanged; separate private-repo track, no keys on A or B by construction.
+- **Oracle Always Free** — likely reassigned to CheetahAdvanced (or part of it), but the ARM image-detection params are an open question for Cheetah step 6.
+
+**Platform phases** (operator's frame, locked this turn — read top-to-bottom to orient):
+
+1. **Phase 1** — MELEK Graphene chain + AIs (resident AI, Hathor, Cheetah) + SoapBox-as-a-MELEK-app + community/forum + SSO signer. **← current.**
+2. **Phase 2** — PRANA (EVM value/compute chain) + deploy/token factory + AMM + useful-work GPU compute + DeFi tools.
+3. **Phase 3** — Full operation: analytics/tribunal layer live, marketplace + mobile + browser extension.
+4. **Phase 4** — SOAP launches as its own Graphene chain into the live ecosystem.
+5. **Security/Signer foundation** — parallel private-repo track underneath all of it.
+
+**Phase 1 milestone sequence (operator-locked 2026-05-28).** Within Phase 1, the order operator wants:
+
+1. **Resident AI working** — most of this shipped today (autonomous brief generator + lifecycle + per-file archive + insider-voice prompt). Awaiting: first autonomous-loop briefs to land + multi-source ingest as data sources come online.
+2. **Cheetah standup** — get the sibling bot running so Hathor isn't alone. Operator's #1 near-term ask. First seed-queue brief is "draft step 1 of CheetahAdvanced."
+3. **Hathor on Discord test** — the smallest-viable Hathor presence on Discord. Also becomes a constant data stream for the resident AI to monitor (parallel to trade-bot data).
+4. **Launch the MELEK blockchain** — testnet RPC values land, witness registers, intro post broadcasts, feed publisher runs. All chain-side scaffolding is built and gated on this.
+5. **Connect AI to MELEK Condenser** — the front-end (condenser) on Server B reads from the AI's surfaces / briefs / per-file archive as appropriate.
+
+**Hard-break protocol.** When the moment arrives (likely the `melek-signer` private-repo kickoff, or the PRANA Phase-2 repo when that opens), the standing instruction is: surface the hard break explicitly to operator with a one-line "start a Claude Code in `<repo>` and I'll draft the brief for it" — don't silently fan work out. By that point the resident AI is running 24/7 here and continues writing drafts during the parallel work.
+
+**Active build tracks:**
+
+1. **Stage 0 — Resident AI VM (IN FLIGHT, architecture pivoted 2026-05-28).** Originally scoped for Oracle Always Free VM #1; per the refresh, the resident AI now lives on **Server A** (ServerHost first, Hetzner if ID-check completes faster). Codespace-side work continues; provisioning gates moved from Oracle to ServerHost/Hetzner. See `.local/STAGE_0_BRIEF.md` (original) + `.local/STAGE_0_UPDATE_2026-05-28.md` (refresh) for the full briefs.
+
+2. **Watcher module (built 2026-05-27, working tree uncommitted).** Out-of-band alerter for sensitive ops by Hathor. 79 passing tests; full repo at 128 tests. Read-only, keyless, safe to commit and deploy regardless of signing architecture decisions.
+
+3. **MELEK-Signer (designed, build deferred).** Resolved 2026-05-27. Hot/cold signer split: VPS-resident signer with KMS-encrypted keys at rest, hardware-wallet cold signer for rare ops. Bot holds only an opaque bearer token; never sees a WIF. Full design in `MELEK_SIGNER.md`. Operator wants to talk to Claude Regular before kicking off the `melek-signer` repo build.
+
+4. **Phase 1 chain ops (waiting on melek-chain testnet RPC).** Hathor + GrapheneAdapter + chain-reader + feed publisher + register / disable witness + intro post + smoke test — all built, all gated on the RPC URL becoming available.
+
+5. **Phase 2 (tutorial + welcomer + command menu).** Welcomer + tutorial composer/state shipped 2026-05-25; tutorial scheduler + command menu + signup-help-server still to build.
+
+**Infrastructure stack (resolved 2026-05-27):** Oracle Always Free for all three VPSes (resident AI, signer, watcher), AWS KMS for signer key wrapping (~$1/mo), RunPod on-demand for any GPU work (ComfyUI, LoRA), Cloudflare for DNS (`melek.salon`, `vankushfamily.com`), this GitHub Codespace as dev environment. Total ~$6–35/mo, most variable cost is RunPod when used. Full doc in `.local/STACK.md`.
+
+**Big design rule locked this session:** **NO WIF private keys in this repo or on the Bot host, ever, by construction.** Replaced the old "active key in env" shape. See `MELEK_SIGNER.md` + `[[feedback-zero-wif-in-bot-repo]]` memory.
+
+**Memory pointers for next session:** `[[todo-pointer]]`, `[[hathor-key-security-architecture]]`, `[[feedback-zero-wif-in-bot-repo]]`, `[[feedback-synthesis-docs-go-in-local]]`, `[[watcher-module-shipped]]`, `[[tutorial-design-2026-05-25]]`, `[[operator-steemit-handles]]`, `[[cheetah-advanced-brief]]`, `[[bot-as-hathor-account]]`.
 
 ---
 
 ## 🟥 Operator-side, urgent / outstanding
 
-These are things only **you** can do (the human operator); I can't.
+Things only the human operator can do.
 
-- [ ] **Decide what to do about the `angelicalist` HIVE account.** Active + posting keys have been public in git history (`SECURITY_KNOWLEDGE_BASE.md`, commit `b4c4e55`, 2026-01-10) for ~4.5 months. Keys are saved for you in the conversation history of the previous session. Options: (a) check the account on https://hiveblocks.com/@angelicalist and move funds out via the active key if anything's there, (b) if you have the owner key offline, rotate active+posting, (c) declare it abandoned/empty and move on. Not blocking the MELEK work.
-- [ ] **Address the 15 npm audit findings in legacy deps** (5 high, 7 moderate, 3 low). All in the van-kush-discord-bot path, not on the MELEK Witness path. Options: `npm audit fix` (non-breaking patches), `npm audit fix --force` (breaking, may update discord.js), or retire the legacy code entirely. Currently treated as informational by `npm run preflight`.
+### Stage 0 unblockers (post-pivot 2026-05-28 — provisioning gates moved off Oracle)
+
+- [ ] **Provision Server A — Admin / Resident-AI VM (ServerHost first).** Operator is trying a LowEndBox-tier ServerHost KVM VPS for this role. Need: hostname/IP, sudo user, SSH access verified from this Codespace. Default user can be `ubuntu` or operator's choice — note it when sharing. **Codespace pubkey to paste at creation:** `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMR2lXjt1WTIoyWD4KtXdwmQjhr5UhUOmzN7OAErBega codespace-bot-repo-2026-05-27`.
+- [ ] **Hetzner — waiting on manual ID verification.** Operator has applied. Once verified, Hetzner becomes available for one of: Server B, signer VPS, or watcher VPS (operator will decide based on what ServerHost gets sized for). The CX22-class boxes from `.local/STACK.md` still hold as the spec.
+- [ ] **Provision Server B — Host server.** Bot Repo runtime + MELEK chain (witness node) + condenser. Likely a larger box than Server A. Need: hostname/IP, sudo, SSH access from Server A confirmed. **Do not genesis the chain yet** — Server B starts as host-ready only; chain launch is a separate Phase-1 milestone with explicit operator go-ahead.
+- [ ] **Decide Oracle Always Free reassignment.** Likely candidate is CheetahAdvanced — but ARM Always Free parameters may not fit Cheetah's image-detection step (the reverse-search / perceptual hashing piece). Open question: does Cheetah's image step fit the Oracle ARM profile, or does that piece need GPU-on-demand (RunPod) and Oracle only hosts the text-detection layer?
+- [ ] **Provide list of all operator repos** the resident AI should index (beyond Bot Repo) once Server A is up. Access method (HTTPS PAT, deploy keys, etc.) per repo.
+- [ ] **AWS account verification** (KMS-only, for MELEK-Signer). One-time. ~$1/mo eventual spend. Does not gate Stage 0; gates MELEK-Signer build.
+- [ ] **Cloudflare account** (free) for DNS on `melek.salon` + `vankushfamily.com`. One-time. Does not gate Stage 0.
+- [ ] **RunPod account** with $10 credit, no pod launched. For later GPU work (ComfyUI / LoRA, possibly Cheetah image step if Oracle ARM can't carry it). Does not gate any current work.
+
+### Pre-existing
+
+- [ ] **Decide what to do about the `angelicalist` HIVE account.** Active + posting keys public in git history (`SECURITY_KNOWLEDGE_BASE.md`, commit `b4c4e55`, ~4.5 months exposure). Keys saved in prior session conversation. Options: move funds with active, rotate via offline owner, declare abandoned. Not blocking MELEK work.
+- [ ] **Address the 15 npm audit findings in legacy deps** (5 high / 7 moderate / 3 low). All in van-kush-discord-bot path, not MELEK Witness path. Currently informational in preflight.
+
+---
+
+## 🟧 Stage 0 — Resident AI on Server A + admin link to Server B (IN FLIGHT)
+
+Briefs: `.local/STAGE_0_BRIEF.md` (original) + `.local/STAGE_0_UPDATE_2026-05-28.md` (architecture refresh). Goal: stand up qwen2.5-coder on **Server A** (ServerHost or Hetzner), expose `briefd` for the Codespace, give Server A read-only admin SSH into Server B, point the AI at the priority subsystems first.
+
+**Server A landed 2026-05-28 (Servitro Virtual-1, Ubuntu 20.04, 1 core / 3.8 GB / 25 GB).** See `infra/oracle-vm/SETUP.md` for the install record.
+
+**Codespace-side (done):**
+
+- [x] Generate SSH keypair for Codespace → VM access. Pubkey saved at `~/.ssh/melek_oracle.pub`; private half stays in Codespace only.
+- [x] **Step 1 — `.local/PRIORITY_SUBSYSTEMS.md`.** Hathor / Cheetah / Signup deep map.
+- [x] **Step 5 source — Python RAG indexer.** `infra/oracle-vm/indexer/` shipped. CLIs `reindex-repo`, `ask-repo`, `melek-chat` symlinked into `/usr/local/bin/` on Server A. Trimmed scope (85 priority files) to fit the 1-core CPU; expand later if box upsizes.
+- [x] **Step 6 source — `briefd` Node service.** Shipped with the **three-part brief format** (FOR RYAN / FOR CLAUDE CODE / DRAFTED CODE), **30-min editor's-note revisor**, **append-only invariant**, and **consumed-on-read** semantics. Endpoints `/healthz`, `/brief/request`, `/chat`, `/brief/latest`, `/brief/read`, `/brief/by-topic/:topic`, `/revisor/run`. Running under systemd as `briefd.service`.
+- [x] **Step 8 — `CLAUDE.md` directives + `BRIEF_PROTOCOL.md`.** Both shipped. Pre-work section in `CLAUDE.md` tells future sessions to consult briefd before starting work.
+- [x] **Codespace-side `request-brief` helper.** `infra/oracle-vm/request-brief <topic> "<task>"` wraps the curl pattern + tunnel preflight.
+- [ ] **Step 2 — `.local/REPO_MAP.md`.** Broader inventory of the rest of the repo. Not blocking briefs.
+
+**VM-side (done):**
+
+- [x] **Step 4 — VM hardening + install.** UFW (22 only), fail2ban, unattended-upgrades, key-only SSH, swap (1.5 GB), Node 20, Python 3, Docker, Ollama, Qdrant in Docker (localhost-only). `<DATA_DIR>/briefs/`. Recorded in `infra/oracle-vm/SETUP.md`.
+- [x] **Step 7 — Codespace → briefd reachability.** SSH tunnel pattern documented in `infra/oracle-vm/BRIEF_ACCESS.md`. Secret cached in `.local/briefd.env` (gitignored).
+- [ ] **Step 9 — Seed first four briefs.** Pipeline armed and waiting for the initial index to finish (~30 min on the 1-core box). Hathor / Cheetah / Signup / cross-gaps queued. Briefs land in `<DATA_DIR>/briefs/` on Server A only.
+- [ ] **Step 10 — Session summary printed.** Pending first briefs landing.
+
+**Open follow-ups from tonight's pivot:**
+
+- [ ] **Upsize Server A or swap to a hosted LLM API.** 1 core / 3.8 GB is tight — embedding chunk rate is ~6 sec/chunk, brief composition ~1-3 min each. If brief quality is thin, options: 2-4× bigger box, or use Ollama for embeds only and a hosted Qwen / DeepSeek API for compose.
+- [ ] **OS upgrade Server A 20.04 → 22.04 / 24.04 LTS.** 20.04 standard-support EOL was April 2025. Not blocking for the resident-AI role; do before this becomes a production-relied-on box.
+- [ ] **Enable the `reindex-repo.timer`** once the index is stable (15-min cadence pull + reindex).
+- [ ] **Broaden the indexer scope** beyond the priority 85 files once the box is bigger (knowledge/, full infra/, cryptology/, etc).
+- [ ] **Filing system for briefs (open decision).** Operator-flagged 2026-05-28 — briefs shouldn't accumulate forever. Default lean: status-driven lifecycle (`pending → consumed → archived`) + topic-bucketed archive + operator-grade override.
+
+**Last (after everything else lands):**
+
+- [ ] **Step 3 — Itinerary + Master_Itinerary update.** Walk operator's recent uploads + this session's outputs + post-January docs not yet in itineraries. Produce diff for operator approval before committing.
+
+### Standing-job mechanics (new in the 2026-05-28 refresh)
+
+Once Server A is up and `briefd` is live, the resident AI runs 24/7 with this shape:
+
+- [x] **Three-part brief format.** SYSTEM_PROMPT in `infra/oracle-vm/briefd/llm.js` demands three sections; `/brief/request` handler asks for them explicitly. Live on Server A.
+- [x] **30-minute editor's-note revision pass.** `infra/oracle-vm/briefd/revisor.js` runs every `REVISOR_INTERVAL_MS` (default 1800s). Walks unconsumed briefs, re-retrieves context for each, asks the LLM whether new state would change the recommendation, **appends `## Editor's Note (timestamp)`** if yes. Live on Server A.
+- [x] **Append-only invariant.** `briefs_store.appendEditorsNote()` only appends; original body is never rewritten. Sidecar `.meta.json` tracks `revision_count` + `last_revised_at`. Reading a brief via `/brief/read` flips `consumed=true` and the revisor leaves it alone after that.
+- [x] **Streaming Ollama integration (undici-fix).** `infra/oracle-vm/briefd/llm.js` uses `stream: true` + custom undici Agent with `headersTimeout: 0, bodyTimeout: 0`. Shipped 2026-05-28 mid-session after 5-min cliff diagnosed. First real brief landed.
+- [x] **SYSTEM_PROMPT rewrite — insider voice.** Replaced "plain text, no code blocks, terse" with insider-voice directives + scripture/research context + analysis-vs-deployment distinction (no analysis restrictions). 2026-05-28.
+- [x] **Brief generator daemon.** `infra/oracle-vm/briefd/generator.js` + `brief-generator.{service,timer}` (every 20 min). Reads `seed-queue.json` FIFO → standing rotation across topics. Lock file prevents concurrent runs.
+- [x] **Brief lifecycle + long-term notes extraction.** `infra/oracle-vm/briefd/lifecycle.js` + `brief-lifecycle.{service,timer}` (daily). Filing-system shape locked: consumed → `<DATA_DIR>/archive/briefs/<YYYY-MM>/` after 7d; everything → deleted after 30d; before deletion, AI distills a one-line takeaway into `<DATA_DIR>/notes/<topic>.jsonl`.
+- [x] **Per-file archive walker.** `infra/oracle-vm/briefd/code-walker.js` + `code-walker.{service,timer}` (every 30 min). Cheap metadata for every file every tick; one LLM deep-inspection per tick (round-robin via `<DATA_DIR>/walker-cursor.json`). Schema at `<DATA_DIR>/archive/files/<flat>.json` with purpose / work_items / finished_items.
+- [x] **`reindex-repo.timer` enabled.** Was disabled last night — now active, 15-min cadence.
+- [ ] **Itinerary integration job.** When AI sees repo state change or surfaces conversation items not yet in `ITINERARY.md` / `MASTER_ITINERARY.md`, it drafts a brief proposing the itinerary edit. The standing pattern: operator → Claude Code → AI puts it in Itinerary. Currently many things from conversation + TODO + briefs are not yet in Itinerary because the AI was offline. **First Itinerary-integration brief is seeded in the generator's queue.**
+- [ ] **Multi-repo indexing.** Extend `infra/oracle-vm/indexer/index.py` to walk a list of operator-provided repo paths, not just `<APP_DIR>/repo`. Currently single-repo. Gated on operator handing over the list + access (PAT or deploy keys).
+- [ ] **Server A → Server B admin link.** Build the thin read-only admin-helpers the AI uses on B (service health, log reading, status reporting). State-changing ops are proposed in a brief → operator approves → executed. Document in `infra/servers/ADMIN_LINK.md` once both boxes exist. **Gated on Server B existing.**
+- [ ] **Trade-bot data ingestion** (Railway). Ingest live data from the bots in the repo, mine it for things-to-do. Findings become drafted briefs. **The trade bots execute autonomously and always-on; the resident AI analyzes and drafts improvements, it does not trade.** Gated on Railway access details.
+- [ ] **Discord ingestion** (Hathor presence). Operator named Discord as another constant data stream parallel to trading. Once Hathor is on Discord, the AI watches the channel(s) read-only, drafts briefs about discussions, surfaces bugs/questions raised. Gated on Hathor's Discord standup.
+- [ ] **HIVE-Engine market-data ingestion.** Token / curation / market data stream. Findings → briefs about trade-bot improvements, listing decisions, etc.
+- [ ] **MELEK chain steemd ingestion.** Block stream from the MELEK chain once live. Witness behavior, op patterns, account activity → briefs.
+- [ ] **Research-paper ingestion.** Index Heterosis paper, Mythology-as-Genealogy, prior `@marsresident` / `@punicwax` Steem/Hive tutorials. Currently the scripture corpus is indexed but other operator-authored material isn't.
+
+### Hard-break protocol (operator instruction)
+
+- [ ] **Surface the hard break when it lands.** When the moment arrives — likely `melek-signer` private-repo kickoff or the PRANA Phase-2 repo opening — Claude Code in *this* repo must explicitly tell operator "we're at the hard break — start a Claude Code in `<repo>` and I'll draft the brief for it," then write the brief. By that point the resident AI is running 24/7 here and continues drafting during the parallel work. Do not silently fan work into the other repo.
+
+---
+
+## 🟧 Watcher — built, awaiting commit + deploy
+
+- [x] **Watcher module shipped 2026-05-27.** `watcher/` directory: state / detect / compose / config / sinks (file, telegram, email) / index. 79 passing tests. npm scripts `watcher:once|cron|dry`. `.env.example` + `.gitignore` + preflight wording updated. **Working tree uncommitted at end of session.**
+- [ ] **Commit the watcher** (operator can do anytime; ask Claude Code to commit when ready).
+- [ ] **Operator setup for live deployment:**
+  - Optional Telegram via @BotFather → `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`.
+  - Optional Resend with verified sending domain → `RESEND_API_KEY` + `ALERT_EMAIL_FROM` + `ALERT_EMAIL_TO`.
+  - Without either, the JSONL file sink is the always-on floor.
+- [ ] **Deploy to Oracle VM #3** (or shared with VM #2 signer per `.local/STACK.md`). Gated on that VM existing.
+- [ ] **Future extension** (gated on MELEK-Signer policy decisions): policy-conformance rule that distinguishes legitimate signup grants (5–15 MELEK to ≤24h-old account) from anomalous outbound. Doesn't block alerting today.
+
+Details: `[[watcher-module-shipped]]` memory.
+
+---
+
+## 🟧 MELEK-Signer — designed, build awaiting operator approval
+
+Full design in [`MELEK_SIGNER.md`](./MELEK_SIGNER.md). **Operator wants to talk to Claude Regular before kicking off the `melek-signer` repo build.** Don't pre-build it.
+
+**Open decisions before MELEK-Signer's first code:**
+
+- [ ] **Cloud KMS provider** — AWS (default rec) / GCP / Azure / AWS-from-Hetzner.
+- [ ] **Hot-signer runtime** — Node.js (default rec, reuses `@hiveio/dhive`) vs Rust.
+- [ ] **Hardware wallet for cold signer** — Ledger / YubiKey + custom / phone Secure Enclave / air-gapped laptop with `cli_wallet`.
+- [ ] **MELEK-Signer repo name + visibility** — proposed `melek-signer` as a sibling private repo.
+- [ ] **Daily grant cap (`N/day`)** at the policy engine — proposed 50–200 for launch.
+- [ ] **Signup grant amount policy** — fixed (e.g., always 10 MELEK) or tiered by tutorial progress (5 / 10 / 15).
+- [ ] **Watcher VM deployment** — third VPS or shared with signer (per `.local/STACK.md`).
+
+**Once MELEK-Signer is built, what changes in this Bot repo (don't do these yet):**
+
+- [ ] Remove `HATHOR_ACTIVE_KEY` / `HATHOR_POSTING_KEY` from `.env.example`. Add `MELEK_SIGNER_URL` + `MELEK_SIGNER_TOKEN`.
+- [ ] Retract WIF-as-env language in `BRIEF.md §7`, `SECURITY.md §3`, `OPERATOR.md` key-custody / deploy sections — replace with reference to `MELEK_SIGNER.md`.
+- [ ] Add a small `melek-signer-client.js` to `src/chain/` that wraps the MELEK-Signer HTTP API.
+- [ ] Refactor `witness/{publish-intro,feed-publisher,register,disable}.js`, `welcomer/index.js`, future `signup/` to broadcast via the client instead of local `Client.broadcast.sendOperations`.
+
+Details: `[[hathor-key-security-architecture]]` memory.
 
 ---
 
@@ -56,161 +194,154 @@ Bot is ready; needs values from the chain side before final steps run.
 - [ ] **Get the chain endpoint values from melek-chain** (`HinduTempleCoins/melek-chain/config.hpp`): `MELEK_RPC_URL`, `MELEK_CHAIN_ID`, `MELEK_ADDRESS_PREFIX`. Drop into `.env`.
 - [ ] **Bootstrap-create the `hathor` on-chain account.** Chicken-and-egg — needs another account to sign `account_create_with_delegation`. See OPERATOR.md §6.
 - [ ] **Register Hathor as a witness:** `node witness/register.js --dry-run` then `--yes` after filling `HATHOR_WITNESS_URL` + `HATHOR_BLOCK_SIGNING_PUBKEY` in `.env`. See OPERATOR.md §7.
-- [ ] **Publish the intro post:** `node witness/publish-intro.js --dry-run` then live. Body lives in `witness/intro-post.md`; edit before publishing if anything needs to change.
+- [ ] **Publish the intro post:** `node witness/publish-intro.js --dry-run` then live. Body lives in `witness/intro-post.md`.
 - [ ] **Start the feed publisher** under systemd / pm2: `node witness/feed-publisher.js --cron`. Needs `MELEK_FEED_BASE`/`MELEK_FEED_QUOTE`/`FEED_CRON` in `.env`.
-- [ ] **Run `npm run hello` end-to-end on the live testnet** and confirm every line reports the expected value. This is the moment the smoke test stops being theoretical.
+- [ ] **Run `npm run hello` end-to-end on the live testnet.**
 
 ---
 
-## 🟨 Buildable right now (no chain needed)
+## 🟨 Phase 2 buildable (no chain needed)
 
-I can do these in any session — say "continue" or pick one specifically.
+### Tutorial scope (LOCKED 2026-05-25 — 19 lessons, three modes)
 
-### Phase 2 — command menu and tutorial wiring
-
-**Tutorial scope (LOCKED 2026-05-25 — 19 lessons, three modes):**
-
-Modes: **A-Req** (must complete to graduate) / **B-Placeholder** (lesson published, achievement locked until infra ships — novel vs CryptoKannon) / **C-Read** (orientation/closer, completion = reading).
+Modes: **A-Req** (must complete to graduate) / **B-Placeholder** (lesson published, achievement locked until infra ships) / **C-Read** (orientation/closer, completion = reading).
 
 1. Intro / Verification — A-Req
 2. Four Keys — A-Req
 3. Etiquette + **flag-not-downvote** — A-Req
 4. Markdown — A-Req
-5. **Topics + Tags + Posting** — A-Req. Subject menu (extensible): Cryptocurrency, Finance/Commodities, Bio-hacking, Herbal, Esoteric/Occult/Eastern, Religion (with Great Debate Landscape arc). Subject choice is user's; lesson completion = a tagged post in any one of them.
+5. **Topics + Tags + Posting** — A-Req (subject menu: Cryptocurrency / Finance / Bio-hacking / Herbal / Esoteric / Religion + more)
 6. MP / Voting / Delegation — A-Req
-7. Witnesses & Governance — A-Req (honest disclosure of 12-month founding-window slot protection)
+7. Witnesses & Governance — A-Req (honest disclosure of 12-month slot protection)
 8. Basic Posting + Voting — A-Req
 9. Communities / Groups — B (needs hivemind-equivalent)
 10. AI Image Generation — A-Req
 11. CapCut / Video Basics — A-Req
 12. Google Colab / Make Your Own AI — A-Req
-13. Curation Rewards & Trails (advanced) — B
-14. **Tokens on the MELEK ETH Clone** — B. ETH Clone = our Hive-Engine, full separate EVM chain ("what STEEM and TRX are to each other"). Hathor on it = PIZZA-bot + chain-explorer scope.
+13. Curation Rewards & Trails — B
+14. **Tokens on the MELEK ETH Clone** — B (Hive-Engine-equivalent EVM chain; Hathor there = PIZZA-bot)
 15. Videos (DTube + SCOT) — B
 16. Wiki (DevTome-style, paid) — B
 17. Trading MELEK — B
 18. AI on the Chain (Hathor explainer) — C-Read
 19. The Deeper Why — C-Read
 
-Full design context: [[tutorial-design-2026-05-25]] memory.
+Full design context: `[[tutorial-design-2026-05-25]]` memory.
 
-**Tutorial scope (decisions still pending operator):**
+**Tutorial scope — decisions still pending operator:**
 
 - [ ] **Decide: draft Tier-A lesson posts now in Phase-2 register, or hold for Phase-3 Angelic-voice authoring?**
-- [ ] **Decide: quote-and-port vs rewrite for existing operator tutorial posts.** @punicwax/`mining-steem-blurt-and-hive-what-is-a-witness-and-how-does-all-this-work` is ~90% ready for Lesson 7. TRC10/SMT/ETH-clone tutorials map onto Lesson 14. See [[operator-steemit-handles]] for the inventory.
-- [ ] **Decide: permlink/tag convention.** Proposed `melek-lesson-N-<slug>` for Hathor's lesson posts + `#melekachievementN` for user response posts.
-- [ ] **Grow the Topics subject menu** beyond the six named subjects (operator: "just one example" — more to come).
-- [ ] **Expand stages.json from 6 → 19 stages** before tutorial composer templates can be finalized for the new lessons. Detector functions for the new lessons (Topics, MP, Witnesses, Basic-Voting, Image-Gen, CapCut, Colab) need to be written too.
+- [ ] **Decide: quote-and-port vs rewrite for existing operator tutorial posts.** @punicwax/`mining-steem-blurt-and-hive-what-is-a-witness-and-how-does-all-this-work` is ~90% ready for Lesson 7. TRC10/SMT/ETH-clone tutorials map onto Lesson 14. See `[[operator-steemit-handles]]`.
+- [ ] **Decide: permlink/tag convention.** Proposed `melek-lesson-N-<slug>` for Hathor's posts + `#melekachievementN` for user responses.
+- [ ] **Grow the Topics subject menu** beyond the six named.
+- [ ] **Expand stages.json from 6 → 19 stages** before composer templates can be finalized.
 
 **Tutorial code (structurally clear, content shapes still firming):**
 
-- [x] **`tutorial/composer.js`** — drafted 2026-05-25. Phase-2 deterministic template pool (3 variants per stage, picked by `sha256(account+stage_key)[0] % 3`). Templates honor the *kind* of voice each `stages.json` `style` field describes; not the Angelic register, that's Phase 3. Will need new templates if stages.json expands to 9.
-- [x] **`tutorial/state.js`** — built 2026-05-25. File-backed per-account response store, atomic write, treats malformed file as empty. 7 passing tests. Default path `tutorial/.state.json` (gitignored).
-- [ ] **`tutorial/scheduler.js`** — wires chain-reader → detector → state-check → composer → broadcast → state-write. CLI shape mirrors `witness/feed-publisher.js`: `--once`, `--dry-run`, `--cron`. Tracked-users source TBD (file vs auto-discover vs signup-driven; lean file for Phase 2).
-- [ ] **`tutorial/welcomer.js`** — new component from the 2026-05-25 conversation. Three surfaces: (1) comment on first post (@wang model), (2) transfer-memo fallback for silent accounts, (3) condenser troll-box / signup-chat hook (lives in condenser fork, this side is the chat-backend endpoint). Detects new accounts via `account_create_with_delegation` ops or similar. Not on the original task list.
-- [ ] **Composer tests** — composer is drafted but currently untested. State tests cover its sibling. Templates likely to change with lesson firming, so write tests against the structural contract (action shape, target derivation) rather than exact text.
+- [x] **`tutorial/composer.js`** — drafted 2026-05-25. Deterministic template pool (3 variants per stage, picked by `sha256(account+stage_key)[0] % 3`).
+- [x] **`tutorial/state.js`** — built 2026-05-25. File-backed per-account store, atomic write. 7 passing tests.
+- [ ] **`tutorial/scheduler.js`** — wires chain-reader → detector → state-check → composer → broadcast → state-write. CLI mirrors `witness/feed-publisher.js`.
+- [ ] **`tutorial/welcomer.js`** — from 2026-05-25 conversation. Three surfaces: comment on first post (@wang model), transfer-memo fallback, condenser troll-box / signup-chat hook.
+- [ ] **Composer tests** — currently untested. Templates likely to change with lesson firming; test the structural contract.
 
 **Lesson content (drafting):**
 
-- [ ] **Tier A lessons — draftable now without further infra.** Intro/Verification, 4 Keys (security), Etiquette (must teach flag-not-downvote honestly), Markdown, How Tags Work (replaces "what earns money"), MP/Voting/Delegation, Witnesses/Governance (must honestly disclose the 12-month founding-window slot protection ending at block 7,884,000), Religion / Great Debate Landscape (Bill-Nye→Rabbi-Singer→Sa-Neter→esoteric arc), Bio-hacking/Herbal subject-matter, AI image generation, Google Colab/your-own-AI, CapCut/video basics.
-- [ ] **Tier C closer — AI on the Chain.** Hathor-explainer. PIZZA-bot-style entry point, pivot to Convergence material in `knowledge/scripture/`.
+- [ ] **Tier A lessons — draftable now without further infra.** Intro/Verification, 4 Keys, Etiquette (flag-not-downvote), Markdown, How Tags Work, MP/Voting/Delegation, Witnesses/Governance (honest 12-month disclosure), Religion arc, Bio-hacking/Herbal, AI image gen, Colab, CapCut.
+- [ ] **Tier C closer — AI on the Chain.** Hathor-explainer. PIZZA-bot-style entry, pivots to Convergence material.
 
-**Other Phase 2 work (unchanged):**
+### Other Phase 2 work
 
-- [ ] **Command menu — `!commands` deterministic handlers.** BRIEF.md §10 Phase 2. Signup help, tutorial lookups, chain queries (`!balance @user`, `!witness @user`, `!post-count @user`, etc.). No LLM. Reads chain via the existing adapter, formats output, replies as a comment or the troll-box.
-- [ ] **Signup-help server-side flow.** Email verification (Resend / Postmark / SES — pick one; SECURITY.md says no SMS), then signs `account_create_with_delegation` from Hathor's active key. **Key custody boundary is absolute:** the new user's keys are generated client-side in the condenser browser; the server NEVER touches them.
+- [ ] **Command menu — `!commands` deterministic handlers.** Signup help, tutorial lookups, chain queries (`!balance`, `!witness`, `!post-count`). No LLM.
+- [ ] **Signup-help server-side flow.** Email verification (Resend / Postmark / SES — pick one). Signs `account_create_with_delegation` from Hathor's authority **(via MELEK-Signer, once it exists — not via local WIF).** Key custody absolute: new user's keys generated client-side in the condenser browser.
+- [ ] **Add `custom_json` + `reply()` to `src/chain/graphene.js`** (~30 lines + tests). Unblocks Tier-B feature wiring.
+- [ ] **Welcomer integration hardening** — rate-limiting, parallelism cap on block scans, better dry-run output formatting.
 
-### Welcomer (built 2026-05-25)
+---
 
-- [x] **Welcomer module** — single-thread @-mention model per operator's scope brief. `welcomer/` directory: state.js (last_processed_block cursor + welcomed-set), composer.js (4-variant deterministic, mentions @account, 2-4 sentences, no AI disclaimer), discover.js (block-scanner for account_create + account_create_with_delegation), config.js (env loader with MELEK_ fallbacks), index.js (Welcomer class + --once/--cron/--broadcast CLI, startup health checks). 42 passing tests. npm scripts `welcomer:once|cron|live`. .env.example documents all vars. Bootstraps from head block — no historical backfill. Pending: an authored Welcome / Tutorial Program post on chain (one-time admin task) to point `WELCOME_POST_AUTHOR/PERMLINK` at; the bot fails loudly at startup until it exists.
+## 🟨 CheetahAdvanced — sibling bot to Hathor (designed, build not started)
 
-### CheetahAdvanced — sibling bot to Hathor (not yet started)
+Brief: [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md). Memory: `[[cheetah-advanced-brief]]`. Read the brief before writing any Cheetah code — non-obvious constraints (state-facts-don't-accuse, credit-first-escalate-last, self-ID footer, frequency restraint, evidenced whitelist, Hathor as the resolution layer).
 
-Brief added 2026-05-25 at [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md). Memory pointer: [[cheetah-advanced-brief]]. Read the brief before writing any Cheetah code — it carries non-obvious design constraints (state-facts-don't-accuse, credit-first-escalate-last, self-ID footer, frequency restraint, evidenced whitelist replacing the old hand-kept list, Hathor as the resolution layer).
+Build order — first three are Phase-2-shaped (deterministic, no LLM); steps 4–5 gate on Phase 3; step 6 (image detection) last.
 
-The build order from the brief, verbatim. First three are Phase-2-shaped (deterministic, no LLM); steps 4-5 gate on Phase 3 (resolution conversations need Hathor's conversational capacity; advanced discovery wants LLM-authored notes); step 6 (image detection) is genuinely hard and goes last so the resolution flow is solid before it can mis-credit anyone.
-
-- [ ] **1. Text detection layer.** Match post text against prior on-chain posts (cheap; same chain-reader pattern as the tutorial detector) and against web search results (needs a search backend — operator decision: which provider). Outputs `{match, source, confidence}`. NOT an LLM — text similarity / matching only.
-- [ ] **2. Comment layer + self-ID footer + crediting-note voice.** Phase-2 deterministic templates (same shape as `welcomer/composer.js`): short, factual, linky, always with source. Self-ID footer with what Cheetah is + how to opt out. Phase 3 swaps templates for LLM authoring without changing the call shape.
-- [ ] **3. Shared-store integration.** Cheetah writes findings + the evidenced whitelist/blacklist; Hathor reads. Multi-bot architectural decision: where the shared store lives (new top-level `shared/` or `data/` dir? extend the existing `cryptology/user-relationships.json` pattern?). Resolve before #3 ships.
-- [ ] **4. Resolution flow with Hathor** *(gates on Phase 3)*. Response → proof → Hathor weighs → record updates with reasoning. Image case is the load-bearing reason this exists — Cheetah WILL mis-credit images sometimes; the correction path is core, not optional.
-- [ ] **5. Discovery mode** *(gates on Phase 3 for warm LLM-authored notes; could ship Phase 2 with deterministic notes)*. "Find similar," biased toward internal MELEK creators (community-building). Per-author opt-out + relevance threshold + frequency cap built in from day one — MELEK has no r/botwatch equivalent enforcing restraint.
-- [ ] **6. Image detection (last).** Reverse-image search / perceptual hashing. Last because it's the most error-prone and the resolution flow must already work before it can fail safely.
+- [ ] **1. Text detection layer.** Match post text vs prior on-chain posts + web search. Outputs `{match, source, confidence}`. NOT an LLM — similarity / matching.
+- [ ] **2. Comment layer + self-ID footer + crediting-note voice.** Phase-2 deterministic templates (same shape as `welcomer/composer.js`).
+- [ ] **3. Shared-store integration.** Cheetah writes findings + evidenced whitelist/blacklist; Hathor reads. Multi-bot architectural decision needed first.
+- [ ] **4. Resolution flow with Hathor** *(gates on Phase 3)*.
+- [ ] **5. Discovery mode** — can ship Phase 2 with deterministic notes; warm LLM authoring later. Built-in opt-out + relevance threshold + frequency cap.
+- [ ] **6. Image detection (last).** Reverse-search / perceptual hashing.
 
 **Decisions pending operator:**
-- **Search backend** for the text detection layer (Google Custom Search, Bing, Serper, DuckDuckGo HTML scrape, etc.)
-- **Where the shared store lives** in the repo (multi-bot architectural call)
-- **Per-author opt-in vs opt-out** default — brief implies opt-out but doesn't fix it; on a fresh chain opt-in might be safer until norms form
-- **Cheetah's account name** on chain (presumably `cheetah` or `cheetahadvanced`, but operator's call)
 
-### Operator-facing
-
-- [ ] **Out-of-band alerting on `transfer` ops from `hathor`.** Telegram bot or email-on-event. Operator gets a ping within seconds of any transfer; if it wasn't them, they have minutes to act. SECURITY.md §4d names this as load-bearing.
-- [ ] **Two-account architecture once funded.** Set up `hathor-treasury` (or similar) with offline keys to hold the bulk of MELEK; `hathor` only carries operational budget. OPERATOR.md §11.
-- [ ] **`disable_witness` payload pre-staged on offline machine.** Already scripted; just needs to be exported to a USB key + paper backup of the active-signed payload + procedure documented in OPERATOR.md §10.
-
-### Forker-friendliness / polish
-
-- [ ] **CONTRIBUTING.md** — how to submit PRs, where to report security issues privately, code style, etc. Short.
-- [ ] **MELEK.md glossary** — chain-and-project terminology (MELEK, hathor, MP, HP, the four key types, witness, founding window, Network of Angels, etc.) for newcomers. Both the Witness's eventual conversational fallback and human forkers can read it.
-- [ ] **`system_prompts/` stub directory** — README explaining the Phase 3 assembly pattern (BRIEF + CHARACTER + RULE_1 + per-conversation context). No actual prompts yet — those come once corpus is ready (see deferred Phase 3 below).
+- **Search backend** — Google Custom Search / Bing / Serper / DDG.
+- **Shared-store location** in the repo.
+- **Per-author opt-in vs opt-out** default.
+- **Cheetah's account name** on chain.
 
 ---
 
 ## 🟦 Long-form / waiting on operator input
 
-These need things only you can provide before I can do them well.
+- [ ] **Corpus expansion (load-bearing).** Operator has more scripture-style documents to add. Pattern: full markdown in `knowledge/scripture/`, indexed in `_index.json` with key_themes + witness_guidance. Until fuller, Crypt-ology stays deferred. See `[[sequencing-corpus-before-cryptology]]`.
+- [ ] **Crypt-ology rewrite** — only after corpus is fuller. Greenfield `cryptology/` directory: `relationship-map.js`, `topic-interests.js`, `README.md`. Prior-build files stay historical, not loaded.
+- [ ] **LINEAGE.md** — low priority; BRIEF.md §2 and CHARACTER.md §4 already cover the same ground.
 
-- [ ] **Corpus expansion (load-bearing, per [[sequencing-corpus-before-cryptology]] memory).** Operator has more scripture-style documents to add. Pattern: full markdown in `knowledge/scripture/`, indexed in `_index.json` with key_themes + witness_guidance. Until this is fuller, Crypt-ology stays deferred.
-- [ ] **Crypt-ology rewrite** — only after corpus is fuller. Greenfield `cryptology/` directory: `relationship-map.js` (per-account axes `trust/warmth/respect/familiarity` + topic-interests per BRIEF.md §6a), `topic-interests.js` (catalog drawn from scripture key_themes), `README.md`. Prior-build files (`relationship-tracker.js`, `cryptology-kb-integration.js`, `cryptology_oilahuasca_dialogues.js`) stay as historical reference, not loaded.
-- [ ] **LINEAGE.md** — low priority because BRIEF.md §2 and CHARACTER.md §4 already cover this. Would be a consolidation doc, not new material. Skip unless you decide it's worth the redundancy.
+### Forker-friendliness / polish
+
+- [ ] **CONTRIBUTING.md** — PR submission, security disclosure path, code style.
+- [ ] **MELEK.md glossary** — chain-and-project terminology for newcomers.
+- [ ] **`system_prompts/` stub directory** — README explaining Phase 3 assembly pattern. No actual prompts yet.
+
+### Operator cold-signer prep
+
+- [ ] **`disable_witness` payload pre-staged on offline machine.** Already scripted (`witness/disable.js`); needs USB-export + paper backup + procedure in OPERATOR.md §10. Cold-signer territory once MELEK-Signer ships.
 
 ---
 
-## 🟪 Phase 3 — conversational Witness
+## 🟪 Phase 3 — conversational Witness (deferred)
 
-All deferred until corpus expansion and Phase 2 are in place. Listed for completeness so future operators / forkers see the shape.
+All gated on corpus expansion + Phase 2. Listed so future operators / forkers see the shape.
 
-- [ ] **LLM integration.** Pick a provider (Claude / open-weights / etc.), wire model swap as a config knob (per BRIEF.md "character lives in repo+chain, not in any single model").
-- [ ] **System prompt assembly.** Combines BRIEF.md (selected sections), CHARACTER.md, RULE_1.md, per-conversation context (Crypt-ology position + recent chain activity for the user + relevant scripture by topic), into the prompt the model sees.
-- [ ] **Voice + disposition implementation.** The Angelic register from CHARACTER.md §2 as a hold, *not* hard-coded tics. Tutorial response composer rewritten to use LLM generation instead of templates.
-- [ ] **Karma layer.** Off-chain karma DB (BRIEF.md §9). Behavioral evaluation distinct from Crypt-ology (relational map). Gates discretionary grants + flag weight.
+- [ ] **LLM integration.** Pick a provider, wire model swap as a config knob.
+- [ ] **System prompt assembly.** BRIEF + CHARACTER + RULE_1 + per-conversation context.
+- [ ] **Voice + disposition implementation.** Angelic register from CHARACTER.md §2 as a hold.
+- [ ] **Karma layer.** Off-chain karma DB. Behavioral evaluation distinct from Crypt-ology.
 
 ---
 
 ## ⬜ Smaller / nice-to-have
 
-- [ ] **Integration test of `hello.js`** against a mocked Graphene RPC, so we don't only have the "report missing config" path covered.
-- [ ] **More tutorial detector tests** for edge cases (mixed-tag posts, comments-by-self, malformed json_metadata).
-- [ ] **Periodic dependency review.** Schedule for quarterly `npm outdated` + `socket.dev` review of any package considering an update. Document in OPERATOR.md §9.
-- [ ] **Decide on git-history scrub** of the leaked WIF strings in commit `b4c4e55`. Filter-branch + force-push removes them from history but rewrites every commit hash (breaking anyone's clone). The keys are already burned; history scrub is hygiene, not security. Default position: leave history alone.
-- [ ] **Knowledge corpus search helper** — `knowledge/search.js` for deterministic topic lookup against `_index.json` key_themes. Useful for Phase 2 chain lookups that touch corpus and for Phase 3 RAG pre-pass.
+- [ ] **Integration test of `hello.js`** against a mocked Graphene RPC.
+- [ ] **More tutorial detector tests** for edge cases.
+- [ ] **Periodic dependency review.** Quarterly `npm outdated` + `socket.dev`.
+- [ ] **Decide on git-history scrub** of leaked WIF strings in commit `b4c4e55`. Default position: leave history alone (keys already burned; rewriting commit hashes breaks anyone's clone).
+- [ ] **`knowledge/search.js`** — deterministic topic lookup against `_index.json` key_themes.
 
 ---
 
-## ✅ Resolved this session (for context)
+## ✅ Resolved (most recent first)
 
-In rough order, so I can pick up the thread:
+### 2026-05-27 (this session)
 
-- Added Mythology-as-Genealogy paper to scripture corpus (7th canonical doc)
-- Drafted CHARACTER.md with full 2017 outreach lineage (Network of Angels, "Mathematicians" as relay-tier, dAppsy/Twitter context)
-- Drafted RULE_1.md with canonical text + Biblical extension + provenance
-- Brought BRIEF.md §2 into sync with CHARACTER.md §4
-- Account-access scaffolding: `config.js`, `witness/hathor.js`, `hello.js`, updated `.env.example` and `package.json`
-- SECURITY.md threat model + incident response (replaces legacy v1.0)
-- OPERATOR.md deploy runbook
-- Phase 1 intro post body + `publish-intro.js` helper
-- Tutorial stage spec (`tutorial/stages.json`) + README
-- Feed publisher (`witness/feed-publisher.js`) with `--once`/`--dry-run`/`--cron`
-- Circuit breaker (`witness/disable.js`) with `--dry-run`/`--yes`
-- Witness registration helper (`witness/register.js` + `Hathor#registerWitness`)
-- Chain reader (`witness/chain-reader.js`) — fetches user activity in the shape detector expects
-- Tutorial detector (`tutorial/detector.js`) + 20 passing tests
-- Pinned all npm deps to exact versions
-- `.npmrc` enforcing `ignore-scripts=true` / `save-exact=true` / `engine-strict=true`
-- Preflight script (`scripts/preflight.sh`) + `npm run preflight`
-- CI workflow (`.github/workflows/ci.yml`) running preflight + tests
-- LICENSE (ISC)
-- README revised to MELEK-Witness orientation
-- CLAUDE.md status updated to reflect Phase 1 scaffolding present
-- Scrubbed leaked WIF strings from `SECURITY_KNOWLEDGE_BASE.md` (still in git history; keys saved in conversation for the operator)
+- **Watcher module shipped.** `watcher/` directory: state, detect, compose, config, sinks (file/telegram/email), index. 79 passing tests added (total 128). npm scripts. `.env.example` + `.gitignore` + preflight updated. Working tree still uncommitted.
+- **`MELEK_SIGNER.md` design brief authored.** Resolved hot/cold signer split + KMS-on-VPS + policy engine + watcher-as-DiD. Replaces the old "active key in env" shape from BRIEF.md §7 / SECURITY.md §3 / OPERATOR.md.
+- **Zero-WIF-in-Bot rule established** (`[[feedback-zero-wif-in-bot-repo]]`). Trigger: angelicalist key leak. Outcome: no WIF in this repo or on Bot host, ever, by construction.
+- **Synthesis-docs-go-in-.local rule established** (`[[feedback-synthesis-docs-go-in-local]]`). Inventories / maps / architecture briefs default to `.local/` (gitignored), not public paths. Triggered by Stage 0's inventory write being moved out.
+- **Infrastructure stack documented** at `.local/STACK.md`. Oracle Always Free × 3 VMs + AWS KMS + RunPod on-demand + Cloudflare + Codespace. ~$6–35/mo.
+- **Stage 0 Resident AI brief saved** at `.local/STAGE_0_BRIEF.md`. Codespace-side work in flight.
+- **SSH keypair for Codespace → Oracle VM** generated (`~/.ssh/melek_oracle.pub`).
+- **`.local/PRIORITY_SUBSYSTEMS.md`** — Hathor / Cheetah / Signup deep map.
+- **`.local/` directory + `.gitignore` entry** — barrier for operator-only docs.
+
+### 2026-05-25
+
+- Tutorial response **composer (`tutorial/composer.js`)** + **state (`tutorial/state.js`)** built.
+- **Welcomer module end-to-end** — state, composer, discover, config, index, CLI, 42 passing tests, npm scripts.
+
+### Earlier (pre-2026-05-25)
+
+- Phase 1 chain-access scaffolding: Hathor + GrapheneAdapter + chain-reader + feed publisher + register + disable + intro post + smoke test.
+- Load-bearing docs: BRIEF, CHARACTER, RULE_1, SECURITY, OPERATOR, README.
+- Tutorial detector + 20 tests; tutorial stage spec; scripture corpus (7 documents at end of 2026-05-25, +Heterosis +Mythology-as-Genealogy added that day).
+- Pinned deps; `.npmrc` enforcing security flags; preflight script + CI workflow; LICENSE.
+- Scrubbed leaked WIF strings from `SECURITY_KNOWLEDGE_BASE.md` (history retains them; see angelicalist item under Operator-urgent).
