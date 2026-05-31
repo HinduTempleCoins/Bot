@@ -7,6 +7,7 @@
 - `HinduTempleCoins/melek-chain/CLAUDE.md` — chain-side companion.
 - `knowledge/scripture/` — verbatim canonical operator documents (Phoenix Protocol, AI Consciousness Synthesis, Zar-AI, Van Kush Master Synthesis, The Convergence). These are foundational corpus per BRIEF.md §2.
 - `BRIEF_PROTOCOL.md` — how the resident AI on Server A talks to Claude Code (three-part briefs, append-only invariant, 30-min editor's-note revision pass).
+- `CHEETAH_ADVANCED.md` — brief for CheetahAdvanced, the credit-first/discovery-first librarian sibling bot to Hathor (states factual matches with source links; Hathor handles resolution).
 
 ---
 

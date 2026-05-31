@@ -73,7 +73,7 @@ This guide shows you how to install GUI software (like installing Microsoft Word
 2. Sign in with your Google account
 3. Click **"Create API Key"** button
 4. Click **"Create API key in new project"**
-5. You'll see a long string like: `***REMOVED***`
+5. You'll see a long string like: `<YOUR_GOOGLE_API_KEY_HERE>`
 6. Click the **"Copy"** button
 
 **Keep this window open!** You'll paste this key in the next step.

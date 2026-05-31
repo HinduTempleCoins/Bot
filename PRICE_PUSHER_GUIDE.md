@@ -83,7 +83,7 @@
 ```env
 # HIVE Credentials
 HIVE_USERNAME=angelicalist
-HIVE_ACTIVE_KEY=***REMOVED***
+HIVE_ACTIVE_KEY=<YOUR_HIVE_ACTIVE_KEY_HERE>
 
 # Price Pusher Settings
 MM_DRY_RUN=true  # Set to false for live trading
@@ -383,7 +383,7 @@ node test-wall-analyzer.cjs
 **Check**: Active key configured
 ```bash
 grep HIVE_ACTIVE_KEY .env
-# Should show: HIVE_ACTIVE_KEY=5Jiry4...
+# Should show: HIVE_ACTIVE_KEY=<YOUR_HIVE_ACTIVE_KEY_HERE>...
 ```
 
 ---

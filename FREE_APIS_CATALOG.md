@@ -312,6 +312,36 @@ app.get('/fox', () => fetch('https://randomfox.ca/floof/'));
 
 ---
 
+## 🤖 LLM GUEST-WRITERS — Server 3 (routed through the Cheetah gate)
+
+Operator directive 2026-05-29: gather all free LLM APIs with good free daily/monthly
+tiers (coders especially). They guest-write about the repo. **They run ONLY on Server 3,
+called through `cheetah/guest-api-proxy.js`** — never directly from the native boxes
+(Server 1/2). The native AIs are the gatekeepers that approve guest contributions.
+
+| Provider | Free tier (2026) | Good coder? | Proxy `guestModel` | Env var (on Server 3) | Signup |
+|---|---|---|---|---|---|
+| **Mistral Codestral** | shares Mistral 1B tok/mo | ✦ dedicated coder | `codestral` | `MISTRAL_API_KEY` | console.mistral.ai |
+| **Mistral Large** | 1B tokens/month, 2 RPM | good | `mistral` | `MISTRAL_API_KEY` | console.mistral.ai |
+| **GitHub Models** | free GPT-4o-class | ✦ strong coder | `github` | `GITHUB_MODELS_TOKEN` (a GH PAT) | github.com/marketplace/models |
+| **DeepSeek** | 5M tokens trial (30d) | ✦ Coder + R1 reasoning | `deepseek` | `DEEPSEEK_API_KEY` | platform.deepseek.com |
+| **Groq** | 1,000 req/day, 30 RPM, fast | good | `groq` | `GROQ_API_KEY` | console.groq.com |
+| **Cerebras** | ~1M tokens/day, very fast | good | `cerebras` | `CEREBRAS_API_KEY` | cloud.cerebras.ai |
+| **Google Gemini** | 1,500 req/day (Flash) | good | `gemini` | `GEMINI_API_KEY` (have) | aistudio.google.com |
+| **Cloudflare Workers AI** | free daily neurons | ok | `cloudflare` | `CLOUDFLARE_API_TOKEN`+`_ACCOUNT_ID` (have) | dash.cloudflare.com |
+| **OpenRouter** | `:free` model variants | varies | `openrouter` | `OPENROUTER_API_KEY` | openrouter.ai |
+| **HuggingFace Inference** | free tier | varies | (add) | `HF_TOKEN` | huggingface.co |
+
+**To add a provider:** operator pastes the key → install on Server 3 only (heredoc, perms 640,
+never echoed) → it's immediately routable as a `guestModel`. Coder briefs route to `codestral` /
+`github` / `deepseek`; general repo briefs to `gemini` / `groq` / `cerebras` / `mistral`. All run
+through the Cheetah gate (outbound private-path strip + secret redaction; inbound injection +
+secret scan + audit log).
+
+Sources: [free-llm-api-resources](https://github.com/cheahjs/free-llm-api-resources) · [Groq limits 2026](https://tokenmix.ai/blog/groq-free-tier-limits-2026) · [Free LLM APIs 2026](https://tokenmix.ai/blog/free-llm-apis-2026-every-provider-free-tier-tested)
+
+---
+
 ## 📚 SOURCES
 - [Discord Bot APIs Collection](https://gist.github.com/Soheab/332ba85f8989648449c71bdc8ef32368)
 - [DevSpen Discord Bot APIs](https://github.com/DevSpen/Discord-Bot-APIs)

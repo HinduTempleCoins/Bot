@@ -76,7 +76,7 @@ Currently getting 403 errors because the API isn't enabled. Here's how to fix it
 
 ### Step 2: Verify Your API Key
 
-Your API key is already created: `***REMOVED***`
+Your API key is already created: `<YOUR_GOOGLE_API_KEY_HERE>`
 
 Just make sure it has Custom Search API enabled:
 1. Go to [Credentials](https://console.cloud.google.com/apis/credentials)

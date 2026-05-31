@@ -40,6 +40,10 @@ datasets/*
 !datasets/ml-libs/**
 !datasets/security-corpus/
 !datasets/security-corpus/**
+!datasets/security-corpus/owasp-llm-top10/
+!datasets/security-corpus/owasp-llm-top10/**
+!datasets/security-corpus/mitre-atlas/
+!datasets/security-corpus/mitre-atlas/**
 *.jsonl
 
 # Dependencies
@@ -60,3 +64,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+__pycache__/
+*.pyc
