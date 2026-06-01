@@ -35,6 +35,9 @@ export const CHAINS = {
   near:     { kind: 'near', cg: 'near', llama: 'Near', rpc: ['https://rpc.mainnet.near.org'] },
   aptos:    { kind: 'aptos', cg: 'aptos', llama: 'Aptos', rest: ['https://fullnode.mainnet.aptoslabs.com/v1'] },
   cardano:  { kind: 'priceonly', cg: 'cardano', llama: 'Cardano' },
+  // UTXO chains via the Esplora API (chain_stats funded-spent). explorer is a failover list.
+  bitcoin:  { kind: 'esplora', cg: 'bitcoin', llama: 'Bitcoin', explorer: ['https://blockstream.info/api', 'https://mempool.space/api'] },
+  litecoin: { kind: 'esplora', cg: 'litecoin', llama: 'Litecoin', explorer: ['https://litecoinspace.org/api'] },
 };
 
 async function jsonFetch(url, opts = {}, timeout = 10000) {
@@ -86,6 +89,14 @@ export async function chainStatus(name) {
     }
     if (c.kind === 'priceonly') {
       return { chain: name, kind: c.kind, height: null, gasGwei: null }; // price+TVL only (no easy keyless height)
+    }
+    if (c.kind === 'esplora') {
+      const explorers = Array.isArray(c.explorer) ? c.explorer : [c.explorer];
+      for (const base of explorers) {
+        try { const h = await jsonFetch(`${base}/blocks/tip/height`); return { chain: name, kind: c.kind, height: +h || null, gasGwei: null }; }
+        catch { /* next */ }
+      }
+      return { chain: name, kind: c.kind, height: null, gasGwei: null };
     }
   } catch (e) { return { chain: name, kind: c.kind, error: e.message }; }
   return null;

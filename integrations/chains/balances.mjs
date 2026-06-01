@@ -44,11 +44,31 @@ export async function loadAddresses(explicit) {
 }
 
 // native balance for one chain+address. Returns { chain, balance, symbol } or { chain, error|needsKey }.
+// `address` may be a single string OR an array of addresses (e.g. BTC taproot + segwit) — summed.
 export async function chainBalance(name, address) {
   const c = CHAINS[name];
   if (!c) return { chain: name, error: 'unknown chain' };
-  if (!address) return { chain: name, error: 'no address configured' };
+  if (!address || (Array.isArray(address) && !address.length)) return { chain: name, error: 'no address configured' };
+  // multiple addresses for one chain -> sum their balances (skip individual errors).
+  if (Array.isArray(address)) {
+    const parts = await Promise.all(address.map((a) => chainBalance(name, a)));
+    const ok = parts.filter((p) => Number.isFinite(p.balance));
+    if (!ok.length) return { chain: name, error: parts[0]?.error || parts[0]?.needsKey || 'all addresses failed' };
+    return { chain: name, balance: ok.reduce((s, p) => s + p.balance, 0), addresses: address.length };
+  }
   try {
+    if (c.kind === 'esplora') {
+      const explorers = Array.isArray(c.explorer) ? c.explorer : [c.explorer];
+      let last;
+      for (const base of explorers) {
+        try {
+          const r = await jsonFetch(`${base}/address/${address}`);
+          const s = r.chain_stats || {};
+          return { chain: name, balance: ((+s.funded_txo_sum || 0) - (+s.spent_txo_sum || 0)) / 1e8 };
+        } catch (e) { last = e; }
+      }
+      throw last || new Error('all esplora endpoints failed');
+    }
     if (c.kind === 'evm') {
       const r = await rpc(c.rpc, { jsonrpc: '2.0', id: 1, method: 'eth_getBalance', params: [address, 'latest'] });
       return { chain: name, balance: hexNum(r.result) / 1e18 };
