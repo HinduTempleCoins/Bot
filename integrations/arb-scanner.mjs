@@ -24,7 +24,7 @@ const HISTORY_FILE = process.env.ARB_HISTORY_FILE || 'vankush-arbitrage-history.
 
 // Walk the ask side (buying SWAP.X on HE): spend HIVE at each ask level (price ascending) while
 // the level's USD cost is still below the real price. Returns size-weighted edge + executable HIVE.
-function executableBuy(askLevels, realUsd, hiveUsd) {
+export function executableBuy(askLevels, realUsd, hiveUsd) {
   let execHive = 0, edgeHiveWeighted = 0;
   for (const lvl of askLevels) {
     const price = +lvl.price, qty = +lvl.quantity;      // price in HIVE per token
@@ -38,7 +38,7 @@ function executableBuy(askLevels, realUsd, hiveUsd) {
   return { execHive, edge: execHive ? edgeHiveWeighted / execHive : 0 };
 }
 // Walk the bid side (selling SWAP.X on HE): hit bids (price descending) while the bid's USD value beats real.
-function executableSell(bidLevels, realUsd, hiveUsd) {
+export function executableSell(bidLevels, realUsd, hiveUsd) {
   let execHive = 0, edgeHiveWeighted = 0;
   for (const lvl of bidLevels) {
     const price = +lvl.price, qty = +lvl.quantity;

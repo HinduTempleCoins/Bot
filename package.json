@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js src/chain/*.test.js commands/*.test.js",
+    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js src/chain/*.test.js commands/*.test.js integrations/*.test.js",
     "preflight": "bash scripts/preflight.sh",
     "welcomer:once": "node welcomer/index.js --once",
     "welcomer:cron": "node welcomer/index.js --cron",
@@ -28,7 +28,12 @@
     "trade:analyze": "node integrations/trade-analyzer.mjs",
     "trade:arb": "node integrations/arb-scanner.mjs",
     "trade:depth": "node integrations/market-depth.mjs",
-    "trade:feed": "node integrations/trade-analyzer.mjs && node integrations/trade-sanitizer.mjs"
+    "trade:prices": "node integrations/price-oracle.mjs",
+    "trade:timeline": "node integrations/timeline.mjs",
+    "trade:chain": "node integrations/chain-explorer.mjs",
+    "trade:digest": "node integrations/digest.mjs",
+    "trade:publish": "node integrations/publish-feed.mjs",
+    "trade:feed": "node integrations/digest.mjs && node integrations/trade-sanitizer.mjs && node integrations/publish-feed.mjs"
   },
   "keywords": [
     "discord",

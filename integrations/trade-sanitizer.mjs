@@ -23,7 +23,7 @@ const OUT_MD = `${OUT_DIR}/trade-brief-feed.md`;
 const OUT_JSON = `${OUT_DIR}/trade-brief-feed.json`;
 
 // ── redaction: strip anything that is raw private/operational detail or a secret shape ──
-const SECRET_SHAPES = [
+export const SECRET_SHAPES = [
   /5[HJK][1-9A-HJ-NP-Za-km-z]{49}/g,            // WIF private key
   /\b[A-Za-z0-9_-]{32,}\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{27,}\b/g, // bot-token shape
   /\b(?:\d{1,3}\.){3}\d{1,3}\b/g,               // IPv4
@@ -31,7 +31,7 @@ const SECRET_SHAPES = [
 ];
 const PRIVATE_PATHS = /\/(?:var|opt|etc)\/[a-z0-9._\/-]+/gi;
 
-function redact(s) {
+export function redact(s) {
   let out = String(s);
   for (const re of SECRET_SHAPES) out = out.replace(re, '«redacted»');
   out = out.replace(PRIVATE_PATHS, '«path»');
@@ -40,7 +40,7 @@ function redact(s) {
 // round figures so the API AIs get magnitude, not exact private balances
 const round = (n, step = 1) => Math.round((+n || 0) / step) * step;
 
-function sanitize(raw) {
+export function sanitize(raw) {
   // shareable: the INSIGHT, not the raw ledger. Exact holdings rounded; no key/credential surface.
   const tokens = (raw.tokens || []).map(t => ({
     symbol: t.symbol,
@@ -64,7 +64,7 @@ function sanitize(raw) {
   };
 }
 
-function toMarkdown(s) {
+export function toMarkdown(s) {
   const L = [];
   L.push('# Trade-bot brief feed (SANITIZED — for annal/brief AIs)');
   L.push('');
@@ -87,19 +87,21 @@ function toMarkdown(s) {
   return L.join('\n');
 }
 
-let raw;
-try { raw = JSON.parse(readFileSync(RAW_IN, 'utf8')); }
-catch { console.error(`No ${RAW_IN}. Run: node integrations/trade-analyzer.mjs first.`); process.exit(1); }
+if (process.argv[1] && process.argv[1].endsWith('trade-sanitizer.mjs')) {
+  let raw;
+  try { raw = JSON.parse(readFileSync(RAW_IN, 'utf8')); }
+  catch { console.error(`No ${RAW_IN}. Run: node integrations/trade-analyzer.mjs first.`); process.exit(1); }
 
-const clean = sanitize(raw);
-const md = toMarkdown(clean);
-mkdirSync(OUT_DIR, { recursive: true });
-writeFileSync(OUT_JSON, JSON.stringify(clean, null, 2));
-writeFileSync(OUT_MD, md);
+  const clean = sanitize(raw);
+  const md = toMarkdown(clean);
+  mkdirSync(OUT_DIR, { recursive: true });
+  writeFileSync(OUT_JSON, JSON.stringify(clean, null, 2));
+  writeFileSync(OUT_MD, md);
 
-// boundary self-check: refuse to emit if any secret shape survived
-const leak = SECRET_SHAPES.some(re => re.test(md));
-console.log(md);
-console.log('─'.repeat(60));
-console.log(leak ? '❌ BOUNDARY ALERT: secret shape in output — NOT safe to share' : '✅ boundary clean — safe for the API AI tier');
-console.log(`→ ${OUT_MD} (+ .json) is the ONLY trade artifact the API AIs may read.`);
+  // boundary self-check: refuse to emit if any secret shape survived
+  const leak = SECRET_SHAPES.some(re => re.test(md));
+  console.log(md);
+  console.log('─'.repeat(60));
+  console.log(leak ? '❌ BOUNDARY ALERT: secret shape in output — NOT safe to share' : '✅ boundary clean — safe for the API AI tier');
+  console.log(`→ ${OUT_MD} (+ .json) is the ONLY trade artifact the API AIs may read.`);
+}
