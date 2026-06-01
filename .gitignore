@@ -71,3 +71,4 @@ __pycache__/
 # Private resident-AI / server infrastructure — never public (recon surface)
 infra/
 cheetah/.image-hashes.json
+.local/wallet-config.json

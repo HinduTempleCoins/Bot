@@ -1,0 +1,25 @@
+{
+  "_comment": "PUBLIC ADDRESSES ONLY — never put a private key/WIF/seed in this file. Copy to .local/wallet-config.json (gitignored) and fill the addresses you want watched. Read-only balance watching needs only the public address. Leave a chain out (or empty) to skip it. Trading/sweeping is a SEPARATE, key-gated step that never lives in this repo.",
+  "addresses": {
+    "ethereum": "0x...",
+    "bsc": "0x...",
+    "polygon": "0x...",
+    "base": "0x...",
+    "arbitrum": "0x...",
+    "avalanche": "0x...",
+    "optimism": "0x...",
+    "cronos": "0x...",
+    "mantle": "0x...",
+    "linea": "0x...",
+    "scroll": "0x...",
+    "sei": "0x...",
+    "gnosis": "0x...",
+    "solana": "<base58 pubkey>",
+    "tron": "T...",
+    "sui": "0x...",
+    "ton": "<ton address>",
+    "near": "<account.near>",
+    "aptos": "0x...",
+    "cardano": "addr1... (balance read needs a Blockfrost key — flagged at runtime)"
+  }
+}
