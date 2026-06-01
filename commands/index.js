@@ -20,6 +20,7 @@ import { help } from './handlers/help.js';
 import { balance } from './handlers/balance.js';
 import { witness } from './handlers/witness.js';
 import { postCount } from './handlers/post-count.js';
+import { price } from './handlers/price.js';
 
 // Default registrations. Order doesn't matter; help lists them alphabetically.
 defaultRegistry.register('help', {
@@ -41,6 +42,11 @@ defaultRegistry.register('post-count', {
   args: '@account',
   help: 'Show post/comment count and reputation for an account.',
   handler: postCount,
+});
+defaultRegistry.register('price', {
+  args: '[symbol]',
+  help: 'Show the USD price of an asset (default HIVE), multi-source.',
+  handler: price,
 });
 
 /**
