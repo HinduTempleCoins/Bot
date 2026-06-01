@@ -6,26 +6,14 @@
 //   node integrations/tradebot-forensics.mjs <account> [account2 ...]
 //   node integrations/tradebot-forensics.mjs            # probes the candidate accounts
 
-const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
-const HISTORY = 'https://history.hive-engine.com/accountHistory';
-const RPC = 'https://api.hive-engine.com/rpc/contracts';
-
-async function getJSON(url, opts = {}) {
-  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 20000);
-  try { const r = await fetch(url, { headers: { 'user-agent': UA }, signal: ctrl.signal, ...opts }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json(); }
-  finally { clearTimeout(t); }
-}
-async function rpcFind(contract, table, query, limit = 1000) {
-  const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': UA },
-    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'find', params: { contract, table, query, limit } }) });
-  const j = await r.json(); return j.result || [];
-}
+// resilient multi-node client (failover + timeout) shared across the readers
+import { find as rpcFind, historyPage } from './he-client.mjs';
 
 // full paginated market history for an account
 export async function marketHistory(account, cap = 2000) {
   const ops = []; let offset = 0;
   while (ops.length < cap) {
-    const batch = await getJSON(`${HISTORY}?account=${account}&limit=500&offset=${offset}&ops=market_buy,market_sell,market_placeOrder,market_expire,market_cancel`).catch(() => []);
+    const batch = await historyPage(account, { limit: 500, offset }).catch(() => []);
     if (!batch.length) break;
     ops.push(...batch); offset += batch.length;
     if (batch.length < 500) break;
@@ -87,8 +75,9 @@ async function report(account) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('tradebot-forensics.mjs')) {
+const { CANDIDATE_ACCOUNTS } = await import('./watchlist.mjs');
 const args = process.argv.slice(2);
-const candidates = args.length ? args : ['angelicalist', 'punicwax', 'vankush', 'kalivankush'];
+const candidates = args.length ? args : CANDIDATE_ACCOUNTS;
 console.log(`Trade-bot forensics — read-only on-chain P&L reconstruction (HIVE-Engine)`);
 const results = [];
 for (const a of candidates) { try { results.push(await report(a)); } catch (e) { console.log(`\n  ${a}: error ${e.message}`); } }

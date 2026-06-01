@@ -5,15 +5,8 @@
 //   node integrations/hive-engine-market.mjs <SYMBOL> [SYMBOL2 ...]
 //   node integrations/hive-engine-market.mjs            # the bot's key tokens
 
-const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
-const RPC = 'https://api.hive-engine.com/rpc/contracts';
-
-async function find(contract, table, query, limit = 100, indexes = []) {
-  const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': UA },
-    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'find', params: { contract, table, query, limit, offset: 0, indexes } }) });
-  const j = await r.json(); if (j.error) throw new Error(j.error.message); return j.result || [];
-}
-async function findOne(contract, table, query) { return (await find(contract, table, query, 1))[0] || null; }
+// resilient multi-node client (failover + timeout) — keeps the same find/findOne shape
+import { find, findOne } from './he-client.mjs';
 
 export const market = {
   metrics: (symbol) => findOne('market', 'metrics', { symbol }),
@@ -49,8 +42,9 @@ async function snapshot(symbol) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('hive-engine-market.mjs')) {
+  const { WATCH_TOKENS } = await import('./watchlist.mjs');
   const syms = process.argv.slice(2);
-  const targets = syms.length ? syms : ['VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH'];
+  const targets = syms.length ? syms : WATCH_TOKENS;
   console.log('HIVE-Engine / TribalDEX market explorer (read-only)');
   for (const s of targets) { try { await snapshot(s); } catch (e) { console.log(`\n  ${s}: ${e.message}`); } }
 }
