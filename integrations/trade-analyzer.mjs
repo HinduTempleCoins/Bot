@@ -8,6 +8,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { marketHistory, reconstruct, currentHoldings } from './tradebot-forensics.mjs';
 import { market } from './hive-engine-market.mjs';
+import { scanArb } from './arb-scanner.mjs';
 
 const ACCOUNT = process.argv[2] || 'kalivankush';
 const PARITY_TARGET = 1.0;           // VKBT/CURE strategic target (HIVE)
@@ -50,9 +51,21 @@ async function analyze(account) {
         suggestions.push(`Do not add to ${t.symbol}; it is illiquid (${pct(t.spread)} spread). Capital here is effectively frozen.`); }
   }
 
+  // live arbitrage opportunities (the proven earner): SWAP.X HE price vs real asset
+  let liveArb = [];
+  try {
+    const { opportunities } = await scanArb();
+    liveArb = opportunities.map(o => ({ signal: o.signal, edgePct: +(o.edge * 100).toFixed(1), realUsd: +o.realUsd.toFixed(2) }));
+    for (const o of liveArb) {
+      findings.push(`LIVE ARB: ${o.signal} — ${o.edgePct}% edge (verify order-book depth).`);
+      suggestions.push(`Consider ${o.signal}: ${o.edgePct}% mispricing vs real $${o.realUsd}. Confirm executable depth before sizing.`);
+    }
+  } catch {}
+
   const realized = tokens.reduce((a, t) => a + t.net, 0);
   const unrealized = tokens.reduce((a, t) => a + t.heldHive, 0);
   return {
+    liveArb,
     account, generatedAtNote: 'stamp on write', window_ops: ops.length,
     totals: { realizedHive: +realized.toFixed(2), unrealizedHive: +unrealized.toFixed(2), netHive: +(realized + unrealized).toFixed(2) },
     tokens: tokens.map(t => ({ symbol: t.symbol, buys: t.buys, sells: t.sells, netHive: +t.net.toFixed(2), held: t.held, heldHive: +t.heldHive.toFixed(2), lastPrice: t.last, issued: t.issued })),

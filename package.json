@@ -21,7 +21,13 @@
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",
     "trade:dev": "node --watch hive-trading-bot.js",
-    "scan-tokens": "node hive-token-scanner.js"
+    "scan-tokens": "node hive-token-scanner.js",
+    "apis": "node integrations/free-apis.mjs smoke",
+    "trade:forensics": "node integrations/tradebot-forensics.mjs",
+    "trade:market": "node integrations/hive-engine-market.mjs",
+    "trade:analyze": "node integrations/trade-analyzer.mjs",
+    "trade:arb": "node integrations/arb-scanner.mjs",
+    "trade:feed": "node integrations/trade-analyzer.mjs && node integrations/trade-sanitizer.mjs"
   },
   "keywords": [
     "discord",
