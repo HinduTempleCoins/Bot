@@ -15,7 +15,7 @@ import { hiveUsd as oracleHiveUsd } from './price-oracle.mjs';
 import { ISSUED_TOKENS } from './watchlist.mjs';
 
 // walk asks (ascending price) spending up to budgetHive; returns what actually fills
-function sweep(asks, budgetHive) {
+export function sweep(asks, budgetHive) {
   let spent = 0, tokens = 0, lastPrice = 0;
   for (const o of asks) {
     const price = +o.price, qty = +o.quantity;
