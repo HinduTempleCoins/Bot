@@ -48,7 +48,10 @@ const REVIEW_DIRECTIVE = 'Act as a debugging system: read this change, verify it
   'You have FULL access to verify — use it: the keyless API stack (integrations/free-apis.mjs) and the ' +
   'keyed gate/vault APIs, web search, and community knowledge (StackOverflow, Quora, GitHub issues, ' +
   'Bitcointalk/Bitsharestalk) to confirm correct library usage, look up known bugs, and check best practice. ' +
-  'Do not review in a vacuum — look things up the way a careful engineer would.';
+  'Do not review in a vacuum — look things up the way a careful engineer would. ' +
+  'And READ THE REST OF THE REPO for full context: the files this change imports, the files/callers that ' +
+  'use it, its tests, and related modules — many bugs are only visible across files (a wrong arg, a broken ' +
+  'contract, a stale assumption elsewhere). Trace the change through the codebase before judging it.';
 const reviewQueue = {
   at: stamp, range, mode: 'debug-review', directive: REVIEW_DIRECTIVE,
   items: files.map((f) => ({ file: f, intent: commitsForFile(f), directive: REVIEW_DIRECTIVE })),
