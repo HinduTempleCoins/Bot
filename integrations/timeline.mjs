@@ -24,8 +24,14 @@ const epoch = (ts) => (ts == null ? 0 : +ts);
 
 export async function buildTimeline(account) {
   const ops = await marketHistory(account);
+  return reconstructTimeline(ops, account);
+}
+
+// pure: turn a list of market ops into the day-bucketed cumulative curve + per-token windows.
+// Injectable (no network) so it is unit-testable.
+export function reconstructTimeline(ops, account = 'account') {
   // order oldest→newest by epoch timestamp (fall back to block number)
-  ops.sort((a, b) => (epoch(a.timestamp) - epoch(b.timestamp)) || ((a.blockNumber || 0) - (b.blockNumber || 0)));
+  ops = [...ops].sort((a, b) => (epoch(a.timestamp) - epoch(b.timestamp)) || ((a.blockNumber || 0) - (b.blockNumber || 0)));
 
   const byDay = new Map();      // day -> { realized, buys, sells, hiveSpent, hiveRecv }
   const tokens = new Map();     // symbol -> { first, last, net, buys, sells }

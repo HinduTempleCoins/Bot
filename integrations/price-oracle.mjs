@@ -20,7 +20,19 @@ const XREF = {
 };
 
 const n = (x) => { const v = +x; return Number.isFinite(v) && v > 0 ? v : null; };
-function median(a) { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+export function median(a) { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+
+// pure robust-median over a set of USD quotes: drop quotes >35% from the median, re-median the
+// survivors, and flag confident when >=2 surviving sources agree within 5%.
+export function robustMedian(values) {
+  if (!values.length) return { usd: 0, sources: 0, spreadPct: null, confident: false };
+  const med = median(values);
+  const kept = values.filter((v) => Math.abs(v - med) / med <= 0.35);
+  const keptVals = kept.length ? kept : values;
+  const usd = median(keptVals);
+  const spread = keptVals.length > 1 ? (Math.max(...keptVals) - Math.min(...keptVals)) / usd : 0;
+  return { usd, sources: keptVals.length, spreadPct: +(spread * 100).toFixed(2), confident: keptVals.length >= 2 && spread <= 0.05 };
+}
 
 // gather every USD quote we can for one coingecko id
 async function gather(id, cgPrice) {
@@ -39,20 +51,7 @@ async function gather(id, cgPrice) {
 export async function priceUsd(id, cgPrice = null) {
   const quotes = await gather(id, cgPrice);
   if (!quotes.length) return { usd: 0, sources: 0, spreadPct: null, confident: false, quotes: {} };
-  const vals = quotes.map(q => q[1]);
-  const med = median(vals);
-  // drop quotes >35% from the median (stale/wrong feed), then re-median the survivors
-  const kept = quotes.filter(q => Math.abs(q[1] - med) / med <= 0.35);
-  const keptVals = (kept.length ? kept : quotes).map(q => q[1]);
-  const usd = median(keptVals);
-  const spreadPct = keptVals.length > 1 ? (Math.max(...keptVals) - Math.min(...keptVals)) / usd : 0;
-  return {
-    usd,
-    sources: keptVals.length,
-    spreadPct: spreadPct == null ? null : +(spreadPct * 100).toFixed(2),
-    confident: keptVals.length >= 2 && spreadPct <= 0.05,   // ≥2 sources within 5%
-    quotes: Object.fromEntries(quotes),
-  };
+  return { ...robustMedian(quotes.map(q => q[1])), quotes: Object.fromEntries(quotes) };
 }
 
 export async function hiveUsd() { const p = await priceUsd('hive'); return p.usd; }

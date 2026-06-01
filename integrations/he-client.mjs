@@ -30,7 +30,7 @@ async function fetchJSON(url, opts = {}, timeout = TIMEOUT_MS) {
 }
 
 // try each node in order; return first success, throw last error if all fail
-async function withFailover(nodes, fn) {
+export async function withFailover(nodes, fn) {
   let lastErr;
   for (const node of nodes) {
     try { return await fn(node); }
