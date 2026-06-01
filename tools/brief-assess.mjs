@@ -69,9 +69,12 @@ function assess(file) {
   for (const it of rawItems) { const key = it.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
     if (seen.has(key)) { seen.set(key, seen.get(key) + 1); continue; } seen.set(key, 1); items.push(it); }
   const repetition = rawItems.length ? +(items.length / rawItems.length).toFixed(2) : 1; // 1=all distinct, low=repetitive
-  let completed = 0, undone = 0, nonsense = 0, vague = 0, badRefs = 0, totalRefs = 0;
+  let completed = 0, undone = 0, nonsense = 0, vague = 0, badRefs = 0, totalRefs = 0, actionable = 0;
+  // an item is ACTIONABLE if it proposes a concrete action/decision, not just a description.
+  const ACTION = /\b(add|fix|remove|delete|wire|build|create|implement|decide|choose|pick|set|update|replace|refactor|test|deploy|enable|disable|migrate|rename|move|draft|write|run|configure|rotate|verify|confirm|review|merge|push|install|provision)\b/i;
   const marked = [];
   for (const it of items) {
+    if (ACTION.test(it)) actionable++;
     const { files, services } = refsOf(it);
     const refs = [...files, ...services];
     let mark = '✎', why = 'no concrete reference to verify';
@@ -98,11 +101,16 @@ function assess(file) {
   // Repetition is NOT penalized — it's a CITATION: multiple AIs saying the same grounded thing is
   // corroboration, noted as "cited N×". Recency-priority (annal-rank) keeps OLD repeats from
   // dominating; here we just record it. Bucket is purely grounded% + hallucination.
-  const bucket = groundedPct >= 90 && tier !== 'absolute-hallucination' ? 'finished'
+  // ACTIONABILITY: grounded ≠ useful. A brief that only DESCRIBES real files (no action verbs) is
+  // a tourist summary, not a brief. "finished" now requires real actions, not just real refs.
+  const actionablePct = pct(actionable);
+  let bucket = groundedPct >= 90 && tier !== 'absolute-hallucination' ? 'finished'
     : groundedPct >= 70 ? 'review-ready' : groundedPct >= 40 ? 'needs-work' : 'draft';
+  if (bucket === 'finished' && actionablePct < 30) bucket = 'review-ready'; // grounded but descriptive
   const maxCitation = Math.max(1, ...[...seen.values()]);
   return {
-    brief: file, items: items.length, raw_items: rawItems.length, repetition, max_citation: maxCitation, date,
+    brief: file, items: items.length, raw_items: rawItems.length, repetition, max_citation: maxCitation,
+    actionable_pct: actionablePct, date,
     pct_completed: pct(completed), pct_undone: pct(undone), pct_ignored: pct(vague), pct_nonsense: pct(nonsense),
     grounded_pct: groundedPct, hallucination_tier: tier, bucket,
     needs_operator: undone > 0 || vague > 0, marked,
