@@ -14,7 +14,7 @@
 import { findSimilarOnChain, findSimilarOnWeb } from './text-detection.js';
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
-const GEMINI_MODEL = process.env.GEMINI_VISION_MODEL || 'gemini-2.0-flash';
+const GEMINI_MODEL = process.env.GEMINI_VISION_MODEL || 'gemini-2.5-flash';
 const REVERSE_BACKEND = process.env.CHEETAH_REVERSE_IMAGE || 'none'; // 'bing' | 'serpapi' | 'none'
 const UA = 'MELEK-Cheetah/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 
