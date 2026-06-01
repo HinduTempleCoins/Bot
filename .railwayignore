@@ -1,0 +1,7 @@
+.local/
+datasets/
+node_modules/
+.git/
+*.bundle
+character/reference/
+knowledge/scripture/
