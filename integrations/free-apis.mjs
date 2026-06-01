@@ -51,6 +51,53 @@ export const crypto = {
   bitstamp: (pair = 'btcusd') => http(`https://www.bitstamp.net/api/v2/ticker/${pair}/`),
   gemini: (sym = 'btcusd') => http(`https://api.gemini.com/v1/pubticker/${sym}`),
   coincap: (asset = 'bitcoin') => http(`https://api.coincap.io/v2/assets/${asset}`),
+  // additional keyless sources (more redundancy + breadth for the price oracle / scanner)
+  coinlore: (id = 90) => http(`https://api.coinlore.net/api/ticker/?id=${id}`),
+  cryptocompare: (fsym = 'BTC', tsyms = 'USD') => http(`https://min-api.cryptocompare.com/data/price?fsym=${fsym}&tsyms=${tsyms}`),
+  binance: (symbol = 'BTCUSDT') => http(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`),
+  bybit: (symbol = 'BTCUSDT') => http(`https://api.bybit.com/v5/market/tickers?category=spot&symbol=${symbol}`),
+  mexc: (symbol = 'BTCUSDT') => http(`https://api.mexc.com/api/v3/ticker/price?symbol=${symbol}`),
+  fearGreed: () => http('https://api.alternative.me/fng/?limit=1'),
+  defillamaTvl: () => http('https://api.llama.fi/v2/chains'),
+  coingeckoGlobal: () => http('https://api.coingecko.com/api/v3/global'),
+  coingeckoTrending: () => http('https://api.coingecko.com/api/v3/search/trending'),
+  exchangerateHost: (base = 'USD', symbols = 'EUR,GBP,JPY') => http(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`),
+};
+
+// ── On-chain / block explorers (keyless tiers) — base-layer L1 context for cross-chain bots ──
+export const chains = {
+  btcTipHeight: () => http('https://blockstream.info/api/blocks/tip/height', { json: false }),
+  btcStats: () => http('https://api.blockchair.com/bitcoin/stats'),
+  btcTicker: () => http('https://blockchain.info/ticker'),
+  ethBlockcypher: () => http('https://api.blockcypher.com/v1/eth/main'),
+  btcBlockcypher: () => http('https://api.blockcypher.com/v1/btc/main'),
+  mempoolTip: () => http('https://mempool.space/api/blocks/tip/height', { json: false }),
+  dogeBlockcypher: () => http('https://api.blockcypher.com/v1/doge/main'),
+  ltcBlockcypher: () => http('https://api.blockcypher.com/v1/ltc/main'),
+};
+
+// ── Dev / package registries (the AIs' tool-discovery + dependency lookups) ──
+export const dev = {
+  github: (repo = 'HinduTempleCoins/Bot') => http(`https://api.github.com/repos/${repo}`),
+  githubSearch: (q = 'hive bot') => http(`https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&per_page=3`),
+  npm: (pkg = '@hiveio/dhive') => http(`https://registry.npmjs.org/${encodeURIComponent(pkg).replace('%40', '@')}`),
+  pypi: (pkg = 'hive-nectar') => http(`https://pypi.org/pypi/${pkg}/json`),
+  crates: (name = 'serde') => http(`https://crates.io/api/v1/crates/${name}`),
+};
+
+// ── News / open knowledge feeds (annal context, Discord assistant) ──
+export const news = {
+  hackerNewsTop: () => http('https://hacker-news.firebaseio.com/v0/topstories.json'),
+  hackerNewsItem: (id = 1) => http(`https://hacker-news.firebaseio.com/v0/item/${id}.json`),
+  spaceflight: () => http('https://api.spaceflightnewsapi.net/v4/articles?limit=3'),
+  gutendex: (q = 'cryptography') => http(`https://gutendex.com/books?search=${encodeURIComponent(q)}`),
+  dictionary: (word = 'blockchain') => http(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`),
+};
+
+// ── Security / threat-intel (keyless tiers) — for Cheetah / defensive checks ──
+export const security = {
+  circlCveLast: () => http('https://cve.circl.lu/api/last/3'),
+  firstEpss: (cve = 'CVE-2021-44228') => http(`https://api.first.org/data/v1/epss?cve=${cve}`),
 };
 
 // ── HIVE / Graphene (the witness's home chain + Hive-Engine for the token scanner) ──
@@ -103,7 +150,7 @@ export const content = {
   qrCode: (data = 'https://github.com/HinduTempleCoins/Bot') => `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data)}`,
 };
 
-export const all = { crypto, hive, knowledge, content };
+export const all = { crypto, hive, chains, dev, news, security, knowledge, content };
 
 // ── Live smoke test ──
 const CHECKS = [
@@ -123,6 +170,34 @@ const CHECKS = [
   ['crypto.bitstamp', () => crypto.bitstamp().then(d => `BTC $${d.last}`)],
   ['crypto.gemini', () => crypto.gemini().then(d => `BTC $${d.last}`)],
   ['crypto.coincap', () => crypto.coincap().then(d => `${d.data?.symbol} $${(+d.data?.priceUsd).toFixed(0)}`)],
+  ['crypto.coinlore', () => crypto.coinlore().then(d => `${d[0]?.symbol} $${d[0]?.price_usd}`)],
+  ['crypto.cryptocompare', () => crypto.cryptocompare().then(d => `BTC $${d.USD}`)],
+  ['crypto.binance', () => crypto.binance().then(d => `BTC $${(+d.price).toFixed(0)}`)],
+  ['crypto.bybit', () => crypto.bybit().then(d => `BTC $${d.result?.list?.[0]?.lastPrice}`)],
+  ['crypto.mexc', () => crypto.mexc().then(d => `BTC $${(+d.price).toFixed(0)}`)],
+  ['crypto.fearGreed', () => crypto.fearGreed().then(d => `F&G ${d.data?.[0]?.value} (${d.data?.[0]?.value_classification})`)],
+  ['crypto.defillamaTvl', () => crypto.defillamaTvl().then(d => `${d.length} chains by TVL`)],
+  ['crypto.coingeckoGlobal', () => crypto.coingeckoGlobal().then(d => `${d.data?.active_cryptocurrencies} coins`)],
+  ['crypto.coingeckoTrending', () => crypto.coingeckoTrending().then(d => `${d.coins?.length} trending`)],
+  ['crypto.exchangerateHost', () => crypto.exchangerateHost().then(d => `1 USD = ${d.rates?.EUR} EUR`)],
+  ['chains.btcTipHeight', () => chains.btcTipHeight().then(t => `BTC tip ${String(t).trim()}`)],
+  ['chains.btcStats', () => chains.btcStats().then(d => `BTC ${d.data?.blocks} blocks`)],
+  ['chains.btcTicker', () => chains.btcTicker().then(d => `BTC $${d.USD?.last}`)],
+  ['chains.ethBlockcypher', () => chains.ethBlockcypher().then(d => `ETH height ${d.height}`)],
+  ['chains.mempoolTip', () => chains.mempoolTip().then(t => `mempool tip ${String(t).trim()}`)],
+  ['chains.ltcBlockcypher', () => chains.ltcBlockcypher().then(d => `LTC height ${d.height}`)],
+  ['chains.dogeBlockcypher', () => chains.dogeBlockcypher().then(d => `DOGE height ${d.height}`)],
+  ['dev.github', () => dev.github().then(d => `${d.full_name} ★${d.stargazers_count}`)],
+  ['dev.githubSearch', () => dev.githubSearch().then(d => `${d.total_count} repos`)],
+  ['dev.npm', () => dev.npm().then(d => `${d.name}@${d['dist-tags']?.latest}`)],
+  ['dev.pypi', () => dev.pypi().then(d => `${d.info?.name} ${d.info?.version}`)],
+  ['dev.crates', () => dev.crates().then(d => `${d.crate?.name} ${d.crate?.max_version}`)],
+  ['news.hackerNewsTop', () => news.hackerNewsTop().then(d => `${d.length} top stories`)],
+  ['news.spaceflight', () => news.spaceflight().then(d => `${d.results?.length} articles`)],
+  ['news.gutendex', () => news.gutendex().then(d => `${d.count} books`)],
+  ['news.dictionary', () => news.dictionary().then(d => `${d[0]?.word}: ${(d[0]?.meanings?.[0]?.definitions?.[0]?.definition || '').slice(0, 30)}…`)],
+  ['security.circlCveLast', () => security.circlCveLast().then(d => `${d.length} recent CVEs`)],
+  ['security.firstEpss', () => security.firstEpss().then(d => `EPSS ${d.data?.[0]?.epss} for ${d.data?.[0]?.cve}`)],
   ['hive.globalProps', () => hive.globalProps().then(d => `head block ${d.head_block_number}`)],
   ['hive.account', () => hive.account().then(d => `@${d[0]?.name} loaded`)],
   ['hive.witness', () => hive.witness().then(d => `witness @${d?.owner} rank loaded`)],
