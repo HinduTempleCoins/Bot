@@ -8,22 +8,42 @@
 //   node integrations/digest.mjs [account]
 // Writes .local/trade-analysis.json (raw, for sanitizer) + .local/trade-digest.md (human/annal).
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { analyze } from './trade-analyzer.mjs';
 import { buildTimeline } from './timeline.mjs';
 import { account as chainAccount, chain as chainHead, CHAIN_LABEL } from './chain-explorer.mjs';
-import { TRADE_ACCOUNT } from './watchlist.mjs';
+import { holders } from './holders.mjs';
+import { TRADE_ACCOUNT, ISSUED_TOKENS } from './watchlist.mjs';
 
 const ACCOUNT = process.argv[2] || TRADE_ACCOUNT;
 
 async function safe(p, fallback = null) { try { return await p; } catch { return fallback; } }
 
-const [analysis, timeline, acct, head] = await Promise.all([
+const [analysis, timeline, acct, head, ownership] = await Promise.all([
   safe(analyze(ACCOUNT)),
   safe(buildTimeline(ACCOUNT)),
   safe(chainAccount(ACCOUNT)),
   safe(chainHead()),
+  safe(Promise.all(ISSUED_TOKENS.map(s => holders(s).catch(() => null))).then(a => a.filter(Boolean))),
 ]);
+
+// #30 diff: compare against the prior digest snapshot (net position + finding set)
+let priorSnap = null;
+try { priorSnap = JSON.parse(readFileSync('.local/trade-digest-prev.json', 'utf8')); } catch {}
+const curSnap = {
+  netHive: analysis?.totals?.netHive ?? null,
+  findings: (analysis?.findings || []).map(f => f.split(':')[0] + ':' + (f.match(/^\w+: (\S+)/)?.[1] || '')),
+};
+const changed = [];
+if (priorSnap) {
+  if (priorSnap.netHive != null && curSnap.netHive != null) {
+    const d = +(curSnap.netHive - priorSnap.netHive).toFixed(2);
+    if (Math.abs(d) >= 1) changed.push(`net position ${d > 0 ? '+' : ''}${d} HIVE since last digest`);
+  }
+  const ps = new Set(priorSnap.findings || []), cs = new Set(curSnap.findings);
+  for (const f of cs) if (!ps.has(f)) changed.push(`NEW: ${f}`);
+  for (const f of ps) if (!cs.has(f)) changed.push(`CLEARED: ${f}`);
+}
 
 mkdirSync('.local', { recursive: true });
 // the analyzer JSON is what the sanitizer consumes — write it exactly as before
@@ -34,6 +54,12 @@ L.push(`# Trade-bot digest — @${ACCOUNT}`);
 L.push('');
 L.push('_RAW internal copy (the Readers\' fused output). Run the sanitizer before any external AI reads this._');
 L.push('');
+
+if (changed.length) {
+  L.push('## What changed since last digest');
+  for (const c of changed.slice(0, 12)) L.push(`- ${c}`);
+  L.push('');
+}
 
 if (head) {
   L.push(`## Base chain (${CHAIN_LABEL})`);
@@ -70,8 +96,17 @@ if (timeline) {
   L.push('');
 }
 
+if (ownership && ownership.length) {
+  L.push('## Ownership (is there real outside demand?)');
+  for (const o of ownership) L.push(`- ${o.symbol}: issuer ${o.issuerPct}% · affiliated ${o.affiliatedPct}% · REAL outside ${o.realOutsidePct}% (${o.counts.realOutside} accounts ≥1)`);
+  L.push('');
+}
+
 L.push('---');
 L.push('_Next: `node integrations/trade-sanitizer.mjs` → `.local/shared/trade-brief-feed.md` (the only copy the external API AIs may read)._');
+
+// #30: persist this digest's snapshot so the NEXT run can diff against it
+try { writeFileSync('.local/trade-digest-prev.json', JSON.stringify(curSnap)); } catch {}
 
 const md = L.join('\n');
 writeFileSync('.local/trade-digest.md', md);
