@@ -12,6 +12,7 @@
  */
 
 import { findSimilarOnChain, findSimilarOnWeb } from './text-detection.js';
+import { imageHash, findOriginal } from './perceptual-hash.js';
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = process.env.GEMINI_VISION_MODEL || 'gemini-2.5-flash';
@@ -78,7 +79,19 @@ async function reverseImageSearch(imageUrl) {
 // the public entry: state where this image (or its content) also appears. Credit-first, no accusation.
 export async function detectImage(imageUrl, opts = {}) {
   const { description, extractedText, note } = await describeImage(imageUrl).catch(() => ({ description: '', extractedText: '' }));
-  // 1. direct reverse-image hits (strongest "this exact image appears here")
+  // 0. perceptual-hash credit check (keyless, legally-meaningful): did THIS image
+  //    appear earlier on our chain? If so, credit the earliest poster. Strongest,
+  //    cheapest signal — runs before any API call. Skipped if jimp/decoder absent.
+  if (opts.creditIndex !== false) {
+    const hash = await imageHash(imageUrl).catch(() => null);
+    if (hash) {
+      const credit = await findOriginal(hash, { before: opts.before }, opts.hashStorePath).catch(() => null);
+      if (credit?.match) {
+        return { match: true, source: { kind: 'on-chain-original', author: credit.original.author, permlink: credit.original.permlink, seen_at: credit.original.seen_at }, confidence: credit.confidence, phash: hash, appearances: credit.appearances, description, extractedText };
+      }
+    }
+  }
+  // 1. direct reverse-image hits (strongest open-web "this exact image appears here")
   const reverse = await reverseImageSearch(imageUrl);
   if (reverse.length) return { match: true, source: { kind: 'reverse-image', url: reverse[0].url, title: reverse[0].title }, confidence: 0.8, description, extractedText, all_matches: reverse };
   // 2. if the image carries text/a source, match that text the same way the text path does

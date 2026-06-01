@@ -50,6 +50,7 @@
     "axios": "1.13.2",
     "discord.js": "14.25.1",
     "dotenv": "16.6.1",
+    "jimp": "0.22.12",
     "node-cache": "5.1.2",
     "node-cron": "3.0.3",
     "sscjs": "0.0.9",
