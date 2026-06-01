@@ -27,7 +27,7 @@ const CONFIG = {
   CHECK_INTERVAL: parseInt(process.env.HIVE_CHECK_INTERVAL || '60000'), // 1 minute
   MAX_POSITION_SIZE: parseFloat(process.env.HIVE_MAX_POSITION || '100'), // Max HIVE exposure
   STOP_LOSS_PERCENT: parseFloat(process.env.HIVE_STOP_LOSS || '10'), // Stop loss at -10%
-  DRY_RUN: process.env.HIVE_DRY_RUN === 'true', // Paper trading mode
+  DRY_RUN: process.env.HIVE_DRY_RUN !== 'false', // default TRUE (safe); Paper trading mode
   DISCORD_WEBHOOK: process.env.HIVE_DISCORD_WEBHOOK,
 
   // BLURT Preference (Tier 2 strategic token - see TRADING_STRATEGY.md)

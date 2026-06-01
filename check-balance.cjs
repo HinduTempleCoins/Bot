@@ -2,7 +2,7 @@
 
 const { execSync } = require('child_process');
 
-const ACCOUNT = process.argv[2] || 'angelicalist';
+const ACCOUNT = process.argv[2] || 'kalivankush';
 const HIVE_ENGINE_RPC = 'https://api.hive-engine.com/rpc/contracts';
 
 /**

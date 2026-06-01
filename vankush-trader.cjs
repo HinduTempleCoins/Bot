@@ -49,7 +49,7 @@ const CONFIG = {
   HISTORY_UPDATE_INTERVAL_HOURS: 1, // Update price history every hour
 
   // Dry run
-  DRY_RUN: process.env.TRADER_DRY_RUN === 'true',
+  DRY_RUN: process.env.TRADER_DRY_RUN !== 'false', // default TRUE (safe)
 
   // Storage
   DATA_DIR: path.join(__dirname, 'trader-data')

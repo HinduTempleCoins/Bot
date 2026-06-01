@@ -34,7 +34,7 @@ const CONFIG = {
   HIVE_ACTIVE_KEY: process.env.HIVE_ACTIVE_KEY || '',
 
   // Special accounts
-  GIFT_SENDER: 'KaliVanKush',  // Tokens from this account = sell for capital
+  GIFT_SENDER: 'kalivankush',  // lowercase — Hive account names are lowercase (was 'KaliVanKush', never matched on-chain)
 
   // Protected tokens (NEVER sell, only stake more)
   PROTECTED_TOKENS: ['VKBT', 'CURE'],
@@ -66,7 +66,7 @@ const CONFIG = {
   GIFT_CHECK_INTERVAL_MINUTES: 5,   // Check for gifts more frequently
 
   // Dry run mode
-  DRY_RUN: process.env.MM_DRY_RUN === 'true',
+  DRY_RUN: process.env.MM_DRY_RUN !== 'false', // default TRUE (safe)
 
   // HIVE price
   HIVE_PRICE_USD: 0.30

@@ -43,7 +43,7 @@ const CONFIG = {
   TAGS: ['vankushfamily', 'vkbt', 'cure', 'hive-engine', 'cryptocurrency', 'token', 'investment'],
 
   // Dry run mode
-  DRY_RUN: process.env.HIVE_BOT_DRY_RUN === 'true'
+  DRY_RUN: process.env.HIVE_BOT_DRY_RUN !== 'false'
 };
 
 // ========================================

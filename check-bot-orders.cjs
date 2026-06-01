@@ -8,7 +8,7 @@ require('dotenv').config();
 const axios = require('axios');
 
 const HIVE_ENGINE_RPC = 'https://api.hive-engine.com/rpc/contracts';
-const USERNAME = process.env.HIVE_USERNAME || 'angelicalist';
+const USERNAME = process.env.HIVE_USERNAME || 'kalivankush';
 
 async function getOpenOrders(username, symbol) {
   try {

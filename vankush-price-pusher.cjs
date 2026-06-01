@@ -61,7 +61,7 @@ const CONFIG = {
   MIN_TRADES_WEEKLY: 5,             // Market must be alive
 
   // Dry run mode
-  DRY_RUN: process.env.MM_DRY_RUN === 'true',
+  DRY_RUN: process.env.MM_DRY_RUN !== 'false', // default TRUE (safe)
 
   // HIVE price
   HIVE_PRICE_USD: 0.30

@@ -470,7 +470,7 @@ async function checkTradeableTokens(account) {
  * Main capital management check
  */
 async function main() {
-  const account = process.argv[2] || 'angelicalist';
+  const account = process.argv[2] || 'kalivankush';
 
   console.log(`\n💼 CAPITAL MANAGER FOR @${account}`);
   console.log('='.repeat(60));

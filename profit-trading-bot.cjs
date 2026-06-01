@@ -33,9 +33,9 @@ const {
 // ========================================
 
 const CONFIG = {
-  ACCOUNT: process.env.HIVE_USERNAME || 'angelicalist',
+  ACCOUNT: process.env.HIVE_USERNAME || '', // burned 'angelicalist' default removed; set HIVE_USERNAME explicitly
   ACTIVE_KEY: process.env.HIVE_ACTIVE_KEY,
-  DRY_RUN: process.env.DRY_RUN === 'true',
+  DRY_RUN: process.env.DRY_RUN !== 'false', // default TRUE (safe); set DRY_RUN=false to trade live
 
   // Micro-dance precision
   MICRO_UNDERCUT: 0.00000001, // 8 decimal precision
