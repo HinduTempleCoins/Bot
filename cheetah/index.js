@@ -35,7 +35,8 @@ import 'dotenv/config';
 import cron from 'node-cron';
 import { Hathor } from '../witness/hathor.js';
 import { detectText } from './text-detection.js';
-import { composeCreditingNote } from './compose.js';
+import { scanPostImages } from './image-scan.js';
+import { composeCreditingNote, composeImageCreditNote } from './compose.js';
 import { recordFinding, isWhitelisted, isBlacklisted, listFindings } from './store.js';
 import {
   CHEETAH_ACCOUNT,
@@ -98,8 +99,21 @@ async function scanPost(post, { dryRun, corpus }) {
   }
 
   const detection = await detectText(post.body, { corpus });
+
+  // image credit-giver pass (pHash / reverse-image) — runs regardless of the text result, so a
+  // post that copies an IMAGE (with original text) is still credited. Indexes images for future.
+  const imageScan = await scanPostImages(post, { dryRun }).catch(() => ({ findings: [], indexed: 0, imageCount: 0 }));
+  const imageCredit = imageScan.findings[0] || null;
+
   if (!detection.match) {
-    return { skipped: 'no-match', post, confidence: detection.confidence };
+    // no text match — but an image may still be creditable
+    if (imageCredit) {
+      const comment = composeImageCreditNote({ match: true, source: imageCredit.source, confidence: imageCredit.confidence }, `${post.author}-${post.permlink}-img`);
+      return dryRun
+        ? { intent: 'image-credit-comment', post, source: imageCredit.source, confidence: imageCredit.confidence, comment }
+        : { imageCredit: true, post, source: imageCredit.source, images: imageScan.imageCount };
+    }
+    return { skipped: 'no-match', post, confidence: detection.confidence, images: imageScan.imageCount };
   }
 
   // whitelist guard — if the author has proven authorship of similar material,

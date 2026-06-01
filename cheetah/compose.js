@@ -63,6 +63,35 @@ export function composeCreditingNote({ match, source, confidence }, seedKey = ''
   return variant({ source, confidence }) + footer(seedKey);
 }
 
+// ---- image credit note (pHash / reverse-image match) ----------------------
+//
+// The credit-giver core (operator 2026-06-01): state where an image FIRST appeared, as a
+// fact, never an accusation. Handles both the on-chain-original case (source.author/permlink
+// from perceptual-hash) and the open-web reverse-image case (source.url).
+
+const IMAGE_CREDIT_VARIANTS = [
+  ({ where, conf }) =>
+    `Image credit: this image appears to have first appeared at ${where} (${conf}% match). ` +
+    `If it's your own image, a licensed use, or a coincidence, reply and the record updates.`,
+  ({ where, conf }) =>
+    `Heads up — this image also appears at ${where} (${conf}% perceptual match), posted earlier. ` +
+    `Crediting the source, not accusing. Reply with context and Hathor will help resolve.`,
+  ({ where, conf }) =>
+    `Source of this image (by earliest appearance): ${where} — ${conf}% match. ` +
+    `Could be your own re-post, a license, or a coincidence; reply to add context.`,
+];
+
+export function composeImageCreditNote({ match, source, confidence }, seedKey = '') {
+  if (!match || !source) throw new Error('composeImageCreditNote requires a positive match with source');
+  // on-chain original -> @author/permlink; open-web -> the url/title.
+  const where = source.author
+    ? `[@${source.author}/${source.permlink}](${source.author}/${source.permlink})`
+    : `[${source.title || source.url}](${source.url})`;
+  const conf = Math.round((confidence || 0) * 100);
+  const variant = IMAGE_CREDIT_VARIANTS[pickVariant(seedKey || source.permlink || source.url || 'img', IMAGE_CREDIT_VARIANTS.length)];
+  return variant({ where, conf }) + footer(seedKey);
+}
+
 // ---- discovery note (similar internal content, no plagiarism implied) -----
 
 const DISCOVERY_VARIANTS = [
