@@ -26,13 +26,17 @@ const NODES = ON_MELEK
 
 const TIMEOUT_MS = +(process.env.CHAIN_TIMEOUT_MS || 12000);
 
+// injectable transport so the parsing logic is unit-testable without network
+let _fetch = (...a) => fetch(...a);
+export function __setFetch(f) { _fetch = f; } // tests only
+
 async function rpc(method, params = []) {
   let lastErr;
   for (const node of NODES) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
     try {
-      const r = await fetch(node, {
+      const r = await _fetch(node, {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'user-agent': UA },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
