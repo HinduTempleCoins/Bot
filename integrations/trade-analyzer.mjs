@@ -11,13 +11,13 @@ import { market } from './hive-engine-market.mjs';
 import { scanArb } from './arb-scanner.mjs';
 import { ownership } from './market-depth.mjs';
 
-const ACCOUNT = process.argv[2] || 'kalivankush';
-const PARITY_TARGET = 1.0;           // VKBT/CURE strategic target (HIVE)
-const ISSUED = new Set(['VKBT', 'CURE']); // tokens this account issues / tries to push
+import { ISSUED_TOKENS, PARITY_TARGET, TRADE_ACCOUNT } from './watchlist.mjs';
+
+const ISSUED = new Set(ISSUED_TOKENS); // tokens this account issues / tries to push
 
 function pct(n) { return `${(n * 100).toFixed(1)}%`; }
 
-async function analyze(account) {
+export async function analyze(account) {
   const ops = await marketHistory(account);
   const { sym } = reconstruct(ops);
   const holdings = Object.fromEntries((await currentHoldings(account)).map(h => [h.symbol, h.balance + h.stake]));
@@ -85,12 +85,15 @@ async function analyze(account) {
   };
 }
 
-const result = await analyze(ACCOUNT);
-mkdirSync('.local', { recursive: true });
-writeFileSync('.local/trade-analysis.json', JSON.stringify(result, null, 2));
+if (process.argv[1] && process.argv[1].endsWith('trade-analyzer.mjs')) {
+  const ACCOUNT = process.argv[2] || TRADE_ACCOUNT;
+  const result = await analyze(ACCOUNT);
+  mkdirSync('.local', { recursive: true });
+  writeFileSync('.local/trade-analysis.json', JSON.stringify(result, null, 2));
 
-console.log(`\n═══════ TRADE ANALYSIS — @${result.account} ═══════`);
-console.log(`window: ${result.window_ops} ops | realized ${result.totals.realizedHive} + holdings ${result.totals.unrealizedHive} = ${result.totals.netHive} HIVE\n`);
-console.log('FINDINGS:'); result.findings.forEach(f => console.log('  • ' + f));
-console.log('\nSUGGESTIONS:'); result.suggestions.forEach((s, i) => console.log(`  ${i + 1}. ${s}`));
-console.log('\n→ .local/trade-analysis.json (for the annal/brief AIs, after sanitizing)');
+  console.log(`\n═══════ TRADE ANALYSIS — @${result.account} ═══════`);
+  console.log(`window: ${result.window_ops} ops | realized ${result.totals.realizedHive} + holdings ${result.totals.unrealizedHive} = ${result.totals.netHive} HIVE\n`);
+  console.log('FINDINGS:'); result.findings.forEach(f => console.log('  • ' + f));
+  console.log('\nSUGGESTIONS:'); result.suggestions.forEach((s, i) => console.log(`  ${i + 1}. ${s}`));
+  console.log('\n→ .local/trade-analysis.json (for the annal/brief AIs, after sanitizing)');
+}
