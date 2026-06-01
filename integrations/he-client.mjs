@@ -39,9 +39,20 @@ export async function withFailover(nodes, fn) {
   throw lastErr || new Error('all nodes failed');
 }
 
-// contracts find — failover across RPC mirrors
+// optional short-TTL disk cache (opt-in via HE_CACHE_TTL_MS) so repeated digest/scenario runs in
+// the same few minutes don't re-hammer the API. Off by default (TTL 0) — exact data when it matters.
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+const CACHE_TTL = +(process.env.HE_CACHE_TTL_MS || 0);
+const CACHE_DIR = '.local/cache/he';
+function cacheKey(parts) { let h = 0; const s = JSON.stringify(parts); for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return `${CACHE_DIR}/${h >>> 0}.json`; }
+function cacheGet(file) { if (!CACHE_TTL) return null; try { const c = JSON.parse(readFileSync(file, 'utf8')); return c.exp > Date.now() ? c.v : null; } catch { return null; } }
+function cacheSet(file, v) { if (!CACHE_TTL) return; try { mkdirSync(CACHE_DIR, { recursive: true }); writeFileSync(file, JSON.stringify({ exp: Date.now() + CACHE_TTL, v })); } catch {} }
+
+// contracts find — failover across RPC mirrors (+ optional cache)
 export async function find(contract, table, query, limit = 1000, indexes = []) {
-  return withFailover(RPC_NODES, async (node) => {
+  const file = cacheKey(['find', contract, table, query, limit, indexes]);
+  const hit = cacheGet(file); if (hit) return hit;
+  const result = await withFailover(RPC_NODES, async (node) => {
     const j = await fetchJSON(node, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -50,6 +61,8 @@ export async function find(contract, table, query, limit = 1000, indexes = []) {
     if (j.error) throw new Error(j.error.message);
     return j.result || [];
   });
+  cacheSet(file, result);
+  return result;
 }
 
 export async function findOne(contract, table, query) {
