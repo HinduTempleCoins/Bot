@@ -10,6 +10,10 @@
 
 import { normalizeCoin, validateCoin } from './schema.mjs';
 import { find } from '../he-client.mjs';
+import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
+
+// our ecosystem tokens to surface on the aggregator (Tier 2/3 first-party).
+export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
 
 const UA = 'MELEK-SoapBox/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -44,13 +48,18 @@ export async function fromHiveEngine(symbol) {
   const [tok] = await find('tokens', 'tokens', { symbol: sym }, 1);
   const [metric] = await find('market', 'metrics', { symbol: sym }, 1);
   if (!tok && !metric) return null;
-  const lastPrice = +(metric?.lastPrice || 0); // priced in HIVE on HE; USD conversion is the caller's job
+  // HE prices are quoted in HIVE — convert to USD via the price oracle so the token shows a real
+  // USD price on the aggregator like any other coin.
+  const lastPriceHive = +(metric?.lastPrice || 0);
+  const hiveUsd = await oracleHiveUsd().catch(() => 0);
+  const priceUsd = lastPriceHive * hiveUsd;
+  const circulating = +(tok?.circulatingSupply || 0);
   return normalizeCoin({
     id: `hive-engine:${sym.toLowerCase()}`, symbol: sym, name: tok?.name || sym,
-    price_usd: 0, // HE prices are in HIVE — leave USD to a price-oracle pass; record native below
-    market_cap_usd: 0,
-    volume_24h_usd: +(metric?.volume || 0),
-    supply: { circulating: +(tok?.circulatingSupply || 0), total: +(tok?.supply || 0), max: +(tok?.maxSupply || 0) },
+    price_usd: priceUsd,
+    market_cap_usd: priceUsd * circulating,
+    volume_24h_usd: +(metric?.volume || 0) * hiveUsd,
+    supply: { circulating, total: +(tok?.supply || 0), max: +(tok?.maxSupply || 0) },
     chains: ['hive-engine'],
     links: tok?.metadata ? safeMeta(tok.metadata) : undefined,
     clarity_score: { inputs: ['holder_dist', 'supply_locks', 'contract_behavior', 'activity'] },
@@ -67,6 +76,15 @@ export async function topCoins({ limit = 50 } = {}) {
     id: c.id, symbol: (c.symbol || '').toUpperCase(), name: c.name,
     price_usd: c.current_price || 0, market_cap_usd: c.market_cap || 0, volume_24h_usd: c.total_volume || 0,
     change_24h: c.price_change_percentage_24h || 0, rank: c.market_cap_rank || null,
+  }));
+}
+
+// our ecosystem tokens (Tier-2 Hive-Engine), normalized + USD-priced, for the top of the list.
+export async function ourCoins() {
+  const coins = await Promise.all(OUR_TOKENS.map((s) => fromHiveEngine(s).catch(() => null)));
+  return coins.filter(Boolean).map((c) => ({
+    id: c.id, symbol: c.symbol, name: c.name, price_usd: c.price_usd, market_cap_usd: c.market_cap_usd,
+    volume_24h_usd: c.volume_24h_usd, change_24h: null, rank: null, ours: true,
   }));
 }
 
