@@ -72,3 +72,4 @@ __pycache__/
 infra/
 cheetah/.image-hashes.json
 .local/wallet-config.json
+store/.data/
