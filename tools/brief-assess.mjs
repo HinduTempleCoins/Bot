@@ -62,7 +62,13 @@ function assess(file) {
   const date = (body.match(/Brief\s+—\s+([0-9T:\-.Z]+)/) || body.match(/(\d{4}-\d{2}-\d{2}T[0-9:.\-Z]+)/) || [])[1] || '';
   // FOR CLAUDE section if present, else all bullet items
   const claudeSec = (body.split(/##\s*FOR\s+CLAUDE/i)[1] || body).split(/\n##\s/)[0];
-  const items = (claudeSec.match(/^\s*[-*]\s+.+$/gm) || []).map(s => s.trim());
+  const rawItems = (claudeSec.match(/^\s*[-*]\s+.+$/gm) || []).map(s => s.trim());
+  // DEDUP: repetition is NOT groundedness. Early system-ignorant AIs often repeat one line N times;
+  // that must not score as a complete/finished brief. Score DISTINCT items; track repetition.
+  const seen = new Map(); const items = [];
+  for (const it of rawItems) { const key = it.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    if (seen.has(key)) { seen.set(key, seen.get(key) + 1); continue; } seen.set(key, 1); items.push(it); }
+  const repetition = rawItems.length ? +(items.length / rawItems.length).toFixed(2) : 1; // 1=all distinct, low=repetitive
   let completed = 0, undone = 0, nonsense = 0, vague = 0, badRefs = 0, totalRefs = 0;
   const marked = [];
   for (const it of items) {
@@ -80,17 +86,23 @@ function assess(file) {
       else if (realFiles.some(f => touchedAfter(f, date))) { completed++; mark = '✓'; why = `real ref + git activity after ${String(date).slice(0,10)}`; }
       else { undone++; mark = '○'; why = `real ref (${[...realFiles, ...realSvcs].join(', ')}), no completion evidence`; }
     }
-    marked.push(`${mark} ${it.replace(/^[-*]\s*/, '')}\n    └ ${why}`);
+    const cites = seen.get(it.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()) || 1;
+    const citeNote = cites > 1 ? ` · cited ${cites}× (corroborated)` : '';
+    marked.push(`${mark} ${it.replace(/^[-*]\s*/, '')}\n    └ ${why}${citeNote}`);
   }
   const n = items.length || 1;
   const pct = (x) => Math.round(x / n * 100);
   const groundedPct = pct(completed + undone); // items tied to real, checkable things
   const hallRate = totalRefs ? badRefs / totalRefs : 0;
   const tier = hallRate === 0 ? 'none' : hallRate < 0.34 ? 'mistaken-structure-corrected' : 'absolute-hallucination';
+  // Repetition is NOT penalized — it's a CITATION: multiple AIs saying the same grounded thing is
+  // corroboration, noted as "cited N×". Recency-priority (annal-rank) keeps OLD repeats from
+  // dominating; here we just record it. Bucket is purely grounded% + hallucination.
   const bucket = groundedPct >= 90 && tier !== 'absolute-hallucination' ? 'finished'
     : groundedPct >= 70 ? 'review-ready' : groundedPct >= 40 ? 'needs-work' : 'draft';
+  const maxCitation = Math.max(1, ...[...seen.values()]);
   return {
-    brief: file, items: items.length, date,
+    brief: file, items: items.length, raw_items: rawItems.length, repetition, max_citation: maxCitation, date,
     pct_completed: pct(completed), pct_undone: pct(undone), pct_ignored: pct(vague), pct_nonsense: pct(nonsense),
     grounded_pct: groundedPct, hallucination_tier: tier, bucket,
     needs_operator: undone > 0 || vague > 0, marked,
@@ -98,6 +110,7 @@ function assess(file) {
 }
 
 const briefs = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+fs.rmSync(out, { recursive: true, force: true });   // clean prior run so demoted briefs don't linger in finished/
 fs.mkdirSync(out, { recursive: true });
 fs.mkdirSync(`${out}/finished`, { recursive: true });
 const summary = { total: briefs.length, buckets: {}, tiers: {}, assessed: [] };
