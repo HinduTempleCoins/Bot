@@ -24,6 +24,17 @@ export const CHAINS = {
   solana:   { kind: 'solana', cg: 'solana', llama: 'Solana', rpc: ['https://api.mainnet-beta.solana.com', 'https://solana-rpc.publicnode.com'] },
   tron:     { kind: 'tron', cg: 'tron', llama: 'Tron', trongrid: 'https://api.trongrid.io' },
   sui:      { kind: 'sui', cg: 'sui', llama: 'Sui', rpc: ['https://fullnode.mainnet.sui.io', 'https://sui-rpc.publicnode.com'] },
+  // --- 10 more (20 total) ---
+  cronos:   { kind: 'evm', cg: 'crypto-com-chain', llama: 'Cronos', rpc: ['https://cronos-evm-rpc.publicnode.com', 'https://evm.cronos.org'] },
+  mantle:   { kind: 'evm', cg: 'mantle', llama: 'Mantle', rpc: ['https://mantle-rpc.publicnode.com', 'https://rpc.mantle.xyz'] },
+  linea:    { kind: 'evm', cg: 'ethereum', llama: 'Linea', rpc: ['https://linea-rpc.publicnode.com', 'https://rpc.linea.build'] },
+  scroll:   { kind: 'evm', cg: 'ethereum', llama: 'Scroll', rpc: ['https://scroll-rpc.publicnode.com', 'https://rpc.scroll.io'] },
+  sei:      { kind: 'evm', cg: 'sei-network', llama: 'Sei', rpc: ['https://sei-evm-rpc.publicnode.com', 'https://evm-rpc.sei-apis.com'] },
+  gnosis:   { kind: 'evm', cg: 'xdai', llama: 'Gnosis', rpc: ['https://gnosis-rpc.publicnode.com', 'https://rpc.gnosischain.com'] },
+  ton:      { kind: 'ton', cg: 'the-open-network', llama: 'TON', toncenter: 'https://toncenter.com/api/v2' },
+  near:     { kind: 'near', cg: 'near', llama: 'Near', rpc: ['https://rpc.mainnet.near.org'] },
+  aptos:    { kind: 'aptos', cg: 'aptos', llama: 'Aptos', rest: ['https://fullnode.mainnet.aptoslabs.com/v1'] },
+  cardano:  { kind: 'priceonly', cg: 'cardano', llama: 'Cardano' },
 };
 
 async function jsonFetch(url, opts = {}, timeout = 10000) {
@@ -60,6 +71,21 @@ export async function chainStatus(name) {
     if (c.kind === 'tron') {
       const r = await jsonFetch(`${c.trongrid}/wallet/getnowblock`, { method: 'POST', body: '{}' });
       return { chain: name, kind: c.kind, height: r.block_header?.raw_data?.number ?? null, gasGwei: null };
+    }
+    if (c.kind === 'ton') {
+      const r = await jsonFetch(`${c.toncenter}/getMasterchainInfo`);
+      return { chain: name, kind: c.kind, height: r.result?.last?.seqno ?? null, gasGwei: null };
+    }
+    if (c.kind === 'near') {
+      const r = await rpcFailover(c.rpc, { jsonrpc: '2.0', id: 1, method: 'block', params: { finality: 'final' } });
+      return { chain: name, kind: c.kind, height: r.result?.header?.height ?? null, gasGwei: null };
+    }
+    if (c.kind === 'aptos') {
+      const r = await jsonFetch(c.rest[0]);
+      return { chain: name, kind: c.kind, height: +(r.block_height ?? r.ledger_version) || null, gasGwei: null };
+    }
+    if (c.kind === 'priceonly') {
+      return { chain: name, kind: c.kind, height: null, gasGwei: null }; // price+TVL only (no easy keyless height)
     }
   } catch (e) { return { chain: name, kind: c.kind, error: e.message }; }
   return null;
