@@ -17,6 +17,9 @@ const XREF = {
   hive:      { paprika: 'hive-hive',    cap: 'hive',     coinbase: 'HIVE-USD' },
   steem:     { paprika: 'steem-steem',  cap: 'steem' },
   blurt:     { paprika: 'blurt-blurt' },
+  hive_dollar: { paprika: 'hbd-hive_dollar', cap: 'hive_dollar' },
+  eos:       { paprika: 'eos-eos',      cap: 'eos',      kraken: 'EOSUSD', coinbase: 'EOS-USD' },
+  'matic-network': { paprika: 'matic-polygon', cap: 'polygon', coinbase: 'MATIC-USD' },
 };
 
 const n = (x) => { const v = +x; return Number.isFinite(v) && v > 0 ? v : null; };
