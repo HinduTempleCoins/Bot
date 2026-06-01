@@ -9,9 +9,10 @@
 //   node integrations/publish-feed.mjs            # stage to local outbox (+ rsync if SSH ok)
 //   node integrations/publish-feed.mjs --local    # stage only, never touch the remote
 //
-// Remote target (optional, env-overridable):
-//   BRAIN_SSH   = melek-4                               (ssh host alias; empty = local-only)
-//   BRAIN_INBOX = /var/melek-bot/brain/shared/trade     (dir on the brain host)
+// Remote target (optional). BOTH come from the environment — the real host alias and inbox
+// path are operator infra and live in .local / the shell, never hard-coded in this public file:
+//   BRAIN_SSH   = <ssh host alias of the brain server>   (empty => local-only)
+//   BRAIN_INBOX = <inbox dir on the brain host>          (empty => local-only)
 
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -19,9 +20,9 @@ import { execFileSync } from 'node:child_process';
 const SRC_MD = '.local/shared/trade-brief-feed.md';
 const SRC_JSON = '.local/shared/trade-brief-feed.json';
 const OUTBOX = '.local/outbox';                       // staged, ready-to-ship copies
-const BRAIN_SSH = (process.env.BRAIN_SSH || '').trim();   // empty => local-only by default
-const BRAIN_INBOX = (process.env.BRAIN_INBOX || '/var/melek-bot/brain/shared/trade').trim();
-const localOnly = process.argv.includes('--local') || !BRAIN_SSH;
+const BRAIN_SSH = (process.env.BRAIN_SSH || '').trim();     // ssh host alias — from env only
+const BRAIN_INBOX = (process.env.BRAIN_INBOX || '').trim(); // inbox path — from env only
+const localOnly = process.argv.includes('--local') || !BRAIN_SSH || !BRAIN_INBOX;
 
 // the same secret shapes the sanitizer guards against — last line of defense
 const SECRET_SHAPES = [
