@@ -67,3 +67,6 @@ Thumbs.db
 
 __pycache__/
 *.pyc
+
+# Private resident-AI / server infrastructure — never public (recon surface)
+infra/

@@ -13,25 +13,15 @@
 
 ## Resident AI: required pre-work
 
-The MELEK Resident AI lives on Server A (a VPS separate from this Codespace).
-It watches the repo 24/7, drafts code for things-that-need-doing, and writes
-three-part briefs that Claude Code consumes before touching the repo.
+A resident AI assists this repo: it drafts code for things-that-need-doing and writes
+three-part briefs that Claude Code consumes before touching the repo. It runs on private
+operator infrastructure — **the access recipe, host details, and brief endpoints are kept
+out of this public file.**
 
-Before starting any task in this repo, every Claude Code session should:
-
-1. **Check the briefd tunnel is up:** `curl -sf http://127.0.0.1:7777/healthz`.
-   If not, restart with `ssh -fNL 7777:127.0.0.1:7777 resident-AI-host`. The tunnel
-   pattern + endpoints are documented in `infra/oracle-vm/BRIEF_ACCESS.md`.
-2. **Load the briefd secret:** `set -a; source .local/briefd.env; set +a`.
-3. **Request a brief for the task:** `curl -sS -H "X-Brief-Auth: $BRIEFD_SECRET"
-   -H 'content-type: application/json' -X POST http://127.0.0.1:7777/brief/request
-   -d '{"task":"<short description>","topic":"<topic>"}'`.
-4. **Read the returned brief.** It has three sections — `## FOR RYAN` (plain
-   text for the operator), `## FOR CLAUDE CODE` (the task), `## DRAFTED CODE`
-   (real implementation). Reading via `/brief/read?filename=...` marks the
-   brief consumed; after that the 30-min revisor stops editing it.
-5. **If briefd is unreachable, note in the session summary that the brief was
-   skipped, and continue cautiously.** Server A is small infra; outages happen.
+Before starting any task, follow the steps in **`.local/RESIDENT_AI_ACCESS.md`** (private,
+not committed): bring up the local brief tunnel, request a brief for the task, and read it.
+If the brief service is unreachable, note in the session summary that the brief was skipped
+and continue cautiously.
 
 ## TODO.md convention
 
@@ -44,16 +34,15 @@ for the work; without it, Claude Code is operating blind.
 
 ## Resident AI: what it knows / what it doesn't
 
-- **Knows:** the Bot Repo via Qdrant index (priority-weighted on Hathor /
+- **Knows:** the Bot Repo via a semantic index (priority-weighted on Hathor /
   Cheetah / Signup paths). All `.local/` briefs (synthesis-doc-private rule).
   Past briefs it has written.
-- **Doesn't yet:** Server B state (will, once the admin SSH link is built).
+- **Doesn't yet:** the chain-host runtime state (will, once that link is built).
   Other operator repos (will, once operator provides the list).
   Live trade-bot data (will, once that ingestion is wired).
 - **Never touches:** trade-bot execution (autonomous, always-on, separate
   system — the AI analyzes their data and drafts improvements only).
-  Signer code (separate private repo + separate VPSes, zero WIF on this host
-  by construction).
+  Signer code (separate private repo, zero WIF on this host by construction).
 
 ---
 

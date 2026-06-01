@@ -3,19 +3,19 @@
  *
  * This is implementation piece #1 from .local/GUEST_API_ARCHITECTURE_2026-05-28.md.
  * It runs on the security box (Server 3 — Cheetah's home), NOT on the native-AI
- * boxes (Server 1/2). The native brief generator on resident-AI-host POSTs here when a
+ * boxes (Server 1/2). The native brief generator on the resident-AI host POSTs here when a
  * brief is tagged for guest input; this service is the ONLY place an external
  * API (Gemini / Cloudflare / DeepSeek) is ever called.
  *
  * Why a separate box + service (operator framing 2026-05-28): the angelicalist
  * key leaked because nothing inspected content on the way out. Calling Gemini
- * directly from resident-AI-host has the same shape — retrieval pulls from .local/, that
+ * directly from the resident-AI host has the same shape — retrieval pulls from .local/, that
  * goes to Gemini, Gemini's training ingests it, leak. This proxy is the HACCP
  * critical control point: every external call is moderated, both directions.
  *
- *   Outbound (resident-AI-host -> guest): drop private-path chunks, redact secret shapes,
+ *   Outbound (the resident-AI host -> guest): drop private-path chunks, redact secret shapes,
  *                                scope to the one tagged brief.
- *   Inbound  (guest -> resident-AI-host): scan for secret regurgitation + prompt-injection
+ *   Inbound  (guest -> the resident-AI host): scan for secret regurgitation + prompt-injection
  *                                + policy violations before the contribution is
  *                                allowed back. Block on failure.
  *
@@ -34,8 +34,8 @@ import { scanContent } from './security-scan.js';
 // ---- config (env-driven; keys live ONLY on this box) ----------------------
 
 const PORT = parseInt(process.env.GUEST_PROXY_PORT || '8780', 10);
-const HOST = process.env.GUEST_PROXY_HOST || '0.0.0.0'; // reachable by resident-AI-host
-const AUTH = process.env.GUEST_PROXY_SECRET || '';      // shared bearer; resident-AI-host holds the match
+const HOST = process.env.GUEST_PROXY_HOST || '0.0.0.0'; // reachable by the resident-AI host
+const AUTH = process.env.GUEST_PROXY_SECRET || '';      // shared bearer; the resident-AI host holds the match
 const AUDIT_LOG = process.env.GUEST_AUDIT_LOG || '<DATA_DIR>/guest-audit.jsonl';
 
 // Paths whose retrieval chunks must NEVER leave the perimeter. Mirrors the
@@ -106,7 +106,7 @@ const INJECTION_PATTERNS = [
 ];
 
 /**
- * Inspect a guest's response before it's allowed back to resident-AI-host.
+ * Inspect a guest's response before it's allowed back to the resident-AI host.
  * Blocks if it regurgitated a secret shape, carries a prompt-injection marker,
  * or trips a block-severity platform-security pattern.
  *

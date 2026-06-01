@@ -2,7 +2,7 @@
 
 Operator framing 2026-05-28: "This is going to be their Brain... add AI and Coding information... and that kind of like, becoming a Machine Learning System."
 
-The resident AI (Server A, qwen2.5-coder:1.5b) and the tiny-LLM (tiny-LLM-host, smollm2:360m) consult these datasets when composing briefs and annals. The indexer (`infra/oracle-vm/indexer/`) embeds every markdown file here into Qdrant with priority weighting; the AIs retrieve relevant chunks per query.
+The resident AI (Server A, qwen2.5-coder:1.5b) and the tiny-LLM (the tiny-LLM host, smollm2:360m) consult these datasets when composing briefs and annals. The indexer (`the private resident-AI infra/indexer/`) embeds every markdown file here into Qdrant with priority weighting; the AIs retrieve relevant chunks per query.
 
 ## Sources currently staged
 
@@ -76,6 +76,6 @@ If a structured JSONL format is wanted later (e.g. `{title, url, content}` per p
 
 ## How the AIs find this
 
-The indexer scope (after 2026-05-28 expansion) is SKIP-list based — `datasets/` is included by default. Every file here gets embedded. The brief generator's retrieval (`infra/oracle-vm/briefd/retrieval.js`) and the tiny-LLM's annal-writer (`infra/tiny-LLM-host/annal-writer-tiny.py`) can both pull from this corpus.
+The indexer scope (after 2026-05-28 expansion) is SKIP-list based — `datasets/` is included by default. Every file here gets embedded. The brief generator's retrieval (`the private resident-AI infra/briefd/retrieval.js`) and the tiny-LLM's annal-writer (`infra/the tiny-LLM host/annal-writer-tiny.py`) can both pull from this corpus.
 
 The per-file archive (`<DATA_DIR>/archive/files/<flat>.json` on Server A) tracks deep-inspection of every indexed file including these — so over time the AIs build a catalog of what's where in `datasets/`.

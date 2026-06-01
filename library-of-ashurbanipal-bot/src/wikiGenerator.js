@@ -148,7 +148,7 @@ class WikiGenerator {
     this.knowledgeLoader = new KnowledgeLoader(knowledgeBasePath);
     this.geminiClient = new GeminiClient(process.env.GEMINI_API_KEY);
     this.wikiClient = new WikiClient(
-      process.env.WIKI_URL || 'http://REDACTED-HOST/wiki',
+      process.env.WIKI_URL || 'http://localhost/wiki',
       process.env.WIKI_BOT_USERNAME,
       process.env.WIKI_BOT_PASSWORD
     );

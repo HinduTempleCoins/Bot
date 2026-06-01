@@ -26,16 +26,16 @@ The Bot Repo's scope grew significantly between 2026-01 and 2026-05. This sectio
 
 ### Resident AI ensemble (shipped 2026-05-28)
 
-- **resident-AI-host (Server A)** — resident AI VM at `REDACTED-HOST`. Ollama + qwen2.5-coder:1.5b + Qdrant index + briefd HTTP service + autonomous loop (brief-generator, annals-writer, code-walker, brief-lifecycle, reindex-repo). Sprint mode active for ~2 weeks.
-- **tiny-LLM-host (tiny-LLM)** — smaller VPS at `REDACTED-HOST`-equivalent (TBD). Ollama + smollm2:360m. Writes annal bodies (signed `tiny-LLM-host`), fast brief summaries for operator on return.
-- **(planned) reviewer-host** — Oracle ARM A1.Flex 4-8GB. DeepSeek-Coder 1.3B or 6.7B. Coding-quality reviewer, conversation with tiny-LLM produces MoM, 12h CST summary to Main Repo AI.
+- **the resident-AI host (Server A)** — resident AI VM at `REDACTED-HOST`. Ollama + qwen2.5-coder:1.5b + Qdrant index + briefd HTTP service + autonomous loop (brief-generator, annals-writer, code-walker, brief-lifecycle, reindex-repo). Sprint mode active for ~2 weeks.
+- **the tiny-LLM host (tiny-LLM)** — smaller VPS at `REDACTED-HOST`-equivalent (TBD). Ollama + smollm2:360m. Writes annal bodies (signed `the tiny-LLM host`), fast brief summaries for operator on return.
+- **(planned) the reviewer host** — Oracle ARM A1.Flex 4-8GB. DeepSeek-Coder 1.3B or 6.7B. Coding-quality reviewer, conversation with tiny-LLM produces MoM, 12h CST summary to Main Repo AI.
 - **(planned) Server B** — host server for Bot runtime + MELEK chain + condenser. Admined by Server A over SSH.
 - **(planned) signer VPS** — MELEK-Signer service, KMS-wrapped keys. Zero WIF on Bot host.
 - **(planned) watcher VPS** — read-only chain observer, alerts on sensitive ops.
 
 ### Data artifact layers
 
-- Briefs (working memory, three-part, bounded retention) → `<DATA_DIR>/briefs/` on resident-AI-host
+- Briefs (working memory, three-part, bounded retention) → `<DATA_DIR>/briefs/` on the resident-AI host
 - Annals (long-form per-subject reference, tiny-LLM writes bodies + Main Repo AI appends signed Notes) → `<DATA_DIR>/annals/`
 - Long-term notes (one-line takeaways distilled from briefs before deletion) → `<DATA_DIR>/notes/`
 - Per-file archive (one record per repo file with purpose / work_items / finished_items) → `<DATA_DIR>/archive/files/`
@@ -73,7 +73,7 @@ Expanded 2026-05-28 from 2 operator JSONLs (~60KB) to **3,500+ files / ~50MB** o
 
 ### Sprint mode (2026-05-28 → ~2026-06-11)
 
-The AIs run budget-loop runners (~45-min budget per tick on tiny-LLM-host, ~25-min on resident-AI-host code-walker). Volume over perfection — the 30-min editor's-note revisor refines later. Streaming-to-disk so partial output survives cutoffs (`.partial` files are debug signal, not loss).
+The AIs run budget-loop runners (~45-min budget per tick on the tiny-LLM host, ~25-min on the resident-AI host code-walker). Volume over perfection — the 30-min editor's-note revisor refines later. Streaming-to-disk so partial output survives cutoffs (`.partial` files are debug signal, not loss).
 
 ### Multi-AI architecture (3-AI ensemble — DeepSeek planned)
 

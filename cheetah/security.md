@@ -56,7 +56,7 @@ Both conferences produce a MoM (Minutes of Meeting) appended as a signed Note to
 ```markdown
 ## MoM — Security conference (2026-XX-XX 06:00 UTC)
 
-Attendees: cheetah (host), resident-AI-host (Main Repo AI)
+Attendees: cheetah (host), the resident-AI host (Main Repo AI)
 Topic: ...
 Cheetah's findings (since last conference):
   - ...
@@ -75,9 +75,9 @@ This module is the new direction; the actual security scanner + conference machi
 - [ ] `cheetah/security-scan.js` — pattern catalog + scan function returning `{flagged, findings, severity}`
 - [ ] `cheetah/security-scan.test.js` — tests for each pattern category
 - [ ] Wire into `cheetah/index.js` orchestrator — `--security-mode` flag that runs the security scan on every scanned post
-- [ ] Conference runner on resident-AI-host (and on the reviewer-host when it lands) — systemd timer at `OnCalendar=*-*-* 06:00,18:00` running a Q&A loop with 15-min timeout
+- [ ] Conference runner on the resident-AI host (and on the the reviewer host when it lands) — systemd timer at `OnCalendar=*-*-* 06:00,18:00` running a Q&A loop with 15-min timeout
 - [ ] MoM format + `appendMoMToAnnal()` helper in `annals.js`
-- [ ] Cheetah's report-to-Main-Repo-AI pathway — SSH push from Cheetah's box to resident-AI-host's annals dir, similar to tiny-LLM's pattern
+- [ ] Cheetah's report-to-Main-Repo-AI pathway — SSH push from Cheetah's box to the resident-AI host's annals dir, similar to tiny-LLM's pattern
 - [ ] Anti-virus integration (optional, for image / file attachments — ClamAV or similar; gated on whether MELEK supports file attachments)
 
 ## Cross-references

@@ -7,7 +7,7 @@ doing, and writes **briefs** that Claude Code consumes before touching the
 repo.
 
 This document is the public-facing protocol. Private install detail lives in
-`infra/oracle-vm/SETUP.md` and `infra/oracle-vm/BRIEF_ACCESS.md`.
+`the private resident-AI infra/SETUP.md` and `the private resident-AI infra/BRIEF_ACCESS.md`.
 
 ## The three-part brief format
 
@@ -98,5 +98,5 @@ Topics are how `/brief/by-topic/:topic` filters listings.
 
 ## Endpoints
 
-See `infra/oracle-vm/BRIEF_ACCESS.md` for the full API + auth + tunneling
+See `the private resident-AI infra/BRIEF_ACCESS.md` for the full API + auth + tunneling
 detail.

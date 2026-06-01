@@ -9,7 +9,7 @@ Named for the ancient Nineveh library where fire baked and preserved the clay ta
 1. Reads all documents from `/knowledge` folder
 2. **Synthesizes** (not copy/paste) information across multiple documents
 3. Generates MediaWiki articles starting with core topics
-4. Publishes to MediaWiki at http://REDACTED-HOST/wiki
+4. Publishes to MediaWiki at the instance configured via `WIKI_URL`
 
 ## Knowledge Flow
 
