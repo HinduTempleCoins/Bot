@@ -60,6 +60,16 @@ function safeMeta(metaStr) {
   try { const m = JSON.parse(metaStr); return { website: m.url || '', explorer: '', social: [] }; } catch { return undefined; }
 }
 
+// top coins for the list page (Tier-1 CoinGecko markets, keyless). Normalized lightly.
+export async function topCoins({ limit = 50 } = {}) {
+  const arr = await jget(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`);
+  return (Array.isArray(arr) ? arr : []).map((c) => ({
+    id: c.id, symbol: (c.symbol || '').toUpperCase(), name: c.name,
+    price_usd: c.current_price || 0, market_cap_usd: c.market_cap || 0, volume_24h_usd: c.total_volume || 0,
+    change_24h: c.price_change_percentage_24h || 0, rank: c.market_cap_rank || null,
+  }));
+}
+
 // --- the read API the site/Hathor/bots call --------------------------------
 // id forms: "bitcoin" (tier 1), "hive-engine:VKBT" (tier 2), "node:melek:..." (tier 3, stub).
 export async function getCoin(id) {
