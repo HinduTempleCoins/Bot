@@ -9,6 +9,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { marketHistory, reconstruct, currentHoldings } from './tradebot-forensics.mjs';
 import { market } from './hive-engine-market.mjs';
 import { scanArb } from './arb-scanner.mjs';
+import { ownership } from './market-depth.mjs';
 
 const ACCOUNT = process.argv[2] || 'kalivankush';
 const PARITY_TARGET = 1.0;           // VKBT/CURE strategic target (HIVE)
@@ -49,6 +50,17 @@ async function analyze(account) {
     if (t.held > 0 && t.heldHive < 1 && t.spread != null && t.spread > 0.5)
       { findings.push(`STUCK: ${t.symbol} held ${t.held.toLocaleString()} but worth <1 HIVE and ${pct(t.spread)} spread — illiquid/dead.`);
         suggestions.push(`Do not add to ${t.symbol}; it is illiquid (${pct(t.spread)} spread). Capital here is effectively frozen.`); }
+  }
+
+  // ownership concentration for issued tokens (is there real outside demand?)
+  for (const s of ISSUED) {
+    try {
+      const o = await ownership(s);
+      if (o) {
+        findings.push(`OWNERSHIP: ${s} is ${o.issuerPct}% held by the issuer with only ${o.outsideHolders} outside holders ≥1 token — little/no real outside demand.`);
+        if (o.issuerPct > 30) suggestions.push(`${s} is ${o.issuerPct}% self-held with ~no outside buyers — the price "push" is self-trading. Stop spending HIVE to push it; demand must come from real users, not the bot.`);
+      }
+    } catch {}
   }
 
   // live arbitrage opportunities (the proven earner): SWAP.X HE price vs real asset

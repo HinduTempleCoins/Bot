@@ -14,6 +14,26 @@ function walls(orders) {
   return levels;
 }
 
+// data-returning ownership summary (for the analyzer/AIs)
+export async function ownership(symbol) {
+  const [info, holders, m] = await Promise.all([
+    market.tokenInfo(symbol).catch(() => null),
+    market.topHolders(symbol, 12).catch(() => []),
+    market.metrics(symbol).catch(() => null),
+  ]);
+  if (!info) return null;
+  const supply = +info.circulatingSupply || +info.supply || 0;
+  let issuerPct = 0, top3 = 0, outsideHolders = 0;
+  holders.forEach((h, i) => {
+    const bal = +h.balance + (+h.stake || 0);
+    const pct = supply ? bal / supply * 100 : 0;
+    if (h.account === ISSUER) issuerPct += pct;
+    if (i < 3) top3 += pct;
+    if (h.account !== ISSUER && bal >= 1) outsideHolders++;
+  });
+  return { symbol, issuer: info.issuer, supply, issuerPct: +issuerPct.toFixed(1), top3: +top3.toFixed(1), outsideHolders, last: m ? +m.lastPrice : 0 };
+}
+
 async function depth(symbol) {
   console.log(`\n══════════ ${symbol} — ownership + depth ══════════`);
   const [info, holders, buys, sells, m] = await Promise.all([
@@ -48,9 +68,10 @@ async function depth(symbol) {
   return { symbol, supply, issuerPct, top3, last: m ? +m.lastPrice : 0 };
 }
 
-const syms = process.argv.slice(2);
-const targets = syms.length ? syms : ['VKBT', 'CURE'];
-console.log('Market depth + whale view (read-only)');
-const out = [];
-for (const s of targets) { try { out.push(await depth(s)); } catch (e) { console.log(`\n  ${s}: ${e.message}`); } }
-console.log('\nNote: high issuer% + low outside holding = the "price push" is largely self-trading, not real demand.');
+if (process.argv[1] && process.argv[1].endsWith('market-depth.mjs')) {
+  const syms = process.argv.slice(2);
+  const targets = syms.length ? syms : ['VKBT', 'CURE'];
+  console.log('Market depth + whale view (read-only)');
+  for (const s of targets) { try { await depth(s); } catch (e) { console.log(`\n  ${s}: ${e.message}`); } }
+  console.log('\nNote: high issuer% + low outside holding = the "price push" is largely self-trading, not real demand.');
+}
