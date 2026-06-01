@@ -36,9 +36,24 @@ const logPath = '.local/change-log.jsonl';
 const prior = existsSync(logPath) ? readFileSync(logPath, 'utf8') : '';
 writeFileSync(logPath, prior + JSON.stringify(entry) + '\n');
 
-console.log(`Flagged ${files.length} changed file(s) for annal coverage (range: ${range})`);
+// DEBUGGING-SYSTEM review queue (operator 2026-06-01: the annal writers should act "like a
+// debugging system" — review/verify each change for correctness, not just describe it). Pair each
+// file with the commit(s) that touched it (intent) + an explicit review directive.
+function commitsForFile(f) {
+  return sh(`git log --oneline ${range} -- "${f}"`).split('\n').filter(Boolean).slice(0, 6);
+}
+const REVIEW_DIRECTIVE = 'Act as a debugging system: read this change, verify it does what its commit claims, ' +
+  'check for bugs / missing cases / broken assumptions / security issues (no committed secrets), and ' +
+  'flag anything wrong. Cite specific lines. If it is correct, say what it does and why it holds.';
+const reviewQueue = {
+  at: stamp, range, mode: 'debug-review', directive: REVIEW_DIRECTIVE,
+  items: files.map((f) => ({ file: f, intent: commitsForFile(f), directive: REVIEW_DIRECTIVE })),
+};
+writeFileSync('.local/ai-net-review-queue.json', JSON.stringify(reviewQueue, null, 2));
+
+console.log(`Flagged ${files.length} changed file(s) for annal DEBUG-REVIEW (range: ${range})`);
 for (const f of files) console.log(`  • ${f}`);
-console.log(`\n→ .local/ai-net-priority.json (queue) + .local/change-log.jsonl (record)`);
+console.log(`\n→ .local/ai-net-priority.json (drain queue) + .local/ai-net-review-queue.json (debug-review) + .local/change-log.jsonl (record)`);
 
 // optional delivery to the brain's priority queue (env-only, never hard-coded)
 const BRAIN_SSH = (process.env.BRAIN_SSH || '').trim();
