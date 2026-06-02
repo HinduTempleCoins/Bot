@@ -5,6 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyCoin, normalizeCoin, validateCoin } from './schema.mjs';
 import { getCoin, fromCoinGecko, __setFetch, __setClock } from './condenser.mjs';
+import { __setFetch as cgSetFetch } from './adapters/coingecko.mjs';
+import { invalidate } from './cache.mjs';
 
 test('emptyCoin has every schema field', () => {
   const c = emptyCoin();
@@ -41,9 +43,11 @@ test('validateCoin passes a normalized coin', () => {
   assert.equal(validateCoin(c).valid, true);
 });
 
-test('condenser maps a CoinGecko payload into the schema (injected fetch)', async () => {
-  __setClock(() => '2026-06-01T00:00:00Z');
-  __setFetch(async () => ({ ok: true, json: async () => ({
+test('condenser getCoin maps a CoinGecko payload into the schema (via the adapter registry)', async () => {
+  // getCoin routes Tier-1 through the adapter registry now, so we inject the ADAPTER's fetch and
+  // clear the condenser cache so this id isn't served a stale value from another test/run.
+  invalidate();
+  cgSetFetch(async () => ({ ok: true, status: 200, json: async () => ({
     id: 'bitcoin', symbol: 'btc', name: 'Bitcoin',
     market_data: { current_price: { usd: 60000 }, market_cap: { usd: 1.2e12 }, total_volume: { usd: 3e10 }, circulating_supply: 19e6, total_supply: 21e6, max_supply: 21e6 },
     platforms: {}, links: { homepage: ['https://bitcoin.org'], blockchain_site: ['https://blockchair.com/bitcoin'], twitter_screen_name: 'bitcoin' },
@@ -53,8 +57,8 @@ test('condenser maps a CoinGecko payload into the schema (injected fetch)', asyn
   assert.equal(coin.price_usd, 60000);
   assert.equal(coin.source_tier, 1);
   assert.equal(coin.source, 'coingecko');
-  assert.equal(coin.updated_at, '2026-06-01T00:00:00Z');
+  assert.ok(/^\d{4}-\d\d-\d\dT/.test(coin.updated_at), 'updated_at is an ISO timestamp');
   assert.equal(coin.links.website, 'https://bitcoin.org');
   assert.equal(coin._valid, true);
-  __setFetch(null); __setClock(null);
+  cgSetFetch(null); invalidate();
 });
