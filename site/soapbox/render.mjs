@@ -55,6 +55,10 @@ const STYLE = `<style>
   .bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin:6px 0} .bar>i{display:block;height:100%;background:var(--blue)}
   input.search{background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:8px 12px;width:100%;max-width:320px;margin:0 0 14px;font-size:14px}
   .spark{vertical-align:middle}
+  .msr{max-width:420px;margin:-8px 0 16px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);overflow:hidden}
+  .msrg{border-bottom:1px solid var(--line)} .msrg:last-child{border-bottom:0}
+  .msrh{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;padding:7px 12px 3px}
+  .msr a{display:block;padding:7px 12px;color:var(--fg);font-size:14px} .msr a:hover{background:var(--bg);text-decoration:none}
   .tf{display:inline-flex;gap:4px;flex-wrap:wrap}
   .tfb{cursor:pointer;background:transparent;border:1px solid var(--line2);border-radius:6px;color:var(--mut);font-weight:600;font-size:12px;padding:4px 10px}
   .tfb:hover{color:var(--fg);border-color:var(--blue)} .tfb.on{background:var(--blue);color:#06101f;border-color:var(--blue)}
@@ -67,7 +71,7 @@ const STYLE = `<style>
 </style>`;
 
 const navBar = (active) => `<header class=top>
-  <a class=brand href="/">◈ SoapBox <span>markets</span></a>
+  <a class=brand href="/">◈ SoapBox <span>data</span></a>
   <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
     <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
     <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>
@@ -99,17 +103,17 @@ export function layout({ title, description = '', canonical = '', active = '/', 
   const desc = esc(description || `${title} — live prices, market caps, and Clarity transparency ratings on SoapBox.`);
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<title>${esc(title)} — SoapBox Markets</title>
+<title>${esc(title)} — SoapBox Data</title>
 <meta name=description content="${desc}">
 ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:type" content="website"><meta property="og:site_name" content="SoapBox">
-<meta property="og:title" content="${esc(title)} — SoapBox Markets"><meta property="og:description" content="${desc}">
+<meta property="og:title" content="${esc(title)} — SoapBox Data"><meta property="og:description" content="${desc}">
 ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twitter:image" content="${esc(ogImage)}">` : ''}
 <meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
 <meta name="robots" content="${esc(robots)}">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [
   { '@type': 'Organization', '@id': 'https://soapbox.community/#org', name: 'SoapBox', url: 'https://soapbox.community', description: 'A crypto data aggregator with a Clarity transparency score and right-of-reply.' },
-  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Markets', publisher: { '@id': 'https://soapbox.community/#org' },
+  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Data', publisher: { '@id': 'https://soapbox.community/#org' },
     potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: 'https://data.soapbox.community/coins/{search_term_string}' }, 'query-input': 'required name=search_term_string' } },
 ] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
@@ -224,7 +228,7 @@ export function ogSvg(c, clarity) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#0d1117"/>
   <rect width="1200" height="8" fill="#58a6ff"/>
-  <text x="60" y="120" fill="#8b949e" font-family="system-ui,sans-serif" font-size="34" font-weight="700">◈ SoapBox Markets</text>
+  <text x="60" y="120" fill="#8b949e" font-family="system-ui,sans-serif" font-size="34" font-weight="700">◈ SoapBox Data</text>
   <text x="60" y="270" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="86" font-weight="800">${esc(c.name)} <tspan fill="#8b949e" font-size="52">${esc(c.symbol)}</tspan></text>
   <text x="60" y="390" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="76" font-weight="800">${esc(price)} <tspan fill="${chgColor}" font-size="46" font-weight="700">${esc(chg)}</tspan></text>
   ${clar ? `<text x="60" y="480" fill="#d29922" font-family="system-ui,sans-serif" font-size="40" font-weight="700">${esc(clar)}</text>` : ''}

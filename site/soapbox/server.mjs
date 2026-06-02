@@ -29,6 +29,9 @@ import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByI
 import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS } from '../../integrations/soapbox/macro.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
+import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
+import { search as scraperSearch } from '../../integrations/scraper.mjs';
+import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cache.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
@@ -118,9 +121,10 @@ async function listPage({ page = 1 } = {}) {
     </div>
     <div style="margin-left:auto" title="A blended index of the top 50 coins' last 7 days, weighted by market cap. Up = the overall market rose; down = it fell.">${sparkline(idx.map((d) => d.p), 160, 40)}</div>
   </div>` : '';
-  const body = `${statsbar}<h1>Markets</h1>
-    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
-    <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
+  const body = `${statsbar}<h1>Global Markets</h1>
+    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. Search also surfaces global stocks, ETFs &amp; indices.</p>
+    <input class=search id=q placeholder="Search crypto, stocks, ETFs, indices…" autocomplete=off aria-label="Search crypto, stocks, ETFs and indices">
+    <div id=msr class=msr hidden></div>
     ${macroSum && (macroSum.gold || macroSum.dow) ? `<div class=card style="margin:0 0 14px;font-size:13px"><span class=muted>📈 Macro:</span>
       ${macroSum.gold ? `Gold ${usd(macroSum.gold.price)} ${pct(macroSum.gold.change)}` : ''}
       ${macroSum.dow ? ` · Dow ${pct(macroSum.dow.change)}` : ''}
@@ -144,8 +148,22 @@ async function listPage({ page = 1 } = {}) {
     ${pager}
     <script>
       var q=document.getElementById('q'),tb=document.querySelector('#mkt tbody');
+      var msr=document.getElementById('msr'),tmr;
+      function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]})}
       q.addEventListener('input',function(){var v=q.value.toLowerCase();
-        [].forEach.call(tb.rows,function(r){r.style.display=(r.dataset.name||'').indexOf(v)>-1?'':'none'})});
+        [].forEach.call(tb.rows,function(r){r.style.display=(r.dataset.name||'').indexOf(v)>-1?'':'none'});
+        clearTimeout(tmr);var term=q.value.trim();
+        if(term.length<2){msr.hidden=true;msr.innerHTML='';return}
+        tmr=setTimeout(function(){
+          fetch('/api/markets-search?q='+encodeURIComponent(term)).then(function(r){return r.json()}).then(function(d){
+            var h='';
+            if(d.crypto&&d.crypto.length){h+='<div class=msrg><div class=msrh>Crypto</div>'+d.crypto.map(function(c){return '<a href="/coins/'+encodeURIComponent(c.id)+'">'+esc(c.name)+' <span class=muted>'+esc(c.symbol)+'</span></a>'}).join('')+'</div>'}
+            if(d.stocks&&d.stocks.length){h+='<div class=msrg><div class=msrh>Stocks, ETFs &amp; Indices</div>'+d.stocks.map(function(s){return '<a href="/stocks/'+encodeURIComponent(s.symbol)+'">'+esc(s.name)+' <span class=muted>'+esc(s.symbol)+' · '+esc(s.typeLabel)+'</span></a>'}).join('')+'</div>'}
+            msr.innerHTML=h||'<div class=msrg><span class=muted style="padding:8px;display:block">No matches.</span></div>';msr.hidden=false;
+          }).catch(function(){});
+        },250);
+      });
+      document.addEventListener('click',function(e){if(e.target!==q&&!msr.contains(e.target)){msr.hidden=true}});
       [].forEach.call(document.querySelectorAll('th[data-sort]'),function(th){th.addEventListener('click',function(){
         var k=th.dataset.sort,rows=[].slice.call(tb.rows),asc=th._asc=!th._asc;
         rows.sort(function(a,b){var x=k==='name'?a.dataset.name:+a.dataset[k]||0,y=k==='name'?b.dataset.name:+b.dataset[k]||0;
@@ -154,7 +172,7 @@ async function listPage({ page = 1 } = {}) {
     </script>`;
 
   return layout({
-    title: 'Markets', active: '/', canonical: `${BASE_URL}/`,
+    title: 'Global Markets', active: '/', canonical: `${BASE_URL}/`,
     description: 'Live cryptocurrency prices, market caps, and Clarity transparency ratings. Ecosystem tokens (VKBT, CURE) with first-party on-chain data.',
     body,
   });
@@ -322,6 +340,46 @@ async function chainsPage() {
     ${srows ? `<div class=card><h2>Stablecoins <span class=muted style="font-weight:400">· peg deviation</span></h2>
       <table><thead><tr><th style="text-align:left">Coin</th><th>Circulating</th><th>Peg</th><th style="text-align:left">Mechanism</th></tr></thead><tbody>${srows}</tbody></table></div>` : ''}`;
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
+}
+
+// best-effort news/research for a stock page — pulled by the scraper (operator: "get it from Google and
+// other news articles bots are looking for"). Cached so the page stays fast; falls back to research links.
+async function stockNews(name) {
+  return memo(`stk:news:${name.toLowerCase()}`, MEMO_TTL.clarity, async () => {
+    try { return await scraperSearch(`${name} stock news`, { provider: 'duckduckgo', limit: 6 }); } catch { return []; }
+  });
+}
+
+async function stockPage(symbol) {
+  const sym = String(symbol).toUpperCase();
+  const [q, series] = await Promise.all([stockQuote(sym).catch(() => null), stockChart(sym, '7d').catch(() => [])]);
+  if (!q) return { code: 404, html: layout({ title: sym, robots: 'noindex', body: `<h1>${esc(sym)}</h1><p class=muted>No market data found for this symbol. Try the <a href="/">Global Markets</a> search.</p>` }) };
+  const news = await stockNews(q.name).catch(() => []);
+  const stat = (k, v) => v == null ? '' : `<div class=stat><div class=k>${esc(k)}</div><div class=v>${v}</div></div>`;
+  const research = [
+    ['Yahoo Finance', `https://finance.yahoo.com/quote/${encodeURIComponent(sym)}`],
+    ['Google Finance', `https://www.google.com/finance/quote/${encodeURIComponent(sym)}`],
+    ['Google News', `https://news.google.com/search?q=${encodeURIComponent(q.name + ' stock')}`],
+    ['MarketWatch', `https://www.marketwatch.com/investing/stock/${encodeURIComponent(sym.toLowerCase())}`],
+    ['SEC EDGAR', `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=${encodeURIComponent(q.name)}&type=10-K`],
+  ];
+  const newsHtml = news.length ? `<div class=card><h2>Latest news &amp; research</h2>${news.map((n) => `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><a href="${esc(n.url)}" rel="noopener" target=_blank>${esc(n.title)}</a>${n.snippet ? `<div class=muted style="font-size:13px">${esc(n.snippet)}</div>` : ''}</div>`).join('')}<p class=muted style="font-size:11px;margin-top:8px">Aggregated via web search — verify with primary sources.</p></div>` : '';
+  const body = `<div data-stock="${esc(sym)}">
+    <h1>${esc(q.name)} <span class=muted style="font-size:18px">${esc(sym)}</span></h1>
+    <div class=muted>${esc(q.typeLabel || 'Stock')} · ${esc(q.exchange)} · <a href="/">← Global Markets</a></div>
+    <div class=price style="margin:8px 0">${usd(q.price)} <span style="font-size:16px">${pct(q.change)}</span> <span class=muted style="font-size:13px">${esc(q.currency)}</span></div>
+    ${priceChart(series, `stock:${sym}`, CHART_RANGES, '')}
+    <div class=card><h2>Key stats</h2><div class=grid>
+      ${stat('Day range', q.dayLow && q.dayHigh ? `${usd(q.dayLow)} – ${usd(q.dayHigh)}` : null)}
+      ${stat('52-week range', q.fiftyTwoLow && q.fiftyTwoHigh ? `${usd(q.fiftyTwoLow)} – ${usd(q.fiftyTwoHigh)}` : null)}
+      ${stat('Volume', q.volume ? (+q.volume).toLocaleString() : null)}
+      ${stat('Exchange', q.exchange)}
+    </div></div>
+    ${newsHtml}
+    <div class=card><h2>Research</h2><div class=muted style="font-size:13px">${research.map(([n, u]) => `<a href="${esc(u)}" rel="noopener" target=_blank>${esc(n)}</a>`).join(' · ')}</div>
+      <p class=muted style="font-size:11px;margin-top:8px">Stock data via Yahoo Finance (keyless). Informational only — not investment advice.</p></div>
+    </div>`;
+  return { code: 200, html: layout({ title: `${q.name} (${sym})`, active: '', canonical: `${BASE_URL}/stocks/${sym}`, description: `${q.name} (${sym}) stock price, chart, key stats, and latest news on SoapBox Data.`, body }) };
 }
 
 // a small block of "where to enter this market" links (brokers / dealers / ETFs).
@@ -579,6 +637,7 @@ createServer(async (req, res) => {
     if (p === '/categories') return send(await categoriesPage());
     if (p === '/exchanges') return send(await exchangesPage());
     if (p === '/chains') return send(await chainsPage());
+    if (p.startsWith('/stocks/')) { const r = await stockPage(decodeURIComponent(p.slice(8))); return send(r.html, r.code); }
     if (p === '/macro') return send(await macroPage());
     if (p === '/commodities') return send(await commoditiesPage());
     if (p === '/stats') {
@@ -612,8 +671,23 @@ createServer(async (req, res) => {
       const id = url.searchParams.get('id') || '';
       const range = url.searchParams.get('range') || '7d';
       const sym = url.searchParams.get('sym') || '';
-      const series = await coinChartRange(id, range, sym).catch(() => []);
+      // "stock:SYMBOL" ids route to the Yahoo stock chart; everything else is crypto.
+      const series = id.startsWith('stock:') ? await stockChart(id.slice(6), range).catch(() => []) : await coinChartRange(id, range, sym).catch(() => []);
       return json(res, 200, { id, range, series });
+    }
+    // unified markets search — crypto (CoinGecko) + stocks/ETFs/indices (Yahoo). Powers the home dropdown.
+    if (p === '/api/markets-search') {
+      const q = (url.searchParams.get('q') || '').trim();
+      if (q.length < 1) return json(res, 200, { crypto: [], stocks: [] });
+      const [stocks, cg] = await Promise.all([
+        stockSearch(q, { limit: 6 }).catch(() => []),
+        memo(`cg:search:${q.toLowerCase()}`, MEMO_TTL.list, async () => {
+          const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(7000) });
+          return r.ok ? r.json() : {};
+        }).catch(() => ({})),
+      ]);
+      const crypto = (cg.coins || []).slice(0, 6).map((c) => ({ id: c.id, name: c.name, symbol: (c.symbol || '').toUpperCase() }));
+      return json(res, 200, { crypto, stocks });
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
     // the steemd query layer over HTTP — the same router Discord/Telegram/Hathor use. ?q=price+VKBT
@@ -646,7 +720,7 @@ createServer(async (req, res) => {
         ...movers.map((c) => ({ t: `${c.symbol} ${c.change_24h >= 0 ? '▲' : '▼'} ${Math.abs(c.change_24h).toFixed(2)}% (24h)`, l: `${BASE_URL}/coins/${c.id}`, d: `${c.name} at ${usd(c.price_usd)}, ${c.change_24h.toFixed(2)}% over 24h.` })),
       ];
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>
-        <title>SoapBox Markets — trending &amp; movers</title><link>${BASE_URL}</link>
+        <title>SoapBox Data — trending &amp; movers</title><link>${BASE_URL}</link>
         <description>Trending coins and top 24h movers on SoapBox.</description>
         ${items.map((i) => `<item><title>${esc(i.t)}</title><link>${esc(i.l)}</link><guid isPermaLink="true">${esc(i.l)}</guid><description>${esc(i.d)}</description></item>`).join('')}
         </channel></rss>`;
