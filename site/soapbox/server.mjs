@@ -93,9 +93,17 @@ async function listPage({ page = 1 } = {}) {
     ${market.length >= PER_PAGE ? `<a href="/coins?page=${page + 1}">next →</a>` : ''}
   </div>`;
 
-  const idxTrend = idx.length > 1 ? `<span class=muted style="margin-left:10px">market 7d ${sparkline(idx.map((d) => d.p), 110, 22)} ${pct((idx[idx.length - 1].p / idx[0].p - 1) * 100)}</span>` : '';
-  const body = `${statsbar}<h1>Markets ${idxTrend}</h1>
-    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. The 7d market line is a cap-weighted index of the top 50.</p>
+  const idxCard = idx.length > 1 ? `<div class=card style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 14px">
+    <div>
+      <div class=k style="color:var(--mut);font-size:12px">Total crypto market — 7-day trend</div>
+      <div style="font-size:13px">${pct((idx[idx.length - 1].p / idx[0].p - 1) * 100)} over 7 days
+        <span class=muted>· market-cap-weighted index of the top 50 coins (each coin's 7-day price move, weighted by its market cap, rebased to 100)</span></div>
+    </div>
+    <div style="margin-left:auto" title="A blended index of the top 50 coins' last 7 days, weighted by market cap. Up = the overall market rose; down = it fell.">${sparkline(idx.map((d) => d.p), 160, 40)}</div>
+  </div>` : '';
+  const body = `${statsbar}<h1>Markets</h1>
+    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
+    ${idxCard}
     ${moversBlock}
     <div id=recent style="margin:0 0 12px"></div>
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
