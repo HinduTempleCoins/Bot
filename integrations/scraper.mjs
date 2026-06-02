@@ -194,7 +194,15 @@ async function searchArxiv(query, limit) {              // preprints (CS / physi
   }).filter((x) => x.title && x.url);
 }
 
-export const PROVIDERS = { duckduckgo: searchDuckDuckGo, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+// Marginalia — an independent, non-commercial search engine (own crawl/index) with a public API.
+// Surfaces the small/old/text web the big engines bury — a genuinely different view. Keyless.
+async function searchMarginalia(query, limit) {
+  const r = await withTimeout(`https://api.marginalia.nu/public/search/${encodeURIComponent(query)}?count=${limit}`, { headers: { 'user-agent': UA } });
+  const d = await r.json().catch(() => ({}));
+  return (d.results || []).slice(0, limit).map((x) => ({ title: x.title, url: x.url, snippet: (x.description || '').slice(0, 150), provider: 'marginalia' })).filter((x) => x.title && x.url);
+}
+
+export const PROVIDERS = { duckduckgo: searchDuckDuckGo, marginalia: searchMarginalia, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
 // scholarly/authoritative providers — weighted ABOVE general web in searchAll (research > popular opinion).
 export const SCHOLARLY = new Set(['crossref', 'pubmed', 'openalex', 'semanticscholar', 'arxiv', 'pubchem', 'wikidata']);
 // knowledge providers are queried by searchAll too, but irrelevant ones simply return [] (e.g. PubChem
@@ -247,8 +255,21 @@ export async function research(query, { results = 6, fetchTop = 3, maxChars = 60
   };
 }
 
+// ── translation hub (keyless) — so foreign search results / sources are usable in the Resource
+// Center. MyMemory free API (no key); auto-detect source with from='auto'. Best-effort.
+export async function translate(text, { from = 'auto', to = 'en' } = {}) {
+  const q = String(text || '').slice(0, 500);
+  if (!q) return { text: '', translated: '', from, to };
+  try {
+    const r = await withTimeout(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${from === 'auto' ? 'Autodetect' : from}|${to}`, { headers: { 'user-agent': UA } });
+    const d = await r.json().catch(() => ({}));
+    return { text: q, translated: d?.responseData?.translatedText || q, from, to };
+  } catch { return { text: q, translated: q, from, to }; }
+}
+
 if (process.argv[1] && process.argv[1].endsWith('scraper.mjs')) {
   const [cmd, ...rest] = process.argv.slice(2);
+  if (cmd === 'translate') { const r = await translate(rest.slice(1).join(' '), { to: rest[0] || 'en' }); console.log(r.translated); process.exit(0); }
   if (cmd === 'search') { const r = await search(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. ${x.title}\n   ${x.url}\n   ${x.snippet.slice(0, 120)}`)); }
   else if (cmd === 'research') { const r = await research(rest.join(' ')); console.log(`query: ${r.query}\n`); r.sources.forEach((s) => console.log(`• ${s.title} ${s.fetched ? '✓fetched ' + s.markdown.length + 'ch' : ''}\n  ${s.url}`)); }
   else if (cmd === 'screenshot') { const r = await screenshot(rest[0], { path: rest[1] || '/tmp/shot.png' }); console.log(JSON.stringify(r)); }
