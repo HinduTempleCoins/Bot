@@ -113,6 +113,21 @@ createServer((req, res) => {
     if (p === '/' || p === '/wiki' || p === '/wiki/') return send(indexPage());
     if (p.startsWith('/wiki/')) { const r = articlePage(decodeURIComponent(p.slice('/wiki/'.length))); return send(r.html, r.code); }
     if (p === '/search') return send(searchPage(url.searchParams.get('q')));
+    if (p === '/api/search') {
+      const q = (url.searchParams.get('q') || '').trim().toLowerCase();
+      const arts = listArticles();
+      const results = !q ? [] : arts.map((a) => {
+        const text = (() => { try { return fs.readFileSync(a.file, 'utf8'); } catch { return ''; } })();
+        const lc = text.toLowerCase();
+        const titleHit = a.title.toLowerCase().includes(q);
+        const idx = lc.indexOf(q);
+        const n = titleHit ? 100 : (idx >= 0 ? 10 : 0);
+        const snippet = idx >= 0 ? text.slice(Math.max(0, idx - 60), idx + 120).replace(/\s+/g, ' ').trim() : '';
+        return { slug: a.slug, title: a.title, url: `${BASE_URL}/wiki/${a.slug}`, score: n, snippet };
+      }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score).slice(0, 8);
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' });
+      return res.end(JSON.stringify({ q, count: results.length, results }));
+    }
     if (p === '/about') return send(aboutPage());
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemap()); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }

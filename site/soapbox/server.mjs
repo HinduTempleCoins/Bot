@@ -458,6 +458,13 @@ createServer(async (req, res) => {
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
     // the steemd query layer over HTTP — the same router Discord/Telegram/Hathor use. ?q=price+VKBT
+    // proxy the Library search so data. and wiki. share one knowledge API (operator: connect the APIs)
+    if (p === '/api/library') {
+      const q = url.searchParams.get('q') || '';
+      const wiki = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
+      try { const r = await fetch(`${wiki}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(8000) }); return json(res, 200, await r.json()); }
+      catch (e) { return json(res, 502, { error: e.message }); }
+    }
     if (p === '/api/steemd') {
       const { runCommand } = await import('../../integrations/soapbox/steemd.mjs');
       const r = await runCommand(url.searchParams.get('q') || 'help').catch((e) => ({ ok: false, text: e.message, data: null }));

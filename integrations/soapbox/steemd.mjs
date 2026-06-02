@@ -150,11 +150,24 @@ export const COMMANDS = {
     return ok('**Learn** — what gives a token value, scam patterns, how the Clarity Score works, burn-to-feature, DYOR:\nhttps://data.soapbox.community/learn', null);
   },
 
+  async library(args) {
+    const q = args.join(' ').trim();
+    if (!q) return ok('**Library of Ashurbanipal** — the VKFRI knowledge base, fact-checked: https://wiki.soapbox.community\nTry `library <topic>` to search.', null);
+    const base = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
+    try {
+      const r = await fetch(`${base}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(8000) });
+      const d = await r.json();
+      if (!d.results?.length) return ok(`No Library articles for "${q}". Browse: ${base}`, d);
+      return ok(`**Library — "${q}"**\n${d.results.slice(0, 5).map((a) => `• [${a.title}](${a.url})`).join('\n')}`, d.results);
+    } catch (e) { return err(`Library unavailable right now (${e.message}).`); }
+  },
+  async wiki(args) { return COMMANDS.library(args); }, // alias
+
   async help() {
     return ok([
       '**SoapBox steemd** — query the ecosystem state:',
       '`price <sym>` · `clarity <sym>` · `holders <sym>` · `convert <amt> <sym>` · `compare <a> <b>`',
-      '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn`',
+      '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn` · `library <topic>`',
       '_Reads the condenser (one source of truth). Starts with the CMC; grows as MELEK and more apps come online._',
       'Full site: https://data.soapbox.community',
     ].join('\n'), Object.keys(COMMANDS));
