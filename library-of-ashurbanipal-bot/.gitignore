@@ -2,3 +2,7 @@ node_modules/
 logs/
 generated-articles/
 .env
+node_modules/
+data/
+.env
+generated-articles/
