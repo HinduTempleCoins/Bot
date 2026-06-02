@@ -30,13 +30,41 @@ const STYLE = `<style>
 
 const NAV = [['/', 'Library'], ['/search', 'Search'], ['/about', 'About'], ['https://data.soapbox.community', 'Markets']];
 
-export function layout({ title, description = '', canonical = '', jsonld = null, body = '' }) {
+// Serialize a JSON-LD object safely for embedding in a <script type="application/ld+json"> tag.
+// Two jobs: (1) prevent any unfilled {placeholder} template token from leaking into the page —
+// strings containing one are dropped, and the whole node is rejected if a placeholder survives;
+// (2) escape "</" so the JSON can never break out of the script element. Returns '' if invalid.
+export function safeJsonLd(obj) {
+  const PLACEHOLDER = /\{[A-Za-z0-9_.\-]+\}/; // e.g. {title}, {date_published}
+  const clean = (v) => {
+    if (typeof v === 'string') return PLACEHOLDER.test(v) ? undefined : v;
+    if (Array.isArray(v)) { const a = v.map(clean).filter((x) => x !== undefined); return a.length ? a : undefined; }
+    if (v && typeof v === 'object') {
+      const o = {};
+      for (const [k, val] of Object.entries(v)) { const c = clean(val); if (c !== undefined) o[k] = c; }
+      return Object.keys(o).length ? o : undefined;
+    }
+    return v; // numbers, booleans, null
+  };
+  const cleaned = clean(obj);
+  if (cleaned === undefined) return '';
+  let s;
+  try { s = JSON.stringify(cleaned); } catch { return ''; }
+  if (PLACEHOLDER.test(s)) return ''; // belt-and-suspenders: never emit a leaked token
+  return s.replace(/<\/(script)/gi, '<\\/$1');
+}
+
+export function layout({ title, description = '', canonical = '', jsonld = null, ogType = 'article', body = '' }) {
   const desc = esc(description || `${title} — the Library of Ashurbanipal, the Van Kush Family Research Institute knowledge base.`);
+  const url = canonical ? esc(canonical) : '';
+  // JSON-LD must never leak a {placeholder} template token; stringify + a defensive sweep below.
+  const ld = jsonld ? safeJsonLd(jsonld) : '';
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)} — Library of Ashurbanipal</title>
-<meta name=description content="${desc}">${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="article">
-${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}${STYLE}</head>
+<meta name=description content="${desc}">${canonical ? `<link rel=canonical href="${url}">` : ''}
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="${esc(ogType)}"><meta property="og:site_name" content="Library of Ashurbanipal">${url ? `<meta property="og:url" content="${url}">` : ''}
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${desc}">
+${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${STYLE}</head>
 <body><header class=top><a class=brand href="/">📜 Library of Ashurbanipal <span>VKFRI</span></a>
 <nav>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</nav></header>
 <main class=wrap>${body}</main>

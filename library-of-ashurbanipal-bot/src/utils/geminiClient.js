@@ -27,9 +27,35 @@ async function loadRouter() {
   return _routerComplete;
 }
 
+// #88 — rate-limit / backoff + cost guard knobs (all env-overridable; safe defaults).
+const LLM_MAX_RETRIES = Math.max(0, Number(process.env.LLM_MAX_RETRIES ?? 4));        // attempts AFTER the first
+const LLM_BACKOFF_BASE_MS = Math.max(50, Number(process.env.LLM_BACKOFF_BASE_MS ?? 800));
+const LLM_BACKOFF_MAX_MS = Math.max(1000, Number(process.env.LLM_BACKOFF_MAX_MS ?? 20000));
+const LLM_MAX_CALLS_PER_RUN = Math.max(0, Number(process.env.LLM_MAX_CALLS_PER_RUN ?? 0)); // 0 = unlimited
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Raised when the per-run cost guard trips. Callers (the generator) can catch this to stop cleanly.
+export class LLMBudgetExceededError extends Error {
+  constructor(limit) { super(`LLM call budget exceeded (${limit} calls/run)`); this.name = 'LLMBudgetExceededError'; this.budget = limit; }
+}
+
+// Is this error worth retrying? Rate limits (429) and transient 5xx / network blips are; a bad
+// request, auth failure, or safety block is not (retrying just burns the budget).
+function isRetryable(err) {
+  const s = err?.status ?? err?.response?.status ?? err?.statusCode;
+  if (s === 429) return true;
+  if (typeof s === 'number' && s >= 500) return true;
+  const msg = String(err?.message || err).toLowerCase();
+  return /rate|quota|429|timeout|temporarily|unavailable|overloaded|503|econn|socket|network|fetch failed/.test(msg);
+}
+
 class GeminiClient {
   constructor(apiKey) {
     this.genAI = new GoogleGenerativeAI(apiKey);
+    // #88 cost guard: count every LLM call (Gemini attempts + router fallbacks) against a per-run cap.
+    this.callCount = 0;
+    this.maxCallsPerRun = LLM_MAX_CALLS_PER_RUN;
     this.model = this.genAI.getGenerativeModel({
       // gemini-2.0-flash-lite was retired by Google (404). Use a current model; overridable via env.
       model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
@@ -66,6 +92,44 @@ STYLE:
   }
 
   /**
+   * #88 — cost guard. Charge one LLM call against the per-run budget. Logs and throws
+   * LLMBudgetExceededError when the cap is reached so the run stops cleanly instead of silently
+   * burning quota. A cap of 0 means unlimited.
+   */
+  _charge(label = 'llm') {
+    this.callCount += 1;
+    if (this.maxCallsPerRun > 0 && this.callCount > this.maxCallsPerRun) {
+      console.error(`[GeminiClient] cost guard tripped: ${this.callCount - 1}/${this.maxCallsPerRun} calls used this run — stopping (${label}).`);
+      throw new LLMBudgetExceededError(this.maxCallsPerRun);
+    }
+  }
+
+  /**
+   * #88 — run an async LLM operation with exponential backoff + retry. `fn` is called up to
+   * (LLM_MAX_RETRIES + 1) times; only retryable errors (429 / 5xx / transient network) are retried,
+   * with jittered exponential backoff. Each attempt is charged against the cost guard. The last
+   * error is rethrown so the caller's existing fallback logic still runs.
+   */
+  async _withRetry(fn, label = 'llm') {
+    let lastErr;
+    for (let attempt = 0; attempt <= LLM_MAX_RETRIES; attempt++) {
+      this._charge(label); // a LLMBudgetExceededError here is intentional and not retried
+      try {
+        return await fn();
+      } catch (err) {
+        lastErr = err;
+        if (err instanceof LLMBudgetExceededError) throw err;
+        if (attempt >= LLM_MAX_RETRIES || !isRetryable(err)) break;
+        const backoff = Math.min(LLM_BACKOFF_MAX_MS, LLM_BACKOFF_BASE_MS * 2 ** attempt);
+        const wait = Math.round(backoff * (0.5 + Math.random())); // jitter 0.5x–1.5x
+        console.error(`[GeminiClient] ${label}: attempt ${attempt + 1} failed (${err?.status || err?.message || err}); retrying in ${wait}ms`);
+        await sleep(wait);
+      }
+    }
+    throw lastErr;
+  }
+
+  /**
    * #181 — fallback to the provider-agnostic router when the Gemini call fails. The SAME synthesis
    * prompt and grounding rules are preserved: the systemInstruction is passed as the router `system`
    * and the originally-built user prompt is passed verbatim. Returns the text, or rethrows the
@@ -76,8 +140,11 @@ STYLE:
    * @param {object} [opts]           router opts (task hint, temperature, maxTokens)
    */
   async _routerFallback(prompt, geminiError, opts = {}) {
+    // a budget trip on the Gemini path should NOT trigger a fallback that burns more quota.
+    if (geminiError instanceof LLMBudgetExceededError) throw geminiError;
     const complete = await loadRouter();
     if (!complete) throw geminiError;               // no router on disk → preserve prior behaviour
+    this._charge('router-fallback');                // the fallback is itself a (paid) LLM call
     const res = await complete(prompt, {
       system: this.systemInstruction,
       // Gemini is primary; the router skips it (no GEMINI_API_KEY or it just failed) and uses the
@@ -102,19 +169,21 @@ STYLE:
     const prompt = this.buildSynthesisPrompt(topic, context, existingArticle);
 
     try {
-      const chat = this.model.startChat({
-        history: [{
-          role: 'user',
-          parts: [{ text: this.systemInstruction }]
-        }, {
-          role: 'model',
-          parts: [{ text: 'I understand. I am the Library of Ashurbanipal. I will write reference articles strictly from the provided source excerpts — reporting only what the sources state, never inventing facts, dates, mechanisms, or connections, and clearly separating established science from VKFRI hypotheses. If the sources are thin, I will say so rather than fill gaps. How may I help?' }]
-        }]
-      });
-
-      const result = await chat.sendMessage(prompt);
-      return result.response.text();
+      return await this._withRetry(async () => {
+        const chat = this.model.startChat({
+          history: [{
+            role: 'user',
+            parts: [{ text: this.systemInstruction }]
+          }, {
+            role: 'model',
+            parts: [{ text: 'I understand. I am the Library of Ashurbanipal. I will write reference articles strictly from the provided source excerpts — reporting only what the sources state, never inventing facts, dates, mechanisms, or connections, and clearly separating established science from VKFRI hypotheses. If the sources are thin, I will say so rather than fill gaps. How may I help?' }]
+          }]
+        });
+        const result = await chat.sendMessage(prompt);
+        return result.response.text();
+      }, 'synthesize');
     } catch (error) {
+      if (error instanceof LLMBudgetExceededError) throw error;
       console.error('[GeminiClient] Synthesis error:', error);
       // #181 — keep generation alive on another provider instead of hard-failing.
       return this._routerFallback(prompt, error, { task: 'quality' });
@@ -141,19 +210,21 @@ Provide a comprehensive answer that:
 4. Notes any gaps or areas needing more research`;
 
     try {
-      const chat = this.model.startChat({
-        history: [{
-          role: 'user',
-          parts: [{ text: this.systemInstruction }]
-        }, {
-          role: 'model',
-          parts: [{ text: 'Ready to answer questions by synthesizing knowledge from the archives.' }]
-        }]
-      });
-
-      const result = await chat.sendMessage(prompt);
-      return result.response.text();
+      return await this._withRetry(async () => {
+        const chat = this.model.startChat({
+          history: [{
+            role: 'user',
+            parts: [{ text: this.systemInstruction }]
+          }, {
+            role: 'model',
+            parts: [{ text: 'Ready to answer questions by synthesizing knowledge from the archives.' }]
+          }]
+        });
+        const result = await chat.sendMessage(prompt);
+        return result.response.text();
+      }, 'answer');
     } catch (error) {
+      if (error instanceof LLMBudgetExceededError) throw error;
       console.error('[GeminiClient] Answer error:', error);
       return this._routerFallback(prompt, error, { task: 'quality' });
     }
@@ -178,9 +249,12 @@ Provide:
 4. How this connects to existing knowledge (especially Oilahuasca, Headcones, Shulgin research)`;
 
     try {
-      const result = await this.model.generateContent(prompt);
-      return result.response.text();
+      return await this._withRetry(async () => {
+        const result = await this.model.generateContent(prompt);
+        return result.response.text();
+      }, 'analyze');
     } catch (error) {
+      if (error instanceof LLMBudgetExceededError) throw error;
       console.error('[GeminiClient] Update analysis error:', error);
       return this._routerFallback(prompt, error, { task: 'default' });
     }
@@ -283,9 +357,12 @@ ${contextText.slice(0, 2000)}
 Give a concise, informative response suitable for Discord. Mention which topics to explore for more depth.`;
 
     try {
-      const result = await this.model.generateContent(prompt);
-      return result.response.text();
+      return await this._withRetry(async () => {
+        const result = await this.model.generateContent(prompt);
+        return result.response.text();
+      }, 'brief');
     } catch (error) {
+      if (error instanceof LLMBudgetExceededError) throw error;
       console.error('[GeminiClient] Brief response error:', error);
       // shorter Discord answer — bias to a cheap/fast provider on fallback.
       return this._routerFallback(prompt, error, { task: 'cheap', maxTokens: 1024 });

@@ -43,6 +43,33 @@ function flagsForArticle(refs) {
   return out;
 }
 
+// First real prose paragraph of an article, for meta description / og / JSON-LD. Strips the bot
+// preamble, MediaWiki markup, headers, lists and refs; clamps to ~200 chars on a word boundary.
+function articleDescription(text, fallbackTitle) {
+  let t = String(text || '').replace(/^[\s\S]*?presents the following wiki article:\s*-*\s*/i, '');
+  for (const raw of t.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (/^(=|\*|#|\|)/.test(line)) continue;            // headers, lists, table rows
+    const plain = line
+      .replace(/<ref>[^<]*<\/ref>/gi, '')                // drop citations
+      .replace(/'''?(.+?)'''?/g, '$1')                   // bold/italic
+      .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g, '$1')        // [[link|text]]
+      .replace(/\[\[([^\]]+)\]\]/g, '$1')                 // [[link]]
+      .replace(/\s+/g, ' ').trim();
+    if (plain.length < 30) continue;
+    if (plain.length <= 200) return plain;
+    return plain.slice(0, 200).replace(/\s+\S*$/, '') + '…';
+  }
+  return `${fallbackTitle} — an article in the Library of Ashurbanipal.`;
+}
+
+// Best-effort publication date (ISO yyyy-mm-dd) from the article file's mtime. Returns '' on error
+// so the JSON-LD simply omits datePublished rather than asserting a fabricated date.
+function articleDate(file) {
+  try { return fs.statSync(file).mtime.toISOString().slice(0, 10); } catch { return ''; }
+}
+
 function articlePage(slug) {
   const a = readArticle(slug);
   if (!a) return { code: 404, html: layout({ title: 'Not found', body: `<h1>Not found</h1><p class=muted>No article "${esc(slug)}". <a href="/">← Library</a></p>` }) };
@@ -50,9 +77,26 @@ function articlePage(slug) {
   const flags = flagsForArticle(refs);
   const flagBlock = flags.length ? `<div class=flag><b>⚠️ Fact-check flags (${flags.length})</b> — the knowledge base sources for this article contain claims our fact-checker could not verify against external reality. Treat the following with caution:
     <ul>${flags.slice(0, 10).map((f) => `<li>[${esc(f.verdict)}] ${esc(f.claim)}${f.reason ? ` — <span class=muted>${esc(f.reason)}</span>` : ''}</li>`).join('')}</ul></div>` : '';
-  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, url: `${BASE_URL}/wiki/${a.slug}`, isPartOf: 'Library of Ashurbanipal' };
+  // description: first prose paragraph of the rendered article, trimmed for og:/meta/JSON-LD.
+  const descText = articleDescription(a.text, a.title);
+  const url = `${BASE_URL}/wiki/${a.slug}`;
+  // schema.org Article. datePublished is best-effort from the file mtime; omitted (not faked) if
+  // unavailable. No {placeholder} tokens here, and safeJsonLd() strips any that slip through.
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: a.title,
+    description: descText,
+    url,
+    mainEntityOfPage: url,
+    author: { '@type': 'Organization', name: 'Library of Ashurbanipal' },
+    publisher: { '@type': 'Organization', name: 'Van Kush Family Research Institute' },
+    isPartOf: { '@type': 'CreativeWorkSeries', name: 'Library of Ashurbanipal' },
+  };
+  const datePublished = articleDate(a.file);
+  if (datePublished) jsonld.datePublished = datePublished;
   const body = `<p class=muted><a href="/">← Library</a></p><h1>${esc(a.title)}</h1>${flagBlock}${html}${footnotes}`;
-  return { code: 200, html: layout({ title: a.title, canonical: `${BASE_URL}/wiki/${a.slug}`, jsonld, body }) };
+  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body }) };
 }
 
 function indexPage() {
@@ -101,8 +145,11 @@ function aboutPage() {
 }
 
 function sitemap() {
-  const urls = ['/', '/about', '/search', ...listArticles().map((a) => `/wiki/${a.slug}`)];
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${BASE_URL}${encodeURI(u)}</loc></url>`).join('\n')}\n</urlset>`;
+  const statics = ['/', '/about', '/search'].map((u) => ({ loc: u, lastmod: '' }));
+  const arts = listArticles().map((a) => ({ loc: `/wiki/${a.slug}`, lastmod: articleDate(a.file) }));
+  const entries = [...statics, ...arts];
+  const node = (e) => `  <url><loc>${BASE_URL}${encodeURI(e.loc)}</loc>${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}<changefreq>weekly</changefreq></url>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(node).join('\n')}\n</urlset>`;
 }
 
 createServer((req, res) => {
