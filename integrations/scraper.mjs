@@ -171,10 +171,35 @@ async function searchPubMed(query, limit) {             // biomedical / pharmaco
   return ids.map((id) => res[id]).filter(Boolean).map((a) => ({ title: a.title, url: `https://pubmed.ncbi.nlm.nih.gov/${a.uid}/`, snippet: `${a.source || ''} ${a.pubdate || ''}`.trim(), provider: 'pubmed' }));
 }
 
+async function searchOpenAlex(query, limit) {           // scholarly works (keyless, reliable)
+  const r = await withTimeout(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per_page=${limit}&select=title,doi,id,publication_year,primary_location`, { headers: { 'user-agent': UA } });
+  const d = await r.json().catch(() => ({}));
+  return (d.results || []).map((w) => ({ title: w.title || '', url: w.doi || w.primary_location?.landing_page_url || w.id, snippet: `${w.primary_location?.source?.display_name || ''} ${w.publication_year || ''}`.trim(), provider: 'openalex' })).filter((x) => x.title && x.url);
+}
+async function searchSemanticScholar(query, limit) {    // peer-reviewed papers (best-effort; rate-limited without a key)
+  const r = await withTimeout(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=${limit}&fields=title,url,year,venue`, { headers: { 'user-agent': UA } });
+  if (!r.ok) return [];
+  const d = await r.json().catch(() => ({}));
+  return (d.data || []).map((p) => ({ title: p.title, url: p.url, snippet: `${p.venue || ''} ${p.year || ''}`.trim(), provider: 'semanticscholar' })).filter((x) => x.title && x.url);
+}
+async function searchArxiv(query, limit) {              // preprints (CS / physics / math — e.g. multi-agent AI)
+  const r = await withTimeout(`http://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=${limit}`, { headers: { 'user-agent': UA } });
+  const xml = await r.text();
+  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].slice(0, limit).map((m) => {
+    const e = m[1];
+    const title = (e.match(/<title>([\s\S]*?)<\/title>/) || [, ''])[1].replace(/\s+/g, ' ').trim();
+    const url = (e.match(/<id>([^<]+)<\/id>/) || [, ''])[1].trim();
+    const snippet = (e.match(/<summary>([\s\S]*?)<\/summary>/) || [, ''])[1].replace(/\s+/g, ' ').trim().slice(0, 160);
+    return { title, url, snippet, provider: 'arxiv' };
+  }).filter((x) => x.title && x.url);
+}
+
 export const PROVIDERS = { duckduckgo: searchDuckDuckGo, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+// scholarly/authoritative providers — weighted ABOVE general web in searchAll (research > popular opinion).
+export const SCHOLARLY = new Set(['crossref', 'pubmed', 'openalex', 'semanticscholar', 'arxiv', 'pubchem', 'wikidata']);
 // knowledge providers are queried by searchAll too, but irrelevant ones simply return [] (e.g. PubChem
 // for a non-compound query) so they add authoritative depth without noise.
-export const KNOWLEDGE = { pubchem: searchPubChem, wikidata: searchWikidata, crossref: searchCrossRef, pubmed: searchPubMed };
+export const KNOWLEDGE = { pubchem: searchPubChem, wikidata: searchWikidata, crossref: searchCrossRef, pubmed: searchPubMed, openalex: searchOpenAlex, semanticscholar: searchSemanticScholar, arxiv: searchArxiv };
 
 /** Single-provider search (default duckduckgo). Cached. */
 export async function search(query, { limit = 8, provider = 'duckduckgo' } = {}) {
@@ -202,7 +227,10 @@ export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
     if (!byUrl.has(k)) byUrl.set(k, { ...r, providers: [r.provider] });
     else { const e = byUrl.get(k); if (!e.providers.includes(r.provider)) e.providers.push(r.provider); if (!e.snippet && r.snippet) e.snippet = r.snippet; }
   });
-  return [...byUrl.values()].sort((a, b) => b.providers.length - a.providers.length).slice(0, limit);
+  // rank: scholarly sources weighted ABOVE general web (research papers > popular opinion), then by
+  // how many providers agree. A result seen by any SCHOLARLY provider gets a +3 bonus.
+  const score = (r) => r.providers.length + (r.providers.some((p) => SCHOLARLY.has(p)) ? 3 : 0);
+  return [...byUrl.values()].sort((a, b) => score(b) - score(a) || b.providers.length - a.providers.length).slice(0, limit);
 }
 
 /**
