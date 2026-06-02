@@ -317,24 +317,134 @@ export async function searchMultilingual(query, { langs = WIKI_LANGS, limit = 5 
   return [...byUrl.values()];
 }
 
+// ── ranking + digestibility helpers for searchAll ──────────────────────────────────────────────
+// Tracking/analytics params we strip before deduping so the SAME page found by different engines
+// (each appending its own utm_*/ref) collapses into one result whose provider list is COMBINED.
+const TRACKING_PARAMS = /^(utm_|fbclid$|gclid$|mc_|ref$|ref_src$|igshid$|spm$|cmpid$|_ga$|yclid$|msclkid$|source$|src$|campaign$)/i;
+
+// Normalize a URL for cross-provider dedup: http→https, drop www, strip tracking query params (keep
+// meaningful ones, e.g. ?v= / ?id=), drop fragments, collapse trailing slash, lowercase host. Falls
+// back to a light regex normalization if the URL won't parse.
+export function normalizeUrl(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  try {
+    const u = new URL(s);
+    u.protocol = 'https:';
+    u.hash = '';
+    u.hostname = u.hostname.replace(/^www\./i, '').toLowerCase();
+    if (u.searchParams && [...u.searchParams.keys()].length) {
+      for (const k of [...u.searchParams.keys()]) if (TRACKING_PARAMS.test(k)) u.searchParams.delete(k);
+      // canonical param order so ?a=1&b=2 == ?b=2&a=1
+      u.searchParams.sort();
+    }
+    let out = u.toString();
+    out = out.replace(/\?$/, '').replace(/\/(?=$|\?)/, (m, off) => (u.pathname === '/' ? m : '')); // drop trailing slash except bare root
+    out = out.replace(/([^:])\/(\?|$)/, '$1$2'); // belt-and-suspenders trailing-slash trim
+    return out;
+  } catch {
+    return s.replace(/^http:/i, 'https:').replace(/#.*$/, '').replace(/\/+$/, '').replace(/^https:\/\/www\./i, 'https://');
+  }
+}
+
+// Domain-authority hint. Authoritative reference/primary-source domains rank up; SEO-farm/listicle
+// patterns rank down. Best-effort — a hint, not a hard filter (spam still appears, just lower).
+const AUTHORITY_TLD = /\.(edu|gov|mil|int|ac\.[a-z]{2}|gov\.[a-z]{2}|edu\.[a-z]{2})(\/|$|:)/i;
+const AUTHORITY_HOST = /(^|\.)(wikipedia\.org|wikidata\.org|wikimedia\.org|britannica\.com|nature\.com|science\.org|sciencedirect\.com|springer\.com|jstor\.org|arxiv\.org|doi\.org|ncbi\.nlm\.nih\.gov|pubmed\.|who\.int|un\.org|nasa\.gov|archive\.org|stanford\.edu|mit\.edu|ietf\.org|rfc-editor\.org)/i;
+const SPAM_HOST = /(^|\.)(pinterest\.|quora\.com|answers\.com|ehow\.com|wikihow\.com|buzzfeed\.|listverse\.com|ranker\.com|thetoptens\.com|examples?\.com|geeksforgeeks\.org|w3schools\.com|tutorialspoint\.com|brainly\.|coursehero\.com|studocu\.com|slideshare\.net|scribd\.com|medium\.com|.*\.blogspot\.|.*\.wordpress\.com)/i;
+const SPAM_TITLE = /\b(top|best)\s+\d+\b|\b\d+\s+(best|top|ways|things|reasons|tips|tricks|hacks)\b|you won'?t believe|clickbait/i;
+
+function hostOf(url) { try { return new URL(url).hostname.replace(/^www\./i, '').toLowerCase(); } catch { return ''; } }
+
+// Split a query into meaningful lowercased terms (drop stopwords/short tokens) for title matching.
+const STOP = new Set(['the', 'a', 'an', 'of', 'and', 'or', 'to', 'in', 'on', 'for', 'is', 'are', 'what', 'how', 'why', 'who', 'with', 'de', 'la', 'el', 'le', 'der', 'die', 'das']);
+function queryTerms(query) {
+  return String(query || '').toLowerCase().split(/[^\p{L}\p{N}]+/u).filter((t) => t.length > 2 && !STOP.has(t));
+}
+
+// Clean a snippet for human/LLM digestibility: strip residual HTML, decode common entities, collapse
+// whitespace, cap length on a word boundary with an ellipsis. Returns '' for empty input.
+export function cleanSnippet(s, max = 220) {
+  let t = String(s || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&#0?39;/g, "'").replace(/&#x27;/gi, "'").replace(/&quot;/g, '"').replace(/&#?[a-z0-9]+;/gi, ' ')
+    .replace(/\s+/g, ' ').trim();
+  if (t.length > max) t = t.slice(0, max).replace(/\s+\S*$/, '').trim() + '…';
+  return t;
+}
+
 /**
- * Aggregate across ALL enabled providers (keyed ones auto-skip if no key) → merged, deduped by URL,
- * ranked by how many providers returned it. The "better set of information" — not one engine's view.
+ * Aggregate across ALL enabled providers (keyed ones auto-skip if no key) → merged, deduped by a
+ * NORMALIZED url (so the same page from different engines collapses and its provider lists combine),
+ * then ranked by a composite QUALITY score: provider corroboration + scholarly weight + query-term-
+ * in-title + domain authority − SEO/listicle-spam demotion. Each result is shaped
+ *   { title, url, snippet, providers:[...], score, digest }
+ * where `digest` is a one-line "why this result" hint. Backward compatible: existing callers reading
+ * title/url/snippet/providers keep working; score/digest are additive.
  */
 export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
   if (!query) return [];
   const names = knowledge ? [...Object.keys(PROVIDERS), ...Object.keys(KNOWLEDGE)] : Object.keys(PROVIDERS);
   const lists = await Promise.all(names.map((n) => search(query, { limit: 10, provider: n }).catch(() => [])));
-  const byUrl = new Map();
+  const terms = queryTerms(query);
+
+  // 1) dedup on normalized URL, COMBINING provider lists + keeping the longest clean snippet/best title.
+  const byKey = new Map();
   lists.flat().forEach((r) => {
-    const k = r.url.replace(/[#?].*$/, '').replace(/\/$/, '');
-    if (!byUrl.has(k)) byUrl.set(k, { ...r, providers: [r.provider] });
-    else { const e = byUrl.get(k); if (!e.providers.includes(r.provider)) e.providers.push(r.provider); if (!e.snippet && r.snippet) e.snippet = r.snippet; }
+    if (!r || !r.url) return;
+    const k = normalizeUrl(r.url);
+    if (!k) return;
+    const snip = cleanSnippet(r.snippet);
+    if (!byKey.has(k)) {
+      byKey.set(k, { title: (r.title || '').trim(), url: k, snippet: snip, providers: [r.provider] });
+    } else {
+      const e = byKey.get(k);
+      if (!e.providers.includes(r.provider)) e.providers.push(r.provider);
+      if (snip.length > e.snippet.length) e.snippet = snip;     // prefer the richest snippet
+      if (!e.title && r.title) e.title = r.title.trim();
+    }
   });
-  // rank: scholarly sources weighted ABOVE general web (research papers > popular opinion), then by
-  // how many providers agree. A result seen by any SCHOLARLY provider gets a +3 bonus.
-  const score = (r) => r.providers.length + (r.providers.some((p) => SCHOLARLY.has(p)) ? 3 : 0);
-  return [...byUrl.values()].sort((a, b) => score(b) - score(a) || b.providers.length - a.providers.length).slice(0, limit);
+
+  // 2) composite quality score + a one-line digest of WHY.
+  for (const r of byKey.values()) {
+    const host = hostOf(r.url);
+    const titleLc = (r.title || '').toLowerCase();
+    const hits = terms.filter((t) => titleLc.includes(t)).length;
+    const reasons = [];
+    let s = 0;
+
+    // (d) corroboration: each independent provider beyond the first adds weight.
+    const corrob = r.providers.length;
+    s += corrob;
+    if (corrob >= 3) reasons.push(`corroborated by ${corrob} engines`);
+    else if (corrob === 2) reasons.push('2 engines agree');
+
+    // scholarly boost (kept from before).
+    const scholarly = r.providers.filter((p) => SCHOLARLY.has(p));
+    if (scholarly.length) { s += 4; reasons.push(`scholarly (${scholarly.join('/')})`); }
+
+    // (a) query terms in the title.
+    if (terms.length && hits) { s += Math.min(3, hits) * 1.5; reasons.push(`${hits}/${terms.length} query terms in title`); }
+
+    // (b) domain authority.
+    if (AUTHORITY_HOST.test(host) || AUTHORITY_TLD.test(r.url)) { s += 3; reasons.push('authoritative domain'); }
+
+    // (c) demote listicle / SEO-spam domains + clickbait titles.
+    if (SPAM_HOST.test(host)) { s -= 3; reasons.push('low-authority domain (demoted)'); }
+    if (SPAM_TITLE.test(titleLc)) { s -= 1.5; reasons.push('listicle-style title (demoted)'); }
+
+    // small bonus for having any usable snippet (more digestible).
+    if (r.snippet) s += 0.5;
+
+    r.score = Math.round(s * 100) / 100;
+    r.digest = reasons.length ? reasons.join('; ') : `single source (${r.providers[0]})`;
+  }
+
+  // 3) final list sorted by composite score, ties broken by corroboration then a stable-ish title.
+  return [...byKey.values()]
+    .sort((a, b) => b.score - a.score || b.providers.length - a.providers.length || a.url.localeCompare(b.url))
+    .slice(0, limit);
 }
 
 /**
