@@ -220,13 +220,34 @@ export async function coinChart(id, { days = 7 } = {}) {
   });
 }
 
+// The timeframe choices offered on every coin page: [range-key, label, coingecko-days]. '1h' reuses the
+// keyless days=1 series (5-min granularity) and slices the last hour. 'max' = all history we can get.
+export const CHART_RANGES = [['1h', '1H', 1], ['1d', '1D', 1], ['7d', '7D', 7], ['30d', '1M', 30], ['365d', '1Y', 365], ['max', 'All', 'max']];
+
+/** Price series for a chart range-key (1h|1d|7d|30d|365d|max). Works for CoinGecko + Hive-Engine ids. */
+export async function coinChartRange(id, range = '7d') {
+  const row = CHART_RANGES.find((r) => r[0] === range) || CHART_RANGES.find((r) => r[0] === '7d');
+  const days = row[2];
+  let series = await coinChart(id, { days });
+  // 'max': CoinGecko's KEYLESS API caps history at 365d, so days=max comes back empty for those coins —
+  // fall back to 365 so "All" still shows the most we can get. (Hive-Engine ids read full on-chain history.)
+  if (range === 'max' && series.length < 2) series = await coinChart(id, { days: 365 }).catch(() => series);
+  if (range === '1h' && series.length) {
+    const last = series[series.length - 1].t;
+    const win = series.filter((s) => s.t >= last - 3600);
+    series = win.length >= 2 ? win : series.slice(-12); // fall back to last few points if <1h of data
+  }
+  return series;
+}
+
 // Tier-2 chart: build a real USD price series for a Hive-Engine token from its on-chain trade
 // history (prices are quoted in HIVE → convert via the oracle). This is what gives OUR ecosystem
 // tokens (VKBT/CURE) a genuine chart instead of a placeholder.
 export async function hiveEngineChart(symbol, { days = 7 } = {}) {
   const sym = String(symbol).toUpperCase();
+  const dnum = days === 'max' ? 3650 : days; // 'max' → ~10y of on-chain trade history
   return cached(`chart:he:${sym}:${days}`, TTL.ohlcv, async () => {
-    const cutoff = Math.floor(Date.now() / 1000) - days * 86400;
+    const cutoff = Math.floor(Date.now() / 1000) - dnum * 86400;
     const trades = await find('market', 'tradesHistory', { symbol: sym }, 500, [{ index: 'timestamp', descending: true }]).catch(() => []);
     const hiveUsd = await oracleHiveUsd().catch(() => 0);
     if (!hiveUsd || !trades.length) return [];

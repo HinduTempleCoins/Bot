@@ -11,7 +11,7 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers, officialThreads } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, coinChartRange, CHART_RANGES, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers, officialThreads } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
 import { cached, TTL, stats as cacheStats } from '../../integrations/soapbox/cache.mjs';
@@ -217,7 +217,7 @@ async function coinPage(id) {
       <div class=price>${usd(c.price_usd)}</div>
       <div class=muted>Market cap ${compactUsd(c.market_cap_usd)} · 24h vol ${compactUsd(c.volume_24h_usd)} · source: ${esc(c.source)} (tier ${c.source_tier})${chains ? ' · ' + chains : ''}</div>
     </div>
-    ${priceChart(series)}
+    ${priceChart(series, id, CHART_RANGES)}
     ${marketStats(c.market)}
     ${supplyBar(c.supply)}
     ${extras ? holdersPanel(extras.holders) : ''}
@@ -555,6 +555,12 @@ createServer(async (req, res) => {
     if (p === '/api/coins') {
       const [ours, top] = await Promise.all([ourCoins().catch(() => []), topCoins({ limit: PER_PAGE }).catch(() => [])]);
       return json(res, 200, { source: 'condenser', count: ours.length + top.length, ours, market: top });
+    }
+    if (p === '/api/chart') {
+      const id = url.searchParams.get('id') || '';
+      const range = url.searchParams.get('range') || '7d';
+      const series = await coinChartRange(id, range).catch(() => []);
+      return json(res, 200, { id, range, series });
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
     // the steemd query layer over HTTP — the same router Discord/Telegram/Hathor use. ?q=price+VKBT

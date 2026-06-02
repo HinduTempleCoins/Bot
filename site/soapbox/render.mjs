@@ -55,6 +55,9 @@ const STYLE = `<style>
   .bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin:6px 0} .bar>i{display:block;height:100%;background:var(--blue)}
   input.search{background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:8px 12px;width:100%;max-width:320px;margin:0 0 14px;font-size:14px}
   .spark{vertical-align:middle}
+  .tf{display:inline-flex;gap:4px;flex-wrap:wrap}
+  .tfb{cursor:pointer;background:transparent;border:1px solid var(--line2);border-radius:6px;color:var(--mut);font-weight:600;font-size:12px;padding:4px 10px}
+  .tfb:hover{color:var(--fg);border-color:var(--blue)} .tfb.on{background:var(--blue);color:#06101f;border-color:var(--blue)}
   .pager{display:flex;gap:10px;margin:18px 0;justify-content:center}
   .pager a{padding:7px 14px;border:1px solid var(--line2);border-radius:8px}
   .cmt{border-left:3px solid var(--line2);padding:6px 0 6px 12px;margin:10px 0} .cmt.reply{border-color:var(--up)}
@@ -147,24 +150,44 @@ export function clarityCard(clarity) {
     <p class=muted style="margin-top:8px">method: ${esc(clarity.method || '')}${clarity.computed_at ? ` · ${esc(clarity.computed_at.slice(0, 16))}Z` : ''}</p></div>`;
 }
 
-/** lightweight-charts (Apache-2.0, CDN, attributed) line chart from a {t,p} series. */
-export function priceChart(series) {
+/** lightweight-charts (Apache-2.0, CDN, attributed) line chart with 1H/1D/7D/1M/1Y/All timeframe
+ * buttons. Server-renders the default (7d) series so it works without JS; the buttons fetch
+ * /api/chart?id=&range= and redraw. `ranges` is CHART_RANGES ([key,label,days]); `id` is the coin id. */
+export function priceChart(series, id = '', ranges = [['7d', '7D']]) {
   if (!series || series.length < 2) return `<div class=card><h2>Price</h2><p class=muted>Chart history coming for this tier.</p></div>`;
   const data = series.map((d) => ({ time: d.t, value: d.p }));
-  return `<div class=card><h2>Price <span class=muted style="font-weight:400">· 7d</span></h2>
-    <div id=chart style="height:280px"></div>
+  const def = ranges.some((r) => r[0] === '7d') ? '7d' : ranges[0][0];
+  const btns = id ? `<div class=tf role=group aria-label="Chart timeframe">${ranges.map(([k, l]) => `<button type=button class="tfb${k === def ? ' on' : ''}" data-range="${esc(k)}">${esc(l)}</button>`).join('')}</div>` : '';
+  return `<div class=card>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0">Price <span id=tflabel class=muted style="font-weight:400">· ${esc(ranges.find((r) => r[0] === def)?.[1] || '7d')}</span></h2>${btns}</div>
+    <div id=chart style="height:280px;margin-top:10px"></div>
     <script defer src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
     <script>
       addEventListener('load', function(){
         if(!window.LightweightCharts){return}
-        var c=LightweightCharts.createChart(document.getElementById('chart'),{
-          width:document.getElementById('chart').clientWidth,height:280,
+        var el=document.getElementById('chart');
+        var c=LightweightCharts.createChart(el,{
+          width:el.clientWidth,height:280,
           layout:{background:{color:'transparent'},textColor:'#8b949e'},
           grid:{vertLines:{color:'#21262d'},horzLines:{color:'#21262d'}},
           rightPriceScale:{borderColor:'#30363d'},timeScale:{borderColor:'#30363d'}});
         var s=c.addAreaSeries({lineColor:'#58a6ff',topColor:'#58a6ff44',bottomColor:'#58a6ff00',lineWidth:2});
         s.setData(${JSON.stringify(data)});c.timeScale().fitContent();
-        addEventListener('resize',function(){c.applyOptions({width:document.getElementById('chart').clientWidth})});
+        addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
+        var id=${JSON.stringify(id)};
+        function load(range,btn){
+          fetch('/api/chart?id='+encodeURIComponent(id)+'&range='+range).then(function(r){return r.json()}).then(function(d){
+            if(!d.series||d.series.length<2){return}
+            s.setData(d.series.map(function(p){return {time:p.t,value:p.p}}));c.timeScale().fitContent();
+            var lbl=document.getElementById('tflabel'); if(lbl&&btn){lbl.textContent='· '+btn.textContent}
+          }).catch(function(){});
+        }
+        Array.prototype.forEach.call(document.querySelectorAll('.tfb'),function(b){
+          b.addEventListener('click',function(){
+            Array.prototype.forEach.call(document.querySelectorAll('.tfb'),function(x){x.classList.remove('on')});
+            b.classList.add('on'); load(b.getAttribute('data-range'),b);
+          });
+        });
       })();
     </script>
     <p class=muted style="font-size:11px">Charts: TradingView lightweight-charts (Apache-2.0).</p></div>`;
