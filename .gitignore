@@ -73,3 +73,8 @@ infra/
 cheetah/.image-hashes.json
 .local/wallet-config.json
 store/.data/
+library-of-ashurbanipal-bot/data/indexnow-key.txt
+data/indexnow-key.txt
+
+integrations/soapbox/data/indexnow-key.txt
+site/soapbox/data/

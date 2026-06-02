@@ -29,6 +29,23 @@ export async function trancoRank(domain) {
   } catch { return null; }
 }
 
+/** Tranco rank history (keyless). Returns { points:[{date,rank},…] oldest→newest, latest, first, delta } or null.
+ *  delta = first(oldest) − latest, so a POSITIVE delta means the rank number fell over the window = climbing. */
+export async function trancoTrend(domain, { limit = 30 } = {}) {
+  try {
+    const r = await fetch(`https://tranco-list.eu/api/ranks/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA }, signal: T(8000) });
+    if (!r.ok) return null;
+    const d = await r.json();
+    // API returns newest-first; keep ranked points, cap to `limit`, then reverse to oldest→newest for charting.
+    const ranked = (d.ranks || []).filter((x) => x && x.rank).slice(0, limit).reverse();
+    if (!ranked.length) return null;
+    const points = ranked.map((x) => ({ date: x.date, rank: x.rank }));
+    const latest = points[points.length - 1].rank;
+    const first = points[0].rank;
+    return { points, latest, first, delta: first - latest };
+  } catch { return null; }
+}
+
 /** Registration date + age via RDAP (keyless). Returns { registered, ageYears, registrar } or null. */
 export async function domainAge(domain) {
   try {
@@ -43,16 +60,35 @@ export async function domainAge(domain) {
   } catch { return null; }
 }
 
-/** Combined insights for a domain. seo:false skips the (slower) on-page audit. */
-export async function insights(input, { seo = true } = {}) {
+// Rough category guess from a curated keyword/known-domain map — keyless, best-effort, not authoritative.
+const CATEGORY_HINTS = [
+  ['Search', ['google.', 'bing.', 'duckduckgo.', 'baidu.', 'yandex.', 'ecosia.', 'brave.com', 'startpage.']],
+  ['Social', ['facebook.', 'instagram.', 'tiktok.', 'twitter.', 'x.com', 'reddit.', 'linkedin.', 'pinterest.', 'snapchat.', 'discord.', 'mastodon', 'threads.', 'tumblr.', 'whatsapp.', 'telegram.']],
+  ['Video', ['youtube.', 'netflix.', 'twitch.', 'vimeo.', 'hulu.', 'disneyplus.', 'dailymotion.']],
+  ['Crypto', ['coinbase.', 'binance.', 'kraken.', 'coingecko.', 'coinmarketcap.', 'etherscan.', 'blockchain.', 'tradingview.', 'uniswap.', 'opensea.', 'crypto.com', 'bitcoin.', 'ethereum.']],
+  ['News', ['nytimes.', 'cnn.', 'bbc.', 'reuters.', 'theguardian.', 'wsj.', 'bloomberg.', 'foxnews.', 'washingtonpost.', 'apnews.']],
+  ['Shopping', ['amazon.', 'ebay.', 'aliexpress.', 'walmart.', 'etsy.', 'shopify.', 'alibaba.']],
+  ['Developer', ['github.', 'gitlab.', 'stackoverflow.', 'npmjs.', 'mozilla.org', 'cloudflare.', 'vercel.', 'netlify.']],
+  ['Reference', ['wikipedia.', 'wikimedia.', 'archive.org', 'britannica.']],
+];
+export function guessCategory(domain) {
+  const h = normDomain(domain);
+  if (!h) return null;
+  for (const [cat, keys] of CATEGORY_HINTS) if (keys.some((k) => h.includes(k))) return cat;
+  return null;
+}
+
+/** Combined insights for a domain. seo:false skips the (slower) on-page audit; trend:false skips rank history. */
+export async function insights(input, { seo = true, trend = true } = {}) {
   const domain = normDomain(input);
   if (!domain) return { domain: '', error: 'invalid domain' };
-  const [rank, age, audit] = await Promise.all([
+  const [rank, history, age, audit] = await Promise.all([
     trancoRank(domain),
+    trend ? trancoTrend(domain).catch(() => null) : Promise.resolve(null),
     domainAge(domain),
     seo ? auditPage(`https://${domain}/`).then((a) => ({ score: a.score, fails: a.fails, warns: a.warns })).catch(() => null) : Promise.resolve(null),
   ]);
-  return { domain, rank, age, seo: audit };
+  return { domain, rank, trend: history, age, seo: audit, category: guessCategory(domain) };
 }
 
 if (process.argv[1] && process.argv[1].endsWith('domain-insights.mjs')) {

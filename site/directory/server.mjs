@@ -9,7 +9,7 @@ import { createServer } from 'node:http';
 import { appendFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { DIRECTORY } from '../soapbox/directory.mjs';
-import { insights, normDomain } from '../../integrations/soapbox/domain-insights.mjs';
+import { insights, normDomain, trancoRank } from '../../integrations/soapbox/domain-insights.mjs';
 
 const PORT = +(process.env.PORT || 8094);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -17,10 +17,56 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
+const STOCKS = process.env.STOCKS_SITE || 'https://stocks.soapbox.community';
 const SUBMISSIONS = process.env.DIRECTORY_SUBMISSIONS || new URL('../../data/directory-submissions.jsonl', import.meta.url).pathname;
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const CATS = DIRECTORY.map((g) => g.cat);
+
+// ── Top Sites leaderboard ────────────────────────────────────────────────────
+// The Alexa-top-sites equivalent. Tranco's full top-list is a downloadable CSV; for a keyless surface we
+// curate small well-known domain sets per category and resolve each domain's LIVE Tranco rank at request
+// time, then sort by rank. Same every load → cached hard (LEADERBOARD_TTL). Categories are tabs.
+const LEADERBOARD = {
+  Overall: ['google.com', 'youtube.com', 'facebook.com', 'wikipedia.org', 'amazon.com', 'reddit.com', 'instagram.com', 'x.com', 'tiktok.com', 'linkedin.com', 'netflix.com', 'microsoft.com', 'apple.com', 'bing.com', 'github.com', 'cloudflare.com'],
+  Crypto: ['coinbase.com', 'binance.com', 'coingecko.com', 'coinmarketcap.com', 'tradingview.com', 'etherscan.io', 'kraken.com', 'crypto.com', 'blockchain.com', 'opensea.io', 'uniswap.org', 'bitcoin.org'],
+  Search: ['google.com', 'bing.com', 'duckduckgo.com', 'yandex.com', 'baidu.com', 'ecosia.org', 'brave.com', 'startpage.com'],
+  Social: ['facebook.com', 'instagram.com', 'tiktok.com', 'x.com', 'reddit.com', 'linkedin.com', 'pinterest.com', 'snapchat.com', 'discord.com', 'tumblr.com'],
+  News: ['nytimes.com', 'cnn.com', 'bbc.com', 'reuters.com', 'theguardian.com', 'wsj.com', 'bloomberg.com', 'foxnews.com', 'washingtonpost.com', 'apnews.com'],
+};
+const LB_CATS = Object.keys(LEADERBOARD);
+const LEADERBOARD_TTL = +(process.env.LEADERBOARD_TTL_MS || 6 * 60 * 60 * 1000); // 6h — Tranco updates daily
+const lbCache = new Map(); // cat → { at, rows:[{domain,rank,date}] }
+
+// Resolve a domain's rank, retrying once after a short backoff (Tranco rate-limits bursts).
+async function rankRow(domain) {
+  let r = await trancoRank(domain).catch(() => null);
+  if (!r) { await new Promise((s) => setTimeout(s, 250)); r = await trancoRank(domain).catch(() => null); }
+  return { domain, rank: r?.rank ?? null, date: r?.date ?? null };
+}
+
+// Resolve a category's domains to live Tranco ranks (small worker pool so we don't trip the rate limit),
+// sort by rank, cache. Domains shared across cached tabs are reused to cut total requests.
+async function leaderboard(cat) {
+  const domains = LEADERBOARD[cat] || LEADERBOARD.Overall;
+  const hit = lbCache.get(cat);
+  if (hit && Date.now() - hit.at < LEADERBOARD_TTL) return hit.rows;
+  // reuse fresh ranks already resolved for any other cached category
+  const known = new Map();
+  for (const v of lbCache.values()) if (Date.now() - v.at < LEADERBOARD_TTL) for (const row of v.rows) if (row.rank != null) known.set(row.domain, row);
+  const todo = domains.filter((d) => !known.has(d));
+  const CONC = 2;
+  const out = [];
+  for (let i = 0; i < todo.length; i += CONC) {
+    if (i) await new Promise((s) => setTimeout(s, 150)); // gentle pacing — Tranco rate-limits bursts; result is cached 6h
+    out.push(...await Promise.all(todo.slice(i, i + CONC).map(rankRow)));
+  }
+  const byDomain = new Map(out.map((r) => [r.domain, r]));
+  const rows = domains.map((d) => known.get(d) || byDomain.get(d) || { domain: d, rank: null, date: null })
+    .sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity));
+  lbCache.set(cat, { at: Date.now(), rows });
+  return rows;
+}
 
 const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950}
@@ -44,6 +90,26 @@ const STYLE = `<style>
   .hp{position:absolute;left:-9999px}
   .ok{background:#3fb95022;border:1px solid var(--up);border-radius:8px;padding:14px 16px;color:var(--fg)}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;margin-top:24px}
+  /* Hero rankings box — the big gray panel at the top */
+  .hero{background:linear-gradient(180deg,#1b2230,#161b22);border:1px solid var(--line2);border-radius:12px;padding:22px 22px 20px;margin:16px 0}
+  .hero h1{font-size:24px;margin:0 0 4px} .hero .sub{color:var(--mut);margin:0 0 14px;font-size:14px}
+  .bigform{display:flex;gap:10px;max-width:640px;margin:0 0 6px}
+  .bigform input{flex:1;font-size:16px;padding:13px 15px}
+  .bigform button{font-size:15px;padding:0 22px}
+  /* tabs + leaderboard */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 12px}
+  .tabs a{font-size:13px;font-weight:700;padding:6px 13px;border:1px solid var(--line2);border-radius:20px;color:var(--mut)}
+  .tabs a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  .tabs a.on{background:var(--blue);border-color:var(--blue);color:#06101f}
+  .lb{display:grid;grid-template-columns:1fr;gap:0}
+  .lb .row{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line)} .lb .row:last-child{border-bottom:0}
+  .lb .pos{width:26px;text-align:right;color:var(--mut);font-variant-numeric:tabular-nums;font-weight:700}
+  .lb .dom{flex:1;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lb .rk{color:var(--up);font-weight:700;font-variant-numeric:tabular-nums}
+  .lb .rk.un{color:var(--mut);font-weight:400;font-size:12px}
+  .lb .lk{font-size:12px;color:var(--mut)}
+  .spark{vertical-align:middle}
+  .trend-up{color:var(--up);font-weight:700} .trend-dn{color:#f85149;font-weight:700} .trend-flat{color:var(--mut)}
 </style>`;
 
 const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -51,9 +117,9 @@ const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=
 <meta name=description content="SoapBox Directory — a curated directory of crypto, markets, and data resources. Submit your site for review.">
 <meta name=robots content="index,follow"><link rel=canonical href="${BASE_URL}/">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>directory</span></a>
-  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${SEARCH}" title="SoapBox Search">Search</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a></div></header>
+  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${SEARCH}" title="SoapBox Search">Search</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS}" title="Stocks &amp; equities">Stocks</a></div></header>
 <main class=wrap>${body}</main>
-<footer>SoapBox Directory · curated resources + community submissions (moderated). <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a></footer></body></html>`;
+<footer>SoapBox Directory · site rankings &amp; a curated crypto directory + community submissions (moderated). <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a> · <a href="${WIKI}">Wiki</a> · <a href="${STOCKS}">Stocks</a></footer></body></html>`;
 
 const submitForm = (msg = '') => `<div class=card id=submit>
   <h2>Submit a site for the Directory</h2>
@@ -75,29 +141,71 @@ function listing() {
 }
 
 // Site Insights — the "Alexa rankings" surface: popularity rank + domain age + on-page SEO for any site.
-const insightsForm = (domain = '') => `<form method=get action="/" style="display:flex;gap:8px;max-width:560px;margin:6px 0 0">
-  <input type=text name=domain value="${esc(domain)}" placeholder="example.com — check rank, age, SEO" autocomplete=off style="flex:1">
-  <button type=submit style="background:var(--panel);color:var(--fg);border:1px solid var(--line2)">Check</button></form>`;
+const bigForm = (domain = '') => `<form class=bigform method=get action="/">
+  <input type=text name=domain value="${esc(domain)}" placeholder="Enter a domain — e.g. github.com — for rank, trend, age &amp; SEO" autocomplete=off autofocus>
+  <button type=submit>Get insights</button></form>`;
+
+// Tiny inline SVG sparkline of Tranco rank over time. Ranks are inverted (lower rank = higher on chart).
+function sparkline(points, w = 120, h = 28) {
+  if (!points || points.length < 2) return '';
+  const ranks = points.map((p) => p.rank);
+  const min = Math.min(...ranks), max = Math.max(...ranks), span = max - min || 1;
+  const dx = w / (points.length - 1);
+  // invert: a smaller rank number is "better" → plot it higher (smaller y)
+  const xy = points.map((p, i) => [Math.round(i * dx), Math.round(((p.rank - min) / span) * (h - 4) + 2)]);
+  const path = xy.map(([x, y], i) => `${i ? 'L' : 'M'}${x},${y}`).join(' ');
+  const [lx, ly] = xy[xy.length - 1];
+  return `<svg class=spark width=${w} height=${h} viewBox="0 0 ${w} ${h}" aria-hidden=true><path d="${path}" fill=none stroke=var(--blue) stroke-width=1.5/><circle cx=${lx} cy=${ly} r=2 fill=var(--blue)/></svg>`;
+}
+
+// Hero rankings box: big lookup + the Top Sites leaderboard (tabbed by category). Always at the top.
+function heroBox(rows, activeCat) {
+  const tabs = LB_CATS.map((c) => `<a href="/?top=${encodeURIComponent(c)}#top"${c === activeCat ? ' class=on' : ''}>${esc(c)}</a>`).join('');
+  const lb = rows.map((r, i) => `<div class=row>
+    <div class=pos>${i + 1}</div>
+    <div class=dom><a href="/?domain=${encodeURIComponent(r.domain)}">${esc(r.domain)}</a></div>
+    ${r.rank ? `<div class=rk>#${r.rank.toLocaleString()}</div>` : '<div class="rk un">unranked</div>'}
+    <a class=lk href="/?domain=${encodeURIComponent(r.domain)}">insights →</a></div>`).join('');
+  return `<section class=hero id=top>
+    <h1>Site Rankings &amp; Insights</h1>
+    <p class=sub>The keyless alternative to Alexa top-sites — popularity rank (Tranco), rank trend, domain age &amp; on-page SEO for any domain.</p>
+    ${bigForm()}
+    <div class=tabs>${tabs}</div>
+    <div class=lb>${lb}</div>
+    <p class=muted style="font-size:11px;margin-top:10px">Top Sites: a curated set of well-known domains resolved to their live <b>Tranco</b> rank (manipulation-resistant academic top-list, updated daily, cached). Click any site for full insights.</p>
+  </section>`;
+}
 
 function insightsCard(d) {
-  if (!d || d.error) return `<div class=card><h2>📊 Site Insights <span class=muted style="font-size:13px;font-weight:400">· rankings &amp; domain data</span></h2>
-    <p class=muted>Look up any site's popularity rank, how old the domain is, and an on-page SEO score. ${d?.error ? `<span style="color:var(--gold)">Enter a valid domain.</span>` : ''}</p>${insightsForm()}</div>`;
+  if (!d || d.error) return `<div class=card><h2>📊 Site Insights</h2>
+    <p class=muted>Look up any site's popularity rank, trend, domain age, and on-page SEO. ${d?.error ? `<span style="color:var(--gold)">Enter a valid domain.</span>` : ''}</p>${bigForm()}</div>`;
   const rank = d.rank ? `<b>#${d.rank.rank.toLocaleString()}</b> <span class=muted>Tranco (${d.rank.date})</span>` : '<span class=muted>unranked (outside the top list)</span>';
   const age = d.age?.registered ? `<b>${d.age.ageYears}y</b> <span class=muted>(since ${d.age.registered.slice(0, 10)}${d.age.registrar ? ' · ' + esc(d.age.registrar) : ''})</span>` : '<span class=muted>unknown</span>';
   const seo = d.seo ? `<b style="color:${d.seo.score >= 90 ? 'var(--up)' : d.seo.score >= 70 ? 'var(--gold)' : 'var(--blue)'}">${d.seo.score}/100</b> <span class=muted>(${d.seo.fails} fails, ${d.seo.warns} warns)</span>` : '<span class=muted>n/a</span>';
+  // Trend: delta>0 means rank number fell over the window = climbing in popularity.
+  let trend = '<span class=muted>n/a</span>';
+  if (d.trend?.points?.length >= 2) {
+    const dl = d.trend.delta;
+    const arrow = dl > 0 ? `<span class=trend-up>▲ +${dl}</span>` : dl < 0 ? `<span class=trend-dn>▼ ${dl}</span>` : '<span class=trend-flat>— flat</span>';
+    trend = `${sparkline(d.trend.points)} ${arrow} <span class=muted style="font-size:11px">over ${d.trend.points.length}d</span>`;
+  }
+  const cat = d.category ? `<div><div class=b>Category</div><b>${esc(d.category)}</b></div>` : '';
   return `<div class=card><h2>📊 Site Insights — ${esc(d.domain)}</h2>
     <div class=grid style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
       <div><div class=b>Popularity rank</div>${rank}</div>
+      <div><div class=b>Rank trend</div>${trend}</div>
       <div><div class=b>Domain age</div>${age}</div>
       <div><div class=b>On-page SEO</div>${seo}</div>
+      ${cat}
     </div>
-    <p class=muted style="font-size:11px;margin-top:8px">Rank: Tranco (manipulation-resistant academic top-list). Age: RDAP registry data. SEO: our on-page audit. All keyless — informational.</p>
-    ${insightsForm(d.domain)}</div>`;
+    <p class=muted style="font-size:11px;margin-top:8px">Rank &amp; trend: Tranco (manipulation-resistant academic top-list). Age: RDAP registry data. SEO: our on-page audit. Category: heuristic guess. All keyless — informational.</p>
+    ${bigForm(d.domain)}</div>`;
 }
 
-const homeBody = (msg, insights = '') => `<h1>Crypto Resources Directory</h1>
-  <p class=muted>A curated directory of useful crypto, markets, and data resources — plus <b>Site Insights</b> (popularity rank, domain age, SEO) for any domain. Ecosystem items marked ⭐. Outbound links; do your own research.</p>
-  ${insights || insightsCard(null)}
+const homeBody = (msg, hero, insights = '') => `${hero}
+  ${insights ? `<div style="margin:16px 0">${insights}</div>` : ''}
+  <h2 style="margin:26px 0 6px">Crypto Resources Directory</h2>
+  <p class=muted>A curated directory of useful crypto, markets, and data resources. Ecosystem items marked ⭐. We deliberately also list <b>useful low-traffic crypto resources</b> — niche tools and docs that won't rank near the top but earn their place. Outbound links; do your own research.</p>
   ${submitForm(msg)}
   ${listing()}`;
 
@@ -128,13 +236,14 @@ async function handleSubmit(req, res) {
   for await (const c of req) { raw += c; if (raw.length > 8000) break; }
   const f = new URLSearchParams(raw);
   if (f.get('website')) { res.writeHead(302, { location: '/#submit' }); return res.end(); } // honeypot tripped → silently drop
+  const hero = heroBox(await leaderboard('Overall').catch(() => []), 'Overall');
   const url = safeUrl(f.get('url'));
-  if (!url) return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>')), 400);
+  if (!url) return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>', hero)), 400);
   const crawl = await crawlTitle(url);
   const entry = { url, name: (f.get('name') || '').slice(0, 120), category: (f.get('category') || '').slice(0, 60), note: (f.get('note') || '').slice(0, 280), crawl_status: crawl.status, crawl_title: crawl.title.slice(0, 200), ip_hash: 'redacted', ts_unix: Math.floor(Date.now() / 1000) };
   try { await mkdir(dirname(SUBMISSIONS), { recursive: true }); await appendFile(SUBMISSIONS, JSON.stringify(entry) + '\n'); } catch (e) { /* never fail the user on a write error */ }
   const okMsg = `<div class=ok>✓ Thanks — <b>${esc(url)}</b> is queued for review${crawl.title ? ` (we found: “${esc(crawl.title)}”)` : ''}. We crawl + check submissions before adding them.</div>`;
-  return send(res, page('Submitted — SoapBox Directory', homeBody(okMsg)));
+  return send(res, page('Submitted — SoapBox Directory', homeBody(okMsg, hero)));
 }
 
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
@@ -148,8 +257,14 @@ createServer(async (req, res) => {
     if (req.method === 'POST' && url.pathname === '/submit') return handleSubmit(req, res);
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const domain = url.searchParams.get('domain');
-    const card = domain ? insightsCard(await insights(domain).catch(() => ({ domain: '', error: 'lookup failed' }))) : '';
+    const topReq = url.searchParams.get('top');
+    const activeCat = LB_CATS.includes(topReq) ? topReq : 'Overall';
+    const [rows, card] = await Promise.all([
+      leaderboard(activeCat).catch(() => []),
+      domain ? insights(domain).then(insightsCard).catch(() => insightsCard({ domain: '', error: 'lookup failed' })) : Promise.resolve(''),
+    ]);
+    const hero = heroBox(rows, activeCat);
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': domain ? 'no-store' : 'public, max-age=300' });
-    res.end(page(domain ? `${normDomain(domain) || 'Insights'} — SoapBox Directory` : 'SoapBox Directory — crypto & markets resources', homeBody('', card)));
+    res.end(page(domain ? `${normDomain(domain) || 'Insights'} — SoapBox Directory` : 'SoapBox Directory — site rankings & crypto resources', homeBody('', hero, card)));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
 }).listen(PORT, HOST, () => console.log(`SoapBox Directory on ${BASE_URL} (bound ${HOST}:${PORT})`));
