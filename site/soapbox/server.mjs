@@ -185,6 +185,7 @@ async function coinPage(id) {
     ${card('Contracts', contracts)}
     ${team ? card('Team', team) : ''}
     ${links ? card('Links', links) : ''}
+    ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — or browse the <a href="https://wiki.soapbox.community">Library of Ashurbanipal</a>.</p>`)}
     ${converter(c)}
     ${relatedPanel(related)}
     ${comments}`;
@@ -414,6 +415,12 @@ createServer(async (req, res) => {
       return json(res, 200, { source: 'condenser', count: ours.length + top.length, ours, market: top });
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
+    // the steemd query layer over HTTP — the same router Discord/Telegram/Hathor use. ?q=price+VKBT
+    if (p === '/api/steemd') {
+      const { runCommand } = await import('../../integrations/soapbox/steemd.mjs');
+      const r = await runCommand(url.searchParams.get('q') || 'help').catch((e) => ({ ok: false, text: e.message, data: null }));
+      return json(res, r.ok ? 200 : 400, r);
+    }
 
     if (p.startsWith('/og/') && p.endsWith('.svg')) {
       const cid = decodeURIComponent(p.slice('/og/'.length, -'.svg'.length));

@@ -30,6 +30,24 @@ test('price with a missing arg explains usage', async () => {
   assert.match(r.text, /usage/);
 });
 
+test('convert needs amount + symbol', async () => {
+  const r = await runCommand('convert 100');
+  assert.equal(r.ok, false);
+  assert.match(r.text, /usage/);
+});
+
+test('registry includes the expanded verbs', () => {
+  for (const v of ['convert', 'compare', 'gainers', 'losers', 'ecosystem', 'dapps', 'learn']) {
+    assert.equal(typeof COMMANDS[v], 'function', `missing ${v}`);
+  }
+});
+
+test('learn returns the wiki/learn link without a network call', async () => {
+  const r = await runCommand('learn');
+  assert.equal(r.ok, true);
+  assert.match(r.text, /learn/i);
+});
+
 test('price routes through the condenser and formats (injected fetch)', async () => {
   invalidate();
   cgSetFetch(async () => ({ ok: true, status: 200, json: async () => ({
