@@ -26,7 +26,7 @@ import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
-import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS, forex } from '../../integrations/soapbox/macro.mjs';
+import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS, forex, forexSummary } from '../../integrations/soapbox/macro.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
@@ -79,6 +79,7 @@ async function listPage({ page = 1 } = {}) {
   const idx = page === 1 ? await marketIndex().catch(() => []) : [];
   const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
   const commSum = page === 1 ? await commoditiesSummary().catch(() => null) : null;
+  const fxSum = page === 1 ? await forexSummary().catch(() => null) : null;
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
@@ -137,6 +138,12 @@ async function listPage({ page = 1 } = {}) {
       ${commSum.corn ? ` · Corn ${(+commSum.corn.price).toFixed(0)}¢/bu` : ''}
       ${commSum.oil ? ` · WTI ${usd(commSum.oil.price)} ${pct(commSum.oil.change)}` : ''}
       <a href="/commodities" style="margin-left:8px">Prices + where to buy →</a></div>` : ''}
+    ${fxSum && (fxSum.eurusd || fxSum.dxy) ? `<div class=card style="margin:0 0 14px;font-size:13px"><span class=muted>💱 Forex:</span>
+      ${fxSum.eurusd ? `EUR/USD ${(+fxSum.eurusd.price).toFixed(4)} ${pct(fxSum.eurusd.change)}` : ''}
+      ${fxSum.gbpusd ? ` · GBP/USD ${(+fxSum.gbpusd.price).toFixed(4)}` : ''}
+      ${fxSum.usdjpy ? ` · USD/JPY ${(+fxSum.usdjpy.price).toFixed(2)}` : ''}
+      ${fxSum.dxy ? ` · DXY ${(+fxSum.dxy.price).toFixed(2)} ${pct(fxSum.dxy.change)}` : ''}
+      <a href="/forex" style="margin-left:8px">See all →</a></div>` : ''}
     ${idxCard}
     ${page === 1 ? fngGauge(fng) : ''}
     ${moversBlock}
