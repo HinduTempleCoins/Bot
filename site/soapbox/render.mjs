@@ -18,7 +18,7 @@ export const compactUsd = (n) => {
 export const pct = (n) => (n == null || !Number.isFinite(+n) ? '<span class=muted>—</span>' : `<span class="${n >= 0 ? 'up' : 'down'}">${n >= 0 ? '▲' : '▼'} ${Math.abs(+n).toFixed(2)}%</span>`);
 
 const NAV = [
-  ['/', 'Markets'], ['/categories', 'Categories'], ['/chains', 'Chains'], ['/dapps', 'dApps'],
+  ['/', 'Global Markets'], ['/categories', 'Categories'], ['/chains', 'Chains'], ['/dapps', 'dApps'],
   ['/exchanges', 'Exchanges'], ['/macro', 'Macro'], ['/commodities', 'Commodities'], ['/forex', 'Forex'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
 ];
 
