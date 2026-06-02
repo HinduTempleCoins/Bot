@@ -24,6 +24,8 @@ import {
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins } from '../../integrations/soapbox/markets-extra.mjs';
+import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
+import { chainBalance } from '../../integrations/chains/balances.mjs';
 
 const PORT = +(process.env.PORT || 8088);
 // HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
@@ -248,6 +250,40 @@ function ecosystemPillar(slug) {
   return { code: 200, html: layout({ title: `${p.name} — Ecosystem`, active: '/ecosystem', canonical: `${BASE_URL}/ecosystem/${slug}`, description: p.role, jsonld, body }) };
 }
 
+// READ-ONLY portfolio: native balances for a pasted PUBLIC address across the EVM chains, priced.
+// This is the PRANA wallet-connect slot in its safest form — no keys, no custody, no signing, never
+// stores the address. One 0x address works across all EVM chains.
+async function portfolioData(address) {
+  if (!/^0x[0-9a-fA-F]{40}$/.test(address)) return { error: 'paste a public EVM address (0x…)' };
+  const evm = Object.entries(CHAINS).filter(([, v]) => v.kind === 'evm');
+  const prices = await nativePrices().catch(() => ({}));
+  const rows = await Promise.all(evm.map(async ([name, v]) => {
+    const b = await chainBalance(name, address).catch(() => null);
+    const bal = b?.balance || 0;
+    const px = prices[v.cg]?.usd || 0;
+    return { chain: name, balance: bal, usd: bal * px };
+  }));
+  const held = rows.filter((r) => r.balance > 0).sort((a, b) => b.usd - a.usd);
+  return { address, total: held.reduce((a, r) => a + r.usd, 0), held };
+}
+
+function portfolioPage() {
+  const body = `<h1>Portfolio</h1><p class=muted>Paste a <b>public</b> wallet address to see its native balances across chains. Read-only — no keys, nothing stored, nothing signed. The non-custodial on-ramp into the SoapBox suite.</p>
+    <form method=get action=/portfolio style="margin:0 0 14px"><input class=search name=address placeholder="0x… (public EVM address)" value="" style="max-width:480px"> <button class=iconbtn>View</button></form>
+    <div id=pf></div>
+    <script>
+      var qs=new URLSearchParams(location.search),addr=qs.get('address');
+      if(addr){document.querySelector('input[name=address]').value=addr;
+        var el=document.getElementById('pf');el.innerHTML='<p class=muted>Reading balances across chains…</p>';
+        fetch('/api/portfolio?address='+encodeURIComponent(addr)).then(function(r){return r.json()}).then(function(d){
+          if(d.error){el.innerHTML='<p class=down>'+d.error+'</p>';return}
+          if(!d.held.length){el.innerHTML='<p class=muted>No native balances found on the supported EVM chains.</p>';return}
+          el.innerHTML='<div class=card><div class=k style="color:var(--mut)">Total (native coins)</div><div class=price>$'+d.total.toLocaleString(undefined,{maximumFractionDigits:2})+'</div></div><table><thead><tr><th style="text-align:left">Chain</th><th>Balance</th><th>Value</th></tr></thead><tbody>'+d.held.map(function(r){return '<tr><td style="text-align:left">'+r.chain+'</td><td>'+r.balance.toLocaleString(undefined,{maximumFractionDigits:5})+'</td><td>$'+r.usd.toLocaleString(undefined,{maximumFractionDigits:2})+'</td></tr>'}).join('')+'</tbody></table>';
+        }).catch(function(){el.innerHTML='<p class=down>Could not read balances right now.</p>'});}
+    </script>`;
+  return layout({ title: 'Portfolio', active: '/portfolio', canonical: `${BASE_URL}/portfolio`, description: 'Read-only multi-chain portfolio tracker — paste a public address, no custody.', body });
+}
+
 function watchlistPage() {
   // the watchlist lives in the browser (localStorage); this page renders it client-side from the
   // read API, so there's no server-side per-user state. Empty for a fresh visitor.
@@ -312,6 +348,8 @@ createServer(async (req, res) => {
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
     if (p === '/watchlist') return send(watchlistPage());
+    if (p === '/portfolio') return send(portfolioPage());
+    if (p === '/api/portfolio') return json(res, 200, await portfolioData(url.searchParams.get('address') || '').catch((e) => ({ error: e.message })));
     if (p === '/learn') return send(learnIndex());
     if (p.startsWith('/learn/')) { const r = learnArticle(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
 

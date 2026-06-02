@@ -64,6 +64,7 @@ const STYLE = `<style>
 const navBar = (active) => `<header class=top>
   <a class=brand href="/">◈ SoapBox <span>markets</span></a>
   <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
+    <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
     <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>
   <button class=iconbtn id=themebtn title="toggle theme" style="margin-left:auto">◐</button>
 </header>`;
