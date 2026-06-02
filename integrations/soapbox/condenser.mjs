@@ -116,6 +116,27 @@ export async function trending({ limit = 7 } = {}) {
   });
 }
 
+// a market-cap-weighted 7d index from the top coins' sparklines (keyless — CoinGecko's total-mcap
+// history endpoint needs a key, so we compute an honest equivalent from data we already have). Each
+// coin's 7d path is normalized to its start, weighted by market cap, summed → a total-return index
+// rebased to 100. Labeled as what it is: a top-N cap-weighted market index, not CG's raw figure.
+export async function marketIndex({ limit = 50 } = {}) {
+  return cached(`mktidx:${limit}`, TTL.list, async () => {
+    const top = await topCoins({ limit, sparkline: true });
+    const series = top.filter((c) => c.sparkline_7d?.length > 2 && c.market_cap_usd > 0);
+    if (!series.length) return [];
+    const n = Math.min(...series.map((c) => c.sparkline_7d.length));
+    const totalCap = series.reduce((a, c) => a + c.market_cap_usd, 0);
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      let v = 0;
+      for (const c of series) { const s = c.sparkline_7d; v += c.market_cap_usd * (s[i] / s[0]); }
+      out.push({ t: i, p: (v / totalCap) * 100 });
+    }
+    return out;
+  });
+}
+
 // global market stats for the list-page header (CoinGecko /global, keyless).
 export async function globalStats() {
   return cached('global', TTL.list, async () => {

@@ -11,7 +11,7 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
@@ -55,6 +55,7 @@ async function listPage({ page = 1 } = {}) {
     page === 1 ? trending().catch(() => []) : Promise.resolve([]),
     page === 1 ? fearGreed().catch(() => null) : Promise.resolve(null),
   ]);
+  const idx = page === 1 ? await marketIndex().catch(() => []) : [];
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
@@ -89,8 +90,9 @@ async function listPage({ page = 1 } = {}) {
     ${market.length >= PER_PAGE ? `<a href="/coins?page=${page + 1}">next →</a>` : ''}
   </div>`;
 
-  const body = `${statsbar}<h1>Markets</h1>
-    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
+  const idxTrend = idx.length > 1 ? `<span class=muted style="margin-left:10px">market 7d ${sparkline(idx.map((d) => d.p), 110, 22)} ${pct((idx[idx.length - 1].p / idx[0].p - 1) * 100)}</span>` : '';
+  const body = `${statsbar}<h1>Markets ${idxTrend}</h1>
+    <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. The 7d market line is a cap-weighted index of the top 50.</p>
     ${moversBlock}
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off>
     <table id=mkt><thead><tr>
