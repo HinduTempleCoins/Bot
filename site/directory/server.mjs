@@ -16,6 +16,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
+const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const SUBMISSIONS = process.env.DIRECTORY_SUBMISSIONS || new URL('../../data/directory-submissions.jsonl', import.meta.url).pathname;
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -50,7 +51,7 @@ const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=
 <meta name=description content="SoapBox Directory — a curated directory of crypto, markets, and data resources. Submit your site for review.">
 <meta name=robots content="index,follow"><link rel=canonical href="${BASE_URL}/">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>directory</span></a>
-  <div class=topbar-r><a href="${DATA}" title="SoapBox Data — markets, macro, commodities, forex">Data</a><a href="${SEARCH}" title="SoapBox Search">Search</a></div></header>
+  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${SEARCH}" title="SoapBox Search">Search</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a></div></header>
 <main class=wrap>${body}</main>
 <footer>SoapBox Directory · curated resources + community submissions (moderated). <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a></footer></body></html>`;
 

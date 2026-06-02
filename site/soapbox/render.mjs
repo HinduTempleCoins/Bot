@@ -77,12 +77,16 @@ const STYLE = `<style>
 </style>`;
 
 const SEARCH_URL = 'https://search.soapbox.community';
+const DIRECTORY_URL = 'https://directory.soapbox.community';
+const WIKI_URL = 'https://wiki.soapbox.community';
 // Two parts: a SLIM bar that stays on scroll (brand + Web Search + theme), and the big category nav row
 // that's just at the top of the page and scrolls away (so mobile isn't dominated by a fixed banner).
 const navBar = (active) => `<header class=topbar>
   <a class=brand href="/">◈ SoapBox <span>data</span></a>
   <div class=topbar-r>
     <a class=websearch href="${SEARCH_URL}" title="Search the web + our sites">⌕ Web Search</a>
+    <a class=websearch href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a>
+    <a class=websearch href="${WIKI_URL}" title="Library of Ashurbanipal">Wiki</a>
     <button class=iconbtn id=themebtn title="toggle light/dark theme" aria-label="toggle light or dark theme">◐</button>
   </div>
 </header>
