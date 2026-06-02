@@ -7082,6 +7082,25 @@ client.on('messageCreate', async (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
+  // ── SoapBox "steemd" hook ────────────────────────────────────────────────
+  // The Discord bot as a queryable interface to the ecosystem state (the condenser). Prefix !sb /
+  // !steemd routes to the shared steemd layer that Telegram and Hathor also use. Self-contained +
+  // guarded so it can never disturb the rest of the bot. Starts with the CMC data; grows as MELEK
+  // and more apps come online. e.g. "!sb price VKBT", "!sb clarity vkbt", "!sb markets", "!sb help".
+  {
+    const m = message.content.match(/^!(?:sb|steemd|cmc)\b\s*(.*)$/is);
+    if (m) {
+      try {
+        const { runCommand } = await import('./integrations/soapbox/steemd.mjs');
+        const r = await runCommand(m[1] || 'help');
+        await message.reply(r.text.slice(0, 1900));
+      } catch (e) {
+        await message.reply('steemd is unavailable right now.');
+      }
+      return;
+    }
+  }
+
   // Check for slash commands
   if (message.content.startsWith('/')) {
     const args = message.content.slice(1).split(' ');
