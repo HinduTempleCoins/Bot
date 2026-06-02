@@ -38,7 +38,7 @@ function coinRow(c, i) {
   const badge = c.ours ? `<span class="badge ours">ecosystem</span>` : (ov.badge ? `<span class=badge>${esc(ov.badge)}</span>` : '');
   return `<tr data-name="${esc((c.name + ' ' + c.symbol).toLowerCase())}" data-mcap="${c.market_cap_usd || 0}" data-price="${c.price_usd || 0}" data-vol="${c.volume_24h_usd || 0}" data-chg="${c.change_24h ?? 0}">
     <td>${c.rank ?? (c.ours ? '★' : i)}</td>
-    <td><a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
+    <td><span class=star data-id="${esc(c.id)}" onclick="sbToggle(this,'${esc(c.id)}')" title="watchlist">☆</span> <a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
     <td>${usd(c.price_usd)}</td>
     <td>${pct(c.change_24h)}</td>
     <td>${compactUsd(c.market_cap_usd)}</td>
@@ -94,6 +94,7 @@ async function listPage({ page = 1 } = {}) {
   const body = `${statsbar}<h1>Markets ${idxTrend}</h1>
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. The 7d market line is a cap-weighted index of the top 50.</p>
     ${moversBlock}
+    <div id=recent style="margin:0 0 12px"></div>
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off>
     <table id=mkt><thead><tr>
       <th data-sort="i">#</th><th data-sort="name">Coin</th><th data-sort="price">Price</th>
@@ -179,7 +180,7 @@ async function coinPage(id) {
     description: `${c.name} (${c.symbol}) live price, supply, and Clarity transparency rating on SoapBox.`,
     url: `${BASE_URL}/coins/${c.id}`,
   };
-  return { code: 200, html: layout({ title: `${c.name} (${c.symbol})`, active: '/', canonical: `${BASE_URL}/coins/${c.id}`, description: `${c.name} live price ${usd(c.price_usd)}, market cap ${compactUsd(c.market_cap_usd)}, and Clarity transparency rating.`, jsonld, body }) };
+  return { code: 200, html: layout({ title: `${c.name} (${c.symbol})`, active: '/', canonical: `${BASE_URL}/coins/${c.id}`, description: `${c.name} live price ${usd(c.price_usd)}, market cap ${compactUsd(c.market_cap_usd)}, and Clarity transparency rating.`, jsonld, body, coinId: c.id }) };
 }
 
 // ── Static-ish pages, rendered through the same layout ──────────────────────
@@ -247,6 +248,26 @@ function ecosystemPillar(slug) {
   return { code: 200, html: layout({ title: `${p.name} — Ecosystem`, active: '/ecosystem', canonical: `${BASE_URL}/ecosystem/${slug}`, description: p.role, jsonld, body }) };
 }
 
+function watchlistPage() {
+  // the watchlist lives in the browser (localStorage); this page renders it client-side from the
+  // read API, so there's no server-side per-user state. Empty for a fresh visitor.
+  const body = `<h1>★ Watchlist</h1><p class=muted>Your starred coins, kept in this browser. Star any coin on the markets list.</p>
+    <div id=wl><p class=muted>Loading your watchlist…</p></div>
+    <script>
+      window.sbWlView=function(){
+        var ids=[];try{ids=JSON.parse(localStorage.getItem('sb-wl')||'[]')}catch(e){}
+        var el=document.getElementById('wl');
+        if(!ids.length){el.innerHTML='<p class=muted>No coins yet. Go to <a href="/">markets</a> and tap a ☆.</p>';return}
+        el.innerHTML='<p class=muted>'+ids.length+' coins…</p>';
+        Promise.all(ids.map(function(id){return fetch('/api/coins/'+encodeURIComponent(id)).then(function(r){return r.ok?r.json():null}).catch(function(){return null})})).then(function(cs){
+          var rows=cs.filter(Boolean).map(function(c){return '<tr><td><span class="star on" data-id="'+c.id+'" onclick="sbToggle(this,\\''+c.id+'\\')">★</span> <a class=coin href="/coins/'+c.id+'">'+c.name+' <span class=sym>'+c.symbol+'</span></a></td><td>$'+(+c.price_usd).toLocaleString(undefined,{maximumFractionDigits:6})+'</td><td class=muted>tier '+c.source_tier+'</td></tr>'}).join('');
+          el.innerHTML=rows?'<table><thead><tr><th style="text-align:left">Coin</th><th>Price</th><th>Source</th></tr></thead><tbody>'+rows+'</tbody></table>':'<p class=muted>None found.</p>';
+        });
+      };sbWlView();
+    </script>`;
+  return layout({ title: 'Watchlist', active: '/watchlist', canonical: `${BASE_URL}/watchlist`, description: 'Your starred coins on SoapBox.', body });
+}
+
 function learnIndex() {
   const body = `<h1>Learn</h1><p class=muted>Plain-English explainers, linked to the Library of Ashurbanipal. Every concept is its own page.</p>
     ${Object.entries(LEARN).map(([slug, a]) => `<div class=card><h2><a href="/learn/${slug}">${esc(a.title)}</a></h2><p class=muted>${esc(a.summary)}</p></div>`).join('')}`;
@@ -290,6 +311,7 @@ createServer(async (req, res) => {
     if (p === '/chains') return send(await chainsPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
+    if (p === '/watchlist') return send(watchlistPage());
     if (p === '/learn') return send(learnIndex());
     if (p.startsWith('/learn/')) { const r = learnArticle(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
 

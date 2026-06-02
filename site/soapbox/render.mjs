@@ -24,7 +24,10 @@ const NAV = [
 
 const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--up:#3fb950;--down:#f85149;--gold:#d29922}
+  html[data-theme=light]{--bg:#ffffff;--panel:#f6f8fa;--line:#e6e8eb;--line2:#d0d7de;--fg:#1f2328;--mut:#656d76;--blue:#0969da;--up:#1a7f37;--down:#cf222e;--gold:#9a6700}
   *{box-sizing:border-box}
+  .star{cursor:pointer;color:var(--mut);user-select:none} .star.on{color:var(--gold)}
+  .iconbtn{cursor:pointer;background:none;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:5px 9px;font-size:13px}
   body{font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.top{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line2);padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
@@ -60,11 +63,33 @@ const STYLE = `<style>
 
 const navBar = (active) => `<header class=top>
   <a class=brand href="/">◈ SoapBox <span>markets</span></a>
-  <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}</nav>
+  <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
+    <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>
+  <button class=iconbtn id=themebtn title="toggle theme" style="margin-left:auto">◐</button>
 </header>`;
 
+// shared client script: theme persistence, watchlist stars (localStorage), recently-viewed tracking.
+const APP_JS = `<script>
+(function(){
+  var T=localStorage.getItem('sb-theme'); if(T)document.documentElement.dataset.theme=T;
+  var btn=document.getElementById('themebtn');
+  if(btn)btn.onclick=function(){var l=document.documentElement.dataset.theme==='light';document.documentElement.dataset.theme=l?'dark':'light';localStorage.setItem('sb-theme',l?'dark':'light')};
+  function wl(){try{return JSON.parse(localStorage.getItem('sb-wl')||'[]')}catch(e){return[]}}
+  function setWl(a){localStorage.setItem('sb-wl',JSON.stringify(a.slice(0,500)))}
+  window.sbToggle=function(el,id){var a=wl(),i=a.indexOf(id);if(i>-1){a.splice(i,1);el.classList.remove('on');el.textContent='☆'}else{a.push(id);el.classList.add('on');el.textContent='★'}setWl(a);if(window.sbWlView)sbWlView()};
+  // paint existing stars
+  var have=wl();[].forEach.call(document.querySelectorAll('.star'),function(s){if(have.indexOf(s.dataset.id)>-1){s.classList.add('on');s.textContent='★'}});
+  // recently-viewed: record on a coin page (body carries data-coin), render on home (#recent)
+  var coin=document.body.dataset.coin;
+  if(coin){var r=[];try{r=JSON.parse(localStorage.getItem('sb-recent')||'[]')}catch(e){}r=[coin].concat(r.filter(function(x){return x!==coin})).slice(0,8);localStorage.setItem('sb-recent',JSON.stringify(r))}
+  var rc=document.getElementById('recent');
+  if(rc){var r=[];try{r=JSON.parse(localStorage.getItem('sb-recent')||'[]')}catch(e){}
+    if(r.length)rc.innerHTML='<div class=k style="color:var(--mut);font-size:12px">Recently viewed</div>'+r.map(function(id){return '<a class=coin href="/coins/'+id+'" style="margin-right:10px">'+id.replace('hive-engine:','').toUpperCase()+'</a>'}).join('');}
+})();
+</script>`;
+
 /** The one layout every page renders into. SEO-complete: canonical, description, OpenGraph, JSON-LD. */
-export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '' }) {
+export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '', coinId = '' }) {
   const desc = esc(description || `${title} — live prices, market caps, and Clarity transparency ratings on SoapBox.`);
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -75,9 +100,9 @@ ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:title" content="${esc(title)} — SoapBox Markets"><meta property="og:description" content="${desc}">
 <meta name="twitter:card" content="summary">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
-${STYLE}</head><body>${navBar(active)}<div class=wrap>${body}</div>
+${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>${navBar(active)}<main class=wrap>${body}</main>
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
-</body></html>`;
+${APP_JS}</body></html>`;
 }
 
 /** Inline SVG sparkline from a price array — no JS, no request, renders in the table cell. */
