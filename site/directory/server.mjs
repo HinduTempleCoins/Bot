@@ -10,6 +10,12 @@ import { appendFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { insights, normDomain, trancoRank } from '../../integrations/soapbox/domain-insights.mjs';
+// Resource Center catalogs (plain data + helpers) — surfaced as Directory sections below the
+// curated listing (#175/#177/#182/#183/#185 consolidation).
+import * as markets from '../../integrations/soapbox/markets-catalog.mjs';
+import * as govtech from '../../integrations/soapbox/govtech-catalog.mjs';
+import * as wikis from '../../integrations/soapbox/wikis-catalog.mjs';
+import * as scams from '../../integrations/soapbox/scam-registry.mjs';
 
 const PORT = +(process.env.PORT || 8094);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -110,6 +116,23 @@ const STYLE = `<style>
   .lb .lk{font-size:12px;color:var(--mut)}
   .spark{vertical-align:middle}
   .trend-up{color:var(--up);font-weight:700} .trend-dn{color:#f85149;font-weight:700} .trend-flat{color:var(--mut)}
+  /* Resource Center — catalog sections (collapsible) */
+  .rc{margin:26px 0 6px}
+  details.rcg{background:var(--panel);border:1px solid var(--line2);border-radius:10px;margin:12px 0;overflow:hidden}
+  details.rcg>summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:700;font-size:16px;display:flex;align-items:center;gap:10px}
+  details.rcg>summary::-webkit-details-marker{display:none}
+  details.rcg>summary::before{content:'▸';color:var(--mut);font-size:12px}
+  details.rcg[open]>summary::before{content:'▾'}
+  details.rcg>summary .ct{margin-left:auto;color:var(--mut);font-weight:400;font-size:12px}
+  .rcg-body{padding:4px 18px 16px}
+  .rcsub{font-weight:700;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px;padding-top:8px;border-top:1px solid var(--line)}
+  .rcsub:first-child{border-top:0;padding-top:0}
+  .lrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap} .lrow:last-child{border-bottom:0}
+  .lrow .ln{font-weight:600} .lrow .ld{color:var(--mut);font-size:12.5px;flex:1;min-width:120px}
+  .bdg{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap}
+  .bdg.us-full{color:var(--up);border-color:#3fb95066} .bdg.us-partial{color:var(--gold);border-color:#d2992266}
+  .bdg.us-no{color:#f85149;border-color:#f8514966} .bdg.us-unknown{color:var(--mut)}
+  .bdg.kind{color:var(--blue);border-color:#58a6ff44}
 </style>`;
 
 const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -202,12 +225,87 @@ function insightsCard(d) {
     ${bigForm(d.domain)}</div>`;
 }
 
+// ── Resource Center sections ──────────────────────────────────────────────────
+// Data-driven from the catalog modules so they stay in sync. Each renders compact link rows;
+// every outbound link is rel=noopener target=_blank.
+const olink = (url, name) => `<a href="${esc(url)}" rel="noopener" target=_blank>${esc(name)}</a>`;
+const rcGroup = (id, title, count, body) =>
+  `<details class=rcg id="rc-${id}"><summary>${esc(title)}<span class=ct>${count} entries</span></summary><div class=rcg-body>${body}</div></details>`;
+const linkRow = (name, url, desc, badges = '') =>
+  `<div class=lrow><span class=ln>${olink(url, name)}</span>${badges}<span class=ld>${esc(desc || '')}</span></div>`;
+
+const US_LABEL = { full: 'US ✓', partial: 'US partial', no: 'US ✗', unknown: 'US ?' };
+const usBadge = (us) => `<span class="bdg us-${us || 'unknown'}">${US_LABEL[us] || US_LABEL.unknown}</span>`;
+
+// 1) Markets & Exchanges — crypto grouped by US-availability, then tradfi by asset class.
+function marketsSection() {
+  const ex = markets.allExchanges();
+  const crypto = ex.filter((e) => e.asset === 'crypto');
+  const order = ['full', 'partial', 'no', 'unknown'];
+  const head = { full: 'Crypto — US-friendly', partial: 'Crypto — partial US access', no: 'Crypto — US-restricted', unknown: 'Crypto — unverified US status' };
+  let body = '';
+  for (const us of order) {
+    const rows = crypto.filter((e) => e.us === us);
+    if (!rows.length) continue;
+    body += `<div class=rcsub>${esc(head[us])} · ${rows.length}</div>` +
+      rows.map((e) => linkRow(e.name, e.url, e.note, usBadge(e.us) + `<span class="bdg kind">${esc(e.type)}</span>`)).join('');
+  }
+  for (const asset of ['stocks', 'forex', 'bonds', 'commodities']) {
+    const rows = ex.filter((e) => e.asset === asset);
+    if (!rows.length) continue;
+    body += `<div class=rcsub>${esc(asset)} · ${rows.length}</div>` +
+      rows.map((e) => linkRow(e.name, e.url, e.note, usBadge(e.us) + `<span class="bdg kind">${esc(e.type)}</span>`)).join('');
+  }
+  return rcGroup('markets', '📈 Markets & Exchanges', ex.length, body);
+}
+
+// 2) Wikis & Encyclopedias — by category.
+function wikisSection() {
+  const cats = wikis.categories();
+  const body = cats.map((c) => {
+    const rows = wikis.byCategory(c);
+    return `<div class=rcsub>${esc(c)} · ${rows.length}</div>` +
+      rows.map((w) => linkRow(w.name, w.url, w.notes, `<span class="bdg kind">${esc(w.engine)}</span>`)).join('');
+  }).join('');
+  return rcGroup('wikis', '📚 Wikis & Encyclopedias', wikis.WIKIS.length, body);
+}
+
+// 3) Government Data & APIs — by category, with a kind badge.
+function govtechSection() {
+  const body = govtech.CATEGORIES.map((c) => {
+    const rows = govtech.byCategory(c);
+    if (!rows.length) return '';
+    return `<div class=rcsub>${esc(c)} · ${rows.length}</div>` +
+      rows.map((g) => linkRow(g.name, g.url, g.notes, `<span class="bdg kind">${esc(g.kind)}</span>` + (g.keyless ? '<span class="bdg us-full">keyless</span>' : ''))).join('');
+  }).join('');
+  return rcGroup('govtech', '🏛️ Government Data & APIs', govtech.GOVTECH.length, body);
+}
+
+// 4) Crypto Scam Trackers — gov sources, then community.
+function scamsSection() {
+  const groups = [['Government fraud trackers', scams.govSources()], ['Community / reputation registries', scams.byKind('community')]];
+  const total = groups.reduce((n, [, rows]) => n + rows.length, 0);
+  const body = groups.map(([label, rows]) => {
+    if (!rows.length) return '';
+    return `<div class=rcsub>${esc(label)} · ${rows.length}</div>` +
+      rows.map((s) => linkRow(s.name, s.url, s.coverage, `<span class="bdg kind">${esc(s.agency)}</span>` + (s.keyless ? '<span class="bdg us-full">keyless</span>' : ''))).join('');
+  }).join('');
+  return rcGroup('scams', '🛡️ Crypto Scam Trackers', total, body);
+}
+
+function resourceCenter() {
+  return `<h2 class=rc>Resource Center</h2>
+  <p class=muted>Curated link catalogs across markets, knowledge, government data, and fraud signals — data-driven from our reference modules. Outbound links open in a new tab; do your own research.</p>
+  ${marketsSection()}${wikisSection()}${govtechSection()}${scamsSection()}`;
+}
+
 const homeBody = (msg, hero, insights = '') => `${hero}
   ${insights ? `<div style="margin:16px 0">${insights}</div>` : ''}
   <h2 style="margin:26px 0 6px">Crypto Resources Directory</h2>
   <p class=muted>A curated directory of useful crypto, markets, and data resources. Ecosystem items marked ⭐. We deliberately also list <b>useful low-traffic crypto resources</b> — niche tools and docs that won't rank near the top but earn their place. Outbound links; do your own research.</p>
   ${submitForm(msg)}
-  ${listing()}`;
+  ${listing()}
+  ${resourceCenter()}`;
 
 // SSRF guard: only public http(s) hosts (we crawl what's submitted).
 function safeUrl(raw) {
