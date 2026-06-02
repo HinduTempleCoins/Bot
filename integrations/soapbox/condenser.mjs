@@ -165,8 +165,7 @@ export async function getCoin(id) {
   return cached(`coin:${id}`, TTL.price, async () => {
     let coin = null;
     if (id.startsWith('hive-engine:')) coin = await fromHiveEngine(id.split(':')[1]);
-    else if (id.startsWith('node:')) coin = null; // Tier 3 moat — wired when MELEK/SOAP RPC exists
-    else coin = await fetchTokenFailover(id); // Tier-1 via the adapter registry (CoinGecko → CoinPaprika)
+    else coin = await fetchTokenFailover(id); // adapter registry: Tier-1 (CG→Paprika), gt: DEX, node: Tier-3
     if (!coin) return null;
     const { valid, errors } = validateCoin(coin);
     return { ...coin, _valid: valid, _errors: errors };

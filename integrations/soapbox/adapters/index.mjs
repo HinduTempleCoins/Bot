@@ -6,8 +6,9 @@
 import * as coingecko from './coingecko.mjs';
 import * as coinpaprika from './coinpaprika.mjs';
 import * as geckoterminal from './geckoterminal.mjs';
+import * as nativeNode from './native-node.mjs';
 
-export const ADAPTERS = { coingecko, coinpaprika, geckoterminal };
+export const ADAPTERS = { coingecko, coinpaprika, geckoterminal, nativeNode };
 
 // Tier-1 failover order: CoinGecko primary, CoinPaprika secondary (also team metadata).
 const TIER1_CHAIN = [coingecko, coinpaprika];
@@ -15,6 +16,7 @@ const TIER1_CHAIN = [coingecko, coinpaprika];
 /** Pick the adapter for an id by its prefix. Bare ids ("bitcoin") → Tier-1 chain (handled below). */
 export function adapterFor(id) {
   if (id?.startsWith('gt:')) return geckoterminal;
+  if (id?.startsWith('node:')) return nativeNode;  // Tier-3 native chains (MELEK/SOAP/PRANA)
   return coingecko; // default Tier-1 primary
 }
 
@@ -24,6 +26,7 @@ export function adapterFor(id) {
  */
 export async function fetchTokenFailover(id) {
   if (id?.startsWith('gt:')) return geckoterminal.fetchToken(id);
+  if (id?.startsWith('node:')) return nativeNode.fetchToken(id);  // Tier-3 (null until RPC configured)
   let lastErr;
   for (const a of TIER1_CHAIN) {
     try {
