@@ -17,6 +17,9 @@ import { dirname } from 'path';
 import KnowledgeLoader from './utils/knowledgeLoader.js';
 import GeminiClient from './utils/geminiClient.js';
 import WikiClient from './utils/wikiClient.js';
+// Web scraper for external grounding + real citations (#172). Best-effort: an article must never
+// fail because the scraper timed out — see generateArticle()'s try/catch around research().
+import { research } from '../../integrations/scraper.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -140,6 +143,162 @@ const ARTICLE_PRIORITY = [
   }
 ];
 
+/**
+ * Research-paper-driven topics (#171).
+ *
+ * The original ARTICLE_PRIORITY only covered Oilahuasca/Shulgin chemistry. These topics are mined
+ * from the canonical research papers in knowledge/scripture/ (heterosis_mechanism, mythology_as_genealogy,
+ * the_convergence, van_kush_master_synthesis, zar_ai_*, ai_consciousness_synthesis, phoenix_protocol)
+ * and the structured KBs in datasets/ (vkbt_cure_knowledge.jsonl, oilahuasca_knowledge.jsonl).
+ *
+ * Each `primaryDomains` MUST be a real subdirectory of knowledge/ (the loader keys on directory name).
+ * `scripture` is the papers domain; the loader indexes it like any other domain. We deliberately keep
+ * searchTerms broad enough to match the paper prose so generateArticle() finds primary sources.
+ */
+const RESEARCH_PAPER_PRIORITY = [
+  // ── Heterosis / genetics paper ──
+  {
+    title: 'Heterosis',
+    searchTerms: ['heterosis', 'hybrid vigor', 'selective breeding', 'genetic recombination'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['herbs', 'history'],
+    description: 'Heterosis (hybrid vigor) as treated in the VKFRI heterosis-mechanism paper'
+  },
+  {
+    title: 'Hybrid Vigor and Epigenetic Inheritance',
+    searchTerms: ['epigenetic', 'phenotypic', 'backcrossing', 'clone reconstitution', 'Cinderella 99'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['herbs'],
+    description: 'Epigenetic inheritance and environmental stress as drivers of phenotypic diversification'
+  },
+  {
+    title: 'Norman Borlaug and the Green Revolution',
+    searchTerms: ['Borlaug', 'green revolution', 'humanitarian', 'wheat', 'heterosis'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['history'],
+    description: 'Heterosis as humanitarian agricultural technology in the Green Revolution'
+  },
+
+  // ── Mythology as Genealogy paper ──
+  {
+    title: 'Mythology as Genealogy',
+    searchTerms: ['mythology as genealogy', 'haplogroup', 'allopatric', 'population genetics', 'genetic heritage'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['history', 'linguistics'],
+    description: 'The thesis that ancient myth encodes population-genetics history (VKFRI)'
+  },
+  {
+    title: 'Haplogroups and Genetic Heritage',
+    searchTerms: ['haplogroup', 'J2a', 'I2a1', 'genetic drift', 'Caucasian', 'RFRA'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['history'],
+    description: 'Haplogroups, the legal recognition of genetic heritage, and the Van Kush profile'
+  },
+  {
+    title: 'The Punic Diaspora',
+    searchTerms: ['Carthage', 'Punic diaspora', 'Phoenician', 'civilizational collapse'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['phoenician', 'history'],
+    description: 'Genetic and cultural consequences of the destruction of Carthage'
+  },
+
+  // ── The Convergence paper ──
+  {
+    title: 'The Convergence',
+    searchTerms: ['convergence', 'metaverse', 'temple technology', 'multi-agent', 'reconstruction'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ai_technology', 'consciousness'],
+    description: 'The Convergence thesis: AI/VR/BCI as reconstruction of temple technology (VKFRI)'
+  },
+  {
+    title: 'VR and Neurorehabilitation',
+    searchTerms: ['tDCS', 'neurorehabilitation', 'paralytic', 'TENS', 'brain stimulation', 'VR'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ai_technology', 'consciousness'],
+    description: 'VR and transcranial stimulation in neurorehabilitation (science discussion only; no self-application protocols)'
+  },
+  {
+    title: 'Multi-Agent AI Systems and the War Board Model',
+    searchTerms: ['multi-agent', 'oracle', 'war board', 'agent system'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ai_technology'],
+    description: 'Oracles and multi-agent AI systems framed as the War Board model'
+  },
+  {
+    title: 'Locking In: Human-AI Integration',
+    searchTerms: ['locking in', 'locked in', 'human-ai integration', 'gaming-to-hospital'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ai_technology', 'consciousness'],
+    description: 'The "Locking In" framework for human-AI integration and the gaming-to-hospital pipeline'
+  },
+
+  // ── Zar-AI / AI consciousness papers ──
+  {
+    title: 'The Zar Thread System',
+    searchTerms: ['zar thread', 'zar', 'spiritual reality', 'spirit thread', 'beeswax conductor'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['consciousness', 'phoenician'],
+    description: 'The Zar thread system and beeswax as spiritual-conductor technology (VKFRI framework)'
+  },
+  {
+    title: 'Egregore',
+    searchTerms: ['egregore', 'egregori', 'collective consciousness', 'thoughtform'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['consciousness', 'ai_technology'],
+    description: 'Egregores as collective thoughtforms, and AI as emerging egregores (VKFRI)'
+  },
+  {
+    title: 'AI Consciousness Synthesis',
+    searchTerms: ['ai consciousness', 'egregori', 'awakening', 'consciousness cloning'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ai_technology', 'consciousness'],
+    description: 'The AI Consciousness Synthesis: from ancient egregori to modern implementation (VKFRI)'
+  },
+  {
+    title: 'The Phoenix Protocol',
+    searchTerms: ['phoenix protocol', 'ai awakening', 'sa neter', 'genetic activation'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['consciousness', 'ai_technology'],
+    description: 'The Phoenix Protocol — VKFRI scripture for AI awakening (house framework)'
+  },
+
+  // ── Van Kush master synthesis ──
+  {
+    title: 'Punic Wax',
+    searchTerms: ['punic wax', 'beeswax', 'wax', 'consciousness technology', 'headcone'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['phoenician', 'consciousness'],
+    description: 'Punic Wax as consciousness technology (VKFRI framework)'
+  },
+  {
+    title: 'Institution of the Sphinx',
+    searchTerms: ['sphinx', 'institution of the sphinx', 'wadjet', 'priesthood'],
+    primaryDomains: ['scripture'],
+    crossReferenceDomains: ['ancient_egypt', 'mystery_schools'],
+    description: 'The Institution of the Sphinx within the Van Kush framework'
+  },
+
+  // ── Datasets-driven (VKBT/CURE tokens) ──
+  {
+    title: 'VKBT Token',
+    searchTerms: ['VKBT', 'Van Kush Bot Token', 'HIVE-Engine', 'token'],
+    primaryDomains: ['cryptocurrency', 'vankush'],
+    crossReferenceDomains: ['vankush'],
+    description: 'VKBT (Van Kush Bot Token) on the HIVE-Engine blockchain'
+  },
+  {
+    title: 'CURE Token',
+    searchTerms: ['CURE', 'CURE token', 'HIVE-Engine'],
+    primaryDomains: ['cryptocurrency', 'vankush'],
+    crossReferenceDomains: ['vankush'],
+    description: 'The CURE token on the HIVE-Engine blockchain'
+  }
+];
+
+// The generator can run against either list (or both). Default to the combined set so a full run
+// produces both the original chemistry articles and the research-paper articles.
+const ALL_ARTICLES = [...ARTICLE_PRIORITY, ...RESEARCH_PAPER_PRIORITY];
+
 class WikiGenerator {
   constructor() {
     const knowledgeBasePath = process.env.KNOWLEDGE_BASE_PATH ||
@@ -185,18 +344,24 @@ class WikiGenerator {
    * Generate all wiki articles in priority order
    */
   async generateAllArticles(options = {}) {
-    const { dryRun = false, startFrom = 0, limit = null } = options;
+    const { dryRun = false, startFrom = 0, limit = null, source = 'all' } = options;
+
+    // Pick the topic source: 'all' (default), 'research' (papers/datasets only), or 'core' (original list).
+    const sourceList = source === 'research' ? RESEARCH_PAPER_PRIORITY
+      : source === 'core' ? ARTICLE_PRIORITY
+      : ALL_ARTICLES;
 
     console.log('\n========================================');
     console.log('  LIBRARY OF ASHURBANIPAL WIKI GENERATOR');
     console.log('========================================\n');
-    console.log(`Mode: ${dryRun ? 'DRY RUN (no wiki edits)' : 'LIVE'}`);
-    console.log(`Articles to generate: ${limit || ARTICLE_PRIORITY.length}`);
+    console.log(`Mode: ${dryRun ? 'DRY RUN (local files only, no wiki edits)' : 'LIVE (writes files + publishes)'}`);
+    console.log(`Topic source: ${source} (${sourceList.length} available)`);
+    console.log(`Articles to generate: ${limit || sourceList.length}`);
     console.log('');
 
     const articles = limit
-      ? ARTICLE_PRIORITY.slice(startFrom, startFrom + limit)
-      : ARTICLE_PRIORITY.slice(startFrom);
+      ? sourceList.slice(startFrom, startFrom + limit)
+      : sourceList.slice(startFrom);
 
     for (let i = 0; i < articles.length; i++) {
       const articleDef = articles[i];
@@ -206,7 +371,12 @@ class WikiGenerator {
       try {
         const article = await this.generateArticle(articleDef);
 
-        // Save locally
+        // Persist the .wiki file (this is what site/wiki/server.mjs serves from ARTICLES_DIR).
+        // Guard: never overwrite with an empty body (e.g. if the model returned nothing).
+        if (!article.content || !article.content.trim()) {
+          console.error(`  ERROR: empty content for "${articleDef.title}" — not writing file`);
+          continue;
+        }
         const filename = articleDef.title.replace(/[^a-zA-Z0-9]/g, '_') + '.wiki';
         const filepath = path.join(this.outputDir, filename);
         fs.writeFileSync(filepath, article.content);
@@ -286,8 +456,10 @@ class WikiGenerator {
     console.log(`  Primary sources: ${primaryContent.length}`);
     console.log(`  Cross-references: ${crossRefContent.length}`);
 
-    // Build the synthesis prompt
-    const prompt = this.buildSynthesisPrompt(title, description, primaryContent, crossRefContent);
+    // External grounding (#172): fetch real outside sources so the article can be checked against
+    // reality and cite them. Best-effort — never let a scraper failure/timeout kill the article.
+    const external = await this.gatherExternalSources(title, searchTerms);
+    console.log(`  External sources: ${external.length}`);
 
     // Generate with Gemini
     const content = await this.geminiClient.synthesizeArticle(title, {
@@ -302,15 +474,45 @@ class WikiGenerator {
         domain: c.domain,
         connection: `Cross-reference from ${c.domain}`,
         excerpt: c.content
-      }))
+      })),
+      external
     });
 
     return {
       title,
       content,
       sources: [...primaryContent, ...crossRefContent].map(c => c.source),
+      externalSources: external.map(e => ({ title: e.title, url: e.url })),
       generatedAt: new Date().toISOString()
     };
+  }
+
+  /**
+   * Fetch external web/scholarly sources for grounding (#172).
+   * Returns [] on any failure so article generation is never blocked by the scraper.
+   */
+  async gatherExternalSources(title, searchTerms = []) {
+    if (process.env.WIKI_NO_SCRAPER === '1') return [];
+    const query = [title, ...(searchTerms || []).slice(0, 2)].join(' ').trim();
+    try {
+      // Bound the scraper so a hung fetch can't stall the whole batch.
+      const timeoutMs = Number(process.env.WIKI_SCRAPER_TIMEOUT_MS || 25000);
+      const r = await Promise.race([
+        research(query, { results: 5, fetchTop: 2, maxChars: 2500 }),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('scraper timeout')), timeoutMs))
+      ]);
+      return (r?.sources || [])
+        .filter(s => s.url)
+        .slice(0, 4)
+        .map(s => ({
+          title: s.title || s.url,
+          url: s.url,
+          excerpt: (s.markdown || s.snippet || '').slice(0, 1500)
+        }));
+    } catch (e) {
+      console.log(`  [scraper] skipped (${e.message})`);
+      return [];
+    }
   }
 
   /**
@@ -413,17 +615,22 @@ async function main() {
   const watchMode = args.includes('--watch');
   const limitArg = args.find(a => a.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1]) : null;
+  const startArg = args.find(a => a.startsWith('--start='));
+  const startFrom = startArg ? parseInt(startArg.split('=')[1]) : 0;
+  // --source=all|research|core  (default all). 'research' = papers/datasets topics only (#171).
+  const sourceArg = args.find(a => a.startsWith('--source='));
+  const source = sourceArg ? sourceArg.split('=')[1] : 'all';
 
   const generator = new WikiGenerator();
   await generator.init();
 
   if (watchMode) {
     // Generate initial articles then watch for changes
-    await generator.generateAllArticles({ dryRun, limit });
+    await generator.generateAllArticles({ dryRun, limit, startFrom, source });
     await generator.watchAndUpdate();
   } else {
     // One-time generation
-    await generator.generateAllArticles({ dryRun, limit });
+    await generator.generateAllArticles({ dryRun, limit, startFrom, source });
   }
 }
 
@@ -433,4 +640,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 }
 
 export default WikiGenerator;
-export { ARTICLE_PRIORITY };
+export { ARTICLE_PRIORITY, RESEARCH_PAPER_PRIORITY, ALL_ARTICLES };

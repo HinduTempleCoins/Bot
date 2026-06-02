@@ -164,6 +164,14 @@ Provide:
       }
     }
 
+    // External sources fetched by the web scraper (#172) — real outside pages for grounding & citation.
+    if (context.external && context.external.length > 0) {
+      prompt += `=== EXTERNAL SOURCES (fetched from the open web / scholarly APIs — cite by URL) ===\n`;
+      for (const source of context.external) {
+        prompt += `[${source.title}] <${source.url}>\n${source.excerpt}\n\n`;
+      }
+    }
+
     // Foundational context (always include for grounding)
     if (context.oilahuasca || context.spacePaste || context.headcones) {
       prompt += `=== FOUNDATIONAL CONTEXT ===\n`;
@@ -173,12 +181,13 @@ Provide:
     }
 
     prompt += `\nWrite a faithful reference article from ONLY the sources above. Rules:
-1. Use MediaWiki markup (== headers ==, [[links]], <ref>filename</ref> next to each claim).
+1. Use MediaWiki markup (== headers ==, [[links]], <ref>filename</ref> for KB files, <ref>URL</ref> for external sources, next to each claim).
 2. State ONLY what the sources support. Do not add dates, numbers, mechanisms, or facts not in the sources. If something isn't covered, write "The available sources do not specify…".
-3. Mention a connection to another topic ONLY if a source above explicitly states it. Do not manufacture links to Oilahuasca/Headcones/Shulgin to seem cohesive.
-4. Separate established science/history from VKFRI's own hypotheses and terminology — attribute house concepts ("VKFRI proposes…"). Never state a house theory as established fact. No invented terms.
-5. End with "== Sources ==" (files used) and "== Coverage ==" (flag any thin/single-source section).
-6. Better short and fully sourced than long and padded. Aim 400-1200 words.`;
+3. Mention a connection to another topic ONLY if a source above explicitly states it. Do not manufacture links to seem cohesive.
+4. Separate established science/history (which the EXTERNAL sources can corroborate) from VKFRI's own hypotheses and terminology — attribute house concepts ("VKFRI proposes…"). Never state a house theory as established fact. No invented terms.
+5. Prefer an EXTERNAL source for any mainstream scientific/historical fact; reserve KB-file <ref>s for VKFRI's own framing. Never invent a URL — only cite URLs that appear in the EXTERNAL SOURCES block above.
+6. End with "== Sources ==" (KB files + external URLs used) and "== Coverage ==" (flag any thin/single-source section).
+7. Better short and fully sourced than long and padded. Aim 400-1200 words.`;
 
     return prompt;
   }
