@@ -143,9 +143,9 @@ export function priceChart(series) {
   const data = series.map((d) => ({ time: d.t, value: d.p }));
   return `<div class=card><h2>Price <span class=muted style="font-weight:400">· 7d</span></h2>
     <div id=chart style="height:280px"></div>
-    <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+    <script defer src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
     <script>
-      (function(){
+      addEventListener('load', function(){
         if(!window.LightweightCharts){return}
         var c=LightweightCharts.createChart(document.getElementById('chart'),{
           width:document.getElementById('chart').clientWidth,height:280,

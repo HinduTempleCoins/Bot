@@ -14,7 +14,7 @@ import { createServer } from 'node:http';
 import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
-import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
+import { cached, TTL, stats as cacheStats } from '../../integrations/soapbox/cache.mjs';
 import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.mjs';
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
@@ -124,7 +124,18 @@ async function listPage({ page = 1 } = {}) {
 // ── Coin page (one template → every token) ──────────────────────────────────
 async function coinPage(id) {
   const c = await getCoin(id).catch(() => null);
-  if (!c) return { code: 404, html: layout({ title: 'Not found', body: card('Not found', `<p class=muted>No coin "${esc(id)}". <a href="/">← markets</a></p>`) }) };
+  if (!c) {
+    // "did you mean" — suggest close matches from the markets set by symbol/name substring.
+    const [ours, top] = await Promise.all([ourCoins().catch(() => []), topCoins({ limit: PER_PAGE }).catch(() => [])]);
+    const q = id.toLowerCase().replace(/^hive-engine:/, '');
+    const pre = q.slice(0, 3);
+    const hits = [...ours, ...top].filter((x) => {
+      const hay = `${x.id} ${x.symbol} ${x.name}`.toLowerCase();
+      return hay.includes(q) || (pre.length >= 2 && (x.symbol.toLowerCase().startsWith(pre) || x.name.toLowerCase().startsWith(pre) || x.id.startsWith(pre)));
+    }).slice(0, 6);
+    const sugg = hits.length ? `<p>Did you mean: ${hits.map((x) => `<a class=coin href="/coins/${esc(x.id)}">${esc(x.symbol)}</a>`).join(' · ')}?</p>` : '';
+    return { code: 404, html: layout({ title: 'Not found', body: card('Not found', `<p class=muted>No coin "${esc(id)}".</p>${sugg}<p class=muted><a href="/">← markets</a></p>`) }) };
+  }
   const ov = overrideFor(id);
   const isHE = c.source === 'hive-engine' || c.source_tier === 2;
   const [series, clarity, extras, related] = await Promise.all([
@@ -329,22 +340,49 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/dapps', '/ecosystem', '/learn',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
+    ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${u}</loc></url>`).join('\n') + `\n</urlset>`;
+    [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${encodeURI(u)}</loc></url>`).join('\n') + `\n</urlset>`;
   return body;
 }
 
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' }); res.end(JSON.stringify(obj)); };
 
+const STARTED = process.hrtime.bigint();
+function statusPage() {
+  const c = cacheStats();
+  const upMin = Number(process.hrtime.bigint() - STARTED) / 6e10;
+  const sources = [
+    ['Tier 1 — CoinGecko', 'primary market data'], ['Tier 1 — CoinPaprika', 'failover + team metadata'],
+    ['Tier 1b — GeckoTerminal', 'on-chain / DEX'], ['Tier 2 — Hive-Engine', 'VKBT / CURE (first-party)'],
+    ['Tier 3 — native nodes', 'MELEK / SOAP / PRANA (gated on RPC)'], ['DeFiLlama', 'TVL + stablecoins'],
+    ['alternative.me', 'fear & greed'],
+  ];
+  const body = `<h1>Status</h1><p class=muted>Read-only operational view. One source of truth (the condenser); the site, Hathor, and the trade bots all read it.</p>
+    <div class=card><h2>Cache</h2><div class=grid>
+      <div class=stat><div class=k>Keys</div><div class=v>${c.keys}</div></div>
+      <div class=stat><div class=k>Fresh</div><div class=v>${c.fresh}</div></div>
+      <div class=stat><div class=k>Stale</div><div class=v>${c.stale}</div></div>
+      <div class=stat><div class=k>In-flight</div><div class=v>${c.inflight}</div></div>
+      <div class=stat><div class=k>Uptime</div><div class=v>${upMin.toFixed(1)}m</div></div>
+    </div></div>
+    <div class=card><h2>Data sources</h2>${sources.map(([n, d]) => `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line)"><b>${esc(n)}</b><span class=muted>${esc(d)}</span></div>`).join('')}</div>`;
+  return layout({ title: 'Status', active: '', canonical: `${BASE_URL}/status`, description: 'SoapBox operational status — cache + data sources.', body });
+}
+
 // ── Router ──────────────────────────────────────────────────────────────────
+const LOG = process.env.SOAPBOX_LOG === '1';
 createServer(async (req, res) => {
+  const t0 = LOG ? process.hrtime.bigint() : 0n;
+  const url = new URL(req.url, BASE_URL);
+  const p = url.pathname;
+  if (LOG) res.on('finish', () => console.log(JSON.stringify({ m: req.method, p, s: res.statusCode, ms: Number(process.hrtime.bigint() - t0) / 1e6 })));
   try {
-    const url = new URL(req.url, BASE_URL);
-    const p = url.pathname;
-    const send = (html, code = 200) => { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); };
+    // short public cache on HTML — pages are already condenser-cached; this lets a CDN/browser help.
+    const send = (html, code = 200) => { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': code === 200 ? 'public, max-age=60' : 'no-store' }); res.end(html); };
 
     if (p === '/' || p === '/coins') return send(await listPage({ page: Math.max(1, +url.searchParams.get('page') || 1) }));
     if (p.startsWith('/coins/')) { const r = await coinPage(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
@@ -392,6 +430,7 @@ createServer(async (req, res) => {
     }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(await sitemap()); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
+    if (p === '/status') return send(statusPage());
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
