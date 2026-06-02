@@ -7,7 +7,7 @@
 //   PORT=8092 BASE_URL=https://search.soapbox.community node site/search/server.mjs
 
 import { createServer } from 'node:http';
-import { searchAll } from '../../integrations/scraper.mjs';
+import { searchAll, translate, detectLanguage } from '../../integrations/scraper.mjs';
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { LEARN } from '../soapbox/content.mjs';
 
@@ -60,6 +60,17 @@ const STYLE = `<style>
   .res a.t{font-size:17px;font-weight:600} .res .u{color:var(--gold);font-size:12px;word-break:break-all}
   .res .s{color:var(--mut);font-size:13px;margin-top:3px} .badge{font-size:11px;background:#1f6feb33;color:var(--blue);border-radius:8px;padding:1px 7px;margin-left:6px}
   .muted{color:var(--mut)}
+  /* translation hub */
+  .tform{max-width:680px}
+  .tarea{width:100%;min-height:140px;background:#0b0f14;border:1px solid var(--line2);border-radius:12px;color:var(--fg);padding:14px 16px;font:15px/1.6 system-ui,sans-serif;outline:none;resize:vertical}
+  .tarea:focus{border-color:var(--blue)} .tarea::placeholder{color:var(--mut)}
+  .trow{display:flex;flex-wrap:wrap;align-items:end;gap:14px;margin-top:14px}
+  .trow label{color:var(--mut);font-size:13px;display:flex;flex-direction:column;gap:5px}
+  .trow select{background:var(--panel);border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:9px 11px;font-size:14px}
+  .trow button{margin-left:auto}
+  .tresult{max-width:680px;margin:22px auto 0;background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:16px 18px}
+  .tmeta{color:var(--mut);font-size:13px;margin:0 0 8px} .tmeta:last-child{margin:10px 0 0}
+  .tout{font-size:17px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;margin-top:24px}
   @media(max-width:560px){.title{font-size:34px}.input.q{font-size:16px}}
 </style>`;
@@ -69,7 +80,7 @@ const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=
 <meta name=description content="Search for anything you want — across our websites, or the entire web.">
 <meta name=robots content="index,follow">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>search</span></a>
-  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS_URL}" title="Stocks">Stocks</a></div></header>
+  <div class=topbar-r><a href="/translate" title="Translate text between languages — keyless, multilingual">Translate</a><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS_URL}" title="Stocks">Stocks</a></div></header>
 <main class=wrap>${body}</main>
 <footer>SoapBox Search — across our websites, or the entire web (independent + scholarly sources, research-weighted). No tracking.</footer></body></html>`;
 
@@ -87,7 +98,45 @@ const searchHero = (q, mode) => `
       <input type=hidden name=mode value="${esc(mode)}">
       <div class=btnrow><button>Search</button></div>
     </form>
+    ${q ? '' : '<p class=desc style="margin-top:14px">Going global? <a href="/translate">Translate text between languages →</a></p>'}
   </div>`;
+
+// Common languages for the Translation Hub. ISO-639-1 codes.
+const LANGS = [
+  ['auto', 'Detect language'], ['en', 'English'], ['es', 'Spanish'], ['fr', 'French'],
+  ['de', 'German'], ['zh', 'Chinese'], ['ja', 'Japanese'], ['ar', 'Arabic'], ['ru', 'Russian'],
+  ['pt', 'Portuguese'], ['hi', 'Hindi'], ['it', 'Italian'], ['ko', 'Korean'], ['nl', 'Dutch'],
+  ['tr', 'Turkish'], ['pl', 'Polish'], ['sw', 'Swahili'], ['id', 'Indonesian'], ['vi', 'Vietnamese'],
+  ['fa', 'Persian'], ['he', 'Hebrew'], ['th', 'Thai'], ['uk', 'Ukrainian'], ['el', 'Greek'],
+];
+const LANG_NAME = Object.fromEntries(LANGS.map(([c, n]) => [c, n]));
+
+const langOptions = (sel, codes) => codes
+  .map(([c, n]) => `<option value="${c}"${c === sel ? ' selected' : ''}>${esc(n)}</option>`).join('');
+
+// The Translation Hub page. `r` is an optional translate() result to render.
+function translatePage(text, from, to, r) {
+  const detected = r && r.from && r.from !== 'auto' ? r.from : null;
+  const detLabel = detected ? (LANG_NAME[detected] || detected) : null;
+  return `
+  <div class="hero compact">
+    <a href="/translate"><h1 class=title>SoapBox <span class=s>Translate</span></h1></a>
+    <p class=desc>Translate text between languages — keyless, multilingual, best-effort.</p>
+  </div>
+  <form method=post action="/translate" class=tform>
+    <textarea class=tarea name=text placeholder="Type or paste text to translate…" autofocus>${esc(text)}</textarea>
+    <div class=trow>
+      <label>From <select name=from>${langOptions(from || 'auto', LANGS)}</select></label>
+      <label>To <select name=to>${langOptions(to || 'en', LANGS.filter(([c]) => c !== 'auto'))}</select></label>
+      <button>Translate</button>
+    </div>
+  </form>
+  ${r ? `<div class=tresult>
+    <div class=tmeta>${detLabel ? `Detected source: <b>${esc(detLabel)}</b> → ` : `${esc(LANG_NAME[from] || from || 'auto')} → `}<b>${esc(LANG_NAME[to] || to)}</b>${r.engine && r.engine !== 'fallback' && r.engine !== 'none' && r.engine !== 'noop' ? `<span class=badge>${esc(r.engine)}</span>` : ''}</div>
+    <div class=tout>${esc(r.translated)}</div>
+    <div class=tmeta><a href="/api/translate?text=${encodeURIComponent(text)}&to=${encodeURIComponent(to)}&from=${encodeURIComponent(from || 'auto')}">JSON</a> · other sites &amp; Hathor can call <code>/api/translate</code></div>
+  </div>` : ''}`;
+}
 
 const resultRow = (r) => `<div class=res>
   <a class=t href="${esc(r.url)}">${esc(r.title)}</a>${r.tag ? `<span class=badge>${esc(r.tag)}</span>` : (r.providers ? `<span class=badge>${esc(r.providers.join('+'))}</span>` : '')}
@@ -123,11 +172,49 @@ async function siteSearch(q) {
   return out.slice(0, 30).map(resultRow).join('') || '<p class=muted>Nothing in the ecosystem matches yet. Try Web search, or browse <a href="' + DATA + '">Markets</a> / <a href="' + WIKI + '">the Library</a>.</p>';
 }
 
+// Read a urlencoded POST body (bounded), returning a URLSearchParams.
+function readForm(req) {
+  return new Promise((resolve) => {
+    let data = '', tooBig = false;
+    req.on('data', (c) => { data += c; if (data.length > 1e6) { tooBig = true; req.destroy(); } });
+    req.on('end', () => resolve(new URLSearchParams(tooBig ? '' : data)));
+    req.on('error', () => resolve(new URLSearchParams('')));
+  });
+}
+
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     if (url.pathname === '/health') { res.writeHead(200); return res.end('ok'); }
     if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\n`); }
+
+    // JSON translate endpoint — for other sites / Hathor. /api/translate?text=&to=&from=
+    if (url.pathname === '/api/translate') {
+      const text = url.searchParams.get('text') || '';
+      const to = (url.searchParams.get('to') || 'en').trim() || 'en';
+      const from = (url.searchParams.get('from') || 'auto').trim() || 'auto';
+      let out = { from, to, translated: text };
+      try { const r = await translate(text, { from, to }); out = { from: r.from || from, to: r.to || to, translated: r.translated }; } catch {}
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*', 'cache-control': 'public, max-age=300' });
+      return res.end(JSON.stringify(out));
+    }
+
+    // Translation Hub page — GET (with optional ?text=&to=&from=) or POST form.
+    if (url.pathname === '/translate') {
+      let text = url.searchParams.get('text') || '';
+      let to = (url.searchParams.get('to') || 'en').trim() || 'en';
+      let from = (url.searchParams.get('from') || 'auto').trim() || 'auto';
+      if (req.method === 'POST') {
+        const f = await readForm(req);
+        text = f.get('text') || ''; to = (f.get('to') || 'en').trim() || 'en'; from = (f.get('from') || 'auto').trim() || 'auto';
+      }
+      let r = null;
+      if (text.trim()) { try { r = await translate(text, { from, to }); } catch { r = { translated: text, from, to, engine: 'fallback' }; } }
+      const body = translatePage(text, from, to, r);
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(page('SoapBox Translate', body));
+    }
+
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const q = (url.searchParams.get('q') || '').trim();
     const mode = url.searchParams.get('mode') === 'site' ? 'site' : 'web';
