@@ -15,12 +15,18 @@ async function jget(url, timeout = 15000) {
   finally { clearTimeout(t); }
 }
 
-// Crypto Fear & Greed index (alternative.me) — 0 (extreme fear) … 100 (extreme greed).
+// Crypto Fear & Greed index (alternative.me) — 0 (extreme fear) … 100 (extreme greed), with history
+// so the homepage can show context (yesterday / last week / last month) and a trend.
 export async function fearGreed() {
   return cached('fng', TTL.list, async () => {
-    const d = await jget('https://api.alternative.me/fng/');
-    const x = d.data?.[0] || {};
-    return { value: +x.value || null, classification: x.value_classification || '', updated: x.timestamp || '' };
+    const d = await jget('https://api.alternative.me/fng/?limit=32');
+    const arr = (d.data || []).map((x) => ({ value: +x.value || 0, classification: x.value_classification || '', ts: +x.timestamp || 0 }));
+    const cur = arr[0] || {};
+    return {
+      value: cur.value || null, classification: cur.classification || '', updated: cur.ts || '',
+      yesterday: arr[1]?.value ?? null, lastWeek: arr[7]?.value ?? null, lastMonth: arr[30]?.value ?? null,
+      history: arr.slice(0, 30).map((x) => x.value).reverse(),
+    };
   });
 }
 

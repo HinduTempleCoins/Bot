@@ -197,6 +197,29 @@ export function ogSvg(c, clarity) {
 </svg>`;
 }
 
+// prominent Fear & Greed gauge — value on a 0-100 colored scale + context (yesterday/week/month) + trend.
+export function fngGauge(f) {
+  if (!f || f.value == null) return '';
+  const v = f.value;
+  const color = v < 25 ? '#f85149' : v < 45 ? '#db6d28' : v < 55 ? '#d29922' : v < 75 ? '#3fb950' : '#1a7f37';
+  const ctx = (label, val) => val == null ? '' : `<div class=stat><div class=k>${label}</div><div class=v style="font-size:15px">${val} <span class=muted style="font-size:11px">${val < 25 ? 'Ext. Fear' : val < 45 ? 'Fear' : val < 55 ? 'Neutral' : val < 75 ? 'Greed' : 'Ext. Greed'}</span></div></div>`;
+  return `<div class=card>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h2 style="margin:0">Fear &amp; Greed Index</h2>
+      <div><span style="font-size:30px;font-weight:800;color:${color}">${v}</span> <span style="color:${color};font-weight:700">${esc(f.classification)}</span></div>
+    </div>
+    <div style="position:relative;height:12px;border-radius:7px;margin:12px 0 6px;background:linear-gradient(90deg,#f85149,#db6d28,#d29922,#3fb950,#1a7f37)">
+      <div style="position:absolute;left:${v}%;top:-4px;width:4px;height:20px;background:var(--fg);border-radius:2px;transform:translateX(-50%)" title="now: ${v}"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--mut)"><span>0 · Extreme Fear</span><span>Extreme Greed · 100</span></div>
+    <div class=grid style="margin-top:14px">
+      ${ctx('Yesterday', f.yesterday)}${ctx('Last week', f.lastWeek)}${ctx('Last month', f.lastMonth)}
+      <div class=stat><div class=k>30-day trend</div><div>${sparkline(f.history || [], 120, 26)}</div></div>
+    </div>
+    <p class=muted style="font-size:12px;margin:8px 0 0">A market-sentiment gauge (volatility, momentum, volume, social, dominance). Extreme fear can signal a buying opportunity; extreme greed, a correction. Source: alternative.me.</p>
+  </div>`;
+}
+
 // related / ecosystem coins — spec §6 "ecosystem groupings, not isolated pages".
 export function relatedPanel(coins) {
   if (!coins?.length) return '';

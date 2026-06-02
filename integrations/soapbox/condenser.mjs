@@ -87,6 +87,7 @@ export async function topCoins({ limit = 50, page = 1, sparkline = true } = {}) 
       price_usd: c.current_price || 0, market_cap_usd: c.market_cap || 0, volume_24h_usd: c.total_volume || 0,
       change_24h: c.price_change_percentage_24h || 0, rank: c.market_cap_rank || null,
       sparkline_7d: sparkline ? (c.sparkline_in_7d?.price || []) : [],
+      image: c.image || '',
     }));
   });
 }

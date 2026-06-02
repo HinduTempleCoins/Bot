@@ -19,7 +19,7 @@ import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.m
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
   layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card, marketStats,
-  holdersPanel, depthPanel, relatedPanel, converter, ogSvg,
+  holdersPanel, depthPanel, relatedPanel, converter, ogSvg, fngGauge,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
@@ -36,12 +36,21 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const PER_PAGE = 50;
 
 // ── Markets list (the page factory's index) ─────────────────────────────────
+// a coin logo for the list: CoinGecko image when we have one, else a colored initial-badge (so
+// ecosystem/Hive-Engine tokens without a hosted logo still get a consistent mark).
+function coinLogo(c) {
+  if (c.image) return `<img src="${esc(c.image)}" width=18 height=18 alt="" loading=lazy style="vertical-align:middle;border-radius:50%">`;
+  const ch = (c.symbol || '?')[0].toUpperCase();
+  const hue = [...(c.symbol || '?')].reduce((a, x) => a + x.charCodeAt(0), 0) % 360;
+  return `<span aria-hidden=true style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;color:#fff;background:hsl(${hue},45%,45%);vertical-align:middle">${esc(ch)}</span>`;
+}
+
 function coinRow(c, i) {
   const ov = overrideFor(c.id);
   const badge = c.ours ? `<span class="badge ours">ecosystem</span>` : (ov.badge ? `<span class=badge>${esc(ov.badge)}</span>` : '');
   return `<tr data-name="${esc((c.name + ' ' + c.symbol).toLowerCase())}" data-mcap="${c.market_cap_usd || 0}" data-price="${c.price_usd || 0}" data-vol="${c.volume_24h_usd || 0}" data-chg="${c.change_24h ?? 0}">
     <td>${c.rank ?? (c.ours ? '★' : i)}</td>
-    <td><span class=star role=button tabindex=0 aria-label="add ${esc(c.symbol)} to watchlist" data-id="${esc(c.id)}" onclick="sbToggle(this,'${esc(c.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sbToggle(this,'${esc(c.id)}')}" title="watchlist">☆</span> <a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
+    <td><span class=star role=button tabindex=0 aria-label="add ${esc(c.symbol)} to watchlist" data-id="${esc(c.id)}" onclick="sbToggle(this,'${esc(c.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sbToggle(this,'${esc(c.id)}')}" title="watchlist">☆</span> ${coinLogo(c)} <a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
     <td>${usd(c.price_usd)}</td>
     <td>${pct(c.change_24h)}</td>
     <td>${compactUsd(c.market_cap_usd)}</td>
@@ -105,6 +114,7 @@ async function listPage({ page = 1 } = {}) {
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
     ${idxCard}
+    ${page === 1 ? fngGauge(fng) : ''}
     ${moversBlock}
     <div id=recent style="margin:0 0 12px"></div>
     <table id=mkt><caption class=skip>Cryptocurrency markets sorted by market cap</caption><thead><tr>
