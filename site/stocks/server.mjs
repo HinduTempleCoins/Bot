@@ -9,6 +9,7 @@
 import { createServer } from 'node:http';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
+import { companyProfile } from '../../integrations/soapbox/company-profiles.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
 
 const PORT = +(process.env.PORT || 8095);
@@ -109,18 +110,88 @@ function priceChart(series, symbol) {
     <p class=muted style="font-size:11px">Charts: TradingView lightweight-charts (Apache-2.0).</p></div>`;
 }
 
-async function stockNews(name) {
-  return cached(`stknews:${name.toLowerCase()}`, TTL.clarity, async () => {
-    try { return await scraperSearch(`${name} stock news`, { provider: 'duckduckgo', limit: 6 }); } catch { return []; }
+// News & filings: a general stock-news pull plus a finance-specific pull (earnings/SEC/crypto),
+// deduped by URL and capped. Best-effort + cached — never throws.
+async function stockNews(name, ticker) {
+  const key = `stknews:${String(name).toLowerCase()}:${String(ticker || '').toLowerCase()}`;
+  return cached(key, TTL.clarity, async () => {
+    const q1 = scraperSearch(`${name} stock news`, { provider: 'duckduckgo', limit: 6 }).catch(() => []);
+    const q2 = scraperSearch(`${name} ${ticker || ''} earnings OR SEC OR crypto`.trim(), { provider: 'duckduckgo', limit: 6 }).catch(() => []);
+    const [a, b] = await Promise.all([q1, q2]);
+    const seen = new Set(), out = [];
+    for (const n of [...(a || []), ...(b || [])]) {
+      if (!n || !n.url || seen.has(n.url)) continue;
+      seen.add(n.url);
+      out.push(n);
+      if (out.length >= 8) break;
+    }
+    return out;
   });
+}
+
+// EDGAR filing URL from an accession number (dashes stripped for the archive path).
+function edgarFilingUrl(cik, f) {
+  if (!cik || !f?.accession) return null;
+  const cikNum = String(cik).replace(/^0+/, '') || '0';
+  const acc = String(f.accession).replace(/-/g, '');
+  const base = `https://www.sec.gov/Archives/edgar/data/${cikNum}/${acc}`;
+  return f.primaryDoc ? `${base}/${f.primaryDoc}` : `${base}/`;
+}
+
+// Best-effort company profile with a short timeout; cached. Never throws.
+async function companyCard(query) {
+  if (!query) return null;
+  return cached(`stkco:${String(query).toLowerCase()}`, TTL.metadata, async () => {
+    try {
+      const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 9000));
+      return await Promise.race([companyProfile(query), timeout]);
+    } catch { return null; }
+  });
+}
+
+function renderCompanyCard(p) {
+  if (!p) return '';
+  const row = (k, v) => v == null || v === '' ? '' : `<tr><td class=muted>${esc(k)}</td><td>${v}</td></tr>`;
+  const usdFmt = (n) => n == null ? null : '$' + Number(n).toLocaleString('en-US');
+  const fields = [
+    row('Sector / industry', p.industry),
+    row('Founded', p.founded),
+    row('Headquarters', p.hq),
+    row('Exchanges', p.exchanges && p.exchanges.length ? esc(p.exchanges.join(', ')) : null),
+    row('CIK', p.cik),
+    row('LEI', p.lei),
+    row('Jurisdiction', p.jurisdiction ? esc(p.jurisdiction) : null),
+    row('Website', p.website ? `<a href="${esc(p.website)}" rel=noopener target=_blank>${esc(String(p.website).replace(/^https?:\/\//, ''))}</a>` : null),
+  ].join('');
+  const filings = (p.secFilings || []).slice(0, 6).map((f) => {
+    const u = edgarFilingUrl(p.cik, f);
+    const label = `${esc(f.form || 'filing')}${f.filed ? ` · ${esc(f.filed)}` : ''}`;
+    return `<div style="padding:5px 0;font-size:13px">${u ? `<a href="${esc(u)}" rel=noopener target=_blank>${label}</a>` : label}</div>`;
+  }).join('');
+  const gc = p.govContracts;
+  let gov = '';
+  if (gc && (gc.contracts?.count || gc.grants?.count)) {
+    const line = (cat) => cat && cat.count ? `<div style="font-size:13px"><span class=muted>${esc(cat.label)}:</span> ${cat.count} sampled · $${Number(cat.total).toLocaleString('en-US')}</div>` : '';
+    gov = `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Federal awards (USAspending, top sample)</div>${line(gc.contracts)}${line(gc.grants)}</div>`;
+  }
+  return `<div class=card><h2>Company</h2>
+    ${p.description ? `<p style="margin:0 0 10px">${esc(p.description)}</p>` : ''}
+    <table>${fields}</table>
+    ${filings ? `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Recent SEC filings (EDGAR)</div>${filings}</div>` : ''}
+    ${gov}
+    ${p.sources && p.sources.length ? `<p class=muted style="font-size:11px;margin-top:10px">Sources: ${esc(p.sources.join(', '))} — public records, keyless.</p>` : ''}</div>`;
 }
 
 async function quotePage(symbol) {
   const sym = String(symbol).toUpperCase();
   const [q, series] = await Promise.all([stockQuote(sym).catch(() => null), stockChart(sym, '7d').catch(() => [])]);
   if (!q) return { code: 404, html: page(sym, `<h1>${esc(sym)}</h1><p class=muted>No data for this symbol. <a href="/">Back to the index</a>.</p>`) };
-  const news = await stockNews(q.name).catch(() => []);
   const isIdx = sym.startsWith('^');
+  // Indices have no company registry data — skip the profile lookup entirely.
+  const [news, profile] = await Promise.all([
+    stockNews(q.name, sym).catch(() => []),
+    isIdx ? Promise.resolve(null) : companyCard(sym).catch(() => null),
+  ]);
   const stat = (k, v) => v == null ? '' : `<tr><td class=muted>${esc(k)}</td><td>${v}</td></tr>`;
   const research = [['Yahoo Finance', `https://finance.yahoo.com/quote/${encodeURIComponent(sym)}`], ['Google Finance', `https://www.google.com/finance/quote/${encodeURIComponent(sym)}`], ['Google News', `https://news.google.com/search?q=${encodeURIComponent(q.name + ' stock')}`], ['SEC EDGAR', `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=${encodeURIComponent(q.name)}&type=10-K`]];
   const body = `<h1>${esc(q.name)} <span class=muted style="font-size:18px">${esc(sym)}</span></h1>
@@ -132,7 +203,8 @@ async function quotePage(symbol) {
       ${stat('52-week range', q.fiftyTwoLow && q.fiftyTwoHigh ? `${num(q.fiftyTwoLow)} – ${num(q.fiftyTwoHigh)}` : null)}
       ${stat('Volume', q.volume ? (+q.volume).toLocaleString() : null)}
       ${stat('Exchange', q.exchange)}</table></div>
-    ${news.length ? `<div class=card><h2>Latest news &amp; research</h2>${news.map((n) => `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><a href="${esc(n.url)}" rel=noopener target=_blank>${esc(n.title)}</a>${n.snippet ? `<div class=muted style="font-size:13px">${esc(n.snippet)}</div>` : ''}</div>`).join('')}<p class=muted style="font-size:11px;margin-top:8px">Aggregated via web search — verify with primary sources.</p></div>` : ''}
+    ${renderCompanyCard(profile)}
+    ${news.length ? `<div class=card><h2>News &amp; filings</h2>${news.map((n) => `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><a href="${esc(n.url)}" rel=noopener target=_blank>${esc(n.title)}</a>${n.snippet ? `<div class=muted style="font-size:13px">${esc(n.snippet)}</div>` : ''}</div>`).join('')}<p class=muted style="font-size:11px;margin-top:8px">Aggregated via web search — verify with primary sources.</p></div>` : ''}
     <div class=card><h2>Research &amp; profile</h2><div class=muted style="font-size:13px">${research.map(([n, u]) => `<a href="${esc(u)}" rel=noopener target=_blank>${esc(n)}</a>`).join(' · ')}</div>
       <p class=muted style="font-size:12px;margin-top:8px">Company profile + insights: <a href="${DIRECTORY}">SoapBox Directory →</a></p></div>`;
   return { code: 200, html: page(`${q.name} (${sym}) — SoapBox Stocks`, body, `${q.name} (${sym}) stock price, chart, key stats, and news on SoapBox Stocks.`) };
