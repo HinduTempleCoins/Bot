@@ -91,6 +91,21 @@ export async function topCoins({ limit = 50, page = 1, sparkline = true } = {}) 
   });
 }
 
+// related coins for the coin page — ecosystem siblings for our tokens, else top coins sharing a
+// chain/category. Cheap: drawn from the already-cached top list + ourCoins, no extra upstream call.
+export async function relatedCoins(coin, { limit = 6 } = {}) {
+  if (!coin) return [];
+  const [ours, top] = await Promise.all([ourCoins().catch(() => []), topCoins({ limit: 50 }).catch(() => [])]);
+  if (coin.source === 'hive-engine' || coin.source_tier === 2) {
+    return ours.filter((c) => c.id !== coin.id).slice(0, limit);
+  }
+  const chains = new Set(coin.chains || []);
+  const scored = top.filter((c) => c.id !== coin.id);
+  // a coin shares relevance if it lives on one of this coin's chains; fall back to top-by-cap.
+  const onChain = scored.filter((c) => c.chainsHint && chains.has(c.chainsHint));
+  return (onChain.length ? onChain : scored).slice(0, limit);
+}
+
 // trending coins (CoinGecko /search/trending, keyless) — the "what people are searching" strip.
 export async function trending({ limit = 7 } = {}) {
   return cached(`trending:${limit}`, TTL.list, async () => {

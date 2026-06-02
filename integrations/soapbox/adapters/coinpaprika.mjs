@@ -51,5 +51,12 @@ export async function fetchToken(loose) {
   }, { tier: 1, source: 'coinpaprika', updatedAt: new Date().toISOString() });
 }
 
+// just the team/People for a coin (CoinGecko lacks this). Used to enrich a Tier-1 coin page.
+export async function fetchTeam(loose) {
+  const pid = await resolveId(loose);
+  const meta = await jget(`https://api.coinpaprika.com/v1/coins/${encodeURIComponent(pid)}`).catch(() => null);
+  return (meta?.team || []).slice(0, 8).map((t) => ({ name: t.name, role: t.position || '', social: '' }));
+}
+
 // paprika historical needs a key for fine granularity; skip OHLCV here (CoinGecko/GeckoTerminal cover it).
 export async function fetchOHLCV() { return []; }

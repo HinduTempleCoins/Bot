@@ -148,6 +148,25 @@ export function supplyBar(supply) {
 
 export const card = (title, inner) => `<div class=card>${title ? `<h2>${esc(title)}</h2>` : ''}${inner}</div>`;
 
+// related / ecosystem coins — spec §6 "ecosystem groupings, not isolated pages".
+export function relatedPanel(coins) {
+  if (!coins?.length) return '';
+  return `<div class=card><h2>Related</h2><div style="display:flex;flex-wrap:wrap;gap:8px">${coins.map((c) =>
+    `<a class=coin href="/coins/${esc(c.id)}" style="padding:5px 10px;border:1px solid var(--line2);border-radius:8px">${esc(c.symbol)} <span class=muted>${usd(c.price_usd)}</span></a>`).join('')}</div></div>`;
+}
+
+// client-side coin↔USD converter — uses the live price, no request.
+export function converter(coin) {
+  if (!coin?.price_usd) return '';
+  return `<div class=card><h2>Converter</h2>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input id=cv-amt type=number value=1 step=any style="background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:8px;width:120px">
+      <b>${esc(coin.symbol)}</b> = <span id=cv-out class=gold>${usd(coin.price_usd)}</span> USD
+    </div>
+    <script>(function(){var p=${coin.price_usd},a=document.getElementById('cv-amt'),o=document.getElementById('cv-out');
+      function f(){var v=parseFloat(a.value)||0,n=v*p;o.textContent='$'+n.toLocaleString(undefined,{maximumFractionDigits:n<1?6:2})}a.addEventListener('input',f)})();</script></div>`;
+}
+
 // holder distribution panel (first-party HE data). Shows the issuer/affiliated/real-outside split
 // and the top outside holders — the on-chain truth behind the Clarity Score's holder_dist input.
 export function holdersPanel(h) {
