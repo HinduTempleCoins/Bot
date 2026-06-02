@@ -25,6 +25,7 @@ import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
+import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 
@@ -464,6 +465,25 @@ createServer(async (req, res) => {
         ${items.map((i) => `<item><title>${esc(i.t)}</title><link>${esc(i.l)}</link><guid isPermaLink="true">${esc(i.l)}</guid><description>${esc(i.d)}</description></item>`).join('')}
         </channel></rss>`;
       res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8' }); return res.end(xml);
+    }
+    // Hathor's Announcements voice — a signed RSS feed an external automation (IFTTT/Zapier/Buffer)
+    // broadcasts to Twitter/Reddit/etc. The HTML page is the human view; the .xml is the proxy source.
+    if (p === '/announcements' || p === '/announcements.xml') {
+      const items = listAnnouncements({ limit: 50 });
+      if (p === '/announcements.xml') {
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>
+          <title>Hathor — Announcements</title><link>${BASE_URL}/announcements</link>
+          <description>Official posts from Hathor, the MELEK AI Witness. Each item is signed.</description>
+          ${items.map((a) => `<item><title>${esc(a.title)}</title><link>${esc(a.link || `${BASE_URL}/announcements`)}</link>
+            <guid isPermaLink="false">${esc(a.id)}</guid><pubDate>${esc(a.ts)}</pubDate>
+            <description>${esc(asPost(a, { max: 1000 }))}</description></item>`).join('')}
+          </channel></rss>`;
+        res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8' }); return res.end(xml);
+      }
+      const body = `<h1>Announcements</h1><p class=muted>Official posts from Hathor, the MELEK AI Witness. Each is signed. <a href="/announcements.xml">RSS</a> — connect it to IFTTT/Zapier to broadcast to social.</p>
+        ${items.map((a) => `<div class=card><h2>${esc(a.title)}</h2><p>${esc(a.body)}</p>
+          <p class=muted style="font-size:12px">${esc(a.signed_by)} · ${esc(a.ts.slice(0, 16))} · sig <code>${esc(a.sig)}</code></p></div>`).join('') || '<p class=muted>No announcements yet.</p>'}`;
+      return send(layout({ title: 'Announcements', active: '', canonical: `${BASE_URL}/announcements`, description: 'Official announcements from Hathor, the MELEK AI Witness.', body }));
     }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(await sitemap()); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
