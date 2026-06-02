@@ -16,7 +16,9 @@ import { fetchTokenFailover } from './adapters/index.mjs';
 import { holders as heHolders } from '../holders.mjs';
 
 // our ecosystem tokens to surface on the aggregator (Tier 2/3 first-party).
-export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
+// Only genuine Van Kush ecosystem currencies belong here. SWAP.GIFU is a pegged/wrapped Hive-Engine
+// token, NOT an ecosystem currency — removed so it isn't mislabeled "ecosystem" or pinned on top.
+export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE').split(',').map((s) => s.trim());
 
 const UA = 'MELEK-SoapBox/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 let _fetch = (...a) => globalThis.fetch(...a);

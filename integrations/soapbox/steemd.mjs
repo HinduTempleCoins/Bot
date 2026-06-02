@@ -33,7 +33,7 @@ const err = (text) => ({ ok: false, text, data: null });
 
 // resolve a user-typed token reference to a condenser id. "VKBT"/"vkbt" → hive-engine for our tokens,
 // otherwise a Tier-1 id (lowercased). "hive-engine:vkbt" and "node:melek:MELEK" pass through.
-const OUR = new Set(['vkbt', 'cure', 'swap.gifu']);
+const OUR = new Set(['vkbt', 'cure']); // genuine ecosystem currencies only (SWAP.GIFU is a pegged token, not ours)
 function resolveId(ref) {
   const r = String(ref || '').trim();
   if (!r) return '';
