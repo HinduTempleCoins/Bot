@@ -179,7 +179,7 @@ async function coinPage(id) {
   // find official forum threads only when CoinGecko doesn't already give one (our HE tokens, etc.).
   const needThreads = !c.official?.forum;
   const [series, clarity, extras, related, tickers, threads] = await Promise.all([
-    coinChart(id).catch(() => []),
+    coinChart(id, { symbol: c.symbol || '' }).catch(() => []),
     clarityFromCoin(c).catch(() => null),
     isHE ? hiveEngineExtras(c.symbol).catch(() => null) : Promise.resolve(null),
     relatedCoins(c).catch(() => []),
@@ -217,7 +217,7 @@ async function coinPage(id) {
       <div class=price>${usd(c.price_usd)}</div>
       <div class=muted>Market cap ${compactUsd(c.market_cap_usd)} · 24h vol ${compactUsd(c.volume_24h_usd)} · source: ${esc(c.source)} (tier ${c.source_tier})${chains ? ' · ' + chains : ''}</div>
     </div>
-    ${priceChart(series, id, CHART_RANGES)}
+    ${priceChart(series, id, CHART_RANGES, c.symbol || '')}
     ${marketStats(c.market)}
     ${supplyBar(c.supply)}
     ${extras ? holdersPanel(extras.holders) : ''}
@@ -559,7 +559,8 @@ createServer(async (req, res) => {
     if (p === '/api/chart') {
       const id = url.searchParams.get('id') || '';
       const range = url.searchParams.get('range') || '7d';
-      const series = await coinChartRange(id, range).catch(() => []);
+      const sym = url.searchParams.get('sym') || '';
+      const series = await coinChartRange(id, range, sym).catch(() => []);
       return json(res, 200, { id, range, series });
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }

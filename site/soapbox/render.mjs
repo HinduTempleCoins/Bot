@@ -153,8 +153,14 @@ export function clarityCard(clarity) {
 /** lightweight-charts (Apache-2.0, CDN, attributed) line chart with 1H/1D/7D/1M/1Y/All timeframe
  * buttons. Server-renders the default (7d) series so it works without JS; the buttons fetch
  * /api/chart?id=&range= and redraw. `ranges` is CHART_RANGES ([key,label,days]); `id` is the coin id. */
-export function priceChart(series, id = '', ranges = [['7d', '7D']]) {
-  if (!series || series.length < 2) return `<div class=card><h2>Price</h2><p class=muted>Chart history coming for this tier.</p></div>`;
+export function priceChart(series, id = '', ranges = [['7d', '7D']], symbol = '') {
+  series = series || [];
+  // Only show the static placeholder when there's no id to load ranges from (Tier-3 node: ids, or unknown).
+  // With an id we always render chart + buttons, even if the initial series is thin/empty (a transient
+  // upstream rate-limit shouldn't strip the timeframe UI) — the buttons fetch /api/chart to fill it.
+  if (!id || id.startsWith('node:')) {
+    if (series.length < 2) return `<div class=card><h2>Price</h2><p class=muted>Chart history coming for this tier.</p></div>`;
+  }
   const data = series.map((d) => ({ time: d.t, value: d.p }));
   const def = ranges.some((r) => r[0] === '7d') ? '7d' : ranges[0][0];
   const btns = id ? `<div class=tf role=group aria-label="Chart timeframe">${ranges.map(([k, l]) => `<button type=button class="tfb${k === def ? ' on' : ''}" data-range="${esc(k)}">${esc(l)}</button>`).join('')}</div>` : '';
@@ -174,9 +180,9 @@ export function priceChart(series, id = '', ranges = [['7d', '7D']]) {
         var s=c.addAreaSeries({lineColor:'#58a6ff',topColor:'#58a6ff44',bottomColor:'#58a6ff00',lineWidth:2});
         s.setData(${JSON.stringify(data)});c.timeScale().fitContent();
         addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
-        var id=${JSON.stringify(id)};
+        var id=${JSON.stringify(id)},sym=${JSON.stringify(symbol)};
         function load(range,btn){
-          fetch('/api/chart?id='+encodeURIComponent(id)+'&range='+range).then(function(r){return r.json()}).then(function(d){
+          fetch('/api/chart?id='+encodeURIComponent(id)+'&range='+range+'&sym='+encodeURIComponent(sym)).then(function(r){return r.json()}).then(function(d){
             if(!d.series||d.series.length<2){return}
             s.setData(d.series.map(function(p){return {time:p.t,value:p.p}}));c.timeScale().fitContent();
             var lbl=document.getElementById('tflabel'); if(lbl&&btn){lbl.textContent='· '+btn.textContent}

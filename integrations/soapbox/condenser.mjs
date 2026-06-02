@@ -210,28 +210,48 @@ export async function globalStats() {
 // [ms, price] points; we hand the site a light {t, p} series (lightweight-charts maps it to a line).
 // Hive-Engine candles come from the market history endpoint when we wire Tier-2 charts; for now a
 // Tier-2 id returns [] (the chart panel shows "history coming" rather than a broken graph).
-export async function coinChart(id, { days = 7 } = {}) {
+export async function coinChart(id, { days = 7, symbol = '' } = {}) {
   if (!id) return [];
   if (id.startsWith('node:')) return []; // Tier 3 — wired when MELEK/SOAP RPC exists
   if (id.startsWith('hive-engine:')) return hiveEngineChart(id.split(':')[1], { days });
   return cached(`chart:${id}:${days}`, TTL.ohlcv, async () => {
-    const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}/market_chart?vs_currency=usd&days=${days}`);
-    return (d.prices || []).map(([t, p]) => ({ t: Math.floor(t / 1000), p }));
+    // primary: CoinGecko (keyless, rate-limited). On empty/throttled, fall back to Binance klines
+    // (keyless, very high limits) by ticker symbol — so a CoinGecko 429 doesn't blank the chart.
+    const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}/market_chart?vs_currency=usd&days=${days}`).catch(() => ({}));
+    let series = (d.prices || []).map(([t, p]) => ({ t: Math.floor(t / 1000), p }));
+    if (series.length < 2 && symbol) series = await binanceChart(symbol, days).catch(() => series);
+    return series;
   });
+}
+
+// Backup chart source: Binance public klines via the data-only mirror data-api.binance.vision — keyless,
+// high limits, and (unlike api.binance.com) NOT geo-blocked from US/cloud IPs. Symbol → SYMBOLUSDT pair.
+// Same {t, p} shape; empty if the pair isn't on Binance (then CoinGecko stays primary).
+const BINANCE_HOST = 'https://data-api.binance.vision';
+const BINANCE_INTERVAL = (days) => days === 'max' ? '1w' : days <= 1 ? '5m' : days <= 7 ? '1h' : days <= 30 ? '4h' : days <= 90 ? '8h' : '1d';
+export async function binanceChart(symbol, days = 7) {
+  const sym = String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!sym || sym === 'USDT' || sym === 'USD') return [];
+  const pair = sym.endsWith('USDT') ? sym : `${sym}USDT`;
+  const interval = BINANCE_INTERVAL(days);
+  const rows = await jget(`${BINANCE_HOST}/api/v3/klines?symbol=${pair}&interval=${interval}&limit=1000`).catch(() => null);
+  if (!Array.isArray(rows)) return [];
+  return rows.map((k) => ({ t: Math.floor(k[0] / 1000), p: +k[4] })).filter((x) => x.p > 0);
 }
 
 // The timeframe choices offered on every coin page: [range-key, label, coingecko-days]. '1h' reuses the
 // keyless days=1 series (5-min granularity) and slices the last hour. 'max' = all history we can get.
 export const CHART_RANGES = [['1h', '1H', 1], ['1d', '1D', 1], ['7d', '7D', 7], ['30d', '1M', 30], ['365d', '1Y', 365], ['max', 'All', 'max']];
 
-/** Price series for a chart range-key (1h|1d|7d|30d|365d|max). Works for CoinGecko + Hive-Engine ids. */
-export async function coinChartRange(id, range = '7d') {
+/** Price series for a chart range-key (1h|1d|7d|30d|365d|max). Works for CoinGecko + Hive-Engine ids.
+ * `symbol` enables the Binance backup when CoinGecko throttles. */
+export async function coinChartRange(id, range = '7d', symbol = '') {
   const row = CHART_RANGES.find((r) => r[0] === range) || CHART_RANGES.find((r) => r[0] === '7d');
   const days = row[2];
-  let series = await coinChart(id, { days });
+  let series = await coinChart(id, { days, symbol });
   // 'max': CoinGecko's KEYLESS API caps history at 365d, so days=max comes back empty for those coins —
   // fall back to 365 so "All" still shows the most we can get. (Hive-Engine ids read full on-chain history.)
-  if (range === 'max' && series.length < 2) series = await coinChart(id, { days: 365 }).catch(() => series);
+  if (range === 'max' && series.length < 2) series = await coinChart(id, { days: 365, symbol }).catch(() => series);
   if (range === '1h' && series.length) {
     const last = series[series.length - 1].t;
     const win = series.filter((s) => s.t >= last - 3600);
