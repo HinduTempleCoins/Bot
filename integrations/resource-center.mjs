@@ -16,6 +16,10 @@ import { marketSnapshot, topByVolume } from './market-universe.mjs';
 import { macro, forex } from './soapbox/macro.mjs';
 import { scanAccounts } from './held-asset-scan.mjs';
 
+// news-diagnostics (#179): what the market is SAYING (sentiment/themes) to pair with what it's DOING.
+let newsDigest = async () => null;
+try { const cp = await import('./comms-parser.mjs'); newsDigest = cp.newsDigest || newsDigest; } catch { /* news layer absent — engine still runs */ }
+
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
 let proposeTrades = async () => null, briefBlock = () => '';
@@ -37,6 +41,8 @@ export async function runPass() {
     // find held tokens with an external market, compute the move-it-to-make-money spread. Advisory.
     scanAccounts().catch(() => []),
   ]);
+  // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
+  const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
 
   const findM = (cat, label) => (mac[cat] || []).find((x) => x.label?.startsWith(label)) || null;
   const metals = {
@@ -66,7 +72,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, news, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -107,6 +113,17 @@ export function briefReport(s) {
     for (const o of s.holdings.slice(0, 6)) {
       const sp = o.spreadPct == null ? '—' : `${o.spreadPct >= 0 ? '+' : ''}${o.spreadPct}%`;
       L.push(`- **@${o.account} ${o.symbol}** (~$${num(o.valueUsd)}, spread ${sp}): ${o.action}`);
+    }
+  }
+  // news diagnostics (#179) — what the market is SAYING, to read alongside what it's DOING
+  if (s.news && s.news.assets) {
+    L.push('');
+    L.push(`### News diagnostics`);
+    for (const d of s.news.assets) {
+      if (!d || !d.headlineCount) continue;
+      const arrow = d.sentimentHint === 'bullish' ? '▲' : d.sentimentHint === 'bearish' ? '▼' : '•';
+      const themes = (d.themes || []).slice(0, 4).map((t) => t.word).join(', ');
+      L.push(`- **${d.topic}**: ${arrow} ${d.sentimentHint} (${d.sentimentScore}), ${d.headlineCount} headlines${themes ? ` — themes: ${themes}` : ''}.`);
     }
   }
   L.push(`\n*Engine: resource-center.mjs · advisory only, no trades executed · US-jurisdiction-aware.*`);
