@@ -6,7 +6,7 @@
 //   PORT=8094 BASE_URL=https://directory.soapbox.community node site/directory/server.mjs
 
 import { createServer } from 'node:http';
-import { appendFile, mkdir } from 'node:fs/promises';
+import { appendFile, mkdir, readFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { insights, normDomain, trancoRank } from '../../integrations/soapbox/domain-insights.mjs';
@@ -25,6 +25,11 @@ const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const STOCKS = process.env.STOCKS_SITE || 'https://stocks.soapbox.community';
 const SUBMISSIONS = process.env.DIRECTORY_SUBMISSIONS || new URL('../../data/directory-submissions.jsonl', import.meta.url).pathname;
+// Moderation gate — reuse the STATS_TOKEN-style opaque-token pattern (see site/soapbox/server.mjs).
+// Only the operator (who knows the token) can promote/approve a community submission. DIRECTORY_TOKEN
+// is preferred; STATS_TOKEN is accepted as a fallback so the operator can reuse one secret across sites.
+const DIR_TOKEN = process.env.DIRECTORY_TOKEN || process.env.STATS_TOKEN || '';
+const TRUST_STATUSES = ['pending', 'approved', 'featured'];
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const CATS = DIRECTORY.map((g) => g.cat);
@@ -163,6 +168,103 @@ function listing() {
     <div class=b>${esc(it.blurb)}</div></div>`).join('')}</div></div>`).join('');
 }
 
+// ── Community submissions tier (#138/#139) ───────────────────────────────────
+// The curated DIRECTORY above is hand-picked. This tier is the community-submitted layer: every entry
+// the public POSTed to /submit lands in the SUBMISSIONS JSONL, and we render the ones that have earned
+// visibility (pending + approved + featured) as a separate "Community submissions" list. It's a
+// read-only render from the JSONL — never a second source of truth. Trust is a small per-submission
+// model: a `status` ('pending'|'approved'|'featured') and a `trust` counter that grows as a site earns
+// it. Promotion is MANUAL — only the operator, via the token-gated /api/moderate endpoint, moves a
+// submission up the ladder. Best-effort throughout: a missing/empty/corrupt JSONL yields an empty list,
+// never an error.
+
+// Read + parse the submissions JSONL into objects, newest first, deduped by url (last write wins so a
+// moderation update supersedes the original submission line). Best-effort — returns [] on any failure.
+async function readSubmissions() {
+  let txt;
+  try { txt = await readFile(SUBMISSIONS, 'utf8'); } catch { return []; }
+  const byUrl = new Map();
+  for (const line of txt.split('\n')) {
+    const s = line.trim();
+    if (!s) continue;
+    let o; try { o = JSON.parse(s); } catch { continue; }
+    if (!o || typeof o.url !== 'string') continue;
+    if (!TRUST_STATUSES.includes(o.status)) o.status = 'pending';
+    if (typeof o.trust !== 'number' || !isFinite(o.trust)) o.trust = 0;
+    byUrl.set(o.url, o); // later lines (incl. moderation rewrites) win
+  }
+  // newest first by submission timestamp, then featured/approved float up
+  const rank = { featured: 0, approved: 1, pending: 2 };
+  return [...byUrl.values()].sort((a, b) =>
+    (rank[a.status] - rank[b.status]) || ((b.ts_unix || 0) - (a.ts_unix || 0)));
+}
+
+const STATUS_BADGE = {
+  featured: '<span class="bdg us-full">★ featured</span>',
+  approved: '<span class="bdg us-full">✓ approved</span>',
+  pending: '<span class="bdg us-partial">⏳ pending</span>',
+};
+
+// The community-submissions section: a read-only list of pending + approved + featured submissions,
+// plus the "how trust grows" explainer and the manual-moderation note (#139).
+function communitySection(subs) {
+  const shown = subs.filter((s) => TRUST_STATUSES.includes(s.status));
+  const rows = shown.length ? shown.map((s) => {
+    const title = (s.crawl_title || '').trim();
+    const name = (s.name || '').trim() || title || s.url.replace(/^https?:\/\//, '');
+    const trust = s.trust > 0 ? ` <span class=b title="trust earned">· trust ${s.trust}</span>` : '';
+    return `<div class=lrow>
+      <span class=ln><a href="${esc(s.url)}" rel="noopener nofollow" target=_blank>${esc(name)}</a></span>
+      ${STATUS_BADGE[s.status] || STATUS_BADGE.pending}
+      <span class=ld>${esc(title || s.url)}${trust}</span></div>`;
+  }).join('') : '<p class=muted>No community submissions yet — be the first to submit a site above.</p>';
+  return `<details class=rcg id=community${shown.length ? ' open' : ''}>
+    <summary>🌱 Community submissions<span class=ct>${shown.length} entries</span></summary>
+    <div class=rcg-body>
+      <p class=muted style="margin-top:4px">Sites the community submitted, separate from the curated directory above.
+      <b>Approval is manual</b> — a human (the operator) reviews every submission before it's marked approved or featured;
+      nothing here is auto-published. <b>Trust grows as sites earn it:</b> a submission starts <i>pending</i>, becomes
+      <i>approved</i> once it checks out, and can be <i>featured</i> once it's proven genuinely useful — the trust counter
+      reflects that earned standing. Outbound links open in a new tab; do your own research.</p>
+      ${rows}
+    </div></details>`;
+}
+
+// ── Moderation endpoint (#139) ────────────────────────────────────────────────
+// /api/moderate?token=…&url=…&status=approved[&trust=N] — token-gated (STATS_TOKEN-style). Rewrites the
+// matching submission's status/trust by appending an updated line (JSONL is append-only on disk; the
+// reader dedupes last-write-wins). Returns JSON. 404 (not 401) when the token is absent/wrong, so the
+// endpoint's existence isn't revealed — same posture as the soapbox /stats gate.
+async function handleModerate(req, res, url) {
+  const want = DIR_TOKEN;
+  const got = url.searchParams.get('token') || '';
+  if (!want || got !== want) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('404'); }
+  const target = (url.searchParams.get('url') || '').trim();
+  const status = (url.searchParams.get('status') || '').trim();
+  const trustParam = url.searchParams.get('trust');
+  if (!target) return sendJson(res, 400, { ok: false, error: 'url required' });
+  if (status && !TRUST_STATUSES.includes(status)) return sendJson(res, 400, { ok: false, error: 'status must be pending|approved|featured' });
+  const subs = await readSubmissions();
+  const entry = subs.find((s) => s.url === target);
+  if (!entry) return sendJson(res, 404, { ok: false, error: 'submission not found' });
+  if (status) entry.status = status;
+  if (trustParam != null) {
+    const t = Number(trustParam);
+    if (Number.isFinite(t)) entry.trust = t;
+  } else if (status === 'approved' || status === 'featured') {
+    entry.trust = Math.max(entry.trust || 0, status === 'featured' ? 2 : 1); // trust grows as it's promoted
+  }
+  entry.moderated_unix = Math.floor(Date.now() / 1000);
+  try { await appendFile(SUBMISSIONS, JSON.stringify(entry) + '\n'); }
+  catch (e) { return sendJson(res, 500, { ok: false, error: 'write failed' }); }
+  return sendJson(res, 200, { ok: true, url: entry.url, status: entry.status, trust: entry.trust });
+}
+
+function sendJson(res, code, obj) {
+  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8' });
+  res.end(JSON.stringify(obj));
+}
+
 // Site Insights — the "Alexa rankings" surface: popularity rank + domain age + on-page SEO for any site.
 const bigForm = (domain = '') => `<form class=bigform method=get action="/">
   <input type=text name=domain value="${esc(domain)}" placeholder="Enter a domain — e.g. github.com — for rank, trend, age &amp; SEO" autocomplete=off autofocus>
@@ -299,12 +401,13 @@ function resourceCenter() {
   ${marketsSection()}${wikisSection()}${govtechSection()}${scamsSection()}`;
 }
 
-const homeBody = (msg, hero, insights = '') => `${hero}
+const homeBody = (msg, hero, insights = '', community = '') => `${hero}
   ${insights ? `<div style="margin:16px 0">${insights}</div>` : ''}
   <h2 style="margin:26px 0 6px">Crypto Resources Directory</h2>
   <p class=muted>A curated directory of useful crypto, markets, and data resources. Ecosystem items marked ⭐. We deliberately also list <b>useful low-traffic crypto resources</b> — niche tools and docs that won't rank near the top but earn their place. Outbound links; do your own research.</p>
   ${submitForm(msg)}
   ${listing()}
+  ${community}
   ${resourceCenter()}`;
 
 // SSRF guard: only public http(s) hosts (we crawl what's submitted).
@@ -336,12 +439,12 @@ async function handleSubmit(req, res) {
   if (f.get('website')) { res.writeHead(302, { location: '/#submit' }); return res.end(); } // honeypot tripped → silently drop
   const hero = heroBox(await leaderboard('Overall').catch(() => []), 'Overall');
   const url = safeUrl(f.get('url'));
-  if (!url) return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>', hero)), 400);
+  if (!url) return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>', hero, '', communitySection(await readSubmissions()))), 400);
   const crawl = await crawlTitle(url);
-  const entry = { url, name: (f.get('name') || '').slice(0, 120), category: (f.get('category') || '').slice(0, 60), note: (f.get('note') || '').slice(0, 280), crawl_status: crawl.status, crawl_title: crawl.title.slice(0, 200), ip_hash: 'redacted', ts_unix: Math.floor(Date.now() / 1000) };
+  const entry = { url, name: (f.get('name') || '').slice(0, 120), category: (f.get('category') || '').slice(0, 60), note: (f.get('note') || '').slice(0, 280), crawl_status: crawl.status, crawl_title: crawl.title.slice(0, 200), status: 'pending', trust: 0, ip_hash: 'redacted', ts_unix: Math.floor(Date.now() / 1000) };
   try { await mkdir(dirname(SUBMISSIONS), { recursive: true }); await appendFile(SUBMISSIONS, JSON.stringify(entry) + '\n'); } catch (e) { /* never fail the user on a write error */ }
   const okMsg = `<div class=ok>✓ Thanks — <b>${esc(url)}</b> is queued for review${crawl.title ? ` (we found: “${esc(crawl.title)}”)` : ''}. We crawl + check submissions before adding them.</div>`;
-  return send(res, page('Submitted — SoapBox Directory', homeBody(okMsg, hero)));
+  return send(res, page('Submitted — SoapBox Directory', homeBody(okMsg, hero, '', communitySection(await readSubmissions()))));
 }
 
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
@@ -353,16 +456,18 @@ createServer(async (req, res) => {
     if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (url.pathname === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url></urlset>`); }
     if (req.method === 'POST' && url.pathname === '/submit') return handleSubmit(req, res);
+    if (url.pathname === '/api/moderate') return handleModerate(req, res, url);
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const domain = url.searchParams.get('domain');
     const topReq = url.searchParams.get('top');
     const activeCat = LB_CATS.includes(topReq) ? topReq : 'Overall';
-    const [rows, card] = await Promise.all([
+    const [rows, card, subs] = await Promise.all([
       leaderboard(activeCat).catch(() => []),
       domain ? insights(domain).then(insightsCard).catch(() => insightsCard({ domain: '', error: 'lookup failed' })) : Promise.resolve(''),
+      readSubmissions().catch(() => []),
     ]);
     const hero = heroBox(rows, activeCat);
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': domain ? 'no-store' : 'public, max-age=300' });
-    res.end(page(domain ? `${normDomain(domain) || 'Insights'} — SoapBox Directory` : 'SoapBox Directory — site rankings & crypto resources', homeBody('', hero, card)));
+    res.end(page(domain ? `${normDomain(domain) || 'Insights'} — SoapBox Directory` : 'SoapBox Directory — site rankings & crypto resources', homeBody('', hero, card, communitySection(subs))));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
 }).listen(PORT, HOST, () => console.log(`SoapBox Directory on ${BASE_URL} (bound ${HOST}:${PORT})`));
