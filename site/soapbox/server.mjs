@@ -205,6 +205,33 @@ async function listPage({ page = 1 } = {}) {
   });
 }
 
+// ── Library cross-link (task #84) ───────────────────────────────────────────
+// Query the Library wiki's search API for a coin and return the good matches, so the coin page can
+// link to its wiki article (e.g. VKBT → VKBT_Token). Best-effort: short timeout, cached, and any
+// failure returns [] so the coin page never breaks or stalls if the wiki is slow/down.
+const WIKI_SITE = (process.env.WIKI_SITE || 'https://wiki.soapbox.community').replace(/\/$/, '');
+const WIKI_MIN_SCORE = +(process.env.WIKI_MIN_SCORE || 0.4); // score threshold for a "good" match
+
+async function wikiArticles(name, symbol) {
+  const q = [symbol, name].filter(Boolean).join(' ').trim();
+  if (!q) return [];
+  return memo(`wiki:${q.toLowerCase()}`, MEMO_TTL.metadata, async () => {
+    const r = await fetch(`${WIKI_SITE}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(4000) });
+    if (!r.ok) throw new Error(`wiki ${r.status}`);
+    const d = await r.json();
+    const sym = (symbol || '').toLowerCase();
+    const nm = (name || '').toLowerCase();
+    return (d.results || [])
+      .filter((x) => x && x.title && x.url && (x.score == null || x.score >= WIKI_MIN_SCORE))
+      // keep matches that actually mention the coin's symbol or name (avoids generic hits).
+      .filter((x) => {
+        const hay = `${x.title} ${x.snippet || ''}`.toLowerCase();
+        return (sym && hay.includes(sym)) || (nm && nm.length >= 3 && hay.includes(nm));
+      })
+      .slice(0, 3);
+  }).catch(() => []);
+}
+
 // ── Coin page (one template → every token) ──────────────────────────────────
 async function coinPage(id) {
   const c = await getCoin(id).catch(() => null);
@@ -224,13 +251,14 @@ async function coinPage(id) {
   const isHE = c.source === 'hive-engine' || c.source_tier === 2;
   // find official forum threads only when CoinGecko doesn't already give one (our HE tokens, etc.).
   const needThreads = !c.official?.forum;
-  const [series, clarity, extras, related, tickers, threads] = await Promise.all([
+  const [series, clarity, extras, related, tickers, threads, wiki] = await Promise.all([
     coinChart(id, { symbol: c.symbol || '' }).catch(() => []),
     clarityFromCoin(c).catch(() => null),
     isHE ? hiveEngineExtras(c.symbol).catch(() => null) : Promise.resolve(null),
     relatedCoins(c).catch(() => []),
     coinTickers(id).catch(() => []),
     needThreads ? officialThreads(c.name, c.symbol).catch(() => []) : Promise.resolve([]),
+    wikiArticles(c.name, c.symbol).catch(() => []),
   ]);
   // enrich Tier-1 coins lacking team data with CoinPaprika's People (best-effort, cached).
   if (!isHE && !(c.team || []).length) {
@@ -290,7 +318,8 @@ async function coinPage(id) {
       ].filter(Boolean);
       return rows.length ? card('Official & community', `<div style="display:flex;flex-wrap:wrap;gap:14px">${rows.join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Official project links — verified by the market fact-checker before they appear.</p>`) : '';
     })()}
-    ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — or browse the <a href="https://wiki.soapbox.community">Library of Ashurbanipal</a>.</p>`)}
+    ${wiki.length ? card('In the Library', `<div style="display:flex;flex-direction:column;gap:8px">${wiki.map((w) => `<div><a href="${esc(/^https?:\/\//.test(w.url) ? w.url : WIKI_SITE + w.url)}">📖 ${esc(w.title)}</a>${w.snippet ? `<div class=muted style="font-size:12px">${esc(w.snippet)}</div>` : ''}</div>`).join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Background reading from the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`) : ''}
+    ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — search the <a href="${esc(WIKI_SITE)}/?search=${encodeURIComponent(c.symbol || c.name)}">Library for ${esc(c.symbol || c.name)}</a>, or browse the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`)}
     ${converter(c)}
     ${relatedPanel(related)}
     ${comments}`;
