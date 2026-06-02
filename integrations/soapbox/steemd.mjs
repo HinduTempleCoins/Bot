@@ -15,6 +15,7 @@
 import { getCoin, topCoins, ourCoins, globalStats, hiveEngineExtras, trending } from './condenser.mjs';
 import { clarityFromCoin, clarityForHive } from './clarity.mjs';
 import { chainsTVL, fearGreed } from './markets-extra.mjs';
+import { topProtocols } from './adapters/defillama.mjs';
 
 const usd = (n) => (n == null || !Number.isFinite(+n) ? '—' : '$' + (+n).toLocaleString(undefined, { maximumFractionDigits: Math.abs(+n) < 1 ? 6 : 2 }));
 const compact = (n) => {
@@ -102,10 +103,58 @@ export const COMMANDS = {
     return ok(`**Trending**: ${t.map((c) => c.symbol).join(' · ')}`, t);
   },
 
+  async convert(args) {
+    const amt = parseFloat(args[0]);
+    const id = resolveId(args[1]);
+    if (!Number.isFinite(amt) || !id) return err('usage: `convert <amount> <symbol>` — e.g. `convert 100 VKBT`');
+    const c = await getCoin(id);
+    if (!c) return err(`no coin "${args[1]}".`);
+    return ok(`**${amt.toLocaleString()} ${c.symbol}** = ${usd(amt * c.price_usd)} (@ ${usd(c.price_usd)})`, { amount: amt, symbol: c.symbol, usd: amt * c.price_usd, price: c.price_usd });
+  },
+
+  async compare(args) {
+    const [a, b] = [resolveId(args[0]), resolveId(args[1])];
+    if (!a || !b) return err('usage: `compare <a> <b>` — e.g. `compare bitcoin ethereum`');
+    const [ca, cb] = await Promise.all([getCoin(a), getCoin(b)]);
+    if (!ca || !cb) return err(`couldn't load ${!ca ? args[0] : args[1]}.`);
+    const line = (c) => `**${c.symbol}** ${usd(c.price_usd)} · cap ${compact(c.market_cap_usd)}${c.change_24h != null ? ` · ${pct(c.change_24h)}` : ''}`;
+    const ratio = cb.price_usd ? (ca.price_usd / cb.price_usd) : null;
+    return ok(`${line(ca)}\n${line(cb)}${ratio ? `\n1 ${ca.symbol} = ${ratio.toLocaleString(undefined, { maximumFractionDigits: 6 })} ${cb.symbol}` : ''}`, { a: ca, b: cb, ratio });
+  },
+
+  async gainers(args) {
+    const top = await topCoins({ limit: 50 }).catch(() => []);
+    const g = top.filter((c) => Number.isFinite(c.change_24h)).sort((x, y) => y.change_24h - x.change_24h).slice(0, Math.min(10, +args[0] || 5));
+    return ok(`**Top gainers (24h)**\n${g.map((c) => `${c.symbol} ${pct(c.change_24h)} (${usd(c.price_usd)})`).join('\n')}`, g);
+  },
+
+  async losers(args) {
+    const top = await topCoins({ limit: 50 }).catch(() => []);
+    const l = top.filter((c) => Number.isFinite(c.change_24h)).sort((x, y) => x.change_24h - y.change_24h).slice(0, Math.min(10, +args[0] || 5));
+    return ok(`**Top losers (24h)**\n${l.map((c) => `${c.symbol} ${pct(c.change_24h)} (${usd(c.price_usd)})`).join('\n')}`, l);
+  },
+
+  async ecosystem() {
+    const ours = await ourCoins().catch(() => []);
+    if (!ours.length) return err('ecosystem tokens unavailable right now.');
+    return ok(`**SoapBox ecosystem**\n${ours.map((c) => `⭐ ${c.symbol} ${usd(c.price_usd)} ${c.change_24h != null ? `(${pct(c.change_24h)})` : ''}`).join('\n')}\nMELEK · SOAP · PRANA chains — https://data.soapbox.community/ecosystem`, ours);
+  },
+
+  async dapps() {
+    const p = await topProtocols({ limit: 6 }).catch(() => []);
+    if (!p.length) return err('dApp data unavailable right now.');
+    return ok(`**Top DeFi by TVL**\n${p.map((x) => `• ${x.name}: ${compact(x.tvl)}`).join('\n')}\nFull directory: https://data.soapbox.community/dapps`, p);
+  },
+
+  async learn() {
+    return ok('**Learn** — what gives a token value, scam patterns, how the Clarity Score works, burn-to-feature, DYOR:\nhttps://data.soapbox.community/learn', null);
+  },
+
   async help() {
     return ok([
       '**SoapBox steemd** — query the ecosystem state:',
-      '`price <sym>` · `clarity <sym>` · `holders <sym>` · `markets [n]` · `chains` · `global` · `trending`',
+      '`price <sym>` · `clarity <sym>` · `holders <sym>` · `convert <amt> <sym>` · `compare <a> <b>`',
+      '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn`',
       '_Reads the condenser (one source of truth). Starts with the CMC; grows as MELEK and more apps come online._',
       'Full site: https://data.soapbox.community',
     ].join('\n'), Object.keys(COMMANDS));
