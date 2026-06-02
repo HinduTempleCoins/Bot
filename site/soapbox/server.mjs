@@ -23,6 +23,7 @@ import {
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
+import { fearGreed, categories, exchanges, chainsTVL, stablecoins } from '../../integrations/soapbox/markets-extra.mjs';
 
 const PORT = +(process.env.PORT || 8088);
 // HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
@@ -47,11 +48,12 @@ function coinRow(c, i) {
 }
 
 async function listPage({ page = 1 } = {}) {
-  const [ours, top, g, trend] = await Promise.all([
+  const [ours, top, g, trend, fng] = await Promise.all([
     ourCoins().catch(() => []),
     topCoins({ limit: PER_PAGE, page }).catch(() => []),
     globalStats().catch(() => null),
     page === 1 ? trending().catch(() => []) : Promise.resolve([]),
+    page === 1 ? fearGreed().catch(() => null) : Promise.resolve(null),
   ]);
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
@@ -78,6 +80,7 @@ async function listPage({ page = 1 } = {}) {
     <span>BTC dominance <b>${g.btc_dominance.toFixed(1)}%</b></span>
     <span>ETH <b>${g.eth_dominance.toFixed(1)}%</b></span>
     <span>Coins <b>${g.active_cryptocurrencies.toLocaleString()}</b></span>
+    ${fng?.value != null ? `<span>Fear &amp; Greed <b class="${fng.value >= 50 ? 'up' : 'down'}">${fng.value}</b> ${esc(fng.classification)}</span>` : ''}
   </div>` : '';
 
   const pager = `<div class=pager>
@@ -194,6 +197,37 @@ async function dappsPage() {
   return layout({ title: 'dApps', active: '/dapps', canonical: `${BASE_URL}/dapps`, description: 'SoapBox dApp directory — ecosystem apps + the live DeFi landscape by TVL (DeFiLlama).', body });
 }
 
+async function categoriesPage() {
+  const cats = await categories({ limit: 40 }).catch(() => []);
+  const rows = cats.map((c, i) => `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b></td>
+    <td>${compactUsd(c.market_cap)}</td><td>${pct(c.change_24h)}</td><td>${compactUsd(c.volume_24h)}</td></tr>`).join('');
+  const body = `<h1>Categories</h1><p class=muted>Crypto sectors by market cap — L1s, DeFi, memes, and more.</p>
+    <table><thead><tr><th>#</th><th style="text-align:left">Category</th><th>Market cap</th><th>24h</th><th>Volume</th></tr></thead><tbody>${rows}</tbody></table>`;
+  return layout({ title: 'Categories', active: '/categories', canonical: `${BASE_URL}/categories`, description: 'Crypto categories by market cap — L1, DeFi, memes, and more.', body });
+}
+
+async function exchangesPage() {
+  const ex = await exchanges({ limit: 30 }).catch(() => []);
+  const rows = ex.map((e, i) => `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(e.name)}</b> <span class=muted>${esc(e.country)}</span></td>
+    <td>${e.trust != null ? `<span class="clarity c-${e.trust >= 8 ? 'high' : e.trust >= 5 ? 'moderate' : 'limited'}">${e.trust}/10</span>` : '—'}</td>
+    <td>${e.volume_btc ? '₿' + Math.round(e.volume_btc).toLocaleString() : '—'}</td><td class=muted>${e.year || ''}</td></tr>`).join('');
+  const body = `<h1>Exchanges</h1><p class=muted>Top venues by 24h volume and trust score.</p>
+    <table><thead><tr><th>#</th><th style="text-align:left">Exchange</th><th>Trust</th><th>24h vol (BTC)</th><th>Est.</th></tr></thead><tbody>${rows}</tbody></table>`;
+  return layout({ title: 'Exchanges', active: '/exchanges', canonical: `${BASE_URL}/exchanges`, description: 'Top crypto exchanges by volume and trust score.', body });
+}
+
+async function chainsPage() {
+  const [chains, stables] = await Promise.all([chainsTVL({ limit: 30 }).catch(() => []), stablecoins({ limit: 12 }).catch(() => [])]);
+  const crows = chains.map((c, i) => `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b> ${c.symbol ? `<span class=muted>${esc(c.symbol)}</span>` : ''}</td><td>${compactUsd(c.tvl)}</td></tr>`).join('');
+  const srows = stables.map((s) => `<tr><td style="text-align:left"><b>${esc(s.symbol)}</b> <span class=muted>${esc(s.name)}</span></td>
+    <td>${compactUsd(s.circulating)}</td><td>${s.peg_off != null ? pct(s.peg_off) : '—'}</td><td class=muted>${esc(s.mechanism)}</td></tr>`).join('');
+  const body = `<h1>Chains</h1><p class=muted>Multi-chain overview — total value locked per chain (DeFiLlama).</p>
+    <table><thead><tr><th>#</th><th style="text-align:left">Chain</th><th>TVL</th></tr></thead><tbody>${crows}</tbody></table>
+    ${srows ? `<div class=card><h2>Stablecoins <span class=muted style="font-weight:400">· peg deviation</span></h2>
+      <table><thead><tr><th style="text-align:left">Coin</th><th>Circulating</th><th>Peg</th><th style="text-align:left">Mechanism</th></tr></thead><tbody>${srows}</tbody></table></div>` : ''}`;
+  return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
+}
+
 function ecosystemPage() {
   const body = `<h1>Ecosystem</h1><p>${esc(ECOSYSTEM.intro)}</p>
     <div class=card><h2>Pillars</h2>${ECOSYSTEM.pillars.map((p) =>
@@ -240,6 +274,9 @@ createServer(async (req, res) => {
     if (p === '/' || p === '/coins') return send(await listPage({ page: Math.max(1, +url.searchParams.get('page') || 1) }));
     if (p.startsWith('/coins/')) { const r = await coinPage(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
     if (p === '/dapps') return send(await dappsPage());
+    if (p === '/categories') return send(await categoriesPage());
+    if (p === '/exchanges') return send(await exchangesPage());
+    if (p === '/chains') return send(await chainsPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p === '/learn') return send(learnIndex());
     if (p.startsWith('/learn/')) { const r = learnArticle(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
