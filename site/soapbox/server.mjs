@@ -26,7 +26,7 @@ import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
-import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS } from '../../integrations/soapbox/macro.mjs';
+import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS } from '../../integrations/soapbox/macro.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
@@ -352,10 +352,35 @@ async function commoditiesPage() {
       <table><thead><tr><th style="text-align:left">Commodity</th><th>Price</th><th>Unit</th><th>24h</th></tr></thead>
       <tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${(+r.price).toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td class=muted style="font-size:12px">${esc(r.unit || '')}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table>${buyRow}</div>`;
   }).join('');
+  // basic raw resources without a live futures ticker — indicative price + HS code + where to buy.
+  const sourced = Object.entries(SOURCED_GOODS).map(([cat, rows]) => {
+    const buy = WHERE_TO_BUY[cat] || [];
+    const buyRow = buy.length ? `<div class=muted style="font-size:12px;margin-top:8px"><b>Where to buy:</b> ${buy.map(([n, u, note]) => `<a href="${esc(u)}" rel="nofollow noopener" target=_blank title="${esc(note || '')}">${esc(n)}</a>`).join(' · ')}</div>` : '';
+    return `<div class=card><h2>${esc(cat)}</h2>
+      <table><thead><tr><th style="text-align:left">Item</th><th>Indicative price</th><th title="Harmonized System code — used for customs duty + VAT lookup">HS code</th></tr></thead>
+      <tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.name)}</td><td>${esc(r.typical)}</td><td class=muted style="font-size:12px"><a href="https://hts.usitc.gov/?query=${encodeURIComponent(r.hs)}" rel="nofollow noopener" target=_blank title="Look up the duty rate for HS ${esc(r.hs)}">${esc(r.hs)}</a></td></tr>`).join('')}</tbody></table>${buyRow}</div>`;
+  }).join('');
+  // the taxes / VAT / tariffs primer — what you pay before you even find a seller.
+  const taxCard = `<div class=card><h2>💸 Before you order: taxes, VAT &amp; tariffs</h2>
+    <p class=muted style="font-size:13px">The sticker price is rarely the final cost. Your real <b>landed cost</b> is:
+      <code style="background:var(--panel);padding:2px 6px;border-radius:4px">unit price + freight + import duty + import VAT + customs/brokerage</code>.
+      Duty and VAT depend on the product's <b>HS code</b> and the <b>importing country</b> — look them up before you commit:</p>
+    <ul style="margin:6px 0 10px;padding-left:18px;line-height:1.9">
+      <li><b>Import duty / tariff</b> — a % of value set per HS code by the destination country (e.g. textiles often 8–32%; raw fibers and many industrial inputs are lower or duty-free under trade agreements).</li>
+      <li><b>Import VAT / GST</b> — charged on (value + duty) in most of the world: EU ~17–27%, UK 20%, many others 5–18%. <b>The US has no VAT</b> — but does charge tariffs + a small merchandise-processing fee.</li>
+      <li><b>Rules of origin / FTAs</b> — goods from a free-trade partner can qualify for reduced or zero duty with the right certificate.</li>
+      <li><b>China export VAT rebates</b> — some goods are cheaper ex-China because export VAT is rebated to the seller; ask suppliers for the FOB vs landed breakdown.</li>
+    </ul>
+    <div class=muted style="font-size:12px"><b>Look it up:</b> ${DUTY_TOOLS.map(([n, u, note]) => `<a href="${esc(u)}" rel="nofollow noopener" target=_blank title="${esc(note || '')}">${esc(n)}</a>`).join(' · ')}</div>
+    <p class=muted style="font-size:11px;margin-top:8px">Indicative ranges and duty notes are for orientation only — confirm current rates with the official tools above and your customs broker.</p></div>`;
   const body = `<h1>Commodities</h1>
-    <p class=muted>Live prices for the things people actually buy — grains, softs (coffee, sugar, cocoa), livestock, metals, and energy — with <b>where to source them at those actual prices</b>. Futures price is the honest reference (shown with its unit); the links go to bulk B2B marketplaces (Alibaba, IndiaMART) for physical goods, and bullion dealers for metals (some accept crypto). Live via Yahoo Finance. Outbound links — do your own research.</p>
+    <p class=muted>Live prices for the things people actually buy — grains, softs (coffee, sugar, cocoa), livestock, metals, and energy — plus basic raw resources (hemp, textiles, gemstones, industrial inputs) — with <b>where to source them</b> and <b>what it really costs to import</b> (taxes, VAT &amp; tariffs). Futures price is the honest reference (shown with its unit); links go to bulk B2B marketplaces (Alibaba, IndiaMART) for physical goods, and bullion dealers for metals (some accept crypto). Live via Yahoo Finance. Outbound links — do your own research.</p>
     <p class=muted style="font-size:13px">Looking for stock indexes, yields, and FX instead? See <a href="/macro">Macro Markets →</a> · Curated sourcing &amp; dealer links live in the <a href="/directory">Directory →</a></p>
-    ${sections || '<p class=muted>Commodity data temporarily unavailable.</p>'}`;
+    ${taxCard}
+    <h2 style="margin:22px 0 4px">Exchange-traded (live futures price)</h2>
+    ${sections || '<p class=muted>Commodity data temporarily unavailable.</p>'}
+    <h2 style="margin:22px 0 4px">Basic resources &amp; textiles <span class=muted style="font-size:13px;font-weight:400">· indicative price + HS code for duty lookup</span></h2>
+    ${sourced}`;
   return layout({ title: 'Commodities — prices + where to buy', active: '/commodities', canonical: `${BASE_URL}/commodities`, description: 'Live commodity prices — coffee, wheat, corn, sugar, gold, silver, oil — and where to buy them in bulk (Alibaba, IndiaMART, bullion dealers).', body });
 }
 

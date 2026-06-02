@@ -61,6 +61,54 @@ export const WHERE_TO_BUY = {
   'Grains': B2B, 'Softs': B2B, 'Livestock': B2B, 'Metals': BULLION, 'Energy': BROKERS,
 };
 
+// Basic raw resources WITHOUT a liquid futures ticker — hemp, textiles, gemstones, industrial inputs.
+// No live Yahoo quote, so each row carries an INDICATIVE price range (confirm with suppliers — these
+// move a lot by grade/origin) and an HS code (the Harmonized System code customs uses for duty lookup).
+export const SOURCED_GOODS = {
+  'Hemp & Bast Fibers': [
+    { name: 'Industrial Hemp Fiber', typical: '$0.30–0.80 / lb', hs: '5302.10' },
+    { name: 'Hemp Hurd (shiv)', typical: '$0.10–0.25 / lb', hs: '5302.90' },
+    { name: 'Hemp Seed (food-grade)', typical: '$0.50–1.50 / lb', hs: '1207.99' },
+    { name: 'Hemp Seed Oil', typical: '$8–20 / L', hs: '1515.90' },
+    { name: 'Flax / Linen Fiber', typical: '$1–3 / lb', hs: '5301.21' },
+    { name: 'Jute (raw)', typical: '$0.40–0.90 / lb', hs: '5303.10' },
+  ],
+  'Textiles & Raw Fibers': [
+    { name: 'Wool (greasy)', typical: '$2–6 / lb', hs: '5101.11' },
+    { name: 'Raw Silk', typical: '$40–70 / kg', hs: '5002.00' },
+    { name: 'Cotton Yarn', typical: '$2.50–4 / kg', hs: '5205.00' },
+    { name: 'Polyester Staple Fiber', typical: '$0.80–1.30 / lb', hs: '5503.20' },
+    { name: 'Woven Cotton Fabric', typical: '$1–4 / m', hs: '5208.00' },
+  ],
+  'Gemstones (rough)': [
+    { name: 'Industrial Diamond (rough)', typical: '$50–150 / ct', hs: '7102.21' },
+    { name: 'Sapphire / Ruby (rough)', typical: '$5–500+ / ct (grade)', hs: '7103.10' },
+    { name: 'Emerald (rough)', typical: '$10–800+ / ct (grade)', hs: '7103.10' },
+    { name: 'Quartz / Amethyst', typical: '$1–20 / kg rough', hs: '7103.10' },
+    { name: 'Jade (rough)', typical: 'grade-driven, wide', hs: '7103.10' },
+  ],
+  'Basic Industrial Inputs': [
+    { name: 'Steel (hot-rolled coil)', typical: '$600–900 / t', hs: '7208.00' },
+    { name: 'Aluminum (ingot)', typical: '$2,200–2,700 / t', hs: '7601.10' },
+    { name: 'Lithium Carbonate', typical: '$12–20 / kg', hs: '2836.91' },
+    { name: 'Portland Cement', typical: '$100–150 / t', hs: '2523.29' },
+    { name: 'Industrial Salt', typical: '$50–200 / t', hs: '2501.00' },
+  ],
+};
+// every sourced-goods category is bought through the same bulk B2B marketplaces.
+for (const k of Object.keys(SOURCED_GOODS)) WHERE_TO_BUY[k] = B2B;
+
+// Authoritative duty / VAT / tariff lookup tools — keyed by HS code + importing country. This is what
+// turns a sticker price into a real LANDED cost (unit + freight + import duty + import VAT + brokerage).
+export const DUTY_TOOLS = [
+  ['USITC Harmonized Tariff Schedule (US)', 'https://hts.usitc.gov/', 'Official US import duty rates by HS code'],
+  ['WTO Tariff & Trade Data', 'https://ttd.wto.org/', 'Applied tariff rates for every WTO member'],
+  ['EU Access2Markets / TARIC', 'https://trade.ec.europa.eu/access-to-markets/en/home', 'EU duties, VAT, rules-of-origin by product + country'],
+  ['UK Trade Tariff', 'https://www.gov.uk/trade-tariff', 'UK import duty + VAT lookup by commodity code'],
+  ['SimplyDuty calculator', 'https://www.simplyduty.com/', 'Quick landed-cost / duty + VAT estimate'],
+  ['WCO Harmonized System', 'https://www.wcoomd.org/en/topics/nomenclature/overview.aspx', 'What HS codes are + how classification works'],
+];
+
 // macro category → the major entry points (brokers / exchanges / dealers / the headline ETF tickers).
 export const ENTRY_POINTS = {
   'Metals': [...BULLION.slice(0, 4), ['ETFs: GLD · SLV · PPLT', 'https://www.spdrgoldshares.com/', 'Paper exposure via funds']],
