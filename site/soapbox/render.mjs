@@ -32,10 +32,16 @@ const STYLE = `<style>
   .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--panel);padding:8px;z-index:10;border-radius:6px}
   body{font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
-  header.top{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line2);padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  /* slim bar that STAYS on scroll: brand + Web Search + theme */
+  header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px}
+  .topbar-r{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .websearch{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
+  .websearch:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
   .brand{font-weight:800;font-size:18px;color:var(--fg)}
   .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  nav{display:flex;gap:16px;flex-wrap:wrap} nav a{color:var(--mut);font-weight:600;font-size:14px} nav a.active,nav a:hover{color:var(--fg)}
+  /* big category nav — just the top of the page, scrolls away (not sticky) */
+  nav.mainnav{display:flex;gap:16px;flex-wrap:wrap;background:var(--panel);border-bottom:1px solid var(--line);padding:11px 20px}
+  nav.mainnav a{color:var(--mut);font-weight:600;font-size:14px} nav.mainnav a.active,nav.mainnav a:hover{color:var(--fg)}
   .wrap{max-width:1100px;margin:0 auto;padding:20px}
   .statsbar{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:var(--mut);padding:10px 20px;background:#0b0f14;border-bottom:1px solid var(--line)}
   .statsbar b{color:var(--fg);font-weight:600}
@@ -70,13 +76,19 @@ const STYLE = `<style>
   @media(max-width:640px){th:nth-child(6),td:nth-child(6),th:nth-child(7),td:nth-child(7){display:none}.price{font-size:28px}}
 </style>`;
 
-const navBar = (active) => `<header class=top>
+const SEARCH_URL = 'https://search.soapbox.community';
+// Two parts: a SLIM bar that stays on scroll (brand + Web Search + theme), and the big category nav row
+// that's just at the top of the page and scrolls away (so mobile isn't dominated by a fixed banner).
+const navBar = (active) => `<header class=topbar>
   <a class=brand href="/">◈ SoapBox <span>data</span></a>
-  <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
-    <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
-    <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>
-  <button class=iconbtn id=themebtn title="toggle light/dark theme" aria-label="toggle light or dark theme" style="margin-left:auto">◐</button>
-</header>`;
+  <div class=topbar-r>
+    <a class=websearch href="${SEARCH_URL}" title="Search the web + our sites">⌕ Web Search</a>
+    <button class=iconbtn id=themebtn title="toggle light/dark theme" aria-label="toggle light or dark theme">◐</button>
+  </div>
+</header>
+<nav class=mainnav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
+  <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
+  <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>`;
 
 // shared client script: theme persistence, watchlist stars (localStorage), recently-viewed tracking.
 const APP_JS = `<script>
