@@ -19,6 +19,15 @@ export const SYMBOLS = {
   'Risk & Currency': [['^VIX', 'VIX (volatility)', 'index'], ['DX-Y.NYB', 'Dollar Index (DXY)', 'index'], ['EURUSD=X', 'EUR/USD', 'fx'], ['GBPUSD=X', 'GBP/USD', 'fx']],
 };
 
+// Foreign exchange — major/minor/cross/emerging currency pairs + the dollar index. Yahoo FX symbols are
+// CCYCCY=X (keyless). Rate = how much of the quote currency one unit of the base buys.
+export const FOREX = {
+  'Major pairs': [['EURUSD=X', 'EUR/USD'], ['GBPUSD=X', 'GBP/USD'], ['USDJPY=X', 'USD/JPY'], ['USDCHF=X', 'USD/CHF'], ['AUDUSD=X', 'AUD/USD'], ['USDCAD=X', 'USD/CAD'], ['NZDUSD=X', 'NZD/USD']],
+  'Crosses': [['EURGBP=X', 'EUR/GBP'], ['EURJPY=X', 'EUR/JPY'], ['GBPJPY=X', 'GBP/JPY'], ['EURCHF=X', 'EUR/CHF'], ['AUDJPY=X', 'AUD/JPY'], ['EURAUD=X', 'EUR/AUD']],
+  'USD vs emerging / Asia': [['USDCNY=X', 'USD/CNY'], ['USDINR=X', 'USD/INR'], ['USDMXN=X', 'USD/MXN'], ['USDBRL=X', 'USD/BRL'], ['USDZAR=X', 'USD/ZAR'], ['USDTRY=X', 'USD/TRY'], ['USDSGD=X', 'USD/SGD'], ['USDHKD=X', 'USD/HKD']],
+  'Dollar strength': [['DX-Y.NYB', 'US Dollar Index (DXY)']],
+};
+
 // Commodities people actually buy. Futures price = the honest reference (with its unit); WHERE_TO_BUY
 // then points at where a real person sources the physical thing or paper exposure. Grounded in the
 // operator's own threads: bulk botanicals/coffee by the ton via Alibaba (Botanica Coffee Co.), and the
@@ -168,6 +177,28 @@ export async function commodities() {
     }
     return out;
   });
+}
+
+/** Full forex snapshot, grouped. DXY is an index; the rest are FX rates. Cached 60s. */
+export async function forex() {
+  return cached('forex:all', TTL.price, async () => {
+    const out = {};
+    for (const [cat, rows] of Object.entries(FOREX)) {
+      const vals = await Promise.all(rows.map(async ([sym, label]) => {
+        const q = await quote(sym);
+        return q ? { symbol: sym, label, kind: sym === 'DX-Y.NYB' ? 'index' : 'fx', ...q } : null;
+      }));
+      out[cat] = vals.filter(Boolean);
+    }
+    return out;
+  });
+}
+
+/** A few headline FX rates for the homepage chip: EUR/USD, USD/JPY, GBP/USD, DXY. */
+export async function forexSummary() {
+  const f = await forex().catch(() => ({}));
+  const find = (cat, label) => (f[cat] || []).find((x) => x.label === label);
+  return { eurusd: find('Major pairs', 'EUR/USD'), usdjpy: find('Major pairs', 'USD/JPY'), gbpusd: find('Major pairs', 'GBP/USD'), dxy: find('Dollar strength', 'US Dollar Index (DXY)') };
 }
 
 /** A few headline commodities for the homepage chip: coffee, wheat, corn, WTI crude. */

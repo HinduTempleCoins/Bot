@@ -26,7 +26,7 @@ import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
-import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS } from '../../integrations/soapbox/macro.mjs';
+import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS, forex } from '../../integrations/soapbox/macro.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
@@ -401,6 +401,19 @@ async function macroPage() {
   return layout({ title: 'Macro Markets', active: '/macro', canonical: `${BASE_URL}/macro`, description: 'Gold, silver, Dow, S&P 500, Nasdaq, global indexes, Treasury yields, oil, VIX — live traditional-market data, with the major entry points for each market.', body });
 }
 
+async function forexPage() {
+  const f = await forex().catch(() => ({}));
+  const fmt = (r) => r.kind === 'index' ? (+r.price).toLocaleString(undefined, { maximumFractionDigits: 2 }) : (+r.price).toFixed(r.price >= 50 ? 2 : 4);
+  const sections = Object.entries(f).map(([cat, rows]) => rows.length ? `<div class=card><h2>${esc(cat)}</h2>
+    <table><thead><tr><th style="text-align:left">Pair</th><th>Rate</th><th>24h</th></tr></thead>
+    <tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${fmt(r)}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table>${entryBlock('Risk & Currency')}</div>` : '').join('');
+  const body = `<h1>Foreign Exchange</h1>
+    <p class=muted>Live currency rates — major pairs, crosses, USD vs emerging/Asia, and the US Dollar Index (DXY). A rate is how much of the quote currency one unit of the base buys (EUR/USD = dollars per euro). Live via Yahoo Finance.</p>
+    <p class=muted style="font-size:13px">See also <a href="/macro">Macro Markets →</a> · <a href="/commodities">Commodities →</a></p>
+    ${sections || '<p class=muted>Forex data temporarily unavailable.</p>'}`;
+  return layout({ title: 'Foreign Exchange', active: '/forex', canonical: `${BASE_URL}/forex`, description: 'Live forex rates — EUR/USD, GBP/USD, USD/JPY, major pairs, crosses, emerging-market currencies, and the US Dollar Index.', body });
+}
+
 async function commoditiesPage() {
   const c = await commodities().catch(() => ({}));
   const sections = Object.entries(c).map(([cat, rows]) => {
@@ -586,7 +599,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -640,6 +653,7 @@ createServer(async (req, res) => {
     if (p.startsWith('/stocks/')) { const r = await stockPage(decodeURIComponent(p.slice(8))); return send(r.html, r.code); }
     if (p === '/macro') return send(await macroPage());
     if (p === '/commodities') return send(await commoditiesPage());
+    if (p === '/forex') return send(await forexPage());
     if (p === '/stats') {
       // private dashboard: require STATS_TOKEN match (constant set in systemd env), else 404 (don't reveal it exists)
       const want = process.env.STATS_TOKEN;
@@ -757,7 +771,7 @@ createServer(async (req, res) => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/directory', '/ecosystem', '/learn', '/announcements'];
+    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/announcements'];
     submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
     pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
   }
