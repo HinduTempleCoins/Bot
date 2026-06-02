@@ -202,7 +202,44 @@ async function searchMarginalia(query, limit) {
   return (d.results || []).slice(0, limit).map((x) => ({ title: x.title, url: x.url, snippet: (x.description || '').slice(0, 150), provider: 'marginalia' })).filter((x) => x.title && x.url);
 }
 
-export const PROVIDERS = { duckduckgo: searchDuckDuckGo, marginalia: searchMarginalia, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+// Mojeek — a genuinely independent search engine with its OWN crawler/index (not a Bing/Google reseller),
+// based in the UK. No keyless JSON API, so we parse the HTML results page. Keyless. Best-effort.
+async function searchMojeek(query, limit) {
+  const r = await withTimeout(`https://www.mojeek.com/search?q=${encodeURIComponent(query)}`, { headers: { 'user-agent': BROWSER_UA } });
+  const html = await r.text().catch(() => '');
+  const out = [];
+  for (const m of html.matchAll(/<a[^>]+class=["']ob["'][^>]*href=["'](https?:\/\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const url = m[1]; const title = m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    if (title && url) out.push({ title, url, snippet: '', provider: 'mojeek' });
+    if (out.length >= limit) break;
+  }
+  // fallback selector (Mojeek markup shifts): result titles in <h2><a href>
+  if (!out.length) for (const m of html.matchAll(/<h2[^>]*>\s*<a[^>]+href=["'](https?:\/\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const title = m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    if (title) out.push({ title, url: m[1], snippet: '', provider: 'mojeek' });
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+// SearXNG — privacy metasearch that itself queries Google/Bing AND foreign engines (Yandex, Baidu, etc.).
+// Public instances with JSON enabled vary, so we try a small failover list. Keyless. Best-effort.
+const SEARX_INSTANCES = (process.env.SEARX_INSTANCES || 'https://searx.be,https://search.inetol.net,https://priv.au,https://searx.tiekoetter.com').split(',').map((s) => s.trim()).filter(Boolean);
+async function searchSearx(query, limit) {
+  for (const base of SEARX_INSTANCES) {
+    try {
+      const r = await withTimeout(`${base}/search?q=${encodeURIComponent(query)}&format=json&safesearch=1`, { headers: { 'user-agent': BROWSER_UA } });
+      if (!r.ok) continue;
+      const d = await r.json().catch(() => null);
+      if (!d || !Array.isArray(d.results)) continue;
+      const out = d.results.slice(0, limit).map((x) => ({ title: x.title, url: x.url, snippet: (x.content || '').slice(0, 150), provider: 'searxng' })).filter((x) => x.title && x.url);
+      if (out.length) return out;
+    } catch { /* try next instance */ }
+  }
+  return [];
+}
+
+export const PROVIDERS = { duckduckgo: searchDuckDuckGo, marginalia: searchMarginalia, mojeek: searchMojeek, searxng: searchSearx, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
 // scholarly/authoritative providers — weighted ABOVE general web in searchAll (research > popular opinion).
 export const SCHOLARLY = new Set(['crossref', 'pubmed', 'openalex', 'semanticscholar', 'arxiv', 'pubchem', 'wikidata']);
 // knowledge providers are queried by searchAll too, but irrelevant ones simply return [] (e.g. PubChem

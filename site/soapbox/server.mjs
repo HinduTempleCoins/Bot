@@ -28,6 +28,7 @@ import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs'
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
 import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS, SOURCED_GOODS, DUTY_TOOLS } from '../../integrations/soapbox/macro.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
+import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
@@ -385,12 +386,13 @@ async function commoditiesPage() {
 }
 
 // Private traffic dashboard. Gated by STATS_TOKEN (?token=…). First-party, no third-party tracker.
-function statsPage() {
+function statsPage(token = '') {
   let s; try { s = trafficSummary(); } catch (e) { s = null; }
+  const seoLink = token ? `<p class=muted style="font-size:13px">See also: <a href="/seo?token=${encodeURIComponent(token)}">SEO audit →</a></p>` : '';
   if (!s || !s.total) return layout({ title: 'Traffic', active: '', canonical: `${BASE_URL}/stats`, robots: 'noindex,nofollow', body: `<h1>Traffic</h1><p class=muted>No access logs found yet (looked in ${esc(process.env.CADDY_LOG_DIR || '/var/log/caddy')}). Once Caddy access logging is on for a subdomain, numbers appear here.</p>` });
   const bar = (rows, fmt = (k) => k) => `<table><tbody>${rows.map(([k, v]) => `<tr><td style="text-align:left">${fmt(esc(String(k)))}</td><td>${v.toLocaleString()}</td></tr>`).join('')}</tbody></table>`;
   const body = `<h1>Traffic <span class=muted style="font-size:14px">· first-party, privacy-safe</span></h1>
-    <p class=muted>From Caddy's own access logs on the server — no cookies, no third-party tracker, no stored IPs. Sources: ${esc(s.files.join(', '))}.</p>
+    <p class=muted>From Caddy's own access logs on the server — no cookies, no third-party tracker, no stored IPs. Sources: ${esc(s.files.join(', '))}.</p>${seoLink}
     <div class=card><h2>Overview</h2><table><tbody>
       <tr><td style="text-align:left">Total requests</td><td>${s.total.toLocaleString()}</td></tr>
       <tr><td style="text-align:left">Human pageviews</td><td>${s.human.toLocaleString()}</td></tr>
@@ -405,6 +407,26 @@ function statsPage() {
     ${s.topBots.length ? `<div class=card><h2>Crawlers</h2>${bar(s.topBots)}</div>` : ''}
     ${s.byDay.length > 1 ? `<div class=card><h2>By day</h2>${bar(s.byDay)}</div>` : ''}`;
   return layout({ title: 'Traffic', active: '', canonical: `${BASE_URL}/stats`, robots: 'noindex,nofollow', body });
+}
+
+// Gated SEO dashboard — runs the technical-SEO audit over our core pages. Cached 10 min (it fetches).
+let _seoCache = { t: 0, html: '' };
+async function seoPage() {
+  const now = Date.now();
+  if (_seoCache.html && now - _seoCache.t < 600000) return _seoCache.html;
+  const paths = ['/', '/commodities', '/macro', '/directory', '/ecosystem', '/learn'];
+  let r; try { r = await auditSite(BASE_URL, paths); } catch (e) { r = null; }
+  if (!r) return layout({ title: 'SEO', active: '', robots: 'noindex,nofollow', body: '<h1>SEO</h1><p class=muted>Audit unavailable.</p>' });
+  const dot = (lvl) => lvl === 'ok' ? '<span style="color:var(--up)">●</span>' : lvl === 'warn' ? '<span style="color:var(--gold)">●</span>' : '<span style="color:var(--down)">●</span>';
+  const sc = (n) => `<b style="color:${n >= 90 ? 'var(--up)' : n >= 70 ? 'var(--gold)' : 'var(--down)'}">${n}</b>`;
+  const pages = r.pages.map((p) => `<div class=card><h2 style="margin:0 0 6px">${sc(p.score)}/100 · <a href="${esc(p.url)}">${esc(p.url.replace(BASE_URL, '') || '/')}</a></h2>
+    <table><tbody>${p.checks.map((c) => `<tr><td style="width:18px">${dot(c.level)}</td><td style="text-align:left">${esc(c.msg)}</td></tr>`).join('')}</tbody></table></div>`).join('');
+  const body = `<h1>SEO audit <span class=muted style="font-size:14px">· pre-search-engine technical checks</span></h1>
+    <p class=muted>What a search engine checks before it ranks us — titles, descriptions, canonical, indexability, Open Graph, structured data, mobile, language, headings, links, alt text. Site average <b>${sc(r.summary.avgScore)}/100</b> across ${r.summary.pages} pages · ${r.summary.fails} fails · ${r.summary.warns} warnings. Cached 10 min.</p>
+    <div class=card><h2>Site files</h2><table><tbody>${r.site.map((s) => `<tr><td style="width:18px">${dot(s.level)}</td><td style="text-align:left">${esc(s.msg)}</td></tr>`).join('')}</tbody></table></div>
+    ${pages}`;
+  _seoCache = { t: now, html: layout({ title: 'SEO audit', active: '', canonical: '', robots: 'noindex,nofollow', body }) };
+  return _seoCache.html;
 }
 
 function directoryPage() {
@@ -564,7 +586,12 @@ createServer(async (req, res) => {
       const want = process.env.STATS_TOKEN;
       const got = url.searchParams.get('token') || '';
       if (!want || got !== want) return send('<h1>404</h1>', 404);
-      return send(statsPage());
+      return send(statsPage(got));
+    }
+    if (p === '/seo') {
+      const want = process.env.STATS_TOKEN;
+      if (!want || (url.searchParams.get('token') || '') !== want) return send('<h1>404</h1>', 404);
+      return send(await seoPage());
     }
     if (p === '/directory') return send(directoryPage());
     if (p === '/ecosystem') return send(ecosystemPage());
