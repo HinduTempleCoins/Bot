@@ -143,15 +143,35 @@ export async function marketIndex({ limit = 50 } = {}) {
 // coin-link finder phase 2: for coins CoinGecko doesn't carry an official thread for (especially our
 // Hive-Engine ecosystem tokens), SEARCH the web for the real Bitcointalk/Altcoinstalks/announcement
 // thread. Heavily cached (24h) so it's ~one search per coin per day. Best-effort.
+// high-traffic crypto forums + boards that carry official coin/announcement threads (researched
+// 2026). Each entry: [url-pattern, label]. The Hive/Steem/Blurt boards matter for our own ecosystem
+// tokens (VKBT/CURE post there). Order = display priority.
+const FORUMS = [
+  [/bitcointalk\.org/i, 'Bitcointalk'], [/altcoinstalks\.com/i, 'Altcoinstalks'],
+  [/cryptocurrencytalk\.com/i, 'CryptocurrencyTalk'], [/bitcoingarden\.org/i, 'BitcoinGarden'],
+  [/cryptointalk\.com/i, 'CryptoInTalk'], [/forum\.bitcoin\.com|bitcoin\.com\/forum/i, 'Bitcoin.com'],
+  [/bitco\.in/i, 'Bitco.in'], [/reddit\.com\/r\//i, 'Reddit'],
+  [/peakd\.com|ecency\.com|hive\.blog/i, 'Hive'], [/steemit\.com/i, 'Steemit'],
+  [/blurt\.blog|blurtter/i, 'Blurt'], [/waivio\.com/i, 'Waivio'], [/tribaldex\.com/i, 'TribalDEX'],
+  [/(index\.php\?topic|\/ann\b|announcement)/i, 'Forum'],
+];
 export async function officialThreads(name, symbol) {
   const q = `${name} ${symbol}`.trim();
   if (!q) return [];
   return cached(`threads:${q.toLowerCase()}`, 86_400_000, async () => {
     try {
       const { search } = await import('../scraper.mjs');
-      const hits = await search(`${name} ${symbol} token bitcointalk OR altcoinstalks OR announcement thread`, { limit: 8 });
-      return hits.filter((h) => /(bitcointalk|altcoinstalks|forum|index\.php\?topic|ann)/i.test(h.url))
-        .slice(0, 3).map((h) => ({ title: h.title, url: h.url, forum: /bitcointalk/i.test(h.url) ? 'Bitcointalk' : /altcoinstalks/i.test(h.url) ? 'Altcoinstalks' : 'Forum' }));
+      const hits = await search(`${name} ${symbol} token official announcement thread forum`, { limit: 12 });
+      const out = [], seen = new Set();
+      // normalize a forum URL so the same thread at different pages/anchors dedups (topic=N.40 → topic=N)
+      const norm = (u) => u.replace(/(topic=\d+)[.\d]*/i, '$1').replace(/[#?].*$/, '').replace(/\/$/, '').toLowerCase();
+      for (const h of hits) {
+        const f = FORUMS.find(([re]) => re.test(h.url));
+        const k = norm(h.url);
+        if (f && !seen.has(k)) { seen.add(k); out.push({ title: h.title, url: h.url, forum: f[1] }); }
+        if (out.length >= 5) break;
+      }
+      return out;
     } catch { return []; }
   });
 }
