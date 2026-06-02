@@ -148,6 +148,29 @@ export function supplyBar(supply) {
 
 export const card = (title, inner) => `<div class=card>${title ? `<h2>${esc(title)}</h2>` : ''}${inner}</div>`;
 
+// holder distribution panel (first-party HE data). Shows the issuer/affiliated/real-outside split
+// and the top outside holders — the on-chain truth behind the Clarity Score's holder_dist input.
+export function holdersPanel(h) {
+  if (!h) return '';
+  const bar = (label, p, color) => p > 0 ? `<div style="display:flex;justify-content:space-between"><span>${label}</span><span class=muted>${p.toFixed(1)}%</span></div><div class=bar><i style="width:${Math.min(100, p)}%;background:${color}"></i></div>` : '';
+  const top = (h.topOutside || []).slice(0, 8).map((o) =>
+    `<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0"><span>@${esc(o.account)}${o.affiliated ? ' <span class=muted>(affiliated)</span>' : ''}</span><span class=muted>${(+o.pct).toFixed(2)}%</span></div>`).join('');
+  return `<div class=card><h2>Holder distribution <span class=muted style="font-weight:400">· first-party on-chain</span></h2>
+    ${bar('Issuer', h.issuerPct, '#f85149')}${bar('Affiliated', h.affiliatedPct, '#d29922')}${bar('Real outside', h.realOutsidePct, '#3fb950')}
+    <p class=muted style="font-size:12px;margin:8px 0 4px">${h.counts?.realOutside ?? 0} genuine outside holders (≥1 token). "Real outside %" is the only number that means external demand.</p>
+    ${top}</div>`;
+}
+
+// order-book depth panel (live HE buy/sell walls). Wash-resistant: shows real resting liquidity.
+export function depthPanel(extras) {
+  const buy = extras?.buyBook || [], sell = extras?.sellBook || [];
+  if (!buy.length && !sell.length) return '';
+  const side = (rows, cls, label) => `<div style="flex:1"><div class=k style="color:var(--mut);font-size:12px">${label}</div>${rows.map((r) =>
+    `<div style="display:flex;justify-content:space-between;font-size:12px;padding:2px 0"><span class="${cls}">${usd(r.priceUsd)}</span><span class=muted>${(+r.qty).toLocaleString(undefined, { maximumFractionDigits: 0 })}</span></div>`).join('') || '<div class=muted>—</div>'}</div>`;
+  return `<div class=card><h2>Order book <span class=muted style="font-weight:400">· live, first-party</span></h2>
+    <div style="display:flex;gap:18px">${side(buy, 'up', '▲ Bids')}${side(sell, 'down', '▼ Asks')}</div></div>`;
+}
+
 // price-change ranges + ATH/ATL + 24h high/low, from the adapter's attached `.market` object.
 export function marketStats(m) {
   if (!m) return '';

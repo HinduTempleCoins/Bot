@@ -13,6 +13,7 @@ import { find } from '../he-client.mjs';
 import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
 import { cached, TTL } from './cache.mjs';
 import { fetchTokenFailover } from './adapters/index.mjs';
+import { holders as heHolders } from '../holders.mjs';
 
 // our ecosystem tokens to surface on the aggregator (Tier 2/3 first-party).
 export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
@@ -144,6 +145,22 @@ export async function hiveEngineChart(symbol, { days = 7 } = {}) {
       .filter((t) => +t.timestamp >= cutoff)
       .map((t) => ({ t: +t.timestamp, p: +t.price * hiveUsd }))
       .sort((a, b) => a.t - b.t);
+  });
+}
+
+// First-party coin-page extras for a Hive-Engine token: holder distribution + live order book.
+// This is data no third-party lister has (we read the chain). Cached together.
+export async function hiveEngineExtras(symbol) {
+  const sym = String(symbol).toUpperCase();
+  return cached(`he:extras:${sym}`, TTL.clarity, async () => {
+    const [h, buy, sell, hiveUsd] = await Promise.all([
+      heHolders(sym).catch(() => null),
+      find('market', 'buyBook', { symbol: sym }, 8, [{ index: 'price', descending: true }]).catch(() => []),
+      find('market', 'sellBook', { symbol: sym }, 8, [{ index: 'price', descending: false }]).catch(() => []),
+      oracleHiveUsd().catch(() => 0),
+    ]);
+    const lvl = (o) => ({ priceUsd: +o.price * hiveUsd, priceHive: +o.price, qty: +o.quantity });
+    return { holders: h, buyBook: buy.map(lvl), sellBook: sell.map(lvl) };
   });
 }
 

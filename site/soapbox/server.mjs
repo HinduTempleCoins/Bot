@@ -11,12 +11,13 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.mjs';
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
   layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card, marketStats,
+  holdersPanel, depthPanel,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
@@ -115,9 +116,11 @@ async function coinPage(id) {
   const c = await getCoin(id).catch(() => null);
   if (!c) return { code: 404, html: layout({ title: 'Not found', body: card('Not found', `<p class=muted>No coin "${esc(id)}". <a href="/">← markets</a></p>`) }) };
   const ov = overrideFor(id);
-  const [series, clarity] = await Promise.all([
+  const isHE = c.source === 'hive-engine' || c.source_tier === 2;
+  const [series, clarity, extras] = await Promise.all([
     coinChart(id).catch(() => []),
     clarityFromCoin(c).catch(() => null),
+    isHE ? hiveEngineExtras(c.symbol).catch(() => null) : Promise.resolve(null),
   ]);
   const thread = getThread(c.comments_ref);
 
@@ -149,6 +152,8 @@ async function coinPage(id) {
     ${priceChart(series)}
     ${marketStats(c.market)}
     ${supplyBar(c.supply)}
+    ${extras ? holdersPanel(extras.holders) : ''}
+    ${extras ? depthPanel(extras) : ''}
     ${clarityCard(clarity)}
     ${card('Contracts', contracts)}
     ${team ? card('Team', team) : ''}
