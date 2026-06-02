@@ -72,6 +72,28 @@ export async function fetchMany(urls = [], opts = {}) {
   return out;
 }
 
+// ── screenshot: capture a page as PNG (for the Resource Center + Cheetah's credit/attribution) ──
+// Uses Playwright with the system Chromium if available (the box has chromium cached). Graceful:
+// returns { ok:false, reason } when Playwright/Chromium aren't installed, so callers degrade cleanly.
+// NOTE: PDFs (whitepapers) are already handled by fetchClean() via Jina Reader — no extra step needed.
+export async function screenshot(url, { path, fullPage = true, timeout = 30000 } = {}) {
+  if (!/^https?:\/\//.test(url)) return { ok: false, reason: 'invalid url' };
+  let pw;
+  try { pw = await import('playwright'); } catch {
+    try { pw = await import('playwright-core'); } catch { return { ok: false, reason: 'playwright not installed (npm i playwright-core where chromium exists)' }; }
+  }
+  let browser;
+  try {
+    browser = await pw.chromium.launch({ headless: true, args: ['--no-sandbox'] });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await page.goto(url, { waitUntil: 'networkidle', timeout }).catch(() => page.goto(url, { timeout }));
+    const buf = await page.screenshot({ fullPage, path, type: 'png' });
+    const title = await page.title().catch(() => '');
+    return { ok: true, url, title, path: path || null, bytes: buf?.length || 0, capturedAt: new Date().toISOString() };
+  } catch (e) { return { ok: false, reason: e.message }; }
+  finally { if (browser) await browser.close().catch(() => {}); }
+}
+
 // ── search: keyless web search (DuckDuckGo HTML) → [{title, url, snippet}] ──────────────────────
 // Jina Search (s.jina.ai) now needs a key; DuckDuckGo's HTML endpoint is keyless and returns real
 // results (incl. forum/Bitcointalk/Altcoinstalks threads — ideal for the link-finder + fact-checker).
@@ -80,36 +102,82 @@ const decodeDDG = (href) => {
   if (m) { try { return decodeURIComponent(m[1]); } catch { return ''; } }
   return href.startsWith('//') ? 'https:' + href : href;
 };
-export async function search(query, { limit = 8 } = {}) {
+const BROWSER_UA = 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0';
+
+// ── search providers — each returns [{title, url, snippet, provider}] ──
+// DuckDuckGo (keyless, default). Google CSE + Brave are keyed (activate when keys are in env/vault).
+async function searchDuckDuckGo(query, limit) {
+  const r = await withTimeout(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`, { headers: { 'user-agent': BROWSER_UA } });
+  const html = await r.text();
+  const links = [...html.matchAll(/class="result__a"[^>]*href="([^"]+)"[^>]*>([^<]+)</g)];
+  const snips = [...html.matchAll(/class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim());
+  const out = [];
+  for (let i = 0; i < links.length && out.length < limit; i++) {
+    const url = decodeDDG(links[i][1].replace(/&amp;/g, '&'));
+    const title = links[i][2].replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim();
+    if (url && /^https?:\/\//.test(url) && title) out.push({ title, url, snippet: snips[i] || '', provider: 'duckduckgo' });
+  }
+  return out;
+}
+// Google Programmable Search (CSE): needs GOOGLE_SEARCH_API_KEY + GOOGLE_CSE_ID (the cx). 100/day free.
+async function searchGoogle(query, limit) {
+  const key = process.env.GOOGLE_SEARCH_API_KEY, cx = process.env.GOOGLE_CSE_ID;
+  if (!key || !cx) return [];
+  const r = await withTimeout(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cx}&q=${encodeURIComponent(query)}&num=${Math.min(10, limit)}`);
+  const d = await r.json();
+  return (d.items || []).map((i) => ({ title: i.title, url: i.link, snippet: i.snippet || '', provider: 'google' }));
+}
+// Brave Search API: needs BRAVE_SEARCH_API_KEY. ~2k/mo free.
+async function searchBrave(query, limit) {
+  const key = process.env.BRAVE_SEARCH_API_KEY;
+  if (!key) return [];
+  const r = await withTimeout(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=${Math.min(20, limit)}`, { headers: { 'X-Subscription-Token': key, accept: 'application/json' } });
+  const d = await r.json();
+  return (d.web?.results || []).map((i) => ({ title: i.title, url: i.url, snippet: i.description || '', provider: 'brave' }));
+}
+// Wikipedia (keyless) — authoritative for entities/biography/science (great fact-check anchor).
+async function searchWikipedia(query, limit) {
+  const r = await withTimeout(`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&limit=${limit}&search=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA } });
+  const [, titles = [], descs = [], urls = []] = await r.json();
+  return titles.map((t, i) => ({ title: t, url: urls[i], snippet: descs[i] || '', provider: 'wikipedia' }));
+}
+
+export const PROVIDERS = { duckduckgo: searchDuckDuckGo, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+
+/** Single-provider search (default duckduckgo). Cached. */
+export async function search(query, { limit = 8, provider = 'duckduckgo' } = {}) {
   if (!query) return [];
-  const key = `search:${query}:${limit}`;
-  const hit = cache.get(key); if (hit && hit.expires > Date.now()) return hit.value;
+  const ck = `search:${provider}:${query}:${limit}`;
+  const hit = cache.get(ck); if (hit && hit.expires > Date.now()) return hit.value;
   let results = [];
-  try {
-    // DuckDuckGo's HTML endpoint flags non-browser UAs (returns 202, empty) — use a real browser UA.
-    const r = await withTimeout(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`, {
-      headers: { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0' },
-    });
-    const html = await r.text();
-    // titles+urls, then snippets, matched in document order and zipped.
-    const links = [...html.matchAll(/class="result__a"[^>]*href="([^"]+)"[^>]*>([^<]+)</g)];
-    const snips = [...html.matchAll(/class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim());
-    for (let i = 0; i < links.length && results.length < limit; i++) {
-      const url = decodeDDG(links[i][1].replace(/&amp;/g, '&'));
-      const title = links[i][2].replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim();
-      if (url && /^https?:\/\//.test(url) && title) results.push({ title, url, snippet: snips[i] || '' });
-    }
-  } catch { /* return what we have */ }
-  cache.set(key, { value: results, expires: Date.now() + TTL });
+  try { results = await (PROVIDERS[provider] || searchDuckDuckGo)(query, limit); } catch { /* keep [] */ }
+  cache.set(ck, { value: results, expires: Date.now() + TTL });
   return results;
+}
+
+/**
+ * Aggregate across ALL enabled providers (keyed ones auto-skip if no key) → merged, deduped by URL,
+ * ranked by how many providers returned it. The "better set of information" — not one engine's view.
+ */
+export async function searchAll(query, { limit = 12 } = {}) {
+  if (!query) return [];
+  const names = Object.keys(PROVIDERS);
+  const lists = await Promise.all(names.map((n) => search(query, { limit: 10, provider: n }).catch(() => [])));
+  const byUrl = new Map();
+  lists.flat().forEach((r) => {
+    const k = r.url.replace(/[#?].*$/, '').replace(/\/$/, '');
+    if (!byUrl.has(k)) byUrl.set(k, { ...r, providers: [r.provider] });
+    else { const e = byUrl.get(k); if (!e.providers.includes(r.provider)) e.providers.push(r.provider); if (!e.snippet && r.snippet) e.snippet = r.snippet; }
+  });
+  return [...byUrl.values()].sort((a, b) => b.providers.length - a.providers.length).slice(0, limit);
 }
 
 /**
  * search → fetch the top results' clean content → combined evidence. The fact-checker / brief
  * "resource center" entry point: one call gives grounded source material for a query.
  */
-export async function research(query, { results = 5, fetchTop = 3, maxChars = 6000 } = {}) {
-  const hits = await search(query, { limit: results });
+export async function research(query, { results = 6, fetchTop = 3, maxChars = 6000 } = {}) {
+  const hits = await searchAll(query, { limit: results });
   const fetched = await fetchMany(hits.slice(0, fetchTop).map((h) => h.url), { maxChars });
   const byUrl = Object.fromEntries(fetched.map((f) => [f.url, f]));
   return {
@@ -122,5 +190,7 @@ if (process.argv[1] && process.argv[1].endsWith('scraper.mjs')) {
   const [cmd, ...rest] = process.argv.slice(2);
   if (cmd === 'search') { const r = await search(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. ${x.title}\n   ${x.url}\n   ${x.snippet.slice(0, 120)}`)); }
   else if (cmd === 'research') { const r = await research(rest.join(' ')); console.log(`query: ${r.query}\n`); r.sources.forEach((s) => console.log(`• ${s.title} ${s.fetched ? '✓fetched ' + s.markdown.length + 'ch' : ''}\n  ${s.url}`)); }
+  else if (cmd === 'screenshot') { const r = await screenshot(rest[0], { path: rest[1] || '/tmp/shot.png' }); console.log(JSON.stringify(r)); }
+  else if (cmd === 'all') { const r = await searchAll(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. [${x.providers.join('+')}] ${x.title}\n   ${x.url}`)); }
   else { const r = await fetchClean(cmd || 'https://example.com'); console.log(`[${r.source}] ${r.title} — ${r.chars} chars\n${r.markdown.slice(0, 600)}`); }
 }
