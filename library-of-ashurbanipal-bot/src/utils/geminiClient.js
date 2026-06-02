@@ -8,6 +8,25 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// #181 — provider-agnostic LLM fallback. When the Gemini call fails (rate limit / no key / 5xx /
+// safety block) we fall back to the shared router (OpenRouter → GitHub Models → Groq) so wiki
+// generation continues instead of hard-failing. Imported lazily + guarded so a missing router file
+// can NEVER break the bot; Gemini stays primary whenever its key is present.
+let _routerComplete = null;        // resolved on first use: (prompt, opts) => {text, provider, model}
+let _routerLoaded = false;
+async function loadRouter() {
+  if (_routerLoaded) return _routerComplete;
+  _routerLoaded = true;
+  try {
+    const mod = await import('../../../integrations/llm-router.mjs');
+    if (typeof mod.complete === 'function') _routerComplete = mod.complete;
+  } catch (e) {
+    // router unavailable — fallback simply won't engage; never crash the bot.
+    console.error('[GeminiClient] LLM router unavailable, fallback disabled:', e?.message || e);
+  }
+  return _routerComplete;
+}
+
 class GeminiClient {
   constructor(apiKey) {
     this.genAI = new GoogleGenerativeAI(apiKey);
@@ -47,6 +66,36 @@ STYLE:
   }
 
   /**
+   * #181 — fallback to the provider-agnostic router when the Gemini call fails. The SAME synthesis
+   * prompt and grounding rules are preserved: the systemInstruction is passed as the router `system`
+   * and the originally-built user prompt is passed verbatim. Returns the text, or rethrows the
+   * ORIGINAL Gemini error if no fallback provider produced anything (so behaviour is unchanged when
+   * there is genuinely no LLM available). Never prints any API key.
+   * @param {string} prompt           the user prompt already built for Gemini
+   * @param {Error}  geminiError      the error Gemini threw (rethrown if fallback also fails)
+   * @param {object} [opts]           router opts (task hint, temperature, maxTokens)
+   */
+  async _routerFallback(prompt, geminiError, opts = {}) {
+    const complete = await loadRouter();
+    if (!complete) throw geminiError;               // no router on disk → preserve prior behaviour
+    const res = await complete(prompt, {
+      system: this.systemInstruction,
+      // Gemini is primary; the router skips it (no GEMINI_API_KEY or it just failed) and uses the
+      // next rungs of the ladder. 'quality' biases toward the strongest remaining provider.
+      task: opts.task || 'quality',
+      temperature: opts.temperature ?? Number(process.env.GEMINI_TEMPERATURE ?? 0.25),
+      maxTokens: opts.maxTokens ?? 4096,
+      log: (m) => console.error(m),                 // router never logs key material
+    });
+    if (res && res.text && res.text.trim()) {
+      console.error(`[GeminiClient] Gemini failed (${geminiError?.message || geminiError}); answered via fallback provider ${res.provider} (${res.model}).`);
+      return res.text;
+    }
+    // all fallback providers failed too — surface the original Gemini error.
+    throw geminiError;
+  }
+
+  /**
    * Generate a wiki article synthesizing knowledge from multiple sources
    */
   async synthesizeArticle(topic, context, existingArticle = null) {
@@ -67,7 +116,8 @@ STYLE:
       return result.response.text();
     } catch (error) {
       console.error('[GeminiClient] Synthesis error:', error);
-      throw error;
+      // #181 — keep generation alive on another provider instead of hard-failing.
+      return this._routerFallback(prompt, error, { task: 'quality' });
     }
   }
 
@@ -105,7 +155,7 @@ Provide a comprehensive answer that:
       return result.response.text();
     } catch (error) {
       console.error('[GeminiClient] Answer error:', error);
-      throw error;
+      return this._routerFallback(prompt, error, { task: 'quality' });
     }
   }
 
@@ -132,7 +182,7 @@ Provide:
       return result.response.text();
     } catch (error) {
       console.error('[GeminiClient] Update analysis error:', error);
-      throw error;
+      return this._routerFallback(prompt, error, { task: 'default' });
     }
   }
 
@@ -237,7 +287,8 @@ Give a concise, informative response suitable for Discord. Mention which topics 
       return result.response.text();
     } catch (error) {
       console.error('[GeminiClient] Brief response error:', error);
-      throw error;
+      // shorter Discord answer — bias to a cheap/fast provider on fallback.
+      return this._routerFallback(prompt, error, { task: 'cheap', maxTokens: 1024 });
     }
   }
 }

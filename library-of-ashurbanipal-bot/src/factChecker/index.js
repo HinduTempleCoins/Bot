@@ -76,34 +76,53 @@ export function extractClaims(wikiText) {
 }
 
 // ── verify one claim against external reality ──
+// #136 — every claim is grounded in Resource Center (scraper.research) evidence: we fetch real pages
+// for the claim, feed their content into the verdict prompt, and record the evidence_urls on the
+// result. The verdict is instructed to follow the FETCHED EVIDENCE, not the model's own memory; and
+// when no external evidence is retrievable we refuse to let the model assert a confident
+// SUPPORTED/CONTRADICTED from memory alone (downgraded to UNVERIFIABLE below). This function only
+// returns a verdict object — it NEVER writes to or edits the knowledge base (flag-only invariant).
 export async function verifyClaim(claim) {
   // ground the verdict in REAL fetched pages (our Resource Center) — not just the model's memory or
   // Gemini's opaque grounding. We pass the fetched evidence into the prompt + capture the source URLs.
-  let evidenceBlock = '', evidenceUrls = [];
+  let evidenceBlock = '', evidenceUrls = [], fetchedCount = 0;
   try {
     const r = await research(claim, { results: 4, fetchTop: 2, maxChars: 2500 });
-    evidenceUrls = r.sources.map((s) => s.url);
+    evidenceUrls = r.sources.map((s) => s.url).filter(Boolean);
+    fetchedCount = r.sources.filter((s) => s.fetched && (s.markdown || '').trim()).length;
     evidenceBlock = r.sources.map((s, i) => `[E${i + 1}] ${s.title} — ${s.url}\n${(s.markdown || s.snippet || '').slice(0, 1200)}`).join('\n\n');
-  } catch { /* fall back to Gemini's own grounding */ }
+  } catch { /* Resource Center unreachable → fall back to Gemini's own grounding */ }
   const prompt = `You are a careful fact-checker with web search. Assess ONE claim from a research wiki against reliable external sources (encyclopedias, scientific literature, reputable web).
-${evidenceBlock ? `\nFETCHED EVIDENCE (real pages retrieved for this claim — weigh these first):\n${evidenceBlock}\n` : ''}
+${evidenceBlock ? `\nFETCHED EVIDENCE (real pages retrieved from the Resource Center for THIS claim — this is your PRIMARY basis; base the verdict on what these pages actually say, not on prior memory. If the evidence does not address the claim, prefer UNVERIFIABLE over guessing):\n${evidenceBlock}\n` : '\n(No external evidence could be fetched for this claim. Do NOT assert SUPPORTED or CONTRADICTED from memory alone — use UNVERIFIABLE unless the claim is purely INTERNAL.)\n'}
 
 CONTEXT: "VKFRI" = the Van Kush Family Research Institute, a small PRIVATE research group — it is NOT externally notable; do NOT look it up (and do NOT confuse it with any similarly-initialed school or organization). When a claim is phrased as "VKFRI notes/states/proposes that X", IGNORE the attribution wrapper and fact-check the underlying real-world assertion X (the science/history/date), not the institute.
 
 CLAIM: "${claim}"
 
 Decide ONE verdict about the underlying real-world assertion:
-- SUPPORTED: reliable external sources agree the assertion is accurate.
-- CONTRADICTED: reliable external sources show it is false or not a real/established thing (invented terminology like a molecule's "magnetic charge"; a biochemical mechanism not established in science; a wrong date).
-- UNVERIFIABLE: a real-world assertion exists but there is no reliable external evidence either way.
+- SUPPORTED: the FETCHED EVIDENCE (or other reliable external sources) agree the assertion is accurate.
+- CONTRADICTED: the FETCHED EVIDENCE (or other reliable external sources) show it is false or not a real/established thing (invented terminology like a molecule's "magnetic charge"; a biochemical mechanism not established in science; a wrong date).
+- UNVERIFIABLE: a real-world assertion exists but the fetched evidence (and your knowledge) provide no reliable basis either way.
 - INTERNAL: the claim ONLY describes VKFRI's own framework, terminology, or teaching and makes NO externally checkable real-world assertion (e.g. "VKFRI calls this the spice cabinet a laboratory of consciousness").
 
+Cite a supporting URL from the FETCHED EVIDENCE above whenever one applies.
 Respond with STRICT JSON only:
 {"verdict":"SUPPORTED|CONTRADICTED|UNVERIFIABLE|INTERNAL","confidence":0.0-1.0,"reason":"one sentence about the underlying assertion","source":"a URL or empty string"}`;
   const { text, citations } = await gemini(prompt, { grounded: true });
   const j = parseJson(text) || { verdict: 'UNVERIFIABLE', confidence: 0, reason: 'no parseable verdict', source: '' };
+  // Guard: a SUPPORTED/CONTRADICTED verdict must rest on real fetched evidence or Gemini grounding,
+  // not bare model memory. With zero external evidence, downgrade an externally-checkable verdict to
+  // UNVERIFIABLE (INTERNAL claims make no external assertion, so they're left alone).
+  if (fetchedCount === 0 && !citations.length && (j.verdict === 'SUPPORTED' || j.verdict === 'CONTRADICTED')) {
+    j.reason = `${j.reason || ''} [downgraded: no external evidence retrieved to confirm]`.trim();
+    j.verdict = 'UNVERIFIABLE';
+    j.confidence = Math.min(Number(j.confidence) || 0, 0.3);
+  }
+  // prefer a URL the verdict can actually point at: model-cited URL → Gemini grounding → fetched page.
   if (!j.source) j.source = citations[0] || evidenceUrls[0] || '';
-  j.evidence_urls = [...new Set([...(j.source ? [j.source] : []), ...evidenceUrls])].slice(0, 5);
+  // record ALL the evidence the Resource Center surfaced (model source + Gemini citations + fetched URLs).
+  j.evidence_urls = [...new Set([...(j.source ? [j.source] : []), ...citations, ...evidenceUrls])].slice(0, 5);
+  j.evidence_fetched = fetchedCount;
   return j;
 }
 
@@ -117,12 +136,15 @@ export async function checkArticle(wikiText, { title = 'untitled', topic = '' } 
   for (let i = 0; i < claims.length; i += BATCH) {
     const slice = claims.slice(i, i + BATCH);
     const verdicts = await Promise.all(slice.map(async (c) => {
-      const v = await verifyClaim(c.claim).catch((e) => ({ verdict: 'UNVERIFIABLE', confidence: 0, reason: 'check error: ' + e.message, source: '' }));
+      const v = await verifyClaim(c.claim).catch((e) => ({ verdict: 'UNVERIFIABLE', confidence: 0, reason: 'check error: ' + e.message, source: '', evidence_urls: [] }));
       const rec = { article: title, topic: t, claim: c.claim, file: c.file, ...v, checkedAt: nowISO() };
-      // log + flag
+      // log + flag. This only writes to the fact-check LOG and the FLAG store (flags.js) — it NEVER
+      // edits the KB / knowledge source files (hard project rule: the fact-checker flags, it does not
+      // correct). The flag carries the Resource Center evidence_urls so brief writers can see why.
       fs.mkdirSync(path.dirname(LOG), { recursive: true });
       fs.appendFileSync(LOG, JSON.stringify(rec) + '\n');
-      recordFlag({ file: c.file, topic: t, claim: c.claim, verdict: v.verdict, reason: v.reason, evidence: v.source, checkedAt: rec.checkedAt });
+      const evidence = (v.evidence_urls && v.evidence_urls.length) ? v.evidence_urls.join(' ') : (v.source || '');
+      recordFlag({ file: c.file, topic: t, claim: c.claim, verdict: v.verdict, reason: v.reason, evidence, checkedAt: rec.checkedAt });
       return rec;
     }));
     results.push(...verdicts);
