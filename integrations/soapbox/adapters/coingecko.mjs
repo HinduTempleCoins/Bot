@@ -54,6 +54,17 @@ export async function fetchToken(id) {
     high_24h: m.high_24h?.usd ?? null, low_24h: m.low_24h?.usd ?? null,
   };
   coin.categories = (d.categories || []).filter(Boolean).slice(0, 6);
+  // official links the coin-link finder surfaces on the page: whitepaper, forum (often the
+  // Bitcointalk thread), announcement thread, source code, official chats.
+  const L = d.links || {};
+  coin.official = {
+    whitepaper: L.whitepaper || '',
+    forum: (L.official_forum_url || []).filter(Boolean)[0] || '',     // frequently a Bitcointalk thread
+    announcement: (L.announcement_url || []).filter(Boolean)[0] || '',
+    repos: (L.repos_url?.github || []).filter(Boolean).slice(0, 2),
+    chats: (L.chat_url || []).filter(Boolean).slice(0, 2),
+    reddit: L.subreddit_url || '',
+  };
   return coin;
 }
 

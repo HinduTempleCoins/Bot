@@ -205,6 +205,18 @@ async function coinPage(id) {
     ${card('Contracts', contracts)}
     ${team ? card('Team', team) : ''}
     ${links ? card('Links', links) : ''}
+    ${(() => {
+      const o = c.official || {};
+      const rows = [
+        o.whitepaper && `<a href="${esc(o.whitepaper)}">📄 Whitepaper</a>`,
+        o.forum && `<a href="${esc(o.forum)}">💬 Official thread${/bitcointalk/i.test(o.forum) ? ' (Bitcointalk)' : ''}</a>`,
+        o.announcement && `<a href="${esc(o.announcement)}">📢 Announcement</a>`,
+        o.reddit && `<a href="${esc(o.reddit)}">Reddit</a>`,
+        ...(o.repos || []).map((r) => `<a href="${esc(r)}">GitHub</a>`),
+        ...(o.chats || []).map((ch) => `<a href="${esc(ch)}">Chat</a>`),
+      ].filter(Boolean);
+      return rows.length ? card('Official & community', `<div style="display:flex;flex-wrap:wrap;gap:14px">${rows.join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Official project links — verified by the market fact-checker before they appear.</p>`) : '';
+    })()}
     ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — or browse the <a href="https://wiki.soapbox.community">Library of Ashurbanipal</a>.</p>`)}
     ${converter(c)}
     ${relatedPanel(related)}
