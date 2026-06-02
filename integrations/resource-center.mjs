@@ -22,6 +22,10 @@ try { const cp = await import('./comms-parser.mjs'); newsDigest = cp.newsDigest 
 // profit-circles (#191): round-trip loops that return to HE grown + volatility scalps (keep capital, skim).
 let circlesEngine = async () => '';
 try { const pc = await import('./profit-circles.mjs'); circlesEngine = pc.engineBlock || circlesEngine; } catch { /* absent — engine still runs */ }
+// cross-venue arbitrage (#191) + copy-trade candidates (#192) — more advisory blocks, all defensive.
+let crossVenueEngine = async () => '', copyTradeEngine = async () => '';
+try { const cv = await import('./cross-venue-arb.mjs'); crossVenueEngine = cv.engineBlock || crossVenueEngine; } catch {}
+try { const ct = await import('./copy-trade-scan.mjs'); copyTradeEngine = ct.engineBlock || copyTradeEngine; } catch {}
 
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
@@ -47,6 +51,8 @@ export async function runPass() {
   // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
   const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
   const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
+  const crossVenueMd = await Promise.resolve().then(() => crossVenueEngine()).catch(() => '');
+  const copyTradeMd = await Promise.resolve().then(() => copyTradeEngine()).catch(() => '');
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
@@ -87,7 +93,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -152,6 +158,8 @@ export function briefReport(s) {
     }
   }
   if (s.circlesMd) { L.push(''); L.push(s.circlesMd); }
+  if (s.crossVenueMd) { L.push(''); L.push(s.crossVenueMd); }
+  if (s.copyTradeMd) { L.push(''); L.push(s.copyTradeMd); }
   L.push(`\n*Engine: resource-center.mjs · advisory only, no trades executed · US-jurisdiction-aware.*`);
   return L.join('\n');
 }
