@@ -21,6 +21,17 @@ const BASE = 'https://api.geckoterminal.com/api/v2';
 
 export async function fetchTokens() { return []; }  // GT is address-keyed; no global market list
 
+// newest pools across all DEX networks — where new + unlisted tokens land first (spec §1b).
+export async function newPools({ limit = 12 } = {}) {
+  const d = await jget(`${BASE}/networks/new_pools?page=1`).catch(() => null);
+  return (d?.data || []).slice(0, limit).map((p) => {
+    const a = p.attributes || {};
+    return { name: a.name || '', network: p.relationships?.network?.data?.id || '',
+      fdv: +a.fdv_usd || 0, vol24: +a.volume_usd?.h24 || 0, price: +a.base_token_price_usd || 0,
+      address: a.address || '' };
+  });
+}
+
 // id: "gt:<network>:<token-address>"
 export async function fetchToken(gid) {
   const [, network, address] = String(gid).split(':');

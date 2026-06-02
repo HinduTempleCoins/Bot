@@ -23,6 +23,7 @@ import {
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
+import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins } from '../../integrations/soapbox/markets-extra.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
@@ -199,7 +200,12 @@ async function coinPage(id) {
 // ── Static-ish pages, rendered through the same layout ──────────────────────
 async function dappsPage() {
   const cats = [...new Set(DAPPS.map((d) => d.category))];
-  const llama = await topProtocols({ limit: 15 }).catch(() => []);
+  const [llama, fresh] = await Promise.all([
+    topProtocols({ limit: 15 }).catch(() => []),
+    cached('newpools', TTL.list, () => newPools({ limit: 12 })).catch(() => []),
+  ]);
+  const freshRows = fresh.map((p) => `<tr><td style="text-align:left"><b>${esc(p.name)}</b> <span class=badge>${esc(p.network)}</span></td>
+    <td>${p.price ? usd(p.price) : '—'}</td><td>${compactUsd(p.fdv)}</td><td>${compactUsd(p.vol24)}</td></tr>`).join('');
   const llamaRows = llama.map((p, i) => `<tr>
     <td>${i + 1}</td><td style="text-align:left"><b>${esc(p.name)}</b> <span class=badge>${esc(p.chain)}</span></td>
     <td class=muted>${esc(p.category)}</td><td>${compactUsd(p.tvl)}</td><td>${pct(p.change_1d)}</td></tr>`).join('');
@@ -209,7 +215,10 @@ async function dappsPage() {
        <span class=badge>${esc(d.chain)}</span> <span class="clarity c-${d.status === 'live' ? 'high' : d.status === 'in progress' ? 'moderate' : 'unknown'}">${esc(d.status)}</span>
        <div class=muted>${esc(d.blurb)}</div></div>`).join('')}</div>`).join('')}
     ${llamaRows ? `<div class=card><h2>Top DeFi protocols by TVL <span class=muted style="font-weight:400">· live via DeFiLlama</span></h2>
-      <table><thead><tr><th>#</th><th style="text-align:left">Protocol</th><th style="text-align:left">Category</th><th>TVL</th><th>24h</th></tr></thead><tbody>${llamaRows}</tbody></table></div>` : ''}`;
+      <table><thead><tr><th>#</th><th style="text-align:left">Protocol</th><th style="text-align:left">Category</th><th>TVL</th><th>24h</th></tr></thead><tbody>${llamaRows}</tbody></table></div>` : ''}
+    ${freshRows ? `<div class=card><h2>New on DEX <span class=muted style="font-weight:400">· just-listed pools via GeckoTerminal</span></h2>
+      <table><thead><tr><th style="text-align:left">Pool</th><th>Price</th><th>FDV</th><th>24h vol</th></tr></thead><tbody>${freshRows}</tbody></table>
+      <p class=muted style="font-size:12px">Brand-new pools — unvetted by design. Low Clarity until they earn it. DYOR.</p></div>` : ''}`;
   return layout({ title: 'dApps', active: '/dapps', canonical: `${BASE_URL}/dapps`, description: 'SoapBox dApp directory — ecosystem apps + the live DeFi landscape by TVL (DeFiLlama).', body });
 }
 
