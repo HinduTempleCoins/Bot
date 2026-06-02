@@ -116,10 +116,11 @@ export function briefReport(s) {
     }
   }
   // news diagnostics (#179) — what the market is SAYING, to read alongside what it's DOING
-  if (s.news && s.news.assets) {
+  const newsArr = Array.isArray(s.news?.assets) ? s.news.assets : (s.news?.assets && typeof s.news.assets === 'object' ? Object.values(s.news.assets) : []);
+  if (newsArr.length) {
     L.push('');
     L.push(`### News diagnostics`);
-    for (const d of s.news.assets) {
+    for (const d of newsArr) {
       if (!d || !d.headlineCount) continue;
       const arrow = d.sentimentHint === 'bullish' ? '▲' : d.sentimentHint === 'bearish' ? '▼' : '•';
       const themes = (d.themes || []).slice(0, 4).map((t) => t.word).join(', ');
