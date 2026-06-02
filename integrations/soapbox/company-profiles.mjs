@@ -146,7 +146,13 @@ async function wdLabel(qid) {
   return d?.entities?.[qid]?.labels?.en?.value || null;
 }
 
-/** Wikidata description / founded / industry / website / hq for a company name. */
+// Wikidata Commons image (P154 logo / P18 image) → a usable thumbnail URL via Special:FilePath.
+function wdImageUrl(filename, width = 256) {
+  if (!filename) return null;
+  return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(filename)}?width=${width}`;
+}
+
+/** Wikidata description / founded / industry / website / hq + leadership/scale/structure for a company name. */
 async function wikidataProfile(name) {
   const q = String(name || '').trim();
   if (!q) return null;
@@ -162,7 +168,17 @@ async function wikidataProfile(name) {
     const industryId = wdClaim(claims, 'P452')?.id || null; // industry (item ref)
     const hqId = wdClaim(claims, 'P159')?.id || null;       // headquarters location (item ref)
     const website = wdClaim(claims, 'P856') || null;        // official website (string)
-    const [industry, hqCity] = await Promise.all([wdLabel(industryId), wdLabel(hqId)]);
+    const ceoId = wdClaim(claims, 'P169')?.id || null;      // chief executive officer (item ref)
+    const countryId = wdClaim(claims, 'P17')?.id || null;   // country (item ref)
+    const parentId = wdClaim(claims, 'P749')?.id || null;   // parent organization (item ref)
+    const exchangeId = wdClaim(claims, 'P414')?.id || null; // stock exchange (item ref)
+    const employeesV = wdClaim(claims, 'P1128');            // employee count (quantity)
+    const tickerV = wdClaim(claims, 'P249') || null;        // ticker symbol (string)
+    const logoFile = wdClaim(claims, 'P154') || wdClaim(claims, 'P18') || null; // logo / image (commons filename)
+    const [industry, hqCity, ceo, country, parent, exchange] = await Promise.all([
+      wdLabel(industryId), wdLabel(hqId), wdLabel(ceoId), wdLabel(countryId), wdLabel(parentId), wdLabel(exchangeId),
+    ]);
+    const employees = employeesV?.amount ? Math.round(Math.abs(Number(String(employeesV.amount).replace('+', '')))) || null : null;
     return {
       qid,
       description: ent.descriptions?.en?.value || null,
@@ -170,6 +186,30 @@ async function wikidataProfile(name) {
       industry: industry || null,
       website: website || null,
       hq: hqCity || null,
+      ceo: ceo || null,
+      country: country || null,
+      parent: parent || null,
+      stockExchange: exchange || null,
+      employees,
+      ticker: tickerV || null,
+      logo: wdImageUrl(logoFile),
+      wikidataUrl: `https://www.wikidata.org/wiki/${qid}`,
+    };
+  });
+}
+
+// ── Wikipedia (encyclopedic extract) ──────────────────────────────────────────────────────────────
+/** Wikipedia REST summary: a fuller paragraph than Wikidata's one-liner, + canonical article URL. */
+async function wikipediaSummary(name) {
+  const q = String(name || '').trim();
+  if (!q) return null;
+  return cached(`co:wp:${norm(q)}`, TTL.metadata, async () => {
+    const d = await jget(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(q.replace(/ /g, '_'))}`, { 'user-agent': GEN_UA }).catch(() => null);
+    if (!d || d.type === 'disambiguation' || !d.extract) return null;
+    return {
+      extract: d.extract || null,
+      url: d.content_urls?.desktop?.page || (d.title ? `https://en.wikipedia.org/wiki/${encodeURIComponent(d.title.replace(/ /g, '_'))}` : null),
+      thumbnail: d.thumbnail?.source || null,
     };
   });
 }
@@ -216,10 +256,18 @@ async function govContracts(name) {
 }
 
 // ── Assembler ─────────────────────────────────────────────────────────────────────────────────────
+// A profile's "completeness" — how many of the dossier's load-bearing fields we actually filled.
+const COMPLETENESS_FIELDS = ['description', 'founded', 'industry', 'hq', 'website', 'ceo', 'employees', 'cik', 'lei', 'ticker'];
+function completeness(p) {
+  const have = COMPLETENESS_FIELDS.filter((f) => p[f] != null && p[f] !== '' && !(Array.isArray(p[f]) && !p[f].length)).length;
+  return Math.round((have / COMPLETENESS_FIELDS.length) * 100);
+}
+
 /**
  * Assemble a best-effort, Crunchbase-style company profile from keyless public records.
  * @param {string} query company name or ticker, e.g. "Apple", "AAPL", "Tesla Inc"
- * @returns {Promise<object>} { name, ticker, cik, lei, description, website, founded, industry, hq, secFilings, govContracts, sources }
+ * @returns {Promise<object>} a dossier: identity, description, leadership, scale, structure, registries,
+ *   filings, federal awards, sources, a tradedStatus + onboarding block, research links, and completeness.
  */
 export async function companyProfile(query) {
   const q = String(query || '').trim();
@@ -229,10 +277,11 @@ export async function companyProfile(query) {
   const sec = await secResolve(q).catch(() => null);
   const canonName = sec?.title || q;
 
-  const [secMeta, gleif, wiki, gov] = await Promise.all([
+  const [secMeta, gleif, wiki, wikiText, gov] = await Promise.all([
     sec ? secProfile(sec.cik).catch(() => null) : Promise.resolve(null),
     gleifProfile(canonName).catch(() => null),
     wikidataProfile(canonName).catch(() => null),
+    wikipediaSummary(canonName).catch(() => null),
     govContracts(canonName).catch(() => null),
   ]);
 
@@ -240,28 +289,79 @@ export async function companyProfile(query) {
   if (secMeta) sources.push('SEC EDGAR');
   if (gleif) sources.push('GLEIF');
   if (wiki) sources.push('Wikidata');
+  if (wikiText) sources.push('Wikipedia');
   if (gov && (gov.contracts?.count || gov.grants?.count)) sources.push('USAspending');
 
-  const name = secMeta?.name || gleif?.legalName || canonName;
+  const name = secMeta?.name || gleif?.legalName || wiki?.qid && canonName || canonName;
+  const ticker = sec?.ticker || secMeta?.tickers?.[0] || wiki?.ticker || null;
 
-  return {
+  // Traded status: did SEC register it as a US public company (has exchanges), or is it private /
+  // not-yet-traded? Drives the onboarding block below for companies with no traded currency.
+  const exchanges = (secMeta?.exchanges || []).filter(Boolean);
+  const traded = !!(ticker && exchanges.length);
+  const tradedStatus = traded ? 'public'
+    : (sec ? 'registered'         // SEC-known but no live exchange listing in the submissions doc
+    : 'private');                 // not in SEC's registry at all
+
+  const profile = {
     name,
-    ticker: sec?.ticker || secMeta?.tickers?.[0] || null,
+    ticker,
     cik: sec ? pad10(sec.cik) : null,
     lei: gleif?.lei || null,
-    description: wiki?.description || null,
+    qid: wiki?.qid || null,
+    description: wikiText?.extract || wiki?.description || null,
+    summary: wiki?.description || null,            // the short Wikidata one-liner, kept distinct
     website: secMeta?.website || wiki?.website || null,
+    logo: wiki?.logo || wikiText?.thumbnail || null,
     founded: wiki?.founded || null,
     industry: secMeta?.sicDescription || wiki?.industry || null,
+    sicCode: secMeta?.sic || null,
     hq: gleif?.hq || wiki?.hq || null,
+    country: wiki?.country || gleif?.country || null,
+    ceo: wiki?.ceo || null,
+    employees: wiki?.employees || null,
+    parent: wiki?.parent || null,
+    stockExchange: wiki?.stockExchange || null,
     jurisdiction: gleif?.jurisdiction || secMeta?.stateOfIncorporation || null,
+    legalForm: gleif?.legalForm || null,
     legalStatus: gleif?.status || null,
-    exchanges: secMeta?.exchanges || [],
+    ein: secMeta?.ein || null,
+    exchanges,
     fiscalYearEnd: secMeta?.fiscalYearEnd || null,
     secFilings: secMeta?.filings || [],
     govContracts: gov || null,
+    tradedStatus,
+    traded,
     sources,
+    links: {
+      wikidata: wiki?.wikidataUrl || null,
+      wikipedia: wikiText?.url || null,
+      sec: sec ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${pad10(sec.cik)}&type=&dateb=&owner=include&count=40` : null,
+      gleif: gleif?.lei ? `https://search.gleif.org/#/record/${gleif.lei}` : null,
+    },
   };
+
+  // Onboarding for companies with no traded currency yet: tell the operator what's missing and what
+  // it would take to list. This is the "directory entry for a not-yet-listed company" path (#195).
+  if (!traded) {
+    const missing = [];
+    if (!profile.cik) missing.push('SEC registration (CIK) — file via EDGAR if a US issuer');
+    if (!profile.lei) missing.push('Legal Entity Identifier (LEI) — register at GLEIF');
+    if (!profile.ticker) missing.push('a ticker symbol — assigned on exchange listing');
+    if (!profile.website) missing.push('a public website for the directory card');
+    profile.onboarding = {
+      status: tradedStatus,
+      note: tradedStatus === 'private'
+        ? 'Private / not found in SEC’s public-company registry. Listed here as a directory entry.'
+        : 'Registered with SEC but no live exchange listing detected.',
+      missing,
+      // The MELEK angle: a company without a traded currency can still be issued one on-chain.
+      melekPath: 'A company with no traded security can be onboarded to the MELEK chain and issued a token/SMT as its on-chain currency — the Directory entry seeds that.',
+    };
+  }
+
+  profile.completeness = completeness(profile);
+  return profile;
 }
 
 // ── CLI ───────────────────────────────────────────────────────────────────────────────────────────
@@ -274,14 +374,20 @@ if (isMain) {
       console.log(`\n  ${p.name}${p.ticker ? `  (${p.ticker})` : ''}`);
       console.log('  ' + '─'.repeat(48));
       if (p.description) console.log('  ' + p.description);
+      console.log(`  Traded:     ${p.tradedStatus}${p.ticker ? ` (${p.ticker})` : ''}`);
       console.log(`  CIK:        ${p.cik || '—'}`);
       console.log(`  LEI:        ${p.lei || '—'}`);
       console.log(`  Founded:    ${p.founded || '—'}`);
       console.log(`  Industry:   ${p.industry || '—'}`);
-      console.log(`  HQ:         ${p.hq || '—'}`);
+      console.log(`  CEO:        ${p.ceo || '—'}`);
+      console.log(`  Employees:  ${p.employees != null ? Number(p.employees).toLocaleString('en-US') : '—'}`);
+      console.log(`  Parent:     ${p.parent || '—'}`);
+      console.log(`  HQ:         ${p.hq || '—'}${p.country ? `, ${p.country}` : ''}`);
       console.log(`  Website:    ${p.website || '—'}`);
       console.log(`  Exchanges:  ${p.exchanges?.join(', ') || '—'}`);
       console.log(`  Status:     ${p.legalStatus || '—'}  (${p.jurisdiction || '—'})`);
+      console.log(`  Complete:   ${p.completeness}%`);
+      if (p.onboarding) { console.log(`\n  Onboarding (${p.onboarding.status}): ${p.onboarding.note}`); for (const m of p.onboarding.missing) console.log(`    • needs: ${m}`); }
       if (p.secFilings?.length) {
         console.log('\n  Recent SEC filings:');
         for (const f of p.secFilings.slice(0, 5)) console.log(`    ${(f.form || '').padEnd(8)} ${f.filed || ''}`);
