@@ -233,9 +233,18 @@ async function chainsPage() {
 function ecosystemPage() {
   const body = `<h1>Ecosystem</h1><p>${esc(ECOSYSTEM.intro)}</p>
     <div class=card><h2>Pillars</h2>${ECOSYSTEM.pillars.map((p) =>
-      `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><b>${esc(p.name)}</b> <span class=badge>${esc(p.kind)}</span><div class=muted>${esc(p.role)}</div></div>`).join('')}</div>
+      `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><b><a href="/ecosystem/${esc(p.slug)}">${esc(p.name)}</a></b> <span class=badge>${esc(p.kind)}</span><div class=muted>${esc(p.role)}</div></div>`).join('')}</div>
     <div class=card><p class=gold>${esc(ECOSYSTEM.note)}</p></div>`;
   return layout({ title: 'Ecosystem', active: '/ecosystem', canonical: `${BASE_URL}/ecosystem`, description: ECOSYSTEM.intro.slice(0, 150), body });
+}
+
+function ecosystemPillar(slug) {
+  const p = ECOSYSTEM.pillars.find((x) => x.slug === slug);
+  if (!p) return { code: 404, html: layout({ title: 'Not found', active: '/ecosystem', body: card('Not found', `<p class=muted><a href="/ecosystem">← ecosystem</a></p>`) }) };
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: p.name, description: p.role, url: `${BASE_URL}/ecosystem/${slug}` };
+  const body = `<p class=muted><a href="/ecosystem">← ecosystem</a></p><h1>${esc(p.name)} <span class=badge>${esc(p.kind)}</span></h1>
+    <p>${esc(p.role)}</p><div class=card><p>${esc(p.detail || '')}</p></div>`;
+  return { code: 200, html: layout({ title: `${p.name} — Ecosystem`, active: '/ecosystem', canonical: `${BASE_URL}/ecosystem/${slug}`, description: p.role, jsonld, body }) };
 }
 
 function learnIndex() {
@@ -280,6 +289,7 @@ createServer(async (req, res) => {
     if (p === '/exchanges') return send(await exchangesPage());
     if (p === '/chains') return send(await chainsPage());
     if (p === '/ecosystem') return send(ecosystemPage());
+    if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
     if (p === '/learn') return send(learnIndex());
     if (p.startsWith('/learn/')) { const r = learnArticle(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
 
