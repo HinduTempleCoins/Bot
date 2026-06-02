@@ -292,16 +292,171 @@ export async function research(query, { results = 6, fetchTop = 3, maxChars = 60
   };
 }
 
-// ── translation hub (keyless) — so foreign search results / sources are usable in the Resource
-// Center. MyMemory free API (no key); auto-detect source with from='auto'. Best-effort.
-export async function translate(text, { from = 'auto', to = 'en' } = {}) {
-  const q = String(text || '').slice(0, 500);
-  if (!q) return { text: '', translated: '', from, to };
+// ── translation hub (keyless, HIGH-quality, multilingual) ──────────────────────────────────────
+// The ecosystem is going multilingual and Hathor serves a global audience on-chain, so this is the
+// real translation surface (not a best-effort afterthought). Engine ladder, best → fallback:
+//   1) Lingva  — a Google-Translate frontend (Google-quality), keyless. Small failover list of
+//      public instances (env LINGVA_INSTANCES) since any one can be Cloudflare-walled or down.
+//   2) LibreTranslate — only if a working keyless instance is supplied (env LIBRETRANSLATE_URL);
+//      public ones are mostly keyed/dead now, so it sits between Lingva and MyMemory, best-effort.
+//   3) MyMemory — the old engine, kept as the always-on floor (low quality, ~5k char/day anon).
+// Long text is CHUNKED on sentence/paragraph boundaries under each engine's limit, parts translated
+// (in original order), then rejoined — so quality and length both scale. Results are cached.
+// translate() never throws: on total failure it returns the original text unchanged.
+
+// Google-Translate (Lingva) instances, tried in order. dialectapp is reachable from CI/cloud hosts;
+// the others often are too from the on-chain box, so we keep them as failover. Override via env.
+const LINGVA_INSTANCES = (process.env.LINGVA_INSTANCES ||
+  'https://lingva.dialectapp.org,https://translate.plausibility.cloud,https://lingva.garudalinux.org,https://lingva.ml')
+  .split(',').map((s) => s.trim().replace(/\/+$/, '')).filter(Boolean);
+const LIBRETRANSLATE_URL = (process.env.LIBRETRANSLATE_URL || '').trim().replace(/\/+$/, '');
+
+// per-engine safe request lengths (chars). Lingva path-encodes text → keep URLs sane; MyMemory anon
+// caps each call at 500.
+const LINGVA_MAX = +(process.env.LINGVA_MAX_CHARS || 1800);
+const MYMEMORY_MAX = 500;
+
+const tcache = new Map();                          // `${engine}:${from}:${to}:${text}` -> { value, expires }
+const TRANSLATE_TTL = +(process.env.TRANSLATE_TTL_MS || 86_400_000);  // a translation doesn't change — 24h
+function tcached(key, fn) {
+  const hit = tcache.get(key);
+  if (hit && hit.expires > Date.now()) return hit.value;
+  const v = fn();
+  Promise.resolve(v).then((res) => { if (res != null) tcache.set(key, { value: res, expires: Date.now() + TRANSLATE_TTL }); }).catch(() => {});
+  return v;
+}
+
+// Split text into pieces no longer than `max`, preferring paragraph → sentence → hard-cut boundaries,
+// so each engine call stays clean and order is preserved on rejoin.
+export function chunkText(text, max = LINGVA_MAX) {
+  const s = String(text || '');
+  if (s.length <= max) return s ? [s] : [];
+  const out = [];
+  // first by paragraph (keeps blank-line structure), then any over-long paragraph by sentence.
+  for (const para of s.split(/(\n{2,})/)) {
+    if (!para) continue;
+    if (para.length <= max) { out.push(para); continue; }
+    let buf = '';
+    for (const sent of para.split(/(?<=[.!?。！？…])\s+/)) {
+      if (sent.length > max) {                     // a single monster sentence: hard-cut on spaces/chars
+        if (buf) { out.push(buf); buf = ''; }
+        for (let i = 0; i < sent.length; i += max) out.push(sent.slice(i, i + max));
+        continue;
+      }
+      if ((buf + ' ' + sent).trim().length > max) { if (buf) out.push(buf); buf = sent; }
+      else buf = buf ? `${buf} ${sent}` : sent;
+    }
+    if (buf) out.push(buf);
+  }
+  return out.filter((p) => p.length);
+}
+
+// One Lingva call for a single chunk. Returns { translated, detected } or null on failure.
+async function lingvaOnce(chunk, from, to) {
+  for (const base of LINGVA_INSTANCES) {
+    try {
+      const r = await withTimeout(`${base}/api/v1/${from}/${to}/${encodeURIComponent(chunk)}`, { headers: { 'user-agent': UA, accept: 'application/json' } }, 15000);
+      if (!r.ok) continue;
+      const d = await r.json().catch(() => null);
+      const translated = d && typeof d.translation === 'string' ? d.translation : null;
+      if (translated == null) continue;            // Cloudflare HTML / error JSON → next instance
+      return { translated, detected: d.info?.detectedSource || null };
+    } catch { /* try next instance */ }
+  }
+  return null;
+}
+
+// One LibreTranslate call (only if LIBRETRANSLATE_URL is set). Returns { translated, detected } | null.
+async function libreOnce(chunk, from, to) {
+  if (!LIBRETRANSLATE_URL) return null;
   try {
-    const r = await withTimeout(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${from === 'auto' ? 'Autodetect' : from}|${to}`, { headers: { 'user-agent': UA } });
+    const body = { q: chunk, source: from === 'auto' ? 'auto' : from, target: to, format: 'text' };
+    if (process.env.LIBRETRANSLATE_API_KEY) body.api_key = process.env.LIBRETRANSLATE_API_KEY;
+    const r = await withTimeout(`${LIBRETRANSLATE_URL}/translate`, { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': UA }, body: JSON.stringify(body) }, 15000);
+    if (!r.ok) return null;
+    const d = await r.json().catch(() => null);
+    if (!d || typeof d.translatedText !== 'string') return null;
+    return { translated: d.translatedText, detected: d.detectedLanguage?.language || null };
+  } catch { return null; }
+}
+
+// One MyMemory call for a single chunk (<=500 chars). Returns { translated, detected } | null.
+async function myMemoryOnce(chunk, from, to) {
+  try {
+    const langpair = `${from === 'auto' ? 'Autodetect' : from}|${to}`;
+    const r = await withTimeout(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(chunk)}&langpair=${langpair}`, { headers: { 'user-agent': UA } }, 15000);
     const d = await r.json().catch(() => ({}));
-    return { text: q, translated: d?.responseData?.translatedText || q, from, to };
-  } catch { return { text: q, translated: q, from, to }; }
+    const translated = d?.responseData?.translatedText;
+    if (typeof translated !== 'string' || !translated) return null;
+    return { translated, detected: d?.responseData?.detectedLanguage || null };
+  } catch { return null; }
+}
+
+// Translate a whole text with one engine by chunking + rejoining. Returns { translated, detected } |
+// null. If ANY chunk fails the whole engine attempt fails (so we fall through to the next engine
+// rather than splice a half-translated result).
+async function translateWith(engineOnce, text, from, to, max) {
+  const parts = chunkText(text, max);
+  if (!parts.length) return { translated: '', detected: null };
+  const single = parts.length === 1;
+  const results = [];
+  let detected = null;
+  for (const part of parts) {
+    // detection only matters for the first chunk; subsequent chunks reuse it when from='auto'
+    const res = await engineOnce(part, from, to);
+    if (!res) return null;
+    results.push(res.translated);
+    if (!detected && res.detected) detected = res.detected;
+  }
+  return { translated: single ? results[0] : results.join(' '), detected };
+}
+
+/**
+ * High-quality, multilingual, keyless translation. ISO-639-1 codes; from='auto' detects the source.
+ * Tries Lingva (Google-quality) → LibreTranslate (if configured) → MyMemory (floor), chunking long
+ * text. Never throws. Return shape is backward-compatible: { text, translated, from, to } — `from`
+ * now resolves to the detected language when the caller passed 'auto', and `engine` names the source.
+ */
+export async function translate(text, { from = 'auto', to = 'en' } = {}) {
+  const q = String(text || '');
+  if (!q.trim()) return { text: q, translated: q, from, to, engine: 'none' };
+  if (from === to && from !== 'auto') return { text: q, translated: q, from, to, engine: 'noop' };
+
+  const ladder = [
+    ['lingva', lingvaOnce, LINGVA_MAX],
+    ['libretranslate', libreOnce, 4000],
+    ['mymemory', myMemoryOnce, MYMEMORY_MAX],
+  ];
+  for (const [engine, fn, max] of ladder) {
+    if (engine === 'libretranslate' && !LIBRETRANSLATE_URL) continue;
+    const key = `${engine}:${from}:${to}:${q}`;
+    const res = await tcached(key, () => translateWith(fn, q, from, to, max));
+    if (res && res.translated) {
+      return { text: q, translated: res.translated, from: (from === 'auto' && res.detected) ? res.detected : from, to, engine };
+    }
+  }
+  return { text: q, translated: q, from, to, engine: 'fallback' };   // total failure → original, never throws
+}
+
+/** Detect the language of `text` (ISO-639-1) without translating. Returns e.g. 'es', or null. */
+export async function detectLanguage(text) {
+  const q = String(text || '').trim().slice(0, MYMEMORY_MAX);
+  if (!q) return null;
+  // Lingva detects as a side effect of an auto→en translation of a short probe; MyMemory reports it directly.
+  const viaLingva = await lingvaOnce(q.slice(0, LINGVA_MAX), 'auto', 'en').catch(() => null);
+  if (viaLingva?.detected) return viaLingva.detected;
+  const viaMM = await myMemoryOnce(q, 'auto', 'en').catch(() => null);
+  return viaMM?.detected || null;
+}
+
+/** Translate many texts (concurrency-bounded). Same per-item shape as translate(). Order preserved. */
+export async function translateMany(texts = [], { to = 'en', from = 'auto', concurrency = 4 } = {}) {
+  const items = (texts || []).map((t) => String(t ?? ''));
+  const out = new Array(items.length);
+  let i = 0;
+  async function worker() { while (i < items.length) { const idx = i++; out[idx] = await translate(items[idx], { from, to }); } }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length || 1) }, worker));
+  return out;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('scraper.mjs')) {
