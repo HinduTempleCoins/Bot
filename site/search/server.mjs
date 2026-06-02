@@ -10,6 +10,8 @@ import { createServer } from 'node:http';
 import { searchAll, translate, detectLanguage } from '../../integrations/scraper.mjs';
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { LEARN } from '../soapbox/content.mjs';
+import { headTags } from '../../integrations/soapbox/seo.mjs';
+import { robotsTxt, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8092);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -75,10 +77,20 @@ const STYLE = `<style>
   @media(max-width:560px){.title{font-size:34px}.input.q{font-size:16px}}
 </style>`;
 
-const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
+// The Search WebSite node carries a SearchAction: this subdomain HAS a real GET HTML results URL
+// (/?q=…), so the {search_term_string} token belongs inside the urlTemplate (not leaked as text).
+const SITE_GRAPH = { url: BASE_URL, name: 'SoapBox Search', searchUrlTemplate: `${BASE_URL}/?q={search_term_string}` };
+
+const page = (title, body, opts = {}) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-<meta name=description content="Search for anything you want — across our websites, or the entire web.">
-<meta name=robots content="index,follow">${STYLE}</head><body>
+${headTags({
+  title,
+  description: opts.description || 'Search for anything you want — across our websites, or the entire web.',
+  canonical: opts.canonical || `${BASE_URL}/`,
+  siteName: 'SoapBox Search',
+  robots: opts.robots || 'index,follow,max-image-preview:large',
+  site: SITE_GRAPH,
+})}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>search</span></a>
   <div class=topbar-r><a href="/translate" title="Translate text between languages — keyless, multilingual">Translate</a><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS_URL}" title="Stocks">Stocks</a></div></header>
 <main class=wrap>${body}</main>
@@ -186,7 +198,14 @@ createServer(async (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     if (url.pathname === '/health') { res.writeHead(200); return res.end('ok'); }
-    if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\n`); }
+    if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
+    if (url.pathname === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      const urls = ['/', '/translate'];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+        urls.map((u) => `  <url><loc>${BASE_URL}${u}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n') + `\n</urlset>`;
+      res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(xml);
+    }
 
     // JSON translate endpoint — for other sites / Hathor. /api/translate?text=&to=&from=
     if (url.pathname === '/api/translate') {
@@ -212,7 +231,10 @@ createServer(async (req, res) => {
       if (text.trim()) { try { r = await translate(text, { from, to }); } catch { r = { translated: text, from, to, engine: 'fallback' }; } }
       const body = translatePage(text, from, to, r);
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-      return res.end(page('SoapBox Translate', body));
+      return res.end(page('SoapBox Translate', body, {
+        canonical: `${BASE_URL}/translate`,
+        description: 'Translate text between languages — keyless, multilingual, best-effort. Free translation tool from SoapBox.',
+      }));
     }
 
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
@@ -221,6 +243,18 @@ createServer(async (req, res) => {
     let body = searchHero(q, mode);
     if (q) body += `<div class=results><p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Our sites'} results for "${esc(q)}"</p>${mode === 'web' ? await webSearch(q) : await siteSearch(q)}</div>`;
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
-    res.end(page(q ? `${q} — SoapBox Search` : 'SoapBox Search', body));
+    res.end(page(q ? `${q} — SoapBox Search` : 'SoapBox Search', body, {
+      // a results page (?q=…) is a thin, query-specific view: keep it out of the index, point the
+      // canonical at the clean root so crawlers consolidate on the home/search entry.
+      canonical: q ? `${BASE_URL}/` : `${BASE_URL}/`,
+      robots: q ? 'noindex,follow' : 'index,follow,max-image-preview:large',
+    }));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => console.log(`SoapBox Search on ${BASE_URL} (bound ${HOST}:${PORT})`));
+}).listen(PORT, HOST, () => {
+  console.log(`SoapBox Search on ${BASE_URL} (bound ${HOST}:${PORT})`);
+  // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
+  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+    submitToIndexNow(BASE_URL, ['/', '/translate']).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+  }
+});

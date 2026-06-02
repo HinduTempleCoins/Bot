@@ -34,6 +34,7 @@ import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cache.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
+import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 
@@ -324,11 +325,11 @@ async function coinPage(id) {
     ${relatedPanel(related)}
     ${comments}`;
 
-  const jsonld = {
-    '@context': 'https://schema.org', '@type': 'FinancialProduct', name: c.name,
+  const jsonld = financialProductJsonLd({
+    name: c.name, symbol: c.symbol, url: `${BASE_URL}/coins/${c.id}`, category: 'Cryptocurrency',
     description: `${c.name} (${c.symbol}) live price, supply, and Clarity transparency rating on SoapBox.`,
-    url: `${BASE_URL}/coins/${c.id}`,
-  };
+    price: c.price_usd, priceCurrency: 'USD',
+  });
   return { code: 200, html: layout({ title: `${c.name} (${c.symbol})`, active: '/', canonical: `${BASE_URL}/coins/${c.id}`, description: `${c.name} live price ${usd(c.price_usd)}, market cap ${compactUsd(c.market_cap_usd)}, and Clarity transparency rating.`, jsonld, body, coinId: c.id, ogImage: `${BASE_URL}/og/${encodeURIComponent(c.id)}.svg` }) };
 }
 

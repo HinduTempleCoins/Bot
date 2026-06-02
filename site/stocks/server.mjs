@@ -11,6 +11,8 @@ import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { companyProfile } from '../../integrations/soapbox/company-profiles.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
+import { headTags, financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
+import { robotsTxt, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8095);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -52,9 +54,19 @@ const STYLE = `<style>
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;margin-top:24px}
 </style>`;
 
-const page = (title, body, desc = 'Live stock prices, charts, and the Stock Index on SoapBox.') => `<!doctype html><html lang=en><head><meta charset=utf-8>
+const SITE_GRAPH = { url: BASE_URL, name: 'SoapBox Stocks' };
+
+const page = (title, body, desc = 'Live stock prices, charts, and the Stock Index on SoapBox.', opts = {}) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-<meta name=description content="${esc(desc)}"><link rel=canonical href="${BASE_URL}/">${STYLE}</head><body>
+${headTags({
+  title,
+  description: desc,
+  canonical: opts.canonical || `${BASE_URL}/`,
+  siteName: 'SoapBox Stocks',
+  robots: opts.robots || 'index,follow,max-image-preview:large',
+  site: SITE_GRAPH,
+  jsonld: opts.jsonld || null,
+})}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>stocks</span></a>
   <div class=topbar-r><a href="${DATA}">Data</a><a href="${SEARCH}">Search</a><a href="${DIRECTORY}">Directory</a><a href="${WIKI}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
@@ -185,7 +197,7 @@ function renderCompanyCard(p) {
 async function quotePage(symbol) {
   const sym = String(symbol).toUpperCase();
   const [q, series] = await Promise.all([stockQuote(sym).catch(() => null), stockChart(sym, '7d').catch(() => [])]);
-  if (!q) return { code: 404, html: page(sym, `<h1>${esc(sym)}</h1><p class=muted>No data for this symbol. <a href="/">Back to the index</a>.</p>`) };
+  if (!q) return { code: 404, html: page(sym, `<h1>${esc(sym)}</h1><p class=muted>No data for this symbol. <a href="/">Back to the index</a>.</p>`, `No market data found for ${sym} on SoapBox Stocks.`, { robots: 'noindex,follow' }) };
   const isIdx = sym.startsWith('^');
   // Indices have no company registry data — skip the profile lookup entirely.
   const [news, profile] = await Promise.all([
@@ -207,7 +219,14 @@ async function quotePage(symbol) {
     ${news.length ? `<div class=card><h2>News &amp; filings</h2>${news.map((n) => `<div style="padding:7px 0;border-bottom:1px solid var(--line)"><a href="${esc(n.url)}" rel=noopener target=_blank>${esc(n.title)}</a>${n.snippet ? `<div class=muted style="font-size:13px">${esc(n.snippet)}</div>` : ''}</div>`).join('')}<p class=muted style="font-size:11px;margin-top:8px">Aggregated via web search — verify with primary sources.</p></div>` : ''}
     <div class=card><h2>Research &amp; profile</h2><div class=muted style="font-size:13px">${research.map(([n, u]) => `<a href="${esc(u)}" rel=noopener target=_blank>${esc(n)}</a>`).join(' · ')}</div>
       <p class=muted style="font-size:12px;margin-top:8px">Company profile + insights: <a href="${DIRECTORY}">SoapBox Directory →</a></p></div>`;
-  return { code: 200, html: page(`${q.name} (${sym}) — SoapBox Stocks`, body, `${q.name} (${sym}) stock price, chart, key stats, and news on SoapBox Stocks.`) };
+  // FinancialProduct structured data for the detail page: an Index/ETF/Stock priced product.
+  const category = isIdx ? 'StockIndex' : (q.typeLabel && /etf/i.test(q.typeLabel) ? 'ExchangeTradedFund' : 'Stock');
+  const fp = financialProductJsonLd({
+    name: q.name, symbol: sym, url: `${BASE_URL}/quote/${sym}`, category,
+    description: `${q.name} (${sym}) stock price, chart, key stats, and news on SoapBox Stocks.`,
+    price: q.price, priceCurrency: q.currency || 'USD',
+  });
+  return { code: 200, html: page(`${q.name} (${sym}) — SoapBox Stocks`, body, `${q.name} (${sym}) stock price, chart, key stats, and news on SoapBox Stocks.`, { canonical: `${BASE_URL}/quote/${sym}`, jsonld: fp }) };
 }
 
 function sendHtml(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' }); res.end(html); }
@@ -218,12 +237,25 @@ createServer(async (req, res) => {
     const url = new URL(req.url, BASE_URL);
     const p = url.pathname;
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
-    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
-    if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${['/', ...POPULAR.map((s) => '/quote/' + s), ...INDICES.map((i) => '/quote/' + i[0])].map((u) => `<url><loc>${BASE_URL}${u}</loc></url>`).join('')}</urlset>`); }
+    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
+    if (p === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      const urls = ['/', ...INDICES.map((i) => '/quote/' + i[0]), ...POPULAR.map((s) => '/quote/' + s), ...SECTORS.map((s) => '/quote/' + s[0])];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+        [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${u}</loc><lastmod>${today}</lastmod><changefreq>${u === '/' ? 'hourly' : 'daily'}</changefreq><priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n') + `\n</urlset>`;
+      res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(xml);
+    }
     if (p === '/api/search') { const r = await stockSearch(url.searchParams.get('q') || '', { limit: 8 }).catch(() => []); return json(res, { results: r }); }
     if (p === '/api/chart') { const s = await stockChart(url.searchParams.get('symbol') || '', url.searchParams.get('range') || '7d').catch(() => []); return json(res, { series: s }); }
     if (p.startsWith('/quote/')) { const r = await quotePage(decodeURIComponent(p.slice(7))); return sendHtml(res, r.html, r.code); }
     if (p !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     sendHtml(res, await homePage());
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => console.log(`SoapBox Stocks on ${BASE_URL} (bound ${HOST}:${PORT})`));
+}).listen(PORT, HOST, () => {
+  console.log(`SoapBox Stocks on ${BASE_URL} (bound ${HOST}:${PORT})`);
+  // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
+  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+    submitToIndexNow(BASE_URL, ['/', ...INDICES.map((i) => '/quote/' + i[0]), ...POPULAR.map((s) => '/quote/' + s)]).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+  }
+});

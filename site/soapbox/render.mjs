@@ -4,6 +4,8 @@
 // does the fetching/routing; this file owns the look. Keeping render pure makes the whole site
 // trivially testable and ISR/cache-friendly (same schema in → same HTML out).
 
+import { organization, webSiteJsonLd } from '../../integrations/soapbox/seo.mjs';
+
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const usd = (n) => (n == null || !Number.isFinite(+n) ? '—' : '$' + (+n).toLocaleString(undefined, { maximumFractionDigits: Math.abs(+n) < 1 ? 6 : 2 }));
 export const compactUsd = (n) => {
@@ -142,12 +144,13 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
 <meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
 <meta name="robots" content="${esc(robots)}">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [
-  { '@type': 'Organization', '@id': 'https://soapbox.community/#org', name: 'SoapBox', url: 'https://soapbox.community', description: 'A crypto data aggregator with a Clarity transparency score and right-of-reply.' },
-  // No SearchAction: the home search is client-side (JSON /api/markets-search), so there is no GET
-  // HTML results URL a crawler can resolve. The previous urlTemplate ".../coins/{search_term_string}"
-  // made bots fetch "/coins/%7Bsearch_term_string%7D" literally → a 404 in the log. Dropped until a
-  // real GET search results page exists. (#180)
-  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Data', publisher: { '@id': 'https://soapbox.community/#org' } },
+  organization(),
+  // No SearchAction: Data's home search is client-side (JSON /api/markets-search), so there is no GET
+  // HTML results URL a crawler can resolve. We pass NO searchUrlTemplate, so webSiteJsonLd() omits the
+  // SearchAction entirely. The previous urlTemplate ".../coins/{search_term_string}" made bots fetch
+  // "/coins/%7Bsearch_term_string%7D" literally → a 404 in the log. (#180) (Search.SoapBox, which DOES
+  // have a GET /?q= results URL, is the subdomain that carries the SearchAction.)
+  webSiteJsonLd({ url: 'https://data.soapbox.community', name: 'SoapBox Data' }),
 ] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
