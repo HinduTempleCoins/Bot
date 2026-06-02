@@ -27,8 +27,24 @@ export const FREQUENCY_CAP_PER_AUTHOR_DAY = parseInt(
   process.env.CHEETAH_FREQ_CAP || '1', 10
 );
 
-// Path to the evidenced whitelist/blacklist + findings log.
-export const STORE_PATH = process.env.CHEETAH_STORE || './cheetah/.store.json';
+// Backing store for the evidenced whitelist/blacklist + findings log.
+//
+// Migrated 2026-06-02: Cheetah no longer keeps a private cheetah/.store.json.
+// It writes the SHARED multi-bot store (store/index.mjs, namespaces
+// cheetah.findings / cheetah.whitelist / cheetah.blacklist) so Hathor can read
+// Cheetah's findings from one coordinated substrate.
+//
+// STORE_ROOT selects the shared store's data directory. Leave it unset to use
+// the default (store/.data, overridable via MELEK_STORE_ROOT). Set it only to
+// point Cheetah at an alternate shared-store root. CHEETAH_STORE is still read
+// for back-compat with older deployments that set it.
+export const STORE_ROOT = process.env.CHEETAH_STORE_ROOT || process.env.MELEK_STORE_ROOT || undefined;
+
+// Legacy alias. Older call sites imported STORE_PATH and passed it through to
+// the store functions as the trailing arg; the store now treats that arg as a
+// root selector (and tolerates a legacy "*.json" path). Kept so any lingering
+// CHEETAH_STORE env still routes somewhere sane.
+export const STORE_PATH = process.env.CHEETAH_STORE || STORE_ROOT;
 
 // Self-identify footer link — points to either the on-chain About post
 // or the repo's README for transparency.
@@ -48,7 +64,8 @@ export function status() {
     similarity_threshold: SIMILARITY_THRESHOLD,
     shingle_size: SHINGLE_SIZE,
     frequency_cap_per_author_day: FREQUENCY_CAP_PER_AUTHOR_DAY,
-    store_path: STORE_PATH,
+    store: 'shared (store/index.mjs: cheetah.findings/whitelist/blacklist)',
+    store_root: STORE_ROOT || '(default: store/.data)',
     self_id_link: SELF_ID_LINK,
     web_search_backend: WEB_SEARCH_BACKEND,
   };

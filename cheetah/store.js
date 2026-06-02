@@ -6,40 +6,29 @@
  * resolved it — not just an account name. The store is read by Hathor when
  * handling resolution conversations.
  *
- * Schema:
- *   {
- *     "findings": [
- *       {
- *         "id": "<hash>",
- *         "discovered_at": "<ISO>",
- *         "post": {"author": "...", "permlink": "..."},
- *         "source": {kind, url, title, snippet},
- *         "confidence": 0..1,
- *         "status": "open" | "resolved-self-quote" | "resolved-coincidence"
- *                  | "resolved-licensed" | "resolved-passoff" | "withdrawn",
- *         "resolution": {by, at, reason, evidence?}
- *       }
- *     ],
- *     "whitelist": [
- *       {
- *         "account": "...",
- *         "material": "<hash-of-material or descriptive ref>",
- *         "reason": "self-quote-of-prior-blog",
- *         "evidence": "<url to proof / archived copy>",
- *         "added_at": "<ISO>",
- *         "added_by": "<who confirmed: hathor / operator / cheetah-auto>"
- *       }
- *     ],
- *     "blacklist": [
- *       {
- *         "account": "...",
- *         "pattern": "<material hash or descriptive>",
- *         "evidence": "<resolution-trail showing repeat pass-off>",
- *         "added_at": "<ISO>",
- *         "added_by": "<hathor / operator>"
- *       }
- *     ]
- *   }
+ * BACKING STORE (migrated 2026-06-02): this module no longer keeps a private
+ * cheetah/.store.json. It reads/writes the SHARED multi-bot store
+ * (store/index.mjs), namespaced:
+ *   - cheetah.findings   — every text/image finding
+ *   - cheetah.whitelist  — evidenced authorship proofs (suppress crediting)
+ *   - cheetah.blacklist  — confirmed repeat pass-off (human-added only)
+ * so Hathor (and future siblings) read Cheetah's findings from one coordinated
+ * substrate instead of a file private to this directory.
+ *
+ * API COMPAT: the public functions keep their previous signatures, including
+ * the trailing `pathOrRoot` argument. That argument now selects the store
+ * ROOT (a directory) rather than a single JSON file:
+ *   - undefined            → the default shared store (store/.data via env)
+ *   - a Store instance     → used directly
+ *   - a directory path     → a Store rooted there
+ *   - a legacy "*.json"    → a Store rooted at "<file>.nsdata/" (keeps each
+ *                            caller's temp store isolated; back-compat for the
+ *                            existing tests that pass a temp file path)
+ *
+ * Per-namespace record shapes (unchanged in spirit):
+ *   findings:  { id, discovered_at, post, source, confidence, status, resolution? }
+ *   whitelist: { id, account, material, reason, evidence, added_at, added_by }
+ *   blacklist: { id, account, pattern, evidence, added_at, added_by }
  *
  * The blacklist is intentionally hard to add to — entries require the full
  * resolution process (Cheetah surfaces → person responds → Hathor resolves
@@ -47,37 +36,25 @@
  * cannot auto-add to the blacklist; only after the human-in-loop trail.
  */
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { dirname } from 'node:path';
 import { createHash } from 'node:crypto';
-import { STORE_PATH } from './config.js';
+import { Store, store as defaultStore } from '../store/index.mjs';
 
-function emptyStore() {
-  return { findings: [], whitelist: [], blacklist: [] };
-}
+export const NS = {
+  findings: 'cheetah.findings',
+  whitelist: 'cheetah.whitelist',
+  blacklist: 'cheetah.blacklist',
+};
 
-async function loadStore(path = STORE_PATH) {
-  if (!existsSync(path)) return emptyStore();
-  try {
-    const raw = await readFile(path, 'utf8');
-    const parsed = JSON.parse(raw);
-    return {
-      findings: parsed.findings || [],
-      whitelist: parsed.whitelist || [],
-      blacklist: parsed.blacklist || [],
-    };
-  } catch {
-    return emptyStore();
+// Resolve the trailing arg into a Store instance. Keeps the old call sites
+// (which passed a STORE_PATH/temp file) working by deriving a root from them.
+function resolveStore(pathOrRoot) {
+  if (!pathOrRoot) return defaultStore;
+  if (pathOrRoot instanceof Store) return pathOrRoot;
+  if (typeof pathOrRoot === 'string') {
+    const root = pathOrRoot.endsWith('.json') ? `${pathOrRoot}.nsdata` : pathOrRoot;
+    return new Store(root);
   }
-}
-
-async function saveStore(state, path = STORE_PATH) {
-  await mkdir(dirname(path), { recursive: true });
-  // Atomic-ish: write tmp then rename
-  const tmp = `${path}.tmp`;
-  await writeFile(tmp, JSON.stringify(state, null, 2), 'utf8');
-  await writeFile(path, JSON.stringify(state, null, 2), 'utf8');
+  return defaultStore;
 }
 
 function findingId(post, source) {
@@ -90,11 +67,12 @@ function findingId(post, source) {
 // ---- public API -----------------------------------------------------------
 
 /** Record a fresh finding from text-detection. Idempotent on (post, source). */
-export async function recordFinding({ post, source, confidence }, path) {
-  const state = await loadStore(path);
+export async function recordFinding({ post, source, confidence }, pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
   const id = findingId(post, source);
-  if (state.findings.find((f) => f.id === id)) return { id, deduplicated: true };
-  state.findings.push({
+  const existing = await s.get(NS.findings, id);
+  if (existing) return { id, deduplicated: true };
+  await s.append(NS.findings, {
     id,
     discovered_at: new Date().toISOString(),
     post,
@@ -102,27 +80,27 @@ export async function recordFinding({ post, source, confidence }, path) {
     confidence,
     status: 'open',
   });
-  await saveStore(state, path);
   return { id, deduplicated: false };
 }
 
 /** Mark a finding resolved by Hathor (or operator). */
-export async function resolveFinding(id, resolution, path) {
-  const state = await loadStore(path);
-  const entry = state.findings.find((f) => f.id === id);
+export async function resolveFinding(id, resolution, pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
+  const entry = await s.get(NS.findings, id);
   if (!entry) throw new Error(`finding not found: ${id}`);
   if (!resolution.status || !resolution.by || !resolution.reason) {
     throw new Error('resolution requires {status, by, reason}');
   }
-  entry.status = resolution.status;
-  entry.resolution = {
-    by: resolution.by,
-    at: new Date().toISOString(),
-    reason: resolution.reason,
-    evidence: resolution.evidence,
-  };
-  await saveStore(state, path);
-  return entry;
+  const updated = await s.update(NS.findings, id, {
+    status: resolution.status,
+    resolution: {
+      by: resolution.by,
+      at: new Date().toISOString(),
+      reason: resolution.reason,
+      evidence: resolution.evidence,
+    },
+  });
+  return updated;
 }
 
 /**
@@ -130,12 +108,12 @@ export async function resolveFinding(id, resolution, path) {
  * proved authorship of material that also appears elsewhere (e.g. their own
  * blog post they're cross-posting).
  */
-export async function addWhitelist({ account, material, reason, evidence, addedBy }, path) {
+export async function addWhitelist({ account, material, reason, evidence, addedBy }, pathOrRoot) {
   if (!account || !reason || !evidence) {
     throw new Error('whitelist entry requires {account, reason, evidence}');
   }
-  const state = await loadStore(path);
-  state.whitelist.push({
+  const s = resolveStore(pathOrRoot);
+  await s.append(NS.whitelist, {
     account,
     material: material || null,
     reason,
@@ -143,7 +121,6 @@ export async function addWhitelist({ account, material, reason, evidence, addedB
     added_at: new Date().toISOString(),
     added_by: addedBy || 'cheetah-auto',
   });
-  await saveStore(state, path);
 }
 
 /**
@@ -151,44 +128,57 @@ export async function addWhitelist({ account, material, reason, evidence, addedB
  * resolved through the Hathor flow. Cheetah itself never calls this; the
  * resolution layer does, with operator confirmation.
  */
-export async function addBlacklist({ account, pattern, evidence, addedBy }, path) {
+export async function addBlacklist({ account, pattern, evidence, addedBy }, pathOrRoot) {
   if (!account || !evidence || !addedBy) {
     throw new Error('blacklist entry requires {account, evidence, addedBy} — never auto-blacklist');
   }
   if (addedBy === 'cheetah-auto') {
     throw new Error('Cheetah cannot auto-blacklist — requires resolution flow + operator');
   }
-  const state = await loadStore(path);
-  state.blacklist.push({
+  const s = resolveStore(pathOrRoot);
+  await s.append(NS.blacklist, {
     account,
     pattern: pattern || null,
     evidence,
     added_at: new Date().toISOString(),
     added_by: addedBy,
   });
-  await saveStore(state, path);
 }
 
 /**
  * Is this account whitelisted for this material? Used by Cheetah before
  * commenting — if a whitelist entry covers the material, suppress the comment.
  */
-export async function isWhitelisted(account, material, path) {
-  const state = await loadStore(path);
-  return state.whitelist.some((w) => w.account === account && (!material || w.material === material || w.material === null));
+export async function isWhitelisted(account, material, pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
+  const items = await s.all(NS.whitelist);
+  return items.some((w) => w.account === account && (!material || w.material === material || w.material === null));
 }
 
-export async function isBlacklisted(account, path) {
-  const state = await loadStore(path);
-  return state.blacklist.some((b) => b.account === account);
+export async function isBlacklisted(account, pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
+  const items = await s.all(NS.blacklist);
+  return items.some((b) => b.account === account);
 }
 
-export async function listFindings({ status, limit = 50 } = {}, path) {
-  const state = await loadStore(path);
-  let out = state.findings;
+export async function listFindings({ status, limit = 50 } = {}, pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
+  let out = await s.all(NS.findings);
   if (status) out = out.filter((f) => f.status === status);
   out = out.sort((a, b) => (a.discovered_at < b.discovered_at ? 1 : -1));
   return out.slice(0, limit);
 }
 
-export const _internal = { loadStore, saveStore, emptyStore, findingId };
+// Back-compat shim for resolution.js + tests that read the whole store. Returns
+// the same {findings, whitelist, blacklist} shape the file-backed store used to.
+async function loadStore(pathOrRoot) {
+  const s = resolveStore(pathOrRoot);
+  const [findings, whitelist, blacklist] = await Promise.all([
+    s.all(NS.findings),
+    s.all(NS.whitelist),
+    s.all(NS.blacklist),
+  ]);
+  return { findings, whitelist, blacklist };
+}
+
+export const _internal = { loadStore, resolveStore, findingId, NS };

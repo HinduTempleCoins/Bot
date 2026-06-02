@@ -36,13 +36,14 @@ import cron from 'node-cron';
 import { Hathor } from '../witness/hathor.js';
 import { detectText } from './text-detection.js';
 import { scanPostImages } from './image-scan.js';
-import { composeCreditingNote, composeImageCreditNote } from './compose.js';
+import { composeCreditingNote, composeImageCreditNote, composeDiscoveryNote } from './compose.js';
+import { discover } from './discovery.js';
 import { recordFinding, isWhitelisted, isBlacklisted, listFindings } from './store.js';
 import {
   CHEETAH_ACCOUNT,
   SIMILARITY_THRESHOLD,
   FREQUENCY_CAP_PER_AUTHOR_DAY,
-  STORE_PATH,
+  STORE_ROOT,
   status as cheetahStatus,
 } from './config.js';
 
@@ -88,9 +89,9 @@ const FIXTURES = [
 
 // ---- scan one post ---------------------------------------------------------
 
-async function scanPost(post, { dryRun, corpus }) {
+export async function scanPost(post, { dryRun, corpus, storeRoot = STORE_ROOT } = {}) {
   // skip if blacklisted (the author is already known-pass-off; Hathor's job, not Cheetah's)
-  if (await isBlacklisted(post.author, STORE_PATH)) {
+  if (await isBlacklisted(post.author, storeRoot)) {
     return { skipped: 'author-blacklisted', post };
   }
   // frequency cap
@@ -113,12 +114,51 @@ async function scanPost(post, { dryRun, corpus }) {
         ? { intent: 'image-credit-comment', post, source: imageCredit.source, confidence: imageCredit.confidence, comment }
         : { imageCredit: true, post, source: imageCredit.source, images: imageScan.imageCount };
     }
+
+    // Discovery-first librarian face (CHEETAH_ADVANCED.md Step 5). Not a copy,
+    // but the post may still *connect* to prior work on the chain — Cheetah's
+    // primary, friendlier surface. Same deterministic shingle engine, in the
+    // relatedness BAND (below the copy threshold, above incidental overlap).
+    // Respects the frequency cap (checked at scanPost top) and the same
+    // whitelist suppression as crediting. This fires far more often than the
+    // copy path, so it is the librarian's main appearance.
+    if (await isWhitelisted(post.author, null, storeRoot)) {
+      return { skipped: 'author-whitelisted', post, confidence: detection.confidence, images: imageScan.imageCount };
+    }
+    const { related } = discover(post, { corpus });
+    if (related.length) {
+      // compose the librarian "see also" note. composeDiscoveryNote wants a
+      // url per related entry; build the @author/permlink link for each.
+      const relatedWithUrls = related.map((r) => ({ ...r, url: `@${r.author}/${r.permlink}` }));
+      const comment = composeDiscoveryNote({ related: relatedWithUrls }, `${post.author}-${post.permlink}-disc`);
+      if (dryRun) {
+        return { intent: 'discovery-comment', post, related, comment };
+      }
+      // Live path mirrors the crediting branch: broadcast if the chain is up,
+      // otherwise just note it. Discovery is a "see also", not a finding, so it
+      // is not recorded in cheetah.findings (those are possible-copy records).
+      const hathor = new Hathor();
+      const hathorStatus = hathor.status();
+      if (!hathorStatus.readyToConnect) {
+        return { discovery: false, post, related, reason: 'chain-not-ready' };
+      }
+      await hathor.adapter || hathor.connect();
+      const result = await hathor.adapter.reply({
+        parentAuthor: post.author,
+        parentPermlink: post.permlink,
+        body: comment,
+        tags: ['cheetah', 'discovery'],
+      });
+      recordComment(post.author);
+      return { discovery: true, post, related, tx: result.id };
+    }
+
     return { skipped: 'no-match', post, confidence: detection.confidence, images: imageScan.imageCount };
   }
 
   // whitelist guard — if the author has proven authorship of similar material,
   // suppress the comment.
-  if (await isWhitelisted(post.author, null, STORE_PATH)) {
+  if (await isWhitelisted(post.author, null, storeRoot)) {
     return { skipped: 'author-whitelisted', post };
   }
 
@@ -139,7 +179,7 @@ async function scanPost(post, { dryRun, corpus }) {
       post: { author: post.author, permlink: post.permlink },
       source: detection.source,
       confidence: detection.confidence,
-    }, STORE_PATH);
+    }, storeRoot);
     return { broadcast: false, post, reason: 'chain-not-ready', source: detection.source };
   }
 
@@ -157,7 +197,7 @@ async function scanPost(post, { dryRun, corpus }) {
     post: { author: post.author, permlink: post.permlink },
     source: detection.source,
     confidence: detection.confidence,
-  }, STORE_PATH);
+  }, storeRoot);
   return { broadcast: true, post, source: detection.source, confidence: detection.confidence, tx: result.id };
 }
 
@@ -170,7 +210,13 @@ async function scanBatch({ posts, corpus, dryRun }) {
     try {
       const r = await scanPost(post, { dryRun, corpus });
       results.push(r);
-      const tag = r.broadcast ? '✓ broadcast' : r.intent ? `→ ${r.intent}` : `· ${r.skipped}`;
+      const tag = r.broadcast ? '✓ broadcast'
+        : r.discovery ? '✓ discovery'
+        : r.imageCredit ? '✓ image-credit'
+        : r.intent ? `→ ${r.intent}`
+        : r.skipped ? `· ${r.skipped}`
+        : r.reason ? `· ${r.reason}`
+        : '·';
       const conf = r.confidence ? ` (${(r.confidence * 100).toFixed(0)}%)` : '';
       console.log(`  ${tag}${conf} — ${post.author}/${post.permlink}`);
     } catch (err) {
@@ -193,7 +239,7 @@ async function main() {
 
   if (showStatus) {
     const s = cheetahStatus();
-    const findings = await listFindings({ limit: 10 }, STORE_PATH);
+    const findings = await listFindings({ limit: 10 }, STORE_ROOT);
     console.log('Cheetah status:');
     for (const [k, v] of Object.entries(s)) console.log(`  ${k}: ${v}`);
     console.log(`  recent findings: ${findings.length}`);
@@ -252,8 +298,16 @@ async function scanOnce({ dryRun }) {
   console.log('[cheetah] chain ready but post-pull integration not yet wired — see witness/chain-reader.js');
 }
 
-main().catch((err) => {
-  console.error(`cheetah/index.js fatal: ${err.message}`);
-  console.error(err.stack);
-  process.exit(1);
-});
+// Only run the CLI when invoked directly (node cheetah/index.js ...), not when
+// imported (e.g. by tests). Mirrors welcomer/index.js's isCli guard.
+const isCli = import.meta.url.startsWith('file:') &&
+  process.argv[1] &&
+  import.meta.url.endsWith(process.argv[1].split('/').pop());
+
+if (isCli) {
+  main().catch((err) => {
+    console.error(`cheetah/index.js fatal: ${err.message}`);
+    console.error(err.stack);
+    process.exit(1);
+  });
+}

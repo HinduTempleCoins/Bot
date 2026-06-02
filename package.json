@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js src/chain/*.test.js commands/*.test.js integrations/*.test.js",
+    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js src/chain/*.test.js commands/*.test.js integrations/*.test.js cheetah/*.test.js store/*.test.js",
     "preflight": "bash scripts/preflight.sh",
     "welcomer:once": "node welcomer/index.js --once",
     "welcomer:cron": "node welcomer/index.js --cron",
