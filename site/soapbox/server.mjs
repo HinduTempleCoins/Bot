@@ -103,10 +103,10 @@ async function listPage({ page = 1 } = {}) {
   </div>` : '';
   const body = `${statsbar}<h1>Markets</h1>
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
+    <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
     ${idxCard}
     ${moversBlock}
     <div id=recent style="margin:0 0 12px"></div>
-    <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
     <table id=mkt><caption class=skip>Cryptocurrency markets sorted by market cap</caption><thead><tr>
       <th scope=col data-sort="i">#</th><th scope=col data-sort="name">Coin</th><th scope=col data-sort="price">Price</th>
       <th scope=col data-sort="chg">24h</th><th scope=col data-sort="mcap">Market cap</th><th scope=col data-sort="vol">Volume</th><th scope=col>7d</th>
