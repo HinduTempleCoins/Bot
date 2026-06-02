@@ -14,6 +14,7 @@
 import { writeFile, appendFile, mkdir, readFile } from 'node:fs/promises';
 import { marketSnapshot, topByVolume } from './market-universe.mjs';
 import { macro, forex } from './soapbox/macro.mjs';
+import { scanAccounts } from './held-asset-scan.mjs';
 
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
@@ -27,11 +28,14 @@ const pct = (n) => (n == null || !Number.isFinite(+n) ? '—' : `${n >= 0 ? '+' 
 /** One full intelligence pass. Best-effort: any source that fails is null/empty, the pass still completes. */
 export async function runPass() {
   const ts = new Date().toISOString();
-  const [he, mac, fx, proposals] = await Promise.all([
+  const [he, mac, fx, proposals, holdings] = await Promise.all([
     marketSnapshot({ topN: 15 }).catch(() => null),
     macro().catch(() => ({})),
     forex().catch(() => ({})),
     Promise.resolve().then(() => proposeTrades({})).catch(() => null),
+    // holdings-aware rotation scanner (#187): START from the operator's REAL Hive-Engine balances,
+    // find held tokens with an external market, compute the move-it-to-make-money spread. Advisory.
+    scanAccounts().catch(() => []),
   ]);
 
   const findM = (cat, label) => (mac[cat] || []).find((x) => x.label?.startsWith(label)) || null;
@@ -62,7 +66,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals } };
+  const snapshot = { ts, metrics, proposals, holdings, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -94,6 +98,16 @@ export function briefReport(s) {
   if (s.proposals && briefBlock) {
     const pb = briefBlock(s.proposals);
     if (pb) { L.push(`### Proposed moves (advisory — operator decides)`); L.push(pb); }
+  }
+  // holdings & rotation opportunities (#187) — START from what we actually hold and could move
+  if (Array.isArray(s.holdings) && s.holdings.length) {
+    L.push('');
+    L.push(`### Holdings & rotation opportunities`);
+    L.push(`From the operator's real Hive-Engine balances (angelicalist, kalivankush), held tokens with an external market — could they be moved/rotated to make money:`);
+    for (const o of s.holdings.slice(0, 6)) {
+      const sp = o.spreadPct == null ? '—' : `${o.spreadPct >= 0 ? '+' : ''}${o.spreadPct}%`;
+      L.push(`- **@${o.account} ${o.symbol}** (~$${num(o.valueUsd)}, spread ${sp}): ${o.action}`);
+    }
   }
   L.push(`\n*Engine: resource-center.mjs · advisory only, no trades executed · US-jurisdiction-aware.*`);
   return L.join('\n');
