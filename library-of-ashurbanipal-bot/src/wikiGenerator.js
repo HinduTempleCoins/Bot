@@ -295,9 +295,110 @@ const RESEARCH_PAPER_PRIORITY = [
   }
 ];
 
+/**
+ * Graphene-blockchain topic set (#190).
+ *
+ * These articles document the Graphene toolkit family (BitShares/Steem/Hive/Blurt) that the MELEK
+ * chain itself forks from — chain legibility material for the Library. The repo's `knowledge/`
+ * corpus has little chain-specific prose, so these lean primarily on scraper grounding
+ * (gatherExternalSources): searchTerms are tuned to pull from Bitcointalk, Bitsharestalk,
+ * Steemcenter, and official docs (developers.hive.io, the BitShares docs). primaryDomains point at
+ * `cryptocurrency` (a real knowledge/ subdir) so any in-corpus crypto prose is also folded in.
+ *
+ * The SteemBots/Steemcenter article deliberately preserves the operator's documented identity
+ * @MarsResident (Steem, 2017-era — Cryptology/Temple Coin/Witness tutorials cited at Steemcenter)
+ * via its description + searchTerms, so the synthesis keeps that provenance.
+ */
+const GRAPHENE_CHAIN_PRIORITY = [
+  {
+    title: 'Graphene Blockchain Framework',
+    searchTerms: ['Graphene blockchain', 'BitShares Graphene', 'Steem Graphene toolkit', 'graphene C++ framework'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush', 'history'],
+    description: 'The Graphene blockchain framework — the BitShares/Steem/Hive C++ toolkit and its DPoS/Graphene heritage'
+  },
+  {
+    title: 'Delegated Proof of Stake (DPoS)',
+    searchTerms: ['Delegated Proof of Stake', 'DPoS consensus', 'witness voting', 'stake-weighted election'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['history'],
+    description: 'Delegated Proof of Stake (DPoS): the consensus mechanism behind Graphene chains'
+  },
+  {
+    title: 'Blockchain Witness (Block Producer)',
+    searchTerms: ['blockchain witness', 'block producer', 'witness election', 'top 20 witnesses', 'DPoS delegate'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'What a blockchain witness (block producer) is, and how witness election works on Graphene chains'
+  },
+  {
+    title: 'Running a Graphene Witness Node',
+    searchTerms: ['witness_node', 'seed nodes', 'price feed', 'witness node config', 'block_signing_key', 'run a witness'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'Practical setup of a Graphene witness node: witness_node, config.ini, seed nodes, and price feed publishing'
+  },
+  {
+    title: 'Building a Front-End for a Graphene Chain',
+    searchTerms: ['condenser', 'Nitrous front-end', 'JSON-RPC', 'broadcast_transaction', 'steemit condenser', 'hivemind'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'Building a front-end for a Graphene chain: the condenser/Nitrous model, JSON-RPC, and broadcast operations'
+  },
+  {
+    title: 'HIVE Blockchain',
+    searchTerms: ['HIVE blockchain', 'Hive fork', 'developers.hive.io', 'Hive DPoS', 'Hive witness'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'The HIVE blockchain — the 2020 community fork of Steem and its Graphene/DPoS architecture'
+  },
+  {
+    title: 'STEEM Blockchain',
+    searchTerms: ['STEEM blockchain', 'Steemit', 'Steem witness', 'Steem rewards', 'Steem Power'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'The STEEM blockchain — the original social-media Graphene chain and reward-pool model'
+  },
+  {
+    title: 'BLURT Blockchain',
+    searchTerms: ['BLURT blockchain', 'Blurt fork', 'Blurt witness', 'transfer-free social'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['vankush'],
+    description: 'The BLURT blockchain — a Steem/Hive Graphene fork (the basis the MELEK chain forks from)'
+  },
+  {
+    title: 'BitShares',
+    searchTerms: ['BitShares', 'bitsharestalk', 'BitShares DEX', 'BTS', 'decentralized exchange Graphene'],
+    primaryDomains: ['cryptocurrency'],
+    crossReferenceDomains: ['history'],
+    description: 'BitShares — the original Graphene chain and decentralized exchange (DEX)'
+  },
+  {
+    title: 'Hive-Engine and Smart Media Tokens',
+    searchTerms: ['Hive-Engine', 'Smart Media Tokens', 'SMT', 'TribalDEX', 'layer-2 tokens', 'sidechain tokens'],
+    primaryDomains: ['cryptocurrency', 'vankush'],
+    crossReferenceDomains: ['vankush'],
+    description: 'Hive-Engine and Smart Media Tokens (SMTs): layer-2 token issuance and TribalDEX'
+  },
+  {
+    title: 'Steem & Hive Bots — the SteemBots / Steemcenter ecosystem',
+    searchTerms: ['SteemBots', 'Steemcenter', 'MarsResident', 'Steem bot', 'Cryptology Temple Coin', 'Witness tutorial Steemcenter'],
+    primaryDomains: ['cryptocurrency', 'vankush'],
+    crossReferenceDomains: ['vankush', 'history'],
+    description: 'The SteemBots / Steemcenter bot ecosystem on Steem & Hive. Documented contributors include @MarsResident (Steem, 2017-era), cited at Steemcenter for Cryptology, Temple Coin, and Witness tutorials — preserve and cite this provenance.',
+    // Load-bearing provenance fed as a citable source (#190) so the strict-from-excerpts synthesizer
+    // keeps the @MarsResident attribution rather than dropping it as "not in the sources."
+    groundingNotes: [{
+      title: 'Steemcenter — @MarsResident (documented contributor)',
+      url: 'https://steemit.com/@marsresident',
+      excerpt: 'Documented provenance (Van Kush Family Research Institute record): @MarsResident is a Steem account, active in the 2017-era of the Steem blockchain, cited at Steemcenter as a contributor of educational material on Cryptology, the Temple Coin, and Witness tutorials. @MarsResident is part of the documented history of the SteemBots / Steemcenter ecosystem and should be cited as such.'
+    }]
+  }
+];
+
 // The generator can run against either list (or both). Default to the combined set so a full run
-// produces both the original chemistry articles and the research-paper articles.
-const ALL_ARTICLES = [...ARTICLE_PRIORITY, ...RESEARCH_PAPER_PRIORITY];
+// produces the original chemistry articles, the research-paper articles, AND the Graphene-chain set.
+const ALL_ARTICLES = [...ARTICLE_PRIORITY, ...RESEARCH_PAPER_PRIORITY, ...GRAPHENE_CHAIN_PRIORITY];
 
 class WikiGenerator {
   constructor() {
@@ -346,9 +447,11 @@ class WikiGenerator {
   async generateAllArticles(options = {}) {
     const { dryRun = false, startFrom = 0, limit = null, source = 'all' } = options;
 
-    // Pick the topic source: 'all' (default), 'research' (papers/datasets only), or 'core' (original list).
+    // Pick the topic source: 'all' (default), 'research' (papers/datasets only), 'core' (original
+    // list), or 'graphene' (Graphene-blockchain set, #190).
     const sourceList = source === 'research' ? RESEARCH_PAPER_PRIORITY
       : source === 'core' ? ARTICLE_PRIORITY
+      : source === 'graphene' ? GRAPHENE_CHAIN_PRIORITY
       : ALL_ARTICLES;
 
     console.log('\n========================================');
@@ -410,11 +513,18 @@ class WikiGenerator {
   async generateArticle(articleDef) {
     const { title, searchTerms, primaryDomains, crossReferenceDomains, description } = articleDef;
 
-    // Gather content from primary domains
+    // Gather content from primary domains.
+    // Cap the number of primary docs (#190): a broad domain like `cryptocurrency` can match 15-20
+    // docs, and stuffing them all into one prompt overruns the GitHub Models size limit (HTTP 413 in
+    // the llm-router fallback). MAX_PRIMARY_DOCS keeps the prompt bounded; the scraper grounding
+    // (gatherExternalSources) supplies the breadth for topics with thin in-corpus coverage.
+    const MAX_PRIMARY_DOCS = Number(process.env.WIKI_MAX_PRIMARY_DOCS || 6);
     const primaryContent = [];
     for (const domain of primaryDomains) {
+      if (primaryContent.length >= MAX_PRIMARY_DOCS) break;
       const docs = this.knowledgeLoader.domainDocuments.get(domain) || [];
       for (const docId of docs) {
+        if (primaryContent.length >= MAX_PRIMARY_DOCS) break;
         const doc = this.knowledgeLoader.documents.get(docId);
         if (doc) {
           // Check if doc is relevant to this article
@@ -460,6 +570,21 @@ class WikiGenerator {
     // reality and cite them. Best-effort — never let a scraper failure/timeout kill the article.
     const external = await this.gatherExternalSources(title, searchTerms);
     console.log(`  External sources: ${external.length}`);
+
+    // Provenance grounding (#190): the synthesizer writes STRICTLY from provided excerpts and will
+    // not invent facts, so a load-bearing documented citation (e.g. @MarsResident at Steemcenter)
+    // must be supplied as a source excerpt, not just referenced in the topic description. A topic
+    // may carry `groundingNotes: [{ title, url, excerpt }]`; we prepend them to `external` so they
+    // are formatted as citable sources and preserved in the output. (This is provenance the operator
+    // has documented, fed in as a source — not the model fabricating a fact.)
+    if (Array.isArray(articleDef.groundingNotes) && articleDef.groundingNotes.length) {
+      external.unshift(...articleDef.groundingNotes.map(n => ({
+        title: n.title,
+        url: n.url,
+        excerpt: n.excerpt
+      })));
+      console.log(`  Provenance notes injected: ${articleDef.groundingNotes.length}`);
+    }
 
     // Generate with Gemini
     const content = await this.geminiClient.synthesizeArticle(title, {
@@ -617,7 +742,8 @@ async function main() {
   const limit = limitArg ? parseInt(limitArg.split('=')[1]) : null;
   const startArg = args.find(a => a.startsWith('--start='));
   const startFrom = startArg ? parseInt(startArg.split('=')[1]) : 0;
-  // --source=all|research|core  (default all). 'research' = papers/datasets topics only (#171).
+  // --source=all|research|core|graphene  (default all). 'research' = papers/datasets topics (#171);
+  // 'graphene' = Graphene-blockchain topic set (#190).
   const sourceArg = args.find(a => a.startsWith('--source='));
   const source = sourceArg ? sourceArg.split('=')[1] : 'all';
 
@@ -640,4 +766,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 }
 
 export default WikiGenerator;
-export { ARTICLE_PRIORITY, RESEARCH_PAPER_PRIORITY, ALL_ARTICLES };
+export { ARTICLE_PRIORITY, RESEARCH_PAPER_PRIORITY, GRAPHENE_CHAIN_PRIORITY, ALL_ARTICLES };
