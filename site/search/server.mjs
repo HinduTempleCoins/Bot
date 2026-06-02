@@ -26,6 +26,11 @@ const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+  /* slim sticky bar — same pattern as Data, but NO category nav (that's Data-only) */
+  header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px}
+  .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
+  .databtn{margin-left:auto;color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
+  .databtn:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
   .wrap{max-width:760px;margin:0 auto;padding:22px}
   /* centered hero (Google-like) */
   .hero{text-align:center;padding:6vh 0 18px}
@@ -63,6 +68,8 @@ const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="Search for anything you want — across our websites, or the entire web.">
 <meta name=robots content="index,follow">${STYLE}</head><body>
+<header class=topbar><a class=brand href="/">◈ SoapBox <span>search</span></a>
+  <a class=databtn href="${DATA}" title="SoapBox Data — markets, macro, commodities, forex">Data</a></header>
 <main class=wrap>${body}</main>
 <footer>SoapBox Search — across our websites, or the entire web (independent + scholarly sources, research-weighted). No tracking.</footer></body></html>`;
 
