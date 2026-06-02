@@ -16,6 +16,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { recordFlag } from './flags.js';
+import { research } from '../../../integrations/scraper.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const LOG = process.env.FACTCHECK_LOG || path.join(__dir, '..', '..', 'data', 'factcheck-log.jsonl');
@@ -76,7 +77,16 @@ export function extractClaims(wikiText) {
 
 // ── verify one claim against external reality ──
 export async function verifyClaim(claim) {
+  // ground the verdict in REAL fetched pages (our Resource Center) — not just the model's memory or
+  // Gemini's opaque grounding. We pass the fetched evidence into the prompt + capture the source URLs.
+  let evidenceBlock = '', evidenceUrls = [];
+  try {
+    const r = await research(claim, { results: 4, fetchTop: 2, maxChars: 2500 });
+    evidenceUrls = r.sources.map((s) => s.url);
+    evidenceBlock = r.sources.map((s, i) => `[E${i + 1}] ${s.title} — ${s.url}\n${(s.markdown || s.snippet || '').slice(0, 1200)}`).join('\n\n');
+  } catch { /* fall back to Gemini's own grounding */ }
   const prompt = `You are a careful fact-checker with web search. Assess ONE claim from a research wiki against reliable external sources (encyclopedias, scientific literature, reputable web).
+${evidenceBlock ? `\nFETCHED EVIDENCE (real pages retrieved for this claim — weigh these first):\n${evidenceBlock}\n` : ''}
 
 CONTEXT: "VKFRI" = the Van Kush Family Research Institute, a small PRIVATE research group — it is NOT externally notable; do NOT look it up (and do NOT confuse it with any similarly-initialed school or organization). When a claim is phrased as "VKFRI notes/states/proposes that X", IGNORE the attribution wrapper and fact-check the underlying real-world assertion X (the science/history/date), not the institute.
 
@@ -92,7 +102,8 @@ Respond with STRICT JSON only:
 {"verdict":"SUPPORTED|CONTRADICTED|UNVERIFIABLE|INTERNAL","confidence":0.0-1.0,"reason":"one sentence about the underlying assertion","source":"a URL or empty string"}`;
   const { text, citations } = await gemini(prompt, { grounded: true });
   const j = parseJson(text) || { verdict: 'UNVERIFIABLE', confidence: 0, reason: 'no parseable verdict', source: '' };
-  if (!j.source && citations[0]) j.source = citations[0];
+  if (!j.source) j.source = citations[0] || evidenceUrls[0] || '';
+  j.evidence_urls = [...new Set([...(j.source ? [j.source] : []), ...evidenceUrls])].slice(0, 5);
   return j;
 }
 
