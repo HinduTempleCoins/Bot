@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
+import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8090);
@@ -114,8 +115,16 @@ createServer((req, res) => {
     if (p === '/search') return send(searchPage(url.searchParams.get('q')));
     if (p === '/about') return send(aboutPage());
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemap()); }
-    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
+    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
+    if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(INDEXNOW_KEY); }
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
     return send(layout({ title: '404', body: '<h1>404</h1><p class=muted><a href="/">← Library</a></p>' }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLES_DIR})`));
+}).listen(PORT, HOST, () => {
+  console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLES_DIR})`);
+  if (process.env.NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+    const urls = ['/', '/about', ...listArticles().map((a) => `/wiki/${a.slug}`)];
+    submitToIndexNow(BASE_URL, urls).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+    pingSitemap(BASE_URL).then((r) => console.log('Bing ping:', JSON.stringify(r))).catch(() => {});
+  }
+});

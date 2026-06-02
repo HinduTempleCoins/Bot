@@ -103,6 +103,12 @@ ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:title" content="${esc(title)} — SoapBox Markets"><meta property="og:description" content="${desc}">
 ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twitter:image" content="${esc(ogImage)}">` : ''}
 <meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [
+  { '@type': 'Organization', '@id': 'https://soapbox.community/#org', name: 'SoapBox', url: 'https://soapbox.community', description: 'A crypto data aggregator with a Clarity transparency score and right-of-reply.' },
+  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Markets', publisher: { '@id': 'https://soapbox.community/#org' },
+    potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: 'https://data.soapbox.community/coins/{search_term_string}' }, 'query-input': 'required name=search_term_string' } },
+] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
 <a href="#main" class=skip>Skip to content</a>

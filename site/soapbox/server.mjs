@@ -26,6 +26,7 @@ import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs'
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
+import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 
@@ -376,8 +377,9 @@ async function sitemap() {
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
+  const today = new Date().toISOString().slice(0, 10);
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${encodeURI(u)}</loc></url>`).join('\n') + `\n</urlset>`;
+    [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${encodeURI(u)}</loc><lastmod>${today}</lastmod><changefreq>${u === '/' ? 'hourly' : u.startsWith('/coins/') ? 'daily' : 'weekly'}</changefreq><priority>${u === '/' ? '1.0' : u.startsWith('/coins/') ? '0.8' : '0.6'}</priority></url>`).join('\n') + `\n</urlset>`;
   return body;
 }
 
@@ -486,10 +488,19 @@ createServer(async (req, res) => {
       return send(layout({ title: 'Announcements', active: '', canonical: `${BASE_URL}/announcements`, description: 'Official announcements from Hathor, the MELEK AI Witness.', body }));
     }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(await sitemap()); }
-    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
+    if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
+    if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(INDEXNOW_KEY); }
     if (p === '/status') return send(statusPage());
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`));
+}).listen(PORT, HOST, async () => {
+  console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
+  // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
+  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/ecosystem', '/learn', '/announcements'];
+    submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+  }
+});
