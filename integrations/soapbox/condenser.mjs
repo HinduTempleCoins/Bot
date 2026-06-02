@@ -140,6 +140,20 @@ export async function marketIndex({ limit = 50 } = {}) {
   });
 }
 
+// where to trade a coin — CoinGecko tickers (which exchanges list it + volume + trust). Powers the
+// "Where to trade" panel and the market fact-checker's "can you buy X on Y / was it delisted" checks.
+export async function coinTickers(id, { limit = 12 } = {}) {
+  if (!id || id.startsWith('hive-engine:') || id.startsWith('node:')) return [];
+  return cached(`tickers:${id}`, TTL.metadata, async () => {
+    const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}/tickers?page=1&order=volume_desc&depth=false`);
+    return (d.tickers || []).slice(0, limit).map((t) => ({
+      exchange: t.market?.name || '', pair: `${t.base}/${t.target}`,
+      price_usd: t.converted_last?.usd || 0, volume_usd: t.converted_volume?.usd || 0,
+      trust: t.trust_score || null, url: t.trade_url || '',
+    })).filter((t) => t.exchange);
+  });
+}
+
 // global market stats for the list-page header (CoinGecko /global, keyless).
 export async function globalStats() {
   return cached('global', TTL.list, async () => {

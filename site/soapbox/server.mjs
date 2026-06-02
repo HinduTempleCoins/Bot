@@ -11,7 +11,7 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
 import { cached, TTL, stats as cacheStats } from '../../integrations/soapbox/cache.mjs';
@@ -159,11 +159,12 @@ async function coinPage(id) {
   }
   const ov = overrideFor(id);
   const isHE = c.source === 'hive-engine' || c.source_tier === 2;
-  const [series, clarity, extras, related] = await Promise.all([
+  const [series, clarity, extras, related, tickers] = await Promise.all([
     coinChart(id).catch(() => []),
     clarityFromCoin(c).catch(() => null),
     isHE ? hiveEngineExtras(c.symbol).catch(() => null) : Promise.resolve(null),
     relatedCoins(c).catch(() => []),
+    coinTickers(id).catch(() => []),
   ]);
   // enrich Tier-1 coins lacking team data with CoinPaprika's People (best-effort, cached).
   if (!isHE && !(c.team || []).length) {
@@ -204,6 +205,11 @@ async function coinPage(id) {
     ${clarityCard(clarity)}
     ${card('Contracts', contracts)}
     ${team ? card('Team', team) : ''}
+    ${tickers.length ? card('Where to trade', `<table><thead><tr><th style="text-align:left">Exchange</th><th style="text-align:left">Pair</th><th>Price</th><th>Volume</th><th>Trust</th></tr></thead><tbody>${tickers.map((t) => `<tr>
+      <td style="text-align:left">${t.url ? `<a href="${esc(t.url)}">${esc(t.exchange)}</a>` : esc(t.exchange)}</td>
+      <td style="text-align:left" class=muted>${esc(t.pair)}</td><td>${usd(t.price_usd)}</td><td>${compactUsd(t.volume_usd)}</td>
+      <td>${t.trust ? `<span class="clarity c-${t.trust === 'green' ? 'high' : t.trust === 'yellow' ? 'moderate' : 'limited'}">${esc(t.trust)}</span>` : '—'}</td></tr>`).join('')}</tbody></table>
+      <p class=muted style="font-size:12px;margin-top:6px">Verified against the market fact-checker — confirms the coin is actually listed where shown.</p>`) : ''}
     ${links ? card('Links', links) : ''}
     ${(() => {
       const o = c.official || {};
