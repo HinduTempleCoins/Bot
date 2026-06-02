@@ -46,6 +46,20 @@ export async function exchanges({ limit = 25 } = {}) {
   });
 }
 
+// market caps for a set of CoinGecko ids (the chains' native coins) — so /chains can show market
+// cap ALONGSIDE TVL. They mean different things: market cap = price × circulating supply of the
+// native coin; TVL = value of assets locked in that chain's DeFi contracts.
+export async function marketCapsByIds(ids = []) {
+  const list = [...new Set(ids.filter(Boolean))];
+  if (!list.length) return {};
+  return cached(`mcaps:${list.sort().join(',')}`, TTL.price, async () => {
+    const arr = await jget(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${encodeURIComponent(list.join(','))}&per_page=250&page=1&sparkline=false`);
+    const out = {};
+    for (const c of (Array.isArray(arr) ? arr : [])) out[c.id] = { market_cap: c.market_cap || 0, price: c.current_price || 0 };
+    return out;
+  });
+}
+
 // DeFiLlama chain TVL (the multi-chain overview).
 export async function chainsTVL({ limit = 30 } = {}) {
   return cached(`chains:${limit}`, TTL.metadata, async () => {

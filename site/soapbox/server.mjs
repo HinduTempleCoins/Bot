@@ -24,7 +24,7 @@ import {
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
-import { fearGreed, categories, exchanges, chainsTVL, stablecoins } from '../../integrations/soapbox/markets-extra.mjs';
+import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 
@@ -251,19 +251,22 @@ async function exchangesPage() {
 }
 
 async function chainsPage() {
-  const [chains, stables, prices] = await Promise.all([
-    chainsTVL({ limit: 30 }).catch(() => []),
+  const tvlChains = await chainsTVL({ limit: 30 }).catch(() => []);
+  const [stables, prices, mcaps] = await Promise.all([
     stablecoins({ limit: 12 }).catch(() => []),
     nativePrices().catch(() => ({})),
+    marketCapsByIds(tvlChains.map((c) => c.gecko_id)).catch(() => ({})),
   ]);
+  const chains = tvlChains;
   const crows = chains.map((c, i) => {
     const px = c.gecko_id ? prices[c.gecko_id]?.usd : null;
-    return `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b> ${c.symbol ? `<span class=muted>${esc(c.symbol)}</span>` : ''}</td><td>${px != null ? usd(px) : '—'}</td><td>${compactUsd(c.tvl)}</td></tr>`;
+    const mc = c.gecko_id ? mcaps[c.gecko_id]?.market_cap : null;
+    return `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b> ${c.symbol ? `<span class=muted>${esc(c.symbol)}</span>` : ''}</td><td>${px != null ? usd(px) : '—'}</td><td>${mc ? compactUsd(mc) : '—'}</td><td>${compactUsd(c.tvl)}</td></tr>`;
   }).join('');
   const srows = stables.map((s) => `<tr><td style="text-align:left"><b>${esc(s.symbol)}</b> <span class=muted>${esc(s.name)}</span></td>
     <td>${compactUsd(s.circulating)}</td><td>${s.peg_off != null ? pct(s.peg_off) : '—'}</td><td class=muted>${esc(s.mechanism)}</td></tr>`).join('');
-  const body = `<h1>Chains</h1><p class=muted>Multi-chain overview — total value locked per chain (DeFiLlama).</p>
-    <table><thead><tr><th>#</th><th style="text-align:left">Chain</th><th>Native price</th><th>TVL</th></tr></thead><tbody>${crows}</tbody></table>
+  const body = `<h1>Chains</h1><p class=muted>Multi-chain overview. <b>Market cap</b> = native coin price × circulating supply (the coin's total worth). <b>TVL</b> = value of assets locked in that chain's DeFi contracts (DeFiLlama) — a different measure of on-chain activity.</p>
+    <table><thead><tr><th>#</th><th style="text-align:left">Chain</th><th>Native price</th><th>Market cap</th><th>TVL</th></tr></thead><tbody>${crows}</tbody></table>
     ${srows ? `<div class=card><h2>Stablecoins <span class=muted style="font-weight:400">· peg deviation</span></h2>
       <table><thead><tr><th style="text-align:left">Coin</th><th>Circulating</th><th>Peg</th><th style="text-align:left">Mechanism</th></tr></thead><tbody>${srows}</tbody></table></div>` : ''}`;
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
