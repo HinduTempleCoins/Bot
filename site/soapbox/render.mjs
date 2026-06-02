@@ -19,7 +19,7 @@ export const pct = (n) => (n == null || !Number.isFinite(+n) ? '<span class=mute
 
 const NAV = [
   ['/', 'Markets'], ['/categories', 'Categories'], ['/chains', 'Chains'], ['/dapps', 'dApps'],
-  ['/exchanges', 'Exchanges'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
+  ['/exchanges', 'Exchanges'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
 ];
 
 const STYLE = `<style>

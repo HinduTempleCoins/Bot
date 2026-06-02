@@ -22,6 +22,7 @@ import {
   holdersPanel, depthPanel, relatedPanel, converter, ogSvg, fngGauge,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
+import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
@@ -306,6 +307,16 @@ async function chainsPage() {
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
 }
 
+function directoryPage() {
+  const body = `<h1>Crypto Resources Directory</h1>
+    <p class=muted>A curated directory of useful crypto resources — data sites, forums, wallets, browser extensions, explorers, tools, security, faucets, and learning. Ecosystem items marked ⭐. Outbound links; do your own research.</p>
+    ${DIRECTORY.map((g) => `<div class=card><h2>${esc(g.cat)}</h2>${g.note ? `<p class=muted style="font-size:12px">${esc(g.note)}</p>` : ''}
+      ${g.items.map((it) => `<div style="padding:7px 0;border-bottom:1px solid var(--line)">
+        <b><a href="${esc(it.url)}" rel="noopener">${esc(it.name)}</a></b>${it.ours ? ' <span class="badge ours">⭐ ecosystem</span>' : ''}
+        <div class=muted>${esc(it.blurb)}</div></div>`).join('')}</div>`).join('')}`;
+  return layout({ title: 'Directory', active: '/directory', canonical: `${BASE_URL}/directory`, description: 'A curated crypto resources directory — data sites, forums, wallets, extensions, explorers, tools, security, faucets, learning.', body });
+}
+
 function ecosystemPage() {
   const body = `<h1>Ecosystem</h1><p>${esc(ECOSYSTEM.intro)}</p>
     <div class=card><h2>Pillars</h2>${ECOSYSTEM.pillars.map((p) =>
@@ -395,7 +406,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -446,6 +457,7 @@ createServer(async (req, res) => {
     if (p === '/categories') return send(await categoriesPage());
     if (p === '/exchanges') return send(await exchangesPage());
     if (p === '/chains') return send(await chainsPage());
+    if (p === '/directory') return send(directoryPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
     if (p === '/watchlist') return send(watchlistPage());
@@ -528,7 +540,7 @@ createServer(async (req, res) => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/ecosystem', '/learn', '/announcements'];
+    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/directory', '/ecosystem', '/learn', '/announcements'];
     submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
     pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
   }
