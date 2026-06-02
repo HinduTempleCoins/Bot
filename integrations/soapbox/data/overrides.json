@@ -1,0 +1,14 @@
+{
+  "hive-engine:vkbt": {
+    "featured": true,
+    "featured_rank": 1,
+    "badge": "ecosystem",
+    "blurb": "Van Kush Beauty Token — a first-party SoapBox ecosystem token on Hive-Engine. Native data, real holder distribution, Clarity Score computed from observable on-chain facts."
+  },
+  "hive-engine:cure": {
+    "featured": true,
+    "featured_rank": 2,
+    "badge": "ecosystem",
+    "blurb": "Curator Rewards Token (CURE) — a first-party SoapBox ecosystem token on Hive-Engine."
+  }
+}

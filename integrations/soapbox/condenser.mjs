@@ -84,6 +84,34 @@ export async function topCoins({ limit = 50, page = 1, sparkline = true } = {}) 
   });
 }
 
+// global market stats for the list-page header (CoinGecko /global, keyless).
+export async function globalStats() {
+  return cached('global', TTL.list, async () => {
+    const d = await jget('https://api.coingecko.com/api/v3/global');
+    const g = d.data || {};
+    return {
+      total_market_cap_usd: g.total_market_cap?.usd || 0,
+      total_volume_usd: g.total_volume?.usd || 0,
+      btc_dominance: g.market_cap_percentage?.btc || 0,
+      eth_dominance: g.market_cap_percentage?.eth || 0,
+      active_cryptocurrencies: g.active_cryptocurrencies || 0,
+      market_cap_change_24h: g.market_cap_change_percentage_24h_usd || 0,
+    };
+  });
+}
+
+// OHLCV-ish price series for the coin-page chart. CoinGecko market_chart is keyless and returns
+// [ms, price] points; we hand the site a light {t, p} series (lightweight-charts maps it to a line).
+// Hive-Engine candles come from the market history endpoint when we wire Tier-2 charts; for now a
+// Tier-2 id returns [] (the chart panel shows "history coming" rather than a broken graph).
+export async function coinChart(id, { days = 7 } = {}) {
+  if (!id || id.startsWith('hive-engine:') || id.startsWith('node:')) return [];
+  return cached(`chart:${id}:${days}`, TTL.ohlcv, async () => {
+    const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}/market_chart?vs_currency=usd&days=${days}`);
+    return (d.prices || []).map(([t, p]) => ({ t: Math.floor(t / 1000), p }));
+  });
+}
+
 // our ecosystem tokens (Tier-2 Hive-Engine), normalized + USD-priced, for the top of the list.
 export async function ourCoins() {
   return cached('ourCoins', TTL.price, async () => {
