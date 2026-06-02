@@ -222,12 +222,19 @@ async function exchangesPage() {
 }
 
 async function chainsPage() {
-  const [chains, stables] = await Promise.all([chainsTVL({ limit: 30 }).catch(() => []), stablecoins({ limit: 12 }).catch(() => [])]);
-  const crows = chains.map((c, i) => `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b> ${c.symbol ? `<span class=muted>${esc(c.symbol)}</span>` : ''}</td><td>${compactUsd(c.tvl)}</td></tr>`).join('');
+  const [chains, stables, prices] = await Promise.all([
+    chainsTVL({ limit: 30 }).catch(() => []),
+    stablecoins({ limit: 12 }).catch(() => []),
+    nativePrices().catch(() => ({})),
+  ]);
+  const crows = chains.map((c, i) => {
+    const px = c.gecko_id ? prices[c.gecko_id]?.usd : null;
+    return `<tr><td>${i + 1}</td><td style="text-align:left"><b>${esc(c.name)}</b> ${c.symbol ? `<span class=muted>${esc(c.symbol)}</span>` : ''}</td><td>${px != null ? usd(px) : '—'}</td><td>${compactUsd(c.tvl)}</td></tr>`;
+  }).join('');
   const srows = stables.map((s) => `<tr><td style="text-align:left"><b>${esc(s.symbol)}</b> <span class=muted>${esc(s.name)}</span></td>
     <td>${compactUsd(s.circulating)}</td><td>${s.peg_off != null ? pct(s.peg_off) : '—'}</td><td class=muted>${esc(s.mechanism)}</td></tr>`).join('');
   const body = `<h1>Chains</h1><p class=muted>Multi-chain overview — total value locked per chain (DeFiLlama).</p>
-    <table><thead><tr><th>#</th><th style="text-align:left">Chain</th><th>TVL</th></tr></thead><tbody>${crows}</tbody></table>
+    <table><thead><tr><th>#</th><th style="text-align:left">Chain</th><th>Native price</th><th>TVL</th></tr></thead><tbody>${crows}</tbody></table>
     ${srows ? `<div class=card><h2>Stablecoins <span class=muted style="font-weight:400">· peg deviation</span></h2>
       <table><thead><tr><th style="text-align:left">Coin</th><th>Circulating</th><th>Peg</th><th style="text-align:left">Mechanism</th></tr></thead><tbody>${srows}</tbody></table></div>` : ''}`;
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
