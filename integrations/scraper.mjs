@@ -72,7 +72,55 @@ export async function fetchMany(urls = [], opts = {}) {
   return out;
 }
 
+// ── search: keyless web search (DuckDuckGo HTML) → [{title, url, snippet}] ──────────────────────
+// Jina Search (s.jina.ai) now needs a key; DuckDuckGo's HTML endpoint is keyless and returns real
+// results (incl. forum/Bitcointalk/Altcoinstalks threads — ideal for the link-finder + fact-checker).
+const decodeDDG = (href) => {
+  const m = href.match(/[?&]uddg=([^&]+)/);
+  if (m) { try { return decodeURIComponent(m[1]); } catch { return ''; } }
+  return href.startsWith('//') ? 'https:' + href : href;
+};
+export async function search(query, { limit = 8 } = {}) {
+  if (!query) return [];
+  const key = `search:${query}:${limit}`;
+  const hit = cache.get(key); if (hit && hit.expires > Date.now()) return hit.value;
+  let results = [];
+  try {
+    // DuckDuckGo's HTML endpoint flags non-browser UAs (returns 202, empty) — use a real browser UA.
+    const r = await withTimeout(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`, {
+      headers: { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0' },
+    });
+    const html = await r.text();
+    // titles+urls, then snippets, matched in document order and zipped.
+    const links = [...html.matchAll(/class="result__a"[^>]*href="([^"]+)"[^>]*>([^<]+)</g)];
+    const snips = [...html.matchAll(/class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim());
+    for (let i = 0; i < links.length && results.length < limit; i++) {
+      const url = decodeDDG(links[i][1].replace(/&amp;/g, '&'));
+      const title = links[i][2].replace(/&amp;/g, '&').replace(/&#x27;/g, "'").trim();
+      if (url && /^https?:\/\//.test(url) && title) results.push({ title, url, snippet: snips[i] || '' });
+    }
+  } catch { /* return what we have */ }
+  cache.set(key, { value: results, expires: Date.now() + TTL });
+  return results;
+}
+
+/**
+ * search → fetch the top results' clean content → combined evidence. The fact-checker / brief
+ * "resource center" entry point: one call gives grounded source material for a query.
+ */
+export async function research(query, { results = 5, fetchTop = 3, maxChars = 6000 } = {}) {
+  const hits = await search(query, { limit: results });
+  const fetched = await fetchMany(hits.slice(0, fetchTop).map((h) => h.url), { maxChars });
+  const byUrl = Object.fromEntries(fetched.map((f) => [f.url, f]));
+  return {
+    query,
+    sources: hits.map((h) => ({ ...h, markdown: byUrl[h.url]?.markdown || '', fetched: !!byUrl[h.url]?.markdown })),
+  };
+}
+
 if (process.argv[1] && process.argv[1].endsWith('scraper.mjs')) {
-  const r = await fetchClean(process.argv[2] || 'https://example.com');
-  console.log(`[${r.source}] ${r.title} — ${r.chars} chars\n${r.markdown.slice(0, 600)}`);
+  const [cmd, ...rest] = process.argv.slice(2);
+  if (cmd === 'search') { const r = await search(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. ${x.title}\n   ${x.url}\n   ${x.snippet.slice(0, 120)}`)); }
+  else if (cmd === 'research') { const r = await research(rest.join(' ')); console.log(`query: ${r.query}\n`); r.sources.forEach((s) => console.log(`• ${s.title} ${s.fetched ? '✓fetched ' + s.markdown.length + 'ch' : ''}\n  ${s.url}`)); }
+  else { const r = await fetchClean(cmd || 'https://example.com'); console.log(`[${r.source}] ${r.title} — ${r.chars} chars\n${r.markdown.slice(0, 600)}`); }
 }
