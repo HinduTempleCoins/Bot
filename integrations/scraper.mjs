@@ -142,7 +142,39 @@ async function searchWikipedia(query, limit) {
   return titles.map((t, i) => ({ title: t, url: urls[i], snippet: descs[i] || '', provider: 'wikipedia' }));
 }
 
+// ── domain knowledge APIs (keyless, authoritative) — chemistry / history / academic fact anchors ──
+async function searchPubChem(query, limit) {            // chemistry: compounds + properties
+  const r = await withTimeout(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(query)}/property/MolecularFormula,IUPACName/JSON`, { headers: { 'user-agent': UA } });
+  if (!r.ok) return [];
+  const d = await r.json().catch(() => null);
+  return (d?.PropertyTable?.Properties || []).slice(0, limit).map((p) => ({
+    title: `${query} — ${p.MolecularFormula || ''} (${p.IUPACName || ''})`.trim(),
+    url: `https://pubchem.ncbi.nlm.nih.gov/compound/${p.CID}`, snippet: `PubChem CID ${p.CID}; formula ${p.MolecularFormula}`, provider: 'pubchem',
+  }));
+}
+async function searchWikidata(query, limit) {           // structured facts / entities / history / dates
+  const r = await withTimeout(`https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&limit=${limit}&search=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA } });
+  const d = await r.json().catch(() => ({}));
+  return (d.search || []).map((e) => ({ title: e.label || e.id, url: `https://www.wikidata.org/wiki/${e.id}`, snippet: e.description || '', provider: 'wikidata' }));
+}
+async function searchCrossRef(query, limit) {           // academic literature (DOIs)
+  const r = await withTimeout(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${limit}&select=title,DOI,container-title,published`, { headers: { 'user-agent': UA } });
+  const d = await r.json().catch(() => ({}));
+  return (d.message?.items || []).map((i) => ({ title: (i.title || [''])[0], url: `https://doi.org/${i.DOI}`, snippet: (i['container-title'] || [''])[0] || '', provider: 'crossref' })).filter((x) => x.title);
+}
+async function searchPubMed(query, limit) {             // biomedical / pharmacology literature
+  const s = await withTimeout(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=${limit}&term=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA } });
+  const ids = (await s.json().catch(() => ({})))?.esearchresult?.idlist || [];
+  if (!ids.length) return [];
+  const sum = await withTimeout(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${ids.join(',')}`, { headers: { 'user-agent': UA } });
+  const res = (await sum.json().catch(() => ({})))?.result || {};
+  return ids.map((id) => res[id]).filter(Boolean).map((a) => ({ title: a.title, url: `https://pubmed.ncbi.nlm.nih.gov/${a.uid}/`, snippet: `${a.source || ''} ${a.pubdate || ''}`.trim(), provider: 'pubmed' }));
+}
+
 export const PROVIDERS = { duckduckgo: searchDuckDuckGo, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+// knowledge providers are queried by searchAll too, but irrelevant ones simply return [] (e.g. PubChem
+// for a non-compound query) so they add authoritative depth without noise.
+export const KNOWLEDGE = { pubchem: searchPubChem, wikidata: searchWikidata, crossref: searchCrossRef, pubmed: searchPubMed };
 
 /** Single-provider search (default duckduckgo). Cached. */
 export async function search(query, { limit = 8, provider = 'duckduckgo' } = {}) {
@@ -150,7 +182,8 @@ export async function search(query, { limit = 8, provider = 'duckduckgo' } = {})
   const ck = `search:${provider}:${query}:${limit}`;
   const hit = cache.get(ck); if (hit && hit.expires > Date.now()) return hit.value;
   let results = [];
-  try { results = await (PROVIDERS[provider] || searchDuckDuckGo)(query, limit); } catch { /* keep [] */ }
+  const fn = PROVIDERS[provider] || KNOWLEDGE[provider] || searchDuckDuckGo;
+  try { results = await fn(query, limit); } catch { /* keep [] */ }
   cache.set(ck, { value: results, expires: Date.now() + TTL });
   return results;
 }
@@ -159,9 +192,9 @@ export async function search(query, { limit = 8, provider = 'duckduckgo' } = {})
  * Aggregate across ALL enabled providers (keyed ones auto-skip if no key) → merged, deduped by URL,
  * ranked by how many providers returned it. The "better set of information" — not one engine's view.
  */
-export async function searchAll(query, { limit = 12 } = {}) {
+export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
   if (!query) return [];
-  const names = Object.keys(PROVIDERS);
+  const names = knowledge ? [...Object.keys(PROVIDERS), ...Object.keys(KNOWLEDGE)] : Object.keys(PROVIDERS);
   const lists = await Promise.all(names.map((n) => search(query, { limit: 10, provider: n }).catch(() => [])));
   const byUrl = new Map();
   lists.flat().forEach((r) => {
