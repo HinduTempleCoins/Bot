@@ -34,10 +34,14 @@ async function jget(url, timeout = 12000) {
 }
 
 // --- Tier 1: CoinGecko (keyless demo endpoints) -----------------------------
+// Direct keyless coin fetch, mapped into the FULL coin-page shape (price + the .market detail block
+// the coin page reads for the performance/ATH panels + official links). This is also the resilient
+// fallback getCoin() uses when the adapter registry throws (e.g. CoinGecko AND CoinPaprika both
+// rate-limit at once) — without it, any valid coin can 404 on a transient 429. (#180)
 export async function fromCoinGecko(id) {
-  const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}?localization=false&tickers=false&community_data=false&developer_data=false`);
+  const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`);
   const m = d.market_data || {};
-  return normalizeCoin({
+  const coin = normalizeCoin({
     id: d.id, symbol: d.symbol, name: d.name,
     price_usd: m.current_price?.usd, market_cap_usd: m.market_cap?.usd, volume_24h_usd: m.total_volume?.usd,
     supply: { circulating: m.circulating_supply, total: m.total_supply, max: m.max_supply },
@@ -45,6 +49,31 @@ export async function fromCoinGecko(id) {
     contracts: Object.entries(d.platforms || {}).filter(([k, v]) => k && v).map(([chain, address]) => ({ chain, address })),
     links: { website: d.links?.homepage?.[0] || '', explorer: d.links?.blockchain_site?.[0] || '', social: [d.links?.twitter_screen_name && `https://twitter.com/${d.links.twitter_screen_name}`].filter(Boolean) },
   }, { tier: 1, source: 'coingecko', updatedAt: _now() });
+  // attach the same non-schema market detail the coingecko adapter does, so a coin resolved via this
+  // fallback renders an identical page (performance ranges, ATH/ATL, rank, official links).
+  coin.change_24h = m.price_change_percentage_24h ?? null;
+  coin.market = {
+    rank: m.market_cap_rank ?? d.market_cap_rank ?? null,
+    change_1h: m.price_change_percentage_1h_in_currency?.usd ?? null,
+    change_24h: m.price_change_percentage_24h ?? null,
+    change_7d: m.price_change_percentage_7d ?? null,
+    change_30d: m.price_change_percentage_30d ?? null,
+    change_1y: m.price_change_percentage_1y ?? null,
+    ath: m.ath?.usd ?? null, ath_change: m.ath_change_percentage?.usd ?? null, ath_date: m.ath_date?.usd ?? null,
+    atl: m.atl?.usd ?? null, atl_change: m.atl_change_percentage?.usd ?? null, atl_date: m.atl_date?.usd ?? null,
+    high_24h: m.high_24h?.usd ?? null, low_24h: m.low_24h?.usd ?? null,
+  };
+  coin.categories = (d.categories || []).filter(Boolean).slice(0, 6);
+  const L = d.links || {};
+  coin.official = {
+    whitepaper: L.whitepaper || '',
+    forum: (L.official_forum_url || []).filter(Boolean)[0] || '',
+    announcement: (L.announcement_url || []).filter(Boolean)[0] || '',
+    repos: (L.repos_url?.github || []).filter(Boolean).slice(0, 2),
+    chats: (L.chat_url || []).filter(Boolean).slice(0, 2),
+    reddit: L.subreddit_url || '',
+  };
+  return coin;
 }
 
 // --- Tier 2: Hive-Engine (first-party; reuse he-client failover) -------------
@@ -309,14 +338,40 @@ export async function ourCoins() {
 // id forms: "bitcoin" (tier 1), "hive-engine:VKBT" (tier 2), "node:melek:..." (tier 3, stub).
 export async function getCoin(id) {
   if (!id) return null;
-  return cached(`coin:${id}`, TTL.price, async () => {
-    let coin = null;
-    if (id.startsWith('hive-engine:')) coin = await fromHiveEngine(id.split(':')[1]);
-    else coin = await fetchTokenFailover(id); // adapter registry: Tier-1 (CG→Paprika), gt: DEX, node: Tier-3
-    if (!coin) return null;
-    const { valid, errors } = validateCoin(coin);
-    return { ...coin, _valid: valid, _errors: errors };
-  });
+  // Cache HITS only — a null (not-found / all-providers-down) is NOT cached, so a coin that 404'd on a
+  // transient upstream rate-limit is retried on the next request instead of being stuck behind a 60s
+  // cached 404. (#180)
+  const hit = await peekCoinCache(`coin:${id}`);
+  if (hit) return hit;
+
+  let coin = null;
+  if (id.startsWith('hive-engine:')) {
+    coin = await fromHiveEngine(id.split(':')[1]).catch(() => null);
+  } else {
+    // adapter registry: Tier-1 (CG→Paprika), gt: DEX, node: Tier-3.
+    try { coin = await fetchTokenFailover(id); } catch { coin = null; }
+    // Resilient fallback (#180): the registry throws when EVERY provider fails at once — most often
+    // a simultaneous CoinGecko + CoinPaprika 429 (keyless rate limits). That made valid coin ids
+    // (usd-coin, pax-gold, chainlink, …) 404 spuriously. Resolve the coin directly from CoinGecko's
+    // keyless coin endpoint instead of giving up. Only bare/CoinGecko-style ids (no special prefix)
+    // can be served this way; gt:/node: ids stay with their own adapter. A genuinely-bogus id still
+    // throws here → caught → null → a clean 404.
+    if (!coin && !id.startsWith('gt:') && !id.startsWith('node:')) {
+      coin = await fromCoinGecko(id).catch(() => null);
+    }
+  }
+  if (!coin) return null;
+  const { valid, errors } = validateCoin(coin);
+  const out = { ...coin, _valid: valid, _errors: errors };
+  // store the success in the same cache so concurrent/repeat reads within the TTL are free.
+  return cached(`coin:${id}`, TTL.price, async () => out);
+}
+
+// read the coin cache without triggering a fetch — returns the cached coin if fresh, else null. Lets
+// getCoin serve a cache hit instantly while never caching a null result (so 404s aren't sticky). (#180)
+async function peekCoinCache(key) {
+  try { return await cached(key, TTL.price, async () => { throw new Error('miss'); }); }
+  catch { return null; }
 }
 
 if (process.argv[1] && process.argv[1].endsWith('condenser.mjs')) {

@@ -81,6 +81,12 @@ const STYLE = `<style>
   @media(max-width:640px){th:nth-child(6),td:nth-child(6),th:nth-child(7),td:nth-child(7){display:none}.price{font-size:28px}}
 </style>`;
 
+// Inline SVG favicon (a ◈ on the brand blue) — shipped as a data: URI in <head> AND served at
+// /favicon.ico by the server, so neither the browser's implicit /favicon.ico request nor crawlers
+// fetching it produce a 404. (#180) Exported so the server can serve the same bytes.
+export const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0d1117"/><text x="16" y="23" font-size="22" text-anchor="middle" fill="#58a6ff" font-family="system-ui,sans-serif">◈</text></svg>`;
+const FAVICON_DATA_URI = `data:image/svg+xml,${encodeURIComponent(FAVICON_SVG)}`;
+
 const SEARCH_URL = 'https://search.soapbox.community';
 const DIRECTORY_URL = 'https://directory.soapbox.community';
 const WIKI_URL = 'https://wiki.soapbox.community';
@@ -128,6 +134,7 @@ export function layout({ title, description = '', canonical = '', active = '/', 
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} — SoapBox Data</title>
 <meta name=description content="${desc}">
+<link rel="icon" href="${FAVICON_DATA_URI}" type="image/svg+xml">
 ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:type" content="website"><meta property="og:site_name" content="SoapBox">
 <meta property="og:title" content="${esc(title)} — SoapBox Data"><meta property="og:description" content="${desc}">
@@ -136,8 +143,11 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
 <meta name="robots" content="${esc(robots)}">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [
   { '@type': 'Organization', '@id': 'https://soapbox.community/#org', name: 'SoapBox', url: 'https://soapbox.community', description: 'A crypto data aggregator with a Clarity transparency score and right-of-reply.' },
-  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Data', publisher: { '@id': 'https://soapbox.community/#org' },
-    potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: 'https://data.soapbox.community/coins/{search_term_string}' }, 'query-input': 'required name=search_term_string' } },
+  // No SearchAction: the home search is client-side (JSON /api/markets-search), so there is no GET
+  // HTML results URL a crawler can resolve. The previous urlTemplate ".../coins/{search_term_string}"
+  // made bots fetch "/coins/%7Bsearch_term_string%7D" literally → a 404 in the log. Dropped until a
+  // real GET search results page exists. (#180)
+  { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Data', publisher: { '@id': 'https://soapbox.community/#org' } },
 ] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>

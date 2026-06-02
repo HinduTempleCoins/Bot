@@ -19,7 +19,7 @@ import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.m
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
   layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card, marketStats,
-  holdersPanel, depthPanel, relatedPanel, converter, ogSvg, fngGauge,
+  holdersPanel, depthPanel, relatedPanel, converter, ogSvg, fngGauge, FAVICON_SVG,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { DIRECTORY } from './directory.mjs';
@@ -790,6 +790,13 @@ createServer(async (req, res) => {
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
     if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(INDEXNOW_KEY); }
     if (p === '/status') return send(statusPage());
+    // favicon — served as a tiny SVG so the browser's implicit /favicon.ico request (and crawlers
+    // that fetch it directly) stop 404ing. SVG favicons are widely supported; the .ico path just
+    // carries SVG bytes. (#180)
+    if (p === '/favicon.ico' || p === '/favicon.svg') {
+      res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=604800' });
+      return res.end(FAVICON_SVG);
+    }
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
