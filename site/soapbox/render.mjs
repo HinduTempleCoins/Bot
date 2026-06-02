@@ -147,3 +147,21 @@ export function supplyBar(supply) {
 }
 
 export const card = (title, inner) => `<div class=card>${title ? `<h2>${esc(title)}</h2>` : ''}${inner}</div>`;
+
+// price-change ranges + ATH/ATL + 24h high/low, from the adapter's attached `.market` object.
+export function marketStats(m) {
+  if (!m) return '';
+  const row = (label, val) => `<div class=stat><div class=k>${label}</div><div class=v>${pct(val)}</div></div>`;
+  const ranges = [['1h', m.change_1h], ['24h', m.change_24h], ['7d', m.change_7d], ['30d', m.change_30d], ['1y', m.change_1y]]
+    .filter(([, v]) => v != null).map(([l, v]) => row(l, v)).join('');
+  const athDate = m.ath_date ? ` <span class=muted>(${esc(m.ath_date.slice(0, 10))})</span>` : '';
+  const atlDate = m.atl_date ? ` <span class=muted>(${esc(m.atl_date.slice(0, 10))})</span>` : '';
+  return `<div class=card><h2>Performance${m.rank ? ` <span class=muted style="font-weight:400">· rank #${m.rank}</span>` : ''}</h2>
+    <div class=grid>${ranges}</div>
+    <div class=grid style="margin-top:10px">
+      ${m.high_24h != null ? `<div class=stat><div class=k>24h high</div><div class=v>${usd(m.high_24h)}</div></div>` : ''}
+      ${m.low_24h != null ? `<div class=stat><div class=k>24h low</div><div class=v>${usd(m.low_24h)}</div></div>` : ''}
+      ${m.ath != null ? `<div class=stat><div class=k>All-time high${athDate}</div><div class=v>${usd(m.ath)} ${pct(m.ath_change)}</div></div>` : ''}
+      ${m.atl != null ? `<div class=stat><div class=k>All-time low${atlDate}</div><div class=v>${usd(m.atl)} ${pct(m.atl_change)}</div></div>` : ''}
+    </div></div>`;
+}

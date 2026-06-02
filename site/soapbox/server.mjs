@@ -16,7 +16,7 @@ import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.mjs';
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
-  layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card,
+  layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card, marketStats,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
@@ -147,6 +147,7 @@ async function coinPage(id) {
       <div class=muted>Market cap ${compactUsd(c.market_cap_usd)} · 24h vol ${compactUsd(c.volume_24h_usd)} · source: ${esc(c.source)} (tier ${c.source_tier})${chains ? ' · ' + chains : ''}</div>
     </div>
     ${priceChart(series)}
+    ${marketStats(c.market)}
     ${supplyBar(c.supply)}
     ${clarityCard(clarity)}
     ${card('Contracts', contracts)}

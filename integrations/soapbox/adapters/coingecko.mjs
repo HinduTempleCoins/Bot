@@ -32,7 +32,7 @@ export async function fetchTokens({ limit = 50, page = 1 } = {}) {
 export async function fetchToken(id) {
   const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}?localization=false&tickers=false&community_data=false&developer_data=false`);
   const m = d.market_data || {};
-  return normalizeCoin({
+  const coin = normalizeCoin({
     id: d.id, symbol: d.symbol, name: d.name,
     price_usd: m.current_price?.usd, market_cap_usd: m.market_cap?.usd, volume_24h_usd: m.total_volume?.usd,
     supply: { circulating: m.circulating_supply, total: m.total_supply, max: m.max_supply },
@@ -40,6 +40,21 @@ export async function fetchToken(id) {
     contracts: Object.entries(d.platforms || {}).filter(([k, v]) => k && v).map(([chain, address]) => ({ chain, address })),
     links: { website: d.links?.homepage?.[0] || '', explorer: d.links?.blockchain_site?.[0] || '', social: [d.links?.twitter_screen_name && `https://twitter.com/${d.links.twitter_screen_name}`].filter(Boolean) },
   }, { tier: 1, source: 'coingecko', updatedAt: new Date().toISOString() });
+  // extra market detail for the coin page (non-schema, attached): change ranges + ATH/ATL + rank.
+  coin.change_24h = m.price_change_percentage_24h ?? null;
+  coin.market = {
+    rank: m.market_cap_rank ?? d.market_cap_rank ?? null,
+    change_1h: m.price_change_percentage_1h_in_currency?.usd ?? null,
+    change_24h: m.price_change_percentage_24h ?? null,
+    change_7d: m.price_change_percentage_7d ?? null,
+    change_30d: m.price_change_percentage_30d ?? null,
+    change_1y: m.price_change_percentage_1y ?? null,
+    ath: m.ath?.usd ?? null, ath_change: m.ath_change_percentage?.usd ?? null, ath_date: m.ath_date?.usd ?? null,
+    atl: m.atl?.usd ?? null, atl_change: m.atl_change_percentage?.usd ?? null, atl_date: m.atl_date?.usd ?? null,
+    high_24h: m.high_24h?.usd ?? null, low_24h: m.low_24h?.usd ?? null,
+  };
+  coin.categories = (d.categories || []).filter(Boolean).slice(0, 6);
+  return coin;
 }
 
 export async function fetchOHLCV(id, { days = 7 } = {}) {
