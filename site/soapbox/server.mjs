@@ -21,6 +21,9 @@ import {
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 
 const PORT = +(process.env.PORT || 8088);
+// HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
+// raw HTTP port isn't also exposed publicly. Defaults to all interfaces for local/dev use.
+const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const PER_PAGE = 50;
 
@@ -216,4 +219,4 @@ createServer(async (req, res) => {
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, () => console.log(`SoapBox markets browser (page factory) on ${BASE_URL}`));
+}).listen(PORT, HOST, () => console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`));

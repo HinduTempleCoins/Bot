@@ -1,0 +1,25 @@
+# Caddyfile — public TLS front door for the SoapBox aggregator subdomain.
+# Caddy auto-provisions a Let's Encrypt certificate for data.soapbox.community and reverse-proxies
+# to the Node page-factory bound on localhost:8088 (HOST=127.0.0.1 so the raw port isn't public).
+#
+# Install:   sudo apt install -y caddy   (or the official Caddy apt repo)
+# Place at:  /etc/caddy/Caddyfile   (append this block if the file already exists)
+# Reload:    sudo systemctl reload caddy
+#
+# Requires the DNS A record  data.soapbox.community -> <box public IP>  to exist first, so Caddy's
+# ACME HTTP/TLS challenge can validate. The host-specific go-live runbook (DNS + service update)
+# is kept private under .local/soapbox-deploy/ — it names infra and stays out of the public repo.
+
+data.soapbox.community {
+	encode gzip
+	reverse_proxy 127.0.0.1:8088
+	header {
+		# read-only public site: basic hardening, no cookies, no custody
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+	log {
+		output file /var/log/caddy/data.soapbox.community.log
+	}
+}
