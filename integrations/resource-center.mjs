@@ -19,6 +19,9 @@ import { scanAccounts, accountHoldings } from './held-asset-scan.mjs';
 // news-diagnostics (#179): what the market is SAYING (sentiment/themes) to pair with what it's DOING.
 let newsDigest = async () => null;
 try { const cp = await import('./comms-parser.mjs'); newsDigest = cp.newsDigest || newsDigest; } catch { /* news layer absent — engine still runs */ }
+// profit-circles (#191): round-trip loops that return to HE grown + volatility scalps (keep capital, skim).
+let circlesEngine = async () => '';
+try { const pc = await import('./profit-circles.mjs'); circlesEngine = pc.engineBlock || circlesEngine; } catch { /* absent — engine still runs */ }
 
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
@@ -43,6 +46,7 @@ export async function runPass() {
   ]);
   // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
   const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
+  const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
@@ -83,7 +87,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -147,6 +151,7 @@ export function briefReport(s) {
       L.push(`- **${d.topic}**: ${arrow} ${d.sentimentHint} (${d.sentimentScore}), ${d.headlineCount} headlines${themes ? ` — themes: ${themes}` : ''}.`);
     }
   }
+  if (s.circlesMd) { L.push(''); L.push(s.circlesMd); }
   L.push(`\n*Engine: resource-center.mjs · advisory only, no trades executed · US-jurisdiction-aware.*`);
   return L.join('\n');
 }
