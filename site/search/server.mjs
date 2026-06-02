@@ -19,43 +19,68 @@ const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// the ribbon of our other websites (the operator's "ribbon" — grows as we add sites).
+const SITES = [['Markets', DATA], ['Library', WIKI], ['Directory', `${DATA}/directory`], ['Macro', `${DATA}/macro`]];
+
 const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
-  header{padding:14px 22px;background:var(--panel);border-bottom:1px solid var(--line2);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-  .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  nav{display:flex;gap:14px} nav a{color:var(--mut);font-weight:600;font-size:14px}
-  .wrap{max-width:820px;margin:0 auto;padding:26px 22px}
-  form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 8px}
-  input.q{flex:1;min-width:240px;background:#0b0f14;border:1px solid var(--line2);border-radius:10px;color:var(--fg);padding:12px 16px;font-size:16px}
-  button{cursor:pointer;background:var(--blue);border:none;border-radius:10px;color:#06101f;font-weight:700;padding:12px 18px;font-size:15px}
-  .toggle{display:flex;gap:0;margin:0 0 16px;border:1px solid var(--line2);border-radius:10px;overflow:hidden;width:fit-content}
-  .toggle a{padding:8px 16px;color:var(--mut);font-weight:600;font-size:14px} .toggle a.on{background:var(--blue);color:#06101f}
+  .wrap{max-width:760px;margin:0 auto;padding:22px}
+  /* centered hero (Google-like) */
+  .hero{text-align:center;padding:6vh 0 18px}
+  .hero.compact{padding:18px 0 10px}
+  .title{font-size:46px;font-weight:800;letter-spacing:-1px;margin:0}
+  .title .s{color:var(--blue)}
+  .hero.compact .title{font-size:26px}
+  .desc{color:var(--mut);font-size:16px;margin:8px 0 18px}
+  .hero.compact .desc{display:none}
+  /* ribbon of our sites — under the title, above the bar */
+  .ribbon{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 12px}
+  .ribbon a{font-size:13px;font-weight:600;color:var(--mut);border:1px solid var(--line2);border-radius:16px;padding:5px 13px}
+  .ribbon a:hover{color:var(--fg);text-decoration:none;border-color:var(--blue)}
+  /* toggle — above the bar, under the title */
+  .toggle{display:inline-flex;border:1px solid var(--line2);border-radius:20px;overflow:hidden;margin:0 0 14px}
+  .toggle a{padding:7px 18px;color:var(--mut);font-weight:600;font-size:14px} .toggle a.on{background:var(--blue);color:#06101f}
+  /* the search bar — big, centered, readable on desktop + mobile */
+  form{margin:0 auto;max-width:600px}
+  input.q{width:100%;background:#0b0f14;border:1px solid var(--line2);border-radius:26px;color:var(--fg);padding:15px 22px;font-size:17px;outline:none}
+  input.q:focus{border-color:var(--blue)} input.q::placeholder{color:var(--mut)}
+  .btnrow{text-align:center;margin:16px 0 0}
+  button{cursor:pointer;background:var(--panel);border:1px solid var(--line2);border-radius:8px;color:var(--fg);font-weight:600;padding:11px 26px;font-size:15px}
+  button:hover{border-color:var(--blue)}
+  /* results */
+  .results{max-width:680px;margin:22px auto 0;text-align:left}
   .res{padding:12px 0;border-bottom:1px solid var(--line)}
   .res a.t{font-size:17px;font-weight:600} .res .u{color:var(--gold);font-size:12px;word-break:break-all}
   .res .s{color:var(--mut);font-size:13px;margin-top:3px} .badge{font-size:11px;background:#1f6feb33;color:var(--blue);border-radius:8px;padding:1px 7px;margin-left:6px}
-  .muted{color:var(--mut)} h1{font-size:24px;margin:0 0 4px}
-  footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;border-top:1px solid var(--line);margin-top:24px}
+  .muted{color:var(--mut)}
+  footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;margin-top:24px}
+  @media(max-width:560px){.title{font-size:34px}.input.q{font-size:16px}}
 </style>`;
 
 const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-<meta name=description content="Search the web and the SoapBox ecosystem — markets, the Library of Ashurbanipal, the directory, and the MELEK chains.">
+<meta name=description content="Search for anything you want — across our websites, or the entire web.">
 <meta name=robots content="index,follow">${STYLE}</head><body>
-<header><a class=brand href="/">◈ SoapBox <span>search</span></a>
-<nav><a href="${DATA}">Markets</a><a href="${WIKI}">Library</a><a href="${DATA}/directory">Directory</a></nav></header>
 <main class=wrap>${body}</main>
-<footer>SoapBox Search — web search (independent + scholarly sources, research-weighted) and sitewide search across the ecosystem. No tracking.</footer></body></html>`;
+<footer>SoapBox Search — across our websites, or the entire web (independent + scholarly sources, research-weighted). No tracking.</footer></body></html>`;
 
-const searchForm = (q, mode) => `
-  <form method=get action="/">
-    <input class=q name=q value="${esc(q)}" placeholder="Search the web or the SoapBox ecosystem…" autofocus>
-    <input type=hidden name=mode value="${esc(mode)}"><button>Search</button>
-  </form>
-  <div class=toggle>
-    <a href="/?q=${encodeURIComponent(q)}&mode=web" class="${mode === 'web' ? 'on' : ''}">🌐 Web</a>
-    <a href="/?q=${encodeURIComponent(q)}&mode=site" class="${mode === 'site' ? 'on' : ''}">◈ Sitewide</a>
+// the Google-like hero: title, description, ribbon, toggle (above bar), bar, centered button (below bar).
+const searchHero = (q, mode) => `
+  <div class="hero${q ? ' compact' : ''}">
+    <a href="/"><h1 class=title>SoapBox <span class=s>Search</span></h1></a>
+    <p class=desc>Search for anything you want — across our websites, or the entire web.</p>
+    <div class=ribbon>${SITES.map(([n, u]) => `<a href="${esc(u)}">${esc(n)}</a>`).join('')}</div>
+    <div class=toggle>
+      <a href="/?q=${encodeURIComponent(q)}&mode=web" class="${mode === 'web' ? 'on' : ''}">🌐 Web</a>
+      <a href="/?q=${encodeURIComponent(q)}&mode=site" class="${mode === 'site' ? 'on' : ''}">◈ Our Sites</a>
+    </div>
+    <form method=get action="/">
+      <input class=q name=q value="${esc(q)}" placeholder="Search the entire web, or our sites…" autofocus autocomplete=off>
+      <input type=hidden name=mode value="${esc(mode)}">
+      <div class=btnrow><button>Search</button></div>
+    </form>
   </div>`;
 
 const resultRow = (r) => `<div class=res>
@@ -100,8 +125,8 @@ createServer(async (req, res) => {
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const q = (url.searchParams.get('q') || '').trim();
     const mode = url.searchParams.get('mode') === 'site' ? 'site' : 'web';
-    let body = `<h1>Search</h1><p class=muted>The web (independent + scholarly sources, research over opinion) or the SoapBox ecosystem.</p>${searchForm(q, mode)}`;
-    if (q) body += `<p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Sitewide'} results for "${esc(q)}"</p>` + (mode === 'web' ? await webSearch(q) : await siteSearch(q));
+    let body = searchHero(q, mode);
+    if (q) body += `<div class=results><p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Our sites'} results for "${esc(q)}"</p>${mode === 'web' ? await webSearch(q) : await siteSearch(q)}</div>`;
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
     res.end(page(q ? `${q} — SoapBox Search` : 'SoapBox Search', body));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
