@@ -223,13 +223,20 @@ async function searchMojeek(query, limit) {
 }
 
 // SearXNG — privacy metasearch that itself queries Google/Bing AND foreign engines (Yandex, Baidu, etc.).
-// Public instances with JSON enabled vary, so we try a small failover list. Keyless. Best-effort.
-const SEARX_INSTANCES = (process.env.SEARX_INSTANCES || 'https://searx.be,https://search.inetol.net,https://priv.au,https://searx.tiekoetter.com').split(',').map((s) => s.trim()).filter(Boolean);
-async function searchSearx(query, limit) {
+// Public instances with JSON enabled vary, and most datacenter/Codespace IPs get HTML/403 (JSON is
+// usually IP-gated), so we try a larger failover list — these resolve from the on-chain box. Keyless,
+// best-effort. Pass { lang }/{ language } to bias results to a language (SearXNG `language` param).
+const SEARX_INSTANCES = (process.env.SEARX_INSTANCES ||
+  'https://searx.be,https://search.inetol.net,https://priv.au,https://searx.tiekoetter.com,https://search.hbubli.cc,https://search.disroot.org,https://opnxng.com,https://baresearch.org,https://paulgo.io,https://search.rhscz.eu,https://searx.work,https://search.indst.eu,https://northboot.xyz')
+  .split(',').map((s) => s.trim().replace(/\/+$/, '')).filter(Boolean);
+async function searchSearx(query, limit, { lang, language } = {}) {
+  const langParam = (language || lang) ? `&language=${encodeURIComponent(language || lang)}` : '';
   for (const base of SEARX_INSTANCES) {
     try {
-      const r = await withTimeout(`${base}/search?q=${encodeURIComponent(query)}&format=json&safesearch=1`, { headers: { 'user-agent': BROWSER_UA } });
+      const r = await withTimeout(`${base}/search?q=${encodeURIComponent(query)}&format=json&safesearch=1${langParam}`, { headers: { 'user-agent': BROWSER_UA, accept: 'application/json' } });
       if (!r.ok) continue;
+      const ct = r.headers.get('content-type') || '';
+      if (!/json/i.test(ct)) continue;               // HTML = JSON disabled / IP-gated → next instance
       const d = await r.json().catch(() => null);
       if (!d || !Array.isArray(d.results)) continue;
       const out = d.results.slice(0, limit).map((x) => ({ title: x.title, url: x.url, snippet: (x.content || '').slice(0, 150), provider: 'searxng' })).filter((x) => x.title && x.url);
@@ -239,23 +246,75 @@ async function searchSearx(query, limit) {
   return [];
 }
 
-export const PROVIDERS = { duckduckgo: searchDuckDuckGo, marginalia: searchMarginalia, mojeek: searchMojeek, searxng: searchSearx, google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia };
+// ── foreign-language signal: Wikipedia across languages (keyless, real native-language excerpts) ──
+// The opensearch endpoint returns empty descriptions; the REST search/v1 endpoint returns real
+// excerpts AND honours native-script queries (e.g. "ブロックチェーン" on ja.wikipedia). This is a
+// genuine non-Western view we already have the pattern for — directly serves the multilingual goal.
+async function searchWikipediaLang(query, limit, lang) {
+  const r = await withTimeout(`https://${lang}.wikipedia.org/w/rest.php/v1/search/page?q=${encodeURIComponent(query)}&limit=${limit}`, { headers: { 'user-agent': UA } });
+  if (!r.ok) return [];
+  const d = await r.json().catch(() => ({}));
+  return (d.pages || []).slice(0, limit).map((p) => ({
+    title: p.title,
+    url: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(p.key || p.title)}`,
+    snippet: (p.excerpt || p.description || '').replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#0?39;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ').slice(0, 150),
+    provider: `wikipedia-${lang}`,
+  })).filter((x) => x.title && x.url);
+}
+// Concrete per-language providers so each registers in PROVIDERS and searchAll picks them up.
+// Spanish/French/German/Chinese/Japanese/Arabic/Russian/Portuguese/Hindi — the global demographics.
+async function searchWikipediaEs(query, limit) { return searchWikipediaLang(query, limit, 'es'); }
+async function searchWikipediaFr(query, limit) { return searchWikipediaLang(query, limit, 'fr'); }
+async function searchWikipediaDe(query, limit) { return searchWikipediaLang(query, limit, 'de'); }
+async function searchWikipediaZh(query, limit) { return searchWikipediaLang(query, limit, 'zh'); }
+async function searchWikipediaJa(query, limit) { return searchWikipediaLang(query, limit, 'ja'); }
+async function searchWikipediaAr(query, limit) { return searchWikipediaLang(query, limit, 'ar'); }
+async function searchWikipediaRu(query, limit) { return searchWikipediaLang(query, limit, 'ru'); }
+async function searchWikipediaPt(query, limit) { return searchWikipediaLang(query, limit, 'pt'); }
+async function searchWikipediaHi(query, limit) { return searchWikipediaLang(query, limit, 'hi'); }
+
+export const PROVIDERS = {
+  duckduckgo: searchDuckDuckGo, marginalia: searchMarginalia, mojeek: searchMojeek, searxng: searchSearx,
+  google: searchGoogle, brave: searchBrave, wikipedia: searchWikipedia,
+  // foreign-language Wikipedia — independent of Google/Western indexes, native-script aware.
+  'wikipedia-es': searchWikipediaEs, 'wikipedia-fr': searchWikipediaFr, 'wikipedia-de': searchWikipediaDe,
+  'wikipedia-zh': searchWikipediaZh, 'wikipedia-ja': searchWikipediaJa, 'wikipedia-ar': searchWikipediaAr,
+  'wikipedia-ru': searchWikipediaRu, 'wikipedia-pt': searchWikipediaPt, 'wikipedia-hi': searchWikipediaHi,
+};
+// default languages the multilingual helper + searchAll fan out across (override via WIKI_LANGS).
+export const WIKI_LANGS = (process.env.WIKI_LANGS || 'es,fr,de,zh,ja,ar,ru,pt,hi').split(',').map((s) => s.trim()).filter(Boolean);
 // scholarly/authoritative providers — weighted ABOVE general web in searchAll (research > popular opinion).
 export const SCHOLARLY = new Set(['crossref', 'pubmed', 'openalex', 'semanticscholar', 'arxiv', 'pubchem', 'wikidata']);
 // knowledge providers are queried by searchAll too, but irrelevant ones simply return [] (e.g. PubChem
 // for a non-compound query) so they add authoritative depth without noise.
 export const KNOWLEDGE = { pubchem: searchPubChem, wikidata: searchWikidata, crossref: searchCrossRef, pubmed: searchPubMed, openalex: searchOpenAlex, semanticscholar: searchSemanticScholar, arxiv: searchArxiv };
 
-/** Single-provider search (default duckduckgo). Cached. */
-export async function search(query, { limit = 8, provider = 'duckduckgo' } = {}) {
+/** Single-provider search (default duckduckgo). Cached. `lang`/`language` is forwarded to providers
+ *  that honour it (currently searxng). */
+export async function search(query, { limit = 8, provider = 'duckduckgo', lang, language } = {}) {
   if (!query) return [];
-  const ck = `search:${provider}:${query}:${limit}`;
+  const ck = `search:${provider}:${query}:${limit}:${language || lang || ''}`;
   const hit = cache.get(ck); if (hit && hit.expires > Date.now()) return hit.value;
   let results = [];
   const fn = PROVIDERS[provider] || KNOWLEDGE[provider] || searchDuckDuckGo;
-  try { results = await fn(query, limit); } catch { /* keep [] */ }
+  try { results = await fn(query, limit, { lang, language }); } catch { /* keep [] */ }
   cache.set(ck, { value: results, expires: Date.now() + TTL });
   return results;
+}
+
+/**
+ * Fan a query across Wikipedia in several languages and merge — the multilingual/global-demographics
+ * entry point. Returns [{title, url, snippet, provider, lang}] deduped by URL. Best-effort, never throws.
+ * `langs` defaults to WIKI_LANGS; pass e.g. { langs: ['es','ja','ar'] } to target specific languages.
+ */
+export async function searchMultilingual(query, { langs = WIKI_LANGS, limit = 5 } = {}) {
+  if (!query) return [];
+  const lists = await Promise.all(langs.map((lang) =>
+    searchWikipediaLang(query, limit, lang).then((rows) => rows.map((r) => ({ ...r, lang }))).catch(() => [])));
+  const byUrl = new Map();
+  for (const r of lists.flat()) { if (r.url && !byUrl.has(r.url)) byUrl.set(r.url, r); }
+  return [...byUrl.values()];
 }
 
 /**
@@ -466,5 +525,6 @@ if (process.argv[1] && process.argv[1].endsWith('scraper.mjs')) {
   else if (cmd === 'research') { const r = await research(rest.join(' ')); console.log(`query: ${r.query}\n`); r.sources.forEach((s) => console.log(`• ${s.title} ${s.fetched ? '✓fetched ' + s.markdown.length + 'ch' : ''}\n  ${s.url}`)); }
   else if (cmd === 'screenshot') { const r = await screenshot(rest[0], { path: rest[1] || '/tmp/shot.png' }); console.log(JSON.stringify(r)); }
   else if (cmd === 'all') { const r = await searchAll(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. [${x.providers.join('+')}] ${x.title}\n   ${x.url}`)); }
+  else if (cmd === 'ml') { const r = await searchMultilingual(rest.join(' ')); r.forEach((x, i) => console.log(`${i + 1}. [${x.lang}] ${x.title}\n   ${x.url}\n   ${(x.snippet || '').slice(0, 100)}`)); }
   else { const r = await fetchClean(cmd || 'https://example.com'); console.log(`[${r.source}] ${r.title} — ${r.chars} chars\n${r.markdown.slice(0, 600)}`); }
 }
