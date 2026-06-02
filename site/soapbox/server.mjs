@@ -27,6 +27,7 @@ import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs'
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
 import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS } from '../../integrations/soapbox/macro.mjs';
+import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
@@ -358,6 +359,29 @@ async function commoditiesPage() {
   return layout({ title: 'Commodities — prices + where to buy', active: '/commodities', canonical: `${BASE_URL}/commodities`, description: 'Live commodity prices — coffee, wheat, corn, sugar, gold, silver, oil — and where to buy them in bulk (Alibaba, IndiaMART, bullion dealers).', body });
 }
 
+// Private traffic dashboard. Gated by STATS_TOKEN (?token=…). First-party, no third-party tracker.
+function statsPage() {
+  let s; try { s = trafficSummary(); } catch (e) { s = null; }
+  if (!s || !s.total) return layout({ title: 'Traffic', active: '', canonical: `${BASE_URL}/stats`, robots: 'noindex,nofollow', body: `<h1>Traffic</h1><p class=muted>No access logs found yet (looked in ${esc(process.env.CADDY_LOG_DIR || '/var/log/caddy')}). Once Caddy access logging is on for a subdomain, numbers appear here.</p>` });
+  const bar = (rows, fmt = (k) => k) => `<table><tbody>${rows.map(([k, v]) => `<tr><td style="text-align:left">${fmt(esc(String(k)))}</td><td>${v.toLocaleString()}</td></tr>`).join('')}</tbody></table>`;
+  const body = `<h1>Traffic <span class=muted style="font-size:14px">· first-party, privacy-safe</span></h1>
+    <p class=muted>From Caddy's own access logs on the server — no cookies, no third-party tracker, no stored IPs. Sources: ${esc(s.files.join(', '))}.</p>
+    <div class=card><h2>Overview</h2><table><tbody>
+      <tr><td style="text-align:left">Total requests</td><td>${s.total.toLocaleString()}</td></tr>
+      <tr><td style="text-align:left">Human pageviews</td><td>${s.human.toLocaleString()}</td></tr>
+      <tr><td style="text-align:left">Unique visitors</td><td>${s.uniqueVisitors.toLocaleString()}</td></tr>
+      <tr><td style="text-align:left">Crawlers / bots</td><td>${s.bot.toLocaleString()} (${s.uniqueBots} sources)</td></tr>
+      <tr><td style="text-align:left">404s (not found)</td><td>${s.notFound.toLocaleString()}</td></tr>
+    </tbody></table></div>
+    <div class=card><h2>Top pages</h2>${bar(s.topPages)}</div>
+    <div class=card><h2>By subdomain</h2>${bar(s.byHost)}</div>
+    <div class=card><h2>By status</h2>${bar(s.byStatus)}</div>
+    ${s.topReferrers.length ? `<div class=card><h2>Referrers</h2>${bar(s.topReferrers)}</div>` : ''}
+    ${s.topBots.length ? `<div class=card><h2>Crawlers</h2>${bar(s.topBots)}</div>` : ''}
+    ${s.byDay.length > 1 ? `<div class=card><h2>By day</h2>${bar(s.byDay)}</div>` : ''}`;
+  return layout({ title: 'Traffic', active: '', canonical: `${BASE_URL}/stats`, robots: 'noindex,nofollow', body });
+}
+
 function directoryPage() {
   const body = `<h1>Crypto Resources Directory</h1>
     <p class=muted>A curated directory of useful crypto resources — data sites, forums, wallets, browser extensions, explorers, tools, security, faucets, and learning. Ecosystem items marked ⭐. Outbound links; do your own research.</p>
@@ -510,6 +534,13 @@ createServer(async (req, res) => {
     if (p === '/chains') return send(await chainsPage());
     if (p === '/macro') return send(await macroPage());
     if (p === '/commodities') return send(await commoditiesPage());
+    if (p === '/stats') {
+      // private dashboard: require STATS_TOKEN match (constant set in systemd env), else 404 (don't reveal it exists)
+      const want = process.env.STATS_TOKEN;
+      const got = url.searchParams.get('token') || '';
+      if (!want || got !== want) return send('<h1>404</h1>', 404);
+      return send(statsPage());
+    }
     if (p === '/directory') return send(directoryPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }

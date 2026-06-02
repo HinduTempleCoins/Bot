@@ -92,7 +92,7 @@ const APP_JS = `<script>
 </script>`;
 
 /** The one layout every page renders into. SEO-complete: canonical, description, OpenGraph, JSON-LD. */
-export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '', coinId = '', ogImage = '' }) {
+export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '', coinId = '', ogImage = '', robots = 'index,follow,max-image-preview:large' }) {
   const desc = esc(description || `${title} — live prices, market caps, and Clarity transparency ratings on SoapBox.`);
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -103,7 +103,7 @@ ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:title" content="${esc(title)} — SoapBox Markets"><meta property="og:description" content="${desc}">
 ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twitter:image" content="${esc(ogImage)}">` : ''}
 <meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="robots" content="${esc(robots)}">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [
   { '@type': 'Organization', '@id': 'https://soapbox.community/#org', name: 'SoapBox', url: 'https://soapbox.community', description: 'A crypto data aggregator with a Clarity transparency score and right-of-reply.' },
   { '@type': 'WebSite', '@id': 'https://data.soapbox.community/#website', url: 'https://data.soapbox.community', name: 'SoapBox Markets', publisher: { '@id': 'https://soapbox.community/#org' },
