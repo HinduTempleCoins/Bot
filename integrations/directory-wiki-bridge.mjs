@@ -324,6 +324,149 @@ const normUrl = (u) => {
 };
 
 // ───────────────────────────────────────────────────────────────────────────
+// 2b. SPEC-NAMED entry points (task #163) — operate on an arbitrary `listings`
+//     array or a single `articleTopic`, independent of live-wiki coverage. These
+//     are the pure, synchronous surface the Directory's crawler/suggest bot calls
+//     directly: feed it whatever rows it just discovered/curated, get back topic
+//     suggestions; ask it for the Directory rows that match an article it just
+//     generated. Both are read-only and never write to either side.
+// ───────────────────────────────────────────────────────────────────────────
+
+/** Flatten the global DIRECTORY ({cat,items}[]) into tagged rows. */
+function flattenDirectory() {
+  const rows = [];
+  for (const g of DIRECTORY) for (const i of g.items) rows.push({ cat: g.cat, ...i });
+  return rows;
+}
+
+/** Normalize one listing into {cat, name, url, blurb} regardless of which shape the caller passes. */
+function asListing(x) {
+  if (!x || typeof x !== 'object') return null;
+  const name = x.name || x.title || '';
+  const url = x.url || x.link || '';
+  if (!name && !url) return null;
+  return {
+    cat: x.cat || x.category || '',
+    name: String(name),
+    url: String(url),
+    blurb: String(x.blurb || x.description || ''),
+  };
+}
+
+// The same category→explainer seeds the coverage scanner uses, but keyed for direct lookup by
+// either a listing's category OR a keyword found in its name/blurb. Lets the suggest-bot turn a
+// freshly-discovered row into a concrete wiki-topic proposal without needing the wiki online.
+const TOPIC_INDEX = (() => {
+  const idx = [];
+  for (const [cat, seed] of Object.entries(CATEGORY_TOPICS)) {
+    idx.push({ cat, keyword: seed.match, seed });
+  }
+  return idx;
+})();
+
+/**
+ * Given a set of Directory listings (rows the crawler/suggest bot discovered or curated — each a
+ * {name,url,blurb,cat}-ish object, or a {cat,items} group, or a flat array of either), propose wiki
+ * article topics those listings imply. Pure + synchronous; does NOT check live-wiki coverage (use
+ * directoryTopicsForWiki() for the coverage-aware, network form). De-dupes by topic title.
+ *
+ * @param {Array} listings  rows/groups from the Directory (defaults to the whole DIRECTORY catalog)
+ * @returns {Array<{title, why, sources, searchTerms, primaryDomains, crossReferenceDomains, description, matchedListings}>}
+ */
+export function suggestArticlesFromDirectory(listings = flattenDirectory()) {
+  // accept: flat rows, {cat,items} groups, or a mix.
+  const rows = [];
+  for (const item of Array.isArray(listings) ? listings : [listings]) {
+    if (item && Array.isArray(item.items)) {
+      for (const i of item.items) {
+        const r = asListing({ cat: item.cat || item.category, ...i });
+        if (r) rows.push(r);
+      }
+    } else {
+      const r = asListing(item);
+      if (r) rows.push(r);
+    }
+  }
+
+  // bucket listings by the topic seed they imply (category match first, then keyword in name/blurb).
+  const byTopic = new Map(); // seed.title -> { seed, cat, listings:[] }
+  for (const r of rows) {
+    let hit = TOPIC_INDEX.find((e) => e.cat && r.cat && e.cat === r.cat);
+    if (!hit) {
+      const hay = `${r.name} ${r.blurb}`.toLowerCase();
+      hit = TOPIC_INDEX.find((e) => hay.includes(e.keyword.toLowerCase()));
+    }
+    if (!hit) continue;
+    const key = hit.seed.title;
+    if (!byTopic.has(key)) byTopic.set(key, { seed: hit.seed, cat: hit.cat, listings: [] });
+    byTopic.get(key).listings.push(r);
+  }
+
+  const out = [];
+  for (const { seed, cat, listings: ls } of byTopic.values()) {
+    const examples = ls.slice(0, 4).map((l) => l.name).filter(Boolean);
+    out.push({
+      title: seed.title,
+      why:
+        `Directory listings under "${cat}" (${examples.join(', ')}${examples.length ? '…' : ''}) ` +
+        `imply a reader would want a Library explainer (probe term "${seed.match}").`,
+      sources: ls.map((l) => `Directory entry: ${l.name}${l.url ? ` (${l.url})` : ''}`),
+      searchTerms: seed.searchTerms,
+      ...DIR_TOPIC_DEFAULTS,
+      description: seed.description,
+      matchedListings: ls.map((l) => ({ name: l.name, url: l.url, cat: l.cat })),
+    });
+  }
+  return out;
+}
+
+/**
+ * Given a single wiki article topic (a title string, or a topic object with a .title/.searchTerms),
+ * return the Directory listings most relevant to it — so a generated wiki article can link out to the
+ * curated resources in the Directory ("see also" / further-reading rows). Pure + synchronous, scores by
+ * token overlap against each listing's category, name, and blurb. Read-only; never writes the wiki.
+ *
+ * @param {string|object} articleTopic  a title, or {title, searchTerms?, description?}
+ * @param {object} [opts]  { limit=6, directory=DIRECTORY }
+ * @returns {Array<{cat, name, url, blurb, score}>}  best-matching Directory rows, highest score first
+ */
+export function directoryLinksForArticle(articleTopic, opts = {}) {
+  const limit = opts.limit ?? 6;
+  const rows = opts.directory
+    ? (Array.isArray(opts.directory) ? opts.directory : [opts.directory]).flatMap((g) =>
+        Array.isArray(g.items) ? g.items.map((i) => ({ cat: g.cat, ...i })) : [g],
+      )
+    : flattenDirectory();
+
+  // build the query token set from the topic's title + any searchTerms/description.
+  const t = typeof articleTopic === 'string' ? { title: articleTopic } : articleTopic || {};
+  const queryText = [t.title, ...(t.searchTerms || []), t.description || '']
+    .filter(Boolean)
+    .join(' ');
+  const STOP = new Set(['the', 'and', 'for', 'vs', 'how', 'a', 'an', 'of', 'to', 'on', 'in', 'with', 'crypto']);
+  const tokens = (s) =>
+    String(s)
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((w) => w.length > 2 && !STOP.has(w));
+  const qset = new Set(tokens(queryText));
+  if (!qset.size) return [];
+
+  const scored = [];
+  for (const r of rows) {
+    const cat = r.cat || '';
+    // category tokens weigh 3x (strongest signal), name 2x, blurb 1x.
+    let score = 0;
+    for (const w of tokens(cat)) if (qset.has(w)) score += 3;
+    for (const w of tokens(r.name)) if (qset.has(w)) score += 2;
+    for (const w of tokens(r.blurb)) if (qset.has(w)) score += 1;
+    if (score > 0) scored.push({ cat, name: r.name, url: r.url, blurb: r.blurb, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit);
+}
+
+// ───────────────────────────────────────────────────────────────────────────
 // 3. BRIDGE : run both, return the advisory plan
 // ───────────────────────────────────────────────────────────────────────────
 

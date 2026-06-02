@@ -32,7 +32,7 @@ global.fetch = async (url) => {
   return { ok: false, status: 404, async text() { return ''; }, async json() { return {}; } };
 };
 
-const { bridge, directoryTopicsForWiki, wikiArticlesForDirectory } = await import('./directory-wiki-bridge.mjs');
+const { bridge, directoryTopicsForWiki, wikiArticlesForDirectory, suggestArticlesFromDirectory, directoryLinksForArticle } = await import('./directory-wiki-bridge.mjs');
 const { invalidate } = await import('./soapbox/cache.mjs');
 
 test('directoryTopicsForWiki: proposes uncovered topics, skips covered ones', async () => {
@@ -78,6 +78,47 @@ test('bridge: returns the combined advisory plan, never throws', async () => {
   assert.ok(Array.isArray(plan.proposedDirectoryEntries));
   assert.equal(plan.articleSource, 'live-index');
   assert.equal(plan.articlesLive, 2);
+});
+
+test('suggestArticlesFromDirectory: turns supplied listings into wiki-topic suggestions (pure, no network)', () => {
+  // a freshly-"crawled" set of rows the suggest bot might hand over: a Security row and a Faucet row.
+  const listings = [
+    { cat: 'Security & Anti-Scam', name: 'Chainabuse', url: 'https://chainabuse.com', blurb: 'Report scam addresses.' },
+    { cat: 'Testnet Faucets', name: 'Sepolia Faucet', url: 'https://sepoliafaucet.com', blurb: 'Free testnet ETH.' },
+    // a row with no matching category but a keyword hit in the blurb:
+    { cat: 'Misc', name: 'Some Tool', url: 'https://x.test', blurb: 'helps you spot a rug pull scam' },
+  ];
+  const topics = suggestArticlesFromDirectory(listings);
+  assert.ok(Array.isArray(topics) && topics.length >= 2, 'proposes topics for the supplied listings');
+  // the Security category → scam-patterns explainer, and that topic should cite the matched listings.
+  const scam = topics.find((t) => /scam/i.test(t.title));
+  assert.ok(scam, 'a scam-patterns topic is proposed');
+  assert.ok(Array.isArray(scam.matchedListings) && scam.matchedListings.length >= 1);
+  assert.ok(scam.sources.some((s) => /Chainabuse/.test(s)), 'cites the source listing');
+  // faucet category → faucet explainer
+  assert.ok(topics.some((t) => /faucet/i.test(t.title)), 'a faucet topic is proposed');
+  // defaults to the whole catalog when called with no args (covers the directory crawler use)
+  assert.ok(suggestArticlesFromDirectory().length > 0, 'defaults to the live DIRECTORY catalog');
+});
+
+test('directoryLinksForArticle: ranks Directory rows relevant to a wiki article (pure, no network)', () => {
+  // an article the wiki just generated about recognizing scams → should surface Security/anti-scam rows.
+  const links = directoryLinksForArticle({
+    title: 'Recognizing Crypto Scam Patterns',
+    searchTerms: ['approval drainer scam', 'rug pull warning signs'],
+  });
+  assert.ok(Array.isArray(links) && links.length > 0, 'returns matching directory rows');
+  for (const l of links) {
+    assert.equal(typeof l.url, 'string');
+    assert.ok(l.score > 0, 'only positive-score rows returned');
+  }
+  // scores are sorted descending
+  for (let i = 1; i < links.length; i++) assert.ok(links[i - 1].score >= links[i].score, 'sorted by score');
+  // a wallet article should pull wallet rows, not scam rows
+  const walletLinks = directoryLinksForArticle('Crypto Wallets — Custodial vs Non-Custodial');
+  assert.ok(walletLinks.some((l) => /wallet|ledger|metamask|trezor/i.test(`${l.cat} ${l.name}`)), 'wallet article → wallet rows');
+  // a topic with no overlap returns nothing (no false matches)
+  assert.equal(directoryLinksForArticle('zzzqqq nonexistent xyzzy').length, 0);
 });
 
 test('bridge: degrades without throwing when the wiki is unreachable', async () => {
