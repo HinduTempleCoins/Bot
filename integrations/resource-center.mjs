@@ -14,7 +14,7 @@
 import { writeFile, appendFile, mkdir, readFile } from 'node:fs/promises';
 import { marketSnapshot, topByVolume } from './market-universe.mjs';
 import { macro, forex } from './soapbox/macro.mjs';
-import { scanAccounts } from './held-asset-scan.mjs';
+import { scanAccounts, accountHoldings } from './held-asset-scan.mjs';
 
 // news-diagnostics (#179): what the market is SAYING (sentiment/themes) to pair with what it's DOING.
 let newsDigest = async () => null;
@@ -44,6 +44,17 @@ export async function runPass() {
   // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
   const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
 
+  // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
+  // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
+  let firstTrade = null;
+  try {
+    const aBal = await accountHoldings('angelicalist').catch(() => []);
+    const hive = +(aBal.find((b) => b.symbol === 'SWAP.HIVE')?.balance || aBal.find((b) => b.symbol === 'HIVE')?.balance || 0);
+    const list = proposals?.proposals || (Array.isArray(proposals) ? proposals : []);
+    const best = list.find((p) => p.kind === 'arbitrage');
+    if (best && hive > 0) firstTrade = { account: 'angelicalist', hiveBuyingPower: hive, edge: best.summary, evidence: best.evidence, suggested: best.suggested || best.suggestedAction || '' };
+  } catch { /* best-effort */ }
+
   const findM = (cat, label) => (mac[cat] || []).find((x) => x.label?.startsWith(label)) || null;
   const metals = {
     gold: findM('Metals', 'Gold'), silver: findM('Metals', 'Silver'),
@@ -72,7 +83,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, news, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -89,6 +100,15 @@ export function briefReport(s) {
   const m = s.metrics;
   const L = [];
   L.push(`## Market Intelligence — ${s.ts.slice(0, 16).replace('T', ' ')} UTC\n`);
+  // the "act now" block at the very top — angelicalist's best executable trade
+  if (s.firstTrade) {
+    const f = s.firstTrade;
+    L.push(`### ⚡ FIRST TRADE — angelicalist (execute manually, kalivankush untouched)`);
+    L.push(`Buying power: **${num(f.hiveBuyingPower)} HIVE**. Best executable edge: **${f.edge}**.`);
+    if (f.suggested) L.push(`→ ${f.suggested}`);
+    if (f.evidence) L.push(`  *(${typeof f.evidence === 'string' ? f.evidence : `spread ${f.evidence.spread}% · depth ${num(f.evidence.depth, 0)} HIVE · ${f.evidence.fees || ''}`})*`);
+    L.push('');
+  }
   if (m.hiveEngine) {
     const he = m.hiveEngine;
     L.push(`**Hive-Engine / TribalDEX** (start here): ${he.totalTokens} tokens, ${he.activeMarkets} active markets, ${num(he.totalVolumeHive, 0)} HIVE 24h volume.`);
