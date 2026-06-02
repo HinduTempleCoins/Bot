@@ -19,6 +19,7 @@ import {
   layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
+import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 
 const PORT = +(process.env.PORT || 8088);
 // HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
@@ -162,14 +163,20 @@ async function coinPage(id) {
 }
 
 // ── Static-ish pages, rendered through the same layout ──────────────────────
-function dappsPage() {
+async function dappsPage() {
   const cats = [...new Set(DAPPS.map((d) => d.category))];
-  const body = `<h1>dApp Directory</h1><p class=muted>Categorized apps + activity. One page per app, same factory.</p>
+  const llama = await topProtocols({ limit: 15 }).catch(() => []);
+  const llamaRows = llama.map((p, i) => `<tr>
+    <td>${i + 1}</td><td style="text-align:left"><b>${esc(p.name)}</b> <span class=badge>${esc(p.chain)}</span></td>
+    <td class=muted>${esc(p.category)}</td><td>${compactUsd(p.tvl)}</td><td>${pct(p.change_1d)}</td></tr>`).join('');
+  const body = `<h1>dApp Directory</h1><p class=muted>Our ecosystem apps, plus the live DeFi landscape by TVL. One page per app, same factory.</p>
     ${cats.map((cat) => `<div class=card><h2>${esc(cat)}</h2>${DAPPS.filter((d) => d.category === cat).map((d) =>
       `<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>${d.url ? `<a href="${esc(d.url)}">${esc(d.name)}</a>` : esc(d.name)}</b>
        <span class=badge>${esc(d.chain)}</span> <span class="clarity c-${d.status === 'live' ? 'high' : d.status === 'in progress' ? 'moderate' : 'unknown'}">${esc(d.status)}</span>
-       <div class=muted>${esc(d.blurb)}</div></div>`).join('')}</div>`).join('')}`;
-  return layout({ title: 'dApps', active: '/dapps', canonical: `${BASE_URL}/dapps`, description: 'SoapBox dApp directory — DeFi, Gaming, Social, Infrastructure across the ecosystem.', body });
+       <div class=muted>${esc(d.blurb)}</div></div>`).join('')}</div>`).join('')}
+    ${llamaRows ? `<div class=card><h2>Top DeFi protocols by TVL <span class=muted style="font-weight:400">· live via DeFiLlama</span></h2>
+      <table><thead><tr><th>#</th><th style="text-align:left">Protocol</th><th style="text-align:left">Category</th><th>TVL</th><th>24h</th></tr></thead><tbody>${llamaRows}</tbody></table></div>` : ''}`;
+  return layout({ title: 'dApps', active: '/dapps', canonical: `${BASE_URL}/dapps`, description: 'SoapBox dApp directory — ecosystem apps + the live DeFi landscape by TVL (DeFiLlama).', body });
 }
 
 function ecosystemPage() {
@@ -217,7 +224,7 @@ createServer(async (req, res) => {
 
     if (p === '/' || p === '/coins') return send(await listPage({ page: Math.max(1, +url.searchParams.get('page') || 1) }));
     if (p.startsWith('/coins/')) { const r = await coinPage(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
-    if (p === '/dapps') return send(dappsPage());
+    if (p === '/dapps') return send(await dappsPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p === '/learn') return send(learnIndex());
     if (p.startsWith('/learn/')) { const r = learnArticle(decodeURIComponent(p.slice(7))); return send(r.html, r.code); }
