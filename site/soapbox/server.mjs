@@ -19,7 +19,7 @@ import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.m
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
 import {
   layout, esc, usd, compactUsd, pct, sparkline, clarityBadge, clarityCard, priceChart, supplyBar, card, marketStats,
-  holdersPanel, depthPanel, relatedPanel, converter,
+  holdersPanel, depthPanel, relatedPanel, converter, ogSvg,
 } from './render.mjs';
 import { DAPPS, ECOSYSTEM, LEARN } from './content.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
@@ -180,7 +180,7 @@ async function coinPage(id) {
     description: `${c.name} (${c.symbol}) live price, supply, and Clarity transparency rating on SoapBox.`,
     url: `${BASE_URL}/coins/${c.id}`,
   };
-  return { code: 200, html: layout({ title: `${c.name} (${c.symbol})`, active: '/', canonical: `${BASE_URL}/coins/${c.id}`, description: `${c.name} live price ${usd(c.price_usd)}, market cap ${compactUsd(c.market_cap_usd)}, and Clarity transparency rating.`, jsonld, body, coinId: c.id }) };
+  return { code: 200, html: layout({ title: `${c.name} (${c.symbol})`, active: '/', canonical: `${BASE_URL}/coins/${c.id}`, description: `${c.name} live price ${usd(c.price_usd)}, market cap ${compactUsd(c.market_cap_usd)}, and Clarity transparency rating.`, jsonld, body, coinId: c.id, ogImage: `${BASE_URL}/og/${encodeURIComponent(c.id)}.svg` }) };
 }
 
 // ── Static-ish pages, rendered through the same layout ──────────────────────
@@ -323,6 +323,28 @@ createServer(async (req, res) => {
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
 
+    if (p.startsWith('/og/') && p.endsWith('.svg')) {
+      const cid = decodeURIComponent(p.slice('/og/'.length, -'.svg'.length));
+      const c = await getCoin(cid).catch(() => null);
+      if (!c) { res.writeHead(404); return res.end('not found'); }
+      const clarity = await clarityFromCoin(c).catch(() => null);
+      res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=300' });
+      return res.end(ogSvg(c, clarity));
+    }
+    if (p === '/feed.xml') {
+      const [trend, top] = await Promise.all([trending().catch(() => []), topCoins({ limit: PER_PAGE }).catch(() => [])]);
+      const movers = [...top].filter((c) => Number.isFinite(c.change_24h)).sort((a, b) => Math.abs(b.change_24h) - Math.abs(a.change_24h)).slice(0, 10);
+      const items = [
+        ...trend.map((c) => ({ t: `Trending: ${c.name} (${c.symbol})`, l: `${BASE_URL}/coins/${c.id}`, d: `${c.name} is trending on SoapBox.` })),
+        ...movers.map((c) => ({ t: `${c.symbol} ${c.change_24h >= 0 ? '▲' : '▼'} ${Math.abs(c.change_24h).toFixed(2)}% (24h)`, l: `${BASE_URL}/coins/${c.id}`, d: `${c.name} at ${usd(c.price_usd)}, ${c.change_24h.toFixed(2)}% over 24h.` })),
+      ];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>
+        <title>SoapBox Markets — trending &amp; movers</title><link>${BASE_URL}</link>
+        <description>Trending coins and top 24h movers on SoapBox.</description>
+        ${items.map((i) => `<item><title>${esc(i.t)}</title><link>${esc(i.l)}</link><guid isPermaLink="true">${esc(i.l)}</guid><description>${esc(i.d)}</description></item>`).join('')}
+        </channel></rss>`;
+      res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8' }); return res.end(xml);
+    }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(await sitemap()); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }

@@ -89,7 +89,7 @@ const APP_JS = `<script>
 </script>`;
 
 /** The one layout every page renders into. SEO-complete: canonical, description, OpenGraph, JSON-LD. */
-export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '', coinId = '' }) {
+export function layout({ title, description = '', canonical = '', active = '/', jsonld = null, body = '', coinId = '', ogImage = '' }) {
   const desc = esc(description || `${title} — live prices, market caps, and Clarity transparency ratings on SoapBox.`);
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -98,7 +98,8 @@ export function layout({ title, description = '', canonical = '', active = '/', 
 ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 <meta property="og:type" content="website"><meta property="og:site_name" content="SoapBox">
 <meta property="og:title" content="${esc(title)} — SoapBox Markets"><meta property="og:description" content="${desc}">
-<meta name="twitter:card" content="summary">
+${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twitter:image" content="${esc(ogImage)}">` : ''}
+<meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>${navBar(active)}<main class=wrap>${body}</main>
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
@@ -173,6 +174,23 @@ export function supplyBar(supply) {
 }
 
 export const card = (title, inner) => `<div class=card>${title ? `<h2>${esc(title)}</h2>` : ''}${inner}</div>`;
+
+// generated social-share card (SVG) for a coin — name/symbol/price/Clarity. No image pipeline.
+export function ogSvg(c, clarity) {
+  const price = usd(c.price_usd);
+  const chg = c.change_24h != null ? `${c.change_24h >= 0 ? '+' : ''}${(+c.change_24h).toFixed(2)}%` : '';
+  const chgColor = (c.change_24h ?? 0) >= 0 ? '#3fb950' : '#f85149';
+  const clar = clarity?.value != null ? `Clarity ${clarity.value} · ${clarity.band}` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0d1117"/>
+  <rect width="1200" height="8" fill="#58a6ff"/>
+  <text x="60" y="120" fill="#8b949e" font-family="system-ui,sans-serif" font-size="34" font-weight="700">◈ SoapBox Markets</text>
+  <text x="60" y="270" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="86" font-weight="800">${esc(c.name)} <tspan fill="#8b949e" font-size="52">${esc(c.symbol)}</tspan></text>
+  <text x="60" y="390" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="76" font-weight="800">${esc(price)} <tspan fill="${chgColor}" font-size="46" font-weight="700">${esc(chg)}</tspan></text>
+  ${clar ? `<text x="60" y="480" fill="#d29922" font-family="system-ui,sans-serif" font-size="40" font-weight="700">${esc(clar)}</text>` : ''}
+  <text x="60" y="580" fill="#8b949e" font-family="system-ui,sans-serif" font-size="28">Transparency from observable facts · right-of-reply · read-only</text>
+</svg>`;
+}
 
 // related / ecosystem coins — spec §6 "ecosystem groupings, not isolated pages".
 export function relatedPanel(coins) {
