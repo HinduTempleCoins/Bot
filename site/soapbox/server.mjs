@@ -26,6 +26,7 @@ import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
+import { macro, macroSummary } from '../../integrations/soapbox/macro.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
@@ -71,6 +72,7 @@ async function listPage({ page = 1 } = {}) {
     page === 1 ? fearGreed().catch(() => null) : Promise.resolve(null),
   ]);
   const idx = page === 1 ? await marketIndex().catch(() => []) : [];
+  const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
@@ -116,6 +118,12 @@ async function listPage({ page = 1 } = {}) {
   const body = `${statsbar}<h1>Markets</h1>
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
+    ${macroSum && (macroSum.gold || macroSum.dow) ? `<div class=card style="margin:0 0 14px;font-size:13px"><span class=muted>📈 Macro:</span>
+      ${macroSum.gold ? `Gold ${usd(macroSum.gold.price)} ${pct(macroSum.gold.change)}` : ''}
+      ${macroSum.dow ? ` · Dow ${pct(macroSum.dow.change)}` : ''}
+      ${macroSum.tenY ? ` · 10Y ${(+macroSum.tenY.price).toFixed(2)}%` : ''}
+      ${macroSum.vix ? ` · VIX ${(+macroSum.vix.price).toFixed(1)}` : ''}
+      <a href="/macro" style="margin-left:8px">See all →</a></div>` : ''}
     ${idxCard}
     ${page === 1 ? fngGauge(fng) : ''}
     ${moversBlock}
@@ -307,6 +315,17 @@ async function chainsPage() {
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
 }
 
+async function macroPage() {
+  const m = await macro().catch(() => ({}));
+  const fmt = (r) => r.kind === 'pct' ? `${(+r.price).toFixed(2)}%` : r.kind === 'fx' ? (+r.price).toFixed(4) : r.kind === 'index' ? (+r.price).toLocaleString(undefined, { maximumFractionDigits: 2 }) : usd(r.price);
+  const sections = Object.entries(m).map(([cat, rows]) => rows.length ? `<div class=card><h2>${esc(cat)}</h2>
+    <table><tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${fmt(r)}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table></div>` : '').join('');
+  const body = `<h1>Macro Markets</h1>
+    <p class=muted>Traditional-market data people watch before going into a market — metals, US + global stock indexes, rates &amp; yields, energy, volatility &amp; currency. Live via Yahoo Finance. (Fed Funds target: add a free FRED key; the US 10Y yield is the live rate proxy.)</p>
+    ${sections || '<p class=muted>Macro data temporarily unavailable.</p>'}`;
+  return layout({ title: 'Macro Markets', active: '/macro', canonical: `${BASE_URL}/macro`, description: 'Gold, silver, Dow, S&P 500, Nasdaq, global indexes, Treasury yields, oil, VIX — live traditional-market data.', body });
+}
+
 function directoryPage() {
   const body = `<h1>Crypto Resources Directory</h1>
     <p class=muted>A curated directory of useful crypto resources — data sites, forums, wallets, browser extensions, explorers, tools, security, faucets, and learning. Ecosystem items marked ⭐. Outbound links; do your own research.</p>
@@ -406,7 +425,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -457,6 +476,7 @@ createServer(async (req, res) => {
     if (p === '/categories') return send(await categoriesPage());
     if (p === '/exchanges') return send(await exchangesPage());
     if (p === '/chains') return send(await chainsPage());
+    if (p === '/macro') return send(await macroPage());
     if (p === '/directory') return send(directoryPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
@@ -540,7 +560,7 @@ createServer(async (req, res) => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/directory', '/ecosystem', '/learn', '/announcements'];
+    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/directory', '/ecosystem', '/learn', '/announcements'];
     submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
     pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
   }
