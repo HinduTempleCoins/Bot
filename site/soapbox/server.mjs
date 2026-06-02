@@ -108,11 +108,31 @@ async function listPage({ page = 1 } = {}) {
     ${fng?.value != null ? `<span>Fear &amp; Greed <b class="${fng.value >= 50 ? 'up' : 'down'}">${fng.value}</b> ${esc(fng.classification)}</span>` : ''}
   </div>` : '';
 
+  // #148 — the current page number is a button that reveals an inline jump-to-page input.
+  // We don't know the true last page server-side (the upstream gives no total), so we clamp the
+  // lower bound to 1 and use the next page as a soft upper hint; the server returns empty rows
+  // gracefully past the end. Pure HTML + inline JS, no framework.
+  const hasNext = market.length >= PER_PAGE;
   const pager = `<div class=pager>
-    ${page > 1 ? `<a href="/coins?page=${page - 1}">← prev</a>` : ''}
-    <span class=muted style="padding:7px">page ${page}</span>
-    ${market.length >= PER_PAGE ? `<a href="/coins?page=${page + 1}">next →</a>` : ''}
-  </div>`;
+    ${page > 1 ? `<a href="/?page=${page - 1}">← prev</a>` : ''}
+    <button type=button class=pagejump id=pagejumpbtn aria-label="jump to a page" title="jump to a page">page ${page}</button>
+    <span class=pagejumpbox id=pagejumpbox hidden>
+      <input type=number id=pagejumpinput min=1 value="${page}" aria-label="page number" style="width:64px">
+      <a href="#" id=pagejumpgo>Go</a>
+    </span>
+    ${hasNext ? `<a href="/?page=${page + 1}">next →</a>` : ''}
+  </div>
+  <script>
+    (function(){
+      var btn=document.getElementById('pagejumpbtn'),box=document.getElementById('pagejumpbox'),
+          inp=document.getElementById('pagejumpinput'),go=document.getElementById('pagejumpgo');
+      if(!btn||!box||!inp||!go)return;
+      function jump(){var n=Math.max(1,Math.floor(+inp.value||1));location.href='/?page='+n}
+      btn.addEventListener('click',function(){var h=box.hidden;box.hidden=!h;btn.hidden=!h;if(!box.hidden){inp.focus();inp.select()}});
+      go.addEventListener('click',function(e){e.preventDefault();jump()});
+      inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();jump()}else if(e.key==='Escape'){box.hidden=true;btn.hidden=false;btn.focus()}});
+    })();
+  </script>`;
 
   const idxCard = idx.length > 1 ? `<div class=card style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 14px">
     <div>

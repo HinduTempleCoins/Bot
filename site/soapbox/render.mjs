@@ -68,8 +68,13 @@ const STYLE = `<style>
   .tf{display:inline-flex;gap:4px;flex-wrap:wrap}
   .tfb{cursor:pointer;background:transparent;border:1px solid var(--line2);border-radius:6px;color:var(--mut);font-weight:600;font-size:12px;padding:4px 10px}
   .tfb:hover{color:var(--fg);border-color:var(--blue)} .tfb.on{background:var(--blue);color:#06101f;border-color:var(--blue)}
-  .pager{display:flex;gap:10px;margin:18px 0;justify-content:center}
+  .pager{display:flex;gap:10px;margin:18px 0;justify-content:center;align-items:center;flex-wrap:wrap}
   .pager a{padding:7px 14px;border:1px solid var(--line2);border-radius:8px}
+  .pagejump{cursor:pointer;background:transparent;border:1px solid var(--line2);border-radius:8px;color:var(--fg);font:inherit;padding:7px 14px}
+  .pagejump:hover{border-color:var(--blue);color:var(--blue)}
+  .pagejumpbox{display:inline-flex;gap:6px;align-items:center}
+  .pagejumpbox input{background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:6px 8px;font:inherit}
+  .pagejumpbox a{padding:7px 14px;border:1px solid var(--line2);border-radius:8px}
   .cmt{border-left:3px solid var(--line2);padding:6px 0 6px 12px;margin:10px 0} .cmt.reply{border-color:var(--up)}
   .cmt .who{font-weight:600} .cmt .when{color:var(--mut);font-size:12px;margin-left:8px}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:30px 20px;border-top:1px solid var(--line);margin-top:30px}
