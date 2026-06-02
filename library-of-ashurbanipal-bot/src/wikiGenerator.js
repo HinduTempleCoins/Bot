@@ -17,6 +17,16 @@ import { dirname } from 'path';
 import KnowledgeLoader from './utils/knowledgeLoader.js';
 import GeminiClient from './utils/geminiClient.js';
 import WikiClient from './utils/wikiClient.js';
+// Article-quality pipeline (#69 grounding, #72 coverage, #89 provenance log, #70 fact-check report).
+// All flag-only / additive — never rewrites the article body's prose, only appends audit footers.
+import {
+  normaliseSources,
+  buildGroundingFooter,
+  computeCoverage,
+  buildCoverageFooter,
+  appendProvenanceLog,
+  writeFactCheckReport,
+} from './provenance.js';
 // Web scraper for external grounding + real citations (#172). Best-effort: an article must never
 // fail because the scraper timed out — see generateArticle()'s try/catch around research().
 import { research } from '../../integrations/scraper.mjs';
@@ -415,6 +425,13 @@ class WikiGenerator {
 
     this.generatedArticles = new Map();
     this.outputDir = path.join(__dirname, '..', 'generated-articles');
+    // Append-only provenance audit log (#89): one JSONL line per generated article.
+    this.provenanceLog = process.env.WIKI_PROVENANCE_LOG ||
+      path.join(this.outputDir, '_provenance.jsonl');
+    // Fact-check pass (#70) is opt-in: it hits the network (scraper + Gemini grounding) so it must not
+    // run during --dry-run or tests. Enable with WIKI_FACTCHECK=1.
+    this.factCheckEnabled = process.env.WIKI_FACTCHECK === '1';
+    this.modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
   }
 
   /**
@@ -480,10 +497,44 @@ class WikiGenerator {
           console.error(`  ERROR: empty content for "${articleDef.title}" — not writing file`);
           continue;
         }
-        const filename = articleDef.title.replace(/[^a-zA-Z0-9]/g, '_') + '.wiki';
+        const slug = articleDef.title.replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = slug + '.wiki';
         const filepath = path.join(this.outputDir, filename);
         fs.writeFileSync(filepath, article.content);
         console.log(`  Saved: ${filepath}`);
+
+        // Non-hallucination fact-check pass (#70) — FLAG ONLY. Best-effort and opt-in (network); a
+        // failure here must never block the article that's already written. Saves a per-article JSON
+        // report next to the .wiki file; never rewrites the article or the KB.
+        let factCheckSummary = null;
+        if (this.factCheckEnabled) {
+          try {
+            const { checkArticle } = await import('./factChecker/index.js');
+            const report = await checkArticle(article.body || article.content, { title: articleDef.title });
+            const reportPath = path.join(this.outputDir, slug + '.factcheck.json');
+            writeFactCheckReport(reportPath, report);
+            factCheckSummary = { total: report.total, tally: report.tally };
+            console.log(`  Fact-check: ${report.total} claims —`, report.tally);
+          } catch (e) {
+            console.error(`  [fact-check] skipped (${e.message})`);
+          }
+        }
+
+        // Provenance audit log (#89): append-only JSONL record of what grounded this article.
+        try {
+          appendProvenanceLog(this.provenanceLog, {
+            stamp: slug,
+            article: articleDef.title,
+            sourceDocIds: article.groundingSources.filter(s => s.kind === 'kb').map(s => s.id),
+            externalUrls: article.groundingSources.filter(s => s.kind === 'external').map(s => s.id),
+            model: this.modelName,
+            coverage: { wellCovered: article.coverage.wellCovered, thin: article.coverage.thin },
+            factCheckSummary,
+            generatedAt: article.generatedAt,
+          });
+        } catch (e) {
+          console.error(`  [provenance-log] skipped (${e.message})`);
+        }
 
         // Push to wiki (unless dry run)
         if (!dryRun) {
@@ -587,7 +638,7 @@ class WikiGenerator {
     }
 
     // Generate with Gemini
-    const content = await this.geminiClient.synthesizeArticle(title, {
+    const body = await this.geminiClient.synthesizeArticle(title, {
       primary: primaryContent.map(p => ({
         id: p.source,
         domain: p.domain,
@@ -603,11 +654,32 @@ class WikiGenerator {
       external
     });
 
+    // ── Article-quality pipeline ──────────────────────────────────────────────────────────────
+    // Track the EXACT sources fed into the prompt (#69). normaliseSources de-dupes and counts the
+    // grounding tokens per source, which the coverage pass (#72) then uses.
+    const groundingSources = normaliseSources(
+      [...primaryContent, ...crossRefContent],   // {source, domain, content}
+      external                                    // {title, url, excerpt}
+    );
+
+    // Coverage / confidence flags (#72): grade each section against the grounding it actually cites.
+    const coverage = computeCoverage(body || '', groundingSources);
+
+    // Attach a REAL grounding "Sources" footer (#69) + a coverage audit footer (#72). These are
+    // appended below the model's own prose; we never rewrite the prose itself.
+    const footer = buildGroundingFooter(groundingSources) + buildCoverageFooter(coverage);
+    const content = (body || '').trimEnd() + (footer ? '\n\n' + footer : '');
+
+    console.log(`  ${coverage.summary}`);
+
     return {
       title,
       content,
+      body,
       sources: [...primaryContent, ...crossRefContent].map(c => c.source),
+      groundingSources,
       externalSources: external.map(e => ({ title: e.title, url: e.url })),
+      coverage,
       generatedAt: new Date().toISOString()
     };
   }

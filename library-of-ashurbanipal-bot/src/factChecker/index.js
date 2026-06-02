@@ -137,7 +137,9 @@ export async function checkArticle(wikiText, { title = 'untitled', topic = '' } 
     const slice = claims.slice(i, i + BATCH);
     const verdicts = await Promise.all(slice.map(async (c) => {
       const v = await verifyClaim(c.claim).catch((e) => ({ verdict: 'UNVERIFIABLE', confidence: 0, reason: 'check error: ' + e.message, source: '', evidence_urls: [] }));
-      const rec = { article: title, topic: t, claim: c.claim, file: c.file, ...v, checkedAt: nowISO() };
+      // sourceRef mirrors `file` so the per-article fact-check report (#70) carries the canonical
+      // {claim, verdict, sourceRef, confidence} shape the wiki pipeline expects.
+      const rec = { article: title, topic: t, claim: c.claim, file: c.file, sourceRef: c.file, ...v, checkedAt: nowISO() };
       // log + flag. This only writes to the fact-check LOG and the FLAG store (flags.js) — it NEVER
       // edits the KB / knowledge source files (hard project rule: the fact-checker flags, it does not
       // correct). The flag carries the Resource Center evidence_urls so brief writers can see why.
