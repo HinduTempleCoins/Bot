@@ -12,6 +12,7 @@ import { normalizeCoin, validateCoin } from './schema.mjs';
 import { find } from '../he-client.mjs';
 import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
 import { cached, TTL } from './cache.mjs';
+import { fetchTokenFailover } from './adapters/index.mjs';
 
 // our ecosystem tokens to surface on the aggregator (Tier 2/3 first-party).
 export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
@@ -131,7 +132,7 @@ export async function getCoin(id) {
     let coin = null;
     if (id.startsWith('hive-engine:')) coin = await fromHiveEngine(id.split(':')[1]);
     else if (id.startsWith('node:')) coin = null; // Tier 3 moat — wired when MELEK/SOAP RPC exists
-    else coin = await fromCoinGecko(id);
+    else coin = await fetchTokenFailover(id); // Tier-1 via the adapter registry (CoinGecko → CoinPaprika)
     if (!coin) return null;
     const { valid, errors } = validateCoin(coin);
     return { ...coin, _valid: valid, _errors: errors };
