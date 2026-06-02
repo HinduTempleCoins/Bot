@@ -26,7 +26,7 @@ import { DIRECTORY } from './directory.mjs';
 import { topProtocols } from '../../integrations/soapbox/adapters/defillama.mjs';
 import { newPools } from '../../integrations/soapbox/adapters/geckoterminal.mjs';
 import { fearGreed, categories, exchanges, chainsTVL, stablecoins, marketCapsByIds } from '../../integrations/soapbox/markets-extra.mjs';
-import { macro, macroSummary } from '../../integrations/soapbox/macro.mjs';
+import { macro, macroSummary, commodities, commoditiesSummary, WHERE_TO_BUY, ENTRY_POINTS } from '../../integrations/soapbox/macro.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
@@ -73,6 +73,7 @@ async function listPage({ page = 1 } = {}) {
   ]);
   const idx = page === 1 ? await marketIndex().catch(() => []) : [];
   const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
+  const commSum = page === 1 ? await commoditiesSummary().catch(() => null) : null;
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
@@ -124,6 +125,12 @@ async function listPage({ page = 1 } = {}) {
       ${macroSum.tenY ? ` · 10Y ${(+macroSum.tenY.price).toFixed(2)}%` : ''}
       ${macroSum.vix ? ` · VIX ${(+macroSum.vix.price).toFixed(1)}` : ''}
       <a href="/macro" style="margin-left:8px">See all →</a></div>` : ''}
+    ${commSum && (commSum.coffee || commSum.wheat || commSum.oil) ? `<div class=card style="margin:0 0 14px;font-size:13px"><span class=muted>🛢️ Commodities:</span>
+      ${commSum.coffee ? `Coffee ${(+commSum.coffee.price).toFixed(1)}¢/lb ${pct(commSum.coffee.change)}` : ''}
+      ${commSum.wheat ? ` · Wheat ${(+commSum.wheat.price).toFixed(0)}¢/bu ${pct(commSum.wheat.change)}` : ''}
+      ${commSum.corn ? ` · Corn ${(+commSum.corn.price).toFixed(0)}¢/bu` : ''}
+      ${commSum.oil ? ` · WTI ${usd(commSum.oil.price)} ${pct(commSum.oil.change)}` : ''}
+      <a href="/commodities" style="margin-left:8px">Prices + where to buy →</a></div>` : ''}
     ${idxCard}
     ${page === 1 ? fngGauge(fng) : ''}
     ${moversBlock}
@@ -315,15 +322,40 @@ async function chainsPage() {
   return layout({ title: 'Chains', active: '/chains', canonical: `${BASE_URL}/chains`, description: 'Multi-chain TVL overview + stablecoin peg monitor.', body });
 }
 
+// a small block of "where to enter this market" links (brokers / dealers / ETFs).
+const entryBlock = (cat) => {
+  const eps = ENTRY_POINTS[cat];
+  if (!eps) return '';
+  return `<div class=muted style="font-size:12px;margin-top:6px">Where to enter: ${eps.map(([n, u, note]) => `<a href="${esc(u)}" rel="nofollow noopener" target=_blank title="${esc(note || '')}">${esc(n)}</a>`).join(' · ')}</div>`;
+};
+
 async function macroPage() {
   const m = await macro().catch(() => ({}));
   const fmt = (r) => r.kind === 'pct' ? `${(+r.price).toFixed(2)}%` : r.kind === 'fx' ? (+r.price).toFixed(4) : r.kind === 'index' ? (+r.price).toLocaleString(undefined, { maximumFractionDigits: 2 }) : usd(r.price);
   const sections = Object.entries(m).map(([cat, rows]) => rows.length ? `<div class=card><h2>${esc(cat)}</h2>
-    <table><tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${fmt(r)}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table></div>` : '').join('');
+    <table><tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${fmt(r)}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table>${entryBlock(cat)}</div>` : '').join('');
   const body = `<h1>Macro Markets</h1>
-    <p class=muted>Traditional-market data people watch before going into a market — metals, US + global stock indexes, rates &amp; yields, energy, volatility &amp; currency. Live via Yahoo Finance. (Fed Funds target: add a free FRED key; the US 10Y yield is the live rate proxy.)</p>
+    <p class=muted>Traditional-market data people watch before going into a market — metals, US + global stock indexes, rates &amp; yields, energy, volatility &amp; currency. Live via Yahoo Finance. Each block links the major <b>entry points</b> — brokers, dealers, and the headline ETF tickers. (Fed Funds target: add a free FRED key; the US 10Y yield is the live rate proxy.)</p>
+    <p class=muted style="font-size:13px">Tracking physical goods (coffee, grain, metals, oil) and where to buy them? See <a href="/commodities">Commodities →</a></p>
     ${sections || '<p class=muted>Macro data temporarily unavailable.</p>'}`;
-  return layout({ title: 'Macro Markets', active: '/macro', canonical: `${BASE_URL}/macro`, description: 'Gold, silver, Dow, S&P 500, Nasdaq, global indexes, Treasury yields, oil, VIX — live traditional-market data.', body });
+  return layout({ title: 'Macro Markets', active: '/macro', canonical: `${BASE_URL}/macro`, description: 'Gold, silver, Dow, S&P 500, Nasdaq, global indexes, Treasury yields, oil, VIX — live traditional-market data, with the major entry points for each market.', body });
+}
+
+async function commoditiesPage() {
+  const c = await commodities().catch(() => ({}));
+  const sections = Object.entries(c).map(([cat, rows]) => {
+    if (!rows.length) return '';
+    const buy = WHERE_TO_BUY[cat] || [];
+    const buyRow = buy.length ? `<div class=muted style="font-size:12px;margin-top:8px"><b>Where to buy:</b> ${buy.map(([n, u, note]) => `<a href="${esc(u)}" rel="nofollow noopener" target=_blank title="${esc(note || '')}">${esc(n)}</a>`).join(' · ')}</div>` : '';
+    return `<div class=card><h2>${esc(cat)}</h2>
+      <table><thead><tr><th style="text-align:left">Commodity</th><th>Price</th><th>Unit</th><th>24h</th></tr></thead>
+      <tbody>${rows.map((r) => `<tr><td style="text-align:left">${esc(r.label)}</td><td>${(+r.price).toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td class=muted style="font-size:12px">${esc(r.unit || '')}</td><td>${pct(r.change)}</td></tr>`).join('')}</tbody></table>${buyRow}</div>`;
+  }).join('');
+  const body = `<h1>Commodities</h1>
+    <p class=muted>Live prices for the things people actually buy — grains, softs (coffee, sugar, cocoa), livestock, metals, and energy — with <b>where to source them at those actual prices</b>. Futures price is the honest reference (shown with its unit); the links go to bulk B2B marketplaces (Alibaba, IndiaMART) for physical goods, and bullion dealers for metals (some accept crypto). Live via Yahoo Finance. Outbound links — do your own research.</p>
+    <p class=muted style="font-size:13px">Looking for stock indexes, yields, and FX instead? See <a href="/macro">Macro Markets →</a> · Curated sourcing &amp; dealer links live in the <a href="/directory">Directory →</a></p>
+    ${sections || '<p class=muted>Commodity data temporarily unavailable.</p>'}`;
+  return layout({ title: 'Commodities — prices + where to buy', active: '/commodities', canonical: `${BASE_URL}/commodities`, description: 'Live commodity prices — coffee, wheat, corn, sugar, gold, silver, oil — and where to buy them in bulk (Alibaba, IndiaMART, bullion dealers).', body });
 }
 
 function directoryPage() {
@@ -425,7 +457,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -477,6 +509,7 @@ createServer(async (req, res) => {
     if (p === '/exchanges') return send(await exchangesPage());
     if (p === '/chains') return send(await chainsPage());
     if (p === '/macro') return send(await macroPage());
+    if (p === '/commodities') return send(await commoditiesPage());
     if (p === '/directory') return send(directoryPage());
     if (p === '/ecosystem') return send(ecosystemPage());
     if (p.startsWith('/ecosystem/')) { const r = ecosystemPillar(decodeURIComponent(p.slice('/ecosystem/'.length))); return send(r.html, r.code); }
@@ -560,7 +593,7 @@ createServer(async (req, res) => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/directory', '/ecosystem', '/learn', '/announcements'];
+    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/directory', '/ecosystem', '/learn', '/announcements'];
     submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
     pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
   }
