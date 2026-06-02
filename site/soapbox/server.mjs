@@ -41,7 +41,7 @@ function coinRow(c, i) {
   const badge = c.ours ? `<span class="badge ours">ecosystem</span>` : (ov.badge ? `<span class=badge>${esc(ov.badge)}</span>` : '');
   return `<tr data-name="${esc((c.name + ' ' + c.symbol).toLowerCase())}" data-mcap="${c.market_cap_usd || 0}" data-price="${c.price_usd || 0}" data-vol="${c.volume_24h_usd || 0}" data-chg="${c.change_24h ?? 0}">
     <td>${c.rank ?? (c.ours ? '★' : i)}</td>
-    <td><span class=star data-id="${esc(c.id)}" onclick="sbToggle(this,'${esc(c.id)}')" title="watchlist">☆</span> <a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
+    <td><span class=star role=button tabindex=0 aria-label="add ${esc(c.symbol)} to watchlist" data-id="${esc(c.id)}" onclick="sbToggle(this,'${esc(c.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sbToggle(this,'${esc(c.id)}')}" title="watchlist">☆</span> <a class=coin href="/coins/${esc(c.id)}">${esc(c.name)}<span class=sym>${esc(c.symbol)}</span></a>${badge}</td>
     <td>${usd(c.price_usd)}</td>
     <td>${pct(c.change_24h)}</td>
     <td>${compactUsd(c.market_cap_usd)}</td>
@@ -98,10 +98,10 @@ async function listPage({ page = 1 } = {}) {
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. The 7d market line is a cap-weighted index of the top 50.</p>
     ${moversBlock}
     <div id=recent style="margin:0 0 12px"></div>
-    <input class=search id=q placeholder="Search name or symbol…" autocomplete=off>
-    <table id=mkt><thead><tr>
-      <th data-sort="i">#</th><th data-sort="name">Coin</th><th data-sort="price">Price</th>
-      <th data-sort="chg">24h</th><th data-sort="mcap">Market cap</th><th data-sort="vol">Volume</th><th>7d</th>
+    <input class=search id=q placeholder="Search name or symbol…" autocomplete=off aria-label="Search coins by name or symbol">
+    <table id=mkt><caption class=skip>Cryptocurrency markets sorted by market cap</caption><thead><tr>
+      <th scope=col data-sort="i">#</th><th scope=col data-sort="name">Coin</th><th scope=col data-sort="price">Price</th>
+      <th scope=col data-sort="chg">24h</th><th scope=col data-sort="mcap">Market cap</th><th scope=col data-sort="vol">Volume</th><th scope=col>7d</th>
     </tr></thead><tbody>${rows || '<tr><td colspan=7 class=muted>loading…</td></tr>'}</tbody></table>
     ${pager}
     <script>

@@ -28,6 +28,8 @@ const STYLE = `<style>
   *{box-sizing:border-box}
   .star{cursor:pointer;color:var(--mut);user-select:none} .star.on{color:var(--gold)}
   .iconbtn{cursor:pointer;background:none;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:5px 9px;font-size:13px}
+  a:focus-visible,button:focus-visible,input:focus-visible,.star:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--panel);padding:8px;z-index:10;border-radius:6px}
   body{font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.top{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line2);padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
@@ -66,7 +68,7 @@ const navBar = (active) => `<header class=top>
   <nav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
     <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
     <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>
-  <button class=iconbtn id=themebtn title="toggle theme" style="margin-left:auto">◐</button>
+  <button class=iconbtn id=themebtn title="toggle light/dark theme" aria-label="toggle light or dark theme" style="margin-left:auto">◐</button>
 </header>`;
 
 // shared client script: theme persistence, watchlist stars (localStorage), recently-viewed tracking.
@@ -102,7 +104,9 @@ ${canonical ? `<link rel=canonical href="${esc(canonical)}">` : ''}
 ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twitter:image" content="${esc(ogImage)}">` : ''}
 <meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
-${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>${navBar(active)}<main class=wrap>${body}</main>
+${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
+<a href="#main" class=skip>Skip to content</a>
+${navBar(active)}<main id=main class=wrap>${body}</main>
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
 ${APP_JS}</body></html>`;
 }
