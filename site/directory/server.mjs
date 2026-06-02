@@ -6,10 +6,9 @@
 //   PORT=8094 BASE_URL=https://directory.soapbox.community node site/directory/server.mjs
 
 import { createServer } from 'node:http';
-import { appendFile, mkdir, readFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { insights, normDomain, trancoRank } from '../../integrations/soapbox/domain-insights.mjs';
+import { SubmissionStore, curatedEligibility, safeUrl, CURATED_MAX_RANK, CURATED_MIN_AGE_YEARS } from '../../integrations/soapbox/submissions.mjs';
 // Resource Center catalogs (plain data + helpers) — surfaced as Directory sections below the
 // curated listing (#175/#177/#182/#183/#185 consolidation).
 import * as markets from '../../integrations/soapbox/markets-catalog.mjs';
@@ -26,10 +25,13 @@ const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const STOCKS = process.env.STOCKS_SITE || 'https://stocks.soapbox.community';
 const SUBMISSIONS = process.env.DIRECTORY_SUBMISSIONS || new URL('../../data/directory-submissions.jsonl', import.meta.url).pathname;
 // Moderation gate — reuse the STATS_TOKEN-style opaque-token pattern (see site/soapbox/server.mjs).
-// Only the operator (who knows the token) can promote/approve a community submission. DIRECTORY_TOKEN
-// is preferred; STATS_TOKEN is accepted as a fallback so the operator can reuse one secret across sites.
+// Only the operator (who knows the token) can approve/reject/promote a community submission.
+// DIRECTORY_TOKEN is preferred; STATS_TOKEN is accepted as a fallback so the operator can reuse one
+// secret across sites. Never hard-coded — if unset, the moderation surface 404s (doesn't exist).
 const DIR_TOKEN = process.env.DIRECTORY_TOKEN || process.env.STATS_TOKEN || '';
-const TRUST_STATUSES = ['pending', 'approved', 'featured'];
+
+// The persistent submission queue + trust-tier model (#138/#139) — see integrations/soapbox/submissions.mjs.
+const store = new SubmissionStore(SUBMISSIONS);
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const CATS = DIRECTORY.map((g) => g.cat);
@@ -168,101 +170,171 @@ function listing() {
     <div class=b>${esc(it.blurb)}</div></div>`).join('')}</div></div>`).join('');
 }
 
-// ── Community submissions tier (#138/#139) ───────────────────────────────────
-// The curated DIRECTORY above is hand-picked. This tier is the community-submitted layer: every entry
-// the public POSTed to /submit lands in the SUBMISSIONS JSONL, and we render the ones that have earned
-// visibility (pending + approved + featured) as a separate "Community submissions" list. It's a
-// read-only render from the JSONL — never a second source of truth. Trust is a small per-submission
-// model: a `status` ('pending'|'approved'|'featured') and a `trust` counter that grows as a site earns
-// it. Promotion is MANUAL — only the operator, via the token-gated /api/moderate endpoint, moves a
-// submission up the ladder. Best-effort throughout: a missing/empty/corrupt JSONL yields an empty list,
-// never an error.
+// ── Community submissions + trust tiers (#138/#139) ──────────────────────────
+// The curated DIRECTORY above is hand-picked by the editor. The community layer is everything the public
+// POSTed to /submit. The store (integrations/soapbox/submissions.mjs) is the single source of truth — a
+// persistent append-only JSONL — and this server only RENDERS from it. Trust ladder:
+//   submitted ─approve▶ community ─promote(Tranco rank + RDAP age + approved)▶ curated   (reject ▶ hidden)
+// Approval/rejection/promotion is MANUAL via the token-gated /moderate admin view; nothing auto-publishes.
 
-// Read + parse the submissions JSONL into objects, newest first, deduped by url (last write wins so a
-// moderation update supersedes the original submission line). Best-effort — returns [] on any failure.
-async function readSubmissions() {
-  let txt;
-  try { txt = await readFile(SUBMISSIONS, 'utf8'); } catch { return []; }
-  const byUrl = new Map();
-  for (const line of txt.split('\n')) {
-    const s = line.trim();
-    if (!s) continue;
-    let o; try { o = JSON.parse(s); } catch { continue; }
-    if (!o || typeof o.url !== 'string') continue;
-    if (!TRUST_STATUSES.includes(o.status)) o.status = 'pending';
-    if (typeof o.trust !== 'number' || !isFinite(o.trust)) o.trust = 0;
-    byUrl.set(o.url, o); // later lines (incl. moderation rewrites) win
-  }
-  // newest first by submission timestamp, then featured/approved float up
-  const rank = { featured: 0, approved: 1, pending: 2 };
-  return [...byUrl.values()].sort((a, b) =>
-    (rank[a.status] - rank[b.status]) || ((b.ts_unix || 0) - (a.ts_unix || 0)));
-}
-
-const STATUS_BADGE = {
-  featured: '<span class="bdg us-full">★ featured</span>',
-  approved: '<span class="bdg us-full">✓ approved</span>',
-  pending: '<span class="bdg us-partial">⏳ pending</span>',
+// Per-tier trust badge surfaced on each community listing (#139).
+const TIER_BADGE = {
+  curated: '<span class="bdg us-full" title="Promoted to curated — ranked, aged, and approved">★ curated</span>',
+  community: '<span class="bdg us-partial" title="Community-submitted, moderator-approved">✓ community</span>',
+  submitted: '<span class="bdg us-unknown" title="Awaiting review">⏳ submitted</span>',
+  rejected: '<span class="bdg us-no" title="Rejected">✗ rejected</span>',
 };
+const tierBadge = (s) => TIER_BADGE[s.tier === 'curated' ? 'curated' : (s.status === 'rejected' ? 'rejected' : s.tier)] || TIER_BADGE.submitted;
 
-// The community-submissions section: a read-only list of pending + approved + featured submissions,
-// plus the "how trust grows" explainer and the manual-moderation note (#139).
-function communitySection(subs) {
-  const shown = subs.filter((s) => TRUST_STATUSES.includes(s.status));
-  const rows = shown.length ? shown.map((s) => {
-    const title = (s.crawl_title || '').trim();
-    const name = (s.name || '').trim() || title || s.url.replace(/^https?:\/\//, '');
-    const trust = s.trust > 0 ? ` <span class=b title="trust earned">· trust ${s.trust}</span>` : '';
-    return `<div class=lrow>
-      <span class=ln><a href="${esc(s.url)}" rel="noopener nofollow" target=_blank>${esc(name)}</a></span>
-      ${STATUS_BADGE[s.status] || STATUS_BADGE.pending}
-      <span class=ld>${esc(title || s.url)}${trust}</span></div>`;
-  }).join('') : '<p class=muted>No community submissions yet — be the first to submit a site above.</p>';
-  return `<details class=rcg id=community${shown.length ? ' open' : ''}>
-    <summary>🌱 Community submissions<span class=ct>${shown.length} entries</span></summary>
-    <div class=rcg-body>
-      <p class=muted style="margin-top:4px">Sites the community submitted, separate from the curated directory above.
-      <b>Approval is manual</b> — a human (the operator) reviews every submission before it's marked approved or featured;
-      nothing here is auto-published. <b>Trust grows as sites earn it:</b> a submission starts <i>pending</i>, becomes
-      <i>approved</i> once it checks out, and can be <i>featured</i> once it's proven genuinely useful — the trust counter
-      reflects that earned standing. Outbound links open in a new tab; do your own research.</p>
-      ${rows}
-    </div></details>`;
+const subName = (s) => (s.name || '').trim() || (s.crawl_title || '').trim() || s.url.replace(/^https?:\/\//, '');
+
+// One community/curated listing row.
+function subRow(s) {
+  const title = (s.crawl_title || '').trim();
+  const trust = s.trust > 0 ? ` <span class=b title="trust earned">· trust ${s.trust}</span>` : '';
+  return `<div class=lrow>
+    <span class=ln><a href="${esc(s.url)}" rel="noopener nofollow" target=_blank>${esc(subName(s))}</a></span>
+    ${tierBadge(s)}
+    <span class=ld>${esc(title || s.url)}${trust}</span></div>`;
 }
 
-// ── Moderation endpoint (#139) ────────────────────────────────────────────────
-// /api/moderate?token=…&url=…&status=approved[&trust=N] — token-gated (STATS_TOKEN-style). Rewrites the
-// matching submission's status/trust by appending an updated line (JSONL is append-only on disk; the
-// reader dedupes last-write-wins). Returns JSON. 404 (not 401) when the token is absent/wrong, so the
-// endpoint's existence isn't revealed — same posture as the soapbox /stats gate.
-async function handleModerate(req, res, url) {
-  const want = DIR_TOKEN;
-  const got = url.searchParams.get('token') || '';
-  if (!want || got !== want) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('404'); }
-  const target = (url.searchParams.get('url') || '').trim();
-  const status = (url.searchParams.get('status') || '').trim();
-  const trustParam = url.searchParams.get('trust');
-  if (!target) return sendJson(res, 400, { ok: false, error: 'url required' });
-  if (status && !TRUST_STATUSES.includes(status)) return sendJson(res, 400, { ok: false, error: 'status must be pending|approved|featured' });
-  const subs = await readSubmissions();
-  const entry = subs.find((s) => s.url === target);
-  if (!entry) return sendJson(res, 404, { ok: false, error: 'submission not found' });
-  if (status) entry.status = status;
-  if (trustParam != null) {
-    const t = Number(trustParam);
-    if (Number.isFinite(t)) entry.trust = t;
-  } else if (status === 'approved' || status === 'featured') {
-    entry.trust = Math.max(entry.trust || 0, status === 'featured' ? 2 : 1); // trust grows as it's promoted
-  }
-  entry.moderated_unix = Math.floor(Date.now() / 1000);
-  try { await appendFile(SUBMISSIONS, JSON.stringify(entry) + '\n'); }
-  catch (e) { return sendJson(res, 500, { ok: false, error: 'write failed' }); }
-  return sendJson(res, 200, { ok: true, url: entry.url, status: entry.status, trust: entry.trust });
+// The community section: curated-promoted submissions FIRST (visually flagged), then plain community
+// ones — always BELOW the editor-curated directory in homeBody (operator: curated stays on top). `subs`
+// is store.visible() (community + curated tiers; rejected + still-submitted are excluded from the public view).
+function communitySection(subs) {
+  const curated = subs.filter((s) => s.tier === 'curated');
+  const community = subs.filter((s) => s.tier === 'community');
+  const shown = curated.length + community.length;
+  let body = '';
+  if (curated.length) body += `<div class=rcsub>Promoted to curated · ${curated.length}</div>` + curated.map(subRow).join('');
+  if (community.length) body += `<div class=rcsub>Community · ${community.length}</div>` + community.map(subRow).join('');
+  if (!shown) body = '<p class=muted>No community submissions yet — be the first to submit a site above.</p>';
+  return `<details class=rcg id=community${shown ? ' open' : ''}>
+    <summary>🌱 Community submissions<span class=ct>${shown} entries</span></summary>
+    <div class=rcg-body>
+      <p class=muted style="margin-top:4px">Sites the community submitted, kept <b>below and separate from</b> the editor-curated directory above.
+      <b>Approval is manual</b> — a human reviews every submission before it shows here; nothing is auto-published.
+      A submission starts <i>submitted</i>, becomes <i>community</i> once approved, and can be promoted to <i>curated</i>
+      once it independently checks out (a real popularity rank, a domain at least ${CURATED_MIN_AGE_YEARS}y old, and an approved flag).
+      The badge on each row shows its tier. Outbound links open in a new tab; do your own research.</p>
+      ${body}
+    </div></details>`;
 }
 
 function sendJson(res, code, obj) {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8' });
   res.end(JSON.stringify(obj));
+}
+
+// ── Moderation admin view (#138/#139) ─────────────────────────────────────────
+// GET  /moderate?token=…              → HTML review queue (pending) + already-decided lists.
+// POST /moderate  {token,key,action}  → approve | reject | promote | demote, then redirect back.
+// Token-gated (STATS_TOKEN-style): a missing/wrong token 404s so the surface's existence isn't revealed.
+// `promote` is criteria-checked server-side (Tranco rank + RDAP age + approved flag) before it's allowed.
+function modAuthed(token) { return !!DIR_TOKEN && token === DIR_TOKEN; }
+
+const modPage = (body) => page('Moderation — SoapBox Directory', `<h1>Submission review</h1>
+  <p class=muted>Token-gated moderation queue. Approve a submission to publish it to the Community tier; promote to Curated once it meets the criteria
+  (Tranco rank ≤ ${CURATED_MAX_RANK.toLocaleString()}, domain age ≥ ${CURATED_MIN_AGE_YEARS}y, approved). Reject to hide.</p>${body}`);
+
+// Render one moderation row with action buttons. Curated-eligibility is shown so the moderator knows
+// whether "Promote" will be accepted.
+function modRow(s, token, elig) {
+  const act = (action, label, style = '') => `<form method=post action="/moderate" style="display:inline">
+    <input type=hidden name=token value="${esc(token)}"><input type=hidden name=key value="${esc(s.dedupe || s.url)}">
+    <input type=hidden name=action value="${action}">
+    <button type=submit style="padding:5px 12px;font-size:13px;${style}">${label}</button></form>`;
+  const meta = [];
+  if (s.category) meta.push(esc(s.category));
+  if (s.crawl_status) meta.push(`HTTP ${s.crawl_status}`);
+  if (s.note) meta.push(esc(s.note));
+  let eligLine = '';
+  if (elig) {
+    const r = elig.reasons;
+    eligLine = `<div class=b style="margin-top:4px">curated check: rank ${r.rank ? '✓' : '✗'}${elig.rank != null ? ` (#${elig.rank.toLocaleString()})` : ''} ·
+      age ${r.age ? '✓' : '✗'}${elig.ageYears != null ? ` (${elig.ageYears}y)` : ''} · approved ${r.approved ? '✓' : '✗'} →
+      <b style="color:${elig.eligible ? 'var(--up)' : 'var(--mut)'}">${elig.eligible ? 'eligible to promote' : 'not yet eligible'}</b></div>`;
+  }
+  return `<div class=lrow style="align-items:flex-start">
+    <span class=ln style="min-width:200px"><a href="${esc(s.url)}" rel="noopener nofollow" target=_blank>${esc(subName(s))}</a> ${tierBadge(s)}</span>
+    <span class=ld>${esc(s.crawl_title || s.url)}${meta.length ? `<br><span class=b>${meta.join(' · ')}</span>` : ''}${eligLine}</span>
+    <span style="display:flex;gap:6px;flex-wrap:wrap">
+      ${s.status === 'submitted' ? act('approve', 'Approve', 'background:var(--up);color:#06101f') : ''}
+      ${s.status !== 'rejected' && s.tier !== 'curated' ? act('promote', 'Promote', 'background:var(--gold);color:#06101f') : ''}
+      ${s.tier === 'curated' ? act('demote', 'Demote') : ''}
+      ${s.status !== 'rejected' ? act('reject', 'Reject', 'background:#f85149;color:#fff') : ''}
+    </span></div>`;
+}
+
+async function handleModerateGet(req, res, url) {
+  const token = url.searchParams.get('token') || '';
+  if (!modAuthed(token)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('404'); }
+  const all = await store.all();
+  const pending = all.filter((s) => s.status === 'submitted');
+  const community = all.filter((s) => s.status === 'community');
+  const rejected = all.filter((s) => s.status === 'rejected');
+  // resolve curated-eligibility for pending + community rows (best-effort, in parallel, capped)
+  const checkable = [...pending, ...community];
+  const eligBy = new Map();
+  await Promise.all(checkable.map(async (s) => { try { eligBy.set(s.dedupe || s.url, await curatedEligibility(s, insights)); } catch { /* skip */ } }));
+  const section = (label, rows) => `<div class=card><h2>${esc(label)} <span class=muted>(${rows.length})</span></h2>${rows.length ? rows.map((s) => modRow(s, token, eligBy.get(s.dedupe || s.url))).join('') : '<p class=muted>none</p>'}</div>`;
+  const msg = url.searchParams.get('msg');
+  const banner = msg ? `<div class=ok>${esc(msg)}</div>` : '';
+  return send(res, modPage(`${banner}${section('Pending review', pending)}${section('Community (approved)', community)}${section('Rejected', rejected)}`));
+}
+
+async function handleModeratePost(req, res) {
+  let raw = '';
+  for await (const c of req) { raw += c; if (raw.length > 8000) break; }
+  const f = new URLSearchParams(raw);
+  const token = f.get('token') || '';
+  if (!modAuthed(token)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('404'); }
+  const key = (f.get('key') || '').trim();
+  const action = (f.get('action') || '').trim();
+  if (!key || !['approve', 'reject', 'promote', 'demote'].includes(action)) {
+    res.writeHead(302, { location: `/moderate?token=${encodeURIComponent(token)}&msg=${encodeURIComponent('bad request')}` }); return res.end();
+  }
+  let msg;
+  if (action === 'promote') {
+    // gate promotion on the live criteria (#139): rank + age + approved must all hold
+    const entry = await store.find(key);
+    if (!entry) msg = 'submission not found';
+    else {
+      const elig = await curatedEligibility(entry, insights);
+      if (!elig.eligible) {
+        const r = elig.reasons;
+        msg = `not promoted — criteria not met (rank ${r.rank ? 'ok' : 'fail'}, age ${r.age ? 'ok' : 'fail'}, approved ${r.approved ? 'ok' : 'fail'})`;
+      } else {
+        const out = await store.moderate(key, 'promote', { by: 'operator' });
+        msg = out.ok ? `promoted ${entry.url} to curated` : `promote failed: ${out.error}`;
+      }
+    }
+  } else {
+    const out = await store.moderate(key, action, { by: 'operator' });
+    msg = out.ok ? `${action}d ${out.record.url}` : `${action} failed: ${out.error}`;
+  }
+  res.writeHead(302, { location: `/moderate?token=${encodeURIComponent(token)}&msg=${encodeURIComponent(msg)}` });
+  return res.end();
+}
+
+// JSON moderation API (back-compat + scripting): /api/moderate?token=…&key=…&action=approve|reject|promote|demote.
+// Same token gate + same promote criteria check as the HTML view.
+async function handleModerateApi(req, res, url) {
+  const token = url.searchParams.get('token') || '';
+  if (!modAuthed(token)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('404'); }
+  const key = (url.searchParams.get('key') || url.searchParams.get('url') || '').trim();
+  const action = (url.searchParams.get('action') || '').trim();
+  if (!key) return sendJson(res, 400, { ok: false, error: 'key (or url) required' });
+  if (!['approve', 'reject', 'promote', 'demote'].includes(action)) return sendJson(res, 400, { ok: false, error: 'action must be approve|reject|promote|demote' });
+  if (action === 'promote') {
+    const entry = await store.find(key);
+    if (!entry) return sendJson(res, 404, { ok: false, error: 'not found' });
+    const elig = await curatedEligibility(entry, insights);
+    if (!elig.eligible) return sendJson(res, 409, { ok: false, error: 'criteria not met', eligibility: elig });
+  }
+  const out = await store.moderate(key, action, { by: 'api' });
+  if (!out.ok) return sendJson(res, out.error === 'not_found' ? 404 : 500, out);
+  return sendJson(res, 200, { ok: true, url: out.record.url, status: out.record.status, tier: out.record.tier, trust: out.record.trust });
 }
 
 // Site Insights — the "Alexa rankings" surface: popularity rank + domain age + on-page SEO for any site.
@@ -410,17 +482,7 @@ const homeBody = (msg, hero, insights = '', community = '') => `${hero}
   ${community}
   ${resourceCenter()}`;
 
-// SSRF guard: only public http(s) hosts (we crawl what's submitted).
-function safeUrl(raw) {
-  let u; try { u = new URL(String(raw).trim()); } catch { return null; }
-  if (!/^https?:$/.test(u.protocol)) return null;
-  const h = u.hostname.toLowerCase();
-  if (h === 'localhost' || h.endsWith('.local') || h.endsWith('.internal') || !h.includes('.')) return null;
-  if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.|255\.)/.test(h)) return null;
-  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return null;
-  if (h.startsWith('[')) return null; // skip raw IPv6 (incl ::1, fc00::/7)
-  return u.toString();
-}
+// SSRF guard (safeUrl) + dedupe + tier model all live in integrations/soapbox/submissions.mjs.
 
 // best-effort crawl: grab the page <title> for the moderator (5s cap, SSRF already checked).
 async function crawlTitle(url) {
@@ -438,13 +500,28 @@ async function handleSubmit(req, res) {
   const f = new URLSearchParams(raw);
   if (f.get('website')) { res.writeHead(302, { location: '/#submit' }); return res.end(); } // honeypot tripped → silently drop
   const hero = heroBox(await leaderboard('Overall').catch(() => []), 'Overall');
-  const url = safeUrl(f.get('url'));
-  if (!url) return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>', hero, '', communitySection(await readSubmissions()))), 400);
-  const crawl = await crawlTitle(url);
-  const entry = { url, name: (f.get('name') || '').slice(0, 120), category: (f.get('category') || '').slice(0, 60), note: (f.get('note') || '').slice(0, 280), crawl_status: crawl.status, crawl_title: crawl.title.slice(0, 200), status: 'pending', trust: 0, ip_hash: 'redacted', ts_unix: Math.floor(Date.now() / 1000) };
-  try { await mkdir(dirname(SUBMISSIONS), { recursive: true }); await appendFile(SUBMISSIONS, JSON.stringify(entry) + '\n'); } catch (e) { /* never fail the user on a write error */ }
-  const okMsg = `<div class=ok>✓ Thanks — <b>${esc(url)}</b> is queued for review${crawl.title ? ` (we found: “${esc(crawl.title)}”)` : ''}. We crawl + check submissions before adding them.</div>`;
-  return send(res, page('Submitted — SoapBox Directory', homeBody(okMsg, hero, '', communitySection(await readSubmissions()))));
+  // validate first so we don't waste a crawl on garbage
+  const safe = safeUrl(f.get('url'));
+  if (!safe) {
+    const subs = await store.visible().catch(() => []);
+    return send(res, page('Submit — SoapBox Directory', homeBody('<div class=ok style="border-color:var(--gold)">Please enter a valid public http(s) URL.</div>', hero, '', communitySection(subs))), 400);
+  }
+  const crawl = await crawlTitle(safe);
+  const result = await store.submit({
+    url: safe, name: f.get('name'), category: f.get('category'), note: f.get('note'),
+    crawl_status: crawl.status, crawl_title: crawl.title,
+  });
+  const subs = await store.visible().catch(() => []);
+  let msg;
+  if (result.duplicate) {
+    msg = `<div class=ok style="border-color:var(--gold)">Already in the queue — <b>${esc(safe)}</b> was submitted before, so we won't add it twice.</div>`;
+  } else if (!result.ok) {
+    const why = result.error === 'too_large' ? 'that submission is too large' : 'we couldn’t accept that submission';
+    msg = `<div class=ok style="border-color:var(--gold)">Sorry, ${why}. Please try again with a shorter note.</div>`;
+  } else {
+    msg = `<div class=ok>✓ Thanks — <b>${esc(safe)}</b> is queued for review${crawl.title ? ` (we found: “${esc(crawl.title)}”)` : ''}. A human reviews + checks submissions before they appear in the Community tier.</div>`;
+  }
+  return send(res, page(result.ok ? 'Submitted — SoapBox Directory' : 'Submit — SoapBox Directory', homeBody(msg, hero, '', communitySection(subs))));
 }
 
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
@@ -456,7 +533,8 @@ createServer(async (req, res) => {
     if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (url.pathname === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url></urlset>`); }
     if (req.method === 'POST' && url.pathname === '/submit') return handleSubmit(req, res);
-    if (url.pathname === '/api/moderate') return handleModerate(req, res, url);
+    if (url.pathname === '/moderate') return req.method === 'POST' ? handleModeratePost(req, res) : handleModerateGet(req, res, url);
+    if (url.pathname === '/api/moderate') return handleModerateApi(req, res, url);
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const domain = url.searchParams.get('domain');
     const topReq = url.searchParams.get('top');
@@ -464,7 +542,7 @@ createServer(async (req, res) => {
     const [rows, card, subs] = await Promise.all([
       leaderboard(activeCat).catch(() => []),
       domain ? insights(domain).then(insightsCard).catch(() => insightsCard({ domain: '', error: 'lookup failed' })) : Promise.resolve(''),
-      readSubmissions().catch(() => []),
+      store.visible().catch(() => []),
     ]);
     const hero = heroBox(rows, activeCat);
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': domain ? 'no-store' : 'public, max-age=300' });
