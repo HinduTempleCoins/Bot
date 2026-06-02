@@ -26,6 +26,8 @@ try { const pc = await import('./profit-circles.mjs'); circlesEngine = pc.engine
 let crossVenueEngine = async () => '', copyTradeEngine = async () => '';
 try { const cv = await import('./cross-venue-arb.mjs'); crossVenueEngine = cv.engineBlock || crossVenueEngine; } catch {}
 try { const ct = await import('./copy-trade-scan.mjs'); copyTradeEngine = ct.engineBlock || copyTradeEngine; } catch {}
+let impactEngine = async () => '';
+try { const mi = await import('./market-impact-sim.mjs'); impactEngine = mi.engineBlock || impactEngine; } catch {}
 
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
@@ -53,6 +55,7 @@ export async function runPass() {
   const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
   const crossVenueMd = await Promise.resolve().then(() => crossVenueEngine()).catch(() => '');
   const copyTradeMd = await Promise.resolve().then(() => copyTradeEngine()).catch(() => '');
+  const impactMd = await Promise.resolve().then(() => impactEngine()).catch(() => '');
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
@@ -93,7 +96,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -160,6 +163,7 @@ export function briefReport(s) {
   if (s.circlesMd) { L.push(''); L.push(s.circlesMd); }
   if (s.crossVenueMd) { L.push(''); L.push(s.crossVenueMd); }
   if (s.copyTradeMd) { L.push(''); L.push(s.copyTradeMd); }
+  if (s.impactMd) { L.push(''); L.push(s.impactMd); }
   L.push(`\n*Engine: resource-center.mjs · advisory only, no trades executed · US-jurisdiction-aware.*`);
   return L.join('\n');
 }
