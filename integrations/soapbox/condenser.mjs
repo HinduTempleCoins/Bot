@@ -140,6 +140,22 @@ export async function marketIndex({ limit = 50 } = {}) {
   });
 }
 
+// coin-link finder phase 2: for coins CoinGecko doesn't carry an official thread for (especially our
+// Hive-Engine ecosystem tokens), SEARCH the web for the real Bitcointalk/Altcoinstalks/announcement
+// thread. Heavily cached (24h) so it's ~one search per coin per day. Best-effort.
+export async function officialThreads(name, symbol) {
+  const q = `${name} ${symbol}`.trim();
+  if (!q) return [];
+  return cached(`threads:${q.toLowerCase()}`, 86_400_000, async () => {
+    try {
+      const { search } = await import('../scraper.mjs');
+      const hits = await search(`${name} ${symbol} token bitcointalk OR altcoinstalks OR announcement thread`, { limit: 8 });
+      return hits.filter((h) => /(bitcointalk|altcoinstalks|forum|index\.php\?topic|ann)/i.test(h.url))
+        .slice(0, 3).map((h) => ({ title: h.title, url: h.url, forum: /bitcointalk/i.test(h.url) ? 'Bitcointalk' : /altcoinstalks/i.test(h.url) ? 'Altcoinstalks' : 'Forum' }));
+    } catch { return []; }
+  });
+}
+
 // where to trade a coin — CoinGecko tickers (which exchanges list it + volume + trust). Powers the
 // "Where to trade" panel and the market fact-checker's "can you buy X on Y / was it delisted" checks.
 export async function coinTickers(id, { limit = 12 } = {}) {

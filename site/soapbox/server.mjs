@@ -11,7 +11,7 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers, officialThreads } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
 import { cached, TTL, stats as cacheStats } from '../../integrations/soapbox/cache.mjs';
@@ -159,12 +159,15 @@ async function coinPage(id) {
   }
   const ov = overrideFor(id);
   const isHE = c.source === 'hive-engine' || c.source_tier === 2;
-  const [series, clarity, extras, related, tickers] = await Promise.all([
+  // find official forum threads only when CoinGecko doesn't already give one (our HE tokens, etc.).
+  const needThreads = !c.official?.forum;
+  const [series, clarity, extras, related, tickers, threads] = await Promise.all([
     coinChart(id).catch(() => []),
     clarityFromCoin(c).catch(() => null),
     isHE ? hiveEngineExtras(c.symbol).catch(() => null) : Promise.resolve(null),
     relatedCoins(c).catch(() => []),
     coinTickers(id).catch(() => []),
+    needThreads ? officialThreads(c.name, c.symbol).catch(() => []) : Promise.resolve([]),
   ]);
   // enrich Tier-1 coins lacking team data with CoinPaprika's People (best-effort, cached).
   if (!isHE && !(c.team || []).length) {
@@ -216,6 +219,7 @@ async function coinPage(id) {
       const rows = [
         o.whitepaper && `<a href="${esc(o.whitepaper)}">📄 Whitepaper</a>`,
         o.forum && `<a href="${esc(o.forum)}">💬 Official thread${/bitcointalk/i.test(o.forum) ? ' (Bitcointalk)' : ''}</a>`,
+        ...(threads || []).map((t) => `<a href="${esc(t.url)}">💬 ${esc(t.forum)} thread</a>`),
         o.announcement && `<a href="${esc(o.announcement)}">📢 Announcement</a>`,
         o.reddit && `<a href="${esc(o.reddit)}">Reddit</a>`,
         ...(o.repos || []).map((r) => `<a href="${esc(r)}">GitHub</a>`),
