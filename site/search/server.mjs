@@ -17,6 +17,7 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const DIRECTORY_URL = process.env.DIRECTORY_SITE || 'https://directory.soapbox.community';
+const STOCKS_URL = process.env.STOCKS_SITE || 'https://stocks.soapbox.community';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -68,7 +69,7 @@ const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=
 <meta name=description content="Search for anything you want — across our websites, or the entire web.">
 <meta name=robots content="index,follow">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>search</span></a>
-  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a></div></header>
+  <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS_URL}" title="Stocks">Stocks</a></div></header>
 <main class=wrap>${body}</main>
 <footer>SoapBox Search — across our websites, or the entire web (independent + scholarly sources, research-weighted). No tracking.</footer></body></html>`;
 
