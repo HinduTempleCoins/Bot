@@ -56,7 +56,7 @@ export async function fromHiveEngine(symbol) {
   const hiveUsd = await oracleHiveUsd().catch(() => 0);
   const priceUsd = lastPriceHive * hiveUsd;
   const circulating = +(tok?.circulatingSupply || 0);
-  return normalizeCoin({
+  const coin = normalizeCoin({
     id: `hive-engine:${sym.toLowerCase()}`, symbol: sym, name: tok?.name || sym,
     price_usd: priceUsd,
     market_cap_usd: priceUsd * circulating,
@@ -66,6 +66,11 @@ export async function fromHiveEngine(symbol) {
     links: tok?.metadata ? safeMeta(tok.metadata) : undefined,
     clarity_score: { inputs: ['holder_dist', 'supply_locks', 'contract_behavior', 'activity'] },
   }, { tier: 2, source: 'hive-engine', updatedAt: _now() });
+  // real 24h change from the market metrics ("11.03%" → 11.03, or derived from lastDayPrice).
+  const pctStr = metric?.priceChangePercent;
+  coin.change_24h = pctStr != null ? parseFloat(String(pctStr).replace('%', ''))
+    : (metric?.lastDayPrice ? (lastPriceHive / +metric.lastDayPrice - 1) * 100 : null);
+  return coin;
 }
 function safeMeta(metaStr) {
   try { const m = JSON.parse(metaStr); return { website: m.url || '', explorer: '', social: [] }; } catch { return undefined; }
@@ -106,10 +111,29 @@ export async function globalStats() {
 // Hive-Engine candles come from the market history endpoint when we wire Tier-2 charts; for now a
 // Tier-2 id returns [] (the chart panel shows "history coming" rather than a broken graph).
 export async function coinChart(id, { days = 7 } = {}) {
-  if (!id || id.startsWith('hive-engine:') || id.startsWith('node:')) return [];
+  if (!id) return [];
+  if (id.startsWith('node:')) return []; // Tier 3 — wired when MELEK/SOAP RPC exists
+  if (id.startsWith('hive-engine:')) return hiveEngineChart(id.split(':')[1], { days });
   return cached(`chart:${id}:${days}`, TTL.ohlcv, async () => {
     const d = await jget(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(id)}/market_chart?vs_currency=usd&days=${days}`);
     return (d.prices || []).map(([t, p]) => ({ t: Math.floor(t / 1000), p }));
+  });
+}
+
+// Tier-2 chart: build a real USD price series for a Hive-Engine token from its on-chain trade
+// history (prices are quoted in HIVE → convert via the oracle). This is what gives OUR ecosystem
+// tokens (VKBT/CURE) a genuine chart instead of a placeholder.
+export async function hiveEngineChart(symbol, { days = 7 } = {}) {
+  const sym = String(symbol).toUpperCase();
+  return cached(`chart:he:${sym}:${days}`, TTL.ohlcv, async () => {
+    const cutoff = Math.floor(Date.now() / 1000) - days * 86400;
+    const trades = await find('market', 'tradesHistory', { symbol: sym }, 500, [{ index: 'timestamp', descending: true }]).catch(() => []);
+    const hiveUsd = await oracleHiveUsd().catch(() => 0);
+    if (!hiveUsd || !trades.length) return [];
+    return trades
+      .filter((t) => +t.timestamp >= cutoff)
+      .map((t) => ({ t: +t.timestamp, p: +t.price * hiveUsd }))
+      .sort((a, b) => a.t - b.t);
   });
 }
 
@@ -119,7 +143,7 @@ export async function ourCoins() {
     const coins = await Promise.all(OUR_TOKENS.map((s) => fromHiveEngine(s).catch(() => null)));
     return coins.filter(Boolean).map((c) => ({
       id: c.id, symbol: c.symbol, name: c.name, price_usd: c.price_usd, market_cap_usd: c.market_cap_usd,
-      volume_24h_usd: c.volume_24h_usd, change_24h: null, rank: null, ours: true,
+      volume_24h_usd: c.volume_24h_usd, change_24h: c.change_24h ?? null, rank: null, ours: true,
     }));
   });
 }
