@@ -11,7 +11,7 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
-import { topCoins, ourCoins, getCoin, coinChart, globalStats } from '../../integrations/soapbox/condenser.mjs';
+import { topCoins, ourCoins, getCoin, coinChart, globalStats, trending } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { overrideFor, featuredIds } from '../../integrations/soapbox/overrides.mjs';
 import { getThread, canPost } from '../../integrations/soapbox/comments.mjs';
@@ -43,14 +43,30 @@ function coinRow(c, i) {
 }
 
 async function listPage({ page = 1 } = {}) {
-  const [ours, top, g] = await Promise.all([
+  const [ours, top, g, trend] = await Promise.all([
     ourCoins().catch(() => []),
     topCoins({ limit: PER_PAGE, page }).catch(() => []),
     globalStats().catch(() => null),
+    page === 1 ? trending().catch(() => []) : Promise.resolve([]),
   ]);
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
+
+  // trending strip + top movers (computed from the visible market set) — page 1 only.
+  const moversBlock = (() => {
+    if (page !== 1 || !market.length) return '';
+    const withChg = market.filter((c) => Number.isFinite(c.change_24h));
+    const gainers = [...withChg].sort((a, b) => b.change_24h - a.change_24h).slice(0, 3);
+    const losers = [...withChg].sort((a, b) => a.change_24h - b.change_24h).slice(0, 3);
+    const chip = (c) => `<a class=coin href="/coins/${esc(c.id)}">${esc(c.symbol)}</a> ${pct(c.change_24h)}`;
+    const trendChips = trend.map((c) => `<a class=coin href="/coins/${esc(c.id)}">${esc(c.symbol)}</a>`).join(' · ');
+    return `<div class=grid style="margin:0 0 14px">
+      ${trend.length ? `<div class=card style="margin:0"><div class=k style="color:var(--mut);font-size:12px">🔥 Trending</div><div>${trendChips}</div></div>` : ''}
+      <div class=card style="margin:0"><div class=k style="color:var(--mut);font-size:12px">▲ Top gainers (24h)</div><div>${gainers.map(chip).join(' · ')}</div></div>
+      <div class=card style="margin:0"><div class=k style="color:var(--mut);font-size:12px">▼ Top losers (24h)</div><div>${losers.map(chip).join(' · ')}</div></div>
+    </div>`;
+  })();
 
   const statsbar = g ? `<div class=statsbar>
     <span>Market cap <b>${compactUsd(g.total_market_cap_usd)}</b> ${pct(g.market_cap_change_24h)}</span>
@@ -68,6 +84,7 @@ async function listPage({ page = 1 } = {}) {
 
   const body = `${statsbar}<h1>Markets</h1>
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply.</p>
+    ${moversBlock}
     <input class=search id=q placeholder="Search name or symbol…" autocomplete=off>
     <table id=mkt><thead><tr>
       <th data-sort="i">#</th><th data-sort="name">Coin</th><th data-sort="price">Price</th>

@@ -90,6 +90,16 @@ export async function topCoins({ limit = 50, page = 1, sparkline = true } = {}) 
   });
 }
 
+// trending coins (CoinGecko /search/trending, keyless) — the "what people are searching" strip.
+export async function trending({ limit = 7 } = {}) {
+  return cached(`trending:${limit}`, TTL.list, async () => {
+    const d = await jget('https://api.coingecko.com/api/v3/search/trending');
+    return (d.coins || []).slice(0, limit).map(({ item }) => ({
+      id: item.id, symbol: (item.symbol || '').toUpperCase(), name: item.name, rank: item.market_cap_rank || null,
+    }));
+  });
+}
+
 // global market stats for the list-page header (CoinGecko /global, keyless).
 export async function globalStats() {
   return cached('global', TTL.list, async () => {
