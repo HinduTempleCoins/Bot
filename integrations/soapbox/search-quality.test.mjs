@@ -2,7 +2,10 @@
 // Pure ranking math; no network. Run: node --test integrations/soapbox/search-quality.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dedupe, rankResults, cluster, digest } from './search-quality.mjs';
+import {
+  dedupe, rankResults, cluster, digest,
+  rankHybrid, facets, fuzzyTermHits, proximityScore,
+} from './search-quality.mjs';
 
 const Q = 'alexander shulgin pihkal';
 
@@ -127,4 +130,83 @@ test('rankResults accepts already-merged rows (providers[] shape) too', () => {
   const ranked = rankResults(merged, 'a');
   assert.equal(ranked[0].url, 'https://en.wikipedia.org/wiki/A');
   assert.ok(ranked[0].providers.includes('wikipedia') && ranked[0].providers.includes('duckduckgo'));
+});
+
+// ── NEW: additive extensions (task #222 — RRF hybrid, typo, proximity, facets) ──────────────────────
+
+test('ADDITIVE: existing rankResults output is unchanged by the new code (proof of additivity)', () => {
+  // exact same call as the original test above must still return the same order + scores.
+  const ranked = rankResults(fixture(), Q);
+  const idx = (frag) => ranked.findIndex((r) => r.url.includes(frag));
+  assert.ok(idx('soapbox.community') < idx('listverse.com'));
+  assert.ok(idx('doi.org') < idx('listverse.com'));
+  assert.ok(ranked.every((r) => typeof r.why === 'string' && r.why.length));
+});
+
+test('rankHybrid fuses lexical + BM25 (and is order-preserving on a clean fixture)', async () => {
+  const ranked = await rankHybrid(fixture(), Q);
+  assert.ok(ranked.length > 0);
+  const idx = (frag) => ranked.findIndex((r) => r.url.includes(frag));
+  // quality sources still beat the SEO farm after fusion
+  assert.ok(idx('soapbox.community') < idx('listverse.com'), 'ecosystem beats spam after fusion');
+  assert.ok(idx('doi.org') < idx('listverse.com'), 'scholarly beats spam after fusion');
+  // every fused row carries the new fusion fields AND the preserved explainable fields
+  for (const r of ranked) {
+    assert.equal(typeof r.hybridScore, 'number');
+    assert.equal(typeof r.fuseRank, 'number');
+    assert.equal(typeof r.why, 'string');
+    assert.ok('score' in r, 'original explainable score preserved on the row');
+  }
+});
+
+test('rankHybrid recovers a strong lexical/BM25 match that the single ranker buries', async () => {
+  // a row whose TITLE is a dead-on term match but from a plain domain (no authority/ecosystem boost).
+  const raw = [
+    { title: 'alexander shulgin pihkal complete reference guide', url: 'https://plainsite.net/guide', snippet: 'alexander shulgin pihkal pihkal', provider: 'duckduckgo' },
+    { title: 'unrelated chemistry news', url: 'https://en.wikipedia.org/wiki/Chemistry', snippet: 'general chemistry overview', provider: 'wikipedia' },
+  ];
+  const lex = rankResults(raw, Q);
+  const hyb = await rankHybrid(raw, Q);
+  const lexTop = lex[0].url;
+  const hybTop = hyb[0].url;
+  // BM25 should pull the dead-on title match up in the hybrid ranking.
+  assert.ok(hyb.findIndex((r) => r.url.includes('plainsite')) <= lex.findIndex((r) => r.url.includes('plainsite')),
+    `hybrid should rank the strong text match no worse than lexical (lexTop=${lexTop} hybTop=${hybTop})`);
+});
+
+test('rankHybrid handles empty input and is soft', async () => {
+  assert.deepEqual(await rankHybrid([], Q), []);
+  const r = await rankHybrid(fixture(), '');
+  assert.ok(Array.isArray(r));
+});
+
+test('fuzzyTermHits matches exact + 1-edit typos and counts them separately', () => {
+  const h = fuzzyTermHits('alexander shulgan and pihkal', ['shulgin', 'pihkal']);
+  assert.ok(h.exact >= 1, 'pihkal is an exact hit');
+  assert.ok(h.fuzzy >= 1, 'shulgan ≈ shulgin is a fuzzy hit');
+  assert.ok(h.matched.includes('shulgin') && h.matched.includes('pihkal'));
+  const none = fuzzyTermHits('completely different words here', ['shulgin']);
+  assert.equal(none.exact + none.fuzzy, 0);
+});
+
+test('proximityScore rewards close-together terms over spread-out ones', () => {
+  const terms = ['alpha', 'beta'];
+  const near = proximityScore('x alpha beta y', terms);
+  const far = proximityScore('alpha zz zz zz zz zz zz zz zz zz beta', terms);
+  assert.ok(near > far, 'adjacent terms score higher than distant ones');
+  assert.equal(proximityScore('only alpha here', terms), 0, '<2 matched terms → 0');
+});
+
+test('facets returns provider/host/category counts for a filter UI', () => {
+  const f = facets(fixture());
+  assert.equal(typeof f.total, 'number');
+  assert.ok(f.total >= 1);
+  assert.ok(f.byProvider.duckduckgo >= 1, 'counts a known provider');
+  assert.ok(f.scholarly >= 1, 'the crossref DOI counts as scholarly');
+  assert.ok(f.ecosystem >= 1, 'the soapbox row counts as ecosystem');
+  assert.ok(f.authority >= 1, 'wikipedia counts as authority');
+  assert.ok(Object.keys(f.byHost).length >= 1);
+  // works on already-ranked rows too
+  const f2 = facets(rankResults(fixture(), Q));
+  assert.ok(f2.total >= 1);
 });

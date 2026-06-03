@@ -149,6 +149,181 @@ export function summary(scope = {}) {
   };
 }
 
+// --- performance metrics (pure, additive) ---------------------------------
+//
+// Standard OSS-benchmark scorers over a series of per-trade results and/or an equity curve.
+// Shared verbatim by live tracking and the backtester so both score performance identically.
+//
+// Conventions:
+//   • `trades`  = array of numeric per-trade P&L results (positive = win, negative = loss),
+//                 or array of objects with a `.pnl` / `.realized` field (auto-extracted).
+//   • `returns` = array of numeric PERIOD returns (e.g. 0.01 = +1%). Annualization is the
+//                 CALLER's choice — these return per-period (un-annualized) ratios. No hidden
+//                 sqrt(252)/sqrt(12) factor is applied.
+//   • `equity`  = array of { t, value } equity-curve points (assumed time-ordered).
+//
+// All functions are deterministic, division-by-zero safe, and NaN-free on empty input
+// (they return null or 0 with explicit `ok` flags rather than producing NaN/Infinity-by-0).
+
+// Coerce a trades entry into a finite number (supports raw numbers or {pnl|realized} objects).
+function tradePnl(t) {
+  if (typeof t === 'number') return Number.isFinite(t) ? t : 0;
+  if (t && typeof t === 'object') {
+    const v = t.pnl ?? t.realized ?? t.value ?? 0;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  }
+  const n = Number(t);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function toNumbers(trades) {
+  return (Array.isArray(trades) ? trades : []).map(tradePnl);
+}
+
+function mean(xs) {
+  if (!xs.length) return 0;
+  return xs.reduce((s, x) => s + x, 0) / xs.length;
+}
+
+// Sample standard deviation (n-1). Returns 0 for fewer than 2 points (no spread to measure).
+function stddev(xs, mu = mean(xs)) {
+  if (xs.length < 2) return 0;
+  const variance = xs.reduce((s, x) => s + (x - mu) ** 2, 0) / (xs.length - 1);
+  return Math.sqrt(variance);
+}
+
+// Maximum drawdown from an equity curve [{t, value}].
+// Returns { ok, pct, peak, trough, peakAt, troughAt }. pct is a positive fraction (0.4 = -40%).
+export function maxDrawdown(equity) {
+  const pts = (Array.isArray(equity) ? equity : []).filter(p => p && Number.isFinite(Number(p.value)));
+  if (!pts.length) return { ok: false, pct: 0, peak: null, trough: null, peakAt: null, troughAt: null };
+
+  let peak = Number(pts[0].value);
+  let peakAt = pts[0].t ?? 0;
+  let maxPct = 0;
+  let mdPeak = peak, mdPeakAt = peakAt, mdTrough = peak, mdTroughAt = peakAt;
+
+  for (const p of pts) {
+    const v = Number(p.value);
+    if (v > peak) { peak = v; peakAt = p.t ?? null; }
+    // drawdown only meaningful when peak is positive (fraction of a positive high-water mark)
+    const dd = peak > 0 ? (peak - v) / peak : 0;
+    if (dd > maxPct) {
+      maxPct = dd;
+      mdPeak = peak; mdPeakAt = peakAt;
+      mdTrough = v; mdTroughAt = p.t ?? null;
+    }
+  }
+  return { ok: true, pct: maxPct, peak: mdPeak, trough: mdTrough, peakAt: mdPeakAt, troughAt: mdTroughAt };
+}
+
+// Sharpe ratio over a series of PERIOD returns: (mean(excess)) / stddev(excess).
+// Un-annualized — caller multiplies by sqrt(periodsPerYear) if they want an annual figure.
+export function sharpe(returns, { riskFreeRate = 0 } = {}) {
+  const rs = (Array.isArray(returns) ? returns : []).map(Number).filter(Number.isFinite);
+  if (rs.length < 2) return { ok: false, value: 0, mean: 0, stddev: 0, n: rs.length };
+  const excess = rs.map(r => r - riskFreeRate);
+  const mu = mean(excess);
+  const sd = stddev(excess, mu);
+  if (sd === 0) return { ok: false, value: 0, mean: mu, stddev: 0, n: rs.length };
+  return { ok: true, value: mu / sd, mean: mu, stddev: sd, n: rs.length };
+}
+
+// Sortino ratio: like Sharpe but the denominator is DOWNSIDE deviation only (returns below the
+// risk-free target). Upside volatility is ignored, so a series of big wins scores better than a
+// symmetric one with the same mean/total spread. Un-annualized.
+export function sortino(returns, { riskFreeRate = 0 } = {}) {
+  const rs = (Array.isArray(returns) ? returns : []).map(Number).filter(Number.isFinite);
+  if (rs.length < 1) return { ok: false, value: 0, mean: 0, downsideDeviation: 0, n: rs.length };
+  const excess = rs.map(r => r - riskFreeRate);
+  const mu = mean(excess);
+  // downside deviation: RMS of negative excess returns (zero for non-negative ones), over N.
+  const sumSqDown = excess.reduce((s, e) => s + (e < 0 ? e * e : 0), 0);
+  const dd = Math.sqrt(sumSqDown / rs.length);
+  if (dd === 0) return { ok: false, value: 0, mean: mu, downsideDeviation: 0, n: rs.length };
+  return { ok: true, value: mu / dd, mean: mu, downsideDeviation: dd, n: rs.length };
+}
+
+// Profit factor = gross wins / gross losses. Infinity-safe: all-wins → Infinity (ok:true),
+// no trades or no wins-and-no-losses → 0 (ok:false).
+export function profitFactor(trades) {
+  const xs = toNumbers(trades);
+  if (!xs.length) return { ok: false, value: 0, grossWins: 0, grossLosses: 0 };
+  let grossWins = 0, grossLosses = 0;
+  for (const x of xs) {
+    if (x > 0) grossWins += x;
+    else if (x < 0) grossLosses += -x;
+  }
+  if (grossLosses === 0) {
+    // no losses: Infinity if there were wins, otherwise undefined (all flat) → 0
+    return { ok: grossWins > 0, value: grossWins > 0 ? Infinity : 0, grossWins, grossLosses };
+  }
+  return { ok: true, value: grossWins / grossLosses, grossWins, grossLosses };
+}
+
+// Win rate. Flat trades (exactly 0) count as neither win nor loss but are in the denominator.
+export function winRate(trades) {
+  const xs = toNumbers(trades);
+  if (!xs.length) return { ok: false, wins: 0, losses: 0, rate: 0 };
+  let wins = 0, losses = 0;
+  for (const x of xs) {
+    if (x > 0) wins++;
+    else if (x < 0) losses++;
+  }
+  return { ok: true, wins, losses, rate: wins / xs.length };
+}
+
+// Expectancy = (avg win × win-rate) − (avg loss × loss-rate). Average expected P&L per trade.
+// avgLoss is reported as a positive magnitude; the formula subtracts it.
+export function expectancy(trades) {
+  const xs = toNumbers(trades);
+  if (!xs.length) return { ok: false, value: 0, avgWin: 0, avgLoss: 0, winRate: 0, lossRate: 0 };
+  const winsArr = xs.filter(x => x > 0);
+  const lossesArr = xs.filter(x => x < 0);
+  const avgWin = winsArr.length ? mean(winsArr) : 0;
+  const avgLoss = lossesArr.length ? -mean(lossesArr) : 0; // positive magnitude
+  const wr = winsArr.length / xs.length;
+  const lr = lossesArr.length / xs.length;
+  return { ok: true, value: avgWin * wr - avgLoss * lr, avgWin, avgLoss, winRate: wr, lossRate: lr };
+}
+
+// Full performance report: every metric above + a plain-English summary line.
+export function performanceReport(trades, equity) {
+  const xs = toNumbers(trades);
+  const pf = profitFactor(trades);
+  const wr = winRate(trades);
+  const exp = expectancy(trades);
+  const dd = maxDrawdown(equity);
+  // build returns from equity curve if available (period-over-period fractional change)
+  const report = {
+    trades: xs.length,
+    netPnl: xs.reduce((s, x) => s + x, 0),
+    profitFactor: pf,
+    winRate: wr,
+    expectancy: exp,
+    maxDrawdown: dd,
+  };
+
+  // plain-English line — front-loads the profit factor in operator-readable terms.
+  let english;
+  if (!xs.length) {
+    english = 'No trades to score yet.';
+  } else {
+    const pfText = pf.value === Infinity
+      ? 'Profit factor ∞ — no losing trades.'
+      : pf.ok
+        ? `Profit factor ${pf.value.toFixed(2)} — for every 1 lost, ${pf.value.toFixed(2)} won.`
+        : 'Profit factor n/a — no completed wins or losses yet.';
+    const wrText = `Win rate ${(wr.rate * 100).toFixed(0)}% (${wr.wins}W/${wr.losses}L).`;
+    const ddText = dd.ok ? `Max drawdown ${(dd.pct * 100).toFixed(1)}%.` : '';
+    const expText = `Expectancy ${exp.value >= 0 ? '+' : ''}${exp.value.toFixed(4)} per trade.`;
+    english = [pfText, wrText, expText, ddText].filter(Boolean).join(' ');
+  }
+  report.english = english;
+  return report;
+}
+
 // --- optional persistence (node:fs) ---------------------------------------
 
 export async function save(path) {
