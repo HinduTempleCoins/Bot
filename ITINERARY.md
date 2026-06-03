@@ -1045,3 +1045,38 @@ No external ads - like Ickonic on David Icke Forum.
 ---
 
 **Trading bot is LIVE and executing! Knowledge base ready for Discord bot! Let's monitor performance and continue with Discord enhancements.** 🚀
+
+---
+
+## Reconciliation 2026-06-03
+
+**APPEND-ONLY.** Nothing above this line has been removed, edited, or reworded — including stale `Last Updated` / `Status` headers and any item marked ⏳ that is in fact now done. This section is the dated correction layer added after the completed repo audit and the merge of PRs #53–#64. Read this section as the authoritative present-state overlay on top of everything above.
+
+### (a) Items above now DONE — what actually shipped
+
+These items appear above as not-started, in-progress, or ⏳; as of 2026-06-03 they are complete (or code-complete and gated only on the chain endpoint). The original lines stay as written; this is the additive correction.
+
+- **Cheetah Steps 4–6 — BUILT with tests.** The 2026-05-28 section above marks Step 4 (resolution), Step 5 (discovery), and Step 6 (image detection) as ⏳. They are now BUILT with tests:
+  - Step 4 → `cheetah/resolution.js` (resolution flow with Hathor)
+  - Step 5 → `cheetah/discovery.js` (discovery mode)
+  - Step 6 → `cheetah/image-detection.js` + `cheetah/perceptual-hash.js` (image / perceptual-hash detection)
+  The Phase-3 gating note on Step 4 and the "last, hardest" note on Step 6 are superseded: the deterministic code exists and is tested. Live resolution conversations still ride on Phase 3 / chain availability, but the modules are done.
+- **Character / identity docs — EXIST.** `CHARACTER.md`, `RULE_1.md`, `LINEAGE.md`, and `system_prompts/` (listed as *(to create)* in CLAUDE.md's build table) are all present in the repo.
+- **`witness/` + `signup/` + `tutorial/` — CODE-COMPLETE, gated on the chain endpoint.** These are built and tested; the only thing blocking them is the live MELEK chain RPC endpoint (`MELEK_RPC_URL` / `MELEK_CHAIN_ID` / `MELEK_ADDRESS_PREFIX`). Not "not started."
+- **~275 feature modules exist.** Far beyond the original Discord-bot + trading-bot + knowledge-base scope. **35 are LIVE on https://data.soapbox.community**, with the **soapy.blog admin portal LIVE as of 2026-06-03**, including a **Claude chat bridge** in that portal.
+- **Front-page ticker + world clocks + 17 new public pages — LIVE.** The data.soapbox.community front end now carries a live ticker, world clocks, and 17 new public pages (`/library`, `/lawyers`, `/benefits`, `/economy`, `/census`, and more).
+- **MELEK-Signer client + mock — MERGED (PR #56).** The Bot-side signer client and its mock are in. Pairs with the zero-WIF `.env.example` (PR #55). This is the in-repo half; the live signer service still lives in its separate private repo (zero WIF on this host, unchanged).
+- **Search: BM25 hybrid ranking — LIVE (PR #58).** Hybrid BM25 ranking shipped for search quality (`integrations/bm25.mjs` + soapbox search-quality wiring).
+- **Accountability readers — MERGED (PR #61).** Congress / FEC / lobbying / judges readers.
+- **Gov-records readers — MERGED (PR #60).** NHTSA / OSHA / FSIS readers.
+
+### (b) Corrections-as-additions for superseded language
+
+- **PHASE 8 "SoapBox.Community INFRASTRUCTURE (Target: March 2026)" is now partly SHIPPED, not future.** The CoinMarketCap-style data site is LIVE at https://data.soapbox.community (35 modules live) and the soapy.blog admin portal is LIVE as of 2026-06-03. The March-2026 "Target" framing and the "Immediate Next Steps (SoapBox)" provisioning checklist above describe a plan that has since been executed (on different hosting than the Contabo plan named above). The original Phase 8 text is retained as the record of the plan; this note marks it shipped.
+- **PHASE 1 / PHASE 4 "AI Angel Character" + "Angel Character Launch" framing is superseded by the unified Hathor character.** Per the 2026-05-28 MERGE-framing section above and BRIEF.md, the character is the MELEK AI Witness "Hathor" (CHARACTER.md / RULE_1.md / LINEAGE.md / scripture corpus), not a separate social-media "AI Angel" persona. The older "AI Angel" launch items remain as lineage, not as a separate current deliverable.
+
+### (c) New active decisions (operator, 2026-06-03)
+
+- **Law.SoapBox + Politics.SoapBox portals — CHOSEN.** Two new portal surfaces are now active decisions (they sit alongside data.soapbox.community / soapy.blog). The accountability readers (PR #61) and gov-records readers (PR #60) feed these.
+- **Discord = Van Kush Family community build-out.** The Discord surface is the Van Kush Family community, being built out as such.
+- **Naming guardrail (unchanged, restated):** the **Shaivite Temple** is the operator's **501(c)(3)** — it is *never* called "Temple of Van Kush." Crypt-ology remains the per-person relationship-map subsystem, distinct from the Temple.
