@@ -35,6 +35,7 @@ import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cach
 import { chyronItems, worldClocks } from '../../integrations/soapbox/chyron.mjs';
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
+import { findVertical, renderVertical } from './verticals.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
@@ -745,6 +746,9 @@ createServer(async (req, res) => {
     if (p === '/forex') return send(await forexPage());
     if (p === '/news') return send(await newsPage());
     if (p === '/gov') return send(govPage());
+    // #125 — all built verticals served from one dispatch (energy/weather/cams/scanners/media/gridcoin/
+    // nasa/commodities-goods/public-safety + search: legal/pharma/biodiversity/vehicle). renderVertical never throws.
+    { const vert = findVertical(p); if (vert) return send(layout({ title: vert.title, active: p, canonical: `${BASE_URL}${p}`, description: `${vert.title} — SoapBox Data`, body: await renderVertical(p, url.searchParams.get('q') || '') })); }
     if (p === '/api/chyron') return json(res, 200, await memo('chyron', MEMO_TTL.clarity, async () => ({ items: await chyronItems({ max: 16 }), clocks: worldClocks() })).catch(() => ({ items: [], clocks: worldClocks() })));
     if (p === '/api/news') return json(res, 200, await memo('news:feed', MEMO_TTL.clarity, () => newsFeed()).catch(() => ({})));
     if (p === '/stats') {
