@@ -425,7 +425,9 @@ export async function handle(req, res) {
       if (!r.ok) return html(res, loginPage({ notice: IS_LOCAL ? 'That address cannot sign in.' : sentNotice }));
       const link = `${BASE_URL}/auth/magic?token=${encodeURIComponent(r.token)}`;
       if (IS_LOCAL) return html(res, loginPage({ magicLink: link, notice: 'Magic link generated (dev).' }));
-      await deliverMagicLink(link);
+      const d = await deliverMagicLink(link);
+      // Log delivery outcome (status only — never the link/token) so silent failures are debuggable.
+      console.log(`[admin-auth] magic-link delivery: sent=${d.sent}${d.reason ? ` reason=${d.reason}` : ''}`);
       return html(res, loginPage({ notice: sentNotice }));
     }
 
