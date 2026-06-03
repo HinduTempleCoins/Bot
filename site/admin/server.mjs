@@ -28,7 +28,7 @@ import { scan } from '../../integrations/security-scan.mjs';
 import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
-import { repoFeatures, summary as featureSummary, setFlag } from '../../integrations/feature-registry.mjs';
+import { repoFeatures, summary as featureSummary, setFlag, tierOrder } from '../../integrations/feature-registry.mjs';
 import { sendToClaude, relayStatus, renderPanel as claudePanel } from '../../integrations/claude-relay.mjs';
 import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
 import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
@@ -286,41 +286,64 @@ async function featuresPage({ root } = {}) {
     ? '<span class="ok">● LIVE</span>'
     : st === 'BUILT' ? '<span class="warn">○ built · hidden</span>' : '<span class="muted">· scaffold</span>';
 
-  // group by category, hidden-first within each
-  const byCat = {};
-  for (const f of feats) (byCat[f.category] ||= []).push(f);
-  const order = Object.keys(byCat).sort();
-  const sections = order.map((cat) => {
-    const rows = byCat[cat]
-      .sort((a, b) => (a.status === 'LIVE') - (b.status === 'LIVE') || a.label.localeCompare(b.label))
-      .map((f) => {
-        const surface = f.surface ? `<span class=muted style="font-size:12px">${esc(f.surface)}</span>` : '';
-        // toggle: only meaningful for not-yet-live features; LIVE ones show where they live
-        const toggle = f.status === 'LIVE'
-          ? surface || '<span class=muted>—</span>'
-          : `<form method=POST action="/features/flag" style="margin:0">
-               <input type=hidden name=id value="${esc(f.id)}">
-               <input type=hidden name=on value="${f.flag ? '0' : '1'}">
-               <button class="btn ghost" style="padding:4px 12px;font-size:13px">${f.flag ? 'Queued ✓ — unqueue' : 'Surface this'}</button>
-             </form>`;
-        return `<tr><td><strong>${esc(f.label)}</strong><div class=muted style="font-size:12px"><code>${esc(f.path)}</code></div></td>
-          <td>${statusBadge(f.status)}</td>
-          <td>${f.hasTest ? '<span class=ok>tested</span>' : '<span class=muted>—</span>'}</td>
-          <td>${toggle}</td></tr>`;
-      }).join('');
-    const cc = s.byCategory[cat] || { total: byCat[cat].length, live: 0, hidden: 0 };
-    return `<div class=card><h2>${esc(cat)} <span class=muted style="font-weight:400;font-size:13px">· ${cc.live}/${cc.total} live</span></h2>
-      <table><thead><tr><th>Capability</th><th>Status</th><th>Tests</th><th>Front-facing</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  // plain-English tier blurbs — the decision the operator is actually making per group
+  const TIER_BLURBS = {
+    'FRONT-FACING FIRST': 'The next public portals per our discussions — Law / Politics / benefits / business records / data verticals. These are the go-live decisions on the table right now.',
+    'PUBLIC CANDIDATE': 'Could become a public page; nothing forces a decision yet. Pick from here when a portal needs more content.',
+    'GATED': 'Blocked on something real — the chain, the signer, a license, or your explicit approval. A toggle here wouldn\'t do anything yet, so the gate reason is shown instead.',
+    'INTERNAL TOOL': 'Runs FOR you and the AIs (monitoring, briefs, admin machinery). Never meant to be public — "go live" doesn\'t apply.',
+    'BUILDING BLOCK': 'Libraries other features import (rankers, parsers, schemas). They ship inside other features, never as their own page.',
+  };
+
+  const stateChip = (flag) => !flag ? '' : flag.state === 'queue'
+    ? '<span class="ok" style="font-size:12px">queued to surface ✓</span>'
+    : flag.state === 'later'
+      ? '<span class="warn" style="font-size:12px">decide later</span>'
+      : '<span class="muted" style="font-size:12px">not going live ✕</span>';
+
+  const decideButtons = (f) => {
+    if (f.status === 'LIVE') return f.surface ? `<span class=muted style="font-size:12px">${esc(f.surface)}</span>` : '<span class=muted>—</span>';
+    if (f.tier === 'GATED') return `<span class=muted style="font-size:12px">${esc(f.gateReason || 'gated')}</span>`;
+    if (f.tier === 'INTERNAL TOOL' || f.tier === 'BUILDING BLOCK') {
+      return `<span class=muted style="font-size:12px">${f.tier === 'INTERNAL TOOL' ? 'internal — works for you, not the public' : 'used inside other features'}</span>`;
+    }
+    const btn = (state, label, active) => `<form method=POST action="/features/flag" style="margin:0;display:inline">
+        <input type=hidden name=id value="${esc(f.id)}">
+        <input type=hidden name=state value="${active ? 'clear' : state}">
+        <button class="btn ghost" style="padding:3px 9px;font-size:12px${active ? ';font-weight:700' : ''}">${label}${active ? ' ✓' : ''}</button>
+      </form>`;
+    const st = f.flag?.state;
+    return `${stateChip(f.flag)} ${btn('queue', 'Surface', st === 'queue')} ${btn('later', 'Later', st === 'later')} ${btn('never', 'Not public', st === 'never')}`;
+  };
+
+  // group by tier (decision lens), category as a small chip on each row
+  const byTier = {};
+  for (const f of feats) (byTier[f.tier] ||= []).push(f);
+  const sections = tierOrder().filter((t) => byTier[t]?.length).map((tier) => {
+    const rows = byTier[tier]
+      .map((f) => `<tr>
+          <td><strong>${esc(f.label)}</strong> <span class=muted style="font-size:11px">· ${esc(f.category)}</span>
+            <div style="font-size:13px;max-width:560px">${esc(f.description || '')}</div>
+            <div class=muted style="font-size:11px"><code>${esc(f.path)}</code>${f.flag?.note ? ` · note: ${esc(f.flag.note)}` : ''}</div></td>
+          <td>${statusBadge(f.status)}${f.hasTest ? '' : '<div class=muted style="font-size:11px">no test yet</div>'}</td>
+          <td style="white-space:nowrap">${decideButtons(f)}</td></tr>`).join('');
+    const live = byTier[tier].filter((f) => f.status === 'LIVE').length;
+    return `<div class=card><h2>${esc(tier)} <span class=muted style="font-weight:400;font-size:13px">· ${byTier[tier].length} capabilities · ${live} live</span></h2>
+      <p class=muted style="font-size:13px">${TIER_BLURBS[tier] || ''}</p>
+      <table><thead><tr><th>What it is</th><th>Status</th><th>Your decision</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }).join('');
 
-  const body = `<h1>Features <span class=muted style="font-size:14px">· everything built in the repo</span></h1>
+  const ff = byTier['FRONT-FACING FIRST'] || [];
+  const body = `<h1>Features <span class=muted style="font-size:14px">· everything built, sorted by the decision you're making</span></h1>
     <div class=card><h2>What you have</h2>
       <p><strong>${esc(s.total)}</strong> capabilities built ·
          <span class=ok>${esc(s.byStatus.LIVE || 0)} live</span> ·
          <span class=warn>${esc(s.byStatus.BUILT || 0)} built but hidden</span> ·
-         <span class=muted>${esc(s.byStatus.SCAFFOLD || 0)} scaffold</span></p>
-      <p class=muted style="font-size:13px">"Built but hidden" exists in the repo and is tested, but no live subdomain serves it yet.
-        Hit <em>Surface this</em> to queue it for the next deploy — the toggle records your intent; it does not deploy on its own.</p>
+         <span class=muted>${esc(s.byStatus.SCAFFOLD || 0)} scaffold</span> ·
+         <strong>${esc(ff.length)}</strong> front-facing-first candidates at the top</p>
+      <p class=muted style="font-size:13px">Each capability now shows a plain-English description (pulled from the module itself) and sits in
+        the group matching the decision it needs: <em>Surface</em> queues it for the next deploy, <em>Later</em> parks it,
+        <em>Not public</em> records that it stays internal. Nothing deploys by itself.</p>
     </div>
     ${sections}`;
   return layout({ title: 'Features', body });
@@ -525,8 +548,11 @@ export async function handle(req, res) {
     if (p === '/features/flag' && method === 'POST') {
       const params = formParams(await readBody(req));
       const fid = (params.get('id') || '').trim();
-      const on = params.get('on') === '1' || /^(true|on|yes)$/i.test(params.get('on') || '');
-      if (fid) await setFlag(fid, on).catch(() => {});
+      // new decision states (queue | later | never | clear); legacy on=1/0 still accepted
+      let state = (params.get('state') || '').trim();
+      if (!state) state = (params.get('on') === '1' || /^(true|on|yes)$/i.test(params.get('on') || '')) ? 'queue' : 'clear';
+      const note = (params.get('note') || '').trim();
+      if (fid) await setFlag(fid, state, note).catch(() => {});
       return redirect(res, '/features');
     }
 

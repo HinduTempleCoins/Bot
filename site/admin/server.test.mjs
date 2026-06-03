@@ -101,7 +101,15 @@ test('gated /features lists built-but-hidden capabilities', async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /capabilities built/);
   assert.match(res.body, /built but hidden/);
-  assert.match(res.body, /Surface this/);
+  // v2 cockpit: tier sections (front-facing-first at top), plain-English
+  // descriptions, and the three-way decision buttons
+  assert.match(res.body, /FRONT-FACING FIRST/);
+  assert.match(res.body, /sorted by the decision/);
+  assert.match(res.body, />Surface</);
+  assert.match(res.body, />Later</);
+  assert.match(res.body, />Not public</);
+  // tier order: front-facing section appears before the internal tools section
+  assert.ok(res.body.indexOf('FRONT-FACING FIRST') < res.body.indexOf('INTERNAL TOOL'));
 });
 
 test('/features/flag requires admin and redirects back', async () => {
