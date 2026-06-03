@@ -28,6 +28,68 @@ const KEY = () => process.env.GEMINI_API_KEY || '';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const nowISO = () => new Date().toISOString();
 
+// ── #136-lib — Resource Center as an ADDITIONAL evidence source ──────────────────────────────────
+// The Resource Center (integrations/resource-center.mjs) aggregates gov/scholarly/web/market sources.
+// We fold its corroborating evidence into verifyClaim ADDITIVELY, exactly like the scraper + grounding
+// layers: best-effort, soft-fail to nothing. It is FLAGS-ONLY downstream — this never edits the KB.
+//
+// Cross-language bridge: the fact-checker and resource-center are both ESM, so a dynamic import()
+// works natively; we still wrap it in try/catch so an absent/broken module (or a CJS host that can't
+// import ESM) degrades to "no Resource Center evidence" and the checker behaves exactly as before.
+//
+// Injectable for offline tests: __setResourceCenter(fn) swaps the query function. The injected/real fn
+// takes (claim, { max }) and returns an array of evidence rows ({ title?, url, snippet? }) OR a snapshot
+// object; queryResourceCenter() normalizes either shape into our evidence rows.
+let _resourceCenter = null;            // injected override (tests); null → use the real lazy import.
+export function __setResourceCenter(fn) { _resourceCenter = fn; }
+
+// Default query fn: lazily dynamic-import the Resource Center and ask it for claim-relevant evidence.
+// Prefers a claim-aware export (sourcesFor) if present; otherwise falls back to its latest() snapshot.
+// Cached after first successful import; any failure soft-fails to null so we just skip this source.
+let _rcMod;
+async function defaultResourceCenter(claim, { max = 4 } = {}) {
+  if (_rcMod === undefined) _rcMod = null;            // (kept for clarity; assigned below on success)
+  try {
+    if (!_rcMod) _rcMod = await import('../../../integrations/resource-center.mjs');
+    const mod = _rcMod;
+    if (typeof mod.sourcesFor === 'function') return await mod.sourcesFor(claim, { max });
+    if (typeof mod.latest === 'function') return await mod.latest();
+    return null;
+  } catch { return null; }
+}
+
+// Normalize whatever the Resource Center returns into our { title, url, snippet } evidence rows.
+// Accepts an array of rows, or a snapshot object (pulls any { title/url } it carries). Never throws.
+function normalizeRcEvidence(raw, max = 4) {
+  let rows = [];
+  if (Array.isArray(raw)) rows = raw;
+  else if (raw && typeof raw === 'object') {
+    if (Array.isArray(raw.sources)) rows = raw.sources;
+    else if (Array.isArray(raw.evidence)) rows = raw.evidence;
+  }
+  const out = [];
+  for (const r of rows) {
+    if (!r || typeof r !== 'object') continue;
+    const url = typeof r.url === 'string' ? r.url.trim() : '';
+    if (!url) continue;
+    const title = (typeof r.title === 'string' && r.title.trim()) || url;
+    const snippet = (typeof r.snippet === 'string' && r.snippet) || (typeof r.description === 'string' && r.description) || '';
+    out.push({ title, url, snippet });
+    if (out.length >= max) break;
+  }
+  return out;
+}
+
+// Query the Resource Center for corroborating evidence on a claim. Soft-fails to [] on any error so
+// the verify path is unchanged when the Resource Center is unavailable. Uses the injected fn if set.
+async function queryResourceCenter(claim, { max = 4 } = {}) {
+  try {
+    const fn = _resourceCenter || defaultResourceCenter;
+    const raw = await fn(claim, { max });
+    return normalizeRcEvidence(raw, max);
+  } catch { return []; }
+}
+
 // ── Gemini REST (grounding needs the google_search tool, cleanest via REST) ──
 async function gemini(prompt, { grounded = false, retries = 3 } = {}) {
   const body = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0 } };
@@ -105,6 +167,19 @@ export async function verifyClaim(claim) {
       fetchedCount += auth.length;
     }
   } catch { /* authoritative layer optional */ }
+  // #136-lib — ALSO query the Resource Center (gov/scholarly/web aggregator) for corroborating evidence
+  // and fold it in exactly like the layers above. Soft-fails to nothing, so with the Resource Center
+  // unavailable verifyClaim behaves EXACTLY as before. Tagged [R..] in the evidence block; URLs added
+  // to evidence_urls + counted toward fetchedCount so it can lift a verdict the same way other sources do.
+  try {
+    const rc = await queryResourceCenter(claim, { max: 4 });
+    if (Array.isArray(rc) && rc.length) {
+      const rcBlock = rc.map((s, i) => `[R${i + 1}] (resource-center) ${s.title || ''} — ${s.url || ''}\n${(s.snippet || '').slice(0, 800)}`).join('\n\n');
+      evidenceBlock = evidenceBlock ? `${evidenceBlock}\n\n${rcBlock}` : rcBlock;
+      evidenceUrls = [...evidenceUrls, ...rc.map((s) => s.url).filter(Boolean)];
+      fetchedCount += rc.length;
+    }
+  } catch { /* Resource Center layer optional — soft-fail to unchanged behavior */ }
   const prompt = `You are a careful fact-checker with web search. Assess ONE claim from a research wiki against reliable external sources (encyclopedias, scientific literature, reputable web).
 ${evidenceBlock ? `\nFETCHED EVIDENCE (real pages retrieved from the Resource Center for THIS claim — this is your PRIMARY basis; base the verdict on what these pages actually say, not on prior memory. If the evidence does not address the claim, prefer UNVERIFIABLE over guessing):\n${evidenceBlock}\n` : '\n(No external evidence could be fetched for this claim. Do NOT assert SUPPORTED or CONTRADICTED from memory alone — use UNVERIFIABLE unless the claim is purely INTERNAL.)\n'}
 

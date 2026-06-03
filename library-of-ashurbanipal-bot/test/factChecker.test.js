@@ -19,7 +19,7 @@ process.env.KB_FLAG_STORE = path.join(TMP, 'kb-flags.json');
 process.env.FACTCHECK_LOG = path.join(TMP, 'factcheck-log.jsonl');
 process.env.GEMINI_API_KEY = 'test-key';            // present so verify takes the normal path
 
-const { extractClaims, verifyClaim, checkArticle } = await import('../src/factChecker/index.js');
+const { extractClaims, verifyClaim, checkArticle, __setResourceCenter } = await import('../src/factChecker/index.js');
 const { extractKbClaims, checkKbDoc } = await import('../src/factChecker/kbCheck.js');
 const { recordFlag, flagsForFile, flagsForTopic, briefWarningFor, openFlagCount } = await import('../src/factChecker/flags.js');
 const { logVerdict, readLog, logTallyForFile } = await import('../src/factChecker/verdictLog.js');
@@ -155,6 +155,62 @@ test('verifyClaim returns a verdict grounded in fetched evidence (offline harnes
     assert.ok(Array.isArray(v.evidence_urls));
     assert.ok(v.evidence_urls.length >= 1, 'evidence URLs captured from grounding/fetch');
   } finally { restoreFetch(); }
+});
+
+// ── #136-lib Resource Center as an ADDITIONAL evidence source (injected; offline) ──────────────────
+test('verifyClaim folds in injected Resource Center evidence (corroboration → evidence_urls)', async () => {
+  installFetch();
+  let rcCalled = false;
+  __setResourceCenter(async (claim, opts) => {
+    rcCalled = true;
+    return [
+      { title: 'RC corroborating source', url: 'https://gov.example/record-1', snippet: 'Authoritative corroborating text.' },
+      { title: 'RC second source', url: 'https://scholarly.example/paper-2', snippet: 'Peer-reviewed agreement.' },
+    ];
+  });
+  try {
+    geminiVerdict = { verdict: 'SUPPORTED', confidence: 0.9, reason: 'evidence agrees', source: '' };
+    const v = await verifyClaim('A claim the Resource Center corroborates.');
+    assert.ok(rcCalled, 'the injected Resource Center query was used');
+    assert.equal(v.verdict, 'SUPPORTED');
+    // the RC-surfaced URL is folded into the evidence the same way other sources are
+    assert.ok(v.evidence_urls.includes('https://gov.example/record-1'), 'Resource Center URL folded into evidence_urls');
+  } finally { restoreFetch(); __setResourceCenter(null); }
+});
+
+test('verifyClaim soft-fails when the Resource Center throws (unchanged verdict behavior)', async () => {
+  installFetch();
+  __setResourceCenter(async () => { throw new Error('resource center down'); });
+  try {
+    geminiVerdict = { verdict: 'CONTRADICTED', confidence: 0.8, reason: 'the date is wrong', source: '' };
+    // must still return a normal verdict — exactly as before the Resource Center existed
+    const v = await verifyClaim('Some checkable real-world claim about a date.');
+    assert.equal(v.verdict, 'CONTRADICTED');
+    assert.ok(Array.isArray(v.evidence_urls));
+    assert.ok(v.evidence_urls.length >= 1, 'evidence still captured from the other sources');
+  } finally { restoreFetch(); __setResourceCenter(null); }
+});
+
+test('verifyClaim Resource Center evidence can lift an otherwise-unverifiable verdict (additive)', async () => {
+  // With NO scraper/grounding evidence AND no Gemini citations, a SUPPORTED verdict is normally
+  // downgraded to UNVERIFIABLE. An injected Resource Center hit supplies external evidence, so the
+  // fetchedCount > 0 guard is satisfied and the SUPPORTED verdict survives — proving the fold is additive.
+  scraper.__setFetch(async () => fakeResponse({ results: [] }));   // scraper + jina → no evidence
+  globalThis.fetch = async (url) => {
+    if (String(url).includes('generativelanguage.googleapis.com')) {
+      // no groundingChunks → no Gemini citations either
+      return fakeResponse({ candidates: [{ content: { parts: [{ text: JSON.stringify(geminiVerdict) }] } }] });
+    }
+    return fakeResponse({});
+  };
+  __setResourceCenter(async () => [{ title: 'RC only', url: 'https://rc.example/only', snippet: 'agrees' }]);
+  try {
+    geminiVerdict = { verdict: 'SUPPORTED', confidence: 0.9, reason: 'evidence agrees', source: '' };
+    const v = await verifyClaim('A claim only the Resource Center can corroborate.');
+    assert.equal(v.verdict, 'SUPPORTED', 'RC evidence kept it from being downgraded to UNVERIFIABLE');
+    assert.ok(v.evidence_urls.includes('https://rc.example/only'));
+    assert.ok(v.evidence_fetched >= 1, 'Resource Center counted toward fetched evidence');
+  } finally { restoreFetch(); __setResourceCenter(null); }
 });
 
 test('checkArticle logs every verdict (append-only) and flags the contradicted claim, never edits KB', async () => {
