@@ -168,13 +168,25 @@ function wrap(evidence) {
 
 /**
  * The next stage the user should attempt, given current completions.
- * Returns the stage definition object, or null if all stages are complete.
+ *
+ * Only considers stages the detector can actually evaluate from chain data
+ * (the keys returned by detectCompletedStages — currently the Tier-A spine,
+ * stages 1–6). Stages 7+ in stages.json are either later Tier-A primitives,
+ * infra-gated Tier-B placeholders, or the Phase-3 Tier-C conversational arc;
+ * none has a chain-reader detector yet, so they cannot be "the next stage to
+ * attempt" through this path. As detectors are added for new kinds, those
+ * stages automatically become eligible here.
+ *
+ * Returns the stage definition object, or null if every detectable stage is
+ * complete.
  */
 export function nextStageFor(userActivity) {
   const { stages } = loadStages();
   const completions = detectCompletedStages(userActivity);
   for (const stage of stages) {
-    if (!completions[stage.key]?.complete) return stage;
+    const tracked = completions[stage.key];
+    if (!tracked) continue; // detector has no rule for this stage yet
+    if (!tracked.complete) return stage;
   }
   return null;
 }
