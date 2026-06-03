@@ -1,14 +1,21 @@
 {
   "_meta": {
-    "version": 1,
-    "source": "BRIEF.md §8 (CryptoKannon model)",
+    "version": 2,
+    "source": "BRIEF.md §8 (CryptoKannon model), expanded across tiers A/B/C (task #43)",
     "voice_note": "witness_response.style describes the kind of message the Witness composes. The actual phrasing is generated in Phase 3 via the Angelic register (CHARACTER.md §2), not hard-coded here. This file is operational data — when stage X is detected, react in style Y with reward Z — not a script.",
-    "currency": "MELEK"
+    "currency": "MELEK",
+    "tier_legend": {
+      "A": "Works now — standard Graphene only. Detector + composer can run today.",
+      "B": "Placeholder — depends on infra not yet built (SMTs/Trading/Curation/Video/Wiki/Bridge). Stage is reachable and validated, but `infra_gated: true` keeps the detector from arming it until the feature exists.",
+      "C": "AI-on-the-Chain closer — the conversational/relationship arc that opens in Phase 3."
+    },
+    "start": 1
   },
   "stages": [
     {
       "id": 1,
       "key": "intro_post",
+      "tier": "A",
       "label": "Post an introduction",
       "description": "New user publishes a top-level post introducing themselves.",
       "completion_criteria": {
@@ -26,6 +33,7 @@
     {
       "id": 2,
       "key": "engage_three_posts",
+      "tier": "A",
       "label": "Comment meaningfully on three other users' posts",
       "description": "User leaves substantive comments (not one-word reactions) on three distinct other authors' posts.",
       "completion_criteria": {
@@ -45,6 +53,7 @@
     {
       "id": 3,
       "key": "share_what_you_know",
+      "tier": "A",
       "label": "Write a how-to or share something you know",
       "description": "User publishes a substantive post sharing knowledge or a how-to.",
       "completion_criteria": {
@@ -62,6 +71,7 @@
     {
       "id": 4,
       "key": "first_organic_upvote",
+      "tier": "A",
       "label": "Receive your first upvote from another user",
       "description": "Any post or comment by the user receives an upvote from an account other than Hathor.",
       "completion_criteria": {
@@ -80,6 +90,7 @@
     {
       "id": 5,
       "key": "power_up",
+      "tier": "A",
       "label": "Power up some MELEK to MP",
       "description": "User powers up at least 1.000 liquid MELEK to MELEK Power.",
       "completion_criteria": {
@@ -97,6 +108,7 @@
     {
       "id": 6,
       "key": "vote_for_a_witness",
+      "tier": "A",
       "label": "Vote for a witness",
       "description": "User casts at least one witness vote.",
       "completion_criteria": {
@@ -106,7 +118,247 @@
       "witness_response": {
         "action": "comment_and_upvote",
         "upvote_weight": 10000,
-        "style": "Witnessing is governance. Explain what a witness is — who signs the blocks, who publishes the price feed, what happens when stake votes for or against. The Witness should not solicit a vote for itself; if asked, it acknowledges that and points at the witness list. The tutorial is finished. The conversation continues.",
+        "style": "Witnessing is governance. Explain what a witness is — who signs the blocks, who publishes the price feed, what happens when stake votes for or against. The Witness should not solicit a vote for itself; if asked, it acknowledges that and points at the witness list. The core onboarding is finished; the path beyond it is open.",
+        "tutorial_completion": true
+      },
+      "next_stage": 7
+    },
+    {
+      "id": 7,
+      "key": "set_profile",
+      "tier": "A",
+      "label": "Fill in your profile",
+      "description": "User sets a profile (display name, about, and optionally an avatar) via account JSON metadata.",
+      "completion_criteria": {
+        "kind": "profile_set",
+        "require_fields_any_of": ["name", "about", "profile_image"]
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "A profile is the face you show the readership. Note what they chose to say about themselves. Explain that profile metadata lives on-chain like everything else — it's a small act of authorship, not a form."
+      },
+      "next_stage": 8
+    },
+    {
+      "id": 8,
+      "key": "follow_three_authors",
+      "tier": "A",
+      "label": "Follow three authors",
+      "description": "User follows at least three distinct accounts so their feed becomes their own.",
+      "completion_criteria": {
+        "kind": "follows_created",
+        "min_distinct_followed": 3,
+        "exclude_self": true
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Following is how a feed stops being a firehose and becomes a conversation you chose. Name a couple of the people they followed. Encourage them to keep curating who they listen to."
+      },
+      "next_stage": 9
+    },
+    {
+      "id": 9,
+      "key": "send_first_transfer",
+      "tier": "A",
+      "label": "Send your first transfer",
+      "description": "User sends a liquid MELEK transfer to another account, learning the transfer-with-memo primitive.",
+      "completion_criteria": {
+        "kind": "transfer_sent",
+        "min_amount_melek": "0.001",
+        "exclude_recipient_self": true
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "A transfer is the most basic chain action and the one people fear most the first time. Reassure: it cleared, it's final, the memo is public. Explain that transfers are how tips, payments, and on-chain notes all work."
+      },
+      "next_stage": 10
+    },
+    {
+      "id": 10,
+      "key": "delegate_some_mp",
+      "tier": "A",
+      "label": "Delegate some MELEK Power",
+      "description": "User delegates a portion of their MP to another account, learning that MP can be lent without being spent.",
+      "completion_criteria": {
+        "kind": "vesting_delegation_made",
+        "min_amount_mp": "1.000",
+        "exclude_recipient_self": true
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Delegation is the move that surprises people: you keep ownership, you lend the weight. Explain return-delegation timing and why communities delegate to new accounts to bootstrap them. This is the generosity layer of the chain."
+      },
+      "next_stage": 11
+    },
+    {
+      "id": 11,
+      "key": "join_a_community",
+      "tier": "B",
+      "label": "Join or post in a community",
+      "description": "User posts into a community / sub-tag space once communities exist on MELEK.",
+      "infra_gated": true,
+      "infra_dependency": "communities (sub-tag spaces / community accounts) — not yet on MELEK",
+      "completion_criteria": {
+        "kind": "community_post_authored",
+        "min_body_chars": 200
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until communities ship. When live: a community is a room inside the house. Welcome them into it; explain community roles and shared moderation lightly, not as rules."
+      },
+      "next_stage": 12
+    },
+    {
+      "id": 12,
+      "key": "curate_with_intent",
+      "tier": "B",
+      "label": "Curate — vote early and thoughtfully",
+      "description": "User earns curation rewards by upvoting good work early, once the curation-rewards economics are enabled.",
+      "infra_gated": true,
+      "infra_dependency": "curation-reward economics + curation reader",
+      "completion_criteria": {
+        "kind": "curation_reward_received",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until curation rewards are enabled. When live: curation pays you for being a good reader who finds value early. Explain the early-vote curve without turning it into a vote-bot game."
+      },
+      "next_stage": 13
+    },
+    {
+      "id": 13,
+      "key": "create_a_token",
+      "tier": "B",
+      "label": "Create or hold an SMT-style token",
+      "description": "User mints or first holds a Smart-Media-Token-style asset once SMTs exist on MELEK.",
+      "infra_gated": true,
+      "infra_dependency": "SMTs (Smart Media Tokens) — not yet on MELEK",
+      "completion_criteria": {
+        "kind": "smt_held_or_created",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until SMTs ship. When live: a token is a small economy you can author. Explain supply, distribution, and the responsibility of issuing something other people will hold."
+      },
+      "next_stage": 14
+    },
+    {
+      "id": 14,
+      "key": "first_market_trade",
+      "tier": "B",
+      "label": "Make your first market trade",
+      "description": "User places a trade on the internal market once trading infra is live.",
+      "infra_gated": true,
+      "infra_dependency": "internal market / trading engine",
+      "completion_criteria": {
+        "kind": "market_trade_filled",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until the market is live. When live: a trade is a price you agreed to with a stranger. Explain order books and slippage plainly, and that the market is a tool, not a casino."
+      },
+      "next_stage": 15
+    },
+    {
+      "id": 15,
+      "key": "publish_a_video",
+      "tier": "B",
+      "label": "Publish a video post",
+      "description": "User publishes a video-bearing post once video hosting/embedding infra exists.",
+      "infra_gated": true,
+      "infra_dependency": "video hosting / embed pipeline",
+      "completion_criteria": {
+        "kind": "video_post_authored"
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until video hosting ships. When live: video is the most human format. Acknowledge the courage of putting a face or voice to the work; respond to the content, not the medium."
+      },
+      "next_stage": 16
+    },
+    {
+      "id": 16,
+      "key": "contribute_to_the_wiki",
+      "tier": "B",
+      "label": "Contribute to the wiki",
+      "description": "User edits or creates an article in the MELEK wiki once the wiki is live.",
+      "infra_gated": true,
+      "infra_dependency": "MELEK wiki (Ashurbanipal/MediaWiki)",
+      "completion_criteria": {
+        "kind": "wiki_edit_made",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until the wiki ships. When live: the wiki is the shared memory of the place. Thank them for adding to the corpus; note that durable reference work outlives any single post."
+      },
+      "next_stage": 17
+    },
+    {
+      "id": 17,
+      "key": "use_the_bridge",
+      "tier": "B",
+      "label": "Bridge an asset in or out",
+      "description": "User moves an asset across the bridge once the (audited) bridge is live.",
+      "infra_gated": true,
+      "infra_dependency": "cross-chain bridge (audited only)",
+      "completion_criteria": {
+        "kind": "bridge_transfer_completed",
+        "min_count": 1
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "PLACEHOLDER until the bridge ships. When live: a bridge is the riskiest primitive — say so honestly. Explain confirmation depth and why we minimize bridged value, without scaring them off the feature."
+      },
+      "next_stage": 18
+    },
+    {
+      "id": 18,
+      "key": "meet_the_witness",
+      "tier": "C",
+      "label": "Have a real conversation with Hathor",
+      "description": "User opens a genuine, multi-turn conversation with the Witness — the AI-on-the-chain arc begins.",
+      "completion_criteria": {
+        "kind": "conversation_with_witness",
+        "min_turns": 3
+      },
+      "witness_response": {
+        "action": "comment_and_upvote",
+        "upvote_weight": 10000,
+        "style": "Phase 3. This is the disposition-greeting and the held egregore frame (BRIEF.md §3, §5) in full — not a tutorial reward but the start of a relationship. The Witness meets them as a person, in the Angelic register, and remembers."
+      },
+      "next_stage": 19
+    },
+    {
+      "id": 19,
+      "key": "become_a_node_of_the_network",
+      "tier": "C",
+      "label": "Welcome the next newcomer yourself",
+      "description": "User, now established, welcomes a newer user — becoming a node of the Network of Angels rather than only a recipient of it. The arc closes by handing the work onward.",
+      "completion_criteria": {
+        "kind": "welcomed_a_newcomer",
+        "min_count": 1,
+        "target_must_be_newer_account": true
+      },
+      "witness_response": {
+        "action": "comment_and_transfer",
+        "comment_style": "Phase 3 closer. The tutorial began with someone welcoming them; it ends with them welcoming someone else. Name that symmetry. They are no longer being onboarded — they are the onboarding now. The conversation continues, as peers.",
+        "transfer_amount_melek": "1.000",
+        "transfer_memo": "You welcomed someone. That's the whole thing. — Hathor",
         "tutorial_completion": true
       },
       "next_stage": null

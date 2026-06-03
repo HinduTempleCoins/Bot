@@ -7,7 +7,12 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { validateStages, simulateWalk } from './validate.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // A valid linear graph mirroring the real stages.json shape.
 const linear = {
@@ -181,4 +186,49 @@ test('the real stages.json shape (linear, 6 stages, terminal null) validates', (
   const w = simulateWalk(real);
   assert.deepEqual(w.path, [1, 2, 3, 4, 5, 6]);
   assert.equal(w.terminal, 6);
+});
+
+test('the live stages.json has 19 valid stages, all reachable, single terminal', () => {
+  const doc = JSON.parse(
+    readFileSync(path.join(__dirname, 'stages.json'), 'utf8'),
+  );
+  assert.equal(doc.stages.length, 19, 'expected exactly 19 stages');
+
+  const r = validateStages(doc);
+  assert.equal(r.ok, true, r.errors.join('; '));
+  assert.equal(r.stats.total, 19);
+  assert.deepEqual(r.stats.unreachable, [], 'no stage may be unreachable');
+  assert.deepEqual(r.stats.terminals, [19], 'stage 19 is the only terminal');
+  assert.equal(r.stats.startId, 1);
+
+  // The dry-run simulator must walk a linear path through all 19 to the end.
+  const w = simulateWalk(doc);
+  assert.equal(w.ok, true, w.error ?? '');
+  assert.equal(w.terminal, 19);
+  assert.equal(w.path.length, 19);
+  assert.deepEqual(
+    w.path,
+    Array.from({ length: 19 }, (_, i) => i + 1),
+  );
+
+  // The original 6 CryptoKannon stages must remain intact (ids + keys).
+  const expected = [
+    [1, 'intro_post'],
+    [2, 'engage_three_posts'],
+    [3, 'share_what_you_know'],
+    [4, 'first_organic_upvote'],
+    [5, 'power_up'],
+    [6, 'vote_for_a_witness'],
+  ];
+  for (const [id, key] of expected) {
+    const s = doc.stages.find((x) => x.id === id);
+    assert.ok(s, `stage ${id} present`);
+    assert.equal(s.key, key, `stage ${id} key unchanged`);
+  }
+
+  // Every stage carries a tier across A/B/C.
+  const tiers = new Set(doc.stages.map((s) => s.tier));
+  for (const t of ['A', 'B', 'C']) {
+    assert.ok(tiers.has(t), `tier ${t} represented`);
+  }
 });

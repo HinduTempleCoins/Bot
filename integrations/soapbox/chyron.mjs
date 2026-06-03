@@ -127,6 +127,62 @@ async function headlines(asset, query = '') {
   } catch { return []; }
 }
 
+// ReliefWeb — UN humanitarian disasters/crises feed (keyless). Newest "current/alert/ongoing"
+// disasters; we headline one item per disaster type to avoid flooding (e.g. many floods → one line).
+export async function reliefWeb() {
+  const url = 'https://api.reliefweb.int/v1/disasters?appname=soapbox.community&profile=list&preset=latest&limit=20';
+  const j = await getJson(url);
+  const data = (j && j.data) || [];
+  const sevScore = (status) => (status === 'alert' ? 75 : status === 'current' || status === 'ongoing' ? 55 : 35);
+  const seenType = new Set();
+  const out = [];
+  for (const d of data) {
+    const f = d.fields || {};
+    const status = String(f.status || '').toLowerCase();
+    if (status === 'past') continue; // only live crises
+    const type = (f.type && f.type[0] && f.type[0].name) || 'Crisis';
+    if (seenType.has(type)) continue; // collapse repeats of the same disaster type into one headline
+    seenType.add(type);
+    out.push({ kind: 'crisis', icon: '🆘', text: f.name || `${type} crisis`, severity: status || 'current', score: sevScore(status), url: f.url });
+  }
+  return out;
+}
+
+// GDELT — global news events, reused from comms-parser's GDELT-backed fetchHeadlines via defensive
+// import (we don't duplicate the GDELT query/parse). Mapped to {kind:'world'} chyron items.
+export async function gdeltWorld({ query = 'crisis OR disaster OR conflict OR outbreak', n = 3 } = {}) {
+  const items = await headlines('', query);
+  const ranked = rankNews(items, { n });
+  return ranked.filter((h) => h.title).map((h) => ({ kind: 'world', icon: '🗞️', text: h.title, score: 48, url: h.url }));
+}
+
+// NASA EONET — natural events (wildfires, severe storms, volcanoes, etc.), keyless.
+export async function eonetEvents({ n = 4 } = {}) {
+  const j = await getJson('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=30');
+  const events = (j && j.events) || [];
+  const catScore = (cat) => {
+    const c = String(cat || '').toLowerCase();
+    if (c.includes('volcano')) return 78;
+    if (c.includes('wildfire') || c.includes('fire')) return 62;
+    if (c.includes('storm') || c.includes('cyclone')) return 70;
+    if (c.includes('flood')) return 60;
+    return 50;
+  };
+  const seen = new Set();
+  const out = [];
+  for (const e of events) {
+    const cat = (e.categories && e.categories[0] && e.categories[0].title) || 'Natural event';
+    const title = e.title || cat;
+    const k = title.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    const url = (e.sources && e.sources[0] && e.sources[0].url) || (e.link) || null;
+    out.push({ kind: 'natural', icon: '🌋', text: `${cat} — ${title}`, score: catScore(cat), url });
+    if (out.length >= n) break;
+  }
+  return out;
+}
+
 // ---- public: the rotating "5 biggest crypto news stories" ----
 export async function topCryptoNews({ n = 5, dayKey = Math.floor(Date.now() / 86400000) } = {}) {
   const items = await headlines('crypto');
@@ -159,6 +215,12 @@ export async function chyronItems({ max = 14 } = {}) {
   // disasters
   out.push(...(await earthquakes()));
   out.push(...(await weatherAlerts()));
+
+  // broader global coverage — humanitarian crises (ReliefWeb), world news events (GDELT),
+  // and natural events (NASA EONET). Each fails soft to []; curate() caps + dedupes the union.
+  out.push(...(await reliefWeb()));
+  out.push(...(await gdeltWorld()));
+  out.push(...(await eonetEvents()));
 
   return curate(out, max);
 }
