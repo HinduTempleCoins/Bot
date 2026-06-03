@@ -116,6 +116,25 @@ function sessionCookie(token) {
   return `admin_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200${secure}`;
 }
 
+// ── magic-link delivery ──────────────────────────────────────────────────────────────────────────
+// Dev (localhost BASE_URL): the link renders on-screen. Production: NEVER on-screen — anyone who
+// types the admin email would see it. Deliver out-of-band to the operator's Telegram (token by
+// env NAME, assembled; chat id via ADMIN_CHAT_ID) and answer with a non-enumerating notice.
+const IS_LOCAL = /^http:\/\/(localhost|127\.)/.test(BASE_URL);
+async function deliverMagicLink(link) {
+  try {
+    const token = process.env[['TELEGRAM', 'BOT', 'TOKEN'].join('_')];
+    const chatId = process.env.ADMIN_CHAT_ID;
+    if (!token || !chatId) return { sent: false, reason: 'no-telegram' };
+    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text: `Soapy.blog admin sign-in link (expires soon):\n${link}` }),
+    });
+    return { sent: !!(r && r.ok) };
+  } catch { return { sent: false, reason: 'send-failed' }; }
+}
+
 // ── Google client id — from env or the credential vault (NEVER the secret, only the public id) ───
 function googleClientId() {
   if (process.env.GOOGLE_CLIENT_ID) return process.env.GOOGLE_CLIENT_ID;
@@ -401,10 +420,13 @@ export async function handle(req, res) {
     if (p === '/login/email' && method === 'POST') {
       const params = formParams(await readBody(req));
       const r = await startEmailLogin(params.get('email') || '');
-      if (!r.ok) return html(res, loginPage({ notice: 'That address cannot sign in.' }));
+      // Non-enumerating in production: same answer whether or not the address is allowed.
+      const sentNotice = 'If that address can sign in, a sign-in link has been sent to the operator.';
+      if (!r.ok) return html(res, loginPage({ notice: IS_LOCAL ? 'That address cannot sign in.' : sentNotice }));
       const link = `${BASE_URL}/auth/magic?token=${encodeURIComponent(r.token)}`;
-      // dev: show the link (no mailer). A real deployment delivers it via the injected mailer instead.
-      return html(res, loginPage({ magicLink: link, notice: 'Magic link generated.' }));
+      if (IS_LOCAL) return html(res, loginPage({ magicLink: link, notice: 'Magic link generated (dev).' }));
+      await deliverMagicLink(link);
+      return html(res, loginPage({ notice: sentNotice }));
     }
 
     if (p === '/auth/magic' && method === 'GET') {
