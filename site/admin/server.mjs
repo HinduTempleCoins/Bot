@@ -129,7 +129,14 @@ async function deliverMagicLink(link) {
     const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: `Soapy.blog admin sign-in link (expires soon):\n${link}` }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: `Soapy.blog admin sign-in link (expires soon):\n${link}`,
+        // belt-and-braces with the peek-then-POST flow: don't let Telegram
+        // prefetch the URL for a preview at all.
+        link_preview_options: { is_disabled: true },
+        disable_web_page_preview: true,
+      }),
     });
     return { sent: !!(r && r.ok) };
   } catch { return { sent: false, reason: 'send-failed' }; }
@@ -432,7 +439,23 @@ export async function handle(req, res) {
     }
 
     if (p === '/auth/magic' && method === 'GET') {
-      const r = verifyMagicLink(url.searchParams.get('token') || '');
+      // PEEK only — never consume on GET. Messenger link-preview bots (Telegram,
+      // Slack, iMessage) GET every URL they see; consuming here burned the
+      // operator's link before he could tap it ("already-used"). The human
+      // confirms with the POST below, which is when the token is spent.
+      const tok = url.searchParams.get('token') || '';
+      const r = verifyMagicLink(tok, { consume: false });
+      if (!r.ok) return html(res, loginPage({ notice: `Link invalid (${r.reason}).` }), 400);
+      const body = `<h1>Complete sign-in</h1>
+        <div class=card><p class=muted>Press the button to finish signing in as <code>${esc(r.email)}</code>.</p>
+        <form method=POST action="/auth/magic"><input type=hidden name=token value="${esc(tok)}">
+        <p><button type=submit>Sign in</button></p></form></div>`;
+      return html(res, layout({ title: 'Complete sign-in', body }));
+    }
+
+    if (p === '/auth/magic' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const r = verifyMagicLink(params.get('token') || ''); // consumes — single use
       if (!r.ok) return html(res, loginPage({ notice: `Link invalid (${r.reason}).` }), 400);
       const s = createSession(r.email);
       if (!s.ok) return html(res, loginPage({ notice: 'Could not create session.' }), 400);
