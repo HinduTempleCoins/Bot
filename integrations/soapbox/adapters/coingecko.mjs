@@ -38,7 +38,19 @@ export async function fetchToken(id) {
     supply: { circulating: m.circulating_supply, total: m.total_supply, max: m.max_supply },
     chains: Object.keys(d.platforms || {}).filter(Boolean),
     contracts: Object.entries(d.platforms || {}).filter(([k, v]) => k && v).map(([chain, address]) => ({ chain, address })),
-    links: { website: d.links?.homepage?.[0] || '', explorer: d.links?.blockchain_site?.[0] || '', social: [d.links?.twitter_screen_name && `https://twitter.com/${d.links.twitter_screen_name}`].filter(Boolean) },
+    links: {
+      website: d.links?.homepage?.[0] || '',
+      explorer: d.links?.blockchain_site?.filter(Boolean)[0] || '',
+      // every social platform CoinGecko exposes — the coin page surfaces the real feeds/groups
+      social: [
+        d.links?.twitter_screen_name && `https://twitter.com/${d.links.twitter_screen_name}`,
+        d.links?.telegram_channel_identifier && `https://t.me/${d.links.telegram_channel_identifier}`,
+        d.links?.facebook_username && `https://facebook.com/${d.links.facebook_username}`,
+        d.links?.subreddit_url || null,
+        ...(d.links?.chat_url || []),                       // Discord / Telegram / community chats
+        ...(d.links?.official_forum_url || []),             // Bitcointalk etc.
+      ].filter(Boolean),
+    },
   }, { tier: 1, source: 'coingecko', updatedAt: new Date().toISOString() });
   // extra market detail for the coin page (non-schema, attached): change ranges + ATH/ATL + rank.
   coin.change_24h = m.price_change_percentage_24h ?? null;

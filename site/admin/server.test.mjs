@@ -96,6 +96,27 @@ test('gated /connect renders the service catalog for an admin', async () => {
   assert.match(res.body, /discord/);
 });
 
+test('gated /features lists built-but-hidden capabilities', async () => {
+  const res = await call({ url: '/features', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /capabilities built/);
+  assert.match(res.body, /built but hidden/);
+  assert.match(res.body, /Surface this/);
+});
+
+test('/features/flag requires admin and redirects back', async () => {
+  // unauthenticated → 401 (non-html)
+  const denied = await call({ url: '/features/flag', method: 'POST', body: 'id=x&on=1' });
+  assert.equal(denied.statusCode, 401);
+  // authenticated → 302 back to /features
+  const ok = await call({
+    url: '/features/flag', method: 'POST', body: 'id=demo-feature&on=1',
+    headers: { cookie: adminCookie(), 'content-type': 'application/x-www-form-urlencoded' },
+  });
+  assert.equal(ok.statusCode, 302);
+  assert.equal(ok.headers.location, '/features');
+});
+
 test('/security/scan flags a malicious snippet', async () => {
   const malicious = '<script>document.cookie</script><iframe src="javascript:eval(atob(\'x\'))"></iframe>';
   const res = await call({
