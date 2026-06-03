@@ -30,6 +30,7 @@ import {
 // Web scraper for external grounding + real citations (#172). Best-effort: an article must never
 // fail because the scraper timed out — see generateArticle()'s try/catch around research().
 import { research } from '../../integrations/scraper.mjs';
+import { sourcesFor } from '../../integrations/grounding-sources.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -621,6 +622,16 @@ class WikiGenerator {
     // reality and cite them. Best-effort — never let a scraper failure/timeout kill the article.
     const external = await this.gatherExternalSources(title, searchTerms);
     console.log(`  External sources: ${external.length}`);
+
+    // #179 — prepend AUTHORITATIVE sources (gov / peer-reviewed via grounding-sources) so articles
+    // cite primary sources first. Best-effort; soft-fails to nothing offline (never kills an article).
+    try {
+      const auth = await sourcesFor(title, { max: 4 });
+      if (Array.isArray(auth) && auth.length) {
+        external.unshift(...auth.map((s) => ({ title: s.title, url: s.url, excerpt: s.snippet || '' })));
+        console.log(`  Authoritative sources injected: ${auth.length}`);
+      }
+    } catch { /* authoritative layer optional */ }
 
     // Provenance grounding (#190): the synthesizer writes STRICTLY from provided excerpts and will
     // not invent facts, so a load-bearing documented citation (e.g. @MarsResident at Steemcenter)
