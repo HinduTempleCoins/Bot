@@ -19,6 +19,19 @@
 //   node integrations/soapbox/search-quality.mjs <query>     # demo with a tiny fixture
 
 import { normalizeUrl, cleanSnippet, SCHOLARLY } from '../scraper.mjs';
+import { buildIndex, score as bm25Score, rrf, typoMatch } from '../bm25.mjs';
+
+// Defensive import of the semantic embeddings layer — OPTIONAL. If it ever fails to load (or is
+// removed), the hybrid fusion below degrades to lexical-only. Loaded lazily so this module never throws
+// at import time and tests that don't use the semantic path stay fully offline.
+let _embeddings = null;
+let _embeddingsTried = false;
+async function loadEmbeddings() {
+  if (_embeddingsTried) return _embeddings;
+  _embeddingsTried = true;
+  try { _embeddings = await import('../cheetah-embeddings.mjs'); } catch { _embeddings = null; }
+  return _embeddings;
+}
 
 // ── source-authority tables ──────────────────────────────────────────────────────────────────────
 // OUR ecosystem — boosted hardest (we surface our own Library/markets/chains first, like searchAll).
@@ -243,6 +256,164 @@ export function digest(raw = [], query = '', { top = 8, authority = null } = {})
     : `No results for "${query}".`;
 
   return { query, count: ranked.length, summary, clusters };
+}
+
+// ════════════════════════════════════════════════════════════════════════════════════════════════
+// ADDITIVE EXTENSIONS (task #222, OSS-benchmark ADOPT) — NEW exports only. Everything above is
+// unchanged: rankResults / dedupe / cluster / digest keep working exactly as before. These add:
+//   - rankHybrid(): fuse the existing explainable lexical ranking with a BM25 ranking (and optionally a
+//     semantic embeddings ranking) via Reciprocal Rank Fusion — recovers recall the single-signal
+//     ranker misses, without a score-scale mismatch.
+//   - typo tolerance + proximity reward as extra signals on top of scoreRow().
+//   - facets(): provider/host/scholarly/authority counts for a filter UI.
+// ════════════════════════════════════════════════════════════════════════════════════════════════
+
+// Comparable text for a row: title + snippet (what BM25 / proximity / typo match against).
+function rowText(r) {
+  return [r && r.title, r && r.snippet].filter((x) => typeof x === 'string' && x).join(' ');
+}
+
+/**
+ * Typo-tolerant count of how many query terms are present in `text`, allowing bounded-edit-distance
+ * matches (Meilisearch-style). Exact hits and 1–2 edit typo hits both count. PURE.
+ * Returns { exact, fuzzy, matched:[] } where matched lists the query terms that hit (exact or fuzzy).
+ */
+export function fuzzyTermHits(text, terms) {
+  const toks = String(text || '').toLowerCase().split(/[^\p{L}\p{N}]+/u).filter((t) => t.length > 1);
+  if (!toks.length || !terms.length) return { exact: 0, fuzzy: 0, matched: [] };
+  const vocab = new Set(toks);
+  let exact = 0;
+  let fuzzy = 0;
+  const matched = [];
+  for (const t of terms) {
+    if (vocab.has(t)) { exact++; matched.push(t); continue; }
+    const m = typoMatch(t, vocab);            // bounded edit distance, refuses far terms
+    if (m && m.distance > 0) { fuzzy++; matched.push(t); }
+  }
+  return { exact, fuzzy, matched };
+}
+
+/**
+ * Proximity reward: how close together the matched query terms sit in `text`. Terms that appear within
+ * a tight window score higher (a strong relevance signal — Typesense/Meilisearch both rank on it).
+ * Returns 0..1 (1 = all matched terms adjacent). PURE. <2 matched terms → 0 (nothing to be near).
+ */
+export function proximityScore(text, terms) {
+  const toks = String(text || '').toLowerCase().split(/[^\p{L}\p{N}]+/u).filter((t) => t.length > 1);
+  if (toks.length < 2 || terms.length < 2) return 0;
+  const want = new Set(terms);
+  // first position of each distinct matched query term
+  const pos = new Map();
+  for (let i = 0; i < toks.length; i++) {
+    if (want.has(toks[i]) && !pos.has(toks[i])) pos.set(toks[i], i);
+  }
+  if (pos.size < 2) return 0;
+  const positions = [...pos.values()].sort((a, b) => a - b);
+  const span = positions[positions.length - 1] - positions[0];   // window covering all matched terms
+  const ideal = positions.length - 1;                            // perfectly adjacent
+  // 1 when span==ideal (adjacent), decaying toward 0 as the span widens.
+  return ideal / Math.max(ideal, span);
+}
+
+/**
+ * Hybrid ranking: fuse the existing explainable lexical ranking (rankResults) with a BM25 ranking over
+ * the same rows, plus typo-tolerance + proximity bonuses, via Reciprocal Rank Fusion. Optionally folds
+ * in a semantic embeddings ranking (cheetah-embeddings) when `opts.semantic` is true and the module is
+ * available — degrades to lexical+BM25 otherwise.
+ *
+ * ADDITIVE: rankResults() is untouched and still works alone. This is a new, opt-in path.
+ *
+ * @returns Promise<[{ ...row, score, reasons[], why, hybridScore, fuseRank }]> best-first.
+ *          `score`/`reasons`/`why` are the ORIGINAL explainable signals (preserved); `hybridScore` is
+ *          the RRF fusion value that drives the new order. Pure given a fixed (or absent) embedder.
+ */
+export async function rankHybrid(raw = [], query = '', { authority = null, semantic = false, k = 60 } = {}) {
+  const terms = queryTerms(query);
+  // (1) the existing explainable lexical ranking (also gives us the deduped, scored rows to return).
+  const lexical = rankResults(raw, query, { authority });
+  if (!lexical.length) return [];
+
+  // stable id per row for fusion (normalized url is unique post-dedupe).
+  const idOf = (r) => r.url;
+  const byId = new Map(lexical.map((r) => [idOf(r), r]));
+
+  // (2) BM25 ranking over the same rows (title+snippet). Falls back gracefully if a row has no text.
+  const docs = lexical.map((r) => ({ id: idOf(r), text: rowText(r) }));
+  const bm25Ranked = bm25Score(buildIndex(docs), query).map((x) => x.id);
+
+  // (3) typo + proximity blended signal → its own ranking (so RRF can weigh it as a list).
+  const blended = lexical
+    .map((r) => {
+      const text = rowText(r);
+      const fh = fuzzyTermHits(text, terms);
+      const prox = proximityScore(text, terms);
+      // record the new signals on the row as extra reasons (explainable, additive — never removes old ones)
+      if (fh.fuzzy) r.reasons.push(`${fh.fuzzy} fuzzy term match${fh.fuzzy === 1 ? '' : 'es'}`);
+      if (prox >= 0.5) r.reasons.push('query terms near each other');
+      r.why = r.reasons.length ? r.reasons.join('; ') : r.why;
+      return { id: idOf(r), s: (fh.exact + fh.fuzzy) + prox };
+    })
+    .filter((x) => x.s > 0)
+    .sort((a, b) => b.s - a.s)
+    .map((x) => x.id);
+
+  const lists = [lexical.map(idOf), bm25Ranked];
+  if (blended.length) lists.push(blended);
+
+  // (4) optional semantic ranking via the embeddings module (defensive — absent → skipped).
+  if (semantic) {
+    const emb = await loadEmbeddings();
+    if (emb && typeof emb.rankSources === 'function') {
+      try {
+        const candidates = lexical.map((r) => ({ id: idOf(r), text: rowText(r) }));
+        const sem = await emb.rankSources(query, candidates);
+        const semList = sem.map((x) => x.id).filter((id) => byId.has(id));
+        if (semList.length) lists.push(semList);
+      } catch { /* semantic optional — ignore */ }
+    }
+  }
+
+  // (5) Reciprocal Rank Fusion of all the ranked lists.
+  const fused = rrf(lists, { k });
+  const out = [];
+  fused.forEach((f, i) => {
+    const row = byId.get(f.id);
+    if (row) { row.hybridScore = Math.round(f.score * 1e6) / 1e6; row.fuseRank = i; out.push(row); }
+  });
+  // any row that somehow didn't appear in any list (shouldn't happen) appended in lexical order.
+  for (const r of lexical) if (!out.includes(r)) { r.hybridScore = 0; r.fuseRank = out.length; out.push(r); }
+  return out;
+}
+
+/**
+ * Facet counts over a ranked/raw result set for a filter UI. PURE, no network.
+ * Returns { total, byProvider:{}, byHost:{}, scholarly, ecosystem, authority }:
+ *   - byProvider: count of results carrying each engine/provider.
+ *   - byHost: count per result host.
+ *   - scholarly / ecosystem / authority: counts of results in those categories.
+ * Accepts rows in either raw ({provider}) or merged ({providers[]}) shape; dedupes first for stable
+ * counts unless already ranked (rows with a `score` are treated as final).
+ */
+export function facets(results = []) {
+  const rows = (Array.isArray(results) && results.some((r) => r && 'score' in r))
+    ? results
+    : dedupe(results);
+  const byProvider = {};
+  const byHost = {};
+  let scholarly = 0;
+  let ecosystem = 0;
+  let authority = 0;
+  for (const r of rows) {
+    if (!r || !r.url) continue;
+    const host = hostOf(r.url);
+    if (host) byHost[host] = (byHost[host] || 0) + 1;
+    const provs = Array.isArray(r.providers) ? r.providers : (r.provider ? [r.provider] : []);
+    for (const p of new Set(provs)) byProvider[p] = (byProvider[p] || 0) + 1;
+    if (provs.some((p) => SCHOLARLY_PROVIDERS.has(p))) scholarly++;
+    if (ECOSYSTEM_HOST.test(host) || ECOSYSTEM_CHAINS.test(host)) ecosystem++;
+    if (AUTHORITY_HOST.test(host) || AUTHORITY_TLD.test('https://' + host + '/')) authority++;
+  }
+  return { total: rows.length, byProvider, byHost, scholarly, ecosystem, authority };
 }
 
 if (process.argv[1] && process.argv[1].endsWith('search-quality.mjs')) {
