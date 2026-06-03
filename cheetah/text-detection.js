@@ -25,6 +25,9 @@
 
 import { createHash } from 'node:crypto';
 import { SIMILARITY_THRESHOLD, SHINGLE_SIZE, WEB_SEARCH_BACKEND } from './config.js';
+// #180 — back web detection with cheetah-search (scraper + library + on-chain), defensive import.
+let cheetahFindSources = null;
+try { ({ findSources: cheetahFindSources } = await import('../integrations/cheetah-search.mjs')); } catch { /* optional */ }
 
 // ---- text → shingle set ----------------------------------------------------
 
@@ -133,10 +136,19 @@ export async function findSimilarOnWeb(body, opts = {}) {
   if (WEB_SEARCH_BACKEND === 'none' || !WEB_SEARCH_BACKEND) {
     return { matches: [], note: 'web search disabled (CHEETAH_WEB_SEARCH=none)' };
   }
-  return {
-    matches: [],
-    note: `web search backend '${WEB_SEARCH_BACKEND}' not yet implemented`,
-  };
+  // #180 — cheetah-search finds probable sources (web/scholarly/on-chain) + scores similarity;
+  // credit-first: we surface matches with links, never decide "guilt." Soft-fail to empty.
+  if (!cheetahFindSources) return { matches: [], note: 'cheetah-search unavailable' };
+  try {
+    const found = await cheetahFindSources(body, { max: opts.limit || 8 });
+    const matches = (found || []).map((m) => ({
+      kind: 'web', url: m.url, title: m.title, author: m.author, snippet: m.snippet,
+      similarity: typeof m.similarity === 'number' ? m.similarity : 0,
+    }));
+    return { matches };
+  } catch (e) {
+    return { matches: [], note: `web search error: ${e.message}` };
+  }
 }
 
 // ---- top-level detector ----------------------------------------------------
