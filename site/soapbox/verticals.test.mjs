@@ -19,6 +19,8 @@ const EXPECTED_PATHS = [
   '/economy', '/health-research', '/census', '/world-development', '/patents', '/wikidata',
   '/scam-check', '/crime', '/parks', '/aviation', '/hazards', '/lawyers', '/benefits',
   '/vehicle-history', '/vehicle-value', '/market-health',
+  // Library (wave-library-borrow)
+  '/library',
 ];
 
 // Paths added in the surface wave, split by kind so we can assert behavior per kind.
@@ -182,6 +184,64 @@ test('a surface-wave summary vertical renders fixture data into cards (no networ
     const html = await renderVertical('/economy');
     assert.ok(html.includes('Unemployment Rate'), 'fixture data appears in the rendered page');
     assert.ok(html.includes('4.2%'), 'fixture value rendered');
+  } finally {
+    v.render = original;
+  }
+});
+
+// ── Library vertical (wave-library-borrow) ──────────────────────────────────────────────────────────
+
+test('/library is registered as a search vertical', () => {
+  const lib = findVertical('/library');
+  assert.ok(lib, 'has /library');
+  assert.equal(lib.kind, 'search');
+  assert.equal(lib.navLabel, 'Library');
+  assert.equal(typeof lib.render, 'function');
+});
+
+test('/library with NO query renders a search form and loads no module (offline)', async () => {
+  const html = await renderVertical('/library');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'shows a form');
+  assert.ok(html.includes('method=get'), 'GET form');
+  assert.ok(html.includes('name=q'), 'query input named q');
+  assert.ok(!html.includes('result'), 'no results section without a query');
+});
+
+test('/library escapes the query in the form value (no injection)', async () => {
+  const html = await renderVertical('/library', '<script>x</script>');
+  assert.ok(!html.includes('<script>x</script>'), 'raw script not echoed');
+  assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'), 'query escaped into the form');
+});
+
+test('/library soft-fails to a string with a query offline (never throws)', async () => {
+  // With a query the catalog module is imported and its catalogSearch called; offline the fetch fails
+  // and catalogSearch soft-fails to an empty result set — the page must still render (form + no-results).
+  const html = await renderVertical('/library', 'phoenix protocol');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'keeps the form');
+});
+
+test('/library renders bucketed hits: host-fully → read link, metadata-only → borrow links (fixtures)', async () => {
+  // Inject a render() that mimics libraryRender's output for two fixture hits, proving the page surfaces
+  // the bucket treatment (read/download vs "get it at your library" link-outs) — offline, no fetch.
+  const v = findVertical('/library');
+  const original = v.render;
+  try {
+    v.render = async (q) => (
+      `<div class=card><form method=get name=q></form></div>`
+      + `<div class=card><h2>Library: “${q}”</h2>`
+      + `<div class=lib-hit><b>Moby-Dick</b><span class=badge>Read free</span>`
+      + `<a href="https://gutenberg.org/ebooks/2701" rel="noopener nofollow">Read / download →</a></div>`
+      + `<div class=lib-hit><b>A 2023 Novel</b><span class=badge>At your library</span>`
+      + `<div class=borrow-links><a href="https://search.worldcat.org/search?q=x">Find it in a library near you (WorldCat)</a></div></div>`
+      + `</div>`
+    );
+    const html = await renderVertical('/library', 'test');
+    assert.ok(html.includes('Read / download'), 'host-fully hit gets a read/download link');
+    assert.ok(html.includes('Read free'), 'host-fully badge present');
+    assert.ok(html.includes('WorldCat'), 'metadata-only hit gets a borrow link-out');
+    assert.ok(html.includes('At your library'), 'metadata-only badge present');
   } finally {
     v.render = original;
   }
