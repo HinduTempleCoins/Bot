@@ -12,6 +12,9 @@ import {
 const EXPECTED_PATHS = [
   '/energy', '/weather', '/cams', '/scanners', '/media', '/gridcoin', '/nasa',
   '/commodities-goods', '/public-safety', '/legal', '/pharma', '/biodiversity', '/vehicle',
+  // gov / public-data reader verticals (queue #182/#181)
+  '/recalls', '/tides', '/osha', '/broadband', '/nutrition', '/debt', '/product-recalls',
+  '/environment', '/health', '/edgar', '/opportunities', '/datasets',
 ];
 
 test('VERTICALS exposes the expected paths', () => {
@@ -63,6 +66,40 @@ test('renderVertical escapes the query in the search form (no injection)', async
   const html = await renderVertical('/vehicle', '<script>x</script>');
   assert.ok(!html.includes('<script>x</script>'), 'raw script not echoed');
   assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'), 'query is escaped into the form value');
+});
+
+test('new gov verticals resolve by path with the right kind', () => {
+  const debt = findVertical('/debt');
+  assert.ok(debt, 'has /debt');
+  assert.equal(debt.kind, 'summary');
+  const nutrition = findVertical('/nutrition');
+  assert.ok(nutrition, 'has /nutrition');
+  assert.equal(nutrition.kind, 'search');
+  const edgar = findVertical('/edgar');
+  assert.ok(edgar, 'has /edgar');
+  assert.equal(edgar.kind, 'summary');
+});
+
+test('a new search vertical (/nutrition) with NO query renders a form, no module loaded', async () => {
+  const html = await renderVertical('/nutrition');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'shows a form');
+  assert.ok(html.includes('name=q'), 'query input named q');
+  assert.ok(!html.includes('results'), 'no results section without a query');
+});
+
+test('a new summary vertical soft-fails to a graceful card when its module fn throws', async () => {
+  // /debt is a summary vertical; stub its module fn to throw and prove it degrades, never propagates.
+  const v = findVertical('/debt');
+  const original = v.render;
+  try {
+    v.render = async () => { throw new Error('upstream down'); };
+    const html = await renderVertical('/debt');
+    assert.equal(typeof html, 'string');
+    assert.ok(/temporarily unavailable/i.test(html), 'throwing render degrades gracefully');
+  } finally {
+    v.render = original;
+  }
 });
 
 test('renderVertical soft-fails to an unavailable card for an unknown path (never throws)', async () => {
