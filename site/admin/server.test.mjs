@@ -133,12 +133,34 @@ test('/security/scan flags a malicious snippet', async () => {
 test('full magic-link login flow yields a session and dashboard', async () => {
   const r = await auth.startEmailLogin('operator@example.com');
   assert.ok(r.ok);
-  // GET /auth/magic?token=... should set the cookie and redirect to /
-  const res = await call({ url: `/auth/magic?token=${encodeURIComponent(r.token)}` });
+  // GET /auth/magic?token=... PEEKS only (messenger link-preview bots GET every
+  // URL they see — Telegram's preview fetch burned the operator's single-use
+  // link). It renders a confirm page and must NOT consume the token or set a
+  // session cookie.
+  const peek = await call({ url: `/auth/magic?token=${encodeURIComponent(r.token)}` });
+  assert.equal(peek.statusCode, 200);
+  assert.match(peek.body, /Complete sign-in/);
+  assert.equal(peek.headers['set-cookie'], undefined);
+  // a second GET still works — peeks don't consume
+  const peek2 = await call({ url: `/auth/magic?token=${encodeURIComponent(r.token)}` });
+  assert.equal(peek2.statusCode, 200);
+  // the human's POST consumes the token, sets the cookie, redirects to /
+  const res = await call({
+    url: '/auth/magic', method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: `token=${encodeURIComponent(r.token)}`,
+  });
   assert.equal(res.statusCode, 302);
   assert.equal(res.headers.location, '/');
   const setCookie = res.headers['set-cookie'];
   assert.match(setCookie, /admin_session=/);
+  // replay: the consumed token is dead
+  const replay = await call({
+    url: '/auth/magic', method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: `token=${encodeURIComponent(r.token)}`,
+  });
+  assert.equal(replay.statusCode, 400);
 });
 
 test('non-admin email cannot start a login', async () => {

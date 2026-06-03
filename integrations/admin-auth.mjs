@@ -169,7 +169,7 @@ export async function startEmailLogin(email, { ttlMs = MAGIC_TTL_MS } = {}) {
 // Verify a magic link: signature + not expired + on the allowlist + single-use (jti not yet consumed).
 // Returns the email's role so the caller mints a primary or backup session accordingly. Links issued
 // before roles existed (no payload role) are treated as primary, preserving old behavior.
-export function verifyMagicLink(token) {
+export function verifyMagicLink(token, { consume = true } = {}) {
   const r = readToken(token, 'magic');
   if (!r.ok) return { ok: false, reason: r.reason };
   const p = r.payload;
@@ -179,7 +179,10 @@ export function verifyMagicLink(token) {
   if (!p.exp || providers.now() > p.exp) return { ok: false, reason: 'expired' };
   if (!p.jti) return { ok: false, reason: 'malformed' };
   if (providers.usedStore.has(p.jti)) return { ok: false, reason: 'already-used' };
-  providers.usedStore.add(p.jti); // consume — single use
+  // consume:false = peek (validate without burning the single-use jti). The
+  // portal uses this for the GET that link-preview bots (Telegram, Slack,
+  // iMessage…) fire automatically — only the human's explicit POST consumes.
+  if (consume) providers.usedStore.add(p.jti); // consume — single use
   return { ok: true, email: p.e, role };
 }
 
