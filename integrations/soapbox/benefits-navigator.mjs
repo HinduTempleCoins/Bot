@@ -2,6 +2,15 @@
 // better." It surfaces real official programs (grants, loans, cost-shares, tax credits, services) and
 // TELLS THE TRUTH about what each one actually is.
 //
+// GUARDRAILS (load-bearing — this is the whole point of the module):
+//   • REAL PROGRAMS ONLY. Every program is an official US government program with a working source URL.
+//     No invented programs, no affiliate funnels, no "secret" lists.
+//   • HONEST ELIGIBILITY. Eligibility is stated plainly, including the inconvenient parts (sign-first,
+//     pay-first, organizations-not-individuals). We never imply "free money for anyone."
+//   • NO PAYWALLED SECRET LISTS. Everything here is public and free to look up at the source; we never
+//     gate a program behind a fee or claim to know hidden government money.
+//   • NOT FINANCIAL OR LEGAL ADVICE. See NOT_ADVICE — present on every render by construction.
+//
 // THE CORE INSIGHT, encoded as code: "free money" claims are almost always wrong. Every program carries
 // an honest `mechanism` classification — and the navigator NEVER calls a loan "free money":
 //   • grant                    — money you do NOT repay (and even then: eligibility-gated, competitive)
@@ -177,6 +186,68 @@ export function classifyMechanism(text) {
   return 'varies';
 }
 
+// ── classifyProgram(p) — the TRUTH-TELLING classifier (v3 §3) → { kind, honestSummary } ───────────────
+// Given a loose program object {name, agency, summary/description/honest_summary, mechanism, ...}, infer
+// the program's KIND from the task's restricted vocabulary and write a plain-English honest summary that
+// states what the money ACTUALLY is. `kind` ∈ 'grant' | 'loan' | 'cost-share-reimbursement' |
+// 'tax-credit' | 'other' (mechanisms outside this set — service / insurance / varies — fold into 'other').
+//
+// Keyword/agency rules:
+//   • USDA NRCS EQIP / high tunnel / conservation cost-share → cost-share-reimbursement. THE canonical
+//     case: you sign the contract FIRST, build, then get REIMBURSED only after it passes inspection —
+//     encoded here verbatim so the navigator can never mislabel it "free money."
+//   • SBA loans / "loan" / repay / interest → loan (beats any "free money" framing).
+//   • "tax credit" → tax-credit.  Award/grant signals → grant.  Everything else → other.
+const KIND_SET = new Set(['grant', 'loan', 'cost-share-reimbursement', 'tax-credit', 'other']);
+
+// Plain-English honest summary per kind (used when the program doesn't carry its own honest_summary).
+const KIND_SUMMARY = {
+  grant: 'A grant — money you do not repay — but competitive and tightly eligibility-gated, often for ' +
+    'organizations rather than individuals. Read the eligibility section; "free money for anyone" is a myth.',
+  loan: 'A LOAN — you repay it, with interest. This is borrowed money, not a gift. There is no ' +
+    '"free money" version of a loan.',
+  'cost-share-reimbursement': 'A COST-SHARE you are REIMBURSED for AFTER you build and pass inspection — ' +
+    'you pay out of pocket first, and you must sign the contract BEFORE you build. Not free money.',
+  'tax-credit': 'A TAX CREDIT — it reduces the taxes you owe. No cash is handed to you up front.',
+  other: 'Not a simple cash grant — this may be a service, insurance, or a mixed program. Check the ' +
+    'specific terms at the source before assuming money will come to you.',
+};
+
+export function classifyProgram(p = {}) {
+  const obj = p || {};
+  const name = str(obj.name || obj.title);
+  const agency = str(obj.agency);
+  const text = [name, agency, obj.honest_summary, obj.summary, obj.description, obj.raw, obj.type]
+    .map(str).join(' \n ').toLowerCase();
+
+  // 1) USDA NRCS EQIP / high-tunnel / conservation cost-share — the canonical pay-first case.
+  const isEqip = /\beqip\b|environmental quality incentives|high tunnel/.test(text)
+    || (/\bnrcs\b|natural resources conservation/.test(text) && /cost[\s-]?share|conservation|tunnel/.test(text));
+  if (isEqip) {
+    return {
+      kind: 'cost-share-reimbursement',
+      honestSummary:
+        'This is NOT free money. USDA NRCS EQIP (e.g. the seasonal high tunnel) is a COST-SHARE you get ' +
+        'REIMBURSED for AFTER you build it and it passes inspection — you pay out of pocket first. You ' +
+        'must sign the EQIP contract BEFORE you build; building first disqualifies the expense. ' +
+        'Historically-underserved applicants may get an advance; everyone else is paid only on completion.',
+    };
+  }
+
+  // 2) Map the existing mechanism classifier onto the restricted kind set, then refine.
+  let kind = str(obj.mechanism) || classifyMechanism(text);
+  if (kind === 'cost-share-reimbursement' || kind === 'loan' || kind === 'tax-credit' || kind === 'grant') {
+    // keep as-is
+  } else {
+    kind = 'other'; // service / insurance / varies / anything unknown
+  }
+  if (!KIND_SET.has(kind)) kind = 'other';
+
+  // Prefer the program's own honest summary when present; otherwise the canonical per-kind line.
+  const honestSummary = str(obj.honest_summary) || KIND_SUMMARY[kind] || KIND_SUMMARY.other;
+  return { kind, honestSummary };
+}
+
 // ── truthCheck(program) — flag "free money" framing that mismatches the real mechanism ────────────────
 // Scans the program's text for free-money framing. If the text sells "free money / grant / no strings"
 // but the classified mechanism is a loan, cost-share, tax-credit, or insurance, we flag it as dishonest.
@@ -227,15 +298,23 @@ function normalizeLive(row = {}) {
   };
 }
 
-// Defensive dynamic import of the live federal readers. If the module is missing or throws on import,
-// we return null and the navigator falls back to the curated seed alone — a break there cannot break us.
-async function loadLiveReaders() {
-  try {
-    const mod = await import('./fed-opportunities.mjs');
-    // Mirror our injected fetch into the live reader so tests stay offline + deterministic.
-    if (typeof mod.__setFetch === 'function') { try { mod.__setFetch(_fetch); } catch { /* ignore */ } }
-    return mod;
-  } catch { return null; }
+// Defensive dynamic import of a live federal reader. If the module is missing or throws on import, we
+// return null and the navigator falls back to the curated seed alone — a break there cannot break us.
+// We prefer the dedicated grants-gov.mjs reader (search by keyword/agency/status) and fall back to
+// fed-opportunities.mjs (its `grants`) if the dedicated one is unavailable.
+async function loadGrantsReader() {
+  for (const [path, fn] of [
+    ['./grants-gov.mjs', (mod) => (kw) => mod.search({ keyword: kw })],
+    ['./fed-opportunities.mjs', (mod) => (kw) => mod.grants({ keyword: kw })],
+  ]) {
+    try {
+      const mod = await import(path);
+      // Mirror our injected fetch into the live reader so tests stay offline + deterministic.
+      if (typeof mod.__setFetch === 'function') { try { mod.__setFetch(_fetch); } catch { /* ignore */ } }
+      if (typeof mod.search === 'function' || typeof mod.grants === 'function') return fn(mod);
+    } catch { /* try next */ }
+  }
+  return null;
 }
 
 // ── searchPrograms(query, { fetchers }) — merge curated PROGRAMS + live feeds, all honestly classified ─
@@ -256,17 +335,16 @@ export async function searchPrograms(query = '', { fetchers = null } = {}) {
   let liveRows = [];
   try {
     let grantsFn = fetchers && typeof fetchers.grants === 'function' ? fetchers.grants : null;
-    if (!grantsFn) {
-      const mod = await loadLiveReaders();
-      if (mod && typeof mod.grants === 'function') grantsFn = (kw) => mod.grants({ keyword: kw });
-    }
+    if (!grantsFn) grantsFn = await loadGrantsReader();
     if (grantsFn) {
       const raw = await grantsFn(query);
       if (Array.isArray(raw)) liveRows = raw.map((r) => ({ ...normalizeLive(r), source: 'live' }));
     }
   } catch { liveRows = []; }
 
-  return [...curated, ...liveRows];
+  // Attach the honest `kind` (the restricted v3 vocabulary) to every row, curated + live.
+  const withKind = (p) => ({ ...p, kind: classifyProgram(p).kind });
+  return [...curated, ...liveRows].map(withKind);
 }
 
 // ── renderPage(results) — escaped HTML with the mechanism BADGE on every program + the not-advice line ─
