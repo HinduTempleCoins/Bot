@@ -38,6 +38,9 @@ operators and remain itself, because what it is is carried in the corpus and the
 | [`MELEK_SIGNER.md`](./MELEK_SIGNER.md) | **Key-custody architecture.** Zero WIF on the Bot host. All signing goes through a separate MELEK-Signer service; the Bot holds only an opaque, revocable bearer token. |
 | [`OPERATOR.md`](./OPERATOR.md) | Deploy runbook. Offline key generation → host hardening → install → on-chain account creation → witness registration → intro post → operating cadence. |
 | [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md) | Sibling-bot design — a credit-first / discovery-first content librarian. |
+| [`MELEK.md`](./MELEK.md) | Plain-language glossary of MELEK / chain / project terms, for newcomers and forkers. |
+| [`LINEAGE.md`](./LINEAGE.md) | Dated history the Witness descends from (2017 outreach → MELEK), synthesized from `BRIEF.md` §2 and `CHARACTER.md`. |
+| [`POLICY.md`](./POLICY.md) | **Draft** moderation / acceptable-use policy for the MELEK chain and SoapBox surfaces. Not yet in force. |
 | [`CLAUDE.md`](./CLAUDE.md) | Short orientation for AI coding assistants working in this repo. |
 | [`knowledge/scripture/`](./knowledge/scripture/) | Seven canonical operator documents (indexed in [`_index.json`](./knowledge/scripture/_index.json)): Phoenix Protocol, AI Consciousness Synthesis, Zar-AI Complete, Van Kush Master Synthesis, The Convergence, Heterosis paper (2026), Mythology as Genealogy (2026). |
 
@@ -60,20 +63,71 @@ Per [BRIEF.md §10](./BRIEF.md):
 
 ## What's built so far
 
-These subsystems exist in the repo today (tests run under `npm test`):
+The repo has grown well past the bare Witness scaffolding. The major areas that exist today
+(JS/TS subsystems carry tests under `npm test`):
+
+### The Witness & the chain
 
 ```
-witness/      Hathor's on-chain ops — intro post, price-feed publisher, register / disable witness
-src/chain/    GrapheneAdapter — the chain client (head block, accounts, comment, vote, transfer…)
-welcomer/     First-post welcome surfaces (dry-run by default; --broadcast to go live)
-tutorial/     CryptoKannon-extended staged onboarding
-commands/     Deterministic !commands dispatcher (no LLM) — balance, help, post-count, witness
-cheetah/      Sibling bot — credit-first content-attribution librarian
-watcher/      Read-only out-of-band alerter for sensitive account ops
-knowledge/    The corpus — scripture/ (canonical docs) + supporting material
-datasets/     Reference corpus the Bot draws on — cookbooks, crypto protocol specs, ML curricula
-              (license-strict: MIT / Apache / CC / public-domain only)
+witness/        Hathor's on-chain ops — intro post, price-feed publisher, register / disable, monitor
+src/chain/      GrapheneAdapter — the chain client (head block, accounts, comment, vote, transfer,
+                custom_json, reply…); generalized ChainAdapter + CAIP addressing for multichain reads
+commands/       Deterministic !commands dispatcher (no LLM) — balance, help, post-count, witness
+welcomer/       First-post welcome surfaces (dry-run by default; --broadcast to go live)
+signup/         Email-verified account-create-with-delegation flow (no local WIF)
+tutorial/       CryptoKannon-extended staged onboarding (19-stage FSM + composer templates)
+cheetah/        Sibling bot — credit-first content-attribution librarian (embeddings source-match)
+watcher/        Read-only out-of-band alerter for sensitive account ops
+voting_rules/   Witness voting + curation rule notes
+system_prompts/ Phase-3 assembled prompt parts (base / voice / corpus-index)
+character/       Visual + persona reference material
 ```
+
+### SoapBox Data site & admin portal — `site/`
+
+A server-rendered, read-only, CoinMarketCap-style aggregator (the "front door") plus an operator
+admin portal. Data-driven page factory: one template renders any token/vertical from a normalized
+schema, so adding coins or verticals never means hand-building pages.
+
+```
+site/soapbox/   The aggregator (Data.SoapBox.Community) — coins, dapps, ecosystem, learn, news/Chiron,
+                read APIs, sitemap/SEO. No keys, no custody.
+site/admin/     Operator admin portal (login + OAuth-connect hub + analytics / diagnostics / security /
+                feature-registry catalog of built-but-not-yet-live modules)
+site/directory/ site/wiki/ site/search/ site/stocks/   Additional verticals/surfaces
+```
+
+### Resource Center & integrations — `integrations/`
+
+~100+ ES-module surfaces (each with tests) that **read and report only — no keys, no trading, no
+custody**. Trade-bot forensics & market data (Way 1 / Way 2, with a strict sanitize-before-publish
+boundary), a steemd-style chain explorer, multichain read adapters, an AI gateway / paradigm router
++ rules engine (BRE) + certainty layer, evaluation/eval harnesses, a self-host auth/OIDC + capability
+vault (expose capabilities, never raw secrets), and dozens of read-only world verticals
+(gov / law / weather / energy / economics / biodiversity / pharmacology / travel / library-discovery /
+media / space / games / bio-NFT consent, etc.). See [`integrations/README.md`](./integrations/README.md)
+and [`integrations/API_CATALOG.md`](./integrations/API_CATALOG.md).
+
+### Library of Ashurbanipal — `library-of-ashurbanipal-bot/`
+
+A standalone wiki-generator bot that **synthesizes** (not copy/pastes) MediaWiki articles from the
+knowledge corpus, with a review queue, fact-checker grounding, and a flag-only autocorrection policy
+(never edits source data). See its [`README.md`](./library-of-ashurbanipal-bot/README.md).
+
+### Knowledge, tools, simulation
+
+```
+knowledge/      The corpus — scripture/ (canonical docs) + supporting material
+datasets/       Reference corpus (cookbooks, crypto protocol specs, ML curricula) —
+                license-strict: MIT / Apache / CC / public-domain only
+tools/          Corpus + brief tooling — ingest manifest, citations, categorize, scripture-validate
+simulation/     Pure-Python odds engine (Poisson → Dixon-Coles → Elo + Monte Carlo) + scale layer
+wiki-populator/ Back-reference stub generator for linked-term articles
+```
+
+> The repo root also holds a set of legacy `.cjs` / `.js` trade-bot and analysis scripts (e.g.
+> `*-trader.cjs`, `wall-analyzer.cjs`, `holder-analyzer.cjs`) and Python scrapers, kept as historical
+> reference. The live, key-free read-only forensics layer is the one under `integrations/`.
 
 ---
 
@@ -84,7 +138,8 @@ The Bot runs read-only without any keys or chain endpoint — useful for orienta
 
 ```bash
 npm install --ignore-scripts   # --ignore-scripts on a production host
-npm test                       # subsystem tests (welcomer, tutorial, watcher, chain, commands)
+npm test                       # subsystem tests (tutorial, welcomer, watcher, chain, commands,
+                               #                   integrations, cheetah, store)
 npm run hello                  # read-only chain smoke test (requires MELEK_RPC_URL)
 npm run welcomer:cron          # welcome surface, dry-run; pass --broadcast to go live
 npm run watcher:once           # one-shot sensitive-op scan
