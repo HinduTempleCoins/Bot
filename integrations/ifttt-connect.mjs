@@ -105,7 +105,107 @@ export const SERVICES = Object.freeze({
     pkce: true,
     extraAuthParams: { token_access_type: 'offline' },
   },
+  // --- task #208: everything IFTTT-style automation needs to connect ---------
+  yahoo: {
+    name: 'yahoo',
+    // Yahoo OAuth2 (api.login.yahoo.com). This is ALSO the admin's backup email identity —
+    // connecting it here kills the recurring "what's the Yahoo password" problem: the token
+    // becomes a capability grant in the vault, no password handling anywhere.
+    authUrlTemplate: 'https://api.login.yahoo.com/oauth2/request_auth',
+    tokenUrl: 'https://api.login.yahoo.com/oauth2/get_token',
+    scopes: ['openid', 'email', 'mail-r'], // mail-r = Yahoo Mail read
+    pkce: true,
+    category: 'email',
+    notes: 'Yahoo OAuth2; also the operator backup email identity. mail-r = Mail read scope.',
+  },
+  microsoft: {
+    name: 'microsoft',
+    // Microsoft identity platform (login.microsoftonline.com, /common tenant). Outlook mail +
+    // OneDrive files, read-mostly defaults. offline_access for refresh tokens.
+    authUrlTemplate: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+    tokenUrl: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+    scopes: ['openid', 'email', 'offline_access', 'Mail.Read', 'Files.Read'],
+    pkce: true,
+    category: 'email',
+    notes: 'Microsoft identity (Outlook Mail.Read + OneDrive Files.Read), common tenant.',
+  },
+  spotify: {
+    name: 'spotify',
+    authUrlTemplate: 'https://accounts.spotify.com/authorize',
+    tokenUrl: 'https://accounts.spotify.com/api/token',
+    scopes: ['user-read-email', 'user-read-recently-played', 'playlist-read-private'],
+    pkce: true,
+    category: 'media',
+    notes: 'Spotify OAuth2 (PKCE), read-mostly listening/playlist scopes.',
+  },
+  twitch: {
+    name: 'twitch',
+    authUrlTemplate: 'https://id.twitch.tv/oauth2/authorize',
+    tokenUrl: 'https://id.twitch.tv/oauth2/token',
+    scopes: ['user:read:email', 'user:read:follows'],
+    pkce: false,
+    category: 'media',
+    notes: 'Twitch OAuth2, read-mostly user scopes.',
+  },
+  linkedin: {
+    name: 'linkedin',
+    authUrlTemplate: 'https://www.linkedin.com/oauth/v2/authorization',
+    tokenUrl: 'https://www.linkedin.com/oauth/v2/accessToken',
+    scopes: ['openid', 'profile', 'email'],
+    pkce: false,
+    category: 'social',
+    notes: 'LinkedIn OAuth2 (OpenID Connect), profile + email read.',
+  },
+  notion: {
+    name: 'notion',
+    // Notion uses a fixed-capability OAuth (no scope param); kept here for the connect hub.
+    authUrlTemplate: 'https://api.notion.com/v1/oauth/authorize',
+    tokenUrl: 'https://api.notion.com/v1/oauth/token',
+    scopes: ['read_content', 'insert_content'],
+    pkce: false,
+    category: 'productivity',
+    extraAuthParams: { owner: 'user' },
+    notes: 'Notion OAuth2; capabilities are set on the integration, not via the scope param.',
+  },
+  todoist: {
+    name: 'todoist',
+    authUrlTemplate: 'https://todoist.com/oauth/authorize',
+    tokenUrl: 'https://todoist.com/oauth/access_token',
+    scopes: ['data:read', 'data:read_write'],
+    pkce: false,
+    category: 'productivity',
+    notes: 'Todoist OAuth2, read + read_write task scopes.',
+  },
 });
+
+// Category for the admin UI table. Falls back to the SERVICES entry's own `category`, then a
+// name-based default, so every service has a stable bucket without per-service duplication.
+const CATEGORY_DEFAULTS = Object.freeze({
+  google: 'email',
+  yahoo: 'email',
+  microsoft: 'email',
+  dropbox: 'storage',
+  github: 'productivity',
+  discord: 'social',
+  slack: 'social',
+  x: 'social',
+  reddit: 'social',
+  linkedin: 'social',
+  spotify: 'media',
+  twitch: 'media',
+  notion: 'productivity',
+  todoist: 'productivity',
+});
+
+function categoryOf(svc) {
+  return svc.category || CATEGORY_DEFAULTS[svc.name] || 'productivity';
+}
+
+// The env-var that holds a service's OAuth client id, by the repo-wide <NAME>_CLIENT_ID
+// convention (the admin server uses the same). Names only — never a secret literal.
+function clientIdEnvName(svcName) {
+  return `${svcName.toUpperCase()}_CLIENT_ID`;
+}
 
 // ---- internal helpers ------------------------------------------------------
 
@@ -273,6 +373,85 @@ export async function revoke(service, store) {
   const existed = src.list ? src.list().some((e) => e.name === name) : false;
   if (src.revoke) src.revoke(name);
   return existed;
+}
+
+// ---- serviceCatalog (admin UI table) ---------------------------------------
+//
+// Build the row model the admin /connect table renders: every connectable service with its
+// default scopes, category, whether a client id is CONFIGURED (its <NAME>_CLIENT_ID env is set),
+// and whether it's currently CONNECTED (a grant exists). The connection lookup soft-fails — if
+// the store is unreachable, every service simply shows connected:false rather than throwing, so
+// the catalog always renders. NEVER touches secrets.
+export async function serviceCatalog(store) {
+  let connectedNames = new Set();
+  try {
+    const conns = await listConnections(store);
+    connectedNames = new Set(
+      conns.filter((c) => c.status === 'connected').map((c) => c.name)
+    );
+  } catch {
+    // soft-fail: leave everything as not-connected
+  }
+  return Object.values(SERVICES).map((svc) => ({
+    name: svc.name,
+    scopes: [...svc.scopes],
+    category: categoryOf(svc),
+    configured: Boolean(process.env[clientIdEnvName(svc.name)]),
+    connected: connectedNames.has(svc.name),
+  }));
+}
+
+// ---- recipePrereqs (what must I connect for this automation?) ---------------
+//
+// Given a simple recipe descriptor — { trigger: 'gmail.new_email', action: 'notion.add_row' } —
+// return the connectable services that must be linked first. The service is the prefix before the
+// first dot (e.g. 'gmail.new_email' -> 'gmail'). Common provider aliases are normalized to the
+// SERVICES key (gmail/gcal/gdrive -> google, outlook/onedrive -> microsoft, twitter -> x), and a
+// prefix that maps to no known service is reported under `unknown` rather than silently dropped.
+// Accepts `trigger`/`action` plus any extra fields shaped like `<role>: '<service>.<event>'`,
+// and a `services: [...]` array, so it works for multi-step recipes too. PURE — no store, no net.
+const RECIPE_ALIASES = Object.freeze({
+  gmail: 'google',
+  gcal: 'google',
+  googlecalendar: 'google',
+  gdrive: 'google',
+  googledrive: 'google',
+  youtube: 'google',
+  outlook: 'microsoft',
+  onedrive: 'microsoft',
+  office365: 'microsoft',
+  msft: 'microsoft',
+  twitter: 'x',
+});
+
+function recipeServiceKey(token) {
+  if (typeof token !== 'string' || !token) return null;
+  const prefix = token.split('.')[0].trim().toLowerCase();
+  if (!prefix) return null;
+  return RECIPE_ALIASES[prefix] || prefix;
+}
+
+export function recipePrereqs(recipe = {}) {
+  const tokens = [];
+  for (const [k, v] of Object.entries(recipe)) {
+    if (k === 'services' && Array.isArray(v)) {
+      for (const s of v) tokens.push(s);
+    } else if (typeof v === 'string') {
+      tokens.push(v);
+    }
+  }
+
+  const required = [];
+  const unknown = [];
+  const seen = new Set();
+  for (const tok of tokens) {
+    const key = recipeServiceKey(tok);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    if (SERVICES[key]) required.push(key);
+    else unknown.push(key);
+  }
+  return { required, unknown };
 }
 
 // ---- CLI (guarded) ---------------------------------------------------------

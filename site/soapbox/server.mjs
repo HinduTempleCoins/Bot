@@ -32,7 +32,7 @@ import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cache.mjs';
-import { chyronItems, worldClocks } from '../../integrations/soapbox/chyron.mjs';
+import { chyronItems, worldClocks, tickerPanels, renderTickerHTML } from '../../integrations/soapbox/chyron.mjs';
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { findVertical, renderVertical } from './verticals.mjs';
@@ -82,6 +82,15 @@ async function listPage({ page = 1 } = {}) {
     page === 1 ? trending().catch(() => []) : Promise.resolve([]),
     page === 1 ? fearGreed().catch(() => null) : Promise.resolve(null),
   ]);
+  // #203 — the cycling Chiron ticker at the very TOP of the front page: world clocks +
+  // rotating Top-5 panels (Crypto / Bitcoin / ETH / Altcoins / World / Markets), 4s cycle,
+  // relevance-decay swaps entries as they go stale. Soft-fail: no ticker ≠ no homepage.
+  const tickerBlock = page === 1
+    ? await memo('tickerpanels', MEMO_TTL.clarity, async () => {
+        const t = await tickerPanels({});
+        return renderTickerHTML(t.panels, { cycleMs: 4000 });
+      }).catch(() => '')
+    : '';
   const idx = page === 1 ? await marketIndex().catch(() => []) : [];
   const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
   const commSum = page === 1 ? await commoditiesSummary().catch(() => null) : null;
@@ -148,7 +157,7 @@ async function listPage({ page = 1 } = {}) {
     </div>
     <div style="margin-left:auto" title="A blended index of the top 50 coins' last 7 days, weighted by market cap. Up = the overall market rose; down = it fell.">${sparkline(idx.map((d) => d.p), 160, 40)}</div>
   </div>` : '';
-  const body = `${statsbar}<h1>Global Markets</h1>
+  const body = `${tickerBlock}${statsbar}<h1>Global Markets</h1>
     <p class=muted>Live prices via the condenser. Ecosystem tokens pinned up top with a Clarity transparency rating + right-of-reply. Search also surfaces global stocks, ETFs &amp; indices.</p>
     <input class=search id=q placeholder="Search crypto, stocks, ETFs, indices…" autocomplete=off aria-label="Search crypto, stocks, ETFs and indices">
     <div id=msr class=msr hidden></div>
@@ -752,6 +761,7 @@ createServer(async (req, res) => {
     // nasa/commodities-goods/public-safety + search: legal/pharma/biodiversity/vehicle). renderVertical never throws.
     { const vert = findVertical(p); if (vert) return send(layout({ title: vert.title, active: p, canonical: `${BASE_URL}${p}`, description: `${vert.title} — SoapBox Data`, body: await renderVertical(p, url.searchParams.get('q') || '') })); }
     if (p === '/api/chyron') return json(res, 200, await memo('chyron', MEMO_TTL.clarity, async () => ({ items: await chyronItems({ max: 16 }), clocks: worldClocks() })).catch(() => ({ items: [], clocks: worldClocks() })));
+    if (p === '/api/ticker') return json(res, 200, await memo('tickerjson', MEMO_TTL.clarity, () => tickerPanels({})).catch(() => ({ panels: [], clocks: worldClocks() })));
     if (p === '/api/news') return json(res, 200, await memo('news:feed', MEMO_TTL.clarity, () => newsFeed()).catch(() => ({})));
     if (p === '/stats') {
       // private dashboard: require STATS_TOKEN match (constant set in systemd env), else 404 (don't reveal it exists)

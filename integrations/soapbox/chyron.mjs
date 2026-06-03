@@ -225,6 +225,256 @@ export async function chyronItems({ max = 14 } = {}) {
   return curate(out, max);
 }
 
+// ============================================================================
+// Task #203 — cycling topic panels for the homepage ticker (ADDITIVE).
+//
+// The front-page ticker rotates through topic PANELS every ~4s client-side:
+//   Top 5 Crypto, Top 5 Bitcoin, Top 5 ETH, Top 5 Altcoins, World, Markets.
+// An algorithm (topFive) keeps each panel fresh: as items age their relevance
+// decays and fresher/bigger items DISPLACE the stale ones out of the Top 5.
+// Everything below is pure + deterministic (given `now`) or injectable, so it
+// tests fully offline. Nothing above this line is modified.
+// ============================================================================
+
+// ordered topic panels the homepage cycles through
+export const TOPICS = [
+  { key: 'crypto', label: 'Top 5 Crypto' },
+  { key: 'bitcoin', label: 'Top 5 Bitcoin' },
+  { key: 'ethereum', label: 'Top 5 ETH' },
+  { key: 'altcoins', label: 'Top 5 Altcoins' },
+  { key: 'world', label: 'World' },
+  { key: 'markets', label: 'Markets' },
+];
+
+// keyword maps for topic classification. Word-boundary matched on normalized text.
+const BTC_WORDS = ['bitcoin', 'btc', 'satoshi', 'sats', 'lightning network', 'ordinals', 'taproot'];
+const ETH_WORDS = ['ethereum', 'eth', 'ether', 'erc20', 'erc 20', 'vitalik', 'staking', 'l2', 'rollup', 'evm'];
+// other coin tickers / names → altcoins
+const ALT_WORDS = ['solana', 'sol', 'xrp', 'ripple', 'cardano', 'ada', 'dogecoin', 'doge', 'bnb', 'binance coin',
+  'polkadot', 'dot', 'avalanche', 'avax', 'chainlink', 'link', 'litecoin', 'ltc', 'tron', 'trx', 'polygon',
+  'matic', 'shiba', 'shib', 'altcoin', 'altcoins', 'memecoin', 'meme coin'];
+// generic crypto signal
+const CRYPTO_WORDS = ['crypto', 'cryptocurrency', 'blockchain', 'defi', 'stablecoin', 'usdt', 'usdc', 'tether',
+  'nft', 'token', 'coinbase', 'binance', 'exchange', 'wallet', 'web3', 'on chain', 'onchain', 'mining', 'miner'];
+// macro / equities → markets
+const MARKET_WORDS = ['stocks', 'stock', 'equities', 'equity', 's p 500', 'sp500', 's p500', 'nasdaq', 'dow',
+  'dxy', 'dollar', 'gold', 'oil', 'treasury', 'yields', 'yield', 'fed', 'rate hike', 'rate cut', 'inflation',
+  'cpi', 'gdp', 'recession', 'bonds', 'bond', 'index'];
+// world events → world
+const WORLD_WORDS = ['earthquake', 'quake', 'war', 'conflict', 'weather', 'storm', 'cyclone', 'hurricane',
+  'flood', 'wildfire', 'volcano', 'disaster', 'crisis', 'outbreak', 'sanctions', 'election', 'tsunami'];
+
+// match: does normalized text `t` contain any of `words` as a token-ish substring?
+function hasWord(t, words) {
+  for (const w of words) {
+    // normalized text is space-delimited a-z0-9; pad to enforce loose word boundaries
+    if (` ${t} `.includes(` ${w} `) || t.includes(w)) return true;
+  }
+  return false;
+}
+
+// classifyTopic(item) → array of topic keys the item belongs to. Pure.
+// BTC keywords → bitcoin; ETH → ethereum; other coin tickers → altcoins; any crypto → crypto;
+// quake/war/weather → world; macro/stocks → markets. An item can match several panels.
+export function classifyTopic(item) {
+  const t = norm(item && (item.text || item.title));
+  const k = String((item && item.kind) || '').toLowerCase();
+  const topics = new Set();
+
+  // kind-based hints from the existing feeds
+  if (['disaster', 'crisis', 'world', 'global', 'natural'].includes(k)) topics.add('world');
+  if (k === 'macro') topics.add('markets');
+  if (k === 'crypto') topics.add('crypto');
+
+  if (!t) return [...topics];
+
+  const isBtc = hasWord(t, BTC_WORDS);
+  const isEth = hasWord(t, ETH_WORDS);
+  const isAlt = hasWord(t, ALT_WORDS);
+  const isCrypto = hasWord(t, CRYPTO_WORDS);
+  if (isBtc) { topics.add('bitcoin'); topics.add('crypto'); }
+  if (isEth) { topics.add('ethereum'); topics.add('crypto'); }
+  if (isAlt) { topics.add('altcoins'); topics.add('crypto'); }
+  if (isCrypto) topics.add('crypto');
+
+  if (hasWord(t, WORLD_WORDS)) topics.add('world');
+  // markets only if it reads macro AND isn't already a crypto-coin story
+  if (hasWord(t, MARKET_WORDS) && !(isBtc || isEth || isAlt)) topics.add('markets');
+
+  return [...topics];
+}
+
+// source authority weight (0..1). Higher → more durable in the Top 5.
+function sourceWeight(item) {
+  const a = item && (item.authority != null ? item.authority : null);
+  if (a != null) return Math.max(0, Math.min(1, +a / 3)); // comms-parser authority is ~1..3
+  const w = item && item.sourceWeight;
+  if (w != null) return Math.max(0, Math.min(1, +w));
+  return 0.4; // unknown source → modest floor
+}
+
+// magnitude of "how big" an item is, 0..1 (severity for disasters, |move| for markets, impact words for news)
+function magnitude(item) {
+  if (!item) return 0;
+  if (item.score != null) return Math.max(0, Math.min(1, +item.score / 100));
+  if (item.changePct != null) return Math.max(0, Math.min(1, moveScore(item.changePct) / 100));
+  return 0.3;
+}
+
+// age in hours for an item given `now` (ms). Prefers explicit ageHours, else ts/timestamp.
+function ageHoursOf(item, now) {
+  if (item && item.ageHours != null) return Math.max(0, +item.ageHours);
+  const ts = item && (item.ts != null ? item.ts : item.timestamp);
+  if (ts != null) return Math.max(0, (now - +ts) / 3600000);
+  return 6; // unknown → assume a few hours old
+}
+
+// relevanceScore(item, {now}) → 0..1. Combines recency decay (half-life ~2h news / ~6h world),
+// magnitude (severity/move/impact), and source weight. Pure + deterministic given `now`. THIS is
+// what topFive ranks on, so aging items naturally fall and fresher/bigger ones rise.
+export function relevanceScore(item, { now = Date.now() } = {}) {
+  if (!item) return 0;
+  const topics = classifyTopic(item);
+  const isWorld = topics.includes('world') || ['disaster', 'crisis', 'world', 'global', 'natural'].includes(String(item.kind || '').toLowerCase());
+  const halfLife = isWorld ? 6 : 2; // hours
+  const age = ageHoursOf(item, now);
+  const recency = Math.pow(0.5, age / halfLife); // 0..1, =1 fresh, halves each half-life
+  const mag = magnitude(item);
+  const src = sourceWeight(item);
+  // weighted blend; recency dominates so the swap algorithm churns, magnitude + source temper it
+  const score = 0.55 * recency + 0.30 * mag + 0.15 * src;
+  return Math.max(0, Math.min(1, score));
+}
+
+// topFive(items, topic, {now}) → the current Top-5 for a topic, ranked by relevanceScore.
+// THE swap algorithm: dedup by normalized text, keep only items classified into `topic`, sort by
+// relevance (stable for ties), slice 5. As items age their relevanceScore decays and a fresher /
+// higher-magnitude item that arrives will outrank and DISPLACE a stale one out of the five.
+export function topFive(items, topic, { now = Date.now() } = {}) {
+  const seen = new Set();
+  const scored = [];
+  (items || []).filter(Boolean).forEach((it, i) => {
+    if (!classifyTopic(it).includes(topic)) return;
+    const k = norm(it.text || it.title).slice(0, 60);
+    if (!k || seen.has(k)) return; // dedup
+    seen.add(k);
+    scored.push({ it, i, rel: relevanceScore(it, { now }) });
+  });
+  // stable sort: relevance desc, ties broken by original index asc
+  scored.sort((a, b) => (b.rel - a.rel) || (a.i - b.i));
+  return scored.slice(0, 5).map((s) => ({ ...s.it, relevance: s.rel }));
+}
+
+// tickerPanels({now, fetchers}) → assemble all topic panels for the homepage.
+// fetchers is injectable (offline tests pass stubs); defaults wire the existing internal feeds.
+// Returns { panels:[{key,label,items:[≤5]}], clocks, generatedAt } — the single payload polled.
+export async function tickerPanels({ now = Date.now(), fetchers = {} } = {}) {
+  const F = {
+    crypto: () => headlines('crypto'),
+    world: async () => [
+      ...(await earthquakes().catch(() => [])),
+      ...(await weatherAlerts().catch(() => [])),
+      ...(await reliefWeb().catch(() => [])),
+      ...(await gdeltWorld().catch(() => [])),
+      ...(await eonetEvents().catch(() => [])),
+    ],
+    markets: async () => {
+      try {
+        const macro = await import('./macro.mjs');
+        const m = await macro.macro().catch(() => null);
+        return (m?.indices || []).concat(m?.metals || []).filter(Boolean).map((row) => ({
+          kind: 'macro', icon: '📈',
+          text: `${row.name || row.symbol} ${row.changePct >= 0 ? '▲' : '▼'} ${Math.abs(+row.changePct || 0).toFixed(2)}%`,
+          changePct: row.changePct, score: moveScore(row.changePct), ageHours: 0,
+        }));
+      } catch { return []; }
+    },
+    ...fetchers,
+  };
+
+  // gather raw items per source (soft-fail each)
+  const cryptoItems = await Promise.resolve().then(F.crypto).catch(() => []) || [];
+  const worldItems = await Promise.resolve().then(F.world).catch(() => []) || [];
+  const marketItems = await Promise.resolve().then(F.markets).catch(() => []) || [];
+
+  // normalize crypto headlines to a chyron-ish shape (they carry title/ageHours/authority)
+  const cryptoNorm = cryptoItems.filter(Boolean).map((h) => ({
+    kind: 'crypto', icon: '🪙', text: h.text || h.title, url: h.url,
+    ageHours: h.ageHours, authority: h.authority, score: h.score,
+  }));
+
+  // pool everything; each panel pulls its own classified Top 5 (an item can appear in crypto + bitcoin etc.)
+  const pool = [...cryptoNorm, ...worldItems, ...marketItems];
+
+  const panels = TOPICS.map(({ key, label }) => {
+    const source = key === 'world' ? [...worldItems, ...pool] : key === 'markets' ? [...marketItems, ...pool] : pool;
+    return { key, label, items: topFive(source, key, { now }) };
+  });
+
+  return { panels, clocks: worldClocks(), generatedAt: now };
+}
+
+// ---- HTML rendering: self-contained escaped snippet the server embeds at the top of the page ----
+
+export function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// renderTickerHTML(panels, {cycleMs}) → a slim bar with a world-clocks row + a rotating topic panel.
+// Pure string; CSS + vanilla JS cycle panels every cycleMs (default 4000), pausing on hover.
+// No external deps; all user-derived text is HTML-escaped.
+export function renderTickerHTML(panels, { cycleMs = 4000 } = {}) {
+  const list = Array.isArray(panels) ? panels : (panels && panels.panels) || [];
+  const clocks = (panels && panels.clocks) || worldClocks();
+  const ms = Math.max(500, Math.floor(+cycleMs || 4000));
+
+  const clocksHtml = clocks.map((c) =>
+    `<span class="sbx-clk" data-tz="${escapeHtml(c.tz)}"><b>${escapeHtml(c.city)}</b> <time>--:--</time></span>`
+  ).join('');
+
+  const panelsHtml = list.map((p, idx) => {
+    const items = (p.items || []).slice(0, 5).map((it) => {
+      const txt = escapeHtml(it.text || it.title || '');
+      const inner = `<span class="sbx-itm">${it.url ? `<a href="${escapeHtml(it.url)}" rel="noopener noreferrer" target="_blank">${txt}</a>` : txt}</span>`;
+      return inner;
+    }).join('');
+    return `<div class="sbx-panel${idx === 0 ? ' on' : ''}" data-i="${idx}"><b class="sbx-lbl">${escapeHtml(p.label || p.key)}</b>${items}</div>`;
+  }).join('');
+
+  return `<div class="sbx-ticker" id="sbx-ticker" aria-label="Data.SoapBox ticker">
+<div class="sbx-clocks">${clocksHtml}</div>
+<div class="sbx-panels">${panelsHtml}</div>
+<style>
+#sbx-ticker{font:13px/1.4 system-ui,Arial,sans-serif;background:#0b0e14;color:#e6edf3;border-bottom:1px solid #1f2630;overflow:hidden;white-space:nowrap}
+#sbx-ticker .sbx-clocks{display:flex;gap:14px;padding:4px 10px;border-bottom:1px solid #161b22;opacity:.85;overflow-x:auto}
+#sbx-ticker .sbx-clk b{color:#9aa7b4;font-weight:600;margin-right:3px}
+#sbx-ticker .sbx-clk time{color:#58a6ff;font-variant-numeric:tabular-nums}
+#sbx-ticker .sbx-panels{position:relative;padding:6px 10px;min-height:22px}
+#sbx-ticker .sbx-panel{display:none;align-items:center;gap:12px}
+#sbx-ticker .sbx-panel.on{display:flex}
+#sbx-ticker .sbx-lbl{color:#f0883e;font-weight:700;margin-right:6px;flex:none}
+#sbx-ticker .sbx-itm{color:#c9d1d9;flex:none}
+#sbx-ticker .sbx-itm a{color:#c9d1d9;text-decoration:none}
+#sbx-ticker .sbx-itm a:hover{text-decoration:underline}
+</style>
+<script>
+(function(){
+  var root=document.getElementById('sbx-ticker'); if(!root) return;
+  var panels=root.querySelectorAll('.sbx-panel'); var cur=0; var paused=false;
+  function show(i){ for(var j=0;j<panels.length;j++){ panels[j].className='sbx-panel'+(j===i?' on':''); } }
+  function tick(){ if(paused||panels.length<2) return; cur=(cur+1)%panels.length; show(cur); }
+  if(panels.length) setInterval(tick,${ms});
+  root.addEventListener('mouseenter',function(){paused=true;});
+  root.addEventListener('mouseleave',function(){paused=false;});
+  function clocks(){ var els=root.querySelectorAll('.sbx-clk'); for(var k=0;k<els.length;k++){ var tz=els[k].getAttribute('data-tz'); var t=els[k].querySelector('time'); try{ t.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',timeZone:tz}); }catch(e){} } }
+  clocks(); setInterval(clocks,15000);
+})();
+</script>
+</div>`;
+}
+
 // CLI
 if (process.argv[1] && process.argv[1].endsWith('chyron.mjs')) {
   const items = await chyronItems({ max: 14 }).catch((e) => { console.error(e.message); return []; });

@@ -10,6 +10,8 @@ import {
   handleCallback,
   listConnections,
   revoke,
+  serviceCatalog,
+  recipePrereqs,
   ConnectError,
 } from './ifttt-connect.mjs';
 
@@ -196,4 +198,110 @@ test('revoke removes a connection', async () => {
 
   // revoking a non-connected service reports false, does not throw
   assert.equal(await revoke('reddit', store), false);
+});
+
+// ---- task #208: expanded service catalog + helpers -------------------------
+
+test('SERVICES includes the task #208 additions with real endpoint hosts', () => {
+  for (const key of ['yahoo', 'microsoft', 'spotify', 'twitch', 'linkedin', 'notion', 'todoist']) {
+    const s = SERVICES[key];
+    assert.ok(s, `missing service: ${key}`);
+    assert.equal(typeof s.authUrlTemplate, 'string');
+    assert.equal(typeof s.tokenUrl, 'string');
+    assert.ok(Array.isArray(s.scopes) && s.scopes.length > 0, `${key} needs scopes`);
+  }
+  // Yahoo OAuth2 lives at api.login.yahoo.com (operator backup email identity).
+  assert.equal(new URL(SERVICES.yahoo.authUrlTemplate).host, 'api.login.yahoo.com');
+  assert.equal(new URL(SERVICES.yahoo.tokenUrl).host, 'api.login.yahoo.com');
+  assert.ok(SERVICES.yahoo.scopes.includes('mail-r'), 'yahoo should request Mail read');
+  // Microsoft identity platform lives at login.microsoftonline.com.
+  assert.equal(new URL(SERVICES.microsoft.authUrlTemplate).host, 'login.microsoftonline.com');
+  assert.equal(new URL(SERVICES.microsoft.tokenUrl).host, 'login.microsoftonline.com');
+});
+
+test('authorizeUrl builds a valid URL for yahoo with a client id (PKCE)', () => {
+  const { url, codeVerifier, scopes } = authorizeUrl('yahoo', {
+    clientId: 'YH-CID',
+    redirectUri: 'https://portal.example/cb',
+    state: 'st',
+  });
+  const u = new URL(url);
+  assert.equal(u.origin + u.pathname, 'https://api.login.yahoo.com/oauth2/request_auth');
+  assert.equal(u.searchParams.get('client_id'), 'YH-CID');
+  assert.equal(u.searchParams.get('response_type'), 'code');
+  assert.equal(u.searchParams.get('redirect_uri'), 'https://portal.example/cb');
+  assert.equal(u.searchParams.get('scope'), SERVICES.yahoo.scopes.join(' '));
+  // yahoo is PKCE: challenge present + verifier returned
+  assert.equal(u.searchParams.get('code_challenge_method'), 'S256');
+  assert.ok(u.searchParams.get('code_challenge'));
+  assert.ok(codeVerifier && codeVerifier.length >= 16);
+  assert.deepEqual(scopes, SERVICES.yahoo.scopes);
+});
+
+test('serviceCatalog: configured reflects <NAME>_CLIENT_ID env (set/unset) and merges connection status', async () => {
+  const ENV = 'SPOTIFY_CLIENT_ID';
+  const prior = process.env[ENV];
+  delete process.env[ENV];
+
+  const store = fakeStore();
+  // connect twitch so the catalog can merge a real connection status
+  await handleCallback('twitch', {
+    code: 'c',
+    store,
+    exchange: async () => ({ access_token: FAKE_TOKEN, scope: 'user:read:email' }),
+  });
+
+  // unset → spotify configured:false
+  let cat = await serviceCatalog(store);
+  let byName = Object.fromEntries(cat.map((r) => [r.name, r]));
+  assert.equal(byName.spotify.configured, false, 'spotify should be unconfigured when env unset');
+  assert.equal(byName.twitch.connected, true, 'twitch is connected');
+  assert.equal(byName.spotify.connected, false, 'spotify is not connected');
+  // every row carries a category bucket + scopes array
+  assert.ok(['email', 'storage', 'social', 'productivity', 'media'].includes(byName.spotify.category));
+  assert.ok(Array.isArray(byName.spotify.scopes) && byName.spotify.scopes.length > 0);
+  // no secrets anywhere in the catalog
+  assert.ok(!JSON.stringify(cat).includes(FAKE_TOKEN));
+
+  // set → spotify configured:true
+  process.env[ENV] = 'a-client-id-from-env'; // a CLIENT ID (public), not a secret
+  cat = await serviceCatalog(store);
+  byName = Object.fromEntries(cat.map((r) => [r.name, r]));
+  assert.equal(byName.spotify.configured, true, 'spotify configured when env set');
+
+  // restore env
+  if (prior === undefined) delete process.env[ENV];
+  else process.env[ENV] = prior;
+});
+
+test('serviceCatalog soft-fails when the store is unreachable (everything not-connected)', async () => {
+  const badStore = {
+    list() {
+      throw new Error('vault unreachable');
+    },
+  };
+  const cat = await serviceCatalog(badStore);
+  assert.ok(cat.length >= 14, 'catalog still lists every service');
+  assert.ok(cat.every((r) => r.connected === false), 'all not-connected on store failure');
+});
+
+test('recipePrereqs extracts the services a recipe needs (with alias normalization)', () => {
+  // gmail.* → google, notion.* → notion
+  const a = recipePrereqs({ trigger: 'gmail.new_email', action: 'notion.add_row' });
+  assert.deepEqual(a.required.sort(), ['google', 'notion']);
+  assert.deepEqual(a.unknown, []);
+
+  // outlook → microsoft, twitter → x; dedupes; reports unknown prefixes separately
+  const b = recipePrereqs({
+    trigger: 'outlook.new_mail',
+    action: 'twitter.post',
+    extra: 'spotify.save_track',
+    services: ['gdrive.upload', 'pagerduty.alert'],
+  });
+  assert.deepEqual(b.required.sort(), ['google', 'microsoft', 'spotify', 'x']);
+  assert.deepEqual(b.unknown, ['pagerduty']);
+
+  // empty / non-string fields are ignored, never throws
+  assert.deepEqual(recipePrereqs({}), { required: [], unknown: [] });
+  assert.deepEqual(recipePrereqs({ trigger: 42, action: null }), { required: [], unknown: [] });
 });
