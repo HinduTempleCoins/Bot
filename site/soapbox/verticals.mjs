@@ -244,6 +244,74 @@ export const VERTICALS = [
   // so this seeds a default query rather than using the positional search form).
   { path: '/datasets', title: 'Open Data Catalog', navLabel: 'Datasets', kind: 'summary',
     render: summaryRender({ module: `${REL}datagov-catalog.mjs`, fn: 'searchDatasets', title: 'Open Data Catalog', args: [{ q: 'open data', limit: 25 }] }) },
+
+  // ---- surface wave: already-built reader modules (wave-surface-pages) ----
+  // Each soft-fails to the unavailable card; summary verticals seed a sensible default so the page
+  // renders without input. Coordinate defaults use New York City to match the /weather vertical.
+
+  // FRED — US economic indicators dashboard (GDP, unemployment, CPI, …), no input.
+  { path: '/economy', title: 'Economic Indicators', navLabel: 'Economy', kind: 'summary',
+    render: summaryRender({ module: `${REL}fred.mjs`, fn: 'dashboard', title: 'Economic Indicators' }) },
+
+  // PubMed / clinical trials — searchable biomedical literature.
+  { path: '/health-research', title: 'Health Research', navLabel: 'Research', kind: 'search',
+    render: searchRender({ module: `${REL}pubmed.mjs`, fn: 'searchPubmed', title: 'Health Research', placeholder: 'Disease, drug, or topic…', label: 'Search literature' }) },
+
+  // Census ACS — demographics/income/housing, defaults to a state (California, FIPS 06).
+  { path: '/census', title: 'Census & Demographics', navLabel: 'Census', kind: 'summary',
+    render: summaryRender({ module: `${REL}census-acs.mjs`, fn: 'profile', title: 'Census & Demographics', args: [{ state: '06' }] }) },
+
+  // World Bank — development indicators, defaults to a country profile (United States).
+  { path: '/world-development', title: 'World Development', navLabel: 'World Bank', kind: 'summary',
+    render: summaryRender({ module: `${REL}worldbank.mjs`, fn: 'countryProfile', title: 'World Development', args: [{ country: 'USA' }] }) },
+
+  // USPTO patents — search takes an object arg, so seed a default keyword rather than the positional form.
+  { path: '/patents', title: 'Patents', navLabel: 'Patents', kind: 'summary',
+    render: summaryRender({ module: `${REL}patents.mjs`, fn: 'searchPatents', title: 'Patents', args: [{ keyword: 'solar energy', limit: 25 }] }) },
+
+  // Wikidata — searchable structured-knowledge entity lookup.
+  { path: '/wikidata', title: 'Knowledge Graph', navLabel: 'Wikidata', kind: 'search',
+    render: searchRender({ module: `${REL}wikidata.mjs`, fn: 'searchEntities', title: 'Knowledge Graph', placeholder: 'Person, place, thing…', label: 'Search Wikidata' }) },
+
+  // CFPB / SEC / scam-tracker aggregate — searchable scam/risk check.
+  { path: '/scam-check', title: 'Scam & Complaint Check', navLabel: 'Scam Check', kind: 'search',
+    render: searchRender({ module: `${REL}cfpb.mjs`, fn: 'scamSummary', title: 'Scam & Complaint Check', placeholder: 'Company, ticker, or wallet address…', label: 'Check' }) },
+
+  // FBI crime (CDE) — state crime trend, defaults to a state (California).
+  { path: '/crime', title: 'Crime Statistics', navLabel: 'Crime', kind: 'summary',
+    render: summaryRender({ module: `${REL}fbi-crime.mjs`, fn: 'stateCrime', title: 'Crime Statistics', args: [{ state: 'CA' }] }) },
+
+  // National Park Service — park directory, no input.
+  { path: '/parks', title: 'National Parks', navLabel: 'Parks', kind: 'summary',
+    render: summaryRender({ module: `${REL}parks.mjs`, fn: 'parks', title: 'National Parks', args: [{ limit: 20 }] }) },
+
+  // Aviation — live status of major airports, no input.
+  { path: '/aviation', title: 'Aviation Status', navLabel: 'Aviation', kind: 'summary',
+    render: summaryRender({ module: `${REL}aviation.mjs`, fn: 'airportStatuses', title: 'Aviation Status' }) },
+
+  // USGS — earthquakes/volcanoes/floods near a default location (New York City).
+  { path: '/hazards', title: 'Natural Hazards', navLabel: 'Hazards', kind: 'summary',
+    render: summaryRender({ module: `${REL}usgs-hazards.mjs`, fn: 'hazardSummary', title: 'Natural Hazards', args: [{ lat: 40.7128, lon: -74.006 }] }) },
+
+  // Lawyer directory — searchable attorney lookup.
+  { path: '/lawyers', title: 'Lawyer Directory', navLabel: 'Lawyers', kind: 'search',
+    render: searchRender({ module: `${REL}lawyer-directory.mjs`, fn: 'searchAttorneys', title: 'Lawyer Directory', placeholder: 'Attorney name…', label: 'Find attorney' }) },
+
+  // Benefits navigator — searchable government-benefit program lookup.
+  { path: '/benefits', title: 'Benefits Navigator', navLabel: 'Benefits', kind: 'search',
+    render: searchRender({ module: `${REL}benefits-navigator.mjs`, fn: 'searchPrograms', title: 'Benefits Navigator', placeholder: 'Need or situation (housing, food, medical…)…', label: 'Find programs' }) },
+
+  // Vehicle history — searchable VIN-based history report.
+  { path: '/vehicle-history', title: 'Vehicle History', navLabel: 'Vehicle History', kind: 'search',
+    render: searchRender({ module: `${REL}vehicle-history.mjs`, fn: 'history', title: 'Vehicle History', placeholder: '17-character VIN…', label: 'Look up history' }) },
+
+  // Vehicle value — methodology/availability summary, no input.
+  { path: '/vehicle-value', title: 'Vehicle Value', navLabel: 'Vehicle Value', kind: 'summary',
+    render: summaryRender({ module: `${REL}vehicle-value.mjs`, fn: 'vehicleValueSummary', title: 'Vehicle Value' }) },
+
+  // Market health — crypto market health gauge, no input.
+  { path: '/market-health', title: 'Market Health', navLabel: 'Market Health', kind: 'summary',
+    render: summaryRender({ module: `${REL}market-health.mjs`, fn: 'healthData', title: 'Market Health' }) },
 ];
 
 _pathByTitle = new Map(VERTICALS.map((v) => [v.title, v.path]));
