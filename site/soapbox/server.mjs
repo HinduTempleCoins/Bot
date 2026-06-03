@@ -34,6 +34,7 @@ import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cache.mjs';
 import { chyronItems, worldClocks } from '../../integrations/soapbox/chyron.mjs';
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
+import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
@@ -687,6 +688,18 @@ async function newsPage() {
   return layout({ title: 'News', active: '/news', canonical: `${BASE_URL}/news`, description: 'Crypto, world, regulatory, and disaster news from free open feeds, plus free live video news streams.', body });
 }
 
+// Government data hub — the "better than the government" surface: every official API in one sourced place.
+function govPage() {
+  const groups = {};
+  for (const a of (GOV_APIS || [])) { (groups[a.domain || 'Other'] = groups[a.domain || 'Other'] || []).push(a); }
+  let keyless = 0; try { keyless = keylessApis().length; } catch { /* */ }
+  const sections = Object.entries(groups).map(([domain, apis]) => `<div class=card><h2>${esc(domain)}</h2><ul style="margin:0;padding-left:18px;line-height:1.7">${apis.map((a) => `<li><b>${esc(a.name || '')}</b> <span class=muted style="font-size:12px">(${a.keyless ? 'keyless' : a.keyViaDataGov ? 'free api.data.gov key' : 'free key'})</span>${a.gives ? ` — ${esc(a.gives)}` : ''}${a.pageIdea ? ` <span class=muted style="font-size:12px">· ${esc(a.pageIdea)}</span>` : ''}</li>`).join('')}</ul></div>`).join('');
+  const body = `<h1>Government Data</h1>
+    <p class=muted>${(GOV_APIS || []).length} US government APIs/SDKs aggregated — ${keyless} keyless. Same ingest + provenance + Clarity engine as the rest of SoapBox, pointed at official sources: spending, legislation, regulations, science, safety. One place, faster, sourced.</p>
+    ${sections || '<p class=muted>Catalog unavailable.</p>'}`;
+  return layout({ title: 'Government Data', active: '/gov', canonical: `${BASE_URL}/gov`, description: 'US government APIs and open data — federal spending, legislation, regulations, science, safety — aggregated, sourced, and free.', body });
+}
+
 const STARTED = process.hrtime.bigint();
 function statusPage() {
   const c = cacheStats();
@@ -731,6 +744,7 @@ createServer(async (req, res) => {
     if (p === '/commodities') return send(await commoditiesPage());
     if (p === '/forex') return send(await forexPage());
     if (p === '/news') return send(await newsPage());
+    if (p === '/gov') return send(govPage());
     if (p === '/api/chyron') return json(res, 200, await memo('chyron', MEMO_TTL.clarity, async () => ({ items: await chyronItems({ max: 16 }), clocks: worldClocks() })).catch(() => ({ items: [], clocks: worldClocks() })));
     if (p === '/api/news') return json(res, 200, await memo('news:feed', MEMO_TTL.clarity, () => newsFeed()).catch(() => ({})));
     if (p === '/stats') {
