@@ -191,6 +191,59 @@ export const VERTICALS = [
 
   { path: '/vehicle', title: 'Vehicle Lookup', navLabel: 'Vehicle', kind: 'search',
     render: searchRender({ module: `${REL}vehicle.mjs`, fn: 'vehicleSummary', title: 'Vehicle Lookup', placeholder: '17-character VIN…', label: 'Decode VIN' }) },
+
+  // ---- gov / public-data reader verticals (queue #182/#181) ----
+  // Each soft-fails to the unavailable card; summary verticals seed a sensible default so the page
+  // renders without input. Coordinate defaults use New York City to match the /weather vertical.
+
+  // FDA recalls (food + device) — recent batch, no input.
+  { path: '/recalls', title: 'FDA Recalls', navLabel: 'Recalls', kind: 'summary',
+    render: summaryRender({ module: `${REL}fda-recalls.mjs`, fn: 'summary', title: 'FDA Recalls', args: [{ limit: 25 }] }) },
+
+  // NOAA tides & coastal — defaults to The Battery, NY (first curated station).
+  { path: '/tides', title: 'Tides & Coastal', navLabel: 'Tides', kind: 'summary',
+    render: summaryRender({ module: `${REL}noaa-climate.mjs`, fn: 'tides', title: 'Tides & Coastal', args: [{ station: '8518750', days: 2 }] }) },
+
+  // OSHA / workplace safety — defaults to California inspections.
+  { path: '/osha', title: 'Workplace Safety', navLabel: 'Workplace', kind: 'summary',
+    render: summaryRender({ module: `${REL}workplace-safety.mjs`, fn: 'summary', title: 'Workplace Safety', args: [{ state: 'CA', limit: 25 }] }) },
+
+  // FCC broadband availability — defaults to a New York City location.
+  { path: '/broadband', title: 'Broadband Availability', navLabel: 'Broadband', kind: 'summary',
+    render: summaryRender({ module: `${REL}fcc-broadband.mjs`, fn: 'broadbandAt', title: 'Broadband Availability', args: [{ lat: 40.7128, lon: -74.006 }] }) },
+
+  // USDA FoodData Central — searchable food/nutrition lookup.
+  { path: '/nutrition', title: 'Food & Nutrition', navLabel: 'Nutrition', kind: 'search',
+    render: searchRender({ module: `${REL}usda-nutrition.mjs`, fn: 'searchFood', title: 'Food & Nutrition', placeholder: 'Food or ingredient…', label: 'Find food' }) },
+
+  // Treasury fiscal data — national debt, rates, statement — summary, no input.
+  { path: '/debt', title: 'Treasury & Debt', navLabel: 'Treasury', kind: 'summary',
+    render: summaryRender({ module: `${REL}treasury-fiscal.mjs`, fn: 'summary', title: 'Treasury & Debt' }) },
+
+  // CPSC consumer product recalls — recent batch, no input.
+  { path: '/product-recalls', title: 'Consumer Product Recalls', navLabel: 'Product Recalls', kind: 'summary',
+    render: summaryRender({ module: `${REL}cpsc-recalls.mjs`, fn: 'summary', title: 'Consumer Product Recalls', args: [{ limit: 25 }] }) },
+
+  // EPA air quality & environment — defaults to a New York City location.
+  { path: '/environment', title: 'Air & Environment', navLabel: 'Environment', kind: 'summary',
+    render: summaryRender({ module: `${REL}epa-enviro.mjs`, fn: 'airQuality', title: 'Air & Environment', args: [{ lat: 40.7128, lon: -74.006 }] }) },
+
+  // CDC public health — respiratory activity, defaults to California.
+  { path: '/health', title: 'Public Health', navLabel: 'Health', kind: 'summary',
+    render: summaryRender({ module: `${REL}cdc-health.mjs`, fn: 'respiratoryLevels', title: 'Public Health', args: [{ state: 'CA' }] }) },
+
+  // SEC EDGAR filings — defaults to a well-known CIK (Apple Inc.) so the page renders without input.
+  { path: '/edgar', title: 'SEC Filings', navLabel: 'EDGAR', kind: 'summary',
+    render: summaryRender({ module: `${REL}sec-edgar.mjs`, fn: 'recentFilings', title: 'SEC Filings', args: [{ cik: '0000320193', limit: 15 }] }) },
+
+  // Federal opportunities — recent posted/forecasted grants, no input.
+  { path: '/opportunities', title: 'Federal Opportunities', navLabel: 'Opportunities', kind: 'summary',
+    render: summaryRender({ module: `${REL}fed-opportunities.mjs`, fn: 'grants', title: 'Federal Opportunities', args: [{ limit: 15 }] }) },
+
+  // Data.gov open-data catalog — seeded summary of recent datasets (CKAN search takes an object arg,
+  // so this seeds a default query rather than using the positional search form).
+  { path: '/datasets', title: 'Open Data Catalog', navLabel: 'Datasets', kind: 'summary',
+    render: summaryRender({ module: `${REL}datagov-catalog.mjs`, fn: 'searchDatasets', title: 'Open Data Catalog', args: [{ q: 'open data', limit: 25 }] }) },
 ];
 
 _pathByTitle = new Map(VERTICALS.map((v) => [v.title, v.path]));
