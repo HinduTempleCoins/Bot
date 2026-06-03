@@ -78,3 +78,6 @@ data/indexnow-key.txt
 
 integrations/soapbox/data/indexnow-key.txt
 site/soapbox/data/
+
+# Runtime fact-check / KB-flag output (per-deployment, never committed)
+data/

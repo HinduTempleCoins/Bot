@@ -16,6 +16,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { recordFlag } from './flags.js';
+import { logVerdict } from './verdictLog.js';
 import { research } from '../../../integrations/scraper.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -143,8 +144,8 @@ export async function checkArticle(wikiText, { title = 'untitled', topic = '' } 
       // log + flag. This only writes to the fact-check LOG and the FLAG store (flags.js) — it NEVER
       // edits the KB / knowledge source files (hard project rule: the fact-checker flags, it does not
       // correct). The flag carries the Resource Center evidence_urls so brief writers can see why.
-      fs.mkdirSync(path.dirname(LOG), { recursive: true });
-      fs.appendFileSync(LOG, JSON.stringify(rec) + '\n');
+      // The verdict log (#101) is APPEND-ONLY — logVerdict() opens in append mode, never truncates.
+      logVerdict(rec, LOG);
       const evidence = (v.evidence_urls && v.evidence_urls.length) ? v.evidence_urls.join(' ') : (v.source || '');
       recordFlag({ file: c.file, topic: t, claim: c.claim, verdict: v.verdict, reason: v.reason, evidence, checkedAt: rec.checkedAt });
       return rec;

@@ -106,8 +106,27 @@ const navBar = (active) => `<header class=topbar>
   </div>
 </header>
 <nav class=mainnav>${NAV.map(([h, l]) => `<a href="${h}" class="${active === h ? 'active' : ''}">${l}</a>`).join('')}
+  <a href="/news" class="${active === '/news' ? 'active' : ''}">📰 News</a>
   <a href="/portfolio" class="${active === '/portfolio' ? 'active' : ''}">Portfolio</a>
   <a href="/watchlist" class="${active === '/watchlist' ? 'active' : ''}">★ Watchlist</a></nav>`;
+
+// The Chiron — a slim live ticker (world clocks + a curated, severity-ranked wire) under the nav on
+// EVERY page. Populated client-side from /api/chyron (chyron.mjs). The curation cap prevents overcrowding.
+const chyronBar = () => `<div id=chyron class=chyron aria-label="live ticker">
+  <div class=chyron-clocks id=chyron-clocks></div>
+  <div class=chyron-track><div class=chyron-tape id=chyron-tape><span class=ci>Loading the wire…</span></div></div>
+</div>
+<style>
+.chyron{display:flex;align-items:center;background:#0b0e14;color:#cfe;border-bottom:1px solid #1c2330;font-size:12px;height:28px;overflow:hidden;white-space:nowrap}
+.chyron-clocks{display:flex;gap:9px;padding:0 9px;border-right:1px solid #1c2330;flex:0 0 auto;color:#8aa}
+.chyron-track{flex:1 1 auto;overflow:hidden}
+.chyron-tape{display:inline-block;padding-left:100%;animation:chyron 70s linear infinite}
+.chyron:hover .chyron-tape{animation-play-state:paused}
+.chyron-tape .ci{margin:0 15px}
+.chyron-tape .critical{color:#ff6b6b}.chyron-tape .high{color:#ffb454}.chyron-tape .med{color:#cfe}.chyron-tape .low{color:#8aa}
+@keyframes chyron{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+@media(max-width:640px){.chyron-clocks{max-width:34vw;overflow:hidden}}
+</style>`;
 
 // shared client script: theme persistence, watchlist stars (localStorage), recently-viewed tracking.
 const APP_JS = `<script>
@@ -126,6 +145,19 @@ const APP_JS = `<script>
   var rc=document.getElementById('recent');
   if(rc){var r=[];try{r=JSON.parse(localStorage.getItem('sb-recent')||'[]')}catch(e){}
     if(r.length)rc.innerHTML='<div class=k style="color:var(--mut);font-size:12px">Recently viewed</div>'+r.map(function(id){return '<a class=coin href="/coins/'+id+'" style="margin-right:10px">'+id.replace('hive-engine:','').toUpperCase()+'</a>'}).join('');}
+})();
+// The Chiron: world clocks (tick every second) + the curated wire (refreshed from /api/chyron).
+(function(){
+  var tape=document.getElementById('chyron-tape'),clk=document.getElementById('chyron-clocks');
+  if(!tape&&!clk)return;
+  var clocks=[];
+  function paintClocks(){if(!clk||!clocks.length)return;clk.innerHTML=clocks.map(function(c){
+    var t;try{t=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:c.tz})}catch(e){t=''}
+    return '<span title="'+c.city+'">'+c.city.slice(0,3).toUpperCase()+' '+t+'</span>';}).join('');}
+  function paintTape(items){if(!tape)return;if(!items||!items.length){tape.innerHTML='<span class="ci low">Wire quiet.</span>';return;}
+    tape.innerHTML=items.map(function(i){var x=(i.icon||'')+' '+i.text;if(i.url)x='<a style="color:inherit;text-decoration:none" href="'+i.url+'" target=_blank rel=noopener>'+x+'</a>';return '<span class="ci '+(i.tier||'med')+'">'+x+'</span>';}).join('');}
+  function load(){fetch('/api/chyron').then(function(r){return r.json()}).then(function(d){clocks=d.clocks||[];paintClocks();paintTape(d.items||[])}).catch(function(){});}
+  load();setInterval(load,180000);setInterval(paintClocks,1000);
 })();
 </script>`;
 
@@ -155,7 +187,7 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
 <a href="#main" class=skip>Skip to content</a>
-${navBar(active)}<main id=main class=wrap>${body}</main>
+${navBar(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
 ${APP_JS}</body></html>`;
 }

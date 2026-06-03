@@ -67,17 +67,37 @@ export function flagsForTopic(topic) {
 /** Everything — for a dashboard or a full audit export. */
 export function allFlags() { return load(); }
 
-/** A short note a brief writer can paste into context for a topic ('' if clean). */
-export function briefWarningFor(topic) {
-  const flags = flagsForTopic(topic);
+/** True when `s` looks like a KB FILE key (a path with an extension) rather than a free topic. */
+function looksLikeFile(s) {
+  return /[\\/]/.test(String(s)) || /\.(json|md|txt|wiki)$/i.test(String(s));
+}
+
+/** How many open flags exist for a KB file OR topic — the "N open fact-flags" the brief feed shows. */
+export function openFlagCount(kbFileOrTopic) {
+  const flags = looksLikeFile(kbFileOrTopic) ? flagsForFile(kbFileOrTopic) : flagsForTopic(kbFileOrTopic);
+  return flags.length;
+}
+
+/**
+ * A short note a brief writer can paste into context for a KB FILE or a TOPIC (#123). Returns '' when
+ * clean. When given a path-like argument it looks up that exact KB file (the key flags are recorded
+ * under); otherwise it fuzzy-matches the topic. The header states the open-flag COUNT so the Server-4
+ * brief pipeline can surface "this KB doc has N open fact-flags."
+ */
+export function briefWarningFor(kbFileOrTopic) {
+  const isFile = looksLikeFile(kbFileOrTopic);
+  const flags = isFile ? flagsForFile(kbFileOrTopic) : flagsForTopic(kbFileOrTopic);
   if (!flags.length) return '';
+  const label = isFile ? `KB doc "${kbFileOrTopic}"` : `"${kbFileOrTopic}"`;
   const lines = flags.slice(0, 8).map((f) => `- [${f.verdict}] ${f.claim} — ${f.reason}${f.evidence ? ` (${f.evidence})` : ''}`);
-  return `⚠️ FACT-CHECK FLAGS for "${topic}" — the knowledge base contains disputed/unverified claims here. Do NOT repeat them as fact; attribute or omit:\n${lines.join('\n')}`;
+  const more = flags.length > 8 ? `\n…and ${flags.length - 8} more.` : '';
+  return `⚠️ FACT-CHECK FLAGS — ${label} has ${flags.length} open fact-flag(s); the knowledge base contains disputed/unverified claims here. Do NOT repeat them as fact; attribute or omit:\n${lines.join('\n')}${more}`;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('flags.js')) {
   const [cmd, arg] = process.argv.slice(2);
-  if (cmd === 'topic') console.log(briefWarningFor(arg) || `(no flags for "${arg}")`);
+  if (cmd === 'topic' || cmd === 'warn') console.log(briefWarningFor(arg) || `(no flags for "${arg}")`);
+  else if (cmd === 'count') console.log(openFlagCount(arg));
   else if (cmd === 'file') console.log(JSON.stringify(flagsForFile(arg), null, 2));
   else console.log(JSON.stringify(allFlags(), null, 2));
 }

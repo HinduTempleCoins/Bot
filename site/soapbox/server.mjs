@@ -32,6 +32,8 @@ import { auditSite } from '../../integrations/soapbox/seo-audit.mjs';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cache.mjs';
+import { chyronItems, worldClocks } from '../../integrations/soapbox/chyron.mjs';
+import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
@@ -668,6 +670,23 @@ async function sitemap() {
 
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' }); res.end(JSON.stringify(obj)); };
 
+// The News tab — keyless open feeds (crypto/world/regulatory/disasters) + free live video. Link-out only.
+async function newsPage() {
+  const f = await memo('news:feed', MEMO_TTL.clarity, () => newsFeed()).catch(() => ({}));
+  const sec = (title, items) => (items && items.length)
+    ? `<div class=card><h2>${esc(title)}</h2><ul style="margin:0;padding-left:18px;line-height:1.7">${items.map((i) => `<li>${i.url ? `<a href="${esc(i.url)}" target=_blank rel=noopener>${esc(i.title)}</a>` : esc(i.title)}${i.source ? ` <span class=muted style="font-size:12px">— ${esc(i.source)}</span>` : ''}</li>`).join('')}</ul></div>`
+    : '';
+  const live = (f.live || []).map((s) => `<a class=coin href="${esc(s.url)}" target=_blank rel=noopener style="margin:0 10px 8px 0;display:inline-block">▶ ${esc(s.name)}</a>`).join('');
+  const body = `<h1>News</h1>
+    <p class=muted>Headlines from keyless open feeds — crypto, world, US regulatory (Federal Register), and live disaster data (USGS earthquakes, NWS alerts). We link out and attribute; we never republish article bodies. Free 24/7 live video below.</p>
+    ${sec('Crypto', f.crypto)}
+    ${sec('World', f.world)}
+    ${sec('US Regulatory', f.gov)}
+    ${sec('Disasters &amp; Alerts', f.disasters)}
+    ${live ? `<div class=card><h2>Live Video</h2><p class=muted style="font-size:13px">Free news live streams — opens the channel's current 24/7 live.</p>${live}</div>` : ''}`;
+  return layout({ title: 'News', active: '/news', canonical: `${BASE_URL}/news`, description: 'Crypto, world, regulatory, and disaster news from free open feeds, plus free live video news streams.', body });
+}
+
 const STARTED = process.hrtime.bigint();
 function statusPage() {
   const c = cacheStats();
@@ -711,6 +730,9 @@ createServer(async (req, res) => {
     if (p === '/macro') return send(await macroPage());
     if (p === '/commodities') return send(await commoditiesPage());
     if (p === '/forex') return send(await forexPage());
+    if (p === '/news') return send(await newsPage());
+    if (p === '/api/chyron') return json(res, 200, await memo('chyron', MEMO_TTL.clarity, async () => ({ items: await chyronItems({ max: 16 }), clocks: worldClocks() })).catch(() => ({ items: [], clocks: worldClocks() })));
+    if (p === '/api/news') return json(res, 200, await memo('news:feed', MEMO_TTL.clarity, () => newsFeed()).catch(() => ({})));
     if (p === '/stats') {
       // private dashboard: require STATS_TOKEN match (constant set in systemd env), else 404 (don't reveal it exists)
       const want = process.env.STATS_TOKEN;

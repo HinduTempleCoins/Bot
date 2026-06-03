@@ -31,10 +31,29 @@ import { usFriendly, exchangesByAsset } from './soapbox/markets-catalog.mjs';
 import { getCoin } from './soapbox/condenser.mjs';
 
 // Optional deps — import defensively so a missing/broken module never takes the front door down.
+// Each surface degrades to a plain "that source is unavailable" answer rather than throwing.
 let complete = async () => ({ text: '', error: 'llm-router absent' });
 try { ({ complete } = await import('./llm-router.mjs')); } catch { /* no LLM layer — templated answers only */ }
 let stockQuote = async () => null;
 try { ({ stockQuote } = await import('./soapbox/stocks.mjs')); } catch { /* stocks optional */ }
+
+// The Library RAG ("Ask the Library" over the Ashurbanipal wiki). Optional — degrade if absent.
+let askLibrary = async () => ({ answer: '', sources: [], grounded: false });
+try { ({ askLibrary } = await import('./library-rag.mjs')); } catch { /* no library layer */ }
+
+// The scam/trust registry (government + community fraud signals + legit allowlist). Optional.
+let scamSignals = async () => null;
+try { ({ scamSignals } = await import('./soapbox/scam-registry.mjs')); } catch { /* no trust layer */ }
+
+// Arbitrage / rotation readers (all advisory, read-only, never execute). Optional.
+let crossVenueEdges = async () => [];
+try { ({ crossVenueEdges } = await import('./cross-venue-arb.mjs')); } catch { /* no arb layer */ }
+let scalpCandidates = async () => [];
+try { ({ scalpCandidates } = await import('./profit-circles.mjs')); } catch { /* no profit-circles */ }
+
+// The fused diagnostics read (news lean × price action → suggested moves). Optional.
+let diagnostics = async () => null;
+try { ({ diagnostics } = await import('./diagnostics-pipeline.mjs')); } catch { /* no diagnostics */ }
 
 // ── formatting helpers ─────────────────────────────────────────────────────────
 const num = (n, d = 2) => (n == null || !Number.isFinite(+n) ? '—' : (+n).toLocaleString(undefined, { maximumFractionDigits: d }));
@@ -52,6 +71,31 @@ const haveLLM = () => LLM_ENV.some((e) => process.env[e]);
 const re = (...words) => new RegExp(`\\b(${words.join('|')})\\b`, 'i');
 
 const ROUTES = [
+  {
+    // "is X legit / a scam?", "is coinbase.com safe?", "check 0x… / a domain" → trust/scam registry.
+    // Placed first: a "scam/legit/safe" question must beat the generic price/worth catch-all.
+    intent: 'trust',
+    test: (q) => re('scam', 'legit', 'legitimate', 'safe', 'fraud', 'rug', 'rugpull', 'rug pull', 'trustworthy', 'is .* (real|fake)', 'phishing', 'pig butcher', 'romance scam', 'should i trust', 'reported').test(q),
+    handle: handleTrust,
+  },
+  {
+    // "best arbitrage right now?", "any arb?", "rotation edges", "scalp opportunities" → arb readers.
+    intent: 'arbitrage',
+    test: (q) => re('arbitrage', 'arb\\b', 'cross[- ]?venue', 'best (trade|edge|play|move)', 'where(?:\'s| is) the (edge|spread|money)', 'scalp', 'flip', 'round ?trip', 'profit circle').test(q),
+    handle: handleArbitrage,
+  },
+  {
+    // "what does the Library say about witnesses?", "ask the library about the Convergence" → RAG.
+    intent: 'library',
+    test: (q) => re('library', 'ashurbanipal', 'wiki', 'scripture', 'corpus', 'what does .* say about', 'convergence', 'egregore', 'rule 1', 'angelic', 'zar', 'oilahuasca', 'witness(es)?', 'docs? say', 'knowledge base').test(q),
+    handle: handleLibrary,
+  },
+  {
+    // "what's the read?", "diagnose the market", "signals" → fused news×price diagnostics.
+    intent: 'diagnostics',
+    test: (q) => re('diagnos', 'signals?', "what'?s the read", 'suggested moves?', 'news (vs|and) price', 'confluence', 'divergence', 'what should i (do|watch)').test(q),
+    handle: handleDiagnostics,
+  },
   {
     intent: 'holdings',
     test: (q) => re('hold', 'holdings', 'opportunit', 'rotation', 'rotate', 'my (tokens|balances|assets|portfolio)', 'what do i own').test(q),
@@ -187,7 +231,91 @@ async function handleBrief(q) {
   return { answer: report || (await briefLine()), data: { snapshot: snap } };
 }
 
+// "is X legit?" → pull the entity (domain / address / name) and read the trust registry.
+async function handleTrust(q) {
+  const subject = extractTrustSubject(q);
+  if (!subject) return { answer: 'Which coin, site, or wallet did you want me to check? Try "is coinbase.com legit?" or paste a token name / address.', data: null };
+  const sig = await safe(() => scamSignals(subject), null);
+  if (!sig) return { answer: `I couldn't reach the trust/scam registry to check "${subject}" right now. Treat the absence of a signal as "unknown", not "safe" — always DYOR.`, data: { query: subject } };
+  const hint = sig.riskHint || 'unknown';
+  const verdict = {
+    verified: `✅ ${subject} reads as **regulated / legit**${sig.legit?.basis ? ` — ${sig.legit.basis}` : ''}.`,
+    high: `🚨 ${subject} carries **strong scam signals** — do not send funds.`,
+    elevated: `⚠️ ${subject} has **elevated risk signals** — be cautious.`,
+    low: `${subject} appears in real filings (a mild legitimacy signal), but that is not an endorsement.`,
+    unknown: `I found **no clear signal** for ${subject} either way. No signal is NOT a safety guarantee — DYOR.`,
+  }[hint] || `Risk read for ${subject}: ${hint}.`;
+  const reportLines = (sig.reports || []).map((r) => `• ${r.source}: ${r.detail}`);
+  const answer = [verdict, reportLines.length ? `\nWhat the registries say:\n${reportLines.join('\n')}` : '', sig.sources?.length ? `\n_Sources checked: ${sig.sources.join(', ')}._` : '']
+    .filter(Boolean).join('\n');
+  return { answer, data: { subject, riskHint: hint, legit: sig.legit, reports: sig.reports, sources: sig.sources } };
+}
+
+// "best arbitrage right now?" → cross-venue edges + scalp candidates (advisory only).
+async function handleArbitrage(q) {
+  const wantScalp = re('scalp', 'flip', 'oscillat', 'profit circle').test(q);
+  const [edges, scalps] = await Promise.all([
+    safe(() => crossVenueEdges(), []),
+    wantScalp ? safe(() => scalpCandidates({ universeN: 30 }), []) : Promise.resolve([]),
+  ]);
+  const lines = [];
+  const topEdges = (Array.isArray(edges) ? edges : []).filter((e) => Number.isFinite(e?.edgePct) && e.edgePct > 0).sort((a, b) => b.edgePct - a.edgePct).slice(0, 5);
+  if (topEdges.length) {
+    lines.push('Cross-venue edges (Hive-Engine ↔ external, fees included):');
+    for (const e of topEdges) lines.push(`• ${e.token || e.symbol}: ${pct(e.edgePct)} edge (${e.direction || ''}${e.heUsd != null ? `, HE ${usd(e.heUsd)} vs ${usd(e.externalUsd)}` : ''})`.replace(/\(\s*,/, '('));
+  }
+  const topScalps = (Array.isArray(scalps) ? scalps : []).slice(0, 5);
+  if (topScalps.length) {
+    lines.push(`${lines.length ? '\n' : ''}Scalp candidates (intraday oscillation on Hive-Engine):`);
+    for (const s of topScalps) lines.push(`• ${s.symbol}: osc ${pct(s.oscPct ?? s.oscillationPct)}${s.volHive != null ? `, vol ${num(s.volHive, 0)} HIVE` : ''}`);
+  }
+  if (!lines.length) return { answer: 'No positive arbitrage or scalp edges surfaced this pass (markets may be tight, or the readers were unreachable). Nothing executes from here — this is advisory.', data: { edges: [], scalps: [] } };
+  return { answer: `Best edges right now (ADVISORY — no trades execute from here):\n${lines.join('\n')}`, data: { edges: topEdges, scalps: topScalps } };
+}
+
+// "what does the Library say about X?" → grounded RAG over the Ashurbanipal wiki.
+async function handleLibrary(q) {
+  // strip the framing words so the RAG search gets the actual topic
+  const topic = q.replace(/\b(what does|the|library|ashurbanipal|wiki|say|about|tell me|ask|of)\b/gi, ' ').replace(/\s+/g, ' ').trim() || q;
+  const res = await safe(() => askLibrary(topic), null);
+  if (!res || !res.answer) return { answer: "I couldn't reach the Library right now. Try again, or browse https://wiki.soapbox.community.", data: { topic } };
+  const src = (res.sources || []).length ? `\nSources: ${res.sources.map((s) => s.title).join('; ')}` : '';
+  return { answer: `${res.answer}${res.grounded ? src : ''}`, data: { topic, grounded: res.grounded, sources: res.sources } };
+}
+
+// "what's the read / diagnose the market?" → fused news×price diagnostics, rendered plainly.
+async function handleDiagnostics(q) {
+  const diag = await safe(() => diagnostics(), null);
+  if (!diag) return { answer: 'The diagnostics read is unavailable right now (no snapshot or feeds this pass).', data: null };
+  const sig = (diag.signals || []).slice(0, 4).map((s) => `• ${s.topic} — ${s.kind}: ${s.note}`);
+  const moves = (diag.suggestedMoves || []).slice(0, 3).map((m) => `• [${m.kind}] ${m.label} — ${m.rationale}`);
+  const parts = [];
+  if (sig.length) parts.push(`Signals (news lean vs. price action):\n${sig.join('\n')}`);
+  if (moves.length) parts.push(`Suggested moves (advisory — nothing auto-acts):\n${moves.join('\n')}`);
+  if (!parts.length) return { answer: 'No diagnostic signals this pass.', data: { diag } };
+  return { answer: parts.join('\n\n'), data: { signals: diag.signals, suggestedMoves: diag.suggestedMoves } };
+}
+
 // ── helpers for matching ───────────────────────────────────────────────────────
+
+// Pull the entity to trust-check out of a question. Prefers an explicit domain or 0x/BTC address,
+// then a quoted phrase, then the most coin-like token after stripping the trust framing words.
+function extractTrustSubject(q) {
+  const s = String(q || '');
+  const addr = s.match(/0x[a-fA-F0-9]{40}|\b(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,62}\b/);
+  if (addr) return addr[0];
+  const dom = s.match(/\b[a-z0-9-]+(?:\.[a-z0-9-]+)+\b/i);
+  if (dom) return dom[0];
+  const quoted = s.match(/["'“”]([^"'“”]{2,40})["'“”]/);
+  if (quoted) return quoted[1].trim();
+  // strip the trust framing, keep the subject token(s)
+  const TRUST_WORDS = new Set(['is', 'a', 'an', 'the', 'scam', 'legit', 'legitimate', 'safe', 'fraud', 'rug', 'rugpull', 'pull', 'real', 'fake', 'trustworthy', 'trust', 'should', 'i', 'reported', 'check', 'phishing', 'this', 'coin', 'token', 'site', 'project', 'or', 'and', 'about', 'on', 'romance']);
+  const caps = (s.match(/\b[A-Z]{2,6}\b/g) || []).filter((w) => !TRUST_WORDS.has(w.toLowerCase()));
+  if (caps.length) return caps[0];
+  const words = s.toLowerCase().replace(/[^a-z0-9. ]/g, ' ').split(/\s+/).filter((w) => w && !TRUST_WORDS.has(w));
+  return words.sort((a, b) => b.length - a.length)[0] || null;
+}
+
 
 // known coin name → coingecko id aliases (so "price of bitcoin/btc/eth" resolves)
 const COIN_ALIASES = {
@@ -263,7 +391,7 @@ export function routeIntent(question) {
 
 export async function ask(question, opts = {}) {
   const q = String(question || '').trim();
-  if (!q) return { answer: 'Ask me about holdings, markets, a coin price, gold/silver/indices, forex, or where to trade something.', data: null, intent: 'empty' };
+  if (!q) return { answer: 'Ask me about holdings, markets, a coin price, gold/silver/indices, forex, where to trade something, the best arbitrage right now, whether a coin or site is legit, or what the Library says about a topic.', data: null, intent: 'empty' };
 
   // 1. cheap keyword routing
   const route = ROUTES.find((r) => { try { return r.test(q); } catch { return false; } });
@@ -353,6 +481,10 @@ export function commands() {
     { intent: 'forex', example: 'eur/usd rate' },
     { intent: 'exchanges', example: 'where can americans trade ADA?' },
     { intent: 'brief', example: "what's the state of the markets?" },
+    { intent: 'arbitrage', example: "what's the best arbitrage right now?" },
+    { intent: 'trust', example: 'is coinbase.com legit?' },
+    { intent: 'library', example: 'what does the Library say about witnesses?' },
+    { intent: 'diagnostics', example: "what's the read on the market?" },
   ];
 }
 
