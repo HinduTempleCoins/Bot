@@ -29,7 +29,7 @@ import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
 import { repoFeatures, summary as featureSummary, setFlag, tierOrder } from '../../integrations/feature-registry.mjs';
-import { sendToClaude, relayStatus, renderPanel as claudePanel } from '../../integrations/claude-relay.mjs';
+import { sendToClaude, relayStatus, renderPanel as claudePanel, history as claudeHistory } from '../../integrations/claude-relay.mjs';
 import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
 import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
 import { ecosystemMap, renderMap as renderEcosystemMap } from '../../integrations/ecosystem-map.mjs';
@@ -98,6 +98,10 @@ const html = (res, body, code = 200) => {
 const redirect = (res, location) => {
   res.writeHead(302, { location, 'cache-control': 'no-store' });
   res.end();
+};
+const json = (res, obj, code = 200) => {
+  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+  res.end(JSON.stringify(obj));
 };
 function readBody(req) {
   return new Promise((resolve) => {
@@ -269,7 +273,7 @@ async function claudePage(sessionId = 'admin') {
     : '<span class=warn>relay not configured — set the relay URL + token in the vault (the Claude on the server answers once connected)</span>';
   const body = `<h1>Server Claude</h1>
     <p class=muted>Talk to the Claude running on the server, right from here. ${statusLine}</p>
-    ${claudePanel({ sessionId })}`;
+    ${claudePanel({ sessionId, status })}`;
   return layout({ title: 'Claude', body });
 }
 
@@ -534,6 +538,18 @@ export async function handle(req, res) {
     if (p === '/trade' && method === 'GET') return html(res, await tradePage());
     if (p === '/chains' && method === 'GET') return html(res, await chainsPage());
     if (p === '/claude' && method === 'GET') return html(res, await claudePage());
+
+    // JSON transcript for the messenger panel's ~5s poll. Admin-gated (we are past requireAdmin
+    // here). Returns only display-safe fields — timestamp, from, text — never internal turn shape.
+    if (p === '/claude/history' && method === 'GET') {
+      const sessionId = (url.searchParams.get('sessionId') || 'admin').trim();
+      const turns = (claudeHistory(sessionId) || []).map((t) => ({
+        ts: t.ts,
+        from: t.role === 'user' ? (t.from || 'ryan') : 'claude',
+        text: t.text || '',
+      }));
+      return json(res, { sessionId, history: turns });
+    }
 
     if (p === '/claude/send' && method === 'POST') {
       const params = formParams(await readBody(req));
