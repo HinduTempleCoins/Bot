@@ -12,6 +12,7 @@ import { DIRECTORY } from '../soapbox/directory.mjs';
 import { LEARN } from '../soapbox/content.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { robotsTxt, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
+import { rankHybrid, facets } from '../../integrations/soapbox/search-quality.mjs';
 
 const PORT = +(process.env.PORT || 8092);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -154,12 +155,57 @@ const resultRow = (r) => `<div class=res>
   <a class=t href="${esc(r.url)}">${esc(r.title)}</a>${r.tag ? `<span class=badge>${esc(r.tag)}</span>` : (r.providers ? `<span class=badge>${esc(r.providers.join('+'))}</span>` : '')}
   <div class=u>${esc(r.url)}</div>${r.snippet ? `<div class=s>${esc(r.snippet)}</div>` : ''}</div>`;
 
-async function webSearch(q) {
-  const r = await searchAll(q, { limit: 20 }).catch(() => []);
-  return r.map(resultRow).join('') || '<p class=muted>No web results.</p>';
+// Apply the quality layer (lexical + BM25 fusion) to a raw result list, ADDITIVELY. If ranking throws
+// or the input is empty, we hand back the original rows untouched — the page must never break because
+// the ranker hiccupped. `rankHybrid` is async (it may consult an optional semantic ranker) but degrades
+// to pure lexical+BM25 when that's absent, so this stays offline-safe.
+async function applyRanking(rows, q) {
+  if (!Array.isArray(rows) || !rows.length) return rows || [];
+  try {
+    const ranked = await rankHybrid(rows, q);
+    if (Array.isArray(ranked) && ranked.length) {
+      // rankHybrid drops the non-ranking fields (e.g. `tag`); re-attach each row's tag by URL so the
+      // Library/Markets/Directory/Learn badges survive the reorder.
+      const tagByUrl = new Map(rows.filter((r) => r && r.url && r.tag).map((r) => [r.url, r.tag]));
+      for (const r of ranked) if (r && !r.tag && tagByUrl.has(r.url)) r.tag = tagByUrl.get(r.url);
+      return ranked;
+    }
+  } catch { /* soft-fail: fall through to the unranked rows below */ }
+  return rows;
 }
 
-async function siteSearch(q) {
+// A compact, optional facet line (provider/host counts) under the results header. Additive: it's a
+// single line, no layout change. Soft-fails to '' so it can never break the page.
+function facetLine(rows) {
+  try {
+    const f = facets(rows || []);
+    if (!f || !f.total) return '';
+    const parts = [];
+    const provs = Object.entries(f.byProvider).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    if (provs.length) parts.push(provs.map(([p, n]) => `${esc(p)} ${n}`).join(' · '));
+    const meta = [];
+    if (f.scholarly) meta.push(`${f.scholarly} scholarly`);
+    if (f.ecosystem) meta.push(`${f.ecosystem} ecosystem`);
+    if (f.authority) meta.push(`${f.authority} authoritative`);
+    const hostCount = Object.keys(f.byHost).length;
+    if (hostCount) meta.push(`${hostCount} host${hostCount === 1 ? '' : 's'}`);
+    const segs = [parts.join(' · '), meta.join(' · ')].filter(Boolean);
+    return segs.length ? `<p class=muted style="font-size:12px">${segs.join('  —  ')}</p>` : '';
+  } catch { return ''; }
+}
+
+// Collect raw web-search rows ({ title, url, snippet, providers[] }) — no rendering here.
+async function webRows(q) {
+  return await searchAll(q, { limit: 20 }).catch(() => []);
+}
+
+async function webSearch(q) {
+  const rows = await applyRanking(await webRows(q), q);
+  return facetLine(rows) + (rows.map(resultRow).join('') || '<p class=muted>No web results.</p>');
+}
+
+// Collect raw sitewide rows ({ title, url, snippet, tag }) — no rendering here.
+async function siteRows(q) {
   const ql = q.toLowerCase();
   const out = [];
   // Library / wiki
@@ -181,7 +227,12 @@ async function siteSearch(q) {
   // learn
   for (const [slug, a] of Object.entries(LEARN))
     if (`${a.title} ${a.summary}`.toLowerCase().includes(ql)) out.push({ title: a.title, url: `${DATA}/learn/${slug}`, snippet: a.summary, tag: 'Learn' });
-  return out.slice(0, 30).map(resultRow).join('') || '<p class=muted>Nothing in the ecosystem matches yet. Try Web search, or browse <a href="' + DATA + '">Markets</a> / <a href="' + WIKI + '">the Library</a>.</p>';
+  return out.slice(0, 30);
+}
+
+async function siteSearch(q) {
+  const rows = await applyRanking(await siteRows(q), q);
+  return facetLine(rows) + (rows.map(resultRow).join('') || '<p class=muted>Nothing in the ecosystem matches yet. Try Web search, or browse <a href="' + DATA + '">Markets</a> / <a href="' + WIKI + '">the Library</a>.</p>');
 }
 
 // Read a urlencoded POST body (bounded), returning a URLSearchParams.
@@ -194,7 +245,8 @@ function readForm(req) {
   });
 }
 
-createServer(async (req, res) => {
+// The HTTP request handler — exported so offline tests can drive routes without binding a port.
+export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL);
     if (url.pathname === '/health') { res.writeHead(200); return res.end('ok'); }
@@ -250,11 +302,19 @@ createServer(async (req, res) => {
       robots: q ? 'noindex,follow' : 'index,follow,max-image-preview:large',
     }));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => {
-  console.log(`SoapBox Search on ${BASE_URL} (bound ${HOST}:${PORT})`);
-  // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
-  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    submitToIndexNow(BASE_URL, ['/', '/translate']).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
-    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
-  }
-});
+}
+
+// Testable internals (the quality layer is wired through these). Exported for the offline test file.
+export { applyRanking, facetLine, webRows, siteRows, resultRow };
+
+// Only bind the port when run directly (`node site/search/server.mjs`), not when imported by tests.
+if (process.argv[1] && /server\.mjs$/.test(process.argv[1])) {
+  createServer(handler).listen(PORT, HOST, () => {
+    console.log(`SoapBox Search on ${BASE_URL} (bound ${HOST}:${PORT})`);
+    // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
+    if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+      submitToIndexNow(BASE_URL, ['/', '/translate']).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+      pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+    }
+  });
+}
