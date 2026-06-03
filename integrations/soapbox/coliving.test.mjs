@@ -14,6 +14,9 @@ import {
   __setFetch,
   FRESHNESS_BANDS,
   SOURCE_TRUST,
+  vehicleOwnershipCost,
+  vehicleSummaryLine,
+  DEFAULT_FUEL_PRICE_PER_GAL,
 } from './coliving.mjs';
 
 const NOW = Date.parse('2026-06-03T00:00:00Z');
@@ -179,6 +182,133 @@ test('costOfLiving fuses injected sources offline (no network) and tags provenan
 
   delete process.env.FRED_API_KEY;
   delete process.env.USDA_API_KEY;
+  __setFetch(null);
+});
+
+// ---------------------------------------------------------------------------
+// vehicle ownership-cost (queue task #119)
+// ---------------------------------------------------------------------------
+
+test('vehicleOwnershipCost computes correct all-in monthly figure', () => {
+  const c = vehicleOwnershipCost({
+    mpg: 25, milesPerYear: 12000, fuelPricePerGal: 4.0,
+    insuranceMonthly: 150, maintenanceYearly: 600, paymentMonthly: 400,
+  });
+  // fuel: (12000/25)*4.0/12 = 480*4/12 = 160 ; maintenance: 600/12 = 50
+  assert.equal(c.fuel, 160);
+  assert.equal(c.insurance, 150);
+  assert.equal(c.maintenance, 50);
+  assert.equal(c.payment, 400);
+  // total: 160 + 150 + 50 + 400 = 760
+  assert.equal(c.monthly, 760);
+});
+
+test('vehicleOwnershipCost falls back to DEFAULT_FUEL_PRICE_PER_GAL when price omitted', () => {
+  const c = vehicleOwnershipCost({ mpg: 30, milesPerYear: 9000 });
+  // fuel: (9000/30)*DEFAULT/12 = 300*3.5/12 = 87.5
+  const expected = Math.round((9000 / 30) * DEFAULT_FUEL_PRICE_PER_GAL / 12 * 100) / 100;
+  assert.equal(c.fuel, expected);
+  assert.equal(c.monthly, expected);
+  assert.equal(c.breakdown.fuelPricePerGal, DEFAULT_FUEL_PRICE_PER_GAL);
+});
+
+test('vehicleOwnershipCost soft-fails non-finite buckets to 0, never throws', () => {
+  const c = vehicleOwnershipCost({ mpg: 'x', milesPerYear: null, insuranceMonthly: 100 });
+  assert.equal(c.fuel, 0); // no usable mpg/miles
+  assert.equal(c.insurance, 100);
+  assert.equal(c.monthly, 100);
+});
+
+test('vehicleOwnershipCost with no usable input → monthly null', () => {
+  const c = vehicleOwnershipCost({});
+  assert.equal(c.monthly, null);
+  assert.equal(c.breakdown, null);
+});
+
+test('vehicleSummaryLine renders an escaped Transportation line when present, else null', () => {
+  const c = vehicleOwnershipCost({ mpg: 25, milesPerYear: 12000, fuelPricePerGal: 4.0, insuranceMonthly: 150 });
+  const line = vehicleSummaryLine(c);
+  assert.ok(line.startsWith('Transportation: $'));
+  assert.ok(line.includes('fuel $'));
+  assert.ok(line.includes('insurance $'));
+  // no raw HTML metacharacters leak through (escaped output)
+  assert.ok(!/[<>]/.test(line));
+  assert.equal(vehicleSummaryLine(null), null);
+  assert.equal(vehicleSummaryLine({ monthly: null }), null);
+});
+
+test('costOfLiving total is UNCHANGED when vehicle omitted (backward-compat)', async () => {
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('stlouisfed.org')) return { ok: true, json: async () => ({ observations: [{ date: '2026-05-01', value: '320.5' }] }) };
+    if (u.includes('quickstats.nass.usda.gov')) return { ok: true, json: async () => ({ data: [{ year: '2026', Value: '24.30' }] }) };
+    if (u.includes('api.bls.gov')) return { ok: true, json: async () => ({ Results: { series: [{ data: [{ year: '2026', period: 'M05', value: '3.45' }] }] } }) };
+    return { ok: false, json: async () => ({}) };
+  });
+  process.env.FRED_API_KEY = 'test-fred';
+  process.env.USDA_API_KEY = 'test-usda';
+
+  const baseline = await costOfLiving({ metro: 'Austin', includeGas: true, nowMs: NOW });
+  // no vehicle field, no monthlyTotal, value/components exactly as the pre-existing test asserts
+  assert.equal('vehicle' in baseline, false);
+  assert.equal('monthlyTotal' in baseline, false);
+  assert.equal(baseline.components.cpi.value, 320.5);
+  assert.equal(baseline.components.groceries.value, 24.3);
+
+  delete process.env.FRED_API_KEY;
+  delete process.env.USDA_API_KEY;
+  __setFetch(null);
+});
+
+test('costOfLiving folds vehicle cost in ADDITIVELY when provided', async () => {
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('stlouisfed.org')) return { ok: true, json: async () => ({ observations: [{ date: '2026-05-01', value: '320.5' }] }) };
+    if (u.includes('quickstats.nass.usda.gov')) return { ok: true, json: async () => ({ data: [{ year: '2026', Value: '24.30' }] }) };
+    if (u.includes('api.bls.gov')) return { ok: true, json: async () => ({ Results: { series: [{ data: [{ year: '2026', period: 'M05', value: '3.45' }] }] } }) };
+    return { ok: false, json: async () => ({}) };
+  });
+  process.env.FRED_API_KEY = 'test-fred';
+  process.env.USDA_API_KEY = 'test-usda';
+
+  const opts = { metro: 'Austin', includeGas: true, nowMs: NOW };
+  const baseline = await costOfLiving({ ...opts });
+  const withVeh = await costOfLiving({
+    ...opts,
+    vehicle: { mpg: 25, milesPerYear: 12000, fuelPricePerGal: 4.0, insuranceMonthly: 150, maintenanceYearly: 600, paymentMonthly: 400 },
+  });
+
+  // fused value/components are left untouched — only additive fields appear
+  assert.equal(withVeh.value, baseline.value);
+  assert.deepEqual(Object.keys(withVeh.components).sort(), Object.keys(baseline.components).sort());
+  assert.ok(withVeh.vehicle);
+  assert.equal(withVeh.vehicle.monthly, 760);
+  assert.ok(withVeh.vehicle.line.startsWith('Transportation: $'));
+  // monthlyTotal = fused value + vehicle monthly
+  assert.equal(withVeh.monthlyTotal, Math.round((Number(baseline.value) + 760) * 100) / 100);
+
+  delete process.env.FRED_API_KEY;
+  delete process.env.USDA_API_KEY;
+  __setFetch(null);
+});
+
+test('costOfLiving resolves live fuel price from the gas series when not supplied', async () => {
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('api.bls.gov')) return { ok: true, json: async () => ({ Results: { series: [{ data: [{ year: '2026', period: 'M05', value: '5.00' }] }] } }) };
+    return { ok: false, json: async () => ({}) };
+  });
+  delete process.env.FRED_API_KEY;
+  delete process.env.USDA_API_KEY;
+  delete process.env.CENSUS_API_KEY;
+
+  const rec = await costOfLiving({
+    nowMs: NOW,
+    vehicle: { mpg: 25, milesPerYear: 12000 }, // no fuelPricePerGal → pulls live $5.00/gal
+  });
+  // fuel: (12000/25)*5.00/12 = 480*5/12 = 200
+  assert.equal(rec.vehicle.fuel, 200);
+  assert.equal(rec.vehicle.monthly, 200);
   __setFetch(null);
 });
 
