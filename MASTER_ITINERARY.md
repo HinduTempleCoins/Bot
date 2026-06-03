@@ -630,6 +630,8 @@ Build in dependency order. Each surface is independently shippable.
 - Baseline lib: `@hiveio/dhive` or `dblurt` configured with MELEK chain-id / address prefix.
 - Status: ☐ not started
 
+> **Correcting note (added 2026-06-03, append-only — the line above is unchanged):** The "Key custody: `HATHOR_ACTIVE_KEY`, `HATHOR_POSTING_KEY` in env" language in this Surface 1 is **SUPERSEDED by `MELEK_SIGNER.md`**. The Bot host holds **zero WIF private keys**, ever. Signing goes through the MELEK-Signer service (separate private repo) authenticated by a scoped, revocable bearer token; the Bot-side signer client + mock are merged (PR #56) and the `.env.example` is zero-WIF (PR #55). Read `MELEK_SIGNER.md` and `CLAUDE.md` (key-custody section), not this line, for the load-bearing custody model. The original Surface 1 text is retained as the record of the earlier plan.
+
 #### Surface 2 — Publisher (Library of Ashurbanipal → on-chain comment)
 - Library of Ashurbanipal currently writes wiki articles to MediaWiki.
 - Add parallel sink: each synthesized article also broadcast as a `comment` op from `hathor`.
@@ -967,3 +969,35 @@ Active focus starting 2026-05-23. Surface 1+2 targeted as first PR; remaining su
 **Next Actions**: Confirm Railway deployment, set up AI backups, begin Burn Mining contract analysis.
 
 **End Goal**: Complete, self-sustaining ecosystem connecting ancient wisdom to modern blockchain technology, powered by Merit/Karma philosophy and real-world utility.
+
+---
+
+## Reconciliation 2026-06-03
+
+**APPEND-ONLY.** Nothing above is removed, edited, or reworded — including the stale `Last Updated: 2026-01-09` / `Status: Phase 1 (Discord Bot) COMPLETE` headers and every ☐ / ⏳ line that is in fact now done. (The one correcting note added inline under Phase 13 Surface 1, above, is an inserted note, not a change to any existing line.) This section is the dated correction overlay added after the completed repo audit and the merge of PRs #53–#64.
+
+### (a) Items above now DONE — what actually shipped
+
+- **Phase 13 Surface 1 (Chain-client core) — built.** `src/chain/` exists with the JSON-RPC client + `ChainAdapter` / `GrapheneAdapter`. Shown ☐ not started above; it is done. (Key-custody language corrected inline; see the note under Surface 1.)
+- **Phase 13 Surface 2 (Publisher) — code-complete, gated on the chain endpoint.** The Library-of-Ashurbanipal → on-chain `comment` path is built; it broadcasts only once the live MELEK RPC endpoint is wired.
+- **Phase 13 Surface 4 (Onboarder) — code-complete as `signup/`, gated on the chain endpoint.** Account creation + delegation + email-verification path built; email-only (Resend / Postmark / SES) per scope.
+- **Phase 13 Surface 5 (Troll-box endpoint) — superseded/absorbed.** The conversational endpoint is now realized through the Discord + soapy.blog Claude chat bridge surfaces rather than a standalone `src/trollbox/` server; the same brain, different transport, as Surface 5 anticipated.
+- **MELEK-Signer Bot-side client + mock — MERGED (PR #56);** zero-WIF `.env.example` — MERGED (PR #55). See the Surface 1 correcting note.
+- **Search BM25 hybrid ranking — LIVE (PR #58).**
+- **Accountability readers (Congress / FEC / lobbying / judges) — MERGED (PR #61).**
+- **Gov-records readers (NHTSA / OSHA / FSIS) — MERGED (PR #60).**
+- **Cheetah Steps 4–6 — BUILT with tests** (`cheetah/resolution.js`, `cheetah/discovery.js`, `cheetah/image-detection.js`, `cheetah/perceptual-hash.js`). See ITINERARY.md Reconciliation 2026-06-03 (a) for detail.
+- **Character / identity docs — EXIST** (`CHARACTER.md`, `RULE_1.md`, `LINEAGE.md`, `system_prompts/`). `witness/` + `signup/` + `tutorial/` code-complete, gated on the chain endpoint.
+- **Public site shipped:** ~275 feature modules exist; **35 LIVE on https://data.soapbox.community**; **soapy.blog admin portal LIVE as of 2026-06-03** with a **Claude chat bridge**; front-page ticker + world clocks + 17 new public pages (`/library`, `/lawyers`, `/benefits`, `/economy`, `/census`, …) live.
+
+### (b) Corrections-as-additions for superseded language
+
+- **Phase 13 Surface 1 key-custody language — SUPERSEDED by `MELEK_SIGNER.md`.** Full correcting note added inline directly under Surface 1 above (zero WIF on the Bot host; signing via MELEK-Signer + scoped bearer token). Restated here so the reconciliation index is self-contained.
+- **Header staleness (`Last Updated: 2026-01-09`, `Status: Phase 1 (Discord Bot) COMPLETE ✅`, `Next Phase: Token Usage Optimization`)** is left intact per the append-only rule; the present state is this Reconciliation section plus ITINERARY.md's 2026-05-28 and 2026-06-03 sections.
+- **Phase 13 "Six Surfaces" framing** is the older plan; it is realized in the present build as `src/chain/` + `witness/` + `signup/` + the Discord/soapy.blog conversational surfaces, per (a) above. Original Phase 13 text retained as the record.
+
+### (c) New active decisions (operator, 2026-06-03)
+
+- **Law.SoapBox + Politics.SoapBox portals — CHOSEN** (new portal surfaces alongside data.soapbox.community / soapy.blog; fed by the accountability + gov-records readers, PRs #60/#61).
+- **Discord = Van Kush Family community build-out.**
+- **Naming guardrail (restated):** the **Shaivite Temple** is the operator's **501(c)(3)** — *never* "Temple of Van Kush." Crypt-ology stays the per-person relationship-map subsystem, distinct from the Temple.
