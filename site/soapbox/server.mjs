@@ -36,6 +36,7 @@ import { chyronItems, worldClocks } from '../../integrations/soapbox/chyron.mjs'
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { findVertical, renderVertical } from './verticals.mjs';
+import { renderSocials, hasSocials } from '../../integrations/soapbox/coin-socials.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
 import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
@@ -323,6 +324,7 @@ async function coinPage(id) {
       ].filter(Boolean);
       return rows.length ? card('Official & community', `<div style="display:flex;flex-wrap:wrap;gap:14px">${rows.join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Official project links — verified by the market fact-checker before they appear.</p>`) : '';
     })()}
+    ${hasSocials(c) ? card('Community &amp; socials', `${renderSocials(c)}<p class=muted style="font-size:12px;margin-top:8px">Live feed + the project's real social channels. Verify before trusting — impersonators are common.</p>`) : ''}
     ${wiki.length ? card('In the Library', `<div style="display:flex;flex-direction:column;gap:8px">${wiki.map((w) => `<div><a href="${esc(/^https?:\/\//.test(w.url) ? w.url : WIKI_SITE + w.url)}">📖 ${esc(w.title)}</a>${w.snippet ? `<div class=muted style="font-size:12px">${esc(w.snippet)}</div>` : ''}</div>`).join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Background reading from the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`) : ''}
     ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — search the <a href="${esc(WIKI_SITE)}/?search=${encodeURIComponent(c.symbol || c.name)}">Library for ${esc(c.symbol || c.name)}</a>, or browse the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`)}
     ${converter(c)}

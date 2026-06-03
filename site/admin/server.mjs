@@ -28,6 +28,7 @@ import { scan } from '../../integrations/security-scan.mjs';
 import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
+import { repoFeatures, summary as featureSummary, setFlag } from '../../integrations/feature-registry.mjs';
 
 const PORT = +(process.env.PORT || 8096);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -68,6 +69,7 @@ function layout({ title = 'Admin', body = '', nav = true } = {}) {
     <strong>Soapy.blog · Admin</strong>
     <a href="/">Dashboard</a>
     <a href="/connect">Connect</a>
+    <a href="/features">Features</a>
     <a href="/analytics">Analytics</a>
     <a href="/diagnostics">Diagnostics</a>
     <a href="/security">Security</a>
@@ -123,6 +125,7 @@ function dashboardPage(email) {
     <div class=card><h2>Quick links</h2>
       <ul>
         <li><a href="/connect">Connect accounts</a> — OAuth hub for IFTTT/automation (Google, GitHub, Discord, Slack, X, Reddit, Dropbox).</li>
+        <li><a href="/features">Features</a> — everything built in the repo, including what's <em>not yet live</em> on a subdomain; queue capabilities to surface.</li>
         <li><a href="/analytics">Traffic analytics</a> — first-party, privacy-safe view counts from the access logs.</li>
         <li><a href="/diagnostics">Server diagnostics</a> — host health, services, disk.</li>
         <li><a href="/security">Security scan</a> — scan a URL or HTML snippet for threats.</li>
@@ -187,6 +190,59 @@ function connectPage(connections = []) {
       <thead><tr><th>Service</th><th>Default scopes</th><th>Status</th><th></th></tr></thead>
       <tbody>${rows}</tbody></table></div>`;
   return layout({ title: 'Connect', body });
+}
+
+// The "what's built but the public can't see yet" catalog. Groups every integration module by
+// category and shows LIVE / BUILT(hidden) / SCAFFOLD, with a per-feature front-facing toggle that
+// records the operator's INTENT (a deploy step consumes the flag; the portal never deploys itself).
+async function featuresPage({ root } = {}) {
+  let feats = [];
+  let s = { total: 0, byStatus: {}, hidden: 0, byCategory: {} };
+  try { feats = await repoFeatures(root ? { root } : {}); s = await featureSummary(root ? { root } : {}); }
+  catch (e) { return layout({ title: 'Features', body: `<h1>Features</h1><p class=bad>Could not scan: ${esc(e?.message || e)}</p>` }); }
+
+  const statusBadge = (st) => st === 'LIVE'
+    ? '<span class="ok">● LIVE</span>'
+    : st === 'BUILT' ? '<span class="warn">○ built · hidden</span>' : '<span class="muted">· scaffold</span>';
+
+  // group by category, hidden-first within each
+  const byCat = {};
+  for (const f of feats) (byCat[f.category] ||= []).push(f);
+  const order = Object.keys(byCat).sort();
+  const sections = order.map((cat) => {
+    const rows = byCat[cat]
+      .sort((a, b) => (a.status === 'LIVE') - (b.status === 'LIVE') || a.label.localeCompare(b.label))
+      .map((f) => {
+        const surface = f.surface ? `<span class=muted style="font-size:12px">${esc(f.surface)}</span>` : '';
+        // toggle: only meaningful for not-yet-live features; LIVE ones show where they live
+        const toggle = f.status === 'LIVE'
+          ? surface || '<span class=muted>—</span>'
+          : `<form method=POST action="/features/flag" style="margin:0">
+               <input type=hidden name=id value="${esc(f.id)}">
+               <input type=hidden name=on value="${f.flag ? '0' : '1'}">
+               <button class="btn ghost" style="padding:4px 12px;font-size:13px">${f.flag ? 'Queued ✓ — unqueue' : 'Surface this'}</button>
+             </form>`;
+        return `<tr><td><strong>${esc(f.label)}</strong><div class=muted style="font-size:12px"><code>${esc(f.path)}</code></div></td>
+          <td>${statusBadge(f.status)}</td>
+          <td>${f.hasTest ? '<span class=ok>tested</span>' : '<span class=muted>—</span>'}</td>
+          <td>${toggle}</td></tr>`;
+      }).join('');
+    const cc = s.byCategory[cat] || { total: byCat[cat].length, live: 0, hidden: 0 };
+    return `<div class=card><h2>${esc(cat)} <span class=muted style="font-weight:400;font-size:13px">· ${cc.live}/${cc.total} live</span></h2>
+      <table><thead><tr><th>Capability</th><th>Status</th><th>Tests</th><th>Front-facing</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }).join('');
+
+  const body = `<h1>Features <span class=muted style="font-size:14px">· everything built in the repo</span></h1>
+    <div class=card><h2>What you have</h2>
+      <p><strong>${esc(s.total)}</strong> capabilities built ·
+         <span class=ok>${esc(s.byStatus.LIVE || 0)} live</span> ·
+         <span class=warn>${esc(s.byStatus.BUILT || 0)} built but hidden</span> ·
+         <span class=muted>${esc(s.byStatus.SCAFFOLD || 0)} scaffold</span></p>
+      <p class=muted style="font-size:13px">"Built but hidden" exists in the repo and is tested, but no live subdomain serves it yet.
+        Hit <em>Surface this</em> to queue it for the next deploy — the toggle records your intent; it does not deploy on its own.</p>
+    </div>
+    ${sections}`;
+  return layout({ title: 'Features', body });
 }
 
 function analyticsPage() {
@@ -336,6 +392,16 @@ export async function handle(req, res) {
     if (p === '/connect' && method === 'GET') {
       const conns = await listConnections().catch(() => []);
       return html(res, connectPage(conns));
+    }
+
+    if (p === '/features' && method === 'GET') return html(res, await featuresPage());
+
+    if (p === '/features/flag' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const fid = (params.get('id') || '').trim();
+      const on = params.get('on') === '1' || /^(true|on|yes)$/i.test(params.get('on') || '');
+      if (fid) await setFlag(fid, on).catch(() => {});
+      return redirect(res, '/features');
     }
 
     if (p === '/analytics' && method === 'GET') return html(res, analyticsPage());
