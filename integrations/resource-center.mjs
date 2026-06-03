@@ -26,6 +26,9 @@ try { const pc = await import('./profit-circles.mjs'); circlesEngine = pc.engine
 let crossVenueEngine = async () => '', copyTradeEngine = async () => '';
 try { const cv = await import('./cross-venue-arb.mjs'); crossVenueEngine = cv.engineBlock || crossVenueEngine; } catch {}
 try { const ct = await import('./copy-trade-scan.mjs'); copyTradeEngine = ct.engineBlock || copyTradeEngine; } catch {}
+// market-entry recommender: fuse all scanners → ranked "markets we should ENTER" (the operator's ask).
+let marketEntry = async () => [];
+try { const me = await import('./market-entry.mjs'); marketEntry = me.recommendEntries || marketEntry; } catch {}
 let impactEngine = async () => '';
 try { const mi = await import('./market-impact-sim.mjs'); impactEngine = mi.engineBlock || impactEngine; } catch {}
 // diagnostics pipeline (#179): fuses news (saying) + metrics (doing) → signals → suggested moves → teaching.
@@ -58,6 +61,7 @@ export async function runPass() {
   const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
   const crossVenueMd = await Promise.resolve().then(() => crossVenueEngine()).catch(() => '');
   const copyTradeMd = await Promise.resolve().then(() => copyTradeEngine()).catch(() => '');
+  const marketEntries = await Promise.resolve().then(() => marketEntry({ max: 12 })).catch(() => []);
   const impactMd = await Promise.resolve().then(() => impactEngine()).catch(() => '');
   // diagnostics (#179) runs LAST so it can read the snapshot the prior layers just produced.
   const diagnosticsMd = await Promise.resolve().then(() => diagnosticsEngine()).catch(() => '');
@@ -101,7 +105,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -151,6 +155,17 @@ export function briefReport(s) {
     for (const o of s.holdings.slice(0, 6)) {
       const sp = o.spreadPct == null ? '—' : `${o.spreadPct >= 0 ? '+' : ''}${o.spreadPct}%`;
       L.push(`- **@${o.account} ${o.symbol}** (~$${num(o.valueUsd)}, spread ${sp}): ${o.action}`);
+    }
+  }
+  // markets we should ENTER — fused cross-venue/exchange/chain opportunities, ranked (the operator's "what to enter")
+  if (Array.isArray(s.marketEntries) && s.marketEntries.length) {
+    L.push('');
+    L.push(`### Markets we should enter (ranked)`);
+    for (const e of s.marketEntries.slice(0, 8)) {
+      const ePct = e.edgePct == null ? null : (e.edgePct < 1 ? e.edgePct * 100 : e.edgePct);
+      const edge = ePct == null ? '' : ` ~${ePct.toFixed(1)}% edge`;
+      const us = e.usJurisdictionOK === false ? ' (⚠ US-restricted)' : '';
+      L.push(`- **${e.market || e.kind || 'opportunity'}**${e.venue ? ` @ ${e.venue}` : ''}${e.chain ? ` [${e.chain}]` : ''}${edge}${us}: ${e.reason || e.action || ''}`);
     }
   }
   // news diagnostics (#179) — what the market is SAYING, to read alongside what it's DOING
