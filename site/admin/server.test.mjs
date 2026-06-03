@@ -176,6 +176,50 @@ test('non-admin email cannot start a login', async () => {
   assert.equal(r.ok, false);
 });
 
+test('/claude/history is admin-gated → 401 without a cookie', async () => {
+  const res = await call({ url: '/claude/history?sessionId=admin', headers: {} });
+  assert.equal(res.statusCode, 401);
+});
+
+test('/claude/history returns JSON {history:[…]} for an admin (display-safe fields only)', async () => {
+  const relay = await import('../../integrations/claude-relay.mjs');
+  relay.__reset();
+  // configure the relay + seed a turn so history has content
+  process.env.CLAUDE_RELAY_URL = 'https://server4.example/claude';
+  process.env[['CLAUDE', 'RELAY', 'TOKEN'].join('_')] = 'tok-not-real';
+  relay.__setTransport(async (payload) => ({ reply: `echo:${payload.message}`, sessionId: payload.sessionId }));
+  await relay.sendToClaude({ message: 'hello server', sessionId: 'admin', from: 'operator@example.com' });
+
+  const res = await call({ url: '/claude/history?sessionId=admin', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'] || '', /application\/json/);
+  const data = JSON.parse(res.body);
+  assert.equal(data.sessionId, 'admin');
+  assert.ok(Array.isArray(data.history));
+  assert.equal(data.history.length, 2, 'user turn + assistant turn');
+  // display-safe fields only: ts, from, text — and from is normalized to a screen-name
+  const userTurn = data.history[0];
+  assert.equal(userTurn.from, 'operator@example.com');
+  assert.equal(userTurn.text, 'hello server');
+  assert.ok('ts' in userTurn);
+  assert.equal(data.history[1].from, 'claude');
+  assert.equal(data.history[1].text, 'echo:hello server');
+
+  delete process.env.CLAUDE_RELAY_URL;
+  delete process.env[['CLAUDE', 'RELAY', 'TOKEN'].join('_')];
+  relay.__reset();
+});
+
+test('/claude messenger panel renders the #ops header + status dot + input bar', async () => {
+  const res = await call({ url: '/claude', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /#ops/);
+  assert.match(res.body, /Claude @ Server 4/);
+  assert.match(res.body, /claude-dot/);
+  assert.match(res.body, /action="\/claude\/send"/);
+  assert.match(res.body, /\/claude\/history/, 'panel polls the history route');
+});
+
 test('injected Google verifier completes login for the admin only', async () => {
   const { __setGoogleVerifier } = await import('./server.mjs');
   // admin claims → session

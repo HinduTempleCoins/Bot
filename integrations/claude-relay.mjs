@@ -193,31 +193,118 @@ export async function sendToClaude({ message, sessionId = 'default', from = 'adm
   return { ok: true, reply, sessionId: outSession };
 }
 
-// ── renderPanel: escaped HTML chat panel the admin server embeds ─────────────────
-// No external JS deps. Pure server-rendered markup (message list + a POST form to /claude/send).
-// Every user/assistant string is HTML-escaped. The form relies on the admin server's existing
-// session gate — this snippet adds no auth and no inline scripts.
-export function renderPanel({ sessionId = 'default' } = {}) {
+// ── timestamp helper (HH:MM, 24h, from a turn's ts) ──────────────────────────────
+// Pure + deterministic given a Date; used by the messenger transcript rows.
+export function hhmm(ts) {
+  const d = ts == null ? new Date(_now()) : new Date(ts);
+  if (Number.isNaN(d.getTime())) return '--:--';
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+// ── one transcript row (shared by renderPanel + the /claude/history poll on the client) ──
+// AIM/IRC look: [HH:MM] <screenname> message — screen-name colored by role, monospace text,
+// alternating row tint. Every value HTML-escaped. `idx` drives the zebra striping.
+function renderRow(t, idx) {
+  const isUser = t.role === 'user';
+  const who = isUser ? escapeHtml(t.from || 'ryan') : 'claude';
+  const cls = isUser ? 'claude-msg-user' : 'claude-msg-claude';
+  const tint = idx % 2 === 0 ? ' claude-row-a' : ' claude-row-b';
+  return `      <div class="claude-row ${cls}${tint}">`
+    + `<span class="claude-ts">[${escapeHtml(hhmm(t.ts))}]</span> `
+    + `<span class="claude-nick">&lt;${who}&gt;</span> `
+    + `<span class="claude-body">${escapeHtml(t.text || '')}</span></div>`;
+}
+
+// ── renderPanel: AIM/IRC-flavored, server-rendered chat window the admin server embeds ────────────
+// Classic messenger look: a #ops channel header with a status dot (green=configured, red=not), a
+// scrollback pane of per-message rows (colored screen-name, HH:MM timestamp, monospace text,
+// alternating row tint), and an input bar pinned at the bottom (Send button + Enter submits).
+// A small inline JS poll refreshes the scrollback every ~5s from GET /claude/history and auto-scrolls
+// to newest. NO external deps, NO framework — inline <style>/<script> only. The form posts to the
+// admin server's existing /claude/send (which is behind requireAdmin); this snippet adds no auth.
+// `status` is the relayStatus() result ({ configured, reachable }) so the dot reflects live state.
+export function renderPanel({ sessionId = 'default', status = null } = {}) {
   const id = escapeHtml(sessionId);
   const turns = history(sessionId);
   const rows = turns.length
-    ? turns.map((t) => {
-        const role = escapeHtml(t.role || 'msg');
-        const who = t.role === 'user' ? escapeHtml(t.from || 'admin') : 'claude';
-        return `    <li class="claude-turn claude-${role}"><span class="claude-who">${escapeHtml(who)}:</span> <span class="claude-text">${escapeHtml(t.text || '')}</span></li>`;
-      }).join('\n')
-    : '    <li class="claude-empty">No messages yet.</li>';
+    ? turns.map((t, i) => renderRow(t, i)).join('\n')
+    : '      <div class="claude-empty">No messages yet — say hello.</div>';
 
-  return `<section class="claude-relay-panel" data-session="${id}">
-  <h3>Claude (Server 4)</h3>
-  <ul class="claude-transcript">
+  // green when the relay is configured (Server-4 bridge reachable path), red otherwise.
+  const online = !!(status && status.configured);
+  const dotCls = online ? 'claude-dot-on' : 'claude-dot-off';
+  const dotTitle = online ? 'Claude @ Server 4 — connected' : 'relay not configured';
+
+  return `<section class="claude-im" data-session="${id}">
+  <style>
+    .claude-im{border:1px solid #2a2f3a;border-radius:8px;overflow:hidden;background:#0b0d12;font-family:Verdana,Geneva,Tahoma,sans-serif;max-width:720px}
+    .claude-im-head{display:flex;align-items:center;gap:8px;padding:7px 12px;background:linear-gradient(#1d2330,#141925);border-bottom:1px solid #2a2f3a;color:#cdd6e3;font-size:13px;font-weight:700}
+    .claude-im-head .claude-chan{color:#7aa2ff}
+    .claude-dot{width:10px;height:10px;border-radius:50%;display:inline-block;box-shadow:0 0 4px currentColor}
+    .claude-dot-on{background:#36d36b;color:#36d36b}
+    .claude-dot-off{background:#ff5d5d;color:#ff5d5d}
+    .claude-im-head .claude-im-status{margin-left:auto;font-weight:400;font-size:11px;color:#7c879a}
+    .claude-scroll{height:340px;overflow-y:auto;padding:6px 0;background:#0b0d12}
+    .claude-row{padding:3px 12px;font-family:"Courier New",Courier,monospace;font-size:13px;line-height:1.5;color:#d6dbe6;white-space:pre-wrap;word-break:break-word}
+    .claude-row-a{background:#0e1118}.claude-row-b{background:#11151e}
+    .claude-ts{color:#5b6577;font-size:11px}
+    .claude-nick{font-weight:700}
+    .claude-msg-user .claude-nick{color:#ffd166}   /* Ryan — amber */
+    .claude-msg-claude .claude-nick{color:#7aa2ff} /* Claude — blue */
+    .claude-empty{padding:14px 12px;color:#5b6577;font-style:italic;font-family:Verdana,sans-serif}
+    .claude-im-bar{display:flex;gap:6px;padding:8px;border-top:1px solid #2a2f3a;background:#141925}
+    .claude-im-bar input[type=text]{flex:1;padding:7px 9px;border:1px solid #2a2f3a;border-radius:6px;background:#0b0d12;color:#e6e9ef;font:13px "Courier New",monospace}
+    .claude-im-bar button{padding:7px 16px;border:1px solid #2a2f3a;border-radius:6px;background:#7aa2ff;color:#08101f;font-weight:700;cursor:pointer}
+  </style>
+  <div class="claude-im-head">
+    <span class="claude-dot ${dotCls}" title="${escapeHtml(dotTitle)}"></span>
+    <span><span class="claude-chan">#ops</span> — Claude @ Server 4</span>
+    <span class="claude-im-status">${online ? 'connected' : 'offline'}</span>
+  </div>
+  <div class="claude-scroll" id="claude-scroll" data-session="${id}">
 ${rows}
-  </ul>
-  <form class="claude-form" method="POST" action="/claude/send">
+  </div>
+  <form class="claude-im-bar" method="POST" action="/claude/send">
     <input type="hidden" name="sessionId" value="${id}">
-    <input type="text" name="message" placeholder="Message Claude…" autocomplete="off" required>
+    <input type="text" name="message" placeholder="Message Claude…  (Enter to send)" autocomplete="off" required>
     <button type="submit">Send</button>
   </form>
+  <script>
+  (function(){
+    var pane=document.getElementById('claude-scroll');
+    if(!pane) return;
+    var sid=pane.getAttribute('data-session')||'default';
+    function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+    function pad(n){return String(n).padStart(2,'0');}
+    function hhmm(ts){var d=ts==null?new Date():new Date(ts);if(isNaN(d.getTime()))return'--:--';return pad(d.getHours())+':'+pad(d.getMinutes());}
+    function atBottom(){return pane.scrollHeight-pane.scrollTop-pane.clientHeight<40;}
+    function render(turns){
+      if(!turns||!turns.length){pane.innerHTML='<div class="claude-empty">No messages yet — say hello.</div>';return;}
+      var html='';
+      for(var i=0;i<turns.length;i++){
+        var t=turns[i];var isUser=t.from&&t.from!=='claude'&&t.role!=='assistant';
+        var who=isUser?esc(t.from||'ryan'):'claude';
+        var cls=isUser?'claude-msg-user':'claude-msg-claude';
+        var tint=(i%2===0)?'claude-row-a':'claude-row-b';
+        html+='<div class="claude-row '+cls+' '+tint+'">'
+          +'<span class="claude-ts">['+esc(hhmm(t.ts))+']</span> '
+          +'<span class="claude-nick">&lt;'+who+'&gt;</span> '
+          +'<span class="claude-body">'+esc(t.text||'')+'</span></div>';
+      }
+      pane.innerHTML=html;
+    }
+    function poll(){
+      fetch('/claude/history?sessionId='+encodeURIComponent(sid),{headers:{'accept':'application/json'},credentials:'same-origin'})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(d){if(!d||!d.history)return;var stick=atBottom();render(d.history);if(stick)pane.scrollTop=pane.scrollHeight;})
+        .catch(function(){});
+    }
+    pane.scrollTop=pane.scrollHeight;
+    setInterval(poll,5000);
+  })();
+  </script>
 </section>`;
 }
 
