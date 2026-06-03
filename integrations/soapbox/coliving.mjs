@@ -152,6 +152,98 @@ export function fuseRecords(components = {}, { nowMs = Date.now() } = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// vehicle ownership-cost (queue task #119) — fold transportation into cost-of-living
+// ---------------------------------------------------------------------------
+
+// A sensible national-average fallback fuel price ($/gal) used only when no live price is
+// available and the caller didn't pass one. Live prices come from gasProxy()/the BLS series.
+export const DEFAULT_FUEL_PRICE_PER_GAL = 3.5;
+
+// Minimal HTML-escape for any rendered text line (matches the convention in the sibling
+// soapbox modules). Used by vehicleSummaryLine so rendered output is always safe.
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+const num = (x) => { const n = Number(x); return Number.isFinite(n) ? n : null; };
+const round2 = (n) => Math.round(n * 100) / 100;
+
+/**
+ * PURE all-in monthly vehicle ownership cost. Sums the four monthly cost buckets:
+ *   fuel        = (milesPerYear / mpg) × fuelPricePerGal / 12
+ *   insurance   = insuranceMonthly
+ *   maintenance = maintenanceYearly / 12
+ *   payment     = paymentMonthly
+ * Any missing/non-finite input is treated as 0 for that bucket (soft-fail, never throws).
+ * If fuelPricePerGal is omitted it falls back to DEFAULT_FUEL_PRICE_PER_GAL. Fuel cost is
+ * only added when both a positive mpg and milesPerYear are present.
+ * Returns { monthly, fuel, insurance, maintenance, payment, breakdown:{annualMiles,mpg,fuelPricePerGal} }
+ * with all dollar figures rounded to 2dp, or { monthly: null } when there is no usable input.
+ */
+export function vehicleOwnershipCost({
+  mpg, milesPerYear, fuelPricePerGal,
+  insuranceMonthly, maintenanceYearly, paymentMonthly,
+} = {}) {
+  const mpgN = num(mpg);
+  const milesN = num(milesPerYear);
+  const priceN = num(fuelPricePerGal);
+  const insN = num(insuranceMonthly);
+  const maintN = num(maintenanceYearly);
+  const payN = num(paymentMonthly);
+
+  // fuel only when we have a positive mpg and annual mileage
+  const usedPrice = priceN != null && priceN >= 0 ? priceN : DEFAULT_FUEL_PRICE_PER_GAL;
+  const fuel = (mpgN != null && mpgN > 0 && milesN != null && milesN >= 0)
+    ? round2((milesN / mpgN) * usedPrice / 12)
+    : 0;
+  const insurance = insN != null && insN >= 0 ? round2(insN) : 0;
+  const maintenance = maintN != null && maintN >= 0 ? round2(maintN / 12) : 0;
+  const payment = payN != null && payN >= 0 ? round2(payN) : 0;
+
+  const anyInput = [mpgN, milesN, insN, maintN, payN].some((v) => v != null);
+  if (!anyInput) return { monthly: null, fuel: 0, insurance: 0, maintenance: 0, payment: 0, breakdown: null };
+
+  return {
+    monthly: round2(fuel + insurance + maintenance + payment),
+    fuel, insurance, maintenance, payment,
+    breakdown: {
+      annualMiles: milesN,
+      mpg: mpgN,
+      fuelPricePerGal: (mpgN != null && mpgN > 0 && milesN != null && milesN >= 0) ? usedPrice : null,
+    },
+  };
+}
+
+/**
+ * A safe, escaped one-line "Transportation" summary for the rendered output. Returns null when
+ * there is no vehicle cost to surface (so callers add the line additively, never blank).
+ */
+export function vehicleSummaryLine(vehicleCost) {
+  if (!vehicleCost || vehicleCost.monthly == null) return null;
+  const parts = [];
+  if (vehicleCost.fuel) parts.push(`fuel $${esc(vehicleCost.fuel)}`);
+  if (vehicleCost.insurance) parts.push(`insurance $${esc(vehicleCost.insurance)}`);
+  if (vehicleCost.maintenance) parts.push(`maintenance $${esc(vehicleCost.maintenance)}`);
+  if (vehicleCost.payment) parts.push(`payment $${esc(vehicleCost.payment)}`);
+  const detail = parts.length ? ` (${parts.join(' + ')})` : '';
+  return `Transportation: $${esc(vehicleCost.monthly)}/mo${esc(detail)}`;
+}
+
+/**
+ * Defensively resolve a live fuel price ($/gal) for the vehicle calc, reusing the existing
+ * BLS gas series via gasProxy(). Soft-fails to null (never throws); callers fall back to a
+ * passed price or DEFAULT_FUEL_PRICE_PER_GAL. Kept separate so the pure helper stays pure.
+ */
+export async function liveFuelPrice({ nowMs = Date.now() } = {}) {
+  try {
+    const rec = await gasProxy({ nowMs });
+    return rec && rec.value != null && Number.isFinite(Number(rec.value)) ? Number(rec.value) : null;
+  } catch { return null; }
+}
+
+// ---------------------------------------------------------------------------
 // live data (each source soft-fails to a null-valued provenance record, never throws)
 // ---------------------------------------------------------------------------
 
@@ -305,9 +397,15 @@ export async function byMetro(metro, { nowMs = Date.now(), year = 2022 } = {}) {
  * into one provenance-tagged cost-of-living record. Each component soft-fails independently and
  * is preserved under `.components`. Never throws.
  *   returns { value, source:'fused', fetched_at, freshness, confidence, components, metro }
- * @param {{metro?:string, includeGas?:boolean, nowMs?:number}} opts
+ *
+ * OPTIONAL transportation (queue task #119): pass `vehicle` with vehicleOwnershipCost inputs to
+ * fold an all-in monthly vehicle cost into the record ADDITIVELY. When `vehicle` is omitted the
+ * return shape and values are EXACTLY as before — existing callers see no change. When provided,
+ * the record gains a `vehicle` field ({ ...cost, line }) and `monthlyTotal` = fused value (when
+ * numeric) + vehicle.monthly. The fused `value`/`components`/`confidence` are left untouched.
+ * @param {{metro?:string, includeGas?:boolean, nowMs?:number, vehicle?:object}} opts
  */
-export async function costOfLiving({ metro, includeGas = false, nowMs = Date.now() } = {}) {
+export async function costOfLiving({ metro, includeGas = false, nowMs = Date.now(), vehicle } = {}) {
   const tasks = {
     cpi: cpi({ nowMs }).catch(() => emptyRecord('fred', nowMs)),
     groceries: groceryPrices({ nowMs }).catch(() => emptyRecord('usda', nowMs)),
@@ -326,6 +424,25 @@ export async function costOfLiving({ metro, includeGas = false, nowMs = Date.now
 
   const fused = fuseRecords(components, { nowMs });
   if (metro) fused.metro = metro;
+
+  // OPTIONAL: fold vehicle ownership cost in additively. Only touches the record when the caller
+  // opts in with vehicle inputs — otherwise the shape/values are exactly as before.
+  if (vehicle && typeof vehicle === 'object') {
+    // resolve a live fuel price if the caller didn't supply one (soft-fail to default)
+    let fuelPricePerGal = vehicle.fuelPricePerGal;
+    if (fuelPricePerGal == null) {
+      const live = await liveFuelPrice({ nowMs });
+      if (live != null) fuelPricePerGal = live;
+    }
+    const cost = vehicleOwnershipCost({ ...vehicle, fuelPricePerGal });
+    if (cost.monthly != null) {
+      fused.vehicle = { ...cost, line: vehicleSummaryLine(cost) };
+      fused.monthlyTotal = Number.isFinite(Number(fused.value))
+        ? round2(Number(fused.value) + cost.monthly)
+        : cost.monthly;
+    }
+  }
+
   return fused;
 }
 
@@ -366,6 +483,11 @@ if (process.argv[1] && process.argv[1].endsWith('coliving.mjs')) {
     console.log('  components:');
     for (const [k, v] of Object.entries(rec.components)) {
       console.log(`    ${k.padEnd(10)} ${String(v.value ?? 'n/a').padEnd(12)} [${v.source}] ${v.freshness} conf=${v.confidence}`);
+    }
+    // additive: surface a Transportation line only when vehicle cost was folded in
+    if (rec.vehicle && rec.vehicle.line) {
+      console.log(`  ${rec.vehicle.line}`);
+      console.log(`  monthly total (incl. vehicle): $${rec.monthlyTotal}`);
     }
   }
 }
