@@ -4,8 +4,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   PROGRAMS, MECHANISMS, MECHANISM_BADGE, NOT_ADVICE,
-  classifyMechanism, searchPrograms, truthCheck, renderPage, esc, __setFetch,
+  classifyMechanism, classifyProgram, searchPrograms, truthCheck, renderPage, esc, __setFetch,
 } from './benefits-navigator.mjs';
+
+const KINDS = new Set(['grant', 'loan', 'cost-share-reimbursement', 'tax-credit', 'other']);
 
 test('PROGRAMS — every program has an honest, recognized mechanism + required fields', () => {
   assert.ok(PROGRAMS.length >= 6);
@@ -136,6 +138,59 @@ test('renderPage — a dishonest result surfaces a heads-up warning', () => {
   const html = renderPage([{ name: 'FREE MONEY! never repay it back', agency: 'X', mechanism: 'loan', honest_summary: 'free money', eligibility_notes: 'n/a', source_url: 'https://x' }]);
   assert.match(html, /Heads up/);
   assert.match(html, /repay/i);
+});
+
+test('classifyProgram — returns {kind, honestSummary} from the restricted v3 vocabulary', () => {
+  for (const fixture of [
+    { mechanism: 'loan', name: 'SBA 7(a) Loan' },
+    { mechanism: 'grant', name: 'Research Grant' },
+    { mechanism: 'tax-credit', name: 'Solar Tax Credit' },
+    { mechanism: 'service', name: 'SCORE Mentoring' },     // → other
+    { mechanism: 'insurance', name: 'Crop Insurance' },    // → other
+    { mechanism: 'varies', name: 'Benefits finder' },      // → other
+  ]) {
+    const r = classifyProgram(fixture);
+    assert.ok(KINDS.has(r.kind), `${fixture.name} -> ${r.kind} in vocab`);
+    assert.ok(r.honestSummary && r.honestSummary.length > 0, 'has honestSummary');
+  }
+  assert.equal(classifyProgram({ mechanism: 'service' }).kind, 'other');
+  assert.equal(classifyProgram({ mechanism: 'insurance' }).kind, 'other');
+});
+
+test('classifyProgram — EQIP high tunnel is cost-share-reimbursement with the sign-first truth', () => {
+  // From text alone (no mechanism field): the USDA EQIP high-tunnel case must be encoded.
+  const r = classifyProgram({ name: 'USDA NRCS EQIP — Seasonal High Tunnel', agency: 'USDA NRCS' });
+  assert.equal(r.kind, 'cost-share-reimbursement');
+  assert.match(r.honestSummary, /NOT free money/i);
+  assert.match(r.honestSummary, /reimburs/i);
+  assert.match(r.honestSummary, /sign.*BEFORE you build|BEFORE you build/i);
+  // "high tunnel" keyword alone also triggers the cost-share case.
+  assert.equal(classifyProgram({ name: 'high tunnel cost-share' }).kind, 'cost-share-reimbursement');
+});
+
+test('classifyProgram — loan text beats "free money" framing', () => {
+  const r = classifyProgram({ name: 'FREE MONEY', description: 'a low-interest loan you repay monthly' });
+  assert.equal(r.kind, 'loan');
+});
+
+test('searchPrograms — every returned row carries an honest `kind` in the restricted vocabulary', async () => {
+  const all = await searchPrograms('');
+  assert.ok(all.length >= PROGRAMS.length);
+  for (const p of all) assert.ok(KINDS.has(p.kind), `${p.name} -> kind ${p.kind}`);
+  // the curated EQIP row is cost-share-reimbursement
+  const eqip = all.find((p) => /EQIP/i.test(p.name));
+  assert.equal(eqip.kind, 'cost-share-reimbursement');
+});
+
+test('searchPrograms — live rows are classified into kinds too', async () => {
+  const live = [
+    { type: 'grant', title: 'Clean Water Grant', agency: 'EPA', url: 'https://x/g1' },
+    { type: 'grant', title: 'Disaster Loan with interest', agency: 'SBA', url: 'https://x/l1' },
+  ];
+  const results = await searchPrograms('water', { fetchers: { grants: async () => live } });
+  const liveRows = results.filter((p) => p.source === 'live');
+  assert.equal(liveRows.find((p) => /Water Grant/.test(p.name)).kind, 'grant');
+  assert.equal(liveRows.find((p) => /Disaster Loan/.test(p.name)).kind, 'loan');
 });
 
 // keep __setFetch referenced (defensive-import seam) so the import is meaningful even offline.
