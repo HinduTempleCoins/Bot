@@ -7,8 +7,15 @@
 //                           email claim (verifyGoogleLogin). The Google OAuth client id/secret
 //                           come from the credential vault (Vaultwarden), NEVER hardcoded here.
 //
-// SINGLE-ADMIN LOCK: only process.env.ADMIN_EMAIL may ever log in. Everyone else is rejected —
-//   even when they present a perfectly valid Google id-token for some other Gmail.
+// TWO-EMAIL ALLOWLIST (task #207):
+//   - PRIMARY  (process.env.ADMIN_EMAIL)        — the ONLY full-access identity. Logs in and
+//                                                  operates the portal exactly as before.
+//   - BACKUP   (process.env.ADMIN_BACKUP_EMAIL) — an OPTIONAL recovery identity. It can start a
+//                                                  login and hold a role:'backup' session, but that
+//                                                  session may ONLY be used to recover primary
+//                                                  access (startRecovery → fresh primary magic link).
+//                                                  It can NEVER operate the portal as admin.
+// Everyone else is rejected — even when they present a perfectly valid id-token for some other email.
 //
 // Sessions are signed with HMAC (node:crypto), secret from env. All crypto is PURE and the
 // providers (clock, mailer, token id, single-use store) are injectable, so the tests run fully
@@ -17,8 +24,9 @@
 // SECURITY: tokens and secrets are NEVER logged or printed. We only ever surface booleans,
 // the admin email, and opaque error reasons.
 //
-//   import { startEmailLogin, verifyMagicLink, verifyGoogleLogin,
-//            createSession, verifySession, revokeSession, requireAdmin } from './admin-auth.mjs'
+//   import { startEmailLogin, verifyMagicLink, verifyGoogleLogin, verifyOAuthLogin,
+//            createSession, verifySession, revokeSession, requireAdmin, startRecovery,
+//            adminEmail, backupEmail, roleFor } from './admin-auth.mjs'
 //   node integrations/admin-auth.mjs --whoami        # print configured admin (not the secret)
 
 import crypto from 'node:crypto';
@@ -29,6 +37,21 @@ import crypto from 'node:crypto';
 
 export function adminEmail() {
   return normEmail(process.env.ADMIN_EMAIL || '');
+}
+
+// Optional backup/recovery identity. Empty when unset — backup features are then simply inert.
+export function backupEmail() {
+  return normEmail(process.env.ADMIN_BACKUP_EMAIL || '');
+}
+
+// Classify an email against the allowlist: 'primary' | 'backup' | null.
+// Primary wins if (mis)configured to the same address — there is never a backup-only path to operate.
+export function roleFor(email) {
+  const e = normEmail(email);
+  if (!e) return null;
+  if (adminEmail() && e === adminEmail()) return 'primary';
+  if (backupEmail() && e === backupEmail()) return 'backup';
+  return null;
 }
 
 // Soft-fail dev secret: in production set ADMIN_AUTH_SECRET. With none, we derive a throwaway
@@ -117,18 +140,21 @@ function readToken(token, kind) {
 // ── magic-link login (method 1) ─────────────────────────────────────────────────
 const MAGIC_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
-// Begin email login. Only the admin email is ever issued a link; for any other address we
-// return { ok: false } WITHOUT generating a token (no enumeration of who is/isn't admin via timing
-// is attempted here beyond the single-admin lock — this is a one-operator portal).
+// Begin email login. Both the PRIMARY admin and the optional BACKUP email may be issued a link;
+// any other address returns { ok: false } WITHOUT generating a token (no enumeration is attempted
+// beyond the allowlist — this is a one-operator portal). The link carries the email's role, so the
+// session minted from it is full-access for the primary and recovery-only for the backup.
 export async function startEmailLogin(email, { ttlMs = MAGIC_TTL_MS } = {}) {
   const e = normEmail(email);
   const admin = adminEmail();
   if (!admin) return { ok: false, reason: 'admin-not-configured' };
-  if (e !== admin) return { ok: false, reason: 'not-admin' };
+  const role = roleFor(e);
+  if (!role) return { ok: false, reason: 'not-admin' };
 
   const now = providers.now();
   const payload = {
     e,
+    role,
     jti: providers.randomId(),
     exp: now + ttlMs,
     typ: 'magic',
@@ -137,21 +163,24 @@ export async function startEmailLogin(email, { ttlMs = MAGIC_TTL_MS } = {}) {
   // Deliver out of band. We pass the token to the mailer only; we never log it.
   let delivered = { delivered: false, email: e };
   try { delivered = (await providers.sendMail({ email: e, token })) || delivered; } catch { /* mailer failure is non-fatal to issuance */ }
-  return { ok: true, email: e, token, expiresAt: payload.exp, delivered };
+  return { ok: true, email: e, role, token, expiresAt: payload.exp, delivered };
 }
 
-// Verify a magic link: signature + not expired + correct admin + single-use (jti not yet consumed).
+// Verify a magic link: signature + not expired + on the allowlist + single-use (jti not yet consumed).
+// Returns the email's role so the caller mints a primary or backup session accordingly. Links issued
+// before roles existed (no payload role) are treated as primary, preserving old behavior.
 export function verifyMagicLink(token) {
   const r = readToken(token, 'magic');
   if (!r.ok) return { ok: false, reason: r.reason };
   const p = r.payload;
   if (p.typ !== 'magic') return { ok: false, reason: 'wrong-type' };
-  if (normEmail(p.e) !== adminEmail() || !adminEmail()) return { ok: false, reason: 'not-admin' };
+  const role = roleFor(p.e);
+  if (!role) return { ok: false, reason: 'not-admin' };
   if (!p.exp || providers.now() > p.exp) return { ok: false, reason: 'expired' };
   if (!p.jti) return { ok: false, reason: 'malformed' };
   if (providers.usedStore.has(p.jti)) return { ok: false, reason: 'already-used' };
   providers.usedStore.add(p.jti); // consume — single use
-  return { ok: true, email: p.e };
+  return { ok: true, email: p.e, role };
 }
 
 // ── Google OIDC login (method 2) ────────────────────────────────────────────────
@@ -159,42 +188,62 @@ export function verifyMagicLink(token) {
 // OAuth client id from the vault, issuer = accounts.google.com, signature against Google's JWKS).
 // Here we enforce the PORTAL policy on the trusted claims: email present, email_verified, and the
 // single-admin lock. We accept either a decoded claims object or a { ...claims } payload.
-export function verifyGoogleLogin(idTokenClaims) {
-  const c = idTokenClaims || {};
+// Generalized OAuth/OIDC verifier (Google, Yahoo, …). The raw id-token must already be
+// cryptographically verified upstream (audience/issuer/signature) by the provider's own validator —
+// Yahoo's lives in ifttt-connect, NOT here. We enforce only the PORTAL policy on the trusted claims:
+// email present, email_verified (when supplied), and the two-email allowlist. Primary gets full
+// access; backup gets a recovery-only session (role:'backup').
+export function verifyOAuthLogin(claims) {
+  const c = claims || {};
   const email = normEmail(c.email);
   if (!email) return { ok: false, reason: 'no-email' };
-  // Google sets email_verified; require it when present, but don't hard-fail if a verifier omits it.
+  // Providers set email_verified; require it when present, but don't hard-fail if a verifier omits it.
   if (c.email_verified === false) return { ok: false, reason: 'email-unverified' };
   const admin = adminEmail();
   if (!admin) return { ok: false, reason: 'admin-not-configured' };
-  if (email !== admin) return { ok: false, reason: 'not-admin' };
-  return { ok: true, email };
+  const role = roleFor(email);
+  if (!role) return { ok: false, reason: 'not-admin' };
+  return { ok: true, email, role };
+}
+
+// Google OIDC login (method 2). Thin wrapper over verifyOAuthLogin preserved for the existing
+// route wiring and tests — same shape, same single-admin behavior for the primary.
+export function verifyGoogleLogin(idTokenClaims) {
+  return verifyOAuthLogin(idTokenClaims);
 }
 
 // ── sessions ────────────────────────────────────────────────────────────────────
 const SESSION_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 
-// Create a signed session token for an email (must be the admin).
+// Create a signed session token for an email on the allowlist. The session carries the email's role:
+// 'primary' (full access) or 'backup' (recovery-only). Strangers are refused. An explicit
+// { role } may be passed but is ALWAYS reconciled against the allowlist — you can never mint a
+// primary session for a backup email.
 export function createSession(email, { ttlMs = SESSION_TTL_MS } = {}) {
   const e = normEmail(email);
   const admin = adminEmail();
-  if (!admin || e !== admin) return { ok: false, reason: 'not-admin' };
+  if (!admin) return { ok: false, reason: 'not-admin' };
+  const role = roleFor(e);
+  if (!role) return { ok: false, reason: 'not-admin' };
   const now = providers.now();
-  const payload = { e, sid: providers.randomId(), iat: now, exp: now + ttlMs, typ: 'session' };
-  return { ok: true, email: e, token: makeToken(payload, 'session'), expiresAt: payload.exp };
+  const payload = { e, role, sid: providers.randomId(), iat: now, exp: now + ttlMs, typ: 'session' };
+  return { ok: true, email: e, role, token: makeToken(payload, 'session'), expiresAt: payload.exp };
 }
 
-// Verify a session token: signature + not expired + admin + not revoked.
+// Verify a session token: signature + not expired + on the allowlist + not revoked.
+// Returns the role. Sessions minted before roles existed (no payload role) are treated as primary,
+// preserving old behavior for any token already in flight.
 export function verifySession(token) {
   const r = readToken(token, 'session');
   if (!r.ok) return { ok: false, reason: r.reason };
   const p = r.payload;
   if (p.typ !== 'session') return { ok: false, reason: 'wrong-type' };
-  if (normEmail(p.e) !== adminEmail() || !adminEmail()) return { ok: false, reason: 'not-admin' };
+  const role = roleFor(p.e) || (normEmail(p.e) === adminEmail() && adminEmail() ? 'primary' : null);
+  if (!role) return { ok: false, reason: 'not-admin' };
   if (!p.exp || providers.now() > p.exp) return { ok: false, reason: 'expired' };
   if (!p.sid) return { ok: false, reason: 'malformed' };
   if (_revoked.has(p.sid)) return { ok: false, reason: 'revoked' };
-  return { ok: true, email: p.e, sid: p.sid };
+  return { ok: true, email: p.e, sid: p.sid, role };
 }
 
 // Revocation list (session ids). In a real deployment this is a shared/persistent store.
@@ -209,11 +258,47 @@ export function __resetRevoked() { _revoked.clear(); }
 
 // ── gate helper ─────────────────────────────────────────────────────────────────
 // Pull a session token from a request-like object (cookie or Authorization: Bearer) and verify it.
-// Returns { ok, email } on success; on failure { ok:false, reason } — caller sends 401/redirect.
-export function requireAdmin(req) {
+// Returns { ok, email, role } on success; on failure { ok:false, reason } — caller sends 401/redirect.
+//
+// By default ONLY a primary session passes — a backup (recovery) session is rejected with
+// reason:'backup-recovery-only' so it can never operate the portal. The recovery route, and ONLY
+// that route, opts in with requireAdmin(req, { allowBackup: true }) to accept a backup session.
+export function requireAdmin(req, { allowBackup = false } = {}) {
   const token = sessionTokenFromRequest(req);
   if (!token) return { ok: false, reason: 'no-session' };
-  return verifySession(token);
+  const v = verifySession(token);
+  if (!v.ok) return v;
+  if (v.role === 'backup' && !allowBackup) {
+    return { ok: false, reason: 'backup-recovery-only' };
+  }
+  return v;
+}
+
+// ── recovery flow ─────────────────────────────────────────────────────────────────
+// The point of the backup identity: regain PRIMARY access, NOT operate as admin. A holder of a
+// valid backup session calls this to mail a FRESH single-use magic link to the PRIMARY email.
+// The backup never receives the primary's link and never gets a primary session here.
+//
+// Accepts a request-like object (uses the same session extraction as requireAdmin). The session
+// MUST be a backup session — a primary session is told to just log in normally, and anything else
+// is refused.
+export async function startRecovery(req, { ttlMs = MAGIC_TTL_MS } = {}) {
+  const token = sessionTokenFromRequest(req);
+  if (!token) return { ok: false, reason: 'no-session' };
+  const v = verifySession(token);
+  if (!v.ok) return v;
+  if (v.role !== 'backup') return { ok: false, reason: 'not-backup' };
+  const admin = adminEmail();
+  if (!admin) return { ok: false, reason: 'admin-not-configured' };
+
+  // Issue a primary magic link — same single-use, signed, expiring token, delivered to the PRIMARY.
+  const now = providers.now();
+  const payload = { e: admin, role: 'primary', jti: providers.randomId(), exp: now + ttlMs, typ: 'magic' };
+  const linkToken = makeToken(payload, 'magic');
+  let delivered = { delivered: false, email: admin };
+  try { delivered = (await providers.sendMail({ email: admin, token: linkToken })) || delivered; } catch { /* non-fatal to issuance */ }
+  // recoveredFor = the primary the link was sent to; token returned for wiring/tests, never logged.
+  return { ok: true, recoveredFor: admin, token: linkToken, expiresAt: payload.exp, delivered };
 }
 
 function sessionTokenFromRequest(req) {
@@ -243,7 +328,9 @@ if (process.argv[1] && process.argv[1].endsWith('admin-auth.mjs')) {
   const arg = process.argv[2] || '--whoami';
   if (arg === '--whoami') {
     const a = adminEmail();
-    console.log(a ? `configured admin: ${a}` : 'ADMIN_EMAIL not set');
+    const b = backupEmail();
+    console.log(a ? `configured admin (primary): ${a}` : 'ADMIN_EMAIL not set');
+    console.log(b ? `configured backup (recovery-only): ${b}` : 'ADMIN_BACKUP_EMAIL not set (backup/recovery disabled)');
     console.log(`session secret: ${process.env.ADMIN_AUTH_SECRET ? 'configured' : 'EPHEMERAL DEV SECRET (set ADMIN_AUTH_SECRET)'}`);
   } else {
     console.log('usage: node integrations/admin-auth.mjs [--whoami]');

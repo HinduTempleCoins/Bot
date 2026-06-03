@@ -29,6 +29,11 @@ import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
 import { repoFeatures, summary as featureSummary, setFlag } from '../../integrations/feature-registry.mjs';
+import { sendToClaude, relayStatus, renderPanel as claudePanel } from '../../integrations/claude-relay.mjs';
+import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
+import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
+import { ecosystemMap, renderMap as renderEcosystemMap } from '../../integrations/ecosystem-map.mjs';
+import { startRecovery } from '../../integrations/admin-auth.mjs';
 
 const PORT = +(process.env.PORT || 8096);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -68,6 +73,10 @@ function layout({ title = 'Admin', body = '', nav = true } = {}) {
   const navHtml = nav ? `<header>
     <strong>Soapy.blog · Admin</strong>
     <a href="/">Dashboard</a>
+    <a href="/hud">HUD</a>
+    <a href="/trade">Trade</a>
+    <a href="/chains">Chains</a>
+    <a href="/claude">Claude</a>
     <a href="/connect">Connect</a>
     <a href="/features">Features</a>
     <a href="/analytics">Analytics</a>
@@ -190,6 +199,52 @@ function connectPage(connections = []) {
       <thead><tr><th>Service</th><th>Default scopes</th><th>Status</th><th></th></tr></thead>
       <tbody>${rows}</tbody></table></div>`;
   return layout({ title: 'Connect', body });
+}
+
+// ── the HUD pages: ecosystem map / trade analytics / chains / Server-4 Claude ───────────────────
+// Each is a thin admin-gated shell around its read-only board module; one board failing
+// renders an honest error card, never a dead page.
+async function hudPage() {
+  try {
+    const map = await ecosystemMap();
+    return layout({ title: 'HUD', body: `<h1>Everything we have</h1>${renderEcosystemMap(map)}` });
+  } catch (e) {
+    return layout({ title: 'HUD', body: `<h1>Everything we have</h1><p class=bad>Map unavailable: ${esc(e?.message || e)}</p>` });
+  }
+}
+
+async function tradePage() {
+  try {
+    const board = await tradeBoard();
+    const queue = decisionQueue(board) || [];
+    const queueHtml = queue.length
+      ? `<div class=card><h2>Decisions waiting on you</h2><ul>${queue.map((d) => `<li>${esc(typeof d === 'string' ? d : d.text || d.title || '')}</li>`).join('')}</ul></div>`
+      : '';
+    return layout({ title: 'Trade', body: `<h1>Trade analytics</h1>${queueHtml}${renderTradeBoard(board)}` });
+  } catch (e) {
+    return layout({ title: 'Trade', body: `<h1>Trade analytics</h1><p class=bad>Board unavailable: ${esc(e?.message || e)}</p>` });
+  }
+}
+
+async function chainsPage() {
+  try {
+    const board = await chainsBoard();
+    return layout({ title: 'Chains', body: `<h1>Our chains</h1>${renderChainsBoard(board)}` });
+  } catch (e) {
+    return layout({ title: 'Chains', body: `<h1>Our chains</h1><p class=bad>Board unavailable: ${esc(e?.message || e)}</p>` });
+  }
+}
+
+async function claudePage(sessionId = 'admin') {
+  let status = { configured: false, reachable: null };
+  try { status = await relayStatus(); } catch { /* soft */ }
+  const statusLine = status.configured
+    ? '<span class=ok>relay configured</span>'
+    : '<span class=warn>relay not configured — set the relay URL + token in the vault (the Claude on the server answers once connected)</span>';
+  const body = `<h1>Server Claude</h1>
+    <p class=muted>Talk to the Claude running on the server, right from here. ${statusLine}</p>
+    ${claudePanel({ sessionId })}`;
+  return layout({ title: 'Claude', body });
 }
 
 // The "what's built but the public can't see yet" catalog. Groups every integration module by
@@ -371,6 +426,17 @@ export async function handle(req, res) {
       return res.end();
     }
 
+    // ---- recovery (backup email regains primary access; self-gated with allowBackup) ----
+    if (p === '/recovery' && method === 'GET') {
+      const g = requireAdmin(req, { allowBackup: true });
+      if (!g.ok) return redirect(res, '/login?e=1');
+      const r = await startRecovery(req).catch(() => ({ ok: false }));
+      const body = r.ok
+        ? `<h1>Recovery</h1><p class=ok>A fresh sign-in link for the primary account was issued.</p>${r.link ? `<p class=muted>Dev (no mailer): <a href="${esc(r.link)}">${esc(r.link)}</a></p>` : ''}`
+        : `<h1>Recovery</h1><p class=warn>Recovery is only available from the backup account's session.</p>`;
+      return html(res, layout({ title: 'Recovery', body, nav: false }));
+    }
+
     // ---- gate everything else ----
     const gate = requireAdmin(req);
     if (!gate.ok) {
@@ -392,6 +458,19 @@ export async function handle(req, res) {
     if (p === '/connect' && method === 'GET') {
       const conns = await listConnections().catch(() => []);
       return html(res, connectPage(conns));
+    }
+
+    if (p === '/hud' && method === 'GET') return html(res, await hudPage());
+    if (p === '/trade' && method === 'GET') return html(res, await tradePage());
+    if (p === '/chains' && method === 'GET') return html(res, await chainsPage());
+    if (p === '/claude' && method === 'GET') return html(res, await claudePage());
+
+    if (p === '/claude/send' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const message = (params.get('message') || '').trim();
+      const sessionId = (params.get('sessionId') || 'admin').trim();
+      if (message) await sendToClaude({ message, sessionId, from: email }).catch(() => {});
+      return redirect(res, '/claude');
     }
 
     if (p === '/features' && method === 'GET') return html(res, await featuresPage());

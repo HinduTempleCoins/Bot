@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { severityTier, quakeScore, moveScore, curate, rankNews, worldClocks, CLOCKS, reliefWeb, gdeltWorld, eonetEvents, __setFetch } from './chyron.mjs';
+import { severityTier, quakeScore, moveScore, curate, rankNews, worldClocks, CLOCKS, reliefWeb, gdeltWorld, eonetEvents, __setFetch,
+  TOPICS, classifyTopic, relevanceScore, topFive, tickerPanels, renderTickerHTML, escapeHtml } from './chyron.mjs';
 
 // build a fake Response for the injectable fetch
 const jsonResponse = (body) => ({ ok: true, json: async () => body });
@@ -164,4 +165,175 @@ test('curate caps + dedups across the new mixed-kind feeds', () => {
   const texts = out.map((x) => x.text.toLowerCase());
   assert.equal(new Set(texts).size, texts.length, 'no dup survived');
   assert.ok(out.every((x) => x.tier), 'tiers assigned');
+});
+
+// ============================================================================
+// Task #203 — cycling topic panels (ADDITIVE tests)
+// ============================================================================
+
+const HOUR = 3600000;
+
+test('TOPICS lists the six ordered panels with key+label', () => {
+  assert.equal(TOPICS.length, 6);
+  assert.deepEqual(TOPICS.map((t) => t.key), ['crypto', 'bitcoin', 'ethereum', 'altcoins', 'world', 'markets']);
+  assert.ok(TOPICS.every((t) => t.key && t.label));
+});
+
+test('classifyTopic routes BTC headline to bitcoin+crypto', () => {
+  const t = classifyTopic({ text: 'Bitcoin surges past 80k as ETF inflows climb' });
+  assert.ok(t.includes('bitcoin'), 'bitcoin');
+  assert.ok(t.includes('crypto'), 'also crypto');
+  assert.ok(!t.includes('ethereum'), 'not ethereum');
+});
+
+test('classifyTopic routes ETH headline to ethereum+crypto', () => {
+  const t = classifyTopic({ text: 'Ethereum staking yields rise after Dencun upgrade' });
+  assert.ok(t.includes('ethereum'), 'ethereum');
+  assert.ok(t.includes('crypto'), 'crypto');
+});
+
+test('classifyTopic routes an altcoin ticker to altcoins+crypto', () => {
+  const t = classifyTopic({ text: 'Solana SOL rallies as Dogecoin DOGE follows' });
+  assert.ok(t.includes('altcoins'), 'altcoins');
+  assert.ok(t.includes('crypto'), 'crypto');
+});
+
+test('classifyTopic routes a quake to world (and a war/weather story too)', () => {
+  assert.ok(classifyTopic({ kind: 'disaster', text: 'M6.2 earthquake near Tokyo' }).includes('world'));
+  assert.ok(classifyTopic({ text: 'War escalates as sanctions tighten' }).includes('world'));
+  assert.ok(classifyTopic({ text: 'Severe storm warning issued' }).includes('world'));
+});
+
+test('classifyTopic routes macro/stocks to markets, not crypto', () => {
+  const t = classifyTopic({ text: 'S&P 500 and Nasdaq fall on inflation data' });
+  assert.ok(t.includes('markets'), 'markets');
+  assert.ok(!t.includes('bitcoin') && !t.includes('ethereum'), 'no coin panels');
+});
+
+test('relevanceScore decays with age — newer same item scores higher', () => {
+  const now = 1_000 * HOUR; // arbitrary fixed clock
+  const fresh = { text: 'Bitcoin update', ts: now - 0.1 * HOUR, score: 50, authority: 2 };
+  const stale = { text: 'Bitcoin update', ts: now - 8 * HOUR, score: 50, authority: 2 };
+  assert.ok(relevanceScore(fresh, { now }) > relevanceScore(stale, { now }), 'fresher scores higher');
+});
+
+test('relevanceScore: bigger severity/magnitude scores higher at equal age', () => {
+  const now = 1_000 * HOUR;
+  const big = { text: 'M7.5 earthquake hits coast', kind: 'disaster', ageHours: 1, score: 90 };
+  const small = { text: 'M4.6 earthquake hits coast', kind: 'disaster', ageHours: 1, score: 30 };
+  assert.ok(relevanceScore(big, { now }) > relevanceScore(small, { now }), 'bigger magnitude wins');
+});
+
+test('relevanceScore stays within 0..1', () => {
+  const now = 1_000 * HOUR;
+  assert.ok(relevanceScore({ text: 'x', ageHours: 0, score: 100, authority: 3 }, { now }) <= 1);
+  assert.ok(relevanceScore({ text: 'x', ageHours: 9999, score: 0 }, { now }) >= 0);
+});
+
+test('topFive returns at most 5, filtered to topic, deduped', () => {
+  const now = 1_000 * HOUR;
+  const items = [
+    { text: 'Bitcoin one', ageHours: 1, score: 60 },
+    { text: 'bitcoin one', ageHours: 1, score: 60 }, // dup (normalized)
+    { text: 'Bitcoin two', ageHours: 1, score: 60 },
+    { text: 'Bitcoin three', ageHours: 1, score: 60 },
+    { text: 'Bitcoin four', ageHours: 1, score: 60 },
+    { text: 'Bitcoin five', ageHours: 1, score: 60 },
+    { text: 'Bitcoin six', ageHours: 1, score: 60 },
+    { text: 'Ethereum thing', ageHours: 1, score: 60 }, // wrong topic, excluded
+  ];
+  const out = topFive(items, 'bitcoin', { now });
+  assert.ok(out.length <= 5, 'at most five');
+  assert.equal(out.length, 5, 'exactly five from the pool');
+  assert.ok(out.every((x) => /bitcoin/i.test(x.text)), 'only bitcoin items');
+  const keys = out.map((x) => x.text.toLowerCase());
+  assert.equal(new Set(keys).size, keys.length, 'no dup');
+});
+
+test('topFive THE SWAP: a fresh high-score item displaces a stale one out of the Top 5', () => {
+  const now = 1_000 * HOUR;
+  // five stale-but-once-strong bitcoin items + one fresh newcomer = six candidates for 5 slots
+  const stale = Array.from({ length: 5 }, (_, i) => ({ text: `Bitcoin legacy story ${i}`, ageHours: 10, score: 70 }));
+  const fresh = { text: 'Bitcoin breaking newcomer', ageHours: 0.05, score: 80 };
+  const before = topFive(stale, 'bitcoin', { now }).map((x) => x.text);
+  assert.ok(!before.includes('Bitcoin breaking newcomer'), 'newcomer absent before it exists');
+
+  const after = topFive([...stale, fresh], 'bitcoin', { now }).map((x) => x.text);
+  assert.equal(after.length, 5, 'still capped at five');
+  assert.ok(after.includes('Bitcoin breaking newcomer'), 'fresh item entered the Top 5');
+  const displaced = before.filter((t) => !after.includes(t));
+  assert.equal(displaced.length, 1, 'exactly one stale item was swapped out');
+});
+
+test('tickerPanels assembles panels from injected fetchers, fully offline', async () => {
+  const now = 1_000 * HOUR;
+  const out = await tickerPanels({
+    now,
+    fetchers: {
+      crypto: async () => [
+        { title: 'Bitcoin hits new high', ageHours: 0.2, authority: 3 },
+        { title: 'Ethereum upgrade ships', ageHours: 0.3, authority: 2 },
+        { title: 'Solana SOL pumps', ageHours: 0.4, authority: 1 },
+      ],
+      world: async () => [
+        { kind: 'disaster', text: 'M6.0 earthquake near coast', ageHours: 1, score: 60 },
+      ],
+      markets: async () => [
+        { kind: 'macro', text: 'Nasdaq falls 2%', changePct: -2, ageHours: 0, score: 20 },
+      ],
+    },
+  });
+  assert.ok(Array.isArray(out.panels), 'panels array');
+  assert.equal(out.panels.length, 6, 'six panels');
+  assert.deepEqual(out.panels.map((p) => p.key), TOPICS.map((t) => t.key), 'order preserved');
+  assert.ok(out.panels.every((p) => p.items.length <= 5), 'each panel ≤5');
+  const btc = out.panels.find((p) => p.key === 'bitcoin');
+  assert.ok(btc.items.some((i) => /Bitcoin/.test(i.text)), 'bitcoin panel populated');
+  const eth = out.panels.find((p) => p.key === 'ethereum');
+  assert.ok(eth.items.some((i) => /Ethereum/.test(i.text)), 'eth panel populated');
+  const world = out.panels.find((p) => p.key === 'world');
+  assert.ok(world.items.some((i) => /earthquake/.test(i.text)), 'world panel populated');
+  const markets = out.panels.find((p) => p.key === 'markets');
+  assert.ok(markets.items.some((i) => /Nasdaq/.test(i.text)), 'markets panel populated');
+  assert.equal(out.clocks.length, 8, 'clocks included');
+  assert.equal(out.generatedAt, now, 'generatedAt is now');
+});
+
+test('renderTickerHTML contains clocks, panel markup, and a 4000ms cycle script by default', () => {
+  const panels = {
+    panels: [
+      { key: 'crypto', label: 'Top 5 Crypto', items: [{ text: 'Bitcoin up' }, { text: 'Eth up', url: 'https://x/1' }] },
+      { key: 'world', label: 'World', items: [{ text: 'Quake hits' }] },
+    ],
+    clocks: worldClocks(),
+  };
+  const html = renderTickerHTML(panels);
+  assert.match(html, /sbx-ticker/, 'ticker container');
+  assert.match(html, /data-tz="America\/New_York"/, 'clock tz embedded');
+  assert.match(html, /Top 5 Crypto/, 'panel label');
+  assert.match(html, /sbx-panel/, 'panel markup');
+  assert.match(html, /setInterval\(tick,4000\)/, 'default 4000ms cycle');
+  assert.match(html, /mouseenter/, 'pause on hover');
+  assert.match(html, /href="https:\/\/x\/1"/, 'item link rendered');
+});
+
+test('renderTickerHTML honors a custom cycleMs', () => {
+  const html = renderTickerHTML({ panels: [{ key: 'crypto', label: 'Crypto', items: [] }], clocks: [] }, { cycleMs: 2500 });
+  assert.match(html, /setInterval\(tick,2500\)/, 'custom cycle ms');
+});
+
+test('renderTickerHTML escapes a malicious headline (no raw script injection)', () => {
+  const evil = '<img src=x onerror=alert(1)></script><b>pwn</b>';
+  const html = renderTickerHTML({
+    panels: [{ key: 'crypto', label: 'Top 5 Crypto', items: [{ text: evil }] }],
+    clocks: [],
+  });
+  assert.ok(!html.includes('<img src=x onerror=alert(1)>'), 'raw img not present');
+  assert.ok(!html.includes('<b>pwn</b>'), 'raw injected bold not present');
+  assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/, 'escaped form present');
+});
+
+test('escapeHtml handles the dangerous characters', () => {
+  assert.equal(escapeHtml(`<a href="x" onclick='y'>&z</a>`), '&lt;a href=&quot;x&quot; onclick=&#39;y&#39;&gt;&amp;z&lt;/a&gt;');
+  assert.equal(escapeHtml(null), '');
 });
