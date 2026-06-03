@@ -145,6 +145,84 @@ function searchRender({ module, fn, title, placeholder, label = 'Search' }) {
 let _pathByTitle = new Map();
 const pathFor = (title) => _pathByTitle.get(title) || '/';
 
+// ── Library vertical: catalog search → bucketed results with "go get the book" links ────────────────
+// Bespoke renderer (the generic object→cards walker can't express the copyright buckets / borrow
+// link-outs). host-fully hits get a read/download link; metadata-only hits get a cover + the ordered
+// borrowLinks() "Get it at your library" link-outs. Soft-fails like every other vertical.
+
+function libraryHitHtml(hit, borrow) {
+  const title = esc(hit.title || 'Untitled');
+  const meta = [
+    (hit.authors || []).slice(0, 3).join(', '),
+    hit.year || '',
+    (hit.sources || [hit.source]).filter(Boolean).join('+'),
+  ].filter(Boolean).map(esc).join(' · ');
+  const isHost = hit.bucket === 'host-fully';
+  const badge = isHost
+    ? '<span class=badge style="background:#1f7a3f;color:#fff;border-radius:4px;padding:1px 6px;font-size:11px">Read free</span>'
+    : '<span class=badge style="background:#555;color:#fff;border-radius:4px;padding:1px 6px;font-size:11px">At your library</span>';
+  const cover = hit.cover
+    ? `<img src="${esc(hit.cover)}" alt="" loading=lazy style="width:54px;height:auto;border-radius:3px;flex:0 0 auto">`
+    : '';
+
+  let action;
+  if (isHost && hit.url) {
+    // host-fully: link straight to the open/PD full text.
+    action = `<a href="${esc(hit.url)}" target=_blank rel="noopener nofollow">Read / download →</a>`;
+  } else {
+    // metadata-only: the "go get the book" link-outs (never a hosted file).
+    const links = (borrow || []).map((l) =>
+      `<a href="${esc(l.url)}" target=_blank rel="noopener nofollow" title="${esc(l.note || '')}">${esc(l.label)}</a>`,
+    );
+    action = links.length
+      ? `<div class=borrow-links style="display:flex;flex-direction:column;gap:3px;margin-top:4px">${links.join('')}</div>`
+      : muted('No borrow links available.');
+  }
+
+  return `<div class=lib-hit style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)">`
+    + cover
+    + `<div style="flex:1 1 auto">`
+    + `<div style="display:flex;align-items:center;gap:8px"><b>${title}</b> ${badge}</div>`
+    + (meta ? `<div class=muted style="font-size:12px;margin:2px 0">${meta}</div>` : '')
+    + action
+    + `</div></div>`;
+}
+
+// search render for the Library: imports library-catalog + library-borrow, runs catalogSearch, and for
+// each metadata-only hit fetches its borrow link-outs. Always shows the form; soft-fails to a card.
+function libraryRender({ title = 'Library' } = {}) {
+  return async (query) => {
+    const q = typeof query === 'string' ? query.trim() : '';
+    const form = card(title, searchForm(pathFor(title), {
+      placeholder: 'Title, author, ISBN, or topic…', value: q, label: 'Search the Library',
+    }));
+    if (!q) return form;
+
+    const cat = await loadModule(`${REL}library-catalog.mjs`);
+    if (!cat || typeof cat.catalogSearch !== 'function') return form + unavailableCard(`${title}: results`, 'module not loaded');
+    let data;
+    try { data = await cat.catalogSearch(q, { limit: 20 }); } catch (e) { return form + unavailableCard(`${title}: results`, e?.message); }
+    const results = (data && Array.isArray(data.results)) ? data.results : [];
+    if (!results.length) return form + card(`${title}: results`, `<p class=muted>No results for “${esc(q)}”.</p>`);
+
+    // borrowLinks (pure, probe:false to stay fast/offline) for each metadata-only hit.
+    const borrowMod = await loadModule(`${REL}library-borrow.mjs`);
+    const borrowFor = async (hit) => {
+      if (hit.bucket === 'host-fully' || !borrowMod || typeof borrowMod.borrowLinks !== 'function') return [];
+      try {
+        return await borrowMod.borrowLinks({
+          title: hit.title, authors: hit.authors, isbn: hit.isbn, olid: hit.url && hit.url.includes('openlibrary.org') ? hit.url : null,
+        }, { probe: false });
+      } catch { return []; }
+    };
+    const borrows = await Promise.all(results.map(borrowFor));
+
+    const head = `<p class=muted>${esc(`${data.total} result(s) — ${data.hostFully} free to read, ${data.metadataOnly} available at a library`)}</p>`;
+    const hits = results.map((hit, i) => libraryHitHtml(hit, borrows[i])).join('');
+    return form + card(`${title}: “${q}”`, head + hits);
+  };
+}
+
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
 const REL = '../../integrations/soapbox/';
 
@@ -312,6 +390,13 @@ export const VERTICALS = [
   // Market health — crypto market health gauge, no input.
   { path: '/market-health', title: 'Market Health', navLabel: 'Market Health', kind: 'summary',
     render: summaryRender({ module: `${REL}market-health.mjs`, fn: 'healthData', title: 'Market Health' }) },
+
+  // ---- Library (wave-library-borrow) ----
+  // Unified keyless catalog search → bucketed results: host-fully hits get a read/download link;
+  // metadata-only hits get a cover + "go get the book" borrow link-outs (Open Library, WorldCat,
+  // Libby, Internet Archive). Custom renderer (libraryRender) — not the generic summary walker.
+  { path: '/library', title: 'Library', navLabel: 'Library', kind: 'search',
+    render: libraryRender({ title: 'Library' }) },
 ];
 
 _pathByTitle = new Map(VERTICALS.map((v) => [v.title, v.path]));
