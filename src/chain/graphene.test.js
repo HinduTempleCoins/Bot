@@ -127,3 +127,33 @@ test('customJson: accepts string json without re-stringifying', async () => {
   const opVal = captured[0][0][1];
   assert.equal(opVal.json, raw);
 });
+
+test('customJson: builds the op with no key material in the op object', async () => {
+  const { adapter, captured } = makeStubbedAdapter();
+  await adapter.customJson({ id: 'x', json: { a: 1 } });
+  const [, opVal] = captured[0][0];
+  // A custom_json op carries only auth account *names*, never key strings.
+  assert.deepEqual(Object.keys(opVal).sort(), ['id', 'json', 'required_auths', 'required_posting_auths']);
+  const serialized = JSON.stringify(opVal);
+  // No WIF (base58, leading 5/K/L) and no PrivateKey stub leaks into the op.
+  assert.doesNotMatch(serialized, /[5KL][1-9A-HJ-NP-Za-km-z]{50,}/);
+  assert.equal(serialized.includes('TEST-FAKE'), false);
+});
+
+test('reply: builds the comment op with no key material in the op object', async () => {
+  const { adapter, captured } = makeStubbedAdapter();
+  await adapter.reply({ parentAuthor: 'alice', parentPermlink: 'p', body: 'hi', permlink: 'r1' });
+  const [, opVal] = captured[0][0];
+  const serialized = JSON.stringify(opVal);
+  assert.doesNotMatch(serialized, /[5KL][1-9A-HJ-NP-Za-km-z]{50,}/);
+  assert.equal(serialized.includes('TEST-FAKE'), false);
+});
+
+test('graphene.js source embeds no WIF private key', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const src = await readFile(new URL('./graphene.js', import.meta.url), 'utf8');
+  // No base58 WIF literal anywhere in the module source.
+  assert.doesNotMatch(src, /[5KL][1-9A-HJ-NP-Za-km-z]{50,}/);
+  // Keys are only ever fetched via the env-backed keys.js helpers.
+  assert.match(src, /getPostingKey|getActiveKey/);
+});

@@ -89,7 +89,7 @@ function parseFeed(xml, { source, asset }) {
     const url = (atomLink(b) || '').trim();
     const date = decodeEntities(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
     const t = Date.parse(date);
-    out.push({ title, url, source, ts: Number.isFinite(t) ? new Date(t).toISOString() : null, asset });
+    out.push(analyzeItem({ title, url, source, ts: Number.isFinite(t) ? new Date(t).toISOString() : null, asset }));
   }
   return out;
 }
@@ -110,7 +110,7 @@ async function fetchGdelt(feed, query, asset) {
     const r = await withTimeout(u, { headers: { accept: 'application/json' } });
     if (!r.ok) return [];
     const d = await r.json().catch(() => ({}));
-    return (d.articles || []).map((a) => ({
+    return (d.articles || []).map((a) => analyzeItem({
       title: decodeEntities(a.title || ''), url: a.url || '',
       source: a.domain ? `GDELT:${a.domain}` : 'GDELT',
       ts: a.seendate ? gdeltDate(a.seendate) : null, asset,
@@ -128,7 +128,7 @@ async function fetchSearch(query, asset) {
   const q = `${query || asset || 'crypto'} news`;
   try {
     const rows = await search(q, { limit: 10 });
-    return rows.map((r) => ({ title: r.title, url: r.url, source: hostOf(r.url) || 'web-search', ts: null, asset }));
+    return rows.map((r) => analyzeItem({ title: r.title, url: r.url, source: hostOf(r.url) || 'web-search', ts: null, asset }));
   } catch { return []; }
 }
 function hostOf(url) { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } }
@@ -214,6 +214,146 @@ function countMentions(text) {
     if (n) counts[sym] = n;
   }
   return counts;
+}
+
+// ── public, pure, offline analysis (task #62) ────────────────────────────────────────────────────
+// These are the per-item counterparts to the batch-level toDiagnostics crunch above: a lexicon-based
+// sentiment scorer with negation handling, and a regex entity extractor. Both are deterministic and
+// do NO network / LLM — same numbers for the same input, every time. They reuse the BULL/BEAR
+// lexicons already tuned for this domain so the per-item and batch signals stay consistent.
+
+// negators flip the polarity of the next few tokens ("not good", "no rally", "fails to recover").
+const NEGATORS = new Set(["not", "no", "n't", "never", "without", "fails", "fail", "failed", "lacks", "lack", "isn't", "isnt", "wasn't", "wasnt", "don't", "dont", "doesn't", "doesnt", "didn't", "didnt", "won't", "wont", "cannot", "can't", "cant", "nor", "neither"]);
+const NEG_WINDOW = 3;            // a negator flips polarity for up to this many following scored words
+
+/**
+ * Lexicon-based sentiment for a single piece of text — deterministic, offline, pure.
+ * Tokenizes, matches the domain BULL/BEAR lexicons (single + multi-word phrases), and flips the
+ * polarity of a match when a negator appears within the preceding NEG_WINDOW tokens ("not good").
+ *
+ * @param {string} text
+ * @returns {{score:number, label:'positive'|'neutral'|'negative', hits:Array<{word:string,polarity:1|-1,negated:boolean}>}}
+ *   score is bounded -1..1 ((pos-neg)/(pos+neg)); label thresholds at ±0.15 to match toDiagnostics.
+ */
+export function sentiment(text) {
+  const hits = [];
+  const lc = ' ' + String(text || '').toLowerCase() + ' ';
+  const tokens = String(text || '').toLowerCase().match(/[a-z0-9'&-]+/g) || [];
+  // index of the most recent negator, for the window check on single-word hits.
+  const negAt = [];
+  tokens.forEach((tok, i) => { if (NEGATORS.has(tok)) negAt.push(i); });
+  const negatedAt = (i) => negAt.some((n) => n < i && i - n <= NEG_WINDOW);
+
+  const seen = new Set();   // avoid double-counting the same phrase at the same span trivially
+  const score1 = (list, polarity) => {
+    for (const w of list) {
+      if (w.includes(' ')) {
+        // multi-word phrase: substring match; negation = a negator token right before the phrase.
+        if (lc.includes(' ' + w + ' ') || lc.includes(' ' + w + ',') || lc.includes(' ' + w + '.')) {
+          const before = lc.split(w)[0].trim().split(/\s+/).slice(-NEG_WINDOW);
+          const negated = before.some((t) => NEGATORS.has(t.replace(/[.,]/g, '')));
+          const key = w + '@phrase';
+          if (!seen.has(key)) { seen.add(key); hits.push({ word: w, polarity: negated ? -polarity : polarity, negated }); }
+        }
+      } else {
+        for (let i = 0; i < tokens.length; i++) {
+          if (tokens[i] !== w) continue;
+          const negated = negatedAt(i);
+          hits.push({ word: w, polarity: negated ? -polarity : polarity, negated });
+        }
+      }
+    }
+  };
+  score1(BULL, 1);
+  score1(BEAR, -1);
+
+  let pos = 0, neg = 0;
+  for (const h of hits) { if (h.polarity > 0) pos++; else neg++; }
+  const total = pos + neg;
+  const score = total ? +(((pos - neg) / total).toFixed(2)) : 0;
+  const label = score > 0.15 ? 'positive' : score < -0.15 ? 'negative' : 'neutral';
+  return { score, label, hits };
+}
+
+// entity regexes — anchored, deterministic. tickers: $BTC / SWAP.LTC / 2-6 caps; mentions: @handle;
+// hashtags: #tag; urls: http(s)://… . orgs: a small curated keyword set (best-effort, optional).
+const RE_CASHTAG = /(?:^|[^A-Za-z0-9])\$([A-Za-z]{1,8}(?:\.[A-Za-z0-9]{1,8})?)/g;   // $BTC, $SWAP.LTC
+const RE_SWAP = /\b(SWAP\.[A-Z0-9]{1,8})\b/g;                                       // SWAP.LTC even w/o $
+const RE_MENTION = /(?:^|[^A-Za-z0-9_])@([A-Za-z0-9_.-]{2,30})/g;
+const RE_HASHTAG = /(?:^|[^A-Za-z0-9_])#([A-Za-z0-9_]{1,40})/g;
+const RE_URL = /https?:\/\/[^\s<>"')\]]+/g;
+const ORG_WORDS = { SEC: ['sec'], 'BlackRock': ['blackrock'], Binance: ['binance'], Coinbase: ['coinbase'], Tether: ['tether'], Fed: ['federal reserve', 'the fed'], ECB: ['ecb'], Ripple: ['ripple'], MicroStrategy: ['microstrategy', 'strategy inc'], Grayscale: ['grayscale'] };
+
+function uniq(arr) { return [...new Set(arr)]; }
+function matchAll(text, re, idx = 1) {
+  const out = []; let m; re.lastIndex = 0;
+  while ((m = re.exec(text)) !== null) { out.push(m[idx]); if (m.index === re.lastIndex) re.lastIndex++; }
+  return out;
+}
+
+/**
+ * Extract structured entities from a single piece of text — deterministic, offline, pure.
+ * @param {string} text
+ * @returns {{tickers:string[], mentions:string[], urls:string[], hashtags:string[], orgs:string[]}}
+ *   tickers are upper-cased & deduped ($BTC and SWAP.X forms); mentions/hashtags without their sigil;
+ *   urls verbatim; orgs from a curated keyword set (always present, possibly empty).
+ */
+export function extractEntities(text) {
+  const s = String(text || '');
+  const tickers = uniq([
+    ...matchAll(s, RE_CASHTAG).map((t) => t.toUpperCase()),
+    ...matchAll(s, RE_SWAP).map((t) => t.toUpperCase()),
+  ]);
+  const mentions = uniq(matchAll(s, RE_MENTION));
+  const hashtags = uniq(matchAll(s, RE_HASHTAG));
+  const urls = uniq(matchAll(s, RE_URL, 0));
+  const lc = ' ' + s.toLowerCase() + ' ';
+  const orgs = uniq(Object.entries(ORG_WORDS)
+    .filter(([, kws]) => kws.some((k) => lc.includes(' ' + k + ' ') || lc.includes(' ' + k + ',') || lc.includes(' ' + k + '.') || lc.includes(k + ' ')))
+    .map(([name]) => name));
+  return { tickers, mentions, urls, hashtags, orgs };
+}
+
+/**
+ * Analyze one parsed item, returning a COPY with `sentiment` + `entities` added (additive — every
+ * original field is preserved). Pure & offline. Sentiment/entities are derived from title + any
+ * description/summary text the item carries.
+ */
+export function analyzeItem(item) {
+  if (!item || typeof item !== 'object') return item;
+  const text = [item.title, item.description, item.summary, item.text].filter(Boolean).join('. ');
+  return { ...item, sentiment: sentiment(text), entities: extractEntities(text) };
+}
+
+/**
+ * Aggregate a list of parsed/analyzed items into brief-ready feed-level stats — pure & offline.
+ * Accepts items with or without precomputed sentiment/entities (computes them on the fly if absent).
+ *
+ * @returns {{avgSentiment:number, label:'positive'|'neutral'|'negative', topTickers:Array<{ticker,count}>,
+ *            topHashtags:Array<{hashtag,count}>, counts:{items,withTickers,withHashtags,positive,neutral,negative}}}
+ */
+export function summarizeFeed(items = []) {
+  const rows = (Array.isArray(items) ? items : []).filter(Boolean);
+  let sum = 0, scored = 0;
+  const tickerFreq = new Map(), hashFreq = new Map();
+  const counts = { items: rows.length, withTickers: 0, withHashtags: 0, positive: 0, neutral: 0, negative: 0 };
+  for (const it of rows) {
+    const sen = it.sentiment && typeof it.sentiment.score === 'number' ? it.sentiment
+      : sentiment([it.title, it.description, it.summary, it.text].filter(Boolean).join('. '));
+    const ent = it.entities && Array.isArray(it.entities.tickers) ? it.entities
+      : extractEntities([it.title, it.description, it.summary, it.text].filter(Boolean).join('. '));
+    sum += sen.score; scored++;
+    counts[sen.label] = (counts[sen.label] || 0) + 1;
+    if (ent.tickers.length) counts.withTickers++;
+    if (ent.hashtags.length) counts.withHashtags++;
+    for (const t of ent.tickers) tickerFreq.set(t, (tickerFreq.get(t) || 0) + 1);
+    for (const h of ent.hashtags) hashFreq.set(h, (hashFreq.get(h) || 0) + 1);
+  }
+  const avgSentiment = scored ? +((sum / scored).toFixed(2)) : 0;
+  const label = avgSentiment > 0.15 ? 'positive' : avgSentiment < -0.15 ? 'negative' : 'neutral';
+  const top = (m, key) => [...m.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(b[0]))
+    .slice(0, 10).map(([k, count]) => ({ [key]: k, count }));
+  return { avgSentiment, label, topTickers: top(tickerFreq, 'ticker'), topHashtags: top(hashFreq, 'hashtag'), counts };
 }
 
 function extractThemes(titles, topN = 12) {
