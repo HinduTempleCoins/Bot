@@ -11,6 +11,7 @@ import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/
 import { healthScore, healthSeries, healthData, renderHealthGauge, renderHealthData } from '../../integrations/soapbox/market-health.mjs';
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { companyProfile } from '../../integrations/soapbox/company-profiles.mjs';
+import { companyLinks } from '../../integrations/cross-links.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
 import { headTags, financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { robotsTxt, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
@@ -216,11 +217,24 @@ export function renderCompanyCard(p) {
       <span style="color:${col};font-weight:700">${conf.score}/100</span>
       <span class=muted style="font-size:11px">· ${conf.sources} sources${conf.confident ? ' · confirmed' : ' · unconfirmed'}</span>${flags}</div>`;
   }
+  // Cross-site links via the shared single-source-of-truth helper: surface where else in the SoapBox
+  // family this company appears. Law → court cases mentioning the name; Politics → the accountability
+  // power-map (lobbying / federal contracts). Both are LOOKUP links by name, not assertions of a
+  // relationship. We link by company name (the canonical legal-record key), falling back to the ticker.
+  const xName = p.name || p.ticker || '';
+  let xlinks = '';
+  if (xName) {
+    const cl = companyLinks(xName);
+    xlinks = `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Across SoapBox</div>
+      <div style="font-size:13px"><a href="${esc(cl.law)}" rel=noopener>Court cases mentioning ${esc(xName)} →</a>
+      · <a href="${esc(cl.politics)}" rel=noopener>Lobbying &amp; federal contracts →</a></div></div>`;
+  }
   return `<div class=card><h2>Company</h2>
     ${p.description ? `<p style="margin:0 0 10px">${esc(p.description)}</p>` : ''}
     <table>${fields}</table>
     ${filings ? `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Recent SEC filings (EDGAR)</div>${filings}</div>` : ''}
     ${gov}
+    ${xlinks}
     ${confBadge}
     ${p.sources && p.sources.length ? `<p class=muted style="font-size:11px;margin-top:10px">Sources: ${esc(p.sources.join(', '))} — public records, keyless.</p>` : ''}</div>`;
 }

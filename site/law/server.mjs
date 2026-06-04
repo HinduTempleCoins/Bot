@@ -47,6 +47,8 @@ import * as fedreg from '../../integrations/soapbox/federal-register.mjs';
 import * as uscode from '../../integrations/soapbox/uscode.mjs';
 import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 import * as lawyers from '../../integrations/soapbox/lawyer-directory.mjs';
+import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cross-links.mjs';
+import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
 
 const PORT = +(process.env.PORT || 8099);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -209,7 +211,15 @@ function homePage() {
 // else runs a CourtListener opinion search. Both soft-fail to an empty-state card.
 function caseRow(c) {
   // cross-link: a case page links a judge-profile search (the operator's case-files ↔ judges connection).
-  const judgeLink = `<a href="/judges?q=${q((c.caseName || '').replace(/\s+v\.?\s+.*/i, '').trim() || c.caseName || '')}">find the judge →</a>`;
+  // Routed through the shared cross-links helper (single source of truth for inter-site URLs). We keep
+  // the link relative when it points at THIS site — the helper's absolute Law URL and our relative
+  // /judges path are the same destination; the relative form avoids a cross-host hop within Law.
+  const judgeName = (c.caseName || '').replace(/\s+v\.?\s+.*/i, '').trim() || c.caseName || '';
+  const judgeLink = `<a href="/judges?q=${q(judgeName)}">find the judge →</a>`;
+  void judgeLinks; // shared helper available for off-site judge links (Politics); on-site stays relative.
+  // cross-link: if a party is a company, link its Stocks company profile (a lookup, not a claim).
+  const company = companyParty(c.caseName);
+  const companyLink = company ? `<a href="${esc(companyLinks(company).stocks)}" rel=noopener>company profile: ${esc(company)} →</a> · ` : '';
   const cites = Array.isArray(c.citations) && c.citations.length ? ` · ${esc(c.citations.join('; '))}` : '';
   const meta = [c.court, c.dateFiled || c.decisionDate, c.precedentialStatus,
     c.citationCount != null ? `cited ${c.citationCount}×` : ''].filter(Boolean).map(esc).join(' · ');
@@ -224,7 +234,7 @@ function caseRow(c) {
     <div class=nm>${nameHtml}${c.license === 'public-domain' ? '<span class=badge>public domain</span>' : ''}</div>
     <div class=meta>${meta}${cites}</div>
     ${c.snippet ? `<blockquote>${esc(c.snippet)}</blockquote>` : ''}
-    <div class=xlink>${detailHref ? `<a href="${esc(detailHref)}">read the full opinion</a> · ` : ''}${c.url ? `<a href="${esc(c.url)}">at the source</a> · ` : ''}${docketLink(c)}${judgeLink}</div>
+    <div class=xlink>${detailHref ? `<a href="${esc(detailHref)}">read the full opinion</a> · ` : ''}${c.url ? `<a href="${esc(c.url)}">at the source</a> · ` : ''}${docketLink(c)}${companyLink}${judgeLink}</div>
   </div>`;
 }
 
@@ -238,6 +248,30 @@ function docketLink(c) {
 // A reporter citation looks like "<vol> <Reporter…> <page>" — reuse CAP's parser to decide the path.
 function looksLikeCitation(s) {
   return !!cap.parseCitation(s);
+}
+
+// ── party / company detection for cross-links ─────────────────────────────────────────────────────
+// A case name is "<party> v. <party>". Split on the "v." separator and return the parties, trimmed of
+// trailing procedural noise (", et al.", "; ...", parentheticals). PURE.
+function caseParties(caseName) {
+  const n = String(caseName == null ? '' : caseName).trim();
+  if (!n) return [];
+  return n.split(/\s+v\.?\s+/i)
+    .map((p) => p.replace(/[,;(].*$/, '').replace(/\bet al\.?$/i, '').trim())
+    .filter(Boolean);
+}
+
+// Corporate suffixes that mark a party as a COMPANY (so a "company profile →" cross-link is a fact, not a
+// guess). We never link a plainly-personal name to a company profile.
+const COMPANY_SUFFIX = /\b(Inc|Inc\.|Incorporated|Corp|Corp\.|Corporation|Co|Co\.|Company|LLC|L\.L\.C\.|LLP|LP|Ltd|Ltd\.|Limited|PLC|N\.A\.|Bank|Holdings|Group|Industries|Technologies|Systems|Pharmaceuticals|Motors|Airlines)\b\.?$/i;
+
+// Return the first party that looks like a company (has a corporate suffix), or null. Conservative by
+// design: when in doubt we render no cross-link rather than assert a company that may be a person/agency.
+function companyParty(caseName) {
+  for (const p of caseParties(caseName)) {
+    if (p.length >= 3 && COMPANY_SUFFIX.test(p)) return p;
+  }
+  return null;
 }
 
 export async function casesView(query, court) {
@@ -333,11 +367,37 @@ export async function caseDetailView({ clId = '', capId = '' } = {}) {
   const cites = Array.isArray(rec.citation) ? rec.citation.filter(Boolean) : [];
   const meta = [rec.court, rec.dateFiled, cites.length ? cites.join('; ') : '', rec.judge]
     .filter(Boolean).map(esc).join(' · ');
+
+  // SURFACE the previously-orphaned metadata extractor: run legal-knowledge-graph.ingestCase() over the
+  // fetched opinion to pull out its legal CATEGORIES (keyword-matched against the seed taxonomy), then
+  // render each as a cross-link to a topic search. Pure (no graph persisted) + soft-fails to []. These
+  // are LOOKUP links ("other cases on this topic"), never an assertion about this case.
+  let categoryLinksHtml = '';
+  try {
+    const ext = ingestCase({
+      id: rec.caseName || 'case', caseName: rec.caseName, court: rec.court,
+      dateFiled: rec.dateFiled, opinionText: text, citation: cites.join('; '),
+    });
+    const cats = (ext && Array.isArray(ext.categories) ? ext.categories : []).slice(0, 6);
+    if (cats.length) {
+      const links = cats.map((c) => `<a href="${esc(categoryLinks(c).law)}">${esc(String(c).replace(/^cat:/, '').replace(/[-_]/g, ' '))}</a>`).join(' · ');
+      categoryLinksHtml = `<div class=xlink style="margin-top:6px"><span class=muted>Related topics:</span> ${links}</div>`;
+    }
+  } catch { /* extractor is best-effort; never breaks the page */ }
+
+  // company cross-link: if a party is a company, link its Stocks company profile (a lookup, not a claim).
+  const company = companyParty(rec.caseName);
+  const companyLinkHtml = company
+    ? `<div class=xlink style="margin-top:6px"><a href="${esc(companyLinks(company).stocks)}" rel=noopener>company profile: ${esc(company)} →</a></div>`
+    : '';
+
   const body = `<h1>${esc(rec.caseName || 'Opinion')} <span class=muted style="font-size:14px">· public record</span></h1>
     ${back}
     <div class=card>
       <div class=meta>${meta || '—'}</div>
       <div class=xlink style="margin-top:6px">${sourceUrl ? `<a href="${esc(sourceUrl)}">source: ${esc(sourceLabel)} →</a> · ` : ''}${(rec.docketNumber || rec.caseName) ? `<a href="/dockets?q=${q(rec.docketNumber || rec.caseName)}">see the docket (filings behind this decision) →</a>` : ''}</div>
+      ${companyLinkHtml}
+      ${categoryLinksHtml}
       ${text
         ? `<h2 style="margin-top:14px">The court's words</h2>${opinionArticle(text)}`
         : `<p class=empty style="margin-top:12px">The opinion text isn't available from the source right now. ${sourceUrl ? `<a href="${esc(sourceUrl)}">Read it at the source →</a>` : ''}</p>`}
