@@ -26,7 +26,7 @@ const REPO_ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 import {
   startEmailLogin, verifyMagicLink, verifyGoogleLogin, createSession, requireAdmin, adminEmail,
 } from '../../integrations/admin-auth.mjs';
-import { SERVICES, authorizeUrl, listConnections } from '../../integrations/ifttt-connect.mjs';
+import { SERVICES, authorizeUrl, listConnections, handleCallback } from '../../integrations/ifttt-connect.mjs';
 import { scan } from '../../integrations/security-scan.mjs';
 import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
@@ -126,10 +126,38 @@ function readBody(req) {
 function formParams(raw) {
   return new URLSearchParams(raw || '');
 }
-// Set the admin_session cookie (HttpOnly, SameSite=Lax, Secure when behind https).
+// Set the session cookie. On https we harden it: the `__Host-` name prefix (binds the cookie to
+// this exact host, Secure, Path=/, no Domain — un-overridable by a subdomain or a network attacker)
+// plus SameSite=Strict (the cookie is never sent on a cross-site navigation, a second CSRF layer
+// under the Origin check). On localhost http we keep the plain `admin_session` name + SameSite=Lax
+// so dev + the offline tests (which read `admin_session=`) keep working.
+const IS_HTTPS = BASE_URL.startsWith('https');
+const SESSION_COOKIE_NAME = IS_HTTPS ? '__Host-admin_session' : 'admin_session';
 function sessionCookie(token) {
-  const secure = BASE_URL.startsWith('https') ? '; Secure' : '';
-  return `admin_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200${secure}`;
+  if (IS_HTTPS) {
+    return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=43200; Secure`;
+  }
+  return `admin_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200`;
+}
+
+// ── CSRF: Origin/Referer same-origin check for state-changing POSTs ──────────────────────────────
+// A browser attaches Origin (and/or Referer) to cross-site form posts. We reject any POST whose
+// Origin (or, absent Origin, the Referer's origin) is a DIFFERENT origin than this portal's
+// BASE_URL. A missing Origin AND missing Referer is allowed: that's a non-browser client (curl,
+// the offline tests) which can't be driven by a victim's browser, so it isn't a CSRF vector.
+// SameSite=Strict on the cookie (https) is the belt to this suspenders.
+const BASE_ORIGIN = (() => { try { return new URL(BASE_URL).origin; } catch { return null; } })();
+function sameOriginOK(req) {
+  const h = req.headers || {};
+  const origin = h.origin || h.Origin;
+  if (origin) {
+    try { return new URL(origin).origin === BASE_ORIGIN; } catch { return false; }
+  }
+  const referer = h.referer || h.Referer;
+  if (referer) {
+    try { return new URL(referer).origin === BASE_ORIGIN; } catch { return false; }
+  }
+  return true; // no Origin and no Referer → not a browser cross-site post
 }
 
 // ── magic-link delivery ──────────────────────────────────────────────────────────────────────────
@@ -157,6 +185,29 @@ async function deliverMagicLink(link) {
     return { sent: !!(r && r.ok) };
   } catch { return { sent: false, reason: 'send-failed' }; }
 }
+
+// ── OAuth-connect pending-state store (in-process, short-lived) ──────────────────────────────────
+// When the operator clicks "Connect" for a service, authorizeUrl() mints a CSRF `state` and (for
+// PKCE providers) a `codeVerifier`. We stash { service, codeVerifier, exp } keyed by that state, so
+// the provider's redirect to /connect/callback can be validated (state must match one we issued)
+// and the PKCE verifier recovered for the token exchange. Entries are single-use and TTL-bounded;
+// the codeVerifier is a per-flow secret held only in memory here, never rendered.
+const CONNECT_STATE_TTL_MS = 10 * 60 * 1000;
+const _connectStates = new Map();
+function rememberConnectState(state, service, codeVerifier) {
+  if (!state) return;
+  _connectStates.set(state, { service, codeVerifier: codeVerifier || null, exp: Date.now() + CONNECT_STATE_TTL_MS });
+}
+function takeConnectState(state) {
+  if (!state) return null;
+  const e = _connectStates.get(state);
+  if (!e) return null;
+  _connectStates.delete(state); // single use
+  if (e.exp <= Date.now()) return null;
+  return e;
+}
+// test seam: let tests preload a known (state → flow) so the callback can be exercised offline.
+export function __rememberConnectState(state, service, codeVerifier) { rememberConnectState(state, service, codeVerifier); }
 
 // ── Google client id — from env or the credential vault (NEVER the secret, only the public id) ───
 function googleClientId() {
@@ -214,7 +265,7 @@ function loginPage({ notice = '', magicLink = '' } = {}) {
   return layout({ title: 'Sign in', body, nav: false });
 }
 
-function connectPage(connections = []) {
+function connectPage(connections = [], { notice = '' } = {}) {
   const redirectUri = `${BASE_URL}/connect/callback`;
   const connected = new Map(connections.map((c) => [c.name, c]));
   const rows = Object.values(SERVICES).map((svc) => {
@@ -223,7 +274,12 @@ function connectPage(connections = []) {
     let authLink;
     if (clientId) {
       let url = '#';
-      try { url = authorizeUrl(svc.name, { clientId, redirectUri }).url; } catch { url = '#'; }
+      try {
+        const a = authorizeUrl(svc.name, { clientId, redirectUri });
+        url = a.url;
+        // Persist the CSRF state + PKCE verifier so /connect/callback can validate the round-trip.
+        rememberConnectState(a.state, svc.name, a.codeVerifier);
+      } catch { url = '#'; }
       authLink = `<a class="btn ghost" href="${esc(url)}">Connect</a>`;
     } else {
       authLink = `<span class=muted style="font-size:12px">set <code>${esc(svc.name.toUpperCase())}_CLIENT_ID</code></span>`;
@@ -235,8 +291,10 @@ function connectPage(connections = []) {
       <td class=muted style="font-size:13px">${esc((svc.scopes || []).join(' '))}</td>
       <td>${status}</td><td>${authLink}</td></tr>`;
   }).join('');
+  const noticeHtml = notice ? `<p class="${/error/i.test(notice) ? 'bad' : 'ok'}">${esc(notice)}</p>` : '';
   const body = `<h1>Connect accounts</h1>
     <p class=muted>OAuth hub for IFTTT/automation. Tokens are held as capability grants in the vault — they are never shown here.</p>
+    ${noticeHtml}
     <div class=card><table>
       <thead><tr><th>Service</th><th>Default scopes</th><th>Status</th><th></th></tr></thead>
       <tbody>${rows}</tbody></table></div>`;
@@ -467,15 +525,88 @@ function securityPage(result = null) {
   return layout({ title: 'Security', body });
 }
 
+// ── injectable fetch (so the Google verifier + connect exchange run fully offline in tests) ───────
+let _fetch = null;
+export function __setFetch(fn) { _fetch = fn || null; }
+function theFetch() { return _fetch || globalThis.fetch; }
+
 // ── Google login verifier (injectable for tests) ─────────────────────────────────────────────────
-// Real deployment validates the Google id-token upstream (signature/issuer/audience) and passes the
-// trusted claims here. Tests inject a verifier via __setGoogleVerifier so no live OAuth is needed.
+// Default is a REAL verifier: it takes the credential/id_token returned by Google's callback and
+// validates it against Google's tokeninfo endpoint, then enforces issuer / audience / expiry /
+// email_verified BEFORE trusting any claim. An unverified token is NEVER trusted — on any failure
+// (bad audience, wrong issuer, expired, unverified email, network error, malformed response) it
+// returns null and login fails closed. Tests inject a verifier via __setGoogleVerifier so no live
+// OAuth is needed; the real path uses the injectable fetch (__setFetch) so it is offline-testable.
 let _googleVerifier = null;
 export function __setGoogleVerifier(fn) { _googleVerifier = fn || null; }
+
+const GOOGLE_ISSUERS = new Set(['accounts.google.com', 'https://accounts.google.com']);
+
+// Verify a Google id-token by calling the tokeninfo endpoint, then checking the claims. Returns
+// { email, email_verified } on success, else null. NEVER trusts an unverified token; soft-fails.
+async function verifyGoogleIdToken(idToken) {
+  if (!idToken) return null;
+  const clientId = process.env.GOOGLE_CLIENT_ID || '';
+  if (!clientId) return null; // no configured audience to check against → cannot trust anything
+  let claims;
+  try {
+    const r = await theFetch()(
+      `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`
+    );
+    if (!r || !r.ok) return null;
+    claims = await r.json();
+  } catch {
+    return null; // network/parse error → fail closed
+  }
+  if (!claims || typeof claims !== 'object') return null;
+  // issuer must be Google
+  if (!GOOGLE_ISSUERS.has(String(claims.iss))) return null;
+  // audience must be OUR client id (defends against tokens minted for another app)
+  if (String(claims.aud) !== String(clientId)) return null;
+  // expiry (tokeninfo reports `exp` as unix seconds) must be in the future
+  const expSec = Number(claims.exp);
+  if (!Number.isFinite(expSec) || expSec * 1000 <= Date.now()) return null;
+  // email must be present and verified (tokeninfo returns string "true"/"false" or boolean)
+  const email = String(claims.email || '').trim().toLowerCase();
+  if (!email) return null;
+  const verified = claims.email_verified === true || claims.email_verified === 'true';
+  if (!verified) return null;
+  return { email, email_verified: true };
+}
+
+// ── OAuth token exchange (real provider code→token POST, via the injectable fetch) ───────────────
+// Build the `exchange` fn handleCallback() calls. It POSTs the authorization code to the provider's
+// token endpoint with the standard OAuth2 grant params, reading the client secret by ENV NAME only
+// (never a literal, never returned, never logged). Returns the provider's token response object so
+// handleCallback can store it as a grant. Soft-fail: a non-OK response throws (handleCallback's
+// caller catches and redirects to ?error=), so a failed exchange never half-stores a grant.
+function makeExchange({ clientId, clientSecretEnv, redirectUri, tokenUrl }) {
+  return async ({ code, codeVerifier, tokenUrl: svcTokenUrl }) => {
+    const endpoint = svcTokenUrl || tokenUrl;
+    const clientSecret = clientSecretEnv ? process.env[clientSecretEnv] : '';
+    const form = new URLSearchParams();
+    form.set('grant_type', 'authorization_code');
+    form.set('code', code);
+    form.set('redirect_uri', redirectUri || '');
+    if (clientId) form.set('client_id', clientId);
+    if (clientSecret) form.set('client_secret', clientSecret);
+    if (codeVerifier) form.set('code_verifier', codeVerifier); // PKCE
+    const r = await theFetch()(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded', accept: 'application/json' },
+      body: form.toString(),
+    });
+    if (!r || !r.ok) throw new Error(`token endpoint returned ${r ? r.status : 'no-response'}`);
+    return r.json();
+  };
+}
+
 async function resolveGoogleClaims(req, url) {
   if (_googleVerifier) return _googleVerifier(req, url);
-  // No real upstream verifier wired in this repo (the live one lives in the signer/OIDC service).
-  return null;
+  // Real path: the id-token arrives as ?credential= or ?id_token= on the callback (Google Identity
+  // Services posts/redirects a `credential`; classic code flow may carry `id_token`).
+  const idToken = url.searchParams.get('credential') || url.searchParams.get('id_token') || '';
+  return verifyGoogleIdToken(idToken);
 }
 
 // ── the route handler (exported so tests drive it offline) ──────────────────────────────────────
@@ -485,6 +616,14 @@ export async function handle(req, res) {
   const method = (req.method || 'GET').toUpperCase();
 
   try {
+    // ---- CSRF: reject cross-site state-changing requests before any handler runs ----
+    // Every POST is a state-changing route; a browser-driven cross-site post (Origin != our origin)
+    // is refused with 403. Same-origin posts and non-browser clients (no Origin/Referer) pass.
+    if (method === 'POST' && !sameOriginOK(req)) {
+      res.writeHead(403, { 'content-type': 'text/plain', 'cache-control': 'no-store' });
+      return res.end('403 forbidden (cross-origin)');
+    }
+
     // ---- always-open routes ----
     if (p === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
 
@@ -570,7 +709,10 @@ export async function handle(req, res) {
     const email = gate.email;
 
     if (p === '/logout' && method === 'GET') {
-      res.writeHead(302, { location: '/login', 'set-cookie': 'admin_session=; Path=/; HttpOnly; Max-Age=0', 'cache-control': 'no-store' });
+      const clear = IS_HTTPS
+        ? `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0; Secure`
+        : 'admin_session=; Path=/; HttpOnly; Max-Age=0';
+      res.writeHead(302, { location: '/login', 'set-cookie': clear, 'cache-control': 'no-store' });
       return res.end();
     }
 
@@ -578,7 +720,46 @@ export async function handle(req, res) {
 
     if (p === '/connect' && method === 'GET') {
       const conns = await listConnections().catch(() => []);
-      return html(res, connectPage(conns));
+      const connectedSvc = url.searchParams.get('connected');
+      const errSvc = url.searchParams.get('error');
+      const notice = connectedSvc
+        ? `Connected ${connectedSvc} — its token is held as a capability grant in the vault.`
+        : errSvc ? `Could not connect: ${errSvc}.` : '';
+      return html(res, connectPage(conns, { notice }));
+    }
+
+    // ---- OAuth connect round-trip: the provider redirects here with ?code=&state= ----
+    // Validate the state against one WE issued (CSRF), recover the PKCE verifier for that flow,
+    // then exchange the code for a token via a REAL exchange fn (provider POST through the
+    // injectable fetch; the client secret is read by env NAME only and never returned/logged).
+    // handleCallback stores the token as a vault grant and returns only a public descriptor.
+    if (p === '/connect/callback' && method === 'GET') {
+      const state = url.searchParams.get('state') || '';
+      const code = url.searchParams.get('code') || '';
+      const providerErr = url.searchParams.get('error') || '';
+      if (providerErr) return redirect(res, `/connect?error=${encodeURIComponent(providerErr)}`);
+      const flow = takeConnectState(state);
+      if (!flow || !code) return redirect(res, '/connect?error=invalid_state');
+      const service = flow.service;
+      const svc = SERVICES[service];
+      if (!svc) return redirect(res, '/connect?error=unknown_service');
+      const clientId = process.env[`${service.toUpperCase()}_CLIENT_ID`] || (service === 'google' ? googleClientId() : '');
+      const clientSecretEnv = `${service.toUpperCase()}_CLIENT_SECRET`; // env NAME only — never the value here
+      const redirectUri = `${BASE_URL}/connect/callback`;
+      try {
+        await handleCallback(service, {
+          code,
+          codeVerifier: flow.codeVerifier,
+          clientId,
+          clientSecretEnv,
+          redirectUri,
+          exchange: makeExchange({ clientId, clientSecretEnv, redirectUri, tokenUrl: svc.tokenUrl }),
+        });
+        return redirect(res, `/connect?connected=${encodeURIComponent(service)}`);
+      } catch (e) {
+        console.log(`[connect] exchange failed for ${service}: ${e?.message || 'error'}`);
+        return redirect(res, `/connect?error=${encodeURIComponent(service)}`);
+      }
     }
 
     if (p === '/hud' && method === 'GET') return html(res, await hudPage());

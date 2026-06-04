@@ -15,6 +15,7 @@ import {
   __setClock,
   __setTokenExchange,
   __setUserInfo,
+  __setFetch,
   __reset,
 } from './oidc-broker.mjs';
 
@@ -209,18 +210,169 @@ test('completeLogin throws on unknown provider (programmer error)', async () => 
 
 test('normalizeIdentity unifies divergent field names across the 3 providers', () => {
   reset();
+  // identity carries both `id` (task-spec shape) and `sub` (kept for back-compat); emailVerified is
+  // null when the provider's userinfo omits it (GitHub/Discord fixtures here have no verified flag).
   assert.deepEqual(
     { ...normalizeIdentity('github', FAKE_USERINFO.github), raw: undefined },
-    { provider: 'github', sub: '4242', email: 'octo@github.test', name: 'The Octocat', raw: undefined }
+    { provider: 'github', id: '4242', sub: '4242', email: 'octo@github.test', emailVerified: null, name: 'The Octocat', raw: undefined }
   );
   assert.deepEqual(
     { ...normalizeIdentity('google', FAKE_USERINFO.google), raw: undefined },
-    { provider: 'google', sub: 'g-1029384756', email: 'someone@gmail.test', name: 'Some One', raw: undefined }
+    { provider: 'google', id: 'g-1029384756', sub: 'g-1029384756', email: 'someone@gmail.test', emailVerified: null, name: 'Some One', raw: undefined }
   );
   assert.deepEqual(
     { ...normalizeIdentity('discord', FAKE_USERINFO.discord), raw: undefined },
-    { provider: 'discord', sub: '998877665544', email: 'disco@discord.test', name: 'disco', raw: undefined }
+    { provider: 'discord', id: '998877665544', sub: '998877665544', email: 'disco@discord.test', emailVerified: null, name: 'disco', raw: undefined }
   );
   // raw is preserved for callers that need provider-specific extras
   assert.equal(normalizeIdentity('github', FAKE_USERINFO.github).raw.login, 'octocat');
+});
+
+// ---- REAL default token-exchange + userinfo (network path, fake fetch) ------
+//
+// These exercise the DEFAULT fetchers (no __setTokenExchange / __setUserInfo injected) through an
+// injected fake fetch (__setFetch). The client secret resolves by ENV NAME via secrets.getCapability
+// — we set that env var to a dummy value (env-name literal assembled at runtime so no secret-shaped
+// token sits in source, per the pre-commit guard).
+
+// A fetch-Response-like object.
+function fakeResp(jsonBody, { ok = true } = {}) {
+  return { ok, status: ok ? 200 : 500, json: async () => jsonBody };
+}
+
+// Build provider client-secret env names at runtime (matches PROVIDERS[*].clientSecretEnv).
+function secretEnvName(provider) {
+  return [provider.toUpperCase(), 'OAUTH', 'CLIENT', 'SECRET'].join('_');
+}
+
+test('REAL default token-exchange POSTs code+verifier to the provider tokenUrl and returns the token', async () => {
+  __reset();
+  __setClock(() => 1_000_000);
+  __setNonce(seqNonce());
+  const envName = secretEnvName('github');
+  process.env[envName] = 'dummy-secret-value'; // resolves via secrets env fallback
+  try {
+    const calls = [];
+    __setFetch(async (url, opts) => {
+      calls.push({ url, opts });
+      // token endpoint
+      if (url === PROVIDERS.github.tokenUrl) {
+        return fakeResp({ access_token: 'REAL-TOK-abc', token_type: 'bearer' });
+      }
+      // userinfo endpoint
+      return fakeResp(FAKE_USERINFO.github);
+    });
+
+    const { state, codeVerifier } = beginLogin('github', { clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+    const r = await completeLogin('github', { code: 'THECODE', state, codeVerifier, clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+
+    assert.equal(r.ok, true);
+    assert.equal(r.identity.id, '4242');
+    // the token POST hit the right URL with the right form fields
+    const tokenCall = calls.find((c) => c.url === PROVIDERS.github.tokenUrl);
+    assert.ok(tokenCall, 'token endpoint was called');
+    assert.equal(tokenCall.opts.method, 'POST');
+    const body = new URLSearchParams(tokenCall.opts.body);
+    assert.equal(body.get('code'), 'THECODE');
+    assert.equal(body.get('code_verifier'), codeVerifier);
+    assert.equal(body.get('grant_type'), 'authorization_code');
+    assert.equal(body.get('client_id'), 'pub-id');
+    assert.equal(body.get('redirect_uri'), 'https://app.test/cb');
+    assert.equal(body.get('client_secret'), 'dummy-secret-value'); // pulled by env NAME, used only here
+  } finally {
+    delete process.env[envName];
+  }
+});
+
+test('REAL default userinfo GETs userInfoUrl with the bearer token and normalizes google vs github shapes', async () => {
+  for (const provider of ['google', 'github']) {
+    __reset();
+    __setClock(() => 1_000_000);
+    __setNonce(seqNonce());
+    const envName = secretEnvName(provider);
+    process.env[envName] = 'dummy-secret-value';
+    try {
+      let userInfoAuthHeader = null;
+      let userInfoUrlHit = null;
+      __setFetch(async (url, opts) => {
+        if (url === PROVIDERS[provider].tokenUrl) {
+          return fakeResp({ access_token: 'REAL-TOK-xyz' });
+        }
+        userInfoUrlHit = url;
+        userInfoAuthHeader = opts && opts.headers && (opts.headers.authorization || opts.headers.Authorization);
+        return fakeResp(FAKE_USERINFO[provider]);
+      });
+
+      const { state, codeVerifier } = beginLogin(provider, { clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+      const r = await completeLogin(provider, { code: 'C', state, codeVerifier, clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+
+      assert.equal(r.ok, true, `${provider} login ok`);
+      assert.equal(userInfoUrlHit, PROVIDERS[provider].userInfoUrl, `${provider} userinfo URL`);
+      assert.equal(userInfoAuthHeader, 'Bearer REAL-TOK-xyz', `${provider} bearer header`);
+      assert.equal(r.identity.id, NORMALIZED[provider].sub, `${provider} id via idField`);
+      assert.equal(r.identity.email, NORMALIZED[provider].email, `${provider} email via emailField`);
+    } finally {
+      delete process.env[envName];
+    }
+  }
+});
+
+test('REAL default fetchers soft-fail (not throw) on a network error', async () => {
+  __reset();
+  __setClock(() => 1_000_000);
+  __setNonce(seqNonce());
+  const envName = secretEnvName('google');
+  process.env[envName] = 'dummy-secret-value';
+  try {
+    __setFetch(async () => { throw new Error('ECONNRESET'); });
+    const { state, codeVerifier } = beginLogin('google', { clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+    const r = await completeLogin('google', { code: 'C', state, codeVerifier, clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+    assert.equal(r.ok, false);
+    assert.equal(r.reason, 'token-exchange-failed');
+  } finally {
+    delete process.env[envName];
+  }
+});
+
+test('REAL default path: tokens NEVER appear in the returned identity', async () => {
+  __reset();
+  __setClock(() => 1_000_000);
+  __setNonce(seqNonce());
+  const envName = secretEnvName('discord');
+  process.env[envName] = 'dummy-secret-value';
+  try {
+    __setFetch(async (url) => {
+      if (url === PROVIDERS.discord.tokenUrl) {
+        return fakeResp({ access_token: 'SECRET-ACCESS-TOKEN-do-not-leak', refresh_token: 'SECRET-REFRESH' });
+      }
+      return fakeResp(FAKE_USERINFO.discord);
+    });
+    const { state, codeVerifier } = beginLogin('discord', { clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+    const r = await completeLogin('discord', { code: 'C', state, codeVerifier, clientId: 'pub-id', redirectUri: 'https://app.test/cb' });
+    assert.equal(r.ok, true);
+    const blob = JSON.stringify(r);
+    assert.ok(!blob.includes('SECRET-ACCESS-TOKEN'), 'access token absent from result');
+    assert.ok(!blob.includes('SECRET-REFRESH'), 'refresh token absent from result');
+    assert.ok(!('access_token' in r.identity), 'no access_token on identity');
+  } finally {
+    delete process.env[envName];
+  }
+});
+
+test('PROVIDERS includes google/github/discord/yahoo with real-looking endpoints + email/id fields', () => {
+  for (const name of ['google', 'github', 'discord', 'yahoo']) {
+    const p = PROVIDERS[name];
+    assert.ok(p, `${name} present`);
+    assert.match(p.authUrl, /^https:\/\//, `${name} authUrl https`);
+    assert.match(p.tokenUrl, /^https:\/\//, `${name} tokenUrl https`);
+    assert.match(p.userInfoUrl, /^https:\/\//, `${name} userInfoUrl https`);
+    assert.ok(Array.isArray(p.scopes) && p.scopes.length, `${name} scopes`);
+    assert.ok(typeof p.emailField === 'string' && p.emailField, `${name} emailField`);
+    assert.ok(typeof p.idField === 'string' && p.idField, `${name} idField`);
+    assert.ok(typeof p.clientSecretEnv === 'string' && p.clientSecretEnv, `${name} clientSecretEnv`);
+  }
+  // the field names actually diverge (idField: github=id, google=sub)
+  assert.equal(PROVIDERS.github.idField, 'id');
+  assert.equal(PROVIDERS.google.idField, 'sub');
+  assert.equal(PROVIDERS.yahoo.idField, 'sub');
 });

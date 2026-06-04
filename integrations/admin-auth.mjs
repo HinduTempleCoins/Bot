@@ -312,12 +312,13 @@ function sessionTokenFromRequest(req) {
     const m = /^Bearer\s+(.+)$/i.exec(auth.trim());
     if (m) return m[1];
   }
-  // Cookie: admin_session=<token>
+  // Cookie: admin_session=<token> (http/dev) or __Host-admin_session=<token> (https — the
+  // hardened, host-bound name the portal sets behind TLS). Either name yields the session token.
   const cookie = req.headers?.cookie;
   if (typeof cookie === 'string') {
     for (const part of cookie.split(';')) {
       const [k, ...v] = part.trim().split('=');
-      if (k === 'admin_session') return decodeURIComponent(v.join('='));
+      if (k === 'admin_session' || k === '__Host-admin_session') return decodeURIComponent(v.join('='));
     }
   }
   // direct fields some frameworks expose
