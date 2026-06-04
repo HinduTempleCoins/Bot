@@ -169,6 +169,7 @@ export const PUBLIC_SITES = [
   { slug: 'wiki', url: 'https://wiki.soapbox.community', name: 'Library of Ashurbanipal' },
   { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
   { slug: 'law', url: 'https://law.soapbox.community', name: 'SoapBox Law' },
+  { slug: 'politics', url: 'https://politics.soapbox.community', name: 'SoapBox Politics' },
 ];
 
 /** The top-level sitemap-index over all PUBLIC sites (admin can never appear). */
