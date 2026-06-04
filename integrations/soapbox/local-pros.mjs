@@ -148,6 +148,21 @@ export function requestQuote({ category, provider, user, consent, intent } = {})
   };
 }
 
+// ── buildLeadGen — canonical no-data-selling guard (engine-shaped) ──────────────────────────────────────
+// The affiliate-engine-shaped lead-gen guard for the local/professional vertical, so the
+// monetization-readiness scan detects the no-data-selling guard (it checks for a `buildLeadGen` export).
+// THROWS on any data-selling request; refuses (ok:false) without explicit consent; allows only a
+// consented, non-data-selling connection. Kept local (no hard import) so the refusal can never be
+// bypassed by a missing dependency — same discipline as requestQuote above.
+//   lead: { vertical?, providerUrl?, sellsData?, userConsented? }
+export function buildLeadGen(lead = {}) {
+  const sellsData = lead.sellsData === true
+    || String(process.env.LEAD_GEN_SELLS_DATA || 'false').toLowerCase() === 'true';
+  if (sellsData) throw new Error('refused: data-selling lead-gen is not permitted (no-data-selling guardrail)');
+  if (lead.userConsented !== true) return { ok: false, reason: 'lead-gen requires explicit user consent (no lead-gen by default)' };
+  return { ok: true, mechanism: 'leadgen', vertical: lead.vertical || 'local-pros', providerUrl: typeof lead.providerUrl === 'string' ? lead.providerUrl : '', note: 'consented connection only — no user data is sold' };
+}
+
 // ── pet supplies ──────────────────────────────────────────────────────────────────────────────────────
 // Retailers compared honestly; affiliate ids come from env BY NAME only, soft-fall to a plain link.
 // Each: { id, label, env (affiliate-tag env var NAME), param (query param), search (q->url builder) }.

@@ -14,6 +14,8 @@ import {
   checkoutReadiness,
   summary,
   renderReport,
+  affiliateGoLiveChecklist,
+  renderChecklist,
 } from './monetization-readiness.mjs';
 
 function withEnv(vars, fn) {
@@ -125,4 +127,69 @@ test('renderReport escapes content + shows the summary line', async () => {
   assert.ok(html.includes('no data-selling'));
   // ensure no unescaped angle brackets leak from a vertical name (all are plain ids here, but check shape)
   assert.ok(html.includes('<table'));
+});
+
+// --- affiliateGoLiveChecklist — the operator's go-live punch-list -----------
+
+test('affiliateGoLiveChecklist returns the expected shape per vertical', async () => {
+  const rows = await affiliateGoLiveChecklist();
+  assert.equal(rows.length, listVerticals().length);
+  for (const r of rows) {
+    assert.ok(typeof r.vertical === 'string');
+    assert.ok(Array.isArray(r.networks));
+    assert.equal(typeof r.disclosurePresent, 'boolean');
+    assert.equal(typeof r.dataSellGuard, 'boolean');
+    assert.equal(typeof r.ready, 'boolean');
+    for (const n of r.networks) {
+      assert.ok(typeof n.name === 'string');
+      assert.ok(n.envVar == null || /^[A-Z0-9_]+$/.test(n.envVar), `env var should be UPPER_SNAKE: ${n.envVar}`);
+      assert.equal(typeof n.configured, 'boolean');
+    }
+  }
+});
+
+test('affiliateGoLiveChecklist FLAGS missing ids (no env set → networks unconfigured, names env to set)', async () => {
+  await withEnv({ CJ_PUBLISHER_ID: undefined, AFFIL_CJ_PID: undefined, IMPACT_PARTNER_ID: undefined, AFFIL_IMPACT_ID: undefined, RAKUTEN_AFFILIATE_ID: undefined, AFFIL_RAKUTEN_ID: undefined }, async () => {
+    const rows = await affiliateGoLiveChecklist();
+    const ins = rows.find((r) => r.vertical === 'insurance');
+    assert.ok(ins, 'insurance row present');
+    assert.ok(ins.networks.length > 0, 'insurance draws on at least one network');
+    for (const n of ins.networks) {
+      assert.equal(n.configured, false, `${n.name} should be flagged unconfigured`);
+      assert.ok(n.envVar, 'tells the operator which env var to set');
+    }
+    // insurance has a leadgen line (health) → it must carry the no-data-selling guard.
+    assert.equal(ins.dataSellGuard, true, 'insurance carries buildLeadGen guard');
+    assert.equal(ins.disclosurePresent, true, 'insurance carries the FTC disclosure');
+  });
+});
+
+test('affiliateGoLiveChecklist flips a network to configured when its id (or AFFIL_* alias) is set', async () => {
+  await withEnv({ AFFIL_CJ_PID: 'PUBX' }, async () => {
+    const rows = await affiliateGoLiveChecklist();
+    const cjUser = rows.find((r) => r.networks.some((n) => n.key === 'cj'));
+    assert.ok(cjUser, 'some vertical uses CJ');
+    const cj = cjUser.networks.find((n) => n.key === 'cj');
+    assert.equal(cj.configured, true, 'CJ flips configured via the AFFIL_CJ_PID alias');
+  });
+});
+
+test('affiliateGoLiveChecklist detects the no-data-selling guard on the lead-gen verticals', async () => {
+  const rows = await affiliateGoLiveChecklist();
+  for (const v of ['real-estate', 'auto-marketplace', 'local-pros']) {
+    const r = rows.find((x) => x.vertical === v);
+    assert.ok(r, `row for ${v}`);
+    assert.equal(r.dataSellGuard, true, `${v} must carry a buildLeadGen no-data-selling guard`);
+  }
+});
+
+test('renderChecklist escapes + shows env vars and signup links', async () => {
+  await withEnv({ CJ_PUBLISHER_ID: undefined, AFFIL_CJ_PID: undefined }, async () => {
+    const rows = await affiliateGoLiveChecklist();
+    const html = renderChecklist(rows);
+    assert.ok(html.includes('Affiliate go-live checklist'));
+    assert.ok(html.includes('<code>CJ_PUBLISHER_ID</code>') || html.includes('CJ_PUBLISHER_ID'));
+    assert.ok(/sign up:/.test(html) || /signup/.test(html));
+    assert.ok(html.includes('<table'));
+  });
 });

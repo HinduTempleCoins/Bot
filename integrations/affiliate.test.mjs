@@ -10,6 +10,7 @@ import {
   NETWORKS, MECHANISMS, esc, ftcDisclosure, disclose,
   affiliateLink, rankListings, assertRankingUnbiased,
   verticalAffiliateFit, renderOffer, buildLeadGen,
+  trackedLink, listNetworks, networkId, networkConfigured,
 } from './affiliate.mjs';
 
 function withEnv(vars, fn) {
@@ -248,6 +249,73 @@ test('buildLeadGen honors LEAD_GEN_SELLS_DATA env as a refusal trigger', () => {
     // module read the default at import time; assert the imported constant is the safe default
     const { LEAD_GEN_SELLS_DATA } = { LEAD_GEN_SELLS_DATA: process.env.LEAD_GEN_SELLS_DATA === 'true' };
     assert.equal(LEAD_GEN_SELLS_DATA, false);
+  });
+});
+
+// --- trackedLink: the single shared entry point ----------------------------
+
+test('trackedLink tags the url + tracked:true when the env id is set', () => {
+  withEnv({ IMPACT_PARTNER_ID: 'IMP777' }, () => {
+    const r = trackedLink('impact', 'https://broker.example/open', { subId: 'stocks-page' });
+    assert.equal(r.tracked, true);
+    assert.equal(r.configured, true);
+    assert.ok(r.url.includes('irpid=IMP777'), `expected publisher id in: ${r.url}`);
+    assert.ok(r.url.includes('subid=stocks-page'));
+    assert.ok(/never sell your data/i.test(r.ftcDisclosure), 'always pairs with FTC disclosure');
+  });
+});
+
+test('trackedLink reads the AFFIL_* alias env var too', () => {
+  withEnv({ CJ_PUBLISHER_ID: undefined, AFFIL_CJ_PID: 'ALT123' }, () => {
+    const r = trackedLink('cj', 'https://example.com/p');
+    assert.equal(r.tracked, true);
+    assert.ok(r.url.includes('pid=ALT123'), `expected alias id in: ${r.url}`);
+  });
+});
+
+test('trackedLink SOFT-FAILS to the plain url (tracked:false) when the id is unset', () => {
+  withEnv({ CJ_PUBLISHER_ID: undefined, AFFIL_CJ_PID: undefined }, () => {
+    const r = trackedLink('cj', 'https://example.com/buy');
+    assert.equal(r.tracked, false, 'link still works, just unmonetized');
+    assert.equal(r.configured, false);
+    assert.equal(r.url, 'https://example.com/buy', 'plain url unchanged — links work pre-go-live');
+    assert.ok(!r.url.includes('pid='), 'must NOT fabricate an id');
+    assert.equal(r.reason, 'tracking-not-configured');
+    assert.equal(r.env, 'CJ_PUBLISHER_ID', 'reports which env var to set');
+    assert.ok(r.ftcDisclosure.length > 0, 'disclosure present even when unconfigured');
+  });
+});
+
+test('trackedLink never throws on unknown network', () => {
+  const r = trackedLink('nope', 'https://x.com');
+  assert.equal(r.tracked, false);
+  assert.ok(r.url.length > 0);
+  assert.ok(r.ftcDisclosure.length > 0);
+});
+
+test('listNetworks reports envVar + altEnvVar + signupUrl + configured for every network', () => {
+  withEnv({ AWIN_PUBLISHER_ID: undefined, AFFIL_AWIN_ID: undefined }, () => {
+    const list = listNetworks();
+    assert.ok(list.length >= 8);
+    for (const n of list) {
+      assert.ok(/^[A-Z0-9_]+$/.test(n.envVar), `env name should be UPPER_SNAKE: ${n.envVar}`);
+      assert.ok(typeof n.configured === 'boolean');
+      assert.ok(n.signupUrl == null || /^https?:\/\//.test(n.signupUrl), 'signup is a url or null');
+    }
+    const awin = list.find((x) => x.key === 'awin');
+    assert.equal(awin.configured, false);
+    assert.equal(awin.altEnvVar, 'AFFIL_AWIN_ID');
+  });
+});
+
+test('networkId / networkConfigured read either env var, never fabricate', () => {
+  withEnv({ SKIMLINKS_PUBLISHER_ID: undefined, AFFIL_SKIMLINKS_ID: undefined }, () => {
+    assert.equal(networkId('skimlinks'), null);
+    assert.equal(networkConfigured('skimlinks'), false);
+  });
+  withEnv({ AFFIL_SKIMLINKS_ID: 'SK42' }, () => {
+    assert.equal(networkId('skimlinks'), 'SK42');
+    assert.equal(networkConfigured('skimlinks'), true);
   });
 });
 

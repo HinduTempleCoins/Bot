@@ -17,6 +17,7 @@ import {
   __setFetch,
   PORTALS,
   DTI_FRONT_END,
+  buildLeadGen,
 } from './real-estate.mjs';
 
 const NOW = Date.parse('2026-06-04T00:00:00Z');
@@ -238,4 +239,22 @@ test('PORTALS cover buy/rent/commercial', () => {
   assert.equal(PORTALS.buy.source, 'Zillow');
   assert.equal(PORTALS.rent.source, 'Apartments.com');
   assert.equal(PORTALS.commercial.source, 'LoopNet');
+});
+
+// buildLeadGen — the engine-shaped no-data-selling guard
+test('buildLeadGen THROWS on a data-selling request', () => {
+  assert.throws(() => buildLeadGen({ vertical: 'real-estate', sellsData: true, userConsented: true }), /data-selling/);
+});
+
+test('buildLeadGen requires explicit consent (no lead-gen by default)', () => {
+  const r = buildLeadGen({ vertical: 'real-estate', providerUrl: 'https://agent.example' });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /consent/i);
+});
+
+test('buildLeadGen allows a consented, non-data-selling connection', () => {
+  const r = buildLeadGen({ vertical: 'real-estate', providerUrl: 'https://agent.example', userConsented: true });
+  assert.equal(r.ok, true);
+  assert.equal(r.mechanism, 'leadgen');
+  assert.match(r.note, /no user data is sold/i);
 });

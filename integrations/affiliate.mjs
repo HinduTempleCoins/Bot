@@ -47,18 +47,49 @@ export const MECHANISMS = {
 // --- affiliate NETWORKS (id-by-env-name; v3 §3 "CJ/Impact/Rakuten/ShareASale/Awin/Travelpayouts...") -
 
 // Each network: the human label, the ENV VAR NAME holding our publisher/affiliate id (never the id
-// itself), how the id is applied to a URL ('query' param name, or 'subid' for path-style), and the
-// FTC disclosure line shown wherever its links render.
+// itself), how the id is applied to a URL ('query' param name, or 'subid' for path-style), the FTC
+// disclosure line shown wherever its links render, the network's SIGNUP url (where the operator applies
+// for the publisher id), and an `altEnv` — the short AFFIL_* alias accepted as a convenience so go-live
+// is "drop the id into one of these env vars". We read `env` first, then `altEnv`; either being set
+// configures the network. The id itself is NEVER stored here, and we never fabricate one.
 export const NETWORKS = {
-  cj:            { label: 'CJ Affiliate (Commission Junction)', env: 'CJ_PUBLISHER_ID',      param: 'pid',      disclosure: 'Affiliate link (CJ Affiliate) — we may earn a commission. Ranking is unaffected.' },
-  impact:        { label: 'Impact.com',                          env: 'IMPACT_PARTNER_ID',    param: 'irpid',    disclosure: 'Affiliate link (Impact) — we may earn a commission. Ranking is unaffected.' },
-  rakuten:       { label: 'Rakuten Advertising',                 env: 'RAKUTEN_AFFILIATE_ID', param: 'ranMID',   disclosure: 'Affiliate link (Rakuten) — we may earn a commission. Ranking is unaffected.' },
-  shareasale:    { label: 'ShareASale',                          env: 'SHAREASALE_AFFID',     param: 'afftrack', disclosure: 'Affiliate link (ShareASale) — we may earn a commission. Ranking is unaffected.' },
-  awin:          { label: 'Awin',                                env: 'AWIN_PUBLISHER_ID',    param: 'awinaffid',disclosure: 'Affiliate link (Awin) — we may earn a commission. Ranking is unaffected.' },
-  travelpayouts: { label: 'Travelpayouts',                       env: 'TRAVELPAYOUTS_MARKER', param: 'marker',   disclosure: 'Affiliate link (Travelpayouts) — we may earn a commission. Ranking is unaffected.' },
-  booking:       { label: 'Booking.com',                         env: 'BOOKING_AID',          param: 'aid',      disclosure: 'Affiliate link (Booking.com) — we may earn a commission. Ranking is unaffected.' },
-  expedia:       { label: 'Expedia (EAN)',                       env: 'EXPEDIA_EAN_TPID',     param: 'tpid',     disclosure: 'Affiliate link (Expedia) — we may earn a commission. Ranking is unaffected.' },
+  cj:            { label: 'CJ Affiliate (Commission Junction)', env: 'CJ_PUBLISHER_ID',      altEnv: 'AFFIL_CJ_PID',        param: 'pid',      signupUrl: 'https://signup.cj.com/member/signup/publisher/',                 disclosure: 'Affiliate link (CJ Affiliate) — we may earn a commission. Ranking is unaffected.' },
+  impact:        { label: 'Impact.com',                          env: 'IMPACT_PARTNER_ID',    altEnv: 'AFFIL_IMPACT_ID',     param: 'irpid',    signupUrl: 'https://app.impact.com/campaign-mediapartner-signup.ihtml',       disclosure: 'Affiliate link (Impact) — we may earn a commission. Ranking is unaffected.' },
+  rakuten:       { label: 'Rakuten Advertising',                 env: 'RAKUTEN_AFFILIATE_ID', altEnv: 'AFFIL_RAKUTEN_ID',    param: 'ranMID',   signupUrl: 'https://rakutenadvertising.com/affiliate-network-publishers/', disclosure: 'Affiliate link (Rakuten) — we may earn a commission. Ranking is unaffected.' },
+  shareasale:    { label: 'ShareASale',                          env: 'SHAREASALE_AFFID',     altEnv: 'AFFIL_SHAREASALE_ID', param: 'afftrack', signupUrl: 'https://account.shareasale.com/newsignup.cfm',                   disclosure: 'Affiliate link (ShareASale) — we may earn a commission. Ranking is unaffected.' },
+  awin:          { label: 'Awin',                                env: 'AWIN_PUBLISHER_ID',    altEnv: 'AFFIL_AWIN_ID',       param: 'awinaffid',signupUrl: 'https://ui.awin.com/awin-for-publishers',                       disclosure: 'Affiliate link (Awin) — we may earn a commission. Ranking is unaffected.' },
+  skimlinks:     { label: 'Skimlinks',                           env: 'SKIMLINKS_PUBLISHER_ID',altEnv: 'AFFIL_SKIMLINKS_ID', param: 'xcust',    signupUrl: 'https://skimlinks.com/publishers/',                              disclosure: 'Affiliate link (Skimlinks) — we may earn a commission. Ranking is unaffected.' },
+  travelpayouts: { label: 'Travelpayouts',                       env: 'TRAVELPAYOUTS_MARKER', altEnv: 'AFFIL_TRAVELPAYOUTS_ID',param: 'marker', signupUrl: 'https://www.travelpayouts.com/',                                disclosure: 'Affiliate link (Travelpayouts) — we may earn a commission. Ranking is unaffected.' },
+  booking:       { label: 'Booking.com',                         env: 'BOOKING_AID',          altEnv: 'AFFIL_BOOKING_ID',    param: 'aid',      signupUrl: 'https://www.booking.com/affiliate-program/v2/index.html',         disclosure: 'Affiliate link (Booking.com) — we may earn a commission. Ranking is unaffected.' },
+  expedia:       { label: 'Expedia (EAN)',                       env: 'EXPEDIA_EAN_TPID',     altEnv: 'AFFIL_EXPEDIA_ID',    param: 'tpid',     signupUrl: 'https://www.expediapartnersolutions.com/',                       disclosure: 'Affiliate link (Expedia) — we may earn a commission. Ranking is unaffected.' },
 };
+
+// The set of CPA/insurance affiliate networks the money verticals draw on — exposed so the go-live
+// checklist and the readiness scan can enumerate "which networks to sign up for" in one place.
+export function listNetworks() {
+  return Object.entries(NETWORKS).map(([key, n]) => ({
+    key,
+    label: n.label,
+    envVar: n.env,
+    altEnvVar: n.altEnv || null,
+    signupUrl: n.signupUrl || null,
+    configured: networkConfigured(key),
+  }));
+}
+
+// Read a network's publisher id from EITHER its canonical env var OR its short AFFIL_* alias. Returns
+// the id string, or null when neither is set. Never throws; never fabricates an id.
+export function networkId(networkKey) {
+  const net = NETWORKS[String(networkKey || '').toLowerCase()];
+  if (!net) return null;
+  const v = process.env[net.env] || (net.altEnv ? process.env[net.altEnv] : undefined);
+  return v ? String(v) : null;
+}
+
+// True when a network has a publisher id available (canonical env or AFFIL_* alias). Soft, never throws.
+export function networkConfigured(networkKey) {
+  return networkId(networkKey) != null;
+}
 
 // --- the disclosure line (FTC) ---------------------------------------------
 
@@ -107,15 +138,44 @@ export function affiliateLink({ network, url, subId } = {}) {
     return { url: '', network, disclosure: net.disclosure, configured: false, reason: 'no url' };
   }
 
-  const id = process.env[net.env];
+  const id = networkId(String(network).toLowerCase());
   if (!id) {
     // Soft-fail: a missing tag must never break a link, and we must never invent an id.
-    return { url: plainUrl, network, disclosure: net.disclosure, configured: false, reason: 'not configured', env: net.env };
+    return { url: plainUrl, network, disclosure: net.disclosure, configured: false, reason: 'not configured', env: net.env, altEnv: net.altEnv || null };
   }
 
   let tagged = appendParam(plainUrl, net.param, id);
   if (subId) tagged = appendParam(tagged, 'subid', String(subId));
-  return { url: tagged, network, disclosure: net.disclosure, configured: true, env: net.env };
+  return { url: tagged, network, disclosure: net.disclosure, configured: true, env: net.env, altEnv: net.altEnv || null };
+}
+
+// --- trackedLink: the SINGLE shared affiliate-tracking entry point ---------
+
+// trackedLink(network, targetUrl, { subId }) — the one function every money vertical calls to turn a
+// plain outbound URL into an affiliate-tracked one. It is a thin, positional-args wrapper over
+// affiliateLink (same engine, same env-by-NAME id lookup, same soft-fail): when the network's publisher
+// id is configured (canonical env OR AFFIL_* alias) it returns the tracked URL; when it is UNSET it
+// returns the PLAIN url with tracked:false so links keep working pre-go-live (just unmonetized). It
+// ALWAYS pairs the result with the FTC disclosure line, so a caller can never render a tracked link
+// without disclosure. Never throws.
+//   -> { url, network, tracked, configured, reason?, disclosure, ftcDisclosure, env, altEnv }
+export function trackedLink(network, targetUrl, { subId } = {}) {
+  const link = affiliateLink({ network, url: targetUrl, subId });
+  return {
+    url: link.url,
+    network: link.network ?? network ?? null,
+    tracked: link.configured === true,        // alias of configured, in the task's vocabulary
+    configured: link.configured === true,
+    // Normalize the unconfigured reason to a stable 'tracking-not-configured' flag (the task's
+    // vocabulary); preserve a more-specific reason (unknown network / no url) when present.
+    reason: link.configured
+      ? undefined
+      : (link.reason && link.reason !== 'not configured' ? link.reason : 'tracking-not-configured'),
+    disclosure: link.disclosure || ftcDisclosure(),
+    ftcDisclosure: ftcDisclosure(),
+    env: link.env || null,
+    altEnv: link.altEnv || null,
+  };
 }
 
 // --- guardrail (a): ranking is NEVER affected by commission ----------------
@@ -303,8 +363,11 @@ if (process.argv[1] && process.argv[1].endsWith('affiliate.mjs') && !process.arg
   } else {
     console.log('Monetization mechanisms (the six):');
     for (const [k, m] of Object.entries(MECHANISMS)) console.log(`  ${k.padEnd(14)} ${m.code.padEnd(8)} ${m.desc}`);
-    console.log('\nNetworks (affiliate ids by ENV NAME only):');
-    for (const [k, n] of Object.entries(NETWORKS)) console.log(`  ${k.padEnd(14)} env=${n.env}`);
+    console.log('\nNetworks (affiliate ids by ENV NAME only — set EITHER env to go live):');
+    for (const [k, n] of Object.entries(NETWORKS)) {
+      const cfg = networkConfigured(k) ? 'CONFIGURED' : 'unset';
+      console.log(`  ${k.padEnd(14)} env=${n.env} | alt=${(n.altEnv || '').padEnd(22)} [${cfg}]  signup: ${n.signupUrl || ''}`);
+    }
     console.log(`\nGuardrails: ranking-can't-be-bought | no data-selling (LEAD_GEN_SELLS_DATA=${LEAD_GEN_SELLS_DATA}) | disclosure always`);
     console.log('\nUsage: node integrations/affiliate.mjs <vertical>   (e.g. exchanges, forex, travel, insurance)');
   }

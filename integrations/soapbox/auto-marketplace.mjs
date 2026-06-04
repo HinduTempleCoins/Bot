@@ -285,14 +285,58 @@ export function rankByValue(items = []) {
 }
 
 // ── disclosure — reuse affiliate.mjs (disclose / affiliateLink) with a local fallback ─────────────────
-let _affCache;
+// Eagerly load the affiliate engine at module init (top-level await, like insurance.mjs) so the
+// SYNCHRONOUS render path can affiliate-tag outbound links via trackOutSync. Soft-fails to null — the
+// module still works (links render plain, tracked:false) if the engine is unavailable.
+let _affCache = await import('../affiliate.mjs').catch(() => null);
 async function affiliateMod() {
-  if (_affCache !== undefined) return _affCache;
+  if (_affCache !== undefined && _affCache !== null) return _affCache;
   _affCache = await import('../affiliate.mjs').catch(() => null);
   return _affCache;
 }
+// Synchronous best-effort tag for the (sync) render path: uses the affiliate engine ONLY if it is
+// already cached (call await affiliateMod() once before rendering to warm it). Soft-fails to the plain
+// url + tracked:false when the engine isn't loaded or the publisher id is unset — links always work.
+function trackOutSync(url, { network = 'cj', subId } = {}) {
+  const plain = str(url);
+  const mod = _affCache;
+  if (!mod || typeof mod.trackedLink !== 'function' || !plain) return { url: plain, tracked: false };
+  const link = mod.trackedLink(network, plain, { subId });
+  return { url: link.url || plain, tracked: link.tracked === true };
+}
 const FALLBACK_DISCLOSURE = 'Disclosure: some links are affiliate links — we may earn a commission at no '
   + 'extra cost to you. Commissions never affect our ranking, and we never sell your data.';
+
+// ── no-data-selling guard — REPAIR / CAR lead rows (RepairPal/dealer-quote model) ─────────────────────
+// The Auto vertical has lead-gen rows (cars + auto-repair use the leadgen mechanism in the directory):
+// a "request a dealer quote" / "book a repair" handoff. This is the canonical no-data-selling guard for
+// those rows so the monetization-readiness scan detects it (it checks for a `buildLeadGen` export).
+// THROWS on any data-selling request; refuses (ok:false) without explicit consent; allows only a
+// consented, single-provider connection. Kept local so the refusal can never be bypassed by a missing
+// import (mirrors local-pros.requestQuote / insurance.buildLeadGen discipline).
+//   lead: { vertical?, providerUrl?, sellsData?, userConsented? }
+export function buildLeadGen(lead = {}) {
+  const sellsData = lead.sellsData === true
+    || String(process.env.LEAD_GEN_SELLS_DATA || 'false').toLowerCase() === 'true';
+  if (sellsData) throw new Error('refused: data-selling lead-gen is not permitted (no-data-selling guardrail)');
+  if (lead.userConsented !== true) return { ok: false, reason: 'lead-gen requires explicit user consent (no lead-gen by default)' };
+  return { ok: true, mechanism: 'leadgen', vertical: lead.vertical || 'auto-marketplace', providerUrl: typeof lead.providerUrl === 'string' ? lead.providerUrl : '', note: 'consented single-provider connection only — no user data is sold' };
+}
+
+// ── affiliateOut — tag an outbound auto listing/vendor link via the shared trackedLink ────────────────
+// Routes a plain outbound URL through affiliate.trackedLink (id by env NAME only). Soft-fails to the
+// PLAIN url with tracked:false when the engine or the publisher id is unavailable, so links always work
+// pre-go-live. `network` defaults to CJ (the auto directory rows' example network). Never throws.
+//   -> { url, tracked, configured, disclosure }
+export async function affiliateOut(url, { network = 'cj', subId } = {}) {
+  const plain = str(url);
+  const mod = await affiliateMod();
+  if (!mod || typeof mod.trackedLink !== 'function' || !plain) {
+    return { url: plain, tracked: false, configured: false, disclosure: FALLBACK_DISCLOSURE };
+  }
+  const link = mod.trackedLink(network, plain, { subId });
+  return { url: link.url || plain, tracked: link.tracked === true, configured: link.configured === true, disclosure: link.disclosure || FALLBACK_DISCLOSURE };
+}
 
 // ── provenance / data note ────────────────────────────────────────────────────────────────────────────
 export function dataNote() {
@@ -318,14 +362,19 @@ export function renderPage(data = {}) {
     return esc(v);
   };
 
-  const carRows = cars.map((l) => `<tr>`
-    + `<td>${esc(l.title)}</td>`
-    + `<td>${l.price == null ? '—' : '$' + esc(l.price)}</td>`
-    + `<td>${l.miles == null ? '—' : esc(l.miles)}</td>`
-    + `<td>${verdictCell(l)}</td>`
-    + `<td>${esc(l.dealer ?? '')}</td>`
-    + `<td>${l.url ? `<a href="${esc(l.url)}" rel="sponsored nofollow noopener" target="_blank">listing</a>` : '—'}</td>`
-    + `</tr>`).join('');
+  const carRows = cars.map((l) => {
+    // affiliate-tag the outbound listing link via the shared trackedLink (id by env NAME only; soft-fail
+    // to the plain url when unconfigured, so links work pre-go-live).
+    const out = l.url ? trackOutSync(l.url, { network: l.network || 'cj', subId: l.source || l.dealer || undefined }) : null;
+    return `<tr>`
+      + `<td>${esc(l.title)}</td>`
+      + `<td>${l.price == null ? '—' : '$' + esc(l.price)}</td>`
+      + `<td>${l.miles == null ? '—' : esc(l.miles)}</td>`
+      + `<td>${verdictCell(l)}</td>`
+      + `<td>${esc(l.dealer ?? '')}</td>`
+      + `<td>${out ? `<a href="${esc(out.url)}" rel="sponsored nofollow noopener" target="_blank">listing</a>` : '—'}</td>`
+      + `</tr>`;
+  }).join('');
 
   const partRows = partsList.map((p) => `<tr>`
     + `<td>${esc(p.name)}</td>`

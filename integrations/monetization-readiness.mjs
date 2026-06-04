@@ -300,6 +300,96 @@ export async function summary() {
   };
 }
 
+// --- affiliateGoLiveChecklist — the operator's exact go-live punch-list ------
+
+// For each money vertical, the precise list of affiliate networks to sign up for, which ENV VAR each
+// publisher id goes in, the network signup URL, and whether it is already configured — plus whether the
+// FTC disclosure and the no-data-selling guard are present. This is the AFFILIATE earning path readiness
+// (checkout is a separate concern). PURE / soft-fail; reads only env-var PRESENCE, never secret values.
+//
+// Returns an array of:
+//   { vertical,
+//     networks: [{ name, key, envVar, altEnvVar, signupUrl, configured }],
+//     disclosurePresent, dataSellGuard, ready }
+//
+// `ready` (for the affiliate path) = the reader loads, the FTC disclosure is present, the no-data-selling
+// guard is present where a lead-gen mechanism exists, and at least one required network id is configured
+// (or the vertical's only mechanisms are non-network ones like sponsored/leadgen-by-consent).
+export async function affiliateGoLiveChecklist() {
+  const nets = (_affiliate && _affiliate.NETWORKS) || {};
+  const out = [];
+  for (const entry of VERTICALS) {
+    const mod = await softImport(entry.module);
+    const mechanisms = mechanismsFor(entry.directoryIds);
+
+    // The distinct network KEYS this vertical's directory rows draw on (affiliate.NETWORKS keys).
+    const netKeys = new Set();
+    if (_directory && typeof _directory.vertical === 'function') {
+      for (const id of entry.directoryIds) {
+        let row = null;
+        try { row = _directory.vertical(id); } catch { row = null; }
+        if (row && row.exampleNetwork && nets[row.exampleNetwork]) netKeys.add(row.exampleNetwork);
+      }
+    }
+
+    const networks = [...netKeys].map((k) => {
+      const n = nets[k] || {};
+      const configured = (_affiliate && typeof _affiliate.networkConfigured === 'function')
+        ? _affiliate.networkConfigured(k)
+        : !!(n.env && process.env[n.env]) || !!(n.altEnv && process.env[n.altEnv]);
+      return {
+        name: n.label || k,
+        key: k,
+        envVar: n.env || null,
+        altEnvVar: n.altEnv || null,
+        signupUrl: n.signupUrl || null,
+        configured,
+      };
+    });
+
+    const disclosurePresent = hasDisclosure(mod);
+    const dataSellGuard = hasNoDataSellGuard(mod);
+    const needsGuard = mechanisms.includes('leadgen');
+    const anyNetworkConfigured = networks.some((x) => x.configured);
+    // A vertical whose only mechanisms are non-network (sponsored / consented leadgen) needs no network id.
+    const needsNetwork = networks.length > 0;
+
+    const ready = !!mod
+      && disclosurePresent
+      && (!needsGuard || dataSellGuard)
+      && (!needsNetwork || anyNetworkConfigured);
+
+    out.push({ vertical: entry.vertical, networks, disclosurePresent, dataSellGuard, ready });
+  }
+  return out;
+}
+
+// Render the go-live checklist as escaped HTML (network → env var → signup URL, configured flag).
+export function renderChecklist(rows = []) {
+  const body = (Array.isArray(rows) ? rows : []).map((r) => {
+    const nets = (r.networks || []).map((n) =>
+      `<li>${esc(n.name)} → <code>${esc(n.envVar || '')}</code>`
+      + (n.altEnvVar ? ` (or <code>${esc(n.altEnvVar)}</code>)` : '')
+      + ` — ${n.configured ? '✓ configured' : `sign up: <a href="${esc(n.signupUrl || '#')}" rel="noopener" target="_blank">${esc(n.signupUrl || '')}</a>`}</li>`,
+    ).join('');
+    return `<tr class="glc-${r.ready ? 'ready' : 'blocked'}" data-vertical="${esc(r.vertical)}">`
+      + `<td>${esc(r.vertical)}</td>`
+      + `<td>${nets ? `<ul>${nets}</ul>` : '—'}</td>`
+      + `<td>${r.disclosurePresent ? '✓' : '✗'}</td>`
+      + `<td>${r.dataSellGuard ? '✓' : '✗'}</td>`
+      + `<td>${r.ready ? '✓ ready' : 'blocked'}</td>`
+      + `</tr>`;
+  }).join('');
+  return `<section class="affiliate-go-live-checklist">
+  <h2>Affiliate go-live checklist</h2>
+  <p class="note">For each money vertical: the affiliate networks to sign up for, the ENV VAR each publisher id goes in, FTC-disclosure presence, and the no-data-selling guard. Drop the ids into the env vars to go live. No secrets are read — only env-var presence.</p>
+  <table class="glc-table">
+    <thead><tr><th>Vertical</th><th>Networks → env var (signup)</th><th>Disclosure</th><th>No-data-sell</th><th>Status</th></tr></thead>
+    <tbody>${body}</tbody>
+  </table>
+</section>`;
+}
+
 // --- render (escaped HTML report) ------------------------------------------
 
 /**
@@ -339,6 +429,19 @@ if (process.argv[1] && process.argv[1].endsWith('monetization-readiness.mjs')) {
     const reports = await readiness();
     const sum = await summary();
     console.log(renderReport(reports, sum));
+  } else if (args.includes('--checklist')) {
+    const rows = await affiliateGoLiveChecklist();
+    console.log('\nAffiliate go-live checklist — networks to sign up for + env var for each id');
+    console.log('═'.repeat(78));
+    for (const r of rows) {
+      console.log(`\n  ${r.ready ? '[READY]  ' : '[blocked]'} ${r.vertical}  (disclosure:${r.disclosurePresent ? 'yes' : 'NO'} no-data-sell:${r.dataSellGuard ? 'yes' : 'NO'})`);
+      if (!r.networks.length) { console.log('      (no affiliate-network ids required — non-network mechanism)'); continue; }
+      for (const n of r.networks) {
+        console.log(`      ${n.configured ? '✓' : '·'} ${String(n.name).padEnd(28)} env: ${String(n.envVar || '').padEnd(24)}${n.configured ? '[configured]' : `signup: ${n.signupUrl || ''}`}`);
+      }
+    }
+    const allEnvs = [...new Set(rows.flatMap((r) => r.networks.map((n) => n.envVar)).filter(Boolean))].sort();
+    console.log(`\n  Distinct env vars to set across all verticals: ${allEnvs.join(', ')}`);
   } else if (args[0] && !args[0].startsWith('--')) {
     const r = await readinessForName(args[0]);
     if (!r) {
@@ -363,7 +466,7 @@ if (process.argv[1] && process.argv[1].endsWith('monetization-readiness.mjs')) {
       const flag = r.ready ? '[READY]   ' : '[blocked] ';
       console.log(`  ${flag}${r.vertical.padEnd(20)} via ${String(r.earnsVia).padEnd(10)} ${r.missing.length ? `(${r.missing.length} missing)` : ''}`);
     }
-    console.log('\nUsage: node integrations/monetization-readiness.mjs [<vertical> | --html]');
+    console.log('\nUsage: node integrations/monetization-readiness.mjs [<vertical> | --html | --checklist]');
     console.log(`Verticals: ${listVerticals().join(', ')}`);
   }
 }
