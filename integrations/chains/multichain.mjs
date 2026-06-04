@@ -22,7 +22,7 @@ const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 // Until PRANA_RPC_URL is set, `prana.rpc` resolves to [] and every reader soft-fails clean.
 export const PRANA_RPC_ENV = 'PRANA_RPC_URL';
 export const PRANA_CHAIN_ID_ENV = 'PRANA_CHAIN_ID';
-const PRANA_CHAIN_ID_PLACEHOLDER = '7777'; // overridden by env PRANA_CHAIN_ID once genesis is fixed
+const PRANA_CHAIN_ID_PLACEHOLDER = '108369'; // PRANA genesis chainId (0x1a751, from the PRANA repo genesis); still env-overridable via PRANA_CHAIN_ID
 // Resolved per-access (a getter, not frozen at import) so setting PRANA_RPC_URL after this module
 // loads — or in an offline test — lights the chain up automatically with no code change.
 export function pranaRpc() {
