@@ -15,7 +15,9 @@ import { existsSync } from 'node:fs';
 import { CHAINS } from './multichain.mjs';
 
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
-const CONFIG_PATH = process.env.MELEK_WALLET_CONFIG || new URL('../../.local/wallet-config.json', import.meta.url).pathname;
+// Resolved per-call (not frozen at import) so the env override is honoured even if it is set after
+// this module loads — and so offline tests can point it at a fixture.
+const configPath = () => process.env.MELEK_WALLET_CONFIG || new URL('../../.local/wallet-config.json', import.meta.url).pathname;
 
 // injectable fetch seam (house pattern) — lets offline tests exercise the readers without a network.
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -37,8 +39,12 @@ const hexNum = (h) => (typeof h === 'string' && h.startsWith('0x') ? parseInt(h,
 export async function loadAddresses(explicit) {
   if (explicit) return explicit;
   const out = {};
-  if (existsSync(CONFIG_PATH)) {
-    try { Object.assign(out, JSON.parse(await readFile(CONFIG_PATH, 'utf8')).addresses || {}); } catch { /* ignore */ }
+  const path = configPath();
+  if (existsSync(path)) {
+    // Soft-fail: a malformed config must not blank the portfolio — fall back to env/empty. But say
+    // so, since a silent swallow hides a typo'd wallet-config from the operator.
+    try { Object.assign(out, JSON.parse(await readFile(path, 'utf8')).addresses || {}); }
+    catch (e) { console.warn(`[balances] wallet-config at ${path} is unreadable/malformed (${e.message}); using env/empty fallback`); }
   }
   for (const name of Object.keys(CHAINS)) {
     const env = process.env[`MELEK_ADDR_${name.toUpperCase()}`];
