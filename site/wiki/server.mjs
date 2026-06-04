@@ -152,7 +152,7 @@ function sitemap() {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(node).join('\n')}\n</urlset>`;
 }
 
-createServer((req, res) => {
+export const handler = (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     const p = url.pathname;
@@ -182,11 +182,16 @@ createServer((req, res) => {
     if (p === '/health') { res.writeHead(200); return res.end('ok'); }
     return send(layout({ title: '404', body: '<h1>404</h1><p class=muted><a href="/">← Library</a></p>' }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => {
-  console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLES_DIR})`);
-  if (process.env.NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const urls = ['/', '/about', ...listArticles().map((a) => `/wiki/${a.slug}`)];
-    submitToIndexNow(BASE_URL, urls).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
-    pingSitemap(BASE_URL).then((r) => console.log('Bing ping:', JSON.stringify(r))).catch(() => {});
-  }
-});
+};
+
+// CLI guard: bind a socket only when run directly, not when imported by a unit test.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  createServer(handler).listen(PORT, HOST, () => {
+    console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLES_DIR})`);
+    if (process.env.NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+      const urls = ['/', '/about', ...listArticles().map((a) => `/wiki/${a.slug}`)];
+      submitToIndexNow(BASE_URL, urls).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+      pingSitemap(BASE_URL).then((r) => console.log('Bing ping:', JSON.stringify(r))).catch(() => {});
+    }
+  });
+}
