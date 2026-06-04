@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  searchCars, valueCheck, parts, repairEstimate, tires, rankByValue, renderPage, dataNote, esc, __setFetch,
+  searchCars, valueCheck, parts, repairEstimate, tires, rankByValue, renderPage, dataNote, esc, __setFetch, buildLeadGen,
 } from './auto-marketplace.mjs';
 
 // run a body with a controlled env, restoring originals afterward
@@ -252,4 +252,22 @@ test('esc: escapes the five HTML-significant characters', () => {
 test('__setFetch is exported and callable', () => {
   assert.equal(typeof __setFetch, 'function');
   __setFetch(null); // resets to default without throwing
+});
+
+// buildLeadGen — no-data-selling guard for the auto lead rows (cars/repair)
+test('buildLeadGen THROWS on a data-selling request', () => {
+  assert.throws(() => buildLeadGen({ vertical: 'auto-marketplace', sellsData: true, userConsented: true }), /data-selling/);
+});
+
+test('buildLeadGen requires explicit consent (no lead-gen by default)', () => {
+  const r = buildLeadGen({ vertical: 'auto-marketplace', providerUrl: 'https://dealer.example' });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /consent/i);
+});
+
+test('buildLeadGen allows a consented, non-data-selling connection', () => {
+  const r = buildLeadGen({ vertical: 'auto-marketplace', providerUrl: 'https://dealer.example', userConsented: true });
+  assert.equal(r.ok, true);
+  assert.equal(r.mechanism, 'leadgen');
+  assert.match(r.note, /no user data is sold/i);
 });

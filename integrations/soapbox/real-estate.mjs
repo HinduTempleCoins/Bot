@@ -18,7 +18,7 @@
 //   import { searchListings, rankListings, agentMatch, affordability, renderPage } from './real-estate.mjs'
 //   node integrations/soapbox/real-estate.mjs rent "Austin"
 
-import { affiliateLink, disclose } from '../affiliate.mjs';
+import { affiliateLink, disclose, buildLeadGen as _engineBuildLeadGen, trackedLink } from '../affiliate.mjs';
 import { byMetro, __setFetch as __setColivingFetch } from './coliving.mjs';
 
 // --- injectable fetch ------------------------------------------------------
@@ -145,6 +145,23 @@ export function agentMatch({ area, consent, sellsData, provider } = {}) {
     routing: 'single-provider',
     note: 'consented single-provider routing only — no user data is sold, no lead list shared',
   };
+}
+
+/**
+ * The canonical no-data-selling lead-gen guard for the real-estate vertical (mortgage/agent/rental
+ * lead rows). Mirrors the insurance / affiliate-engine shape so the monetization-readiness scan detects
+ * it (hasNoDataSellGuard checks for `buildLeadGen`). Delegates to affiliate.buildLeadGen when present;
+ * enforces the SAME refusal locally otherwise. THROWS on any data-selling request; refuses (ok:false)
+ * without explicit consent; allows only a consented, non-data-selling connection.
+ *   lead: { vertical, providerUrl, sellsData?, userConsented? }
+ */
+export function buildLeadGen(lead = {}) {
+  if (typeof _engineBuildLeadGen === 'function') return _engineBuildLeadGen(lead);
+  const sellsData = lead.sellsData === true
+    || String(process.env.LEAD_GEN_SELLS_DATA || 'false').toLowerCase() === 'true';
+  if (sellsData) throw new Error('refused: data-selling lead-gen is not permitted (no-data-selling guardrail)');
+  if (lead.userConsented !== true) return { ok: false, reason: 'lead-gen requires explicit user consent (no lead-gen by default)' };
+  return { ok: true, mechanism: 'leadgen', vertical: lead.vertical || 'real-estate', providerUrl: typeof lead.providerUrl === 'string' ? lead.providerUrl : '', note: 'consented connection only — no user data is sold' };
 }
 
 // ---------------------------------------------------------------------------
@@ -294,9 +311,10 @@ function renderRow(x) {
   const src = x.source ? `<span class="re-source">${esc(x.source)}</span>` : '';
   const badge = x.sponsored ? '<span class="re-badge" aria-label="sponsored">Sponsored</span>' : '';
 
-  // affiliate-tag the outbound link via affiliate.mjs (id by env NAME only; soft-fail to plain url).
+  // affiliate-tag the outbound link via the shared trackedLink (id by env NAME only; soft-fail to plain
+  // url + tracked:false when unconfigured, so links work pre-go-live).
   const portal = Object.values(PORTALS).find((p) => p.source === x.source);
-  const link = affiliateLink({ network: portal ? portal.network : null, url: x.url || '#' });
+  const link = trackedLink(portal ? portal.network : null, x.url || '#', { subId: x.source || undefined });
   const href = esc(link.url || '#');
 
   return `<li class="re-listing"${x.sponsored ? ' data-sponsored="true"' : ''}>`

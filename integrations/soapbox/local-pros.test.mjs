@@ -13,7 +13,7 @@ import assert from 'node:assert';
 import {
   PRO_CATEGORIES, isProCategory, findPros, requestQuote,
   petSupplies, petAffiliateOut, PET_RETAILERS, books,
-  renderPage, dataNote, escapeHtml,
+  renderPage, dataNote, escapeHtml, buildLeadGen,
 } from './local-pros.mjs';
 
 // ── helpers ───────────────────────────────────────────────────────────────────────────────────────────
@@ -248,4 +248,22 @@ test('dataNote is a non-empty honest string', () => {
 test('escapeHtml handles all five entities', () => {
   assert.equal(escapeHtml(`<>&"'`), '&lt;&gt;&amp;&quot;&#39;');
   assert.equal(escapeHtml(null), '');
+});
+
+// buildLeadGen — engine-shaped no-data-selling guard (alongside requestQuote)
+test('buildLeadGen THROWS on a data-selling request', () => {
+  assert.throws(() => buildLeadGen({ vertical: 'local-pros', sellsData: true, userConsented: true }), /data-selling/);
+});
+
+test('buildLeadGen requires explicit consent (no lead-gen by default)', () => {
+  const r = buildLeadGen({ vertical: 'local-pros', providerUrl: 'https://pro.example' });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /consent/i);
+});
+
+test('buildLeadGen allows a consented, non-data-selling connection', () => {
+  const r = buildLeadGen({ vertical: 'local-pros', providerUrl: 'https://pro.example', userConsented: true });
+  assert.equal(r.ok, true);
+  assert.equal(r.mechanism, 'leadgen');
+  assert.match(r.note, /no user data is sold/i);
 });
