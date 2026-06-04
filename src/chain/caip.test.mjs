@@ -19,6 +19,7 @@ import {
   isEvm,
   isGraphene,
   forHive,
+  forPrana,
   buildScopes,
   parseScopes,
   scopeAllows,
@@ -246,6 +247,39 @@ test('forHive: output round-trips through parseAccountId', () => {
 
 test('forHive: throws on empty', () => {
   assert.throws(() => forHive(''), CaipError);
+});
+
+// ---- helper: forPrana (PRANA = eip155 ecosystem chain) ---------------------
+
+test('forPrana: builds an eip155 account id with explicit chainId', () => {
+  assert.equal(forPrana('0xabc', { chainId: 4242 }), 'eip155:4242:0xabc');
+});
+
+test('forPrana: reads PRANA_CHAIN_ID env when no explicit chainId', () => {
+  const prev = process.env.PRANA_CHAIN_ID;
+  process.env.PRANA_CHAIN_ID = '9001';
+  try {
+    assert.equal(forPrana('0xdef'), 'eip155:9001:0xdef');
+  } finally {
+    if (prev === undefined) delete process.env.PRANA_CHAIN_ID; else process.env.PRANA_CHAIN_ID = prev;
+  }
+});
+
+test('forPrana: falls back to the placeholder chainId when env unset', () => {
+  const prev = process.env.PRANA_CHAIN_ID;
+  delete process.env.PRANA_CHAIN_ID;
+  try {
+    assert.equal(forPrana('0x1'), 'eip155:7777:0x1');
+  } finally {
+    if (prev !== undefined) process.env.PRANA_CHAIN_ID = prev;
+  }
+});
+
+test('forPrana: output is a parseable eip155 account id and isEvm', () => {
+  const id = forPrana('0xabc', { chainId: 1234 });
+  const parsed = parseAccountId(id);
+  assert.deepEqual(parsed, { chainId: 'eip155:1234', namespace: 'eip155', reference: '1234', address: '0xabc' });
+  assert.equal(isEvm(parsed.chainId), true);
 });
 
 // ---- CAIP-25 idea: scopes --------------------------------------------------

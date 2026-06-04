@@ -11,6 +11,28 @@
 
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 
+// PRANA — the ecosystem's EVM/Ethereum-clone chain. Registered here as a DORMANT, ready-to-connect
+// chain: it carries NO hard-coded RPC (the node is not public yet). The ONE wiring step when the
+// PRANA node goes live is to set TWO env vars (NAME only, never a secret in code):
+//   PRANA_RPC_URL   — the EVM JSON-RPC endpoint (e.g. https://rpc.prana.<host>); comma-separated
+//                     for a failover list. UNSET → the chain soft-fails (returns null/error), never
+//                     throws, exactly like any other unconfigured chain.
+//   PRANA_CHAIN_ID  — the eip155 chain id (decimal). Used for CAIP addressing (eip155:<id>:<addr>).
+//                     Defaults to a placeholder until the genesis chain id is fixed.
+// Until PRANA_RPC_URL is set, `prana.rpc` resolves to [] and every reader soft-fails clean.
+export const PRANA_RPC_ENV = 'PRANA_RPC_URL';
+export const PRANA_CHAIN_ID_ENV = 'PRANA_CHAIN_ID';
+const PRANA_CHAIN_ID_PLACEHOLDER = '7777'; // overridden by env PRANA_CHAIN_ID once genesis is fixed
+// Resolved per-access (a getter, not frozen at import) so setting PRANA_RPC_URL after this module
+// loads — or in an offline test — lights the chain up automatically with no code change.
+export function pranaRpc() {
+  const raw = process.env[PRANA_RPC_ENV];
+  return raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : [];
+}
+export function pranaChainId() {
+  return process.env[PRANA_CHAIN_ID_ENV] || PRANA_CHAIN_ID_PLACEHOLDER;
+}
+
 // 10 high-token-traffic chains. rpc = keyless public endpoints (failover order); cg = coingecko
 // id for the native token; llama = DefiLlama chain name (TVL); kind drives how we read height.
 export const CHAINS = {
@@ -38,6 +60,11 @@ export const CHAINS = {
   // UTXO chains via the Esplora API (chain_stats funded-spent). explorer is a failover list.
   bitcoin:  { kind: 'esplora', cg: 'bitcoin', llama: 'Bitcoin', explorer: ['https://blockstream.info/api', 'https://mempool.space/api'] },
   litecoin: { kind: 'esplora', cg: 'litecoin', llama: 'Litecoin', explorer: ['https://litecoinspace.org/api'] },
+  // --- ecosystem EVM chain (DORMANT until PRANA_RPC_URL is set) ---
+  // Native symbol PRANA. cg:null = no public USD market yet (priced at 0 by the wallet view).
+  // `rpc` is a getter resolving env PRANA_RPC_URL per-access: [] when unset → readers soft-fail
+  // (rpcFailover/rpc throw 'all nodes failed', caught into {error}/null), never throw to the caller.
+  prana:    { kind: 'evm', cg: null, symbol: 'PRANA', llama: 'PRANA', get rpc() { return pranaRpc(); }, get chainId() { return pranaChainId(); } },
 };
 
 async function jsonFetch(url, opts = {}, timeout = 10000) {
@@ -110,7 +137,8 @@ export async function chainsTvl() {
 
 // native token prices for all listed chains in one coingecko call
 export async function nativePrices() {
-  const ids = [...new Set(Object.values(CHAINS).map(c => c.cg))].join(',');
+  // skip chains with no coingecko id (e.g. PRANA — no public market yet) so the request stays clean
+  const ids = [...new Set(Object.values(CHAINS).map(c => c.cg).filter(Boolean))].join(',');
   return jsonFetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`).catch(() => ({}));
 }
 

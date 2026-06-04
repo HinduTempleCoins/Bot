@@ -147,6 +147,44 @@ test('allBalances: aggregates configured chains and attaches usdValue', { skip: 
   assert.equal(row.usdValue, 2000);
 });
 
+// ---------------------------------------------------------------------------
+// PRANA — dormant EVM chain: lights up when PRANA_RPC_URL is set, soft-fails when not.
+// ---------------------------------------------------------------------------
+test('chainBalance(prana): with PRANA_RPC_URL set, reads eth_getBalance via the injected RPC', async () => {
+  const prev = process.env.PRANA_RPC_URL;
+  process.env.PRANA_RPC_URL = 'https://rpc.prana.test'; // NAME only; injected fetch handles transport
+  let hitUrl = null, body = null;
+  __setFetch(async (url, opts) => { hitUrl = url; body = JSON.parse(opts.body); return json({ jsonrpc: '2.0', id: 1, result: '0xde0b6b3a7640000' }); }); // 1 PRANA
+  try {
+    const r = await chainBalance('prana', '0xabc');
+    assert.equal(r.chain, 'prana');
+    assert.equal(r.balance, 1);
+    assert.equal(hitUrl, 'https://rpc.prana.test');
+    assert.equal(body.method, 'eth_getBalance');
+  } finally {
+    __setFetch(null);
+    if (prev === undefined) delete process.env.PRANA_RPC_URL; else process.env.PRANA_RPC_URL = prev;
+  }
+});
+
+test('chainBalance(prana): with PRANA_RPC_URL UNSET, soft-fails to {error} and never throws (no fetch)', async () => {
+  const prev = process.env.PRANA_RPC_URL;
+  delete process.env.PRANA_RPC_URL;
+  let called = false;
+  __setFetch(async () => { called = true; return json({}); });
+  try {
+    let r, threw = false;
+    try { r = await chainBalance('prana', '0xabc'); } catch { threw = true; }
+    assert.equal(threw, false, 'must not throw when dormant');
+    assert.ok(r.error, 'dormant prana returns an error row');
+    assert.equal(r.balance, undefined);
+    assert.equal(called, false, 'no RPC nodes → never hits the network');
+  } finally {
+    __setFetch(null);
+    if (prev === undefined) delete process.env.PRANA_RPC_URL; else process.env.PRANA_RPC_URL = prev;
+  }
+});
+
 test('__setFetch(null) restores the default seam without throwing', () => {
   assert.doesNotThrow(() => __setFetch(null));
 });

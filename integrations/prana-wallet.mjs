@@ -45,7 +45,10 @@ export function __setPriceReader(fn) { _priceReader = fn || null; }
 export const SUPPORTED_CHAINS = {
   melek:    { kind: 'graphene',  symbol: 'MELEK', readVia: 'MELEK condenser / steemd (Graphene) — get_accounts balance' },
   soap:     { kind: 'bitshares', symbol: 'SOAP',  readVia: 'SOAP BitShares-family DEX (Graphene) — account balances' },
-  prana:    { kind: 'evm',       symbol: 'PRANA', readVia: 'PRANA EVM — eth_getBalance via keyless RPC (balances.mjs)' },
+  // PRANA is DORMANT until env PRANA_RPC_URL is set (see multichain.mjs `prana` entry). It reads
+  // through balances.chainBalance('prana', …) like any EVM chain; with the RPC unset that call
+  // soft-fails to an {error} row and this position simply zeroes out — never throws.
+  prana:    { kind: 'evm',       symbol: 'PRANA', readVia: 'PRANA EVM — eth_getBalance via keyless RPC (balances.mjs; dormant until PRANA_RPC_URL set)' },
   ethereum: { kind: 'evm',       symbol: 'ETH',   readVia: 'EVM — eth_getBalance via keyless RPC (balances.mjs/multichain.mjs)' },
   bitcoin:  { kind: 'esplora',   symbol: 'BTC',   readVia: 'UTXO — Esplora chain_stats (balances.mjs)' },
   solana:   { kind: 'solana',    symbol: 'SOL',   readVia: 'Solana — getBalance via public RPC (balances.mjs)' },

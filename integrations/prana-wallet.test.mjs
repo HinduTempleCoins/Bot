@@ -10,6 +10,7 @@ import {
   portfolio, valuePosition, summarize, SUPPORTED_CHAINS,
   __setBalanceReader, __setPriceReader,
 } from './prana-wallet.mjs';
+import { __setFetch as __setBalancesFetch } from './chains/balances.mjs';
 
 // reset injected readers between tests
 function reset() { __setBalanceReader(null); __setPriceReader(null); }
@@ -189,4 +190,52 @@ test('with no balance reader, positions zero out instead of throwing', async () 
   assert.equal(pf.positions[0].valueUsd, 0);
   assert.equal(pf.totalUsd, 0);
   assert.ok(pf.positions[0].error);
+});
+
+// ---------------------------------------------------------------------------
+// PRANA end-to-end through the REAL balances.mjs reader (no injected reader),
+// proving the dormant chain entry resolves: lit when PRANA_RPC_URL is set,
+// soft-fails when not. Network is stubbed via balances' own __setFetch seam.
+// ---------------------------------------------------------------------------
+test('portfolio includes PRANA via the real balances reader when PRANA_RPC_URL is set', async () => {
+  reset(); // no injected balance reader → defensive loader uses balances.chainBalance
+  const prev = process.env.PRANA_RPC_URL;
+  process.env.PRANA_RPC_URL = 'https://rpc.prana.test';
+  __setBalancesFetch(async () => ({ ok: true, status: 200, json: async () => ({ jsonrpc: '2.0', id: 1, result: '0xde0b6b3a7640000' }) })); // 1 PRANA
+  __setPriceReader(async () => ({})); // no public market → priced at 0
+  try {
+    const pf = await portfolio({ accounts: [{ chain: 'prana', address: '0xabc' }] });
+    assert.equal(pf.positions.length, 1);
+    const pos = pf.positions[0];
+    assert.equal(pos.chain, 'prana');
+    assert.equal(pos.symbol, 'PRANA');
+    assert.equal(pos.amount, 1);     // read through the new dormant CHAINS entry
+    assert.equal(pos.valueUsd, 0);   // no price source yet
+    assert.equal(pos.error, undefined);
+  } finally {
+    __setBalancesFetch(null);
+    if (prev === undefined) delete process.env.PRANA_RPC_URL; else process.env.PRANA_RPC_URL = prev;
+  }
+});
+
+test('portfolio PRANA soft-fails (zeroed, error row) when PRANA_RPC_URL is UNSET', async () => {
+  reset();
+  const prev = process.env.PRANA_RPC_URL;
+  delete process.env.PRANA_RPC_URL;
+  let called = false;
+  __setBalancesFetch(async () => { called = true; return { ok: true, status: 200, json: async () => ({}) }; });
+  __setPriceReader(async () => ({}));
+  try {
+    const pf = await portfolio({ accounts: [{ chain: 'prana', address: '0xabc' }] });
+    assert.equal(pf.positions.length, 1);
+    assert.equal(pf.positions[0].chain, 'prana');
+    assert.equal(pf.positions[0].amount, 0);
+    assert.equal(pf.positions[0].valueUsd, 0);
+    assert.ok(pf.positions[0].error, 'dormant prana yields an error row, not a throw');
+    assert.equal(pf.totalUsd, 0);
+    assert.equal(called, false, 'no RPC → never hits the network');
+  } finally {
+    __setBalancesFetch(null);
+    if (prev === undefined) delete process.env.PRANA_RPC_URL; else process.env.PRANA_RPC_URL = prev;
+  }
 });

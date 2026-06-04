@@ -30,7 +30,7 @@ function failResponse(status = 500) {
 // ===========================================================================
 const KNOWN_KINDS = new Set(['evm', 'solana', 'sui', 'tron', 'ton', 'near', 'aptos', 'priceonly', 'esplora']);
 
-test('CHAINS is a non-empty object with 22 chains', () => {
+test('CHAINS is a non-empty object with 20+ chains', () => {
   assert.equal(typeof CHAINS, 'object');
   const names = Object.keys(CHAINS);
   assert.ok(names.length >= 20, `expected >=20 chains, got ${names.length}`);
@@ -42,8 +42,11 @@ test('CHAINS is a non-empty object with 22 chains', () => {
 
 test('every chain has cg + llama strings and a known kind', () => {
   for (const [name, c] of Object.entries(CHAINS)) {
-    assert.equal(typeof c.cg, 'string', `${name}.cg should be a string`);
-    assert.ok(c.cg.length > 0, `${name}.cg empty`);
+    // cg may be null for pre-market ecosystem chains (e.g. PRANA — no public coingecko id yet).
+    if (c.cg !== null) {
+      assert.equal(typeof c.cg, 'string', `${name}.cg should be a string or null`);
+      assert.ok(c.cg.length > 0, `${name}.cg empty`);
+    }
     assert.equal(typeof c.llama, 'string', `${name}.llama should be a string`);
     assert.ok(c.llama.length > 0, `${name}.llama empty`);
     assert.ok(KNOWN_KINDS.has(c.kind), `${name}.kind '${c.kind}' not in known kinds`);
@@ -57,7 +60,10 @@ test('each kind carries the endpoint field it needs', () => {
       case 'solana':
       case 'sui':
       case 'near':
-        assert.ok(Array.isArray(c.rpc) && c.rpc.length > 0, `${name} needs rpc[]`);
+        // DORMANT chains (e.g. PRANA before PRANA_RPC_URL is set) resolve rpc to [] by design —
+        // that is the soft-fail seam, not a misconfig. Just require rpc to be an array; if it has
+        // entries, they must be https.
+        assert.ok(Array.isArray(c.rpc), `${name} needs rpc[] (array, may be empty when dormant)`);
         for (const u of c.rpc) assert.match(u, /^https:\/\//, `${name} rpc not https: ${u}`);
         break;
       case 'tron':
