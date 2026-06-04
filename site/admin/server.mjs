@@ -23,8 +23,9 @@ import { createServer } from 'node:http';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const REPO_ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+import crypto from 'node:crypto';
 import {
-  startEmailLogin, verifyMagicLink, verifyGoogleLogin, createSession, requireAdmin, adminEmail,
+  startEmailLogin, verifyMagicLink, verifyGoogleLogin, createSession, requireAdmin, adminEmail, backupEmail,
 } from '../../integrations/admin-auth.mjs';
 import { SERVICES, authorizeUrl, listConnections, handleCallback } from '../../integrations/ifttt-connect.mjs';
 import { scan } from '../../integrations/security-scan.mjs';
@@ -36,8 +37,15 @@ import { sendToClaude, relayStatus, renderPanel as claudePanel, history as claud
 import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
 import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
 import { ecosystemMap, renderMap as renderEcosystemMap } from '../../integrations/ecosystem-map.mjs';
-import { startRecovery } from '../../integrations/admin-auth.mjs';
+import { startRecovery, roleFor } from '../../integrations/admin-auth.mjs';
 import * as captcha from '../../integrations/captcha-handoff.mjs';
+import {
+  generateRegistrationOptions, verifyRegistration,
+  generateAuthenticationOptions, verifyAuthentication,
+} from '../../integrations/webauthn.mjs';
+import {
+  listCredentials, addCredential, getByCredentialId, updateSignCount,
+} from '../../integrations/passkey-store.mjs';
 
 // Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
 // CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
@@ -79,6 +87,61 @@ const STYLE = `
   .ok{color:#5fd38a}.bad{color:#ff6b6b}.warn{color:#ffc857}
   code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px}
 `;
+
+// ── client-side WebAuthn glue (no framework; uses the platform navigator.credentials API) ─────────
+// base64url ⇄ ArrayBuffer helpers + the two ceremonies. Kept tiny and CSP-friendly (single inline
+// script tags injected only on the pages that need them). All values are server-issued base64url.
+const WEBAUTHN_HELPERS_JS = `
+  function b64uToBuf(s){s=s.replace(/-/g,'+').replace(/_/g,'/');var p=s.length%4?'='.repeat(4-s.length%4):'';var bin=atob(s+p);var u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u.buffer;}
+  function bufToB64u(b){var u=new Uint8Array(b);var s='';for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s).replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');}
+`;
+const PASSKEY_LOGIN_JS = `<script>${WEBAUTHN_HELPERS_JS}
+  (function(){
+    var btn=document.getElementById('passkey-login'),msg=document.getElementById('passkey-msg');
+    if(!btn) return;
+    if(!window.PublicKeyCredential){btn.disabled=true;msg.textContent='This browser does not support passkeys.';return;}
+    btn.addEventListener('click',async function(){
+      msg.textContent='Waiting for your passkey…';
+      try{
+        var o=await fetch('/auth/passkey/login/options',{method:'POST',headers:{'content-type':'application/json'}}).then(r=>r.json());
+        if(!o||!o.challenge){msg.textContent='Could not start passkey login.';return;}
+        var pub={challenge:b64uToBuf(o.challenge),rpId:o.rpId,timeout:o.timeout,userVerification:o.userVerification,
+          allowCredentials:(o.allowCredentials||[]).map(c=>({type:'public-key',id:b64uToBuf(c.id)}))};
+        var cred=await navigator.credentials.get({publicKey:pub});
+        var body={handle:o.handle,id:cred.id,rawId:bufToB64u(cred.rawId),type:cred.type,response:{
+          clientDataJSON:bufToB64u(cred.response.clientDataJSON),
+          authenticatorData:bufToB64u(cred.response.authenticatorData),
+          signature:bufToB64u(cred.response.signature),
+          userHandle:cred.response.userHandle?bufToB64u(cred.response.userHandle):null}};
+        var v=await fetch('/auth/passkey/login/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
+        if(v&&v.ok){window.location='/';}else{msg.textContent='Passkey sign-in failed'+(v&&v.reason?' ('+v.reason+')':'')+'.';}
+      }catch(e){msg.textContent='Passkey sign-in cancelled or failed.';}
+    });
+  })();
+</script>`;
+const PASSKEY_ENROL_JS = `<script>${WEBAUTHN_HELPERS_JS}
+  (function(){
+    var btn=document.getElementById('passkey-enrol'),msg=document.getElementById('passkey-enrol-msg');
+    if(!btn) return;
+    if(!window.PublicKeyCredential){btn.disabled=true;msg.textContent='This browser does not support passkeys.';return;}
+    btn.addEventListener('click',async function(){
+      msg.textContent='Follow your device prompt…';
+      try{
+        var o=await fetch('/auth/passkey/register/options',{method:'POST',headers:{'content-type':'application/json'}}).then(r=>r.json());
+        if(!o||!o.challenge){msg.textContent='Could not start enrolment.';return;}
+        var pub={challenge:b64uToBuf(o.challenge),rp:o.rp,user:{id:b64uToBuf(o.user.id),name:o.user.name,displayName:o.user.displayName},
+          pubKeyCredParams:o.pubKeyCredParams,timeout:o.timeout,attestation:o.attestation,authenticatorSelection:o.authenticatorSelection,
+          excludeCredentials:(o.excludeCredentials||[]).map(c=>({type:'public-key',id:b64uToBuf(c.id)}))};
+        var cred=await navigator.credentials.create({publicKey:pub});
+        var body={id:cred.id,rawId:bufToB64u(cred.rawId),type:cred.type,response:{
+          clientDataJSON:bufToB64u(cred.response.clientDataJSON),
+          attestationObject:bufToB64u(cred.response.attestationObject)}};
+        var v=await fetch('/auth/passkey/register/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
+        if(v&&v.ok){msg.textContent='Passkey enrolled. You can now sign in with it.';setTimeout(()=>window.location.reload(),1200);}else{msg.textContent='Enrolment failed'+(v&&v.reason?' ('+v.reason+')':'')+'.';}
+      }catch(e){msg.textContent='Enrolment cancelled or failed.';}
+    });
+  })();
+</script>`;
 
 function layout({ title = 'Admin', body = '', nav = true } = {}) {
   const navHtml = nav ? `<header>
@@ -126,6 +189,14 @@ function readBody(req) {
 function formParams(raw) {
   return new URLSearchParams(raw || '');
 }
+// Read + parse a JSON request body (the WebAuthn ceremony endpoints post JSON). Soft-fail → null.
+async function readJson(req) {
+  try { return JSON.parse(await readBody(req) || '{}'); } catch { return null; }
+}
+// Optional backup email, guarded — backupEmail() comes from admin-auth; absent in old test setups.
+function backupEmailSafe() {
+  try { return backupEmail(); } catch { return ''; }
+}
 // Set the session cookie. On https we harden it: the `__Host-` name prefix (binds the cookie to
 // this exact host, Secure, Path=/, no Domain — un-overridable by a subdomain or a network attacker)
 // plus SameSite=Strict (the cookie is never sent on a cross-site navigation, a second CSRF layer
@@ -147,6 +218,30 @@ function sessionCookie(token) {
 // the offline tests) which can't be driven by a victim's browser, so it isn't a CSRF vector.
 // SameSite=Strict on the cookie (https) is the belt to this suspenders.
 const BASE_ORIGIN = (() => { try { return new URL(BASE_URL).origin; } catch { return null; } })();
+
+// ── WebAuthn / passkey config ────────────────────────────────────────────────────────────────────
+// The Relying Party id is the registrable domain (the hostname, no scheme/port) — passkeys are bound
+// to it. The expected origin for the ceremony is the full BASE_URL origin. Both derive from BASE_URL
+// so dev (localhost) and prod (soapy.blog) work without extra env.
+const RP_ID = (() => { try { return new URL(BASE_URL).hostname; } catch { return 'localhost'; } })();
+const RP_NAME = 'Soapy.blog Admin';
+
+// Server-side challenge store for in-flight WebAuthn ceremonies. A challenge is single-use and
+// short-lived (it binds one navigator.credentials call to one verify). Registration challenges are
+// keyed by the admin email; login challenges are anonymous (we don't know the email until the
+// assertion names a credential), keyed by an opaque handle echoed back by the client.
+const WEBAUTHN_CHALLENGE_TTL_MS = 5 * 60 * 1000;
+const _waChallenges = new Map(); // key → { challenge, exp, email? }
+function putChallenge(key, challenge, extra = {}) {
+  _waChallenges.set(key, { challenge, exp: Date.now() + WEBAUTHN_CHALLENGE_TTL_MS, ...extra });
+}
+function takeChallenge(key) {
+  const e = _waChallenges.get(key);
+  if (!e) return null;
+  _waChallenges.delete(key); // single use
+  if (e.exp <= Date.now()) return null;
+  return e;
+}
 function sameOriginOK(req) {
   const h = req.headers || {};
   const origin = h.origin || h.Origin;
@@ -222,8 +317,20 @@ function googleClientId() {
 
 // ── pages ────────────────────────────────────────────────────────────────────────────────────────
 function dashboardPage(email) {
+  let passkeys = [];
+  try { passkeys = listCredentials(email) || []; } catch { passkeys = []; }
+  const pkRows = passkeys.length
+    ? `<ul>${passkeys.map((c) => `<li><code>${esc(c.label || 'passkey')}</code> <span class=muted style="font-size:12px">added ${esc(new Date(c.createdAt || 0).toISOString().slice(0, 10))}${c.lastUsedAt ? `, last used ${esc(new Date(c.lastUsedAt).toISOString().slice(0, 10))}` : ''}</span></li>`).join('')}</ul>`
+    : '<p class=muted style="font-size:13px">No passkeys enrolled yet.</p>';
+  const passkeyCard = `<div class=card><h2>Passkeys</h2>
+      <p class=muted style="font-size:13px">Enrol a fingerprint / face / security key so you can sign in without the email inbox.</p>
+      ${pkRows}
+      <p><button type=button id=passkey-enrol class="btn ghost">Add a passkey</button></p>
+      <p id=passkey-enrol-msg class=muted style="font-size:13px"></p>
+    </div>${PASSKEY_ENROL_JS}`;
   const body = `<h1>Operator Console</h1>
     <p class=muted>Signed in as <code>${esc(email)}</code>. <a class="btn ghost" href="/logout">Log out</a></p>
+    ${passkeyCard}
     <div class=card><h2>Quick links</h2>
       <ul>
         <li><a href="/connect">Connect accounts</a> — OAuth hub for IFTTT/automation (Google, GitHub, Discord, Slack, X, Reddit, Dropbox).</li>
@@ -261,7 +368,13 @@ function loginPage({ notice = '', magicLink = '' } = {}) {
       <p class=muted style="font-size:13px">Only the configured operator email can sign in.</p>
     </div>
     ${magicHtml}
-    <div class=card><h2>Or</h2>${googleBlock}</div>`;
+    <div class=card><h2>Passkey</h2>
+      <p class=muted style="font-size:13px">Sign in with your fingerprint, face, or security key — no email needed. Enrol a passkey from the dashboard after your first sign-in.</p>
+      <p><button type=button id=passkey-login>Sign in with passkey</button></p>
+      <p id=passkey-msg class=muted style="font-size:13px"></p>
+    </div>
+    <div class=card><h2>Or</h2>${googleBlock}</div>
+    ${PASSKEY_LOGIN_JS}`;
   return layout({ title: 'Sign in', body, nav: false });
 }
 
@@ -686,6 +799,42 @@ export async function handle(req, res) {
       return res.end();
     }
 
+    // ---- passkey LOGIN (always-open: a passkey IS the credential; allowlist enforced on verify) ----
+    // Options: anonymous (we don't know who's logging in yet). We mint a challenge, stash it under an
+    // opaque handle echoed back by the client, and offer the credentials registered for any admin so a
+    // platform authenticator can pick one. NOT enumerable beyond "an admin has passkeys".
+    if (p === '/auth/passkey/login/options' && method === 'POST') {
+      const handle = crypto.randomBytes(16).toString('hex');
+      const allowIds = [];
+      for (const e of [adminEmail(), backupEmailSafe()].filter(Boolean)) {
+        for (const c of (listCredentials(e) || [])) allowIds.push(c.credentialId);
+      }
+      const opts = generateAuthenticationOptions({ rpId: RP_ID, allowCredentialIds: allowIds });
+      putChallenge(`login:${handle}`, opts.challenge);
+      return json(res, { ...opts, handle });
+    }
+
+    // Verify: look the credential up by id → its owner email; the email MUST be on the allowlist;
+    // verify the assertion against the stored public key + challenge + origin + rpId; bump signCount;
+    // mint the SAME session cookie magic-link issues. Fails closed on every mismatch.
+    if (p === '/auth/passkey/login/verify' && method === 'POST') {
+      const data = await readJson(req);
+      const ch = takeChallenge(`login:${data?.handle || ''}`);
+      if (!ch) return json(res, { ok: false, reason: 'no-challenge' }, 400);
+      const hit = getByCredentialId(data?.id);
+      if (!hit) return json(res, { ok: false, reason: 'unknown-credential' }, 400);
+      if (!roleFor(hit.email)) return json(res, { ok: false, reason: 'not-admin' }, 403);
+      const v = verifyAuthentication(data, hit.credential, {
+        expectedChallenge: ch.challenge, expectedOrigin: BASE_ORIGIN, expectedRpId: RP_ID,
+      });
+      if (!v.ok) return json(res, { ok: false, reason: v.reason }, 400);
+      updateSignCount(hit.credential.credentialId, v.newSignCount);
+      const s = createSession(hit.email);
+      if (!s.ok) return json(res, { ok: false, reason: 'session' }, 400);
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'set-cookie': sessionCookie(s.token), 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true }));
+    }
+
     // ---- recovery (backup email regains primary access; self-gated with allowBackup) ----
     if (p === '/recovery' && method === 'GET') {
       const g = requireAdmin(req, { allowBackup: true });
@@ -714,6 +863,31 @@ export async function handle(req, res) {
         : 'admin_session=; Path=/; HttpOnly; Max-Age=0';
       res.writeHead(302, { location: '/login', 'set-cookie': clear, 'cache-control': 'no-store' });
       return res.end();
+    }
+
+    // ---- passkey ENROLMENT (admin-gated: only a signed-in admin can register a passkey) ----
+    if (p === '/auth/passkey/register/options' && method === 'POST') {
+      const existing = (listCredentials(email) || []).map((c) => c.credentialId);
+      const opts = generateRegistrationOptions({
+        rpId: RP_ID, rpName: RP_NAME,
+        userId: email, userName: email, userDisplayName: email,
+        excludeCredentialIds: existing,
+      });
+      putChallenge(`reg:${email}`, opts.challenge, { email });
+      return json(res, opts);
+    }
+
+    if (p === '/auth/passkey/register/verify' && method === 'POST') {
+      const data = await readJson(req);
+      const ch = takeChallenge(`reg:${email}`);
+      if (!ch) return json(res, { ok: false, reason: 'no-challenge' }, 400);
+      const v = verifyRegistration(data, {
+        expectedChallenge: ch.challenge, expectedOrigin: BASE_ORIGIN, expectedRpId: RP_ID,
+      });
+      if (!v.ok) return json(res, { ok: false, reason: v.reason }, 400);
+      const stored = addCredential(email, v, { label: 'passkey' });
+      if (!stored.ok) return json(res, { ok: false, reason: stored.reason }, 400);
+      return json(res, { ok: true });
     }
 
     if (p === '/' && method === 'GET') return html(res, dashboardPage(email));

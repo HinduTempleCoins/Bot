@@ -448,3 +448,112 @@ test('#249 no-Origin POST still works (non-browser client / tests)', async () =>
   assert.equal(res.statusCode, 302);
   assert.equal(res.headers.location, '/features');
 });
+
+// ── passkey / WebAuthn end-to-end (task #250) ────────────────────────────────────────────────────
+// Reuse a real EC P-256 key + hand-built CBOR to drive the four routes through handle() offline.
+import crypto from 'node:crypto';
+import { __resetStore as resetPasskeys } from '../../integrations/passkey-store.mjs';
+
+const PK_ORIGIN = 'http://localhost:8096';
+const PK_RPID = 'localhost';
+
+function pkB64u(buf) { return Buffer.from(buf).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function pkFromB64u(s) { const p = s.length % 4 ? '='.repeat(4 - s.length % 4) : ''; return Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/') + p, 'base64'); }
+function pkCborUInt(major, n) {
+  if (n < 24) return Buffer.from([(major << 5) | n]);
+  if (n < 0x100) return Buffer.from([(major << 5) | 24, n]);
+  if (n < 0x10000) { const b = Buffer.alloc(3); b[0] = (major << 5) | 25; b.writeUInt16BE(n, 1); return b; }
+  const b = Buffer.alloc(5); b[0] = (major << 5) | 26; b.writeUInt32BE(n, 1); return b;
+}
+function pkInt(n) { return n >= 0 ? pkCborUInt(0, n) : pkCborUInt(1, -1 - n); }
+function pkBytes(b) { return Buffer.concat([pkCborUInt(2, b.length), b]); }
+function pkText(s) { const b = Buffer.from(s, 'utf8'); return Buffer.concat([pkCborUInt(3, b.length), b]); }
+function pkMap(pairs) { const parts = [pkCborUInt(5, pairs.length)]; for (const [k, v] of pairs) parts.push(k, v); return Buffer.concat(parts); }
+function pkCoseKey(publicKey) {
+  const jwk = publicKey.export({ format: 'jwk' });
+  return pkMap([[pkInt(1), pkInt(2)], [pkInt(3), pkInt(-7)], [pkInt(-1), pkInt(1)], [pkInt(-2), pkBytes(pkFromB64u(jwk.x))], [pkInt(-3), pkBytes(pkFromB64u(jwk.y))]]);
+}
+function pkAuthData({ flags, signCount, credentialId = null, coseKey = null }) {
+  const rpIdHash = crypto.createHash('sha256').update(Buffer.from(PK_RPID, 'utf8')).digest();
+  const head = Buffer.alloc(37); rpIdHash.copy(head, 0); head.writeUInt8(flags, 32); head.writeUInt32BE(signCount, 33);
+  if (!credentialId) return head;
+  const aaguid = Buffer.alloc(16, 0); const cl = Buffer.alloc(2); cl.writeUInt16BE(credentialId.length, 0);
+  return Buffer.concat([head, aaguid, cl, credentialId, coseKey]);
+}
+
+test('/login shows the passkey button + client glue', async () => {
+  const res = await call({ url: '/login' });
+  assert.match(res.body, /Sign in with passkey/);
+  assert.match(res.body, /navigator\.credentials/);
+});
+
+test('passkey enrolment is admin-gated (no session → 401)', async () => {
+  const res = await call({ url: '/auth/passkey/register/options', method: 'POST', headers: { origin: PK_ORIGIN } });
+  assert.equal(res.statusCode, 401);
+});
+
+test('passkey enrol + login round-trips and mints a session', async () => {
+  resetPasskeys();
+  const cookie = adminCookie();
+
+  // 1) registration options (admin-gated)
+  let res = await call({ url: '/auth/passkey/register/options', method: 'POST', headers: { cookie, origin: PK_ORIGIN } });
+  assert.equal(res.statusCode, 200);
+  const regOpts = JSON.parse(res.body);
+  assert.ok(regOpts.challenge);
+
+  // 2) build a real attestation for a fresh key, signed nowhere (none fmt)
+  const { publicKey, privateKey } = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' });
+  const credentialId = crypto.randomBytes(20);
+  const authData = pkAuthData({ flags: 0x45, signCount: 0, credentialId, coseKey: pkCoseKey(publicKey) });
+  const attObj = pkMap([[pkText('fmt'), pkText('none')], [pkText('attStmt'), pkMap([])], [pkText('authData'), pkBytes(authData)]]);
+  const regClientData = pkB64u(Buffer.from(JSON.stringify({ type: 'webauthn.create', challenge: regOpts.challenge, origin: PK_ORIGIN })));
+  const regBody = JSON.stringify({ id: pkB64u(credentialId), rawId: pkB64u(credentialId), type: 'public-key', response: { clientDataJSON: regClientData, attestationObject: pkB64u(attObj) } });
+  res = await call({ url: '/auth/passkey/register/verify', method: 'POST', headers: { cookie, origin: PK_ORIGIN, 'content-type': 'application/json' }, body: regBody });
+  assert.equal(res.statusCode, 200);
+  assert.equal(JSON.parse(res.body).ok, true);
+
+  // 3) login options (anonymous, no session)
+  res = await call({ url: '/auth/passkey/login/options', method: 'POST', headers: { origin: PK_ORIGIN } });
+  assert.equal(res.statusCode, 200);
+  const loginOpts = JSON.parse(res.body);
+  assert.ok(loginOpts.challenge && loginOpts.handle);
+
+  // 4) sign an assertion over authData||SHA256(clientDataJSON)
+  const aData = pkAuthData({ flags: 0x05, signCount: 1 });
+  const loginClientData = Buffer.from(JSON.stringify({ type: 'webauthn.get', challenge: loginOpts.challenge, origin: PK_ORIGIN }));
+  const signed = Buffer.concat([aData, crypto.createHash('sha256').update(loginClientData).digest()]);
+  const signature = crypto.sign('sha256', signed, { key: privateKey, dsaEncoding: 'der' });
+  const loginBody = JSON.stringify({ handle: loginOpts.handle, id: pkB64u(credentialId), rawId: pkB64u(credentialId), type: 'public-key', response: { clientDataJSON: pkB64u(loginClientData), authenticatorData: pkB64u(aData), signature: pkB64u(signature) } });
+  res = await call({ url: '/auth/passkey/login/verify', method: 'POST', headers: { origin: PK_ORIGIN, 'content-type': 'application/json' }, body: loginBody });
+  assert.equal(res.statusCode, 200);
+  assert.equal(JSON.parse(res.body).ok, true);
+  // a session cookie was set
+  const setCookie = res.headers['set-cookie'];
+  assert.ok(setCookie && /admin_session=/.test(setCookie), 'login should set the session cookie');
+});
+
+test('passkey login rejects a wrong-challenge assertion', async () => {
+  resetPasskeys();
+  const cookie = adminCookie();
+  let res = await call({ url: '/auth/passkey/register/options', method: 'POST', headers: { cookie, origin: PK_ORIGIN } });
+  const regOpts = JSON.parse(res.body);
+  const { publicKey, privateKey } = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' });
+  const credentialId = crypto.randomBytes(20);
+  const authData = pkAuthData({ flags: 0x45, signCount: 0, credentialId, coseKey: pkCoseKey(publicKey) });
+  const attObj = pkMap([[pkText('fmt'), pkText('none')], [pkText('attStmt'), pkMap([])], [pkText('authData'), pkBytes(authData)]]);
+  const regClientData = pkB64u(Buffer.from(JSON.stringify({ type: 'webauthn.create', challenge: regOpts.challenge, origin: PK_ORIGIN })));
+  await call({ url: '/auth/passkey/register/verify', method: 'POST', headers: { cookie, origin: PK_ORIGIN, 'content-type': 'application/json' }, body: JSON.stringify({ id: pkB64u(credentialId), rawId: pkB64u(credentialId), type: 'public-key', response: { clientDataJSON: regClientData, attestationObject: pkB64u(attObj) } }) });
+
+  res = await call({ url: '/auth/passkey/login/options', method: 'POST', headers: { origin: PK_ORIGIN } });
+  const loginOpts = JSON.parse(res.body);
+  // sign over a DIFFERENT (wrong) challenge than the server issued
+  const aData = pkAuthData({ flags: 0x05, signCount: 1 });
+  const wrongClientData = Buffer.from(JSON.stringify({ type: 'webauthn.get', challenge: pkB64u(crypto.randomBytes(32)), origin: PK_ORIGIN }));
+  const signed = Buffer.concat([aData, crypto.createHash('sha256').update(wrongClientData).digest()]);
+  const signature = crypto.sign('sha256', signed, { key: privateKey, dsaEncoding: 'der' });
+  const loginBody = JSON.stringify({ handle: loginOpts.handle, id: pkB64u(credentialId), rawId: pkB64u(credentialId), type: 'public-key', response: { clientDataJSON: pkB64u(wrongClientData), authenticatorData: pkB64u(aData), signature: pkB64u(signature) } });
+  res = await call({ url: '/auth/passkey/login/verify', method: 'POST', headers: { origin: PK_ORIGIN, 'content-type': 'application/json' }, body: loginBody });
+  assert.equal(res.statusCode, 400);
+  assert.equal(JSON.parse(res.body).ok, false);
+});
