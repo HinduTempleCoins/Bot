@@ -7,6 +7,7 @@
 
 import { createServer } from 'node:http';
 import { DIRECTORY } from '../soapbox/directory.mjs';
+import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { insights, normDomain, trancoRank } from '../../integrations/soapbox/domain-insights.mjs';
 import { SubmissionStore, curatedEligibility, safeUrl, CURATED_MAX_RANK, CURATED_MIN_AGE_YEARS } from '../../integrations/soapbox/submissions.mjs';
 // Resource Center catalogs (plain data + helpers) — surfaced as Directory sections below the
@@ -530,8 +531,24 @@ export const handler = async (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     if (url.pathname === '/health') { res.writeHead(200); return res.end('ok'); }
-    if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
-    if (url.pathname === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url></urlset>`); }
+    if (url.pathname === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
+    if (url.pathname === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      res.writeHead(200, { 'content-type': 'application/xml' });
+      return res.end(sitemapXml(BASE_URL, [{ path: '/', lastmod: today, changefreq: 'daily', priority: '1.0' }]));
+    }
+    if (url.pathname === '/sitemap-index.xml') {
+      res.writeHead(200, { 'content-type': 'application/xml' });
+      return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10)));
+    }
+    if (url.pathname === '/llms.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(llmsTxt({
+        name: 'SoapBox Directory', baseUrl: BASE_URL,
+        summary: 'A curated, ranked directory of crypto + data resources with a Clarity transparency rating.',
+        links: [{ label: 'Directory home & rankings', path: '/' }],
+      }));
+    }
     if (req.method === 'POST' && url.pathname === '/submit') return handleSubmit(req, res);
     if (url.pathname === '/moderate') return req.method === 'POST' ? handleModeratePost(req, res) : handleModerateGet(req, res, url);
     if (url.pathname === '/api/moderate') return handleModerateApi(req, res, url);

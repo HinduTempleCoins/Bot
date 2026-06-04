@@ -36,6 +36,8 @@ function makeReq({ url = '/', method = 'GET', headers = {}, body = '' } = {}) {
 function makeRes() {
   return {
     statusCode: 0, headers: {}, body: '', ended: false,
+    // setHeader mirrors node:http — it stages headers that writeHead() then merges/keeps.
+    setHeader(k, v) { this.headers[k] = v; return this; },
     writeHead(code, hdrs) { this.statusCode = code; if (hdrs) this.headers = { ...this.headers, ...hdrs }; return this; },
     end(chunk) { if (chunk != null) this.body += chunk; this.ended = true; return this; },
   };
@@ -87,6 +89,41 @@ test('with a valid session cookie, a gated route renders', async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Operator Console/);
   assert.match(res.body, /operator@example.com/);
+});
+
+// ── crawler exclusion: soapy.blog must be hidden at 3 layers (robots.txt, header, meta) ───────────
+test('robots.txt Disallows everything and advertises NO sitemap', async () => {
+  const res = await call({ url: '/robots.txt' });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /User-agent:\s*\*/);
+  assert.match(res.body, /Disallow:\s*\//);
+  assert.ok(!/Allow:\s*\//.test(res.body), 'admin robots must not Allow anything');
+  assert.ok(!/Sitemap:/i.test(res.body), 'admin robots must not advertise a sitemap');
+});
+
+test('every response carries X-Robots-Tag: noindex (header layer)', async () => {
+  for (const url of ['/health', '/login', '/robots.txt']) {
+    const res = await call({ url });
+    assert.match(res.headers['X-Robots-Tag'] || '', /noindex/i, `missing X-Robots-Tag on ${url}`);
+    assert.match(res.headers['X-Robots-Tag'] || '', /nofollow/i, `missing nofollow on ${url}`);
+  }
+});
+
+test('gated page <head> carries noindex,nofollow meta (meta layer)', async () => {
+  const res = await call({ url: '/', headers: { cookie: adminCookie(), accept: 'text/html' } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<meta name=robots content="noindex,nofollow">/);
+});
+
+test('the login page (always-open) also carries the noindex meta', async () => {
+  const res = await call({ url: '/login' });
+  assert.match(res.body, /<meta name=robots content="noindex,nofollow">/);
+});
+
+test('the admin never emits a sitemap of its own routes', async () => {
+  // there is no /sitemap.xml route on the admin; it falls through to the gated 404 (or login redirect).
+  const res = await call({ url: '/sitemap.xml', headers: { accept: 'text/html' } });
+  assert.ok(!/<urlset/.test(res.body), 'admin must not serve a sitemap');
 });
 
 test('gated /connect renders the service catalog for an admin', async () => {
