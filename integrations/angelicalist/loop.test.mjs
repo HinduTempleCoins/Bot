@@ -150,36 +150,21 @@ test('dry-run is the DEFAULT — broadcaster is NEVER called', withMetrics(
   },
 ));
 
-test('sweep skims only ABOVE the principal — never the principal (LIVE)', withMetrics(
-  {}, // no execution markets; we only test the sweep leg
+// THE INCIDENT REGRESSION TEST: the loop must NEVER move funds off the account — no sweep, no
+// transfer, no send-to-kalivankush — even with a big idle SWAP.HIVE balance and LIVE mode. The
+// only on-chain action allowed is a market order. (operator, 2026-06-04 — only realized round-trip
+// profit may ever leave, and that happens as a SELL, not a transfer.)
+test('NEVER moves funds off the account — no sweep/transfer of any kind (LIVE)', withMetrics(
+  {}, // no actionable markets — just a fat idle balance the OLD code would have swept
   async () => {
-    const prevP = process.env.SWEEP_PRINCIPAL_HIVE, prevT = process.env.SWEEP_THRESHOLD_HIVE;
-    process.env.SWEEP_PRINCIPAL_HIVE = '50';
-    process.env.SWEEP_THRESHOLD_HIVE = '5';
-    try {
-      // case 1: liquid 100, principal 50, buffer 5 → skim 45.
-      const b1 = spyBroadcaster();
-      const r1 = await runOnce({
-        mode: liveMode, decisions: async () => [], arb: arbFor([]),
-        balances: balances([{ symbol: 'SWAP.HIVE', balance: 100 }]),
-        broadcaster: b1, ptRecord: ledgerSpy(),
-      });
-      assert.equal(b1.sweepCalls.length, 1, 'a profit sweep should fire');
-      assert.equal(b1.sweepCalls[0].quantity, 45, 'should skim exactly 45 (liquid 100 − principal 50 − buffer 5)');
-      assert.equal(r1.swept.executed, true);
-
-      // case 2: liquid 50 = principal, below buffer → NOTHING swept (principal untouched).
-      const b2 = spyBroadcaster();
-      const r2 = await runOnce({
-        mode: liveMode, decisions: async () => [], arb: arbFor([]),
-        balances: balances([{ symbol: 'SWAP.HIVE', balance: 50 }]),
-        broadcaster: b2, ptRecord: ledgerSpy(),
-      });
-      assert.equal(b2.sweepCalls.length, 0, 'must NOT sweep the principal');
-      assert.equal(r2.swept.skim, false);
-    } finally {
-      if (prevP === undefined) delete process.env.SWEEP_PRINCIPAL_HIVE; else process.env.SWEEP_PRINCIPAL_HIVE = prevP;
-      if (prevT === undefined) delete process.env.SWEEP_THRESHOLD_HIVE; else process.env.SWEEP_THRESHOLD_HIVE = prevT;
-    }
+    const b = spyBroadcaster();
+    const r = await runOnce({
+      mode: liveMode, decisions: async () => [], arb: arbFor([]),
+      balances: balances([{ symbol: 'SWAP.HIVE', balance: 10000 }]),
+      broadcaster: b, ptRecord: ledgerSpy(),
+    });
+    assert.equal(b.sweepCalls.length, 0, 'the loop must NEVER call sweepToKali / any transfer');
+    assert.equal(b.placeCalls.length, 0, 'nothing actionable → no orders either');
+    assert.ok(!('swept' in r), 'the result must no longer carry any sweep field');
   },
 ));
