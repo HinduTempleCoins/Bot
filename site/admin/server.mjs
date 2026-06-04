@@ -462,6 +462,12 @@ export async function handle(req, res) {
       const d = await deliverMagicLink(link);
       // Log delivery outcome (status only — never the link/token) so silent failures are debuggable.
       console.log(`[admin-auth] magic-link delivery: sent=${d.sent}${d.reason ? ` reason=${d.reason}` : ''}`);
+      // ADMIN_BOOTSTRAP=1 — one-time first-login escape hatch when no out-of-band delivery is wired
+      // yet. Only ever reachable for the single allowed admin email (startEmailLogin already gated).
+      // Operator turns it off after first sign-in.
+      if (!d.sent && process.env.ADMIN_BOOTSTRAP === '1') {
+        return html(res, loginPage({ magicLink: link, notice: 'Bootstrap link — set ADMIN_BOOTSTRAP=0 after you sign in.' }));
+      }
       return html(res, loginPage({ notice: sentNotice }));
     }
 
