@@ -63,8 +63,9 @@ test('bracket contains at least one sub-branch (vertical leaf) under a live site
 test('planned / not-yet-live items render muted with a "coming" pill and no link', () => {
   const html = homePage();
   assert.match(html, /pill coming">coming</);
-  // law is a public site but NOT live → must not be a working link to law.soapbox.community
-  assert.ok(!html.includes('href="https://law.soapbox.community"'), 'not-live law site is not linked');
+  // directory is a public site but NOT live → must not be a working link to directory.soapbox.community
+  // (law + politics ARE live now, so they're legitimately linked.)
+  assert.ok(!html.includes('href="https://directory.soapbox.community"'), 'not-live directory site is not linked');
   // a not-live leaf label appears but only inside a muted span, never an <a>
   assert.ok(html.includes('Hathor AI answer mode'), 'a coming leaf label renders');
   assert.ok(!/<a[^>]*>Hathor AI answer mode/.test(html), 'coming leaf is not a link');
