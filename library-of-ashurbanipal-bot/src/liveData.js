@@ -95,6 +95,45 @@ export async function marketFacts(symbols) {
 }
 
 /**
+ * A steemd-shaped backend `(commandStr) → { ok, text, data }` suitable for injection into the
+ * chat surface (chatSurface.__setBackends({ liveData })). It routes through the same defensive,
+ * soft-failing runner as the rest of this module: any failure / unreachable data layer degrades to
+ * a calm `{ ok:false, text, data:null }` rather than throwing — so !price never breaks the chat.
+ *
+ * This reuses steemd's OWN formatted text verbatim (e.g. "**Van Kush** (VKBT) — $0.42"), so the
+ * chat surface and the wiki cite identical live values; we do not re-format or duplicate logic.
+ *
+ * @returns {(commandStr:string) => Promise<{ ok:boolean, text:string, data:any }>}
+ */
+export function liveDataBackend() {
+  return async (commandStr) => {
+    const cmd = String(commandStr || '').trim();
+    if (!cmd) return { ok: false, text: 'No command given.', data: null };
+    const r = await query(cmd); // soft-fails to null on any error / unavailability
+    if (!r) return { ok: false, text: 'Live data is not available right now.', data: null };
+    return { ok: r.ok !== false, text: r.text ?? '', data: r.data ?? null };
+  };
+}
+
+/**
+ * Wire this live-data layer into a chat-surface module (the ask/library surface) in production.
+ * Injects the steemd-backed backend via the module's __setBackends, leaving search/factCheck intact.
+ * Soft-fail: if the module lacks __setBackends, this is a no-op (never throws).
+ *
+ * @param {{ __setBackends?: (b:object)=>void }} chatModule  e.g. the chatSurface.js module namespace.
+ * @returns {boolean} true if wiring was applied.
+ */
+export function wireChatSurface(chatModule) {
+  if (!chatModule || typeof chatModule.__setBackends !== 'function') return false;
+  try {
+    chatModule.__setBackends({ liveData: liveDataBackend() });
+    return true;
+  } catch {
+    return false; // soft-fail: never break startup over wiring.
+  }
+}
+
+/**
  * A current chain fact routed through the data layer (e.g. account exists, post count).
  * `query` is a steemd command string such as "price MELEK" or a future "account hathor".
  * @returns {Promise<{query,text,data,asOf}|null>} null on any failure.

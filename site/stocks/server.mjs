@@ -8,6 +8,7 @@
 
 import { createServer } from 'node:http';
 import { stockSearch, stockQuote, stockChart } from '../../integrations/soapbox/stocks.mjs';
+import { healthScore, healthSeries, healthData, renderHealthGauge, renderHealthData } from '../../integrations/soapbox/market-health.mjs';
 import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { companyProfile } from '../../integrations/soapbox/company-profiles.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
@@ -90,13 +91,30 @@ async function quotesFor(symbols) {
   });
 }
 
+// The "Health of the Market" gauge + the supporting stat panel, for the home page. Best-effort:
+// a feeder hiccup just omits the block rather than failing the page. Cached behind the module's own cache.
+async function healthBlock(tf = '1Y') {
+  return cached(`stk:healthblock:${tf}`, TTL.price, async () => {
+    try {
+      const [h, s, d] = await Promise.all([
+        healthScore(tf).catch(() => null),
+        healthSeries(tf).catch(() => null),
+        healthData(tf).catch(() => null),
+      ]);
+      if (!h || h.score == null) return '';
+      return renderHealthGauge(h, s, { apiPath: '/api/health' }) + renderHealthData(d);
+    } catch { return ''; }
+  });
+}
+
 async function homePage() {
-  const [idx, pop, sec] = await Promise.all([quotesFor(INDICES.map((i) => i[0])), quotesFor(POPULAR), quotesFor(SECTORS.map((s) => s[0]))]);
+  const [idx, pop, sec, health] = await Promise.all([quotesFor(INDICES.map((i) => i[0])), quotesFor(POPULAR), quotesFor(SECTORS.map((s) => s[0])), healthBlock('1Y')]);
   const label = (sym, map) => (map.find((m) => m[0] === sym) || [, sym])[1];
   const tile = (q, name) => `<a class=tile href="/quote/${encodeURIComponent(q.symbol)}"><div class=t>${esc(name || q.name)}</div><div class=p>${q.symbol.startsWith('^') ? num(q.price) : usd(q.price)}</div><div>${pct(q.change)} <span class=muted style="font-size:12px">${esc(q.symbol)}</span></div></a>`;
   const body = `<h1>SoapBox Stocks <span class=muted style="font-size:14px">· the Stock Index</span></h1>
     <p class=muted>Live stock, ETF &amp; index data — search any symbol, or browse the indices, the most-watched names, and the sectors. Independent of crypto sources.</p>
     ${searchBox}
+    ${health}
     <div class=card><h2>Indices</h2><div class=grid>${idx.map((q) => tile(q, label(q.symbol, INDICES))).join('')}</div></div>
     <div class=card><h2>Most watched</h2><div class=grid>${pop.map((q) => tile(q)).join('')}</div></div>
     <div class=card><h2>Sectors (SPDR ETFs)</h2><div class=grid>${sec.map((q) => tile(q, label(q.symbol, SECTORS))).join('')}</div></div>`;
@@ -186,11 +204,22 @@ function renderCompanyCard(p) {
     const line = (cat) => cat && cat.count ? `<div style="font-size:13px"><span class=muted>${esc(cat.label)}:</span> ${cat.count} sampled · $${Number(cat.total).toLocaleString('en-US')}</div>` : '';
     gov = `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Federal awards (USAspending, top sample)</div>${line(gc.contracts)}${line(gc.grants)}</div>`;
   }
+  // Clarity-style confidence badge: how well independent registries corroborate the dossier.
+  const conf = p.confidence;
+  let confBadge = '';
+  if (conf) {
+    const col = conf.score >= 70 ? 'var(--up)' : conf.score >= 40 ? 'var(--gold)' : 'var(--down)';
+    const flags = conf.flags && conf.flags.length ? `<div class=muted style="font-size:11px;margin-top:3px">⚠ ${conf.flags.map(esc).join(' · ')}</div>` : '';
+    confBadge = `<div style="margin-top:10px"><span class=muted style="font-size:12px">Data confidence</span>
+      <span style="color:${col};font-weight:700">${conf.score}/100</span>
+      <span class=muted style="font-size:11px">· ${conf.sources} sources${conf.confident ? ' · confirmed' : ' · unconfirmed'}</span>${flags}</div>`;
+  }
   return `<div class=card><h2>Company</h2>
     ${p.description ? `<p style="margin:0 0 10px">${esc(p.description)}</p>` : ''}
     <table>${fields}</table>
     ${filings ? `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Recent SEC filings (EDGAR)</div>${filings}</div>` : ''}
     ${gov}
+    ${confBadge}
     ${p.sources && p.sources.length ? `<p class=muted style="font-size:11px;margin-top:10px">Sources: ${esc(p.sources.join(', '))} — public records, keyless.</p>` : ''}</div>`;
 }
 
@@ -247,6 +276,13 @@ createServer(async (req, res) => {
     }
     if (p === '/api/search') { const r = await stockSearch(url.searchParams.get('q') || '', { limit: 8 }).catch(() => []); return json(res, { results: r }); }
     if (p === '/api/chart') { const s = await stockChart(url.searchParams.get('symbol') || '', url.searchParams.get('range') || '7d').catch(() => []); return json(res, { series: s }); }
+    if (p === '/api/health') {
+      // the gauge's timeframe buttons fetch this and swap in the returned {html}. Returns the gauge
+      // card (+ refreshed stat panel) for the requested window; soft-fails to an empty html string.
+      const tf = url.searchParams.get('tf') || '1Y';
+      const html = await healthBlock(tf).catch(() => '');
+      return json(res, { tf, html });
+    }
     if (p.startsWith('/quote/')) { const r = await quotePage(decodeURIComponent(p.slice(7))); return sendHtml(res, r.html, r.code); }
     if (p !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     sendHtml(res, await homePage());

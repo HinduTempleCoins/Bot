@@ -2,7 +2,8 @@
 // __setDataSource — no network, no .mjs import. Run: node --test src/liveData.test.js
 import { test, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { priceFact, marketFacts, chainFact, citeLiveData, enrich, __setDataSource } from './liveData.js';
+import { priceFact, marketFacts, chainFact, citeLiveData, enrich, liveDataBackend, wireChatSurface, __setDataSource } from './liveData.js';
+import * as chatSurface from './chatSurface.js';
 
 // Canned data source matching the steemd contract: fn(cmd) → { ok, text, data }.
 function cannedSource(map) {
@@ -104,6 +105,62 @@ test('chainFact soft-fails to null on error / unavailable', async () => {
   __setDataSource(cannedSource({}));
   assert.equal(await chainFact('account nobody'), null);
   assert.equal(await chainFact(''), null);
+});
+
+// ── liveDataBackend: the steemd-shaped backend for the chat surface ────────────
+test('liveDataBackend returns steemd-shaped {ok,text,data} from injected data', async () => {
+  __setDataSource(cannedSource({ 'price VKBT': VKBT }));
+  const backend = liveDataBackend();
+  const r = await backend('price VKBT');
+  assert.equal(r.ok, true);
+  assert.equal(r.text, 'VKBT $1.50');           // steemd's own formatted text, reused verbatim
+  assert.equal(r.data.price_usd, 1.5);
+});
+
+test('liveDataBackend soft-fails to {ok:false,...} when steemd is unreachable', async () => {
+  __setDataSource(async () => { throw new Error('steemd down'); });
+  const backend = liveDataBackend();
+  const r = await backend('price VKBT');
+  assert.equal(r.ok, false);
+  assert.equal(r.data, null);
+  assert.match(r.text, /not available/i);        // calm degradation, never a throw
+});
+
+test('liveDataBackend soft-fails on empty / unknown command', async () => {
+  __setDataSource(cannedSource({}));
+  assert.equal((await liveDataBackend()('')).ok, false);
+  assert.equal((await liveDataBackend()('price NOPE')).ok, false);
+});
+
+// ── wireChatSurface: end-to-end !price through the real liveData → fake steemd ──
+test('wireChatSurface injects the live backend so !price flows through steemd', async () => {
+  __setDataSource(cannedSource({ 'price VKBT': VKBT }));
+  const wired = wireChatSurface(chatSurface);
+  assert.equal(wired, true);
+  try {
+    const out = await chatSurface.handleCommand({ user: 'carol', text: '!price VKBT' });
+    assert.equal(out.kind, 'price');
+    assert.match(out.reply, /VKBT \$1\.50/);      // live value, via steemd, surfaced in chat
+  } finally {
+    chatSurface.__resetBackends();
+  }
+});
+
+test('wireChatSurface: a wired !price soft-fails to a calm message when steemd is down', async () => {
+  __setDataSource(async () => { throw new Error('steemd down'); });
+  wireChatSurface(chatSurface);
+  try {
+    const out = await chatSurface.handleCommand({ user: 'carol', text: '!price VKBT' });
+    assert.equal(out.kind, 'price');
+    assert.match(out.reply, /not available/i);    // degrades, never throws / fabricates
+  } finally {
+    chatSurface.__resetBackends();
+  }
+});
+
+test('wireChatSurface returns false (no-op) for a module without __setBackends', () => {
+  assert.equal(wireChatSurface(null), false);
+  assert.equal(wireChatSurface({}), false);
 });
 
 test('no data source at all → everything soft-fails, never throws', async () => {

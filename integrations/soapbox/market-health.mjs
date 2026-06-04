@@ -24,10 +24,13 @@
 // CLI:  node market-health.mjs 20Y
 
 import { cached, TTL } from './cache.mjs';
+import { marketBreadth, __setFetch as __setStocksFetch } from './stocks.mjs';
 
 const UA = 'Mozilla/5.0 (compatible; MELEK-Bot/1.0)';
 let _fetch = (...a) => globalThis.fetch(...a);
-export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+// Setting the fetch here ALSO routes the breadth lookup (which lives in stocks.mjs) through the same
+// injected fetch, so offline tests of the gauge get a deterministic breadth component too.
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); __setStocksFetch(fn); }
 
 const SP = '^GSPC';   // S&P 500
 const VIX = '^VIX';   // volatility index (from 1990)
@@ -233,19 +236,36 @@ export async function healthScore(timeframe = DEFAULT_TF) {
     const series = await healthSeries(tfKey);
     if (!series || series.score == null) return { score: null, classification: null, timeframe: tfKey, components: null, asOf: Date.now() };
     // recompute the component breakdown at the latest bar for transparency on the gauge.
-    const [sp, vix, tnx] = await Promise.all([history(SP, tfKey), history(VIX, tfKey), history(TNX, tfKey)]);
+    const [sp, vix, tnx, breadth] = await Promise.all([
+      history(SP, tfKey), history(VIX, tfKey), history(TNX, tfKey),
+      // breadth is a point-in-time measure (today's universe), so it only modifies the LIVE score,
+      // not the historical series. Soft-fail to null so the gauge still renders index-only if it's down.
+      marketBreadth().catch(() => null),
+    ]);
     const closes = sp.c; const i = closes.length - 1;
     const tf = TIMEFRAMES[tfKey];
     const barsPerMonth = tf.interval === '1mo' ? 1 : tf.interval === '1wk' ? 4 : tf.interval === '1d' ? 21 : 30;
     const vixNow = vix.c[vix.c.length - 1] ?? null;
+    const breadthVal = breadth && breadth.breadthScore != null ? breadth.breadthScore : null;
     const components = i < 1 ? null : {
       trend: trendScore(closes, i),
       drawdown: drawdownScore(closes, i),
       momentum: momentumScore(closes, i, Math.max(1, barsPerMonth), Math.max(2, barsPerMonth * 3)),
       volatility: vixScore(vixNow) ?? realizedVolScore(closes, i),
       rates: ratesScore(tnx.c, tnx.c.length - 1),
+      // breadth: % of the Stock-Index universe advancing / above its MAs (advance-decline). Labeled
+      // distinct so the gauge can show it's an index-breadth input, not an S&P-only one.
+      breadth: breadthVal,
     };
-    return { score: series.score, classification: series.classification, timeframe: tfKey, label: tf.label, vix: vixNow, components, asOf: Date.now() };
+    // when breadth is available, blend it in as a light tilt on top of the series score (it shifts the
+    // LIVE gauge toward/away from the index-only reading by up to ±~6 pts) — honest, narrow, labeled.
+    let score = series.score;
+    if (breadthVal != null) score = clamp(series.score * 0.85 + breadthVal * 0.15);
+    score = Math.round(score * 10) / 10;
+    return {
+      score, classification: classify(score), timeframe: tfKey, label: tf.label, vix: vixNow,
+      indexScore: series.score, components, breadth: breadth || null, asOf: Date.now(),
+    };
   });
 }
 
@@ -371,7 +391,7 @@ export function renderHealthGauge(score, series, { apiPath = '/api/health' } = {
         <text x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="13" fill="#8b949e">${esc(cls)}</text>
       </svg>
       <div style="flex:1;min-width:220px">
-        <div class=muted style="font-size:13px">Composite of S&amp;P 500 trend, drawdown, momentum, volatility (VIX) &amp; the 10-year-rate tilt — the stock-market analog of crypto Fear &amp; Greed.</div>
+        <div class=muted style="font-size:13px">Composite of S&amp;P 500 trend, drawdown, momentum, volatility (VIX), the 10-year-rate tilt${score?.components?.breadth != null ? ' &amp; market breadth (advance-decline)' : ''} — the stock-market analog of crypto Fear &amp; Greed.</div>
         ${spark}
         <div class=muted style="font-size:11px;margin-top:4px">${esc(series?.label || '')} ${covNote ? '· ' + covNote : ''}</div>
       </div>
@@ -421,7 +441,7 @@ export async function engineBlock(timeframe = DEFAULT_TF) {
   return [
     `**Health of the Market — ${h.label || timeframe}: ${Math.round(h.score)}/100 (${h.classification})**`,
     '',
-    `- Trend ${c.trend ?? '—'} · Drawdown ${c.drawdown ?? '—'} · Momentum ${c.momentum ?? '—'} · Volatility ${c.volatility ?? '—'} · Rates ${c.rates ?? '—'}`,
+    `- Trend ${c.trend ?? '—'} · Drawdown ${c.drawdown ?? '—'} · Momentum ${c.momentum ?? '—'} · Volatility ${c.volatility ?? '—'} · Rates ${c.rates ?? '—'}${c.breadth != null ? ` · Breadth ${c.breadth}` : ''}`,
     d ? `- S&P 500: YTD ${f(d.ytd)} · 5y ${f(d.return5y)} · max drawdown ${f(d.maxDrawdown)} · VIX ${d.vix ?? '—'}` : '',
     '',
     '_Composite of S&P 500 trend/drawdown/momentum, VIX and the 10-year-rate tilt. Informational market data, not financial advice._',
@@ -436,7 +456,7 @@ if (isMain) {
   const s = await healthSeries(tf);
   const d = await healthData(tf);
   console.log(`\n  Health of the Market — ${h.label || tf}: ${h.score == null ? '—' : Math.round(h.score)}/100 (${h.classification || '—'})`);
-  if (h.components) console.log(`  components: trend ${h.components.trend} · drawdown ${h.components.drawdown} · momentum ${h.components.momentum} · vol ${h.components.volatility} · rates ${h.components.rates}`);
+  if (h.components) console.log(`  components: trend ${h.components.trend} · drawdown ${h.components.drawdown} · momentum ${h.components.momentum} · vol ${h.components.volatility} · rates ${h.components.rates}${h.components.breadth != null ? ` · breadth ${h.components.breadth}` : ''}`);
   console.log(`  series: ${s.points.length} points, coverage ${s.coverage ? s.coverage.from + ' → ' + s.coverage.to + (s.coverage.truncated ? ' (truncated to data)' : '') : '—'}`);
   const fmt = (n) => n == null ? '—' : (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
   console.log(`  data: windowRet ${fmt(d.windowReturn)} · YTD ${fmt(d.ytd)} · 5y ${fmt(d.return5y)} · maxDD ${fmt(d.maxDrawdown)} · vol ${d.volatility ?? '—'}% · VIX ${d.vix ?? '—'}`);
