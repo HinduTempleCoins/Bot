@@ -9,6 +9,9 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { loadAddresses, chainBalance, allBalances, __setFetch } from './balances.mjs';
 import { CHAINS } from './multichain.mjs';
 
@@ -38,6 +41,50 @@ test('loadAddresses: fills from MELEK_ADDR_<CHAIN> env for a chain not already c
     assert.equal(map[name], '0xdeadbeef');
   } finally {
     if (prev === undefined) delete process.env[key]; else process.env[key] = prev;
+  }
+});
+
+test('loadAddresses: malformed config file warns once but still soft-fails to env/empty', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'melek-balances-'));
+  const bad = join(dir, 'wallet-config.json');
+  writeFileSync(bad, '{ this is not: valid json ]');     // malformed on purpose
+  const prevCfg = process.env.MELEK_WALLET_CONFIG;
+  process.env.MELEK_WALLET_CONFIG = bad;
+  const origWarn = console.warn;
+  const warnings = [];
+  console.warn = (...a) => warnings.push(a.join(' '));
+  try {
+    const map = await loadAddresses();                   // must NOT throw
+    assert.equal(typeof map, 'object');                  // returns the fallback object
+    assert.equal(warnings.length, 1, 'warns exactly once on malformed config');
+    assert.match(warnings[0], /wallet-config/);
+    assert.match(warnings[0], /malformed/);
+  } finally {
+    console.warn = origWarn;
+    if (prevCfg === undefined) delete process.env.MELEK_WALLET_CONFIG; else process.env.MELEK_WALLET_CONFIG = prevCfg;
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('loadAddresses: malformed config still merges env MELEK_ADDR_<CHAIN> fallback', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'melek-balances-'));
+  const bad = join(dir, 'wallet-config.json');
+  writeFileSync(bad, 'not json at all');
+  const name = Object.keys(CHAINS)[0];
+  const envKey = `MELEK_ADDR_${name.toUpperCase()}`;
+  const prevCfg = process.env.MELEK_WALLET_CONFIG;
+  const prevAddr = process.env[envKey];
+  process.env.MELEK_WALLET_CONFIG = bad;
+  process.env[envKey] = '0xfeedface';
+  const origWarn = console.warn; console.warn = () => {};
+  try {
+    const map = await loadAddresses();
+    assert.equal(map[name], '0xfeedface');   // env fallback survives a broken file
+  } finally {
+    console.warn = origWarn;
+    if (prevCfg === undefined) delete process.env.MELEK_WALLET_CONFIG; else process.env.MELEK_WALLET_CONFIG = prevCfg;
+    if (prevAddr === undefined) delete process.env[envKey]; else process.env[envKey] = prevAddr;
+    rmSync(dir, { recursive: true, force: true });
   }
 });
 
