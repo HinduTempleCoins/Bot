@@ -268,3 +268,183 @@ test('injected Google verifier completes login for the admin only', async () => 
   assert.equal(res.statusCode, 400);
   __setGoogleVerifier(null);
 });
+
+// ── #246: the REAL Google id-token verifier (tokeninfo via injectable fetch) ─────────────────────
+// The default verifier (no injected one) actually verifies the token: it calls the tokeninfo
+// endpoint through __setFetch, then enforces issuer / audience / expiry / email_verified BEFORE
+// trusting any claim. We never trust an unverified token.
+test('#246 real Google verifier: valid tokeninfo (right aud/iss/exp + allowed email) → session', async () => {
+  const srv = await import('./server.mjs');
+  srv.__setGoogleVerifier(null); // use the REAL default path
+  process.env.GOOGLE_CLIENT_ID = 'client-123.apps.googleusercontent.com';
+  const futureExp = String(Math.floor(Date.now() / 1000) + 3600);
+  let calledUrl = '';
+  srv.__setFetch(async (u) => {
+    calledUrl = String(u);
+    return {
+      ok: true,
+      async json() {
+        return {
+          iss: 'https://accounts.google.com',
+          aud: 'client-123.apps.googleusercontent.com',
+          exp: futureExp,
+          email: 'operator@example.com',
+          email_verified: 'true',
+        };
+      },
+    };
+  });
+  const res = await call({ url: '/auth/google/callback?credential=fake.jwt.token' });
+  assert.equal(res.statusCode, 302, 'a verified admin id-token mints a session');
+  assert.equal(res.headers.location, '/');
+  assert.match(res.headers['set-cookie'] || '', /admin_session=/);
+  // it actually hit Google's tokeninfo endpoint with the token (verified, not trusted)
+  assert.match(calledUrl, /oauth2\.googleapis\.com\/tokeninfo\?id_token=fake\.jwt\.token/);
+  srv.__setFetch(null);
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+test('#246 real Google verifier: WRONG audience → rejected, no session', async () => {
+  const srv = await import('./server.mjs');
+  srv.__setGoogleVerifier(null);
+  process.env.GOOGLE_CLIENT_ID = 'client-123.apps.googleusercontent.com';
+  const futureExp = String(Math.floor(Date.now() / 1000) + 3600);
+  srv.__setFetch(async () => ({
+    ok: true,
+    async json() {
+      return {
+        iss: 'https://accounts.google.com',
+        aud: 'SOME-OTHER-APP.apps.googleusercontent.com', // not ours
+        exp: futureExp,
+        email: 'operator@example.com',
+        email_verified: 'true',
+      };
+    },
+  }));
+  const res = await call({ url: '/auth/google/callback?credential=fake.jwt.token' });
+  assert.equal(res.statusCode, 400, 'a token minted for another app is never trusted');
+  assert.equal(res.headers['set-cookie'], undefined);
+  srv.__setFetch(null);
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+test('#246 real Google verifier: EXPIRED token → rejected, no session', async () => {
+  const srv = await import('./server.mjs');
+  srv.__setGoogleVerifier(null);
+  process.env.GOOGLE_CLIENT_ID = 'client-123.apps.googleusercontent.com';
+  const pastExp = String(Math.floor(Date.now() / 1000) - 60);
+  srv.__setFetch(async () => ({
+    ok: true,
+    async json() {
+      return {
+        iss: 'https://accounts.google.com',
+        aud: 'client-123.apps.googleusercontent.com',
+        exp: pastExp, // already expired
+        email: 'operator@example.com',
+        email_verified: 'true',
+      };
+    },
+  }));
+  const res = await call({ url: '/auth/google/callback?credential=fake.jwt.token' });
+  assert.equal(res.statusCode, 400, 'an expired token is rejected');
+  assert.equal(res.headers['set-cookie'], undefined);
+  srv.__setFetch(null);
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+test('#246 real Google verifier: network error → fails closed (no session)', async () => {
+  const srv = await import('./server.mjs');
+  srv.__setGoogleVerifier(null);
+  process.env.GOOGLE_CLIENT_ID = 'client-123.apps.googleusercontent.com';
+  srv.__setFetch(async () => { throw new Error('network down'); });
+  const res = await call({ url: '/auth/google/callback?credential=fake.jwt.token' });
+  assert.equal(res.statusCode, 400, 'a verifier network error fails closed, never throws');
+  assert.equal(res.headers['set-cookie'], undefined);
+  srv.__setFetch(null);
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+// ── #248: /connect/callback completes the OAuth round-trip and stores a grant ────────────────────
+test('#248 /connect/callback: valid state + exchange → redirects to ?connected= and stores a grant', async () => {
+  const srv = await import('./server.mjs');
+  const connect = await import('../../integrations/ifttt-connect.mjs');
+  // handleCallback writes the grant into the default credential-store; we read it back from there
+  // via listConnections() to prove the round-trip stored a real grant.
+  // preload a known connect-state as if authorizeUrl had issued it (PKCE verifier included)
+  srv.__rememberConnectState('state-abc', 'github', 'verifier-xyz');
+  // inject the fetch the exchange uses → a successful token response
+  let postedTo = '';
+  srv.__setFetch(async (u, opts) => {
+    postedTo = String(u);
+    assert.match(String(opts?.body || ''), /code=the-code/);
+    assert.match(String(opts?.body || ''), /grant_type=authorization_code/);
+    return { ok: true, async json() { return { access_token: 'tok-123', scope: 'read:user repo' }; } };
+  });
+  const res = await call({
+    url: '/connect/callback?state=state-abc&code=the-code',
+    headers: { cookie: adminCookie() },
+  });
+  assert.equal(res.statusCode, 302);
+  assert.equal(res.headers.location, '/connect?connected=github');
+  assert.match(postedTo, /github\.com\/login\/oauth\/access_token/, 'it POSTed to the provider token endpoint');
+  // the grant landed in the default vault — read it back through the connect hub
+  const conns = await connect.listConnections().catch(() => []);
+  const gh = conns.find((c) => c.name === 'github');
+  assert.ok(gh, 'a github grant was stored after the exchange');
+  assert.equal(gh.status, 'connected');
+  srv.__setFetch(null);
+  // cleanup so the stored grant doesn't leak into other tests
+  await connect.revoke('github').catch(() => {});
+});
+
+test('#248 /connect/callback: unknown/expired state → redirect to ?error=invalid_state, no grant', async () => {
+  const srv = await import('./server.mjs');
+  srv.__setFetch(async () => { throw new Error('exchange should not be called for a bad state'); });
+  const res = await call({
+    url: '/connect/callback?state=never-issued&code=the-code',
+    headers: { cookie: adminCookie() },
+  });
+  assert.equal(res.statusCode, 302);
+  assert.equal(res.headers.location, '/connect?error=invalid_state');
+  srv.__setFetch(null);
+});
+
+test('#248 /connect/callback is admin-gated → 401 without a session', async () => {
+  const res = await call({ url: '/connect/callback?state=x&code=y' });
+  assert.equal(res.statusCode, 401);
+});
+
+// ── #249: CSRF Origin check on POST routes ───────────────────────────────────────────────────────
+test('#249 cross-origin POST (Origin != BASE_URL) → 403', async () => {
+  const res = await call({
+    url: '/features/flag', method: 'POST', body: 'id=demo&on=1',
+    headers: {
+      cookie: adminCookie(),
+      origin: 'https://evil.example.com',
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+  });
+  assert.equal(res.statusCode, 403, 'a forged cross-site post is rejected');
+});
+
+test('#249 same-origin POST (Origin == BASE_URL) still works', async () => {
+  const res = await call({
+    url: '/features/flag', method: 'POST', body: 'id=demo-feature&on=1',
+    headers: {
+      cookie: adminCookie(),
+      origin: 'http://localhost:8096',
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+  });
+  assert.equal(res.statusCode, 302);
+  assert.equal(res.headers.location, '/features');
+});
+
+test('#249 no-Origin POST still works (non-browser client / tests)', async () => {
+  const res = await call({
+    url: '/features/flag', method: 'POST', body: 'id=demo-feature&on=1',
+    headers: { cookie: adminCookie(), 'content-type': 'application/x-www-form-urlencoded' },
+  });
+  assert.equal(res.statusCode, 302);
+  assert.equal(res.headers.location, '/features');
+});

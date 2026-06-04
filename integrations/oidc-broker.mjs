@@ -32,6 +32,7 @@
 //   node integrations/oidc-broker.mjs            # prints the provider catalog (no secrets)
 
 import crypto from 'node:crypto';
+import { getCapability, has } from './secrets.mjs';
 
 // ---- error type (for programmer errors only; auth failures soft-fail) -------
 
@@ -47,6 +48,12 @@ export class OidcError extends Error {
 // PURE config: each provider's authorize / token / userinfo endpoints (public, well-known URLs)
 // and the default scopes we request. `pkce` is always true here — this broker only does the
 // PKCE-hardened auth-code flow. GitHub's OAuth supports PKCE; Google & Discord are OIDC providers.
+//
+// `emailField` / `idField` name the userinfo keys this provider uses for email + stable subject
+// (they diverge: GitHub `id`, Google `sub`, etc.) — normalizeIdentity uses them. `clientSecretEnv`
+// is the ENV NAME (never the value) under which the provider's confidential client secret resolves
+// via secrets.getCapability(); the secret is read only inside the token-exchange `.use()` scope and
+// is never returned or logged.
 export const PROVIDERS = Object.freeze({
   github: {
     name: 'github',
@@ -54,6 +61,9 @@ export const PROVIDERS = Object.freeze({
     tokenUrl: 'https://github.com/login/oauth/access_token',
     userInfoUrl: 'https://api.github.com/user',
     scopes: ['read:user', 'user:email'],
+    emailField: 'email',
+    idField: 'id',
+    clientSecretEnv: 'GITHUB_OAUTH_CLIENT_SECRET',
   },
   google: {
     name: 'google',
@@ -61,6 +71,9 @@ export const PROVIDERS = Object.freeze({
     tokenUrl: 'https://oauth2.googleapis.com/token',
     userInfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
     scopes: ['openid', 'email', 'profile'],
+    emailField: 'email',
+    idField: 'sub',
+    clientSecretEnv: 'GOOGLE_OAUTH_CLIENT_SECRET',
   },
   discord: {
     name: 'discord',
@@ -68,6 +81,19 @@ export const PROVIDERS = Object.freeze({
     tokenUrl: 'https://discord.com/api/oauth2/token',
     userInfoUrl: 'https://discord.com/api/users/@me',
     scopes: ['identify', 'email'],
+    emailField: 'email',
+    idField: 'id',
+    clientSecretEnv: 'DISCORD_OAUTH_CLIENT_SECRET',
+  },
+  yahoo: {
+    name: 'yahoo',
+    authUrl: 'https://api.login.yahoo.com/oauth2/request_auth',
+    tokenUrl: 'https://api.login.yahoo.com/oauth2/get_token',
+    userInfoUrl: 'https://api.login.yahoo.com/openid/v1/userinfo',
+    scopes: ['openid', 'email', 'profile'],
+    emailField: 'email',
+    idField: 'sub',
+    clientSecretEnv: 'YAHOO_OAUTH_CLIENT_SECRET',
   },
 });
 
@@ -84,25 +110,36 @@ function resolveProvider(provider) {
 
 // ---- injectable seams (deterministic + offline tests) ----------------------
 
+// The injectable HTTP transport. The REAL token-exchange / userinfo defaults use deps.fetch; tests
+// inject a fake via __setFetch. We default to globalThis.fetch when present (Node 18+), else null —
+// when null AND no custom exchange/userinfo is injected, the defaults soft-fail (login fails closed)
+// rather than throwing.
+const realFetch =
+  typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function'
+    ? (...a) => globalThis.fetch(...a)
+    : null;
+
 const defaultDeps = {
   now: () => Date.now(),
   // nonce source for `state`. Default is crypto-random; tests inject a fixed/sequenced source.
   nonce: () => crypto.randomBytes(16),
-  // token exchange: code (+PKCE verifier) -> token response. Injected so tests need no network.
+  // HTTP transport for the real exchange/userinfo defaults. Injected in tests.
+  fetch: realFetch,
+  // token exchange: by default null → the REAL default (realTokenExchange) is used. A test or caller
+  // may inject a custom fn via __setTokenExchange; when injected, that wins.
   //   tokenExchange({ provider, code, codeVerifier, clientId, redirectUri, tokenUrl }) -> { access_token, ... }
-  tokenExchange: async () => {
-    throw new OidcError('no token-exchange configured — call __setTokenExchange(fn)');
-  },
-  // userinfo fetch: access token -> provider profile. Injected so tests need no network.
+  tokenExchange: null,
+  // userinfo fetch: by default null → the REAL default (realUserInfo) is used. Injectable via
+  // __setUserInfo for offline tests.
   //   userInfo({ provider, accessToken, userInfoUrl }) -> raw profile object
-  userInfo: async () => {
-    throw new OidcError('no userinfo fetcher configured — call __setUserInfo(fn)');
-  },
+  userInfo: null,
 };
 let deps = { ...defaultDeps };
 
 export function __setClock(fn) { deps.now = typeof fn === 'function' ? fn : defaultDeps.now; }
 export function __setNonce(fn) { deps.nonce = typeof fn === 'function' ? fn : defaultDeps.nonce; }
+// Inject the HTTP transport (tests pass a fake; pass nothing to restore the platform fetch).
+export function __setFetch(fn) { deps.fetch = typeof fn === 'function' ? fn : defaultDeps.fetch; }
 export function __setTokenExchange(fn) {
   deps.tokenExchange = typeof fn === 'function' ? fn : defaultDeps.tokenExchange;
 }
@@ -145,6 +182,79 @@ function consumeState(state, provider) {
   if (rec.provider !== provider) return false;
   if (deps.now() > rec.exp) return false;
   return true;
+}
+
+// ---- REAL default token-exchange + userinfo (network; injectable fetch) ----
+//
+// These fire ONLY when no custom fn was injected via __setTokenExchange / __setUserInfo AND a fetch
+// transport is available (deps.fetch). They use the provider's confidential client secret strictly
+// by ENV NAME (PROVIDERS[provider].clientSecretEnv) through secrets.getCapability().use() — the
+// secret never lands in a caller-visible variable, never returned, never logged. Tokens are used
+// only to fetch userinfo and are never returned to the caller. Any network/parse error throws here
+// and is caught by completeLogin → clean { ok:false, reason } (fail closed).
+
+// POST code -> token at the provider tokenUrl. Returns the parsed token response (kept local).
+async function realTokenExchange({ provider, code, codeVerifier, clientId, redirectUri, tokenUrl }) {
+  const p = resolveProvider(provider);
+  const fetchFn = deps.fetch;
+  if (typeof fetchFn !== 'function') throw new OidcError('no fetch transport for token exchange');
+
+  const secretName = p.clientSecretEnv;
+  if (!has(secretName)) throw new OidcError('client secret unavailable for token exchange');
+
+  // The secret stays inside the capability .use() scope — assemble the request body there and POST,
+  // so the plaintext secret is never assigned to an outer variable, returned, or logged.
+  const resp = await getCapability(secretName).use(async (clientSecret) => {
+    const body = new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: String(code),
+      client_id: String(clientId),
+      client_secret: String(clientSecret),
+      redirect_uri: String(redirectUri),
+      code_verifier: String(codeVerifier),
+    });
+    return fetchFn(tokenUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded', accept: 'application/json' },
+      body: body.toString(),
+    });
+  });
+
+  if (!resp || typeof resp.json !== 'function' || (resp.ok === false)) {
+    throw new OidcError('token endpoint returned a non-OK response');
+  }
+  const json = await resp.json(); // may throw on bad JSON → caught upstream
+  if (!json || typeof json !== 'object') throw new OidcError('token endpoint returned no JSON object');
+  return json; // { access_token, ... } — secret. Stays local; completeLogin extracts access_token only.
+}
+
+// GET userInfoUrl with the bearer access token. Returns the raw profile object.
+async function realUserInfo({ accessToken, userInfoUrl }) {
+  const fetchFn = deps.fetch;
+  if (typeof fetchFn !== 'function') throw new OidcError('no fetch transport for userinfo');
+
+  const resp = await fetchFn(userInfoUrl, {
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      accept: 'application/json',
+      'user-agent': 'melek-oidc-broker',
+    },
+  });
+  if (!resp || typeof resp.json !== 'function' || (resp.ok === false)) {
+    throw new OidcError('userinfo endpoint returned a non-OK response');
+  }
+  const json = await resp.json(); // may throw on bad JSON → caught upstream
+  if (!json || typeof json !== 'object') throw new OidcError('userinfo endpoint returned no JSON object');
+  return json;
+}
+
+// Resolve the effective fn: an injected one wins; otherwise the real default (network).
+function effectiveTokenExchange() {
+  return typeof deps.tokenExchange === 'function' ? deps.tokenExchange : realTokenExchange;
+}
+function effectiveUserInfo() {
+  return typeof deps.userInfo === 'function' ? deps.userInfo : realUserInfo;
 }
 
 // ---- beginLogin (PURE) -----------------------------------------------------
@@ -206,32 +316,36 @@ export function parseCallback(rawQuery) {
 export function normalizeIdentity(provider, userinfo) {
   const p = resolveProvider(provider);
   const u = userinfo || {};
-  let sub = null;
-  let email = null;
+
+  // Stable subject + email come from the provider's configured field names (they diverge: GitHub
+  // `id`, Google/Yahoo `sub`; all use `email` here but the seam stays per-provider).
+  const idRaw = u[p.idField];
+  const sub = idRaw != null ? String(idRaw) : null;
+  const email = u[p.emailField] || null;
+
+  // emailVerified: providers expose this differently (Google/Yahoo OIDC `email_verified`; GitHub's
+  // user endpoint doesn't include it; Discord uses `verified` for the account-email flag).
+  let emailVerified = null;
+  if (typeof u.email_verified === 'boolean') emailVerified = u.email_verified;
+  else if (typeof u.verified === 'boolean') emailVerified = u.verified;
+
+  // Human-readable display name — provider-specific best field.
   let name = null;
   switch (p.name) {
     case 'github':
-      // GitHub: numeric id, `login` handle, optional email.
-      sub = u.id != null ? String(u.id) : null;
-      email = u.email || null;
-      name = u.name || u.login || null;
-      break;
-    case 'google':
-      // Google OIDC userinfo: `sub`, `email`, `name`.
-      sub = u.sub != null ? String(u.sub) : null;
-      email = u.email || null;
-      name = u.name || null;
+      name = u.name || u.login || null;       // GitHub: real name or `login` handle
       break;
     case 'discord':
-      // Discord: snowflake `id`, `username`, optional email.
-      sub = u.id != null ? String(u.id) : null;
-      email = u.email || null;
-      name = u.username || u.global_name || null;
+      name = u.username || u.global_name || null; // Discord: username or display name
       break;
+    case 'google':
+    case 'yahoo':
     default:
+      name = u.name || null;                  // OIDC `name`
       break;
   }
-  return { provider: p.name, sub, email, name, raw: u };
+
+  return { provider: p.name, id: sub, sub, email, emailVerified, name, raw: u };
 }
 
 // ---- completeLogin ---------------------------------------------------------
@@ -255,7 +369,7 @@ export async function completeLogin(
   // Exchange the authorization code for tokens. The token response is a secret: it stays local.
   let tokenResp;
   try {
-    tokenResp = await deps.tokenExchange({
+    tokenResp = await effectiveTokenExchange()({
       provider: p.name,
       code,
       codeVerifier,
@@ -276,7 +390,7 @@ export async function completeLogin(
   // Fetch the user profile with the access token (in-memory use only).
   let profile;
   try {
-    profile = await deps.userInfo({
+    profile = await effectiveUserInfo()({
       provider: p.name,
       accessToken,
       userInfoUrl: p.userInfoUrl,
