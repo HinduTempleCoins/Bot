@@ -20,6 +20,12 @@
 //   const r = infer({ query, facts, ruleSets });               // pure, no model
 //   const o = await answerOrEscalate(job, handlers, opts);     // rules-first, escalate if unsure
 //
+// And it CALIBRATES. Beyond promoting new rules from cases, the OUTCOME layer nudges an existing
+// rule's certainty factor toward what actually happened (recordOutcome → learnedCF), so a rule
+// that keeps being wrong loses confidence and re-escalates, a rule that keeps being right is
+// trusted. This is what makes it a *learning* MYCIN, not just MYCIN-with-fallback. Pass an
+// optional `outcomeStore` to infer()/answerOrEscalate() to enable it; omit it for the static prior.
+//
 // DESIGN RULES (shared, load-bearing): ESM .mjs; pure where possible; deps INJECTED so tests run
 // fully OFFLINE (no network, no real model — handlers are stubs); SOFT-FAIL / NEVER-THROW at the
 // edge; deterministic; no secrets; CLI guarded behind an argv check.
@@ -71,8 +77,12 @@ export function outcomeAnswer(outcome) {
 // across ALL fired rules that share that answer (corroborating evidence raises confidence), and
 // `confidence` is that mapped to 0..100 via toConfidence. No rules fired → confidence 0.
 //
+// OPTIONAL `outcomeStore`: when provided, each fired rule's STATIC CF is replaced by its
+// calibrated learnedCF (its prior nudged toward recorded outcomes). Omitted/empty → static CFs,
+// i.e. exactly the original behavior.
+//
 // Returns: { answer, confidence, cf, firedRules, trace, source:'rules', outcomes }
-export function infer({ query, facts = {}, ruleSets = [] } = {}) {
+export function infer({ query, facts = {}, ruleSets = [], outcomeStore = null } = {}) {
   const sets = normalizeRuleSets(ruleSets);
   const firedRules = [];
   const trace = [];
@@ -98,7 +108,9 @@ export function infer({ query, facts = {}, ruleSets = [] } = {}) {
     for (const t of res.trace) trace.push(t);
     res.firedRules.forEach((name, i) => {
       const outcome = res.outcomes[i];
-      const cf = outcomeCF(outcome);
+      // Static CF authored on the rule, then (optionally) calibrated from recorded outcomes.
+      const staticCF = outcomeCF(outcome);
+      const cf = outcomeStore ? learnedCF(name, { priorCF: staticCF, store: outcomeStore }) : staticCF;
       const ans = outcomeAnswer(outcome);
       const key = answerKey(ans);
       firedRules.push(name);
@@ -153,9 +165,13 @@ export function infer({ query, facts = {}, ruleSets = [] } = {}) {
 //
 //   job      — paradigm-router job shape, PLUS { query, facts, ruleSets } for the rules attempt.
 //   handlers — { rules?, tiny?, small?, cloud? } injected tier executors (stubs in tests).
-//   opts     — { confidentThreshold = 80, memo, cacheKey? }
+//   opts     — { confidentThreshold = 80, memo, cacheKey?, outcomeStore? }
+//
+// When `outcomeStore` is supplied, fired rules' CFs are calibrated from recorded outcomes before
+// the confidence gate — so a rule that keeps being WRONG drops below threshold and re-escalates to
+// a model, and a rule that keeps being RIGHT earns its way past the gate. Omitted → unchanged.
 export async function answerOrEscalate(job = {}, handlers = {}, opts = {}) {
-  const { confidentThreshold = 80, memo } = opts;
+  const { confidentThreshold = 80, memo, outcomeStore = null } = opts;
   const { query, facts = {}, ruleSets = [] } = job;
 
   // 4) Optional memo: identical repeated queries skip even the (already cheap) rule run.
@@ -167,7 +183,7 @@ export async function answerOrEscalate(job = {}, handlers = {}, opts = {}) {
   // Rules-first.
   let attempt;
   try {
-    attempt = infer({ query, facts, ruleSets });
+    attempt = infer({ query, facts, ruleSets, outcomeStore });
   } catch {
     attempt = { answer: null, confidence: 0, cf: 0, firedRules: [], trace: [], outcomes: [], source: 'rules', query: query ?? null };
   }
@@ -338,10 +354,78 @@ export function promoteCases(store, { minHits = 3, minConfidence = 80 } = {}) {
 
 // inferWithLearning — convenience: stamps facts with `_intent` (so promoted rules can match) and
 // runs infer over (ruleSets + any learnedRules). Keeps the learning loop ergonomic for callers.
-export function inferWithLearning({ query, facts = {}, ruleSets = [], learnedRules = [] } = {}) {
+export function inferWithLearning({ query, facts = {}, ruleSets = [], learnedRules = [], outcomeStore = null } = {}) {
   const stamped = { ...facts, _intent: intentKey(query) };
   const sets = [...normalizeRuleSets(ruleSets), learnedRules].filter((s) => Array.isArray(s) && s.length);
-  return infer({ query, facts: stamped, ruleSets: sets });
+  return infer({ query, facts: stamped, ruleSets: sets, outcomeStore });
+}
+
+// ── 4) OUTCOME LEARNING — calibrate a rule's certainty factor from observed results ───────────
+//
+// The case-promotion layer above makes the system BROADER (new rules appear). This layer makes it
+// CALIBRATED: a rule's certainty factor is nudged toward what actually happened. When a rule's
+// prediction matches reality its CF strengthens; when it's wrong, the CF weakens — and because the
+// confidence gate in answerOrEscalate reads that CF, a rule that keeps being wrong eventually falls
+// below the threshold and the job re-escalates to a model. A rule that keeps being right earns its
+// way past the gate. THIS is what turns MYCIN-with-fallback into a learning MYCIN.
+//
+// FULLY ADDITIVE: nothing here runs unless a caller passes an `outcomeStore`. With no recorded
+// outcomes, learnedCF() returns the rule's static prior CF unchanged → default behavior preserved.
+//
+// The store follows the profit-tracker swap-in pattern: any object exposing a `.records` array
+// (the default `createOutcomeStore()`), or a bare array. Persistence is the caller's concern
+// (inject read/write) — this module never touches the filesystem, so it stays offline-testable.
+
+const DEFAULT_LEARN_RATE = 0.2; // delta-rule step toward the observed-correctness target
+const DEFAULT_MIN_SAMPLES = 1;  // begin adjusting after this many observations for a rule
+
+export function createOutcomeStore({ records = [] } = {}) {
+  return { records: Array.isArray(records) ? records.slice() : [] };
+}
+
+// recordOutcome — append one observation of how a rule's prediction actually turned out.
+//   { rule, predicted, actual, correct?, weight?, at? }
+// `correct` is the supervision signal in [-1, 1] (or boolean): +1 fully right, -1 fully wrong.
+// If `correct` is omitted we DERIVE it: predicted === actual → +1, else −1 (with a stable
+// answerKey comparison so objects compare structurally). Soft-fails (returns store untouched) on
+// an unrecognized store shape. Deterministic: no clock, no randomness.
+export function recordOutcome(store, obs = {}) {
+  const records = storeRecords(store);
+  if (!records) return store;
+  const { rule = null, predicted = null, actual = null } = obs;
+  if (rule == null || rule === '') return store; // an outcome with no rule has nothing to teach
+  let correct;
+  if (typeof obs.correct === 'boolean') {
+    correct = obs.correct ? 1 : -1;
+  } else if (Number.isFinite(obs.correct)) {
+    correct = Math.max(-1, Math.min(1, obs.correct));
+  } else {
+    correct = answerKey(predicted) === answerKey(actual) ? 1 : -1;
+  }
+  const weight = Number.isFinite(obs.weight) && obs.weight > 0 ? obs.weight : 1;
+  records.push({ rule: String(rule), predicted, actual, correct, weight, at: obs.at ?? null });
+  return store;
+}
+
+// learnedCF — the calibrated certainty factor for one rule, given its static prior and the
+// outcomes recorded against it. A bounded Widrow-Hoff (delta-rule) walk: start at the prior CF and
+// step each observation toward its correctness target by `rate`, weighted. Result is clamped to the
+// legal CF range [-1, 1]. With ZERO matching observations it returns the prior unchanged — the
+// reason default behavior is preserved when no outcomes have been recorded.
+export function learnedCF(rule, { priorCF = DEFAULT_CF, store = null, rate = DEFAULT_LEARN_RATE, minSamples = DEFAULT_MIN_SAMPLES } = {}) {
+  const prior = clampCF(priorCF);
+  const records = storeRecords(store);
+  if (!rule || !records || records.length === 0) return prior;
+  const obs = records.filter((r) => r && r.rule === String(rule));
+  if (obs.length < Math.max(1, minSamples)) return prior;
+  const step = Math.max(0, Math.min(1, Number.isFinite(rate) ? rate : DEFAULT_LEARN_RATE));
+  let cf = prior;
+  for (const o of obs) {
+    const target = clampCF(o.correct);            // +1 right, −1 wrong
+    const w = Number.isFinite(o.weight) && o.weight > 0 ? o.weight : 1;
+    cf = cf + step * w * (target - cf);           // move a fraction toward the observed truth
+  }
+  return clampCF(cf);
 }
 
 // ── internal helpers ──────────────────────────────────────────────────────────────────────────

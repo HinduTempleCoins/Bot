@@ -14,6 +14,9 @@ import {
   cacheKey,
   outcomeCF,
   outcomeAnswer,
+  createOutcomeStore,
+  recordOutcome,
+  learnedCF,
 } from './mycin-router.mjs';
 
 // ── infer: high-CF rules answer with high confidence, no model involved ──────────────────────
@@ -259,4 +262,106 @@ test('infer: a malformed rule set is skipped, not fatal', () => {
   ];
   const r = infer({ facts: {}, ruleSets: sets });
   assert.equal(r.answer, 'GOOD');
+});
+
+// ── OUTCOME LEARNING: recordOutcome → learnedCF calibrates the CF, and routing follows ─────────
+
+test('learnedCF: no outcomes → returns the prior CF unchanged (default behavior preserved)', () => {
+  const store = createOutcomeStore();
+  assert.equal(learnedCF('r', { priorCF: 0.9, store }), 0.9);
+  // null store is also a no-op identity.
+  assert.equal(learnedCF('r', { priorCF: 0.3, store: null }), 0.3);
+});
+
+test('learnedCF: a WRONG outcome moves the CF down, a RIGHT outcome moves it up', () => {
+  const wrong = createOutcomeStore();
+  recordOutcome(wrong, { rule: 'r', predicted: 'A', actual: 'B' }); // mismatch → correct=-1
+  const down = learnedCF('r', { priorCF: 0.8, store: wrong, rate: 0.5 });
+  assert.ok(down < 0.8, `wrong outcome should lower CF, got ${down}`);
+
+  const right = createOutcomeStore();
+  recordOutcome(right, { rule: 'r', predicted: 'A', actual: 'A' }); // match → correct=+1
+  const up = learnedCF('r', { priorCF: 0.2, store: right, rate: 0.5 });
+  assert.ok(up > 0.2, `right outcome should raise CF, got ${up}`);
+});
+
+test('learnedCF: repeated wrong outcomes drive the CF toward -1, clamped in range', () => {
+  const store = createOutcomeStore();
+  for (let i = 0; i < 20; i++) recordOutcome(store, { rule: 'bad', correct: false });
+  const cf = learnedCF('bad', { priorCF: 0.9, store, rate: 0.5 });
+  assert.ok(cf >= -1 && cf < -0.5, `should converge toward -1, got ${cf}`);
+});
+
+test('learnedCF: explicit numeric `correct` is honored and only the named rule is affected', () => {
+  const store = createOutcomeStore();
+  recordOutcome(store, { rule: 'r', correct: -0.5 });
+  recordOutcome(store, { rule: 'other', correct: 1 }); // must not affect rule 'r'
+  const cf = learnedCF('r', { priorCF: 0.6, store, rate: 1 }); // rate 1 → jump straight to target
+  assert.ok(Math.abs(cf - (-0.5)) < 1e-9, `expected ~-0.5, got ${cf}`);
+});
+
+test('recordOutcome: soft-fails on bad store, and an outcome with no rule is ignored', () => {
+  assert.equal(recordOutcome(null, { rule: 'r', correct: true }), null);
+  const store = createOutcomeStore();
+  recordOutcome(store, { predicted: 'A', actual: 'A' }); // no rule → nothing to teach
+  assert.equal(store.records.length, 0);
+  recordOutcome(store, { rule: 'r', correct: true });
+  assert.equal(store.records.length, 1);
+});
+
+test('infer: omitting outcomeStore is byte-identical to before (static CF)', () => {
+  const ruleSets = [
+    { name: 'price', when: [{ fact: 'topic', op: 'eq', value: 'price' }], then: { answer: 'PRICE', cf: 0.95 } },
+  ];
+  const baseline = infer({ query: 'price?', facts: { topic: 'price' }, ruleSets });
+  const empty = infer({ query: 'price?', facts: { topic: 'price' }, ruleSets, outcomeStore: createOutcomeStore() });
+  assert.equal(empty.cf, baseline.cf);
+  assert.equal(empty.confidence, baseline.confidence);
+  assert.equal(empty.answer, baseline.answer);
+});
+
+test('routing: a rule that keeps being WRONG drops below the gate and RE-ESCALATES to a model', async () => {
+  const ruleSets = [
+    { name: 'risky', when: [{ fact: 'topic', op: 'eq', value: 'risky' }], then: { answer: 'RULES_GUESS', cf: 0.95 } },
+  ];
+  const job = { kind: 'answer', needsLanguage: true, query: 'risky one', facts: { topic: 'risky' }, ruleSets };
+
+  // With a fresh outcome store: still confident, answered by rules, no model.
+  let modelCalls = 0;
+  const handlers = { small: async () => { modelCalls++; return 'MODEL_ANSWER'; } };
+  const store = createOutcomeStore();
+  const before = await answerOrEscalate(job, handlers, { outcomeStore: store });
+  assert.equal(before.source, 'rules');
+  assert.equal(before.escalated, false);
+  assert.equal(modelCalls, 0);
+
+  // Feed many WRONG outcomes for that rule → its calibrated CF falls below the confidence gate.
+  for (let i = 0; i < 15; i++) recordOutcome(store, { rule: 'risky', predicted: 'RULES_GUESS', actual: 'reality-was-different' });
+
+  const after = await answerOrEscalate(job, handlers, { outcomeStore: store });
+  assert.equal(after.source, 'model', 'wrong-history rule should re-escalate');
+  assert.equal(after.escalated, true);
+  assert.equal(after.answer, 'MODEL_ANSWER');
+  assert.ok(modelCalls >= 1, 'the model handler should now be invoked');
+});
+
+test('routing: a low-CF rule that keeps being RIGHT earns its way past the gate (no model)', async () => {
+  // Prior CF 0.55 → confidence ~78 < 80 → would escalate. After right outcomes it crosses the gate.
+  const ruleSets = [
+    { name: 'earner', when: [{ fact: 'topic', op: 'eq', value: 'e' }], then: { answer: 'EARNED', cf: 0.55 } },
+  ];
+  const job = { kind: 'answer', needsLanguage: true, query: 'e q', facts: { topic: 'e' }, ruleSets };
+  let modelCalls = 0;
+  const handlers = { small: async () => { modelCalls++; return 'MODEL'; } };
+
+  const store = createOutcomeStore();
+  const before = await answerOrEscalate(job, handlers, { outcomeStore: store });
+  assert.equal(before.source, 'model', `prior CF 0.55 (~conf 78) should escalate; got ${before.source}`);
+
+  for (let i = 0; i < 15; i++) recordOutcome(store, { rule: 'earner', predicted: 'EARNED', actual: 'EARNED' });
+  const callsBefore = modelCalls;
+  const after = await answerOrEscalate(job, handlers, { outcomeStore: store });
+  assert.equal(after.source, 'rules', 'right-history rule should now answer from rules');
+  assert.equal(after.escalated, false);
+  assert.equal(modelCalls, callsBefore, 'no further model call once the rule is trusted');
 });
