@@ -112,6 +112,41 @@ test('gated /features lists built-but-hidden capabilities', async () => {
   assert.ok(res.body.indexOf('FRONT-FACING FIRST') < res.body.indexOf('INTERNAL TOOL'));
 });
 
+test('CAPTCHA console: seed a handoff, see it listed, solve it (end-to-end)', async () => {
+  // pin a fresh in-memory store so the seed + list + resolve share one queue deterministically
+  const captcha = await import('../../integrations/captcha-handoff.mjs');
+  captcha.__setStore(new Map());
+  // gated
+  const denied = await call({ url: '/captcha' });
+  assert.equal(denied.statusCode, 401);
+  // page renders for admin
+  const page = await call({ url: '/captcha', headers: { cookie: adminCookie() } });
+  assert.equal(page.statusCode, 200);
+  assert.match(page.body, /CAPTCHA \/ human-step handoffs/);
+  assert.match(page.body, /Test it \(seed a Twitter CAPTCHA\)/);
+  // seed a Twitter CAPTCHA handoff
+  const seeded = await call({
+    url: '/captcha/test', method: 'POST', body: '',
+    headers: { cookie: adminCookie(), 'content-type': 'application/x-www-form-urlencoded' },
+  });
+  assert.equal(seeded.statusCode, 302);
+  assert.equal(seeded.headers.location, '/captcha');
+  // it now shows in the pending list with a resolve form + the right id to solve
+  const listed = await call({ url: '/captcha', headers: { cookie: adminCookie() } });
+  assert.match(listed.body, /twitter signup \(test\)/);
+  assert.match(listed.body, /Submit answer/);
+  const m = listed.body.match(/name=id value="([^"]+)"/);
+  assert.ok(m, 'a pending handoff id is present to solve');
+  // solve it — the operator types the CAPTCHA answer
+  const solved = await call({
+    url: '/captcha/resolve', method: 'POST',
+    body: `id=${encodeURIComponent(m[1])}&answer=HELLO123`,
+    headers: { cookie: adminCookie(), 'content-type': 'application/x-www-form-urlencoded' },
+  });
+  assert.equal(solved.statusCode, 200);
+  assert.match(solved.body, /Solved — the signup flow can now resume/);
+});
+
 test('/features/flag requires admin and redirects back', async () => {
   // unauthenticated → 401 (non-html)
   const denied = await call({ url: '/features/flag', method: 'POST', body: 'id=x&on=1' });
