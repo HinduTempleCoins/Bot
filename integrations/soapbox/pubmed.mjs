@@ -52,6 +52,16 @@ async function getJSON(url, headers = { 'user-agent': UA, accept: 'application/j
   } catch { return null; }
 }
 
+// fetch TEXT with soft-fail: any network/parse/non-ok error resolves to '' (never throws). Used by the
+// efetch abstract call, which returns plain text rather than JSON.
+async function getText(url, headers = { 'user-agent': UA, accept: 'text/plain' }) {
+  try {
+    const r = await _fetch(url, { headers });
+    if (!r || !r.ok) return '';
+    return String((await r.text()) || '').trim();
+  } catch { return ''; }
+}
+
 // Append the NCBI api_key param IF (and only if) its env var is set — read by name, never a literal.
 // Keyless still works; the key just raises the per-second rate limit.
 function withApiKey(params) {
@@ -129,6 +139,13 @@ export async function articleDetail(pmid) {
     const doi = Array.isArray(rec.articleids)
       ? str(rec.articleids.find((a) => str(a?.idtype) === 'doi')?.value) || null
       : null;
+
+    // esummary carries metadata but NOT the abstract — fetch it with a keyless efetch (rettype=abstract,
+    // retmode=text). Soft-fails to '' (so the detail still returns its metadata if the abstract is
+    // unavailable). The abstract is the article's OWN published summary, informational only.
+    const ap = withApiKey(new URLSearchParams({ db: 'pubmed', id, rettype: 'abstract', retmode: 'text' }));
+    const abstractText = await getText(`${ENDPOINTS.eutils}/efetch.fcgi?${ap.toString()}`);
+
     return {
       pmid: str(rec.uid) || id,
       title: str(rec.title) || null,
@@ -141,6 +158,7 @@ export async function articleDetail(pmid) {
       pages: str(rec.pages) || null,
       doi,
       doiUrl: doi ? `https://doi.org/${doi}` : null,
+      abstract: abstractText || null,
       pubTypes: Array.isArray(rec.pubtype) ? rec.pubtype.map(str).filter(Boolean) : [],
       url: `https://pubmed.ncbi.nlm.nih.gov/${str(rec.uid) || id}/`,
       source: 'PubMed (NIH/NLM)',
@@ -170,6 +188,8 @@ export async function trials({ condition, status, limit = 20 } = {}) {
         const st = ps.statusModule || {};
         const design = ps.designModule || {};
         const cm = ps.conditionsModule || {};
+        const desc = ps.descriptionModule || {};
+        const elig = ps.eligibilityModule || {};
         const nct = str(id.nctId) || null;
         return {
           nctId: nct,
@@ -177,6 +197,11 @@ export async function trials({ condition, status, limit = 20 } = {}) {
           status: str(st.overallStatus) || null,
           phase: Array.isArray(design.phases) ? design.phases.map(str).filter(Boolean) : [],
           conditions: Array.isArray(cm.conditions) ? cm.conditions.map(str).filter(Boolean) : [],
+          // the protocolSection we already fetched also carries the study's plain-language summary and its
+          // eligibility criteria — surface them so a trial card answers "what is this / can I join" without
+          // a second request. Soft-default to null when absent.
+          briefSummary: str(desc.briefSummary) || null,
+          eligibilityCriteria: str(elig.eligibilityCriteria) || null,
           url: nct ? `https://clinicaltrials.gov/study/${nct}` : null,
           source: 'ClinicalTrials.gov v2 (NIH)',
         };

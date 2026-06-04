@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import {
   summarizeToMinutes,
   extractActionItems,
+  splitDecisionRationale,
   forBriefWriter,
   isBriefWriterSafe,
   appendMinutes,
@@ -111,6 +112,69 @@ test('extractActionItems handles non-string / empty input', () => {
   assert.deepEqual(extractActionItems(null), []);
   assert.deepEqual(extractActionItems(''), []);
   assert.deepEqual(extractActionItems('   '), []);
+});
+
+test('splitDecisionRationale captures the "why" and strips it from the headline', () => {
+  assert.deepEqual(
+    splitDecisionRationale('Use Caddy because it auto-renews TLS'),
+    { text: 'Use Caddy', rationale: 'because it auto-renews TLS' },
+  );
+  assert.deepEqual(
+    splitDecisionRationale('Defer Crypt-ology so that the corpus grows first'),
+    { text: 'Defer Crypt-ology', rationale: 'so that the corpus grows first' },
+  );
+  assert.equal(splitDecisionRationale('Ship the parser to reduce manual triage').rationale, 'to reduce manual triage');
+  // no reason cue → rationale null, headline intact
+  assert.deepEqual(splitDecisionRationale('Minutes are append-only'), { text: 'Minutes are append-only', rationale: null });
+  assert.deepEqual(splitDecisionRationale(''), { text: '', rationale: null });
+});
+
+test('summarizeToMinutes carries decisionDetails with the rationale; decisions[] strings unchanged', () => {
+  const mom = summarizeToMinutes({
+    conferenceId: 'why-test',
+    decisions: [
+      'Use Caddy because it auto-renews TLS',
+      'Minutes are append-only',
+    ],
+  }, { now: CLOCK });
+  // back-compat: decisions[] is still the bare full strings
+  assert.deepEqual(mom.decisions, ['Use Caddy because it auto-renews TLS', 'Minutes are append-only']);
+  // additive: decisionDetails carries the captured why
+  assert.ok(Array.isArray(mom.decisionDetails) && mom.decisionDetails.length === 2);
+  assert.deepEqual(mom.decisionDetails[0], { text: 'Use Caddy', rationale: 'because it auto-renews TLS' });
+  assert.deepEqual(mom.decisionDetails[1], { text: 'Minutes are append-only', rationale: null });
+});
+
+test('forBriefWriter carries the decision rationale through to the brief-writer view', () => {
+  const mom = summarizeToMinutes({
+    conferenceId: 'why-brief',
+    decisions: ['Defer Crypt-ology so that the corpus grows first', 'No transcripts in minutes'],
+  }, { now: CLOCK });
+  const view = forBriefWriter(mom);
+  assert.ok('decisionDetails' in view, 'view exposes decisionDetails');
+  const deferred = view.decisionDetails.find((d) => /Defer Crypt-ology/.test(d.text));
+  assert.ok(deferred, 'decision is present');
+  assert.equal(deferred.rationale, 'so that the corpus grows first', 'rationale survived into the brief view');
+  // decisions[] strings still present for callers that read them
+  assert.ok(view.decisions.includes('Defer Crypt-ology so that the corpus grows first'));
+});
+
+test('forBriefWriter derives decisionDetails from decisions[] for legacy records lacking the field', () => {
+  // a record predating decisionDetails — forBriefWriter must still surface the rationale.
+  const legacy = { id: 'mom:x', at: '2026-06-04T18:00:00.000Z', decisions: ['Pin Node 20 because the CI image ships it'] };
+  const view = forBriefWriter(legacy);
+  assert.equal(view.decisionDetails.length, 1);
+  assert.deepEqual(view.decisionDetails[0], { text: 'Pin Node 20', rationale: 'because the CI image ships it' });
+});
+
+test('renderMinutes shows the decision rationale inline', () => {
+  const mom = summarizeToMinutes({
+    conferenceId: 'why-md',
+    decisions: ['Use Caddy because it auto-renews TLS'],
+  }, { now: CLOCK });
+  const md = renderMinutes(mom);
+  assert.ok(/Use Caddy because it auto-renews TLS/.test(md), 'decision text present');
+  assert.ok(/why: because it auto-renews TLS/.test(md), 'rationale rendered inline');
 });
 
 test('forBriefWriter omits raw / transcript / private / attendees fields', () => {

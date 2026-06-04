@@ -8,7 +8,7 @@ import { test } from 'node:test';
 const FAKE_KEY = 'sk-' + 'ABCDEF0123456789abcdef0123';  // assembled, not a literal
 import assert from 'node:assert/strict';
 import {
-  parseConversation, toActionItems, toConversationFile, redactForAiTier, renderSummary,
+  parseConversation, toActionItems, toCorrections, toConversationFile, redactForAiTier, renderSummary,
 } from './conversation-parser.mjs';
 
 // an INJECTED comms-parser — deterministic, records that it was called (proves reuse, not duplication).
@@ -93,6 +93,55 @@ test('toActionItems pulls "I\'ll X" / "can you Y" / "we need Z" with attribution
 test('toActionItems soft-handles junk input', () => {
   assert.deepEqual(toActionItems(null), []);
   assert.deepEqual(toActionItems([{}, { text: '' }, { from: 'x', text: 'just chatting, no asks here' }]), []);
+});
+
+const PUSHBACK = {
+  source: 'telegram',
+  messages: [
+    { from: 'operator', text: "No, don't use Railway. We're keeping it on Server 4.", ts: '2026-06-04T11:00:00Z' },
+    { from: 'operator', text: 'Actually, use Caddy instead of nginx.', ts: '2026-06-04T11:01:00Z' },
+    { from: 'operator', text: "You dropped half my paragraph again. That's wrong.", ts: '2026-06-04T11:02:00Z' },
+    { from: 'hathor', text: 'Understood, switching now.', ts: '2026-06-04T11:03:00Z' },
+  ],
+};
+
+test('toCorrections extracts operator pushback ("don\'t", "actually/instead", "no,", "you dropped", "that\'s wrong")', () => {
+  const items = toCorrections(PUSHBACK.messages);
+  const texts = items.map((i) => i.text.toLowerCase());
+  assert.ok(texts.some((t) => t.includes("don't use railway")), 'caught "don\'t" + "no,"');
+  assert.ok(texts.some((t) => t.includes('use caddy instead')), 'caught "actually/instead"');
+  assert.ok(texts.some((t) => t.includes('you dropped')), 'caught "you dropped" — the literal complaint');
+  assert.ok(texts.some((t) => t.includes("that's wrong")), 'caught "that\'s wrong"');
+  // a non-correction message is not flagged
+  assert.ok(!texts.some((t) => t.includes('switching now')), 'agreement is not a correction');
+  // attribution preserved
+  for (const it of items) {
+    assert.ok(it.from && typeof it.from === 'string', 'has from');
+    assert.ok(it.ts === null || /\d{4}-\d{2}-\d{2}T/.test(it.ts), 'has ISO ts or null');
+  }
+  assert.deepEqual(toCorrections(null), []);
+  assert.deepEqual(toCorrections([{ from: 'x', text: 'all good, thanks' }]), []);
+});
+
+test('parseConversation surfaces a corrections[] array and counts it in the summary', () => {
+  const parsed = parseConversation(PUSHBACK, { commsParser: makeFakeCommsParser(), ...DETERMINISTIC });
+  assert.ok(Array.isArray(parsed.corrections) && parsed.corrections.length >= 3, 'corrections surfaced');
+  assert.ok(/correction\(s\)/.test(parsed.summary), 'summary mentions corrections when present');
+  // renderSummary gives corrections their own attributed section.
+  const md = renderSummary(parsed);
+  assert.ok(md.includes('### Corrections / pushback'), 'corrections section in markdown');
+  assert.ok(md.includes('operator — '), 'correction attributed to the operator');
+  // a conversation with no pushback still has the field (empty) and no count in the summary.
+  const calm = parseConversation(CONVO, { commsParser: makeFakeCommsParser(), ...DETERMINISTIC });
+  assert.deepEqual(calm.corrections, [], 'empty when no pushback');
+});
+
+test('toConversationFile carries corrections through to the operator-tier record', () => {
+  const written = [];
+  const store = { write(record) { written.push(record); return { ok: true }; } };
+  const parsed = parseConversation(PUSHBACK, { commsParser: makeFakeCommsParser(), ...DETERMINISTIC });
+  toConversationFile(parsed, { store, ...DETERMINISTIC });
+  assert.ok(Array.isArray(written[0].corrections) && written[0].corrections.length >= 3, 'record carries corrections');
 });
 
 test('toConversationFile writes an operator-tier record through the injected store', () => {

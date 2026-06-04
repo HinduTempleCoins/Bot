@@ -158,6 +158,28 @@ const DECISION_PATTERNS = [
   /\bsounds good,? (?:let'?s|go)\b/i,
 ];
 const QUESTION_HINTS = [/\?/, /^(?:what|why|how|when|who|which|where|should we|do we|can we|is it|are we)\b/i];
+// CORRECTIONS / PUSHBACK — the operator's #1 standing complaint is that his corrections get dropped, so
+// they must survive into the briefs as their OWN category. Match negations + correction/redirection cues:
+//   "don't / do not / never / stop"            → a prohibition / course-reversal
+//   "actually / instead / rather"              → a redirection
+//   "no, / nope / that's wrong / incorrect"    → a rejection of a prior statement
+//   "you dropped / you missed / you forgot"    → flagging the bot dropped something (the literal complaint)
+//   "not X" / "that's not" / "don't think"     → disagreement
+const CORRECTION_PATTERNS = [
+  /\b(?:do\s*n['o]?t|do\s+not)\b/i,        // don't / do not
+  /\bnever\b/i,
+  /\bstop\b/i,
+  /\bactually\b/i,
+  /\binstead\b/i,
+  /\brather\b/i,
+  /^\s*no[,.! ]/i,                          // a sentence that opens with "no,"
+  /\bnope\b/i,
+  /\b(?:that'?s|thats|this is)\s+(?:wrong|incorrect|not right|not what)\b/i,
+  /\b(?:that'?s|thats)\s+not\b/i,
+  /\bincorrect\b/i,
+  /\byou\s+(?:dropped|missed|forgot|ignored|skipped|overrode|overwrote|deleted)\b/i,
+  /\bdon'?t\s+(?:think|want)\b/i,
+];
 
 // split a message body into sentence-ish units so one long message can yield several items.
 function sentences(text) {
@@ -227,6 +249,33 @@ function extractOpenQuestions(messages) {
   return out;
 }
 
+/**
+ * Extract operator corrections / pushback from a message list — deterministic, pure. Each item is
+ *   { text, from, ts }
+ * matching a negation / correction / redirection cue ("don't", "never", "stop", "actually", "instead",
+ * "no, …", "you dropped …", "that's wrong"). This is a DISTINCT category from action items — a correction
+ * is the operator telling the bot it got something wrong or to reverse course, and it MUST survive into
+ * the briefs (the operator's standing #1 complaint is that his corrections get dropped).
+ *
+ * @param {Array<{from,text,ts}>} messages
+ * @returns {Array<{text:string, from:string, ts:string|null}>}
+ */
+export function toCorrections(messages) {
+  const msgs = normMessages(messages);
+  const out = [];
+  const seen = new Set();
+  for (const m of msgs) {
+    for (const sent of sentences(m.text)) {
+      if (!anyMatch(CORRECTION_PATTERNS, sent)) continue;
+      const key = m.from + '|' + sent.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ text: sent, from: m.from, ts: m.ts });
+    }
+  }
+  return out;
+}
+
 // merge per-message entities into one deduped set.
 function mergeEntities(perMessage) {
   const acc = { tickers: new Set(), mentions: new Set(), urls: new Set(), hashtags: new Set(), orgs: new Set() };
@@ -238,17 +287,19 @@ function mergeEntities(perMessage) {
 }
 
 // one-line summary — deterministic: source, participants, span, counts, leaning. No model.
-function buildSummary({ source, messages, actionItems, decisions, openQuestions, sentiment }) {
+function buildSummary({ source, messages, actionItems, decisions, openQuestions, corrections, sentiment }) {
   const people = [...new Set(messages.map((m) => m.from))];
   const span = messages.length
     ? `${messages[0].ts || '?'}→${messages[messages.length - 1].ts || '?'}`
     : 'empty';
+  const n = Array.isArray(corrections) ? corrections.length : 0;
   return [
     `${source} conversation, ${messages.length} msg(s) among ${people.join(', ') || '—'}`,
     `(${span})`,
     `— ${actionItems.length} action item(s), ${decisions.length} decision(s), ${openQuestions.length} open question(s)`,
+    n ? `, ${n} correction(s)` : '',
     `; mood ${sentiment.label}.`,
-  ].join(' ');
+  ].join(' ').replace(' ,', ',');
 }
 
 /**
@@ -257,8 +308,8 @@ function buildSummary({ source, messages, actionItems, decisions, openQuestions,
  *
  * @param {{source:'telegram'|'chat', messages:Array<{from,text,ts}>}} input
  * @param {{commsParser?, now?}} [deps]
- * @returns {{ id, source, summary, actionItems, decisions, entities, sentiment, openQuestions,
- *            participants, messageCount, parsedAt }}
+ * @returns {{ id, source, summary, actionItems, decisions, corrections, entities, sentiment,
+ *            openQuestions, participants, messageCount, parsedAt }}
  */
 export function parseConversation(input = {}, deps = {}) {
   const source = normSource(input.source);
@@ -268,6 +319,7 @@ export function parseConversation(input = {}, deps = {}) {
   const actionItems = toActionItems(messages);
   const decisions = extractDecisions(messages);
   const openQuestions = extractOpenQuestions(messages);
+  const corrections = toCorrections(messages);
 
   // sentiment over the whole conversation text (reusing comms-parser's scorer).
   const allText = messages.map((m) => m.text).join('. ');
@@ -282,7 +334,7 @@ export function parseConversation(input = {}, deps = {}) {
   const entities = mergeEntities(perMessage);
 
   const participants = [...new Set(messages.map((m) => m.from))];
-  const summary = buildSummary({ source, messages, actionItems, decisions, openQuestions, sentiment: sen });
+  const summary = buildSummary({ source, messages, actionItems, decisions, openQuestions, corrections, sentiment: sen });
 
   return {
     id: conversationId(source, messages),
@@ -290,6 +342,7 @@ export function parseConversation(input = {}, deps = {}) {
     summary,
     actionItems,
     decisions,
+    corrections,
     entities,
     sentiment: sen,
     openQuestions,
@@ -335,6 +388,7 @@ export function toConversationFile(parsed, deps = {}) {
     summary: p.summary || '',
     actionItems: Array.isArray(p.actionItems) ? p.actionItems : [],
     decisions: Array.isArray(p.decisions) ? p.decisions : [],
+    corrections: Array.isArray(p.corrections) ? p.corrections : [],
     openQuestions: Array.isArray(p.openQuestions) ? p.openQuestions : [],
     entities: p.entities || {},
     sentiment: p.sentiment || { score: 0, label: 'neutral' },
@@ -425,6 +479,12 @@ export function renderSummary(parsed) {
   L.push('');
   L.push('### Action items');
   if (p.actionItems && p.actionItems.length) for (const a of p.actionItems) L.push(`- ${a.from || '?'} — ${a.text}${a.ts ? ` _(${a.ts})_` : ''}`);
+  else L.push('- _none_');
+  L.push('');
+  // Corrections get their OWN section so the operator's pushback can't be lost between action items and
+  // questions — it must survive into the briefs as a distinct, attributed category.
+  L.push('### Corrections / pushback');
+  if (p.corrections && p.corrections.length) for (const c of p.corrections) L.push(`- ${c.from || '?'} — ${c.text}${c.ts ? ` _(${c.ts})_` : ''}`);
   else L.push('- _none_');
   L.push('');
   L.push('### Open questions');

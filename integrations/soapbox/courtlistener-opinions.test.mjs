@@ -57,6 +57,16 @@ test('normalizeCase flattens a search hit with public-domain provenance', () => 
   assert.equal(normalizeCase({}), null);
 });
 
+test('normalizeCase captures the search-result snippet excerpt and strips highlight tags', () => {
+  const withSnippet = normalizeCase({ ...RAW_HIT, snippet: 'Separate <mark>educational</mark> facilities are inherently unequal.' });
+  assert.equal(withSnippet.snippet, 'Separate educational facilities are inherently unequal.', 'snippet captured, <mark> stripped');
+  // nested opinions[].snippet fallback
+  const nested = normalizeCase({ ...RAW_HIT, snippet: '', opinions: [{ snippet: 'a relevant excerpt' }] });
+  assert.equal(nested.snippet, 'a relevant excerpt');
+  // absent → empty string, never undefined
+  assert.equal(normalizeCase(RAW_HIT).snippet, '');
+});
+
 test('searchCases queries the search endpoint and normalizes; court/date narrow it', async () => {
   const sink = {};
   __setFetch(captureFetch(sink, { results: [RAW_HIT] }));
@@ -238,6 +248,22 @@ test('renderPage renders a single detail with snippet + link, handles empties', 
   assert.ok(html.includes('inherently unequal'));
   assert.ok(html.includes('Read the full opinion'));
   assert.ok(renderPage({}).includes('No cases on record'));
+});
+
+test('renderPage detail shows FULL opinion text when fullText is supplied, else the snippet', () => {
+  const fullBody = 'We hold that ' + 'the reasoning is detailed and long. '.repeat(40);
+  // fullText as an opinionText()-shaped record
+  const htmlFull = renderPage({ detail: normalizeCase(RAW_HIT), fullText: { text: fullBody } });
+  assert.ok(htmlFull.includes('cl-fulltext'), 'renders the full-text block');
+  assert.ok(htmlFull.includes(fullBody.slice(0, 300)), 'full text rendered untruncated');
+  assert.ok(!htmlFull.includes('cl-snippet'), 'full-text block replaces the snippet block');
+  // fullText as a raw string also works
+  const htmlStr = renderPage({ detail: normalizeCase(RAW_HIT), fullText: fullBody });
+  assert.ok(htmlStr.includes('cl-fulltext'));
+  // without fullText, the snippet path still renders.
+  const htmlSnip = renderPage({ detail: normalizeCase(RAW_HIT), snippet: { snippet: 'inherently unequal' } });
+  assert.ok(htmlSnip.includes('cl-snippet'));
+  assert.ok(!htmlSnip.includes('cl-fulltext'));
 });
 
 test('dataNote names CourtListener, public-domain, and PACER redaction respect', () => {

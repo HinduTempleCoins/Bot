@@ -116,6 +116,26 @@ test('caseByCitation soft-fails to null when no results', async () => {
   __setFetch(null);
 });
 
+test('caseByCitation({full:true}) carries untruncated fullText; default keeps only the snippet', async () => {
+  const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(400);
+  const rawLong = { ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } };
+  // default (back-compat): snippet only, no fullText.
+  __setFetch(envelopeFetch({ results: [rawLong] }));
+  const plain = await caseByCitation('347 U.S. 483');
+  __setFetch(null);
+  assert.equal(plain.fullText, undefined, 'no fullText without {full:true}');
+  assert.ok(plain.snippet.length <= 282, 'snippet bounded');
+  assert.equal(plain.citationLookup, '347 U.S. 483');
+  // {full:true}: the whole opinion text, untruncated, alongside the bounded snippet.
+  __setFetch(envelopeFetch({ results: [rawLong] }));
+  const full = await caseByCitation('347 U.S. 483', { full: true });
+  __setFetch(null);
+  assert.equal(full.fullText, caseText(rawLong), 'fullText is the untruncated caseText');
+  assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
+  assert.ok(full.snippet.length <= 282, 'snippet still present alongside fullText');
+  assert.equal(full.citationLookup, '347 U.S. 483');
+});
+
 test('renderPage renders a case card and escapes injection', () => {
   const html = renderPage({ case: normalizeCase({ ...RAW_CASE, name_abbreviation: '<script>x</script>' }) });
   assert.ok(!html.includes('<script>x'));
@@ -124,6 +144,21 @@ test('renderPage renders a case card and escapes injection', () => {
   assert.ok(html.includes('347 U.S. 483'));
   assert.ok(html.includes('Read the full case'));
   assert.ok(html.includes('source: Caselaw Access Project'));
+});
+
+test('renderPage shows the FULL opinion text when the card carries fullText, else the snippet', () => {
+  const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'y '.repeat(400);
+  const full = normalizeCase({ ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } }, { full: true });
+  const htmlFull = renderPage({ case: full });
+  assert.ok(htmlFull.includes('cap-fulltext'), 'renders the full-text block');
+  assert.ok(htmlFull.includes('inherently unequal'), 'includes the opinion body');
+  // the full block carries text well beyond the 280-char snippet cap (no ellipsis truncation).
+  assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
+  assert.ok(htmlFull.includes(full.fullText.slice(0, 300)), 'full text is rendered untruncated');
+  // without fullText, the snippet path still renders.
+  const htmlSnip = renderPage({ case: normalizeCase(RAW_CASE) });
+  assert.ok(htmlSnip.includes('cap-snippet'), 'falls back to the snippet block');
+  assert.ok(!htmlSnip.includes('cap-fulltext'), 'no full-text block without fullText');
 });
 
 test('renderPage handles a not-found case without throwing', () => {
