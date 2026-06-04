@@ -8,7 +8,135 @@ import assert from 'node:assert/strict';
 import {
   SCAM_SOURCES, KINDS, govSources, queryableSources, keylessSources, byKind,
   classifyQuery, normalizeDomain, checkLegit, scamSignals, summary, LEGIT_ALLOWLIST,
+  __setFetch, secPauseList, edgarFullText, urlscanDomain, checkCryptoScamDB,
 } from './scam-registry.mjs';
+import { invalidate } from './cache.mjs';
+
+// ── Offline live-lookup coverage via the injectable fetch seam. The cache is in-process; we
+// invalidate before each injected case + use unique queries so a previous test can't poison a hit. ──
+
+// Build a fake Response that satisfies the {ok, status, json(), text()} surface these readers use.
+function fakeResponse({ ok = true, status = 200, json, text } = {}) {
+  return {
+    ok, status,
+    async json() { if (json === undefined) throw new Error('no json'); return json; },
+    async text() { return text ?? ''; },
+  };
+}
+// A fetch that throws (network down) — exercises the soft-fail path.
+const throwingFetch = () => { throw new Error('network down'); };
+
+test('secPauseList: parses names.txt into a lowercased Set (injected fetch)', async () => {
+  invalidate();
+  __setFetch(async () => fakeResponse({ ok: true, text: 'Acme Capital\nBETA Trust LLC\n\n  Gamma Fund  \n' }));
+  try {
+    const set = await secPauseList();
+    assert.ok(set instanceof Set);
+    assert.ok(set.has('acme capital'));
+    assert.ok(set.has('beta trust llc'));
+    assert.ok(set.has('gamma fund'));        // trimmed
+    assert.ok(!set.has(''));                  // blank line dropped
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('secPauseList: soft-fails to empty Set on network error (never throws)', async () => {
+  invalidate();
+  __setFetch(throwingFetch);
+  try {
+    const set = await secPauseList();
+    assert.ok(set instanceof Set);
+    assert.equal(set.size, 0);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('edgarFullText: parses hits + sample display names (injected fetch)', async () => {
+  invalidate();
+  __setFetch(async () => fakeResponse({ ok: true, json: {
+    hits: { total: { value: 3 }, hits: [
+      { _source: { display_names: ['ACME CORP (CIK 0001)'] } },
+      { _source: { display_names: ['ACME HOLDINGS'] } },
+    ] },
+  } }));
+  try {
+    const r = await edgarFullText('acme-edgar-unique-1');
+    assert.equal(r.hits, 3);
+    assert.equal(r.hasFilings, true);
+    assert.deepEqual(r.sample, ['ACME CORP (CIK 0001)', 'ACME HOLDINGS']);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('edgarFullText: non-ok response → null (soft-fail)', async () => {
+  invalidate();
+  __setFetch(async () => fakeResponse({ ok: false, status: 429 }));
+  try {
+    assert.equal(await edgarFullText('rate-limited-edgar-unique-2'), null);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('urlscanDomain: counts malicious verdicts (injected fetch)', async () => {
+  invalidate();
+  __setFetch(async () => fakeResponse({ ok: true, json: {
+    total: 4,
+    results: [
+      { verdicts: { overall: { malicious: true } } },
+      { task: { tags: ['phishing'] } },
+      { verdicts: { overall: { malicious: false } }, task: { tags: ['benign'] } },
+    ],
+  } }));
+  try {
+    const r = await urlscanDomain('evil-unique-1.test');
+    assert.equal(r.scans, 4);
+    assert.equal(r.malicious, 2);
+    assert.equal(r.malicious_seen, true);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('checkCryptoScamDB: reported when result entries present (injected fetch)', async () => {
+  invalidate();
+  __setFetch(async () => fakeResponse({ ok: true, json: {
+    success: true, result: [{ name: 'phish1' }, { name: 'phish2' }],
+  } }));
+  try {
+    const r = await checkCryptoScamDB('scam-unique-1.test');
+    assert.equal(r.reported, true);
+    assert.equal(r.entries.length, 2);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('scamSignals: aggregates multi-source results + derives riskHint (injected fetch)', async () => {
+  invalidate();
+  // Route every keyless source to a hit: PAUSE names include the query, urlscan malicious,
+  // csdb reported, edgar has filings. A PAUSE listing → riskHint 'high'.
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('us_sec_pause/names.txt')) return fakeResponse({ ok: true, text: 'evilcorp\n' });
+    if (u.includes('urlscan.io')) return fakeResponse({ ok: true, json: { total: 2, results: [{ verdicts: { overall: { malicious: true } } }] } });
+    if (u.includes('cryptoscamdb')) return fakeResponse({ ok: true, json: { success: true, result: [{ name: 'x' }] } });
+    if (u.includes('efts.sec.gov')) return fakeResponse({ ok: true, json: { hits: { total: { value: 1 }, hits: [] } } });
+    return fakeResponse({ ok: false, status: 404 });
+  });
+  try {
+    const r = await scamSignals('evilcorp.test');
+    assert.equal(r.kind, 'domain');
+    assert.ok(r.sources.includes('urlscan.io'));
+    assert.ok(r.sources.includes('CryptoScamDB'));
+    assert.ok(r.sources.includes('SEC EDGAR'));
+    assert.ok(r.reports.some((x) => x.source === 'urlscan.io'));
+    assert.equal(r.riskHint, 'high');         // listed on PAUSE (substring match) overrides
+    assert.ok(r.signals.csdb && r.signals.csdb.reported);
+  } finally { __setFetch(null); invalidate(); }
+});
+
+test('scamSignals: all sources down → soft-fail, riskHint unknown (never throws)', async () => {
+  invalidate();
+  __setFetch(throwingFetch);
+  try {
+    const r = await scamSignals('quiet-unique-domain.test');
+    assert.equal(r.kind, 'domain');
+    assert.deepEqual(r.reports, []);
+    assert.equal(r.riskHint, 'unknown');
+  } finally { __setFetch(null); invalidate(); }
+});
 
 test('catalog: every source is well-formed', () => {
   assert.ok(Array.isArray(SCAM_SOURCES) && SCAM_SOURCES.length > 0);

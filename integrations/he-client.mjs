@@ -4,6 +4,11 @@
 
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 
+// Injectable fetch seam (house pattern) so the multi-node failover + find/historyPage parse logic
+// is offline-testable without touching the network. Defaults to the global fetch.
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 // contracts RPC mirrors (find/findOne against the sidechain state)
 const RPC_NODES = (process.env.HE_RPC_NODES || [
   'https://api.hive-engine.com/rpc/contracts',
@@ -23,7 +28,7 @@ async function fetchJSON(url, opts = {}, timeout = TIMEOUT_MS) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), timeout);
   try {
-    const r = await fetch(url, { headers: { 'user-agent': UA, ...(opts.headers || {}) }, signal: ctrl.signal, ...opts });
+    const r = await _fetch(url, { headers: { 'user-agent': UA, ...(opts.headers || {}) }, signal: ctrl.signal, ...opts });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return await r.json();
   } finally { clearTimeout(t); }

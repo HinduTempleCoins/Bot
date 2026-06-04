@@ -5,8 +5,13 @@
 //   node integrations/holders.mjs [SYMBOL ...]   (default = ISSUED_TOKENS)
 //   import { holders } from './holders.mjs'
 
-import { find } from './he-client.mjs';
+import { find, __setFetch as __setHeFetch } from './he-client.mjs';
 import { ISSUED_TOKENS, TRADE_ACCOUNT } from './watchlist.mjs';
+
+// Injectable fetch seam (house pattern). holders has no direct fetch — it reads the chain via
+// he-client's find(). Re-export he-client's seam so holders' aggregation/threshold logic is
+// offline-testable through the same surface (inject a fake fetch → drive find() → exercise holders).
+export const __setFetch = __setHeFetch;
 
 // affiliated accounts that aren't "real outside demand" even though they aren't the issuer
 const AFFILIATED = new Set([TRADE_ACCOUNT, 'vankushfamily', 'angelica7', 'angelicalist', 'vankush', 'punicwax']);

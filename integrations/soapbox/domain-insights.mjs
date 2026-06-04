@@ -8,6 +8,11 @@ import { auditPage } from './seo-audit.mjs';
 const UA = 'Mozilla/5.0 (compatible; SoapBox-Insights/1.0; +https://directory.soapbox.community)';
 const T = (ms) => AbortSignal.timeout(ms);
 
+// Injectable fetch seam (house pattern) so the Tranco/RDAP parse + aggregation logic is
+// offline-testable without touching the network. Defaults to the global fetch.
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 /** Normalize "https://www.x.com/path" or "X.com" → "x.com" (registrable-ish host, lowercased). */
 export function normDomain(input) {
   let h = String(input || '').trim().toLowerCase();
@@ -21,7 +26,7 @@ export function normDomain(input) {
 /** Tranco rank (lower = more popular). Keyless. Returns { rank, date } or null. */
 export async function trancoRank(domain) {
   try {
-    const r = await fetch(`https://tranco-list.eu/api/ranks/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA }, signal: T(8000) });
+    const r = await _fetch(`https://tranco-list.eu/api/ranks/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA }, signal: T(8000) });
     if (!r.ok) return null;
     const d = await r.json();
     const latest = (d.ranks || []).find((x) => x.rank);
@@ -33,7 +38,7 @@ export async function trancoRank(domain) {
  *  delta = first(oldest) − latest, so a POSITIVE delta means the rank number fell over the window = climbing. */
 export async function trancoTrend(domain, { limit = 30 } = {}) {
   try {
-    const r = await fetch(`https://tranco-list.eu/api/ranks/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA }, signal: T(8000) });
+    const r = await _fetch(`https://tranco-list.eu/api/ranks/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA }, signal: T(8000) });
     if (!r.ok) return null;
     const d = await r.json();
     // API returns newest-first; keep ranked points, cap to `limit`, then reverse to oldest→newest for charting.
@@ -49,7 +54,7 @@ export async function trancoTrend(domain, { limit = 30 } = {}) {
 /** Registration date + age via RDAP (keyless). Returns { registered, ageYears, registrar } or null. */
 export async function domainAge(domain) {
   try {
-    const r = await fetch(`https://rdap.org/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA, accept: 'application/rdap+json' }, signal: T(8000), redirect: 'follow' });
+    const r = await _fetch(`https://rdap.org/domain/${encodeURIComponent(domain)}`, { headers: { 'user-agent': UA, accept: 'application/rdap+json' }, signal: T(8000), redirect: 'follow' });
     if (!r.ok) return null;
     const d = await r.json();
     const reg = (d.events || []).find((e) => e.eventAction === 'registration');
