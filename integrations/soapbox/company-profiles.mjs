@@ -263,6 +263,64 @@ function completeness(p) {
   return Math.round((have / COMPLETENESS_FIELDS.length) * 100);
 }
 
+// ── Confidence / data-quality (mirrors price-oracle.mjs's multi-source agreement signal) ───────────
+// price-oracle treats a value as "confident" when ≥2 independent sources agree. A company profile is
+// stitched from independent registries (SEC / GLEIF / Wikidata / Wikipedia / USAspending), so we score
+// confidence the same way: count how many distinct sources corroborate the identity, whether the
+// few cross-checkable fields AGREE across sources, and reject obvious outliers (e.g. a nonsensical
+// founding year or employee count). Returns a Clarity-style 0–100 + flags surfaced for review.
+const FOUNDING_MIN = 1600;                       // older than this for a tradeable company → suspect.
+const EMP_MAX = 3_000_000;                       // Walmart (~2.1M) is the practical ceiling.
+const _norm = (s) => String(s || '').trim().toLowerCase().replace(/[.,]/g, '');
+// GLEIF gives a 2-letter ISO code (e.g. "US"); Wikidata resolves to a full country name (e.g. "United
+// States"). Reconcile the common aliases so the cross-check doesn't flag a false contradiction.
+const COUNTRY_ALIASES = {
+  us: ['united states', 'united states of america', 'usa', 'us'],
+  gb: ['united kingdom', 'uk', 'great britain', 'gb'],
+  fr: ['france', 'fr'], de: ['germany', 'de'], ca: ['canada', 'ca'],
+  cn: ['china', 'cn'], jp: ['japan', 'jp'], in: ['india', 'in'], nl: ['netherlands', 'nl'],
+};
+function countriesAgree(a, b) {
+  const x = _norm(a), y = _norm(b);
+  if (!x || !y) return true;            // can't compare → don't penalize
+  if (x === y || x.includes(y) || y.includes(x)) return true;
+  for (const aliases of Object.values(COUNTRY_ALIASES)) if (aliases.includes(x) && aliases.includes(y)) return true;
+  return false;
+}
+
+export function profileConfidence(p) {
+  const flags = [];
+  // 1) corroboration: how many independent sources contributed (the price-oracle "sources" analog).
+  const sourceCount = (p.sources || []).length;
+
+  // 2) cross-source agreement on the few fields more than one source provides.
+  //    name: SEC legal name vs GLEIF legal name vs Wikidata-resolved name.
+  //    hq:   GLEIF HQ vs Wikidata HQ.  founded: only Wikidata, so no cross-check — counts as neutral.
+  let agree = 0, checks = 0;
+  if (p._raw) {
+    const r = p._raw;
+    const names = [r.secMeta?.name, r.gleif?.legalName].filter(Boolean).map(_norm);
+    if (names.length >= 2) { checks++; if (names[0].includes(names[1]) || names[1].includes(names[0])) agree++; else flags.push('legal name differs between SEC and GLEIF'); }
+    const gc = r.gleif?.country, wc = r.wiki?.country;
+    if (gc && wc) { checks++; if (countriesAgree(gc, wc)) agree++; else flags.push('headquarters country differs between GLEIF and Wikidata'); }
+    const tickers = [r.sec?.ticker, r.wiki?.ticker].filter(Boolean).map(_norm);
+    if (tickers.length >= 2) { checks++; if (tickers[0] === tickers[1]) agree++; else flags.push('ticker differs between SEC and Wikidata'); }
+  }
+
+  // 3) outlier rejection on individual numeric fields (don't trust an absurd value; flag it).
+  if (p.founded != null) { const y = +p.founded; if (!(y >= FOUNDING_MIN && y <= new Date().getUTCFullYear())) flags.push(`founding year ${p.founded} out of plausible range`); }
+  if (p.employees != null) { const e = +p.employees; if (!(e >= 1 && e <= EMP_MAX)) flags.push(`employee count ${p.employees} out of plausible range`); }
+
+  // 4) blend into a 0–100. Corroboration is the backbone (more registries = more trustworthy); the
+  //    agreement ratio rewards consistency; flags subtract. ≥2 sources & no contradiction = confident.
+  const corrob = Math.min(sourceCount, 4) / 4 * 60;           // up to 60 pts for breadth of sources
+  const consistency = checks ? (agree / checks) * 30 : 15;     // up to 30 (neutral 15 when nothing to cross-check)
+  const penalty = flags.length * 12;
+  const score = Math.max(0, Math.min(100, Math.round(corrob + consistency + 10 - penalty)));
+  const contradictions = flags.filter((f) => f.includes('differs')).length;
+  return { score, sources: sourceCount, crossChecks: checks, agreements: agree, flags, confident: sourceCount >= 2 && contradictions === 0 };
+}
+
 /**
  * Assemble a best-effort, Crunchbase-style company profile from keyless public records.
  * @param {string} query company name or ticker, e.g. "Apple", "AAPL", "Tesla Inc"
@@ -361,6 +419,10 @@ export async function companyProfile(query) {
   }
 
   profile.completeness = completeness(profile);
+  // attach the raw per-source slices (non-enumerable so it doesn't bloat JSON output) so the
+  // confidence scorer can cross-check fields, then compute the Clarity-style confidence block.
+  Object.defineProperty(profile, '_raw', { value: { sec, secMeta, gleif, wiki, wikiText, gov }, enumerable: false });
+  profile.confidence = profileConfidence(profile);
   return profile;
 }
 
@@ -387,6 +449,8 @@ if (isMain) {
       console.log(`  Exchanges:  ${p.exchanges?.join(', ') || '—'}`);
       console.log(`  Status:     ${p.legalStatus || '—'}  (${p.jurisdiction || '—'})`);
       console.log(`  Complete:   ${p.completeness}%`);
+      console.log(`  Confidence: ${p.confidence.score}/100  (${p.confidence.sources} sources, ${p.confidence.confident ? 'confident' : 'unconfirmed'})`);
+      if (p.confidence.flags.length) for (const f of p.confidence.flags) console.log(`    ⚠ ${f}`);
       if (p.onboarding) { console.log(`\n  Onboarding (${p.onboarding.status}): ${p.onboarding.note}`); for (const m of p.onboarding.missing) console.log(`    • needs: ${m}`); }
       if (p.secFilings?.length) {
         console.log('\n  Recent SEC filings:');
