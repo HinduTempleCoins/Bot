@@ -28,6 +28,11 @@ import { cached, TTL } from './cache.mjs';
 const UA = 'Mozilla/5.0 (compatible; SoapBox-ScamRegistry/1.0; +https://data.soapbox.community)';
 const T = (ms) => AbortSignal.timeout(ms);
 
+// Injectable fetch seam (house pattern) so the keyless live lookups + aggregation/risk logic are
+// offline-testable without touching the network. Defaults to the global fetch.
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 // Trust-layer TTL bands. Fraud lists move slowly; a registry refresh of an hour is plenty and keeps
 // us well under any regulator's implicit rate budget.
 const TTL_SCAM = {
@@ -280,7 +285,7 @@ export function normalizeDomain(input) {
 export async function secPauseList() {
   return cached('scam:pause:names', TTL_SCAM.list, async () => {
     try {
-      const r = await fetch('https://data.opensanctions.org/datasets/latest/us_sec_pause/names.txt', { headers: { 'user-agent': UA }, signal: T(12_000) });
+      const r = await _fetch('https://data.opensanctions.org/datasets/latest/us_sec_pause/names.txt', { headers: { 'user-agent': UA }, signal: T(12_000) });
       if (!r.ok) return new Set();
       const text = await r.text();
       return new Set(text.split('\n').map((l) => l.trim().toLowerCase()).filter(Boolean));
@@ -309,7 +314,7 @@ export async function edgarFullText(term) {
   if (!q) return null;
   return cached(`scam:edgar:${q.toLowerCase()}`, TTL_SCAM.lookup, async () => {
     try {
-      const r = await fetch(`https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(`"${q}"`)}`, { headers: { 'user-agent': UA, accept: 'application/json' }, signal: T(12_000) });
+      const r = await _fetch(`https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(`"${q}"`)}`, { headers: { 'user-agent': UA, accept: 'application/json' }, signal: T(12_000) });
       if (!r.ok) return null;
       const d = await r.json();
       const hits = d?.hits?.total?.value ?? 0;
@@ -328,7 +333,7 @@ export async function urlscanDomain(domain) {
   if (!d) return null;
   return cached(`scam:urlscan:${d}`, TTL_SCAM.lookup, async () => {
     try {
-      const r = await fetch(`https://urlscan.io/api/v1/search/?q=domain:${encodeURIComponent(d)}&size=20`, { headers: { 'user-agent': UA }, signal: T(12_000) });
+      const r = await _fetch(`https://urlscan.io/api/v1/search/?q=domain:${encodeURIComponent(d)}&size=20`, { headers: { 'user-agent': UA }, signal: T(12_000) });
       if (!r.ok) return null;
       const data = await r.json();
       const results = data?.results || [];
@@ -349,7 +354,7 @@ export async function checkCryptoScamDB(query) {
   return cached(`scam:csdb:${q.toLowerCase()}`, TTL_SCAM.lookup, async () => {
     try {
       const path = isAddr ? `addresses/${encodeURIComponent(q)}` : `domains/${encodeURIComponent(normalizeDomain(q) || q)}`;
-      const r = await fetch(`https://api.cryptoscamdb.org/v1/${path}`, { headers: { 'user-agent': UA }, signal: T(10_000) });
+      const r = await _fetch(`https://api.cryptoscamdb.org/v1/${path}`, { headers: { 'user-agent': UA }, signal: T(10_000) });
       if (!r.ok) return null;
       const d = await r.json();
       if (!d?.success) return null;
@@ -371,7 +376,7 @@ export async function checkChainabuse(query) {
   if (!key || !q) return null;
   return cached(`scam:chainabuse:${q.toLowerCase()}`, TTL_SCAM.lookup, async () => {
     try {
-      const r = await fetch(`https://api.chainabuse.com/v0/reports?address=${encodeURIComponent(q)}`, {
+      const r = await _fetch(`https://api.chainabuse.com/v0/reports?address=${encodeURIComponent(q)}`, {
         headers: { 'user-agent': UA, accept: 'application/json', authorization: `Basic ${Buffer.from(`${key}:${key}`).toString('base64')}` },
         signal: T(12_000),
       });
