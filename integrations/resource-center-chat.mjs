@@ -59,6 +59,30 @@ async function callRc(query, topK) {
 const num = (n, d = 2) => (n == null || !Number.isFinite(+n) ? '—' : (+n).toLocaleString(undefined, { maximumFractionDigits: d }));
 const pct = (n) => (n == null || !Number.isFinite(+n) ? '—' : `${+n >= 0 ? '+' : ''}${(+n).toFixed(2)}%`);
 
+// datum-type → OUR OWN canonical page (#275). The clickable `url` always points to our record on
+// *.soapbox.community; the big-site upstream is named honestly in `attribution`/`via`, never linked.
+const OUR_PAGE = {
+  hiveEngine: 'https://data.soapbox.community/coins',
+  crypto: 'https://data.soapbox.community/coins',
+  chain: 'https://data.soapbox.community/coins',
+  metals: 'https://data.soapbox.community/commodities',
+  commodities: 'https://data.soapbox.community/commodities',
+  indices: 'https://data.soapbox.community/macro',
+  macro: 'https://data.soapbox.community/macro',
+  stocks: 'https://stocks.soapbox.community',
+  forex: 'https://data.soapbox.community/fx',
+  fx: 'https://data.soapbox.community/fx',
+  dxy: 'https://data.soapbox.community/fx',
+  sentiment: 'https://data.soapbox.community/macro',
+  marketEntry: 'https://data.soapbox.community/coins',
+  firstTrade: 'https://data.soapbox.community/coins',
+  news: 'https://data.soapbox.community/macro',
+};
+const ourPage = (type, slug) => {
+  const base = OUR_PAGE[type] || 'https://data.soapbox.community';
+  return slug ? `${base}/${String(slug).toLowerCase()}` : base;
+};
+
 function snapshotCandidates(snap) {
   const out = [];
   if (!snap || typeof snap !== 'object') return out;
@@ -71,7 +95,9 @@ function snapshotCandidates(snap) {
     const top = (he.topVolume || []).slice(0, 5).map((r) => `${r.symbol} (${num(r.volume, 0)})`).join(', ');
     out.push({
       title: 'Hive-Engine / TribalDEX',
-      url: 'https://tribaldex.com/',
+      url: ourPage('hiveEngine'),
+      attribution: 'TribalDEX / Hive-Engine',
+      via: 'TribalDEX / Hive-Engine',
       snippet: `${num(he.totalTokens, 0)} tokens, ${num(he.activeMarkets, 0)} active markets, ${num(he.totalVolumeHive, 0)} HIVE 24h volume. Top volume: ${top}.`,
       text: `hive-engine tribaldex token tokens market markets volume hive ${(he.topVolume || []).map((r) => r.symbol).join(' ')} ${(he.topGainers || []).map((r) => r.symbol).join(' ')} ${(he.topLosers || []).map((r) => r.symbol).join(' ')}`.toLowerCase(),
     });
@@ -81,7 +107,9 @@ function snapshotCandidates(snap) {
     if (!v) continue;
     out.push({
       title: `${k[0].toUpperCase()}${k.slice(1)} (spot)`,
-      url: 'https://www.kitco.com/',
+      url: ourPage('metals'),
+      attribution: 'Kitco (spot metals)',
+      via: 'Kitco',
       snippet: `${k}: $${num(v.price)} (${pct(v.change)}) as of ${ts}.`,
       text: `${k} metal metals gold silver platinum copper spot price bullion`.toLowerCase(),
     });
@@ -91,7 +119,9 @@ function snapshotCandidates(snap) {
     if (!v) continue;
     out.push({
       title: `${k.toUpperCase()} index`,
-      url: 'https://finance.yahoo.com/',
+      url: ourPage('indices'),
+      attribution: 'Yahoo Finance',
+      via: 'Yahoo Finance',
       snippet: `${k.toUpperCase()}: ${v.price != null ? num(v.price) : '—'} (${pct(v.change)}) as of ${ts}.`,
       text: `${k} index indices stock stocks dow s&p sp500 nasdaq vix market equities ${m.riskOn || ''}`.toLowerCase(),
     });
@@ -100,7 +130,9 @@ function snapshotCandidates(snap) {
   for (const p of (m.forex || [])) {
     out.push({
       title: `${p.pair} (forex)`,
-      url: 'https://www.oanda.com/',
+      url: ourPage('forex'),
+      attribution: 'OANDA',
+      via: 'OANDA',
       snippet: `${p.pair}: ${num(p.rate, 4)} (${pct(p.change)}) as of ${ts}.`,
       text: `${p.pair} forex fx currency currencies exchange rate dollar euro yen pound`.toLowerCase(),
     });
@@ -108,7 +140,9 @@ function snapshotCandidates(snap) {
   if (m.dxy) {
     out.push({
       title: 'Dollar Index (DXY)',
-      url: 'https://www.marketwatch.com/investing/index/dxy',
+      url: ourPage('dxy'),
+      attribution: 'MarketWatch',
+      via: 'MarketWatch',
       snippet: `DXY: ${num(m.dxy.price)} (${pct(m.dxy.change)}) — dollar strength as of ${ts}.`,
       text: 'dxy dollar index strength usd forex currency'.toLowerCase(),
     });
@@ -119,7 +153,9 @@ function snapshotCandidates(snap) {
     const ePct = e.edgePct == null ? null : (e.edgePct < 1 ? e.edgePct * 100 : e.edgePct);
     out.push({
       title: `Market entry: ${market}`,
-      url: e.url || 'https://tribaldex.com/',
+      url: ourPage('marketEntry'),
+      attribution: e.venue || 'TribalDEX',
+      via: e.venue || 'TribalDEX',
       snippet: `${market}${e.venue ? ` @ ${e.venue}` : ''}${e.chain ? ` [${e.chain}]` : ''}${ePct != null ? ` ~${ePct.toFixed(1)}% edge` : ''}: ${e.reason || e.action || ''}`.trim(),
       text: `${market} ${e.venue || ''} ${e.chain || ''} ${e.reason || ''} ${e.action || ''} market entry enter trade arbitrage opportunity`.toLowerCase(),
     });
@@ -129,7 +165,9 @@ function snapshotCandidates(snap) {
     const f = snap.firstTrade;
     out.push({
       title: 'First trade (advisory)',
-      url: 'https://tribaldex.com/',
+      url: ourPage('firstTrade'),
+      attribution: 'TribalDEX / Hive-Engine',
+      via: 'TribalDEX / Hive-Engine',
       snippet: `Best executable edge for @${f.account}: ${f.edge}${f.suggested ? ` → ${f.suggested}` : ''} (buying power ${num(f.hiveBuyingPower)} HIVE).`,
       text: `first trade arbitrage edge execute ${f.account} ${f.edge || ''} ${f.suggested || ''} buying power hive`.toLowerCase(),
     });
@@ -142,9 +180,24 @@ function snapshotCandidates(snap) {
     const themes = (d.themes || []).slice(0, 4).map((t) => t.word).join(', ');
     out.push({
       title: `News: ${d.topic}`,
-      url: d.url || 'https://news.google.com/',
+      url: ourPage('news'),
+      attribution: 'Google News',
+      via: 'Google News',
       snippet: `${d.topic}: ${d.sentimentHint} sentiment (${d.sentimentScore}), ${d.headlineCount} headlines${themes ? ` — themes: ${themes}` : ''}.`,
       text: `news ${d.topic} sentiment ${d.sentimentHint || ''} headlines ${themes} ${d.topic}`.toLowerCase(),
+    });
+  }
+  // Live catalog data (#275) — keyless fetches from free-apis.mjs the engine fanned this pass. Each
+  // links to OUR canonical page (`ourUrl`) and names the upstream provider honestly as attribution.
+  for (const c of (Array.isArray(snap.catalog) ? snap.catalog : [])) {
+    if (!c || c.value == null) continue;
+    out.push({
+      title: c.label || c.id || 'live data',
+      url: c.ourUrl || ourPage(c.type),
+      attribution: c.via || c.source || '',
+      via: c.via || c.source || '',
+      snippet: `${c.value}${c.via ? ` (via ${c.via})` : ''} as of ${ts}.`,
+      text: `${c.label || ''} ${c.id || ''} ${c.value || ''} ${c.type || ''} ${c.via || ''} live data price`.toLowerCase(),
     });
   }
   // Allow an engine to attach explicit cited sources directly.
@@ -153,6 +206,8 @@ function snapshotCandidates(snap) {
     out.push({
       title: s.title || 'source',
       url: s.url || '',
+      attribution: s.attribution || s.via || '',
+      via: s.via || s.attribution || '',
       snippet: s.snippet || s.text || '',
       text: `${s.title || ''} ${s.snippet || s.text || ''}`.toLowerCase(),
     });
@@ -240,7 +295,7 @@ export async function ask(query, opts = {}) {
     return empty(`I couldn't find anything in the Resource Center matching "${q}". I can answer about metals, stock indices, forex, Hive-Engine tokens, and market-entry opportunities — try one of those.`);
   }
 
-  const sources = scored.map(({ c }) => ({ title: c.title, url: c.url, snippet: c.snippet }));
+  const sources = scored.map(({ c }) => ({ title: c.title, url: c.url, snippet: c.snippet, attribution: c.attribution || c.via || '', via: c.via || c.attribution || '' }));
   // Synthesis is the lead source's snippet plus a count of corroborating sources — grounded, never invented.
   const lead = sources[0];
   const extra = sources.length > 1 ? ` (+${sources.length - 1} related source${sources.length - 1 === 1 ? '' : 's'})` : '';

@@ -15,6 +15,86 @@ import { writeFile, appendFile, mkdir, readFile } from 'node:fs/promises';
 import { marketSnapshot, topByVolume } from './market-universe.mjs';
 import { macro, forex } from './soapbox/macro.mjs';
 import { scanAccounts, accountHoldings } from './held-asset-scan.mjs';
+// free-apis.mjs (#275): our keyless API catalog (~50 no-auth fetchers). The Resource Center now
+// fans a BOUNDED, soft-failing subset of these into every pass so it returns real fetched DATA
+// (crypto prices, on-chain status, FX) as first-class results — each tagged with the upstream
+// source AND with OUR OWN canonical page where that datum lives. Imported defensively.
+let freeApis = null;
+try { freeApis = await import('./free-apis.mjs'); } catch { /* catalog absent — engine still runs */ }
+
+// datum-type → OUR canonical page (data.soapbox.community / stocks.soapbox.community). The clickable
+// link is always to our own record; the upstream provider rides along as `via`/attribution.
+export const OUR_PAGES = {
+  crypto: 'https://data.soapbox.community/coins',     // + /<slug> when we know the coin
+  chain: 'https://data.soapbox.community/coins',      // on-chain status lives under the coin page
+  forex: 'https://data.soapbox.community/fx',
+  fx: 'https://data.soapbox.community/fx',
+  metals: 'https://data.soapbox.community/commodities',
+  commodities: 'https://data.soapbox.community/commodities',
+  macro: 'https://data.soapbox.community/macro',
+  indices: 'https://data.soapbox.community/macro',
+  stocks: 'https://stocks.soapbox.community',
+  sentiment: 'https://data.soapbox.community/macro',
+};
+/** Our canonical page for a datum-type, optionally a specific slug (e.g. crypto + 'bitcoin'). */
+export function ourPage(type, slug) {
+  const base = OUR_PAGES[type] || 'https://data.soapbox.community';
+  return slug ? `${base}/${String(slug).toLowerCase()}` : base;
+}
+
+// The BOUNDED, representative set of keyless catalog fetchers fanned each pass. Configurable via
+// RC_CATALOG (comma-separated dotted names, e.g. "crypto.coingecko,chains.btcTipHeight"). Each entry
+// names the fetcher, the upstream label, the datum-type (→ our page), and a parser → a normalized
+// fact. Kept SMALL on purpose (we don't fan all ~50 every pass).
+const DEFAULT_CATALOG_FANS = [
+  { id: 'crypto.coingecko', via: 'CoinGecko', type: 'crypto', slug: 'bitcoin',
+    run: (api) => api.crypto.coingecko('bitcoin,hive', 'usd'),
+    parse: (d) => `BTC $${d?.bitcoin?.usd ?? '—'}, HIVE $${d?.hive?.usd ?? '—'}`, label: 'BTC / HIVE spot (USD)' },
+  { id: 'crypto.fearGreed', via: 'Alternative.me', type: 'sentiment',
+    run: (api) => api.crypto.fearGreed(),
+    parse: (d) => { const f = d?.data?.[0]; return f ? `Crypto Fear & Greed: ${f.value} (${f.value_classification})` : null; },
+    label: 'Crypto Fear & Greed' },
+  { id: 'chains.btcTipHeight', via: 'Blockstream', type: 'chain', slug: 'bitcoin',
+    run: (api) => api.chains.btcTipHeight(),
+    parse: (t) => { const h = String(t).trim(); return /^\d+$/.test(h) ? `Bitcoin chain tip: block ${(+h).toLocaleString()}` : null; },
+    label: 'Bitcoin chain tip height' },
+  { id: 'crypto.frankfurter', via: 'Frankfurter (ECB)', type: 'forex',
+    run: (api) => api.crypto.frankfurter('USD', 'EUR'),
+    parse: (d) => { const r = d?.rates?.EUR; return r ? `Reference FX: 1 USD = ${r} EUR (ECB daily)` : null; },
+    label: 'USD/EUR reference rate' },
+];
+
+/** Resolve the configured catalog-fan set (RC_CATALOG filters/reorders the defaults by id). */
+function catalogFans() {
+  if (!process.env.RC_CATALOG) return DEFAULT_CATALOG_FANS;
+  const want = process.env.RC_CATALOG.split(',').map((s) => s.trim()).filter(Boolean);
+  const byId = new Map(DEFAULT_CATALOG_FANS.map((f) => [f.id, f]));
+  return want.map((id) => byId.get(id)).filter(Boolean);
+}
+
+/**
+ * Fan the bounded keyless catalog set. Best-effort: each fetcher soft-fails to null and NEVER throws;
+ * a missing catalog module yields []. Returns normalized facts:
+ *   { id, label, value, via, source, ourUrl, type }
+ * where `source` is the upstream URL (honest attribution) and `ourUrl` is OUR canonical page.
+ */
+export async function fanCatalog() {
+  if (!freeApis) return [];
+  const fans = catalogFans();
+  const results = await Promise.all(fans.map(async (f) => {
+    try {
+      const raw = await f.run(freeApis);
+      const value = f.parse(raw);
+      if (value == null || value === '') return null;
+      return {
+        id: f.id, label: f.label, value, via: f.via,
+        // upstream attribution kept honest; the link points to OUR record.
+        source: f.via, ourUrl: ourPage(f.type, f.slug), type: f.type,
+      };
+    } catch { return null; }
+  })).catch(() => []);
+  return (results || []).filter(Boolean);
+}
 
 // news-diagnostics (#179): what the market is SAYING (sentiment/themes) to pair with what it's DOING.
 let newsDigest = async () => null;
@@ -60,6 +140,9 @@ export async function runPass() {
     // find held tokens with an external market, compute the move-it-to-make-money spread. Advisory.
     scanAccounts().catch(() => []),
   ]);
+  // catalog fan (#275): bounded keyless fetchers from free-apis.mjs → real fetched DATA as first-class
+  // results, each tagged with upstream source AND our own canonical page. Never throws.
+  const catalog = await fanCatalog().catch(() => []);
   // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
   const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
   const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
@@ -114,7 +197,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, cannabis, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0, cannabis: !!(cannabis && cannabis.results && cannabis.results.length) } };
+  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, catalog, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, cannabis, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0, catalog: catalog.length, cannabis: !!(cannabis && cannabis.results && cannabis.results.length) } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -150,6 +233,11 @@ export function briefReport(s) {
   L.push(`**Metals**: Gold ${m.metals.gold ? '$' + num(m.metals.gold.price) + ' ' + pct(m.metals.gold.change) : '—'} · Silver ${m.metals.silver ? '$' + num(m.metals.silver.price) + ' ' + pct(m.metals.silver.change) : '—'}.`);
   L.push(`**Indices**: Dow ${m.indices.dow ? pct(m.indices.dow.change) : '—'} · S&P ${m.indices.sp500 ? pct(m.indices.sp500.change) : '—'} · Nasdaq ${m.indices.nasdaq ? pct(m.indices.nasdaq.change) : '—'} · VIX ${m.indices.vix ? num(m.indices.vix.price, 1) : '—'} (${m.riskOn || '—'}).`);
   if (m.forex.length) L.push(`**Forex**: ${m.forex.slice(0, 4).map((p) => `${p.pair} ${num(p.rate, 4)}`).join(' · ')}${m.dxy ? ` · DXY ${num(m.dxy.price)} ${pct(m.dxy.change)}` : ''}.`);
+  // live catalog data (#275) — keyless fetches, each linked to OUR own record (upstream named as `via`).
+  if (Array.isArray(s.catalog) && s.catalog.length) {
+    L.push('');
+    L.push(`**Live data** (our catalog): ${s.catalog.map((c) => `${c.value} (via ${c.via} → ${c.ourUrl})`).join(' · ')}.`);
+  }
   L.push('');
   // proposals (the actionable part)
   if (s.proposals && briefBlock) {

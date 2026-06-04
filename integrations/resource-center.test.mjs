@@ -7,7 +7,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { briefReport } from './resource-center.mjs';
+import { briefReport, fanCatalog, ourPage, OUR_PAGES, runPass } from './resource-center.mjs';
 
 // A minimal-but-complete snapshot shaped like runPass()'s output.
 function snap(overrides = {}) {
@@ -25,6 +25,7 @@ function snap(overrides = {}) {
     holdings: [],
     news: null,
     firstTrade: null,
+    catalog: [],
     circlesMd: '',
     crossVenueMd: '',
     copyTradeMd: '',
@@ -151,6 +152,81 @@ test('engine markdown blocks are appended when provided', () => {
   assert.match(md, /### Copy trade\ncandidate Y/);
   assert.match(md, /### Market impact\nsim Z/);
   assert.match(md, /### Diagnostics\nsignal Q/);
+});
+
+// ── #275: catalog fan — keyless API data linked to OUR OWN pages ──────────────────────────────
+
+test('briefReport renders the live catalog block linking to our own pages with upstream via', () => {
+  const md = briefReport(snap({
+    catalog: [
+      { id: 'crypto.coingecko', label: 'BTC / HIVE spot', value: 'BTC $65,000, HIVE $0.30', via: 'CoinGecko', source: 'CoinGecko', ourUrl: 'https://data.soapbox.community/coins/bitcoin', type: 'crypto' },
+    ],
+  }));
+  assert.match(md, /\*\*Live data\*\* \(our catalog\):/);
+  assert.match(md, /BTC \$65,000, HIVE \$0\.30 \(via CoinGecko → https:\/\/data\.soapbox\.community\/coins\/bitcoin\)/);
+});
+
+test('ourPage maps datum-types to our canonical soapbox pages, with optional slug', () => {
+  assert.equal(ourPage('crypto', 'bitcoin'), 'https://data.soapbox.community/coins/bitcoin');
+  assert.equal(ourPage('forex'), 'https://data.soapbox.community/fx');
+  assert.equal(ourPage('stocks'), 'https://stocks.soapbox.community');
+  assert.equal(ourPage('metals'), 'https://data.soapbox.community/commodities');
+  // every mapped page is on our own host
+  for (const url of Object.values(OUR_PAGES)) assert.match(url, /\.soapbox\.community/);
+});
+
+test('fanCatalog returns normalized facts from the keyless catalog (stubbed global fetch), soft-failing', async () => {
+  const realFetch = globalThis.fetch;
+  // Stub the global fetch the catalog clients use. CoinGecko + Frankfurter succeed; tip-height fails.
+  globalThis.fetch = async (url) => {
+    const u = String(url);
+    const ok = (body, json = true) => ({ ok: true, status: 200, json: async () => body, text: async () => (json ? JSON.stringify(body) : body) });
+    if (u.includes('coingecko') && u.includes('simple/price')) return ok({ bitcoin: { usd: 65000 }, hive: { usd: 0.3 } });
+    if (u.includes('frankfurter')) return ok({ rates: { EUR: 0.92 } });
+    if (u.includes('alternative.me')) return ok({ data: [{ value: '55', value_classification: 'Greed' }] });
+    // tip height (and anything else) → fail; fanCatalog must not throw and just drop it.
+    return { ok: false, status: 500, json: async () => ({}), text: async () => '' };
+  };
+  try {
+    const facts = await fanCatalog();
+    assert.ok(Array.isArray(facts), 'returns an array');
+    assert.ok(facts.length >= 1, 'at least one catalog datum fetched');
+    const btc = facts.find((f) => f.id === 'crypto.coingecko');
+    assert.ok(btc, 'coingecko datum present');
+    assert.match(btc.value, /BTC \$65000/);
+    assert.equal(btc.via, 'CoinGecko', 'upstream named honestly');
+    assert.match(btc.ourUrl, /data\.soapbox\.community\/coins/, 'links to our own page');
+    // the failing fetcher was dropped, not thrown.
+    assert.ok(!facts.some((f) => f.id === 'chains.btcTipHeight'));
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test('runPass includes at least one catalog-fetched datum (offline, all market deps stubbed to fail)', async () => {
+  const realFetch = globalThis.fetch;
+  const dir = `${process.env.TMPDIR || '/tmp'}/rc-test-${Date.now()}`;
+  const prevOut = process.env.RC_OUT;
+  process.env.RC_OUT = dir;
+  // Only the catalog fetchers resolve; the market-universe/macro/forex/scan deps all fail → null/[]
+  // (they hit unrelated endpoints). This proves the catalog fan is first-class even when the rest is down.
+  globalThis.fetch = async (url) => {
+    const u = String(url);
+    if (u.includes('coingecko') && u.includes('simple/price')) return { ok: true, status: 200, json: async () => ({ bitcoin: { usd: 65000 }, hive: { usd: 0.3 } }), text: async () => '' };
+    if (u.includes('frankfurter')) return { ok: true, status: 200, json: async () => ({ rates: { EUR: 0.92 } }), text: async () => '' };
+    if (u.includes('alternative.me')) return { ok: true, status: 200, json: async () => ({ data: [{ value: '55', value_classification: 'Greed' }] }), text: async () => '' };
+    return { ok: false, status: 500, json: async () => ({}), text: async () => '' };
+  };
+  try {
+    const s = await runPass();
+    assert.ok(Array.isArray(s.catalog), 'snapshot carries a catalog array');
+    assert.ok(s.catalog.length >= 1, 'runPass returned at least one catalog datum');
+    assert.ok(s.catalog.every((c) => /\.soapbox\.community/.test(c.ourUrl)), 'each datum links to our own page');
+    assert.equal(s.sources.catalog, s.catalog.length, 'sources.catalog reflects the count');
+  } finally {
+    globalThis.fetch = realFetch;
+    if (prevOut == null) delete process.env.RC_OUT; else process.env.RC_OUT = prevOut;
+  }
 });
 
 test('empty snapshot produces a valid string with header and footer only sections', () => {

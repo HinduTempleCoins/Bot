@@ -36,6 +36,10 @@ const SNAPSHOT = {
   ],
   firstTrade: { account: 'angelicalist', hiveBuyingPower: 120, edge: 'SWAP.DOGE arbitrage', suggested: 'buy on HE, sell external' },
   news: { assets: [{ topic: 'gold', sentimentHint: 'bullish', sentimentScore: 0.6, headlineCount: 9, themes: [{ word: 'inflation' }] }] },
+  // #275: live catalog data fanned from free-apis.mjs — linked to OUR page, upstream named honestly.
+  catalog: [
+    { id: 'crypto.coingecko', label: 'BTC / HIVE spot', value: 'BTC $65,000, HIVE $0.30', via: 'CoinGecko', source: 'CoinGecko', ourUrl: 'https://data.soapbox.community/coins/bitcoin', type: 'crypto' },
+  ],
 };
 
 function withSnapshot() {
@@ -55,6 +59,40 @@ test('ask returns a cited answer from the injected RC', async () => {
   }
   assert.ok(/gold/i.test(r.sources[0].title) || /gold/i.test(r.answer), 'answer is about gold');
   assert.ok(r.confidence > 0 && r.confidence <= 1, 'confidence in (0,1]');
+});
+
+// ── #275: clickable links point to OUR OWN record, upstream named as attribution ───────────────
+
+test('candidate links point to *.soapbox.community (not kitco/yahoo/oanda/marketwatch)', async () => {
+  withSnapshot();
+  // a query broad enough to surface metals, indices, forex, dxy, hive-engine, news, and catalog.
+  const r = await ask('gold silver dow vix forex dxy hive token bitcoin news', { topK: 10 });
+  assert.ok(r.sources.length >= 4, `expected several sources, got ${r.sources.length}`);
+  const bad = /kitco\.com|finance\.yahoo\.com|oanda\.com|marketwatch\.com|news\.google\.com|tribaldex\.com/i;
+  for (const s of r.sources) {
+    assert.ok(/\.soapbox\.community/.test(s.url), `link is to our own host, got: ${s.url}`);
+    assert.ok(!bad.test(s.url), `link must NOT go to a big site, got: ${s.url}`);
+  }
+});
+
+test('sources keep an honest upstream attribution even though the link is ours', async () => {
+  withSnapshot();
+  const r = await ask('gold price', { topK: 4 });
+  const gold = r.sources.find((s) => /gold/i.test(s.title));
+  assert.ok(gold, 'gold source present');
+  assert.ok(/\.soapbox\.community/.test(gold.url), 'gold links to our page');
+  assert.ok((gold.attribution || gold.via), 'gold names its upstream');
+  assert.match(gold.attribution || gold.via, /kitco/i, 'upstream is honestly Kitco');
+});
+
+test('catalog-fetched datum is a first-class, citeable source linked to our page', async () => {
+  withSnapshot();
+  const r = await ask('btc spot', { topK: 5 });
+  assert.ok(r.sources.length >= 1, 'has a source for btc');
+  const btc = r.sources.find((s) => /BTC|bitcoin/i.test(s.title) || /BTC|bitcoin/i.test(s.snippet));
+  assert.ok(btc, 'catalog BTC datum surfaced');
+  assert.match(btc.url, /data\.soapbox\.community\/coins/, 'catalog datum links to our coins page');
+  assert.match(btc.via || btc.attribution, /coingecko/i, 'upstream named as CoinGecko');
 });
 
 test('ask matches Hive-Engine token queries', async () => {
