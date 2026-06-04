@@ -16,8 +16,8 @@ import * as fedreg from '../../integrations/soapbox/federal-register.mjs';
 import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 
 import {
-  handler, casesView, caseDetailView, statutesView, judgesView, lawyersView, complaintsView,
-  looksLikeCitation, splitJurisdiction, publicInterestData, esc,
+  handler, casesView, caseDetailView, docketsView, statutesView, judgesView, lawyersView, complaintsView,
+  looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, esc,
 } from './server.mjs';
 
 // ── fetch fakes ─────────────────────────────────────────────────────────────────────────────────
@@ -64,9 +64,107 @@ test('home route serves 200 HTML with all sections', async () => {
   resetAllFetch();
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /SoapBox Law/);
-  for (const sec of ['/cases', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints']) {
+  for (const sec of ['/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints']) {
     assert.ok(res.body.includes(`href="${sec}"`), `home links ${sec}`);
   }
+});
+
+// ── 1b. browse-by-court + dockets (court-organized front page, Justia-style dockets) ───────────────
+test('home page shows a Browse-by-court section with SCOTUS + a circuit link', async () => {
+  const res = await drive('/');
+  resetAllFetch();
+  assert.match(res.body, /Browse by court/);
+  // SCOTUS prominent + at least one circuit, both linking /cases?court=<slug>
+  assert.ok(res.body.includes('/cases?court=scotus'), 'home links SCOTUS browse');
+  assert.ok(res.body.includes('/cases?court=ca9'), 'home links a circuit (9th)');
+  assert.match(res.body, /Circuit Courts of Appeals/);
+});
+
+test('browseByCourt() lists SCOTUS + all 13 circuits and points at docket search for district courts', () => {
+  const html = browseByCourt();
+  assert.ok(html.includes('/cases?court=scotus'));
+  for (const slug of ['ca1', 'ca11', 'cadc', 'cafc']) {
+    assert.ok(html.includes(`/cases?court=${slug}`), `circuit ${slug} linked`);
+  }
+  assert.match(html, /docket search|\/dockets/);
+});
+
+test('/cases?court=scotus renders the court header and lists recent opinions (dateFiled desc)', async () => {
+  const sink = {};
+  setAllFetch(async (u) => { sink.url = String(u); return jsonResponse({
+    results: [{ cluster_id: 222, caseName: 'Recent SCOTUS Case', court: 'scotus', dateFiled: '2024-06-01', citeCount: 3, status: 'Published' }],
+  }); });
+  const html = await casesView('', 'scotus');
+  resetAllFetch();
+  assert.match(html, /Recent opinions — Supreme Court/);
+  assert.match(html, /Recent SCOTUS Case/);
+  assert.match(sink.url, /court=scotus/);
+  assert.match(sink.url, /order_by=dateFiled\+desc/);
+});
+
+test('/cases with NO term and NO court renders the Browse-by-court grid inside the tab', async () => {
+  setAllFetch(throwingFetch);
+  const html = await casesView('', '');
+  resetAllFetch();
+  assert.match(html, /Browse by court/);
+  assert.ok(html.includes('/cases?court=scotus'));
+});
+
+test('the /cases?court=scotus route serves a 200 noindex page with the court header', async () => {
+  opinions.__setFetch(async () => jsonResponse({
+    results: [{ cluster_id: 222, caseName: 'Recent SCOTUS Case', court: 'scotus', dateFiled: '2024-06-01', citeCount: 3, status: 'Published' }],
+  }));
+  const res = mockRes();
+  await handler(req('/cases?court=scotus'), res);
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /noindex,follow/);
+  assert.match(res.body, /Recent opinions — Supreme Court/);
+});
+
+test('docketsView renders injected RECAP docket rows (case name, number, court, judge)', async () => {
+  setAllFetch(fakeFetch([
+    ['/search/', jsonResponse({ results: [{
+      docket_id: 777, caseName: 'Roe v. Acme', docketNumber: '3:22-cv-00099', court: 'cand',
+      dateFiled: '2022-01-04', dateTerminated: '2023-03-10', nature_of_suit: 'Contract',
+      assigned_to_str: 'Hon. A. Judge', absolute_url: '/docket/777/roe-v-acme/',
+    }] })],
+  ]));
+  const html = await docketsView('acme', '');
+  resetAllFetch();
+  assert.match(html, /Roe v\. Acme/);
+  assert.match(html, /3:22-cv-00099/);
+  assert.match(html, /Hon\. A\. Judge/);
+  assert.match(html, /\/docket\/777\//);
+  assert.match(html, /Party, docket number, or case/);
+});
+
+test('docketsView soft-fails to an empty-state when RECAP is down (no throw)', async () => {
+  setAllFetch(throwingFetch);
+  const html = await docketsView('nothing here', '');
+  resetAllFetch();
+  assert.match(html, /No docket records found/);
+  assert.match(html, /courtlistener\.com/);
+});
+
+test('the /dockets route serves 200 (noindex on query) with docket rows', async () => {
+  opinions.__setFetch(fakeFetch([
+    ['/search/', jsonResponse({ results: [{ docket_id: 5, caseName: 'X v. Y', docketNumber: '1:20', court: 'nysd', dateFiled: '2020-01-01' }] })],
+  ]));
+  const res = mockRes();
+  await handler(req('/dockets?q=x'), res);
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /noindex,follow/);
+  assert.match(res.body, /X v\. Y/);
+});
+
+test('/dockets with no query serves an indexable landing (the search box, no rows)', async () => {
+  const res = await drive('/dockets');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Party, docket number, or case/);
+  assert.match(res.body, /index,follow/);
 });
 
 test('every content route serves 200 even with the network down (soft-fail, no 500)', async () => {

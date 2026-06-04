@@ -8,6 +8,7 @@ import {
   searchCases, opinionSnippet, opinionText, citationCount, clusterDetail,
   normalizeCase, plainText, snippetOf, idFromUrl, slugFromUrl,
   renderPage, dataNote, __setFetch,
+  COURTS, courtName, searchDockets, normalizeDocket, docketUrl,
 } from './courtlistener-opinions.mjs';
 
 const RAW_HIT = {
@@ -75,6 +76,82 @@ test('searchCases soft-fails to [] on empty query, network error, bad shape', as
   assert.deepEqual(await searchCases({ q: 'x' }), []);
   __setFetch(envelopeFetch({ nope: true }));
   assert.deepEqual(await searchCases({ q: 'x' }), []);
+  __setFetch(null);
+});
+
+test('searchCases court-only BROWSE: no early [], honors orderBy, lists the court', async () => {
+  const sink = {};
+  __setFetch(captureFetch(sink, { results: [RAW_HIT] }));
+  const rows = await searchCases({ q: '', court: 'scotus', orderBy: 'dateFiled desc' });
+  __setFetch(null);
+  // empty q + court → did NOT early-return [], queried the court ordered by date.
+  assert.equal(rows.length, 1);
+  assert.match(sink.url, /court=scotus/);
+  assert.match(sink.url, /order_by=dateFiled\+desc/);
+  // no q param sent when q is empty
+  assert.ok(!/(\?|&)q=/.test(sink.url), 'no q= param on a bare court browse');
+});
+
+test('searchCases honors a custom orderBy on a normal search; defaults to score desc', async () => {
+  const sink = {};
+  __setFetch(captureFetch(sink, { results: [RAW_HIT] }));
+  await searchCases({ q: 'segregation' });
+  assert.match(sink.url, /order_by=score\+desc/);
+  await searchCases({ q: 'segregation', orderBy: 'dateFiled desc' });
+  __setFetch(null);
+  assert.match(sink.url, /order_by=dateFiled\+desc/);
+});
+
+test('searchCases STILL returns [] when q empty AND no court/filedAfter', async () => {
+  assert.deepEqual(await searchCases({ q: '' }), []);
+  assert.deepEqual(await searchCases({}), []);
+});
+
+test('COURTS lists SCOTUS + the 13 Courts of Appeals; courtName resolves a slug', () => {
+  assert.equal(COURTS.supreme.slug, 'scotus');
+  assert.equal(COURTS.circuits.length, 13);
+  const slugs = COURTS.circuits.map((c) => c.slug);
+  for (const s of ['ca1', 'ca11', 'cadc', 'cafc']) assert.ok(slugs.includes(s), `has ${s}`);
+  assert.match(courtName('scotus'), /Supreme Court/);
+  assert.equal(courtName('zzz'), 'zzz');
+});
+
+const RAW_DOCKET = {
+  docket_id: 65432, caseName: 'United States v. Acme Corp.', docketNumber: '1:21-cv-01234',
+  court: 'nysd', dateFiled: '2021-02-12', dateTerminated: '2022-09-01',
+  nature_of_suit: 'Antitrust', assigned_to_str: 'Hon. Jane Roe',
+  absolute_url: '/docket/65432/united-states-v-acme/',
+};
+
+test('normalizeDocket flattens a RECAP docket row; docketUrl builds the web link', () => {
+  const d = normalizeDocket(RAW_DOCKET);
+  assert.equal(d.docketId, '65432');
+  assert.equal(d.caseName, 'United States v. Acme Corp.');
+  assert.equal(d.docketNumber, '1:21-cv-01234');
+  assert.equal(d.court, 'nysd');
+  assert.equal(d.dateFiled, '2021-02-12');
+  assert.equal(d.dateTerminated, '2022-09-01');
+  assert.equal(d.natureOfSuit, 'Antitrust');
+  assert.equal(d.assignedTo, 'Hon. Jane Roe');
+  assert.match(d.url, /\/docket\/65432\//);
+  assert.equal(normalizeDocket(null), null);
+  assert.equal(normalizeDocket({}), null);
+  // docketUrl falls back to /docket/<id>/ when no absolute_url
+  assert.match(docketUrl({ docket_id: 9 }), /\/docket\/9\/$/);
+});
+
+test('searchDockets queries RECAP (type=r) and normalizes; soft-fails to []', async () => {
+  const sink = {};
+  __setFetch(captureFetch(sink, { results: [RAW_DOCKET] }));
+  const rows = await searchDockets({ q: 'acme', court: 'nysd' });
+  assert.match(sink.url, /type=r/);
+  assert.match(sink.url, /court=nysd/);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].caseName, 'United States v. Acme Corp.');
+  // empty q AND no court → []
+  assert.deepEqual(await searchDockets({ q: '' }), []);
+  __setFetch(throwingFetch());
+  assert.deepEqual(await searchDockets({ q: 'x' }), []);
   __setFetch(null);
 });
 

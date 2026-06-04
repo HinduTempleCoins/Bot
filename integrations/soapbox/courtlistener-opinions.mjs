@@ -34,6 +34,41 @@ const SRC = 'CourtListener (Free Law Project)';
 // Federal judicial opinions are public domain; CourtListener distributes the open record under attribution.
 const LICENSE = 'public-domain';
 
+// ---- the federal court hierarchy (CourtListener court slugs) ----
+// The Supreme Court + the 13 U.S. Courts of Appeals. District courts are many and varied — they are
+// reached through docket search rather than browsed here. Each: { slug, name, short }.
+export const COURTS = {
+  supreme: { slug: 'scotus', name: 'Supreme Court of the United States', short: 'SCOTUS' },
+  circuits: [
+    { slug: 'ca1', name: 'U.S. Court of Appeals, First Circuit', short: '1st Cir.' },
+    { slug: 'ca2', name: 'U.S. Court of Appeals, Second Circuit', short: '2nd Cir.' },
+    { slug: 'ca3', name: 'U.S. Court of Appeals, Third Circuit', short: '3rd Cir.' },
+    { slug: 'ca4', name: 'U.S. Court of Appeals, Fourth Circuit', short: '4th Cir.' },
+    { slug: 'ca5', name: 'U.S. Court of Appeals, Fifth Circuit', short: '5th Cir.' },
+    { slug: 'ca6', name: 'U.S. Court of Appeals, Sixth Circuit', short: '6th Cir.' },
+    { slug: 'ca7', name: 'U.S. Court of Appeals, Seventh Circuit', short: '7th Cir.' },
+    { slug: 'ca8', name: 'U.S. Court of Appeals, Eighth Circuit', short: '8th Cir.' },
+    { slug: 'ca9', name: 'U.S. Court of Appeals, Ninth Circuit', short: '9th Cir.' },
+    { slug: 'ca10', name: 'U.S. Court of Appeals, Tenth Circuit', short: '10th Cir.' },
+    { slug: 'ca11', name: 'U.S. Court of Appeals, Eleventh Circuit', short: '11th Cir.' },
+    { slug: 'cadc', name: 'U.S. Court of Appeals, D.C. Circuit', short: 'D.C. Cir.' },
+    { slug: 'cafc', name: 'U.S. Court of Appeals, Federal Circuit', short: 'Fed. Cir.' },
+  ],
+  districtNote: 'District (trial) courts are many — find them through docket search.',
+};
+
+// slug → full court name, for header labels. Built from COURTS.
+const COURT_NAME = (() => {
+  const m = { [COURTS.supreme.slug]: COURTS.supreme.name };
+  for (const c of COURTS.circuits) m[c.slug] = c.name;
+  return m;
+})();
+/** Friendly full name for a court slug, or the slug itself if unknown. PURE. */
+export function courtName(slug) {
+  const s = str(slug);
+  return COURT_NAME[s] || s;
+}
+
 // ---- key handling: env COURTLISTENER_TOKEN by NAME, optional (keyless works at lower rate) ----
 function authHeaders() {
   const key = process.env.COURTLISTENER_TOKEN;
@@ -103,6 +138,8 @@ export function normalizeCase(r) {
     precedentialStatus: str(r.status) || str(r.precedential_status),
     citations: cites,
     docketNumber: str(r.docketNumber) || str(r.docket_number),
+    // the docket this opinion came out of — lets an opinion link back to its filings (Justia-style).
+    docketId: str(r.docket_id) || idFromUrl(r.docket),
     url: id ? `${WEB}/opinion/${id}/` : (r.absolute_url ? `${WEB}${r.absolute_url}` : ''),
   });
 }
@@ -129,14 +166,25 @@ function apiUrl(path, params = {}) {
 /**
  * Search opinions/clusters by query, optionally narrowed by court slug and a filed-after date.
  * Returns normalized case cards ([] on failure).
- * @param {{q:string, court?:string, filedAfter?:string, limit?:number}} opts
+ *
+ * Two modes:
+ *   • SEARCH — a non-empty `q` runs a relevance search (order_by defaults to 'score desc').
+ *   • COURT BROWSE — an empty `q` WITH a `court` (or `filedAfter`) set lists that court's recent
+ *     opinions instead of early-returning []. Pass orderBy:'dateFiled desc' for a recency feed.
+ *   • Empty `q` AND no court AND no filedAfter → still [] (nothing to browse).
+ *
+ * @param {{q:string, court?:string, filedAfter?:string, orderBy?:string, limit?:number}} opts
  */
-export async function searchCases({ q = '', court = '', filedAfter = '', limit = 20 } = {}) {
+export async function searchCases({ q = '', court = '', filedAfter = '', orderBy = 'score desc', limit = 20 } = {}) {
   const query = str(q);
-  if (!query) return [];
-  const params = { q: query, type: 'o', order_by: 'score desc', page_size: Math.max(1, Math.min(100, num(limit) || 20)) };
-  if (str(court)) params.court = str(court);
-  if (str(filedAfter)) params.filed_after = str(filedAfter);
+  const ct = str(court);
+  const after = str(filedAfter);
+  // Nothing to query: no term and no browse facet → [].
+  if (!query && !ct && !after) return [];
+  const params = { type: 'o', order_by: str(orderBy) || 'score desc', page_size: Math.max(1, Math.min(100, num(limit) || 20)) };
+  if (query) params.q = query;
+  if (ct) params.court = ct;
+  if (after) params.filed_after = after;
   const j = await getJson(apiUrl('/search/', params));
   const rows = Array.isArray(j?.results) ? j.results : [];
   return rows.map(normalizeCase).filter(Boolean);
@@ -231,6 +279,69 @@ export async function clusterDetail(clusterId) {
     citations: cites,
     url: `${WEB}/opinion/${j.id != null ? j.id : id}/`,
   });
+}
+
+// ---- DOCKET SEARCH (Justia-style) — RECAP/PACER docket records via CourtListener ----
+// Justia's "Dockets" surface is a search over case filings & proceedings. CourtListener mirrors PACER
+// into the open RECAP archive; its v4 search exposes the docket record at type:'r' (RECAP). We state the
+// docket facts — case name, docket number, court, filed/terminated dates, nature of suit, assigned judge —
+// and link the CourtListener docket page. DISCIPLINE: facts only; we read CourtListener's already-published
+// docket metadata; we never un-redact, reconstruct sealed material, or surface court-redacted content.
+
+/** CourtListener web link for a docket. PURE — prefers the row's absolute_url, else builds /docket/<id>/. */
+export function docketUrl(d) {
+  if (!d || typeof d !== 'object') return '';
+  const abs = str(d.absolute_url);
+  if (abs) return abs.startsWith('http') ? abs : `${WEB}${abs}`;
+  const id = str(d.docket_id != null ? d.docket_id : d.id);
+  return id ? `${WEB}/docket/${id}/` : '';
+}
+
+/**
+ * Normalize a raw v4 RECAP docket search row → a flat docket card. Returns null for unusable input.
+ * @param {object} r
+ */
+export function normalizeDocket(r) {
+  if (!r || typeof r !== 'object') return null;
+  const id = r.docket_id != null ? String(r.docket_id) : (r.id != null ? String(r.id) : '');
+  const caseName = str(r.caseName) || str(r.case_name) || str(r.caseNameFull) || str(r.case_name_full);
+  const docketNumber = str(r.docketNumber) || str(r.docket_number);
+  if (!id && !caseName && !docketNumber) return null;
+  // best-effort: the cluster id of a published opinion that came out of this docket, so a docket row
+  // can link straight to the opinion it produced. RECAP rows vary; try the common shapes.
+  const clusterId = r.cluster_id != null ? String(r.cluster_id)
+    : (Array.isArray(r.clusters) && r.clusters.length ? (idFromUrl(r.clusters[0]) || str(r.clusters[0]))
+    : (Array.isArray(r.opinions) && r.opinions.length ? idFromUrl(r.opinions[0].cluster || r.opinions[0]) : ''));
+  return tag({
+    docketId: id,
+    caseName,
+    docketNumber,
+    court: str(r.court) || str(r.court_id) || slugFromUrl(r.court_exact),
+    dateFiled: str(r.dateFiled) || str(r.date_filed),
+    dateTerminated: str(r.dateTerminated) || str(r.date_terminated),
+    natureOfSuit: str(r.suitNature) || str(r.nature_of_suit),
+    assignedTo: str(r.assignedTo) || str(r.assigned_to_str) || str(r.assigned_to) || str(r.judge),
+    clusterId,
+    url: docketUrl({ absolute_url: r.absolute_url, docket_id: id, id }),
+  });
+}
+
+/**
+ * Justia-style docket search over the RECAP archive. Returns normalized docket cards ([] on failure).
+ * Empty `q` with no `court` → [] (nothing to query). A `court` slug narrows it; an empty `q` with a court
+ * browses that court's recent dockets.
+ * @param {{q?:string, court?:string, limit?:number}} opts
+ */
+export async function searchDockets({ q = '', court = '', limit = 20 } = {}) {
+  const query = str(q);
+  const ct = str(court);
+  if (!query && !ct) return [];
+  const params = { type: 'r', order_by: query ? 'score desc' : 'dateFiled desc', page_size: Math.max(1, Math.min(100, num(limit) || 20)) };
+  if (query) params.q = query;
+  if (ct) params.court = ct;
+  const j = await getJson(apiUrl('/search/', params));
+  const rows = Array.isArray(j?.results) ? j.results : [];
+  return rows.map(normalizeDocket).filter(Boolean);
 }
 
 // ---- rendering (escaped HTML; PURE) ----
