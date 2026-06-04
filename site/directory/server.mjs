@@ -526,7 +526,7 @@ async function handleSubmit(req, res) {
 
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
 
-createServer(async (req, res) => {
+export const handler = async (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     if (url.pathname === '/health') { res.writeHead(200); return res.end('ok'); }
@@ -548,4 +548,9 @@ createServer(async (req, res) => {
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': domain ? 'no-store' : 'public, max-age=300' });
     res.end(page(domain ? `${normDomain(domain) || 'Insights'} — SoapBox Directory` : 'SoapBox Directory — site rankings & crypto resources', homeBody('', hero, card, communitySection(subs))));
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => console.log(`SoapBox Directory on ${BASE_URL} (bound ${HOST}:${PORT})`));
+};
+
+// CLI guard: bind a socket only when run directly, not when imported by a unit test.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  createServer(handler).listen(PORT, HOST, () => console.log(`SoapBox Directory on ${BASE_URL} (bound ${HOST}:${PORT})`));
+}

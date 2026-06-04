@@ -179,19 +179,21 @@ async function companyCard(query) {
   });
 }
 
-function renderCompanyCard(p) {
+export function renderCompanyCard(p) {
   if (!p) return '';
-  const row = (k, v) => v == null || v === '' ? '' : `<tr><td class=muted>${esc(k)}</td><td>${v}</td></tr>`;
+  // row(k, v) escapes v by DEFAULT (v is upstream/registry data). Callers that intentionally pass
+  // pre-built HTML (a link, an already-esc()'d join) opt in with { rawHtml: true }.
+  const row = (k, v, { rawHtml = false } = {}) => v == null || v === '' ? '' : `<tr><td class=muted>${esc(k)}</td><td>${rawHtml ? v : esc(v)}</td></tr>`;
   const usdFmt = (n) => n == null ? null : '$' + Number(n).toLocaleString('en-US');
   const fields = [
     row('Sector / industry', p.industry),
     row('Founded', p.founded),
     row('Headquarters', p.hq),
-    row('Exchanges', p.exchanges && p.exchanges.length ? esc(p.exchanges.join(', ')) : null),
+    row('Exchanges', p.exchanges && p.exchanges.length ? p.exchanges.join(', ') : null),
     row('CIK', p.cik),
     row('LEI', p.lei),
-    row('Jurisdiction', p.jurisdiction ? esc(p.jurisdiction) : null),
-    row('Website', p.website ? `<a href="${esc(p.website)}" rel=noopener target=_blank>${esc(String(p.website).replace(/^https?:\/\//, ''))}</a>` : null),
+    row('Jurisdiction', p.jurisdiction || null),
+    row('Website', p.website ? `<a href="${esc(p.website)}" rel=noopener target=_blank>${esc(String(p.website).replace(/^https?:\/\//, ''))}</a>` : null, { rawHtml: true }),
   ].join('');
   const filings = (p.secFilings || []).slice(0, 6).map((f) => {
     const u = edgarFilingUrl(p.cik, f);
@@ -233,7 +235,9 @@ async function quotePage(symbol) {
     stockNews(q.name, sym).catch(() => []),
     isIdx ? Promise.resolve(null) : companyCard(sym).catch(() => null),
   ]);
-  const stat = (k, v) => v == null ? '' : `<tr><td class=muted>${esc(k)}</td><td>${v}</td></tr>`;
+  // stat(k, v) escapes v by DEFAULT. Numeric/range strings escape to themselves; the upstream
+  // exchange string is the one that genuinely needs escaping. rawHtml:true opts out if ever needed.
+  const stat = (k, v, { rawHtml = false } = {}) => v == null ? '' : `<tr><td class=muted>${esc(k)}</td><td>${rawHtml ? v : esc(v)}</td></tr>`;
   const research = [['Yahoo Finance', `https://finance.yahoo.com/quote/${encodeURIComponent(sym)}`], ['Google Finance', `https://www.google.com/finance/quote/${encodeURIComponent(sym)}`], ['Google News', `https://news.google.com/search?q=${encodeURIComponent(q.name + ' stock')}`], ['SEC EDGAR', `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=${encodeURIComponent(q.name)}&type=10-K`]];
   const body = `<h1>${esc(q.name)} <span class=muted style="font-size:18px">${esc(sym)}</span></h1>
     <div class=muted>${esc(q.typeLabel || 'Stock')} · ${esc(q.exchange)} · <a href="/">← Stock Index</a></div>
@@ -261,7 +265,7 @@ async function quotePage(symbol) {
 function sendHtml(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' }); res.end(html); }
 function json(res, obj) { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' }); res.end(JSON.stringify(obj)); }
 
-createServer(async (req, res) => {
+export const handler = async (req, res) => {
   try {
     const url = new URL(req.url, BASE_URL);
     const p = url.pathname;
@@ -287,11 +291,17 @@ createServer(async (req, res) => {
     if (p !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     sendHtml(res, await homePage());
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, () => {
-  console.log(`SoapBox Stocks on ${BASE_URL} (bound ${HOST}:${PORT})`);
-  // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
-  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    submitToIndexNow(BASE_URL, ['/', ...INDICES.map((i) => '/quote/' + i[0]), ...POPULAR.map((s) => '/quote/' + s)]).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
-    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
-  }
-});
+};
+
+// CLI guard: only bind a socket when run directly (node site/stocks/server.mjs), not when imported
+// by a unit test that exercises the exported handler / pure render helpers.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  createServer(handler).listen(PORT, HOST, () => {
+    console.log(`SoapBox Stocks on ${BASE_URL} (bound ${HOST}:${PORT})`);
+    // welcome crawlers on boot: IndexNow + sitemap ping (best-effort, https only). Skippable via env.
+    if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+      submitToIndexNow(BASE_URL, ['/', ...INDICES.map((i) => '/quote/' + i[0]), ...POPULAR.map((s) => '/quote/' + s)]).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+      pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+    }
+  });
+}
