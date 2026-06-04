@@ -138,7 +138,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/cases">Cases</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -154,10 +154,31 @@ function searchForm(action, { value = '', placeholder = 'Search…', label = 'Se
   </div></form>`;
 }
 
+// ── browse-by-court — the federal hierarchy, made navigable on the front page ──────────────────────
+// SCOTUS as a prominent link, then a grid of the 13 Courts of Appeals (each → /cases?court=<slug>), plus
+// a note that District (trial) courts are reached via docket search. PURE; rendered on home AND inside the
+// cases tab when there's no term/court (so the courts are "organized within that tab" too).
+function browseByCourt() {
+  const { supreme, circuits } = opinions.COURTS;
+  const circuitGrid = circuits.map((c) =>
+    `<a class=sec href="/cases?court=${q(c.slug)}"><div class=t>${esc(c.short)}</div><div class=d>${esc(c.name)}</div></a>`
+  ).join('');
+  return `<div class=card><h2>Browse by court</h2>
+      <p class=muted style="font-size:14px;margin:-2px 0 12px">Find Supreme Court and Appellate/Circuit opinions by court. District (trial)
+        courts are searchable through <a href="/dockets">docket search →</a>.</p>
+      <a class=sec href="/cases?court=${q(supreme.slug)}" style="display:block;border-color:var(--gold)">
+        <div class=t style="font-size:18px">⚖ ${esc(supreme.name)}</div>
+        <div class=d>The Supreme Court of the United States — recent opinions (${esc(supreme.short)}).</div></a>
+      <h3 style="margin:16px 0 8px">Circuit Courts of Appeals</h3>
+      <div class=grid>${circuitGrid}</div>
+      <p class=muted style="font-size:12px;margin-top:12px">${esc(opinions.COURTS.districtNote)}</p></div>`;
+}
+
 // ── home ──────────────────────────────────────────────────────────────────────────────────────────
 function homePage() {
   const sections = [
     ['/cases', 'Cases', 'Search U.S. court opinions, or resolve a reporter citation like “347 U.S. 483” to the case record.'],
+    ['/dockets', 'Dockets', 'Case filings & proceedings (PACER/RECAP) — the docket record, à la Justia dockets.'],
     ['/statutes', 'Statutes & Code', 'Parse a U.S.C. citation (“18 U.S.C. § 2261A”) to its official text, or search the Code of Federal Regulations.'],
     ['/regulations', 'Regulations', 'Recent rules, proposed rules, and notices from the Federal Register, by agency.'],
     ['/judges', 'Judges', 'Federal judge profiles — seats, appointments, opinion counts, and disclosure pointers.'],
@@ -172,6 +193,7 @@ function homePage() {
       label: 'Search cases',
     })}
     <p class=muted style="font-size:13px;margin-top:-6px">Looking for a statute? <a href="/statutes">Parse a U.S.C. citation or search the CFR →</a></p>
+    ${browseByCourt()}
     <div class=grid style="margin-top:18px">
       ${sections.map(([href, t, d]) => `<a class=sec href="${esc(href)}"><div class=t>${esc(t)}</div><div class=d>${esc(d)}</div></a>`).join('')}
     </div>
@@ -202,8 +224,15 @@ function caseRow(c) {
     <div class=nm>${nameHtml}${c.license === 'public-domain' ? '<span class=badge>public domain</span>' : ''}</div>
     <div class=meta>${meta}${cites}</div>
     ${c.snippet ? `<blockquote>${esc(c.snippet)}</blockquote>` : ''}
-    <div class=xlink>${detailHref ? `<a href="${esc(detailHref)}">read the full opinion</a> · ` : ''}${c.url ? `<a href="${esc(c.url)}">at the source</a> · ` : ''}${judgeLink}</div>
+    <div class=xlink>${detailHref ? `<a href="${esc(detailHref)}">read the full opinion</a> · ` : ''}${c.url ? `<a href="${esc(c.url)}">at the source</a> · ` : ''}${docketLink(c)}${judgeLink}</div>
   </div>`;
+}
+
+// cross-link an opinion back to its DOCKET (the filings behind the decision). Prefers an on-site docket
+// search by docket number, else by case name, so the docket sits one click from the opinion.
+function docketLink(c) {
+  const key = c.docketNumber || c.caseName;
+  return key ? `<a href="/dockets?q=${q(key)}">see the docket →</a> · ` : '';
 }
 
 // A reporter citation looks like "<vol> <Reporter…> <page>" — reuse CAP's parser to decide the path.
@@ -211,26 +240,42 @@ function looksLikeCitation(s) {
   return !!cap.parseCitation(s);
 }
 
-export async function casesView(query) {
+export async function casesView(query, court) {
   const term = String(query == null ? '' : query).trim();
-  const form = searchForm('/cases', { value: term, placeholder: 'Case name, topic, or “347 U.S. 483”…', label: 'Search cases' });
+  const ct = String(court == null ? '' : court).trim();
+  // a court-scoped search keeps the slug on submit (hidden field) so the box stays scoped to that court.
+  const courtExtra = ct ? `<input type=hidden name=court value="${esc(ct)}">` : '';
+  const form = searchForm('/cases', {
+    value: term,
+    placeholder: ct ? `Search within ${esc(opinions.courtName(ct))}…` : 'Case name, topic, or “347 U.S. 483”…',
+    label: 'Search cases',
+    extra: courtExtra,
+  });
   let results = '';
-  if (term) {
-    if (looksLikeCitation(term)) {
-      // citation path: resolve via the Caselaw Access Project.
-      const c = await cap.caseByCitation(term).catch(() => null);
-      results = c
-        ? `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>${caseRow(c)}</div>`
-        : `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>
-            <p class=empty>No case found for that citation right now. The Caselaw Access Project (Harvard LIL) is the source of record —
-            <a href="${esc(cap.citationUrl(cap.parseCitation(term)))}">look it up there →</a></p></div>`;
-    } else {
-      // free-text path: CourtListener opinion search.
-      const rows = await opinions.searchCases({ q: term, limit: 20 }).catch(() => []);
-      results = rows.length
-        ? `<div class=card><h2>${rows.length} opinion${rows.length === 1 ? '' : 's'} for “${esc(term)}”</h2>${rows.map(caseRow).join('')}</div>`
-        : `<div class=card><h2>Cases for “${esc(term)}”</h2><p class=empty>No opinions found. Try a different term, a party name, or a reporter citation like “347 U.S. 483”.</p></div>`;
-    }
+  if (term && !ct && looksLikeCitation(term)) {
+    // citation path (only when not court-scoped): resolve via the Caselaw Access Project.
+    const c = await cap.caseByCitation(term).catch(() => null);
+    results = c
+      ? `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>${caseRow(c)}</div>`
+      : `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>
+          <p class=empty>No case found for that citation right now. The Caselaw Access Project (Harvard LIL) is the source of record —
+          <a href="${esc(cap.citationUrl(cap.parseCitation(term)))}">look it up there →</a></p></div>`;
+  } else if (term || ct) {
+    // free-text and/or court-browse path: CourtListener opinion search. When there's a term, rank by
+    // relevance; for a bare court browse, list that court's most-recent opinions.
+    const rows = await opinions.searchCases({
+      q: term || '', court: ct || undefined,
+      orderBy: term ? 'score desc' : 'dateFiled desc', limit: 25,
+    }).catch(() => []);
+    const heading = ct
+      ? `Recent opinions — ${esc(opinions.courtName(ct))}${term ? ` · “${esc(term)}”` : ''}`
+      : `${rows.length} opinion${rows.length === 1 ? '' : 's'} for “${esc(term)}”`;
+    results = rows.length
+      ? `<div class=card><h2>${heading}</h2>${rows.map(caseRow).join('')}</div>`
+      : `<div class=card><h2>${ct ? heading : `Cases for “${esc(term)}”`}</h2><p class=empty>No opinions found. Try a different term, a party name, or a reporter citation like “347 U.S. 483”.</p></div>`;
+  } else {
+    // no term and no court → organize the courts within the tab too.
+    results = browseByCourt();
   }
   return `<h1>Cases</h1>
     <p class=muted>Search U.S. court opinions (CourtListener / Free Law Project), or resolve a reporter citation to its case
@@ -292,13 +337,60 @@ export async function caseDetailView({ clId = '', capId = '' } = {}) {
     ${back}
     <div class=card>
       <div class=meta>${meta || '—'}</div>
-      ${sourceUrl ? `<div class=xlink style="margin-top:6px"><a href="${esc(sourceUrl)}">source: ${esc(sourceLabel)} →</a></div>` : ''}
+      <div class=xlink style="margin-top:6px">${sourceUrl ? `<a href="${esc(sourceUrl)}">source: ${esc(sourceLabel)} →</a> · ` : ''}${(rec.docketNumber || rec.caseName) ? `<a href="/dockets?q=${q(rec.docketNumber || rec.caseName)}">see the docket (filings behind this decision) →</a>` : ''}</div>
       ${text
         ? `<h2 style="margin-top:14px">The court's words</h2>${opinionArticle(text)}`
         : `<p class=empty style="margin-top:12px">The opinion text isn't available from the source right now. ${sourceUrl ? `<a href="${esc(sourceUrl)}">Read it at the source →</a>` : ''}</p>`}
       <p class=muted style="font-size:12px;margin-top:12px">This is the court's own public-domain opinion text, reproduced verbatim and attributed to ${esc(sourceLabel || 'the source of record')}. We surface the source's words — we add no holding-summary, headnote, or verdict.</p>
     </div>`;
   return body;
+}
+
+// ── /dockets — Justia-style docket search (RECAP/PACER case filings) ──────────────────────────────
+// The docket record: case filings & proceedings. Searches CourtListener's open RECAP mirror of PACER.
+// Facts only — case name, docket number, court, filed/terminated dates, assigned judge, nature of suit;
+// every row links the CourtListener docket page. We never reconstruct sealed material (module discipline).
+function docketRow(d) {
+  const nameHtml = d.url
+    ? `<a href="${esc(d.url)}">${esc(d.caseName || d.docketNumber || 'Docket')}</a>`
+    : esc(d.caseName || d.docketNumber || 'Docket');
+  const dates = [d.dateFiled ? `filed ${d.dateFiled}` : '', d.dateTerminated ? `terminated ${d.dateTerminated}` : ''].filter(Boolean).join(' · ');
+  const meta = [d.docketNumber ? `No. ${d.docketNumber}` : '', d.court, dates, d.natureOfSuit, d.assignedTo ? `judge: ${d.assignedTo}` : '']
+    .filter(Boolean).map(esc).join(' · ');
+  // cross-link a docket to the OPINION it produced (Justia-style: dockets findable next to their opinion).
+  const opinionLink = d.clusterId
+    ? `<a href="/cases?id=${q(d.clusterId)}">read the related opinion →</a>`
+    : (d.caseName ? `<a href="/cases?q=${q(d.caseName)}">find the opinion →</a>` : '');
+  return `<div class=rec>
+    <div class=nm>${nameHtml}</div>
+    <div class=meta>${meta || '—'}</div>
+    <div class=xlink>${opinionLink ? `${opinionLink} · ` : ''}${d.url ? `<a href="${esc(d.url)}">the docket record at CourtListener (RECAP) →</a>` : ''}</div>
+  </div>`;
+}
+
+export async function docketsView(query, court) {
+  const term = String(query == null ? '' : query).trim();
+  const ct = String(court == null ? '' : court).trim();
+  const { supreme, circuits } = opinions.COURTS;
+  const opts = [['', 'Any court'], [supreme.slug, supreme.short], ...circuits.map((c) => [c.slug, c.short])];
+  const courtSelect = `<select class=q name=court aria-label="Court" style="flex:0 0 150px;max-width:170px">${
+    opts.map(([v, l]) => `<option value="${esc(v)}"${v === ct ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+  const form = searchForm('/dockets', { value: term, placeholder: 'Party, docket number, or case…', label: 'Search dockets', extra: courtSelect });
+  let results = '';
+  if (term || ct) {
+    const rows = await opinions.searchDockets({ q: term || '', court: ct || undefined, limit: 25 }).catch(() => []);
+    const scope = ct ? ` — ${esc(opinions.courtName(ct))}` : '';
+    results = rows.length
+      ? `<div class=card><h2>${rows.length} docket${rows.length === 1 ? '' : 's'}${term ? ` for “${esc(term)}”` : ''}${scope}</h2>${rows.map(docketRow).join('')}</div>`
+      : `<div class=card><h2>Dockets${term ? ` for “${esc(term)}”` : ''}${scope}</h2>
+          <p class=empty>No docket records found here right now. The docket record lives in PACER (the courts' own system) and its open
+          RECAP mirror — <a href="https://www.courtlistener.com/?type=r">search dockets at CourtListener →</a>.</p></div>`;
+  }
+  return `<h1>Dockets <span class=muted style="font-size:14px">· case filings &amp; proceedings</span></h1>
+    <p class=muted>Search the <b>docket record</b> — the list of filings and proceedings in a case — from PACER's open RECAP mirror
+      (CourtListener / Free Law Project), à la Justia dockets. Facts only — case name, docket number, court, dates, assigned judge.
+      We surface the published docket metadata and never reconstruct sealed material.</p>
+    ${form}${results}`;
 }
 
 // ── /statutes — U.S.C. citation parser + eCFR search ────────────────────────────────────────────
@@ -498,7 +590,7 @@ function splitJurisdiction(pathname) {
   return { juris: DEFAULT_JURISDICTION, path: pathname };
 }
 
-const SITEMAP_PATHS = ['/', '/cases', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints'];
+const SITEMAP_PATHS = ['/', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -530,6 +622,7 @@ export async function handler(req, res) {
         summary: 'Caselaw, statutes, regulations, judges, and lawyers — official-source US legal data.',
         links: [
           { label: 'Caselaw', path: '/cases' },
+          { label: 'Dockets (PACER/RECAP)', path: '/dockets' },
           { label: 'Statutes (US Code)', path: '/statutes' },
           { label: 'Regulations (CFR)', path: '/regulations' },
           { label: 'Judges', path: '/judges' },
@@ -559,8 +652,12 @@ export async function handler(req, res) {
           await caseDetailView({ clId: detailId, capId: detailCap }),
           { canonical: `${BASE_URL}/cases`, robots: 'noindex,follow' }));
       }
-      return sendHtml(res, page('Cases — SoapBox Law', await casesView(sp.get('q') || ''),
-        { canonical: `${BASE_URL}/cases`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
+      return sendHtml(res, page('Cases — SoapBox Law', await casesView(sp.get('q') || '', sp.get('court') || ''),
+        { canonical: `${BASE_URL}/cases`, robots: (sp.get('q') || sp.get('court')) ? 'noindex,follow' : 'index,follow' }));
+    }
+    if (path === '/dockets') {
+      return sendHtml(res, page('Dockets — SoapBox Law', await docketsView(sp.get('q') || '', sp.get('court') || ''),
+        { canonical: `${BASE_URL}/dockets`, robots: (sp.get('q') || sp.get('court')) ? 'noindex,follow' : 'index,follow' }));
     }
     if (path === '/statutes') {
       return sendHtml(res, page('Statutes & Code — SoapBox Law', await statutesView(sp.get('q') || ''),
@@ -592,7 +689,7 @@ export async function handler(req, res) {
 }
 
 // Exported for tests / extension wiring.
-export { homePage, splitJurisdiction, publicInterestData, looksLikeCitation, FR_AGENCIES, JURISDICTIONS };
+export { homePage, browseByCourt, splitJurisdiction, publicInterestData, looksLikeCitation, FR_AGENCIES, JURISDICTIONS };
 
 // Only bind the port when run directly (`node site/law/server.mjs`), not when imported by tests.
 if (process.argv[1] && /server\.mjs$/.test(process.argv[1]) && /site\/law\//.test(process.argv[1])) {
