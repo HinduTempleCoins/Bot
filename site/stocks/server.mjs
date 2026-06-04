@@ -13,7 +13,7 @@ import { search as scraperSearch } from '../../integrations/scraper.mjs';
 import { companyProfile } from '../../integrations/soapbox/company-profiles.mjs';
 import { cached, TTL } from '../../integrations/soapbox/cache.mjs';
 import { headTags, financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
-import { robotsTxt, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
+import { robotsTxt, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8095);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -277,6 +277,15 @@ export const handler = async (req, res) => {
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
         [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${u}</loc><lastmod>${today}</lastmod><changefreq>${u === '/' ? 'hourly' : 'daily'}</changefreq><priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n') + `\n</urlset>`;
       res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(xml);
+    }
+    if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
+    if (p === '/llms.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(llmsTxt({
+        name: 'SoapBox Stocks', baseUrl: BASE_URL,
+        summary: 'Live stock prices, charts, the Stock Index, a market-health gauge, and where-to-invest entry points.',
+        links: [{ label: 'Stock Index home', path: '/' }],
+      }));
     }
     if (p === '/api/search') { const r = await stockSearch(url.searchParams.get('q') || '', { limit: 8 }).catch(() => []); return json(res, { results: r }); }
     if (p === '/api/chart') { const s = await stockChart(url.searchParams.get('symbol') || '', url.searchParams.get('range') || '7d').catch(() => []); return json(res, { series: s }); }

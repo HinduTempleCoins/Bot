@@ -38,8 +38,8 @@ import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { findVertical, renderVertical } from './verticals.mjs';
 import { renderSocials, hasSocials } from '../../integrations/soapbox/coin-socials.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
-import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
-import { financialProductJsonLd } from '../../integrations/soapbox/seo.mjs';
+import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
+import { financialProductJsonLd, datasetJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 
@@ -213,9 +213,24 @@ async function listPage({ page = 1 } = {}) {
         rows.forEach(function(r){tb.appendChild(r)})})});
     </script>`;
 
+  // Dataset JSON-LD: the global-markets index IS a structured price dataset — a signal for Google
+  // Dataset Search + AI crawlers that this page is queryable market data, not a content article.
+  const indexDataset = datasetJsonLd({
+    name: 'SoapBox crypto markets — live prices & Clarity ratings',
+    description: 'Live cryptocurrency prices, market caps, 24h change, and Clarity transparency ratings across the market, including first-party ecosystem-token data.',
+    url: `${BASE_URL}/`,
+    keywords: ['cryptocurrency prices', 'market cap', 'crypto market data', 'Clarity score'],
+    variableMeasured: [
+      { name: 'Price', unitText: 'USD' },
+      { name: 'Market Cap', unitText: 'USD' },
+      { name: '24h Change', unitText: 'PERCENT' },
+      { name: 'Clarity Score' },
+    ],
+  });
   return layout({
     title: 'Global Markets', active: '/', canonical: `${BASE_URL}/`,
     description: 'Live cryptocurrency prices, market caps, and Clarity transparency ratings. Ecosystem tokens (VKBT, CURE) with first-party on-chain data.',
+    jsonld: indexDataset,
     body,
   });
 }
@@ -873,6 +888,24 @@ createServer(async (req, res) => {
       return send(layout({ title: 'Announcements', active: '', canonical: `${BASE_URL}/announcements`, description: 'Official announcements from Hathor, the MELEK AI Witness.', body }));
     }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(await sitemap()); }
+    if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
+    if (p === '/llms.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(llmsTxt({
+        name: 'SoapBox Data', baseUrl: BASE_URL,
+        summary: 'A crypto + markets data aggregator with a Clarity transparency score and right-of-reply. Coins, dApps, exchanges, chains, macro, forex, commodities, and curated news.',
+        links: [
+          { label: 'Global crypto markets', path: '/' },
+          { label: 'dApps + DeFi by TVL', path: '/dapps' },
+          { label: 'Exchanges', path: '/exchanges' },
+          { label: 'Chains + stablecoin pegs', path: '/chains' },
+          { label: 'Macro markets', path: '/macro' },
+          { label: 'Forex', path: '/forex' },
+          { label: 'Commodities', path: '/commodities' },
+          { label: 'Directory', path: '/directory' },
+        ],
+      }));
+    }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
     if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(INDEXNOW_KEY); }
     if (p === '/status') return send(statusPage());

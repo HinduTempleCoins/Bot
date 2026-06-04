@@ -136,4 +136,86 @@ export function headTags({
   return parts.filter(Boolean).join('\n');
 }
 
+/**
+ * BreadcrumbList for a sub-page. `trail` is an ordered [{ name, url }] from the site root to this page.
+ * Returns a JSON-LD object ready for jsonLdScript().
+ */
+export function breadcrumbJsonLd(trail = []) {
+  const items = [].concat(trail).filter(Boolean);
+  if (!items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem', position: i + 1, name: it.name, item: it.url,
+    })),
+  };
+}
+
+/**
+ * Dataset node for a data / price index page (e.g. the global markets table, a stock index). A
+ * "this page IS a structured dataset" signal that helps Google's Dataset Search + AI crawlers.
+ */
+export function datasetJsonLd({ name, description, url, keywords = [], variableMeasured = [] } = {}) {
+  const node = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name,
+    description,
+    url,
+    creator: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+  };
+  if (keywords.length) node.keywords = [].concat(keywords).filter(Boolean);
+  if (variableMeasured.length) {
+    node.variableMeasured = [].concat(variableMeasured).filter(Boolean).map((v) =>
+      typeof v === 'string' ? v : { '@type': 'PropertyValue', ...v });
+  }
+  return node;
+}
+
+/** Article node for a content page (ecosystem profile, wiki article, news item). */
+export function articleJsonLd({ headline, description, url, datePublished, dateModified, image } = {}) {
+  const node = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    url,
+    publisher: { '@id': ORG_ID },
+  };
+  if (datePublished) node.datePublished = datePublished;
+  if (dateModified) node.dateModified = dateModified;
+  if (image) node.image = image;
+  return node;
+}
+
+/**
+ * Product + AggregateOffer for an honest price-comparison page (hemp flower/seeds, a commodity with
+ * multiple sellers). Only emit when there ARE real offers — otherwise prefer datasetJsonLd. `offers`
+ * is { count, lowPrice, highPrice, priceCurrency } aggregated across honest sources.
+ */
+export function productAggregateOfferJsonLd({ name, description, url, image, offers } = {}) {
+  const node = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    url,
+  };
+  if (description) node.description = description;
+  if (image) node.image = image;
+  const o = offers || {};
+  const low = +o.lowPrice, high = +o.highPrice;
+  if (Number.isFinite(low) && Number.isFinite(high) && +o.count > 0) {
+    node.offers = {
+      '@type': 'AggregateOffer',
+      offerCount: +o.count,
+      lowPrice: low,
+      highPrice: high,
+      priceCurrency: o.priceCurrency || 'USD',
+    };
+  }
+  return node;
+}
+
 export const _internal = { ORG_URL, ORG_ID };

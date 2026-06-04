@@ -68,6 +68,116 @@ export function getIndexNowKey() {
 // Back-compat: previous callers imported INDEXNOW_KEY as a constant. Resolve it lazily-but-eagerly here.
 export const INDEXNOW_KEY = getIndexNowKey();
 
+// ── admin exclusion (soapy.blog) — block EVERYTHING, advertise no sitemap ──────────────────────────
+// The admin portal must never be crawled, indexed, or discovered. This is one of the three defence
+// layers (the others: the X-Robots-Tag header + the <meta robots noindex> in the admin <head>). A
+// Disallow-all robots.txt with NO Sitemap line means a crawler that respects robots never fetches a
+// single admin path and is never handed a list of them.
+export function robotsTxtDisallowAll() {
+  return [
+    '# Soapy.blog admin portal — operator-only. Not for crawling or indexing.',
+    'User-agent: *',
+    'Disallow: /',
+    '',
+  ].join('\n');
+}
+
+// ── sitemap builders (shared, valid <urlset>) ──────────────────────────────────────────────────────
+// Each entry: a path or absolute URL, plus optional { lastmod, changefreq, priority }. We resolve
+// relative paths against base, escape every loc, and emit a spec-valid urlset. Admin URLs are the
+// CALLER's responsibility to keep out — but as a hard backstop, any loc whose host matches a known
+// admin host is dropped (defence in depth: soapy.blog can never sneak into a sitemap).
+const ADMIN_HOST_RE = /(^|\.)soapy\.blog$/i;
+
+function isAdminUrl(u) {
+  try { return ADMIN_HOST_RE.test(new URL(u).host); } catch { return false; }
+}
+
+/** Build one site's /sitemap.xml from a base URL + entries. Drops any admin URL as a backstop. */
+export function sitemapXml(baseUrl, entries = []) {
+  const base = String(baseUrl).replace(/\/+$/, '');
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+  const rows = [];
+  for (const e of entries) {
+    const ent = typeof e === 'string' ? { path: e } : (e || {});
+    const raw = ent.url || ent.path || ent.loc || '/';
+    const loc = /^https?:\/\//i.test(raw) ? raw : `${base}${raw.startsWith('/') ? '' : '/'}${raw}`;
+    if (isAdminUrl(loc)) continue; // hard backstop: never list an admin URL
+    const bits = [`<loc>${esc(loc)}</loc>`];
+    if (ent.lastmod) bits.push(`<lastmod>${esc(ent.lastmod)}</lastmod>`);
+    if (ent.changefreq) bits.push(`<changefreq>${esc(ent.changefreq)}</changefreq>`);
+    if (ent.priority != null) bits.push(`<priority>${esc(ent.priority)}</priority>`);
+    rows.push(`  <url>${bits.join('')}</url>`);
+  }
+  return `<?xml version="1.0" encoding="UTF-8"?>\n`
+    + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join('\n')}\n</urlset>\n`;
+}
+
+/**
+ * A top-level sitemap-index linking the per-site sitemaps. `sites` is a list of base URLs (or
+ * { url, lastmod }). Admin hosts are dropped as a backstop, so soapy.blog can never appear here.
+ */
+export function sitemapIndexXml(sites = []) {
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+  const rows = [];
+  for (const s of sites) {
+    const site = typeof s === 'string' ? { url: s } : (s || {});
+    const base = String(site.url || '').replace(/\/+$/, '');
+    if (!base) continue;
+    if (isAdminUrl(base)) continue; // hard backstop
+    const loc = `${base}/sitemap.xml`;
+    const bits = [`<loc>${esc(loc)}</loc>`];
+    if (site.lastmod) bits.push(`<lastmod>${esc(site.lastmod)}</lastmod>`);
+    rows.push(`  <sitemap>${bits.join('')}</sitemap>`);
+  }
+  return `<?xml version="1.0" encoding="UTF-8"?>\n`
+    + `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join('\n')}\n</sitemapindex>\n`;
+}
+
+// ── llms.txt — a simple machine-readable index for AI crawlers (public sites only) ─────────────────
+// The emerging llms.txt convention: a markdown file at /llms.txt that tells an LLM what a site is and
+// where to look. We never reference the admin portal here. `links` is [{ label, path|url, note? }].
+export function llmsTxt({ name, baseUrl, summary = '', links = [] } = {}) {
+  const base = String(baseUrl || '').replace(/\/+$/, '');
+  const lines = [`# ${name || 'SoapBox'}`, ''];
+  if (summary) { lines.push(`> ${summary}`, ''); }
+  if (base) { lines.push(`Site: ${base}`, ''); }
+  if (links.length) {
+    lines.push('## Key pages', '');
+    for (const l of links) {
+      const raw = l.url || l.path || '/';
+      if (isAdminUrl(raw)) continue; // never advertise an admin URL to AI crawlers
+      const href = /^https?:\/\//i.test(raw) ? raw : `${base}${raw.startsWith('/') ? '' : '/'}${raw}`;
+      if (isAdminUrl(href)) continue;
+      lines.push(`- [${l.label || raw}](${href})${l.note ? `: ${l.note}` : ''}`);
+    }
+    lines.push('');
+  }
+  return lines.join('\n');
+}
+
+// ── the public SoapBox site registry — single source of truth for the sitemap-index ───────────────
+// Every PUBLIC subdomain, used to build the top-level sitemap-index. soapy.blog (admin) is
+// deliberately ABSENT — it is never crawled and never listed anywhere.
+export const PUBLIC_SITES = [
+  { slug: 'data', url: 'https://data.soapbox.community', name: 'SoapBox Data' },
+  { slug: 'search', url: 'https://search.soapbox.community', name: 'SoapBox Search' },
+  { slug: 'stocks', url: 'https://stocks.soapbox.community', name: 'SoapBox Stocks' },
+  { slug: 'directory', url: 'https://directory.soapbox.community', name: 'SoapBox Directory' },
+  { slug: 'wiki', url: 'https://wiki.soapbox.community', name: 'Library of Ashurbanipal' },
+  { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
+  { slug: 'law', url: 'https://law.soapbox.community', name: 'SoapBox Law' },
+];
+
+/** The top-level sitemap-index over all PUBLIC sites (admin can never appear). */
+export function publicSitemapIndexXml(lastmod) {
+  return sitemapIndexXml(PUBLIC_SITES.map((s) => ({ url: s.url, lastmod })));
+}
+
+export const _adminGuard = { isAdminUrl, ADMIN_HOST_RE };
+
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
 

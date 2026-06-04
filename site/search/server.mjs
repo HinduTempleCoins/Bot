@@ -11,7 +11,7 @@ import { searchAll, translate, detectLanguage } from '../../integrations/scraper
 import { DIRECTORY } from '../soapbox/directory.mjs';
 import { LEARN } from '../soapbox/content.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
-import { robotsTxt, submitToIndexNow, pingSitemap } from '../../integrations/soapbox/crawlers.mjs';
+import { robotsTxt, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { rankHybrid, facets } from '../../integrations/soapbox/search-quality.mjs';
 
 const PORT = +(process.env.PORT || 8092);
@@ -257,6 +257,15 @@ export async function handler(req, res) {
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
         urls.map((u) => `  <url><loc>${BASE_URL}${u}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n') + `\n</urlset>`;
       res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(xml);
+    }
+    if (url.pathname === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
+    if (url.pathname === '/llms.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(llmsTxt({
+        name: 'SoapBox Search', baseUrl: BASE_URL,
+        summary: 'A metasearch storefront across verticals with a Clarity transparency filter and Hathor AI mode.',
+        links: [{ label: 'Search', path: '/' }, { label: 'Translate', path: '/translate' }],
+      }));
     }
 
     // JSON translate endpoint — for other sites / Hathor. /api/translate?text=&to=&from=

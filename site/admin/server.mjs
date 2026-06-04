@@ -47,6 +47,7 @@ import {
 import {
   listCredentials, addCredential, getByCredentialId, updateSignCount,
 } from '../../integrations/passkey-store.mjs';
+import { robotsTxtDisallowAll } from '../../integrations/soapbox/crawlers.mjs';
 
 // Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
 // CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
@@ -785,7 +786,19 @@ export async function handle(req, res) {
   const p = url.pathname;
   const method = (req.method || 'GET').toUpperCase();
 
+  // ── HARD-HIDE soapy.blog from every crawler (defence layer 1 of 3: HTTP header on EVERY response).
+  // The other two layers are this route's /robots.txt (Disallow: /) and the <meta name=robots
+  // noindex> baked into layout(). Set the header up-front via setHeader so it rides along even on
+  // 302s, 401s, 404s, and JSON responses (writeHead merges these defaults). The admin is never in any
+  // sitemap and is not linked from any public page.
+  try { res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive'); } catch { /* headers already sent */ }
+
   try {
+    // robots.txt — block EVERYTHING. No Sitemap line is advertised. Always-open (no path list leaks).
+    if (p === '/robots.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(robotsTxtDisallowAll());
+    }
     // ---- CSRF: reject cross-site state-changing requests before any handler runs ----
     // Every POST is a state-changing route; a browser-driven cross-site post (Origin != our origin)
     // is refused with 403. Same-origin posts and non-browser clients (no Origin/Referer) pass.

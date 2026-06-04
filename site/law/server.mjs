@@ -39,6 +39,7 @@
 
 import { createServer } from 'node:http';
 
+import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as opinions from '../../integrations/soapbox/courtlistener-opinions.mjs';
 import * as cap from '../../integrations/soapbox/caselaw-cap.mjs';
 import * as ecfr from '../../integrations/soapbox/ecfr.mjs';
@@ -437,15 +438,34 @@ export async function handler(req, res) {
     if (raw === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
     if (raw === '/robots.txt') {
       res.writeHead(200, { 'content-type': 'text/plain' });
-      return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`);
+      return res.end(robotsTxt(BASE_URL));
     }
     if (raw === '/sitemap.xml') {
       const today = new Date().toISOString().slice(0, 10);
-      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
-        + SITEMAP_PATHS.map((u) => `  <url><loc>${BASE_URL}${u}</loc><lastmod>${today}</lastmod><changefreq>${u === '/' ? 'daily' : 'weekly'}</changefreq><priority>${u === '/' ? '1.0' : '0.7'}</priority></url>`).join('\n')
-        + `\n</urlset>`;
+      const entries = SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today, changefreq: u === '/' ? 'daily' : 'weekly', priority: u === '/' ? '1.0' : '0.7',
+      }));
       res.writeHead(200, { 'content-type': 'application/xml' });
-      return res.end(xml);
+      return res.end(sitemapXml(BASE_URL, entries));
+    }
+    if (raw === '/sitemap-index.xml') {
+      res.writeHead(200, { 'content-type': 'application/xml' });
+      return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10)));
+    }
+    if (raw === '/llms.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(llmsTxt({
+        name: 'SoapBox Law', baseUrl: BASE_URL,
+        summary: 'Caselaw, statutes, regulations, judges, and lawyers — official-source US legal data.',
+        links: [
+          { label: 'Caselaw', path: '/cases' },
+          { label: 'Statutes (US Code)', path: '/statutes' },
+          { label: 'Regulations (CFR)', path: '/regulations' },
+          { label: 'Judges', path: '/judges' },
+          { label: 'Lawyers', path: '/lawyers' },
+          { label: 'File a complaint', path: '/complaints' },
+        ],
+      }));
     }
 
     const { juris, path } = splitJurisdiction(raw);
