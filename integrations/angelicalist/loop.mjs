@@ -35,10 +35,18 @@ import { simulate } from '../trade-presets.mjs';
 import { suggest } from '../ai-trade-suggest.mjs';
 import { scanArb } from '../arb-scanner.mjs';
 import { sizeOrder } from './execute.mjs';
-import { planSweep } from './dry-run.mjs';
-import { placeOrder as realPlaceOrder, sweepToKali as realSweepToKali, mode } from './trader.mjs';
+import { placeOrder as realPlaceOrder, mode } from './trader.mjs';
 import { tokenBalances } from './internal.mjs';
 import { record as ptRecord } from '../profit-tracker.mjs';
+
+// ── NO FUND-MOVEMENT RULE (operator, 2026-06-04) ─────────────────────────────────────────────────
+// This loop NEVER transfers funds off the account. There is NO sweep, NO send-to-kalivankush, NO
+// account-to-account movement of any kind. The ONLY on-chain action it may take is placing a market
+// BUY or SELL order on the Hive-Engine DEX — buying low and selling high, with everything staying in
+// the angelicalist account. Money only ever "leaves" as the realized difference between a buy price
+// and a later higher sell price (round-trip profit) or a cross-venue arbitrage fill — never as a
+// transfer the bot initiates. The auto-sweep that previously lived here was removed: it moved a 114
+// SWAP.HIVE float to another account on a tick where principal=0, which was unauthorized. Removed.
 
 // ── tunables (env-overridable). Read PER-TICK so cron/systemd env changes take effect live and so
 // the per-order cap stays in lock-step with execute.sizeOrder's own MAX_ORDER_HIVE read. ───────────
@@ -47,9 +55,6 @@ function tunables() {
     MAX_ORDER_HIVE: +(process.env.MAX_ORDER_HIVE || 10),               // per-order ceiling (also enforced in execute.sizeOrder)
     MAX_BELIEVABLE_EDGE: +(process.env.MAX_BELIEVABLE_EDGE || 0.30),   // >this = dead/stale book → reject
     MIN_EXEC_HIVE: +(process.env.ARB_MIN_EXEC_HIVE || 20),             // need ≥this executable HIVE of depth to act
-    SWEEP_PRINCIPAL: +(process.env.SWEEP_PRINCIPAL_HIVE || 0),         // float to keep on the hot account (never swept)
-    SWEEP_THRESHOLD: +(process.env.SWEEP_THRESHOLD_HIVE || 5),         // buffer above principal before skimming
-    SWEEP_ASSET: process.env.SWEEP_ASSET || 'SWAP.HIVE',             // asset to sweep to kalivankush
   };
 }
 
@@ -70,10 +75,10 @@ const balOf = (tokens, symbol) => { const t = tokens.find((x) => x.symbol === sy
  * Returns { ts, mode, dryRun, decisions, orders, swept, blocked, summary }.
  */
 export async function runOnce(deps = {}) {
-  const { MAX_ORDER_HIVE, MAX_BELIEVABLE_EDGE, MIN_EXEC_HIVE, SWEEP_PRINCIPAL, SWEEP_THRESHOLD, SWEEP_ASSET } = tunables();
+  const { MAX_ORDER_HIVE, MAX_BELIEVABLE_EDGE, MIN_EXEC_HIVE } = tunables();
   const m = (deps.mode || mode)();
   const live = m.live;                                  // true only when ANGELICALIST_LIVE + WIF present
-  const broadcaster = deps.broadcaster || { placeOrder: realPlaceOrder, sweepToKali: realSweepToKali };
+  const broadcaster = deps.broadcaster || { placeOrder: realPlaceOrder };
   const logFill = deps.ptRecord || ptRecord;
 
   // 1. pull preset decisions + the depth-aware arb scan (edge + executable HIVE per market).
@@ -164,18 +169,8 @@ export async function runOnce(deps = {}) {
     orders.push({ ...sized, result });
   }
 
-  // 5. SWEEP: skim profit above (principal + buffer) to kalivankush. Never touches the principal.
-  const liquid = balOf(tokens, SWEEP_ASSET);
-  const sweepPlan = planSweep({ balances: { [SWEEP_ASSET]: liquid }, threshold: SWEEP_THRESHOLD, asset: SWEEP_ASSET, principal: SWEEP_PRINCIPAL });
-  let swept = { ...sweepPlan, executed: false };
-  if (sweepPlan.skim && sweepPlan.amount > 0) {
-    if (live) {
-      const r = await broadcaster.sweepToKali({ symbol: sweepPlan.asset, quantity: sweepPlan.amount, memo: 'profit sweep' }).catch((e) => ({ error: e.message }));
-      swept = { ...sweepPlan, executed: !!(r && !r.error && !r.simulated), result: r };
-    } else {
-      swept = { ...sweepPlan, executed: false, result: { simulated: true, would: `SWEEP ${sweepPlan.amount} ${sweepPlan.asset} -> @${sweepPlan.to}` } };
-    }
-  }
+  // 5. (NO SWEEP) — intentionally removed. This loop NEVER transfers funds off the account. Profit is
+  //    realized in-account by selling inventory higher than it was bought; nothing is ever sent out.
 
   const placedCount = orders.filter((o) => o.order && o.result && !o.result.error && !o.result.skip).length;
   return {
@@ -184,11 +179,10 @@ export async function runOnce(deps = {}) {
     dryRun: !live,
     decisions: ranked,
     orders,
-    swept,
     blocked,
     summary: {
       considered: decisions.length, executable: ranked.length, placed: placedCount,
-      blocked: blocked.length, swept: swept.executed ? swept.amount : 0,
+      blocked: blocked.length,
       capHive: MAX_ORDER_HIVE, maxEdge: MAX_BELIEVABLE_EDGE,
     },
   };
@@ -198,7 +192,7 @@ export async function runOnce(deps = {}) {
 export function report(r) {
   if (!r) return '(no result)';
   const lines = [];
-  lines.push(`angelicalist loop tick — ${r.dryRun ? '🟢 DRY-RUN (default)' : '🔴 LIVE'}  cap=${r.summary.capHive} HIVE/order  account=@${r.mode.account} sweep->@${r.mode.sweepTo}  (${r.ts})`);
+  lines.push(`angelicalist loop tick — ${r.dryRun ? '🟢 DRY-RUN (default)' : '🔴 LIVE'}  cap=${r.summary.capHive} HIVE/order  account=@${r.mode.account}  (in-account only, no fund transfers)  (${r.ts})`);
   if (!r.orders.length && !r.blocked.length) lines.push('  (all HOLD — nothing actionable this tick)');
   for (const o of r.orders) {
     if (o.skip) { lines.push(`  [SKIP] ${o.sym}: ${o.skip}`); continue; }
@@ -207,9 +201,6 @@ export function report(r) {
     lines.push(`  [${o.order.side.toUpperCase()}] ${o.order.quantity} ${o.order.symbol} @ ${o.order.price}  (${econ})  ${tag}`);
   }
   for (const b of r.blocked) lines.push(`  [BLOCKED] ${b.sym}: ${b.blocked}`);
-  lines.push(r.swept.skim
-    ? `  [SWEEP ${r.swept.executed ? 'DONE' : r.dryRun ? 'WOULD' : 'PENDING'}] ${r.swept.amount} ${r.swept.asset} -> @${r.swept.to}  (${r.swept.reason})`
-    : `  [NO SWEEP] ${r.swept.reason}`);
   return lines.join('\n');
 }
 
