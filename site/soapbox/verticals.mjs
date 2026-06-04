@@ -392,6 +392,12 @@ export const VERTICALS = [
   { path: '/market-health', title: 'Market Health', navLabel: 'Market Health', kind: 'summary',
     render: summaryRender({ module: `${REL}market-health.mjs`, fn: 'healthData', title: 'Market Health' }) },
 
+  // Hemp / cannabis — the hemp-vs-marijuana law summary + reform-orgs/churches + strain/price directory.
+  // The full standalone surface is site/hemp/server.mjs (hemp.soapbox.community); this Data-site page
+  // surfaces the keyless summary. Searchable: a strain name runs the SeedFinder-style lineage lookup.
+  { path: '/hemp', title: 'Hemp & Cannabis', navLabel: 'Hemp', kind: 'search',
+    render: searchRender({ module: `${REL}cannabis.mjs`, fn: 'strainLookup', title: 'Hemp & Cannabis', placeholder: 'Strain name (e.g. Northern Lights)…', label: 'Look up strain' }) },
+
   // ---- Library (wave-library-borrow) ----
   // Unified keyless catalog search → bucketed results: host-fully hits get a read/download link;
   // metadata-only hits get a cover + "go get the book" borrow link-outs (Open Library, WorldCat,

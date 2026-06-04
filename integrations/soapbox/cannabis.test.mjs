@@ -1,6 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { deriveSeedIndex, STRAIN_SOURCES, REPORTS, reports } from './cannabis.mjs';
+import {
+  deriveSeedIndex, STRAIN_SOURCES, REPORTS, reports,
+  classifyByThc, legalStatus, THC_LIMIT_PCT, STATUTES, LAW_NOTES, LAW_SOURCES,
+  organizations, ORGANIZATIONS,
+  flowerPrices, seedPrices, strainLookup,
+  scourCannabis, __setScour, CANNABIS_TOPIC_SEEDS,
+  cannabisSummary,
+} from './cannabis.mjs';
 
 // ── deriveSeedIndex: the PURE math (median + IQR), offline ──────────────────────────────────────
 
@@ -99,4 +106,176 @@ test('REPORTS / reports(): free UNODC + IMF link-outs, https, same reference', (
   const names = REPORTS.map((r) => r[0]).join(' | ');
   assert.match(names, /UNODC/);
   assert.match(names, /IMF/);
+});
+
+// ── US-LAW classifier: hemp vs marijuana ─────────────────────────────────────────────────────────
+
+test('classifyByThc: at/under 0.3% is hemp, over is marijuana', () => {
+  assert.equal(THC_LIMIT_PCT, 0.3);
+  assert.equal(classifyByThc(0).classification, 'hemp');
+  assert.equal(classifyByThc(0.3).classification, 'hemp', 'exactly 0.3% is at the line → hemp');
+  assert.equal(classifyByThc(0.29).classification, 'hemp');
+  assert.equal(classifyByThc(0.31).classification, 'marijuana');
+  assert.equal(classifyByThc(18).classification, 'marijuana');
+});
+
+test('classifyByThc: cites the statute (7 USC 1639o / 21 USC 802)', () => {
+  const hemp = classifyByThc(0.2);
+  assert.match(hemp.citation.hemp, /1639o/);
+  assert.match(hemp.citation.hempUrl, /^https:\/\//);
+  const mj = classifyByThc(5);
+  assert.match(mj.citation.csa, /802/);
+  assert.match(mj.note, /Schedule I/);
+});
+
+test('classifyByThc: dryWeight:false flags the measurement basis', () => {
+  const r = classifyByThc(0.2, { dryWeight: false });
+  assert.equal(r.dryWeight, false);
+  assert.match(r.note, /DRY WEIGHT/i);
+});
+
+test('classifyByThc: null on bad input', () => {
+  assert.equal(classifyByThc(NaN), null);
+  assert.equal(classifyByThc(-1), null);
+  assert.equal(classifyByThc('x'), null);
+  assert.equal(classifyByThc(undefined), null);
+});
+
+test('STATUTES + LAW_NOTES + LAW_SOURCES: shapes + nuances encoded', () => {
+  for (const [cite, url, desc] of Object.values(STATUTES)) {
+    assert.ok(cite && desc);
+    assert.match(url, /^https:\/\//);
+  }
+  assert.ok(LAW_NOTES.length >= 4, 'total-THC, delta-8, reschedule, state-varies notes');
+  const joined = LAW_NOTES.map((n) => n[0]).join(' | ');
+  assert.match(joined, /Total-THC/);
+  assert.match(joined, /delta-8/i);
+  assert.match(joined, /Schedule III/);
+  assert.match(joined, /State law varies/i);
+  for (const [name, url] of LAW_SOURCES) { assert.ok(name); assert.match(url, /^https:\/\//); }
+});
+
+test('legalStatus: cited federal line + state-varies note, no fabricated specifics', () => {
+  const ca = legalStatus('California');
+  assert.equal(ca.state, 'California');
+  assert.match(ca.federal.line, /1639o/);
+  assert.match(ca.federal.line, /Schedule I/);
+  assert.match(ca.stateNote, /California/);
+  assert.match(ca.stateNote, /varies/i);
+  assert.ok(Array.isArray(ca.sources) && ca.sources.length);
+  assert.match(ca.disclaimer, /not legal advice/i);
+  // no-state form still gives the federal line
+  const none = legalStatus();
+  assert.equal(none.state, null);
+  assert.match(none.stateNote, /varies/i);
+});
+
+// ── Reform orgs + churches registry ──────────────────────────────────────────────────────────────
+
+test('organizations: facts+links+right-of-reply, no legitimacy verdict field', () => {
+  assert.equal(organizations(), ORGANIZATIONS);
+  for (const o of ORGANIZATIONS) {
+    assert.ok(o.name && o.focus && o.note);
+    assert.ok(['reform-org', 'church'].includes(o.type));
+    assert.match(o.url, /^https:\/\//);
+    assert.ok(o.rightOfReply, 'every entry has a right-of-reply path');
+    // facts-not-verdicts: no "legitimate"/"scam"/"verified" judgment fields
+    assert.ok(!('legitimate' in o) && !('verdict' in o) && !('rating' in o));
+  }
+  const names = ORGANIZATIONS.map((o) => o.name).join(' | ');
+  for (const must of ['NORML', 'Marijuana Policy Project', 'Drug Policy Alliance', 'SSDP', 'Last Prisoner Project', 'Marijuana Justice']) {
+    assert.match(names, new RegExp(must.replace(/[()]/g, '.')), `registry includes ${must}`);
+  }
+});
+
+test('organizations: filter by type', () => {
+  const orgs = organizations('reform-org');
+  const churches = organizations('church');
+  assert.ok(orgs.length >= 6 && orgs.every((o) => o.type === 'reform-org'));
+  assert.ok(churches.length >= 2 && churches.every((o) => o.type === 'church'));
+  const cn = churches.map((c) => c.name).join(' | ');
+  assert.match(cn, /Oklevueha/);
+  assert.match(cn, /THC Ministry/);
+});
+
+// ── Price aggregation: flower + seeds (injectable sources, offline) ──────────────────────────────
+
+test('flowerPrices: derives our own median index from injectable sources', async () => {
+  const r = await flowerPrices({ sources: { vendorA: () => [8, 10, 12], vendorB: () => [9, 11] } });
+  assert.equal(r.item, 'cannabis flower (per gram)');
+  assert.equal(r.median, 10); // sorted 8,9,10,11,12 → median 10
+  assert.ok(r.low <= r.median && r.median <= r.high);
+  assert.deepEqual(r.sources.sort(), ['vendorA', 'vendorB']);
+  assert.ok(typeof r.asOf === 'string');
+});
+
+test('flowerPrices: no sources → honest empty index, never fabricates', async () => {
+  const r = await flowerPrices();
+  assert.equal(r.median, null);
+  assert.equal(r.n, 0);
+  assert.deepEqual(r.sources, []);
+});
+
+test('flowerPrices: a throwing source soft-fails, others still aggregate', async () => {
+  const r = await flowerPrices({ sources: { bad: () => { throw new Error('down'); }, ok: () => [10, 20, 30] } });
+  assert.equal(r.median, 20);
+  assert.deepEqual(r.sources, ['ok']);
+});
+
+test('seedPrices: accepts {price} rows and per-pack item label', async () => {
+  const r = await seedPrices({ sources: { bank: () => [{ price: 40 }, { price: 60 }, { price: 80 }] } });
+  assert.equal(r.item, 'cannabis seeds (per pack)');
+  assert.equal(r.median, 60);
+  assert.deepEqual(r.sources, ['bank']);
+});
+
+test('strainLookup: SeedFinder-style link-outs, soft-fail lineage, no fabrication', async () => {
+  const r = await strainLookup('Northern Lights');
+  assert.equal(r.query, 'Northern Lights');
+  assert.equal(r.lineage, null, 'we never fabricate parentage');
+  const srcs = r.links.map((l) => l.source);
+  assert.ok(srcs.includes('SeedFinder') && srcs.includes('Leafly'));
+  for (const l of r.links) assert.match(l.url, /^https:\/\/.*Northern/i);
+  // empty query → empty links
+  assert.deepEqual((await strainLookup('')).links, []);
+});
+
+// ── Resource-Center scour (injectable, offline) ──────────────────────────────────────────────────
+
+test('scourCannabis: topic seeds defined + injectable scour, deduped cited results', async () => {
+  assert.ok(CANNABIS_TOPIC_SEEDS.length >= 6);
+  const calls = [];
+  __setScour(async (q) => { calls.push(q); return [{ title: q, url: `https://ex/${encodeURIComponent(q)}`, snippet: 's' }]; });
+  try {
+    // single query path
+    const one = await scourCannabis('delta-8 legality', { limit: 5 });
+    assert.equal(one.query, 'delta-8 legality');
+    assert.equal(one.results.length, 1);
+    assert.equal(calls.length, 1);
+    // topic-seed fan-out path
+    calls.length = 0;
+    const seeded = await scourCannabis(null, { limit: 4 });
+    assert.equal(calls.length, CANNABIS_TOPIC_SEEDS.length);
+    assert.equal(seeded.query, '(topic seeds)');
+    assert.ok(seeded.results.length >= 1);
+  } finally { __setScour(null); }
+});
+
+test('scourCannabis: a throwing scour soft-fails to empty results', async () => {
+  __setScour(async () => { throw new Error('net down'); });
+  try {
+    const r = await scourCannabis('hemp');
+    assert.deepEqual(r.results, []);
+    assert.equal(r.sources, 0);
+  } finally { __setScour(null); }
+});
+
+// ── Summary includes the new counts ──────────────────────────────────────────────────────────────
+
+test('cannabisSummary: includes org/church/law-note counts', async () => {
+  const s = await cannabisSummary();
+  assert.ok(s.orgCount >= 6);
+  assert.ok(s.churchCount >= 2);
+  assert.ok(s.lawNotes >= 4);
+  assert.ok(s.strainSources >= 1);
 });
