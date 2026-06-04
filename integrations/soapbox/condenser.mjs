@@ -108,18 +108,92 @@ function safeMeta(metaStr) {
   try { const m = JSON.parse(metaStr); return { website: m.url || '', explorer: '', social: [] }; } catch { return undefined; }
 }
 
+// --- curated chain-ecosystem hints (static, auditable) ----------------------
+// Maps a well-known coin's CoinGecko id (and/or ticker symbol) → the chain ecosystem(s) it belongs to.
+// Used by relatedCoins() to surface chain-relevant siblings (e.g. ethereum ↔ its L2s and ERC-20s)
+// instead of always falling back to top-by-market-cap. Keys are matched case-insensitively against a
+// coin's id and symbol. Only CLEARLY-CORRECT mappings belong here — major L1s/L2s and obvious
+// ecosystem tokens. Extend conservatively; an unknown coin simply has no hint and keeps the
+// top-by-cap fallback (so this can only improve relevance, never regress to empty). Exported so it's
+// auditable and extensible.
+export const CHAIN_HINTS = Object.freeze({
+  // --- Ethereum ecosystem (L1 + canonical L2s + flagship ERC-20s / Ethereum-native DeFi) ---
+  ethereum: ['ethereum'], eth: ['ethereum'],
+  weth: ['ethereum'], steth: ['ethereum'], 'wrapped-steth': ['ethereum'],
+  arbitrum: ['ethereum'], arb: ['ethereum'],
+  optimism: ['ethereum'], op: ['ethereum'],
+  'matic-network': ['ethereum', 'polygon'], matic: ['ethereum', 'polygon'], pol: ['polygon'],
+  base: ['ethereum'],
+  'lido-dao': ['ethereum'], ldo: ['ethereum'],
+  uniswap: ['ethereum'], uni: ['ethereum'],
+  aave: ['ethereum'], maker: ['ethereum'], mkr: ['ethereum'],
+  chainlink: ['ethereum'], link: ['ethereum'],
+  shiba: ['ethereum'], 'shiba-inu': ['ethereum'], shib: ['ethereum'],
+  // --- stablecoins that are predominantly multi-chain but Ethereum-anchored ---
+  tether: ['ethereum', 'tron'], usdt: ['ethereum', 'tron'],
+  'usd-coin': ['ethereum'], usdc: ['ethereum'],
+  dai: ['ethereum'],
+  'pax-gold': ['ethereum'], paxg: ['ethereum'],
+  // --- BNB chain ---
+  binancecoin: ['bnb'], bnb: ['bnb'],
+  pancakeswap: ['bnb'], cake: ['bnb'],
+  // --- Solana ---
+  solana: ['solana'], sol: ['solana'],
+  raydium: ['solana'], ray: ['solana'],
+  bonk: ['solana'],
+  jupiter: ['solana'],
+  // --- Tron ---
+  tron: ['tron'], trx: ['tron'],
+  // --- Avalanche ---
+  'avalanche-2': ['avalanche'], avax: ['avalanche'],
+  // --- Polygon (native token already mapped above under matic) ---
+  // --- Cosmos ecosystem ---
+  cosmos: ['cosmos'], atom: ['cosmos'],
+  osmosis: ['cosmos'], osmo: ['cosmos'],
+  // --- Cardano / Polkadot / Near (own L1 ecosystems) ---
+  cardano: ['cardano'], ada: ['cardano'],
+  polkadot: ['polkadot'], dot: ['polkadot'],
+  'near-protocol': ['near'], near: ['near'],
+  // --- Hive / Steem / Blurt (our neighborhood) ---
+  hive: ['hive'], steem: ['steem'], blurt: ['blurt'],
+});
+
+// Resolve the curated chain hints for a coin from its id and/or symbol. Returns an array (possibly
+// empty). Also honors hints already on the coin (coin.chains from the upstream platforms map and any
+// coin.chainsHint already attached) so callers can pass either shape. Never throws.
+export function chainHintsFor(coin) {
+  if (!coin) return [];
+  const out = new Set();
+  const add = (v) => { if (Array.isArray(v)) v.forEach((x) => x && out.add(String(x).toLowerCase())); };
+  const id = String(coin.id || '').toLowerCase();
+  const sym = String(coin.symbol || '').toLowerCase();
+  if (id && CHAIN_HINTS[id]) add(CHAIN_HINTS[id]);
+  if (sym && CHAIN_HINTS[sym]) add(CHAIN_HINTS[sym]);
+  // a coin already carrying explicit chains (e.g. an ERC-20 with platforms) counts those as hints too.
+  if (Array.isArray(coin.chains)) coin.chains.forEach((c) => c && out.add(String(c).toLowerCase()));
+  if (Array.isArray(coin.chainsHint)) add(coin.chainsHint);
+  else if (typeof coin.chainsHint === 'string' && coin.chainsHint) out.add(coin.chainsHint.toLowerCase());
+  return [...out];
+}
+
 // top coins for the list page (Tier-1 CoinGecko markets, keyless). Normalized lightly.
 // `sparkline` pulls the 7d price series for the list-page mini-charts (one extra field, same call).
+// Each row also gets `chainsHint` (curated, may be []) so relatedCoins() can prefer chain-relevant
+// siblings instead of always falling back to top-by-cap.
 export async function topCoins({ limit = 50, page = 1, sparkline = true } = {}) {
   return cached(`top:${limit}:${page}:${sparkline ? 1 : 0}`, TTL.list, async () => {
     const arr = await jget(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=${page}&sparkline=${sparkline}&price_change_percentage=24h`);
-    return (Array.isArray(arr) ? arr : []).map((c) => ({
-      id: c.id, symbol: (c.symbol || '').toUpperCase(), name: c.name,
-      price_usd: c.current_price || 0, market_cap_usd: c.market_cap || 0, volume_24h_usd: c.total_volume || 0,
-      change_24h: c.price_change_percentage_24h || 0, rank: c.market_cap_rank || null,
-      sparkline_7d: sparkline ? (c.sparkline_in_7d?.price || []) : [],
-      image: c.image || '',
-    }));
+    return (Array.isArray(arr) ? arr : []).map((c) => {
+      const row = {
+        id: c.id, symbol: (c.symbol || '').toUpperCase(), name: c.name,
+        price_usd: c.current_price || 0, market_cap_usd: c.market_cap || 0, volume_24h_usd: c.total_volume || 0,
+        change_24h: c.price_change_percentage_24h || 0, rank: c.market_cap_rank || null,
+        sparkline_7d: sparkline ? (c.sparkline_in_7d?.price || []) : [],
+        image: c.image || '',
+      };
+      row.chainsHint = chainHintsFor(row); // curated ecosystem hints (may be [])
+      return row;
+    });
   });
 }
 
@@ -131,10 +205,15 @@ export async function relatedCoins(coin, { limit = 6 } = {}) {
   if (coin.source === 'hive-engine' || coin.source_tier === 2) {
     return ours.filter((c) => c.id !== coin.id).slice(0, limit);
   }
-  const chains = new Set(coin.chains || []);
   const scored = top.filter((c) => c.id !== coin.id);
-  // a coin shares relevance if it lives on one of this coin's chains; fall back to top-by-cap.
-  const onChain = scored.filter((c) => c.chainsHint && chains.has(c.chainsHint));
+  // curated chain hints for the target coin (from its id/symbol + any platforms it carries).
+  const targetHints = new Set(chainHintsFor(coin));
+  // when we know the target's ecosystem, prefer candidates that share a hint; otherwise keep the
+  // existing top-by-cap fallback. (#254 — chainsHint is now populated by topCoins(), so this branch
+  // is actually reachable. Unknown coins never regress to empty.)
+  const onChain = targetHints.size
+    ? scored.filter((c) => (c.chainsHint || []).some((h) => targetHints.has(h)))
+    : [];
   return (onChain.length ? onChain : scored).slice(0, limit);
 }
 

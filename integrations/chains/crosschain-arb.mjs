@@ -11,10 +11,14 @@ const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 const THRESHOLD = +(process.env.XCHAIN_THRESHOLD || 0.03); // 3% spread worth flagging
 const MIN_LIQ_USD = +(process.env.XCHAIN_MIN_LIQ || 5000); // ignore illiquid phantom pairs
 
+// injectable fetch seam (house pattern) — lets offline tests drive the detector without a network.
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 async function dexscreener(q) {
   const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 15000);
   try {
-    const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(q)}`, { headers: { 'user-agent': UA }, signal: ctrl.signal });
+    const r = await _fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(q)}`, { headers: { 'user-agent': UA }, signal: ctrl.signal });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return (await r.json()).pairs || [];
   } finally { clearTimeout(t); }

@@ -17,9 +17,13 @@ import { CHAINS } from './multichain.mjs';
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 const CONFIG_PATH = process.env.MELEK_WALLET_CONFIG || new URL('../../.local/wallet-config.json', import.meta.url).pathname;
 
+// injectable fetch seam (house pattern) — lets offline tests exercise the readers without a network.
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 async function jsonFetch(url, opts = {}, timeout = 12000) {
   const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), timeout);
-  try { const r = await fetch(url, { headers: { 'user-agent': UA, 'content-type': 'application/json' }, signal: ctrl.signal, ...opts });
+  try { const r = await _fetch(url, { headers: { 'user-agent': UA, 'content-type': 'application/json' }, signal: ctrl.signal, ...opts });
     if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json(); }
   finally { clearTimeout(t); }
 }
