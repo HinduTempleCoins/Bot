@@ -90,6 +90,9 @@ export const GROUPS = {
 const BUILT = new Set([
   'crypto', 'forex', 'commodities', 'stocks',
   'cannabis', 'lawyers', 'where-to-watch', 'charities', 'benefits',
+  // insurance lines — integrations/soapbox/insurance.mjs (auto/home/life/health/pet/travel)
+  'auto-insurance', 'home-insurance', 'life-insurance', 'health-insurance', 'pet-insurance',
+  'travel-insurance',
 ]);
 
 // --- the ~60 verticals (v3 §4, verbatim list) ------------------------------
