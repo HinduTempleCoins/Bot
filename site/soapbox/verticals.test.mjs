@@ -19,6 +19,8 @@ const EXPECTED_PATHS = [
   '/economy', '/health-research', '/census', '/world-development', '/patents', '/wikidata',
   '/scam-check', '/crime', '/parks', '/aviation', '/hazards', '/lawyers', '/benefits',
   '/vehicle-history', '/vehicle-value', '/market-health',
+  // Hemp / cannabis vertical (#260)
+  '/hemp',
   // Library (wave-library-borrow)
   '/library',
 ];

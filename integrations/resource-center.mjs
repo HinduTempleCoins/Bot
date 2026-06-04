@@ -34,6 +34,10 @@ try { const mi = await import('./market-impact-sim.mjs'); impactEngine = mi.engi
 // diagnostics pipeline (#179): fuses news (saying) + metrics (doing) → signals → suggested moves → teaching.
 let diagnosticsEngine = async () => '';
 try { const dp = await import('./diagnostics-pipeline.mjs'); diagnosticsEngine = dp.engineBlock || diagnosticsEngine; } catch {}
+// cannabis/hemp scour (#260): a topic-seeded web scour for hemp/cannabis data, reusing the scraper.
+// Optional/advisory — a missing module never takes the engine down.
+let cannabisScour = async () => null;
+try { const cb = await import('./soapbox/cannabis.mjs'); cannabisScour = cb.scourCannabis || cannabisScour; } catch {}
 
 // trade-proposer is optional at load (advisory layer) — import defensively so a single broken dep
 // never takes the whole engine down.
@@ -65,6 +69,11 @@ export async function runPass() {
   const impactMd = await Promise.resolve().then(() => impactEngine()).catch(() => '');
   // diagnostics (#179) runs LAST so it can read the snapshot the prior layers just produced.
   const diagnosticsMd = await Promise.resolve().then(() => diagnosticsEngine()).catch(() => '');
+  // cannabis/hemp scour (#260) — opt-in (RC_CANNABIS=1), since it hits the web scraper. Off by default
+  // so the always-on trade pass stays fast; the Hemp site / chat can call scourCannabis() directly.
+  const cannabis = process.env.RC_CANNABIS
+    ? await Promise.resolve().then(() => cannabisScour(null, { limit: 6 })).catch(() => null)
+    : null;
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
@@ -105,7 +114,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0 } };
+  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, cannabis, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0, cannabis: !!(cannabis && cannabis.results && cannabis.results.length) } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
