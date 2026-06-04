@@ -48,6 +48,35 @@ function makeMemStore() { return new Map(); }
 let _store = makeMemStore();
 export function __setStore(store) { _store = store || makeMemStore(); }
 
+// ── file-backed store: lets the browser-provisioning PROCESS and the soapy.blog admin PORTAL
+// (separate processes) share the same handoff queue. Map-like over a JSON file; soft-fail (a bad
+// read = empty, a bad write = dropped, never throws). Contains NO secrets — a pending handoff has
+// answer:null until a human resolves it, and the resolved answer is the human's own CAPTCHA text.
+export function makeFileStore(path) {
+  const readAll = () => {
+    try { return new Map(Object.entries(JSON.parse(fs.readFileSync(path, 'utf8') || '{}'))); }
+    catch { return new Map(); }
+  };
+  const writeAll = (map) => {
+    try {
+      const dir = path.replace(/\/[^/]*$/, '');
+      if (dir && !fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path, JSON.stringify(Object.fromEntries(map), null, 2));
+    } catch { /* soft-fail: a dropped write just means the handoff isn't shared this tick */ }
+  };
+  return {
+    get(id) { return readAll().get(id) || undefined; },
+    set(id, v) { const m = readAll(); m.set(id, v); writeAll(m); return this; },
+    delete(id) { const m = readAll(); const r = m.delete(id); writeAll(m); return r; },
+    values() { return readAll().values(); },
+  };
+}
+
+// Default to a file store when CAPTCHA_HANDOFF_FILE is set (prod), else in-memory (tests/dev).
+if (process.env.CAPTCHA_HANDOFF_FILE) {
+  try { _store = makeFileStore(process.env.CAPTCHA_HANDOFF_FILE); } catch { /* keep mem store */ }
+}
+
 // ── statuses ───────────────────────────────────────────────────────────────────────────────────────
 export const PENDING = 'pending';
 export const RESOLVED = 'resolved';

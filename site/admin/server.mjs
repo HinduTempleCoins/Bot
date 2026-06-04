@@ -20,6 +20,9 @@
 // The route handler is exported as `handle(req, res)` so tests drive it directly (offline, no listen).
 
 import { createServer } from 'node:http';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const REPO_ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 import {
   startEmailLogin, verifyMagicLink, verifyGoogleLogin, createSession, requireAdmin, adminEmail,
 } from '../../integrations/admin-auth.mjs';
@@ -34,6 +37,14 @@ import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../.
 import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
 import { ecosystemMap, renderMap as renderEcosystemMap } from '../../integrations/ecosystem-map.mjs';
 import { startRecovery } from '../../integrations/admin-auth.mjs';
+import * as captcha from '../../integrations/captcha-handoff.mjs';
+
+// Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
+// CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
+try {
+  const f = process.env.CAPTCHA_HANDOFF_FILE || join(REPO_ROOT_DIR, 'data', 'captcha-handoffs.json');
+  captcha.__setStore(captcha.makeFileStore(f));
+} catch { /* keep in-memory default */ }
 
 const PORT = +(process.env.PORT || 8096);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -78,6 +89,7 @@ function layout({ title = 'Admin', body = '', nav = true } = {}) {
     <a href="/chains">Chains</a>
     <a href="/claude">Claude</a>
     <a href="/connect">Connect</a>
+    <a href="/captcha">CAPTCHA</a>
     <a href="/features">Features</a>
     <a href="/analytics">Analytics</a>
     <a href="/diagnostics">Diagnostics</a>
@@ -263,6 +275,35 @@ async function chainsPage() {
   } catch (e) {
     return layout({ title: 'Chains', body: `<h1>Our chains</h1><p class=bad>Board unavailable: ${esc(e?.message || e)}</p>` });
   }
+}
+
+// The CAPTCHA-handoff console: when an automated signup (e.g. a Twitter account via the vault
+// browser) hits a CAPTCHA / SMS / human step, it enqueues a handoff here. The operator reads the
+// prompt (+ screenshot link), solves it, and submits the answer — the flow resumes on that answer.
+// The bot NEVER auto-defeats a CAPTCHA; the human solves it. "Test it" seeds a Twitter handoff so
+// you can confirm the round-trip works end to end.
+function captchaPage({ notice = '' } = {}) {
+  let pending = [];
+  try { pending = captcha.listPending() || []; } catch { pending = []; }
+  const rows = pending.map((h) => `<div class=card>
+      <div><span class=badge>${esc(h.kind)}</span> <span class=muted style="font-size:12px">${esc(h.context || '')}</span></div>
+      <p>${esc(h.promptText || '')}</p>
+      ${h.screenshotRef ? `<p class=muted style="font-size:12px">screenshot: <a href="${esc(h.screenshotRef)}" target=_blank rel=noopener>${esc(h.screenshotRef)}</a></p>` : ''}
+      <form method=POST action="/captcha/resolve">
+        <input type=hidden name=id value="${esc(h.id)}">
+        <p><input type=text name=answer placeholder="type the CAPTCHA text / SMS code / approval" autocomplete=off required></p>
+        <p><button type=submit>Submit answer</button> <span class=muted style="font-size:12px">id ${esc(h.id.slice(0, 8))}…</span></p>
+      </form>
+    </div>`).join('');
+  const body = `<h1>CAPTCHA / human-step handoffs</h1>
+    ${notice ? `<p class=ok>${esc(notice)}</p>` : ''}
+    <p class=muted>When an automated signup hits a CAPTCHA, SMS code, or other human-only step, it
+      shows up here for you to solve. The bot never auto-defeats a CAPTCHA — you solve it, the flow
+      resumes on your answer. Solved answers are single-use and never logged in plaintext.</p>
+    <div class=card><form method=POST action="/captcha/test"><button type=submit>🧪 Test it (seed a Twitter CAPTCHA)</button>
+      <span class=muted style="font-size:12px"> — proves the round-trip; solve it below to confirm.</span></form></div>
+    ${pending.length ? rows : '<p class=muted>No pending handoffs. Hit “Test it” to verify the flow, or wait for a signup to need you.</p>'}`;
+  return layout({ title: 'CAPTCHA', body });
 }
 
 async function claudePage(sessionId = 'admin') {
@@ -563,6 +604,30 @@ export async function handle(req, res) {
       const sessionId = (params.get('sessionId') || 'admin').trim();
       if (message) await sendToClaude({ message, sessionId, from: email }).catch(() => {});
       return redirect(res, '/claude');
+    }
+
+    if (p === '/captcha' && method === 'GET') return html(res, captchaPage());
+
+    if (p === '/captcha/test' && method === 'POST') {
+      await captcha.requestHandoff({
+        kind: 'captcha',
+        context: 'twitter signup (test)',
+        promptText: 'TEST: a Twitter/X signup hit a CAPTCHA. Type any text here to confirm the solve flow works.',
+        screenshotRef: null,
+      }).catch(() => {});
+      return redirect(res, '/captcha');
+    }
+
+    if (p === '/captcha/resolve' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const id = (params.get('id') || '').trim();
+      const answer = (params.get('answer') || '').trim();
+      let notice = 'Could not resolve that handoff (expired or unknown).';
+      if (id && answer) {
+        const r = captcha.resolveHandoff(id, { answer, by: email });
+        if (r && r.ok !== false) notice = 'Solved — the signup flow can now resume on your answer.';
+      }
+      return html(res, captchaPage({ notice }));
     }
 
     if (p === '/features' && method === 'GET') return html(res, await featuresPage());
