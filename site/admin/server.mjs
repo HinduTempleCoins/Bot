@@ -33,6 +33,7 @@ import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
 import { repoFeatures, summary as featureSummary, setFlag, tierOrder } from '../../integrations/feature-registry.mjs';
+import { listRepos, getRepo } from '../../integrations/repo-registry.mjs';
 import { sendToClaude, relayStatus, renderPanel as claudePanel, history as claudeHistory } from '../../integrations/claude-relay.mjs';
 import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
 import { chainsBoard, renderBoard as renderChainsBoard } from '../../integrations/chains-hud.mjs';
@@ -489,10 +490,65 @@ async function claudePage(sessionId = 'admin') {
   return layout({ title: 'Claude', body });
 }
 
+// ── repo toggle (MELEK-ecosystem repos) ─────────────────────────────────────────────────────────
+// The Features page defaults to the Bot repo's module catalog, but the operator can switch the
+// toggle to any ecosystem repo (PRANA, melek-chain, melek-condenser, MELEK, KULASwap) to see that
+// repo's identity from the manifest. Selecting "Bot" keeps the unchanged feature-registry catalog.
+function repoToggle(repos, selectedSlug) {
+  const tabs = repos.map((r) => {
+    const active = r.slug === selectedSlug;
+    const href = `/features?repo=${encodeURIComponent(r.slug)}`;
+    return `<a class="btn ghost" href="${esc(href)}" style="padding:5px 12px;font-size:13px${active ? ';background:var(--accent);color:#08101f;font-weight:700' : ''}">${esc(r.name)}</a>`;
+  }).join(' ');
+  return `<div class=card><h2>Repository</h2>
+    <p class=muted style="font-size:13px">Switch between MELEK-ecosystem repos. <strong>Bot</strong> shows the built-module catalog below; any other repo shows that repo's panel from the manifest.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">${tabs}</div></div>`;
+}
+
+// A single non-Bot repo's panel: identity + status + GitHub link + the top-level file tree.
+function repoPanel(repo) {
+  const statusCls = repo.status === 'live-codebase' ? 'ok' : repo.status === 'scaffold/empty' ? 'muted' : 'warn';
+  const statusBadge = `<span class="${statusCls}">${esc(repo.status)}</span>`;
+  // PRANA gets an honest note: it's a README-only scaffold, the tooling lives in Bot.
+  const pranaNote = repo.slug === 'PRANA'
+    ? `<p class=warn style="font-size:13px">chain code not built yet — build-around tooling lives in the Bot repo.</p>`
+    : '';
+  const ghLink = repo.url
+    ? `<a class="btn ghost" href="${esc(repo.url)}" target="_blank" rel="noopener" style="font-size:13px">View on GitHub ↗</a>`
+    : '';
+  const tree = (repo.topLevel || []).length
+    ? `<div class=card><h2>Top-level contents <span class=muted style="font-weight:400;font-size:13px">· ${esc((repo.topLevel || []).length)} entries</span></h2>
+        <ul style="columns:2;column-gap:32px;font-size:13px;margin:0">${(repo.topLevel || []).map((e) => `<li><code>${esc(e)}</code></li>`).join('')}</ul></div>`
+    : `<div class=card><p class=muted style="font-size:13px">No top-level file listing in the manifest for this repo.</p></div>`;
+  return `<div class=card><h2>${esc(repo.name)} ${statusBadge}</h2>
+      ${repo.description ? `<p>${esc(repo.description)}</p>` : '<p class=muted style="font-size:13px">No description.</p>'}
+      ${pranaNote}
+      <p class=muted style="font-size:13px"><strong>Language:</strong> ${esc(repo.language || '—')} ·
+        <strong>Files:</strong> ${esc((repo.fileCount || 0).toLocaleString())}</p>
+      <p>${ghLink}</p>
+    </div>
+    ${tree}`;
+}
+
 // The "what's built but the public can't see yet" catalog. Groups every integration module by
 // category and shows LIVE / BUILT(hidden) / SCAFFOLD, with a per-feature front-facing toggle that
 // records the operator's INTENT (a deploy step consumes the flag; the portal never deploys itself).
-async function featuresPage({ root } = {}) {
+async function featuresPage({ root, repo } = {}) {
+  // Repo toggle: default to Bot. Any non-Bot ecosystem repo renders its manifest panel instead of
+  // the module catalog. The toggle itself sits at the top of every variant.
+  let repos = [];
+  try { repos = listRepos(); } catch { repos = []; }
+  const selectedSlug = (repos.find((r) => r.slug === repo) ? repo : 'Bot');
+  const toggle = repos.length ? repoToggle(repos, selectedSlug) : '';
+
+  if (selectedSlug !== 'Bot') {
+    const sel = getRepo(selectedSlug);
+    const body = `<h1>Features <span class=muted style="font-size:14px">· ${esc(selectedSlug)} repo</span></h1>
+      ${toggle}
+      ${sel ? repoPanel(sel) : `<div class=card><p class=bad>Repo not found in the manifest.</p></div>`}`;
+    return layout({ title: `Features · ${selectedSlug}`, body });
+  }
+
   let feats = [];
   let s = { total: 0, byStatus: {}, hidden: 0, byCategory: {} };
   try { feats = await repoFeatures(root ? { root } : {}); s = await featureSummary(root ? { root } : {}); }
@@ -551,6 +607,7 @@ async function featuresPage({ root } = {}) {
 
   const ff = byTier['FRONT-FACING FIRST'] || [];
   const body = `<h1>Features <span class=muted style="font-size:14px">· everything built, sorted by the decision you're making</span></h1>
+    ${toggle}
     <div class=card><h2>What you have</h2>
       <p><strong>${esc(s.total)}</strong> capabilities built ·
          <span class=ok>${esc(s.byStatus.LIVE || 0)} live</span> ·
@@ -985,7 +1042,7 @@ export async function handle(req, res) {
       return html(res, captchaPage({ notice }));
     }
 
-    if (p === '/features' && method === 'GET') return html(res, await featuresPage());
+    if (p === '/features' && method === 'GET') return html(res, await featuresPage({ repo: url.searchParams.get('repo') || '' }));
 
     if (p === '/features/flag' && method === 'POST') {
       const params = formParams(await readBody(req));

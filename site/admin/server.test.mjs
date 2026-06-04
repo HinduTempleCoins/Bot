@@ -112,6 +112,47 @@ test('gated /features lists built-but-hidden capabilities', async () => {
   assert.ok(res.body.indexOf('FRONT-FACING FIRST') < res.body.indexOf('INTERNAL TOOL'));
 });
 
+test('repo toggle: /features (default) shows the Bot catalog + the repo tabs', async () => {
+  const res = await call({ url: '/features', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  // Bot catalog still renders unchanged
+  assert.match(res.body, /capabilities built/);
+  assert.match(res.body, /FRONT-FACING FIRST/);
+  // the new repo toggle is present with the ecosystem repos
+  assert.match(res.body, /Switch between MELEK-ecosystem repos/);
+  assert.match(res.body, /repo=PRANA/);
+  assert.match(res.body, /repo=melek-chain/);
+  assert.match(res.body, /repo=KULASwap/);
+});
+
+test('repo toggle: /features?repo=PRANA renders the PRANA panel (honest scaffold note)', async () => {
+  const res = await call({ url: '/features?repo=PRANA', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  // PRANA repo panel — NOT the Bot module catalog
+  assert.doesNotMatch(res.body, /capabilities built/);
+  assert.match(res.body, /scaffold\/empty/);
+  assert.match(res.body, /chain code not built yet/);
+  // GitHub link opens in a new tab safely
+  assert.match(res.body, /github\.com\/HinduTempleCoins\/PRANA/);
+  assert.match(res.body, /target="_blank" rel="noopener"/);
+  // toggle still present so you can switch back
+  assert.match(res.body, /repo=Bot/);
+});
+
+test('repo toggle: /features?repo=melek-chain renders a live-codebase panel with its tree', async () => {
+  const res = await call({ url: '/features?repo=melek-chain', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /live-codebase/);
+  assert.match(res.body, /Graphene/);              // its description
+  assert.match(res.body, /Top-level contents/);    // file tree section
+});
+
+test('repo toggle: an unknown ?repo= falls back to the Bot catalog', async () => {
+  const res = await call({ url: '/features?repo=does-not-exist', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /capabilities built/);    // Bot catalog
+});
+
 test('CAPTCHA console: seed a handoff, see it listed, solve it (end-to-end)', async () => {
   // pin a fresh in-memory store so the seed + list + resolve share one queue deterministically
   const captcha = await import('../../integrations/captcha-handoff.mjs');
