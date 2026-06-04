@@ -367,6 +367,54 @@ test('a judge profile cross-links to a search of their opinions', async () => {
   assert.match(html, /322/, 'authored opinion count shown');
 });
 
+// ── 4b. inter-site cross-links (task #276 — the orphaned extractors, made navigable) ──────────────
+test('a case row with a company party cross-links to the Stocks company profile', async () => {
+  setAllFetch(fakeFetch([
+    ['/search/', jsonResponse({
+      results: [{ cluster_id: 222, caseName: 'FTC v. Meta Platforms Inc', court: 'cadc', dateFiled: '2023-01-01', citeCount: 1, status: 'Published' }],
+    })],
+  ]));
+  const html = await casesView('antitrust');
+  resetAllFetch();
+  assert.match(html, /FTC v\. Meta Platforms Inc/);
+  // company-profile cross-link to Stocks (a lookup link, not a claim), via the shared helper.
+  assert.match(html, /stocks\.soapbox\.community\/\?q=Meta%20Platforms%20Inc/, 'links Stocks company profile');
+  assert.match(html, /company profile: Meta Platforms Inc/);
+});
+
+test('a case row with two PERSONAL parties does NOT fabricate a company profile link', async () => {
+  setAllFetch(fakeFetch([
+    ['/search/', jsonResponse({
+      results: [{ cluster_id: 223, caseName: 'Brown v. Board', court: 'scotus', dateFiled: '1954-05-17', citeCount: 9, status: 'Published' }],
+    })],
+  ]));
+  const html = await casesView('education');
+  resetAllFetch();
+  assert.match(html, /Brown v\. Board/);
+  assert.ok(!html.includes('stocks.soapbox.community'), 'no company profile link for non-company parties');
+  // the judge cross-link is still present.
+  assert.match(html, /\/judges\?q=/);
+});
+
+test('the case DETAIL view surfaces ingestCase categories as topic cross-links + a company link', async () => {
+  // opinion text mentioning a seed-taxonomy keyword so ingestCase tags a category.
+  const opinion = 'This case concerns coercion and duress in contract formation. '.repeat(20);
+  setAllFetch(fakeFetch([
+    ['/opinions/', jsonResponse({
+      type: 'lead', plain_text: opinion, absolute_url: '/opinion/9/x/',
+      cluster: { id: 9, case_name: 'SEC v. Acme Holdings', court: '.../courts/scotus/', date_filed: '2020-01-01', citations: [{ volume: '1', reporter: 'U.S.', page: '1' }] },
+    })],
+  ]));
+  const html = await caseDetailView({ clId: '9' });
+  resetAllFetch();
+  assert.match(html, /SEC v\. Acme Holdings/);
+  // company cross-link to Stocks (Acme Holdings has a corporate suffix).
+  assert.match(html, /stocks\.soapbox\.community\/\?q=Acme%20Holdings/, 'detail links the company profile');
+  // ingestCase-derived "Related topics" cross-links to law topic search.
+  assert.match(html, /Related topics:/);
+  assert.match(html, /law\.soapbox\.community\/cases\?q=/, 'category cross-links to a topic search');
+});
+
 test('judge search with no hits soft-fails to an empty-state', async () => {
   setAllFetch(fakeFetch([['/people/', jsonResponse({ results: [] })]]));
   const html = await judgesView('zzznosuchname', '');

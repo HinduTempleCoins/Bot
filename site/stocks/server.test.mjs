@@ -117,3 +117,16 @@ test('renderCompanyCard renders the Website link as real HTML (rawHtml opt-in)',
   const html = renderCompanyCard({ website: 'https://apple.com', cik: '1' });
   assert.ok(/<a href="https:\/\/apple\.com" rel=noopener target=_blank>apple\.com<\/a>/.test(html), 'website is a real anchor (rawHtml:true caller)');
 });
+
+test('renderCompanyCard surfaces cross-site links to Law (cases) and Politics (lobbying) by name', () => {
+  const html = renderCompanyCard({ name: 'Apple Inc.', ticker: 'AAPL', cik: '0000320193' });
+  assert.ok(html.includes('Across SoapBox'), 'cross-site link block rendered');
+  assert.ok(html.includes('law.soapbox.community/cases?q=Apple%20Inc.'), 'links Law cases mentioning the company');
+  assert.ok(html.includes('politics.soapbox.community/accountability?q=Apple%20Inc.'), 'links Politics power-map');
+  assert.ok(html.includes('Court cases mentioning Apple Inc.'), 'lookup-link label, not an assertion');
+});
+
+test('renderCompanyCard falls back to the ticker for cross-links when name is absent', () => {
+  const html = renderCompanyCard({ ticker: 'TSLA', cik: '1' });
+  assert.ok(html.includes('law.soapbox.community/cases?q=TSLA'), 'falls back to ticker');
+});
