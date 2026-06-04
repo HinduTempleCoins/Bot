@@ -16,6 +16,14 @@ delete process.env.GOOGLE_CLIENT_ID;
 
 const { handle } = await import('./server.mjs');
 const auth = await import('../../integrations/admin-auth.mjs');
+const buildOpts = await import('../../integrations/build-options.mjs');
+
+// In-memory fs for the operator-note store so the note tests persist without touching disk.
+let _noteBuf = '';
+buildOpts.__setFs({
+  async appendFile(_path, data) { _noteBuf += data; },
+  async readFile() { if (!_noteBuf) throw new Error('no file'); return _noteBuf; },
+});
 
 // ── mock req/res ─────────────────────────────────────────────────────────────────────────────────
 function makeReq({ url = '/', method = 'GET', headers = {}, body = '' } = {}) {
@@ -147,6 +155,70 @@ test('gated /features lists built-but-hidden capabilities', async () => {
   assert.match(res.body, />Not public</);
   // tier order: front-facing section appears before the internal tools section
   assert.ok(res.body.indexOf('FRONT-FACING FIRST') < res.body.indexOf('INTERNAL TOOL'));
+});
+
+test('Build Options render FIRST on the Features tab, above the module catalog', async () => {
+  const res = await call({ url: '/features', headers: { cookie: adminCookie() } });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Build Options/);
+  // Build Options appears before the catalog ("What you have") and before the repo toggle.
+  const optIdx = res.body.indexOf('Build Options');
+  assert.ok(optIdx >= 0);
+  assert.ok(optIdx < res.body.indexOf('What you have'), 'Build Options must precede the catalog');
+  assert.ok(optIdx < res.body.indexOf('Switch between MELEK-ecosystem repos'), 'Build Options must precede the repo toggle');
+  // it is a build-direction surface, not a deploy trigger
+  assert.match(res.body, /not a live deploy/);
+});
+
+test('Build Options include the BLOCKCHAIN + PRANA build options sourced from the design docs', async () => {
+  const res = await call({ url: '/features', headers: { cookie: adminCookie() } });
+  assert.match(res.body, /Blockchain build options/);
+  // both chains
+  assert.match(res.body, /MELEK chain/);
+  assert.match(res.body, /core-geth/);            // PRANA chain
+  assert.match(res.body, /Etchash/);
+  // the PRANA compute/pool design options
+  assert.match(res.body, /GridCoin redirect/);    // AI-work-as-mining
+  assert.match(res.body, /burn-for-hashrate/i);   // microhashing + burn
+  assert.match(res.body, /RandomX/);              // CPU bootstrap
+  assert.match(res.body, /Hardware tiers/);
+  assert.match(res.body, /Miningcore/);           // pool engine fork
+  assert.match(res.body, /Devcoin/);              // single-pool vs registered pools
+  // sources are cited (traceable to the PRANA docs)
+  assert.match(res.body, /PRANA_CHAIN_DESIGN\.md/);
+  assert.match(res.body, /gridcoin-redirect\.md/);
+});
+
+test('the note box submit endpoint persists a comment and renders it back', async () => {
+  _noteBuf = '';
+  const stamp = 'claude-read-me-' + Date.now();
+  // submit a note (same-origin POST, admin-authed)
+  const post = await call({
+    url: '/features/note', method: 'POST',
+    headers: { cookie: adminCookie(), origin: 'http://localhost:8096' },
+    body: 'note=' + encodeURIComponent(stamp),
+  });
+  assert.equal(post.statusCode, 302);
+  assert.equal(post.headers.location, '/features');
+  // it persisted to the (in-memory) store as JSONL
+  assert.match(_noteBuf, new RegExp(stamp));
+  assert.match(_noteBuf, /"at":/);
+  // and it renders back on the panel
+  const page = await call({ url: '/features', headers: { cookie: adminCookie() } });
+  assert.match(page.body, /Leave a note for Claude/);
+  assert.match(page.body, /admin-notes\.jsonl/);
+  assert.match(page.body, new RegExp(stamp));
+});
+
+test('the note endpoint is admin-gated and CSRF-protected (cross-origin → 403)', async () => {
+  const denied = await call({ url: '/features/note', method: 'POST', body: 'note=x' });
+  assert.equal(denied.statusCode, 401);  // no session
+  const xorigin = await call({
+    url: '/features/note', method: 'POST',
+    headers: { cookie: adminCookie(), origin: 'http://evil.example' },
+    body: 'note=x',
+  });
+  assert.equal(xorigin.statusCode, 403); // cross-origin
 });
 
 test('repo toggle: /features (default) shows the Bot catalog + the repo tabs', async () => {
