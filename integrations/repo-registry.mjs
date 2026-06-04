@@ -23,7 +23,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const DEFAULT_MANIFEST_PATH = join(HERE, '..', 'site', 'admin', 'data', 'repo-manifest.json');
+const DEFAULT_MANIFEST_PATH = join(HERE, '..', 'site', 'admin', 'repo-manifest.json');
 
 // Built-in fallback — used only when the manifest is missing/unreadable/garbage. Kept minimal but
 // honest: the six ecosystem repos with enough to render a panel. Status is derived the same way.
