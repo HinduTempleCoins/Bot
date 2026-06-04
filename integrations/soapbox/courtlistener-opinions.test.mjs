@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  searchCases, opinionSnippet, citationCount, clusterDetail,
+  searchCases, opinionSnippet, opinionText, citationCount, clusterDetail,
   normalizeCase, plainText, snippetOf, idFromUrl, slugFromUrl,
   renderPage, dataNote, __setFetch,
 } from './courtlistener-opinions.mjs';
@@ -87,6 +87,36 @@ test('opinionSnippet returns a bounded snippet + opinion url, or null', async ()
   assert.match(s.url, /\/opinion\/118144\/$/);
   assert.equal(s.license, 'public-domain');
   assert.equal(await opinionSnippet(''), null);
+});
+
+test('opinionText returns the FULL untruncated opinion body + cluster metadata', async () => {
+  // a body well over the 280-char snippet limit, with inlined cluster metadata.
+  const fullBody = 'We hold that ' + 'the reasoning is detailed and long. '.repeat(40);
+  __setFetch(envelopeFetch({
+    type: 'lead', plain_text: fullBody, absolute_url: '/opinion/118144/brown-v-board/',
+    cluster: {
+      id: 118144, case_name: 'Brown v. Board of Education', court: '.../courts/scotus/',
+      date_filed: '1954-05-17', absolute_url: '/opinion/118144/brown/',
+      citations: [{ volume: '347', reporter: 'U.S.', page: '483' }],
+    },
+  }));
+  const o = await opinionText(11);
+  __setFetch(null);
+  assert.equal(o.opinionId, '11');
+  // the WHOLE decision — not a 280-char snippet.
+  assert.ok(o.text.length > 280, 'full text exceeds the snippet cap');
+  assert.equal(o.text, plainText({ plain_text: fullBody }), 'text is the full plainText, untruncated');
+  assert.equal(o.caseName, 'Brown v. Board of Education');
+  assert.equal(o.court, 'scotus');
+  assert.equal(o.dateFiled, '1954-05-17');
+  assert.deepEqual(o.citation, ['347 U.S. 483']);
+  assert.match(o.absolute_url, /\/opinion\/118144\/brown-v-board\//);
+  assert.match(o.url, /\/opinion\/118144\/$/);
+  assert.equal(o.license, 'public-domain');
+  assert.equal(await opinionText(''), null);
+  __setFetch(throwingFetch());
+  assert.equal(await opinionText(11), null);
+  __setFetch(null);
 });
 
 test('citationCount reads the cluster citation_count field', async () => {

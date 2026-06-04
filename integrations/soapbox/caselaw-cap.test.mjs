@@ -81,6 +81,24 @@ test('caseById fetches full_case text and normalizes; soft-fails to null', async
   __setFetch(null);
 });
 
+test('caseById({full:true}) adds untruncated fullText; default keeps only the 280 snippet', async () => {
+  const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(400);
+  const rawLong = { ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } };
+  // default: snippet only, no fullText, snippet bounded.
+  __setFetch(envelopeFetch(rawLong));
+  const plain = await caseById(12345);
+  __setFetch(null);
+  assert.ok(plain.snippet.length <= 282, 'snippet stays bounded');
+  assert.equal(plain.fullText, undefined, 'no fullText without {full:true}');
+  // full: the whole opinion text, untruncated.
+  __setFetch(envelopeFetch(rawLong));
+  const full = await caseById(12345, { full: true });
+  __setFetch(null);
+  assert.equal(full.fullText, caseText(rawLong), 'fullText is the untruncated caseText');
+  assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
+  assert.ok(full.snippet.length <= 282, 'snippet still present and bounded alongside fullText');
+});
+
 test('caseByCitation parses, queries by cite, and tags the lookup', async () => {
   const sink = {};
   __setFetch(captureFetch(sink, { results: [RAW_CASE] }));

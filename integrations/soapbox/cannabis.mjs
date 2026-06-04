@@ -230,6 +230,87 @@ export function deriveSeedIndex(listings, { source = 'aggregated listings', fetc
   };
 }
 
+// Illustrative SAMPLE listings — NOT a live price feed. There is no keyless public wholesale/retail
+// cannabis price API (Cannabis Benchmarks is gated; scourCannabis returns search hits, not prices), so
+// rather than render an empty page we publish a small, clearly-labeled sample so the hemp/marijuana
+// split is demonstrable. Each row carries a delta9Pct so it self-classifies on the 7 U.S.C. § 1639o
+// line: hemp flower (CBD, ≤0.3%) prices below the legal line, marijuana flower (THC, >0.3%) above it.
+// When a real keyless feed exists, inject it as a source and these become unnecessary.
+export const SAMPLE_FLOWER_LISTINGS = [
+  // hemp / CBD flower (per gram) — delta-9 at or under the 0.3% line
+  { price: 4, delta9Pct: 0.2 }, { price: 5, delta9Pct: 0.25 }, { price: 6, delta9Pct: 0.1 },
+  { price: 7, delta9Pct: 0.3 }, { price: 5.5, delta9Pct: 0.15 },
+  // marijuana / THC flower (per gram) — delta-9 well over the line
+  { price: 9, delta9Pct: 18 }, { price: 12, delta9Pct: 22 }, { price: 10, delta9Pct: 15 },
+  { price: 14, delta9Pct: 25 }, { price: 11, delta9Pct: 20 },
+];
+export const SAMPLE_SEED_LISTINGS = [
+  // hemp / CBD seed packs (per pack) — bred for ≤0.3% delta-9
+  { price: 30, delta9Pct: 0.2 }, { price: 45, delta9Pct: 0.25 }, { price: 40, delta9Pct: 0.1 },
+  { price: 50, delta9Pct: 0.3 },
+  // marijuana / THC seed packs (per pack) — high-THC genetics
+  { price: 60, delta9Pct: 20 }, { price: 90, delta9Pct: 24 }, { price: 75, delta9Pct: 18 },
+  { price: 120, delta9Pct: 28 },
+];
+
+/**
+ * PURE. Partition listings into hemp / marijuana / unknown by the federal delta-9 THC line.
+ *
+ * THE RULE (7 U.S.C. § 1639o, the 2018 Farm Bill): a listing whose delta-9 THC concentration is
+ * NOT MORE THAN 0.3% (dry-weight basis) is "hemp"; ABOVE 0.3% it is "marihuana" under the CSA
+ * (21 U.S.C. § 802(16), Schedule I). A listing that does not carry a THC measurement is 'unknown'
+ * — we never guess which side of the statutory line it falls on.
+ *
+ * Each listing may carry an explicit `classification` ('hemp' | 'marijuana'), OR a numeric
+ * `delta9Pct` (a percent, e.g. 0.25 means 0.25%) which we run through classifyByThc(). Listings
+ * with neither are 'unknown'. Bare numbers cannot self-classify, so they too are 'unknown'.
+ *
+ * @param {Array<number|object>} listings
+ * Returns { hemp:[...], marijuana:[...], unknown:[...] } (always all three arrays). On a non-array
+ * input returns the three-empty shape.
+ */
+export function splitByThc(listings) {
+  const out = { hemp: [], marijuana: [], unknown: [] };
+  if (!Array.isArray(listings)) return out;
+  for (const row of listings) {
+    let cls = null;
+    if (row && typeof row === 'object') {
+      if (row.classification === 'hemp' || row.classification === 'marijuana') {
+        cls = row.classification;
+      } else if (Number.isFinite(Number(row.delta9Pct))) {
+        const c = classifyByThc(Number(row.delta9Pct));
+        cls = c ? c.classification : null;   // null only if negative/non-finite (already filtered)
+      }
+    }
+    if (cls === 'hemp') out.hemp.push(row);
+    else if (cls === 'marijuana') out.marijuana.push(row);
+    else out.unknown.push(row);
+  }
+  return out;
+}
+
+/**
+ * PURE. Split listings on the US-law delta-9 0.3% line, then derive a SEPARATE price index for each
+ * side — so hemp and marijuana prices are never lumped into one median (the whole point: they are
+ * legally distinct goods, 7 U.S.C. § 1639o vs 21 U.S.C. § 802(16)). Each index is a deriveSeedIndex()
+ * result (or null if that side has no usable prices). `unknown` listings (no THC tag) are surfaced as
+ * their own index too, so nothing is silently dropped.
+ *
+ * @param {Array<number|object>} listings  listings tagged with delta9Pct or classification.
+ * @param {{ source?: string, fetched_at?: string }} [opts]  forwarded to deriveSeedIndex per side.
+ * Returns { hemp, marijuana, unknown, basis } where basis names the legal line used to split.
+ */
+export function cannabisPriceIndexes(listings, { source = 'aggregated listings', fetched_at = nowIso() } = {}) {
+  const parts = splitByThc(listings);
+  const idx = (rows, label) => deriveSeedIndex(rows, { source: `${source} — ${label}`, fetched_at });
+  return {
+    hemp: idx(parts.hemp, 'hemp ≤0.3% delta-9'),
+    marijuana: idx(parts.marijuana, 'marijuana >0.3% delta-9'),
+    unknown: idx(parts.unknown, 'unclassified (no THC measurement)'),
+    basis: 'US-law delta-9 0.3% line (7 U.S.C. § 1639o)',
+  };
+}
+
 /**
  * Wholesale price-index reader. Best-effort: Cannabis Benchmarks has no public API, so this attempts
  * a keyless read and soft-fails to a provenance-tagged null payload (value:null) rather than throwing.
@@ -302,8 +383,13 @@ async function gatherPrices(sources) {
  */
 export async function flowerPrices({ sources = {}, item = 'cannabis flower (per gram)' } = {}) {
   const { prices, names } = await gatherPrices(sources);
-  const derived = deriveSeedIndex(prices, { source: names.join('+') || 'no sources configured' });
-  return normalizeIndex(item, derived, names);
+  const source = names.join('+') || 'no sources configured';
+  const derived = deriveSeedIndex(prices, { source });
+  // Backward-compatible single index, PLUS the US-law hemp/marijuana split as the new shape. The
+  // 0.3% delta-9 line (7 U.S.C. § 1639o) makes these legally distinct goods, so we never present a
+  // lumped median as the only number — split[hemp]/split[marijuana] are the per-side indexes.
+  const split = cannabisPriceIndexes(prices, { source });
+  return { ...normalizeIndex(item, derived, names), split };
 }
 
 /**
@@ -312,8 +398,12 @@ export async function flowerPrices({ sources = {}, item = 'cannabis flower (per 
  */
 export async function seedPrices({ sources = {}, item = 'cannabis seeds (per pack)' } = {}) {
   const { prices, names } = await gatherPrices(sources);
-  const derived = deriveSeedIndex(prices, { source: names.join('+') || 'no sources configured' });
-  return normalizeIndex(item, derived, names);
+  const source = names.join('+') || 'no sources configured';
+  const derived = deriveSeedIndex(prices, { source });
+  // Same hemp/marijuana split as flowerPrices() — backward-compatible single index plus the new
+  // split shape keyed on the US-law delta-9 0.3% line (7 U.S.C. § 1639o).
+  const split = cannabisPriceIndexes(prices, { source });
+  return { ...normalizeIndex(item, derived, names), split };
 }
 
 /**
@@ -430,6 +520,9 @@ if (process.argv[1] && process.argv[1].endsWith('cannabis.mjs')) {
   console.log('\nflowerPrices demo:', JSON.stringify(fp));
   const sp = await seedPrices({ sources: { demo: () => [40, 60, 80, 50] } });
   console.log('seedPrices demo:', JSON.stringify(sp));
+  console.log('\nsplitByThc(sample flower):', JSON.stringify(
+    Object.fromEntries(Object.entries(splitByThc(SAMPLE_FLOWER_LISTINGS)).map(([k, v]) => [k, v.length]))));
+  console.log('cannabisPriceIndexes(sample flower):', JSON.stringify(cannabisPriceIndexes(SAMPLE_FLOWER_LISTINGS)));
   console.log('\nstrainLookup("Northern Lights").links:', JSON.stringify((await strainLookup('Northern Lights')).links));
   console.log('\nCANNABIS_TOPIC_SEEDS:', CANNABIS_TOPIC_SEEDS.length, 'seed queries');
 }
