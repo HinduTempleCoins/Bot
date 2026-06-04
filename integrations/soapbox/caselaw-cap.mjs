@@ -88,8 +88,13 @@ export function citationUrl(parsed) {
   return `${WEB}/search/#/cases?q=${encodeURIComponent(parsed.normalized)}&cite=${slug}`;
 }
 
-/** Normalize a raw CAP case record → a flat case card. Returns null for unusable input. */
-export function normalizeCase(r, { snippetMax = 280 } = {}) {
+/**
+ * Normalize a raw CAP case record → a flat case card. Returns null for unusable input.
+ * With { full:true } the card also carries `fullText` — the court's VERBATIM untruncated opinion text
+ * (the whole decision) for the case-detail page. The 280-char `snippet` is always present for list views.
+ * Facts-not-verdicts discipline: fullText is the source's OWN public-domain words, never our gloss.
+ */
+export function normalizeCase(r, { snippetMax = 280, full = false } = {}) {
   if (!r || typeof r !== 'object') return null;
   const id = r.id != null ? String(r.id) : '';
   const name = str(r.name_abbreviation) || str(r.name);
@@ -105,6 +110,7 @@ export function normalizeCase(r, { snippetMax = 280 } = {}) {
     citations: cites,
     reporter: r.reporter && typeof r.reporter === 'object' ? str(r.reporter.full_name) : str(r.reporter),
     snippet: text ? snippetOf(text, snippetMax) : '',
+    ...(full ? { fullText: text } : {}),
     url: str(r.frontend_url) || (id ? `${WEB}/caselaw/?reporter=&volume=&case=${id}` : ''),
   });
 }
@@ -130,13 +136,16 @@ function apiUrl(path, params = {}) {
 
 /**
  * Fetch one CAP case by id, with full casebody text. Returns a normalized case card or null.
+ * Pass { full:true } to also get the untruncated `fullText` (the whole opinion) on the card for the
+ * case-detail page; the bounded `snippet` is always present either way.
  * @param {string|number} caseId
+ * @param {{full?:boolean}} [opts]
  */
-export async function caseById(caseId) {
+export async function caseById(caseId, { full = false } = {}) {
   const id = str(caseId);
   if (!id) return null;
   const j = await getJson(apiUrl(`/cases/${encodeURIComponent(id)}/`, { full_case: 'true', body_format: 'text' }));
-  return normalizeCase(j);
+  return normalizeCase(j, { full });
 }
 
 /**

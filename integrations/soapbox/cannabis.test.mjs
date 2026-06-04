@@ -7,6 +7,7 @@ import {
   flowerPrices, seedPrices, strainLookup,
   scourCannabis, __setScour, CANNABIS_TOPIC_SEEDS,
   cannabisSummary,
+  splitByThc, cannabisPriceIndexes, SAMPLE_FLOWER_LISTINGS, SAMPLE_SEED_LISTINGS,
 } from './cannabis.mjs';
 
 // ── deriveSeedIndex: the PURE math (median + IQR), offline ──────────────────────────────────────
@@ -227,6 +228,62 @@ test('seedPrices: accepts {price} rows and per-pack item label', async () => {
   assert.equal(r.item, 'cannabis seeds (per pack)');
   assert.equal(r.median, 60);
   assert.deepEqual(r.sources, ['bank']);
+});
+
+// ── US-law hemp/marijuana price split (the 0.3% delta-9 line, 7 U.S.C. § 1639o) ────────────────────
+
+test('splitByThc: partitions on the 0.3% delta-9 line; missing tag → unknown', () => {
+  const s = splitByThc([
+    { price: 5, delta9Pct: 0.2 },          // hemp
+    { price: 6, delta9Pct: 0.3 },          // hemp (at the line)
+    { price: 9, delta9Pct: 0.31 },         // marijuana (just over)
+    { price: 12, delta9Pct: 18 },          // marijuana
+    { price: 7 },                          // unknown (no THC tag)
+    20,                                    // bare number → unknown
+    { price: 8, classification: 'hemp' },  // explicit classification honored
+    { price: 8, classification: 'marijuana' },
+  ]);
+  assert.equal(s.hemp.length, 3);
+  assert.equal(s.marijuana.length, 3);
+  assert.equal(s.unknown.length, 2);
+});
+
+test('splitByThc: non-array → three empty arrays', () => {
+  assert.deepEqual(splitByThc(null), { hemp: [], marijuana: [], unknown: [] });
+});
+
+test('cannabisPriceIndexes: separate median per side, never lumped, basis cites 1639o', () => {
+  const idx = cannabisPriceIndexes([
+    { price: 4, delta9Pct: 0.2 }, { price: 6, delta9Pct: 0.25 }, { price: 8, delta9Pct: 0.1 }, // hemp median 6
+    { price: 10, delta9Pct: 18 }, { price: 20, delta9Pct: 22 }, { price: 30, delta9Pct: 25 },  // mj median 20
+  ]);
+  assert.equal(idx.hemp.value.median, 6);
+  assert.equal(idx.marijuana.value.median, 20);
+  assert.equal(idx.unknown, null, 'no unclassified listings → null index');
+  assert.match(idx.basis, /1639o/);
+  // each side's provenance source names which side it is
+  assert.match(idx.hemp.source, /hemp/i);
+  assert.match(idx.marijuana.source, /marijuana/i);
+});
+
+test('flowerPrices/seedPrices: backward-compat single index PLUS a split shape', async () => {
+  const f = await flowerPrices({ sources: { v: () => [{ price: 4, delta9Pct: 0.2 }, { price: 10, delta9Pct: 18 }] } });
+  assert.ok('median' in f, 'old single-index shape preserved');
+  assert.ok(f.split && f.split.hemp && f.split.marijuana, 'new split shape present');
+  assert.equal(f.split.hemp.value.median, 4);
+  assert.equal(f.split.marijuana.value.median, 10);
+  const s = await seedPrices({ sources: { v: () => [{ price: 30, delta9Pct: 0.2 }, { price: 60, delta9Pct: 22 }] } });
+  assert.equal(s.split.hemp.value.median, 30);
+  assert.equal(s.split.marijuana.value.median, 60);
+});
+
+test('SAMPLE listings carry THC tags and split cleanly into both sides', () => {
+  for (const set of [SAMPLE_FLOWER_LISTINGS, SAMPLE_SEED_LISTINGS]) {
+    const s = splitByThc(set);
+    assert.ok(s.hemp.length >= 1, 'has hemp samples');
+    assert.ok(s.marijuana.length >= 1, 'has marijuana samples');
+    assert.equal(s.unknown.length, 0, 'every sample is THC-tagged');
+  }
 });
 
 test('strainLookup: SeedFinder-style link-outs, soft-fail lineage, no fabrication', async () => {

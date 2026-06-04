@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import {
   handler, homePage, lawView, orgsView, flowerView, seedsView, esc,
 } from './server.mjs';
+import { splitByThc, cannabisPriceIndexes } from '../../integrations/soapbox/cannabis.mjs';
 
 // ── mock req/res ──────────────────────────────────────────────────────────────────────────────────
 function mockRes() {
@@ -125,24 +126,73 @@ test('orgsView lists reform orgs and churches with right-of-reply, no legitimacy
   assert.ok(!/\bwe verify\b|\bis legitimate\b|\bis a scam\b/i.test(html));
 });
 
-// ── 6. price indexes: derive from injected sources, else honest empty ────────────────────────────
-test('flowerView derives a median index from injected sources', async () => {
-  const html = await flowerView({ vendorA: () => [8, 10, 12], vendorB: () => [9, 11] });
-  assert.match(html, /\$10/);               // median of 8,9,10,11,12
-  assert.match(html, /median/i);
-  assert.match(html, /vendorA/);
+// ── 6. price indexes: hemp/marijuana split derived from injected sources ──────────────────────────
+test('splitByThc partitions listings on the 0.3% delta-9 line (hemp vs marijuana)', () => {
+  const split = splitByThc([
+    { price: 5, delta9Pct: 0.2 },   // hemp
+    { price: 6, delta9Pct: 0.3 },   // hemp (at the line)
+    { price: 12, delta9Pct: 12 },   // marijuana
+    { price: 14, delta9Pct: 0.31 }, // marijuana (just over)
+    { price: 9 },                   // unknown (no THC tag)
+  ]);
+  assert.equal(split.hemp.length, 2, 'two hemp listings (0.2% and 0.3%)');
+  assert.equal(split.marijuana.length, 2, 'two marijuana listings (12% and 0.31%)');
+  assert.equal(split.unknown.length, 1, 'one unclassified listing');
+  assert.deepEqual(split.hemp.map((r) => r.delta9Pct).sort((a, b) => a - b), [0.2, 0.3]);
+  assert.deepEqual(split.marijuana.map((r) => r.delta9Pct).sort((a, b) => a - b), [0.31, 12]);
+});
+
+test('cannabisPriceIndexes derives a SEPARATE median per side, never lumped', () => {
+  const idx = cannabisPriceIndexes([
+    { price: 4, delta9Pct: 0.2 }, { price: 6, delta9Pct: 0.25 }, { price: 8, delta9Pct: 0.1 }, // hemp → median 6
+    { price: 10, delta9Pct: 18 }, { price: 20, delta9Pct: 22 }, { price: 30, delta9Pct: 25 },  // mj → median 20
+  ]);
+  assert.equal(idx.hemp.value.median, 6);
+  assert.equal(idx.marijuana.value.median, 20);
+  assert.match(idx.basis, /1639o/);
+});
+
+test('flowerView renders TWO distinct index cards (hemp + marijuana) from THC-tagged sources', async () => {
+  // 0.2% delta-9 = hemp; 12% delta-9 = marijuana.
+  const html = await flowerView({
+    vendor: () => [
+      { price: 4, delta9Pct: 0.2 }, { price: 6, delta9Pct: 0.2 }, { price: 8, delta9Pct: 0.2 }, // hemp median 6
+      { price: 10, delta9Pct: 12 }, { price: 12, delta9Pct: 12 }, { price: 14, delta9Pct: 12 }, // mj median 12
+    ],
+  });
+  // two separate, legally-labeled cards
+  assert.match(html, /Hemp\s*—\s*≤0\.3% delta-9 THC, 7 U\.S\.C\. § 1639o/);
+  assert.match(html, /Marijuana\s*—\s*&gt;0\.3% delta-9, Schedule I/);
+  // distinct medians prove the prices are NOT lumped
+  assert.match(html, /\$6/);   // hemp median
+  assert.match(html, /\$12/);  // marijuana median
+  assert.match(html, /vendor/);
   assert.match(html, /derived median index/i);
+  // exactly two <h3> index cards (Hemp + Marijuana)
+  const h3s = (html.match(/<h3>(Hemp|Marijuana)<\/h3>/g) || []);
+  assert.equal(h3s.length, 2, 'one hemp card + one marijuana card');
 });
 
-test('flowerView soft-fails to an honest empty index with no sources', async () => {
+test('flowerView with no sources falls back to sample listings, still split by law', async () => {
   const html = await flowerView();
-  assert.match(html, /No price sources are configured/);
-  assert.match(html, /never fabricate a price/);
+  // sample listings cover both sides → both cards render, with the legal basis explained
+  assert.match(html, /Hemp\s*—\s*≤0\.3% delta-9/);
+  assert.match(html, /Marijuana\s*—\s*&gt;0\.3% delta-9/);
+  assert.match(html, /sample listings/i);
+  assert.match(html, /1639o/);
 });
 
-test('seedsView derives a seed index + renders SeedFinder-style strain link-outs', async () => {
-  const html = await seedsView('Northern Lights', { bank: () => [{ price: 40 }, { price: 60 }, { price: 80 }] });
-  assert.match(html, /\$60/);               // median of 40,60,80
+test('seedsView derives a split seed index + renders SeedFinder-style strain link-outs', async () => {
+  const html = await seedsView('Northern Lights', {
+    bank: () => [
+      { price: 30, delta9Pct: 0.2 }, { price: 40, delta9Pct: 0.2 }, { price: 50, delta9Pct: 0.2 }, // hemp median 40
+      { price: 60, delta9Pct: 22 }, { price: 80, delta9Pct: 22 }, { price: 100, delta9Pct: 22 },   // mj median 80
+    ],
+  });
+  assert.match(html, /Hemp\s*—\s*≤0\.3% delta-9/);
+  assert.match(html, /Marijuana\s*—\s*&gt;0\.3% delta-9/);
+  assert.match(html, /\$40/);  // hemp median
+  assert.match(html, /\$80/);  // marijuana median
   assert.match(html, /Strain lookup/);
   assert.match(html, /SeedFinder/);
   assert.match(html, /seedfinder\.eu.*Northern/i);
@@ -151,10 +201,12 @@ test('seedsView derives a seed index + renders SeedFinder-style strain link-outs
   assert.match(html, /Leafly/);
 });
 
-test('seedsView with no strain still shows the index + the source directory', async () => {
+test('seedsView with no strain still shows the split index + the source directory', async () => {
   const html = await seedsView('');
   assert.ok(!/Strain lookup/.test(html), 'no strain-lookup card without a query');
   assert.match(html, /Strain genetics/);
+  // still renders the law-split price section (sample fallback)
+  assert.match(html, /Hemp\s*—\s*≤0\.3% delta-9/);
 });
 
 // ── 7. home classifier box ───────────────────────────────────────────────────────────────────────

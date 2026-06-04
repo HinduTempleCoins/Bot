@@ -163,6 +163,40 @@ export async function opinionSnippet(opinionId, { max = 280 } = {}) {
 }
 
 /**
+ * FULL opinion text + metadata for one opinion by CourtListener opinion id. Unlike opinionSnippet (list
+ * view), this returns the court's VERBATIM words untruncated — the whole decision — for the case-detail
+ * page. Facts-not-verdicts discipline: this is the source's OWN public-domain text, never our gloss.
+ * Returns
+ *   { opinionId, type, text, court, dateFiled, caseName, citation, absolute_url, url, source, license, fetchedAt }
+ * or null. Respects PACER redaction: reads the already-published text, never reconstructs sealed material.
+ * @param {string|number} opinionId
+ */
+export async function opinionText(opinionId) {
+  const id = str(opinionId);
+  if (!id) return null;
+  const j = await getJson(apiUrl(`/opinions/${encodeURIComponent(id)}/`, {}));
+  if (!j || typeof j !== 'object') return null;
+  // The opinion endpoint carries the body; cluster-level metadata may be inlined or referenced by URL.
+  const cl = (j.cluster && typeof j.cluster === 'object') ? j.cluster : {};
+  const clusterId = idFromUrl(j.cluster) || (cl.id != null ? String(cl.id) : '') || id;
+  const cites = Array.isArray(cl.citations)
+    ? cl.citations.map((c) => [str(c.volume), str(c.reporter), str(c.page)].filter(Boolean).join(' ')).filter(Boolean)
+    : [];
+  const absoluteUrl = str(j.absolute_url) || str(cl.absolute_url);
+  return tag({
+    opinionId: id,
+    type: str(j.type),
+    text: plainText(j),
+    court: slugFromUrl(cl.court) || str(cl.court_id) || str(j.court_id),
+    dateFiled: str(cl.date_filed) || str(j.date_filed),
+    caseName: str(cl.case_name) || str(cl.case_name_full) || str(j.case_name),
+    citation: cites,
+    absolute_url: absoluteUrl ? `${WEB}${absoluteUrl}` : '',
+    url: `${WEB}/opinion/${clusterId}/`,
+  });
+}
+
+/**
  * Citation count for a cluster (how many later opinions cite it). Returns a number or null.
  * @param {string|number} clusterId
  */

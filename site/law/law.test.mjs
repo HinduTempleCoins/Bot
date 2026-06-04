@@ -16,7 +16,7 @@ import * as fedreg from '../../integrations/soapbox/federal-register.mjs';
 import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 
 import {
-  handler, casesView, statutesView, judgesView, lawyersView, complaintsView,
+  handler, casesView, caseDetailView, statutesView, judgesView, lawyersView, complaintsView,
   looksLikeCitation, splitJurisdiction, publicInterestData, esc,
 } from './server.mjs';
 
@@ -156,6 +156,90 @@ test('non-citation statute input falls through to an eCFR search (and soft-fails
   resetAllFetch();
   assert.match(html, /Code of Federal Regulations/);
   assert.match(html, /No matching regulations/);
+});
+
+// ── 3b. case DETAIL: the court's FULL verbatim opinion text (Justia-style) ────────────────────────
+// A unique sentence repeated far past the 280-char snippet cap; the detail page must render the WHOLE
+// thing, not a truncated snippet.
+const FULL_OPINION = 'Separate educational facilities are inherently unequal. '.repeat(30);
+
+test('caseDetailView (?id=) renders the FULL CourtListener opinion text, not a 280 snippet', async () => {
+  setAllFetch(fakeFetch([
+    ['/opinions/', jsonResponse({
+      type: 'lead', plain_text: FULL_OPINION, absolute_url: '/opinion/118144/brown/',
+      cluster: {
+        id: 118144, case_name: 'Brown v. Board of Education', court: '.../courts/scotus/',
+        date_filed: '1954-05-17', citations: [{ volume: '347', reporter: 'U.S.', page: '483' }],
+      },
+    })],
+  ]));
+  const html = await caseDetailView({ clId: '118144' });
+  resetAllFetch();
+  assert.match(html, /Brown v\. Board of Education/);
+  assert.match(html, /The court's words/);
+  assert.match(html, /<article class=opinion>/);
+  // FULL text: the repeated sentence appears many times (far past a 280-char snippet, which would hold ~5).
+  const occurrences = (html.match(/Separate educational facilities are inherently unequal/g) || []).length;
+  assert.ok(occurrences >= 20, `full opinion rendered (${occurrences} occurrences, snippet would be ~5)`);
+  // it is NOT a truncated snippet — no ellipsis cut.
+  assert.ok(!html.includes('inherently unequal.…'), 'not truncated with an ellipsis');
+  assert.match(html, /347 U\.S\. 483/);
+  assert.match(html, /1954-05-17/);
+  assert.match(html, /source:/);
+  // discipline: the source's words, no holding-summary/verdict of ours.
+  assert.match(html, /no holding-summary, headnote, or verdict/i);
+});
+
+test('caseDetailView (?cap=) renders the FULL CAP opinion text, not a snippet', async () => {
+  const capBody = 'We conclude that the statute is unconstitutional as applied. '.repeat(30);
+  setAllFetch(fakeFetch([
+    ['api.case.law', jsonResponse({
+      id: 12345, name_abbreviation: 'Doe v. State', decision_date: '1999-01-01',
+      court: { name_abbreviation: 'Cal.' }, citations: [{ cite: '1 Cal. 1' }],
+      frontend_url: 'https://case.law/caselaw/?case=12345',
+      casebody: { data: { opinions: [{ text: capBody }] } },
+    })],
+  ]));
+  const html = await caseDetailView({ capId: '12345' });
+  resetAllFetch();
+  assert.match(html, /Doe v\. State/);
+  assert.match(html, /<article class=opinion>/);
+  const occurrences = (html.match(/We conclude that the statute is unconstitutional/g) || []).length;
+  assert.ok(occurrences >= 20, `full CAP opinion rendered (${occurrences} occurrences)`);
+  assert.match(html, /case\.law/);
+});
+
+test('caseDetailView soft-fails to an empty-state when the source is down (no throw)', async () => {
+  setAllFetch(throwingFetch);
+  const html = await caseDetailView({ clId: '999999' });
+  resetAllFetch();
+  assert.match(html, /No opinion on record/);
+});
+
+test('the /cases?id= route serves a 200 noindex detail page with the full text', async () => {
+  opinions.__setFetch(fakeFetch([
+    ['/opinions/', jsonResponse({ type: 'lead', plain_text: FULL_OPINION, cluster: { id: 1, case_name: 'X v. Y', court: '.../courts/scotus/', date_filed: '2020-01-01', citations: [] } })],
+  ]));
+  const res = mockRes();
+  await handler(req('/cases?id=1'), res);
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /noindex,follow/);
+  assert.match(res.body, /<article class=opinion>/);
+  const occurrences = (res.body.match(/Separate educational facilities are inherently unequal/g) || []).length;
+  assert.ok(occurrences >= 20, `route renders the full opinion (${occurrences} occurrences)`);
+});
+
+test('the case list view links each row to the on-site full-opinion detail route', async () => {
+  setAllFetch(fakeFetch([
+    ['/search/', jsonResponse({
+      results: [{ cluster_id: 111, caseName: 'United States v. Jones', court: 'scotus', dateFiled: '2012-01-23', citeCount: 500, status: 'Published' }],
+    })],
+  ]));
+  const html = await casesView('gps tracking');
+  resetAllFetch();
+  assert.match(html, /\/cases\?id=111/, 'list row links the detail route by cluster id');
+  assert.match(html, /read the full opinion/);
 });
 
 // ── 4. cross-links (the case-files ↔ judges connection) ──────────────────────────────────────────

@@ -209,40 +209,71 @@ export function orgsView() {
 }
 
 // ── price-index rendering ─────────────────────────────────────────────────────────────────────────
-function indexCard(title, idx, unit) {
-  if (!idx || idx.median == null) {
-    return `<div class=card><h2>${esc(title)}</h2>
-      <p class=empty>No price sources are configured here yet, so there's nothing to aggregate — and we never fabricate a price.
-        When listing sources are wired in, this shows our own derived median index over them.</p></div>`;
+// A single derived-index card (Q1 / median / Q3 + provenance). `subtitle` carries the legal basis label.
+function singleIndexCard(title, subtitle, idx, unit) {
+  if (!idx || idx.value == null || idx.value.median == null) {
+    return `<div class=card><h3>${esc(title)}</h3>
+      ${subtitle ? `<p class=muted style="font-size:12px;margin-top:-4px">${esc(subtitle)}</p>` : ''}
+      <p class=empty>No listings fall on this side of the 0.3% delta-9 line in what we currently aggregate — nothing to derive,
+        and we never fabricate a price.</p></div>`;
   }
-  return `<div class=card><h2>${esc(title)}</h2>
+  const v = idx.value;
+  return `<div class=card><h3>${esc(title)}</h3>
+    ${subtitle ? `<p class=muted style="font-size:12px;margin-top:-4px">${esc(subtitle)}</p>` : ''}
     <div class=idx>
-      <div><div class=v>$${esc(num(idx.low))}</div><div class=l>low (Q1)</div></div>
-      <div><div class=v style="color:var(--gold)">$${esc(num(idx.median))}</div><div class=l>median ${esc(unit)}</div></div>
-      <div><div class=v>$${esc(num(idx.high))}</div><div class=l>high (Q3)</div></div>
-      <div><div class=v>${esc(idx.n)}</div><div class=l>listings</div></div>
+      <div><div class=v>$${esc(num(v.low))}</div><div class=l>low (Q1)</div></div>
+      <div><div class=v style="color:var(--gold)">$${esc(num(v.median))}</div><div class=l>median ${esc(unit)}</div></div>
+      <div><div class=v>$${esc(num(v.high))}</div><div class=l>high (Q3)</div></div>
+      <div><div class=v>${esc(v.n)}</div><div class=l>listings</div></div>
     </div>
     <p class=muted style="font-size:13px">Our own derived median index (Q1/median/Q3) over aggregated listings ·
-      confidence ${esc(num(idx.confidence))} · sources: ${idx.sources && idx.sources.length ? idx.sources.map(esc).join(', ') : '—'} ·
-      as of ${esc(idx.asOf)}.</p></div>`;
+      confidence ${esc(num(idx.confidence))} · sources: ${esc(idx.source || '—')} · as of ${esc(idx.fetched_at)}.</p></div>`;
+}
+
+// Render the hemp/marijuana split as TWO SEPARATE cards, each labeled with its legal basis. `split` is
+// the { hemp, marijuana, unknown, basis } shape from cannabis.flowerPrices/seedPrices. When nothing
+// aggregates at all, the empty state EXPLAINS the hemp/marijuana split rather than just "not configured".
+function splitIndexCards(split, unit, sourceNames) {
+  const srcLabel = sourceNames && sourceNames.length ? sourceNames.map(esc).join(', ') : 'sample listings (no live keyless price feed)';
+  const hempEmpty = !split || !split.hemp || split.hemp.value == null;
+  const mjEmpty = !split || !split.marijuana || split.marijuana.value == null;
+  if (hempEmpty && mjEmpty) {
+    return `<div class=card><h2>Price index — split by US law</h2>
+      <p class=empty>We split cannabis prices on the federal <b>0.3% delta-9 THC line</b> (7 U.S.C. § 1639o):
+        at or under it is <b>hemp</b>; above it is <b>marijuana</b> (Schedule I, 21 U.S.C. § 802(16)). These are
+        legally distinct goods, so we never publish a single lumped median. No THC-tagged listings are aggregated
+        here yet — when a listing source is wired in, this renders two separate derived indexes, one per side of
+        the line.</p></div>`;
+  }
+  return `<p class=muted style="font-size:13px">Derived index — sources: ${srcLabel}. Split on the US-law
+      <b>0.3% delta-9 THC line</b> (7 U.S.C. § 1639o): hemp and marijuana are legally distinct goods, shown as two
+      separate indexes — never one lumped median.</p>
+    ${singleIndexCard('Hemp', 'Hemp — ≤0.3% delta-9 THC, 7 U.S.C. § 1639o', split && split.hemp, unit)}
+    ${singleIndexCard('Marijuana', 'Marijuana — >0.3% delta-9, Schedule I (21 U.S.C. § 802(16))', split && split.marijuana, unit)}`;
 }
 
 // ── /flower — retail flower price index ──────────────────────────────────────────────────────────
-// Sources are injectable at the module level (cannabis.flowerPrices({ sources })). With none configured
-// this honestly shows an empty index; tests inject canned sources via the exported view's arg.
-export async function flowerView(sources = {}) {
-  const idx = await cannabis.flowerPrices({ sources }).catch(() => null);
+// Sources are injectable at the module level (cannabis.flowerPrices({ sources })). There is no live
+// keyless cannabis price API, so by default we aggregate the module's clearly-labeled SAMPLE listings
+// (THC-tagged) so the hemp/marijuana split is demonstrable; tests inject canned sources via the arg.
+export async function flowerView(sources) {
+  const src = sources || { 'sample listings': () => cannabis.SAMPLE_FLOWER_LISTINGS };
+  const names = Object.keys(sources || {});
+  const idx = await cannabis.flowerPrices({ sources: src }).catch(() => null);
   return `<h1>Flower price index</h1>
-    <p class=muted>Our own derived median retail flower price index — computed from aggregated listing prices, provenance-tagged.
-      We publish the spread (Q1 / median / Q3) and the listing count so you can judge it, and we never echo a single vendor's number.</p>
-    ${indexCard('Retail flower (per gram)', idx, 'per gram')}`;
+    <p class=muted>Our own derived median retail flower price index — computed from aggregated listing prices, provenance-tagged,
+      and <b>split by US law</b> into hemp (≤0.3% delta-9) and marijuana (>0.3%). We publish the spread (Q1 / median / Q3)
+      and the listing count per side so you can judge it, and we never echo a single vendor's number.</p>
+    ${splitIndexCards(idx && idx.split, 'per gram', names)}`;
 }
 
 // ── /seeds — seed price index + strain lookup ────────────────────────────────────────────────────
-export async function seedsView(strain, sources = {}) {
+export async function seedsView(strain, sources) {
   const term = String(strain == null ? '' : strain).trim();
   const form = searchForm('/seeds', { value: term, placeholder: 'Strain name, e.g. Northern Lights…', label: 'Look up strain', name: 'strain' });
-  const idx = await cannabis.seedPrices({ sources }).catch(() => null);
+  const src = sources || { 'sample listings': () => cannabis.SAMPLE_SEED_LISTINGS };
+  const names = Object.keys(sources || {});
+  const idx = await cannabis.seedPrices({ sources: src }).catch(() => null);
 
   let strainCard = '';
   if (term) {
@@ -263,9 +294,10 @@ export async function seedsView(strain, sources = {}) {
       + rows.map(([nm, url, dsc]) => `<div class=rec><div class=nm><a href="${esc(url)}">${esc(nm)}</a></div><div class=meta>${esc(dsc)}</div></div>`).join('')).join('')}</div>`;
 
   return `<h1>Seeds &amp; strains</h1>
-    <p class=muted>Our own derived median seed-pack price index, plus a SeedFinder-style strain / lineage / breeder lookup.
-      Same discipline as the flower index: a derived median over aggregated listings, never a fabricated number.</p>
-    ${indexCard('Seeds (per pack)', idx, 'per pack')}
+    <p class=muted>Our own derived median seed-pack price index — <b>split by US law</b> into hemp (≤0.3% delta-9) and
+      marijuana (>0.3%) — plus a SeedFinder-style strain / lineage / breeder lookup. Same discipline as the flower index:
+      a derived median over aggregated listings, never a fabricated number.</p>
+    ${splitIndexCards(idx && idx.split, 'per pack', names)}
     ${form}${strainCard}${dirCard}`;
 }
 

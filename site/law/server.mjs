@@ -106,6 +106,7 @@ const STYLE = `<style>
   .rec .nm{font-weight:600;font-size:15px} .rec .meta{color:var(--mut);font-size:13px;margin-top:2px}
   .rec .xlink{font-size:13px;margin-top:4px} .badge{font-size:11px;background:#1f6feb33;color:var(--blue);border-radius:8px;padding:1px 7px;margin-left:6px}
   blockquote{border-left:3px solid var(--line2);margin:8px 0;padding:2px 0 2px 12px;color:var(--mut);font-size:13px}
+  article.opinion{font-size:15px;line-height:1.75;color:var(--fg);max-width:72ch} article.opinion p{margin:0 0 14px}
   table{width:100%;border-collapse:collapse} td,th{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
   code{background:#0b0f14;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px}
   .empty{color:var(--mut);padding:14px 0}
@@ -190,11 +191,18 @@ function caseRow(c) {
   const cites = Array.isArray(c.citations) && c.citations.length ? ` · ${esc(c.citations.join('; '))}` : '';
   const meta = [c.court, c.dateFiled || c.decisionDate, c.precedentialStatus,
     c.citationCount != null ? `cited ${c.citationCount}×` : ''].filter(Boolean).map(esc).join(' · ');
+  // detail route: read the court's own verbatim opinion text here on-site. CourtListener rows carry a
+  // clusterId → ?id=; CAP rows carry a caseId → ?cap=. (CAP cluster id isn't a CL opinion id, so they
+  // route to their respective full-text readers.)
+  const detailHref = c.clusterId ? `/cases?id=${q(c.clusterId)}` : (c.caseId ? `/cases?cap=${q(c.caseId)}` : '');
+  const nameHtml = detailHref
+    ? `<a href="${esc(detailHref)}">${esc(c.caseName || 'Case')}</a>`
+    : (c.url ? `<a href="${esc(c.url)}">${esc(c.caseName || 'Case')}</a>` : esc(c.caseName || 'Case'));
   return `<div class=rec>
-    <div class=nm>${c.url ? `<a href="${esc(c.url)}">${esc(c.caseName || 'Case')}</a>` : esc(c.caseName || 'Case')}${c.license === 'public-domain' ? '<span class=badge>public domain</span>' : ''}</div>
+    <div class=nm>${nameHtml}${c.license === 'public-domain' ? '<span class=badge>public domain</span>' : ''}</div>
     <div class=meta>${meta}${cites}</div>
     ${c.snippet ? `<blockquote>${esc(c.snippet)}</blockquote>` : ''}
-    <div class=xlink>${c.url ? `<a href="${esc(c.url)}">read the opinion</a> · ` : ''}${judgeLink}</div>
+    <div class=xlink>${detailHref ? `<a href="${esc(detailHref)}">read the full opinion</a> · ` : ''}${c.url ? `<a href="${esc(c.url)}">at the source</a> · ` : ''}${judgeLink}</div>
   </div>`;
 }
 
@@ -228,6 +236,69 @@ export async function casesView(query) {
     <p class=muted>Search U.S. court opinions (CourtListener / Free Law Project), or resolve a reporter citation to its case
       via the Caselaw Access Project. Facts only — name, court, date, status, citation count. Never a holding-summary.</p>
     ${form}${results}`;
+}
+
+// ── /cases?id=… / ?cap=… — case DETAIL: the court's own verbatim opinion text ─────────────────────
+// Justia-style full-opinion page. We render the SOURCE'S OWN public-domain words (the whole decision) in
+// a readable article block — NEVER a holding-summary or "good law / bad law" verdict of ours (v3 §10).
+// `?id=` → a CourtListener opinion id (opinions.opinionText, full body); `?cap=` → a CAP case id
+// (cap.caseById with { full:true }, fullText). Soft-fails to an empty-state; noindex,follow on detail.
+function opinionArticle(text) {
+  // Split the verbatim text into paragraphs for readability; each paragraph is escaped. The words are the
+  // court's, unaltered — we only insert paragraph breaks where the source already had blank lines, and
+  // otherwise wrap the single block. PURE.
+  const t = String(text == null ? '' : text).trim();
+  if (!t) return '';
+  const paras = t.split(/\n{2,}/).map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const blocks = (paras.length > 1 ? paras : [t.replace(/\s+/g, ' ').trim()]);
+  return `<article class=opinion>${blocks.map((p) => `<p>${esc(p)}</p>`).join('')}</article>`;
+}
+
+export async function caseDetailView({ clId = '', capId = '' } = {}) {
+  const cl = String(clId == null ? '' : clId).trim();
+  const cp = String(capId == null ? '' : capId).trim();
+  let rec = null;
+  let sourceLabel = '';
+  let sourceUrl = '';
+  if (cl) {
+    rec = await opinions.opinionText(cl).catch(() => null);
+    if (rec) {
+      sourceLabel = 'CourtListener (Free Law Project)';
+      sourceUrl = rec.absolute_url || rec.url || '';
+    }
+  } else if (cp) {
+    const c = await cap.caseById(cp, { full: true }).catch(() => null);
+    if (c) {
+      rec = {
+        caseName: c.caseName, court: c.court, dateFiled: c.decisionDate,
+        citation: c.citations, text: c.fullText || '', url: c.url,
+      };
+      sourceLabel = 'Caselaw Access Project (Harvard LIL)';
+      sourceUrl = c.url || '';
+    }
+  }
+
+  const back = `<p class=muted><a href="/cases">← case search</a></p>`;
+  if (!rec) {
+    return `<h1>Opinion</h1>${back}
+      <div class=card><p class=empty>No opinion on record for that id right now. The source is the record —
+      <a href="/cases">search again →</a> or read it at the source.</p></div>`;
+  }
+  const text = rec.text || '';
+  const cites = Array.isArray(rec.citation) ? rec.citation.filter(Boolean) : [];
+  const meta = [rec.court, rec.dateFiled, cites.length ? cites.join('; ') : '', rec.judge]
+    .filter(Boolean).map(esc).join(' · ');
+  const body = `<h1>${esc(rec.caseName || 'Opinion')} <span class=muted style="font-size:14px">· public record</span></h1>
+    ${back}
+    <div class=card>
+      <div class=meta>${meta || '—'}</div>
+      ${sourceUrl ? `<div class=xlink style="margin-top:6px"><a href="${esc(sourceUrl)}">source: ${esc(sourceLabel)} →</a></div>` : ''}
+      ${text
+        ? `<h2 style="margin-top:14px">The court's words</h2>${opinionArticle(text)}`
+        : `<p class=empty style="margin-top:12px">The opinion text isn't available from the source right now. ${sourceUrl ? `<a href="${esc(sourceUrl)}">Read it at the source →</a>` : ''}</p>`}
+      <p class=muted style="font-size:12px;margin-top:12px">This is the court's own public-domain opinion text, reproduced verbatim and attributed to ${esc(sourceLabel || 'the source of record')}. We surface the source's words — we add no holding-summary, headnote, or verdict.</p>
+    </div>`;
+  return body;
 }
 
 // ── /statutes — U.S.C. citation parser + eCFR search ────────────────────────────────────────────
@@ -480,6 +551,14 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
 
     if (path === '/cases') {
+      const detailId = sp.get('id') || '';
+      const detailCap = sp.get('cap') || '';
+      if (detailId || detailCap) {
+        // case-DETAIL: the court's own verbatim opinion text. noindex,follow on the detail page.
+        return sendHtml(res, page('Opinion — SoapBox Law',
+          await caseDetailView({ clId: detailId, capId: detailCap }),
+          { canonical: `${BASE_URL}/cases`, robots: 'noindex,follow' }));
+      }
       return sendHtml(res, page('Cases — SoapBox Law', await casesView(sp.get('q') || ''),
         { canonical: `${BASE_URL}/cases`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
     }
