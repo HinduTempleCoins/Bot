@@ -321,6 +321,21 @@ export function forHive(account, { network = 'melek' } = {}) {
   return formatAccountId({ namespace: 'hive', reference: network, address: name });
 }
 
+/**
+ * Build a CAIP-10 account id for an address on PRANA, the ecosystem's EVM chain.
+ * PRANA is an eip155 chain; its chain id comes from env PRANA_CHAIN_ID at call time
+ * (the node is dormant until launch — see integrations/chains/multichain.mjs). A
+ * placeholder is used until the genesis chain id is fixed, so this never throws on
+ * a clean checkout.
+ * @param {string} address 0x… EVM address
+ * @param {{chainId?: string|number}} [opts] override the eip155 reference (else env PRANA_CHAIN_ID)
+ * @returns {string} e.g. "eip155:7777:0xabc…"
+ */
+export function forPrana(address, { chainId } = {}) {
+  const ref = String(chainId ?? process.env.PRANA_CHAIN_ID ?? '7777');
+  return formatAccountId({ namespace: EVM_NAMESPACE, reference: ref, address });
+}
+
 // ---- CAIP-25 idea: session / grant scopes ----------------------------------
 
 /**
@@ -422,6 +437,9 @@ function runCli(argv) {
         break;
       case 'hive':
         result = { accountId: forHive(value) };
+        break;
+      case 'prana':
+        result = { accountId: forPrana(value) };
         break;
       default:
         process.stderr.write(`unknown kind "${kind}"\n`);
