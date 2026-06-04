@@ -307,7 +307,8 @@ export const VERTICALS = [
     render: summaryRender({ module: `${REL}epa-enviro.mjs`, fn: 'airQuality', title: 'Air & Environment', args: [{ lat: 40.7128, lon: -74.006 }] }) },
 
   // CDC public health — respiratory activity, defaults to California.
-  { path: '/health', title: 'Public Health', navLabel: 'Health', kind: 'summary',
+  // Slug is /public-health (not /health) so it can't shadow the operational health-check endpoint.
+  { path: '/public-health', title: 'Public Health', navLabel: 'Health', kind: 'summary',
     render: summaryRender({ module: `${REL}cdc-health.mjs`, fn: 'respiratoryLevels', title: 'Public Health', args: [{ state: 'CA' }] }) },
 
   // SEC EDGAR filings — defaults to a well-known CIK (Apple Inc.) so the page renders without input.

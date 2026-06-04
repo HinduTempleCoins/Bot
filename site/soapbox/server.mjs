@@ -757,6 +757,10 @@ createServer(async (req, res) => {
     if (p === '/forex') return send(await forexPage());
     if (p === '/news') return send(await newsPage());
     if (p === '/gov') return send(govPage());
+    // Operational health-check — must win over any content route (load balancers / Caddy / uptime
+    // probes hit this). Kept above the vertical dispatch so a vertical can't shadow it (the Public
+    // Health page lives at /public-health to avoid that collision).
+    if (p === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
     // #125 — all built verticals served from one dispatch (energy/weather/cams/scanners/media/gridcoin/
     // nasa/commodities-goods/public-safety + search: legal/pharma/biodiversity/vehicle). renderVertical never throws.
     { const vert = findVertical(p); if (vert) return send(layout({ title: vert.title, active: p, canonical: `${BASE_URL}${p}`, description: `${vert.title} — SoapBox Data`, body: await renderVertical(p, url.searchParams.get('q') || '') })); }
@@ -879,7 +883,6 @@ createServer(async (req, res) => {
       res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=604800' });
       return res.end(FAVICON_SVG);
     }
-    if (p === '/health') { res.writeHead(200); return res.end('ok'); }
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }

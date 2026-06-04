@@ -14,7 +14,7 @@ const EXPECTED_PATHS = [
   '/commodities-goods', '/public-safety', '/legal', '/pharma', '/biodiversity', '/vehicle',
   // gov / public-data reader verticals (queue #182/#181)
   '/recalls', '/tides', '/osha', '/broadband', '/nutrition', '/debt', '/product-recalls',
-  '/environment', '/health', '/edgar', '/opportunities', '/datasets',
+  '/environment', '/public-health', '/edgar', '/opportunities', '/datasets',
   // surface wave (wave-surface-pages)
   '/economy', '/health-research', '/census', '/world-development', '/patents', '/wikidata',
   '/scam-check', '/crime', '/parks', '/aviation', '/hazards', '/lawyers', '/benefits',
@@ -49,6 +49,16 @@ test('every vertical entry has the required shape', () => {
     assert.ok(['summary', 'search'].includes(v.kind), `${v.path} kind is summary|search`);
     assert.equal(typeof v.render, 'function');
   }
+});
+
+test('no vertical claims /health (reserved for the operational health-check endpoint)', () => {
+  // Regression for the route-collision bug: a vertical at /health shadowed the load-balancer
+  // health-check in server.mjs, so /health returned an HTML page instead of "ok". Public Health
+  // lives at /public-health; nothing may reclaim /health.
+  assert.equal(findVertical('/health'), undefined, '/health must be free for the health-check');
+  const ph = findVertical('/public-health');
+  assert.ok(ph, 'Public Health vertical is at /public-health');
+  assert.equal(ph.title, 'Public Health');
 });
 
 test('findVertical resolves by path and is undefined for unknown', () => {
