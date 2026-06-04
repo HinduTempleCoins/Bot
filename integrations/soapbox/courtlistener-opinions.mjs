@@ -136,6 +136,9 @@ export function normalizeCase(r) {
     dateFiled: str(r.dateFiled) || str(r.date_filed),
     citationCount: num(r.citeCount != null ? r.citeCount : r.citation_count),
     precedentialStatus: str(r.status) || str(r.precedential_status),
+    // the search API already returns a highlighted excerpt for the hit — keep it so list views can show
+    // a relevant snippet without a second per-row opinion fetch. Strip any <mark> highlight tags.
+    snippet: (str(r.snippet) || str(r.opinions?.[0]?.snippet) || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
     citations: cites,
     docketNumber: str(r.docketNumber) || str(r.docket_number),
     // the docket this opinion came out of — lets an opinion link back to its filings (Justia-style).
@@ -346,14 +349,20 @@ export async function searchDockets({ q = '', court = '', limit = 20 } = {}) {
 
 // ---- rendering (escaped HTML; PURE) ----
 /**
- * Escaped HTML for a case-search list OR a single case detail (+ optional snippet). PURE; soft-handles
- * missing fields. Facts only — name, court, date, citation count, status, snippet, link. Never a verdict.
- * @param {{cases?:object[], detail?:object, snippet?:object}} data
+ * Escaped HTML for a case-search list OR a single case detail (+ optional snippet/full text). PURE;
+ * soft-handles missing fields. Facts only — name, court, date, citation count, status, the opinion text,
+ * link. Never a verdict. When `fullText` is present (an opinionText() record or a raw string), the detail
+ * view renders the WHOLE untruncated opinion; otherwise it falls back to the bounded `snippet`.
+ * @param {{cases?:object[], detail?:object, snippet?:object, fullText?:object|string}} data
  */
 export function renderPage(data = {}) {
   const cases = Array.isArray(data.cases) ? data.cases : [];
   const detail = data.detail || null;
   const snippet = data.snippet || null;
+  // fullText may be an opinionText() record ({ text }) or a raw string.
+  const fullText = data.fullText
+    ? (typeof data.fullText === 'string' ? data.fullText : str(data.fullText.text))
+    : '';
   if (detail) {
     const parts = ['<section class="cl-case"><h2>Opinion — public record</h2>'];
     parts.push(`<p class="cl-name"><strong>${esc(detail.caseName || 'Case')}</strong>${detail.clusterId ? ' (CourtListener #' + esc(detail.clusterId) + ')' : ''}</p>`);
@@ -364,7 +373,10 @@ export function renderPage(data = {}) {
     parts.push(`<li>Cited by: ${esc(detail.citationCount != null ? detail.citationCount : '—')} later opinions</li>`);
     if (Array.isArray(detail.citations) && detail.citations.length) parts.push(`<li>Citations: ${esc(detail.citations.join('; '))}</li>`);
     parts.push('</ul>');
-    if (snippet && snippet.snippet) parts.push(`<blockquote class="cl-snippet">${esc(snippet.snippet)}</blockquote>`);
+    // Prefer the FULL public-domain opinion text when supplied (case-detail page); otherwise fall back
+    // to the bounded snippet (preview). The text is the court's OWN words, never our gloss.
+    if (fullText) parts.push(`<div class="cl-fulltext"><pre>${esc(fullText)}</pre></div>`);
+    else if (snippet && snippet.snippet) parts.push(`<blockquote class="cl-snippet">${esc(snippet.snippet)}</blockquote>`);
     if (detail.url) parts.push(`<p class="cl-link"><a href="${esc(detail.url)}">Read the full opinion at CourtListener</a></p>`);
     parts.push(`<p class="data-note">${esc(dataNote())}</p></section>`);
     return parts.join('');

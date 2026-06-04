@@ -151,15 +151,19 @@ export async function caseById(caseId, { full = false } = {}) {
 /**
  * Resolve a reporter citation (e.g. "347 U.S. 483") to its CAP case record. Returns a normalized card,
  * or null if the citation can't be parsed or no case is found.
+ * The query already asks CAP for the full case body (full_case=true, body_format=text), so with
+ * { full:true } the card carries the untruncated `fullText` for the case-detail page; the bounded
+ * `snippet` is always present either way. Default is { full:false } for back-compat with list callers.
  * @param {string} cite
+ * @param {{full?:boolean}} [opts]
  */
-export async function caseByCitation(cite) {
+export async function caseByCitation(cite, { full = false } = {}) {
   const parsed = parseCitation(cite);
   if (!parsed) return null;
   const j = await getJson(apiUrl('/cases/', { cite: parsed.normalized, full_case: 'true', body_format: 'text', page_size: 1 }));
   const rows = Array.isArray(j?.results) ? j.results : [];
   const first = rows.find(Boolean);
-  const card = first ? normalizeCase(first) : null;
+  const card = first ? normalizeCase(first, { full }) : null;
   if (card && !card.citationLookup) card.citationLookup = parsed.normalized;
   return card;
 }
@@ -183,7 +187,10 @@ export function renderPage(data = {}) {
   if (Array.isArray(c.citations) && c.citations.length) parts.push(`<li>Citations: ${esc(c.citations.join('; '))}</li>`);
   if (c.reporter) parts.push(`<li>Reporter: ${esc(c.reporter)}</li>`);
   parts.push('</ul>');
-  if (c.snippet) parts.push(`<blockquote class="cap-snippet">${esc(c.snippet)}</blockquote>`);
+  // Prefer the FULL public-domain opinion text when the card carries it (case-detail page); otherwise
+  // fall back to the bounded snippet (list/preview). The text is the court's OWN words, never our gloss.
+  if (c.fullText) parts.push(`<div class="cap-fulltext"><pre>${esc(c.fullText)}</pre></div>`);
+  else if (c.snippet) parts.push(`<blockquote class="cap-snippet">${esc(c.snippet)}</blockquote>`);
   if (c.url) parts.push(`<p class="cap-link"><a href="${esc(c.url)}">Read the full case at the Caselaw Access Project</a></p>`);
   parts.push(`<p class="data-note">${esc(dataNote())}</p></section>`);
   return parts.join('');

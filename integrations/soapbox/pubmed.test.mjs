@@ -155,6 +155,68 @@ test('articleDetail returns a fuller single record', async () => {
   __setFetch();
 });
 
+test('articleDetail fetches the abstract via efetch and includes it', async () => {
+  reset();
+  const ABSTRACT = 'BACKGROUND: Psilocybin shows promise. METHODS: An RCT of 233 patients. RESULTS: '
+    + 'A single 25-mg dose reduced depression scores at week 3. CONCLUSIONS: Further trials are warranted.';
+  // route esummary → JSON, efetch → plain text (the abstract).
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('efetch.fcgi')) return { ok: true, status: 200, json: async () => ({}), text: async () => ABSTRACT };
+    if (u.includes('esummary.fcgi')) return { ok: true, status: 200, json: async () => ESUMMARY };
+    return { ok: false, status: 404, json: async () => ({}), text: async () => '' };
+  });
+  const d = await articleDetail('11111111');
+  assert.ok(d, 'returns a record');
+  assert.equal(d.abstract, ABSTRACT, 'abstract captured from efetch');
+  assert.equal(d.title, 'Psilocybin for treatment-resistant depression', 'metadata still present');
+  __setFetch();
+});
+
+test('articleDetail soft-fails the abstract to null but keeps metadata when efetch is unavailable', async () => {
+  reset();
+  // esummary works; efetch 404s → abstract null, record still returned.
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('efetch.fcgi')) return { ok: false, status: 404, json: async () => ({}), text: async () => '' };
+    if (u.includes('esummary.fcgi')) return { ok: true, status: 200, json: async () => ESUMMARY };
+    return { ok: false, status: 404, json: async () => ({}), text: async () => '' };
+  });
+  const d = await articleDetail('11111111');
+  assert.ok(d, 'still returns a record');
+  assert.equal(d.abstract, null, 'abstract soft-fails to null');
+  assert.equal(d.pmid, '11111111');
+  __setFetch();
+});
+
+test('trials pulls briefSummary + eligibilityCriteria from the already-fetched protocolSection', async () => {
+  reset();
+  const CTGOV_RICH = {
+    studies: [{
+      protocolSection: {
+        identificationModule: { nctId: 'NCT09990001', briefTitle: 'Psilocybin RCT' },
+        statusModule: { overallStatus: 'RECRUITING' },
+        designModule: { phases: ['PHASE2'] },
+        conditionsModule: { conditions: ['Depression'] },
+        descriptionModule: { briefSummary: 'A randomized trial of psilocybin for depression.' },
+        eligibilityModule: { eligibilityCriteria: 'Inclusion: adults 18-65 with MDD. Exclusion: psychosis.' },
+      },
+    }],
+  };
+  __setFetch(mockFetch({ '/studies': CTGOV_RICH }));
+  const rows = await trials({ condition: 'depression' });
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].briefSummary, 'A randomized trial of psilocybin for depression.');
+  assert.equal(rows[0].eligibilityCriteria, 'Inclusion: adults 18-65 with MDD. Exclusion: psychosis.');
+  // absent modules → null, never undefined
+  reset();
+  __setFetch(mockFetch({ '/studies': CTGOV }));
+  const plain = await trials({ condition: 'depression' });
+  assert.equal(plain[0].briefSummary, null);
+  assert.equal(plain[0].eligibilityCriteria, null);
+  __setFetch();
+});
+
 test('summary tallies counts by year and trial status', () => {
   const articles = [
     { pmid: '1', year: 2024 }, { pmid: '2', year: 2023 }, { pmid: '3', year: 2024 }, { pmid: '4', year: null },

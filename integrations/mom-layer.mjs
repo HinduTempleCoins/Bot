@@ -54,6 +54,27 @@ function minutesId(conferenceId, ms) {
 const asArray = (x) => (Array.isArray(x) ? x.filter((v) => v != null) : x == null ? [] : [x]);
 const cleanStr = (x) => String(x == null ? '' : x).trim();
 
+// ── decision rationale ("why") extraction ────────────────────────────────────────────────────────────
+// A decision recorded as a bare sentence loses its WHY. Capture the reason when the decision line carries
+// one — "<decision> because <X>" / "so that <X>" / "to <X>" / "in order to <X>" / "since <X>". Returns
+// { text, rationale|null }: text is the decision with the trailing reason clause stripped (so the headline
+// stays clean), rationale is the captured reason (null when none). Pure, never throws. Additive — callers
+// that only read the string still see the decision via decisions[]; the why lives in decisionDetails[].
+const RATIONALE_RE = /^(.*?)[\s,]+(because|so that|in order to|so as to|since|to)\s+(.+)$/i;
+export function splitDecisionRationale(decision) {
+  const d = cleanStr(decision);
+  if (!d) return { text: '', rationale: null };
+  const m = d.match(RATIONALE_RE);
+  if (!m) return { text: d, rationale: null };
+  const head = cleanStr(m[1]);
+  const cue = cleanStr(m[2]);
+  const tail = cleanStr(m[3]);
+  // require a real head + tail; "to" is only a reason cue when something precedes it (avoid "to do X").
+  if (!head || !tail) return { text: d, rationale: null };
+  const rationale = /^to$/i.test(cue) ? `to ${tail}` : `${cue} ${tail}`;
+  return { text: head, rationale };
+}
+
 // ── action-item extraction (heuristic) ──────────────────────────────────────────────────────────────
 // Pull action-item lines out of free-text meeting notes. Heuristics, in priority order:
 //   • "TODO: ..." / "ACTION: ..." / "AI: ..." prefixes
@@ -184,6 +205,7 @@ function deriveTopics(decisions, actionItems, explicitTopics) {
  * }} input
  * @param {{ now?: (()=>number)|number }} [opts]  injectable clock
  * @returns {{ id, at, conferenceId, attendees:string[], decisions:string[],
+ *             decisionDetails:Array<{text:string,rationale:string|null}>,
  *             actionItems:Array<{text,owner?,status}>, topics:string[], openQuestions:string[] }}
  */
 export function summarizeToMinutes(input = {}, opts = {}) {
@@ -192,6 +214,12 @@ export function summarizeToMinutes(input = {}, opts = {}) {
 
   const attendees = asArray(src.attendees).map(cleanStr).filter(Boolean);
   const decisions = asArray(src.decisions).map(cleanStr).filter(Boolean);
+  // structured decisions: the headline + the captured "why" (rationale), when the line carried one.
+  // decisions[] (bare strings) is unchanged for back-compat; decisionDetails[] adds the rationale.
+  const decisionDetails = decisions.map((d) => {
+    const { text, rationale } = splitDecisionRationale(d);
+    return rationale ? { text: text || d, rationale } : { text: d, rationale: null };
+  });
 
   // normalize explicit action items, then mine the notes for any additional ones.
   const explicitItems = asArray(src.actionItems).map((it) => {
@@ -226,6 +254,7 @@ export function summarizeToMinutes(input = {}, opts = {}) {
     conferenceId: cleanStr(src.conferenceId) || null,
     attendees,
     decisions,
+    decisionDetails,
     actionItems,
     topics,
     openQuestions,
@@ -242,17 +271,36 @@ const PRIVATE_KEYS = new Set([
 ]);
 
 /**
- * The trimmed, transcript-free view of a MoM record for brief-writer AIs.
+ * The trimmed, transcript-free view of a MoM record for brief-writer AIs. Carries decisionDetails[]
+ * ({ text, rationale }) so the brief-writer sees the WHY behind a decision, not just the headline —
+ * a decision's rationale must survive into the briefs. Falls back to deriving details from decisions[]
+ * when an upstream record predates decisionDetails (back-compat).
  * @param {object} mom  a record from summarizeToMinutes (or shaped like one)
- * @returns {{ id, at, decisions:string[], actionItems:Array<{text,owner?,status}>, openQuestions:string[], topics:string[] }}
+ * @returns {{ id, at, decisions:string[], decisionDetails:Array<{text,rationale}>, actionItems:Array<{text,owner?,status}>, openQuestions:string[], topics:string[] }}
  */
 export function forBriefWriter(mom) {
   const m = mom && typeof mom === 'object' ? mom : {};
+  const decisions = asArray(m.decisions).map(cleanStr).filter(Boolean);
+  const decisionDetails = (Array.isArray(m.decisionDetails) && m.decisionDetails.length
+    ? m.decisionDetails
+    : decisions)
+    .map((d) => {
+      if (d && typeof d === 'object') {
+        const text = cleanStr(d.text);
+        if (!text) return null;
+        const rationale = cleanStr(d.rationale);
+        return { text, rationale: rationale || null };
+      }
+      const { text, rationale } = splitDecisionRationale(d);
+      return cleanStr(text || d) ? { text: cleanStr(text || d), rationale: rationale || null } : null;
+    })
+    .filter(Boolean);
   return {
     id: cleanStr(m.id) || null,
     at: cleanStr(m.at) || null,
     topics: asArray(m.topics).map(cleanStr).filter(Boolean),
-    decisions: asArray(m.decisions).map(cleanStr).filter(Boolean),
+    decisions,
+    decisionDetails,
     actionItems: asArray(m.actionItems)
       .map((it) => {
         if (it && typeof it === 'object' && cleanStr(it.text)) {
@@ -368,8 +416,19 @@ export function renderMinutes(mom) {
   L.push('');
 
   const decisions = asArray(m.decisions).map(cleanStr).filter(Boolean);
+  // map decision text → rationale (the "why"), when the record carries decisionDetails.
+  const rationaleOf = new Map();
+  for (const dd of asArray(m.decisionDetails)) {
+    if (dd && typeof dd === 'object' && cleanStr(dd.text) && cleanStr(dd.rationale)) {
+      rationaleOf.set(cleanStr(dd.text), cleanStr(dd.rationale));
+    }
+  }
   L.push('## Decisions');
-  if (decisions.length) decisions.forEach((d) => L.push(`- ${d}`));
+  if (decisions.length) decisions.forEach((d) => {
+    const { text } = splitDecisionRationale(d);
+    const why = rationaleOf.get(d) || rationaleOf.get(cleanStr(text));
+    L.push(why ? `- ${d} _(why: ${why})_` : `- ${d}`);
+  });
   else L.push('- _none recorded_');
   L.push('');
 
@@ -397,6 +456,7 @@ export function renderMinutes(mom) {
 export default {
   summarizeToMinutes,
   extractActionItems,
+  splitDecisionRationale,
   forBriefWriter,
   isBriefWriterSafe,
   appendMinutes,
