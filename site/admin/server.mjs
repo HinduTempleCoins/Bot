@@ -33,6 +33,7 @@ import { diagnostics } from '../../integrations/server-diagnostics.mjs';
 import { trafficSummary } from '../../integrations/soapbox/analytics.mjs';
 import { grant as credGrant } from '../../integrations/credential-store.mjs';
 import { repoFeatures, summary as featureSummary, setFlag, tierOrder } from '../../integrations/feature-registry.mjs';
+import { buildOptionsByGroup, addNote, recentNotes, notesPath } from '../../integrations/build-options.mjs';
 import { listRepos, getRepo } from '../../integrations/repo-registry.mjs';
 import { sendToClaude, relayStatus, renderPanel as claudePanel, history as claudeHistory } from '../../integrations/claude-relay.mjs';
 import { tradeBoard, renderBoard as renderTradeBoard, decisionQueue } from '../../integrations/trade-hud.mjs';
@@ -531,10 +532,56 @@ function repoPanel(repo) {
     ${tree}`;
 }
 
+// ── Build Options (renders FIRST, at the top of the Features tab) ─────────────────────────────────
+// A control/clarity surface (NOT a live deploy trigger): the project's build-direction choices,
+// including the BLOCKCHAIN options sourced from the PRANA design docs. Each option is a card with a
+// short description, the direction-on-record, and the doc it came from.
+function buildOptionsCard() {
+  const groups = buildOptionsByGroup();
+  const sections = groups.map((g) => {
+    const cards = (g.options || []).map((o) => `
+      <div style="border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 10px;background:var(--bg)">
+        <div style="font-weight:700">${esc(o.title)}</div>
+        <div style="font-size:13px;margin:4px 0 6px">${esc(o.desc)}</div>
+        ${o.choice ? `<div class=ok style="font-size:12px">▸ ${esc(o.choice)}</div>` : ''}
+        ${(o.source || []).length ? `<div class=muted style="font-size:11px">source: ${(o.source).map((s) => `<code>${esc(s)}</code>`).join(' · ')}</div>` : ''}
+      </div>`).join('');
+    return `<h2 style="margin-top:14px">${esc(g.title)}</h2>
+      ${g.blurb ? `<p class=muted style="font-size:13px">${esc(g.blurb)}</p>` : ''}
+      ${cards}`;
+  }).join('');
+  return `<div class=card><h2>Build Options <span class=muted style="font-weight:400;font-size:13px">· build-direction choices (not a live deploy)</span></h2>
+    <p class=muted style="font-size:13px">The decisions on the table — what we are building toward. These are a clarity surface, not deploy buttons. The blockchain options reflect the real PRANA build design.</p>
+    ${sections}</div>`;
+}
+
+// ── Operator note box (persists to data/admin-notes.jsonl so Claude can read it back) ─────────────
+function notesCard(notes = []) {
+  const list = (notes || []).length
+    ? `<ul style="list-style:none;padding:0;margin:8px 0 0">${(notes).map((n) => `
+        <li style="border-top:1px solid var(--line);padding:8px 0;font-size:13px">
+          <span class=muted style="font-size:11px">${esc(n.at || '')}</span><br>${esc(n.note)}</li>`).join('')}</ul>`
+    : `<p class=muted style="font-size:13px">No notes yet. Type one above and hit Submit — it persists so Claude can read it.</p>`;
+  return `<div class=card><h2>Leave a note for Claude</h2>
+    <p class=muted style="font-size:13px">Type a note, hit Submit, then tell Claude “read my note” — it’s saved to <code>data/admin-notes.jsonl</code> (append-only).</p>
+    <form method=POST action="/features/note">
+      <textarea name=note rows=4 placeholder="What should Claude do / know next?" style="width:100%"></textarea>
+      <div style="margin-top:8px"><button type=submit>Submit</button></div>
+    </form>
+    <h2 style="margin-top:14px">Recent notes <span class=muted style="font-weight:400;font-size:13px">· last ${esc((notes || []).length)}</span></h2>
+    ${list}</div>`;
+}
+
 // The "what's built but the public can't see yet" catalog. Groups every integration module by
 // category and shows LIVE / BUILT(hidden) / SCAFFOLD, with a per-feature front-facing toggle that
 // records the operator's INTENT (a deploy step consumes the flag; the portal never deploys itself).
 async function featuresPage({ root, repo } = {}) {
+  // Build Options + the note box render FIRST, above everything, on every variant of this tab.
+  const buildOpts = buildOptionsCard();
+  let notes = [];
+  try { notes = await recentNotes(10); } catch { notes = []; }
+  const noteBox = notesCard(notes);
+  const top = `${buildOpts}\n${noteBox}`;
   // Repo toggle: default to Bot. Any non-Bot ecosystem repo renders its manifest panel instead of
   // the module catalog. The toggle itself sits at the top of every variant.
   let repos = [];
@@ -545,6 +592,7 @@ async function featuresPage({ root, repo } = {}) {
   if (selectedSlug !== 'Bot') {
     const sel = getRepo(selectedSlug);
     const body = `<h1>Features <span class=muted style="font-size:14px">· ${esc(selectedSlug)} repo</span></h1>
+      ${top}
       ${toggle}
       ${sel ? repoPanel(sel) : `<div class=card><p class=bad>Repo not found in the manifest.</p></div>`}`;
     return layout({ title: `Features · ${selectedSlug}`, body });
@@ -608,6 +656,7 @@ async function featuresPage({ root, repo } = {}) {
 
   const ff = byTier['FRONT-FACING FIRST'] || [];
   const body = `<h1>Features <span class=muted style="font-size:14px">· everything built, sorted by the decision you're making</span></h1>
+    ${top}
     ${toggle}
     <div class=card><h2>What you have</h2>
       <p><strong>${esc(s.total)}</strong> capabilities built ·
@@ -1065,6 +1114,15 @@ export async function handle(req, res) {
       if (!state) state = (params.get('on') === '1' || /^(true|on|yes)$/i.test(params.get('on') || '')) ? 'queue' : 'clear';
       const note = (params.get('note') || '').trim();
       if (fid) await setFlag(fid, state, note).catch(() => {});
+      return redirect(res, '/features');
+    }
+
+    // Operator note box on the Features tab → persists to data/admin-notes.jsonl (append-only) so
+    // Claude can `cat` it later. CSRF-protected by the same sameOriginOK() gate as every other POST.
+    if (p === '/features/note' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const note = (params.get('note') || '').trim();
+      if (note) await addNote(note).catch(() => {});
       return redirect(res, '/features');
     }
 
