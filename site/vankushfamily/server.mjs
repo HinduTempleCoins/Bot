@@ -22,6 +22,7 @@
 import { createServer } from 'node:http';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
+import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
 
 const PORT = +(process.env.PORT || 8104);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -97,7 +98,8 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
+<div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
   <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">Day&nbsp;0</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
 <main class=wrap>${body}</main>
