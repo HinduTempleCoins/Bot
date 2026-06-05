@@ -57,6 +57,7 @@ const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 const DIRECTORY = process.env.DIRECTORY_SITE || 'https://directory.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
+const OVERSIGHT = process.env.OVERSIGHT_SITE || 'https://oversight.soapbox.community';
 
 // Jurisdiction registry. US is jurisdiction #1; the bare paths alias to it. Add a code here to open a
 // new jurisdiction's URL prefix (see the extension plan in the header).
@@ -126,7 +127,7 @@ const FOOTER = `<footer>
   official source. <b>Right of reply:</b> corrections route to the source of record (CAP / Free Law
   Project / OLRC / the relevant agency) — we surface, we do not adjudicate. Informational only — not
   legal advice; for advice, consult a licensed attorney.
-  <div style="margin-top:8px"><a href="/">Law</a> · <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a> · <a href="${DIRECTORY}">Directory</a> · <a href="${WIKI}">Library</a></div>
+  <div style="margin-top:8px"><a href="/">Law</a> · <a href="${OVERSIGHT}">Oversight</a> · <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a> · <a href="${DIRECTORY}">Directory</a> · <a href="${WIKI}">Library</a></div>
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -140,7 +141,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -593,7 +594,12 @@ export async function lawyersView(query, state) {
   return `<h1>Lawyers</h1>
     <p class=muted>Search public attorney bar facts — license status, admission date, and discipline history. <b>No ratings, no recommendations</b>,
       by design. Need help finding or vetting a lawyer? See <a href="/complaints">File a complaint &amp; legal aid →</a>.</p>
-    ${form}${results}`;
+    ${form}${results}
+    <div class=card style="border-color:var(--gold)"><h2 style="margin-bottom:4px">Not sure who to contact?</h2>
+      <p class=muted style="margin:0 0 10px">If your problem is with a company, product, or a government agency, the
+        oversight directory routes you to the right office — federal Inspectors General, ombudsmen, consumer-protection
+        bodies, and all 50 state Attorneys General, each with published contact info and its own complaint form.</p>
+      <a class=rec style="display:inline-block" href="${OVERSIGHT}/file"><b>Who do I call? → Agency directory →</b></a></div>`;
 }
 
 // ── /complaints — where to file (public-interest links) ─────────────────────────────────────────

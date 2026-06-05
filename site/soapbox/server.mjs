@@ -49,6 +49,10 @@ const PORT = +(process.env.PORT || 8088);
 // raw HTTP port isn't also exposed publicly. Defaults to all interfaces for local/dev use.
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// Oversight.SoapBox — the "where do I file a complaint?" router. The scam panel deep-links its /file
+// route so a person reading a scam/fraud signal on a coin or company page has a one-click path to the
+// right official complaint office. Env-overridable for staging.
+const OVERSIGHT_URL = (process.env.OVERSIGHT_SITE || 'https://oversight.soapbox.community').replace(/\/$/, '');
 const PER_PAGE = 50;
 
 // ── Markets list (the page factory's index) ─────────────────────────────────
@@ -761,6 +765,7 @@ async function scamsPage(q = '') {
       ${reportRows ? `<p class=muted style="font-size:13px;margin:6px 0 2px">Automated reports found:</p><ul style="margin:0;padding-left:18px;line-height:1.7">${reportRows}</ul>` : '<p class=muted style="font-size:13px">No automated government/crypto-registry reports matched. Absence of a report is not proof of safety — check the consumer complaints below.</p>'}
       <p class=muted style="font-size:13px;margin:12px 0 4px">Consumer complaints for “${esc(query)}” (search these directly):</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px">${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener" title="${esc(l.coverage || '')}">${esc(l.name)} ↗</a>`).join('')}</div>
+      <p style="font-size:13px;margin:12px 0 4px"><b>Where do I file a complaint?</b> <a href="${esc(OVERSIGHT_URL)}/file?topic=${encodeURIComponent(query)}" rel="noopener">Oversight — route me to the right official complaint office →</a></p>
       <p class=muted style="font-size:11px;margin-top:10px">Facts, not verdicts — we surface what public sources report; we do not adjudicate. Verify on the source before acting.</p>`);
   }
 
@@ -794,6 +799,7 @@ async function scamPanelFor(probe, label) {
   const inner = `<p>Risk signal: <span class="${tone}" style="font-weight:600">${esc((sig?.riskHint || 'unknown').toUpperCase())}</span>${sig?.legit?.listed ? ` · <span class=up>verified/regulated</span>` : ''}</p>
     ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched. Absence of a report isn\'t proof of safety — check the consumer complaints below.</p>'}
     <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints &amp; reviews: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
+    <p class=muted style="font-size:12px;margin:4px 0"><b>Where do I file a complaint?</b> <a href="${esc(OVERSIGHT_URL)}/file?topic=${encodeURIComponent(name || p)}" rel="noopener">Oversight — find the right official complaint office →</a></p>
     <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(name || p)}">Full scam check →</a> · Facts, not verdicts.</p>`;
   return card('Scam & fraud signals', inner); // card() escapes the title — pass a raw &
 }

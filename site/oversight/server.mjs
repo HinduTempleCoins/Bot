@@ -93,6 +93,18 @@ const FOOTER = `<footer>
   <div style="margin-top:8px"><a href="/">Oversight</a> · <a href="${esc(DIRECTORY_SITE)}">Directory</a> · <a href="${esc(LAW)}">Law</a> · <a href="${esc(DATA)}">Data</a></div>
 </footer>`;
 
+// Cross-link CTA to the Lawyer directory. Filing a complaint with an oversight office and finding a
+// lawyer are different needs; some people who land here need counsel, not (or in addition to) a
+// complaint. Points at law.soapbox.community — public bar records + legal-aid + bar referral lines.
+// Stays facts-not-verdicts: it offers a directory, never tells anyone they have a case.
+const LAWYER_CTA = `<div class="card lawyer-cta" style="border-color:var(--gold)">
+  <h2 style="margin-bottom:4px">Need a lawyer, not (just) a complaint?</h2>
+  <p class=muted style="margin:0 0 10px">Some matters need counsel. The Lawyer directory lists public bar
+    records, legal-aid offices, and official bar referral lines — same facts-not-verdicts, no ratings, no
+    pay-for-rank.</p>
+  <a class=sec style="display:inline-block;border-color:var(--gold)" href="${esc(LAW)}/lawyers">Lawyer directory →</a>
+</div>`;
+
 function page(title, body, opts = {}) {
   const desc = opts.description || 'Oversight.SoapBox — the "Who do I call?" directory of US oversight, '
     + 'Inspector General, ombudsman, and consumer-protection offices, each with published contact info and '
@@ -165,7 +177,8 @@ export function homePage() {
         placeholder: 'Search offices by name, scope, or topic…', label: 'Browse',
         extra: stateSelect(''),
       })}
-      <p class=muted style="font-size:13px;margin-top:-4px">A per-state filter shows that state's Attorney General plus every federal office (federal offices serve all states).</p></div>`;
+      <p class=muted style="font-size:13px;margin-top:-4px">A per-state filter shows that state's Attorney General plus every federal office (federal offices serve all states).</p></div>
+    ${LAWYER_CTA}`;
   return page('Oversight.SoapBox — who do I call? consumer-protection directory', body, { canonical: `${BASE_URL}/` });
 }
 
@@ -260,6 +273,7 @@ export function fileView(topic, state) {
       or consumer-protection office — each with its phone, email, fax, and its <b>own</b> complaint form. We
       route you to the door; we never tell you that you have a case.</p>
     ${form}${result}
+    ${LAWYER_CTA}
     <p class="affiliate-note" data-affiliate-enabled="false"><em>${esc(AFFILIATE_SLOT.note)}</em></p>
     <p class="not-advice">${esc(NOT_ADVICE)}</p>`;
   return body;
