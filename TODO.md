@@ -346,3 +346,56 @@ All gated on corpus expansion + Phase 2. Listed so future operators / forkers se
 - Tutorial detector + 20 tests; tutorial stage spec; scripture corpus (7 documents at end of 2026-05-25, +Heterosis +Mythology-as-Genealogy added that day).
 - Pinned deps; `.npmrc` enforcing security flags; preflight script + CI workflow; LICENSE.
 - Scrubbed leaked WIF strings from `SECURITY_KNOWLEDGE_BASE.md` (history retains them; see angelicalist item under Operator-urgent).
+
+---
+
+## 🟨 PRANA doc action items (2026-06-05 — from the three re-supplied docs; NO REHAULS, build on what exists)
+
+- [ ] Request brief from resident Bot AI for this task (`/brief/request`).
+
+**Already satisfied by what exists (verify-only, no work):**
+- [x] "PRANA stays EVM" (VM doc §12) — PRANA already IS core-geth/EVM. Recorded; no change.
+- [x] BURN lane exists — UnifiedSharesLedger already has HASH/TASK/BURN.
+- [x] Receive-only mining (Pool doc §6) — live pool already pays to an address, holds no spend keys.
+- [x] Free-tier TASK-only worker mode — pool-worker `PRANA_FREE_TIER` already built (ToS-safe Colab lane).
+- [x] Inference ladder — tools/inference-router already implements priority/fallthrough.
+
+**Small adds on top of existing pieces (queue):**
+- [ ] Monero menu entry + Monero wallet module on the live pool (operator-ordered; fold into Miningcore migration result).
+- [ ] CurrencyModule interface spec written down (Pool doc §4) as the pool frontend's module contract — formalize what the Miningcore-config-per-coin + wallet pattern already does; no platform change.
+- [ ] Pool frontend "three doors" framing (Mine / AI Work / Burn) — UI/copy layer on the existing pool site; Burn door = link/stub until PRANA launches.
+- [ ] Akasha keystore wiring plan — PRANA repo akasha/ already exists; document how pool wallet modules share its HD keystore (design note via PRANA patch; no new wallet app).
+- [ ] Burn-stake copy discipline — "competitive, not guaranteed; utility + sink, never yield" language wherever burn appears (pool site, future docs).
+- [ ] Reconcile the two ladder orders (bootstrap phase: free APIs → Colab → river; mature phase: river first) as a mode flag in inference-router config — note, not rewrite.
+
+**Operator decisions (no build until picked):**
+- [ ] Block cadence at PRANA genesis: ~13s safe default vs 5–12s + uncle rewards (Burn doc §3).
+- [ ] Burn weight: permanent (default) vs Slimcoin-style decay (§1).
+- [ ] Cross-currency burn weighting: fixed ratios at start vs price oracle (§2).
+- [ ] Ethash vs Etchash (UD-PR-B) — pre-genesis, changes genesis hash.
+- [ ] Energy-as-chain-gas vs app-layer perk (UD-AG-C).
+- [ ] Hathor fee % + payout cadence + coordinator trust model (from the fees-module build).
+
+**Gated on PRANA launch / bridges (design-stage only now):**
+- [ ] Multi-currency burn (wMELEK/wVKBT/CURE/SMTs) — needs wrapped tokens + relayer; Melek-Engine seams already reserved.
+- [ ] Games app-chain/L2 pattern — notes only; nothing existing changes.
+
+**Missing record:** the primary companion doc "PRANA — The Switching Engine, the Chain-as-Pool, and the Path to a DAO" is still not on file (the repo only holds distilled notes of it). Operator to re-send when convenient → save verbatim like the others.
+
+---
+
+## 🟦 Standards + agency-guidance review (queued 2026-06-05, operator Addendum 14 — READ-ONLY, change nothing)
+
+- [ ] Request brief from resident Bot AI for this task (`/brief/request`).
+- [ ] **Standards sweep (look, don't change):** IEEE (2418.x blockchain, 7000-series AI ethics, P2048/metaverse-VR, security) · ISO (TC 307 blockchain, 27001 security, AI/ML standards) · NIST (CSF, AI RMF, FIPS) · W3C (DIDs, Verifiable Credentials) · IETF · ETSI · relevant state standards. Map each to our subsystems (chain, pool, signers, engine, AI residents, metaverse/Dudael, data sites) — a gap/alignment TABLE, no code changes.
+- [ ] **Agency-guidance sweep:** IRS (mining income, token taxation, 1099-DA broker rules) · SEC (Howey — esp. burn-stake/offerings framing already flagged "Howey-ish" in the PRANA docs; token offerings; exchange/DEX lines) · FinCEN (MSB/money-transmitter — POOL PAYOUTS + custodial seams) · CFTC · FTC (consumer protection, endorsements, scam-data presentation) · OFAC (sanctions screening) · state regulators (NY BitLicense, money-transmitter map) · FATF travel rule + EU MiCA internationally · plus hemp (USDA/FDA/DEA), stocks-data (SEC/FINRA display rules), AI agencies' guidance. Map findings to: pool, Melek-Engine, burn-stake, signup, Hive.Vote copy, data sites, hemp vertical, Dudael.
+- [ ] Output: one review document per area in `docs/compliance-review/` (public-safe summaries) + operator-facing plain-English brief of the load-bearing findings (what we're aligned with, what to watch, what's a real decision). NO changes to any built system from this review — findings come back to the operator first.
+
+### Gov-contracting + enterprise credentials review (queued 2026-06-05, Addendum 15 — pairs with the standards review above)
+
+- [ ] **RFP/RFI landscape:** how government buying actually works (RFI→RFP→proposal→award), where they live (SAM.gov federal, state procurement portals), and REAL examples in our industries (blockchain, AI, data platforms, citizen services). Pull a handful of public RFPs/RFIs that touch what we build.
+- [ ] **The incumbents' playbook:** how Deloitte/Xerox/Accenture-class proposals are structured (capabilities, past performance, compliance matrices, certifications cited) — including the CRM/citizen-services world the operator worked in with Nebulogic (orientation context, ask operator for specifics worth recording).
+- [ ] **The credentials ladder:** FedRAMP/StateRAMP (cloud for gov), FISMA + NIST 800-53, CMMC (defense), SOC 2, ISO 27001, PCI-DSS (payments), Section 508/WCAG (accessibility) — what each is, what it costs/takes, which (if any) are realistic + worth it for us, which are just worth IMITATING as practice without certifying.
+- [ ] **Adopt-anyway security practices:** the enterprise/gov-grade practices we should run regardless (TLS posture, key management, logging/audit trails, backups, access control, dependency scanning) — mapped against what we ALREADY do (Caddy auto-TLS, zero-WIF rule, vault, UFW, CrowdSec, preflight) so it's a gap list, not a rebuild.
+- [ ] **Plain-English explainers for the operator:** start with "how SSL/TLS actually works" (and the fact our sites already have it automatically), then one-pagers per credential as they come up. These go in the operator-facing brief, front-end language only.
+- [ ] READ-ONLY like the standards review — findings to operator first; no changes from this review itself.
