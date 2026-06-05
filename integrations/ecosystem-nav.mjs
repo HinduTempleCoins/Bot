@@ -23,6 +23,8 @@ export const ECOSYSTEM_LINKS = [
   // The project front doors
   { label: 'Roadmap', url: env('VKF_SITE', 'https://vankushfamily.com'), group: 'Project', live: true, key: 'roadmap' },
   { label: 'SoapBox', url: env('SOAPBOX_HUB', 'https://soapbox.community'), group: 'Project', live: true, key: 'soapbox' },
+  // The MetaVerse. SoapBox = the building/financial apps; Dudael = the VR/OpenXR world side.
+  { label: 'Dudael', url: env('DUDAEL_SITE', 'https://dudael.com'), group: 'Project', live: true, key: 'dudael' },
 
   // The live SoapBox verticals
   { label: 'Data', url: env('DATA_SITE', 'https://data.soapbox.community'), group: 'SoapBox', live: true, key: 'data' },
