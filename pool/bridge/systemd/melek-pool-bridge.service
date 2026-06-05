@@ -1,0 +1,27 @@
+[Unit]
+Description=MELEK pool WebSocket->stratum bridge (browser mining /ws)
+After=network.target melek-miningcore.service
+Wants=melek-miningcore.service
+
+[Service]
+WorkingDirectory=/opt/melek-bot/repo
+# WS listens on localhost only; Caddy fronts it as wss://pool.soapbox.community/ws.
+# Targets the browser/WASM fixed-low-diff stratum port (4446).
+Environment=BRIDGE_WS_HOST=127.0.0.1
+Environment=BRIDGE_WS_PORT=8110
+Environment=BRIDGE_STRATUM_HOST=127.0.0.1
+Environment=BRIDGE_STRATUM_PORT=4446
+Environment=BRIDGE_MAX_CONN_PER_IP=4
+Environment=BRIDGE_MSG_RATE=20
+ExecStart=/usr/bin/node pool/bridge/bridge.mjs
+Restart=on-failure
+RestartSec=5
+# Hardening: no keys, no secrets, reads nothing from disk at runtime.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/melek-bot/repo
+
+[Install]
+WantedBy=multi-user.target

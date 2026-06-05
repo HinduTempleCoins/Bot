@@ -3,6 +3,13 @@
 pool.soapbox.community {
 	encode gzip
 
+	# Browser-mining bridge: WSS -> the WebSocket->stratum bridge (melek-pool-bridge) on
+	# 127.0.0.1:8110 -> the browser/WASM stratum port (4446). Added here so it survives the
+	# staged cutover to the Miningcore block (which also carries /ws).
+	handle /ws {
+		reverse_proxy 127.0.0.1:8110
+	}
+
 	# Pool stats API: cryptonote-nodejs-pool serves at :8117 with no /api prefix,
 	# so strip /api before proxying. Frontend config.js points at /api.
 	handle_path /api/* {
