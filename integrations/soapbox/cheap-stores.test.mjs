@@ -97,6 +97,20 @@ test('locateStores geocodes a zip via Nominatim then locates via OSM', async () 
   assert.equal(loc.results[0].chainId, 'dollar-tree');
 });
 
+test('a bare 5-digit US ZIP is anchored to the US before geocoding', async () => {
+  let askedFor = '';
+  __setNominatimFetch(async (url) => {
+    askedFor = decodeURIComponent(String(url));
+    return { ok: true, json: async () => [{ lat: '32.78', lon: '-96.80', display_name: 'Dallas, TX', boundingbox: ['32', '33', '-97', '-96'] }] };
+  });
+  __setOverpassFetch(overpassResp([]));
+  const loc = await locateStores('75201');
+  __setNominatimFetch(null); __setOverpassFetch(null);
+  assert.ok(askedFor.includes('75201, USA'), `expected US-anchored query, got: ${askedFor}`);
+  assert.equal(loc.where, '75201'); // original input preserved for display
+  assert.ok(loc.origin);
+});
+
 test('locateStores accepts a raw "lat,lng" with no geocode call', async () => {
   __setOverpassFetch(overpassResp([
     { type: 'node', id: 1, lat: 32.78, lon: -96.80, tags: { shop: 'convenience', brand: 'Daiso' } },
