@@ -1,6 +1,21 @@
 {
   "startTime": "2026-06-01T06:09:07.582Z",
-  "scans": 2,
-  "opportunitiesFound": 0,
-  "opportunities": []
+  "scans": 3,
+  "opportunitiesFound": 2,
+  "opportunities": [
+    {
+      "sym": "SWAP.MATIC",
+      "side": "buy",
+      "edgePct": 16.3,
+      "execHive": 647.6,
+      "realUsd": 0.0898
+    },
+    {
+      "sym": "SWAP.ETH",
+      "side": "buy",
+      "edgePct": 164.9,
+      "execHive": 39.8,
+      "realUsd": 1772.235
+    }
+  ]
 }

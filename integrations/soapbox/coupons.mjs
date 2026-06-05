@@ -366,6 +366,30 @@ export function dataNote() {
 }
 
 // ---------------------------------------------------------------------------
+// verticalSummary — a PLAIN DATA object (no HTML) for the Data-site search vertical's generic walker.
+// Offline-safe: it surfaces the cashback-portal compare (static) + the honest-ranking guardrails for a
+// given store, and points at the full standalone surface (coupons.soapbox.community) for live coupon
+// codes. Coupon CODES need an injected live source, so they are NOT fetched here (the generic Data page
+// stays keyless/offline); the standalone server fetches + ranks them. Soft-fail: always returns a shape.
+//   verticalSummary('nike') -> { store, cashbackPortals:[...], guardrails:[...], note, asOf }
+// ---------------------------------------------------------------------------
+export function verticalSummary(store) {
+  const storeName = String(store || '').trim();
+  const note = dataNote();
+  return {
+    store: storeName || null,
+    fullSite: 'https://coupons.soapbox.community',
+    cashbackPortals: cashbackCompare(storeName).map((c) => ({
+      portal: c.portal, url: c.url, note: c.note, monetized: c.configured, rate: 'read live at portal',
+    })),
+    guardrails: note.guardrails,
+    note: 'Ranking is by honest value (validity + savings) only — commission never reorders results. '
+      + 'For live coupon CODES + deals for this store, see coupons.soapbox.community.',
+    asOf: note.asOf,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // CLI (guarded) — node integrations/soapbox/coupons.mjs <store>
 // ---------------------------------------------------------------------------
 if (process.argv[1] && process.argv[1].endsWith('coupons.mjs')) {
