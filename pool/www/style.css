@@ -90,3 +90,41 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
 footer code{color:var(--blue)}
 .loading{color:var(--mut)}
+
+/* ---- Start-Mining wizard (done-for-them) ---- */
+.wizard{border-left:3px solid var(--up)}
+.wizard h4{font-size:14px;margin:18px 0 6px;color:var(--fg)}
+.wiz-field{margin:12px 0}
+.wiz-lab{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.wiz-input{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:10px 12px;font-size:13px}
+.wiz-input:focus{outline:none;border-color:var(--blue)}
+.wiz-msg{font-size:12px;margin-top:5px;min-height:14px;color:var(--mut)}
+.wiz-msg.ok{color:var(--up)}.wiz-msg.bad{color:var(--down)}
+.wiz-help{font-size:12px;color:var(--mut);margin:6px 0 0}
+.wiz-hw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:4px}
+.hw-btn{background:var(--bg);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;color:var(--fg);font:inherit;display:flex;flex-direction:column;gap:3px}
+.hw-btn:hover{border-color:var(--blue)}
+.hw-btn.sel{border-color:var(--up);box-shadow:inset 0 0 0 1px var(--up)}
+.hw-btn b{font-size:13px}
+.hw-btn span{font-size:11px;color:var(--mut)}
+.wiz-out{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.wiz-dl{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.wiz-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 14px;font:inherit;font-weight:600;font-size:13px;cursor:pointer}
+.wiz-btn:hover{opacity:.9}
+.wiz-btn.ghost{background:none;border:1px solid var(--line2);color:var(--fg)}
+.wiz-btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+.cblock{margin:8px 0}
+.cb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.cb-label{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
+.copy{background:none;border:1px solid var(--line2);color:var(--fg);border-radius:6px;padding:3px 9px;font:inherit;font-size:11px;cursor:pointer}
+.copy:hover{border-color:var(--blue);color:var(--blue)}
+.cblock pre{margin:0}
+.warn{background:#d2992218;border:1px solid var(--gold);border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--fg);margin:6px 0 12px}
+.warn b{color:var(--gold)}
+.note.ios{margin-top:14px;font-size:12.5px}
+.wiz-steps{margin:6px 0 0;padding-left:20px;font-size:13px;line-height:1.7}
+.wiz-steps code{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px}
+.qr-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;margin-top:12px}
+.qr{background:#fff;border-radius:10px;padding:8px;width:180px;height:180px;flex:0 0 auto}
+.qr svg{width:100%;height:100%;display:block}
+.qr-side{flex:1;min-width:240px}

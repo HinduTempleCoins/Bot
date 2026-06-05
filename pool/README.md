@@ -147,6 +147,53 @@ No fake functionality: the two PRANA doors are non-interactive panels with hones
 To re-deploy after a theme/frontend change: `rsync -av pool/www/ <box>:/opt/melek-miningcore/www/`
 (no service restart needed — Caddy serves the static files directly).
 
+## "Start Mining" wizard (done-for-them setup) + phone mining
+
+Above the honest miner table, each coin's detail view has a **done-for-them wizard**
+(`pool/www/wizard.mjs` + UI in `pool.js`). Flow: **pick coin → paste your wallet address
+(with a per-coin "don't have one?" wallet-help link) → pick hardware (CPU / AMD GPU /
+NVIDIA GPU / Phone)** → the site generates everything **client-side** (the address never
+leaves the browser; the pool only sees it as the stratum username at connect):
+
+- **RandomX coins (Monero):** a personalized xmrig `config.json` (address + pool baked in),
+  a **download .zip** (config + `start.bat` + `start.sh` + README, built by a dependency-free
+  in-browser STORED-zip writer), a **config.json-only** download, and **copy-paste one-liners**
+  (Windows PowerShell + Linux/Mac) that download the **official pinned xmrig release** from its
+  real upstream GitHub, **verify the SHA256**, then mine. We **never rehost binaries** — pinned
+  release URLs + SHA256 live in `MINERS` in `wizard.mjs`.
+- **Etchash coins (ETC):** a ready GPU miner invocation (lolMiner + ethminer fallback) with a
+  link to lolMiner's official release page.
+
+**Phone mining path** (wizard "Phone" branch, RandomX only):
+- **Android via Termux + xmrig ARM:** step list (install Termux from F-Droid →
+  `pkg install xmrig` → scan/paste) plus a **QR code** (rendered with the vendored MIT
+  `qrcode.mjs`, Kazuhiko Arase) whose payload **is** the self-contained Termux command
+  (`xmrig -o host:port -u ADDR -p w -a rx/0 --coin=monero -t 2`) — scan it from the phone and
+  run. xmrig ships no prebuilt Linux-ARM release, so on-phone we use the Termux ARM package,
+  not a download.
+- **Honesty:** a battery/heat warning is shown first ("participation, not profit; mine
+  plugged-in only; phones are weak miners; thermal throttling"). **iOS** gets an honest
+  "not practically minable" note (Apple blocks background CPU miners).
+
+### Phone coin decision (researched 2026-06-05)
+
+- **Live phone path today = Monero on ARM** via the existing `xmr-stagenet` RandomX pool —
+  **zero new infra**. The wizard exposes it as the phone-ready coin.
+- **VerusCoin (VRSC)** is the best *dedicated* phone coin in the abstract (VerusHash 2.2 is
+  famously ARM/CPU-efficient; project actively developed in 2026, official Android Verus
+  Miner app). **But Miningcore cannot host it:** this build is vanilla `oliverw/miningcore`,
+  whose source has **no VerusHash hasher** — the only `veruscoin` entry in `coins.json` is a
+  stale Equihash-200,9 definition (`solver.args:[200,9,"Verushash"]`) that predates VerusHash
+  2.x and does **not** match the live VRSC network. `oliverw/miningcore` is archived (read-only
+  since 2023-10), so no upstream fix is coming. **Therefore nothing fake is staged for Verus** —
+  adding real VRSC would need a Miningcore fork with a native VerusHash hasher (out of scope).
+  The phone path rides **Monero / RandomX**, which works today.
+- **Scala (XLA, Panthera)** — same blocker: no Panthera hasher in Miningcore. Not staged.
+
+Generator logic is unit-tested: `node --test pool/www/wizard.test.mjs` (also in `npm test`)
+covers per-coin address validation, generated xmrig config shape, worker-name sanitization,
+one-liner SHA256 pinning, Etchash command, phone support gating, and the QR payload.
+
 ## Adding a coin (incl. PRANA) — the "plus ours" step
 
 Every mineable coin is **one object in the `pools[]` array** of `config.json`. To add a coin:
