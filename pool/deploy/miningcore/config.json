@@ -113,6 +113,75 @@
             }
         },
         {
+            "//": "Monero MAINNET — configured but DISABLED. The box cannot carry a pruned mainnet node (~80GB+) alongside the stagenet daemon, Mordor, and Postgres (47G free at provision). To enable: (1) provision a synced mainnet monerod as melek-mc-monerod-main on melek-pool-net (pure-P2P, --prune-blockchain), (2) set this pool's address to a real MAINNET pool wallet (mainnet-value key, NEVER on this box — operator-held signer), (3) set \"enabled\": true, (4) systemctl restart melek-miningcore. Until then xmr-stagenet is the live RandomX proof and the menu shows 'Monero (mainnet) — coming online'.",
+            "id": "xmr-mainnet",
+            "enabled": false,
+            "coin": "monero",
+            "address": "__MONERO_MAINNET_POOL_ADDRESS__",
+            "extra": {
+                "randomXRealm": "monero"
+            },
+            "rewardRecipients": [],
+            "blockRefreshInterval": 1000,
+            "jobRebroadcastTimeout": 10,
+            "clientConnectionTimeout": 600,
+            "banning": {
+                "enabled": true,
+                "time": 600,
+                "invalidPercent": 50,
+                "checkThreshold": 50
+            },
+            "ports": {
+                "4454": {
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 5000,
+                    "name": "CPU / Low-end (RandomX, mainnet)",
+                    "varDiff": {
+                        "minDiff": 1000,
+                        "maxDiff": null,
+                        "targetTime": 15,
+                        "retargetTime": 90,
+                        "variancePercent": 30
+                    }
+                },
+                "4455": {
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 100000,
+                    "name": "High-End (RandomX, mainnet)",
+                    "varDiff": {
+                        "minDiff": 50000,
+                        "maxDiff": null,
+                        "targetTime": 15,
+                        "retargetTime": 90,
+                        "variancePercent": 30
+                    }
+                }
+            },
+            "daemons": [
+                {
+                    "host": "melek-mc-monerod-main",
+                    "port": 18081,
+                    "user": "",
+                    "password": ""
+                },
+                {
+                    "host": "melek-wallet-rpc-main",
+                    "port": 18082,
+                    "user": "",
+                    "password": "",
+                    "category": "wallet"
+                }
+            ],
+            "paymentProcessing": {
+                "enabled": true,
+                "minimumPayment": 0.1,
+                "payoutScheme": "PPLNS",
+                "payoutSchemeConfig": {
+                    "factor": 2.0
+                }
+            }
+        },
+        {
             "id": "etc-mordor",
             "enabled": true,
             "coin": "ethereum",
