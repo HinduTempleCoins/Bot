@@ -87,6 +87,17 @@ each owned by a systemd unit (auto-restart). State lives under `/opt/melek-pool`
 - DNS: `pool.soapbox.community` A record points at the public box, set via the
   operator's DNS API tooling (details in the `.local` deploy record).
 
+### Daemon source: a synced daemon is required to issue jobs
+
+The pool can only hand out mining jobs when its `daemon` can serve
+`get_block_template` — which a *syncing* node refuses (`"Core is busy"`). The local
+`melek-monerod` syncs stagenet (~2.13M blocks) on first run, so until it reaches the
+tip the pool's `config.json` `daemon` is pointed at a public **synced** stagenet RPC
+node (e.g. `node.monerodevs.org:38089`) so the pool is functional immediately. Once
+the local daemon is synced (`get_info` → `"synchronized": true`), set
+`daemon` back to `{ "host": "melek-monerod", "port": 38081 }` and
+`systemctl restart melek-pool`. The payout wallet is always the local one.
+
 ## Ops commands
 
 ```bash
