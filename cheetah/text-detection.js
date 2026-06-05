@@ -180,6 +180,7 @@ export async function detectText(body, opts = {}) {
       url: top.url,
       title: top.title,
       author: top.author,
+      permlink: top.permlink,
       snippet: top.snippet,
     },
     confidence: top.confidence,
