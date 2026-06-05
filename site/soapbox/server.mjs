@@ -37,7 +37,6 @@ import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { SCAM_SOURCES, consumerSources, byKind as scamByKind, consumerComplaintLinks, scamSignals, scamHighlights, summary as scamSummary } from '../../integrations/soapbox/scam-registry.mjs';
 import { findVertical, renderVertical } from './verticals.mjs';
-import { CHAINS as STORE_CHAINS, trulyCheapChains, locateStores, renderChainTable, renderResults, googlePlacesStatus } from '../../integrations/soapbox/cheap-stores.mjs';
 import { renderSocials, hasSocials } from '../../integrations/soapbox/coin-socials.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
@@ -699,7 +698,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/scams', '/stores', '/gov', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/scams', '/gov', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -811,32 +810,10 @@ function coinScamPanel(c) {
   return scamPanelFor(probe, c?.name || c?.symbol || probe);
 }
 
-// ── Real Dollar Stores (/stores) ─────────────────────────────────────────────
-// The TRUE-DOLLAR-STORE aggregator: an honest chain-facts table (who genuinely sells under ~$2 the way
-// Dollar Tree does — Dollar General/Family Dollar are dollar in name only) + a keyless-first locator
-// (Nominatim geocode → Overpass/OSM; Google Places when GOOGLE_MAPS_API_KEY is set) with an OSM map.
-async function storesPage(where = '') {
-  const q = String(where || '').trim();
-  const loc = q ? await locateStores(q).catch(() => ({ where: q, origin: null, results: [], provider: 'none' })) : null;
-  const gp = googlePlacesStatus();
-  const truly = trulyCheapChains();
-  const body = `<h1>Real Dollar Stores</h1>
-    <p class=muted>Stores that GENUINELY sell at the Dollar Tree model — most of the shelf around $0.99–$2.00 —
-      not "dollar" in name only. ${esc(String(truly.length))} chains hold true under-$2 pricing today;
-      we list the not-actually-cheap crowd honestly too. Facts with sources, not a verdict.</p>
-    <form method=get action=/stores><input class=search name=q value="${esc(q)}" placeholder="Enter a ZIP, city, or lat,lng (e.g. 75201 or Dallas, TX)" aria-label="Find true dollar stores near a place" autocomplete=off></form>
-    ${loc ? `<div class=card><h2>Stores near “${esc(loc.where || q)}”</h2>${renderResults(loc)}</div>` : ''}
-    <div class=card><h2>Who's truly under $2?</h2>
-      <p class=muted style="font-size:13px;margin:0 0 8px">Current base prices, verified and sourced. "Truly under $2" means most of the shelf is genuinely at/below ~$2 — a low fixed price, not just the word "dollar" in the name.</p>
-      ${renderChainTable()}</div>
-    <div class=card><h2>How we decide &amp; where the map comes from</h2>
-      <p class=muted style="font-size:13px">The locator geocodes your place with OpenStreetMap's Nominatim and finds nearby variety stores via the keyless Overpass API, matching them to the curated chains above. The map is a keyless OpenStreetMap embed. ${esc(gp.note)}</p></div>`;
-  return layout({
-    title: 'Real Dollar Stores', active: '/stores', canonical: `${BASE_URL}/stores`,
-    description: 'Find stores that genuinely sell at $0.99–$2.00 like Dollar Tree — honest chain pricing facts (Dollar Tree, Daiso, Target Bullseye\'s Playground) plus a keyless store locator and map. Dollar General & Family Dollar labeled honestly.',
-    body,
-  });
-}
+// ── Real Dollar Stores ────────────────────────────────────────────────────────
+// The TRUE-DOLLAR-STORE aggregator now lives at its OWN site, abuck.soapbox.community (built on the
+// shared integrations/soapbox/cheap-stores.mjs, served by site/abuck/server.mjs). The /stores route
+// here 301-redirects there (see the router); the nav "Stores" link points straight at abuck.
 
 const STARTED = process.hrtime.bigint();
 function statusPage() {
@@ -884,7 +861,13 @@ createServer(async (req, res) => {
     if (p === '/news') return send(await newsPage());
     if (p === '/gov') return send(govPage());
     if (p === '/scams') return send(await scamsPage(url.searchParams.get('q') || ''));
-    if (p === '/stores') return send(await storesPage(url.searchParams.get('q') || ''));
+    // /stores moved to its own site, abuck.soapbox.community. 301 (preserve any ?q=).
+    if (p === '/stores') {
+      const qs = url.searchParams.get('q');
+      const dest = 'https://abuck.soapbox.community/' + (qs ? `?q=${encodeURIComponent(qs)}` : '');
+      res.writeHead(301, { location: dest, 'cache-control': 'public, max-age=3600' });
+      return res.end();
+    }
     // Operational health-check — must win over any content route (load balancers / Caddy / uptime
     // probes hit this). Kept above the vertical dispatch so a vertical can't shadow it (the Public
     // Health page lives at /public-health to avoid that collision).
