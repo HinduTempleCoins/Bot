@@ -470,6 +470,7 @@ async function stockPage(symbol) {
       ${stat('Exchange', q.exchange)}
     </div></div>
     ${newsHtml}
+    ${await scamPanelFor(q.name, q.name).catch(() => '')}
     <div class=card><h2>Research</h2><div class=muted style="font-size:13px">${research.map(([n, u]) => `<a href="${esc(u)}" rel="noopener" target=_blank>${esc(n)}</a>`).join(' · ')}</div>
       <p class=muted style="font-size:11px;margin-top:8px">Stock data via Yahoo Finance (keyless). Informational only — not investment advice.</p></div>
     </div>`;
@@ -778,20 +779,29 @@ async function scamsPage(q = '') {
   return layout({ title: 'Scams & Fraud', active: '/scams', canonical: `${BASE_URL}/scams`, description: 'Aggregated scam & fraud data — government trackers (FTC, FBI IC3, SEC), consumer-complaint sites (BBB, Trustpilot, Ripoff Report), and crypto registries. Check any company, website, or wallet.', body });
 }
 
-// Per-coin scam panel: crypto-scam signals for a coin's site/symbol, for the coin pages.
-async function coinScamPanel(c) {
-  const probe = (c?.links?.homepage || c?.homepage || c?.symbol || c?.name || '').toString().trim();
-  if (!probe) return '';
-  const sig = await scamSignals(probe).catch(() => null);
-  if (!sig) return '';
-  const links = consumerComplaintLinks(c.name || c.symbol || probe).slice(0, 4);
-  const reports = (sig.reports || []);
-  const tone = sig.riskHint === 'high' ? 'down' : sig.riskHint === 'low' ? 'up' : 'muted';
-  const inner = `<p>Risk signal: <span class="${tone}" style="font-weight:600">${esc((sig.riskHint || 'unknown').toUpperCase())}</span>${sig.legit?.listed ? ` · <span class=up>verified/regulated</span>` : ''}</p>
-    ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched this project.</p>'}
-    <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
-    <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(c.name || c.symbol || probe)}">Full scam check →</a> · Facts, not verdicts.</p>`;
+// Shared scam panel for ANY entity page (coins, stocks, …) — appears automatically, no search
+// needed (the operator: data should be ON the page, search is just an extra). `probe` is what we
+// run signals on (domain preferred, else name/symbol); `label` is the human entity used for the
+// consumer-complaint deep-links + the full-check link. Always renders something useful.
+async function scamPanelFor(probe, label) {
+  const p = String(probe || '').trim();
+  const name = String(label || probe || '').trim();
+  if (!p && !name) return '';
+  const sig = await scamSignals(p || name).catch(() => null);
+  const links = consumerComplaintLinks(name || p).slice(0, 5);
+  const reports = (sig?.reports || []);
+  const tone = sig?.riskHint === 'high' ? 'down' : sig?.riskHint === 'low' ? 'up' : 'muted';
+  const inner = `<p>Risk signal: <span class="${tone}" style="font-weight:600">${esc((sig?.riskHint || 'unknown').toUpperCase())}</span>${sig?.legit?.listed ? ` · <span class=up>verified/regulated</span>` : ''}</p>
+    ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched. Absence of a report isn\'t proof of safety — check the consumer complaints below.</p>'}
+    <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints &amp; reviews: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
+    <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(name || p)}">Full scam check →</a> · Facts, not verdicts.</p>`;
   return card('Scam &amp; fraud signals', inner);
+}
+
+// Per-coin scam panel: crypto-scam signals for a coin's site/symbol, for the coin pages.
+function coinScamPanel(c) {
+  const probe = (c?.links?.homepage || c?.homepage || c?.symbol || c?.name || '').toString().trim();
+  return scamPanelFor(probe, c?.name || c?.symbol || probe);
 }
 
 const STARTED = process.hrtime.bigint();
