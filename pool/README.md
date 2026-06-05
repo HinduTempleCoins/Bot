@@ -85,7 +85,11 @@ Deploy artifacts in this repo:
 
 - `deploy/miningcore/config.json` — Miningcore config (committed with a `__PG_PASSWORD__`
   placeholder; the live file on the box has the real generated password substituted in).
-- `deploy/miningcore/www/` — the multi-coin frontend (`index.html`, `style.css`, `pool.js`).
+- `www/` — the multi-coin frontend (`index.html`, `style.css`, `pool.js`). **This is the
+  canonical source**; it is rsync-deployed to `/opt/melek-miningcore/www` on the box
+  (`rsync -av pool/www/ <box>:/opt/melek-miningcore/www/`). Themed to match the SoapBox
+  family (dark `:root` tokens mirroring `site/soapbox/render.mjs`, card/panel pattern, the
+  shared family nav with "Pool" added, a light/dark toggle, and the "three doors" landing).
 - `deploy/miningcore/systemd/*.service` — units for miningcore, postgres, mordor,
   and the dedicated `melek-mc-monerod`.
 - `deploy/miningcore/createdb.sql` — Postgres schema (from upstream
@@ -117,9 +121,31 @@ sed "s/__PG_PASSWORD__/$PGPASS/" deploy/miningcore/config.json > /opt/melek-mini
 cp deploy/miningcore/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
 systemctl enable --now melek-mc-postgres melek-mc-monerod melek-mordor melek-miningcore
 
-# 5. Frontend
-cp -r deploy/miningcore/www/* /opt/melek-miningcore/www/
+# 5. Frontend (rsync the canonical source; pool/www/ is the source of truth)
+rsync -av pool/www/ <box>:/opt/melek-miningcore/www/
 ```
+
+## Frontend / theme (SoapBox family look)
+
+The frontend (`www/`) wears the **SoapBox design language** so the pool reads as part of the
+family: dark `:root` tokens (`--bg:#0d1117 --panel:#161b22 --line:#21262d --fg:#e6edf3
+--mut:#8b949e --blue:#58a6ff --up:#3fb950 --down:#f85149 --gold:#d29922`, the same set in
+`site/soapbox/render.mjs`), the `.card`/panel pattern, muted 12px `.k` labels, monospace
+addresses/hashes, ●/▲ status dots, and a **light/dark toggle** (persisted in `localStorage`).
+A **static SoapBox family nav** (the equivalent of `integrations/ecosystem-nav.mjs`, with
+**Pool** added and marked current) runs across the top. Title is **"Pool — SoapBox"**.
+
+The landing presents the **three doors** (operator's pool-as-wallet design):
+
+- **Mine** — *live*: the coin menu (one card per `/api/pools` entry + honest "coming online"
+  cards for configured-but-disabled coins).
+- **AI Work** — door present, marked **"opens with PRANA"** (the tasking/switching-engine door).
+- **Burn to Mine** — door present, marked **"opens with PRANA"** (the Burn Coin path).
+
+No fake functionality: the two PRANA doors are non-interactive panels with honest labels.
+
+To re-deploy after a theme/frontend change: `rsync -av pool/www/ <box>:/opt/melek-miningcore/www/`
+(no service restart needed — Caddy serves the static files directly).
 
 ## Adding a coin (incl. PRANA) — the "plus ours" step
 
@@ -154,6 +180,44 @@ and a **consensus-enforced Hathor Fees Module** takes Hathor's percentage of min
 *all* pools. That enforcement is **chain-side (the PRANA repo)**, not in this off-chain pool
 software — this pool is the SoapBox front/operator pool that follows those rules. See
 `.local/PRANA_MINING_POOL_AS_WALLET_2026-06-05.md`.
+
+## Monero: stagenet now, mainnet staged
+
+The live RandomX proof is **Monero stagenet** (`xmr-stagenet`, zero-value). A **Monero
+mainnet** pool entry (`xmr-mainnet`) ships **fully configured but `"enabled": false`** in
+`config.json`, because **the box cannot carry a pruned mainnet node** alongside everything
+else: a pruned mainnet `monerod` needs **~80 GB+**, and the box had **~47 GB free** at
+provision time (96 GB disk, 52% used; 11 GiB RAM, mostly committed). Starting a mainnet
+daemon here would exhaust the disk. So mainnet is **staged, not started**, and the menu
+shows **"Monero (mainnet) — coming online"** (a disabled card, honest label).
+
+**One-command enable** (only on a box with the disk/RAM headroom, with a real mainnet wallet):
+
+1. Provision a synced mainnet daemon `melek-mc-monerod-main` on `melek-pool-net`
+   (pure-P2P, `--prune-blockchain` so it forms peers and serves `get_block_template`),
+   plus a payout wallet `melek-wallet-rpc-main:18082`.
+2. Set the `xmr-mainnet` pool `address` to a **real mainnet pool wallet** — a
+   **mainnet-value key, which NEVER lives on this box** (operator-held / scoped signer).
+3. Flip `"enabled": false` → `true` (and remove the `COMING_SOON` Monero entry in
+   `www/pool.js`), then `systemctl restart melek-miningcore`. The mainnet card goes live
+   on the menu automatically.
+
+### Wallet posture (non-custodial)
+
+This **is** the non-custodial property, and it is **standard Miningcore behavior**:
+
+- **Per-user payout = the address the miner types at connect** (the stratum username, e.g.
+  `xmrig -u YOUR_XMR_ADDRESS`). The pool pays *that* address. It never sees, requests, or
+  stores a user's **spend key** — only their receive address. A compromised miner can't drain
+  funds because mining never needs the spend key.
+- The pool itself runs only a **receive-side payout wallet** for its own operating address
+  (`melek-wallet-rpc`, stagenet). **Zero-value / testnet keys only on the box; never mainnet
+  value keys** (mainnet value lives behind the operator signer, per the repo's zero-WIF rule).
+- This matches the pool-as-wallet design (`.local/PRANA_MINING_POOL_AS_WALLET_2026-06-05.md`):
+  one HD seed shared with Akasha, a CurrencyModule per coin, EVM coins on one shared address,
+  external coins as **receive-only** mining modules, spend keys kept off the hot miner. The
+  one-click / HD-seed wallet layer arrives with PRANA; today's pool is the receive-address
+  miner front end for that design.
 
 ## Cutover (old pool → Miningcore)
 

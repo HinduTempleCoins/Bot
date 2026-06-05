@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pool — SoapBox</title>
+<link rel="stylesheet" href="style.css">
+<script>(function(){try{var t=localStorage.getItem('sb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">SoapBox <span>Pool</span></span>
+  <span class="spacer"></span>
+  <button class="iconbtn" id="theme-toggle" title="Toggle light / dark" aria-label="Toggle theme">☾</button>
+</header>
+
+<!-- Shared SoapBox family nav (static equivalent of integrations/ecosystem-nav.mjs; "Pool" added & current) -->
+<nav class="mainnav" aria-label="SoapBox ecosystem">
+  <a href="https://vankushfamily.com">Roadmap</a>
+  <a href="https://soapbox.community">SoapBox</a>
+  <span class="grp-sep">·</span>
+  <a href="https://data.soapbox.community">Data</a>
+  <a href="https://search.soapbox.community">Search</a>
+  <a href="https://law.soapbox.community">Law</a>
+  <a href="https://politics.soapbox.community">Politics</a>
+  <a href="https://oversight.soapbox.community">Oversight</a>
+  <a href="https://hemp.soapbox.community">Hemp</a>
+  <a href="https://stocks.soapbox.community">Stocks</a>
+  <a href="https://wiki.soapbox.community">Library</a>
+  <a class="active" href="https://pool.soapbox.community" aria-current="page">Pool</a>
+  <span class="grp-sep">·</span>
+  <a href="https://alpha.melek.salon">MELEK Testnet</a>
+  <span class="soon">MELEK<b>soon</b></span>
+  <span class="soon">PRANA<b>soon</b></span>
+</nav>
+
+<main class="wrap">
+
+  <div class="hero">
+    <h1>SoapBox Mining Pool</h1>
+    <p class="tag">A multi-algorithm, multi-coin pool. CryptoNote / RandomX and Ethash / Etchash run side by side, one config entry per coin &mdash; <strong>plus ours</strong>. Mine to an address you control; the pool never holds your spend keys.</p>
+  </div>
+
+  <!-- THREE DOORS (operator design: pool-as-wallet). Honest labels — no fake functionality. -->
+  <section id="doors-section">
+    <h2>Three doors</h2>
+    <p class="sub">One wallet, three ways in. Today the <b>Mine</b> door is open; the other two arrive with PRANA.</p>
+    <div class="doors">
+      <a class="door live" href="#mine">
+        <div class="dh">Mine</div>
+        <div class="dd">Pick a coin below and point your miner at it. Rewards settle to your own address &mdash; non-custodial.</div>
+        <span class="pill">● Live</span>
+      </a>
+      <div class="door soon" role="group" aria-label="AI Work door">
+        <div class="dh">AI Work</div>
+        <div class="dd">Earn by tasking your hardware to AI work instead of (or alongside) hashing &mdash; the switching engine.</div>
+        <span class="pill">Opens with PRANA</span>
+      </div>
+      <div class="door soon" role="group" aria-label="Burn to Mine door">
+        <div class="dh">Burn to Mine</div>
+        <div class="dd">Commit capital instead of hardware &mdash; the Burn Coin path. Hardware-free participation.</div>
+        <span class="pill">Opens with PRANA</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="ecosystem-note" class="note">
+    <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding a coin is one config entry, not a rebuild.
+  </section>
+
+  <section id="mine">
+    <h2>Choose a coin to mine</h2>
+    <p class="sub">Live coins come from the pool API (<code>/api/pools</code>). &ldquo;Coming online&rdquo; coins are configured but their node is still syncing.</p>
+    <div id="coins" class="coin-grid">
+      <div class="loading">Loading pools&hellip;</div>
+    </div>
+  </section>
+
+  <section class="card" id="wallet-note">
+    <div class="k">Non-custodial by design</div>
+    <h3 style="margin-top:6px">Your wallet, your keys</h3>
+    <p class="muted" style="font-size:13.5px;margin:0 0 6px">
+      You type <em>your own</em> receive address as the miner username at connect time, so the pool pays
+      <em>you</em> directly and never holds your spend key. That typed address <strong>is</strong> the
+      non-custodial property &mdash; standard Miningcore behavior. The pool runs only a receive-side payout
+      wallet for its own operating address; for testnets that wallet holds zero-value keys only.
+    </p>
+    <p class="muted" style="font-size:13px;margin:0">
+      One-click mining (one HD seed shared with the Akasha wallet, a module per coin) arrives with PRANA.
+    </p>
+  </section>
+
+  <section id="detail" class="detail hidden">
+    <button id="back" class="back">&larr; All coins</button>
+    <h2 id="d-title"></h2>
+    <div class="stat-grid" id="d-stats"></div>
+    <h3>How to connect</h3>
+    <div id="d-connect" class="connect card"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Stats API: <code>/api/pools</code> &middot; Powered by Miningcore (multi-algo) &middot; part of the SoapBox family &middot; pool.soapbox.community</p>
+  </div>
+</footer>
+
+<script src="pool.js"></script>
+</body>
+</html>

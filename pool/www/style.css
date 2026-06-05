@@ -1,0 +1,92 @@
+/* SoapBox Mining Pool theme — matches the SoapBox family design language
+   (tokens mirror site/soapbox/render.mjs:28-29 so the pool reads as part of the family). */
+:root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--up:#3fb950;--down:#f85149;--gold:#d29922}
+html[data-theme=light]{--bg:#ffffff;--panel:#f6f8fa;--line:#e6e8eb;--line2:#d0d7de;--fg:#1f2328;--mut:#656d76;--blue:#0969da;--up:#1a7f37;--down:#cf222e;--gold:#9a6700}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.up{color:var(--up)}.down{color:var(--down)}.muted{color:var(--mut)}.gold{color:var(--gold)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* Top bar — brand + theme toggle (SoapBox topbar pattern) */
+header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px}
+.brand{font-weight:800;font-size:18px;color:var(--fg)}
+.brand span{color:var(--mut);font-weight:400;font-size:13px}
+.spacer{flex:1}
+.iconbtn{cursor:pointer;background:none;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:5px 9px;font-size:13px}
+.iconbtn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Shared SoapBox family nav (static equivalent of ecosystem-nav.mjs) */
+nav.mainnav{display:flex;gap:14px;flex-wrap:wrap;background:var(--panel);border-bottom:1px solid var(--line);padding:11px 20px;font-size:14px}
+nav.mainnav a{color:var(--mut);font-weight:600}
+nav.mainnav a.active,nav.mainnav a:hover{color:var(--fg);text-decoration:none}
+nav.mainnav .soon{color:var(--mut);opacity:.5;font-weight:600;cursor:default}
+nav.mainnav .soon b{font-size:9px;text-transform:uppercase;border:1px solid currentColor;border-radius:6px;padding:0 4px;margin-left:4px;font-weight:700}
+nav.mainnav .grp-sep{color:var(--mut);opacity:.35}
+
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+main{padding:8px 0 60px}
+.hero{padding:26px 0 6px}
+.hero h1{margin:0 0 8px;font-size:26px}
+.hero .tag{color:var(--mut);margin:0;max-width:780px}
+
+h2{font-size:19px;margin:26px 0 4px}
+h3{font-size:15px;margin:20px 0 8px;color:var(--fg)}
+.sub{color:var(--mut);font-size:13px;margin:2px 0 14px}
+
+/* card / panel pattern */
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:18px 20px;margin:14px 0}
+.note{background:var(--panel);border:1px solid var(--line2);border-left:3px solid var(--gold);border-radius:10px;padding:14px 18px;margin:14px 0;color:var(--mut)}
+.note b{color:var(--gold)}
+
+/* muted 12px labels (the SoapBox .k) */
+.k{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+
+/* status dots */
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.up{background:var(--up)}.dot.gold{background:var(--gold)}.dot.down{background:var(--down)}
+
+/* Three doors */
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
+.door{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:18px 20px;position:relative;display:flex;flex-direction:column;min-height:150px}
+.door .dh{font-size:17px;font-weight:700;margin:0 0 4px}
+.door .dd{color:var(--mut);font-size:13px;flex:1}
+.door.live{border-color:var(--line2)}
+.door.soon{opacity:.92}
+.door .pill{align-self:flex-start;margin-top:12px;font-size:11px;font-weight:700;border-radius:9px;padding:2px 9px}
+.door.live .pill{background:#3fb95022;color:var(--up)}
+.door.soon .pill{background:#d2992233;color:var(--gold)}
+.door .open{align-self:flex-start;margin-top:12px;font-weight:600;font-size:14px}
+
+/* coin menu */
+.coin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:6px}
+.coin{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:16px;cursor:pointer;transition:.15s;text-align:left;font:inherit;color:inherit}
+.coin:hover{border-color:var(--blue);transform:translateY(-2px)}
+.coin[disabled]{cursor:default;opacity:.62}
+.coin[disabled]:hover{border-color:var(--line2);transform:none}
+.coin .sym{display:inline-block;font-weight:700;color:var(--fg);font-size:14px;letter-spacing:.3px}
+.coin .algo{float:right;font-size:11px;color:var(--mut);background:var(--bg);border:1px solid var(--line);padding:2px 8px;border-radius:20px}
+.coin .name{font-size:13px;font-weight:600;margin:8px 0 4px;color:var(--mut)}
+.coin .mini{color:var(--mut);font-size:13px}
+.coin .mini b{color:var(--fg);font-weight:600}
+
+.detail{margin-top:10px}
+.hidden{display:none}
+.back{background:none;border:1px solid var(--line2);color:var(--fg);border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:8px;font:inherit}
+.back:hover{border-color:var(--blue);color:var(--blue)}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:8px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.stat .v{font-size:19px;font-weight:700;margin-top:4px}
+
+.connect .port{margin:6px 0;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.connect .port .pname{color:var(--blue);font-weight:600}
+pre{background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto;font-size:13px;margin:8px 0 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.addr,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all}
+
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
+footer code{color:var(--blue)}
+.loading{color:var(--mut)}
