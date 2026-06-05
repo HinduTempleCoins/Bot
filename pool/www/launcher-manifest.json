@@ -1,7 +1,7 @@
 {
   "schema": "soapbox-launcher-manifest",
   "version": "1",
-  "generatedAt": "2026-06-05T21:26:46.424Z",
+  "generatedAt": "2026-06-05T22:26:27.315Z",
   "pool": {
     "host": "pool.soapbox.community",
     "name": "SoapBox Mining Pool"
@@ -106,6 +106,29 @@
       "configTemplate": "gpu-etchash",
       "phoneReady": false,
       "enabled": true
+    },
+    {
+      "key": "zephyr",
+      "coin": "Zephyr",
+      "symbol": "ZEPH",
+      "poolId": "zeph",
+      "family": "cryptonote",
+      "algo": "rx/0",
+      "xmrigCoin": "zephyr",
+      "menuLabel": "Zephyr (ZEPH) — CPU / phone",
+      "hardware": [
+        "cpu"
+      ],
+      "miner": "xmrig",
+      "stratum": {
+        "host": "pool.soapbox.community",
+        "port": 4447
+      },
+      "addrType": "zephyr",
+      "walletHelp": "https://wallet.zephyrprotocol.com/",
+      "configTemplate": "xmrig-randomx",
+      "phoneReady": true,
+      "enabled": false
     }
   ]
 }

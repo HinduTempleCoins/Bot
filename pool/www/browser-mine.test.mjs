@@ -47,6 +47,26 @@ test('honesty copy: real shares, fractions of a cent, ad-blocker/CoinHive note, 
   assert.match(html, /battery/i);
 });
 
+// ---- Performance & throttles — measured (Addendum 26), under the mining stuff ----
+test('throttles section: present below the mining stuff, plain-language + measured numbers', () => {
+  const i = (id) => html.indexOf(`id="${id}"`);
+  assert.ok(i('throttles') > 0, 'has #throttles section');
+  // it sits under all the mining stuff (after the per-coin menu + the launcher)
+  assert.ok(i('throttles') > i('launcher'), 'throttles is below the download/mining stuff');
+  // describes every throttle the addendum names
+  assert.match(html, /Performance &amp; throttles &mdash; measured/i);
+  assert.match(html, /background-tab/i);
+  assert.match(html, /thermal/i);
+  assert.match(html, /battery saver/i);
+  assert.match(html, /screen-off/i);
+  assert.match(html, /iOS/i);
+  assert.match(html, /throttle slider/i);
+  // shows measured numbers (browser H/s and a native reference) + a live readout pointer
+  assert.match(html, /8\.8 H\/s/);
+  assert.match(html, /H\/s/);
+  assert.match(html, /Measure your own device/i);
+});
+
 // ---- the launcher "Download story" answers what/for-whom (Addendum 22) ----
 test('download story states what it provides and for whom', () => {
   assert.match(html, /What it provides/i);

@@ -96,6 +96,17 @@ export const COINS = {
     phoneReady: false,
     launcher: { port: 5550, menuLabel: 'Ethereum Classic (Mordor) — GPU', enabled: true, miner: 'lolminer', hardware: ['gpu'] },
   },
+  zephyr: {
+    id: 'zeph', symbol: 'ZEPH', name: 'Zephyr', family: 'cryptonote',
+    algo: 'rx/0', xmrigCoin: 'zephyr',
+    // ZEPH standard addr = base58, ~97-98 chars starting 'ZEPHs'; integrated starts 'ZEPHi'.
+    addr: { type: 'zephyr' },
+    walletHelp: 'https://wallet.zephyrprotocol.com/',
+    phoneReady: true,
+    // CPU/phone/browser low-diff stratum entry. enabled:false until the daemon is synced
+    // AND a test share accepts; then flip to true and regenerate the manifest.
+    launcher: { port: 4447, menuLabel: 'Zephyr (ZEPH) — CPU / phone', enabled: false, miner: 'xmrig', hardware: ['cpu'] },
+  },
 };
 
 // Resolve a coin profile from either a coins-key, an /api/pools id, or a symbol.
@@ -136,6 +147,21 @@ export function validateAddress(coin, address) {
     // mainnet std '4', integrated '4'; stagenet std '5', subaddr '7'.
     if (!/^[457]/.test(a)) {
       return { ok: false, reason: 'a Monero address starts with 4 (mainnet) or 5/7 (stagenet)' };
+    }
+    return { ok: true };
+  }
+
+  if (c.addr.type === 'zephyr') {
+    // base58 alphabet (no 0 O I l). ZEPH addresses are ~97-98 chars and carry a multi-char
+    // human prefix: 'ZEPHs' (standard/spendable), 'ZEPHi' (integrated), 'ZEPHsg' (governance).
+    if (!/^[1-9A-HJ-NP-Za-km-z]+$/.test(a)) {
+      return { ok: false, reason: 'contains characters not in the Zephyr base58 set' };
+    }
+    if (a.length < 95 || a.length > 110) {
+      return { ok: false, reason: 'a Zephyr address is ~97-98 base58 characters' };
+    }
+    if (!/^ZEPH[sig]/.test(a)) {
+      return { ok: false, reason: "a Zephyr address starts with 'ZEPHs' (or 'ZEPHi' integrated)" };
     }
     return { ok: true };
   }

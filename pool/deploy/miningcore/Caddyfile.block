@@ -23,9 +23,11 @@ pool.soapbox.community {
 		reverse_proxy 127.0.0.1:4000
 	}
 
-	# Static multi-coin frontend.
+	# Static multi-coin frontend. The REAL served web root is /opt/melek-pool/www (the live
+	# pool block already serves this path); deploy pool/www/ there. Do NOT point this at
+	# /opt/melek-miningcore/www — that directory exists from earlier work but is not served.
 	handle {
-		root * /opt/melek-miningcore/www
+		root * /opt/melek-pool/www
 		try_files {path} /index.html
 		file_server
 	}

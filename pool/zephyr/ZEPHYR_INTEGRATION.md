@@ -149,13 +149,15 @@ low-diff stratum port (4447). Surface it **up top** per Addendum 22. Honest phys
 
 ---
 
-## 7. README path fix (Phase B, in the same PR)
+## 7. README path fix — DONE (this integration PR)
 
-`pool/README.md` documents the frontend deploy target as `/opt/melek-miningcore/www`
-(lines ~89, 125, 148). The **real** web root is **`/opt/melek-pool/www`** (confirmed on the
-box — both dirs exist and are rsync'd, but `/opt/melek-pool/www` is the live SoapBox pool
-front). Fix every `/opt/melek-miningcore/www` → `/opt/melek-pool/www` in the README when the
-browser PR's README edits have landed (avoid clobbering its in-flight README changes).
+`pool/README.md` previously documented the frontend deploy target as
+`/opt/melek-miningcore/www`. The **real** web root is **`/opt/melek-pool/www`** (confirmed on
+the box: the live `pool.soapbox.community` Caddy block has `root * /opt/melek-pool/www`; the
+`/opt/melek-miningcore/www` directory exists from earlier work but is **not** served). Every
+deploy/rsync reference in the README, plus the cutover `deploy/miningcore/Caddyfile.block`
+root, has been corrected to `/opt/melek-pool/www` in this PR. The remaining mentions of
+`/opt/melek-miningcore/www` are explanatory ("exists but is not served") only.
 
 ---
 
