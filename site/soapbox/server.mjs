@@ -354,7 +354,7 @@ async function coinPage(id) {
       ].filter(Boolean);
       return rows.length ? card('Official & community', `<div style="display:flex;flex-wrap:wrap;gap:14px">${rows.join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Official project links — verified by the market fact-checker before they appear.</p>`) : '';
     })()}
-    ${hasSocials(c) ? card('Community &amp; socials', `${renderSocials(c)}<p class=muted style="font-size:12px;margin-top:8px">Live feed + the project's real social channels. Verify before trusting — impersonators are common.</p>`) : ''}
+    ${hasSocials(c) ? card('Community & socials', `${renderSocials(c)}<p class=muted style="font-size:12px;margin-top:8px">Live feed + the project's real social channels. Verify before trusting — impersonators are common.</p>`) : ''}
     ${await coinScamPanel(c).catch(() => '')}
     ${wiki.length ? card('In the Library', `<div style="display:flex;flex-direction:column;gap:8px">${wiki.map((w) => `<div><a href="${esc(/^https?:\/\//.test(w.url) ? w.url : WIKI_SITE + w.url)}">📖 ${esc(w.title)}</a>${w.snippet ? `<div class=muted style="font-size:12px">${esc(w.snippet)}</div>` : ''}</div>`).join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Background reading from the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`) : ''}
     ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — search the <a href="${esc(WIKI_SITE)}/?search=${encodeURIComponent(c.symbol || c.name)}">Library for ${esc(c.symbol || c.name)}</a>, or browse the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`)}
@@ -795,7 +795,7 @@ async function scamPanelFor(probe, label) {
     ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched. Absence of a report isn\'t proof of safety — check the consumer complaints below.</p>'}
     <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints &amp; reviews: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
     <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(name || p)}">Full scam check →</a> · Facts, not verdicts.</p>`;
-  return card('Scam &amp; fraud signals', inner);
+  return card('Scam & fraud signals', inner); // card() escapes the title — pass a raw &
 }
 
 // Per-coin scam panel: crypto-scam signals for a coin's site/symbol, for the coin pages.
