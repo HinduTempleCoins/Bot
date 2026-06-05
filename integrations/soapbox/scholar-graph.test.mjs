@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import {
-  __setFetch, searchAuthors, citationsOf, referencesOf, citationCount, citationCard,
+  __setFetch, searchAuthors, citationsOf, referencesOf, citationCount, citationCard, scholarLookup,
 } from './scholar-graph.mjs';
 
 function router(routes) {
@@ -88,4 +88,24 @@ test('citationCard composes all three legs and degrades piecewise', async () => 
 test('citationCard with no DOI → empty shape', async () => {
   const card = await citationCard('');
   assert.deepEqual(card, { doi: null, cited: null, citedBy: [], references: [] });
+});
+
+test('scholarLookup dispatches: DOI → citation-graph shape, name → author-profiles shape', async () => {
+  __setFetch(router([
+    ['coci/api/v1/citation-count/', { json: COCI_COUNT }],
+    ['coci/api/v1/citations/', { json: COCI_CITATIONS }],
+    ['coci/api/v1/references/', { json: COCI_REFS }],
+    ['pub.orcid.org/v3.0/expanded-search', { json: ORCID }],
+  ]));
+  const graph = await scholarLookup('10.9/target');
+  assert.equal(graph.kind, 'citation-graph');
+  assert.equal(graph.openCitationCount, 17);
+  assert.equal(graph.citedBy[0].url, 'https://doi.org/10.1/citer');
+
+  const people = await scholarLookup('Ada Lovelace');
+  assert.equal(people.kind, 'author-profiles');
+  assert.equal(people.authors.length, 1);
+
+  assert.equal(await scholarLookup(''), null);
+  __setFetch();
 });
