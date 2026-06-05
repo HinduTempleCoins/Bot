@@ -6,7 +6,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import {
   __setFetch, searchBooks, searchPapers, gutenberg, catalogSearch,
-  mergeDedup, normTitle, BUCKET,
+  mergeDedup, normTitle, BUCKET, unpaywallByDOI, enrichWithFullText,
 } from './library-catalog.mjs';
 
 // A tiny router: map URL substring → { json } | { text } | { fail }.
@@ -72,6 +72,16 @@ const GUTENDEX = {
   ],
 };
 
+const S2 = {
+  data: [
+    // same DOI as the closed OpenAlex/Crossref study — dedups in, contributing the tldr
+    { title: 'Closed Study', year: 2019, externalIds: { DOI: '10.2/XYZ' }, citationCount: 4,
+      authors: [{ name: 'P. Author' }], tldr: { text: 'One-line machine summary.' } },
+    { title: 'S2 Only Paper', year: 2024, externalIds: { DOI: '10.7/S2O' }, citationCount: 1,
+      authors: [{ name: 'S. Two' }], openAccessPdf: { url: 'https://oa.s2.example/s2o.pdf' } },
+  ],
+};
+
 const FULL_ROUTES = [
   ['openlibrary.org/search', { json: OL }],
   ['api.openalex.org/works', { json: OPENALEX }],
@@ -79,6 +89,7 @@ const FULL_ROUTES = [
   ['doaj.org/api/search', { json: DOAJ }],
   ['export.arxiv.org', { text: ARXIV }],
   ['gutendex.com', { json: GUTENDEX }],
+  ['api.semanticscholar.org', { json: S2 }],
   // CORE intentionally absent — no key in test env → coreWorks returns [] before fetching
 ];
 
@@ -131,6 +142,42 @@ test('searchPapers merges sources, dedups by DOI, upgrades bucket when any sourc
   assert.equal(arxiv.title, 'An Arxiv Preprint');
   assert.equal(arxiv.year, 2024);
   assert.equal(arxiv.bucket, BUCKET.HOST);
+
+  // Semantic Scholar: OA-pdf row is hostable; the dup of 10.2/xyz donates its tldr to the merged row
+  const s2only = papers.find((p) => p.doi === '10.7/s2o');
+  assert.ok(s2only, 'Semantic Scholar source merged in');
+  assert.equal(s2only.bucket, BUCKET.HOST, 'openAccessPdf → host-fully');
+  assert.equal(closed.tldr, 'One-line machine summary.', 'tldr survives the DOI merge');
+  __setFetch();
+});
+
+test('unpaywallByDOI normalizes the best OA location; enrichWithFullText upgrades metadata-only rows', async () => {
+  __setFetch(router([
+    ['api.unpaywall.org/v2/10.2%2Fxyz', { json: { best_oa_location: { url: 'https://repo.example/xyz', url_for_pdf: 'https://repo.example/xyz.pdf', version: 'acceptedVersion', license: 'cc-by' } } }],
+  ]));
+  const oa = await unpaywallByDOI('https://doi.org/10.2/XYZ');
+  assert.equal(oa.url, 'https://repo.example/xyz.pdf', 'prefers the direct PDF');
+  assert.equal(oa.license, 'cc-by');
+
+  const rows = [
+    { title: 'Closed Study', doi: '10.2/xyz', bucket: BUCKET.META, openAccess: false, url: 'https://doi.org/10.2/xyz' },
+    { title: 'No DOI Row', doi: null, bucket: BUCKET.META, openAccess: false },
+    { title: 'Already OA', doi: '10.1/abc', bucket: BUCKET.HOST, openAccess: true },
+  ];
+  const enriched = await enrichWithFullText(rows);
+  assert.equal(enriched[0].bucket, BUCKET.HOST, 'Unpaywall hit upgrades the bucket');
+  assert.equal(enriched[0].url, 'https://repo.example/xyz.pdf');
+  assert.equal(enriched[0].fullTextLicense, 'cc-by');
+  assert.equal(enriched[1].bucket, BUCKET.META, 'no DOI → untouched');
+  assert.equal(rows[0].bucket, BUCKET.META, 'input rows not mutated');
+  __setFetch();
+});
+
+test('enrichWithFullText soft-fails: dead Unpaywall leaves rows unchanged', async () => {
+  __setFetch(router([['api.unpaywall.org', { fail: true }]]));
+  const rows = [{ title: 'Closed', doi: '10.2/xyz', bucket: BUCKET.META, openAccess: false }];
+  const enriched = await enrichWithFullText(rows);
+  assert.equal(enriched[0].bucket, BUCKET.META);
   __setFetch();
 });
 
