@@ -1,0 +1,26 @@
+[Unit]
+Description=MELEK Pool — Monero stagenet daemon (the CryptoNote/RandomX coin the pool mines)
+Documentation=https://github.com/HinduTempleCoins/Bot/blob/main/pool/README.md
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+TimeoutStartSec=0
+# Idempotent: drop any stale container, then run in the foreground so systemd owns it.
+ExecStartPre=-/usr/bin/docker rm -f melek-monerod
+ExecStart=/usr/bin/docker run --rm --name melek-monerod \
+  --network melek-pool-net \
+  -v /opt/melek-pool/monero:/home/monero/.bitmonero \
+  -p 127.0.0.1:38081:38081 \
+  sethsimmons/simple-monerod:latest \
+  --stagenet \
+  --rpc-bind-ip=0.0.0.0 --rpc-bind-port=38081 --confirm-external-bind \
+  --no-igd --hide-my-port --out-peers=24 --prune-blockchain
+ExecStop=/usr/bin/docker stop melek-monerod
+
+[Install]
+WantedBy=multi-user.target
