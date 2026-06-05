@@ -1,0 +1,28 @@
+[Unit]
+Description=MELEK-Engine — Hive-Engine-style token sidechain (testnet, engine.alpha.melek.salon)
+After=network-online.target melek-testnet.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/melek-bot/repo
+ExecStart=/usr/bin/node engine/node.mjs
+Restart=always
+RestartSec=5
+# read-only node: holds NO key, never broadcasts (zero-WIF rule).
+Environment=NODE_ENV=production
+# Local testnet RPC first, public mirror as failover.
+Environment=MELEK_ENGINE_RPC=http://127.0.0.1:8090,https://alpha.melek.salon/rpc
+Environment=MELEK_ENGINE_ID=mse-testnet-melek
+Environment=MELEK_CHAIN_ID=18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e
+# Genesis issuer = initminer on the testnet (the funded account whose key is the
+# public testnet init key). Mainnet will use a real first-party engine account.
+Environment=MELEK_ENGINE_ISSUER=initminer
+Environment=MELEK_ENGINE_HOST=127.0.0.1
+Environment=MELEK_ENGINE_PORT=8097
+Environment=MELEK_ENGINE_STATE=/opt/melek-bot/repo/data/engine/state.json
+# Start replay near the genesis-of-engine-activity block to keep first sync fast.
+Environment=MELEK_ENGINE_START_BLOCK=10700
+
+[Install]
+WantedBy=multi-user.target
