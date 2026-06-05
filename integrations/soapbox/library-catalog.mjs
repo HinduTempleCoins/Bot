@@ -236,17 +236,76 @@ export async function gutenberg(q, { limit = 20 } = {}) {
   }).filter((r) => r.title);
 }
 
-/** Scholarly papers: OpenAlex + Crossref (+ DOAJ + CORE + arXiv), merged & deduped. Soft-fails to []. */
+// ── Semantic Scholar (papers + TLDR summaries) ───────────────────────────────
+// Keyless (shared public rate pool); SEMANTIC_SCHOLAR_API_KEY (free) lifts the rate when present.
+async function semanticScholarWorks(q, limit) {
+  const fields = 'title,authors,year,externalIds,openAccessPdf,citationCount,tldr';
+  const u = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(q)}&limit=${limit}&fields=${fields}`;
+  const key = process.env.SEMANTIC_SCHOLAR_API_KEY || '';
+  const j = await getJSON(u, key ? { headers: { 'x-api-key': key } } : {});
+  const data = j?.data || [];
+  return data.map((w) => {
+    const oaUrl = w.openAccessPdf?.url || null;
+    const doi = normDOI(w.externalIds?.DOI);
+    return {
+      source: 'semanticscholar',
+      type: 'paper',
+      title: w.title || '',
+      authors: (w.authors || []).map((a) => a?.name).filter(Boolean),
+      year: clampYear(w.year),
+      doi: doi || null,
+      url: oaUrl || (doi ? `https://doi.org/${doi}` : null),
+      cited: typeof w.citationCount === 'number' ? w.citationCount : null,
+      tldr: w.tldr?.text || null, // the one-line machine summary nobody else gives us
+      openAccess: !!oaUrl,
+      bucket: oaUrl ? BUCKET.HOST : BUCKET.META,
+    };
+  }).filter((r) => r.title);
+}
+
+// ── Unpaywall (DOI → free full-text) ─────────────────────────────────────────
+/** Look up the best free full-text location for one DOI. Soft-fails to null. */
+export async function unpaywallByDOI(doi) {
+  const d = normDOI(doi);
+  if (!d) return null;
+  const j = await getJSON(`https://api.unpaywall.org/v2/${encodeURIComponent(d)}?email=library@soapbox.community`);
+  const loc = j?.best_oa_location;
+  if (!loc?.url) return null;
+  return { doi: d, url: loc.url_for_pdf || loc.url, version: loc.version || null, license: loc.license || null };
+}
+
+/**
+ * Upgrade metadata-only rows to host-fully when Unpaywall knows a legal free full-text copy.
+ * Bounded (default 5 lookups) so one search never fans out into dozens of Unpaywall calls.
+ * Mutates nothing: returns a new array. Soft-fail: a dead Unpaywall leaves rows unchanged.
+ */
+export async function enrichWithFullText(rows, { max = 5 } = {}) {
+  const out = (rows || []).map((r) => ({ ...r }));
+  const candidates = out.filter((r) => r.bucket === BUCKET.META && r.doi).slice(0, max);
+  await Promise.all(candidates.map(async (r) => {
+    const oa = await unpaywallByDOI(r.doi).catch(() => null);
+    if (oa) {
+      r.openAccess = true;
+      r.bucket = BUCKET.HOST;
+      r.url = oa.url || r.url;
+      r.fullTextLicense = oa.license || null;
+    }
+  }));
+  return out;
+}
+
+/** Scholarly papers: OpenAlex + Crossref (+ DOAJ + CORE + arXiv + Semantic Scholar), merged & deduped. Soft-fails to []. */
 export async function searchPapers(q, { limit = 20 } = {}) {
   if (!q) return [];
-  const [oa, cr, doaj, core, ax] = await Promise.all([
+  const [oa, cr, doaj, core, ax, s2] = await Promise.all([
     openAlexWorks(q, limit).catch(() => []),
     crossrefWorks(q, limit).catch(() => []),
     doajArticles(q, limit).catch(() => []),
     coreWorks(q, limit).catch(() => []),
     arxivWorks(q, limit).catch(() => []),
+    semanticScholarWorks(q, limit).catch(() => []),
   ]);
-  return mergeDedup([...oa, ...doaj, ...core, ...ax, ...cr]);
+  return mergeDedup([...oa, ...doaj, ...core, ...ax, ...s2, ...cr]);
 }
 
 /**
@@ -278,6 +337,7 @@ export function mergeDedup(rows) {
     existing.url = existing.url || r.url || null;
     if (r.cited != null && (existing.cited == null || r.cited > existing.cited)) existing.cited = r.cited;
     if ((!existing.authors || existing.authors.length === 0) && r.authors?.length) existing.authors = r.authors;
+    if (!existing.tldr && r.tldr) existing.tldr = r.tldr; // Semantic Scholar's one-liner survives the merge
   }
   return order.map((k) => byKey.get(k));
 }
