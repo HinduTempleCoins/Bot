@@ -28,6 +28,14 @@
 // CLI:  node company-profiles.mjs apple
 
 import { cached, TTL } from './cache.mjs';
+import { whereToComplain } from './oversight-directory.mjs';
+// sec-edgar.mjs optionally exposes companyFacts (XBRL Revenues/NetIncome). Imported lazily/soft so a
+// missing or refactored module never sinks a profile — see headlineFinancials() below.
+import * as secEdgar from './sec-edgar.mjs';
+
+// How many recent SEC filings to carry in a profile. Was hard-capped at 8; raised to a sensible,
+// configurable cap so the filings list isn't silently truncated (A5 data-loss fix).
+const SEC_FILINGS_CAP = +(process.env.SEC_FILINGS_CAP || 25);
 
 // SEC asks every automated caller to send a descriptive User-Agent with contact info (their fair-
 // access policy). The operator contact is intentionally generic; this is the Witness account's bot.
@@ -79,7 +87,7 @@ async function secProfile(cik) {
     const d = await jget(`https://data.sec.gov/submissions/CIK${pad10(cik)}.json`, { 'user-agent': SEC_UA });
     const f = d.filings?.recent || {};
     const filings = [];
-    const n = Math.min((f.form || []).length, 8);
+    const n = Math.min((f.form || []).length, SEC_FILINGS_CAP);
     for (let i = 0; i < n; i++) {
       filings.push({
         form: f.form[i],
@@ -226,10 +234,16 @@ async function usaSpendingCategory(name, awardTypeCodes, label) {
   };
   const d = await jpost('https://api.usaspending.gov/api/v2/search/spending_by_award/', body, { 'user-agent': GEN_UA }).catch(() => null);
   const results = d?.results || [];
-  if (!results.length) return { label, count: 0, total: 0, top: [] };
+  // The REAL total number of matching awards is in page_metadata.total (the page only returns ≤5 rows);
+  // the old `count` was the page-sample size mislabeled as a total (A5 data-loss fix). We now surface
+  // BOTH: sampleCount (rows we actually fetched) and awardTotal (USAspending's true match count).
+  const awardTotal = Number(d?.page_metadata?.total ?? d?.page_metadata?.count) || null;
+  if (!results.length) return { label, sampleCount: 0, count: 0, awardTotal: awardTotal || 0, total: 0, top: [] };
   return {
     label,
-    count: results.length, // page-bounded sample count, not lifetime total
+    sampleCount: results.length,    // rows actually returned on this page (≤ limit)
+    count: results.length,          // kept for backward compatibility (= sampleCount)
+    awardTotal: awardTotal != null ? awardTotal : results.length, // USAspending's true match count
     total: results.reduce((s, r) => s + (Number(r['Award Amount']) || 0), 0),
     top: results.map((r) => ({
       id: r['Award ID'] || null,
@@ -253,6 +267,25 @@ async function govContracts(name) {
     if (!contracts && !grants) return null;
     return { contracts, grants };
   });
+}
+
+// ── Headline financials (XBRL via sec-edgar.companyFacts) ─────────────────────────────────────────
+// If sec-edgar.mjs exposes companyFacts, pull a couple of headline numbers (latest Revenues + latest
+// NetIncome) into the profile. Entirely soft-fail: any missing module / endpoint / value yields null,
+// never an exception. Keyless, backward-compatible (the field is simply absent on failure).
+async function headlineFinancials(cik) {
+  if (!cik || typeof secEdgar.companyFacts !== 'function') return null;
+  const latest = (rows) => (Array.isArray(rows) && rows.length ? rows[0] : null); // companyFacts sorts newest-first
+  try {
+    const [rev, ni] = await Promise.all([
+      secEdgar.companyFacts({ cik, concept: 'Revenues' }).catch(() => []),
+      secEdgar.companyFacts({ cik, concept: 'NetIncomeLoss' }).catch(() => []),
+    ]);
+    const r = latest(rev), n = latest(ni);
+    if (!r && !n) return null;
+    const pick = (x) => (x ? { value: x.val ?? null, end: x.end || null, fy: x.fy ?? null, form: x.form || null } : null);
+    return { revenue: pick(r), netIncome: pick(n), source: 'SEC XBRL (companyFacts)' };
+  } catch { return null; }
 }
 
 // ── Assembler ─────────────────────────────────────────────────────────────────────────────────────
@@ -335,12 +368,13 @@ export async function companyProfile(query) {
   const sec = await secResolve(q).catch(() => null);
   const canonName = sec?.title || q;
 
-  const [secMeta, gleif, wiki, wikiText, gov] = await Promise.all([
+  const [secMeta, gleif, wiki, wikiText, gov, financials] = await Promise.all([
     sec ? secProfile(sec.cik).catch(() => null) : Promise.resolve(null),
     gleifProfile(canonName).catch(() => null),
     wikidataProfile(canonName).catch(() => null),
     wikipediaSummary(canonName).catch(() => null),
     govContracts(canonName).catch(() => null),
+    sec ? headlineFinancials(sec.cik).catch(() => null) : Promise.resolve(null),
   ]);
 
   const sources = [];
@@ -387,6 +421,7 @@ export async function companyProfile(query) {
     exchanges,
     fiscalYearEnd: secMeta?.fiscalYearEnd || null,
     secFilings: secMeta?.filings || [],
+    financials: financials || null,   // headline XBRL Revenues/NetIncome (soft-fail; null when unavailable)
     govContracts: gov || null,
     tradedStatus,
     traded,
@@ -397,6 +432,26 @@ export async function companyProfile(query) {
       sec: sec ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${pad10(sec.cik)}&type=&dateb=&owner=include&count=40` : null,
       gleif: gleif?.lei ? `https://search.gleif.org/#/record/${gleif.lei}` : null,
     },
+  };
+
+  // BBB / consumer-protection layer (#288): the right oversight office(s) to complain TO about this
+  // company, keyed off its industry/type/state. Each is a full contact card (phone/email/fax + the
+  // office's own file-here form). Facts, not a verdict — listing an office is not an accusation. Keyless
+  // and soft-fail: a recognized industry routes precisely, an unknown one still gets the general index.
+  const industryHint = profile.industry || secMeta?.sicDescription || wiki?.industry || '';
+  const complaintState = (gleif?.jurisdiction && /^US-([A-Z]{2})$/.test(gleif.jurisdiction))
+    ? gleif.jurisdiction.slice(3)
+    : (secMeta?.stateOfIncorporation && /^[A-Z]{2}$/.test(secMeta.stateOfIncorporation) ? secMeta.stateOfIncorporation : '');
+  let whereToComplainOffices = [];
+  try {
+    whereToComplainOffices = whereToComplain({ name: profile.name, industry: industryHint, state: complaintState }) || [];
+  } catch { whereToComplainOffices = []; }
+  profile.whereToComplain = {
+    industry: industryHint || null,
+    state: complaintState || null,
+    note: 'Official oversight / consumer-protection office(s) to contact about this company. Facts, not a '
+      + 'verdict — a complaint is not proof of wrongdoing. Use the office’s own form linked here.',
+    offices: whereToComplainOffices.slice(0, 5),
   };
 
   // Onboarding for companies with no traded currency yet: tell the operator what's missing and what
@@ -456,12 +511,21 @@ if (isMain) {
         console.log('\n  Recent SEC filings:');
         for (const f of p.secFilings.slice(0, 5)) console.log(`    ${(f.form || '').padEnd(8)} ${f.filed || ''}`);
       }
+      if (p.financials) {
+        console.log('\n  Headline financials (SEC XBRL):');
+        if (p.financials.revenue?.value != null) console.log(`    revenue:    ${fmt(p.financials.revenue.value)}  (FY ${p.financials.revenue.fy || p.financials.revenue.end || '—'})`);
+        if (p.financials.netIncome?.value != null) console.log(`    net income: ${fmt(p.financials.netIncome.value)}  (FY ${p.financials.netIncome.fy || p.financials.netIncome.end || '—'})`);
+      }
       if (p.govContracts) {
         const c = p.govContracts.contracts, g = p.govContracts.grants;
         console.log('\n  Federal awards (USAspending, top-5 sample):');
-        if (c?.count) console.log(`    contracts: ${c.count} sampled, ${fmt(c.total)}`);
-        if (g?.count) console.log(`    grants:    ${g.count} sampled, ${fmt(g.total)}`);
-        if (!c?.count && !g?.count) console.log('    none found');
+        if (c?.sampleCount) console.log(`    contracts: ${c.sampleCount} of ${c.awardTotal} awards sampled, ${fmt(c.total)}`);
+        if (g?.sampleCount) console.log(`    grants:    ${g.sampleCount} of ${g.awardTotal} awards sampled, ${fmt(g.total)}`);
+        if (!c?.sampleCount && !g?.sampleCount) console.log('    none found');
+      }
+      if (p.whereToComplain?.offices?.length) {
+        console.log('\n  Where to complain (oversight offices):');
+        for (const o of p.whereToComplain.offices.slice(0, 3)) console.log(`    • ${o.name}${o.phone ? `  ${o.phone}` : ''}`);
       }
       console.log(`\n  sources: ${p.sources.join(', ') || 'none'}\n`);
     })
