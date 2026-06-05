@@ -199,18 +199,22 @@ function matchChain(tags = {}) {
 // ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 // Parse a user-supplied location into a geocode target. Accepts "lat,lng" directly (no network needed),
-// otherwise returns the raw string for Nominatim to geocode.
+// otherwise returns the geocode text for Nominatim. A bare 5-digit US ZIP is ambiguous to Nominatim
+// (it can match a foreign place code), so we anchor it to the US — `geocodeText` is what we actually
+// geocode, while `text` keeps the user's original input for display.
 function parseWhere(where) {
   const w = str(where);
-  if (!w) return { latlng: null, text: '' };
+  if (!w) return { latlng: null, text: '', geocodeText: '' };
   const m = w.match(/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
   if (m) {
     const lat = num(m[1]); const lon = num(m[2]);
     if (lat != null && lon != null && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
-      return { latlng: { lat, lon }, text: w };
+      return { latlng: { lat, lon }, text: w, geocodeText: w };
     }
   }
-  return { latlng: null, text: w };
+  // bare 5-digit ZIP → anchor to the US so "75201" resolves to Dallas, not a foreign postal code.
+  const geocodeText = /^\d{5}$/.test(w) ? `${w}, USA` : w;
+  return { latlng: null, text: w, geocodeText };
 }
 
 const haversineMi = (a, b) => {
@@ -317,10 +321,10 @@ export async function locateStoresGoogle({ lat, lon, radiusM = 16000 } = {}) {
  *   { where, origin, results, provider }  — results soft-fails to [], origin null if geocode fails.
  */
 export async function locateStores(where, { radiusM = 16000, limit = 50 } = {}) {
-  const { latlng, text } = parseWhere(where);
+  const { latlng, text, geocodeText } = parseWhere(where);
   let origin = latlng;
-  if (!origin && text) {
-    const g = await geocode(text).catch(() => null);
+  if (!origin && geocodeText) {
+    const g = await geocode(geocodeText).catch(() => null);
     if (g && g.lat != null && g.lon != null) origin = { lat: g.lat, lon: g.lon, displayName: g.displayName };
   }
   if (!origin) return { where: text, origin: null, results: [], provider: 'none' };
