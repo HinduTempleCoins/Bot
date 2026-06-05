@@ -95,7 +95,33 @@
     <button id="back" class="back">&larr; All coins</button>
     <h2 id="d-title"></h2>
     <div class="stat-grid" id="d-stats"></div>
-    <h3>How to connect</h3>
+
+    <!-- DONE-FOR-THEM wizard: sits ABOVE the honest miner table -->
+    <section id="wizard" class="card wizard">
+      <div class="k">Done for you</div>
+      <h3 style="margin-top:6px">Let us set it up for you</h3>
+      <p class="muted" style="font-size:13.5px;margin:0 0 10px">
+        Paste the address you want paid, pick your hardware, and we generate everything &mdash; a
+        ready miner config, a download, and copy-paste one-liners. It all runs in your browser;
+        <strong>your address never leaves this page.</strong>
+      </p>
+
+      <div class="wiz-field">
+        <label class="wiz-lab" for="w-addr">Your <span id="w-coin-sym">coin</span> wallet address (this is who gets paid)</label>
+        <input id="w-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="paste your receive address">
+        <div id="w-addr-msg" class="wiz-msg"></div>
+        <div class="wiz-help">Don&rsquo;t have one? <a id="w-wallet-help" href="#" target="_blank" rel="noopener">Here&rsquo;s how to get a wallet for this coin.</a></div>
+      </div>
+
+      <div class="wiz-field">
+        <label class="wiz-lab">Your hardware</label>
+        <div id="w-hw" class="wiz-hw"></div>
+      </div>
+
+      <div id="w-out" class="wiz-out hidden"></div>
+    </section>
+
+    <h3>Or do it yourself &mdash; the honest miner table</h3>
     <div id="d-connect" class="connect card"></div>
   </section>
 
@@ -107,6 +133,6 @@
   </div>
 </footer>
 
-<script src="pool.js"></script>
+<script type="module" src="pool.js"></script>
 </body>
 </html>
