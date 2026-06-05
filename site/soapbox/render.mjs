@@ -29,7 +29,7 @@ export const pct = (n) => (n == null || !Number.isFinite(+n) ? '<span class=mute
 
 const NAV = [
   ['/', 'Global Markets'], ['/categories', 'Categories'], ['/chains', 'Chains'], ['/dapps', 'dApps'],
-  ['/exchanges', 'Exchanges'], ['/macro', 'Macro'], ['/commodities', 'Commodities'], ['/forex', 'Forex'], ['/scams', 'Scams'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
+  ['/exchanges', 'Exchanges'], ['/macro', 'Macro'], ['/commodities', 'Commodities'], ['/forex', 'Forex'], ['/scams', 'Scams'], ['/stores', 'Stores'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
 ];
 
 const STYLE = `<style>
@@ -88,6 +88,17 @@ const STYLE = `<style>
   .cmt{border-left:3px solid var(--line2);padding:6px 0 6px 12px;margin:10px 0} .cmt.reply{border-color:var(--up)}
   .cmt .who{font-weight:600} .cmt .when{color:var(--mut);font-size:12px;margin-left:8px}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:30px 20px;border-top:1px solid var(--line);margin-top:30px}
+  /* /stores — true-dollar-store aggregator */
+  .cheap-stores-table td{white-space:normal;vertical-align:top;font-size:13px}
+  .cheap-stores-table th:first-child,.cheap-stores-table td:first-child{text-align:left}
+  .cheap-stores-table .cs-name{font-weight:700;color:var(--fg)} .cheap-stores-table .cs-price{font-weight:600}
+  .cs-yes{color:var(--up);font-weight:700} .cs-no{color:var(--down);font-weight:600} .cs-closed{color:var(--mut);font-style:italic} .cs-muted{color:var(--mut)}
+  .cs-src{font-size:11px} .cs-shut{opacity:.7}
+  .cs-how-we-decide{color:var(--mut);font-size:12px;margin-top:10px}
+  .cs-store-list{list-style:none;padding:0;margin:12px 0} .cs-store{padding:9px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}
+  .cs-store-name{font-weight:700} .cs-store-base{color:var(--gold);font-size:12px} .cs-store-dist{color:var(--mut);font-size:12px} .cs-store-addr{color:var(--mut);font-size:13px;flex-basis:100%}
+  .cs-count{font-weight:600} .cs-via,.cs-attr{color:var(--mut);font-weight:400;font-size:12px} .cs-empty{color:var(--mut)}
+  .cs-map{margin:12px 0} .cs-map-link{font-size:12px;margin:6px 0 0;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
   @media(max-width:640px){th:nth-child(6),td:nth-child(6),th:nth-child(7),td:nth-child(7){display:none}.price{font-size:28px}}
 </style>`;
 
