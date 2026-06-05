@@ -1,0 +1,27 @@
+[Unit]
+Description=MELEK ETC Mordor testnet node (core-geth, Etchash daemon for the pool)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker rm -f melek-mordor
+# core-geth on the Ethereum Classic Mordor TESTNET. Serves eth_getWork to Miningcore's
+# ethereum (Etchash) pool. etherbase is a freshly-generated ZERO-VALUE testnet address.
+ExecStart=/usr/bin/docker run --rm --name melek-mordor \
+  --network melek-pool-net \
+  -v /opt/melek-miningcore/mordor/data:/root/.ethereum \
+  -p 127.0.0.1:8545:8545 -p 30303:30303 -p 30303:30303/udp \
+  etclabscore/core-geth:latest \
+  --mordor --syncmode full \
+  --http --http.addr 0.0.0.0 --http.port 8545 \
+  --http.api eth,web3,net,admin,miner,txpool \
+  --http.corsdomain "*" --http.vhosts "*" \
+  --miner.etherbase 0xaA0c07a11e4aE6fbe201C7EBE061A86A296f08ab \
+  --mine --miner.threads 0
+ExecStop=/usr/bin/docker stop melek-mordor
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

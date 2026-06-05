@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoapBox Mining Pool — Many Coins, One Pool</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>SoapBox Mining Pool</h1>
+    <p class="tag">A multi-algo, multi-coin pool. Pick a coin below and start mining. CryptoNote / RandomX and Ethash / Etchash supported side by side &mdash; <strong>plus ours</strong>.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="ecosystem-note" class="note">
+    <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding PRANA is a single config entry, not a rebuild.
+  </section>
+
+  <section>
+    <h2>Choose a coin to mine</h2>
+    <div id="coins" class="coin-grid">
+      <div class="loading">Loading pools&hellip;</div>
+    </div>
+  </section>
+
+  <section id="detail" class="detail hidden">
+    <button id="back" class="back">&larr; All coins</button>
+    <h2 id="d-title"></h2>
+    <div class="stat-grid" id="d-stats"></div>
+    <h3>How to connect</h3>
+    <div id="d-connect" class="connect"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Stats API: <code>/api/pools</code> &middot; Powered by Miningcore (multi-algo) &middot; pool.soapbox.community</p>
+  </div>
+</footer>
+
+<script src="pool.js"></script>
+</body>
+</html>

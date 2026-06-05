@@ -1,164 +1,211 @@
-# MELEK Ecosystem Mining Pool
+# MELEK / SoapBox Mining Pool — Multi-Algo, Multi-Coin (Miningcore)
 
-A CryptoNote (RandomX) mining pool, live and operational, fronting toward the
-**pool-as-wallet** design in
-`.local/PRANA_MINING_POOL_AS_WALLET_2026-06-05.md`. The MVP mines a CryptoNote /
-RandomX coin **now** and is architected so PRANA (the operator's Ethash ETH-clone)
-slots in later as one more currency module — a config/module switch, not a rebuild.
+A **multi-algorithm, multi-coin** mining pool at **https://pool.soapbox.community**.
+The platform is **[Miningcore](https://github.com/oliverw/miningcore)** — one daemon
+that serves **CryptoNote / RandomX** *and* **Ethash / Etchash** (and many other algos)
+side by side, with **one config entry per coin**. This satisfies the operator's hard
+requirement (directive 2026-06-05, Addendum 5):
 
-- **Live frontend:** https://pool.soapbox.community
-- **Stats API:** https://pool.soapbox.community/api (reverse-proxied to the pool app)
-- **Stratum:** `pool.soapbox.community:3333` (low-diff / CPU) and `:5555` (high-end)
+> "make sure You use one that can do CryptoNotes and ETH Type Chains, it's going to be
+> a Pool with many Coins to Choose from for Mining, plus ours."
 
-## What coin it mines (and the swap story)
+CryptoNote-only pools (the previous `cryptonote-nodejs-pool`) are **disqualified as the
+platform** for that reason; the old pool is kept disabled for rollback only.
 
-The pool currently mines **Monero stagenet** (`sXMR`), a free public RandomX /
-CryptoNote network. Stagenet is throwaway-money by design: the pool's payout wallet
-is a freshly generated **stagenet** wallet (no mainnet value, satisfies the
-"testnet/throwaway keys only — never a mainnet/HIVE/MELEK key" rule).
+- **Live frontend:** https://pool.soapbox.community — multi-coin menu (one card per coin),
+  per-coin stats, per-coin connect instructions.
+- **Stats API:** https://pool.soapbox.community/api → Miningcore REST API. `/api/pools`
+  lists every configured coin (this is what powers the menu).
+- **Stratum (per coin):**
+  - RandomX / CryptoNote (Monero stagenet): `pool.soapbox.community:4444` (CPU/low-end),
+    `:4445` (high-end).
+  - Ethash / Etchash (ETC **Mordor** testnet): `pool.soapbox.community:5550` (GPU).
 
-Why Monero stagenet and not the operator's heritage coin tonight: the heritage
-`HinduTempleCoins/cryptonote` is the classic CryptoNote reference (GCC 4.7 / Boost
-1.55 era) and `HinduTempleCoins/configs` are Forknote configs — neither builds
-cleanly on a modern Ubuntu 24.04 toolchain without a substantial porting effort.
-The deliverable was "the pool app demonstrably operational end-to-end," so we mine a
-robust public RandomX network and treat the coin as **config-only**.
+> The cutover plan moves RandomX onto the legacy `:3333/:5555` once Miningcore is proven;
+> until then the old pool keeps `:3333/:5555` and Miningcore runs on `:4444/:4445/:5550`.
+> See **Cutover** below.
 
-**Swapping the coin is config, not code.** To point the pool at a different
-CryptoNote/RandomX daemon (the heritage coin once its daemon builds, a Forknote
-binary + their config, Monero testnet, Wownero, etc.):
+## Why Miningcore (vs. the old node pool)
 
-1. Run that coin's daemon + `*-wallet-rpc` (or equivalent) and create a pool wallet.
-2. In `/opt/melek-pool/config.json` set: `coin`, `symbol`, `coinUnits`,
-   `coinDecimalPlaces`, `coinDifficultyTarget`, `daemonType`, `cnAlgorithm`,
-   `cnVariant`, `cnBlobType`, `poolAddress`, and the `daemon`/`wallet` host:port.
-3. In `/opt/melek-pool/www/config.js` set `parentCoin`, `blockchainExplorer`, etc.
-4. `systemctl restart melek-pool` (and the daemon/wallet units). Done.
-
-## The PRANA switch (design-doc §7 build order)
-
-The design doc's premise: *one-click mining of a currency is inseparable from
-holding a wallet for that currency* — so each mineable currency is a **CurrencyModule**
-(chain + wallet + miner + settlement) and the whole pool is a multi-currency
-wallet/miner/switcher behind one HD seed shared with Akasha. Build order, and where
-tonight's MVP sits in it:
-
-| Step | Design-doc §7 item | Status |
+| | cryptonote-nodejs-pool (old) | **Miningcore (this platform)** |
 |---|---|---|
-| 1 | Shared HD keystore = Akasha's keystore (one seed, non-custodial) | deferred (Akasha) |
-| 2 | PRANA module end-to-end (one-click → wallet → payout → worker → balance) | deferred to PRANA launch |
-| 3 | Ecosystem currencies (wrapped tokens + MELEK) as modules | deferred |
-| 4 | Formalize the `CurrencyModule` interface | deferred |
-| 5 | **External taught coins as receive-only mining modules (standard miner + wallet receive address)** | **DONE in spirit — this MVP _is_ a step-5 module: a standard CryptoNote miner pointed at a coin, paying to a wallet receive address.** |
-| 6 | Hardening — hardware-wallet support, watch-only mining, per-module audits | deferred |
+| CryptoNote / RandomX | yes | yes |
+| Ethash / Etchash (ETH-type) | **no** | **yes** |
+| Many coins, one platform | no (one coin per instance) | **yes (one config entry per coin)** |
+| Persistence | Redis | PostgreSQL |
+| Runtime | Node.js | .NET 6 |
 
-When PRANA launches: stand up its Ethash daemon and add an Ethash pool path. The
-design doc flags **MiningCore** as the strong fit there because one MiningCore
-daemon supports **both** CryptoNote (RandomX) **and** Ethash — so the long-term move
-is to migrate this stratum layer to MiningCore and add PRANA as a second algo/coin,
-or run an open-ethereum-pool-style Ethash pool alongside. The wallet/receive layer,
-the frontend, the Caddy/DNS wiring, and the ops model here all carry over.
+Adding PRANA (the operator's Ethash ETH-clone) at its launch is **one more `pools[]`
+entry** — see "Adding a coin (incl. PRANA)" below.
 
-## What runs where (the public MELEK box, x86 Ubuntu, under systemd + Docker)
+## Two algorithm families proven
 
-> Host IP, DNS token storage, and exact deploy steps live in the gitignored deploy
-> record (`.local/POOL_DEPLOY_2026-06-05.md`), per the repo's private-by-default rule.
+**a. CryptoNote / RandomX** — Monero **stagenet** (`sXMR`), a free public RandomX network.
+Mined against the existing stagenet `melek-wallet-rpc` (payout wallet, throwaway/zero-value)
+plus a **dedicated** stagenet daemon `melek-mc-monerod` (separate from the old pool's
+`melek-monerod`, so the old pool is untouched).
 
-Everything is Docker containers on a shared user-defined network `melek-pool-net`,
-each owned by a systemd unit (auto-restart). State lives under `/opt/melek-pool`.
+> **Why a dedicated local daemon, not the public synced node:** Miningcore (unlike the old
+> node-pool) has a hard daemon **peer-connectivity gate** — `AreDaemonsConnectedAsync`
+> requires `(outgoing + incoming peers) > 0` before it will start the job manager. The
+> public stagenet nodes (`node.monerodevs.org` etc.) run restricted RPC and report
+> **0 peers**, so that gate never passes against them. A `--bootstrap-daemon-address`
+> node serves templates from the tip immediately but *also* reports 0 P2P peers (bootstrap
+> short-circuits P2P), so it fails the same gate. The working answer is a **pure-P2P**
+> local daemon pointed at the monerodevs **P2P** ports (`:38080`) as priority nodes — it
+> forms real peers (gate passes) and syncs stagenet in the background. Once it reaches the
+> tip it serves `get_block_template` and the RandomX pool begins handing out jobs.
+> Until then Miningcore correctly reports "Daemon is still syncing… Manager will be started
+> once synced" — the same posture as the old pool's local node.
 
-| Container / unit | Image | Ports | Role |
+**b. Ethash / Etchash (ETH-type)** — Ethereum Classic **Mordor testnet** via
+**core-geth** (`etclabscore/core-geth`, `--mordor`). Miningcore's `ethereum` coin family
+drives it through `eth_getWork`. The payout/etherbase is a **freshly generated zero-value
+testnet address** (`0xaA0c07a11e4aE6fbe201C7EBE061A86A296f08ab`) — never a mainnet/HIVE/MELEK
+key. Etchash needs a **GPU miner** (lolMiner/gminer/ethminer); CPU isn't practical, so the
+proof here is the daemon serving valid `eth_getWork` jobs + the pool accepting the stratum
+handshake.
+
+## What runs where (all on the public MELEK box, Docker net `melek-pool-net`)
+
+> Host IP, DNS token storage, secrets, and exact steps live in the gitignored deploy
+> record `.local/POOL_DEPLOY_2026-06-05.md` (private-by-default rule).
+
+| Container / unit | Image | Ports (host) | Role |
 |---|---|---|---|
-| `melek-monerod` / `melek-pool-monerod.service` | `sethsimmons/simple-monerod` | `127.0.0.1:38081` (RPC) | Monero **stagenet** daemon (the mined coin) |
-| `melek-wallet-rpc` / `melek-pool-walletrpc.service` | `sethsimmons/simple-monero-wallet-rpc` | `127.0.0.1:38082` (RPC) | Pool payout wallet (stagenet, throwaway) |
-| `melek-pool-redis` / `melek-pool-redis.service` | `redis:7-alpine` | `127.0.0.1:6379` | Share/stat store |
-| `melek-pool` / `melek-pool.service` | `melek-pool:latest` (built from `cryptonote-nodejs-pool`) | `:3333`, `:5555` (stratum, public), `127.0.0.1:8117` (API) | Stratum server + payments + stats API |
-| (Caddy, shared) | system caddy | `:443` | TLS + static frontend + `/api` proxy for `pool.soapbox.community` |
+| `melek-miningcore` / `melek-miningcore.service` | `melek-miningcore:latest` (built from oliverw/miningcore) | `:4444 :4445 :5550` (stratum, public), `127.0.0.1:4000` (API) | Multi-algo stratum + payments + REST API |
+| `melek-mc-postgres` / `melek-mc-postgres.service` | `postgres:16-alpine` | `127.0.0.1:5432` | Pool persistence (shares/blocks/balances/payments) |
+| `melek-mordor` / `melek-mordor.service` | `etclabscore/core-geth` | `127.0.0.1:8545` (RPC), `30303` (p2p) | ETC **Mordor** testnet node (Etchash daemon) |
+| `melek-mc-monerod` / `melek-mc-monerod.service` | `sethsimmons/simple-monerod` | (net-internal `38081`) | Dedicated Monero stagenet daemon for Miningcore (pure-P2P, syncing) |
+| `melek-wallet-rpc` (shared w/ old pool) | `sethsimmons/simple-monero-wallet-rpc` | `127.0.0.1:38082` | Monero stagenet payout wallet |
+| `melek-monerod` (old pool's own) | `sethsimmons/simple-monerod` | `127.0.0.1:38081` | Old pool's local stagenet daemon (untouched) |
+| (Caddy, shared) | system caddy | `:443` | TLS + static frontend + `/api` proxy |
 
-- Pool source + Dockerfile: `/opt/melek-pool/cryptonote-nodejs-pool` (the upstream
-  `dvandal/cryptonote-nodejs-pool`, with the Dockerfile pinned to
-  `node:16-bullseye-slim`, a git `insteadOf` https rewrite, and the **dead**
-  `turtlecoin-multi-hashing` dep removed — that repo is gone; RandomX hashing comes
-  from `cryptonight-hashing`, which is what the Monero config uses).
-- Pool config: `/opt/melek-pool/config.json` (template committed at
-  `pool/deploy/config.json`).
-- Frontend (static): `/opt/melek-pool/www` (config committed at
-  `pool/deploy/frontend/config.js`).
-- DNS: `pool.soapbox.community` A record points at the public box, set via the
-  operator's DNS API tooling (details in the `.local` deploy record).
+Deploy artifacts in this repo:
 
-### Daemon source: a synced daemon is required to issue jobs
+- `deploy/miningcore/config.json` — Miningcore config (committed with a `__PG_PASSWORD__`
+  placeholder; the live file on the box has the real generated password substituted in).
+- `deploy/miningcore/www/` — the multi-coin frontend (`index.html`, `style.css`, `pool.js`).
+- `deploy/miningcore/systemd/*.service` — units for miningcore, postgres, mordor,
+  and the dedicated `melek-mc-monerod`.
+- `deploy/miningcore/createdb.sql` — Postgres schema (from upstream
+  `Persistence/Postgres/Scripts/createdb.sql`).
+- `deploy/miningcore/Caddyfile.block` — the cutover Caddy block (proxies `/api` to `:4000`).
+- `deploy/` (legacy) — the old `cryptonote-nodejs-pool` config/systemd, kept for rollback.
 
-The pool can only hand out mining jobs when its `daemon` can serve
-`get_block_template` — which a *syncing* node refuses (`"Core is busy"`). The local
-`melek-monerod` syncs stagenet (~2.13M blocks) on first run, so until it reaches the
-tip the pool's `config.json` `daemon` is pointed at a public **synced** stagenet RPC
-node (e.g. `node.monerodevs.org:38089`) so the pool is functional immediately. Once
-the local daemon is synced (`get_info` → `"synchronized": true`), set
-`daemon` back to `{ "host": "melek-monerod", "port": 38081 }` and
-`systemctl restart melek-pool`. The payout wallet is always the local one.
-
-## Ops commands
+## Deploy from scratch (summary)
 
 ```bash
-# Status of the whole stack
-docker ps --filter name=melek-monerod --filter name=melek-wallet-rpc \
-          --filter name=melek-pool-redis --filter name=melek-pool
+# 1. Clone + build the image (nice -19; ~10-15 min, .NET 6 + native crypto libs)
+mkdir -p /opt/melek-miningcore && cd /opt/melek-miningcore
+git clone --depth 1 https://github.com/oliverw/miningcore.git
+cd miningcore && nice -n 19 docker build -t melek-miningcore:latest .
 
-# Daemon sync / height
-curl -s http://127.0.0.1:38081/get_info -d '{}' | python3 -m json.tool | grep -E 'height|synchronized'
+# 2. Postgres on the shared net + schema
+PGPASS=$(openssl rand -hex 16); echo -n "$PGPASS" > /opt/melek-miningcore/secrets/.pgpass
+docker run -d --name melek-mc-postgres --network melek-pool-net --restart unless-stopped \
+  -e POSTGRES_DB=miningcore -e POSTGRES_USER=miningcore -e POSTGRES_PASSWORD="$PGPASS" \
+  -v /opt/melek-miningcore/pgdata:/var/lib/postgresql/data -p 127.0.0.1:5432:5432 postgres:16-alpine
+docker cp createdb.sql melek-mc-postgres:/tmp/ && \
+  docker exec melek-mc-postgres psql -U miningcore -d miningcore -f /tmp/createdb.sql
 
-# Pool stats API (also behind https://pool.soapbox.community/api)
-curl -s http://127.0.0.1:8117/stats | python3 -m json.tool | head -40
+# 3. ETC Mordor node (Etchash daemon)
+docker run -d --name melek-mordor --network melek-pool-net --restart unless-stopped ... (see systemd unit)
 
-# Pool wallet address / balance (stagenet)
-curl -s http://127.0.0.1:38082/json_rpc -d '{"jsonrpc":"2.0","id":"0","method":"get_address","params":{"account_index":0}}'
-curl -s http://127.0.0.1:38082/json_rpc -d '{"jsonrpc":"2.0","id":"0","method":"get_balance","params":{"account_index":0}}'
+# 4. config.json: substitute the postgres password, then run miningcore
+sed "s/__PG_PASSWORD__/$PGPASS/" deploy/miningcore/config.json > /opt/melek-miningcore/config.json
+cp deploy/miningcore/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
+systemctl enable --now melek-mc-postgres melek-mc-monerod melek-mordor melek-miningcore
 
-# Restart the pool app after a config edit
-systemctl restart melek-pool        # if systemd units are installed
-#   or, Docker restart-policy mode:
-docker restart melek-pool
+# 5. Frontend
+cp -r deploy/miningcore/www/* /opt/melek-miningcore/www/
+```
+
+## Adding a coin (incl. PRANA) — the "plus ours" step
+
+Every mineable coin is **one object in the `pools[]` array** of `config.json`. To add a coin:
+
+1. Stand up its daemon (and wallet daemon for CryptoNote coins) on `melek-pool-net`.
+2. If the coin isn't in Miningcore's built-in `coins.json`, add a coin definition there
+   (family `cryptonote` / `ethereum` / `bitcoin` …) and rebuild the image.
+3. Append a `pools[]` entry: `id`, `coin`, `address` (a fresh pool/payout address),
+   `ports` (a free stratum port), `daemons` (host:port on the net), `paymentProcessing`.
+4. `systemctl restart melek-miningcore`. The new coin appears on the menu automatically
+   (the frontend reads `/api/pools`).
+
+**PRANA specifically** — when the PRANA Ethash testnet/mainnet daemon exists:
+
+```jsonc
+{
+  "id": "prana",
+  "enabled": true,
+  "coin": "prana",            // add a "prana" entry to coins.json, family "ethereum"
+  "address": "0x<fresh PRANA pool address>",
+  "ports": { "5560": { "listenAddress": "0.0.0.0", "difficulty": 1,
+             "name": "PRANA Ethash" } },
+  "daemons": [ { "host": "melek-prana-geth", "port": 8545 } ],
+  "paymentProcessing": { "enabled": true, "minimumPayment": 0.1,
+             "payoutScheme": "PPLNS", "payoutSchemeConfig": { "factor": 2.0 } }
+}
+```
+
+Per directive Addendum 7, the **PRANA chain hardcodes the pool mechanic** (DevCoin model)
+and a **consensus-enforced Hathor Fees Module** takes Hathor's percentage of mining fees on
+*all* pools. That enforcement is **chain-side (the PRANA repo)**, not in this off-chain pool
+software — this pool is the SoapBox front/operator pool that follows those rules. See
+`.local/PRANA_MINING_POOL_AS_WALLET_2026-06-05.md`.
+
+## Cutover (old pool → Miningcore)
+
+Until proven, the **old `cryptonote-nodejs-pool` keeps `:3333/:5555`** and Miningcore runs
+on `:4444/:4445/:5550`. Once an accepted RandomX share is verified through Miningcore:
+
+1. **Caddy** (LOCK PROTOCOL):
+   ```bash
+   until mkdir /tmp/caddy.lock 2>/dev/null; do sleep 5; done
+   # edit ONLY the pool.soapbox.community block: root -> /opt/melek-miningcore/www,
+   # /api reverse_proxy -> 127.0.0.1:4000  (see deploy/miningcore/Caddyfile.block)
+   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+   rmdir /tmp/caddy.lock
+   ```
+2. **Stratum:** stop the old pool (do NOT delete — `systemctl disable --now melek-pool`,
+   keep `/opt/melek-pool` + configs for rollback). Optionally move Miningcore's RandomX
+   ports onto `:3333/:5555` (edit `config.json` ports, restart) so existing miners keep
+   their endpoints.
+3. **ufw:** open the Miningcore stratum ports (`4444 4445 5550`, plus `3333/5555` if reused).
+
+## Rollback
+
+1. Caddy block back to `root /opt/melek-pool/www` + `/api` → `127.0.0.1:8117` (lock protocol).
+2. `systemctl enable --now melek-pool` (old pool resumes on `:3333/:5555`).
+3. `systemctl disable --now melek-miningcore` (Miningcore stops; data persists in Postgres).
+   Nothing is deleted; both stacks coexist.
+
+## Verifying
+
+```bash
+# All pools (the multi-coin menu source)
+curl -s http://127.0.0.1:4000/api/pools | python3 -m json.tool | head -60
+
+# A RandomX miner against the new pool
+xmrig -o 127.0.0.1:4444 -u 57kYk4...rv9Kz -p test -a rx/0   # expect "accepted" in miningcore logs
+
+# Etchash daemon serving work (proof of the ETH-type family)
+curl -s -X POST 127.0.0.1:8545 -d '{"jsonrpc":"2.0","method":"eth_getWork","params":[],"id":1}'
 
 # Logs
-docker logs --tail 50 melek-pool
-docker logs --tail 50 melek-monerod
+docker logs --tail 60 melek-miningcore
+docker logs --tail 30 melek-mordor
 ```
-
-### Installing the systemd units (optional — containers already carry `--restart unless-stopped`)
-
-The containers were created with Docker's `--restart unless-stopped` policy, so they
-already survive reboots (dockerd is itself a systemd service). To make systemd the
-single source of truth instead, copy the units and let them recreate the containers:
-
-```bash
-cp pool/deploy/systemd/*.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now melek-pool-redis melek-pool-monerod melek-pool-walletrpc melek-pool
-```
-
-(The units use `docker run --rm` so each start recreates a clean container against
-the persistent volumes under `/opt/melek-pool`.)
-
-## Connecting a miner (RandomX / xmrig)
-
-```bash
-xmrig -o pool.soapbox.community:3333 \
-      -u 57kYk4iMy9SCMyeRctNW6QUpCVKnRp1682BiYnxUqMVDjhAVABfQJbUTC5oTvfRruNVVxqGK6MEz3QoQLnV2NPGxBArv9Kz \
-      -p worker1 --coin monero
-```
-
-Use any valid Monero **stagenet** address as `-u` to mine to your own balance.
-(Finding an actual block requires the daemon to be fully synced to the stagenet tip;
-share acceptance does not.)
 
 ## Security notes
 
-- **Throwaway keys only.** The payout wallet is a Monero *stagenet* wallet — zero
-  real value. No mainnet/HIVE/MELEK key touches this box. Wallet password is in
-  `/opt/melek-pool/wallet/.wallet-pass` (mode 600, not committed).
-- The daemon RPC (38081), wallet RPC (38082), Redis (6379) and the pool API (8117)
-  are bound to `127.0.0.1` only. Just stratum (`3333`/`5555`) and Caddy (`443`) are
-  public; the stratum ports are opened in `ufw`.
-- The pool API admin password in the committed config is a demo placeholder
-  (`melek-pool-admin`); rotate it for any non-stagenet use.
+- **Throwaway keys only.** RandomX payout = Monero *stagenet* wallet (zero value).
+  Etchash payout/etherbase = a fresh *Mordor testnet* address (zero value). No
+  mainnet/HIVE/MELEK key ever touches this box.
+- Postgres password is generated (`secrets/.pgpass`, mode 600, not committed) and
+  substituted into the live `config.json` (which is therefore not committed verbatim;
+  the committed template carries `__PG_PASSWORD__`).
+- Postgres (5432), Mordor RPC (8545), monerod (38081), wallet-rpc (38082) and the
+  Miningcore API (4000) are bound to `127.0.0.1`. Only stratum ports and Caddy (443)
+  are public.

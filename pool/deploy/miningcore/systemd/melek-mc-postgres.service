@@ -1,0 +1,22 @@
+[Unit]
+Description=MELEK Miningcore PostgreSQL (pool persistence)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker rm -f melek-mc-postgres
+# Password is read from /opt/melek-miningcore/secrets/.pgpass (mode 600, NOT committed).
+ExecStart=/bin/sh -c '/usr/bin/docker run --rm --name melek-mc-postgres \
+  --network melek-pool-net \
+  -e POSTGRES_DB=miningcore -e POSTGRES_USER=miningcore \
+  -e POSTGRES_PASSWORD="$(cat /opt/melek-miningcore/secrets/.pgpass)" \
+  -v /opt/melek-miningcore/pgdata:/var/lib/postgresql/data \
+  -p 127.0.0.1:5432:5432 \
+  postgres:16-alpine'
+ExecStop=/usr/bin/docker stop melek-mc-postgres
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
