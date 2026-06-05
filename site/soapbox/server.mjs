@@ -35,6 +35,7 @@ import { cached as memo, TTL as MEMO_TTL } from '../../integrations/soapbox/cach
 import { chyronItems, worldClocks, tickerPanels, renderTickerHTML } from '../../integrations/soapbox/chyron.mjs';
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
+import { SCAM_SOURCES, consumerSources, byKind as scamByKind, consumerComplaintLinks, scamSignals, scamHighlights, summary as scamSummary } from '../../integrations/soapbox/scam-registry.mjs';
 import { findVertical, renderVertical } from './verticals.mjs';
 import { renderSocials, hasSocials } from '../../integrations/soapbox/coin-socials.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
@@ -92,6 +93,7 @@ async function listPage({ page = 1 } = {}) {
       }).catch(() => '')
     : '';
   const idx = page === 1 ? await marketIndex().catch(() => []) : [];
+  const scamHi = page === 1 ? await memo('scamhighlights', MEMO_TTL.clarity, () => scamHighlights({ pauseSample: 4 })).catch(() => null) : null;
   const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
   const commSum = page === 1 ? await commoditiesSummary().catch(() => null) : null;
   const fxSum = page === 1 ? await forexSummary().catch(() => null) : null;
@@ -188,6 +190,10 @@ async function listPage({ page = 1 } = {}) {
       <th scope=col data-sort="chg">24h</th><th scope=col data-sort="mcap">Market cap</th><th scope=col data-sort="vol">Volume</th><th scope=col>7d</th>
     </tr></thead><tbody>${rows || '<tr><td colspan=7 class=muted>loading…</td></tr>'}</tbody></table>
     ${pager}
+    ${page === 1 && scamHi ? `<div class=card style="margin:14px 0 0;font-size:13px"><span class=muted>🚨 Scams &amp; fraud:</span>
+      ${scamHi.counts.gov} government trackers · ${scamHi.counts.consumer} consumer-complaint sites · ${scamHi.counts.community + scamHi.counts.commercial} crypto registries
+      ${scamHi.pauseTotal ? ` · <span class=muted>SEC PAUSE list: ${scamHi.pauseTotal} flagged firms${scamHi.pauseSample?.length ? ` (e.g. ${scamHi.pauseSample.slice(0, 2).map((n) => esc(typeof n === 'string' ? n : (n.name || n.match || ''))).join(', ')}…)` : ''}</span>` : ''}
+      <br>Check any company, website, or crypto wallet for scam reports. <a href="/scams" style="margin-left:4px">Show more →</a></div>` : ''}
     <script>
       var q=document.getElementById('q'),tb=document.querySelector('#mkt tbody');
       var msr=document.getElementById('msr'),tmr;
@@ -349,6 +355,7 @@ async function coinPage(id) {
       return rows.length ? card('Official & community', `<div style="display:flex;flex-wrap:wrap;gap:14px">${rows.join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Official project links — verified by the market fact-checker before they appear.</p>`) : '';
     })()}
     ${hasSocials(c) ? card('Community &amp; socials', `${renderSocials(c)}<p class=muted style="font-size:12px;margin-top:8px">Live feed + the project's real social channels. Verify before trusting — impersonators are common.</p>`) : ''}
+    ${await coinScamPanel(c).catch(() => '')}
     ${wiki.length ? card('In the Library', `<div style="display:flex;flex-direction:column;gap:8px">${wiki.map((w) => `<div><a href="${esc(/^https?:\/\//.test(w.url) ? w.url : WIKI_SITE + w.url)}">📖 ${esc(w.title)}</a>${w.snippet ? `<div class=muted style="font-size:12px">${esc(w.snippet)}</div>` : ''}</div>`).join('')}</div><p class=muted style="font-size:12px;margin-top:8px">Background reading from the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`) : ''}
     ${card('', `<p class=muted>📚 New to this? Read <a href="/learn/what-gives-a-token-value">what gives a token value</a> and <a href="/learn/recognizing-scam-patterns">how to spot scam patterns</a> — search the <a href="${esc(WIKI_SITE)}/?search=${encodeURIComponent(c.symbol || c.name)}">Library for ${esc(c.symbol || c.name)}</a>, or browse the <a href="${esc(WIKI_SITE)}">Library of Ashurbanipal</a>.</p>`)}
     ${converter(c)}
@@ -686,7 +693,7 @@ function learnArticle(slug) {
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/scams', '/gov', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
     ...Object.keys(LEARN).map((s) => `/learn/${s}`),
     ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
     ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
@@ -725,6 +732,66 @@ function govPage() {
     <p class=muted>${(GOV_APIS || []).length} US government APIs/SDKs aggregated — ${keyless} keyless. Same ingest + provenance + Clarity engine as the rest of SoapBox, pointed at official sources: spending, legislation, regulations, science, safety. One place, faster, sourced.</p>
     ${sections || '<p class=muted>Catalog unavailable.</p>'}`;
   return layout({ title: 'Government Data', active: '/gov', canonical: `${BASE_URL}/gov`, description: 'US government APIs and open data — federal spending, legislation, regulations, science, safety — aggregated, sourced, and free.', body });
+}
+
+// ── Scams & fraud (/scams) — aggregate government + consumer-complaint trust data ─────────────────
+// Plugs in integrations/soapbox/scam-registry.mjs: a queryable trust layer over gov fraud trackers
+// (FTC/IC3/CFTC/SEC), crypto registries (Chainabuse/CryptoScamDB), and consumer-complaint sites
+// (BBB/Trustpilot/Ripoff Report/SiteJabber/CFPB). Facts-not-verdicts, point/aggregate (deep-link),
+// keyless. A query (?q=) runs live signals + deep-links every consumer source for that entity.
+async function scamsPage(q = '') {
+  const query = String(q || '').trim();
+  const sum = scamSummary();
+  const [sig, hi] = await Promise.all([
+    query ? scamSignals(query).catch(() => null) : Promise.resolve(null),
+    scamHighlights({ pauseSample: 8 }).catch(() => null),
+  ]);
+  const sourceList = (kind) => scamByKind(kind).map((s) => `<li><b>${esc(s.name)}</b> <span class=muted style="font-size:12px">(${s.keyless ? (s.api ? 'keyless api' : 'public') : 'key required'})</span>${s.coverage ? ` — ${esc(s.coverage)}` : ''} <a href="${esc(s.url)}" rel="nofollow noopener">↗</a></li>`).join('');
+
+  // Live result block for a query: risk hint + reports + deep-links to every consumer site.
+  let resultBlock = '';
+  if (query) {
+    const links = consumerComplaintLinks(query);
+    const riskTone = sig?.riskHint === 'high' ? 'down' : sig?.riskHint === 'low' ? 'up' : 'muted';
+    const reportRows = (sig?.reports || []).map((r) => `<li><b>${esc(r.source)}</b> <span class=muted style="font-size:12px">(${esc(r.kind)})</span> — ${esc(r.detail)}</li>`).join('');
+    resultBlock = card(`Trust check: ${esc(query)}`, `
+      <p>Risk signal: <span class="${riskTone}" style="font-weight:600">${esc((sig?.riskHint || 'unknown').toUpperCase())}</span>
+        ${sig?.legit?.listed ? ` · <span class=up>on the verified/regulated allowlist (${esc(sig.legit.via || 'allowlist')})</span>` : ''}</p>
+      ${reportRows ? `<p class=muted style="font-size:13px;margin:6px 0 2px">Automated reports found:</p><ul style="margin:0;padding-left:18px;line-height:1.7">${reportRows}</ul>` : '<p class=muted style="font-size:13px">No automated government/crypto-registry reports matched. Absence of a report is not proof of safety — check the consumer complaints below.</p>'}
+      <p class=muted style="font-size:13px;margin:12px 0 4px">Consumer complaints for “${esc(query)}” (search these directly):</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener" title="${esc(l.coverage || '')}">${esc(l.name)} ↗</a>`).join('')}</div>
+      <p class=muted style="font-size:11px;margin-top:10px">Facts, not verdicts — we surface what public sources report; we do not adjudicate. Verify on the source before acting.</p>`);
+  }
+
+  const pauseBlock = hi?.pauseSample?.length
+    ? card('SEC PAUSE list — recent entries', `<p class=muted style="font-size:13px">${hi.pauseTotal} firms the SEC flags as falsely claiming to be registered. Sample:</p><ul style="margin:0;padding-left:18px;line-height:1.6">${hi.pauseSample.map((n) => `<li>${esc(typeof n === 'string' ? n : (n.name || n.match || ''))}</li>`).join('')}</ul>`)
+    : '';
+
+  const body = `<h1>Scams &amp; Fraud</h1>
+    <p class=muted>One place for fraud signals: ${sum.gov} government trackers, ${sum.consumer} consumer-complaint sites, and ${sum.community + sum.commercial} crypto/registry sources — aggregated, sourced, free. Check any company, website, or crypto wallet.</p>
+    <form method=get action=/scams><input class=search name=q value="${esc(query)}" placeholder="Company, website, or wallet address (e.g. example.com, 0x…)" aria-label="Check a company, website, or wallet for scam reports" autocomplete=off></form>
+    ${resultBlock}
+    ${pauseBlock}
+    <div class=card><h2>Government fraud trackers</h2><ul style="margin:0;padding-left:18px;line-height:1.7">${sourceList('gov')}</ul></div>
+    <div class=card><h2>Consumer complaints &amp; reviews</h2><p class=muted style="font-size:13px;margin:0 0 8px">“I ordered two months ago and it never came” — crypto and non-crypto.</p><ul style="margin:0;padding-left:18px;line-height:1.7">${sourceList('consumer')}</ul></div>
+    <div class=card><h2>Crypto scam registries</h2><ul style="margin:0;padding-left:18px;line-height:1.7">${sourceList('community')}${sourceList('commercial')}</ul></div>`;
+  return layout({ title: 'Scams & Fraud', active: '/scams', canonical: `${BASE_URL}/scams`, description: 'Aggregated scam & fraud data — government trackers (FTC, FBI IC3, SEC), consumer-complaint sites (BBB, Trustpilot, Ripoff Report), and crypto registries. Check any company, website, or wallet.', body });
+}
+
+// Per-coin scam panel: crypto-scam signals for a coin's site/symbol, for the coin pages.
+async function coinScamPanel(c) {
+  const probe = (c?.links?.homepage || c?.homepage || c?.symbol || c?.name || '').toString().trim();
+  if (!probe) return '';
+  const sig = await scamSignals(probe).catch(() => null);
+  if (!sig) return '';
+  const links = consumerComplaintLinks(c.name || c.symbol || probe).slice(0, 4);
+  const reports = (sig.reports || []);
+  const tone = sig.riskHint === 'high' ? 'down' : sig.riskHint === 'low' ? 'up' : 'muted';
+  const inner = `<p>Risk signal: <span class="${tone}" style="font-weight:600">${esc((sig.riskHint || 'unknown').toUpperCase())}</span>${sig.legit?.listed ? ` · <span class=up>verified/regulated</span>` : ''}</p>
+    ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched this project.</p>'}
+    <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
+    <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(c.name || c.symbol || probe)}">Full scam check →</a> · Facts, not verdicts.</p>`;
+  return card('Scam &amp; fraud signals', inner);
 }
 
 const STARTED = process.hrtime.bigint();
@@ -772,6 +839,7 @@ createServer(async (req, res) => {
     if (p === '/forex') return send(await forexPage());
     if (p === '/news') return send(await newsPage());
     if (p === '/gov') return send(govPage());
+    if (p === '/scams') return send(await scamsPage(url.searchParams.get('q') || ''));
     // Operational health-check — must win over any content route (load balancers / Caddy / uptime
     // probes hit this). Kept above the vertical dispatch so a vertical can't shadow it (the Public
     // Health page lives at /public-health to avoid that collision).

@@ -45,7 +45,7 @@ const TTL_SCAM = {
 //    could call (keyless or keyed); absence of `api` means reports/CSV/Tableau/scrape-only. `keyless`
 //    = callable with no signup/key today. `coverage` = what kind of fraud signal it carries.
 // ─────────────────────────────────────────────────────────────────────────────────────────────────
-export const KINDS = ['gov', 'community', 'commercial'];
+export const KINDS = ['gov', 'community', 'commercial', 'consumer'];
 
 export const SCAM_SOURCES = [
   // ── GOVERNMENT ─────────────────────────────────────────────────────────────────────────────────
@@ -209,13 +209,132 @@ export const SCAM_SOURCES = [
     coverage: 'Consolidated sanctions, PEPs, and regulator alert lists — including a structured mirror of the SEC PAUSE list (us_sec_pause).',
     notes: 'The live match/search API needs a key (401), but the bulk dataset files (names.txt / targets.simple.csv / entities.ftm.json) are KEYLESS at data.opensanctions.org. We read the PAUSE names.txt directly (see secPauseList).',
   },
+
+  // ── CONSUMER COMPLAINT / REVIEW (kind: 'consumer') ───────────────────────────────────────────────
+  // The operator's "I placed an order 2 months ago and it never came" sources — crypto AND non-crypto.
+  // None expose a free per-entity API + most ToS-forbid scraping, so these are AGGREGATE/POINT tier:
+  // we deep-link a search for the specific company/domain (the JustWatch model). Facts, not verdicts.
+  {
+    name: 'BBB Scam Tracker',
+    agency: 'Better Business Bureau',
+    url: 'https://www.bbb.org/scamtracker',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.bbb.org/scamtracker/lookupscam?searchText=${encodeURIComponent(q)}`,
+    coverage: 'Crowd-reported scams (online-purchase non-delivery, phishing, crypto, employment) with $ lost, location, and scam type.',
+    notes: 'Public crowd map; no open API. Deep-link a company/domain search. Also a per-business review/complaint record at bbb.org/us/search.',
+  },
+  {
+    name: 'Trustpilot',
+    agency: 'Trustpilot (commercial reviews)',
+    url: 'https://www.trustpilot.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.trustpilot.com/search?query=${encodeURIComponent(q)}`,
+    coverage: 'Consumer reviews + 1-star complaint volume for any business domain — the canonical "ordered, never arrived" signal.',
+    notes: 'Business Units API exists but is keyed/paid. Deep-link the public review page (trustpilot.com/review/<domain>) or search.',
+  },
+  {
+    name: 'Ripoff Report',
+    agency: 'Ripoff Report (consumer complaints)',
+    url: 'https://www.ripoffreport.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.ripoffreport.com/reports/specific_search/${encodeURIComponent(q)}`,
+    coverage: 'Long-form consumer complaints against companies; non-delivery, fraud, deceptive billing.',
+    notes: 'No API. Deep-link a company search. Reports are never removed — useful historical signal.',
+  },
+  {
+    name: 'SiteJabber',
+    agency: 'SiteJabber (business reviews)',
+    url: 'https://www.sitejabber.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.sitejabber.com/search?q=${encodeURIComponent(q)}`,
+    coverage: 'Business + website reviews with a scam/legit lean, heavy on e-commerce non-delivery.',
+    notes: 'No free API. Deep-link search.',
+  },
+  {
+    name: 'ConsumerAffairs',
+    agency: 'ConsumerAffairs',
+    url: 'https://www.consumeraffairs.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.consumeraffairs.com/search?query=${encodeURIComponent(q)}`,
+    coverage: 'Verified consumer reviews + complaints across retail, finance, services.',
+    notes: 'No open API. Deep-link search.',
+  },
+  {
+    name: 'ComplaintsBoard',
+    agency: 'ComplaintsBoard',
+    url: 'https://www.complaintsboard.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.complaintsboard.com/search?query=${encodeURIComponent(q)}`,
+    coverage: 'High-volume consumer complaint board — non-delivery, refunds, scams.',
+    notes: 'No API. Deep-link search.',
+  },
+  {
+    name: 'PissedConsumer',
+    agency: 'PissedConsumer',
+    url: 'https://www.pissedconsumer.com/',
+    kind: 'consumer',
+    keyless: true,
+    search: (q) => `https://www.pissedconsumer.com/search.html?query=${encodeURIComponent(q)}`,
+    coverage: 'Consumer complaints + company responses; e-commerce and crypto-platform non-delivery.',
+    notes: 'No free API. Deep-link search.',
+  },
+  {
+    name: 'CFPB Consumer Complaint Database',
+    agency: 'Consumer Financial Protection Bureau',
+    url: 'https://www.consumerfinance.gov/data-research/consumer-complaints/',
+    kind: 'consumer',
+    api: 'https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/?search_term={q}&size=20',
+    keyless: true,
+    search: (q) => `https://www.consumerfinance.gov/data-research/consumer-complaints/search/?searchText=${encodeURIComponent(q)}`,
+    coverage: 'KEYLESS government API: real consumer complaints against financial companies (incl. crypto/virtual-currency), with narratives + company response.',
+    notes: 'The one consumer source with a true keyless query API — already wired elsewhere as cfpb.mjs. Use for live narratives.',
+  },
 ];
 
 /** Catalog filters (parity with govtech-catalog/api-catalog helpers). */
 export const govSources = () => SCAM_SOURCES.filter((s) => s.kind === 'gov');
+export const consumerSources = () => SCAM_SOURCES.filter((s) => s.kind === 'consumer');
 export const queryableSources = () => SCAM_SOURCES.filter((s) => !!s.api);
 export const keylessSources = () => SCAM_SOURCES.filter((s) => s.keyless);
 export const byKind = (kind) => SCAM_SOURCES.filter((s) => s.kind === kind);
+
+/**
+ * Deep-link a complaint search on every consumer source for a company/domain/coin name.
+ * This is the AGGREGATE/POINT tier: we don't host their data (ToS + scraping risk), we point the
+ * user straight at that site's complaints for THIS entity. Returns [{ name, url, coverage }].
+ * Soft: empty query → []. Pure (no network).
+ */
+export function consumerComplaintLinks(query) {
+  const q = String(query || '').trim();
+  if (!q) return [];
+  return consumerSources()
+    .filter((s) => typeof s.search === 'function')
+    .map((s) => ({ name: s.name, agency: s.agency, url: s.search(q), coverage: s.coverage }));
+}
+
+/**
+ * Cheap front-page/site-wide highlights for the scam box: the catalog counts + a small live sample
+ * from the keyless lists (SEC PAUSE), all best-effort. Never throws; degrades to counts only.
+ * Returns { counts, pauseSample, pauseTotal, checked_at }.
+ */
+export async function scamHighlights({ pauseSample = 5 } = {}) {
+  const counts = summary();
+  let pauseArr = [];
+  // secPauseList() returns a Set of lowercased names — normalize to an array.
+  try { const p = await secPauseList(); pauseArr = p ? [...p] : []; } catch { pauseArr = []; }
+  return {
+    counts,
+    pauseTotal: pauseArr.length,
+    pauseSample: pauseArr.slice(0, pauseSample),
+    checked_at: new Date().toISOString(),
+  };
+}
 
 // ─────────────────────────────────────────────────────────────────────────────────────────────────
 // 3. LEGIT ALLOWLIST.  Verified / regulated entities, so the layer can mark "regulated legit" instead
@@ -464,6 +583,7 @@ export function summary() {
     gov: byKind('gov').length,
     community: byKind('community').length,
     commercial: byKind('commercial').length,
+    consumer: byKind('consumer').length,
     queryable: queryableSources().length,
     keyless: keylessSources().length,
     legit_allowlist: LEGIT_ALLOWLIST.length,
