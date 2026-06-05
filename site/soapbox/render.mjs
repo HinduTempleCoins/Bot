@@ -29,7 +29,7 @@ export const pct = (n) => (n == null || !Number.isFinite(+n) ? '<span class=mute
 
 const NAV = [
   ['/', 'Global Markets'], ['/categories', 'Categories'], ['/chains', 'Chains'], ['/dapps', 'dApps'],
-  ['/exchanges', 'Exchanges'], ['/macro', 'Macro'], ['/commodities', 'Commodities'], ['/forex', 'Forex'], ['/scams', 'Scams'], ['/stores', 'Stores'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
+  ['/exchanges', 'Exchanges'], ['/macro', 'Macro'], ['/commodities', 'Commodities'], ['/forex', 'Forex'], ['/scams', 'Scams'], ['https://abuck.soapbox.community', 'Stores'], ['/directory', 'Directory'], ['/ecosystem', 'Ecosystem'], ['/learn', 'Learn'],
 ];
 
 const STYLE = `<style>
