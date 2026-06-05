@@ -19,7 +19,7 @@ Environment=MELEK_CHAIN_ID=18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf7
 # public testnet init key). Mainnet will use a real first-party engine account.
 Environment=MELEK_ENGINE_ISSUER=initminer
 Environment=MELEK_ENGINE_HOST=127.0.0.1
-Environment=MELEK_ENGINE_PORT=8097
+Environment=MELEK_ENGINE_PORT=8098
 Environment=MELEK_ENGINE_STATE=/opt/melek-bot/repo/data/engine/state.json
 # Start replay near the genesis-of-engine-activity block to keep first sync fast.
 Environment=MELEK_ENGINE_START_BLOCK=10700
