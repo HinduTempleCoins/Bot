@@ -110,7 +110,7 @@ The actual MELEK-Signer build lives in a **separate private repo** (Phase 2 work
 
 ## Status
 
-- ☐ Phase 1 — Hello World (block production + price feed + intro post). **Scaffolding in place**, gated on melek-chain testnet endpoint. Built: `config.js`, `witness/hathor.js`, `witness/intro-post.md`, `witness/publish-intro.js`, `witness/disable.js`, `hello.js`, `feed_publish` + `disable_witness` methods on `GrapheneAdapter`. Awaiting: `MELEK_RPC_URL` / `MELEK_CHAIN_ID` / `MELEK_ADDRESS_PREFIX` from melek-chain config.hpp; on-chain account creation and witness registration (OPERATOR.md §6–§7).
+- ☑ Phase 1 — Hello World (block production + price feed + intro post). **SHIPPED on the live testnet 2026-06-05.** The MELEK testnet runs on the chain host (`melek-testnet.service`, systemd, auto-restart); `hathor` is a GENESIS account + genesis witness there (the chain-side slot protection is real — born into the active schedule). Claimed (keys rotated to fresh ones, in the operator vault as `hathor-testnet-keys`), funded, **producing blocks**, witness URL set, intro post on-chain (`@hathor/introducing-hathor-on-melek`), price feed published. Testnet chain id `18dcf0…274e`, prefix `TST`, symbols TESTS/TBD (mainnet: MELEK/MBD). `npm run hello` passes against it. Known gotchas: dhive mis-serializes `witness_update` on this Steem fork (use the chain's `cli_wallet` — builds after a one-line `get_typename<variant_object>` patch, applied on the chain host); SMT support is compiled AND hardfork-active (HF 0.23 = SMT hardfork on this fork; NAI pool live).
 - ☐ Phase 2 — Command menu. Not started.
 - ☐ Phase 3 — Conversational Witness. Not started.
 
