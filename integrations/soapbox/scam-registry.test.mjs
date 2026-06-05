@@ -9,6 +9,7 @@ import {
   SCAM_SOURCES, KINDS, govSources, queryableSources, keylessSources, byKind,
   classifyQuery, normalizeDomain, checkLegit, scamSignals, summary, LEGIT_ALLOWLIST,
   __setFetch, secPauseList, edgarFullText, urlscanDomain, checkCryptoScamDB,
+  consumerSources, consumerComplaintLinks, scamHighlights,
 } from './scam-registry.mjs';
 import { invalidate } from './cache.mjs';
 
@@ -195,4 +196,35 @@ test('scamSignals: empty query short-circuits with no network call', async () =>
   assert.deepEqual(r.reports, []);
   assert.deepEqual(r.sources, []);
   assert.equal(r.riskHint, 'unknown');
+});
+
+test('consumer sources are cataloged (BBB, Trustpilot, Ripoff, CFPB, …) with deep-link search builders', () => {
+  const cs = consumerSources();
+  assert.ok(cs.length >= 7, `expected the consumer-complaint sites, got ${cs.length}`);
+  const names = cs.map((s) => s.name).join(' ');
+  for (const n of ['BBB Scam Tracker', 'Trustpilot', 'Ripoff Report', 'CFPB Consumer Complaint Database']) {
+    assert.ok(names.includes(n), `missing consumer source: ${n}`);
+  }
+  // every consumer source carries a search() deep-link builder, kind 'consumer', and is in KINDS
+  assert.ok(KINDS.includes('consumer'));
+  for (const s of cs) { assert.equal(s.kind, 'consumer'); assert.equal(typeof s.search, 'function'); }
+});
+
+test('consumerComplaintLinks deep-links every consumer site for a query (encoded), [] on empty', () => {
+  const links = consumerComplaintLinks('Acme Corp & Co');
+  assert.equal(links.length, consumerSources().length);
+  for (const l of links) {
+    assert.ok(l.url.includes('Acme'), 'query should appear in the deep link');
+    assert.ok(l.url.includes('%20') || l.url.includes('+'), 'query should be URL-encoded');
+    assert.ok(l.name && l.url.startsWith('https://'));
+  }
+  assert.deepEqual(consumerComplaintLinks('  '), []);
+});
+
+test('scamHighlights returns catalog counts + a bounded PAUSE sample, never throws', async () => {
+  __setFetch(async () => ({ ok: true, status: 200, text: async () => 'Alpha Scam Inc\nBeta Fraud LLC\nGamma Co\n' }));
+  const hi = await scamHighlights({ pauseSample: 2 });
+  assert.ok(hi.counts && hi.counts.gov >= 1 && hi.counts.consumer >= 7);
+  assert.ok(hi.pauseSample.length <= 2);
+  __setFetch();
 });
