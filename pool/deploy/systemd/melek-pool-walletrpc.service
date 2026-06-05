@@ -1,0 +1,28 @@
+[Unit]
+Description=MELEK Pool — monero-wallet-rpc (stagenet pool payout wallet)
+Documentation=https://github.com/HinduTempleCoins/Bot/blob/main/pool/README.md
+After=docker.service melek-pool-monerod.service
+Requires=docker.service
+Wants=melek-pool-monerod.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker rm -f melek-wallet-rpc
+ExecStart=/usr/bin/docker run --rm --name melek-wallet-rpc \
+  --network melek-pool-net \
+  -p 127.0.0.1:38082:38082 \
+  -v /opt/melek-pool/wallet:/home/monero/wallet \
+  sethsimmons/simple-monero-wallet-rpc:latest \
+  --stagenet \
+  --daemon-address=melek-monerod:38081 --trusted-daemon \
+  --wallet-file=/home/monero/wallet/poolwallet \
+  --password-file=/home/monero/wallet/.wallet-pass \
+  --rpc-bind-port=38082 \
+  --disable-rpc-login
+ExecStop=/usr/bin/docker stop melek-wallet-rpc
+
+[Install]
+WantedBy=multi-user.target

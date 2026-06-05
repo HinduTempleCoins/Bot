@@ -1,0 +1,25 @@
+[Unit]
+Description=MELEK Mining Pool — cryptonote-nodejs-pool (stratum + payments + API)
+Documentation=https://github.com/HinduTempleCoins/Bot/blob/main/pool/README.md
+After=docker.service melek-pool-redis.service melek-pool-monerod.service melek-pool-walletrpc.service
+Requires=docker.service melek-pool-redis.service
+Wants=melek-pool-monerod.service melek-pool-walletrpc.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=15
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker rm -f melek-pool
+ExecStart=/usr/bin/docker run --rm --name melek-pool \
+  --network melek-pool-net \
+  -p 0.0.0.0:3333:3333 \
+  -p 0.0.0.0:5555:5555 \
+  -p 127.0.0.1:8117:8117 \
+  -v /opt/melek-pool/config.json:/config/config.json:ro \
+  -v /opt/melek-pool/pool-logs:/pool/logs \
+  melek-pool:latest
+ExecStop=/usr/bin/docker stop melek-pool
+
+[Install]
+WantedBy=multi-user.target

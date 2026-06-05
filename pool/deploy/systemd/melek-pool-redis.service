@@ -1,0 +1,21 @@
+[Unit]
+Description=MELEK Pool — Redis (pool share/stat store)
+Documentation=https://github.com/HinduTempleCoins/Bot/blob/main/pool/README.md
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker rm -f melek-pool-redis
+ExecStart=/usr/bin/docker run --rm --name melek-pool-redis \
+  --network melek-pool-net \
+  -p 127.0.0.1:6379:6379 \
+  -v /opt/melek-pool/redis:/data \
+  redis:7-alpine
+ExecStop=/usr/bin/docker stop melek-pool-redis
+
+[Install]
+WantedBy=multi-user.target

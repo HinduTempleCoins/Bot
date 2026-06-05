@@ -1,0 +1,18 @@
+# MELEK Mining Pool — append this block to /etc/caddy/Caddyfile (CADDY LOCK PROTOCOL).
+# Serves the static pool frontend and reverse-proxies the JSON API to the pool app (:8117).
+pool.soapbox.community {
+	encode gzip
+
+	# Pool stats API: cryptonote-nodejs-pool serves at :8117 with no /api prefix,
+	# so strip /api before proxying. Frontend config.js points at /api.
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:8117
+	}
+
+	# Static frontend (cryptonote-nodejs-pool website_example, configured).
+	handle {
+		root * /opt/melek-pool/www
+		try_files {path} /index.html
+		file_server
+	}
+}
