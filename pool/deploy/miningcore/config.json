@@ -1,0 +1,159 @@
+{
+    "logging": {
+        "level": "info",
+        "enableConsoleLog": true,
+        "enableConsoleColors": true,
+        "logFile": "",
+        "logBaseDirectory": "/app/logs",
+        "perPoolLogFile": false
+    },
+    "banning": {
+        "manager": "integrated",
+        "banOnJunkReceive": true,
+        "banOnInvalidShares": false
+    },
+    "notifications": {
+        "enabled": false,
+        "admin": {
+            "enabled": false,
+            "emailAddress": "",
+            "notifyBlockFound": false
+        }
+    },
+    "persistence": {
+        "postgres": {
+            "host": "melek-mc-postgres",
+            "port": 5432,
+            "user": "miningcore",
+            "password": "__PG_PASSWORD__",
+            "database": "miningcore"
+        }
+    },
+    "paymentProcessing": {
+        "enabled": true,
+        "interval": 600,
+        "shareRecoveryFile": "/app/recovered-shares.txt"
+    },
+    "api": {
+        "enabled": true,
+        "listenAddress": "0.0.0.0",
+        "port": 4000,
+        "metricsIpWhitelist": [],
+        "rateLimiting": {
+            "disabled": true
+        }
+    },
+    "pools": [
+        {
+            "id": "xmr-stagenet",
+            "enabled": true,
+            "coin": "monero",
+            "address": "57kYk4iMy9SCMyeRctNW6QUpCVKnRp1682BiYnxUqMVDjhAVABfQJbUTC5oTvfRruNVVxqGK6MEz3QoQLnV2NPGxBArv9Kz",
+            "rewardRecipients": [],
+            "blockRefreshInterval": 1000,
+            "jobRebroadcastTimeout": 10,
+            "clientConnectionTimeout": 600,
+            "banning": {
+                "enabled": true,
+                "time": 600,
+                "invalidPercent": 50,
+                "checkThreshold": 50
+            },
+            "ports": {
+                "4444": {
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 1000,
+                    "name": "CPU / Low-end (RandomX, stagenet)",
+                    "varDiff": {
+                        "minDiff": 100,
+                        "maxDiff": null,
+                        "targetTime": 15,
+                        "retargetTime": 90,
+                        "variancePercent": 30
+                    }
+                },
+                "4445": {
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 25000,
+                    "name": "High-End (RandomX, stagenet)",
+                    "varDiff": {
+                        "minDiff": 10000,
+                        "maxDiff": null,
+                        "targetTime": 15,
+                        "retargetTime": 90,
+                        "variancePercent": 30
+                    }
+                }
+            },
+            "daemons": [
+                {
+                    "host": "node.monerodevs.org",
+                    "port": 38089,
+                    "user": "",
+                    "password": ""
+                },
+                {
+                    "host": "melek-wallet-rpc",
+                    "port": 38082,
+                    "user": "",
+                    "password": "",
+                    "category": "wallet"
+                }
+            ],
+            "paymentProcessing": {
+                "enabled": true,
+                "minimumPayment": 0.25,
+                "payoutScheme": "PPLNS",
+                "payoutSchemeConfig": {
+                    "factor": 2.0
+                }
+            }
+        },
+        {
+            "id": "etc-mordor",
+            "enabled": true,
+            "coin": "ethereum",
+            "address": "0xaA0c07a11e4aE6fbe201C7EBE061A86A296f08ab",
+            "rewardRecipients": [],
+            "blockRefreshInterval": 500,
+            "jobRebroadcastTimeout": 10,
+            "clientConnectionTimeout": 600,
+            "banning": {
+                "enabled": true,
+                "time": 600,
+                "invalidPercent": 50,
+                "checkThreshold": 50
+            },
+            "ports": {
+                "5550": {
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 1,
+                    "name": "Etchash GPU (Mordor testnet)",
+                    "varDiff": {
+                        "minDiff": 0.5,
+                        "maxDiff": null,
+                        "targetTime": 15,
+                        "retargetTime": 90,
+                        "variancePercent": 30
+                    }
+                }
+            },
+            "daemons": [
+                {
+                    "host": "melek-mordor",
+                    "port": 8545,
+                    "user": "",
+                    "password": ""
+                }
+            ],
+            "paymentProcessing": {
+                "enabled": true,
+                "minimumPayment": 0.1,
+                "payoutScheme": "PPLNS",
+                "payoutSchemeConfig": {
+                    "factor": 2.0
+                }
+            }
+        }
+    ]
+}

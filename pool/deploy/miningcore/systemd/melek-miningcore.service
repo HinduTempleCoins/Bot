@@ -1,0 +1,24 @@
+[Unit]
+Description=MELEK Miningcore (multi-algo pool: RandomX + Ethash/Etchash)
+After=docker.service melek-mc-postgres.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker rm -f melek-miningcore
+# Stratum ports: 4444/4445 = RandomX (Monero stagenet), 5550 = Etchash (ETC Mordor).
+# API on 127.0.0.1:4000 (Caddy reverse-proxies /api to it). config.json holds the
+# postgres password; mounted read-only from /opt/melek-miningcore/config.json.
+ExecStart=/usr/bin/docker run --rm --name melek-miningcore \
+  --network melek-pool-net \
+  -p 4444:4444 -p 4445:4445 -p 5550:5550 \
+  -p 127.0.0.1:4000:4000 \
+  -v /opt/melek-miningcore/config.json:/app/config.json:ro \
+  -v /opt/melek-miningcore/mc-logs:/app/logs \
+  melek-miningcore:latest
+ExecStop=/usr/bin/docker stop melek-miningcore
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

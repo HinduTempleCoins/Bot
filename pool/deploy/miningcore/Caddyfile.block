@@ -1,0 +1,25 @@
+# MELEK Mining Pool (Miningcore) — the CUTOVER pool.soapbox.community block.
+# Replaces the old cryptonote-nodejs-pool block during cutover (CADDY LOCK PROTOCOL:
+#   until mkdir /tmp/caddy.lock 2>/dev/null; do sleep 5; done
+#   ...edit only this block...
+#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#   rmdir /tmp/caddy.lock )
+#
+# Serves the multi-coin static frontend and reverse-proxies the Miningcore REST API.
+# Miningcore serves its API UNDER /api already (routes are /api/pools, /api/pools/{id}…),
+# so DO NOT strip the prefix — proxy /api/* straight through to :4000.
+pool.soapbox.community {
+	encode gzip
+
+	# Miningcore REST API (routes already begin with /api/).
+	handle /api/* {
+		reverse_proxy 127.0.0.1:4000
+	}
+
+	# Static multi-coin frontend.
+	handle {
+		root * /opt/melek-miningcore/www
+		try_files {path} /index.html
+		file_server
+	}
+}
