@@ -38,6 +38,10 @@ h3{font-size:15px;margin:20px 0 8px;color:var(--fg)}
 
 /* card / panel pattern */
 .card{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:18px 20px;margin:14px 0}
+.launcher{border-left:3px solid var(--blue)}
+.l-how{margin-top:12px}
+.l-how summary{cursor:pointer;font-size:13px;color:var(--blue);font-weight:600}
+.l-how[open] summary{margin-bottom:4px}
 .note{background:var(--panel);border:1px solid var(--line2);border-left:3px solid var(--gold);border-radius:10px;padding:14px 18px;margin:14px 0;color:var(--mut)}
 .note b{color:var(--gold)}
 

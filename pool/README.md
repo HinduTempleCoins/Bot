@@ -122,6 +122,7 @@ cp deploy/miningcore/systemd/*.service /etc/systemd/system/ && systemctl daemon-
 systemctl enable --now melek-mc-postgres melek-mc-monerod melek-mordor melek-miningcore
 
 # 5. Frontend (rsync the canonical source; pool/www/ is the source of truth)
+node pool/www/build-manifest.mjs          # regenerate launcher-manifest.json from wizard.mjs
 rsync -av pool/www/ <box>:/opt/melek-miningcore/www/
 ```
 
@@ -174,6 +175,51 @@ leaves the browser; the pool only sees it as the stratum username at connect):
 - **Honesty:** a battery/heat warning is shown first ("participation, not profit; mine
   plugged-in only; phones are weak miners; thermal throttling"). **iOS** gets an honest
   "not practically minable" note (Apple blocks background CPU miners).
+
+## SoapBox Miner — universal launcher ("one download, pick inside")
+
+The wizard's **primary card** (above the per-coin menu) offers **one download per OS family**
+that lets the user pick the coin *inside* a small text-menu app, and switch coins later without
+re-downloading. Operator ask: *"one Download that has all of them, and then they can Select in
+the App."* This is the **stage-1 web edition** of the pool-as-wallet app
+(`.local/PRANA_MINING_POOL_AS_WALLET_2026-06-05.md` §7); the full wallet + hash↔AI switching
+worker comes later from the PRANA repo.
+
+**What the user gets** (generated **client-side**, address(es) baked in — never sent anywhere):
+- **Windows:** `SoapBoxMiner-Windows.zip` = `SoapBoxMiner.ps1` (the launcher) + `SoapBoxMiner.bat`
+  (double-click shim: `powershell -NoProfile -ExecutionPolicy Bypass -File …` — per-file only, no
+  system policy change) + a READ-ME. Interactive numbered menu → pick a coin → it downloads the
+  **official pinned miner** from upstream GitHub, **verifies SHA256**, unpacks, writes the
+  personalized config, and mines. Re-run to switch coins; last choice remembered in
+  `%LOCALAPPDATA%\SoapBoxMiner\soapbox-miner.json`.
+- **Linux/macOS:** `soapbox-miner.sh` — same flow (`curl` + `sha256sum`/`shasum`, `python3` to read
+  the menu, OS/arch detection incl. Apple-Silicon `macos-arm64`; ETC-GPU-on-mac = honest
+  "not supported").
+
+**Dynamic manifest = how new coins reach old downloads.** The launcher fetches
+`/launcher-manifest.json` at startup (falling back to a copy frozen into the script at
+generation time if the pool is unreachable), so coins we add later (Monero mainnet, OCTA/CAU,
+PRANA at launch) appear in the menu of a launcher someone already downloaded — **no re-download**.
+That static file is the **one source of truth's** product: `pool/www/build-manifest.mjs` runs
+`buildManifest()` over the **same `MINERS` + `COINS`** the per-coin wizard uses. **Regenerate it
+before every frontend deploy** (`node pool/www/build-manifest.mjs`; `--check` fails CI/tests if
+stale). Manifest entry per coin: `coin, symbol, family, algo, stratum {host,port}, miner,
+addrType, configTemplate, hardware[], enabled`; per miner: official `url` + `sha256` + `bin` +
+`archive` per OS/arch.
+
+**Security honesty (on the page + in the scripts):** the launcher is plain text and says so at
+the top (what it does; address only ever used as the mining username; downloads only the official
+upstream URLs in the manifest + checks SHA256). The page documents the **SmartScreen/Defender
+warning** — it fires for *any* unsigned `.ps1`/`.bat`, not because anything's wrong — and we do
+**not** suggest disabling Defender/SmartScreen beyond the standard per-file bypass shim. lolMiner
+has no published per-file SHA256, so its manifest entries carry `sha256:null` and the launcher
+says "verify against the official release page" rather than inventing a hash.
+
+Generators live in `wizard.mjs` (`buildManifest`, `genWindowsLauncher`, `genWindowsBat`,
+`genPosixLauncher`); UI wiring + client-side download in `pool.js` (`setupLauncher`). Tests in
+`pool/www/launcher.test.mjs` (manifest shape + one-source-of-truth with `MINERS`/`COINS` +
+enabled flags + static-file sync; address baking + shell-quote escaping per OS; `sh -n`/`bash -n`
+parse; shellcheck if installed; manifest pick resolved end-to-end via python3).
 
 ### Phone coin decision (researched 2026-06-05)
 
