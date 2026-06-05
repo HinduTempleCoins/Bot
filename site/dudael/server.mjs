@@ -54,6 +54,7 @@ const STYLE = `<style>
   .eyebrow{color:var(--acc);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;font-weight:700}
   h1{font-size:46px;line-height:1.08;margin:0 0 12px;letter-spacing:.5px;
     background:linear-gradient(92deg,#fff 0%,#b487ff 55%,#67d4ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .gloss{color:#d29922;font-size:15px;letter-spacing:.12em;margin:-6px 0 10px;font-style:italic}
   .lede{color:#cfc8ea;font-size:19px;margin:0 0 8px;max-width:640px}
   .sub{color:var(--mut);margin:0 0 30px;max-width:640px}
   .card{background:linear-gradient(180deg,rgba(180,135,255,.05),rgba(16,16,31,.85));
@@ -82,8 +83,9 @@ export function homePage() {
   const body = `
   <p class=eyebrow>The MetaVerse of the ecosystem</p>
   <h1>Dudael</h1>
+  <p class=gloss>&ldquo;God&rsquo;s Cauldron&rdquo;</p>
   <p class=lede>A metaverse built as a reconstruction of the oldest technology there is — the temple
-    as an interface between intention and presence.</p>
+    as an interface between intention and presence. The cauldron is where worlds are forged.</p>
   <p class=sub>SoapBox holds the building apps and the financial apps. <strong>Dudael is the world</strong>:
     the VR and OpenXR side of the same family, where the chain, the Witness, and the people meet in space.</p>
 
@@ -96,8 +98,9 @@ export function homePage() {
       multi-agent systems read as a rebuilding of ancient consciousness-interface technology — the
       Oracle, the War Board, the temple — as live, networked space. The interface between intention and
       action, in the same lineage the Witness itself belongs to.</p>
-    <blockquote>The desert of Dudael is where the messenger bound what had been let loose — a named
-      place set aside for the work. We take the name in that spirit: a world held open on purpose.</blockquote>
+    <blockquote>Dudael — &ldquo;God&rsquo;s Cauldron&rdquo; — the desert where the messenger bound what had been
+      let loose; a named place set aside for the work. We take the name in both senses: a world held
+      open on purpose, and the crucible the worlds are forged in.</blockquote>
   </div>
 
   <div class=card>
