@@ -240,6 +240,94 @@ Generator logic is unit-tested: `node --test pool/www/wizard.test.mjs` (also in 
 covers per-coin address validation, generated xmrig config shape, worker-name sanitization,
 one-liner SHA256 pinning, Etchash command, phone support gating, and the QR payload.
 
+## Browser mining — "Mine right now" (real RandomX in the page, even on a phone)
+
+The **top section** of the pool landing (operator order, directive Addendum 22: *"we want
+Browser Mining Options, up front at the Top, then it Starts Explaining our Download and what
+it Provides and for whom"*) is an **opt-in, in-browser RandomX miner** that submits **real,
+pool-accepted shares** — no install, works on a laptop, desktop, or an Android/iPhone
+**browser**. It is the global zero-barrier door; the launcher (the Download story) sits
+directly below it.
+
+**It is real, not a demo.** The miner is the vendored open-source **`randomx.js`**
+(`pool/www/vendor/randomx/`, **BSD-3-Clause**, provenance + license in that folder). It JITs
+RandomX programs to WebAssembly at runtime (the WASM is base64-inlined; nothing to fetch) and
+its hashes are **identical to the reference implementation** — we re-checked it against the
+**official RandomX test vector** in `pool/www/browser-mine.test.mjs`
+(`key="test key 000", input="This is a test" => 639183aa…0b4e3f`). Because Miningcore
+**re-validates every share's proof-of-work**, fake/incorrect hashing cannot pass — the worst
+case is *zero* accepted shares (slow hardware), never a fake one.
+
+**Honest physics (stated on the page):** light-mode RandomX in a browser is ~**8–10 H/s per
+core** on a desktop CPU (measured in Node on the build box) and a few H/s on a phone — ~10–50×
+slower than the native miner. Earnings ≈ **fractions of a cent per day**; the copy says
+"participation, and it's real," not a payday. The page also carries the **ad-blocker /
+CoinHive note** (opt-in, first-party, button-press only — the opposite of drive-by mining),
+a **battery/heat** note for phones, a **throttle slider** (default 50%), and **auto-pause on
+tab-hidden** (visibilitychange). We serve **everything first-party** — no third-party hosted
+miner script (those are what blockers rightly flag).
+
+**Architecture (browsers can't speak raw TCP stratum):**
+
+```
+browser tab                         the pool box
+┌───────────────────────┐           ┌──────────────────────────────────────────┐
+│ browser-mine.mjs (UI) │           │  Caddy :443  /ws ─► 127.0.0.1:8110        │
+│   └ miner.mjs (stratum)│  WSS /ws  │      (melek-pool-bridge.service)          │
+│       └ miner-worker   │ ───────►  │  bridge.mjs  WS◄►TCP  ─► 127.0.0.1:4446   │
+│         (RandomX WASM, │           │      (Miningcore browser/WASM stratum,     │
+│          Web Workers)  │           │       fixed low diff 16)                  │
+└───────────────────────┘           └──────────────────────────────────────────┘
+```
+
+- **`pool/bridge/bridge.mjs`** — a Node **WebSocket→stratum bridge** (`ws`): one upstream TCP
+  stratum connection per WS client, **transparent passthrough** of login/job/submit (it never
+  parses stratum semantics, so it can't generate the "junk" Miningcore's `banOnJunkReceive`
+  would punish), clean teardown either direction. Public-endpoint rails: **per-IP connection
+  cap** (default 4), **per-connection token-bucket message-rate cap**, max message size,
+  multiline/binary/non-JSON rejection, idle reaper. No keys, reads nothing from disk.
+  Unit `pool/bridge/systemd/melek-pool-bridge.service` (WS bound to `127.0.0.1:8110`).
+- **`pool/www/miner.mjs`** — main-thread controller: owns the WSS to `/ws`, speaks Monero
+  stratum (login→job→submit), fans jobs to N Web Workers with **distinct nonce lanes**
+  (offset+stride), aggregates hashrate, counts accepted shares, never submits a **stale-job**
+  share. Pure stratum helpers (`targetToUint32`, `parseJob`, `buildSubmit`…) are unit-tested.
+- **`pool/www/miner-worker.mjs`** — the hashing thread (module Web Worker): (re)inits the
+  256 MiB RandomX cache only when the epoch **seed_hash** changes, writes the 4-byte nonce at
+  the Monero blob offset (39), hashes, compares the hash's top-32-LE word to the compact
+  target, posts shares + ~1 Hz hashrate samples, honors the throttle by sleeping between small
+  hash slices (keeps the UI thread free).
+- **Dedicated browser stratum port `4446`** (Miningcore `config.json`, `xmr-stagenet`):
+  **fixed difficulty 16, no varDiff**, bound to `127.0.0.1` (the public path is the WSS bridge,
+  not raw TCP). A weak WASM miner lands a share in seconds instead of minutes; native miners
+  keep `4444/4445`. The bridge targets `4446` by default
+  (`BRIDGE_STRATUM_PORT`).
+
+**Caddy** carries `/ws` in **both** the live block (`deploy/Caddyfile.block`) and the staged
+cutover block (`deploy/miningcore/Caddyfile.block`) so it survives the cutover.
+
+**Deploy / restart:**
+
+```bash
+rsync -av pool/www/ <box>:/opt/melek-miningcore/www/        # ships vendor/randomx + the page
+cp pool/bridge/systemd/melek-pool-bridge.service /etc/systemd/system/ && systemctl daemon-reload
+systemctl enable --now melek-pool-bridge                    # WS bridge on 127.0.0.1:8110
+# add port 4446 to the miningcore docker run + config.json (already in this repo's deploy files),
+# then: systemctl restart melek-miningcore
+# Caddy /ws (LOCK PROTOCOL): add the /ws handle to the pool block, validate, reload.
+```
+
+**End-to-end proof:** `node pool/bridge/proof-share.mjs <wss-or-ws url> <stagenet-address>`
+runs the real protocol (login→job→hash→submit) through the bridge against the pool and exits
+0 on **AT LEAST ONE ACCEPTED SHARE**. It only succeeds once the stagenet `melek-mc-monerod`
+daemon is **synced** (until then Miningcore can't issue a block template, so stratum has no
+jobs — see the sync note above).
+
+**Tests:** `pool/bridge/bridge.test.mjs` (fake stratum: login/job/submit/teardown, per-IP cap,
+rate cap, junk-rejection, token bucket), `pool/www/miner.test.mjs` (stratum helpers + worker/WS
+glue with mocks: fan-out lanes, accept/reject, stale-job guard, throttle clamp), and
+`pool/www/browser-mine.test.mjs` (RandomX test-vector correctness, page **order**
+browser→download→doors, required controls/counters, honesty copy). All wired into `npm test`.
+
 ## Adding a coin (incl. PRANA) — the "plus ours" step
 
 Every mineable coin is **one object in the `pools[]` array** of `config.json`. To add a coin:

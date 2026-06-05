@@ -63,6 +63,12 @@
                 "checkThreshold": 50
             },
             "ports": {
+                "4446": {
+                    "//": "BROWSER port — fixed, very low difficulty for the in-page WASM RandomX miner (~8-10 H/s/thread desktop, a few H/s on phones). No varDiff so weak browser miners still land shares in seconds; the WS->stratum bridge (melek-pool-bridge) targets THIS port. Shares are real (pool re-validates PoW). Not for native miners — they use 4444/4445.",
+                    "listenAddress": "0.0.0.0",
+                    "difficulty": 16,
+                    "name": "Browser / WASM (RandomX, stagenet) — via /ws bridge"
+                },
                 "4444": {
                     "listenAddress": "0.0.0.0",
                     "difficulty": 1000,

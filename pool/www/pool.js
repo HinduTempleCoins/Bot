@@ -116,6 +116,8 @@ function showDetail(p) {
   $('#doors-section').classList.add('hidden');
   $('#ecosystem-note').classList.add('hidden');
   $('#wallet-note').classList.add('hidden');
+  $('#browser-mine')?.classList.add('hidden');
+  $('#launcher')?.classList.add('hidden');
   const d = $('#detail');
   d.classList.remove('hidden');
   $('#d-title').innerHTML = `${c.name || p.id} <small class="muted" style="font-size:14px;font-weight:400">(${(c.symbol || '').toUpperCase()} &middot; ${algoLabel(p)})</small>`;
@@ -173,6 +175,8 @@ $('#back').onclick = () => {
   $('#doors-section').classList.remove('hidden');
   $('#ecosystem-note').classList.remove('hidden');
   $('#wallet-note').classList.remove('hidden');
+  $('#browser-mine')?.classList.remove('hidden');
+  $('#launcher')?.classList.remove('hidden');
 };
 
 // ====================================================================

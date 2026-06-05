@@ -39,46 +39,85 @@
 
   <div class="hero">
     <h1>SoapBox Mining Pool</h1>
-    <p class="tag">A multi-algorithm, multi-coin pool. CryptoNote / RandomX and Ethash / Etchash run side by side, one config entry per coin &mdash; <strong>plus ours</strong>. Mine to an address you control; the pool never holds your spend keys.</p>
+    <p class="tag">Mine right now in your browser &mdash; no install, even on a phone &mdash; or download the one-click launcher for real hardware. A multi-coin pool: RandomX / CryptoNote and Ethash / Etchash side by side, <strong>plus our own currencies</strong>. You always mine to an address you control; the pool never holds your spend keys.</p>
   </div>
 
-  <!-- THREE DOORS (operator design: pool-as-wallet). Honest labels — no fake functionality. -->
-  <section id="doors-section">
-    <h2>Three doors</h2>
-    <p class="sub">One wallet, three ways in. Today the <b>Mine</b> door is open; the other two arrive with PRANA.</p>
-    <div class="doors">
-      <a class="door live" href="#mine">
-        <div class="dh">Mine</div>
-        <div class="dd">Pick a coin below and point your miner at it. Rewards settle to your own address &mdash; non-custodial.</div>
-        <span class="pill">● Live</span>
-      </a>
-      <div class="door soon" role="group" aria-label="AI Work door">
-        <div class="dh">AI Work</div>
-        <div class="dd">Earn by tasking your hardware to AI work instead of (or alongside) hashing &mdash; the switching engine.</div>
-        <span class="pill">Opens with PRANA</span>
-      </div>
-      <div class="door soon" role="group" aria-label="Burn to Mine door">
-        <div class="dh">Burn to Mine</div>
-        <div class="dd">Commit capital instead of hardware &mdash; the Burn Coin path. Hardware-free participation.</div>
-        <span class="pill">Opens with PRANA</span>
-      </div>
-    </div>
-  </section>
+  <!-- ============================================================= -->
+  <!-- (1) TOP: BROWSER MINING — the zero-barrier door (Addendum 22) -->
+  <!-- ============================================================= -->
+  <section id="browser-mine" class="card">
+    <div class="k">Mine right now &mdash; in your browser</div>
+    <h2 style="margin-top:6px">Start mining in 5 seconds &mdash; no install, even on your phone</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
+      This runs a <strong>real</strong> RandomX miner right here in your browser tab and submits
+      <strong>real shares</strong> to our pool. It works on a laptop, a desktop, or an
+      Android/iPhone browser &mdash; nothing to download. Paste an address to be paid to, pick how
+      hard to push, and press Start.
+    </p>
 
-  <section id="ecosystem-note" class="note">
-    <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding a coin is one config entry, not a rebuild.
+    <div class="wiz-field">
+      <label class="wiz-lab" for="bm-addr">Pay me to this Monero (stagenet) address
+        <span class="muted">&mdash; this is who gets the shares; it never leaves your browser except as your mining username</span></label>
+      <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="5... / 7... Monero stagenet address (or a 4... mainnet address)">
+      <div id="bm-addr-msg" class="wiz-msg"></div>
+      <div class="wiz-help">No address? <a href="https://www.getmonero.org/downloads/" target="_blank" rel="noopener">Get a Monero wallet</a> (use a stagenet address for the testnet).</div>
+    </div>
+
+    <div class="wiz-field">
+      <label class="wiz-lab" for="bm-throttle">How hard to push <span class="muted">(lower = cooler &amp; quieter; your tab stays responsive either way)</span></label>
+      <input id="bm-throttle" type="range" min="5" max="100" value="50" step="5" style="width:100%;max-width:360px">
+      <span id="bm-throttle-val" class="muted" style="font-size:12px;margin-left:8px">50%</span>
+    </div>
+
+    <div class="wiz-dl">
+      <button class="wiz-btn" id="bm-start">▶ Start mining</button>
+      <button class="wiz-btn ghost" id="bm-stop" disabled>■ Stop</button>
+    </div>
+
+    <div id="bm-stats" class="stat-grid" style="margin-top:14px">
+      <div class="stat"><div class="k">Status</div><div class="v" id="bm-status">idle</div></div>
+      <div class="stat"><div class="k">Hashrate</div><div class="v" id="bm-hashrate">0 H/s</div></div>
+      <div class="stat"><div class="k">Accepted shares</div><div class="v" id="bm-accepted">0</div></div>
+      <div class="stat"><div class="k">Threads</div><div class="v" id="bm-threads">&mdash;</div></div>
+    </div>
+
+    <div class="warn" id="bm-honesty" style="margin-top:14px">
+      <b>Honest about what this is:</b> a browser miner is <em>slow</em> &mdash; roughly 8&ndash;10 hashes/sec
+      per core on a computer, a few on a phone (a desktop app is 10&ndash;50&times; faster). Earnings here
+      are <strong>fractions of a cent a day &mdash; this is participation, and it is real</strong>, not a
+      payday. On a phone, keep it plugged in; it will warm up and drain the battery, so use the throttle.
+      Mining stops if you close or background the tab.
+    </div>
+
+    <details style="margin-top:4px">
+      <summary class="muted" style="font-size:12.5px;cursor:pointer">Why might my ad-blocker complain? (it&rsquo;s opt-in &amp; first-party)</summary>
+      <p class="muted" style="font-size:12.5px;line-height:1.6;margin:8px 0 0">
+        Some ad-blockers flag <em>any</em> in-browser miner because of the old CoinHive era, when sites
+        mined <em>without</em> asking. This is the opposite: it only runs when <strong>you</strong> press
+        Start, it&rsquo;s served entirely from our own site (no third-party script), the code is open
+        (<code>randomx.js</code>, BSD-licensed), and it stops the moment you press Stop or leave. If your
+        blocker still hides it, allow this page or use the downloadable launcher below.
+      </p>
+    </details>
   </section>
 
   <!-- PRIMARY: one download, pick the coin inside the app -->
   <section id="launcher" class="card launcher">
     <div class="k">One download, all coins</div>
-    <h2 style="margin-top:6px">SoapBox Miner — run it and pick inside</h2>
-    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
-      One small launcher for your computer. Run it, and a text menu lets you pick which coin
-      to mine and switch any time &mdash; no separate download per coin. It downloads the
-      <strong>official</strong> miner from the developer&rsquo;s GitHub, checks its SHA256, and
-      starts mining to <em>your</em> address. The launcher is a plain-text script you can read.
+    <h2 style="margin-top:6px">Want real earnings? Download the SoapBox Miner</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 10px">
+      The browser miner above is the easy door; for actual hardware the one-click launcher is
+      10&ndash;50&times; faster. <strong>One small download</strong> for your computer &mdash; run it and a
+      menu lets you pick which coin to mine and switch any time, no separate download per coin.
     </p>
+    <p class="muted" style="font-size:13px;margin:0 0 6px"><strong>What it provides:</strong> every coin on the pool in one menu (pick inside the app);
+      the <strong>official</strong> miner pulled straight from the developer&rsquo;s GitHub and
+      <strong>SHA256-checksum-verified</strong> before it runs; new coins appear in the menu automatically
+      (Monero mainnet, our ecosystem coins, PRANA at launch) with no re-download; mining goes to
+      <em>your</em> address &mdash; the launcher is plain text you can open and read.</p>
+    <p class="muted" style="font-size:13px;margin:0 0 12px"><strong>For whom:</strong> CPU folks (RandomX on any laptop/desktop), GPU rigs (Etchash coins like ETC),
+      Android phones (Termux QR, in the per-coin wizard below), and &mdash; as we add them &mdash;
+      <strong>our own currencies join this same menu</strong>: PRANA and the MELEK ecosystem coins at launch.</p>
 
     <div class="wiz-field">
       <label class="wiz-lab" for="l-xmr">Your Monero / RandomX payout address <span class="muted">(optional &mdash; it&rsquo;ll ask on first run if blank)</span></label>
@@ -107,6 +146,34 @@
       </ul>
     </details>
   </section>
+
+  <!-- THREE DOORS (operator design: pool-as-wallet). Honest labels — no fake functionality. -->
+  <section id="doors-section">
+    <h2>Three doors</h2>
+    <p class="sub">One wallet, three ways in. Today the <b>Mine</b> door is open; the other two arrive with PRANA.</p>
+    <div class="doors">
+      <a class="door live" href="#mine">
+        <div class="dh">Mine</div>
+        <div class="dd">Pick a coin below and point your miner at it. Rewards settle to your own address &mdash; non-custodial.</div>
+        <span class="pill">● Live</span>
+      </a>
+      <div class="door soon" role="group" aria-label="AI Work door">
+        <div class="dh">AI Work</div>
+        <div class="dd">Earn by tasking your hardware to AI work instead of (or alongside) hashing &mdash; the switching engine.</div>
+        <span class="pill">Opens with PRANA</span>
+      </div>
+      <div class="door soon" role="group" aria-label="Burn to Mine door">
+        <div class="dh">Burn to Mine</div>
+        <div class="dd">Commit capital instead of hardware &mdash; the Burn Coin path. Hardware-free participation.</div>
+        <span class="pill">Opens with PRANA</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="ecosystem-note" class="note">
+    <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding a coin is one config entry, not a rebuild.
+  </section>
+
 
   <section id="mine">
     <h2>Or pick one coin at a time</h2>
@@ -173,5 +240,6 @@
 </footer>
 
 <script type="module" src="pool.js"></script>
+<script type="module" src="browser-mine.mjs"></script>
 </body>
 </html>
