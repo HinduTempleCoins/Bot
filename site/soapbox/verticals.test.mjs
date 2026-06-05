@@ -21,6 +21,8 @@ const EXPECTED_PATHS = [
   '/vehicle-history', '/vehicle-value', '/market-health',
   // Hemp / cannabis vertical (#260)
   '/hemp',
+  // Coupons & cashback vertical (#234)
+  '/coupons',
   // Library (wave-library-borrow)
   '/library',
 ];

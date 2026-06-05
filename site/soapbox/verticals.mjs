@@ -398,6 +398,12 @@ export const VERTICALS = [
   { path: '/hemp', title: 'Hemp & Cannabis', navLabel: 'Hemp', kind: 'search',
     render: searchRender({ module: `${REL}cannabis.mjs`, fn: 'strainLookup', title: 'Hemp & Cannabis', placeholder: 'Strain name (e.g. Northern Lights)…', label: 'Look up strain' }) },
 
+  // Coupons & cashback (#234) — honest deals aggregator. The full standalone surface is
+  // site/coupons/server.mjs (coupons.soapbox.community); this Data-site page surfaces the keyless
+  // cashback-portal compare + honest-ranking guardrails for a store. Searchable: a store name.
+  { path: '/coupons', title: 'Coupons & Cashback', navLabel: 'Coupons', kind: 'search',
+    render: searchRender({ module: `${REL}coupons.mjs`, fn: 'verticalSummary', title: 'Coupons & Cashback', placeholder: 'Store name (e.g. Nike)…', label: 'Find coupons' }) },
+
   // ---- Library (wave-library-borrow) ----
   // Unified keyless catalog search → bucketed results: host-fully hits get a read/download link;
   // metadata-only hits get a cover + "go get the book" borrow link-outs (Open Library, WorldCat,
