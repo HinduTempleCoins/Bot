@@ -86,8 +86,11 @@ Deploy artifacts in this repo:
 - `deploy/miningcore/config.json` — Miningcore config (committed with a `__PG_PASSWORD__`
   placeholder; the live file on the box has the real generated password substituted in).
 - `www/` — the multi-coin frontend (`index.html`, `style.css`, `pool.js`). **This is the
-  canonical source**; it is rsync-deployed to `/opt/melek-miningcore/www` on the box
-  (`rsync -av pool/www/ <box>:/opt/melek-miningcore/www/`). Themed to match the SoapBox
+  canonical source**; it is rsync-deployed to **`/opt/melek-pool/www`** on the box
+  (`rsync -av pool/www/ <box>:/opt/melek-pool/www/`) — this is the **real Caddy-served web
+  root** (the live `pool.soapbox.community` block has `root * /opt/melek-pool/www`; the
+  `/opt/melek-miningcore/www` directory exists from earlier work but is **not** served).
+  Themed to match the SoapBox
   family (dark `:root` tokens mirroring `site/soapbox/render.mjs`, card/panel pattern, the
   shared family nav with "Pool" added, a light/dark toggle, and the "three doors" landing).
 - `deploy/miningcore/systemd/*.service` — units for miningcore, postgres, mordor,
@@ -123,7 +126,7 @@ systemctl enable --now melek-mc-postgres melek-mc-monerod melek-mordor melek-min
 
 # 5. Frontend (rsync the canonical source; pool/www/ is the source of truth)
 node pool/www/build-manifest.mjs          # regenerate launcher-manifest.json from wizard.mjs
-rsync -av pool/www/ <box>:/opt/melek-miningcore/www/
+rsync -av pool/www/ <box>:/opt/melek-pool/www/   # the REAL served web root
 ```
 
 ## Frontend / theme (SoapBox family look)
@@ -145,8 +148,8 @@ The landing presents the **three doors** (operator's pool-as-wallet design):
 
 No fake functionality: the two PRANA doors are non-interactive panels with honest labels.
 
-To re-deploy after a theme/frontend change: `rsync -av pool/www/ <box>:/opt/melek-miningcore/www/`
-(no service restart needed — Caddy serves the static files directly).
+To re-deploy after a theme/frontend change: `rsync -av pool/www/ <box>:/opt/melek-pool/www/`
+(no service restart needed — Caddy serves the static files directly from that root).
 
 ## "Start Mining" wizard (done-for-them setup) + phone mining
 
@@ -308,7 +311,7 @@ cutover block (`deploy/miningcore/Caddyfile.block`) so it survives the cutover.
 **Deploy / restart:**
 
 ```bash
-rsync -av pool/www/ <box>:/opt/melek-miningcore/www/        # ships vendor/randomx + the page
+rsync -av pool/www/ <box>:/opt/melek-pool/www/             # the REAL served root; ships vendor/randomx + the page
 cp pool/bridge/systemd/melek-pool-bridge.service /etc/systemd/system/ && systemctl daemon-reload
 systemctl enable --now melek-pool-bridge                    # WS bridge on 127.0.0.1:8110
 # add port 4446 to the miningcore docker run + config.json (already in this repo's deploy files),
@@ -408,8 +411,9 @@ on `:4444/:4445/:5550`. Once an accepted RandomX share is verified through Minin
 1. **Caddy** (LOCK PROTOCOL):
    ```bash
    until mkdir /tmp/caddy.lock 2>/dev/null; do sleep 5; done
-   # edit ONLY the pool.soapbox.community block: root -> /opt/melek-miningcore/www,
-   # /api reverse_proxy -> 127.0.0.1:4000  (see deploy/miningcore/Caddyfile.block)
+   # edit ONLY the pool.soapbox.community block: keep root /opt/melek-pool/www (the real
+   # served root — deploy the frontend there), and swap /api reverse_proxy -> 127.0.0.1:4000
+   # (see deploy/miningcore/Caddyfile.block)
    caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
    rmdir /tmp/caddy.lock
    ```

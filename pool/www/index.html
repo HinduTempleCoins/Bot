@@ -29,6 +29,7 @@
   <a href="https://stocks.soapbox.community">Stocks</a>
   <a href="https://wiki.soapbox.community">Library</a>
   <a class="active" href="https://pool.soapbox.community" aria-current="page">Pool</a>
+  <a href="mycoins.html">My Coins</a>
   <span class="grp-sep">·</span>
   <a href="https://alpha.melek.salon">MELEK Testnet</a>
   <span class="soon">MELEK<b>soon</b></span>
@@ -60,8 +61,15 @@
         <span class="muted">&mdash; this is who gets the shares; it never leaves your browser except as your mining username</span></label>
       <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="5... / 7... Monero stagenet address (or a 4... mainnet address)">
       <div id="bm-addr-msg" class="wiz-msg"></div>
-      <div class="wiz-help">No address? <a href="https://www.getmonero.org/downloads/" target="_blank" rel="noopener">Get a Monero wallet</a> (use a stagenet address for the testnet).</div>
+      <div class="wiz-help">No address? <a href="https://www.getmonero.org/downloads/" target="_blank" rel="noopener">Get a Monero wallet</a> (use a stagenet address for the testnet), or <a href="mycoins.html">generate one in My Coins</a>.</div>
     </div>
+
+    <p class="muted" style="font-size:12px;margin:-4px 0 12px">
+      <strong>Zephyr (ZEPH) browser mining is coming</strong> &mdash; ZEPH is a RandomX coin and rides this
+      exact in-browser path. Its node is still syncing, so the browser miner runs Monero for now; ZEPH joins
+      the picker here the moment its daemon is synced and a test share accepts. (It is already in the per-coin
+      list below, marked &ldquo;coming online&rdquo;.)
+    </p>
 
     <div class="wiz-field">
       <label class="wiz-lab" for="bm-throttle">How hard to push <span class="muted">(lower = cooler &amp; quieter; your tab stays responsive either way)</span></label>
@@ -183,6 +191,65 @@
     </div>
   </section>
 
+  <!-- ============================================================= -->
+  <!-- PERFORMANCE & THROTTLES — measured (Addendum 26): under all     -->
+  <!-- the mining stuff, plain-language + real numbers, easy to find.  -->
+  <!-- ============================================================= -->
+  <section id="throttles" class="card">
+    <div class="k">Honest numbers</div>
+    <h2 style="margin-top:6px">Performance &amp; throttles &mdash; measured</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
+      Mining speed is <strong>hashes per second (H/s)</strong> &mdash; how many RandomX hashes
+      your device tries each second. More hashes = more chances at a share = more reward. Several
+      things throttle (slow down) that rate. Here is each one in plain language, with the real
+      numbers we measured.
+    </p>
+
+    <div class="stat-grid" style="margin-bottom:14px">
+      <div class="stat"><div class="k">Browser (WASM), per core</div><div class="v">~8.8 H/s</div></div>
+      <div class="stat"><div class="k">Native miner (xmrig), per core</div><div class="v">~450&ndash;700 H/s</div></div>
+      <div class="stat"><div class="k">Phone browser, per core</div><div class="v">~2&ndash;5 H/s</div></div>
+      <div class="stat"><div class="k">Browser vs native gap</div><div class="v">~50&ndash;80&times; slower</div></div>
+    </div>
+    <p class="muted" style="font-size:12px;margin:-6px 0 14px">
+      Browser figure measured against the official RandomX test vector in our build
+      (<code>browser-mine.test.mjs</code>) on the pool box (AMD EPYC, light-mode RandomX, single core
+      &asymp; <strong>8.8 H/s</strong>). Native figure is the documented xmrig RandomX-per-core range on
+      a modern CPU core (light mode in the browser carries no dataset, so it is inherently slower than
+      native fast-mode). Phone figure is a browser-WASM single-core estimate for a mid-range handset.
+    </p>
+
+    <h3 style="font-size:14px;margin:0 0 6px">What slows you down (and why)</h3>
+    <ul style="font-size:13px;line-height:1.6;margin:0 0 12px;padding-left:18px">
+      <li><b>Browser WASM vs native (~50&ndash;80&times;):</b> the browser can&rsquo;t give RandomX the
+        JIT + hardware AES + 2&nbsp;GB dataset (fast mode) the native miner uses, so the in-page miner runs
+        the slow <em>light mode</em>. This is the single biggest gap &mdash; it is why the Download launcher
+        above is the real-earnings path.</li>
+      <li><b>Background-tab throttling:</b> browsers (and phones especially) heavily slow or freeze
+        timers in a tab you switch away from. Our miner <strong>auto-pauses when the tab is hidden</strong>
+        and resumes when you return &mdash; so a backgrounded tab earns ~0, by design.</li>
+      <li><b>Phone thermal throttling:</b> a phone CPU clocks itself <em>down</em> as it heats up to
+        protect itself. Sustained mining gets it hot within minutes, so the H/s you start at is not the
+        H/s you hold &mdash; expect it to settle lower. Keep it cool and plugged in.</li>
+      <li><b>Battery saver / low-power mode:</b> when the OS is in battery-saver (or the phone is
+        unplugged and low), it caps CPU frequency &mdash; another big cut to your hashrate. Plug in.</li>
+      <li><b>Screen-off:</b> phones suspend the browser when the screen locks, so mining stops with the
+        screen off. The tab needs to stay open and awake.</li>
+      <li><b>iOS:</b> Safari/iOS is the most aggressive of all &mdash; background CPU is blocked outright,
+        so iPhone browser mining only ticks while the page is foreground and awake, at the bottom of the
+        H/s range. There is no honest iPhone mining path beyond the browser demo.</li>
+      <li><b>Our throttle slider:</b> the &ldquo;how hard to push&rdquo; slider in the browser miner above
+        is <em>your</em> control &mdash; 50% means roughly half the per-core hashes, for a cooler, quieter,
+        more responsive device. Lower it on a phone or a laptop on battery; raise it on a plugged-in desktop.</li>
+    </ul>
+
+    <p class="muted" style="font-size:12.5px;margin:0">
+      <strong>Measure your own device:</strong> press <em>Start mining</em> in the browser card up top and
+      watch the live <strong>Hashrate</strong> readout &mdash; that is your real, measured H/s on this exact
+      device, throttles and all. Move the slider and watch it change.
+    </p>
+  </section>
+
   <section class="card" id="wallet-note">
     <div class="k">Non-custodial by design</div>
     <h3 style="margin-top:6px">Your wallet, your keys</h3>
@@ -216,7 +283,7 @@
         <label class="wiz-lab" for="w-addr">Your <span id="w-coin-sym">coin</span> wallet address (this is who gets paid)</label>
         <input id="w-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="paste your receive address">
         <div id="w-addr-msg" class="wiz-msg"></div>
-        <div class="wiz-help">Don&rsquo;t have one? <a id="w-wallet-help" href="#" target="_blank" rel="noopener">Here&rsquo;s how to get a wallet for this coin.</a></div>
+        <div class="wiz-help">Don&rsquo;t have one? <a href="mycoins.html">Generate one in your browser (My Coins)</a> &mdash; keys never leave your device. Or use an <a id="w-wallet-help" href="#" target="_blank" rel="noopener">external wallet</a>.</div>
       </div>
 
       <div class="wiz-field">

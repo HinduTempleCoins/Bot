@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Coins — Pool — SoapBox</title>
+<link rel="stylesheet" href="style.css">
+<script>(function(){try{var t=localStorage.getItem('sb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">SoapBox <span>Pool</span></span>
+  <span class="spacer"></span>
+  <button class="iconbtn" id="theme-toggle" title="Toggle light / dark" aria-label="Toggle theme">☾</button>
+</header>
+
+<!-- Shared SoapBox family nav (My Coins current) -->
+<nav class="mainnav" aria-label="SoapBox ecosystem">
+  <a href="https://vankushfamily.com">Roadmap</a>
+  <a href="https://soapbox.community">SoapBox</a>
+  <span class="grp-sep">·</span>
+  <a href="https://data.soapbox.community">Data</a>
+  <a href="https://search.soapbox.community">Search</a>
+  <a href="https://law.soapbox.community">Law</a>
+  <a href="https://politics.soapbox.community">Politics</a>
+  <a href="https://oversight.soapbox.community">Oversight</a>
+  <a href="https://hemp.soapbox.community">Hemp</a>
+  <a href="https://stocks.soapbox.community">Stocks</a>
+  <a href="https://wiki.soapbox.community">Library</a>
+  <a href="index.html">Pool</a>
+  <a class="active" href="mycoins.html" aria-current="page">My Coins</a>
+  <span class="grp-sep">·</span>
+  <a href="https://alpha.melek.salon">MELEK Testnet</a>
+  <span class="soon">MELEK<b>soon</b></span>
+  <span class="soon">PRANA<b>soon</b></span>
+</nav>
+
+<main class="wrap">
+
+  <div class="hero">
+    <h1>My Coins</h1>
+    <p class="tag">Every coin you mine, in one place &mdash; balance at the pool, pending payout, hashrate,
+      workers, recent payments. Add a coin by <strong>generating a wallet right here in your browser</strong>
+      or by pasting an address you already control. This is a <strong>receive-only</strong> view: the pool
+      only ever sees your receive address, never your spend keys.</p>
+  </div>
+
+  <!-- ONE WALLET + outflow toggle (Addendum 25) — placeholder pattern, honest label -->
+  <section id="spend-lock" class="card">
+    <div class="k">One wallet · spend lock</div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px">
+      <div style="flex:1 1 320px">
+        <h3 style="margin:0 0 4px">Outflow approval</h3>
+        <p class="muted" style="font-size:13px;margin:0">
+          The browser wallet and the downloadable SoapBox Miner app are <strong>the same wallet</strong>
+          (one seed). <strong>Receiving and mining never need this toggle.</strong> When sending arrives,
+          money can only <em>leave</em> while this is flipped to <b>Approve</b> &mdash; it re-locks after a
+          send. Default is <b>Locked</b>.
+        </p>
+      </div>
+      <div style="text-align:right">
+        <button id="spend-toggle" class="wiz-btn ghost" role="switch" aria-checked="false" aria-label="Spend lock">
+          🔒 Locked
+        </button>
+        <div id="spend-toggle-note" class="muted" style="font-size:11.5px;margin-top:6px;max-width:220px"></div>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:12px;font-size:12.5px">
+      <b>Not wired yet:</b> sending coins out of the browser wallet does not exist in this build &mdash;
+      this toggle shows the approval pattern the wallet will use. The downloadable app inherits the same
+      one-wallet + approve-to-send rule when sending ships (with PRANA / the Akasha wallet).
+    </div>
+  </section>
+
+  <!-- Add a coin -->
+  <section id="add-coin" class="card">
+    <div class="k">Add a coin</div>
+    <h2 style="margin-top:6px">Add a coin to track &amp; mine</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
+      Generate a brand-new wallet in your browser (keys never leave this page), or paste a receive
+      address you already have. Either way it appears below with its live pool stats.
+    </p>
+
+    <div class="wiz-field">
+      <label class="wiz-lab" for="ac-coin">Coin</label>
+      <select id="ac-coin" class="wiz-input"></select>
+    </div>
+
+    <div class="wiz-dl">
+      <button class="wiz-btn" id="ac-generate">✦ Generate a new wallet</button>
+      <button class="wiz-btn ghost" id="ac-paste">＋ Paste an address I already have</button>
+    </div>
+
+    <!-- paste path -->
+    <div id="ac-paste-box" class="wiz-field hidden" style="margin-top:12px">
+      <label class="wiz-lab" for="ac-addr">Your receive address</label>
+      <input id="ac-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="paste your receive address">
+      <div id="ac-addr-msg" class="wiz-msg"></div>
+      <div class="wiz-dl" style="margin-top:8px"><button class="wiz-btn" id="ac-addr-save">Save address</button></div>
+    </div>
+
+    <!-- generate path (custody flow) -->
+    <div id="ac-gen-box" class="wiz-out hidden" style="margin-top:12px"></div>
+  </section>
+
+  <!-- the coin cards + side rail -->
+  <section id="mycoins">
+    <h2>Your coins</h2>
+    <p class="sub">Live stats come from the pool API (<code>/api/pools/&hellip;</code>). Add a coin above to start.</p>
+    <div id="mc-list" class="coin-grid"><div class="loading">Loading your coins&hellip;</div></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Non-custodial · keys generated in your browser · the pool only sees receive addresses · part of the SoapBox family · pool.soapbox.community</p>
+  </div>
+</footer>
+
+<script type="module" src="mycoins-ui.mjs"></script>
+</body>
+</html>

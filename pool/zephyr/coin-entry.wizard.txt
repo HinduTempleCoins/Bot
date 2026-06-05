@@ -1,0 +1,43 @@
+Phase B: apply these two drop-ins to pool/www/wizard.mjs (the single source of truth that
+feeds BOTH the per-coin wizard AND buildManifest() -> launcher-manifest.json). After applying,
+run:  node pool/www/build-manifest.mjs   and   node --test pool/www/wizard.test.mjs pool/www/launcher.test.mjs
+
+xmrig has a native `--coin zephyr` profile, so genConfig / genOneLiners / genPhone /
+genQrPayload all work unchanged — ZEPH just flows through the existing cryptonote/RandomX path.
+Keep `enabled: false` until the daemon is synced AND a test share accepts; then flip to true
+and regenerate the manifest.
+
+------------------------------------------------------------------------------------------
+(1) Add to the COINS object in wizard.mjs (alongside `monero` and `ethereum_classic`):
+------------------------------------------------------------------------------------------
+
+  zephyr: {
+    id: 'zeph', symbol: 'ZEPH', name: 'Zephyr', family: 'cryptonote',
+    algo: 'rx/0', xmrigCoin: 'zephyr',
+    // ZEPH standard addr = base58, ~97-98 chars starting 'ZEPHs'; integrated starts 'ZEPHi'.
+    addr: { type: 'zephyr' },
+    walletHelp: 'https://wallet.zephyrprotocol.com/',
+    phoneReady: true,
+    // CPU/phone/browser low-diff stratum entry. enabled:false until synced + a share accepts.
+    launcher: { port: 4447, menuLabel: 'Zephyr (ZEPH) — CPU / phone', enabled: false, miner: 'xmrig', hardware: ['cpu'] },
+  },
+
+------------------------------------------------------------------------------------------
+(2) Add a ZEPH branch to validateAddress() in wizard.mjs, right after the `monero` branch
+    (before the trailing `return { ok: true };`):
+------------------------------------------------------------------------------------------
+
+  if (c.addr.type === 'zephyr') {
+    // base58 alphabet (no 0 O I l). ZEPH addresses are ~97-98 chars and carry a multi-char
+    // human prefix: 'ZEPHs' (standard/spendable), 'ZEPHi' (integrated), 'ZEPHsg' (governance).
+    if (!/^[1-9A-HJ-NP-Za-km-z]+$/.test(a)) {
+      return { ok: false, reason: 'contains characters not in the Zephyr base58 set' };
+    }
+    if (a.length < 95 || a.length > 110) {
+      return { ok: false, reason: 'a Zephyr address is ~97-98 base58 characters' };
+    }
+    if (!/^ZEPH[sig]/.test(a)) {
+      return { ok: false, reason: "a Zephyr address starts with 'ZEPHs' (or 'ZEPHi' integrated)" };
+    }
+    return { ok: true };
+  }

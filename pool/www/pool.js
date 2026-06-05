@@ -35,7 +35,8 @@ const el = (t, c, h) => { const e = document.createElement(t); if (c) e.classNam
 // show on the menu as "coming online" without claiming live functionality.
 // Mirrors the disabled pools[] entries in config.json so the menu stays honest.
 const COMING_SOON = [
-  { sym: 'XMR', name: 'Monero (mainnet)', algo: 'RandomX / CryptoNote', note: 'coming online' }
+  { sym: 'XMR', name: 'Monero (mainnet)', algo: 'RandomX / CryptoNote', note: 'coming online' },
+  { sym: 'ZEPH', name: 'Zephyr (ZEPH)', algo: 'RandomX / CryptoNote', note: 'node syncing' }
 ];
 
 function fmtHash(h) {
