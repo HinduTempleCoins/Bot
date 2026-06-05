@@ -1,19 +1,23 @@
 /**
- * autovote — configuration for the MELEK-testnet Hive.Vote clone.
+ * autovote — configuration for the chain-agnostic Hive.Vote clone.
  *
- * TESTNET ONLY. This service stores posting keys server-side so the worker can
- * cast votes on a schedule. That is acceptable *only* because this targets the
- * MELEK testnet with throwaway keys. See SIGNER SEAM note in vote-engine.js —
- * production replaces stored keys with OAuth + MELEK-Signer scoped tokens.
+ * The platform serves MULTIPLE Graphene chains (see chains.js): MELEK testnet
+ * (default), plus HIVE / STEEM / BLURT mainnets. Per-chain RPC/chainId/prefix
+ * live in chains.js; this file holds HTTP, storage, engine cadence, and the
+ * default chain.
+ *
+ * KEY CUSTODY: posting-key login stores a WIF server-side — acceptable ONLY for
+ * the MELEK testnet with throwaway keys. The keyless paths (HiveSigner OAuth,
+ * WhaleVault in-browser) never give us a key. See the SIGNER SEAM note in
+ * vote-engine.js — MELEK-Signer replaces stored keys for MELEK later.
  */
 
+import { DEFAULT_CHAIN } from './chains.js';
+
 export const config = {
-  // Chain — MELEK testnet (alpha.melek.salon). chain id starts 18dcf0, prefix TST.
-  rpcUrl: process.env.AUTOVOTE_RPC || 'https://alpha.melek.salon/rpc',
-  chainId:
-    process.env.AUTOVOTE_CHAIN_ID ||
-    '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e',
-  addressPrefix: process.env.AUTOVOTE_PREFIX || 'TST',
+  // Default chain when a user hasn't picked one. (Legacy AUTOVOTE_* RPC/chainId/
+  // prefix envs are still honored by chains.js → melek-testnet for continuity.)
+  defaultChain: process.env.AUTOVOTE_DEFAULT_CHAIN || DEFAULT_CHAIN,
 
   // HTTP
   port: Number(process.env.PORT || process.env.AUTOVOTE_PORT || 8120),
@@ -28,10 +32,15 @@ export const config = {
   // Engine
   // Per-account minimum gap between vote broadcasts (chain enforces ~3s; we use 3.3s).
   voteIntervalMs: Number(process.env.AUTOVOTE_VOTE_INTERVAL_MS || 3300),
-  // How often the engine polls for new blocks / due schedules.
+  // Default poll cadence (per-chain override in chains.js).
   pollIntervalMs: Number(process.env.AUTOVOTE_POLL_MS || 3000),
   // Don't act on posts older than this (seconds) when first matching a fanbase/trail.
   maxPostAgeSec: Number(process.env.AUTOVOTE_MAX_POST_AGE_SEC || 7 * 24 * 3600),
+
+  // SAFETY: when true (default), the engine refuses to broadcast any vote on a
+  // mainnet chain (hive/steem/blurt). Multi-chain logic is exercised against the
+  // MELEK testnet + mocks. Flip only with operator sign-off + verified app reg.
+  blockMainnetBroadcast: process.env.AUTOVOTE_ALLOW_MAINNET !== '1',
 
   testnetBanner: true,
 };
