@@ -1,0 +1,111 @@
+{
+  "schema": "soapbox-launcher-manifest",
+  "version": "1",
+  "generatedAt": "2026-06-05T21:26:46.424Z",
+  "pool": {
+    "host": "pool.soapbox.community",
+    "name": "SoapBox Mining Pool"
+  },
+  "miners": {
+    "xmrig": {
+      "miner": "xmrig",
+      "version": "6.26.0",
+      "releasePage": "https://github.com/xmrig/xmrig/releases/tag/v6.26.0",
+      "assets": {
+        "windows-x64": {
+          "url": "https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-windows-x64.zip",
+          "sha256": "bba8097cb37d9b458a1cb1137876b27cde6740d17fe4ccbc086ba07d87d9e147",
+          "bin": "xmrig.exe",
+          "archive": "zip"
+        },
+        "linux-x64": {
+          "url": "https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-linux-static-x64.tar.gz",
+          "sha256": "fc6f8ae5f64e4f17481f7e3be29a1c56949f216a998414188003eae1db20c9e5",
+          "bin": "xmrig",
+          "archive": "tar.gz"
+        },
+        "macos-arm64": {
+          "url": "https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-macos-arm64.tar.gz",
+          "sha256": "6ae4eb4216e99a201ae9a3d2c3a7c275207c5165cfc25da1f3d735d6c4829c18",
+          "bin": "xmrig",
+          "archive": "tar.gz"
+        },
+        "macos-x64": {
+          "url": "https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-macos-x64.tar.gz",
+          "sha256": "1da924b358c0089e361540c4a9e6f8b09538b29efeafa2379590e0f6db358ff4",
+          "bin": "xmrig",
+          "archive": "tar.gz"
+        }
+      },
+      "termuxPackage": "xmrig"
+    },
+    "lolminer": {
+      "miner": "lolminer",
+      "version": "1.98a",
+      "releasePage": "https://github.com/Lolliedieb/lolMiner-releases/releases/tag/1.98a",
+      "assets": {
+        "windows-x64": {
+          "url": "https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.98a/lolMiner_v1.98a_Win64.zip",
+          "sha256": null,
+          "bin": "lolMiner.exe",
+          "archive": "zip"
+        },
+        "linux-x64": {
+          "url": "https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.98a/lolMiner_v1.98a_Lin64.tar.gz",
+          "sha256": null,
+          "bin": "1.98a/lolMiner",
+          "archive": "tar.gz"
+        }
+      }
+    }
+  },
+  "coins": [
+    {
+      "key": "monero",
+      "coin": "Monero",
+      "symbol": "XMR",
+      "poolId": "xmr-stagenet",
+      "family": "cryptonote",
+      "algo": "rx/0",
+      "xmrigCoin": "monero",
+      "menuLabel": "Monero (stagenet) — CPU",
+      "hardware": [
+        "cpu",
+        "gpu"
+      ],
+      "miner": "xmrig",
+      "stratum": {
+        "host": "pool.soapbox.community",
+        "port": 4444
+      },
+      "addrType": "monero",
+      "walletHelp": "https://www.getmonero.org/downloads/",
+      "configTemplate": "xmrig-randomx",
+      "phoneReady": true,
+      "enabled": true
+    },
+    {
+      "key": "ethereum_classic",
+      "coin": "Ethereum Classic",
+      "symbol": "ETC",
+      "poolId": "etc-mordor",
+      "family": "ethereum",
+      "algo": "ETCHASH",
+      "xmrigCoin": null,
+      "menuLabel": "Ethereum Classic (Mordor) — GPU",
+      "hardware": [
+        "gpu"
+      ],
+      "miner": "lolminer",
+      "stratum": {
+        "host": "pool.soapbox.community",
+        "port": 5550
+      },
+      "addrType": "evm",
+      "walletHelp": "https://ethereumclassic.org/use/wallets",
+      "configTemplate": "gpu-etchash",
+      "phoneReady": false,
+      "enabled": true
+    }
+  ]
+}

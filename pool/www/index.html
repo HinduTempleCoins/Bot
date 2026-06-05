@@ -69,8 +69,47 @@
     <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding a coin is one config entry, not a rebuild.
   </section>
 
+  <!-- PRIMARY: one download, pick the coin inside the app -->
+  <section id="launcher" class="card launcher">
+    <div class="k">One download, all coins</div>
+    <h2 style="margin-top:6px">SoapBox Miner — run it and pick inside</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
+      One small launcher for your computer. Run it, and a text menu lets you pick which coin
+      to mine and switch any time &mdash; no separate download per coin. It downloads the
+      <strong>official</strong> miner from the developer&rsquo;s GitHub, checks its SHA256, and
+      starts mining to <em>your</em> address. The launcher is a plain-text script you can read.
+    </p>
+
+    <div class="wiz-field">
+      <label class="wiz-lab" for="l-xmr">Your Monero / RandomX payout address <span class="muted">(optional &mdash; it&rsquo;ll ask on first run if blank)</span></label>
+      <input id="l-xmr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="4... / 5... / 7... Monero address">
+      <div id="l-xmr-msg" class="wiz-msg"></div>
+    </div>
+    <div class="wiz-field">
+      <label class="wiz-lab" for="l-evm">Your Ethereum-style (0x…) payout address <span class="muted">(for ETC and other EVM coins; one address covers them all)</span></label>
+      <input id="l-evm" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="0x… address">
+      <div id="l-evm-msg" class="wiz-msg"></div>
+    </div>
+
+    <div class="wiz-dl" id="l-downloads">
+      <button class="wiz-btn" id="dl-win">⬇ Windows (.bat + .ps1)</button>
+      <button class="wiz-btn" id="dl-nix">⬇ Linux / macOS (.sh)</button>
+    </div>
+
+    <details class="l-how">
+      <summary>How it works &middot; how to switch coins later &middot; the SmartScreen warning</summary>
+      <ul style="font-size:13px;line-height:1.55;margin:8px 0 0;padding-left:18px">
+        <li><b>Switch coins:</b> just run the launcher again and pick a different number. It remembers your last choice.</li>
+        <li><b>New coins appear automatically:</b> the launcher checks the pool&rsquo;s live coin list each time it starts, so coins we add later (Monero mainnet, OCTA/CAU, PRANA at launch) show up in the menu of the launcher you already downloaded &mdash; no re-download.</li>
+        <li><b>It&rsquo;s plain text:</b> open the script in Notepad / a text editor to read exactly what it does. It only contacts the pool (for the coin list + as your mining username) and the official miner&rsquo;s GitHub.</li>
+        <li><b>Windows will warn you</b> (SmartScreen / Defender) because this is an unsigned community script &mdash; that warning appears for <em>any</em> unsigned <code>.ps1</code>/<code>.bat</code>, not because anything is wrong. The included <code>.bat</code> uses the standard per-file <code>-ExecutionPolicy Bypass</code> so you don&rsquo;t change any system setting. We do <strong>not</strong> ask you to disable Defender or SmartScreen. If you&rsquo;re unsure, read the <code>.ps1</code> first or use the per-coin one-liner below.</li>
+        <li><b>macOS:</b> Apple Silicon uses the matching xmrig build automatically; Etchash GPU coins are not supported on macOS (the menu will say so).</li>
+      </ul>
+    </details>
+  </section>
+
   <section id="mine">
-    <h2>Choose a coin to mine</h2>
+    <h2>Or pick one coin at a time</h2>
     <p class="sub">Live coins come from the pool API (<code>/api/pools</code>). &ldquo;Coming online&rdquo; coins are configured but their node is still syncing.</p>
     <div id="coins" class="coin-grid">
       <div class="loading">Loading pools&hellip;</div>

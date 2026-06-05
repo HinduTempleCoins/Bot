@@ -6,6 +6,7 @@
 import {
   resolveCoin, validateAddress, genConfig, genStartScripts, genOneLiners,
   genEthCommand, genPhone, PHONE_WARNING, IOS_NOTE, MINERS,
+  buildManifest, genWindowsLauncher, genWindowsBat, genPosixLauncher,
 } from './wizard.mjs';
 import { qrcode } from './qrcode.mjs';
 
@@ -436,5 +437,99 @@ function makeZip(files) {
   return new Blob([...chunks, ...central, new Uint8Array(end)], { type: 'application/zip' });
 }
 
+// ====================================================================
+// SoapBox Miner — universal launcher ("one download, pick inside")
+// ====================================================================
+const MANIFEST_PATH = '/launcher-manifest.json';
+const MANIFEST_URL = `${location.protocol}//${POOL_HOST}${MANIFEST_PATH}`;
+
+// Build a fallback manifest from the SAME source (wizard.mjs) the static file is built
+// from, themed to this host. The launcher prefers the live served file; this baked-in copy
+// is only used if the pool is unreachable at run time.
+function launcherManifest() {
+  return buildManifest({ host: POOL_HOST });
+}
+
+function readLauncherAddresses() {
+  const xmr = ($('#l-xmr')?.value || '').trim();
+  const evm = ($('#l-evm')?.value || '').trim();
+  return { monero: xmr, evm };
+}
+
+// Live-validate the two optional launcher address fields (blank is allowed — prompted on run).
+function validateLauncherFields() {
+  const checks = [
+    ['#l-xmr', '#l-xmr-msg', 'monero'],
+    ['#l-evm', '#l-evm-msg', 'ethereum_classic'],
+  ];
+  for (const [inSel, msgSel, coin] of checks) {
+    const input = $(inSel), msg = $(msgSel);
+    if (!input || !msg) continue;
+    const a = input.value.trim();
+    if (!a) { msg.textContent = ''; msg.className = 'wiz-msg'; continue; }
+    const v = validateAddress(coin, a);
+    if (v.ok) { msg.textContent = '✓ looks valid'; msg.className = 'wiz-msg ok'; }
+    else { msg.textContent = '✗ ' + v.reason; msg.className = 'wiz-msg bad'; }
+  }
+}
+
+function setupLauncher() {
+  const winBtn = $('#dl-win'), nixBtn = $('#dl-nix');
+  if (!winBtn || !nixBtn) return;
+  $('#l-xmr')?.addEventListener('input', validateLauncherFields);
+  $('#l-evm')?.addEventListener('input', validateLauncherFields);
+
+  winBtn.onclick = () => {
+    const addresses = readLauncherAddresses();
+    const manifest = launcherManifest();
+    const ps1 = genWindowsLauncher({ addresses, manifest, manifestUrl: MANIFEST_URL });
+    const bat = genWindowsBat({ ps1Name: 'SoapBoxMiner.ps1' });
+    // Ship both files in one zip so the .bat shim sits next to the .ps1 it launches.
+    downloadZip('SoapBoxMiner-Windows.zip', [
+      { name: 'SoapBoxMiner.ps1', data: ps1 },
+      { name: 'SoapBoxMiner.bat', data: bat },
+      { name: 'READ-ME-FIRST.txt', data: launcherReadme('windows') },
+    ]);
+  };
+  nixBtn.onclick = () => {
+    const addresses = readLauncherAddresses();
+    const manifest = launcherManifest();
+    const sh = genPosixLauncher({ addresses, manifest, manifestUrl: MANIFEST_URL });
+    downloadText('soapbox-miner.sh', sh);
+  };
+}
+
+function launcherReadme(os) {
+  const common = [
+    'SoapBox Miner — one download, pick your coin inside.',
+    '',
+    'These scripts are PLAIN TEXT. Open them in a text editor to read exactly what they do:',
+    '  - fetch the live coin menu from the pool (or use the copy baked into the script),',
+    '  - download ONLY the official miner from its GitHub release and verify its SHA256,',
+    '  - write a config with YOUR address as the mining username and start mining.',
+    'Your address is never sent anywhere except to the pool as your payout username.',
+    '',
+  ];
+  if (os === 'windows') {
+    return common.concat([
+      'TO RUN: double-click SoapBoxMiner.bat (it runs the .ps1 next to it).',
+      '',
+      'Windows will likely show a SmartScreen / Defender warning because this is an',
+      'unsigned community script. That warning appears for ANY unsigned script — it is not',
+      'a sign that something is wrong. Choose "More info" -> "Run anyway" if you trust it,',
+      'or read SoapBoxMiner.ps1 first. The .bat only bypasses the execution policy for THIS',
+      'file (standard -ExecutionPolicy Bypass) and changes no system setting. We never ask',
+      'you to disable Defender or SmartScreen.',
+    ]).join('\r\n') + '\r\n';
+  }
+  return common.concat([
+    'TO RUN:  chmod +x soapbox-miner.sh && ./soapbox-miner.sh',
+    'Needs: curl, tar, python3, and sha256sum or shasum.',
+    'macOS Apple Silicon uses the matching xmrig build; Etchash GPU coins are not',
+    'supported on macOS.',
+  ]).join('\n');
+}
+
 load();
+setupLauncher();
 setInterval(() => { if ($('#detail').classList.contains('hidden')) load(); }, 30000);
