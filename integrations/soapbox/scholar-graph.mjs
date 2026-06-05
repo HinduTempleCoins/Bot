@@ -100,6 +100,34 @@ export async function citationCard(doi, { limit = 10 } = {}) {
   return { doi: d, cited: count, citedBy, references: refs };
 }
 
+// ── vertical dispatcher ──────────────────────────────────────────────────────
+/**
+ * One-box lookup for the Data-site vertical: a DOI (contains "/") → citation card;
+ * anything else → ORCID author search. Always returns a plain-data shape, soft-fail.
+ */
+export async function scholarLookup(q) {
+  const s = String(q || '').trim();
+  if (!s) return null;
+  if (s.includes('/')) {
+    const card = await citationCard(s);
+    return {
+      kind: 'citation-graph',
+      doi: card.doi,
+      openCitationCount: card.cited,
+      citedBy: card.citedBy.map((e) => ({ doi: e.citing, url: `https://doi.org/${e.citing}` })),
+      references: card.references.map((e) => ({ doi: e.cited, url: `https://doi.org/${e.cited}` })),
+      note: 'Open citation data (OpenCitations COCI) — coverage grows but is not exhaustive.',
+    };
+  }
+  const authors = await searchAuthors(s);
+  return {
+    kind: 'author-profiles',
+    query: s,
+    authors,
+    note: 'ORCID public registry — institution-verified researcher profiles.',
+  };
+}
+
 // ── CLI ──────────────────────────────────────────────────────────────────────
 if (process.argv[1] && process.argv[1].endsWith('scholar-graph.mjs')) {
   const arg = process.argv.slice(2).join(' ') || '10.1038/nature12373';

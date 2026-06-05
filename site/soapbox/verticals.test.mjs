@@ -23,6 +23,8 @@ const EXPECTED_PATHS = [
   '/hemp',
   // Coupons & cashback vertical (#234)
   '/coupons',
+  // Scholar graph + Wayback salvage (keyless-api-wave)
+  '/citations', '/wayback',
   // Library (wave-library-borrow)
   '/library',
 ];

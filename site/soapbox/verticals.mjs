@@ -404,6 +404,16 @@ export const VERTICALS = [
   { path: '/coupons', title: 'Coupons & Cashback', navLabel: 'Coupons', kind: 'search',
     render: searchRender({ module: `${REL}coupons.mjs`, fn: 'verticalSummary', title: 'Coupons & Cashback', placeholder: 'Store name (e.g. Nike)…', label: 'Find coupons' }) },
 
+  // Scholar graph (keyless-api-wave) — ORCID author disambiguation + OpenCitations COCI citation
+  // graph behind one box: a DOI shows what cites it / what it cites; a name shows verified profiles.
+  { path: '/citations', title: 'Citations & Authors', navLabel: 'Citations', kind: 'search',
+    render: searchRender({ module: `${REL}scholar-graph.mjs`, fn: 'scholarLookup', title: 'Citations & Authors', placeholder: 'DOI (10.1038/…) or researcher name…', label: 'Look up' }) },
+
+  // Wayback salvage (keyless-api-wave) — dead-link rescue via the Internet Archive: point at the
+  // Archive's own capture, never re-host (synthesis "window, don't host"). Searchable: any URL.
+  { path: '/wayback', title: 'Wayback Salvage', navLabel: 'Wayback', kind: 'search',
+    render: searchRender({ module: `${REL}wayback.mjs`, fn: 'salvageLink', title: 'Wayback Salvage', placeholder: 'A dead or changed URL…', label: 'Find archived copy' }) },
+
   // ---- Library (wave-library-borrow) ----
   // Unified keyless catalog search → bucketed results: host-fully hits get a read/download link;
   // metadata-only hits get a cover + "go get the book" borrow link-outs (Open Library, WorldCat,
