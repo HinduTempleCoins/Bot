@@ -48,6 +48,26 @@ try {
   if (typeof cp.extractEntities === 'function') _cpExtractEntities = cp.extractEntities;
 } catch { /* comms-parser unavailable — fall back to the local stubs below */ }
 
+// Best-effort, injectable reuse of the shared tone-analysis module (task #286) for emotion + tone.
+// Same defensive contract as comms-parser above: import softly, allow deps.tone injection in tests,
+// and fall back to no-op shapes if it's unavailable so the module stays pure & never throws.
+let _toneEmotion = null;
+let _toneTone = null;
+try {
+  const tn = await import('./tone-analysis.mjs');
+  if (typeof tn.emotion === 'function') _toneEmotion = tn.emotion;
+  if (typeof tn.tone === 'function') _toneTone = tn.tone;
+} catch { /* tone-analysis unavailable — emotion/tone degrade to empty objects */ }
+function _emptyEmotion() { return { joy: 0, anger: 0, fear: 0, sadness: 0, disgust: 0, surprise: 0, trust: 0, anticipation: 0, dominant: null, counts: {} }; }
+function _emptyTone() { return { formality: 0.5, politeness: 0.5, certainty: 0, tentativeness: 0, sarcasm: false, sarcasmScore: 0, exclamations: 0, allCaps: false }; }
+function resolveTone(deps = {}) {
+  const t = deps.tone || {};
+  return {
+    emotion: typeof t.emotion === 'function' ? t.emotion : (_toneEmotion || _emptyEmotion),
+    tone: typeof t.tone === 'function' ? t.tone : (_toneTone || _emptyTone),
+  };
+}
+
 // minimal fallbacks (only used if comms-parser is absent AND no commsParser dep is injected).
 function _fallbackSentiment(text) {
   const t = ' ' + String(text || '').toLowerCase() + ' ';
@@ -315,6 +335,7 @@ export function parseConversation(input = {}, deps = {}) {
   const source = normSource(input.source);
   const messages = normMessages(input.messages);
   const { sentiment, extractEntities } = resolveCp(deps);
+  const toneFns = resolveTone(deps);
 
   const actionItems = toActionItems(messages);
   const decisions = extractDecisions(messages);
@@ -333,6 +354,13 @@ export function parseConversation(input = {}, deps = {}) {
   });
   const entities = mergeEntities(perMessage);
 
+  // emotion + tone over the whole conversation (task #286) — additive, soft, never throws.
+  let emo, tn;
+  try { emo = toneFns.emotion(allText); } catch { emo = _emptyEmotion(); }
+  if (!emo || typeof emo !== 'object') emo = _emptyEmotion();
+  try { tn = toneFns.tone(allText); } catch { tn = _emptyTone(); }
+  if (!tn || typeof tn !== 'object') tn = _emptyTone();
+
   const participants = [...new Set(messages.map((m) => m.from))];
   const summary = buildSummary({ source, messages, actionItems, decisions, openQuestions, corrections, sentiment: sen });
 
@@ -345,6 +373,8 @@ export function parseConversation(input = {}, deps = {}) {
     corrections,
     entities,
     sentiment: sen,
+    emotion: emo,
+    tone: tn,
     openQuestions,
     participants,
     messageCount: messages.length,
@@ -392,6 +422,8 @@ export function toConversationFile(parsed, deps = {}) {
     openQuestions: Array.isArray(p.openQuestions) ? p.openQuestions : [],
     entities: p.entities || {},
     sentiment: p.sentiment || { score: 0, label: 'neutral' },
+    emotion: p.emotion || {},
+    tone: p.tone || {},
     participants: Array.isArray(p.participants) ? p.participants : [],
     messageCount: typeof p.messageCount === 'number' ? p.messageCount : 0,
     markdown: renderSummary(p),

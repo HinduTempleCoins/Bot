@@ -20,6 +20,7 @@
 
 import { cached, TTL } from './soapbox/cache.mjs';
 import { search } from './scraper.mjs';
+import * as tone from './tone-analysis.mjs';
 
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 const FEED_TTL = +(process.env.COMMS_FEED_TTL_MS || TTL.list);     // 60s — headlines move, but not by the second
@@ -231,8 +232,15 @@ const NEG_WINDOW = 3;            // a negator flips polarity for up to this many
  * Tokenizes, matches the domain BULL/BEAR lexicons (single + multi-word phrases), and flips the
  * polarity of a match when a negator appears within the preceding NEG_WINDOW tokens ("not good").
  *
+ * As of task #286 this also routes the text through the shared VADER scorer in tone-analysis.mjs and
+ * carries the compound (-1..1) + emotion/tone reads as ADDITIVE fields (`vader`, `emotion`, `tone`).
+ * The primary domain `score`/`label`/`hits` keep their existing shape & ±0.15 thresholds so the
+ * briefs/diagnostics built on them are unchanged; the VADER compound is the upgraded general-purpose
+ * signal. Swapping in the real HF sentiment model is a later self-host step behind tone-analysis.
+ *
  * @param {string} text
- * @returns {{score:number, label:'positive'|'neutral'|'negative', hits:Array<{word:string,polarity:1|-1,negated:boolean}>}}
+ * @returns {{score:number, label:'positive'|'neutral'|'negative', hits:Array<{word:string,polarity:1|-1,negated:boolean}>,
+ *            vader:number, emotion:object, tone:object}}
  *   score is bounded -1..1 ((pos-neg)/(pos+neg)); label thresholds at ±0.15 to match toDiagnostics.
  */
 export function sentiment(text) {
@@ -272,7 +280,13 @@ export function sentiment(text) {
   const total = pos + neg;
   const score = total ? +(((pos - neg) / total).toFixed(2)) : 0;
   const label = score > 0.15 ? 'positive' : score < -0.15 ? 'negative' : 'neutral';
-  return { score, label, hits };
+  // additive (task #286): the upgraded general-purpose signals from the shared tone-analysis module.
+  // Soft — never let an analyser glitch break the domain sentiment the briefs already depend on.
+  let vader = 0, emo = {}, tn = {};
+  try { vader = tone.sentiment(text).score; } catch { vader = 0; }
+  try { emo = tone.emotion(text); } catch { emo = {}; }
+  try { tn = tone.tone(text); } catch { tn = {}; }
+  return { score, label, hits, vader, emotion: emo, tone: tn };
 }
 
 // entity regexes — anchored, deterministic. tickers: $BTC / SWAP.LTC / 2-6 caps; mentions: @handle;
@@ -322,7 +336,13 @@ export function extractEntities(text) {
 export function analyzeItem(item) {
   if (!item || typeof item !== 'object') return item;
   const text = [item.title, item.description, item.summary, item.text].filter(Boolean).join('. ');
-  return { ...item, sentiment: sentiment(text), entities: extractEntities(text) };
+  const sen = sentiment(text);
+  // emotion + tone are surfaced as first-class additive fields (task #286) in addition to living
+  // inside `sentiment` — every original field is preserved; existing consumers are unaffected.
+  let emo, tn;
+  try { emo = tone.emotion(text); } catch { emo = {}; }
+  try { tn = tone.tone(text); } catch { tn = {}; }
+  return { ...item, sentiment: sen, entities: extractEntities(text), emotion: emo, tone: tn };
 }
 
 /**

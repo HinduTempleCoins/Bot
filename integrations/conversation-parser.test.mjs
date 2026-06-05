@@ -212,3 +212,46 @@ test('works with the REAL comms-parser (defensive import, no injection)', () => 
   assert.ok(parsed.entities && Array.isArray(parsed.entities.tickers));
   assert.ok(parsed.actionItems.length >= 2);
 });
+
+// ── tone-analysis wiring (task #286): parsed conversations now emit emotion + tone, additively ──────
+test('parseConversation emits emotion + tone (additive, backward-compatible) via real tone-analysis', () => {
+  const parsed = parseConversation(CONVO, DETERMINISTIC);
+  assert.ok(parsed.emotion && typeof parsed.emotion === 'object', 'has emotion');
+  assert.ok(parsed.tone && typeof parsed.tone === 'object', 'has tone');
+  for (const k of ['joy', 'anger', 'fear', 'sadness']) assert.ok(typeof parsed.emotion[k] === 'number');
+  for (const k of ['formality', 'politeness', 'certainty', 'tentativeness']) assert.ok(typeof parsed.tone[k] === 'number');
+  // existing fields are untouched
+  assert.ok(parsed.sentiment && typeof parsed.sentiment.label === 'string');
+});
+
+test('parseConversation detects emotion in an angry conversation', () => {
+  const angry = {
+    source: 'chat',
+    messages: [
+      { from: 'user', text: 'I am furious, this is outrageous and I hate how broken it is.', ts: null },
+      { from: 'user', text: 'This is disgusting, absolute garbage.', ts: null },
+    ],
+  };
+  const parsed = parseConversation(angry, DETERMINISTIC);
+  assert.ok(parsed.emotion.anger > 0, JSON.stringify(parsed.emotion));
+  assert.ok(['anger', 'disgust'].includes(parsed.emotion.dominant), `dominant=${parsed.emotion.dominant}`);
+});
+
+test('emotion/tone can be injected via deps.tone (deterministic, offline)', () => {
+  const fakeTone = {
+    emotion: () => ({ joy: 1, anger: 0, fear: 0, sadness: 0, disgust: 0, surprise: 0, trust: 0, anticipation: 0, dominant: 'joy', counts: { joy: 1 } }),
+    tone: () => ({ formality: 0.9, politeness: 0.9, certainty: 0.5, tentativeness: 0, sarcasm: false, sarcasmScore: 0, exclamations: 0, allCaps: false }),
+  };
+  const parsed = parseConversation(CONVO, { commsParser: makeFakeCommsParser(), tone: fakeTone, ...DETERMINISTIC });
+  assert.equal(parsed.emotion.dominant, 'joy', 'used injected tone.emotion');
+  assert.equal(parsed.tone.formality, 0.9, 'used injected tone.tone');
+});
+
+test('toConversationFile carries emotion + tone through to the operator-tier record', () => {
+  const written = [];
+  const store = { write(record) { written.push(record); return { ok: true }; } };
+  const parsed = parseConversation(CONVO, { commsParser: makeFakeCommsParser(), ...DETERMINISTIC });
+  toConversationFile(parsed, { store, ...DETERMINISTIC });
+  assert.ok(written[0].emotion && typeof written[0].emotion === 'object', 'record carries emotion');
+  assert.ok(written[0].tone && typeof written[0].tone === 'object', 'record carries tone');
+});

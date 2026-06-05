@@ -194,3 +194,30 @@ test('summarizeFeed handles empty input safely', () => {
   assert.deepEqual(s.topTickers, []);
   assert.equal(s.counts.items, 0);
 });
+
+// ── tone-analysis wiring (task #286): sentiment carries a VADER compound, items carry emotion+tone ──
+test('sentiment() now routes through tone-analysis and carries vader + emotion + tone', () => {
+  const s = sentiment('Bitcoin surges to a record high, traders are thrilled and happy');
+  // existing fields preserved
+  assert.ok(['positive', 'neutral', 'negative'].includes(s.label));
+  assert.ok(Array.isArray(s.hits));
+  // additive fields
+  assert.equal(typeof s.vader, 'number');
+  assert.ok(s.vader >= -1 && s.vader <= 1);
+  assert.ok(s.emotion && typeof s.emotion === 'object');
+  assert.ok(s.tone && typeof s.tone === 'object');
+  // a thrilled/happy headline reads positive on the VADER compound too
+  assert.ok(s.vader > 0, `vader=${s.vader}`);
+});
+
+test('analyzeItem adds emotion + tone as first-class fields (additive, backward-compatible)', () => {
+  const item = analyzeItem({ title: 'Investors furious as exchange hacked in a panic selloff', source: 'A' });
+  // existing additive fields still present
+  assert.ok(item.sentiment && typeof item.sentiment.score === 'number');
+  assert.ok(item.entities && Array.isArray(item.entities.tickers));
+  // new additive fields
+  assert.ok(item.emotion && typeof item.emotion === 'object');
+  assert.ok(item.tone && typeof item.tone === 'object');
+  // an angry/fearful headline lights up anger or fear
+  assert.ok((item.emotion.anger || 0) + (item.emotion.fear || 0) > 0, JSON.stringify(item.emotion));
+});
