@@ -42,10 +42,21 @@ entry** — see "Adding a coin (incl. PRANA)" below.
 
 **a. CryptoNote / RandomX** — Monero **stagenet** (`sXMR`), a free public RandomX network.
 Mined against the existing stagenet `melek-wallet-rpc` (payout wallet, throwaway/zero-value)
-plus a **synced** stagenet daemon. While the local `melek-monerod` finishes syncing, the
-pool's daemon endpoint points at the public synced node `node.monerodevs.org:38089`
-(same trick the old pool used; flip one line back to `melek-monerod` once local sync
-reaches the tip).
+plus a **dedicated** stagenet daemon `melek-mc-monerod` (separate from the old pool's
+`melek-monerod`, so the old pool is untouched).
+
+> **Why a dedicated local daemon, not the public synced node:** Miningcore (unlike the old
+> node-pool) has a hard daemon **peer-connectivity gate** — `AreDaemonsConnectedAsync`
+> requires `(outgoing + incoming peers) > 0` before it will start the job manager. The
+> public stagenet nodes (`node.monerodevs.org` etc.) run restricted RPC and report
+> **0 peers**, so that gate never passes against them. A `--bootstrap-daemon-address`
+> node serves templates from the tip immediately but *also* reports 0 P2P peers (bootstrap
+> short-circuits P2P), so it fails the same gate. The working answer is a **pure-P2P**
+> local daemon pointed at the monerodevs **P2P** ports (`:38080`) as priority nodes — it
+> forms real peers (gate passes) and syncs stagenet in the background. Once it reaches the
+> tip it serves `get_block_template` and the RandomX pool begins handing out jobs.
+> Until then Miningcore correctly reports "Daemon is still syncing… Manager will be started
+> once synced" — the same posture as the old pool's local node.
 
 **b. Ethash / Etchash (ETH-type)** — Ethereum Classic **Mordor testnet** via
 **core-geth** (`etclabscore/core-geth`, `--mordor`). Miningcore's `ethereum` coin family
@@ -65,8 +76,9 @@ handshake.
 | `melek-miningcore` / `melek-miningcore.service` | `melek-miningcore:latest` (built from oliverw/miningcore) | `:4444 :4445 :5550` (stratum, public), `127.0.0.1:4000` (API) | Multi-algo stratum + payments + REST API |
 | `melek-mc-postgres` / `melek-mc-postgres.service` | `postgres:16-alpine` | `127.0.0.1:5432` | Pool persistence (shares/blocks/balances/payments) |
 | `melek-mordor` / `melek-mordor.service` | `etclabscore/core-geth` | `127.0.0.1:8545` (RPC), `30303` (p2p) | ETC **Mordor** testnet node (Etchash daemon) |
+| `melek-mc-monerod` / `melek-mc-monerod.service` | `sethsimmons/simple-monerod` | (net-internal `38081`) | Dedicated Monero stagenet daemon for Miningcore (pure-P2P, syncing) |
 | `melek-wallet-rpc` (shared w/ old pool) | `sethsimmons/simple-monero-wallet-rpc` | `127.0.0.1:38082` | Monero stagenet payout wallet |
-| `melek-monerod` (shared w/ old pool) | `sethsimmons/simple-monerod` | `127.0.0.1:38081` | Local Monero stagenet daemon (syncing) |
+| `melek-monerod` (old pool's own) | `sethsimmons/simple-monerod` | `127.0.0.1:38081` | Old pool's local stagenet daemon (untouched) |
 | (Caddy, shared) | system caddy | `:443` | TLS + static frontend + `/api` proxy |
 
 Deploy artifacts in this repo:
@@ -74,7 +86,8 @@ Deploy artifacts in this repo:
 - `deploy/miningcore/config.json` — Miningcore config (committed with a `__PG_PASSWORD__`
   placeholder; the live file on the box has the real generated password substituted in).
 - `deploy/miningcore/www/` — the multi-coin frontend (`index.html`, `style.css`, `pool.js`).
-- `deploy/miningcore/systemd/*.service` — units for miningcore, postgres, mordor.
+- `deploy/miningcore/systemd/*.service` — units for miningcore, postgres, mordor,
+  and the dedicated `melek-mc-monerod`.
 - `deploy/miningcore/createdb.sql` — Postgres schema (from upstream
   `Persistence/Postgres/Scripts/createdb.sql`).
 - `deploy/miningcore/Caddyfile.block` — the cutover Caddy block (proxies `/api` to `:4000`).
@@ -102,7 +115,7 @@ docker run -d --name melek-mordor --network melek-pool-net --restart unless-stop
 # 4. config.json: substitute the postgres password, then run miningcore
 sed "s/__PG_PASSWORD__/$PGPASS/" deploy/miningcore/config.json > /opt/melek-miningcore/config.json
 cp deploy/miningcore/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
-systemctl enable --now melek-mc-postgres melek-mordor melek-miningcore
+systemctl enable --now melek-mc-postgres melek-mc-monerod melek-mordor melek-miningcore
 
 # 5. Frontend
 cp -r deploy/miningcore/www/* /opt/melek-miningcore/www/

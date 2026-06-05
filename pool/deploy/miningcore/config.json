@@ -8,7 +8,7 @@
         "perPoolLogFile": false
     },
     "banning": {
-        "manager": "integrated",
+        "manager": "Integrated",
         "banOnJunkReceive": true,
         "banOnInvalidShares": false
     },
@@ -49,6 +49,9 @@
             "enabled": true,
             "coin": "monero",
             "address": "57kYk4iMy9SCMyeRctNW6QUpCVKnRp1682BiYnxUqMVDjhAVABfQJbUTC5oTvfRruNVVxqGK6MEz3QoQLnV2NPGxBArv9Kz",
+            "extra": {
+                "randomXRealm": "monero"
+            },
             "rewardRecipients": [],
             "blockRefreshInterval": 1000,
             "jobRebroadcastTimeout": 10,
@@ -87,8 +90,8 @@
             },
             "daemons": [
                 {
-                    "host": "node.monerodevs.org",
-                    "port": 38089,
+                    "host": "melek-mc-monerod",
+                    "port": 38081,
                     "user": "",
                     "password": ""
                 },

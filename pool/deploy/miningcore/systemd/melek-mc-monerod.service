@@ -1,0 +1,29 @@
+[Unit]
+Description=MELEK Miningcore Monero stagenet daemon (RandomX, dedicated to Miningcore)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker rm -f melek-mc-monerod
+# Dedicated stagenet daemon for the Miningcore RandomX pool (separate from the old
+# pool's melek-monerod so the old pool is untouched). PURE P2P (priority nodes) — this
+# is what lets Miningcore's peer-connectivity gate pass (it requires >0 peers; a public
+# RPC-only node reports 0 peers and never satisfies the gate). Syncs stagenet in the
+# background; once at the tip it serves get_block_template and the RandomX pool starts
+# handing out jobs. Data dir is chown 1000:1000 (the image runs as uid 1000).
+ExecStart=/usr/bin/docker run --rm --name melek-mc-monerod \
+  --network melek-pool-net \
+  -v /opt/melek-miningcore/monerod-data:/home/monero/.bitmonero \
+  sethsimmons/simple-monerod:latest \
+  --stagenet --rpc-bind-ip=0.0.0.0 --rpc-bind-port=38081 --confirm-external-bind \
+  --no-igd --out-peers=24 --prune-blockchain \
+  --add-priority-node=node.monerodevs.org:38080 \
+  --add-priority-node=node2.monerodevs.org:38080 \
+  --add-priority-node=node3.monerodevs.org:38080
+ExecStop=/usr/bin/docker stop melek-mc-monerod
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
