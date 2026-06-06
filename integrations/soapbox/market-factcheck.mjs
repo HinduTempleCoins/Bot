@@ -18,6 +18,9 @@
 //   const wt = await whereToTrade('bitcoin')   // { id, exchanges:[{name, us, ...}], usSummary, ... }
 //   node integrations/soapbox/market-factcheck.mjs bitcoin
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import nodeFs from 'node:fs';
 import { getCoin, coinTickers } from './condenser.mjs';
 import { CRYPTO_EXCHANGES } from './markets-catalog.mjs';
 import { cached, TTL } from './cache.mjs';
@@ -25,6 +28,17 @@ import { cached, TTL } from './cache.mjs';
 // fetch is overridable for tests (mirrors condenser/scraper __setFetch convention).
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
+// clock is overridable so persisted-flag timestamps are deterministic under test.
+let _now = () => new Date().toISOString();
+export function __setClock(fn) { _now = fn || (() => new Date().toISOString()); }
+
+// the fs is injectable so tests never touch the real flags store on disk.
+let _fs = nodeFs;
+export function __setFs(fs) { _fs = fs || nodeFs; }
+
+const __dir = path.dirname(fileURLToPath(import.meta.url));
+const FLAGS_STORE = process.env.SOAPBOX_MARKET_FACTCHECK_FLAGS || path.join(__dir, 'data', 'market-factcheck-flags.json');
 
 const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 
@@ -65,6 +79,52 @@ export async function checkLinks(urls = []) {
     const res = await cached(`linkcheck:${url}`, TTL.metadata, () => headOrGet(url));
     return { url, ...res };
   }));
+}
+
+// host-only compare so "https://x.io" vs "https://x.io/" or "/en" doesn't read as a redirect.
+function sameDest(a, b) {
+  try {
+    const ua = new URL(a), ub = new URL(b);
+    return ua.hostname.replace(/^www\./, '') === ub.hostname.replace(/^www\./, '');
+  } catch { return a === b; }
+}
+
+/**
+ * linkAlive(url) — a single-link liveness verdict for the fact-checker / Hathor. Soft-fail: a bad
+ * input or a thrown fetch returns { alive:false } rather than throwing.
+ * Returns:
+ *   { url, alive, status, redirected, finalUrl?, error? }
+ * `redirected` is true when the request landed on a different HOST than asked (a parked-domain /
+ * acquisition / "this project moved" tell), so the caller can flag it distinctly from a dead link.
+ * Cached per-url at the metadata tier — liveness doesn't churn minute-to-minute.
+ */
+export async function linkAlive(url) {
+  if (!url || !/^https?:\/\//i.test(String(url))) {
+    return { url: String(url ?? ''), alive: false, status: 0, redirected: false, error: 'not-an-http-url' };
+  }
+  return cached(`linkalive:${url}`, TTL.metadata, async () => {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 12000);
+    const opts = { redirect: 'follow', signal: ctrl.signal, headers: { 'user-agent': UA } };
+    try {
+      let r;
+      try { r = await _fetch(url, { ...opts, method: 'HEAD' }); }
+      catch { r = null; }
+      if (!r || r.status === 405 || r.status === 501 || r.status === 403) {
+        r = await _fetch(url, { ...opts, method: 'GET' });
+      }
+      const finalUrl = r && r.url ? r.url : url;
+      const redirected = (r && (r.redirected === true)) || !sameDest(url, finalUrl);
+      return {
+        url, alive: r.status >= 200 && r.status < 400, status: r.status,
+        redirected: !!redirected, finalUrl,
+      };
+    } catch (err) {
+      return { url, alive: false, status: 0, redirected: false, error: String(err?.name || err?.message || err) };
+    } finally {
+      clearTimeout(t);
+    }
+  });
 }
 
 // --- exchange normalization + US-availability lookup -------------------------
@@ -276,10 +336,108 @@ export async function factCheckReport(id) {
   });
 }
 
+// --- coin link-liveness + delisting check, with a FLAGS-ONLY store -----------
+// checkCoinLinks(coin) runs the liveness sweep over a coin's official links and folds in any
+// delisting signal we can read from the market adapters (whereToTrade). It NEVER edits the coin
+// record. Flags are shaped for the Server-4 brief pipeline: { coin, flag, evidence, checkedAt,
+// advisory:true } — same advisory:true contract the Ashurbanipal fact-checker uses.
+
+function loadFlags() {
+  try { return JSON.parse(_fs.readFileSync(FLAGS_STORE, 'utf8')); } catch { return []; }
+}
+function saveFlags(rows) {
+  _fs.mkdirSync(path.dirname(FLAGS_STORE), { recursive: true });
+  _fs.writeFileSync(FLAGS_STORE, JSON.stringify(rows, null, 2));
+}
+
+// pull the coin's official outbound links from wherever the adapters stash them (mirrors the bag
+// coin-socials reads, but flattened to URLs for liveness checking).
+function officialLinkBag(coin = {}) {
+  const out = [];
+  const push = (u) => { if (u && typeof u === 'string' && /^https?:\/\//i.test(u)) out.push(u); };
+  push(coin.links?.website);
+  push(coin.links?.explorer);
+  for (const s of (coin.links?.social || [])) push(s);
+  const o = coin.official || {};
+  push(o.reddit); push(o.forum); push(o.announcement);
+  for (const c of (o.chats || [])) push(c);
+  for (const r of (o.repos || [])) push(r);
+  // de-dupe, preserve order
+  return [...new Set(out)];
+}
+
+/**
+ * checkCoinLinks(coin) — liveness + delisting fact-check for one coin. FLAGS-ONLY: returns advisory
+ * flag objects and (optionally) persists them; never mutates the coin record.
+ * Each flag: { coin, flag, evidence, checkedAt, advisory:true }, flag ∈
+ *   'official-link-dead' | 'official-link-redirected' | 'no-official-links' | 'delisted-no-venues'
+ *   | 'us-restricted-only'.
+ * Returns:
+ *   { coin, checkedAt, links:[{url, alive, status, redirected}], flags:[...], ok }
+ * `persist:true` appends the flags to data/market-factcheck-flags.json (injectable fs), de-duped on
+ * (coin|flag|evidence). `id` overrides the coin id used for delisting lookups when coin.id is absent.
+ */
+export async function checkCoinLinks(coin = {}, { persist = false, id = null } = {}) {
+  coin = coin && typeof coin === 'object' ? coin : {};
+  const coinId = id || coin.id || coin.symbol || '';
+  const checkedAt = _now();
+  const flags = [];
+  const mkFlag = (flag, evidence) => ({ coin: coinId, flag, evidence, checkedAt, advisory: true });
+
+  // 1) liveness over the official link bag
+  const bag = officialLinkBag(coin);
+  const links = await Promise.all(bag.map((u) => linkAlive(u)));
+  if (!bag.length) {
+    flags.push(mkFlag('no-official-links', 'coin record carries no http(s) official links to check'));
+  }
+  for (const l of links) {
+    if (!l.alive) flags.push(mkFlag('official-link-dead', `${l.url} did not load (status ${l.status}${l.error ? `, ${l.error}` : ''})`));
+    else if (l.redirected) flags.push(mkFlag('official-link-redirected', `${l.url} redirected off-host to ${l.finalUrl} (possible parked / moved project)`));
+  }
+
+  // 2) delisting signal from the market adapters (only where data is present — soft-fail to silence).
+  if (coinId) {
+    const wt = await whereToTrade(coinId).catch(() => null);
+    if (wt && wt.source === 'coingecko') {
+      if (!wt.exchanges.length) {
+        flags.push(mkFlag('delisted-no-venues', 'CoinGecko tickers list no active exchange for this coin (delisted, micro-cap, or upstream throttled)'));
+      } else if (wt.usSummary && !wt.usSummary.anyUsUsable) {
+        flags.push(mkFlag('us-restricted-only', `all ${wt.exchanges.length} listing venue(s) are US-restricted or unverified`));
+      }
+    }
+  }
+
+  if (persist && flags.length) {
+    const rows = loadFlags();
+    const have = new Set(rows.map((r) => `${r.coin}|${r.flag}|${r.evidence}`));
+    let added = 0;
+    for (const f of flags) {
+      const k = `${f.coin}|${f.flag}|${f.evidence}`;
+      if (have.has(k)) continue;
+      rows.push(f); have.add(k); added++;
+    }
+    if (added) saveFlags(rows);
+  }
+
+  return { coin: coinId, checkedAt, links, flags, ok: flags.length === 0 };
+}
+
+/** Read the persisted advisory flags, optionally filtered by coin id. */
+export function listFlags({ coin = null } = {}) {
+  const rows = loadFlags();
+  return coin ? rows.filter((r) => r.coin === coin) : rows;
+}
+
 // CLI: node integrations/soapbox/market-factcheck.mjs <coin-id> [--where]
 if (process.argv[1] && process.argv[1].endsWith('market-factcheck.mjs')) {
   const id = process.argv[2] || 'bitcoin';
-  const mode = process.argv.includes('--where') ? 'where' : process.argv.includes('--verify') ? 'verify' : 'report';
-  const out = mode === 'where' ? await whereToTrade(id) : mode === 'verify' ? await verifyCoin(id) : await factCheckReport(id);
+  const mode = process.argv.includes('--where') ? 'where'
+    : process.argv.includes('--verify') ? 'verify'
+    : process.argv.includes('--links') ? 'links'
+    : 'report';
+  const out = mode === 'where' ? await whereToTrade(id)
+    : mode === 'verify' ? await verifyCoin(id)
+    : mode === 'links' ? await checkCoinLinks({ id })
+    : await factCheckReport(id);
   console.log(JSON.stringify(out, null, 2));
 }
