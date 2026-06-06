@@ -89,6 +89,19 @@ test('searchCases soft-fails to [] on empty query, network error, bad shape', as
   __setFetch(null);
 });
 
+test('searchCases surfaces pagination total/hasMore without breaking the array shape', async () => {
+  // API reports 4231 total matches + a next page; we return one page but must not hide that.
+  __setFetch(envelopeFetch({ count: 4231, next: 'https://.../search/?page=2', results: [RAW_HIT] }));
+  const rows = await searchCases({ q: 'segregation' });
+  __setFetch(null);
+  assert.equal(rows.length, 1);          // still a normal array of cards
+  assert.equal(rows.totalCount, 4231);   // the REAL match count (was dropped)
+  assert.equal(rows.hasMore, true);      // there are more pages
+  // non-enumerable: spreading/JSON still see only the rows, so existing callers are unaffected.
+  assert.deepEqual([...rows].length, 1);
+  assert.equal(Object.keys(JSON.parse(JSON.stringify(rows))).length, 1);
+});
+
 test('searchCases court-only BROWSE: no early [], honors orderBy, lists the court', async () => {
   const sink = {};
   __setFetch(captureFetch(sink, { results: [RAW_HIT] }));

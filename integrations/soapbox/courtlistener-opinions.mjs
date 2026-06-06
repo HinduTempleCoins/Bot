@@ -88,6 +88,18 @@ function esc(s) {
 const now = () => new Date().toISOString();
 const tag = (extra = {}) => ({ source: SRC, license: LICENSE, fetchedAt: now(), ...extra });
 
+// CourtListener paginates: a query may match far more rows than the one page we return. The page-only
+// array used to drop that fact silently. Attach the API's true match `count` + a `hasMore` flag as
+// NON-ENUMERABLE props on the returned array — existing callers (.map/.length/spread/deepEqual) are
+// untouched; callers that want to know "there's more" can read rows.totalCount / rows.hasMore.
+function withPageMeta(rows, envelope) {
+  const total = num(envelope?.count);
+  const hasMore = Boolean(envelope?.next) || (total != null && total > rows.length);
+  Object.defineProperty(rows, 'totalCount', { value: total != null ? total : rows.length, enumerable: false });
+  Object.defineProperty(rows, 'hasMore', { value: hasMore, enumerable: false });
+  return rows;
+}
+
 // CourtListener id fields come back as resource URLs like ".../clusters/118144/"; pull the numeric id.
 export function idFromUrl(u) {
   const m = String(u || '').match(/\/(\d+)\/?$/);
@@ -190,7 +202,7 @@ export async function searchCases({ q = '', court = '', filedAfter = '', orderBy
   if (after) params.filed_after = after;
   const j = await getJson(apiUrl('/search/', params));
   const rows = Array.isArray(j?.results) ? j.results : [];
-  return rows.map(normalizeCase).filter(Boolean);
+  return withPageMeta(rows.map(normalizeCase).filter(Boolean), j);
 }
 
 /**
@@ -344,7 +356,7 @@ export async function searchDockets({ q = '', court = '', limit = 20 } = {}) {
   if (ct) params.court = ct;
   const j = await getJson(apiUrl('/search/', params));
   const rows = Array.isArray(j?.results) ? j.results : [];
-  return rows.map(normalizeDocket).filter(Boolean);
+  return withPageMeta(rows.map(normalizeDocket).filter(Boolean), j);
 }
 
 // ---- rendering (escaped HTML; PURE) ----

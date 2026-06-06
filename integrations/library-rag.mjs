@@ -28,7 +28,11 @@ const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 // Retrieval knobs (overridable via env, sane defaults).
 const TOP_K = Number(process.env.LIBRARY_RAG_TOPK || 3);          // articles to ground on
 const FETCH_TIMEOUT = Number(process.env.LIBRARY_RAG_TIMEOUT || 8000);
-const PASSAGE_CHARS = Number(process.env.LIBRARY_RAG_PASSAGE_CHARS || 1200); // per-article body cap
+// Per-article body cap fed to the LLM. The whole article is fetched, then bounded so the grounding
+// prompt stays within budget — but 1200 chars chopped most multi-section articles mid-thought, so the
+// answer was grounded on a fraction of what we fetched. Raised to keep substantially more of the body;
+// still env-overridable (LIBRARY_RAG_PASSAGE_CHARS) for tighter token budgets.
+const PASSAGE_CHARS = Number(process.env.LIBRARY_RAG_PASSAGE_CHARS || 4000); // per-article body cap
 
 // ── HTTP plumbing (best-effort; null on any failure) ─────────────────────────────────────────
 async function getText(url, timeout = FETCH_TIMEOUT) {

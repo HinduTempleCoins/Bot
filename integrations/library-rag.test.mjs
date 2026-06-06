@@ -158,6 +158,19 @@ test('retrieve returns [] for empty question and never throws on network failure
   assert.deepEqual(await retrieve('anything'), [], 'best-effort: empty, not thrown');
 });
 
+test('retrieve keeps far more than the old 1200-char cap of a long article body', async () => {
+  // A long single-article body: ~3000 chars of prose. The whole thing is fetched; the per-article cap
+  // (raised from 1200 to 4000) must now keep substantially more than the old limit chopped off.
+  const longBody = '<p>' + ('The Convergence reconstructs temple technology. ').repeat(60) + '</p>';
+  installFetch({
+    search: [{ title: 'The Convergence', slug: 'the-convergence', score: 9, snippet: 's' }],
+    pages: { 'the-convergence': wikiPage(longBody) },
+  });
+  const passages = await retrieve('What is the Convergence?');
+  assert.equal(passages.length, 1);
+  assert.ok(passages[0].text.length > 1200, `kept ${passages[0].text.length} chars (was capped at 1200)`);
+});
+
 test('retrieve respects topK', async () => {
   const { search, pages } = corpus();
   installFetch({ search, pages });
