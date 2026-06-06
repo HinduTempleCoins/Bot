@@ -116,6 +116,37 @@ export async function poolStats(id) {
 }
 
 /**
+ * One miner (wallet address) on one pool — the Akasha "your wallet on the pool" lookup.
+ * GET /api/pools/<id>/miners/<address> → normalized record, or null if unknown/unreachable.
+ * Miningcore returns { pendingShares, pendingBalance, totalPaid, todayPaid, lastPayment,
+ * performance: { workers: { name: { hashrate, sharesPerSecond } } } }. Soft-fail, read-only.
+ */
+export async function minerStats(poolId, address) {
+  const key = String(poolId == null ? '' : poolId).trim();
+  const addr = String(address == null ? '' : address).trim();
+  if (!key || !addr) return null;
+  const data = await getJson(`/api/pools/${encodeURIComponent(key)}/miners/${encodeURIComponent(addr)}`);
+  if (!data || typeof data !== 'object') return null;
+  const workers = (data.performance && data.performance.workers) || {};
+  const workerList = Object.entries(workers).map(([name, w]) => ({
+    name: name || 'default',
+    hashrate: numOr(w && w.hashrate),
+    sharesPerSecond: numOr(w && w.sharesPerSecond),
+  }));
+  return {
+    poolId: key,
+    address: addr,
+    pendingBalance: numOr(data.pendingBalance),
+    pendingShares: numOr(data.pendingShares),
+    totalPaid: numOr(data.totalPaid),
+    todayPaid: numOr(data.todayPaid),
+    lastPayment: data.lastPayment || null,
+    hashrate: workerList.reduce((a, w) => a + (w.hashrate || 0), 0),
+    workers: workerList,
+  };
+}
+
+/**
  * The stratum connect line for a port: `stratum+tcp://<host>:<port>` (or `stratum+ssl://` for TLS).
  * Pure string helper — the page renders this next to the `wallet.worker` username convention.
  */
