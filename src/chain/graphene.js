@@ -18,6 +18,7 @@
 import { Client } from '@hiveio/dhive';
 import { getAccount } from './keys.js';
 import { fromEnv } from './melek-signer-client.mjs';
+import { jitSignerFromEnv } from './jit-signer.mjs';
 
 export class GrapheneAdapter {
   /**
@@ -41,7 +42,12 @@ export class GrapheneAdapter {
     });
     this.account = getAccount();
     // Build the signer once. `null` means "not configured" → read-only mode.
-    this.signer = signer !== undefined ? signer : fromEnv();
+    // Order: injected > MELEK-Signer service (fromEnv) > the JIT ephemeral signer for
+    // operator-timer one-shots (MELEK_JIT_BROADCAST=1 + vault-fetched env key — the feed
+    // publisher path; see jit-signer.mjs for why and the custody rules it honors).
+    this.signer = signer !== undefined
+      ? signer
+      : (fromEnv() || jitSignerFromEnv({ client: this.client }));
   }
 
   /**

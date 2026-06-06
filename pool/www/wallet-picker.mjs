@@ -123,7 +123,7 @@ export function pickerModel({ chains = [], records = [], lastUsed = {} } = {}) {
  * Render the chip row into `host`. Saved chips are buttons (click → onPick(chip));
  * missing chips are grey links to the wallet page. Re-renderable (idempotent).
  */
-export function renderPicker(host, model, { doc, onPick } = {}) {
+export function renderPicker(host, model, { doc, onPick, onOwn } = {}) {
   const d = doc || (typeof document !== 'undefined' ? document : null);
   if (!host || !d || !model) return null;
   host.innerHTML = '';
@@ -156,6 +156,19 @@ export function renderPicker(host, model, { doc, onPick } = {}) {
       host.appendChild(a);
     }
   }
+  // "Sign into your own wallet" (operator 2026-06-06): always available — creating one with
+  // us stays the loud path, but pasting an existing wallet is one click away. The button
+  // clears + focuses the address box; an address that actually mines gets SAVED, so next
+  // visit it's a regular chip.
+  if (onOwn) {
+    const b = d.createElement('button');
+    b.type = 'button';
+    b.className = 'wp-chip wp-own';
+    b.textContent = '✎ use my own wallet';
+    b.title = 'Paste an address from a wallet you already have — it never leaves your browser except as your mining username';
+    b.addEventListener('click', () => onOwn());
+    host.appendChild(b);
+  }
   return host;
 }
 
@@ -172,7 +185,7 @@ export function renderPicker(host, model, { doc, onPick } = {}) {
  * @param {object} [opts.storage] localStorage-like for the last-used memory
  * @param {object} [opts.doc]     document (injected in tests)
  * @param {(chip:object)=>void} [opts.onPick]  extra hook after the input is filled
- * @returns {{ refresh:Function, model:object }|null}
+ * @returns {{ refresh:Function, model:object, saveOwn:Function }|null}
  */
 export function mountPicker({ host, input, chains, store, storage, doc, onPick } = {}) {
   const d = doc || (typeof document !== 'undefined' ? document : null);
@@ -187,16 +200,22 @@ export function mountPicker({ host, input, chains, store, storage, doc, onPick }
 
   let model = build();
 
+  const own = () => {
+    input.value = '';
+    if (input.focus) input.focus();
+    if (onPick) onPick(null); // null = "typing their own" — callers may re-validate/clear msgs
+  };
+
   const pick = (chip, { fromUser = true } = {}) => {
     if (!chip || !chip.have) return;
     input.value = chip.address;
     if (fromUser) rememberChoice(chip.coin, chip.address, stor);
     model.chips.forEach((c) => { c.selected = c === chip; });
-    renderPicker(host, model, { doc: d, onPick: (c) => pick(c) });
+    renderPicker(host, model, { doc: d, onPick: (c) => pick(c), onOwn: own });
     if (onPick) onPick(chip);
   };
 
-  renderPicker(host, model, { doc: d, onPick: (c) => pick(c) });
+  renderPicker(host, model, { doc: d, onPick: (c) => pick(c), onOwn: own });
 
   // auto-fill on load: the remembered (or only) wallet is "just there" — but never
   // overwrite something the user already typed.
@@ -205,8 +224,24 @@ export function mountPicker({ host, input, chains, store, storage, doc, onPick }
   const refresh = () => {
     if (host.isConnected === false) return; // a re-mounted page replaced this picker — stand down
     model = build();
-    renderPicker(host, model, { doc: d, onPick: (c) => pick(c) });
+    renderPicker(host, model, { doc: d, onPick: (c) => pick(c), onOwn: own });
     if (model.selected && !(input.value || '').trim()) pick(model.selected, { fromUser: false });
+  };
+
+  /**
+   * Persist a pasted "own wallet" address into the store (called by the page when the
+   * address is actually USED, e.g. mining starts) — it becomes a chip on the next visit.
+   */
+  const saveOwn = (coin, address) => {
+    const a = String(address || '').trim();
+    if (!a || !store || !store.add) return false;
+    try {
+      const already = store.list().some((r) => r.address === a);
+      if (!already) store.add({ coin, address: a, label: 'my wallet' });
+      rememberChoice(coin, a, stor);
+      refresh();
+      return true;
+    } catch { return false; }
   };
 
   // live-refresh when a wallet is created in another tab (/wallet/ writes the same store)
@@ -214,5 +249,5 @@ export function mountPicker({ host, input, chains, store, storage, doc, onPick }
     window.addEventListener('storage', refresh);
   }
 
-  return { refresh, get model() { return model; } };
+  return { refresh, saveOwn, get model() { return model; } };
 }

@@ -124,7 +124,8 @@ test('mountPicker soft-fails to null with no DOM/host and on a broken store', ()
     storage: memStorage(), doc: fakeDoc(),
   });
   assert.ok(p); // renders the make-wallet chips instead of throwing
-  assert.ok(host.children.every((c) => c.tagName === 'a'));
+  // every chip is a make-wallet link, except the always-present "use my own wallet" button
+  assert.ok(host.children.every((c) => c.tagName === 'a' || /wp-own/.test(c.className)));
 });
 
 test('gated chain: missing wallet → grey make-wallet; existing wallet → informational, never selectable', () => {
@@ -156,4 +157,26 @@ test('renderPicker renders gated chips as non-clickable spans', () => {
   renderPicker(host, m, { doc: fakeDoc() });
   assert.equal(host.children[0].tagName, 'span');
   assert.match(host.children[0].className, /wp-gated/);
+});
+
+test('"use my own wallet" button renders, clears the input, and saveOwn persists it as a chip', () => {
+  const records = [];
+  const store = { list: () => records.slice(), add: (r) => { records.push(r); return r; } };
+  const host = fakeEl('div'); const input = fakeEl('input');
+  input.focus = () => {};
+  const p = mountPicker({ host, input, chains: [CHAINS[0]], store, storage: memStorage(), doc: fakeDoc() });
+  const ownBtn = host.children.find((c) => /wp-own/.test(c.className));
+  assert.ok(ownBtn, 'own-wallet button present');
+  input.value = 'leftover';
+  ownBtn.click();
+  assert.equal(input.value, '');
+  // they paste an address and it gets used → saved → appears as a chip
+  const myAddr = '4' + 'z'.repeat(94);
+  assert.equal(p.saveOwn('monero', myAddr), true);
+  assert.equal(records.length, 1);
+  assert.equal(records[0].label, 'my wallet');
+  assert.ok(host.children.some((c) => c.attrs && c.attrs['data-address'] === myAddr));
+  // saving the same address again does not duplicate
+  p.saveOwn('monero', myAddr);
+  assert.equal(records.length, 1);
 });
