@@ -1,0 +1,40 @@
+# Caddyfile.snippet — public TLS front door for self-hosted n8n (queue #109).
+#
+# Caddy auto-provisions a Let's Encrypt certificate for __DOMAIN__ and reverse-proxies
+# to the n8n container bound on 127.0.0.1:5678 (the raw port is never public — see docker-compose.yml).
+#
+# Install:   sudo apt install -y caddy   (or the official Caddy apt repo)
+# Place at:  /etc/caddy/Caddyfile        (append this block if the file already exists)
+# Reload:    sudo systemctl reload caddy
+#
+# Requires the DNS A record  __DOMAIN__ -> <box public IP>  to exist FIRST, so Caddy's
+# ACME challenge can validate. Keep the real domain/host out of the public repo — substitute
+# __DOMAIN__ on the box (or in a .local/ copy). __DOMAIN__ must equal N8N_HOST in .env, and
+# https://__DOMAIN__/ must equal WEBHOOK_URL / N8N_EDITOR_BASE_URL.
+
+__DOMAIN__ {
+	encode gzip
+
+	reverse_proxy 127.0.0.1:5678 {
+		# n8n uses websockets for the live editor / execution view.
+		header_up Host {host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+		# Long timeouts so long-running workflow executions aren't cut off by the proxy.
+		transport http {
+			read_timeout 1h
+			write_timeout 1h
+		}
+	}
+
+	header {
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+
+	log {
+		output file /var/log/caddy/__DOMAIN__.log
+	}
+}

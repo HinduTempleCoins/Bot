@@ -1,0 +1,98 @@
+# docker-compose.yml — self-hosted n8n for the MELEK operator (queue #109).
+#
+# PREPARE-ONLY bundle. Server installs are operator-present; this is turnkey, not deployed.
+# Pinned image, basic auth ON, telemetry OFF, localhost-bound (Caddy terminates TLS — see Caddyfile.snippet).
+#
+# Copy .env.template -> .env and fill it in BEFORE `docker compose up -d`. See RUNBOOK.md.
+#
+# Image pin: n8nio/n8n:2.23.4 (Docker Hub `stable` + `latest`, multi-arch amd64/arm64).
+# Bump deliberately — never float to :latest in production (see RUNBOOK "Update procedure").
+
+services:
+  n8n:
+    image: n8nio/n8n:2.23.4
+    container_name: melek-n8n
+    restart: unless-stopped
+
+    # Bind ONLY to loopback. The raw n8n port is never public; Caddy reverse-proxies to it
+    # and handles Let's Encrypt TLS. Change the host side, not 5678, if you must.
+    ports:
+      - "127.0.0.1:5678:5678"
+
+    environment:
+      # --- Auth: HTTP basic auth in front of the editor (belt-and-suspenders with the
+      #     owner account you create on first login). Credentials come from .env. ---
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+
+      # --- Public addressing: how the outside world reaches n8n (through Caddy). ---
+      #     N8N_HOST is the bare hostname; WEBHOOK_URL is the full https base used to
+      #     build webhook/callback URLs handed to external services.
+      N8N_HOST: ${N8N_HOST}
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: "https"
+      N8N_EDITOR_BASE_URL: ${N8N_EDITOR_BASE_URL}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+
+      # n8n sits behind a reverse proxy; trust exactly one proxy hop for client IPs.
+      N8N_PROXY_HOPS: "1"
+
+      # --- Privacy: NO telemetry / diagnostics / version-check phone-home. ---
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      EXTERNAL_FRONTEND_HOOKS_URLS: ""
+      N8N_DIAGNOSTICS_CONFIG_FRONTEND: ""
+      N8N_DIAGNOSTICS_CONFIG_BACKEND: ""
+
+      # --- Locale / time: workflow schedules and cron run in this zone. ---
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
+      TZ: ${GENERIC_TIMEZONE}
+
+      # --- Data at rest: encryption key for stored credentials. MUST be stable across
+      #     restarts/upgrades or saved credentials become unreadable. From .env. ---
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+
+      # --- Hardening / hygiene ---
+      N8N_HIRING_BANNER_ENABLED: "false"
+      N8N_RUNNERS_ENABLED: "true"               # isolated task runners for code nodes
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"      # code nodes can't read host env
+      N8N_LOG_LEVEL: "info"
+      DB_SQLITE_POOL_SIZE: "5"
+      N8N_GIT_NODE_DISABLE_BARE_REPOS: "true"
+
+    volumes:
+      # The ONE volume to back up: SQLite DB, encryption key material, and all workflows/creds.
+      - n8n_data:/home/node/.n8n
+
+    # Memory limits sane for a small CPU box (the brain/timers box class). n8n + node
+    # baseline is light; cap so a runaway workflow can't OOM the host's other services.
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+        reservations:
+          memory: 256M
+    # Compose v2 (non-swarm) honours these top-level equivalents too:
+    mem_limit: 768m
+    mem_reservation: 256m
+
+    # Container-level healthcheck. n8n exposes an unauthenticated liveness endpoint at /healthz.
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:5678/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  n8n_data:
+    name: melek_n8n_data
