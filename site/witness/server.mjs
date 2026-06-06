@@ -39,6 +39,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://witness.melek.salon').replace(/\/$/, '');
 const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
 const TUTORIAL = process.env.TUTORIAL_SITE || `${ALPHA}/tutorial`;
+const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 
 // PRANA chain id — 108369 decimal = 0x1a751 (see .local/MULTICHAIN_POOLS_WALLETS_DOCS.md §3.1).
@@ -230,6 +231,20 @@ export async function poolView(readPools) {
     <p class=lead>What is actually running on the pool right now — one card per coin, pulled live
       from the pool engine. Point your miner at the stratum line; sign in as
       <code>wallet.worker</code>.</p>
+    <div class=card><h2>The pool IS your wallet — no address from anywhere else</h2>
+      <p class=muted style="font-size:14px">You never need to go get a wallet address somewhere
+        else: the pool <b>creates your account right here</b>. On
+        <a href="${esc(POOL_SITE)}/mycoins.html">My Coins</a> you generate your wallet
+        <b>in your own browser</b> — Zephyr (ZEPH), Monero (XMR), and one EVM address for the
+        ETC/PRANA side — and the address drops straight into your mining setup. The seed is shown
+        to you once and <b>never leaves your browser</b>; we cannot see it, store it, or recover
+        it — the pool holds <em>no</em> keys, the same custody rule the whole ecosystem runs on.
+        Funds leaving your wallet require flipping the <b>spend-lock</b> toggle (locked by
+        default); receiving and mining never need it. This wallet is the seed of your
+        <a href="/wallet">Akasha</a> identity — one account across the pool and the chains.</p>
+      <p style="margin-top:6px"><a class=cta href="${esc(POOL_SITE)}/mycoins.html"
+        style="display:inline-block;background:#1f6feb;color:#fff;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:8px">Create your wallet / open My Coins →</a></p>
+    </div>
     ${cards}
     <div class=card><h2>Your wallet on the pool</h2>
       <p class=muted style="font-size:14px">This is the <b>Akasha ↔ pool</b> connection in its
@@ -244,9 +259,9 @@ export async function poolView(readPools) {
     </div>
     <div class=card><h2>No hardware? Mine in the browser</h2>
       <p class=muted style="font-size:14px">The RandomX coins can be mined right in your browser tab
-        (a WebAssembly miner bridged to the pool's stratum) — the "Mine right now" path. It is slow
-        compared to a real rig, but it is the zero-setup way to put your first shares in. Find it on
-        the MELEK testnet face: <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</p></div>`;
+        (a WebAssembly miner bridged to the pool's stratum) — the "Mine right now" path on
+        <a href="${esc(POOL_SITE)}">the pool front page</a>. It is slow compared to a real rig, but
+        it is the zero-setup way to put your first shares in.</p></div>`;
 }
 
 // ── /hathor — LIVE witness status for the founding AI Witness (read-only) ──────────────────────
