@@ -52,16 +52,27 @@
     <p class="muted" style="font-size:13.5px;margin:0 0 12px">
       This runs a <strong>real</strong> RandomX miner right here in your browser tab and submits
       <strong>real shares</strong> to our pool. It works on a laptop, a desktop, or an
-      Android/iPhone browser &mdash; nothing to download. Paste an address to be paid to, pick how
-      hard to push, and press Start.
+      Android/iPhone browser &mdash; nothing to download. Pick your coin, and press Start.
     </p>
 
+    <!-- Coin picker — ZEPHYR FIRST (operator Addendum 23: ZEPH is THE browser/phone coin).
+         ZEPH shows present-but-gated until its chain finishes syncing + the ZEPH stratum opens;
+         the same RandomX engine below mines either. -->
+    <div class="wiz-field" id="bm-coin-pick">
+      <label class="wiz-lab">Coin</label>
+      <label style="display:block;margin:4px 0"><input type="radio" name="bm-coin" value="zephyr" disabled>
+        <strong>Zephyr (ZEPH)</strong> &mdash; the browser &amp; phone coin
+        <span class="wiz-msg" id="bm-zeph-status">switching on: chain sync in progress (~1 day) &mdash; your ZEPH wallet from <a href="wallet/">/wallet</a> will plug straight in</span></label>
+      <label style="display:block;margin:4px 0"><input type="radio" name="bm-coin" value="monero" checked>
+        Monero (XMR, stagenet) &mdash; live now</label>
+    </div>
+
     <div class="wiz-field">
-      <label class="wiz-lab" for="bm-addr">Pay me to this Monero (stagenet) address
+      <label class="wiz-lab" for="bm-addr">Pay me to this address
         <span class="muted">&mdash; this is who gets the shares; it never leaves your browser except as your mining username</span></label>
-      <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="5... / 7... Monero stagenet address (or a 4... mainnet address)">
+      <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="your payout address — auto-fills from your pool wallet">
       <div id="bm-addr-msg" class="wiz-msg"></div>
-      <div class="wiz-help">No address? <a href="https://www.getmonero.org/downloads/" target="_blank" rel="noopener">Get a Monero wallet</a> (use a stagenet address for the testnet), or <a href="mycoins.html">generate one in My Coins</a>.</div>
+      <div class="wiz-help">No address? <a href="wallet/">The pool makes you one — create your wallet here</a> (ZEPH, XMR and EVM in one place), or <a href="mycoins.html">open My Coins</a>.</div>
     </div>
 
     <p class="muted" style="font-size:12px;margin:-4px 0 12px">
