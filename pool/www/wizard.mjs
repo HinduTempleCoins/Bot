@@ -18,6 +18,8 @@
 // Upstream releases are PINNED here (exact version + URL + SHA256 from the upstream
 // release page) so the one-liners are reproducible and we never rehost a binary.
 
+import { parseAddress, makeAddress } from './walletgen/vendor/cn-address.mjs';
+
 // ---------------------------------------------------------------------------
 // Pinned upstream miner releases (verify SHA256 against the upstream release page).
 // xmrig:   https://github.com/xmrig/xmrig/releases/tag/v6.26.0  (SHA256SUMS asset)
@@ -167,6 +169,36 @@ export function validateAddress(coin, address) {
   }
 
   return { ok: true };
+}
+
+// ---------------------------------------------------------------------------
+// Pool login address. The pool's RandomX side runs Monero **stagenet** while we're in
+// testing, but the in-browser wallet (and most users' wallets) make MAINNET addresses —
+// Miningcore rejects those at login ("Invalid address used for login"). A Monero address
+// is just (network varint + public spend key + public view key + checksum), so the
+// stagenet twin of a mainnet address is derivable from the address alone — same keys,
+// same seed, claimable with the same mnemonic restored in stagenet mode. Convert at the
+// pool boundary; the user's canonical (mainnet) address is what they keep seeing.
+// Tags (cryptonote_config.h): mainnet std 18 → stagenet std 24; integrated 19 → 25;
+// subaddress 42 → 36.
+// ---------------------------------------------------------------------------
+const XMR_STAGENET_TWIN = { 18: 24, 19: 25, 42: 36 };
+
+export function poolLoginAddress(coin, address) {
+  const c = typeof coin === 'string' ? resolveCoin(coin) : coin;
+  const a = (address || '').trim();
+  if (!c || !c.addr || c.addr.type !== 'monero') return { address: a, converted: false };
+  try {
+    const p = parseAddress(a);
+    const twin = XMR_STAGENET_TWIN[Number(p.tag)];
+    if (!p.checksumOk || !twin) return { address: a, converted: false };
+    return {
+      address: makeAddress({ tag: twin, pubSpend: p.pubSpend, pubView: p.pubView }),
+      converted: true,
+    };
+  } catch {
+    return { address: a, converted: false };
+  }
 }
 
 const sanitizeWorker = (w) => (String(w || 'worker1').replace(/[^A-Za-z0-9_-]/g, '') || 'worker1').slice(0, 32);
