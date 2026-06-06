@@ -268,11 +268,42 @@ export async function monitorOnce({ account = 'hathor', previous = null, alert, 
   return { snapshot, issues };
 }
 
+// ── state file (for cron/timer runs) ─────────────────────────────────────────────
+// A timer fires the CLI as a fresh process each run, so missed-block DELTAS need the
+// prior snapshot persisted. `--state <path>` loads it before the check and saves the
+// new snapshot after. Soft-fail both ways: a missing/corrupt file = no previous.
+export async function loadState(path) {
+  if (!path) return null;
+  try {
+    const { readFile } = await import('node:fs/promises');
+    return JSON.parse(await readFile(path, 'utf8'));
+  } catch { return null; }
+}
+
+export async function saveState(path, snapshot) {
+  if (!path || !snapshot) return false;
+  try {
+    const { writeFile, mkdir, rename } = await import('node:fs/promises');
+    const { dirname } = await import('node:path');
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path + '.tmp', JSON.stringify(snapshot));
+    await rename(path + '.tmp', path); // atomic swap — a killed run never corrupts state
+    return true;
+  } catch { return false; }
+}
+
 // ── CLI (guarded) ────────────────────────────────────────────────────────────────
 // Read-only one-shot: prints the snapshot and any issues. No keys, no broadcast.
+//   node witness/monitor.mjs [account] [--state path/to/witness-monitor-state.json]
 if (process.argv[1] && process.argv[1].endsWith('monitor.mjs')) {
-  const account = process.argv[2] || process.env.HATHOR_ACCOUNT || 'hathor';
-  const { snapshot, issues } = await monitorOnce({ account });
+  const args = process.argv.slice(2);
+  const stateIdx = args.indexOf('--state');
+  const statePath = stateIdx > -1 ? args[stateIdx + 1] : (process.env.MONITOR_STATE || null);
+  const positional = args.filter((a, i) => a !== '--state' && i !== stateIdx + 1);
+  const account = positional[0] || process.env.HATHOR_ACCOUNT || 'hathor';
+  const previous = await loadState(statePath);
+  const { snapshot, issues } = await monitorOnce({ account, previous });
+  if (snapshot.ok) await saveState(statePath, snapshot);
   console.log(JSON.stringify({ snapshot, issues }, null, 2));
   if (!snapshot.ok) process.exitCode = 2;
   else if (issues.length) process.exitCode = 1;

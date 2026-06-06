@@ -186,3 +186,23 @@ test('monitorOnce survives a throwing alert hook (soft-fail)', async () => {
   });
   assert.ok(issues.some((i) => i.kind === 'missed-block'));
 });
+
+// ---------------------------------------------------------------------------
+// state file persistence (--state, for timer runs) — #289
+// ---------------------------------------------------------------------------
+import { loadState, saveState } from './monitor.mjs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+test('saveState/loadState round-trip, atomic, soft-fail', async () => {
+  const p = join(tmpdir(), `wm-test-${process.pid}`, 'state.json');
+  const snap = { account: 'hathor', ok: true, totalMissed: 52, headBlock: 21734 };
+  assert.equal(await saveState(p, snap), true);
+  const back = await loadState(p);
+  assert.equal(back.totalMissed, 52);
+  // soft-fail paths
+  assert.equal(await loadState('/nonexistent/nope.json'), null);
+  assert.equal(await loadState(null), null);
+  assert.equal(await saveState(null, snap), false);
+  assert.equal(await saveState(p, null), false);
+});
