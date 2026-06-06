@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="SoapBox Pool">
+  <rect width="512" height="512" fill="#0d1117"/>
+  <circle cx="256" cy="256" r="118" fill="none" stroke="#58a6ff" stroke-width="24"/>
+  <path d="M256 162 L256 350 M162 256 L350 256" stroke="#3fb950" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="36" fill="#d29922"/>
+</svg>
