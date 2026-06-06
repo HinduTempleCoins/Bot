@@ -44,7 +44,8 @@ const SEARCH_RESULT = {
       patent_title: 'Method of widget folding',
       patent_date: '2017-03-14',
       patent_abstract: 'Folds widgets.',
-      assignees: [{ assignee_organization: 'Acme Corp' }],
+      // co-assigned patent — BOTH organizations must survive (was silently dropped to the first).
+      assignees: [{ assignee_organization: 'Acme Corp' }, { assignee_organization: 'Widget Inc' }],
       inventors: [{ inventor_name_first: 'Ada', inventor_name_last: 'Lovelace' }],
     },
   ],
@@ -85,8 +86,12 @@ test('searchPatents normalizes a canned PatentsView response', async () => {
   assert.equal(rows[0].title, 'Coherent ladar using intra-pixel quadrature detection');
   assert.equal(rows[0].date, '2018-06-19');
   assert.equal(rows[0].assignee, 'Acme Corp');
+  assert.deepEqual(rows[0].assignees, ['Acme Corp']);
   assert.deepEqual(rows[0].inventors, ['Jane Doe', 'John Smith']);
   assert.equal(rows[0].abstract, 'A coherent ladar system.');
+  // co-assigned patent keeps ALL assignees (data-loss fix); `assignee` stays the primary for back-compat.
+  assert.equal(rows[1].assignee, 'Acme Corp');
+  assert.deepEqual(rows[1].assignees, ['Acme Corp', 'Widget Inc']);
 });
 
 test('searchPatents soft-fails to [] with no criteria', async () => {

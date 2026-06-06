@@ -58,11 +58,14 @@ const inventorNames = (p) => {
     .map((i) => str([i.inventor_name_first, i.inventor_name_last].filter(Boolean).join(' ')) || str(i.inventor_name))
     .filter(Boolean);
 };
-const assigneeName = (p) => {
+// all assignee names on the patent (PatentsView returns an array — a patent can be co-assigned).
+const assigneeNames = (p) => {
   const arr = Array.isArray(p?.assignees) ? p.assignees : [];
-  const a = arr[0] || {};
-  return str(a.assignee_organization) || str([a.assignee_individual_name_first, a.assignee_individual_name_last].filter(Boolean).join(' '));
+  return arr
+    .map((a) => str(a.assignee_organization) || str([a.assignee_individual_name_first, a.assignee_individual_name_last].filter(Boolean).join(' ')))
+    .filter(Boolean);
 };
+const assigneeName = (p) => assigneeNames(p)[0] || '';
 
 // flatten a raw PatentsView patent object into our normalized search record.
 function normPatent(p) {
@@ -70,7 +73,8 @@ function normPatent(p) {
     patentId: str(p?.patent_id),
     title: str(p?.patent_title),
     date: str(p?.patent_date),
-    assignee: assigneeName(p),
+    assignee: assigneeName(p),     // primary assignee (back-compat)
+    assignees: assigneeNames(p),   // ALL assignees — a co-assigned patent kept its full list (was dropped)
     inventors: inventorNames(p),
     abstract: str(p?.patent_abstract),
   };

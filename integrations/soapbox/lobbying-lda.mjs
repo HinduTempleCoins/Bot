@@ -148,9 +148,17 @@ export async function searchFilings({ q = '', year, limit = 25 } = {}) {
 }
 
 // shared: pull .results out of the paginated LDA envelope, normalize, sort newest year first.
+// The LDA API paginates ({ count, next, previous, results }); a query often matches many more filings
+// than the one page we return. The page-only array used to drop that fact. Attach the API's true match
+// `count` + a `hasMore` flag as NON-ENUMERABLE props — existing callers (.map/.length/spread/deepEqual)
+// are untouched; callers can read out.totalCount / out.hasMore to know there's more.
 function collect(j) {
   const rows = Array.isArray(j?.results) ? j.results : (Array.isArray(j) ? j : []);
-  return rows.map(normalizeFiling).filter(Boolean).sort((a, b) => (b.year || 0) - (a.year || 0));
+  const out = rows.map(normalizeFiling).filter(Boolean).sort((a, b) => (b.year || 0) - (a.year || 0));
+  const total = num(j?.count);
+  Object.defineProperty(out, 'totalCount', { value: total != null ? total : out.length, enumerable: false });
+  Object.defineProperty(out, 'hasMore', { value: Boolean(j?.next) || (total != null && total > out.length), enumerable: false });
+  return out;
 }
 
 // ---- rendering (escaped HTML; PURE) ----

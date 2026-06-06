@@ -68,6 +68,17 @@ test('filingsByRegistrant normalizes + sorts newest year first', async () => {
   assert.equal(rows[1].year, 2022);
 });
 
+test('readers surface the LDA pagination total/hasMore without breaking the array', async () => {
+  // API reports 873 total filings + a next page; we return one page but must not hide that.
+  __setFetch(async () => ({ ok: true, json: async () => ({ count: 873, next: 'https://lda.senate.gov/api/v1/filings/?page=2', results: RAW_FILINGS }) }));
+  const rows = await filingsByRegistrant({ name: 'Akin Gump' });
+  __setFetch(null);
+  assert.equal(rows.length, 2);        // still a normal array of cards
+  assert.equal(rows.totalCount, 873);  // the REAL match count (was dropped)
+  assert.equal(rows.hasMore, true);    // there are more pages
+  assert.equal([...rows].length, 2);   // non-enumerable: spread sees only the rows
+});
+
 test('filingsByRegistrant sends the registrant_name query param', async () => {
   const sink = {};
   __setFetch(captureFetch(sink, [RAW_FILINGS[0]]));
