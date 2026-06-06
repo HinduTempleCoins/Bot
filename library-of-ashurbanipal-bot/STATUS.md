@@ -29,6 +29,11 @@ once the outside pieces below are switched on.
   logged for good, so you can always see how it got there and trust nothing was quietly changed.
 - **Holds drafts for your approval.** Finished drafts sit in a review pile. You approve or reject each
   one. Nothing moves out of that pile on its own.
+- **Keeps hand-authored "seed" articles too.** Some articles are written by hand (not auto-synthesized)
+  because their exact wording and citations must be preserved — for example the *Steem & Hive Bots /
+  Steemcenter ecosystem* article, which keeps the @MarsResident provenance (the operator's 2017-era
+  Steem handle). These live in `seed-drafts/` and go into the same review pile as **pending** via
+  `npm run seed:enqueue`. They are never auto-published; you still approve them like any other draft.
 - **Turns article text into safe web pages.** It converts the raw article into a clean page and strips
   out anything that could be used to attack a reader.
 - **Fills in missing linked pages.** When an article points to a topic that has no page yet, it makes a

@@ -8,7 +8,9 @@
     "generate": "node src/wikiGenerator.js",
     "generate:dry": "node src/wikiGenerator.js --dry-run",
     "generate:limit": "node src/wikiGenerator.js --limit=3",
-    "watch": "node src/wikiGenerator.js --watch"
+    "watch": "node src/wikiGenerator.js --watch",
+    "seed:enqueue": "node src/enqueueSeedDrafts.js",
+    "test": "node --test"
   },
   "keywords": [
     "wiki",
