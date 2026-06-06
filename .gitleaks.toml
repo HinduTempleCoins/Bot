@@ -129,10 +129,16 @@ regexes = [
   '''TEST-FAKE-[A-Z_-]+''',
   '''TEST-FAKE-POSTING-KEY-DO-NOT-USE''',
   '''TEST-FAKE-ACTIVE-KEY-DO-NOT-USE''',
-  # The classic test WIF (private key = 1) used as a known dummy in
-  # graphene tests historically. Already replaced with TEST- placeholders
-  # in graphene.test.js but we allowlist in case future tests use it.
-  '''***REMOVED***''',
+  # NOTE: there was a fourth allowlist regex here for the classic test WIF
+  # (private key = 1) used as a known dummy in graphene tests historically.
+  # Its literal had been redacted to `***REMOVED***`, which is not a valid
+  # regex — a leading `*` is a dangling repetition operator, so gitleaks
+  # crashed with "missing argument to repetition operator" BEFORE scanning
+  # anything, silently disabling the secret scan on every PR. The rule was
+  # already obsolete: graphene.test.js now uses the TEST-FAKE-* placeholders
+  # above (see assertions in src/chain/graphene.test.js), so the entry is
+  # removed rather than reconstructed. Do not paste a real WIF here to
+  # "restore" it; the TEST-FAKE-* patterns cover current test fixtures.
 ]
 
 # Specific files where the patterns are documentation, not real secrets.
