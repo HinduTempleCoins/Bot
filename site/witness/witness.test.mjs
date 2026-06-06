@@ -247,3 +247,62 @@ test('pool-stats.minerStats normalizes the Miningcore miner object', async () =>
   assert.equal(await minerStats('', 'x'), null);
   assert.equal(await minerStats('p', ''), null);
 });
+
+// ---------------------------------------------------------------------------
+// /hathor — live witness status (#289)
+// ---------------------------------------------------------------------------
+import { hathorView, hathorStatus, __setChainFetch } from './server.mjs';
+
+const SNAP = {
+  headBlock: 21767, lastConfirmed: 21766, blocksBehind: 1, totalMissed: 52,
+  version: '0.23.0', signingKeyDisabled: false, url: 'https://alpha.melek.salon',
+  currentWitness: 'hathor', time: '2026-06-06T08:00:00', feed: '0.001 TBD / 0.001 TESTS',
+};
+
+test('hathorView renders the live numbers + plain-English explainer', async () => {
+  const html = await hathorView(async () => SNAP);
+  assert.match(html, /founding AI Witness/);
+  assert.match(html, /21,767|21767/);
+  assert.match(html, /missed \(all-time\)/);
+  assert.match(html, /active/);
+  assert.match(html, /@hathor/);
+  assert.match(html, /0\.001 TBD/);
+  assert.match(html, /What you&#39;re looking at|What you're looking at/);
+});
+
+test('hathorView honest empty-state when the RPC is down', async () => {
+  const html = await hathorView(async () => null);
+  assert.match(html, /unreachable/);
+  assert.match(html, /will not invent numbers/);
+});
+
+test('hathorStatus maps condenser RPC responses (injected fetch)', async () => {
+  __setChainFetch(async (url, opts) => {
+    const req = JSON.parse(opts.body);
+    const result = req.method === 'condenser_api.get_witness_by_account'
+      ? { last_confirmed_block_num: 100, total_missed: 2, running_version: '0.23.0', signing_key: 'TST7abc', url: 'https://x' }
+      : req.method === 'condenser_api.get_dynamic_global_properties'
+        ? { head_block_number: 105, current_witness: 'hathor', time: '2026-06-06T08:00:00' }
+        : { current_median_history: { base: '0.001 TBD', quote: '0.001 TESTS' } };
+    return { json: async () => ({ result }) };
+  });
+  const s = await hathorStatus();
+  assert.equal(s.blocksBehind, 5);
+  assert.equal(s.totalMissed, 2);
+  assert.equal(s.signingKeyDisabled, false);
+  assert.equal(s.feed, '0.001 TBD / 0.001 TESTS');
+  // soft-fail
+  __setChainFetch(async () => { throw new Error('down'); });
+  assert.equal(await hathorStatus(), null);
+  __setChainFetch(null);
+});
+
+test('/hathor route responds and home grid links to it', async () => {
+  __setChainFetch(async () => { throw new Error('offline'); });
+  const r = await route('/hathor');
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /founding AI Witness/);
+  const home = await route('/');
+  assert.match(home.body, /href="\/hathor"/);
+  __setChainFetch(null);
+});

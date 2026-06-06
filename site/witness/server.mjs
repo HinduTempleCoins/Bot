@@ -45,6 +45,11 @@ const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 const PRANA_CHAIN_ID_HEX = '0x1a751';
 const PRANA_CHAIN_ID_DEC = 108369;
 
+// MELEK testnet RPC for the live /hathor witness-status page (read-only condenser calls).
+const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'http://127.0.0.1:8090';
+let _chainFetch = (...a) => globalThis.fetch(...a);
+export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 // ── shared house-style helpers (same dark theme as Hemp/Roadmap/Law/Stocks/Search) ────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const num = (n) => (n == null || !Number.isFinite(+n) ? '—' : (+n).toLocaleString(undefined, { maximumFractionDigits: 2 }));
@@ -120,7 +125,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -132,6 +137,7 @@ export function homePage() {
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool. Fees may become part of the DAO later.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap and connect wallet ↔ pool ↔ chains.'],
+    ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example of what the school teaches.'],
   ];
   const body = `<h1>Witness School <span class=muted style="font-size:14px">· learn to be a witness · connect to the pool</span></h1>
     <p class=lead>This is the front door of the Mining Pool. Three things happen here: you
@@ -241,6 +247,80 @@ export async function poolView(readPools) {
         (a WebAssembly miner bridged to the pool's stratum) — the "Mine right now" path. It is slow
         compared to a real rig, but it is the zero-setup way to put your first shares in. Find it on
         the MELEK testnet face: <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</p></div>`;
+}
+
+// ── /hathor — LIVE witness status for the founding AI Witness (read-only) ──────────────────────
+async function chainRpc(method, params) {
+  const res = await _chainFetch(MELEK_RPC_URL, {
+    method: 'POST',
+    body: JSON.stringify({ jsonrpc: '2.0', method, params, id: 1 }),
+  });
+  const j = await res.json();
+  if (j.error) throw new Error(j.error.message || 'rpc error');
+  return j.result;
+}
+
+/** Read-only snapshot of hathor-the-witness straight from the live chain. Soft-fails to null. */
+export async function hathorStatus() {
+  try {
+    const [w, g, f] = await Promise.all([
+      chainRpc('condenser_api.get_witness_by_account', ['hathor']),
+      chainRpc('condenser_api.get_dynamic_global_properties', []),
+      chainRpc('condenser_api.get_feed_history', []).catch(() => null),
+    ]);
+    if (!w || !g) return null;
+    const last = +w.last_confirmed_block_num || 0;
+    const head = +g.head_block_number || 0;
+    return {
+      headBlock: head,
+      lastConfirmed: last,
+      blocksBehind: Math.max(0, head - last),
+      totalMissed: +w.total_missed || 0,
+      version: w.running_version || null,
+      signingKeyDisabled: /^(TST|STM|MLK)1{20,}/.test(String(w.signing_key || '')),
+      url: w.url || null,
+      currentWitness: g.current_witness || null,
+      time: g.time || null,
+      feed: f && f.current_median_history ? `${f.current_median_history.base} / ${f.current_median_history.quote}` : null,
+    };
+  } catch { return null; }
+}
+
+export async function hathorView(readStatus) {
+  const s = await (readStatus || hathorStatus)();
+  const live = s ? `
+    <div class=card><h2>Live from the chain</h2>
+      <div class=idx>
+        <div><div class=v>#${esc(num(s.headBlock))}</div><div class=l>head block</div></div>
+        <div><div class=v>#${esc(num(s.lastConfirmed))}</div><div class=l>hathor last confirmed</div></div>
+        <div><div class=v>${esc(num(s.blocksBehind))}</div><div class=l>blocks behind head</div></div>
+        <div><div class=v>${esc(num(s.totalMissed))}</div><div class=l>missed (all-time)</div></div>
+        <div><div class=v>${s.version ? esc(s.version) : '—'}</div><div class=l>node version</div></div>
+      </div>
+      <p class=muted style="font-size:13px">
+        signing: ${s.signingKeyDisabled ? '<b style="color:var(--down)">DISABLED</b>' : '<b style="color:var(--up)">active</b>'}
+        · producing now: <code>@${esc(s.currentWitness || '?')}</code>
+        · chain time ${esc(s.time || '—')} UTC
+        ${s.feed ? `· price feed <code>${esc(s.feed)}</code>` : '· price feed not yet on a loop'}
+        ${s.url ? `· <a href="${esc(s.url)}">witness URL</a>` : ''}</p>
+    </div>`
+    : `<div class=card><p class=empty>The testnet RPC is unreachable right now, so there is nothing
+        live to show — and we will not invent numbers. The chain runs on our own infrastructure;
+        check back shortly.</p></div>`;
+
+  return `<h1>Hathor — the founding AI Witness <span class="badge test">testnet</span></h1>
+    <p class=lead>This is what "a witness doing its job" looks like, measured live: <b>hathor</b> is
+      a genesis witness on the MELEK testnet, holds the protected 1st slot for the chain's first
+      year, and produces blocks like any other witness — the numbers below come straight from the
+      chain, refreshed on every page load.</p>
+    ${live}
+    <div class=card><h2>What you're looking at</h2>
+      <p class=muted style="font-size:14px"><b>Last confirmed</b> close to <b>head block</b> means the
+      witness is signing on schedule. <b>Missed</b> counts every block it was scheduled to sign but
+      didn't (all-time — ours date from a genesis-clock fix during bring-up). A witness whose signing
+      key is <b>disabled</b> has turned itself off. This is the same checklist our automated monitor
+      runs every five minutes — and the same one you'll use on <em>your</em> witness when you
+      <a href="/">finish the school</a>.</p></div>`;
 }
 
 // ── /pool/miner — Akasha wallet ↔ pool lookup (read-only) ──────────────────────────────────────
@@ -421,7 +501,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/pool', '/fees', '/servers', '/wallet'];
+const SITEMAP_PATHS = ['/', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -464,6 +544,10 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
+    }
+    if (path === '/hathor') {
+      return sendHtml(res, page('Hathor — the founding AI Witness, live — Witness School',
+        await hathorView(), { canonical: `${BASE_URL}/hathor` }));
     }
     if (path === '/pool/miner') {
       const addr = url.searchParams.get('addr') || '';
