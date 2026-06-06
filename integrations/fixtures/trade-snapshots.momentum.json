@@ -1,0 +1,15 @@
+{
+  "label": "A clean trend up then reversal — momentum enters on the cross, exits on the cross-back",
+  "params": { "enter": 0.02, "exit": 0.0, "tradeHive": 100 },
+  "start": { "startHive": 1000, "startToken": 0, "fees": 0.0025, "slippage": 0.001 },
+  "_note": "fast/slow are pre-computed SMAs the snapshot carries. signal = (fast-slow)/slow.",
+  "snapshots": [
+    { "symbol": "SWAP.BLURT", "hePrice": 0.030, "fast": 0.0300, "slow": 0.0300, "ts": 1718000000000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.033, "fast": 0.0325, "slow": 0.0305, "ts": 1718003600000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.036, "fast": 0.0350, "slow": 0.0315, "ts": 1718007200000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.040, "fast": 0.0385, "slow": 0.0330, "ts": 1718010800000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.038, "fast": 0.0375, "slow": 0.0345, "ts": 1718014400000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.034, "fast": 0.0345, "slow": 0.0350, "ts": 1718018000000 },
+    { "symbol": "SWAP.BLURT", "hePrice": 0.031, "fast": 0.0320, "slow": 0.0345, "ts": 1718021600000 }
+  ]
+}
