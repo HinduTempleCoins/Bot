@@ -306,3 +306,16 @@ test('/hathor route responds and home grid links to it', async () => {
   assert.match(home.body, /href="\/hathor"/);
   __setChainFetch(null);
 });
+
+// ---------------------------------------------------------------------------
+// pool-is-the-wallet front door (operator 2026-06-06)
+// ---------------------------------------------------------------------------
+test('/pool leads with create-your-wallet-here (non-custodial, spend-lock, Akasha)', async () => {
+  const html = await poolView(fakePools);
+  assert.match(html, /pool IS your wallet/i);
+  assert.match(html, /mycoins\.html/);
+  assert.match(html, /Zephyr \(ZEPH\)/);
+  assert.match(html, /never leaves your browser/);
+  assert.match(html, /spend-lock/);
+  assert.match(html, /Akasha/);
+});
