@@ -1,0 +1,15 @@
+[Unit]
+Description=Run the MELEK decades-brain brief/annal pipeline every 15 minutes
+Requires=melek-decades-pipeline.service
+
+[Timer]
+# First fire 2 min after boot (let the store/brief-generator settle), then every 15 min.
+# The runner is idempotent (skips items already processed), so frequent fires are cheap on the 1-core box.
+OnBootSec=2min
+OnUnitActiveSec=15min
+# If the box was down at fire time, catch up on next boot.
+Persistent=true
+Unit=melek-decades-pipeline.service
+
+[Install]
+WantedBy=timers.target
