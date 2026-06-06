@@ -1,0 +1,9 @@
+# gitleaks allowlist — verified FALSE POSITIVES only (audited 2026-06-06).
+# The archive/ guides contain placeholder/example key shapes in documentation prose;
+# verified to contain zero real key material. Real keys never live in this repo
+# (vault + signer architecture; see SECURITY.md and the pre-commit content hook).
+archive/QUICK_START.md
+archive/PRICE_PUSHER_GUIDE.md
+archive/SETUP_GUIDES.md
+archive/SIMPLE_NON_PROGRAMMER_SETUP.md
+archive/GUI_CODING_INTERFACES.md
