@@ -4,7 +4,7 @@
 // Algo families: cryptonote/RandomX (xmrig) and ethereum/Ethash-Etchash (GPU miners).
 
 import {
-  resolveCoin, validateAddress, genConfig, genStartScripts, genOneLiners,
+  resolveCoin, validateAddress, poolLoginAddress, genConfig, genStartScripts, genOneLiners,
   genEthCommand, genPhone, PHONE_WARNING, IOS_NOTE, MINERS,
   buildManifest, genWindowsLauncher, genWindowsBat, genPosixLauncher,
 } from './wizard.mjs';
@@ -295,8 +295,11 @@ function renderDesktopOut(out, address) {
   }
 
   // cryptonote / RandomX -> full done-for-them kit
-  const cfg = genConfig({ coin: coinKey, address, host: POOL_HOST, port, worker: 'soapbox' });
-  const liners = genOneLiners({ coin: coinKey, address, host: POOL_HOST, port, worker: 'soapbox' });
+  // Bake the pool-network form of the address into the kit (Monero side is stagenet
+  // while we test — a mainnet address would be rejected at the stratum login).
+  const { address: loginAddr } = poolLoginAddress(coinKey, address);
+  const cfg = genConfig({ coin: coinKey, address: loginAddr, host: POOL_HOST, port, worker: 'soapbox' });
+  const liners = genOneLiners({ coin: coinKey, address: loginAddr, host: POOL_HOST, port, worker: 'soapbox' });
   out.innerHTML =
     `<h4>Your setup &mdash; ${profile.symbol} on ${POOL_HOST}:${port}</h4>` +
     `<div class="wiz-dl">` +
@@ -326,7 +329,9 @@ function renderDesktopOut(out, address) {
 function renderPhoneOut(out, address) {
   const pool = WIZ.pool, profile = WIZ.profile;
   const port = pickPort(pool, 'phone');
-  const phone = genPhone({ coin: profile.symbol.toLowerCase(), address, host: POOL_HOST, port, worker: 'phone' });
+  // Same stagenet-twin conversion as the desktop kit — the phone QR config must log in too.
+  const loginAddr = poolLoginAddress(profile.symbol.toLowerCase(), address).address;
+  const phone = genPhone({ coin: profile.symbol.toLowerCase(), address: loginAddr, host: POOL_HOST, port, worker: 'phone' });
 
   if (!phone.supported) {
     out.innerHTML =
@@ -456,7 +461,9 @@ function launcherManifest() {
 }
 
 function readLauncherAddresses() {
-  const xmr = ($('#l-xmr')?.value || '').trim();
+  // Monero side of the pool is stagenet (testing) — hand the launcher the stagenet
+  // twin of the user's address so the baked miner config logs in successfully.
+  const xmr = poolLoginAddress('monero', ($('#l-xmr')?.value || '')).address;
   const evm = ($('#l-evm')?.value || '').trim();
   return { monero: xmr, evm };
 }

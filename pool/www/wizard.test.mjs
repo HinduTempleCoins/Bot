@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  COINS, MINERS, resolveCoin, validateAddress, genConfig, genStartScripts,
+  COINS, MINERS, resolveCoin, validateAddress, poolLoginAddress, genConfig, genStartScripts,
   genOneLiners, genEthCommand, genPhone, genQrPayload, PHONE_WARNING, IOS_NOTE,
 } from './wizard.mjs';
 
@@ -136,4 +136,38 @@ test('pinned miner metadata is internally consistent', () => {
     assert.match(a.sha256, /^[0-9a-f]{64}$/);
   }
   assert.match(MINERS.lolminer.assets['windows-x64'].url, /Lolliedieb\/lolMiner-releases/);
+});
+
+// ---- poolLoginAddress: mainnet → stagenet twin at the pool boundary ----
+// The pool's Monero side is STAGENET during testing; the in-browser wallet makes
+// MAINNET addresses. poolLoginAddress derives the stagenet twin (same public keys,
+// network varint 18→24) so logins are accepted. This was the live "browser miner
+// not working" bug of 2026-06-06: Miningcore answered "Invalid address used for login".
+test('poolLoginAddress converts a mainnet Monero address to its stagenet twin', async () => {
+  const { generateCryptonoteWallet } = await import('./walletgen/walletgen.mjs');
+  const { parseAddress } = await import('./walletgen/vendor/cn-address.mjs');
+  const w = generateCryptonoteWallet('monero');
+  assert.match(w.address, /^4/, 'wallet makes mainnet addresses');
+  const r = poolLoginAddress('monero', w.address);
+  assert.equal(r.converted, true);
+  assert.match(r.address, /^5/, 'stagenet std addresses start with 5');
+  const p = parseAddress(r.address);
+  assert.equal(Number(p.tag), 24);
+  assert.equal(p.checksumOk, true);
+  // same public keys — same wallet, claimable with the same seed in stagenet mode
+  const orig = parseAddress(w.address);
+  assert.deepEqual(Array.from(p.pubSpend), Array.from(orig.pubSpend));
+  assert.deepEqual(Array.from(p.pubView), Array.from(orig.pubView));
+});
+
+test('poolLoginAddress passes a stagenet address through unchanged', () => {
+  const r = poolLoginAddress('monero', XMR_STAGENET);
+  assert.equal(r.address, XMR_STAGENET);
+  assert.equal(r.converted, false);
+});
+
+test('poolLoginAddress never touches non-monero coins or garbage', () => {
+  assert.deepEqual(poolLoginAddress('ethereum_classic', EVM), { address: EVM, converted: false });
+  assert.deepEqual(poolLoginAddress('monero', 'not-an-address'), { address: 'not-an-address', converted: false });
+  assert.deepEqual(poolLoginAddress('monero', ''), { address: '', converted: false });
 });

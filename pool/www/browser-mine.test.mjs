@@ -132,3 +132,16 @@ test('prefillFromWallet soft-fails with no store/DOM (node env)', () => {
   assert.equal(prefillFromWallet(fakeInput(), { store: null, doc: null }), null);
   assert.equal(prefillFromWallet(null), null);
 });
+
+// ---- the start handler logs in with the POOL-network address (stagenet twin) ----
+// Regression guard for the 2026-06-06 live bug: the wallet auto-fill put a mainnet
+// address in the field, the pool (Monero stagenet) rejected the login, and the miner
+// "didn't work". The glue must convert via poolLoginAddress before BrowserMiner.start.
+test('browser-mine converts the address to the pool network before login', () => {
+  const src = readFileSync(join(here, 'browser-mine.mjs'), 'utf8');
+  assert.match(src, /poolLoginAddress\(/, 'imports + calls poolLoginAddress');
+  const startIdx = src.indexOf("startBtn.addEventListener('click'");
+  const convIdx = src.indexOf('poolLoginAddress(', startIdx);
+  const minerStartIdx = src.indexOf('miner.start(', startIdx);
+  assert.ok(convIdx > startIdx && convIdx < minerStartIdx, 'conversion happens inside the start handler, before miner.start');
+});

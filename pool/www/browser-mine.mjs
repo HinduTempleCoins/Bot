@@ -6,7 +6,7 @@
 // behaves like every other address field on the page.
 
 import { BrowserMiner } from './miner.mjs';
-import { validateAddress } from './wizard.mjs';
+import { validateAddress, poolLoginAddress } from './wizard.mjs';
 import { MyCoinsStore } from './mycoins.mjs';
 
 // The pool IS the wallet (operator 2026-06-06): never make the user go GET an address —
@@ -121,7 +121,13 @@ export function initBrowserMine() {
 
   startBtn.addEventListener('click', () => {
     if (!validate()) { addrIn.focus(); return; }
-    const address = addrIn.value.trim();
+    // The pool's Monero side is STAGENET while we test; the wallet makes mainnet
+    // addresses. Log in with the stagenet twin (same keys) so the pool accepts it.
+    const { address, converted } = poolLoginAddress('monero', addrIn.value);
+    if (converted) {
+      addrMsg.textContent = '✓ pool runs Monero stagenet (testing) — mining to your address’s stagenet twin ' + address.slice(0, 8) + '… (same keys, same seed)';
+      addrMsg.className = 'wiz-msg ok';
+    }
     miner = new BrowserMiner({
       wsUrl: wsUrl(),
       throttle: Number(throttle.value) / 100,
