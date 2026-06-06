@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Create your MELEK testnet account</title>
+<link rel="stylesheet" href="account.css">
+</head><body>
+<div class="wrap"><div class="card">
+  <span class="tag">[TestNet not MELEK]</span>
+  <h1>Create your account</h1>
+  <p class="muted">Your keys are generated <b>right here in your browser</b> — the server only ever
+  receives your chosen name and your <i>public</i> keys. Nobody can recover your password for you:
+  save it before you create the account.</p>
+
+  <label class="wiz-lab" for="name">Account name <span class="muted">(3–16 chars, lowercase, letters/numbers/hyphens)</span></label>
+  <input id="name" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. offgrid">
+  <p><button type="button" id="go" class="wiz-btn">Generate my keys</button></p>
+
+  <div id="out"></div>
+
+  <p class="muted small">Already have an account? <a href="/">Log in</a> ·
+  Saved a key but login fails? <a href="keycheck.html">Check what your key is</a></p>
+</div></div>
+<script type="module">
+  import { runSignup } from './account-ui.mjs';
+  const go = document.getElementById('go');
+  go.addEventListener('click', () => runSignup({ name: document.getElementById('name').value }));
+  document.getElementById('name').addEventListener('keydown', (e) => { if (e.key === 'Enter') go.click(); });
+</script>
+</body></html>
