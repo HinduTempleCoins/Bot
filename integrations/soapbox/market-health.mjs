@@ -25,6 +25,9 @@
 
 import { cached, TTL } from './cache.mjs';
 import { marketBreadth, __setFetch as __setStocksFetch } from './stocks.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const UA = 'Mozilla/5.0 (compatible; MELEK-Bot/1.0)';
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -162,6 +165,72 @@ export function classify(score) {
   if (score >= 45) return 'Neutral';
   if (score >= 30) return 'Fear';
   return 'Extreme Fear';
+}
+
+// Plain-English health band for the gauge label (task #196): healthy / cautious / stressed. A simpler,
+// non-trading vocabulary than the Fear/Greed bands above, for the at-a-glance gauge.
+export function plainClassify(score) {
+  if (score == null || Number.isNaN(score)) return { label: 'no data', tone: 'unknown' };
+  if (score >= 60) return { label: 'healthy', tone: 'healthy' };
+  if (score >= 40) return { label: 'cautious', tone: 'cautious' };
+  return { label: 'stressed', tone: 'stressed' };
+}
+const PLAIN_COLOR = { healthy: '#3fb950', cautious: '#d29922', stressed: '#f85149', unknown: '#8b949e' };
+
+// ── Historical-depth store (ring buffer, ~365 entries) ───────────────────────────────────────────
+// Persists a daily snapshot of the live health score to disk so the page can show how market health
+// has trended over the last year — independent of the in-window Yahoo history (which is recomputed,
+// not recorded). Bounded to MAX_HISTORY newest entries (a ring buffer). fs is injectable for tests.
+const __dir = (() => { try { return path.dirname(fileURLToPath(import.meta.url)); } catch { return process.cwd(); } })();
+const HISTORY_STORE = process.env.MARKET_HEALTH_HISTORY || path.join(__dir, 'data', 'market-health-history.json');
+const MAX_HISTORY = 365;
+
+let _fs = fs;
+/** Test seam: inject an fs-like impl ({ readFileSync, writeFileSync, mkdirSync }); pass nothing to restore. */
+export function __setFs(impl) { _fs = impl || fs; }
+
+function loadHistory() {
+  try {
+    const raw = JSON.parse(_fs.readFileSync(HISTORY_STORE, 'utf8'));
+    return Array.isArray(raw) ? raw.filter((e) => e && typeof e.score === 'number') : [];
+  } catch { return []; }
+}
+function saveHistory(arr) {
+  try { _fs.mkdirSync(path.dirname(HISTORY_STORE), { recursive: true }); } catch { /* in-memory fs may not need dirs */ }
+  _fs.writeFileSync(HISTORY_STORE, JSON.stringify(arr, null, 2));
+}
+
+/**
+ * Record one health snapshot into the ring buffer. Idempotent per UTC day: a second record() on the
+ * same day overwrites that day's entry rather than appending. Bounded to MAX_HISTORY newest entries.
+ * @param {{score:number, classification?:string, t?:number}} snap
+ * @returns {Array} the (bounded) history after recording, oldest→newest.
+ */
+export function record(snap = {}) {
+  const score = Number(snap.score);
+  if (!Number.isFinite(score)) return loadHistory(); // never store a null/NaN snapshot
+  const t = Number.isFinite(snap.t) ? snap.t : Date.now();
+  const day = new Date(t).toISOString().slice(0, 10);
+  const entry = {
+    day, t,
+    score: Math.round(clamp(score) * 10) / 10,
+    classification: snap.classification || classify(score),
+    plain: plainClassify(score).label,
+  };
+  const arr = loadHistory().filter((e) => e.day !== day); // one entry per UTC day
+  arr.push(entry);
+  arr.sort((a, b) => (a.day < b.day ? -1 : a.day > b.day ? 1 : 0));
+  const bounded = arr.slice(-MAX_HISTORY); // ring buffer: keep newest MAX_HISTORY
+  saveHistory(bounded);
+  return bounded;
+}
+
+/** The recorded health history, oldest→newest, optionally limited to the last `limit` entries.
+ *  (Named healthHistory to avoid colliding with the private per-symbol Yahoo `history` fetcher.) */
+export function healthHistory({ limit = MAX_HISTORY } = {}) {
+  const arr = loadHistory();
+  const n = Math.max(1, Math.min(MAX_HISTORY, Number(limit) || MAX_HISTORY));
+  return arr.slice(-n);
 }
 
 // ── healthSeries ────────────────────────────────────────────────────────────────────────────────────

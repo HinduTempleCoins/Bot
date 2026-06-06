@@ -216,15 +216,23 @@ export function assessIndexQuality(scored, requestedCount) {
  * @returns {Promise<{asOf:number, count:number, rows:Array, quality:object}>}
  */
 export async function stockIndex({ symbols = INDEX_UNIVERSE, limit = 25 } = {}) {
-  const uniq = [...new Set(symbols.map((s) => String(s || '').toUpperCase()).filter(Boolean))];
-  const key = `stk:index:${uniq.slice(0, 60).join(',')}:${limit}`;
+  // sanitize the universe: coerce to uppercase tickers, drop blanks/garbage, dedupe, and bound the
+  // fan-out so a caller can't request thousands of upstream fetches or poison the cache key.
+  const clean = [...new Set(
+    (Array.isArray(symbols) ? symbols : [])
+      .map((s) => String(s || '').trim().toUpperCase())
+      .filter((s) => /^[A-Z0-9.\-^=]{1,12}$/.test(s)),
+  )].slice(0, 60);
+  const lim = Math.max(1, Math.min(100, Number(limit) || 25));
+  const key = `stk:index:${clean.join(',')}:${lim}`;
   return cached(key, TTL.ohlcv, async () => {
-    const scored = (await Promise.all(uniq.map((s) => indexScore(s).catch(() => null)))).filter(Boolean);
+    if (!clean.length) return { asOf: Date.now(), count: 0, requested: 0, rows: [], quality: assessIndexQuality([], 0) };
+    const scored = (await Promise.all(clean.map((s) => indexScore(s).catch(() => null)))).filter(Boolean);
     scored.sort((a, b) => b.score - a.score);
-    const quality = assessIndexQuality(scored, uniq.length);
+    const quality = assessIndexQuality(scored, clean.length);
     const outSet = new Set(quality.outliers);
-    const rows = scored.slice(0, limit).map((r, i) => ({ rank: i + 1, outlier: outSet.has(r.symbol), ...r }));
-    return { asOf: Date.now(), count: rows.length, requested: uniq.length, rows, quality };
+    const rows = scored.slice(0, lim).map((r, i) => ({ rank: i + 1, outlier: outSet.has(r.symbol), ...r }));
+    return { asOf: Date.now(), count: rows.length, requested: clean.length, rows, quality };
   });
 }
 
