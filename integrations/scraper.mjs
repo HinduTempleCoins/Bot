@@ -147,20 +147,35 @@ async function searchPubChem(query, limit) {            // chemistry: compounds 
   const r = await withTimeout(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(query)}/property/MolecularFormula,IUPACName/JSON`, { headers: { 'user-agent': UA } });
   if (!r.ok) return [];
   const d = await r.json().catch(() => null);
+  // #284: keep the structured chemistry facts (CID/formula/IUPAC) additively, not only in title/snippet.
   return (d?.PropertyTable?.Properties || []).slice(0, limit).map((p) => ({
     title: `${query} — ${p.MolecularFormula || ''} (${p.IUPACName || ''})`.trim(),
     url: `https://pubchem.ncbi.nlm.nih.gov/compound/${p.CID}`, snippet: `PubChem CID ${p.CID}; formula ${p.MolecularFormula}`, provider: 'pubchem',
+    cid: p.CID != null ? p.CID : null, molecularFormula: p.MolecularFormula || null, iupacName: p.IUPACName || null,
   }));
 }
 async function searchWikidata(query, limit) {           // structured facts / entities / history / dates
   const r = await withTimeout(`https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&limit=${limit}&search=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA } });
   const d = await r.json().catch(() => ({}));
-  return (d.search || []).map((e) => ({ title: e.label || e.id, url: `https://www.wikidata.org/wiki/${e.id}`, snippet: e.description || '', provider: 'wikidata' }));
+  // #284: keep the Wikidata entity id (Q-number) additively so a consumer can resolve claims/statements.
+  return (d.search || []).map((e) => ({ title: e.label || e.id, url: `https://www.wikidata.org/wiki/${e.id}`, snippet: e.description || '', provider: 'wikidata', entityId: e.id || null }));
 }
+// data-loss-audit (#284): the scholarly normalizers below previously flattened a rich record (DOI,
+// year, authors, venue, citation count) into a single `snippet` string. They now surface those as
+// ADDITIVE structured fields (doi/year/authors/venue/cited) on top of the unchanged title/url/snippet/
+// provider shape, so grounding-sources + the wiki-writer + Cheetah can cite the real datum.
 async function searchCrossRef(query, limit) {           // academic literature (DOIs)
-  const r = await withTimeout(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${limit}&select=title,DOI,container-title,published`, { headers: { 'user-agent': UA } });
+  const r = await withTimeout(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${limit}&select=title,DOI,container-title,published,author,is-referenced-by-count`, { headers: { 'user-agent': UA } });
   const d = await r.json().catch(() => ({}));
-  return (d.message?.items || []).map((i) => ({ title: (i.title || [''])[0], url: `https://doi.org/${i.DOI}`, snippet: (i['container-title'] || [''])[0] || '', provider: 'crossref' })).filter((x) => x.title);
+  return (d.message?.items || []).map((i) => ({
+    title: (i.title || [''])[0], url: `https://doi.org/${i.DOI}`,
+    snippet: (i['container-title'] || [''])[0] || '', provider: 'crossref',
+    doi: i.DOI || null,
+    venue: (i['container-title'] || [''])[0] || null,
+    year: i.published?.['date-parts']?.[0]?.[0] || null,
+    authors: (i.author || []).map((a) => [a.given, a.family].filter(Boolean).join(' ')).filter(Boolean),
+    cited: typeof i['is-referenced-by-count'] === 'number' ? i['is-referenced-by-count'] : null,
+  })).filter((x) => x.title);
 }
 async function searchPubMed(query, limit) {             // biomedical / pharmacology literature
   const s = await withTimeout(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=${limit}&term=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA } });
@@ -168,19 +183,42 @@ async function searchPubMed(query, limit) {             // biomedical / pharmaco
   if (!ids.length) return [];
   const sum = await withTimeout(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${ids.join(',')}`, { headers: { 'user-agent': UA } });
   const res = (await sum.json().catch(() => ({})))?.result || {};
-  return ids.map((id) => res[id]).filter(Boolean).map((a) => ({ title: a.title, url: `https://pubmed.ncbi.nlm.nih.gov/${a.uid}/`, snippet: `${a.source || ''} ${a.pubdate || ''}`.trim(), provider: 'pubmed' }));
+  return ids.map((id) => res[id]).filter(Boolean).map((a) => ({
+    title: a.title, url: `https://pubmed.ncbi.nlm.nih.gov/${a.uid}/`,
+    snippet: `${a.source || ''} ${a.pubdate || ''}`.trim(), provider: 'pubmed',
+    venue: a.source || null,
+    year: a.pubdate ? +String(a.pubdate).slice(0, 4) || null : null,
+    authors: (a.authors || []).map((x) => x?.name).filter(Boolean),
+    doi: (a.articleids || []).find((x) => x.idtype === 'doi')?.value || null,
+  }));
 }
 
 async function searchOpenAlex(query, limit) {           // scholarly works (keyless, reliable)
-  const r = await withTimeout(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per_page=${limit}&select=title,doi,id,publication_year,primary_location`, { headers: { 'user-agent': UA } });
+  const r = await withTimeout(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per_page=${limit}&select=title,doi,id,publication_year,primary_location,authorships,cited_by_count,open_access`, { headers: { 'user-agent': UA } });
   const d = await r.json().catch(() => ({}));
-  return (d.results || []).map((w) => ({ title: w.title || '', url: w.doi || w.primary_location?.landing_page_url || w.id, snippet: `${w.primary_location?.source?.display_name || ''} ${w.publication_year || ''}`.trim(), provider: 'openalex' })).filter((x) => x.title && x.url);
+  return (d.results || []).map((w) => ({
+    title: w.title || '', url: w.doi || w.primary_location?.landing_page_url || w.id,
+    snippet: `${w.primary_location?.source?.display_name || ''} ${w.publication_year || ''}`.trim(), provider: 'openalex',
+    doi: w.doi || null,
+    year: w.publication_year || null,
+    venue: w.primary_location?.source?.display_name || null,
+    authors: (w.authorships || []).map((a) => a?.author?.display_name).filter(Boolean),
+    cited: typeof w.cited_by_count === 'number' ? w.cited_by_count : null,
+    openAccess: w.open_access?.is_oa === true,
+  })).filter((x) => x.title && x.url);
 }
 async function searchSemanticScholar(query, limit) {    // peer-reviewed papers (best-effort; rate-limited without a key)
-  const r = await withTimeout(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=${limit}&fields=title,url,year,venue`, { headers: { 'user-agent': UA } });
+  const r = await withTimeout(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=${limit}&fields=title,url,year,venue,authors,citationCount,externalIds`, { headers: { 'user-agent': UA } });
   if (!r.ok) return [];
   const d = await r.json().catch(() => ({}));
-  return (d.data || []).map((p) => ({ title: p.title, url: p.url, snippet: `${p.venue || ''} ${p.year || ''}`.trim(), provider: 'semanticscholar' })).filter((x) => x.title && x.url);
+  return (d.data || []).map((p) => ({
+    title: p.title, url: p.url, snippet: `${p.venue || ''} ${p.year || ''}`.trim(), provider: 'semanticscholar',
+    year: p.year || null,
+    venue: p.venue || null,
+    authors: (p.authors || []).map((a) => a?.name).filter(Boolean),
+    cited: typeof p.citationCount === 'number' ? p.citationCount : null,
+    doi: p.externalIds?.DOI || null,
+  })).filter((x) => x.title && x.url);
 }
 async function searchArxiv(query, limit) {              // preprints (CS / physics / math — e.g. multi-agent AI)
   const r = await withTimeout(`http://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=${limit}`, { headers: { 'user-agent': UA } });
@@ -189,8 +227,13 @@ async function searchArxiv(query, limit) {              // preprints (CS / physi
     const e = m[1];
     const title = (e.match(/<title>([\s\S]*?)<\/title>/) || [, ''])[1].replace(/\s+/g, ' ').trim();
     const url = (e.match(/<id>([^<]+)<\/id>/) || [, ''])[1].trim();
-    const snippet = (e.match(/<summary>([\s\S]*?)<\/summary>/) || [, ''])[1].replace(/\s+/g, ' ').trim().slice(0, 160);
-    return { title, url, snippet, provider: 'arxiv' };
+    const summary = (e.match(/<summary>([\s\S]*?)<\/summary>/) || [, ''])[1].replace(/\s+/g, ' ').trim();
+    const snippet = summary.slice(0, 160);
+    const published = (e.match(/<published>([^<]+)<\/published>/) || [, ''])[1].trim();
+    const authors = [...e.matchAll(/<author>[\s\S]*?<name>([\s\S]*?)<\/name>[\s\S]*?<\/author>/g)].map((a) => a[1].trim());
+    const doi = (e.match(/<arxiv:doi[^>]*>([\s\S]*?)<\/arxiv:doi>/) || [, ''])[1].trim() || null;
+    // the FULL abstract preserved (summary) so a consumer isn't stuck with the 160-char snippet.
+    return { title, url, snippet, provider: 'arxiv', abstract: summary || null, year: published ? +published.slice(0, 4) || null : null, authors, doi };
   }).filter((x) => x.title && x.url);
 }
 
@@ -390,6 +433,19 @@ export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
   const terms = queryTerms(query);
 
   // 1) dedup on normalized URL, COMBINING provider lists + keeping the longest clean snippet/best title.
+  // data-loss-audit (#284): the merge also CARRIES the structured scholarly fields (doi/year/authors/
+  // venue/cited/openAccess/abstract) the provider normalizers now attach — previously the merge rebuilt
+  // a bare {title,url,snippet,providers} object and silently dropped them. Additive: a record gains a
+  // field the first time any provider supplies it; existing readers are unaffected.
+  const META_KEYS = ['doi', 'year', 'authors', 'venue', 'cited', 'openAccess', 'abstract'];
+  const mergeMeta = (e, r) => {
+    for (const k of META_KEYS) {
+      if (e[k] != null && !(Array.isArray(e[k]) && e[k].length === 0)) continue;
+      if (r[k] == null) continue;
+      if (Array.isArray(r[k]) && r[k].length === 0) continue;
+      e[k] = r[k];
+    }
+  };
   const byKey = new Map();
   lists.flat().forEach((r) => {
     if (!r || !r.url) return;
@@ -397,12 +453,15 @@ export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
     if (!k) return;
     const snip = cleanSnippet(r.snippet);
     if (!byKey.has(k)) {
-      byKey.set(k, { title: (r.title || '').trim(), url: k, snippet: snip, providers: [r.provider] });
+      const e = { title: (r.title || '').trim(), url: k, snippet: snip, providers: [r.provider] };
+      mergeMeta(e, r);
+      byKey.set(k, e);
     } else {
       const e = byKey.get(k);
       if (!e.providers.includes(r.provider)) e.providers.push(r.provider);
       if (snip.length > e.snippet.length) e.snippet = snip;     // prefer the richest snippet
       if (!e.title && r.title) e.title = r.title.trim();
+      mergeMeta(e, r);                                          // backfill any structured field
     }
   });
 

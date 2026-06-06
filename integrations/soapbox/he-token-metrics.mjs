@@ -105,13 +105,22 @@ export async function tokenMetrics(symbol, deps = {}) {
  * @param {object} [deps]
  * @returns {Promise<Array>}
  */
-export async function dashboard(symbols = [], deps = {}) {
-  const list = Array.isArray(symbols) ? symbols : [];
-  return Promise.all(list.map((s) => tokenMetrics(s, deps).catch(() => ({
-    symbol: s, price: null, volume24h: null, holders: null, top3Pct: null, issuerPct: null,
+// build the soft-fail row for a symbol given an error (so the #284 honest-empty row is unit-testable
+// without forcing the internally-soft tokenMetrics to throw on the network). #284 soft-fail-honest:
+// the row carries the REASON it's empty (`error`) instead of swallowing it — a dashboard can show "why"
+// rather than a silent blank row.
+export function emptyRow(symbol, error) {
+  return {
+    symbol, price: null, volume24h: null, holders: null, top3Pct: null, issuerPct: null,
     buyWallHive: null, sellWallQty: null, spreadPct: null, lastUpdated: new Date().toISOString(),
     provenance: { market: false, books: false, ownership: false, holders: false },
-  }))));
+    ...(error ? { error: error && error.message ? error.message : String(error) } : {}),
+  };
+}
+
+export async function dashboard(symbols = [], deps = {}) {
+  const list = Array.isArray(symbols) ? symbols : [];
+  return Promise.all(list.map((s) => tokenMetrics(s, deps).catch((e) => emptyRow(s, e))));
 }
 
 if (process.argv[1] && process.argv[1].endsWith('he-token-metrics.mjs')) {

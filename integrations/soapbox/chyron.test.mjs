@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import { severityTier, quakeScore, moveScore, curate, rankNews, worldClocks, CLOCKS, reliefWeb, gdeltWorld, eonetEvents, __setFetch,
+  earthquakes, weatherAlerts,
   TOPICS, classifyTopic, relevanceScore, topFive, tickerPanels, renderTickerHTML, escapeHtml } from './chyron.mjs';
 
 // build a fake Response for the injectable fetch
@@ -25,6 +26,42 @@ test('moveScore is symmetric and capped', () => {
   assert.equal(moveScore(3), moveScore(-3));
   assert.ok(moveScore(8) > moveScore(3));
   assert.equal(moveScore(50), 100); // capped
+});
+
+// ── data-loss-audit (#284): the USGS/NWS structured fields must survive, not just the chyron text ──
+test('#284: earthquakes() keeps mag/place/time/coords as structured fields', async () => {
+  __setFetch(async () => jsonResponse({ features: [{
+    properties: { mag: 6.3, place: '10km S of Testville', time: 1700000000000, url: 'https://usgs/x', tsunami: 1 },
+    geometry: { coordinates: [-122.5, 37.7, 12.3] },
+  }] }));
+  try {
+    const [q] = await earthquakes();
+    assert.ok(/M6.3 earthquake/.test(q.text), 'chyron text unchanged');
+    assert.equal(q.mag, 6.3);
+    assert.equal(q.place, '10km S of Testville');
+    assert.equal(q.time, new Date(1700000000000).toISOString());
+    assert.equal(q.tsunami, true);
+    assert.equal(q.lat, 37.7);
+    assert.equal(q.lon, -122.5);
+    assert.equal(q.depthKm, 12.3);
+  } finally { __setFetch(null); }
+});
+
+test('#284: weatherAlerts() keeps severity/area/effective/expires/headline', async () => {
+  __setFetch(async () => jsonResponse({ features: [{
+    properties: { event: 'Tornado Warning', severity: 'Extreme', areaDesc: 'Foo County; Bar County',
+      effective: '2026-06-06T00:00:00Z', expires: '2026-06-06T01:00:00Z', headline: 'Take shelter now' },
+  }] }));
+  try {
+    const [a] = await weatherAlerts();
+    assert.ok(/Tornado Warning/.test(a.text), 'chyron text unchanged');
+    assert.equal(a.event, 'Tornado Warning');
+    assert.equal(a.severity, 'Extreme');
+    assert.equal(a.areaDesc, 'Foo County; Bar County');
+    assert.equal(a.effective, '2026-06-06T00:00:00Z');
+    assert.equal(a.expires, '2026-06-06T01:00:00Z');
+    assert.equal(a.headline, 'Take shelter now');
+  } finally { __setFetch(null); }
 });
 
 test('curate dedups, sorts by score desc, and caps (no overcrowding)', () => {

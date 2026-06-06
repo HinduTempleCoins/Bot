@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { tokenMetrics, dashboard } from './he-token-metrics.mjs';
+import { tokenMetrics, dashboard, emptyRow } from './he-token-metrics.mjs';
 
 // fully-stubbed, offline deps — no network, no he-client. Mirrors the real module shapes:
 //   market.metrics  → { lastPrice, volume, highestBid, lowestAsk }
@@ -108,4 +108,28 @@ test('dashboard maps multiple symbols, one row each', async () => {
 test('dashboard handles empty/non-array input gracefully', async () => {
   assert.deepEqual(await dashboard([], makeDeps()), []);
   assert.deepEqual(await dashboard(undefined, makeDeps()), []);
+});
+
+// ── data-loss-audit (#284): an empty row reports WHY (soft-fail-honest), not a silent blank ─────────
+test('#284: emptyRow carries the failure reason so a blank dashboard row is explainable', () => {
+  const row = emptyRow('VKBT', new Error('he-client unreachable'));
+  assert.equal(row.symbol, 'VKBT');
+  assert.equal(row.price, null);
+  assert.equal(row.error, 'he-client unreachable');   // the reason survives, not swallowed
+  assert.deepEqual(row.provenance, { market: false, books: false, ownership: false, holders: false });
+});
+
+test('#284: emptyRow with no error omits the error field (a clean empty is still clean)', () => {
+  const row = emptyRow('CURE');
+  assert.ok(!('error' in row), 'no spurious error field when none given');
+});
+
+test('#284: dashboard surfaces the failure reason when a symbol throws', async () => {
+  const boomDeps = makeDeps({ holders: () => { throw new Error('holders API down'); } });
+  // tokenMetrics is internally soft, so make the whole row builder throw by poisoning a dep getter.
+  const rows = await dashboard(['VKBT'], { get market() { throw new Error('deps blew up'); } });
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].symbol, 'VKBT');
+  assert.equal(rows[0].error, 'deps blew up');
+  void boomDeps;
 });

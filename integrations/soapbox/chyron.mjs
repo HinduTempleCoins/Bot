@@ -97,8 +97,21 @@ export async function earthquakes() {
   const j = await getJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson');
   const feats = (j && j.features) || [];
   return feats.map((f) => {
-    const mag = f.properties?.mag;
-    return { kind: 'disaster', icon: '🌎', text: `M${(+mag).toFixed(1)} earthquake — ${f.properties?.place || 'unknown'}`, score: quakeScore(mag), url: f.properties?.url };
+    const p = f.properties || {};
+    const mag = p.mag;
+    // data-loss-audit (#284): keep the structured USGS fields (mag/place/time/tsunami/coords) ADDITIVELY
+    // so a map/alert consumer isn't stuck re-parsing the `text` headline. The chyron line is unchanged.
+    const coords = Array.isArray(f.geometry?.coordinates) ? f.geometry.coordinates : null;
+    return {
+      kind: 'disaster', icon: '🌎',
+      text: `M${(+mag).toFixed(1)} earthquake — ${p.place || 'unknown'}`,
+      score: quakeScore(mag), url: p.url,
+      mag: typeof mag === 'number' ? mag : null,
+      place: p.place || null,
+      time: typeof p.time === 'number' ? new Date(p.time).toISOString() : null,
+      tsunami: p.tsunami === 1 || p.tsunami === true,
+      lon: coords ? coords[0] : null, lat: coords ? coords[1] : null, depthKm: coords ? coords[2] : null,
+    };
   }).filter((x) => x.score > 0);
 }
 
@@ -110,10 +123,22 @@ export async function weatherAlerts() {
   const seenEvent = new Set();
   const out = [];
   for (const f of feats) {
-    const ev = f.properties?.event || 'Weather alert';
+    const p = f.properties || {};
+    const ev = p.event || 'Weather alert';
     if (seenEvent.has(ev)) continue; // collapse 100 county alerts into one headline per event type
     seenEvent.add(ev);
-    out.push({ kind: 'disaster', icon: '⛈️', text: `${ev} — ${f.properties?.areaDesc?.split(';')[0] || 'US'}`, score: sevScore(f.properties?.severity) });
+    // #284: keep the structured NWS fields (event/severity/area/effective/expires/headline) additively.
+    out.push({
+      kind: 'disaster', icon: '⛈️',
+      text: `${ev} — ${p.areaDesc?.split(';')[0] || 'US'}`,
+      score: sevScore(p.severity),
+      event: ev,
+      severity: p.severity || null,
+      areaDesc: p.areaDesc || null,
+      effective: p.effective || null,
+      expires: p.expires || null,
+      headline: p.headline || null,
+    });
   }
   return out;
 }

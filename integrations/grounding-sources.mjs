@@ -48,9 +48,27 @@ const PROV = {
 
 const str = (v) => (typeof v === 'string' ? v.trim() : '');
 
+// drop empty/null entries from a structured-fields object so a row never carries dead keys.
+function compactFields(obj) {
+  const out = {};
+  for (const [k, v] of Object.entries(obj || {})) {
+    if (v == null) continue;
+    if (typeof v === 'string' && !v.trim()) continue;
+    if (Array.isArray(v) && v.length === 0) continue;
+    out[k] = v;
+  }
+  return out;
+}
+
 // Normalize a raw hit from any upstream into our stable evidence shape + attach a provenance envelope
 // and a computed confidence. Returns null for hits with no title or no url (nothing to cite).
-function toEvidence(raw, sourceType) {
+//
+// `fields` (data-loss-audit, #284) carries the STRUCTURED upstream data that a snippet string would
+// otherwise flatten away — agency/type/date for gov, authors/year/doi/cited/openAccess for scholarly.
+// Those rich fields are surfaced ADDITIVELY (the original title/url/snippet/sourceType/confidence/
+// provenance shape is unchanged), so downstream consumers (the fact-checker, wiki-writer, Cheetah)
+// can read the real datum instead of re-parsing a human-readable snippet. Empty fields are dropped.
+function toEvidence(raw, sourceType, fields = {}) {
   const title = str(raw?.title);
   const url = str(raw?.url);
   if (!title || !url) return null;
@@ -65,35 +83,60 @@ function toEvidence(raw, sourceType) {
     sourceType,
     confidence: sourceConfidence(rec),
     provenance: rec._provenance,
+    // additive structured fields — present only when the upstream actually carried them.
+    ...compactFields(fields),
   };
 }
 
-// ── per-source adapters (each soft-fails to []) ──────────────────────────────────────────────────
+// ── per-source adapters (each soft-fails to { rows:[], error }) ───────────────────────────────────
 // Every adapter takes (topic, fns) where fns lets a caller INJECT a fake for offline testing. When a
 // fake isn't injected, the real imported function is used. None of these ever throw.
+//
+// SOFT-FAIL-HONEST (data-loss-audit, #284): an adapter that fails or finds nothing returns its REASON
+// alongside the (empty) rows, so sourcesFor can report WHY a tier contributed nothing instead of
+// silently swallowing it. House style is soft-fail-honest, not soft-fail-mute.
+//
+// FIELD PRESERVATION (#284): each adapter now forwards the upstream's STRUCTURED fields into toEvidence
+// (gov: agency/type/date; scholarly: authors/year/doi/cited/openAccess/venue) so the rich datum survives
+// instead of being flattened into the human-readable `snippet`. The snippet is still built for display.
 
 async function fromGov(topic, fn) {
   try {
     const rows = await fn(topic);
-    return (Array.isArray(rows) ? rows : []).map((d) => toEvidence({
+    const arr = Array.isArray(rows) ? rows : [];
+    const out = arr.map((d) => toEvidence({
       title: d.title,
       url: d.url,
       snippet: [d.agency, d.type, d.date].filter(Boolean).join(' · '),
-    }, 'gov')).filter(Boolean);
-  } catch { return []; }
+    }, 'gov', {
+      // structured gov fields preserved additively (previously discarded into the snippet string).
+      agency: str(d.agency), docType: str(d.type), date: str(d.date),
+    })).filter(Boolean);
+    return { rows: out, error: out.length ? null : 'no results' };
+  } catch (e) { return { rows: [], error: `gov source failed: ${e && e.message ? e.message : String(e)}` }; }
 }
 
 async function fromScholarly(topic, fn) {
   try {
     const out = await fn(topic, { limit: 12 });
     const rows = Array.isArray(out?.results) ? out.results : (Array.isArray(out) ? out : []);
-    return rows.map((r) => toEvidence({
+    const ev = rows.map((r) => toEvidence({
       title: r.title,
       url: r.url,
       snippet: [(r.authors || []).slice(0, 3).join(', '), r.year ? `(${r.year})` : '']
         .filter(Boolean).join(' '),
-    }, 'scholarly')).filter(Boolean);
-  } catch { return []; }
+    }, 'scholarly', {
+      // the rich scholarly record (the historic "Case Text"-style loss) preserved additively.
+      authors: Array.isArray(r.authors) ? r.authors : undefined,
+      year: r.year != null ? r.year : undefined,
+      doi: str(r.doi) || undefined,
+      citedByCount: typeof r.cited === 'number' ? r.cited : undefined,
+      openAccess: typeof r.openAccess === 'boolean' ? r.openAccess : undefined,
+      venue: str(r.venue) || undefined,
+      pubType: str(r.type) || undefined,
+    })).filter(Boolean);
+    return { rows: ev, error: ev.length ? null : 'no results' };
+  } catch (e) { return { rows: [], error: `scholarly source failed: ${e && e.message ? e.message : String(e)}` }; }
 }
 
 async function fromWiki(topic, fn) {
@@ -104,16 +147,19 @@ async function fromWiki(topic, fn) {
       Promise.resolve().then(() => fn(topic, { provider: 'wikipedia', limit: 6 })).catch(() => []),
       Promise.resolve().then(() => fn(topic, { provider: 'wikidata', limit: 6 })).catch(() => []),
     ]);
-    return [...(wp || []), ...(wd || [])]
-      .map((r) => toEvidence(r, 'wiki')).filter(Boolean);
-  } catch { return []; }
+    const out = [...(wp || []), ...(wd || [])]
+      .map((r) => toEvidence(r, 'wiki', { provider: str(r.provider) || undefined })).filter(Boolean);
+    return { rows: out, error: out.length ? null : 'no results' };
+  } catch (e) { return { rows: [], error: `wiki source failed: ${e && e.message ? e.message : String(e)}` }; }
 }
 
 async function fromWeb(topic, fn) {
   try {
     const rows = await fn(topic, { limit: 12 });
-    return (Array.isArray(rows) ? rows : []).map((r) => toEvidence(r, 'web')).filter(Boolean);
-  } catch { return []; }
+    const arr = Array.isArray(rows) ? rows : [];
+    const out = arr.map((r) => toEvidence(r, 'web', { provider: str(r.provider) || undefined })).filter(Boolean);
+    return { rows: out, error: out.length ? null : 'no results' };
+  } catch (e) { return { rows: [], error: `web source failed: ${e && e.message ? e.message : String(e)}` }; }
 }
 
 // ── rankSources (PURE) ───────────────────────────────────────────────────────────────────────────
@@ -158,12 +204,17 @@ function dedupByUrl(list) {
  *     scholarly(topic, {limit})     → { results: [...] } | [...]
  *     wiki(topic, {provider,limit}) → [{ title, url, snippet? }]   (called once per provider)
  *     web(topic, {limit})           → [{ title, url, snippet? }]
- * Returns [{ title, url, snippet, sourceType, confidence, provenance }], deduped by url, capped at max.
- * Never throws — any failing source simply contributes nothing.
+ * Returns [{ title, url, snippet, sourceType, confidence, provenance, ...structured }], deduped by url,
+ * capped at max. Structured upstream fields (agency/type/date, authors/year/doi/cited/openAccess) ride
+ * along ADDITIVELY when present. Never throws — any failing source simply contributes nothing.
+ *
+ * Pass { withDiagnostics:true } to instead get { results, sourceErrors } where sourceErrors maps each
+ * source that contributed nothing to the REASON why (soft-fail-honest, #284) — so a caller can tell a
+ * "down" source from a "no hits" one. The default (array) return is unchanged for back-compat.
  */
-export async function sourcesFor(topic, { max = 8, sources = {} } = {}) {
+export async function sourcesFor(topic, { max = 8, sources = {}, withDiagnostics = false } = {}) {
   const q = str(topic);
-  if (!q) return [];
+  if (!q) return withDiagnostics ? { results: [], sourceErrors: { topic: 'empty topic' } } : [];
   const govFn = sources.gov || federalRegister;
   const schFn = sources.scholarly || catalogSearch;
   const wikiFn = sources.wiki || search;
@@ -176,28 +227,36 @@ export async function sourcesFor(topic, { max = 8, sources = {} } = {}) {
     fromWeb(q, webFn),
   ]);
 
-  const fused = rankSources([...gov, ...scholarly, ...wiki, ...web]);
-  return dedupByUrl(fused).slice(0, Math.max(0, max | 0) || 8);
+  // collect WHY any source contributed nothing (soft-fail-honest) instead of swallowing it.
+  const sourceErrors = {};
+  for (const [name, r] of [['gov', gov], ['scholarly', scholarly], ['wiki', wiki], ['web', web]]) {
+    if (r.error) sourceErrors[name] = r.error;
+  }
+
+  const fused = rankSources([...gov.rows, ...scholarly.rows, ...wiki.rows, ...web.rows]);
+  const results = dedupByUrl(fused).slice(0, Math.max(0, max | 0) || 8);
+  return withDiagnostics ? { results, sourceErrors } : results;
 }
 
 // ── groundClaim ────────────────────────────────────────────────────────────────────────────────
 /**
  * Ground a single claim: gather its supporting evidence and report the strongest source TYPE backing
  * it. Thin wrapper over sourcesFor so the fact-checker can ask "what's the best evidence for this?"
- *   groundClaim(claim, { max, sources })  → { claim, evidence: [...], strongestSourceType }
+ *   groundClaim(claim, { max, sources })  → { claim, evidence: [...], strongestSourceType, sourceErrors }
  * `strongestSourceType` is the highest authority tier present in the evidence (or null if none found).
- * Never throws.
+ * `sourceErrors` (#284) reports WHY any source contributed nothing, so an empty/thin grounding is
+ * explainable ("scholarly source failed: …") rather than silently empty. Never throws.
  */
 export async function groundClaim(claim, opts = {}) {
   const c = str(claim);
-  const evidence = await sourcesFor(c, opts);
+  const { results: evidence, sourceErrors } = await sourcesFor(c, { ...opts, withDiagnostics: true });
   let strongestSourceType = null;
   let bestTier = 0;
   for (const e of evidence) {
     const t = SOURCE_TIERS[e.sourceType] || 0;
     if (t > bestTier) { bestTier = t; strongestSourceType = e.sourceType; }
   }
-  return { claim: c, evidence, strongestSourceType };
+  return { claim: c, evidence, strongestSourceType, sourceErrors };
 }
 
 // ── CLI (offline-safe wrapper around live sources) ───────────────────────────────────────────────
