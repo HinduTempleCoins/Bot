@@ -145,6 +145,10 @@ export class BrowserMiner {
       const w = new this._WorkerImpl(this.cfg.workerUrl, { type: 'module' });
       const idx = i;
       w.onmessage = (e) => this.onWorkerMessage(idx, e.data);
+      // A worker that dies (failed import, OOM during the RandomX cache build, wasm error)
+      // must NEVER fail silently as 0 H/s — surface it on the page.
+      w.onerror = (e) => this.emit('error', { message: `worker ${idx + 1} failed: ${(e && e.message) || 'crashed'}` });
+      w.onmessageerror = () => this.emit('error', { message: `worker ${idx + 1} message error` });
       w.postMessage({ type: 'throttle', value: this.cfg.throttle });
       this.workers.push(w);
     }
@@ -159,6 +163,12 @@ export class BrowserMiner {
       this.emit('hashrate', { total, threads: this.workers.length });
     } else if (m.type === 'share') {
       this.submitShare(m);
+    } else if (m.type === 'status') {
+      // worker lifecycle (initializing the RandomX cache, hashing) — shown on the page so a
+      // long first-start init never reads as a dead 0 H/s miner.
+      this.emit('status', { state: m.state });
+    } else if (m.type === 'error') {
+      this.emit('error', { message: `worker ${idx + 1}: ${m.message || 'unknown error'}` });
     }
   }
 
