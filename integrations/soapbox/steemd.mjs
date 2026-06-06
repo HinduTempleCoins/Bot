@@ -163,16 +163,95 @@ export const COMMANDS = {
   },
   async wiki(args) { return COMMANDS.library(args); }, // alias
 
+  async search(args) {
+    const q = args.join(' ').trim();
+    const base = process.env.SEARCH_SITE || 'https://search.soapbox.community';
+    if (!q) return ok(`**SoapBox Search** — the ecosystem search engine: ${base}\nTry \`search <query>\`.`, null);
+    const link = `${base}/?q=${encodeURIComponent(q)}`;
+    // inline Library hits ride along when the wiki is reachable; the link always works.
+    const lib = await COMMANDS.library(args).catch(() => null);
+    const extra = lib?.ok && /•/.test(lib.text) ? `\n${lib.text}` : '';
+    return ok(`**Search — "${q}"**\n${link}${extra}`, { q, link });
+  },
+
+  // ── MELEK chain commands — Hathor's witness role surfaced as bot output ───
+  // Read-only, via integrations/melek-chain.mjs (env-gated MELEK_RPC_URL). Every reply carries
+  // the permanent network label ("[TestNet not MELEK]" today) — the testnet stays connected
+  // alongside mainnet forever; the distinction travels in the message itself.
+
+  async hathor() {
+    const mc = await loadMelekChain();
+    const s = mc ? await mc.hathorStatus() : null;
+    if (!s) return err('the MELEK chain reader is not reachable right now.');
+    const w = s.witness; const h = s.head;
+    const lines = [
+      `**Hathor — MELEK AI Witness** ${s.label}`,
+      h ? `head block #${h.num.toLocaleString()} · current producer ${h.witness || '—'}` : 'head block unavailable',
+      w ? `witness: ${s.producing ? '✅ confirming' : '⚠️ behind'} (last confirmed #${w.lastConfirmedBlock.toLocaleString()}${s.blocksBehindHead != null ? `, ${s.blocksBehindHead} behind head` : ''}) · ${w.missed} missed` : 'witness record unavailable',
+      w?.feed ? `price feed: ${w.feed.base} / ${w.feed.quote}${w.lastFeedUpdate ? ` (updated ${w.lastFeedUpdate})` : ''}` : '',
+      w?.url ? w.url : '',
+    ].filter(Boolean);
+    return ok(lines.join('\n'), s);
+  },
+
+  async block() {
+    const mc = await loadMelekChain();
+    const h = mc ? await mc.headBlock() : null;
+    if (!h) return err('the MELEK chain reader is not reachable right now.');
+    return ok(`**MELEK head block** ${h.label}\n#${h.num.toLocaleString()} · ${h.time || '—'} · produced by ${h.witness || '—'}`, h);
+  },
+
+  async witness(args) {
+    const mc = await loadMelekChain();
+    const w = mc ? await mc.witnessInfo(args[0] || 'hathor') : null;
+    if (!w) return err(`no witness "${args[0] || 'hathor'}" (or the chain reader is unreachable).`);
+    return ok([
+      `**Witness ${w.owner}** ${w.label}`,
+      `last confirmed #${w.lastConfirmedBlock.toLocaleString()} · ${w.missed} missed`,
+      w.feed ? `feed: ${w.feed.base} / ${w.feed.quote}` : '',
+      w.url || '',
+    ].filter(Boolean).join('\n'), w);
+  },
+
+  async account(args) {
+    const name = args[0];
+    if (!name) return err('usage: `account <name>` — e.g. `account hathor`');
+    const mc = await loadMelekChain();
+    const a = mc ? await mc.accountInfo(name) : null;
+    if (!a) return err(`no MELEK account "${name}" (or the chain reader is unreachable).`);
+    return ok([
+      `**@${a.name}** ${a.label}`,
+      `created ${a.created || '—'} · ${a.postCount} posts`,
+      `balances: ${a.balances.liquid || '—'} · ${a.balances.stable || '—'} · ${a.balances.vesting || '—'}`,
+    ].join('\n'), a);
+  },
+
+  async feed() {
+    const mc = await loadMelekChain();
+    const w = mc ? await mc.witnessInfo('hathor') : null;
+    if (!w?.feed) return err('the price feed is not readable right now.');
+    return ok(`**Hathor price feed** ${w.label}\n${w.feed.base} / ${w.feed.quote}${w.lastFeedUpdate ? `\nlast update ${w.lastFeedUpdate}` : ''}`, w);
+  },
+
   async help() {
     return ok([
       '**SoapBox steemd** — query the ecosystem state:',
       '`price <sym>` · `clarity <sym>` · `holders <sym>` · `convert <amt> <sym>` · `compare <a> <b>`',
-      '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn` · `library <topic>`',
+      '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn` · `library <topic>` · `search <query>`',
+      '**MELEK chain** [TestNet not MELEK]: `hathor` · `block` · `witness [name]` · `account <name>` · `feed`',
       '_Reads the condenser (one source of truth). Starts with the CMC; grows as MELEK and more apps come online._',
       'Full site: https://data.soapbox.community',
     ].join('\n'), Object.keys(COMMANDS));
   },
 };
+
+// Lazy, defensive loader for the chain reader — a missing/broken module degrades the chain
+// commands to a soft error, it never breaks the rest of the menu.
+let _melekChainP = null;
+function loadMelekChain() {
+  if (!_melekChainP) _melekChainP = import('../melek-chain.mjs').catch(() => null);
+  return _melekChainP;
+}
 
 /** Parse + run a command string ("price VKBT"). Unknown verbs return help-ish guidance. */
 export async function runCommand(input) {

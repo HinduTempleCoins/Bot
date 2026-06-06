@@ -275,15 +275,38 @@ export async function dispatch({ platform, user, text } = {}, ctx = {}) {
   // A seed that varies the persona output; derive from the clock if not given (never user content).
   const useSeed = seed !== undefined ? seed : (typeof now === 'function' ? now() : Date.now());
 
+  // The internal layers (briefs/annals/resident AI — the soapy.blog side of the line) are not a
+  // public topic on ANY platform; deflect in-voice before routing (operator rule 2026-06-06).
+  const inboundGuard = await loadGuard();
+  if (inboundGuard?.isInternalTopic && inboundGuard.isInternalTopic(sanitize(text))) {
+    return { reply: inboundGuard.deflection(useSeed), route: 'persona', platform: plat };
+  }
+
+  let reply;
   try {
-    if (r === 'greeting') return { reply: await doGreeting({ user, seed: useSeed }), route: r, platform: plat };
-    if (r === 'command') return { reply: await doCommand({ text, deps }), route: r, platform: plat };
-    if (r === 'resource') return { reply: await doResource({ user, text, now, ctx: resourceCtx }), route: r, platform: plat };
-    return { reply: await doPersona({ text, seed: useSeed }), route: r, platform: plat };
+    if (r === 'greeting') reply = await doGreeting({ user, seed: useSeed });
+    else if (r === 'command') reply = await doCommand({ text, deps });
+    else if (r === 'resource') reply = await doResource({ user, text, now, ctx: resourceCtx });
+    else reply = await doPersona({ text, seed: useSeed });
   } catch {
     // Belt-and-braces: a downstream handler threw despite its own guards. Soft-fail gracefully.
-    return { reply: FALLBACK_REPLIES[r] || FALLBACK_REPLIES.persona, route: r, platform: plat };
+    reply = FALLBACK_REPLIES[r] || FALLBACK_REPLIES.persona;
   }
+
+  // EVERY outbound public reply passes the public-output guard (redaction + topic gate).
+  const outGuard = await loadGuard();
+  if (outGuard?.guardPublicReply) {
+    try { reply = outGuard.guardPublicReply(reply, { seed: useSeed }).text; } catch { /* guard never blocks a reply */ }
+  }
+  return { reply, route: r, platform: plat };
+}
+
+// Lazy, defensive loader for the public-output guard — missing module = no gate (sources are
+// public data; the guard is defense-in-depth), never a throw.
+let _guardP = null;
+function loadGuard() {
+  if (!_guardP) _guardP = import('./public-guard.mjs').catch(() => null);
+  return _guardP;
 }
 
 // ── per-route handlers (each soft-fails to a graceful fallback) ───────────────────────────────────

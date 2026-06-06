@@ -7082,18 +7082,55 @@ client.on('messageCreate', async (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
-  // ── SoapBox "steemd" hook ────────────────────────────────────────────────
-  // The Discord bot as a queryable interface to the ecosystem state (the condenser). Prefix !sb /
-  // !steemd routes to the shared steemd layer that Telegram and Hathor also use. Self-contained +
-  // guarded so it can never disturb the rest of the bot. Starts with the CMC data; grows as MELEK
-  // and more apps come online. e.g. "!sb price VKBT", "!sb clarity vkbt", "!sb markets", "!sb help".
+  // ── SoapBox "steemd" + MELEK chain + Resource Center hook ───────────────
+  // The Discord bot as a queryable interface to the ecosystem state (the condenser) AND the live
+  // MELEK chain — publishing chain info is part of Hathor's witness role. Prefix !sb / !steemd
+  // routes to the shared steemd layer that Telegram and Hathor also use; the chain verbs
+  // (!hathor !block !witness !account !feed) are direct shortcuts into the same layer (replies
+  // carry the permanent "[TestNet not MELEK]" label); !ask / !rc routes a question to the
+  // Resource Center for a cited answer. EVERY outbound reply passes through the public-output
+  // guard (briefs/annals + infra never leave; soapy.blog distinction). Self-contained + guarded
+  // so it can never disturb the rest of the bot.
   {
+    const sendGuarded = async (text) => {
+      let out = String(text || '');
+      try {
+        const { guardPublicReply } = await import('./integrations/public-guard.mjs');
+        out = guardPublicReply(out, { seed: Date.now() }).text;
+      } catch { /* guard missing → send as-is; redaction is defense-in-depth, sources are public */ }
+      await message.reply(out.slice(0, 1900));
+    };
+
+    // Direct MELEK chain verbs → the shared steemd layer.
+    const chain = message.content.match(/^!(hathor|block|witness|account|feed)\b\s*(.*)$/is);
+    if (chain) {
+      try {
+        const { runCommand } = await import('./integrations/soapbox/steemd.mjs');
+        const r = await runCommand(`${chain[1]} ${chain[2] || ''}`.trim());
+        await sendGuarded(r.text);
+      } catch { await message.reply('the chain reader is unavailable right now.'); }
+      return;
+    }
+
+    // Resource Center Q&A: !ask <question> / !rc <question> → cited, public-data answer.
+    const ask = message.content.match(/^!(?:ask|rc|resource)\b\s*(.*)$/is);
+    if (ask) {
+      try {
+        const { isInternalTopic, deflection } = await import('./integrations/public-guard.mjs');
+        if (isInternalTopic(ask[1] || '')) { await message.reply(deflection(Date.now())); return; }
+        const { handleChat } = await import('./integrations/resource-center-chat.mjs');
+        const out = await handleChat({ user: message.author.id, text: ask[1] || 'help' }, {});
+        await sendGuarded((out && out.reply) || 'Ask me a market/data question — e.g. `!ask price of gold`.');
+      } catch { await message.reply('the Resource Center is unavailable right now.'); }
+      return;
+    }
+
     const m = message.content.match(/^!(?:sb|steemd|cmc)\b\s*(.*)$/is);
     if (m) {
       try {
         const { runCommand } = await import('./integrations/soapbox/steemd.mjs');
         const r = await runCommand(m[1] || 'help');
-        await message.reply(r.text.slice(0, 1900));
+        await sendGuarded(r.text);
       } catch (e) {
         await message.reply('steemd is unavailable right now.');
       }

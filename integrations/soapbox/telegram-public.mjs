@@ -9,7 +9,8 @@
 // Commands: /start /help, and /<steemd verb> (e.g. /price VKBT, /clarity vkbt, /markets, /library oilahuasca).
 // Plain text is treated as a steemd query too. No keys beyond the bot token; never broadcasts, only replies.
 
-import { runCommand } from './steemd.mjs';
+import { runCommand, COMMANDS } from './steemd.mjs';
+import { guardPublicReply, isInternalTopic, deflection } from '../public-guard.mjs';
 
 const TOKEN = process.env.TELEGRAM_PUBLIC_BOT_TOKEN || '';
 const API = (m) => `https://api.telegram.org/bot${TOKEN}/${m}`;
@@ -24,8 +25,11 @@ function allowed(chatId) {
   b.tokens -= 1; buckets.set(chatId, b); return true;
 }
 
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
 async function tg(method, body) {
-  const r = await fetch(API(method), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const r = await _fetch(API(method), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
   return r.json().catch(() => ({}));
 }
 
@@ -33,18 +37,49 @@ const WELCOME = [
   '👋 I am Hathor, the MELEK AI Witness — the public face of SoapBox.',
   'Ask me about the markets (read-only, one source of truth):',
   '`/price <sym>` · `/clarity <sym>` · `/markets` · `/gainers` · `/chains` · `/trending` · `/ecosystem`',
+  'The MELEK chain [TestNet not MELEK]: `/hathor` · `/block` · `/witness` · `/account <name>` · `/feed`',
+  'Or just ask a question — `/ask <anything>` reads the Resource Center for a cited answer.',
   `Full site: ${SITE}`,
 ].join('\n');
+
+// Resource-Center Q&A — lazy, defensive: a missing module degrades to the steemd help, never throws.
+let _rcP = null;
+function loadResourceChat() {
+  if (!_rcP) _rcP = import('../resource-center-chat.mjs').catch(() => null);
+  return _rcP;
+}
+
+async function send(chatId, text) {
+  const out = guardPublicReply(String(text || ''), { seed: Date.now() }).text;
+  await tg('sendMessage', { chat_id: chatId, text: out.slice(0, 3900), parse_mode: 'Markdown', disable_web_page_preview: true });
+}
 
 async function handle(msg) {
   const chatId = msg.chat?.id; const text = (msg.text || '').trim();
   if (!chatId || !text) return;
   if (!allowed(chatId)) return; // silently drop floods
   if (/^\/start\b/i.test(text)) return void tg('sendMessage', { chat_id: chatId, text: WELCOME, parse_mode: 'Markdown', disable_web_page_preview: true });
-  // /command args  OR  plain text → steemd query
+
   const q = text.replace(/^\/+/, '').replace(/@\w+bot/i, '').trim() || 'help';
-  const r = await runCommand(q).catch((e) => ({ ok: false, text: 'error: ' + e.message }));
-  await tg('sendMessage', { chat_id: chatId, text: r.text.slice(0, 3900), parse_mode: 'Markdown', disable_web_page_preview: true });
+
+  // The internal layers (briefs/annals/resident AI — the soapy.blog side of the line) are not a
+  // public topic; deflect in-voice before any lookup.
+  if (isInternalTopic(q)) return void send(chatId, deflection(Date.now()));
+
+  // /ask <question> — or any plain text that isn't a known steemd verb → Resource Center Q&A.
+  const verb = (q.split(/\s+/)[0] || '').toLowerCase();
+  const isAsk = /^ask\b/i.test(q);
+  if (isAsk || (!COMMANDS[verb] && /\s/.test(q))) {
+    const rc = await loadResourceChat();
+    if (rc?.handleChat) {
+      const out = await rc.handleChat({ user: String(chatId), text: isAsk ? q.replace(/^ask\b\s*/i, '') : q }, {}).catch(() => null);
+      if (out?.reply) return void send(chatId, out.reply);
+    }
+    // fall through to steemd (its unknown-verb guidance) if the resource layer is unavailable
+  }
+
+  const r = await runCommand(isAsk ? 'help' : q).catch((e) => ({ ok: false, text: 'error: ' + e.message }));
+  await send(chatId, r.text);
 }
 
 // long-polling loop

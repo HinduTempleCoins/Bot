@@ -62,3 +62,66 @@ test('price routes through the condenser and formats (injected fetch)', async ()
   assert.equal(r.data.symbol, 'BTC');
   cgSetFetch(null); invalidate();
 });
+
+// ── MELEK chain commands (testnet-labeled, via melek-chain.mjs) ──────────────
+
+test('registry exposes the MELEK chain verbs', () => {
+  for (const v of ['hathor', 'block', 'witness', 'account', 'feed']) {
+    assert.equal(typeof COMMANDS[v], 'function', `missing ${v}`);
+  }
+});
+
+test('hathor command renders the testnet-labeled status from an injected RPC', async () => {
+  const mc = await import('../melek-chain.mjs');
+  const prevRpc = process.env.MELEK_RPC_URL;
+  process.env.MELEK_RPC_URL = 'http://example.invalid:8090';
+  mc.__setFetch(async (url, opts) => {
+    const m = JSON.parse(opts.body).method;
+    const result = m === 'condenser_api.get_dynamic_global_properties'
+      ? { head_block_number: 222000, time: 't', current_witness: 'hathor' }
+      : { owner: 'hathor', last_confirmed_block_num: 221990, total_missed: 1,
+          sbd_exchange_rate: { base: '1.000 TBD', quote: '1.000 TESTS' }, url: 'https://witness.melek.salon/hathor' };
+    return { ok: true, json: async () => ({ result }) };
+  });
+  try {
+    const r = await runCommand('hathor');
+    assert.equal(r.ok, true);
+    assert.match(r.text, /\[TestNet not MELEK\]/);
+    assert.match(r.text, /222,000/);
+    assert.match(r.text, /confirming/);
+  } finally {
+    mc.__setFetch(null);
+    if (prevRpc === undefined) delete process.env.MELEK_RPC_URL; else process.env.MELEK_RPC_URL = prevRpc;
+  }
+});
+
+test('chain commands soft-fail when the reader is unconfigured', async () => {
+  const prevRpc = process.env.MELEK_RPC_URL;
+  delete process.env.MELEK_RPC_URL;
+  try {
+    for (const cmd of ['hathor', 'block', 'witness hathor', 'feed']) {
+      const r = await runCommand(cmd);
+      assert.equal(r.ok, false, cmd);
+      assert.ok(r.text.length > 0);
+    }
+    const r = await runCommand('account hathor');
+    assert.equal(r.ok, false);
+  } finally {
+    if (prevRpc !== undefined) process.env.MELEK_RPC_URL = prevRpc;
+  }
+});
+
+test('help mentions the MELEK chain section with the testnet label', async () => {
+  const r = await runCommand('help');
+  assert.match(r.text, /\[TestNet not MELEK\]/);
+  assert.match(r.text, /`hathor`/);
+});
+
+test('search returns the engine link (works with no args too)', async () => {
+  const r = await runCommand('search');
+  assert.equal(r.ok, true);
+  assert.match(r.text, /search\.soapbox\.community/);
+  const r2 = await runCommand('search melek witness');
+  assert.equal(r2.ok, true);
+  assert.match(r2.text, /\?q=melek%20witness/);
+});
