@@ -59,6 +59,24 @@
     </p>
   </section>
 
+  <!-- OPTIONAL encrypted keystore (opt-in, AFTER the paper-backup gate) — honest copy -->
+  <section id="keystore-info" class="card">
+    <div class="k">Optional · encrypted browser copy</div>
+    <h3 style="margin:6px 0 6px">Also keep an encrypted copy in this browser</h3>
+    <p class="muted" style="font-size:13.5px;margin:0">
+      After you generate a wallet and confirm your paper backup, you can <strong>optionally</strong>
+      keep an <strong>encrypted copy in this browser</strong> &mdash; you choose a password
+      (<strong>we can&rsquo;t reset it</strong>). It is encrypted on your device with AES-256-GCM; the
+      pool <strong>never sees your password or your seed</strong>. If you forget the password, your
+      <strong>paper backup</strong> is the only way to recover this wallet. Unlocking for a future
+      outflow will require this password again.
+    </p>
+    <div class="warn" style="margin-top:12px;font-size:12.5px">
+      <b>Optional, not a replacement:</b> the encrypted copy is a convenience. Your written-down
+      recovery phrase / private key is still the real backup. We can never recover a forgotten password.
+    </div>
+  </section>
+
   <!-- ONE WALLET + outflow toggle (Addendum 25) — placeholder pattern, honest label -->
   <section id="spend-lock" class="card">
     <div class="k">One wallet · spend lock</div>
