@@ -193,3 +193,21 @@ test('unknown path redirects to /', async () => {
   assert.equal(res.statusCode, 302);
   assert.equal(res.headers.location, '/');
 });
+
+// ── the open competitor directory (operator 2026-06-06: Bing & friends on the page) ──
+test('/directory renders the full generator directory — Bing, CapCut, zero-signup lane', async () => {
+  const res = await call({ url: '/directory' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  for (const name of ['Bing Image Creator', 'CapCut', 'Ideogram', 'Craiyon']) {
+    assert.ok(html.includes(name), `directory missing ${name}`);
+  }
+  assert.ok(html.includes('Zero signup'), 'zero-signup lane present');
+  assert.ok(html.includes('rel="noopener nofollow"'), 'external links carry noopener nofollow');
+});
+
+test('homepage teases the directory ("More ways to make images")', () => {
+  const html = homePage();
+  assert.ok(html.includes('More ways to make images'));
+  assert.ok(html.includes('/directory'));
+});
