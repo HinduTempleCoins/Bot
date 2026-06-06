@@ -8,6 +8,14 @@
 import { BrowserMiner } from './miner.mjs';
 import { validateAddress, poolLoginAddress } from './wizard.mjs';
 import { MyCoinsStore } from './mycoins.mjs';
+import { mountPicker } from './wallet-picker.mjs';
+
+// The chains relevant to BROWSER mining (RandomX family). ZEPH is gated until its chain
+// syncs — its chip informs (wallet ready / make one) rather than filling the box.
+export const BROWSER_CHAINS = [
+  { coin: 'monero', symbol: 'XMR', name: 'Monero' },
+  { coin: 'zephyr', symbol: 'ZEPH', name: 'Zephyr', gated: true },
+];
 
 // The pool IS the wallet (operator 2026-06-06): never make the user go GET an address —
 // auto-fill from the shared My Coins wallet store when one exists, and put "create your
@@ -83,8 +91,27 @@ export function initBrowserMine() {
   };
   addrIn.addEventListener('input', validate);
 
-  // wallet-first: fill the address from the user's own in-browser wallet (or offer to make one)
-  if (prefillFromWallet(addrIn)) validate();
+  // wallet-first (operator 2026-06-06): the user's saved wallets appear as SELECTABLE chips
+  // above the box — returning miners pick instead of re-typing. Chains without a wallet show
+  // grey "make this wallet" chips that lead to /wallet/?coin=…; the last-used wallet is
+  // remembered and auto-selected next visit.
+  {
+    let host = document.getElementById('bm-wallets');
+    if (!host && addrIn.insertAdjacentElement) {
+      host = document.createElement('div');
+      host.id = 'bm-wallets';
+      addrIn.insertAdjacentElement('beforebegin', host);
+    }
+    let store = null;
+    try { store = new MyCoinsStore(); } catch { store = null; }
+    const mounted = host && mountPicker({
+      host, input: addrIn, chains: BROWSER_CHAINS, store,
+      onPick: () => validate(),
+    });
+    if (mounted && mounted.model.selected) validate();
+    // fallback for any odd environment where the picker can't mount
+    if (!mounted && prefillFromWallet(addrIn)) validate();
+  }
 
   throttle.addEventListener('input', () => {
     const pct = Number(throttle.value);

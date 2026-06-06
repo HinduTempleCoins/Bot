@@ -9,6 +9,43 @@ import {
   buildManifest, genWindowsLauncher, genWindowsBat, genPosixLauncher,
 } from './wizard.mjs';
 import { qrcode } from './qrcode.mjs';
+import { mountPicker } from './wallet-picker.mjs';
+import { MyCoinsStore } from './mycoins.mjs';
+
+// One shared store for every picker on the page (soft-null outside the browser).
+let _wpStore;
+function wpStore() {
+  if (_wpStore === undefined) { try { _wpStore = new MyCoinsStore(); } catch { _wpStore = null; } }
+  return _wpStore;
+}
+
+// Mount a saved-wallets chip row above `input` (created once as `hostId`). The user's
+// wallets are right there to select; missing ones grey out to /wallet/?coin=… (operator
+// 2026-06-06: never make a returning miner re-type an address).
+function mountWalletChips(hostId, input, chains, onPick) {
+  if (!input || !input.insertAdjacentElement) return null;
+  // always a FRESH host: replacing the old node disconnects any previous picker's storage
+  // listener (it checks isConnected), so a re-opened wizard never gets stale-coin chips.
+  const old = document.getElementById(hostId);
+  if (old && old.remove) old.remove();
+  const host = document.createElement('div');
+  host.id = hostId;
+  input.insertAdjacentElement('beforebegin', host);
+  return mountPicker({ host, input, chains, store: wpStore(), onPick });
+}
+
+// chain descriptors for pickers: wizard profile -> picker chain
+function chainFor(profile) {
+  if (!profile) return null;
+  const key = Object.keys({ monero: 1, zephyr: 1, ethereum_classic: 1 }).find(
+    (k) => resolveCoin(k) === profile,
+  ) || profile.symbol.toLowerCase();
+  const evm = profile.addr && profile.addr.type === 'evm';
+  return {
+    coin: key, symbol: profile.symbol, name: profile.name,
+    ...(evm ? { match: ['evm', 'etc'] } : {}),
+  };
+}
 
 const API = '/api';
 const POOL_HOST = location.hostname || 'pool.soapbox.community';
@@ -245,6 +282,19 @@ function setupWizard(pool) {
 
   const addr = $('#w-addr');
   addr.oninput = () => { validateLive(); if (WIZ.hw) renderWizardOutput(); };
+
+  // saved-wallets chips for THIS coin: returning miners select, never re-type. The chip
+  // row re-mounts per wizard open (the coin changes); a fresh wallet made on /wallet/
+  // in another tab appears live via the picker's storage listener.
+  addr.value = '';
+  const ch = chainFor(profile);
+  if (ch) {
+    mountWalletChips('w-wallets', addr, [ch], () => {
+      validateLive();
+      if (WIZ.hw) renderWizardOutput();
+    });
+    if ((addr.value || '').trim()) validateLive();
+  }
 }
 
 function validateLive() {
@@ -490,6 +540,13 @@ function setupLauncher() {
   if (!winBtn || !nixBtn) return;
   $('#l-xmr')?.addEventListener('input', validateLauncherFields);
   $('#l-evm')?.addEventListener('input', validateLauncherFields);
+
+  // saved-wallets chips for the launcher fields too: select, don't re-type.
+  mountWalletChips('l-xmr-wallets', $('#l-xmr'),
+    [{ coin: 'monero', symbol: 'XMR', name: 'Monero' }], validateLauncherFields);
+  mountWalletChips('l-evm-wallets', $('#l-evm'),
+    [{ coin: 'ethereum_classic', symbol: 'ETC', name: 'EVM (0x…)', match: ['evm', 'etc'] }], validateLauncherFields);
+  validateLauncherFields();
 
   winBtn.onclick = () => {
     const addresses = readLauncherAddresses();

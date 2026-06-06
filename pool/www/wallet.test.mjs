@@ -119,3 +119,12 @@ test('wallet.mjs: setupSpendToggle is safe without the button (headless)', async
   assert.doesNotThrow(() => mod.setupSpendToggle());
   if (prevDoc === undefined) delete globalThis.document; else globalThis.document = prevDoc;
 });
+
+// ?coin= deep link from the miner's grey "make this wallet" chips
+test('requestedCoin parses a valid wallet coin from the query string', async () => {
+  const { requestedCoin } = await import('./wallet/wallet.mjs');
+  assert.equal(requestedCoin('?coin=zephyr'), 'zephyr');
+  assert.equal(requestedCoin('?coin=monero'), 'monero');
+  assert.equal(requestedCoin('?coin=notacoin'), null);
+  assert.equal(requestedCoin(''), null);
+});
