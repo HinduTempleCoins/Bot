@@ -20,8 +20,15 @@
 </header>
 <div class=wrap>
   <div class=card>
-    <h1>Trending — coming online</h1>
-    <p class=mut>You've entered the MELEK testnet interface. The condenser (feed, accounts, witnesses, troll-box, signup) goes live here the moment the testnet node is producing blocks. Currency is <code>TESTS</code> — a value-less test token.</p>
+    <h1>⛓ The testnet is LIVE</h1>
+    <p class=mut>The MELEK testnet node is producing blocks right now. Live from the chain:</p>
+    <p style="font-size:18px;line-height:2">
+      head block: <code id=hb>…</code><br>
+      block time: <code id=bt>…</code><br>
+      current witness: <code id=cw>…</code><br>
+      supply: <code id=sp>…</code>
+    </p>
+    <p class=mut>Currency is <code>TESTS</code> — a value-less test token. The full condenser (feed, accounts, troll-box, signup) lands here next.</p>
   </div>
   <div class=card>
     <h1 style="font-size:18px">What will appear here</h1>
@@ -29,4 +36,17 @@
   </div>
   <p class=mut style="font-size:12px"><a href="/" style="color:var(--acc)">← back to the disclaimer</a></p>
 </div>
+<script>
+async function tick(){
+  try{
+    const r=await fetch('/rpc',{method:'POST',body:JSON.stringify({jsonrpc:'2.0',method:'condenser_api.get_dynamic_global_properties',params:[],id:1})});
+    const j=await r.json(); const p=j.result;
+    document.getElementById('hb').textContent='#'+p.head_block_number.toLocaleString();
+    document.getElementById('bt').textContent=p.time+' UTC';
+    document.getElementById('cw').textContent='@'+p.current_witness;
+    document.getElementById('sp').textContent=p.current_supply;
+  }catch(e){document.getElementById('hb').textContent='(node unreachable)';}
+}
+tick(); setInterval(tick, 4000);
+</script>
 </body></html>
