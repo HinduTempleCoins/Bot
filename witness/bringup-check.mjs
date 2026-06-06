@@ -240,11 +240,17 @@ export async function checkPriceFeed(rpc, expect = DEFAULT_EXPECT, { now = Date.
     ? feedHistory.price_history.length
     : null;
 
-  const lastPub = witness?.last_feed_publish ? Date.parse(witness.last_feed_publish + 'Z') : NaN;
+  // Field name varies by fork era: this Steem-era fork uses last_sbd_exchange_update
+  // (verified live on the MELEK testnet 2026-06-06); Hive renamed it, and some forks
+  // carry last_feed_publish. Accept any of them.
+  const lastPubRaw = witness?.last_sbd_exchange_update
+    || witness?.last_hbd_exchange_update
+    || witness?.last_feed_publish;
+  const lastPub = lastPubRaw ? Date.parse(lastPubRaw + 'Z') : NaN;
   if (!Number.isFinite(lastPub)) {
     // No per-witness timestamp — fall back to reporting history depth only.
     if (histDepth != null) {
-      return fail(NAME, `no last_feed_publish for @${account}; feed history depth=${histDepth}`, { histDepth });
+      return fail(NAME, `no feed-publish timestamp for @${account}; feed history depth=${histDepth}`, { histDepth });
     }
     return fail(NAME, `no feed publish timestamp and no feed history available`, { histDepth });
   }
