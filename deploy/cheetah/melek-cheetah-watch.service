@@ -1,0 +1,55 @@
+# MELEK CheetahAdvanced — read-only testnet watcher (systemd unit TEMPLATE)
+# ---------------------------------------------------------------------------
+# Old-queue #265: Cheetah watching the LIVE MELEK testnet, READ-ONLY.
+# Placeholders only; no real hostnames/paths are committed. On the box:
+#   1. Replace __INSTALL_DIR__  with the absolute checkout path of the Bot repo.
+#   2. Replace __ENV_FILE__     with the private env path (from the template).
+#   3. Replace __DATA_DIR__     with the shared-store data dir (writable).
+#   4. Replace __REPORT_DIR__   with the alpha.melek.salon/cheetah report dir.
+#   5. Replace __NODE_BIN__     with the absolute node binary path (`which node`).
+# Install via deploy/cheetah/install.sh (substitutes all of these).
+#
+# WHY long-running (Type=simple, --watch) and not a timer: the watcher keeps an
+# in-process "seen" cursor across poll ticks so each post is processed once and
+# findings aren't re-recorded every tick. A oneshot+timer would lose that cursor
+# each fire (it would re-run the engines over the same recent window). setInterval
+# paces the polls at CHEETAH_POLL_INTERVAL. (recordFinding is idempotent anyway,
+# so a timer would still be CORRECT — just wasteful; the long-running form is the
+# fit for Cheetah's design.)
+# ---------------------------------------------------------------------------
+[Unit]
+Description=MELEK CheetahAdvanced — read-only attribution/discovery watcher (testnet)
+After=network-online.target
+Wants=network-online.target
+# Reads the local testnet RPC; start after it if present (read-only, soft-fails if down).
+After=melek-testnet.service
+
+[Service]
+Type=simple
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+# --watch: poll forever every CHEETAH_POLL_INTERVAL ms. READ-ONLY — never signs,
+# never broadcasts; no posting key / WIF is referenced or needed.
+ExecStart=__NODE_BIN__ cheetah/watch.mjs --watch
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=melek-cheetah-watch
+
+# --- Hardening: this process needs only outbound RPC reads + its two write dirs.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# Writes are confined to the shared store + the report surface ONLY.
+ReadWritePaths=__DATA_DIR__ __REPORT_DIR__
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+# No key material is ever loaded; lock the env down to what the watcher reads.
+RestrictNamespaces=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
