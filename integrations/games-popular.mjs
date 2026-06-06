@@ -32,9 +32,14 @@ const UA = { 'User-Agent': 'VanKushGamesTools/1.0 (+https://data.soapbox.communi
 //   `hasApi` flags whether a public/keyless data API exists at all (Steam, official, or community);
 //   `apiNotes` says which one, honestly — many giants are console/launcher-exclusive with NO open API.
 //   "ours" = OSRS/RS3, surfaced via integrations/rs3.mjs (info overlay, separate module).
+//   Some entries also carry OPTIONAL curated community fields consumed by the SoapBox Gamer Hub
+//   (integrations/soapbox/game-communities.mjs): `subreddit`, `forum`, `wiki`, `discord`, and an
+//   `aliases` array of alternate slugs (e.g. stardew → 'stardew-valley'). These are additive — absent
+//   on most entries; consumers must treat them as optional and fall back gracefully.
 // ════════════════════════════════════════════════════════════════════════════════════════════════
 export const TOP_GAMES = [
-  { name: 'Minecraft', slug: 'minecraft', platform: 'multi', publisher: 'Mojang', steamAppId: null, hasApi: true, apiNotes: 'server status + Mojang profile + version manifest via integrations/minecraft.mjs (keyless)' },
+  { name: 'Minecraft', slug: 'minecraft', platform: 'multi', publisher: 'Mojang', steamAppId: null, hasApi: true, apiNotes: 'server status + Mojang profile + version manifest via integrations/minecraft.mjs (keyless)',
+    subreddit: 'Minecraft', forum: 'https://www.minecraftforum.net/', wiki: 'https://minecraft.wiki/', discord: 'https://discord.gg/minecraft' },
   { name: 'Fortnite', slug: 'fortnite', platform: 'multi', publisher: 'Epic Games', steamAppId: null, hasApi: true, apiNotes: 'Fortnite-API.com / fortnitetracker (community, key); no Steam' },
   { name: 'Grand Theft Auto V', slug: 'gta5', platform: 'multi', publisher: 'Rockstar', steamAppId: 271590, hasApi: true, apiNotes: 'Steam player counts; no official stats API' },
   { name: 'League of Legends', slug: 'lol', platform: 'PC', publisher: 'Riot Games', steamAppId: null, hasApi: true, apiNotes: 'Riot API (key required); not on Steam' },
@@ -47,8 +52,10 @@ export const TOP_GAMES = [
   { name: 'RuneScape 3', slug: 'rs3', platform: 'multi', publisher: 'Jagex', steamAppId: 1343400, hasApi: true, apiNotes: 'ours — integrations/rs3.mjs (keyless); also on Steam' },
   { name: 'Apex Legends', slug: 'apex', platform: 'multi', publisher: 'EA', steamAppId: 1172470, hasApi: true, apiNotes: 'Steam player counts; community trackers (key)' },
   { name: 'Call of Duty: Warzone', slug: 'cod-warzone', platform: 'multi', publisher: 'Activision', steamAppId: null, hasApi: false, apiNotes: 'no open API; Battle.net/console launchers' },
-  { name: 'Terraria', slug: 'terraria', platform: 'multi', publisher: 'Re-Logic', steamAppId: 105600, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
-  { name: 'Stardew Valley', slug: 'stardew', platform: 'multi', publisher: 'ConcernedApe', steamAppId: 413150, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
+  { name: 'Terraria', slug: 'terraria', platform: 'multi', publisher: 'Re-Logic', steamAppId: 105600, hasApi: true, apiNotes: 'Steam player counts + news (keyless)',
+    subreddit: 'Terraria', forum: 'https://forums.terraria.org/', wiki: 'https://terraria.wiki.gg/' },
+  { name: 'Stardew Valley', slug: 'stardew', aliases: ['stardew-valley'], platform: 'multi', publisher: 'ConcernedApe', steamAppId: 413150, hasApi: true, apiNotes: 'Steam player counts + news (keyless)',
+    subreddit: 'StardewValley', forum: 'https://forums.stardewvalley.net/', wiki: 'https://stardewvalleywiki.com/' },
   { name: 'Elden Ring', slug: 'elden-ring', platform: 'multi', publisher: 'Bandai Namco', steamAppId: 1245620, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
   { name: 'The Legend of Zelda: Tears of the Kingdom', slug: 'zelda-totk', platform: 'Switch', publisher: 'Nintendo', steamAppId: null, hasApi: false, apiNotes: 'Nintendo first-party; no open API' },
   { name: 'Mario Kart 8 Deluxe', slug: 'mario-kart-8', platform: 'Switch', publisher: 'Nintendo', steamAppId: null, hasApi: false, apiNotes: 'Nintendo first-party; no open API' },
@@ -63,11 +70,14 @@ export const TOP_GAMES = [
   { name: 'ARK: Survival Evolved', slug: 'ark', platform: 'multi', publisher: 'Studio Wildcard', steamAppId: 346110, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
   { name: 'Sea of Thieves', slug: 'sea-of-thieves', platform: 'multi', publisher: 'Rare / Xbox', steamAppId: 1172620, hasApi: true, apiNotes: 'Steam player counts (keyless)' },
   { name: "Baldur's Gate 3", slug: 'bg3', platform: 'multi', publisher: 'Larian', steamAppId: 1086940, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
-  { name: 'Cyberpunk 2077', slug: 'cyberpunk', platform: 'multi', publisher: 'CD Projekt', steamAppId: 1091500, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
+  { name: 'Cyberpunk 2077', slug: 'cyberpunk', aliases: ['cyberpunk-2077'], platform: 'multi', publisher: 'CD Projekt', steamAppId: 1091500, hasApi: true, apiNotes: 'Steam player counts + news (keyless)',
+    subreddit: 'cyberpunkgame', forum: 'https://forums.cdprojektred.com/', wiki: 'https://cyberpunk.fandom.com/' },
   { name: 'The Witcher 3', slug: 'witcher3', platform: 'multi', publisher: 'CD Projekt', steamAppId: 292030, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
-  { name: 'The Elder Scrolls V: Skyrim', slug: 'skyrim', platform: 'multi', publisher: 'Bethesda', steamAppId: 489830, hasApi: true, apiNotes: 'Steam player counts (Special Edition appid)' },
+  { name: 'The Elder Scrolls V: Skyrim', slug: 'skyrim', platform: 'multi', publisher: 'Bethesda', steamAppId: 489830, hasApi: true, apiNotes: 'Steam player counts (Special Edition appid)',
+    subreddit: 'skyrim', forum: 'https://forums.bethesda.net/', wiki: 'https://elderscrolls.fandom.com/wiki/The_Elder_Scrolls_V:_Skyrim' },
   { name: 'Civilization VI', slug: 'civ6', platform: 'multi', publisher: '2K', steamAppId: 289070, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
-  { name: 'Factorio', slug: 'factorio', platform: 'PC', publisher: 'Wube', steamAppId: 427520, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
+  { name: 'Factorio', slug: 'factorio', platform: 'PC', publisher: 'Wube', steamAppId: 427520, hasApi: true, apiNotes: 'Steam player counts + news (keyless)',
+    subreddit: 'factorio', forum: 'https://forums.factorio.com/', wiki: 'https://wiki.factorio.com/' },
   { name: 'Satisfactory', slug: 'satisfactory', platform: 'PC', publisher: 'Coffee Stain', steamAppId: 526870, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
   { name: 'Palworld', slug: 'palworld', platform: 'multi', publisher: 'Pocketpair', steamAppId: 1623730, hasApi: true, apiNotes: 'Steam player counts + news (keyless)' },
   { name: 'Helldivers 2', slug: 'helldivers2', platform: 'multi', publisher: 'Sony / Arrowhead', steamAppId: 553850, hasApi: true, apiNotes: 'Steam player counts + community war API (keyless)' },

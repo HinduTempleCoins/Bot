@@ -223,7 +223,7 @@ function libraryRender({ title = 'Library' } = {}) {
   };
 }
 
-// ── Gamer Hub vertical: title (+ optional "| platform") → digital deals + collector link-outs ─────────
+// ── Game Market vertical: title (+ optional "| platform") → digital deals + collector link-outs ───────
 // Bespoke renderer: the unifier's marketFor(title, platform) takes two args and renderMarket() emits a
 // purpose-built page (deals table + collector links + provenance) that the generic walker can't express.
 // Query convention: "Chrono Trigger | SNES" — the part after a pipe is the collectible platform.
@@ -246,6 +246,64 @@ function gamesMarketRender({ title = 'Game Market' } = {}) {
     try { market = await mod.marketFor(gameTitle, platform); } catch (e) { return form + unavailableCard(`${title}: results`, e?.message); }
     if (market == null) return form + card(`${title}: results`, `<p class=muted>No results for “${esc(q)}”.</p>`);
     return form + mod.renderMarket(market);
+  };
+}
+
+// ── Gamer Hub vertical: one game → mods (live Modrinth) + communities + guides link-outs ─────────────
+// "Aggregating everything for the gamer." Bespoke renderer (the generic walker can't express the live
+// mod list + the link-out sections cleanly). Always shows the form; each of the three sections soft-fails
+// to its own friendly note, independently, so a Modrinth outage never blanks communities/guides.
+
+function gamerHubRender({ title = 'Gamer Hub' } = {}) {
+  return async (query) => {
+    const q = typeof query === 'string' ? query.trim() : '';
+    const form = card(title, searchForm(pathFor(title), {
+      placeholder: 'Game name (e.g. Minecraft, Skyrim, Stardew Valley)…', value: q, label: 'Search the Gamer Hub',
+    }));
+    if (!q) return form;
+
+    // Mods — LIVE Modrinth (keyless), plus key-gated hosts if configured. Soft-fails to a note.
+    const modsMod = await loadModule(`${REL}game-mods.mjs`);
+    let modsHtml;
+    if (!modsMod || typeof modsMod.searchMods !== 'function') {
+      modsHtml = unavailableCard('Mods', 'module not loaded');
+    } else {
+      try {
+        const data = await modsMod.searchMods(q, { limit: 12 });
+        const inner = typeof modsMod.renderResults === 'function'
+          ? modsMod.renderResults(data)
+          : summaryCards(data, 'Mods');
+        modsHtml = card('Mods', inner);
+      } catch (e) { modsHtml = unavailableCard('Mods', e?.message); }
+    }
+
+    // Communities — pure link-out builder (no network). Soft-fails to a note.
+    const commMod = await loadModule(`${REL}game-communities.mjs`);
+    let commHtml;
+    if (!commMod || typeof commMod.communitiesFor !== 'function') {
+      commHtml = unavailableCard('Communities', 'module not loaded');
+    } else {
+      try {
+        const data = await commMod.communitiesFor(q);
+        commHtml = card('Communities', typeof commMod.renderCommunities === 'function'
+          ? commMod.renderCommunities(data) : summaryCards(data, 'Communities'));
+      } catch (e) { commHtml = unavailableCard('Communities', e?.message); }
+    }
+
+    // Guides & cheats — pure link-out builder (no network). Soft-fails to a note.
+    const guidesMod = await loadModule(`${REL}game-guides.mjs`);
+    let guidesHtml;
+    if (!guidesMod || typeof guidesMod.guidesFor !== 'function') {
+      guidesHtml = unavailableCard('Cheats & guides', 'module not loaded');
+    } else {
+      try {
+        const data = await guidesMod.guidesFor(q);
+        guidesHtml = card('Cheats & guides', typeof guidesMod.renderGuides === 'function'
+          ? guidesMod.renderGuides(data) : summaryCards(data, 'Cheats & guides'));
+      } catch (e) { guidesHtml = unavailableCard('Cheats & guides', e?.message); }
+    }
+
+    return form + modsHtml + commHtml + guidesHtml;
   };
 }
 
@@ -447,12 +505,19 @@ export const VERTICALS = [
   { path: '/library', title: 'Library', navLabel: 'Library', kind: 'search',
     render: libraryRender({ title: 'Library' }) },
 
-  // ---- Gamer Hub (wave-game-market) ----
+  // ---- Game Market (wave-game-market) ----
   // Unified game market for collectors: new/digital store prices (CheapShark, keyless) as a deals table
   // + a used/retro "collector links" section (PriceCharting + eBay sold-listings, link-out aggregate;
   // live eBay only when EBAY_APP_ID is set). Custom renderer (gamesMarketRender) — splits "Title | platform".
-  { path: '/games-market', title: 'Gamer Hub', navLabel: 'Games', kind: 'search',
-    render: gamesMarketRender({ title: 'Gamer Hub' }) },
+  { path: '/games-market', title: 'Game Market', navLabel: 'Games', kind: 'search',
+    render: gamesMarketRender({ title: 'Game Market' }) },
+
+  // ---- Gamer Hub (wave-modding-forums) ----
+  // Search a game → live Modrinth mods + community link-outs (forums/subreddit/Discord/wiki/Steam hub)
+  // + cheats/guides link-outs (game wiki, Steam guides, GameFAQs search). Bespoke renderer
+  // (gamerHubRender) — aggregates three modules, each soft-failing independently.
+  { path: '/gamer-hub', title: 'Gamer Hub', navLabel: 'Gamer Hub', kind: 'search',
+    render: gamerHubRender({ title: 'Gamer Hub' }) },
 ];
 
 _pathByTitle = new Map(VERTICALS.map((v) => [v.title, v.path]));

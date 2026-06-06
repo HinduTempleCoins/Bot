@@ -27,8 +27,10 @@ const EXPECTED_PATHS = [
   '/citations', '/wayback',
   // Library (wave-library-borrow)
   '/library',
-  // Gamer Hub (wave-game-market)
+  // Game Market (wave-game-market)
   '/games-market',
+  // Gamer Hub (wave-modding-forums)
+  '/gamer-hub',
 ];
 
 // Paths added in the surface wave, split by kind so we can assert behavior per kind.
@@ -265,7 +267,7 @@ test('/library renders bucketed hits: host-fully → read link, metadata-only �
   }
 });
 
-// ── Gamer Hub vertical (wave-game-market) ─────────────────────────────────────────────────────────────
+// ── Game Market vertical (wave-game-market) ─────────────────────────────────────────────────────────
 
 test('/games-market is registered as a search vertical', () => {
   const gh = findVertical('/games-market');
@@ -286,6 +288,30 @@ test('/games-market with NO query renders a search form and loads no module (off
 
 test('/games-market escapes the query in the form value (no injection)', async () => {
   const html = await renderVertical('/games-market', '<script>x</script>');
+  assert.ok(!html.includes('<script>x</script>'), 'raw script not echoed');
+  assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'), 'query escaped into the form');
+});
+
+// ── Gamer Hub vertical (wave-modding-forums) ────────────────────────────────────────────────────────
+
+test('/gamer-hub is registered as a search vertical', () => {
+  const gh = findVertical('/gamer-hub');
+  assert.ok(gh, 'has /gamer-hub');
+  assert.equal(gh.kind, 'search');
+  assert.equal(gh.navLabel, 'Gamer Hub');
+  assert.equal(typeof gh.render, 'function');
+});
+
+test('/gamer-hub with NO query renders a search form and loads no module (offline)', async () => {
+  const html = await renderVertical('/gamer-hub');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'shows a form');
+  assert.ok(html.includes('method=get'), 'GET form');
+  assert.ok(html.includes('name=q'), 'query input named q');
+});
+
+test('/gamer-hub escapes the query in the form value (no injection)', async () => {
+  const html = await renderVertical('/gamer-hub', '<script>x</script>');
   assert.ok(!html.includes('<script>x</script>'), 'raw script not echoed');
   assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'), 'query escaped into the form');
 });
@@ -321,6 +347,19 @@ test('/games-market renders digital deals + collector links from fixture market 
   } finally {
     v.render = original;
   }
+});
+
+test('/gamer-hub with a query renders mods + communities + guides sections (offline, never throws)', async () => {
+  // With a query the three modules load. Modrinth fetch fails offline → its section soft-fails, but the
+  // communities + guides sections are PURE link-out builders (no network) and must still render content.
+  const html = await renderVertical('/gamer-hub', 'Minecraft');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'keeps the form');
+  assert.ok(/Communities/i.test(html), 'communities section present');
+  assert.ok(/Cheats &amp; guides|Cheats & guides/i.test(html), 'guides section present');
+  // pure link-out builders work offline → real community/guide links appear
+  assert.ok(html.includes('reddit.com') || html.includes('minecraft.wiki') || html.includes('gamefaqs'),
+    'community/guide link-outs rendered offline');
 });
 
 test('summary vertical with a stubbed/injected module fn renders, and an unavailable one degrades', async () => {
