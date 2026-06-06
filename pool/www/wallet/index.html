@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wallet — Pool — SoapBox</title>
+<link rel="stylesheet" href="../style.css">
+<script>(function(){try{var t=localStorage.getItem('sb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">SoapBox <span>Pool</span></span>
+  <span class="spacer"></span>
+  <button class="iconbtn" id="theme-toggle" title="Toggle light / dark" aria-label="Toggle theme">☾</button>
+</header>
+
+<!-- Shared SoapBox family nav (Wallet current) -->
+<nav class="mainnav" aria-label="SoapBox ecosystem">
+  <a href="https://vankushfamily.com">Roadmap</a>
+  <a href="https://soapbox.community">SoapBox</a>
+  <span class="grp-sep">·</span>
+  <a href="https://data.soapbox.community">Data</a>
+  <a href="https://search.soapbox.community">Search</a>
+  <a href="https://law.soapbox.community">Law</a>
+  <a href="https://politics.soapbox.community">Politics</a>
+  <a href="https://oversight.soapbox.community">Oversight</a>
+  <a href="https://hemp.soapbox.community">Hemp</a>
+  <a href="https://stocks.soapbox.community">Stocks</a>
+  <a href="https://wiki.soapbox.community">Library</a>
+  <a href="../index.html">Pool</a>
+  <a class="active" href="index.html" aria-current="page">Wallet</a>
+  <a href="../mycoins.html">My Coins</a>
+  <span class="grp-sep">·</span>
+  <a href="https://alpha.melek.salon">MELEK Testnet</a>
+  <span class="soon">MELEK<b>soon</b></span>
+  <span class="soon">PRANA<b>soon</b></span>
+</nav>
+
+<main class="wrap">
+
+  <div class="hero">
+    <h1>Your Wallet</h1>
+    <p class="tag">Every wallet in one place &mdash; Zephyr, Monero, and your one EVM address (covers
+      Ethereum Classic now, PRANA at launch). <strong>Generate a wallet right here in your browser</strong>
+      or paste an address you already control. This is the same wallet your
+      <a href="../mycoins.html">My Coins</a> page sees.</p>
+  </div>
+
+  <!-- Custody banner: non-custodial, seed-once, pool stores nothing -->
+  <section class="card" style="border-left:3px solid var(--up)">
+    <div class="k">Non-custodial</div>
+    <h2 style="margin:6px 0 6px">You hold the keys. The pool holds nothing.</h2>
+    <p class="muted" style="font-size:13.5px;margin:0">
+      Wallets are created <strong>on your device, in your browser</strong>. Your secret recovery phrase
+      (or private key) is shown <strong>once</strong> and <strong>never leaves your browser</strong> &mdash;
+      the pool stores nothing and can never recover it. Write it down offline. The only thing that ever
+      leaves your device is your public <em>receive address</em> (your mining payout username).
+    </p>
+  </section>
+
+  <!-- ONE WALLET + outflow toggle (Addendum 25) — placeholder pattern, honest label -->
+  <section id="spend-lock" class="card">
+    <div class="k">One wallet · spend lock</div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px">
+      <div style="flex:1 1 320px">
+        <h3 style="margin:0 0 4px">Outflow approval</h3>
+        <p class="muted" style="font-size:13px;margin:0">
+          The browser wallet and the downloadable SoapBox Miner app are <strong>the same wallet</strong>
+          (one seed). <strong>Receiving and mining never need this toggle.</strong> When sending arrives,
+          money can only <em>leave</em> while this is flipped to <b>Approve</b> &mdash; it re-locks after a
+          send. Default is <b>Locked</b>.
+        </p>
+      </div>
+      <div style="text-align:right">
+        <button id="spend-toggle" class="wiz-btn ghost" role="switch" aria-checked="false" aria-label="Spend lock">
+          🔒 Locked
+        </button>
+        <div id="spend-toggle-note" class="muted" style="font-size:11.5px;margin-top:6px;max-width:220px"></div>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:12px;font-size:12.5px">
+      <b>Not wired yet:</b> sending coins out of the browser wallet does not exist in this build &mdash;
+      this toggle shows the approval pattern the wallet will use. The downloadable app inherits the same
+      one-wallet + approve-to-send rule when sending ships (with PRANA / the Akasha wallet).
+    </div>
+  </section>
+
+  <!-- PRANA / Akasha migration note -->
+  <section class="note" id="prana-note">
+    <b>Coming with you:</b> This wallet will move to <code>akasha.soapbox.community</code> when PRANA
+    launches &mdash; <strong>your wallet comes with you (same seed)</strong>. Because the secret lives only
+    on your device, moving surfaces changes nothing about who controls your coins.
+  </section>
+
+  <!-- the wallet cards, one per coin -->
+  <section id="wallets">
+    <h2>Your wallets</h2>
+    <p class="sub">One card per coin. Generate in your browser (keys never leave this page) or paste an
+      address you already have &mdash; either way it shows here and on <a href="../mycoins.html">My Coins</a>.</p>
+    <div id="wallet-cards" class="coin-grid" style="grid-template-columns:1fr"><div class="loading">Loading your wallets&hellip;</div></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Non-custodial · keys generated in your browser · the pool only sees receive addresses · part of the SoapBox family · pool.soapbox.community</p>
+  </div>
+</footer>
+
+<script type="module" src="wallet.mjs"></script>
+</body>
+</html>
