@@ -1017,6 +1017,10 @@ createServer(async (req, res) => {
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
 }).listen(PORT, HOST, async () => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
+  // Warm the homepage cache on boot (2026-06-06: a cold restart left the first / requests
+  // fetching every upstream serially for 7-12s — probes timed out and the site read as DOWN).
+  // Best-effort; failures just mean the first visitor warms it instead.
+  listPage({ page: 1 }).then(() => console.log('boot warmup: homepage cache primed')).catch(() => {});
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
     const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/announcements'];
