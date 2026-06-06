@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js commands/*.test.js integrations/*.test.js cheetah/*.test.js store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.mjs",
+    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js commands/*.test.js integrations/*.test.js cheetah/*.test.js store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.mjs spamtest/*.test.mjs",
     "autovote": "node autovote/server.js",
     "engine": "node engine/node.mjs",
     "engine:once": "node engine/node.mjs --once",
@@ -21,6 +21,8 @@
     "tutorial:once": "node tutorial/scheduler.js --once",
     "tutorial:cron": "node tutorial/scheduler.js --cron",
     "tutorial:live": "node tutorial/scheduler.js --cron --broadcast",
+    "spamtest": "node spamtest/runner.mjs --count 50 --kind post",
+    "spamtest:probe": "node spamtest/probe.mjs --account spambot1",
     "start": "node index.js",
     "dev": "node --watch index.js",
     "trade": "node hive-trading-bot.js",
