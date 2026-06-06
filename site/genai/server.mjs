@@ -31,6 +31,7 @@ import { join, basename } from 'node:path';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
+import { GENERATORS, byKind, noSignupOptions } from '../../integrations/genai-directory.mjs';
 import {
   TEMPLATES, CATEGORIES, getTemplate, fillTemplate, exampleFor, validateTemplates, templatesByCategory,
 } from '../../integrations/genai-templates.mjs';
@@ -186,8 +187,36 @@ export function homePage(opts = {}) {
     <p class=muted style="margin-top:8px"><a href="/templates">See all ${TEMPLATES.length} templates →</a></p>
 
     ${recent.length ? `<h2>Recent generations</h2><div class=gallery>${recent.map(galleryCard).join('')}</div>
-      <p class=muted style="margin-top:8px"><a href="/gallery">See the full gallery →</a></p>` : ''}`;
+      <p class=muted style="margin-top:8px"><a href="/gallery">See the full gallery →</a></p>` : ''}
+
+    <h2>More ways to make images</h2>
+    <p class=muted>No lock-in: use <b>any</b> generator you like — Bing, Gemini, Ideogram, whoever — and post the
+      result on your blog. ${GENERATORS.length} options catalogued, free tiers noted, including
+      ${noSignupOptions().length} that need no account at all.</p>
+    <div class=grid>${byKind('image').slice(0, 6).map(generatorCard).join('')}</div>
+    <p class=muted style="margin-top:8px"><a href="/directory">See the full directory (images + video) →</a></p>`;
   return pageShell('Generative AI — make images now', body, { canonical: `${BASE_URL}/` });
+}
+
+// ── the open competitor directory (operator: "we want People to use Bing and whatever else") ──────
+function generatorCard(g) {
+  return `<a class=sec href="${esc(g.url)}" target=_blank rel="noopener nofollow">
+    <div class=t>${esc(g.name)} <span class="badge cat">${esc(g.signup === 'none' ? 'no signup' : g.kind)}</span></div>
+    <div class=d>${esc(g.strengths)}<br><span class=muted>${esc(g.free)}</span></div></a>`;
+}
+
+export function directoryView() {
+  const img = byKind('image'), vid = byKind('video'), open = noSignupOptions();
+  const body = `<h1>Every way to make images <span class=muted style="font-size:14px">· for your blog</span></h1>
+    <p class=muted>Make images <a href="/">right here</a> with our free engines, or use any of these —
+      the goal is great images on your MELEK posts, wherever they were made. Free-tier shapes noted on each.</p>
+    <h2>Zero signup — go right now</h2>
+    <div class=grid>${open.map(generatorCard).join('')}</div>
+    <h2>Image generators</h2>
+    <div class=grid>${img.filter((g) => g.signup !== 'none').map(generatorCard).join('')}</div>
+    <h2>Video &amp; templates <span class=muted style="font-size:13px">(the CapCut lane — our own template maker grows here)</span></h2>
+    <div class=grid>${vid.map(generatorCard).join('')}</div>`;
+  return pageShell('Image &amp; video generator directory — Generative AI', body, { canonical: `${BASE_URL}/directory` });
 }
 
 function templateCard(t) {
@@ -337,7 +366,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/templates', '/gallery', ...TEMPLATES.map((t) => `/templates/${t.id}`)];
+const SITEMAP_PATHS = ['/', '/templates', '/gallery', '/directory', ...TEMPLATES.map((t) => `/templates/${t.id}`)];
 
 export async function handler(req, res) {
   try {
@@ -392,6 +421,7 @@ export async function handler(req, res) {
       return sendHtml(res, templateDetailView(id), getTemplate(id) ? 200 : 404);
     }
     if (path === '/gallery') return sendHtml(res, galleryView());
+    if (path === '/directory') return sendHtml(res, directoryView());
 
     res.writeHead(302, { location: '/' });
     return res.end();
