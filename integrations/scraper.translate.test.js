@@ -3,7 +3,7 @@
 // offline with SKIP_LIVE=1. Run: node --test integrations/scraper.translate.test.js
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { translate, translateMany, detectLanguage, chunkText } from './scraper.mjs';
+import { translate, translateMany, detectLanguage, chunkText, __setFetch } from './scraper.mjs';
 
 const LIVE = !process.env.SKIP_LIVE;
 const live = (name, fn) => test(name, { skip: LIVE ? false : 'SKIP_LIVE set' }, fn);
@@ -41,11 +41,30 @@ live('Spanish → English (real engine)', async () => {
   assert.ok(r.engine && r.engine !== 'fallback', `expected a real engine, got ${r.engine}`);
 });
 
-live('French → English, auto-detect resolves `from`', async () => {
-  const r = await translate('La liberté guidant le peuple', { from: 'auto', to: 'en' });
-  assert.match(r.translated.toLowerCase(), /freedom|liberty|people/);
-  // auto should resolve to the detected source on success
-  if (r.engine !== 'fallback') assert.notStrictEqual(r.from, 'auto');
+// Deterministic (offline): inject a Lingva-shaped response so auto-detect
+// resolves the source language without hitting the network. Verifies the
+// `from='auto'` → detected resolution path (house rule: tests run offline).
+test('French → English, auto-detect resolves `from` (injected engine)', async () => {
+  __setFetch(async (url) => {
+    // Lingva: GET .../api/v1/auto/en/<text> → { translation, info: { detectedSource } }
+    if (String(url).includes('/api/v1/')) {
+      return {
+        ok: true,
+        json: async () => ({ translation: 'Liberty guiding the people', info: { detectedSource: 'fr' } }),
+      };
+    }
+    // any other engine endpoint shouldn't be reached, but fail soft if it is
+    return { ok: false, json: async () => ({}) };
+  });
+  try {
+    const r = await translate('La liberté guidant le peuple', { from: 'auto', to: 'en' });
+    assert.match(r.translated.toLowerCase(), /freedom|liberty|people/);
+    assert.notStrictEqual(r.engine, 'fallback', 'injected engine should resolve');
+    // auto must resolve to the detected source on success
+    assert.strictEqual(r.from, 'fr');
+  } finally {
+    __setFetch(null); // restore real fetch for the remaining live tests
+  }
 });
 
 live('long text is chunked, translated, and rejoined', async () => {

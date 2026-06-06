@@ -55,10 +55,16 @@ else
 fi
 
 # --- 3. Discord bot tokens --------------------------------------------
-# MTxxxxxxxxx... pattern is the Discord token shape. SECURITY.md
-# documents the placeholder ("MTxxxxxxxxxxxxxxxxxx"); skip that file.
+# A real Discord bot token is THREE dot-separated base64url segments:
+#   MT<22-30>.<6-7>.<27-40>   (encoded user-id . timestamp . HMAC)
+# We require the full three-part shape with non-base64url boundaries on
+# each side, so the scanner only fires on an actual token — not on any
+# long base64/base58 blob that merely contains "MT...." as a substring
+# (e.g. JWT payloads, Ecency image hashes in the datasets corpus). This
+# tightens the pattern WITHOUT weakening detection of a genuine token.
+# SECURITY.md documents the placeholder shape; skip that file.
 
-disc_hits=$(git ls-files | xargs grep -lE "MT[A-Za-z0-9_-]{20,}\." 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^\.env\.example$' || true)
+disc_hits=$(git ls-files | xargs grep -lE "(^|[^A-Za-z0-9_-])MT[A-Za-z0-9_-]{22,30}\.[A-Za-z0-9_-]{6,7}\.[A-Za-z0-9_-]{27,40}([^A-Za-z0-9_-]|$)" 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^\.env\.example$' || true)
 if [[ -n "$disc_hits" ]]; then
   errfail "possible Discord bot token in tracked file(s):"
   echo "$disc_hits" >&2
