@@ -1,0 +1,13 @@
+{
+  "label": "Sell-biased market-making around a stable mid — distribute inventory, earn the spread",
+  "params": { "spread": 0.02, "sellBias": 0.6, "tradeHive": 20, "maxInventoryHive": 200 },
+  "start": { "startHive": 1000, "startToken": 800, "fees": 0.0025, "slippage": 0.001 },
+  "snapshots": [
+    { "symbol": "CURE", "hePrice": 0.050, "bid": 0.0495, "ask": 0.0505, "ts": 1718000000000 },
+    { "symbol": "CURE", "hePrice": 0.051, "bid": 0.0505, "ask": 0.0515, "ts": 1718003600000 },
+    { "symbol": "CURE", "hePrice": 0.0495, "bid": 0.049, "ask": 0.0500, "ts": 1718007200000 },
+    { "symbol": "CURE", "hePrice": 0.0505, "bid": 0.050, "ask": 0.0510, "ts": 1718010800000 },
+    { "symbol": "CURE", "hePrice": 0.050, "bid": 0.0495, "ask": 0.0505, "ts": 1718014400000 },
+    { "symbol": "CURE", "hePrice": 0.0508, "bid": 0.0503, "ask": 0.0513, "ts": 1718018000000 }
+  ]
+}
