@@ -177,3 +177,73 @@ test('test-currency note (TESTS) appears in the footer', async () => {
   assert.match(r.body, /TESTS/);
   assert.match(r.body, /test-only|test currency|no monetary value/i);
 });
+
+// ---------------------------------------------------------------------------
+// /pool/miner — Akasha wallet ↔ pool lookup (#292)
+// ---------------------------------------------------------------------------
+import { minerView } from './server.mjs';
+import { minerStats } from '../../integrations/pool-stats.mjs';
+
+const fakeMinerHit = async (poolId, addr) => (poolId === 'xmr-stagenet' ? {
+  poolId, address: addr, pendingBalance: 0.5, pendingShares: 12, totalPaid: 3.2,
+  todayPaid: 0.1, lastPayment: '2026-06-06T05:00:00Z', hashrate: 850,
+  workers: [{ name: 'rig1', hashrate: 850, sharesPerSecond: 0.4 }],
+} : null);
+const fakeMinerMiss = async () => null;
+
+test('minerView renders per-pool stats when the address is known', async () => {
+  const html = await minerView('44abcDEADBEEF', { readPools: fakePools, readMiner: fakeMinerHit });
+  assert.match(html, /Your wallet on the pool/);
+  assert.match(html, /44abcDEADBEEF/);
+  assert.match(html, /Monero/);
+  assert.match(html, /pending balance/);
+  assert.match(html, /rig1/);
+  assert.ok(!html.includes('PRANA</'), 'pools with no record of the address are not listed');
+});
+
+test('minerView honest empty-states: unknown address / API down / no address', async () => {
+  const miss = await minerView('zzz', { readPools: fakePools, readMiner: fakeMinerMiss });
+  assert.match(miss, /no record of/);
+  const down = await minerView('zzz', { readPools: throwingReader, readMiner: fakeMinerMiss });
+  assert.match(down, /unreachable/);
+  const blank = await minerView('', { readPools: fakePools, readMiner: fakeMinerHit });
+  assert.match(blank, /No address given/);
+});
+
+test('minerView escapes a hostile address', async () => {
+  const html = await minerView('<script>x</script>', { readPools: fakePools, readMiner: fakeMinerMiss });
+  assert.ok(!html.includes('<script>x'), 'address must be escaped');
+  assert.match(html, /&lt;script&gt;/);
+});
+
+test('/pool/miner route responds (offline → honest empty state) and form is on /pool', async () => {
+  const r = await route('/pool/miner?addr=abc');
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /unreachable|no record of/);
+  assert.match(r.body, /noindex/);
+  const pool = await route('/pool');
+  assert.match(pool.body, /action="\/pool\/miner"/);
+});
+
+test('pool-stats.minerStats normalizes the Miningcore miner object', async () => {
+  __setPoolFetch(async (url) => {
+    assert.match(String(url), /\/api\/pools\/xmr-stagenet\/miners\/WALLET1/);
+    return {
+      ok: true,
+      json: async () => ({
+        pendingShares: 9, pendingBalance: 1.25, totalPaid: 10.5, todayPaid: 0.2,
+        lastPayment: '2026-06-06T00:00:00Z',
+        performance: { workers: { rig1: { hashrate: 500, sharesPerSecond: 0.2 }, '': { hashrate: 100 } } },
+      }),
+    };
+  });
+  const m = await minerStats('xmr-stagenet', 'WALLET1');
+  assert.equal(m.pendingBalance, 1.25);
+  assert.equal(m.hashrate, 600);
+  assert.equal(m.workers.length, 2);
+  assert.equal(m.workers[1].name, 'default');
+  __setPoolFetch(async () => { throw new Error('offline test'); });
+  assert.equal(await minerStats('xmr-stagenet', 'WALLET1'), null, 'soft-fails to null');
+  assert.equal(await minerStats('', 'x'), null);
+  assert.equal(await minerStats('p', ''), null);
+});

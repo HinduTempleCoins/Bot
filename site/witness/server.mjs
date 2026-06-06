@@ -225,11 +225,79 @@ export async function poolView(readPools) {
       from the pool engine. Point your miner at the stratum line; sign in as
       <code>wallet.worker</code>.</p>
     ${cards}
+    <div class=card><h2>Your wallet on the pool</h2>
+      <p class=muted style="font-size:14px">This is the <b>Akasha ↔ pool</b> connection in its
+        simplest form: paste the wallet address you mine to (the part before the dot in
+        <code>wallet.worker</code>) and see your live hashrate, pending balance and payouts —
+        read-only, straight from the pool engine.</p>
+      <form method=get action="/pool/miner" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <input name=addr placeholder="your payout wallet address" required
+          style="flex:1;min-width:240px;background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:9px 12px;font:13px ui-monospace,Menlo,monospace">
+        <button style="background:#1f6feb;border:0;border-radius:8px;color:#fff;font-weight:700;padding:9px 18px;cursor:pointer">Look up</button>
+      </form>
+    </div>
     <div class=card><h2>No hardware? Mine in the browser</h2>
       <p class=muted style="font-size:14px">The RandomX coins can be mined right in your browser tab
         (a WebAssembly miner bridged to the pool's stratum) — the "Mine right now" path. It is slow
         compared to a real rig, but it is the zero-setup way to put your first shares in. Find it on
         the MELEK testnet face: <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</p></div>`;
+}
+
+// ── /pool/miner — Akasha wallet ↔ pool lookup (read-only) ──────────────────────────────────────
+/**
+ * Looks the address up on EVERY pool (a wallet may mine more than one coin) and renders one card
+ * per pool where the address is known. Facts only: unknown address → says so, API down → says so.
+ */
+export async function minerView(addr, { readPools, readMiner } = {}) {
+  const address = String(addr == null ? '' : addr).trim();
+  const listPools = readPools || poolStatsMod.pools;
+  const lookupMiner = readMiner || poolStatsMod.minerStats;
+  const back = `<p style="margin-top:10px"><a href="/pool">← back to the live pool</a></p>`;
+
+  if (!address) {
+    return `<h1>Wallet lookup</h1><div class=card><p class=empty>No address given. Paste the wallet
+      address you mine to (the part before the dot in <code>wallet.worker</code>).</p></div>${back}`;
+  }
+
+  let list = [];
+  try { list = await listPools(); } catch { list = []; }
+  list = Array.isArray(list) ? list : [];
+  if (!list.length) {
+    return `<h1>Wallet lookup</h1><div class=card><p class=empty>The pool API is unreachable right
+      now, so the lookup cannot run — and we will not invent numbers. Try again shortly.</p></div>${back}`;
+  }
+
+  const found = [];
+  for (const p of list) {
+    let m = null;
+    try { m = await lookupMiner(p.id, address); } catch { m = null; }
+    if (m && (m.hashrate > 0 || m.pendingBalance > 0 || m.totalPaid > 0 || m.workers.length)) {
+      found.push({ pool: p, m });
+    }
+  }
+
+  const cards = found.length
+    ? found.map(({ pool, m }) => `<div class=card>
+        <h3>${esc(pool.coin)} ${pool.symbol ? `<span class=muted>(${esc(pool.symbol)})</span>` : ''}</h3>
+        <div class=idx>
+          <div><div class=v>${esc(hr(m.hashrate))}</div><div class=l>your hashrate</div></div>
+          <div><div class=v>${esc(num(m.pendingBalance))}</div><div class=l>pending balance</div></div>
+          <div><div class=v>${esc(num(m.totalPaid))}</div><div class=l>total paid</div></div>
+          <div><div class=v>${m.workers.length}</div><div class=l>workers</div></div>
+        </div>
+        ${m.workers.length ? m.workers.map((w) =>
+          `<div class=conn>${esc(w.name)} — ${esc(hr(w.hashrate))}</div>`).join('') : ''}
+        ${m.lastPayment ? `<p class=muted style="font-size:13px">last payment: ${esc(String(m.lastPayment))}</p>` : ''}
+      </div>`).join('')
+    : `<div class=card><p class=empty>The pool engine has no record of
+        <code>${esc(address)}</code> on any coin yet. If you just started mining, shares can take a
+        few minutes to register; double-check the address matches your miner's
+        <code>wallet.worker</code> login exactly.</p></div>`;
+
+  return `<h1>Your wallet on the pool</h1>
+    <p class=lead>Read-only view of <code>${esc(address)}</code> across every coin the pool runs —
+      this is the Akasha wallet ↔ pool connection: one address, all your mining in one place.</p>
+    ${cards}${back}`;
 }
 
 // ── /fees — transparent fee disclosure ─────────────────────────────────────────────────────────
@@ -396,6 +464,11 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
+    }
+    if (path === '/pool/miner') {
+      const addr = url.searchParams.get('addr') || '';
+      return sendHtml(res, page('Your wallet on the pool — Witness School',
+        await minerView(addr), { canonical: `${BASE_URL}/pool`, robots: 'noindex,follow' }));
     }
     if (path === '/fees') {
       return sendHtml(res, page('The fee model — Witness School', await feesView(), { canonical: `${BASE_URL}/fees` }));
