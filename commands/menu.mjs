@@ -190,6 +190,50 @@ async function priceHandler(args, deps) {
   return `${raw.toUpperCase()}: $${shown}${sources}${flag}`;
 }
 
+async function signupHandler() {
+  // Static, deterministic signup help — BRIEF.md §6/§7 scope: mechanics only
+  // (username, keys, backups), email-only verification, keys client-side.
+  return [
+    'How to get a MELEK account:',
+    '',
+    '1. Pick a username — 3-16 characters, lowercase letters/numbers/hyphens, starting with a letter.',
+    '2. Your keys are generated IN YOUR BROWSER during signup. They are never sent to, seen by, or stored on any server — including mine.',
+    '3. Back up all four keys (owner, active, posting, memo) somewhere offline BEFORE doing anything else. There is no password reset on a blockchain.',
+    '4. Verification is by email only. We will never ask for a phone number.',
+    '',
+    'Testnet: https://alpha.melek.salon (test tokens at /faucet)',
+    'Learn to run a witness: https://witness.melek.salon',
+    '',
+    'Use !help to see what else I can look up for you.',
+  ].join('\n');
+}
+
+async function tutorialHandler(args, deps) {
+  const target = normalizeAccount(args[0] || '');
+  if (!target) return 'Usage: !tutorial @account';
+  if (typeof deps?.getTutorialProgress !== 'function') {
+    return 'Tutorial lookup is unavailable right now.';
+  }
+  let prog;
+  try {
+    prog = await deps.getTutorialProgress(target);
+  } catch {
+    return `Could not read tutorial progress for @${target} right now. Try again shortly.`;
+  }
+  if (!prog) return `@${target} not found on this chain.`;
+  const stages = prog.stages || [];
+  if (!stages.length) return `No tutorial stages are active right now.`;
+  const done = stages.filter((s) => s.complete).length;
+  const lines = [
+    `Tutorial progress for @${target} — ${done}/${stages.length} stages`,
+    '',
+    ...stages.map((s) => `${s.complete ? '✓' : '·'} ${s.label}`),
+  ];
+  if (prog.next) lines.push('', `Next up: ${prog.next.label}`);
+  else if (done === stages.length) lines.push('', 'All current stages complete. Well walked.');
+  return lines.join('\n');
+}
+
 // ---- registry --------------------------------------------------------------
 
 /**
@@ -228,6 +272,18 @@ export const COMMANDS = [
     args: '[symbol]',
     help: 'Show the USD price of an asset (default HIVE).',
     handler: priceHandler,
+  },
+  {
+    name: 'signup',
+    args: '',
+    help: 'How to get a MELEK account: username rules, keys, backups, email verification.',
+    handler: signupHandler,
+  },
+  {
+    name: 'tutorial',
+    args: '@account',
+    help: 'Show tutorial progress for an account: stages completed and what comes next.',
+    handler: tutorialHandler,
   },
 ];
 

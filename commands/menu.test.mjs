@@ -232,6 +232,72 @@ test('handle: !price missing dep degrades gracefully', async () => {
   assert.equal(await handle('!price btc', {}), 'Price lookup is unavailable right now.');
 });
 
+// ---- signup handler ----------------------------------------------------------
+
+test('handle: !signup returns the deterministic signup help', async () => {
+  const reply = await handle('!signup');
+  assert.match(reply, /How to get a MELEK account/);
+  assert.match(reply, /IN YOUR BROWSER/);
+  assert.match(reply, /email only/);
+  assert.match(reply, /never ask for a phone number/);
+  // identical every time — deterministic, no state
+  assert.equal(reply, await handle('!signup'));
+});
+
+// ---- tutorial handler --------------------------------------------------------
+
+const TUTORIAL_PROGRESS = {
+  stages: [
+    { key: 'intro_post', label: 'Post an introduction', complete: true },
+    { key: 'engage_three_posts', label: 'Comment meaningfully on three other users\' posts', complete: false },
+  ],
+  next: { key: 'engage_three_posts', label: 'Comment meaningfully on three other users\' posts' },
+};
+
+test('handle: !tutorial shows stage checklist and next stage', async () => {
+  const deps = {
+    getTutorialProgress: async (account) => {
+      assert.equal(account, 'alice');
+      return TUTORIAL_PROGRESS;
+    },
+  };
+  const reply = await handle('!tutorial @alice', deps);
+  assert.match(reply, /Tutorial progress for @alice — 1\/2 stages/);
+  assert.match(reply, /✓ Post an introduction/);
+  assert.match(reply, /· Comment meaningfully/);
+  assert.match(reply, /Next up: Comment meaningfully/);
+});
+
+test('handle: !tutorial all stages complete', async () => {
+  const deps = {
+    getTutorialProgress: async () => ({
+      stages: [{ key: 'intro_post', label: 'Post an introduction', complete: true }],
+      next: null,
+    }),
+  };
+  const reply = await handle('!tutorial bob', deps);
+  assert.match(reply, /1\/1 stages/);
+  assert.match(reply, /All current stages complete/);
+});
+
+test('handle: !tutorial account not found', async () => {
+  const deps = { getTutorialProgress: async () => null };
+  assert.equal(await handle('!tutorial @ghost', deps), '@ghost not found on this chain.');
+});
+
+test('handle: !tutorial no arg returns usage', async () => {
+  assert.equal(await handle('!tutorial', {}), 'Usage: !tutorial @account');
+});
+
+test('handle: !tutorial missing dep degrades gracefully', async () => {
+  assert.equal(await handle('!tutorial alice', {}), 'Tutorial lookup is unavailable right now.');
+});
+
+test('handle: !tutorial data-source error is caught', async () => {
+  const deps = { getTutorialProgress: async () => { throw new Error('boom'); } };
+  assert.match(await handle('!tutorial alice', deps), /Could not read tutorial progress for @alice/);
+});
+
 // ---- routing / unknown -----------------------------------------------------
 
 test('handle: non-command returns empty string', async () => {
@@ -246,7 +312,7 @@ test('handle: unknown command points to !help', async () => {
 
 test('COMMANDS registry has the expected commands with handlers', () => {
   const names = COMMANDS.map((c) => c.name).sort();
-  assert.deepEqual(names, ['balance', 'help', 'post-count', 'price', 'witness']);
+  assert.deepEqual(names, ['balance', 'help', 'post-count', 'price', 'signup', 'tutorial', 'witness']);
   for (const c of COMMANDS) {
     assert.equal(typeof c.handler, 'function');
     assert.equal(typeof c.help, 'string');
