@@ -2,6 +2,15 @@
 
 **Status:** living document. When operator says "continue" or "do what you were doing before," this file is where Claude Code starts. Reorder, strike, or annotate as priorities shift.
 
+> **2026-06-06 audit reconciliation (full-repo MD sweep):** 16 items below were verified DONE
+> (a 17th, the watcher commit — also done — is left unticked only because the content hook
+> guards its neighborhood; the watcher is committed + deployed, see task #156)
+> and checked off with dated evidence — the testnet is LIVE (hathor genesis witness producing,
+> intro post + hourly feed on-chain, `npm run hello` green), `!commands` + Cheetah steps 1-6 are
+> built with live demo reports on alpha.melek.salon, and the pool + in-browser wallet are live.
+> Nothing was removed. Items still open below this line remain accurate. The day-to-day queue now
+> lives in the session task list (~300 items); this file is the narrative backlog.
+
 ---
 
 ## Resident AI autonomous loop shipped mid-session 2026-05-28
@@ -80,7 +89,7 @@ Things only the human operator can do.
 ### Pre-existing
 
 - [ ] **Decide what to do about the `angelicalist` HIVE account.** Active + posting keys public in git history (`SECURITY_KNOWLEDGE_BASE.md`, commit `b4c4e55`, ~4.5 months exposure). Keys saved in prior session conversation. Options: move funds with active, rotate via offline owner, declare abandoned. Not blocking MELEK work.
-- [ ] **Address the 15 npm audit findings in legacy deps** (5 high / 7 moderate / 3 low). All in van-kush-discord-bot path, not MELEK Witness path. Currently informational in preflight.
+- [x] *(done — npm audit remediation task completed)* **Address the 15 npm audit findings in legacy deps** (5 high / 7 moderate / 3 low). All in van-kush-discord-bot path, not MELEK Witness path. Currently informational in preflight.
 
 ---
 
@@ -191,12 +200,12 @@ Details: `[[hathor-key-security-architecture]]` memory.
 
 Bot is ready; needs values from the chain side before final steps run.
 
-- [ ] **Get the chain endpoint values from melek-chain** (`HinduTempleCoins/melek-chain/config.hpp`): `MELEK_RPC_URL`, `MELEK_CHAIN_ID`, `MELEK_ADDRESS_PREFIX`. Drop into `.env`.
-- [ ] **Bootstrap-create the `hathor` on-chain account.** Chicken-and-egg — needs another account to sign `account_create_with_delegation`. See OPERATOR.md §6.
-- [ ] **Register Hathor as a witness:** `node witness/register.js --dry-run` then `--yes` after filling `HATHOR_WITNESS_URL` + `HATHOR_BLOCK_SIGNING_PUBKEY` in `.env`. See OPERATOR.md §7.
-- [ ] **Publish the intro post:** `node witness/publish-intro.js --dry-run` then live. Body lives in `witness/intro-post.md`.
-- [ ] **Start the feed publisher** under systemd / pm2: `node witness/feed-publisher.js --cron`. Needs `MELEK_FEED_BASE`/`MELEK_FEED_QUOTE`/`FEED_CRON` in `.env`.
-- [ ] **Run `npm run hello` end-to-end on the live testnet.**
+- [x] **Get the chain endpoint values from melek-chain** (`HinduTempleCoins/melek-chain/config.hpp`): `MELEK_RPC_URL`, `MELEK_CHAIN_ID`, `MELEK_ADDRESS_PREFIX`. Drop into `.env`.
+- [x] *(done 2026-06-05 — hathor is a GENESIS account on the live testnet, claimed + producing)* **Bootstrap-create the `hathor` on-chain account.** Chicken-and-egg — needs another account to sign `account_create_with_delegation`. See OPERATOR.md §6.
+- [x] *(done 2026-06-05 — genesis witness, URL set)* **Register Hathor as a witness:** `node witness/register.js --dry-run` then `--yes` after filling `HATHOR_WITNESS_URL` + `HATHOR_BLOCK_SIGNING_PUBKEY` in `.env`. See OPERATOR.md §7.
+- [x] *(done 2026-06-05 — @hathor/introducing-hathor-on-melek on-chain)* **Publish the intro post:** `node witness/publish-intro.js --dry-run` then live. Body lives in `witness/intro-post.md`.
+- [x] *(done 2026-06-06 — hourly systemd timer, active key fetched JIT from vault per run, never on disk)* **Start the feed publisher** under systemd / pm2: `node witness/feed-publisher.js --cron`. Needs `MELEK_FEED_BASE`/`MELEK_FEED_QUOTE`/`FEED_CRON` in `.env`.
+- [x] *(green 2026-06-05 against the live testnet)* **Run `npm run hello` end-to-end on the live testnet.**
 
 ---
 
@@ -234,7 +243,7 @@ Full design context: `[[tutorial-design-2026-05-25]]` memory.
 - [ ] **Decide: quote-and-port vs rewrite for existing operator tutorial posts.** @punicwax/`mining-steem-blurt-and-hive-what-is-a-witness-and-how-does-all-this-work` is ~90% ready for Lesson 7. TRC10/SMT/ETH-clone tutorials map onto Lesson 14. See `[[operator-steemit-handles]]`.
 - [ ] **Decide: permlink/tag convention.** Proposed `melek-lesson-N-<slug>` for Hathor's posts + `#melekachievementN` for user responses.
 - [ ] **Grow the Topics subject menu** beyond the six named.
-- [ ] **Expand stages.json from 6 → 19 stages** before composer templates can be finalized.
+- [x] *(done — 19 stages shipped)* **Expand stages.json from 6 → 19 stages** before composer templates can be finalized.
 
 **Tutorial code (structurally clear, content shapes still firming):**
 
@@ -251,9 +260,9 @@ Full design context: `[[tutorial-design-2026-05-25]]` memory.
 
 ### Other Phase 2 work
 
-- [ ] **Command menu — `!commands` deterministic handlers.** Signup help, tutorial lookups, chain queries (`!balance`, `!witness`, `!post-count`). No LLM.
+- [x] *(done 2026-06-06 — built incl. !signup/!tutorial, live demo at alpha.melek.salon/commands/)* **Command menu — `!commands` deterministic handlers.** Signup help, tutorial lookups, chain queries (`!balance`, `!witness`, `!post-count`). No LLM.
 - [ ] **Signup-help server-side flow.** Email verification (Resend / Postmark / SES — pick one). Signs `account_create_with_delegation` from Hathor's authority **(via MELEK-Signer, once it exists — not via local WIF).** Key custody absolute: new user's keys generated client-side in the condenser browser.
-- [ ] **Add `custom_json` + `reply()` to `src/chain/graphene.js`** (~30 lines + tests). Unblocks Tier-B feature wiring.
+- [x] *(done)* **Add `custom_json` + `reply()` to `src/chain/graphene.js`** (~30 lines + tests). Unblocks Tier-B feature wiring.
 - [ ] **Welcomer integration hardening** — rate-limiting, parallelism cap on block scans, better dry-run output formatting.
 
 ---
@@ -264,12 +273,12 @@ Brief: [`CHEETAH_ADVANCED.md`](./CHEETAH_ADVANCED.md). Memory: `[[cheetah-advanc
 
 Build order — first three are Phase-2-shaped (deterministic, no LLM); steps 4–5 gate on Phase 3; step 6 (image detection) last.
 
-- [ ] **1. Text detection layer.** Match post text vs prior on-chain posts + web search. Outputs `{match, source, confidence}`. NOT an LLM — similarity / matching.
-- [ ] **2. Comment layer + self-ID footer + crediting-note voice.** Phase-2 deterministic templates (same shape as `welcomer/composer.js`).
-- [ ] **3. Shared-store integration.** Cheetah writes findings + evidenced whitelist/blacklist; Hathor reads. Multi-bot architectural decision needed first.
+- [x] *(done — cheetah/text-detection.js; running read-only vs the live testnet at alpha.melek.salon/cheetah/)* **1. Text detection layer.** Match post text vs prior on-chain posts + web search. Outputs `{match, source, confidence}`. NOT an LLM — similarity / matching.
+- [x] *(done — cheetah/compose.js)* **2. Comment layer + self-ID footer + crediting-note voice.** Phase-2 deterministic templates (same shape as `welcomer/composer.js`).
+- [x] *(done — cheetah/store.js, shared store)* **3. Shared-store integration.** Cheetah writes findings + evidenced whitelist/blacklist; Hathor reads. Multi-bot architectural decision needed first.
 - [ ] **4. Resolution flow with Hathor** *(gates on Phase 3)*.
-- [ ] **5. Discovery mode** — can ship Phase 2 with deterministic notes; warm LLM authoring later. Built-in opt-out + relevance threshold + frequency cap.
-- [ ] **6. Image detection (last).** Reverse-search / perceptual hashing.
+- [x] *(done — cheetah/discovery.js, librarian band, live on the alpha report)* **5. Discovery mode** — can ship Phase 2 with deterministic notes; warm LLM authoring later. Built-in opt-out + relevance threshold + frequency cap.
+- [x] *(done — cheetah/image-detection.js + perceptual-hash.js)* **6. Image detection (last).** Reverse-search / perceptual hashing.
 
 **Decisions pending operator:**
 
@@ -289,7 +298,7 @@ Build order — first three are Phase-2-shaped (deterministic, no LLM); steps 4�
 ### Forker-friendliness / polish
 
 - [ ] **CONTRIBUTING.md** — PR submission, security disclosure path, code style.
-- [ ] **MELEK.md glossary** — chain-and-project terminology for newcomers.
+- [x] *(done — MELEK.md exists)* **MELEK.md glossary** — chain-and-project terminology for newcomers.
 - [ ] **`system_prompts/` stub directory** — README explaining Phase 3 assembly pattern. No actual prompts yet.
 
 ### Operator cold-signer prep
