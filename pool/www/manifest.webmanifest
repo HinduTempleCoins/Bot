@@ -1,0 +1,25 @@
+{
+  "name": "SoapBox Pool",
+  "short_name": "SoapBox Pool",
+  "description": "Mine in your browser and watch your coins — the SoapBox mining pool dashboard.",
+  "start_url": "/mycoins.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pool — SoapBox</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SoapBox Pool">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <script>(function(){try{var t=localStorage.getItem('sb-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 </head>
 <body>
@@ -107,6 +114,45 @@
         blocker still hides it, allow this page or use the downloadable launcher below.
       </p>
     </details>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- MEASURE MY DEVICE — a 30s local benchmark + honest estimate    -->
+  <!-- (queue #301). Reuses the same RandomX worker; LOCAL-ONLY, no    -->
+  <!-- address, no pool submission. Facts, not hype.                   -->
+  <!-- ============================================================= -->
+  <section id="measure" class="card">
+    <div class="k">Measure your own device</div>
+    <h2 style="margin-top:6px">How fast is <em>your</em> phone or computer?</h2>
+    <p class="muted" style="font-size:13.5px;margin:0 0 12px">
+      Run a <strong>30-second benchmark</strong> right here. It uses the same real RandomX
+      engine as the miner above, but <strong>hashes only on your device</strong> &mdash; no
+      payout address needed, nothing is submitted to the pool, nobody is paid. You just get an
+      honest hashrate for this device, and a clearly-labelled estimate of what that would earn.
+    </p>
+
+    <div class="wiz-dl">
+      <button class="wiz-btn" id="mm-run" data-pool-id="xmr-mainnet">⏱ Measure my device (30s)</button>
+    </div>
+
+    <div id="mm-progress" style="height:6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;margin:12px 0 0;overflow:hidden">
+      <div id="mm-bar" style="height:100%;width:0;background:var(--up);transition:width .4s"></div>
+    </div>
+
+    <div class="stat-grid" style="margin-top:14px">
+      <div class="stat"><div class="k">Status</div><div class="v" id="mm-status">idle</div></div>
+      <div class="stat"><div class="k">Your hashrate</div><div class="v" id="mm-hashrate">&mdash;</div></div>
+      <div class="stat"><div class="k">Threads measured</div><div class="v" id="mm-threads">&mdash;</div></div>
+    </div>
+
+    <div id="mm-earnings" aria-live="polite"></div>
+
+    <p class="muted" style="font-size:12px;line-height:1.6;margin:10px 0 0">
+      The estimate divides your hashrate by the live network hashrate, multiplies by the daily
+      coin issuance, and subtracts the pool fee. It is an <strong>estimate, not a promise</strong>
+      &mdash; real payout swings with luck and a network that changes every minute. For browsers it
+      lands at <strong>fractions of a cent a day</strong>; that is participation, and it is real.
+    </p>
   </section>
 
   <!-- PRIMARY: one download, pick the coin inside the app -->
@@ -308,5 +354,7 @@
 
 <script type="module" src="pool.js"></script>
 <script type="module" src="browser-mine.mjs"></script>
+<script type="module" src="measure.mjs"></script>
+<script type="module" src="pwa.mjs"></script>
 </body>
 </html>
