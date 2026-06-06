@@ -1,0 +1,22 @@
+{
+  "articleId": "Steem & Hive Bots — the SteemBots / Steemcenter ecosystem",
+  "title": "Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem",
+  "bodyFile": "Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem.wiki",
+  "sources": [
+    "cryptocurrency/steem_bots_history.json",
+    "Steemcenter — @MarsResident (documented contributor)",
+    "steemit.com/@wang/transfers",
+    "steemit.com/steem/@curator/i-made-a-curation-bot-for-steem",
+    "steemit.com/steemit/@anyx/cheetah-bot-the-fight-against-spam-and-plagiarism-continues",
+    "steemit.com/@cheetah",
+    "steemit.com/witness-category/@bitcube/get-alerted-when-your-witness-node-is-down-telegram-bot",
+    "steemit.com/steemit/@derekareith/steemit-posts-on-twitter-a-new-twitter-bot-i-created-to-push-steemit-content-to-the-twitter-masses",
+    "steemit.com/steem/@complexring/steem-autovote-bot",
+    "steemit.com/radiator/@inertia/drdoogie-rb-vote-trail-script",
+    "steemit.com/@minnowsupport",
+    "steemvoter.com",
+    "steemit.com/steem/@xeroc/python-steem-v0-1-1",
+    "steemit.com/steem/@svk/ann-steemjs-steemjs-lib"
+  ],
+  "provenanceNote": "Load-bearing provenance: @MarsResident is the operator's 2017-era Steem handle. The @MarsResident citations in the body and in this sources list MUST be preserved verbatim — they are first-party documentation of the SteemBots / Steemcenter ecosystem (BRIEF.md §2 lineage)."
+}

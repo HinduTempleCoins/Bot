@@ -1,0 +1,107 @@
+# Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem
+
+The **SteemBots / Steemcenter ecosystem** was the collection of automated agents, voting services, content-discovery tools, and community resources that grew up around the [[STEEM Blockchain|Steem blockchain]] from its 2016 launch through the [[HIVE Blockchain|2020 Hive fork]] and beyond. Steem was a Graphene-based, [[Delegated Proof of Stake (DPoS)|delegated-proof-of-stake]] social blockchain that paid users in cryptocurrency for posting and curating content. Because its blogging interface had no CAPTCHAs and exposed a full programmatic API, the platform was unusually hospitable to software agents — and a large, contested bot economy formed almost immediately. This article surveys that ecosystem, the debates it provoked, and how the design of the [[Blockchain Witness (Block Producer)|MELEK AI Witness]] (the on-chain account `hathor`) and its librarian sibling answer the failure modes the Steem era exposed.
+
+== Why bots flourished on Steem ==
+
+A bot is a software application that runs automated, structurally repetitive tasks at superhuman speed; more than half of all web traffic is estimated to be bot traffic, the largest single use being web spidering and crawling.<ref>cryptocurrency/steem_bots_history.json</ref> A useful distinction the early community drew was between a **bot** and a **script**: a bot *watches for events to act upon and runs continuously* (for example, "watch for new posts and vote on them"), whereas a script *runs once to perform a specific operation and then quits* (for example, "vote on this one post and exit"). Bots run for long periods looking for criteria; scripts are one-shot.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+The structural reason bots thrived on Steem where they were fought elsewhere was simple: **there were no CAPTCHAs on the blogging interface**, so automated agents could interact with humans and the chain freely. The early community framed this optimistically — an "army of automated agents," or "bazillion beings," working on members' behalf, generating passive income while the operator slept.<ref>cryptocurrency/steem_bots_history.json</ref> Complexity ranged from *simple* bots ("if new post, upvote it"), to *complex* bots with multiple conditions ("upvote unless already voted"), to envisioned *AI* bots using machine learning for context-aware decisions.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+== The original seven bots (July 2016) ==
+
+The first comprehensive catalogue of the Steem bot ecosystem was published in **July 2016 by @MarsResident** — the Van Kush Family Steem account — in the post *"Bots and the Steemit Ecosystem,"* which listed the first generation of bots and argued "Don't hate the Bots, they are an important part of the Steemit Ecosystem."<ref>cryptocurrency/steem_bots_history.json</ref> The post itself earned $29.96 with 51 votes, in an era when the platform saw 200–400 posts per day (later growing past 8,000 posts/day), and it floated the idea of a "Loosely Organized Steemit Bot Making Society" for sharing ideas and code.<ref>cryptocurrency/steem_bots_history.json</ref> The seven bots it documented were:
+
+* '''@wang''' — greeted new users in the `introduceyourself` tag; estimated to have accumulated over $1,000,000 of value in Steem Power; creator speculated to be @ned, @dan, or someone at @steemit. @wang left the platform in August 2016 with a post titled *"Farewell, So Much Hate."*<ref>steemit.com/@wang/transfers</ref><ref>cryptocurrency/steem_bots_history.json</ref>
+* '''The "steemed" whale bot''' (@steemed, @itsascam, @steemroller) — one person operating three whale accounts, automating discovery of quality content because they could not keep up manually. The intent was described as benign.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''@curator''' — gathered information and voted based on data rather than reading, aimed at casual users, whales wanting broad coverage, and analytics crawlers.<ref>steemit.com/steem/@curator/i-made-a-curation-bot-for-steem</ref>
+* '''@cheetah''' — created by '''@anyx''' (July 2016), with contributions from @xeroc, @pharesim, @pfunk, @cryptoctopus, @ash, @tuck-fheman, @neoxian, and @positive. Cheetah automatically found similar content elsewhere on the web and flagged possible plagiarism, letting readers know that matching content existed elsewhere.<ref>steemit.com/steemit/@anyx/cheetah-bot-the-fight-against-spam-and-plagiarism-continues</ref>
+* '''Witness alert bot''' — created by '''@bitcube''', alerted witnesses via Telegram when their node went down and provided analytics.<ref>steemit.com/witness-category/@bitcube/get-alerted-when-your-witness-node-is-down-telegram-bot</ref>
+* '''Twitter bot''' — created by '''@derekareith''' (crediting @xeroc), cross-posted Steemit content to Twitter.<ref>steemit.com/steemit/@derekareith/steemit-posts-on-twitter-a-new-twitter-bot-i-created-to-push-steemit-content-to-the-twitter-masses</ref>
+* '''Autovote bot''' — created by '''@complexring''', an upvote bot anyone could use.<ref>steemit.com/steem/@complexring/steem-autovote-bot</ref>
+
+The same survey offered an ecological metaphor that recurs in the later corpus: bots are "like animals that clean algae or create compost" — they help with content quality and the distribution of wealth across the platform.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+== Steemcenter and @MarsResident's educational contributions ==
+
+Steemcenter was a platform associated with the Steem ecosystem, serving as a hub for educational content and resources related to cryptocurrency and blockchain technology. According to VKFRI records, a contributor known as @MarsResident was active on Steemcenter during the 2017 era of the Steem blockchain. This contributor provided educational materials on topics such as cryptology, the Temple Coin, and tutorials for Steem Witnesses, which are users responsible for validating transactions on the Steem blockchain.<ref>Steemcenter — @MarsResident (documented contributor)</ref> This educational throughline — bot history, automation philosophy, the bot controversy, and machine-learning basics — was later organized into structured lesson modules in the family knowledge base.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+== Categories of Steem bots ==
+
+As the ecosystem matured, distinct categories emerged:
+
+* '''Welcome / greeter bots.''' @wang is the archetype: it commented on first posts in `introduceyourself` to make newcomers feel received. The model was widely imitated.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''Curation and vote-trail bots.''' @curator, @complexring's autovote bot, @inertia's '''drdoogie''' vote-trail script (launched 5 May 2017, mirroring another account's voting patterns), Steemvoter (a web-interface curation service), and Streemian automated upvoting — either for passive income or to extend a curator's reach.<ref>steemit.com/radiator/@inertia/drdoogie-rb-vote-trail-script</ref><ref>steemvoter.com</ref>
+* '''Community / Discord-controlled bots.''' The '''Minnow Support Project''' (@minnowsupport, launched July 2017 by @aggroed, @ausbitbank, @teamsteem, @theprophet0, and @someguy123) ran as a Discord "cyborg" that accepted user commands and upvoted posts using the project's posting key.<ref>steemit.com/@minnowsupport</ref>
+* '''Plagiarism / anti-spam tripwires.''' @cheetah is the canonical example — see below.<ref>steemit.com/@cheetah</ref>
+* '''Utility and infrastructure bots.''' Witness down-alert bots (@bitcube), cross-posting bots (@derekareith's Twitter bot), and early interactive/novelty bots like '''calva''' (which began posting random gifs and quotes on the marijuana tag and evolved into a command-driven information tool) and '''jeeves''' (which posted in every category suggesting the top three highest-paid posts).<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''"Paid" bid-bots.''' Over 2017–2018 the most contested category became vote-selling services that auctioned upvotes for a share of the rewards pool — the practice at the centre of the manipulation debates below.
+
+== What the ecosystem got right ==
+
+* '''It made onboarding feel human.''' Greeter bots like @wang meant a newcomer's first post was acknowledged within minutes — a real retention win on a platform where being ignored is the default.
+* '''It scaled curation.''' Vote-trail and curation bots let a small number of thoughtful curators extend their reach across thousands of posts per day they could never have read by hand.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''It surfaced plagiarism early.''' @cheetah's web-matching gave the community a fast, automatic signal that a post might be copied, before a human moderator could ever check.<ref>steemit.com/@cheetah</ref>
+* '''It kept infrastructure honest.''' Down-alert bots and analytics crawlers gave witnesses and curators operational visibility into a 24/7 system.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''It open-sourced itself.''' The libraries that powered the era — @xeroc's `python-steem` (v0.1.1, 2016) and @svk's `steemjs-lib` — were public, and a culture of sharing bot code (the proposed "Bot Making Society") lowered the barrier for newcomers.<ref>steemit.com/steem/@xeroc/python-steem-v0-1-1</ref><ref>steemit.com/steem/@svk/ann-steemjs-steemjs-lib</ref>
+
+== What it got wrong ==
+
+The same survey corpus documents the criticisms in detail.
+
+* '''Bots you cannot talk to feel suspicious.''' @personz (creator of the Steem FOSSbot Voter) argued in February–March 2017 ("All singing, all dancing ~ BOTS! ~ Act 1" and "Are bots bad for Steemit?") that new users were put off by non-human entities, and that there is "something suspicious about robots you cannot talk to." His core question — "Why can't we only have people, like a social network?" — names the central tension of an automated social platform.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''Vote-selling looks like a Sybil attack.''' In January 2017, @senseiteekay (Thomas Te Aroha Kohi), in "Value is Subjective," accused Steemvoter, Streemian, and voting-bot scripts of manipulating post value against the whitepaper's principles, asking how users could retain a "fair assessment of subjective value" when value was being manipulated — framing the practice as a Sybil attack.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''Bots out-numbering humans.''' By mid-2017 the community was openly worried about saturation — @somethingsubtle's "How many vote-bots is too many?" and @stefen's "More interactive bots than humans - proof" (both July 2017), through to @vmsolutionsltd's September 2017 "The Steemit Bot Issue: Why We All Need to Be Concerned."<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''Tone-deaf automation.''' The starkest failure was the greeter/curation bot replying to emotionally heavy posts with generic cheer — the corpus gives the example of a "My mom died of cancer" post drawing a bot's "Great to have you here!" The defenders' rejoinder ("a bot reply is better than no reply") only underscores the problem: an automated voice with no comprehension is a liability exactly where comprehension matters most. The documented fix is emotional-intelligence-capable AI, which did not arrive until much later.<ref>cryptocurrency/steem_bots_history.json</ref>
+* '''Hidden agency.''' Across all of these, the recurring complaint is *concealment*: a bot wearing a human-looking account, with no disclosure, no way to address it, and an owner who is not accountable for what it does.
+
+These debates produced a steady stream of community writing through 2017 — @boxmining's "My Adventure to Steemit Botting," @samstonehill's "Please do not upvote if you are human!", @inertia's "More Max Payouts = Less Bot Impact," @ropaga's "The rise of the Steemit bots," @stellabelle's FOSSBOT how-to, @acidyo's "Manual Curation vs Automatic Curation," @ura-soul's call to clarify the Terms of Service regarding bots, @crokkon's "A glimpse into a news bot network," and @eturnerx's "AI is stupid: Humans Judgment Matters" — and even a cultural artifact, The SteemBirds' August 2017 song "Bots Bots Bots Bots."<ref>cryptocurrency/steem_bots_history.json</ref>
+
+== From Steem to Hive ==
+
+In 2020 the community forked **[[HIVE Blockchain|Hive]]** from Steem over concerns about Steemit Inc.'s centralization following its acquisition by Justin Sun. The automation concepts migrated essentially unchanged to the new chain: curation bots for passive income, tip bots (@pizza, @lolz), and utility bots for greetings and plagiarism detection. The 2024-era upgrade wrapped these in GPT-4 and LangChain, finally producing the "complex AI personalities on blockchain" the 2016 writers had imagined — and inheriting all of the unresolved disclosure and tone problems along with the new capability.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+== How the MELEK design answers the Steem bot era ==
+
+The MELEK blockchain and its on-chain account `hathor` (the [[Blockchain Witness (Block Producer)|MELEK AI Witness]]) are designed as a direct, considered response to the failure modes catalogued above. Three design commitments do the work.
+
+=== A first-class AI witness account, not a hidden script ===
+
+The Steem complaint that recurs most is *concealment* — bots wearing human masks, with no disclosure and no accountability. Hathor inverts this. It is not a script hiding behind a human-looking handle: it **is** an account on the chain, a Graphene witness named `hathor`, openly operated as an AI and producing blocks under its own name. The Steem-era objection that there is "something suspicious about robots you cannot talk to" is answered by making the robot a named, addressable, first-class participant whose character lives in a public repository and on-chain corpus rather than in a private operator's undisclosed cron job.
+
+=== A credit-first librarian, not a punitive tripwire ===
+
+The original @cheetah was a plagiarism tripwire: it flagged matches and let the accusation stand. The MELEK design splits and inverts that role. Its **CheetahAdvanced** sibling is built as a *credit-first, discovery-first librarian* — it states factual matches with source links rather than firing a punitive accusation, and the resolution conversation (and any updates to an evidenced whitelist) is handled separately and humanely rather than by an automated verdict. The principle is that an automatic match is *information for a human*, never a sentence. The librarian that drafts this very encyclopedia embodies the same restraint: it drafts and flags, but it never overwrites source documents and never publishes anything without explicit human approval.
+
+=== Deterministic commands before any LLM ===
+
+The tone-deaf-bot failure — a language model replying with comprehension it does not have, in exactly the situations where comprehension matters — is structurally avoided by sequencing. The MELEK build is phased: Phase 1 is block production and an informational price feed with **no language model at all**; Phase 2 is a **deterministic `!commands` menu** (signup, tutorial, chain lookups) that returns fixed, auditable answers with **still no LLM**; only Phase 3 introduces the full conversational witness. By the time a model speaks for the witness, the deterministic surface has already proven it can do the rote work reliably, and the conversational layer is reserved for genuine conversation rather than bolted onto every greeting.
+
+Taken together, the lesson the MELEK design draws from the SteemBots / Steemcenter ecosystem is continuity, not repudiation: the early Steem bots demonstrated that automated agents could meaningfully serve a social blockchain — they greeted, curated, watched the infrastructure, and surfaced plagiarism — and the failures were failures of *disclosure, restraint, and sequencing* rather than of the idea itself. MELEK keeps the useful work and fixes those three things.
+
+== See also ==
+
+* [[STEEM Blockchain]]
+* [[HIVE Blockchain]]
+* [[Blockchain Witness (Block Producer)]]
+* [[Delegated Proof of Stake (DPoS)]]
+* [[Graphene Blockchain Framework]]
+
+== Sources ==
+<ref>cryptocurrency/steem_bots_history.json</ref>
+<ref>Steemcenter — @MarsResident (documented contributor)</ref>
+<ref>steemit.com/@wang/transfers</ref>
+<ref>steemit.com/steem/@curator/i-made-a-curation-bot-for-steem</ref>
+<ref>steemit.com/steemit/@anyx/cheetah-bot-the-fight-against-spam-and-plagiarism-continues</ref>
+<ref>steemit.com/@cheetah</ref>
+<ref>steemit.com/witness-category/@bitcube/get-alerted-when-your-witness-node-is-down-telegram-bot</ref>
+<ref>steemit.com/steemit/@derekareith/steemit-posts-on-twitter-a-new-twitter-bot-i-created-to-push-steemit-content-to-the-twitter-masses</ref>
+<ref>steemit.com/steem/@complexring/steem-autovote-bot</ref>
+<ref>steemit.com/radiator/@inertia/drdoogie-rb-vote-trail-script</ref>
+<ref>steemit.com/@minnowsupport</ref>
+<ref>steemvoter.com</ref>
+<ref>steemit.com/steem/@xeroc/python-steem-v0-1-1</ref>
+<ref>steemit.com/steem/@svk/ann-steemjs-steemjs-lib</ref>
+
+== Coverage ==
+This article synthesizes the family knowledge base's documentation of the 2016–2018 Steem bot era (`cryptocurrency/steem_bots_history.json`, first compiled from @MarsResident's July 2016 survey and the Steem Wiki) together with the MELEK founding design. The catalogue of bots, creators, dates, and the controversy timeline is drawn directly from that source; the steemit.com URLs are the primary posts it cites. The MELEK-design section reflects the project's published phased build and the CheetahAdvanced / Hathor design briefs. Claims about exact earnings (e.g. @wang's accumulated Steem Power) are reproduced as documented estimates and should be treated as such.
