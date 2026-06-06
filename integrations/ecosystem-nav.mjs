@@ -39,6 +39,7 @@ export const ECOSYSTEM_LINKS = [
 
   // The chains — add the real endpoints here as they go live; `live:false` shows them as "soon"
   { label: 'MELEK Testnet', url: env('MELEK_ALPHA', 'https://alpha.melek.salon'), group: 'Chains', live: true, key: 'melek-testnet' },
+  { label: 'Witness School', url: env('WITNESS_SITE', 'https://witness.melek.salon'), group: 'Chains', live: true, key: 'witness' },
   { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: false, key: 'melek' },
   { label: 'PRANA', url: env('PRANA_SITE', '#'), group: 'Chains', live: false, key: 'prana' },
 ];
