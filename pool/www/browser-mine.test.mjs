@@ -84,3 +84,51 @@ test('browser-mine.mjs imports headless and initBrowserMine is safe without DOM'
   assert.doesNotThrow(() => mod.initBrowserMine());
   delete globalThis.document;
 });
+
+// ---------------------------------------------------------------------------
+// wallet-first prefill (operator 2026-06-06: pool IS the wallet — never ask cold)
+// ---------------------------------------------------------------------------
+import { prefillFromWallet } from './browser-mine.mjs';
+import { MyCoinsStore } from './mycoins.mjs';
+
+function fakeStorage() {
+  const m = new Map();
+  return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, v) };
+}
+function fakeInput(value = '') {
+  return { value, inserted: null, insertAdjacentElement(_, el) { this.inserted = el; } };
+}
+function fakeDoc() {
+  const made = [];
+  return {
+    made,
+    getElementById: () => null,
+    createElement: (tag) => { const el = { tag, style: {} }; made.push(el); return el; },
+  };
+}
+
+test('prefillFromWallet fills the field from the shared wallet store', () => {
+  const store = new MyCoinsStore(fakeStorage());
+  store.add({ coin: 'monero', address: '4TESTADDR', network: 'stagenet' });
+  const input = fakeInput('');
+  const got = prefillFromWallet(input, { coin: 'monero', store, doc: fakeDoc() });
+  assert.equal(got, '4TESTADDR');
+  assert.equal(input.value, '4TESTADDR');
+});
+
+test('prefillFromWallet never overwrites a typed address and offers wallet creation when empty-handed', () => {
+  const store = new MyCoinsStore(fakeStorage()); // empty store
+  const input = fakeInput('USER_TYPED');
+  const doc = fakeDoc();
+  const got = prefillFromWallet(input, { coin: 'monero', store, doc });
+  assert.equal(got, null);
+  assert.equal(input.value, 'USER_TYPED');
+  // the create-your-wallet link is injected and points at the wallet page
+  assert.equal(input.inserted.href, '/wallet/');
+  assert.match(input.inserted.textContent, /create your wallet/i);
+});
+
+test('prefillFromWallet soft-fails with no store/DOM (node env)', () => {
+  assert.equal(prefillFromWallet(fakeInput(), { store: null, doc: null }), null);
+  assert.equal(prefillFromWallet(null), null);
+});

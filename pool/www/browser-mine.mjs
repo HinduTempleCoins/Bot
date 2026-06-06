@@ -7,6 +7,42 @@
 
 import { BrowserMiner } from './miner.mjs';
 import { validateAddress } from './wizard.mjs';
+import { MyCoinsStore } from './mycoins.mjs';
+
+// The pool IS the wallet (operator 2026-06-06): never make the user go GET an address —
+// auto-fill from the shared My Coins wallet store when one exists, and put "create your
+// wallet right here" one click away (/wallet/ writes to the SAME store; a `storage`
+// listener live-fills the field when they come back from generating).
+export function prefillFromWallet(addrIn, { coin = 'monero', store, doc } = {}) {
+  if (!addrIn) return null;
+  let s = store;
+  if (!s) { try { s = new MyCoinsStore(); } catch { s = null; } }
+  const d = doc || (typeof document !== 'undefined' ? document : null);
+  const fill = () => {
+    if (!s) return null;
+    const rec = s.list().find((r) => r.coin === coin && r.address);
+    if (rec && !(addrIn.value || '').trim()) { addrIn.value = rec.address; return rec.address; }
+    return null;
+  };
+  const got = fill();
+  if (d && !d.getElementById('bm-make-wallet') && addrIn.insertAdjacentElement) {
+    const a = d.createElement('a');
+    a.id = 'bm-make-wallet';
+    a.href = '/wallet/';
+    a.textContent = got ? 'Manage your wallet →' : 'No address? The pool makes you one — create your wallet here →';
+    a.className = 'wiz-msg';
+    addrIn.insertAdjacentElement('afterend', a);
+  }
+  if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('storage', () => {
+      if (fill() && d) {
+        const link = d.getElementById('bm-make-wallet');
+        if (link) link.textContent = 'Manage your wallet →';
+      }
+    });
+  }
+  return got;
+}
 
 const $ = (s) => document.querySelector(s);
 // The bridge is fronted by Caddy at wss://<pool host>/ws. On http (local dev) use ws://.
@@ -46,6 +82,9 @@ export function initBrowserMine() {
     addrMsg.textContent = '✗ ' + v.reason; addrMsg.className = 'wiz-msg bad'; return false;
   };
   addrIn.addEventListener('input', validate);
+
+  // wallet-first: fill the address from the user's own in-browser wallet (or offer to make one)
+  if (prefillFromWallet(addrIn)) validate();
 
   throttle.addEventListener('input', () => {
     const pct = Number(throttle.value);
