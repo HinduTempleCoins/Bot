@@ -1,0 +1,51 @@
+# MELEK Condenser — Caddy front door for alpha.melek.salon (CADDY LOCK PROTOCOL).
+# Append this block to /etc/caddy/Caddyfile, then: sudo systemctl reload caddy
+# ---------------------------------------------------------------------------
+# Requires DNS A record  alpha.melek.salon -> <box public IP>  to exist first so
+# Caddy's ACME challenge can validate. The condenser SSR server runs on
+# 127.0.0.1:8085 (PORT in the env file); the local testnet RPC is 127.0.0.1:8090.
+#
+# Accept-gate (preserved): the disclaimer holding page (site/melek-holding/index.html)
+# is served at EXACTLY "/" as an interstitial. Its button sets the cookie
+# `melek_tn_ok=1` + localStorage and redirects to /trending. Everything other than
+# bare "/" is proxied to the condenser, so /trending and all app routes render the
+# real condenser. This mirrors the existing alpha gate behavior in the repo.
+#
+# Replace __HOLDING_DIR__ with the absolute path of the deployed copy of
+# Bot's  site/melek-holding/  on this box.
+# ---------------------------------------------------------------------------
+alpha.melek.salon {
+	encode gzip
+
+	# --- Local testnet RPC, fronted under /rpc -----------------------------
+	# Only needed if end-user BROWSERS must reach the chain over HTTPS (i.e. if
+	# SDC_CLIENT_BLURTD_URL is set to https://alpha.melek.salon/rpc instead of
+	# the loopback). Harmless to keep; strips /rpc before proxying to the node.
+	handle_path /rpc* {
+		reverse_proxy 127.0.0.1:8090
+	}
+
+	# --- Accept-gate: bare "/" serves the disclaimer holding page ----------
+	@root path /
+	handle @root {
+		root * __HOLDING_DIR__
+		try_files /index.html
+		file_server
+	}
+
+	# --- Everything else -> the condenser SSR server ----------------------
+	# /trending and all app routes. X-Forwarded-Proto: https is required by the
+	# condenser's koa-session __Host- cookie; Caddy sets it automatically.
+	handle {
+		reverse_proxy 127.0.0.1:8085
+	}
+
+	header {
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+	log {
+		output file /var/log/caddy/alpha.melek.salon.log
+	}
+}

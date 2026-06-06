@@ -1,0 +1,48 @@
+# MELEK Condenser — systemd unit TEMPLATE (alpha.melek.salon)
+# ---------------------------------------------------------------------------
+# Placeholders only; no real hostnames/paths are committed. On the box:
+#   1. Replace __INSTALL_DIR__  with the absolute checkout path of melek-condenser.
+#   2. Replace __RUN_USER__     with the unprivileged service user.
+#   3. Replace __NODE22_BIN__   with the absolute path to the Node 22 binary
+#      (e.g. the `node` from `nvm which 22`). The build + runtime REQUIRE Node 22 —
+#      Node 24 crashes config@3.3.2 and the SSR child dies silently.
+#   4. Put the filled env at __INSTALL_DIR__/.env (chmod 600) from the template.
+# Install: copy to /etc/systemd/system/melek-condenser.service, then
+#   sudo systemctl daemon-reload && sudo systemctl enable --now melek-condenser
+# ---------------------------------------------------------------------------
+[Unit]
+Description=MELEK Condenser (Blurt Condenser fork) — alpha.melek.salon SSR front end
+After=network-online.target
+Wants=network-online.target
+# The condenser's RPC points at the local testnet node; start after it if present.
+After=melek-testnet.service
+
+[Service]
+Type=simple
+User=__RUN_USER__
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__INSTALL_DIR__/.env
+# The serialized prod start: NODE_ENV/PORT/SDC_* all come from the EnvironmentFile.
+# (BROWSER= and NODE_OPTIONS are set in the env file too.)
+ExecStart=__NODE22_BIN__ lib/server/index.js
+Restart=always
+RestartSec=5
+# Give the multi-worker Koa cluster time to bind before systemd judges it failed.
+TimeoutStartSec=60
+# Logs to the journal; never logs keys (the env file holds the only secret).
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=melek-condenser
+
+# --- Hardening (the process needs only its own dir + outbound network) ------
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=__INSTALL_DIR__/tmp
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target
