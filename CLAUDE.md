@@ -65,18 +65,24 @@ for the work; without it, Claude Code is operating blind.
 | Path | Purpose |
 |---|---|
 | `BRIEF.md` | Founding brief (exists) |
-| `CHARACTER.md` | Witness identity, Angelic voice, persona heritage *(to create)* |
-| `RULE_1.md` | Canonical Rule 1 + Biblical extension w/ provenance *(to create)* |
-| `LINEAGE.md` | Dated history from 2017 Mathematicians email through MELEK *(to create)* |
-| `system_prompts/` | Phase 3 assembled system prompts *(to create)* |
+| `CHARACTER.md` | Witness identity, Angelic voice, persona heritage (exists) |
+| `RULE_1.md` | Canonical Rule 1 + Biblical extension w/ provenance (exists) |
+| `LINEAGE.md` | Dated history from 2017 Mathematicians email through MELEK (exists) |
+| `system_prompts/` | Phase 3 assembled system prompts (exists) |
 | `knowledge/` | Corpus (Diaspora Brujeria, Zar threads, ancient-mystery material, Convergence Paper). Scripture is in `knowledge/scripture/`. |
-| `cryptology/` | Per-person relationship map (BRIEF.md §6a). Extends existing `user-relationships.json`. *(to create)* |
-| `witness/` | Block production, price feed, account creation/delegation (Phases 1-2) *(to create)* |
-| `signup/` | Signup-help logic + server-side account-creation signing (key-custody boundary per §7) *(to create)* |
-| `tutorial/` | CryptoKannon-model staged onboarding (§8) *(to create)* |
+| `cryptology/` | Per-person relationship map (BRIEF.md §6a). Extends existing `user-relationships.json`. *(deferred — corpus first, per operator)* |
+| `witness/` | Block production, price feed, witness monitor, account creation/delegation (exists; running against the live testnet) |
+| `signup/` | Signup-help logic + server-side account-creation signing (key-custody boundary per §7) (exists) |
+| `tutorial/` | CryptoKannon-model staged onboarding (§8) (exists, 19 stages) |
 | `karma/` | Off-chain karma database (deferred, §9) *(to create)* |
-| `voting_rules/` | Witness voting + curation rules *(to create)* |
-| `src/chain/` | Initial chain-client scaffolding (`graphene.js`, `keys.js` exist). May move under `witness/` during Phase 1. |
+| `voting_rules/` | Witness voting + curation rules (exists) |
+| `src/chain/` | Chain-client scaffolding (`graphene.js`, `keys.js`); `src/trollbox/` condenser signup-chat endpoint |
+| `commands/` | Phase 2 deterministic `!commands` menu (no LLM) + the live alpha demo report |
+| `cheetah/` | CheetahAdvanced librarian bot (detection/discovery/compose/store) + live alpha test report |
+| `pool/` | Mining-pool frontend (browser mining, in-browser walletgen ZEPH/XMR/EVM, My Coins, spend-lock), bridge, Zephyr staging |
+| `engine/` | MELEK-Engine — Hive-Engine-style side-token layer (testnet) |
+| `site/` | The live web properties (witness school, vankushfamily roadmap, law/politics/oversight/hemp/... SoapBox verticals, alpha gate) |
+| `integrations/` | Shared readers/adapters (steemd, pool-stats, ecosystem-nav, resource center, ~100 modules) |
 
 ## Key custody (BRIEF.md §7)
 
@@ -108,10 +114,17 @@ The upstream HiveSigner stack (`ecency/hivesigner-api`, `ecency/hivesigner-ui`, 
 
 The actual MELEK-Signer build lives in a **separate private repo** (Phase 2 work, deferred). The Bot repo never holds the live signer code, never holds a WIF private key, and never broadcasts via local signing. Once MELEK-Signer is built and deployed, the Bot calls it via the `hivesigner` SDK with a scoped bearer token. See `MELEK_SIGNER.md` for the design and `.local/STAGE_0_BRIEF.md` / `.local/STACK.md` for the in-flight Stage 0 plan that sits underneath all of this.
 
+## Build & ship
+
+- `npm test` — the full offline suite (`node --test` across all module dirs). Tests must run offline: injectable fetch (`__setFetch`), soft-fail-never-throw, no network.
+- `npm run hello` — Phase-1 smoke against the live testnet RPC.
+- House style: ESM `.mjs`, `esc()` all interpolation, CLI guarded by `process.argv[1]` check, `handler(req,res)` exported for tests, PORT/BASE_URL env.
+- **Pushes to `main` are blocked.** Ship flow: branch → commit → push → `gh pr create` → `gh pr merge --merge --delete-branch` → back to main + pull. A pre-commit hook also blocks server paths/hostnames and key material in public commits — keep those in `.local/` (gitignored).
+
 ## Status
 
 - ☑ Phase 1 — Hello World (block production + price feed + intro post). **SHIPPED on the live testnet 2026-06-05.** The MELEK testnet runs on the chain host (`melek-testnet.service`, systemd, auto-restart); `hathor` is a GENESIS account + genesis witness there (the chain-side slot protection is real — born into the active schedule). Claimed (keys rotated to fresh ones, in the operator vault as `hathor-testnet-keys`), funded, **producing blocks**, witness URL set, intro post on-chain (`@hathor/introducing-hathor-on-melek`), price feed published. Testnet chain id `18dcf0…274e`, prefix `TST`, symbols TESTS/TBD (mainnet: MELEK/MBD). `npm run hello` passes against it. Known gotchas: dhive mis-serializes `witness_update` on this Steem fork (use the chain's `cli_wallet` — builds after a one-line `get_typename<variant_object>` patch, applied on the chain host); SMT support is compiled AND hardfork-active (HF 0.23 = SMT hardfork on this fork; NAI pool live).
-- ☐ Phase 2 — Command menu. Not started.
+- ◐ Phase 2 — Command menu. **Substantially SHIPPED on the testnet (2026-06-06):** deterministic `!commands` (incl. `!signup`/`!tutorial`) built + demoed live at `alpha.melek.salon/commands/`; signup-help, 19-stage tutorial, welcomer, troll-box endpoint, MELEK-Engine, mining pool + in-browser wallet (pool.soapbox.community), Witness School (witness.melek.salon, incl. live `/hathor` status), Cheetah test reports (`alpha.melek.salon/cheetah/`). Witness ops run on timers: 5-min witness monitor; hourly price feed with the active key fetched JIT from the operator vault per run — **never stored on disk** (operator custody rule 2026-06-06). Remaining: condenser-side wiring of commands into the live troll-box.
 - ☐ Phase 3 — Conversational Witness. Not started.
 
 Load-bearing docs (read-order): `BRIEF.md` → `CHARACTER.md` → `RULE_1.md` → `SECURITY.md` → `OPERATOR.md` → `knowledge/scripture/`. Old six-surface plan is superseded by this phased build.
