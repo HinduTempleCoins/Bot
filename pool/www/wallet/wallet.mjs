@@ -355,6 +355,32 @@ async function renderCards() {
 
   host.innerHTML = Object.keys(WALLET_COINS).map((k) => walletCardHtml(k, byCoin[k])).join('');
   host.querySelectorAll('.card[data-coin]').forEach(wireCard);
+  focusRequestedCoin(host);
+}
+
+// ?coin=zephyr deep link — the miner's grey "make this wallet" chips land HERE: scroll the
+// requested coin's card into view and spotlight it so the user is exactly where they create
+// that wallet. Pure-ish (exported for tests with an injected search/host).
+export function requestedCoin(search) {
+  try {
+    const s = search != null ? search : (typeof location !== 'undefined' ? location.search : '');
+    const k = new URLSearchParams(s || '').get('coin');
+    return k && resolveWalletCoin(k) ? String(k).toLowerCase() : null;
+  } catch { return null; }
+}
+
+let _focused = false; // spotlight once per page load, not on every re-render
+function focusRequestedCoin(host) {
+  if (_focused) return;
+  const k = requestedCoin();
+  if (!k) return;
+  const card = host.querySelector(`.card[data-coin="${k}"]`);
+  if (!card) return;
+  _focused = true;
+  if (card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.style.outline = '2px solid var(--gold)';
+  card.style.outlineOffset = '3px';
+  setTimeout(() => { card.style.outline = ''; card.style.outlineOffset = ''; }, 4000);
 }
 
 // ---- theme toggle (same pattern as the other pool pages) ----
