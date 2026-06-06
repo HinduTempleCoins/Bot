@@ -1,0 +1,17 @@
+{
+  "label": "SWAP.DOGE peg mean-reversion (the proven family) — HE wanders off the real peg and snaps back",
+  "params": { "threshold": 0.03, "tradeHive": 50, "maxInventoryHive": 300 },
+  "start": { "startHive": 1000, "startToken": 0, "fees": 0.0025, "slippage": 0.001 },
+  "_shape": "Each row: symbol, hePrice (HIVE/token), realUsd (real asset USD), hiveUsd, bid/ask, ts. Mirrors what arb-scanner + price-oracle produce. realUsd held ~0.085, hiveUsd ~0.30, so the fair HE price is ~0.2833; rows where hePrice drifts cheap → BUY, rich → SELL.",
+  "snapshots": [
+    { "symbol": "SWAP.DOGE", "hePrice": 0.2833, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.282, "ask": 0.285, "ts": 1718000000000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.250,  "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.248, "ask": 0.252, "ts": 1718003600000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.240,  "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.238, "ask": 0.242, "ts": 1718007200000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.2833, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.282, "ask": 0.285, "ts": 1718010800000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.320,  "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.318, "ask": 0.322, "ts": 1718014400000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.330,  "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.328, "ask": 0.332, "ts": 1718018000000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.2833, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.282, "ask": 0.285, "ts": 1718021600000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.255,  "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.253, "ask": 0.257, "ts": 1718025200000 },
+    { "symbol": "SWAP.DOGE", "hePrice": 0.2833, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.282, "ask": 0.285, "ts": 1718028800000 }
+  ]
+}

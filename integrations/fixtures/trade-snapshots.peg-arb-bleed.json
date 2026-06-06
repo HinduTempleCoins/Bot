@@ -1,0 +1,15 @@
+{
+  "label": "The SWAP.LTC bleed shape — HE looks 'cheap' vs a STALE real price and keeps falling. peg-arb buys, but the inventory cap bounds the loss (the lesson made structural).",
+  "params": { "threshold": 0.03, "tradeHive": 50, "maxInventoryHive": 150 },
+  "start": { "startHive": 1000, "startToken": 0, "fees": 0.0025, "slippage": 0.001 },
+  "_note": "realUsd stays pinned at an optimistic 0.085 while hePrice grinds down — exactly the trap. The cap stops accumulation at 150 HIVE; without it this is the -6,424 HIVE drain.",
+  "snapshots": [
+    { "symbol": "SWAP.LTC", "hePrice": 0.240, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.238, "ask": 0.242, "ts": 1718000000000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.225, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.223, "ask": 0.227, "ts": 1718003600000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.210, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.208, "ask": 0.212, "ts": 1718007200000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.195, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.193, "ask": 0.197, "ts": 1718010800000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.180, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.178, "ask": 0.182, "ts": 1718014400000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.165, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.163, "ask": 0.167, "ts": 1718018000000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.150, "realUsd": 0.085, "hiveUsd": 0.30, "bid": 0.148, "ask": 0.152, "ts": 1718021600000 }
+  ]
+}

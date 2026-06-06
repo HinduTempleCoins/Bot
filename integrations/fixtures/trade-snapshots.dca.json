@@ -1,0 +1,16 @@
+{
+  "label": "DCA into a declining token — budget-capped accumulation (shows the hard stop)",
+  "params": { "buyHive": 20, "totalBudgetHive": 100, "intervalMs": 3600000 },
+  "start": { "startHive": 1000, "startToken": 0, "fees": 0.0025, "slippage": 0.001 },
+  "_note": "Daily-style buys; price drifts down then partially recovers. Budget caps total spend at 100 HIVE regardless of how many snapshots follow — the anti-bleed guard.",
+  "snapshots": [
+    { "symbol": "SWAP.LTC", "hePrice": 0.200, "ts": 1718000000000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.190, "ts": 1718003600000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.180, "ts": 1718007200000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.170, "ts": 1718010800000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.160, "ts": 1718014400000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.165, "ts": 1718018000000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.175, "ts": 1718021600000 },
+    { "symbol": "SWAP.LTC", "hePrice": 0.185, "ts": 1718025200000 }
+  ]
+}
