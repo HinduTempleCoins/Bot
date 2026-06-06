@@ -1,0 +1,26 @@
+[Unit]
+Description=MELEK decades-brain pipeline — route + dedup the brief/annal queue (oneshot, fired by .timer)
+# Server A runs Qdrant + Ollama + the brief generator; run after they're up but don't hard-require them
+# (the pipeline soft-fails to its classical word-bag path with no embedder/store at all).
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# __INSTALL_DIR__ is the checked-out Bot repo on Server A (operator substitutes the real path).
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+ExecStart=/usr/bin/node deploy/decades/run-pipeline.mjs
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# Hardening — read-only system, writes confined to the queue/out/log dirs the operator lists.
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+# __DATA_DIR__ holds the queue, store, and results; __LOG_DIR__ holds the log.
+ReadWritePaths=__DATA_DIR__ __LOG_DIR__
+
+[Install]
+WantedBy=multi-user.target
