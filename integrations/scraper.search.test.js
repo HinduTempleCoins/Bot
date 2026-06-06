@@ -113,6 +113,43 @@ test('searchAll: dedups across providers, combines provider lists, ranks by comp
   }
 });
 
+// ── data-loss-audit (#284): the scholarly normalizers + the searchAll merge must KEEP the rich record
+// (doi/year/authors/venue/cited) instead of flattening it into the snippet string. ─────────────────
+test('#284: searchAll preserves scholarly structured fields (doi/year/authors/venue/cited)', async () => {
+  __setFetch(async (url) => {
+    const u = String(url);
+    const json = (o) => ({ ok: true, headers: { get: () => 'application/json' }, json: async () => o, text: async () => JSON.stringify(o) });
+    if (/api\.openalex\.org/.test(u)) return json({ results: [{
+      title: 'A heterosis study', doi: 'https://doi.org/10.1/oa', id: 'https://openalex.org/W1',
+      publication_year: 2024, primary_location: { source: { display_name: 'AJBSR' }, landing_page_url: 'https://x/y' },
+      authorships: [{ author: { display_name: 'R. Van Kush' } }], cited_by_count: 7, open_access: { is_oa: true },
+    }] });
+    if (/api\.crossref\.org/.test(u)) return json({ message: { items: [{
+      title: ['A crossref paper'], DOI: '10.2/cr', 'container-title': ['Nature'],
+      published: { 'date-parts': [[2023]] }, author: [{ given: 'A', family: 'Writer' }], 'is-referenced-by-count': 12,
+    }] } });
+    return json({});
+  });
+  try {
+    const rows = await searchAll('heterosis', { limit: 20 });
+    const oa = rows.find((r) => /doi\.org\/10\.1\/oa/.test(r.url));
+    assert.ok(oa, 'openalex row present');
+    assert.equal(oa.year, 2024);
+    assert.equal(oa.venue, 'AJBSR');
+    assert.deepStrictEqual(oa.authors, ['R. Van Kush']);
+    assert.equal(oa.cited, 7);
+    assert.equal(oa.openAccess, true);
+    const cr = rows.find((r) => /doi\.org\/10\.2\/cr/.test(r.url));
+    assert.ok(cr, 'crossref row present');
+    assert.equal(cr.year, 2023);
+    assert.equal(cr.venue, 'Nature');
+    assert.equal(cr.cited, 12);
+    assert.deepStrictEqual(cr.authors, ['A Writer']);
+  } finally {
+    __setFetch(null);
+  }
+});
+
 // ── live tests ──
 live('foreign Wikipedia returns real native-language results (es, ja)', async () => {
   const es = await search('cadena de bloques', { provider: 'wikipedia-es', limit: 3 });

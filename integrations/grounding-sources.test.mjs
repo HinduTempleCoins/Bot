@@ -132,3 +132,52 @@ test('groundClaim with no evidence → strongestSourceType null', async () => {
   assert.deepEqual(g.evidence, []);
   assert.equal(g.strongestSourceType, null);
 });
+
+// ── data-loss-audit (#284): structured upstream fields must survive into evidence rows ──────────────
+test('#284: gov rows preserve agency/type/date as structured fields (not just in the snippet)', async () => {
+  const out = await sourcesFor('lithium', { sources: allFakes });
+  const gov = out.find((e) => e.sourceType === 'gov');
+  assert.ok(gov, 'gov row present');
+  assert.equal(gov.agency, 'EPA');          // previously discarded into the snippet string
+  assert.equal(gov.docType, 'Rule');
+  assert.equal(gov.date, '2026-01-01');
+  assert.ok(gov.snippet.includes('EPA'), 'human-readable snippet still built');
+});
+
+test('#284: scholarly rows preserve authors/year/doi/cited/openAccess (the Case-Text-style loss)', async () => {
+  const richScholarly = (topic) => ({
+    results: [{
+      title: `Study of ${topic}`, url: 'https://doi.org/10.1/xyz',
+      authors: ['A. Author', 'B. Writer'], year: 2025, doi: '10.1/xyz', cited: 42, openAccess: true, venue: 'Nature',
+    }],
+  });
+  const out = await sourcesFor('heterosis', { sources: { ...allFakes, scholarly: richScholarly } });
+  const sch = out.find((e) => e.sourceType === 'scholarly');
+  assert.ok(sch, 'scholarly row present');
+  assert.deepEqual(sch.authors, ['A. Author', 'B. Writer']);
+  assert.equal(sch.year, 2025);
+  assert.equal(sch.doi, '10.1/xyz');
+  assert.equal(sch.citedByCount, 42);
+  assert.equal(sch.openAccess, true);
+  assert.equal(sch.venue, 'Nature');
+});
+
+test('#284: sourcesFor withDiagnostics reports WHY a source contributed nothing (soft-fail-honest)', async () => {
+  const boom = () => { throw new Error('source down'); };
+  const { results, sourceErrors } = await sourcesFor('x', {
+    withDiagnostics: true,
+    sources: { gov: boom, scholarly: () => [], wiki: () => [], web: fakeWeb },
+  });
+  assert.ok(Array.isArray(results));
+  assert.match(sourceErrors.gov, /source failed: source down/);   // not silently swallowed
+  assert.equal(sourceErrors.scholarly, 'no results');
+  assert.ok(!('web' in sourceErrors), 'a source that contributed is not flagged');
+});
+
+test('#284: groundClaim carries sourceErrors so a thin grounding is explainable', async () => {
+  const boom = () => { throw new Error('boom'); };
+  const g = await groundClaim('claim', { sources: { gov: boom, scholarly: fakeScholarly, wiki: () => [], web: () => [] } });
+  assert.ok(g.sourceErrors, 'sourceErrors present');
+  assert.match(g.sourceErrors.gov, /source failed/);
+  assert.ok(g.evidence.length >= 1);     // scholarly still contributed
+});
