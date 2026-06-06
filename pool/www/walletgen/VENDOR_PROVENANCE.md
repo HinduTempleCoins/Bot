@@ -50,3 +50,73 @@ PRANA later) — there is no per-chain address.
 - BigInt-based curve ops are simple double-and-add (not constant-time). That is acceptable
   here because keys are generated once, locally, from fresh CSPRNG entropy and are not used
   for signing on this surface; for hardware-wallet / signing paths use Akasha proper.
+
+---
+
+## Security review — `keystore.mjs` (optional encrypted browser copy)
+
+`keystore.mjs` is an **opt-in** layer added on top of the default zero-secret custody model.
+It does **not** change the default: by default the seed is shown once, the user is quizzed to
+prove they wrote it down, and only the public **address** is persisted. The keystore only ever
+exists if a user, *after* passing the paper-backup gate, explicitly chooses "also keep an
+encrypted copy in this browser."
+
+### Cryptographic design
+
+- **Cipher:** AES-256-GCM (`crypto.subtle`, WebCrypto). GCM is authenticated — its 128-bit
+  auth tag gives tamper detection for free (any mutated ciphertext/IV fails `decrypt`).
+- **KDF:** PBKDF2-HMAC-SHA-256, **600,000 iterations** (MetaMask-grade work factor), 16-byte
+  random salt. Derives a 256-bit AES key from the user password.
+- **Per-encryption randomness:** a fresh 16-byte salt **and** 12-byte IV are drawn from
+  `crypto.getRandomValues` on every `encryptSeed`. (Same secret + same password ⇒ different
+  ciphertext every time; no IV/salt reuse.)
+- **Keystore JSON:** `{ v:1, kdf:'PBKDF2-SHA256', iters:600000, salt, iv, ct }` — all binary
+  fields base64. **Ciphertext only.** There is no plaintext field; `saveKeystore` actively
+  refuses to persist any record carrying a `secret`/`mnemonic`/`privateKey`/`seed` field.
+- **Zero dependencies:** WebCrypto only. No npm package, no WASM blob to trust, nothing to
+  supply-chain-compromise. (Same posture as the rest of `walletgen`.)
+- **Failure is opaque:** a wrong password and a tampered ciphertext both surface the *same*
+  `"wrong password or corrupted keystore"` error — we never disclose which.
+
+### Session / lock semantics (compatible with Akasha AK5 §3)
+
+- `unlock(password)` decrypts and holds the secret **in module memory only** (a `Uint8Array`),
+  never on disk. `lock()` zeroizes that buffer (`.fill(0)`) and drops the reference.
+- **Idle auto-lock:** after N minutes (default 10) with no activity the session zeroizes
+  itself. The clock and timer are injectable so this is deterministically tested.
+- **Re-auth per outflow:** the unlocked secret is not an ambient session for spending — an
+  outflow re-prompts for the password (`unlock` again at spend time), matching AK5 §3's
+  "unlocking for an outflow requires the password."
+- The decrypted secret is **never** written to any storage on unlock (tested).
+
+### Threat model
+
+- **XSS = game over — for ANY browser wallet, this one included.** If an attacker can run
+  JavaScript in the page's origin, they can read the unlocked secret from memory, hook the
+  password field, or exfiltrate the keystore + brute-force it offline. No in-browser crypto
+  design survives script injection. The keystore raises the bar against *device theft / disk
+  inspection* (ciphertext at rest under a 600k-iter KDF), **not** against code running in-page.
+  - **Mitigation = keep scripts out.** The wallet page ships **no external scripts and no
+    telemetry** (only same-origin ES modules + the inline theme bootstrap; enforced by a test).
+    Production should serve a strict **Content-Security-Policy** (`script-src 'self'`, no
+    `unsafe-inline`/`unsafe-eval`, `connect-src 'self'`) so injected/remote script cannot run.
+- **Weak password:** PBKDF2-600k slows offline guessing but cannot save a guessable password.
+  We enforce a length floor (≥10) and show an **honest** strength meter (length-dominant, no
+  fake "must contain a symbol" rules). A forgotten password is **unrecoverable** — the paper
+  backup is the only recovery, stated plainly in the UI.
+- **Clipboard leak:** if a "copy seed" affordance is offered, `scheduleClipboardClear` wipes
+  the clipboard ~60s after copy (best-effort; only if the clipboard still holds what we wrote,
+  so it never clobbers a later copy). The browser may deny clipboard writes to an unfocused
+  tab, so the UI still warns the user — clipboard is the least-safe path and paper is preferred.
+- **At-rest disk inspection:** `localStorage` holds ciphertext only; without the password it is
+  a 256-bit-AES blob behind a 600k-iter KDF.
+- **Pool/server trust:** the pool never receives the password or the seed. Encryption,
+  decryption, and storage are entirely client-side; the server's view is unchanged (it still
+  only ever sees the public receive address).
+
+### Out of scope (by design)
+
+- No password reset / recovery, no "export everything," no server-side escrow — all of these
+  would re-introduce a custody surface the design exists to avoid.
+- Signing is still not implemented on this hot surface; the keystore protects a stored secret
+  at rest, it does not turn the page into a transaction signer.

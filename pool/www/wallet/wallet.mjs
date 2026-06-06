@@ -22,6 +22,9 @@ import {
 import {
   pickConfirmationPositions, checkConfirmation, buildBackupText, SEED_REVEAL_WARNING,
 } from '../walletgen/custody.mjs';
+import {
+  encryptSeed, saveKeystore, passwordStrength, MIN_PASSWORD_LEN, KEYSTORE_OPTIN_COPY,
+} from '../walletgen/keystore.mjs';
 import { validateAddress, resolveCoin } from '../wizard.mjs';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -229,7 +232,61 @@ function confirmStep(wallet, c, box, positions) {
     const answers = {}; for (const p of positions) answers[p] = inputs[p].value;
     const r = checkConfirmation(wallet.mnemonic, positions, answers);
     if (!r.ok) { msg.textContent = `✗ word(s) ${r.wrong.join(', ')} don't match — check your backup`; msg.className = 'wiz-msg bad'; return; }
-    finishGenerate(wallet, c);
+    gate.remove();
+    keystoreOptInStep(wallet, c, box); // paper-backup gate passed -> offer the encrypted copy
+  };
+}
+
+// ===========================================================================
+// OPTIONAL encrypted-copy step — only shown AFTER the paper-backup gate passes. The user may
+// skip it (the zero-secret floor stays the default). If they opt in, we encrypt the secret
+// in-browser (AES-256-GCM via WebCrypto) and persist ONLY the ciphertext keystore. The pool
+// never sees the password or the seed; a forgotten password is unrecoverable.
+// ===========================================================================
+function keystoreOptInStep(wallet, c, box) {
+  const secret = wallet.mnemonic || wallet.privateKey;
+  const gate = el('div', 'wiz-field'); gate.style.marginTop = '10px';
+  gate.innerHTML =
+    `<div class="wiz-lab">Optional: keep an encrypted copy in this browser</div>` +
+    `<p class="muted" style="font-size:12.5px;margin:6px 0">${esc(KEYSTORE_OPTIN_COPY)}</p>`;
+
+  const pwWrap = el('div'); pwWrap.style.margin = '6px 0';
+  const pwInput = el('input', 'wiz-input mono'); pwInput.type = 'password';
+  pwInput.autocomplete = 'new-password'; pwInput.placeholder = `choose a password (min ${MIN_PASSWORD_LEN} chars)`;
+  pwInput.style.maxWidth = '320px';
+  const meter = el('div', 'muted'); meter.style.fontSize = '12px'; meter.style.marginTop = '4px';
+  pwWrap.appendChild(pwInput); pwWrap.appendChild(meter);
+  gate.appendChild(pwWrap);
+
+  const msg = el('div', 'wiz-msg'); gate.appendChild(msg);
+
+  const row = el('div', 'wiz-dl');
+  const saveBtn = el('button', 'wiz-btn', '🔐 Encrypt & keep a copy here'); saveBtn.disabled = true;
+  const skipBtn = el('button', 'wiz-btn ghost', 'Skip — paper backup only');
+  row.appendChild(saveBtn); row.appendChild(skipBtn); gate.appendChild(row);
+  box.appendChild(gate);
+
+  pwInput.addEventListener('input', () => {
+    const st = passwordStrength(pwInput.value);
+    saveBtn.disabled = !st.acceptable;
+    meter.textContent = st.acceptable ? `Strength: ${st.label} — ${st.reason}` : st.reason;
+    meter.className = st.acceptable ? 'wiz-msg ok' : 'muted';
+  });
+
+  skipBtn.onclick = () => { gate.remove(); finishGenerate(wallet, c); };
+
+  saveBtn.onclick = async () => {
+    saveBtn.disabled = true; msg.textContent = 'Encrypting…'; msg.className = 'wiz-msg';
+    try {
+      const keystore = await encryptSeed(secret, pwInput.value); // ciphertext only
+      saveKeystore(keystore); // persists ciphertext under its own key; refuses plaintext
+      pwInput.value = '';      // drop the password from the field
+      gate.remove();
+      finishGenerate(wallet, c);
+    } catch (e) {
+      msg.textContent = `Could not save encrypted copy: ${esc(e.message)}`; msg.className = 'wiz-msg bad';
+      saveBtn.disabled = false;
+    }
   };
 }
 
@@ -240,7 +297,7 @@ function ackStep(wallet, c, box) {
   const ok = el('button', 'wiz-btn', '✓ Save this wallet'); ok.disabled = true;
   row.appendChild(ok); gate.appendChild(row); box.appendChild(gate);
   $('.w-ack', gate).addEventListener('change', (e) => { ok.disabled = !e.target.checked; });
-  ok.onclick = () => finishGenerate(wallet, c);
+  ok.onclick = () => { gate.remove(); keystoreOptInStep(wallet, c, box); };
 }
 
 function finishGenerate(wallet, c) {
