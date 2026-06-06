@@ -1001,3 +1001,26 @@ Active focus starting 2026-05-23. Surface 1+2 targeted as first PR; remaining su
 - **Law.SoapBox + Politics.SoapBox portals — CHOSEN** (new portal surfaces alongside data.soapbox.community / soapy.blog; fed by the accountability + gov-records readers, PRs #60/#61).
 - **Discord = Van Kush Family community build-out.**
 - **Naming guardrail (restated):** the **Shaivite Temple** is the operator's **501(c)(3)** — *never* "Temple of Van Kush." Crypt-ology stays the per-person relationship-map subsystem, distinct from the Temple.
+
+---
+
+## 2026-06-06 — Phase 13 realignment to the BRIEF.md phased build (append-only note)
+
+**APPEND-ONLY.** Nothing above this line is removed, edited, or reworded. This is a new dated overlay only.
+
+CLAUDE.md notes that Phase 13 above "currently still reflects the older six-surface framing — to be realigned to BRIEF.md." This note does that realignment by addition. The Six-Surfaces framing above is **superseded** by the BRIEF.md §10 three-phase build (Phase 1 Hello World / Phase 2 Command menu / Phase 3 Person). It is superseded in the continuity sense, **not** the failure sense: the six surfaces were the route by which the work was actually scoped and built, and each one maps forward into the phased build rather than being discarded. The original Phase 13 text is retained above as the record.
+
+### Where each of the old six surfaces lives now in the phased build
+
+- **Surface 1 — Chain-client core** → foundation of **Phase 1**: `src/chain/` + `witness/` is the block-production / chain-talk layer that makes hathor a working founding witness. (Key custody per `MELEK_SIGNER.md`; zero WIF on the Bot host.)
+- **Surface 2 — Publisher (Library of Ashurbanipal → on-chain comment)** → split across phases: the **Phase 1** intro post + hourly price feed are the first on-chain `comment`/feed writes; the broader synthesized-article publishing is **Phase 3** (Person) once conversational/curatorial judgment is live.
+- **Surface 3 — Curator (karma → on-chain vote)** → **Phase 3** (Person): autonomous votes/grants/karma are explicitly the conversational-Witness tier in BRIEF.md §10, gated behind off-chain karma (§9, deferred).
+- **Surface 4 — Onboarder** → **Phase 2** (Command menu): realized as `signup/` + the `!signup` command + the staged `tutorial/` + welcomer, with client-side keygen and email-only verification per scope.
+- **Surface 5 — Troll-box endpoint** → **Phase 3** (Person): the conversational endpoint is the full Witness-as-person surface; in the interim it is absorbed into the Discord / soapy.blog Claude chat bridge (same brain, different transport).
+- **Surface 6 — Witness coordination** → **Phase 1** operational tail: missed-block / last-signed monitoring and fail-loud alerts around the externally-hosted `witness_node` (the binary itself stays off this repo).
+
+### Current status (truthful, as of 2026-06-06)
+
+- **Phase 1 — Hello World: SHIPPED on the live testnet 2026-06-05.** hathor is a genesis witness **producing blocks** on the MELEK testnet; the intro post (`@hathor/introducing-hathor-on-melek`) and the hourly price feed are on-chain. Keys rotated to fresh testnet keys in the operator vault. `npm run hello` passes against the live testnet.
+- **Phase 2 — Command menu: substantially shipped 2026-06-06.** Deterministic `!commands` live demo at alpha.melek.salon/commands/; `!signup` + `!tutorial` commands, signup / tutorial / welcomer logic built; mining pool + in-browser wallet live at pool.soapbox.community; Witness School live at witness.melek.salon.
+- **Phase 3 — Person: not started.** Full conversational Witness (Rule 1, Angelic voice, disposition-greeting, egregore-as-held-position, autonomous grants/karma) is the next major build.
