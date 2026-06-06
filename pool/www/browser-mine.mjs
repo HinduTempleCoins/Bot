@@ -111,6 +111,13 @@ export function initBrowserMine() {
     if (mounted && mounted.model.selected) validate();
     // fallback for any odd environment where the picker can't mount
     if (!mounted && prefillFromWallet(addrIn)) validate();
+    // a pasted "own wallet" that actually mines gets saved → it's a chip next visit
+    if (mounted) {
+      startBtn.addEventListener('click', () => {
+        const a = (addrIn.value || '').trim();
+        if (a && validateAddress('monero', a).ok) mounted.saveOwn('monero', a);
+      });
+    }
   }
 
   throttle.addEventListener('input', () => {
