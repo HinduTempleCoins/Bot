@@ -223,6 +223,32 @@ function libraryRender({ title = 'Library' } = {}) {
   };
 }
 
+// ── Gamer Hub vertical: title (+ optional "| platform") → digital deals + collector link-outs ─────────
+// Bespoke renderer: the unifier's marketFor(title, platform) takes two args and renderMarket() emits a
+// purpose-built page (deals table + collector links + provenance) that the generic walker can't express.
+// Query convention: "Chrono Trigger | SNES" — the part after a pipe is the collectible platform.
+function gamesMarketRender({ title = 'Game Market' } = {}) {
+  return async (query) => {
+    const q = typeof query === 'string' ? query.trim() : '';
+    const form = card(title, searchForm(pathFor(title), {
+      placeholder: 'Game title (optionally "Title | platform", e.g. Chrono Trigger | SNES)…',
+      value: q, label: 'Find prices',
+    }));
+    if (!q) return form;
+    const [rawTitle, rawPlatform] = q.split('|');
+    const gameTitle = (rawTitle || '').trim();
+    const platform = (rawPlatform || '').trim();
+    const mod = await loadModule(`${REL}games-market.mjs`);
+    if (!mod || typeof mod.marketFor !== 'function' || typeof mod.renderMarket !== 'function') {
+      return form + unavailableCard(`${title}: results`, 'module not loaded');
+    }
+    let market;
+    try { market = await mod.marketFor(gameTitle, platform); } catch (e) { return form + unavailableCard(`${title}: results`, e?.message); }
+    if (market == null) return form + card(`${title}: results`, `<p class=muted>No results for “${esc(q)}”.</p>`);
+    return form + mod.renderMarket(market);
+  };
+}
+
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
 const REL = '../../integrations/soapbox/';
 
@@ -420,6 +446,13 @@ export const VERTICALS = [
   // Libby, Internet Archive). Custom renderer (libraryRender) — not the generic summary walker.
   { path: '/library', title: 'Library', navLabel: 'Library', kind: 'search',
     render: libraryRender({ title: 'Library' }) },
+
+  // ---- Gamer Hub (wave-game-market) ----
+  // Unified game market for collectors: new/digital store prices (CheapShark, keyless) as a deals table
+  // + a used/retro "collector links" section (PriceCharting + eBay sold-listings, link-out aggregate;
+  // live eBay only when EBAY_APP_ID is set). Custom renderer (gamesMarketRender) — splits "Title | platform".
+  { path: '/games-market', title: 'Gamer Hub', navLabel: 'Games', kind: 'search',
+    render: gamesMarketRender({ title: 'Gamer Hub' }) },
 ];
 
 _pathByTitle = new Map(VERTICALS.map((v) => [v.title, v.path]));

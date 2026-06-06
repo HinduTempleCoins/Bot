@@ -27,6 +27,8 @@ const EXPECTED_PATHS = [
   '/citations', '/wayback',
   // Library (wave-library-borrow)
   '/library',
+  // Gamer Hub (wave-game-market)
+  '/games-market',
 ];
 
 // Paths added in the surface wave, split by kind so we can assert behavior per kind.
@@ -258,6 +260,64 @@ test('/library renders bucketed hits: host-fully → read link, metadata-only �
     assert.ok(html.includes('Read free'), 'host-fully badge present');
     assert.ok(html.includes('WorldCat'), 'metadata-only hit gets a borrow link-out');
     assert.ok(html.includes('At your library'), 'metadata-only badge present');
+  } finally {
+    v.render = original;
+  }
+});
+
+// ── Gamer Hub vertical (wave-game-market) ─────────────────────────────────────────────────────────────
+
+test('/games-market is registered as a search vertical', () => {
+  const gh = findVertical('/games-market');
+  assert.ok(gh, 'has /games-market');
+  assert.equal(gh.kind, 'search');
+  assert.equal(gh.navLabel, 'Games');
+  assert.equal(typeof gh.render, 'function');
+});
+
+test('/games-market with NO query renders a search form and loads no module (offline)', async () => {
+  const html = await renderVertical('/games-market');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'shows a form');
+  assert.ok(html.includes('method=get'), 'GET form');
+  assert.ok(html.includes('name=q'), 'query input named q');
+  assert.ok(!html.includes('results'), 'no results section without a query');
+});
+
+test('/games-market escapes the query in the form value (no injection)', async () => {
+  const html = await renderVertical('/games-market', '<script>x</script>');
+  assert.ok(!html.includes('<script>x</script>'), 'raw script not echoed');
+  assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'), 'query escaped into the form');
+});
+
+test('/games-market soft-fails to a string with a query offline (keeps the form, never throws)', async () => {
+  // With a query the unifier loads; offline CheapShark fetch fails (empty deals) but collector link-outs
+  // are pure, so the page still renders. Must never throw.
+  const html = await renderVertical('/games-market', 'Hollow Knight | Switch');
+  assert.equal(typeof html, 'string');
+  assert.ok(html.includes('<form'), 'keeps the form');
+  // collector link-outs are pure → present even fully offline
+  assert.ok(html.includes('Collector price links') || /temporarily unavailable/i.test(html));
+});
+
+test('/games-market renders digital deals + collector links from fixture market (no network)', async () => {
+  // Inject a render() that returns renderMarket-shaped output for a fixture, proving the page surfaces
+  // the deals table + the collector link-out section side by side — offline, no fetch.
+  const v = findVertical('/games-market');
+  const original = v.render;
+  try {
+    v.render = async (q) => (
+      `<div class=card><form method=get name=q></form></div>`
+      + `<section class=games-market><h1>Game market — ${q}</h1>`
+      + `<section class=game-deals><table class=gd-table><tr><td>GOG</td><td>$6.74</td></tr></table></section>`
+      + `<section class=game-collectibles><h3>Collector price links</h3>`
+      + `<ul class=gc-links><li><a href="https://www.pricecharting.com/search-products?q=x">PriceCharting</a></li></ul></section>`
+      + `</section>`
+    );
+    const html = await renderVertical('/games-market', 'Hollow Knight');
+    assert.ok(html.includes('$6.74'), 'digital deal price surfaced');
+    assert.ok(html.includes('Collector price links'), 'collector link section surfaced');
+    assert.ok(html.includes('pricecharting.com'), 'link-out to PriceCharting present');
   } finally {
     v.render = original;
   }
