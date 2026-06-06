@@ -39,11 +39,20 @@ function hashTop32LE(hash) {
 
 function ensureSeed(seedHex) {
   if (currentSeed === seedHex && vm) return;
-  // (re)build cache + vm for the new epoch seed. This is the heavy ~1s step.
-  const key = hexToBytes(seedHex);
-  const cache = randomx_init_cache(key);
-  vm = randomx_create_vm(cache);
-  currentSeed = seedHex;
+  // (re)build cache + vm for the new epoch seed. This is the HEAVY step — in a browser the
+  // RandomX cache build can take a minute or more per worker on first start. Report it, so
+  // the page never shows a silent 0 H/s while we grind; surface failure instead of dying mute.
+  try {
+    self.postMessage({ type: 'status', state: 'initializing RandomX (first start can take a minute)…' });
+    const key = hexToBytes(seedHex);
+    const cache = randomx_init_cache(key);
+    vm = randomx_create_vm(cache);
+    currentSeed = seedHex;
+    self.postMessage({ type: 'status', state: 'hashing' });
+  } catch (e) {
+    vm = null;
+    self.postMessage({ type: 'error', message: 'RandomX init failed: ' + ((e && e.message) || 'unknown') });
+  }
 }
 
 function setJob(j) {
