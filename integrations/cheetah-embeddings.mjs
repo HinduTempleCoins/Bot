@@ -32,6 +32,18 @@ let _embed = null;
 /** Inject a real embedder: async (text) => number[]. Pass null/undefined to revert to the local one. */
 export function __setEmbedder(fn) { _embed = typeof fn === 'function' ? fn : null; }
 
+/**
+ * Wire the local MiniLM embedder (integrations/minilm-embedder.mjs) as the PREFERRED embedder, with the
+ * deterministic word-bag staying as the automatic fallback (embed() already soft-falls when the injected
+ * embedder returns null / throws — which is exactly what MiniLM does if the model can't load). Production
+ * opt-in only; tests inject their own fakes via __setEmbedder and never call this, so they stay offline.
+ * Importing minilm-embedder.mjs does NO work — the model loads lazily on the first real embed.
+ */
+export async function enableMiniLM() {
+  const { makeEmbedder } = await import('./minilm-embedder.mjs');
+  __setEmbedder(makeEmbedder());
+}
+
 // _fetch is exposed for parity with the sibling modules (a real embedder may want it); unused by the
 // local fallback, kept so a wired embedder can be built without re-plumbing.
 let _fetch = (...a) => globalThis.fetch(...a);

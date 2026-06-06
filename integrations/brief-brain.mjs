@@ -180,6 +180,19 @@ export function createBriefBrain({ store, embedder, topics = STANDING_TOPICS } =
   };
 }
 
+/**
+ * createBriefBrain with the local MiniLM embedder (integrations/minilm-embedder.mjs) wired as the
+ * PREFERRED embedder for the annal-dedup path. dedupAnnal already soft-falls to TF-IDF when the embedder
+ * returns null / throws — which is what MiniLM does if the model can't load — so this only UPGRADES dedup
+ * when the model is available and never breaks the classical fallback. Production opt-in only: the offline
+ * tests call createBriefBrain() (no embedder → TF-IDF) or inject their own fake, so they never download.
+ * @param {object} [opts] same options as createBriefBrain (any caller-supplied embedder wins).
+ */
+export async function createBriefBrainWithMiniLM(opts = {}) {
+  const { makeEmbedder } = await import('./minilm-embedder.mjs');
+  return createBriefBrain({ embedder: makeEmbedder(), ...opts });
+}
+
 // ── CLI: show the brain working ────────────────────────────────────────────────────────────────
 if (process.argv[1] && process.argv[1].endsWith('brief-brain.mjs')) {
   const [cmd, ...rest] = process.argv.slice(2);
