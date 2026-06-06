@@ -34,29 +34,34 @@
 
 import 'dotenv/config';
 import cron from 'node-cron';
-import { Client, PrivateKey } from '@hiveio/dhive';
+import { Client } from '@hiveio/dhive';
 import { WelcomerState } from './state.js';
 import { composeWelcomeMention } from './composer.js';
 import { scanBlockRange, getHeadBlockNumber } from './discover.js';
 import { getWelcomerConfig, validateForRead, validateForBroadcast } from './config.js';
+import { createSignerClient } from '../src/chain/melek-signer-client.mjs';
 
 export class Welcomer {
   /**
    * @param {object} args
    * @param {object} args.config   from getWelcomerConfig()
    * @param {object} args.state    WelcomerState instance
-   * @param {object} args.client   dhive Client (or compatible mock)
+   * @param {object} args.client   dhive Client (or compatible mock) — used for
+   *   READ ops only (block scans, account/post lookups).
    * @param {object} [args.logger] default console
-   * @param {(key:string)=>any} [args.signer] optional override for key parsing.
-   *   Defaults to PrivateKey.fromString. Tests inject a no-op so they don't
-   *   need to construct a valid WIF just to verify orchestration.
+   * @param {object} [args.signer] a MELEK-Signer client — shape
+   *   { broadcast(ops, { clientRef }) } (createSignerClient / createMockSigner).
+   *   Broadcasting is delegated to MELEK-Signer; this host holds NO chain key
+   *   (BRIEF.md §7, MELEK_SIGNER.md §6). When null/omitted, broadcasts FAIL SOFT
+   *   with a clear read-only error — there is no local-key fallback. Tests inject
+   *   a mock signer to verify the broadcast path.
    */
   constructor({ config, state, client, logger = console, signer = null }) {
     this.config = config;
     this.state = state;
     this.client = client;
     this.logger = logger;
-    this.signer = signer || ((key) => PrivateKey.fromString(key));
+    this.signer = signer;
   }
 
   /**
@@ -164,8 +169,11 @@ export class Welcomer {
   }
 
   async #broadcastComment(comment) {
-    if (!this.config.bot.postingKey) {
-      throw new Error('cannot broadcast: BOT_POSTING_KEY not configured');
+    if (!this.signer || typeof this.signer.broadcast !== 'function') {
+      throw new Error(
+        'signer not configured — read-only mode: set MELEK_SIGNER_URL and ' +
+        'MELEK_SIGNER_TOKEN to enable broadcasting (no local-key fallback by design)',
+      );
     }
     const op = ['comment', {
       parent_author: comment.parentAuthor,
@@ -176,7 +184,7 @@ export class Welcomer {
       body: comment.body,
       json_metadata: JSON.stringify({ app: 'hathor-welcomer/0.1', tags: ['welcome'] }),
     }];
-    return this.client.broadcast.sendOperations([op], this.signer(this.config.bot.postingKey));
+    return this.signer.broadcast([op], { clientRef: `welcome-${comment.parentAuthor || this.config.bot.account}-${comment.permlink}` });
   }
 }
 
@@ -211,7 +219,12 @@ async function main() {
     timeout: 15000,
   });
   const state = new WelcomerState({ path: config.statePath });
-  const welcomer = new Welcomer({ config, state, client });
+  // Build the MELEK-Signer client only when actually broadcasting. Read/dry-run
+  // runs need no signer (and no key — there is none on this host).
+  const signer = broadcast
+    ? createSignerClient({ url: config.signer.url, token: config.signer.token })
+    : null;
+  const welcomer = new Welcomer({ config, state, client, signer });
 
   try {
     await welcomer.startupHealthChecks();

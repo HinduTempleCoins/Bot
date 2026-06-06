@@ -8,12 +8,18 @@
  * vars already in the repo's .env.example, each generic name falls back to
  * the MELEK-specific name if unset.
  *
+ * Key custody (BRIEF.md §7, MELEK_SIGNER.md §6): the welcomer holds NO chain
+ * private key. Broadcasting requires a MELEK-Signer endpoint + scoped bearer
+ * token (MELEK_SIGNER_URL / MELEK_SIGNER_TOKEN), not a posting WIF. "Broadcast
+ * readiness" therefore means "signer env configured", not "key present".
+ *
  * Env vars (in priority order):
  *   CHAIN_RPC_URL          | MELEK_RPC_URL                  required
  *   CHAIN_ID               | MELEK_CHAIN_ID                 required
  *   CHAIN_ADDRESS_PREFIX   | MELEK_ADDRESS_PREFIX           required
  *   BOT_ACCOUNT            | MELEK_ACCOUNT  (default hathor)
- *   BOT_POSTING_KEY        | HATHOR_POSTING_KEY             required for --broadcast
+ *   MELEK_SIGNER_URL                                         required for --broadcast
+ *   MELEK_SIGNER_TOKEN                                       required for --broadcast
  *   WELCOME_POST_AUTHOR                                      required
  *   WELCOME_POST_PERMLINK                                    required
  *   TUTORIAL_LINK                                            default: BRIEF.md on GitHub
@@ -45,7 +51,10 @@ export function getWelcomerConfig() {
     },
     bot: {
       account: botAccount,
-      postingKey: env('BOT_POSTING_KEY', env('HATHOR_POSTING_KEY')),
+    },
+    signer: {
+      url: env('MELEK_SIGNER_URL'),
+      token: env('MELEK_SIGNER_TOKEN'),
     },
     tutorialLink: env('TUTORIAL_LINK', TUTORIAL_LINK_DEFAULT),
     statePath: env('LAST_BLOCK_FILE'),
@@ -73,6 +82,8 @@ export function validateForRead(config) {
 export function validateForBroadcast(config) {
   const readCheck = validateForRead(config);
   const missing = [...readCheck.missing];
-  if (!config.bot.postingKey) missing.push('BOT_POSTING_KEY (or HATHOR_POSTING_KEY)');
+  // Broadcast readiness = a MELEK-Signer client can be built. No local key.
+  if (!config.signer?.url) missing.push('MELEK_SIGNER_URL');
+  if (!config.signer?.token) missing.push('MELEK_SIGNER_TOKEN');
   return { ok: missing.length === 0, missing };
 }

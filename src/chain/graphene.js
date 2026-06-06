@@ -6,13 +6,33 @@
  *
  * Uses @hiveio/dhive — already a Bot dependency. The chain-id and address
  * prefix are passed at construction so dhive treats MELEK as its own network.
+ *
+ * Key custody (BRIEF.md §7, MELEK_SIGNER.md §6): this host NEVER holds a chain
+ * private key. Read methods use the dhive client directly; every WRITE op funnels
+ * through #broadcast(), which delegates signing to MELEK-Signer over HTTP (a
+ * scoped bearer token via melek-signer-client.mjs / fromEnv()). When the signer
+ * is unconfigured, broadcasts FAIL SOFT (read-only mode) — there is no local-key
+ * fallback by construction.
  */
 
-import { Client, PrivateKey } from '@hiveio/dhive';
-import { getAccount, getPostingKey, getActiveKey, hasPostingKey, hasActiveKey } from './keys.js';
+import { Client } from '@hiveio/dhive';
+import { getAccount } from './keys.js';
+import { fromEnv } from './melek-signer-client.mjs';
 
 export class GrapheneAdapter {
-  constructor({ rpcUrl, chainId, addressPrefix, network }) {
+  /**
+   * @param {object} args
+   * @param {string} args.rpcUrl
+   * @param {string} args.chainId
+   * @param {string} args.addressPrefix
+   * @param {string} [args.network]
+   * @param {object} [args.signer]  injected MELEK-Signer client (createSignerClient
+   *   / createMockSigner shape: { broadcast(ops, {clientRef}) }). When omitted, the
+   *   adapter builds one from MELEK_SIGNER_URL / MELEK_SIGNER_TOKEN via fromEnv().
+   *   If neither is present, broadcasts FAIL SOFT (read-only mode) — there is no
+   *   local-key fallback by construction (BRIEF.md §7, MELEK_SIGNER.md §6).
+   */
+  constructor({ rpcUrl, chainId, addressPrefix, network, signer } = {}) {
     this.network = network;
     this.client = new Client(rpcUrl, {
       chainId,
@@ -20,6 +40,36 @@ export class GrapheneAdapter {
       timeout: 15000,
     });
     this.account = getAccount();
+    // Build the signer once. `null` means "not configured" → read-only mode.
+    this.signer = signer !== undefined ? signer : fromEnv();
+  }
+
+  /**
+   * Whether this adapter can broadcast (a MELEK-Signer client is wired).
+   * Read-only methods work regardless.
+   */
+  canBroadcast() {
+    return Boolean(this.signer && typeof this.signer.broadcast === 'function');
+  }
+
+  /**
+   * The single broadcast chokepoint. Every write op in this adapter funnels
+   * through here. All signing is delegated to MELEK-Signer (a scoped bearer
+   * token over HTTP); this host never holds a chain private key. When the
+   * signer is unconfigured we FAIL SOFT with a clear read-only-mode error and
+   * NEVER fall back to local key signing.
+   *
+   * @param {Array} ops          Graphene op list: [["comment", {...}], ...]
+   * @param {{clientRef?: string}} [meta]
+   */
+  async #broadcast(ops, { clientRef = '' } = {}) {
+    if (!this.canBroadcast()) {
+      throw new Error(
+        'signer not configured — read-only mode: set MELEK_SIGNER_URL and ' +
+        'MELEK_SIGNER_TOKEN to enable broadcasting (no local-key fallback by design)',
+      );
+    }
+    return this.signer.broadcast(ops, { clientRef });
   }
 
   /**
@@ -27,9 +77,6 @@ export class GrapheneAdapter {
    * @param {{title: string, body: string, tags: string[], permlink: string, parentAuthor?: string, parentPermlink?: string}} args
    */
   async post({ title, body, tags, permlink, parentAuthor = '', parentPermlink = '' }) {
-    if (!hasPostingKey()) {
-      throw new Error('cannot post: HATHOR_POSTING_KEY not configured');
-    }
     const primaryTag = (parentPermlink && !parentAuthor) ? parentPermlink : (tags[0] || 'hathor');
     const op = ['comment', {
       parent_author: parentAuthor,
@@ -44,29 +91,23 @@ export class GrapheneAdapter {
         format: 'markdown',
       }),
     }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getPostingKey()));
+    return this.#broadcast([op], { clientRef: `post-${this.account}-${permlink}` });
   }
 
   /**
    * Cast a vote on a post. weight is 0..10000 (10000 = 100%).
    */
   async vote({ author, permlink, weight }) {
-    if (!hasPostingKey()) {
-      throw new Error('cannot vote: HATHOR_POSTING_KEY not configured');
-    }
     const op = ['vote', { voter: this.account, author, permlink, weight }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getPostingKey()));
+    return this.#broadcast([op], { clientRef: `vote-${this.account}-${author}-${permlink}` });
   }
 
   /**
    * Transfer liquid MELEK to another account.
    */
   async transfer({ to, amount, memo = '' }) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot transfer: HATHOR_ACTIVE_KEY not configured');
-    }
     const op = ['transfer', { from: this.account, to, amount, memo }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `transfer-${this.account}-${to}-${amount}` });
   }
 
   /**
@@ -74,24 +115,18 @@ export class GrapheneAdapter {
    * vestingShares example: "1000.000000 VESTS"
    */
   async delegate({ to, vestingShares }) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot delegate: HATHOR_ACTIVE_KEY not configured');
-    }
     const op = ['delegate_vesting_shares', {
       delegator: this.account,
       delegatee: to,
       vesting_shares: vestingShares,
     }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `delegate-${this.account}-${to}` });
   }
 
   /**
    * Create a new account with delegated MP. Used by the onboarder surface.
    */
   async createAccount({ newAccountName, jsonMetadata, ownerKey, activeKey, postingKey, memoKey, fee, delegation }) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot createAccount: HATHOR_ACTIVE_KEY not configured');
-    }
     const auth = (key) => ({ weight_threshold: 1, account_auths: [], key_auths: [[key, 1]] });
     const op = ['account_create_with_delegation', {
       fee,
@@ -105,7 +140,7 @@ export class GrapheneAdapter {
       json_metadata: jsonMetadata || '',
       extensions: [],
     }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `create-account-${newAccountName}` });
   }
 
   /**
@@ -154,13 +189,6 @@ export class GrapheneAdapter {
    */
   async customJson({ id, json, requiredAuths = [], requiredPostingAuths }) {
     const postingAuths = requiredPostingAuths ?? (requiredAuths.length ? [] : [this.account]);
-    const useActive = requiredAuths.length > 0;
-    if (useActive && !hasActiveKey()) {
-      throw new Error('cannot customJson with active auth: HATHOR_ACTIVE_KEY not configured');
-    }
-    if (!useActive && !hasPostingKey()) {
-      throw new Error('cannot customJson with posting auth: HATHOR_POSTING_KEY not configured');
-    }
     const payload = typeof json === 'string' ? json : JSON.stringify(json);
     const op = ['custom_json', {
       required_auths: requiredAuths,
@@ -168,8 +196,7 @@ export class GrapheneAdapter {
       id,
       json: payload,
     }];
-    const key = useActive ? getActiveKey() : getPostingKey();
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(key));
+    return this.#broadcast([op], { clientRef: `custom_json-${id}` });
   }
 
   async getAccountInfo() {
@@ -193,11 +220,8 @@ export class GrapheneAdapter {
    * exchangeRate example: { base: "1.000 MELEK", quote: "1.000 USD" }
    */
   async publishFeed({ exchangeRate }) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot publishFeed: HATHOR_ACTIVE_KEY not configured');
-    }
     const op = ['feed_publish', { publisher: this.account, exchange_rate: exchangeRate }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `feed_publish-${this.account}` });
   }
 
   /**
@@ -209,9 +233,6 @@ export class GrapheneAdapter {
    * @param {{ url: string, blockSigningKey: string, props?: object, fee?: string }} args
    */
   async registerWitness({ url, blockSigningKey, props, fee = '0.000 MELEK' }) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot registerWitness: HATHOR_ACTIVE_KEY not configured');
-    }
     const op = ['witness_update', {
       owner: this.account,
       url,
@@ -222,7 +243,7 @@ export class GrapheneAdapter {
       },
       fee,
     }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `witness_update-register-${this.account}` });
   }
 
   /**
@@ -244,9 +265,6 @@ export class GrapheneAdapter {
    *   nothing else changes; only block_signing_key is overwritten.
    */
   async disableWitness({ url, props } = {}) {
-    if (!hasActiveKey()) {
-      throw new Error('cannot disableWitness: HATHOR_ACTIVE_KEY not configured');
-    }
     const prefix = this.client.addressPrefix;
     const nullPubkey = `${prefix}1111111111111111111111111111111114T1Anm`;
     const existing = await this.getWitnessByAccount();
@@ -260,6 +278,6 @@ export class GrapheneAdapter {
       },
       fee: '0.000 MELEK',
     }];
-    return this.client.broadcast.sendOperations([op], PrivateKey.fromString(getActiveKey()));
+    return this.#broadcast([op], { clientRef: `witness_update-disable-${this.account}` });
   }
 }

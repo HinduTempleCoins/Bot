@@ -23,10 +23,10 @@ const makeBlock = (ops) => ({
 const accountCreate = (newName, creator = 'hathor') =>
   ['account_create_with_delegation', { new_account_name: newName, creator }];
 
-function mockClient({ headBlock = 1000, blocks = {}, accounts = {}, posts = {}, broadcastResult } = {}) {
-  const sent = [];
+// The read-only chain client. After PRE-SIGNER 2 it is NEVER used for broadcast
+// — broadcasting goes through the injected MELEK-Signer client (makeSigner()).
+function mockClient({ headBlock = 1000, blocks = {}, accounts = {}, posts = {} } = {}) {
   return {
-    sent, // for assertions
     database: {
       async getDynamicGlobalProperties() { return { head_block_number: headBlock }; },
       async getBlock(num) { return blocks[num] ?? null; },
@@ -42,11 +42,19 @@ function mockClient({ headBlock = 1000, blocks = {}, accounts = {}, posts = {}, 
         throw new Error(`mock: unmocked call ${method}`);
       },
     },
-    broadcast: {
-      async sendOperations(ops, _key) {
-        sent.push(ops);
-        return broadcastResult ?? { id: `tx-${sent.length}` };
-      },
+  };
+}
+
+// A capturing MELEK-Signer client ({ broadcast(ops, { clientRef }) }). `sent`
+// mirrors the old client.sent shape: an array of op-arrays, one per broadcast.
+function makeSigner({ throws = null, broadcastResult } = {}) {
+  const sent = [];
+  return {
+    sent,
+    async broadcast(ops, _meta = {}) {
+      if (throws) throw new Error(throws);
+      sent.push(ops);
+      return broadcastResult ?? { id: `tx-${sent.length}` };
     },
   };
 }
@@ -55,7 +63,8 @@ function makeConfig(overrides = {}) {
   return {
     chain: { rpcUrl: 'http://mock', chainId: 'x', addressPrefix: 'BLT' },
     welcomePost: { author: 'hathor', permlink: 'welcome-to-melek' },
-    bot: { account: 'hathor', postingKey: '5J...mockedkey' },
+    bot: { account: 'hathor' },
+    signer: { url: 'http://signer.test', token: 'tok-welcomer' },
     tutorialLink: 'https://example.test/start',
     statePath: null,
     skipAccounts: new Set(['hathor']),
@@ -71,7 +80,6 @@ function tempStatePath() {
 }
 
 const silentLogger = { log: () => {}, error: () => {} };
-const noopSigner = (key) => ({ _mock_key: key });
 
 test('startupHealthChecks passes when account + post both exist', async () => {
   const client = mockClient({
@@ -80,7 +88,7 @@ test('startupHealthChecks passes when account + post both exist', async () => {
   });
   const { path, cleanup } = tempStatePath();
   try {
-    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: noopSigner });
+    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: makeSigner() });
     await w.startupHealthChecks(); // does not throw
   } finally { cleanup(); }
 });
@@ -92,7 +100,7 @@ test('startupHealthChecks throws when bot account missing', async () => {
   });
   const { path, cleanup } = tempStatePath();
   try {
-    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: noopSigner });
+    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: makeSigner() });
     await assert.rejects(() => w.startupHealthChecks(), /BOT_ACCOUNT/);
   } finally { cleanup(); }
 });
@@ -104,7 +112,7 @@ test('startupHealthChecks throws when welcome post missing', async () => {
   });
   const { path, cleanup } = tempStatePath();
   try {
-    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: noopSigner });
+    const w = new Welcomer({ config: makeConfig(), state: new WelcomerState({ path }), client, logger: silentLogger, signer: makeSigner() });
     await assert.rejects(() => w.startupHealthChecks(), /Welcome post/);
   } finally { cleanup(); }
 });
@@ -122,11 +130,12 @@ test('tick bootstraps from head block on first run (no backfill spam)', async ()
   const { path, cleanup } = tempStatePath();
   try {
     const state = new WelcomerState({ path });
-    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer: noopSigner });
+    const signer = makeSigner();
+    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer });
     await w.tick({ broadcast: false });
     assert.equal(state.getLastProcessedBlock(), 500, 'cursor should be at head after bootstrap');
     assert.deepEqual(state.accounts(), [], 'no accounts should have been recorded on bootstrap');
-    assert.equal(client.sent.length, 0);
+    assert.equal(signer.sent.length, 0);
   } finally { cleanup(); }
 });
 
@@ -142,12 +151,13 @@ test('tick discovers and dry-runs welcomes for accounts in subsequent blocks', a
   try {
     const state = new WelcomerState({ path });
     state.setLastProcessedBlock(500); // simulate already-bootstrapped
-    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer: noopSigner });
+    const signer = makeSigner();
+    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer });
     await w.tick({ broadcast: false });
     assert.deepEqual(state.accounts().sort(), ['alice', 'bob']);
     assert.equal(state.hasWelcomed('alice'), true, 'dry-run marks accounts welcomed');
     assert.equal(state.hasWelcomed('bob'), true);
-    assert.equal(client.sent.length, 0, 'dry-run should NOT broadcast');
+    assert.equal(signer.sent.length, 0, 'dry-run should NOT broadcast');
   } finally { cleanup(); }
 });
 
@@ -160,10 +170,11 @@ test('tick with broadcast=true actually broadcasts a comment per account', async
   try {
     const state = new WelcomerState({ path });
     state.setLastProcessedBlock(500);
-    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer: noopSigner });
+    const signer = makeSigner();
+    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer });
     await w.tick({ broadcast: true });
-    assert.equal(client.sent.length, 1);
-    const [opName, opVal] = client.sent[0][0];
+    assert.equal(signer.sent.length, 1);
+    const [opName, opVal] = signer.sent[0][0];
     assert.equal(opName, 'comment');
     assert.equal(opVal.parent_author, 'hathor');
     assert.equal(opVal.parent_permlink, 'welcome-to-melek');
@@ -205,9 +216,10 @@ test('tick does not re-welcome already-welcomed accounts', async () => {
     const state = new WelcomerState({ path });
     state.setLastProcessedBlock(500);
     state.recordWelcome('alice', { txId: 'previous-run' });
-    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer: noopSigner });
+    const signer = makeSigner();
+    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer });
     await w.tick({ broadcast: true });
-    assert.equal(client.sent.length, 0, 'should not re-broadcast for already-welcomed account');
+    assert.equal(signer.sent.length, 0, 'should not re-broadcast for already-welcomed account');
     assert.equal(state.data.accounts.alice.txId, 'previous-run', 'original tx id preserved');
   } finally { cleanup(); }
 });
@@ -234,12 +246,12 @@ test('broadcast failure leaves account NOT welcomed (so it retries next tick)', 
     headBlock: 501,
     blocks: { 501: makeBlock([accountCreate('alice')]) },
   });
-  client.broadcast.sendOperations = async () => { throw new Error('RPC unavailable'); };
+  const signer = makeSigner({ throws: 'RPC unavailable' });
   const { path, cleanup } = tempStatePath();
   try {
     const state = new WelcomerState({ path });
     state.setLastProcessedBlock(500);
-    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer: noopSigner });
+    const w = new Welcomer({ config: makeConfig(), state, client, logger: silentLogger, signer });
     await w.tick({ broadcast: true });
     assert.equal(state.isKnown('alice'), true);
     assert.equal(state.hasWelcomed('alice'), false, 'failed broadcast must NOT mark welcomed');
