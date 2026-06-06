@@ -23,6 +23,14 @@ test('existing channels are MOVED into their category, not recreated', () => {
   assert.ok(!plan.ops.some((o) => o.kind === 'create-channel' && o.name === 'general'));
 });
 
+test('operator adjustment: #rs3 is never touched; GAMES is its own category', () => {
+  const plan = planChanges([txt('1', 'rs3'), txt('2', 'minecraft')]);
+  assert.ok(!plan.ops.some((o) => o.id === '1'), '#rs3 must not be moved');
+  const mc = plan.ops.find((o) => o.kind === 'move-channel' && o.name === 'minecraft');
+  assert.equal(mc.category, '🕹️ GAMES');
+  assert.ok(plan.ops.some((o) => o.kind === 'create-category' && o.name === '🕹️ GAMES'));
+});
+
 test('channels already in the right category are left alone', () => {
   const guild = [cat('c1', '🎮 COMMUNITY'), txt('1', 'general', 'c1')];
   const plan = planChanges(guild);

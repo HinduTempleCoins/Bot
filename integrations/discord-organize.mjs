@@ -51,8 +51,15 @@ export const LAYOUT = [
   },
   {
     category: '🎮 COMMUNITY',
-    create: ['general', 'games'],
-    match: ['general', 'games', 'runescape', 'rs3', 'minecraft', 'off-topic', 'memes', 'chat', 'lounge'],
+    create: ['general'],
+    match: ['general', 'off-topic', 'memes', 'chat', 'lounge'],
+  },
+  {
+    // operator 2026-06-06: Games is its OWN category. #rs3 deliberately NOT matched —
+    // it stays where it is for now.
+    category: '🕹️ GAMES',
+    create: ['games'],
+    match: ['games', 'minecraft', 'runescape', 'gaming'],
   },
   {
     category: '🔧 OPERATOR',
