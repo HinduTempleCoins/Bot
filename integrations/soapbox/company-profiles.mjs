@@ -47,17 +47,33 @@ export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a
 
 const jget = async (url, headers = {}) => {
   const r = await _fetch(url, { headers });
-  if (!r.ok) throw new Error('http ' + r.status + ' ' + url);
-  return r.json();
+  if (!r || !r.ok) throw new Error('http ' + (r?.status ?? '?') + ' ' + url);
+  const j = await r.json();
+  if (j == null || typeof j !== 'object') throw new Error('non-object json ' + url); // guards .data?.[0] etc. downstream
+  return j;
 };
 const jpost = async (url, body, headers = {}) => {
   const r = await _fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error('http ' + r.status + ' ' + url);
-  return r.json();
+  if (!r || !r.ok) throw new Error('http ' + (r?.status ?? '?') + ' ' + url);
+  const j = await r.json();
+  if (j == null || typeof j !== 'object') throw new Error('non-object json ' + url);
+  return j;
 };
 
 const norm = (s) => String(s || '').trim().toLowerCase();
-const pad10 = (cik) => String(cik).padStart(10, '0');
+const pad10 = (cik) => String(cik).replace(/\D/g, '').padStart(10, '0');
+
+// ── Source provenance + license registry ────────────────────────────────────────────────────────
+// Every keyless source we stitch carries a homepage + the license/terms its data is offered under, so
+// the profile can state, per fact, WHERE it came from and under WHAT terms — not just "trust us". This
+// is descriptive provenance, never a verdict on the company itself.
+export const SOURCE_META = {
+  'SEC EDGAR':   { url: 'https://www.sec.gov/edgar', license: 'U.S. Government public domain (SEC EDGAR, fair-access UA required)' },
+  'GLEIF':       { url: 'https://www.gleif.org',     license: 'CC0 1.0 (GLEIF LEI data, public domain)' },
+  'Wikidata':    { url: 'https://www.wikidata.org',  license: 'CC0 1.0 (Wikidata)' },
+  'Wikipedia':   { url: 'https://en.wikipedia.org',  license: 'CC BY-SA 4.0 (Wikipedia text)' },
+  'USAspending': { url: 'https://www.usaspending.gov', license: 'U.S. Government public domain (USAspending.gov)' },
+};
 
 // ── SEC EDGAR ───────────────────────────────────────────────────────────────────────────────────
 // The full ticker→CIK map is a single ~1MB keyless JSON. Cache it hard (metadata TTL); it changes
@@ -72,12 +88,13 @@ async function secTickerMap() {
 /** Resolve a query (ticker or name) to { cik, ticker, title } via SEC's map, or null. */
 async function secResolve(query) {
   const q = norm(query);
+  if (!q) return null;
   const rows = await secTickerMap().catch(() => null);
-  if (!rows) return null;
-  let hit = rows.find((r) => norm(r.ticker) === q);
-  if (!hit) hit = rows.find((r) => norm(r.title) === q);
-  if (!hit) hit = rows.find((r) => norm(r.title).startsWith(q) || norm(r.title).replace(/[.,]/g, '') === q.replace(/[.,]/g, ''));
-  if (!hit) hit = rows.find((r) => norm(r.title).includes(q) && q.length >= 4);
+  if (!Array.isArray(rows) || !rows.length) return null; // map can come back malformed; never explode
+  let hit = rows.find((r) => r && norm(r.ticker) === q);
+  if (!hit) hit = rows.find((r) => r && norm(r.title) === q);
+  if (!hit) hit = rows.find((r) => r && (norm(r.title).startsWith(q) || norm(r.title).replace(/[.,]/g, '') === q.replace(/[.,]/g, '')));
+  if (!hit) hit = rows.find((r) => r && norm(r.title).includes(q) && q.length >= 4);
   return hit ? { cik: hit.cik_str, ticker: hit.ticker, title: hit.title } : null;
 }
 
@@ -472,6 +489,57 @@ export async function companyProfile(query) {
       melekPath: 'A company with no traded security can be onboarded to the MELEK chain and issued a token/SMT as its on-chain currency — the Directory entry seeds that.',
     };
   }
+
+  // ── Per-fact provenance ─────────────────────────────────────────────────────────────────────────
+  // For each load-bearing field we actually filled, record WHICH source supplied it and under WHAT
+  // license. Descriptive only — provenance about the data, never a verdict about the company.
+  const provider = (field) => {
+    switch (field) {
+      case 'cik': case 'ein': case 'exchanges': case 'sicCode': case 'fiscalYearEnd': case 'secFilings':
+        return 'SEC EDGAR';
+      case 'lei': case 'legalForm': case 'legalStatus':
+        return 'GLEIF';
+      case 'description':
+        return wikiText?.extract ? 'Wikipedia' : (wiki?.description ? 'Wikidata' : null);
+      case 'industry':
+        return secMeta?.sicDescription ? 'SEC EDGAR' : (wiki?.industry ? 'Wikidata' : null);
+      case 'hq':
+        return gleif?.hq ? 'GLEIF' : (wiki?.hq ? 'Wikidata' : null);
+      case 'website':
+        return secMeta?.website ? 'SEC EDGAR' : (wiki?.website ? 'Wikidata' : null);
+      case 'jurisdiction':
+        return gleif?.jurisdiction ? 'GLEIF' : (secMeta?.stateOfIncorporation ? 'SEC EDGAR' : null);
+      case 'ticker':
+        return sec?.ticker || secMeta?.tickers?.[0] ? 'SEC EDGAR' : (wiki?.ticker ? 'Wikidata' : null);
+      case 'founded': case 'ceo': case 'employees': case 'parent': case 'stockExchange': case 'country': case 'qid': case 'logo':
+        return 'Wikidata';
+      case 'govContracts':
+        return 'USAspending';
+      default:
+        return null;
+    }
+  };
+  // a field counts as "present" for provenance if it has real content. govContracts/secFilings are
+  // objects/arrays the upstream may return EMPTY (count 0) even on a soft-fail, so they get a stricter
+  // has-real-data check — provenance should reflect facts actually surfaced, not empty envelopes.
+  const hasContent = (field, v) => {
+    if (v == null || v === '' || (Array.isArray(v) && !v.length)) return false;
+    if (field === 'govContracts') return !!(v.contracts?.count || v.grants?.count);
+    return true;
+  };
+  const provenance = [];
+  const provFields = [...COMPLETENESS_FIELDS, 'jurisdiction', 'legalStatus', 'govContracts', 'secFilings', 'qid'];
+  for (const field of provFields) {
+    if (!hasContent(field, profile[field])) continue;
+    const src = provider(field);
+    if (!src) continue;
+    const meta = SOURCE_META[src] || {};
+    provenance.push({ field, source: src, license: meta.license || null, url: meta.url || null });
+  }
+  profile.provenance = provenance;
+  // Source roster as objects (source → license/url), alongside the flat `sources` string list kept for
+  // back-compat with existing callers.
+  profile.sourceMeta = sources.map((s) => ({ source: s, license: SOURCE_META[s]?.license || null, url: SOURCE_META[s]?.url || null }));
 
   profile.completeness = completeness(profile);
   // attach the raw per-source slices (non-enumerable so it doesn't bloat JSON output) so the
