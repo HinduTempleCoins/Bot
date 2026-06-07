@@ -1,12 +1,14 @@
-// scraper.translate.test.js — live tests for the upgraded keyless translation hub.
-// These hit real public engines (Lingva → MyMemory), so they need network and can be skipped
-// offline with SKIP_LIVE=1. Run: node --test integrations/scraper.translate.test.js
+// scraper.translate.test.js — tests for the upgraded keyless translation hub.
+// House rule: the suite runs OFFLINE. The engine tests hit real public engines
+// (Lingva → MyMemory) and flake on quota/network, so they are opt-in:
+//   RUN_LIVE=1 node --test integrations/scraper.translate.test.js
+// (SKIP_LIVE=1 still force-skips, for compatibility with older scripts.)
 import { test } from 'node:test';
 import assert from 'node:assert';
 import { translate, translateMany, detectLanguage, chunkText, __setFetch } from './scraper.mjs';
 
-const LIVE = !process.env.SKIP_LIVE;
-const live = (name, fn) => test(name, { skip: LIVE ? false : 'SKIP_LIVE set' }, fn);
+const LIVE = process.env.RUN_LIVE === '1' && !process.env.SKIP_LIVE;
+const live = (name, fn) => test(name, { skip: LIVE ? false : 'live engine test — set RUN_LIVE=1' }, fn);
 
 // ── pure unit test: chunking (no network) ──
 test('chunkText splits long text on boundaries, preserves order, respects max', () => {
