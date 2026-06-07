@@ -8,7 +8,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { crossChainSpread, __setFetch } from './crosschain-arb.mjs';
+import { crossChainSpread, checkLegsAgainstSpot, __setFetch } from './crosschain-arb.mjs';
 
 function pairsResponse(pairs) {
   return { ok: true, status: 200, json: async () => ({ pairs }) };
@@ -86,6 +86,56 @@ test('empty / single-venue results return a null opportunity, never throw', asyn
   __setFetch(null);
   assert.equal(r2.venues.length, 1);
   assert.equal(r2.opportunity, null);
+});
+
+test('spot guard DROPS a poisoned pair whose leg prices far off the reference spot', async () => {
+  // A fake-WETH pair at $1.50 sits INSIDE the median cluster (so the internal median filter passes
+  // it) and manufactures a 50% "profit" signal. An external spot of $1.00 must catch + drop it.
+  __setFetch(async () => pairsResponse([
+    mkPair({ chain: 'ethereum', dex: 'uniswap', sym: 'WETH', price: 1.00, liq: 200000 }),
+    mkPair({ chain: 'evilchain', dex: 'rugswap', sym: 'WETH', price: 1.50, liq: 200000 }), // poisoned
+  ]));
+  const r = await crossChainSpread('WETH', { spotUsd: 1.00 });
+  __setFetch(null);
+  assert.equal(r.opportunity, null, 'poisoned signal must be dropped, not reported as profit');
+  assert.ok(r.suspicious, 'a dropped poisoned signal is surfaced as suspicious');
+  assert.equal(r.suspicious.dropped, true);
+  assert.ok(/poisoned pair/.test(r.suspicious.reason));
+  assert.ok(r.suspicious.offending.some((l) => l.dex === 'rugswap'), 'the off-spot leg is named');
+});
+
+test('spot guard PASSES a normal arb whose legs sit within tolerance of spot', async () => {
+  // Two legitimate venues ~10% apart, both within 20% of a $1.00 spot — a real, verified opportunity.
+  __setFetch(async () => pairsResponse([
+    mkPair({ chain: 'ethereum', dex: 'uniswap', sym: 'WETH', price: 1.00, liq: 200000 }),
+    mkPair({ chain: 'bsc', dex: 'pancake', sym: 'WETH', price: 1.10, liq: 150000 }),
+  ]));
+  const r = await crossChainSpread('WETH', { spotUsd: 1.05 });
+  __setFetch(null);
+  assert.ok(r.opportunity, 'a normal in-tolerance spread is reported');
+  assert.equal(r.opportunity.verified, true, 'verified against spot');
+  assert.equal(r.suspicious, null);
+  assert.equal(r.opportunity.spreadPct, 10);
+});
+
+test('soft-fail: no reference spot -> opportunity returned but marked unverified (not dropped)', async () => {
+  __setFetch(async () => pairsResponse([
+    mkPair({ chain: 'ethereum', dex: 'uniswap', sym: 'WETH', price: 1.00, liq: 200000 }),
+    mkPair({ chain: 'bsc', dex: 'pancake', sym: 'WETH', price: 1.10, liq: 150000 }),
+  ]));
+  const r = await crossChainSpread('WETH'); // no spotUsd
+  __setFetch(null);
+  assert.ok(r.opportunity, 'never dropped silently when no reference is available');
+  assert.equal(r.opportunity.verified, false, 'marked unverified instead');
+  assert.equal(r.suspicious, null);
+});
+
+test('checkLegsAgainstSpot is pure, configurable, and never throws on junk', () => {
+  const legs = [{ chain: 'a', dex: 'x', priceUsd: 1.0 }, { chain: 'b', dex: 'y', priceUsd: 1.5 }];
+  assert.equal(checkLegsAgainstSpot(legs, 1.0).dropped, true, '50% off > 20% default -> dropped');
+  assert.equal(checkLegsAgainstSpot(legs, 1.0, 0.60).ok, true, 'wider tolerance accepts it');
+  assert.equal(checkLegsAgainstSpot(legs, 0).verified, false, 'no spot -> unverified, ok:true');
+  assert.doesNotThrow(() => checkLegsAgainstSpot([null, {}], NaN));
 });
 
 test('__setFetch(null) restores the default seam without throwing', () => {
