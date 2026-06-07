@@ -1,0 +1,21 @@
+# MELEK Hathor watcher timer — fire the read-only alerter on a short cadence.
+# SECURITY.md §4d wants alerting "within seconds"; practically the timer cadence
+# bounds detection latency. 1 min is a good default for a security tripwire on a
+# witness account — cheap (a single read-only history fetch per fire), and the
+# oneshot is idempotent (per-event de-dup by history index in the state file), so
+# overlapping/catch-up fires never double-alert.
+[Unit]
+Description=Run the Hathor sensitive-op watcher every minute
+Requires=melek-watcher.service
+
+[Timer]
+# First fire 90s after boot (let the node settle), then every minute.
+OnBootSec=90
+OnUnitActiveSec=1min
+# If the box was down at fire time, catch up on next boot (the cursor in the state
+# file means catch-up still alerts on anything missed while down — that's the point).
+Persistent=true
+Unit=melek-watcher.service
+
+[Install]
+WantedBy=timers.target
