@@ -6,6 +6,9 @@
 import {
   keysFromLogin, generateMasterPassword, classifySecret, ROLES,
 } from './graphene-keys.mjs';
+import {
+  newGateState, markDelivered, setConfirmInput, canCreate, gateReason,
+} from './account-gate.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -53,7 +56,7 @@ export function copyButtonHtml(value, label = 'Copy') {
   return `<button type="button" class="copy-btn" data-copy="${esc(value)}">${esc(label)}</button>`;
 }
 
-export function wireCopyButtons(root, { clipboard, doc } = {}) {
+export function wireCopyButtons(root, { clipboard, doc, onCopySuccess } = {}) {
   const d = doc || (typeof document !== 'undefined' ? document : null);
   const clip = clipboard || (typeof navigator !== 'undefined' ? navigator.clipboard : null);
   if (!root || !d) return 0;
@@ -71,6 +74,7 @@ export function wireCopyButtons(root, { clipboard, doc } = {}) {
         } catch { ok = false; }
       }
       btn.textContent = ok ? '✓ Copied' : 'Copy failed — select it manually';
+      if (ok && typeof onCopySuccess === 'function') onCopySuccess();
       setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
     });
     wired++;
@@ -99,7 +103,13 @@ export function keysBlockHtml(name, password, keys) {
 /** The downloadable keys file content. Plain text the user keeps. */
 export function keysFileText(name, password, keys) {
   return [
-    `MELEK TESTNET account credentials — KEEP THIS FILE SAFE`,
+    `============================================================`,
+    `  MELEK TESTNET account credentials — KEEP THIS FILE SAFE`,
+    `  [TestNet not MELEK]`,
+    `============================================================`,
+    `WARNING: anyone with these lines controls this account. Nobody`,
+    `can recover them for you — not the operator, not the witness.`,
+    `Store this file somewhere private and back it up.`,
     `Generated in your browser; the server never saw the private lines.`,
     ``,
     `Account:          ${name}`,
@@ -130,16 +140,39 @@ export async function runSignup({ name, doc }) {
     out.innerHTML = `<p class="bad">"${esc(n)}" is taken — try another name.</p>`;
     return;
   }
+  // Fresh credentials every time this runs — refreshing / re-running resets the whole gate.
   const password = await generateMasterPassword();
   const keys = await keysFromLogin(n, password);
+  let gate = newGateState();
+
   out.innerHTML = [
     keysBlockHtml(n, password, keys),
-    `<p><button type="button" id="dl" class="wiz-btn">⬇ Download keys file</button></p>`,
-    `<label class="acceptrow"><input type="checkbox" id="saved"> I saved my master password and keys somewhere safe.</label>`,
+    `<div class="gate">`,
+    `<h3>Before you can create the account</h3>`,
+    `<p class="muted small">There is no recovery. You must keep these credentials, then prove it below — the button stays locked until both steps are done.</p>`,
+    `<p class="gate-step"><b>1.</b> Get your keys: `,
+    `<button type="button" id="dl" class="wiz-btn">⬇ Download my keys</button>`,
+    ` <span class="muted small">(or use a Copy button above)</span> `,
+    `<span id="delivered-ok" class="ok small" hidden>✓ saved</span></p>`,
+    `<p class="gate-step"><b>2.</b> Re-type your master password to confirm you have it:</p>`,
+    `<input id="confirm" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="paste or type your master password">`,
+    `<p id="gate-reason" class="muted small"></p>`,
     `<p><button type="button" id="create" class="wiz-btn" disabled>Create my account</button></p>`,
     `<div id="create-msg"></div>`,
+    `</div>`,
   ].join('\n');
-  wireCopyButtons(out);
+
+  const createBtn = d.getElementById('create');
+  const reasonEl = d.getElementById('gate-reason');
+  const deliveredOk = d.getElementById('delivered-ok');
+  const refreshGate = () => {
+    createBtn.disabled = !canCreate(gate, password);
+    if (deliveredOk) deliveredOk.hidden = !gate.delivered;
+    if (reasonEl) reasonEl.textContent = gateReason(gate, password);
+  };
+  const markGotKeys = () => { gate = markDelivered(gate); refreshGate(); };
+
+  wireCopyButtons(out, { onCopySuccess: markGotKeys });
   d.getElementById('dl').addEventListener('click', () => {
     const blob = new Blob([keysFileText(n, password, keys)], { type: 'text/plain' });
     const a = d.createElement('a');
@@ -147,19 +180,45 @@ export async function runSignup({ name, doc }) {
     a.download = `melek-testnet-${n}-keys.txt`;
     a.click();
     URL.revokeObjectURL(a.href);
+    markGotKeys();
   });
-  const createBtn = d.getElementById('create');
-  d.getElementById('saved').addEventListener('change', (e) => { createBtn.disabled = !e.target.checked; });
+  d.getElementById('confirm').addEventListener('input', (e) => {
+    gate = setConfirmInput(gate, e.target.value);
+    refreshGate();
+  });
+  refreshGate();
+
   createBtn.addEventListener('click', async () => {
+    if (!canCreate(gate, password)) return; // belt-and-suspenders: never create through a closed gate
     createBtn.disabled = true;
     const msg = d.getElementById('create-msg');
     msg.innerHTML = `<p class="muted">creating on the testnet…</p>`;
-    const pubs = Object.fromEntries(ROLES.map((r) => [r, keys[r].pub]));
+    const pubs = Object.fromEntries(ROLES.map((r) => [r, keys[r].pub])); // PUBLIC keys only cross the wire
     const res = await faucetCreate({ name: n, pubs });
-    msg.innerHTML = res && res.ok
-      ? `<p class="ok">✅ <b>@${esc(n)}</b> is live on the testnet. <a href="welcome.html?name=${encodeURIComponent(n)}">Continue to your Welcome page</a>, then <a href="/">log in</a> with your master password. [TestNet not MELEK]</p>`
-      : `<p class="bad">creation failed: ${esc((res && res.reason) || 'unknown')} — your keys are still yours; try again in a minute.</p>`;
+    if (res && res.ok) {
+      out.innerHTML = createdReminderHtml(n, password, keys);
+      wireCopyButtons(out);
+    } else {
+      createBtn.disabled = false;
+      msg.innerHTML = `<p class="bad">creation failed: ${esc((res && res.reason) || 'unknown')} — your keys are still yours; try again in a minute.</p>`;
+    }
   });
+}
+
+/** Post-creation screen: show the password once more + verify/continue links. Pure HTML. */
+export function createdReminderHtml(name, password, keys) {
+  return [
+    `<div class="done-block">`,
+    `<p class="ok">✅ <b>@${esc(name)}</b> is live on the testnet. <span class="tag">[TestNet not MELEK]</span></p>`,
+    `<h3>One last time — this is your password. Make sure it is saved.</h3>`,
+    `<div class="krow"><div class="klab">Master password <span class="muted">← log in with THIS</span></div>` +
+      `<code class="kval">${esc(password)}</code>${copyButtonHtml(password)}</div>`,
+    `<p class="muted small">There is no recovery. If you have not saved your keys file yet, download it now from the field above before you leave this page.</p>`,
+    `<p><a href="keycheck.html" class="wiz-btn">Verify you saved it right</a> ` +
+      `<a href="welcome.html?name=${encodeURIComponent(name)}" class="wiz-btn">Continue to Welcome →</a></p>`,
+    `<p class="muted small">Then <a href="/">log in</a> with your master password.</p>`,
+    `</div>`,
+  ].join('\n');
 }
 
 export async function runKeycheck({ name, secret, doc }) {

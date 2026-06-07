@@ -3,8 +3,11 @@ import { test, afterEach } from 'node:test';
 import assert from 'node:assert';
 import {
   esc, getAccount, chainPubs, faucetCreate, copyButtonHtml, wireCopyButtons,
-  keysBlockHtml, keysFileText, __setFetch,
+  keysBlockHtml, keysFileText, createdReminderHtml, __setFetch,
 } from './account-ui.mjs';
+import {
+  newGateState, markDelivered, setConfirmInput, confirmMatches, canCreate, gateReason,
+} from './account-gate.mjs';
 import { keysFromLogin } from './graphene-keys.mjs';
 
 afterEach(() => __setFetch(null));
@@ -55,8 +58,9 @@ test('keysFileText carries the testnet label and the login pointer', async () =>
   assert.match(txt, /owner private key/);
 });
 
-test('wireCopyButtons copies via injected clipboard', async () => {
+test('wireCopyButtons copies via injected clipboard and fires onCopySuccess', async () => {
   let copied = null;
+  let copySuccessFired = 0;
   const listeners = [];
   const btn = {
     attrs: { 'data-copy': 'SECRET-VALUE' },
@@ -65,8 +69,71 @@ test('wireCopyButtons copies via injected clipboard', async () => {
     set textContent(v) {}, get textContent() { return ''; },
   };
   const root = { querySelectorAll: () => [btn] };
-  const n = wireCopyButtons(root, { clipboard: { writeText: async (v) => { copied = v; } }, doc: {} });
+  const n = wireCopyButtons(root, {
+    clipboard: { writeText: async (v) => { copied = v; } }, doc: {},
+    onCopySuccess: () => { copySuccessFired++; },
+  });
   assert.equal(n, 1);
   await listeners[0]();
   assert.equal(copied, 'SECRET-VALUE');
+  assert.equal(copySuccessFired, 1);
+});
+
+// ── delivery-guarantee gate (operator HARD requirement 2026-06-07) ────────────
+
+test('gate: Create stays disabled until BOTH delivered AND password matches', () => {
+  const pw = 'P5JmasterPasswordExactly';
+  let s = newGateState();
+  assert.equal(canCreate(s, pw), false, 'fresh gate is closed');
+
+  // only delivered, no confirm → still closed
+  s = markDelivered(s);
+  assert.equal(canCreate(s, pw), false, 'delivery alone is not enough');
+
+  // confirm but mismatched → still closed
+  s = setConfirmInput(s, 'P5Jwrong');
+  assert.equal(confirmMatches(s, pw), false);
+  assert.equal(canCreate(s, pw), false, 'mismatch keeps it closed');
+
+  // exact match + delivered → open
+  s = setConfirmInput(s, pw);
+  assert.equal(confirmMatches(s, pw), true);
+  assert.equal(canCreate(s, pw), true, 'delivered + exact match opens the gate');
+});
+
+test('gate: exact password but NOT delivered stays disabled (no skip path)', () => {
+  const pw = 'PabcDEF123';
+  let s = setConfirmInput(newGateState(), pw);
+  assert.equal(confirmMatches(s, pw), true);
+  assert.equal(canCreate(s, pw), false, 'match without download/copy is still closed');
+});
+
+test('gate: match is exact (no trim, case-sensitive) and empty never matches', () => {
+  const pw = 'P5JsecretCase';
+  let s = markDelivered(newGateState());
+  assert.equal(canCreate(setConfirmInput(s, ' P5JsecretCase '), pw), false, 'whitespace differs');
+  assert.equal(canCreate(setConfirmInput(s, 'p5jsecretcase'), pw), false, 'case differs');
+  assert.equal(confirmMatches(setConfirmInput(newGateState(), ''), ''), false, 'empty never matches');
+});
+
+test('gate: gateReason explains why the gate is closed, then is empty when open', () => {
+  const pw = 'P5JreasonTest';
+  let s = newGateState();
+  assert.match(gateReason(s, pw), /Download or copy/);
+  s = markDelivered(s);
+  assert.match(gateReason(s, pw), /Re-type/);
+  s = setConfirmInput(s, 'nope');
+  assert.match(gateReason(s, pw), /does not match/);
+  s = setConfirmInput(s, pw);
+  assert.equal(gateReason(s, pw), '');
+});
+
+test('createdReminderHtml shows the password again with verify + welcome links, escaped', () => {
+  const keys = { owner: { wif: 'x', pub: 'TSTx' } };
+  const html = createdReminderHtml('off<grid', 'P5J<pw>', keys);
+  assert.ok(!html.includes('<grid'), 'name is escaped');
+  assert.ok(!html.includes('<pw>'), 'password is escaped');
+  assert.match(html, /keycheck\.html/);
+  assert.match(html, /welcome\.html\?name=off%3Cgrid/);
+  assert.match(html, /\[TestNet not MELEK\]/);
 });
