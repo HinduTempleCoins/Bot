@@ -36,6 +36,7 @@ import { createServer } from 'node:http';
 import { loadStages, detectCompletedStages, nextStageFor } from '../tutorial/detector.js';
 import { composeLessonPost } from '../tutorial/composers.mjs';
 import { startVerification, isValidEmail } from '../integrations/email-verify.mjs';
+import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 
 const PORT = +(process.env.PORT || 8112);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -46,6 +47,16 @@ export const ALLOWED_ORIGIN = (process.env.SIGNUP_ALLOWED_ORIGIN || 'https://alp
 
 // MELEK testnet condenser RPC for read-only progress reads.
 const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'http://127.0.0.1:8090';
+
+// Abuse cap on the email-verify route — it triggers a Resend send, so it must not be free to spam.
+// Per-IP + per-email-address over a window. Env-tunable; soft-fails open. Injectable for tests.
+let _emailLimiter = new Limiter({
+  scope: 'signup-email',
+  ipMax: parseInt(process.env.EMAIL_RL_IP_MAX || '5', 10),
+  fpMax: parseInt(process.env.EMAIL_RL_FP_MAX || '3', 10),
+  windowSec: parseInt(process.env.EMAIL_RL_WINDOW_SEC || '3600', 10),
+});
+export function __setEmailLimiter(l) { _emailLimiter = l || _emailLimiter; }
 
 // Injectable fetch (offline tests never touch the network).
 let _chainFetch = (...a) => globalThis.fetch(...a);
@@ -306,6 +317,11 @@ export async function handler(req, res) {
     const email = input && input.email;
     if (!isValidEmail(email)) {
       return sendJson(res, 400, { ok: false, reason: 'invalid-email' }, origin);
+    }
+    // Abuse cap before the mailer runs (per-IP + per-email-address). Soft-fails open.
+    const rl = _emailLimiter.check({ ip: clientIp(req), fingerprint: String(email).toLowerCase() });
+    if (!rl.allowed) {
+      return sendJson(res, 429, { ok: false, reason: 'rate-limited', retryAfter: rl.retryAfter }, origin);
     }
     // Reuse the existing Resend flow. It soft-fails honestly when the key is absent (sent:false).
     const r = await startVerification(email, { baseUrl: ALLOWED_ORIGIN });

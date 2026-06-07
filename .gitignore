@@ -18,6 +18,10 @@ watcher/.state.json
 watcher/.state.json.tmp
 watcher/alerts.jsonl
 
+# Rate-limiter runtime state (per-deployment, never committed)
+integrations/.rate-limit-state.json
+integrations/.rate-limit-state.json.tmp
+
 # Datasets — operator's private knowledge JSONLs stay gitignored.
 # Openly-licensed reference corpus subdirs (cookbooks, hive-devportal,
 # chain-libs, crypto-protocols, crypto-books, ml-courses, ml-libs)
