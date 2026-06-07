@@ -145,3 +145,89 @@ test('browser-mine converts the address to the pool network before login', () =>
   const minerStartIdx = src.indexOf('miner.start(', startIdx);
   assert.ok(convIdx > startIdx && convIdx < minerStartIdx, 'conversion happens inside the start handler, before miner.start');
 });
+
+// ---------------------------------------------------------------------------
+// Zephyr-first coin resolution (operator: ZEPH is the default browser/phone coin;
+// Monero is the graceful fallback that must never break live mining).
+// ---------------------------------------------------------------------------
+import {
+  pickBrowserCoin, resolveBrowserCoin, BROWSER_CHAINS, BROWSER_COINS,
+} from './browser-mine.mjs';
+
+test('BROWSER_CHAINS / BROWSER_COINS list Zephyr FIRST', () => {
+  assert.equal(BROWSER_CHAINS[0].coin, 'zephyr', 'zephyr leads the chains');
+  assert.equal(BROWSER_CHAINS[1].coin, 'monero');
+  assert.equal(BROWSER_COINS[0].key, 'zephyr', 'zephyr leads the preference order');
+  assert.equal(BROWSER_COINS[1].key, 'monero');
+  // Monero is the only one that needs the stagenet-twin login conversion.
+  assert.equal(BROWSER_COINS.find((c) => c.key === 'monero').convert, true);
+  assert.equal(BROWSER_COINS.find((c) => c.key === 'zephyr').convert, false);
+});
+
+test('pickBrowserCoin picks Zephyr when its pool is live', () => {
+  const r = pickBrowserCoin([{ id: 'xmr-stagenet' }, { id: 'zeph', poolStats: {} }]);
+  assert.equal(r.coin.key, 'zephyr');
+  assert.equal(r.zephyrLive, true);
+});
+
+test('pickBrowserCoin accepts the poolId field and is case-insensitive', () => {
+  const r = pickBrowserCoin([{ poolId: 'ZEPH' }]);
+  assert.equal(r.coin.key, 'zephyr');
+  assert.equal(r.zephyrLive, true);
+});
+
+test('pickBrowserCoin falls back to Monero when ZEPH is absent', () => {
+  const r = pickBrowserCoin([{ id: 'xmr-stagenet' }]);
+  assert.equal(r.coin.key, 'monero');
+  assert.equal(r.zephyrLive, false);
+  assert.match(r.reason, /not yet listed/);
+});
+
+test('pickBrowserCoin falls back to Monero when ZEPH is present but disabled', () => {
+  const r = pickBrowserCoin([{ id: 'zeph', enabled: false }, { id: 'xmr-stagenet' }]);
+  assert.equal(r.coin.key, 'monero');
+  assert.equal(r.zephyrLive, false);
+  assert.match(r.reason, /not yet accepting/);
+});
+
+test('pickBrowserCoin falls back to Monero on a null/garbage pool list (API unreachable)', () => {
+  for (const bad of [null, undefined, 'nope', 42, {}]) {
+    const r = pickBrowserCoin(bad);
+    assert.equal(r.coin.key, 'monero', `garbage ${JSON.stringify(bad)} → monero fallback`);
+    assert.equal(r.zephyrLive, false);
+  }
+});
+
+test('resolveBrowserCoin reads /api/pools via injected fetch and prefers Zephyr', async () => {
+  const fetchImpl = async (url) => {
+    assert.equal(url, '/api/pools');
+    return { json: async () => ({ pools: [{ id: 'zeph' }, { id: 'xmr-stagenet' }] }) };
+  };
+  const r = await resolveBrowserCoin(fetchImpl);
+  assert.equal(r.coin.key, 'zephyr');
+  assert.equal(r.zephyrLive, true);
+});
+
+test('resolveBrowserCoin soft-fails to Monero when the fetch throws', async () => {
+  const fetchImpl = async () => { throw new Error('network down'); };
+  const r = await resolveBrowserCoin(fetchImpl);
+  assert.equal(r.coin.key, 'monero');
+  assert.equal(r.zephyrLive, false);
+});
+
+test('resolveBrowserCoin tolerates a bare array response (no .pools wrapper)', async () => {
+  const fetchImpl = async () => ({ json: async () => [{ id: 'zeph' }] });
+  const r = await resolveBrowserCoin(fetchImpl);
+  assert.equal(r.coin.key, 'zephyr');
+});
+
+// ---- the browser-mine page copy / picker is Zephyr-first ----
+test('index.html browser-mine picker lists Zephyr above Monero', () => {
+  const pick = html.indexOf('id="bm-coin-pick"');
+  assert.ok(pick > 0, 'has the coin picker');
+  const z = html.indexOf('value="zephyr"', pick);
+  const m = html.indexOf('value="monero"', pick);
+  assert.ok(z > 0 && m > 0, 'both radios present');
+  assert.ok(z < m, 'zephyr radio comes before monero');
+  assert.ok(html.includes('id="bm-zeph-status"'), 'has the ZEPH status line the glue updates');
+});

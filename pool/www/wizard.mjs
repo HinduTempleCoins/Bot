@@ -77,7 +77,22 @@ export const MINERS = {
 // Coin profiles. `family` mirrors the frontend's familyOf(): cryptonote => RandomX/xmrig,
 // ethereum => Etchash/GPU miner. `addr` is the validation profile.
 // ---------------------------------------------------------------------------
+// ZEPHYR FIRST (operator Addendum 23: ZEPH is THE recommended browser/phone coin). The key
+// order here is the source-of-truth ordering for buildManifest() → the launcher menu, so
+// Zephyr leads. ZEPH stays launcher.enabled:false until its daemon syncs + a test share
+// accepts (then flip to true and regenerate the manifest); Monero is the always-on fallback.
 export const COINS = {
+  zephyr: {
+    id: 'zeph', symbol: 'ZEPH', name: 'Zephyr', family: 'cryptonote',
+    algo: 'rx/0', xmrigCoin: 'zephyr',
+    // ZEPH standard addr = base58, ~97-98 chars starting 'ZEPHs'; integrated starts 'ZEPHi'.
+    addr: { type: 'zephyr' },
+    walletHelp: 'https://wallet.zephyrprotocol.com/',
+    phoneReady: true,
+    // CPU/phone/browser low-diff stratum entry. enabled:false until the daemon is synced
+    // AND a test share accepts; then flip to true and regenerate the manifest.
+    launcher: { port: 4447, menuLabel: 'Zephyr (ZEPH) — CPU / phone', enabled: false, miner: 'xmrig', hardware: ['cpu'] },
+  },
   monero: {
     id: 'xmr-stagenet', symbol: 'XMR', name: 'Monero', family: 'cryptonote',
     algo: 'rx/0', xmrigCoin: 'monero',
@@ -97,17 +112,6 @@ export const COINS = {
     walletHelp: 'https://ethereumclassic.org/use/wallets',
     phoneReady: false,
     launcher: { port: 5550, menuLabel: 'Ethereum Classic (Mordor) — GPU', enabled: true, miner: 'lolminer', hardware: ['gpu'] },
-  },
-  zephyr: {
-    id: 'zeph', symbol: 'ZEPH', name: 'Zephyr', family: 'cryptonote',
-    algo: 'rx/0', xmrigCoin: 'zephyr',
-    // ZEPH standard addr = base58, ~97-98 chars starting 'ZEPHs'; integrated starts 'ZEPHi'.
-    addr: { type: 'zephyr' },
-    walletHelp: 'https://wallet.zephyrprotocol.com/',
-    phoneReady: true,
-    // CPU/phone/browser low-diff stratum entry. enabled:false until the daemon is synced
-    // AND a test share accepts; then flip to true and regenerate the manifest.
-    launcher: { port: 4447, menuLabel: 'Zephyr (ZEPH) — CPU / phone', enabled: false, miner: 'xmrig', hardware: ['cpu'] },
   },
 };
 

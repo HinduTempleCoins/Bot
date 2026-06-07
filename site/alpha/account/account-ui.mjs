@@ -157,7 +157,7 @@ export async function runSignup({ name, doc }) {
     const pubs = Object.fromEntries(ROLES.map((r) => [r, keys[r].pub]));
     const res = await faucetCreate({ name: n, pubs });
     msg.innerHTML = res && res.ok
-      ? `<p class="ok">✅ <b>@${esc(n)}</b> is live on the testnet. <a href="/">Log in now</a> with your master password. [TestNet not MELEK]</p>`
+      ? `<p class="ok">✅ <b>@${esc(n)}</b> is live on the testnet. <a href="welcome.html?name=${encodeURIComponent(n)}">Continue to your Welcome page</a>, then <a href="/">log in</a> with your master password. [TestNet not MELEK]</p>`
       : `<p class="bad">creation failed: ${esc((res && res.reason) || 'unknown')} — your keys are still yours; try again in a minute.</p>`;
   });
 }

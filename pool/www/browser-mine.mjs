@@ -10,12 +10,80 @@ import { validateAddress, poolLoginAddress } from './wizard.mjs';
 import { MyCoinsStore } from './mycoins.mjs';
 import { mountPicker } from './wallet-picker.mjs';
 
-// The chains relevant to BROWSER mining (RandomX family). ZEPH is gated until its chain
-// syncs — its chip informs (wallet ready / make one) rather than filling the box.
+// The chains relevant to BROWSER mining (RandomX family), ZEPHYR FIRST (operator Addendum
+// 23: ZEPH is THE browser/phone coin). The `gated` flag is the STATIC default — overridden
+// at runtime by pickBrowserCoin() once we learn from /api/pools whether the ZEPH stratum is
+// actually live. While gated, ZEPH's chip informs (wallet ready / make one) rather than
+// filling the box, and the miner falls back to Monero.
 export const BROWSER_CHAINS = [
-  { coin: 'monero', symbol: 'XMR', name: 'Monero' },
   { coin: 'zephyr', symbol: 'ZEPH', name: 'Zephyr', gated: true },
+  { coin: 'monero', symbol: 'XMR', name: 'Monero' },
 ];
+
+// Browser-minable coins in PREFERENCE order (Zephyr first, Monero fallback). Each maps to
+// the wizard coin key (for validateAddress / poolLoginAddress) and the /api/pools id used to
+// detect live availability. `convert` flags the coins whose pool runs a test-net twin (only
+// Monero stagenet today) so the start handler knows to call poolLoginAddress.
+export const BROWSER_COINS = [
+  { key: 'zephyr', symbol: 'ZEPH', name: 'Zephyr', poolId: 'zeph', convert: false },
+  { key: 'monero', symbol: 'XMR', name: 'Monero', poolId: 'xmr-stagenet', convert: true },
+];
+
+// Is a given pool object (from /api/pools) actually accepting miners right now? Miningcore /
+// the node-pool expose pools with an id + optional poolStats. We treat a pool as live if it
+// is present and not explicitly disabled. (A freshly-added-but-still-syncing pool can be
+// listed with enabled:false; the ZEPH shim only appears here once its stratum is open.)
+function poolIsLive(p) {
+  if (!p || typeof p !== 'object') return false;
+  if (p.enabled === false) return false;
+  return true;
+}
+
+/**
+ * Decide which coin the browser miner should mine, and whether Zephyr is available yet.
+ * PURE — pass the /api/pools array (or null when the API was unreachable).
+ *
+ * Policy (operator: Zephyr-first, Monero fallback, never break live mining):
+ *   - If the ZEPH pool is live in the API → mine Zephyr.
+ *   - Otherwise → mine Monero (the always-on fallback), and report ZEPH as still gated so
+ *     the UI shows "switching on" rather than offering a dead button.
+ *   - If the API is unreachable we cannot confirm ZEPH is live, so we stay on the safe
+ *     fallback (Monero) — we never optimistically point the miner at a stratum that may not
+ *     be accepting shares.
+ *
+ * @param {Array|null} pools  the /api/pools list (each item has an `id`/`poolId`)
+ * @returns {{ coin: object, zephyrLive: boolean, reason: string }}
+ */
+export function pickBrowserCoin(pools) {
+  const zeph = BROWSER_COINS.find((c) => c.key === 'zephyr');
+  const monero = BROWSER_COINS.find((c) => c.key === 'monero');
+  const list = Array.isArray(pools) ? pools : [];
+  const idOf = (p) => String((p && (p.id || p.poolId)) || '').toLowerCase();
+  const zephPool = list.find((p) => idOf(p) === zeph.poolId);
+  if (zephPool && poolIsLive(zephPool)) {
+    return { coin: zeph, zephyrLive: true, reason: 'zephyr pool is live' };
+  }
+  return {
+    coin: monero,
+    zephyrLive: false,
+    reason: zephPool ? 'zephyr pool present but not yet accepting' : 'zephyr pool not yet listed',
+  };
+}
+
+// Fetch /api/pools and resolve the preferred browser coin. Soft-fails to the Monero
+// fallback (never throws) so a flaky pool API can never break the live miner.
+export async function resolveBrowserCoin(fetchImpl) {
+  const f = fetchImpl || (typeof fetch !== 'undefined' ? fetch : null);
+  if (!f) return pickBrowserCoin(null);
+  try {
+    const r = await f('/api/pools');
+    const j = await r.json();
+    const pools = (j && (j.pools || j)) || [];
+    return pickBrowserCoin(Array.isArray(pools) ? pools : []);
+  } catch {
+    return pickBrowserCoin(null);
+  }
+}
 
 // The pool IS the wallet (operator 2026-06-06): never make the user go GET an address —
 // auto-fill from the shared My Coins wallet store when one exists, and put "create your
@@ -82,14 +150,35 @@ export function initBrowserMine() {
 
   let miner = null;
 
+  // The active browser-mining coin. Starts on the safe Monero fallback and is upgraded to
+  // Zephyr once /api/pools confirms the ZEPH stratum is live (resolveBrowserCoin below).
+  // Everything coin-specific (validation, login conversion, save) reads activeCoin.
+  let activeCoin = BROWSER_COINS.find((c) => c.key === 'monero');
+
   const validate = () => {
     const a = (addrIn.value || '').trim();
     if (!a) { addrMsg.textContent = ''; addrMsg.className = 'wiz-msg'; return false; }
-    const v = validateAddress('monero', a);
-    if (v.ok) { addrMsg.textContent = '✓ looks like a valid Monero address'; addrMsg.className = 'wiz-msg ok'; return true; }
+    const v = validateAddress(activeCoin.key, a);
+    if (v.ok) { addrMsg.textContent = `✓ looks like a valid ${activeCoin.name} address`; addrMsg.className = 'wiz-msg ok'; return true; }
     addrMsg.textContent = '✗ ' + v.reason; addrMsg.className = 'wiz-msg bad'; return false;
   };
   addrIn.addEventListener('input', validate);
+
+  // Reflect the active coin into the radio picker (#bm-coin-pick) + the ZEPH status line.
+  // When Zephyr is live we select + enable its radio; otherwise Monero stays selected and
+  // the ZEPH row reads "switching on". The picker is informational here — the actual coin is
+  // resolved from pool availability — so the radios are kept in sync, not user-authoritative.
+  const reflectCoin = (zephyrLive) => {
+    const zRadio = document.querySelector('input[name="bm-coin"][value="zephyr"]');
+    const mRadio = document.querySelector('input[name="bm-coin"][value="monero"]');
+    if (zRadio) { zRadio.disabled = !zephyrLive; zRadio.checked = zephyrLive; }
+    if (mRadio) { mRadio.checked = !zephyrLive; }
+    const zStatus = document.getElementById('bm-zeph-status');
+    if (zStatus && zephyrLive) {
+      zStatus.textContent = 'live now — mining to your ZEPH address';
+      zStatus.className = 'wiz-msg ok';
+    }
+  };
 
   // wallet-first (operator 2026-06-06): the user's saved wallets appear as SELECTABLE chips
   // above the box — returning miners pick instead of re-typing. Chains without a wallet show
@@ -115,10 +204,18 @@ export function initBrowserMine() {
     if (mounted) {
       startBtn.addEventListener('click', () => {
         const a = (addrIn.value || '').trim();
-        if (a && validateAddress('monero', a).ok) mounted.saveOwn('monero', a);
+        if (a && validateAddress(activeCoin.key, a).ok) mounted.saveOwn(activeCoin.key, a);
       });
     }
   }
+
+  // Resolve the preferred browser coin from pool availability (Zephyr-first, Monero
+  // fallback). Soft-fails to Monero; flips the picker to ZEPH live when its stratum opens.
+  resolveBrowserCoin().then(({ coin, zephyrLive }) => {
+    activeCoin = coin;
+    reflectCoin(zephyrLive);
+    validate();
+  }).catch(() => { /* stay on the Monero fallback */ });
 
   throttle.addEventListener('input', () => {
     const pct = Number(throttle.value);
@@ -155,9 +252,13 @@ export function initBrowserMine() {
 
   startBtn.addEventListener('click', () => {
     if (!validate()) { addrIn.focus(); return; }
-    // The pool's Monero side is STAGENET while we test; the wallet makes mainnet
-    // addresses. Log in with the stagenet twin (same keys) so the pool accepts it.
-    const { address, converted } = poolLoginAddress('monero', addrIn.value);
+    // The pool's Monero side is STAGENET while we test; the wallet makes mainnet addresses,
+    // so we log in with the stagenet twin (same keys). The ZEPH pool is mainnet, so its
+    // addresses pass through unchanged. poolLoginAddress is a no-op for non-monero coins,
+    // but gate it on activeCoin.convert so the copy below only shows for the stagenet case.
+    const { address, converted } = activeCoin.convert
+      ? poolLoginAddress(activeCoin.key, addrIn.value)
+      : { address: (addrIn.value || '').trim(), converted: false };
     if (converted) {
       addrMsg.textContent = '✓ pool runs Monero stagenet (testing) — mining to your address’s stagenet twin ' + address.slice(0, 8) + '… (same keys, same seed)';
       addrMsg.className = 'wiz-msg ok';

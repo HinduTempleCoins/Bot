@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Welcome</title>
+<link rel="stylesheet" href="account.css">
+</head><body>
+<div class="wrap"><div class="card">
+  <span class="tag">[TestNet not MELEK]</span>
+  <h1>Welcome</h1>
+  <p class="muted" id="hello">Your account is live on the MELEK testnet.</p>
+
+  <!-- Dummy placeholder copy (Lorem ipsum). Real welcomer copy lands here in Phase 3. -->
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+  <h3>Quis nostrud exercitation</h3>
+  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+  qui officia deserunt mollit anim id est laborum.</p>
+
+  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis
+  et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+  voluptas sit aspernatur aut odit aut fugit.</p>
+
+  <h3>Neque porro quisquam</h3>
+  <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+  velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+  quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+  suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.</p>
+
+  <p class="muted small">Ready when you are: <a href="/">Log in</a> with your master password ·
+  New here? <a href="signup.html">Create another account</a></p>
+</div></div>
+<script type="module">
+  // Greet by the name we were handed (?name=…). Escape it — never trust the query string raw.
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const raw = new URLSearchParams(location.search).get('name') || '';
+  const name = (raw.match(/^[a-z][a-z0-9.-]{2,15}$/) || [])[0];
+  if (name) {
+    document.getElementById('hello').innerHTML =
+      `Welcome, <b>@${esc(name)}</b> — your account is live on the MELEK testnet.`;
+  }
+</script>
+</body></html>

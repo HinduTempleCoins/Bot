@@ -121,6 +121,28 @@ export function buildChecks() {
       },
     },
     {
+      // Audit 2026-06-06: /tos.html is correct in the condenser source but the live build is
+      // stale and 404s, while the side panel + nav still link to it -> live dead link. This
+      // check makes the stale deploy visible until the alpha-button-fixes branch is redeployed.
+      name: 'condenser: TOS page served (not stale-deploy 404)', required: false,
+      async run() {
+        const r = await get(`${ALPHA}/tos.html`);
+        return { pass: r.ok, detail: r.ok ? 'tos served' : `HTTP ${r.status} (stale deploy — redeploy condenser)` };
+      },
+    },
+    {
+      // Audit 2026-06-06: the side-panel FAQ link still points at blurtfaq.org (a wrong-chain
+      // BLURT property). The fix (-> /faq.html) is on the condenser branch but not yet deployed.
+      // Flag whenever the dead off-chain FAQ host still appears in the served feed HTML.
+      name: 'condenser: no wrong-chain blurtfaq FAQ link', required: false,
+      async run() {
+        const r = await get(`${ALPHA}/hot`);
+        if (!r.ok) return { pass: false, detail: `HTTP ${r.status}` };
+        const stale = r.text.includes('blurtfaq.org');
+        return { pass: !stale, detail: stale ? 'side-panel FAQ still -> blurtfaq.org (redeploy fixes)' : 'FAQ link internal' };
+      },
+    },
+    {
       name: 'pool: frontend + miner modules served', required: true,
       async run() {
         const [i, w, m, p] = await Promise.all([
