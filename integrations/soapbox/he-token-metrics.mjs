@@ -72,8 +72,12 @@ export async function tokenMetrics(symbol, deps = {}) {
   const issuerPct = (holdData && holdData.issuerPct != null) ? pct(holdData.issuerPct)
     : (ownData ? pct(ownData.issuerPct) : null);
 
-  // holder count: holders.counts.total is the full balance-row count
-  const holderCount = holdData?.counts ? (n(holdData.counts.total)) : null;
+  // holder count: prefer counts.holders (accounts with ≥1 token incl. stake — the meaningful count);
+  // fall back to the raw balance-row total. holders.mjs now pages all rows, so this is the TRUE count,
+  // not a single page capped at 100 (the old "holders: 0"/"holders: 100" bug).
+  const holderCount = holdData?.counts
+    ? (n(holdData.counts.holders) ?? n(holdData.counts.total))
+    : null;
 
   // provenance: which sources actually answered (operator can see what's real vs missing)
   const provenance = {

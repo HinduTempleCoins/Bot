@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js commands/*.test.js commands/*.test.mjs integrations/*.test.js integrations/chains/crosschain-arb.test.mjs cheetah/*.test.js cheetah/*.test.mjs store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.mjs site/*/*/*.test.mjs spamtest/*.test.mjs",
+    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js commands/*.test.js commands/*.test.mjs integrations/*.test.js integrations/*.test.mjs integrations/soapbox/*.test.mjs integrations/chains/crosschain-arb.test.mjs cheetah/*.test.js cheetah/*.test.mjs store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.mjs site/*/*/*.test.mjs spamtest/*.test.mjs",
     "autovote": "node autovote/server.js",
     "engine": "node engine/node.mjs",
     "engine:once": "node engine/node.mjs --once",
