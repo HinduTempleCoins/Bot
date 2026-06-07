@@ -1,0 +1,60 @@
+# MELEK diag-to-tasks — turn red alpha-e2e diagnostics into a durable self-fix queue.
+# ---------------------------------------------------------------------------
+# Carryover #176: the standing "diagnostics → annals → self-fix tasks" loop, repo side.
+# alpha-e2e (melek-alpha-e2e.timer) already probes the whole live testnet stack every
+# 15 min and emits a JSON report. THIS unit runs integrations/diag-to-tasks.mjs to fold
+# that report into a deduplicated, persistent work-item queue
+# (self-fix-queue.json + .md) the next Claude session / resident AI picks up. Red checks
+# become tasks; tasks recover (drop out) after N consecutive green runs.
+#
+# READ-ONLY w.r.t. the chain: this unit holds no keys, signs nothing, broadcasts nothing.
+# It re-runs the same read-only probes alpha-e2e does (via the inline fallback) OR, when
+# wired through the timer/pipe, consumes alpha-e2e's existing --json output. The only
+# thing it WRITES is the queue file pair under DATA_DIR.
+#
+# Run mode: oneshot + .timer. The queue file persists across runs (counts, firstSeen,
+# green streaks), so the process can exit between ticks and never lose state.
+#
+# Placeholders only; no real hostnames/paths committed. On the box:
+#   1. __INSTALL_DIR__ — absolute checkout path of the Bot repo.
+#   2. __ENV_FILE__    — private env path (from diag-to-tasks.env.example).
+#   3. __DATA_DIR__    — dir holding self-fix-queue.json/.md (writable).
+#   4. __NODE_BIN__    — absolute node binary path (`which node`).
+#   5. __LOG_FILE__    — stdout/stderr log path.
+# Install via deploy/diag-to-tasks/install.sh (substitutes all of these).
+# ---------------------------------------------------------------------------
+[Unit]
+Description=diag-to-tasks — fold alpha-e2e diagnostics into the self-fix queue (testnet)
+After=network-online.target
+Wants=network-online.target
+# Runs the same read-only probes alpha-e2e does; start after the node if present.
+After=melek-testnet.service
+# Best-effort: run after the e2e diagnostics service if it exists on this box.
+After=melek-alpha-e2e.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+# `once`: load the existing queue, merge the latest e2e report (inline re-run, since no
+# pipe under systemd), write self-fix-queue.json + .md, exit. Never throws; the module's
+# CLI exits 0 even on a soft failure so the timer never flaps.
+ExecStart=__NODE_BIN__ integrations/diag-to-tasks.mjs once
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# --- Hardening: needs only outbound RPC/HTTP reads + its queue/log dir.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# Writes are confined to the queue/log dir ONLY.
+ReadWritePaths=__DATA_DIR__
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
