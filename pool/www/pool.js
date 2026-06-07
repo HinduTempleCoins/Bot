@@ -168,7 +168,7 @@ function showDetail(p) {
     ['Network hashrate', fmtHash(net.networkHashrate)],
     ['Network difficulty', fmtNum(Math.round(net.networkDifficulty || 0))],
     ['Block height', fmtNum(net.blockHeight)],
-    ['Pool fee', ((p.poolFeePercent != null ? p.poolFeePercent : 0) + '%')]
+    ['Pool fee &rarr; Hathor', ((p.poolFeePercent != null ? p.poolFeePercent : 0) + '%')]
   ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
   setupWizard(p);

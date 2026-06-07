@@ -52,6 +52,7 @@
             "extra": {
                 "randomXRealm": "monero"
             },
+            "//rewardRecipients": "POOL FEE -> HATHOR. The pool fee is taken via Miningcore rewardRecipients: each entry is {address, percentage}; that percentage of every block reward is paid to that address ON THIS COIN'S CHAIN (there is no global fee wallet — each pool pays in its own coin). The recipient MUST be a Hathor-controlled payout address — NOT PRANA (PRANA is the pool; a 'fee to PRANA' is meaningless) and never a third-party pool-software dev cut. Left empty here because the live per-coin address is an operator/treasury value substituted on the box, not committed (zero-WIF / private-by-default). See .local/POOL_FEE_ROUTING_RUNBOOK.md for the value to set on each pool at deploy. This off-chain pool fee is separate from any PRANA chain-level reward routing.",
             "rewardRecipients": [],
             "blockRefreshInterval": 1000,
             "jobRebroadcastTimeout": 10,
@@ -127,6 +128,7 @@
             "extra": {
                 "randomXRealm": "monero"
             },
+            "//rewardRecipients": "POOL FEE -> HATHOR (a Hathor-controlled mainnet payout address on this coin's chain). Set when this mainnet pool is enabled; the mainnet-value key never lives on the box (operator signer). See .local/POOL_FEE_ROUTING_RUNBOOK.md.",
             "rewardRecipients": [],
             "blockRefreshInterval": 1000,
             "jobRebroadcastTimeout": 10,
@@ -192,6 +194,7 @@
             "enabled": true,
             "coin": "ethereum",
             "address": "0xaA0c07a11e4aE6fbe201C7EBE061A86A296f08ab",
+            "//rewardRecipients": "POOL FEE -> HATHOR (a Hathor-controlled payout address on this chain). Set at deploy; for PRANA at launch the recipient is still Hathor, NOT PRANA. See .local/POOL_FEE_ROUTING_RUNBOOK.md.",
             "rewardRecipients": [],
             "blockRefreshInterval": 500,
             "jobRebroadcastTimeout": 10,
