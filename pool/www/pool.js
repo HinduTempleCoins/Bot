@@ -71,9 +71,11 @@ const el = (t, c, h) => { const e = document.createElement(t); if (c) e.classNam
 // Coins that are configured-but-disabled (node not yet provisioned/synced) and should
 // show on the menu as "coming online" without claiming live functionality.
 // Mirrors the disabled pools[] entries in config.json so the menu stays honest.
+// Zephyr first (operator Addendum 23: ZEPH is the recommended browser/phone coin), then
+// Monero mainnet. Both honest "coming online" until their daemons sync + a share accepts.
 const COMING_SOON = [
-  { sym: 'XMR', name: 'Monero (mainnet)', algo: 'RandomX / CryptoNote', note: 'coming online' },
-  { sym: 'ZEPH', name: 'Zephyr (ZEPH)', algo: 'RandomX / CryptoNote', note: 'node syncing' }
+  { sym: 'ZEPH', name: 'Zephyr (ZEPH)', algo: 'RandomX / CryptoNote', note: 'node syncing' },
+  { sym: 'XMR', name: 'Monero (mainnet)', algo: 'RandomX / CryptoNote', note: 'coming online' }
 ];
 
 function fmtHash(h) {
