@@ -250,7 +250,7 @@ export function initMeasure() {
     setStatus(`measured on ${result.threads} thread${result.threads === 1 ? '' : 's'}`);
 
     // Honest earnings estimate from the live Monero pool numbers (the browser miner's coin).
-    const poolId = runBtn.getAttribute('data-pool-id') || 'xmr-mainnet';
+    const poolId = runBtn.getAttribute('data-pool-id') || 'xmr-stagenet';
     const payload = await fetchPoolStats(poolId);
     const net = payload ? networkInputsFromPool(payload) : null;
     if (earnEl) earnEl.innerHTML = renderEstimateHtml(result.hashrate, net);

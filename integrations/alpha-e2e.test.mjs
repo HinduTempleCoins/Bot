@@ -37,6 +37,24 @@ test('all checks pass against a healthy fake stack', { timeout: 30000 }, async (
   assert.match(renderReport(rep), /PASS/);
 });
 
+test('audit checks: stale tos 404 + leftover blurtfaq link are flagged (optional, named)', { timeout: 30000 }, async () => {
+  const happy = happyFetch();
+  __setFetch(async (url, opts) => {
+    const u = String(url);
+    if (u.includes('/tos.html')) return { ok: false, status: 404, text: async () => '', json: async () => ({}) };
+    if (u.includes('/hot')) return { ok: true, status: 200, text: async () => '"address_prefix":"TST" <a href="https://blurtfaq.org">FAQ</a>', json: async () => ({}) };
+    return happy(url, opts);
+  });
+  const rep = await runAll();
+  // these are optional checks: they do not fail the required gate, but must be visible as failures
+  const tos = rep.results.find((r) => r.name.includes('TOS page'));
+  const faq = rep.results.find((r) => r.name.includes('blurtfaq'));
+  assert.equal(tos.pass, false);
+  assert.equal(faq.pass, false);
+  assert.equal(tos.required, false);
+  assert.equal(faq.required, false);
+});
+
 test('a dead surface fails the report and is named', { timeout: 30000 }, async () => {
   const happy = happyFetch();
   __setFetch(async (url, opts) => {

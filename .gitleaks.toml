@@ -145,6 +145,10 @@ regexes = [
 paths = [
   '''(?i).*\.gitleaks\.toml$''',
   '''(?i)\.gitleaks-allow\.txt$''',
+  # archive/*.md is retired documentation (old setup guides, audits, status
+  # snapshots). It references key shapes / env-var names by example and trips
+  # the scanner with false positives. Not live, not real secrets — docs.
+  '''(?i)^archive/.*\.md$''',
   # Cookbook + crypto-protocols dataset content may have example tokens
   # in EIP/BIP text. They're not real secrets — they're documentation.
   '''^datasets/cookbooks/''',
