@@ -65,6 +65,7 @@ test('reportHtml renders verdicts, escapes, and the live-head line', async () =>
     rpcError: null,
   });
   assert.match(html, /Cheetah — live test runs/);
+  assert.match(html, /\[TestNet not MELEK\]/); // public-guard testnet label is visible
   assert.match(html, /#21282/);
   assert.match(html, /@hathor/);
   assert.match(html, /MATCH|SEE ALSO/);

@@ -16,6 +16,7 @@ import { detectText } from './text-detection.js';
 import { discover } from './discovery.js';
 import { composeCreditingNote, composeDiscoveryNote } from './compose.js';
 import { SIMILARITY_THRESHOLD } from './config.js';
+import { networkLabel } from '../integrations/melek-chain.mjs';
 
 const RPC_URL = process.env.MELEK_RPC_URL || 'http://127.0.0.1:8090';
 const POST_LIMIT = parseInt(process.env.CHEETAH_ALPHA_LIMIT || '20', 10);
@@ -136,6 +137,8 @@ export function reportHtml({ results, head, generatedAt, rpcError }) {
     font:15px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
   header{border-bottom:1px solid var(--line);padding:14px 20px;display:flex;gap:18px;align-items:center}
   header .brand{font-weight:700;color:var(--acc)} header a{color:var(--mut);text-decoration:none;font-size:14px}
+  header .netlabel{font-size:11px;font-weight:700;letter-spacing:.3px;color:var(--acc);
+    border:1px solid var(--acc);border-radius:8px;padding:2px 8px}
   .wrap{max-width:980px;margin:0 auto;padding:34px 20px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:14px 0}
   h1{font-size:22px;margin:0 0 6px} .mut{color:var(--mut);font-size:13px}
@@ -145,7 +148,7 @@ export function reportHtml({ results, head, generatedAt, rpcError }) {
   a{color:var(--acc)} pre{white-space:pre-wrap;background:#11151a;border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px}
   details summary{cursor:pointer;color:var(--acc);font-size:13px} .note{max-width:380px}
 </style></head><body>
-<header><span class=brand>MELEK</span><a href="/trending">Trending</a><a href="/cheetah/">Cheetah</a><a href="/">Disclaimer</a></header>
+<header><span class=brand>MELEK</span><span class=netlabel>${esc(networkLabel())}</span><a href="/trending">Trending</a><a href="/cheetah/">Cheetah</a><a href="/">Disclaimer</a></header>
 <div class=wrap>
   <div class=card>
     <h1>🐆 Cheetah — live test runs on the testnet</h1>
