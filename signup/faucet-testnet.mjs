@@ -38,6 +38,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import { Client, PrivateKey } from '@hiveio/dhive';
+import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 
 // ── inlined key/name validators (mirrors signup/account-create.mjs; kept self-contained so the
 //    faucet has no cross-module import chain when deployed standalone on the testnet host) ──────
@@ -101,6 +102,21 @@ const CREATOR_WIF = loadCreatorWif();
 const creatorKey = PrivateKey.fromString(CREATOR_WIF);
 
 const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 15000 });
+
+// ── abuse rate limiter ──────────────────────────────────────────────────────────────────────────
+// The faucet mints FUNDED accounts — the highest-abuse surface (the live bounded spam-test minted
+// 5/5 funded accounts from one client with zero throttle). Cap per-IP and per-fingerprint over a
+// sliding window. Defaults (env-tunable via RL_* in rate-limit.mjs) are deliberately generous so a
+// genuine person can retry, but a script can't mint dozens. Soft-fails OPEN if state is unreadable.
+//   FAUCET_RL_IP_MAX        accounts per IP per window         (default 5)
+//   FAUCET_RL_FP_MAX        accounts per fingerprint per window (default 2)
+//   FAUCET_RL_WINDOW_SEC    window length, seconds              (default 86400 = 24 h)
+const faucetLimiter = new Limiter({
+  scope: 'faucet',
+  ipMax: parseInt(process.env.FAUCET_RL_IP_MAX || '5', 10),
+  fpMax: parseInt(process.env.FAUCET_RL_FP_MAX || '2', 10),
+  windowSec: parseInt(process.env.FAUCET_RL_WINDOW_SEC || '86400', 10),
+});
 
 function auth(pub) {
   return { weight_threshold: 1, account_auths: [], key_auths: [[pub, 1]] };
@@ -187,6 +203,15 @@ const server = http.createServer((req, res) => {
       let input;
       try { input = JSON.parse(buf || '{}'); }
       catch { return send(res, 400, { ok: false, reason: 'bad-json' }); }
+      // Abuse cap BEFORE the costly broadcast. Fingerprint: a client-supplied device hash header if
+      // present, else the requested account name (weak, but still bounds naive scripting). Per-IP is
+      // the real backstop. Limiter never throws and soft-fails open.
+      const fp = (req.headers && (req.headers['x-fingerprint'] || req.headers['x-device-id'])) ||
+        (input && input.name) || 'unknown';
+      const rl = faucetLimiter.check({ ip: clientIp(req), fingerprint: String(fp) });
+      if (!rl.allowed) {
+        return send(res, 429, { ok: false, reason: 'rate-limited', detail: rl.reason, retryAfter: rl.retryAfter });
+      }
       try {
         const out = await createAccount(input);
         return send(res, out.ok ? 200 : 400, out);

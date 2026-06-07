@@ -10,11 +10,22 @@ import assert from 'node:assert/strict';
 
 import {
   handler, ALLOWED_ORIGIN, validAccountName, stageCatalog,
-  computeProgress, readAccountActivity, __setChainFetch,
+  computeProgress, readAccountActivity, __setChainFetch, __setEmailLimiter,
 } from './server.mjs';
 import {
   __setMailer, __resetMailer, __resetPending, __setProviders, __resetProviders,
 } from '../integrations/email-verify.mjs';
+import { Limiter } from '../integrations/rate-limit.mjs';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+// Default: a roomy, throwaway-file limiter so unrelated email tests aren't throttled by each other.
+function freshEmailLimiter(opts = {}) {
+  const path = join(mkdtempSync(join(tmpdir(), 'srv-rl-')), 'state.json');
+  return new Limiter({ scope: 'signup-email', path, ipMax: 1000, fpMax: 1000, windowSec: 3600, ...opts });
+}
+__setEmailLimiter(freshEmailLimiter());
 
 // ── mock req/res (same shape as site/witness/witness.test.mjs) ─────────────────────────────────────
 function mockReq(path, { method = 'GET', origin, body } = {}) {
@@ -288,6 +299,21 @@ test('POST /api/verify-email rejects bad JSON', async () => {
   const r = await route('/api/verify-email', { method: 'POST', body: '{not json' });
   assert.equal(r.statusCode, 400);
   assert.equal(json(r).reason, 'bad-json');
+});
+
+test('POST /api/verify-email is rate-limited after the cap (429), then restores roomy limiter', async () => {
+  // Tight limiter for this test only: ipMax=2 on the shared mock IP ('unknown').
+  __setEmailLimiter(freshEmailLimiter({ ipMax: 2, fpMax: 1000 }));
+  __setMailer(async () => ({ ok: true }));
+  const send = (email) => route('/api/verify-email', { method: 'POST', body: JSON.stringify({ email }) });
+  assert.equal((await send('a@b.com')).statusCode, 200);
+  assert.equal((await send('c@d.com')).statusCode, 200);
+  const blocked = await send('e@f.com');
+  assert.equal(blocked.statusCode, 429, 'third request from same IP is throttled');
+  assert.equal(json(blocked).reason, 'rate-limited');
+  assert.ok(json(blocked).retryAfter > 0);
+  __resetMailer();
+  __setEmailLimiter(freshEmailLimiter()); // restore roomy default for any later tests
 });
 
 // ===================================================================================================
