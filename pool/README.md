@@ -403,6 +403,35 @@ This **is** the non-custodial property, and it is **standard Miningcore behavior
   one-click / HD-seed wallet layer arrives with PRANA; today's pool is the receive-address
   miner front end for that design.
 
+## Pool fee → Hathor (not PRANA)
+
+The pool takes one small fee, and **it routes to Hathor, the founding AI Witness — NOT to
+PRANA.** PRANA *is* the pool, so a "fee to PRANA" is meaningless; the fee supports Hathor /
+the treasury, and may become part of the **DAO** later (operator directive 2026-06-07: pool
+fee → Hathor; DAO later). This is the same disclosure shown publicly on `/fees`
+(`site/witness/server.mjs`) and on each coin's detail panel (`pool/www/pool.js`, "Pool fee →
+Hathor").
+
+**Where it's configured:**
+
+- **Miningcore (the live platform):** the fee is taken per-pool via `rewardRecipients` —
+  each entry is `{ "address": …, "percentage": … }` and that percentage of every block reward
+  is paid **on that coin's own chain** (there is no single global fee wallet; each pool pays in
+  its own coin). The recipient must be a **Hathor-controlled payout address** for that coin.
+  In the committed template (`deploy/miningcore/config.json`) `rewardRecipients` is left empty
+  with a `//rewardRecipients` note, because the live per-coin address is an operator/treasury
+  value substituted **on the box**, never committed (zero-WIF / private-by-default). The exact
+  value to set on each pool at deploy is in `.local/POOL_FEE_ROUTING_RUNBOOK.md` (deploys are
+  approval-gated).
+- **Legacy `cryptonote-nodejs-pool` (rollback only, `deploy/config.json`):** `blockUnlocker`
+  now reads `poolFee: 1.0, devDonation: 0.0` — the **whole** fee accrues to the Hathor-controlled
+  pool payout address; the old upstream "dev donation" cut is zeroed so nothing leaks off-treasury.
+
+This off-chain pool fee is **separate** from any PRANA chain-level reward routing. Per
+directive Addendum 7 the PRANA chain hardcodes a consensus-enforced Hathor Fees Module on the
+chain side (the PRANA repo) — that is not this off-chain pool software, but it points the same
+direction: to Hathor.
+
 ## Cutover (old pool → Miningcore)
 
 Until proven, the **old `cryptonote-nodejs-pool` keeps `:3333/:5555`** and Miningcore runs
