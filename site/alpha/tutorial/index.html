@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The MELEK testnet tutorial</title>
+<link rel="stylesheet" href="tutorial.css">
+</head><body>
+<div class="wrap"><div class="card">
+  <span class="tag">[TestNet not MELEK]</span>
+  <h1>Your path on MELEK</h1>
+  <p class="muted">A self-paced map of the chain, in the order it makes sense to learn it.
+  Start by creating an account, then work down the list — post, engage, power up, vote.
+  Tap any stage for what it is and why it matters. Your progress is kept
+  <b>only in this browser</b>; nothing is sent anywhere.</p>
+
+  <div id="bar"></div>
+  <div id="list"></div>
+  <div id="detail" hidden></div>
+
+  <div class="legend">
+    <p><b>Tier A</b> — works on the testnet right now (standard chain actions).
+    <b>Tier B</b> — unlocks as features ship (communities, tokens, market, wiki, bridge…).
+    <b>Tier C</b> — the conversation with Hathor, in Phase 3.</p>
+    <p class="small">Already have an account? <a href="/">Log in</a> ·
+    Need one? <a href="/account/signup.html">Create your account</a></p>
+  </div>
+</div></div>
+<script type="module">
+  import { mount } from './tutorial-ui.mjs';
+  mount(document);
+</script>
+</body></html>
