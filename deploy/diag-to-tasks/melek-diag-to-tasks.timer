@@ -1,0 +1,20 @@
+# MELEK diag-to-tasks timer — fold diagnostics into the self-fix queue every 15 min,
+# staggered to land AFTER the alpha-e2e diagnostics run (melek-alpha-e2e.timer, 15-min).
+# The e2e probe pass can take ~10-15s (it sleeps to watch the head advance); we offset
+# this run by 5 minutes so it consumes a fresh report rather than racing the producer.
+# The merge is idempotent (de-dup by stable check-name hash + green-streak recovery), so
+# overlapping/catch-up fires never corrupt the queue.
+[Unit]
+Description=Run diag-to-tasks every 15 min (5 min after the alpha-e2e diagnostics)
+Requires=melek-diag-to-tasks.service
+
+[Timer]
+# First fire 5 min after boot (let the e2e run produce a report first), then every 15 min.
+OnBootSec=5min
+OnUnitActiveSec=15min
+# If the box was down at fire time, run on next boot — the queue's firstSeen/count survive.
+Persistent=true
+Unit=melek-diag-to-tasks.service
+
+[Install]
+WantedBy=timers.target

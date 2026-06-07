@@ -81,3 +81,6 @@ site/soapbox/data/
 
 # Runtime fact-check / KB-flag output (per-deployment, never committed)
 data/
+
+# diag-to-tasks bare-run output (box uses DIAG_TASKS_PATH instead)
+integrations/.diag-tasks/
