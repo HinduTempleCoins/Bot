@@ -12,7 +12,7 @@ process.env.HE_RPC_NODES = 'https://node-a.test/contracts,https://node-b.test/co
 process.env.HE_HISTORY_NODES = 'https://hist-a.test/accountHistory,https://hist-b.test/accountHistory';
 process.env.HE_CACHE_TTL_MS = '0';
 
-const { find, findOne, historyPage, withFailover, NODES, __setFetch } = await import('./he-client.mjs');
+const { find, findAll, findOne, historyPage, withFailover, NODES, __setFetch } = await import('./he-client.mjs');
 
 function jsonResponse(body, { ok = true, status = 200 } = {}) {
   return { ok, status, async json() { return body; } };
@@ -84,6 +84,42 @@ test('historyPage: builds the query URL + parses JSON, with failover', async () 
     assert.ok(used.includes('account=kalivankush'));
     assert.ok(used.includes('limit=2'));
     assert.equal(rows.length, 1);
+  } finally { __setFetch(null); }
+});
+
+test('findAll: pages through offsets until a short page, concatenating all rows', async () => {
+  // 2300 rows served in pages of 1000 — findAll must request offset 0/1000/2000 and stop on the short
+  // (300-row) third page, yielding all 2300. This is the fix for single-page truncation at the HE cap.
+  const all = Array.from({ length: 2300 }, (_, i) => ({ account: `a${i}`, balance: String(i) }));
+  const offsets = [];
+  __setFetch(async (_url, opts) => {
+    const p = JSON.parse(opts.body).params;
+    offsets.push(p.offset);
+    return jsonResponse({ result: all.slice(p.offset, p.offset + p.limit) });
+  });
+  try {
+    const rows = await findAll('tokens', 'balances', { symbol: 'CURE' });
+    assert.equal(rows.length, 2300);
+    assert.deepEqual(offsets, [0, 1000, 2000]); // stopped on the short page, no needless 4th request
+    assert.equal(rows[0].account, 'a0');
+    assert.equal(rows[2299].account, 'a2299');
+  } finally { __setFetch(null); }
+});
+
+test('findAll: empty first page → [] (soft, no throw)', async () => {
+  __setFetch(async () => jsonResponse({ result: [] }));
+  try { assert.deepEqual(await findAll('tokens', 'balances', { symbol: 'NONE' }), []); } finally { __setFetch(null); }
+});
+
+test('findAll: a failing later page stops paging and returns what it has (never throws)', async () => {
+  __setFetch(async (_url, opts) => {
+    const off = JSON.parse(opts.body).params.offset;
+    if (off === 0) return jsonResponse({ result: Array.from({ length: 1000 }, (_, i) => ({ i })) });
+    throw new Error('node down on page 2');
+  });
+  try {
+    const rows = await findAll('tokens', 'balances', { symbol: 'X' });
+    assert.equal(rows.length, 1000); // page-1 rows retained; page-2 failure swallowed
   } finally { __setFetch(null); }
 });
 

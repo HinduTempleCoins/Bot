@@ -74,6 +74,36 @@ export async function findOne(contract, table, query) {
   return (await find(contract, table, query, 1))[0] || null;
 }
 
+// Paginated find — walks `offset` in pages of `pageSize` (HE caps a single find at 1000) until a
+// short/empty page or `maxRows` is reached, concatenating the rows. Use this whenever the TRUE row
+// COUNT matters (e.g. token holder counts): a single find() silently truncates at its limit, and the
+// HE `balance` index sorts LEXICOGRAPHICALLY (string), not numerically — so you cannot trust either a
+// single page's size or its ordering. We deliberately do NOT pass a sort index here (read the table in
+// natural order and sort numerically in the caller); this also avoids the string-sort window dropping
+// fully-staked holders whose liquid `balance` is "0". Soft by construction: stops on the first failed
+// page and returns what it has, so an unattended run never throws on a flaky later page.
+export async function findAll(contract, table, query, { pageSize = 1000, maxRows = 50000, indexes = [] } = {}) {
+  const out = [];
+  for (let offset = 0; out.length < maxRows; offset += pageSize) {
+    let page;
+    try {
+      page = await withFailover(RPC_NODES, async (node) => {
+        const j = await fetchJSON(node, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'find', params: { contract, table, query, limit: pageSize, offset, indexes } }),
+        });
+        if (j.error) throw new Error(j.error.message);
+        return j.result || [];
+      });
+    } catch { break; }
+    if (!Array.isArray(page) || page.length === 0) break;
+    out.push(...page);
+    if (page.length < pageSize) break; // last (short) page → done
+  }
+  return out;
+}
+
 // account market history — failover across history mirrors, single page
 export async function historyPage(account, { limit = 500, offset = 0, ops = 'market_buy,market_sell,market_placeOrder,market_expire,market_cancel' } = {}) {
   return withFailover(HISTORY_NODES, (node) =>
