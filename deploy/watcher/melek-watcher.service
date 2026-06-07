@@ -1,0 +1,58 @@
+# MELEK Hathor watcher — out-of-band alerter for sensitive @hathor ops (systemd unit TEMPLATE)
+# ---------------------------------------------------------------------------
+# Carryover #156: deploy the watcher/ module (SECURITY.md §4d). This is the
+# READ-ONLY alerter that watches @hathor's account_history for transfer,
+# account_update (key rotation), withdraw_vesting (power-down), delegate_vesting_shares
+# and witness_update, and fans an alert out to file + Telegram + email within the
+# tick window if any appear. It reads NO keys, broadcasts NOTHING — strictly read-side.
+#
+# NOTE: this is DISTINCT from melek-watchdog.service. That unit (watchdog.mjs) is a
+# systemd-timer liveness monitor (detects silently-dead MELEK timers). THIS unit is the
+# Hathor-account security watcher. Different jobs, intentionally separate.
+#
+# Run mode: oneshot + .timer. The watcher persists its history cursor to a state
+# file (WATCHER_STATE_FILE) across runs, so each op is alerted exactly once even
+# though the process exits between ticks. (The module also has an in-process --cron
+# mode; the timer form is the systemd-native fit and matches the repo's other timers.)
+#
+# Placeholders only; no real hostnames/paths are committed. On the box:
+#   1. Replace __INSTALL_DIR__  with the absolute checkout path of the Bot repo.
+#   2. Replace __ENV_FILE__     with the private env path (from watcher.env.example).
+#   3. Replace __DATA_DIR__     with the dir holding the state file + alerts.jsonl (writable).
+#   4. Replace __NODE_BIN__     with the absolute node binary path (`which node`).
+#   5. Replace __LOG_FILE__     with the stdout/stderr log path.
+# Install via deploy/watcher/install.sh (substitutes all of these).
+# ---------------------------------------------------------------------------
+[Unit]
+Description=Hathor watcher — out-of-band alerter for sensitive @hathor ops (testnet)
+After=network-online.target
+Wants=network-online.target
+# Reads the local testnet RPC; start after it if present (read-only, soft-fails if down).
+After=melek-testnet.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+# --once: run one tick (read history above cursor, alert on sensitive ops, advance
+# cursor), then exit. READ-ONLY — never signs, never broadcasts; no WIF / active /
+# posting key is referenced or needed by this code path.
+ExecStart=__NODE_BIN__ watcher/index.js --once
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# --- Hardening: this process needs only outbound RPC reads + its state/log dir.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# Writes are confined to the state/alerts dir ONLY.
+ReadWritePaths=__DATA_DIR__
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
