@@ -5,10 +5,28 @@
 // and fake timers so no real RandomX / Web Worker runs here.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import {
   syntheticJob, aggregateHashrate, steadyHashrate, estimateEarnings,
   fmtUsd, fmtHs, networkInputsFromPool, runBenchmark, renderEstimateHtml,
 } from './measure.mjs';
+
+// ---------- the live pool id the estimate queries ----------
+// The pool's RandomX/Monero side runs Monero **stagenet**, so the only Miningcore pool
+// that exists at /api/pools is `xmr-stagenet`. The measure card must query that id (an
+// `xmr-mainnet` query 404s on the live pool and the estimate silently never populates).
+// Offline source-level guard (no network): the default poolId and the index.html button
+// must both name `xmr-stagenet`.
+test('measure default poolId is the live stagenet pool (xmr-stagenet, not xmr-mainnet)', () => {
+  const src = readFileSync(fileURLToPath(new URL('./measure.mjs', import.meta.url)), 'utf8');
+  assert.match(src, /data-pool-id'\)\s*\|\|\s*'xmr-stagenet'/);
+  assert.doesNotMatch(src, /\|\|\s*'xmr-mainnet'/);
+
+  const html = readFileSync(fileURLToPath(new URL('./index.html', import.meta.url)), 'utf8');
+  assert.match(html, /id="mm-run"[^>]*data-pool-id="xmr-stagenet"/);
+  assert.doesNotMatch(html, /id="mm-run"[^>]*data-pool-id="xmr-mainnet"/);
+});
 
 // ---------- synthetic job ----------
 test('syntheticJob is real-shaped and impossible to beat (no shares during a benchmark)', () => {
