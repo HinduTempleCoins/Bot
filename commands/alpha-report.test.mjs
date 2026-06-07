@@ -98,6 +98,7 @@ test('reportHtml renders menu, demo, wild rows, and the live-head line', () => {
     rpcError: null,
   });
   assert.match(html, /!commands — Hathor's deterministic menu/);
+  assert.match(html, /\[TestNet not MELEK\]/); // public-guard testnet label is visible
   assert.match(html, /#31337/);
   assert.match(html, /@hathor/);
   assert.match(html, /!signup/); // menu list includes the new commands
