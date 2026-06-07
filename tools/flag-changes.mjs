@@ -22,7 +22,10 @@ function sh(cmd) { try { return execSync(cmd, { cwd: process.cwd(), encoding: 'u
 const raw = sh(`git diff --name-only ${range}`) || sh(`git diff --name-only HEAD~20..HEAD`);
 const files = [...new Set(raw.split('\n').map(s => s.trim()).filter(Boolean))]
   .filter(f => ANNAL_EXT.has((f.match(/\.[a-z]+$/i) || [''])[0].toLowerCase()))
-  .filter(f => !f.startsWith('.local/') && !f.startsWith('node_modules/'));
+  // datasets/ is bulk ingested corpus (cookbooks, crypto-protocols, ml-libs, …),
+  // not hand-authored code/docs — flagging it floods the annal review queue with
+  // noise the AIs shouldn't be debug-reviewing. Exclude alongside .local/ + node_modules/.
+  .filter(f => !f.startsWith('.local/') && !f.startsWith('node_modules/') && !f.startsWith('datasets/'));
 
 const commits = sh(`git log --oneline ${range}`).split('\n').filter(Boolean);
 const stamp = sh('git log -1 --format=%cI') || 'unknown';
