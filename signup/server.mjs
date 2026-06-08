@@ -318,8 +318,10 @@ export async function handler(req, res) {
     if (!isValidEmail(email)) {
       return sendJson(res, 400, { ok: false, reason: 'invalid-email' }, origin);
     }
-    // Abuse cap before the mailer runs (per-IP + per-email-address). Soft-fails open.
-    const rl = _emailLimiter.check({ ip: clientIp(req), fingerprint: String(email).toLowerCase() });
+    // Abuse cap CHECKED before the mailer runs (per-IP + per-email-address), but only RECORDED after
+    // a mail actually goes out — a failed/unconfigured send must not burn the user's slot. Soft-fails open.
+    const rlKey = { ip: clientIp(req), fingerprint: String(email).toLowerCase() };
+    const rl = _emailLimiter.check(rlKey);
     if (!rl.allowed) {
       return sendJson(res, 429, { ok: false, reason: 'rate-limited', retryAfter: rl.retryAfter }, origin);
     }
@@ -330,8 +332,10 @@ export async function handler(req, res) {
     }
     if (!r.sent) {
       // The flow ran but no mail went out — almost always a missing RESEND key. Be honest.
+      // No mail sent => no slot consumed (the user can retry once the key is configured).
       return sendJson(res, 200, { ok: false, reason: 'email-not-configured', email: r.email }, origin);
     }
+    _emailLimiter.record(rlKey); // count ONLY a verification mail that actually sent
     return sendJson(res, 200, { ok: true, sent: true, email: r.email, expiresAt: r.expiresAt }, origin);
   }
 

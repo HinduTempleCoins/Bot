@@ -32,7 +32,7 @@
 //   node signup/faucet-testnet.mjs
 //
 // ENDPOINTS
-//   GET  /faucet/health   -> { ok, creator, chain_id_prefix, testnet:true }   (no secrets)
+//   GET  /faucet/health   -> { ok, testnet:true, creator, chain_id_prefix, address_prefix }  (no secrets, no RPC URL)
 //   POST /faucet/create   { name, ownerPub, activePub, postingPub, memoPub } -> { ok, id?, reason? }
 
 import http from 'node:http';
@@ -62,7 +62,10 @@ function looksLikePublicKey(key) {
   return !!m && isBase58(m[2]);
 }
 const SEGMENT_RE = /^[a-z][a-z0-9-]*[a-z0-9]$/;
-function validAccountName(name) {
+// Exported so signup/account-name-parity.test.mjs can assert this inlined copy stays in lockstep
+// with the account-create.mjs / server.mjs implementations. The export does not change the faucet's
+// standalone behaviour (no new import chain).
+export function validAccountName(name) {
   if (typeof name !== 'string') return false;
   if (name.length < 3 || name.length > 16) return false;
   for (const seg of name.split('.')) {
@@ -98,10 +101,16 @@ function loadCreatorWif() {
   throw new Error('no creator WIF: set FAUCET_WIF or FAUCET_WIF_FILE (testnet key only)');
 }
 
-const CREATOR_WIF = loadCreatorWif();
-const creatorKey = PrivateKey.fromString(CREATOR_WIF);
-
-const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 15000 });
+// The creator key + chain client are constructed lazily (only when the server actually starts) so
+// the module can be imported in offline tests WITHOUT a WIF in the env. The CLI guard at the bottom
+// builds them via initChain() before listening.
+let creatorKey = null;
+let client = null;
+function initChain() {
+  const CREATOR_WIF = loadCreatorWif();
+  creatorKey = PrivateKey.fromString(CREATOR_WIF);
+  client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 15000 });
+}
 
 // ── abuse rate limiter ──────────────────────────────────────────────────────────────────────────
 // The faucet mints FUNDED accounts — the highest-abuse surface (the live bounded spam-test minted
@@ -188,42 +197,65 @@ function send(res, code, body) {
   res.end(data);
 }
 
-const server = http.createServer((req, res) => {
-  if (req.method === 'OPTIONS') return send(res, 204, {});
-  if (req.method === 'GET' && req.url.startsWith('/faucet/health')) {
-    return send(res, 200, {
-      ok: true, testnet: true, creator: CREATOR,
-      chain_id_prefix: CHAIN_ID.slice(0, 6), address_prefix: PREFIX, rpc: RPC,
-    });
-  }
-  if (req.method === 'POST' && req.url.startsWith('/faucet/create')) {
-    let buf = '';
-    req.on('data', (c) => { buf += c; if (buf.length > 8192) req.destroy(); });
-    req.on('end', async () => {
-      let input;
-      try { input = JSON.parse(buf || '{}'); }
-      catch { return send(res, 400, { ok: false, reason: 'bad-json' }); }
-      // Abuse cap BEFORE the costly broadcast. Fingerprint: a client-supplied device hash header if
-      // present, else the requested account name (weak, but still bounds naive scripting). Per-IP is
-      // the real backstop. Limiter never throws and soft-fails open.
-      const fp = (req.headers && (req.headers['x-fingerprint'] || req.headers['x-device-id'])) ||
-        (input && input.name) || 'unknown';
-      const rl = faucetLimiter.check({ ip: clientIp(req), fingerprint: String(fp) });
-      if (!rl.allowed) {
-        return send(res, 429, { ok: false, reason: 'rate-limited', detail: rl.reason, retryAfter: rl.retryAfter });
-      }
-      try {
-        const out = await createAccount(input);
-        return send(res, out.ok ? 200 : 400, out);
-      } catch (e) {
-        return send(res, 500, { ok: false, reason: `error:${(e && e.message) || 'unknown'}` });
-      }
-    });
-    return;
-  }
-  return send(res, 404, { ok: false, reason: 'not-found' });
-});
+const MAX_BODY = 8192;
 
-server.listen(PORT, '127.0.0.1', () => {
-  console.log(`faucet-testnet listening on 127.0.0.1:${PORT} creator=${CREATOR} prefix=${PREFIX} rpc=${RPC}`);
-});
+// Request handler factory. Deps are injectable so the request flow (rate-limit / oversize / broadcast
+// outcome) is offline-testable without a real chain client or creator key.
+//   create  — async (input) => { ok, id?, reason? }   (defaults to the live createAccount)
+//   limiter — a Limiter instance                       (defaults to the module faucetLimiter)
+export function makeHandler({ create = createAccount, limiter = faucetLimiter } = {}) {
+  return function handler(req, res) {
+    if (req.method === 'OPTIONS') return send(res, 204, {});
+    if (req.method === 'GET' && req.url.startsWith('/faucet/health')) {
+      // Do NOT expose the RPC URL — internal node topology stays private (the endpoint is CORS '*').
+      return send(res, 200, {
+        ok: true, testnet: true, creator: CREATOR,
+        chain_id_prefix: CHAIN_ID.slice(0, 6), address_prefix: PREFIX,
+      });
+    }
+    if (req.method === 'POST' && req.url.startsWith('/faucet/create')) {
+      let buf = '';
+      let aborted = false;
+      // Mirror signup/server.mjs: on an oversize body, flag + destroy, then answer 413 in 'end'
+      // (a bare req.destroy() with no response is a TCP reset the client can't read).
+      req.on('data', (c) => { buf += c; if (buf.length > MAX_BODY) { aborted = true; req.destroy(); } });
+      req.on('error', () => { /* client aborted; 'end' won't fire with a body — nothing to answer */ });
+      req.on('end', async () => {
+        if (aborted) return send(res, 413, { ok: false, reason: 'body-too-large' });
+        let input;
+        try { input = JSON.parse(buf || '{}'); }
+        catch { return send(res, 400, { ok: false, reason: 'bad-json' }); }
+        // Abuse cap is CHECKED before the costly broadcast, but only RECORDED after a successful mint
+        // (a failed broadcast — chain down, dup name, bad fee — must not burn a real user's slot).
+        // Fingerprint: a client-supplied device hash header if present, else the requested account
+        // name (weak, but still bounds naive scripting). Per-IP is the real backstop. Soft-fails open.
+        const fp = (req.headers && (req.headers['x-fingerprint'] || req.headers['x-device-id'])) ||
+          (input && input.name) || 'unknown';
+        const rlKey = { ip: clientIp(req), fingerprint: String(fp) };
+        const rl = limiter.check(rlKey);
+        if (!rl.allowed) {
+          return send(res, 429, { ok: false, reason: 'rate-limited', detail: rl.reason, retryAfter: rl.retryAfter });
+        }
+        try {
+          const out = await create(input);
+          if (out && out.ok) limiter.record(rlKey); // count ONLY a successful broadcast
+          return send(res, out.ok ? 200 : 400, out);
+        } catch (e) {
+          // Thrown error => no successful mint => no slot consumed.
+          return send(res, 500, { ok: false, reason: `error:${(e && e.message) || 'unknown'}` });
+        }
+      });
+      return;
+    }
+    return send(res, 404, { ok: false, reason: 'not-found' });
+  };
+}
+
+// ── CLI (guarded): build the chain client/key, then listen. ─────────────────────────────────────
+if (process.argv[1] && /faucet-testnet\.mjs$/.test(process.argv[1])) {
+  initChain();
+  const server = http.createServer(makeHandler());
+  server.listen(PORT, '127.0.0.1', () => {
+    console.log(`faucet-testnet listening on 127.0.0.1:${PORT} creator=${CREATOR} prefix=${PREFIX} rpc=${RPC}`);
+  });
+}

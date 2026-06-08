@@ -155,7 +155,7 @@ export async function runSignup({ name, doc }) {
     ` <span class="muted small">(or use a Copy button above)</span> `,
     `<span id="delivered-ok" class="ok small" hidden>✓ saved</span></p>`,
     `<p class="gate-step"><b>2.</b> Re-type your master password to confirm you have it:</p>`,
-    `<input id="confirm" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="paste or type your master password">`,
+    `<input id="confirm" class="wiz-input mono" type="password" autocomplete="off" spellcheck="false" placeholder="paste or type your master password">`,
     `<p id="gate-reason" class="muted small"></p>`,
     `<p><button type="button" id="create" class="wiz-btn" disabled>Create my account</button></p>`,
     `<div id="create-msg"></div>`,
