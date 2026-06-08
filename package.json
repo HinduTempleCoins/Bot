@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "hello": "node hello.js",
-    "test": "node --test tutorial/*.test.js welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js commands/*.test.js commands/*.test.mjs integrations/*.test.js integrations/*.test.mjs integrations/soapbox/*.test.mjs integrations/chains/crosschain-arb.test.mjs cheetah/*.test.js cheetah/*.test.mjs store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.mjs site/*/*/*.test.mjs spamtest/*.test.mjs",
+    "test": "node --test tutorial/*.test.js tutorial/*.test.mjs tutorial/lessons/*.test.mjs welcomer/*.test.js watcher/*.test.js witness/*.test.mjs src/chain/*.test.js src/chain/*.test.mjs src/trollbox/*.test.mjs commands/*.test.js commands/*.test.mjs integrations/*.test.js integrations/*.test.mjs integrations/angelicalist/*.test.mjs integrations/booklore/*.test.mjs integrations/chains/*.test.js integrations/chains/*.test.mjs integrations/games/*.test.mjs integrations/scrapers/*.test.mjs integrations/vr/*.test.mjs integrations/watchtower/*.test.js integrations/soapbox/*.test.js integrations/soapbox/*.test.mjs integrations/soapbox/adapters/*.test.js cheetah/*.test.js cheetah/*.test.mjs store/*.test.js autovote/*.test.js signup/*.test.mjs engine/test/*.test.mjs pool/www/*.test.mjs pool/bridge/*.test.mjs site/*/*.test.js site/*/*.test.mjs site/*/*/*.test.mjs tools/*.test.js tools/*.test.mjs spamtest/*.test.mjs",
     "autovote": "node autovote/server.js",
     "engine": "node engine/node.mjs",
     "engine:once": "node engine/node.mjs --once",
