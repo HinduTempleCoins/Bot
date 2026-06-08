@@ -52,6 +52,11 @@ function isRetryable(err) {
 
 class GeminiClient {
   constructor(apiKey) {
+    // Whether a Gemini key is present. When ABSENT we skip the (doomed) Gemini SDK call entirely and
+    // route straight through the keyless provider ladder (llm-router → pollinations), so article
+    // generation runs with ZERO operator key. When a key IS present, Gemini stays primary and the
+    // router is only a fallback (prior behaviour, unchanged).
+    this.hasGemini = Boolean(apiKey && String(apiKey).trim());
     this.genAI = new GoogleGenerativeAI(apiKey);
     // #88 cost guard: count every LLM call (Gemini attempts + router fallbacks) against a per-run cap.
     this.callCount = 0;
@@ -163,10 +168,39 @@ STYLE:
   }
 
   /**
+   * Run a prompt straight through the keyless provider ladder (no Gemini attempt). Used when no
+   * GEMINI_API_KEY is configured so generation defaults to the free keyless models. Honours the same
+   * cost guard. Throws if the router is unavailable or every provider failed, so callers can surface
+   * the error exactly as the Gemini path would.
+   * @param {string} prompt
+   * @param {object} [opts] router opts (task hint, temperature, maxTokens)
+   */
+  async _routeKeyless(prompt, opts = {}) {
+    const complete = await loadRouter();
+    if (!complete) throw new Error('no LLM available: router not loaded and no GEMINI_API_KEY');
+    this._charge('router-keyless');
+    const res = await complete(prompt, {
+      system: this.systemInstruction,
+      task: opts.task || 'quality',
+      temperature: opts.temperature ?? Number(process.env.GEMINI_TEMPERATURE ?? 0.25),
+      maxTokens: opts.maxTokens ?? 4096,
+      log: (m) => console.error(m),
+    });
+    if (res && res.text && res.text.trim()) {
+      console.error(`[GeminiClient] no Gemini key — generated via keyless provider ${res.provider} (${res.model}).`);
+      return res.text;
+    }
+    throw new Error(`keyless generation failed: ${res?.error || 'all providers returned empty'}`);
+  }
+
+  /**
    * Generate a wiki article synthesizing knowledge from multiple sources
    */
   async synthesizeArticle(topic, context, existingArticle = null) {
     const prompt = this.buildSynthesisPrompt(topic, context, existingArticle);
+
+    // No Gemini key → go straight to the keyless ladder (don't waste a doomed Gemini round-trip).
+    if (!this.hasGemini) return this._routeKeyless(prompt, { task: 'quality' });
 
     try {
       return await this._withRetry(async () => {
@@ -209,6 +243,8 @@ Provide a comprehensive answer that:
 3. Explains connections between topics
 4. Notes any gaps or areas needing more research`;
 
+    if (!this.hasGemini) return this._routeKeyless(prompt, { task: 'quality' });
+
     try {
       return await this._withRetry(async () => {
         const chat = this.model.startChat({
@@ -247,6 +283,8 @@ Provide:
 2. Which wiki articles should be updated
 3. What specific information should be added/changed
 4. How this connects to existing knowledge (especially Oilahuasca, Headcones, Shulgin research)`;
+
+    if (!this.hasGemini) return this._routeKeyless(prompt, { task: 'default' });
 
     try {
       return await this._withRetry(async () => {
@@ -355,6 +393,8 @@ CONTEXT:
 ${contextText.slice(0, 2000)}
 
 Give a concise, informative response suitable for Discord. Mention which topics to explore for more depth.`;
+
+    if (!this.hasGemini) return this._routeKeyless(prompt, { task: 'cheap', maxTokens: 1024 });
 
     try {
       return await this._withRetry(async () => {

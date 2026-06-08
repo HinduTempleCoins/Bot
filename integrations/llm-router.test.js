@@ -7,7 +7,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { complete, availableProviders, PROVIDERS } from './llm-router.mjs';
 
-const ENV_KEYS = PROVIDERS.map((p) => p.env);
+const ENV_KEYS = PROVIDERS.map((p) => p.env).filter(Boolean); // keyless providers have env:null
 
 function withEnv(overrides, fn) {
   const saved = {};
@@ -161,6 +161,68 @@ test('gemini path parses candidates shape', async () => {
       const res = await complete('hi', { prefer: 'gemini' });
       assert.equal(res.provider, 'gemini');
       assert.equal(res.text, 'gemini text');
+    });
+  } finally {
+    global.fetch = orig;
+  }
+});
+
+// ── keyless backstop: generation must run with ZERO keys present ──────────────────────────────
+test('availableProviders: keyless pollinations is always true, even with no keys', async () => {
+  await withEnv({}, () => {
+    const a = availableProviders();
+    assert.equal(a.gemini, false);
+    assert.equal(a.openrouter, false);
+    assert.equal(a.github, false);
+    assert.equal(a.groq, false);
+    assert.equal(a.pollinations, true); // keyless → always usable
+  });
+});
+
+test('no keys at all: keyless pollinations still answers (the unblock)', async () => {
+  const orig = global.fetch;
+  // Every keyed rung is skipped (no key); pollinations is the only one tried.
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('keyless article body') }]);
+  try {
+    await withEnv({}, async () => {
+      const res = await complete('write an article', { task: 'quality' });
+      assert.equal(res.provider, 'pollinations');
+      assert.equal(res.text, 'keyless article body');
+      // every keyed provider was skipped for want of a key
+      const skipped = res.attempts.filter((x) => x.skipped === 'no-key').map((x) => x.provider).sort();
+      assert.deepEqual(skipped, ['gemini', 'github', 'groq', 'openrouter']);
+    });
+  } finally {
+    global.fetch = orig;
+  }
+});
+
+test('keyless pollinations sends NO Authorization header', async () => {
+  const orig = global.fetch;
+  let sawAuth = 'unset';
+  global.fetch = async (_url, init) => {
+    sawAuth = init?.headers?.authorization ?? null;
+    return { ok: true, status: 200, text: async () => openaiBody('ok') };
+  };
+  try {
+    await withEnv({}, async () => {
+      const res = await complete('hi', { prefer: 'pollinations' });
+      assert.equal(res.provider, 'pollinations');
+      assert.equal(sawAuth, null); // no Bearer header when keyless
+    });
+  } finally {
+    global.fetch = orig;
+  }
+});
+
+test('keyed provider still wins over keyless backstop when a key is present', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('from groq') }]);
+  try {
+    await withEnv({ GROQ_API_KEY: 'k' }, async () => {
+      const res = await complete('hi', { task: 'cheap' }); // cheap → groq first, pollinations last
+      assert.equal(res.provider, 'groq');
+      assert.equal(res.text, 'from groq');
     });
   } finally {
     global.fetch = orig;
