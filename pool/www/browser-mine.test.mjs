@@ -37,6 +37,25 @@ test('browser-mine section has address, throttle, start/stop, and live counters'
   }
 });
 
+// ---- wallet tiles are the front-page element; the raw address box is hidden up front ----
+// (operator 2026-06-08: the wallets ARE the lead element — a tile grid — and there's NO
+// value-entry box up front. The chosen tile auto-fills the hidden box; it only reveals when
+// "use my own wallet" is tapped.)
+test('wallet tiles lead; the raw address box starts hidden (no typing up front)', () => {
+  const i = (id) => html.indexOf(`id="${id}"`);
+  // the tile-grid mount point exists and comes BEFORE the address field
+  assert.ok(i('bm-wallets') > 0, 'has the #bm-wallets tile-grid mount point');
+  assert.ok(i('bm-wallets') < i('bm-addr-field'), 'tiles are above the (hidden) address box');
+  // the address field is hidden by default
+  const fieldTag = html.slice(i('bm-addr-field') - 60, i('bm-addr-field') + 40);
+  assert.match(fieldTag, /id="bm-addr-field"\s+hidden/, 'the address field carries the hidden attribute');
+  // the glue reveals it on "use my own wallet" (onOwn) + on an empty Start, and never leaves
+  // the user with no input box
+  const src = readFileSync(join(here, 'browser-mine.mjs'), 'utf8');
+  assert.match(src, /removeAttribute\('hidden'\)/, 'glue reveals the address box');
+  assert.match(src, /onOwn:\s*revealAddrBox/, 'onOwn hook reveals the address box');
+});
+
 // ---- honesty copy is present (participation, fractions of a cent, ad-blocker note) ----
 test('honesty copy: real shares, fractions of a cent, ad-blocker/CoinHive note, battery', () => {
   assert.match(html, /real shares/i);

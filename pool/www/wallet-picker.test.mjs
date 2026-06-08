@@ -90,6 +90,29 @@ test('renderPicker: saved → button with data-address, missing → grey link', 
   assert.equal(link.href, '/wallet/?coin=zephyr');
 });
 
+test('renderPicker: tile grid — container is wp-grid, tiles carry wp-tile + a big symbol', () => {
+  const host = fakeEl('div');
+  const m = pickerModel({ chains: CHAINS, records: [{ coin: 'monero', address: '4' + 'a'.repeat(94) }] });
+  renderPicker(host, m, { doc: fakeDoc(), onOwn: () => {} });
+  // the host becomes a grid, not the old thin row
+  assert.equal(host.className, 'wp-grid');
+  // every rendered tile is a card (wp-tile) and shows its symbol + name + subtext as child spans
+  const xmr = host.children.find((c) => c.attrs['data-coin'] === 'monero');
+  assert.match(xmr.className, /wp-tile/);
+  const sym = xmr.children.find((c) => /wp-sym/.test(c.className));
+  const sub = xmr.children.find((c) => /wp-sub/.test(c.className));
+  assert.equal(sym.textContent, 'XMR');
+  assert.match(sub.textContent, /…/); // shortened address as subtext
+  // the missing tile's subtext is the "+ make this wallet" call to action
+  const zeph = host.children.find((c) => c.attrs['data-coin'] === 'zephyr');
+  assert.match(zeph.className, /wp-tile wp-missing/);
+  assert.match(zeph.children.find((c) => /wp-sub/.test(c.className)).textContent, /make this wallet/);
+  // "use my own wallet" is a small secondary tile, not the primary path
+  const own = host.children.find((c) => /wp-own/.test(c.className));
+  assert.ok(own, 'own-wallet tile present');
+  assert.match(own.className, /wp-tile/);
+});
+
 test('mountPicker auto-fills the input with the selected wallet but never overwrites typing', () => {
   const addr = '4' + 'c'.repeat(94);
   const store = { list: () => [{ coin: 'monero', address: addr }] };
@@ -179,4 +202,19 @@ test('"use my own wallet" button renders, clears the input, and saveOwn persists
   // saving the same address again does not duplicate
   p.saveOwn('monero', myAddr);
   assert.equal(records.length, 1);
+});
+
+test('mountPicker: the onOwn hook fires (page reveals the hidden address box) before the input is cleared/focused', () => {
+  const store = { list: () => [] };
+  const host = fakeEl('div'); const input = fakeEl('input');
+  let revealed = false;
+  input.focus = () => { assert.equal(revealed, true, 'box is revealed before it is focused'); };
+  mountPicker({
+    host, input, chains: [CHAINS[0]], store, storage: memStorage(), doc: fakeDoc(),
+    onOwn: () => { revealed = true; },
+  });
+  const ownBtn = host.children.find((c) => /wp-own/.test(c.className));
+  ownBtn.click();
+  assert.equal(revealed, true, 'onOwn ran');
+  assert.equal(input.value, '');
 });
