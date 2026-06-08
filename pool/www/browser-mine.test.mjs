@@ -146,6 +146,23 @@ test('browser-mine converts the address to the pool network before login', () =>
   assert.ok(convIdx > startIdx && convIdx < minerStartIdx, 'conversion happens inside the start handler, before miner.start');
 });
 
+// ---- Start with an empty address must say what's needed, not fail mute ----
+// Regression guard: clicking Start with no address used to just focus an empty field, so
+// to the user "the button does nothing". The handler must set a visible prompt message.
+test('browser-mine Start prompts for an address instead of failing silently', () => {
+  const src = readFileSync(join(here, 'browser-mine.mjs'), 'utf8');
+  const startIdx = src.indexOf("startBtn.addEventListener('click'");
+  const validateGate = src.indexOf('if (!validate())', startIdx);
+  const emptyCheck = src.indexOf("if (!(addrIn.value || '').trim())", startIdx);
+  assert.ok(emptyCheck > startIdx, 'has an explicit empty-address check in the start handler');
+  assert.ok(emptyCheck < validateGate, 'the empty-address prompt comes before the silent validate gate');
+  // the prompt is a visible bad-message (not a blank string) and points at making a wallet
+  const block = src.slice(emptyCheck, validateGate);
+  assert.match(block, /addrMsg\.textContent\s*=/, 'sets a visible message');
+  assert.match(block, /wiz-msg bad/, 'styles it as a needs-attention message');
+  assert.match(block, /pool can make you one/i, 'tells them the pool can make an address');
+});
+
 // ---------------------------------------------------------------------------
 // Zephyr-first coin resolution (operator: ZEPH is the default browser/phone coin;
 // Monero is the graceful fallback that must never break live mining).

@@ -55,6 +55,23 @@ test('steadyHashrate drops the warm-up sample and returns the median', () => {
   assert.equal(steadyHashrate(['x', -3, 4]), 4); // filters junk/negatives
 });
 
+// REGRESSION (operator-reported "checker shows 0 / doesn't work"): on a real device the
+// 256 MiB RandomX cache build takes many seconds (the code itself says "first start can
+// take a minute"), so the leading samples are 0 while the worker is still initialising.
+// A 0 reading means "not hashing yet", NOT "this device hashes at 0 H/s" — counting those
+// zeros drags the median to ~0 and the page reads as broken. steadyHashrate must measure
+// the device by its ACTUAL hashing, ignoring the pre-hashing zeros.
+test('steadyHashrate ignores pre-hashing zeros (slow RandomX first-start)', () => {
+  // long init: 8 zero samples then it hashes at 3 H/s — the device hashes at ~3, not ~0.
+  assert.equal(steadyHashrate([0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3]), 3);
+  // a single late reading still counts (better than reporting 0/"doesn't work")
+  assert.equal(steadyHashrate([0, 0, 0, 0, 5]), 5);
+  // only-zeros (init never finished within the window) -> 0, honestly
+  assert.equal(steadyHashrate([0, 0, 0]), 0);
+  // mixed: zeros must not pull the median down off the real hashing band
+  assert.equal(steadyHashrate([0, 0, 4, 6]), 5); // median of [4,6], zeros dropped
+});
+
 // ---------- earnings formula (the load-bearing honesty math) ----------
 test('estimateEarnings — known numbers', () => {
   // 100 H/s on a 1,000,000 H/s network, 0.6 coin/block, 120s blocks, 1% fee.
@@ -201,4 +218,43 @@ test('runBenchmark spawns workers with the synthetic job, samples, and returns a
 
 test('runBenchmark rejects when Web Workers are unavailable', async () => {
   await assert.rejects(runBenchmark({ deps: { WorkerImpl: null } }), /Web Workers unavailable/);
+});
+
+// REGRESSION (operator-reported "Measure my device doesn't work" → shows 0 H/s):
+// the worker only reports hashrate AFTER the slow RandomX cache build finishes. The
+// sampler used to push aggregateHashrate(byWorker) every tick regardless — so every tick
+// before the first worker reading pushed a 0, polluting the series. And the window ended
+// at a fixed durationMs even if init hadn't finished, so a slow device measured all-zeros.
+// The fix: (1) only sample once a worker has actually reported, and (2) don't end the
+// window until at least one real reading exists (so slow first-start still yields a number).
+test('runBenchmark does not let pre-hashing zeros end as a 0 H/s result', async () => {
+  FakeWorker.all = [];
+  let timeoutCb = null; let timeoutMs = null;
+  let intervalCb = null;
+  let t = 0;
+  const deps = {
+    WorkerImpl: FakeWorker,
+    now: () => t,
+    setTimeout: (fn, ms) => { timeoutCb = fn; timeoutMs = ms; return 1; },
+    setInterval: (fn) => { intervalCb = fn; return 2; },
+    clearInterval: () => {},
+  };
+
+  const p = runBenchmark({ threads: 1, durationMs: 30000, deps });
+
+  // simulate a SLOW first-start: 10 seconds of sampler ticks while the worker is still
+  // building the RandomX cache and has reported NOTHING.
+  for (let i = 0; i < 10; i++) { t += 1000; intervalCb(); }
+  // now the worker finishes init and starts reporting a real hashrate
+  FakeWorker.all[0].emit({ type: 'hashrate', hs: 4 });
+  intervalCb(); t += 1000;
+  FakeWorker.all[0].emit({ type: 'hashrate', hs: 4 });
+  intervalCb(); t += 1000;
+
+  // end-of-window fires
+  timeoutCb();
+  const result = await p;
+  // MUST reflect the device's real hashing (~4 H/s), NOT 0 from the leading init zeros.
+  assert.equal(result.hashrate, 4, 'slow init must not collapse the result to 0 H/s');
+  assert.equal(result.threads, 1);
 });
