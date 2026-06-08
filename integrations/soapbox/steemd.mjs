@@ -194,6 +194,8 @@ export const COMMANDS = {
     return ok(lines.join('\n'), s);
   },
 
+  async status() { return COMMANDS.hathor(); },           // alias — testnet/witness status (head block + producing)
+
   async block() {
     const mc = await loadMelekChain();
     const h = mc ? await mc.headBlock() : null;
@@ -238,7 +240,7 @@ export const COMMANDS = {
       '**SoapBox steemd** — query the ecosystem state:',
       '`price <sym>` · `clarity <sym>` · `holders <sym>` · `convert <amt> <sym>` · `compare <a> <b>`',
       '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn` · `library <topic>` · `search <query>`',
-      '**MELEK chain** [TestNet not MELEK]: `hathor` · `block` · `witness [name]` · `account <name>` · `feed`',
+      '**MELEK chain** [TestNet not MELEK]: `status` · `hathor` · `block` · `witness [name]` · `account <name>` · `feed`',
       '_Reads the condenser (one source of truth). Starts with the CMC; grows as MELEK and more apps come online._',
       'Full site: https://data.soapbox.community',
     ].join('\n'), Object.keys(COMMANDS));
