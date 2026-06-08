@@ -43,6 +43,7 @@ import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIn
 import { financialProductJsonLd, datasetJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
+import { bootWarmup } from '../../integrations/soapbox/boot-warmup.mjs';
 
 const PORT = +(process.env.PORT || 8088);
 // HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
@@ -1027,8 +1028,10 @@ createServer(async (req, res) => {
   console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
   // Warm the homepage cache on boot (2026-06-06: a cold restart left the first / requests
   // fetching every upstream serially for 7-12s — probes timed out and the site read as DOWN).
-  // Best-effort; failures just mean the first visitor warms it instead.
-  listPage({ page: 1 }).then(() => console.log('boot warmup: homepage cache primed')).catch(() => {});
+  // Best-effort; failures just mean the first visitor warms it instead. The warmup is wrapped in a
+  // hard timeout (2026-06-08): the per-upstream fetches are soft-failed, but a HUNG upstream socket
+  // is not a rejection — without a cap, one slow upstream wedges the whole warmup forever.
+  bootWarmup(() => listPage({ page: 1 }), { ms: +(process.env.SOAPBOX_WARMUP_MS || 8000), label: 'boot warmup: homepage' });
   // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
   if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
     const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/announcements'];
