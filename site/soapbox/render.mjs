@@ -261,7 +261,7 @@ export function priceChart(series, id = '', ranges = [['7d', '7D']], symbol = ''
     <div id=chart style="height:280px;margin-top:10px"></div>
     <script defer src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
     <script>
-      addEventListener('load', function(){
+      window.addEventListener('load', function(){
         if(!window.LightweightCharts){return}
         var el=document.getElementById('chart');
         var c=LightweightCharts.createChart(el,{
@@ -271,7 +271,7 @@ export function priceChart(series, id = '', ranges = [['7d', '7D']], symbol = ''
           rightPriceScale:{borderColor:'#30363d'},timeScale:{borderColor:'#30363d'}});
         var s=c.addAreaSeries({lineColor:'#58a6ff',topColor:'#58a6ff44',bottomColor:'#58a6ff00',lineWidth:2});
         s.setData(${JSON.stringify(data)});c.timeScale().fitContent();
-        addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
+        window.addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
         var id=${JSON.stringify(id)},sym=${JSON.stringify(symbol)};
         function load(range,btn){
           fetch('/api/chart?id='+encodeURIComponent(id)+'&range='+range+'&sym='+encodeURIComponent(sym)).then(function(r){return r.json()}).then(function(d){

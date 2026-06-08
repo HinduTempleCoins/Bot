@@ -49,7 +49,7 @@ export function tradingViewChart({ symbol = '', theme = 'dark' } = {}) {
   <div id="${esc(id)}" class="tv-chart-canvas" style="height:280px;margin-top:10px"></div>
   <script defer src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
   <script>
-    addEventListener('load', function(){
+    window.addEventListener('load', function(){
       if(!window.LightweightCharts){return}
       var el=document.getElementById(${jsonForScript(id)}); if(!el){return}
       var sym=${jsonForScript(symbol)}, theme=${jsonForScript(t)};
@@ -60,7 +60,7 @@ export function tradingViewChart({ symbol = '', theme = 'dark' } = {}) {
         rightPriceScale:{borderColor:${jsonForScript(border)}},timeScale:{borderColor:${jsonForScript(border)}}});
       var s=c.addAreaSeries({lineColor:${jsonForScript(line)},topColor:'#58a6ff44',bottomColor:'#58a6ff00',lineWidth:2});
       el.__tvSeries=s; el.__tvChart=c;
-      addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
+      window.addEventListener('resize',function(){c.applyOptions({width:el.clientWidth})});
     });
   </script>
   <p class=muted style="font-size:11px">Charts: TradingView Lightweight Charts (Apache-2.0).</p></div>`;
