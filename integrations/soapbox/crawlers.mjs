@@ -170,6 +170,9 @@ export const PUBLIC_SITES = [
   { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
   { slug: 'law', url: 'https://law.soapbox.community', name: 'SoapBox Law' },
   { slug: 'politics', url: 'https://politics.soapbox.community', name: 'SoapBox Politics' },
+  { slug: 'shopping', url: 'https://shopping.soapbox.community', name: 'SoapBox Shopping' },
+  { slug: 'travel', url: 'https://travel.soapbox.community', name: 'SoapBox Travel' },
+  { slug: 'home', url: 'https://home.soapbox.community', name: 'SoapBox Home' },
 ];
 
 /** The top-level sitemap-index over all PUBLIC sites (admin can never appear). */
