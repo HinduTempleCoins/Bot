@@ -42,9 +42,11 @@ export class GrapheneAdapter {
     });
     this.account = getAccount();
     // Build the signer once. `null` means "not configured" → read-only mode.
-    // Order: injected > MELEK-Signer service (fromEnv) > the JIT ephemeral signer for
-    // operator-timer one-shots (MELEK_JIT_BROADCAST=1 + vault-fetched env key — the feed
-    // publisher path; see jit-signer.mjs for why and the custody rules it honors).
+    // Order: injected > MELEK-Signer service (fromEnv) > the TESTNET-ONLY JIT ephemeral
+    // signer for operator-timer one-shots (default-OFF flag MELEK_FEED_TESTNET_JIT_SIGN=1
+    // + the TST prefix + vault-fetched env key — the feed publisher path; see jit-signer.mjs
+    // for why and the custody rules it honors). On the MELEK mainnet prefix the JIT signer
+    // HARD-REFUSES (returns null) under any flag, so mainnet stays signer-only zero-WIF.
     this.signer = signer !== undefined
       ? signer
       : (fromEnv() || jitSignerFromEnv({ client: this.client }));
