@@ -21,6 +21,10 @@ once the outside pieces below are switched on.
 
 - **Drafts wiki articles grounded in your sources.** It writes a real article by blending what several
   of your documents say, and every finished article lists exactly which sources it leaned on.
+- **Runs with no AI key required.** Writing the articles uses an AI model, but you no longer have to
+  supply a key to switch it on — it falls back to a free, keyless model automatically. If you add a key
+  for a stronger model later, it simply uses that instead. (This removed the old "needs a Gemini key"
+  blocker.)
 - **Marks thin spots honestly.** If a part of an article rests on weak evidence, it quietly flags that
   section so you know what to trust and what to double-check.
 - **Fact-checks claims and flags problems — without touching your data.** When a claim looks wrong, it

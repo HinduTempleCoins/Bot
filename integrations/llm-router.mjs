@@ -56,6 +56,19 @@ export const PROVIDERS = [
     endpoint: 'https://api.groq.com/openai/v1/chat/completions',
     model: () => process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
   },
+  {
+    // KEYLESS backstop. Pollinations' text endpoint is OpenAI-compatible and needs no key, so the
+    // ladder ALWAYS resolves to *some* model with zero operator key (mirrors the keyless image
+    // fallback in genai-providers.mjs). Anonymous requests are heavily rate-limited (429s expected on
+    // a shared IP) — it sits LAST in every order, used only when no keyed provider answers. This is
+    // what unblocks keyless wiki/article generation: no GEMINI_API_KEY (or any key) needed.
+    name: 'pollinations',
+    env: null,                     // keyless: no env var gates it
+    keyless: true,
+    kind: 'openai',
+    endpoint: 'https://text.pollinations.ai/openai',
+    model: () => process.env.POLLINATIONS_MODEL || 'openai',
+  },
 ];
 
 const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
@@ -64,20 +77,30 @@ const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
 // cheap   → conserve paid/quality calls: free + fast first (Groq, OpenRouter free).
 // quality → best output first (Gemini, then GitHub gpt-4o).
 // long    → large-context first (Gemini 2.5-flash + OpenRouter Llama 4's 1M ctx).
+// Keyless 'pollinations' is appended to every order as the final rung so generation always resolves.
 const TASK_ORDERS = {
-  default: ['gemini', 'openrouter', 'github', 'groq'],
-  cheap: ['groq', 'openrouter', 'gemini', 'github'],
-  quality: ['gemini', 'github', 'openrouter', 'groq'],
-  long: ['gemini', 'openrouter', 'github', 'groq'],
+  default: ['gemini', 'openrouter', 'github', 'groq', 'pollinations'],
+  cheap: ['groq', 'openrouter', 'gemini', 'github', 'pollinations'],
+  quality: ['gemini', 'github', 'openrouter', 'groq', 'pollinations'],
+  long: ['gemini', 'openrouter', 'github', 'groq', 'pollinations'],
 };
 
 /**
- * Which providers have a key present in the environment. Booleans ONLY — never the key value.
+ * Is this provider usable right now? Keyless providers are always usable; keyed ones need their env
+ * key present. Used by the ladder to skip dead rungs and by availableProviders() for reporting.
+ */
+function providerUsable(p) {
+  return p.keyless ? true : Boolean(process.env[p.env]);
+}
+
+/**
+ * Which providers can answer right now. Booleans ONLY — never the key value. Keyless providers
+ * (e.g. pollinations) report true with no key present.
  * @returns {{ [name:string]: boolean }}
  */
 export function availableProviders() {
   const out = {};
-  for (const p of PROVIDERS) out[p.name] = Boolean(process.env[p.env]);
+  for (const p of PROVIDERS) out[p.name] = providerUsable(p);
   return out;
 }
 
@@ -144,12 +167,10 @@ async function callOpenAICompatible(provider, key, prompt, opts) {
     temperature: opts.temperature ?? 0.25,
     max_tokens: opts.maxTokens ?? 4096,
   };
-  const j = await postJson(
-    provider.endpoint,
-    { authorization: `Bearer ${key}`, ...(provider.extraHeaders || {}) },
-    body,
-    opts.timeout,
-  );
+  // Keyless providers (pollinations) send no Authorization header; keyed ones send Bearer <key>.
+  const headers = { ...(provider.extraHeaders || {}) };
+  if (key) headers.authorization = `Bearer ${key}`;
+  const j = await postJson(provider.endpoint, headers, body, opts.timeout);
   const text = j?.choices?.[0]?.message?.content || '';
   if (!text.trim()) throw new Error('empty completion');
   return { text, model };
@@ -182,8 +203,8 @@ export async function complete(prompt, opts = {}) {
   for (const name of order) {
     const provider = PROVIDER_BY_NAME[name];
     if (!provider) continue;
-    const key = process.env[provider.env];
-    if (!key) {
+    const key = provider.keyless ? '' : process.env[provider.env];
+    if (!provider.keyless && !key) {
       attempts.push({ provider: name, skipped: 'no-key' });
       log(`[llm-router] ${name}: skipped (key absent)`);
       continue;
