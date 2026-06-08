@@ -19,7 +19,8 @@
 //   /                 library front door — search box, traditions grid, featured reading paths
 //   /texts            the full catalog (grouped by tradition)
 //   /texts/:id        one text — links-out block + the gods & things in it + companion reading path
-//   /gods             the entity encyclopedia (Theoi-style), filterable by tradition/type
+//   /gods             the entity encyclopedia (Theoi-style index): grouped by tradition / type / A–Z
+//                     (?by=tradition|type|az), still filterable by ?tradition= / ?type=
 //   /gods/:id         one figure — names/epithets, relationships, the texts it appears in, links out
 //   /traditions/:id   one tradition — its texts and its figures
 //   /ask              "Ask the Hierophant" — POST, RAG over the Temple's own corpus (soft-fails)
@@ -41,8 +42,11 @@ import {
 } from '../../integrations/hierophant-catalog.mjs';
 import {
   ENTITIES, ENTITY_TYPES,
-  getEntity, entitiesByTradition, relationshipsOf, entitiesInText, validateEntities,
+  getEntity, entitiesByTradition, relationshipsOf, validateEntities,
 } from '../../integrations/hierophant-entities.mjs';
+import {
+  groupEntities, entitiesForText, textsForEntity, interlink,
+} from '../../integrations/hierophant-xref.mjs';
 
 const PORT = +(process.env.PORT || 8124);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -104,6 +108,8 @@ const STYLE = `<style>
   .companion .why{color:var(--mut);font-size:13px;margin-top:3px}
   .pill{display:inline-block;font-size:13px;border:1px solid var(--line2);border-radius:14px;padding:4px 12px;margin:0 6px 6px 0}
   .pill:hover{border-color:var(--blue)}
+  a.xref{color:var(--gold);border-bottom:1px dotted var(--gold);text-decoration:none}
+  a.xref:hover{color:var(--blue);border-bottom-color:var(--blue);text-decoration:none}
   .answer{white-space:pre-wrap;line-height:1.65} .empty{color:var(--mut);padding:14px 0}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 22px;margin-top:24px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--blue)}
@@ -161,12 +167,19 @@ function linksBlock(textId) {
     `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.label)} →</a>`).join('')}${note}</div>`;
 }
 
-// The "gods and things in this text" block — links to our own entity pages.
+// The "gods and things in this text" block — links to our own entity pages. Uses the derived
+// cross-reference (union of both directions) so a one-sided edit can't drop a figure.
 function entitiesInTextBlock(textId) {
-  const ents = entitiesInText(textId);
+  const ents = entitiesForText(textId);
   if (ents.length === 0) return '<p class=empty>No figures catalogued in this text yet.</p>';
   return ents.map((e) =>
     `<a class=pill href="/gods/${esc(e.id)}">${esc(e.name)}</a>`).join('');
+}
+
+// Blue-Letter-Bible interlinking: escape the prose, THEN wrap recognised entity names with links to
+// their /gods page. excludeId stops an entity's own description self-linking. Soft-fails to plain text.
+function interlinked(prose, excludeId = '') {
+  return interlink(esc(prose), esc, { excludeId, linkClass: 'xref' });
 }
 
 // The curated reading-path block — companion texts + the one-line WHY, each linking on to its own page.
@@ -246,7 +259,8 @@ export function textDetailView(id) {
   }
   const body = `<h1>${esc(t.title)}</h1>
     <p class=muted><a href="/texts">← all texts</a> · <a href="/traditions/${esc(t.tradition)}">${esc(traditionName(t.tradition))}</a> · ${esc(t.era)}</p>
-    <div class=card><h2 style="margin-top:0">What this is</h2><p>${esc(t.what)}</p></div>
+    <div class=card><h2 style="margin-top:0">What this is</h2><p>${interlinked(t.what)}</p>
+      <p class=muted style="font-size:12px">Highlighted names link to their entry in the encyclopedia.</p></div>
     <div class=card><h2 style="margin-top:0">Read &amp; download</h2>
       <p class=muted style="font-size:13px">We don't host the text — these go to the source library.</p>
       ${linksBlock(id)}</div>
@@ -258,28 +272,63 @@ export function textDetailView(id) {
 }
 
 // ── /gods and /gods/:id ───────────────────────────────────────────────────────────────────────────
-export function godsIndexView(traditionFilter = '', typeFilter = '') {
+// The Theoi-style entity INDEX. Browse every figure, grouped (by tradition / by type / A–Z) — and
+// still filterable to one tradition or type. The grouping is applied to whatever the filters leave.
+const GROUP_LABELS = { tradition: 'By tradition', type: 'By type', az: 'A–Z' };
+function godsGroupLabel(by, key) {
+  if (by === 'tradition') return traditionName(key);
+  if (by === 'type') return key.charAt(0).toUpperCase() + key.slice(1);
+  return key;   // az: the letter itself
+}
+// Preserve the active filters across grouping/filter links.
+function godsHref({ tr = '', ty = '', by = '' } = {}) {
+  const p = new URLSearchParams();
+  if (tr) p.set('tradition', tr);
+  if (ty) p.set('type', ty);
+  if (by && by !== 'tradition') p.set('by', by);
+  const s = p.toString();
+  return s ? `/gods?${s}` : '/gods';
+}
+
+export function godsIndexView(traditionFilter = '', typeFilter = '', groupBy = '') {
   const tr = String(traditionFilter || '').trim();
   const ty = String(typeFilter || '').trim();
-  let list = ENTITIES;
-  if (tr) list = list.filter((e) => e.tradition === tr);
-  if (ty) list = list.filter((e) => e.type === ty);
+  let by = String(groupBy || '').trim().toLowerCase();
+  if (!['tradition', 'type', 'az'].includes(by)) by = 'tradition';
 
-  const tradPills = `<a class=pill href="/gods"${tr ? '' : ' style="border-color:var(--blue)"'}>All traditions</a>`
+  // filtered universe (the filters narrow; the grouping organises what's left)
+  const inFilter = (e) => (!tr || e.tradition === tr) && (!ty || e.type === ty);
+
+  const tradPills = `<a class=pill href="${godsHref({ ty, by })}"${tr ? '' : ' style="border-color:var(--blue)"'}>All traditions</a>`
     + TRADITIONS.filter((t) => entitiesByTradition(t.id).length)
-      .map((t) => `<a class=pill href="/gods?tradition=${q(t.id)}${ty ? `&type=${q(ty)}` : ''}"${tr === t.id ? ' style="border-color:var(--blue)"' : ''}>${esc(t.name)}</a>`).join('');
-  const typePills = `<a class=pill href="${tr ? `/gods?tradition=${q(tr)}` : '/gods'}"${ty ? '' : ' style="border-color:var(--blue)"'}>All types</a>`
-    + ENTITY_TYPES.map((t) => `<a class=pill href="/gods?type=${q(t)}${tr ? `&tradition=${q(tr)}` : ''}"${ty === t ? ' style="border-color:var(--blue)"' : ''}>${esc(t)}</a>`).join('');
+      .map((t) => `<a class=pill href="${godsHref({ tr: t.id, ty, by })}"${tr === t.id ? ' style="border-color:var(--blue)"' : ''}>${esc(t.name)}</a>`).join('');
+  const typePills = `<a class=pill href="${godsHref({ tr, by })}"${ty ? '' : ' style="border-color:var(--blue)"'}>All types</a>`
+    + ENTITY_TYPES.map((t) => `<a class=pill href="${godsHref({ tr, ty: t, by })}"${ty === t ? ' style="border-color:var(--blue)"' : ''}>${esc(t)}</a>`).join('');
+  const groupPills = Object.entries(GROUP_LABELS)
+    .map(([k, label]) => `<a class=pill href="${godsHref({ tr, ty, by: k })}"${by === k ? ' style="border-color:var(--blue)"' : ''}>${esc(label)}</a>`).join('');
+
+  // build the grouped sections from the derived index, then apply the active filters within each group
+  const map = { tradition: 'tradition', type: 'type', az: 'letter' };
+  const groups = groupEntities(map[by])
+    .map((g) => ({ ...g, list: g.list.filter(inFilter) }))
+    .filter((g) => g.list.length);
+  const total = groups.reduce((n, g) => n + g.list.length, 0);
+
+  const sections = groups.map((g) => `<h2 id="g-${esc(g.key)}">${esc(godsGroupLabel(by, g.key))}
+      <span class=muted style="font-size:13px;font-weight:400">· ${g.list.length}</span></h2>
+    <div class=grid>${g.list.map(entityCard).join('')}</div>`).join('');
 
   const body = `<h1>The Gods &amp; Things</h1>
     <p class=muted>A cross-tradition encyclopedia of gods, heroes, prophets, angels and concepts — in the
       spirit of <a href="https://www.theoi.com" rel="nofollow noopener">Theoi</a>, but spanning the whole
-      corpus. Greek figures link out to their Theoi page; all figures link to Wikipedia.</p>
-    <div style="margin:10px 0">${tradPills}</div>
+      corpus. Browse below; each figure carries its names, kin, and <b>every text that names it</b>. Greek
+      figures link out to their Theoi page; all figures link to Wikipedia.</p>
+    <div style="margin:10px 0">${groupPills}</div>
+    <div style="margin:0 0 6px">${tradPills}</div>
     <div style="margin:0 0 10px">${typePills}</div>
-    ${list.length
-      ? `<p class=muted>${list.length} figure${list.length === 1 ? '' : 's'}${tr ? ` in ${esc(traditionName(tr))}` : ''}${ty ? ` of type “${esc(ty)}”` : ''}.</p>
-         <div class=grid>${list.map(entityCard).join('')}</div>`
+    ${total
+      ? `<p class=muted>${total} figure${total === 1 ? '' : 's'}${tr ? ` in ${esc(traditionName(tr))}` : ''}${ty ? ` of type “${esc(ty)}”` : ''}, grouped ${esc((GROUP_LABELS[by] || '').toLowerCase())}.</p>
+         ${sections}`
       : `<div class=card><p class=empty>No figures match that filter.</p></div>`}`;
   return page('The Gods & Things — The Hierophant', body, { canonical: `${BASE_URL}/gods` });
 }
@@ -293,7 +342,7 @@ export function entityDetailView(id) {
       { canonical: `${BASE_URL}/gods`, robots: 'noindex,follow' });
   }
   const rels = relationshipsOf(id);
-  const texts = (e.texts || []).map((tid) => getText(tid)).filter(Boolean);
+  const texts = textsForEntity(id);   // derived union xref — every text that names this figure
   const extLinks = [];
   if (e.links && e.links.theoi) extLinks.push(`<a href="${esc(e.links.theoi)}" rel="nofollow noopener">on Theoi →</a>`);
   if (e.links && e.links.wikipedia) extLinks.push(`<a href="${esc(e.links.wikipedia)}" rel="nofollow noopener">on Wikipedia →</a>`);
@@ -301,7 +350,7 @@ export function entityDetailView(id) {
   const body = `<h1>${esc(e.name)} <span class="badge trad">${esc(traditionName(e.tradition))}</span> <span class="badge type">${esc(e.type)}</span></h1>
     <p class=muted><a href="/gods">← all figures</a> · <a href="/traditions/${esc(e.tradition)}">${esc(traditionName(e.tradition))}</a></p>
     ${(e.epithets && e.epithets.length) ? `<p class=muted><b>Also:</b> ${e.epithets.map(esc).join(' · ')}</p>` : ''}
-    <div class=card><p>${esc(e.desc)}</p>
+    <div class=card><p>${interlinked(e.desc, e.id)}</p>
       ${extLinks.length ? `<div class=links style="margin-top:10px">${extLinks.join('')}</div>` : ''}</div>
     ${rels.length ? `<div class=card><h2 style="margin-top:0">Relationships</h2>
       ${rels.map((r) => `<div class=rec><div class=nm><span class=muted style="text-transform:capitalize">${esc(r.rel)}:</span>
@@ -459,7 +508,7 @@ export async function handler(req, res) {
       return sendHtml(res, html, getText(id) ? 200 : 404);
     }
 
-    if (path === '/gods') return sendHtml(res, godsIndexView(sp.get('tradition') || '', sp.get('type') || ''));
+    if (path === '/gods') return sendHtml(res, godsIndexView(sp.get('tradition') || '', sp.get('type') || '', sp.get('by') || ''));
     if (path.startsWith('/gods/')) {
       const id = decodeURIComponent(path.slice('/gods/'.length).replace(/\/+$/, ''));
       const html = entityDetailView(id);
