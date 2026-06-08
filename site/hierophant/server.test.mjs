@@ -97,6 +97,52 @@ test('/gods index serves 200 with tradition + type filters', async () => {
   assert.ok(!filtered.body.includes('href="/gods/odin"'), 'Norse Odin filtered out of Greek view');
 });
 
+// ── phase-2: Theoi-style grouped index + Blue-Letter-Bible interlinking ─────────────────────────
+test('/gods index is grouped (Theoi-style) with grouping toggles', async () => {
+  const res = await drive(getReq('/gods'));
+  assert.equal(res.statusCode, 200);
+  // grouping toggle pills present
+  assert.ok(res.body.includes('href="/gods?by=type"'), 'has a By type toggle');
+  assert.ok(res.body.includes('A&#x2013;Z') || /A.{0,4}Z/.test(res.body), 'has an A–Z toggle');
+  // default grouping is by tradition: a tradition section heading appears
+  assert.match(res.body, /Egyptian/);
+});
+
+test('/gods?by=az groups alphabetically; ?by=type groups by type', async () => {
+  const az = await drive(getReq('/gods?by=az'));
+  assert.equal(az.statusCode, 200);
+  assert.ok(az.body.includes('href="/gods/zeus"'));
+  const byType = await drive(getReq('/gods?by=type'));
+  assert.equal(byType.statusCode, 200);
+  // a type heading (capitalised) appears
+  assert.match(byType.body, /<h2[^>]*>Goddess/);
+});
+
+test('grouping toggle preserves the active filter', async () => {
+  const res = await drive(getReq('/gods?tradition=greek&by=type'));
+  assert.equal(res.statusCode, 200);
+  assert.ok(res.body.includes('href="/gods/zeus"'));
+  assert.ok(!res.body.includes('href="/gods/odin"'), 'Norse filtered out of Greek+by-type view');
+});
+
+test('a text "what" paragraph interlinks entity names to /gods pages (Blue-Letter style)', async () => {
+  const res = await drive(getReq('/texts/enuma-elish'));
+  assert.equal(res.statusCode, 200);
+  // the description names Marduk and Tiamat — both should become xref links
+  assert.match(res.body, /<a href="\/gods\/marduk" class="xref">Marduk<\/a>/);
+  assert.match(res.body, /<a href="\/gods\/tiamat" class="xref">Tiamat<\/a>/);
+});
+
+test('an entity description interlinks OTHER figures but not itself', async () => {
+  const res = await drive(getReq('/gods/osiris'));
+  assert.equal(res.statusCode, 200);
+  // Osiris's desc mentions Isis and Set/Horus — those link; Osiris does not self-link in its own desc
+  const descArea = res.body.split('Relationships')[0];
+  assert.ok(/\/gods\/isis" class="xref"/.test(descArea) || /\/gods\/set" class="xref"/.test(descArea),
+    'a related figure is interlinked in the description');
+  assert.ok(!/<a href="\/gods\/osiris" class="xref">/.test(descArea), 'Osiris does not self-link in its own description');
+});
+
 test('an entity page lists its texts, relationships, and external links', async () => {
   const res = await drive(getReq('/gods/osiris'));
   assert.equal(res.statusCode, 200);
