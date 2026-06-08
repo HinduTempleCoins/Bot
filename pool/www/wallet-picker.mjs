@@ -120,53 +120,80 @@ export function pickerModel({ chains = [], records = [], lastUsed = {} } = {}) {
 // ---------------------------------------------------------------------------
 
 /**
- * Render the chip row into `host`. Saved chips are buttons (click → onPick(chip));
- * missing chips are grey links to the wallet page. Re-renderable (idempotent).
+ * Render the wallet TILE GRID into `host` (operator 2026-06-08: the wallets ARE the
+ * front-page element — a card grid, not a thin chip row). Each tile shows the coin
+ * symbol big, the name, and the address (or "+ create") as subtext:
+ *
+ *   - HAVE  → a coloured, clickable button tile (click → onPick(chip)); selected gets wp-sel.
+ *   - MISSING → a grey, dashed link tile "+ make this wallet" → /wallet/?coin=…
+ *   - GATED → a greyed, non-clickable "soon" tile (wallet saved, chain not minable yet).
+ *
+ * "Use my own wallet" stays a small secondary tile (wp-own) at the end. Re-renderable
+ * (idempotent). Classes (wp-chip/wp-sel/wp-gated/wp-missing/wp-own + data-coin/data-address)
+ * are preserved so the mount glue + tests keep working; the new wp-tile/wp-grid carry the
+ * card presentation in CSS.
  */
 export function renderPicker(host, model, { doc, onPick, onOwn } = {}) {
   const d = doc || (typeof document !== 'undefined' ? document : null);
   if (!host || !d || !model) return null;
   host.innerHTML = '';
-  host.className = 'wp-row';
+  host.className = 'wp-grid';
+
+  // a tile is symbol (big) + name + subtext (address / "+ create" / "soon").
+  const fillTile = (el, { sym, name, sub }) => {
+    const symEl = d.createElement('span');
+    symEl.className = 'wp-sym';
+    symEl.textContent = sym;
+    const nameEl = d.createElement('span');
+    nameEl.className = 'wp-name';
+    nameEl.textContent = name;
+    const subEl = d.createElement('span');
+    subEl.className = 'wp-sub';
+    subEl.textContent = sub;
+    el.appendChild(symEl);
+    el.appendChild(nameEl);
+    el.appendChild(subEl);
+  };
+
   for (const chip of model.chips) {
     if (chip.have && chip.gated) {
       const s = d.createElement('span');
-      s.className = 'wp-chip wp-gated';
-      s.textContent = chip.text;
+      s.className = 'wp-chip wp-tile wp-gated';
       s.title = `Your ${chip.symbol} wallet is saved — this chain joins the miner when it's ready`;
       s.setAttribute('data-coin', chip.coin);
+      fillTile(s, { sym: chip.symbol, name: chip.name, sub: 'wallet ready — mining opens soon' });
       host.appendChild(s);
     } else if (chip.have) {
       const b = d.createElement('button');
       b.type = 'button';
-      b.className = 'wp-chip' + (chip.selected ? ' wp-sel' : '');
-      b.textContent = chip.text;
+      b.className = 'wp-chip wp-tile' + (chip.selected ? ' wp-sel' : '');
       b.title = chip.address;
       b.setAttribute('data-coin', chip.coin);
       b.setAttribute('data-address', chip.address);
       b.addEventListener('click', () => { if (onPick) onPick(chip); });
+      fillTile(b, { sym: chip.symbol, name: chip.name, sub: shortAddr(chip.address) });
       host.appendChild(b);
     } else {
       const a = d.createElement('a');
-      a.className = 'wp-chip wp-missing';
+      a.className = 'wp-chip wp-tile wp-missing';
       a.href = chip.href;
-      a.textContent = chip.text;
       a.title = `You don't have a ${chip.symbol} wallet yet — click to create one on the wallet page`;
       a.setAttribute('data-coin', chip.coin);
+      fillTile(a, { sym: chip.symbol, name: chip.name, sub: '+ make this wallet' });
       host.appendChild(a);
     }
   }
-  // "Sign into your own wallet" (operator 2026-06-06): always available — creating one with
-  // us stays the loud path, but pasting an existing wallet is one click away. The button
-  // clears + focuses the address box; an address that actually mines gets SAVED, so next
-  // visit it's a regular chip.
+  // "Use my own wallet" (operator 2026-06-06): a small SECONDARY tile — creating one with us
+  // is the loud, primary path, but pasting an existing wallet is one click away. The button
+  // reveals + clears + focuses the (otherwise hidden) address box; an address that actually
+  // mines gets SAVED, so next visit it's a regular tile.
   if (onOwn) {
     const b = d.createElement('button');
     b.type = 'button';
-    b.className = 'wp-chip wp-own';
-    b.textContent = '✎ use my own wallet';
+    b.className = 'wp-chip wp-tile wp-own';
     b.title = 'Paste an address from a wallet you already have — it never leaves your browser except as your mining username';
     b.addEventListener('click', () => onOwn());
+    fillTile(b, { sym: '✎', name: 'Use my own wallet', sub: 'paste an address' });
     host.appendChild(b);
   }
   return host;
@@ -185,9 +212,11 @@ export function renderPicker(host, model, { doc, onPick, onOwn } = {}) {
  * @param {object} [opts.storage] localStorage-like for the last-used memory
  * @param {object} [opts.doc]     document (injected in tests)
  * @param {(chip:object)=>void} [opts.onPick]  extra hook after the input is filled
+ * @param {()=>void} [opts.onOwn]  hook fired when "use my own wallet" is clicked — the page
+ *        uses it to REVEAL the otherwise-hidden address box (the input is cleared+focused for it).
  * @returns {{ refresh:Function, model:object, saveOwn:Function }|null}
  */
-export function mountPicker({ host, input, chains, store, storage, doc, onPick } = {}) {
+export function mountPicker({ host, input, chains, store, storage, doc, onPick, onOwn } = {}) {
   const d = doc || (typeof document !== 'undefined' ? document : null);
   if (!host || !input || !d) return null;
   const stor = storage || defaultStorage();
@@ -201,6 +230,7 @@ export function mountPicker({ host, input, chains, store, storage, doc, onPick }
   let model = build();
 
   const own = () => {
+    if (onOwn) onOwn();          // page reveals the address box first…
     input.value = '';
     if (input.focus) input.focus();
     if (onPick) onPick(null); // null = "typing their own" — callers may re-validate/clear msgs

@@ -141,6 +141,7 @@ export function initBrowserMine() {
 
   const addrIn = $('#bm-addr');
   const addrMsg = $('#bm-addr-msg');
+  const addrField = $('#bm-addr-field'); // the raw address box, hidden until "use my own wallet"
   const throttle = $('#bm-throttle');
   const throttleVal = $('#bm-throttle-val');
   const statusEl = $('#bm-status');
@@ -180,27 +181,39 @@ export function initBrowserMine() {
     }
   };
 
-  // wallet-first (operator 2026-06-06): the user's saved wallets appear as SELECTABLE chips
-  // above the box — returning miners pick instead of re-typing. Chains without a wallet show
-  // grey "make this wallet" chips that lead to /wallet/?coin=…; the last-used wallet is
-  // remembered and auto-selected next visit.
+  // wallet-first (operator 2026-06-08): the user's wallets ARE the front-page element — a TILE
+  // GRID, not a thin chip row, and the raw address box is HIDDEN up front (no typing). Coloured
+  // tiles = wallets you HAVE (tap to pick → auto-fills the hidden box); grey dashed tiles =
+  // wallets you can MAKE (tap → /wallet/?coin=…); a small "use my own wallet" tile REVEALS the
+  // address box. The last-used wallet is remembered + auto-selected next visit, so Start works
+  // with zero typing.
+  const revealAddrBox = () => {
+    if (addrField) addrField.removeAttribute('hidden');
+  };
   {
     let host = document.getElementById('bm-wallets');
     if (!host && addrIn.insertAdjacentElement) {
+      // belt-and-suspenders: the tiles container lives in index.html, but if it's missing
+      // (an older page), create it just above the address box so the picker still has a home.
       host = document.createElement('div');
       host.id = 'bm-wallets';
-      addrIn.insertAdjacentElement('beforebegin', host);
+      (addrField || addrIn).insertAdjacentElement('beforebegin', host);
     }
     let store = null;
     try { store = new MyCoinsStore(); } catch { store = null; }
     const mounted = host && mountPicker({
       host, input: addrIn, chains: BROWSER_CHAINS, store,
       onPick: () => validate(),
+      onOwn: revealAddrBox, // "use my own wallet" → show the address box + focus it
     });
     if (mounted && mounted.model.selected) validate();
-    // fallback for any odd environment where the picker can't mount
-    if (!mounted && prefillFromWallet(addrIn)) validate();
-    // a pasted "own wallet" that actually mines gets saved → it's a chip next visit
+    // fallback for any odd environment where the picker can't mount: show the box so the user
+    // is never left with no way to enter an address.
+    if (!mounted) {
+      revealAddrBox();
+      if (prefillFromWallet(addrIn)) validate();
+    }
+    // a pasted "own wallet" that actually mines gets saved → it's a tile next visit
     if (mounted) {
       startBtn.addEventListener('click', () => {
         const a = (addrIn.value || '').trim();
@@ -254,7 +267,8 @@ export function initBrowserMine() {
     // A click on Start with no address used to silently focus an empty field — to the user
     // that reads as "the button does nothing". Say what's needed instead of failing mute.
     if (!(addrIn.value || '').trim()) {
-      addrMsg.textContent = `✗ enter (or pick) a ${activeCoin.name} address to mine to — the pool can make you one`;
+      revealAddrBox(); // the box is hidden by default — show it so the prompt + field are visible
+      addrMsg.textContent = `✗ pick a wallet tile above (or "use my own wallet") to mine to — the pool can make you one in a tap`;
       addrMsg.className = 'wiz-msg bad';
       addrIn.focus();
       return;

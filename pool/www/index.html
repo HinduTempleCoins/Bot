@@ -62,22 +62,38 @@
       Android/iPhone browser &mdash; nothing to download. Pick your coin, and press Start.
     </p>
 
-    <!-- Coin picker — ZEPHYR FIRST (operator Addendum 23: ZEPH is THE browser/phone coin).
-         ZEPH shows present-but-gated until its chain finishes syncing + the ZEPH stratum opens;
-         the same RandomX engine below mines either. -->
-    <div class="wiz-field" id="bm-coin-pick">
+    <!-- WALLET TILES are the front-page element (operator 2026-06-08): pick the wallet that
+         gets paid, right here. Coloured tiles = wallets you HAVE; grey dashed tiles = wallets
+         you can MAKE (click → the wallet page builds it); a small "use my own wallet" tile
+         reveals the raw address box. ZEPHYR FIRST (operator Addendum 23: ZEPH is THE
+         browser/phone coin) — it shows present-but-gated until its chain finishes syncing.
+         The chosen tile auto-fills the (hidden) address box behind the scenes, so Start works
+         with ZERO typing. browser-mine.mjs mounts the picker into #bm-wallets. -->
+    <div class="wiz-field" id="bm-wallet-pick">
+      <label class="wiz-lab">Mine to your wallet
+        <span class="muted">&mdash; pick one, or make a new one in one tap; it never leaves your browser except as your mining username</span></label>
+      <div id="bm-wallets" class="wp-grid"></div>
+      <span class="wiz-msg" id="bm-zeph-status"></span>
+    </div>
+
+    <!-- The Zephyr/Monero radios stay as the live-coin indicator the glue keeps in sync, but
+         the tiles above are the thing the user touches. Kept (hidden offscreen) so the existing
+         glue + tests find them. -->
+    <div class="wiz-field" id="bm-coin-pick" hidden>
       <label class="wiz-lab">Coin</label>
       <label style="display:block;margin:4px 0"><input type="radio" name="bm-coin" value="zephyr" disabled>
-        <strong>Zephyr (ZEPH)</strong> &mdash; the browser &amp; phone coin
-        <span class="wiz-msg" id="bm-zeph-status">switching on: chain sync in progress (~1 day) &mdash; your ZEPH wallet from <a href="wallet/">/wallet</a> will plug straight in</span></label>
+        <strong>Zephyr (ZEPH)</strong> &mdash; the browser &amp; phone coin</label>
       <label style="display:block;margin:4px 0"><input type="radio" name="bm-coin" value="monero" checked>
         Monero (XMR, stagenet) &mdash; live now</label>
     </div>
 
-    <div class="wiz-field">
-      <label class="wiz-lab" for="bm-addr">Pay me to this address
+    <!-- Raw address box: HIDDEN by default. The chosen tile auto-fills it behind the scenes;
+         it only reveals when "use my own wallet" is tapped (browser-mine.mjs removes [hidden]
+         + focuses it). No value-entry box up front — no typing. -->
+    <div class="wiz-field" id="bm-addr-field" hidden>
+      <label class="wiz-lab" for="bm-addr">Paste your own address
         <span class="muted">&mdash; this is who gets the shares; it never leaves your browser except as your mining username</span></label>
-      <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="your payout address — auto-fills from your pool wallet">
+      <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="your payout address">
       <div id="bm-addr-msg" class="wiz-msg"></div>
       <div class="wiz-help">No address? <a href="wallet/">The pool makes you one — create your wallet here</a> (ZEPH, XMR and EVM in one place), or <a href="mycoins.html">open My Coins</a>.</div>
     </div>
