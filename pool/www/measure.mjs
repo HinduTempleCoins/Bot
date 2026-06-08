@@ -40,10 +40,17 @@ export function aggregateHashrate(byWorker) {
 }
 
 // Take a series of total-H/s samples collected over the benchmark window and return a
-// stable figure: the median of the steady-state samples (drop the first sample, which is
-// warm-up while the RandomX cache builds). Median resists a single spiky reading.
+// stable figure: the median of the steady-state samples. Median resists a single spiky
+// reading.
+//
+// A 0 reading is NOT a hashrate — it means the worker has not reported yet (the 256 MiB
+// RandomX cache build can take many seconds, and the code says so: "first start can take a
+// minute"). Counting those pre-hashing zeros drags the median toward 0 and makes the page
+// read as broken. So we measure the device by its ACTUAL hashing: drop the zeros first,
+// then drop the warm-up sample, then take the median. Only when there is no positive
+// reading at all (init never finished inside the window) do we honestly report 0.
 export function steadyHashrate(samples) {
-  const xs = (samples || []).map(Number).filter((x) => Number.isFinite(x) && x >= 0);
+  const xs = (samples || []).map(Number).filter((x) => Number.isFinite(x) && x > 0);
   if (xs.length === 0) return 0;
   const steady = xs.length > 2 ? xs.slice(1) : xs; // drop warm-up sample when we have enough
   const sorted = [...steady].sort((a, b) => a - b);
@@ -158,9 +165,14 @@ export function runBenchmark({ threads = 0, durationMs = BENCH_MS, onSample, dep
   const byWorker = new Map();
   const samples = [];
   const workers = [];
+  // How long past the nominal window we'll keep waiting for the FIRST real reading when a
+  // slow device is still building the RandomX cache. Without this, a device whose init
+  // outlasts `durationMs` measures all-zeros and the page reads as "doesn't work".
+  const graceMs = Math.max(durationMs, 60000);
 
   return new Promise((resolve, reject) => {
     let finished = false;
+    let reported = false; // at least one worker has sent a real hashrate
     const cleanup = () => {
       for (const w of workers) { try { w.postMessage({ type: 'stop' }); w.terminate(); } catch {} }
     };
@@ -170,7 +182,7 @@ export function runBenchmark({ threads = 0, durationMs = BENCH_MS, onSample, dep
         const idx = i;
         w.onmessage = (e) => {
           const m = e.data || {};
-          if (m.type === 'hashrate') byWorker.set(idx, m.hs);
+          if (m.type === 'hashrate') { byWorker.set(idx, m.hs); if (m.hs > 0) reported = true; }
           // benchmark never finds shares (target=0); ignore any 'share' just in case.
         };
         w.postMessage({ type: 'throttle', value: 1 }); // full speed for a true measurement
@@ -181,18 +193,33 @@ export function runBenchmark({ threads = 0, durationMs = BENCH_MS, onSample, dep
     } catch (e) { cleanup(); reject(e); return; }
 
     const startedAt = now();
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      clrInt(sampler);
+      // Capture the final reading so a benchmark that only got going late (slow RandomX
+      // first-start) still records its real hashing instead of resolving with an empty
+      // series → 0 H/s. aggregateHashrate of the latest per-worker readings.
+      if (reported) { const { total } = aggregateHashrate(byWorker); if (total > 0) samples.push(total); }
+      cleanup();
+      resolve({ hashrate: steadyHashrate(samples), threads: n, samples });
+    };
     const sampler = setInt(() => {
       const { total } = aggregateHashrate(byWorker);
-      samples.push(total);
+      // Don't pollute the series with pre-hashing zeros: only start sampling once a worker
+      // has actually reported. (steadyHashrate also drops zeros, belt-and-suspenders.)
+      if (reported) samples.push(total);
       if (onSample) { try { onSample({ total, threads: n, elapsedMs: now() - startedAt }); } catch {} }
     }, 1000);
 
     setTimer(() => {
-      if (finished) return;
-      finished = true;
-      clrInt(sampler);
-      cleanup();
-      resolve({ hashrate: steadyHashrate(samples), threads: n, samples });
+      // Normal case: the window elapsed and we have real readings → finish now.
+      if (reported) { done(); return; }
+      // Slow first-start: the RandomX cache is still building, so we have no reading yet.
+      // Keep polling for the first real reading rather than returning an all-zero "0 H/s".
+      const waiter = setInt(() => {
+        if (reported || now() - startedAt >= graceMs) { clrInt(waiter); done(); }
+      }, 1000);
     }, durationMs);
   });
 }

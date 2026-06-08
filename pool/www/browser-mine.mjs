@@ -251,6 +251,14 @@ export function initBrowserMine() {
   };
 
   startBtn.addEventListener('click', () => {
+    // A click on Start with no address used to silently focus an empty field — to the user
+    // that reads as "the button does nothing". Say what's needed instead of failing mute.
+    if (!(addrIn.value || '').trim()) {
+      addrMsg.textContent = `✗ enter (or pick) a ${activeCoin.name} address to mine to — the pool can make you one`;
+      addrMsg.className = 'wiz-msg bad';
+      addrIn.focus();
+      return;
+    }
     if (!validate()) { addrIn.focus(); return; }
     // The pool's Monero side is STAGENET while we test; the wallet makes mainnet addresses,
     // so we log in with the stagenet twin (same keys). The ZEPH pool is mainnet, so its
