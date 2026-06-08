@@ -917,15 +917,23 @@ createServer(async (req, res) => {
     if (p === '/api/markets-search') {
       const q = (url.searchParams.get('q') || '').trim();
       if (q.length < 1) return json(res, 200, { crypto: [], stocks: [] });
-      const [stocks, cg] = await Promise.all([
+      const [stocks, cg, ours] = await Promise.all([
         stockSearch(q, { limit: 6 }).catch(() => []),
         memo(`cg:search:${q.toLowerCase()}`, MEMO_TTL.list, async () => {
           const r = await fetch(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(7000) });
           return r.ok ? r.json() : {};
         }).catch(() => ({})),
+        // our ecosystem (Hive-Engine) tokens so /coins/cure etc. are discoverable from the search box.
+        ourCoins().catch(() => []),
       ]);
-      const crypto = (cg.coins || []).slice(0, 6).map((c) => ({ id: c.id, name: c.name, symbol: (c.symbol || '').toUpperCase() }));
-      return json(res, 200, { crypto, stocks });
+      const ql = q.toLowerCase();
+      const oursHits = (ours || [])
+        .filter((c) => `${c.symbol} ${c.name} ${c.id}`.toLowerCase().includes(ql))
+        .map((c) => ({ id: c.id, name: c.name, symbol: (c.symbol || '').toUpperCase() }));
+      // ecosystem matches lead (first-party data); de-dupe the CoinGecko list against them by id.
+      const seen = new Set(oursHits.map((c) => c.id));
+      const cgHits = (cg.coins || []).slice(0, 6).map((c) => ({ id: c.id, name: c.name, symbol: (c.symbol || '').toUpperCase() })).filter((c) => !seen.has(c.id));
+      return json(res, 200, { crypto: [...oursHits, ...cgHits], stocks });
     }
     if (p.startsWith('/api/coins/')) { const c = await getCoin(decodeURIComponent(p.slice(11))).catch(() => null); return c ? json(res, 200, c) : json(res, 404, { error: 'not found' }); }
     // the steemd query layer over HTTP — the same router Discord/Telegram/Hathor use. ?q=price+VKBT

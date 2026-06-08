@@ -373,7 +373,14 @@ export function holdersPanel(h) {
   const bar = (label, p, color) => p > 0 ? `<div style="display:flex;justify-content:space-between"><span>${label}</span><span class=muted>${p.toFixed(1)}%</span></div><div class=bar><i style="width:${Math.min(100, p)}%;background:${color}"></i></div>` : '';
   const top = (h.topOutside || []).slice(0, 8).map((o) =>
     `<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0"><span>@${esc(o.account)}${o.affiliated ? ' <span class=muted>(affiliated)</span>' : ''}</span><span class=muted>${(+o.pct).toFixed(2)}%</span></div>`).join('');
+  // Headline holder count (PR #231 fix): counts.holders pages ALL balance rows incl. staked-only
+  // accounts, so it's the TRUE holder total — not a single page capped at 100. Shown up front.
+  const total = h.counts?.holders ?? h.counts?.total ?? null;
+  const headline = total != null
+    ? `<div class=price style="font-size:22px">${Number(total).toLocaleString()} <span class=muted style="font-size:13px;font-weight:400">holders</span></div>`
+    : '';
   return `<div class=card><h2>Holder distribution <span class=muted style="font-weight:400">· first-party on-chain</span></h2>
+    ${headline}
     ${bar('Issuer', h.issuerPct, '#f85149')}${bar('Affiliated', h.affiliatedPct, '#d29922')}${bar('Real outside', h.realOutsidePct, '#3fb950')}
     <p class=muted style="font-size:12px;margin:8px 0 4px">${h.counts?.realOutside ?? 0} genuine outside holders (≥1 token). "Real outside %" is the only number that means external demand.</p>
     ${top}</div>`;
