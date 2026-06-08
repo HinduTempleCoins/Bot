@@ -1,0 +1,65 @@
+# MELEK Hathor PUBLIC Telegram bot — long-poll command daemon (systemd unit TEMPLATE)
+# ---------------------------------------------------------------------------
+# The public-facing Telegram bot anyone can DM: read-only command surface over the
+# shared steemd query layer (/price, /clarity, /status, /help, …). Distinct from the
+# private operator Telegram bridge and from the watcher's Telegram ALERT sink.
+#
+# Runs integrations/soapbox/telegram-public.mjs as a long-running daemon (Telegram
+# long-polling via getUpdates — no inbound port, no webhook, no TLS to terminate).
+#
+# IDLE-WITHOUT-TOKEN CONTRACT: if TELEGRAM_PUBLIC_BOT_TOKEN is empty/unset, the process
+# logs "TELEGRAM_PUBLIC_BOT_TOKEN not set, public bot idle." and EXITS 0 (clean). With
+# Restart=on-failure (NOT always), a clean exit is NOT restarted — so the unit can be
+# INSTALLED AND ENABLED before the token exists. It simply sits idle. The day the
+# operator drops the token in the env file and restarts the unit, it goes live. No code
+# change, no crash-loop, no failed state.
+#
+# READ-ONLY: holds NO chain keys (no WIF / active / posting). The only secret is the
+# Telegram bot token, which can only send/receive Telegram messages — it cannot sign or
+# broadcast anything on-chain. Never logs the token.
+#
+# Placeholders only; no real hostnames/paths are committed. On the box:
+#   1. Replace __INSTALL_DIR__  with the absolute checkout path of the Bot repo.
+#   2. Replace __ENV_FILE__     with the private env path (from telegram-public.env.example).
+#   3. Replace __NODE_BIN__     with the absolute node binary path (`command -v node`).
+#   4. Replace __LOG_FILE__     with the stdout/stderr log path.
+# Install via deploy/telegram-public/install.sh (substitutes all of these).
+# ---------------------------------------------------------------------------
+[Unit]
+Description=Hathor public Telegram bot — read-only command daemon (testnet-labeled)
+After=network-online.target
+Wants=network-online.target
+# Reads the local testnet RPC for /status; start after it if present (read-only, soft-fails if down).
+After=melek-testnet.service
+
+[Service]
+Type=simple
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+ExecStart=__NODE_BIN__ integrations/soapbox/telegram-public.mjs
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# Restart on CRASH only. A clean exit-0 (the idle, no-token path) is intentionally NOT
+# restarted — the unit stays installed-and-enabled, idle, until a token is added + a restart.
+Restart=on-failure
+RestartSec=10
+# Be tolerant: long-poll reconnects internally, so a real crash is rare; cap the burst.
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+# --- Hardening: this process needs only outbound HTTPS to api.telegram.org + the local RPC.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# No writable paths needed (the bot keeps only in-memory rate-limit state). Logs go via systemd append.
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

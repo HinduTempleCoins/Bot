@@ -12,8 +12,11 @@
 import { runCommand, COMMANDS } from './steemd.mjs';
 import { guardPublicReply, isInternalTopic, deflection } from '../public-guard.mjs';
 
-const TOKEN = process.env.TELEGRAM_PUBLIC_BOT_TOKEN || '';
-const API = (m) => `https://api.telegram.org/bot${TOKEN}/${m}`;
+// Token is read at call time (not frozen at import) so the service can be INSTALLED and started
+// before the operator drops the token — it just idles. `hasToken()` is the single gate.
+const tokenOf = () => (process.env.TELEGRAM_PUBLIC_BOT_TOKEN || '').trim();
+export const hasToken = () => /\S/.test(tokenOf());
+const API = (m) => `https://api.telegram.org/bot${tokenOf()}/${m}`;
 const SITE = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 
 // simple per-chat rate limit: max ~1 msg / 2s, burst 5.
@@ -37,7 +40,7 @@ const WELCOME = [
   '👋 I am Hathor, the MELEK AI Witness — the public face of SoapBox.',
   'Ask me about the markets (read-only, one source of truth):',
   '`/price <sym>` · `/clarity <sym>` · `/markets` · `/gainers` · `/chains` · `/trending` · `/ecosystem`',
-  'The MELEK chain [TestNet not MELEK]: `/hathor` · `/block` · `/witness` · `/account <name>` · `/feed`',
+  'The MELEK chain [TestNet not MELEK]: `/status` · `/hathor` · `/block` · `/witness` · `/account <name>` · `/feed`',
   'Or just ask a question — `/ask <anything>` reads the Resource Center for a cited answer.',
   `Full site: ${SITE}`,
 ].join('\n');
@@ -82,9 +85,15 @@ async function handle(msg) {
   await send(chatId, r.text);
 }
 
-// long-polling loop
+// long-polling loop. Returns 'idle' (no token) or never (loops forever). NEVER throws, NEVER
+// crashes on a missing token — the service unit can be installed/enabled before the token exists.
 async function run() {
-  if (!TOKEN) { console.error('TELEGRAM_PUBLIC_BOT_TOKEN not set (create the public bot via @BotFather, store the token in the vault).'); process.exit(2); }
+  if (!hasToken()) {
+    // The one explicit, deploy-friendly idle path: log + exit 0 so systemd does NOT mark a failure.
+    console.log('TELEGRAM_PUBLIC_BOT_TOKEN not set, public bot idle. ' +
+      '(Create the public bot via @BotFather, drop the token in the vault/env, then restart.)');
+    return 'idle';
+  }
   const me = await tg('getMe', {});
   console.log(`Hathor public Telegram bot live: @${me.result?.username || '?'}`);
   let offset = 0;
@@ -96,5 +105,10 @@ async function run() {
   }
 }
 
-if (process.argv[1] && process.argv[1].endsWith('telegram-public.mjs')) run();
-export { handle, WELCOME };
+if (process.argv[1] && process.argv[1].endsWith('telegram-public.mjs')) {
+  run().then((r) => { if (r === 'idle') process.exit(0); }).catch((e) => {
+    // Last-resort guard: log and idle-exit rather than crash-loop.
+    console.log('telegram-public: startup error, idling — ' + (e?.message || e)); process.exit(0);
+  });
+}
+export { handle, WELCOME, run };
