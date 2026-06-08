@@ -10,6 +10,9 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { EventEmitter } from 'node:events';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const faucet = path.join(here, 'faucet-testnet.mjs');
@@ -70,4 +73,123 @@ test('refuses to start without a creator WIF', (t) => {
   // a distinct, real refusal — the CLI won't run without explicit creator-key env.
   assert.notEqual(r.status, 0, 'missing WIF must be a non-zero exit, not a clean start');
   assert.notEqual(r.status, 2, 'missing-WIF exit must be distinct from the prefix/fee guard exit(2)');
+});
+
+// ── request-handler tests (offline; makeHandler with injected create + limiter) ─────────────────
+// Importing the module is safe with no WIF: the prefix/fee guard passes on defaults (TST / TESTS),
+// and the chain client/key are built lazily only under the CLI guard, never at import.
+const { makeHandler } = await import('./faucet-testnet.mjs');
+const { Limiter } = await import('../integrations/rate-limit.mjs');
+
+function tmpState() {
+  return path.join(mkdtempSync(path.join(tmpdir(), 'faucet-rl-')), 'state.json');
+}
+function freshLimiter(opts = {}) {
+  return new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 5, fpMax: 2, windowSec: 86400, now: () => 1, ...opts });
+}
+// A minimal fake req: an EventEmitter that emits the body then 'end' on next tick.
+function fakeReq({ method = 'POST', url = '/faucet/create', body = '', headers = {}, chunkOversize = false } = {}) {
+  const req = new EventEmitter();
+  req.method = method;
+  req.url = url;
+  req.headers = headers;
+  req.socket = { remoteAddress: '203.0.113.5' };
+  req.destroyed = false;
+  req.destroy = () => { req.destroyed = true; };
+  process.nextTick(() => {
+    if (chunkOversize) {
+      // emit a chunk over MAX_BODY (8192) to trip the oversize guard
+      req.emit('data', 'x'.repeat(9000));
+    } else if (body) {
+      req.emit('data', body);
+    }
+    req.emit('end');
+  });
+  return req;
+}
+function fakeRes() {
+  return {
+    statusCode: null, body: null, headers: null,
+    writeHead(code, headers) { this.statusCode = code; this.headers = headers; },
+    end(data) { this.body = data ? JSON.parse(data) : null; this._done = true; },
+  };
+}
+function call(handler, reqOpts) {
+  return new Promise((resolve) => {
+    const res = fakeRes();
+    const origEnd = res.end.bind(res);
+    res.end = (data) => { origEnd(data); resolve(res); };
+    handler(fakeReq(reqOpts), res);
+  });
+}
+
+test('health response carries NO rpc field (internal topology stays private)', async () => {
+  const handler = makeHandler({ create: async () => ({ ok: true }), limiter: freshLimiter() });
+  const res = await call(handler, { method: 'GET', url: '/faucet/health' });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.ok, true);
+  assert.equal(res.body.testnet, true);
+  assert.equal(res.body.address_prefix, 'TST');
+  assert.ok(!('rpc' in res.body), 'rpc URL must not be in the health body');
+  assert.ok(!('RPC' in res.body));
+});
+
+test('oversize body returns 413 (not a bare TCP reset)', async () => {
+  const handler = makeHandler({ create: async () => ({ ok: true }), limiter: freshLimiter() });
+  const res = await call(handler, { chunkOversize: true });
+  assert.equal(res.statusCode, 413);
+  assert.equal(res.body.ok, false);
+  assert.equal(res.body.reason, 'body-too-large');
+});
+
+const VALID_BODY = JSON.stringify({
+  name: 'alice123',
+  ownerPub: 'TST6LLegbAgLAy28EHrffBVuANFWcFgmqRMW13wBmTExqFE9SCkg4',
+  activePub: 'TST6LLegbAgLAy28EHrffBVuANFWcFgmqRMW13wBmTExqFE9SCkg4',
+  postingPub: 'TST6LLegbAgLAy28EHrffBVuANFWcFgmqRMW13wBmTExqFE9SCkg4',
+  memoPub: 'TST6LLegbAgLAy28EHrffBVuANFWcFgmqRMW13wBmTExqFE9SCkg4',
+});
+
+test('FINDING 2: a FAILED broadcast does NOT consume a rate-limit slot', async () => {
+  const limiter = freshLimiter({ ipMax: 5, fpMax: 2 });
+  const create = async () => ({ ok: false, reason: 'broadcast-failed:chain-down' });
+  const handler = makeHandler({ create, limiter });
+
+  const key = { ip: '203.0.113.5', fingerprint: 'alice123' };
+  // Two failed broadcasts (fpMax is 2) — under the old code these would lock the user out.
+  for (let i = 0; i < 2; i++) {
+    const res = await call(handler, { body: VALID_BODY });
+    assert.equal(res.statusCode, 400, 'failed broadcast returns 400');
+  }
+  assert.equal(limiter.peek(key).fingerprint, 0, 'no slot consumed by failures');
+  // The real user can still get through after the transient failures.
+  const ok = limiter.check(key);
+  assert.equal(ok.allowed, true, 'user not locked out after 2 transient failures');
+});
+
+test('FINDING 2: a SUCCESSFUL broadcast consumes exactly one slot', async () => {
+  const limiter = freshLimiter({ ipMax: 5, fpMax: 2 });
+  const handler = makeHandler({ create: async () => ({ ok: true, id: 'abc' }), limiter });
+  const key = { ip: '203.0.113.5', fingerprint: 'alice123' };
+
+  const res = await call(handler, { body: VALID_BODY });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.ok, true);
+  assert.equal(limiter.peek(key).fingerprint, 1, 'one slot consumed by the success');
+});
+
+test('FINDING 2: over-cap still rejects (429) before calling create()', async () => {
+  const limiter = freshLimiter({ ipMax: 5, fpMax: 2 });
+  let createCalls = 0;
+  const handler = makeHandler({ create: async () => { createCalls++; return { ok: true }; }, limiter });
+
+  // Two successes fill the fp cap (2)...
+  await call(handler, { body: VALID_BODY });
+  await call(handler, { body: VALID_BODY });
+  assert.equal(createCalls, 2);
+  // ...the third is rejected by the limiter and create() is never called.
+  const res = await call(handler, { body: VALID_BODY });
+  assert.equal(res.statusCode, 429);
+  assert.equal(res.body.reason, 'rate-limited');
+  assert.equal(createCalls, 2, 'create() not called once over cap');
 });

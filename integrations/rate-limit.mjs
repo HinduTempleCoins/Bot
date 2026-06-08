@@ -26,13 +26,17 @@
 //   RL_WINDOW_SEC       sliding window length in seconds      (default 3600 = 1 h)
 //   RL_DISABLED         "1"/"true" to bypass entirely (always allow; for emergencies)
 //
-// USAGE
+// USAGE — check FIRST, record only on SUCCESS (so a failed/rejected op doesn't burn a slot):
 //   import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 //   const rl = new Limiter({ scope: 'faucet' });           // one Limiter per surface
-//   const ip = clientIp(req);
-//   const v = rl.check({ ip, fingerprint: body.name });    // never throws
+//   const key = { ip: clientIp(req), fingerprint: body.name };
+//   const v = rl.check(key);                                // never throws; does NOT count
 //   if (!v.allowed) return send(res, 429, { ok:false, reason:'rate-limited', retryAfter:v.retryAfter });
-//   // ... do the work ...
+//   const out = await doTheWork();                          // chain broadcast / mailer / etc.
+//   if (out.ok) rl.record(key);                             // count ONLY a successful event
+//
+//   // For surfaces where the action can't fail in a refundable way, use the combined form:
+//   //   const v = rl.consume(key);   // check + (if allowed) record, the old check()-that-counts
 //
 //   node integrations/rate-limit.mjs        # worked example / self-check
 
@@ -140,8 +144,10 @@ export class Limiter {
   }
 
   /**
-   * Decide whether a request is allowed, and (when allowed) record it against both keys.
-   * Never throws. When over a cap, nothing is recorded for that request.
+   * Decide whether a request is allowed WITHOUT recording it. Never throws.
+   * Use this BEFORE a costly/fallible operation (e.g. a chain broadcast or a mailer call): a request
+   * that the operation later REJECTS must not consume a slot. Call record() only after the operation
+   * succeeds. (For the simple "check + always count" case, use consume().)
    *
    * @returns {{allowed:boolean, reason:?string, retryAfter:number,
    *            ip:{count:number,max:number}, fingerprint:{count:number,max:number}}}
@@ -175,8 +181,8 @@ export class Limiter {
         };
       }
 
-      ipHits.push(nowMs);
-      fpHits.push(nowMs);
+      // Pruning may have removed expired entries; persist so the file doesn't grow unbounded even on
+      // a pure read. No hits are added here — check() does NOT count. Recording is record()'s job.
       this.#save();
       return {
         allowed: true,
@@ -190,6 +196,47 @@ export class Limiter {
       return { allowed: true, reason: 'limiter-error-open', retryAfter: 0,
         ip: { count: 0, max: this.ipMax }, fingerprint: { count: 0, max: this.fpMax } };
     }
+  }
+
+  /**
+   * Record one event against BOTH the IP and fingerprint windows. Call this AFTER the guarded
+   * operation succeeds (so failed/rejected attempts — chain down, dup name, bad fee — don't burn a
+   * slot). Never throws; soft-fails silently if state is unwritable. Returns post-record counts.
+   *
+   * @returns {{ip:{count:number,max:number}, fingerprint:{count:number,max:number}}}
+   */
+  record({ ip = 'unknown', fingerprint = 'unknown' } = {}) {
+    if (this.disabled) {
+      return { ip: { count: 0, max: this.ipMax }, fingerprint: { count: 0, max: this.fpMax } };
+    }
+    try {
+      const nowMs = this.now();
+      const ipHits = this.#live(this.#key('ip', String(ip || 'unknown')), nowMs);
+      const fpHits = this.#live(this.#key('fp', String(fingerprint || 'unknown')), nowMs);
+      ipHits.push(nowMs);
+      fpHits.push(nowMs);
+      this.#save();
+      return {
+        ip: { count: ipHits.length, max: this.ipMax },
+        fingerprint: { count: fpHits.length, max: this.fpMax },
+      };
+    } catch {
+      return { ip: { count: 0, max: this.ipMax }, fingerprint: { count: 0, max: this.fpMax } };
+    }
+  }
+
+  /**
+   * Backward-compatible "check and, if allowed, immediately record" — the original check()-that-counts
+   * behaviour. Use for surfaces where the guarded action can't fail in a way that should refund a slot.
+   * Never throws; same return shape as check().
+   */
+  consume(opts = {}) {
+    const v = this.check(opts);
+    if (v.allowed) {
+      const counts = this.record(opts);
+      return { ...v, ip: counts.ip, fingerprint: counts.fingerprint };
+    }
+    return v;
   }
 
   /** Current in-window count for a key (read-only; for tests/observability). */
@@ -209,7 +256,7 @@ if (process.argv[1] && /rate-limit\.mjs$/.test(process.argv[1])) {
     windowSec: 3600, now: () => t });
   console.log('faucet-shaped: ipMax=5 fpMax=3, one IP minting different accounts:');
   for (let i = 0; i < 7; i++) {
-    const v = rl.check({ ip: '203.0.113.7', fingerprint: `acct-${i}` }); // distinct fp each time
+    const v = rl.consume({ ip: '203.0.113.7', fingerprint: `acct-${i}` }); // distinct fp each time
     console.log(`  mint #${i + 1}: allowed=${v.allowed} reason=${v.reason ?? '-'} ipCount=${v.ip.count}/${v.ip.max} retryAfter=${v.retryAfter}s`);
     t += 1000;
   }

@@ -26,7 +26,7 @@ test('IP cap: 6th mint from one IP is blocked even with fresh fingerprints', () 
   const c = clock();
   const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 5, fpMax: 100, windowSec: 3600, now: c.now });
   const outcomes = [];
-  for (let i = 0; i < 6; i++) outcomes.push(rl.check({ ip: '10.0.0.1', fingerprint: `acct${i}` }));
+  for (let i = 0; i < 6; i++) outcomes.push(rl.consume({ ip: '10.0.0.1', fingerprint: `acct${i}` }));
   assert.equal(outcomes.slice(0, 5).every((v) => v.allowed), true, 'first 5 allowed');
   assert.equal(outcomes[5].allowed, false, '6th blocked');
   assert.equal(outcomes[5].reason, 'ip-rate-limited');
@@ -37,7 +37,7 @@ test('fingerprint cap: same fingerprint blocked after fpMax even from new IPs', 
   const c = clock();
   const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 100, fpMax: 3, windowSec: 3600, now: c.now });
   const o = [];
-  for (let i = 0; i < 4; i++) o.push(rl.check({ ip: `10.0.0.${i}`, fingerprint: 'same-device' }));
+  for (let i = 0; i < 4; i++) o.push(rl.consume({ ip: `10.0.0.${i}`, fingerprint: 'same-device' }));
   assert.equal(o.slice(0, 3).every((v) => v.allowed), true, 'first 3 allowed');
   assert.equal(o[3].allowed, false, '4th blocked by fingerprint');
   assert.equal(o[3].reason, 'fingerprint-rate-limited');
@@ -46,10 +46,10 @@ test('fingerprint cap: same fingerprint blocked after fpMax even from new IPs', 
 test('blocked requests do not consume budget (count holds at cap)', () => {
   const c = clock();
   const rl = new Limiter({ scope: 's', path: tmpState(), ipMax: 2, fpMax: 100, windowSec: 3600, now: c.now });
-  rl.check({ ip: 'x', fingerprint: 'a' });
-  rl.check({ ip: 'x', fingerprint: 'b' });
-  const blocked1 = rl.check({ ip: 'x', fingerprint: 'c' });
-  const blocked2 = rl.check({ ip: 'x', fingerprint: 'd' });
+  rl.consume({ ip: 'x', fingerprint: 'a' });
+  rl.consume({ ip: 'x', fingerprint: 'b' });
+  const blocked1 = rl.consume({ ip: 'x', fingerprint: 'c' });
+  const blocked2 = rl.consume({ ip: 'x', fingerprint: 'd' });
   assert.equal(blocked1.allowed, false);
   assert.equal(blocked2.allowed, false);
   assert.equal(blocked2.ip.count, 2, 'count stays at cap; blocked attempts are not recorded');
@@ -58,23 +58,23 @@ test('blocked requests do not consume budget (count holds at cap)', () => {
 test('window expiry: allowed again after the window slides past', () => {
   const c = clock();
   const rl = new Limiter({ scope: 's', path: tmpState(), ipMax: 2, fpMax: 100, windowSec: 60, now: c.now });
-  assert.equal(rl.check({ ip: 'y', fingerprint: 'a' }).allowed, true);
-  assert.equal(rl.check({ ip: 'y', fingerprint: 'b' }).allowed, true);
-  assert.equal(rl.check({ ip: 'y', fingerprint: 'c' }).allowed, false, 'over cap inside window');
+  assert.equal(rl.consume({ ip: 'y', fingerprint: 'a' }).allowed, true);
+  assert.equal(rl.consume({ ip: 'y', fingerprint: 'b' }).allowed, true);
+  assert.equal(rl.consume({ ip: 'y', fingerprint: 'c' }).allowed, false, 'over cap inside window');
   c.advance(61); // window (60s) has fully passed
-  assert.equal(rl.check({ ip: 'y', fingerprint: 'd' }).allowed, true, 'allowed after window expiry');
+  assert.equal(rl.consume({ ip: 'y', fingerprint: 'd' }).allowed, true, 'allowed after window expiry');
 });
 
 test('persists across instances (same file)', () => {
   const path = tmpState();
   const c = clock();
   const a = new Limiter({ scope: 's', path, ipMax: 3, fpMax: 100, windowSec: 3600, now: c.now });
-  a.check({ ip: 'z', fingerprint: '1' });
-  a.check({ ip: 'z', fingerprint: '2' });
+  a.consume({ ip: 'z', fingerprint: '1' });
+  a.consume({ ip: 'z', fingerprint: '2' });
   // new instance reads the same file
   const b = new Limiter({ scope: 's', path, ipMax: 3, fpMax: 100, windowSec: 3600, now: c.now });
-  assert.equal(b.check({ ip: 'z', fingerprint: '3' }).allowed, true, '3rd allowed');
-  assert.equal(b.check({ ip: 'z', fingerprint: '4' }).allowed, false, '4th blocked — state carried over');
+  assert.equal(b.consume({ ip: 'z', fingerprint: '3' }).allowed, true, '3rd allowed');
+  assert.equal(b.consume({ ip: 'z', fingerprint: '4' }).allowed, false, '4th blocked — state carried over');
 });
 
 test('soft-fail OPEN on corrupt state file (never lock users out)', () => {
@@ -97,9 +97,9 @@ test('different scopes do not share budget through one file', () => {
   const c = clock();
   const faucet = new Limiter({ scope: 'faucet', path, ipMax: 1, fpMax: 100, windowSec: 3600, now: c.now });
   const email = new Limiter({ scope: 'email', path, ipMax: 1, fpMax: 100, windowSec: 3600, now: c.now });
-  assert.equal(faucet.check({ ip: 'ip1', fingerprint: 'a' }).allowed, true);
-  assert.equal(faucet.check({ ip: 'ip1', fingerprint: 'b' }).allowed, false, 'faucet cap hit');
-  assert.equal(email.check({ ip: 'ip1', fingerprint: 'a' }).allowed, true, 'email scope independent');
+  assert.equal(faucet.consume({ ip: 'ip1', fingerprint: 'a' }).allowed, true);
+  assert.equal(faucet.consume({ ip: 'ip1', fingerprint: 'b' }).allowed, false, 'faucet cap hit');
+  assert.equal(email.consume({ ip: 'ip1', fingerprint: 'a' }).allowed, true, 'email scope independent');
 });
 
 test('atomic write leaves valid JSON on disk', () => {
@@ -126,4 +126,69 @@ test('check never throws on garbage input', () => {
   assert.doesNotThrow(() => rl.check());
   assert.doesNotThrow(() => rl.check({ ip: null, fingerprint: undefined }));
   assert.doesNotThrow(() => rl.check({ ip: 12345, fingerprint: { x: 1 } }));
+});
+
+test('record never throws on garbage input', () => {
+  const rl = new Limiter({ scope: 's', path: tmpState(), now: () => 1 });
+  assert.doesNotThrow(() => rl.record());
+  assert.doesNotThrow(() => rl.record({ ip: null, fingerprint: undefined }));
+  assert.doesNotThrow(() => rl.record({ ip: 12345, fingerprint: { x: 1 } }));
+});
+
+// ── FINDING 2: check() must NOT count; only record() counts. ────────────────────────────────────
+test('check() does NOT consume a slot — repeated checks without record stay allowed', () => {
+  const c = clock();
+  const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 2, fpMax: 100, windowSec: 3600, now: c.now });
+  const key = { ip: 'ip-a', fingerprint: 'fp-a' };
+  // Five checks in a row with no record() — none of them should burn budget.
+  for (let i = 0; i < 5; i++) assert.equal(rl.check(key).allowed, true, `check #${i + 1} still allowed`);
+  assert.equal(rl.peek(key).ip, 0, 'no hits recorded by check() alone');
+});
+
+test('failed broadcast (check without record) does NOT consume a slot; success (record) does', () => {
+  const c = clock();
+  const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 2, fpMax: 100, windowSec: 3600, now: c.now });
+  const key = { ip: 'ip-b', fingerprint: 'fp-b' };
+
+  // Two transient broadcast FAILURES: caller checks (allowed) but never records.
+  assert.equal(rl.check(key).allowed, true, 'attempt 1 allowed');
+  // ...broadcast fails, no record()...
+  assert.equal(rl.check(key).allowed, true, 'attempt 2 allowed (failure did not burn a slot)');
+  // ...broadcast fails again, no record()...
+  // A real user can still get through — the failures cost nothing.
+  assert.equal(rl.check(key).allowed, true, 'attempt 3 still allowed after 2 failures');
+
+  // Now a SUCCESS: record one event.
+  rl.record(key);
+  assert.equal(rl.peek(key).ip, 1, 'one successful event recorded');
+
+  // A second success records the second slot...
+  assert.equal(rl.check(key).allowed, true);
+  rl.record(key);
+  assert.equal(rl.peek(key).ip, 2, 'two successful events recorded');
+
+  // ...and now we are AT cap: the next check is rejected.
+  assert.equal(rl.check(key).allowed, false, 'over-cap still rejects after 2 successes');
+});
+
+test('over-cap rejection holds regardless of how many checks precede record', () => {
+  const c = clock();
+  const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 1, fpMax: 100, windowSec: 3600, now: c.now });
+  const key = { ip: 'ip-c', fingerprint: 'fp-c' };
+  assert.equal(rl.check(key).allowed, true);
+  rl.record(key);                         // one success -> at cap (ipMax 1)
+  const v = rl.check(key);
+  assert.equal(v.allowed, false, 'second request rejected');
+  assert.equal(v.reason, 'ip-rate-limited');
+  assert.ok(v.retryAfter > 0);
+});
+
+test('consume() = check + record in one call (backward-compat)', () => {
+  const c = clock();
+  const rl = new Limiter({ scope: 'faucet', path: tmpState(), ipMax: 1, fpMax: 100, windowSec: 3600, now: c.now });
+  const key = { ip: 'ip-d', fingerprint: 'fp-d' };
+  assert.equal(rl.consume(key).allowed, true, 'first consume allowed and counted');
+  assert.equal(rl.peek(key).ip, 1, 'consume recorded the event');
+  const blocked = rl.consume(key);
+  assert.equal(blocked.allowed, false, 'second consume blocked — consume counts like the old check()');
 });
