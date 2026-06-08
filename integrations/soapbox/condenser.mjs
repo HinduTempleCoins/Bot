@@ -18,7 +18,18 @@ import { holders as heHolders } from '../holders.mjs';
 // our ecosystem tokens to surface on the aggregator (Tier 2/3 first-party).
 // Only genuine Van Kush ecosystem currencies belong here. SWAP.GIFU is a pegged/wrapped Hive-Engine
 // token, NOT an ecosystem currency — removed so it isn't mislabeled "ecosystem" or pinned on top.
-export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS || 'VKBT,CURE').split(',').map((s) => s.trim());
+// Includes VKBT, CURE, and the MELEK-family (MELEK/TESTS chain symbols, MBD/TBD, PRANA, MELEK-Engine
+// side-tokens) per the operator's token-ownership rule: our tokens get featured placement, every other
+// Hive-Engine token still lists NORMALLY (the CMC carries everything; only ours are featured).
+export const OUR_TOKENS = (process.env.SOAPBOX_OUR_TOKENS
+  || 'VKBT,CURE,MELEK,TESTS,MBD,TBD,PRANA').split(',').map((s) => s.trim()).filter(Boolean);
+
+// case-insensitive set of our token symbols, for ownership tests (featured vs normal). Never throws.
+const OUR_SET = new Set(OUR_TOKENS.map((s) => s.toUpperCase()));
+/** True if a bare symbol (e.g. "CURE") is one of OUR ecosystem tokens — featured, not just normal. */
+export function isOurToken(symbol) {
+  return OUR_SET.has(String(symbol || '').toUpperCase());
+}
 
 const UA = 'MELEK-SoapBox/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -426,6 +437,11 @@ export async function getCoin(id) {
   let coin = null;
   if (id.startsWith('hive-engine:')) {
     coin = await fromHiveEngine(id.split(':')[1]).catch(() => null);
+  } else if (isOurToken(id)) {
+    // OUR ecosystem tokens accept the BARE-symbol slug (/coins/cure, /coins/vkbt). Resolve them on
+    // Hive-Engine FIRST, before any Tier-1 lookup, so a CoinGecko ticker collision (there's an
+    // unrelated "cure" on CG) can never hijack our own token's page. (token-ownership rule)
+    coin = await fromHiveEngine(id).catch(() => null);
   } else {
     // adapter registry: Tier-1 (CG→Paprika), gt: DEX, node: Tier-3.
     try { coin = await fetchTokenFailover(id); } catch { coin = null; }
@@ -437,6 +453,13 @@ export async function getCoin(id) {
     // throws here → caught → null → a clean 404.
     if (!coin && !id.startsWith('gt:') && !id.startsWith('node:')) {
       coin = await fromCoinGecko(id).catch(() => null);
+    }
+    // Hive-Engine fallback (this task): any OTHER bare slug that no Tier-1 provider knows is tried as
+    // a Hive-Engine SYMBOL, so third-party HE tokens (SWAP.*, etc.) resolve and list NORMALLY at
+    // /coins/<symbol> — never featured (only OUR_TOKENS are), but present like any currency. The slug
+    // maps to the HE symbol uppercased (e.g. "swap.gifu" → "SWAP.GIFU"). Bogus slugs stay null → 404.
+    if (!coin && !id.startsWith('gt:') && !id.startsWith('node:') && /^[a-z0-9.]+$/i.test(id)) {
+      coin = await fromHiveEngine(id).catch(() => null);
     }
   }
   if (!coin) return null;

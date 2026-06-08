@@ -10,5 +10,11 @@
     "featured_rank": 2,
     "badge": "ecosystem",
     "blurb": "Curator Rewards Token (CURE) — a first-party SoapBox ecosystem token on Hive-Engine."
+  },
+  "hive-engine:prana": {
+    "featured": true,
+    "featured_rank": 3,
+    "badge": "ecosystem",
+    "blurb": "PRANA — a MELEK-family ecosystem token. First-party on-chain data, real holder distribution, Clarity Score from observable facts."
   }
 }
