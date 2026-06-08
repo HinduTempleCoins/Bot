@@ -11,7 +11,8 @@ process.env.DATA_DIR = mkdtempSync(join(tmpdir(), 'genai-test-'));
 process.env.GENAI_RATE_PER_HOUR = '3';
 
 const srv = await import('./server.mjs');
-const { handler, homePage, templatesIndexView, templateDetailView, galleryView, promptFromParams, esc, __setGenerator, __resetRate } = srv;
+const { handler, homePage, templatesIndexView, templateDetailView, galleryView, promptFromParams, esc, __setGenerator, __resetRate,
+  comfyIndexView, comfyDetailView, colabIndexView, reelIndexView, reelDetailView, reelSpecFromParams } = srv;
 
 const B64 = Buffer.from('a-real-enough-image-payload').toString('base64');
 // canned adapter — never touches the network
@@ -210,4 +211,116 @@ test('homepage teases the directory ("More ways to make images")', () => {
   const html = homePage();
   assert.ok(html.includes('More ways to make images'));
   assert.ok(html.includes('/directory'));
+});
+
+// ── GenAI phase 2: ComfyUI / Colab / reel maker ──
+test('/comfyui lists workflows and a kind heading', async () => {
+  const res = await call({ url: '/comfyui' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('ComfyUI'));
+  assert.ok(html.includes('sd15-txt2img-basic') || html.includes('Text to Image'));
+  assert.ok(html.includes('workflow JSON'));
+});
+
+test('/comfyui/:id detail renders the workflow JSON', async () => {
+  const res = await call({ url: '/comfyui/sdxl-txt2img' });
+  assert.equal(res.statusCode, 200);
+  assert.ok(res.text().includes('CheckpointLoaderSimple'));
+});
+
+test('/comfyui/:id.json downloads valid workflow JSON with attachment header', async () => {
+  const res = await call({ url: '/comfyui/sd15-txt2img-basic.json' });
+  assert.equal(res.statusCode, 200);
+  assert.ok(res.headers['content-type'].includes('application/json'));
+  assert.ok(String(res.headers['content-disposition']).includes('attachment'));
+  const parsed = JSON.parse(res.text());
+  assert.ok(parsed['9'].class_type.includes('Save'));
+});
+
+test('/comfyui unknown id → 404 page, unknown .json → 404', async () => {
+  assert.equal((await call({ url: '/comfyui/nope' })).statusCode, 404);
+  assert.equal((await call({ url: '/comfyui/nope.json' })).statusCode, 404);
+});
+
+test('/colab lists notebooks with Open-in-Colab links', async () => {
+  const res = await call({ url: '/colab' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('Colab'));
+  assert.ok(html.includes('colab.research.google.com'));
+  assert.ok(html.includes('rel="noopener nofollow"'));
+});
+
+test('/reel-maker lists templates', async () => {
+  const res = await call({ url: '/reel-maker' });
+  assert.equal(res.statusCode, 200);
+  assert.ok(res.text().includes('Reel template maker'));
+});
+
+test('/reel-maker/:id renders a fill form + example storyboard', async () => {
+  const res = await call({ url: '/reel-maker/hook-explainer' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('f_topic'));
+  assert.ok(html.includes('Build storyboard'));
+});
+
+test('POST /reel-maker/:id downloads a storyboard JSON with shotlist', async () => {
+  const res = await call({
+    method: 'POST', url: '/reel-maker/hook-explainer',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: 'f_hook=' + encodeURIComponent('STOP scrolling') + '&aspect=1:1',
+  });
+  assert.equal(res.statusCode, 200);
+  assert.ok(String(res.headers['content-disposition']).includes('attachment'));
+  const spec = JSON.parse(res.text());
+  assert.equal(spec.kind, 'reel-storyboard');
+  assert.equal(spec.aspect, '1:1');
+  assert.ok(typeof spec.shotlist === 'string' && spec.shotlist.length > 0);
+  assert.ok(spec.scenes.some((s) => s.caption.includes('STOP scrolling')));
+});
+
+test('POST /reel-maker/:id unknown id → 404', async () => {
+  const res = await call({ method: 'POST', url: '/reel-maker/nope',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'f_hook=x' });
+  assert.equal(res.statusCode, 404);
+});
+
+test('reelSpecFromParams embeds the shotlist', () => {
+  const p = new URLSearchParams({ 'f_hook': 'hi' });
+  const r = reelSpecFromParams('hook-explainer', p);
+  assert.equal(r.ok, true);
+  assert.ok(r.spec.shotlist.includes('Hook'));
+});
+
+test('view exports render without throwing', () => {
+  assert.ok(comfyIndexView().includes('ComfyUI'));
+  assert.ok(comfyDetailView('flux-txt2img').includes('FLUX'));
+  assert.ok(colabIndexView().includes('Colab'));
+  assert.ok(reelIndexView().includes('Reel'));
+  assert.ok(reelDetailView('quote-card').includes('Quote'));
+});
+
+test('/health includes the phase-2 libraries', async () => {
+  const res = await call({ url: '/health' });
+  assert.equal(res.statusCode, 200);
+  const j = JSON.parse(res.text());
+  assert.ok(j.comfyTemplates >= 6);
+  assert.ok(j.colabTemplates >= 6);
+  assert.ok(j.reelTemplates >= 4);
+});
+
+test('homepage teases the phase-2 sections', () => {
+  const html = homePage();
+  assert.ok(html.includes('/comfyui'));
+  assert.ok(html.includes('/colab'));
+  assert.ok(html.includes('/reel-maker'));
+});
+
+test('sitemap includes the new sections', async () => {
+  const xml = (await call({ url: '/sitemap.xml' })).text();
+  assert.ok(xml.includes('/comfyui'));
+  assert.ok(xml.includes('/colab'));
+  assert.ok(xml.includes('/reel-maker'));
 });

@@ -35,6 +35,15 @@ import { GENERATORS, byKind, noSignupOptions } from '../../integrations/genai-di
 import {
   TEMPLATES, CATEGORIES, getTemplate, fillTemplate, exampleFor, validateTemplates, templatesByCategory,
 } from '../../integrations/genai-templates.mjs';
+import {
+  COMFY_TEMPLATES, COMFY_KINDS, getComfy, comfyByKind, comfyNodeCount, workflowJson, validateComfyTemplates,
+} from '../../integrations/genai-comfyui-templates.mjs';
+import {
+  COLAB_TEMPLATES, COLAB_KINDS, colabByKind, colabLaunchUrl, validateColabTemplates,
+} from '../../integrations/genai-colab-templates.mjs';
+import {
+  REEL_TEMPLATES, REEL_ASPECTS, getReelTemplate, buildReelSpec, shotlist, validateReelTemplates,
+} from '../../integrations/genai-reel-maker.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -141,7 +150,7 @@ const FOOTER = `<footer>
   label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
   no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
   we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/templates">Templates</a> · <a href="/gallery">Gallery</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a></div>
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/templates">Templates</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/reel-maker">Reel maker</a> · <a href="/gallery">Gallery</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a></div>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
@@ -155,7 +164,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">✦ GenAI <span>make images now</span></a>
-  <div class=topbar-r><a href="/templates">Templates</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/templates">Templates</a><a href="/comfyui">ComfyUI</a><a href="/colab">Colab</a><a href="/reel-maker">Reel maker</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -194,7 +203,17 @@ export function homePage(opts = {}) {
       result on your blog. ${GENERATORS.length} options catalogued, free tiers noted, including
       ${noSignupOptions().length} that need no account at all.</p>
     <div class=grid>${byKind('image').slice(0, 6).map(generatorCard).join('')}</div>
-    <p class=muted style="margin-top:8px"><a href="/directory">See the full directory (images + video) →</a></p>`;
+    <p class=muted style="margin-top:8px"><a href="/directory">See the full directory (images + video) →</a></p>
+
+    <h2>Go deeper — run your own pipelines</h2>
+    <div class=grid>
+      <a class=sec href="/comfyui"><div class=t>ComfyUI workflows <span class="badge cat">${esc(COMFY_TEMPLATES.length)}</span></div>
+        <div class=d>Copy-ready node graphs — text-to-image, upscale, inpaint, video, ControlNet — for your own ComfyUI.</div></a>
+      <a class=sec href="/colab"><div class=t>Google Colab notebooks <span class="badge cat">${esc(COLAB_TEMPLATES.length)}</span></div>
+        <div class=d>One-click launch links: image gen, fine-tune (LoRA), audio, transcription, upscaling — on a free GPU.</div></a>
+      <a class=sec href="/reel-maker"><div class=t>Reel template maker <span class="badge cat">${esc(REEL_TEMPLATES.length)}</span></div>
+        <div class=d>CapCut-style: pick a structure, fill the fields, download a storyboard to take into your editor.</div></a>
+    </div>`;
   return pageShell('Generative AI — make images now', body, { canonical: `${BASE_URL}/` });
 }
 
@@ -217,6 +236,128 @@ export function directoryView() {
     <h2>Video &amp; templates <span class=muted style="font-size:13px">(the CapCut lane — our own template maker grows here)</span></h2>
     <div class=grid>${vid.map(generatorCard).join('')}</div>`;
   return pageShell('Image &amp; video generator directory — Generative AI', body, { canonical: `${BASE_URL}/directory` });
+}
+
+// ── ComfyUI workflow library (operator: "ComfyUI template layer") ─────────────────────────────────
+function comfyCard(t) {
+  return `<div class=sec>
+    <div class=t>${esc(t.title)} <span class="badge cat">${esc(t.kind)}</span> <span class=badge>${esc(comfyNodeCount(t.id))} nodes</span></div>
+    <div class=d>${esc(t.summary)}<br><span class=muted>Models: ${esc(t.models.join(', '))}</span></div>
+    <div class=row style="margin-top:10px">
+      <a class=pill href="/comfyui/${esc(t.id)}.json" download="${esc(t.id)}.json">⬇ workflow JSON</a>
+      <a class=pill href="/comfyui/${esc(t.id)}">view</a>${t.link ? `
+      <a class=pill href="${esc(t.link)}" target=_blank rel="noopener nofollow">upstream example ↗</a>` : ''}</div></div>`;
+}
+
+export function comfyIndexView() {
+  const byKind = COMFY_KINDS.map((k) => ({ k, list: comfyByKind(k) })).filter((g) => g.list.length);
+  const body = `<h1>ComfyUI workflows <span class=muted style="font-size:14px">· import into your own ComfyUI</span></h1>
+    <p class=muted>This page doesn't run ComfyUI — it hands you ready-to-import workflow graphs. Download a
+      <b>.json</b> and drag it onto your ComfyUI canvas (or paste it), set your checkpoint, and run.
+      ${COMFY_TEMPLATES.length} starters across ${byKind.length} kinds.</p>
+    ${byKind.map((g) => `<h2 style="text-transform:capitalize">${esc(g.k)}</h2>
+      <div class=grid>${g.list.map(comfyCard).join('')}</div>`).join('')}`;
+  return pageShell('ComfyUI workflow templates — Generative AI', body, { canonical: `${BASE_URL}/comfyui` });
+}
+
+export function comfyDetailView(id) {
+  const t = getComfy(id);
+  if (!t) {
+    return pageShell('Workflow not found — Generative AI', `<h1>Workflow not found</h1>
+      <p class=muted><a href="/comfyui">← all ComfyUI workflows</a></p>`,
+      { canonical: `${BASE_URL}/comfyui`, robots: 'noindex,follow' });
+  }
+  const body = `<h1>${esc(t.title)} <span class="badge cat">${esc(t.kind)}</span></h1>
+    <p class=muted><a href="/comfyui">← all ComfyUI workflows</a></p>
+    <div class=card><p>${esc(t.summary)}</p>
+      <p class=muted style="font-size:13px"><b>Models:</b> ${esc(t.models.join(', '))} · <b>${esc(comfyNodeCount(t.id))} nodes</b></p>
+      <div class=row><a class=pill href="/comfyui/${esc(t.id)}.json" download="${esc(t.id)}.json">⬇ download workflow JSON</a>${t.link ? `
+        <a class=pill href="${esc(t.link)}" target=_blank rel="noopener nofollow">upstream example ↗</a>` : ''}</div></div>
+    <h2>Workflow JSON</h2>
+    <div class=card><pre style="overflow:auto;font-size:12px;margin:0;white-space:pre">${esc(workflowJson(t.id))}</pre></div>`;
+  return pageShell(`${t.title} — ComfyUI — Generative AI`, body, { canonical: `${BASE_URL}/comfyui/${t.id}` });
+}
+
+// ── Google Colab notebook library (operator: "Google-Colab template layer") ───────────────────────
+function colabCard(t) {
+  const url = colabLaunchUrl(t.id);
+  return `<div class=sec>
+    <div class=t>${esc(t.title)} <span class="badge cat">${esc(t.kind)}</span></div>
+    <div class=d>${esc(t.summary)}<br><span class=muted>GPU: ${esc(t.gpu)}</span></div>
+    <div class=row style="margin-top:10px">${url ? `<a class=pill href="${esc(url)}" target=_blank rel="noopener nofollow">▶ Open in Colab ↗</a>` : ''}
+      <span class=muted style="font-size:12px">${esc(t.repo)}</span></div></div>`;
+}
+
+export function colabIndexView() {
+  const byKind = COLAB_KINDS.map((k) => ({ k, list: colabByKind(k) })).filter((g) => g.list.length);
+  const body = `<h1>Google Colab notebooks <span class=muted style="font-size:14px">· free GPU, one click</span></h1>
+    <p class=muted>Curated, runnable notebooks — image generation, fine-tuning, audio, transcription, upscaling.
+      Click <b>Open in Colab</b>, sign in with a Google account, and run the cells. Free Colab gives a GPU
+      for a while; each note says what it needs. ${COLAB_TEMPLATES.length} notebooks.</p>
+    ${byKind.map((g) => `<h2 style="text-transform:capitalize">${esc(g.k)}</h2>
+      <div class=grid>${g.list.map(colabCard).join('')}</div>`).join('')}`;
+  return pageShell('Google Colab notebook templates — Generative AI', body, { canonical: `${BASE_URL}/colab` });
+}
+
+// ── CapCut-style reel template maker (operator: "CapCut-style template maker") ────────────────────
+function reelTemplateCard(t) {
+  const { spec } = buildReelSpec(t.id, {});
+  return `<a class=sec href="/reel-maker/${esc(t.id)}">
+    <div class=t>${esc(t.title)} <span class="badge cat">${esc(t.aspect)}</span></div>
+    <div class=d>${esc(spec.totalSeconds)}s · ${esc(spec.sceneCount)} scenes · ${esc(t.fields.length)} fields to fill<br>
+      <span class=muted>Music: ${esc(t.music)}</span></div></a>`;
+}
+
+export function reelIndexView() {
+  const body = `<h1>Reel template maker <span class=muted style="font-size:14px">· CapCut-style</span></h1>
+    <p class=muted>Pick a structure, fill a few fields, and download a <b>storyboard / shotlist</b> you take into
+      CapCut or any editor. Honest about what this is: a starting template — scenes, captions, timings and a
+      music cue — <b>not</b> a rendered video. ${REEL_TEMPLATES.length} templates.</p>
+    <div class=grid>${REEL_TEMPLATES.map(reelTemplateCard).join('')}</div>`;
+  return pageShell('Reel template maker — Generative AI', body, { canonical: `${BASE_URL}/reel-maker` });
+}
+
+function aspectSelect(selected) {
+  return `<select class=q name=aspect aria-label=Aspect style="flex:1 1 120px;width:auto">${REEL_ASPECTS.map((a) =>
+    `<option value="${esc(a)}"${a === selected ? ' selected' : ''}>${esc(a)}</option>`).join('')}</select>`;
+}
+
+export function reelDetailView(id) {
+  const t = getReelTemplate(id);
+  if (!t) {
+    return pageShell('Reel template not found — Generative AI', `<h1>Reel template not found</h1>
+      <p class=muted><a href="/reel-maker">← all reel templates</a></p>`,
+      { canonical: `${BASE_URL}/reel-maker`, robots: 'noindex,follow' });
+  }
+  const { spec } = buildReelSpec(t.id, {});
+  const fields = t.fields.map((f) => `<label class=fld for="f_${esc(f.key)}">${esc(f.label)}
+      <span class=ex>(e.g. ${esc(f.example)})</span></label>
+    <input class=q id="f_${esc(f.key)}" name="f_${esc(f.key)}" placeholder="${esc(f.placeholder)}" autocomplete=off>`).join('');
+  const preview = spec.scenes.map((s) =>
+    `<li><span class=muted>[${esc(s.start)}s–${esc(s.start + s.seconds)}s · ${esc(s.role)}]</span> ${esc(s.caption)}</li>`).join('');
+  const body = `<h1>${esc(t.title)} <span class="badge cat">${esc(t.aspect)}</span></h1>
+    <p class=muted><a href="/reel-maker">← all reel templates</a></p>
+    <div class=card><p class=muted style="font-size:13px">Example storyboard this builds (${esc(spec.totalSeconds)}s · music: ${esc(t.music)}):</p>
+      <ol style="margin:0;padding-left:20px">${preview}</ol></div>
+    <form class=gform method=post action="/reel-maker/${esc(t.id)}"><div class=card>${fields}
+      <div class=row style="margin-top:14px">${aspectSelect(t.aspect)}
+        <button type=submit>Build storyboard</button></div>
+      <p class=muted style="font-size:12px;margin:10px 0 0">Downloads a JSON spec + shotlist. A starting template, not a rendered video.</p>
+    </div></form>`;
+  return pageShell(`${t.title} — Reel maker — Generative AI`, body, { canonical: `${BASE_URL}/reel-maker/${t.id}` });
+}
+
+// build the reel spec from a POST and return it as a downloadable JSON (with the shotlist embedded).
+export function reelSpecFromParams(id, params) {
+  const t = getReelTemplate(id);
+  if (!t) return { ok: false, error: 'unknown reel template' };
+  const fields = {};
+  for (const f of t.fields) { const v = params.get('f_' + f.key); if (v != null) fields[f.key] = v; }
+  const aspect = params.get('aspect');
+  const built = buildReelSpec(id, fields, aspect ? { aspect } : {});
+  if (!built.ok) return built;
+  built.spec.shotlist = shotlist(built.spec);
+  return built;
 }
 
 function templateCard(t) {
@@ -366,7 +507,12 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/templates', '/gallery', '/directory', ...TEMPLATES.map((t) => `/templates/${t.id}`)];
+const SITEMAP_PATHS = [
+  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker',
+  ...TEMPLATES.map((t) => `/templates/${t.id}`),
+  ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
+  ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
+];
 
 export async function handler(req, res) {
   try {
@@ -376,11 +522,17 @@ export async function handler(req, res) {
 
     if (path === '/health') {
       const tpl = validateTemplates();
+      const comfy = validateComfyTemplates();
+      const colab = validateColabTemplates();
+      const reel = validateReelTemplates();
       const provs = providersMod.providerStatus();
-      const ok = tpl.ok;
+      const ok = tpl.ok && comfy.ok && colab.ok && reel.ok;
       res.writeHead(ok ? 200 : 500, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({
         ok, templates: TEMPLATES.length, templateErrors: tpl.errors,
+        comfyTemplates: comfy.count, comfyErrors: comfy.errors,
+        colabTemplates: colab.count, colabErrors: colab.errors,
+        reelTemplates: reel.count, reelErrors: reel.errors,
         providers: provs, rateLimitPerHour: RATE_PER_HOUR,
       }));
     }
@@ -399,6 +551,9 @@ export async function handler(req, res) {
         summary: 'Make AI images now — free-first, no login. Prompt box, CapCut-style templates, and a gallery. Powered by Cloudflare Workers AI, Google Gemini, and Pollinations.ai (keyless fallback).',
         links: [
           { label: 'Templates', path: '/templates' },
+          { label: 'ComfyUI workflows', path: '/comfyui' },
+          { label: 'Google Colab notebooks', path: '/colab' },
+          { label: 'Reel template maker', path: '/reel-maker' },
           { label: 'Gallery', path: '/gallery' },
         ],
       }));
@@ -422,6 +577,45 @@ export async function handler(req, res) {
     }
     if (path === '/gallery') return sendHtml(res, galleryView());
     if (path === '/directory') return sendHtml(res, directoryView());
+
+    // ── ComfyUI workflow library ──
+    if (path === '/comfyui') return sendHtml(res, comfyIndexView());
+    if (path.startsWith('/comfyui/')) {
+      const rest = decodeURIComponent(path.slice('/comfyui/'.length).replace(/\/+$/, ''));
+      if (rest.endsWith('.json')) {
+        const wid = rest.slice(0, -'.json'.length);
+        const json = workflowJson(wid);
+        if (!json) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+        res.writeHead(200, {
+          'content-type': 'application/json; charset=utf-8',
+          'content-disposition': `attachment; filename="${basename(wid)}.json"`,
+          'cache-control': 'public, max-age=3600',
+        });
+        return res.end(json);
+      }
+      return sendHtml(res, comfyDetailView(rest), getComfy(rest) ? 200 : 404);
+    }
+
+    // ── Google Colab notebook library ──
+    if (path === '/colab') return sendHtml(res, colabIndexView());
+
+    // ── CapCut-style reel template maker ──
+    if (path === '/reel-maker') return sendHtml(res, reelIndexView());
+    if (path.startsWith('/reel-maker/')) {
+      const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
+      if (method === 'POST') {
+        const params = await readBody(req);
+        const built = reelSpecFromParams(rid, params);
+        if (!built.ok) return sendHtml(res, reelDetailView(rid), 404);
+        res.writeHead(200, {
+          'content-type': 'application/json; charset=utf-8',
+          'content-disposition': `attachment; filename="${basename(rid)}-storyboard.json"`,
+          'cache-control': 'no-store',
+        });
+        return res.end(JSON.stringify(built.spec, null, 2));
+      }
+      return sendHtml(res, reelDetailView(rid), getReelTemplate(rid) ? 200 : 404);
+    }
 
     res.writeHead(302, { location: '/' });
     return res.end();
