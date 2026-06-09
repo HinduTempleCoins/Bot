@@ -1,0 +1,151 @@
+{
+  "title": "What Day Traders Do All Day: The Intraday Crypto/Stock Trading Playbook (Strategies, Indicators, Risk Rules)",
+  "summary": "Exhaustive, source-grounded reference for the MELEK trade bot covering the seven core intraday playbooks (scalping, momentum/breakout, mean-reversion/range, VWAP-anchored, opening-range breakout, news/catalyst, support/resistance flips), the indicators traders actually use with typical params, and the universal risk rules. Honest scope note for our bot: most of these are equity/futures intraday techniques. They map to crypto with three big caveats. (1) Crypto spot trades 24/7 so true overnight \"gaps\" and a fixed 9:30-11:00 session window mostly do not exist \u2014 gap-and-go and the classic ORB are weak in crypto except around scheduled catalysts (CPI prints, ETF news, exchange listings) or on regulated crypto futures session opens. (2) The angelicalist account funds these via HIVE on Hive-internal markets and Hive-Engine, where books are THIN, spreads WIDE, and fills SLOW \u2014 that favors patient limit-order mean-reversion and spread-filling, not latency-sensitive scalping or chasing momentum we cannot enter fast enough. (3) We trade small, so fees and slippage dominate: a 1:1 scalp that only breaks even after fees (as the sources warn) is a net loser for us. Bottom line for the brain: prefer mean-reversion / range / break-and-retest / VWAP-pullback setups with R:R >= 2:1, resting LIMIT entries, ATR-sized stops, hard per-trade and daily loss caps; treat scalping and momentum-chasing as out-of-budget for our fill speed; treat catalyst trades as the one place \"news momentum\" is worth attempting, at small size, only with confirmed volume.",
+  "strategies": [
+    {
+      "name": "Scalping (1-min micro-momentum)",
+      "how": "Capture the very first leg of momentum for seconds-to-minutes: buy a micro-dip (a single red candle / momentary pause) in a stock already up big on the day and strong, then sell into the next push toward a round/psychological level. EMA variant: long when 9 EMA crosses above 21 EMA while price is above 50 EMA, enter on the crossover-candle close or the first pullback to the 9 EMA. Tiny targets, very tight stops.",
+      "timeframe": "1-minute (sometimes tick/15-second); hold seconds to a few minutes",
+      "entry": "Price breaks a recent high, then a shallow micro-pullback that weakens (does not collapse); enter as the next surge begins. Or 9>21 EMA cross with price>50 EMA.",
+      "exit": "First predictable level / round number, the middle Bollinger Band, or RSI returning to its mid/equilibrium zone. Stop is only a few cents/ticks \u2014 be right fast or get out fast.",
+      "whenItWorks": "High-relative-volume, strongly trending, liquid names with tight spreads. FAILS in chop, on illiquid books, and when fees/slippage exceed the tiny edge \u2014 sources note scalps often only break even after fees. NOT viable for our thin-book/slow-fill HIVE/HE markets or at our size.",
+      "risk": "Highest operational risk: needs fast fills, low fees, constant attention; spread + slippage eat the edge; many trades amplify cost drag. Effectively out-of-budget for the MELEK bot's fill speed."
+    },
+    {
+      "name": "Momentum / trend-following",
+      "how": "Assume a confirmed impulse (move + volume + a real driver) persists; ride it in the trend direction and add on pullbacks rather than fade it. Trend-following, longer hold than scalping.",
+      "timeframe": "1-5 min for intraday momentum; can extend to 15-60 min",
+      "entry": "Stock/coin up strongly with 3x+ relative volume; enter on a break of intraday highs or on a pullback to a rising 9/21 EMA that holds; higher-timeframe RSI>50 confirms long bias.",
+      "exit": "Trail with the 9 EMA (exit when 9 EMA breaks), scale partial at 1x ATR, let the rest run while structure (higher highs/lows) holds.",
+      "whenItWorks": "Strong trending regimes with expanding volume. FAILS in range-bound/choppy markets (gets chopped up buying tops) and when we cannot enter fast enough to catch the move \u2014 a real constraint for us.",
+      "risk": "Chasing extended moves = buying the top; reversals are sharp. For our bot, entry latency on thin books means we often get the worst fill of the move."
+    },
+    {
+      "name": "Mean-reversion / range trading",
+      "how": "Assume momentum is short-lived and price reverts to a balance level. In a defined range with no trend, buy near support / lower Bollinger Band and sell near resistance / upper band or the middle 20-SMA. The single best fit for thin, ranging crypto books and patient limit orders.",
+      "timeframe": "5-15 min intraday (works on higher TFs too); minutes to hours",
+      "entry": "Price touches the LOWER Bollinger Band (20-SMA, 2 SD) AND RSI < 30 (oversold) for a long; mirror for shorts (upper band + RSI>70). Only when bands are FLAT and parallel (true range), never when expanding (that means a trend). Use resting LIMIT buys at support.",
+      "exit": "Target the middle band (20-SMA) for the bounce, or the opposite band; tight stop just beyond the band/range extreme.",
+      "whenItWorks": "Sideways, low-volatility, range-bound markets (the source's Cardano $0.50-$0.70 example). FAILS hard in trends/breakouts \u2014 a mean-reverter that shorts a breakout gets run over. Must detect regime first (flat bands).",
+      "risk": "Catching a falling knife if the 'range' is actually a breakdown; the classic mean-reversion failure mode is one big trend that erases many small wins. Mandatory hard stop beyond the band."
+    },
+    {
+      "name": "VWAP-anchored (pullback + breakout)",
+      "how": "VWAP (volume-weighted average price, resets each session) is the intraday fair-value line institutions reference; price above VWAP = bullish bias, below = bearish. Two setups: PULLBACK \u2014 in a clear intraday uptrend (higher highs/lows), buy when price dips to / taps VWAP and gets rejected back up. BREAKOUT \u2014 buy when price breaks and HOLDS above VWAP on strong volume.",
+      "timeframe": "5-minute primary; intraday only (VWAP is meaningless across days)",
+      "entry": "Pullback: confirm uptrend, enter on rejection off VWAP in trend direction. Breakout: enter as price surges through VWAP with high volume.",
+      "exit": "Target prior high (uptrend) / prior low (downtrend) or next S/R; stop just below VWAP and the entry candle's low (long), mirror for short.",
+      "whenItWorks": "Source cites ~64% when daily chart + morning trend + pullback structure all align, ~36% when they do not \u2014 i.e. only trade with confluence. FAILS when price is whipsawing across VWAP with no trend. In crypto, VWAP still works intraday but the 'session' is fuzzy (use a fixed anchor like UTC daily open).",
+      "risk": "Whipsaw around VWAP triggers repeated small stops; needs a clear trend backdrop. Better fit than scalping for us if we anchor VWAP sensibly."
+    },
+    {
+      "name": "Opening-Range Breakout (ORB)",
+      "how": "Mark the high/low of the first N bars after the open (default 3 bars on a 5-min chart = first 15 min); trade the break of that range in the trend direction, filtered by VWAP and volume.",
+      "timeframe": "5-minute chart only; first ~90 minutes of the session (9:30-11:00 in equities)",
+      "entry": "Range must be tight ('a lid'); on candle 3+ break ABOVE the range high WITH volume and price above VWAP go long (mirror for short). No entry on candle 1-2 (range not formed yet).",
+      "exit": "Stop at VWAP (exit immediately if price falls below); scale at 1x ATR, trail with 9 EMA, exit when 9 EMA breaks. Secondary target = measured move (range height projected) or next S/R.",
+      "whenItWorks": "Best when overnight range is narrow/compressed (expansion likely) and there's a catalyst. FAILS on sloppy wide-overlapping ranges, when there's resistance overhead, and after ~11:00 (degrades to coin-flip, worse after 3 PM). In 24/7 crypto there is no single open \u2014 only usable around scheduled catalysts or on regulated crypto-futures session opens.",
+      "risk": "False breakouts ('range traps'); time-window dependent. Largely N/A for 24/7 crypto spot except around catalysts."
+    },
+    {
+      "name": "News / catalyst & Gap-and-Go",
+      "how": "Trade the momentum from a real driver. Equity Gap-and-Go: pre-market scan for stocks gapping up 3%+ on 100k+ premarket volume with a low float (<20M) and a clear catalyst (earnings, FDA, upgrade, PR); play the continuation. Crypto analog: trade scheduled/known catalysts \u2014 exchange listings, ETF decisions, CPI/FOMC prints, protocol upgrades.",
+      "timeframe": "First 15-90 minutes after the catalyst (equities); minutes-to-hours around a crypto event",
+      "entry": "Equity: at 9:30 buy the high of the first 1-min candle (1-min ORB) or the premarket high, stop at that candle's low. Crypto: enter on the first decisive volume-confirmed break in the catalyst's direction.",
+      "exit": "Stop 2-3% below entry (or the trigger candle low); take profits into the first surge before profit-taking, scale out.",
+      "whenItWorks": "Strong, clear, high-relative-volume catalyst with low float (equities). FAILS on weak/no catalyst, low volume (fades fast), and \u2014 critically \u2014 crypto SPOT rarely gaps because it's 24/7, so classic gap setups are rare and less reliable. This is the ONE place 'momentum' is worth a small-size attempt for us, only with confirmed volume.",
+      "risk": "Catalyst moves are violent and reverse hard once the crowd takes profit; spreads blow out; we may enter late. Small size only, volume-confirmed only."
+    },
+    {
+      "name": "Support/Resistance flip (break-and-retest)",
+      "how": "When a level breaks it flips role: broken resistance becomes support, broken support becomes resistance (trapped traders cover/sell at the old level on the return). Wait for the break, then a retest of the flipped level, then enter the continuation.",
+      "timeframe": "Any intraday TF (5-15 min common); also higher TFs",
+      "entry": "Decisive break of the level on STRONG volume; then wait for price to return and retest the flipped level and show rejection (wick/doji holding above old resistance = new support). Enter on that hold \u2014 do NOT enter the raw breakout (avoids fakeouts).",
+      "exit": "Stop just back inside the old range / beyond the failed retest point; target the next major S/R zone, scale as price expands.",
+      "whenItWorks": "Clean, well-tested levels with a volume surge on the break. FAILS on low-volume 'breaks' (fakeouts) and in noisy ranges with no clean levels. Patience-friendly and limit-order-friendly \u2014 a good fit for our slower fills.",
+      "risk": "Failed retest (price reclaims the level and reverses); requires discipline to skip the no-retest breakout. Volume confirmation is the key filter."
+    }
+  ],
+  "indicators": [
+    {
+      "name": "RSI (Relative Strength Index)",
+      "use": "Momentum oscillator; overbought/oversold timing, divergence, and a >50/<50 trend-bias filter (check higher-TF RSI to set long/short bias).",
+      "params": "Period: scalping 5-7 (1-3 min), standard intraday 9-14 (5-15 min), conservative 14-21 (1-4h). Thresholds: default 70/30; volatile/fast markets 80/20; range-bound tighter (e.g. 75/25). Bullish divergence = price lower-low but RSI higher-low; bearish = price higher-high, RSI lower-high."
+    },
+    {
+      "name": "MACD (Moving Avg Convergence Divergence)",
+      "use": "Trend/momentum confirmation via MACD line vs signal-line crossovers and histogram; momentum confirmation leg of multi-indicator confluence.",
+      "params": "Standard 12/26/9. Intraday often faster 8/21/5. Linda Raschke's 3/10/16 detects trend changes ~5-10 candles earlier than 12/26/9 (quick entries/exits)."
+    },
+    {
+      "name": "EMA / SMA (moving averages)",
+      "use": "Trend direction, dynamic support/resistance, crossover signals, and trailing stops (9 EMA trail).",
+      "params": "9 EMA (short-term/trail), 21 EMA (slightly longer), 50 EMA (intraday trend filter), 200 EMA (major bias). Scalp/momentum entry: 9>21 EMA cross with price above 50 EMA. 20-SMA is the Bollinger middle band."
+    },
+    {
+      "name": "VWAP (Volume-Weighted Avg Price)",
+      "use": "Intraday fair-value / institutional reference line; bias (above=bullish, below=bearish), pullback target, breakout trigger, and stop reference. Resets each session.",
+      "params": "Session VWAP (resets at open). For 24/7 crypto use a fixed daily anchor (e.g. 00:00 UTC). Stops placed just beyond VWAP. ~64% setup quality only with daily+trend+pullback confluence."
+    },
+    {
+      "name": "Bollinger Bands",
+      "use": "Volatility envelope for mean-reversion bounce (touch lower band + RSI<30 = long), squeeze breakout detection, and middle-band profit target.",
+      "params": "20-period SMA middle band, +/-2 standard deviations. Trade bounces only when bands are FLAT/parallel (range); trade squeeze breakouts when BandWidth contracts to a multi-period low and price breaks with RSI confirmation."
+    },
+    {
+      "name": "Volume / Relative Volume (RVOL)",
+      "use": "Conviction filter for breakouts, gaps, and catalysts; THE primary go/no-go for momentum and break-and-retest. No volume = likely fakeout.",
+      "params": "Gap-and-Go: 3x+ relative volume, 100k+ premarket volume. Squeeze breakout: breakout candle volume >= 50% above the 20-period average. Confirm S/R breaks with a volume surge."
+    },
+    {
+      "name": "ATR (Average True Range)",
+      "use": "Volatility-based stop placement, position sizing, and profit scaling (scale at 1x ATR). Decouples stops from arbitrary % so they adapt to current volatility.",
+      "params": "Day-trade stops typically 1.5-2x ATR (1.5x = more active/tighter, 2.5-3x = hold through pullbacks). Chandelier Exit default = 22-period ATR x 3.0 trailing from highest high/lowest low; use shorter ATR period + lower multiplier for fast timeframes."
+    }
+  ],
+  "riskRules": [
+    "Per-trade risk cap: risk at most 1% (pros 0.5-1%, max 2%) of account equity on any single trade. $10k account = $100 max risk per trade; $5k = $50-100.",
+    "Position sizing formula: Position size = (Max $ risk) / (per-unit stop distance). Set the stop from chart structure/ATR FIRST, then let the stop distance and the 1-2% cap dictate size \u2014 never guess size.",
+    "Stop-loss is mandatory and pre-defined before entry. Use structure- or ATR-based stops (1.5-2x ATR for day trades), not arbitrary round numbers. Note: stops are not guaranteed fills in fast/thin markets (extra danger on our thin HIVE/HE books).",
+    "Risk:reward minimum 2:1 (target = 2x stop); pros prefer 3:1. A 2:1 setup is profitable even at a 40% win rate. AVOID 1:1 scalps \u2014 they only break even AFTER fees, which is a net loss at our small size.",
+    "Daily loss limit (circuit breaker): stop trading for the day at ~3-5% account drawdown OR 3 consecutive losing trades (beginners 1% or 0.5%). Close the platform; no more trades that day.",
+    "No revenge trading: never double down to 'earn back' a loss. After a loss, pause 30 min, review, change ONE variable, re-enter only with a clear setup. 90-second screen-break when tilted.",
+    "Trade-count discipline: cap high-quality trades per session (~3); skip the market entirely when no setup matches the plan. Don't trade out of boredom or FOMO.",
+    "Two-trigger pre-trade check: only enter if (1) the setup matches your written plan AND (2) you can immediately place a stop. If either fails, skip.",
+    "Pre-define entry, stop, target, and max risk before entering \u2014 remove in-the-moment emotion. Recalculate position size off CURRENT equity after each win/loss.",
+    "MELEK-bot-specific overlays: (a) fees+slippage dominate at small size \u2014 require edge >> round-trip cost before taking a trade; (b) prefer resting LIMIT entries over market orders on thin Hive/HE books; (c) treat scalping/fast-momentum as out-of-budget for our fill speed; (d) regime-detect first (flat bands = mean-revert, expanding = trend/stand aside)."
+  ],
+  "sources": [
+    "https://www.quantinsti.com/articles/types-trading-strategies/ \u2014 momentum vs mean-reversion definitions",
+    "https://www.litefinance.org/blog/for-beginners/trading-strategies/mean-reversion-vs-momentum-strategies/ \u2014 momentum (trend-following) vs mean-reversion (short/medium-term, scalping/swing)",
+    "https://proptradingvibes.com/blog/day-trading-strategies \u2014 overview of intraday strategy families and regime fit",
+    "https://www.warriortrading.com/1-minute-scalping-strategy/ \u2014 1-min scalping rules; buy micro-dip/sell first push; 9/21/50 EMA entry",
+    "https://www.xs.com/en/blog/1-minute-scalping-strategy/ \u2014 scalping entries/exits, middle-Bollinger/RSI exit",
+    "https://www.warriortrading.com/vwap/ \u2014 VWAP support/resistance, pullback and breakout setups, stop placement",
+    "https://www.humbledtrader.com/blog/vwap-strategy-secrets-boosting-your-trading-skills-to-the-next-level/ \u2014 VWAP pullback in confirmed uptrend; ~64% with confluence",
+    "https://chartswatcher.com/pages/blog/6-powerful-vwap-trading-strategies-for-2025 \u2014 VWAP breakout entry/target/stop rules",
+    "https://www.bullsonwallstreet.com/post/how-to-trade-the-opening-range-breakout \u2014 ORB exact rules: 5-min, 3-bar range, VWAP stop, 9:30-11:00 window, failure modes",
+    "https://forextester.com/blog/opening-range-breakout-trading-strategies/ \u2014 ORB range definition and longs/shorts vs VWAP",
+    "https://bullishbears.com/gap-and-go-strategy/ \u2014 Gap-and-Go setup, float/catalyst/volume selection",
+    "https://www.tradezella.com/blog/gap-and-go-strategy \u2014 Gap-and-Go selection, entry, risk rules",
+    "https://www.warriortrading.com/gap-go/ \u2014 Gap-and-Go: 3%+ gap, low float, 1-min ORB entry, stop at candle low",
+    "https://www.quantvps.com/blog/gap-and-go-strategy \u2014 crypto 24/7 caveat: spot rarely gaps, futures gaps less reliable",
+    "https://fxopen.com/blog/en/how-can-you-use-a-break-and-retest-strategy-in-trading/ \u2014 break-and-retest entry/retest/stop logic",
+    "https://tradefundrr.com/support-and-resistance-flip-strategy/ \u2014 S/R role-reversal mechanism, flip-zone identification, stop near flip zone",
+    "https://www.babypips.com/trading/system-rules-short-term-bollinger-reversion-strategy \u2014 Bollinger mean-reversion system rules",
+    "https://cripton.ai/en/guides/bollinger-bands-crypto \u2014 Bollinger bounce + RSI<30, flat-bands-only rule, squeeze with volume",
+    "https://www.tradewink.com/learn/mean-reversion-strategy \u2014 mean-reversion day-trade guide, range-only caveat",
+    "https://www.goatfundedtrader.com/blog/best-rsi-settings-for-day-trading \u2014 RSI periods by style, 70/30 vs 80/20, divergence, 50-line bias",
+    "https://chartinglens.com/blog/rsi-macd-bollinger-bands-guide \u2014 RSI/MACD/Bollinger standard params and confluence",
+    "https://www.mindmathmoney.com/articles/linda-raschke-trading-strategy-macd-indicator-settings-for-trading-stocks-forex-and-crypto \u2014 Linda Raschke 3/10/16 MACD vs 12/26/9",
+    "https://www.daytraderbusiness.com/analysis/indicators/essential-indicator-settings-for-day-trading/ \u2014 EMA 9/21/50, MACD/RSI/Bollinger day-trade settings",
+    "https://www.luxalgo.com/blog/5-atr-stop-loss-strategies-for-risk-control/ \u2014 ATR stop multipliers 1.5-2x for day trading",
+    "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-overlays/chandelier-exit \u2014 Chandelier Exit 22-period ATR x 3.0",
+    "https://www.quantifiedstrategies.com/chandelier-exit-strategy/ \u2014 ATR multiplier 2-3 range, shorter for fast TFs",
+    "https://tradethatswing.com/the-1-risk-rule-for-day-trading-and-swing-trading/ \u2014 1% rule, stop-first then size",
+    "https://optimusfutures.com/blog/day-trading-risk-management/ \u2014 position sizing formula, 5%/3-loss daily limit, R:R table, revenge-trade & psychology rules",
+    "https://www.daytrading.com/one-percent-rule \u2014 1% rule mechanics",
+    "https://tradethatswing.com/setting-a-daily-loss-limit-when-day-trading/ \u2014 daily max-loss rationale and sizing"
+  ],
+  "_generated": "2026-06-09 (MELEK trade deep-dive wave)"
+}

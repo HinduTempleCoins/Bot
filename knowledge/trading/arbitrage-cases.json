@@ -1,0 +1,123 @@
+{
+  "title": "Real Arbitrage-Bot Wins: Documented Cases, Mechanics, and What a Small Bot Can Actually Exploit",
+  "summary": "Documented crypto arbitrage falls into two honest buckets. (1) The legendary headline wins \u2014 SBF/Alameda's Kimchi-premium trade (~$1M/day at 30-50% spreads), UST and USDC depeg arbitrage, jaredfromsubway.eth's $22M+ MEV sandwich operation, and large CEX-DEX bots running $2.5M of inventory \u2014 were NOT replicable at small size. They required either capital scale, regulatory/banking access (moving fiat across the Korea border), exclusive infrastructure (low-latency colocated nodes, private Flashbots/builder relationships, inventory pre-positioned on both venues), or simply being predatory toward retail. Notably, a forensic breakdown of one $2.5M-capital CEX-DEX bot showed a single real trade netted ~$0.45 (and could have been a $0.20 LOSS) \u2014 the edge is volume and inventory management, not per-trade margin. (2) The honest middle: a documented 3-month DIY flash-loan/DEX arbitrage bot (\"FlashArb\") earned ~$24.6k net ($8.2k/mo) but only AFTER 71.5% success rate, $8.4k burned on reverted txs, 15% still front-run, and only 0.006% of 2.4M scanned opportunities being viable \u2014 i.e. real money but a brutal arms race. For a small HIVE/MELEK-funded bot the realistic, replicable edge is NOT atomic MEV or millisecond CEX races. It is: persistent fee-cleared spreads on thin/illiquid pairs and IOU/token internal markets (wider gaps, less competition), listing/announcement lag (a token spikes on one venue and lags minutes elsewhere), and slow stablecoin/IOU depegs that last hours-to-days (UST stayed below peg for days; USDC sat at $0.87-0.99 for ~3 days) \u2014 windows long enough to act on without colocation. Every spread must be netted against BOTH trading fees, withdrawal/network fees, slippage on thin books, and execution risk (one leg not filling, exchange halts, withdrawal freezes). Practitioners cite ~$20k-50k/trade as the minimum for cross-exchange spot arb to clear fees \u2014 so the small bot's realistic home is internal/on-chain markets where there is no withdrawal step, and patient depeg/IOU mispricing, not cross-CEX latency racing.",
+  "cases": [
+    {
+      "name": "SBF / Alameda Kimchi Premium (South Korea, 2017-2020)",
+      "type": "CEX-CEX cross-border spread",
+      "what": "Bitcoin and other crypto traded persistently 30-50% (sometimes up to 80%) higher on South Korean exchanges than US/global venues. Alameda reportedly cleared up to ~$1M/day at peak; e.g. BTC ~$10k US vs ~$15k Korea.",
+      "approxProfit": "Up to ~$1,000,000/day at peak; spreads of 30-50%, occasionally up to 80%.",
+      "howItWorked": "Buy BTC cheap on US/global exchange, move it to a Korean exchange, sell at the premium, then convert KRW proceeds back to USD and repatriate. The hard part was NOT the trade but the fiat plumbing: Korean capital controls and banking limits made repatriating KRW and cycling capital back the binding constraint. Alameda solved the banking/forex side at scale, which is why it captured the edge while domestic Koreans (blocked by capital controls) and most foreigners could not.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "UST (TerraUSD) Depeg Arbitrage (May 2022)",
+      "type": "Stablecoin / algorithmic-peg depeg arbitrage",
+      "what": "Algorithmic stablecoin UST broke its $1 peg starting May 7-10, 2022, trading as low as ~$0.985 then collapsing far below. The protocol let anyone burn $1-of-UST for $1-of-LUNA, so sub-peg UST was a redemption arb.",
+      "approxProfit": "Roughly 1 cent per token at the early shallow depeg (buy UST at $0.99, redeem for $1 of LUNA); much larger nominal gaps as it collapsed, but capped by mint capacity and crashing LUNA price.",
+      "howItWorked": "Buy UST below $1 on the open market, burn it via Terra's mint/redeem for $1 worth of freshly minted LUNA, sell the LUNA. The catch: the protocol capped UST burns at $100M/day, so arbitrage could not absorb the panic; the redemption flood hyperinflated LUNA supply (343M to 6.53 trillion in a week), so most arbitrageurs were selling into a collapsing asset \u2014 profitable only with fast execution and small early size, ruinous late.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "USDC Depeg During SVB Collapse (March 2023)",
+      "type": "Stablecoin depeg arbitrage (recovery bet)",
+      "what": "Circle disclosed $3.3B of USDC reserves stuck at failed Silicon Valley Bank; USDC fell to a low of $0.8726 on Mar 11, sat at $0.87-0.99, and re-pegged to $1 by Mar 13 once the FDIC backstopped SVB deposits.",
+      "approxProfit": "Buying near $0.88-0.90 and holding to the $1.00 re-peg = roughly 10-13% over ~2-3 days; DEX volume spiked 249% ($7.14B to $25.0B) as flows ran through MakerDAO PSM and DEXes.",
+      "howItWorked": "A convergence/recovery trade, not atomic arb: buy discounted USDC (or swap depegged USDC->DAI via MakerDAO's Peg Stability Module 1:1) on the bet that a fully-collateralized fiat stablecoin with a solvent issuer would re-peg once the banking question resolved. The PSM also acted as an exit ramp, which dragged correlated stables (USDP, GUSD) down. The edge was a multi-DAY window and a fundamental thesis on backing \u2014 slow enough for a non-HFT trader, but carrying genuine 'it never re-pegs' tail risk (the lesson UST taught the week before).",
+      "replicableAtSmallSize": true
+    },
+    {
+      "name": "jaredfromsubway.eth MEV Sandwich Bot (2023-2026)",
+      "type": "DEX/AMM MEV \u2014 sandwich attacks (predatory)",
+      "what": "The most notorious Ethereum MEV bot; sandwiches victim swaps on Uniswap/SushiSwap by front-running and back-running them. Documented sandwiching even Vitalik Buterin's swap (May 2026) using ~$1.14M WETH to move price; runs multi-layer (5- and 7-victim) sandwiches.",
+      "approxProfit": "~$22M total since March 2023 per EigenPhi (June 2024); earlier estimates ~$34M; one disputed estimate ~$3.5-4.5M proceeds. ~765 ETH (~$2M) over 85,000 txs on one address by Aug 2024.",
+      "howItWorked": "Monitor the mempool for large pending AMM swaps, buy the token just before the victim (front-run, pushing price up), let the victim execute at the worse price, then sell immediately after (back-run) capturing the spread the victim's trade created. Requires extremely high gas bidding, mempool access, and contract optimization; profits come FROM retail traders' slippage. Not arbitrage of a real price gap \u2014 value extraction.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "$2.5M-Capital CEX-DEX Arbitrage Bot (forensic breakdown)",
+      "type": "CEX-DEX atomic-ish arbitrage (professional)",
+      "what": "Public reverse-engineering of an on-chain bot running ~$2.5M inventory on a single ETH wallet. It bought USUAL cheap on Binance while selling on Uniswap (or vice-versa) when an on-chain price move opened a gap.",
+      "approxProfit": "~$0.45 USDT on the analyzed single trade \u2014 and the author notes it could have been a ~$0.20 LOSS under slightly different fee assumptions. Profit is in VOLUME across thousands of such trades, not per-trade margin.",
+      "howItWorked": "Detect an on-chain price-moving tx (mempool/block), execute the DEX leg (sold 24,095 USUAL for 0.6643 ETH, ~$2.11 gas) and the offsetting CEX legs on Binance (buy 24,095 USUAL, sell the ETH), netting the tiny CEX-vs-DEX spread minus ~$0.49 Binance taker fees and gas. Edge = pre-positioned inventory on BOTH sides (no slow withdrawal between legs), fast signal detection, possible builder ties, and razor-thin fees at scale. The author calls the 2.39s reaction 'really slow' \u2014 frontier teams are faster.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "FlashArb DIY Flash-Loan DEX Arbitrage Bot (3-month production run)",
+      "type": "DEX/AMM atomic arbitrage via flash loans (DIY)",
+      "what": "A developer's honest 3-month production post-mortem running a flash-loan-funded atomic DEX arbitrage bot on Ethereum (multi-pool price-discrepancy cycles, submitted as private Flashbots bundles).",
+      "approxProfit": "Gross $47,320; net ~$24,640 over 3 months (~$8,213/mo) after $12,180 gas on wins, $8,400 gas on reverts, $2,100 infra. 892 of 1,247 submitted txs succeeded (71.5%); only 0.006% of 2.4M scanned opportunities were viable; ~15% still front-run.",
+      "howItWorked": "Scan many DEX pools for a price-discrepancy cycle (e.g. same token cheaper on Curve than Balancer), borrow the capital via a flash loan, execute all legs in ONE atomic transaction (revert-if-unprofitable, so no inventory/hedging risk), and submit as a private Flashbots bundle to dodge public-mempool front-running. Gas efficiency was the edge (180-220k gas/tx vs competitors' 350-500k). Author explicitly calls it 'a race to the bottom' and warns most such bots fail. Real money, but needs a node, contract dev skill, infra, and tolerance for thousands in burned gas.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "New-Listing / Announcement Price-Lag Arbitrage",
+      "type": "CEX-CEX listing-lag arbitrage",
+      "what": "When a major exchange (e.g. Coinbase/Binance) lists or announces a token, its price spikes there while lagging on smaller venues (KuCoin, Gate.io) for seconds-to-minutes; new-exchange listings can lag established price discovery for hours.",
+      "approxProfit": "Variable; gap is the listing pop minus fees. Cross-CEX BTC example cited ~$250/BTC on a ~0.33% gap. On thin/new tokens the gap can be several percent for minutes.",
+      "howItWorked": "Pre-fund accounts on multiple exchanges with USDT/USDC so no slow transfer is needed mid-trade; on a listing/announcement, buy where the token is still cheap and sell where it spiked, settling the gap before others close it. Hours-long lag on new-exchange listings is the most accessible variant. Binding constraints: speed (windows are seconds-minutes), and the withdrawal-delay trap if funds aren't already on both venues \u2014 moving tokens between chains/CEXes takes time that kills the gap.",
+      "replicableAtSmallSize": true
+    },
+    {
+      "name": "Triangular Arbitrage on a Single Exchange (e.g. Binance)",
+      "type": "Triangular (intra-exchange) arbitrage",
+      "what": "Cycle three pairs (e.g. USDT->BTC->ETH->USDT) when the implied cross-rate diverges from the direct rate within one exchange. Academic study found 4,879 opportunities on Binance BTC/LTC/USD high-frequency data.",
+      "approxProfit": "Per-cycle gaps are tiny (basis points). One illustrative buy-buy-sell example cited 2,000 USDT, but realistic net edges are fractions of a percent and mostly eaten by the 3x taker fees.",
+      "howItWorked": "Compute whether trading A->B->C->A leaves more A than you started with after all three fees. No withdrawal step (all on one exchange) is the attractive part for a small operator. But: Binance has no batch trading, so all three legs must fire near-simultaneously with timing/leg-fill risk; you compete with HFT bots; and three taker fees usually exceed the gap. Study conclusion: opportunities exist but transaction costs and capacity make them largely non-exploitable for retail.",
+      "replicableAtSmallSize": false
+    },
+    {
+      "name": "Cross-Chain Bridge Arbitrage (same asset, different chains)",
+      "type": "Cross-chain DEX arbitrage",
+      "what": "The same token trades at different prices on different chains (e.g. a stablecoin pumped by a BSC yield farm vs its flat Polygon price); buy on the cheap chain, bridge, sell on the expensive chain.",
+      "approxProfit": "Only profitable on large gaps or large size; a 0.5% gap commonly nets -0.2% after ~0.4% fees + ~0.2% slippage + bridge/gas.",
+      "howItWorked": "Identify a cross-chain price gap, bridge funds, sell on the high side. The structural problem for a small bot: bridge latency (minutes to much longer) is directional-risk exposure, gaps close while you're bridging, and small discrepancies need large size to clear fixed bridge+gas costs. Research notes a sophisticated minority dominates this due to pre-distributed inventory across chains and low-latency infra.",
+      "replicableAtSmallSize": false
+    }
+  ],
+  "patterns": [
+    "Net, don't gross: every spread must clear BOTH sides' trading fees + withdrawal/network/gas fees + slippage on thin books + execution risk. Practitioners cite ~$20k-50k/trade as the minimum for cross-CEX spot arb to even clear fees \u2014 a 0.5% gross gap is routinely -0.2% net. Wire a hard 'net-of-all-costs > threshold' gate into the brain before any signal becomes a trade.",
+    "The small-bot's real edge is TIME, not SPEED. Atomic MEV and cross-CEX races are won in milliseconds by colocated teams with builder relationships and pre-positioned inventory \u2014 not replicable for us. Patient, slow-moving mispricings (multi-day stablecoin/IOU depegs like USDC's ~3-day $0.87->$1.00, hours-long new-exchange listing lag) are windows long enough for a modest bot to act on.",
+    "Thin/illiquid pairs and internal/IOU token markets have wider, more persistent, less-contested spreads than BTC/ETH on major venues. This is the documented home turf for retail \u2014 but illiquid coins also move violently, so size small and treat the wide spread as compensation for fill risk, not free money. (Directly relevant to MELEK/HIVE-Engine internal markets and IOU books where there is NO withdrawal leg.)",
+    "Eliminate the withdrawal/bridge leg whenever possible. The recurring profit-killer across every CEX-CEX and cross-chain case is the transfer time between venues: gaps close while funds are in transit, and funds can be frozen by KYC/AML/maintenance. Prefer single-venue internal markets (one exchange's triangular cycles, on-chain DEX atomic swaps, HIVE/MELEK internal order books) where settlement is instant and there is no withdrawal-delay trap.",
+    "Pre-fund both sides in advance with stable assets so you never move capital mid-trade. The fastest practical cross-venue arb keeps balances parked on every venue and only rebalances occasionally \u2014 converting the trade into two simultaneous opposite orders rather than a buy-then-transfer-then-sell.",
+    "Depeg/convergence trades carry a real tail: 'it never re-pegs.' USDC re-pegged (solvent issuer + FDIC backstop) the same week UST went to zero (algorithmic, no real backing). Only take depeg-recovery trades where the asset has genuine, verifiable collateral and a credible re-peg mechanism; size to survive being wrong.",
+    "Most scanned 'opportunities' are fake or already gone. The FlashArb data (0.006% of 2.4M opportunities viable; 28.5% of submitted txs reverted; 15% front-run) shows the dominant cost is acting on stale/illusory gaps. Validate against live order-book depth and recent fills before committing; budget for losing trades and reverts as a normal line item, not a bug. (Mirrors our own task #23 fix: drop arb signals with legs too far off spot.)",
+    "Reaction speed and data freshness gate everything. Delayed or inconsistent price data makes a bot trade gaps that no longer exist \u2014 the single most common retail loss. For a slow bot this means deliberately targeting only spreads wide enough and persistent enough to survive our latency, and rejecting anything in the sub-second/HFT regime.",
+    "Sandwich/predatory MEV (jaredfromsubway-style) is a documented multi-million-dollar business but it profits FROM retail slippage, not from real arbitrage \u2014 out of scope ethically and technically (needs gas-war infra). Worth knowing as a threat model: our own DEX swaps can be sandwiched, so route through private/Flashbots-style bundles or set tight slippage when we transact on AMMs.",
+    "Profit at small size comes from many small, boring, repeatable net-positive trades \u2014 not one heroic spread. The honest cases that a modest operator can touch (USDC re-peg, listing lag, thin internal-market spreads) are low-frequency and low-margin; the brain should treat arb as a steady trickle to harvest opportunistically, not a primary revenue engine, and never lever up to chase it."
+  ],
+  "sources": [
+    "https://vegaxholdings.medium.com/kimchi-premium-crypto-arbitrage-techniques-b780a45b6e76",
+    "https://corporatefinanceinstitute.com/resources/cryptocurrency/kimchi-premium/",
+    "https://finance.yahoo.com/news/bitcoin-trade-gave-bankman-fried-071815312.html",
+    "https://forkast.news/south-korean-kimchi-premium-scheme-prompts-33-arrests/",
+    "https://www.cnbc.com/2024/04/03/south-koreas-kimchi-premium-in-the-spotlight-after-btcs-record-highs.html",
+    "https://cointelegraph.com/news/here-s-how-terra-traders-use-arbitrage-to-profit-from-luna-and-bluna",
+    "https://calebandbrown.com/blog/a-week-of-terra-ust-and-luna-collapse-explained/",
+    "https://www.richmondfed.org/publications/research/economic_brief/2022/eb_22-24",
+    "https://cybrid.xyz/blog/2023-usdc-depeg-explained",
+    "https://www.chainalysis.com/blog/crypto-market-usdc-silicon-valley-bank/",
+    "https://www.cnbc.com/2023/03/11/stablecoin-usdc-breaks-dollar-peg-after-firm-reveals-it-has-3point3-billion-in-svb-exposure.html",
+    "https://dev.to/chronocoders/the-arbitrage-bot-arms-race-what-we-learned-running-flasharb-in-production-10ij",
+    "https://gist.github.com/lublumev/c37c207f9184bf2820478b365fa9e84b",
+    "https://writings.flashbots.net/mev-and-the-limits-of-scaling",
+    "https://frontier.tech/a-tale-of-two-arbitrages",
+    "https://medium.com/@solidquant/how-i-built-my-first-mev-arbitrage-bot-introducing-whack-a-mole-66d91657152e",
+    "https://www.theblock.co/post/230218/jaredfromsubway-mev-bot",
+    "https://www.coindesk.com/tech/2026/05/07/jaredfromsubway-bot-front-runs-vitalik-buterin-s-usd4-token-swap-with-usd1-million-in-volume",
+    "https://unchainedcrypto.com/mev-sandwich-bot-jared-2-0-cooks-up-new-recipes-eigenphi/",
+    "https://www.sciencedirect.com/science/article/pii/S154461232401537X",
+    "https://medium.com/@BlockchainEng/triangular-arbitrage-with-cryptocurrency-on-binance-exchange-with-python-videos-and-code-real-bc63d0905d05",
+    "https://arxiv.org/pdf/2002.12274",
+    "https://chainflip.io/blog/cross-chain-arbitrage-crypto-trading",
+    "https://thrive.fi/blog/defi/cross-chain-bridge-arbitrage",
+    "https://academy.extropy.io/pages/articles/mev-crosschain-analysis-2025.html",
+    "https://cryptoslate.com/guides/crypto-arbitrage/",
+    "https://changelly.com/blog/crypto-arbitrage/",
+    "https://www.morelogin.com/blog/crypto-arbitrage-opportunities",
+    "https://bitsgap.com/blog/crypto-arbitrage-explained-tutorial",
+    "https://crypto.com/us/crypto/learn/what-is-arbitrage-in-crypto-trading"
+  ],
+  "_generated": "2026-06-09 (MELEK trade deep-dive wave)"
+}
