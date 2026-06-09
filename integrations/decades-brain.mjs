@@ -32,6 +32,9 @@
 //   brain.teachPattern('greet', /\b(hi|hello|hey)\b/i, 'Hello! Ask me about MELEK.');
 //   const out = await brain.think('hey there');   // → answered by the 1960s layer, LLM never woke
 
+// Real FAISS-class ANN for the 2010s layer (hnswlib HNSW on the boxes; cosine fallback in CI).
+import { createVectorIndex } from './faiss-index.mjs';
+
 // ── 1970s: MYCIN certainty-factor combination (Shortliffe & Buchanan) ─────────────────────────
 /** Combine two certainty factors in [-1, 1] per the classic MYCIN rules. */
 export function cfCombine(a, b) {
@@ -136,8 +139,18 @@ export function createBrain({ store, llm, embedder, threshold = 0.55 } = {}) {
   const bayesAnswers = (store && store.bayesAnswers) || {};
   // 2000s
   const tfidf = tfidfIndex();
-  // 2010s — embedding memory (brute cosine; swap to Qdrant/FAISS server-side at scale)
+  // 2010s — embedding memory, indexed by the real FAISS-class ANN (faiss-index.mjs): hnswlib HNSW
+  // on the node-20 boxes, cosine fallback in CI. Built lazily + rebuilt only when a new memory lands.
   const embedMem = []; // {vec, answer, id}
+  let _ann = null, _annSize = -1;
+  function annIndex() {
+    if (!embedMem.length) return null;
+    if (_ann && _annSize === embedMem.length) return _ann;
+    const ix = createVectorIndex(embedMem[0].vec.length);
+    ix.addAll(embedMem.map((m) => ({ id: m.id, vec: m.vec })));
+    _ann = ix; _annSize = embedMem.length;
+    return _ann;
+  }
 
   const trace = [];
   const note = (era, status, conf = 0) => trace.push({ era, status, confidence: conf });
@@ -222,14 +235,12 @@ export function createBrain({ store, llm, embedder, threshold = 0.55 } = {}) {
         if (!embedder || !embedMem.length) return null;
         const q = await embedder(input);
         if (!Array.isArray(q)) return null;
-        let best = null;
-        for (const m of embedMem) {
-          let dot = 0, qn = 0, mn = 0;
-          for (let i = 0; i < q.length; i++) { dot += q[i] * m.vec[i]; qn += q[i] * q[i]; mn += m.vec[i] * m.vec[i]; }
-          const cos = dot / ((Math.sqrt(qn) || 1) * (Math.sqrt(mn) || 1));
-          if (!best || cos > best.confidence) best = { answer: m.answer, confidence: cos, intent: `mem-${m.id}` };
-        }
-        return best;
+        const ix = annIndex();
+        if (!ix) return null;
+        const [top] = ix.search(q, 1); // real FAISS-class nearest-neighbour (HNSW on the boxes)
+        if (!top) return null;
+        const mem = embedMem[top.id] || embedMem.find((m) => m.id === top.id);
+        return mem ? { answer: mem.answer, confidence: top.score, intent: `mem-${mem.id}` } : null;
       });
       if (r) return r;
       // 2020s — the Smol LLM, last resort, only if a completer was wired in
