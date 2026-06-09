@@ -19,6 +19,7 @@
  */
 
 import { tokens } from '../contracts/tokens.mjs';
+import { rewards } from '../contracts/rewards.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
@@ -26,6 +27,7 @@ import { burnFee } from '../contracts/tokens.mjs';
 // Contract registry. ONLY these first-party contracts exist; no user uploads.
 const CONTRACTS = {
   tokens,
+  rewards,
   gateway,
   dexSettlement,
 };
@@ -38,6 +40,12 @@ const ACTIVE_REQUIRED = new Set([
   'tokens.transfer',
   'tokens.stake',
   'tokens.unstake',
+  // rewards: configuring a pool moves supply control, so it needs ACTIVE.
+  // `vote` and `payout` accept POSTING: a vote is a posting-auth social signal
+  // on L1, and payout is an idempotent crank anyone may turn (its result is
+  // independent of the caller). This mirrors Scotbot's auth split.
+  'rewards.setReward',
+  'rewards.disableReward',
   'gateway.deposit',
   'gateway.withdraw',
   'dexSettlement.settle',

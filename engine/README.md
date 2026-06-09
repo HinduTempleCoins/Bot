@@ -38,8 +38,32 @@ bees — *Apis* (the sacred bee; also "APIs") and *Drone* (continuity/governance
 - `tokens.issue` — mint to an account (**issuer-only**, respects cap, logged)
 - `tokens.transfer` — send tokens
 - `tokens.stake` / `tokens.unstake` — governance/mining stake bucket
+- `rewards.setReward` / `rewards.disableReward` — **Scotbot equivalent**: an issuer configures a token's social-reward pool as a **config object** (emission/window, author/curator split, reward curve), never user JS (**issuer-only**)
+- `rewards.vote` — record a **token-stake-weighted** vote on a post (the streamer turns each L1 `vote` into one); lazy-registers the post + reward window
+- `rewards.payout` — deterministic crank: emit `emissionPerWindow` for every matured post, split author/curator pro-rata, **cap-respecting**, idempotent
 - `gateway.deposit` / `gateway.withdraw` — **DEX seam 1** (pegged assets), gated off
 - `dexSettlement.settle` — **DEX seam 2** (signed-fill settlement), gated off
+
+## The platform offering (make-your-own token tribe)
+
+Two pieces turn a created token into a full **tribe**, mirroring Hive-Engine:
+
+- **`contracts/rewards.mjs` (Scotbot equivalent)** — config-driven social-reward
+  emission. Posts on the MELEK L1 accrue stake-weighted votes; on a fixed block
+  window the reward pool emits the issuer's token, split author/curator by a
+  reward curve (`linear` / `quadratic` / `sqrt`). All BigInt, deterministic,
+  replayable, cap-respecting. **No user JS** — the behaviour is a reward-rule
+  object, so the sandbox-escape class is avoided by construction.
+- **`nitrous/render.mjs` (Nitrous equivalent)** — a per-token front-end
+  **generator**. `renderTokenSite(state, SYMBOL, theme)` returns a branded,
+  read-only page (supply/holders/posts/rewards/leaderboard) for any token;
+  `makeNitrousHandler(state, themeFor)` serves `/` (index) + `/:SYMBOL`. A
+  factory, not one hardcoded page; reuses the engine read API; `esc()` on all
+  interpolation.
+
+**PRANA hooks (noted, not built):** see the TODO block in `contracts/seams.mjs`
+— reward emission can route a slice to a PRANA liquidity pool, and nitrous gains
+a Trade tab, once `dexSettlement` / `gateway` flip on with `PRANA_RPC_URL`.
 
 ## API (Hive-Engine-shaped)
 
