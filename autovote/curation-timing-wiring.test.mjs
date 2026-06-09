@@ -64,7 +64,13 @@ test('timing ON, Hive fanbase: prompt (post-time + ~20s settle)', () => {
   const fireAt = onlyFireAt(engine);
   const deltaFromNow = fireAt - Date.now();
   assert.ok(deltaFromNow <= 20_000 + 50, `Hive prompt, got ${deltaFromNow}ms`);
-  assert.ok(deltaFromNow >= 0);
+  // `fireAt` is computed against the engine's OWN Date.now() inside processBlock; the
+  // wall clock advances by the time we read Date.now() here. For an aged post (POST_TS
+  // is "today 00:00Z", so most of the day postAge > the 20s prompt → delay clamps to 0
+  // → fireAt == the engine's earlier `now`), so fireAt - Date.now() is a few ms NEGATIVE.
+  // Allow the same ±50ms clock slop the upper bound and the delayMs-floor test use, so
+  // this never flakes red late in the UTC day (root cause of the CI exit-1).
+  assert.ok(deltaFromNow >= -50, `Hive prompt floor, got ${deltaFromNow}ms`);
 });
 
 test('timing ON, Steem fanbase on a fresh post: ~5min reverse-auction edge', () => {
