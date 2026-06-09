@@ -29,6 +29,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { makeEmbedder } from './minilm-embedder.mjs';
+import { createVectorIndex, faissAvailable } from './faiss-index.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = process.env.MELEK_REPO || path.resolve(__dirname, '..');
@@ -198,17 +199,34 @@ export async function buildIndex({ limit = Infinity, full = false, log = () => {
 }
 
 // ── recall ────────────────────────────────────────────────────────────────────
+// FAISS-backed recall, cached per (index-version, domain). Real FAISS nearest-neighbour on the
+// node-20 boxes; cosine fallback elsewhere (same result). Rebuilt only when the vectors file changes.
+const _annCache = new Map(); // key: `${at}::${domain}` -> { ann, meta: [{domain,src,relPath,text}] }
+function annFor(idx, domain) {
+  const key = `${idx.at}::${domain || '*'}`;
+  const hit = _annCache.get(key);
+  if (hit) return hit;
+  const pool = domain ? idx.vecs.filter((v) => v.domain === domain) : idx.vecs;
+  const dim = pool[0]?.vec?.length || 0;
+  const ann = createVectorIndex(dim);
+  const meta = [];
+  pool.forEach((v, i) => { ann.add(i, v.vec); meta.push({ domain: v.domain, src: v.src, relPath: v.relPath, text: v.text }); });
+  const built = { ann, meta };
+  _annCache.clear(); // small cache; one live index version at a time
+  _annCache.set(key, built);
+  return built;
+}
+
 export async function recall(query, { domain = null, k = 6 } = {}) {
   const idx = loadVecs();
   if (!idx.vecs.length) return [];
   const qv = await embedText(query);
-  let pool = idx.vecs;
-  if (domain) pool = pool.filter((v) => v.domain === domain);
-  return pool
-    .map((v) => ({ domain: v.domain, src: v.src, relPath: v.relPath, text: v.text, score: cos(qv, v.vec) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, k);
+  const { ann, meta } = annFor(idx, domain);
+  return ann.search(qv, k).map((h) => ({ ...meta[h.id], score: h.score }));
 }
+
+/** Which nearest-neighbour backend recall is using ('faiss' on the boxes, 'cosine' fallback). */
+export function recallBackend() { return faissAvailable() ? 'faiss' : 'cosine'; }
 
 export function stats() {
   const idx = loadVecs();
