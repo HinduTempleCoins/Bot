@@ -88,3 +88,6 @@ data/
 
 # diag-to-tasks bare-run output (box uses DIAG_TASKS_PATH instead)
 integrations/.diag-tasks/
+
+# Built semantic library vector cache (rebuilt on the box; not source)
+.library-index/
