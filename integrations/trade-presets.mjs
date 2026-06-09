@@ -1,3 +1,14 @@
+// ┌─ DEPRECATION NOTE (trade consolidation, 2026-06-09) ────────────────────────────────────────┐
+// │ This is the OLDER, USD-context strategy engine. The consolidated, forkable strategy brain is   │
+// │ now `integrations/trade-strategies.mjs` — ONE pure registry (peg-arb, market-make, grid, dca,  │
+// │ momentum, nudge, wall) with a frozen dryRun:true/signer:null order shape. PREFER it for new     │
+// │ work. This file is intentionally NOT rewritten into a shim: its `simulate()` is the live input  │
+// │ to the GATED execution path (angelicalist/{trader,execute,loop}.mjs), and that path is fully     │
+// │ tested against this exact shape. Rewiring it carries no upside and real risk of breaking the     │
+// │ gated path, so it stays as-is. New strategies go in trade-strategies.mjs; this remains the       │
+// │ deterministic preset feed the angelicalist loop already consumes.                                │
+// └────────────────────────────────────────────────────────────────────────────────────────────┘
+//
 // trade-presets.mjs — DRY-RUN scaffold for pre-set, rule-based trade bots (the hive.trade-style
 // deterministic ones that sit alongside the smarter AI-driven trader). READ-ONLY: it defines
 // strategies as config and SIMULATES what each would do against the live market — it never trades,

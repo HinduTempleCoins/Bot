@@ -19,30 +19,33 @@
 import { market } from './hive-engine-market.mjs';
 import { wallStrategy } from './wall-bot.mjs';
 import { emitBotData } from '../tools/bot-data.mjs';
+import { loadTradeConfig } from './trade-config.mjs';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 // ── config from env (honours the .env.example "VAN KUSH MARKET MAKER" knobs) ───────────────────
+// The DEFAULTS now live in the consolidated trade-config (read with the SAME MM_* env names), so the
+// numbers can't drift between modules. opts still override env, and env still overrides the defaults —
+// behaviour is identical to the previous inline reads; this only centralizes where the fallbacks come from.
 export function loadConfig(env = process.env, opts = {}) {
-  const n = (k, d) => {
+  const d = loadTradeConfig(env).mm;            // consolidated MM_* defaults (same env names)
+  const n = (k, def) => {
     const v = opts[k] ?? env[k];
     const f = parseFloat(v);
-    return Number.isFinite(f) ? f : d;
+    return Number.isFinite(f) ? f : def;
   };
   return {
-    increment: n('MM_NUDGE_INCREMENT', 0.00000010),
-    maxNudgesDay: n('MM_MAX_NUDGES_DAY', 10),
-    nudgeInterval: n('MM_NUDGE_INTERVAL', 3600000),
-    maxJump: n('MM_MAX_JUMP', 0.05),
-    buyWallSize: n('MM_BUY_WALL_SIZE', 50),
-    supportSize: n('MM_SUPPORT_SIZE', 25),
-    minWhale: n('MM_MIN_WHALE', 100000),
+    increment: n('MM_NUDGE_INCREMENT', d.nudgeIncrement),
+    maxNudgesDay: n('MM_MAX_NUDGES_DAY', d.maxNudgesDay),
+    nudgeInterval: n('MM_NUDGE_INTERVAL', d.nudgeInterval),
+    maxJump: n('MM_MAX_JUMP', d.maxJump),
+    buyWallSize: n('MM_BUY_WALL_SIZE', d.buyWallSize),
+    supportSize: n('MM_SUPPORT_SIZE', d.supportSize),
+    minWhale: n('MM_MIN_WHALE', d.minWhale),
     // fair-value CEILING above which we STOP ratcheting. No default — must be supplied, else HOLD.
-    ceiling: opts.ceiling != null ? +opts.ceiling
-      : (env.MM_CEILING != null && env.MM_CEILING !== '' ? parseFloat(env.MM_CEILING) : null),
+    ceiling: opts.ceiling != null ? +opts.ceiling : d.ceiling,
     // optional support FLOOR for the deeper defensive buy wall (wall-bot)
-    floor: opts.floor != null ? +opts.floor
-      : (env.MM_FLOOR != null && env.MM_FLOOR !== '' ? parseFloat(env.MM_FLOOR) : null),
+    floor: opts.floor != null ? +opts.floor : d.floor,
   };
 }
 
