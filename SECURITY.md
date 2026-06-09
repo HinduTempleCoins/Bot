@@ -58,14 +58,18 @@ Realistic adversary set, in rough order of likelihood:
 
 ### 3c. The four Graphene key types — least-privilege principle
 
+**Zero WIF on the Bot host, by construction.** No Graphene private key (owner, active, posting, or memo) ever lives on the Bot host or in this repo. All broadcasts go through **MELEK-Signer** — a separate hardened service in a separate repo on a separate VPS — and the Bot holds only a scoped, revocable **bearer token**, never a key. The active and posting keys live exclusively inside MELEK-Signer, encrypted at rest with cloud-KMS bound to the signer's instance role (stolen disk → opaque blob; cloned VPS → KMS refuses to unwrap). The owner key and the treasury-tier active key live only on the operator's offline hardware wallet and are never deployed to any always-on host. This is the locked design — see [`MELEK_SIGNER.md`](./MELEK_SIGNER.md). The "where it should live" column below reflects it.
+
 | Key | Used for | Risk if compromised | Where it should live |
 |---|---|---|---|
-| **Owner** | Account recovery; modifying other keys | **Critical.** Full account control. After 30 days without the original, account is permanently lost. | **Offline only.** Never on any internet-connected device. Never in any env var, never in any password manager touching the cloud. Written down, stored physically. |
-| **Active** | Transfers, delegations, account creation, `witness_update`, `feed_publish` | High. Drains funds, creates fake accounts, redirects funding. | Server-side env var on the Witness's host. Never in this repo, never logged. |
-| **Posting** | Comments, votes, custom JSON | Medium. Spam, fake-curation phishing from the Witness's handle. | Server-side env var on the Witness's host. Same posture as active. |
-| **Memo** | Encrypted memos | Low. Decrypts old memos sent to you. | Server-side if needed; not used by current Bot scope. |
+| **Owner** | Account recovery; modifying other keys | **Critical.** Full account control. After 30 days without the original, account is permanently lost. | **Offline only**, on the operator's hardware wallet. Never on any internet-connected device, never in any env var, never in any password manager touching the cloud. Paper backup, stored physically. |
+| **Active** | Transfers, delegations, account creation, `witness_update`, `feed_publish` | High. Drains funds, creates fake accounts, redirects funding. | **Never on the Bot host.** The signup-scoped active key lives KMS-wrapped inside MELEK-Signer, behind its policy engine; the treasury-tier active key lives offline on the hardware wallet. The Bot reaches it only by asking MELEK-Signer to broadcast, authenticated by its bearer token. |
+| **Posting** | Comments, votes, custom JSON | Medium. Spam, fake-curation phishing from the Witness's handle. | **Never on the Bot host.** Lives KMS-wrapped inside MELEK-Signer. Same posture as the scoped active key — reached only via the signer, never as an env var here. |
+| **Memo** | Encrypted memos | Low. Decrypts old memos sent to you. | Not used by current Bot scope. If ever needed, inside MELEK-Signer — never on the Bot host. |
 
-The Witness's **block-signing key** (used by the `witness_node` daemon to sign blocks) is **distinct from all four above.** Block-signing-key compromise means an attacker can sign blocks under Hathor's name but **cannot move funds.** Rotate it routinely via `witness_update` from the active key.
+The Witness's **block-signing key** (used by the `witness_node` daemon to sign blocks) is **distinct from all four above.** It lives on the `witness_node` host (chain-side, not this Bot, not MELEK-Signer). Block-signing-key compromise means an attacker can sign blocks under Hathor's name but **cannot move funds.** Rotate it routinely via `witness_update` — a cold-signer op signed from the offline hardware wallet.
+
+**The one local-signing exception — testnet only.** A single, default-OFF testnet path exists: `witness/jit-signer.mjs`, gated by the `MELEK_FEED_TESTNET_JIT_SIGN` flag. It is hard-gated to the `TST` address prefix and refuses to run against mainnet; it fetches a key just-in-time, signs once, and never persists it to disk. This is the lone exception to "no local signing on the Bot host," and it **never reaches mainnet** — mainnet broadcasts always go through MELEK-Signer.
 
 ### 3d. Defenses for users (relevant to signup help)
 

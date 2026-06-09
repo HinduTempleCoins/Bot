@@ -34,15 +34,19 @@ Before you touch any infrastructure:
 
 ## 2. Generating the keys
 
+**No WIF private key is ever pasted into the Bot host's `.env`.** Under the locked zero-WIF design (see [`MELEK_SIGNER.md`](./MELEK_SIGNER.md)), the Bot host holds no chain private key at all — it broadcasts through the separate MELEK-Signer service using a scoped bearer token. Keys are generated once, in a single offline laptop session, then either KMS-wrapped and deployed to the *signer* host (active/posting, signup-scoped) or kept on the operator's offline hardware wallet (owner, treasury-tier active). The full procedure lives in [`MELEK_SIGNER.md`](./MELEK_SIGNER.md) §5 (Bootstrap flow); the summary below is the operator-facing shape of it.
+
 **On the offline machine, never touching the network during this step:**
 
-1. Generate the four account keys for `hathor` (owner, active, posting, memo) using `melek-chain`'s `cli_wallet` or the offline key derivation in `src/chain/keys.js` ancestry. Owner is derived from a master password / passphrase; the other three are derived from it but stored independently.
-2. Write the owner key on paper. Two copies. Different physical locations.
-3. Copy the active and posting keys to the Witness's `.env` only via offline transfer (USB) — never paste into a chat, never type into a website.
-4. Generate the **block-signing key** separately, *not* derived from the owner key. This is the key the `witness_node` daemon uses. It lives on the `witness_node` host, not on the Bot's host.
-5. Verify on the offline machine: the active key cannot vote `witness_update` against the owner key without the owner key signing. The block-signing key cannot transfer funds. Each key has exactly the privilege it needs and nothing more.
+1. Generate the **owner key** and the **treasury-tier active key** for `hathor` rooted on the operator's hardware wallet. These never leave the hardware wallet and are never deployed to any always-on host.
+2. Write the owner-key paper backup. Two copies. Different physical locations.
+3. Generate the **hot-signer keys** — Hathor's posting key and the signup-scoped active key — in the same offline session. **Do not put these in the Bot host's `.env`.** Wrap them with cloud KMS to an opaque blob and deploy that blob to the MELEK-Signer host (separate repo, separate VPS), whose instance role is configured to unwrap it at boot. See `MELEK_SIGNER.md` §5 steps 3–4.
+4. Generate the **block-signing key** separately, *not* derived from the owner key. This is the key the `witness_node` daemon uses. It lives on the `witness_node` host — not on the Bot host, not on the signer host.
+5. Verify on the offline machine: the signup-scoped active key cannot vote `witness_update` against the owner key without the owner key signing; the block-signing key cannot transfer funds. Each key has exactly the privilege it needs and nothing more.
 
-Bring the offline machine back online **only after the owner key is off it and stored physically.** Or better, keep that machine offline forever.
+Bring the offline machine back online **only after the owner key is off it and stored physically.** Or better, keep that machine offline forever. The one bearer token the Bot host needs (`MELEK_SIGNER_TOKEN`) is issued at the end of the bootstrap flow and installed in §5 — it is not a key.
+
+> **Testnet-only exception.** During Phase-1/2 testnet operation, a single default-OFF path (`witness/jit-signer.mjs`, flag `MELEK_FEED_TESTNET_JIT_SIGN`, hard-gated to the `TST` prefix) may fetch a testnet key just-in-time to sign once, never persisting it to disk. This never applies to mainnet — mainnet always goes through MELEK-Signer.
 
 ---
 
@@ -102,6 +106,8 @@ If the install fails or the smoke test errors out, **stop and investigate before
 
 ## 5. Configuring `.env`
 
+**No WIF goes in here.** The Bot host's `.env` holds the MELEK-Signer endpoint, a scoped bearer token, and public/config values only — never a chain private key. (`.env.example` is already zero-WIF; it is the model to match.) The token comes from the bootstrap flow in `MELEK_SIGNER.md` §5 step 5; the keys it stands in for live in MELEK-Signer and on the hardware wallet, per §2.
+
 ```bash
 cp .env.example .env
 chmod 600 .env  # readable only by the hathor user
@@ -111,19 +117,22 @@ Open `.env` and fill in only the MELEK section:
 
 ```
 HATHOR_ACCOUNT=hathor
-HATHOR_POSTING_KEY=<paste from offline transfer; remove from clipboard immediately>
-HATHOR_ACTIVE_KEY=<paste from offline transfer; remove from clipboard immediately>
+MELEK_SIGNER_URL=<the MELEK-Signer endpoint, mTLS/Wireguard-only from this host>
+MELEK_SIGNER_TOKEN=<scoped, revocable bearer token issued at bootstrap; NOT a key>
 MELEK_NETWORK=testnet
 MELEK_RPC_URL=<from melek-chain operator>
 MELEK_CHAIN_ID=<from melek-chain config.hpp>
 MELEK_ADDRESS_PREFIX=<from melek-chain config.hpp>
 ```
 
+The token is opaque and revocable: a leaked `MELEK_SIGNER_TOKEN` can at worst request in-policy ops (capped by MELEK-Signer's policy engine) and can never exfiltrate a key. If it leaks, revoke it at MELEK-Signer and issue a new one — no key rotation required.
+
 After saving:
 
 - Confirm `.env` is **not** tracked by git: `git status` should show no `.env`. If it does, you have a bug somewhere in `.gitignore` — fix that *first*.
 - Confirm permissions: `ls -la .env` should show `-rw-------` (600), owned by `hathor`.
-- Verify the keys load: `npm run hello` should now report `posting key loaded: yes`, `active key loaded: yes`, `ready to connect: yes`. **If it prints the keys themselves anywhere, stop — there is a bug; do not run further until it's fixed.**
+- Confirm there is **no WIF** in `.env` — only the signer URL/token and the public config above. The Bot host never holds a chain private key.
+- Verify config loads: `npm run hello` should report the signer endpoint configured and `ready to connect: yes`. **If it prints any secret value anywhere, stop — there is a bug; do not run further until it's fixed.**
 - Probe the chain: the smoke test should now also report a head block. If the account `hathor` doesn't exist on chain yet, it'll say "not found" — that's expected; you create the account in §6.
 
 ---
