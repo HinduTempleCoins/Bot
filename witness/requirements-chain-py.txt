@@ -1,0 +1,3 @@
+# MELEK chain-side Python tooling (witness op construction/serialization on the canonical lib).
+# Fixes the dhive witness_update mis-serialization. Keyless — signing is the MELEK-Signer.
+beem>=0.24
