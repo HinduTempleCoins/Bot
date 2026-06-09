@@ -1,0 +1,117 @@
+{
+  "title": "Volatile Coins to Watch for Intraday Moves \u2014 MELEK Trade-Bot Watchlist (June 2026)",
+  "summary": "Deep dive #2: coins worth WATCHING for intraday up/down swings the MELEK bot could earn on, grounded in CoinCodex / CoinGecko / CoinMarketCap / Coinbase / Gemini data as of June 2026.\n\nSELECTION CRITERIA (what makes a coin watch-worthy for an under-funded, modest-size bot): (1) min 24h volume ~$50M+ so a small fill (tens-to-hundreds of USD) is invisible and never moves the book; (2) daily volatility / typical intraday range of roughly 8%+ (CoinCodex's \"very high\" band starts at 10%, \"high\" at 5-10%) so there is enough range to clip; (3) tight spread + deep order book on at least one US-accessible CEX (Coinbase/Kraken/Gemini spot) \u2014 meme coins on Coinbase/Kraken have penny-or-better spreads at our size; (4) US-tradeable on a real spot venue, not just an offshore perp or a DEX-only token; (5) market-cap band: large/established meme + large-cap alt ($500M\u2013$30B+) \u2014 big enough to be liquid and survivable, NOT the 1,000%+ volatility microcaps (TOMI ~6,800%, ZIK ~4,000%, GOATS ~1,600%) that swing only because they're thin and pumpable.\n\nHONEST CAVEATS for OUR size/speed: (a) These are SPOT venues \u2014 the angelicalist account is HIVE-funded and these CEX coins are not directly tradeable from it; this watchlist is intelligence for the bot brain / future MELEK + any CEX leg, not an instruction to fire on the Hive account. (b) We are slow and small: we CANNOT win the first-second move on a 26% PEPE breakout (that's HFT/whale territory). Our edge, if any, is patient mean-reversion inside the daily range on the DEEPEST names (DOGE, SOL, SHIB, PEPE), never chasing the pump. (c) The whole meme complex correlates hard with BTC and with each other \u2014 these are not 6 independent bets, they're one beta-amplified bet on risk-on sentiment. (d) Meme coins routinely take 50-90% drawdowns from peaks; treat them as range-trade fodder, never holds. (e) Thin names (BONK $23M, FLOKI $19M 24h vol) are HIGH volatility but the volatility is partly a liquidity artifact \u2014 wider spreads, easier to get run over; size down hard or skip.\n\nBottom line: the realistic watch set for a small, slow bot is the LIQUID top of the meme stack plus SOL \u2014 DOGE and SOL for the deepest books, SHIB/PEPE/WIF for range when sentiment is hot, FLOKI/BONK only as small satellites and only when volume spikes.",
+  "criteria": [
+    "MIN 24h VOLUME ~$50M+: at our trade size (tens-to-hundreds USD) this guarantees fills are invisible and never move the book. DOGE ($1.16B), PEPE ($229M), SHIB ($64M), WIF ($60M) clear it comfortably; BONK ($23M) and FLOKI ($19M) are borderline-thin \u2014 size down or skip. (CoinCodex, June 2026)",
+    "MIN DAILY VOLATILITY ~8%+ (typical intraday range): CoinCodex bands = 5-10% 'high', 10-20% 'very high', >20% 'extremely high'. We want names sitting in the 8-15% band: enough range to clip, not so thin it's a liquidity artifact. DOGE 8.79%, SHIB 9.60%, WIF 10.25%, FLOKI 12.32%, PEPE 12.48%, BONK 14.85%, SOL ~9.4%.",
+    "TIGHT SPREAD + DEEP BOOK on a US CEX: at least one of Coinbase / Kraken / Gemini spot with penny-or-better effective spread at our notional. Top meme names on Coinbase/Kraken meet this; DEX-only or single-venue tokens do not.",
+    "US-TRADEABLE on a real SPOT venue (not offshore perp / not DEX-only): must be buyable by a US resident on Coinbase, Kraken, or Gemini spot. Note: Gemini's BONK/DOGE/FLOKI/PEPE/SHIB/WIF perps are EU-only \u2014 those do NOT count as US-tradeable for us.",
+    "MARKET-CAP BAND $500M\u2013$30B+ (large meme + large-cap alt): big enough to be liquid and survivable. EXCLUDE the >1,000%-volatility microcaps (TOMI ~6,800%, ZIK ~4,000%, GOATS ~1,600%) \u2014 their 'volatility' is thin-book pumpability, not tradeable range, and they will run a small slow bot over.",
+    "CORRELATION / BETA CHECK (qualitative): the meme complex is one correlated risk-on bet that amplifies BTC. Do not treat 6 meme lines as 6 independent edges. Pair meme exposure with a lower-beta liquid anchor (SOL) and gate the whole basket on BTC trend / risk-on regime.",
+    "REGIME GATE: only range-trade these when 24h volume is ELEVATED vs its own baseline (volume confirms the move is real, not a dead-book drift). Stand down on low-volume days \u2014 that's when spreads widen and a small bot gets picked off."
+  ],
+  "watchlist": [
+    {
+      "symbol": "DOGE",
+      "name": "Dogecoin",
+      "whyVolatile": "Largest meme coin and the sentiment bellwether; swings on Musk/X headlines, BTC beta, and ETF-flow news. Deepest liquidity in the meme sector so moves are tradeable rather than illusory. Best single name for a small, slow bot: real range AND a book deep enough that we never move it.",
+      "typicalDailyRangePct": "~8-9% (CoinCodex volatility 8.79%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)",
+        "Gemini (US spot)"
+      ],
+      "liquidityNote": "$1.16B 24h volume (CoinCodex) \u2014 by far the deepest meme book; our notional is invisible, tightest spreads of the group. The safest place to range-trade.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "whyVolatile": "Large-cap L1, not a meme, but high beta to risk-on/BTC with ~9.4% 30-day volatility and ETF-flow sensitivity. Included as the LIQUID, lower-meme-risk anchor for the basket \u2014 moves intraday but is far more survivable than meme names.",
+      "typicalDailyRangePct": "~9.4% 30-day price volatility (CoinGecko/CMC, June 2026; price ~$66, mcap ~$38.7B)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)",
+        "Gemini (US spot)"
+      ],
+      "liquidityNote": "~$2.8B 24h volume (CoinMarketCap) \u2014 deepest book on this list after none; institutional ETF flows. Use as the correlation anchor / lower-beta leg, not the high-clip leg.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "PEPE",
+      "name": "Pepe",
+      "whyVolatile": "Pure meme, highly sentiment-driven; posted a ~26% single-day breakout in early 2026, one of its strongest moves in months. Big amplitude in both directions. Good range fodder when volume is hot, but we cannot win the first-second of a breakout \u2014 fade/mean-revert only.",
+      "typicalDailyRangePct": "~12.5% (CoinCodex volatility 12.48%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)",
+        "Gemini (US spot)"
+      ],
+      "liquidityNote": "$229M 24h volume (CoinCodex) \u2014 second-deepest meme book here; ample for our size. Listed on Coinbase US spot since Nov 2024.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "SHIB",
+      "name": "Shiba Inu",
+      "whyVolatile": "Established #2 meme; high retail attention, burn-rate and ecosystem (Shibarium) headlines drive swings. Deep enough book to range-trade. Note 24h volume has thinned to ~$64M in mid-2026 \u2014 still fine for us, but down from prior cycles.",
+      "typicalDailyRangePct": "~9.6% (CoinCodex volatility 9.60%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)",
+        "Gemini (US spot)"
+      ],
+      "liquidityNote": "$64M 24h volume (CoinCodex) \u2014 adequate for tens-to-hundreds USD; was -14% off its 7-day high in early June (CMC/Crypto.com), so respect the trend. The coin the operator named \u2014 solid watch, but not the deepest.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "WIF",
+      "name": "dogwifhat",
+      "whyVolatile": "Solana-ecosystem meme; very high beta, momentum-driven, swings hard on Solana sentiment and meme rotations. Listed on Coinbase US spot (mid-Nov 2024 batch with PEPE/FLOKI).",
+      "typicalDailyRangePct": "~10.3% (CoinCodex volatility 10.25%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)"
+      ],
+      "liquidityNote": "$60M 24h volume (CoinCodex) \u2014 OK for our size but thinner than DOGE/PEPE; spreads widen on quiet days. Treat as a satellite, size down.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "FLOKI",
+      "name": "Floki",
+      "whyVolatile": "Smaller meme with high volatility but a thin-ish book; moves amplified by low liquidity, so part of the 'volatility' is a liquidity artifact. Confirmed Kraken + Coinbase listings. Watch only on volume spikes.",
+      "typicalDailyRangePct": "~12.3% (CoinCodex volatility 12.32%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)"
+      ],
+      "liquidityNote": "$19M 24h volume (CoinCodex) \u2014 THIN. Wider spreads, easier to get run over. Smallest acceptable size only, and only when volume clearly elevated; otherwise skip.",
+      "usTradeable": true
+    },
+    {
+      "symbol": "BONK",
+      "name": "Bonk",
+      "whyVolatile": "Solana meme, highest volatility of the liquid set but on a thin book \u2014 the swings are partly low-liquidity, not durable range. On Coinbase US spot (listed Dec 2023, the lone pre-2024 Coinbase meme).",
+      "typicalDailyRangePct": "~14.9% (CoinCodex volatility 14.85%, June 2026)",
+      "venues": [
+        "Coinbase (US spot)",
+        "Kraken (US spot)"
+      ],
+      "liquidityNote": "$22.7M 24h volume (CoinCodex) \u2014 THIN relative to its volatility; high range but easy to get picked off. Satellite only, tightest size, volume-gated. Do NOT confuse high vol % with a tradeable edge here.",
+      "usTradeable": true
+    }
+  ],
+  "sources": [
+    "https://coincodex.com/most-volatile/ \u2014 CoinCodex Most Volatile Cryptocurrencies, June 2026 (per-coin volatility %, 24h volume, 24h change: DOGE 8.79%/$1.16B, SHIB 9.60%/$64.07M, PEPE 12.48%/$229.49M, BONK 14.85%/$22.72M, WIF 10.25%/$60.16M, FLOKI 12.32%/$19.32M; microcaps HOME 40.83%, WLD 26.95%)",
+    "https://99bitcoins.com/analysis/most-volatile/ \u2014 Top 8 Most Volatile Crypto Coins to Trade in 2026 (volatility bands, meme-coin context)",
+    "https://www.coingecko.com/research/publications/most-volatile-cryptocurrencies-2025-2026 \u2014 CoinGecko, Most Volatile Cryptocurrencies 2025/2026 (TOMI ~6,800%, ZIK ~4,000%, GOATS ~1,600% thin microcaps; volatility band definitions: 5-10% high, 10-20% very high, >20% extreme)",
+    "https://coinmarketcap.com/currencies/solana/ \u2014 Solana SOL price/volume, June 2026 (~$66, $2.83B 24h volume, ~$38.7B mcap, ~9.4% 30-day volatility)",
+    "https://www.coinbase.com/how-to-buy/pepe \u2014 Coinbase US spot availability for PEPE (bank/debit/wire); WIF, PEPE, FLOKI listed mid-Nov 2024",
+    "https://www.coinbase.com/how-to-buy/bonk \u2014 Coinbase US spot availability for BONK (listed Dec 2023)",
+    "https://www.gemini.com/blog/new-perpetual-contracts-available-bonk-doge-floki-pepe-shib-wif \u2014 Gemini perpetuals for BONK/DOGE/FLOKI/PEPE/SHIB/WIF are EU-only (NOT US-tradeable as perps); informs the US-spot-vs-perp distinction",
+    "https://www.business2community.com/crypto-news/floki-explodes-after-kraken-and-coinbase-listing-are-confirmed-02850423 \u2014 FLOKI Kraken + Coinbase listing confirmation",
+    "https://crypto.com/en/price/shiba-inu \u2014 SHIB live price/volume, June 2026 (~$0.00000475, ~$74.6M 24h volume earlier read, -14% off 7-day high)",
+    "https://coindcx.com/blog/crypto-highlights/top-memes-coins/ \u2014 Top meme coins by market cap June 2026 (DOGE, SHIB, PEPE, BONK, FLOKI ranking + exchange availability)",
+    "https://www.ccn.com/analysis/crypto/memecoins-2026-breakout-pepe-dogecoin-doge-shiba-inu-shib-analysis/ \u2014 early-2026 memecoin breakout, PEPE ~26% single-day move"
+  ],
+  "_generated": "2026-06-09 (MELEK trade deep-dive wave)"
+}
