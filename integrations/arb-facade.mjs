@@ -47,7 +47,9 @@ function fromArbScanner(res) {
       source: 'arb-scanner', market: o.sym, side: o.side || null,
       netEdgePct: +(num(o.edge) * 100).toFixed(3), feesApplied: false,
       execHive: +num(o.execHive).toFixed(2),
-      detail: o.signal || `HE-vs-real edge ${(num(o.edge) * 100).toFixed(1)}%`, raw: o,
+      // carry the phantom-edge guard's verdict through so the combined feed down-ranks it too
+      suspect: !!o.suspect, suspectReason: o.suspect ? (o.suspectReason || 'phantom/one-sided/stale HE book') : null,
+      detail: `${o.signal || `HE-vs-real edge ${(num(o.edge) * 100).toFixed(1)}%`}${o.suspect ? ` [SUSPECT: ${o.suspectReason}]` : ''}`, raw: o,
     });
   }
   return rows;
@@ -145,8 +147,10 @@ export async function scanAllArb(opts = {}) {
     const prev = byKey.get(key);
     if (!prev || row.netEdgePct > prev.netEdgePct) byKey.set(key, row);
   }
-  // ── RANK by net edge after fees, descending (the best realizable opportunity first).
-  const rows = [...byKey.values()].sort((a, b) => b.netEdgePct - a.netEdgePct);
+  // ── RANK: clean rows first (a row the phantom-edge guard flagged suspect sinks below every clean
+  // row, regardless of headline edge), then by net edge after fees, descending (best realizable first).
+  const rows = [...byKey.values()].sort((a, b) =>
+    (!!a.suspect === !!b.suspect ? 0 : a.suspect ? 1 : -1) || (b.netEdgePct - a.netEdgePct));
 
   return { rows, sources, errors, scannedAt: new Date().toISOString(), thresholdPct: +(cfg.arb.minNetPct).toFixed(3) };
 }

@@ -182,3 +182,104 @@ test('embed: injected embedder that throws falls back to local (soft-fail)', asy
     __setEmbedder(null);
   }
 });
+
+// ── ANN backend: ranking is preserved vs the reference cosine ranking ─────────────────────────────
+// rankSources / createStore now route nearest-neighbour search through integrations/faiss-index.mjs
+// (real FAISS-class HNSW when the addon loads, pure-JS cosine fallback otherwise). faiss-index
+// L2-normalizes vectors and scores by inner product == cosine, so the ORDER must be byte-for-byte the
+// same as ranking by the local cosineSimilarity() directly. These tests pin that invariant.
+
+test('ANN path: rankSources order == reference cosine order (full ranking)', async () => {
+  const QUERY = 'the moon orbits the earth in space';
+  const candidates = [
+    { id: 'cook', text: COOKING },
+    { id: 'astro', text: ASTRONOMY },
+    { id: 'fin', text: FINANCE },
+    { id: 'astro2', text: 'the earth and the moon and the sun together in space' },
+  ];
+
+  // Reference: rank by the module's own cosineSimilarity, exactly as the old hand-rolled store did.
+  const qv = await embed(QUERY);
+  const reference = [];
+  for (let i = 0; i < candidates.length; i++) {
+    const cv = await embed(candidates[i].text);
+    reference.push({ id: candidates[i].id, score: cosineSimilarity(qv, cv) });
+  }
+  reference.sort((a, b) => b.score - a.score);
+
+  // Through the ANN backend.
+  const ranked = await rankSources(QUERY, candidates);
+  assert.equal(ranked.length, candidates.length);
+
+  // Same id order, and the same scores to floating-point tolerance.
+  assert.deepEqual(ranked.map((r) => r.id), reference.map((r) => r.id));
+  for (let i = 0; i < ranked.length; i++) {
+    assert.ok(Math.abs(ranked[i].score - reference[i].score) < 1e-9,
+      `score mismatch at ${i}: ${ranked[i].score} vs ${reference[i].score}`);
+  }
+  // Descending order is maintained.
+  for (let i = 1; i < ranked.length; i++) assert.ok(ranked[i - 1].score >= ranked[i].score);
+  // index / candidate / meta still carried through the ANN reshuffle.
+  const top = ranked[0];
+  assert.equal(candidates[top.index].id, top.id);
+  assert.equal(top.candidate, candidates[top.index]);
+});
+
+test('ANN path: store.query top match + order == reference cosine order', async () => {
+  const docs = [
+    ['cook', COOKING, { topic: 'food' }],
+    ['astro', ASTRONOMY, { topic: 'space' }],
+    ['fin', FINANCE, { topic: 'money' }],
+  ];
+  const store = createStore();
+  for (const [id, text, meta] of docs) await store.add(id, text, meta);
+
+  const QUERY = 'how long does the moon take to orbit the earth';
+  const qv = await embed(QUERY);
+  const reference = [];
+  for (const [id, text] of docs) reference.push({ id, score: cosineSimilarity(qv, await embed(text)) });
+  reference.sort((a, b) => b.score - a.score);
+
+  const hits = await store.query(QUERY, { topK: 3 });
+  assert.deepEqual(hits.map((h) => h.id), reference.map((r) => r.id));
+  assert.equal(hits[0].id, 'astro');                 // top match unchanged
+  assert.deepEqual(hits[0].meta, { topic: 'space' }); // meta carried through the ANN label round-trip
+  for (let i = 0; i < hits.length; i++) {
+    assert.ok(Math.abs(hits[i].score - reference[i].score) < 1e-9);
+  }
+});
+
+test('ANN path: ranking holds under an injected embedder too (seam intact)', async () => {
+  // Graded fake embedder — distinct, non-one-hot vectors so ordering is non-trivial.
+  const fake = (text) => {
+    const t = String(text).toLowerCase();
+    let moon = 0; let food = 0; let money = 0;
+    if (t.includes('moon')) moon += 1;
+    if (t.includes('earth')) moon += 0.5;
+    if (t.includes('soup') || t.includes('onion')) food += 1;
+    if (t.includes('inflation') || t.includes('bank')) money += 1;
+    return [moon, food, money];
+  };
+  __setEmbedder(fake);
+  try {
+    const candidates = [
+      { id: 'cook', text: COOKING },
+      { id: 'astro', text: ASTRONOMY },
+      { id: 'fin', text: FINANCE },
+    ];
+    const QUERY = 'the moon over the earth';
+    const qv = await embed(QUERY);
+    const reference = [];
+    for (const c of candidates) reference.push({ id: c.id, score: cosineSimilarity(qv, await embed(c.text)) });
+    reference.sort((a, b) => b.score - a.score);
+
+    const ranked = await rankSources(QUERY, candidates);
+    assert.deepEqual(ranked.map((r) => r.id), reference.map((r) => r.id));
+    assert.equal(ranked[0].id, 'astro');
+    for (let i = 0; i < ranked.length; i++) {
+      assert.ok(Math.abs(ranked[i].score - reference[i].score) < 1e-9);
+    }
+  } finally {
+    __setEmbedder(null);
+  }
+});

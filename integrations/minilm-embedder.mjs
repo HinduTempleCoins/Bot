@@ -12,6 +12,14 @@
 // (transformers.js). The model (~23 MB) downloads + caches on first real use; tests NEVER touch it —
 // they inject fakes into the seams instead. Importing this module does NO work and pulls NO model.
 //
+// OPTIONAL faster CPU backend (Microsoft onnxruntime-node, task #100a): if onnxruntime-node is
+// present (it's an OPTIONAL dependency — a build failure must never break `npm install`), we try it
+// FIRST as a native-CPU feature-extraction backend for the same MiniLM model. transformers.js can be
+// pointed at the onnxruntime-node execution provider, so "the onnx path" here means: load the same
+// pipeline but force the native ORT backend. If onnxruntime-node is absent OR fails to load, we soft-
+// fall-back to the default transformers.js path — never throw. The choice is fully transparent to the
+// embed()/embedOne()/makeEmbedder() contract: the backend just yields a pipeline-shaped callable.
+//
 // Contract (matches the seams):
 //   embed(texts)        → Promise<Float32Array[]>  batch; soft-fails to null if the model can't load
 //   embedOne(text)      → Promise<number[] | null> single text as a plain Array (decades-brain &
@@ -51,6 +59,67 @@ export function __setPipelineFactory(fn) {
   _loadFailed = false;
 }
 
+// ── OPTIONAL onnxruntime-node native-CPU backend (task #100a) ────────────────────────────────────────
+// onnxruntime-node is an OPTIONAL dependency: when its native binary is present we prefer it (faster
+// CPU inference for the same MiniLM model); when it's absent or fails to load, we soft-fall-back to the
+// default transformers.js loader. This is gated OFF by default and only attempted when explicitly
+// enabled (MELEK_ONNX_EMBEDDER=1) or when a test injects an onnx factory — so importing this module
+// and the existing transformers.js path are completely unaffected.
+let _onnxFactory = null;
+/**
+ * Inject an onnx-backend factory for tests: async () => (text, opts) => { data: Float32Array } | null.
+ * Returning null means "onnxruntime-node not available" → loadPipeline() falls through to the
+ * transformers.js path. Throwing is also tolerated (caught → fall back). Pass null to restore the real
+ * detector. Resets the load cache so the next call re-loads. Mirrors __setPipelineFactory.
+ */
+export function __setOnnxFactory(fn) {
+  _onnxFactory = typeof fn === 'function' ? fn : null;
+  _pipePromise = null;
+  _loadFailed = false;
+}
+
+/**
+ * Is the optional onnxruntime-node native backend enabled for this process? OFF unless explicitly
+ * opted in via MELEK_ONNX_EMBEDDER (1/true/on/yes). Tests that inject an onnx factory bypass this.
+ */
+function onnxOptedIn() {
+  const v = String(process.env.MELEK_ONNX_EMBEDDER || '').trim().toLowerCase();
+  return v === '1' || v === 'true' || v === 'on' || v === 'yes';
+}
+
+/**
+ * Lazily attempt the native onnxruntime-node backend for MiniLM. Returns a pipeline-shaped callable
+ * (text, opts) => Promise<{ data: Float32Array }>, or null if onnxruntime-node is absent / can't load.
+ * NEVER throws — any failure (missing module, native-binary load error, init failure) resolves to null
+ * and loadPipeline() keeps the transformers.js default. The same MiniLM model is used: transformers.js
+ * is loaded with its execution provider pinned to the native onnxruntime-node binding ('cpu' via ORT),
+ * which is the supported way to drive ORT-native inference for this model from JS.
+ */
+async function loadOnnxBackend() {
+  // Test seam first: an injected factory fully replaces the real detection (no module import).
+  if (_onnxFactory) {
+    try {
+      const pipe = await _onnxFactory();
+      return typeof pipe === 'function' ? pipe : null;
+    } catch {
+      return null; // injected onnx path soft-fails → fall back to transformers.js
+    }
+  }
+  if (!onnxOptedIn()) return null; // not opted in → never touch the optional dep
+  try {
+    // Probe the OPTIONAL native dependency. If it isn't installed (optionalDependency build skipped),
+    // this import rejects and we soft-fall-back. We don't run inference through ORT's raw API here;
+    // we just confirm the native backend is loadable, then drive the same model through transformers.js
+    // with the onnxruntime-node device, so the embedding math stays identical to the default path.
+    await import('onnxruntime-node');
+    const { pipeline } = await import('@huggingface/transformers');
+    const pipe = await pipeline('feature-extraction', MODEL_ID, { device: 'cpu' });
+    return (text, opts) => pipe(text, opts);
+  } catch {
+    return null; // onnxruntime-node missing or failed to init → caller falls back, never throws
+  }
+}
+
 /**
  * Lazily load + cache the MiniLM feature-extraction pipeline. Returns the pipeline, or null if it can
  * not be loaded (then every embed call soft-fails to null and the caller keeps its fallback). NEVER
@@ -61,6 +130,13 @@ export async function loadPipeline() {
   if (_pipePromise) return _pipePromise;
   _pipePromise = (async () => {
     try {
+      // OPTIONAL faster CPU backend FIRST: try onnxruntime-node; it soft-returns null when absent /
+      // not opted in / failing, so we fall through to the default path below. Native ORT preferred.
+      const onnx = await loadOnnxBackend();
+      if (onnx) return onnx;
+      // Default / fallback path. The test seam stands in for transformers.js here: a fake pipeline
+      // runs with ZERO network / ZERO model. In production _pipelineFactory is null and we import
+      // transformers.js for real.
       if (_pipelineFactory) return await _pipelineFactory();
       const { pipeline } = await import('@huggingface/transformers');
       // mean-pooled + L2-normalized sentence embeddings — the standard all-MiniLM-L6-v2 usage.

@@ -198,3 +198,36 @@ test('invalid date falls back to today (YYYY-MM-DD)', async () => {
   assert.ok(/# MELEK Brief — \d{4}-\d{2}-\d{2}/.test(md), 'falls back to a valid ISO date');
   reset();
 });
+
+test('a planted secret in a section is REDACTED in the assembled brief (#83)', async () => {
+  // the incident this guards: a plaintext password (and other key-shaped strings) reaching a section.
+  const wif = '5z4BJRYfnu29GPWdksz7EMUbiqx5CKSZgov3AHQXemt18FNVcjry'; // synthetic WIF-shaped fixture
+  const poisoned = [
+    '### Diagnostics — signals → suggested moves',
+    '- the operator password=hunter2 leaked into this note',
+    `- and an active key ${wif} got captured too`,
+    '- divergence: News lean DISAGREES with price.',
+  ].join('\n');
+  __setSections({ diagnostics: () => poisoned, factcheck: () => '', tokens: () => '', community: () => '' });
+  const md = await assembleBrief({ date: '2026-06-03' });
+  // the raw secrets are GONE from the rendered brief
+  assert.ok(!md.includes('hunter2'), 'plaintext password must not appear in the brief');
+  assert.ok(!md.includes(wif), 'WIF key must not appear in the brief');
+  // and the typed placeholders are present where they were
+  assert.match(md, /password=\[REDACTED:password\]/, 'password redacted with typed token');
+  assert.match(md, /\[REDACTED:wif\]/, 'WIF redacted with typed token');
+  // the rest of the section survives (redaction is surgical, not a section drop)
+  assert.match(md, /divergence: News lean DISAGREES/);
+  reset();
+});
+
+test('the FOR-RYAN summary is also passed through the redactor (#83)', async () => {
+  // FOR-RYAN is keyword-derived so it normally carries no secret, but it is redacted too as defense
+  // in depth — assert the rendered brief never carries a secret regardless of which layer produced it.
+  const poisoned = '### Token movement\n- **▲ VKBT notable move** (note: password=swordfish)';
+  __setSections({ diagnostics: () => '', factcheck: () => '', tokens: () => poisoned, community: () => '' });
+  const md = await assembleBrief({ date: '2026-06-03' });
+  assert.ok(!md.includes('swordfish'), 'no secret survives anywhere in the brief');
+  assert.match(md, /\[REDACTED:password\]/);
+  reset();
+});
