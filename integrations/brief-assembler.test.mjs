@@ -132,7 +132,7 @@ test('missing section (returns empty) is omitted but brief still renders', async
 });
 
 test('all sections empty → clean empty brief, not an error', async () => {
-  __setSections({ diagnostics: () => '', factcheck: () => '', tokens: () => '', community: () => '' });
+  __setSections({ strategies: () => '', diagnostics: () => '', factcheck: () => '', tokens: () => '', community: () => '' });
   const md = await assembleBrief({ date: '2026-06-03' });
   assert.ok(md.includes('## FOR RYAN'));
   assert.ok(md.includes('Quiet pass'), 'quiet-pass FOR RYAN line');
@@ -152,20 +152,30 @@ test('forRyanSummary is plain English, no jargon', () => {
   assert.ok(/notable move/i.test(summary));
 });
 
+test('strategies section: renders + surfaces a money line in FOR RYAN, stamped suggestion-only', async () => {
+  const STRAT = '### Strategies (SUGGESTIONS ONLY)\n\n> Nobody has placed any of these.\n\n### Cross-venue arbitrage\nBest round trip: **SWAP.BTC**. 2 clear the fee stack.';
+  __setSections({ strategies: () => STRAT, diagnostics: () => '', factcheck: () => '', tokens: () => '', community: () => '' });
+  const brief = await assembleBrief({ date: '2026-06-09' });
+  reset();
+  assert.match(brief, /SUGGESTIONS ONLY/, 'strategies section rendered');
+  assert.match(brief, /money opportunities that clear ALL the fees/i, 'FOR RYAN surfaces the money line');
+  assert.match(brief, /suggestions only/i, 'suggestion-only framing present');
+});
+
 test('forRyanSummary with nothing → quiet-pass line', () => {
   const summary = forRyanSummary({});
   assert.ok(/quiet pass/i.test(summary));
 });
 
 test('sectionsAvailable reports which sources resolved', async () => {
-  const avail = await sectionsAvailable({ diagnostics: DIAG, factcheck: '', tokens: TOKENS, community: null });
-  assert.deepEqual(avail, { diagnostics: true, factcheck: false, tokens: true, community: false });
+  const avail = await sectionsAvailable({ strategies: '', diagnostics: DIAG, factcheck: '', tokens: TOKENS, community: null });
+  assert.deepEqual(avail, { strategies: false, diagnostics: true, factcheck: false, tokens: true, community: false });
 });
 
 test('sectionsAvailable resolves the injected sources when called with no arg', async () => {
-  __setSections({ diagnostics: () => DIAG, factcheck: () => '', tokens: () => '', community: () => COMMUNITY });
+  __setSections({ strategies: () => '', diagnostics: () => DIAG, factcheck: () => '', tokens: () => '', community: () => COMMUNITY });
   const avail = await sectionsAvailable();
-  assert.deepEqual(avail, { diagnostics: true, factcheck: false, tokens: false, community: true });
+  assert.deepEqual(avail, { strategies: false, diagnostics: true, factcheck: false, tokens: false, community: true });
   reset();
 });
 

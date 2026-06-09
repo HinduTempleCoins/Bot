@@ -80,7 +80,42 @@ async function defaultCommunity() {
   } catch { return ''; }
 }
 
+/** arb scanners → "### Strategies (suggestions only)" markdown. Soft-fail → ''. This is the operator's
+ *  ask: surface the money opportunities (size, venue, fee-net %, round-trip steps) INTO the brief.
+ *  cross-venue-arb.engineBlock() already renders a fee-honest, depth-aware, advisory table; we prepend
+ *  a hard SUGGESTION-ONLY banner and (best-effort) the all-scanner count from arb-facade. The dollar
+ *  size is fee/depth-aware (never a raw price gap), and the scanners' own sanity guards (#23) stay on.
+ *  NOTHING here signs, executes, or sizes a live order — it is reading material for a human. */
+async function defaultStrategies() {
+  try {
+    const cv = await import('./cross-venue-arb.mjs');
+    if (typeof cv?.engineBlock !== 'function') return '';
+    const table = (await cv.engineBlock()) || '';
+    if (!table.trim()) return '';
+    // engineBlock ALWAYS returns prose (even its empty-state). Only surface a Strategies section when
+    // there is an ACTUAL actionable opportunity — otherwise the brief would carry an empty section
+    // every pass. The empty-states say "No round trip clears…", "scan skipped", or "No HIVE price".
+    if (/no round trip clears|scan skipped|no hive price/i.test(table)) return '';
+    let countLine = '';
+    try {
+      const fac = await import('./arb-facade.mjs');
+      if (typeof fac?.scanAllArb === 'function') {
+        const r = await fac.scanAllArb();
+        const n = Array.isArray(r?.opportunities) ? r.opportunities.length : (Array.isArray(r) ? r.length : (r?.count ?? null));
+        if (n != null) countLine = `\n_All-scanner sweep: ${n} candidate opportunit${n === 1 ? 'y' : 'ies'} across HE / cross-venue / cross-exchange / cross-chain this pass._`;
+      }
+    } catch { /* facade optional */ }
+    const banner = '### Strategies (SUGGESTIONS ONLY)\n\n'
+      + '> **Nobody has placed any of these.** They are read-only suggestions. This host holds no chain '
+      + 'key (zero-WIF); execution is signer-gated and manual. Dollar sizes are fee- and depth-aware '
+      + '(what is actually tradeable), NOT raw price gaps. Act only on a US-legal venue you control.\n';
+    // engineBlock starts with its own "### Cross-venue arbitrage" heading; keep it under our banner.
+    return `${banner}${countLine}\n\n${table}`.trim();
+  } catch { return ''; }
+}
+
 const DEFAULTS = {
+  strategies: defaultStrategies,
   diagnostics: defaultDiagnostics,
   factcheck: defaultFactcheck,
   tokens: defaultTokens,
@@ -115,7 +150,7 @@ async function pull(key) {
 
 /** Resolve all four sections in parallel, each isolated. Returns { diagnostics, factcheck, tokens, community }. */
 async function resolveSections() {
-  const keys = ['diagnostics', 'factcheck', 'tokens', 'community'];
+  const keys = ['strategies', 'diagnostics', 'factcheck', 'tokens', 'community'];
   const vals = await Promise.all(keys.map((k) => pull(k)));
   const out = {};
   keys.forEach((k, i) => { out[k] = vals[i]; });
@@ -131,6 +166,7 @@ async function resolveSections() {
 export async function sectionsAvailable(sections) {
   const s = sections || (await resolveSections());
   return {
+    strategies: !!(s.strategies && s.strategies.trim()),
     diagnostics: !!(s.diagnostics && s.diagnostics.trim()),
     factcheck: !!(s.factcheck && s.factcheck.trim()),
     tokens: !!(s.tokens && s.tokens.trim()),
@@ -146,6 +182,15 @@ export async function sectionsAvailable(sections) {
 // strip markdown noise to plain words for sniffing (lowercased). Never exposes paths because we only
 // match against keyword presence, never echo the source text into FOR RYAN.
 const plainText = (md) => String(md || '').replace(/[#*_`>-]/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+
+function ryanLineForStrategies(md) {
+  const t = plainText(md);
+  if (t.includes('no round trip clears') || t.includes('scan skipped')) return null; // nothing clean → don't surface
+  if (t.includes('clear the fee stack') || t.includes('best round trip')) {
+    return 'There are money opportunities that clear ALL the fees right now — see Strategies below for the size, the venue, and the round-trip steps. Important: nobody has placed these, they are suggestions only, and you would act on them yourself on a US exchange.';
+  }
+  return null;
+}
 
 function ryanLineForDiagnostics(md) {
   const t = plainText(md);
@@ -192,6 +237,7 @@ function ryanLineForCommunity(md) {
 export function forRyanSummary(sections) {
   const s = sections || {};
   const lines = [];
+  if (s.strategies) { const l = ryanLineForStrategies(s.strategies); if (l) lines.push(l); } // money first
   if (s.diagnostics) { const l = ryanLineForDiagnostics(s.diagnostics); if (l) lines.push(l); }
   if (s.tokens) { const l = ryanLineForTokens(s.tokens); if (l) lines.push(l); }
   if (s.community) { const l = ryanLineForCommunity(s.community); if (l) lines.push(l); }
@@ -266,7 +312,7 @@ export async function assembleBrief({ date } = {}, opts = {}) {
   // ── Details (the rendered sections) ──
   L.push('## Details');
   L.push('');
-  const order = ['diagnostics', 'factcheck', 'tokens', 'community'];
+  const order = ['strategies', 'diagnostics', 'factcheck', 'tokens', 'community'];
   const rendered = order.map((k) => sections[k]).filter((x) => x && x.trim());
   if (rendered.length) {
     L.push(rendered.join('\n\n'));
