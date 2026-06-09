@@ -42,5 +42,12 @@ export const config = {
   // MELEK testnet + mocks. Flip only with operator sign-off + verified app reg.
   blockMainnetBroadcast: process.env.AUTOVOTE_ALLOW_MAINNET !== '1',
 
+  // Curation-timing: when ON, fanbase/trail votes fire at the per-chain
+  // curation-optimal moment (Hive=prompt, Steem/Blurt=+5min reverse-auction
+  // edge; see curation-timing.mjs) instead of a flat eventTime+delay. Default
+  // OFF so live behavior is unchanged until the operator opts in. Purely a
+  // scheduling change — it never bypasses the mainnet-broadcast safety gate.
+  curationTiming: process.env.AUTOVOTE_CURATION_TIMING === '1',
+
   testnetBanner: true,
 };

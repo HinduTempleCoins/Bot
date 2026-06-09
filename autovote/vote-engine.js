@@ -28,6 +28,7 @@ import { chainFor } from './chain.js';
 import { config } from './config.js';
 import { getChain, isMainnet } from './chains.js';
 import { voteViaHiveSigner } from './hivesigner.js';
+import { optimalFireAtMs } from './curation-timing.mjs';
 import {
   fanbaseMatches,
   fanbaseVoteWeight,
@@ -56,6 +57,28 @@ export class VoteEngine {
     this._startBlock = opts.startBlock; // for tests
     // pending key: `${chain}|${owner}|${author}|${permlink}`
     this._pending = new Map();
+    // Curation-timing: when ON, fanbase/trail votes fire at the per-chain
+    // curation-optimal moment (Hive=prompt, Steem/Blurt=+5min reverse-auction
+    // edge) with the rule's own delayMs kept as a floor. Default OFF so live
+    // behavior is unchanged until the operator opts in (alongside mainnet).
+    this.curationTiming = opts.curationTiming ?? config.curationTiming;
+  }
+
+  /**
+   * Compute the fireAt (ms) for a matched fanbase/trail vote.
+   *  - curationTiming OFF → legacy flat behavior: eventTimeMs + delayMs.
+   *  - curationTiming ON  → per-chain optimal moment from curation-timing.mjs,
+   *    using postTimeMs as the post's creation time, with delayMs as a floor.
+   * Pure given its inputs (clock injectable via `now`).
+   */
+  computeFireAt(chainId, { eventTimeMs, postTimeMs, delayMs, now = Date.now() }) {
+    const floorMs = Number(delayMs) || 0;
+    if (!this.curationTiming) return Number(eventTimeMs) + floorMs;
+    return optimalFireAtMs(chainId, {
+      nowMs: now,
+      postTimeMs: postTimeMs ?? eventTimeMs,
+      floorMs,
+    });
   }
 
   chainFor(chainId) {
@@ -123,7 +146,13 @@ export class VoteEngine {
               author: payload.author.toLowerCase(),
               permlink: payload.permlink,
               weight: fanbaseVoteWeight(f),
-              fireAt: eventTimeMs + Number(f.delayMs || 0),
+              // Fanbase fires on the `comment` op itself, so eventTimeMs IS the
+              // post's creation time — exactly what curation timing needs.
+              fireAt: this.computeFireAt(chainId, {
+                eventTimeMs,
+                postTimeMs: eventTimeMs,
+                delayMs: f.delayMs,
+              }),
               rule: 'fanbase',
               ruleId: f.id,
             });
@@ -139,7 +168,15 @@ export class VoteEngine {
               author: payload.author.toLowerCase(),
               permlink: payload.permlink,
               weight: trailVoteWeight(t, Number(payload.weight)),
-              fireAt: eventTimeMs + Number(t.delayMs || 0),
+              // Trail fires on a leader's `vote` op; we don't see the post's
+              // creation time here, so use the leader's vote time as the
+              // post-time proxy. On reverse-auction chains the leader usually
+              // already waited out the window, so the proxy yields a prompt
+              // follow; curation timing still clamps to never fire too early.
+              fireAt: this.computeFireAt(chainId, {
+                eventTimeMs,
+                delayMs: t.delayMs,
+              }),
               rule: 'trail',
               ruleId: t.id,
             });
