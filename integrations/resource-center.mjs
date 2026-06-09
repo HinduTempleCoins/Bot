@@ -128,41 +128,53 @@ const OUT = process.env.RC_OUT || new URL('../data/resource-center', import.meta
 const num = (n, d = 2) => (n == null || !Number.isFinite(+n) ? '—' : (+n).toLocaleString(undefined, { maximumFractionDigits: d }));
 const pct = (n) => (n == null || !Number.isFinite(+n) ? '—' : `${n >= 0 ? '+' : ''}${(+n).toFixed(2)}%`);
 
-/** One full intelligence pass. Best-effort: any source that fails is null/empty, the pass still completes. */
+// Per-source time budget. The pass fans out to ~14 fetch-backed sources; without a deadline a SINGLE
+// hung upstream fetch blocks the whole pass forever — that is why melek-resource-center sticks in
+// "activating" and never writes. budget() races each source against a timeout: a slow/hung source
+// resolves to its fallback (null/[]/''), the rest still run, and the pass always completes & writes.
+const RC_SRC_TIMEOUT_MS = Number(process.env.RC_SRC_TIMEOUT_MS || 8000);
+function budget(thunk, fb, ms = RC_SRC_TIMEOUT_MS) {
+  return Promise.race([
+    Promise.resolve().then(thunk).catch(() => fb),
+    new Promise((resolve) => setTimeout(() => resolve(fb), ms)),
+  ]);
+}
+
+/** One full intelligence pass. Best-effort: any source that fails OR times out is null/empty, the pass still completes. */
 export async function runPass() {
   const ts = new Date().toISOString();
   const [he, mac, fx, proposals, holdings] = await Promise.all([
-    marketSnapshot({ topN: 15 }).catch(() => null),
-    macro().catch(() => ({})),
-    forex().catch(() => ({})),
-    Promise.resolve().then(() => proposeTrades({})).catch(() => null),
+    budget(() => marketSnapshot({ topN: 15 }), null),
+    budget(() => macro(), {}),
+    budget(() => forex(), {}),
+    budget(() => proposeTrades({}), null),
     // holdings-aware rotation scanner (#187): START from the operator's REAL Hive-Engine balances,
     // find held tokens with an external market, compute the move-it-to-make-money spread. Advisory.
-    scanAccounts().catch(() => []),
+    budget(() => scanAccounts(), []),
   ]);
   // catalog fan (#275): bounded keyless fetchers from free-apis.mjs → real fetched DATA as first-class
   // results, each tagged with upstream source AND our own canonical page. Never throws.
-  const catalog = await fanCatalog().catch(() => []);
+  const catalog = await budget(() => fanCatalog(), []);
   // what the market is SAYING (news sentiment/themes) — best-effort, separate so its feeds can't slow the rest.
-  const news = await Promise.resolve().then(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] })).catch(() => null);
-  const circlesMd = await Promise.resolve().then(() => circlesEngine()).catch(() => '');
-  const crossVenueMd = await Promise.resolve().then(() => crossVenueEngine()).catch(() => '');
-  const copyTradeMd = await Promise.resolve().then(() => copyTradeEngine()).catch(() => '');
-  const marketEntries = await Promise.resolve().then(() => marketEntry({ max: 12 })).catch(() => []);
-  const impactMd = await Promise.resolve().then(() => impactEngine()).catch(() => '');
+  const news = await budget(() => newsDigest({ assets: ['crypto', 'forex', 'gold'] }), null);
+  const circlesMd = await budget(() => circlesEngine(), '');
+  const crossVenueMd = await budget(() => crossVenueEngine(), '');
+  const copyTradeMd = await budget(() => copyTradeEngine(), '');
+  const marketEntries = await budget(() => marketEntry({ max: 12 }), []);
+  const impactMd = await budget(() => impactEngine(), '');
   // diagnostics (#179) runs LAST so it can read the snapshot the prior layers just produced.
-  const diagnosticsMd = await Promise.resolve().then(() => diagnosticsEngine()).catch(() => '');
+  const diagnosticsMd = await budget(() => diagnosticsEngine(), '');
   // cannabis/hemp scour (#260) — opt-in (RC_CANNABIS=1), since it hits the web scraper. Off by default
   // so the always-on trade pass stays fast; the Hemp site / chat can call scourCannabis() directly.
   const cannabis = process.env.RC_CANNABIS
-    ? await Promise.resolve().then(() => cannabisScour(null, { limit: 6 })).catch(() => null)
+    ? await budget(() => cannabisScour(null, { limit: 6 }), null)
     : null;
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
   let firstTrade = null;
   try {
-    const aBal = await accountHoldings('angelicalist').catch(() => []);
+    const aBal = await budget(() => accountHoldings('angelicalist'), []);
     const hive = +(aBal.find((b) => b.symbol === 'SWAP.HIVE')?.balance || aBal.find((b) => b.symbol === 'HIVE')?.balance || 0);
     const list = proposals?.proposals || (Array.isArray(proposals) ? proposals : []);
     const best = list.find((p) => p.kind === 'arbitrage');
