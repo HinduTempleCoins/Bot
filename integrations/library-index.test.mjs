@@ -80,6 +80,16 @@ test('buildCatalog yields domain→files with keywords (the committed Index)', (
   assert.ok(alk.title.toLowerCase().includes('alkaloid'), 'title from heading');
 });
 
+test('catalogLookup: instant keyword recall over the written catalog (no embeddings)', () => {
+  mod.writeCatalog({ repo }); // ensure the catalog exists for the lookup
+  const hits = mod.catalogLookup('alkaloid terpene', { k: 5 });
+  assert.ok(hits.length > 0, 'keyword hits');
+  assert.ok(hits[0].path.endsWith('alkaloids.md'), 'alkaloids file ranks top');
+  const chain = mod.catalogLookup('graphene witness', { domain: 'chain', k: 5 });
+  assert.ok(chain.every((h) => h.domain === 'chain'), 'domain filter');
+  assert.deepEqual(mod.catalogLookup('   '), [], 'empty query → []');
+});
+
 test('recall on empty index returns [] (never throws)', async () => {
   fs.rmSync(path.join(idxDir, 'vectors.json'), { force: true });
   assert.deepEqual(await mod.recall('anything'), []);
