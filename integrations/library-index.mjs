@@ -269,6 +269,39 @@ export function writeCatalog({ repo = REPO_ROOT } = {}) {
   return { path: CATALOG_PATH, fileCount: cat.fileCount };
 }
 
+// ── catalogLookup — INSTANT keyword recall over the committed catalog (no embeddings) ──────────
+// The semantic vector index is the richer path but expensive to build on a loaded box. The committed
+// _library_catalog.json gives the writers a zero-cost, always-available library lookup TODAY: score
+// each file by query-term overlap with its title + keywords. Returns top files per domain filter.
+// This is what the brief/annal writers call first; semantic recall augments it once the index exists.
+let _catalogCache = null;
+function loadCatalog() {
+  if (_catalogCache) return _catalogCache;
+  try { _catalogCache = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf8')); }
+  catch { _catalogCache = { byDomain: {} }; }
+  return _catalogCache;
+}
+export function catalogLookup(query, { domain = null, k = 6 } = {}) {
+  const terms = [...new Set(String(query || '').toLowerCase().match(/[a-z][a-z0-9-]{2,}/g) || [])]
+    .filter((t) => !STOP.has(t));
+  if (!terms.length) return [];
+  const cat = loadCatalog();
+  const out = [];
+  for (const [dom, files] of Object.entries(cat.byDomain || {})) {
+    if (domain && dom !== domain) continue;
+    for (const f of files) {
+      const hay = `${f.title} ${(f.keywords || []).join(' ')} ${f.path}`.toLowerCase();
+      let score = 0;
+      for (const t of terms) {
+        if ((f.keywords || []).includes(t)) score += 3;      // keyword hit = strong
+        else if (hay.includes(t)) score += 1;                // title/path mention
+      }
+      if (score > 0) out.push({ domain: dom, path: f.path, title: f.title, keywords: f.keywords, score });
+    }
+  }
+  return out.sort((a, b) => b.score - a.score).slice(0, k);
+}
+
 // ── CLI ─────────────────────────────────────────────────────────────────────
 const isMain = process.argv[1] && process.argv[1].endsWith('library-index.mjs');
 if (isMain) {
@@ -290,6 +323,11 @@ if (isMain) {
     if (!hits.length) { console.error('no hits (index empty? run `index` first)'); process.exit(1); }
     console.log(`recall "${rest.join(' ')}"${flag('domain', null) ? ` [${flag('domain', null)}]` : ''}:`);
     for (const h of hits) console.log(`  [${h.score.toFixed(3)}] (lib/${h.domain}:${h.relPath}) ${h.text.replace(/\n+/g, ' ').slice(0, 160)}`);
+  } else if (cmd === 'lookup') {
+    const hits = catalogLookup(rest.join(' '), { domain: flag('domain', null), k: Number(flag('k', 6)) });
+    if (!hits.length) { console.error('no catalog hits'); process.exit(1); }
+    console.log(`lookup "${rest.join(' ')}"${flag('domain', null) ? ` [${flag('domain', null)}]` : ''}:`);
+    for (const h of hits) console.log(`  [${h.score}] (lib/${h.domain}:${h.path}) ${h.title} — ${(h.keywords || []).slice(0, 6).join(', ')}`);
   } else if (cmd === 'catalog') {
     const r = writeCatalog();
     console.log(`[library] catalog written: ${r.path} (${r.fileCount} files)`);
