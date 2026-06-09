@@ -20,6 +20,27 @@
  *   The engine verifies a fill receipt signed by the registered DEX account
  *   and moves engine tokens to settle a trade matched on PRANA. The engine
  *   never holds an orderbook or computes a match price.
+ *
+ * ── PRANA hooks for the rewards (Scotbot) + nitrous offering ──────────────
+ * (NOTE ONLY — not built. Wire these once `PRANA_RPC_URL` / a registered PRANA
+ *  account exists; until then they stay gated like the seams above.)
+ *
+ *  1. rewards emission -> PRANA liquidity. When `config.seams.gateway.enabled`
+ *     flips on, a token's reward rule may opt to route a slice of each window's
+ *     emission to a PRANA liquidity pool instead of (or alongside) curators.
+ *     TODO(PRANA): add an optional `rule.liquidityBps` honoured in
+ *     rewards.payout's payoutPost(), minting that slice to a registered
+ *     `gateway` account that deposits it into the PRANA AMM for the token's
+ *     market. No price/match logic on the engine — only the mint + handoff.
+ *
+ *  2. nitrous "Trade" tab. The per-token front-end (engine/nitrous/) renders a
+ *     read-only DEX panel ONLY when `config.seams.dexSettlement.enabled`.
+ *     TODO(PRANA): point nitrous at `PRANA_RPC_URL` for the token's orderbook
+ *     /price; settlement still flows through dexSettlement.settle here.
+ *
+ *  3. reward-token bootstrap market. TODO(PRANA): on first setReward, optionally
+ *     register the token's `SYMBOL:MELEK` market on PRANA via a gateway op so a
+ *     new tribe has a tradeable pair from day one. Gated; no-op until PRANA RPC.
  */
 
 import { config } from '../config.mjs';
