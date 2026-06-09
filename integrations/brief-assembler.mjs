@@ -123,8 +123,19 @@ async function defaultStrategies() {
   } catch { return ''; }
 }
 
+/** trading-knowledge → "### Trade knowledge" markdown. Soft-fail → ''. Plugs the trade brain
+ *  (knowledge/trading/*.json: intraday playbook + volatile-coin watchlist + replicable arb patterns)
+ *  into the brief so the writers see what to watch + the realistic play for our thin books. Advisory. */
+async function defaultTrading() {
+  try {
+    const mod = await import('./trading-knowledge.mjs');
+    return typeof mod?.briefBlock === 'function' ? (mod.briefBlock() || '') : '';
+  } catch { return ''; }
+}
+
 const DEFAULTS = {
   strategies: defaultStrategies,
+  trading: defaultTrading,
   diagnostics: defaultDiagnostics,
   factcheck: defaultFactcheck,
   tokens: defaultTokens,
@@ -162,7 +173,7 @@ async function pull(key) {
 
 /** Resolve all four sections in parallel, each isolated. Returns { diagnostics, factcheck, tokens, community }. */
 async function resolveSections() {
-  const keys = ['strategies', 'diagnostics', 'factcheck', 'tokens', 'community'];
+  const keys = ['strategies', 'trading', 'diagnostics', 'factcheck', 'tokens', 'community'];
   const vals = await Promise.all(keys.map((k) => pull(k)));
   const out = {};
   keys.forEach((k, i) => { out[k] = vals[i]; });
@@ -179,6 +190,7 @@ export async function sectionsAvailable(sections) {
   const s = sections || (await resolveSections());
   return {
     strategies: !!(s.strategies && s.strategies.trim()),
+    trading: !!(s.trading && s.trading.trim()),
     diagnostics: !!(s.diagnostics && s.diagnostics.trim()),
     factcheck: !!(s.factcheck && s.factcheck.trim()),
     tokens: !!(s.tokens && s.tokens.trim()),
@@ -327,7 +339,7 @@ export async function assembleBrief({ date } = {}, opts = {}) {
   // ── Details (the rendered sections) ──
   L.push('## Details');
   L.push('');
-  const order = ['strategies', 'diagnostics', 'factcheck', 'tokens', 'community'];
+  const order = ['strategies', 'trading', 'diagnostics', 'factcheck', 'tokens', 'community'];
   const rendered = order.map((k) => sections[k]).filter((x) => x && x.trim());
   if (rendered.length) {
     L.push(rendered.join('\n\n'));

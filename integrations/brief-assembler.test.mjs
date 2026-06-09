@@ -132,7 +132,7 @@ test('missing section (returns empty) is omitted but brief still renders', async
 });
 
 test('all sections empty → clean empty brief, not an error', async () => {
-  __setSections({ strategies: () => '', diagnostics: () => '', factcheck: () => '', tokens: () => '', community: () => '' });
+  __setSections({ strategies: () => '', trading: () => '', diagnostics: () => '', factcheck: () => '', tokens: () => '', community: () => '' });
   const md = await assembleBrief({ date: '2026-06-03' });
   assert.ok(md.includes('## FOR RYAN'));
   assert.ok(md.includes('Quiet pass'), 'quiet-pass FOR RYAN line');
@@ -168,14 +168,14 @@ test('forRyanSummary with nothing → quiet-pass line', () => {
 });
 
 test('sectionsAvailable reports which sources resolved', async () => {
-  const avail = await sectionsAvailable({ strategies: '', diagnostics: DIAG, factcheck: '', tokens: TOKENS, community: null });
-  assert.deepEqual(avail, { strategies: false, diagnostics: true, factcheck: false, tokens: true, community: false });
+  const avail = await sectionsAvailable({ strategies: '', trading: '', diagnostics: DIAG, factcheck: '', tokens: TOKENS, community: null });
+  assert.deepEqual(avail, { strategies: false, trading: false, diagnostics: true, factcheck: false, tokens: true, community: false });
 });
 
 test('sectionsAvailable resolves the injected sources when called with no arg', async () => {
-  __setSections({ strategies: () => '', diagnostics: () => DIAG, factcheck: () => '', tokens: () => '', community: () => COMMUNITY });
+  __setSections({ strategies: () => '', trading: () => '', diagnostics: () => DIAG, factcheck: () => '', tokens: () => '', community: () => COMMUNITY });
   const avail = await sectionsAvailable();
-  assert.deepEqual(avail, { strategies: false, diagnostics: true, factcheck: false, tokens: false, community: true });
+  assert.deepEqual(avail, { strategies: false, trading: false, diagnostics: true, factcheck: false, tokens: false, community: true });
   reset();
 });
 
