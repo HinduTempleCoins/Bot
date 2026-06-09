@@ -91,3 +91,6 @@ integrations/.diag-tasks/
 
 # Built semantic library vector cache (rebuilt on the box; not source)
 .library-index/
+
+# karma runtime store (forkable but rebuilt; not source)
+karma/data/*.json
