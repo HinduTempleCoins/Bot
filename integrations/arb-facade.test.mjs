@@ -119,3 +119,33 @@ test('rows carry a feesApplied flag (net vs gross) and source/market/detail', as
   assert.equal(rows.find((r) => r.source === 'cross-venue').feesApplied, true);
   assert.equal(rows.find((r) => r.source === 'arb-scanner').feesApplied, false);
 });
+
+// PHANTOM-EDGE GUARD propagates into the combined feed: a suspect arb-scanner row (flagged by
+// classifySuspect upstream) carries its flag and is DOWN-RANKED below clean rows even though its
+// headline net edge is the largest in the feed.
+test('a suspect phantom arb-scanner row is flagged and ranked BELOW clean rows', async () => {
+  const phantomScanArb = async () => ({
+    opportunities: [
+      // huge headline edge but flagged suspect by the scanner's phantom guard (one-sided/thin/stale)
+      { sym: 'SWAP.ETH', edge: 1.39, execHive: 3, side: 'buy', signal: 'BUY SWAP.ETH on HE', suspect: true, suspectReason: 'one-sided HE book (missing bid or ask); thin executable depth (3.0 < 5 HIVE)' },
+      // clean, proven SWAP.DOGE-class edge
+      { sym: 'SWAP.DOGE', edge: 0.05, execHive: 150, side: 'buy', signal: 'BUY SWAP.DOGE on HE', suspect: false },
+    ],
+  });
+  const { rows } = await scanAllArb({
+    ...inject, scanArb: phantomScanArb,
+    crossVenueEdges: async () => ({ edges: [] }), scanSymbol: async () => ({ best: null }), crossChainSpread: async () => ({ opportunity: null }),
+  });
+  const eth = rows.find((r) => r.market === 'SWAP.ETH');
+  const doge = rows.find((r) => r.market === 'SWAP.DOGE');
+  // the suspect row is preserved (NOT deleted) and carries the flag + reason
+  assert.ok(eth, 'suspect SWAP.ETH row is kept, not dropped');
+  assert.equal(eth.suspect, true);
+  assert.match(eth.suspectReason, /one-sided|thin/);
+  assert.match(eth.detail, /SUSPECT/);
+  // and it ranks BELOW the clean SWAP.DOGE row despite a 139% vs 5% headline edge
+  assert.ok(rows.indexOf(doge) < rows.indexOf(eth), 'clean SWAP.DOGE ranks above suspect SWAP.ETH');
+  assert.equal(rows[0].market, 'SWAP.DOGE', 'clean row tops the feed');
+  // a clean arb-scanner row leaves suspect false
+  assert.equal(doge.suspect, false);
+});

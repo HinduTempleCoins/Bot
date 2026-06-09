@@ -3,7 +3,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { executableBuy, executableSell } from './arb-scanner.mjs';
+import { executableBuy, executableSell, classifySuspect } from './arb-scanner.mjs';
 
 const HIVE_USD = 0.06;       // $/HIVE
 const REAL_ETH = 1981;        // real ETH/USD
@@ -56,4 +56,65 @@ test('executableSell mirrors: only bids above real price count', () => {
 test('empty / zero-quantity book yields no executable edge', () => {
   assert.equal(executableBuy([], REAL_ETH, HIVE_USD).execHive, 0);
   assert.equal(executableBuy([{ price: 0, quantity: 0 }], REAL_ETH, HIVE_USD).execHive, 0);
+});
+
+// ── PHANTOM-EDGE GUARD (classifySuspect) ──────────────────────────────────────────────────────────
+// The live failure: dead/one-sided/stale HE books (SWAP.ETH 139%, SWAP.MATIC 18.7%) topped the feed.
+// These tests pin each suspect trigger and prove a clean SWAP.DOGE-class row stays clean.
+
+test('classifySuspect: a CLEAN two-sided, deep, on-spot row is NOT flagged', () => {
+  const v = classifySuspect({
+    ask: 1, bid: 0.98, askUsd: 0.058, bidUsd: 0.057, realUsd: 0.06,
+    execHive: 120, side: 'buy', askLevels: 4, bidLevels: 3,
+  });
+  assert.equal(v.suspect, false);
+  assert.equal(v.reason, null);
+});
+
+test('classifySuspect: a one-sided book (missing bid) is suspect', () => {
+  const v = classifySuspect({
+    ask: 1, bid: 0, askUsd: 0.06, bidUsd: 0, realUsd: 0.06,
+    execHive: 50, side: 'buy', askLevels: 3, bidLevels: 0,
+  });
+  assert.equal(v.suspect, true);
+  assert.match(v.reason, /one-sided/);
+});
+
+test('classifySuspect: thin executable depth on the cheap side is suspect', () => {
+  const v = classifySuspect({
+    ask: 1, bid: 0.99, askUsd: 0.02, bidUsd: 0.059, realUsd: 0.06,
+    execHive: 3, side: 'buy', askLevels: 1, bidLevels: 2, // ~3 HIVE < 5 floor
+  });
+  assert.equal(v.suspect, true);
+  assert.match(v.reason, /thin executable depth|single thin level/);
+});
+
+test('classifySuspect: both legs far off the real price is a stale comparand', () => {
+  // ask 0.02 (67% under) and bid 0.018 (70% under) vs real 0.06 — both far off ⇒ stale
+  const v = classifySuspect({
+    ask: 1, bid: 0.9, askUsd: 0.02, bidUsd: 0.018, realUsd: 0.06,
+    execHive: 200, side: 'buy', askLevels: 3, bidLevels: 3,
+  });
+  assert.equal(v.suspect, true);
+  assert.match(v.reason, /stale comparand/);
+});
+
+test('classifySuspect: a single-level cheap side below MIN_EXEC is flagged orphaned', () => {
+  const v = classifySuspect({
+    ask: 1, bid: 0.99, askUsd: 0.058, bidUsd: 0.059, realUsd: 0.06,
+    execHive: 8, side: 'buy', askLevels: 1, bidLevels: 4, // one thin ask level, 8 HIVE < 20 MIN_EXEC
+  });
+  assert.equal(v.suspect, true);
+  assert.match(v.reason, /single thin level/);
+});
+
+// Prove the DOWN-RANK contract end-to-end on the same sort the scanner uses: a suspect phantom row
+// sinks below a clean row even when its headline edge*size product is larger.
+test('suspect phantom rows sort BELOW clean rows regardless of headline edge', () => {
+  const clean = { sym: 'SWAP.DOGE', edge: 0.04, execHive: 120, suspect: false };  // realizable 4.8
+  const phantom = { sym: 'SWAP.ETH', edge: 1.39, execHive: 3, suspect: true };     // huge edge, tiny size
+  const rows = [phantom, clean].sort((a, b) =>
+    (a.suspect === b.suspect ? 0 : a.suspect ? 1 : -1) || (b.execHive * b.edge - a.execHive * a.edge));
+  assert.equal(rows[0].sym, 'SWAP.DOGE', 'clean SWAP.DOGE on top');
+  assert.equal(rows[1].sym, 'SWAP.ETH', 'suspect SWAP.ETH down-ranked below the clean row');
 });

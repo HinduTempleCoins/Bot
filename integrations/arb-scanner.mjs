@@ -22,10 +22,22 @@ import { SWAP_PAIRS as PAIRS, ARB_THRESHOLD as THRESHOLD } from './watchlist.mjs
 const MIN_EXEC_HIVE = +(process.env.ARB_MIN_EXEC_HIVE || 20); // ignore edges you can't move ≥this much HIVE through
 const HISTORY_FILE = process.env.ARB_HISTORY_FILE || 'vankush-arbitrage-history.json';
 
+// ── PHANTOM-EDGE GUARD (broad-scan audit) ────────────────────────────────────────────────────────
+// Even past guards 1–3 + the live legs-off-spot guard (#23), the standing scan topped its feed with
+// PHANTOM edges off dead/orphaned/one-sided Hive-Engine books: SWAP.ETH read 139%, SWAP.MATIC 18.7%.
+// Mechanism: a book with a real quote on only ONE side (or a single thin cheap-side level) lets the
+// depth walk report a huge "executable" edge against a STALE book-vs-real comparand. Such rows are
+// NOT deleted (a thin book can thicken; we still want eyes on it) — they are FLAGGED suspect
+// (boolean + human reason) and DOWN-RANKED below every clean row so the proven SWAP.DOGE-class edges
+// stay on top. Tunables are env-overridable so the live scan can be retuned without a code change.
+const SUSPECT_MIN_DEPTH_HIVE = +(process.env.ARB_SUSPECT_MIN_DEPTH_HIVE || 5); // cheap-side floor: below this exec HIVE the edge is phantom-thin
+const STALE_OFF_REAL = +(process.env.ARB_STALE_OFF_REAL || 0.5);               // both legs ≥this far off real ⇒ stale comparand (50% default)
+
 // Walk the ask side (buying SWAP.X on HE): spend HIVE at each ask level (price ascending) while
-// the level's USD cost is still below the real price. Returns size-weighted edge + executable HIVE.
+// the level's USD cost is still below the real price. Returns size-weighted edge + executable HIVE
+// + the count of book levels that actually contributed (a one-level cheap side reads as thin/orphaned).
 export function executableBuy(askLevels, realUsd, hiveUsd) {
-  let execHive = 0, edgeHiveWeighted = 0;
+  let execHive = 0, edgeHiveWeighted = 0, levels = 0;
   for (const lvl of askLevels) {
     const price = +lvl.price, qty = +lvl.quantity;      // price in HIVE per token
     if (!(price > 0) || !(qty > 0)) continue;
@@ -33,13 +45,13 @@ export function executableBuy(askLevels, realUsd, hiveUsd) {
     const lvlEdge = (realUsd - costUsd) / costUsd;       // how underpriced this level is
     if (lvlEdge < THRESHOLD) break;                      // book has caught up — stop
     const hiveHere = price * qty;
-    execHive += hiveHere; edgeHiveWeighted += hiveHere * lvlEdge;
+    execHive += hiveHere; edgeHiveWeighted += hiveHere * lvlEdge; levels += 1;
   }
-  return { execHive, edge: execHive ? edgeHiveWeighted / execHive : 0 };
+  return { execHive, edge: execHive ? edgeHiveWeighted / execHive : 0, levels };
 }
 // Walk the bid side (selling SWAP.X on HE): hit bids (price descending) while the bid's USD value beats real.
 export function executableSell(bidLevels, realUsd, hiveUsd) {
-  let execHive = 0, edgeHiveWeighted = 0;
+  let execHive = 0, edgeHiveWeighted = 0, levels = 0;
   for (const lvl of bidLevels) {
     const price = +lvl.price, qty = +lvl.quantity;
     if (!(price > 0) || !(qty > 0)) continue;
@@ -47,9 +59,42 @@ export function executableSell(bidLevels, realUsd, hiveUsd) {
     const lvlEdge = (valueUsd - realUsd) / realUsd;
     if (lvlEdge < THRESHOLD) break;
     const hiveHere = price * qty;
-    execHive += hiveHere; edgeHiveWeighted += hiveHere * lvlEdge;
+    execHive += hiveHere; edgeHiveWeighted += hiveHere * lvlEdge; levels += 1;
   }
-  return { execHive, edge: execHive ? edgeHiveWeighted / execHive : 0 };
+  return { execHive, edge: execHive ? edgeHiveWeighted / execHive : 0, levels };
+}
+
+/**
+ * Decide whether a scored row is a suspect PHANTOM edge. Pure + total — never throws.
+ * A row is suspect when ANY of:
+ *   • the HE book is one-sided: a genuine top-of-book on only one side (missing bid OR ask), OR the
+ *     side we'd actually execute is backed by a single thin level (orphaned/one-sided in practice), OR
+ *   • the cheap-side executable depth is below SUSPECT_MIN_DEPTH_HIVE (phantom-thin), OR
+ *   • BOTH bid and ask sit ≥STALE_OFF_REAL away from the real price (the comparand is stale).
+ * Down-ranking, not deletion: the caller keeps the row but sorts it below every clean row.
+ * @returns {{suspect:boolean, reason:string|null}}
+ */
+export function classifySuspect({ ask, bid, askUsd, bidUsd, realUsd, execHive, side, askLevels = 0, bidLevels = 0 }) {
+  const reasons = [];
+  const a = +ask, b = +bid, eh = +execHive;
+  // 1. one-sided book — a genuine quote on only one side
+  if (!(a > 0) || !(b > 0)) reasons.push('one-sided HE book (missing bid or ask)');
+  // 1b. the side we'd execute is backed by a single thin level (orphaned/one-sided in practice)
+  const tradedLevels = side === 'buy' ? +askLevels : side === 'sell' ? +bidLevels : 0;
+  if (side && tradedLevels > 0 && tradedLevels < 2 && !(eh >= MIN_EXEC_HIVE)) {
+    reasons.push('cheap side backed by a single thin level');
+  }
+  // 2. cheap-side executable depth below the floor
+  if (eh > 0 && eh < SUSPECT_MIN_DEPTH_HIVE) {
+    reasons.push(`thin executable depth (${eh.toFixed(1)} < ${SUSPECT_MIN_DEPTH_HIVE} HIVE)`);
+  }
+  // 3. stale comparand: BOTH legs far off the real price
+  const offAsk = +realUsd > 0 && +askUsd > 0 ? Math.abs(+askUsd - +realUsd) / +realUsd : 0;
+  const offBid = +realUsd > 0 && +bidUsd > 0 ? Math.abs(+bidUsd - +realUsd) / +realUsd : 0;
+  if (offAsk >= STALE_OFF_REAL && offBid >= STALE_OFF_REAL) {
+    reasons.push(`both legs far off real (ask ${(offAsk * 100).toFixed(0)}%, bid ${(offBid * 100).toFixed(0)}% — stale comparand)`);
+  }
+  return reasons.length ? { suspect: true, reason: reasons.join('; ') } : { suspect: false, reason: null };
 }
 
 export async function scanArb() {
@@ -82,12 +127,20 @@ export async function scanArb() {
       else if (sell.edge >= THRESHOLD) { edge = sell.edge; execHive = sell.execHive; signal = `SELL ${sym} on HE`; side = 'sell'; }
 
       const row = { sym, askUsd: ask * hiveUsd, bidUsd: bid * hiveUsd, realUsd, edge, execHive, signal, side };
+      // PHANTOM-EDGE GUARD: flag (don't delete) dead/orphaned/one-sided/stale books, then down-rank below.
+      const { suspect, reason } = classifySuspect({
+        ask, bid, askUsd: row.askUsd, bidUsd: row.bidUsd, realUsd, execHive, side,
+        askLevels: buy.levels, bidLevels: sell.levels,
+      });
+      row.suspect = suspect; row.suspectReason = reason;
       rows.push(row);
       // only a real opportunity if you can actually move a meaningful amount of HIVE through it
       if (edge >= THRESHOLD && execHive >= MIN_EXEC_HIVE) opportunities.push(row);
     } catch (e) { rows.push({ sym, note: `error ${e.message}` }); }
   }
-  opportunities.sort((a, b) => b.execHive * b.edge - a.execHive * a.edge); // rank by realizable HIVE
+  // RANK: clean rows first (suspect phantom edges sink below every clean row), then by realizable HIVE.
+  opportunities.sort((a, b) =>
+    (a.suspect === b.suspect ? 0 : a.suspect ? 1 : -1) || (b.execHive * b.edge - a.execHive * a.edge));
   return { hiveUsd, hiveConfident: hp.confident, rows, opportunities };
 }
 
@@ -112,12 +165,12 @@ if (process.argv[1] && process.argv[1].endsWith('arb-scanner.mjs')) {
   console.log('─'.repeat(78));
   for (const r of rows) {
     if (r.note) { console.log(`${r.sym.padEnd(12)} (${r.note})`); continue; }
-    console.log(`${r.sym.padEnd(12)} ${r.askUsd.toFixed(2).padStart(9)} ${r.bidUsd.toFixed(2).padStart(10)} ${r.realUsd.toFixed(2).padStart(11)} ${(r.edge * 100).toFixed(1).padStart(6)}% ${r.execHive.toFixed(0).padStart(9)}  ${r.signal}`);
+    console.log(`${r.sym.padEnd(12)} ${r.askUsd.toFixed(2).padStart(9)} ${r.bidUsd.toFixed(2).padStart(10)} ${r.realUsd.toFixed(2).padStart(11)} ${(r.edge * 100).toFixed(1).padStart(6)}% ${r.execHive.toFixed(0).padStart(9)}  ${r.signal}${r.suspect ? `  ⚠ SUSPECT: ${r.suspectReason}` : ''}`);
   }
   console.log('─'.repeat(78));
   if (opportunities.length) {
-    console.log(`\n${opportunities.length} EXECUTABLE opportunity(ies) ≥${THRESHOLD * 100}% edge with ≥${MIN_EXEC_HIVE} HIVE depth:`);
-    for (const o of opportunities) console.log(`  • ${o.signal} — ${(o.edge * 100).toFixed(1)}% edge, ~${o.execHive.toFixed(0)} HIVE executable (real $${o.realUsd.toFixed(4)})`);
+    console.log(`\n${opportunities.length} EXECUTABLE opportunity(ies) ≥${THRESHOLD * 100}% edge with ≥${MIN_EXEC_HIVE} HIVE depth (clean first; suspect phantom edges flagged + down-ranked):`);
+    for (const o of opportunities) console.log(`  • ${o.signal} — ${(o.edge * 100).toFixed(1)}% edge, ~${o.execHive.toFixed(0)} HIVE executable (real $${o.realUsd.toFixed(4)})${o.suspect ? `  ⚠ SUSPECT: ${o.suspectReason}` : ''}`);
   } else console.log('\nNo executable mispricings right now — swap markets fairly aligned (thin/stale asks filtered out).');
   recordScan({ hiveUsd, rows, opportunities });
 }

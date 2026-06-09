@@ -25,6 +25,15 @@
 //   await assembleBrief({ date: '2026-06-03' });   // full markdown brief string
 //
 //   node integrations/brief-assembler.mjs          # print today's assembled brief
+//
+// SECRET REDACTION (task #83): a brief is a document a human reads and that gets stored / shipped
+// around — it must NEVER carry a live secret. The pipeline once captured a plaintext password into an
+// assembled brief. So EVERY resolved section AND the FOR-RYAN summary is passed through redactSecrets()
+// before it is rendered: a WIF/hex key, JWT/bearer token, AWS key, password=… pair, or long base64
+// blob is replaced with a typed [REDACTED:<kind>] placeholder. Defense in depth — the section sources
+// are read-only and shouldn't carry secrets, but the assembler is the last gate before render.
+
+import { redactSecrets } from './secret-redact.mjs';
 
 // ── the four section sources ──────────────────────────────────────────────────────────────────────
 // Each source is an async fn → a markdown string (the section's own engineBlock/briefNotes output) or
@@ -142,7 +151,10 @@ async function pull(key) {
   if (typeof fn !== 'function') return '';
   try {
     const out = await fn();
-    return typeof out === 'string' ? out.trim() : '';
+    // REDACT before the section is ever stored/rendered — the assembler is the last gate, so any
+    // secret a source accidentally carried (the password-into-brief incident, #83) is replaced with a
+    // typed [REDACTED:<kind>] placeholder here. The raw secret never makes it into the brief.
+    return typeof out === 'string' ? redactSecrets(out).trim() : '';
   } catch {
     return ''; // a thrown section is omitted, never breaks the brief.
   }
@@ -293,7 +305,10 @@ export async function assembleBrief({ date } = {}, opts = {}) {
   // ── FOR RYAN (plain English, first) ──
   L.push('## FOR RYAN');
   L.push('');
-  L.push(forRyanSummary(sections));
+  // The sections are already redacted (in pull()), but the FOR-RYAN summary is rendered through the
+  // redactor too — belt-and-suspenders so the operator-facing top line can never surface a secret,
+  // whatever the summary logic does (#83).
+  L.push(redactSecrets(forRyanSummary(sections)));
   L.push('');
 
   // ── FOR CLAUDE CODE ──

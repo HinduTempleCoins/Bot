@@ -25,6 +25,14 @@
 // deterministic local lexical vectorizer (a hashed token-bag / TF vector). That gives the module a
 // working semantic-ish ranking with no model and no network — good enough to rank by shared meaning of
 // vocabulary, and a drop-in slot for a real embedding API (OpenAI / nomic / Granite) when one is wired.
+//
+// Nearest-neighbour search runs through the shared ANN backend (integrations/faiss-index.mjs): real
+// FAISS-class HNSW when the native addon loads, pure-JS cosine brute-force otherwise. faiss-index
+// L2-normalizes every vector so its inner-product score == cosine similarity — identical to the
+// hand-rolled cosineSimilarity loop this module used to run, so the top match and full ranking are
+// unchanged. The deterministic word-bag embedder + __setEmbedder seam are untouched.
+
+import { createVectorIndex } from './faiss-index.mjs';
 
 // ── injectable embedder + fetch (offline by default) ─────────────────────────────────────────────
 // _embed: optional async (text) → number[]. When null, the deterministic local vectorizer is used.
@@ -161,12 +169,19 @@ export function createStore() {
     async query(text, { topK = 5 } = {}) {
       if (docs.size === 0) return [];
       const qv = await embed(text);
-      const scored = [];
-      for (const d of docs.values()) {
-        scored.push({ id: d.id, score: cosineSimilarity(qv, d.vector), meta: d.meta });
-      }
-      scored.sort((a, b) => b.score - a.score);
-      return scored.slice(0, Math.max(0, topK));
+      // Build the ANN index over the current docs (the embedder/seam already ran on add()), then search.
+      // faiss-index L2-normalizes vectors and scores by inner product == cosine, so results match the old
+      // cosineSimilarity loop exactly. Index by integer label → look the doc back up for { id, meta }.
+      const list = [...docs.values()];
+      const idx = createVectorIndex(qv.length);
+      idx.addAll(list.map((d, i) => ({ id: i, vec: d.vector })));
+      const k = Math.max(0, topK);
+      if (k === 0) return [];
+      const hits = idx.search(qv, list.length); // full ranking, then slice
+      return hits.slice(0, k).map((h) => {
+        const d = list[h.id];
+        return { id: d.id, score: h.score, meta: d.meta };
+      });
     },
 
     size() { return docs.size; },
@@ -195,15 +210,24 @@ function candidateText(c) {
 export async function rankSources(queryText, candidates, { topK } = {}) {
   if (!queryText || !Array.isArray(candidates) || candidates.length === 0) return [];
   const qv = await embed(queryText);
-  const ranked = [];
+  // Embed every candidate (keeping array order for the `index` field), then rank through the shared ANN
+  // backend. faiss-index L2-normalizes + scores by inner product == cosine, so the ordering matches the
+  // old per-candidate cosineSimilarity loop exactly; the ANN label is the candidate's array index.
+  const rows = [];
   for (let i = 0; i < candidates.length; i++) {
     const c = candidates[i];
     const cv = await embed(candidateText(c));
     const id = (c && typeof c === 'object' && c.id != null) ? c.id : i;
     const meta = (c && typeof c === 'object' && c.meta) ? c.meta : (typeof c === 'object' ? c : {});
-    ranked.push({ id, score: cosineSimilarity(qv, cv), meta, candidate: c, index: i });
+    rows.push({ id, meta, candidate: c, index: i, vec: cv });
   }
-  ranked.sort((a, b) => b.score - a.score);
+  const idx = createVectorIndex(qv.length);
+  idx.addAll(rows.map((r) => ({ id: r.index, vec: r.vec })));
+  const hits = idx.search(qv, rows.length); // full ranking
+  const ranked = hits.map((h) => {
+    const r = rows[h.id];
+    return { id: r.id, score: h.score, meta: r.meta, candidate: r.candidate, index: r.index };
+  });
   return typeof topK === 'number' ? ranked.slice(0, Math.max(0, topK)) : ranked;
 }
 
