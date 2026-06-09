@@ -28,7 +28,11 @@ const num = (n, d = 0) => (Number.isFinite(+n) ? +n : d);
 // the cross-exchange pairs + cross-chain queries to sweep by default (env-overridable, read via
 // trade-config's token tiers + small built-ins). Kept short so a live sweep is bounded.
 const DEFAULT_CEX_PAIRS = (process.env.ARB_CEX_PAIRS || 'BTC/USDT,ETH/USDT,LTC/USDT,DOGE/USDT').split(',').map((s) => s.trim()).filter(Boolean);
-const DEFAULT_XCHAIN_QUERIES = (process.env.ARB_XCHAIN_QUERIES || '').split(',').map((s) => s.trim()).filter(Boolean);
+// Cross-chain (DEXScreener) queries. This defaulted to EMPTY — so the standing scan NEVER exercised
+// the cross-chain detector (a whole category of opportunity went dark; the broad-scan audit found a
+// live 17.3% spread when the detector was run directly). Default to our own tokens + HIVE + a couple
+// majors so the standing sweep actually covers it; still env-overridable, kept short to stay bounded.
+const DEFAULT_XCHAIN_QUERIES = (process.env.ARB_XCHAIN_QUERIES || 'HIVE,MELEK,VKBT,CURE,ETH,SOL').split(',').map((s) => s.trim()).filter(Boolean);
 
 // ── normalizers: each detector's native shape → the common row ─────────────────────────────────
 // common row: { source, market, side, netEdgePct, execHive, detail, raw }
