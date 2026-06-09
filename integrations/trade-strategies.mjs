@@ -54,6 +54,21 @@
 // │ strategy×token to run and explains why; execution stays gated, MELEK-Signer-only, unbuilt.     │
 // └────────────────────────────────────────────────────────────────────────────────────────────┘
 
+// ── sibling strategy cores wrapped into this registry (pure; no I/O in either) ─────────────────
+// price-nudge.nudgePlan (VKBT outbid-ratchet) and wall-bot.wallStrategy (buy/sell-wall support) are
+// already pure decision cores. We wrap them here so EVERY strategy — peg-arb, grid, market-make,
+// dca, momentum, nudge, wall — lives in ONE registry with the SAME decide(name, ctx)→{orders} shape.
+// The wrappers translate their book-based intents into this module's frozen dryRun:true/signer:null
+// order shape; they do NOT call the wall/nudge runners (which touch the network), only the pure cores.
+import { nudgePlan, loadConfig as loadNudgeConfig } from './price-nudge.mjs';
+import { wallStrategy } from './wall-bot.mjs';
+import { loadTradeConfig } from './trade-config.mjs';
+
+// peg-arb's defaults now come from the consolidated trade-config (STRAT_PEG_* env, defaulting to the
+// SAME 0.03 / 50 / 500 the strategy used inline before — so behaviour is unchanged). Explicit params
+// passed to decide() still win over these defaults.
+const STRAT_DEFAULTS = loadTradeConfig().strategy;
+
 // ── tiny pure helpers (no I/O) ───────────────────────────────────────────────────────────────
 const num = (n, d = 0) => (Number.isFinite(+n) ? +n : d);
 const isPos = (n) => Number.isFinite(+n) && +n > 0;
@@ -95,9 +110,9 @@ function heUsd(snapshot) {
 // Two-sided by nature: it always has a thesis for closing the position (the peg reconverges), so
 // it does NOT trip the one-way-accumulation bleed-guard the way a bare momentum BUY would.
 function pegArb(snapshot, params = {}, state = {}) {
-  const threshold = num(params.threshold, 0.03);     // 3% min edge to act
-  const tradeHive = num(params.tradeHive, 50);       // HIVE to deploy per signal
-  const maxInventoryHive = num(params.maxInventoryHive, 500); // never accumulate past this (bleed cap)
+  const threshold = num(params.threshold, STRAT_DEFAULTS.pegArbThreshold);     // 3% min edge to act (trade-config)
+  const tradeHive = num(params.tradeHive, STRAT_DEFAULTS.pegArbTradeHive);     // HIVE to deploy per signal
+  const maxInventoryHive = num(params.maxInventoryHive, STRAT_DEFAULTS.pegArbMaxInventoryHive); // bleed cap
   const { he, heUsd: heInUsd, hiveUsd } = heUsd(snapshot);
   const realUsd = num(snapshot.realUsd);
   if (!isPos(he) || !isPos(hiveUsd) || !isPos(realUsd)) {
@@ -266,6 +281,69 @@ function momentum(snapshot, params = {}, state = {}) {
 
 function pct(n) { return `${(num(n) * 100).toFixed(2)}%`; }
 
+// ── 6. NUDGE — VKBT outbid-ratchet (wraps price-nudge.nudgePlan) ───────────────────────────────
+// Drives an issued token UP by COMPETING with rival/troll bids: place ONE resting LIMIT bid one
+// increment above the top competing bid, never market-buy, never cross the ask. The pure plan lives
+// in price-nudge.nudgePlan; here we adapt the snapshot/params/state into its inputs and translate its
+// intents back into this module's frozen order shape. A PLACE_LIMIT_BID/PLACE_BUY_WALL becomes a
+// dryRun BUY order; CANCEL intents are surfaced in the reason (they aren't orders, they're book hygiene).
+//   snapshot: { symbol, buyBook:[], sellBook:[], ourAccounts?:[] }
+//   params:   MM_* overrides (increment, ceiling, floor, supportSize, maxJump, …) — see price-nudge.loadConfig
+//   state:    { lastNudge, dailyCount, now }
+function nudge(snapshot, params = {}, state = {}) {
+  const cfg = loadNudgeConfig(process.env, params);   // honours params overrides over env; pure read
+  const plan = nudgePlan({
+    buyBook: snapshot.buyBook || [],
+    sellBook: snapshot.sellBook || [],
+    ourAccounts: snapshot.ourAccounts || params.ourAccounts || [],
+    lastNudge: num(state.lastNudge, 0),
+    dailyCount: num(state.dailyCount, 0),
+    now: num(state.now, 0) || num(snapshot.ts, 0) || 0,
+    config: cfg,
+  });
+  if (plan.action !== 'NUDGE') {
+    return result([], `nudge: ${plan.reason}`, 'nudge');
+  }
+  const cancels = plan.intents.filter((i) => i.action === 'CANCEL').length;
+  const orders = plan.intents
+    .filter((i) => i.action === 'PLACE_LIMIT_BID' || i.action === 'PLACE_BUY_WALL')
+    .map((i) => ({
+      side: 'buy', symbol: snapshot.symbol, price: num(i.price),
+      qtyToken: num(i.quantity), qtyHive: num(i.price) * num(i.quantity),
+      reason: i.reason,
+    }));
+  const note = cancels ? ` (cancel ${cancels} stale bid${cancels > 1 ? 's' : ''} first)` : '';
+  return result(orders, `nudge: ${plan.reason}${note}`, 'nudge');
+}
+
+// ── 7. WALL — buy/sell-wall support (wraps wall-bot.wallStrategy) ──────────────────────────────
+// Defend a price FLOOR with a resting buy wall (support) and/or cap a CEILING with a sell wall
+// (resistance). The pure detect+decide core is wall-bot.wallStrategy; here we adapt the snapshot/params
+// and translate PLACE_BUY_WALL → dryRun BUY and PLACE_SELL_WALL → dryRun SELL. HOLD_* intents (a wall
+// already defends the level) carry no order and are reported in the reason.
+//   snapshot: { symbol, buyBook:[], sellBook:[] }
+//   params:   { floor, ceiling, wallSize, minMultiple } (defaults from trade-config WALL_*)
+function wall(snapshot, params = {}, state = {}) {  // eslint-disable-line no-unused-vars
+  const ws = wallStrategy({
+    buyBook: snapshot.buyBook || [],
+    sellBook: snapshot.sellBook || [],
+    floor: num(params.floor, 0) || undefined,
+    ceiling: num(params.ceiling, 0) || undefined,
+    wallSize: num(params.wallSize, 0) || undefined,
+    minMultiple: num(params.minMultiple, 3),
+  });
+  const orders = [];
+  for (const i of ws.intents) {
+    if (i.action === 'PLACE_BUY_WALL') orders.push({ side: 'buy', symbol: snapshot.symbol, price: num(i.price), qtyToken: num(i.quantity), qtyHive: num(i.price) * num(i.quantity), reason: i.reason });
+    else if (i.action === 'PLACE_SELL_WALL') orders.push({ side: 'sell', symbol: snapshot.symbol, price: num(i.price), qtyToken: num(i.quantity), qtyHive: num(i.price) * num(i.quantity), reason: i.reason });
+  }
+  const holds = ws.intents.filter((i) => i.action === 'HOLD_BUY' || i.action === 'HOLD_SELL').map((i) => i.reason);
+  const reason = orders.length
+    ? `wall: ${orders.map((o) => o.side).join('+')} — ${ws.buyWalls.length} buy / ${ws.sellWalls.length} sell wall(s) detected`
+    : `wall: hold — ${holds.length ? holds.join('; ') : 'no floor/ceiling to defend'}`;
+  return result(orders, reason, 'wall');
+}
+
 // ── registry ─────────────────────────────────────────────────────────────────────────────────
 export const STRATEGIES = Object.freeze({
   'peg-arb': { decide: pegArb, label: 'Peg arbitrage (proven)', proven: true,
@@ -278,6 +356,10 @@ export const STRATEGIES = Object.freeze({
     note: 'Fixed HIVE per interval. Hard budget cap is the anti-bleed guard.' },
   'momentum': { decide: momentum, label: 'Momentum (single-unit)', proven: false,
     note: 'Trend-follow fast-vs-slow. No pyramiding; one unit only.' },
+  'nudge': { decide: nudge, label: 'VKBT outbid-ratchet (price support)', proven: false,
+    note: 'Compete with troll bids: ONE resting limit bid one increment above the top rival; never market-buy, never cross the ask. Wraps price-nudge.' },
+  'wall': { decide: wall, label: 'Buy/sell-wall support', proven: false,
+    note: 'Defend a floor with a buy wall / cap a ceiling with a sell wall. Wraps wall-bot.' },
 });
 
 /**

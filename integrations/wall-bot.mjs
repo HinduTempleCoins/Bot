@@ -11,6 +11,7 @@
 
 import { market } from './hive-engine-market.mjs';
 import { emitBotData } from '../tools/bot-data.mjs';
+import { loadTradeConfig } from './trade-config.mjs';
 
 // PURE: find "walls" in one side of the book — orders whose size is >= minMultiple x the median
 // order size (a wall is an order conspicuously larger than the crowd). Returns them biggest-first
@@ -55,9 +56,10 @@ export function wallStrategy({ buyBook = [], sellBook = [], floor, ceiling, wall
 // is wired through angelicalist/trader.placeOrder when the operator turns it live.
 export async function run(symbol = 'VKBT', opts = {}) {
   const [buyBook, sellBook] = await Promise.all([market.buyBook(symbol, 50), market.sellBook(symbol, 50)]);
-  const floor = opts.floor ?? parseFloat(process.env.WALL_FLOOR || '0.01');
-  const ceiling = opts.ceiling ?? parseFloat(process.env.WALL_CEILING || '0');
-  const wallSize = opts.wallSize ?? parseFloat(process.env.WALL_SIZE || '1000');
+  const wc = loadTradeConfig().wall;   // WALL_FLOOR / WALL_CEILING / WALL_SIZE defaults, consolidated
+  const floor = opts.floor ?? wc.floor;
+  const ceiling = opts.ceiling ?? wc.ceiling;
+  const wallSize = opts.wallSize ?? wc.size;
   const result = wallStrategy({ buyBook, sellBook, floor, ceiling: ceiling || undefined, wallSize });
   const summary = `${symbol}: ${result.buyWalls.length} buy wall(s), ${result.sellWalls.length} sell wall(s); ` +
     result.intents.map((i) => i.action).join(', ');
