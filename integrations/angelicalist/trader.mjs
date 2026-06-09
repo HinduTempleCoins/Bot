@@ -53,6 +53,16 @@ export async function placeOrder({ side, symbol, quantity, price }) {
   return broadcastSSC(payload, { actionLabel: `${side.toUpperCase()} ${quantity} ${symbol} @ ${price}` });
 }
 
+// cancel a resting HIVE-Engine market order by id. Needed by the VKBT outbid-ratchet
+// (price-nudge.mjs) to pull a stale bid before placing a higher one — without this, price-nudge
+// guards the call (`typeof trader.cancel === 'function'`) and SILENTLY SKIPS, so stale bids pile up.
+// HE market cancel payload: { type: 'buy'|'sell', id }. Dry-run unless LIVE + key, like every write.
+export async function cancel({ symbol, orderId, type = 'buy' }) {
+  if (!['buy', 'sell'].includes(type)) throw new Error("type must be 'buy' or 'sell'");
+  const payload = { contractName: 'market', contractAction: 'cancel', contractPayload: { type, id: orderId } };
+  return broadcastSSC(payload, { actionLabel: `CANCEL ${type} #${orderId}${symbol ? ` ${symbol}` : ''}` });
+}
+
 // sweep a token balance to the cold account (kalivankush). Receiving needs no key; we only sign the send.
 export async function sweepToKali({ symbol, quantity, to = SWEEP_TO, memo = 'sweep' }) {
   const payload = { contractName: 'tokens', contractAction: 'transfer', contractPayload: { symbol, to, quantity: String(quantity), memo } };
