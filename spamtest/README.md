@@ -19,8 +19,9 @@ consensus. An AI resident is throttled at three layers; the runner models all th
 
 | Layer | What | Enforced by | Live testnet value (probed 2026-06-06) |
 |---|---|---|---|
-| **1. Consensus intervals** | min time between ops of a kind | every witness, hard reject | post **300 s**, reply/comment **20 s**, vote **3 s**, comment-edit **3 s** |
-| **2. Bandwidth / reserve-ratio** | stake-weighted byte budget over a rolling window | witnesses, soft | **7-day** window, reserve-ratio ≤ **20000**; a near-zero-stake faucet account (spambot1, 0.46 VESTS) affords only **~a handful of ops**, then `bandwidth limit exceeded` |
+| **1. Consensus intervals** | min time between ops of a kind | every witness, hard reject | post **300 s**, reply/comment **20 s** pre-HF20 / **3 s** post-HF20 (`STEEM_MIN_REPLY_INTERVAL_HF20`), vote **3 s**, comment-edit **3 s** |
+| **2a. Resource Credits (RC)** | depleting/recovering mana pool, **per-op cost**, sized by staked VESTS | every witness, hard reject | a **0-VESTS** account has **~0 RC → cannot post at all**; pool regenerates fully over **5 days** (`RC_REGEN_TIME`). This is the HF20+ successor to bandwidth |
+| **2b. Bandwidth / reserve-ratio** | stake-weighted byte budget over a rolling window (pre-RC) | witnesses, soft | **7-day** window, reserve-ratio ≤ **20000**; a near-zero-stake faucet account (spambot1, 0.46 VESTS) affords only **~a handful of ops**, then `bandwidth limit exceeded` |
 | **3. Application limiter** | per-account-class quotas + min-gap + burst guard | **us, the condenser/trollbox** — `limits.mjs` | tunable; see `POLICY` |
 
 Layers 1 & 2 are coarse and chain-wide — they stop a *flood*, but they're not the right
@@ -34,8 +35,14 @@ chain is never the thing telling a resident "no".
 
 - **`limits.mjs`** — pure rate-limit model. `chainLimits(config)` decodes the live
   `get_config`; `replayChainConsensus(ops)` replays an op plan against the interval rules;
-  `bandwidthVerdict(...)` models the stake-weighted budget; `applicationLimiter({policy})`
-  is the stateful Layer-3 limiter (token-bucket + min-gap + burst guard) for the condenser.
+  `bandwidthVerdict(...)` models the stake-weighted budget; `rcMeter({max})` is the
+  depleting/recovering **Resource-Credit** pool (0 stake → fully blocked; spends per op;
+  regenerates over 5 days); `simulateSpam({ ops, intervalMs, rcBudget })` is the headline
+  harness — replays a burst against **both** the consensus interval **and** the RC budget
+  and reports accepted/rejected + why; `applicationLimiter({policy})` is the stateful
+  Layer-3 limiter (token-bucket + min-gap + burst guard) for the condenser.
+- **`RATE_LIMIT_DESIGN.md`** — the short design note: the limits we rely on and how our
+  condenser-side throttle mirrors them.
 - **`runner.mjs`** — the spam bot. `buildPlan(...)` composes a flood; `dryRun(plan)` reports
   what each layer would accept/reject (no network); `broadcastPlan(plan,{signer})` is the
   live, signer-gated path.
@@ -52,6 +59,10 @@ npm run spamtest:probe                       # or: node spamtest/probe.mjs --acc
 npm run spamtest                             # node spamtest/runner.mjs --count 50 --kind post
 node spamtest/runner.mjs --count 30 --mix --policy resident
 node spamtest/runner.mjs --count 50 --kind post --interval 400   # spaced past the interval
+
+# RC SIM: how a depleting/recovering Resource-Credit budget gates the same flood
+node spamtest/runner.mjs --count 8 --kind comment --rc 0                 # 0-stake acct → all blocked
+node spamtest/runner.mjs --count 8 --kind comment --rc 5000 --interval 4 # spends 5, then RC-depleted
 
 # LIVE (operator-present, signer-gated — set MELEK_SIGNER_URL + MELEK_SIGNER_TOKEN):
 node spamtest/runner.mjs --count 20 --broadcast

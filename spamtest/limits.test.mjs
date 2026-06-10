@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   CHAIN_DEFAULTS, chainLimits, replayChainConsensus, bandwidthVerdict,
   applicationLimiter, POLICY,
+  rcMeter, simulateSpam, RC_COST, RC_REGEN_SEC, MIN_REPLY_INTERVAL_HF20_SEC,
 } from './limits.mjs';
 
 test('chainLimits decodes defaults to the right seconds', () => {
@@ -102,4 +103,101 @@ test('applicationLimiter isolates accounts', () => {
 test('resident policy is more permissive than unverified', () => {
   assert.ok(POLICY.resident.comment.perHour > POLICY.unverified.comment.perHour);
   assert.ok(POLICY.resident.post.minGapSec <= CHAIN_DEFAULTS.rootCommentIntervalUs / 1e6);
+});
+
+// ── RESOURCE CREDITS (RC) ─────────────────────────────────────────────────────────
+
+test('rcMeter: zero stake → every op blocked (cannot post until delegated POWER)', () => {
+  const m = rcMeter({ max: 0, now: () => 0 });
+  const v = m.check('comment');
+  assert.equal(v.allowed, false);
+  assert.match(v.reason, /no RC|0 staked/);
+  assert.equal(v.retryAfterSec, Infinity);
+});
+
+test('rcMeter: a funded account spends until depleted, then blocks', () => {
+  let now = 0;
+  // budget = 2.5 comments' worth (comment cost 1000)
+  const m = rcMeter({ max: 2500, now: () => now });
+  assert.equal(m.charge('comment').allowed, true);  // 1500 left
+  assert.equal(m.charge('comment').allowed, true);  // 500 left
+  const v = m.charge('comment');                     // need 1000, have 500
+  assert.equal(v.allowed, false);
+  assert.match(v.reason, /insufficient RC/);
+  assert.ok(v.retryAfterSec > 0 && Number.isFinite(v.retryAfterSec));
+});
+
+test('rcMeter: pool recovers over time (regen) and lets a blocked op through later', () => {
+  let now = 0;
+  const m = rcMeter({ max: 1000, current: 0, regenSec: 1000, now: () => now }); // empty pool
+  assert.equal(m.check('comment').allowed, false);   // need 1000, have 0
+  now = 1000 * 1000;                                  // a full regen window later
+  assert.equal(m.check('comment').allowed, true);    // back to full → affordable
+});
+
+test('rcMeter: regen never exceeds capacity', () => {
+  let now = 0;
+  const m = rcMeter({ max: 1000, current: 1000, regenSec: 100, now: () => now });
+  now = 10 * 100 * 1000; // way past full regen
+  assert.equal(Math.floor(m.available()), 1000);
+});
+
+test('rcMeter: votes are cheaper than comments', () => {
+  assert.ok(RC_COST.vote < RC_COST.comment);
+  assert.ok(RC_COST.comment <= RC_COST.post);
+  assert.equal(RC_REGEN_SEC, 432_000); // 5 days
+});
+
+// ── simulateSpam ──────────────────────────────────────────────────────────────────
+
+test('simulateSpam: 0-RC account is fully blocked regardless of spacing', () => {
+  const r = simulateSpam({ ops: 10, intervalMs: 60_000, rcBudget: 0, kind: 'comment' });
+  assert.equal(r.summary.accepted, 0);
+  assert.equal(r.summary.rejected, 10);
+  assert.equal(r.summary.byReason['rc-zero'], 10);
+  assert.equal(r.rcRemaining, 0);
+});
+
+test('simulateSpam: instant comment flood is spaced by the consensus interval (HF20 3s)', () => {
+  // plenty of RC; 10 comments fired in the SAME instant. Only the first clears the 3s gap.
+  const r = simulateSpam({
+    ops: 10, intervalMs: 0, rcBudget: 1_000_000, kind: 'comment',
+    minIntervalSec: MIN_REPLY_INTERVAL_HF20_SEC,
+  });
+  assert.equal(r.summary.accepted, 1);
+  assert.equal(r.summary.byReason['consensus-interval'], 9);
+});
+
+test('simulateSpam: comments spaced past 3s all pass (enough RC)', () => {
+  const r = simulateSpam({
+    ops: 5, intervalMs: 3500, rcBudget: 1_000_000, kind: 'comment',
+    minIntervalSec: MIN_REPLY_INTERVAL_HF20_SEC,
+  });
+  assert.equal(r.summary.accepted, 5);
+  assert.equal(r.summary.rejected, 0);
+});
+
+test('simulateSpam: spaced past the interval but RC runs out → rc-depleted rejections', () => {
+  // 5 comments spaced 4s apart (clears the 3s gap), but budget only covers 2 comments.
+  const r = simulateSpam({
+    ops: 5, intervalMs: 4000, rcBudget: 2000, kind: 'comment',
+    regenSec: 432_000, minIntervalSec: MIN_REPLY_INTERVAL_HF20_SEC,
+  });
+  assert.equal(r.summary.accepted, 2);                 // 2000 / 1000 per comment
+  assert.equal(r.summary.byReason['rc-depleted'], 3);  // the rest priced out
+});
+
+test('simulateSpam: RC regen mid-burst lets a later op through', () => {
+  // budget = 1 comment; regen window short enough that ~1 comment regenerates every 10s.
+  // Fire 3 comments spaced 11s apart: #1 spends it, #2 after regen, #3 after regen.
+  const r = simulateSpam({
+    ops: 3, intervalMs: 11_000, rcBudget: 1000, kind: 'comment',
+    regenSec: 10, minIntervalSec: MIN_REPLY_INTERVAL_HF20_SEC,
+  });
+  assert.equal(r.summary.accepted, 3);
+});
+
+test('simulateSpam: default kind is comment and default rcBudget blocks (safe default)', () => {
+  const r = simulateSpam({ ops: 3 });
+  assert.equal(r.summary.accepted, 0); // rcBudget defaults to 0 → blocked
 });
