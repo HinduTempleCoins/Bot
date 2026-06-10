@@ -166,6 +166,39 @@ async function postCountHandler(args, deps) {
   return `@${target} has ${count} posts/comments total${rep}.`;
 }
 
+// PIZZA-bot-style token mechanic: "how many people hold this token?" Reads a Hive-Engine token's
+// holder distribution via the injected getHolders (integrations/holders.mjs at the edge). Stays
+// deterministic + offline-testable — the menu never touches the network itself.
+async function holdersHandler(args, deps) {
+  const raw = (args[0] || '').trim().replace(/^[#$@]/, '').toUpperCase();
+  if (!raw) return 'Usage: !holders SYMBOL  (e.g. !holders VKBT)';
+  if (!/^[A-Z][A-Z0-9.]{0,19}$/.test(raw)) return `"${args[0]}" is not a valid token symbol.`;
+  if (typeof deps?.getHolders !== 'function') {
+    return 'Token holder lookup is unavailable right now.';
+  }
+  let h;
+  try {
+    h = await deps.getHolders(raw);
+  } catch {
+    return `Could not look up holders for ${raw} right now. Try again shortly.`;
+  }
+  if (!h) return `Token ${raw} not found on this engine.`;
+  const c = h.counts || {};
+  const lines = [
+    `${raw} — ${c.holders ?? 0} holder${c.holders === 1 ? '' : 's'}`,
+    `Supply: ${h.supply != null ? Number(h.supply).toLocaleString() : '(unknown)'}`,
+    `Real outside holders: ${c.realOutside ?? 0} (${h.realOutsidePct ?? 0}% of supply)`,
+  ];
+  const top = Array.isArray(h.topOutside) ? h.topOutside.slice(0, 5) : [];
+  if (top.length) {
+    lines.push('', 'Top holders:');
+    for (const o of top) {
+      lines.push(`  @${o.account}: ${Number(o.bal).toLocaleString()} (${o.pct}%)${o.affiliated ? ' [affiliated]' : ''}`);
+    }
+  }
+  return lines.join('\n');
+}
+
 async function priceHandler(args, deps) {
   const raw = (args[0] || 'hive').toLowerCase().replace(/^[#$@]/, '');
   if (typeof deps?.getPrice !== 'function') {
@@ -272,6 +305,12 @@ export const COMMANDS = [
     args: '[symbol]',
     help: 'Show the USD price of an asset (default HIVE).',
     handler: priceHandler,
+  },
+  {
+    name: 'holders',
+    args: 'SYMBOL',
+    help: 'Show how many people hold a token, the supply, and the top holders.',
+    handler: holdersHandler,
   },
   {
     name: 'signup',

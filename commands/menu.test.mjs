@@ -232,6 +232,56 @@ test('handle: !price missing dep degrades gracefully', async () => {
   assert.equal(await handle('!price btc', {}), 'Price lookup is unavailable right now.');
 });
 
+// ---- holders handler -------------------------------------------------------
+
+test('handle: !holders formats holder count, supply, and top holders', async () => {
+  const deps = {
+    getHolders: async (sym) => ({
+      symbol: sym, supply: 1000000, realOutsidePct: 12.5,
+      counts: { total: 600, holders: 585, outside: 200, realOutside: 180 },
+      topOutside: [
+        { account: 'alice', bal: 50000, pct: 5, affiliated: false },
+        { account: 'vankushfamily', bal: 40000, pct: 4, affiliated: true },
+      ],
+    }),
+  };
+  const reply = await handle('!holders VKBT', deps);
+  assert.match(reply, /VKBT — 585 holders/);
+  assert.match(reply, /Supply: 1,000,000/);
+  assert.match(reply, /Real outside holders: 180 \(12\.5% of supply\)/);
+  assert.match(reply, /@alice: 50,000 \(5%\)/);
+  assert.match(reply, /@vankushfamily: 40,000 \(4%\) \[affiliated\]/);
+});
+
+test('handle: !holders normalizes the symbol and accepts a $ prefix', async () => {
+  let seen = null;
+  const deps = { getHolders: async (sym) => { seen = sym; return { symbol: sym, supply: 0, counts: {} }; } };
+  await handle('!holders $cure', deps);
+  assert.equal(seen, 'CURE');
+});
+
+test('handle: !holders with no arg shows usage', async () => {
+  assert.match(await handle('!holders', {}), /Usage: !holders SYMBOL/);
+});
+
+test('handle: !holders rejects a bad symbol', async () => {
+  assert.match(await handle('!holders 1bad!', {}), /not a valid token symbol/);
+});
+
+test('handle: !holders not found', async () => {
+  const deps = { getHolders: async () => null };
+  assert.match(await handle('!holders GHOST', deps), /Token GHOST not found/);
+});
+
+test('handle: !holders soft-fails on a data-source error', async () => {
+  const deps = { getHolders: async () => { throw new Error('boom'); } };
+  assert.match(await handle('!holders VKBT', deps), /Could not look up holders for VKBT/);
+});
+
+test('handle: !holders missing dep degrades gracefully', async () => {
+  assert.equal(await handle('!holders VKBT', {}), 'Token holder lookup is unavailable right now.');
+});
+
 // ---- signup handler ----------------------------------------------------------
 
 test('handle: !signup returns the deterministic signup help', async () => {
@@ -312,7 +362,7 @@ test('handle: unknown command points to !help', async () => {
 
 test('COMMANDS registry has the expected commands with handlers', () => {
   const names = COMMANDS.map((c) => c.name).sort();
-  assert.deepEqual(names, ['balance', 'help', 'post-count', 'price', 'signup', 'tutorial', 'witness']);
+  assert.deepEqual(names, ['balance', 'help', 'holders', 'post-count', 'price', 'signup', 'tutorial', 'witness']);
   for (const c of COMMANDS) {
     assert.equal(typeof c.handler, 'function');
     assert.equal(typeof c.help, 'string');
