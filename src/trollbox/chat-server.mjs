@@ -27,6 +27,29 @@
 import { createServer } from 'node:http';
 
 import { handleMessage, RateLimiter, SIGNUP_STEPS, redactForLog } from './index.mjs';
+import { accountInfo, witnessInfo, configured } from '../../integrations/melek-chain.mjs';
+
+// Live chain readers for the deterministic !commands (read-only; needs MELEK_RPC_URL). Mapped to the
+// shapes commands/menu.mjs expects. Soft-fail to null so a chain hiccup never breaks the chat.
+const chainDeps = {
+  async getAccount(name) {
+    try {
+      const a = await accountInfo(name);
+      if (!a) return null;
+      return { balance: a.balances?.liquid, vesting_shares: a.balances?.vesting,
+        savings_balance: a.balances?.stable, post_count: a.postCount, reputation: undefined };
+    } catch { return null; }
+  },
+  async getWitness(name) {
+    try {
+      const w = await witnessInfo(name);
+      if (!w) return null;
+      return { url: w.url, signing_key: w.signingKey, last_confirmed_block_num: w.lastConfirmedBlock, total_missed: w.missed };
+    } catch { return null; }
+  },
+};
+// Only attach the readers when an RPC is configured; otherwise the menu cleanly says "unavailable".
+const MENU_DEPS = configured() ? chainDeps : {};
 
 const PORT = +(process.env.PORT || 8113);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -147,7 +170,7 @@ export async function handler(req, res) {
     let out;
     try {
       // 'web' is a non-identifying user tag for the deterministic brain; the rate-limit key handles abuse.
-      out = await handleMessage({ user: 'web', text: message, state });
+      out = await handleMessage({ user: 'web', text: message, state }, { deps: MENU_DEPS });
     } catch {
       // Never throw at the edge — give a friendly fallback.
       return sendJson(res, 200, {
