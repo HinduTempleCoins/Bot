@@ -77,7 +77,7 @@ test('POST /chat answers a signup question (happy path)', async () => {
 // ── multi-turn walkthrough state ─────────────────────────────────────────────────────────────────
 test('POST /chat carries walkthrough state across turns to the end', async () => {
   freshLimiter();
-  const script = ['make me an account', 'next', 'next', 'i saved them', 'done'];
+  const script = ["i have no idea what i'm doing", 'next', 'next', 'i saved them', 'done'];
   let state = null;
   let last;
   for (const message of script) {

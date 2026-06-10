@@ -27,29 +27,13 @@
 import { createServer } from 'node:http';
 
 import { handleMessage, RateLimiter, SIGNUP_STEPS, redactForLog } from './index.mjs';
-import { accountInfo, witnessInfo, configured } from '../../integrations/melek-chain.mjs';
+import { chainDeps } from '../../integrations/hathor-chain-deps.mjs';
 
-// Live chain readers for the deterministic !commands (read-only; needs MELEK_RPC_URL). Mapped to the
-// shapes commands/menu.mjs expects. Soft-fail to null so a chain hiccup never breaks the chat.
-const chainDeps = {
-  async getAccount(name) {
-    try {
-      const a = await accountInfo(name);
-      if (!a) return null;
-      return { balance: a.balances?.liquid, vesting_shares: a.balances?.vesting,
-        savings_balance: a.balances?.stable, post_count: a.postCount, reputation: undefined };
-    } catch { return null; }
-  },
-  async getWitness(name) {
-    try {
-      const w = await witnessInfo(name);
-      if (!w) return null;
-      return { url: w.url, signing_key: w.signingKey, last_confirmed_block_num: w.lastConfirmedBlock, total_missed: w.missed };
-    } catch { return null; }
-  },
-};
-// Only attach the readers when an RPC is configured; otherwise the menu cleanly says "unavailable".
-const MENU_DEPS = configured() ? chainDeps : {};
+// The SHARED read-only data sources for Hathor's !commands — the same set every surface (this browser
+// chat, the Discord bridge, the Telegram bot) wires into the one command brain (commands/menu.mjs), so
+// Hathor is "the same person" everywhere. requireRpc gates the MELEK-RPC readers; getHolders/getPrice
+// (Hive-Engine + price oracle) attach unconditionally. See integrations/hathor-chain-deps.mjs.
+const MENU_DEPS = chainDeps();
 
 const PORT = +(process.env.PORT || 8113);
 const HOST = process.env.HOST || '127.0.0.1';

@@ -281,12 +281,18 @@ function welcomeText(account) {
 //
 //   deps: { getAccount, getWitness, getPrice }  — same shape commands/menu.mjs takes (for read cmds)
 //   broadcast: async ({ ops, needs }) => result — INJECTED signer; absent => dry-run
+// The read-only commands the bridge hands straight to commands/menu.mjs — the SAME set the browser
+// chat exposes, so Hathor on Discord is the same person with the same features (incl. !holders).
+// Write commands (tip, welcome) take the broadcast path below.
+const READ_COMMANDS = new Set(['balance', 'witness', 'price', 'holders', 'post-count', 'signup', 'tutorial', 'help']);
+
 export async function runCommand(text, { from, deps = {}, broadcast, ledger, rules, now } = {}) {
   const command = parseCommand(text);
   if (!command) return { ok: false, kind: 'noop', reply: '' };
 
-  // read-only: answer with the deterministic menu (reuse, no LLM)
-  if (['balance', 'witness', 'price'].includes(command.cmd)) {
+  // read-only: answer with the deterministic menu (reuse, no LLM). The FULL read surface — the same
+  // commands the browser chat exposes — so Discord is "the same Hathor" and loses no features.
+  if (READ_COMMANDS.has(command.cmd)) {
     let reply = '';
     try {
       reply = await menuHandle(menuTextFor(command), deps);
@@ -317,7 +323,10 @@ function menuTextFor(command) {
   if (command.cmd === 'price') return `!price ${command.symbol || 'hive'}`;
   if (command.cmd === 'balance') return `!balance @${command.account || ''}`;
   if (command.cmd === 'witness') return `!witness @${command.account || ''}`;
-  return `!${command.cmd}`;
+  // For everything else (holders/post-count/tutorial/help/signup) rebuild from the raw args so the
+  // menu sees exactly what the user typed (e.g. `!holders VKBT`, `!post-count @alice`, `!help price`).
+  const args = Array.isArray(command.raw) ? command.raw.join(' ') : '';
+  return `!${command.cmd}${args ? ' ' + args : ''}`;
 }
 
 // ── fromChainEvent — an on-chain event → a Discord message (the other direction) ──────────────────
