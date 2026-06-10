@@ -14,6 +14,7 @@ import { createServer } from 'node:http';
 import { config, genesis } from '../config.mjs';
 import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
+import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
 
 const HITS = new Map(); // ip -> { count, resetAt }
 
@@ -70,7 +71,13 @@ function balanceView(state, b) {
  * Build the HTTP handler over a live State. The engine keeps state fresh in
  * the background; this only reads it.
  */
-export function makeHandler(state) {
+export function makeHandler(state, opts = {}) {
+  // The token-tools surface (engine side-tokens + native SMT/NAI) is mounted at
+  // /tools. It reads the same live engine State and, when provided, an injected
+  // smtSummary reader (integrations/smt-info.mjs) so the SMT half is live too.
+  // It NEVER signs/broadcasts — /tools/api/build only builds + validates ops.
+  const tokenTools = makeTokenToolsHandler({ state, smtSummary: opts.smtSummary });
+
   return function handler(req, res) {
     const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
     if (rateLimited(ip)) return send(res, 429, { error: 'rate limited' });
@@ -78,6 +85,14 @@ export function makeHandler(state) {
     const url = new URL(req.url, 'http://localhost');
     const path = url.pathname;
     const q = url.searchParams;
+
+    // --- token tools (mounted under /tools, prefix stripped before delegating) ---
+    if (path === '/tools' || path === '/tools/' || path.startsWith('/tools/')) {
+      const sub = path === '/tools' ? '/' : path.slice('/tools'.length) || '/';
+      const subReq = Object.create(req);
+      subReq.url = sub + url.search;
+      return tokenTools(subReq, res);
+    }
 
     try {
       // --- health ---
@@ -201,8 +216,16 @@ function readBody(req) {
   });
 }
 
-export function startServer(state) {
-  const server = createServer(makeHandler(state));
+export async function startServer(state) {
+  // Best-effort: wire the live SMT/NAI reader into the /tools surface. If the
+  // module or RPC env isn't present, /tools still renders (SMT half soft-empty).
+  let smtSummary;
+  try {
+    ({ smtSummary } = await import('../../integrations/smt-info.mjs'));
+  } catch {
+    /* no smt reader — /tools shows the engine half only */
+  }
+  const server = createServer(makeHandler(state, { smtSummary }));
   server.listen(config.apiPort, config.apiHost, () => {
     console.log(`[engine-api] listening http://${config.apiHost}:${config.apiPort}`);
   });
