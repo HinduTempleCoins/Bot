@@ -41,6 +41,7 @@ import { composeLessonPost } from '../tutorial/composers.mjs';
 import { startVerification, isValidEmail } from '../integrations/email-verify.mjs';
 import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 import { moderationFlags, normalizeKind, REPORT_KINDS } from '../integrations/moderation-flags.mjs';
+import { listProviders, PROVIDER_SCHEMA } from './providers.mjs';
 
 const PORT = +(process.env.PORT || 8112);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -283,6 +284,20 @@ export async function handler(req, res) {
   // GET /api/stages
   if (req.method === 'GET' && path === '/api/stages') {
     return sendJson(res, 200, { ok: true, ...stageCatalog() }, origin);
+  }
+
+  // GET /api/providers[?status=all&chain=MELEK] — the signup vendor-picker registry. The picker page
+  // (account/get-started.html) renders this; third parties' entries show up here once merged/approved.
+  if (req.method === 'GET' && path === '/api/providers') {
+    const status = (url.searchParams.get('status') || 'active').trim();
+    const chain = (url.searchParams.get('chain') || '').trim() || undefined;
+    const allowed = new Set(['active', 'planned', 'community', 'all']);
+    const s = allowed.has(status) ? status : 'active';
+    return sendJson(res, 200, {
+      ok: true,
+      providers: listProviders({ status: s, chain }),
+      schema: PROVIDER_SCHEMA,
+    }, origin);
   }
 
   // GET /api/progress?account=X
