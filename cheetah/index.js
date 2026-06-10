@@ -67,6 +67,13 @@ function recentlyCommentedOn(author) {
   return within24h.length >= FREQUENCY_CAP_PER_AUTHOR_DAY;
 }
 
+// Test-only seam: let the offline harness pre-arm the in-process frequency-cap
+// (which the live loop arms via recordComment after a successful broadcast) so
+// the cap's suppression can be exercised without a chain. Not used in
+// production code paths. Mirrors the __setFetch/__setDecoder convention.
+export function __recordComment(author) { recordComment(author); }
+export function __resetCap() { recentCommentsByAuthor.clear(); }
+
 // ---- fixtures (used pre-chain) ---------------------------------------------
 
 const FIXTURES = [
