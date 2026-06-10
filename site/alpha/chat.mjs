@@ -106,7 +106,7 @@ export function mount(doc = (typeof document !== 'undefined' ? document : null))
   });
 
   // A warm opening line so the page is never empty (a disposition, not a chain greeting).
-  append('hathor', "Hello, I'm Hathor. I can walk you through making an account here, step by step. Just say \"make me an account\" — or ask me anything.");
+  append('hathor', "Hello, I'm Hathor — the witness here. Ask me anything about MELEK: signing up, keys, how it all works. You can make your account yourself on the signup page; if you'd rather I hold your hand, say \"I have no idea what I'm doing\" and I'll walk you through it step by step.");
   input.focus();
   return { submit, get state() { return state; } };
 }
