@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Get a MELEK account — choose how</title>
+<link rel="stylesheet" href="account.css">
+<style>
+  .providers{display:flex;flex-direction:column;gap:.8rem;margin:1rem 0}
+  .prov{display:block;text-decoration:none;color:inherit;border:1px solid var(--line,#222a3a);border-radius:12px;
+    padding:.9rem 1rem;background:rgba(255,255,255,.02);transition:border-color .15s}
+  .prov:hover{border-color:var(--gold,#d4a23c)}
+  .prov.soon{opacity:.6;cursor:default}
+  .prov-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .prov-name{font-weight:700;font-size:1.05rem}
+  .badge{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    border:1px solid rgba(212,162,60,.5);color:var(--gold,#d4a23c);border-radius:999px;padding:.1rem .5rem}
+  .chain{font-size:.62rem;font-weight:700;letter-spacing:.06em;border:1px solid var(--line,#333);
+    border-radius:999px;padding:.1rem .5rem;color:var(--dim,#9aa4b2)}
+  .prov-sum{margin:.35rem 0 .25rem;font-size:.92rem}
+  .prov-cust{font-size:.76rem;color:var(--dim,#9aa4b2)}
+  .prov-by{font-size:.7rem;color:var(--dim,#9aa4b2);margin-top:.3rem}
+  .addown{margin-top:1.2rem;border-top:1px solid var(--line,#222a3a);padding-top:.9rem}
+</style>
+</head><body>
+<div class="wrap"><div class="card">
+  <span class="tag">[TestNet not MELEK]</span>
+  <h1>Get a MELEK account</h1>
+  <p class="muted">Pick how you want to sign up. Each option is its own flow — some are run by MELEK,
+  others by the community. <b>Whichever you choose, your keys are generated in your own browser and
+  your password is never sent to anyone.</b> Not sure? Start with the <b>Guided Chat</b>.</p>
+
+  <div class="providers" id="providers" aria-live="polite">
+    <!-- Rendered from /api/providers; the static cards below are the no-JS / offline fallback. -->
+    <a class="prov" href="https://signup.melek.salon/">
+      <div class="prov-top"><span class="prov-name">MELEK Email Signup</span><span class="badge">Official</span><span class="chain">MELEK</span></div>
+      <div class="prov-sum">The official account creator — pick a name, get your keys in your browser, optional email backup.</div>
+      <div class="prov-by">by MELEK / Van Kush Family</div>
+    </a>
+    <a class="prov" href="chat.html">
+      <div class="prov-top"><span class="prov-name">Hathor — Guided Chat</span><span class="badge">Beginner-friendly</span><span class="chain">MELEK</span></div>
+      <div class="prov-sum">New and not sure? Chat with Hathor — she explains it and points you to the signup page. You make the account yourself.</div>
+      <div class="prov-by">by MELEK</div>
+    </a>
+    <a class="prov" href="signup.html">
+      <div class="prov-top"><span class="prov-name">In-Browser Account Creator</span><span class="badge">No email needed</span><span class="chain">MELEK</span></div>
+      <div class="prov-sum">Make a name, generate keys, save them, create the account — no email required.</div>
+      <div class="prov-by">by MELEK</div>
+    </a>
+  </div>
+
+  <div class="addown">
+    <p class="muted small"><b>Run your own signup option.</b> MELEK is a multi-provider onboarding hub
+    (the Ecency/LEO-on-Hive pattern): anyone can offer their own account-creation flow and have it
+    listed here. Every listing must generate keys in the user's browser and never transmit a password.
+    See <a href="https://github.com/HinduTempleCoins/Bot/blob/main/signup/PROVIDERS.md">how to add a provider</a>.</p>
+    <p class="muted small">Already have an account? <a href="/">Log in</a> ·
+    Saved a key but login fails? <a href="keycheck.html">Check what your key is</a></p>
+  </div>
+</div></div>
+
+<script type="module">
+  // Escape everything before it touches innerHTML.
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
+    { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+  function card(p) {
+    const planned = p.status === 'planned';
+    const href = planned || !p.url ? null : p.url;
+    const tag = href ? `<a class="prov" href="${esc(href)}">` : `<div class="prov soon">`;
+    const close = href ? `</a>` : `</div>`;
+    const badge = p.badge ? `<span class="badge">${esc(p.badge)}</span>` : '';
+    const soon = planned ? `<span class="badge">Coming soon</span>` : '';
+    return `${tag}
+      <div class="prov-top"><span class="prov-name">${esc(p.name)}</span>${badge}${soon}<span class="chain">${esc(p.chain)}</span></div>
+      <div class="prov-sum">${esc(p.summary)}</div>
+      <div class="prov-cust">🔑 ${esc(p.custody)}</div>
+      <div class="prov-by">by ${esc(p.maintainer)}</div>
+    ${close}`;
+  }
+
+  (async () => {
+    try {
+      // Same-origin in production (signup server reverse-proxied at /api). status=all so users can see
+      // what is coming. If the call fails, the static fallback cards above stay in place.
+      const res = await fetch('/api/providers?status=all');
+      const j = await res.json();
+      if (!j || j.ok !== true || !Array.isArray(j.providers) || !j.providers.length) return;
+      // active first, then community, then planned
+      const order = { active: 0, community: 1, planned: 2 };
+      const sorted = j.providers.slice().sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
+      document.getElementById('providers').innerHTML = sorted.map(card).join('');
+    } catch { /* keep the static fallback */ }
+  })();
+</script>
+</body></html>
