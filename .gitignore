@@ -22,6 +22,9 @@ watcher/alerts.jsonl
 integrations/.rate-limit-state.json
 integrations/.rate-limit-state.json.tmp
 
+# Moderation flag/report store (per-deployment runtime queue, never committed)
+integrations/.moderation-flags.jsonl
+
 # Datasets — operator's private knowledge JSONLs stay gitignored.
 # Openly-licensed reference corpus subdirs (cookbooks, hive-devportal,
 # chain-libs, crypto-protocols, crypto-books, ml-courses, ml-libs)

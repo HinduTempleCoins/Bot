@@ -11,7 +11,9 @@ import assert from 'node:assert/strict';
 import {
   handler, ALLOWED_ORIGIN, validAccountName, stageCatalog,
   computeProgress, readAccountActivity, __setChainFetch, __setEmailLimiter,
+  __setReportLimiter, __setModerationStore,
 } from './server.mjs';
+import { createModerationStore } from '../integrations/moderation-flags.mjs';
 import {
   __setMailer, __resetMailer, __resetPending, __setProviders, __resetProviders,
 } from '../integrations/email-verify.mjs';
@@ -356,4 +358,86 @@ test('trailing slashes are normalized (/api/stages/ === /api/stages)', async () 
   const r = await route('/api/stages/');
   assert.equal(r.statusCode, 200);
   assert.equal(json(r).ok, true);
+});
+
+// ===================================================================================================
+// POST /api/report — the condenser flag/report control writes to a REAL store (task #300)
+// ===================================================================================================
+function freshReportLimiter(opts = {}) {
+  const path = join(mkdtempSync(join(tmpdir(), 'rep-rl-')), 'state.json');
+  return new Limiter({ scope: 'signup-report', path, ipMax: 1000, fpMax: 1000, windowSec: 3600, ...opts });
+}
+function freshModStore() {
+  const path = join(mkdtempSync(join(tmpdir(), 'rep-store-')), 'flags.jsonl');
+  let n = 0;
+  return createModerationStore({ storePath: path, clock: () => `2026-06-10T00:00:0${n}.000Z`, idGen: () => `mod_${n++}` });
+}
+
+test('POST /api/report files a flag into the store and returns its id + status', async () => {
+  __setReportLimiter(freshReportLimiter());
+  const store = freshModStore();
+  __setModerationStore(store);
+  const body = JSON.stringify({ target: '@alice/spammy', kind: 'spam', reason: 'bot post', reporter: 'bob' });
+  const r = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body });
+  assert.equal(r.statusCode, 200);
+  const j = json(r);
+  assert.equal(j.ok, true);
+  assert.equal(j.deduped, false);
+  assert.ok(j.id);
+  assert.equal(j.status, 'open');
+  assert.equal(j.kind, 'spam');
+  // It actually landed in the store the moderation layer reads (not a console.log/alert).
+  const q = store.queueForModeration();
+  assert.equal(q.length, 1);
+  assert.equal(q[0].target, '@alice/spammy');
+});
+
+test('POST /api/report is idempotent — a retry does not stack duplicates', async () => {
+  __setReportLimiter(freshReportLimiter());
+  const store = freshModStore();
+  __setModerationStore(store);
+  const body = JSON.stringify({ target: '@a/p', kind: 'spam', reporter: 'bob' });
+  const r1 = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body });
+  const r2 = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body });
+  assert.equal(json(r1).deduped, false);
+  assert.equal(json(r2).deduped, true);
+  assert.equal(json(r1).id, json(r2).id);
+  assert.equal(store.queueForModeration().length, 1);
+});
+
+test('POST /api/report rejects a missing target', async () => {
+  __setReportLimiter(freshReportLimiter());
+  __setModerationStore(freshModStore());
+  const r = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: JSON.stringify({ kind: 'spam' }) });
+  assert.equal(r.statusCode, 400);
+  assert.equal(json(r).reason, 'missing-target');
+});
+
+test('POST /api/report normalizes an unknown kind to "other"', async () => {
+  __setReportLimiter(freshReportLimiter());
+  const store = freshModStore();
+  __setModerationStore(store);
+  const r = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: JSON.stringify({ target: '@a/p', kind: 'wat' }) });
+  assert.equal(json(r).kind, 'other');
+});
+
+test('POST /api/report rejects bad JSON', async () => {
+  __setReportLimiter(freshReportLimiter());
+  __setModerationStore(freshModStore());
+  const r = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: '{not json' });
+  assert.equal(r.statusCode, 400);
+  assert.equal(json(r).reason, 'bad-json');
+});
+
+test('POST /api/report rate-limits a flood (anti-abuse, POLICY.md §1)', async () => {
+  __setReportLimiter(freshReportLimiter({ ipMax: 2, fpMax: 100 }));
+  __setModerationStore(freshModStore());
+  const mk = (i) => JSON.stringify({ target: `@a/p${i}`, kind: 'spam', reporter: `r${i}` });
+  const a = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: mk(1) });
+  const b = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: mk(2) });
+  const c = await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body: mk(3) });
+  assert.equal(a.statusCode, 200);
+  assert.equal(b.statusCode, 200);
+  assert.equal(c.statusCode, 429); // third distinct report from same IP is throttled
+  assert.equal(json(c).reason, 'rate-limited');
 });

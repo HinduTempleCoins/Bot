@@ -27,6 +27,9 @@
 //   GET  /api/progress?account=X       X's per-stage completion + unlocks (read-only chain reads)
 //   GET  /api/next?account=X           X's next unlock, composed deterministically (lesson post)
 //   POST /api/verify-email  {email}    starts the Resend email-verification flow (reused)
+//   POST /api/report  {target,kind,reason,reporter}  files a moderation flag into a REAL append-only
+//                                      store the moderation layer reads (POLICY.md §1/§7). Idempotent
+//                                      per (reporter,target,kind) while open; rate-limited (anti-abuse).
 //
 // Offline-testable: handler(req,res) exported; fetch is injectable (__setChainFetch) so the live
 // condenser RPC is never touched in tests; the email mailer is injected via email-verify's __setMailer.
@@ -37,6 +40,7 @@ import { loadStages, detectCompletedStages, nextStageFor } from '../tutorial/det
 import { composeLessonPost } from '../tutorial/composers.mjs';
 import { startVerification, isValidEmail } from '../integrations/email-verify.mjs';
 import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
+import { moderationFlags, normalizeKind, REPORT_KINDS } from '../integrations/moderation-flags.mjs';
 
 const PORT = +(process.env.PORT || 8112);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -57,6 +61,20 @@ let _emailLimiter = new Limiter({
   windowSec: parseInt(process.env.EMAIL_RL_WINDOW_SEC || '3600', 10),
 });
 export function __setEmailLimiter(l) { _emailLimiter = l || _emailLimiter; }
+
+// Abuse cap on the report/flag route (POLICY.md §1: false/mass reporting is itself a violation, so the
+// report path must not be a free punishment button). Per-IP + per-(account-or-target) over a window.
+let _reportLimiter = new Limiter({
+  scope: 'signup-report',
+  ipMax: parseInt(process.env.REPORT_RL_IP_MAX || '30', 10),
+  fpMax: parseInt(process.env.REPORT_RL_FP_MAX || '10', 10),
+  windowSec: parseInt(process.env.REPORT_RL_WINDOW_SEC || '3600', 10),
+});
+export function __setReportLimiter(l) { _reportLimiter = l || _reportLimiter; }
+
+// The moderation flag store is injectable so tests use a temp/in-memory store, never the real file.
+let _modStore = moderationFlags;
+export function __setModerationStore(s) { _modStore = s || moderationFlags; }
 
 // Injectable fetch (offline tests never touch the network).
 let _chainFetch = (...a) => globalThis.fetch(...a);
@@ -337,6 +355,54 @@ export async function handler(req, res) {
     }
     _emailLimiter.record(rlKey); // count ONLY a verification mail that actually sent
     return sendJson(res, 200, { ok: true, sent: true, email: r.email, expiresAt: r.expiresAt }, origin);
+  }
+
+  // POST /api/report { target, kind, reason, reporter, context }
+  // The condenser's "Report / Flag" control posts here. It writes to a REAL append-only moderation
+  // store (integrations/moderation-flags.mjs) that the moderation layer / Hathor's resolution flow
+  // reads — NOT a console.log, NOT an alert. POLICY.md §1: a report is a marker for a human, never a
+  // delete/punish button, and false/mass reporting is itself a violation — hence the rate limit.
+  if (req.method === 'POST' && path === '/api/report') {
+    const raw = await readBody(req);
+    if (raw == null) return sendJson(res, 400, { ok: false, reason: 'bad-body' }, origin);
+    let input;
+    try { input = JSON.parse(raw || '{}'); }
+    catch { return sendJson(res, 400, { ok: false, reason: 'bad-json' }, origin); }
+
+    const target = String((input && input.target) || '').trim();
+    if (!target) return sendJson(res, 400, { ok: false, reason: 'missing-target' }, origin);
+    const kind = normalizeKind(input && input.kind);
+    const reason = String((input && input.reason) || '');
+    // reporter is an opaque account/id the UI may pass; NOT PII, NOT trusted for auth. Used only to
+    // dedup + rate-limit. Fall back to the target for the fingerprint so anon reports still get bound.
+    const reporter = String((input && input.reporter) || '').trim().toLowerCase();
+    const context = input && input.context;
+
+    // Anti-abuse cap BEFORE the write (per-IP + per-reporter/target fingerprint). Soft-fails open.
+    const rlKey = { ip: clientIp(req), fingerprint: reporter || target };
+    const rl = _reportLimiter.check(rlKey);
+    if (!rl.allowed) {
+      return sendJson(res, 429, { ok: false, reason: 'rate-limited', retryAfter: rl.retryAfter }, origin);
+    }
+
+    let result;
+    try { result = _modStore.raiseReport({ target, kind, reason, reporter, context }); }
+    catch { result = { report: null, error: 'store-error' }; }
+    if (!result || !result.report) {
+      return sendJson(res, 500, { ok: false, reason: (result && result.error) || 'store-error' }, origin);
+    }
+    // Count a genuinely-new report against the cap; a deduped retry does NOT burn a slot.
+    if (!result.deduped) _reportLimiter.record(rlKey);
+
+    return sendJson(res, 200, {
+      ok: true,
+      deduped: Boolean(result.deduped),
+      id: result.report.id,
+      status: result.report.status,
+      kind: result.report.kind,
+      kinds: REPORT_KINDS,
+      message: 'Thanks — this has been recorded for moderator review. Reports are evidence for a human, not an automatic removal.',
+    }, origin);
   }
 
   return sendJson(res, 404, { ok: false, reason: 'not-found' }, origin);

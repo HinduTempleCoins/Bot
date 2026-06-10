@@ -41,3 +41,19 @@ A `TrollBox.jsx` card (mount near the footer / signup page; the `chatbox.svg` ic
 
 This keeps the platform key-custody-safe end to end: users sign their own lines, the bot signs its
 replies through the signer, and there is no separate chat database to secure.
+
+## Report / Flag control (Task #300) — goes to a REAL store
+
+The condenser's "Report" / "Flag" action on a post/comment/account is wired end to end:
+
+- **Front-end:** `src/trollbox/report-widget.mjs` (framework-free DOM). Mount it next to a post's
+  action bar with `mountReportWidget(root, { target: '@author/permlink', reporter: '<logged-in acct>' })`.
+  It POSTs `{ target, kind, reason, reporter }` to `POST /api/report`. No `alert()`, no `console.log`.
+- **Endpoint:** `signup/server.mjs` → `POST /api/report`. Rate-limited (anti-abuse, POLICY.md §1),
+  idempotent per `(reporter, target, kind)` while open, CORS-locked to the alpha origin.
+- **Store:** `integrations/moderation-flags.mjs` — append-only JSONL queue
+  (`integrations/.moderation-flags.jsonl`, gitignored runtime data). The moderation layer / Hathor's
+  resolution flow reads `queueForModeration()` and resolves with an evidenced reason (POLICY.md §7).
+
+Honest UX (POLICY.md §1/§7): a report is a marker for a human, **not** a delete/punish button — the
+widget says so. "Removal" on an append-only chain is condenser-side hiding, never on-chain deletion.
