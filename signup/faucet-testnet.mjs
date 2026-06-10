@@ -164,35 +164,34 @@ async function createAccount(input) {
     memo_key: input.memoPub,
     json_metadata: '',
   }];
-  const withDel = ['account_create_with_delegation', {
-    fee: FEE,
-    delegation: DELEGATION,
-    creator: CREATOR,
-    new_account_name: input.name,
-    owner: auth(input.ownerPub),
-    active: auth(input.activePub),
-    posting: auth(input.postingPub),
-    memo_key: input.memoPub,
-    json_metadata: '',
-    extensions: [],
-  }];
 
-  // Prefer delegation (so the newcomer has Resource Credits to post immediately); fall back to
-  // bare account_create only if the chain rejects the delegation op. When delegation is zeroed
-  // out by config, go bare first.
-  const [primary, fallback] = wantsDelegation ? [withDel, bare] : [bare, withDel];
+  // Create the account. (This Steem fork at HF23 does NOT honor account_create_with_delegation —
+  // it silently yields zero delegation — so we create bare and then delegate explicitly below.)
+  let createId;
   try {
-    const r = await client.broadcast.sendOperations([primary], creatorKey);
-    return { ok: true, id: r.id || r.trx_id || null, delegated: primary === withDel ? DELEGATION : null };
-  } catch (e1) {
+    const r = await client.broadcast.sendOperations([bare], creatorKey);
+    createId = r.id || r.trx_id || null;
+  } catch (e) {
+    return { ok: false, reason: `broadcast-failed:${String((e && e.message) || 'create').slice(0, 300)}` };
+  }
+
+  // Give the newcomer Resource Credits so they can post/comment/transfer from minute one.
+  // A fresh account has ZERO RC; RC is drawn from staked POWER, so the creator delegates VESTS.
+  // Best-effort: the account already exists, so a delegation hiccup must not fail the signup —
+  // we just report it so the caller can retry.
+  let delegated = null, delegationError = null;
+  if (wantsDelegation) {
     try {
-      const r = await client.broadcast.sendOperations([fallback], creatorKey);
-      return { ok: true, id: r.id || r.trx_id || null, delegated: fallback === withDel ? DELEGATION : null };
-    } catch (e2) {
-      const msg = (e2 && e2.message) || (e1 && e1.message) || 'broadcast-failed';
-      return { ok: false, reason: `broadcast-failed:${String(msg).slice(0, 300)}` };
+      await client.broadcast.sendOperations(
+        [['delegate_vesting_shares', { delegator: CREATOR, delegatee: input.name, vesting_shares: DELEGATION }]],
+        creatorKey,
+      );
+      delegated = DELEGATION;
+    } catch (e) {
+      delegationError = String((e && e.message) || 'delegate-failed').slice(0, 200);
     }
   }
+  return { ok: true, id: createId, delegated, delegationError };
 }
 
 function send(res, code, body) {
