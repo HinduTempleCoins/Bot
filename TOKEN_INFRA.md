@@ -143,7 +143,9 @@ state once `PRANA_RPC_URL` is set (`akasha-connect.mjs::isLive` returns false un
 
 | Surface | Layer | Repo path | Holds key? |
 |---|---|---|---|
-| SMT/NAI reader (NEW) | (a) native SMT | `integrations/smt-info.mjs` | no — read-only |
+| SMT/NAI reader | (a) native SMT | `integrations/smt-info.mjs` | no — read-only |
+| **Token-tools page (NEW)** | (a)+(b) unified | `engine/lib/token-tools.mjs` (mounted at `/tools`) | no — builds ops, never signs |
+| **Token op-builder (NEW)** | (a)+(b) | `engine/lib/op-builder.mjs` | no — pure builder, no key |
 | Engine node + API/UI | (b) side-token | `engine/` | no — streams L1, never broadcasts |
 | Engine DEX seams (inert) | (b)→(c) | `engine/config.mjs` `seams` | no |
 | Chain/pool/bridge descriptors | (c) PRANA | `integrations/akasha-connect.mjs` | no — descriptors only |
@@ -153,3 +155,42 @@ state once `PRANA_RPC_URL` is set (`akasha-connect.mjs::isLive` returns false un
 created-token list off the MELEK RPC (testnet today), validating the live HF23/SMT claim. It is
 read-only, env-gated (`MELEK_RPC_URL`), network-labeled (`[TestNet not MELEK]`), injectable-fetch,
 and soft-fails to a shaped empty result — never throws, never fabricates, holds no key.
+
+### 6a. The token-tools surface (carryover #290 — built)
+
+`engine/lib/token-tools.mjs` is the **user-facing token tools** page, mounted by the engine API
+server at **`/tools`** (so it ships at `engine.alpha.melek.salon/tools`). It unifies both layers:
+
+- **List (read).** Two tables — engine side-tokens (from the live engine `State`) and native
+  SMT/NAI (from `integrations/smt-info.mjs`). `GET /tools` (HTML) / `GET /tools/api/tokens` (JSON).
+- **Token detail (read).** `GET /tools/token/:SYMBOL` — supply, max, precision, immutable-cap flag,
+  metadata, and the holder list (liquid + stake) for an engine token.
+- **Create / issue / transfer / stake builder.** A form that POSTs to `GET/POST /tools/api/build`,
+  which calls `engine/lib/op-builder.mjs` to **build + validate** the operation and return its
+  exact shape. It does **not** broadcast.
+
+`engine/lib/op-builder.mjs` is the single source of truth for op shapes:
+
+- `buildEngineOp(action, params, account)` → a Graphene `custom_json` op
+  (`required_auths:[account]`, `id` = sidechain id, `json` = `{contractName:'tokens',
+  contractAction, contractPayload}`) for `create | issue | transfer | stake | unstake`. Validates
+  symbol (1-10 A-Z), precision (0-8), maxSupply (≤ ceiling), quantity, and account names.
+- `buildSmtCreateOp(params)` / `buildSmtSetupOp(params)` → the **standard** Steem-fork
+  `smt_create` / `smt_setup` ops (no custom chain op), with `symbol:{nai,decimals}`, the NAI drawn
+  from the live pool, and `smt_creation_fee` / `max_supply` left for the host to finalise.
+
+**Custody:** the page and the builder **never sign and never broadcast** — no WIF/seed is read,
+accepted, logged, or stored (BRIEF.md §7). Engine ops are signed client-side in the browser (the
+existing `engine/ui/render.mjs` dhive path) or by the host signer; SMT ops are signed off-repo by
+the operator / MELEK-Signer. Everything is offline-tested (`engine/test/op-builder.test.mjs`,
+`engine/test/token-tools.test.mjs`) with injected data, soft-fail-never-throw.
+
+**What the host must wire for real broadcast** (none of it lives here):
+- **Engine RPC for reads** — `MELEK_ENGINE_RPC` (L1 failover list) so the engine `State` is live;
+  `MELEK_RPC_URL` + `MELEK_NETWORK` so the SMT half of the list/`/status` reads real data.
+- **Engine ops broadcast** — browser-side dhive (already in `engine/ui/render.mjs`) broadcasts the
+  `custom_json` the builder emits; the engine node then reflects it within ~3s. No server key.
+- **SMT ops broadcast** — the `smt_create` / `smt_setup` ops the builder emits are signed by the
+  control account **off-repo** (operator / MELEK-Signer with a scoped active-auth JIT key — never on
+  the Bot host). The host fills `smt_creation_fee` from the live chain fee and applies precision to
+  `max_supply` before broadcast.

@@ -126,6 +126,8 @@ a{color:var(--gold)}
     gated seams (pegged-asset gateway + signed-fill settlement) — both disabled here.</p>
     <p class="sub">API: <a href="/contracts/tokens">/contracts/tokens</a> ·
       <a href="/status">/status</a> · <a href="/health">/health</a></p>
+    <p class="sub"><b><a href="/tools">→ Token Tools</a></b>: unified list (engine side-tokens +
+      native SMT/NAI), token detail, and an op builder for create / issue / transfer / smt_create.</p>
   </div>
 
 </main>
