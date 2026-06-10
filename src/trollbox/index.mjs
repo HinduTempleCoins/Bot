@@ -81,10 +81,11 @@ export const FAQ = [
     match: (t) =>
       hasAny(t, ['how do i sign up', 'how to sign up', 'how do i join', 'create an account', 'make an account', 'register']),
     answer:
-      'To sign up, open the create-account page and pick an account name. Your keys are generated ' +
-      'right in your browser — write down the master password it shows you and keep it somewhere safe. ' +
-      'We never see or ask for your private keys. Want me to walk you through it one step at a time? ' +
-      'Just say "walk me through it".',
+      'Head to the create-account page (/account/signup.html) — you can do the whole thing there yourself. ' +
+      'Pick a name, your keys are generated right in your browser, save the master password it shows you, ' +
+      'and click Create. I never see or ask for your keys, and once your account is live I will come welcome you. ' +
+      'If you would rather I hold your hand through it, just say "I have no idea what I\'m doing" and I will ' +
+      'walk you step by step.',
   },
   {
     id: 'what-is-a-key',
@@ -162,9 +163,9 @@ export const SIGNUP_STEPS = [
   {
     id: 'name',
     say:
-      "Glad to help you join. First, pick an account name. It must be 3–16 characters, " +
-      "lowercase letters, digits, or hyphens — for example `offgrid` or `mary-2`. " +
-      "What name would you like? When you have one in mind, say `next`.",
+      "No worries — I'll walk you through it, and you can stop any time and do it yourself on the page. " +
+      "First, pick an account name: 3–16 characters, lowercase letters, digits, or hyphens — " +
+      "for example `offgrid` or `mary-2`. What name would you like? When you have one, say `next`.",
   },
   {
     id: 'keys',
@@ -207,12 +208,15 @@ const STEP_INDEX = new Map(SIGNUP_STEPS.map((s, i) => [s.id, i]));
  * NOTE: the bare informational phrasings ("how do i sign up", "sign up", "register") are deliberately
  * left to the FAQ (which gives a custody-safe overview AND invites the walkthrough). The intent list
  * is the IMPERATIVE / "do it with me" phrasings + the explicit "walk me through it" follow-up. */
+// OPT-IN ONLY. Hathor does NOT own account creation — the signup page does, standalone. The
+// step-by-step walkthrough is the explicit "I have no idea what I'm doing" path for people who want
+// hand-holding; everyone else just gets the informational pointer (the FAQ) and does it themselves.
+// Bare "make an account"/"how do i sign up"/"join" go to the FAQ, NOT the wizard.
 const SIGNUP_INTENT = [
-  'make an account', 'make me an account', 'create an account', 'create account',
-  'help me make an account', 'help me create', 'help me sign up', 'sign me up',
-  'how do i join', 'how to join', 'i want to join',
-  'how do i make an account', 'how do i create an account',
-  'walk me through', 'guide me through', 'get an account', 'join melek', 'join the chain',
+  'i have no idea what im doing', "i have no idea what i'm doing", 'i have no idea',
+  'no idea what im doing', "no idea what i'm doing", 'no clue', "i don't know what im doing",
+  "i don't know what i'm doing", 'walk me through', 'guide me through', 'hold my hand',
+  'im lost', "i'm lost", 'help me step by step', 'step by step', 'do it with me',
 ];
 
 /** Phrases that advance to the NEXT step. */
