@@ -44,9 +44,13 @@ fi
 
 # --- 2. WIF private keys ----------------------------------------------
 # Graphene WIF keys are base58 strings ~51 chars starting with 5H/5J/5K.
-# SECURITY.md documents this pattern; allow it there.
+# Anchor the boundary on both sides with (^|...) / (...|$) so a key that
+# sits at the very start or end of a line (e.g. a bare `KEY=5J...` env line
+# with no trailing character) is still caught — a plain [^alnum] boundary
+# misses end-of-line because grep matches line content sans newline.
+# SECURITY.md / OPERATOR.md document this pattern; allow it there.
 
-wif_hits=$(git ls-files | xargs grep -lE "[^[:alnum:]]5[HJK][1-9A-HJ-NP-Za-km-z]{49}[^[:alnum:]]" 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^OPERATOR\.md$' || true)
+wif_hits=$(git ls-files | xargs grep -lE "(^|[^[:alnum:]])5[HJK][1-9A-HJ-NP-Za-km-z]{49}([^[:alnum:]]|$)" 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^OPERATOR\.md$' || true)
 if [[ -n "$wif_hits" ]]; then
   errfail "possible WIF private key pattern found in tracked file(s):"
   echo "$wif_hits" >&2
