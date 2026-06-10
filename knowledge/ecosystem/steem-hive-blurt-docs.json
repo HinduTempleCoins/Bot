@@ -1,0 +1,68 @@
+{
+  "title": "Steem / Hive / Blurt — Canonical Docs & Developer Portals",
+  "description": "Doc-pointer companion to steem-hive-dev-repos.json. For each canonical doc/portal/README/wiki across Steem, Hive, and Blurt: a one-line 'what it teaches' and which of our 79 cloned reference repos covers it. MELEK is a Steem HF23 fork; these are upstream reference. Reader-facing rewrites live in site/witness-docs/.",
+  "generated": "2026-06-10",
+  "companion_index": "knowledge/ecosystem/steem-hive-dev-repos.json",
+  "reader_facing_docs": "site/witness-docs/",
+  "sections": {
+    "hive-dev-portals": [
+      { "doc": "developers.hive.io", "url": "https://developers.hive.io", "teaches": "Canonical Hive developer portal: JS/Python tutorials, apps catalog, API reference, accounts/keys/RC/communities guides.", "repos": ["openhive-network_hive-js", "openhive-network_dhive"] },
+      { "doc": "hive.io / whitepaper", "url": "https://hive.io/whitepaper.pdf", "teaches": "Chain mission, HIVE/HBD tokenomics, DPoS, 3-second-block social-blockchain model.", "repos": [] },
+      { "doc": "dhive README + typedoc", "url": "https://github.com/openhive-network/dhive", "teaches": "Reference TS/JS client: connect, read state, build & broadcast comment/vote/transfer/custom_json. Mirrors our src/chain/.", "repos": ["openhive-network_dhive"] },
+      { "doc": "hive-js README", "url": "https://github.com/openhive-network/hive-js", "teaches": "Official JS API (steem-js lineage): broadcast helpers, formatter, auth.", "repos": ["openhive-network_hive-js"] },
+      { "doc": "hive-tx README", "url": "https://github.com/mahdiyari/hive-tx", "teaches": "Lightweight complete JS lib (web+node): manual tx construction/signing; good for the wire format.", "repos": ["mahdiyari_hive-tx"] },
+      { "doc": "hive-pollen README", "url": "https://github.com/srbde/hive-pollen", "teaches": "Modern zero-dependency TS SDK; clean op-building/signing reference.", "repos": ["srbde_hive-pollen"] },
+      { "doc": "HAF README (Hive Application Framework)", "url": "https://github.com/openhive-network/haf", "teaches": "Fork-resilient apps by indexing chain into Postgres with automatic fork-undo. Basis of a modern API node.", "repos": ["openhive-network_haf"] },
+      { "doc": "haf_api_node README", "url": "https://github.com/openhive-network/haf_api_node", "teaches": "Operational guide to running a full HAF-based API node (Docker compose, Ubuntu sizing, services).", "repos": ["openhive-network_haf_api_node"] },
+      { "doc": "hivemind README", "url": "https://github.com/openhive-network/hivemind", "teaches": "Social consensus-interpretation layer: feeds, follows, communities, bridge.* and condenser_api.* methods.", "repos": ["openhive-network_hivemind", "steemit_hivemind"] },
+      { "doc": "drone README", "url": "https://github.com/openhive-network/drone", "teaches": "API caching/load layer (Rust/Actix) in front of hived.", "repos": ["openhive-network_drone"] },
+      { "doc": "condenser / denser READMEs", "url": "https://github.com/openhive-network/condenser", "teaches": "Reference React front-ends (blog, wallet, communities, witness voting). denser is the modern Next.js rewrite. Our alpha condenser descends from this.", "repos": ["openhive-network_condenser", "openhive-network_denser", "steemit_condenser"] },
+      { "doc": "hive-renderer README", "url": "https://github.com/openhive-network/hive-renderer", "teaches": "Canonical post-body renderer (Markdown + sanitization) so posts render identically and safely.", "repos": ["openhive-network_hive-renderer"] },
+      { "doc": "wax README", "url": "https://github.com/openhive-network/wax", "teaches": "Calls hived C++ from Python/JS — low-level protocol/serialization reference.", "repos": ["openhive-network_wax"] },
+      { "doc": "workerbee README", "url": "https://github.com/openhive-network/workerbee", "teaches": "High-level Hive automation library (watch chain, react to ops) — bot/observer pattern.", "repos": ["openhive-network_workerbee"] },
+      { "doc": "tinman README", "url": "https://github.com/openhive-network/tinman", "teaches": "Official testnet tooling — snapshot mainnet, create a testnet, fund accounts. Relevant to MELEK testnet bring-up.", "repos": ["openhive-network_tinman"] }
+    ],
+    "hive-keys-signing-auth": [
+      { "doc": "docs.hivesigner.com", "url": "https://docs.hivesigner.com", "teaches": "OAuth2-for-Hive: scoped access tokens, sign/broadcast on a user's behalf without holding keys. Pattern MELEK-Signer follows. Reference only.", "repos": ["ecency_hivesigner-sdk", "ecency_hivesigner-api", "ecency_hivesigner-ui", "ledgerconnect_hivesigner"] },
+      { "doc": "Hive Keychain docs + keychain-sdk README", "url": "https://github.com/hive-keychain/keychain-sdk", "teaches": "Browser-extension key custody: dApps request signatures; keys never leave the extension.", "repos": ["hive-keychain_hive-keychain-extension", "hive-keychain_keychain-sdk"] },
+      { "doc": "HAS (Hive Authentication Service)", "url": "https://github.com/brianoflondon/has-python", "teaches": "QR/websocket auth so a phone app signs for a web session without exposing keys.", "repos": ["brianoflondon_has-python"] },
+      { "doc": "beekeeper README", "url": "https://github.com/openhive-network/beekeeper", "teaches": "Standalone wallet daemon (HTTP/WS API) that holds keys and signs — the signer-service archetype.", "repos": ["openhive-network_beekeeper"] },
+      { "doc": "hive-account-creator README", "url": "https://github.com/openhive-network/hive-account-creator", "teaches": "Free anonymous account-creation service: operator-funded create_account so users self-register fee-free. Upstream of our faucet/signup.", "repos": ["openhive-network_hive-account-creator"] },
+      { "doc": "hive-key-updater README", "url": "https://github.com/TheCrazyGM/hive-key-updater", "teaches": "Web tool to rotate account keys safely — the keys-explained / change-your-password UX.", "repos": ["TheCrazyGM_hive-key-updater"] }
+    ],
+    "hive-witness-ops": [
+      { "doc": "hive-witness-essentials README", "url": "https://github.com/Someguy123/hive-witness-essentials", "teaches": "De-facto witness operator's toolkit (Someguy123): pricefeed, watcher, remote node-switch, CLI. Best how-to-run-a-witness reference; our witness/ is the spiritual port.", "repos": ["Someguy123_hive-witness-essentials"] },
+      { "doc": "hivefeed-js README", "url": "https://github.com/Someguy123/hivefeed-js", "teaches": "Focused price-feed publisher — what feed_publish does and how often. Mirrors witness/feed-publisher.mjs.", "repos": ["Someguy123_hivefeed-js"] },
+      { "doc": "hive-docker / Hive-in-a-box README", "url": "https://github.com/Someguy123/hive-docker", "teaches": "Running hived (witness/seed node) via Docker — node-ops baseline.", "repos": ["Someguy123_hive-docker", "Someguy123_blurt-docker"] },
+      { "doc": "witness-notify README", "url": "https://github.com/mahdiyari/witness-notify", "teaches": "Missed-block alerting to chat — the monitoring half of witness ops (our witness/monitor.mjs).", "repos": ["mahdiyari_witness-notify"] },
+      { "doc": "witness-monitor / monitorwitness READMEs", "url": "https://github.com/xeroc/witness-monitor", "teaches": "Witness-health monitors — failover and missed-block detection patterns.", "repos": ["xeroc_witness-monitor", "DoctorLai_monitorwitness"] },
+      { "doc": "SteemWitnessAutoSwitch README", "url": "https://github.com/DoctorLai/SteemWitnessAutoSwitch", "teaches": "Auto-failover between backup signing nodes when the primary misses blocks.", "repos": ["DoctorLai_SteemWitnessAutoSwitch"] },
+      { "doc": "hived-rpc-scanner README", "url": "https://github.com/emre/hived-rpc-scanner", "teaches": "Health-check RPC endpoints — what makes a node 'up' for a load balancer / API list.", "repos": ["emre_hived-rpc-scanner"] },
+      { "doc": "steem-load-balancer / steem-proxy-cloudflare READMEs", "url": "https://github.com/DoctorLai/steem-load-balancer", "teaches": "Spreading API traffic across healthy nodes — front-of-node infrastructure.", "repos": ["DoctorLai_steem-load-balancer", "DoctorLai_steem-proxy-cloudflare"] }
+    ],
+    "steem-docs-libs": [
+      { "doc": "developers.steem.io / steem.io whitepaper", "url": "https://developers.steem.io", "teaches": "Original Graphene social-blockchain design (rewards pool, DPoS, SP/STEEM/SBD, 3s blocks). MELEK forks Steem HF23 — nearest upstream spec.", "repos": [] },
+      { "doc": "steem-js / dsteem READMEs", "url": "https://github.com/DoctorLai/steem-js", "teaches": "Original JS clients Hive forked from; same op set, useful for older tutorials.", "repos": ["DoctorLai_steem-js", "DoctorLai_dsteem"] },
+      { "doc": "awesome-steem", "url": "https://github.com/DoctorLai/awesome-steem", "teaches": "Curated link-list of the whole Steem dev ecosystem — a map of where docs live.", "repos": ["DoctorLai_awesome-steem"] },
+      { "doc": "piston-lib / python-graphenelib / graphenejs-lib", "url": "https://github.com/xeroc/python-graphenelib", "teaches": "xeroc base-layer libs — the Graphene primitives (tx format, signatures, object IDs) under every Steem/Hive/Blurt lib.", "repos": ["xeroc_piston-lib", "xeroc_python-graphenelib", "xeroc_graphenejs-lib"] },
+      { "doc": "docs.pygraphenelib.com", "url": "http://docs.pygraphenelib.com/en/latest/", "teaches": "In-depth docs for the Python Graphene base library (tx building, signing, account/asset objects).", "repos": ["xeroc_python-graphenelib"] }
+    ],
+    "blurt-docs": [
+      { "doc": "blurt.blog / blurt.foundation docs", "url": "https://blurt.blog", "teaches": "Blurt = transfer-and-post, no-curation-rewards Steem fork — closest sibling to a single-purpose Graphene social chain.", "repos": [] },
+      { "doc": "blurt-docker Hive-in-a-box README", "url": "https://github.com/Someguy123/blurt-docker", "teaches": "Someguy123's Blurt node-in-Docker — same toolkit as Hive, retargeted; shows how little changes between forks.", "repos": ["Someguy123_blurt-docker"] },
+      { "doc": "BlurtWitnessAutoSwitch README", "url": "https://github.com/ericet/BlurtWitnessAutoSwitch", "teaches": "Witness failover ported to Blurt — confirms witness-ops pattern is identical across forks.", "repos": ["ericet_BlurtWitnessAutoSwitch"] }
+    ],
+    "python-cross-chain-libs": [
+      { "doc": "beem docs (beem.readthedocs.io)", "url": "https://beem.readthedocs.io", "teaches": "Comprehensive Python lib for HIVE and STEEM — wallet, ops, witness calls.", "repos": ["holgern_beem"] },
+      { "doc": "hive-nectar README", "url": "https://github.com/srbde/hive-nectar", "teaches": "Modern maintained Python lib (beem successor) for Hive.", "repos": ["srbde_hive-nectar"] },
+      { "doc": "lighthive README", "url": "https://github.com/brianoflondon/lighthive", "teaches": "Minimal Python client — easiest read for a single RPC call.", "repos": ["brianoflondon_lighthive", "emre_lighthive"] }
+    ],
+    "engine-smt-docs": [
+      { "doc": "steemsmartcontracts-wiki / hivesmartcontracts-wiki", "url": "https://github.com/hive-engine/hivesmartcontracts-wiki", "teaches": "Official Engine developer wiki: system design, contract API, how custom_json drives a token sidechain. Reference for our engine/ (MELEK-Engine).", "repos": ["hive-engine_steemsmartcontracts-wiki", "hive-engine_hivesmartcontracts-wiki"] },
+      { "doc": "hivesmartcontracts README", "url": "https://github.com/hive-engine/hivesmartcontracts", "teaches": "The Engine node (sidechain watching custom_json, maintaining token state).", "repos": ["hive-engine_hivesmartcontracts", "TheCrazyGM_hivesmartcontracts"] },
+      { "doc": "sscjs README", "url": "https://github.com/hive-engine/sscjs", "teaches": "Light JS client for the Engine JSON-RPC — how a front-end reads token balances/markets.", "repos": ["hive-engine_sscjs"] },
+      { "doc": "scotbot-docs", "url": "https://github.com/hive-engine/scotbot-docs", "teaches": "SCOT/Nitrous tribe-token reward docs — how a community token piggybacks post rewards.", "repos": ["hive-engine_scotbot-docs"] },
+      { "doc": "nectarengine README", "url": "https://github.com/srbde/nectarengine", "teaches": "Modern Python lib for Engine tokens.", "repos": ["srbde_nectarengine"] }
+    ]
+  }
+}
