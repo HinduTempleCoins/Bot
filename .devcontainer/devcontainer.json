@@ -1,0 +1,13 @@
+{
+  "name": "MELEK Bot",
+  "//": "No image/dockerfile specified → GitHub uses the default Codespaces universal image (same as today). This file exists ONLY to widen the Codespace token so Claude Code can push to our sibling repos (condenser, etc.) the same way it pushes to Bot. On the next rebuild / new Codespace, GitHub shows a one-time 'authorize additional repository access' prompt — approve it.",
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "HinduTempleCoins/melek-condenser": {
+          "permissions": { "contents": "write", "pull_requests": "write" }
+        }
+      }
+    }
+  }
+}
