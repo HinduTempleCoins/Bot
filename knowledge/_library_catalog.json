@@ -6,7 +6,7 @@
     "knowledge",
     "chain"
   ],
-  "fileCount": 1529,
+  "fileCount": 1531,
   "byDomain": {
     "healer": [
       {
@@ -28280,6 +28280,44 @@
           "slippage",
           "fees",
           "risk"
+        ]
+      },
+      {
+        "path": "knowledge/ecosystem/steem-hive-dev-repos.json",
+        "title": "Steem/Hive Dev Ecosystem — Who’s-Who Reference Repos",
+        "bytes": 52180,
+        "keywords": [
+          "github",
+          "https",
+          "hive",
+          "title",
+          "description",
+          "melek-5",
+          "steem-hive-repos",
+          "slug",
+          "category",
+          "lang",
+          "files",
+          "clone"
+        ]
+      },
+      {
+        "path": "knowledge/ecosystem/steem-hive-dev-repos.md",
+        "title": "Steem / Hive Dev Ecosystem — Who's-Who Reference Repos",
+        "bytes": 17191,
+        "keywords": [
+          "https",
+          "github",
+          "files",
+          "hive",
+          "openhive-network",
+          "hive-engine",
+          "blockchain",
+          "steem",
+          "doctorlai",
+          "engine",
+          "library",
+          "python"
         ]
       }
     ]

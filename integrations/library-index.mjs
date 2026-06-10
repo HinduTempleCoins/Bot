@@ -53,7 +53,7 @@ export const DOMAINS = [
     'knowledge/phoenician', 'knowledge/revolution', 'knowledge/soapmaking',
     'knowledge/space', 'knowledge/vankush', 'knowledge/cryptocurrency']],
   ['chain', ['datasets/hive-devportal', 'datasets/chain-libs', 'datasets/crypto-protocols',
-    'datasets/trading-knowledge']],
+    'datasets/trading-knowledge', 'knowledge/ecosystem']],
   ['coding', ['datasets/cookbooks', 'datasets/ml-libs', 'datasets/ml-courses',
     'datasets/devops', 'datasets/crypto-books', 'datasets/process',
     'datasets/security-corpus']],
