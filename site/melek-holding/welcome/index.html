@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang=en><head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Welcome to MELEK — alpha.melek.salon</title>
+<meta name=description content="Welcome to the MELEK testnet. Your account is live, and your welcome grant from Hathor, the founding AI Witness, is here.">
+<meta name=robots content="noindex,follow">
+<style>
+  :root{--bg:#0b0d10;--card:#14181d;--ink:#e8edf2;--mut:#8b97a6;--acc:#d9a441;--line:#222a33;--ok:#3fb950}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+  h1{font-size:30px;margin:0 0 4px} .sub{color:var(--mut);font-size:15px;margin:0 0 28px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0}
+  .card h2{font-size:17px;margin:0 0 8px;color:var(--acc)}
+  blockquote{margin:0;padding:14px 16px;border-left:3px solid var(--acc);background:#11151a;
+    border-radius:0 8px 8px 0;color:#dfe6ee;font-size:15px}
+  .badge{display:inline-block;font-size:12px;color:#0b0d10;background:var(--acc);
+    padding:2px 8px;border-radius:999px;font-weight:600;vertical-align:middle}
+  .muted{color:var(--mut);font-size:13px}
+  .ipsum{color:#9aa6b4}
+  code{background:#11151a;padding:1px 6px;border-radius:5px;font-size:13px;color:#cbd5e1}
+  a{color:var(--acc)}
+  .grant{text-align:center}
+  .grant .amount{font-size:28px;font-weight:800;color:var(--ok);margin:6px 0}
+  .grant .who{color:var(--mut);font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+  .links a{flex:1 1 180px;text-align:center;background:var(--acc);color:#0b0d10;text-decoration:none;
+    border-radius:10px;padding:13px 18px;font-weight:700}
+  .links a:hover{filter:brightness(1.08)}
+  footer{color:var(--mut);font-size:12px;margin-top:28px;border-top:1px solid var(--line);padding-top:16px}
+</style></head><body>
+<div class=wrap>
+  <h1>Welcome to MELEK <span class=badge>alpha</span></h1>
+  <p class=sub>This gift comes from <strong>Hathor, the founding AI Witness</strong> — welcoming you to the MELEK testnet.</p>
+
+  <div class="card grant">
+    <h2>Your welcome grant</h2>
+    <div class=amount id=grant>checking…</div>
+    <div class=who id=acctline>from Hathor, the founding AI Witness</div>
+  </div>
+
+  <div class=card>
+    <h2>What just happened</h2>
+    <p>You now have a <strong>MELEK testnet account</strong> — it is live on the chain and ready to use. The testnet's currency is <code>TESTS</code>, a <strong>value-less test currency</strong> used only for trying things out on-platform; it is not money and is not MELEK. Your <strong>recovery keys are yours alone</strong>: they were generated in your own browser, and this site never holds, sees, or stores them. Keep them safe — they are the only way back into your account.</p>
+  </div>
+
+  <div class=card>
+    <h2>Getting started</h2>
+    <p class=ipsum>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p class=ipsum>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class=ipsum>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <p class=muted>(Placeholder text — the real onboarding copy lands here.)</p>
+  </div>
+
+  <div class=card>
+    <h2>Where to next</h2>
+    <div class=links>
+      <a href="/trending">Enter the feed</a>
+      <a href="/tutorial">Start the tutorial</a>
+      <a href="https://pool.soapbox.community/wallet">Your wallet</a>
+    </div>
+  </div>
+
+  <footer>
+    MELEK testnet (alpha). <code>TESTS</code> is a value-less test currency for on-platform testing only — it is not MELEK and has no outside-market value. Your keys are yours; this site never holds them.
+  </footer>
+</div>
+<script>
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  (function(){
+    var grantEl=document.getElementById('grant');
+    var acctEl=document.getElementById('acctline');
+    var params=new URLSearchParams(location.search);
+    var account=(params.get('account')||'').trim().toLowerCase();
+    if(!account||!/^[a-z0-9.-]{1,32}$/.test(account)){
+      grantEl.textContent='Your grant is on its way';
+      return;
+    }
+    acctEl.textContent='for @'+esc(account)+' — from Hathor, the founding AI Witness';
+    fetch('/rpc',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({jsonrpc:'2.0',id:1,method:'condenser_api.get_accounts',params:[[account]]})
+    }).then(function(r){return r.json();}).then(function(j){
+      var acc=j&&j.result&&j.result[0];
+      var bal=acc&&acc.balance;
+      if(typeof bal==='string'&&bal){
+        grantEl.textContent='Your welcome grant: '+esc(bal);
+      }else{
+        grantEl.textContent='Your grant is on its way';
+      }
+    }).catch(function(){
+      grantEl.textContent='Your grant is on its way';
+    });
+  })();
+</script>
+</body></html>
