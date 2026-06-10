@@ -150,3 +150,23 @@ the on-chain record. Anyone can fork this repo and run an alternative AI witness
 alternative block explorers exist for other chains. If the founding instance ever goes dark, the cause can
 be picked up by someone else — which is exactly what closed platforms (Wisdom AI, Emerson, the Poe bots)
 could never offer.
+
+---
+
+## Witness & operator documentation
+
+For people who want to **do** things on MELEK — join, vote, run a witness, run a node — there is a
+plain-language documentation set written for everyone (not just this project), accurate to our chain
+(Steem **HF23** fork, **3-second blocks**, testnet prefix **TST** / symbols **TESTS·TBD**) and crediting
+the upstream Hive/Steem/BLURT sources it adapts. It's intended for **witness.melek.salon**:
+
+- [`site/witness-docs/index.md`](./site/witness-docs/index.md) — the doc-set index, linking:
+  **What is a Witness**, **How to run a MELEK witness**, **How to create an account**,
+  **Keys explained**, **How to vote for witnesses**, **Resource Credits explained**, and
+  **Running a seed / API node (HAF)**.
+
+The developer-facing companion — canonical Steem/Hive/Blurt docs, portals, and library READMEs, each
+mapped to one of the ~79 cloned reference repos — lives in
+[`knowledge/ecosystem/steem-hive-blurt-docs.md`](./knowledge/ecosystem/steem-hive-blurt-docs.md)
+(with the cloned-repo index in
+[`knowledge/ecosystem/steem-hive-dev-repos.md`](./knowledge/ecosystem/steem-hive-dev-repos.md)).
