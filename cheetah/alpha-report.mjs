@@ -112,7 +112,34 @@ const VERDICT_BADGE = {
   error: ['ERROR', '#8b949e'],
 };
 
-export function reportHtml({ results, head, generatedAt, rpcError }) {
+// Render the live-capability test (text plagiarism / discovery / image-dup / image-recognition).
+export function capabilityHtml(capabilities) {
+  if (!capabilities || !Array.isArray(capabilities.tests) || !capabilities.tests.length) return '';
+  const cards = capabilities.tests.map((t) => {
+    const cases = (t.cases || []).map((c) => {
+      const bits = [];
+      if (c.verdict) bits.push(`<b>${esc(String(c.verdict))}</b>`);
+      if (c.confidence != null) bits.push(`${(c.confidence * 100).toFixed(0)}% match`);
+      if (c.hamming != null) bits.push(`hamming ${esc(String(c.hamming))} (≤${esc(String(c.threshold))}=dup)`);
+      if (c.description) bits.push(`“${esc(c.description)}”`);
+      if (c.extractedText) bits.push(`text read: “${esc(c.extractedText)}”`);
+      if (Array.isArray(c.related) && c.related.length) bits.push(c.related.map((r) => `${esc(r.permlink)} (${(r.score * 100).toFixed(0)}%)`).join(', '));
+      return `<tr><td>${esc(c.input || '')}</td><td>${bits.join(' · ') || '<span class=mut>—</span>'}</td></tr>`;
+    }).join('\n');
+    return `<div class=card>
+      <h2 style="font-size:16px;margin:0 0 4px">${esc(t.capability)}</h2>
+      <p class=mut style="margin:0 0 8px">engine: ${esc(t.engine || '')}</p>
+      <table><tr><th>live input</th><th>Cheetah's result</th></tr>${cases}</table>
+    </div>`;
+  }).join('\n');
+  return `<div class=card style="border-color:var(--acc)">
+    <h1 style="font-size:18px">🧪 Live capability test — all four detectors, real inputs</h1>
+    <p class=mut>Each detector below was just run against real data (run ${esc((capabilities.generated || '').replace('T', ' ').slice(0, 19))} UTC).
+      Plagiarism + discovery are deterministic; image-dup uses perceptual hashing; image-recognition uses Gemini Vision.</p>
+  </div>${cards}`;
+}
+
+export function reportHtml({ results, head, generatedAt, rpcError, capabilities }) {
   const rows = results.map((r) => {
     const [label, color] = VERDICT_BADGE[r.verdict] || VERDICT_BADGE.error;
     return `<tr>
@@ -162,6 +189,7 @@ export function reportHtml({ results, head, generatedAt, rpcError }) {
       : `<b>testnet RPC unreachable</b>${rpcError ? ` — ${esc(rpcError)}` : ''} (the node may be restarting; this page keeps the last good run)`}
       · report generated ${esc(generatedAt)}</p>
   </div>
+  ${capabilityHtml(capabilities)}
   <div class=card>
     <p class=mut><b>${results.length} posts scanned</b> — ${summary}</p>
     <table>
@@ -183,11 +211,19 @@ export async function buildReport() {
   const posts = await fetchRecentPosts();
   const head = await chainHead();
   const results = await runCheetahOnPosts(posts);
+  // optional: a live capability-test JSON written by cheetah-livetest.mjs
+  let capabilities = null;
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const path = new URL('./.capability-livetest.json', import.meta.url);
+    capabilities = JSON.parse(await readFile(path, 'utf8'));
+  } catch { /* no capability run yet — section is omitted */ }
   return {
     generatedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
     head,
     rpcError: posts.error || null,
     results,
+    capabilities,
   };
 }
 
