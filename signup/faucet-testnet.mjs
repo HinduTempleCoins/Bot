@@ -83,7 +83,13 @@ const CHAIN_ID = (process.env.FAUCET_CHAIN_ID ||
 const PREFIX = (process.env.FAUCET_PREFIX || 'TST').trim();
 const CREATOR = (process.env.FAUCET_CREATOR || 'initminer').trim();
 const FEE = process.env.FAUCET_FEE || '0.001 TESTS';
-const DELEGATION = process.env.FAUCET_DELEGATION || '0.000000 VESTS';
+// A brand-new Graphene account has ZERO Resource Credits and literally cannot post/comment/
+// transfer until it has staked POWER (vesting) or a delegation. So we delegate at creation —
+// account_create_with_delegation hands the newcomer enough VESTS to transact on day one.
+// Default is a real, non-zero amount on purpose; set FAUCET_DELEGATION="0.000000 VESTS" only if
+// you deliberately want mute accounts. (Delegation comes from the creator and is reclaimable.)
+const DELEGATION = process.env.FAUCET_DELEGATION || '30.000000 VESTS';
+const wantsDelegation = !/^0\.0+\s+VESTS$/.test(DELEGATION.trim());
 
 // TESTNET SAFETY: refuse to run against anything that is not the known testnet symbol/prefix.
 if (PREFIX !== 'TST' || !/TESTS$/.test(FEE)) {
@@ -148,7 +154,7 @@ async function createAccount(input) {
   const pv = validatePubs(input);
   if (!pv.ok) return pv;
 
-  const op = ['account_create', {
+  const bare = ['account_create', {
     fee: FEE,
     creator: CREATOR,
     new_account_name: input.name,
@@ -158,27 +164,30 @@ async function createAccount(input) {
     memo_key: input.memoPub,
     json_metadata: '',
   }];
+  const withDel = ['account_create_with_delegation', {
+    fee: FEE,
+    delegation: DELEGATION,
+    creator: CREATOR,
+    new_account_name: input.name,
+    owner: auth(input.ownerPub),
+    active: auth(input.activePub),
+    posting: auth(input.postingPub),
+    memo_key: input.memoPub,
+    json_metadata: '',
+    extensions: [],
+  }];
 
-  // If the chain rejects bare account_create (some forks require _with_delegation), retry with it.
+  // Prefer delegation (so the newcomer has Resource Credits to post immediately); fall back to
+  // bare account_create only if the chain rejects the delegation op. When delegation is zeroed
+  // out by config, go bare first.
+  const [primary, fallback] = wantsDelegation ? [withDel, bare] : [bare, withDel];
   try {
-    const r = await client.broadcast.sendOperations([op], creatorKey);
-    return { ok: true, id: r.id || r.trx_id || null };
+    const r = await client.broadcast.sendOperations([primary], creatorKey);
+    return { ok: true, id: r.id || r.trx_id || null, delegated: primary === withDel ? DELEGATION : null };
   } catch (e1) {
-    const withDel = ['account_create_with_delegation', {
-      fee: FEE,
-      delegation: DELEGATION,
-      creator: CREATOR,
-      new_account_name: input.name,
-      owner: auth(input.ownerPub),
-      active: auth(input.activePub),
-      posting: auth(input.postingPub),
-      memo_key: input.memoPub,
-      json_metadata: '',
-      extensions: [],
-    }];
     try {
-      const r = await client.broadcast.sendOperations([withDel], creatorKey);
-      return { ok: true, id: r.id || r.trx_id || null };
+      const r = await client.broadcast.sendOperations([fallback], creatorKey);
+      return { ok: true, id: r.id || r.trx_id || null, delegated: fallback === withDel ? DELEGATION : null };
     } catch (e2) {
       const msg = (e2 && e2.message) || (e1 && e1.message) || 'broadcast-failed';
       return { ok: false, reason: `broadcast-failed:${String(msg).slice(0, 300)}` };
