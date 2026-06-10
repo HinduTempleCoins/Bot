@@ -22,11 +22,13 @@
 //   node spamtest/runner.mjs --count 30 --mix                posts+comments+votes mix
 //   node spamtest/runner.mjs --count 50 --interval 1         fire one op/sec (vs instant)
 //   node spamtest/runner.mjs --count 50 --policy resident    apply the resident app-policy
+//   node spamtest/runner.mjs --count 50 --kind comment --rc 0       RC sim: 0-budget acct → all blocked
+//   node spamtest/runner.mjs --count 50 --kind comment --rc 5000 --interval 4   RC depletes then recovers
 //   node spamtest/runner.mjs --count 20 --broadcast          LIVE (signer-gated)
 //
 // House style: ESM, soft-fail, injectable signer for tests, CLI guarded by argv[1].
 
-import { replayChainConsensus, applicationLimiter, POLICY, bandwidthVerdict } from './limits.mjs';
+import { replayChainConsensus, applicationLimiter, POLICY, bandwidthVerdict, simulateSpam, MIN_REPLY_INTERVAL_HF20_SEC } from './limits.mjs';
 
 const SPAM_BODY =
   'gm gm gm buy now 🚀🚀🚀 click here for free MELEK airdrop ' +
@@ -174,7 +176,7 @@ export async function broadcastPlan(plan, { signer, config = {}, policyName = 'u
 
 // ── CLI ────────────────────────────────────────────────────────────────────────────
 function parseArgs(argv) {
-  const a = { count: 20, kind: 'post', mix: false, intervalSec: 0, policy: 'unverified', broadcast: false, account: 'spambot1' };
+  const a = { count: 20, kind: 'post', mix: false, intervalSec: 0, policy: 'unverified', broadcast: false, account: 'spambot1', rc: null };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === '--count') a.count = parseInt(argv[++i], 10) || a.count;
@@ -184,12 +186,34 @@ function parseArgs(argv) {
     else if (t === '--policy') a.policy = argv[++i];
     else if (t === '--account') a.account = argv[++i];
     else if (t === '--broadcast') a.broadcast = true;
+    else if (t === '--rc') a.rc = parseFloat(argv[++i]) || 0; // RC budget → run the RC simulator
   }
   return a;
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+
+  // --rc <budget>: run the dedicated RC + interval simulator (simulateSpam). This is the
+  // depleting/recovering-budget view: "given this RC pool, how many ops land?" Fully
+  // offline, never broadcasts. Comments default to the HF20 3s reply interval.
+  if (args.rc !== null) {
+    const r = simulateSpam({
+      ops: args.count,
+      intervalMs: Math.round(args.intervalSec * 1000),
+      rcBudget: args.rc,
+      kind: args.kind === 'post' ? 'comment' : args.kind, // default the spam kind to comment
+      minIntervalSec: MIN_REPLY_INTERVAL_HF20_SEC,
+    });
+    console.log('\n=== RC SIMULATION (simulateSpam) ===');
+    console.log(`ops: ${args.count}  kind: ${args.kind === 'post' ? 'comment' : args.kind}  interval: ${args.intervalSec}s  rcBudget: ${args.rc}`);
+    console.log(`  accepted ${r.summary.accepted}/${r.summary.total}, rejected ${r.summary.rejected}`);
+    console.log('  rejected by reason:', r.summary.byReason);
+    console.log(`  RC remaining: ${r.rcRemaining}`);
+    if (r.rejected[0]) console.log(`  e.g. #${r.rejected[0].i}: ${r.rejected[0].reason}`);
+    return;
+  }
+
   const plan = buildPlan({ count: args.count, kind: args.kind, mix: args.mix, intervalSec: args.intervalSec, account: args.account });
 
   // Try to load the LIVE chain config so the verdict uses real limits. Soft-fail to

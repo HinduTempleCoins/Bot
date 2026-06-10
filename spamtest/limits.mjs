@@ -289,3 +289,196 @@ export function applicationLimiter({ policy = POLICY.unverified, now = Date.now 
 
   return { check, record, admit, _hist: hist };
 }
+
+// ── RESOURCE CREDITS (RC) — the depleting/recovering posting budget ──────────────────
+//
+// On this Steem HF23 fork, every account-authoring op (comment/post/vote/transfer/custom)
+// is gated by RESOURCE CREDITS in addition to the consensus intervals above. RC is the
+// successor to the old bandwidth model (Layer 2): an account holds a *mana pool*
+// proportional to its staked VESTS/POWER, each op COSTS some RC, and the pool REGENERATES
+// linearly back to full over a fixed window (STEEM_RC_REGEN_TIME = 5 days on this fork).
+//
+//   • An account with 0 delegated/staked VESTS has a ~0 RC pool → it literally CANNOT post
+//     until it receives a delegation (this is exactly why witness/welcomer.mjs delegates
+//     POWER to every new account before anything else).
+//   • A funded account can post in bursts up to its pool size, then must wait for regen.
+//   • Comment ops are the most expensive (state growth); votes are cheap; transfers mid.
+//
+// This is a MODEL, not the node's exact RC math (which needs the live state-bytes/exec/
+// market pools). It captures the load-bearing truths #299 needs to design our throttle:
+// 0-RC = fully blocked; bursts deplete; the pool recovers over time. Costs are tunable.
+//
+// NOTE on the comment interval: the task references STEEM_MIN_REPLY_INTERVAL_HF20 = 3 s.
+// Pre-HF20 Steem used a 20 s reply interval; HF20 dropped it to 3 s (and replaced bandwidth
+// with RC). chainLimits() above reports whatever the live get_config carries (probe.mjs
+// feeds it), and CHAIN_DEFAULTS keeps the value decoded from this fork's live testnet. The
+// HF20 floor is exported here so callers/tests can model the post-HF20 forum explicitly.
+export const MIN_REPLY_INTERVAL_HF20_SEC = 3;
+
+// Relative RC cost per op kind (arbitrary units; "comment is the expensive one"). The pool
+// size below is denominated in these same units. Tune against live get_account RC data.
+export const RC_COST = Object.freeze({
+  post: 1500,      // root comment — most expensive (new permlink + state)
+  comment: 1000,   // reply
+  vote: 50,        // cheap
+  transfer: 300,
+  custom_json: 200,
+});
+
+// RC regenerates fully over this window (Steem RC_REGEN_TIME = 5 days).
+export const RC_REGEN_SEC = 432_000;
+
+/**
+ * Create a stateful RC meter for ONE account. Models a mana pool that depletes as ops are
+ * charged and regenerates linearly toward `max` over RC_REGEN_SEC. Inject `now` (ms) for
+ * deterministic tests. Soft-fail: never throws; a check returns an allow/deny verdict.
+ *
+ * @param {object} [opts]
+ * @param {number} [opts.max]      pool capacity in RC units (proportional to staked VESTS).
+ *                                 0 ⇒ a zero-stake account: every op is blocked.
+ * @param {number} [opts.current]  starting RC (default: full = max)
+ * @param {number} [opts.regenSec] full-regen window seconds (default RC_REGEN_SEC)
+ * @param {object} [opts.cost]     per-kind cost map (default RC_COST)
+ * @param {() => number} [opts.now] ms clock injector (default Date.now)
+ */
+export function rcMeter({ max = 0, current, regenSec = RC_REGEN_SEC, cost = RC_COST, now = Date.now } = {}) {
+  const capacity = Math.max(0, Number(max) || 0);
+  let mana = current === undefined ? capacity : Math.max(0, Math.min(capacity, Number(current) || 0));
+  let lastT = now();
+
+  // RC units regenerated per millisecond (linear toward capacity).
+  const perMs = capacity > 0 && regenSec > 0 ? capacity / (regenSec * 1000) : 0;
+
+  /** Advance the pool to `now`, applying linear regen up to capacity. */
+  function _regen() {
+    const t = now();
+    if (t > lastT && perMs > 0) {
+      mana = Math.min(capacity, mana + (t - lastT) * perMs);
+    }
+    lastT = t;
+  }
+
+  function costOf(kind) {
+    const c = cost[kind];
+    return typeof c === 'number' && c >= 0 ? c : (cost.comment || 1000);
+  }
+
+  /** Current available RC (after regen). */
+  function available() { _regen(); return mana; }
+
+  /**
+   * Would an op of `kind` be affordable right now? Advances the regen clock but does not
+   * charge. Returns the chain-style verdict.
+   * @returns {{ allowed:boolean, reason:string, have:number, need:number, retryAfterSec:number }}
+   */
+  function check(kind) {
+    _regen();
+    const need = costOf(kind);
+    if (capacity <= 0) {
+      return { allowed: false, reason: 'rc: account has no RC (0 staked/delegated VESTS) — cannot post until delegated POWER', have: 0, need, retryAfterSec: Infinity };
+    }
+    if (mana >= need) {
+      return { allowed: true, reason: 'ok', have: Math.floor(mana), need, retryAfterSec: 0 };
+    }
+    const deficit = need - mana;
+    const retry = perMs > 0 ? Math.ceil(deficit / perMs / 1000) : Infinity;
+    return { allowed: false, reason: `rc: insufficient RC (have ${Math.floor(mana)}, need ${need})`, have: Math.floor(mana), need, retryAfterSec: retry };
+  }
+
+  /** Charge an op of `kind` (deplete the pool) IF affordable. Returns the verdict. */
+  function charge(kind) {
+    const v = check(kind);
+    if (v.allowed) mana -= costOf(kind);
+    return v;
+  }
+
+  return { check, charge, available, costOf, capacity, _now: now };
+}
+
+/**
+ * simulateSpam — the headline #299 harness. Replay a spam burst of `ops` ops, fired every
+ * `intervalMs`, against BOTH the consensus interval rules AND a depleting/recovering RC
+ * budget, and report which ops would be ACCEPTED vs REJECTED and WHY. Fully offline +
+ * deterministic (it runs on a virtual clock — no real waiting, no network).
+ *
+ * This answers the operator's question directly: "if a bot hammers the forum, what gets
+ * through?" — and proves the chain's anti-spam (intervals + RC) spaces/blocks the flood.
+ *
+ * @param {object} args
+ * @param {number} [args.ops=20]           how many ops the spam bot fires
+ * @param {number} [args.intervalMs=0]     ms between fired ops (0 = instant flood, worst case)
+ * @param {number} [args.rcBudget=0]       RC pool capacity (0 = zero-stake account → all blocked)
+ * @param {string} [args.kind='comment']   op kind (post|comment|vote|transfer|custom_json)
+ * @param {object} [args.config={}]        raw get_config for the consensus intervals
+ * @param {number} [args.startMs=0]        virtual start time (ms)
+ * @param {object} [args.cost=RC_COST]     per-kind RC cost map
+ * @param {number} [args.regenSec]         RC regen window (default RC_REGEN_SEC)
+ * @param {number} [args.minIntervalSec]   override the consensus interval for `kind`
+ *                                         (e.g. MIN_REPLY_INTERVAL_HF20_SEC for the HF20 forum)
+ * @returns {{
+ *   accepted:Array, rejected:Array,
+ *   summary:{ total:number, accepted:number, rejected:number, byReason:object },
+ *   rcRemaining:number
+ * }}
+ */
+export function simulateSpam({
+  ops = 20,
+  intervalMs = 0,
+  rcBudget = 0,
+  kind = 'comment',
+  config = {},
+  startMs = 0,
+  cost = RC_COST,
+  regenSec = RC_REGEN_SEC,
+  minIntervalSec,
+} = {}) {
+  const { minIntervalFor } = chainLimits(config);
+  let clock = startMs;
+  const meter = rcMeter({ max: rcBudget, regenSec, cost, now: () => clock });
+
+  const accepted = [];
+  const rejected = [];
+  let lastAcceptedSec; // tSec of last accepted op of this kind (consensus interval tracking)
+  const minGapSec = typeof minIntervalSec === 'number' ? minIntervalSec : minIntervalFor(kind);
+
+  for (let i = 0; i < ops; i++) {
+    clock = startMs + i * intervalMs;
+    const tSec = clock / 1000;
+    const item = { i, kind, tSec, atMs: clock };
+
+    // 1) consensus interval — the hard, every-node rule (comments 1/Ns).
+    if (lastAcceptedSec !== undefined && tSec - lastAcceptedSec < minGapSec) {
+      rejected.push({
+        ...item,
+        reason: `consensus: ${kind} too soon — need ${minGapSec}s gap, only ${(tSec - lastAcceptedSec).toFixed(2)}s since last`,
+        retryAfterSec: +(lastAcceptedSec + minGapSec - tSec).toFixed(2),
+      });
+      continue;
+    }
+
+    // 2) RC budget — depletes per op, regenerates over time. 0 budget ⇒ always blocked.
+    const rc = meter.check(kind);
+    if (!rc.allowed) {
+      rejected.push({ ...item, reason: rc.reason, retryAfterSec: rc.retryAfterSec });
+      continue;
+    }
+
+    // Accept: charge RC + advance the consensus clock.
+    meter.charge(kind);
+    lastAcceptedSec = tSec;
+    accepted.push({ ...item, rcAfter: Math.floor(meter.available()) });
+  }
+
+  const byReason = rejected.reduce((m, r) => {
+    const tag = r.reason.startsWith('consensus') ? 'consensus-interval' : (r.reason.includes('no RC') ? 'rc-zero' : 'rc-depleted');
+    m[tag] = (m[tag] || 0) + 1;
+    return m;
+  }, {});
+
+  return {
+    accepted,
+    rejected,
+    summary: { total: ops, accepted: accepted.length, rejected: rejected.length, byReason },
+    rcRemaining: Math.floor(meter.available()),
+  };
+}
