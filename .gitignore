@@ -97,3 +97,4 @@ integrations/.diag-tasks/
 
 # karma runtime store (forkable but rebuilt; not source)
 karma/data/*.json
+.playwright-mcp/
