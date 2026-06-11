@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+  <meta name=viewport content="width=device-width,initial-scale=1">
+  <title>Create your account on the MELEK chain — MELEK</title>
+  <meta name=description content="Create your account on the MELEK chain. Plain and simple account creation on MELEK.">
+  <meta name=robots content="noindex">
+  <!--
+    register.html — STAGED for a later PR into melek-condenser. Modeled on the Blurt signup flow
+    (signup.blurtwallet.com / blurtplugin.online/account/register) but rebranded for MELEK and
+    rewritten in PLAIN language. All values below are PLACEHOLDERS — no real keys, no secrets.
+
+    KEY CUSTODY (BRIEF.md §7, HARD RULE): the four keys are GENERATED IN THE BROWSER and shown only
+    for the user to back up. They are NEVER sent to any server. The condenser submits only the
+    PUBLIC keys with the username. The placeholder fields here illustrate layout only.
+  -->
+  <style>
+    :root{--bg:#0d1117;--panel:#161b22;--line:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950;--warn:#f85149}
+    *{box-sizing:border-box} body{font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
+    a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+    header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;gap:14px;align-items:center}
+    .brand{font-weight:800;font-size:20px;letter-spacing:.5px} .brand span{color:var(--gold)}
+    .wrap{max-width:620px;margin:0 auto;padding:30px 20px}
+    h1{font-size:26px;margin:0 0 4px} .sub{color:var(--mut);margin:0 0 24px}
+    label.fld{display:block;font-weight:600;margin:0 0 6px}
+    input.text{width:100%;background:#0b0f14;border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:11px 13px;font-size:16px}
+    .hint{color:var(--mut);font-size:13px;margin:6px 0 20px}
+    .keys{margin:8px 0 20px}
+    .keyrow{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:13px 15px;margin:10px 0}
+    .keyrow .kl{font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .keyrow .kh{color:var(--mut);font-size:13px;margin:4px 0 8px}
+    .keyrow code{display:block;background:#0b0f14;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;word-break:break-all;color:var(--up)}
+    .warn{background:#f8514922;border:1px solid #f8514955;border-radius:8px;padding:14px 16px;margin:18px 0;font-size:14px}
+    .warn b{color:var(--warn)}
+    .btn{display:block;width:100%;background:var(--gold);color:#0d1117;font-weight:800;font-size:17px;border:0;border-radius:8px;padding:14px;cursor:pointer;margin-top:8px}
+    .btn:hover{filter:brightness(1.08)}
+    footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 20px;border-top:1px solid var(--line);margin-top:30px}
+  </style>
+</head>
+<body>
+  <header class=top><span class=brand>MELEK<span>·</span> Sign up</span></header>
+  <main class=wrap>
+    <h1>Create your account on the MELEK chain</h1>
+    <p class=sub>Pick a name, save your keys, and you are in. It takes about a minute.</p>
+
+    <!-- The condenser wires action= to its real register route at PR time. -->
+    <form method=post action="/account/register">
+      <label class=fld for=username>Choose a username</label>
+      <input class=text id=username name=username value="" placeholder="yourname" autocomplete=off spellcheck=false>
+      <div class=hint>Lowercase letters and numbers. This is how people will find you. It cannot be changed later.</div>
+
+      <h2 style="font-size:18px;margin:18px 0 4px">Your keys</h2>
+      <p class=hint style="margin-top:0">These are like passwords for your account. They were just made on your own device — we never see them. <b>Write them down or save them somewhere safe before you continue.</b> If you lose them, no one can get them back for you.</p>
+
+      <div class=keys>
+        <div class=keyrow>
+          <div class=kl><span>Master key</span><span class=hint style="margin:0">backup this</span></div>
+          <div class=kh>The big one. It can do everything, including recover your account. Keep it offline, never paste it into a website.</div>
+          <code>PUBLIC_OWNER_KEY_PLACEHOLDER</code>
+        </div>
+        <div class=keyrow>
+          <div class=kl><span>Wallet key</span><span class=hint style="margin:0">backup this</span></div>
+          <div class=kh>Used to move funds and change settings. Keep it safe; only enter it when you mean to send or update something.</div>
+          <code>PUBLIC_ACTIVE_KEY_PLACEHOLDER</code>
+        </div>
+        <div class=keyrow>
+          <div class=kl><span>Posting key</span><span class=hint style="margin:0">backup this</span></div>
+          <div class=kh>Used for everyday things: posting, commenting, voting. The one you will use most.</div>
+          <code>PUBLIC_POSTING_KEY_PLACEHOLDER</code>
+        </div>
+        <div class=keyrow>
+          <div class=kl><span>Message key</span><span class=hint style="margin:0">backup this</span></div>
+          <div class=kh>Used to read and write private messages attached to transfers.</div>
+          <code>PUBLIC_MEMO_KEY_PLACEHOLDER</code>
+        </div>
+      </div>
+
+      <div class=warn><b>Important:</b> never type these keys into any other website, and never share them. Anyone with your Master key controls your account.</div>
+
+      <button class=btn type=submit>I saved my keys — create my account</button>
+    </form>
+  </main>
+  <footer>MELEK — your keys are generated on your device and never sent to us. Keep them safe.</footer>
+</body>
+</html>

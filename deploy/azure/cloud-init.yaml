@@ -1,0 +1,63 @@
+#cloud-config
+# cloud-init.yaml — first-boot provisioning for the MELEK testnet/brain VM.
+#
+# Installs: Node.js (LTS), PostgreSQL + the pgvector extension, build tools, git;
+# clones the Bot repo; creates the brain database with pgvector enabled.
+#
+# NO MINING. This box runs the MELEK *testnet* node, the Cheetah/Hathor test
+# harness, and the Postgres/pgvector brain. Mining is forbidden by Azure AUP and
+# stays on the dedicated mining box.
+#
+# Placeholders (substitute before deploy, or template via your deploy wrapper):
+#   __REPO_URL__       git URL of the Bot repo (e.g. https://github.com/<org>/Bot.git)
+#   __REPO_BRANCH__    branch to check out (e.g. main)
+#   __ADMIN_USER__     the VM admin user (must match the VM's adminUsername)
+#   __BRAIN_DB__       brain database name (e.g. melek_brain)
+#   __BRAIN_DB_USER__  brain db role (e.g. melek)
+# The brain DB password is NOT set here — generate it on the box / inject via the
+# operator's secret tooling. No secrets in this file, ever.
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - git
+  - curl
+  - ca-certificates
+  - build-essential
+  - postgresql
+  - postgresql-contrib
+  - postgresql-server-dev-all
+
+write_files:
+  - path: /etc/melek/NO_MINING.txt
+    permissions: '0644'
+    content: |
+      This Azure VM must NOT run cryptocurrency mining.
+      Azure Acceptable Use Policy forbids it. Mining lives on the mining box.
+      This VM: MELEK testnet node + Cheetah/Hathor tests + Postgres/pgvector brain.
+
+runcmd:
+  # ── Node.js LTS via NodeSource ──────────────────────────────────────────
+  - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+  - apt-get install -y nodejs
+
+  # ── pgvector: build + install against the system Postgres ────────────────
+  - git clone --depth 1 https://github.com/pgvector/pgvector.git /tmp/pgvector
+  - make -C /tmp/pgvector
+  - make -C /tmp/pgvector install
+
+  # ── brain database + pgvector extension ──────────────────────────────────
+  - systemctl enable --now postgresql
+  - sudo -u postgres psql -c "CREATE ROLE __BRAIN_DB_USER__ LOGIN;" || true
+  - sudo -u postgres psql -c "CREATE DATABASE __BRAIN_DB__ OWNER __BRAIN_DB_USER__;" || true
+  - sudo -u postgres psql -d __BRAIN_DB__ -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+  # ── clone the Bot repo for the test harness + node runner ────────────────
+  - sudo -u __ADMIN_USER__ git clone --branch __REPO_BRANCH__ --depth 1 __REPO_URL__ /home/__ADMIN_USER__/Bot || true
+  - sudo -u __ADMIN_USER__ bash -lc 'cd /home/__ADMIN_USER__/Bot && npm ci --omit=dev || npm install --omit=dev || true'
+
+  # ── reminder marker (mining stays off this box) ───────────────────────────
+  - echo "MELEK testnet/brain VM provisioned — NO mining (Azure AUP)" | tee /var/log/melek-provision.log
+
+final_message: "MELEK testnet + brain VM ready after $UPTIME seconds. No mining on Azure."

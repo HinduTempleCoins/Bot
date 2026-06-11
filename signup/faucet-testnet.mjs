@@ -120,6 +120,14 @@ function initChain() {
   client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 15000 });
 }
 
+// Test seam: inject a fake chain client (and optionally a fake key) so createAccount's op shape is
+// offline-verifiable without a real RPC or a creator WIF. The fake client only needs a
+// broadcast.sendOperations(ops, key) method that records its calls. NEVER used by the CLI path.
+export function __setClient(fakeClient, fakeKey = null) {
+  client = fakeClient;
+  if (fakeKey !== null) creatorKey = fakeKey;
+}
+
 // ── abuse rate limiter ──────────────────────────────────────────────────────────────────────────
 // The faucet mints FUNDED accounts — the highest-abuse surface (the live bounded spam-test minted
 // 5/5 funded accounts from one client with zero throttle). Cap per-IP and per-fingerprint over a
@@ -151,7 +159,7 @@ function validatePubs(input) {
   return { ok: true };
 }
 
-async function createAccount(input) {
+export async function createAccount(input) {
   if (!validAccountName(input.name)) return { ok: false, reason: 'invalid-account-name' };
   const pv = validatePubs(input);
   if (!pv.ok) return pv;
