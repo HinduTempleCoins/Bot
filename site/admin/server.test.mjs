@@ -172,19 +172,20 @@ test('Build Options render FIRST on the Features tab, above the module catalog',
 
 test('Build Options include the BLOCKCHAIN + PRANA build options sourced from the design docs', async () => {
   const res = await call({ url: '/features', headers: { cookie: adminCookie() } });
-  assert.match(res.body, /Blockchain build options/);
-  // both chains
-  assert.match(res.body, /MELEK chain/);
-  assert.match(res.body, /core-geth/);            // PRANA chain
-  assert.match(res.body, /Etchash/);
-  // the PRANA compute/pool design options
-  assert.match(res.body, /GridCoin redirect/);    // AI-work-as-mining
-  assert.match(res.body, /burn-for-hashrate/i);   // microhashing + burn
-  assert.match(res.body, /RandomX/);              // CPU bootstrap
-  assert.match(res.body, /Hardware tiers/);
-  assert.match(res.body, /Miningcore/);           // pool engine fork
-  assert.match(res.body, /Devcoin/);              // single-pool vs registered pools
-  // sources are cited (traceable to the PRANA docs)
+  assert.match(res.body, /Our blockchains/); // plain-language group title (non-programmer)
+  // both chains, described plainly
+  assert.match(res.body, /our social blockchain/);   // MELEK
+  assert.match(res.body, /Steem \/ BLURT|Steem and BLURT/);
+  assert.match(res.body, /our own coin that people can mine/); // PRANA
+  assert.match(res.body, /Ethereum family/);
+  // the PRANA compute/pool design options (plain wording)
+  assert.match(res.body, /mine by doing AI work/);   // AI-work-as-mining
+  assert.match(res.body, /Three ways to earn/);      // microhashing + burn → three lanes
+  assert.match(res.body, /ordinary laptop can take part/); // CPU bootstrap
+  assert.match(res.body, /who can mine, on what/);   // hardware tiers
+  assert.match(res.body, /one pool program that handles both mining styles/i); // pool engine
+  assert.match(res.body, /others may run their own/); // single-pool vs registered pools
+  // sources still cited (traceable to the PRANA docs)
   assert.match(res.body, /PRANA_CHAIN_DESIGN\.md/);
   assert.match(res.body, /gridcoin-redirect\.md/);
 });

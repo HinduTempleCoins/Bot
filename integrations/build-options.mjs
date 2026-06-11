@@ -41,120 +41,133 @@ export function notesPath() { return NOTES_PATH; }
 export const BUILD_OPTION_GROUPS = [
   {
     id: 'chains',
-    title: 'Blockchain build options',
-    blurb: 'The two MELEK-ecosystem chains and the PRANA "chain IS the pool" compute design. '
-      + 'These are build-direction choices, not live deploy triggers — they say what we are building toward.',
+    title: 'Our blockchains — in plain terms',
+    blurb: 'We have two blockchains, plus the big idea that "doing AI work IS how you mine." '
+      + 'These cards say what we are building toward and why — they are explanations, not buttons that launch anything.',
   },
   {
     id: 'platform',
-    title: 'Platform build options',
-    blurb: 'Cross-cutting build directions for the off-chain operator software.',
+    title: 'How the software is run safely',
+    blurb: 'Big-picture choices for the software that runs around the chains.',
   },
 ];
 
+// Each card explains a real build decision in plain language (no command-line / programmer jargon).
+// `desc` = what the feature IS and why it matters; `choice` = what we're building, in one sentence;
+// `source` = the doc it traces back to (shown small, for the record — safe to ignore).
 export const BUILD_OPTIONS = [
   // ── chains: the two chains ──────────────────────────────────────────────────────────────────────
   {
     id: 'chain-melek-graphene',
     group: 'chains',
-    title: 'MELEK chain — Graphene (BLURT/Steem family) social chain',
-    desc: 'MELEK is a Graphene DPoS social blockchain (a BLURT/Steem fork) where Hathor is a founding '
-      + 'witness account. Standard Graphene ops only (comment/vote/transfer/delegate); no custom AI ops. '
-      + 'Single source of truth, many interchangeable front ends (the condenser).',
-    choice: 'Build: Graphene fork, Hathor witness with a 1-year slot protection in the chain code.',
+    title: 'MELEK — our social blockchain (the Steem / BLURT family)',
+    desc: 'MELEK is our social blockchain — the same proven kind that Steem and BLURT use, where posts, '
+      + 'votes, and tips are saved permanently and any website can display them. Hathor is one of the '
+      + 'founding "witnesses" — the trusted accounts that keep the network running and write new entries. '
+      + 'It only uses the standard, well-understood actions (post, vote, send, give) — nothing custom or '
+      + 'risky bolted on.',
+    choice: 'We are building: our own copy of that battle-tested social-chain software, with Hathor’s '
+      + 'witness seat protected for the first year so it can get established.',
     source: ['BRIEF.md §1', 'CLAUDE.md core framing'],
   },
   {
     id: 'chain-prana-coregeth',
     group: 'chains',
-    title: 'PRANA chain — core-geth fork, Etchash PoW (EVM family)',
-    desc: 'PRANA is our own EVM-family PoW coin chain. Recommendation on record: clone core-geth '
-      + '(Ethereum Classic’s actively-maintained geth lineage) with a fresh genesis and Etchash PoW '
-      + '(ASIC-resistant Ethash variant) — the most battle-tested mineable PoW-EVM, and the path of least '
-      + 'resistance because our Miningcore pool stack already speaks Etchash stratum. L1 node mines, '
-      + 'chainId 108369.',
-    choice: 'Build: core-geth fork + Etchash PoW genesis (chainId 108369).',
-    source: ['.local/PRANA_CHAIN_DESIGN.md §1', 'PRANA design/LAUNCH-READINESS.md'],
+    title: 'PRANA — our minable coin (the Ethereum family)',
+    desc: 'PRANA is our own coin that people can mine. It is built from the same software family as '
+      + 'Ethereum, but uses a mining method that ordinary graphics cards can do — so it is not taken over '
+      + 'by giant, specialized mining machines the way some coins are. We start from the most trusted, '
+      + 'still-actively-maintained version of that software instead of writing a blockchain from scratch, '
+      + 'and our mining pool already understands it.',
+    choice: 'We are building: PRANA on the proven, graphics-card-friendly Ethereum-family software, so '
+      + 'everyday miners can take part and our pool works with it out of the box.',
+    source: ['.local/PRANA_EVM_OPTIONS_2026-06-10.md', '.local/PRANA_CHAIN_DESIGN.md §1'],
   },
   // ── chains: the PRANA compute / pool design (the "chain IS the pool" engine) ─────────────────────
   {
     id: 'prana-gridcoin-redirect',
     group: 'chains',
-    title: 'AI-work-as-mining (the GridCoin redirect)',
-    desc: 'The thesis of the whole compute design: a GPU doing AI work (running Hathor / inference) IS '
-      + 'the mining. The GPU is pointed at AI jobs, and that work — not a hash — is what earns shares in '
-      + 'the pool (the TASK lane). Hashing stays only as a thin heartbeat that secures and orders blocks. '
-      + 'GridCoin-style useful-work reward, implemented on-chain.',
-    choice: 'Build direction: useful AI work earns; hashing is a thin security floor.',
-    source: ['PRANA design/compute/gridcoin-redirect.md', 'design/ENGINE-DIAGRAM.md'],
+    title: 'You mine by doing AI work, not by wasting electricity',
+    desc: 'The heart of PRANA: a computer earns the coin by doing useful AI work for us (like helping run '
+      + 'Hathor), instead of just burning power on meaningless number-crunching the way most mining does. '
+      + 'A tiny bit of ordinary mining stays in the background to keep the network secure and in order — '
+      + 'but the real reward comes from doing real work.',
+    choice: 'We are building: useful AI work is what earns the coin; ordinary mining is just a thin '
+      + 'security layer underneath.',
+    source: ['PRANA design/compute/gridcoin-redirect.md'],
   },
   {
     id: 'prana-microhash-burn',
     group: 'chains',
-    title: 'Microhashing + burn-for-hashrate (the three lanes)',
-    desc: 'One canonical pool (UnifiedSharesLedger) credits three lanes into the SAME per-epoch PPLNS '
-      + 'pool: HASH (a microhash heartbeat — Etchash, self-verifying), TASK (verified AI/useful work), '
-      + 'and BURN (proof-of-burn perma-stake via MultiCurrencyBurnRouter). BurnForHashrate is the '
-      + '0xBTC/Bitcoineum "virtual mining" model: a fixed reward per epoch split pro-rata among everyone '
-      + 'who burned that epoch (difficulty rises for free as total burn rises).',
-    choice: 'Build: HASH + TASK + BURN lanes into one UnifiedSharesLedger (default weights 1:1:1, DAO-governed).',
-    source: ['PRANA design/compute/decentralized-pool.md', 'contracts/.../UnifiedSharesLedger, BurnForHashrate, HashTaskWeightConfig'],
+    title: 'Three ways to earn from one shared reward pool',
+    desc: 'Everyone earns from a single shared reward pool, and there are three ways to add to it: '
+      + '(1) a small, steady amount of ordinary mining; (2) doing the AI / useful work we hand out; and '
+      + '(3) "burning" some coin — permanently giving up coins now in exchange for a steady share of '
+      + 'future rewards. The community can dial how much each of the three counts.',
+    choice: 'We are building: one shared reward pool fed by mining + AI work + burning, balanced however '
+      + 'the community decides.',
+    source: ['PRANA design/compute/decentralized-pool.md'],
   },
   {
     id: 'prana-cpu-bootstrap',
     group: 'chains',
-    title: 'CPU bootstrap — ordinary laptops mine from day one (RandomX)',
-    desc: 'At launch the people who show up have laptops, not GPU farms. A GPU-only chain starts '
-      + 'concentrated. RandomX light-mode lets a plain CPU secure and distribute the coin on day one; '
-      + 'when a GPU arrives it is worth more on AI work (TASK lane) than on hashing, so it graduates. '
-      + 'Breadth principle: many people contribute something.',
-    choice: 'Build: add a CPU-native RandomX bootstrap lane alongside Etchash microhash.',
-    source: ['PRANA design/compute/cpu-bootstrap.md', 'design/compute/hardware-tiers.md'],
+    title: 'Day one, an ordinary laptop can take part',
+    desc: 'When we launch, most people will have a normal laptop, not an expensive mining rig. If the coin '
+      + 'demanded fancy hardware from the start, only a few people could get in and they would own '
+      + 'everything. So at launch a plain laptop can help run and spread the coin. Later, when someone '
+      + 'gets a graphics card, it earns more by doing AI work than by plain mining — so it naturally moves '
+      + 'over to the useful work.',
+    choice: 'We are building: a launch path where ordinary laptops can join right away.',
+    source: ['PRANA design/compute/cpu-bootstrap.md'],
   },
   {
     id: 'prana-hardware-tiers',
     group: 'chains',
-    title: 'Hardware tiers — the honest map (who mines, on what)',
-    desc: 'An honest tier map instead of overpromising: Tier-1 buyable consumer GPUs are the community '
-      + 'substrate (real AI inference + microhashing; low-VRAM 3–6 GB cards stay in via Etchash '
-      + 'ECIP-1099 "Thanos"); higher tiers (multi-GPU rigs, data-center) and an FPGA/open-silicon '
-      + 'education track scale up. A laptop is a weak hasher and a task-small AI contributor — said plainly.',
-    choice: 'Build: design pool so each hardware tier can contribute something, honestly scoped.',
+    title: 'An honest map of who can mine, on what',
+    desc: 'Instead of overpromising, an honest picture of what each kind of computer can actually do: an '
+      + 'ordinary buyable graphics card is the heart of the community (it can do real AI work plus a little '
+      + 'mining, and even older cards still fit); bigger multi-card rigs and data-center machines do more; '
+      + 'and there is a learning track for hobbyist and experimental hardware. A laptop is described '
+      + 'plainly as a light helper, not a powerhouse — no false promises.',
+    choice: 'We are building: the pool so every kind of computer can contribute something, honestly '
+      + 'described.',
     source: ['PRANA design/compute/hardware-tiers.md'],
   },
   {
     id: 'prana-pool-model',
     group: 'chains',
-    title: 'Pool model — default single pool vs. registered pools (Devcoin-style)',
-    desc: 'Devcoin-style: the chain routes block rewards to a protocol-default pool that splits to a list '
-      + 'per the DAO’s division rules, while opt-in registered pools may also run — on the condition '
-      + 'their miners consume our DAO’s AI workload. On-chain the pool is two parts: the canonical '
-      + 'UnifiedSharesLedger (can’t be rugged) plus permissionless off-chain coordinators '
-      + '(CoordinatorRegistry slashable bond + JobClaimLedger cross-coordinator dedup).',
-    choice: 'Build: protocol-default pool + opt-in registered pools; DAO sets share division; AI-work required.',
-    source: ['.local/PRANA_CHAIN_DESIGN.md §2', 'contracts/.../CoordinatorRegistry, JobClaimLedger, TaskDispatchPolicy'],
+    title: 'One main pool — but others may run their own',
+    desc: 'The coin sends its rewards to one main, can’t-be-cheated community pool that shares them out by '
+      + 'rules the community sets. Other people are also allowed to run their own mining pools — on one '
+      + 'condition: to collect the AI-work portion, their miners have to actually do our AI work. So the '
+      + 'system stays open to anyone, while everyone is still pulling toward the project’s real work.',
+    choice: 'We are building: a main shared pool plus optional independent pools; the community sets the '
+      + 'split; doing our AI work is required to earn the AI-work share.',
+    source: ['.local/PRANA_CHAIN_DESIGN.md §2'],
   },
   {
     id: 'prana-miningcore-fork',
     group: 'chains',
-    title: 'Pool engine — fork Miningcore (one codebase, both algorithms)',
-    desc: 'Rather than run two separate pool stacks, fork oliverw/miningcore — one multi-coin engine that '
-      + 'already ships BOTH stratum families in one process: Ethash-family (our Etchash microhash lane) '
-      + 'and CryptoNote/RandomX (our CPU bootstrap lane). One binary, one config, one payment core, two '
-      + 'algo front-ends. It is the off-chain coordinator that posts verified work to the on-chain ledger '
-      + 'while verification matures; the in-chain decentralized pool is the priority path.',
-    choice: 'Build: fork Miningcore for the off-chain coordinator (Etchash + RandomX → one UnifiedSharesLedger).',
+    title: 'One pool program that handles both mining styles',
+    desc: 'Rather than running two separate pieces of pool software, we adapt one well-known, free pool '
+      + 'program that already understands BOTH mining styles in a single setup: the graphics-card style '
+      + 'and the laptop-processor style. It is the helper that gathers everyone’s work and reports it to '
+      + 'the blockchain while the system matures.',
+    choice: 'We are building: one adapted pool program that handles graphics-card and laptop mining '
+      + 'together.',
     source: ['PRANA design/compute/miningcore-fork.md', '.local/MINING_POOL_PLAN.md'],
   },
   // ── platform ────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'platform-zero-wif',
     group: 'platform',
-    title: 'Key custody — zero WIF on host, sign via MELEK-Signer',
-    desc: 'No private key ever lives in this repo or its host. Broadcasts go through a separate '
-      + 'MELEK-Signer service authenticated by a scoped, revocable bearer token. The Bot treats Hathor '
-      + 'as a witness account and never signs locally.',
-    choice: 'Build: all signing behind MELEK-Signer; this host stays zero-WIF by construction.',
+    title: 'The keys that move money never live on this computer',
+    desc: 'A core safety rule: the secret "password" that can move funds or post as Hathor is never kept '
+      + 'on this server or in the code. When something genuinely needs to be signed, the request is sent '
+      + 'to a separate, locked-down signing service that holds the key by itself — so even if this machine '
+      + 'were broken into, there is no key here to steal.',
+    choice: 'We are building: all signing through a separate locked-down signer; this machine never holds '
+      + 'a key.',
     source: ['MELEK_SIGNER.md', 'BRIEF.md §7'],
   },
 ];
