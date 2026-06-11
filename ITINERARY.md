@@ -1080,3 +1080,19 @@ These items appear above as not-started, in-progress, or ⏳; as of 2026-06-03 t
 - **Law.SoapBox + Politics.SoapBox portals — CHOSEN.** Two new portal surfaces are now active decisions (they sit alongside data.soapbox.community / soapy.blog). The accountability readers (PR #61) and gov-records readers (PR #60) feed these.
 - **Discord = Van Kush Family community build-out.** The Discord surface is the Van Kush Family community, being built out as such.
 - **Naming guardrail (unchanged, restated):** the **Shaivite Temple** is the operator's **501(c)(3)** — it is *never* called "Temple of Van Kush." Crypt-ology remains the per-person relationship-map subsystem, distinct from the Temple.
+
+## Present-state overlay — 2026-06-11 (appended)
+
+**APPEND-ONLY.** Nothing above is removed or edited. The itinerary is ~5 days stale (last real
+tracking ~2026-06-06); the work below is DONE-BUT-UNTRACKED. Source: `.local/ITINERARY_GAP.md`.
+
+- **Private-"brain" track (decades-AI) — BUILT, never itinerized.** `memory/` (pgvector-backed `vector-store.mjs`, embedder façade `embed.mjs`, `index.mjs`); `briefs/rules-floor.mjs` (deterministic item→Brief scoring, "first brain piece") + `briefs/from-tracker.mjs`; annals `integrations/docling-ingest.mjs` (Docling export → annal records, "brain piece 4"); `integrations/brief-brain.mjs`, `brief-assembler*`, `mom-layer.mjs` + `mom-synth.mjs` (MoM-synthesis now code, not the empty stub MEMORY noted). The annals→briefs→itinerary self-correction loop's artifacts exist; the loop runner does not yet.
+- **6 backlog waves of self-contained modules — DONE.** Waves 1–5 in git (~140 new modules) + wave-6 in flight. `integrations/` now holds ~300 `.mjs` modules (+ ~300 tests); the "~275 modules" figure (Reconciliation 2026-06-03) is superseded.
+- **`karma/` — BUILT** (CLAUDE.md said "deferred/to create"): `dharma-100.mjs`, `neediness-weight.mjs`, `siring-model.mjs`, `karma.mjs`, `index.mjs` + tests + `data/`. BRIEF.md §9 Karma-Merit is now real code.
+- **`cryptology/` — BUILT** (CLAUDE.md said "deferred — corpus first"): `cryptology.mjs` + tests, per-person relationship map keyed on MELEK identity (BRIEF.md §6a).
+- **`knowledge/scripture/` corpus — DONE.** 5 canonical operator docs (Phoenix Protocol, AI Consciousness Synthesis, Zar-AI, Van Kush Master Synthesis, The Convergence) as `.md` + `.json`, plus `knowledge/scripture-index.mjs` + `tools/scripture-validate.mjs`. Corpus-before-cryptology sequencing largely satisfied.
+- **`engine/` MELEK-Engine — BUILT.** Hive-Engine-style side-token layer (api/contracts/lib/nitrous/node/ui, ~49 files). Not in either itinerary structure.
+- **`pool/` mining pool — BUILT + live.** Browser miner, in-browser walletgen, `bridge/` (+proof-share), `zephyr/` staging (~63 files); live at pool.soapbox.community (Monero-stagenet twin). Itinerary listed pool only as a future subdomain.
+- **`site/` — ~98 files across ~25 verticals** (abuck, admin, alpha, coupons, directory, dudael, genai, hemp, hierophant, hub, law, melek-holding, oversight, politics, search, shopping, stocks, travel, vankushfamily, wiki, witness, witness-docs, soapbox). Itinerary names only a handful.
+- **Also untracked-as-done:** `src/chain/` full client (adapter/CAIP/jit-signer/permlink/melek-signer-client/…), `src/trollbox/` chat endpoint, `watcher/` (read-only chain observer, 79 tests), `autovote/` curation engine, `voting_rules/` + daily-vote-budget, `commands/` Phase-2 menu, Discord↔chain bridge modules (`hathor-discord.mjs`, `discord-chain-bridge.mjs`, `telegram-bot.mjs`).
+- **Live testnet reality (QUEUE.md 2026-06-10):** chain producing ~block 115k; condenser live at alpha.melek.salon; e2e signup creating real on-chain accounts; 5-min auto-welcomer; hourly price feed; Cheetah test page live. Highest-leverage open gaps are SURFACING the already-live testnet (welcome post, Cheetah results, `/tutorial` page, TrollBox reply loop), not new builds.
