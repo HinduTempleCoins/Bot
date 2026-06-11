@@ -84,12 +84,14 @@ const PREFIX = (process.env.FAUCET_PREFIX || 'TST').trim();
 const CREATOR = (process.env.FAUCET_CREATOR || 'initminer').trim();
 const FEE = process.env.FAUCET_FEE || '0.001 TESTS';
 // A brand-new Graphene account has ZERO Resource Credits and literally cannot post/comment/
-// transfer until it has staked POWER (vesting) or a delegation. So we delegate at creation —
-// account_create_with_delegation hands the newcomer enough VESTS to transact on day one.
-// Default is a real, non-zero amount on purpose; set FAUCET_DELEGATION="0.000000 VESTS" only if
-// you deliberately want mute accounts. (Delegation comes from the creator and is reclaimable.)
-const DELEGATION = process.env.FAUCET_DELEGATION || '30.000000 VESTS';
-const wantsDelegation = !/^0\.0+\s+VESTS$/.test(DELEGATION.trim());
+// transfer until it owns staked POWER (vesting). Operator model (2026-06-11): Hathor GIVES the
+// newcomer a little MELEK as posting-power — a real gift the account OWNS (transfer_to_vesting /
+// "power up" into their account), NOT a delegation loan retained by Hathor. So at creation we
+// power a small amount up into the new account; they own the stake and therefore their own RC.
+// Amount is a liquid TESTS figure that gets powered up; set FAUCET_POWER_GIFT="0.000 TESTS" only
+// if you deliberately want mute accounts. (Back-compat: legacy FAUCET_DELEGATION is still read.)
+const POWER_GIFT = (process.env.FAUCET_POWER_GIFT || process.env.FAUCET_DELEGATION_TESTS || '3.000 TESTS').trim();
+const wantsPower = !/^0\.0+\s+TESTS$/.test(POWER_GIFT) && /TESTS$/.test(POWER_GIFT);
 
 // TESTNET SAFETY: refuse to run against anything that is not the known testnet symbol/prefix.
 if (PREFIX !== 'TST' || !/TESTS$/.test(FEE)) {
@@ -175,23 +177,24 @@ async function createAccount(input) {
     return { ok: false, reason: `broadcast-failed:${String((e && e.message) || 'create').slice(0, 300)}` };
   }
 
-  // Give the newcomer Resource Credits so they can post/comment/transfer from minute one.
-  // A fresh account has ZERO RC; RC is drawn from staked POWER, so the creator delegates VESTS.
-  // Best-effort: the account already exists, so a delegation hiccup must not fail the signup —
-  // we just report it so the caller can retry.
-  let delegated = null, delegationError = null;
-  if (wantsDelegation) {
+  // Hathor GIVES the newcomer a little posting-power so they can post/comment/transfer from minute
+  // one. A fresh account has ZERO RC; RC comes from staked POWER, so we power a small MELEK amount
+  // UP into the new account (transfer_to_vesting) — the account OWNS this stake (a gift, not a loan
+  // Hathor reclaims). Best-effort: the account already exists, so a power-up hiccup must not fail
+  // the signup — we just report it so the caller can retry.
+  let poweredUp = null, powerError = null;
+  if (wantsPower) {
     try {
       await client.broadcast.sendOperations(
-        [['delegate_vesting_shares', { delegator: CREATOR, delegatee: input.name, vesting_shares: DELEGATION }]],
+        [['transfer_to_vesting', { from: CREATOR, to: input.name, amount: POWER_GIFT }]],
         creatorKey,
       );
-      delegated = DELEGATION;
+      poweredUp = POWER_GIFT;
     } catch (e) {
-      delegationError = String((e && e.message) || 'delegate-failed').slice(0, 200);
+      powerError = String((e && e.message) || 'power-up-failed').slice(0, 200);
     }
   }
-  return { ok: true, id: createId, delegated, delegationError };
+  return { ok: true, id: createId, poweredUp, powerError };
 }
 
 function send(res, code, body) {
