@@ -21,6 +21,7 @@ import { balance } from './handlers/balance.js';
 import { witness } from './handlers/witness.js';
 import { postCount } from './handlers/post-count.js';
 import { price } from './handlers/price.js';
+import { kulaswap } from './handlers/kulaswap.js';
 
 // Default registrations. Order doesn't matter; help lists them alphabetically.
 defaultRegistry.register('help', {
@@ -47,6 +48,11 @@ defaultRegistry.register('price', {
   args: '[symbol]',
   help: 'Show the USD price of an asset (default HIVE), multi-source.',
   handler: price,
+});
+defaultRegistry.register('kulaswap', {
+  args: '[pool]',
+  help: 'Show KulaSwap mining-pool stats: hashrate, miners, stratum port. With no pool, lists all pools.',
+  handler: kulaswap,
 });
 
 /**

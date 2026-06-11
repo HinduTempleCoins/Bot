@@ -44,6 +44,14 @@ The resident AI (Server A, qwen2.5-coder:1.5b) and the tiny-LLM (the tiny-LLM ho
 | `ml-courses/microsoft-ai-for-beginners/` | github.com/microsoft/AI-For-Beginners | MIT | 12-week intro AI curriculum (English only) |
 | `ml-courses/microsoft-ml-for-beginners/` | github.com/microsoft/ML-For-Beginners | MIT | 12-week ML fundamentals curriculum (English only) |
 
+### Process / project-management (in-house reference — how the AIs run the loop)
+| path | source | license | role |
+|---|---|---|---|
+| `process/meeting-minutes-mom.md` | in-house | repo-public | **The authoritative MoM template** — what minutes are, the canonical structure (Attendees/Decisions/Action items/Open questions), and the MELEK convention (`<id>.mom.md` synthesized from `<id>.asks.md` — the notes layer annal/brief writers read). |
+| `process/scrum.md` | in-house | repo-public | SCRUM in brief (roles/artifacts/events) mapped to MELEK's annal/brief/itinerary loop: Itinerary≈Product Backlog, briefs≈Sprint Planning, MoM action-items≈Sprint Backlog. |
+| `process/agile-glossary.md` | in-house | repo-public | Tight glossary of agile/SCRUM terms (backlog, velocity, story points, Definition of Done, retro, WIP, …). |
+| `process/community-knowledge-sources.md` | in-house | repo-public | On-demand public Q&A/forum sources the AIs consult for what the repo can't answer. |
+
 ### Operator private (gitignored — stay on the operator's machine + Server A)
 | path | source | license | role |
 |---|---|---|---|
