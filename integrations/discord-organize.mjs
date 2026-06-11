@@ -166,12 +166,14 @@ export async function fetchGuildChannels(guildId) {
 /**
  * Execute a plan against a guild. Sequential (rate-limit friendly). Returns per-op results.
  * Creates categories first so moves/creates can reference them.
+ * `existing` (the guild's current channels) may be passed in to reuse a fetch the caller
+ * already made (the CLI fetches it for the dry-run); omit it and applyPlan fetches it itself.
  */
-export async function applyPlan(guildId, plan) {
+export async function applyPlan(guildId, plan, existing) {
   const results = [];
   const catIds = new Map(); // category name -> id (existing + newly created)
-  const existing = await fetchGuildChannels(guildId);
-  for (const c of existing.filter((x) => x.type === T_CATEGORY)) catIds.set(norm(c.name), c.id);
+  const channels = existing || await fetchGuildChannels(guildId);
+  for (const c of channels.filter((x) => x.type === T_CATEGORY)) catIds.set(norm(c.name), c.id);
 
   for (const o of plan.ops) {
     try {
@@ -214,7 +216,7 @@ if (process.argv[1] && process.argv[1].endsWith('discord-organize.mjs')) {
   const plan = planChanges(existing);
   console.log(renderPlan(plan));
   if (apply) {
-    const res = await applyPlan(guildId, plan);
+    const res = await applyPlan(guildId, plan, existing); // reuse the dry-run fetch — no redundant GET
     const okN = res.filter((r) => r.ok).length;
     console.log(`applied: ${okN}/${res.length} ops ok`);
     for (const r of res.filter((x) => !x.ok)) console.log(`  FAILED ${r.kind} ${r.name || r.id}: ${r.reason}`);
