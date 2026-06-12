@@ -257,6 +257,36 @@ test('createAccount broadcasts account_create THEN transfer_to_vesting (gift-of-
   assert.equal(fc.calls[1].key, 'fake-key-sentinel');
 });
 
+test('createAccount pays the EXACT chain account_creation_fee from the witness schedule', async () => {
+  // The chain requires account_create.fee == median_props.account_creation_fee exactly. After a
+  // re-genesis that median can be "0.000 TESTS". A client exposing get_witness_schedule must make
+  // createAccount pay that exact value (not the hardcoded default) — else every signup is rejected.
+  const fc = fakeClient();
+  fc.call = async (api, method) => {
+    if (api === 'condenser_api' && method === 'get_witness_schedule') {
+      return { median_props: { account_creation_fee: '0.000 TESTS' } };
+    }
+    throw new Error(`unexpected call ${api}.${method}`);
+  };
+  __setClient(fc, 'fake-key-sentinel');
+
+  const out = await createAccount(VALID_PUBS);
+  assert.equal(out.ok, true);
+  const [, createOp] = fc.calls[0].ops[0];
+  assert.equal(createOp.fee, '0.000 TESTS', 'paid the exact median fee read from the chain');
+});
+
+test('createAccount falls back to the default fee when the schedule read fails', async () => {
+  // Soft-fail-never-throw: a client with no .call (or a throwing one) must not break signup — it
+  // falls back to the env/default FEE and still broadcasts.
+  const fc = fakeClient(); // no .call method
+  __setClient(fc, 'fake-key-sentinel');
+  const out = await createAccount(VALID_PUBS);
+  assert.equal(out.ok, true, 'still creates the account despite no schedule read');
+  const [, createOp] = fc.calls[0].ops[0];
+  assert.match(createOp.fee, /TESTS$/, 'fell back to a TESTS-denominated default fee');
+});
+
 test('createAccount rejects a bad account name BEFORE any broadcast', async () => {
   const fc = fakeClient();
   __setClient(fc, 'fake-key-sentinel');

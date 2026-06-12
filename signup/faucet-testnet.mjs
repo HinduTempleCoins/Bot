@@ -159,13 +159,36 @@ function validatePubs(input) {
   return { ok: true };
 }
 
+// The chain validates `account_create.fee == witness_schedule.median_props.account_creation_fee`
+// EXACTLY (not ">="). That median moves with witness votes and resets to the genesis default after
+// a chain re-genesis (seen 2026-06-12: it dropped to "0.000 TESTS", so a hardcoded 0.001 made every
+// signup fail with "Must pay the exact account creation fee"). So read the live value and pay it
+// exactly; fall back to FEE (env/default) only if the read fails. Cached briefly to avoid an RPC per
+// signup. Soft-fail-never-throw: any error → fall back to FEE.
+let _feeCache = null;
+let _feeCacheAt = 0;
+async function exactCreationFee() {
+  const now = Date.now();
+  if (_feeCache && (now - _feeCacheAt) < 60000) return _feeCache;
+  try {
+    const sched = await client.call('condenser_api', 'get_witness_schedule', []);
+    const fee = sched && sched.median_props && sched.median_props.account_creation_fee;
+    if (fee && /TESTS$/.test(String(fee).trim())) {
+      _feeCache = String(fee).trim();
+      _feeCacheAt = now;
+      return _feeCache;
+    }
+  } catch { /* fall through to env/default */ }
+  return FEE;
+}
+
 export async function createAccount(input) {
   if (!validAccountName(input.name)) return { ok: false, reason: 'invalid-account-name' };
   const pv = validatePubs(input);
   if (!pv.ok) return pv;
 
   const bare = ['account_create', {
-    fee: FEE,
+    fee: await exactCreationFee(),
     creator: CREATOR,
     new_account_name: input.name,
     owner: auth(input.ownerPub),
