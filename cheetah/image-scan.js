@@ -20,7 +20,12 @@ export function extractImageUrls(body = '') {
   while ((m = md.exec(body))) urls.add(m[1]);
   while ((m = img.exec(body))) urls.add(m[1]);
   while ((m = bare.exec(body))) urls.add(m[1]);
-  return [...urls];
+  // De-dupe truncated duplicates: the bare-URL regex stops at the extension, so an image URL with
+  // a query string (e.g. `img.jpg?w=600` or `pic.png&text=x`) is captured both full (markdown/img)
+  // and truncated (bare). Drop any URL that is a strict prefix of another captured URL — the longer
+  // one is the real, complete URL. (Without this, a 5-image post counts as 10.)
+  const all = [...urls];
+  return all.filter((u) => !all.some((v) => v !== u && v.startsWith(u)));
 }
 
 /**
