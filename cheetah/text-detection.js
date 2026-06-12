@@ -112,7 +112,10 @@ export async function findSimilarOnChain(body, opts = {}) {
       kind: 'on-chain',
       author: entry.author,
       permlink: entry.permlink,
-      url: entry.url || `chain://${entry.author}/${entry.permlink}`,
+      // Default to a condenser-resolvable internal link (`/@author/permlink`) rather than a
+      // `chain://` pseudo-scheme — the front end does not linkify `chain://` (it prepends
+      // `https://` and the link renders dead). Browser-verified on alpha.melek.salon 2026-06-12.
+      url: entry.url || `/@${entry.author}/${entry.permlink}`,
       snippet: (entry.body || '').slice(0, 200),
       confidence: sim,
     };
