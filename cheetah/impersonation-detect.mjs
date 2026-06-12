@@ -235,6 +235,21 @@ export function detectImpersonation(account, opts = {}) {
       }
     }
 
+    // Containment: a handle that EMBEDS a known (esp. verified) handle as a component — e.g.
+    // @hathor-official, @real-hathor, @hathor-witness, @hathor1 around the verified @hathor. Pure
+    // similarity misses these because the added token dilutes the score below NEAR_DUP_THRESHOLD,
+    // yet they are the classic look-alike / sybil-ring shape. Require the known handle to be a
+    // meaningful length (>=4) so a short common substring doesn't over-fire.
+    let contains = null;
+    for (const k of roster) {
+      const kSkel = skeleton(k.account);
+      if (!kSkel || kSkel.length < 4) continue;
+      if (k.account.toLowerCase() === acct.toLowerCase()) continue;
+      if (acctSkel && acctSkel !== kSkel && acctSkel.includes(kSkel)) {
+        if (!contains || (k.verified && !contains.verified)) contains = k;
+      }
+    }
+
     if (best && (best.sim >= NEAR_DUP_THRESHOLD || best.exactSkeleton)) {
       // a near-duplicate of a known identity
       signals.push(best.kind === 'handle' ? 'near-duplicate-name' : 'near-duplicate-display-name');
@@ -253,6 +268,18 @@ export function detectImpersonation(account, opts = {}) {
 
       // bio explicitly claiming to BE / be the official version of the known identity.
       if (claimsIdentity(bio, best.known)) { signals.push('claims-established-identity'); score += 0.2; }
+    } else if (contains) {
+      // embeds a known handle as a component — needs a co-signal (verified target / brand-new /
+      // visual trick / identity claim) to cross threshold, so legit accounts that merely contain a
+      // common word aren't punished.
+      best = { known: contains, kind: 'handle', sim: 0, exactSkeleton: false };
+      signals.push('contains-known-handle');
+      score += 0.4;
+      if (contains.verified) { signals.push('targets-verified-account'); score += 0.2; }
+      if (acctZW) { signals.push('zero-width-trick'); score += 0.2; }
+      if (acctConf) { signals.push('homoglyph'); score += 0.2; }
+      if (isBrandNew) { signals.push('brand-new-account'); score += 0.2; }
+      if (claimsIdentity(bio, contains)) { signals.push('claims-established-identity'); score += 0.2; }
     } else {
       // No name collision. A lone visual trick on the handle is suspicious but weak on its own.
       if (acctZW) { signals.push('zero-width-trick'); score += 0.25; }
