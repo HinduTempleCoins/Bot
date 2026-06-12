@@ -94,6 +94,22 @@ const FIXTURES = [
   },
 ];
 
+// Collapse image-scan findings to one entry per distinct source, highest confidence first. A source
+// is keyed by @author/permlink (on-chain) or its url (open-web reverse-image), so a post with N
+// images each first seen elsewhere yields N credit entries — not N copies of the loudest match.
+export function dedupeSources(findings) {
+  const best = new Map();
+  for (const f of findings) {
+    if (!f || !f.source) continue;
+    const s = f.source;
+    const key = s.author ? `@${s.author}/${s.permlink}` : (s.url || JSON.stringify(s));
+    const conf = f.confidence || 0;
+    const prev = best.get(key);
+    if (!prev || conf > prev.confidence) best.set(key, { ...s, confidence: conf });
+  }
+  return [...best.values()].sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
+}
+
 // ---- scan one post ---------------------------------------------------------
 
 export async function scanPost(post, { dryRun, corpus, storeRoot = STORE_ROOT } = {}) {
@@ -111,15 +127,19 @@ export async function scanPost(post, { dryRun, corpus, storeRoot = STORE_ROOT } 
   // image credit-giver pass (pHash / reverse-image) — runs regardless of the text result, so a
   // post that copies an IMAGE (with original text) is still credited. Indexes images for future.
   const imageScan = await scanPostImages(post, { dryRun }).catch(() => ({ findings: [], indexed: 0, imageCount: 0 }));
-  const imageCredit = imageScan.findings[0] || null;
+  // Credit EVERY distinct source, not just the first. A post can carry several images each first
+  // seen elsewhere (on-chain OR open-web via reverse-image); collapse findings to one entry per
+  // source (highest confidence wins) so the note lists them all.
+  const imageSources = dedupeSources(imageScan.findings || []);
+  const imageCredit = imageSources[0] || null;
 
   if (!detection.match) {
-    // no text match — but an image may still be creditable
+    // no text match — but one or more images may still be creditable
     if (imageCredit) {
-      const comment = composeImageCreditNote({ match: true, source: imageCredit.source, confidence: imageCredit.confidence }, `${post.author}-${post.permlink}-img`);
+      const comment = composeImageCreditNote({ match: true, sources: imageSources }, `${post.author}-${post.permlink}-img`);
       return dryRun
-        ? { intent: 'image-credit-comment', post, source: imageCredit.source, confidence: imageCredit.confidence, comment }
-        : { imageCredit: true, post, source: imageCredit.source, images: imageScan.imageCount };
+        ? { intent: 'image-credit-comment', post, sources: imageSources, source: imageCredit, confidence: imageCredit.confidence, comment }
+        : { imageCredit: true, post, sources: imageSources, source: imageCredit, images: imageScan.imageCount };
     }
 
     // Discovery-first librarian face (CHEETAH_ADVANCED.md Step 5). Not a copy,

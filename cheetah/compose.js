@@ -81,15 +81,35 @@ const IMAGE_CREDIT_VARIANTS = [
     `Could be your own re-post, a license, or a coincidence; reply to add context.`,
 ];
 
-export function composeImageCreditNote({ match, source, confidence }, seedKey = '') {
-  if (!match || !source) throw new Error('composeImageCreditNote requires a positive match with source');
-  // on-chain original -> @author/permlink; open-web -> the url/title.
-  const where = source.author
-    ? `[@${source.author}/${source.permlink}](${source.author}/${source.permlink})`
-    : `[${source.title || source.url}](${source.url})`;
-  const conf = Math.round((confidence || 0) * 100);
-  const variant = IMAGE_CREDIT_VARIANTS[pickVariant(seedKey || source.permlink || source.url || 'img', IMAGE_CREDIT_VARIANTS.length)];
-  return variant({ where, conf }) + footer(seedKey);
+// Render a single source as a clickable link. on-chain original -> /@author/permlink (condenser
+// resolves it); open-web (reverse-image) -> the external url/title. Used for both single and
+// multi-image credit notes, so EXTERNAL sources (Google Lens / Bing reverse-image hits) are
+// credited the same way as on-chain ones.
+function linkFor(s) {
+  return s.author
+    ? `[@${s.author}/${s.permlink}](/@${s.author}/${s.permlink})`
+    : `[${s.title || s.url}](${s.url})`;
+}
+
+// Accepts a single source ({source, confidence}) OR a list ({sources:[{...,confidence}]}). With more
+// than one distinct source — e.g. a post with 5 images each first seen elsewhere — it credits EVERY
+// source (on-chain and open-web), one line each, instead of only the first.
+export function composeImageCreditNote({ match, source, sources, confidence }, seedKey = '') {
+  const list = (sources && sources.length)
+    ? sources
+    : (source ? [{ ...source, confidence }] : []);
+  if (!match || !list.length) throw new Error('composeImageCreditNote requires a positive match with source(s)');
+
+  if (list.length === 1) {
+    const s = list[0];
+    const where = linkFor(s);
+    const conf = Math.round((s.confidence || confidence || 0) * 100);
+    const variant = IMAGE_CREDIT_VARIANTS[pickVariant(seedKey || s.permlink || s.url || 'img', IMAGE_CREDIT_VARIANTS.length)];
+    return variant({ where, conf }) + footer(seedKey);
+  }
+
+  const lines = list.map((s) => `- ${linkFor(s)} — ${Math.round((s.confidence || 0) * 100)}% match`);
+  return `${list.length} images in this post appear to have first appeared elsewhere. Crediting each source (not accusing):\n\n${lines.join('\n')}\n\nIf any are your own, licensed, or coincidental, reply and the record updates.${footer(seedKey)}`;
 }
 
 // ---- discovery note (similar internal content, no plagiarism implied) -----
