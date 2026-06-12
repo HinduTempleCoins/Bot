@@ -13,6 +13,11 @@
 
 import { config } from '../config.mjs';
 
+// Transient-failure resilience for the RPC layer (catch-up streams thousands of get_block calls).
+const RPC_RETRIES = Number(process.env.MELEK_ENGINE_RPC_RETRIES || 4);
+const RPC_BACKOFF_MS = Number(process.env.MELEK_ENGINE_RPC_BACKOFF_MS || 200);
+const STREAM_DELAY_MS = Number(process.env.MELEK_ENGINE_STREAM_DELAY_MS || 8);
+
 async function rpc(node, method, params) {
   const res = await fetch(node, {
     method: 'POST',
@@ -25,17 +30,25 @@ async function rpc(node, method, params) {
   return j.result;
 }
 
-/** Try each node in the failover array until one answers. */
-async function rpcFailover(method, params) {
+/**
+ * Try each node in the failover array until one answers; retry the whole set a few times with
+ * exponential backoff before giving up. Catch-up (streamRange) calls this once per block in a tight
+ * loop over thousands of blocks, so a single transient `fetch failed` must NOT be fatal — without
+ * the retry the node crashed mid-catch-up on any RPC blip.
+ */
+async function rpcFailover(method, params, { retries = RPC_RETRIES } = {}) {
   let lastErr;
-  for (const node of config.rpcNodes) {
-    try {
-      return await rpc(node, method, params);
-    } catch (e) {
-      lastErr = e;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    for (const node of config.rpcNodes) {
+      try {
+        return await rpc(node, method, params);
+      } catch (e) {
+        lastErr = e;
+      }
     }
+    if (attempt < retries) await new Promise((r) => setTimeout(r, RPC_BACKOFF_MS * 2 ** attempt));
   }
-  throw new Error(`all RPC nodes failed for ${method}: ${lastErr?.message}`);
+  throw new Error(`all RPC nodes failed for ${method} after ${retries + 1} attempts: ${lastErr?.message}`);
 }
 
 /** Verify we are pointed at the pinned chain (anti-fork, item 2/3). */
@@ -106,6 +119,10 @@ export async function streamRange(engine, fromBlock, toBlock, { onBlock } = {}) 
     const hash = engine.commitBlock(n, block.block_id, true);
     if (onBlock) onBlock(n, ops.length, hash);
     processed++;
+    // Pace the catch-up: fetching thousands of get_block calls back-to-back exhausts local sockets
+    // (sustained `fetch failed` the retry can't ride out). A tiny per-block delay keeps connections
+    // healthy; real-time follow (one block / 3s) is unaffected.
+    if (STREAM_DELAY_MS > 0 && n < toBlock) await new Promise((r) => setTimeout(r, STREAM_DELAY_MS));
   }
   return processed;
 }
