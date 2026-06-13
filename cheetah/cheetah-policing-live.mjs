@@ -104,25 +104,23 @@ function commentOp({ author, permlink, title = '', body, parentAuthor = '', pare
 export async function run({ live = false, log = console.log } = {}) {
   assertTestnet();
   const sfx = suffix();
+  const SEED = process.env.POPULATE_SEED || 'melek-testnet-populate-v1';
+  // REUSE the testnet accounts we already have — no faucet, no new accounts (per operator). Posting
+  // keys are derived from POPULATE_SEED, exactly like the accounts were created. Override via env.
   const accts = {
-    orig: `melekorig${sfx}`,
-    copy: `melekcopy${sfx}`,
-    bot: `cheetahbot${sfx}`,
+    orig: (process.env.CHEETAH_ORIG || 'melekvankush').trim(),
+    copy: (process.env.CHEETAH_COPY || 'angelnetwork').trim(),
+    bot: (process.env.CHEETAH_BOT || 'cryptokannon').trim(),
   };
   const report = { live, accts, steps: [] };
   const step = (name, data) => { report.steps.push({ name, ...data }); log(`• ${name}:`, JSON.stringify(data)); };
 
-  // 1. create accounts
+  // 1. derive posting keys for the EXISTING accounts (no creation, no faucet)
   const keys = {};
   for (const role of ['orig', 'copy', 'bot']) {
-    keys[role] = deriveKeys(accts[role], randMaster());
-    if (live) {
-      const r = await faucetCreate(accts[role], keys[role]);
-      step(`create:${role}`, { account: accts[role], ok: r.ok, id: r.id || null, reason: r.reason || null });
-      if (!r.ok) { report.aborted = `create-${role}-failed`; return report; }
-    } else {
-      step(`create:${role}`, { account: accts[role], dryRun: true });
-    }
+    const m = PrivateKey.fromSeed(`${SEED}:${accts[role]}`).toString().slice(0, 32);
+    keys[role] = { posting: { priv: PrivateKey.fromLogin(accts[role], m, 'posting') } };
+    step(`account:${role}`, { account: accts[role], reused: true });
   }
 
   const client = live ? new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 20000 }) : null;
