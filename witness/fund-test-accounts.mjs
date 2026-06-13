@@ -22,12 +22,24 @@ const RPC = process.env.MELEK_RPC || 'https://alpha.melek.salon/rpc';
 const CHAIN_ID = process.env.MELEK_CHAIN_ID || '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e';
 const PREFIX = process.env.MELEK_PREFIX || 'TST';
 const SEED = process.env.POPULATE_SEED || 'melek-testnet-populate-v1';
-const GRANT = Number(process.env.GRANT_TESTS || 1000);     // TESTS Hathor sends each account
-const KEEP_LIQUID = Number(process.env.KEEP_LIQUID || 5);  // TESTS each account keeps liquid after powering up
+// The WELCOME GRANT is small by spec: a random 5-15 TESTS gift per account (hathor-welcome-genesis.mjs).
+// It is deliberately NOT enough to clear the vote dust threshold — real curation weight is something
+// each user builds over time from their own earned/powered-up stake, not something Hathor hands out.
+const GRANT_MIN = Number(process.env.GRANT_MIN || 5);
+const GRANT_MAX = Number(process.env.GRANT_MAX || 15);
 const RC_DELEGATION = process.env.RC_DELEGATION ?? '0.100000 VESTS'; // tiny RC bootstrap (Hathor → account); '' to skip
 const VOTE_GAP_MS = Number(process.env.VOTE_GAP_MS || 3500);
 const live = process.argv.includes('--live');
+// --powerup is OPT-IN (test-only): self-vest most of the grant. Off by default — the welcome grant
+// leaves the gift LIQUID so the user chooses when to power up (the tutorial's power_up stage).
+const doPowerup = process.argv.includes('--powerup');
+const KEEP_LIQUID = Number(process.env.KEEP_LIQUID || 1);
 const accounts = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+// Per-account grant in [GRANT_MIN, GRANT_MAX], varied by account name (deterministic, no RNG).
+const grantFor = (name) => {
+  let h = 0; for (const c of String(name)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return GRANT_MIN + (h % (Math.max(0, GRANT_MAX - GRANT_MIN) + 1));
+};
 
 if (PREFIX !== 'TST') { console.error('FATAL: testnet-only (prefix must be TST)'); process.exit(1); }
 if (!accounts.length) { console.error('usage: fund-test-accounts.mjs <acct...> [--live]'); process.exit(1); }
@@ -43,23 +55,25 @@ const bc = (ops, key, label) => client.broadcast.sendOperations(ops, key)
 
 (async () => {
   console.log(`fund-test-accounts (${live ? 'LIVE' : 'dry'}) on ${RPC}`);
-  console.log(`plan per account: Hathor grants ${GRANT} TESTS -> account self-vests ${GRANT - KEEP_LIQUID} (keep ${KEEP_LIQUID})${RC_DELEGATION ? ` + Hathor delegates ${RC_DELEGATION} RC` : ''}\n`);
+  console.log(`WELCOME GRANT: Hathor sends each account ${GRANT_MIN}-${GRANT_MAX} TESTS (liquid gift)${RC_DELEGATION ? ` + delegates ${RC_DELEGATION} RC` : ''}${doPowerup ? ' + account self-powers-up (--powerup, test-only)' : ''}.`);
+  const total = accounts.reduce((s, a) => s + grantFor(a), 0);
+  console.log(`grants: ${accounts.map((a) => `@${a}=${grantFor(a)}`).join(', ')}  (total ${total} TESTS — Hathor must hold at least this)\n`);
   if (!live) { console.log('(dry — pass --live to broadcast)'); return; }
 
   for (const a of accounts) {
+    const grant = grantFor(a);
     console.log(`@${a}:`);
-    // 1. Hathor grants TESTS (the welcome grant)
-    await bc([['transfer', { from: 'hathor', to: a, amount: `${GRANT.toFixed(3)} TESTS`, memo: 'Welcome to MELEK — power up and curate' }]], hathorKey, `grant ${GRANT} TESTS`);
+    // 1. the welcome grant — a small liquid gift (stays liquid; user powers up later, the tutorial way)
+    await bc([['transfer', { from: 'hathor', to: a, amount: `${grant.toFixed(3)} TESTS`, memo: 'Welcome to MELEK' }]], hathorKey, `welcome grant ${grant} TESTS`);
     await sleep(VOTE_GAP_MS);
-    // 2. tiny RC delegation so they can transact while learning (NOT vote weight)
+    // 2. tiny RC delegation so they can transact/comment while they learn (NOT vote weight)
     if (RC_DELEGATION) { await bc([['delegate_vesting_shares', { delegator: 'hathor', delegatee: a, vesting_shares: RC_DELEGATION }]], hathorKey, `RC delegate ${RC_DELEGATION}`); await sleep(VOTE_GAP_MS); }
-    // 3. account powers ITSELF up so its votes carry weight (self-stake with its own active key)
-    const vest = Math.max(0, GRANT - KEEP_LIQUID);
-    if (vest > 0) { await bc([['transfer_to_vesting', { from: a, to: a, amount: `${vest.toFixed(3)} TESTS` }]], activeKey(a), `self power-up ${vest} TESTS`); await sleep(VOTE_GAP_MS); }
+    // 3. (opt-in, test-only) self power-up — real users do this themselves at the tutorial's power_up stage
+    if (doPowerup) { const vest = Math.max(0, grant - KEEP_LIQUID); if (vest > 0) { await bc([['transfer_to_vesting', { from: a, to: a, amount: `${vest.toFixed(3)} TESTS` }]], activeKey(a), `self power-up ${vest} TESTS`); await sleep(VOTE_GAP_MS); } }
   }
 
-  console.log('\n=== verify (vesting after) ===');
+  console.log('\n=== verify ===');
   const accts = await client.database.call('get_accounts', [accounts]).catch(() => []);
-  for (const a of (accts || [])) console.log(`  @${a.name}: balance=${a.balance}, vesting=${a.vesting_shares}, received=${a.received_vesting_shares}`);
-  console.log('\nNext: re-run mutual-curation-live (a fresh weight) — votes should now carry rshares > 0.');
+  for (const a of (accts || [])) console.log(`  @${a.name}: balance=${a.balance}, vesting=${a.vesting_shares}, received_vests=${a.received_vesting_shares}`);
+  console.log('\nNote: 5-15 TESTS is dust-level — votes stay rshares=0 until the user builds real stake over time. That is by design.');
 })();
