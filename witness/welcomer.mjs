@@ -61,6 +61,7 @@ const WELCOME_POST_PERMLINK = (process.env.WELCOME_POST_PERMLINK || '').trim();
 const WELCOME_DELEGATION = (process.env.WELCOME_DELEGATION || '0.100000 VESTS').trim();
 const GRANT_MIN = parseInt(process.env.WELCOME_GRANT_MIN || '5', 10);
 const GRANT_MAX = parseInt(process.env.WELCOME_GRANT_MAX || '15', 10);
+const GRANT_PCT = parseFloat(process.env.WELCOME_GRANT_PCT || '0.05'); // fraction of Hathor's balance per grant
 
 // Comment rate limit on this fork is 1 / 3s. Floor the configurable spacing at 3.5s; default ~7s.
 const MIN_PING_SPACING_MS = 3500;
@@ -132,15 +133,27 @@ export function validAccountName(name) {
  * Pick a random whole-token grant in [min, max] inclusive, formatted as a 3-decimal asset string
  * with the symbol (e.g. "11.000 TESTS"). Uses the injected RNG.
  *
- * @param {{ min?:number, max?:number, symbol?:string }} opts
+ * The grant SCALES with Hathor's balance (and the coin price, once one exists), per operator spec —
+ * it is NOT a flat number. When `balance` is given: grant = a fraction (`pct`) of Hathor's balance,
+ * clamped into the band; with a `price` the band is a USD target ÷ price; if she can't afford the low
+ * end she gives only what she can. Without `balance`, falls back to a random whole-token [min,max].
+ *
+ * @param {{ min?:number, max?:number, symbol?:string, balance?:number, price?:number, pct?:number }} opts
  * @returns {{ amount:number, asset:string }}
  */
-export function pickGrantAmount({ min = GRANT_MIN, max = GRANT_MAX, symbol = WELCOME_SYMBOL } = {}) {
-  const lo = Math.min(min, max);
-  const hi = Math.max(min, max);
-  const span = hi - lo;
-  const amount = lo + Math.floor(_random() * (span + 1)); // inclusive of hi
-  return { amount, asset: `${amount}.000 ${symbol}` };
+export function pickGrantAmount({ min = GRANT_MIN, max = GRANT_MAX, symbol = WELCOME_SYMBOL, balance = null, price = null, pct = GRANT_PCT } = {}) {
+  let amount;
+  if (typeof balance === 'number' && balance > 0) {
+    const lo = price && price > 0 ? min / price : min;
+    const hi = price && price > 0 ? max / price : max;
+    const affordable = balance * pct;
+    amount = affordable < lo ? affordable : Math.min(hi, affordable);
+  } else {
+    const a = Math.min(min, max), b = Math.max(min, max);
+    amount = a + Math.floor(_random() * (b - a + 1)); // legacy: random whole-token, inclusive
+  }
+  amount = Math.round(amount * 1000) / 1000;
+  return { amount, asset: `${amount.toFixed(3)} ${symbol}` };
 }
 
 // ── op builders (pure) ──────────────────────────────────────────────────────────────────────────
@@ -274,6 +287,8 @@ export async function welcomeAccount({
   grant = { min: GRANT_MIN, max: GRANT_MAX },
   symbol = WELCOME_SYMBOL,
   postPermlink = WELCOME_POST_PERMLINK,
+  hathorBalance = null,
+  price = null,
 } = {}) {
   const dryRun = !live || typeof _broadcast !== 'function';
 
@@ -296,8 +311,8 @@ export async function welcomeAccount({
     delegate = { ok: false, error: String((e && e.message) || 'delegate-build-failed') };
   }
 
-  // 2. GRANT tokens (active key). Random 5-15 in the configured symbol.
-  const { asset } = pickGrantAmount({ min: grant.min, max: grant.max, symbol });
+  // 2. GRANT tokens (active key). Scales with Hathor's balance (+ price when set); else random 5-15.
+  const { asset } = pickGrantAmount({ min: grant.min, max: grant.max, symbol, balance: hathorBalance, price });
   let grantResult;
   try {
     const op = buildGrantOp({ to: account, asset });
@@ -334,7 +349,7 @@ export async function welcomeAccount({
  * @param {{ live?:boolean, spacingMs?:number }} [opts]
  * @returns {Promise<Array<object>>} per-account results from welcomeAccount
  */
-export async function welcomeBatch(accounts, { live = false, spacingMs = PING_SPACING_MS } = {}) {
+export async function welcomeBatch(accounts, { live = false, spacingMs = PING_SPACING_MS, hathorBalance = null, price = null } = {}) {
   const list = Array.isArray(accounts) ? accounts : [];
   const spacing = Math.max(MIN_PING_SPACING_MS, Number(spacingMs) || PING_SPACING_MS);
   const results = [];
@@ -342,7 +357,7 @@ export async function welcomeBatch(accounts, { live = false, spacingMs = PING_SP
     // Space pings: wait BEFORE every account except the first (each account fires a comment).
     if (i > 0) await _sleep(spacing);
     // eslint-disable-next-line no-await-in-loop
-    results.push(await welcomeAccount({ account: list[i], live }));
+    results.push(await welcomeAccount({ account: list[i], live, hathorBalance, price }));
   }
   return results;
 }
