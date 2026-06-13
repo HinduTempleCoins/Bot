@@ -126,10 +126,22 @@ export function parseCommand(text) {
 }
 
 // ── rate-limit / cap state ─────────────────────────────────────────────────────────────────────────
-// A tiny in-memory ledger keyed by tipper. Injectable `now` for deterministic tests; the host can
-// supply a persistent store later. State lives on the object the host owns.
-export function makeTipLedger() {
+// A tiny ledger keyed by tipper. Injectable `now` for deterministic tests. By default the state is
+// in-memory; pass { load, save } to make it durable across processes — REQUIRED when the host spawns
+// a fresh process per tip (e.g. discord-tip-cli.mjs), or the rate-limit / daily-cap state resets every
+// invocation and only the per-tip cap survives (the anti-drain bypass fixed here):
+//   load() -> [[user, rec], ...] | {} | null   (a serialized byUser, e.g. JSON.parse of a file)
+//   save(entries)                              (entries = [[user, rec], ...]; persist however you like)
+export function makeTipLedger({ load, save } = {}) {
   const byUser = new Map(); // user -> { last:ms, daySpent:number, dayStart:ms }
+  if (typeof load === 'function') {
+    try {
+      const raw = load();
+      const entries = Array.isArray(raw) ? raw : raw && typeof raw === 'object' ? Object.entries(raw) : [];
+      for (const [user, rec] of entries) if (user && rec) byUser.set(String(user), rec);
+    } catch { /* soft-fail: a missing/corrupt store just starts empty */ }
+  }
+  const persist = () => { if (typeof save === 'function') { try { save([...byUser.entries()]); } catch { /* soft-fail */ } } };
   return {
     /** check (without recording) whether `user` may tip `amount` now; returns { ok, reason } */
     check(user, amount, rules, now = Date.now()) {
@@ -149,12 +161,13 @@ export function makeTipLedger() {
       }
       return { ok: true, reason: '' };
     },
-    /** record a successful tip (advances rate-limit clock + daily total) */
+    /** record a successful tip (advances rate-limit clock + daily total), persisting if durable */
     record(user, amount, now = Date.now()) {
       const dayStart = Math.floor(now / DAY_MS) * DAY_MS;
       const rec = byUser.get(user) || { last: 0, daySpent: 0, dayStart };
       const spentToday = rec.dayStart === dayStart ? rec.daySpent : 0;
       byUser.set(user, { last: now, daySpent: spentToday + amount, dayStart });
+      persist();
     },
     _peek(user) { return byUser.get(user) || null; },
   };

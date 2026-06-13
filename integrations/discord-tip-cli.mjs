@@ -7,13 +7,19 @@
 //   node integrations/discord-tip-cli.mjs <discordUser> <toAccount> <amount> <SYMBOL>
 
 import { execFileSync } from 'node:child_process';
+import { readFileSync, writeFileSync, renameSync } from 'node:fs';
 import { Client, PrivateKey } from '@hiveio/dhive';
 import { handleTip } from './discord-tip-handler.mjs';
+import { makeTipLedger } from './discord-chain-bridge.mjs';
 
 const RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
 const CHAIN_ID = process.env.MELEK_CHAIN_ID || '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e';
 const PREFIX = process.env.MELEK_PREFIX || 'TST';
 const VAULT = process.env.MELEK_VAULT_CLI || '/opt/melek-bot/vault.mjs';
+// Durable anti-drain ledger. This CLI is spawned fresh per /tip, so an in-memory ledger would reset
+// the rate-limit + daily-cap every invocation (only the per-tip cap would survive). Persist to a file
+// the host owns so the caps actually bind across tips.
+const LEDGER_FILE = process.env.MELEK_TIP_LEDGER || `${process.env.MELEK_DATA_DIR || '.'}/discord-tip-ledger.json`;
 
 const [from, to, amount, symbolRaw] = process.argv.slice(2);
 const symbol = (symbolRaw || 'MANNA').toUpperCase();
@@ -27,13 +33,27 @@ function hathorActiveKey() {
   return PrivateKey.fromString(m[1]);
 }
 
+// File-backed ledger so the anti-flood / anti-drain caps survive across the per-tip subprocess spawns.
+function fileTipLedger() {
+  return makeTipLedger({
+    load: () => { try { return JSON.parse(readFileSync(LEDGER_FILE, 'utf8')); } catch { return null; } },
+    save: (entries) => {
+      try {
+        const tmp = `${LEDGER_FILE}.tmp`;
+        writeFileSync(tmp, JSON.stringify(entries), { mode: 0o600 });
+        renameSync(tmp, LEDGER_FILE); // atomic replace
+      } catch { /* soft-fail: a tip still goes through; the cap just isn't recorded this once */ }
+    },
+  });
+}
+
 (async () => {
   let key;
   try { key = hathorActiveKey(); } catch { console.log("Tipping is offline right now (couldn't reach the vault)."); process.exit(0); }
   const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 20000 });
   const out = await handleTip(`/tip @${to.replace(/^@/, '')} ${amount} ${symbol}`, {
     from,
-    deps: { tipFrom: 'hathor', broadcast: (op) => client.broadcast.sendOperations([op], key) },
+    deps: { tipFrom: 'hathor', ledger: fileTipLedger(), broadcast: (op) => client.broadcast.sendOperations([op], key) },
   });
   console.log(out.reply || 'Nothing to tip.');
   process.exit(0);
