@@ -1,6 +1,7 @@
 import {
   Client,
   GatewayIntentBits,
+  Partials,
   EmbedBuilder,
   AttachmentBuilder,
   ActionRowBuilder,
@@ -139,7 +140,9 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages, // so users can also DM the bot (not just in-guild)
   ],
+  partials: [Partials.Channel], // required to receive DM messageCreate events
 });
 
 // Initialize Gemini AI
@@ -7081,6 +7084,14 @@ ${aiContext.substring(0, 2500)}`;
 client.on('messageCreate', async (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
+
+  // Inbound trace (diagnostic): one line per human message so command delivery is observable in
+  // the journal. Logs author, channel kind, and a short content preview only — no secrets.
+  try {
+    const kind = message.guild ? `guild#${message.channel?.id}` : 'DM';
+    const c = String(message.content || '');
+    console.log(`📥 msg from @${message.author?.username} [${kind}] len=${c.length} "${c.slice(0, 50).replace(/\n/g, ' ')}"`);
+  } catch { /* never let tracing break handling */ }
 
   // ── SoapBox "steemd" + MELEK chain + Resource Center hook ───────────────
   // The Discord bot as a queryable interface to the ecosystem state (the condenser) AND the live
