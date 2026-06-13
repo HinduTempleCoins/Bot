@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { handleTip, parseTip, tokenTipOp } from './discord-tip-handler.mjs';
+import { makeTipLedger } from './discord-chain-bridge.mjs';
 
 test('parseTip pulls recipient, amount, and token symbol (/ or ! prefix)', () => {
   assert.deepEqual(parseTip('/tip @alice 5 MANNA'), { to: 'alice', amount: 5, symbol: 'MANNA' });
@@ -41,4 +42,22 @@ test('handleTip soft-fails (no throw) when the broadcast errors', async () => {
   const out = await handleTip('/tip @alice 5 MANNA', { from: 'bob', deps: { broadcast: async () => ({ error: 'Missing Active Authority' }) } });
   assert.equal(out.ok, false);
   assert.match(out.reply, /Tip failed/);
+});
+
+test('a file-backed (persisted) ledger keeps the rate-limit across fresh subprocess-style instances', async () => {
+  // Simulate the discord-tip-cli.mjs spawn-per-tip model: a store that survives across ledger rebuilds.
+  let store = null;
+  const ledger = () => makeTipLedger({ load: () => store, save: (e) => { store = e; } });
+  const deps = (l) => ({ tipFrom: 'hathor', ledger: l, broadcast: async () => ({ id: 'tx' }) });
+  const now = 1_000_000_000_000;
+
+  // first tip on a fresh process records into the store
+  const a = await handleTip('/tip @alice 5 MANNA', { from: 'bob', deps: { ...deps(ledger()), now } });
+  assert.equal(a.ok, true);
+  assert.ok(store && store.length, 'the tip was persisted');
+
+  // a brand-new ledger (new process) rehydrates from the store and the rate-limit now bites
+  const b = await handleTip('/tip @alice 5 MANNA', { from: 'bob', deps: { ...deps(ledger()), now: now + 1000 } });
+  assert.equal(b.ok, false);
+  assert.match(b.reply, /rate-limited/i);
 });
