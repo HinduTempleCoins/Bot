@@ -1,0 +1,58 @@
+# MELEK — Van Kush Family Discord bot (index.js) as a systemd unit TEMPLATE.
+# ---------------------------------------------------------------------------
+# This is the @VanKushFamily Mod Discord bot — a Gemini-powered community assistant
+# (discord.js). It used to run on Railway; this unit runs it on a plain Linux server
+# instead. The bot is STANDALONE (index.js imports nothing from witness/ or src/chain/),
+# so it can live on ANY server — it does not need to be the chain host.
+#
+# KEY CUSTODY: the Discord bot holds NO chain WIF. The only secrets in its env are the
+# Discord bot token + the Gemini/API keys (Discord/AI creds — they cannot sign on-chain).
+# (BRIEF.md §7, "Zero WIF on host".)
+#
+# THE /tip COMMAND, CROSS-SERVER: because the Hathor key lives in the vault on the CHAIN
+# host, a Discord bot on a DIFFERENT server cannot sign locally. The tip path is
+# therefore REMOTE by default: index.js -> discord-tip-cli.mjs POSTs the tip to a small
+# signer endpoint on the chain host (set MELEK_TIP_BROADCAST_URL + MELEK_TIP_SHARED_SECRET
+# in the env file). If those are unset, /tip simply reports it is offline — the rest of the
+# bot runs fine. (Only when this unit is installed ON the chain host itself would you instead
+# set MELEK_VAULT_CLI + a local MELEK_RPC for the in-process JIT-vault path.)
+#
+# Placeholders only; no real hostnames/paths/tokens are committed. On the box:
+#   1. __INSTALL_DIR__  — absolute checkout path of the Bot repo.
+#   2. __ENV_FILE__     — private env path (from discord.env.example; Discord token + tip config).
+#   3. __NODE_BIN__     — absolute node binary path (`command -v node`).
+#   4. __LOG_FILE__     — stdout/stderr log path.
+# Install via deploy/discord/install.sh (substitutes all of these).
+# ---------------------------------------------------------------------------
+[Unit]
+Description=Van Kush Family Discord bot (@VanKushFamily Mod) — community assistant + /tip bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+ExecStart=__NODE_BIN__ index.js
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# Restart on CRASH only, with a burst cap so a bad token doesn't crash-loop hard.
+Restart=on-failure
+RestartSec=10
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+# --- Hardening. The bot writes a little state into its checkout dir (the relationship
+# graph user-relationships.json, and the tip ledger). Keep that path writable; lock the rest.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=__INSTALL_DIR__
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target
