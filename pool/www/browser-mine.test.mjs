@@ -56,6 +56,18 @@ test('wallet tiles lead; the raw address box starts hidden (no typing up front)'
   assert.match(src, /onOwn:\s*revealAddrBox/, 'onOwn hook reveals the address box');
 });
 
+// ---- the "use my own wallet" box can be CLOSED again (operator 2026-06-13: changed-my-mind) ----
+test('the revealed address box has a close (✕) control that re-hides + clears it', () => {
+  assert.ok(html.indexOf('id="bm-addr-close"') > 0, 'index.html has the #bm-addr-close button');
+  // the close button sits inside the address field
+  const i = (id) => html.indexOf(`id="${id}"`);
+  assert.ok(i('bm-addr-field') < i('bm-addr-close') && i('bm-addr-close') < i('bm-addr-msg'),
+    'the close button is inside the address field, before the message line');
+  const src = readFileSync(join(here, 'browser-mine.mjs'), 'utf8');
+  assert.match(src, /setAttribute\('hidden'/, 'close re-hides the address box');
+  assert.match(src, /bm-addr-close'\)[^]*addEventListener\('click'/, 'close button is wired to hide');
+});
+
 // ---- honesty copy is present (participation, fractions of a cent, ad-blocker note) ----
 test('honesty copy: real shares, fractions of a cent, ad-blocker/CoinHive note, battery', () => {
   assert.match(html, /real shares/i);
