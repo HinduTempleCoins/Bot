@@ -91,6 +91,8 @@
          it only reveals when "use my own wallet" is tapped (browser-mine.mjs removes [hidden]
          + focuses it). No value-entry box up front — no typing. -->
     <div class="wiz-field" id="bm-addr-field" hidden>
+      <button type="button" id="bm-addr-close" class="wiz-x" aria-label="Close — pick a wallet tile instead"
+        style="float:right;border:0;background:transparent;cursor:pointer;font-size:.95em;line-height:1;opacity:.7;padding:2px 6px">&#10005; close</button>
       <label class="wiz-lab" for="bm-addr">Paste your own address
         <span class="muted">&mdash; this is who gets the shares; it never leaves your browser except as your mining username</span></label>
       <input id="bm-addr" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false" placeholder="your payout address">

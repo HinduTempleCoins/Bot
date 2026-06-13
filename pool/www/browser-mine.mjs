@@ -189,7 +189,17 @@ export function initBrowserMine() {
   // with zero typing.
   const revealAddrBox = () => {
     if (addrField) addrField.removeAttribute('hidden');
+    if (addrIn && addrIn.focus) { try { addrIn.focus(); } catch { /* non-fatal */ } }
   };
+  // Let a user back out of the "use my own wallet" box if they change their mind: the ✕ close
+  // re-hides the field, clears what they typed, and re-validates (so Start reflects no address).
+  const hideAddrBox = () => {
+    if (addrField) addrField.setAttribute('hidden', '');
+    if (addrIn) addrIn.value = '';
+    if (addrMsg) addrMsg.textContent = '';
+    try { validate(); } catch { /* non-fatal */ }
+  };
+  { const x = document.getElementById('bm-addr-close'); if (x) x.addEventListener('click', hideAddrBox); }
   {
     let host = document.getElementById('bm-wallets');
     if (!host && addrIn.insertAdjacentElement) {
