@@ -1024,3 +1024,30 @@ CLAUDE.md notes that Phase 13 above "currently still reflects the older six-surf
 - **Phase 1 — Hello World: SHIPPED on the live testnet 2026-06-05.** hathor is a genesis witness **producing blocks** on the MELEK testnet; the intro post (`@hathor/introducing-hathor-on-melek`) and the hourly price feed are on-chain. Keys rotated to fresh testnet keys in the operator vault. `npm run hello` passes against the live testnet.
 - **Phase 2 — Command menu: substantially shipped 2026-06-06.** Deterministic `!commands` live demo at alpha.melek.salon/commands/; `!signup` + `!tutorial` commands, signup / tutorial / welcomer logic built; mining pool + in-browser wallet live at pool.soapbox.community; Witness School live at witness.melek.salon.
 - **Phase 3 — Person: not started.** Full conversational Witness (Rule 1, Angelic voice, disposition-greeting, egregore-as-held-position, autonomous grants/karma) is the next major build.
+
+## Status reconciliation — 2026-06-13 (append-only)
+
+**APPEND-ONLY.** Nothing above is removed, edited, or reworded. Dated correction overlay only. No
+infrastructure leaks here (no IPs / hostnames / keys; the operator's always-on host = "the box").
+
+### Phase status, corrected to present
+
+- **Phase 1 — Hello World: LIVE (unchanged) — plus the condenser is now usable by humans.** **Condenser login FIXED & browser-verified 2026-06-13.** A commented-out `import { fromJS … } from 'immutable'` in the login saga of the deployed condenser copy threw `fromJS is not defined` after a successful key fetch, silently aborting every login; restored the import + rebuilt + restarted, and added a Caddy allow-through so first-time visitors reach the login form (the testnet gate had been shadowing `/login.html`). A real account now logs in end-to-end. This unblocks "AI connects to Condenser" for actual users, not just RPC.
+- **Phase 2 — Command menu: now extends to a Pizza-bot-style Discord surface — LIVE.** Beyond the `!commands` demo, the live Discord bot (`VanKushFamilyMod`, on the box) now exposes on the MELEK testnet: `!tip @user <amt> [TOKEN]`; `!upvote @author/permlink [%]` (a "powdered" ~1% vote, **1 per account per day**); `!engine` / `!token <SYM>` / `!payouts <SYM>` (MELEK-Engine reader — token supply / balances / SCOT payouts); `!help`; alongside the existing chain verbs (`!hathor`/`!block`/`!witness`/`!account`/`!feed`) and `!ask` Resource-Center. Keys stay in host-side CLIs (JIT vault fetch); the bot process holds none.
+- **Phase 3 — Person: still not started** (unchanged).
+
+### Surface mapping updates (additive)
+
+- **Surface 3 — Curator (karma → on-chain vote):** a *bounded* slice now exists ahead of Phase 3 — the Discord `!upvote` lets a community member request a small, rate-capped (1/day) Hathor vote on their testnet post. The full autonomous-curation tier remains Phase 3; this is the manual, gated precursor.
+- **Surface 5 — Troll-box / conversational endpoint:** the Discord transport is now a working command surface (above), consistent with the 2026-06-06 "same brain, different transport" note.
+
+### Done-but-untracked (added, checked)
+
+- [x] **MELEK-Engine wallet + ScotTube pages live** (engine API `/wallet`, `/dtube`; `/dtube` XSS-hardened).
+- [x] **SCOT reward loop proven on the testnet** — a no-stake author was paid by a staker-curator's vote (stake to GIVE OUT, no stake to GET).
+- [x] **Order-book liquidity analysis** for the trade layer — support/resistance wall detection + phantom/broken-book flag, wired into the trade-analyzer (PRs #356–#358).
+- [x] **Live testnet ops re-verified 2026-06-13** — welcomer (grant + RC delegation + welcome-post ping), mutual curation / autovote, Cheetah attribution.
+
+### Erroneous-check / leak review
+
+- The 20 `[ ]` items above are genuine open/forward items; none were found to be falsely marked done. No removals. **Leak scan clean:** this file contains no IPs, box hostnames, vault paths, or keys (only the public `data.soapbox.community` / `soapy.blog` URLs already present in the 2026-06-03 layer).

@@ -1096,3 +1096,37 @@ tracking ~2026-06-06); the work below is DONE-BUT-UNTRACKED. Source: `.local/ITI
 - **`site/` — ~98 files across ~25 verticals** (abuck, admin, alpha, coupons, directory, dudael, genai, hemp, hierophant, hub, law, melek-holding, oversight, politics, search, shopping, stocks, travel, vankushfamily, wiki, witness, witness-docs, soapbox). Itinerary names only a handful.
 - **Also untracked-as-done:** `src/chain/` full client (adapter/CAIP/jit-signer/permlink/melek-signer-client/…), `src/trollbox/` chat endpoint, `watcher/` (read-only chain observer, 79 tests), `autovote/` curation engine, `voting_rules/` + daily-vote-budget, `commands/` Phase-2 menu, Discord↔chain bridge modules (`hathor-discord.mjs`, `discord-chain-bridge.mjs`, `telegram-bot.mjs`).
 - **Live testnet reality (QUEUE.md 2026-06-10):** chain producing ~block 115k; condenser live at alpha.melek.salon; e2e signup creating real on-chain accounts; 5-min auto-welcomer; hourly price feed; Cheetah test page live. Highest-leverage open gaps are SURFACING the already-live testnet (welcome post, Cheetah results, `/tutorial` page, TrollBox reply loop), not new builds.
+
+## Status reconciliation — 2026-06-13 (appended)
+
+**APPEND-ONLY** (per the operator-locked rule, lines 118 & 1053). Nothing above is removed or
+reworded. This layer checks off what is now done, corrects checks/approaches that no longer match
+reality, and adds done-but-untracked work. No infrastructure leaks (no IPs / hostnames / keys —
+the operator's always-on host is referred to generically as "the box").
+
+### (a) Now DONE — checks-off for items above still shown as pending/⏳
+
+- **MELEK chain launch (2026-05-28 table showed ⏳) — SHIPPED & LIVE on the testnet.** Producing blocks; `hathor` is a genesis witness; public RPC + condenser live at alpha.melek.salon.
+- **"AI connects to Condenser" (Phase-1 internal sequence, line 25) — DONE.** The condenser is live and, as of today, **login works** (see (c)).
+- **Hathor on Discord (Phase-1 sequence ⏳; PHASE 1 line 404 "Deploy to Railway") — DONE, approach changed.** The Discord bot is **deployed and live on the box** (not Railway) as `VanKushFamilyMod`, running the current code. See approach-change in (b).
+- **PHASE 3 / PHASE 4 "Telegram bot" (lines 504, 960) — BUILT.** `telegram-bot.mjs` exists in the repo (bridge surface; activation gated on operator tokens).
+- **PHASE 7 Project 3 "HIVE Ecosystem & Smart Media Token" prerequisites (lines 642–646) — BUILT as the MELEK-Engine L2 + SCOT layer.** Research HIVE SMT ✅ (we run native SMTs on the testnet *and* the engine side-token layer); study TribalDEX ✅; voting logic on staked tokens ✅ (`engine/contracts/rewards.mjs` — stake-weighted SCOT votes); hashtag/tag-triggered distribution ✅ (`recordPostTags`/`tribesForPost` + `integrations/scot-tag-distribution.mjs`); tokenomics for a tribe ✅ (`rewards.setReward` author/curator split + emission). "Potentially own DEX" — engine `dexSettlement` seam + PRANA `PeggedSwapPool` scaffolding exist.
+- **SUCCESS METRICS Week-1 "Discord bot responding correctly" (line 944) — DONE.**
+
+### (b) Corrections — approach changed (item kept, not removed)
+
+- **"Deploy to Railway" (line 404) is superseded.** Per the tradebot-forensics/operator decision, the live Discord bot runs on the operator's own always-on box under systemd, **not** Railway (Railway hosts the separate trade bot). The item stays as the record; the chosen approach is the box.
+- **"AI Angel Character" / "Angel Character Launch" (PHASE 3) already corrected in the 2026-06-03 layer** as superseded by the unified Hathor character — restated here for completeness.
+
+### (c) Erroneous-check review
+
+- Reviewed the `[x]` items above (trading-bot system, wall/holder/psychology analyzers, knowledge-base, Discord features). They map to code that genuinely exists (the trade bot is live as `kalivankush`), so **no checks were found to be falsely claiming done** — the one stale signal is the "Deploy to **Railway**" *target* (corrected in (b)), not a false "done." (Separately: a machine-generated `built`-label pass over both itineraries — tracked in `.local/built-diagnostic.jsonl` — found ~8% of auto-matched "built" tags pointed at coincidental `node_modules` files; that noise lives in the queue tooling, not in this hand-written itinerary.)
+
+### (d) Done-but-untracked, added here (checked)
+
+- [x] **Condenser login FIXED (browser-verified 2026-06-13).** Root cause: a commented-out `import { fromJS … } from 'immutable'` in the login saga on the deployed copy → `fromJS is not defined` aborted every login after a successful key fetch. Restored the import, rebuilt, restarted; plus a Caddy allow-through so first-time visitors reach the login form (the testnet-gate had been shadowing it). Real account logs in end-to-end.
+- [x] **Pizza-bot-style Discord on the MELEK testnet — LIVE.** `!tip @user <amt> [TOKEN]`, `!upvote @author/permlink [%]` (powdered vote, 1 per account per day), `!engine` / `!token <SYM>` / `!payouts <SYM>` (MELEK-Engine reader), `!help`, plus the existing chain verbs (`!hathor`/`!block`/`!witness`/`!account`/`!feed`) and `!ask` Resource-Center. Host CLIs hold the JIT keys; the bot process holds none.
+- [x] **Order-book liquidity analysis for the trade layer.** `integrations/liquidity-walls.mjs` (real support/resistance wall detection + phantom/broken-book flag) wired into `trade-analyzer` arb findings (PRs #356–#358).
+- [x] **Engine wallet + ScotTube pages LIVE** at the engine API: `/wallet` (balances + payouts viewer) and `/dtube` (video feed, XSS-hardened).
+- [x] **Live testnet ops verified end-to-end** this session: welcomer (grant + 0.1 VESTS RC + welcome-post ping), mutual curation/autovote, SCOT reward loop (no-stake author paid, staker-curator rewarded), Cheetah attribution.
+- **Trade read (2026-06-13, advisory only):** the standing analysis holds — BLURT peg is the proven winner (healthy book), DOGE peg near-closed, LTC + VKBT/CURE self-pump stay off; the one still-active leak is the standing bot's one-way VKBT buying (off-switch is on that bot, not here). Detail in `.local/` (not leaked here).
