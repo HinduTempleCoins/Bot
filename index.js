@@ -7143,6 +7143,30 @@ client.on('messageCreate', async (message) => {
     const args = message.content.slice(1).split(' ');
     const command = args[0].toLowerCase();
 
+    // /tip command — the PIZZA-bot hookup: Hathor tips a MELEK-Engine token on-chain.
+    // Spawns discord-tip-cli.mjs (which fetches Hathor's JIT vault key + broadcasts); no key here.
+    if (command === 'tip') {
+      const to = (args[1] || '').replace(/^@/, '');
+      const amount = args[2];
+      const symbol = (args[3] || 'MANNA').toUpperCase();
+      if (!to || !amount) {
+        return message.reply('Usage: `/tip @user <amount> [TOKEN]` — e.g. `/tip @alice 5 MANNA`');
+      }
+      await message.channel.sendTyping();
+      try {
+        const { execFile } = await import('node:child_process');
+        const reply = await new Promise((resolve) => {
+          execFile('node', ['integrations/discord-tip-cli.mjs', message.author.username, to, String(amount), symbol],
+            { cwd: process.cwd(), timeout: 30000, maxBuffer: 1024 * 1024 },
+            (err, stdout) => resolve(((stdout || '').trim()) || (err ? 'Tip failed.' : 'Done.')));
+        });
+        await message.reply(reply);
+      } catch (e) {
+        await message.reply('Tip failed: ' + String(e.message || e).slice(0, 80));
+      }
+      return;
+    }
+
     // /generate command for AI art
     if (command === 'generate') {
       const prompt = args.slice(1).join(' ');
