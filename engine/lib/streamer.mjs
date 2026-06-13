@@ -103,6 +103,33 @@ export function extractOps(block, blockNum) {
 }
 
 /**
+ * Extract L1 SOCIAL ops (comment + vote) from a block — the feed for the SCOT/rewards layer.
+ * Returns [{ kind:'comment', author, permlink, tags, ... } | { kind:'vote', voter, author, permlink, ... }].
+ * Tags come from a comment's json_metadata.tags plus its parent_permlink (the Hive category convention).
+ */
+export function extractSocialOps(block, blockNum) {
+  const out = [];
+  const blockId = block.block_id;
+  const txs = block.transactions || [];
+  for (let ti = 0; ti < txs.length; ti++) {
+    const tx = txs[ti];
+    const txId = (block.transaction_ids && block.transaction_ids[ti]) || `${blockNum}-${ti}`;
+    for (const operation of tx.operations || []) {
+      const [opName, v] = operation;
+      if (opName === 'comment' && v && v.author && v.permlink) {
+        let tags = [];
+        try { const m = JSON.parse(v.json_metadata || '{}'); if (Array.isArray(m.tags)) tags = m.tags; } catch { /* none */ }
+        if (v.parent_permlink) tags = [v.parent_permlink, ...tags]; // category is the first tag on Hive
+        out.push({ kind: 'comment', author: v.author, permlink: v.permlink, tags, txId, blockNum, blockId });
+      } else if (opName === 'vote' && v && v.voter && v.author && v.permlink) {
+        out.push({ kind: 'vote', voter: v.voter, author: v.author, permlink: v.permlink, txId, blockNum, blockId });
+      }
+    }
+  }
+  return out;
+}
+
+/**
  * Stream blocks from `fromBlock`..`toBlock` (inclusive) into `engine`.
  * Returns the number of L1 blocks processed.
  */
@@ -116,6 +143,12 @@ export async function streamRange(engine, fromBlock, toBlock, { onBlock } = {}) 
     }
     const ops = extractOps(block, n);
     for (const op of ops) engine.process(op);
+    // SCOT/rewards: fold L1 social ops (comments → post tags, votes → tribe-weighted reward votes),
+    // then crank matured payouts. Guarded so an engine without these methods (older) still streams.
+    if (typeof engine.processSocial === 'function') {
+      for (const s of extractSocialOps(block, n)) engine.processSocial(s);
+      if (typeof engine.crankPayouts === 'function') engine.crankPayouts({ blockNum: n, blockId: block.block_id, txId: `${n}-crank` });
+    }
     const hash = engine.commitBlock(n, block.block_id, true);
     if (onBlock) onBlock(n, ops.length, hash);
     processed++;

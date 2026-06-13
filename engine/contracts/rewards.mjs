@@ -132,9 +132,14 @@ function normaliseRule(p, token) {
   const curve = String(p.curve || 'linear');
   if (!CURVES.has(curve)) return { error: `curve must be one of ${[...CURVES].join('/')}` };
 
+  // tag: the L1 post tag that puts a post in this tribe. The engine matches a voted post's
+  // tags against this to know which tribe(s) a vote applies to. Default = the symbol lowercased.
+  const tag = String(p.tag || symbol).toLowerCase().replace(/[^a-z0-9-]/g, '');
+
   return {
     rule: {
       symbol,
+      tag,
       emissionPerWindow: emissionBase.toString(),
       windowBlocks,
       authorBps,
@@ -142,6 +147,24 @@ function normaliseRule(p, token) {
       enabled: p.enabled === false ? false : true,
     },
   };
+}
+
+// Engine-facing helpers (the L1-vote fold uses these). Pure reads/writes over engine state.
+// recordPostTags: remember a post's tribe tags (from an L1 comment op) so a later vote can map.
+export function recordPostTags(state, { author, permlink, tags }) {
+  const postKey = `${author}/${permlink}`;
+  const norm = (Array.isArray(tags) ? tags : []).map((t) => String(t).toLowerCase().replace(/[^a-z0-9-]/g, '')).filter(Boolean);
+  if (!norm.length) return;
+  const existing = state.findOne('rewardPostMeta', { postKey });
+  if (existing) existing.tags = norm;
+  else state.insert('rewardPostMeta', { postKey, author, permlink, tags: norm });
+}
+// tribesForPost: which enabled reward-rule symbols this post belongs to (by tag match).
+export function tribesForPost(state, author, permlink) {
+  const meta = state.findOne('rewardPostMeta', { postKey: `${author}/${permlink}` });
+  const tags = meta ? meta.tags : [];
+  if (!tags.length) return [];
+  return state.find('rewardRules', {}).filter((r) => r.enabled !== false && tags.includes(r.tag)).map((r) => r.symbol);
 }
 
 export const rewards = {

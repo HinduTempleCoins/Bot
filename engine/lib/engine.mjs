@@ -19,7 +19,7 @@
  */
 
 import { tokens } from '../contracts/tokens.mjs';
-import { rewards } from '../contracts/rewards.mjs';
+import { rewards, recordPostTags, tribesForPost } from '../contracts/rewards.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
@@ -138,6 +138,42 @@ export class Engine {
       error: result.ok ? null : result.error,
     });
     return result;
+  }
+
+  /**
+   * Fold an L1 SOCIAL op into the SCOT/rewards layer. This is the bridge that was missing — the
+   * engine now turns real L1 votes/comments into tribe rewards (not just custom_json token ops):
+   *   - comment → remember the post's tribe tags (so a later vote can map post→tribe)
+   *   - vote    → for every tribe the post belongs to, record a stake-weighted reward vote
+   *               (the VOTER needs staked tribe-token to give out rewards; the AUTHOR needs none).
+   * @param {object} s { kind:'comment'|'vote', author, permlink, tags?, voter?, blockNum, blockId, txId }
+   */
+  processSocial(s) {
+    if (!s) return;
+    if (s.kind === 'comment') {
+      recordPostTags(this.state, { author: s.author, permlink: s.permlink, tags: s.tags });
+      return;
+    }
+    if (s.kind === 'vote') {
+      const symbols = tribesForPost(this.state, s.author, s.permlink);
+      for (const symbol of symbols) {
+        const ctx = { sender: s.voter, authLevel: 'posting', blockNum: s.blockNum, blockId: s.blockId, txId: s.txId };
+        try { rewards.vote(this.state, ctx, { author: s.author, permlink: s.permlink, symbol }); }
+        catch { /* soft-fail-never-throw: a no-stake voter / bad post is just skipped */ }
+      }
+    }
+  }
+
+  /**
+   * Crank payouts at the end of each L1 block (idempotent; emits ONLY matured, unpaid posts).
+   * Anyone-can-turn deterministic crank — runs every tribe's matured windows.
+   */
+  crankPayouts(ctx) {
+    for (const rule of this.state.find('rewardRules', {})) {
+      if (rule.enabled === false) continue;
+      try { rewards.payout(this.state, { sender: 'engine', authLevel: 'posting', ...ctx }, { symbol: rule.symbol }); }
+      catch { /* soft-fail */ }
+    }
   }
 
   /** Mark an L1 block as fully processed and (optionally) persist + hash. */
