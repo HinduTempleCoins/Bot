@@ -7147,6 +7147,71 @@ client.on('messageCreate', async (message) => {
       }
       return;
     }
+
+    // ── MELEK-Engine (testnet L2 token layer) reader: !engine / !token / !payouts ──────────────
+    // Read-only, no key — Hathor returns engine token/supply/balance/payout info on Discord.
+    if (/^!(engine|token|payouts?)\b/is.test(message.content)) {
+      try {
+        const { engineInfo } = await import('./integrations/discord-engine-info.mjs');
+        const out = await engineInfo(message.content, {});
+        await sendGuarded(out || 'Ask `!engine`, `!token <SYMBOL>`, or `!payouts <SYMBOL>`.');
+      } catch { await message.reply('the MELEK-Engine reader is unavailable right now.'); }
+      return;
+    }
+
+    // ── !upvote — Hathor casts a "powdered" (small, default 1%) vote on a MELEK-testnet post,
+    // 1 per Discord account per day. Spawns the host CLI (JIT posting key); no key in this process.
+    const up = message.content.match(/^!upvote\b\s*(.*)$/is);
+    if (up) {
+      const parts = (up[1] || '').trim().split(/\s+/).filter(Boolean);
+      const ref = parts[0];
+      const pct = parts[1] || '';
+      if (!ref) { await message.reply('Usage: `!upvote @author/permlink [percent]` — e.g. `!upvote @alice/my-post` (1% by default, 1 per day).'); return; }
+      await message.channel.sendTyping();
+      try {
+        const { execFile } = await import('node:child_process');
+        const reply = await new Promise((resolve) => {
+          execFile('node', ['integrations/discord-upvote-cli.mjs', message.author.username, ref, String(pct)],
+            { cwd: process.cwd(), timeout: 30000, maxBuffer: 1024 * 1024 },
+            (err, stdout) => resolve(((stdout || '').trim()) || (err ? 'Upvote failed.' : 'Done.')));
+        });
+        await message.reply(reply);
+      } catch (e) { await message.reply('Upvote failed: ' + String(e.message || e).slice(0, 80)); }
+      return;
+    }
+
+    // ── !tip — reliable prefix alias for the /tip hookup (Discord eats a leading "/", not "!"). ──
+    const tipBang = message.content.match(/^!tip\b\s*(.*)$/is);
+    if (tipBang) {
+      const a = (tipBang[1] || '').trim().split(/\s+/).filter(Boolean);
+      const to = (a[0] || '').replace(/^@/, '');
+      const amount = a[1];
+      const symbol = (a[2] || 'MANNA').toUpperCase();
+      if (!to || !amount) { await message.reply('Usage: `!tip @user <amount> [TOKEN]` — e.g. `!tip @alice 5 MANNA`'); return; }
+      await message.channel.sendTyping();
+      try {
+        const { execFile } = await import('node:child_process');
+        const reply = await new Promise((resolve) => {
+          execFile('node', ['integrations/discord-tip-cli.mjs', message.author.username, to, String(amount), symbol],
+            { cwd: process.cwd(), timeout: 30000, maxBuffer: 1024 * 1024 },
+            (err, stdout) => resolve(((stdout || '').trim()) || (err ? 'Tip failed.' : 'Done.')));
+        });
+        await message.reply(reply);
+      } catch (e) { await message.reply('Tip failed: ' + String(e.message || e).slice(0, 80)); }
+      return;
+    }
+
+    // ── !help / !commands — the Pizza-bot menu ──────────────────────────────────────────────────
+    if (/^!(help|commands)\b/is.test(message.content)) {
+      await message.reply([
+        '🌿 **Hathor on MELEK (testnet)** — commands:',
+        '**Act:** `!tip @user <amt> [TOKEN]` · `!upvote @author/permlink [%]` (1/day) ',
+        '**Engine:** `!engine` · `!token <SYMBOL>` · `!payouts <SYMBOL>`',
+        '**Chain:** `!hathor` · `!block` · `!witness @acct` · `!account @acct` · `!feed`',
+        '**Ask:** `!ask <question>` (Resource Center) · `!price <symbol>`',
+      ].join('\n'));
+      return;
+    }
   }
 
   // Check for slash commands
