@@ -37,6 +37,7 @@
 
 import http from 'node:http';
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { Client, PrivateKey } from '@hiveio/dhive';
 import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 
@@ -101,12 +102,22 @@ if (PREFIX !== 'TST' || !/TESTS$/.test(FEE)) {
 
 function loadCreatorWif() {
   if (process.env.FAUCET_WIF && process.env.FAUCET_WIF.trim()) return process.env.FAUCET_WIF.trim();
+  // JIT-fetch the creator's ACTIVE key from the operator vault — no key on disk, same path the
+  // welcomer/feed use. This is how Hathor becomes the funded creator (FAUCET_CREATOR=hathor +
+  // FAUCET_VAULT_ITEM=hathor-testnet-keys) without ever writing her WIF to a file.
+  if (process.env.FAUCET_VAULT_ITEM) {
+    const vault = process.env.MELEK_VAULT_CLI || '/opt/melek-bot/vault.mjs';
+    const out = execFileSync('node', [vault, 'get', process.env.FAUCET_VAULT_ITEM], { encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
+    const m = out.match(/^active:\s*(5[1-9A-HJ-NP-Za-km-z]{50})/m);
+    if (m) return m[1];
+    throw new Error(`no active key in vault item ${process.env.FAUCET_VAULT_ITEM}`);
+  }
   if (process.env.FAUCET_WIF_FILE) {
     const raw = fs.readFileSync(process.env.FAUCET_WIF_FILE, 'utf8');
     const line = raw.split(/\r?\n/).map((s) => s.trim()).find((s) => s.length > 0);
     if (line) return line;
   }
-  throw new Error('no creator WIF: set FAUCET_WIF or FAUCET_WIF_FILE (testnet key only)');
+  throw new Error('no creator WIF: set FAUCET_WIF, FAUCET_VAULT_ITEM, or FAUCET_WIF_FILE (testnet key only)');
 }
 
 // The creator key + chain client are constructed lazily (only when the server actually starts) so
