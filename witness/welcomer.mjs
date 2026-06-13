@@ -5,7 +5,8 @@
 //   tested module. For each freshly-created account, Hathor (the on-chain account `hathor`):
 //     1. DELEGATES POWER (vesting shares) so the newcomer has Resource Credits and can post.
 //        A brand-new Graphene account has ZERO RC and literally cannot comment/transfer until it
-//        has staked POWER or received a delegation. ~200 VESTS proved enough to post.
+//        has staked POWER or received a delegation. A TINY delegation (~0.1 VESTS) is the RC
+//        bootstrap — enough to transact while learning; real weight is the user's own, built over time.
 //     2. GRANTS a small amount of the chain token (testnet TESTS, mainnet MELEK) — random 5-15.
 //     3. PINGS the newcomer in a `comment` reply on Hathor's WELCOME POST (a blockchain post
 //        Hathor authored — NOT a web page). The @-mention is what fires the user's wallet
@@ -42,7 +43,10 @@
 //   WELCOME_POST_AUTHOR     author of the welcome post. default "hathor"
 //   WELCOME_POST_PERMLINK   permlink of Hathor's welcome post (REQUIRED for a real ping)
 //   HATHOR_ACCOUNT          the witness account name. default "hathor"
-//   WELCOME_DELEGATION      VESTS to delegate. default "200.000000 VESTS"
+//   WELCOME_DELEGATION      VESTS to delegate (tiny RC bootstrap — let them communicate while they
+//                           learn; they build real weight from their OWN stake over time). default
+//                           "0.100000 VESTS". (Was 200 — unsustainable: Hathor holds ~200 total, so
+//                           200/newcomer = one user, then tapped out. Operator spec: ~0.1.)
 //   WELCOME_GRANT_MIN       min grant (whole tokens). default 5
 //   WELCOME_GRANT_MAX       max grant (whole tokens). default 15
 //   WELCOME_PING_SPACING_MS spacing between pings across accounts. default 7000 (>= 3500 enforced)
@@ -54,7 +58,7 @@ const HATHOR_ACCOUNT = (process.env.HATHOR_ACCOUNT || 'hathor').trim();
 const WELCOME_SYMBOL = (process.env.WELCOME_SYMBOL || 'TESTS').trim();
 const WELCOME_POST_AUTHOR = (process.env.WELCOME_POST_AUTHOR || 'hathor').trim();
 const WELCOME_POST_PERMLINK = (process.env.WELCOME_POST_PERMLINK || '').trim();
-const WELCOME_DELEGATION = (process.env.WELCOME_DELEGATION || '200.000000 VESTS').trim();
+const WELCOME_DELEGATION = (process.env.WELCOME_DELEGATION || '0.100000 VESTS').trim();
 const GRANT_MIN = parseInt(process.env.WELCOME_GRANT_MIN || '5', 10);
 const GRANT_MAX = parseInt(process.env.WELCOME_GRANT_MAX || '15', 10);
 
