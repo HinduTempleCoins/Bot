@@ -59,6 +59,24 @@ test('soft-fail on garbage / empty input', () => {
   assert.deepEqual(detectWalls({ bids: [['x', 'y'], [1, -5]] }).buyWalls, [], 'non-numeric / non-positive dropped');
 });
 
+test('phantom flag marks an implausibly-large (broken-book) level', () => {
+  // a single 10,000,000-unit bid against ~1-unit medians = a stale/broken book level, not a wall
+  const book = { bids: [[1, 1], [0.99, 1], [0.98, 1], [0.5, 10_000_000]], asks: [] };
+  const { buyWalls, hasPhantom } = detectWalls(book, { mult: 5, phantomX: 1000 });
+  assert.equal(buyWalls[0].phantom, true, 'absurd level flagged phantom');
+  assert.equal(hasPhantom, true);
+  assert.match(wallSummary(book, { mult: 5 }), /PHANTOM|broken\/stale/);
+});
+
+test('a normal wall is NOT phantom; phantomX is tunable', () => {
+  const book = { bids: [[1, 10], [0.99, 12], [0.98, 11], [0.95, 100]], asks: [] };
+  const { buyWalls, hasPhantom } = detectWalls(book, { mult: 5 });
+  assert.equal(buyWalls[0].phantom, false, '~9× median is a real wall, not phantom');
+  assert.equal(hasPhantom, false);
+  // tightening phantomX reclassifies the same wall as phantom
+  assert.equal(detectWalls(book, { mult: 5, phantomX: 5 }).buyWalls[0].phantom, true);
+});
+
 test('wallSummary is a plain string in every case', () => {
   assert.equal(typeof wallSummary(null), 'string');
   assert.match(wallSummary({}), /No significant walls|evenly/);
