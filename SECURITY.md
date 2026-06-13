@@ -236,6 +236,45 @@ Security issues with this Bot should be reported privately to the operator (`mah
 
 ---
 
+## 8. Tier 4 — the L2 engine, the signer token, and autovote (MELEK-specific surfaces)
+
+§§2–4 cover the L1 chain, individual keys, and infrastructure. These three surfaces are newer and have their own documented incident history on Hive/Steem. Each is mapped to our exposure and defense.
+
+### 8a. The L2 token engine (Hive-Engine / wLEO incident class)
+
+**The history.** Hive-Engine is a *centralized* side-token layer: a small, effectively-trusted set of nodes, with consensus far weaker than L1. The most expensive failure was the **wLEO hack (Oct 2020, ~$42k–$100k+ drained)** — not the L2 token itself but the **Ethereum bridge / oracle** that wrapped a Hive-Engine token onto Uniswap. The Hive-Engine team's own mitigation afterward was telling: **run a second independent HE node and cross-check every incoming transaction on both before issuing the wrapped asset** — i.e., don't trust a single centralized node for value movement.
+
+**Our exposure.** `engine/` is a Hive-Engine-style L2 (custom_json on L1, id `mse-testnet-melek`); `pool/` has a ZEPH/XMR/EVM **bridge** — the exact wLEO-class surface.
+
+**Defenses we hold / must hold:**
+- **No independent L2 consensus to attack.** The engine is a deterministic *replay* of L1: it never invents state, only folds confirmed L1 `custom_json` ops in strict block order. The L1 witnesses (where Hathor's slot lives) are the security root; the L2 has no separate validator set to bribe or 51%. (`engine/lib/engine.mjs` — single-threaded, strict block order; `streamer.mjs` `verifyChain` pins the chain id before replay.)
+- **Auth is taken STRICTLY from the L1-verified signature**, never from the payload: the signer is `required_active_auths[0] || required_posting_auths[0]`, and value-moving / supply ops (`issue`, `transfer`, `create`) require **active** auth (mirrors Scotbot). A forged "from" in the JSON is ignored. (`engine/lib/engine.mjs` §6 A/B.)
+- **Determinism is verifiable.** State is a pure function of L1 history with a deterministic state hash — anyone can replay and compare, so a tampered engine node is detectable (the wLEO "run a second node and cross-check" lesson, made native).
+- **GAP / TODO:** the bridge (pool/) is the genuine wLEO-class risk. Before any mainnet bridge: dual-node cross-check on issuance, conservative withdrawal rate-limits, an oracle that signs nothing it can't reconstruct from both nodes, and a circuit-breaker. Bridges hold custody — treat the bridge wallet as a treasury-tier key (offline / MELEK-Signer policy), never a hot key.
+
+### 8b. The signer bearer token (HiveSigner / SteemConnect / OAuth incident class)
+
+**The history.** HiveSigner (née SteemConnect) is a centralized OAuth2 SSO. Its documented failure modes: **phishing clones** of the signer page that harvest the user's *actual private key*; and **OAuth token theft** — a leaked bearer token lets the holder act within its scope without the key. Hive's own guidance: tokens must have **short expiry**, be **revocable**, and users must periodically **review which apps hold posting authority**.
+
+**Our exposure.** MELEK-Signer gives the Bot a **scoped bearer token** (not a key) — that token is the HiveSigner-token-theft surface. The `discord-tip-broadcast-server.mjs` I run on the chain host uses a shared **bearer secret** — same class.
+
+**Defenses:**
+- **The token is not a key.** It can only ask MELEK-Signer to broadcast, behind the signer's **policy engine** (which ops, which accounts, rate caps) and a **watcher audit**. A stolen token is scoped + revocable + expiring, and every use is logged out-of-band. (See `MELEK_SIGNER.md`, [[hathor-key-security-architecture]].)
+- **Phishing defense = one canonical domain + teach verification.** The signup/condenser/signer surfaces must live on the canonical MELEK domain over TLS; the `/teach` layer tells users to verify the URL and never paste a key into a page they reached from a link (the HiveSigner-clone lesson). Hathor never asks for a key (§3a).
+- **The tip endpoint** binds `127.0.0.1` by default, timing-safe-compares the secret, enforces caps server-side, and the secret is rotatable. Treat it like a token: rotate on any suspicion, never log it.
+- **Posting-authority hygiene:** like HiveSigner's Authorities panel, any app/token granted posting auth on a MELEK account must be reviewable and revocable; prefer keyless (WhaleVault-style in-browser) over stored keys.
+
+### 8c. Autovote / curation-trail surfaces
+
+**The history.** Curation automation invites: **stored-key compromise** (the autovote service holding a posting WIF), **vote-buying / bid-bots** distorting curation, and **reverse-auction gaming**.
+
+**Defenses:**
+- **Posting-key login is testnet-throwaway ONLY**, clearly marked; production paths are **keyless** (HiveSigner OAuth token / WhaleVault in-browser) so the platform never holds a mainnet key. (`autovote/README.md`, `chains.js` — `blockMainnetBroadcast` defaults ON.)
+- **Per-(chain,account) scoping + daily caps + rate limits** on every rule (`store.js`, `rules.js`), so a compromised account can't be used to drain RC or mass-vote.
+- **No vote-selling by Hathor** (the curation policy is merit-only, not buyable — `voting_rules/README.md` §2), and reverse-auction timing (§ MELEK 5-min window, [[melek-curation-vote-constants]]) is used to *earn* curation honestly, not to front-run.
+
+---
+
 ## Sources for the threat patterns above
 
 - Justin Sun / Steemit takeover: [CoinTelegraph](https://cointelegraph.com/news/steem-community-stands-its-ground-amid-tron-takeover), [Decrypt](https://decrypt.co/21108/did-binance-just-help-take-over-steem-network-justin-sun), [CryptoGround](https://www.cryptoground.com/a/binance-huobi-and-poloniex-help-justin-sun-takeover-of-steem-blockchain-to-prevent-hack), [HIVE fork response (CoinTelegraph)](https://cointelegraph.com/news/steem-community-resists-takeover-hard-fork-launches-hive-network)
@@ -243,3 +282,5 @@ Security issues with this Bot should be reported privately to the operator (`mah
 - Browser-extension malware: [Mars Stealer report on Hive](https://hive.blog/hive-150329/@mccoy02/mars-stealer-new-crypto-attacking-malware-on-browser-extensions)
 - NPM supply-chain attacks: [event-stream and 2025 wave (Web3SecNews)](https://web3secnews.substack.com/p/npm-supply-chain-attacks-how-hackers), [Palo Alto breakdown](https://www.paloaltonetworks.com/blog/cloud-security/npm-supply-chain-attack/), [Developer-Tech coverage](https://www.developer-tech.com/news/escalating-npm-supply-chain-malware-attack-drains-crypto-wallets/)
 - Witness operations / key rotation: [therealwolf Witness Essentials](https://hive.blog/@therealwolf/witness-essentials-hf20-ready), [hive-witness-essentials repo](https://github.com/therealwolf42/hive-witness-essentials)
+- L2 / bridge (wLEO) hack: [Decrypt — Ethereum project wLEO hacked for $42,000](https://decrypt.co/44645/ethereum-project-wleo-hacked-for-42000-on-uniswap), [fbslo — wrapped Hive-Engine tokens (dual-node cross-check mitigation)](https://hive.blog/hive-139531/@fbslo/how-to-create-wrapped-hive-engine-tokens-step-by-step)
+- HiveSigner / SteemConnect OAuth: [good-karma SteemConnect notice](https://hive.blog/hive/@good-karma/steemconnect-notice), [quochuy — review your posting authorities](https://hive.blog/security/@quochuy/remember-to-review-your-posting-authorities-with-hivesigner-steemconnect), [keys-defender — wallet-transfer phishing wave](https://hive.blog/hive-167922/@keys-defender/new-phishing-wave-through-wallet-transfers-do-not-use-those-links)
