@@ -10,6 +10,25 @@ import { marketHistory, reconstruct, currentHoldings } from './tradebot-forensic
 import { market } from './hive-engine-market.mjs';
 import { scanArb } from './arb-scanner.mjs';
 import { ownership } from './market-depth.mjs';
+import { detectWalls } from './liquidity-walls.mjs';
+
+// Fetch a symbol's HE order book and report the nearest support/resistance wall, if any. This is
+// the "verify order-book depth before sizing" step the arb findings already call for: a fat sell
+// wall just above an arb BUY (or a buy wall just below a SELL) is exactly what eats the edge.
+// Soft-fail → null on any error or empty book.
+async function wallNote(symbol) {
+  try {
+    const [buys, sells] = await Promise.all([
+      market.buyBook(symbol, 25).catch(() => []),
+      market.sellBook(symbol, 25).catch(() => []),
+    ]);
+    const { buyWalls, sellWalls } = detectWalls({ buyOrders: buys, sellOrders: sells }, { mult: 5 });
+    const parts = [];
+    if (sellWalls[0]) parts.push(`resistance ${sellWalls[0].size}@${sellWalls[0].price} (${sellWalls[0].x}× median)`);
+    if (buyWalls[0]) parts.push(`support ${buyWalls[0].size}@${buyWalls[0].price} (${buyWalls[0].x}× median)`);
+    return parts.length ? parts.join(', ') : null;
+  } catch { return null; }
+}
 
 import { ISSUED_TOKENS, PARITY_TARGET, TRADE_ACCOUNT } from './watchlist.mjs';
 
@@ -233,11 +252,17 @@ export async function analyze(account) {
   let liveArb = [];
   try {
     const { opportunities } = await scanArb();
-    liveArb = opportunities.map(o => ({ signal: o.signal, edgePct: +(o.edge * 100).toFixed(1), realUsd: +o.realUsd.toFixed(2) }));
+    liveArb = await Promise.all(opportunities.map(async o => ({
+      signal: o.signal, sym: o.sym, side: o.side,
+      edgePct: +(o.edge * 100).toFixed(1), realUsd: +o.realUsd.toFixed(2),
+      walls: o.sym ? await wallNote(o.sym) : null,
+    })));
     for (const o of liveArb) {
-      findings.push(`LIVE ARB: ${o.signal} — ${o.edgePct}% edge (verify order-book depth).`);
-      rec(findings[findings.length - 1], { kind: 'arb', token: o.signal, edgePct: o.edgePct, realUsd: o.realUsd, severity: o.edgePct >= 5 ? 'high' : 'medium', impact: o.edgePct });
-      suggestions.push(`Consider ${o.signal}: ${o.edgePct}% mispricing vs real $${o.realUsd}. Confirm executable depth before sizing.`);
+      const wall = o.walls ? ` Walls: ${o.walls}.` : '';
+      findings.push(`LIVE ARB: ${o.signal} — ${o.edgePct}% edge (verify order-book depth).${wall}`);
+      rec(findings[findings.length - 1], { kind: 'arb', token: o.signal, edgePct: o.edgePct, realUsd: o.realUsd, walls: o.walls, severity: o.edgePct >= 5 ? 'high' : 'medium', impact: o.edgePct });
+      const wallAdvice = o.walls ? ` A wall is in the way (${o.walls}) — it will cap the fill, so size to it, not to the headline edge.` : '';
+      suggestions.push(`Consider ${o.signal}: ${o.edgePct}% mispricing vs real $${o.realUsd}. Confirm executable depth before sizing.${wallAdvice}`);
     }
   } catch {}
 
