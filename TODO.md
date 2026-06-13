@@ -408,3 +408,6 @@ All gated on corpus expansion + Phase 2. Listed so future operators / forkers se
 - [ ] **Adopt-anyway security practices:** the enterprise/gov-grade practices we should run regardless (TLS posture, key management, logging/audit trails, backups, access control, dependency scanning) — mapped against what we ALREADY do (Caddy auto-TLS, zero-WIF rule, vault, UFW, CrowdSec, preflight) so it's a gap list, not a rebuild.
 - [ ] **Plain-English explainers for the operator:** start with "how SSL/TLS actually works" (and the fact our sites already have it automatically), then one-pagers per credential as they come up. These go in the operator-facing brief, front-end language only.
 - [ ] READ-ONLY like the standards review — findings to operator first; no changes from this review itself.
+
+## Compliance backlog (added 2026-06-13)
+- [ ] **EU cookie-consent notifications** wherever cookies are set (GDPR / ePrivacy): a consent banner before non-essential cookies, remembering the choice, across **MELEK** (condenser `alpha.melek.salon` + `wallet.melek.salon` — `tnaccept`, session/login cookies), **SoapBox** (`data`/`search`/`law`/`politics`/`hemp`/`stocks`/etc.), and all verticals. Operator request: "add EU Cookie Notifications wherever there are Cookies, across Melek, SoapBox, etc."
