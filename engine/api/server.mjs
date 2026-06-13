@@ -161,6 +161,25 @@ export function makeHandler(state, opts = {}) {
         return send(res, 200, rows);
       }
 
+      // GET /api/tribes  -> every SCOT reward rule (tribe): symbol, tag, emission, window, split, curve
+      if (path === '/contracts/tribes' || path === '/api/tribes') {
+        const symbol = (q.get('symbol') || '').toUpperCase();
+        const rows = symbol ? state.find('rewardRules', { symbol }) : state.collection('rewardRules');
+        return send(res, 200, rows);
+      }
+
+      // GET /api/payouts?symbol=X[&author=Y]  -> reward posts for a tribe (who earned, paid status).
+      // This is the data behind "see the payouts for the tokens of your choosing."
+      if (path === '/contracts/payouts' || path === '/api/payouts') {
+        const symbol = (q.get('symbol') || '').toUpperCase();
+        const author = q.get('author');
+        let rows = symbol ? state.find('rewardPosts', { symbol }) : state.collection('rewardPosts');
+        if (author) rows = rows.filter((r) => r.author === author);
+        // newest first; cap
+        rows = rows.slice().sort((a, b) => (b.openedBlock || 0) - (a.openedBlock || 0)).slice(0, 200);
+        return send(res, 200, rows);
+      }
+
       // GET /contracts/history?account=x  -> processed ops touching account
       if (path === '/contracts/history' || path === '/api/history') {
         const account = q.get('account');
