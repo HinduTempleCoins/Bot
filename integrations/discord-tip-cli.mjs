@@ -47,7 +47,27 @@ function fileTipLedger() {
   });
 }
 
+// REMOTE mode — when the bot is NOT on the chain host (Azure/Google/etc.), POST the tip to the
+// signer endpoint on the chain host instead of touching the vault locally. The endpoint enforces the
+// caps + holds the key; this side holds nothing. Returns the endpoint's reply line.
+const REMOTE_URL = process.env.MELEK_TIP_BROADCAST_URL || '';
+const REMOTE_SECRET = process.env.MELEK_TIP_SHARED_SECRET || '';
+async function remoteTip() {
+  const r = await fetch(REMOTE_URL.replace(/\/$/, '') + '/tip', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + REMOTE_SECRET },
+    body: JSON.stringify({ from, to: to.replace(/^@/, ''), amount, symbol }),
+  });
+  const j = await r.json().catch(() => null);
+  return (j && j.reply) || (r.ok ? 'Tip sent.' : 'Tipping is offline right now.');
+}
+
 (async () => {
+  if (REMOTE_URL) {
+    let reply;
+    try { reply = await remoteTip(); } catch { reply = "Tipping is offline right now (couldn't reach the signer)."; }
+    console.log(reply); process.exit(0);
+  }
   let key;
   try { key = hathorActiveKey(); } catch { console.log("Tipping is offline right now (couldn't reach the vault)."); process.exit(0); }
   const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 20000 });
