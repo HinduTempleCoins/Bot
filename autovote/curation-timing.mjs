@@ -48,10 +48,11 @@ export const CHAIN_TIMING = {
   // Blurt: same 5-min linear reverse auction shape as Steem.
   blurt: { reverseAuctionSec: 300, bufferSec: 20, promptDelaySec: 0 },
 
-  // MELEK testnet: treat like a no-auction chain (vote promptly). The MELEK
-  // chain is a Graphene/Blurt fork; if a reverse auction is enabled there later,
-  // give it its own entry. Until then, prompt is correct + harmless on testnet.
-  'melek-testnet': { reverseAuctionSec: 0, bufferSec: 0, promptDelaySec: 0 },
+  // MELEK testnet: the chain config (queried live: STEEM_REVERSE_AUCTION_WINDOW_SECONDS_HF21=300,
+  // chain on HF23) confirms the standard Steem/Blurt 5-min LINEAR reverse auction is ACTIVE — MELEK
+  // never changed it. So MELEK optimizes EXACTLY like Steem/Blurt: fire at ~5:20 after post time to
+  // keep 100% curation. (Earlier this entry assumed no-auction; the live config disproved that.)
+  'melek-testnet': { reverseAuctionSec: 300, bufferSec: 20, promptDelaySec: 0 },
 };
 
 /** Default for an unknown chain: be conservative and treat it like Steem/Blurt. */

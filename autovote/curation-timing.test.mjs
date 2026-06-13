@@ -43,9 +43,11 @@ test('unknown chain falls back to the conservative (Steem/Blurt) default', () =>
   assert.equal(optimalVoteDelaySeconds('nope', 0), 320);
 });
 
-test('MELEK testnet votes promptly (no auction)', () => {
-  assert.equal(optimalVoteDelaySeconds('melek-testnet', 0), 0);
-  assert.equal(optimalVoteDelaySeconds('melek-testnet', 500), 0);
+test('MELEK testnet uses the live 5-min reverse auction (config: HF21=300, chain on HF23)', () => {
+  // MELEK never changed the Steem reverse auction, so it optimizes like Steem/Blurt: fire at ~5:20.
+  assert.equal(optimalVoteDelaySeconds('melek-testnet', 0), 320);   // fresh post → wait the full window
+  assert.equal(optimalVoteDelaySeconds('melek-testnet', 300), 20);  // 5 min in → just the buffer left
+  assert.equal(optimalVoteDelaySeconds('melek-testnet', 500), 0);   // past the edge → fire now
 });
 
 test('minDelaySec floor is honored', () => {
