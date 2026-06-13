@@ -86,7 +86,12 @@ var vids=posts.filter(function(p){var m;try{m=JSON.parse(p.json_metadata||'{}')}
 if(!vids.length){feed.appendChild(el('p','No '+TAG+' videos yet. Post one below (tag it "'+TAG+'").'));return}
 vids.forEach(function(p){var d=document.createElement('div');d.className='vid';
 d.appendChild(el('h3',p.title||'(untitled)'));d.appendChild(el('div','by @'+p.author));
-var media;if(/\\.(mp4|webm|ogg)$/i.test(p._url)){media=document.createElement('video');media.controls=true;media.src=p._url}else{media=document.createElement('iframe');media.src=p._url;media.allowFullscreen=true}
+var safe=null;try{var uu=new URL(p._url);if(uu.protocol==='http:'||uu.protocol==='https:')safe=uu}catch(e){}
+var media;
+if(!safe){media=el('div','(unsupported or unsafe video URL — not rendered)')}
+else if(/\\.(mp4|webm|ogg)$/i.test(safe.pathname)){media=document.createElement('video');media.controls=true;media.src=safe.href}
+else if(/(^|\\.)(youtube\\.com|youtube-nocookie\\.com|youtu\\.be|vimeo\\.com|ipfs\\.io|w3s\\.link|archive\\.org)$/i.test(safe.hostname)){media=document.createElement('iframe');media.src=safe.href;media.setAttribute('sandbox','allow-scripts allow-same-origin allow-presentation');media.allowFullscreen=true}
+else{media=el('a','▶ open video ('+safe.hostname+')');media.href=safe.href;media.target='_blank';media.rel='noopener noreferrer'}
 d.appendChild(media);
 var e=earnByPost[p.author+'/'+p.permlink];d.appendChild(el('div',e?('💰 earned '+(e.emitted||'pending')+' '+SYMBOL+(e.paid?'':' (pending payout)')):'no SCOT earnings yet'));
 if(e)d.querySelector('div:last-child').className='earn';
