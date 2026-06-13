@@ -53,6 +53,51 @@ if(!pays.length){box.appendChild(el('p','No payouts yet for '+sym+'.'));continue
 box.appendChild(table(['Author','Emitted','Paid','Votes','Post'],pays.map(function(p){return [p.author,p.emitted||'-',p.paid?'yes':'pending',p.votes,p.permlink]})))}}
 </script></body></html>`;
 
+// ScotTube — the dTube clone. Lists video posts tagged for a video tribe (from L1), plays the
+// user's own video URL, and shows each video's SCOT earnings. Reward = the SAME SCOT loop: a video
+// post tagged for the tribe earns the tribe token when stakers vote (no stake needed to earn).
+// Read-only; the "post a video" form builds the op for the user to sign (keyless). textContent only.
+const DTUBE_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>MELEK ScotTube</title>
+<style>body{font-family:system-ui,sans-serif;max-width:880px;margin:1.5rem auto;padding:0 1rem;color:#1a1a2e}
+h1{font-size:1.3rem}.vid{border:1px solid #e0e0e0;border-radius:8px;padding:.8rem;margin:.8rem 0}
+.vid h3{margin:.2rem 0;font-size:1.05rem}.earn{color:#2e7d32;font-weight:600}video,iframe{width:100%;max-height:420px;border:0;border-radius:6px;background:#000}
+input,textarea{padding:.4rem;border:1px solid #ccc;border-radius:6px;width:100%;margin:.2rem 0;box-sizing:border-box}
+button{padding:.4rem .8rem;border:0;border-radius:6px;background:#2e3b8f;color:#fff;cursor:pointer}.muted{color:#777;font-size:.85rem}
+details{margin:1rem 0;border:1px solid #e0e0e0;border-radius:8px;padding:.6rem}pre{white-space:pre-wrap;word-break:break-all;background:#f4f4fb;padding:.5rem;border-radius:6px}</style></head>
+<body><h1>🎬 MELEK ScotTube</h1>
+<p class="muted">Videos tagged for the <b id="tg">reel</b> tribe. Posting a video and getting upvoted by stakers earns you the tribe token — you need zero of it to earn it.</p>
+<div id="feed">loading…</div>
+<details><summary>Post a video (builds the op — sign it in your wallet)</summary>
+<input id="pv-author" placeholder="your account"><input id="pv-title" placeholder="title">
+<input id="pv-url" placeholder="video URL (your own / IPFS / licensed embed)"><textarea id="pv-desc" placeholder="description"></textarea>
+<button onclick="buildPost()">Build post op</button><pre id="pv-out"></pre></details>
+<script>
+var RPC='https://alpha.melek.salon/rpc', TAG='reel', SYMBOL='REEL';
+function el(t,txt){var e=document.createElement(t);if(txt!=null)e.textContent=txt;return e}
+async function rpc(method,params){try{var r=await fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:method,params:params,id:1})});return (await r.json()).result}catch(e){return null}}
+async function getJSON(u){try{return await (await fetch(u)).json()}catch(e){return null}}
+function videoUrl(meta){if(!meta)return null;if(typeof meta.video==='string')return meta.video;if(meta.video&&meta.video.url)return meta.video.url;if(Array.isArray(meta.links))return meta.links.find(function(l){return /\\.(mp4|webm|ogg)$/i.test(l)})||null;return null}
+async function load(){var feed=document.getElementById('feed');feed.textContent='';
+var posts=await rpc('condenser_api.get_discussions_by_created',[{tag:TAG,limit:20}])||[];
+var pays=await getJSON('/api/payouts?symbol='+SYMBOL)||[];
+var earnByPost={};pays.forEach(function(p){earnByPost[p.postKey]=p});
+var vids=posts.filter(function(p){var m;try{m=JSON.parse(p.json_metadata||'{}')}catch(e){m={}}; p._url=videoUrl(m); return p._url});
+if(!vids.length){feed.appendChild(el('p','No '+TAG+' videos yet. Post one below (tag it "'+TAG+'").'));return}
+vids.forEach(function(p){var d=document.createElement('div');d.className='vid';
+d.appendChild(el('h3',p.title||'(untitled)'));d.appendChild(el('div','by @'+p.author));
+var media;if(/\\.(mp4|webm|ogg)$/i.test(p._url)){media=document.createElement('video');media.controls=true;media.src=p._url}else{media=document.createElement('iframe');media.src=p._url;media.allowFullscreen=true}
+d.appendChild(media);
+var e=earnByPost[p.author+'/'+p.permlink];d.appendChild(el('div',e?('💰 earned '+(e.emitted||'pending')+' '+SYMBOL+(e.paid?'':' (pending payout)')):'no SCOT earnings yet'));
+if(e)d.querySelector('div:last-child').className='earn';
+feed.appendChild(d)})}
+function buildPost(){var a=document.getElementById('pv-author').value.trim();var t=document.getElementById('pv-title').value.trim();var u=document.getElementById('pv-url').value.trim();var ds=document.getElementById('pv-desc').value.trim();
+var permlink='reel-'+Date.now().toString(36);
+var op=['comment',{parent_author:'',parent_permlink:TAG,author:a,permlink:permlink,title:t,body:ds+'\\n\\n'+u,json_metadata:JSON.stringify({app:'melek/scottube',tags:[TAG,'video'],video:u})}];
+document.getElementById('pv-out').textContent=JSON.stringify(op,null,2)}
+load();
+</script></body></html>`;
+
 const HITS = new Map(); // ip -> { count, resetAt }
 
 function rateLimited(ip) {
@@ -136,6 +181,10 @@ export function makeHandler(state, opts = {}) {
       // the tokens of your choosing). Self-contained page; reads the read-only /api endpoints. ---
       if (path === '/wallet' || path === '/wallet/') {
         return send(res, 200, WALLET_HTML, 'text/html; charset=utf-8');
+      }
+      // --- /dtube : ScotTube — video feed (by tribe tag) + per-video SCOT earnings + post-builder ---
+      if (path === '/dtube' || path === '/dtube/') {
+        return send(res, 200, DTUBE_HTML, 'text/html; charset=utf-8');
       }
 
       // --- health ---
