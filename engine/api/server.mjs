@@ -16,6 +16,43 @@ import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
 import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
 
+// The MELEK-Engine wallet + payouts viewer. Self-contained, no build, read-only. Shows YOUR token
+// balances and the payouts for the tokens of YOUR choosing (a watchlist). Uses textContent only.
+const WALLET_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>MELEK Wallet & Payouts</title>
+<style>body{font-family:system-ui,sans-serif;max-width:780px;margin:1.5rem auto;padding:0 1rem;color:#1a1a2e}
+h1{font-size:1.3rem}h2{font-size:1rem;margin-top:1.5rem}input{padding:.4rem;border:1px solid #ccc;border-radius:6px}
+button{padding:.4rem .8rem;border:0;border-radius:6px;background:#2e3b8f;color:#fff;cursor:pointer}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.9rem}th,td{border:1px solid #e0e0e0;padding:.35rem .5rem;text-align:left}
+th{background:#f4f4fb}.muted{color:#777;font-size:.85rem}</style></head>
+<body><h1>🪽 MELEK-Engine Wallet & Payouts</h1>
+<p class="muted">Your token balances, and the payouts for the tokens of your choosing. Read-only.</p>
+<h2>Your wallet</h2>
+<div><input id="acct" placeholder="your account (e.g. melekvankush)"><button onclick="loadWallet()">Load wallet</button></div>
+<div id="wallet"></div>
+<h2>Payouts — tokens of your choosing</h2>
+<div><input id="watch" placeholder="symbols to watch, comma-separated (e.g. SCROLL,APIS)" size="40"><button onclick="loadPayouts()">Show payouts</button></div>
+<div id="payouts"></div>
+<script>
+function el(t,txt){var e=document.createElement(t);if(txt!=null)e.textContent=txt;return e}
+function table(headers,rows){var t=document.createElement('table');var tr=document.createElement('tr');
+headers.forEach(function(h){tr.appendChild(el('th',h))});t.appendChild(tr);
+rows.forEach(function(r){var x=document.createElement('tr');r.forEach(function(c){x.appendChild(el('td',String(c)))});t.appendChild(x)});return t}
+async function getJSON(u){try{var r=await fetch(u);return await r.json()}catch(e){return null}}
+async function loadWallet(){var a=document.getElementById('acct').value.trim();var box=document.getElementById('wallet');box.textContent='';
+if(!a)return;var rows=await getJSON('/api/balances?account='+encodeURIComponent(a))||[];
+if(!rows.length){box.appendChild(el('p','No balances for @'+a+'.'));return}
+box.appendChild(table(['Token','Liquid','Staked'],rows.map(function(b){return [b.symbol,b.balance,b.stake||'0']})))}
+async function loadPayouts(){var syms=document.getElementById('watch').value.split(/[\\s,]+/).map(function(s){return s.trim().toUpperCase()}).filter(Boolean);
+var box=document.getElementById('payouts');box.textContent='';
+for(var i=0;i<syms.length;i++){var sym=syms[i];
+var tribe=(await getJSON('/api/tribes?symbol='+sym))||[];var rule=tribe[0];
+box.appendChild(el('h3',sym+(rule?' — tribe: '+(rule.authorBps/100)+'% author / '+((10000-rule.authorBps)/100)+'% curator, '+rule.emissionPerWindow+' base/window, '+rule.curve:' — not a reward tribe')));
+var pays=(await getJSON('/api/payouts?symbol='+sym))||[];
+if(!pays.length){box.appendChild(el('p','No payouts yet for '+sym+'.'));continue}
+box.appendChild(table(['Author','Emitted','Paid','Votes','Post'],pays.map(function(p){return [p.author,p.emitted||'-',p.paid?'yes':'pending',p.votes,p.permlink]})))}}
+</script></body></html>`;
+
 const HITS = new Map(); // ip -> { count, resetAt }
 
 function rateLimited(ip) {
@@ -95,6 +132,12 @@ export function makeHandler(state, opts = {}) {
     }
 
     try {
+      // --- /wallet : the MELEK-Engine wallet + payouts viewer (your balances + the payouts for
+      // the tokens of your choosing). Self-contained page; reads the read-only /api endpoints. ---
+      if (path === '/wallet' || path === '/wallet/') {
+        return send(res, 200, WALLET_HTML, 'text/html; charset=utf-8');
+      }
+
       // --- health ---
       if (path === '/health') {
         return send(res, 200, {
