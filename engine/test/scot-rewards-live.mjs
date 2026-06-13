@@ -19,8 +19,9 @@ const PREFIX = 'TST';
 const SIDECHAIN = 'mse-testnet-melek';
 const ENGINE_API = process.env.MELEK_ENGINE_API || 'http://127.0.0.1:8098';
 const SEED = process.env.POPULATE_SEED || 'melek-testnet-populate-v1';
-const SYMBOL = 'SCROLL';
-const TAG = 'scroll';
+const SYMBOL = (process.env.SCOT_SYMBOL || 'SCROLL').toUpperCase();
+const TAG = (process.env.SCOT_TAG || SYMBOL.toLowerCase());
+const VIDEO = process.env.SCOT_VIDEO || ''; // if set, the test post carries this video URL (ScotTube/dTube)
 const STAKER = process.env.SCOT_STAKER || 'melekvankush';
 const AUTHOR = process.env.SCOT_AUTHOR || 'vrhathor';
 const WINDOW = Number(process.env.SCOT_WINDOW || 20);
@@ -40,8 +41,14 @@ const bal = async (a) => { try { const r = await (await fetch(`${ENGINE_API}/api
   console.log(`scot-rewards-live (${live ? 'LIVE' : 'dry'}) — tribe ${SYMBOL}, staker @${STAKER}, author @${AUTHOR} (author holds 0 ${SYMBOL})`);
   if (!live) { console.log('(dry — pass --live)'); return; }
 
-  // 1. re-register the rule WITH the tag, and issue SCROLL to the staker (initminer = issuer)
-  await bc(eng('initminer', { c: 'rewards', a: 'setReward' }, { symbol: SYMBOL, tag: TAG, emissionPerWindow: '100', windowBlocks: WINDOW, authorBps: 5000, curve: 'linear' }), genesis, 'setReward (tag=scroll)');
+  // 0. create the token if it doesn't exist yet (issuer = initminer, burns APIS)
+  const tok = await (await fetch(`${ENGINE_API}/api/tokens?symbol=${SYMBOL}`).catch(() => null))?.json?.().catch(() => []);
+  if (!Array.isArray(tok) || !tok.length) {
+    await bc(eng('initminer', { c: 'tokens', a: 'create' }, { symbol: SYMBOL, name: `${SYMBOL} Tribe`, precision: 3, maxSupply: '1000000' }), genesis, `create ${SYMBOL}`);
+    await sleep(5000);
+  }
+  // 1. register the rule WITH the tag, and issue to the staker (initminer = issuer)
+  await bc(eng('initminer', { c: 'rewards', a: 'setReward' }, { symbol: SYMBOL, tag: TAG, emissionPerWindow: '100', windowBlocks: WINDOW, authorBps: 5000, curve: 'linear' }), genesis, `setReward (tag=${TAG})`);
   await sleep(4000);
   await bc(eng('initminer', { c: 'tokens', a: 'issue' }, { symbol: SYMBOL, to: STAKER, quantity: '1000' }), genesis, `issue 1000 ${SYMBOL} -> @${STAKER}`);
   await sleep(5000);
@@ -51,7 +58,9 @@ const bal = async (a) => { try { const r = await (await fetch(`${ENGINE_API}/api
 
   // 3. author (zero SCROLL) posts a 'scroll'-tagged post
   const permlink = `scot-${Date.now().toString(36)}`;
-  await bc(['comment', { parent_author: '', parent_permlink: TAG, author: AUTHOR, permlink, title: 'SCOT reward test', body: 'A scroll-tribe post by an author who holds no SCROLL.', json_metadata: JSON.stringify({ app: 'melek/scot-test', tags: [TAG, 'melek'] }) }], key(AUTHOR, 'posting'), `@${AUTHOR} posts (tag ${TAG})`);
+  const meta = { app: 'melek/scot-test', tags: [TAG, 'melek'], ...(VIDEO ? { video: VIDEO } : {}) };
+  const body = VIDEO ? `A ${TAG}-tribe video by an author who holds no ${SYMBOL}.\n\n${VIDEO}` : `A ${TAG}-tribe post by an author who holds no ${SYMBOL}.`;
+  await bc(['comment', { parent_author: '', parent_permlink: TAG, author: AUTHOR, permlink, title: VIDEO ? 'ScotTube test video' : 'SCOT reward test', body, json_metadata: JSON.stringify(meta) }], key(AUTHOR, 'posting'), `@${AUTHOR} posts (tag ${TAG}${VIDEO ? ', video' : ''})`);
   await sleep(4000);
   // 4. staker votes it -> engine folds a stake-weighted reward vote
   await bc(['vote', { voter: STAKER, author: AUTHOR, permlink, weight: 10000 }], key(STAKER, 'posting'), `@${STAKER} votes @${AUTHOR}/${permlink}`);
