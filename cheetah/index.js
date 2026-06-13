@@ -137,9 +137,36 @@ export async function scanPost(post, { dryRun, corpus, storeRoot = STORE_ROOT } 
     // no text match — but one or more images may still be creditable
     if (imageCredit) {
       const comment = composeImageCreditNote({ match: true, sources: imageSources }, `${post.author}-${post.permlink}-img`);
-      return dryRun
-        ? { intent: 'image-credit-comment', post, sources: imageSources, source: imageCredit, confidence: imageCredit.confidence, comment }
-        : { imageCredit: true, post, sources: imageSources, source: imageCredit, images: imageScan.imageCount };
+      if (dryRun) {
+        return { intent: 'image-credit-comment', post, sources: imageSources, source: imageCredit, confidence: imageCredit.confidence, comment };
+      }
+      // Live path — previously this returned WITHOUT broadcasting, so image-only copies were
+      // detected but never actually credited on-chain. Mirror the text-crediting path below:
+      // broadcast the credit comment via Hathor's posting auth, or record the finding if the
+      // chain isn't ready yet.
+      const hathor = new Hathor();
+      if (!hathor.status().readyToConnect) {
+        await recordFinding({
+          post: { author: post.author, permlink: post.permlink },
+          source: imageCredit,
+          confidence: imageCredit.confidence,
+        }, storeRoot);
+        return { imageCredit: false, post, sources: imageSources, source: imageCredit, reason: 'chain-not-ready', images: imageScan.imageCount };
+      }
+      await hathor.adapter || hathor.connect();
+      const result = await hathor.adapter.reply({
+        parentAuthor: post.author,
+        parentPermlink: post.permlink,
+        body: comment,
+        tags: ['cheetah', 'attribution', 'image'],
+      });
+      recordComment(post.author);
+      await recordFinding({
+        post: { author: post.author, permlink: post.permlink },
+        source: imageCredit,
+        confidence: imageCredit.confidence,
+      }, storeRoot);
+      return { imageCredit: true, broadcast: true, post, sources: imageSources, source: imageCredit, images: imageScan.imageCount, tx: result.id };
     }
 
     // Discovery-first librarian face (CHEETAH_ADVANCED.md Step 5). Not a copy,
