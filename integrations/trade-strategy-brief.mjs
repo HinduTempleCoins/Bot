@@ -35,6 +35,7 @@
 // One-line wire into digest.mjs is documented at the bottom of this file.
 
 import { fileURLToPath } from 'node:url';
+import { watchedHeTokens, listingsFor, usAccessibleListings } from './he-external-listings.mjs';
 
 // ── small pure helpers ───────────────────────────────────────────────────────────────────────────
 const num = (x) => { const v = +x; return Number.isFinite(v) ? v : null; };
@@ -219,13 +220,49 @@ function buildCrossVenueArb(inputs, ctx) {
   return pairs;
 }
 
+// ── SECTION 2b: HIVE-Engine NATIVE tokens with real external markets ─────────────────────────────────
+// Beyond the SWAP.X wrappers: HE-native tokens (SPS, DEC, LEO …) that genuinely trade on outside
+// venues. A gap between the Hive-Engine price and the external price is a TRUE arb (not a peg). Most
+// HE-native CEX listings (Gate/MEXC/Bitget) are US-blocked, so the US-accessible leg is usually the
+// DEX-wrapped version — surfaced explicitly so the operator knows which path he can actually use.
+function buildHeNativeMarkets() {
+  const rows = [];
+  for (const token of watchedHeTokens()) {
+    const all = listingsFor(token);
+    const us = usAccessibleListings(token);
+    rows.push({
+      token,
+      hasUsLeg: us.length > 0,
+      usVenues: us.map((l) => `${l.venue} (${l.kind}, ${l.symbol})`),
+      blockedVenues: all.filter((l) => !l.usAccessible).map((l) => `${l.venue} (${l.symbol})`),
+      bestConfidence: all.some((l) => l.confidence === 'high') ? 'high' : all.some((l) => l.confidence === 'medium') ? 'medium' : 'verify',
+      note: us[0]?.note || all[0]?.note || '',
+    });
+  }
+  // tokens with a usable US leg first, then by confidence.
+  const rank = { high: 0, medium: 1, verify: 2 };
+  rows.sort((a, b) => (b.hasUsLeg - a.hasUsLeg) || (rank[a.bestConfidence] - rank[b.bestConfidence]));
+  return rows;
+}
+
 // ── SECTION 3: best next steps (various directions) ─────────────────────────────────────────────────
 // Scale what works (DOGE/BLURT), which venue to test next with the $1-5 stakes, which chains to add,
 // what to avoid, and what data/access is still missing. Derived from the analyzer + venue coverage.
-function buildNextSteps(inputs, ctx, exchangesToJoin, crossVenueArb) {
+function buildNextSteps(inputs, ctx, exchangesToJoin, crossVenueArb, heNativeMarkets = []) {
   const analyzer = inputs.analyzer || {};
   const tokens = arr(analyzer.tokens);
-  const steps = { scaleWinners: [], avoid: [], testVenues: [], addChains: [], dataGaps: [] };
+  const steps = { scaleWinners: [], avoid: [], testVenues: [], addChains: [], watchMarkets: [], dataGaps: [] };
+
+  // broaden the watch: HE-native tokens with a real US-accessible external leg (SPS/DEC/LEO …) are
+  // genuine arb candidates beyond the SWAP.X wrappers — watch the Hive-Engine ↔ DEX gap.
+  const withUsLeg = arr(heNativeMarkets).filter((r) => r.hasUsLeg);
+  for (const r of withUsLeg.slice(0, 4)) {
+    steps.watchMarkets.push(`${r.token}: watch the Hive-Engine ↔ ${r.usVenues[0]} gap (${r.bestConfidence}). ${r.note}`);
+  }
+  if (arr(heNativeMarkets).some((r) => !r.hasUsLeg)) {
+    const blocked = arr(heNativeMarkets).filter((r) => !r.hasUsLeg).map((r) => r.token);
+    if (blocked.length) steps.watchMarkets.push(`No US-accessible leg found for: ${blocked.join(', ')} — their external markets are US-blocked CEXes; skip unless a DEX route appears.`);
+  }
 
   // scale: proven winners (positive net) and what avoid: proven losers / one-way bleed.
   for (const t of tokens) {
@@ -280,7 +317,8 @@ export function buildStrategyBrief(inputs = {}, opts = {}) {
     };
     const exchangesToJoin = buildExchangesToJoin(inputs.usCex, ctx);
     const crossVenueArb = buildCrossVenueArb(inputs, ctx);
-    const nextSteps = buildNextSteps(inputs, ctx, exchangesToJoin, crossVenueArb);
+    const heNativeMarkets = buildHeNativeMarkets();
+    const nextSteps = buildNextSteps(inputs, ctx, exchangesToJoin, crossVenueArb, heNativeMarkets);
 
     const recExchanges = exchangesToJoin.filter((e) => e.recommend);
     const recPairs = crossVenueArb.filter((p) => p.recommended);
@@ -290,19 +328,21 @@ export function buildStrategyBrief(inputs = {}, opts = {}) {
       advisory: true,
       exchangesToJoin,
       crossVenueArb,
+      heNativeMarkets,
       nextSteps,
       summary: {
         recommendedExchanges: recExchanges.length,
         topExchange: recExchanges[0] ? recExchanges[0].name : null,
         executableArbPairs: recPairs.length,
         excludedPairs: crossVenueArb.length - recPairs.length,
+        heNativeWithUsLeg: heNativeMarkets.filter((r) => r.hasUsLeg).length,
       },
     };
   } catch (e) {
     return {
       asOf: new Date().toISOString(), readOnly: true, advisory: true,
-      exchangesToJoin: [], crossVenueArb: [], nextSteps: { scaleWinners: [], avoid: [], testVenues: [], addChains: [], dataGaps: ['soft-fail: ' + ((e && e.message) || String(e))] },
-      summary: { recommendedExchanges: 0, topExchange: null, executableArbPairs: 0, excludedPairs: 0 },
+      exchangesToJoin: [], crossVenueArb: [], heNativeMarkets: [], nextSteps: { scaleWinners: [], avoid: [], testVenues: [], addChains: [], watchMarkets: [], dataGaps: ['soft-fail: ' + ((e && e.message) || String(e))] },
+      summary: { recommendedExchanges: 0, topExchange: null, executableArbPairs: 0, excludedPairs: 0, heNativeWithUsLeg: 0 },
       error: (e && e.message) || String(e),
     };
   }
@@ -365,6 +405,19 @@ export function renderStrategyBriefMd(brief) {
     }
     L.push('');
 
+    // 2b. HE-NATIVE TOKENS WITH EXTERNAL MARKETS (SPS/DEC/LEO …)
+    const he = arr(b.heNativeMarkets);
+    if (he.length) {
+      L.push('### 2b. HIVE-Engine native tokens that trade on outside exchanges (the real cross-chain arb)');
+      L.push('_Beyond the SWAP.X wrappers. A gap between the Hive-Engine price and the external price here is a true arbitrage. Most HE-native CEX listings (Gate/MEXC/Bitget) block US persons — the US-accessible leg is usually the DEX-wrapped version._');
+      L.push('| token | US-accessible leg | US-blocked venues | confidence |');
+      L.push('|---|---|---|---|');
+      for (const r of he) {
+        L.push(`| ${r.token} | ${r.usVenues.join(', ') || '— none (US-blocked only)'} | ${r.blockedVenues.join(', ') || '—'} | ${r.bestConfidence} |`);
+      }
+      L.push('');
+    }
+
     // 3. BEST NEXT STEPS
     L.push('### 3. Best next steps (various directions)');
     const ns = b.nextSteps || {};
@@ -378,6 +431,7 @@ export function renderStrategyBriefMd(brief) {
     block('Avoid (proven losers / one-way bleed)', ns.avoid);
     block('Test next with the $1-5 stakes', ns.testVenues);
     block('Add these directions/chains', ns.addChains);
+    block('Watch these markets (HE-native tokens with external books)', ns.watchMarkets);
     block('Data / access still missing', ns.dataGaps);
 
     return L.join('\n');
