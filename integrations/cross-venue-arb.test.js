@@ -6,7 +6,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { computeEdge, SWAP_TOKENS, HE_FEE, EXT_TAKER } from './cross-venue-arb.mjs';
+import { computeEdge, SWAP_TOKENS, HE_NATIVE_TOKENS, HE_FEE, EXT_TAKER } from './cross-venue-arb.mjs';
 
 test('SWAP_TOKENS: every entry is redeemable with a chain + coingecko id + a numeric net fee', () => {
   for (const [sym, meta] of Object.entries(SWAP_TOKENS)) {
@@ -19,6 +19,30 @@ test('SWAP_TOKENS: every entry is redeemable with a chain + coingecko id + a num
   for (const s of ['SWAP.LTC', 'SWAP.DOGE', 'SWAP.BTC', 'SWAP.HIVE', 'SWAP.HBD', 'SWAP.EOS', 'SWAP.MATIC', 'SWAP.BCH']) {
     assert.ok(SWAP_TOKENS[s], `${s} should be covered`);
   }
+});
+
+test('HE_NATIVE_TOKENS: SPS/DEC/LEO each carry a coingecko id, external chain, fee + DEX swap fee', () => {
+  for (const [sym, meta] of Object.entries(HE_NATIVE_TOKENS)) {
+    assert.ok(!sym.startsWith('SWAP.'), `${sym} is a HE-native token, not a SWAP wrapper`);
+    assert.ok(meta.coingeckoId && meta.chain, `${sym} needs coingeckoId + chain`);
+    assert.ok(Number.isFinite(meta.typicalNetworkFeeUsd) && meta.typicalNetworkFeeUsd >= 0, `${sym} needs a bridge+gas fee`);
+    assert.ok(Number.isFinite(meta.dexSwapFee) && meta.dexSwapFee > 0, `${sym} needs a DEX swap fee`);
+  }
+  for (const s of ['SPS', 'DEC', 'LEO']) assert.ok(HE_NATIVE_TOKENS[s], `${s} should be covered`);
+});
+
+test('computeEdge SIZE-AWARE: a flat fee amortizes over trade size (the cheap-token fix)', () => {
+  // cheap-token with a gross gap (~5.9%) that clears the variable fees: $0.00321 HE vs $0.00340 ext,
+  // $0.80 flat bridge fee. Per-unit charging would nuke it; size-aware amortizes the flat fee.
+  const small = computeEdge({ heUsd: 0.00321, externalUsd: 0.00340, netFeeUsd: 0.80, extTaker: 0.0025, sizeUsd: 100 });
+  const big = computeEdge({ heUsd: 0.00321, externalUsd: 0.00340, netFeeUsd: 0.80, extTaker: 0.0025, sizeUsd: 10000 });
+  // bigger size → flat fee a smaller %, so net improves monotonically
+  assert.ok(big.netPct > small.netPct, `net should improve with size: ${small.netPct} -> ${big.netPct}`);
+  // breakeven size is reported (the size where the flat fee is finally covered), positive here
+  assert.ok(small.breakevenSizeUsd > 0, 'breakeven size reported');
+  // a gross gap UNDER the variable fees can never clear → breakeven null
+  const hopeless = computeEdge({ heUsd: 100, externalUsd: 100.5, netFeeUsd: 0.10, sizeUsd: 100 }); // 0.5% gross < ~2.5% variable
+  assert.equal(hopeless.breakevenSizeUsd, null);
 });
 
 test('computeEdge: a gross gap that BEATS the full fee stack nets positive', () => {

@@ -18,6 +18,11 @@ const fakeCrossVenue = async () => ({
     { token: 'SWAP.DOGE', netPct: 2.5, chain: 'Dogecoin', usVenue: { name: 'Kraken' } },
   ],
 });
+const fakeHeNative = async () => ({
+  edges: [
+    { token: 'SPS', netPct: 1.5, chain: 'BSC', usVenue: { name: 'PancakeSwap', symbol: 'SPS/BNB', us: 'dex' } },
+  ],
+});
 const fakeScanSymbol = async (sym) => ({
   symbol: sym,
   best: sym === 'BTC/USDT' ? { netEdgePct: 0.3, buyOn: 'kraken', buyAsk: 100, sellOn: 'binance', sellBid: 100.3 } : null,
@@ -30,20 +35,31 @@ const fakeCrossChain = async (q) => ({
 const inject = {
   scanArb: fakeScanArb,
   crossVenueEdges: fakeCrossVenue,
+  heNativeEdges: fakeHeNative,
   scanSymbol: fakeScanSymbol,
   crossChainSpread: fakeCrossChain,
   cexPairs: ['BTC/USDT', 'ETH/USDT'],
   xchainQueries: ['PEPE', 'NOTHING'],
 };
 
-test('returns ONE combined feed over all four detectors', async () => {
+test('returns ONE combined feed over all five detectors', async () => {
   const { rows, sources } = await scanAllArb(inject);
-  // arb-scanner=2, cross-venue=2, cex=1 (only BTC had a best), crosschain=1 (only PEPE)
+  // arb-scanner=2, cross-venue=2, he-native=1 (SPS), cex=1 (only BTC had a best), crosschain=1 (only PEPE)
   assert.equal(sources['arb-scanner'], 2);
   assert.equal(sources['cross-venue'], 2);
+  assert.equal(sources['he-native'], 1);
   assert.equal(sources['cex-arb'], 1);
   assert.equal(sources['crosschain'], 1);
-  assert.equal(rows.length, 6);
+  assert.equal(rows.length, 7);
+});
+
+test('HE-native (SPS/DEC/LEO) edges flow through the facade as a he-native source row', async () => {
+  const { rows } = await scanAllArb(inject);
+  const sps = rows.find((r) => r.source === 'he-native' && r.market === 'SPS');
+  assert.ok(sps, 'SPS he-native row present');
+  assert.equal(sps.feesApplied, true);            // fee-netted round trip
+  assert.equal(sps.netEdgePct, 1.5);
+  assert.match(sps.detail, /PancakeSwap/);          // names the US-accessible DEX leg
 });
 
 test('ranked by net edge percentage, descending', async () => {
@@ -97,6 +113,7 @@ test('all-empty detectors → empty feed, no throw (the common, correct result)'
   const empty = {
     scanArb: async () => ({ opportunities: [] }),
     crossVenueEdges: async () => ({ edges: [] }),
+    heNativeEdges: async () => ({ edges: [] }),
     scanSymbol: async () => ({ best: null }),
     crossChainSpread: async () => ({ opportunity: null }),
     cexPairs: ['BTC/USDT'], xchainQueries: [],
