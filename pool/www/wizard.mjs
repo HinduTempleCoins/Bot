@@ -85,7 +85,7 @@ export const COINS = {
   zephyr: {
     id: 'zeph', symbol: 'ZEPH', name: 'Zephyr', family: 'cryptonote',
     algo: 'rx/0', xmrigCoin: 'zephyr',
-    // ZEPH standard addr = base58, ~97-98 chars starting 'ZEPHs'; integrated starts 'ZEPHi'.
+    // ZEPH mainnet addr = base58, ~98 chars starting 'ZEPHYR' (e.g. ZEPHYR2…/ZEPHYR3…).
     addr: { type: 'zephyr' },
     walletHelp: 'https://wallet.zephyrprotocol.com/',
     phoneReady: true,
@@ -158,16 +158,20 @@ export function validateAddress(coin, address) {
   }
 
   if (c.addr.type === 'zephyr') {
-    // base58 alphabet (no 0 O I l). ZEPH addresses are ~97-98 chars and carry a multi-char
-    // human prefix: 'ZEPHs' (standard/spendable), 'ZEPHi' (integrated), 'ZEPHsg' (governance).
+    // base58 alphabet (no 0 O I l). ZEPH mainnet addresses are ~98 chars and start with the
+    // human prefix 'ZEPHYR' (standard 'ZEPHYR2…', the wallet-rpc also emits 'ZEPHYR3…'); both
+    // are accepted by the live Zephyr pool (verified 2026-06-14 via stratum login).
     if (!/^[1-9A-HJ-NP-Za-km-z]+$/.test(a)) {
       return { ok: false, reason: 'contains characters not in the Zephyr base58 set' };
     }
     if (a.length < 95 || a.length > 110) {
-      return { ok: false, reason: 'a Zephyr address is ~97-98 base58 characters' };
+      return { ok: false, reason: 'a Zephyr address is ~98 base58 characters' };
     }
-    if (!/^ZEPH[sig]/.test(a)) {
-      return { ok: false, reason: "a Zephyr address starts with 'ZEPHs' (or 'ZEPHi' integrated)" };
+    // All Zephyr address types share the 'ZEPH' prefix: standard 'ZEPHYR2…'/'ZEPHYR3…' (what
+    // miners use, both verified pool-accepted 2026-06-14), subaddress 'ZEPHs…', integrated
+    // 'ZEPHi…'. Accept any.
+    if (!/^ZEPH/.test(a)) {
+      return { ok: false, reason: "a Zephyr address starts with 'ZEPH'" };
     }
     return { ok: true };
   }

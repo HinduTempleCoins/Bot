@@ -247,13 +247,39 @@ test('pickBrowserCoin falls back to Monero on a null/garbage pool list (API unre
 });
 
 test('resolveBrowserCoin reads /api/pools via injected fetch and prefers Zephyr', async () => {
+  const seen = [];
   const fetchImpl = async (url) => {
-    assert.equal(url, '/api/pools');
-    return { json: async () => ({ pools: [{ id: 'zeph' }, { id: 'xmr-stagenet' }] }) };
+    seen.push(url);
+    if (url === '/api/pools') return { json: async () => ({ pools: [{ id: 'zeph' }, { id: 'xmr-stagenet' }] }) };
+    throw new Error('no zeph stats in this test');
   };
   const r = await resolveBrowserCoin(fetchImpl);
   assert.equal(r.coin.key, 'zephyr');
   assert.equal(r.zephyrLive, true);
+  assert.ok(seen.includes('/api/pools'));
+});
+
+test('resolveBrowserCoin detects the ZEPH pool from its own /api/zeph/stats when absent from /api/pools', async () => {
+  // Miningcore /api/pools has no zeph (the Zephyr pool runs on cryptonote-nodejs-pool);
+  // the /api/zeph/stats probe answers as ZEPH → ZEPH becomes live.
+  const fetchImpl = async (url) => {
+    if (url === '/api/pools') return { json: async () => ({ pools: [{ id: 'xmr-stagenet' }] }) };
+    if (url === '/api/zeph/stats') return { json: async () => ({ config: { symbol: 'ZEPH' }, pool: { hashrate: 0 } }) };
+    throw new Error('unexpected url ' + url);
+  };
+  const r = await resolveBrowserCoin(fetchImpl);
+  assert.equal(r.coin.key, 'zephyr');
+  assert.equal(r.zephyrLive, true);
+});
+
+test('resolveBrowserCoin stays on Monero when the ZEPH stats probe is unreachable', async () => {
+  const fetchImpl = async (url) => {
+    if (url === '/api/pools') return { json: async () => ({ pools: [{ id: 'xmr-stagenet' }] }) };
+    throw new Error('zeph stats down');
+  };
+  const r = await resolveBrowserCoin(fetchImpl);
+  assert.equal(r.coin.key, 'monero');
+  assert.equal(r.zephyrLive, false);
 });
 
 test('resolveBrowserCoin soft-fails to Monero when the fetch throws', async () => {

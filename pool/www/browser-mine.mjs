@@ -75,14 +75,24 @@ export function pickBrowserCoin(pools) {
 export async function resolveBrowserCoin(fetchImpl) {
   const f = fetchImpl || (typeof fetch !== 'undefined' ? fetch : null);
   if (!f) return pickBrowserCoin(null);
+  let pools = [];
   try {
     const r = await f('/api/pools');
     const j = await r.json();
-    const pools = (j && (j.pools || j)) || [];
-    return pickBrowserCoin(Array.isArray(pools) ? pools : []);
-  } catch {
-    return pickBrowserCoin(null);
-  }
+    const p = (j && (j.pools || j)) || [];
+    if (Array.isArray(p)) pools = p.slice();
+  } catch { /* Miningcore API down -> pools stays [] (ZEPH probe below still runs) */ }
+  // The Zephyr pool runs on cryptonote-nodejs-pool, which serves its OWN stats API (Caddy
+  // exposes it at /api/zeph/) — it is NOT in Miningcore's /api/pools. Probe it directly and,
+  // if it answers as ZEPH, synthesize a live pools entry so the Zephyr-first selection picks
+  // it. Soft-fails: if unreachable, ZEPH stays gated and the Monero fallback holds.
+  try {
+    const zr = await f('/api/zeph/stats');
+    const zj = await zr.json();
+    const sym = zj && zj.config && zj.config.symbol;
+    if (sym && /ZEPH/i.test(String(sym))) pools.push({ id: 'zeph', enabled: true });
+  } catch { /* zeph stats unreachable -> stays gated */ }
+  return pickBrowserCoin(pools);
 }
 
 // The pool IS the wallet (operator 2026-06-06): never make the user go GET an address —
