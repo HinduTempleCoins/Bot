@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pick a Bot — MELEK strategy dry-run</title>
+<style>
+  :root { --bg:#0f1320; --card:#1a2033; --ink:#e8ecf6; --muted:#9aa6c4; --line:#2a3350;
+          --buy:#2ecc71; --sell:#ff6b6b; --gold:#f5c451; --warn:#3a1f1f; --warnline:#ff8a5b; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:24px 20px 8px; max-width:1100px; margin:0 auto; }
+  h1 { margin:0 0 4px; font-size:24px; }
+  .sub { color:var(--muted); margin:0 0 16px; }
+  .banner { max-width:1100px; margin:0 auto 18px; padding:14px 18px; background:var(--warn);
+            border:1px solid var(--warnline); border-radius:10px; color:#ffd9c9; font-weight:600; }
+  .banner small { display:block; font-weight:400; color:#ffbfa6; margin-top:4px; }
+  main { max-width:1100px; margin:0 auto; padding:0 20px 60px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; }
+  .card h2 { margin:0 0 2px; font-size:17px; }
+  .tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:#2a3350; color:var(--muted); margin-left:6px; vertical-align:middle; }
+  .tag.proven { background:#3a3410; color:var(--gold); border:1px solid var(--gold); }
+  .id { color:var(--muted); font-size:12px; font-family:ui-monospace,Menlo,monospace; }
+  .desc { color:var(--ink); margin:8px 0 12px; flex:1; }
+  button { background:#2a3350; color:var(--ink); border:1px solid var(--line); border-radius:8px;
+           padding:9px 12px; font-size:14px; cursor:pointer; transition:background .15s; }
+  button:hover { background:#36406a; }
+  button:disabled { opacity:.6; cursor:wait; }
+  .out { margin-top:12px; border-top:1px dashed var(--line); padding-top:10px; font-size:13px; display:none; }
+  .out.show { display:block; }
+  .reason { color:var(--muted); margin:0 0 8px; }
+  .order { display:flex; gap:8px; align-items:baseline; padding:4px 0; border-bottom:1px solid #232b45; }
+  .order:last-child { border-bottom:0; }
+  .side { font-weight:700; min-width:42px; }
+  .side.buy { color:var(--buy); } .side.sell { color:var(--sell); }
+  .mono { font-family:ui-monospace,Menlo,monospace; }
+  .drytag { font-size:11px; color:var(--gold); }
+  .hold { color:var(--muted); font-style:italic; }
+  footer { max-width:1100px; margin:0 auto; padding:0 20px 40px; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pick a Bot</h1>
+  <p class="sub">Choose one of the standard MELEK trading strategies and watch it propose orders against a live-ish market snapshot.</p>
+</header>
+
+<div class="banner" role="alert">
+  SIMULATION ONLY — no real orders, no keys.
+  <small>Every order below is a dry-run intention. Nothing is broadcast, nothing is signed, and this page never touches a private key. Execution is a separate, gated, MELEK-Signer-only concern.</small>
+</div>
+
+<main>
+  <div class="grid" id="grid"><p class="sub">Loading bots…</p></div>
+</main>
+
+<footer>
+  Powered by the <span class="mono">trade-strategies.mjs</span> registry. Orders are frozen <span class="mono">dryRun:true / signer:null</span> by construction.
+</footer>
+
+<script type="module">
+  // Vanilla JS module — no framework. esc() everything that lands in the DOM.
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const BASE = (window.BOT_PICKER_BASE || '').replace(/\/$/, '');
+  const grid = document.getElementById('grid');
+
+  async function getJSON(url, opts) {
+    const r = await fetch(BASE + url, opts);
+    return r.json();
+  }
+
+  function orderRow(o) {
+    const side = String(o.side || '').toLowerCase();
+    return `<div class="order">
+      <span class="side ${esc(side)}">${esc(side.toUpperCase())}</span>
+      <span class="mono">${esc(o.qtyToken)} ${esc(o.symbol)}</span>
+      <span class="muted">@</span>
+      <span class="mono">${esc(o.price)}</span>
+      <span class="mono muted">(${esc(o.qtyHive)} HIVE)</span>
+      <span class="drytag">dry-run · no signer</span>
+    </div>`;
+  }
+
+  function renderOut(el, sim) {
+    el.classList.add('show');
+    if (!sim || !sim.ok) {
+      el.innerHTML = `<p class="reason">${esc((sim && sim.summary) || (sim && sim.error) || 'simulation unavailable')}</p>`;
+      return;
+    }
+    const orders = Array.isArray(sim.orders) ? sim.orders : [];
+    const body = orders.length
+      ? orders.map(orderRow).join('')
+      : `<p class="hold">No order — this bot would HOLD on the current snapshot.</p>`;
+    el.innerHTML = `<p class="reason">${esc(sim.reason || '')}</p>${body}`;
+  }
+
+  function card(bot) {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>${esc(bot.label)}${bot.proven ? '<span class="tag proven">★ proven</span>' : '<span class="tag">experimental</span>'}</h2>
+      <div class="id">${esc(bot.id)}</div>
+      <p class="desc">${esc(bot.desc)}</p>
+      <button type="button">Run dry-run ▸</button>
+      <div class="out"></div>`;
+    const btn = el.querySelector('button');
+    const out = el.querySelector('.out');
+    btn.addEventListener('click', async () => {
+      btn.disabled = true; btn.textContent = 'Simulating…';
+      try {
+        const sim = await getJSON('/api/bots/simulate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ strategyId: bot.id }),
+        });
+        renderOut(out, sim);
+      } catch (e) {
+        renderOut(out, { ok: false, summary: 'Could not reach the simulator. Try again.' });
+      } finally {
+        btn.disabled = false; btn.textContent = 'Run dry-run ▸';
+      }
+    });
+    return el;
+  }
+
+  (async () => {
+    try {
+      const data = await getJSON('/api/bots');
+      const bots = (data && data.bots) || [];
+      grid.innerHTML = '';
+      if (!bots.length) { grid.innerHTML = '<p class="sub">No bots available.</p>'; return; }
+      for (const b of bots) grid.appendChild(card(b));
+    } catch (e) {
+      grid.innerHTML = '<p class="sub">Could not load bots. Is the picker server running?</p>';
+    }
+  })();
+</script>
+</body>
+</html>
