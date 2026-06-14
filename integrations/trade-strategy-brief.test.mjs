@@ -4,7 +4,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildStrategyBrief, renderStrategyBriefMd, appendToTradeFeed } from './trade-strategy-brief.mjs';
+import { buildStrategyBrief, renderStrategyBriefMd, appendToTradeFeed, analyzerFromSanitizedFeed } from './trade-strategy-brief.mjs';
 
 // ── mocked inputs: realistic shapes from each collector ───────────────────────────────────────────
 function mockInputs() {
@@ -170,6 +170,29 @@ test('appendToTradeFeed appends the strategy block and is idempotent (no stackin
   const twice = appendToTradeFeed(once, b);
   // marker appears exactly once (re-append replaces, does not stack)
   assert.equal(twice.split('<!-- trade-strategy-brief -->').length - 1, 1);
+});
+
+test('analyzerFromSanitizedFeed maps the sanitized feed to the analyzer shape (banded, no raw)', () => {
+  // the --append-feed path sources P&L from the sanitized feed JSON so only banded figures cross.
+  const sanitized = {
+    totals: { realizedHiveBand: 250, netHiveBand: 250 },
+    tokens: [
+      { symbol: 'SWAP.DOGE', role: 'traded', netHive: 320, activity: 'high', holdingValueBand: '~0' },
+      { symbol: 'SWAP.LTC', role: 'traded', netHive: -180, activity: 'medium', holdingValueBand: '~0' },
+    ],
+    findings: ['WORKS: SWAP.DOGE.'], suggestions: ['SCALE SWAP.DOGE.'],
+  };
+  const a = analyzerFromSanitizedFeed(sanitized);
+  assert.deepEqual(a.tokens.map((t) => t.symbol), ['SWAP.DOGE', 'SWAP.LTC']);
+  assert.equal(a.tokens[0].netHive, 320);
+  assert.deepEqual(a.liveArb, []);                 // arb never sourced from the ledger
+  // and it composes into a valid brief whose next-steps still reflect winners/losers
+  const b = buildStrategyBrief({ analyzer: a });
+  assert.match(b.nextSteps.scaleWinners.join(' '), /SWAP\.DOGE/);
+  assert.match(b.nextSteps.avoid.join(' '), /SWAP\.LTC/);
+  // garbage soft-fails to a valid empty shape (no tokens), never throws
+  assert.deepEqual(analyzerFromSanitizedFeed(null).tokens, []);
+  assert.deepEqual(analyzerFromSanitizedFeed(undefined).liveArb, []);
 });
 
 test('garbage / empty inputs soft-fail to a valid empty brief (never throws)', () => {
