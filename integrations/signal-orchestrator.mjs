@@ -59,6 +59,7 @@ export const REJECT_FLAGS = Object.freeze([
   'edge-vanishes',         // edge disappears at a realistic fill size (thin executable depth)
   'implausible-edge',      // a huge edge with no corroborating confidence — almost certainly stale/fake
   'suspect-book',          // an upstream detector already flagged the book suspect/one-sided/stale
+  'unverified-arb',        // a cross-chain spread the detector could NOT verify (often mismatched/wrapped tokens — phantom)
 ]);
 const REJECT_SET = new Set(REJECT_FLAGS);
 
@@ -95,6 +96,9 @@ function fromArbFacade(arbFeed) {
       execHive: Number.isFinite(+r.execHive) ? round(r.execHive, 2) : null,
       // an upstream phantom/one-sided/stale flag rides straight through as a reject flag.
       _suspect: !!r.suspect,
+      // a cross-chain spread the detector explicitly could NOT verify (verified:false) is treated as
+      // a trap — these are usually mismatched/wrapped tokens producing fake double-digit "spreads".
+      _unverified: raw.verified === false,
     };
   }).filter(Boolean);
 }
@@ -171,6 +175,10 @@ function trapFlags(sig, ctx) {
 
   // 5. upstream-suspect book (one-sided / stale) — carried through from arb-facade/arb-scanner.
   if (sig._suspect) flags.push('suspect-book');
+
+  // 5b. unverified cross-chain spread — the detector couldn't confirm it (mismatched/wrapped tokens
+  // producing a fake spread, e.g. "ETH $1653 on hydration vs $2366 on raydium"). Never actionable.
+  if (sig._unverified) flags.push('unverified-arb');
 
   // 6. implausibly large edge with no corroborating confidence — almost certainly a stale/fake book.
   const conf = prices[sym];
