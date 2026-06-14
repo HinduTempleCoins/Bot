@@ -34,6 +34,20 @@ test('a 501% edge is REJECTED as implausible even with no wall context (no corro
   assert.ok(sig.flags.includes('implausible-edge'), 'flagged implausible-edge');
 });
 
+test('an UNVERIFIED cross-chain spread is REJECTED, never ACT (the phantom 43% ETH spread)', () => {
+  const { signals } = buildSignalFeed({
+    arbFeed: { rows: [
+      { source: 'crosschain', market: 'ETH', side: 'buy', netEdgePct: 43.1, feesApplied: false, raw: { verified: false, buyOn: 'polkadot/hydration', sellOn: 'solana/raydium' } },
+      { source: 'crosschain', market: 'XYZ', side: 'buy', netEdgePct: 4.0, feesApplied: false, raw: { verified: true } },
+    ] },
+  });
+  const eth = signals.find((s) => s.symbol === 'ETH');
+  assert.ok(eth.flags.includes('unverified-arb'), 'unverified crosschain flagged');
+  assert.equal(eth.verdict, 'REJECT', 'unverified crosschain never ACT');
+  const xyz = signals.find((s) => s.symbol === 'XYZ');
+  assert.ok(!xyz.flags.includes('unverified-arb'), 'verified crosschain not flagged unverified');
+});
+
 test('issuer-concentrated / illiquid token (VKBT/CURE) is REJECTED', () => {
   const { signals } = buildSignalFeed({
     extra: [
