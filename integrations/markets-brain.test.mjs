@@ -1,7 +1,11 @@
 // markets-brain.test.mjs — OFFLINE tests for the stocks/bonds/futures brain extension.
-// One URL-routed fake fetch feeds BOTH the new sections (Yahoo + Stooq) and the composed
+// One URL-routed fake fetch feeds BOTH the new sections (Yahoo + CNBC) and the composed
 // markets-surface side (crypto/FX/metals/commodities), through the shared __setFetch. No network is
 // ever touched; every failure path is asserted to soft-fail to a safe shape, never to throw.
+//
+// LIVE-DRIFT NOTE (2026-06-14): the second source is CNBC's keyless quote webservice (Stooq's CSV
+// endpoint is dead from server IPs). Yahoo's treasury indices (^TNX/^FVX/^TYX) now report the ACTUAL
+// percent yield (no 10× scaling), so the mocks use real-percent yields and no yahooScale.
 
 import { test } from 'node:test';
 import assert from 'node:assert';
@@ -14,19 +18,19 @@ const ok = (obj) => ({ ok: true, status: 200, json: async () => obj, text: async
 const okText = (s) => ({ ok: true, status: 200, text: async () => s, json: async () => ({}) });
 const dead = { ok: false, status: 503, json: async () => ({}), text: async () => '' };
 
-// Yahoo decoded-symbol → mocked regularMarketPrice. Treasury indices report 10× the yield.
+// Yahoo decoded-symbol → mocked regularMarketPrice. Treasury indices report the ACTUAL percent yield.
 const YAHOO = {
   '^GSPC': 5400, '^NDX': 19000, '^DJI': 39000, 'AAPL': 210, 'MSFT': 440, 'NVDA': 1200,
-  '^TNX': 42.0, '^FVX': 44.0, '^TYX': 44.5,            // 10× yields → 4.20%, 4.40%, 4.45%
+  '^TNX': 4.21, '^FVX': 4.39, '^TYX': 4.46,            // actual percent yields (no 10× scaling)
   'ES=F': 5410, 'NQ=F': 19010, 'CL=F': 78.2, 'GC=F': 2350,
   // surface (markets-surface) FX/metals/commodity Yahoo symbols
   'EURUSD=X': 1.085, 'GBPUSD=X': 1.27, 'USDJPY=X': 156.4, 'SI=F': 30.5, 'NG=F': 2.6,
 };
-// Stooq symbol → close, chosen to AGREE with Yahoo (yields in percent directly).
-const STOOQ = {
-  '^spx': 5402, '^ndx': 19010, '^dji': 39020, 'aapl.us': 210.4, 'msft.us': 440.8, 'nvda.us': 1201,
-  '2us.b': 4.41, '5us.b': 4.39, '10us.b': 4.21, '30us.b': 4.46,
-  'es.f': 5408, 'nq.f': 19005, 'cl.f': 78.4, 'gc.f': 2351,
+// CNBC symbol → last price, chosen to AGREE with Yahoo. Covers stocks/indices/futures + every tenor.
+const CNBC = {
+  '.SPX': 5402, '.NDX': 19010, '.DJI': 39020, 'AAPL': 210.4, 'MSFT': 440.8, 'NVDA': 1201,
+  'US2Y': 4.62, 'US5Y': 4.40, 'US10Y': 4.20, 'US30Y': 4.45,
+  '@SP.1': 5408, '@ND.1': 19005, '@CL.1': 78.4, '@GC.1': 2351,
 };
 
 function makeFetch(over = {}) {
@@ -39,12 +43,12 @@ function makeFetch(over = {}) {
       if (px == null) return dead;
       return ok({ chart: { result: [{ meta: { regularMarketPrice: px } }] } });
     }
-    if (u.includes('stooq.com')) {
-      if (over.stooq === 'dead') return dead;
-      const sym = decodeURIComponent((u.match(/[?&]s=([^&]+)/) || [])[1] || '');
-      const px = STOOQ[sym];
-      if (px == null) return okText('Symbol,Date,Time,Open,High,Low,Close,Volume\nX,N/D,N/D,N/D,N/D,N/D,N/D,N/D');
-      return okText(`Symbol,Date,Time,Open,High,Low,Close,Volume\n${sym},2026-06-13,22:00:00,${px},${px},${px},${px},1000`);
+    if (u.includes('quote.cnbc.com')) {
+      if (over.cnbc === 'dead') return dead;
+      const sym = decodeURIComponent((u.match(/[?&]symbols=([^&]+)/) || [])[1] || '');
+      const px = CNBC[sym];
+      if (px == null) return ok({ QuickQuoteResult: { QuickQuote: [] } });
+      return ok({ QuickQuoteResult: { QuickQuote: { symbol: sym, last: String(px) } } });
     }
     // crypto sources from markets-surface — give bitcoin a 4-source cluster so the surface renders
     if (u.includes('api.coingecko.com')) {
@@ -63,7 +67,7 @@ function makeFetch(over = {}) {
   };
 }
 
-test('buildExtensionView: builds stocks, bonds and futures from mocked Yahoo + Stooq', async () => {
+test('buildExtensionView: builds stocks, bonds and futures from mocked Yahoo + CNBC', async () => {
   __setFetch(makeFetch());
   const v = await buildExtensionView({ asOf: '2026-06-14T00:00:00.000Z' });
   assert.equal(v.ok, true);
@@ -78,7 +82,7 @@ test('buildExtensionView: builds stocks, bonds and futures from mocked Yahoo + S
   assert.ok(spx && spx.price > 5000 && spx.price < 6000, 'SPX in mocked band');
   assert.equal(spx.market, 'stocks');
   assert.equal(spx.asOf, '2026-06-14T00:00:00.000Z');
-  // a bond entry: Yahoo ^TNX (42.0) scaled to 4.20% agrees with Stooq 4.21%
+  // a bond entry: Yahoo ^TNX (4.21%) agrees with CNBC US10Y (4.20%) — read as a true percent
   const us10 = v.sections[1].entries.find((e) => e.symbol === 'US10Y');
   assert.ok(us10.price > 4 && us10.price < 5, 'US10Y yield read as a percent, not 10×');
   assert.equal(us10.unit, '% yield');
@@ -88,7 +92,7 @@ test('confidence reflects agreement: two agreeing sources reach confident', asyn
   __setFetch(makeFetch());
   const v = await buildExtensionView({ stocks: ['SPX'], bonds: [], futures: [] });
   const spx = v.sections[0].entries[0];
-  assert.equal(spx.sources, 2, 'yahoo + stooq both answered');
+  assert.equal(spx.sources, 2, 'yahoo + cnbc both answered');
   assert.equal(spx.confident, true, 'two agreeing sources are confident');
   assert.ok(spx.score >= 55, `clustered score ${spx.score} should be at least moderate`);
 });
@@ -98,7 +102,7 @@ test('a dead source soft-fails — the other still renders, confidence falls', a
   const full = await buildExtensionView({ stocks: ['SPX'], bonds: [], futures: [] });
   const spxFull = full.sections[0].entries[0];
 
-  __setFetch(makeFetch({ stooq: 'dead' }));
+  __setFetch(makeFetch({ cnbc: 'dead' }));
   const degraded = await buildExtensionView({ stocks: ['SPX'], bonds: [], futures: [] });
   const spxDeg = degraded.sections[0].entries[0];
 
@@ -177,18 +181,18 @@ test('buildSubdomainView: garbage subdomain soft-fails with the valid list', asy
 });
 
 test('buildSubdomainView: bond note states yields and flags inversion factually', async () => {
-  // craft an inverted curve: 2Y above 10Y
+  // craft an inverted curve: 2Y (5.10%) above 10Y (4.10%). CNBC carries every tenor; Yahoo the 5/10/30.
   __setFetch(async (url) => {
     const u = String(url);
-    if (u.includes('stooq.com')) {
-      const sym = decodeURIComponent((u.match(/[?&]s=([^&]+)/) || [])[1] || '');
-      const px = { '2us.b': 5.10, '10us.b': 4.10, '30us.b': 4.30 }[sym];
-      if (px == null) return dead;
-      return okText(`Symbol,Date,Time,Open,High,Low,Close,Volume\n${sym},2026-06-13,22:00,${px},${px},${px},${px},1`);
+    if (u.includes('quote.cnbc.com')) {
+      const sym = decodeURIComponent((u.match(/[?&]symbols=([^&]+)/) || [])[1] || '');
+      const px = { 'US2Y': 5.10, 'US5Y': 4.50, 'US10Y': 4.10, 'US30Y': 4.30 }[sym];
+      if (px == null) return ok({ QuickQuoteResult: { QuickQuote: [] } });
+      return ok({ QuickQuoteResult: { QuickQuote: { symbol: sym, last: String(px) } } });
     }
     if (u.includes('finance.yahoo.com')) {
       const sym = decodeURIComponent((u.match(/chart\/([^?]+)/) || [])[1] || '');
-      const px = { '^FVX': 51.0, '^TNX': 41.0, '^TYX': 43.0 }[sym];
+      const px = { '^FVX': 4.50, '^TNX': 4.10, '^TYX': 4.30 }[sym]; // actual percent, agree with CNBC
       if (px == null) return dead;
       return ok({ chart: { result: [{ meta: { regularMarketPrice: px } }] } });
     }
@@ -257,4 +261,19 @@ test('handler: /stocks returns the per-subdomain HTML page; never throws', async
   await handler(req, res);
   assert.match(headers['content-type'], /text\/html/);
   assert.ok(body.includes('Stocks &amp; indices'), 'subdomain section title (escaped) rendered');
+});
+
+// ── LIVE SMOKE — opt-in, hits the REAL Yahoo + CNBC. OFF by default so `npm test` stays offline.
+//    Run with: BRAIN_LIVE_SMOKE=1 node --test integrations/markets-brain.test.mjs
+//    Documents the real keyless calls, asserts a real SPX price and a SANE treasury yield (the
+//    bond-scaling regression: 10Y must read ~4%, never ~0.4%).
+test('LIVE SMOKE: real SPX price + a sane (un-scaled) US10Y treasury yield', { skip: !process.env.BRAIN_LIVE_SMOKE }, async () => {
+  __setFetch(null); // real global fetch
+  const v = await buildExtensionView({ stocks: ['SPX'], bonds: ['US10Y'], futures: [] });
+  const spx = v.sections[0].entries[0];
+  const us10 = v.sections[1].entries[0];
+  assert.ok(spx.price > 1000 && spx.price < 100000, `live SPX implausible: ${spx.price}`);
+  assert.ok(us10.price > 1 && us10.price < 20, `US10Y yield must be ~4%, not 10×-scaled: ${us10.price}`);
+  // eslint-disable-next-line no-console
+  console.log(`  [live] SPX = ${spx.price} (${spx.sources} src, ${spx.confidence}); US10Y = ${us10.price}% (${us10.sources} src)`);
 });

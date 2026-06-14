@@ -14,10 +14,15 @@
 // └────────────────────────────────────────────────────────────────────────────────────────────┘
 //
 // PRICE SOURCE: the Jupiter Quote API (Solana DEX aggregator, KEYLESS) per integrations/CROSSCHAIN_BOTS.md.
-//   primary:  GET https://quote-api.jup.ag/v6/quote?inputMint=&outputMint=&amount=&slippageBps=
+//   primary:  GET https://lite-api.jup.ag/swap/v1/quote?inputMint=&outputMint=&amount=&slippageBps=
 //             -> { inAmount, outAmount, priceImpactPct, routePlan, ... } (raw integer lamport/atom amounts)
-//   fallback: GET https://price.jup.ag/v6/price?ids=SOL,...&vsToken=USDC  (Jupiter price endpoint)
+//   fallback: GET https://lite-api.jup.ag/price/v3?ids=<MINT>,...  (Jupiter price endpoint, keyed by mint)
+//             -> { "<mint>": { usdPrice, ... }, ... }
 //   confidence is scored: a routed two-source-agreeing quote scores high; a single source lower; none = 0.
+//
+//   LIVE-DRIFT NOTE (2026-06-14): Jupiter retired the old hosts. quote-api.jup.ag/v6/quote now 404s and
+//   price.jup.ag/v6/price is gone. The keyless reads moved to lite-api.jup.ag: /swap/v1/quote (same
+//   { inAmount, outAmount, routePlan } shape) and /price/v3 (now keyed BY MINT, value { usdPrice }).
 //
 //   import { readQuotes, strategize, handler } from './chains/sol-bot.mjs'
 //   node integrations/chains/sol-bot.mjs            # demo: print quotes + dry-run intentions
@@ -64,8 +69,8 @@ export const PAIRS = Object.freeze([
   { base: 'USDT', quote: 'USDC' }, // a near-1.0 peg pair — a sanity / peg-arb candidate
 ]);
 
-const JUP_QUOTE = process.env.SOL_JUP_QUOTE_URL || 'https://quote-api.jup.ag/v6/quote';
-const JUP_PRICE = process.env.SOL_JUP_PRICE_URL || 'https://price.jup.ag/v6/price';
+const JUP_QUOTE = process.env.SOL_JUP_QUOTE_URL || 'https://lite-api.jup.ag/swap/v1/quote';
+const JUP_PRICE = process.env.SOL_JUP_PRICE_URL || 'https://lite-api.jup.ag/price/v3';
 
 async function fetchJSON(url, opts = {}, timeout = TIMEOUT_MS) {
   const ctrl = new AbortController();
@@ -92,11 +97,18 @@ export function parseJupQuote(raw, base, quote) {
   return { price: round(price), priceImpactPct: impact, routed, source: 'jup-quote' };
 }
 
-// ── parse the Jupiter /v6/price fallback ({ data: { SOL: { price } } }) ────────────────────────
+// ── parse the Jupiter /price/v3 fallback. The current lite-api shape is keyed BY MINT, value
+// { usdPrice }: { "<mint>": { usdPrice, decimals, ... } }. We still tolerate the legacy
+// { data: { SOL: { price } } } shape so an old-host override or cached response degrades gracefully.
 export function parseJupPrice(raw, base) {
-  if (!raw || !raw.data) return null;
-  const node = raw.data[base] || raw.data[TOKENS[base]?.mint];
-  const price = node && num(node.price);
+  if (!raw) return null;
+  const mint = TOKENS[base]?.mint;
+  // current lite-api /price/v3: top-level keyed by mint, value carries usdPrice
+  const node = (mint && raw[mint]) || raw[base]
+    // legacy v6 shape: { data: { SYMBOL|mint: { price } } }
+    || (raw.data && (raw.data[base] || (mint && raw.data[mint]))) || null;
+  if (!node) return null;
+  const price = num(node.usdPrice ?? node.price);
   if (!isPos(price)) return null;
   return { price: round(price), source: 'jup-price' };
 }
@@ -127,7 +139,8 @@ export async function readQuotes(pairs = PAIRS) {
     if (!b || !q) { out.push({ market: `${base}/${quote}`, base, quote, price: null, confidence: 0, sources: [], error: 'unknown token' }); continue; }
     const oneWhole = String(Math.round(10 ** b.decimals)); // 1 whole base token in atoms
     const quoteUrl = `${JUP_QUOTE}?inputMint=${b.mint}&outputMint=${q.mint}&amount=${oneWhole}&slippageBps=50`;
-    const priceUrl = `${JUP_PRICE}?ids=${base}&vsToken=${quote}`;
+    // lite-api /price/v3 is keyed by MINT (not symbol) and returns USD prices (no vsToken param).
+    const priceUrl = `${JUP_PRICE}?ids=${b.mint}`;
 
     const [qRaw, pRaw] = await Promise.all([
       fetchJSON(quoteUrl).catch(() => null),

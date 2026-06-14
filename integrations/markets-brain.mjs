@@ -15,9 +15,16 @@
 // page still renders, nothing throws to the caller):
 //   - Yahoo Finance chart API  — breadth workhorse for equities, ^index quotes, treasury-yield
 //                                 indices (^TNX/^FVX/^TYX) and futures (ES=F, CL=F, …). Unofficial, keyless.
-//   - Stooq CSV (stooq.com/q/l/) — independent second feed for stocks/indices/futures and bond yields
-//                                   (10us.b etc.). Keyless CSV, our cross-check so an instrument can
-//                                   actually reach "confident".
+//   - CNBC quote webservice (quote.cnbc.com/quote-html-webservice) — independent keyless second feed
+//                                 for stocks/indices/futures AND every treasury tenor (US2Y…US30Y), our
+//                                 cross-check so an instrument can actually reach "confident".
+//
+// LIVE-DRIFT NOTE (2026-06-14): the old Stooq CSV second feed (stooq.com/q/l/) is dead from server
+// IPs — every request now returns a "page does not exist" stub, so it could never cross-confirm and
+// every stocks/bonds/futures read fell to a lone-source "low". Replaced with CNBC's keyless quote
+// webservice (genuinely independent of Yahoo). Also: Yahoo's ^TNX/^FVX/^TYX NO LONGER report 10× the
+// yield — they return the actual percent (e.g. ^TNX = 4.487 = 4.487%), so the old yahooScale:0.1 was
+// dividing the real yield by ten (10Y showed 0.4487%). Scale removed; yields now read true.
 //
 // Everything is pulled through ONE injectable fetch (house __setFetch convention) so the whole brain
 // — including stocks/bonds/futures — is fully offline in tests; one fake stubs the lot.
@@ -50,28 +57,30 @@ export function __setFetch(fn) {
 const n = (x) => { const v = +x; return Number.isFinite(v) && v > 0 ? v : null; };
 
 // ── symbol maps: canonical label → how each keyless source names the same instrument ──
-// market is the section key; unit is informational; yahoo + stooq are the two independent feeds.
-// Treasury yields are quoted in PERCENT: Yahoo's ^TNX etc. report 10× the yield (e.g. 42.1 = 4.21%),
-// so we scale them down; Stooq's bond-yield tickers (10us.b) report the percent directly.
+// market is the section key; unit is informational; yahoo + cnbc are the two independent feeds.
+// Treasury yields are quoted in PERCENT and BOTH feeds now report the actual percent directly
+// (Yahoo's ^TNX = 4.487 = 4.487%; CNBC's US10Y = 4.483) — no scaling. The 2Y has no Yahoo yield
+// index, so it cross-confirms across CNBC only (it can reach "low", which is correct for one feed).
 export const STOCKS = {
-  'SPX':  { label: 'S&P 500',     unit: 'index', yahoo: '%5EGSPC', stooq: '^spx' },
-  'NDX':  { label: 'Nasdaq 100',  unit: 'index', yahoo: '%5ENDX',  stooq: '^ndx' },
-  'DJI':  { label: 'Dow Jones',   unit: 'index', yahoo: '%5EDJI',  stooq: '^dji' },
-  'AAPL': { label: 'Apple',       unit: 'USD',   yahoo: 'AAPL',    stooq: 'aapl.us' },
-  'MSFT': { label: 'Microsoft',   unit: 'USD',   yahoo: 'MSFT',    stooq: 'msft.us' },
-  'NVDA': { label: 'NVIDIA',      unit: 'USD',   yahoo: 'NVDA',    stooq: 'nvda.us' },
+  'SPX':  { label: 'S&P 500',     unit: 'index', yahoo: '%5EGSPC', cnbc: '.SPX' },
+  'NDX':  { label: 'Nasdaq 100',  unit: 'index', yahoo: '%5ENDX',  cnbc: '.NDX' },
+  'DJI':  { label: 'Dow Jones',   unit: 'index', yahoo: '%5EDJI',  cnbc: '.DJI' },
+  'AAPL': { label: 'Apple',       unit: 'USD',   yahoo: 'AAPL',    cnbc: 'AAPL' },
+  'MSFT': { label: 'Microsoft',   unit: 'USD',   yahoo: 'MSFT',    cnbc: 'MSFT' },
+  'NVDA': { label: 'NVIDIA',      unit: 'USD',   yahoo: 'NVDA',    cnbc: 'NVDA' },
 };
 export const BONDS = {
-  'US2Y':  { label: 'US 2Y yield',  unit: '% yield', yahoo: '%5EFVX', yahooScale: 0.1, stooq: '2us.b' },
-  'US5Y':  { label: 'US 5Y yield',  unit: '% yield', yahoo: '%5EFVX', yahooScale: 0.1, stooq: '5us.b' },
-  'US10Y': { label: 'US 10Y yield', unit: '% yield', yahoo: '%5ETNX', yahooScale: 0.1, stooq: '10us.b' },
-  'US30Y': { label: 'US 30Y yield', unit: '% yield', yahoo: '%5ETYX', yahooScale: 0.1, stooq: '30us.b' },
+  'US2Y':  { label: 'US 2Y yield',  unit: '% yield', cnbc: 'US2Y' }, // no Yahoo 2Y index — CNBC only
+  'US5Y':  { label: 'US 5Y yield',  unit: '% yield', yahoo: '%5EFVX', cnbc: 'US5Y' },
+  'US10Y': { label: 'US 10Y yield', unit: '% yield', yahoo: '%5ETNX', cnbc: 'US10Y' },
+  'US30Y': { label: 'US 30Y yield', unit: '% yield', yahoo: '%5ETYX', cnbc: 'US30Y' },
 };
 export const FUTURES = {
-  'ES':  { label: 'S&P 500 (ES)',  unit: 'index pts', yahoo: 'ES%3DF', stooq: 'es.f' },
-  'NQ':  { label: 'Nasdaq (NQ)',   unit: 'index pts', yahoo: 'NQ%3DF', stooq: 'nq.f' },
-  'CL':  { label: 'Crude (CL)',    unit: 'USD/bbl',   yahoo: 'CL%3DF', stooq: 'cl.f' },
-  'GC':  { label: 'Gold (GC)',     unit: 'USD/oz',    yahoo: 'GC%3DF', stooq: 'gc.f' },
+  // CNBC continuous futures: @SP.1 / @ND.1 (big S&P / Nasdaq), @CL.1 (crude), @GC.1 (gold).
+  'ES':  { label: 'S&P 500 (ES)',  unit: 'index pts', yahoo: 'ES%3DF', cnbc: '@SP.1' },
+  'NQ':  { label: 'Nasdaq (NQ)',   unit: 'index pts', yahoo: 'NQ%3DF', cnbc: '@ND.1' },
+  'CL':  { label: 'Crude (CL)',    unit: 'USD/bbl',   yahoo: 'CL%3DF', cnbc: '@CL.1' },
+  'GC':  { label: 'Gold (GC)',     unit: 'USD/oz',    yahoo: 'GC%3DF', cnbc: '@GC.1' },
 };
 
 const SECTION_MAPS = { stocks: STOCKS, bonds: BONDS, futures: FUTURES };
@@ -93,24 +102,24 @@ async function yahooQuote(sym, scale = 1) {
   } catch { return null; }
 }
 
-// Stooq light CSV: header row + one data row, comma-separated. Close is column index 6
-// (Symbol,Date,Time,Open,High,Low,Close,Volume). "N/D" rows mean no data → null.
-async function stooqQuote(sym) {
+// CNBC keyless quote webservice: returns { QuickQuoteResult: { QuickQuote: {...} | [{...}] } } with a
+// `last` price string. Independent of Yahoo, covers stocks/indices/futures and every treasury tenor.
+async function cnbcQuote(sym) {
   try {
-    const r = await _fetch(`https://stooq.com/q/l/?s=${encodeURIComponent(sym)}&f=sd2t2ohlcv&h&e=csv`, { headers: { 'user-agent': UA } });
+    const r = await _fetch(`https://quote.cnbc.com/quote-html-webservice/quote.htm?symbols=${encodeURIComponent(sym)}&output=json`, { headers: { 'user-agent': UA, accept: 'application/json' } });
     if (!r || !r.ok) return null;
-    const text = await r.text();
-    const lines = String(text).trim().split(/\r?\n/);
-    if (lines.length < 2) return null;
-    const cols = lines[1].split(',');
-    return n(cols[6]);
+    const j = await r.json();
+    let q = j?.QuickQuoteResult?.QuickQuote;
+    if (Array.isArray(q)) q = q[0];
+    if (!q) return null;
+    return n(q.last ?? q.lastPrice);
   } catch { return null; }
 }
 
 async function gather(spec) {
   const jobs = [];
   if (spec.yahoo) jobs.push(yahooQuote(spec.yahoo, spec.yahooScale || 1).then((p) => ['yahoo', p]));
-  if (spec.stooq) jobs.push(stooqQuote(spec.stooq).then((p) => ['stooq', p]));
+  if (spec.cnbc) jobs.push(cnbcQuote(spec.cnbc).then((p) => ['cnbc', p]));
   const settled = await Promise.all(jobs.map((p) => p.catch(() => null)));
   return settled.filter((r) => r && r[1] != null);
 }

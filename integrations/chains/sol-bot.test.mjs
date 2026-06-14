@@ -55,20 +55,25 @@ test('parseJupQuote returns null on garbage / zero amounts', () => {
   assert.equal(parseJupQuote(jupQuoteRaw({ inAtoms: 1e9, outAtoms: 1 }), 'NOPE', 'USDC'), null);
 });
 
-test('parseJupPrice reads { data: { SYM: { price } } } and rejects junk', () => {
+test('parseJupPrice reads the lite-api /price/v3 by-mint shape and rejects junk', () => {
+  // current lite-api: top-level keyed by MINT, value { usdPrice }
+  assert.equal(parseJupPrice({ [TOKENS.SOL.mint]: { usdPrice: 152.5 } }, 'SOL').price, 152.5);
+  // legacy v6 shape still tolerated (graceful degrade)
   assert.equal(parseJupPrice({ data: { SOL: { price: 152.5 } } }, 'SOL').price, 152.5);
   assert.equal(parseJupPrice(null, 'SOL'), null);
   assert.equal(parseJupPrice({ data: {} }, 'SOL'), null);
-  assert.equal(parseJupPrice({ data: { SOL: { price: 0 } } }, 'SOL'), null);
+  assert.equal(parseJupPrice({ [TOKENS.SOL.mint]: { usdPrice: 0 } }, 'SOL'), null);
 });
 
 // ===========================================================================
 // 2. readQuotes — parse + confidence + soft-fail per dead source
 // ===========================================================================
 test('readQuotes parses a quote+price pair and scores high confidence on agreement', async () => {
+  // lite-api: /swap/v1/quote (same body shape) + /price/v3 (keyed by mint, value { usdPrice }).
+  const SOL_MINT = TOKENS.SOL.mint;
   __setFetch(routeFetch({
-    'quote-api.jup.ag': jsonResponse(jupQuoteRaw({ inAtoms: 1e9, outAtoms: 150e6 })),
-    'price.jup.ag': jsonResponse({ data: { SOL: { price: 150.5 } } }),
+    '/swap/v1/quote': jsonResponse(jupQuoteRaw({ inAtoms: 1e9, outAtoms: 150e6 })),
+    '/price/v3': jsonResponse({ [SOL_MINT]: { usdPrice: 150.5 } }),
   }));
   try {
     const q = await readQuotes([{ base: 'SOL', quote: 'USDC' }]);
@@ -83,8 +88,8 @@ test('readQuotes parses a quote+price pair and scores high confidence on agreeme
 
 test('readQuotes soft-fails the QUOTE source but still scores via the price fallback', async () => {
   __setFetch(routeFetch({
-    'quote-api.jup.ag': failResponse(503),        // primary dead
-    'price.jup.ag': jsonResponse({ data: { SOL: { price: 149 } } }),
+    '/swap/v1/quote': failResponse(503),        // primary dead
+    '/price/v3': jsonResponse({ [TOKENS.SOL.mint]: { usdPrice: 149 } }),
   }));
   try {
     const q = await readQuotes([{ base: 'SOL', quote: 'USDC' }]);
@@ -220,9 +225,17 @@ function fakeRes() {
 }
 
 test('handler GET /api/sol returns { ok, quotes, intentions } JSON', async () => {
+  // /price/v3 is keyed by mint; the handler queries one mint per pair, so return that mint's price.
   __setFetch(routeFetch({
-    'quote-api.jup.ag': jsonResponse(jupQuoteRaw({ inAtoms: 1e9, outAtoms: 150e6 })),
-    'price.jup.ag': jsonResponse({ data: { SOL: { price: 150 }, JUP: { price: 1 }, BONK: { price: 0.00002 }, USDT: { price: 1 } } }),
+    '/swap/v1/quote': jsonResponse(jupQuoteRaw({ inAtoms: 1e9, outAtoms: 150e6 })),
+    '/price/v3': (url) => {
+      const u = new URL(url, 'http://x');
+      const mint = u.searchParams.get('ids');
+      const byMint = {
+        [TOKENS.SOL.mint]: 150, [TOKENS.JUP.mint]: 1, [TOKENS.BONK.mint]: 0.00002, [TOKENS.USDT.mint]: 1,
+      };
+      return jsonResponse({ [mint]: { usdPrice: byMint[mint] ?? 1 } });
+    },
   }));
   try {
     const res = fakeRes();
@@ -272,4 +285,20 @@ test('TOKENS/PAIRS directory is well-formed', () => {
 test('esc escapes HTML metacharacters', () => {
   assert.equal(esc(`<a href="x">'&'`), '&lt;a href=&quot;x&quot;&gt;&#39;&amp;&#39;');
   assert.equal(esc(null), '');
+});
+
+// ===========================================================================
+// 8. LIVE SMOKE — opt-in, hits the REAL Jupiter lite-api. OFF by default so `npm test` stays
+//    offline. Run with: SOL_LIVE_SMOKE=1 node --test integrations/chains/sol-bot.test.mjs
+//    Documents the real keyless call the fixed module makes, and asserts a real SOL price.
+// ===========================================================================
+test('LIVE SMOKE: readQuotes returns a real SOL/USDC price from Jupiter lite-api', { skip: !process.env.SOL_LIVE_SMOKE }, async () => {
+  restore(); // use the real global fetch
+  const q = await readQuotes([{ base: 'SOL', quote: 'USDC' }]);
+  assert.equal(q.length, 1);
+  assert.equal(q[0].market, 'SOL/USDC');
+  assert.ok(q[0].price > 1 && q[0].price < 100000, `live SOL price implausible: ${q[0].price}`);
+  assert.ok(q[0].sources.length >= 1, 'expected at least one live source');
+  // eslint-disable-next-line no-console
+  console.log(`  [live] SOL/USDC = $${q[0].price} (conf ${q[0].confidence}, src ${q[0].sources.join('+')})`);
 });

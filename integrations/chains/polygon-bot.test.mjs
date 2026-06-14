@@ -1,9 +1,13 @@
 // polygon-bot.test.mjs — OFFLINE tests for integrations/chains/polygon-bot.mjs.
 //
 // Drives the READ + DRY-RUN Polygon bot through the injected __setFetch seam (no network).
-// Covers: 0x + DexScreener quote parsing, per-source soft-fail, confidence scoring, a normal
+// Covers: DefiLlama + DexScreener quote parsing, per-source soft-fail, confidence scoring, a normal
 // spread -> a CAPPED dry-run intention, an implausible edge -> REJECTED, the poison test (every
 // intention is dryRun:true / signer:null with no key path), and garbage input soft-fails.
+//
+// LIVE-DRIFT NOTE (2026-06-14): source 1 moved from 0x (keyless v1 retired) to DefiLlama's keyless
+// coins.llama.fi oracle; the mocked source name is 'defillama'. The opt-in LIVE SMOKE at the bottom
+// (POLY_LIVE_SMOKE=1) documents the real keyless call.
 //
 //   node --test integrations/chains/polygon-bot.test.mjs
 
@@ -14,24 +18,33 @@ import {
   handler, __setFetch, TOKENS, MAX_PLAUSIBLE_EDGE, MAX_NOTIONAL_USD, MIN_NOTIONAL_USD,
 } from './polygon-bot.mjs';
 
-// ── fetch mock router: dispatches on URL to a 0x or DexScreener response ──────────────────────
+// ── fetch mock router: dispatches on URL to a DefiLlama or DexScreener response ───────────────
 function ok(json) { return { ok: true, status: 200, json: async () => json }; }
 function notOk(status = 500) { return { ok: false, status, json: async () => ({}) }; }
 
-// 0x price endpoint: buyAmount is USDC base units (6dp) received for 1 whole TOKEN -> the USD price.
-function zeroxResp(priceUsd) { return ok({ buyAmount: String(Math.round(priceUsd * 1e6)) }); }
+// DefiLlama coins endpoint: { coins: { "polygon:<addr>": { price } } } — a USD price per token.
+function llamaResp(priceUsd, addr) {
+  const key = `polygon:${addr || '0xtoken'}`;
+  return ok({ coins: { [key]: { decimals: 18, symbol: 'TKN', price: priceUsd, confidence: 0.99 } } });
+}
 // DexScreener search: a Polygon pair with a USD price + liquidity.
 function dexResp(priceUsd, { liq = 500000, sym = 'TKN' } = {}) {
   return ok({ pairs: [{ chainId: 'polygon', dexId: 'quickswap', baseToken: { symbol: sym }, quoteToken: { symbol: 'USDC' }, priceUsd: String(priceUsd), liquidity: { usd: liq } }] });
 }
 
-// Build a router that returns a 0x price and a DexScreener price (or lets either fail).
-function router({ zerox, dex }) {
+// Build a router that returns a DefiLlama price and a DexScreener price (or lets either fail).
+// `llama`/`dex` accept a number (price), null (HTTP fail), or a function (custom response).
+function router({ llama, dex }) {
   return async (url) => {
-    if (String(url).includes('0x.org') || String(url).includes('/swap/')) {
-      return typeof zerox === 'function' ? zerox() : (zerox == null ? notOk() : zeroxResp(zerox));
+    const u = String(url);
+    if (u.includes('llama.fi')) {
+      if (typeof llama === 'function') return llama();
+      if (llama == null) return notOk();
+      // echo back the token address the module asked for so the coins key matches
+      const addr = decodeURIComponent(u.split('polygon:')[1] || '0xtoken');
+      return llamaResp(llama, addr);
     }
-    if (String(url).includes('dexscreener')) {
+    if (u.includes('dexscreener')) {
       return typeof dex === 'function' ? dex() : (dex == null ? notOk() : dexResp(dex));
     }
     return notOk(404);
@@ -39,31 +52,31 @@ function router({ zerox, dex }) {
 }
 
 test('parses both sources and confidence-scores a tight agreement as high', async () => {
-  __setFetch(router({ zerox: 0.50, dex: 0.501 })); // ~0.2% apart
+  __setFetch(router({ llama: 0.50, dex: 0.501 })); // ~0.2% apart
   const { quotes } = await polygonQuotes({ tokens: ['POL'] });
   __setFetch(null);
   const q = quotes[0];
   assert.equal(q.symbol, 'POL');
   assert.ok(q.priceUsd > 0.49 && q.priceUsd < 0.51, 'midpoint price');
-  assert.deepEqual(q.sources.sort(), ['0x', 'dexscreener']);
+  assert.deepEqual(q.sources.sort(), ['defillama', 'dexscreener']);
   assert.equal(q.confidence, 'high', 'two sources within 2% -> high');
-  assert.equal(q.perSource['0x'], 0.5);
+  assert.equal(q.perSource.defillama, 0.5);
   assert.ok(q.perSource.dexscreener > 0);
 });
 
-test('per-source soft-fail: 0x dead -> still returns the DexScreener price at low confidence', async () => {
-  __setFetch(router({ zerox: null, dex: 0.48 })); // 0x HTTP 500
+test('per-source soft-fail: defillama dead -> still returns the DexScreener price at low confidence', async () => {
+  __setFetch(router({ llama: null, dex: 0.48 })); // defillama HTTP 500
   const { quotes } = await polygonQuotes({ tokens: ['POL'] });
   __setFetch(null);
   const q = quotes[0];
-  assert.equal(q.perSource['0x'], null, '0x absent');
+  assert.equal(q.perSource.defillama, null, 'defillama absent');
   assert.equal(q.perSource.dexscreener, 0.48);
   assert.equal(q.confidence, 'low', 'single source -> low confidence');
   assert.deepEqual(q.sources, ['dexscreener']);
 });
 
 test('both sources dead -> price null, confidence none, never throws', async () => {
-  __setFetch(router({ zerox: null, dex: null }));
+  __setFetch(router({ llama: null, dex: null }));
   const { quotes } = await polygonQuotes({ tokens: ['WETH'] });
   __setFetch(null);
   assert.equal(quotes[0].priceUsd, null);
@@ -72,8 +85,8 @@ test('both sources dead -> price null, confidence none, never throws', async () 
 });
 
 test('normal spread -> a CAPPED, tiny-notional dry-run intention', async () => {
-  // POL: 0x $0.50, DexScreener $0.52 -> 4% edge (plausible, clears the ~0.6% round-trip).
-  __setFetch(router({ zerox: 0.50, dex: 0.52 }));
+  // POL: defillama $0.50, DexScreener $0.52 -> 4% edge (plausible, clears the ~0.6% round-trip).
+  __setFetch(router({ llama: 0.50, dex: 0.52 }));
   const payload = await polygonQuotes({ tokens: ['POL'] });
   __setFetch(null);
   const { intentions, rejected } = dryRunIntentions(payload);
@@ -83,7 +96,7 @@ test('normal spread -> a CAPPED, tiny-notional dry-run intention', async () => {
   assert.equal(it.coin, 'polygon');
   assert.equal(it.market, 'POL/USDC');
   assert.equal(it.side, 'buy');
-  assert.equal(it.buyOn, '0x', 'buy on the cheaper source');
+  assert.equal(it.buyOn, 'defillama', 'buy on the cheaper source');
   assert.equal(it.sellOn, 'dexscreener');
   assert.equal(it.price, 0.50, 'entry at the cheaper price');
   assert.ok(it.edgePct >= 3.9 && it.edgePct <= 4.1, `~4% edge, got ${it.edgePct}`);
@@ -95,8 +108,8 @@ test('normal spread -> a CAPPED, tiny-notional dry-run intention', async () => {
 });
 
 test('implausible edge -> REJECTED as a trap, no intention emitted', async () => {
-  // 0x $0.50 vs DexScreener $1.00 = 100% edge >> 15% cap -> a trap, never free money.
-  __setFetch(router({ zerox: 0.50, dex: 1.00 }));
+  // defillama $0.50 vs DexScreener $1.00 = 100% edge >> 15% cap -> a trap, never free money.
+  __setFetch(router({ llama: 0.50, dex: 1.00 }));
   const payload = await polygonQuotes({ tokens: ['POL'] });
   __setFetch(null);
   const { intentions, rejected } = dryRunIntentions(payload);
@@ -109,7 +122,7 @@ test('implausible edge -> REJECTED as a trap, no intention emitted', async () =>
 
 test('tiny edge that does not clear the round-trip -> no intention (no one-way bleed)', async () => {
   // 0.2% apart: below MIN_EDGE / does not net positive after fees+gas.
-  __setFetch(router({ zerox: 0.500, dex: 0.501 }));
+  __setFetch(router({ llama: 0.500, dex: 0.501 }));
   const payload = await polygonQuotes({ tokens: ['POL'] });
   __setFetch(null);
   const { intentions, rejected } = dryRunIntentions(payload);
@@ -120,8 +133,9 @@ test('tiny edge that does not clear the round-trip -> no intention (no one-way b
 test('POISON TEST: every emitted intention is dryRun:true / signer:null with NO key field', async () => {
   // Several plausible-edge tokens at once; assert the invariant on all of them.
   __setFetch(async (url) => {
-    if (String(url).includes('0x.org') || String(url).includes('/swap/')) return zeroxResp(0.50);
-    if (String(url).includes('dexscreener')) return dexResp(0.53); // ~6% edge, plausible
+    const u = String(url);
+    if (u.includes('llama.fi')) return llamaResp(0.50, decodeURIComponent(u.split('polygon:')[1] || '0xtoken'));
+    if (u.includes('dexscreener')) return dexResp(0.53); // ~6% edge, plausible
     return notOk(404);
   });
   const payload = await polygonQuotes({ tokens: ['POL', 'WETH', 'WBTC'] });
@@ -138,12 +152,12 @@ test('POISON TEST: every emitted intention is dryRun:true / signer:null with NO 
 });
 
 test('USDC (the unit token) never produces a self-trade intention', () => {
-  const q = { symbol: 'USDC', priceUsd: 1, perSource: { '0x': 1, dexscreener: 1 } };
+  const q = { symbol: 'USDC', priceUsd: 1, perSource: { defillama: 1, dexscreener: 1 } };
   assert.equal(intentionFromQuote(q).intention, null);
 });
 
 test('intentionFromQuote needs two sources for an edge', () => {
-  const oneSource = { symbol: 'POL', priceUsd: 0.5, perSource: { '0x': 0.5, dexscreener: null } };
+  const oneSource = { symbol: 'POL', priceUsd: 0.5, perSource: { defillama: 0.5, dexscreener: null } };
   assert.equal(intentionFromQuote(oneSource).intention, null);
 });
 
@@ -157,10 +171,10 @@ test('capNotional clamps into the $1–$5 test band, even on junk', () => {
 
 test('scoreQuote is pure and handles disagreement / empties', () => {
   assert.equal(scoreQuote(null, null).confidence, 'none');
-  assert.equal(scoreQuote({ source: '0x', priceUsd: 1 }, null).confidence, 'low');
-  assert.equal(scoreQuote({ source: '0x', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 1.005 }).confidence, 'high');
-  assert.equal(scoreQuote({ source: '0x', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 1.05 }).confidence, 'medium');
-  assert.equal(scoreQuote({ source: '0x', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 2 }).confidence, 'low'); // >15% gap
+  assert.equal(scoreQuote({ source: 'defillama', priceUsd: 1 }, null).confidence, 'low');
+  assert.equal(scoreQuote({ source: 'defillama', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 1.005 }).confidence, 'high');
+  assert.equal(scoreQuote({ source: 'defillama', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 1.05 }).confidence, 'medium');
+  assert.equal(scoreQuote({ source: 'defillama', priceUsd: 1 }, { source: 'dexscreener', priceUsd: 2 }).confidence, 'low'); // >15% gap
 });
 
 test('garbage input soft-fails everywhere, never throws', () => {
@@ -172,7 +186,7 @@ test('garbage input soft-fails everywhere, never throws', () => {
 });
 
 test('handler GET /api/polygon returns { quotes, intentions } JSON, dryRun, no 500', async () => {
-  __setFetch(router({ zerox: 0.50, dex: 0.52 }));
+  __setFetch(router({ llama: 0.50, dex: 0.52 }));
   let code, headers, bodyStr;
   const res = {
     writeHead(c, h) { code = c; headers = h; },
@@ -212,4 +226,18 @@ test('TOKENS exposes the expected top Polygon majors', () => {
 
 test('__setFetch(null) restores the default seam without throwing', () => {
   assert.doesNotThrow(() => __setFetch(null));
+});
+
+// ── LIVE SMOKE — opt-in, hits the REAL DefiLlama + DexScreener. OFF by default so `npm test`
+//    stays offline. Run with: POLY_LIVE_SMOKE=1 node --test integrations/chains/polygon-bot.test.mjs
+//    Documents the real keyless calls and asserts a real, cross-confirmed WETH price.
+test('LIVE SMOKE: polygonQuotes returns a real WETH price cross-confirmed by both sources', { skip: !process.env.POLY_LIVE_SMOKE }, async () => {
+  __setFetch(null); // real global fetch
+  const { quotes } = await polygonQuotes({ tokens: ['WETH'] });
+  const q = quotes[0];
+  assert.equal(q.symbol, 'WETH');
+  assert.ok(q.priceUsd > 100 && q.priceUsd < 1000000, `live WETH price implausible: ${q.priceUsd}`);
+  assert.ok(q.sources.length >= 1, 'expected at least one live source');
+  // eslint-disable-next-line no-console
+  console.log(`  [live] WETH = $${q.priceUsd} (conf ${q.confidence}, src ${q.sources.join('+')}, agree ${q.agreePct ?? '—'}%)`);
 });

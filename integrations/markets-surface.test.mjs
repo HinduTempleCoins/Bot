@@ -203,3 +203,16 @@ test('handler: root path returns the HTML dashboard', async () => {
   assert.match(headers['content-type'], /text\/html/);
   assert.ok(body.includes('Markets Intelligence'));
 });
+
+// ── LIVE SMOKE — opt-in, hits the REAL keyless crypto/FX feeds. OFF by default so `npm test` stays
+//    offline. Run with: SURFACE_LIVE_SMOKE=1 node --test integrations/markets-surface.test.mjs
+//    Documents the real call and asserts a real, cross-confirmed BTC price.
+test('LIVE SMOKE: buildMarketsView returns a real, confident BTC/USD price', { skip: !process.env.SURFACE_LIVE_SMOKE }, async () => {
+  __setFetch(null); // real global fetch
+  const v = await buildMarketsView({ crypto: ['bitcoin'], fx: [], metals: [], commodities: [] });
+  const btc = v.sections[0].entries[0];
+  assert.ok(btc.price > 1000 && btc.price < 10000000, `live BTC implausible: ${btc.price}`);
+  assert.ok(btc.sources >= 1, 'expected at least one live source');
+  // eslint-disable-next-line no-console
+  console.log(`  [live] BTC/USD = $${btc.price} (${btc.sources} src, ${btc.confidence}, ${btc.sourceNames.join('+')})`);
+});
