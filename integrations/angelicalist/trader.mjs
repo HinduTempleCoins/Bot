@@ -18,6 +18,8 @@ import { Client, PrivateKey } from '@hiveio/dhive';
 import { simulate } from '../trade-presets.mjs';
 import { market } from '../hive-engine-market.mjs';
 import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
+import { accountHoldings } from '../held-asset-scan.mjs';
+import { ISSUED_TOKENS } from '../watchlist.mjs';
 
 const HIVE_NODES = (process.env.HIVE_NODES || 'https://api.hive.blog,https://api.deathwing.me,https://rpc.mahdiyari.info').split(',');
 const ACCOUNT = process.env.ANGELICALIST_ACCOUNT || 'angelicalist';
@@ -95,17 +97,47 @@ export async function executeDecision(d, { getMetrics = (s) => market.metrics(s)
   const priceHive = d.action === 'SELL' ? +m.highestBid : +m.lowestAsk;
   if (!(priceHive > 0)) return { ...d, skipped: d.action === 'SELL' ? 'no bid to sell into' : 'no ask to buy from' };
   const { capHive, hiveUsd, capUsd } = await orderCapHive(getHiveUsd ? { getHiveUsd } : {});
-  const quantity = +(capHive / priceHive).toFixed(8);
+  let quantity = +(capHive / priceHive).toFixed(8);
+  // never sell more of a token than we actually hold (wallet-aware sells carry heldBalance).
+  if (d.heldBalance != null && Number.isFinite(+d.heldBalance)) quantity = Math.min(quantity, +(+d.heldBalance).toFixed(8));
   if (!(quantity > 0)) return { ...d, skipped: 'computed zero quantity' };
   const order = { side: d.action.toLowerCase(), symbol: d.sym, quantity, price: priceHive, notionalHive: +capHive.toFixed(4), notionalUsd: capUsd, hiveUsd };
   const result = await placeOrder(order);
   return { ...d, order, result };
 }
 
-// run the deterministic presets and (in live mode) execute the non-HOLD, non-GUARD decisions.
+// WALLET-AWARE — and explicitly NOT A DUMP BOT. It works the held inventory, but only takes PROFIT:
+// it sells a held token ONLY when there is a standing bid at a real PREMIUM ABOVE the last trade price
+// (someone paying up) — never dumping into weakness, never selling below recent value. Hard guards:
+//   • NEVER sells our own issued tokens (VKBT/CURE) — that would crash our own market.
+//   • NEVER sells a token with no recent trade price to anchor a "premium" against (no blind dumping).
+//   • requires the bid to clear last × (1 + SELL_PREMIUM) — a genuine markup, not just any buyer.
+//   • size is capped (the $1-5 stake) AND by the held balance, so it can only ever skim, never dump.
+const SELL_PREMIUM = +(process.env.ANGELICALIST_SELL_PREMIUM || 0.03);  // bid must beat last by >= 3%
+const WALLET_SKIP = new Set(['SWAP.HIVE', 'SWAP.HBD', 'SWAP.BUSD', 'BEE']); // cash-equivalents / gov dust
+export async function walletSellDecisions({ account = ACCOUNT, getHoldings = accountHoldings, getMetrics = (s) => market.metrics(s), issued = ISSUED_TOKENS } = {}) {
+  const holdings = await getHoldings(account).catch(() => []);
+  const issuedSet = new Set((issued || []).map((s) => String(s).toUpperCase()));
+  const out = [];
+  for (const h of (Array.isArray(holdings) ? holdings : [])) {
+    const sym = String(h.symbol || '').toUpperCase();
+    if (!(+h.balance > 0) || issuedSet.has(sym) || WALLET_SKIP.has(sym)) continue;  // skip own/cash/dust
+    const m = await getMetrics(sym).catch(() => null);
+    const bid = m ? +m.highestBid : 0;
+    const last = m ? +m.lastPrice : 0;
+    if (!(bid > 0) || !(last > 0)) continue;                     // need a buyer AND an anchor price
+    if (bid < last * (1 + SELL_PREMIUM)) continue;               // ONLY a real premium — never dump at/below value
+    out.push({ action: 'SELL', sym, source: 'wallet-premium', heldBalance: +h.balance,
+      reason: `hold ${(+h.balance).toLocaleString()} ${sym}; bid ${bid} is ${(((bid - last) / last) * 100).toFixed(1)}% OVER last ${last} — skim the premium (capped)` });
+  }
+  return out;
+}
+
+// run the deterministic presets + the wallet-aware sells, and (in live mode) execute them.
 export async function runPresets(opts = {}) {
   const decisions = await simulate();
-  const actionable = decisions.filter((d) => d.action === 'SELL' || d.action === 'BUY');
+  const wallet = await walletSellDecisions(opts).catch(() => []);
+  const actionable = [...decisions, ...wallet].filter((d) => d.action === 'SELL' || d.action === 'BUY');
   const results = [];
   for (const d of actionable) {
     // the bleed guard: never act on a BUY without an explicit selling leg in the same run.

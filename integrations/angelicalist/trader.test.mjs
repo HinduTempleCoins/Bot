@@ -2,7 +2,7 @@
 // HIVE-Engine payloads. Focus: cancel() (added so the VKBT ratchet can pull stale bids).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { placeOrder, cancel, sweepToKali, executeDecision, orderCapHive, MAX_ORDER_USD, MAX_ORDER_HIVE } from './trader.mjs';
+import { placeOrder, cancel, sweepToKali, executeDecision, orderCapHive, walletSellDecisions, MAX_ORDER_USD, MAX_ORDER_HIVE } from './trader.mjs';
 
 // HIVE ~$0.05 → a $2 cap is 40 HIVE. Inject the price so tests stay offline + deterministic.
 const hiveUsd5c = async () => 0.05;
@@ -56,6 +56,44 @@ test('executeDecision BUY lifts the ask', async () => {
   assert.equal(r.order.side, 'buy');
   assert.equal(r.order.price, 0.45, 'buys from the lowest ask');
   assert.equal(r.result.simulated, true);
+});
+
+test('walletSellDecisions skims a PREMIUM but is NOT a dump bot (never sells own/at-or-below value)', async () => {
+  const holdings = [
+    { symbol: 'GIFU', balance: 16340 },     // bid 10% over last → SELL (premium)
+    { symbol: 'PEPET', balance: 967 },       // bid at last → NO sell (not a dump)
+    { symbol: 'TOOFUCKEH', balance: 387 },   // bid BELOW last → NO sell (never dump)
+    { symbol: 'VKBT', balance: 86992 },      // our issued token → NEVER sell
+    { symbol: 'NOPRICE', balance: 100 },     // no last price → NO sell (no anchor)
+    { symbol: 'SWAP.HIVE', balance: 12 },    // cash-equivalent → skip
+  ];
+  const metrics = {
+    GIFU: { highestBid: 1.10, lastPrice: 1.00 },
+    PEPET: { highestBid: 1.00, lastPrice: 1.00 },
+    TOOFUCKEH: { highestBid: 0.80, lastPrice: 1.00 },
+    VKBT: { highestBid: 5.00, lastPrice: 1.00 },   // even a huge premium — still never sold (issued)
+    NOPRICE: { highestBid: 9.00, lastPrice: 0 },
+  };
+  const out = await walletSellDecisions({
+    getHoldings: async () => holdings,
+    getMetrics: async (s) => metrics[s] || null,
+    issued: ['VKBT', 'CURE'],
+  });
+  const syms = out.map((d) => d.sym);
+  assert.deepEqual(syms, ['GIFU'], 'ONLY the genuine-premium token is sold');
+  assert.equal(out[0].action, 'SELL');
+  assert.equal(out[0].heldBalance, 16340);
+  assert.ok(!syms.includes('VKBT'), 'never dumps our own issued token');
+  assert.ok(!syms.includes('TOOFUCKEH'), 'never sells below last (no dumping)');
+  assert.ok(!syms.includes('PEPET'), 'a bid merely AT last is not a premium');
+  assert.ok(!syms.includes('NOPRICE'), 'no anchor price → never blind-sell');
+});
+
+test('executeDecision caps a wallet SELL by the held balance (can only skim, never dump the bag)', async () => {
+  // tiny held balance: even a $2 cap can not exceed what we hold
+  const r = await executeDecision({ action: 'SELL', sym: 'GIFU', reason: 'premium', heldBalance: 5 },
+    { getMetrics: async () => ({ highestBid: 0.001, lowestAsk: 0.002 }), getHiveUsd: hiveUsd5c });
+  assert.ok(r.order.quantity <= 5, 'never sells more than held');
 });
 
 test('executeDecision skips when there is no executable side (one-sided/empty book)', async () => {
