@@ -19,7 +19,7 @@ import { loadTradeConfig } from './trade-config.mjs';
 
 // default detector imports are lazy/injected so tests can run fully offline.
 import { scanArb as _scanArb } from './arb-scanner.mjs';
-import { crossVenueEdges as _crossVenueEdges } from './cross-venue-arb.mjs';
+import { crossVenueEdges as _crossVenueEdges, heNativeEdges as _heNativeEdges } from './cross-venue-arb.mjs';
 import { scanSymbol as _scanSymbol } from './cex-arb.mjs';
 import { crossChainSpread as _crossChainSpread } from './chains/crosschain-arb.mjs';
 
@@ -67,6 +67,19 @@ function fromCrossVenue(res) {
   }
   return rows;
 }
+function fromHeNative(res) {
+  const rows = [];
+  for (const e of (res && res.edges) || []) {
+    if (!e || !e.token) continue;
+    rows.push({
+      source: 'he-native', market: e.token, side: 'buy',
+      netEdgePct: +num(e.netPct).toFixed(3), feesApplied: true,
+      execHive: null,
+      detail: `HE-native bridge via ${e.chain}${e.usVenue ? ` → ${e.usVenue.name}` : ''} (net ${e.netPct}%)`, raw: e,
+    });
+  }
+  return rows;
+}
 function fromCex(symbol, res) {
   const b = res && res.best;
   if (!b || !(b.netEdgePct > 0)) return [];
@@ -104,6 +117,7 @@ export async function scanAllArb(opts = {}) {
   const cfg = loadTradeConfig();
   const scanArb = opts.scanArb || _scanArb;
   const crossVenueEdges = opts.crossVenueEdges || _crossVenueEdges;
+  const heNativeEdges = opts.heNativeEdges || _heNativeEdges;
   const scanSymbol = opts.scanSymbol || _scanSymbol;
   const crossChainSpread = opts.crossChainSpread || _crossChainSpread;
   const cexPairs = opts.cexPairs || DEFAULT_CEX_PAIRS;
@@ -118,9 +132,13 @@ export async function scanAllArb(opts = {}) {
   try { const r = await scanArb(); const rows = fromArbScanner(r); sources['arb-scanner'] = rows.length; all.push(...rows); }
   catch (e) { errors['arb-scanner'] = e && e.message ? e.message : String(e); sources['arb-scanner'] = 0; }
 
-  // 2. cross-venue round trip (fee-netted)
+  // 2. cross-venue round trip (fee-netted) — SWAP.* 1:1 redemption
   try { const r = await crossVenueEdges(); const rows = fromCrossVenue(r); sources['cross-venue'] = rows.length; all.push(...rows); }
   catch (e) { errors['cross-venue'] = e && e.message ? e.message : String(e); sources['cross-venue'] = 0; }
+
+  // 2b. HE-native bridge round trip (fee-netted) — SPS/DEC/LEO via a US-accessible DEX
+  try { const r = await heNativeEdges(); const rows = fromHeNative(r); sources['he-native'] = rows.length; all.push(...rows); }
+  catch (e) { errors['he-native'] = e && e.message ? e.message : String(e); sources['he-native'] = 0; }
 
   // 3. cross-exchange spreads (one scan per pair; each pair soft-failed too)
   let cexCount = 0;
