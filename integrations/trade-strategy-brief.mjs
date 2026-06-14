@@ -36,6 +36,7 @@
 
 import { fileURLToPath } from 'node:url';
 import { watchedHeTokens, listingsFor, usAccessibleListings } from './he-external-listings.mjs';
+import { DEX_CATALOG } from './venues/dex-catalog.mjs';
 
 // ── small pure helpers ───────────────────────────────────────────────────────────────────────────
 const num = (x) => { const v = +x; return Number.isFinite(v) ? v : null; };
@@ -287,6 +288,12 @@ function buildNextSteps(inputs, ctx, exchangesToJoin, crossVenueArb, heNativeMar
   if (evmLive.length) steps.addChains.push(`EVM DEX (Polygon/Base): ${evmLive.length} venue(s) quoting pairs — low-fee chains worth a small routed test.`);
   const perpsLive = arr(inputs.perps && inputs.perps.venues).filter((v) => v.ok && isPos(v.volume24hUsd));
   if (perpsLive.length) steps.addChains.push(`Perps: ${perpsLive.length} venue(s) live — funding-rate / basis is a separate direction (hedge a SWAP holding), NOT spot arb. Research only for now.`);
+  // broad catalog coverage (the operator's multi-chain venue list) — read from the registry (pure).
+  try {
+    const cat = Array.isArray(DEX_CATALOG) ? DEX_CATALOG : Object.values(DEX_CATALOG || {}).flat();
+    const chains = new Set(cat.map((v) => v.chain).filter(Boolean));
+    if (cat.length) steps.addChains.push(`Catalog: tracking ${cat.length} DEX/perp/aggregator venues across ${chains.size} chains (DeFiLlama-keyed, /api/venues/catalog) — broaden routed arb tests as the smaller-venue slugs are confirmed live.`);
+  } catch {}
 
   // data / access still missing (honest gaps).
   if (!arr(inputs.usCex && inputs.usCex.venues).some((v) => v.publicApi)) steps.dataGaps.push('No US-CEX public market data came back this run — re-run the collector / check connectivity.');
