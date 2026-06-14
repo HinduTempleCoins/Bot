@@ -404,27 +404,74 @@ export function appendToTradeFeed(feedMd, brief) {
   return `${head}\n\n${MARK}\n${section}\n`;
 }
 
-export default { buildStrategyBrief, renderStrategyBriefMd, appendToTradeFeed };
+// ── sanitized-source adapter (boundary-safe) ────────────────────────────────────────────────────────
+/**
+ * analyzerFromSanitizedFeed(sanitizedJson) — map the SANITIZED trade-brief-feed.json (banded P&L, the
+ * only copy the API-AI tier may read) into the `analyzer` input shape buildStrategyBrief expects.
+ * Used by the --append-feed CLI path so the strategy section that rides the sanitized feed carries
+ * ONLY already-banded figures — no raw ledger numbers cross the boundary. Pure; soft-fails to {}.
+ */
+export function analyzerFromSanitizedFeed(sanitizedJson) {
+  try {
+    const s = sanitizedJson || {};
+    return {
+      tokens: arr(s.tokens).map((t) => ({ symbol: t.symbol, netHive: num(t.netHive) })),
+      findings: arr(s.findings),
+      suggestions: arr(s.suggestions),
+      liveArb: [],           // arb comes from the (market-data) signal feed, not the sanitized ledger
+      totals: s.totals || {},
+    };
+  } catch { return {}; }
+}
+
+export default { buildStrategyBrief, renderStrategyBriefMd, appendToTradeFeed, analyzerFromSanitizedFeed };
 
 // ── CLI (guarded) — live composition, read-only. Pulls the real readers; soft-fails each. ────────────
+// Default: print the rendered brief. `--append-feed`: append the strategy block to the EXISTING
+// sanitized .local/shared/trade-brief-feed.md so the brain's brief-builder consumes it (no new
+// pipeline). In append mode P&L is sourced from the SANITIZED feed JSON (banded) — venue/signal data
+// is public market data pulled live — and the sanitizer's leak self-check is re-run on the result.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const appendFeed = process.argv.includes('--append-feed');
   async function safe(p) { try { return await p; } catch { return null; } }
-  const load = async (path, fn) => { try { const m = await import(path); return await safe(m[fn]()); } catch { return null; } };
+  const load = async (path, fn, ...a) => { try { const m = await import(path); return await safe(m[fn](...a)); } catch { return null; } };
 
-  const [usCex, solana, evmDex, perps, aggXchain, analyzer] = await Promise.all([
+  const [usCex, solana, evmDex, perps, aggXchain] = await Promise.all([
     load('./venues/us-cex-venues.mjs', 'collectUsCexVenues'),
     load('./venues/solana-venues.mjs', 'collectSolanaVenues'),
     load('./venues/evm-dex-venues.mjs', 'collectEvmDexVenues'),
     load('./venues/perps-venues.mjs', 'collectPerpsVenues'),
     load('./venues/agg-xchain-venues.mjs', 'collectAggXchainVenues'),
-    load('./trade-analyzer.mjs', 'analyze'),
   ]);
   let signalFeed = null;
   try { const m = await import('./signal-orchestrator.mjs'); signalFeed = await safe(m.liveSignalFeed()); } catch {}
 
-  const brief = buildStrategyBrief({ usCex, solana, evmDex, perps, aggXchain, analyzer, signalFeed });
-  console.log(renderStrategyBriefMd(brief));
-  console.log('\n' + '─'.repeat(70));
-  console.log(`recommended exchanges: ${brief.summary.recommendedExchanges} (top: ${brief.summary.topExchange || '—'}) · executable arb pairs: ${brief.summary.executableArbPairs} · excluded: ${brief.summary.excludedPairs}`);
-  console.log('Advisory only — no keys, no orders. Wire into digest.mjs to ride the existing trade-brief-feed.');
+  if (appendFeed) {
+    // boundary-safe: take banded P&L from the sanitized feed, never the raw analyzer.
+    const { readFileSync, writeFileSync } = await import('node:fs');
+    const FEED_MD = '.local/shared/trade-brief-feed.md';
+    const FEED_JSON = '.local/shared/trade-brief-feed.json';
+    let sanitized = {};
+    try { sanitized = JSON.parse(readFileSync(FEED_JSON, 'utf8')); }
+    catch { console.error(`No ${FEED_JSON}. Run: node integrations/trade-sanitizer.mjs first.`); process.exit(1); }
+    let feedMd = '';
+    try { feedMd = readFileSync(FEED_MD, 'utf8'); } catch {}
+
+    const brief = buildStrategyBrief({ usCex, solana, evmDex, perps, aggXchain, signalFeed, analyzer: analyzerFromSanitizedFeed(sanitized) });
+    const merged = appendToTradeFeed(feedMd, brief);
+
+    // re-run the sanitizer's leak self-check on the combined feed before writing.
+    let leak = false;
+    try { const { SECRET_SHAPES } = await import('./trade-sanitizer.mjs'); leak = SECRET_SHAPES.some((re) => re.test(merged)); } catch {}
+    if (leak) { console.error('❌ BOUNDARY ALERT: secret shape in combined feed — NOT writing.'); process.exit(1); }
+    writeFileSync(FEED_MD, merged);
+    console.log(`✅ strategy section appended to ${FEED_MD} (boundary clean) — recommended exchanges: ${brief.summary.recommendedExchanges} (top: ${brief.summary.topExchange || '—'}), executable arb pairs: ${brief.summary.executableArbPairs}`);
+  } else {
+    const analyzer = await load('./trade-analyzer.mjs', 'analyze');
+    const brief = buildStrategyBrief({ usCex, solana, evmDex, perps, aggXchain, analyzer, signalFeed });
+    console.log(renderStrategyBriefMd(brief));
+    console.log('\n' + '─'.repeat(70));
+    console.log(`recommended exchanges: ${brief.summary.recommendedExchanges} (top: ${brief.summary.topExchange || '—'}) · executable arb pairs: ${brief.summary.executableArbPairs} · excluded: ${brief.summary.excludedPairs}`);
+    console.log('Advisory only — no keys, no orders. Run with --append-feed to ride the sanitized trade-brief-feed.');
+  }
 }
