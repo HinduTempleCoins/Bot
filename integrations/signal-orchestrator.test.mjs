@@ -180,3 +180,24 @@ test('liveSignalFeed soft-fails to an empty feed when injected sources are empty
     __setLive(null);
   }
 });
+
+// ── LIVE SMOKE — opt-in, pulls the REAL analytics modules (arb-facade / trade-analyzer / HE books)
+//    read-only and fuses them. OFF by default so `npm test` stays offline. Run with:
+//    SIG_LIVE_SMOKE=1 node --test integrations/signal-orchestrator.test.mjs
+//    Documents the real fused feed; asserts a valid, never-throwing shape (the feed can legitimately
+//    be empty if markets are aligned / sources quiet, so we assert structure, not a nonzero count).
+test('LIVE SMOKE: liveSignalFeed fuses the real modules into a valid feed (never throws)', { skip: !process.env.SIG_LIVE_SMOKE }, async () => {
+  __setLive(null); // use the real dynamic-imported modules
+  const feed = await liveSignalFeed();
+  assert.ok(Array.isArray(feed.signals), 'signals is an array');
+  assert.ok(feed.counts && typeof feed.counts.ACT === 'number', 'counts present');
+  assert.ok(typeof feed.generatedAt === 'string', 'timestamped');
+  // every emitted signal carries the full shape and a real verdict
+  for (const s of feed.signals) {
+    assert.ok(['ACT', 'WATCH', 'REJECT'].includes(s.verdict), `valid verdict: ${s.verdict}`);
+    assert.ok('symbol' in s && 'edgePct' in s && 'confidence' in s);
+  }
+  // eslint-disable-next-line no-console
+  console.log(`  [live] fused feed: ACT ${feed.counts.ACT} · WATCH ${feed.counts.WATCH} · REJECT ${feed.counts.REJECT}` +
+    (feed.signals[0] ? ` · top: ${feed.signals[0].symbol} ${feed.signals[0].verdict} ${feed.signals[0].edgePct}%` : ''));
+});

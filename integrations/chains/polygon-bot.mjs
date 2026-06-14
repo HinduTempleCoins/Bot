@@ -15,8 +15,14 @@
 //    - no one-way bleed (an intention must have a plausible round-trip, not bleed fees one way).
 //
 //  Price sources (per integrations/CROSSCHAIN_BOTS.md), keyless HTTP, injectable fetch:
-//    1. 0x Swap API  — aggregated EVM reference price (smart order routing across Polygon DEXes)
-//    2. DexScreener  — keyless DEX pair snapshot fallback (also a cross-check / confidence input)
+//    1. DefiLlama coins API — keyless aggregated on-chain price oracle (coins.llama.fi), per token+chain
+//    2. DexScreener         — keyless DEX pair snapshot (also a cross-check / confidence input)
+//
+//  LIVE-DRIFT NOTE (2026-06-14): 0x retired its keyless v1 Swap "price" endpoint — api.0x.org/swap/v1
+//  now returns "no Route matched" / requires a 0x-api-key header (v2). We swapped it for DefiLlama's
+//  keyless coins.llama.fi/prices/current/<chain>:<addr> oracle, which needs no key and returns a
+//  confidence-scored USD price per token. The exported source name stays '0x'-shaped only where it
+//  must for back-compat; the live source is reported as 'defillama'.
 //
 //   node integrations/chains/polygon-bot.mjs            # dry-run dashboard (no network in tests)
 //   node integrations/chains/polygon-bot.mjs --serve    # GET /api/polygon
@@ -46,7 +52,9 @@ const ROUNDTRIP_COST = +(process.env.POLY_ROUNDTRIP_COST || 0.006);     // ~0.6%
 // Quoting each against USDC gives a USD-ish reference price. USDC itself is the unit (price ~1).
 const USDC = { symbol: 'USDC', address: '0x3c499c542cef5e3811e1192ce70d8cc03d5c3359', decimals: 6 };
 export const TOKENS = {
-  POL:  { symbol: 'POL',  address: '0x455e53cbb86018ac2b8092fdcd39d8444affc3f6', decimals: 18 }, // POL (ex-MATIC) ERC-20
+  // POL (ex-MATIC) native gas token, ERC-20 alias 0x..1010 — the 0x455e… contract is illiquid/absent
+  // on Polygon DEX feeds (DexScreener returns 0 polygon pairs), so we use the canonical native alias.
+  POL:  { symbol: 'POL',  address: '0x0000000000000000000000000000000000001010', decimals: 18 },
   WMATIC:{ symbol:'WMATIC',address:'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', decimals: 18 }, // wrapped gas token
   WETH: { symbol: 'WETH', address: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619', decimals: 18 },
   WBTC: { symbol: 'WBTC', address: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6', decimals: 8 },
@@ -55,16 +63,15 @@ export const TOKENS = {
 // 0x chain id for Polygon mainnet.
 const POLYGON_CHAIN_ID = 137;
 
-// ── source 1: 0x aggregated price (keyless HTTP) ─────────────────────────────────────────────
-// 0x Swap "price" endpoint returns an aggregated quote across Polygon DEXes (smart order routing).
-// We ask for "what is 1 TOKEN worth in USDC" and normalize to a USD price. Keyless on the public
-// host; soft-fails to null on any error. Endpoint is overridable via env (never a secret).
-const ZEROX_BASE = process.env.POLY_0X_BASE || 'https://api.0x.org/swap/v1/price';
-async function zeroxPrice(token) {
-  if (token.symbol === 'USDC') return { source: '0x', priceUsd: 1, raw: null };
+// ── source 1: DefiLlama coins oracle (keyless HTTP) ──────────────────────────────────────────
+// coins.llama.fi/prices/current/<chain>:<address> returns an aggregated, confidence-scored USD price
+// per token. Keyless, no signup. Soft-fails to null on any error. Endpoint overridable via env.
+const LLAMA_BASE = process.env.POLY_LLAMA_BASE || 'https://coins.llama.fi/prices/current';
+async function defillamaPrice(token) {
+  if (token.symbol === 'USDC') return { source: 'defillama', priceUsd: 1, raw: null };
   try {
-    const sellAmount = String(10n ** BigInt(token.decimals)); // exactly 1 TOKEN in base units
-    const url = `${ZEROX_BASE}?chainId=${POLYGON_CHAIN_ID}&sellToken=${token.address}&buyToken=${USDC.address}&sellAmount=${sellAmount}`;
+    const coinId = `polygon:${token.address}`;
+    const url = `${LLAMA_BASE}/${coinId}`;
     const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 10000);
     let j;
     try {
@@ -72,14 +79,9 @@ async function zeroxPrice(token) {
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       j = await r.json();
     } finally { clearTimeout(t); }
-    // buyAmount is USDC base units (6 decimals) received for 1 whole TOKEN -> that IS the USD price.
-    const buy = j && (j.buyAmount ?? j.grossBuyAmount);
-    if (buy != null) {
-      const px = Number(buy) / 10 ** USDC.decimals;
-      if (px > 0 && Number.isFinite(px)) return { source: '0x', priceUsd: px, raw: { buyAmount: String(buy) } };
-    }
-    // some responses carry a ready "price" field (USDC per TOKEN)
-    if (j && +j.price > 0) return { source: '0x', priceUsd: +j.price, raw: { price: j.price } };
+    const node = j && j.coins && j.coins[coinId];
+    const px = node && Number(node.price);
+    if (px > 0 && Number.isFinite(px)) return { source: 'defillama', priceUsd: px, conf: node.confidence ?? null, raw: { confidence: node.confidence } };
     return null;
   } catch { return null; }
 }
@@ -133,11 +135,11 @@ export async function polygonQuotes(opts = {}) {
   const quotes = [];
   for (const sym of syms) {
     const token = TOKENS[sym];
-    const [zerox, dex] = await Promise.all([
-      zeroxPrice(token).catch(() => null),
+    const [llama, dex] = await Promise.all([
+      defillamaPrice(token).catch(() => null),
       dexscreenerPrice(token).catch(() => null),
     ]);
-    const scored = scoreQuote(zerox, dex);
+    const scored = scoreQuote(llama, dex);
     quotes.push({
       symbol: sym,
       priceUsd: scored.priceUsd,
@@ -145,7 +147,7 @@ export async function polygonQuotes(opts = {}) {
       sources: scored.sources,
       agreePct: scored.agreePct ?? null,
       perSource: {
-        '0x': zerox ? zerox.priceUsd : null,
+        defillama: llama ? llama.priceUsd : null,
         dexscreener: dex ? dex.priceUsd : null,
       },
     });
@@ -172,11 +174,11 @@ export function capNotional(usd) {
 export function intentionFromQuote(q) {
   if (!q || q.priceUsd == null) return { intention: null, reason: 'no price' };
   if (q.symbol === 'USDC') return { intention: null, reason: 'unit token — no self-trade' };
-  const px0x = q.perSource?.['0x'];
+  const pxLlama = q.perSource?.defillama;
   const pxDex = q.perSource?.dexscreener;
-  if (!(+px0x > 0) || !(+pxDex > 0)) return { intention: null, reason: 'need two sources for an edge' };
+  if (!(+pxLlama > 0) || !(+pxDex > 0)) return { intention: null, reason: 'need two sources for an edge' };
 
-  const lo = Math.min(+px0x, +pxDex), hi = Math.max(+px0x, +pxDex);
+  const lo = Math.min(+pxLlama, +pxDex), hi = Math.max(+pxLlama, +pxDex);
   const edge = (hi - lo) / lo;
 
   // implausible edge = trap. Reject loudly; do NOT model a trade on it.
@@ -189,8 +191,8 @@ export function intentionFromQuote(q) {
   if (netEdge <= 0) return { intention: null, reason: `edge ${(edge * 100).toFixed(2)}% does not clear ~${(ROUNDTRIP_COST * 100).toFixed(1)}% round-trip cost (one-way bleed)`, edgePct: +(edge * 100).toFixed(2) };
 
   // BUY on the cheaper source, SELL on the dearer. Tiny capped notional.
-  const buySource = (+px0x <= +pxDex) ? '0x' : 'dexscreener';
-  const sellSource = (buySource === '0x') ? 'dexscreener' : '0x';
+  const buySource = (+pxLlama <= +pxDex) ? 'defillama' : 'dexscreener';
+  const sellSource = (buySource === 'defillama') ? 'dexscreener' : 'defillama';
   const notionalUsd = capNotional(MAX_NOTIONAL_USD);
   const size = +(notionalUsd / lo).toFixed(8); // token units at the buy (cheaper) price
 
@@ -263,7 +265,7 @@ if (process.argv[1] && process.argv[1].endsWith('polygon-bot.mjs')) {
   } else {
     const payload = await polygonQuotes().catch((e) => ({ ts: '', chain: 'polygon', quotes: [], error: e.message }));
     const { intentions, rejected } = dryRunIntentions(payload);
-    console.log('Polygon DRY-RUN trade bot — READ-ONLY, keyless (0x + DexScreener)\n' + '─'.repeat(74));
+    console.log('Polygon DRY-RUN trade bot — READ-ONLY, keyless (DefiLlama + DexScreener)\n' + '─'.repeat(74));
     console.log('token    price USD     confidence   sources           agree%');
     for (const q of payload.quotes) {
       const px = q.priceUsd != null ? `$${q.priceUsd < 1 ? q.priceUsd.toPrecision(4) : q.priceUsd.toFixed(2)}` : '—';
