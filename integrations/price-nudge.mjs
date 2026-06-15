@@ -16,6 +16,7 @@
 //   node integrations/price-nudge.mjs VKBT            # dry-run: print the plan
 //   import { nudgePlan, run } from './price-nudge.mjs'
 
+import { readFileSync, writeFileSync } from 'node:fs';
 import { market } from './hive-engine-market.mjs';
 import { wallStrategy } from './wall-bot.mjs';
 import { emitBotData } from '../tools/bot-data.mjs';
@@ -60,10 +61,25 @@ function norm(orders) {
     .filter((o) => o.quantity > 0 && Number.isFinite(o.price));
 }
 
-// round to the increment's decimal precision so prices stay on-grid and don't drift in float noise.
-function gridRound(price, increment) {
-  const decimals = Math.max(0, Math.round(-Math.log10(increment)));
-  return +price.toFixed(decimals);
+const HE_DP = 8;                       // HIVE-Engine price precision (8 decimals)
+const HE_TICK = 0.00000001;            // the smallest possible price move on the grid (1e-8)
+
+// parse to a finite number or null (soft-fail).
+function num(v) { const f = typeof v === 'number' ? v : parseFloat(v); return Number.isFinite(f) ? f : null; }
+
+// round to the HE 8-decimal grid so prices stay on-grid and don't drift in float noise.
+function gridRound(price) { return +(+price).toFixed(HE_DP); }
+
+// One "tick" the way a trader reads the tape: +1 in the LAST significant figure of the price —
+// 0.000007 → 0.0000071, 0.00007 → 0.000071 (operator 2026-06-15). So the step SCALES with the price
+// (~1 in the 2nd sig-fig ≈ 1.4%), not a fixed amount. Floored at the HE min tick (1e-8) so sub-tick
+// prices still move exactly one real grid step (8e-8 → 9e-8).
+export function outbidStep(price, minTick = HE_TICK) {
+  const p = num(price);
+  const floor = num(minTick) || HE_TICK;
+  if (p == null || p <= 0) return floor;
+  const step = Math.pow(10, Math.floor(Math.log10(p)) - 1);
+  return Math.max(floor, +(+step).toFixed(HE_DP));
 }
 
 /**
@@ -95,19 +111,21 @@ export function nudgePlan({ buyBook = [], sellBook = [], ourAccounts = [], lastN
   if (!topCompeting) return hold('no competing bid in the book — nobody to outbid');
 
   // are we already winning? our best bid must beat the top competitor by ≥ one increment.
-  const inc = cfg.increment;
+  // the increment is a SIGNIFICANT-FIGURE tick off the competitor's price (scales as the price climbs),
+  // floored at the HE min tick via cfg.increment (default 1e-8).
+  const inc = outbidStep(topCompeting.price, cfg.increment);
   if (ourBest && ourBest.price >= topCompeting.price + inc - 1e-12) {
     return hold(`already best bid: ours ${ourBest.price} ≥ competitor ${topCompeting.price} + increment`);
   }
 
   // target = one increment above the top competing bid (ratchet up).
-  let target = gridRound(topCompeting.price + inc, inc);
+  let target = gridRound(topCompeting.price + inc);
 
   // NEVER cross the ask: if target ≥ best ask, cap to just below it. If that cap can't stay above
   // the competitor (spread too tight), we can't ratchet without crossing → HOLD.
   let capped = false;
   if (bestAsk != null && target >= bestAsk) {
-    target = gridRound(bestAsk - inc, inc);
+    target = gridRound(bestAsk - inc);
     capped = true;
     if (target <= topCompeting.price + 1e-12) {
       return hold(`spread too tight: outbidding ${topCompeting.price} would cross the ask ${bestAsk}`, { bestAsk });
@@ -123,10 +141,15 @@ export function nudgePlan({ buyBook = [], sellBook = [], ourAccounts = [], lastN
   if (target > cfg.ceiling) {
     return hold(`ceiling reached: target ${target} > ceiling ${cfg.ceiling}`, { target });
   }
-  // max-jump: don't leap more than maxJump above the CURRENT best bid (whoever holds it).
+  // max-jump: don't leap far above the market in ONE move — EXCEPT the minimal one-increment outbid
+  // over the top competitor is ALWAYS allowed. At sub-tick prices a single grid-tick can itself exceed
+  // maxJump% (e.g. 8e-8 → 9e-8 is +12.5%), and you physically cannot outbid for less than one tick, so
+  // blocking it would freeze the bot at low prices. The fair-value CEILING (checked above) is the real
+  // runaway guard; max-jump only constrains a target sitting MORE than one increment over the competitor.
+  const minimalOutbid = target <= topCompeting.price + inc + 1e-12;
   const currentBest = bids.length ? bids[0].price : topCompeting.price;
   const jumpCap = currentBest * (1 + cfg.maxJump);
-  if (target > jumpCap + 1e-12) {
+  if (!minimalOutbid && target > jumpCap + 1e-12) {
     return hold(`max-jump exceeded: target ${target} > ${(cfg.maxJump * 100).toFixed(0)}% over best bid ${currentBest}`, { target });
   }
   // daily cap
@@ -164,6 +187,20 @@ export function nudgePlan({ buyBook = [], sellBook = [], ourAccounts = [], lastN
 
 // ── injectable state (lastNudge + rolling 24h count). Default = in-memory; runner can inject fs. ──
 export function emptyState() { return { lastNudge: 0, nudges: [] }; }
+
+// Soft-fail file persistence so the interval + daily-cap survive across separate (systemd oneshot)
+// runs — without it each fresh process starts at lastNudge:0 and would nudge every run, ignoring both
+// limits and churning RC. Missing/garbage file → emptyState(); a write failure never throws.
+export function loadState(path) {
+  if (!path) return emptyState();
+  try { const s = JSON.parse(readFileSync(path, 'utf8')); return { lastNudge: +s.lastNudge || 0, nudges: Array.isArray(s.nudges) ? s.nudges.map(Number).filter(Number.isFinite) : [] }; }
+  catch { return emptyState(); }
+}
+export function saveState(path, st) {
+  if (!path) return false;
+  try { writeFileSync(path, JSON.stringify({ lastNudge: st.lastNudge || 0, nudges: st.nudges || [] })); return true; }
+  catch { return false; }
+}
 // keep only nudges within the last 24h, return the count.
 export function dailyCountFromState(state, now = Date.now()) {
   const recent = (state.nudges || []).filter((t) => now - t < DAY_MS);
@@ -181,9 +218,10 @@ export function dailyCountFromState(state, now = Date.now()) {
  * resting support bid — a support bid is intentional one-sided price defense, not a bleed. We keep
  * VKBT out of trade-presets so the two systems don't fight.
  */
-export async function run(symbol = 'VKBT', { trader = null, state = null, config = null, ourAccounts = null, live = false, now = Date.now(), bookLimit = 50, _book = null } = {}) {
+export async function run(symbol = 'VKBT', { trader = null, state = null, statePath = process.env.MM_STATE_PATH || null, config = null, ourAccounts = null, live = false, now = Date.now(), bookLimit = 50, _book = null } = {}) {
   const cfg = config || loadConfig();
-  const st = state || emptyState();
+  // explicit injected state wins (tests); else load from the state file (persists interval/daily-cap).
+  const st = state || loadState(statePath);
   const accts = ourAccounts || (process.env.MM_OUR_ACCOUNTS || 'angelicalist,kalivankush').split(',').map((s) => s.trim()).filter(Boolean);
 
   let buyBook = [], sellBook = [];
@@ -212,6 +250,7 @@ export async function run(symbol = 'VKBT', { trader = null, state = null, config
     // record the nudge in state (rolling window) only when we actually placed a bid live.
     st.lastNudge = now;
     st.nudges = [...(st.nudges || []).filter((t) => now - t < DAY_MS), now];
+    saveState(statePath, st);   // persist so the next run honours the interval + daily cap (soft-fail)
   }
 
   const summary = `${symbol}: ${plan.action} — ${plan.reason}` + (live && trader ? ` [LIVE: ${executed.length} ops]` : ' [dry-run]');
@@ -220,10 +259,15 @@ export async function run(symbol = 'VKBT', { trader = null, state = null, config
 }
 
 if (process.argv[1] && process.argv[1].endsWith('price-nudge.mjs')) {
-  const symbol = process.argv[2] || 'VKBT';
+  const args = process.argv.slice(2);
+  const live = args.includes('--live');
+  const symbol = args.find((a) => !a.startsWith('--')) || 'VKBT';
   const cfg = loadConfig();
-  const r = await run(symbol, { config: cfg, live: false }).catch((e) => ({ error: e.message }));
-  console.log(`VKBT price-nudge (OUTBID-RATCHET) — ${symbol}  [dry-run / read-only]`);
+  // LIVE only with --live: inject the angelicalist trader (placeOrder + cancel). The trader STILL
+  // gates on ANGELICALIST_LIVE + ANGELICALIST_WIF, so without the key every op simulates anyway.
+  const trader = live ? await import('./angelicalist/trader.mjs') : null;
+  const r = await run(symbol, { config: cfg, live, trader }).catch((e) => ({ error: e.message }));
+  console.log(`VKBT price-nudge (OUTBID-RATCHET) — ${symbol}  [${live ? '🔴 LIVE' : 'dry-run / read-only'}]`);
   console.log('─'.repeat(64));
   if (r.error) { console.log('  error:', r.error); }
   else {
