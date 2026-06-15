@@ -79,6 +79,17 @@ test('the vendored brain runs in a plain JS context (no node-only deps leak in)'
   assert.ok(typeof out.reply === 'string' && out.reply.length > 0);
 });
 
+test('the vendored brain is BROWSER-safe: every process.* reference is typeof-guarded', async () => {
+  // Regression: the CLI guard `if (process.argv[1]...)` threw "process is not defined" in the browser,
+  // making the dynamic import fail and the widget fall back. Node tests miss it (process exists there).
+  const { readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const src = readFileSync(fileURLToPath(new URL('./hathor-brain.mjs', import.meta.url)), 'utf8');
+  // the top-level CLI guard must check `typeof process` first, else it throws on browser import.
+  assert.ok(!/\bif \(process\.argv/.test(src), 'top-level `if (process.argv...)` is unguarded — crashes in browsers');
+  assert.match(src, /if \(typeof process !== 'undefined' && process\.argv/, 'CLI guard is typeof-guarded');
+});
+
 test('mountHathorWidget returns null when there is no DOM (safe import in tests/SSR)', () => {
   assert.equal(mountHathorWidget({ doc: null }), null);
   assert.equal(mountHathorWidget({ doc: {} }), null, 'a doc with no body → no mount, no throw');
