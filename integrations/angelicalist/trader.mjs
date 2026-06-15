@@ -20,6 +20,7 @@ import { market } from '../hive-engine-market.mjs';
 import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
 import { accountHoldings } from '../held-asset-scan.mjs';
 import { ISSUED_TOKENS } from '../watchlist.mjs';
+import { costBasis } from '../cost-basis.mjs';
 
 const HIVE_NODES = (process.env.HIVE_NODES || 'https://api.hive.blog,https://api.deathwing.me,https://rpc.mahdiyari.info').split(',');
 const ACCOUNT = process.env.ANGELICALIST_ACCOUNT || 'angelicalist';
@@ -107,15 +108,17 @@ export async function executeDecision(d, { getMetrics = (s) => market.metrics(s)
 }
 
 // WALLET-AWARE — and explicitly NOT A DUMP BOT. It works the held inventory, but only takes PROFIT:
-// it sells a held token ONLY when there is a standing bid at a real PREMIUM ABOVE the last trade price
-// (someone paying up) — never dumping into weakness, never selling below recent value. Hard guards:
+// it sells a held token ONLY when there is a standing bid at a real PREMIUM above BOTH the last trade
+// price AND what we actually paid for it — never dumping into weakness, never selling at a loss. Guards:
 //   • NEVER sells our own issued tokens (VKBT/CURE) — that would crash our own market.
-//   • NEVER sells a token with no recent trade price to anchor a "premium" against (no blind dumping).
-//   • requires the bid to clear last × (1 + SELL_PREMIUM) — a genuine markup, not just any buyer.
+//   • NEVER sells below COST BASIS — the floor is max(last, what-we-paid). The bot reads the real
+//     HE market-buy history (across @angelicalist + the @kalivankush treasury) for each token's basis.
+//   • NEVER sells a token with no anchor at all (no last price AND no recorded buy) — no blind dumping.
+//   • requires the bid to clear floor × (1 + SELL_PREMIUM) — a genuine markup, not just any buyer.
 //   • size is capped (the $1-5 stake) AND by the held balance, so it can only ever skim, never dump.
-const SELL_PREMIUM = +(process.env.ANGELICALIST_SELL_PREMIUM || 0.03);  // bid must beat last by >= 3%
+const SELL_PREMIUM = +(process.env.ANGELICALIST_SELL_PREMIUM || 0.03);  // bid must beat the floor by >= 3%
 const WALLET_SKIP = new Set(['SWAP.HIVE', 'SWAP.HBD', 'SWAP.BUSD', 'BEE']); // cash-equivalents / gov dust
-export async function walletSellDecisions({ account = ACCOUNT, getHoldings = accountHoldings, getMetrics = (s) => market.metrics(s), issued = ISSUED_TOKENS } = {}) {
+export async function walletSellDecisions({ account = ACCOUNT, getHoldings = accountHoldings, getMetrics = (s) => market.metrics(s), getBasis = (s) => costBasis(s), issued = ISSUED_TOKENS } = {}) {
   const holdings = await getHoldings(account).catch(() => []);
   const issuedSet = new Set((issued || []).map((s) => String(s).toUpperCase()));
   const out = [];
@@ -125,10 +128,15 @@ export async function walletSellDecisions({ account = ACCOUNT, getHoldings = acc
     const m = await getMetrics(sym).catch(() => null);
     const bid = m ? +m.highestBid : 0;
     const last = m ? +m.lastPrice : 0;
-    if (!(bid > 0) || !(last > 0)) continue;                     // need a buyer AND an anchor price
-    if (bid < last * (1 + SELL_PREMIUM)) continue;               // ONLY a real premium — never dump at/below value
-    out.push({ action: 'SELL', sym, source: 'wallet-premium', heldBalance: +h.balance,
-      reason: `hold ${(+h.balance).toLocaleString()} ${sym}; bid ${bid} is ${(((bid - last) / last) * 100).toFixed(1)}% OVER last ${last} — skim the premium (capped)` });
+    if (!(bid > 0)) continue;                                    // need a buyer
+    const cb = await getBasis(sym).catch(() => null);
+    const basis = cb && +cb.basisHive > 0 ? +cb.basisHive : 0;   // what we actually paid (0 = unknown)
+    const floor = Math.max(last, basis);                         // never sell below recent value OR cost
+    if (!(floor > 0)) continue;                                  // no anchor at all → never blind-sell
+    if (bid < floor * (1 + SELL_PREMIUM)) continue;              // ONLY a real premium over the floor
+    const anchor = basis > 0 && basis >= last ? `cost ${basis}` : `last ${last}`;
+    out.push({ action: 'SELL', sym, source: 'wallet-premium', heldBalance: +h.balance, costBasis: basis || null,
+      reason: `hold ${(+h.balance).toLocaleString()} ${sym}; bid ${bid} is ${(((bid - floor) / floor) * 100).toFixed(1)}% OVER ${anchor} — skim the premium (capped, never below cost)` });
   }
   return out;
 }

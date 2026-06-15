@@ -77,6 +77,7 @@ test('walletSellDecisions skims a PREMIUM but is NOT a dump bot (never sells own
   const out = await walletSellDecisions({
     getHoldings: async () => holdings,
     getMetrics: async (s) => metrics[s] || null,
+    getBasis: async () => null,                 // no recorded buys → falls back to the last-price floor
     issued: ['VKBT', 'CURE'],
   });
   const syms = out.map((d) => d.sym);
@@ -87,6 +88,34 @@ test('walletSellDecisions skims a PREMIUM but is NOT a dump bot (never sells own
   assert.ok(!syms.includes('TOOFUCKEH'), 'never sells below last (no dumping)');
   assert.ok(!syms.includes('PEPET'), 'a bid merely AT last is not a premium');
   assert.ok(!syms.includes('NOPRICE'), 'no anchor price → never blind-sell');
+});
+
+test('walletSellDecisions never sells BELOW cost basis even when the bid beats the last price', async () => {
+  // SPS: we paid 0.06591. The market dropped — last 0.055, and a buyer bids 0.057 (well over last,
+  // a +3.6% "premium" vs last) — but 0.057 is BELOW our 0.06591 cost. A last-only gate would SELL
+  // (a loss). The cost-basis floor must BLOCK it.
+  const holdings = [{ symbol: 'SPS', balance: 940 }];
+  const out = await walletSellDecisions({
+    getHoldings: async () => holdings,
+    getMetrics: async () => ({ highestBid: 0.057, lastPrice: 0.055 }),
+    getBasis: async () => ({ basisHive: 0.06591 }),
+    issued: [],
+  });
+  assert.deepEqual(out, [], 'bid over last but under cost → HELD, never sold at a loss');
+});
+
+test('walletSellDecisions SELLS when the bid clears cost basis + premium (real profit)', async () => {
+  // same 0.06591 basis, but now a buyer pays 0.069 — over cost AND over the 3% premium → skim it.
+  const out = await walletSellDecisions({
+    getHoldings: async () => [{ symbol: 'SPS', balance: 940 }],
+    getMetrics: async () => ({ highestBid: 0.069, lastPrice: 0.066 }),
+    getBasis: async () => ({ basisHive: 0.06591 }),
+    issued: [],
+  });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].sym, 'SPS');
+  assert.equal(out[0].costBasis, 0.06591);
+  assert.equal(out[0].heldBalance, 940);
 });
 
 test('executeDecision caps a wallet SELL by the held balance (can only skim, never dump the bag)', async () => {
