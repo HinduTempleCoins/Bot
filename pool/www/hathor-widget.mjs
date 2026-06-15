@@ -12,8 +12,39 @@
 // tests, soft-fail (a network/parse error becomes a friendly fallback, the widget never breaks), and
 // the DOM auto-mount is guarded so importing this file in a test does not touch the DOM.
 
-// The live chat server (the alpha origin reverse-proxies it at /chat; chat.melek.salon is not up).
+// SELF-CONTAINED by default: Hathor's deterministic brain runs CLIENT-SIDE on the pool (mode:'local'),
+// so her chat box needs no server, no CORS, no chain — she is a portable persona, not a chain service.
+// Set window.__HATHOR_WIDGET.mode='remote' (+ endpoint) to instead POST to a chat server.
 export const DEFAULT_ENDPOINT = 'https://alpha.melek.salon/chat';
+
+// Lazy, memoized, soft-fail import of the vendored browser brain (pool/www/hathor-brain.mjs).
+let _brain = null;
+async function loadBrain(inject) {
+  if (inject) return inject;
+  if (_brain) return _brain;
+  try { _brain = await import('./hathor-brain.mjs'); } catch { _brain = null; }
+  return _brain;
+}
+
+/**
+ * Get Hathor's reply. mode:'local' (default) runs the deterministic brain in the browser; mode:'remote'
+ * POSTs to the chat server. Always soft-fails to a friendly line. `opts.brain` injects a brain for tests.
+ * @returns {Promise<{reply:string, kind:string, done:boolean, state:object|null}>}
+ */
+export async function respond(message, state = null, opts = {}) {
+  const mode = opts.mode || 'local';
+  if (mode === 'remote') return sendChat(message, state, opts);
+  const brain = await loadBrain(opts.brain);
+  if (!brain || typeof brain.handleMessage !== 'function') {
+    return { reply: "I'm here — ask me about signing up, keys, or how the pool works.", kind: 'error', done: false, state };
+  }
+  try {
+    const out = await brain.handleMessage({ user: 'pool-guest', text: String(message ?? ''), state }, {});
+    return { reply: out.reply, kind: out.kind || 'answer', done: !!out.done, state: out.state ?? null };
+  } catch {
+    return { reply: "Sorry — I hit a snag. Try asking how to sign up, or type !help.", kind: 'error', done: false, state };
+  }
+}
 
 /** Escape for safe innerHTML insertion. Used on every piece of dynamic text. */
 export function esc(s) {
@@ -99,6 +130,7 @@ export function mountHathorWidget(opts = {}) {
   if (doc.getElementById('hathor-w-root')) return null;   // already mounted
   const cfg = (typeof window !== 'undefined' && window.__HATHOR_WIDGET) || {};
   const endpoint = opts.endpoint || cfg.endpoint || DEFAULT_ENDPOINT;
+  const mode = opts.mode || cfg.mode || 'local';
   const fetchImpl = opts.fetch || (typeof fetch !== 'undefined' ? fetch : undefined);
 
   if (!doc.getElementById('hathor-w-style')) {
@@ -146,7 +178,7 @@ export function mountHathorWidget(opts = {}) {
   async function submit(text) {
     if (busy || !String(text).trim()) return;
     busy = true; bubble('me', text); input.value = ''; typing(true);
-    const out = await sendChat(text, state, { endpoint, fetch: fetchImpl });
+    const out = await respond(text, state, { mode, endpoint, fetch: fetchImpl, brain: opts.brain });
     typing(false); state = out.state; bubble('hathor', out.reply); busy = false;
     if (input.focus) input.focus();
   }
