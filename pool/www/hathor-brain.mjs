@@ -464,7 +464,7 @@ export async function handleMessage({ user, text, state } = {}, ctx = {}) {
 // Guarded: only runs when invoked directly.
 //   - with args: route that single line and print it.
 //   - no args:   run the full account-creation walkthrough as a stateful demo.
-if (process.argv[1] && process.argv[1].endsWith('trollbox/index.mjs')) {
+if (typeof process !== 'undefined' && process.argv[1] && process.argv[1].endsWith('trollbox/index.mjs')) {
   const line = process.argv.slice(2).join(' ');
   if (line) {
     const out = await handleMessage({ user: 'cli', text: line });
