@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KulaSwap — multi-chain swap</title>
+<style>
+  :root{--bg:#0b0e14;--card:#131826;--ink:#e8e6e3;--dim:#9aa4b2;--gold:#d4a23c;--line:#222a3a;--me:#1c2435;--ok:#2ecc71;--warn:#e0a030;--err:#e05656}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:1rem}
+  header{display:flex;align-items:center;gap:.6rem;width:100%;max-width:480px;margin-bottom:1rem}
+  .logo{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold),#7a5a18);flex:0 0 auto}
+  h1{font-size:1.25rem}.sub{color:var(--dim);font-size:.74rem}
+  .spacer{flex:1}
+  button{font:inherit;cursor:pointer;border:0;border-radius:10px}
+  #connect{background:var(--gold);color:#1a1304;font-weight:700;padding:.5rem .9rem}
+  #connect.connected{background:#0f1422;color:var(--ink);border:1px solid var(--line);font-weight:500;font-size:.82rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;width:100%;max-width:480px;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
+  .row{display:flex;gap:.5rem;align-items:center}
+  label{color:var(--dim);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+  select,input{background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;padding:.6rem .7rem}
+  select{flex:0 0 auto;min-width:110px}
+  input{flex:1 1 auto;font-size:1.2rem}
+  .field{background:#0f1422;border:1px solid var(--line);border-radius:12px;padding:.7rem}
+  .field .row{margin-top:.4rem}
+  .mid{display:flex;justify-content:center;color:var(--dim);font-size:1.2rem}
+  .out{font-size:1.4rem;color:var(--gold)}
+  .meta{display:flex;justify-content:space-between;color:var(--dim);font-size:.78rem;flex-wrap:wrap;gap:.3rem}
+  #swap{background:var(--gold);color:#1a1304;font-weight:800;font-size:1.05rem;padding:.85rem;width:100%}
+  #swap:disabled{background:#33384a;color:#8088a0;cursor:not-allowed}
+  .note{font-size:.76rem;border-radius:10px;padding:.5rem .7rem}
+  .note.warn{background:rgba(224,160,48,.12);color:var(--warn);border:1px solid rgba(224,160,48,.35)}
+  .note.err{background:rgba(224,86,86,.12);color:var(--err);border:1px solid rgba(224,86,86,.35)}
+  .note.ok{background:rgba(46,204,113,.1);color:var(--ok);border:1px solid rgba(46,204,113,.3)}
+  .slip{display:flex;gap:.4rem;align-items:center;color:var(--dim);font-size:.78rem}
+  .slip input{flex:0 0 70px;font-size:.9rem;padding:.35rem .5rem}
+  a{color:#2c7be5}
+  footer{color:var(--dim);font-size:.72rem;margin-top:1rem;text-align:center;max-width:480px}
+</style>
+</head><body>
+<header>
+  <span class="logo"></span>
+  <div><h1>KulaSwap</h1><div class="sub">multi-chain swap · MELEK ecosystem</div></div>
+  <span class="spacer"></span>
+  <button id="connect">Connect Wallet</button>
+</header>
+
+<div class="card">
+  <div class="row">
+    <label for="chain" style="flex:0 0 auto">Chain</label>
+    <select id="chain" style="flex:1 1 auto"></select>
+  </div>
+  <div id="chain-note"></div>
+
+  <div class="field">
+    <label>From</label>
+    <div class="row">
+      <select id="token-in"></select>
+      <input id="amount-in" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
+    </div>
+    <div class="meta"><span id="bal-in">balance: —</span><span id="fee-line"></span></div>
+  </div>
+
+  <div class="mid">↓</div>
+
+  <div class="field">
+    <label>To (estimated)</label>
+    <div class="row">
+      <select id="token-out"></select>
+      <input id="amount-out" type="text" class="out" placeholder="0.0" readonly>
+    </div>
+    <div class="meta"><span id="impact">price impact: —</span><span id="minout">min received: —</span></div>
+  </div>
+
+  <div class="slip">slippage <input id="slippage" type="text" inputmode="decimal" value="0.5"> %
+    <span class="spacer" style="flex:1"></span><span id="deadline-lbl">deadline 20 min</span></div>
+
+  <button id="swap" disabled>Connect a wallet</button>
+  <div id="status"></div>
+</div>
+
+<footer>
+  KulaSwap is non-custodial — your keys stay in your wallet. The AMM lives on-chain
+  (PRANA + the chains' own DEXes). Quotes are estimates; you confirm every swap in your wallet.
+</footer>
+
+<script type="module" src="app.mjs"></script>
+</body></html>
