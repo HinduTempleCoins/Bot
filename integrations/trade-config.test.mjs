@@ -20,7 +20,7 @@ test('documented defaults resolve from an empty env', () => {
   assert.equal(c.exec.maxOrderHive, 10);
   assert.equal(c.exec.minOrderHive, 1);
   assert.equal(c.exec.maxBelievableEdge, 0.30);
-  assert.equal(c.mm.nudgeIncrement, 0.00000010);
+  assert.equal(c.mm.nudgeIncrement, 0.00000001);   // one real HE tick (8-dp); the floor under the sig-fig step
   assert.equal(c.mm.maxNudgesDay, 10);
   assert.equal(c.mm.nudgeInterval, 3600000);
   assert.equal(c.mm.maxJump, 0.05);

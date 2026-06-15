@@ -6,7 +6,10 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { nudgePlan, run, dailyCountFromState, emptyState } from './price-nudge.mjs';
+import { nudgePlan, run, dailyCountFromState, emptyState, outbidStep, loadState, saveState } from './price-nudge.mjs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { rmSync } from 'node:fs';
 
 const INC = 0.00000010;
 // a config with a sane fair-value ceiling so the ceiling guard doesn't trip unrelated tests.
@@ -103,21 +106,46 @@ test('spread too tight to outbid without crossing → HOLD', () => {
   assert.match(p.reason, /spread too tight/i);
 });
 
-// ── max-jump exceeded → HOLD ───────────────────────────────────────────────────────────────────
-test('max-jump exceeded → HOLD', () => {
-  // current best bid is ours at a low price; a troll posts a bid >5% above it. Outbidding the troll
-  // would jump >5% over the current best bid → guarded.
+// ── the minimal one-increment outbid is ALWAYS allowed (operator: always +1 tick; ceiling is the cap)
+test('minimal one-increment outbid is allowed even past max-jump (ceiling is the real cap)', () => {
+  // a troll posts a bid well above our stale one. A one-increment outbid is a >maxJump% jump, but it
+  // is the minimal legal outbid (you cannot bid less than one tick over them), so it is allowed. This
+  // is the fix: before, max-jump froze the bot at sub-tick prices where one tick already exceeds 5%.
   const buyBook = [
     bid(0.00000300, 5000, 'trollbot', 1),    // troll way up
     bid(0.00000200, 25, 'angelicalist', 2),  // our current (lower) bid
   ];
-  // ceiling high enough not to trip; ask far above
-  const cfg = { ...CFG, ceiling: 0.01 };
-  // currentBest = 0.00000300 (troll holds top). target = 0.0000003+inc. jumpCap = 0.000003*1.05.
-  // To force the max-jump path, lower maxJump so target exceeds the cap.
-  const p = nudgePlan({ buyBook, sellBook: [ask(0.00001, 1000)], ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: { ...cfg, maxJump: 0 } });
-  assert.equal(p.action, 'HOLD');
-  assert.match(p.reason, /max-jump/i);
+  const p = nudgePlan({ buyBook, sellBook: [ask(0.00001, 1000)], ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: { ...CFG, ceiling: 0.01, maxJump: 0 } });
+  assert.equal(p.action, 'NUDGE', 'a one-tick outbid is never blocked by max-jump');
+  const place = p.intents.find((i) => i.action === 'PLACE_LIMIT_BID');
+  assert.equal(place.price, +(0.00000300 + INC).toFixed(8), 'one increment over the troll');
+});
+
+// ── LIVE REGRESSION: the real VKBT book froze the bot before the fix ─────────────────────────────
+test('LIVE regression: at 8e-8 with a 1e-8 tick, outbids to 9e-8 (was frozen by max-jump)', () => {
+  // reproduces the live dry-run that HELD: top competing bid 0.00000008 (d9connect's 3.4M wall),
+  // one real HE tick = 0.00000001, ceiling just under the snipers' 0.00008 basis.
+  const cfg = { ...CFG, increment: 0.00000001, ceiling: 0.00007 };
+  const buyBook = [bid(0.00000008, 3399863, 'd9connect', 1)];
+  const sellBook = [ask(0.005, 1000)];
+  const p = nudgePlan({ buyBook, sellBook, ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: cfg });
+  assert.equal(p.action, 'NUDGE', 'must move — this exact book was frozen before the fix');
+  const place = p.intents.find((i) => i.action === 'PLACE_LIMIT_BID');
+  assert.equal(place.price, 0.00000009, 'one tick over 8e-8 = 9e-8');
+});
+
+// ── with sig-fig stepping every outbid IS the minimal one tick, so the CEILING (not max-jump) is the
+//    runaway guard. This proves the ladder keeps climbing one sig-fig tick per move until the ceiling.
+test('ladder climbs one sig-fig tick per move and stops at the ceiling', () => {
+  const cfg = { ...CFG, increment: 0.00000001, ceiling: 0.00009, maxJump: 0.05 };
+  // competitor at 0.00008 → we target 0.000081 (< ceiling) → NUDGE
+  const below = nudgePlan({ buyBook: [bid(0.00008, 1000, 'troll', 1)], sellBook: [ask(0.005, 1000)], ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: cfg });
+  assert.equal(below.action, 'NUDGE');
+  assert.equal(below.intents.find((i) => i.action === 'PLACE_LIMIT_BID').price, 0.000081);
+  // competitor at the ceiling → one tick over would breach it → HOLD
+  const atCeil = nudgePlan({ buyBook: [bid(0.00009, 1000, 'troll', 1)], sellBook: [ask(0.005, 1000)], ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: cfg });
+  assert.equal(atCeil.action, 'HOLD');
+  assert.match(atCeil.reason, /ceiling/i);
 });
 
 // ── daily cap hit → HOLD ───────────────────────────────────────────────────────────────────────
@@ -190,6 +218,52 @@ test('run() live calls cancel then placeOrder and records the nudge in state', a
   assert.equal(calls[1][1].price, +(0.00000200 + INC).toFixed(8));
   assert.equal(state.nudges.length, 1, 'nudge recorded for the daily cap');
   assert.equal(state.lastNudge, NOW);
+});
+
+// ── outbidStep: a "tick" is +1 in the last significant figure, scaling with the price ───────────
+test('outbidStep matches the operator examples (sig-fig tick, floored at the HE min tick)', () => {
+  assert.equal(outbidStep(0.000007), 0.0000001, '0.000007 → +1e-7 (0.0000071)');
+  assert.equal(outbidStep(0.00007), 0.000001, '0.00007 → +1e-6 (0.000071)');
+  assert.equal(outbidStep(0.00000008), 0.00000001, '8e-8 floors to one real HE tick (→9e-8)');
+  assert.equal(outbidStep(0), 0.00000001, 'bad price → min tick, never 0/NaN');
+});
+
+// ── the sig-fig ladder produces the operator's exact prices at each level ───────────────────────
+test('nudge ladders by a sig-fig tick: 0.00007 → 0.000071, and 8e-8 → 9e-8', () => {
+  const sell = [ask(0.005, 1000)];
+  const at7e5 = nudgePlan({ buyBook: [bid(0.00007, 1000, 'troll', 1)], sellBook: sell, ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: { ...CFG, increment: 0.00000001, ceiling: 0.001 } });
+  assert.equal(at7e5.intents.find((i) => i.action === 'PLACE_LIMIT_BID').price, 0.000071, '0.00007 → 0.000071');
+  const at8e8 = nudgePlan({ buyBook: [bid(0.00000008, 1000, 'troll', 1)], sellBook: sell, ourAccounts: OURS, lastNudge: 0, dailyCount: 0, now: NOW, config: { ...CFG, increment: 0.00000001, ceiling: 0.00007 } });
+  assert.equal(at8e8.intents.find((i) => i.action === 'PLACE_LIMIT_BID').price, 0.00000009, '8e-8 → 9e-8');
+});
+
+// ── state file persists across runs so the interval + daily cap actually hold (systemd oneshot) ──
+test('loadState/saveState round-trip; missing/garbage path soft-fails to emptyState', () => {
+  const p = join(tmpdir(), `pn-state-${NOW}.json`);
+  try {
+    assert.deepEqual(loadState(p), emptyState(), 'missing file → emptyState');
+    assert.deepEqual(loadState(null), emptyState(), 'null path → emptyState');
+    saveState(p, { lastNudge: NOW, nudges: [NOW, NOW - 1000] });
+    const back = loadState(p);
+    assert.equal(back.lastNudge, NOW);
+    assert.deepEqual(back.nudges, [NOW, NOW - 1000]);
+    assert.equal(saveState(null, { lastNudge: 1 }), false, 'no path → no write, no throw');
+  } finally { try { rmSync(p); } catch { /* ignore */ } }
+});
+
+test('run() live persists the nudge to the state file so the next run sees the interval', async () => {
+  const p = join(tmpdir(), `pn-run-${NOW}.json`);
+  const trader = { placeOrder: async () => ({ txId: 't' }), cancel: async () => ({ txId: 'c' }) };
+  const buyBook = [bid(0.00000200, 1000, 'trollbot', 1)];
+  const sellBook = [ask(0.00000500, 1000)];
+  try {
+    const r1 = await run('VKBT', { trader, statePath: p, config: CFG, ourAccounts: OURS, live: true, now: NOW, _book: { buyBook, sellBook } });
+    assert.equal(r1.action, 'NUDGE');
+    // a fresh run (no injected state) loads the file → interval guard now HOLDs
+    const r2 = await run('VKBT', { trader, statePath: p, config: CFG, ourAccounts: OURS, live: true, now: NOW + 60000, _book: { buyBook, sellBook } });
+    assert.equal(r2.action, 'HOLD');
+    assert.match(r2.reason, /interval/i);
+  } finally { try { rmSync(p); } catch { /* ignore */ } }
 });
 
 // ── dailyCountFromState rolls off entries older than 24h ───────────────────────────────────────

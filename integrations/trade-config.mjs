@@ -78,7 +78,7 @@ export function loadTradeConfig(env = process.env) {
     // Same MM_*/WALL_* env names price-nudge.loadConfig + wall-bot already use, so importing changes
     // nothing. ceiling/floor are null-when-unset on purpose (price-nudge HOLDs without a ceiling).
     mm: {
-      nudgeIncrement: numOf(env.MM_NUDGE_INCREMENT, 0.00000010),
+      nudgeIncrement: numOf(env.MM_NUDGE_INCREMENT, 0.00000001),  // one real HE tick (8-dp). NOT 1e-7 — that overshoots sub-tick prices and mis-rounds the 8th decimal.
       maxNudgesDay: numOf(env.MM_MAX_NUDGES_DAY, 10),
       nudgeInterval: numOf(env.MM_NUDGE_INTERVAL, 3600000),
       maxJump: numOf(env.MM_MAX_JUMP, 0.05),
