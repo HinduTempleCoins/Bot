@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How KulaSwap works</title>
+<style>
+  :root{--bg:#0b0e14;--card:#131826;--ink:#e8e6e3;--dim:#9aa4b2;--gold:#d4a23c;--line:#222a3a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;flex-direction:column;align-items:center;padding:1.2rem}
+  .wrap{max-width:760px;width:100%}
+  header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem}
+  .logo{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold),#7a5a18)}
+  h1{font-size:1.3rem}h2{font-size:1.1rem;color:var(--gold);margin:1.6rem 0 .5rem}h3{font-size:.98rem;margin:1rem 0 .3rem}
+  p,li{color:var(--ink)}.dim{color:var(--dim)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;margin:.7rem 0}
+  code{background:#0f1422;border:1px solid var(--line);border-radius:6px;padding:.05rem .35rem;font-size:.92em}
+  ul,ol{margin:.3rem 0 .3rem 1.2rem}li{margin:.25rem 0}
+  table{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+  th{color:var(--gold);font-weight:600}
+  a{color:#2c7be5}.back{display:inline-block;margin-bottom:1rem}
+  .tok{display:flex;gap:.6rem;align-items:baseline}.tok b{color:var(--gold);flex:0 0 70px}
+</style>
+</head><body>
+<div class="wrap">
+<header><span class="logo"></span><div><h1>How KulaSwap works</h1><div class="dim">the market logic, in plain terms</div></div></header>
+<a class="back" href="index.html">← back to swap</a>
+
+<div class="card">
+<h2>1. There's no order book — a formula is the market</h2>
+<p>Each pool holds two tokens. Call the amounts <code>x</code> and <code>y</code>. The whole rule is:</p>
+<p style="text-align:center;font-size:1.15rem;color:var(--gold)"><b>x · y = k</b></p>
+<p>The <b>price is just the ratio of the two reserves.</b> A pool with 1,000 PRANA and 100 KULA prices 1 KULA at 10 PRANA. Nobody quotes a price — the formula does.</p>
+</div>
+
+<div class="card">
+<h2>2. A swap walks the curve (slippage)</h2>
+<p>Put PRANA in, take KULA out — the contract gives you whatever keeps <code>x·y</code> at least <code>k</code>. As you buy KULA it gets scarcer in the pool, so its price rises <em>as you buy</em>. The bigger your trade versus the pool size, the worse your rate. That's <b>price impact / slippage</b>. A <b>0.30% fee</b> on each swap stays in the pool — that's what pays liquidity providers.</p>
+</div>
+
+<div class="card">
+<h2>3. Who makes money — and by what mechanism</h2>
+<h3>Liquidity providers</h3>
+<p>Deposit both tokens, receive the pool's <b>PoL</b> liquidity token, earn a share of the 0.30% fees. Their cost is <b>impermanent loss</b> (if the price moves a lot, holding would've been better).</p>
+<h3>Arbitrageurs — the mechanism built into the curve</h3>
+<p>Because price is only the reserve ratio, <b>the moment the pool's price differs from the real price anywhere else, the curve hands a profit to whoever trades in to fix it.</b> Buy the cheap side from the pool, sell at the true price, keep the spread — and that very act pushes the pool back to the correct price. This profit isn't added by us; it's a structural output of <code>x·y=k</code>. It's how the pool stays honest.</p>
+<h3>Flash swaps — borrow with zero capital</h3>
+<p>The pool sends you the tokens <em>first</em> and only checks <code>x·y=k</code> at the end of the transaction. So you can borrow up to the whole reserve, do an arbitrage or a liquidation, and repay (plus the 0.30% fee) in the <b>same transaction</b>. If you can't repay, the whole thing reverts — so no collateral is needed.</p>
+</div>
+
+<div class="card">
+<h2>4. The three tokens (each has one honest job)</h2>
+<div class="tok"><b>PoL</b><span>Proof-of-Liquidity — the <b>liquidity</b> token. What you hold for providing to pools.</span></div>
+<div class="tok"><b>KULA</b><span>The <b>rewards</b> token — paid to PRANA miners (AI-work + hashing) and farm earners. Burn other tokens at the Burn Mine to mint it.</span></div>
+<div class="tok"><b>SHELLS</b><span>The <b>governance + boost</b> token — lock it to boost your yield and vote on where emissions go.</span></div>
+</div>
+
+<div class="card">
+<h2>5. Different AMM models = different curve shapes</h2>
+<table>
+<tr><th>Model</th><th>What's different</th></tr>
+<tr><td><b>KulaSwap (Uniswap V2)</b></td><td>Plain <code>x·y=k</code>; robust; liquidity spread across all prices.</td></tr>
+<tr><td>Uniswap V3</td><td>Liquidity concentrated in a price <em>range</em> → more fees per dollar, but active management.</td></tr>
+<tr><td>Curve / StableSwap</td><td>Flatter curve for ~1:1 pairs → tiny slippage; holds a peg.</td></tr>
+<tr><td>Balancer</td><td>Weighted multi-token pools → self-rebalancing index fund.</td></tr>
+<tr><td>DODO</td><td>Curve anchored to an oracle price → mimics a real order book.</td></tr>
+</table>
+<p class="dim">KulaSwap starts as V2, runs a StableSwap pool for the peg, and is planned to graduate to "V4 hooks" — many pool types at one venue.</p>
+</div>
+
+<div class="card">
+<h2>6. Non-custodial</h2>
+<p>Your keys never leave your wallet. KulaSwap routes your swap through the on-chain Router; you approve and confirm every transaction yourself. The pool only ever holds the liquidity people deposit.</p>
+</div>
+
+<a class="back" href="index.html">← back to swap</a>
+</div>
+
+<script>window.__HATHOR_WIDGET = { mode: 'local' };</script>
+<script type="module" src="hathor-widget.mjs"></script>
+</body></html>
