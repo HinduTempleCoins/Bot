@@ -8,7 +8,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, ALLOWED_ORIGIN, __setLimiter } from './chat-server.mjs';
+import { handler, ALLOWED_ORIGIN, ALLOWED_ORIGINS, __setLimiter } from './chat-server.mjs';
 import { RateLimiter } from './index.mjs';
 
 // ── tiny fake req/res ──────────────────────────────────────────────────────────────────────────────
@@ -123,6 +123,17 @@ test('CORS: allowed origin gets the grant', async () => {
   freshLimiter();
   const res = await post({ message: 'hello' });
   assert.equal(res.headers['access-control-allow-origin'], ALLOWED_ORIGIN);
+});
+
+test('CORS: the pool origin is now allowed too (Hathor embedded on the pool)', async () => {
+  freshLimiter();
+  assert.ok(ALLOWED_ORIGINS.has('https://pool.soapbox.community'), 'pool origin is in the allowlist');
+  const res = await call({
+    method: 'POST', url: '/chat',
+    headers: { origin: 'https://pool.soapbox.community' },
+    body: JSON.stringify({ message: 'hello' }),
+  });
+  assert.equal(res.headers['access-control-allow-origin'], 'https://pool.soapbox.community', 'echoes the pool origin, not alpha');
 });
 
 test('CORS: a disallowed origin gets NO cross-origin grant', async () => {

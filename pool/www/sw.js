@@ -12,7 +12,7 @@
  * and the API is always the network. No background sync, no push, no tracking.
  */
 
-const CACHE_VERSION = 'soapbox-pool-v1';
+const CACHE_VERSION = 'soapbox-pool-v2';   // v2: pages now embed Hathor's chat widget
 
 // The static app shell to precache. Keep this list small and first-party only.
 const CACHE_LIST = [

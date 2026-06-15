@@ -39,8 +39,17 @@ const PORT = +(process.env.PORT || 8113);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://chat.melek.salon').replace(/\/$/, '');
 
-// The single allowed browser origin: the alpha chat page.
-export const ALLOWED_ORIGIN = (process.env.CHAT_ALLOWED_ORIGIN || 'https://alpha.melek.salon').replace(/\/$/, '');
+// Allowed browser origins. Hathor's chat box is now embedded on MORE surfaces than just the alpha
+// page (the mining pool, etc.) — "expand her presence" — so this is an allowlist, not one origin.
+// Override with CHAT_ALLOWED_ORIGINS (comma-separated); CHAT_ALLOWED_ORIGIN (singular) still works.
+const _norm = (s) => String(s || '').trim().replace(/\/$/, '');
+export const ALLOWED_ORIGINS = new Set(
+  (process.env.CHAT_ALLOWED_ORIGINS || process.env.CHAT_ALLOWED_ORIGIN ||
+    'https://alpha.melek.salon,https://pool.soapbox.community,https://pool.melek.salon')
+    .split(',').map(_norm).filter(Boolean),
+);
+// Back-compat single-origin export (first allowed origin).
+export const ALLOWED_ORIGIN = [...ALLOWED_ORIGINS][0];
 
 // Per-client chat rate limiter. Generous burst, refills over a minute. Injectable for tests.
 let _limiter = new RateLimiter({
@@ -60,9 +69,10 @@ function clientKey(req) {
 
 // ── CORS / responses (mirror signup/server.mjs) ────────────────────────────────────────────────────
 function corsHeaders(origin) {
-  if (origin && origin.replace(/\/$/, '') === ALLOWED_ORIGIN) {
+  const o = _norm(origin);
+  if (o && ALLOWED_ORIGINS.has(o)) {
     return {
-      'access-control-allow-origin': ALLOWED_ORIGIN,
+      'access-control-allow-origin': o,   // echo the specific allowed origin (never '*')
       'access-control-allow-headers': 'content-type',
       'access-control-allow-methods': 'GET, POST, OPTIONS',
       vary: 'Origin',
