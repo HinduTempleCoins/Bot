@@ -10,11 +10,21 @@
 // injectable fetch, handler(req,res) exported for tests, PORT/BASE_URL/ENGINE_API/AUTO_URL env.
 
 import { projectPostEarnings, __setFetch as setEarningsFetch } from '../../integrations/scot-earnings.mjs';
+import { createTabFragment } from '../../integrations/token-launch.mjs';
+import { CHAINS } from '../../kulaswap/kula-config.mjs';
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
 const CHAIN_RPC = process.env.CHAIN_RPC || 'https://alpha.melek.salon/rpc';
 const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
+
+// PRANA factory addresses for the turnkey "Create a Token" flow. Env-overridable; defaults are
+// the kula-config PRANA addresses (placeholders until ERC20FactoryWizard/CloneFactory are deployed
+// + recorded — the Create form gates the per-mode button when its factory is unset).
+const PRANA = CHAINS.prana || {};
+const WIZARD_ADDR = process.env.WIZARD_ADDR || '';
+const CLONE_FACTORY_ADDR = process.env.CLONE_FACTORY_ADDR || '';
+const CHAIN_ID_HEX = PRANA.chainIdHex || '0x1a751';
 
 let _fetch = (...a) => globalThis.fetch(...a);
 /** Test hook — inject fetch (also rewires the earnings module). */
@@ -70,7 +80,7 @@ function shell(active, title, inner) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
-<nav>${tab('tokens', 'Tokens', '/')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
+<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}
 <p class=dim style="margin-top:1.4rem;font-size:.75rem">Testnet. Token data from the MELEK-Engine; non-custodial — your keys never leave your device.</p>
 </body></html>`;
@@ -130,6 +140,11 @@ const u=new URLSearchParams(location.search);if(u.get('author')&&u.get('permlink
 </script>`);
 }
 
+function pageCreate() {
+  const frag = createTabFragment({ wizardAddr: WIZARD_ADDR, cloneFactoryAddr: CLONE_FACTORY_ADDR, chainIdHex: CHAIN_ID_HEX });
+  return shell('create', 'Create a Token', frag);
+}
+
 // ---- handler ---------------------------------------------------------------
 export async function handler(req, res) {
   let url;
@@ -137,6 +152,7 @@ export async function handler(req, res) {
   const p = url.pathname;
   try {
     if (p === '/' || p === '/tokens') return html(res, 200, pageTokens());
+    if (p === '/create') return html(res, 200, pageCreate());
     if (p === '/wallet') return html(res, 200, pageWallet());
     if (p === '/earnings') return html(res, 200, pageEarnings());
     if (p.startsWith('/token/')) {

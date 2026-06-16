@@ -20,6 +20,15 @@ test('/ serves the tokens list page', async () => {
   assert.match(r.body, /Alpha/); // alpha badge
 });
 
+test('/create serves the turnkey token-launch form', async () => {
+  const r = await get('/create');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Create a Token/);
+  assert.match(r.body, /eth_sendTransaction/); // hands the descriptor to the wallet
+  assert.match(r.body, /0x350d4d65/); // createToken selector embedded for the client encoder
+  assert.match(r.body, />Create</); // nav tab present
+});
+
 test('/wallet has holdings + per-token toggle', async () => {
   const r = await get('/wallet');
   assert.equal(r.code, 200);

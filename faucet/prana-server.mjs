@@ -86,6 +86,13 @@ button{font:inherit;font-weight:700;margin-top:.6rem;padding:.6rem 1rem;border-r
   <div id=out></div>
 </div>
 <p class=dim>Add PRANA to MetaMask: RPC <code>https://rpc.prana.melek.salon</code> · chainId 108369 · symbol PRANA. Explore on <a href="https://alpha.pranascan.soapbox.community">PRANAScan</a>.</p>
+<h1 style="margin-top:1.4rem">MELEK Faucet <span class=a>Alpha</span></h1>
+<p class=dim>MELEK (the social chain) has <b>no gas</b> — actions are paid by Resource Credits (RC), not a fee. So the MELEK faucet gives you an <b>account</b>: create one free, and Hathor automatically grants you starter <b>TESTS</b> + delegated <b>POWER</b> (RC) so you can post, vote, and transfer right away.</p>
+<div class=card>
+  <p>Create a MELEK testnet account (keys generated in your browser, never sent to us):</p>
+  <p><a href="https://wallet.melek.salon/signup">Create a MELEK account →</a></p>
+  <p class=dim>Already have one? Hathor's welcomer tops up new accounts with TESTS + RC POWER on the Welcome post within minutes.</p>
+</div>
 <script>
 const b=document.getElementById('b'),a=document.getElementById('a'),out=document.getElementById('out');
 b.onclick=async()=>{out.textContent='Sending…';b.disabled=true;
