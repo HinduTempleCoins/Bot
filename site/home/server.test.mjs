@@ -1,9 +1,9 @@
-// server.test.mjs — offline tests for soapbox.community ROOT, the ecosystem HOME PAGE / map.
+// server.test.mjs — offline tests for soapbox.community ROOT, the ecosystem HOME PAGE / FAMILY TREE.
 // Fully offline: the SERVICES map is static and mainnetUrl()/resolve() are pure — no network. We drive the
 // exported async handler through a mock req/res (no port bound) and assert: the page renders BOTH an Alpha
-// and a MainNet section laid out separately; a known service (Akasha) shows its alpha URL clickable + its
-// mainnet URL as "soon"; mainnetUrl() derives both domain shapes; esc() neutralizes injection; unknown
-// route soft-404s.
+// family tree and a MainNet family tree laid out separately; the three chain-family branches (MELEK /
+// PRANA / KULA) appear; a known leaf (Akasha) shows its alpha URL clickable + its mainnet URL as "soon";
+// mainnetUrl() derives both domain shapes; esc() neutralizes injection; unknown route soft-404s.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -56,40 +56,50 @@ test('resolve(): main app, subdomain, and same-both forms', () => {
   assert.equal(pool.sameBoth, true);
 });
 
-test('home: 200 HTML with both an Alpha section and a MainNet section, laid out separately', async () => {
+test('home: 200 HTML with both an Alpha tree and a MainNet tree, laid out separately', async () => {
   const res = await drive('/');
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
   const b = res.body;
-  // two distinct sections
+  // two distinct net sections, each a full family tree
   assert.match(b, /<section class="net alpha-net"/);
   assert.match(b, /<section class="net mainnet-net"/);
   assert.match(b, />Alpha<\/h2>/);
   assert.match(b, />MainNet<\/h2>/);
+  // exactly two trees rendered (one per net)
+  assert.equal((b.match(/<div class=tree>/g) || []).length, 2, 'one tree per net');
   // the standing alpha-badge convention beside the wordmark
   assert.match(b, /class=alpha>Alpha</);
-  // categories present
-  assert.match(b, /Wallet &amp; Explorer/);
-  assert.match(b, /Tokens &amp; DeFi/);
 });
 
-test('home: Akasha appears with its alpha URL clickable and its mainnet URL shown as soon', () => {
+test('home: the three chain-family branches (MELEK / PRANA / KULA) appear in both trees', () => {
+  const b = homePage();
+  // each family name shows once per tree → twice total, as a branch node
+  for (const fam of ['MELEK', 'PRANA', 'KULA']) {
+    const hits = (b.match(new RegExp(`<div class=fam>${fam}<\\/div>`, 'g')) || []).length;
+    assert.ok(hits >= 2, `${fam} branch should appear in both the alpha and mainnet trees (saw ${hits})`);
+  }
+  // the SoapBox Community root node anchors each tree
+  assert.match(b, /class="node-box root-box"/);
+});
+
+test('home: Akasha is a clickable alpha leaf (under KULA) and shows its mainnet URL as soon', () => {
   const b = homePage();
   assert.match(b, /Akasha/);
-  // alpha link is a real clickable anchor
-  assert.match(b, /<a class=card href="https:\/\/akasha\.alpha\.soapbox\.community"/);
+  // alpha leaf is a real clickable anchor
+  assert.match(b, /<a class="leaf-box node-box" href="https:\/\/akasha\.alpha\.soapbox\.community"/);
   // mainnet URL is shown (as the future host) and tagged coming soon, NOT as an anchor
   assert.match(b, /akasha\.soapbox\.community · coming soon/);
 });
 
-test('home: a same-both service (pool) is clickable in BOTH sections', () => {
+test('home: a same-both service (pool) is a clickable leaf in BOTH trees', () => {
   const b = homePage();
-  // pool.soapbox.community appears as a clickable anchor (it has no alpha variant)
-  const anchors = b.match(/<a class=card href="https:\/\/pool\.soapbox\.community"/g) || [];
-  assert.ok(anchors.length >= 2, 'pool should be a live link in both alpha and mainnet sections');
+  // pool.soapbox.community appears as a clickable leaf anchor (it has no alpha variant)
+  const anchors = b.match(/<a class="leaf-box node-box" href="https:\/\/pool\.soapbox\.community"/g) || [];
+  assert.ok(anchors.length >= 2, 'pool should be a live link in both the alpha and mainnet trees');
 });
 
-test('home: every service in the map renders its alpha host as a clickable card', () => {
+test('home: every service renders its alpha host as a clickable leaf', () => {
   const b = homePage();
   for (const s of SERVICES) {
     const host = resolve(s).alphaHost;

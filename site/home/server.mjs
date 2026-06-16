@@ -1,11 +1,14 @@
 // server.mjs — soapbox.community ROOT — the ecosystem HOME PAGE.
 //
-// The canonical directory/map of every MELEK / PRANA / KULA surface. It is DATA-DRIVEN from a single
-// SERVICES map so it renders the same set twice: once as an ALPHA (live testnet) section with clickable
-// links, and once as a MAINNET section showing the future production URL (marked "coming soon", not yet
-// clickable). Per the operator, Alpha is denoted and mapped SEPARATELY from MainNet on the page — two
-// distinct, clearly-headed sections. Per the standing alpha-badge convention, a small "Alpha" badge sits
-// beside the ecosystem wordmark top-left (everything live is testnet).
+// The canonical FAMILY TREE of every MELEK / PRANA / KULA surface. It is DATA-DRIVEN from a single
+// SERVICES map (each service tagged with its chain FAMILY) so it renders the same tree twice: once as an
+// ALPHA (live testnet) tree with clickable leaf links, and once as a MAINNET tree showing the future
+// production URL (marked "coming soon", not yet clickable). The tree is genealogy/org-chart shaped:
+// ROOT = SoapBox Community → LEVEL 1 = the three chain families (MELEK / PRANA / KULA) → LEVEL 2 = the
+// services as leaf nodes. Per the operator, Alpha is denoted and mapped SEPARATELY from MainNet — two
+// distinct, clearly-headed trees. Per the standing alpha-badge convention, a small "Alpha" badge sits
+// beside the ecosystem wordmark top-left (everything live is testnet). Drawn with pure CSS connectors —
+// no libraries, no build step, no network — and collapses to a stacked outline on narrow screens.
 //
 // THE UNIFORM DOMAIN RULE (operator): testnet = X.alpha.{base}, mainnet = X.{base}; a domain's MAIN app
 // is alpha.{base} → {base}. Bases in play: melek.salon, soapbox.community, kula.money. The alpha→mainnet
@@ -15,7 +18,7 @@
 //   PORT=8080 BASE_URL=https://soapbox.community node site/home/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
-//   /            the ecosystem map (Alpha section + MainNet section, grouped by category)
+//   /            the ecosystem family tree (Alpha tree + MainNet tree; root → 3 families → service leaves)
 //   /health      liveness probe
 //   /robots.txt /sitemap.xml /sitemap-index.xml /llms.txt
 //
@@ -63,32 +66,46 @@ const httpsUrl = (host) => (/^https?:\/\//i.test(host) ? host : `https://${host}
 //   base = the domain root (melek.salon | soapbox.community | kula.money)
 //   sub  = the alpha host. '' means the domain's MAIN app (alpha.{base}); otherwise X.alpha.{base}
 //          ('=' marks a service with no alpha variant — same host on both nets, e.g. the pool).
+// THE THREE CHAIN FAMILIES — Level-1 branches of the tree under the SoapBox root.
+//   MELEK = social chain (Graphene). PRANA = EVM / compute chain + DAO. KULA = DeFi.
+const FAM_MELEK = 'MELEK';
+const FAM_PRANA = 'PRANA';
+const FAM_KULA = 'KULA';
+
+// Per-family descriptions shown on the branch node.
+export const FAMILIES = {
+  [FAM_MELEK]: { tagline: 'Social chain — posts, tribes, curation, witnesses.' },
+  [FAM_PRANA]: { tagline: 'EVM / compute chain — explorer, RPC, mining, DAO.' },
+  [FAM_KULA]: { tagline: 'DeFi — the DEX and the in-browser wallet.' },
+};
+
+// Each service carries the FAMILY it descends from (its Level-1 branch). category is retained
+// as a secondary label on the leaf, but the tree groups by `family`.
 const CAT_WALLET = 'Wallet & Explorer';
 const CAT_DEFI = 'Tokens & DeFi';
 const CAT_CHAIN = 'Chain & Mining';
 const CAT_SOCIAL = 'Social & Curation';
 
 export const SERVICES = [
-  // ── Tokens & DeFi ──
-  { name: 'KulaSwap', blurb: 'Multi-chain DEX — swap, farm, and stake across the ecosystem.', category: CAT_DEFI, base: 'kula.money', sub: '' },
-  { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings.', category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
-  { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and trade tokens.', category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
+  // ── KULA (DeFi) ──
+  { name: 'KulaSwap', blurb: 'Multi-chain DEX — swap, farm, and stake across the ecosystem.', family: FAM_KULA, category: CAT_DEFI, base: 'kula.money', sub: '' },
+  { name: 'Akasha', blurb: 'In-browser wallet — keys generated client-side, never transmitted.', family: FAM_KULA, category: CAT_WALLET, base: 'soapbox.community', sub: 'akasha' },
 
-  // ── Wallet & Explorer ──
-  { name: 'Akasha', blurb: 'In-browser wallet — keys generated client-side, never transmitted.', category: CAT_WALLET, base: 'soapbox.community', sub: 'akasha' },
-  { name: 'PRANAScan', blurb: 'Block explorer for the PRANA compute chain.', category: CAT_WALLET, base: 'soapbox.community', sub: 'pranascan' },
+  // ── MELEK (social chain) ──
+  { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
+  { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and trade tokens.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
+  { name: 'Auto-vote / NutBox', blurb: 'Delegate to earn — multi-chain autovote + NutBox staking.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
+  { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status. (No alpha variant.)', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
 
-  // ── Chain & Mining ──
-  { name: 'PRANA RPC', blurb: 'Public JSON-RPC endpoint for the PRANA chain.', category: CAT_CHAIN, base: 'melek.salon', sub: 'rpc.prana' },
-  { name: 'Faucet', blurb: 'Claim testnet funds + an RC gift to get started.', category: CAT_CHAIN, base: 'soapbox.community', sub: 'faucet' },
-  { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
-
-  // ── Social & Curation ──
-  { name: 'Auto-vote / NutBox', blurb: 'Delegate to earn — multi-chain autovote + NutBox staking.', category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
-  { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status. (No alpha variant.)', category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
+  // ── PRANA (EVM / compute chain + DAO) ──
+  { name: 'PRANAScan', blurb: 'Block explorer for the PRANA compute chain.', family: FAM_PRANA, category: CAT_WALLET, base: 'soapbox.community', sub: 'pranascan' },
+  { name: 'PRANA RPC', blurb: 'Public JSON-RPC endpoint for the PRANA chain.', family: FAM_PRANA, category: CAT_CHAIN, base: 'melek.salon', sub: 'rpc.prana' },
+  { name: 'Faucet', blurb: 'Claim testnet funds + an RC gift to get started.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: 'faucet' },
+  { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
 ];
 
-const CATEGORY_ORDER = [CAT_WALLET, CAT_DEFI, CAT_CHAIN, CAT_SOCIAL];
+// Branch order, left → right.
+const FAMILY_ORDER = [FAM_MELEK, FAM_PRANA, FAM_KULA];
 
 // Resolve a service to its alpha host and mainnet host.
 //   sub === ''        → alpha = alpha.{base},  mainnet = {base}              (main app)
@@ -108,7 +125,15 @@ export function resolve(svc) {
   return { sameBoth: false, alphaHost, mainnetHost: mainnetUrl(alphaHost) };
 }
 
-// ── theme (shared SoapBox dark theme + the alpha badge per the standing convention) ─────────────────
+// ── theme — shared SoapBox dark theme + the alpha badge + the FAMILY-TREE layout ────────────────────
+// The tree is drawn with pure CSS — no libraries, no SVG fetches, no build step. Connector lines are
+// drawn with ::before / ::after pseudo-element borders on each tree level:
+//   • the root node drops one vertical stem to the branch row;
+//   • each branch row of siblings is joined by a horizontal "bus" (a top border across the row) with a
+//     short vertical drop from the bus to each child (and a centred drop down from the parent into the bus);
+//   • leaf nodes hang under their branch the same way.
+// On narrow screens a media query flattens .tree to a stacked, left-indented outline (the connector
+// pseudo-elements are switched off) so it degrades to a readable list — CSS only.
 const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
@@ -116,11 +141,10 @@ const STYLE = `<style>
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:11px 22px;display:flex;align-items:center;gap:12px}
   .brand{font-weight:800;font-size:19px;color:var(--fg)} .brand small{color:var(--mut);font-weight:400;font-size:13px;margin-left:8px}
   .alpha{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,162,60,.5);border-radius:5px;padding:.05rem .3rem;vertical-align:super;line-height:1;margin-left:6px}
-  .wrap{max-width:1000px;margin:0 auto;padding:24px 22px 8px}
-  h1{margin:0 0 6px;font-size:28px} .lede{color:var(--mut);margin:0 0 8px;max-width:640px}
-  .muted{color:var(--mut)}
-  /* the two big top-level sections — visually distinct so Alpha is mapped SEPARATE from MainNet */
-  section.net{border-radius:14px;padding:6px 20px 18px;margin:22px 0}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 22px 8px}
+  h1{margin:0 0 6px;font-size:28px} .lede{color:var(--mut);margin:0 0 8px;max-width:680px}
+  /* the two big top-level sections — visually distinct so the Alpha tree is mapped SEPARATE from MainNet */
+  section.net{border-radius:14px;padding:6px 20px 26px;margin:22px 0;overflow-x:auto}
   section.alpha-net{border:1px solid rgba(212,162,60,.45);background:linear-gradient(180deg,#1c1a12,#161b22)}
   section.mainnet-net{border:1px solid var(--line2);background:#12161d}
   .net-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 0 4px;border-bottom:1px solid var(--line);margin-bottom:6px}
@@ -129,22 +153,65 @@ const STYLE = `<style>
   .tag.live{color:var(--gold);border:1px solid rgba(212,162,60,.5)}
   .tag.soon{color:var(--mut);border:1px solid var(--line2)}
   .net-head .nh-sub{color:var(--mut);font-size:13px}
-  .cat{margin:16px 0 6px;font-size:13px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-  .card{display:block;border:1px solid var(--line2);border-radius:11px;padding:15px 17px;background:var(--panel)}
-  a.card:hover{border-color:var(--blue);text-decoration:none}
-  .card .nm{font-weight:700;font-size:16px;color:var(--fg)}
-  .card .bl{color:var(--mut);font-size:13px;margin-top:4px;line-height:1.5}
-  .card .u{display:block;margin-top:9px;font-size:12.5px;font-variant-numeric:tabular-nums}
-  a.card .u{color:var(--blue)} .card.soon{opacity:.78} .card.soon .u{color:var(--mut)}
-  .pill{display:inline-block;font-size:10.5px;font-weight:700;border-radius:20px;padding:1px 8px;margin-left:6px}
+
+  /* ── FAMILY TREE ────────────────────────────────────────────────────────────────── */
+  /* Each level is a centred flex row; --c is the connector colour (gold in alpha, grey in mainnet). */
+  .tree{--c:var(--line2);min-width:680px;padding-top:14px;text-align:center}
+  .alpha-net .tree{--c:rgba(212,162,60,.55)}
+  .tree .row{display:flex;justify-content:center;align-items:flex-start;gap:18px}
+  /* ROOT node + the stem that drops from it into the branch bus */
+  .node{position:relative;display:inline-flex;flex-direction:column;align-items:center}
+  .root-node{margin:0 auto 0}
+  .root-node::after{content:"";display:block;width:2px;height:18px;background:var(--c);margin:6px auto 0}
+  /* a BRANCH column groups one family + its leaves; siblings sit in .row */
+  .branch{position:relative;padding-top:18px}
+  /* horizontal bus joining the branch siblings: a top border on each branch, trimmed at the ends */
+  .branch::before{content:"";position:absolute;top:0;left:-9px;right:-9px;border-top:2px solid var(--c)}
+  .branch:first-child::before{left:50%}
+  .branch:last-child::before{right:50%}
+  .branch:only-child::before{left:50%;right:50%}
+  /* short vertical drop from the bus down into the branch node */
+  .branch::after{content:"";position:absolute;top:0;left:50%;width:2px;height:18px;background:var(--c);transform:translateX(-1px)}
+  /* leaves hang under the branch; the leaf row gets its own bus + per-leaf drop */
+  .leaves{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding-top:20px;margin-top:14px}
+  .leaves::before{content:"";position:absolute;top:0;left:50%;width:2px;height:14px;background:var(--c);transform:translateX(-1px)}
+  .leaf{position:relative;padding-top:14px}
+  .leaf::before{content:"";position:absolute;top:0;left:50%;width:2px;height:14px;background:var(--c);transform:translateX(-1px)}
+
+  .node-box{border:1px solid var(--line2);border-radius:11px;padding:13px 16px;background:var(--panel);text-align:left}
+  .root-box{border-color:var(--c);background:#1b2230;padding:14px 22px;text-align:center}
+  .branch-box{border-color:var(--c);background:#1b2230;min-width:200px;text-align:center}
+  .branch-box .fam{font-weight:800;font-size:18px;letter-spacing:.04em}
+  .branch-box .ft{color:var(--mut);font-size:12px;margin-top:3px}
+  .leaf-box{display:block;min-width:210px;max-width:240px}
+  a.leaf-box:hover{border-color:var(--blue);text-decoration:none}
+  .leaf-box .nm{font-weight:700;font-size:15px;color:var(--fg)}
+  .leaf-box .bl{color:var(--mut);font-size:12.5px;margin-top:4px;line-height:1.45}
+  .leaf-box .u{display:block;margin-top:8px;font-size:12px;font-variant-numeric:tabular-nums;word-break:break-all}
+  a.leaf-box .u{color:var(--blue)} .leaf-box.soon{opacity:.8} .leaf-box.soon .u{color:var(--mut)}
+  .pill{display:inline-block;font-size:10px;font-weight:700;border-radius:20px;padding:1px 7px;margin-left:6px}
   .pill.same{color:var(--up);border:1px solid #3fb95055}
   .pill.soon{color:var(--mut);border:1px solid var(--line2)}
+
+  /* ── responsive: collapse the tree to a stacked, indented outline (connectors off) ── */
+  @media(max-width:760px){
+    section.net{overflow-x:visible}
+    .tree{min-width:0;text-align:left}
+    .tree .row,.leaves{display:block}
+    .tree .row{gap:0}
+    .root-node::after,.branch::before,.branch::after,.leaves::before,.leaf::before{display:none;border:0}
+    .node{display:block}
+    .branch{padding-top:14px;border-left:2px solid var(--c);margin-left:6px;padding-left:14px}
+    .leaves{padding-top:8px;margin-top:6px}
+    .leaf{padding-top:0;margin:8px 0 0 14px;border-left:2px solid var(--c);padding-left:12px}
+    .branch-box,.leaf-box{min-width:0;max-width:none;text-align:left}
+  }
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px 22px;margin-top:18px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--blue)}
 </style>`;
 
-function card({ name, blurb, host, clickable, sameBoth }) {
+// One LEAF node = a service. Clickable anchor (alpha, or same-both) or a static "coming soon" box (mainnet).
+function leaf({ name, blurb, host, clickable, sameBoth }) {
   const url = httpsUrl(host);
   const pill = sameBoth
     ? '<span class="pill same" title="No separate alpha — same host on both nets">same both nets</span>'
@@ -152,48 +219,59 @@ function card({ name, blurb, host, clickable, sameBoth }) {
   const inner = `<div class=nm>${esc(name)}${pill}</div>
     <div class=bl>${esc(blurb)}</div>
     <span class=u>${clickable ? esc(url) + ' →' : esc(host) + (sameBoth ? '' : ' · coming soon')}</span>`;
-  return clickable
-    ? `<a class=card href="${esc(url)}" rel="noopener" target=_blank>${inner}</a>`
-    : `<div class="card soon">${inner}</div>`;
+  const box = clickable
+    ? `<a class="leaf-box node-box" href="${esc(url)}" rel="noopener" target=_blank>${inner}</a>`
+    : `<div class="leaf-box node-box soon">${inner}</div>`;
+  return `<div class=leaf>${box}</div>`;
 }
 
-// Render one net section (alpha or mainnet), grouped by category.
-function netSection(which) {
+// One BRANCH = a chain family + the leaves that hang under it, for the given net.
+function branch(family, isAlpha) {
+  const fam = FAMILIES[family] || { tagline: '' };
+  const svcs = SERVICES.filter((s) => s.family === family);
+  const leaves = svcs.map((s) => {
+    const r = resolve(s);
+    return isAlpha
+      ? leaf({ name: s.name, blurb: s.blurb, host: r.alphaHost, clickable: true, sameBoth: r.sameBoth })
+      // MainNet: future host; clickable only when it's the same host on both nets (already live).
+      : leaf({ name: s.name, blurb: s.blurb, host: r.mainnetHost, clickable: r.sameBoth, sameBoth: r.sameBoth });
+  }).join('');
+  return `<div class=branch>
+    <div class="node-box branch-box"><div class=fam>${esc(family)}</div><div class=ft>${esc(fam.tagline)}</div></div>
+    <div class=leaves>${leaves}</div>
+  </div>`;
+}
+
+// Render one full family tree (root → three families → service leaves) for one net.
+function netTree(which) {
   const isAlpha = which === 'alpha';
-  let body = '';
-  for (const cat of CATEGORY_ORDER) {
-    const svcs = SERVICES.filter((s) => s.category === cat);
-    if (!svcs.length) continue;
-    const cards = svcs.map((s) => {
-      const r = resolve(s);
-      if (isAlpha) {
-        // Alpha section: real live host, clickable.
-        return card({ name: s.name, blurb: s.blurb, host: r.alphaHost, clickable: true, sameBoth: r.sameBoth });
-      }
-      // MainNet section: future host. Clickable ONLY if it's the same host on both nets (already live).
-      return card({ name: s.name, blurb: s.blurb, host: r.mainnetHost, clickable: r.sameBoth, sameBoth: r.sameBoth });
-    }).join('');
-    body += `<div class=cat>${esc(cat)}</div><div class=grid>${cards}</div>`;
-  }
+  const branches = FAMILY_ORDER.map((f) => branch(f, isAlpha)).join('');
+  const tree = `<div class=tree>
+    <div class="node root-node"><div class="node-box root-box"><div class=fam>${esc(SITE_NAME)}</div>
+      <div class=ft>The ecosystem root</div></div></div>
+    <div class=row>${branches}</div>
+  </div>`;
   if (isAlpha) {
     return `<section class="net alpha-net" id=alpha>
       <div class=net-head><h2>Alpha</h2><span class="tag live">live · testnet</span>
-        <span class=nh-sub>Everything below is running now on the testnet. Links are live.</span></div>
-      ${body}</section>`;
+        <span class=nh-sub>The live testnet family tree. Every leaf is a working link.</span></div>
+      ${tree}</section>`;
   }
   return `<section class="net mainnet-net" id=mainnet>
     <div class=net-head><h2>MainNet</h2><span class="tag soon">coming soon</span>
-      <span class=nh-sub>The same surfaces at their production URLs — drop the <code>alpha.</code> label. Not live yet.</span></div>
-    ${body}</section>`;
+      <span class=nh-sub>The same family tree at production URLs — drop the <code>alpha.</code> label. Not live yet.</span></div>
+    ${tree}</section>`;
 }
 
 export function homePage() {
   const body = `<h1>${esc(ECOSYSTEM)}</h1>
-    <p class=lede>The map of the ecosystem. Every surface lives at a uniform address: the testnet sits under
-      <b>alpha.</b> and mainnet is the same name with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon.</p>
-    ${netSection('alpha')}
-    ${netSection('mainnet')}`;
-  return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem map`, body);
+    <p class=lede>The family tree of the ecosystem. The <b>${esc(SITE_NAME)}</b> root branches into three chain
+      families — <b>MELEK</b>, <b>PRANA</b> and <b>KULA</b> — and every surface hangs as a leaf beneath its family.
+      The testnet tree sits under <b>alpha.</b>; mainnet is the same tree with <b>alpha.</b> dropped. Alpha is live
+      now; MainNet is coming soon.</p>
+    ${netTree('alpha')}
+    ${netTree('mainnet')}`;
+  return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
 }
 
 function page(title, body) {
