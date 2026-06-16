@@ -15,6 +15,7 @@ import { config, genesis } from '../config.mjs';
 import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
 import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
+import { workerbee } from '../contracts/workerbee.mjs';
 
 // The MELEK-Engine wallet + payouts viewer. Self-contained, no build, read-only. Shows YOUR token
 // balances and the payouts for the tokens of YOUR choosing (a watchlist). Uses textContent only.
@@ -277,6 +278,43 @@ export function makeHandler(state, opts = {}) {
         return send(res, 200, rows);
       }
 
+      // --- WorkerBee issuance lottery (read-only) ---
+      // The block to evaluate "pending"/"emission now" at: ?block=N, default the
+      // engine's last processed L1 block (so views match the live schedule).
+      const wbBlock = (() => {
+        const b = Number(q.get('block'));
+        return Number.isInteger(b) && b > 0 ? b : (state.meta.lastBlock || 0);
+      })();
+      const wbCtx = (sender) => ({ sender, blockNum: wbBlock, blockId: state.meta.lastBlockId, txId: 'view', authLevel: 'posting' });
+
+      // GET /contracts/workerbee  -> the fixed emission schedule + totals
+      if (path === '/contracts/workerbee' || path === '/api/workerbee') {
+        return send(res, 200, workerbee.emissionInfo(state, wbCtx('view')));
+      }
+      // GET /contracts/workerbee/apishash?account=x -> soulbound mining power
+      if (path === '/contracts/workerbee/apishash' || path === '/api/workerbee/apishash') {
+        const account = q.get('account');
+        if (!account) return send(res, 400, { error: 'account required' });
+        return send(res, 200, workerbee.apisHashOf(state, wbCtx(account), { account }));
+      }
+      // GET /contracts/workerbee/total -> total APIS-Hash locked
+      if (path === '/contracts/workerbee/total' || path === '/api/workerbee/total') {
+        return send(res, 200, workerbee.totalApisHash(state));
+      }
+      // GET /contracts/workerbee/pending?account=x -> accrued-but-unclaimed APIS
+      if (path === '/contracts/workerbee/pending' || path === '/api/workerbee/pending') {
+        const account = q.get('account');
+        if (!account) return send(res, 400, { error: 'account required' });
+        return send(res, 200, workerbee.apisHashPending(state, wbCtx(account), { account }));
+      }
+      // GET /contracts/workerbee/locks[?account=x] -> the permanent-lock log
+      if (path === '/contracts/workerbee/locks' || path === '/api/workerbee/locks') {
+        const account = q.get('account');
+        let rows = state.collection('workerbeeLocks');
+        if (account) rows = rows.filter((r) => r.account === account);
+        return send(res, 200, rows.slice(-200));
+      }
+
       // GET /contracts/history?account=x  -> processed ops touching account
       if (path === '/contracts/history' || path === '/api/history') {
         const account = q.get('account');
@@ -301,6 +339,12 @@ export function makeHandler(state, opts = {}) {
             result = state.find('tokens', normSymbol(query)).map(tokenView);
           } else if (contract === 'tokens' && table === 'balances') {
             result = state.find('balances', normSymbol(query)).map((b) => balanceView(state, b));
+          } else if (contract === 'workerbee' && table === 'miners') {
+            result = state.find('workerbeeMiners', query);
+          } else if (contract === 'workerbee' && table === 'pool') {
+            result = state.find('workerbeePool', query);
+          } else if (contract === 'workerbee' && table === 'locks') {
+            result = state.find('workerbeeLocks', query);
           }
           return send(res, 200, { jsonrpc: '2.0', result, id });
         });

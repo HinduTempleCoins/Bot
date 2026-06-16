@@ -148,6 +148,7 @@ export async function streamRange(engine, fromBlock, toBlock, { onBlock } = {}) 
     if (typeof engine.processSocial === 'function') {
       for (const s of extractSocialOps(block, n)) engine.processSocial(s);
       if (typeof engine.crankPayouts === 'function') engine.crankPayouts({ blockNum: n, blockId: block.block_id, txId: `${n}-crank` });
+      if (typeof engine.crankWorkerbee === 'function') engine.crankWorkerbee({ blockNum: n, blockId: block.block_id, txId: `${n}-wb` });
     }
     const hash = engine.commitBlock(n, block.block_id, true);
     if (onBlock) onBlock(n, ops.length, hash);
