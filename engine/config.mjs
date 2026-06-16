@@ -48,6 +48,27 @@ export const config = {
   // --- state ---
   stateFile: process.env.MELEK_ENGINE_STATE || './data/engine/state.json',
 
+  // --- WorkerBee issuance lottery (the BeeSwarm equivalent) ---
+  // Forever-lock the stake token -> mint soulbound APIS-Hash (mining power) ->
+  // APIS-Hash mines APIS on a FIXED scheduled emission split by stake share.
+  // NOT inflationary: more APIS-Hash just splits the same scheduled pie.
+  // The canonical pure math lives in kulaswap/apis-workerbee.mjs; this contract
+  // is the engine-side, BigInt, deterministic-replay realisation of it.
+  workerbee: {
+    // The L1-pegged token that is forever-locked to earn mining power. On the
+    // engine this is the wrapped-MELEK side token (wMELEK). It must be a
+    // registered engine token before foreverLock can pull it. Tunable.
+    stakeToken: process.env.MELEK_ENGINE_STAKE_TOKEN || 'WMELEK',
+    // Fixed scheduled emission: whole APIS minted per day across ALL APIS-Hash,
+    // split pro-rata by share. Default mirrors apis-workerbee.mjs.
+    emissionPerDay: Number(process.env.MELEK_ENGINE_WB_EMISSION_PER_DAY || 1000),
+    // Emission halves every `halvingDays` days (BEE-style decay). 0 = no halving.
+    halvingDays: Number(process.env.MELEK_ENGINE_WB_HALVING_DAYS || 365),
+    // L1 blocks per day. MELEK (Blurt/Steem lineage) = 3s blocks => 28800/day.
+    // Emission is scheduled in blocks, so we convert per-day -> per-block here.
+    blocksPerDay: Number(process.env.MELEK_ENGINE_WB_BLOCKS_PER_DAY || 28800),
+  },
+
   // --- the two PRANA DEX seams (security study §7), gated OFF here ---
   // No DEX on our side. These declare the registered, revocable capability
   // accounts the future PRANA DEX / peg gateway will plug into. Disabled until

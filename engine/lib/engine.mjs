@@ -20,6 +20,7 @@
 
 import { tokens } from '../contracts/tokens.mjs';
 import { rewards, recordPostTags, tribesForPost } from '../contracts/rewards.mjs';
+import { workerbee } from '../contracts/workerbee.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
@@ -28,6 +29,7 @@ import { burnFee } from '../contracts/tokens.mjs';
 const CONTRACTS = {
   tokens,
   rewards,
+  workerbee,
   gateway,
   dexSettlement,
 };
@@ -46,6 +48,12 @@ const ACTIVE_REQUIRED = new Set([
   // independent of the caller). This mirrors Scotbot's auth split.
   'rewards.setReward',
   'rewards.disableReward',
+  // workerbee: forever-locking the stake token moves value (it is a permanent
+  // commitment of the staked token), so it needs ACTIVE. `tick`/`runLottery`/
+  // `claim` accept POSTING: tick is an idempotent crank anyone may turn (its
+  // result is independent of the caller), and claim only mints the sender's own
+  // already-accrued APIS. (Mirrors the rewards.payout/vote auth split.)
+  'workerbee.foreverLock',
   'gateway.deposit',
   'gateway.withdraw',
   'dexSettlement.settle',
@@ -174,6 +182,16 @@ export class Engine {
       try { rewards.payout(this.state, { sender: 'engine', authLevel: 'posting', ...ctx }, { symbol: rule.symbol }); }
       catch { /* soft-fail */ }
     }
+  }
+
+  /**
+   * Advance the WorkerBee issuance lottery one step at the end of each L1 block
+   * (idempotent within a block; emits ONLY the elapsed scheduled emission split
+   * by APIS-Hash share). Anyone-can-turn deterministic crank.
+   */
+  crankWorkerbee(ctx) {
+    try { workerbee.tick(this.state, { sender: 'engine', authLevel: 'posting', ...ctx }); }
+    catch { /* soft-fail-never-throw */ }
   }
 
   /** Mark an L1 block as fully processed and (optionally) persist + hash. */
