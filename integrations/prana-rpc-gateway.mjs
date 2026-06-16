@@ -20,12 +20,21 @@ const PORT = +(process.env.PORT || process.env.PRANA_GATEWAY_PORT || 8547);
 // broadcasting a client-signed transaction works; signing itself never happens on the node.
 const ALLOW = /^(eth|net|web3)_[a-zA-Z0-9_]+$/;
 
+// Even WITHIN eth_, these act on the NODE's own (possibly unlocked) accounts rather than the
+// client's local keys: eth_sign / eth_signTypedData* / eth_signTransaction / eth_sendTransaction
+// (node-side signing) and eth_accounts (enumerates node accounts). A client wallet signs locally
+// and broadcasts via eth_sendRawTransaction, so it never needs these — deny them so a public
+// caller can't sign/send from or enumerate the node's accounts. (eth_sendRawTransaction does NOT
+// match `eth_sendTransaction` and stays allowed.)
+const DENY = /^eth_(sign|sendTransaction|accounts)/;
+
 let _fetch = (...a) => globalThis.fetch(...a);
 /** Test hook — inject fetch; pass nothing to restore the global. */
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
 
-/** True iff `m` is a method we forward to the node (eth_/net_/web3_ only). */
-export function isAllowedMethod(m) { return typeof m === 'string' && ALLOW.test(m); }
+/** True iff `m` is forwarded to the node: an eth_/net_/web3_ method that is NOT a node-side
+ *  signing/account method (eth_sign*, eth_signTransaction, eth_sendTransaction, eth_accounts). */
+export function isAllowedMethod(m) { return typeof m === 'string' && ALLOW.test(m) && !DENY.test(m); }
 
 const rpcErr = (id, message, code = -32601) => ({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
 const CORS = {
