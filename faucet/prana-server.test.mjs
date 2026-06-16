@@ -83,7 +83,7 @@ test('GET / serves the faucet page', async () => {
   await handler(mockReq('GET', '/'), res);
   assert.equal(res.code, 200);
   assert.match(res.body, /PRANA Faucet/);
-  assert.match(res.body, /rpc\.prana\.melek\.salon/);
+  assert.match(res.body, /rpc\.prana\.alpha\.melek\.salon/); // canonical X.alpha.{base}
 });
 
 test('POST /api/drip with a bad address returns 400 ok:false', async () => {
