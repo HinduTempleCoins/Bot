@@ -1,0 +1,167 @@
+// bridge-relayer.test.mjs — offline tests for the MELEK->PRANA relayer logic (BI8).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  isPranaAddress, scaleAmount, parseDestination, parseDepositIntent, deriveDeposit,
+  scanDeposits, isFinal, attestationCall, planAttestation, parseWithdrawal, planRelease,
+  relayerManifest,
+} from './bridge-relayer.mjs';
+
+const ADDR = '0x1234567890abcdef1234567890abcdef12345678';
+const CUSTODY = 'melek-bridge';
+
+test('isPranaAddress accepts only 0x+40hex', () => {
+  assert.equal(isPranaAddress(ADDR), true);
+  assert.equal(isPranaAddress('0x1234'), false);
+  assert.equal(isPranaAddress('1234567890abcdef1234567890abcdef12345678'), false);
+  assert.equal(isPranaAddress(null), false);
+  assert.equal(isPranaAddress(ADDR + 'ff'), false);
+});
+
+test('scaleAmount converts 3->18 decimals 1:1 with no float loss', () => {
+  assert.equal(scaleAmount('1.234'), '1234000000000000000');
+  assert.equal(scaleAmount('1'), '1000000000000000000');
+  assert.equal(scaleAmount('0.001'), '1000000000000000');
+  assert.equal(scaleAmount('1000000.5'), '1000000500000000000000000');
+  assert.equal(scaleAmount('0'), '0');
+});
+
+test('scaleAmount rejects garbage and lossy down-scaling', () => {
+  assert.equal(scaleAmount('abc'), null);
+  assert.equal(scaleAmount(''), null);
+  assert.equal(scaleAmount(null), null);
+  assert.equal(scaleAmount('1.5', 18, 3), null); // refuse lossy direction
+});
+
+test('parseDestination reads memo and custom_json; rejects bad/missing dst', () => {
+  assert.deepEqual(parseDestination({ memo: ADDR }), { ok: true, recipient: ADDR, tokenId: undefined });
+  assert.equal(parseDestination({ memo: `send ${ADDR} TOKEN=MELEK now` }).tokenId, 'MELEK');
+  assert.deepEqual(
+    parseDestination({ json: { dst: ADDR, token: 'GOLD' } }),
+    { ok: true, recipient: ADDR, tokenId: 'GOLD' },
+  );
+  assert.equal(parseDestination({ json: JSON.stringify({ to: ADDR }) }).recipient, ADDR);
+  assert.equal(parseDestination({ memo: 'no address here' }).ok, false);
+  assert.equal(parseDestination({ memo: '0xdeadbeef' }).ok, false); // too short -> invalid
+});
+
+test('parseDepositIntent: transfer with memo destination', () => {
+  const r = parseDepositIntent({ type: 'transfer', payload: { to: CUSTODY, amount: '2.500 MELEK', memo: ADDR } });
+  assert.equal(r.ok, true);
+  assert.equal(r.source, 'transfer');
+  assert.equal(r.recipient, ADDR);
+  assert.equal(r.amount, '2500000000000000000');
+  assert.equal(r.asset, 'MELEK');
+});
+
+test('parseDepositIntent: custom_json deposit op', () => {
+  const r = parseDepositIntent({
+    type: 'custom_json',
+    payload: { json: JSON.stringify({ dst: ADDR, symbol: 'MELEK', amount: '10', custody: CUSTODY }) },
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.source, 'custom_json');
+  assert.equal(r.amount, '10000000000000000000');
+  assert.equal(r.tokenId, 'MELEK');
+});
+
+test('parseDepositIntent rejects unsupported ops and bad amounts', () => {
+  assert.equal(parseDepositIntent({ type: 'vote', payload: {} }).ok, false);
+  assert.equal(parseDepositIntent({ type: 'transfer', payload: { to: CUSTODY, amount: 'lots MELEK', memo: ADDR } }).ok, false);
+  assert.equal(parseDepositIntent(null).ok, false);
+});
+
+test('deriveDeposit binds custody + depositRef and rejects wrong custody', () => {
+  const entry = { trxId: 'abc123', blockNum: 100, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } };
+  const r = deriveDeposit(entry, { custodyAccount: CUSTODY });
+  assert.equal(r.ok, true);
+  assert.equal(r.deposit.depositRef, 'abc123');
+  assert.equal(r.deposit.tokenId, 'MELEK');
+  assert.equal(r.deposit.recipient, ADDR);
+  assert.equal(r.deposit.amount, '1000000000000000000');
+
+  const wrong = deriveDeposit({ ...entry, op: { type: 'transfer', payload: { to: 'someone-else', amount: '1.000 MELEK', memo: ADDR } } }, { custodyAccount: CUSTODY });
+  assert.equal(wrong.ok, false);
+  assert.match(wrong.reason, /custody/);
+});
+
+test('deriveDeposit requires a depositRef and a tokenId', () => {
+  assert.equal(deriveDeposit({ blockNum: 1, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } }, { custodyAccount: CUSTODY }).ok, false);
+  // transfer asset supplies tokenId, so to test the missing-token path use a custom_json with no symbol/token
+  const noTok = deriveDeposit(
+    { trxId: 'x', blockNum: 1, op: { type: 'custom_json', payload: { json: { dst: ADDR, amount: '1', custody: CUSTODY } } } },
+    { custodyAccount: CUSTODY },
+  );
+  assert.equal(noTok.ok, false);
+  assert.match(noTok.reason, /token/);
+});
+
+test('scanDeposits splits valid deposits from skips', () => {
+  const hist = [
+    { trxId: 't1', blockNum: 10, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } },
+    { trxId: 't2', blockNum: 11, op: { type: 'vote', payload: {} } },
+    { trxId: 't3', blockNum: 12, op: { type: 'transfer', payload: { to: 'nope', amount: '1.000 MELEK', memo: ADDR } } },
+  ];
+  const { deposits, skipped } = scanDeposits(hist, { custodyAccount: CUSTODY });
+  assert.equal(deposits.length, 1);
+  assert.equal(deposits[0].depositRef, 't1');
+  assert.equal(skipped.length, 2);
+  assert.equal(scanDeposits(null, {}).deposits.length, 0);
+});
+
+test('isFinal enforces the confirmation depth', () => {
+  assert.equal(isFinal({ blockNum: 100 }, 119, 20), false);
+  assert.equal(isFinal({ blockNum: 100 }, 120, 20), true);
+  assert.equal(isFinal({ blockNum: 0 }, 100, 20), false);
+  assert.equal(isFinal({}, 100, 20), false);
+});
+
+test('attestationCall is an unsigned descriptor with the right args', () => {
+  const c = attestationCall({ depositRef: 'r', tokenId: 'MELEK', recipient: ADDR, amount: '5' });
+  assert.equal(c.method, 'attestDeposit');
+  assert.equal(c.unsigned, true);
+  assert.deepEqual(c.args, ['r', 'MELEK', ADDR, '5']);
+});
+
+test('planAttestation: idempotency + replay + mismatch', () => {
+  const dep = { depositRef: 'r', tokenId: 'MELEK', recipient: ADDR, amount: '5' };
+  assert.equal(planAttestation(dep, {}).action, 'attest');
+  assert.equal(planAttestation(dep, { processed: true }).action, 'skip');
+  assert.equal(planAttestation(dep, { attestedByMe: true }).action, 'skip');
+  // same tuple already fixed -> still attest (we agree)
+  assert.equal(planAttestation(dep, { fixedTuple: { tokenId: 'MELEK', recipient: ADDR.toUpperCase(), amount: '5' } }).action, 'attest');
+  // different tuple fixed -> mismatch
+  assert.equal(planAttestation(dep, { fixedTuple: { tokenId: 'MELEK', recipient: ADDR, amount: '6' } }).action, 'mismatch');
+  assert.equal(planAttestation(null, {}).action, 'skip');
+});
+
+test('parseWithdrawal handles object and array event args', () => {
+  const obj = parseWithdrawal({ args: { nonce: 7, tokenId: 'MELEK', from: ADDR, amount: '5', destinationRef: 'melek-user' } });
+  assert.equal(obj.ok, true);
+  assert.equal(obj.nonce, '7');
+  assert.equal(obj.destinationRef, 'melek-user');
+  const arr = parseWithdrawal([7, 'MELEK', ADDR, '0xwrapped', '5', 'melek-user']);
+  assert.equal(arr.ok, true);
+  assert.equal(arr.amount, '5');
+  assert.equal(parseWithdrawal({ args: { tokenId: 'x' } }).ok, false);
+});
+
+test('planRelease is once-per-nonce and waits for confirmation', () => {
+  const ev = { args: { nonce: 9, tokenId: 'MELEK', from: ADDR, amount: '5', destinationRef: 'melek-user' } };
+  const ok = planRelease(ev, { confirmed: true });
+  assert.equal(ok.action, 'release');
+  assert.equal(ok.intent.to, 'melek-user');
+  assert.equal(ok.intent.replayKey, 'prana-withdrawal-nonce:9');
+  assert.equal(ok.intent.unsigned, true);
+  assert.equal(planRelease(ev, { confirmed: false }).action, 'skip');
+  assert.equal(planRelease(ev, { releasedNonces: ['9'] }).action, 'skip');
+  assert.equal(planRelease(ev, { releasedNonces: new Set(['9']) }).action, 'skip');
+});
+
+test('relayerManifest exposes env names + boundary, no secrets', () => {
+  const m = relayerManifest();
+  assert.equal(m.env.melekRpc.name, 'MELEK_RPC_URL');
+  assert.equal(m.env.bridgeAddress.name, 'GRAPHENE_BRIDGE_ADDRESS');
+  assert.match(m.boundary, /SIGNS nothing/);
+  assert.equal(typeof m.live, 'boolean');
+});
