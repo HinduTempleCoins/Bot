@@ -35,9 +35,17 @@ export const LAYOUT = [
     match: ['chain-status', 'witness-hathor', 'signup-help', 'tutorial', 'melek', 'testnet', 'blockchain', 'witness'],
   },
   {
+    // The bots'/AIs' market brain — each channel is where a bot posts what it sees and humans
+    // discuss it (with screenshots) per operator 2026-06-14. Crypto + metals + equities + futures.
+    category: '📈 TRADE & MARKETS',
+    create: ['trade-signals', 'arbitrage', 'markets-crypto', 'markets-metals', 'markets-stocks-bonds', 'futures-commodities', 'what-ifs'],
+    match: ['trade-signals', 'arbitrage', 'arb', 'markets-crypto', 'markets-metals', 'metals', 'gold-silver', 'markets-stocks-bonds', 'stocks', 'bonds', 'futures-commodities', 'futures', 'what-ifs', 'hive-engine'],
+  },
+  {
+    // SoapBox subdomain "brains" — one channel per vertical for humans to read + talk about on MELEK.
     category: '🧼 SOAPBOX',
-    create: ['markets', 'data-feeds', 'directory'],
-    match: ['markets', 'data-feeds', 'directory', 'soapbox', 'crypto', 'trading', 'prices'],
+    create: ['markets', 'data-feeds', 'directory', 'law', 'politics', 'oversight', 'hemp'],
+    match: ['markets', 'data-feeds', 'directory', 'soapbox', 'crypto', 'trading', 'prices', 'law', 'politics', 'oversight', 'hemp', 'search', 'wiki'],
   },
   {
     category: '⛏️ MINING POOL',
