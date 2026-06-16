@@ -48,8 +48,12 @@ export function applyCurve(curve, w) {
  */
 export function tribeEarning(rule, w = {}) {
   const symbol = String(rule.symbol || '').toUpperCase();
-  const emission = num(rule.emission);
-  const authorPct = rule.authorPct != null ? Math.min(100, Math.max(0, Number(rule.authorPct))) : 50;
+  // accept both the projector's shape (emission/authorPct) and the live engine's
+  // tribe shape (emissionPerWindow / authorBps), so the same code drives tests + prod.
+  const emission = num(rule.emission != null ? rule.emission : rule.emissionPerWindow);
+  const authorPct = rule.authorPct != null
+    ? Math.min(100, Math.max(0, Number(rule.authorPct)))
+    : (rule.authorBps != null ? Math.min(100, Math.max(0, Number(rule.authorBps) / 100)) : 50);
   const pw = applyCurve(rule.curve, w.postWeight);
   // windowTotalWeight should already be curve-applied across all posts; never let share exceed 1.
   const tot = Math.max(pw, num(w.windowTotalWeight));
@@ -88,8 +92,8 @@ async function getJson(url) {
 export async function projectPostEarnings(post = {}, { engineApi } = {}) {
   const base = String(engineApi || '').replace(/\/$/, '');
   if (!base || !post.author || !post.permlink) return earningsForPost({ post, rules: [], weights: {} });
-  // 1) all reward rules (tribes)
-  const rulesResp = await getJson(`${base}/contracts/rewards`);
+  // 1) all reward rules (tribes) — the live engine serves these at /contracts/tribes
+  const rulesResp = await getJson(`${base}/contracts/tribes`);
   const rules = (rulesResp && (rulesResp.rules || rulesResp.result || rulesResp)) || [];
   const list = Array.isArray(rules) ? rules : [];
   // 2) per-tribe payout context for this post (emitted+pending + window totals), per matched tribe
@@ -98,12 +102,15 @@ export async function projectPostEarnings(post = {}, { engineApi } = {}) {
   for (const r of matched) {
     const sym = String(r.symbol).toUpperCase();
     const pr = await getJson(`${base}/contracts/payouts?symbol=${encodeURIComponent(sym)}`);
-    const posts = (pr && (pr.posts || pr.result)) || [];
+    // live engine returns a BARE array; tests/other shapes use {posts}/{result}.
+    const posts = Array.isArray(pr) ? pr : ((pr && (pr.posts || pr.result)) || []);
     const mine = (Array.isArray(posts) ? posts : []).find(
       (p) => p && p.author === post.author && p.permlink === post.permlink,
     );
-    const total = (Array.isArray(posts) ? posts : []).reduce((s, p) => s + num(p && (p.weight ?? p.rshares)), 0);
-    weights[sym] = { postWeight: num(mine && (mine.weight ?? mine.rshares)), windowTotalWeight: total };
+    // the live engine names the per-post weight `rewardWeight`; tests use `weight`/`rshares`.
+    const pw = (p) => num(p && (p.weight ?? p.rewardWeight ?? p.rshares));
+    const total = (Array.isArray(posts) ? posts : []).reduce((s, p) => s + pw(p), 0);
+    weights[sym] = { postWeight: pw(mine), windowTotalWeight: total };
   }
   return earningsForPost({ post, rules: list, weights });
 }
