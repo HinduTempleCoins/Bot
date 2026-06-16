@@ -16,6 +16,8 @@
 // House style: pure arithmetic, soft-fail to safe shapes, NEVER throws. No network, no deps. Mirrors
 // kula-farm.mjs / cp-amm.mjs. The CDP econ side; the burn/PoL sinks live in kula-econ.mjs (separate).
 
+import { renderTvlBadge } from './kula-price-tvl.mjs'; // native-unit TVL badge (AMM-relative; no USD)
+
 const nn = (x) => { const v = +x; return Number.isFinite(v) && v >= 0 ? v : 0; };
 const round = (x, d = 8) => { const f = +(+x).toFixed(d); return Number.isFinite(f) ? f : 0; };
 
@@ -175,6 +177,10 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
  * to hand the descriptor to the wallet. PURE: computes the figures from the same helpers above so the
  * preview matches what the chain will enforce. `onBorrow` is the name of a global JS fn the host page
  * defines to receive the descriptor (default 'kulaCdpBorrow').
+ *
+ * `tvl` is OPTIONAL and ADDITIVE: pass { lockedKula, lockedWmelek, positions, priceKulaInWmelek } and a
+ * native-unit Total-Value-Locked badge (from kula-price-tvl.mjs) is rendered at the top. Omitted (the
+ * default) → no badge, so existing callers/tests are unaffected.
  */
 export function renderLendFragment({
   collateralKula = 0,
@@ -184,6 +190,7 @@ export function renderLendFragment({
   liqRatio = DEFAULT_CDP.liqRatio,
   debtMelek = 0,
   onBorrow = 'kulaCdpBorrow',
+  tvl = null,
 } = {}) {
   const col = nn(collateralKula);
   const borrowable = maxBorrow({ collateralKula: col, kulaPrice, melekPrice, maxLtv });
@@ -195,8 +202,15 @@ export function renderLendFragment({
   const hfClass = hf === Infinity || hf >= 1.5 ? 'ok' : hf >= 1 ? 'warn' : 'bad';
   const fn = esc(onBorrow);
 
+  // Optional TVL badge at the top (native units, AMM-relative — no fake USD). Soft: skip on bad input.
+  let tvlBadge = '';
+  if (tvl && typeof tvl === 'object') {
+    try { tvlBadge = renderTvlBadge(tvl); } catch { tvlBadge = ''; }
+  }
+
   return [
     '<div class="kula-cdp" data-kula-cdp>',
+    tvlBadge,
     '<h3>Borrow wMELEK against KULA</h3>',
     '<p class="cdp-sub">Lock KULA collateral, borrow wMELEK up to ',
     esc((maxLtv * 100).toFixed(0)), '% LTV. Repay to unlock. Locked KULA leaves circulation.</p>',
