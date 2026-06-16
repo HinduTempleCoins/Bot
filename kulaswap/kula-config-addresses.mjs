@@ -8,6 +8,14 @@
 // Market 2 vault locks wMELEK / MINTS ALTI (via the ALTI MINTER_ROLE). The Market-2 vault address is a
 // PLACEHOLDER (zero) until the CDPVaultV2(wMELEK→ALTI) is deployed and the operator fills it in — the
 // UI must treat a zero vault as "not yet live" and refuse to build a borrow tx against it.
+//
+// NET SWITCH (testnet ↔ mainnet): these are TESTNET addresses. Mainnet rollout is the SAME code on new
+// servers with a mainnet config — see TESTNET_TO_MAINNET.md. The engine-side single switch is `NET`
+// (testnet|mainnet) in engine/config.mjs (derives chain id / prefix / symbols / domains / the wMELEK
+// bridge-only flag). On the front end, swap these addresses for the mainnet deploys via
+// window.__KULA_ADDR__ (and the `prana` entry in kula-config.mjs via window.__KULA__) — no rebuild.
+// wMELEK below is the PRANA WrappedEcosystemToken (tokenId keccak("MELEK")); on BOTH nets it is
+// bridge-only mint/burn — its supply == MELEK locked in the GrapheneDepositBridge.
 
 const ov = (typeof window !== 'undefined' && window.__KULA_ADDR__) || {};
 const Z = '0x0000000000000000000000000000000000000000';

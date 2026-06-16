@@ -12,7 +12,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { config, genesis } from '../config.mjs';
+import { config, genesis, domain, NET, NET_PRESETS } from '../config.mjs';
 
 test('config exports a populated object with the core knobs', () => {
   assert.equal(typeof config, 'object');
@@ -55,6 +55,39 @@ test('both PRANA DEX seams are present but gated OFF (inert)', () => {
   // empty edge case: no accounts registered until PRANA exists
   assert.deepEqual(config.seams.gateway.registeredAccounts, []);
   assert.deepEqual(config.seams.dexSettlement.registeredAccounts, []);
+});
+
+test('net selector: NET defaults to testnet and drives the preset values', () => {
+  // default import-time NET is testnet (no NET env set in the offline suite)
+  assert.equal(NET, 'testnet');
+  assert.equal(config.net, 'testnet');
+  assert.equal(config.addressPrefix, 'TST');
+  assert.equal(config.coinSymbol, 'TESTS');
+  assert.equal(config.backedSymbol, 'TBD');
+});
+
+test('net presets: mainnet drops the alpha. infix and forbids free wMELEK issue', () => {
+  assert.equal(NET_PRESETS.mainnet.addressPrefix, 'MELEK');
+  assert.equal(NET_PRESETS.mainnet.coinSymbol, 'MELEK');
+  assert.equal(NET_PRESETS.mainnet.backedSymbol, 'MBD');
+  assert.equal(NET_PRESETS.mainnet.alphaInfix, '');
+  // THE INVARIANT switch: mainnet MUST forbid free issuance.
+  assert.equal(NET_PRESETS.mainnet.allowTestnetFreeIssue, false);
+  // testnet keeps the convenience on.
+  assert.equal(NET_PRESETS.testnet.allowTestnetFreeIssue, true);
+});
+
+test('bridge config block is present with account + wrapped symbol', () => {
+  assert.equal(typeof config.bridge, 'object');
+  assert.ok(config.bridge.account.length > 0);
+  assert.equal(config.bridge.wrappedSymbol, 'WMELEK');
+  assert.equal(typeof config.bridge.allowTestnetFreeIssue, 'boolean');
+});
+
+test('domain(): testnet keeps the alpha. infix, derived from DOMAIN_BASE', () => {
+  // default (testnet) -> X.alpha.soapbox.community
+  assert.equal(domain('engine'), 'engine.alpha.soapbox.community');
+  assert.equal(domain('tokens'), 'tokens.alpha.soapbox.community');
 });
 
 test('genesis declares the APIS fee token and DRONE miner token', () => {
