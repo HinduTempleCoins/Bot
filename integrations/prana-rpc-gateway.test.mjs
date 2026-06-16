@@ -25,6 +25,15 @@ test('isAllowedMethod: eth/net/web3 allowed, admin namespaces blocked', () => {
   }
 });
 
+test('isAllowedMethod: node-side signing/account methods are denied even within eth_', () => {
+  // these operate on the NODE's accounts; a client wallet never needs them
+  for (const m of ['eth_sign', 'eth_signTransaction', 'eth_signTypedData', 'eth_signTypedData_v4', 'eth_sendTransaction', 'eth_accounts']) {
+    assert.equal(isAllowedMethod(m), false, m);
+  }
+  // ...but broadcasting a client-signed tx stays allowed (not eth_sendTransaction)
+  assert.equal(isAllowedMethod('eth_sendRawTransaction'), true);
+});
+
 test('handleRpc: forwards an allowed single call to the node', async () => {
   let sawBody = null;
   __setFetch(async (url, opts) => { sawBody = JSON.parse(opts.body); return { ok: true, json: async () => ({ jsonrpc: '2.0', id: 1, result: '0x1a751' }) }; });
