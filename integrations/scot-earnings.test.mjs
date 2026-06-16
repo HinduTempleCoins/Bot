@@ -75,7 +75,7 @@ test('projectPostEarnings: fetch-based, soft-fails clean on no engineApi', async
 
 test('projectPostEarnings: pulls rules + payouts from injected engine API', async () => {
   __setFetch(async (url) => {
-    if (url.includes('/contracts/rewards')) {
+    if (url.includes('/contracts/tribes')) {
       return { ok: true, json: async () => ({ rules: RULES }) };
     }
     if (url.includes('/contracts/payouts')) {
@@ -95,4 +95,31 @@ test('projectPostEarnings: pulls rules + payouts from injected engine API', asyn
   assert.equal(alpha.share, 0.25); // 250 / (250+750)
   assert.equal(alpha.total, 250);
   assert.equal(alpha.author, 150);
+});
+
+test('projectPostEarnings: maps the LIVE engine shape (emissionPerWindow/authorBps/rewardWeight)', async () => {
+  // exactly what engine.alpha.melek.salon returns: tribes as a bare array, string fields
+  __setFetch(async (url) => {
+    if (url.includes('/contracts/tribes')) {
+      return { ok: true, json: async () => ([
+        { symbol: 'SCROLL', tag: 'scroll', enabled: true, emissionPerWindow: '100000', authorBps: 5000, curve: 'linear' },
+      ]) };
+    }
+    if (url.includes('/contracts/payouts')) {
+      return { ok: true, json: async () => ([
+        { author: 'vrhathor', permlink: 'p', rewardWeight: '1000000', paid: true },
+        { author: 'someone', permlink: 'q', rewardWeight: '3000000' },
+      ]) };
+    }
+    return { ok: false, json: async () => ({}) };
+  });
+  const r = await projectPostEarnings({ author: 'vrhathor', permlink: 'p', tags: ['scroll'] }, { engineApi: 'http://engine' });
+  __setFetch();
+  assert.equal(r.totalTokens, 1);
+  const s = r.earnings[0];
+  assert.equal(s.symbol, 'SCROLL');
+  assert.equal(s.emission, 100000);          // emissionPerWindow mapped
+  assert.equal(s.share, 0.25);               // 1000000 / (1000000+3000000)
+  assert.equal(s.total, 25000);              // 100000 * 0.25
+  assert.equal(s.author, 12500);            // authorBps 5000 -> 50%
 });

@@ -13,6 +13,7 @@ import { projectPostEarnings, __setFetch as setEarningsFetch } from '../../integ
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
+const CHAIN_RPC = process.env.CHAIN_RPC || 'https://alpha.melek.salon/rpc';
 const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
 
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -26,6 +27,28 @@ export function esc(s) {
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(obj)); };
 const html = (res, code, body) => { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(body); };
 async function getJson(url) { try { const r = await _fetch(url); if (!r || !r.ok) return null; return await r.json(); } catch { return null; } }
+
+/**
+ * A post's tags come from the MELEK CHAIN, not the engine: get_content -> category +
+ * json_metadata.tags. The engine only knows tribe rules + payouts, never the post body.
+ * Soft-fails to []. Tribe matching is by tag, so category-as-first-tag is included.
+ */
+async function chainTags(author, permlink) {
+  if (!author || !permlink) return [];
+  try {
+    const r = await _fetch(CHAIN_RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'condenser_api.get_content', params: [author, permlink], id: 1 }),
+    });
+    if (!r || !r.ok) return [];
+    const d = await r.json();
+    const c = (d && d.result) || {};
+    let meta = {};
+    try { meta = typeof c.json_metadata === 'string' ? JSON.parse(c.json_metadata || '{}') : (c.json_metadata || {}); } catch { meta = {}; }
+    const tags = Array.isArray(meta.tags) ? meta.tags : [];
+    return [c.category, ...tags].filter(Boolean).map((t) => String(t).toLowerCase());
+  } catch { return []; }
+}
 
 // ---- shared shell ----------------------------------------------------------
 const STYLE = `
@@ -61,7 +84,7 @@ function pageTokens() {
 const E=${JSON.stringify(ENGINE_API)};
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 (async()=>{let rows=[];try{const r=await fetch(E+'/contracts/tokens');const d=await r.json();rows=d.tokens||d.result||d||[]}catch(e){}
-let rules={};try{const r=await fetch(E+'/contracts/rewards');const d=await r.json();(d.rules||d.result||d||[]).forEach(x=>rules[(x.symbol||'').toUpperCase()]=x)}catch(e){}
+let rules={};try{const r=await fetch(E+'/contracts/tribes');const d=await r.json();(d.rules||d.result||d||[]).forEach(x=>rules[(x.symbol||'').toUpperCase()]=x)}catch(e){}
 const tb=document.querySelector('#tl tbody');tb.innerHTML='';
 if(!rows.length){tb.innerHTML='<tr><td class=dim colspan=5>No tokens yet (or engine unreachable).</td></tr>';return}
 for(const t of rows){const s=(t.symbol||'').toUpperCase();const ru=rules[s];const tr=document.createElement('tr');
@@ -130,10 +153,7 @@ export async function handler(req, res) {
       const permlink = url.searchParams.get('permlink') || '';
       // fetch the post's tags from the chain via the engine (or accept tags param for tests)
       let tags = (url.searchParams.get('tags') || '').split(',').map((t) => t.trim()).filter(Boolean);
-      if (!tags.length && author && permlink) {
-        const c = await getJson(`${ENGINE_API}/contracts/post-tags?author=${encodeURIComponent(author)}&permlink=${encodeURIComponent(permlink)}`);
-        tags = (c && (c.tags || c.result)) || [];
-      }
+      if (!tags.length && author && permlink) tags = await chainTags(author, permlink);
       const out = await projectPostEarnings({ author, permlink, tags }, { engineApi: ENGINE_API });
       return json(res, 200, out);
     }

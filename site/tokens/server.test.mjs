@@ -50,8 +50,8 @@ test('/token/:SYMBOL links to the Nitrous tribe page', async () => {
 
 test('/api/earnings projects across tribes (injected engine)', async () => {
   __setFetch(async (url) => {
-    if (url.includes('/contracts/post-tags')) return { ok: true, json: async () => ({ tags: ['alphatribe'] }) };
-    if (url.includes('/contracts/rewards')) return { ok: true, json: async () => ({ rules: [{ symbol: 'ALPHA', tag: 'alphatribe', enabled: true, emission: 1000, authorPct: 60, curve: 'linear' }] }) };
+    if (url.includes('/rpc')) return { ok: true, json: async () => ({ result: { category: 'alphatribe', json_metadata: JSON.stringify({ tags: ['alphatribe'] }) } }) };
+    if (url.includes('/contracts/tribes')) return { ok: true, json: async () => ({ rules: [{ symbol: 'ALPHA', tag: 'alphatribe', enabled: true, emission: 1000, authorPct: 60, curve: 'linear' }] }) };
     if (url.includes('/contracts/payouts')) return { ok: true, json: async () => ({ posts: [{ author: 'a', permlink: 'b', weight: 250 }, { author: 'x', permlink: 'y', weight: 750 }] }) };
     return { ok: false, json: async () => ({}) };
   });
