@@ -89,17 +89,18 @@ test('APIS-Hash transfer is rejected (soulbound)', () => {
   assert.equal(tokens.create(s, ctx('alice'), { symbol: 'APIS-HASH', name: 'x', precision: 3, maxSupply: '1' }).ok, false);
 });
 
-test('emissionForRange: fixed flat schedule + exact halving', () => {
+test('emissionForRange: flat within a year + exact 10%/yr decay across a year boundary', () => {
   // basePerBlock = 1000 APIS/day / 28800 blocks = 0.034722.. APIS -> base units
   const perDay = toBaseUnits('1000', PREC); // 1_000_000 base
   const bpd = BigInt(config.workerbee.blocksPerDay);
   const basePerBlock = perDay / bpd; // floor
-  // no-halving window: range emission = basePerBlock * span (flat)
+  const num = BigInt(100 - config.workerbee.decayPerYearPct); // 90 for 10%/yr
+  // within year 0 it's flat: range emission = basePerBlock * span
   assert.equal(emissionForRange(0, 10, PREC), basePerBlock * 10n);
-  // across one full halving boundary the second epoch is halved
-  const hb = Number(config.workerbee.halvingDays) * Number(config.workerbee.blocksPerDay);
-  const oneBlockBeforeAndAfter = emissionForRange(hb - 1, hb + 1, PREC);
-  assert.equal(oneBlockBeforeAndAfter, basePerBlock + (basePerBlock >> 1n));
+  // across one full year boundary: year-1 per-block = base × 90/100 (10% lower)
+  const eb = Number(config.workerbee.decayDays) * Number(config.workerbee.blocksPerDay);
+  const oneBlockBeforeAndAfter = emissionForRange(eb - 1, eb + 1, PREC);
+  assert.equal(oneBlockBeforeAndAfter, basePerBlock + (basePerBlock * num) / 100n);
   // empty range => 0
   assert.equal(emissionForRange(5, 5, PREC), 0n);
   assert.equal(emissionForRange(10, 5, PREC), 0n);
@@ -154,27 +155,29 @@ test('emission is FIXED: more lockers != more total APIS (same period total)', (
   assert.ok(crowd <= solo + 3n, `crowd ${crowd} should ~= solo ${solo}`);
 });
 
-test('halving reduces emission after the cadence', () => {
+test('10%/yr decay reduces emission after the year cadence', () => {
   const s = fresh();
   workerbee.foreverLock(s, ctx('alice', 0), { amount: '1000' });
-  // first day (epoch 0)
+  // first day (year 0)
   const d1 = Number(config.workerbee.blocksPerDay);
   workerbee.tick(s, ctx('engine', d1));
   workerbee.claim(s, ctx('alice', d1));
   const got1 = apisBalance(s, 'alice');
 
-  // one day exactly AFTER the first halving boundary (epoch 1)
-  const hb = Number(config.workerbee.halvingDays) * Number(config.workerbee.blocksPerDay);
-  workerbee.tick(s, ctx('engine', hb));
-  workerbee.claim(s, ctx('alice', hb)); // drain everything up to the boundary
+  // one day exactly AFTER the first year boundary (year 1)
+  const eb = Number(config.workerbee.decayDays) * Number(config.workerbee.blocksPerDay);
+  workerbee.tick(s, ctx('engine', eb));
+  workerbee.claim(s, ctx('alice', eb)); // drain everything up to the boundary
   const atBoundary = apisBalance(s, 'alice');
-  workerbee.tick(s, ctx('engine', hb + d1));
-  workerbee.claim(s, ctx('alice', hb + d1));
-  const got2 = apisBalance(s, 'alice') - atBoundary; // a full day in epoch 1
+  workerbee.tick(s, ctx('engine', eb + d1));
+  workerbee.claim(s, ctx('alice', eb + d1));
+  const got2 = apisBalance(s, 'alice') - atBoundary; // a full day in year 1
 
-  // epoch-1 day emission is half of epoch-0 day emission (sole locker => all of it)
-  assert.ok(got2 > 0n);
-  assert.equal(got2, got1 >> 1n);
+  // year-1 day emission = year-0 × (100-pct)/100 (10% lower; sole locker => all of it)
+  const num = BigInt(100 - config.workerbee.decayPerYearPct);
+  const basePerBlock = toBaseUnits('1000', PREC) / BigInt(d1);
+  assert.ok(got2 > 0n && got2 < got1);
+  assert.equal(got2, ((basePerBlock * num) / 100n) * BigInt(d1));
 });
 
 test('claim pays accrued, then pays 0 until more accrues; pending view matches', () => {

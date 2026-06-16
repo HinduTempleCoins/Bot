@@ -13,7 +13,7 @@
  *     balance, 1:1 with the forever-locked amount (the staked-WORKERBEE
  *     equivalent, but earned + untradable instead of bought + tradable).
  *   - APIS-Hash mines APIS on WORKERBEE mechanics: a FIXED scheduled emission
- *     (default 1000 APIS/day, halving every 365 days) split by APIS-Hash share.
+ *     (default 1000 APIS/day, decaying 10%/year) split by APIS-Hash share.
  *
  * The canonical PURE math (apisRate / apisAccrued / expectedMine / lotteryDraw /
  * apisHash / foreverLock) lives in kulaswap/apis-workerbee.mjs. This contract is
@@ -22,13 +22,13 @@
  *
  * SAFETY / VM-isolation (matches tokens.mjs / rewards.mjs §6 B item 4):
  *   No user JS. WorkerBee behaviour is fixed contract logic driven by config
- *   knobs (stakeToken, emissionPerDay, halvingDays, blocksPerDay). No untrusted
+ *   knobs (stakeToken, emissionPerDay, decayPerYearPct, decayDays, blocksPerDay). No untrusted
  *   code path; the sandbox-escape class of bug is avoided by construction.
  *
  * DETERMINISM / REPLAYABILITY (matches engine.mjs / state.mjs §6 C):
  *   - No clock, no network, NO Math.random. Everything keys off L1 blockNum.
  *   - Emission for a block range is a pure function of the range + the genesis
- *     anchor block (halving epochs), NEVER of totalApisHash — so the scheduled
+ *     anchor block (decay years), NEVER of totalApisHash — so the scheduled
  *     pie is fixed; stake only changes shares. Same L1 history => same state.
  *   - accRewardPerShare accumulator (MasterChef / Scotbot style) in BigInt base
  *     units, scaled by ACC_SCALE so integer division keeps precision. Identical
@@ -101,8 +101,8 @@ function position(state, account) {
 
 // ── Emission schedule (the FIXED pie) ──────────────────────────────────────
 // emissionPerDay / blocksPerDay = base APIS per block, in APIS base units.
-// Emission for block index k (k = block - anchorBlock, 0-based) halves every
-// halvingBlocks: emissionPerBlock(k) = basePerBlock >> floor(k / halvingBlocks).
+// Emission for block index k (k = block - anchorBlock, 0-based) DECAYS 10%/year:
+//   per-block(year y) = base × (100-pct)^y / 100^y, y = floor(k / decayEpochBlocks).
 // This is the integer mirror of apis-workerbee.mjs apisAccrued's piecewise
 // halving. It depends ONLY on the block index — never on stake — so the pie is
 // fixed and "more lockers != more total APIS".
@@ -115,18 +115,25 @@ function basePerBlock(apisPrecision) {
   return perDayBase / bpd; // integer APIS base units/block (dust below 1/bpd drops, deterministically)
 }
 
-/** halvingBlocks (BigInt); 0n disables halving. */
-function halvingBlocks() {
+/** decayEpochBlocks (BigInt) — blocks per decay year; 0n disables decay (flat). */
+function decayEpochBlocks() {
   const wb = config.workerbee;
-  const hd = Math.max(0, Math.floor(wb.halvingDays || 0));
+  const dd = Math.max(0, Math.floor(wb.decayDays || 0));
   const bpd = Math.max(1, Math.floor(wb.blocksPerDay));
-  return BigInt(hd * bpd);
+  return BigInt(dd * bpd);
+}
+/** Yearly decay as an exact integer ratio: per-block emission ×= DECAY_NUM/100 each year. */
+function decayNum() {
+  const pct = Math.min(100, Math.max(0, Math.floor(config.workerbee.decayPerYearPct || 0)));
+  return BigInt(100 - pct); // 5%/yr -> 95
 }
 
 /**
  * emissionForRange — total APIS base units scheduled across blocks
- * [fromK, toK) (0-based block indices relative to the anchor), summed across
- * halving epochs. Pure: depends only on the indices + the schedule constants.
+ * [fromK, toK) (0-based indices relative to the anchor), summed across YEAR
+ * epochs. Emission DECAYS `decayPerYearPct`% per year (not a halving): per-block
+ * emission in year `y` = base × (100-pct)^y / 100^y (BigInt-exact). Pure: depends
+ * only on the indices + schedule constants, NEVER on stake — the pie stays fixed.
  */
 export function emissionForRange(fromK, toK, apisPrecision = 3) {
   let lo = BigInt(fromK);
@@ -134,17 +141,20 @@ export function emissionForRange(fromK, toK, apisPrecision = 3) {
   if (hi <= lo) return 0n;
   const base = basePerBlock(apisPrecision);
   if (base <= 0n) return 0n;
-  const hb = halvingBlocks();
-  if (hb <= 0n) return base * (hi - lo); // no halving: flat schedule
+  const eb = decayEpochBlocks();
+  const num = decayNum();
+  if (eb <= 0n || num >= 100n) return base * (hi - lo); // no decay: flat schedule
 
   let total = 0n;
   while (lo < hi) {
-    const epoch = lo / hb; // which halving epoch block `lo` is in
-    const epochEnd = (epoch + 1n) * hb; // first block of the next epoch
-    const segEnd = epochEnd < hi ? epochEnd : hi;
+    const year = lo / eb; // which decay-year block `lo` is in
+    const yearEnd = (year + 1n) * eb;
+    const segEnd = yearEnd < hi ? yearEnd : hi;
     const span = segEnd - lo;
-    // emission per block this epoch = base >> epoch (halve `epoch` times)
-    const perBlock = epoch >= 256n ? 0n : base >> epoch; // after ~256 halvings = dust 0
+    // per-block this year = base × num^year / 100^year (gentle 5%/yr decline).
+    // Cap the exponent: once it rounds to dust 0 it stays 0 (avoids unbounded pow).
+    const y = year > 2000n ? 2000n : year;
+    const perBlock = (base * (num ** y)) / (100n ** y);
     total += perBlock * span;
     lo = segEnd;
   }
@@ -332,7 +342,7 @@ export const workerbee = {
     return ok({ account, pending: fromBaseUnits(owed, prec) });
   },
 
-  /** emissionInfo — the FIXED schedule: per-day, per-block now, halving, anchor. */
+  /** emissionInfo — the FIXED schedule: per-day, per-block now, yearly decay, anchor. */
   emissionInfo(state, ctx) {
     const wb = config.workerbee;
     const apisTok = getToken(state, genesis.feeToken);
@@ -347,11 +357,12 @@ export const workerbee = {
       stakeToken: wb.stakeToken.toUpperCase(),
       emissionToken: genesis.feeToken,
       emissionPerDay: wb.emissionPerDay,
-      halvingDays: wb.halvingDays,
+      decayPerYearPct: wb.decayPerYearPct,
+      decayDays: wb.decayDays,
       blocksPerDay: wb.blocksPerDay,
       anchorBlock: anchor,
       lastTickBlock: pl.lastTickBlock,
-      currentHalvingEpoch: halvingBlocks() > 0n ? Math.floor(k / (wb.halvingDays * wb.blocksPerDay)) : 0,
+      currentDecayYear: decayEpochBlocks() > 0n ? Math.floor(k / (wb.decayDays * wb.blocksPerDay)) : 0,
       emissionPerBlockNow: fromBaseUnits(perBlockNow, prec),
       mintedTotal: fromBaseUnits(BigInt(pl.mintedTotal), prec),
       soulboundSymbol: SOULBOUND_SYMBOL,
