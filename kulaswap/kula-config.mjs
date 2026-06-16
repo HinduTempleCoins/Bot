@@ -24,7 +24,10 @@ export const CHAINS = {
   prana: { type: 'evm', key: 'prana', chainId: 108369, chainIdHex: '0x1a751', name: 'PRANA', dex: 'KulaSwap',
     rpcUrl: 'https://rpc.prana.melek.salon', explorer: 'https://explorer.prana.melek.salon',
     native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
-    router: Z, factory: Z, wnative: Z, verified: false /* filled by DeployAmm.s.sol on PRANA */ },
+    router: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9', factory: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+    wnative: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512', verified: true /* DeployAmm.s.sol on PRANA testnet 2026-06-16 */,
+    kula: '0x4c5859f0F772848b2D91F1D83E2Fe57935348029', pol: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+    multiBurnMine: '0x1291Be112d480055DaFd8a610b7d1e203891C274' },
 
   // ── EVM, VERIFIED canonical V2 DEXes (swap-ready) ─────────────────────────────────────────────
   ethereum: { type: 'evm', key: 'ethereum', chainId: 1, chainIdHex: '0x1', name: 'Ethereum', dex: 'Uniswap V2',

@@ -55,10 +55,10 @@ test('chainReady gates on verified:true — only confirmed routers may swap; the
   assert.equal(chainReady(CHAINS.avalanche), true);
   // unverified (addresses from memory, awaiting confirmation) → gated, even if a router is present
   assert.equal(chainReady(CHAINS.base), false, 'addresses-from-memory chains stay gated until verified');
-  assert.equal(chainReady(CHAINS.prana), false, 'PRANA router is a placeholder until DeployAmm runs');
+  assert.equal(chainReady(CHAINS.prana), true, 'PRANA router/factory deployed + verified (DeployAmm on testnet 2026-06-16)');
   assert.equal(chainReady(CHAINS.tron), false, 'non-EVM gated until its adapter ships');
-  // exactly the 4 canonical EVM DEXes are swap-ready right now
-  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon']);
+  // the canonical EVM DEXes + PRANA (our own, deployed) are swap-ready right now
+  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon', 'prana']);
 });
 
 test('isNative detects the native coin per chain', () => {
