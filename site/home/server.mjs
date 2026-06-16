@@ -3,12 +3,15 @@
 // The canonical FAMILY TREE of every MELEK / PRANA / KULA surface. It is DATA-DRIVEN from a single
 // SERVICES map (each service tagged with its chain FAMILY) so it renders the same tree twice: once as an
 // ALPHA (live testnet) tree with clickable leaf links, and once as a MAINNET tree showing the future
-// production URL (marked "coming soon", not yet clickable). The tree is genealogy/org-chart shaped:
-// ROOT = SoapBox Community → LEVEL 1 = the three chain families (MELEK / PRANA / KULA) → LEVEL 2 = the
-// services as leaf nodes. Per the operator, Alpha is denoted and mapped SEPARATELY from MainNet — two
-// distinct, clearly-headed trees. Per the standing alpha-badge convention, a small "Alpha" badge sits
-// beside the ecosystem wordmark top-left (everything live is testnet). Drawn with pure CSS connectors —
-// no libraries, no build step, no network — and collapses to a stacked outline on narrow screens.
+// production URL (marked "coming soon", not yet clickable). The tree is a CENTERED, BILATERAL genealogy:
+// the HUB = SoapBox Community sits in the horizontal MIDDLE, and the three chain families (MELEK / PRANA /
+// KULA) branch OUTWARD from it — MELEK to the LEFT, PRANA to the RIGHT, KULA BELOW — each family fanning
+// its service leaves out on its own side using square-bracket (right-angle, no-diagonal) pedigree
+// connectors that MIRROR across the hub (left brackets open toward the center, right brackets away).
+// Per the operator, Alpha is denoted and mapped SEPARATELY from MainNet — two distinct, clearly-headed
+// trees. Per the standing alpha-badge convention, a small "Alpha" badge sits beside the ecosystem
+// wordmark top-left (everything live is testnet). Drawn with pure CSS connectors — no libraries, no SVG,
+// no build, no network — and collapses to a stacked, indented outline on narrow screens.
 //
 // THE UNIFORM DOMAIN RULE (operator): testnet = X.alpha.{base}, mainnet = X.{base}; a domain's MAIN app
 // is alpha.{base} → {base}. Bases in play: melek.salon, soapbox.community, kula.money. The alpha→mainnet
@@ -104,7 +107,9 @@ export const SERVICES = [
   { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
 ];
 
-// Branch order, left → right.
+// Bilateral placement around the central hub: MELEK fans LEFT, PRANA fans RIGHT, KULA hangs BELOW.
+const FAMILY_SIDES = { [FAM_MELEK]: 'left', [FAM_PRANA]: 'right', [FAM_KULA]: 'down' };
+// Render order kept stable for the markup (and for the per-family branch loop).
 const FAMILY_ORDER = [FAM_MELEK, FAM_PRANA, FAM_KULA];
 
 // Resolve a service to its alpha host and mainnet host.
@@ -125,19 +130,26 @@ export function resolve(svc) {
   return { sameBoth: false, alphaHost, mainnetHost: mainnetUrl(alphaHost) };
 }
 
-// ── theme — shared SoapBox dark theme + the alpha badge + the FAMILY-TREE layout ────────────────────
-// The tree is drawn with pure CSS — no libraries, no SVG fetches, no build step. Connector lines are
-// drawn with ::before / ::after pseudo-element borders on each tree level:
-//   • the root node drops one vertical stem to the branch row;
-//   • each branch row of siblings is joined by a horizontal "bus" (a top border across the row) with a
-//     short vertical drop from the bus to each child (and a centred drop down from the parent into the bus);
-//   • leaf nodes hang under their branch the same way.
-// On narrow screens a media query flattens .tree to a stacked, left-indented outline (the connector
-// pseudo-elements are switched off) so it degrades to a readable list — CSS only.
+// ── theme — shared SoapBox dark theme + the alpha badge + the CENTERED BILATERAL FAMILY-TREE layout ──
+// Drawn with pure CSS — no libraries, no SVG, no build. The layout is a 3-column grid: [left wing | hub |
+// right wing], with a third "down" wing centred beneath the hub. The hub (SoapBox Community) sits in the
+// middle; MELEK fans LEFT, PRANA fans RIGHT, KULA hangs DOWN.
+//
+// Square-bracket (pedigree) connectors, all right angles, mirrored across the hub, built from pseudo-
+// element borders — NO diagonals:
+//   • the hub emits a horizontal trunk stub left and right (and a vertical stub down) toward each wing;
+//   • each WING is a vertical stack of leaf boxes joined by a single vertical "bracket bar" (the open
+//     side of the square bracket) running the height of the stack;
+//   • each leaf emits a short horizontal stub from the bracket bar to the box. On the LEFT wing the bar
+//     sits on the box's RIGHT (bracket opens toward the center); on the RIGHT wing the bar sits on the
+//     box's LEFT — the mirror. The DOWN wing uses the classic top-bus + per-leaf drop.
+// --c is the connector colour: gold in the alpha tree, grey in the mainnet tree.
+// On narrow screens a media query flattens everything to a stacked, left-indented outline (connector
+// pseudo-elements switched off) so it degrades to a readable list — CSS only.
 const STYLE = `<style>
-  :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950}
+  :root{--bg:#0b0e14;--panel:#131826;--line:#222a3a;--line2:#222a3a;--fg:#e8e6e3;--mut:#9aa4b2;--gold:#d4a23c;--grey:#3a4150;--up:#3fb950}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
-  a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:11px 22px;display:flex;align-items:center;gap:12px}
   .brand{font-weight:800;font-size:19px;color:var(--fg)} .brand small{color:var(--mut);font-weight:400;font-size:13px;margin-left:8px}
   .alpha{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,162,60,.5);border-radius:5px;padding:.05rem .3rem;vertical-align:super;line-height:1;margin-left:6px}
@@ -145,8 +157,8 @@ const STYLE = `<style>
   h1{margin:0 0 6px;font-size:28px} .lede{color:var(--mut);margin:0 0 8px;max-width:680px}
   /* the two big top-level sections — visually distinct so the Alpha tree is mapped SEPARATE from MainNet */
   section.net{border-radius:14px;padding:6px 20px 26px;margin:22px 0;overflow-x:auto}
-  section.alpha-net{border:1px solid rgba(212,162,60,.45);background:linear-gradient(180deg,#1c1a12,#161b22)}
-  section.mainnet-net{border:1px solid var(--line2);background:#12161d}
+  section.alpha-net{border:1px solid rgba(212,162,60,.45);background:linear-gradient(180deg,#16140d,#131826)}
+  section.mainnet-net{border:1px solid var(--line2);background:#0f131c}
   .net-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 0 4px;border-bottom:1px solid var(--line);margin-bottom:6px}
   .net-head h2{font-size:21px;margin:0}
   .net-head .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;border-radius:6px;padding:3px 9px}
@@ -154,60 +166,89 @@ const STYLE = `<style>
   .tag.soon{color:var(--mut);border:1px solid var(--line2)}
   .net-head .nh-sub{color:var(--mut);font-size:13px}
 
-  /* ── FAMILY TREE ────────────────────────────────────────────────────────────────── */
-  /* Each level is a centred flex row; --c is the connector colour (gold in alpha, grey in mainnet). */
-  .tree{--c:var(--line2);min-width:680px;padding-top:14px;text-align:center}
-  .alpha-net .tree{--c:rgba(212,162,60,.55)}
-  .tree .row{display:flex;justify-content:center;align-items:flex-start;gap:18px}
-  /* ROOT node + the stem that drops from it into the branch bus */
-  .node{position:relative;display:inline-flex;flex-direction:column;align-items:center}
-  .root-node{margin:0 auto 0}
-  .root-node::after{content:"";display:block;width:2px;height:18px;background:var(--c);margin:6px auto 0}
-  /* a BRANCH column groups one family + its leaves; siblings sit in .row */
-  .branch{position:relative;padding-top:18px}
-  /* horizontal bus joining the branch siblings: a top border on each branch, trimmed at the ends */
-  .branch::before{content:"";position:absolute;top:0;left:-9px;right:-9px;border-top:2px solid var(--c)}
-  .branch:first-child::before{left:50%}
-  .branch:last-child::before{right:50%}
-  .branch:only-child::before{left:50%;right:50%}
-  /* short vertical drop from the bus down into the branch node */
-  .branch::after{content:"";position:absolute;top:0;left:50%;width:2px;height:18px;background:var(--c);transform:translateX(-1px)}
-  /* leaves hang under the branch; the leaf row gets its own bus + per-leaf drop */
-  .leaves{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding-top:20px;margin-top:14px}
-  .leaves::before{content:"";position:absolute;top:0;left:50%;width:2px;height:14px;background:var(--c);transform:translateX(-1px)}
-  .leaf{position:relative;padding-top:14px}
-  .leaf::before{content:"";position:absolute;top:0;left:50%;width:2px;height:14px;background:var(--c);transform:translateX(-1px)}
+  /* ── CENTERED BILATERAL FAMILY TREE ───────────────────────────────────────────────── */
+  /* --c = connector colour (gold in alpha, grey in mainnet). The tree is a 3-col grid: the hub is
+     centred in column 2; the left wing in column 1, the right wing in column 3, the down wing spans
+     all three columns under the hub. */
+  .tree{--c:var(--grey);min-width:1040px;padding-top:14px}
+  .alpha-net .tree{--c:var(--gold)}
+  .tree-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:0}
+  /* HUB — the central node */
+  .hub{grid-column:2;display:flex;justify-content:center;position:relative;padding:0 26px}
+  /* hub emits a horizontal trunk stub toward each wing (left + right) */
+  .hub::before,.hub::after{content:"";position:absolute;top:50%;width:26px;height:2px;background:var(--c)}
+  .hub::before{left:0} .hub::after{right:0}
+  /* hub also drops a vertical stub down to the KULA (down) wing */
+  .hub-drop{grid-column:2;justify-self:center;width:2px;height:20px;background:var(--c)}
 
-  .node-box{border:1px solid var(--line2);border-radius:11px;padding:13px 16px;background:var(--panel);text-align:left}
-  .root-box{border-color:var(--c);background:#1b2230;padding:14px 22px;text-align:center}
-  .branch-box{border-color:var(--c);background:#1b2230;min-width:200px;text-align:center}
-  .branch-box .fam{font-weight:800;font-size:18px;letter-spacing:.04em}
-  .branch-box .ft{color:var(--mut);font-size:12px;margin-top:3px}
-  .leaf-box{display:block;min-width:210px;max-width:240px}
-  a.leaf-box:hover{border-color:var(--blue);text-decoration:none}
+  /* a WING = one family branch-box (nearest the hub) + its leaves fanning to the OUTER edge.
+     DOM order is [branch-box][stub][stack]; the side wings reverse it so the branch sits inward
+     (toward the hub) and the leaf stack fans outward to the page edge — a true mirror left/right. */
+  .wing{display:flex;align-items:center;gap:0}
+  .wing-left{grid-column:1;justify-content:flex-end;flex-direction:row-reverse}   /* [leaves]·[branch]→hub */
+  .wing-right{grid-column:3;justify-content:flex-start}                            /* hub←[branch]·[leaves] */
+  /* the branch (family) box connects to the hub trunk with its own short horizontal stub */
+  .branch{position:relative;display:flex;align-items:center}
+  .wing-left .branch{flex-direction:row-reverse}
+  .wing-right .branch{flex-direction:row}
+  .branch .stub{width:22px;height:2px;background:var(--c);flex:none}
+
+  /* the leaf STACK of a side wing, joined by a single vertical bracket bar between branch and leaves.
+     left wing → bar on the stack's RIGHT edge (toward the inward branch / hub); right wing → bar on
+     the LEFT edge — the mirror. Each leaf emits a short horizontal stub OUTWARD from the bar to its box. */
+  .stack{position:relative;display:flex;flex-direction:column;gap:12px;padding:6px 0}
+  .wing-left .stack{padding-right:22px}
+  .wing-left .stack::before{content:"";position:absolute;top:14px;bottom:14px;right:0;width:2px;background:var(--c)}
+  .wing-right .stack{padding-left:22px}
+  .wing-right .stack::before{content:"";position:absolute;top:14px;bottom:14px;left:0;width:2px;background:var(--c)}
+  .stack .leaf{position:relative}
+  .wing-left .stack .leaf::after{content:"";position:absolute;top:50%;right:-22px;width:22px;height:2px;background:var(--c)}
+  .wing-right .stack .leaf::after{content:"";position:absolute;top:50%;left:-22px;width:22px;height:2px;background:var(--c)}
+
+  /* the DOWN wing (KULA): classic top-bus + per-leaf drop, centred under the hub */
+  .wing-down{grid-column:1 / -1;justify-self:center;flex-direction:column;align-items:center;padding-top:6px}
+  .wing-down .branch{flex-direction:column;align-items:center}
+  .wing-down .branch .stub{width:2px;height:20px}
+  .wing-down .stack{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px;padding:20px 0 0}
+  .wing-down .stack::before{content:"";position:absolute;top:0;left:10%;right:10%;height:2px;background:var(--c)}
+  .wing-down .stack .leaf{padding-top:14px}
+  .wing-down .stack .leaf::after{content:"";position:absolute;top:0;left:50%;width:2px;height:14px;background:var(--c);transform:translateX(-1px)}
+
+  .node-box{border:1px solid var(--line2);border-radius:11px;padding:12px 14px;background:var(--panel);text-align:left}
+  .hub-box{border-color:var(--c);background:#171d2e;padding:14px 18px;text-align:center;min-width:160px}
+  .hub-box .fam{font-weight:800;font-size:17px;letter-spacing:.03em}
+  .branch-box{border-color:var(--c);background:#171d2e;width:150px;text-align:center;flex:none}
+  .branch-box .fam{font-weight:800;font-size:16px;letter-spacing:.04em}
+  .branch-box .ft{color:var(--mut);font-size:11.5px;margin-top:3px}
+  .leaf-box{display:block;min-width:200px;max-width:230px}
+  /* side-wing leaves are a touch narrower so the bilateral tree fits the centred layout */
+  .wing-left .leaf-box,.wing-right .leaf-box{min-width:172px;max-width:188px}
+  a.leaf-box:hover{border-color:var(--gold);text-decoration:none}
   .leaf-box .nm{font-weight:700;font-size:15px;color:var(--fg)}
   .leaf-box .bl{color:var(--mut);font-size:12.5px;margin-top:4px;line-height:1.45}
   .leaf-box .u{display:block;margin-top:8px;font-size:12px;font-variant-numeric:tabular-nums;word-break:break-all}
-  a.leaf-box .u{color:var(--blue)} .leaf-box.soon{opacity:.8} .leaf-box.soon .u{color:var(--mut)}
+  a.leaf-box .u{color:var(--gold)} .leaf-box.soon{opacity:.8} .leaf-box.soon .u{color:var(--mut)}
   .pill{display:inline-block;font-size:10px;font-weight:700;border-radius:20px;padding:1px 7px;margin-left:6px}
   .pill.same{color:var(--up);border:1px solid #3fb95055}
   .pill.soon{color:var(--mut);border:1px solid var(--line2)}
 
-  /* ── responsive: collapse the tree to a stacked, indented outline (connectors off) ── */
-  @media(max-width:760px){
+  /* ── responsive: collapse to a stacked, indented outline (connectors off) ── */
+  @media(max-width:1080px){
     section.net{overflow-x:visible}
-    .tree{min-width:0;text-align:left}
-    .tree .row,.leaves{display:block}
-    .tree .row{gap:0}
-    .root-node::after,.branch::before,.branch::after,.leaves::before,.leaf::before{display:none;border:0}
-    .node{display:block}
-    .branch{padding-top:14px;border-left:2px solid var(--c);margin-left:6px;padding-left:14px}
-    .leaves{padding-top:8px;margin-top:6px}
-    .leaf{padding-top:0;margin:8px 0 0 14px;border-left:2px solid var(--c);padding-left:12px}
-    .branch-box,.leaf-box{min-width:0;max-width:none;text-align:left}
+    .tree{min-width:0}
+    .tree-top{display:block}
+    .hub,.wing{display:block}
+    .hub{padding:0}
+    .hub::before,.hub::after,.hub-drop,.branch .stub,.stack::before,.stack .leaf::after{display:none;content:none}
+    .wing{margin-top:10px}
+    .branch{display:block}
+    .branch-box{min-width:0;text-align:left;margin-bottom:8px}
+    .stack{padding:0;border-left:2px solid var(--c);margin-left:8px;padding-left:14px}
+    .wing-left .stack,.wing-right .stack,.wing-down .stack{flex-direction:column;flex-wrap:nowrap;padding-left:14px;padding-right:0}
+    .leaf-box{min-width:0;max-width:none;text-align:left}
   }
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px 22px;margin-top:18px;border-top:1px solid var(--line);line-height:1.7}
-  footer a{color:var(--blue)}
+  footer a{color:var(--gold)}
 </style>`;
 
 // One LEAF node = a service. Clickable anchor (alpha, or same-both) or a static "coming soon" box (mainnet).
@@ -225,9 +266,12 @@ function leaf({ name, blurb, host, clickable, sameBoth }) {
   return `<div class=leaf>${box}</div>`;
 }
 
-// One BRANCH = a chain family + the leaves that hang under it, for the given net.
-function branch(family, isAlpha) {
+// One WING = a chain family branch-box + the service leaves that fan out from it on its side of the hub.
+// `side` ∈ {left, right, down}; the connectors are drawn in CSS keyed off the wing/branch classes (the
+// markup is side-agnostic — direction is purely a CSS concern so left/right are exact mirrors).
+function wing(family, isAlpha) {
   const fam = FAMILIES[family] || { tagline: '' };
+  const side = FAMILY_SIDES[family] || 'down';
   const svcs = SERVICES.filter((s) => s.family === family);
   const leaves = svcs.map((s) => {
     const r = resolve(s);
@@ -236,20 +280,32 @@ function branch(family, isAlpha) {
       // MainNet: future host; clickable only when it's the same host on both nets (already live).
       : leaf({ name: s.name, blurb: s.blurb, host: r.mainnetHost, clickable: r.sameBoth, sameBoth: r.sameBoth });
   }).join('');
-  return `<div class=branch>
-    <div class="node-box branch-box"><div class=fam>${esc(family)}</div><div class=ft>${esc(fam.tagline)}</div></div>
-    <div class=leaves>${leaves}</div>
+  return `<div class="wing wing-${esc(side)}">
+    <div class=branch>
+      <div class="node-box branch-box"><div class=fam>${esc(family)}</div><div class=ft>${esc(fam.tagline)}</div></div>
+      <span class=stub></span>
+      <div class=stack>${leaves}</div>
+    </div>
   </div>`;
 }
 
-// Render one full family tree (root → three families → service leaves) for one net.
+// Render one full CENTERED, BILATERAL family tree for one net: a left wing | central hub | right wing
+// row, with the third (down) wing centred beneath the hub.
 function netTree(which) {
   const isAlpha = which === 'alpha';
-  const branches = FAMILY_ORDER.map((f) => branch(f, isAlpha)).join('');
+  const leftFam = FAMILY_ORDER.find((f) => FAMILY_SIDES[f] === 'left');
+  const rightFam = FAMILY_ORDER.find((f) => FAMILY_SIDES[f] === 'right');
+  const downFam = FAMILY_ORDER.find((f) => FAMILY_SIDES[f] === 'down');
+  const hub = `<div class=hub><div class="node-box hub-box"><div class=fam>${esc(SITE_NAME)}</div>
+      <div class=ft>The ecosystem hub</div></div></div>`;
   const tree = `<div class=tree>
-    <div class="node root-node"><div class="node-box root-box"><div class=fam>${esc(SITE_NAME)}</div>
-      <div class=ft>The ecosystem root</div></div></div>
-    <div class=row>${branches}</div>
+    <div class=tree-top>
+      ${wing(leftFam, isAlpha)}
+      ${hub}
+      ${wing(rightFam, isAlpha)}
+    </div>
+    <div class=hub-drop></div>
+    ${wing(downFam, isAlpha)}
   </div>`;
   if (isAlpha) {
     return `<section class="net alpha-net" id=alpha>
@@ -265,10 +321,10 @@ function netTree(which) {
 
 export function homePage() {
   const body = `<h1>${esc(ECOSYSTEM)}</h1>
-    <p class=lede>The family tree of the ecosystem. The <b>${esc(SITE_NAME)}</b> root branches into three chain
-      families — <b>MELEK</b>, <b>PRANA</b> and <b>KULA</b> — and every surface hangs as a leaf beneath its family.
-      The testnet tree sits under <b>alpha.</b>; mainnet is the same tree with <b>alpha.</b> dropped. Alpha is live
-      now; MainNet is coming soon.</p>
+    <p class=lede>The family tree of the ecosystem, centred on the <b>${esc(SITE_NAME)}</b> hub. The three chain
+      families fan out from the middle — <b>MELEK</b> to the left, <b>PRANA</b> to the right, <b>KULA</b> below —
+      and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
+      same tree with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon.</p>
     ${netTree('alpha')}
     ${netTree('mainnet')}`;
   return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
