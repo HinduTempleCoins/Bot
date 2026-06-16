@@ -68,6 +68,30 @@ function bal(row) {
 }
 
 /**
+ * wrappedGuard — the bridge-only invariant for the wrapped-MELEK symbol.
+ *
+ * THE INVARIANT: wMELEK supply MUST equal MELEK locked in the bridge. It is
+ * minted ONLY when MELEK crosses to the wrapped side and burned ONLY when it
+ * crosses back. On mainnet there is NO free issuance.
+ *
+ * When `config.bridge.allowTestnetFreeIssue` is false (mainnet), creating or
+ * directly issuing the configured wMELEK symbol via tokens.* is REJECTED unless
+ * the sender IS the bridge account. This is belt-and-suspenders alongside the
+ * canonical setup (wMELEK.issuer === bridge.account): even if the issuer were
+ * mis-set, free wMELEK can never be minted on mainnet.
+ *
+ * Returns an err(...) to short-circuit, or null to allow.
+ */
+export function wrappedGuard(symbol, sender) {
+  const br = config.bridge || {};
+  const wrapped = String(br.wrappedSymbol || '').toUpperCase();
+  if (!wrapped || symbol !== wrapped) return null;       // not the wrapped symbol — no gate
+  if (br.allowTestnetFreeIssue) return null;             // testnet convenience — free issue allowed
+  if (sender === br.account) return null;                // the bridge account is always allowed
+  return err(`${wrapped} is bridge-only (free issuance disabled on mainnet); use bridge.mintWrapped`);
+}
+
+/**
  * The tokens contract action table. Each handler receives
  *   (state, ctx, payload)
  * where ctx = { sender, blockNum, blockId, txId, authLevel }.
@@ -83,6 +107,10 @@ export const tokens = {
     const symbol = String(p.symbol || '');
     if (!SYMBOL_RE.test(symbol)) return err(`invalid symbol "${p.symbol}" (1-10 uppercase A-Z)`);
     if (getToken(state, symbol)) return err(`token ${symbol} already exists`);
+
+    // bridge-only invariant: on mainnet only the bridge may create wMELEK.
+    const cg = wrappedGuard(symbol, sender);
+    if (cg) return cg;
 
     const precision = Number(p.precision);
     if (!isValidPrecision(precision)) return err(`precision must be integer 0..${MAX_PRECISION}`);
@@ -135,6 +163,11 @@ export const tokens = {
     const token = getToken(state, symbol);
     if (!token) return err(`no such token ${symbol}`);
     if (token.issuer !== sender) return err(`only issuer (${token.issuer}) can issue ${symbol}`);
+
+    // bridge-only invariant: on mainnet wMELEK can only be issued by the bridge
+    // account (belt-and-suspenders over the issuer check above).
+    const ig = wrappedGuard(symbol, sender);
+    if (ig) return ig;
 
     const to = String(p.to || '');
     if (!to) return err('missing recipient');

@@ -21,6 +21,7 @@
 import { tokens } from '../contracts/tokens.mjs';
 import { rewards, recordPostTags, tribesForPost } from '../contracts/rewards.mjs';
 import { workerbee } from '../contracts/workerbee.mjs';
+import { bridge } from '../contracts/bridge.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
@@ -30,6 +31,7 @@ const CONTRACTS = {
   tokens,
   rewards,
   workerbee,
+  bridge,
   gateway,
   dexSettlement,
 };
@@ -54,6 +56,11 @@ const ACTIVE_REQUIRED = new Set([
   // result is independent of the caller), and claim only mints the sender's own
   // already-accrued APIS. (Mirrors the rewards.payout/vote auth split.)
   'workerbee.foreverLock',
+  // bridge: minting/burning wMELEK controls supply against locked MELEK — the
+  // most supply-sensitive ops on the engine. ACTIVE auth required (the contract
+  // also restricts the sender to config.bridge.account).
+  'bridge.mintWrapped',
+  'bridge.burnWrapped',
   'gateway.deposit',
   'gateway.withdraw',
   'dexSettlement.settle',
