@@ -62,8 +62,11 @@ export const config = {
     // Fixed scheduled emission: whole APIS minted per day across ALL APIS-Hash,
     // split pro-rata by share. Default mirrors apis-workerbee.mjs.
     emissionPerDay: Number(process.env.MELEK_ENGINE_WB_EMISSION_PER_DAY || 1000),
-    // Emission halves every `halvingDays` days (BEE-style decay). 0 = no halving.
-    halvingDays: Number(process.env.MELEK_ENGINE_WB_HALVING_DAYS || 365),
+    // Emission DECAYS `decayPerYearPct`% per year (gentle decline, not a halving).
+    // Each year-epoch the per-block emission = base × (100-pct)^year / 100^year.
+    // 0 = flat (no decay). decayDays = the year length in days.
+    decayPerYearPct: Number(process.env.MELEK_ENGINE_WB_DECAY_PCT_PER_YEAR || 10),
+    decayDays: Number(process.env.MELEK_ENGINE_WB_DECAY_DAYS || 365),
     // L1 blocks per day. MELEK (Blurt/Steem lineage) = 3s blocks => 28800/day.
     // Emission is scheduled in blocks, so we convert per-day -> per-block here.
     blocksPerDay: Number(process.env.MELEK_ENGINE_WB_BLOCKS_PER_DAY || 28800),
