@@ -16,6 +16,8 @@
 
 import { Client, PrivateKey } from '@hiveio/dhive';
 import { simulate } from '../trade-presets.mjs';
+import { market } from '../hive-engine-market.mjs';
+import { hiveUsd as oracleHiveUsd } from '../price-oracle.mjs';
 
 const HIVE_NODES = (process.env.HIVE_NODES || 'https://api.hive.blog,https://api.deathwing.me,https://rpc.mahdiyari.info').split(',');
 const ACCOUNT = process.env.ANGELICALIST_ACCOUNT || 'angelicalist';
@@ -69,8 +71,39 @@ export async function sweepToKali({ symbol, quantity, to = SWEEP_TO, memo = 'swe
   return broadcastSSC(payload, { actionLabel: `SWEEP ${quantity} ${symbol} -> @${to}` });
 }
 
+// HARD per-order cap, denominated in DOLLARS so it tracks the HIVE price (operator's $1-5 stake; HIVE
+// ~$0.05 means a 10-HIVE cap would only be ~$0.50). The cap in HIVE = MAX_ORDER_USD / hiveUsd, looked
+// up live. MAX_ORDER_HIVE is the fallback when no price is available (and a hard ceiling either way).
+export const MAX_ORDER_USD = +(process.env.ANGELICALIST_MAX_ORDER_USD || 2);   // ~$2, mid of the $1-5 band
+export const MAX_ORDER_HIVE = +(process.env.ANGELICALIST_MAX_ORDER_HIVE || 100); // hard ceiling / no-price fallback
+
+// the per-order notional cap IN HIVE: dollar cap converted at the live HIVE price, never above the
+// hard HIVE ceiling. Soft-fails to the HIVE ceiling if no price. getHiveUsd injectable for tests.
+export async function orderCapHive({ getHiveUsd = () => oracleHiveUsd() } = {}) {
+  const hUsd = await getHiveUsd().catch(() => 0);
+  const fromUsd = hUsd > 0 ? MAX_ORDER_USD / hUsd : MAX_ORDER_HIVE;
+  return { capHive: Math.min(fromUsd, MAX_ORDER_HIVE), hiveUsd: hUsd || null, capUsd: MAX_ORDER_USD };
+}
+
+// Size + execute ONE decision against the live HE book. SELL hits the highest bid, BUY lifts the
+// lowest ask; the order notional is capped to the dollar cap (so quantity = capHive / price).
+// placeOrder is gated — this is a dry-run (prints the exact intended order) unless ANGELICALIST_LIVE
+// + a key. `getMetrics` / `getHiveUsd` are injectable so tests run fully offline.
+export async function executeDecision(d, { getMetrics = (s) => market.metrics(s), getHiveUsd } = {}) {
+  const m = await getMetrics(d.sym).catch(() => null);
+  if (!m) return { ...d, skipped: 'no market metrics' };
+  const priceHive = d.action === 'SELL' ? +m.highestBid : +m.lowestAsk;
+  if (!(priceHive > 0)) return { ...d, skipped: d.action === 'SELL' ? 'no bid to sell into' : 'no ask to buy from' };
+  const { capHive, hiveUsd, capUsd } = await orderCapHive(getHiveUsd ? { getHiveUsd } : {});
+  const quantity = +(capHive / priceHive).toFixed(8);
+  if (!(quantity > 0)) return { ...d, skipped: 'computed zero quantity' };
+  const order = { side: d.action.toLowerCase(), symbol: d.sym, quantity, price: priceHive, notionalHive: +capHive.toFixed(4), notionalUsd: capUsd, hiveUsd };
+  const result = await placeOrder(order);
+  return { ...d, order, result };
+}
+
 // run the deterministic presets and (in live mode) execute the non-HOLD, non-GUARD decisions.
-export async function runPresets() {
+export async function runPresets(opts = {}) {
   const decisions = await simulate();
   const actionable = decisions.filter((d) => d.action === 'SELL' || d.action === 'BUY');
   const results = [];
@@ -80,7 +113,7 @@ export async function runPresets() {
       results.push({ ...d, blocked: 'no-selling-leg (SWAP.LTC bleed guard)' });
       continue;
     }
-    results.push({ ...d, exec: '(execution wired; supply quantity/price from depth before going live)' });
+    results.push(await executeDecision(d, opts));   // dry-run unless LIVE+key (placeOrder is gated)
   }
   return { mode: mode(), decisions, actionable: results };
 }
@@ -94,5 +127,10 @@ if (process.argv[1] && process.argv[1].endsWith('trader.mjs')) {
   const r = await runPresets().catch((e) => ({ error: e.message }));
   if (r.error) { console.log('  error:', r.error); }
   else if (!r.actionable.length) { console.log('  (all HOLD — nothing to do right now)'); }
-  else for (const d of r.actionable) console.log(`  [${d.action}] ${d.sym} — ${d.reason}${d.blocked ? `  BLOCKED: ${d.blocked}` : ''}`);
+  else for (const d of r.actionable) {
+    const o = d.order ? ` → ${d.order.side} ${d.order.quantity} ${d.order.symbol} @ ${d.order.price} (~${d.order.notionalHive} HIVE ≈ $${d.order.notionalUsd})${d.result && d.result.simulated ? ' [DRY-RUN]' : d.result && d.result.txId ? ` [BROADCAST ${d.result.txId}]` : ''}` : '';
+    console.log(`  [${d.action}] ${d.sym} — ${d.reason}${d.blocked ? `  BLOCKED: ${d.blocked}` : ''}${d.skipped ? `  SKIPPED: ${d.skipped}` : ''}${o}`);
+  }
+  const cap = await orderCapHive().catch(() => ({ capHive: MAX_ORDER_HIVE, hiveUsd: null }));
+  console.log(`\n  per-order cap: ~$${MAX_ORDER_USD} = ${cap.capHive.toFixed(2)} HIVE${cap.hiveUsd ? ` (HIVE $${cap.hiveUsd})` : ' (no price — HIVE ceiling)'}. ${m.live ? '🔴 LIVE — orders above are REAL.' : 'DRY-RUN — set ANGELICALIST_LIVE=true (+ key) to execute.'}`);
 }

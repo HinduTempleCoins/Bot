@@ -27,10 +27,12 @@ export const CANDIDATE_ACCOUNTS = list(
 // tokens this operator issues (self-push detection / parity analysis applies to these)
 export const ISSUED_TOKENS = list(process.env.ISSUED_TOKENS, ['VKBT', 'CURE']);
 
-// default set the market explorer + depth view snapshot
+// default set the market explorer + depth view snapshot. Includes the HE-native tokens that ALSO
+// trade on outside exchanges (SPS/DEC/LEO — see he-external-listings.mjs) so we watch their
+// Hive-Engine ↔ external gap, not just the SWAP.X wrappers and our own issued tokens.
 export const WATCH_TOKENS = list(
   process.env.WATCH_TOKENS,
-  ['VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH'],
+  ['VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH', 'SPS', 'DEC', 'LEO'],
 );
 
 // SWAP wrapper token -> coingecko id (the real asset it tracks) for arbitrage

@@ -30,6 +30,7 @@ import { hiveUsd as oracleHiveUsd } from './price-oracle.mjs';
 import { getCoin, fromCoinGecko } from './soapbox/condenser.mjs';
 import { usFriendly } from './soapbox/markets-catalog.mjs';
 import { cached, TTL } from './soapbox/cache.mjs';
+import { usAccessibleListings } from './he-external-listings.mjs';
 
 // ── the redeemable SWAP.* universe ──────────────────────────────────────────────
 // Each entry: the CoinGecko id of the REAL underlying, the underlying chain, a rough flat
@@ -57,6 +58,9 @@ export const HE_FEE = +(process.env.CVA_HE_FEE || 0.01);          // Hive-Engine
 export const EXT_TAKER = +(process.env.CVA_EXT_TAKER || 0.005);   // external exchange: ~0.5% taker
 // minimum NET edge (after the full stack) we bother surfacing — below this it's noise.
 const MIN_NET_PCT = +(process.env.CVA_MIN_NET_PCT || 0.5);
+// representative round-trip SIZE (USD) the flat network/bridge fee is amortized over. The edge is
+// size-dependent (the flat fee shrinks as a % as size grows); we also report the breakeven size.
+const ARB_SIZE_USD = +(process.env.CVA_ARB_SIZE_USD || 100);
 
 function netFeeUsd(sym, meta) {
   const env = process.env[`CVA_NETFEE_${sym.replace(/^SWAP\./, '')}_USD`];
@@ -102,9 +106,30 @@ async function externalUsd(coingeckoId) {
 // out the net-after-fee round-trip edge. heUsd is what one unit costs to BUY on Hive-Engine (its
 // lowestAsk × hiveUsd); externalUsd is what it SELLS for on the external venue. Returns the gross
 // gap and the same gap net of the whole stack, expressed both per-unit (USD) and as a percentage.
-export function computeEdge({ heUsd, externalUsd, netFeeUsd, heFee = HE_FEE, extTaker = EXT_TAKER }) {
+export function computeEdge({ heUsd, externalUsd, netFeeUsd, heFee = HE_FEE, extTaker = EXT_TAKER, sizeUsd = null }) {
   if (!(heUsd > 0) || !(externalUsd > 0)) return null;
   const grossPct = (externalUsd - heUsd) / heUsd * 100;
+
+  // SIZE-AWARE path: the flat network/withdraw/bridge fee is paid ONCE for the whole transfer, so it
+  // amortizes across the trade SIZE — it is NOT a per-unit cost. (Charging it per unit wrongly nukes
+  // every cheap-token edge: a $0.80 bridge fee is not paid on each of a million SPS.) Pass sizeUsd to
+  // get the honest net at that size + the breakeven size at which the flat fee is finally covered.
+  if (sizeUsd && sizeUsd > 0) {
+    const grossFrac = (externalUsd - heUsd) / heUsd;
+    const variableFrac = heFee * 2 + extTaker;          // HE buy + HE re-entry + external taker
+    const flatFrac = netFeeUsd / sizeUsd;               // the once-paid flat fee, amortized over size
+    const netFrac = grossFrac - variableFrac - flatFrac;
+    const marginAfterVariable = grossFrac - variableFrac;
+    const breakevenSizeUsd = marginAfterVariable > 0 ? netFeeUsd / marginAfterVariable : null;
+    return {
+      grossPct: +grossPct.toFixed(3),
+      netPct: +(netFrac * 100).toFixed(3),
+      netAfterFeesUsd: +(netFrac * sizeUsd).toFixed(6),
+      feeStackUsd: +((variableFrac * sizeUsd) + netFeeUsd).toFixed(6),
+      sizeUsd,
+      breakevenSizeUsd: breakevenSizeUsd != null ? +breakevenSizeUsd.toFixed(2) : null,
+    };
+  }
   // per-unit cost to acquire on HE (incl. the HE buy fee) and proceeds from selling externally
   // (net of the external taker AND the flat network/withdraw fee paid once on the redeemed unit).
   const acquire = heUsd * (1 + heFee);
@@ -150,7 +175,7 @@ export async function crossVenueEdges() {
       rejected.push({ token: sym, reason: !(heUsd > 0) ? 'no HE ask (one-sided/empty market)' : 'no external price', heUsd, externalUsd: ext });
       continue;
     }
-    const e = computeEdge({ heUsd, externalUsd: ext, netFeeUsd: fee });
+    const e = computeEdge({ heUsd, externalUsd: ext, netFeeUsd: fee, sizeUsd: ARB_SIZE_USD });
     // confidence: a real underlying-chain venue (full US support) + a non-trivial net edge reads
     // higher than a token whose only US venue is partial/thin or whose net edge is marginal.
     const venueOk = usVenue && usVenue.us === 'full';
@@ -165,6 +190,8 @@ export async function crossVenueEdges() {
       feeStackUsd: e.feeStackUsd,
       netPct: e.netPct,
       netAfterFeesUsd: e.netAfterFeesUsd,
+      sizeUsd: e.sizeUsd,
+      breakevenSizeUsd: e.breakevenSizeUsd,
       heVolumeHive: m ? +m.volume || 0 : 0,
       path: [
         `buy ${sym} on Hive-Engine`,
@@ -183,6 +210,76 @@ export async function crossVenueEdges() {
   // rank by net percentage edge — the strongest fee-cleared round trip first.
   edges.sort((a, b) => b.netPct - a.netPct);
   return { hiveUsd: hUsd, edges, rejected, scanned: Object.keys(SWAP_TOKENS).length };
+}
+
+// ── HE-NATIVE bridgeable tokens (SPS/DEC/LEO …) ──────────────────────────────────
+// Unlike SWAP.* (a 1:1 IOU you redeem), these are the SAME token on an external chain reachable via a
+// BRIDGE. The play is the same shape — buy cheap on Hive-Engine, move the token to its external chain,
+// sell on a US-accessible DEX where it trades higher, bring the proceeds back — and the fee math is
+// identical (computeEdge), with the DEX swap fee standing in for the external taker and a flat
+// bridge+gas USD for the network hop. The US-accessible venue comes from he-external-listings (the DEX
+// leg — Gate/MEXC are US-blocked and never named here). Override fees via CVA_NETFEE_<SYM>_USD.
+export const HE_NATIVE_TOKENS = {
+  SPS: { coingeckoId: 'splintershards',      chain: 'BSC',      typicalNetworkFeeUsd: 0.80, dexSwapFee: 0.0025 },
+  DEC: { coingeckoId: 'dark-energy-crystals', chain: 'BSC',      typicalNetworkFeeUsd: 0.80, dexSwapFee: 0.0025 },
+  LEO: { coingeckoId: 'wrapped-leo',          chain: 'Ethereum', typicalNetworkFeeUsd: 6.00, dexSwapFee: 0.003 },
+};
+
+function netFeeUsdNative(sym, meta) {
+  const env = process.env[`CVA_NETFEE_${sym}_USD`];
+  return env != null && env !== '' ? +env : meta.typicalNetworkFeeUsd;
+}
+
+// Scan the HE-native bridgeable tokens the same fee-honest way as crossVenueEdges. Reads each token's
+// Hive-Engine ask price directly (market.metrics) and the external USD price (CoinGecko). Surfaces
+// ONLY net-after-fee edges that clear MIN_NET_PCT; the rest go to `.rejected` for an honest count.
+export async function heNativeEdges() {
+  const hUsd = await oracleHiveUsd().catch(() => 0);
+  if (!hUsd) return { hiveUsd: 0, edges: [], rejected: [], scanned: 0 };
+
+  const edges = [], rejected = [];
+  for (const [sym, meta] of Object.entries(HE_NATIVE_TOKENS)) {
+    const m = await market.metrics(sym).catch(() => null);
+    const heAskHive = m ? +m.lowestAsk || 0 : 0;
+    const heUsd = heAskHive * hUsd;
+    const ext = await externalUsd(meta.coingeckoId);
+    const fee = netFeeUsdNative(sym, meta);
+    const usVenue = usAccessibleListings(sym)[0] || null;   // the DEX leg (US-accessible)
+
+    if (!(heUsd > 0) || !(ext > 0)) {
+      rejected.push({ token: sym, reason: !(heUsd > 0) ? 'no HE ask (one-sided/empty market)' : 'no external price', heUsd, externalUsd: ext });
+      continue;
+    }
+    const e = computeEdge({ heUsd, externalUsd: ext, netFeeUsd: fee, extTaker: meta.dexSwapFee, sizeUsd: ARB_SIZE_USD });
+    const confidence = e.netPct >= 3 && usVenue ? 'high' : e.netPct >= MIN_NET_PCT && usVenue ? 'medium' : 'low';
+    const row = {
+      token: sym,
+      kind: 'he-native-bridge',
+      chain: meta.chain,
+      heUsd: +heUsd.toFixed(8),
+      externalUsd: +ext.toFixed(8),
+      grossPct: e.grossPct,
+      feeStackUsd: e.feeStackUsd,
+      netPct: e.netPct,
+      netAfterFeesUsd: e.netAfterFeesUsd,
+      sizeUsd: e.sizeUsd,
+      breakevenSizeUsd: e.breakevenSizeUsd,
+      heVolumeHive: m ? +m.volume || 0 : 0,
+      path: [
+        `buy ${sym} on Hive-Engine`,
+        `bridge ${sym} → ${meta.chain}`,
+        usVenue ? `sell on ${usVenue.venue} (${usVenue.symbol})` : 'sell on a US-accessible DEX',
+        'bring proceeds back to Hive-Engine',
+      ],
+      usVenue: usVenue ? { name: usVenue.venue, symbol: usVenue.symbol, us: 'dex' } : null,
+      confidence,
+      note: `gross ${e.grossPct}% → net ${e.netPct}% at $${ARB_SIZE_USD} (HE ${HE_FEE * 100}%/side + ${meta.chain} bridge+gas $${fee} + DEX ${meta.dexSwapFee * 100}%)${e.breakevenSizeUsd ? `; breakeven size ~$${e.breakevenSizeUsd}` : '; gross gap < variable fees — no size clears it'}`,
+    };
+    if (e.netPct >= MIN_NET_PCT) edges.push(row);
+    else rejected.push({ ...row, reason: `net ${e.netPct}% at $${ARB_SIZE_USD} below ${MIN_NET_PCT}%${e.breakevenSizeUsd ? ` (breakeven needs ~$${e.breakevenSizeUsd})` : ' (gross gap under variable fees — never clears)'}` });
+  }
+  edges.sort((a, b) => b.netPct - a.netPct);
+  return { hiveUsd: hUsd, edges, rejected, scanned: Object.keys(HE_NATIVE_TOKENS).length };
 }
 
 // ── depth: how much HIVE you can actually push into one SWAP token's ask side ────

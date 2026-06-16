@@ -1,0 +1,40 @@
+{
+  "1046093951968497724": {
+    "trust": 0,
+    "warmth": 2,
+    "respect": 0,
+    "familiarity": 4,
+    "interests": {
+      "mythology": 0,
+      "religion": 0,
+      "archaeology": 0,
+      "esoteric": 0,
+      "genetics": 0,
+      "philosophy": 0
+    },
+    "preferredDepth": "medium",
+    "usesButtons": true,
+    "totalInteractions": 2,
+    "lastInteraction": 1781314138742,
+    "conversationPaths": []
+  },
+  "1290093323406671905": {
+    "trust": 0,
+    "warmth": 2,
+    "respect": 0,
+    "familiarity": 4,
+    "interests": {
+      "mythology": 0,
+      "religion": 0,
+      "archaeology": 0,
+      "esoteric": 0,
+      "genetics": 0,
+      "philosophy": 0
+    },
+    "preferredDepth": "medium",
+    "usesButtons": true,
+    "totalInteractions": 2,
+    "lastInteraction": 1781363247199,
+    "conversationPaths": []
+  }
+}
