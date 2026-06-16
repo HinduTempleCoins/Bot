@@ -246,6 +246,7 @@ const server = http.createServer(async (req, res) => {
           weight: Math.max(0, Math.min(100, Number(b.weight) || 100)),
           delayMs: Math.max(0, Number(b.delaySec) || 0) * 1000,
           dailyCap: Math.max(0, Number(b.dailyCap) || 0),
+          category: b.category === 'token' ? 'token' : '',
         });
         return json(res, 200, t);
       }

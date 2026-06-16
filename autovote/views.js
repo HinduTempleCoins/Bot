@@ -32,6 +32,7 @@ const STYLE = `<style>
   .pill.paused{background:var(--warn);color:#000}
   .pill.ok{background:var(--ok);color:#001}.pill.err{background:var(--bad)}
   .pill.beta{background:var(--warn);color:#000}.pill.test{background:#2d5a8a;color:#fff}
+  .pill.token{background:#7a5cff;color:#fff}
   .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
   .muted{color:var(--muted)} code{background:#0f1115;padding:1px 5px;border-radius:4px}
   .banner{padding:10px 16px;font-weight:600;text-align:center}
@@ -173,6 +174,9 @@ export function dashboardPage(chain, username) {
     </div>
     <div id=authnote></div>
 
+    <h2>Token Trails <span class=muted style="font-size:12px">— token / SCOT curation-project trails</span></h2>
+    <div id=tokentrails></div>
+
     <h2>Curation trails <span class=muted style="font-size:12px">— follow another account's upvotes</span></h2>
     <div class=card>
       <div class=row>
@@ -180,6 +184,7 @@ export function dashboardPage(chain, username) {
         <div><label>Weight %</label><input id=t_weight type=number value=100></div>
         <div><label>Delay (sec)</label><input id=t_delay type=number value=5></div>
         <div><label>Daily cap (0=∞)</label><input id=t_cap type=number value=0></div>
+        <div><label>Kind</label><select id=t_category><option value="">Curation trail</option><option value="token">Token Trail</option></select></div>
       </div>
       <button onclick="addTrail()">Add trail</button>
     </div>
@@ -224,6 +229,7 @@ async function api(p,m='GET',b){const o={method:m,headers:{'Content-Type':'appli
 function pauseBtn(kind,r){return '<button class="ghost sm" onclick="togglePause(\\''+kind+'\\',\\''+r.id+'\\','+(!r.paused)+')">'+(r.paused?'Resume':'Pause')+'</button>';}
 function delBtn(kind,r){return '<button class="ghost sm" onclick="del(\\''+kind+'\\',\\''+r.id+'\\')">✕</button>';}
 function status(r){return r.paused?'<span class="pill paused">paused</span>':'<span class="pill ok">active</span>';}
+function trailCard(r){return '<div class=card>'+status(r)+(r.category==='token'?' <span class="pill token">token</span>':'')+' follow <b>@'+esc(r.target)+'</b> at '+esc(r.weight)+'% · delay '+esc(r.delayMs/1000)+'s · cap '+esc(r.dailyCap||'∞')+' &nbsp; '+pauseBtn('trails',r)+' '+delBtn('trails',r)+'</div>';}
 async function load(){
   const d=await api('/api/state'); STATE=d;
   $('#chainpill').textContent=d.chainLabel||d.chain;
@@ -236,12 +242,16 @@ async function load(){
   if(d.inBrowserOnly) $('#authnote').innerHTML='<div class="note warn">You\\'re signed in with <b>WhaleVault</b>. WhaleVault can only sign while this tab is open, so your rules run <b>in-browser</b> — keep this tab open for scheduled/auto votes. For offline automation, use HiveSigner instead. <a href="/teach/whalevault">Learn more &rsaquo;</a></div>';
   else if(d.authMethod==='hivesigner') $('#authnote').innerHTML='<div class="note">Signed in with <b>HiveSigner</b> (keyless, offline-capable). Your scheduled votes fire even when you\\'re away.</div>';
   else if(d.authMethod==='postingkey') $('#authnote').innerHTML='<div class="note warn">Signed in with a stored <b>posting key</b> (least-preferred). Use throwaway keys only. Prefer HiveSigner/WhaleVault where available. <a href="/teach">Setup guides &rsaquo;</a></div>';
-  $('#trails').innerHTML = d.trails.length? d.trails.map(r=>'<div class=card>'+status(r)+' follow <b>@'+esc(r.target)+'</b> at '+r.weight+'% · delay '+(r.delayMs/1000)+'s · cap '+(r.dailyCap||'∞')+' &nbsp; '+pauseBtn('trails',r)+' '+delBtn('trails',r)+'</div>').join('') : '<p class=muted>no trails</p>';
+  const allTrails=d.trails||[];
+  const tokenTrails=allTrails.filter(r=>r.category==='token');
+  const generalTrails=allTrails.filter(r=>r.category!=='token');
+  $('#tokentrails').innerHTML = tokenTrails.length? tokenTrails.map(trailCard).join('') : '<p class=muted>no token trails</p>';
+  $('#trails').innerHTML = generalTrails.length? generalTrails.map(trailCard).join('') : '<p class=muted>no trails</p>';
   $('#fanbases').innerHTML = d.fanbases.length? d.fanbases.map(r=>'<div class=card>'+status(r)+' authors <b>'+r.authors.map(esc).join(', ')+'</b> at '+r.weight+'% · delay '+(r.delayMs/1000)+'s · max/day '+(r.maxPerDay||'∞')+' &nbsp; '+pauseBtn('fanbases',r)+' '+delBtn('fanbases',r)+'</div>').join('') : '<p class=muted>no fanbases</p>';
   $('#schedules').innerHTML = d.schedules.length? d.schedules.map(r=>'<div class=card>'+(r.done?'<span class="pill ok">done</span>':status(r))+' @'+esc(r.author)+'/'+esc(r.permlink)+' w='+r.weight+' at '+new Date(r.voteAt).toLocaleString()+' &nbsp; '+(r.done?'':pauseBtn('schedules',r)+' ')+delBtn('schedules',r)+'</div>').join('') : '<p class=muted>no scheduled votes</p>';
   $('#history').innerHTML = d.votes.length? '<table><tr><th>when</th><th>post</th><th>w</th><th>rule</th><th>tx</th></tr>'+d.votes.map(v=>'<tr><td>'+new Date(v.at).toLocaleTimeString()+'</td><td>@'+esc(v.author)+'/'+esc(v.permlink).slice(0,28)+'</td><td>'+v.weight+'</td><td>'+esc(v.rule)+'</td><td>'+(v.ok?'<code>'+esc((v.txId||'').slice(0,10))+'</code>':'<span class="pill err">'+esc((v.error||'fail').slice(0,30))+'</span>')+'</td></tr>').join('')+'</table>' : '<span class=muted>no votes yet</span>';
 }
-async function addTrail(){await api('/api/trail','POST',{target:$('#t_target').value,weight:$('#t_weight').value,delaySec:$('#t_delay').value,dailyCap:$('#t_cap').value});$('#t_target').value='';load();}
+async function addTrail(){await api('/api/trail','POST',{target:$('#t_target').value,weight:$('#t_weight').value,delaySec:$('#t_delay').value,dailyCap:$('#t_cap').value,category:$('#t_category').value});$('#t_target').value='';load();}
 async function addFanbase(){await api('/api/fanbase','POST',{authors:$('#f_authors').value,weight:$('#f_weight').value,delaySec:$('#f_delay').value,maxPerDay:$('#f_max').value});$('#f_authors').value='';load();}
 async function addSchedule(){await api('/api/schedule','POST',{author:$('#s_author').value,permlink:$('#s_perm').value,weight:$('#s_weight').value,voteAt:$('#s_when').value||null});$('#s_author').value='';$('#s_perm').value='';load();}
 async function togglePause(kind,id,paused){await api('/api/pause','POST',{kind,id,paused});load();}

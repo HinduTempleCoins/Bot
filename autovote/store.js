@@ -3,7 +3,8 @@
  *
  * CHAIN-AGNOSTIC schema (additive migration from the single-chain form):
  *   users:    { ["<chain>:<account>"]: { chain, username, authMethod, postingKey?, hsToken?, hsExpiresAt?, createdAt } }
- *   trails:   [ { id, chain, owner, target, weight, delayMs, dailyCap, paused, createdAt } ]
+ *   trails:   [ { id, chain, owner, target, weight, delayMs, dailyCap, category, paused, createdAt } ]
+ *             category ∈ '' (general) | 'token' (token/SCOT curation-project trail)
  *   fanbases: [ { id, chain, owner, authors:[...], weight, delayMs, maxPerDay, paused, createdAt } ]
  *   schedules:[ { id, chain, owner, author, permlink, weight, voteAt, done, paused, createdAt } ]
  *   votes:    [ { id, chain, owner, author, permlink, weight, rule, ruleId, txId, at, ok, error } ]
@@ -84,6 +85,11 @@ export class Store {
       }
     }
 
+    // trails: stamp missing category (pre-Token-Trails rows are general). Idempotent.
+    for (const t of this.data.trails || []) {
+      if (t.category === undefined) { t.category = ''; changed = true; }
+    }
+
     if (this.data._schema !== 2) { this.data._schema = 2; changed = true; }
     if (changed) this._save();
   }
@@ -140,7 +146,10 @@ export class Store {
   }
 
   // ---- trails ----
-  addTrail({ chain, owner, target, weight, delayMs = 0, dailyCap = 0 }) {
+  // category ∈ '' (general curation trail) | 'token' (a token/SCOT curation-project
+  // trail). Token trails are surfaced in their own "Token Trails" list, not buried
+  // at the bottom of the general trail list.
+  addTrail({ chain, owner, target, weight, delayMs = 0, dailyCap = 0, category = '' }) {
     const t = {
       id: Store.id(),
       chain,
@@ -149,12 +158,18 @@ export class Store {
       weight: Number(weight),
       delayMs: Number(delayMs),
       dailyCap: Number(dailyCap),
+      category: category === 'token' ? 'token' : '',
       paused: false,
       createdAt: Date.now(),
     };
     this.data.trails.push(t);
     this._save();
     return t;
+  }
+
+  /** True when a trail row is a token/SCOT curation-project trail. */
+  static isTokenTrail(t) {
+    return !!t && t.category === 'token';
   }
 
   // ---- fanbases ----
