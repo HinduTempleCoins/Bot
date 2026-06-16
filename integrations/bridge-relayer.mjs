@@ -116,7 +116,9 @@ export function parseDepositIntent(op) {
     if (scaled == null) return { ok: false, reason: 'unparseable-transfer-amount' };
     return {
       ok: true, source: 'transfer', to: p.to,
-      recipient: dest.recipient, tokenId: dest.tokenId || asset || undefined,
+      // tokenId comes ONLY from an explicit memo TOKEN=; the asset symbol (e.g. TESTS) is NOT a
+      // tokenId — the on-chain wMELEK is registered under keccak256("MELEK"), supplied as defaultTokenId.
+      recipient: dest.recipient, tokenId: dest.tokenId || undefined,
       amount: scaled, asset: asset || undefined,
     };
   }
@@ -132,7 +134,7 @@ export function parseDepositIntent(op) {
     if (scaled == null) return { ok: false, reason: 'unparseable-custom_json-amount' };
     return {
       ok: true, source: 'custom_json', to: j.custody || p.required_auths?.[0],
-      recipient: dest.recipient, tokenId: dest.tokenId || j.symbol || undefined,
+      recipient: dest.recipient, tokenId: dest.tokenId || undefined,
       amount: scaled, asset: j.symbol || undefined,
     };
   }
@@ -158,20 +160,36 @@ export function deriveDeposit(entry, opts = {}) {
   if (custody && intent.to && String(intent.to).trim() !== custody) {
     return { ok: false, reason: 'not-addressed-to-custody-account' };
   }
-  const tokenId = intent.tokenId || opts.defaultTokenId;
+  // Precedence: an explicit memo TOKEN= > the bridge's configured defaultTokenId > the asset symbol.
+  // The asset symbol is the weakest source (and on testnet it's TESTS, not MELEK) — it must NOT
+  // override the configured wMELEK tokenId (keccak256("MELEK")).
+  const tokenId = intent.tokenId || opts.defaultTokenId || intent.asset;
   if (!tokenId) return { ok: false, reason: 'no-token-id (set defaultTokenId or encode in op)' };
 
   return {
     ok: true,
     deposit: {
-      depositRef: String(depositRef),
-      tokenId: String(tokenId),
+      // bytes32 for the EVM contract: a Graphene tx id is 20 bytes (40 hex) — left-pad to 32.
+      // A hash tokenId (0x + 64 hex) passes through unchanged; a plain name is left as-is (caller's problem).
+      depositRef: toBytes32Hex(depositRef) || String(depositRef),
+      tokenId: toBytes32Hex(tokenId) || String(tokenId),
       recipient: intent.recipient,
       amount: intent.amount,                 // base-unit string at WRAPPER_DECIMALS
       blockNum: entry.blockNum || entry.block || null,
       source: intent.source,
     },
   };
+}
+
+/**
+ * Normalize a hex string to a 0x-prefixed 32-byte (64-hex) value for an EVM bytes32 arg.
+ * Left-pads shorter hex (a 20-byte Graphene tx id -> 32 bytes); passes a 32-byte hash through.
+ * Returns null if `v` isn't hex (e.g. a plain token name) or is longer than 32 bytes.
+ */
+export function toBytes32Hex(v) {
+  const s = String(v == null ? '' : v).trim().replace(/^0x/i, '').toLowerCase();
+  if (!s || !/^[0-9a-f]+$/.test(s) || s.length > 64) return null;
+  return '0x' + s.padStart(64, '0');
 }
 
 /**

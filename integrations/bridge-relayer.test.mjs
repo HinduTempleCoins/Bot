@@ -62,7 +62,8 @@ test('parseDepositIntent: custom_json deposit op', () => {
   assert.equal(r.ok, true);
   assert.equal(r.source, 'custom_json');
   assert.equal(r.amount, '10000000000000000000');
-  assert.equal(r.tokenId, 'MELEK');
+  assert.equal(r.tokenId, undefined); // the asset symbol is NOT the tokenId (it's the `asset`)
+  assert.equal(r.asset, 'MELEK');
 });
 
 test('parseDepositIntent rejects unsupported ops and bad amounts', () => {
@@ -75,8 +76,8 @@ test('deriveDeposit binds custody + depositRef and rejects wrong custody', () =>
   const entry = { trxId: 'abc123', blockNum: 100, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } };
   const r = deriveDeposit(entry, { custodyAccount: CUSTODY });
   assert.equal(r.ok, true);
-  assert.equal(r.deposit.depositRef, 'abc123');
-  assert.equal(r.deposit.tokenId, 'MELEK');
+  assert.equal(r.deposit.depositRef, '0x' + 'abc123'.padStart(64, '0')); // tx id left-padded to bytes32
+  assert.equal(r.deposit.tokenId, 'MELEK'); // no defaultTokenId here -> asset is the last-resort fallback
   assert.equal(r.deposit.recipient, ADDR);
   assert.equal(r.deposit.amount, '1000000000000000000');
 
@@ -164,4 +165,12 @@ test('relayerManifest exposes env names + boundary, no secrets', () => {
   assert.equal(m.env.bridgeAddress.name, 'GRAPHENE_BRIDGE_ADDRESS');
   assert.match(m.boundary, /SIGNS nothing/);
   assert.equal(typeof m.live, 'boolean');
+});
+
+import { toBytes32Hex } from './bridge-relayer.mjs';
+test('toBytes32Hex: pads a Graphene tx id to bytes32; passes a hash through; rejects non-hex', () => {
+  assert.equal(toBytes32Hex('abc123'), '0x' + 'abc123'.padStart(64, '0'));
+  assert.equal(toBytes32Hex('0x' + 'ab'.repeat(32)), '0x' + 'ab'.repeat(32)); // 32-byte hash unchanged
+  assert.equal(toBytes32Hex('MELEK'), null);   // a plain name is not hex
+  assert.equal(toBytes32Hex('0x' + 'a'.repeat(65)), null); // > 32 bytes
 });

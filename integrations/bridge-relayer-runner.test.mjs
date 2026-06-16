@@ -88,11 +88,11 @@ test('runOnce submits ONLY the finalized, well-formed deposit with correct args'
   assert.equal(r.submitted[0].ref, 'ref-final-deep');
 
   // correct (ref, tokenId, recipient, scaled amount): 1.234 MELEK @3dp -> 18dp.
-  // For a plain transfer the deriver takes the tokenId from the asset symbol ("MELEK")
-  // unless the memo carries TOKEN= — see "encoding the tokenId" below.
+  // tokenId = the configured defaultTokenId (the wMELEK bytes32) — NOT the asset symbol; the asset
+  // symbol is only the last-resort fallback when no defaultTokenId is set.
   const args = calls[0].call.args;
   assert.equal(calls[0].call.method, 'attestDeposit');
-  assert.deepEqual(args, ['ref-final-deep', 'MELEK', RECIPIENT, '1234000000000000000']);
+  assert.deepEqual(args, ['ref-final-deep', '0x' + 'ab'.repeat(32), RECIPIENT, '1234000000000000000']);
 
   // fresh one is pending (not final), no-dest one is skipped
   assert.ok(r.pending.some((p) => p.ref === 'ref-fresh-shallow'));
