@@ -228,7 +228,7 @@ export async function handler(req, res) {
 }
 
 // Only bind the port when run directly, not when imported by tests.
-if (process.argv[1] && /server\.mjs$/.test(process.argv[1]) && /site\/home\//.test(process.argv[1])) {
+if (process.argv[1] && /server\.mjs$/.test(process.argv[1]) && /site\/home-goods\//.test(process.argv[1])) {
   createServer(handler).listen(PORT, HOST, () => {
     console.log(`SoapBox Home on ${BASE_URL} (bound ${HOST}:${PORT})`);
   });
