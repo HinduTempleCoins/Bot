@@ -25,5 +25,13 @@ talks to it — and to the existing chains' DEXes where the ecosystem's tokens a
 - **TRON / EOS** adapters (TronWeb / eosjs) — listed but gated until built.
 - Liquidity (add/remove) + farms UI (PRANA gauges).
 
+## KULA economics (sinks + PoL floor)
+- **`kula-econ.mjs`** + **`KULA_ECON.md`** — turns the emission-only loop (PoL→KULA mint) into a
+  net-deflationary, utility-backed loop: every KULA *use* routes to BURN and/or buyback→protocol-owned
+  liquidity→permanent lock, so emission is offset/exceeded and a price **floor** grows. Pure model:
+  `netKulaFlow`, `applyUsePolicy`, `polFloorPrice`, `isDeflationary`, `simulate`. Wiring + activation
+  steps in `KULA_ECON.md`.
+
 ## Test
 `node --test kulaswap/kula-quote.test.mjs`
+`node --test kulaswap/kula-econ.test.mjs`
