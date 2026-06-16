@@ -1,9 +1,10 @@
 // server.test.mjs — offline tests for soapbox.community ROOT, the ecosystem HOME PAGE / FAMILY TREE.
 // Fully offline: the SERVICES map is static and mainnetUrl()/resolve() are pure — no network. We drive the
 // exported async handler through a mock req/res (no port bound) and assert: the page renders BOTH an Alpha
-// family tree and a MainNet family tree laid out separately; the three chain-family branches (MELEK /
-// PRANA / KULA) appear; a known leaf (Akasha) shows its alpha URL clickable + its mainnet URL as "soon";
-// mainnetUrl() derives both domain shapes; esc() neutralizes injection; unknown route soft-404s.
+// family tree and a MainNet family tree laid out separately, each CENTERED on a SoapBox Community hub with
+// the three chain families fanning out bilaterally (MELEK / PRANA / KULA) as wings; a known leaf (Akasha)
+// shows its alpha URL clickable + its mainnet URL as "soon"; mainnetUrl() derives both domain shapes;
+// esc() neutralizes injection; unknown route soft-404s.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -72,15 +73,25 @@ test('home: 200 HTML with both an Alpha tree and a MainNet tree, laid out separa
   assert.match(b, /class=alpha>Alpha</);
 });
 
-test('home: the three chain-family branches (MELEK / PRANA / KULA) appear in both trees', () => {
+test('home: each tree is CENTERED on a SoapBox Community hub with the families fanning out bilaterally', () => {
+  const b = homePage();
+  // a central hub node per tree (two total) — the focal node in the middle
+  const hubs = b.match(/class="node-box hub-box"/g) || [];
+  assert.equal(hubs.length, 2, 'one central hub per tree');
+  assert.match(b, /<div class=fam>SoapBox Community<\/div>/);
+  // the three families are placed bilaterally: MELEK left, PRANA right, KULA down (two trees → two each)
+  assert.equal((b.match(/class="wing wing-left"/g) || []).length, 2, 'MELEK fans left in both trees');
+  assert.equal((b.match(/class="wing wing-right"/g) || []).length, 2, 'PRANA fans right in both trees');
+  assert.equal((b.match(/class="wing wing-down"/g) || []).length, 2, 'KULA hangs below in both trees');
+});
+
+test('home: the three chain families (MELEK / PRANA / KULA) appear in both trees as branch nodes', () => {
   const b = homePage();
   // each family name shows once per tree → twice total, as a branch node
   for (const fam of ['MELEK', 'PRANA', 'KULA']) {
     const hits = (b.match(new RegExp(`<div class=fam>${fam}<\\/div>`, 'g')) || []).length;
     assert.ok(hits >= 2, `${fam} branch should appear in both the alpha and mainnet trees (saw ${hits})`);
   }
-  // the SoapBox Community root node anchors each tree
-  assert.match(b, /class="node-box root-box"/);
 });
 
 test('home: Akasha is a clickable alpha leaf (under KULA) and shows its mainnet URL as soon', () => {
