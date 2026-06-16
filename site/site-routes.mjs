@@ -47,6 +47,13 @@ export const ROUTES = [
     description: 'The site front door — what MELEK is and where to go next.',
   },
   {
+    path: '/home-goods',
+    title: 'SoapBox Home — home services & goods',
+    module: './home-goods/server.mjs',
+    public: true,
+    description: 'Curated home directory: services/improvement doorways + home-goods stores with coupons.',
+  },
+  {
     path: '/landing',
     title: 'Landing — Where Is It?',
     module: './landing/server.mjs',
