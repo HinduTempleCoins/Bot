@@ -85,7 +85,7 @@ button{font:inherit;font-weight:700;margin-top:.6rem;padding:.6rem 1rem;border-r
   <button id=b>Get test PRANA</button>
   <div id=out></div>
 </div>
-<p class=dim>Add PRANA to MetaMask: RPC <code>https://rpc.prana.melek.salon</code> · chainId 108369 · symbol PRANA. Explore on <a href="https://alpha.pranascan.soapbox.community">PRANAScan</a>.</p>
+<p class=dim>Add PRANA to MetaMask: RPC <code>https://rpc.prana.alpha.melek.salon</code> · chainId 108369 · symbol PRANA. Explore on <a href="https://pranascan.alpha.soapbox.community">PRANAScan</a>.</p>
 <h1 style="margin-top:1.4rem">MELEK Faucet <span class=a>Alpha</span></h1>
 <p class=dim>MELEK (the social chain) has <b>no gas</b> — actions are paid by Resource Credits (RC), not a fee. So the MELEK faucet gives you an <b>account</b>: create one free, and Hathor automatically grants you starter <b>TESTS</b> + delegated <b>POWER</b> (RC) so you can post, vote, and transfer right away.</p>
 <div class=card>
@@ -100,7 +100,7 @@ try{const r=await fetch('/api/drip',{method:'POST',headers:{'content-type':'appl
 const d=await r.json();
 out.textContent='';
 if(d.ok && /^0x[0-9a-fA-F]{64}$/.test(d.txHash||'')){out.append('✅ Sent '+Number(d.amount)+' PRANA. Tx: ');
-const link=document.createElement('a');link.href='https://alpha.pranascan.soapbox.community/tx/'+d.txHash;link.textContent=d.txHash.slice(0,18)+'…';out.append(link);}
+const link=document.createElement('a');link.href='https://pranascan.alpha.soapbox.community/tx/'+d.txHash;link.textContent=d.txHash.slice(0,18)+'…';out.append(link);}
 else{out.textContent='⚠ '+(d.error||'failed');}}catch(e){out.textContent='⚠ error';}b.disabled=false;};
 </script>`;
 

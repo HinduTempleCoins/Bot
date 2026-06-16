@@ -22,7 +22,7 @@ const T = 'TODO';
 export const CHAINS = {
   // ── ecosystem home ───────────────────────────────────────────────────────────────────────────
   prana: { type: 'evm', key: 'prana', chainId: 108369, chainIdHex: '0x1a751', name: 'PRANA', dex: 'KulaSwap',
-    rpcUrl: 'https://rpc.prana.melek.salon', explorer: 'https://explorer.prana.melek.salon',
+    rpcUrl: 'https://rpc.prana.alpha.melek.salon', explorer: 'https://explorer.prana.melek.salon',
     native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
     router: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9', factory: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
     wnative: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512', verified: true /* DeployAmm.s.sol on PRANA testnet 2026-06-16 */,
