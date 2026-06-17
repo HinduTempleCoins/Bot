@@ -40,6 +40,26 @@ function fundAPIS(s, account, quantity = '500') {
   assert.ok(r.ok, r.error);
 }
 
+test('a transfer to the bridge custody is captured as a bridge deposit (with memo)', async () => {
+  const s = fresh();
+  const { config } = await import('../config.mjs');
+  const custody = config.bridge.custody;
+  const recipient = '0x' + '1'.repeat(40);
+  const c = { sender: 'hathor', blockNum: 7, blockId: 'b', txId: 'deposit-tx-1', authLevel: 'active' };
+  const r = tokens.transfer(s, c, { symbol: 'APIS', to: custody, quantity: '12.5', memo: recipient });
+  assert.ok(r.ok, r.error);
+  const dep = s.findOne('bridgeDeposits', { txId: 'deposit-tx-1' });
+  assert.ok(dep, 'deposit recorded');
+  assert.equal(dep.symbol, 'APIS');
+  assert.equal(dep.to, custody);
+  assert.equal(dep.memo, recipient);
+  assert.equal(dep.quantity, '12.500');
+  assert.equal(dep.attested, false);
+  // a normal transfer (not to custody) records NO deposit
+  tokens.transfer(s, { ...c, txId: 'normal-tx' }, { symbol: 'APIS', to: 'bob', quantity: '1' });
+  assert.equal(s.findOne('bridgeDeposits', { txId: 'normal-tx' }), null);
+});
+
 test('genesis bootstrap minted the native tokens to hathor', () => {
   const s = fresh();
   assert.equal(balOf(s, 'hathor', 'APIS'), '1000000.000');

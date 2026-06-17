@@ -231,6 +231,29 @@ export const tokens = {
     setBalance(state, sender, symbol, bal(fromRow) - amount);
     const toRow = getBalance(state, to, symbol);
     setBalance(state, to, symbol, bal(toRow) + amount);
+
+    // Bridge-out capture: a transfer to the configured bridge custody is a deposit to be minted on
+    // PRANA (e.g. APIS → wAPIS). Record it append-only with the memo (the 0x PRANA recipient); the
+    // off-chain engine-bridge-watcher reads these and attests them on PRANA. One row per txId
+    // (idempotent under deterministic replay — same L1 history → same rows). Never blocks the transfer.
+    const custody = (config.bridge && config.bridge.custody) || '';
+    if (custody && to === custody) {
+      const memo = String((p && p.memo) || '').trim();
+      const txId = String((ctx && ctx.txId) || '');
+      if (txId && !state.findOne('bridgeDeposits', { txId })) {
+        state.insert('bridgeDeposits', {
+          txId,
+          from: sender,
+          to,
+          symbol,
+          quantity: fromBaseUnits(amount, token.precision),
+          precision: token.precision,
+          memo,
+          block: (ctx && ctx.blockNum) || state.meta.lastBlock,
+          attested: false,
+        });
+      }
+    }
     return ok({ transferred: fromBaseUnits(amount, token.precision), symbol, from: sender, to });
   },
 

@@ -323,6 +323,17 @@ export function makeHandler(state, opts = {}) {
         return send(res, 200, rows.slice(-200));
       }
 
+      // GET /contracts/bridge/deposits[?symbol=APIS&since=<block>]  -> side-tokens transferred to the
+      // bridge custody, to be minted on PRANA. The off-chain engine-bridge-watcher reads these.
+      if (path === '/contracts/bridge/deposits' || path === '/api/bridge/deposits') {
+        let rows = state.collection('bridgeDeposits');
+        const symbol = (q.get('symbol') || '').toUpperCase();
+        const since = Number(q.get('since') || 0);
+        if (symbol) rows = rows.filter((r) => r.symbol === symbol);
+        if (since) rows = rows.filter((r) => Number(r.block) >= since);
+        return send(res, 200, rows.slice(-500));
+      }
+
       // --- JSON-RPC (Hive-Engine "find" shape) ---
       if (path === '/rpc/contracts' && req.method === 'POST') {
         return readBody(req).then((body) => {

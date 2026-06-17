@@ -166,6 +166,12 @@ export const config = {
     allowTestnetFreeIssue: process.env.MELEK_ENGINE_ALLOW_TESTNET_ISSUE != null
       ? process.env.MELEK_ENGINE_ALLOW_TESTNET_ISSUE !== 'false'
       : preset.allowTestnetFreeIssue,
+    // The engine account that RECEIVES side-tokens to bridge OUT to PRANA (e.g. APIS → wAPIS).
+    // A transfer of any token to this account is recorded as a bridge deposit (the transfer memo
+    // carries the 0x PRANA recipient); the off-chain engine-bridge-watcher attests it on PRANA and
+    // mints the matching wrapped token. Unified with the L1 native bridge custody (`melekbridge`) so
+    // one account holds both legs. Fill at mainnet rollout.
+    custody: process.env.MELEK_ENGINE_BRIDGE_CUSTODY || preset.bridgeCustody || 'melekbridge',
   },
 
   // --- the two PRANA DEX seams (security study §7), gated OFF here ---
