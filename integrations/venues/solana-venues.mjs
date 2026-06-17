@@ -361,6 +361,14 @@ const _venueDefs = [
   { name: 'Pacifica', kind: 'P', defillamaSlug: 'pacifica',     dexscreenerDexId: null, native: readPacifica, nativeSource: 'pacifica-api' },
   { name: 'Lifinity', kind: 'S', defillamaSlug: 'lifinity',     dexscreenerDexId: 'lifinity' },
   { name: 'Saros',    kind: 'S', defillamaSlug: 'saros',        dexscreenerDexId: 'saros' },
+  // More venues for cheap ($1) SOL test trades (operator 2026-06-17). Unresolved slugs soft-fail to
+  // alive:false (no fabricated numbers) — kept best-effort so coverage widens without breaking.
+  { name: 'Phoenix',   kind: 'S', defillamaSlug: 'phoenix',     dexscreenerDexId: 'phoenix' },   // CLOB
+  { name: 'OpenBook',  kind: 'S', defillamaSlug: 'openbook-v2', dexscreenerDexId: 'openbook' },  // CLOB
+  { name: 'GooseFX',   kind: 'S', defillamaSlug: 'goosefx',     dexscreenerDexId: 'goosefx' },
+  { name: 'Invariant', kind: 'S', defillamaSlug: 'invariant',   dexscreenerDexId: 'invariant' },
+  { name: 'FluxBeam',  kind: 'S', defillamaSlug: 'fluxbeam',    dexscreenerDexId: 'fluxbeam' },
+  { name: 'Sanctum',   kind: 'S', defillamaSlug: 'sanctum',     dexscreenerDexId: null },        // LST router
 ];
 
 export const SOLANA_VENUES = Object.freeze(_venueDefs.map((d) => {
