@@ -168,6 +168,14 @@ async function callGuest(model, systemText, userText) {
     github: { url: 'https://models.inference.ai.azure.com/chat/completions', key: process.env.GITHUB_MODELS_TOKEN, model: process.env.GITHUB_MODELS_MODEL || 'gpt-4o' },
     // HuggingFace Inference router (OpenAI-compatible). Free tier across many models.
     huggingface: { url: 'https://router.huggingface.co/v1/chat/completions', key: process.env.HF_TOKEN, model: process.env.HF_MODEL || 'meta-llama/Llama-3.1-8B-Instruct' },
+    // SambaNova Cloud — very fast, generous free tier. Google login -> instant key.
+    sambanova: { url: 'https://api.sambanova.ai/v1/chat/completions', key: process.env.SAMBANOVA_API_KEY, model: process.env.SAMBANOVA_MODEL || 'Meta-Llama-3.3-70B-Instruct' },
+    // Together AI — free Turbo model lane. Google/GitHub login -> instant key.
+    together: { url: 'https://api.together.xyz/v1/chat/completions', key: process.env.TOGETHER_API_KEY, model: process.env.TOGETHER_MODEL || 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free' },
+    // Fireworks AI — fast serverless LLM.
+    fireworks: { url: 'https://api.fireworks.ai/inference/v1/chat/completions', key: process.env.FIREWORKS_API_KEY, model: process.env.FIREWORKS_MODEL || 'accounts/fireworks/models/llama-v3p3-70b-instruct' },
+    // Nebius AI Studio — OpenAI-compatible, $1 trial.
+    nebius: { url: 'https://api.studio.nebius.com/v1/chat/completions', key: process.env.NEBIUS_API_KEY, model: process.env.NEBIUS_MODEL || 'meta-llama/Llama-3.3-70B-Instruct' },
   };
   const cfg = compat[m.split('-')[0]] || compat[m];
   if (!cfg || !cfg.key) throw new Error(`no API key on Server 3 for guest "${model}"`);
