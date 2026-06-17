@@ -124,6 +124,21 @@ try { const cb = await import('./soapbox/cannabis.mjs'); cannabisScour = cb.scou
 let proposeTrades = async () => null, briefBlock = () => '';
 try { const tp = await import('./trade-proposer.mjs'); proposeTrades = tp.proposeTrades || proposeTrades; briefBlock = tp.briefBlock || briefBlock; } catch { /* advisory layer absent — engine still runs */ }
 
+// live web research (#449): Tavily/Exa search to fold real headlines into the brief. No-op without the
+// keys (web-search returns ok:false), so this never breaks the pass or the offline tests.
+let webSearchFn = async () => ({ ok: false, results: [] });
+try { const ws = await import('./web-search.mjs'); webSearchFn = ws.search || webSearchFn; } catch { /* research layer absent — engine still runs */ }
+async function webResearch() {
+  const queries = (process.env.RC_WEB_QUERIES || 'crypto market today;gold price and US dollar outlook')
+    .split(';').map((s) => s.trim()).filter(Boolean).slice(0, 3);
+  const hits = [];
+  for (const q of queries) {
+    const r = await webSearchFn(q, { limit: 3 }).catch(() => null);
+    if (r && r.ok && r.results.length) hits.push({ query: q, answer: r.answer || '', results: r.results.slice(0, 3) });
+  }
+  return hits;
+}
+
 const OUT = process.env.RC_OUT || new URL('../data/resource-center', import.meta.url).pathname;
 const num = (n, d = 2) => (n == null || !Number.isFinite(+n) ? '—' : (+n).toLocaleString(undefined, { maximumFractionDigits: d }));
 const pct = (n) => (n == null || !Number.isFinite(+n) ? '—' : `${n >= 0 ? '+' : ''}${(+n).toFixed(2)}%`);
@@ -169,6 +184,8 @@ export async function runPass() {
   const cannabis = process.env.RC_CANNABIS
     ? await budget(() => cannabisScour(null, { limit: 6 }), null)
     : null;
+  // live web research (#449) — real headlines via Tavily/Exa; [] without the keys.
+  const webResearchRes = await budget(() => webResearch(), []);
 
   // FIRST TRADE — angelicalist ONLY: the single best executable arbitrage its HIVE can fund (advisory;
   // operator executes manually via Keychain; kalivankush untouched). The "act now" the operator asked for.
@@ -209,7 +226,7 @@ export async function runPass() {
     riskOn: indices.vix?.price != null ? (+indices.vix.price < 20 ? 'risk-on (VIX<20)' : 'risk-off (VIX≥20)') : null,
   };
 
-  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, catalog, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, cannabis, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0, catalog: catalog.length, cannabis: !!(cannabis && cannabis.results && cannabis.results.length) } };
+  const snapshot = { ts, metrics, proposals, holdings, marketEntries, news, firstTrade, catalog, circlesMd, crossVenueMd, copyTradeMd, impactMd, diagnosticsMd, cannabis, webResearch: webResearchRes, sources: { hiveEngine: !!he, macro: !!Object.keys(mac).length, forex: !!fxMajors.length, proposer: !!proposals, holdings: Array.isArray(holdings) && holdings.length > 0, catalog: catalog.length, cannabis: !!(cannabis && cannabis.results && cannabis.results.length), webResearch: (webResearchRes || []).length } };
 
   // persist: latest + append-only history (for trend/diagnostics)
   try {
@@ -249,6 +266,15 @@ export function briefReport(s) {
   if (Array.isArray(s.catalog) && s.catalog.length) {
     L.push('');
     L.push(`**Live data** (our catalog): ${s.catalog.map((c) => `${c.value} (via ${c.via} → ${c.ourUrl})`).join(' · ')}.`);
+  }
+  // live web research (#449) — real headlines via Tavily/Exa, with honest source links.
+  if (Array.isArray(s.webResearch) && s.webResearch.length) {
+    L.push('');
+    L.push(`### Live web research`);
+    for (const w of s.webResearch) {
+      L.push(`**${w.query}**${w.answer ? ` — ${w.answer}` : ''}`);
+      for (const r of (w.results || []).slice(0, 3)) L.push(`- [${r.title}](${r.url})${r.snippet ? ` — ${r.snippet.slice(0, 160)}` : ''}`);
+    }
   }
   L.push('');
   // proposals (the actionable part)
