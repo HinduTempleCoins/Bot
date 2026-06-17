@@ -145,6 +145,28 @@ test('/api/faucet-claim soft-fails without an account', async () => {
   assert.equal(d.reason, 'no-account');
 });
 
+test('/standing serves the Crypt-ology viewer', async () => {
+  const r = await get('/standing');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /How Hathor sees you/);
+  assert.match(r.body, />How We Stand</); // nav tab
+});
+
+test('/api/standing returns a disposition (new account = welcoming, 0 interactions)', async () => {
+  const r = await get('/api/standing?account=@stranger');
+  const d = JSON.parse(r.body);
+  assert.equal(d.ok, true);
+  assert.equal(d.stance, 'welcoming');
+  assert.equal(d.totalInteractions, 0);
+  assert.ok(d.coordinates);
+});
+
+test('/api/standing soft-fails without an account', async () => {
+  const d = JSON.parse((await get('/api/standing?account=')).body);
+  assert.equal(d.ok, false);
+  assert.equal(d.reason, 'no-account');
+});
+
 test('unknown route soft-404s, never throws', async () => {
   const r = await get('/nope');
   assert.equal(r.code, 404);
