@@ -31,7 +31,10 @@
 //   future URL with a "soon" tag and are deliberately NOT anchors.
 
 import { createServer } from 'node:http';
+import { promises as fsp } from 'node:fs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
+import { resendMailer } from '../../integrations/email-verify.mjs';
 
 const PORT = +(process.env.PORT || 8080);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -40,6 +43,12 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 // SKIMLINKS_JS is set in the env — dormant until Skimlinks approves the domain, then auto-monetizes
 // outbound merchant links + lets Skimlinks verify the integration on soapbox.community.
 const SKIMLINKS_JS = process.env.SKIMLINKS_JS || '';
+// Newsletter opt-in: file store + the secure Resend confirm mailer (soft-fails to no-send if unconfigured).
+const NL_STORE = process.env.NEWSLETTER_STORE || new URL('../data/newsletter-subs.json', import.meta.url).pathname;
+const nlLoad = async () => { try { return JSON.parse(await fsp.readFile(NL_STORE, 'utf8')); } catch { return { subs: {}, contacts: [] }; } };
+const nlSave = async (s) => { try { await fsp.mkdir(NL_STORE.replace(/\/[^/]+$/, ''), { recursive: true }); await fsp.writeFile(NL_STORE, JSON.stringify(s)); } catch { /* read-only fs → still works in-memory for the request */ } };
+const _nlMailer = resendMailer();
+const nlSendConfirm = ({ email, confirmUrl }) => _nlMailer({ email, link: confirmUrl });
 const SITE_NAME = 'SoapBox Community';
 const ECOSYSTEM = 'MELEK · PRANA · KULA';
 
@@ -335,7 +344,8 @@ export function homePage() {
       and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
       same tree with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon.</p>
     ${netTree('alpha')}
-    ${netTree('mainnet')}`;
+    ${netTree('mainnet')}
+    ${subscribeWidget({ base: BASE_URL })}`;
   return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
 }
 
@@ -394,6 +404,8 @@ export async function handler(req, res) {
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' }); return res.end(llmsTxt());
     }
+    // newsletter opt-in + contact (POST /api/subscribe, GET /api/confirm, POST /api/contact)
+    if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, baseUrl: BASE_URL })) return;
     if (path === '/') return sendHtml(res, homePage());
 
     // unknown route → soft 404 (still renders the map so the root is never a dead end)
