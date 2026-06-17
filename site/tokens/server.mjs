@@ -119,7 +119,7 @@ function shell(active, title, inner) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
-<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
+<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}${tab('standing', 'How We Stand', '/standing')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}
 <p class=dim style="margin-top:1.4rem;font-size:.75rem">Testnet. Token data from the MELEK-Engine; non-custodial — your keys never leave your device.</p>
 </body></html>`;
@@ -224,6 +224,28 @@ const u=new URLSearchParams(location.search);if(u.get('account')){document.getEl
 </script>`);
 }
 
+function pageStanding() {
+  return shell('standing', 'How We Stand', `<div class=card><div class=row><b>How Hathor sees you</b><span class=dim>Crypt-ology — a living relationship map</span></div>
+<p class=dim style="margin:.4rem 0">Hathor remembers everyone she meets on-chain. Your posts, replies, and votes move your coordinates — trust, warmth, respect, familiarity, and how much you give back. This is read-only; it's how her greeting and her faucet shift, person to person.</p>
+<div class=row><input id=acct placeholder="a MELEK @ (no @)" autocomplete=off><button onclick=go()>Look up</button></div>
+<div id=out style="margin-top:.8rem"></div></div>
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function bar(v,lo,hi){const pct=Math.max(0,Math.min(100,Math.round((v-lo)/(hi-lo)*100)));return '<div style="background:#222a3a;border-radius:5px;height:8px;overflow:hidden"><div style="height:8px;width:'+pct+'%;background:var(--gold)"></div></div>'}
+async function go(){const a=document.getElementById('acct').value.trim().replace(/^@/,'');const out=document.getElementById('out');
+if(!a){out.innerHTML='<span class=dim>Enter an account.</span>';return}
+out.innerHTML='<span class=dim>reading the map…</span>';
+let d;try{d=await (await fetch('/api/standing?account='+encodeURIComponent(a))).json()}catch(e){out.textContent='error';return}
+if(!d||!d.ok){out.textContent='Could not read that.';return}
+if(!d.totalInteractions){out.innerHTML='<div class=card style="margin:0">Hathor hasn\\'t met <b>@'+esc(a)+'</b> yet. Say hello on-chain and check back.</div>';return}
+const c=d.coordinates||{};const dims=[['trust',-100,100],['warmth',-100,100],['respect',-100,100],['familiarity',0,100],['alignment',-100,100],['reciprocity',-100,100],['curiosity',0,100],['care',0,100]];
+let rows='';for(const[k,lo,hi]of dims){rows+='<tr><td style="text-transform:capitalize">'+k+'</td><td style="width:55%">'+bar(+c[k]||0,lo,hi)+'</td><td class=dim>'+esc(Math.round(+c[k]||0))+'</td></tr>'}
+out.innerHTML='<div class=card style="margin:0"><div class=row><b>@'+esc(a)+'</b> — <span class=tok style="text-transform:capitalize">'+esc(d.stance)+'</span><span class=dim>closeness '+esc(d.closeness)+' · standing '+esc(d.standing)+' · '+esc(d.totalInteractions)+' interactions</span></div>'+
+'<table style="margin-top:.5rem"><tbody>'+rows+'</tbody></table>'+(d.topics&&d.topics.length?'<p class=dim style="margin-top:.5rem">Shared ground: '+d.topics.map(esc).join(', ')+'</p>':'')+'</div>'}
+const u=new URLSearchParams(location.search);if(u.get('account')){document.getElementById('acct').value=u.get('account');go()}
+</script>`);
+}
+
 // ---- handler ---------------------------------------------------------------
 export async function handler(req, res) {
   let url;
@@ -236,6 +258,15 @@ export async function handler(req, res) {
     if (p === '/earnings') return html(res, 200, pageEarnings());
     if (p === '/vote') return html(res, 200, pageVote());
     if (p === '/faucet') return html(res, 200, pageFaucet());
+    if (p === '/standing') return html(res, 200, pageStanding());
+    if (p === '/api/standing') {
+      const account = (url.searchParams.get('account') || '').replace(/^@/, '').toLowerCase();
+      if (!account) return json(res, 200, { ok: false, reason: 'no-account' });
+      try {
+        const d = dispositionFor(account, { file: CRYPTOLOGY_STORE || undefined });
+        return json(res, 200, { ok: true, ...d });
+      } catch { return json(res, 200, { ok: true, stance: 'welcoming', coordinates: {}, closeness: 0, standing: 0, totalInteractions: 0, topics: [] }); }
+    }
     if (p === '/api/faucet-claim') {
       const account = (url.searchParams.get('account') || '').replace(/^@/, '').toLowerCase();
       if (!account) return json(res, 200, { ok: false, reason: 'no-account' });
