@@ -35,6 +35,10 @@ import { createServer } from 'node:http';
 const PORT = +(process.env.PORT || 8080);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// Skimlinks auto-affiliate script (publisher ID is client-side/public by design). Loaded only when
+// SKIMLINKS_JS is set in the env — dormant until Skimlinks approves the domain, then auto-monetizes
+// outbound merchant links + lets Skimlinks verify the integration on soapbox.community.
+const SKIMLINKS_JS = process.env.SKIMLINKS_JS || '';
 const SITE_NAME = 'SoapBox Community';
 const ECOSYSTEM = 'MELEK · PRANA · KULA';
 
@@ -347,6 +351,7 @@ ${STYLE}</head><body>
 <footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map. All surfaces are on the
   <b>testnet (alpha)</b> today; mainnet URLs are shown for reference and are not live yet.
   <div style="margin-top:8px"><a href="#alpha">Alpha</a> · <a href="#mainnet">MainNet</a></div></footer>
+${SKIMLINKS_JS ? `<script type="text/javascript" src="${esc(SKIMLINKS_JS)}"></script>` : ''}
 </body></html>`;
 }
 
