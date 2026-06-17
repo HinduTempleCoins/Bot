@@ -13,6 +13,7 @@ import { projectPostEarnings, __setFetch as setEarningsFetch } from '../../integ
 import { createTabFragment } from '../../integrations/token-launch.mjs';
 import { CHAINS } from '../../kulaswap/kula-config.mjs';
 import { quoteVote, DEFAULT_MARKET } from '../../kulaswap/alti-vote-market.mjs';
+import { faucetClaim, dispositionFor, FAUCET_DEFAULTS } from '../../cryptology/hathor-disposition.mjs';
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
@@ -31,6 +32,15 @@ const CHAIN_ID_HEX = PRANA.chainIdHex || '0x1a751';
 const VOTE_VOTER = process.env.VOTE_VOTER || DEFAULT_MARKET.voter;
 const VOTE_FULL_ALTI = +(process.env.VOTE_FULL_ALTI || DEFAULT_MARKET.altiPerFullVote);
 const VOTE_MARKET = Object.freeze({ voter: VOTE_VOTER, altiPerFullVote: VOTE_FULL_ALTI });
+
+// Faucet (Hathor's claim-based tip): the token name shown + the Crypt-ology disposition store file.
+const FAUCET_TOKEN = process.env.FAUCET_TOKEN || 'APIS';
+const CRYPTOLOGY_STORE = process.env.CRYPTOLOGY_STORE || '';
+// Cooldown ledger (account -> lastClaimAt ms). Injectable so the box wires durable storage; the default
+// in-memory map enforces the cooldown within a process. The on-chain transfer is the durable record.
+let _faucetClaims = new Map();
+export function __setFaucetClaims(map) { _faucetClaims = map instanceof Map ? map : new Map(); }
+const FAUCET_RESERVOIR = +(process.env.FAUCET_RESERVOIR || 0) || Infinity;
 
 let _fetch = (...a) => globalThis.fetch(...a);
 /** Test hook — inject fetch (also rewires the earnings module). */
@@ -109,7 +119,7 @@ function shell(active, title, inner) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
-<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
+<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}
 <p class=dim style="margin-top:1.4rem;font-size:.75rem">Testnet. Token data from the MELEK-Engine; non-custodial — your keys never leave your device.</p>
 </body></html>`;
@@ -196,6 +206,24 @@ const u=new URLSearchParams(location.search);if(u.get('author')&&u.get('permlink
 </script>`);
 }
 
+function pageFaucet() {
+  return shell('faucet', 'Faucet', `<div class=card><div class=row><b>Hathor's faucet</b><span class=dim>a daily drip of <span class=tok>${esc(FAUCET_TOKEN)}</span></span></div>
+<p class=dim style="margin:.4rem 0">Not a bottomless tap — a real faucet: <b>once a day</b>, from a finite reservoir, and earned by good standing in the community (Crypt-ology). Spend time here, give back, and the drip grows.</p>
+<div class=row><input id=acct placeholder="your MELEK @ (no @)" autocomplete=off><button onclick=claim()>Check my claim</button></div>
+<div id=out style="margin-top:.8rem"></div></div>
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function claim(){const a=document.getElementById('acct').value.trim().replace(/^@/,'');const out=document.getElementById('out');
+if(!a){out.innerHTML='<span class=dim>Enter your account first.</span>';return}
+out.innerHTML='<span class=dim>checking…</span>';
+let d;try{d=await (await fetch('/api/faucet-claim?account='+encodeURIComponent(a))).json()}catch(e){out.textContent='error';return}
+if(d&&d.ok){out.innerHTML='<div class=card style="margin:0"><b>Claimed '+esc(d.amount)+' '+esc(d.token)+'</b> → @'+esc(a)+'. <span class=dim>Come back tomorrow for the next drip.</span></div>';return}
+const why={cooldown:'You already claimed today — the faucet refills once a day.','reservoir-empty':'The reservoir is empty right now — it refills over time.','standing-too-low':'We\\'re still getting acquainted — spend a little time in the community first.','taker-no-reciprocity':'The faucet rewards giving back, not just taking. Engage a bit and try again.'};
+out.innerHTML='<span class=dim>'+esc(why[d&&d.reason]||'Not eligible right now.')+(d&&d.nextClaimAt?' Next claim ~'+new Date(d.nextClaimAt).toLocaleString():'')+'</span>'}
+const u=new URLSearchParams(location.search);if(u.get('account')){document.getElementById('acct').value=u.get('account');claim()}
+</script>`);
+}
+
 // ---- handler ---------------------------------------------------------------
 export async function handler(req, res) {
   let url;
@@ -207,6 +235,20 @@ export async function handler(req, res) {
     if (p === '/wallet') return html(res, 200, pageWallet());
     if (p === '/earnings') return html(res, 200, pageEarnings());
     if (p === '/vote') return html(res, 200, pageVote());
+    if (p === '/faucet') return html(res, 200, pageFaucet());
+    if (p === '/api/faucet-claim') {
+      const account = (url.searchParams.get('account') || '').replace(/^@/, '').toLowerCase();
+      if (!account) return json(res, 200, { ok: false, reason: 'no-account' });
+      const file = CRYPTOLOGY_STORE || undefined;
+      let karma = 0;
+      try { const d = dispositionFor(account, { file }); if (d && Number.isFinite(d.standing)) karma = d.standing; } catch { /* soft */ }
+      const lastClaimAt = _faucetClaims.get(account) || 0;
+      const res2 = faucetClaim({ account, lastClaimAt, reservoir: FAUCET_RESERVOIR, karma, file });
+      if (res2.ok) _faucetClaims.set(account, Date.now());
+      // The drip is QUEUED here (the cooldown is recorded); Hathor's signer broadcasts the transfer on the
+      // box from her JIT key — this portal never holds a key.
+      return json(res, 200, { ...res2, token: FAUCET_TOKEN });
+    }
     if (p === '/api/vote-quote') {
       const author = url.searchParams.get('author') || '';
       const permlink = url.searchParams.get('permlink') || '';
