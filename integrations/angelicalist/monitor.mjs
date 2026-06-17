@@ -30,6 +30,28 @@ import { scanArb as realScanArb } from '../arb-scanner.mjs';
 const ACCOUNT = process.env.ANGELICALIST_ACCOUNT || 'angelicalist';
 const round = (n, d = 4) => +(+n || 0).toFixed(d);
 
+// cross-chain context (#450): EVM gas + optional configured wallet balances via chain-data (Helius/Alchemy).
+// Read-only, soft-fail, naturally a no-op without the keys — never blocks the HIVE monitor.
+let _chain = null;
+try { _chain = await import('../chain-data.mjs'); } catch { /* chain-data absent — monitor still runs */ }
+async function realChainContext() {
+  if (!_chain) return null;
+  const cfg = _chain.providersConfigured();
+  if (!cfg.alchemy && !cfg.helius) return null;
+  const out = { providers: cfg };
+  if (cfg.alchemy) {
+    const g = await _chain.evmGasPrice('eth').catch(() => null);
+    if (g && g.ok) out.ethGasGwei = round(g.gwei, 2);
+    const w = process.env.TRADE_EVM_WALLET;
+    if (w) { const b = await _chain.evmBalance(w, process.env.TRADE_EVM_CHAIN || 'eth').catch(() => null); if (b && b.ok) out.evm = { wallet: w, chain: b.chain, ether: round(b.ether, 6) }; }
+  }
+  if (cfg.helius) {
+    const w = process.env.TRADE_SOL_WALLET;
+    if (w) { const b = await _chain.solBalance(w).catch(() => null); if (b && b.ok) out.sol = { wallet: w, sol: round(b.sol, 6) }; }
+  }
+  return out;
+}
+
 /**
  * collect — pull every read-only data source for the account, concurrently. Each source soft-fails to
  * an empty/neutral value so one dead endpoint never blanks the whole snapshot. All sources are
@@ -44,17 +66,19 @@ export async function collect(deps = {}) {
   const ledgerSummary = deps.ledgerSummary || realLedgerSummary;
   const analyze = deps.analyze || realAnalyze;
   const scanArb = deps.scanArb || realScanArb;
+  const chainContext = deps.chainContext || realChainContext;
 
-  const [snap, ops, ledger, analysis, arb] = await Promise.all([
+  const [snap, ops, ledger, analysis, arb, chain] = await Promise.all([
     Promise.resolve().then(() => snapshot(account)).catch((e) => ({ account, error: e.message, tokens: [], openOrders: [] })),
     Promise.resolve().then(() => history(account)).catch(() => []),
     Promise.resolve().then(() => ledgerSummary()).catch(() => null),
     Promise.resolve().then(() => analyze(account)).catch(() => []),
     Promise.resolve().then(() => scanArb()).catch(() => ({ opportunities: [], rows: [] })),
+    Promise.resolve().then(() => chainContext()).catch(() => null),
   ]);
 
   const forensics = reconstruct(Array.isArray(ops) ? ops : []);
-  return { at: new Date().toISOString(), account, snapshot: snap, forensics, opsCount: Array.isArray(ops) ? ops.length : 0, ledger, analysis, arb };
+  return { at: new Date().toISOString(), account, snapshot: snap, forensics, opsCount: Array.isArray(ops) ? ops.length : 0, ledger, analysis, arb, chain };
 }
 
 /**
