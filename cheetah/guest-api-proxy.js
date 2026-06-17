@@ -174,6 +174,14 @@ async function callGuest(model, systemText, userText) {
     together: { url: 'https://api.together.xyz/v1/chat/completions', key: process.env.TOGETHER_API_KEY, model: process.env.TOGETHER_MODEL || 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free' },
     // Fireworks AI — fast serverless LLM.
     fireworks: { url: 'https://api.fireworks.ai/inference/v1/chat/completions', key: process.env.FIREWORKS_API_KEY, model: process.env.FIREWORKS_MODEL || 'accounts/fireworks/models/llama-v3p3-70b-instruct' },
+    // Qwen — OUR-OWN-model lane for the always-on runtime (Telegram/Hathor), kept OFF the build-tier
+    // (Claude). Served via OpenRouter on the existing key by default (QWEN_URL/QWEN_KEY/QWEN_MODEL override
+    // to point at a self-hosted Modal-GPU Qwen later without touching callers).
+    qwen: {
+      url: process.env.QWEN_URL || 'https://openrouter.ai/api/v1/chat/completions',
+      key: process.env.QWEN_KEY || process.env.OPENROUTER_API_KEY,
+      model: process.env.QWEN_MODEL || 'qwen/qwen-2.5-72b-instruct',
+    },
     // Nebius AI Studio — OpenAI-compatible, $1 trial.
     nebius: { url: 'https://api.studio.nebius.com/v1/chat/completions', key: process.env.NEBIUS_API_KEY, model: process.env.NEBIUS_MODEL || 'meta-llama/Llama-3.3-70B-Instruct' },
   };
