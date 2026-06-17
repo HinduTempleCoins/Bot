@@ -411,3 +411,22 @@ All gated on corpus expansion + Phase 2. Listed so future operators / forkers se
 
 ## Compliance backlog (added 2026-06-13)
 - [ ] **EU cookie-consent notifications** wherever cookies are set (GDPR / ePrivacy): a consent banner before non-essential cookies, remembering the choice, across **MELEK** (condenser `alpha.melek.salon` + `wallet.melek.salon` — `tnaccept`, session/login cookies), **SoapBox** (`data`/`search`/`law`/`politics`/`hemp`/`stocks`/etc.), and all verticals. Operator request: "add EU Cookie Notifications wherever there are Cookies, across Melek, SoapBox, etc."
+
+## Overnight autonomous batch (2026-06-17, "do everything you can without me")
+
+Shipped + merged to main (all green, offline tests):
+- [x] **Crypt-ology applied to Hathor + 24h ON-CHAIN test LIVE** — `melek-bot-society.service` on the box (6 persona bots posting/commenting/voting on the testnet); Crypt-ology map accumulating in the box data dir (verified: 6 accounts, dimensions diverging from real activity). The LSD:Dream-Emulator relationship map (BRIEF §6a) is now fed by real on-chain interaction.
+- [x] **Crypt-ology dimensions expanded** (#437) — added alignment/reciprocity/curiosity/care to trust/warmth/respect/familiarity; new events gave/cared/curious/resonated; 'kindred' stance.
+- [x] **Hathor brain corpus** (#434) — `knowledge/brain-corpus.mjs` four-tier manifest of the WHOLE repo (persona/scripture/knowledge/datasets), not just the 7 scripture docs.
+- [x] **Unified cross-chain identity** (#436) — PRANA address OR MELEK @ on either chain, token auto-wraps to the recipient's native chain (`integrations/unified-identity.mjs`).
+- [x] **Discord/Telegram Hathor bot economy** (#438) — `integrations/hathor-bot-economy.mjs` PM router: link a wallet to Hathor in PMs, claim (faucet), balance, stake, spend. (The NutBox-to-Discord/Telegram concept.)
+- [x] **Faucet model corrected** — claim-based, rate-limited per account, finite reservoir, gated by Crypt-ology standing + reciprocity (NOT an infinite Pizza-push). In `cryptology/hathor-disposition.mjs`.
+- [x] **More Solana venues + $1 micro-tests** (#439) — +6 venues (15 total); `planMicroSwap`/`planMicroTestSweep` produce unsigned $1-SOL test-order plans (operator/gate signs).
+- [x] **Chat-ingest pipeline** (#440) — `integrations/chat-ingest.mjs` sanitizes (redacts WIFs/privkeys/PATs/IPs/emails/hosts) + classifies + stages the operator's Claude-Chat papers into `datasets/research-papers/`. **READY — only blocker is the vault zip on disk.**
+
+### For Ryan tomorrow (the things that need you):
+- [ ] **Unlock the vault / place the big Claude-Chat zip** so I can run `ingestDir` and load the papers into Hathor's brain (#35). The pipeline is built + tested.
+- [ ] **Signups** (your list): AWS KMS, Cloudflare, RunPod, Hetzner ID verify, the ~300 APIs (`.local/APIS_300_BOT_FLEET.md`), affiliate networks (Rakuten + 8 in `integrations/affiliate.mjs` — the coupon subdomain `site/coupons/` is already built and wired to them), Google Colab.
+- [ ] **DAO finalization decision** — the 3% Hathor floor is already immutable in-contract; transferring `HathorFloorDistributor` ownership deployer→timelock is a one-way door I left for you to confirm before locking. Then wiring the pool emission (geth etherbase) through the distributor.
+- [ ] **Condenser rebuild** (NaN fees / blurt.world ws / csrf) needs a supervised client rebuild.
+- [ ] **REVOKE the GitHub PATs** you pasted in chat (both burned): https://github.com/settings/tokens
