@@ -96,7 +96,7 @@ export const SERVICES = [
 
   // ── MELEK (social chain) ──
   { name: 'MELEK app', blurb: 'The MELEK social front-end — feed, tribes, posting, and wallet.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '' },
-  { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
+  { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings, the ALTI Vote Shop, Hathor\'s daily Faucet, and "How We Stand" (Crypt-ology).', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
   { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and manage tokens.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
   { name: 'Auto-vote / SoapBox', blurb: 'Delegate to earn — multi-chain autovote + our own SoapBox staking, similar to NutBox.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
   { name: 'SoapBox Staking', blurb: 'Delegate MELEK Power (dMP) to earn ALTI — our own staking, similar to NutBox.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'staking' },
