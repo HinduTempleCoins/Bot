@@ -81,6 +81,27 @@ test('stake/spend return unsigned intents (Hathor never signs for the user)', as
   assert.equal(sp.action.on, 'game-entry');
 });
 
+test('vote: spend ALTI for a proportional @soapbox upvote (two unsigned intents)', async () => {
+  const store = emptyStore(); store.byUser[U] = { melek: 'bob', prana: ADDR.toLowerCase() };
+  const r = await handlePm({ platformUser: U, text: 'vote @alice/great-post 50' }, { store, altiSink: '0xsink' });
+  assert.equal(r.kind, 'vote-ok');
+  assert.equal(r.action.ok, true);
+  assert.equal(r.action.vote.author, 'alice');
+  assert.equal(r.action.vote.permlink, 'great-post');
+  assert.equal(r.action.vote.voter, 'soapbox');
+  assert.equal(r.action.vote.weight, 5000);          // 50 ALTI = 50%
+  assert.equal(r.action.spend.to, '0xsink');
+  assert.match(r.reply, /50%/);
+});
+
+test('vote: bad syntax → usage; out-of-mana → friendly denial', async () => {
+  const store = emptyStore(); store.byUser[U] = { prana: ADDR.toLowerCase() };
+  assert.equal((await handlePm({ platformUser: U, text: 'vote nope' }, { store })).kind, 'usage');
+  const drained = await handlePm({ platformUser: U, text: 'vote @a/p 50' }, { store, voterManaBps: 500 });
+  assert.equal(drained.kind, 'vote-denied');
+  assert.match(drained.reply, /voting power/);
+});
+
 test('balance reports the wallet + balance when a reader is present', async () => {
   const store = emptyStore(); store.byUser[U] = { melek: 'dave', prana: ADDR.toLowerCase() };
   const r = await handlePm({ platformUser: U, text: 'balance' }, { store, balanceOf: async () => 12.5, tokenSymbol: 'APIS' });

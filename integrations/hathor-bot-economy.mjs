@@ -11,6 +11,7 @@
 // handlePm({ platformUser, text }, deps) -> { reply, kind, action? }  — Discord/Telegram adapters call this.
 
 import { classifyId, resolveIdentity, routeTransfer, normMelek, isPranaAddress, isMelekAccount } from './unified-identity.mjs';
+import { buildVoteOrder } from '../kulaswap/alti-vote-market.mjs';
 
 // ── link registry (platformUser -> {melek, prana}) — the PM wallet-connect store ──────────────────────────
 // platformUser is "discord:<id>" / "telegram:<id>". Injected store (load/save) so it's testable + forkable.
@@ -30,6 +31,7 @@ const HELP = [
   '• `balance` — your balance + your linked wallet.',
   '• `me` — how we stand (your Crypt-ology disposition).',
   '• `stake <amount>` / `spend <amount> <on>` — put the token to work (games, access).',
+  '• `vote <@author/permlink> <alti>` — spend ALTI for a proportional upvote from @soapbox.',
 ].join('\n');
 
 /**
@@ -112,6 +114,29 @@ export async function handlePm({ platformUser, text } = {}, deps = {}) {
     const idStr = link.melek ? '@' + link.melek : link.prana;
     const bal = typeof deps.balanceOf === 'function' ? await deps.balanceOf(link).catch(() => null) : null;
     return { reply: `Your wallet: ${idStr}${link.melek && link.prana ? ` · \`${link.prana}\`` : ''}.${bal != null ? ` Balance: **${bal}** ${deps.tokenSymbol || 'APIS'}.` : ''}`, kind: 'balance' };
+  }
+
+  if (cmd === 'vote') {
+    // vote <@author/permlink> <alti> — spend ALTI for a @soapbox upvote (the ALTI vote market).
+    const m = /^@?([a-z0-9.\-]+)\/(\S+)$/i.exec(args[0] || '');
+    const altiSpent = +(args[1] || 0);
+    if (!m || !(altiSpent > 0)) return { reply: 'Usage: `vote <@author/permlink> <alti>`.', kind: 'usage' };
+    const order = buildVoteOrder({
+      account, author: m[1], permlink: m[2], altiSpent,
+      votingManaBps: deps.voterManaBps,                 // optional; defaults to full mana in the market
+      market: deps.voteMarket, altiSpendTo: deps.altiSink || null,
+    });
+    if (!order.ok) {
+      const why = order.reason === 'voter-out-of-mana' ? "@soapbox is out of voting power right now — try again later."
+        : order.reason === 'below-minimum' ? 'That ALTI amount is below the minimum.' : 'I couldn’t build that vote.';
+      return { reply: why, kind: 'vote-denied', action: order };
+    }
+    const q = order.quote;
+    const refund = q.altiRefunded > 0 ? ` (${q.altiRefunded} ALTI refunded)` : '';
+    return {
+      reply: `Spend **${q.altiCharged} ALTI**${refund} → a **${q.weightPct}%** upvote on @${m[1]}/${m[2]} from @${order.vote.voter}. Confirm the ALTI transfer in your wallet.`,
+      kind: 'vote-ok', action: order,
+    };
   }
 
   if (cmd === 'stake' || cmd === 'spend') {
