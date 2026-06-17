@@ -20,6 +20,7 @@ function allHealthy() {
     const text = url.includes('soapbox.community/') ? 'SoapBox Community home'
       : url.includes('staking') ? '{"ok":true,"totalDelegated":"100"}'
       : url.includes('paymaster') ? '{"boundary":"... SIGNS nothing ..."}'
+      : url.includes('kula.money') ? 'KulaSwap — multi-chain swap'
       : 'hello';
     return { ok: true, status: 200, text: async () => text };
   });

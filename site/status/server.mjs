@@ -30,6 +30,11 @@ export const CHECKS = [
   { name: 'Tokens portal', group: 'Web', kind: 'http', url: 'https://tokens.alpha.melek.salon/' },
   { name: 'Akasha wallet', group: 'Web', kind: 'http', url: 'https://akasha.alpha.soapbox.community/' },
   { name: 'PRANAScan explorer', group: 'Web', kind: 'http', url: 'https://pranascan.alpha.soapbox.community/' },
+  { name: 'MELEK social app', group: 'Web', kind: 'http', url: 'https://alpha.melek.salon/' },
+  { name: 'KulaSwap DEX', group: 'DeFi', kind: 'contains', url: 'https://alpha.kula.money/', needle: 'KulaSwap' },
+  { name: 'Auto / SoapBox', group: 'Social', kind: 'http', url: 'https://auto.alpha.melek.salon/' },
+  { name: 'Mining pool', group: 'Chain', kind: 'http', url: 'https://pool.soapbox.community/' },
+  { name: 'Witness school', group: 'Social', kind: 'http', url: 'https://witness.melek.salon/' },
   { name: 'SoapBox Staking', group: 'DeFi', kind: 'contains', url: 'https://staking.alpha.melek.salon/api/state', needle: '"ok":true' },
   { name: 'APIS Paymaster', group: 'DeFi', kind: 'contains', url: 'https://paymaster.alpha.melek.salon/api/manifest', needle: 'SIGNS nothing' },
   { name: 'PRANA gas faucet', group: 'Chain', kind: 'http', url: 'https://faucet.alpha.soapbox.community/' },
@@ -103,6 +108,7 @@ function page({ results, summary }) {
   const banner = summary.allUp ? 'All systems operational' : `${summary.up}/${summary.total} operational`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>MELEK ecosystem status</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23d4a23c'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0b0e14;--panel:#131826;--gold:#d4a23c;--fg:#e7e3d8;--mut:#8a8f9c;--up:#3fb950;--down:#f85149}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 system-ui,sans-serif}
