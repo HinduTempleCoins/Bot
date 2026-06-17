@@ -42,8 +42,8 @@ const DRIFT = [
   { ticker_id: 'BTC-PERP', last_price: '65000', quote_volume: '10000000', open_interest: '5000000' },
 ];
 
-test('registry has all nine venues with the right shape', () => {
-  assert.equal(SOLANA_VENUES.length, 9);
+test('registry has all venues with the right shape', () => {
+  assert.equal(SOLANA_VENUES.length, 15);
   const names = SOLANA_VENUES.map((v) => v.name);
   for (const n of ['Raydium', 'PumpSwap', 'Orca', 'Jupiter', 'Meteora', 'Drift', 'Pacifica', 'Lifinity', 'Saros']) {
     assert.ok(names.includes(n), `missing ${n}`);
@@ -149,7 +149,7 @@ test('collectSolanaVenues returns a slot per venue; dead source → alive:false 
   ]));
   const { asOf, venues } = await collectSolanaVenues();
   assert.ok(asOf);
-  assert.equal(venues.length, 9);                 // every slot present
+  assert.equal(venues.length, 15);                 // every slot present
   const ray = venues.find((v) => v.venue === 'Raydium');
   assert.equal(ray.alive, true);
   assert.ok(ray.data.volume24hUsd > 0);
@@ -163,7 +163,7 @@ test('collectSolanaVenues returns a slot per venue; dead source → alive:false 
 test('total network failure soft-fails to all-dead slots, never throws', async () => {
   __setFetch(async () => { throw new Error('network down'); });
   const { venues } = await collectSolanaVenues();
-  assert.equal(venues.length, 9);
+  assert.equal(venues.length, 15);
   assert.ok(venues.every((v) => v.alive === false));
   __setFetch(null);
 });
@@ -201,7 +201,7 @@ test('handler GET /api/venues/solana returns ok shape; 404 on other paths', asyn
   const ok = await mk('/api/venues/solana').run();
   assert.equal(ok.code, 200);
   assert.equal(ok.body.ok, true);
-  assert.equal(ok.body.venues.length, 9);
+  assert.equal(ok.body.venues.length, 15);
   const nf = await mk('/nope').run();
   assert.equal(nf.code, 404);
   assert.equal(nf.body.ok, false);
