@@ -102,8 +102,12 @@ test('dispositionOf returns a STANCE label + raw coordinates (never a canned str
   const close = c.dispositionOf({ trust: 50, warmth: 70, respect: 40, familiarity: 60 });
   assert.equal(close.stance, 'familiar');
 
+  // a high-alignment + warm person reads as 'kindred' (expanded dimensions)
+  const kindred = c.dispositionOf({ trust: 30, warmth: 50, respect: 30, familiarity: 40, alignment: 70 });
+  assert.equal(kindred.stance, 'kindred');
+
   // coordinates are echoed back so the prompt shades a disposition, not a fixed greeting line
-  assert.deepEqual(Object.keys(guarded.coordinates).sort(), ['familiarity', 'respect', 'trust', 'warmth']);
+  assert.deepEqual(Object.keys(guarded.coordinates).sort(), ['alignment', 'care', 'curiosity', 'familiarity', 'reciprocity', 'respect', 'trust', 'warmth']);
   assert.equal(typeof guarded.closeness, 'number');
   assert.equal(typeof guarded.standing, 'number');
 });

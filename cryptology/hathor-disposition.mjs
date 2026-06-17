@@ -48,7 +48,8 @@ export const FAUCET_DEFAULTS = Object.freeze({
   cooldownMs: 24 * 60 * 60 * 1000, // one claim per account per 24h (the rate limit)
   baseDrip: 1,                     // base meaningful drip (units); scaled by relationship + karma
   minStanding: -20,                // a hostile/guarded standing can't claim (earned, not free-for-all)
-  maxMultiplier: 3,                // closeness+karma can lift the drip up to 3× base — never unbounded
+  minReciprocity: -40,             // a pure taker (gives nothing back) can't keep draining the tap
+  maxMultiplier: 3,                // closeness+karma+reciprocity lift the drip up to 3× base — never unbounded
 });
 
 /**
@@ -74,15 +75,18 @@ export function faucetClaim({ account, now = Date.now(), lastClaimAt = 0, reserv
   // 2) reservoir — finite tap; empty → no drip (never infinite).
   if (!(reservoir > 0)) return { ok: false, amount: 0, reason: 'reservoir-empty', nextClaimAt: now };
 
-  // 3) relationship gate — standing below the floor can't claim (earned, not free).
+  // 3) relationship gate — standing below the floor, OR a pure taker (reciprocity floor), can't claim.
   const disp = dispositionOf(profileOf(key, file));
   if (disp.standing < cfg.minStanding) {
     return { ok: false, amount: 0, reason: 'standing-too-low', nextClaimAt: now + cfg.cooldownMs };
   }
+  if (disp.reciprocity < cfg.minReciprocity) {
+    return { ok: false, amount: 0, reason: 'taker-no-reciprocity', nextClaimAt: now + cfg.cooldownMs };
+  }
 
-  // 4) meaningful, BOUNDED amount: base × (1 + relationship+karma lift), capped at maxMultiplier, then by
-  //    the reservoir. closeness/standing in [-..100], karma in [0..100] → a [1, maxMultiplier] multiplier.
-  const rel = Math.max(0, (Math.max(0, disp.closeness) + Math.max(0, disp.standing)) / 200); // 0..~1
+  // 4) meaningful, BOUNDED amount: base × (1 + relationship+karma+reciprocity lift), capped at maxMultiplier,
+  //    then by the reservoir. closeness/standing/reciprocity in [-..100], karma in [0..100] → [1, maxMult].
+  const rel = Math.max(0, (Math.max(0, disp.closeness) + Math.max(0, disp.standing) + Math.max(0, disp.reciprocity)) / 300); // 0..~1
   const k = Math.max(0, Math.min(100, +karma || 0)) / 100;                                   // 0..1
   const mult = 1 + (cfg.maxMultiplier - 1) * Math.min(1, (rel + k) / 2);
   const amount = Math.min(reservoir, Math.round(cfg.baseDrip * mult * 1000) / 1000);

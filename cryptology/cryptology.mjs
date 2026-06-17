@@ -50,6 +50,11 @@ export const DIMENSIONS = {
   warmth:      { min: -100, max: 100, default: 0,  bipolar: true,  desc: 'Emotional closeness / friendliness.' },
   respect:     { min: -100, max: 100, default: 0,  bipolar: true,  desc: 'Intellectual respect, standing.' },
   familiarity: { min: 0,    max: 100, default: 0,  bipolar: false, desc: 'How well the Witness knows them.' },
+  // Expanded dimensions (operator 2026-06-17 "expand the Crypt-ology Dimensions") — deepen the LSD-map:
+  alignment:   { min: -100, max: 100, default: 0,  bipolar: true,  desc: 'Resonance with the mission/corpus — kindred vs at-odds.' },
+  reciprocity: { min: -100, max: 100, default: 0,  bipolar: true,  desc: 'Gives back to the community vs only takes (gates the faucet).' },
+  curiosity:   { min: 0,    max: 100, default: 0,  bipolar: false, desc: 'Depth-seeking — how far down they go.' },
+  care:        { min: 0,    max: 100, default: 0,  bipolar: false, desc: 'How much they look after others here.' },
 };
 
 // Topic interests carried forward verbatim from the prior Crypt-ology structure (index.js). The map
@@ -98,16 +103,21 @@ export function freshProfile(account) {
 // numbers, so the map stays legible. Unknown events are a soft no-op (never throw).
 export const EVENTS = {
   greeted:        { familiarity: 1 },
-  warm_exchange:  { warmth: 8, trust: 3, familiarity: 2 },
-  taught:         { respect: 8, trust: 4, familiarity: 3 },   // the person taught the Witness / community
-  thanked:        { warmth: 6, trust: 4 },
+  warm_exchange:  { warmth: 8, trust: 3, familiarity: 2, reciprocity: 3 },
+  taught:         { respect: 8, trust: 4, familiarity: 3, alignment: 5, reciprocity: 5 }, // gave to the community
+  thanked:        { warmth: 6, trust: 4, reciprocity: 2 },
   helped:         { trust: 6, warmth: 4, familiarity: 2 },    // the Witness helped them and it landed
-  deep_question:  { respect: 6, familiarity: 3 },
-  shared_story:   { warmth: 5, familiarity: 5, trust: 3 },
-  apologized:     { trust: 10, warmth: 6 },                   // repair (cf. the prior tracker)
-  disrespected:   { respect: -12, warmth: -8, trust: -6 },
-  hostile:        { trust: -15, warmth: -12, respect: -6 },
-  ghosted:        { familiarity: 0, warmth: -2 },             // long silence; gentle cool-off via drift()
+  deep_question:  { respect: 6, familiarity: 3, curiosity: 6, alignment: 3 },
+  shared_story:   { warmth: 5, familiarity: 5, trust: 3, alignment: 3 },
+  apologized:     { trust: 10, warmth: 6, reciprocity: 3 },   // repair (cf. the prior tracker)
+  disrespected:   { respect: -12, warmth: -8, trust: -6, alignment: -5 },
+  hostile:        { trust: -15, warmth: -12, respect: -6, alignment: -10, reciprocity: -8 },
+  ghosted:        { familiarity: 0, warmth: -2, reciprocity: -3 }, // long silence; gentle cool-off
+  // new named events for the expanded dimensions:
+  gave:           { reciprocity: 10, care: 4, alignment: 3 },  // tipped/contributed/helped another member
+  cared:          { care: 8, warmth: 4 },                      // looked after someone here
+  curious:        { curiosity: 8, respect: 2 },                // went deep, asked to learn more
+  resonated:      { alignment: 10, warmth: 4 },                // connected with the mission/corpus
 };
 
 // ── pure: disposition (the Witness's stance toward this person) ──────────────────
@@ -119,10 +129,15 @@ export function dispositionOf(p) {
   const warmth = clamp(p?.warmth, -100, 100);
   const respect = clamp(p?.respect, -100, 100);
   const familiarity = clamp(p?.familiarity, 0, 100);
+  const alignment = clamp(p?.alignment, -100, 100);
+  const reciprocity = clamp(p?.reciprocity, -100, 100);
+  const curiosity = clamp(p?.curiosity, 0, 100);
+  const care = clamp(p?.care, 0, 100);
 
   let stance;
   if (trust < -40 || warmth < -40) stance = 'guarded';
   else if (familiarity < 15) stance = 'welcoming';            // new arrival
+  else if (alignment > 55 && warmth > 40) stance = 'kindred';  // resonates with the mission + close
   else if (warmth > 55 && familiarity > 45) stance = 'familiar';
   else if (respect > 55) stance = 'deferential';
   else if (trust > 40 && warmth > 30) stance = 'warm';
@@ -133,9 +148,10 @@ export function dispositionOf(p) {
   const standing = (trust + respect) / 2;          // -100..100
   return {
     stance,
-    coordinates: { trust, warmth, respect, familiarity },
+    coordinates: { trust, warmth, respect, familiarity, alignment, reciprocity, curiosity, care },
     closeness: Math.round(closeness * 10) / 10,
     standing: Math.round(standing * 10) / 10,
+    alignment, reciprocity,                         // surfaced for the faucet gate + the kindred register
     preferredDepth: p?.preferredDepth || 'medium',
   };
 }
