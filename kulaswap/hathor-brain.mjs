@@ -414,6 +414,13 @@ export async function handleMessage({ user, text, state } = {}, ctx = {}) {
     }
   }
 
+  // Crypt-ology (optional, server-injected via deps.cryptology — the browser brain omits it). Every handled
+  // message advances the person's position on the LSD-Dream-Emulator map (familiarity++); the server host
+  // wires the real fs-backed map (cryptology/hathor-disposition.mjs makeBrainDep). Soft-fail, never blocks.
+  if (deps && deps.cryptology && typeof deps.cryptology.record === 'function' && typeof user === 'string' && user !== 'anon') {
+    try { deps.cryptology.record(user, 'greeted'); } catch { /* never block a reply on the map */ }
+  }
+
   const clean = sanitize(text);
   if (!clean) {
     // Keep any in-progress walkthrough alive across a blank line.
