@@ -101,6 +101,7 @@ export const SERVICES = [
   { name: 'Auto-vote / SoapBox', blurb: 'Delegate to earn — multi-chain autovote + our own SoapBox staking, similar to NutBox.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
   { name: 'SoapBox Staking', blurb: 'Delegate MELEK Power (dMP) to earn ALTI — our own staking, similar to NutBox.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'staking' },
   { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status. (No alpha variant.)', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
+  { name: 'Ecosystem status', blurb: 'Live green/red health board across MELEK, PRANA, and KULA.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'status' },
 
   // ── PRANA (EVM / compute chain + DAO) ──
   { name: 'PRANAScan', blurb: 'Block explorer for the PRANA compute chain.', family: FAM_PRANA, category: CAT_WALLET, base: 'soapbox.community', sub: 'pranascan' },
