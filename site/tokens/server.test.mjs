@@ -75,6 +75,46 @@ test('/api/earnings projects across tribes (injected engine)', async () => {
   assert.equal(d.earnings[0].author, 150);
 });
 
+test('/vote serves the ALTI Vote Shop page', async () => {
+  const r = await get('/vote');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Buy a MELEK upvote with ALTI/);
+  assert.match(r.body, /Vote Shop/);      // nav tab present
+  assert.match(r.body, /Quote the vote/);
+});
+
+test('/api/vote-quote prices a vote (mana param avoids the chain call)', async () => {
+  const res = mockRes();
+  await handler({ url: '/api/vote-quote?author=@bob&permlink=my-post&alti=50&mana=10000', method: 'GET' }, res);
+  assert.equal(res.code, 200);
+  const d = JSON.parse(res.body);
+  assert.equal(d.ok, true);
+  assert.equal(d.quote.weightPct, 50);     // 50 ALTI at default 100/full = 50%
+  assert.equal(d.vote.author, 'bob');      // @ stripped
+  assert.equal(d.vote.permlink, 'my-post');
+  assert.equal(d.vote.weight, 5000);
+});
+
+test('/api/vote-quote soft-fails below minimum', async () => {
+  const res = mockRes();
+  await handler({ url: '/api/vote-quote?author=bob&permlink=p&alti=0&mana=10000', method: 'GET' }, res);
+  const d = JSON.parse(res.body);
+  assert.equal(d.ok, false);
+  assert.equal(d.reason, 'below-minimum');
+});
+
+test('/api/vote-quote reads voter mana from the chain (clamps when nearly drained)', async () => {
+  // voting_power 1100 (11%) → only 100 bps above the 10% floor → ~half a full vote's worth of mana
+  __setFetch(async () => ({ ok: true, json: async () => ({ result: [{ voting_power: 1100 }] }) }));
+  const res = mockRes();
+  await handler({ url: '/api/vote-quote?author=bob&permlink=p&alti=100', method: 'GET' }, res);
+  __setFetch();
+  const d = JSON.parse(res.body);
+  assert.equal(d.ok, true);
+  assert.equal(d.quote.clampedByMana, true); // 100 ALTI wants 100% but mana only supports 50%
+  assert.equal(d.quote.weightPct, 50);
+});
+
 test('unknown route soft-404s, never throws', async () => {
   const r = await get('/nope');
   assert.equal(r.code, 404);

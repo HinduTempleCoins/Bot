@@ -12,6 +12,7 @@
 import { projectPostEarnings, __setFetch as setEarningsFetch } from '../../integrations/scot-earnings.mjs';
 import { createTabFragment } from '../../integrations/token-launch.mjs';
 import { CHAINS } from '../../kulaswap/kula-config.mjs';
+import { quoteVote, DEFAULT_MARKET } from '../../kulaswap/alti-vote-market.mjs';
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
@@ -25,6 +26,11 @@ const PRANA = CHAINS.prana || {};
 const WIZARD_ADDR = process.env.WIZARD_ADDR || '';
 const CLONE_FACTORY_ADDR = process.env.CLONE_FACTORY_ADDR || '';
 const CHAIN_ID_HEX = PRANA.chainIdHex || '0x1a751';
+
+// Vote Shop: the @soapbox account that casts bought votes + the ALTI/full-vote price (env-tunable).
+const VOTE_VOTER = process.env.VOTE_VOTER || DEFAULT_MARKET.voter;
+const VOTE_FULL_ALTI = +(process.env.VOTE_FULL_ALTI || DEFAULT_MARKET.altiPerFullVote);
+const VOTE_MARKET = Object.freeze({ voter: VOTE_VOTER, altiPerFullVote: VOTE_FULL_ALTI });
 
 let _fetch = (...a) => globalThis.fetch(...a);
 /** Test hook — inject fetch (also rewires the earnings module). */
@@ -60,6 +66,29 @@ async function chainTags(author, permlink) {
   } catch { return []; }
 }
 
+/**
+ * voterMana — the @soapbox voter's current voting power in basis points (0..10000), read from the
+ * chain. Soft-fails to full mana (10000) if the RPC is unreachable — a quote is just a preview; the
+ * live order on the box re-checks mana before broadcasting.
+ */
+async function voterMana(account) {
+  if (!account) return 10000;
+  try {
+    const r = await _fetch(CHAIN_RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'condenser_api.get_accounts', params: [[account]], id: 1 }),
+    });
+    if (!r || !r.ok) return 10000;
+    const d = await r.json();
+    const a = d && d.result && d.result[0];
+    if (!a) return 10000;
+    // Steem/Blurt fork: voting_power is 0..10000 directly (older), or a voting_manabar.current_mana ratio.
+    const vp = Number(a.voting_power);
+    if (Number.isFinite(vp) && vp > 0) return Math.max(0, Math.min(10000, Math.round(vp)));
+    return 10000;
+  } catch { return 10000; }
+}
+
 // ---- shared shell ----------------------------------------------------------
 const STYLE = `
 :root{--bg:#0b0e14;--card:#131826;--ink:#e8e6e3;--dim:#9aa4b2;--gold:#d4a23c;--line:#222a3a;--ok:#2ecc71}
@@ -80,7 +109,7 @@ function shell(active, title, inner) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
-<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
+<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}
 <p class=dim style="margin-top:1.4rem;font-size:.75rem">Testnet. Token data from the MELEK-Engine; non-custodial — your keys never leave your device.</p>
 </body></html>`;
@@ -145,6 +174,28 @@ function pageCreate() {
   return shell('create', 'Create a Token', frag);
 }
 
+function pageVote() {
+  return shell('vote', 'Vote Shop', `<div class=card><div class=row><b>Buy a MELEK upvote with ALTI</b></div>
+<p class=dim style="margin:.4rem 0">Spend <span class=tok>ALTI</span> (the SoapBox staking reward) and <b>@${esc(VOTE_VOTER)}</b> casts a proportional upvote on your MELEK post.
+The vote is mana-honest — it never exceeds @${esc(VOTE_VOTER)}'s available voting power, and any ALTI it can't use is refunded. Nothing is signed here: you get back an order to confirm in your wallet.</p>
+<div class=row><input id=author placeholder="author (your MELEK @, no @)" autocomplete=off>
+<input id=permlink placeholder="permlink" autocomplete=off style="flex:1"></div>
+<div class=row style="margin-top:.5rem"><input id=alti type=number min=1 step=1 placeholder="ALTI to spend" value=50 style="width:9rem"><button onclick=q()>Quote the vote</button></div>
+<div id=out style="margin-top:.8rem"></div>
+<p class=dim style="margin-top:.6rem;font-size:.78rem">${esc(VOTE_FULL_ALTI)} ALTI = a 100% upvote. This is a transparent promotion market, not pay-to-rank — votes never re-order honest curation.</p></div>
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function q(){const a=document.getElementById('author').value.trim().replace(/^@/,'');const p=document.getElementById('permlink').value.trim();const alti=+document.getElementById('alti').value||0;const out=document.getElementById('out');
+if(!a||!p){out.innerHTML='<span class=dim>Enter your post (author + permlink) first.</span>';return}
+out.innerHTML='<span class=dim>quoting…</span>';
+let d;try{d=await (await fetch('/api/vote-quote?author='+encodeURIComponent(a)+'&permlink='+encodeURIComponent(p)+'&alti='+encodeURIComponent(alti))).json()}catch(e){out.textContent='error';return}
+if(!d||!d.ok){out.innerHTML='<span class=dim>Can\\'t fill that: '+esc((d&&d.reason)||'unknown')+'.</span>';return}
+const q=d.quote;const refund=q.altiRefunded>0?' <span class=dim>(+'+esc(q.altiRefunded)+' ALTI refunded)</span>':'';
+out.innerHTML='<div class=card style="margin:0"><b>Spend '+esc(q.altiCharged)+' ALTI</b>'+refund+' → a <b class=tok>'+esc(q.weightPct)+'%</b> upvote from @'+esc(d.vote.voter)+' on @'+esc(d.vote.author)+'/'+esc(d.vote.permlink)+'.'+(q.clampedByMana?' <span class=dim>(clamped to available voting power)</span>':'')+'<p class=dim style="margin-top:.4rem;font-size:.78rem">Confirm the ALTI transfer in your wallet to place the order.</p></div>'}
+const u=new URLSearchParams(location.search);if(u.get('author')&&u.get('permlink')){document.getElementById('author').value=u.get('author');document.getElementById('permlink').value=u.get('permlink');q()}
+</script>`);
+}
+
 // ---- handler ---------------------------------------------------------------
 export async function handler(req, res) {
   let url;
@@ -155,6 +206,20 @@ export async function handler(req, res) {
     if (p === '/create') return html(res, 200, pageCreate());
     if (p === '/wallet') return html(res, 200, pageWallet());
     if (p === '/earnings') return html(res, 200, pageEarnings());
+    if (p === '/vote') return html(res, 200, pageVote());
+    if (p === '/api/vote-quote') {
+      const author = url.searchParams.get('author') || '';
+      const permlink = url.searchParams.get('permlink') || '';
+      const altiSpent = +(url.searchParams.get('alti') || 0);
+      const manaParam = url.searchParams.get('mana');
+      const votingManaBps = manaParam != null ? +manaParam : await voterMana(VOTE_VOTER);
+      const quote = quoteVote({ altiSpent, votingManaBps, market: VOTE_MARKET });
+      if (!quote.ok) return json(res, 200, { ok: false, reason: quote.reason });
+      return json(res, 200, {
+        ok: true, quote,
+        vote: { voter: VOTE_VOTER, author: String(author).replace(/^@/, ''), permlink, weight: quote.weightBps },
+      });
+    }
     if (p.startsWith('/token/')) {
       const sym = decodeURIComponent(p.slice('/token/'.length)).toUpperCase();
       // per-token page = the engine's Nitrous tribe page (already built); link out to it
