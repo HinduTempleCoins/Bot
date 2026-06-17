@@ -196,8 +196,12 @@ Connect a PRANA wallet (Akasha / MetaMask) and sign <code>approve → delegate</
 <script>
 fetch('/api/state').then(r=>r.json()).then(s=>{
   if(!s.ok){document.getElementById('apr').textContent='unavailable';return;}
-  document.getElementById('apr').textContent = (s.apr? s.apr.pct.toFixed(2):'—')+'%';
-  document.getElementById('pool').textContent = 'Total delegated: '+s.totalDelegatedHuman+' dMP · Emission: '+s.emissionPerBlockHuman+' ALTI/block';
+  var el=document.getElementById('apr');
+  var pool='Total delegated: '+s.totalDelegatedHuman+' dMP · Emission: '+s.emissionPerBlockHuman+' ALTI/block';
+  if(!s.apr){el.textContent='—';}
+  else if(s.apr.pct>100000){el.textContent='very high'; el.title=s.apr.pct.toLocaleString()+'%'; pool+=' — APR is very high while TVL is low; it falls as more dMP is delegated.';}
+  else{el.textContent=s.apr.pct.toLocaleString(undefined,{maximumFractionDigits:2})+'%';}
+  document.getElementById('pool').textContent=pool;
 }).catch(()=>{document.getElementById('apr').textContent='unavailable';});
 </script>
 </div></body></html>`;
