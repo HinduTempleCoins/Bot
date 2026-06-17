@@ -19,11 +19,12 @@ export const WITHDRAW_COOLDOWN_DAYS = 30;
 export const BPS = 10000n;
 export const MIN_HATHOR_BPS = 300n; // the immutable 3% floor
 
-// PRANA addresses — filled once StakedPRANA + HathorFloorDistributor are deployed (operator merges
-// feat/prana-dao-core @ 501c14c, then we set these). Overridable via env/host.
+// PRANA addresses — DEPLOYED 2026-06-17 (PR #1 merged → deployed live on PRANA alpha). Overridable via env/host.
 export const ADDR = Object.freeze({
-  sPRANA: '0x0000000000000000000000000000000000000000',
-  hathorDistributor: '0x0000000000000000000000000000000000000000',
+  sPRANA: '0xD5ac451B0c50B9476107823Af206eD814a2e2580',
+  hathorDistributor: '0xc96304e3c037f81dA488ed9dEa1D8F2a48278a75',
+  governor: '0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397',
+  timelock: '0xc0F115A19107322cFBf1cDBC7ea011C19EbDB4F8',
 });
 
 export const SEL = Object.freeze({

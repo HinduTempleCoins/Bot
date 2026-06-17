@@ -83,7 +83,8 @@ test('fetchState decodes position + hathor share', async () => {
 });
 
 test('fetchState soft-fails before deployment + on chain error', async () => {
-  assert.equal((await fetchState(loadConfig({}), USER)).reason, 'sprana-not-deployed');
+  const ZERO = '0x0000000000000000000000000000000000000000';
+  assert.equal((await fetchState(loadConfig({ SPRANA_ADDRESS: ZERO }), USER)).reason, 'sprana-not-deployed');
   __setFetch(async () => { throw new Error('down'); });
   const s = await fetchState(loadConfig({ SPRANA_ADDRESS: ADDR.sPRANA }), USER);
   assert.equal(s.ok, false);
