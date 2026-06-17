@@ -9,7 +9,7 @@
 //
 // Env: PRANA_RPC_URL, GRAPHENE_BRIDGE_ADDRESS, MELEK_BRIDGE_CUSTODY, BRIDGE_NATIVE_TOKEN_ID (keccak256
 //   "MELEK"), MELEK_NATIVE_SYMBOL (default TESTS), CONFIRMATIONS, MELEK_RPC_URL, MELEK_CHAIN_ID,
-//   MELEK_ADDRESS_PREFIX, MELEK_BRIDGE_CUSTODY_MASTER (the custody master password), TICK_MS.
+//   MELEK_ADDRESS_PREFIX, MELEK_BRIDGE_CUSTODY_MASTER (or CUSTODY_MASTER_PASSWORD), TICK_MS.
 //
 // dhive lives ONLY here, at the edge.
 
@@ -26,7 +26,8 @@ export function makeMelekBroadcaster({ rpc, chainId, prefix, account, master }) 
 
 async function main() {
   const cfg = loadConfig();
-  const master = process.env.MELEK_BRIDGE_CUSTODY_MASTER;
+  // Accept either name so systemd can just include the existing custody envfile (CUSTODY_MASTER_PASSWORD).
+  const master = process.env.MELEK_BRIDGE_CUSTODY_MASTER || process.env.CUSTODY_MASTER_PASSWORD;
   const rpc = process.env.MELEK_RPC_URL;
   if (!cfg.pranaRpc || !cfg.bridgeAddress || !cfg.custody || !cfg.nativeTokenId || !master || !rpc) {
     process.stderr.write('[withdrawal-daemon] missing env (PRANA_RPC_URL/GRAPHENE_BRIDGE_ADDRESS/MELEK_BRIDGE_CUSTODY/BRIDGE_NATIVE_TOKEN_ID/MELEK_BRIDGE_CUSTODY_MASTER/MELEK_RPC_URL)\n');
