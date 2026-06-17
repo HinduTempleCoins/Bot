@@ -10,6 +10,8 @@
 // Pure logic + injectable store/sender/clock/token → fully offline-testable. House style: ESM, esc(),
 // soft-fail. The HTTP shell (handle) + the footer widget (subscribeWidget) live here too.
 
+import { randomBytes } from 'node:crypto';
+
 export function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -21,8 +23,9 @@ const norm = (e) => String(e || '').trim().toLowerCase();
 
 export function emptyStore() { return { subs: {}, contacts: [] }; }
 
-let _rnd = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
-export function __setTokenFn(fn) { _rnd = fn || (() => Math.random().toString(36).slice(2) + Date.now().toString(36)); }
+// confirm tokens are a security primitive (a guessable token forges an opt-in) → CSPRNG, ≥128 bits.
+let _rnd = () => randomBytes(32).toString('base64url');
+export function __setTokenFn(fn) { _rnd = fn || (() => randomBytes(32).toString('base64url')); }
 
 /**
  * addSubscriber(store, {email, source}, {now}) — add/refresh a PENDING subscriber with a confirm token.
