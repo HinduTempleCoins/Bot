@@ -115,6 +115,36 @@ test('/api/vote-quote reads voter mana from the chain (clamps when nearly draine
   assert.equal(d.quote.weightPct, 50);
 });
 
+test('/faucet serves Hathor\'s daily-claim page', async () => {
+  const r = await get('/faucet');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Hathor's faucet/);
+  assert.match(r.body, /once a day/);
+  assert.match(r.body, />Faucet</); // nav tab
+});
+
+test('/api/faucet-claim: a fresh account gets the base drip, then is rate-limited', async () => {
+  const acct = 'freshclaimer';
+  const a = await get('/api/faucet-claim?account=' + acct);
+  const da = JSON.parse(a.body);
+  assert.equal(da.ok, true);
+  assert.equal(da.amount, 1);          // base drip for a neutral new account
+  assert.equal(da.token, 'APIS');
+  // immediate second claim → cooldown (the in-memory ledger recorded the first)
+  const b = await get('/api/faucet-claim?account=' + acct);
+  const db = JSON.parse(b.body);
+  assert.equal(db.ok, false);
+  assert.equal(db.reason, 'cooldown');
+  assert.ok(db.nextClaimAt > 0);
+});
+
+test('/api/faucet-claim soft-fails without an account', async () => {
+  const r = await get('/api/faucet-claim?account=');
+  const d = JSON.parse(r.body);
+  assert.equal(d.ok, false);
+  assert.equal(d.reason, 'no-account');
+});
+
 test('unknown route soft-404s, never throws', async () => {
   const r = await get('/nope');
   assert.equal(r.code, 404);
