@@ -97,7 +97,7 @@ export const SERVICES = [
   // ── MELEK (social chain) ──
   { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
   { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and manage tokens.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
-  { name: 'Auto-vote / NutBox', blurb: 'Delegate to earn — multi-chain autovote + NutBox staking.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
+  { name: 'Auto-vote / SoapBox', blurb: 'Delegate to earn — multi-chain autovote + our own SoapBox staking, similar to NutBox.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
   { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status. (No alpha variant.)', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
 
   // ── PRANA (EVM / compute chain + DAO) ──
