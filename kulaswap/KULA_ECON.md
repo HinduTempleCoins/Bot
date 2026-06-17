@@ -3,6 +3,10 @@
 > Operator: **"we don't want KULA to just be an inflation token."** This doc + `kula-econ.mjs`
 > turn the one-directional emission loop into a utility-backed loop with real KULA **sinks** and a
 > protocol-owned-liquidity (**PoL**) **floor** that grows on its own.
+>
+> **Naming (2026-06-17):** the LP-reward *token* you earn-then-burn is now **SOMA** (was "PoL"). The
+> *floor* concept here — "protocol-owned liquidity (PoL)" — keeps its name; only the token is SOMA. AGNI is
+> reserved for the future Burn Mines. veKULA boosts the SOMA-lotto burn on a TerraCore-SCRAP DR curve.
 
 ## The problem (the loop today)
 
