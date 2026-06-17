@@ -31,6 +31,7 @@
 //   future URL with a "soon" tag and are deliberately NOT anchors.
 
 import { createServer } from 'node:http';
+import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
 
 const PORT = +(process.env.PORT || 8080);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -327,7 +328,8 @@ function netTree(which) {
 }
 
 export function homePage() {
-  const body = `<h1>${esc(ECOSYSTEM)}</h1>
+  // Static top box, same shared nav the SoapBox sites (data.soapbox.community etc.) use — every page one tap away.
+  const body = `${navBar({ current: 'soapbox', brand: SITE_NAME })}<h1>${esc(ECOSYSTEM)}</h1>
     <p class=lede>The family tree of the ecosystem, centred on the <b>${esc(SITE_NAME)}</b> hub. The three chain
       families fan out from the middle — <b>MELEK</b> to the left, <b>PRANA</b> to the right, <b>KULA</b> below —
       and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
@@ -345,7 +347,7 @@ function page(title, body) {
 <meta name=robots content="index,follow">
 <link rel=canonical href="${esc(BASE_URL)}/">
 <meta property="og:title" content="${esc(title)}">
-${STYLE}</head><body>
+${STYLE}${NAV_STYLE}</head><body>
 <header class=topbar><span class=brand>SoapBox<span class=alpha>Alpha</span><small>${esc(ECOSYSTEM)}</small></span></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map. All surfaces are on the
