@@ -1,10 +1,10 @@
 // kula-farm.test.mjs — OFFLINE. KULA yield-farm economics: emission split, pool APR, ve-boost + lock,
-// SBD-peg haircut, burn-PoL→KULA redeem, and burn-PoL→lotto tickets. Pure math, soft-fail.
+// SBD-peg haircut, burn-SOMA→KULA redeem, and burn-SOMA→lotto tickets (veKULA-boosted). Pure math, soft-fail.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   DEFAULT_SPLIT, normalizeSplit, emissionSplit, poolApr, veBoost, veVoteWeight, lockPosition,
-  lotteryPot, sbdConvert, burnPolForKula, burnPolForTickets, lottoWinChance,
+  lotteryPot, sbdConvert, burnSomaForKula, burnSomaForTickets, lottoWinChance, veKulaLottoBoost,
 } from './kula-farm.mjs';
 
 test('DEFAULT_SPLIT sums to 10000 bps (miners are the biggest sink)', () => {
@@ -57,16 +57,30 @@ test('sbdConvert honors the peg when healthy and HAIRCUTS above the debt cap (th
   assert.equal(bad.perUnitUsd, 0.02, 'haircut keeps total claims <= cap*treasury — peg cannot run away');
 });
 
-test('burnPolForKula is a fixed-ratio redeem (BurnMine model)', () => {
-  assert.deepEqual(burnPolForKula({ polIn: 100, num: 3, den: 2 }), { kulaOut: 150, ratio: 1.5, polBurned: 100 });
-  assert.equal(burnPolForKula({ polIn: 0, num: 1, den: 1 }).kulaOut, 0);
+test('burnSomaForKula is a fixed-ratio redeem (BurnMine model)', () => {
+  assert.deepEqual(burnSomaForKula({ somaIn: 100, num: 3, den: 2 }), { kulaOut: 150, ratio: 1.5, somaBurned: 100 });
+  assert.equal(burnSomaForKula({ somaIn: 0, num: 1, den: 1 }).kulaOut, 0);
 });
 
-test('burnPolForTickets buys whole lotto tickets, burns only the spent PoL, refunds remainder', () => {
-  const r = burnPolForTickets({ polIn: 25, polPerTicket: 10 });
-  assert.equal(r.tickets, 2);
-  assert.equal(r.polBurned, 20);
-  assert.equal(r.refund, 5);
+test('veKulaLottoBoost: TerraCore-SCRAP DR curve toward a cap', () => {
+  assert.equal(veKulaLottoBoost({ veKula: 0, maxBoost: 3, k: 1000 }), 1);            // no lock → 1x
+  assert.equal(veKulaLottoBoost({ veKula: 1000, maxBoost: 3, k: 1000 }), 2);          // veKula=k → midpoint (1 + 2*0.5)
+  assert.ok(veKulaLottoBoost({ veKula: 1_000_000, maxBoost: 3, k: 1000 }) > 2.99);    // →cap (3x)
+  assert.ok(veKulaLottoBoost({ veKula: 1_000_000, maxBoost: 3, k: 1000 }) <= 3);      // never exceeds cap
+});
+
+test('burnSomaForTickets buys whole tickets, burns only spent SOMA; veKULA boosts ticket count', () => {
+  const base = burnSomaForTickets({ somaIn: 25, somaPerTicket: 10 }); // no veKULA
+  assert.equal(base.baseTickets, 2);
+  assert.equal(base.tickets, 2);
+  assert.equal(base.somaBurned, 20);
+  assert.equal(base.refund, 5);
+  // with veKULA at k → 2x boost → floor(2*2)=4 tickets for the SAME 20 SOMA burned
+  const boosted = burnSomaForTickets({ somaIn: 25, somaPerTicket: 10, veKula: 1000, maxBoost: 3, k: 1000 });
+  assert.equal(boosted.baseTickets, 2);
+  assert.equal(boosted.boost, 2);
+  assert.equal(boosted.tickets, 4);
+  assert.equal(boosted.somaBurned, 20);
 });
 
 test('lottoWinChance = my tickets / total, clamped [0,1]', () => {

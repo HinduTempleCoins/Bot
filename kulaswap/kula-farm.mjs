@@ -90,23 +90,41 @@ export function lockPosition({ amount, lockWeeks, maxWeeks = 208, maxBoost = 2.5
   };
 }
 
-// Burn PoL → redeem KULA (operator: "burning PoL Token can redeem KULA somehow"). This is PRANA's
-// BurnMine model: an immutable fixed-ratio burn-to-mint, kulaOut = polIn * num / den. Burning PoL
-// (the liquidity instrument) is a sink for PoL and a mint path for KULA — links the two tokens.
-export function burnPolForKula({ polIn, num = 1, den = 1 } = {}) {
-  const p = nn(polIn), n = nn(num), d = nn(den);
+// SOMA = the LP-reward token (renamed from "PoL", operator 2026-06-17 — the elixir you EARN by providing
+// liquidity, then BURN). NB: "protocol-owned liquidity (POL)" the FLOOR concept (kula-econ.polFloorPrice) is
+// a different thing and keeps its name; only the *token* is SOMA. AGNI is reserved for the future Burn Mines.
+
+// Burn SOMA → redeem KULA (operator: "burning [SOMA] Token can redeem KULA somehow"). PRANA's BurnMine
+// model: an immutable fixed-ratio burn-to-mint, kulaOut = somaIn * num / den. Burning SOMA is a SOMA sink
+// and a KULA mint path — links the two tokens.
+export function burnSomaForKula({ somaIn, num = 1, den = 1 } = {}) {
+  const p = nn(somaIn), n = nn(num), d = nn(den);
   if (p <= 0 || n <= 0 || d <= 0) return { kulaOut: 0, ratio: 0 };
-  return { kulaOut: round(p * n / d, 8), ratio: round(n / d, 8), polBurned: round(p, 8) };
+  return { kulaOut: round(p * n / d, 8), ratio: round(n / d, 8), somaBurned: round(p, 8) };
 }
 
-// Burn PoL → KULA LOTTO tickets (operator: "Burn PoL for KULA Lotto"). A deflationary burn-to-enter
-// raffle: burn PoL to buy tickets; the prize is KULA (pot from fees + emissions, see lotteryPot). This
-// is a PoL SINK + a KULA distribution + chance — distinct from the no-loss lotto (here the burned PoL is
-// spent, not returned). Tickets are whole units; remainder PoL is not burned.
-export function burnPolForTickets({ polIn, polPerTicket = 1 } = {}) {
-  const p = nn(polIn), cost = nn(polPerTicket) || 1;
-  const tickets = Math.floor(p / cost);
-  return { tickets, polBurned: round(tickets * cost, 8), refund: round(p - tickets * cost, 8) };
+/** veKULA lotto boost — TerraCore/SCRAP-style staking curve (operator 2026-06-17): diminishing returns
+ *  toward a cap. boost = 1 + (maxBoost-1) × veKula/(veKula + k), so veKula=0→1×, veKula=k→midpoint,
+ *  veKula→∞→maxBoost×. Lock more KULA → more lotto tickets per SOMA burned, each veKULA adding less. */
+export function veKulaLottoBoost({ veKula, maxBoost = 3, k = 1000 } = {}) {
+  const v = nn(veKula), kk = nn(k) || 1, mb = Math.max(1, nn(maxBoost) || 1);
+  return round(1 + (mb - 1) * (v / (v + kk)), 6);
+}
+
+// Burn SOMA → KULA LOTTO tickets (operator: "Burn [SOMA] for KULA Lotto"; "veLocking KULA can Boost the
+// [SOMA] Lotto Burn"). A deflationary burn-to-enter raffle: burn SOMA → tickets; the prize is KULA (pot from
+// fees + emissions, see lotteryPot). veKULA applies the SCRAP-style boost so locked KULA yields MORE tickets
+// for the same SOMA burned. Tickets are whole units; SOMA only burns for the base tickets bought.
+export function burnSomaForTickets({ somaIn, somaPerTicket = 1, veKula = 0, maxBoost = 3, k = 1000 } = {}) {
+  const p = nn(somaIn), cost = nn(somaPerTicket) || 1;
+  const baseTickets = Math.floor(p / cost);
+  const boost = veKulaLottoBoost({ veKula, maxBoost, k });
+  const tickets = Math.floor(baseTickets * boost);
+  return {
+    tickets, baseTickets, boost,
+    somaBurned: round(baseTickets * cost, 8),
+    refund: round(p - baseTickets * cost, 8),
+  };
 }
 
 /** Win chance for `myTickets` of `totalTickets` in the burn-lotto draw (single winner). */

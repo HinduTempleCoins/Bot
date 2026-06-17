@@ -1,7 +1,7 @@
 // kula-econ.mjs — KULA NET-SUPPLY + protocol-owned-liquidity (PoL) FLOOR model (pure math, no chain).
 //
-// THE PROBLEM this models: the bare loop is `provide liquidity → earn PoL (an emission token) →
-// MultiBurnMine burns PoL and MINTS KULA`. That only ADDS KULA — there is no matching KULA sink, so
+// THE PROBLEM this models: the bare loop is `provide liquidity → earn SOMA (an emission token, formerly PoL) →
+// MultiBurnMine burns SOMA and MINTS KULA`. That only ADDS KULA — there is no matching KULA sink, so
 // KULA trends inflationary. Operator: "we don't want KULA to just be an inflation token."
 //
 // THE FIX this models: route every KULA *use* to real SINKS so emission is offset/exceeded —
@@ -23,7 +23,7 @@ const clampBps = (b) => Math.min(BPS, Math.max(0, Math.round(nn(b))));
 
 /**
  * Net KULA supply change for one epoch.
- *   emitted    — KULA minted this epoch (MultiBurnMine PoL→KULA + any farm/gauge emission).
+ *   emitted    — KULA minted this epoch (MultiBurnMine SOMA→KULA + any farm/gauge emission).
  *   burned     — KULA destroyed this epoch (FeeCollectorBurner + UsageBurn + ProofOfBurnRegistry +
  *                CommunityBuybackVault in BURN mode).
  *   boughtBack — KULA bought on the AMM and LOCKED into protocol-owned liquidity (LiquidityLocker).
@@ -52,7 +52,7 @@ export function netKulaFlow({ emitted = 0, burned = 0, boughtBack = 0 } = {}) {
  *   burnBps        — share of useVolume routed straight to BURN (FeeCollectorBurner / UsageBurn).
  *   buybackBps     — share routed to CommunityBuybackVault → buy KULA on AMM → LP → lock (PoL floor).
  *   (remainder stays as protocol revenue / treasury — NOT a sink.)
- *   emitted        — KULA minted this epoch (the PoL→KULA mint etc.).
+ *   emitted        — KULA minted this epoch (the SOMA→KULA mint etc.).
  */
 export function applyUsePolicy({ useVolumeKula = 0, burnBps = 5000, buybackBps = 3000, emitted = 0 } = {}) {
   const use = nn(useVolumeKula);
