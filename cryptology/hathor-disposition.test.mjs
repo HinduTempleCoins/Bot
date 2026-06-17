@@ -69,6 +69,14 @@ test('faucet: GATED — a hostile standing below the floor cannot claim', () => 
   assert.equal(r.reason, 'standing-too-low');
 });
 
+test('faucet: GATED — a pure taker (negative reciprocity, neutral standing) cannot keep draining the tap', () => {
+  const file = tmpStore();
+  for (let i = 0; i < 16; i++) recordInteraction('taker', 'ghosted', { file }); // reciprocity↓, standing stays ~0
+  const r = faucetClaim({ account: 'taker', now: 5_000_000, lastClaimAt: 0, reservoir: 100, file });
+  assert.equal(r.ok, false);
+  assert.equal(r.reason, 'taker-no-reciprocity');
+});
+
 test('recordInteraction moves the map; unknown event is a soft no-op', () => {
   const file = tmpStore();
   const ok = recordInteraction('dave', 'warm_exchange', { file });
