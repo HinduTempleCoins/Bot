@@ -95,7 +95,7 @@ export const SERVICES = [
   { name: 'Akasha', blurb: 'In-browser wallet — keys generated client-side, never transmitted.', family: FAM_KULA, category: CAT_WALLET, base: 'soapbox.community', sub: 'akasha' },
 
   // ── MELEK (social chain) ──
-  { name: 'MELEK app', blurb: 'The MELEK hub — !commands, signup, tutorial, and live demos.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '' },
+  { name: 'MELEK app', blurb: 'The MELEK social front-end — feed, tribes, posting, and wallet.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '' },
   { name: 'Tokens portal', blurb: 'Unified SCOT token portal — tribe tokens, cross-tribe earnings.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'tokens' },
   { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and manage tokens.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
   { name: 'Auto-vote / SoapBox', blurb: 'Delegate to earn — multi-chain autovote + our own SoapBox staking, similar to NutBox.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },

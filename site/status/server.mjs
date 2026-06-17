@@ -28,7 +28,7 @@ const WRAPPED_TOKEN_SEL = '0xdb110aac'; // wrappedToken(bytes32)
 export const CHECKS = [
   { name: 'Ecosystem home', group: 'Web', kind: 'contains', url: 'https://soapbox.community/', needle: 'SoapBox' },
   { name: 'Tokens portal', group: 'Web', kind: 'http', url: 'https://tokens.alpha.melek.salon/' },
-  { name: 'Akasha wallet', group: 'Web', kind: 'http', url: 'https://alpha.akasha.soapbox.community/' },
+  { name: 'Akasha wallet', group: 'Web', kind: 'http', url: 'https://akasha.alpha.soapbox.community/' },
   { name: 'PRANAScan explorer', group: 'Web', kind: 'http', url: 'https://pranascan.alpha.soapbox.community/' },
   { name: 'SoapBox Staking', group: 'DeFi', kind: 'contains', url: 'https://staking.alpha.melek.salon/api/state', needle: '"ok":true' },
   { name: 'APIS Paymaster', group: 'DeFi', kind: 'contains', url: 'https://paymaster.alpha.melek.salon/api/manifest', needle: 'SIGNS nothing' },
