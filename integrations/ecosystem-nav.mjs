@@ -40,6 +40,7 @@ export const ECOSYSTEM_LINKS = [
   { label: 'Home', url: env('HOME_SITE', 'https://home.soapbox.community'), group: 'SoapBox', live: true, key: 'home' },
   { label: 'Wiki', url: env('WIKI_SITE', 'https://wiki.soapbox.community'), group: 'SoapBox', live: true, key: 'wiki' },
   { label: 'Credentials', url: env('CREDENTIALS_SITE', 'https://credentials.soapbox.community'), group: 'SoapBox', live: true, key: 'credentials' },
+  { label: 'Grants', url: env('GRANTS_SITE', 'https://grants.soapbox.community'), group: 'SoapBox', live: true, key: 'grants' },
   { label: 'Shop', url: env('SHOP_SITE', 'https://shop.melek.salon'), group: 'SoapBox', live: true, key: 'shop' },
 
   // The chains — add the real endpoints here as they go live; `live:false` shows them as "soon"
