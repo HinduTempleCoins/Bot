@@ -79,6 +79,14 @@ export const VERTICALS = [
       'campaign finance', 'who represents', 'my rep', 'member of congress', 'governor',
       'voting record', 'roll call').test(q),
   },
+  {
+    id: 'credentials', label: 'Credentials',
+    // how to get credentialed — certifications, accreditors, credit-by-exam, the free paths.
+    test: (q) => re('credential', 'credentials', 'certification', 'certifications', 'certificate',
+      'certified', 'accredit\\w*', 'ceu', 'ceus', 'continuing education', 'tefl', 'tesol', 'celta',
+      'clep', 'college credit', 'credit by exam', 'iacet', 'saylor', 'modern ?states', 'comptia',
+      'osha', 'cdl', 'servsafe', 'how (do|to) (i )?get certified', 'teach english').test(q),
+  },
 ];
 
 /** Pure routing — which SPECIFIC vertical (or 'system' if none). Exported for tests + UI branching. */
@@ -94,7 +102,7 @@ let _readers = null;
 export function __setReaders(obj) { _readers = obj && typeof obj === 'object' ? obj : null; }
 
 function defaultReaders() {
-  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, system: systemReader, directory: directoryReader };
+  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, credentials: credentialsReader, system: systemReader, directory: directoryReader };
 }
 
 // Hierophant: keyword-search the religion catalog (texts + traditions + entities), link out to the
@@ -250,6 +258,23 @@ function fmtLegislators(rows, header) {
     sources: [{ title: 'Politics — legislators, elections, campaign finance', link: 'https://politics.soapbox.community' }],
     data: { legislators: top.map((r) => ({ name: r.name, party: r.party, chamber: r.chamber, state: r.state, district: r.district, bioguide: r.bioguide })) },
   };
+}
+
+// Credentials: the by-industry credentialing catalog (pure, offline) — certifications, accreditors,
+// credit-by-exam, the free paths. Always answers (catalog is local); never null.
+async function credentialsReader(q) {
+  const mod = await safe(() => import('./soapbox/credentials-catalog.mjs'), null);
+  if (!mod || typeof mod.search !== 'function') return null;
+  const src = { title: 'SoapBox Credentials — by industry', link: 'https://credentials.soapbox.community' };
+  const hits = safeCall(() => mod.search(q, { limit: 4 })) || [];
+  if (hits.length) {
+    const costWord = { free: 'free', low: 'low cost', paid: 'paid' };
+    const lines = hits.map((x) => `• ${x.name} (${costWord[x.cost] || x.cost}) — ${(x.what || '').slice(0, 150)}`);
+    const sources = hits.slice(0, 3).map((x) => ({ title: x.name, link: x.url }));
+    return { answer: `Credential paths for that:\n${lines.join('\n')}\nMore, organized by industry, at credentials.soapbox.community.`, sources: [...sources, src].slice(0, 4), data: { credentials: hits.map((x) => x.id) } };
+  }
+  const inds = (mod.INDUSTRIES || []).slice(0, 6).map((i) => i.name).join('; ');
+  return { answer: `I map credentialing by industry at credentials.soapbox.community — ${inds}, and more. Tell me a field or goal (e.g. "teach English", "free college credit", "IT support") and I'll point you to the path.`, sources: [src], data: {} };
 }
 
 // The existing markets/data + Library(datasets) + trust front door.
