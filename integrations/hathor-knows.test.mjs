@@ -143,6 +143,21 @@ test('a law/politics reader returning null falls through to the directory pointe
   __setReaders(null);
 });
 
+test('routeVertical: credentialing questions route to the credentials vertical', () => {
+  assert.equal(routeVertical('how do I get TEFL certified?'), 'credentials');
+  assert.equal(routeVertical('free college credit with CLEP'), 'credentials');
+  assert.equal(routeVertical('what is an IACET CEU?'), 'credentials');
+  assert.equal(routeVertical('CompTIA Security+ certification'), 'credentials');
+});
+
+test('the credentials reader answers from the catalog (offline, real data)', async () => {
+  __setReaders(null); // use the real default readers (credentials catalog is pure/offline)
+  const r = await ask('how do I get certified to teach English?', { llm: false });
+  assert.equal(r.vertical, 'credentials');
+  assert.match(r.answer, /TEFL|TESOL|CELTA/);
+  assert.ok(r.sources.some((s) => /credentials\.soapbox\.community|cambridge|tesol|tefl/i.test(s.link)));
+});
+
 test('VERTICALS registry is well-formed (id, label, callable test)', () => {
   for (const v of VERTICALS) {
     assert.ok(v.id && typeof v.id === 'string');
