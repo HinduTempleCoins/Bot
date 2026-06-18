@@ -89,6 +89,14 @@ export const VERTICALS = [
       'childcare', 'child care', 'daycare', 'day care', '\\bcda\\b', 'child development associate',
       'head start', 'ccdf', 'run a daycare', 'open a daycare').test(q),
   },
+  {
+    id: 'grants', label: 'Grants',
+    // where the money is — grants, funders, fellowships, RFPs. (childcare funding stays in credentials.)
+    test: (q) => re('grant', 'grants', 'funding', 'fund my', 'rfp', 'rfps', 'request for proposal',
+      'foundation money', 'fellowship', 'fellowships', 'nsf', 'nih', 'sbir', 'sttr', 'grants\\.gov',
+      'sam\\.gov', 'research funding', 'school grant', 'arts grant', 'nonprofit funding',
+      'who funds', 'apply for a grant').test(q),
+  },
 ];
 
 /** Pure routing — which SPECIFIC vertical (or 'system' if none). Exported for tests + UI branching. */
@@ -104,7 +112,7 @@ let _readers = null;
 export function __setReaders(obj) { _readers = obj && typeof obj === 'object' ? obj : null; }
 
 function defaultReaders() {
-  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, credentials: credentialsReader, system: systemReader, directory: directoryReader };
+  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, credentials: credentialsReader, grants: grantsReader, system: systemReader, directory: directoryReader };
 }
 
 // Hierophant: keyword-search the religion catalog (texts + traditions + entities), link out to the
@@ -277,6 +285,22 @@ async function credentialsReader(q) {
   }
   const inds = (mod.INDUSTRIES || []).slice(0, 6).map((i) => i.name).join('; ');
   return { answer: `I map credentialing by industry at credentials.soapbox.community — ${inds}, and more. Tell me a field or goal (e.g. "teach English", "free college credit", "IT support") and I'll point you to the path.`, sources: [src], data: {} };
+}
+
+// Grants: the by-field grant aggregator (pure, offline) — portals, federal, foundations, fellowships,
+// RFPs. Always answers; never null.
+async function grantsReader(q) {
+  const mod = await safe(() => import('./soapbox/grants-catalog.mjs'), null);
+  if (!mod || typeof mod.search !== 'function') return null;
+  const src = { title: 'SoapBox Grants — by field', link: 'https://grants.soapbox.community' };
+  const hits = safeCall(() => mod.search(q, { limit: 4 })) || [];
+  if (hits.length) {
+    const lines = hits.map((x) => `• ${x.name} (${x.kind}) — ${(x.what || '').slice(0, 150)}`);
+    const sources = hits.slice(0, 3).map((x) => ({ title: x.name, link: x.url }));
+    return { answer: `Where to find that funding:\n${lines.join('\n')}\nMore, organized by field, at grants.soapbox.community.`, sources: [...sources, src].slice(0, 4), data: { grants: hits.map((x) => x.id) } };
+  }
+  const flds = (mod.FIELDS || []).slice(0, 6).map((f) => f.name).join('; ');
+  return { answer: `I aggregate grants by field at grants.soapbox.community — ${flds}, plus RFPs. Start with the master portals (Grants.gov, SAM.gov, Candid), or tell me your field and I'll point you.`, sources: [src], data: {} };
 }
 
 // The existing markets/data + Library(datasets) + trust front door.
