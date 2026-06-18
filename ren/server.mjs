@@ -112,7 +112,7 @@ function page() {
 </style></head><body><div class=wrap>
   <span class=badge>Alpha · PRANA testnet</span>
   <h1><span class=dia>◈</span> REN</h1>
-  <div class=sub>Your true name on MELEK. Claim a <b>${tlds}</b> name — resolves to your wallet &amp; site, leased annually, paid in PRANA or KULA. No ICANN, no Web3 resolver — our chain, our names.</div>
+  <div class=sub>Your true name on MELEK. Claim a serene <b>${tlds}</b> name — resolves to your wallet &amp; site, leased annually, paid in PRANA or KULA. No ICANN, no Web3 resolver — our chain, our names.</div>
 
   <div class=box>
     <div class=row>
