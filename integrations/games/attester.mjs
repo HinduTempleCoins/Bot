@@ -63,6 +63,7 @@ function addrWord(addr) {
 
 const DOMAIN_TYPEHASH = keccak(utf8ToBytes('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'));
 const VOUCHER_TYPEHASH = keccak(utf8ToBytes('Voucher(address player,uint256 amount,bytes32 scoreRef,uint256 deadline,uint256 nonce)'));
+const GEO_TYPEHASH = keccak(utf8ToBytes('GeoVoucher(address player,uint256 cellId,uint256 epoch,uint256 amount,uint256 nonce,uint256 deadline)'));
 
 function domainSeparator(name, version, cid, verifyingContract) {
   return keccak(concatBytes(
@@ -89,6 +90,27 @@ export function voucherDigest(voucher, faucet, cid = chainId()) {
   const sep = domainSeparator('ArcadeFaucet', '1', cid, faucet);
   const sh = structHash(voucher);
   return '0x' + bytesToHex(keccak(concatBytes(Uint8Array.of(0x19, 0x01), sep, sh)));
+}
+
+function geoStructHash({ player, cellId, epoch, amount, nonce, deadline }) {
+  return keccak(concatBytes(
+    GEO_TYPEHASH,
+    addrWord(player), b32FromBig(cellId), b32FromBig(epoch), b32FromBig(amount), b32FromBig(nonce), b32FromBig(deadline),
+  ));
+}
+/** The EIP-712 digest a GeominingSettlement geo-voucher signature must cover. 0x-hex (32 bytes). */
+export function geoVoucherDigest(voucher, settlement, cid = chainId()) {
+  const sep = domainSeparator('GeominingSettlement', '1', cid, settlement);
+  return '0x' + bytesToHex(keccak(concatBytes(Uint8Array.of(0x19, 0x01), sep, geoStructHash(voucher))));
+}
+export const geominingAddress = () => env('GEOMINING_ADDRESS', '');
+
+/** Map a lat/lng to a deterministic numeric cell id (≈111m cells at precision 1000). */
+export function cellIdFor(lat, lng, precision = Number(env('GEO_PRECISION', '1000'))) {
+  const la = Math.floor((Number(lat) + 90) * precision);
+  const lo = Math.floor((Number(lng) + 180) * precision);
+  if (!Number.isFinite(la) || !Number.isFinite(lo)) return null;
+  return BigInt(la) * BigInt(360 * precision + 1) + BigInt(lo);
 }
 
 /** Address (0x, lowercase) of a private key — to confirm it matches the on-chain ATTESTER_ROLE. */
@@ -185,6 +207,49 @@ export function attestSteps(sub = {}, opts = {}) {
   return buildAndSign({ player, payout, scoreRef: scoreRefFor({ gameId: 'move-to-earn', player, score: n, runHash: date }) }, opts);
 }
 
+/**
+ * Attest a geomining claim → a signed GeominingSettlement geo-voucher. Pass a numeric cellId, or
+ * lat/lng (mapped to a cell). epoch defaults to the current GEO_EPOCH_SEC bucket. Never throws.
+ * @param {{player, cellId, lat, lng, epoch}} sub
+ * @param {object} [opts]  { key, settlement, chainId, now, nonce, ttlSec, decimals, reward, rand }
+ */
+export function attestGeomine(sub = {}, opts = {}) {
+  const { player, cellId, lat, lng, epoch } = sub;
+  if (!isAddr(player)) return { ok: false, reason: 'player must be a 0x address' };
+  let cid;
+  if (cellId != null) cid = BigInt(cellId);
+  else if (lat != null && lng != null) cid = cellIdFor(lat, lng);
+  else return { ok: false, reason: 'cellId or lat/lng required' };
+  if (cid == null) return { ok: false, reason: 'could not derive cell from coordinates' };
+
+  const nowSec = Math.floor((opts.now != null ? opts.now : Date.now()) / 1000);
+  const ep = epoch != null ? BigInt(epoch) : BigInt(Math.floor(nowSec / Number(env('GEO_EPOCH_SEC', '86400'))));
+  const payout = Math.max(0, Math.floor(Number(opts.reward != null ? opts.reward : env('GEO_REWARD', '1'))));
+  if (payout <= 0) return { ok: false, reason: 'geo reward is zero', payout: 0 };
+
+  const settlement = opts.settlement || geominingAddress();
+  const cidChain = opts.chainId != null ? BigInt(opts.chainId) : chainId();
+  const amount = BigInt(payout) * (10n ** (opts.decimals != null ? BigInt(opts.decimals) : decimals()));
+  const deadline = BigInt(nowSec + (opts.ttlSec != null ? opts.ttlSec : TTL_SEC()));
+  const rand = opts.rand != null ? opts.rand : Math.random();
+  const nonce = opts.nonce != null ? BigInt(opts.nonce) : (BigInt(nowSec) * 1000000n + BigInt(Math.floor(rand * 1000000)));
+  const voucher = { player: String(player).toLowerCase(), cellId: cid, epoch: ep, amount, nonce, deadline };
+  const base = {
+    ok: true, payout, cellId: cid.toString(), epoch: ep.toString(),
+    voucher: { player: voucher.player, cellId: cid.toString(), epoch: ep.toString(), amount: amount.toString(), nonce: nonce.toString(), deadline: deadline.toString() },
+  };
+  if (!isAddr(settlement)) return { ...base, signed: false, reason: 'no geomining settlement address (set GEOMINING_ADDRESS)' };
+  const digest = geoVoucherDigest(voucher, settlement, cidChain);
+  const key = opts.key || attesterKey();
+  if (!key) return { ...base, signed: false, reason: 'no attester key (set ATTESTER_KEY)', digest, settlement, chainId: cidChain.toString() };
+  const signature = signDigest(digest, key);
+  return {
+    ...base, signed: true, settlement, chainId: cidChain.toString(), digest, signature, attester: attesterAddressOf(key),
+    // GeominingSettlement.claim(player, cellId, epoch, amount, nonce, deadline, signature)
+    claimArgs: [voucher.player, cid.toString(), ep.toString(), amount.toString(), nonce.toString(), deadline.toString(), signature],
+  };
+}
+
 // ── HTTP daemon ─────────────────────────────────────────────────────────────────────────────────
 function readBody(req, max = 100_000) {
   return new Promise((resolve) => {
@@ -209,10 +274,12 @@ export async function handler(req, res) {
     if (path === '/attester') {
       return json(res, 200, { attester: attesterAddressOf() || null, faucet: faucetAddress() || null, chainId: chainId().toString() });
     }
-    if ((path === '/attest/arcade' || path === '/attest/steps') && method === 'POST') {
+    if ((path === '/attest/arcade' || path === '/attest/steps' || path === '/attest/geomine') && method === 'POST') {
       let body = {};
       try { body = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = path === '/attest/arcade' ? attestArcadeRun(body) : attestSteps(body);
+      const out = path === '/attest/arcade' ? attestArcadeRun(body)
+        : path === '/attest/steps' ? attestSteps(body)
+          : attestGeomine(body);
       return json(res, out.ok ? 200 : 422, out);
     }
     return json(res, 404, { ok: false, reason: 'not found' });
