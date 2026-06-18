@@ -4,7 +4,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import {
-  attestArcadeRun, attestSteps, attesterAddressOf, recoverSigner, scoreRefFor, voucherDigest, signDigest, handler,
+  attestArcadeRun, attestSteps, attestGeomine, cellIdFor, geoVoucherDigest,
+  attesterAddressOf, recoverSigner, scoreRefFor, voucherDigest, signDigest, handler,
 } from './attester.mjs';
 
 // anvil account #0 — a well-known throwaway test key (NEVER a real key).
@@ -82,6 +83,33 @@ test('move-to-earn: steps attest through the same voucher shape (reward floored)
   assert.equal(recoverSigner(out.digest, out.signature).toLowerCase(), ADDR);
   // a tiny step count earns nothing whole → not paid
   assert.equal(attestSteps({ player: PLAYER, steps: 5 }, FIXED).ok, false);
+});
+
+const SETTLE = '0x3333333333333333333333333333333333333333';
+
+test('geomining: lat/lng → a signed GeoVoucher that recovers to the attester', () => {
+  const out = attestGeomine({ player: PLAYER, lat: 32.7767, lng: -96.7970, epoch: 19676 },
+    { key: KEY, settlement: SETTLE, chainId: 108369, now: FIXED.now, nonce: 99 });
+  assert.equal(out.ok, true);
+  assert.equal(out.signed, true);
+  assert.equal(out.epoch, '19676');
+  assert.ok(BigInt(out.cellId) > 0n);
+  assert.equal(out.claimArgs.length, 7);                   // player, cellId, epoch, amount, nonce, deadline, sig
+  assert.equal(recoverSigner(out.digest, out.signature).toLowerCase(), ADDR);
+  // digest matches an independent recompute via geoVoucherDigest
+  const [player, cellId, epoch, amount, nonce, deadline] = out.claimArgs;
+  assert.equal(geoVoucherDigest({ player, cellId: BigInt(cellId), epoch: BigInt(epoch), amount: BigInt(amount), nonce: BigInt(nonce), deadline: BigInt(deadline) }, SETTLE, 108369n), out.digest);
+});
+
+test('geomining: an explicit cellId works and is stable; bad input rejected', () => {
+  const a = attestGeomine({ player: PLAYER, cellId: 12345, epoch: 1 }, { key: KEY, settlement: SETTLE, now: FIXED.now, nonce: 1 });
+  assert.equal(a.cellId, '12345');
+  assert.equal(attestGeomine({ player: PLAYER }, FIXED).ok, false);          // no cell/coords
+  assert.equal(attestGeomine({ player: 'nope', lat: 1, lng: 1 }, FIXED).ok, false); // bad player
+});
+
+test('cellIdFor is deterministic for the same coordinates', () => {
+  assert.equal(cellIdFor(32.7767, -96.7970), cellIdFor(32.7767, -96.7970));
 });
 
 test('scoreRef is deterministic and 32 bytes', () => {
