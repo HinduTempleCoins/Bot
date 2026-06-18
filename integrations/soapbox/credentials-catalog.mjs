@@ -35,6 +35,7 @@ export const INDUSTRIES = [
   { id: 'human-resources',      name: 'Human resources',                        blurb: 'The two recognized HR credential families — SHRM (SHRM-CP/SCP) and HRCI (aPHR/PHR/SPHR) — and the free study paths into them.' },
   { id: 'languages',           name: 'Languages (proficiency)',                blurb: 'Recognized language-proficiency credentials — ACTFL (US), and the national standards: Goethe (German), DELE (Spanish), DELF/DALF (French), JLPT (Japanese), HSK (Chinese).' },
   { id: 'healthcare',          name: 'Healthcare & safety',                    blurb: 'Patient-care and safety credentials — CPR/BLS (AHA, Red Cross), CNA, phlebotomy, Medical Assistant, and ServSafe for food handling.' },
+  { id: 'childcare',           name: 'Childcare & early education',             blurb: 'The full path: the CDA credential (and how to get it paid for with T.E.A.C.H.), licensing to RUN a daycare, NAEYC accreditation — and the real state & federal money: CCDF subsidies, Head Start, CACFP food reimbursement, and grants.' },
   { id: 'skilled-trades',      name: 'Skilled trades & compliance',           blurb: 'Trade and workplace-compliance credentials — OSHA 10/30, EPA 608 (HVAC refrigerant), CDL, and apprenticeship on-ramps.' },
   { id: 'education-teaching',   name: 'Teaching & instructional design',        blurb: 'K-12 and adult teaching — Praxis prep, alternative certification, and instructional-design / online-teaching credentials.' },
 ];
@@ -336,6 +337,35 @@ export const CREDENTIALS = [
   c('nate', 'NATE — HVAC Technician Certification', 'skilled-trades', 'certification', 'low',
     'North American Technician Excellence', 'The leading HVAC/R technician certification', 'https://natex.org/',
     'The largest non-vendor certification for HVAC/R technicians — recognized across the industry and often paired with EPA 608.'),
+
+  // ── Childcare & early education — the credential path AND the funding path ────────────────────────
+  c('cda', 'CDA — Child Development Associate Credential', 'childcare', 'certification', 'low',
+    'Council for Professional Recognition', 'THE nationally-recognized entry credential to work in childcare', 'https://www.cdacouncil.org/en/credentials/about-cda/',
+    'The Child Development Associate (CDA) is the standard national credential for early-childhood educators — what most states and centers require to teach young children. ~120 training hours + a portfolio + an exam (~$425, and often paid for free by T.E.A.C.H.).'),
+  c('teach-scholarship', 'T.E.A.C.H. Early Childhood Scholarships', 'childcare', 'funding', 'free',
+    'T.E.A.C.H. Early Childhood National Center', 'Pays for your CDA or early-childhood degree', 'https://teachecnationalcenter.org/',
+    'Scholarships that cover most of the cost of earning a CDA or an early-childhood degree — tuition, books, and often a raise/bonus. The way most childcare workers get credentialed for (almost) free. Offered state by state.'),
+  c('ccp-nac', 'CCP & National Administrator Credential (NAC)', 'childcare', 'certification', 'low',
+    'NECPA Commission / Council for Professional Recognition', 'Director-level childcare credentials (to run a center)', 'https://necpa.net/',
+    'Step up from the CDA: the Certified Childcare Professional (CCP) and the National Administrator Credential (NAC) — the credentials for directing and running a childcare center, often required for licensing or higher funding tiers.'),
+  c('childcare-license', 'State Child Care License (running a daycare)', 'childcare', 'license-prep', 'low',
+    'Your state licensing agency (find it via childcare.gov)', 'The legal requirement to operate a daycare', 'https://childcare.gov/state-resources',
+    'To run a daycare (home- or center-based) you need a state license: meet health/safety/ratio rules, background checks, and staff-credential minimums. childcare.gov\'s state lookup links your exact agency and rules — start here.'),
+  c('naeyc-accreditation', 'NAEYC Accreditation', 'childcare', 'accreditor', 'paid',
+    'National Association for the Education of Young Children', 'The mark of a high-quality program — raises your QRIS rating & funding', 'https://www.naeyc.org/accreditation',
+    'The gold-standard accreditation for early-childhood programs. It signals quality to parents AND lifts your state QRIS rating — which raises subsidy reimbursement rates and unlocks more grants.'),
+  c('ccdf-subsidy', 'CCDF — Child Care Subsidy (state + federal)', 'childcare', 'funding', 'free',
+    'Office of Child Care (HHS/ACF) → your state', 'The largest federal money stream into childcare', 'https://www.acf.hhs.gov/occ',
+    'The Child Care & Development Fund: federal money, run by each state, that pays providers to care for kids from lower-income families. Become an approved provider and a large share of your tuition can be government-paid. Apply through your state agency.'),
+  c('head-start', 'Head Start / Early Head Start', 'childcare', 'funding', 'free',
+    'Office of Head Start (HHS/ACF)', 'Federal grants to deliver free early education', 'https://www.acf.hhs.gov/ohs',
+    'Federal grants that fund free early-education and family services for low-income children (birth–5). Run a Head Start program (grantee/partner), or point families to free local slots. Major, stable federal funding.'),
+  c('cacfp', 'CACFP — Child & Adult Care Food Program (USDA)', 'childcare', 'funding', 'free',
+    'USDA Food & Nutrition Service → your state', 'Reimburses daycares for the meals they serve', 'https://www.fns.usda.gov/cacfp',
+    'USDA reimburses licensed daycares and home providers for nutritious meals and snacks served to kids — real monthly money that many providers leave on the table. Enroll through your state CACFP sponsor.'),
+  c('childcare-grants', 'Free government money for childcare — the official sources', 'childcare', 'funding', 'free',
+    'childcare.gov · grants.gov · benefits.gov', 'The real programs behind the "free-money" pitch — no book required', 'https://childcare.gov/',
+    'The honest version of the question-mark-suit "free government money" idea: the actual federal/state programs are public and free to apply for. Start at childcare.gov (subsidies, licensing, provider grants), then grants.gov and benefits.gov. You never need to buy a guide — we map it for free.'),
 ];
 
 // ── accessors (pure) ──────────────────────────────────────────────────────────────────────────────
