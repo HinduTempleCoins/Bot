@@ -23,19 +23,27 @@ test('existing channels are MOVED into their category, not recreated', () => {
   assert.ok(!plan.ops.some((o) => o.kind === 'create-channel' && o.name === 'general'));
 });
 
-test('operator 2026-06-18: #rs3 now moves to GAMES; legacy topics fold into COMMUNITY', () => {
+test('operator 2026-06-18: legacy channels routed to their final homes', () => {
   const plan = planChanges([
     txt('1', 'rs3'), txt('2', 'minecraft'),
     txt('3', 'graphene-blockchains'), txt('4', 'bible'), txt('5', 'biohacking'), txt('6', 'shaivism'),
   ]);
   const moved = (name) => plan.ops.find((o) => o.kind === 'move-channel' && o.name === name);
-  assert.equal(moved('rs3').category, '🕹️ GAMES');       // rs3 now belongs with Games
+  assert.equal(moved('rs3').category, '🕹️ GAMES');                 // rs3 → Games
   assert.equal(moved('minecraft').category, '🕹️ GAMES');
-  // the loose legacy Van Kush topics fold into COMMUNITY ("the Others")
-  for (const n of ['graphene-blockchains', 'bible', 'biohacking', 'shaivism']) {
-    assert.equal(moved(n).category, '🎮 COMMUNITY', `${n} → COMMUNITY`);
+  assert.equal(moved('graphene-blockchains').category, '⛓️ MELEK CHAIN'); // → chain
+  assert.equal(moved('biohacking').category, '🎮 COMMUNITY');       // stays in the catch-all
+  assert.equal(moved('bible').category, '⛪ RELIGION');             // → Religion
+  assert.equal(moved('shaivism').category, '⛪ RELIGION');
+  // Religion is a new category with the new channels created in it
+  assert.ok(plan.ops.some((o) => o.kind === 'create-category' && o.name === '⛪ RELIGION'));
+  for (const n of ['prayer-requests', 'lizard-people', 'hierophant']) {
+    const c = plan.ops.find((o) => o.kind === 'create-channel' && o.name === n);
+    assert.equal(c.category, '⛪ RELIGION', `${n} created in Religion`);
   }
-  assert.ok(plan.ops.some((o) => o.kind === 'create-category' && o.name === '🕹️ GAMES'));
+  // WIKI no longer carries sacred-texts; TRADE no longer carries what-ifs (not created)
+  assert.ok(!plan.ops.some((o) => o.kind === 'create-channel' && o.name === 'sacred-texts'));
+  assert.ok(!plan.ops.some((o) => o.kind === 'create-channel' && o.name === 'what-ifs'));
 });
 
 test('channels already in the right category are left alone', () => {
