@@ -24,6 +24,9 @@ export function esc(s) {
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+// the ◈ mark on the brand blue — served at /favicon.svg + inlined in <head> (matches SoapBox brand)
+const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0d1117"/><text x="16" y="23" font-size="22" text-anchor="middle" fill="#58a6ff" font-family="system-ui,sans-serif">◈</text></svg>`;
+
 // validate a full name: lowercase label.tld, label a-z0-9-, allowlisted tld, total 3..255
 export function validName(name) {
   const s = String(name || '').trim().toLowerCase();
@@ -74,6 +77,7 @@ export async function handler(req, res) {
     return json(200, { ok: true, name, years, inKula, priceWei, chainIdHex: CHAIN_ID_HEX, tx });
   }
 
+  if (p === '/favicon.svg' || p === '/favicon.ico') return send(res, 200, 'image/svg+xml', FAVICON_SVG);
   if (p === '/' || p === '/index.html') return send(res, 200, 'text/html; charset=utf-8', page());
   return send(res, 404, 'text/plain', 'not found');
 }
@@ -86,6 +90,7 @@ function page() {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>REN — claim your .melek name</title>
+<link rel="icon" href="/favicon.svg">
 <style>
   :root{--bg:#0d1117;--panel:#131826;--line:#222a3a;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d4a23c;--green:#3fb950;--red:#f85149}
   *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,Segoe UI,Roboto,system-ui,sans-serif}
@@ -107,7 +112,7 @@ function page() {
 </style></head><body><div class=wrap>
   <span class=badge>Alpha · PRANA testnet</span>
   <h1><span class=dia>◈</span> REN</h1>
-  <div class=sub>Your true name on MELEK. Claim a sovereign <b>${tlds}</b> name — resolves to your wallet &amp; site, leased annually, paid in PRANA or KULA. No ICANN, no Web3 resolver — our chain, our names.</div>
+  <div class=sub>Your true name on MELEK. Claim a <b>${tlds}</b> name — resolves to your wallet &amp; site, leased annually, paid in PRANA or KULA. No ICANN, no Web3 resolver — our chain, our names.</div>
 
   <div class=box>
     <div class=row>
