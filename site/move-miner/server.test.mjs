@@ -21,8 +21,8 @@ test('GET / serves the installable app (manifest + step + geo)', async () => {
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /MELEK Move/);
   assert.match(o.body, /manifest.webmanifest/);
-  assert.match(o.body, /Claim steps/);
-  assert.match(o.body, /Mine this cell/);
+  assert.match(o.body, /Step boost/);            // steps are the boost meter
+  assert.match(o.body, /Mine this cell/);        // geomine is the earn action
 });
 
 test('PWA plumbing: manifest, service worker, icon', async () => {

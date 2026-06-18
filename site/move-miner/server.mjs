@@ -80,20 +80,18 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </div>
 
 <div class=card>
-  <h2>👟 Steps</h2>
+  <h2>👟 Step boost</h2>
   <div class=big id=steps>0</div>
-  <div class=sub id=stepsub>tap Start, then move your phone</div>
+  <div class=sub id=stepsub>your steps charge the mining boost — <span id=boost>×1.0</span></div>
   <div class=row>
     <button id=startSteps class=primary>Start counting</button>
-    <button id=plus50>+50 (test)</button>
+    <button id=plus50>+1000 (test)</button>
   </div>
-  <div class=row style="margin-top:8px"><button id=claimSteps class=green>Claim steps</button></div>
-  <div class=out id=stepsOut></div>
 </div>
 
 <div class=card>
-  <h2>📍 Geo-mine</h2>
-  <div class=sub id=geosub>mine the cell you're standing in</div>
+  <h2>📍 Geo-mine <span style="font-weight:400;color:var(--mut);font-size:12px">(boosted by your steps)</span></h2>
+  <div class=sub id=geosub>mine the cell you're standing in — the more you walked, the bigger the reward</div>
   <div class=cell id=cell>location not read yet</div>
   <div class=row style="margin-top:10px">
     <button id=locate class=primary>Read my location</button>
@@ -114,7 +112,9 @@ function badWallet(){const v=(W.value||'').trim();if(!/^0x[0-9a-fA-F]{40}$/.test
 
 // ---- steps: accelerometer peak-count + manual ----
 let steps=0, listening=false, lastPeak=0, lastMag=0, rising=false;
-function setSteps(n){steps=n;$('steps').textContent=String(n);}
+const TIERS=[[1000,1.2],[2000,1.5],[5000,2],[10000,3],[15000,4],[20000,5],[25000,6.5],[30000,8],[40000,11],[50000,15]];
+function stepBoost(n){let m=1;for(const [t,x] of TIERS){if(n>=t)m=x;else break;}return m;}
+function setSteps(n){steps=n;$('steps').textContent=String(n);$('boost').textContent='×'+stepBoost(n).toFixed(1);}
 function onMotion(ev){
   const a=ev.accelerationIncludingGravity||ev.acceleration;if(!a)return;
   const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
@@ -128,18 +128,9 @@ $('startSteps').onclick=async()=>{
   try{ if(typeof DeviceMotionEvent!=='undefined' && DeviceMotionEvent.requestPermission){const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){$('stepsub').textContent='motion permission denied — use +50 to test';return;}} }catch(e){}
   window.addEventListener('devicemotion',onMotion);listening=true;$('startSteps').textContent='Pause';$('stepsub').textContent='counting… move your phone';
 };
-$('plus50').onclick=()=>setSteps(steps+50);
-$('claimSteps').onclick=async()=>{
-  if(badWallet()){$('stepsOut').innerHTML='<span class=err>Enter your 0x wallet first.</span>';return;}
-  if(steps<=0){$('stepsOut').innerHTML='<span class=err>No steps to claim yet.</span>';return;}
-  $('claimSteps').disabled=true;$('stepsOut').textContent='signing…';
-  try{const r=await fetch('/api/steps',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),steps})});
-    const j=await r.json(); renderOut('stepsOut',j);}
-  catch(e){$('stepsOut').innerHTML='<span class=err>Network error — try again.</span>';}
-  $('claimSteps').disabled=false;
-};
+$('plus50').onclick=()=>setSteps(steps+1000);
 
-// ---- geo ----
+// ---- geo (the earn action — boosted by steps, diminishing each hour) ----
 let coords=null;
 $('locate').onclick=()=>{
   if(!navigator.geolocation){$('cell').textContent='geolocation unavailable on this device';return;}
@@ -154,19 +145,21 @@ $('mine').onclick=async()=>{
   if(badWallet()){$('geoOut').innerHTML='<span class=err>Enter your 0x wallet first.</span>';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
   $('mine').disabled=true;$('geoOut').textContent='signing…';
-  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),lat:coords.lat,lng:coords.lng})});
-    const j=await r.json(); renderOut('geoOut',j,'cell '+(j.cellId||'')); }
+  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),lat:coords.lat,lng:coords.lng,steps})});
+    const j=await r.json(); renderOut('geoOut',j); }
   catch(e){$('geoOut').innerHTML='<span class=err>Network error — try again.</span>';}
   $('mine').disabled=false;
 };
 
-function renderOut(elId,j,extra){
+function renderOut(elId,j){
   const el=$(elId);
   if(!j||!j.ok){el.innerHTML='<span class=err>'+E((j&&j.reason)||'no reward')+'</span>';return;}
-  const unit=j.payout===1?'MELEK':'MELEK';
-  let html='<span class=reward>+ '+E(j.payout)+' '+unit+'</span>'+(extra?(' · '+E(extra)):'');
+  let html='<span class=reward>+ '+E(j.payout)+' MELEK</span>';
+  // base × step-boost × hourly-diminish
+  if(j.boost!=null){ html+=' = '+E(j.baseReward)+' × '+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' × '+E(j.diminish)+' (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
+  if(j.cellId){ html+='\\ncell '+E(j.cellId); }
   if(j.signed){ html+='\\n✓ voucher signed — ready to claim on PRANA (nonce '+E(j.voucher.nonce)+')'; }
-  else { html+='\\n'+E(j.reason||'demo')+'\\n(your reward is counted; on-chain claim opens when the faucet goes live)'; }
+  else { html+='\\n'+E(j.reason||'demo')+'\\n(reward counted; on-chain claim opens when the faucet goes live)'; }
   el.innerHTML=html;
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}

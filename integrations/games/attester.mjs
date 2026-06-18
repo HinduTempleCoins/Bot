@@ -105,6 +105,36 @@ export function geoVoucherDigest(voucher, settlement, cid = chainId()) {
 }
 export const geominingAddress = () => env('GEOMINING_ADDRESS', '');
 
+// The earn algorithm (operator-set):
+//   reward = baseReward × stepBoost(steps) × diminish(mineIndexThisHour)
+//   • STEP BOOST is EXPONENTIAL by tier — the bonus grows faster the more you walk.
+//   • GEO-MINING has DIMINISHING RETURNS within the hour, and RESETS EVERY HOUR (epoch = 3600s).
+// Tiers are the operator's milestones: 1k,2k,5k,10k,15k,20k,25k,30k,40k,50k.
+export const STEP_BOOST_TIERS = [
+  [1000, 1.2], [2000, 1.5], [5000, 2], [10000, 3], [15000, 4],
+  [20000, 5], [25000, 6.5], [30000, 8], [40000, 11], [50000, 15],
+];
+
+/** Exponential, tiered step boost → a multiplier ≥ 1 (×1 below 1k steps, ×15 at 50k+). */
+export function geoBoostMultiplier(steps) {
+  const s = Number(steps) || 0;
+  let mult = 1;
+  for (const [thr, m] of STEP_BOOST_TIERS) { if (s >= thr) mult = m; else break; }
+  return mult;
+}
+
+/** Diminishing returns on repeated mining within the hour: factor = 1/(1 + K·mineIndex). Resets each
+ *  epoch (mineIndex is per player per hour). 1st mine ×1.0, 2nd ×0.5, 3rd ×0.33 … (K = GEO_DIMINISH_K). */
+export function geoDiminish(mineIndex) {
+  const k = Number(env('GEO_DIMINISH_K', '1'));
+  return 1 / (1 + k * Math.max(0, Number(mineIndex) || 0));
+}
+
+// per-(player,epoch) mine counter for diminishing returns in the live daemon. Tests pass an explicit
+// opts.mineIndex (deterministic) and don't touch this. Resettable for tests.
+const _mines = new Map();
+export function __resetMines() { _mines.clear(); }
+
 /** Map a lat/lng to a deterministic numeric cell id (≈111m cells at precision 1000). */
 export function cellIdFor(lat, lng, precision = Number(env('GEO_PRECISION', '1000'))) {
   const la = Math.floor((Number(lat) + 90) * precision);
@@ -214,7 +244,7 @@ export function attestSteps(sub = {}, opts = {}) {
  * @param {object} [opts]  { key, settlement, chainId, now, nonce, ttlSec, decimals, reward, rand }
  */
 export function attestGeomine(sub = {}, opts = {}) {
-  const { player, cellId, lat, lng, epoch } = sub;
+  const { player, cellId, lat, lng, epoch, steps } = sub;
   if (!isAddr(player)) return { ok: false, reason: 'player must be a 0x address' };
   let cid;
   if (cellId != null) cid = BigInt(cellId);
@@ -223,9 +253,20 @@ export function attestGeomine(sub = {}, opts = {}) {
   if (cid == null) return { ok: false, reason: 'could not derive cell from coordinates' };
 
   const nowSec = Math.floor((opts.now != null ? opts.now : Date.now()) / 1000);
-  const ep = epoch != null ? BigInt(epoch) : BigInt(Math.floor(nowSec / Number(env('GEO_EPOCH_SEC', '86400'))));
-  const payout = Math.max(0, Math.floor(Number(opts.reward != null ? opts.reward : env('GEO_REWARD', '1'))));
-  if (payout <= 0) return { ok: false, reason: 'geo reward is zero', payout: 0 };
+  // HOURLY epoch — diminishing returns reset every hour.
+  const ep = epoch != null ? BigInt(epoch) : BigInt(Math.floor(nowSec / Number(env('GEO_EPOCH_SEC', '3600'))));
+  const pl = String(player).toLowerCase();
+  // diminishing returns: how many times has this player already mined THIS hour?
+  const mineKey = `${pl}:${ep}`;
+  const mineIndex = opts.mineIndex != null ? Number(opts.mineIndex) : (_mines.get(mineKey) || 0);
+  // reward = base × exponential step boost × hourly diminishing factor.
+  const baseReward = Math.max(0, Math.floor(Number(opts.reward != null ? opts.reward : env('GEO_REWARD', '10'))));
+  const boost = geoBoostMultiplier(Number(steps) || 0);
+  const diminish = geoDiminish(mineIndex);
+  const payout = Math.max(0, Math.floor(baseReward * boost * diminish));
+  if (payout <= 0) return { ok: false, reason: 'geo reward is zero (diminished out this hour, or no steps)', payout: 0, mineIndex };
+  // count this mine for the hour (live daemon path only; tests pass explicit mineIndex and don't track)
+  if (opts.mineIndex == null && opts.track !== false) _mines.set(mineKey, mineIndex + 1);
 
   const settlement = opts.settlement || geominingAddress();
   const cidChain = opts.chainId != null ? BigInt(opts.chainId) : chainId();
@@ -235,7 +276,9 @@ export function attestGeomine(sub = {}, opts = {}) {
   const nonce = opts.nonce != null ? BigInt(opts.nonce) : (BigInt(nowSec) * 1000000n + BigInt(Math.floor(rand * 1000000)));
   const voucher = { player: String(player).toLowerCase(), cellId: cid, epoch: ep, amount, nonce, deadline };
   const base = {
-    ok: true, payout, cellId: cid.toString(), epoch: ep.toString(),
+    ok: true, payout, baseReward, steps: Number(steps) || 0,
+    boost: Math.round(boost * 100) / 100, diminish: Math.round(diminish * 100) / 100, mineIndex,
+    cellId: cid.toString(), epoch: ep.toString(),
     voucher: { player: voucher.player, cellId: cid.toString(), epoch: ep.toString(), amount: amount.toString(), nonce: nonce.toString(), deadline: deadline.toString() },
   };
   if (!isAddr(settlement)) return { ...base, signed: false, reason: 'no geomining settlement address (set GEOMINING_ADDRESS)' };
