@@ -182,5 +182,5 @@ $('#claim').onclick=claim;
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { createServer } = await import('node:http');
   createServer((req, res) => handler(req, res).catch(() => send(res, 500, 'text/plain', 'err')))
-    .listen(PORT, () => console.log(`REN claim page on ${BASE_URL} (registrar ${REGISTRAR || 'UNSET'})`));
+    .listen(PORT, () => console.log(`REN claim page on ${BASE_URL} (registrar ${reg() || 'UNSET'})`));
 }
