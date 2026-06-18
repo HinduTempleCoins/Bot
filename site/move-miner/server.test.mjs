@@ -51,13 +51,15 @@ test('POST /api/steps builds a reward voucher (demo: signed:false, payout presen
   assert.ok(j.voucher && j.voucher.amount);
 });
 
-test('POST /api/geomine derives a cell from lat/lng', async () => {
+test('POST /api/geomine derives a cell and applies the step boost', async () => {
   const { res, o } = cap();
-  await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7767, lng: -96.7970 }), res);
+  await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7767, lng: -96.7970, steps: 20000 }), res);
   assert.equal(o.code, 200);
   const j = JSON.parse(o.body);
   assert.equal(j.ok, true);
   assert.ok(BigInt(j.cellId) > 0n);
+  assert.equal(j.boost, 5);                 // 20k-step tier → ×5 (steps must reach attestGeomine)
+  assert.ok(j.payout > j.baseReward);       // boosted above base
 });
 
 test('bad input → 422, never a 500', async () => {

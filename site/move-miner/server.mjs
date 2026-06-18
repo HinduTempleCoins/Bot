@@ -195,7 +195,7 @@ export async function handler(req, res) {
     }
     if (path === '/api/geomine' && method === 'POST') {
       let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = attestGeomine({ player: b.player, lat: b.lat, lng: b.lng });
+      const out = attestGeomine({ player: b.player, lat: b.lat, lng: b.lng, steps: b.steps });
       return json(res, out.ok ? 200 : 422, out);
     }
 
