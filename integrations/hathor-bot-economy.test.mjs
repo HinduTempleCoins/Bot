@@ -108,3 +108,35 @@ test('balance reports the wallet + balance when a reader is present', async () =
   assert.match(r.reply, /@dave/);
   assert.match(r.reply, /12\.5/);
 });
+
+// ── REN lookup command (public, injectable resolver) ──────────────────────────────────────────
+const renStub = (over = {}) => ({
+  lookup: async (name) => ({ name, available: false, registered: true, resolvesTo: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', expiresISO: '2027-06-18T00:00:00.000Z', contenthash: null, ...over }),
+  price: async () => '5000000000000000000',
+});
+
+test('ren <name> — available shows price + claim URL (no link needed)', async () => {
+  const r = await handlePm({ platformUser: U, text: 'ren ryan.melek' }, { store: emptyStore(), ren: renStub({ available: true, registered: false, resolvesTo: null }) });
+  assert.equal(r.kind, 'ren-available');
+  assert.match(r.reply, /available/);
+  assert.match(r.reply, /5 PRANA\/yr/);
+  assert.match(r.reply, /ren\.alpha\.soapbox\.community/);
+});
+
+test('ren <name> — taken shows owner + expiry', async () => {
+  const r = await handlePm({ platformUser: U, text: 'ren test.melek' }, { store: emptyStore(), ren: renStub() });
+  assert.equal(r.kind, 'ren-taken');
+  assert.match(r.reply, /taken/);
+  assert.match(r.reply, /0xf39F/);
+  assert.match(r.reply, /2027-06-18/);
+});
+
+test('ren — bad name → usage', async () => {
+  const r = await handlePm({ platformUser: U, text: 'ren nope' }, { store: emptyStore(), ren: renStub() });
+  assert.equal(r.kind, 'usage');
+});
+
+test('ren — resolver down → soft-fail message, never throws', async () => {
+  const r = await handlePm({ platformUser: U, text: 'ren test.melek' }, { store: emptyStore(), ren: { lookup: async () => { throw new Error('rpc down'); } } });
+  assert.equal(r.kind, 'ren-unavailable');
+});

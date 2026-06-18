@@ -12,6 +12,17 @@
 
 import { classifyId, resolveIdentity, routeTransfer, normMelek, isPranaAddress, isMelekAccount } from './unified-identity.mjs';
 import { buildVoteOrder } from '../kulaswap/alti-vote-market.mjs';
+import * as renResolver from '../ren/resolver.mjs';
+
+const REN_CLAIM_URL = process.env.REN_CLAIM_URL || 'https://ren.alpha.soapbox.community';
+const REN_TLDS = (process.env.REN_TLDS || 'melek,prana,kula').split(',').map((s) => s.trim());
+function validRenName(name) {
+  const s = String(name || '').trim().toLowerCase();
+  const dot = s.indexOf('.');
+  if (s.length < 3 || dot < 1 || dot !== s.lastIndexOf('.') || dot === s.length - 1) return null;
+  if (!/^[a-z0-9-]+$/.test(s.slice(0, dot)) || !REN_TLDS.includes(s.slice(dot + 1))) return null;
+  return s;
+}
 
 // ── link registry (platformUser -> {melek, prana}) — the PM wallet-connect store ──────────────────────────
 // platformUser is "discord:<id>" / "telegram:<id>". Injected store (load/save) so it's testable + forkable.
@@ -32,6 +43,7 @@ const HELP = [
   '• `me` — how we stand (your Crypt-ology disposition).',
   '• `stake <amount>` / `spend <amount> <on>` — put the token to work (games, access).',
   '• `vote <@author/permlink> <alti>` — spend ALTI for a proportional upvote from @soapbox.',
+  '• `ren <name.melek>` — look up a REN name (is it free? who owns it? what does it cost?).',
 ].join('\n');
 
 /**
@@ -68,6 +80,22 @@ export async function handlePm({ platformUser, text } = {}, deps = {}) {
       reply: `Linked. ${entry.melek ? `MELEK **@${entry.melek}**` : ''}${entry.melek && entry.prana ? ' · ' : ''}${entry.prana ? `PRANA \`${entry.prana}\`${resolved.pranaIsShadow ? ' (auto-derived — link a real 0x to override)' : ''}` : ''}. Try \`claim\`.`,
       kind: 'linked', action: { type: 'link', user: who, ...entry },
     };
+  }
+
+  // ren <name.melek> — public REN lookup (no wallet link needed). Injectable resolver (deps.ren) for tests.
+  if (cmd === 'ren' || cmd === 'name') {
+    const name = validRenName(args[0]);
+    if (!name) return { reply: `Usage: \`ren yourname.melek\` (.${REN_TLDS.join(' .')}).`, kind: 'usage' };
+    const ren = deps.ren || renResolver;
+    const card = await ren.lookup(name).catch(() => null);
+    if (!card) return { reply: `Couldn't reach the REN registry right now — try again shortly.`, kind: 'ren-unavailable' };
+    if (card.available) {
+      const wei = await ren.price(name, 1, false).catch(() => null);
+      const yr = wei != null ? `${(Number(BigInt(wei)) / 1e18)} PRANA/yr` : 'an annual fee';
+      return { reply: `**${name}** is available ✓ — ${yr}. Claim it: ${REN_CLAIM_URL}`, kind: 'ren-available', name };
+    }
+    const exp = card.expiresISO ? ` (expires ${card.expiresISO.slice(0, 10)})` : '';
+    return { reply: `**${name}** is taken${card.resolvesTo ? ` — resolves to \`${card.resolvesTo}\`` : ''}${exp}.`, kind: 'ren-taken', name };
   }
 
   // Everything below needs a linked identity.
