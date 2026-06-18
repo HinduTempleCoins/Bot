@@ -30,7 +30,9 @@ export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a
 const UA = { 'User-Agent': 'SoapBoxCongress/1.0 (+https://data.soapbox.community)' };
 
 // The dataset is public-domain (CC0) and served from GitHub raw — keyless and citable.
-const RAW = 'https://raw.githubusercontent.com/unitedstates/congress-legislators/main';
+// The generated JSON lives on the project's GitHub Pages site (the repo stores only YAML; the old
+// raw.githubusercontent .../main/*.json paths now 404). github.io publishes the current JSON files.
+const RAW = 'https://unitedstates.github.io/congress-legislators';
 const SRC = '@unitedstates/congress-legislators';
 const LICENSE = 'CC0-1.0 (public domain)';
 export const SOURCE_URLS = {
