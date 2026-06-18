@@ -23,6 +23,8 @@ export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a
 // ── the layout ───────────────────────────────────────────────────────────────────────────────────
 // category → channels. `match` lists existing-channel names that belong in the category (moved,
 // not recreated). Channel names listed under `create` are created if absent.
+// Category ORDER matters: it's the top-to-bottom order operator set 2026-06-18 (live positions
+// PATCHed to match). Fresh creates inherit this order too.
 export const LAYOUT = [
   {
     category: '📜 START HERE',
@@ -30,16 +32,21 @@ export const LAYOUT = [
     match: ['welcome', 'announcements', 'introductions', 'rules', 'start-here', 'general-info'],
   },
   {
-    category: '⛓️ MELEK CHAIN',
-    create: ['chain-status', 'witness-hathor', 'signup-help', 'tutorial'],
-    match: ['chain-status', 'witness-hathor', 'signup-help', 'tutorial', 'melek', 'testnet', 'blockchain', 'witness'],
+    // "The Others" — the catch-all, near the top. operator 2026-06-18: #biohacking lives here;
+    // graphene-blockchains → MELEK CHAIN, bible/shaivism → RELIGION (later messages same day).
+    category: '🎮 COMMUNITY',
+    create: ['general'],
+    match: ['general', 'off-topic', 'memes', 'chat', 'lounge', 'biohacking'],
   },
   {
-    // The bots'/AIs' market brain — each channel is where a bot posts what it sees and humans
-    // discuss it (with screenshots) per operator 2026-06-14. Crypto + metals + equities + futures.
-    category: '📈 TRADE & MARKETS',
-    create: ['trade-signals', 'arbitrage', 'markets-crypto', 'markets-metals', 'markets-stocks-bonds', 'futures-commodities', 'what-ifs'],
-    match: ['trade-signals', 'arbitrage', 'arb', 'markets-crypto', 'markets-metals', 'metals', 'gold-silver', 'markets-stocks-bonds', 'stocks', 'bonds', 'futures-commodities', 'futures', 'what-ifs', 'hive-engine'],
+    category: '⛓️ MELEK CHAIN',
+    create: ['chain-status', 'witness-hathor', 'signup-help', 'tutorial'],
+    match: ['chain-status', 'witness-hathor', 'signup-help', 'tutorial', 'melek', 'testnet', 'blockchain', 'graphene-blockchains', 'witness'],
+  },
+  {
+    category: '⛏️ MINING POOL',
+    create: ['pool-chat', 'pool-support'],
+    match: ['pool-chat', 'pool-support', 'mining', 'pool', 'miners'],
   },
   {
     // SoapBox subdomain "brains" — one channel per vertical for humans to read + talk about on MELEK.
@@ -48,28 +55,30 @@ export const LAYOUT = [
     match: ['markets', 'data-feeds', 'directory', 'soapbox', 'crypto', 'trading', 'prices', 'law', 'politics', 'oversight', 'hemp', 'search', 'wiki'],
   },
   {
-    category: '⛏️ MINING POOL',
-    create: ['pool-chat', 'pool-support'],
-    match: ['pool-chat', 'pool-support', 'mining', 'pool', 'miners'],
+    // The bots'/AIs' market brain ("Hive-Engine") — each channel is where a bot posts what it sees and
+    // humans discuss it (with screenshots) per operator 2026-06-14. Crypto + metals + equities + futures.
+    category: '📈 TRADE & MARKETS',
+    create: ['trade-signals', 'arbitrage', 'markets-crypto', 'markets-metals', 'markets-stocks-bonds', 'futures-commodities'],
+    match: ['trade-signals', 'arbitrage', 'arb', 'markets-crypto', 'markets-metals', 'metals', 'gold-silver', 'markets-stocks-bonds', 'stocks', 'bonds', 'futures-commodities', 'futures', 'hive-engine'],
   },
   {
-    category: '🏛️ LIBRARY',
-    create: ['library-of-ashurbanipal', 'research', 'sacred-texts'],
-    match: ['library-of-ashurbanipal', 'research', 'sacred-texts', 'library', 'books', 'hierophant', 'knowledge'],
-  },
-  {
-    // "The Others" — the catch-all. operator 2026-06-18: fold the legacy Van Kush topic channels
-    // (graphene-blockchains, bible, biohacking, shaivism) that were sitting loose in Discord's
-    // default "Text Channels" group in here alongside #general, instead of floating uncategorized.
-    category: '🎮 COMMUNITY',
-    create: ['general'],
-    match: ['general', 'off-topic', 'memes', 'chat', 'lounge', 'graphene-blockchains', 'bible', 'biohacking', 'shaivism'],
+    // operator 2026-06-18: renamed from LIBRARY → WIKI (wiki.soapbox.community). sacred-texts removed.
+    category: '📚 WIKI',
+    create: ['library-of-ashurbanipal', 'research'],
+    match: ['library-of-ashurbanipal', 'research', 'library', 'wiki', 'books', 'knowledge'],
   },
   {
     // operator 2026-06-18: #rs3 (RuneScape 3) belongs with Games now.
     category: '🕹️ GAMES',
     create: ['games'],
     match: ['games', 'minecraft', 'runescape', 'rs3', 'gaming'],
+  },
+  {
+    // operator 2026-06-18: Religion section at the bottom. bible/shaivism move in from COMMUNITY;
+    // prayer-requests/lizard-people/hierophant are new.
+    category: '⛪ RELIGION',
+    create: ['prayer-requests', 'lizard-people', 'hierophant'],
+    match: ['bible', 'shaivism', 'prayer-requests', 'lizard-people', 'hierophant', 'religion', 'prayer'],
   },
   {
     category: '🔧 OPERATOR',
