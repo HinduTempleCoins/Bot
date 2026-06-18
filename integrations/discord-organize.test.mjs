@@ -23,11 +23,18 @@ test('existing channels are MOVED into their category, not recreated', () => {
   assert.ok(!plan.ops.some((o) => o.kind === 'create-channel' && o.name === 'general'));
 });
 
-test('operator adjustment: #rs3 is never touched; GAMES is its own category', () => {
-  const plan = planChanges([txt('1', 'rs3'), txt('2', 'minecraft')]);
-  assert.ok(!plan.ops.some((o) => o.id === '1'), '#rs3 must not be moved');
-  const mc = plan.ops.find((o) => o.kind === 'move-channel' && o.name === 'minecraft');
-  assert.equal(mc.category, '🕹️ GAMES');
+test('operator 2026-06-18: #rs3 now moves to GAMES; legacy topics fold into COMMUNITY', () => {
+  const plan = planChanges([
+    txt('1', 'rs3'), txt('2', 'minecraft'),
+    txt('3', 'graphene-blockchains'), txt('4', 'bible'), txt('5', 'biohacking'), txt('6', 'shaivism'),
+  ]);
+  const moved = (name) => plan.ops.find((o) => o.kind === 'move-channel' && o.name === name);
+  assert.equal(moved('rs3').category, '🕹️ GAMES');       // rs3 now belongs with Games
+  assert.equal(moved('minecraft').category, '🕹️ GAMES');
+  // the loose legacy Van Kush topics fold into COMMUNITY ("the Others")
+  for (const n of ['graphene-blockchains', 'bible', 'biohacking', 'shaivism']) {
+    assert.equal(moved(n).category, '🎮 COMMUNITY', `${n} → COMMUNITY`);
+  }
   assert.ok(plan.ops.some((o) => o.kind === 'create-category' && o.name === '🕹️ GAMES'));
 });
 
