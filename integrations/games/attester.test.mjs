@@ -5,6 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import {
   attestArcadeRun, attestSteps, attestGeomine, cellIdFor, geoVoucherDigest,
+  geoBoostMultiplier, geoDiminish, __resetMines,
   attesterAddressOf, recoverSigner, scoreRefFor, voucherDigest, signDigest, handler,
 } from './attester.mjs';
 
@@ -86,26 +87,64 @@ test('move-to-earn: steps attest through the same voucher shape (reward floored)
 });
 
 const SETTLE = '0x3333333333333333333333333333333333333333';
+const GEO = { key: KEY, settlement: SETTLE, chainId: 108369, now: FIXED.now, nonce: 99, mineIndex: 0 };
 
 test('geomining: lat/lng → a signed GeoVoucher that recovers to the attester', () => {
-  const out = attestGeomine({ player: PLAYER, lat: 32.7767, lng: -96.7970, epoch: 19676 },
-    { key: KEY, settlement: SETTLE, chainId: 108369, now: FIXED.now, nonce: 99 });
+  const out = attestGeomine({ player: PLAYER, lat: 32.7767, lng: -96.7970, epoch: 19676 }, GEO);
   assert.equal(out.ok, true);
   assert.equal(out.signed, true);
   assert.equal(out.epoch, '19676');
   assert.ok(BigInt(out.cellId) > 0n);
   assert.equal(out.claimArgs.length, 7);                   // player, cellId, epoch, amount, nonce, deadline, sig
   assert.equal(recoverSigner(out.digest, out.signature).toLowerCase(), ADDR);
-  // digest matches an independent recompute via geoVoucherDigest
   const [player, cellId, epoch, amount, nonce, deadline] = out.claimArgs;
   assert.equal(geoVoucherDigest({ player, cellId: BigInt(cellId), epoch: BigInt(epoch), amount: BigInt(amount), nonce: BigInt(nonce), deadline: BigInt(deadline) }, SETTLE, 108369n), out.digest);
 });
 
-test('geomining: an explicit cellId works and is stable; bad input rejected', () => {
-  const a = attestGeomine({ player: PLAYER, cellId: 12345, epoch: 1 }, { key: KEY, settlement: SETTLE, now: FIXED.now, nonce: 1 });
-  assert.equal(a.cellId, '12345');
-  assert.equal(attestGeomine({ player: PLAYER }, FIXED).ok, false);          // no cell/coords
-  assert.equal(attestGeomine({ player: 'nope', lat: 1, lng: 1 }, FIXED).ok, false); // bad player
+test('geomining: an explicit cellId works; bad input rejected', () => {
+  assert.equal(attestGeomine({ player: PLAYER, cellId: 12345, epoch: 1 }, GEO).cellId, '12345');
+  assert.equal(attestGeomine({ player: PLAYER }, GEO).ok, false);              // no cell/coords
+  assert.equal(attestGeomine({ player: 'nope', lat: 1, lng: 1 }, GEO).ok, false); // bad player
+});
+
+test('step boost is exponential by tier (the operator milestones)', () => {
+  assert.equal(geoBoostMultiplier(0), 1);
+  assert.equal(geoBoostMultiplier(999), 1);
+  assert.equal(geoBoostMultiplier(1000), 1.2);
+  assert.equal(geoBoostMultiplier(10000), 3);
+  assert.equal(geoBoostMultiplier(50000), 15);
+  assert.equal(geoBoostMultiplier(999999), 15);   // capped at the top tier
+});
+
+test('geo reward = base × step-boost (more steps → bigger mine)', () => {
+  const lo = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 0 }, GEO);
+  const hi = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, GEO);
+  assert.equal(lo.payout, 10);                 // base 10 × 1
+  assert.equal(hi.payout, 30);                 // base 10 × 3 (10k-step tier)
+  assert.ok(hi.boost > lo.boost);
+});
+
+test('diminishing returns: each mine this hour pays less (1, 1/2, 1/3 …)', () => {
+  const r0 = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, { ...GEO, mineIndex: 0 });
+  const r1 = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, { ...GEO, mineIndex: 1 });
+  const r2 = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, { ...GEO, mineIndex: 2 });
+  assert.equal(r0.payout, 30);                 // 10×3×1.0
+  assert.equal(r1.payout, 15);                 // 10×3×0.5
+  assert.equal(r2.payout, 10);                 // 10×3×0.33
+  assert.equal(geoDiminish(0), 1);
+  assert.equal(geoDiminish(1), 0.5);
+});
+
+test('the live tracker diminishes repeated mining within the hour, and resets per epoch', () => {
+  __resetMines();
+  const opts = { key: KEY, settlement: SETTLE, now: FIXED.now, nonce: 1 }; // no mineIndex → uses tracker
+  const a = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, opts);
+  const b = attestGeomine({ player: PLAYER, cellId: 1, epoch: 1, steps: 10000 }, opts);
+  assert.ok(b.payout < a.payout, 'second mine this hour pays less');
+  // a different epoch (the next hour) is a fresh start
+  const c = attestGeomine({ player: PLAYER, cellId: 1, epoch: 2, steps: 10000 }, opts);
+  assert.equal(c.payout, a.payout, 'new hour resets the diminishing');
+  __resetMines();
 });
 
 test('cellIdFor is deterministic for the same coordinates', () => {
