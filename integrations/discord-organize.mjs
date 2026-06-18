@@ -58,16 +58,18 @@ export const LAYOUT = [
     match: ['library-of-ashurbanipal', 'research', 'sacred-texts', 'library', 'books', 'hierophant', 'knowledge'],
   },
   {
+    // "The Others" — the catch-all. operator 2026-06-18: fold the legacy Van Kush topic channels
+    // (graphene-blockchains, bible, biohacking, shaivism) that were sitting loose in Discord's
+    // default "Text Channels" group in here alongside #general, instead of floating uncategorized.
     category: '🎮 COMMUNITY',
     create: ['general'],
-    match: ['general', 'off-topic', 'memes', 'chat', 'lounge'],
+    match: ['general', 'off-topic', 'memes', 'chat', 'lounge', 'graphene-blockchains', 'bible', 'biohacking', 'shaivism'],
   },
   {
-    // operator 2026-06-06: Games is its OWN category. #rs3 deliberately NOT matched —
-    // it stays where it is for now.
+    // operator 2026-06-18: #rs3 (RuneScape 3) belongs with Games now.
     category: '🕹️ GAMES',
     create: ['games'],
-    match: ['games', 'minecraft', 'runescape', 'gaming'],
+    match: ['games', 'minecraft', 'runescape', 'rs3', 'gaming'],
   },
   {
     category: '🔧 OPERATOR',
