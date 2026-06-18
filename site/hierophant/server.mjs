@@ -34,6 +34,9 @@
 //   on every interpolated value. Read-only, server-rendered, no keys, no custody.
 
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import {
@@ -50,6 +53,16 @@ import {
 
 const PORT = +(process.env.PORT || 8124);
 const HOST = process.env.HOST || '127.0.0.1';
+
+// The masthead logo (a winged bronze lion of Jude) — bundled next to this file, served at /lion.jpg.
+// Read once, lazily, and cached; soft-fails to null so a missing file never breaks the page.
+const LION_PATH = join(dirname(fileURLToPath(import.meta.url)), 'lion.jpg');
+let _lion;
+function lionBytes() {
+  if (_lion !== undefined) return _lion;
+  try { _lion = readFileSync(LION_PATH); } catch { _lion = null; }
+  return _lion;
+}
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
@@ -81,6 +94,12 @@ const STYLE = `<style>
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
+  /* the home masthead — a small centered logo with space from the top, an older-website feel */
+  .masthead{text-align:center;margin:34px 0 14px}
+  .masthead img{width:160px;height:160px;border-radius:6px;border:1px solid var(--bd);
+    box-shadow:0 1px 4px rgba(0,0,0,.18);background:#000}
+  .masthead .tagline{margin-top:10px;color:var(--mut);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+  @media(max-width:520px){.masthead img{width:128px;height:128px}}
   .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
   .topbar-r a{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
@@ -206,7 +225,11 @@ function entityCard(e) {
 
 // ── home ──────────────────────────────────────────────────────────────────────────────────────────
 export function homePage() {
-  const body = `<h1>The Hierophant <span class=muted style="font-size:14px">· the Temple's library of sacred texts</span></h1>
+  const body = `<div class=masthead>
+      <img src="/lion.jpg" width=160 height=160 alt="The Hierophant — a winged lion guarding the Book of Jude" loading="eager">
+      <div class=tagline>The Temple Library</div>
+    </div>
+    <h1>The Hierophant <span class=muted style="font-size:14px">· the Temple's library of sacred texts</span></h1>
     <p class=muted>A map of the world's scriptures, myths and mysteries — from the Pyramid Texts to the
       Popol Vuh. We do not host the texts; we point you to where they live free
       (<a href="https://sacred-texts.com" rel="nofollow noopener">Sacred-Texts</a>,
@@ -495,6 +518,13 @@ export async function handler(req, res) {
           { label: 'Ask the Hierophant', path: '/ask' },
         ],
       }));
+    }
+
+    if (path === '/lion.jpg') {
+      const bytes = lionBytes();
+      if (!bytes) { res.writeHead(404); return res.end('not found'); }
+      res.writeHead(200, { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=86400' });
+      return res.end(bytes);
     }
 
     const sp = url.searchParams;
