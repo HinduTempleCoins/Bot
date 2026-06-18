@@ -85,7 +85,9 @@ export const VERTICALS = [
     test: (q) => re('credential', 'credentials', 'certification', 'certifications', 'certificate',
       'certified', 'accredit\\w*', 'ceu', 'ceus', 'continuing education', 'tefl', 'tesol', 'celta',
       'clep', 'college credit', 'credit by exam', 'iacet', 'saylor', 'modern ?states', 'comptia',
-      'osha', 'cdl', 'servsafe', 'how (do|to) (i )?get certified', 'teach english').test(q),
+      'osha', 'cdl', 'servsafe', 'how (do|to) (i )?get certified', 'teach english',
+      'childcare', 'child care', 'daycare', 'day care', '\\bcda\\b', 'child development associate',
+      'head start', 'ccdf', 'run a daycare', 'open a daycare').test(q),
   },
 ];
 

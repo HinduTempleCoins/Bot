@@ -37,8 +37,8 @@ const COST = {
 };
 const TYPE_LABEL = {
   certification: 'Certification', certificate: 'Certificate', accreditor: 'Accreditor',
-  'credit-by-exam': 'Credit by exam', 'course-provider': 'Course provider', 'license-prep': 'License prep',
-  prep: 'Exam prep',
+  'credit-by-exam': 'Credit by exam', 'course-provider': 'Course provider', 'license-prep': 'License / permit',
+  prep: 'Exam prep', funding: 'Funding / grant', pathway: 'Pathway',
 };
 
 const STYLE = `<style>
