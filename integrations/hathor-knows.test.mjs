@@ -107,6 +107,42 @@ test('total miss returns an honest fallback, never throws', async () => {
   __setReaders(null);
 });
 
+test('routeVertical: law + politics keywords route to their verticals', () => {
+  assert.equal(routeVertical('what does 7 U.S.C. 1639o say?'), 'law');     // statute citation
+  assert.equal(routeVertical('summarize the supreme court ruling'), 'law');
+  assert.equal(routeVertical('who is my senator in Texas?'), 'politics');
+  assert.equal(routeVertical('campaign finance for that candidate'), 'politics');
+  // cannabis is checked before law, so a hemp-legality question stays cannabis
+  assert.equal(routeVertical('is cannabis legal in texas?'), 'cannabis');
+});
+
+test('law + politics questions route to their readers and carry sources', async () => {
+  const calls = [];
+  const readers = fakeReaders(calls);
+  readers.law = async (q) => { calls.push(['law', q]); return { answer: 'L: ' + q, sources: [{ title: 'Cornell LII', link: 'https://law' }] }; };
+  readers.politics = async (q) => { calls.push(['politics', q]); return { answer: 'P: ' + q, sources: [{ title: 'Politics', link: 'https://pol' }] }; };
+  __setReaders(readers);
+  const a = await ask('what does 21 U.S.C. 802 define?');
+  assert.equal(a.vertical, 'law');
+  assert.match(a.answer, /^L:/);
+  assert.equal(a.sources[0].title, 'Cornell LII');
+  const b = await ask('who are the senators from California?');
+  assert.equal(b.vertical, 'politics');
+  assert.match(b.answer, /^P:/);
+  __setReaders(null);
+});
+
+test('a law/politics reader returning null falls through to the directory pointer', async () => {
+  const calls = [];
+  const readers = fakeReaders(calls);
+  readers.law = async () => null;        // no data this pass
+  readers.system = async () => ({ answer: 'weak', intent: 'open-templated', grounded: false });
+  __setReaders(readers);
+  const r = await ask('the supreme court case about that');
+  assert.equal(r.vertical, 'directory');  // directory pointer covers the miss
+  __setReaders(null);
+});
+
 test('VERTICALS registry is well-formed (id, label, callable test)', () => {
   for (const v of VERTICALS) {
     assert.ok(v.id && typeof v.id === 'string');

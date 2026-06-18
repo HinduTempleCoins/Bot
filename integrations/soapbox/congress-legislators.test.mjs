@@ -174,8 +174,9 @@ test('dataNote names the open dataset, license, and right-of-reply path', () => 
   assert.match(n, /corrections via github\.com/);
 });
 
-test('SOURCE_URLS point at the citable GitHub raw files', () => {
+test('SOURCE_URLS point at the published congress-legislators JSON', () => {
   assert.match(SOURCE_URLS.legislators, /legislators-current\.json$/);
   assert.match(SOURCE_URLS.committees, /committees-current\.json$/);
-  assert.match(SOURCE_URLS.legislators, /^https:\/\/raw\.githubusercontent\.com\/unitedstates\//);
+  // generated JSON lives on the project GitHub Pages site (the old raw .../main/*.json 404s)
+  assert.match(SOURCE_URLS.legislators, /^https:\/\/unitedstates\.github\.io\/congress-legislators\//);
 });

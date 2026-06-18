@@ -30,6 +30,8 @@
 import { fileURLToPath } from 'node:url';
 
 const safe = (fn, fallback) => Promise.resolve().then(fn).catch(() => fallback);
+const safeCall = (fn) => { try { return fn(); } catch { return null; } }; // sync soft-call
+const cap = (s) => String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1);
 const STOP = new Set(['the', 'a', 'an', 'of', 'is', 'are', 'what', 'whats', 'does', 'do', 'say',
   'about', 'tell', 'me', 'in', 'on', 'for', 'to', 'and', 'or', 'how', 'can', 'i', 'find', 'get',
   'any', 'with', 'this', 'that', 'my', 'your', 'her', 'show', 'give', 'where', 'when', 'who']);
@@ -61,6 +63,22 @@ export const VERTICALS = [
     test: (q) => re('cannabis', 'hemp', 'marijuana', 'weed', 'strain', 'strains', 'thc', 'cbd',
       'dispensary', 'dispensaries', 'kush', 'indica', 'sativa').test(q),
   },
+  {
+    id: 'law', label: 'Law',
+    // case law / statutes / regulations. A U.S. Code or case citation is a strong signal.
+    test: (q) => /\b\d+\s*u\.?\s?s\.?\s?c\.?\s*(?:§|sec)?/i.test(q)
+      || re('case ?law', 'statute', 'supreme court', 'lawsuit', 'litigation', 'legal precedent',
+        'court ruling', 'court case', 'u\\.?s\\.? code', 'cfr', 'regulation', 'plaintiff', 'defendant',
+        'first amendment', 'fourth amendment', 'felony', 'misdemeanor', 'jurisdiction', 'appeal',
+        'is it legal', 'what does the law say', 'my legal rights').test(q),
+  },
+  {
+    id: 'politics', label: 'Politics',
+    test: (q) => re('senator', 'senators', 'congressman', 'congresswoman', 'congress', 'congressional',
+      'representative', 'legislator', 'legislators', 'house of representatives', 'the senate',
+      'campaign finance', 'who represents', 'my rep', 'member of congress', 'governor',
+      'voting record', 'roll call').test(q),
+  },
 ];
 
 /** Pure routing — which SPECIFIC vertical (or 'system' if none). Exported for tests + UI branching. */
@@ -76,7 +94,7 @@ let _readers = null;
 export function __setReaders(obj) { _readers = obj && typeof obj === 'object' ? obj : null; }
 
 function defaultReaders() {
-  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, system: systemReader, directory: directoryReader };
+  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, system: systemReader, directory: directoryReader };
 }
 
 // Hierophant: keyword-search the religion catalog (texts + traditions + entities), link out to the
@@ -166,6 +184,72 @@ async function cannabisReader(q) {
   const sum = typeof mod.cannabisSummary === 'function' ? await safe(() => mod.cannabisSummary(), null) : null;
   if (sum && (sum.summary || sum.note)) return { answer: `${sum.summary || sum.note}\n(Strains, legal status by state, dispensaries + pricing at hemp.soapbox.community.)`, sources, data: { summary: sum } };
   return { answer: 'I cover cannabis/hemp — legal status by US state, strain lineage, dispensaries and pricing — at hemp.soapbox.community. Ask me "is cannabis legal in <state>?" or about a specific strain.', sources, data: {} };
+}
+
+// Law: a U.S. Code citation → the official statute card (pure, offline). A case citation → the case
+// (network). Else a topical case search via CourtListener (keyless, low-rate). Soft-fails to null so
+// the directory pointer (law.soapbox.community) covers the miss.
+async function lawReader(q) {
+  const lawSrc = [{ title: 'Law — case law, statutes, regulations', link: 'https://law.soapbox.community' }];
+  // 1. U.S. Code statute citation — e.g. "7 U.S.C. 1639o", "21 USC § 802"
+  const usc = String(q).match(/\b\d+\s*u\.?\s?s\.?\s?c\.?\s*(?:§+\s*|sec(?:tion)?\.?\s*)?\d+[a-z0-9-]*/i);
+  if (usc) {
+    const mod = await safe(() => import('./soapbox/uscode.mjs'), null);
+    const card = mod && typeof mod.citationCard === 'function' ? safeCall(() => mod.citationCard(usc[0])) : null;
+    if (card) {
+      const links = [card.corneliiUrl && { title: `Cornell LII — ${card.normalized}`, link: card.corneliiUrl }, card.olrcUrl && { title: 'OLRC — official text', link: card.olrcUrl }].filter(Boolean);
+      return { answer: `${card.normalized} — Title ${card.title} of the U.S. Code, § ${card.section}. The official text lives at the OLRC; the annotated version at Cornell LII. (More — case law, regulations — at law.soapbox.community.)`, sources: links.length ? links : lawSrc, data: { card } };
+    }
+  }
+  // 2. case citation (U.S. Reports), network → soft-fail
+  const caseCite = String(q).match(/\b\d+\s+u\.?\s?s\.?\s+\d+\b/i);
+  if (caseCite) {
+    const mod = await safe(() => import('./soapbox/caselaw-cap.mjs'), null);
+    const c = mod && typeof mod.caseByCitation === 'function' ? await safe(() => mod.caseByCitation(caseCite[0]), null) : null;
+    const nm = c && (c.caseName || c.name);
+    if (nm) return { answer: `${nm}${c.court ? ` — ${c.court}` : ''}${c.dateFiled || c.year ? ` (${c.dateFiled || c.year})` : ''}: ${(c.snippet || '').slice(0, 240) || 'see the full opinion linked.'}`, sources: [c.url ? { title: nm, link: c.url } : lawSrc[0]], data: { case: c } };
+  }
+  // 3. topical case search (keyless, low-rate), network → soft-fail to null
+  const mod = await safe(() => import('./soapbox/courtlistener-opinions.mjs'), null);
+  if (mod && typeof mod.searchCases === 'function') {
+    const cases = await safe(() => mod.searchCases({ q, limit: 3 }), []);
+    if (cases && cases.length) {
+      const lines = cases.slice(0, 3).map((c) => `• ${c.caseName || c.name}${c.court ? ` — ${c.court}` : ''}${c.dateFiled ? ` (${c.dateFiled})` : ''}`);
+      const sources = cases.slice(0, 3).map((c) => ({ title: c.caseName || c.name, link: c.url })).filter((s) => s.link);
+      return { answer: `Cases on that, from the public record (CourtListener):\n${lines.join('\n')}\n(Full opinions, statutes and regulations at law.soapbox.community. Educational, not legal advice.)`, sources: sources.length ? sources : lawSrc, data: { cases: cases.slice(0, 3) } };
+    }
+  }
+  // no data this pass → stay in the legal domain with a pointer (don't fall through to markets)
+  return { answer: 'I cover case law, statutes and regulations at law.soapbox.community. Give me a citation (e.g. "7 U.S.C. 1639o" or "410 U.S. 113") or a topic and I\'ll pull what I can. (Educational — not legal advice.)', sources: lawSrc, data: {} };
+}
+
+// Politics: a named member of Congress → their public-record card; a state → that state's delegation.
+// Keyless (unitedstates/congress-legislators). Network → soft-fails to null (directory pointer covers).
+async function politicsReader(q) {
+  const mod = await safe(() => import('./soapbox/congress-legislators.mjs'), null);
+  if (!mod) return null;
+  const state = pickUsState(q);
+  if (state && re('senator', 'senators', 'representative', 'representatives', 'congress', 'congressional', 'delegation', 'member', 'who represents').test(q) && typeof mod.currentLegislators === 'function') {
+    const rows = await safe(() => mod.currentLegislators({ state: STATE_ABBR[state] || state }), []);
+    if (rows && rows.length) return fmtLegislators(rows, `Current members of Congress for ${cap(state)}`);
+  }
+  const name = pickPersonName(q);
+  if (name && typeof mod.findByName === 'function') {
+    const hits = await safe(() => mod.findByName(name), []);
+    if (hits && hits.length) return fmtLegislators(hits, `In Congress, matching "${name}"`);
+  }
+  // no data this pass → stay in the politics domain with a pointer (don't fall through to markets)
+  return { answer: 'I cover members of Congress, elections and campaign finance at politics.soapbox.community. Name a legislator (e.g. "senator Sanders") or a state ("senators from Vermont") and I\'ll pull the public record.', sources: [{ title: 'Politics — legislators, elections, campaign finance', link: 'https://politics.soapbox.community' }], data: {} };
+}
+
+function fmtLegislators(rows, header) {
+  const top = rows.slice(0, 6);
+  const lines = top.map((r) => `• ${r.name} — ${r.party || '?'}, ${r.chamber || '?'}${r.state ? ` (${r.state}${r.district ? `-${r.district}` : ''})` : ''}`);
+  return {
+    answer: `${header}:\n${lines.join('\n')}${rows.length > top.length ? `\n…and ${rows.length - top.length} more.` : ''}\n(Voting records, campaign finance and more at politics.soapbox.community.)`,
+    sources: [{ title: 'Politics — legislators, elections, campaign finance', link: 'https://politics.soapbox.community' }],
+    data: { legislators: top.map((r) => ({ name: r.name, party: r.party, chamber: r.chamber, state: r.state, district: r.district, bioguide: r.bioguide })) },
+  };
 }
 
 // The existing markets/data + Library(datasets) + trust front door.
@@ -278,6 +362,31 @@ function pickStore(q) {
 function pickStrain(q) {
   const m = String(q || '').match(/\b([a-z][a-z' -]{2,30})\s+(?:strain|kush)\b/i) || String(q || '').match(/\b(?:strain|about)\s+([a-z][a-z' -]{2,30})/i);
   return m ? m[1].trim().toLowerCase() : null;
+}
+// full state name → 2-letter postal abbr (congress-legislators filters by abbr)
+const STATE_ABBR = {
+  alabama: 'AL', alaska: 'AK', arizona: 'AZ', arkansas: 'AR', california: 'CA', colorado: 'CO',
+  connecticut: 'CT', delaware: 'DE', florida: 'FL', georgia: 'GA', hawaii: 'HI', idaho: 'ID',
+  illinois: 'IL', indiana: 'IN', iowa: 'IA', kansas: 'KS', kentucky: 'KY', louisiana: 'LA',
+  maine: 'ME', maryland: 'MD', massachusetts: 'MA', michigan: 'MI', minnesota: 'MN', mississippi: 'MS',
+  missouri: 'MO', montana: 'MT', nebraska: 'NE', nevada: 'NV', 'new hampshire': 'NH', 'new jersey': 'NJ',
+  'new mexico': 'NM', 'new york': 'NY', 'north carolina': 'NC', 'north dakota': 'ND', ohio: 'OH',
+  oklahoma: 'OK', oregon: 'OR', pennsylvania: 'PA', 'rhode island': 'RI', 'south carolina': 'SC',
+  'south dakota': 'SD', tennessee: 'TN', texas: 'TX', utah: 'UT', vermont: 'VT', virginia: 'VA',
+  washington: 'WA', 'west virginia': 'WV', wisconsin: 'WI', wyoming: 'WY',
+};
+// a person's name from a politics question: strip title/framing words, keep the capitalized name run.
+const POL_TITLES = new Set(['senator', 'sen', 'representative', 'rep', 'congressman', 'congresswoman',
+  'congress', 'governor', 'gov', 'president', 'who', 'is', 'my', 'the', 'about', 'find', 'mr', 'mrs', 'ms', 'dr']);
+function pickPersonName(q) {
+  const words = String(q || '').replace(/[?.,!]/g, '').split(/\s+/);
+  const run = [];
+  for (const w of words) {
+    if (/^[A-Z][a-zA-Z.'-]+$/.test(w) && !POL_TITLES.has(w.toLowerCase())) run.push(w);
+    else if (run.length) break; // take the first capitalized run
+  }
+  const name = run.join(' ').trim();
+  return name.length >= 2 ? name : null;
 }
 
 // ── CLI ──────────────────────────────────────────────────────────────────────────────────────────
