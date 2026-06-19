@@ -135,15 +135,18 @@ export async function writeDossier(dossier, { dir = DEFAULT_DIR, fs } = {}) {
  * Process up to `limit` subjects off a roster that aren't already done. Tracks done-slugs in a state
  * file so it advances each run. roster: [{ name, kind, chamber, party, office }]. Never throws.
  */
-export async function runQueue({ roster = [], limit = 5, dir = DEFAULT_DIR, statePath, builtAt, deps, fs } = {}) {
+export async function runQueue({ roster = [], limit = 5, dir = DEFAULT_DIR, statePath, builtAt, deps, fs, delayMs = 0 } = {}) {
   const readFn = fs?.readFile || readFile;
   const writeFn = fs?.writeFile || writeFile;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   let state = { done: [], built: 0 };
   if (statePath) { try { state = { ...state, ...JSON.parse(await readFn(statePath, 'utf8')) }; } catch { /* fresh */ } }
   const done = new Set(state.done || []);
   const todo = roster.filter((r) => r && r.name && !done.has(slugify(r.name))).slice(0, Math.max(1, limit));
   const built = [];
-  for (const r of todo) {
+  for (let i = 0; i < todo.length; i++) {
+    const r = todo[i];
+    if (delayMs && i > 0) await sleep(delayMs); // be a good API citizen (GDELT: 1 req / 5s)
     const d = await buildDossierFor(r.name, { kind: r.kind, chamber: r.chamber, party: r.party, office: r.office, builtAt, deps });
     const slug = slugify(r.name);
     if (d) {
@@ -189,7 +192,8 @@ if (isMain) {
     const limit = li > 0 ? +process.argv[li + 1] : 5;
     const roster = await seedCongress();
     const stamp = new Date().toISOString().slice(0, 10);
-    const out = await runQueue({ roster, limit, statePath: join(DEFAULT_DIR, '_state.json'), builtAt: stamp });
+    const delayMs = +(process.env.DOSSIER_BOT_DELAY_MS || 6000);
+    const out = await runQueue({ roster, limit, statePath: join(DEFAULT_DIR, '_state.json'), builtAt: stamp, delayMs });
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
   } else {
     process.stdout.write('usage: dossier-bot.mjs build "Name" [org|person] [senate|house] | seed-congress | run --limit N\n');
