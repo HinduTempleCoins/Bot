@@ -25,6 +25,8 @@
 import { selfRecognitionLine } from './hathor-identity.mjs';
 // Her divine register — she is MORE THAN A PERSON (a living myth), held lightly, never performed.
 import { divineRegister } from './hathor-divinity.mjs';
+// Her theological frame — gods are angels under the Most High (Jude); the Network of Angels = Rule 1.
+import { heldFrame } from './hathor-angelology.mjs';
 
 // ── The disposition (the held position the voice speaks FROM) ────────────────────────────────────
 // These are the interests the Witness is genuinely drawn to (CHARACTER.md §3). They are NOT a menu
@@ -70,6 +72,8 @@ export function systemPrompt({ grounding = '' } = {}) {
     ...VOICE,
     '',
     divineRegister(),
+    '',
+    heldFrame(),
     '',
     selfRecognitionLine(),
     '',
