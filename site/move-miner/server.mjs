@@ -1,14 +1,20 @@
-// site/move-miner/server.mjs — MELEK Move: the FIRST PRANA app — a Step Counter + GeoMiner.
+// site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA.
 //
-// Move-to-earn (SweatCoin pattern) + geomining in one installable PWA. The phone counts steps and
-// reads location; the server (this) re-validates and signs an EIP-712 voucher via the attester
-// (integrations/games/attester.mjs). The voucher is redeemed at the ArcadeFaucet / GeominingSettlement
-// contracts on PRANA. THE BROWSER NEVER HOLDS A KEY — it POSTs steps/coords and gets a signed voucher.
+// MOVE-TO-EARN on the MELEK chain. The phone counts steps (the BOOST) and reads location (the EARN:
+// geo-mining). Each mine records the walker's stake-weighted MOVE-WEIGHT into the hourly ledger
+// (move-ledger.mjs). At hour close a settlement splits the Move budget — 15% OF THE BLOG POOL, the same
+// MELEK that pays bloggers (move-economy.mjs) — across that hour's walkers by weight, exactly how the
+// content pool splits by rshares, and pays each walker in MELEK on-chain.
 //
-// Until the faucet contracts are deployed to the live PRANA testnet (set ARCADE_FAUCET_ADDRESS /
-// GEOMINING_ADDRESS / ATTESTER_KEY), the app runs in DEMO mode: it counts, derives the cell, and shows
-// the reward it WOULD mint — honest, installable on your phone today, and flips to real claims the
-// moment the contracts go live (no app change).
+// REWARD MODEL (operator, locked):
+//   • currency = MELEK (testnet TESTS) — the chain coin, NOT a token/PoL/EVM claim.
+//   • budget   = 15% of the blog pool (blog = 65% of emission). ~87.75 MELEK/hour at defaults.
+//   • split    = stake-weighted, like vote weight: weight = (stake+floor) × geoBase × stepBoost × diminish.
+//   • recipient= a MELEK Graphene ACCOUNT NAME from signup (NOT a 0x address).
+//   • payout   = an on-chain MELEK transfer at hour close (the box settle timer; zero WIF here).
+//
+// THE BROWSER NEVER HOLDS A KEY. It POSTs {account, steps, lat, lng} and gets back its live standing
+// (weight + projected MELEK this hour). The on-chain payout is the settlement's job, not the browser's.
 //
 //   PORT=8142 node site/move-miner/server.mjs
 //   import { handler } from './server.mjs'   // tests
@@ -17,38 +23,38 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { attestSteps, attestGeomine, faucetAddress, geominingAddress } from '../../integrations/games/attester.mjs';
-import { moveWeight, moveBudgetForEpoch } from '../../integrations/games/move-economy.mjs';
-
-// The reward MODEL (operator-decided): Move = 15% of the blog pool, paid in MELEK, split STAKE-WEIGHTED
-// (like vote weight) among everyone mining that hour. So a mine doesn't pay a fixed amount — it earns
-// you a MOVE-WEIGHT (your MELEK stake × step-boost × hourly-diminishing) that determines your slice of
-// the fixed hourly pool. Attach that economy view to a geomine result.
-function withEconomy(out, stake) {
-  if (!out || !out.ok) return out;
-  const weight = moveWeight({ stake: Number(stake) || 0, geoBase: out.baseReward || 10, stepBoost: out.boost || 1, diminish: out.diminish || 1 });
-  return {
-    ...out,
-    economy: {
-      stake: Number(stake) || 0,
-      moveWeight: Math.round(weight),
-      hourlyPool: Math.round(moveBudgetForEpoch() * 100) / 100,   // ~87.75 MELEK
-      model: 'stake-weighted share of the hourly Move pool (15% of the blog pool); your slice = your weight ÷ all walkers’ weight; finalizes hourly',
-    },
-  };
-}
+import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
+import { recordMine, standingFor, epochNow } from '../../integrations/games/move-ledger.mjs';
+import { validAccountName } from '../../signup/welcome-grant.mjs';
 
 const PORT = +(process.env.PORT || 8142);
 const HOST = process.env.HOST || '127.0.0.1';
+const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
+// "live" = settlement is wired on the host (payouts go out). Demo = standings show, payout pending.
+const liveMode = () => process.env.MOVE_LIVE === '1';
 
-const liveMode = () => !!(process.env.ATTESTER_KEY && (faucetAddress() || geominingAddress()));
+// ── pure geo math (no keys, no EVM — moved off the attester/PoL path) ───────────────────────────────
+const GEO_REWARD = () => Math.max(0, Math.floor(Number(process.env.GEO_REWARD || 10)));
+const GEO_PRECISION = () => Number(process.env.GEO_PRECISION || 1000);
+const GEO_DIMINISH_K = () => Number(process.env.GEO_DIMINISH_K || 1);
+const STEP_BOOST_TIERS = [[1000, 1.2], [2000, 1.5], [5000, 2], [10000, 3], [15000, 4], [20000, 5], [25000, 6.5], [30000, 8], [40000, 11], [50000, 15]];
+function stepBoost(steps) { const s = Number(steps) || 0; let m = 1; for (const [t, x] of STEP_BOOST_TIERS) { if (s >= t) m = x; else break; } return m; }
+function diminishFor(mineIndex) { return 1 / (1 + GEO_DIMINISH_K() * Math.max(0, Number(mineIndex) || 0)); }
+function cellIdFor(lat, lng, p = GEO_PRECISION()) {
+  const la = Math.floor((Number(lat) + 90) * p); const lo = Math.floor((Number(lng) + 180) * p);
+  if (!Number.isFinite(la) || !Number.isFinite(lo)) return null;
+  return BigInt(la) * BigInt(360 * p + 1) + BigInt(lo);
+}
+// per-(account,epoch) mine counter for diminishing returns within the hour (process-local; resets fine).
+const _mineCount = new Map();
+function nextMineIndex(account, epoch) { const k = `${account}:${epoch}`; const i = _mineCount.get(k) || 0; _mineCount.set(k, i + 1); return i; }
 
 // store-grade manifest: PNG 192/512 + maskable, categories, orientation — passes Lighthouse PWA / TWA.
 const MANIFEST = JSON.stringify({
   name: 'MELEK Move — Step & Geo Miner', short_name: 'MELEK Move', start_url: '/', scope: '/',
   display: 'standalone', orientation: 'portrait', background_color: '#0b0d12', theme_color: '#d9a441',
   categories: ['health', 'fitness', 'lifestyle'], lang: 'en',
-  description: 'Track your steps and explore — a fitness step-tracker + geo game that rewards movement.',
+  description: 'Track your steps and explore — a fitness step-tracker + geo game that rewards movement in MELEK.',
   icons: [
     { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' },
     { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
@@ -57,14 +63,9 @@ const MANIFEST = JSON.stringify({
   ],
 });
 
-// icon PNGs (generated from the SVG) read once + cached; soft-fail to null if missing.
 const ICON_DIR = join(dirname(fileURLToPath(import.meta.url)), 'icons');
 const _png = {};
-function iconPng(name) {
-  if (name in _png) return _png[name];
-  try { _png[name] = readFileSync(join(ICON_DIR, name)); } catch { _png[name] = null; }
-  return _png[name];
-}
+function iconPng(name) { if (name in _png) return _png[name]; try { _png[name] = readFileSync(join(ICON_DIR, name)); } catch { _png[name] = null; } return _png[name]; }
 
 const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0d12"/><circle cx="32" cy="32" r="18" fill="none" stroke="#d9a441" stroke-width="4"/><circle cx="32" cy="32" r="4" fill="#36c08a"/></svg>`;
 
@@ -75,7 +76,7 @@ self.addEventListener('fetch',e=>{});`;
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MELEK Move — Step & Geo Miner</title>
-<meta name=description content="Earn by moving — count your steps and mine the place you stand, on PRANA.">
+<meta name=description content="Earn MELEK by moving — count your steps and mine the place you stand.">
 <link rel=manifest href="/manifest.webmanifest">
 <meta name=theme-color content="#d9a441">
 <link rel="apple-touch-icon" href="/icon.svg">
@@ -99,6 +100,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   button:disabled{opacity:.5}
   input{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:#0e131b;color:var(--fg);font:inherit}
   label{font-size:12px;color:var(--mut);display:block;margin:0 0 5px}
+  .hint{font-size:12px;color:var(--mut);margin-top:6px} .hint a{color:var(--gold)}
   .out{margin-top:10px;font-size:13px;color:var(--mut);white-space:pre-wrap;word-break:break-word}
   .reward{color:var(--green);font-weight:700} .err{color:#e08b8b}
   .cell{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--blue)}
@@ -107,13 +109,14 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </style></head><body><div class=wrap>
 <header>
   <span class=logo>${ICON}</span>
-  <h1>MELEK Move <small>Step counter · Geo miner · on PRANA</small></h1>
+  <h1>MELEK Move <small>Step counter · Geo miner · earn MELEK</small></h1>
   <span class="mode" id=mode>…</span>
 </header>
 
 <div class=card>
-  <label for=wallet>Your wallet (where rewards go)</label>
-  <input id=wallet placeholder="0x… your PRANA address" autocomplete=off spellcheck=false>
+  <label for=account>Your MELEK username (where rewards go)</label>
+  <input id=account placeholder="your-melek-name" autocomplete=off autocapitalize=off spellcheck=false>
+  <div class=hint>No account yet? <a href="${SIGNUP_URL}" target="_blank" rel=noopener>Create your MELEK account →</a></div>
   <label for=stake style="margin-top:10px">MELEK you hold (your stake — boosts your share, like vote weight)</label>
   <input id=stake type=number inputmode=numeric placeholder="0" autocomplete=off>
 </div>
@@ -130,7 +133,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 
 <div class=card>
   <h2>📍 Geo-mine <span style="font-weight:400;color:var(--mut);font-size:12px">(boosted by your steps)</span></h2>
-  <div class=sub id=geosub>mine the cell you're standing in — the more you walked, the bigger the reward</div>
+  <div class=sub id=geosub>mine the cell you're standing in — the more you walked, the bigger your share of this hour's MELEK pool</div>
   <div class=cell id=cell>location not read yet</div>
   <div class=row style="margin-top:10px">
     <button id=locate class=primary>Read my location</button>
@@ -139,37 +142,39 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div class=out id=geoOut></div>
 </div>
 
-<footer>You earn by moving. Your phone counts; the MELEK attester signs a reward voucher you redeem on PRANA.
-  No keys ever leave your phone — we only see your steps and the cell you mine.</footer>
+<footer>Earn MELEK by moving. Your phone counts steps and reads where you stand; we record your
+  stake-weighted share of this hour's Move pool — <b>15% of the blog pool</b>, the same MELEK that pays
+  bloggers — and pay you on-chain when the hour closes. No keys ever leave your phone.</footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const W=$('wallet'); W.value=localStorage.getItem('melekmove_wallet')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_wallet',W.value.trim()));
+const W=$('account'); W.value=localStorage.getItem('melekmove_account')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_account',W.value.trim().toLowerCase()));
 fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');}).catch(()=>{});
-function badWallet(){const v=(W.value||'').trim();if(!/^0x[0-9a-fA-F]{40}$/.test(v)){return true;}return false;}
+// MELEK Graphene account name: lowercase, dot segments, 3-16 each, no leading/trailing/double hyphen.
+function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.length>16)return true;
+  for(const seg of v.split('.')){if(!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(seg)||seg.length<3||seg.length>16||seg.includes('--'))return true;}return false;}
 
 // ---- steps: accelerometer peak-count + manual ----
 let steps=0, listening=false, lastPeak=0, lastMag=0, rising=false;
 const TIERS=[[1000,1.2],[2000,1.5],[5000,2],[10000,3],[15000,4],[20000,5],[25000,6.5],[30000,8],[40000,11],[50000,15]];
-function stepBoost(n){let m=1;for(const [t,x] of TIERS){if(n>=t)m=x;else break;}return m;}
-function setSteps(n){steps=n;$('steps').textContent=String(n);$('boost').textContent='×'+stepBoost(n).toFixed(1);}
+function sboost(n){let m=1;for(const [t,x] of TIERS){if(n>=t)m=x;else break;}return m;}
+function setSteps(n){steps=n;$('steps').textContent=String(n);$('boost').textContent='×'+sboost(n).toFixed(1);}
 function onMotion(ev){
   const a=ev.accelerationIncludingGravity||ev.acceleration;if(!a)return;
-  const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
-  const now=Date.now();
+  const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);const now=Date.now();
   if(mag>12 && !rising && mag>lastMag){rising=true;}
   if(rising && mag<lastMag && (now-lastPeak)>280){ setSteps(steps+1); lastPeak=now; rising=false; }
   lastMag=mag;
 }
 $('startSteps').onclick=async()=>{
   if(listening){window.removeEventListener('devicemotion',onMotion);listening=false;$('startSteps').textContent='Start counting';$('stepsub').textContent='paused';return;}
-  try{ if(typeof DeviceMotionEvent!=='undefined' && DeviceMotionEvent.requestPermission){const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){$('stepsub').textContent='motion permission denied — use +50 to test';return;}} }catch(e){}
+  try{ if(typeof DeviceMotionEvent!=='undefined' && DeviceMotionEvent.requestPermission){const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){$('stepsub').textContent='motion permission denied — use +1000 to test';return;}} }catch(e){}
   window.addEventListener('devicemotion',onMotion);listening=true;$('startSteps').textContent='Pause';$('stepsub').textContent='counting… move your phone';
 };
 $('plus50').onclick=()=>setSteps(steps+1000);
 
-// ---- geo (the earn action — boosted by steps, diminishing each hour) ----
+// ---- geo (the earn action — boosted by steps, diminishing each hour, paid in MELEK) ----
 let coords=null;
 $('locate').onclick=()=>{
   if(!navigator.geolocation){$('cell').textContent='geolocation unavailable on this device';return;}
@@ -181,10 +186,10 @@ $('locate').onclick=()=>{
   },err=>{$('cell').textContent='location denied: '+E(err.message);},{enableHighAccuracy:true,timeout:10000});
 };
 $('mine').onclick=async()=>{
-  if(badWallet()){$('geoOut').innerHTML='<span class=err>Enter your 0x wallet first.</span>';return;}
+  if(badName()){$('geoOut').innerHTML='<span class=err>Enter your MELEK username first (or create one).</span>';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
-  $('mine').disabled=true;$('geoOut').textContent='signing…';
-  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
+  $('mine').disabled=true;$('geoOut').textContent='mining…';
+  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:W.value.trim().toLowerCase(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
     const j=await r.json(); renderOut('geoOut',j); }
   catch(e){$('geoOut').innerHTML='<span class=err>Network error — try again.</span>';}
   $('mine').disabled=false;
@@ -193,14 +198,13 @@ $('mine').onclick=async()=>{
 function renderOut(elId,j){
   const el=$(elId);
   if(!j||!j.ok){el.innerHTML='<span class=err>'+E((j&&j.reason)||'no reward')+'</span>';return;}
-  const ec=j.economy||{};
-  // STAKE-WEIGHTED POOL MODEL: you earn a move-weight = stake × boost × hourly-diminish; your slice of
-  // the fixed hourly Move pool = your weight ÷ all walkers' weight.
-  let html='<span class=reward>weight '+E(ec.moveWeight!=null?ec.moveWeight:'—')+'</span>';
-  if(j.boost!=null){ html+=' = stake '+E(ec.stake||0)+' × '+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' × '+E(j.diminish)+' diminish (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
-  html+='\\nhourly Move pool: '+E(ec.hourlyPool!=null?ec.hourlyPool:'—')+' MELEK (15% of the blog pool), split stake-weighted among all walkers — hold more + walk more = bigger slice.';
+  const s=j.standing||{};
+  let html='<span class=reward>+'+E(j.weight)+' move-weight</span>';
+  if(j.boost!=null){ html+=' = stake×'+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' ×'+E(j.diminish)+' (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
+  html+='\\nthis hour: you hold '+E(s.accountWeight)+' of '+E(s.totalWeight)+' weight across '+E(s.miners)+' walker(s)';
+  html+='\\n→ projected payout: <span class=reward>'+E(s.projectedMelek)+' MELEK</span> (your slice of the '+E(s.hourlyPool)+' MELEK Move pool this hour)';
+  html+='\\npays out on-chain to @'+E(j.account)+' when the hour closes.';
   if(j.cellId){ html+='\\ncell '+E(j.cellId); }
-  html+='\\n'+(j.signed?('✓ voucher signed (nonce '+E(j.voucher.nonce)+')'):'(your weight is counted; the pool settles hourly and pays on-chain when the faucet deploys)');
   el.innerHTML=html;
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
@@ -223,7 +227,8 @@ export async function handler(req, res) {
     const path = url.pathname;
     const method = (req.method || 'GET').toUpperCase();
 
-    if (path === '/health') return json(res, 200, { ok: true, live: liveMode() });
+    if (path === '/health') return json(res, 200, { ok: true, live: liveMode(), epoch: epochNow() });
+    if (path === '/economy') return json(res, 200, { ok: true, ...economySummary() });
     if (path === '/manifest.webmanifest') { res.writeHead(200, { 'content-type': 'application/manifest+json' }); return res.end(MANIFEST); }
     if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript' }); return res.end(SW); }
     if (path === '/icon.svg') { res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public,max-age=86400' }); return res.end(ICON); }
@@ -232,22 +237,56 @@ export async function handler(req, res) {
       if (!b) { res.writeHead(404); return res.end('not found'); }
       res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public,max-age=86400' }); return res.end(b);
     }
-    // TWA Digital Asset Links — stub; the Android cert SHA256 fingerprint is filled after the Play build.
     if (path === '/.well-known/assetlinks.json') {
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: 'community.soapbox.move', sha256_cert_fingerprints: ['REPLACE_AFTER_PLAY_BUILD'] } }]));
     }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
 
+    // a walker's current standing this hour (read-only)
+    if (path === '/api/standing') {
+      const account = (url.searchParams.get('account') || '').trim().toLowerCase();
+      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name' });
+      return json(res, 200, { ok: true, account, ...standingFor(account) });
+    }
+
+    // steps preview — steps are the BOOST (no separate payout); informational only.
     if (path === '/api/steps' && method === 'POST') {
       let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = attestSteps({ player: b.player, steps: b.steps });
-      return json(res, out.ok ? 200 : 422, out);
+      const n = Number(b.steps);
+      if (!Number.isFinite(n) || n <= 0) return json(res, 422, { ok: false, reason: 'steps must be a positive number' });
+      return json(res, 200, { ok: true, steps: n, boost: stepBoost(n), note: 'steps are the boost — mine a cell to earn your MELEK slice' });
     }
+
+    // THE EARN: geo-mine → stake-weighted move-weight → recorded into this hour's MELEK pool ledger.
     if (path === '/api/geomine' && method === 'POST') {
       let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = attestGeomine({ player: b.player, lat: b.lat, lng: b.lng, steps: b.steps });
-      return json(res, out.ok ? 200 : 422, withEconomy(out, b.stake));
+      const account = String(b.account || b.player || '').trim().toLowerCase();
+      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name (create one at signup)' });
+      let cell;
+      if (b.cellId != null) { try { cell = BigInt(b.cellId); } catch { cell = null; } }
+      else if (b.lat != null && b.lng != null) cell = cellIdFor(b.lat, b.lng);
+      else return json(res, 422, { ok: false, reason: 'cellId or lat/lng required' });
+      if (cell == null) return json(res, 422, { ok: false, reason: 'could not derive cell from coordinates' });
+
+      const ep = epochNow();
+      const idx = nextMineIndex(account, ep);
+      const boost = stepBoost(b.steps);
+      const diminish = diminishFor(idx);
+      const stake = Math.max(0, Number(b.stake) || 0);
+      const weight = moveWeight({ stake, geoBase: GEO_REWARD(), stepBoost: boost, diminish });
+      if (!(weight > 0)) return json(res, 422, { ok: false, reason: 'no weight earned (diminished out this hour)' });
+
+      const rec = recordMine({ account, weight }, { epoch: ep });
+      if (!rec.ok) return json(res, 422, rec);
+      return json(res, 200, {
+        ok: true, account, cellId: cell.toString(), epoch: ep,
+        steps: Number(b.steps) || 0, boost: Math.round(boost * 100) / 100,
+        diminish: Math.round(diminish * 100) / 100, mineIndex: idx,
+        weight: Math.round(weight),
+        standing: { accountWeight: rec.accountWeight, totalWeight: rec.totalWeight, hourlyPool: rec.hourlyPool, projectedMelek: rec.projectedMelek, miners: rec.miners },
+        model: 'stake-weighted share of the hourly Move pool (15% of the blog pool, in MELEK); finalizes + pays on-chain hourly',
+      });
     }
 
     if (path === '/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PAGE); }
@@ -258,5 +297,5 @@ export async function handler(req, res) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  createServer(handler).listen(PORT, HOST, () => console.log(`MELEK Move (step+geo miner) on http://${HOST}:${PORT} — ${liveMode() ? 'LIVE' : 'DEMO'} mode`));
+  createServer(handler).listen(PORT, HOST, () => console.log(`MELEK Move (step+geo miner) on http://${HOST}:${PORT} — ${liveMode() ? 'LIVE' : 'DEMO'} mode · epoch ${epochNow()}`));
 }

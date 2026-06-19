@@ -1,8 +1,9 @@
-// server.test.mjs — MELEK Move (step + geo miner) PWA. Offline; attester runs in demo mode (no key)
-// so it returns the built voucher with signed:false. Never throws.
+// server.test.mjs — MELEK Move PWA. OFFLINE. Earn = MELEK to a MELEK account, recorded into the hourly
+// ledger (no chain, no keys, no EVM voucher). MOVE_DATA points at a temp file. Never throws.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { handler } from './server.mjs';
+process.env.MOVE_DATA = `/tmp/move-test-${process.pid}.json`;   // isolate the ledger file
+const { handler } = await import('./server.mjs');
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -14,99 +15,95 @@ function req(path, method = 'GET', bodyObj) {
   queueMicrotask(() => { if (bodyObj !== undefined && h.data) h.data(JSON.stringify(bodyObj)); if (h.end) h.end(); });
   return r;
 }
-const PLAYER = '0x1111111111111111111111111111111111111111';
+const ACCT = 'alice-walker';
 
-test('GET / serves the installable app (manifest + step + geo)', async () => {
+test('GET / serves the installable app — MELEK username, steps, geo, signup link', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /MELEK Move/);
   assert.match(o.body, /manifest.webmanifest/);
-  assert.match(o.body, /Step boost/);            // steps are the boost meter
-  assert.match(o.body, /Mine this cell/);        // geomine is the earn action
+  assert.match(o.body, /MELEK username/);          // identity is a MELEK account, not 0x
+  assert.match(o.body, /Create your MELEK account/);// signup link present
+  assert.match(o.body, /Step boost/);
+  assert.match(o.body, /Mine this cell/);
+  assert.doesNotMatch(o.body, /0x… your PRANA address|PRANA address/); // old 0x identity gone
 });
 
-test('PWA plumbing: manifest, service worker, icon', async () => {
+test('PWA plumbing: manifest, service worker, icon, assetlinks', async () => {
   let { res, o } = cap(); await handler(req('/manifest.webmanifest'), res);
-  assert.match(o.type, /manifest/); assert.match(o.body, /MELEK Move/);
-  ({ res, o } = cap()); await handler(req('/sw.js'), res);
-  assert.match(o.type, /javascript/);
-  ({ res, o } = cap()); await handler(req('/icon.svg'), res);
-  assert.match(o.type, /svg/);
-});
-
-test('store-grade manifest: PNG 192/512 + maskable + categories (TWA/PWABuilder-ready)', async () => {
-  const { res, o } = cap(); await handler(req('/manifest.webmanifest'), res);
-  const m = JSON.parse(o.body);
+  assert.match(o.type, /manifest/); const m = JSON.parse(o.body);
   assert.ok(m.icons.some((i) => i.sizes === '192x192' && i.type === 'image/png'));
   assert.ok(m.icons.some((i) => i.sizes === '512x512' && i.purpose === 'maskable'));
-  assert.ok(Array.isArray(m.categories) && m.categories.includes('fitness'));
+  assert.ok(m.categories.includes('fitness'));
+  ({ res, o } = cap()); await handler(req('/sw.js'), res); assert.match(o.type, /javascript/);
+  ({ res, o } = cap()); await handler(req('/icon.svg'), res); assert.match(o.type, /svg/);
+  ({ res, o } = cap()); await handler(req('/icons/icon-192.png'), res); assert.match(o.type, /image\/png/);
+  ({ res, o } = cap()); await handler(req('/.well-known/assetlinks.json'), res); assert.match(o.body, /android_app/);
 });
 
-test('icon PNGs serve as image/png', async () => {
-  const { res, o } = cap(); await handler(req('/icons/icon-192.png'), res);
-  assert.equal(o.code === 0 ? 200 : o.code, 200);   // writeHead(200) sets code
-  assert.match(o.type, /image\/png/);
+test('/health and /economy expose the model', async () => {
+  let { res, o } = cap(); await handler(req('/health'), res);
+  assert.equal(o.code, 200); const h = JSON.parse(o.body);
+  assert.equal(h.live, false);                     // MOVE_LIVE not set
+  assert.ok(Number.isFinite(h.epoch));
+  ({ res, o } = cap()); await handler(req('/economy'), res);
+  const ec = JSON.parse(o.body);
+  assert.equal(ec.stakeWeighted, true);
+  assert.ok(ec.moveBudgetPerHour > 0);             // 15% of the blog pool, in MELEK
+  assert.match(ec.note, /15% of the blog pool/);
 });
 
-test('assetlinks.json is served for TWA (fingerprint stubbed pre-build)', async () => {
-  const { res, o } = cap(); await handler(req('/.well-known/assetlinks.json'), res);
-  assert.match(o.type, /json/);
-  assert.match(o.body, /delegate_permission|android_app/);
-});
-
-test('/health reports demo mode when no faucet/key configured', async () => {
-  const { res, o } = cap(); await handler(req('/health'), res);
-  assert.equal(o.code, 200);
-  assert.equal(JSON.parse(o.body).live, false);
-});
-
-test('POST /api/steps builds a reward voucher (demo: signed:false, payout present)', async () => {
+test('POST /api/geomine records a stake-weighted move-weight + projected MELEK', async () => {
   const { res, o } = cap();
-  await handler(req('/api/steps', 'POST', { player: PLAYER, steps: 12000 }), res);
+  await handler(req('/api/geomine', 'POST', { account: ACCT, lat: 32.7767, lng: -96.7970, steps: 20000, stake: 1000 }), res);
   assert.equal(o.code, 200);
   const j = JSON.parse(o.body);
   assert.equal(j.ok, true);
-  assert.ok(j.payout >= 1);
-  assert.equal(j.signed, false);     // demo (no ATTESTER_KEY)
-  assert.ok(j.voucher && j.voucher.amount);
-});
-
-test('POST /api/geomine applies the step boost + the stake-weighted economy', async () => {
-  const { res, o } = cap();
-  await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7767, lng: -96.7970, steps: 20000, stake: 1000 }), res);
-  assert.equal(o.code, 200);
-  const j = JSON.parse(o.body);
-  assert.equal(j.ok, true);
+  assert.equal(j.account, ACCT);
   assert.ok(BigInt(j.cellId) > 0n);
-  assert.equal(j.boost, 5);                 // 20k-step tier → ×5
-  // the real economy is attached: move-weight scales with stake, + the fixed hourly pool
-  assert.ok(j.economy, 'economy view attached');
-  assert.equal(j.economy.stake, 1000);
-  assert.ok(j.economy.moveWeight > 0);
-  assert.ok(j.economy.hourlyPool > 0);      // ~87.75 MELEK (15% of the blog pool)
-  assert.match(j.economy.model, /stake-weighted|hourly/i);
+  assert.equal(j.boost, 5);                         // 20k-step tier → ×5
+  assert.ok(j.weight > 0);
+  assert.ok(j.standing.projectedMelek > 0);         // a real MELEK slice this hour
+  assert.ok(j.standing.hourlyPool > 0);
+  assert.match(j.model, /15% of the blog pool|stake-weighted/i);
 });
 
 test('more stake → bigger move-weight (vote-weight mechanics)', async () => {
-  const get = async (stake) => { const { res, o } = cap(); await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7, lng: -96.8, steps: 10000, stake }), res); return JSON.parse(o.body).economy.moveWeight; };
-  assert.ok((await get(10000)) > (await get(0)), 'holding more MELEK earns a bigger slice');
+  const get = async (account, stake) => { const { res, o } = cap(); await handler(req('/api/geomine', 'POST', { account, lat: 32.7, lng: -96.8, steps: 10000, stake }), res); return JSON.parse(o.body).weight; };
+  assert.ok((await get('rich-walker', 10000)) > (await get('poor-walker', 0)), 'holding more MELEK earns a bigger slice');
 });
 
-test('bad input → 422, never a 500', async () => {
-  let { res, o } = cap(); await handler(req('/api/steps', 'POST', { player: 'nope', steps: 100 }), res);
+test('rejects a 0x / non-MELEK identity (this is the chain, not EVM)', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/geomine', 'POST', { account: '0x1111111111111111111111111111111111111111', lat: 1, lng: 1, steps: 5000 }), res);
   assert.equal(o.code, 422);
-  ({ res, o } = cap()); await handler(req('/api/geomine', 'POST', { player: PLAYER }), res); // no coords
-  assert.equal(o.code, 422);
+  assert.match(JSON.parse(o.body).reason, /MELEK account/);
 });
 
-test('LIVE mode flips on when key + a faucet address are set, and signs', async () => {
-  process.env.ATTESTER_KEY = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-  process.env.ARCADE_FAUCET_ADDRESS = '0x2222222222222222222222222222222222222222';
-  let { res, o } = cap(); await handler(req('/health'), res);
-  assert.equal(JSON.parse(o.body).live, true);
-  ({ res, o } = cap()); await handler(req('/api/steps', 'POST', { player: PLAYER, steps: 12000 }), res);
-  assert.equal(JSON.parse(o.body).signed, true);
-  delete process.env.ATTESTER_KEY; delete process.env.ARCADE_FAUCET_ADDRESS;
+test('/api/standing reads a walker’s current hour without recording', async () => {
+  await handler(req('/api/geomine', 'POST', { account: 'carol-walker', lat: 10, lng: 10, steps: 5000, stake: 500 }), cap().res);
+  const { res, o } = cap(); await handler(req('/api/standing?account=carol-walker'), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(j.account, 'carol-walker');
+  assert.ok(j.accountWeight > 0);
+});
+
+test('POST /api/steps previews the boost (steps are the boost, not a payout)', async () => {
+  const { res, o } = cap(); await handler(req('/api/steps', 'POST', { steps: 12000 }), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(j.ok, true); assert.equal(j.boost, 3);   // 10k tier → ×3
+  assert.match(j.note, /boost/);
+});
+
+test('bad input → 422/400, never a 500', async () => {
+  let { res, o } = cap(); await handler(req('/api/geomine', 'POST', { account: ACCT }), res); // no coords
+  assert.equal(o.code, 422);
+  ({ res, o } = cap()); await handler(req('/api/steps', 'POST', { steps: -1 }), res);
+  assert.equal(o.code, 422);
+  ({ res, o } = cap()); await handler(req('/api/standing?account=0xabc'), res);
+  assert.equal(o.code, 422);
 });
 
 test('unknown route → 404', async () => {
