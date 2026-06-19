@@ -90,6 +90,16 @@ export const VERTICALS = [
       'head start', 'ccdf', 'run a daycare', 'open a daycare').test(q),
   },
   {
+    id: 'languages', label: 'Languages',
+    // learn/teach a language — grammar, courses, the script. Hathor's Language Center curriculum.
+    test: (q) => re('language', 'languages', 'learn (to speak|a language)', 'teach me', 'grammar',
+      'syntax', 'how do you say', 'translate', 'alphabet', 'script', 'pronunciation', 'vocabulary',
+      'kurdish', 'kurmanji', 'sorani', 'zazaki', 'hebrew', 'koine', 'greek', 'sanskrit', 'latin',
+      'aramaic', 'phoenician', 'punic', 'hieroglyph', 'egyptian', 'akkadian', 'cuneiform', 'sumerian',
+      'ugaritic', 'canaanite', 'berber', 'amazigh', 'tamazight', 'somali', 'oromo', 'cushitic',
+      'mandarin', 'chinese', 'korean', 'russian', 'avestan', 'vedic').test(q),
+  },
+  {
     id: 'grants', label: 'Grants',
     // where the money is — grants, funders, fellowships, RFPs. (childcare funding stays in credentials.)
     test: (q) => re('grant', 'grants', 'funding', 'fund my', 'rfp', 'rfps', 'request for proposal',
@@ -112,7 +122,7 @@ let _readers = null;
 export function __setReaders(obj) { _readers = obj && typeof obj === 'object' ? obj : null; }
 
 function defaultReaders() {
-  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, credentials: credentialsReader, grants: grantsReader, system: systemReader, directory: directoryReader };
+  return { hierophant: hierophantReader, coupons: couponsReader, cannabis: cannabisReader, law: lawReader, politics: politicsReader, credentials: credentialsReader, grants: grantsReader, languages: languagesReader, system: systemReader, directory: directoryReader };
 }
 
 // Hierophant: keyword-search the religion catalog (texts + traditions + entities), link out to the
@@ -301,6 +311,26 @@ async function grantsReader(q) {
   }
   const flds = (mod.FIELDS || []).slice(0, 6).map((f) => f.name).join('; ');
   return { answer: `I aggregate grants by field at grants.soapbox.community — ${flds}, plus RFPs. Start with the master portals (Grants.gov, SAM.gov, Candid), or tell me your field and I'll point you.`, sources: [src], data: {} };
+}
+
+// Languages: the Language Center curriculum — grammar/course/dictionary/corpus by family, taught the
+// Jesuit way, cross-linked to Hierophant. Pure/offline; always answers.
+async function languagesReader(q) {
+  const mod = await safe(() => import('./language-catalog.mjs'), null);
+  if (!mod || typeof mod.search !== 'function') return null;
+  const hits = safeCall(() => mod.search(q, { limit: 4 })) || [];
+  if (hits.length) {
+    const lines = hits.map((x) => `• ${x.name} (${x.type}, ${x.level}) — ${(x.note || '').slice(0, 120)}`);
+    const sources = hits.slice(0, 3).map((x) => ({ title: x.name, link: x.url }));
+    // if the language reads a Hierophant text, say so ("language and the gods go together")
+    const lang = hits[0].language;
+    const xref = typeof mod.hierophantXref === 'function' ? mod.hierophantXref(lang) : [];
+    const godNote = xref.length ? `\nThis language opens the Hierophant texts: ${xref.join(', ')}.` : '';
+    const method = mod.JESUIT_METHOD ? `\nI teach it by the ${mod.JESUIT_METHOD.name}: ${mod.JESUIT_METHOD.stages.join(' → ')}.` : '';
+    return { answer: `To learn that:\n${lines.join('\n')}${godNote}${method}`, sources, data: { language: lang, resources: hits.map((x) => x.id) } };
+  }
+  const fams = (mod.FAMILIES || []).map((f) => f.name).join('; ');
+  return { answer: `I'm building toward teaching languages across families — ${fams} — by the Jesuit method, cross-linked to the Hierophant. Name a language and I'll point you to grammars, courses, dictionaries and corpora.`, sources: [], data: {} };
 }
 
 // The existing markets/data + Library(datasets) + trust front door.
