@@ -34,6 +34,26 @@ test('PWA plumbing: manifest, service worker, icon', async () => {
   assert.match(o.type, /svg/);
 });
 
+test('store-grade manifest: PNG 192/512 + maskable + categories (TWA/PWABuilder-ready)', async () => {
+  const { res, o } = cap(); await handler(req('/manifest.webmanifest'), res);
+  const m = JSON.parse(o.body);
+  assert.ok(m.icons.some((i) => i.sizes === '192x192' && i.type === 'image/png'));
+  assert.ok(m.icons.some((i) => i.sizes === '512x512' && i.purpose === 'maskable'));
+  assert.ok(Array.isArray(m.categories) && m.categories.includes('fitness'));
+});
+
+test('icon PNGs serve as image/png', async () => {
+  const { res, o } = cap(); await handler(req('/icons/icon-192.png'), res);
+  assert.equal(o.code === 0 ? 200 : o.code, 200);   // writeHead(200) sets code
+  assert.match(o.type, /image\/png/);
+});
+
+test('assetlinks.json is served for TWA (fingerprint stubbed pre-build)', async () => {
+  const { res, o } = cap(); await handler(req('/.well-known/assetlinks.json'), res);
+  assert.match(o.type, /json/);
+  assert.match(o.body, /delegate_permission|android_app/);
+});
+
 test('/health reports demo mode when no faucet/key configured', async () => {
   const { res, o } = cap(); await handler(req('/health'), res);
   assert.equal(o.code, 200);
