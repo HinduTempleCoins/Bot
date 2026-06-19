@@ -51,15 +51,25 @@ test('POST /api/steps builds a reward voucher (demo: signed:false, payout presen
   assert.ok(j.voucher && j.voucher.amount);
 });
 
-test('POST /api/geomine derives a cell and applies the step boost', async () => {
+test('POST /api/geomine applies the step boost + the stake-weighted economy', async () => {
   const { res, o } = cap();
-  await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7767, lng: -96.7970, steps: 20000 }), res);
+  await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7767, lng: -96.7970, steps: 20000, stake: 1000 }), res);
   assert.equal(o.code, 200);
   const j = JSON.parse(o.body);
   assert.equal(j.ok, true);
   assert.ok(BigInt(j.cellId) > 0n);
-  assert.equal(j.boost, 5);                 // 20k-step tier → ×5 (steps must reach attestGeomine)
-  assert.ok(j.payout > j.baseReward);       // boosted above base
+  assert.equal(j.boost, 5);                 // 20k-step tier → ×5
+  // the real economy is attached: move-weight scales with stake, + the fixed hourly pool
+  assert.ok(j.economy, 'economy view attached');
+  assert.equal(j.economy.stake, 1000);
+  assert.ok(j.economy.moveWeight > 0);
+  assert.ok(j.economy.hourlyPool > 0);      // ~87.75 MELEK (15% of the blog pool)
+  assert.match(j.economy.model, /stake-weighted|hourly/i);
+});
+
+test('more stake → bigger move-weight (vote-weight mechanics)', async () => {
+  const get = async (stake) => { const { res, o } = cap(); await handler(req('/api/geomine', 'POST', { player: PLAYER, lat: 32.7, lng: -96.8, steps: 10000, stake }), res); return JSON.parse(o.body).economy.moveWeight; };
+  assert.ok((await get(10000)) > (await get(0)), 'holding more MELEK earns a bigger slice');
 });
 
 test('bad input → 422, never a 500', async () => {
