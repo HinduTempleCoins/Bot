@@ -1,7 +1,36 @@
 // dossier-bot.test.mjs — OFFLINE. All readers + fs injected; no network, no disk writes. Soft-fail.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildDossierFor, writeDossier, runQueue, slugify } from './dossier-bot.mjs';
+import { buildDossierFor, writeDossier, runQueue, slugify, seedGovernors, seedStateAGs, seedFederalJudges, seedAll } from './dossier-bot.mjs';
+
+test('curated rosters load: governors, state AGs, federal judges', async () => {
+  const govs = await seedGovernors();
+  const ags = await seedStateAGs();
+  const judges = await seedFederalJudges();
+  assert.ok(govs.length >= 50, 'all states have a governor');
+  assert.ok(ags.length >= 50, 'all states have an AG');
+  assert.ok(judges.length >= 9, 'at least the 9 SCOTUS justices');
+  // every entry is a person with a name + office; bot-ready
+  for (const e of [...govs, ...ags, ...judges]) {
+    assert.equal(e.kind, 'person');
+    assert.ok(e.name && e.office, 'name + office present');
+  }
+  assert.ok(govs.some((g) => /Governor of/.test(g.office)));
+  assert.ok(ags.some((a) => /Attorney General/.test(a.office)));
+  assert.ok(judges.some((j) => /Justice|Judge/.test(j.office)));
+});
+
+test('seedAll merges Congress + governors + AGs + judges, de-duped by slug', async () => {
+  // inject a fake congress fetch so the test stays offline
+  const fakeFetch = async () => ({ ok: true, json: async () => ([
+    { name: { official_full: 'Ken Paxton' }, terms: [{ type: 'sen', party: 'Republican' }] }, // dup name (also an AG) → de-duped
+    { name: { official_full: 'Test Senator' }, terms: [{ type: 'sen', party: 'Democratic' }] },
+  ]) });
+  const all = await seedAll({ fetchFn: fakeFetch });
+  const slugs = all.map((e) => slugify(e.name));
+  assert.equal(new Set(slugs).size, slugs.length, 'no duplicate slugs');
+  assert.ok(all.length >= 100, 'congress + ~50 govs + ~50 ags + judges');
+});
 
 const wikiOf = (extract, desc = 'American politician') => async (name) => ({
   title: name, description: desc, extract, url: `https://en.wikipedia.org/wiki/${name.replace(/ /g, '_')}`,

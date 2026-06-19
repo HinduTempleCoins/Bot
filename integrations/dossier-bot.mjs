@@ -57,7 +57,8 @@ export async function buildDossierFor(name, opts = {}) {
 
   // 1) Wikipedia — identity + a cited bio, and watchdog sentences from the extract.
   let wiki = null;
-  try { wiki = await deps.wikipediaSummary(who, { full: true }); } catch { wiki = null; }
+  // 60k chars ≈ most of a long bio, so late "Controversies"/"Disclosures" sections aren't truncated away.
+  try { wiki = await deps.wikipediaSummary(who, { full: true, maxChars: 60000 }); } catch { wiki = null; }
   if (wiki) {
     builtFrom.push('Wikipedia');
     const fromExtract = deps.classifySentences(wiki.extract, { subject: who, source: wiki.source });
@@ -163,6 +164,30 @@ export async function runQueue({ roster = [], limit = 5, dir = DEFAULT_DIR, stat
   return { built, totalDone: done.size, rosterSize: roster.length, remaining: roster.length - done.size };
 }
 
+// ── curated rosters (governors / state AGs / federal judges) ─────────────────────────────────────
+// A stale/misspelled name simply fails its Wikipedia lookup and is skipped — never a wrong page.
+let _rosterCache = null;
+async function loadRosterFile({ fs } = {}) {
+  if (_rosterCache) return _rosterCache;
+  const readFn = fs?.readFile || readFile;
+  try { _rosterCache = JSON.parse(await readFn(join(HERE, 'accountability-roster.json'), 'utf8')); }
+  catch { _rosterCache = { governors: [], stateAGs: [], judges: [] }; }
+  return _rosterCache;
+}
+const withKind = (arr, kind = 'person') => (Array.isArray(arr) ? arr : []).map((e) => ({ kind, ...e }));
+
+export async function seedGovernors(opts = {}) { return withKind((await loadRosterFile(opts)).governors); }
+export async function seedStateAGs(opts = {}) { return withKind((await loadRosterFile(opts)).stateAGs); }
+export async function seedFederalJudges(opts = {}) { return withKind((await loadRosterFile(opts)).judges); }
+
+/** The full roster: Congress (live dataset) + governors + state AGs + federal judges. De-duped by slug. */
+export async function seedAll(opts = {}) {
+  const groups = await Promise.all([seedCongress(opts), seedGovernors(opts), seedStateAGs(opts), seedFederalJudges(opts)]);
+  const seen = new Set(); const out = [];
+  for (const g of groups) for (const e of g) { const s = slugify(e.name); if (s && !seen.has(s)) { seen.add(s); out.push(e); } }
+  return out;
+}
+
 /** Seed a roster from the open congress-legislators dataset (current members). Soft-fails to []. */
 export async function seedCongress({ fetchFn } = {}) {
   const f = fetchFn || ((...a) => fetch(...a));
@@ -187,10 +212,15 @@ if (isMain) {
     process.stdout.write(d ? JSON.stringify(d, null, 2) + '\n' : 'nothing sourced\n');
   } else if (cmd === 'seed-congress') {
     process.stdout.write(JSON.stringify(await seedCongress(), null, 2) + '\n');
+  } else if (cmd === 'seed') {
+    const cat = arg || 'all';
+    const fn = { governors: seedGovernors, ags: seedStateAGs, judges: seedFederalJudges, congress: seedCongress, all: seedAll }[cat] || seedAll;
+    const r = await fn();
+    process.stdout.write(`${cat}: ${r.length} subjects\n` + r.slice(0, 8).map((e) => `  - ${e.name} (${e.office || e.chamber || ''})`).join('\n') + '\n');
   } else if (cmd === 'run') {
     const li = process.argv.indexOf('--limit');
     const limit = li > 0 ? +process.argv[li + 1] : 5;
-    const roster = await seedCongress();
+    const roster = await seedAll();
     const stamp = new Date().toISOString().slice(0, 10);
     const delayMs = +(process.env.DOSSIER_BOT_DELAY_MS || 6000);
     const out = await runQueue({ roster, limit, statePath: join(DEFAULT_DIR, '_state.json'), builtAt: stamp, delayMs });

@@ -173,12 +173,13 @@ export function homePage() {
   const body = `<h1>SoapBox Politics <span class=muted style="font-size:14px">· the public civic record</span></h1>
     <p class=muted>Who represents you, when you vote, who lobbies, where the money is, and how it all connects —
       keyless, official-source, and cross-linked to <a href="${esc(LAW)}">Law.SoapBox</a> so a judge here links straight to their
-      opinions there. Start by finding your representatives:</p>
-    ${searchForm('/reps', {
-      placeholder: 'Member name, e.g. “Warren” — or a 2-letter state like CA…',
-      label: 'Find reps', extra: '<input class=q name=state placeholder="State (e.g. CA)" aria-label="State" style="flex:0 0 130px;max-width:130px">',
+      opinions there. Search the accountability files for <b>anyone</b> — a senator or representative, a governor, a state attorney
+      general, or a federal judge:</p>
+    ${searchForm('/dossiers', {
+      placeholder: 'Any name — senator, governor, state AG, federal judge, company…',
+      label: 'Search files',
     })}
-    <p class=muted style="font-size:13px;margin-top:-6px">Search a name, or enter a two-letter state code to list its congressional delegation.</p>
+    <p class=muted style="font-size:13px;margin-top:-6px">Or <a href="/reps">find your representatives</a> by name or two-letter state code, and explore the <a href="/dossiers">full file index</a>.</p>
     <div class=grid style="margin-top:18px">
       ${sections.map(([href, t, d]) => `<a class=sec href="${esc(href)}"><div class=t>${t}</div><div class=d>${d}</div></a>`).join('')}
     </div>
@@ -414,20 +415,33 @@ export function accountabilityView(query, records = null) {
 // These are hand-curated, source-anchored profiles in the same FACTS+SOURCES, no-verdicts discipline
 // as the live accountability map — but persistent and richer (holdings/companies owned & sold, charges
 // + dispositions, statements to investigators, calls to resign, impeachments). Each links every claim.
-export async function dossiersIndexView() {
+export async function dossiersIndexView(query = '') {
+  const term = String(query == null ? '' : query).trim();
   let list = [];
   try { list = await dossier.listDossiers(); } catch { list = []; }
-  const cards = list.length
-    ? list.map((d) => `<a class=card style="display:block;text-decoration:none" href="/dossier?who=${q(d.slug)}">
+  const total = list.length;
+  // Search EVERYONE on file — members of Congress, governors, state AGs, federal judges, companies —
+  // by name or office. This is the broad search (not limited to reps).
+  if (term) {
+    const t = term.toLowerCase();
+    list = list.filter((d) => `${d.name} ${d.office || ''} ${d.party || ''}`.toLowerCase().includes(t));
+  }
+  const shown = term ? list : list.slice(0, 90); // unfiltered: cap the wall, prompt to search
+  const form = searchForm('/dossiers', { value: term, placeholder: 'Any name — senator, governor, state AG, federal judge, company…', label: 'Search files' });
+  const cards = shown.length
+    ? shown.map((d) => `<a class=card style="display:block;text-decoration:none" href="/dossier?who=${q(d.slug)}">
         <h2 style="margin:.2em 0">${esc(d.name)}</h2>
         <p class=muted style="font-size:13px;margin:.2em 0">${esc(d.office || '')}${d.party ? ` · ${esc(d.party)}` : ''}
         ${d.verified ? '· <span style="color:#7c7">sources confirmed</span>' : '· <span style="color:#caa">draft</span>'}</p></a>`).join('')
-    : `<div class=card><p class=empty>No dossiers on file yet.</p></div>`;
+    : `<div class=card><p class=empty>${total ? `No file matches “${esc(term)}” yet — the bot files more every few hours.` : 'No dossiers on file yet.'}</p></div>`;
+  const count = term
+    ? `<p class=muted style="font-size:13px">${list.length} match${list.length === 1 ? '' : 'es'} of ${total} on file.</p>`
+    : `<p class=muted style="font-size:13px">${total} files and growing — Congress, governors, state AGs, and federal judges. Showing ${shown.length}; search for anyone.</p>`;
   return `<h1>Accountability files</h1>
-    <p class=muted>Curated, source-anchored profiles — money, holdings &amp; companies (owned / sold), charges and their
-      dispositions, statements to investigators, documented calls to resign, impeachments. <b>Every claim links its source;
+    <p class=muted>Curated and auto-compiled, source-anchored profiles — money, holdings &amp; companies (owned / sold), charges and
+      their dispositions, statements to investigators, documented calls to resign, impeachments. <b>Every claim links its source;
       there is no score, rating, or verdict.</b> Each profile carries a right-of-reply slot for its subject.</p>
-    ${cards}`;
+    ${form}${count}${cards}`;
 }
 
 export async function dossierView(slug) {
@@ -512,8 +526,8 @@ export async function handler(req, res) {
         { canonical: `${BASE_URL}/accountability`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
     }
     if (path === '/dossiers') {
-      return sendHtml(res, page('Accountability files — SoapBox Politics', await dossiersIndexView(),
-        { canonical: `${BASE_URL}/dossiers` }));
+      return sendHtml(res, page('Accountability files — SoapBox Politics', await dossiersIndexView(sp.get('q') || ''),
+        { canonical: `${BASE_URL}/dossiers`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
     }
     if (path === '/dossier') {
       const who = sp.get('who') || '';
