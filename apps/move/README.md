@@ -11,7 +11,7 @@ MELEK ledger + settlement) is unchanged and served from the live site.
 
 ## How it works
 - `capacitor.config.json` points the shell at **https://move.melek.salon** (live web app).
-- The shell injects `window.MelekSteps` (see `android/StepService.java` + `android/MainActivity.notes.md`).
+- The shell injects `window.MelekSteps` (see `native/StepService.java` + `native/MainActivity.notes.md`).
   The web page already feature-detects it (`site/move-miner/server.mjs`): if present, steps come from the
   device sensor; if absent (plain browser), it falls back to the in-page accelerometer counter.
 - Steps drive the reward **boost** (×1.2→×15); the server records the stake-weighted weight into the
@@ -22,8 +22,8 @@ MELEK ledger + settlement) is unchanged and served from the live site.
 cd apps/move
 npm install
 npx cap add android                     # generates android/ (Gradle project)
-# merge android/manifest-additions.xml into android/app/src/main/AndroidManifest.xml
-# copy android/StepService.java into the app package; wire MainActivity per MainActivity.notes.md
+# merge native/manifest-additions.xml into android/app/src/main/AndroidManifest.xml
+# copy native/StepService.java into the app package; wire MainActivity per MainActivity.notes.md
 npx cap sync android
 npx cap open android                     # build a signed AAB in Android Studio, or:
 # cd android && ./gradlew bundleRelease

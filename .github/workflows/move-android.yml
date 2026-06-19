@@ -36,7 +36,7 @@ jobs:
         run: npx cap add android
 
       - name: Apply MELEK Move native patches (step service + permissions)
-        run: bash android/apply.sh
+        run: bash native/apply.sh
 
       - name: Sync web assets + config
         run: npx cap sync android

@@ -8,8 +8,8 @@ MANIFEST="android/app/src/main/AndroidManifest.xml"
 
 echo "• copying native sources into $PKG_DIR"
 mkdir -p "$PKG_DIR"
-cp android/StepService.java "$PKG_DIR/StepService.java"
-cp android/MainActivity.java "$PKG_DIR/MainActivity.java"
+cp native/StepService.java "$PKG_DIR/StepService.java"
+cp native/MainActivity.java "$PKG_DIR/MainActivity.java"
 
 echo "• merging permissions + health service into $MANIFEST"
 python3 - "$MANIFEST" <<'PY'
