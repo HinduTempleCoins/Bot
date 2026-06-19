@@ -15,6 +15,8 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { attestSteps, attestGeomine, faucetAddress, geominingAddress } from '../../integrations/games/attester.mjs';
 import { moveWeight, moveBudgetForEpoch } from '../../integrations/games/move-economy.mjs';
 
@@ -41,12 +43,28 @@ const HOST = process.env.HOST || '127.0.0.1';
 
 const liveMode = () => !!(process.env.ATTESTER_KEY && (faucetAddress() || geominingAddress()));
 
+// store-grade manifest: PNG 192/512 + maskable, categories, orientation — passes Lighthouse PWA / TWA.
 const MANIFEST = JSON.stringify({
-  name: 'MELEK Move — Step & Geo Miner', short_name: 'MELEK Move', start_url: '/', display: 'standalone',
-  background_color: '#0b0d12', theme_color: '#d9a441',
-  icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' }],
-  description: 'Earn by moving — count your steps and mine the place you stand, on PRANA.',
+  name: 'MELEK Move — Step & Geo Miner', short_name: 'MELEK Move', start_url: '/', scope: '/',
+  display: 'standalone', orientation: 'portrait', background_color: '#0b0d12', theme_color: '#d9a441',
+  categories: ['health', 'fitness', 'lifestyle'], lang: 'en',
+  description: 'Track your steps and explore — a fitness step-tracker + geo game that rewards movement.',
+  icons: [
+    { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' },
+    { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+    { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+    { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+  ],
 });
+
+// icon PNGs (generated from the SVG) read once + cached; soft-fail to null if missing.
+const ICON_DIR = join(dirname(fileURLToPath(import.meta.url)), 'icons');
+const _png = {};
+function iconPng(name) {
+  if (name in _png) return _png[name];
+  try { _png[name] = readFileSync(join(ICON_DIR, name)); } catch { _png[name] = null; }
+  return _png[name];
+}
 
 const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0d12"/><circle cx="32" cy="32" r="18" fill="none" stroke="#d9a441" stroke-width="4"/><circle cx="32" cy="32" r="4" fill="#36c08a"/></svg>`;
 
@@ -209,6 +227,16 @@ export async function handler(req, res) {
     if (path === '/manifest.webmanifest') { res.writeHead(200, { 'content-type': 'application/manifest+json' }); return res.end(MANIFEST); }
     if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript' }); return res.end(SW); }
     if (path === '/icon.svg') { res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public,max-age=86400' }); return res.end(ICON); }
+    if (path.startsWith('/icons/') && path.endsWith('.png')) {
+      const b = iconPng(path.slice('/icons/'.length).replace(/[^a-z0-9.\-]/gi, ''));
+      if (!b) { res.writeHead(404); return res.end('not found'); }
+      res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public,max-age=86400' }); return res.end(b);
+    }
+    // TWA Digital Asset Links — stub; the Android cert SHA256 fingerprint is filled after the Play build.
+    if (path === '/.well-known/assetlinks.json') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: 'community.soapbox.move', sha256_cert_fingerprints: ['REPLACE_AFTER_PLAY_BUILD'] } }]));
+    }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
 
     if (path === '/api/steps' && method === 'POST') {
