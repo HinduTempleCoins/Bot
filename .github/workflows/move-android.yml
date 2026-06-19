@@ -1,0 +1,62 @@
+name: Build MELEK Move (Android)
+
+# Cloud build for the MELEK Move app — no local Android SDK needed. Produces:
+#   • app-debug.apk        — sideload on a phone to TEST the step counter NOW (no Play account needed)
+#   • app-release.aab      — the Google Play upload bundle (unsigned unless signing secrets are set)
+# Trigger: push to apps/move/** (or this file), or run manually (Actions → this workflow → Run).
+
+on:
+  push:
+    paths:
+      - 'apps/move/**'
+      - '.github/workflows/move-android.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/move
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '17' }
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Capacitor deps
+        run: npm install
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: Apply MELEK Move native patches (step service + permissions)
+        run: bash native/apply.sh
+
+      - name: Sync web assets + config
+        run: npx cap sync android
+
+      - name: Build debug APK (sideload to test) + release AAB (Play upload)
+        working-directory: apps/move/android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleDebug bundleRelease
+
+      - name: Upload debug APK (install this on your phone to test)
+        uses: actions/upload-artifact@v4
+        with:
+          name: melek-move-debug-apk
+          path: apps/move/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: warn
+
+      - name: Upload release AAB (Google Play upload bundle)
+        uses: actions/upload-artifact@v4
+        with:
+          name: melek-move-release-aab
+          path: apps/move/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# apply.sh — patch the Capacitor-generated android/ project with MELEK Move's native step counter.
+# Run from apps/move/ AFTER `npx cap add android`. Idempotent. Used by .github/workflows/move-android.yml.
+set -euo pipefail
+cd "$(dirname "$0")/.."                       # -> apps/move
+PKG_DIR="android/app/src/main/java/community/soapbox/move"
+MANIFEST="android/app/src/main/AndroidManifest.xml"
+
+echo "• copying native sources into $PKG_DIR"
+mkdir -p "$PKG_DIR"
+cp native/StepService.java "$PKG_DIR/StepService.java"
+cp native/MainActivity.java "$PKG_DIR/MainActivity.java"
+
+echo "• merging permissions + health service into $MANIFEST"
+python3 - "$MANIFEST" <<'PY'
+import sys, re
+p = sys.argv[1]
+s = open(p, encoding='utf-8').read()
+perms = [
+    'android.permission.ACTIVITY_RECOGNITION',
+    'android.permission.FOREGROUND_SERVICE',
+    'android.permission.FOREGROUND_SERVICE_HEALTH',
+    'android.permission.POST_NOTIFICATIONS',
+    'android.permission.ACCESS_COARSE_LOCATION',
+]
+add = ''.join(f'    <uses-permission android:name="{x}" />\n' for x in perms if x not in s)
+feat = '    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />\n'
+if 'sensor.stepcounter' not in s: add += feat
+# insert permission/feature lines right after the opening <manifest ...> tag
+if add:
+    s = re.sub(r'(<manifest\b[^>]*>\s*\n)', r'\1' + add, s, count=1)
+# register the health foreground service before </application>
+if '.StepService' not in s:
+    svc = ('        <service android:name=".StepService" android:exported="false" '
+           'android:foregroundServiceType="health" />\n')
+    s = s.replace('</application>', svc + '    </application>', 1)
+open(p, 'w', encoding='utf-8').write(s)
+print('  manifest patched')
+PY
+echo "✓ apply.sh done"
