@@ -1,7 +1,10 @@
 // Offline test for hathor-converse.mjs — injected search + complete, no network/model.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { converse, __setSearch, __setComplete } from './hathor-converse.mjs';
+import { converse, __setSearch, __setComplete, __setPerceive } from './hathor-converse.mjs';
+
+// keep these tests fully offline: disable the live Resource-Center perception (it would hit network).
+__setPerceive(async () => '');
 
 const HITS = {
   hits: [
