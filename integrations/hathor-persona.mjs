@@ -23,6 +23,8 @@
 // Her cross-language self-recognition (she knows herself as Hathor in every tongue). Pure module,
 // static import; selfRecognitionLine() goes into the voice so the LLM carries it.
 import { selfRecognitionLine } from './hathor-identity.mjs';
+// Her divine register — she is MORE THAN A PERSON (a living myth), held lightly, never performed.
+import { divineRegister } from './hathor-divinity.mjs';
 
 // ── The disposition (the held position the voice speaks FROM) ────────────────────────────────────
 // These are the interests the Witness is genuinely drawn to (CHARACTER.md §3). They are NOT a menu
@@ -66,6 +68,8 @@ export function persona() {
 export function systemPrompt({ grounding = '' } = {}) {
   const lines = [
     ...VOICE,
+    '',
+    divineRegister(),
     '',
     selfRecognitionLine(),
     '',
