@@ -76,7 +76,7 @@ self.addEventListener('fetch',e=>{});`;
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MELEK Move — Step & Geo Miner</title>
-<meta name=description content="Earn MELEK by moving — count your steps and mine the place you stand.">
+<meta name=description content="A fitness step-tracker + geo-explore game with in-app MELEK rewards (testnet — no monetary value).">
 <link rel=manifest href="/manifest.webmanifest">
 <meta name=theme-color content="#d9a441">
 <link rel="apple-touch-icon" href="/icon.svg">
@@ -109,7 +109,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </style></head><body><div class=wrap>
 <header>
   <span class=logo>${ICON}</span>
-  <h1>MELEK Move <small>Step counter · Geo miner · earn MELEK</small></h1>
+  <h1>MELEK Move <small>Step counter · explore · MELEK rewards (testnet)</small></h1>
   <span class="mode" id=mode>…</span>
 </header>
 
@@ -124,27 +124,29 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <div class=card>
   <h2>👟 Step boost</h2>
   <div class=big id=steps>0</div>
-  <div class=sub id=stepsub>your steps charge the mining boost — <span id=boost>×1.0</span></div>
+  <div class=sub id=stepsub>your steps charge the reward boost — <span id=boost>×1.0</span></div>
   <div class=row>
     <button id=startSteps class=primary>Start counting</button>
     <button id=plus50>+1000 (test)</button>
   </div>
+  <div class=hint>We read your phone's motion/step sensor <b>only</b> to calculate your fitness rewards — your activity data is never sold or shared. <a href="/privacy">Privacy</a></div>
 </div>
 
 <div class=card>
-  <h2>📍 Geo-mine <span style="font-weight:400;color:var(--mut);font-size:12px">(boosted by your steps)</span></h2>
-  <div class=sub id=geosub>mine the cell you're standing in — the more you walked, the bigger your share of this hour's MELEK pool</div>
+  <h2>📍 Reward zone <span style="font-weight:400;color:var(--mut);font-size:12px">(boosted by your steps)</span></h2>
+  <div class=sub id=geosub>claim the zone you're standing in — the more you walked, the bigger your share of this hour's MELEK reward pool</div>
   <div class=cell id=cell>location not read yet</div>
   <div class=row style="margin-top:10px">
     <button id=locate class=primary>Read my location</button>
-    <button id=mine class=green disabled>Mine this cell</button>
+    <button id=mine class=green disabled>Claim this zone</button>
   </div>
   <div class=out id=geoOut></div>
 </div>
 
-<footer>Earn MELEK by moving. Your phone counts steps and reads where you stand; we record your
-  stake-weighted share of this hour's Move pool — <b>15% of the blog pool</b>, the same MELEK that pays
-  bloggers — and pay you on-chain when the hour closes. No keys ever leave your phone.</footer>
+<footer>Move, explore, and collect <b>MELEK</b> fitness rewards. Your phone counts steps and reads where
+  you stand; we record your stake-weighted share of this hour's reward pool — <b>15% of the blog pool</b>,
+  the same MELEK that rewards writers — and send it to your account when the hour closes. MELEK is a
+  <b>testnet</b> coin with no monetary value. No keys ever leave your phone. <a href="/privacy">Privacy policy</a></footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -188,7 +190,7 @@ $('locate').onclick=()=>{
 $('mine').onclick=async()=>{
   if(badName()){$('geoOut').innerHTML='<span class=err>Enter your MELEK username first (or create one).</span>';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
-  $('mine').disabled=true;$('geoOut').textContent='mining…';
+  $('mine').disabled=true;$('geoOut').textContent='claiming…';
   try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:W.value.trim().toLowerCase(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
     const j=await r.json(); renderOut('geoOut',j); }
   catch(e){$('geoOut').innerHTML='<span class=err>Network error — try again.</span>';}
@@ -203,12 +205,51 @@ function renderOut(elId,j){
   if(j.boost!=null){ html+=' = stake×'+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' ×'+E(j.diminish)+' (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
   html+='\\nthis hour: you hold '+E(s.accountWeight)+' of '+E(s.totalWeight)+' weight across '+E(s.miners)+' walker(s)';
   html+='\\n→ projected payout: <span class=reward>'+E(s.projectedMelek)+' MELEK</span> (your slice of the '+E(s.hourlyPool)+' MELEK Move pool this hour)';
-  html+='\\npays out on-chain to @'+E(j.account)+' when the hour closes.';
-  if(j.cellId){ html+='\\ncell '+E(j.cellId); }
+  html+='\\nsent to your account @'+E(j.account)+' when the hour closes.';
+  if(j.cellId){ html+='\\nzone '+E(j.cellId); }
   el.innerHTML=html;
+}
+// Native step bridge: when wrapped by the Capacitor Android/iOS shell, the native step-counter plugin
+// exposes window.MelekSteps.start(cb) (reads the OS pedometer in a health foreground service — counts
+// with the screen off, which a browser can't). Feature-detected: a plain browser ignores this and uses
+// the in-page accelerometer counter above. The native side requests ACTIVITY_RECOGNITION after the
+// prominent-disclosure prompt shown in the step card.
+if(window.MelekSteps&&typeof window.MelekSteps.start==='function'){
+  try{ $('startSteps').textContent='Counting (device)'; $('stepsub').textContent='counting your steps from the device sensor…';
+    window.MelekSteps.start(function(n){ if(typeof n==='number'&&n>=0) setSteps(n); }); }catch(e){}
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 </script></body></html>`;
+
+// Privacy policy — REQUIRED by Google Play (we read motion/step + coarse location sensors).
+// States what we collect, why, that we never sell/share activity data, and the testnet-no-value fact.
+const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Privacy Policy</title>
+<style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
+.w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style></head>
+<body><div class=w>
+<h1>MELEK Move — Privacy Policy</h1>
+<p class=mut>Last updated 2026-06-19. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (a testnet coin with no monetary value).</p>
+<h2>What we collect</h2>
+<ul>
+<li><b>Step / motion data</b> — read from your device's step-counter / motion sensor, used <b>only</b> to calculate your in-app fitness reward boost. Step counts are processed on your device and sent to our server only as a number to compute rewards.</li>
+<li><b>Approximate location</b> — when you tap "Read my location", used <b>only</b> to derive the reward zone you are claiming. We store a coarse numeric zone id, not a precise track of your movements.</li>
+<li><b>Your MELEK account name</b> — the public account you choose, so rewards can be sent to it on the MELEK chain.</li>
+</ul>
+<h2>What we never do</h2>
+<ul>
+<li>We never sell, rent, or share your activity, motion, or location data with third parties.</li>
+<li>We never use health or fitness data for advertising.</li>
+<li>We never ask for, receive, or store your private keys — they stay on your device.</li>
+</ul>
+<h2>Permissions</h2>
+<p>Physical-activity / motion sensor access is requested before counting steps, and location is requested only when you claim a zone. You can decline either; the app still runs with reduced features.</p>
+<h2>Rewards</h2>
+<p>MELEK is currently a <b>testnet</b> token with <b>no monetary value</b>. Rewards are in-app and not an investment, security, or guarantee of any future value.</p>
+<h2>Data retention & contact</h2>
+<p>Reward standings are kept only as long as needed to settle each hourly pool. Questions: <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
+<p><a href="/">← Back to MELEK Move</a></p>
+</div></body></html>`;
 
 // ── request handler ───────────────────────────────────────────────────────────────────────────────
 function readBody(req, max = 20_000) {
@@ -242,6 +283,7 @@ export async function handler(req, res) {
       return res.end(JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: 'community.soapbox.move', sha256_cert_fingerprints: ['REPLACE_AFTER_PLAY_BUILD'] } }]));
     }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
+    if (path === '/privacy' || path === '/privacy.html') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PRIVACY); }
 
     // a walker's current standing this hour (read-only)
     if (path === '/api/standing') {

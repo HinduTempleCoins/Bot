@@ -25,8 +25,21 @@ test('GET / serves the installable app — MELEK username, steps, geo, signup li
   assert.match(o.body, /MELEK username/);          // identity is a MELEK account, not 0x
   assert.match(o.body, /Create your MELEK account/);// signup link present
   assert.match(o.body, /Step boost/);
-  assert.match(o.body, /Mine this cell/);
+  assert.match(o.body, /Claim this zone/);          // ToS-safe: "claim/zone", not "mine/cell"
   assert.doesNotMatch(o.body, /0x… your PRANA address|PRANA address/); // old 0x identity gone
+  // ToS: no banned on-device-mining or earnings-glamorizing language in the user-facing copy
+  assert.doesNotMatch(o.body, /Mine this cell|earn crypto|mine crypto/i);
+  assert.match(o.body, /testnet/i);                 // discloses no monetary value
+  assert.match(o.body, /Privacy/);                  // privacy link present (Play requires a policy)
+});
+
+test('GET /privacy serves a Play-required privacy policy', async () => {
+  const { res, o } = cap(); await handler(req('/privacy'), res);
+  assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Privacy Policy/);
+  assert.match(o.body, /never sell/i);              // health-data-misuse disclosure
+  assert.match(o.body, /motion|step/i);
+  assert.match(o.body, /no monetary value/i);
 });
 
 test('PWA plumbing: manifest, service worker, icon, assetlinks', async () => {

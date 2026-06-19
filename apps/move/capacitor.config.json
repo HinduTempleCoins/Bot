@@ -1,0 +1,18 @@
+{
+  "appId": "community.soapbox.move",
+  "appName": "MELEK Move",
+  "webDir": "www",
+  "server": {
+    "url": "https://move.melek.salon",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "MelekSteps": {
+      "note": "custom native step-counter plugin — see android/StepService.java; exposes window.MelekSteps.start(cb)"
+    }
+  }
+}
