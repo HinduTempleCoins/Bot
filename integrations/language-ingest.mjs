@@ -32,11 +32,11 @@ export const OUT_DIR = process.env.LANG_DATASET_DIR || path.join(__dirname, '..'
 // ── the OPEN ingest sources (license-cleared, single-file fetchable; grows as we verify URLs live) ──
 // format: 'text' (store as-is) | 'json' (parse + store). via = upstream attribution.
 export const INGEST_SOURCES = [
-  { id: 'cc-cedict', language: 'mandarin', family: 'modern-world', type: 'dictionary', license: 'CC BY-SA 4.0',
-    via: 'CC-CEDICT / MDBG', format: 'text', url: 'https://www.mdbg.net/chinese/export/cedict/cedict_ts.u8',
-    note: 'Open Chinese-English dictionary (the standard CEDICT data file)' },
+  { id: 'cc-cedict', language: 'mandarin', family: 'modern-world', type: 'dictionary', license: 'CC BY-SA 3.0',
+    via: 'makemeahanzi (CC-CEDICT-derived)', format: 'text', url: 'https://raw.githubusercontent.com/skishore/makemeahanzi/master/dictionary.txt',
+    note: 'Open Chinese character dictionary (CEDICT-derived, plain text)' },
   { id: 'sblgnt-data', language: 'koine-greek', family: 'biblical', type: 'corpus', license: 'CC BY 4.0',
-    via: 'STEPBible-Data', format: 'text', url: 'https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Mat-Jhn%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC%20BY.txt',
+    via: 'STEPBible-Data', format: 'text', url: 'https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Mat-Jhn%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC-BY.txt',
     note: 'Tagged Greek NT (Matthew–John), CC-BY' },
   { id: 'oshb-data', language: 'biblical-hebrew', family: 'biblical', type: 'corpus', license: 'CC BY 4.0',
     via: 'STEPBible-Data', format: 'text', url: 'https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/Translators%20Amalgamated%20OT%2BNT/TAHOT%20Gen-Deu%20-%20Translators%20Amalgamated%20Hebrew%20OT%20-%20STEPBible.org%20CC%20BY.txt',
