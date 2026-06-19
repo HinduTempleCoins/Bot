@@ -36,6 +36,27 @@ export const EDGE_KINDS = Object.freeze([
   'ruled-in',        // person (judge) → org/case
   'contracted-with', // org → agency (procurement)
   'employed-by',     // person → org
+  'invested-in',     // person/org → org (a holding/stake; status=current|sold carries owned-then-sold)
+]);
+
+// ── events: sourced, dated, public-record facts ABOUT a person/org that are not relationships ──
+// A charge, a disposition, an investigation, a statement to investigators, a public call to
+// resign, an impeachment, a company acquisition — each is a FACT with a source and a date, never
+// a verdict. The `outcome`/`status` slots hold the OFFICIAL disposition (dismissed, acquitted,
+// settled, pending) — a sourced public-record fact, not our judgement. We render no opinion.
+export const EVENT_KINDS = Object.freeze([
+  'charge',          // criminal/civil charge or indictment filed
+  'disposition',     // how a charge/case ended (dismissed, acquitted, convicted, settled, plea)
+  'investigation',   // an opened/declined/referred investigation
+  'statement',       // an on-record statement (incl. to investigators / under oath)
+  'resignation-call',// a documented public call for the person to resign
+  'resignation',     // the official actually left/resigned office
+  'impeachment',     // an impeachment proceeding + its result
+  'acquisition',     // a company the person owned was acquired/sold/merged
+  'sanction',        // a court/ethics sanction imposed
+  'recusal',         // a judge/official recused
+  'disclosure',      // a financial-disclosure fact (or a documented FAILURE to disclose)
+  'election',        // an election result (won/lost a race) — public record
 ]);
 
 // Per-source licensing tags. Gov primary records are public-domain (host-attributed);
@@ -119,6 +140,7 @@ export function createGraph() {
     if (existing) { Object.assign(existing, clean); return existing; }
     // contestable slots live on the node but carry NO judgement of their own.
     clean.disputes = [];     // [{ label, source, asOf }]
+    clean.events = [];       // [{ kind, label, source, asOf, status, outcome, amount }] — sourced facts
     clean.reply = '';        // right-of-reply text slot, owner-supplied
     nodes.set(id, clean);
     return clean;
@@ -148,6 +170,7 @@ export function createGraph() {
     if (edge.amount != null && Number.isFinite(Number(edge.amount))) rec.amount = Number(edge.amount);
     if (edge.label) rec.label = str(edge.label);
     if (edge.role) rec.role = str(edge.role);
+    if (edge.status) rec.status = str(edge.status); // current | sold | divested — a sourced fact
     edges.push(rec);
     return rec;
   }
@@ -206,6 +229,27 @@ export function createGraph() {
     return d;
   }
 
+  /**
+   * Record a sourced, dated event about a node (charge, disposition, statement, resignation-call,
+   * acquisition, disclosure…). REQUIRES a valid kind in EVENT_KINDS AND a source { name, url }.
+   * `outcome`/`status`/`amount` are optional sourced facts (the official disposition, never a verdict).
+   */
+  function addEvent(nodeId, ev = {}) {
+    const n = nodes.get(str(nodeId));
+    if (!n) return null;
+    const kind = str(ev.kind);
+    if (!EVENT_KINDS.includes(kind)) return null;
+    const s = cleanSource(ev.source);
+    const label = str(ev.label);
+    if (!label || !s) return null; // an event is a sourced fact, not an assertion
+    const rec = { kind, label, source: s, asOf: str(ev.asOf) || now(), license: licenseFor(s.name) };
+    if (ev.status) rec.status = str(ev.status);
+    if (ev.outcome) rec.outcome = str(ev.outcome);
+    if (ev.amount != null && Number.isFinite(Number(ev.amount))) rec.amount = Number(ev.amount);
+    (n.events ||= []).push(rec);
+    return rec;
+  }
+
   /** Set the right-of-reply text for a node. */
   function setReply(nodeId, text) {
     const n = nodes.get(str(nodeId));
@@ -216,7 +260,7 @@ export function createGraph() {
 
   return {
     addNode, addEdge, neighbors, pathsBetween, connectionsOf,
-    addDispute, setReply,
+    addDispute, addEvent, setReply,
     getNode: (id) => nodes.get(str(id)) || null,
     nodes: () => Array.from(nodes.values()),
     edges: () => edges.slice(),
@@ -246,14 +290,47 @@ function asOfOf(rec) {
  */
 export function fromRecords(records, graph = createGraph()) {
   const list = Array.isArray(records) ? records : [];
-  let nAdded = 0; let eAdded = 0; let skipped = 0;
+  let nAdded = 0; let eAdded = 0; let vAdded = 0; let skipped = 0;
   const node = (n) => { if (graph.addNode(n)) nAdded++; };
   const edge = (e) => { if (graph.addEdge(e)) { eAdded++; return true; } skipped++; return false; };
+  const event = (subjectId, ev) => { if (graph.addEvent(subjectId, ev)) { vAdded++; return true; } skipped++; return false; };
 
   for (const rec of list) {
     if (!rec || typeof rec !== 'object') { skipped++; continue; }
     const type = str(rec.type || rec.recordType).toLowerCase();
     const srcName = str(rec.source) || (rec.source && rec.source.name);
+
+    // ── holding-shaped: a person/org owns (or owned, then sold) a stake in a company ──
+    if (type === 'investment' || type === 'holding' || type === 'stock' || (rec.company != null && (rec.holder != null || rec.person != null))) {
+      const holder = str(rec.holder || rec.person || rec.owner);
+      const company = str(rec.company || rec.org);
+      if (holder && company) {
+        node({ kind: 'person', id: holder, name: holder });
+        node({ kind: 'org', id: company, name: company, kind_label: 'company' });
+        edge({
+          kind: 'invested-in', from: holder, to: company,
+          amount: rec.amount, status: str(rec.status) || undefined,
+          label: str(rec.label || rec.note) || undefined,
+          source: recSource(rec, srcName || 'disclosure'), asOf: asOfOf(rec),
+        });
+        continue;
+      }
+    }
+
+    // ── event-shaped: a dated public-record fact ABOUT a subject (charge, disposition, …) ──
+    if (EVENT_KINDS.includes(type)) {
+      const subject = str(rec.subject || rec.person || rec.who);
+      const label = str(rec.label || rec.title || rec.description);
+      if (subject && label) {
+        node({ kind: str(rec.subjectKind) || 'person', id: subject, name: subject });
+        event(subject, {
+          kind: type, label, status: str(rec.status) || undefined,
+          outcome: str(rec.outcome || rec.disposition) || undefined, amount: rec.amount,
+          source: recSource(rec, srcName), asOf: asOfOf(rec),
+        });
+        continue;
+      }
+    }
 
     // ── FEC-shaped: a contribution (donated-to) ──────────────────────────────────────
     if (type === 'donation' || type === 'fec' || srcName === 'OpenFEC' || (rec.contributor != null && rec.recipient != null)) {
@@ -334,7 +411,7 @@ export function fromRecords(records, graph = createGraph()) {
 
     skipped++;
   }
-  return { graph, added: { nodes: nAdded, edges: eAdded, skipped } };
+  return { graph, added: { nodes: nAdded, edges: eAdded, events: vAdded, skipped } };
 }
 
 // ── powerMap: a person's connections, grouped, every item sourced ───────────────────────
@@ -351,7 +428,7 @@ export function powerMap(personId, graph) {
   const item = (e) => ({
     other: e.other, direction: e.direction, kind: e.kind,
     amount: e.amount ?? null, label: e.label || null, role: e.role || null,
-    asOf: e.asOf, source: e.source, license: e.license,
+    status: e.status || null, asOf: e.asOf, source: e.source, license: e.license,
   });
 
   const donations = grouped['donated-to'] || [];
@@ -359,6 +436,9 @@ export function powerMap(personId, graph) {
     out: donations.filter((e) => e.direction === 'out').map(item),
     in: donations.filter((e) => e.direction === 'in').map(item),
   };
+
+  // events: chronological (oldest → newest), each a sourced public-record fact.
+  const events = (person.events || []).slice().sort((a, b) => str(a.asOf).localeCompare(str(b.asOf)));
 
   return {
     person: {
@@ -368,8 +448,10 @@ export function powerMap(personId, graph) {
     },
     money,
     orgs: [...(grouped['board-of'] || []), ...(grouped['employed-by'] || []), ...(grouped['contracted-with'] || []), ...(grouped['lobbied'] || [])].map(item),
+    holdings: (grouped['invested-in'] || []).map(item),
     appointments: (grouped['appointed-by'] || []).map(item),
     rulings: (grouped['ruled-in'] || []).map(item),
+    events,
     disputes: (person.disputes || []).slice(),
     reply: person.reply || '',
   };
@@ -389,9 +471,21 @@ function sourceLink(src) {
 function itemLine(it) {
   const amt = it.amount != null ? ` $${esc(it.amount)}` : '';
   const lab = it.label ? ` — ${esc(it.label)}` : '';
+  const st = it.status ? ` <span class="status">[${esc(it.status)}]</span>` : '';
   const lic = it.license && it.license.license ? ` <span class="lic">[${esc(it.license.license)}]</span>` : '';
-  return `<li>${esc(it.kind)}: <span class="ent">${esc(it.other)}</span>${amt}${lab} `
+  return `<li>${esc(it.kind)}: <span class="ent">${esc(it.other)}</span>${amt}${st}${lab} `
     + `<span class="asof">(as of ${esc(it.asOf)})</span> — ${sourceLink(it.source)}${lic}</li>`;
+}
+
+// An event line — a dated, sourced public-record fact. The outcome/status is the OFFICIAL
+// disposition (a fact), rendered plainly; we add no characterization of our own.
+function eventLine(ev) {
+  const outcome = ev.outcome ? ` → <span class="outcome">${esc(ev.outcome)}</span>` : '';
+  const st = ev.status ? ` <span class="status">[${esc(ev.status)}]</span>` : '';
+  const amt = ev.amount != null ? ` $${esc(ev.amount)}` : '';
+  const lic = ev.license && ev.license.license ? ` <span class="lic">[${esc(ev.license.license)}]</span>` : '';
+  return `<li><span class="evkind">${esc(ev.kind)}</span>${st}: ${esc(ev.label)}${amt}${outcome} `
+    + `<span class="asof">(as of ${esc(ev.asOf)})</span> — ${sourceLink(ev.source)}${lic}</li>`;
 }
 
 /**
@@ -407,8 +501,13 @@ export function renderProfile(map) {
   const moneyOut = sec('Money out (contributions made)', map.money?.out);
   const moneyIn = sec('Money in (contributions received)', map.money?.in);
   const orgs = sec('Organizations', map.orgs);
+  const holdings = sec('Holdings & companies (owned / sold)', map.holdings);
   const appts = sec('Appointments', map.appointments);
   const rulings = sec('Rulings', map.rulings);
+
+  const events = (map.events && map.events.length)
+    ? `<section class="events"><h3>Record &amp; events</h3><ul>${map.events.map(eventLine).join('')}</ul></section>`
+    : '';
 
   const disputes = (map.disputes && map.disputes.length)
     ? `<section class="disputes"><h3>Disputes</h3><ul>${map.disputes.map((d) =>
@@ -424,7 +523,8 @@ export function renderProfile(map) {
     p.office ? `<p class="office">${esc(p.office)}</p>` : '',
     p.party ? `<p class="party">${esc(p.party)}</p>` : '',
     `<p class="disclaimer">${esc(NO_VERDICTS_LINE)}</p>`,
-    moneyOut, moneyIn, orgs, appts, rulings,
+    moneyOut, moneyIn, orgs, holdings, appts, rulings,
+    events,
     disputes,
     reply,
     `</article>`,

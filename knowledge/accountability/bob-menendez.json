@@ -1,0 +1,28 @@
+{
+  "slug": "bob-menendez",
+  "person": {
+    "kind": "person",
+    "id": "Bob Menendez",
+    "name": "Bob Menendez",
+    "office": "Former U.S. Senator (New Jersey)",
+    "party": "Democratic",
+    "jurisdiction": "New Jersey",
+    "bio_url": "https://bioguide.congress.gov/search/bio/M000639"
+  },
+  "verified": false,
+  "verifyNote": "First draft from public DOJ/SDNY and AP reporting (the Congress example for charges/dispositions/statements-to-investigators). Pending Resource Center scraper confirmation.",
+  "records": [
+    { "type": "charge", "subject": "Bob Menendez", "label": "Federal corruption indictment (bribery) tied to Florida ophthalmologist Salomon Melgen", "status": "indicted", "source": { "name": "U.S. Department of Justice", "url": "https://www.justice.gov/" }, "asOf": "2015-04" },
+    { "type": "disposition", "subject": "Bob Menendez", "label": "The 2015 corruption case ended in a mistrial after a hung jury", "outcome": "mistrial", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2017-11" },
+    { "type": "disposition", "subject": "Bob Menendez", "label": "DOJ dropped the remaining corruption charges; the Senate Ethics Committee later \"severely admonished\" him", "outcome": "charges dropped; admonished", "source": { "name": "U.S. Department of Justice", "url": "https://www.justice.gov/" }, "asOf": "2018-01" },
+    { "type": "charge", "subject": "Bob Menendez", "label": "Indicted by SDNY on bribery conspiracy - cash and gold bars in exchange for using his office to benefit three NJ businessmen and the government of Egypt; later charged with acting as a foreign agent of Egypt", "status": "indicted", "source": { "name": "U.S. Attorney's Office, SDNY", "url": "https://www.justice.gov/usao-sdny" }, "asOf": "2023-09" },
+    { "type": "disclosure", "subject": "Bob Menendez", "label": "FBI search recovered roughly $480,000 in cash (some stuffed in envelopes and clothing) and gold bars at his home, per the indictment", "source": { "name": "U.S. Attorney's Office, SDNY", "url": "https://www.justice.gov/usao-sdny" }, "asOf": "2023-09" },
+    { "type": "resignation-call", "subject": "Bob Menendez", "label": "Dozens of fellow Democrats, including Sen. John Fetterman and N.J. Gov. Phil Murphy, publicly called on him to resign after the 2023 indictment", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2023-09" },
+    { "type": "statement", "subject": "Bob Menendez", "label": "Maintained his innocence, saying the cash was personal savings from his family and not bribe money; \"I have been, throughout my whole life, someone who saves cash\"", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2023-09" },
+    { "type": "disposition", "subject": "Bob Menendez", "label": "Convicted at trial on all 16 counts, including bribery, extortion, obstruction of justice, and acting as a foreign agent", "outcome": "convicted (all counts)", "source": { "name": "U.S. Attorney's Office, SDNY", "url": "https://www.justice.gov/usao-sdny" }, "asOf": "2024-07-16" },
+    { "type": "resignation", "subject": "Bob Menendez", "label": "Resigned from the U.S. Senate effective Aug 20, 2024, weeks after the conviction", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2024-08-20" },
+    { "type": "disposition", "subject": "Bob Menendez", "label": "Sentenced to 11 years in federal prison", "outcome": "11 years", "source": { "name": "U.S. Attorney's Office, SDNY", "url": "https://www.justice.gov/usao-sdny" }, "asOf": "2025-01-29" }
+  ],
+  "disputes": [],
+  "reply": ""
+}

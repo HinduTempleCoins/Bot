@@ -1,0 +1,34 @@
+{
+  "slug": "ken-paxton",
+  "person": {
+    "kind": "person",
+    "id": "Ken Paxton",
+    "name": "Ken Paxton",
+    "office": "Texas Attorney General",
+    "party": "Republican",
+    "jurisdiction": "Texas",
+    "bio_url": "https://www.texasattorneygeneral.gov/"
+  },
+  "verified": false,
+  "verifyNote": "First draft encoded from the VKFRI dossier (§4) using only [FACT]-tagged items. Pending Resource Center scraper confirmation; dates marked approximate where the dossier was approximate.",
+  "records": [
+    { "type": "investment", "holder": "Ken Paxton", "company": "WatchGuard Video (Enforcement Video L.P.)", "status": "sold", "label": "Early investor (with then-Rep. Byron Cook and former Rep. Bob Griggs) in the Plano police-camera maker", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/" }, "asOf": "2006" },
+    { "type": "acquisition", "subject": "WatchGuard Video (Enforcement Video L.P.)", "subjectKind": "org", "label": "Acquired by Motorola Solutions", "outcome": "$150M-$999M deal (Haynes Boone \"Deal of the Year\")", "source": { "name": "Motorola Solutions", "url": "https://www.motorolasolutions.com/" }, "asOf": "2019-07-11" },
+    { "type": "disclosure", "subject": "Ken Paxton", "label": "Did not disclose his WatchGuard ownership on his 2008 personal financial statement filed with the Texas Ethics Commission", "status": "failure-to-disclose", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2008" },
+    { "type": "statement", "subject": "Ken Paxton", "label": "Called the ~$10M Texas DPS contract that boosted WatchGuard \"like a flea on an elephant\" and said \"I didn't even know we had contracts with the state of Texas\"", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/" }, "asOf": "2014" },
+    { "type": "charge", "subject": "Ken Paxton", "label": "Indicted on first-degree felony securities fraud (Servergy) plus a failure-to-register count", "status": "indicted", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2015-08" },
+    { "type": "disposition", "subject": "Ken Paxton", "label": "Parallel SEC civil fraud case dismissed by U.S. District Judge Amos Mazzant", "outcome": "dismissed", "source": { "name": "Reuters", "url": "https://www.reuters.com/" }, "asOf": "2016-10" },
+    { "type": "disposition", "subject": "Ken Paxton", "label": "Criminal securities-fraud case ended in a pretrial agreement: ~100 hours community service, 15 hours ethics courses, ~$271,000-$300,000 restitution; no guilty plea", "outcome": "charges dropped (pretrial agreement)", "status": "no guilty plea", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/" }, "asOf": "2024-03" },
+    { "type": "statement", "subject": "Ken Paxton", "label": "Said: \"There will never be a conviction in this case nor am I guilty\"", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/" }, "asOf": "2024-03" },
+    { "type": "investigation", "subject": "Ken Paxton", "label": "Eight of his top deputies reported him to the FBI alleging abuse of office to help donor Nate Paul; four were fired and sued under the Texas Whistleblower Act", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2020-10" },
+    { "type": "resignation-call", "subject": "Ken Paxton", "label": "U.S. Rep. Chip Roy - Paxton's former first assistant AG - publicly called on him to resign \"for the good of the people of Texas\" after the whistleblower bribery allegations", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/" }, "asOf": "2020-10" },
+    { "type": "impeachment", "subject": "Ken Paxton", "label": "Impeached by the Texas House, 121-23, on articles including bribery and abuse of office", "outcome": "acquitted by the Texas Senate on all 16 articles (Sept 2023)", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/" }, "asOf": "2023-05-27" },
+    { "type": "investigation", "subject": "Ken Paxton", "label": "Federal DOJ investigation into the whistleblower / Nate Paul allegations declined", "outcome": "declined", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2025-01" },
+    { "type": "disposition", "subject": "Ken Paxton", "label": "The AG office quietly dropped a series of human-trafficking and child-sexual-assault cases after losing track of a victim; the human-trafficking division had a ~40% vacancy rate", "outcome": "cases dropped", "source": { "name": "Associated Press", "url": "https://apnews.com/" }, "asOf": "2022" },
+    { "type": "disposition", "subject": "Ken Paxton", "label": "The Adam Hoffman (Waco) child-sex-abuse case resolved with roughly 60 days in jail; a former AG human-trafficking division chief (Kirsta Leeburg Melton) publicly criticized the handling", "outcome": "~60 days", "source": { "name": "KUT News", "url": "https://www.kut.org/" }, "asOf": "2025" },
+    { "type": "disposition", "subject": "Ken Paxton", "label": "Counter-context for balance: the AG office did prosecute trafficking - e.g., the Backpage.com / Carl Ferrer guilty pleas", "outcome": "guilty pleas", "source": { "name": "Office of the Texas Attorney General", "url": "https://www.texasattorneygeneral.gov/" }, "asOf": "2018" },
+    { "type": "election", "subject": "Ken Paxton", "label": "Won the Republican U.S. Senate primary runoff over incumbent John Cornyn; faces Democrat James Talarico on Nov 3, 2026", "outcome": "won (primary runoff)", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/" }, "asOf": "2026-05-26" }
+  ],
+  "disputes": [],
+  "reply": ""
+}

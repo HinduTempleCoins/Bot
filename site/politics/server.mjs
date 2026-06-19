@@ -40,6 +40,7 @@ import * as clock from '../../integrations/soapbox/election-clock.mjs';
 import * as lobbying from '../../integrations/soapbox/lobbying-lda.mjs';
 import * as fec from '../../integrations/soapbox/fec.mjs';
 import * as accountability from '../../integrations/accountability-graph.mjs';
+import * as dossier from '../../integrations/dossier.mjs';
 
 const PORT = +(process.env.PORT || 8103);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -118,7 +119,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">🏛 SoapBox <span>politics</span></a>
-  <div class=topbar-r><a href="/reps">Reps</a><a href="/elections">Elections</a><a href="/lobbying">Lobbying</a>${moneyTab}<a href="/accountability">Accountability</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/reps">Reps</a><a href="/elections">Elections</a><a href="/lobbying">Lobbying</a>${moneyTab}<a href="/accountability">Accountability</a><a href="/dossiers">Files</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -167,6 +168,7 @@ export function homePage() {
     ['/lobbying', 'Lobbying disclosures', 'Federal lobbying filings as disclosed under the Lobbying Disclosure Act — registrant, client, issues, reported $$.'],
     ...(HAS_FEC ? [['/money', 'Campaign finance', 'FEC candidate finance — receipts, disbursements, cash on hand — as a public record. No "raised too much" framing.']] : []),
     ['/accountability', 'Accountability map', 'A sourced power-map of politicians and judges — money, orgs, appointments, rulings — every claim linked, no verdicts.'],
+    ['/dossiers', 'Accountability files', 'Curated, source-anchored profiles — holdings & companies owned/sold, charges & dispositions, statements to investigators, calls to resign. Every claim linked; no verdicts.'],
   ];
   const body = `<h1>SoapBox Politics <span class=muted style="font-size:14px">· the public civic record</span></h1>
     <p class=muted>Who represents you, when you vote, who lobbies, where the money is, and how it all connects —
@@ -408,13 +410,43 @@ export function accountabilityView(query, records = null) {
     ${form}${results}`;
 }
 
+// ── /dossiers + /dossier — the curated watchdog files (knowledge/accountability/*.json) ───────────
+// These are hand-curated, source-anchored profiles in the same FACTS+SOURCES, no-verdicts discipline
+// as the live accountability map — but persistent and richer (holdings/companies owned & sold, charges
+// + dispositions, statements to investigators, calls to resign, impeachments). Each links every claim.
+export async function dossiersIndexView() {
+  let list = [];
+  try { list = await dossier.listDossiers(); } catch { list = []; }
+  const cards = list.length
+    ? list.map((d) => `<a class=card style="display:block;text-decoration:none" href="/dossier?who=${q(d.slug)}">
+        <h2 style="margin:.2em 0">${esc(d.name)}</h2>
+        <p class=muted style="font-size:13px;margin:.2em 0">${esc(d.office || '')}${d.party ? ` · ${esc(d.party)}` : ''}
+        ${d.verified ? '· <span style="color:#7c7">sources confirmed</span>' : '· <span style="color:#caa">draft</span>'}</p></a>`).join('')
+    : `<div class=card><p class=empty>No dossiers on file yet.</p></div>`;
+  return `<h1>Accountability files</h1>
+    <p class=muted>Curated, source-anchored profiles — money, holdings &amp; companies (owned / sold), charges and their
+      dispositions, statements to investigators, documented calls to resign, impeachments. <b>Every claim links its source;
+      there is no score, rating, or verdict.</b> Each profile carries a right-of-reply slot for its subject.</p>
+    ${cards}`;
+}
+
+export async function dossierView(slug) {
+  let body = '';
+  try { body = await dossier.renderDossierPage(slug); } catch { body = ''; }
+  if (!body) body = `<div class=card><p class=empty>No dossier on file for that name yet.</p></div>`;
+  const rel = relatedOn({ name: String(slug || '').replace(/-/g, ' '), hasFinance: true });
+  return `<h1>Accountability file</h1>
+    <p class=muted><a href="/dossiers">← all files</a> · facts and connections from public records — we render no verdicts.</p>
+    ${body}${rel}`;
+}
+
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/reps', '/elections', '/lobbying', ...(HAS_FEC ? ['/money'] : []), '/accountability'];
+const SITEMAP_PATHS = ['/', '/reps', '/elections', '/lobbying', ...(HAS_FEC ? ['/money'] : []), '/accountability', '/dossiers'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -450,6 +482,7 @@ export async function handler(req, res) {
           { label: 'Lobbying disclosures', path: '/lobbying' },
           ...(HAS_FEC ? [{ label: 'Campaign finance', path: '/money' }] : []),
           { label: 'Accountability map', path: '/accountability' },
+          { label: 'Accountability files', path: '/dossiers' },
         ],
       }));
     }
@@ -477,6 +510,15 @@ export async function handler(req, res) {
     if (path === '/accountability') {
       return sendHtml(res, page('Accountability map — SoapBox Politics', accountabilityView(sp.get('q') || ''),
         { canonical: `${BASE_URL}/accountability`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
+    }
+    if (path === '/dossiers') {
+      return sendHtml(res, page('Accountability files — SoapBox Politics', await dossiersIndexView(),
+        { canonical: `${BASE_URL}/dossiers` }));
+    }
+    if (path === '/dossier') {
+      const who = sp.get('who') || '';
+      return sendHtml(res, page(`Accountability file — SoapBox Politics`, await dossierView(who),
+        { canonical: `${BASE_URL}/dossier?who=${q(who)}`, robots: who ? 'index,follow' : 'noindex,follow' }));
     }
 
     // unknown → home

@@ -3,8 +3,63 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   createGraph, fromRecords, powerMap, renderProfile,
-  NODE_KINDS, EDGE_KINDS, LICENSE_TAGS, licenseFor,
+  NODE_KINDS, EDGE_KINDS, EVENT_KINDS, LICENSE_TAGS, licenseFor,
 } from './accountability-graph.mjs';
+
+test('invested-in edge carries an owned/sold status as a sourced fact', () => {
+  const g = createGraph();
+  g.addNode({ kind: 'person', id: 'P', name: 'P' });
+  g.addNode({ kind: 'org', id: 'Co', name: 'Co' });
+  const e = g.addEdge({ kind: 'invested-in', from: 'P', to: 'Co', status: 'sold', amount: 100, asOf: '2019', source: { name: 'Texas Monthly', url: 'u' } });
+  assert.ok(e, 'invested-in is a valid edge kind');
+  assert.equal(e.status, 'sold');
+  const map = powerMap('P', g);
+  assert.equal(map.holdings.length, 1);
+  assert.equal(map.holdings[0].status, 'sold');
+});
+
+test('addEvent REQUIRES a kind in EVENT_KINDS + a source; rejects otherwise', () => {
+  const g = createGraph();
+  g.addNode({ kind: 'person', id: 'P', name: 'P' });
+  assert.equal(g.addEvent('P', { kind: 'charge', label: 'x' }), null, 'no source → rejected');
+  assert.equal(g.addEvent('P', { kind: 'not-a-kind', label: 'x', source: { name: 's' } }), null, 'bad kind → rejected');
+  assert.equal(g.addEvent('missing', { kind: 'charge', label: 'x', source: { name: 's' } }), null, 'no node → rejected');
+  const ev = g.addEvent('P', { kind: 'charge', label: 'Indicted', status: 'indicted', outcome: 'dismissed', source: { name: 'AP', url: 'u' }, asOf: '2015' });
+  assert.ok(ev);
+  assert.equal(ev.outcome, 'dismissed');
+  assert.equal(ev.license.license, 'cc-attribution'); // 'AP' not in LICENSE_TAGS → defensive default
+});
+
+test('events render chronologically with sources, no verdict field', () => {
+  const g = createGraph();
+  g.addNode({ kind: 'person', id: 'P', name: 'P' });
+  g.addEvent('P', { kind: 'disposition', label: 'later', source: { name: 'AP', url: 'u' }, asOf: '2024' });
+  g.addEvent('P', { kind: 'charge', label: 'earlier', source: { name: 'AP', url: 'u' }, asOf: '2015' });
+  const map = powerMap('P', g);
+  assert.equal(map.events[0].asOf, '2015', 'oldest first');
+  assert.equal(map.events[1].asOf, '2024');
+  const html = renderProfile(map);
+  assert.match(html, /Record &amp; events/);
+  assert.match(html, /earlier/);
+  assert.match(html, /we do not render verdicts/, 'the no-verdicts discipline line is present');
+  assert.doesNotMatch(html, /class="(verdict|score|rating)"|"score":|"corrupt":/i, 'no judgement fields');
+});
+
+test('fromRecords ingests holding + event records, counting events separately', () => {
+  const { added } = fromRecords([
+    { type: 'investment', holder: 'P', company: 'Co', status: 'sold', source: { name: 'Texas Monthly', url: 'u' }, asOf: '2019' },
+    { type: 'charge', subject: 'P', label: 'Indicted', source: { name: 'AP', url: 'u' }, asOf: '2015' },
+    { type: 'resignation-call', subject: 'P', label: 'Asked to resign', source: { name: 'AP', url: 'u' }, asOf: '2020' },
+  ]);
+  assert.equal(added.events, 2, 'two event records ingested');
+  assert.ok(added.edges >= 1, 'the holding became an invested-in edge');
+});
+
+test('EVENT_KINDS includes the watchdog dimensions', () => {
+  for (const k of ['charge', 'disposition', 'statement', 'resignation-call', 'resignation', 'impeachment', 'acquisition', 'disclosure']) {
+    assert.ok(EVENT_KINDS.includes(k), `EVENT_KINDS has ${k}`);
+  }
+});
 
 test('addEdge REJECTS a source-less edge (source-required invariant)', () => {
   const g = createGraph();
