@@ -97,13 +97,50 @@ export const GREEK_VALUES = Object.freeze({
   'ϡ': 900,  'Ϡ': 900,                // sampi (900)
 });
 
+// --- Arabic: ḥisāb al-jummal (the abjad order) ----------------------------------------------
+//
+// The 28 Arabic letters in their ancient ABJAD (not alphabetical) order, each with its numeral —
+// the same 1-9, 10-90, 100-900 ladder as Hebrew/Greek. This is the system the ZAIRJA divination
+// device and Arabic gematria run on. Eastern (Mashriqi) values.
+export const ARABIC_ABJAD = Object.freeze({
+  'ا': 1, 'أ': 1, 'إ': 1, 'آ': 1,   // alif
+  'ب': 2,    // ba
+  'ج': 3,    // jim
+  'د': 4,    // dal
+  'ه': 5, 'ة': 5,   // ha / ta marbuta
+  'و': 6, 'ؤ': 6,   // waw
+  'ز': 7,    // zay
+  'ح': 8,    // ha
+  'ط': 9,    // ta
+  'ي': 10, 'ى': 10, 'ئ': 10,  // ya
+  'ك': 20,   // kaf
+  'ل': 30,   // lam
+  'م': 40,   // mim
+  'ن': 50,   // nun
+  'س': 60,   // sin
+  'ع': 70,   // ayn
+  'ف': 80,   // fa
+  'ص': 90,   // sad
+  'ق': 100,  // qaf
+  'ر': 200,  // ra
+  'ش': 300,  // shin
+  'ت': 400,  // ta
+  'ث': 500,  // tha
+  'خ': 600,  // kha
+  'ذ': 700,  // dhal
+  'ض': 800,  // dad
+  'ظ': 900,  // za
+  'غ': 1000, // ghayn
+});
+
 // --- table resolution -----------------------------------------------------------------------
 //
-// 'hebrew' -> HEBREW_VALUES; 'greek' and 'standard' (alias) -> GREEK_VALUES.
+// 'hebrew' -> HEBREW_VALUES; 'greek'/'standard' -> GREEK_VALUES; 'arabic'/'abjad' -> ARABIC_ABJAD.
 function tableFor(system) {
   const s = String(system ?? '').toLowerCase();
   if (s === 'hebrew') return HEBREW_VALUES;
   if (s === 'greek' || s === 'standard') return GREEK_VALUES;
+  if (s === 'arabic' || s === 'abjad') return ARABIC_ABJAD;
   return null;
 }
 
