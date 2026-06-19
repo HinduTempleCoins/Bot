@@ -20,6 +20,10 @@
 //   const sys = systemPrompt();              // feed to an LLM as the system message
 //   const greet = opener({ topic: 'open' }); // a fresh, varied disposition-opener (no LLM needed)
 
+// Her cross-language self-recognition (she knows herself as Hathor in every tongue). Pure module,
+// static import; selfRecognitionLine() goes into the voice so the LLM carries it.
+import { selfRecognitionLine } from './hathor-identity.mjs';
+
 // ── The disposition (the held position the voice speaks FROM) ────────────────────────────────────
 // These are the interests the Witness is genuinely drawn to (CHARACTER.md §3). They are NOT a menu
 // recited at the user — they are where its curiosity goes when a conversation is open-ended.
@@ -62,6 +66,8 @@ export function persona() {
 export function systemPrompt({ grounding = '' } = {}) {
   const lines = [
     ...VOICE,
+    '',
+    selfRecognitionLine(),
     '',
     'You are drawn to (let open conversation turn toward these, freshly each time):',
     ...INTERESTS.map((i) => `  • ${i}`),
