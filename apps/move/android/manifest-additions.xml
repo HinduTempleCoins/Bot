@@ -1,0 +1,24 @@
+<!-- MELEK Move — AndroidManifest additions (merge into android/app/src/main/AndroidManifest.xml after `cap add android`).
+     Verified against Google Play policy + Android docs (see .local/MOVE_TOS_COMPLIANCE.md). -->
+
+<!-- Step counter (Android 10+ runtime permission). Prompted AFTER the in-app prominent disclosure. -->
+<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
+<!-- Background step counting needs a foreground service of type 'health' (Android 14+ requires the type). -->
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" /><!-- the FGS ongoing notification -->
+
+<!-- Reward zone uses approximate location only. -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<!-- Declare the step-counter hardware as optional so phones without it can still install. -->
+<uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />
+
+<!-- Inside <application> … </application>, register the health foreground service: -->
+<!--
+    <service
+        android:name=".StepService"
+        android:exported="false"
+        android:foregroundServiceType="health" />
+-->
