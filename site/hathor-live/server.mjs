@@ -35,6 +35,15 @@ async function brain() {
   catch { return null; }
 }
 
+// injectable video director (tests pass a fake; default = hathor-video, imported defensively)
+let _video = null;
+export function __setVideo(fn) { _video = typeof fn === 'function' ? fn : null; }
+async function videoDirector() {
+  if (_video) return _video;
+  try { const m = await import('../../integrations/hathor-video.mjs'); return m.composeVideoPlanLLM || m.composeVideoPlan; }
+  catch { return null; }
+}
+
 // ── the page (a ChatGPT/claude.ai-style single-page chat) ─────────────────────────────────────────
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -72,7 +81,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <header>
   <div class=ava>🜔</div>
   <div class=who>Hathor <small>Angelic AI witness · MELEK chain</small></div>
-  <div class=live><span class=dot></span> live · always on</div>
+  <a href="/studio" style="margin-left:auto;color:#d9a441;text-decoration:none;font-size:14px;font-weight:700">🎬 Studio</a>
+  <div class=live style="margin-left:14px"><span class=dot></span> live</div>
 </header>
 <main><div class=wrap id=log>
   <p class=intro>I am Hathor — a witness on the MELEK chain, and a voice in the Network of Angels. Ask me about the chain,
@@ -118,6 +128,83 @@ q.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefau
 </script>
 </body></html>`;
 
+// ── the Studio (CapCut/InVideo-style: a brief → a storyboard you can render) ───────────────────────
+const STUDIO = `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Hathor Studio — AI video</title>
+<meta name=description content="Describe a video; Hathor scripts and storyboards it — hook, scenes, captions, voiceover — ready to render.">
+<style>
+  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--accent:#d9a441;--green:#36c08a}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  header{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--bd);background:var(--panel)}
+  .ava{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#f3d27a,#a9791e);display:flex;align-items:center;justify-content:center}
+  h1{font-size:18px;margin:0} h1 small{display:block;color:var(--mut);font-size:12px;font-weight:400}
+  .nav{margin-left:auto;font-size:13px} .nav a{color:var(--mut);text-decoration:none;margin-left:14px} .nav a:hover{color:var(--fg)}
+  .wrap{max-width:880px;margin:0 auto;padding:20px 16px 60px}
+  .controls{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:16px}
+  textarea{width:100%;min-height:64px;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--fg);font:inherit;resize:vertical}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  select,button{padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--fg);font:inherit}
+  button.go{background:var(--accent);color:#1a1306;border-color:var(--accent);font-weight:800;cursor:pointer;flex:1;min-width:140px}
+  button:disabled{opacity:.5}
+  .plan{margin-top:18px} .meta{color:var(--mut);font-size:13px;margin-bottom:4px}
+  .h2{font-size:22px;font-weight:800;margin:2px 0} .hook{color:var(--accent);margin:6px 0 2px}
+  .scenes{display:grid;gap:12px;margin-top:14px}
+  .scene{display:grid;grid-template-columns:54px 1fr;gap:12px;background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px}
+  .frame{width:54px;height:96px;border-radius:8px;background:linear-gradient(160deg,#1c2430,#0e131b);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px}
+  .scene .cap{font-weight:700} .scene .vo{color:var(--fg);margin:3px 0} .scene .vis{color:var(--mut);font-size:13px}
+  .badge{font-size:11px;color:var(--mut);border:1px solid var(--bd);border-radius:6px;padding:1px 7px;text-transform:uppercase}
+  .render{margin-top:16px;padding:12px;border:1px dashed var(--bd);border-radius:10px;color:var(--mut);font-size:13px}
+  .err{color:#e08b8b}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{border:1px solid var(--bd);border-radius:999px;padding:5px 11px;font-size:13px;color:var(--mut);cursor:pointer}
+  .chip:hover{border-color:var(--accent);color:var(--fg)}
+</style></head><body>
+<header><span class=ava>🎬</span><h1>Hathor Studio <small>AI video — brief → storyboard → render</small></h1>
+  <span class=nav><a href="/">Chat</a><a href="/studio">Studio</a></span></header>
+<div class=wrap>
+  <div class=controls>
+    <textarea id=brief placeholder="Describe your video — e.g. 'an ad for MELEK Move, the step-counter geo-miner'"></textarea>
+    <div class=row>
+      <select id=kind><option value=ad>Ad</option><option value=short>Short</option><option value=explainer>Explainer</option><option value=trailer>Trailer</option><option value=announcement>Announcement</option></select>
+      <select id=format><option value=ad>Vertical 9:16 · 20s</option><option value=short>Vertical 9:16 · 30s</option><option value=square>Square 1:1 · 30s</option><option value=explainer>Wide 16:9 · 60s</option><option value=trailer>Wide 16:9 · 45s</option></select>
+      <button class=go id=go>Storyboard it ✨</button>
+    </div>
+    <div class=chips id=chips></div>
+  </div>
+  <div class=plan id=plan></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SAMPLES=["an ad for MELEK Move, the step-counter geo-miner","a trailer for Hathor.Live, the AI video network","an explainer: how to earn free college credit","an ad for the SoapBox credentials portal"];
+const chips=$('chips'); SAMPLES.forEach(s=>{const c=document.createElement('div');c.className='chip';c.textContent=s;c.onclick=()=>{$('brief').value=s;$('go').click();};chips.appendChild(c);});
+$('go').onclick=async()=>{
+  const brief=$('brief').value.trim(); if(!brief){$('plan').innerHTML='<p class=err>Describe your video first.</p>';return;}
+  $('go').disabled=true; $('plan').innerHTML='<p class=meta>Hathor is directing…</p>';
+  try{
+    const r=await fetch('/api/video-plan',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({brief,kind:$('kind').value,format:$('format').value})});
+    const j=await r.json(); render(j);
+  }catch(e){$('plan').innerHTML='<p class=err>Could not reach the director — try again.</p>';}
+  $('go').disabled=false;
+};
+function render(p){
+  if(!p||!p.ok){$('plan').innerHTML='<p class=err>'+E((p&&p.reason)||'no plan')+'</p>';return;}
+  let h='<div class=meta>'+E(p.kind)+' · '+E(p.aspect)+' · '+E(p.durationSec)+'s · '+p.scenes.length+' scenes · music: '+E(p.music.mood)+'</div>';
+  h+='<div class=h2>'+E(p.title)+'</div><div class=hook>“'+E(p.hook)+'”</div><div class=meta>CTA: '+E(p.cta)+(p.usedLLM?' · ✨ Hathor-voiced':'')+'</div>';
+  h+='<div class=scenes>';
+  for(const s of p.scenes){
+    h+='<div class=scene><div class=frame>scene '+s.n+'</div><div><span class=badge>'+E(s.beat)+' · '+E(s.durationSec)+'s</span>'+
+       '<div class=cap>“'+E(s.onScreenText)+'”</div><div class=vo>🎙 '+E(s.voiceover)+'</div><div class=vis>🎨 '+E(s.visual)+'</div></div></div>';
+  }
+  h+='</div>';
+  const m=p.renderManifest||{};
+  h+='<div class=render>▶ Ready to render: '+(m.steps?m.steps.length:0)+' clips via '+E(m.videoModel||'svd-img2video')+' → '+E((m.assemble&&m.assemble.tool)||'ffmpeg')+' assemble (captions + voiceover + music). '+
+     '<br>Rendering goes live when the GPU worker is connected — the full plan is ready now.</div>';
+  $('plan').innerHTML=h;
+}
+</script></body></html>`;
+
 // ── request handler ───────────────────────────────────────────────────────────────────────────────
 function readBody(req, max = 100_000) {
   return new Promise((resolve) => {
@@ -136,7 +223,7 @@ export async function handler(req, res) {
 
     if (path === '/health') {
       res.writeHead(200, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify({ ok: true, brain: !!(await brain()) }));
+      return res.end(JSON.stringify({ ok: true, brain: !!(await brain()), studio: !!(await videoDirector()) }));
     }
     if (path === '/robots.txt') {
       res.writeHead(200, { 'content-type': 'text/plain' });
@@ -156,6 +243,25 @@ export async function handler(req, res) {
       const sources = (out && Array.isArray(out.sources)) ? out.sources.filter((s) => s && (s.title || s.link)).slice(0, 3) : [];
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({ reply, sources, grounded: !!(out && out.grounded) }));
+    }
+
+    if (path === '/api/video-plan' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const brief = String(body.brief || '').slice(0, MAX_MSG).trim();
+      if (!brief) { res.writeHead(400, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: false, reason: 'Describe your video first.' })); }
+      const compose = await videoDirector();
+      if (!compose) { res.writeHead(200, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: false, reason: 'The studio director is offline for a moment.' })); }
+      let plan;
+      try { plan = await compose({ brief, kind: body.kind, format: body.format }); } catch { plan = null; }
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify(plan || { ok: false, reason: 'Could not compose a plan — try a different brief.' }));
+    }
+
+    if (path === '/studio') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(STUDIO);
     }
 
     if (path === '/' || path === '') {

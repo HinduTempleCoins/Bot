@@ -1,7 +1,7 @@
 // server.test.mjs — hathor.live chat surface. Brain injected; offline, never throws.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { handler, esc, __setConverse } from './server.mjs';
+import { handler, esc, __setConverse, __setVideo } from './server.mjs';
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -78,6 +78,44 @@ test('health + robots + 404', async () => {
   assert.equal(o.code, 200); assert.match(o.body, /Disallow: \/api\//);
   ({ res, o } = cap()); await handler(req('/nope'), res);
   assert.equal(o.code, 404);
+});
+
+test('GET /studio serves the AI video studio page', async () => {
+  const { res, o } = cap();
+  await handler(req('/studio'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Hathor Studio/);
+  assert.match(o.body, /\/api\/video-plan/);   // the studio posts here
+});
+
+test('POST /api/video-plan routes to the director and returns a plan', async () => {
+  let seen = null;
+  __setVideo(async (opts) => { seen = opts; return { ok: true, title: 'T', hook: 'H', cta: 'C', scenes: [{ n: 1 }], music: { mood: 'm' }, renderManifest: {}, durationSec: 20, aspect: '9:16', kind: 'ad' }; });
+  const { res, o } = cap();
+  await handler(req('/api/video-plan', 'POST', { brief: 'an ad for MELEK Move', kind: 'ad', format: 'ad' }), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(seen.brief, 'an ad for MELEK Move');
+  assert.equal(j.ok, true);
+  assert.equal(j.title, 'T');
+  __setVideo(null);
+});
+
+test('POST /api/video-plan with empty brief → 400 friendly', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/video-plan', 'POST', { brief: '  ' }), res);
+  assert.equal(o.code, 400);
+  assert.match(JSON.parse(o.body).reason, /Describe your video/i);
+});
+
+test('POST /api/video-plan soft-handles a director that throws', async () => {
+  __setVideo(async () => { throw new Error('boom'); });
+  const { res, o } = cap();
+  await handler(req('/api/video-plan', 'POST', { brief: 'x' }), res);
+  assert.equal(o.code, 200);
+  assert.equal(JSON.parse(o.body).ok, false);
+  __setVideo(null);
 });
 
 test('esc neutralizes HTML', () => {
