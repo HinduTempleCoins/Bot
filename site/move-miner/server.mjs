@@ -16,6 +16,25 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { attestSteps, attestGeomine, faucetAddress, geominingAddress } from '../../integrations/games/attester.mjs';
+import { moveWeight, moveBudgetForEpoch } from '../../integrations/games/move-economy.mjs';
+
+// The reward MODEL (operator-decided): Move = 15% of the blog pool, paid in MELEK, split STAKE-WEIGHTED
+// (like vote weight) among everyone mining that hour. So a mine doesn't pay a fixed amount — it earns
+// you a MOVE-WEIGHT (your MELEK stake × step-boost × hourly-diminishing) that determines your slice of
+// the fixed hourly pool. Attach that economy view to a geomine result.
+function withEconomy(out, stake) {
+  if (!out || !out.ok) return out;
+  const weight = moveWeight({ stake: Number(stake) || 0, geoBase: out.baseReward || 10, stepBoost: out.boost || 1, diminish: out.diminish || 1 });
+  return {
+    ...out,
+    economy: {
+      stake: Number(stake) || 0,
+      moveWeight: Math.round(weight),
+      hourlyPool: Math.round(moveBudgetForEpoch() * 100) / 100,   // ~87.75 MELEK
+      model: 'stake-weighted share of the hourly Move pool (15% of the blog pool); your slice = your weight ÷ all walkers’ weight; finalizes hourly',
+    },
+  };
+}
 
 const PORT = +(process.env.PORT || 8142);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -77,6 +96,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <div class=card>
   <label for=wallet>Your wallet (where rewards go)</label>
   <input id=wallet placeholder="0x… your PRANA address" autocomplete=off spellcheck=false>
+  <label for=stake style="margin-top:10px">MELEK you hold (your stake — boosts your share, like vote weight)</label>
+  <input id=stake type=number inputmode=numeric placeholder="0" autocomplete=off>
 </div>
 
 <div class=card>
@@ -145,7 +166,7 @@ $('mine').onclick=async()=>{
   if(badWallet()){$('geoOut').innerHTML='<span class=err>Enter your 0x wallet first.</span>';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
   $('mine').disabled=true;$('geoOut').textContent='signing…';
-  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),lat:coords.lat,lng:coords.lng,steps})});
+  try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({player:W.value.trim(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
     const j=await r.json(); renderOut('geoOut',j); }
   catch(e){$('geoOut').innerHTML='<span class=err>Network error — try again.</span>';}
   $('mine').disabled=false;
@@ -154,12 +175,14 @@ $('mine').onclick=async()=>{
 function renderOut(elId,j){
   const el=$(elId);
   if(!j||!j.ok){el.innerHTML='<span class=err>'+E((j&&j.reason)||'no reward')+'</span>';return;}
-  let html='<span class=reward>+ '+E(j.payout)+' MELEK</span>';
-  // base × step-boost × hourly-diminish
-  if(j.boost!=null){ html+=' = '+E(j.baseReward)+' × '+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' × '+E(j.diminish)+' (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
+  const ec=j.economy||{};
+  // STAKE-WEIGHTED POOL MODEL: you earn a move-weight = stake × boost × hourly-diminish; your slice of
+  // the fixed hourly Move pool = your weight ÷ all walkers' weight.
+  let html='<span class=reward>weight '+E(ec.moveWeight!=null?ec.moveWeight:'—')+'</span>';
+  if(j.boost!=null){ html+=' = stake '+E(ec.stake||0)+' × '+E(j.boost)+' boost'+(j.diminish!=null&&j.diminish<1?(' × '+E(j.diminish)+' diminish (mine #'+(Number(j.mineIndex)+1)+' this hour)'):''); }
+  html+='\\nhourly Move pool: '+E(ec.hourlyPool!=null?ec.hourlyPool:'—')+' MELEK (15% of the blog pool), split stake-weighted among all walkers — hold more + walk more = bigger slice.';
   if(j.cellId){ html+='\\ncell '+E(j.cellId); }
-  if(j.signed){ html+='\\n✓ voucher signed — ready to claim on PRANA (nonce '+E(j.voucher.nonce)+')'; }
-  else { html+='\\n'+E(j.reason||'demo')+'\\n(reward counted; on-chain claim opens when the faucet goes live)'; }
+  html+='\\n'+(j.signed?('✓ voucher signed (nonce '+E(j.voucher.nonce)+')'):'(your weight is counted; the pool settles hourly and pays on-chain when the faucet deploys)');
   el.innerHTML=html;
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
@@ -196,7 +219,7 @@ export async function handler(req, res) {
     if (path === '/api/geomine' && method === 'POST') {
       let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
       const out = attestGeomine({ player: b.player, lat: b.lat, lng: b.lng, steps: b.steps });
-      return json(res, out.ok ? 200 : 422, out);
+      return json(res, out.ok ? 200 : 422, withEconomy(out, b.stake));
     }
 
     if (path === '/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PAGE); }
