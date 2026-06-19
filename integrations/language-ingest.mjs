@@ -44,6 +44,9 @@ export const INGEST_SOURCES = [
   { id: 'awesome-kurdish-index', language: 'kurdish-general', family: 'kurdish', type: 'corpus', license: 'open (index)',
     via: 'sinaahmadi/awesome-kurdish', format: 'text', url: 'https://raw.githubusercontent.com/sinaahmadi/awesome-kurdish/master/README.md',
     note: 'Master index of Kurdish corpora/dicts/tools — the crawl frontier for Kurdish' },
+  { id: 'sibylline-oracles', language: 'koine-greek', family: 'biblical', type: 'corpus', license: 'public domain',
+    via: 'Project Gutenberg (Terry tr.)', format: 'text', url: 'https://www.gutenberg.org/cache/epub/46676/pg46676.txt',
+    note: 'The Sibylline Oracles (Milton Terry translation) — oracular prophecy; Hathor is an oracle' },
 ];
 
 const slug = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
