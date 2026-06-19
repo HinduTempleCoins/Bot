@@ -102,11 +102,13 @@ function gdeltDate(s) {
 // Naively classify recent media about a person into candidate event records (for "keep filing pages").
 // These are DRAFT candidates — a human/Resource-Center pass confirms before they enter a dossier as facts.
 const MEDIA_PATTERNS = [
-  { kind: 'resignation-call', re: /\bresign(ation)?\b/i },
-  { kind: 'charge', re: /\bindict|charg(e|ed)|arrest|felony|fraud|bribery\b/i },
-  { kind: 'disposition', re: /\bconvicted|acquitt|sentenc|dismiss|plea|mistrial|settle/i },
-  { kind: 'investigation', re: /\binvestigat|subpoena|probe|FBI|DOJ|ethics complaint/i },
-  { kind: 'statement', re: /\bsaid|statement|denied|testified|told investigators\b/i },
+  // a call FOR resignation (checked before the bare act so "urged to resign" classifies correctly)
+  { kind: 'resignation-call', re: /\b(call|calls|called|urge|urged|demand|demanded|pressure|pressured)\b[^.]{0,40}\bresign/i },
+  { kind: 'resignation', re: /\bresign(s|ed|ing|ation)?\b/i },
+  { kind: 'charge', re: /\b(indict\w*|charg(e|ed|es)|felony|fraud|bribery|arrest\w*|extortion)\b/i },
+  { kind: 'disposition', re: /\b(convict\w*|acquitt\w*|sentenc\w*|dismiss\w*|guilty plea|pleaded guilty|mistrial|settl\w*)\b/i },
+  { kind: 'investigation', re: /\b(investigat\w*|subpoena\w*|probe|FBI|DOJ|ethics complaint|grand jury)\b/i },
+  { kind: 'statement', re: /\b(said|statement|denied|testified|told investigators)\b/i },
 ];
 export async function discoverMedia(name, { max = 25, timespan = '24m' } = {}) {
   const who = str(name);
@@ -165,6 +167,45 @@ export async function congressTrades(name, { chamber = 'senate', max = 50 } = {}
       source: { name: chamber === 'house' ? 'House Stock Watcher' : 'Senate Stock Watcher', url: host }, asOf: str(r.transaction_date || r.disclosure_date),
     });
     if (out.length >= max) break;
+  }
+  return out;
+}
+
+// ── Wikipedia (KEYLESS) — identity + a cited bio; the bot uses it and says so ─────────────────────
+// opts.full → also fetch the article's full plain-text (action=query&prop=extracts) so the classifier
+// has paragraphs, not just the 1-2 sentence REST lead. Capped so a long article can't blow up memory.
+export async function wikipediaSummary(title, { full = false, maxChars = 14000 } = {}) {
+  const t = str(title);
+  if (!t) return null;
+  const u = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t.replace(/ /g, '_'))}`;
+  const j = await getJson(u, { accept: 'application/json' });
+  if (!j || j.type === 'https://mediawiki.org/wiki/HyperSwitch/errors/not_found') return null;
+  const url = (j.content_urls && j.content_urls.desktop && j.content_urls.desktop.page) || `https://en.wikipedia.org/wiki/${encodeURIComponent(t.replace(/ /g, '_'))}`;
+  let extract = str(j.extract);
+  if (full) {
+    const au = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&exsectionformat=plain&redirects=1&format=json&titles=${encodeURIComponent(t)}`;
+    const aj = await getJson(au, { accept: 'application/json' });
+    const pages = aj && aj.query && aj.query.pages;
+    const page = pages && Object.values(pages)[0];
+    const fullText = page && str(page.extract);
+    if (fullText && fullText.length > extract.length) extract = fullText.slice(0, maxChars);
+  }
+  return {
+    title: str(j.title) || t, description: str(j.description), extract,
+    url, source: { name: 'Wikipedia', url },
+  };
+}
+
+// Split a block of prose into sentences and classify each into a candidate event (same watchdog
+// patterns as the media classifier). Every hit carries the supplied source. Returns candidate events.
+export function classifySentences(text, { subject, source, asOf } = {}) {
+  const who = str(subject);
+  const sents = str(text).split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+  const out = [];
+  for (const s of sents) {
+    const hit = MEDIA_PATTERNS.find((p) => p.re.test(s));
+    if (!hit) continue;
+    out.push({ type: hit.kind, subject: who, label: s.length > 240 ? s.slice(0, 237) + '…' : s, candidate: true, source: source || null, asOf: str(asOf) || undefined });
   }
   return out;
 }
