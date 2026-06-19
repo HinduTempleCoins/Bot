@@ -48,6 +48,7 @@ export const DOMAINS = [
     'knowledge/herbs', 'knowledge/shulgin-pihkal-tihkal', 'knowledge/synthesis',
     'knowledge/consciousness', 'knowledge/spirituality']],
   ['scripture', ['knowledge/scripture']],
+  ['languages', ['knowledge/languages']],  // Language Center datasets (ingested grammars/corpora/dicts)
   ['knowledge', ['knowledge/ai_technology', 'knowledge/ancient_egypt', 'knowledge/history',
     'knowledge/linguistics', 'knowledge/media', 'knowledge/mystery_schools',
     'knowledge/phoenician', 'knowledge/revolution', 'knowledge/soapmaking',

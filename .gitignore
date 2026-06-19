@@ -98,3 +98,7 @@ integrations/.diag-tasks/
 # karma runtime store (forkable but rebuilt; not source)
 karma/data/*.json
 .playwright-mcp/
+
+# Language Center ingested datasets (live on the box; can be large) — keep the manifest only
+knowledge/languages/*
+!knowledge/languages/manifest.json
