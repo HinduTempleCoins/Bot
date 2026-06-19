@@ -180,11 +180,22 @@ export async function seedGovernors(opts = {}) { return withKind((await loadRost
 export async function seedStateAGs(opts = {}) { return withKind((await loadRosterFile(opts)).stateAGs); }
 export async function seedFederalJudges(opts = {}) { return withKind((await loadRosterFile(opts)).judges); }
 
-/** The full roster: Congress (live dataset) + governors + state AGs + federal judges. De-duped by slug. */
+/**
+ * The full roster: Congress (live dataset) + governors + state AGs + federal judges, ROUND-ROBIN
+ * interleaved so the bot covers all four categories in parallel over time (not 537 reps first).
+ * De-duped by slug.
+ */
 export async function seedAll(opts = {}) {
-  const groups = await Promise.all([seedCongress(opts), seedGovernors(opts), seedStateAGs(opts), seedFederalJudges(opts)]);
+  const groups = await Promise.all([seedGovernors(opts), seedStateAGs(opts), seedFederalJudges(opts), seedCongress(opts)]);
   const seen = new Set(); const out = [];
-  for (const g of groups) for (const e of g) { const s = slugify(e.name); if (s && !seen.has(s)) { seen.add(s); out.push(e); } }
+  const maxLen = Math.max(0, ...groups.map((g) => g.length));
+  for (let i = 0; i < maxLen; i++) {
+    for (const g of groups) {
+      const e = g[i]; if (!e) continue;
+      const s = slugify(e.name);
+      if (s && !seen.has(s)) { seen.add(s); out.push(e); }
+    }
+  }
   return out;
 }
 
