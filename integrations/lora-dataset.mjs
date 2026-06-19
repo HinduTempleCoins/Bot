@@ -44,6 +44,20 @@ export function parseCedict(text) {
   return out;
 }
 
+// makemeahanzi dictionary.txt = one JSON object per line: {"character","definition","pinyin":[...]}
+export function parseHanziJsonl(text) {
+  const out = [];
+  for (const line of String(text || '').split('\n')) {
+    if (!line.trim().startsWith('{')) continue;
+    let o; try { o = JSON.parse(line); } catch { continue; }
+    const word = o.character; const meaning = o.definition;
+    if (!word || !meaning) continue;
+    const pinyin = Array.isArray(o.pinyin) ? o.pinyin.join(', ') : (o.pinyin || '');
+    out.push({ word, pinyin, meaning: String(meaning).slice(0, 120) });
+  }
+  return out;
+}
+
 /** Split raw text into ~CHUNK-char blocks on sentence/line boundaries (continued-pretraining). */
 export function chunkText(text, size = CHUNK) {
   const clean = String(text || '').replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim();
@@ -70,11 +84,13 @@ export function buildFromDataset(ds) {
   let examples = [];
 
   // structured dictionary → instruction sentences
-  if (ds.id === 'cc-cedict' || /cedict/i.test(ds.via || '')) {
-    examples = parseCedict(text).map((e) => ({
+  if (ds.id === 'cc-cedict' || /cedict|hanzi/i.test(ds.via || '')) {
+    let entries = parseCedict(text);
+    if (!entries.length) entries = parseHanziJsonl(text);   // makemeahanzi is JSON-lines, not CEDICT text
+    examples = entries.map((e) => ({
       source: ds.id, language: lang,
-      text: `In ${L(lang)}, ${e.word} (${e.pinyin}) means: ${e.meaning}.`,
-    }));
+      text: `In ${L(lang)}, ${e.word}${e.pinyin ? ` (${e.pinyin})` : ''} means: ${e.meaning}.`,
+    })).filter((x) => /means: .+\./.test(x.text));
   } else {
     // raw corpus → reading chunks (continued-pretraining)
     examples = chunkText(text).map((c) => ({
