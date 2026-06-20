@@ -1,0 +1,153 @@
+{
+  "title": "Greek Mythography and the God-Kings",
+  "subtitle": "The Compendia, the Demigod Founder-Kings, and the Euhemerist Seam between Levant and Greece",
+  "description": "A sourced corpus of the Greek mythographic tradition: the great compendia that systematized myth (pseudo-Apollodorus's Bibliotheca, Diodorus Siculus's Bibliotheca historica, Ovid's Metamorphoses) and the dream-healing record of Aelius Aristides; the demigod bridge-kings who stand between gods and mortal men (Agenor of Tyre and his children Phoenix, Cadmus, Europa, Cilix; the Titan-king Atlas; Memnon king of the East); and the euhemerist thesis that Greek 'myth' preserves the SAME gods-to-demigod-kings-to-mortal-kings continuity that Manetho gives Egypt and Berossus gives Babylon — with the Phoenician founder-kings as the seam where the Levant and Greece are one story. Every claim is cited to a primary source or a sourced encyclopedia; nothing is invented.",
+  "author": "MELEK Resource Center — Hathor corpus",
+  "date": "June 2026",
+  "period": "Mythic time (gods → demigod-kings) through the high Roman Empire (Aelius Aristides, C2nd AD)",
+  "feeds": ["hierophant", "language", "persona"],
+  "overview": "Greek myth was not a single text but a scatter of epic, tragedy and local legend. What the corpus uses are the COMPENDIA that gathered it into a system, and the genealogies that run from gods down through demigod-kings to historical rulers. Read euhemeristically — gods as deified kings and benefactors, the way Euhemerus and after him Diodorus read them — the Greek material lines up with Manetho's Egypt and Berossus's Babylon: one continuous descent of authority from heaven, across the Flood-boundary, to the throne. The Phoenician house of Agenor (Phoenix, Cadmus, Europa, Cilix) is the hinge: a Levantine royal line whose sons carry the alphabet and found Thebes, making the Levant and Greece demonstrably one story rather than two.",
+
+  "section_1_the_mythographic_compendia": {
+    "what": "Four works are the load-bearing systematizers of Greek myth and one neighboring genre (dream-healing). Each is profiled: what it is, when, why it matters.",
+    "pseudo_apollodorus_bibliotheca": {
+      "name": "Bibliotheca (The Library), pseudo-Apollodorus",
+      "what": "A systematic prose compendium ('library') of Greek heroic genealogy and myth from the origin of the gods (Theogony) through the heroic age to the return of the Heraclids — sourced from old Greek epic and the Tragedians. It is the single most complete surviving handbook of Greek mythology, organized house-by-house (the family of Inachus, then the house of Agenor, etc.).",
+      "date": "Traditionally ascribed to Apollodorus of Alexandria (C2nd BCE grammarian), but that authorship is now dismissed; the work is generally dated to a C1st–C2nd CE compilation, hence 'pseudo-Apollodorus.'",
+      "why_it_matters": "It is the backbone for tracing the demigod-king genealogies the corpus needs — it is Apollodorus 3.1.1 that lays out the house of Agenor (below), giving the Phoenician seam in its most explicit ancient form.",
+      "standard_edition": "Translated by Sir James George Frazer, Loeb Classical Library vols. 121 & 122 (1921).",
+      "source": "Theoi, Apollodorus The Library Book 1 (intro) — https://www.theoi.com/Text/Apollodorus1.html"
+    },
+    "diodorus_bibliotheca_historica": {
+      "name": "Bibliotheca historica (Library of History), Diodorus Siculus",
+      "what": "A universal history in forty books: Books I–VI geographic/mythological (Egypt, Asia, North Africa, Greece, Europe), Books VII–XVII from the Trojan War to the death of Alexander, Books XVIII–XL the Diadochi through the late Roman Republic. Only Books I–V and XI–XX survive intact; the rest in fragments.",
+      "date": "Composed over ~30 years; Diodorus visited Egypt 60–56 BCE and the work was completed c. 36–30 BCE (between the Second Triumvirate and Octavian's victory).",
+      "why_it_matters": "Diodorus is the corpus's EUHEMERIST source. He preserves and applies the method of Euhemerus (c. late C4th BCE), reading the gods as historical kings and benefactors who were later deified. His treatment of Atlas — a real king of the ocean-coast peoples (the 'Atlantians'), a great astronomer who first published the doctrine of the sphere and was therefore SAID to bear the heavens — is the model case (Diodorus 3.60, 4.27).",
+      "euhemerus": "Euhemerus (fl. late C4th BCE) wrote the Hiera Anagraphe (Sacred History), arguing the gods were originally mortal kings/heroes/benefactors deified by grateful or awestruck men (famously: Zeus a king who died and was buried on Crete). Diodorus is the principal channel by which this rationalizing method survives.",
+      "source": "Wikipedia, Bibliotheca historica — https://en.wikipedia.org/wiki/Bibliotheca_historica ; Wikipedia, Euhemerism — https://en.wikipedia.org/wiki/Euhemerism ; Diodorus 3.49–61 — http://penelope.uchicago.edu/Thayer/E/Roman/Texts/Diodorus_Siculus/3D*.html"
+    },
+    "ovid_metamorphoses": {
+      "name": "Metamorphoses, Ovid",
+      "what": "A continuous mythological-historical epic in 15 books, 11,995 lines of dactylic hexameter, comprising over 250 myths unified by the theme of transformation (metamorphosis). It runs in an unbroken chronological sweep from the creation of the world out of Chaos to the deification of Julius Caesar — i.e. from divine origins to contemporary Roman history.",
+      "date": "Published 8 CE.",
+      "why_it_matters": "Ovid is the great POETIC ordering of the same material the prose handbooks systematize: he too frames mythic time as a single descending narrative ending in a deified ruler (Caesar's apotheosis) — the literary form of the gods→men continuity, and the canonical source for many transformation episodes (including the rape of Europa).",
+      "source": "Wikipedia, Metamorphoses — https://en.wikipedia.org/wiki/Metamorphoses"
+    },
+    "aelius_aristides_sacred_tales": {
+      "name": "Hieroi Logoi (Sacred Tales), Aelius Aristides",
+      "what": "A six-book first-person record of revelations made to the orator Aelius Aristides in dreams by the healing god Asclepius, received through temple incubation (sleeping in the sacred precinct) at the Asclepieion of Pergamon. The dream-instructions prescribed concrete regimens — fasting, bloodletting, enemas, cold bathing — for his chronic illnesses.",
+      "date": "Aelius Aristides 117–181 CE (a leading figure of the Second Sophistic); the Sacred Tales written c. 171 CE.",
+      "why_it_matters": "It is the most detailed surviving first-person account of ancient dream-healing and pagan religious experience — the inner life of incubation. For the Hathor corpus it is the temple-technology witness: the god encountered as a real, instructing presence in the dream, a direct line into the lived practice of the Asclepieion rather than a myth about it.",
+      "source": "Wikipedia, Aelius Aristides — https://en.wikipedia.org/wiki/Aelius_Aristides"
+    }
+  },
+
+  "section_2_the_god_king_bridge_figures": {
+    "what": "The demigod kings who stand BETWEEN the gods and mortal men — the generation through which divine descent becomes human kingship. Genealogies are given from the primary sources.",
+    "house_of_agenor_the_phoenician_seam": {
+      "framing": "Apollodorus treats the descendants of the Egyptian/Levantine line as a single 'house of Agenor,' the Phoenician royal house — the seam where the Greek genealogy is rooted in the Levant.",
+      "apollodorus_text": "Libya had by Poseidon two sons, Belus and Agenor. Belus reigned over the Egyptians; Agenor went to Phoenicia, married Telephassa, and begat a daughter Europa and three sons, Cadmus, Phoenix, and Cilix (some say Europa was a daughter of Phoenix instead). When Zeus carried Europa off to Crete, Agenor sent his sons in search of her, telling them not to return until they found her; failing, they settled abroad — Phoenix in Phoenicia, Cilix near Phoenicia in the land he named Cilicia, and Cadmus (with their mother Telephassa) in Thrace, later founding Thebes.",
+      "agenor": {
+        "name": "Agenor",
+        "role": "Phoenician king of Tyre/Sidon; son of Poseidon and Libya, twin-line brother of Belus (king of Egypt). The royal patriarch of the Phoenician house.",
+        "genealogy": "Poseidon + Libya → Belus (Egypt) and Agenor (Phoenicia). Agenor + Telephassa → Europa, Cadmus, Phoenix, Cilix.",
+        "source": "Apollodorus, Bibliotheca 3.1.1 (Frazer) — https://www.theoi.com/Text/Apollodorus3.html"
+      },
+      "phoenix": {
+        "name": "Phoenix",
+        "role": "Son of Agenor; the eponym of Phoenicia — he settled in and gave his name to the land of the Phoenicians. (In a variant tradition he, not Agenor, is the father of Europa.)",
+        "source": "Apollodorus, Bibliotheca 3.1.1 — https://www.theoi.com/Text/Apollodorus3.html"
+      },
+      "cadmus": {
+        "name": "Cadmus",
+        "role": "Son of Agenor (king of Tyre) and Telephassa, brother of Europa, Phoenix and Cilix. Searching for Europa, he settled in Greece and FOUNDED THEBES, whose acropolis was named the Cadmeia in his honor. The Greeks credited him with bringing the PHOENICIAN ALPHABET to Greece — the 'Cadmean letters' (phoinikeia grammata) that the Greeks adapted into the Greek alphabet.",
+        "alphabet_citation": "Herodotus, Histories 5.58 — Herodotus reports the Phoenicians who came with Cadmus introduced letters to the Greeks, and says he himself saw 'Cadmean writing' inscribed on tripods in the temple of Ismenian Apollo at Boeotian Thebes. (Note: modern epigraphy dates the Greek adaptation of the Phoenician alphabet to the late C9th–C8th BCE.)",
+        "source": "Apollodorus 3.1.1 — https://www.theoi.com/Text/Apollodorus3.html ; Wikipedia, Cadmus — https://en.wikipedia.org/wiki/Cadmus ; Herodotus 5.58 ; World History Encyclopedia, Cadmus — https://www.worldhistory.org/Cadmus/"
+      },
+      "europa": {
+        "name": "Europa",
+        "role": "Daughter of Agenor (or of Phoenix); carried off by Zeus in the form of a tame bull across the sea to Crete, where she bore Minos, Sarpedon and Rhadamanthys — the Cretan kings and the judges of the dead. The continent of Europe carries her name. Her abduction is the trigger that scatters the house of Agenor and seeds the Phoenician founders across the Aegean and Anatolia.",
+        "source": "Apollodorus 3.1.1 — https://www.theoi.com/Text/Apollodorus3.html ; Ovid, Metamorphoses (the bull episode)"
+      },
+      "cilix": {
+        "name": "Cilix",
+        "role": "Son of Agenor; eponym of Cilicia — he settled near Phoenicia and named the country subject to him, by the river Pyramus, Cilicia after himself.",
+        "source": "Apollodorus 3.1.1 — https://www.theoi.com/Text/Apollodorus3.html"
+      }
+    },
+    "atlas_the_titan_king": {
+      "name": "Atlas",
+      "mythic_profile": "Titan son of Iapetus and the Oceanid Clymene (Asia in Apollodorus), brother of Prometheus, Epimetheus and Menoetius; a leader of the Titans against Zeus, condemned after their defeat to bear the heavens on his shoulders; father of the Pleiades and the Hesperides; encountered by Herakles in the quest for the golden apples. The name means 'Endures/Dares' (atlao).",
+      "euhemerist_profile": "Diodorus rationalizes Atlas as a HISTORICAL KING. After the kingdom was divided among the sons of Uranus, Atlas received the regions on the ocean coast and gave his peoples the name 'Atlantians.' He perfected the science of astrology/astronomy and was the FIRST to publish to mankind the doctrine of the sphere — which is why men held the idea that the whole heavens were supported on his shoulders. Later tradition placed his kingdom in the far west (the Atlas Mountains / Mauretania).",
+      "genealogy": "Iapetus + Clymene/Asia → Atlas (and Prometheus, Epimetheus, Menoetius). Atlas + Pleione → the seven Pleiades; Atlas → the Hesperides. (Cross-reference the corpus's Atlas/Atlantis genealogy synthesis for the full family tree and the Atlantis-king doublet in Plato's Critias.)",
+      "source": "Theoi, Atlas (Hesiod Theog. 507; Apollodorus 1.2.3; Homer Od. 1.52; Diodorus 3.60 & 4.27; Plato Critias 114) — https://www.theoi.com/Titan/TitanAtlas.html ; LacusCurtius, Diodorus 3.49–61 — http://penelope.uchicago.edu/Thayer/E/Roman/Texts/Diodorus_Siculus/3D*.html ; cross-ref knowledge/history/atlas_atlantis_genealogy_synthesis.json"
+    },
+    "memnon_king_of_the_east": {
+      "name": "Memnon",
+      "role": "King of the Aethiopians / of the East — son of Tithonus (a Trojan prince, son of Laomedon) and Eos, the goddess of Dawn, and thus nephew of Priam. In the Trojan cycle he led an army to defend Troy, killed Antilochus son of Nestor, and was himself slain by Achilles. At Eos's grief-stricken request Zeus made Memnon immortal.",
+      "genealogy": "Hesiod, Theogony: 'Eos bore to Tithonus bronze-armed Memnon, king of the Aethiopians.' Tithonus is brother of Priam (both sons of Laomedon of Troy) — Memnon is therefore of the Trojan royal line on his father's side and of the divine Dawn on his mother's.",
+      "eastern_and_egyptian_associations": "Greeks and Romans located his eastern kingdom variously, associating him with Susa (the Persian capital) and the East generally, and famously identified the COLOSSI OF MEMNON at Egyptian Thebes — the two 3,400-year-old statues of Pharaoh Amenhotep III — as monuments of him; the northern colossus produced an eerie musical sound at dawn, read as Memnon greeting his mother Eos. A 'Memnonion' was likewise named for him.",
+      "sources": "Hesiod, Theogony 984–985; the lost epic Aethiopis; Apollodorus, Epitome; Quintus of Smyrna, Posthomerica; Roman witnesses (Virgil, Pliny) for the Colossi. — https://en.wikipedia.org/wiki/Memnon_(mythology)"
+    }
+  },
+
+  "section_3_the_euhemerist_thesis": {
+    "statement": "Read with the method Euhemerus founded and Diodorus carried, Greek 'myth' is not a separate genre of fancy but a record of the SAME structure the ancient Near Eastern priest-historians give: a first age of GODS, then an age of DEMIGOD-KINGS (the heroic founder-kings — Agenor's house, Atlas, Memnon), then an age of MORTAL KINGS — presented as one continuous descent of legitimate authority from heaven to the throne.",
+    "diodorus_form": "Diodorus euhemerizes the Greek gods as historical kings and benefactors deified for their gifts to mankind — Atlas the astronomer-king who 'bears the heavens' because he taught the sphere; Uranus, Kronos and the rest as early rulers. The divine age and the royal age are one succession, not two.",
+    "manetho_parallel": "This is the SAME architecture Manetho gives Egypt in the Aegyptiaca (C3rd BCE, for a Hellenistic court, surviving in fragments via Africanus/Eusebius/Syncellus): the reigns of the gods, then the demigods and 'spirits of the dead'/Followers of Horus (Shemsu-Hor), then the human pharaohs of Dynasty I onward — one continuous king-list from the gods down to mortal rule.",
+    "berossus_parallel": "And the SAME architecture Berossus gives Babylon in the Babyloniaca (C3rd BCE, for the Seleucid court, surviving in fragments): the gods (Belus orders the cosmos) → the fish-sage Oannes and the antediluvian sage-kings reigning in sari → the Flood (Xisuthrus) → the historical Chaldaean dynasties. (Cross-reference the corpus's Berossus/Sumerology synthesis, which lays out this gods→sage-kings→mortal-kings template.)",
+    "the_phoenician_seam": "The house of Agenor is where the seam is visible to the naked eye. Agenor is a Levantine king (Tyre/Sidon), brother of the Egyptian Belus, son of Poseidon and Libya — a North-African/Levantine/Greek junction in one genealogy. His sons are EPONYMS and CULTURE-BEARERS: Phoenix names Phoenicia, Cilix names Cilicia, Europa names Europe and mothers the Cretan kings, and Cadmus founds Thebes and carries the alphabet itself from Phoenicia into Greece. The Greek founder-myth is, on its own testimony, a Phoenician export — the Levant and Greece are one story, and the writing the Greeks tell it in is Phoenician.",
+    "why_it_matters_for_hathor": "The Greek material independently encodes the claim the corpus advances elsewhere (the Atlas/Atlantis, Berossus and Temple-Culture syntheses): the arts of civilization (astronomy, law, letters) and legitimate kingship are a TRANSMISSION from a divine/sage source across the Flood-boundary, not a human invention — and the demigod founder-kings are the hinge between the gods and us. Greece, Egypt and Babylon are three witnesses to one descent."
+  },
+
+  "hierophant_xref": [
+    "pseudo-Apollodorus (Bibliotheca / The Library)",
+    "Diodorus Siculus (Bibliotheca historica / Library of History)",
+    "Ovid (Metamorphoses)",
+    "Aelius Aristides (Sacred Tales / Hieroi Logoi)",
+    "Euhemerus (Sacred History / euhemerism)",
+    "Asclepius (Asclepieion of Pergamon, dream-healing)",
+    "Agenor (Phoenician king of Tyre/Sidon)",
+    "Phoenix (eponym of Phoenicia)",
+    "Cadmus (alphabet to Greece; founder of Thebes)",
+    "Europa (carried to Crete; eponym of Europe)",
+    "Cilix (eponym of Cilicia)",
+    "Atlas (Titan-king; astronomer; Atlantians/Mauretania; Pleiades)",
+    "Memnon (king of Aethiopia/the East; son of Eos; Colossi of Memnon; Susa)",
+    "Manetho (Aegyptiaca — Egyptian gods→demigods→kings parallel)",
+    "Berossus (Babyloniaca — Babylonian gods→sage-kings→kings parallel)"
+  ],
+
+  "key_sources_and_references": {
+    "primary_sources": [
+      "pseudo-Apollodorus, Bibliotheca (The Library), esp. 3.1.1 (house of Agenor) and 1.2.3 (Atlas); trans. J. G. Frazer, Loeb 121 & 122 (1921)",
+      "Diodorus Siculus, Bibliotheca historica, esp. 3.60 and 4.27 (Atlas as king/astronomer), 3.49–61 (the Atlantians)",
+      "Ovid, Metamorphoses (15 books, 11,995 lines; creation to the apotheosis of Caesar; the abduction of Europa)",
+      "Aelius Aristides, Hieroi Logoi (Sacred Tales), 6 books, c. 171 CE",
+      "Herodotus, Histories 5.58 (Cadmus / the Phoenician 'Cadmean letters')",
+      "Hesiod, Theogony 507 ff. (Atlas), 984–985 (Memnon, son of Eos and Tithonus)",
+      "Homer, Odyssey 1.52 (Atlas)",
+      "Aethiopis (lost epic) and Quintus of Smyrna, Posthomerica (Memnon at Troy)"
+    ],
+    "encyclopedic_and_sourced_references": [
+      {"name": "Theoi — Apollodorus, The Library Book 1 (intro on pseudo-Apollodorus)", "url": "https://www.theoi.com/Text/Apollodorus1.html"},
+      {"name": "Theoi — Apollodorus, The Library Book 3 (house of Agenor text)", "url": "https://www.theoi.com/Text/Apollodorus3.html"},
+      {"name": "Theoi — Atlas (with Hesiod/Homer/Diodorus/Plato citations)", "url": "https://www.theoi.com/Titan/TitanAtlas.html"},
+      {"name": "LacusCurtius — Diodorus Siculus, Book III ch. 49–61 (the Atlantians, Atlas)", "url": "http://penelope.uchicago.edu/Thayer/E/Roman/Texts/Diodorus_Siculus/3D*.html"},
+      {"name": "Wikipedia — Bibliotheca historica (Diodorus)", "url": "https://en.wikipedia.org/wiki/Bibliotheca_historica"},
+      {"name": "Wikipedia — Metamorphoses (Ovid)", "url": "https://en.wikipedia.org/wiki/Metamorphoses"},
+      {"name": "Wikipedia — Aelius Aristides (Sacred Tales)", "url": "https://en.wikipedia.org/wiki/Aelius_Aristides"},
+      {"name": "Wikipedia — Euhemerism (Euhemerus, deified kings)", "url": "https://en.wikipedia.org/wiki/Euhemerism"},
+      {"name": "Wikipedia — Cadmus", "url": "https://en.wikipedia.org/wiki/Cadmus"},
+      {"name": "Wikipedia — Memnon (mythology)", "url": "https://en.wikipedia.org/wiki/Memnon_(mythology)"},
+      {"name": "World History Encyclopedia — Cadmus", "url": "https://www.worldhistory.org/Cadmus/"}
+    ],
+    "corpus_cross_references": [
+      "knowledge/history/atlas_atlantis_genealogy_synthesis.json (Atlas full genealogy, Atlantis-king doublet, Pleiades)",
+      "knowledge/history/babyloniaca_berossus_sumerology_synthesis.json (Berossus + Manetho gods→sage-kings→mortal-kings thesis)",
+      "knowledge/history/hyperborean_denisovan_phoenician_continuity.json (Phoenician continuity)",
+      "knowledge/history/temple_culture_comprehensive_synthesis.json (temple-technology / transmission framing)"
+    ],
+    "method_note": "Every claim above is attributed to a named primary source or a sourced encyclopedia entry, retrieved June 2026 via the repo scrapers (integrations/scrapers/sacred-texts.mjs parseTheoi; integrations/scraper.mjs) and WebFetch/WebSearch. Where modern scholarship qualifies an ancient claim (e.g. the epigraphic date of the Greek alphabet vs. the Cadmus legend), the qualification is stated rather than suppressed. No quotations or citations are fabricated; the euhemerist reading is presented as the ancient method (Euhemerus/Diodorus) it actually is, not as a modern assertion of literal historicity."
+  }
+}
