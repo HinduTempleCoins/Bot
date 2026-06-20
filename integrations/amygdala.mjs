@@ -14,7 +14,7 @@
 // always works. House style: ESM, injectable clock + seen-set, soft-fail, CLI guard, handler(req,res).
 
 // Signal lexicons. Tuned for THIS project's stream (chain/keys/users/trade/brief work).
-const URGENT = ['urgent', 'asap', 'now', 'immediately', 'today', 'deadline', 'broken', 'broke', 'crash', 'crashed', 'down', 'failing', 'fails', 'blocked', 'stuck', 'hang', 'stall', 'stalled', 'regression', 'outage', 'expired', 'expiring'];
+const URGENT = ['urgent', 'asap', 'now', 'immediately', 'today', 'deadline', 'broken', 'broke', 'crash', 'crashed', 'down', 'fail', 'failed', 'failing', 'fails', 'blocked', 'stuck', 'hang', 'stall', 'stalled', 'regression', 'outage', 'expired', 'expiring'];
 const IMPORTANT = ['key', 'keys', 'wif', 'vault', 'security', 'secret', 'chain', 'witness', 'hathor', 'live', 'production', 'mainnet', 'money', 'funds', 'treasury', 'user', 'users', 'signup', 'consensus', 'genesis', 'operator', 'decide', 'decision', 'launch'];
 const THREAT = ['exploit', 'hack', 'hacked', 'leak', 'leaked', 'breach', 'scam', 'phish', 'malware', 'csam', 'attacker', 'compromise', 'compromised', 'drain', 'drained', 'rug', 'impersonat', 'stolen', 'theft'];
 const NEG = ['broken', 'fail', 'crash', 'down', 'error', 'bug', 'lost', 'wrong', 'missing', 'corrupt', 'dropped', 'stale', 'cannot', "can't", 'unable', 'blocked', 'denied', 'regression', 'worse', 'bad'];
