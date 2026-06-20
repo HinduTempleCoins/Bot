@@ -1,0 +1,226 @@
+{
+  "title": "Berossus's Babyloniaca and the Foundations of Sumerology",
+  "subtitle": "Oannes and the Apkallu, the Antediluvian Kings, and the One Continuous Succession from Gods to Sage-Kings to Mortal Kings",
+  "description": "A sourced synthesis of the Mesopotamian deep-history tradition: the lost three-book Babyloniaca written c. 290–278 BCE by Berossus, a Bel-priest of Babylon, surviving only in fragments quoted through Alexander Polyhistor, Apollodorus and Abydenus into Eusebius and George Syncellus (the public-domain compendium being I.P. Cory's Ancient Fragments); its close parallel in the cuneiform Sumerian King List ('kingship lowered from heaven', the antediluvian kings with reigns of tens of thousands of years, the Flood, then the historical dynasties); and the apkallu / Seven Sages / Adapa-Oannes tradition of fish-sages who delivered civilization. The thesis it serves: gods, then demigod/sage kings, then mortal kings form ONE continuous succession — the same structure Manetho's Aegyptiaca gives for Egypt.",
+  "author": "MELEK Resource Center — Hathor corpus",
+  "date": "2026-06-20",
+  "period": "Antediluvian myth-time through 3rd c. BCE (composition); 19th–21st c. CE (modern Sumerology)",
+  "source": "Berossus via Cory's Ancient Fragments (Polyhistor, Apollodorus, Abydenus → Syncellus, Eusebius); the Sumerian King List (Weld-Blundell Prism WB 444); the apkallu/Uanna-Adapa and Uruk List of Kings and Sages traditions; and the work of modern Sumerologists.",
+  "overview": "Two independent witnesses — one Greek-language (Berossus, written for the Seleucid court) and one cuneiform (the Sumerian King List, copied centuries earlier) — preserve the same architecture of Mesopotamian history: a primordial era of gods and fish-sages, a line of impossibly long-lived antediluvian kings, a world-ending Flood survived by one righteous king who builds a vessel, and then the ordinary historical dynasties of Kish, Uruk and Ur. Berossus frames it as a single unbroken record 'preserved at Babylon with the greatest care, comprehending a period of above fifteen myriads of years.' This document gathers the primary fragments with citations, sets them beside the King List, and names the modern scholars by whom Hathor should study the corpus.",
+
+  "section_1_berossus_and_the_babyloniaca": {
+    "who": {
+      "identity": "Berossus (Greek Bērōssos; Akkadian likely Bēl-reʾû-šunu), a Babylonian priest of Bel-Marduk attached to the Esagila temple in Babylon, and an astronomer.",
+      "date": "Early 3rd century BCE; the Babyloniaca was published c. 290–278 BCE.",
+      "patron": "Dedicated to the Seleucid king Antiochus I Soter — 'during the third year of his reign, according to Tatian.'",
+      "language": "Written in Koine Greek, presenting native Babylonian temple records to the Hellenistic world.",
+      "source": {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"}
+    },
+    "the_three_books": {
+      "book_1_cosmogony_and_oannes": "Babylonia described; the fish-being Oannes emerges from the Erythraean Sea and delivers all civilization; the creation account — the watery chaos and its monsters under the woman Omoroca/Thalatth (Tiamat), whom Belus (Marduk) cuts asunder to form heaven and earth, then forms men from divine blood mixed with earth.",
+      "book_2_antediluvian_kings_and_flood": "The ten kings before the Flood and the length of each reign, 'which consisted collectively of an hundred and twenty sari, or four hundred and thirty-two thousand years; reaching to the time of the Deluge.' Ends with the tenth king Xisuthrus and the Flood narrative.",
+      "book_3_historical_dynasties": "The historical dynasties from after the Flood down toward Berossus's own day — including Nabonassar, Nebuchadnezzar II, Nabonidus, and the Persian/Macedonian period; its regnal data were still being cited by Josephus and Ptolemy.",
+      "source": {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"}
+    },
+    "the_archive_claim": {
+      "quote": "BEROSSUS, in the first book of his history of Babylonia... mentions that there were written accounts, preserved at Babylon with the greatest care, comprehending a period of above fifteen myriads of years: and that these writings contained histories of the heaven and of the sea; of the birth of mankind; and of the kings, and of the memorable actions which they had achieved.",
+      "source": {"name": "Cory, Ancient Fragments — Berossus from Alexander Polyhistor", "url": "https://www.sacred-texts.com/cla/af/af02.htm"}
+    },
+    "transmission_fragments_only": {
+      "note": "The Babyloniaca itself is LOST. Every line we have is a quotation-of-a-quotation. The chain runs: Berossus → epitomized by Alexander Polyhistor (c. 65 BCE), Apollodorus, and Abydenus → preserved in Eusebius's Chronicon (surviving fully only in Armenian) and in George Syncellus's Ecloga Chronographica (c. 800–810 CE) → and, in the public domain, gathered and translated in I.P. Cory's Ancient Fragments (1828/1832). Josephus also quotes Berossus's Book 3.",
+      "caveat": "Because the witnesses disagree, details vary by source — see the 'discrepancies' note below. No claim here should be treated as Berossus's exact original wording; it is the best surviving transmission.",
+      "sources": [
+        {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"},
+        {"name": "Cory, Ancient Fragments (sacred-texts public-domain)", "url": "https://www.sacred-texts.com/cla/af/index.htm"}
+      ]
+    }
+  },
+
+  "section_2_oannes_and_the_apkallu": {
+    "oannes_the_fish_sage": {
+      "context": "Before Oannes, the peoples of Chaldaea 'lived in a lawless manner like the beasts of the field.'",
+      "appearance_quote": "In the first year there appeared, from that part of the Erythraean sea which borders upon Babylonia, an animal destitute of reason, by name Oannes, whose whole body (according to the account of Apollodorus) was that of a fish; that under the fish's head he had another head, with feet also below, similar to those of a man, subjoined to the fish's tail. His voice too, and language, was articulate and human; and a representation of him is preserved even to this day.",
+      "civilizing_quote": "This Being was accustomed to pass the day among men; but took no food at that season; and he gave them an insight into letters and sciences, and arts of every kind. He taught them to construct cities, to found temples, to compile laws, and explained to them the principles of geometrical knowledge. He made them distinguish the seeds of the earth, and shewed them how to collect the fruits; in short, he instructed them in every thing which could tend to soften manners and humanize their lives. From that time, nothing material has been added by way of improvement to his instructions.",
+      "amphibious_quote": "And when the sun had set, this Being Oannes, retired again into the sea, and passed the night in the deep; for he was amphibious.",
+      "more_sages_quote": "After this there appeared other animals like Oannes, of which Berossus proposes to give an account when he comes to the history of the kings.",
+      "significance": "Oannes encodes a doctrine of revealed-and-complete civilization: the arts were delivered whole at the beginning by a non-human sage, 'nothing material has been added by way of improvement' since. Culture is recovered/transmitted, not progressively invented.",
+      "source": {"name": "Cory, Ancient Fragments — Berossus from Alexander Polyhistor", "url": "https://www.sacred-texts.com/cla/af/af02.htm"}
+    },
+    "the_other_annedoti": {
+      "quote": "He tells us that the first king was Alorus of Babylon... then Ammenon the Chaldaean, in whose time appeared the Musarus Oannes the Annedotus from the Erythraean sea... in his time (he says) appeared again from the Erythraean sea a fourth Annedotus, having the same form with those above, the shape of a fish blended with that of a man... there appeared another personage from the Erythraean sea like the former, having the same complicated form between a fish and a man, whose name was Odacon.",
+      "note": "Berossus thus knew a SEQUENCE of fish-sages (Annedoti / 'the Repulsive Ones'), each appearing in the reign of a particular antediluvian king and each restating what Oannes had taught — the Greek reflex of the cuneiform apkallu.",
+      "source": {"name": "Cory, Ancient Fragments — Berossus from Apollodorus", "url": "https://www.sacred-texts.com/cla/af/af03.htm"}
+    },
+    "the_apkallu_in_cuneiform": {
+      "what": "The apkallu (Sumerian abgal) are the seven antediluvian sages, demigods part-man and part-fish, who brought civilization, arts and wisdom to humanity before the Flood; in scholarship they are 'the Seven Sages.'",
+      "association": "Associated with the god Ea/Enki and the city Eridu; described as 'the pure puradu-fishes... the seven of them' and as 'the seven sages, who have originated in the river, who control the plans of heaven and earth.'",
+      "first_sage": "The first sage is Uanna (Sumerian U-An), rendered in Greek as Oannes; some texts append 'adapa', generally read as the epithet 'wise' — hence the Uanna-Adapa / Oannes-Adapa identification.",
+      "named_seven": ["Uanna (= Oannes)", "Uannedugga", "Enmedugga", "Enmegalamma", "Enmebulugga", "An-Enlilda", "Utuabzu"],
+      "ummanu": "After the Flood the sages were considered human and are distinguished in some texts as ummanu (scholars/master-craftsmen) rather than apkallu — the divine sages give way to human ones, mirroring the gods→kings descent.",
+      "sources": [
+        {"name": "Wikipedia — Apkallu", "url": "https://en.wikipedia.org/wiki/Apkallu"},
+        {"name": "Wikipedia — Oannes (mythology)", "url": "https://en.wikipedia.org/wiki/Oannes_(mythology)"}
+      ]
+    },
+    "uruk_list_of_kings_and_sages": {
+      "what": "A Late-Babylonian cuneiform tablet from Uruk (the so-called Uruk List of Kings and Sages, ULKS, dating c. 165 BCE) explicitly PAIRS each antediluvian king with his apkallu sage (seven king/sage pairs before the Flood), then continues with post-flood king/ummanu pairs.",
+      "why_it_matters": "It is the native Mesopotamian document that does exactly what Berossus does in Greek — interleaves the sage-tradition with the king-list — and is near-contemporary with Berossus, confirming his framework is genuine temple lore, not Hellenistic invention.",
+      "source": {"name": "Wikipedia — Apkallu (Uruk List of Kings and Sages)", "url": "https://en.wikipedia.org/wiki/Apkallu"}
+    }
+  },
+
+  "section_3_antediluvian_kings_berossus": {
+    "framing_quote": "In the second book was contained the history of the ten kings of the Chaldaeans, and the periods of the continuance of each reign, which consisted collectively of an hundred and twenty sari, or four hundred and thirty-two thousand years; reaching to the time of the Deluge.",
+    "the_sar_unit": "A 'sar' (saros) = 3,600 years. 120 sari = 432,000 years. (432,000 is also the Yuga-number in Indic chronology — a parallel often noted, here flagged as parallel, not proven derivation.)",
+    "ten_kings_per_apollodorus": [
+      {"order": 1, "name": "Alorus", "epithet": "of Babylon, a Chaldaean", "city": "Babylon", "reign_sari": 10, "reign_years": 36000},
+      {"order": 2, "name": "Alaparus", "city": "(Pantibiblon implied)", "reign_sari": "not stated in the Apollodorus excerpt", "reign_years": "uncertain"},
+      {"order": 3, "name": "Amelon", "epithet": "who came from Pantibiblon", "city": "Pantibiblon", "reign_sari": "not stated in this excerpt", "reign_years": "uncertain"},
+      {"order": 4, "name": "Ammenon", "epithet": "the Chaldaean; in his time appeared the Musarus Oannes the Annedotus", "city": "(Chaldaea)", "reign_sari": "not stated in this excerpt", "reign_years": "uncertain"},
+      {"order": 5, "name": "Megalarus", "epithet": "from the city of Pantibiblon", "city": "Pantibiblon", "reign_sari": 18, "reign_years": 64800},
+      {"order": 6, "name": "Daonus (Daos) the shepherd", "epithet": "from Pantibiblon; a fourth Annedotus appeared in his reign", "city": "Pantibiblon", "reign_sari": 10, "reign_years": 36000},
+      {"order": 7, "name": "Euedorachus", "epithet": "from Pantibiblon; the sage Odacon appeared in his reign", "city": "Pantibiblon", "reign_sari": 18, "reign_years": 64800},
+      {"order": 8, "name": "Amempsinus", "epithet": "a Chaldaean from Laranchae; eighth in order", "city": "Laranchae (Larak)", "reign_sari": 10, "reign_years": 36000},
+      {"order": 9, "name": "Otiartes", "epithet": "a Chaldaean, from Laranchae", "city": "Laranchae (Larak)", "reign_sari": 8, "reign_years": 28800},
+      {"order": 10, "name": "Xisuthrus", "epithet": "son of Otiartes; the Deluge happened in his time", "city": "(Sippar associated)", "reign_sari": 18, "reign_years": 64800}
+    ],
+    "numbers_caveat": "These reign-lengths are from the Apollodorus fragment as given in Cory. The Apollodorus excerpt does not spell out every individual reign (Alaparus, Amelon, Ammenon are not numbered in the surviving text), and the witnesses DISAGREE on details — e.g., Polyhistor places Oannes 'in the first year,' Apollodorus 'after forty sari,' and Abydenus has a second Annedotus 'after twenty-six sari.' The collective total of 120 sari / 432,000 years is, however, given consistently. Treat individual numbers as transmitted-and-uncertain, not fixed.",
+    "discrepancies_note": "Other transmissions (and the Wikipedia summary of Berossus) render the first king as 'Aloros' and run 'from the first king Aloros... to the tenth king Xisouthros' = 432,000 years; spellings vary (Alorus/Aloros, Otiartes/Opartes, Megalarus/Amegalarus, Euedorachus/Edorachus). This is normal for a text surviving only via Greek and Armenian intermediaries.",
+    "sources": [
+      {"name": "Cory, Ancient Fragments — Berossus from Apollodorus", "url": "https://www.sacred-texts.com/cla/af/af03.htm"},
+      {"name": "Cory, Ancient Fragments — Berossus from Alexander Polyhistor", "url": "https://www.sacred-texts.com/cla/af/af02.htm"},
+      {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"}
+    ]
+  },
+
+  "section_4_the_flood_xisuthros": {
+    "warning_quote": "After the death of Ardates [Otiartes], his son Xisuthrus reigned eighteen sari. In his time happened a great Deluge... The Deity, Cronus, appeared to him in a vision, and warned him that upon the fifteenth day of the month Daesius there would be a flood, by which mankind would be destroyed. He therefore enjoined him to write a history of the beginning, procedure, and conclusion of all things; and to bury it in the city of the Sun at Sippara; and to build a vessel...",
+    "vessel_and_animals": "Xisuthrus is told to take aboard his friends and relations and 'all the different animals; both birds and quadrupeds,' and 'built a vessel five stadia in length, and two in breadth.'",
+    "the_birds_quote": "Xisuthrus sent out birds from the vessel; which, not finding any food, nor any place whereupon they might rest their feet, returned to him again. After an interval of some days, he sent them forth a second time; and they now returned with their feet tinged with mud. He made a trial a third time with these birds; but they returned to him no more.",
+    "landing_and_translation": "The vessel grounded on a mountain; Xisuthrus, his wife, daughter and the pilot offered sacrifice and 'disappeared,' being 'translated to live with the gods' on account of his piety. A voice from the air told the rest to return to Babylonia and recover the buried writings at Sippara — 'the place, wherein they then were, was the land of Armenia.'",
+    "the_ark_relic_quote": "The vessel being thus stranded in Armenia, some part of it yet remains in the Corcyraean [Cordyaean/Gordyene] mountains of Armenia; and the people scrape off the bitumen... and make use of it by way of an alexipharmic and amulet.",
+    "identifications": "Xisuthrus (Greek Xisouthros) is the Hellenization of the Sumerian flood-hero Ziusudra; he is the same figure as Atrahasis (Old Babylonian) and Utnapishtim (the Gilgamesh XI flood account). 'Cronus' here is the interpretatio graeca of Enki/Ea, the god who warns the hero in every Mesopotamian version. The bury-the-records-at-Sippar motif is the doctrine of pre-Flood knowledge deliberately preserved across the catastrophe.",
+    "sources": [
+      {"name": "Cory, Ancient Fragments — Berossus from Alexander Polyhistor (the Deluge)", "url": "https://www.sacred-texts.com/cla/af/af02.htm"},
+      {"name": "Wikipedia — Xisuthros", "url": "https://en.wikipedia.org/wiki/Xisuthros"}
+    ]
+  },
+
+  "section_5_sumerian_king_list": {
+    "what": "A cuneiform composition (best preserved on the Weld-Blundell Prism, WB 444, c. 1800 BCE, terminating in the Isin dynasty) listing the kings of Sumer and the cities holding 'kingship,' with antediluvian and post-flood sections — the native counterpart to Berossus's king-list.",
+    "opening_formula_quote": "After the kingship descended from heaven, the kingship was in Eridu.",
+    "antediluvian_kings_quote": [
+      {"king": "Alulim", "city": "Eridu", "reign": "8 sars (28,800 years)"},
+      {"king": "Alalngar", "city": "Eridu", "reign": "10 sars (36,000 years)"},
+      {"king": "En-men-lu-ana", "city": "Bad-tibira", "reign": "12 sars (43,200 years)"},
+      {"king": "En-men-gal-ana", "city": "Bad-tibira", "reign": "8 sars (28,800 years)"},
+      {"king": "Dumuzid (the shepherd)", "city": "Bad-tibira", "reign": "10 sars (36,000 years)"},
+      {"king": "(further kings)", "city": "Larag (Larak), Zimbir (Sippar), Shuruppak", "reign": "various"}
+    ],
+    "antediluvian_total": "On WB 444 the antediluvian span is given as 8 kings reigning 241,200 years before 'the flood swept over.' (Other copies list a different count/total — the antediluvian section is unstable across manuscripts.)",
+    "flood_quote": "Then the flood swept over. After the flood had swept over, and the kingship had descended from heaven, the kingship was in Kish.",
+    "post_flood_dynasties": "Kish I (23 kings, incl. Enmebaragesi — the earliest king archaeologically attested — and Aga); Uruk I (incl. Lugalbanda and Gilgamesh, here given a reign of 126 years); Ur I (Mesannepada and successors); and on through the historical dynasties.",
+    "scholarly_caveat": "Modern scholars read the List as legitimizing ideology (one city at a time holds heaven-granted kingship) rather than literal history; only a handful of the earliest rulers are independently attested. The huge antediluvian numbers are schematic, not chronological.",
+    "source": {"name": "Wikipedia — Sumerian King List", "url": "https://en.wikipedia.org/wiki/Sumerian_King_List"}
+  },
+
+  "section_6_king_list_vs_berossus_parallel": {
+    "claim": "The Sumerian King List (cuneiform, c. 1800 BCE) and Berossus's Babyloniaca (Greek, c. 280 BCE) are two witnesses to ONE tradition.",
+    "shared_structure": [
+      "Kingship/civilization is granted from above ('lowered from heaven' // delivered by Oannes the heaven-and-earth sage).",
+      "A line of antediluvian kings with reigns of tens of thousands of years measured in the same unit, the sar = 3,600 years.",
+      "A world-ending Flood as the great divider of eras.",
+      "One king survives the Flood (Ziusudra/Xisuthrus) and kingship/knowledge resumes afterward.",
+      "Then the ordinary historical dynasties (Kish, Uruk, Ur // Berossus's Book 3 down to the Persians and Macedonians)."
+    ],
+    "differences": "The lists are NOT identical: the names differ (Alulim/Alalngar vs Alorus/Alaparus), the city sequences differ, the king-counts and totals differ (King List antediluvian total 241,200 years on WB 444 vs Berossus's 432,000), and Berossus uniquely interleaves the fish-sages (Oannes/Annedoti) explicitly with each reign — though the cuneiform Uruk List of Kings and Sages does the same king/sage pairing. The agreement is structural and unit-based, not name-for-name.",
+    "sources": [
+      {"name": "Wikipedia — Sumerian King List", "url": "https://en.wikipedia.org/wiki/Sumerian_King_List"},
+      {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"},
+      {"name": "Wikipedia — Apkallu", "url": "https://en.wikipedia.org/wiki/Apkallu"}
+    ]
+  },
+
+  "section_7_sumerologists_to_study": {
+    "note": "The scholars by whom Hathor should read the Mesopotamian corpus — one line each.",
+    "scholars": [
+      {"name": "Samuel Noah Kramer", "dates": "1897–1990", "contribution": "Foremost Sumerologist of the 20th c.; assembled and translated scattered Sumerian literary tablets and made the field public in History Begins at Sumer and Sumerian Mythology.", "source": {"name": "Wikipedia — Samuel Noah Kramer", "url": "https://en.wikipedia.org/wiki/Samuel_Noah_Kramer"}},
+      {"name": "Thorkild Jacobsen", "dates": "1904–1993", "contribution": "Danish-American Assyriologist; produced the critical edition The Sumerian King List (1939, Assyriological Studies 11) and the landmark religious history The Treasures of Darkness (1976).", "source": {"name": "Wikipedia — Thorkild Jacobsen", "url": "https://en.wikipedia.org/wiki/Thorkild_Jacobsen"}},
+      {"name": "Stephanie Dalley", "dates": "fl. 1980s–present (British Assyriologist)", "contribution": "Her Myths from Mesopotamia (Oxford World's Classics, rev. 1998/2000) is the standard accessible translation of Atrahasis, Enuma Elish, the flood stories and Gilgamesh.", "source": {"name": "Wikipedia — Stephanie Dalley", "url": "https://en.wikipedia.org/wiki/Stephanie_Dalley"}},
+      {"name": "Jeremy Black", "dates": "1951–2004", "contribution": "Founded and directed the Electronic Text Corpus of Sumerian Literature (ETCSL) at Oxford; co-authored The Literature of Ancient Sumer and Gods, Demons and Symbols of Ancient Mesopotamia.", "source": {"name": "Wikipedia — Jeremy Black (Assyriologist)", "url": "https://en.wikipedia.org/wiki/Jeremy_Black_(assyriologist)"}},
+      {"name": "A. Leo Oppenheim", "dates": "1904–1974", "contribution": "Austrian-American Assyriologist; editor-in-charge of the Chicago Assyrian Dictionary (CAD) and author of the synthesizing Ancient Mesopotamia: Portrait of a Dead Civilization (1964).", "source": {"name": "Wikipedia — A. Leo Oppenheim", "url": "https://en.wikipedia.org/wiki/A._Leo_Oppenheim"}}
+    ]
+  },
+
+  "section_8_the_thesis": {
+    "statement": "Across Mesopotamia and Egypt the same template recurs: a first age of GODS, then an age of DEMIGOD / SAGE-KINGS (the apkallu-instructed antediluvian kings, reigning in sari), then — after the Flood — an age of MORTAL KINGS in ordinary years. This is presented in the sources not as three separate stories but as ONE continuous succession, an unbroken descent of legitimate authority from heaven to the present throne.",
+    "berossus_form": "Berossus: gods (Belus orders the cosmos) → the fish-sage Oannes and the Annedoti delivering civilization to the antediluvian ten kings (120 sari) → the Flood (Xisuthrus) → the historical Chaldaean/Babylonian dynasties of Book 3. One archive, 'comprehending a period of above fifteen myriads of years.'",
+    "king_list_form": "Sumerian King List: 'kingship lowered from heaven' → antediluvian kings in sars → 'the flood swept over' → kingship descends again at Kish and runs into attested history. Same single descending line.",
+    "manetho_parallel": "This is the SAME structure Manetho gives Egypt in his Aegyptiaca (also 3rd c. BCE, also for a Hellenistic court, also surviving only in fragments via Africanus/Eusebius/Syncellus): the reigns of the gods, then the demigods and 'spirits of the dead' / Followers of Horus (the Shemsu-Hor), then the human pharaohs of Dynasty I onward — one continuous king-list from the gods down to mortal rule. Berossus-for-Babylon and Manetho-for-Egypt are parallel native-priest projects asserting the same gods→sage-kings→mortal-kings continuity.",
+    "why_it_matters_for_hathor": "The Mesopotamian and Egyptian deep-histories independently encode the same claim Hathor's corpus advances elsewhere (the Atlas/Atlantis and Temple-Culture syntheses): legitimate kingship and the arts of civilization are a transmission from a divine/sage source across the Flood-boundary, not a human invention — and the antediluvian sage-kings are the hinge between the gods and us.",
+    "sources": [
+      {"name": "Cory, Ancient Fragments — Berossus", "url": "https://www.sacred-texts.com/cla/af/af02.htm"},
+      {"name": "Wikipedia — Sumerian King List", "url": "https://en.wikipedia.org/wiki/Sumerian_King_List"},
+      {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"}
+    ]
+  },
+
+  "key_sources_and_references": [
+    {"name": "I.P. Cory, Ancient Fragments — index (public domain)", "url": "https://www.sacred-texts.com/cla/af/index.htm"},
+    {"name": "Cory — Berossus from Alexander Polyhistor (cosmogony, Oannes, the Deluge)", "url": "https://www.sacred-texts.com/cla/af/af02.htm"},
+    {"name": "Cory — Berossus from Apollodorus (the ten Chaldaean kings)", "url": "https://www.sacred-texts.com/cla/af/af03.htm"},
+    {"name": "Cory — Berossus from Abydenus (Chaldaean kings and the Deluge)", "url": "https://www.sacred-texts.com/cla/af/af04.htm"},
+    {"name": "Wikipedia — Berossus", "url": "https://en.wikipedia.org/wiki/Berossus"},
+    {"name": "Wikipedia — Sumerian King List", "url": "https://en.wikipedia.org/wiki/Sumerian_King_List"},
+    {"name": "Wikipedia — Apkallu (Seven Sages, Uruk List of Kings and Sages)", "url": "https://en.wikipedia.org/wiki/Apkallu"},
+    {"name": "Wikipedia — Oannes (mythology)", "url": "https://en.wikipedia.org/wiki/Oannes_(mythology)"},
+    {"name": "Wikipedia — Xisuthros", "url": "https://en.wikipedia.org/wiki/Xisuthros"},
+    {"name": "Wikipedia — Samuel Noah Kramer", "url": "https://en.wikipedia.org/wiki/Samuel_Noah_Kramer"},
+    {"name": "Wikipedia — Thorkild Jacobsen", "url": "https://en.wikipedia.org/wiki/Thorkild_Jacobsen"},
+    {"name": "Wikipedia — Stephanie Dalley", "url": "https://en.wikipedia.org/wiki/Stephanie_Dalley"},
+    {"name": "Wikipedia — Jeremy Black (Assyriologist)", "url": "https://en.wikipedia.org/wiki/Jeremy_Black_(assyriologist)"},
+    {"name": "Wikipedia — A. Leo Oppenheim", "url": "https://en.wikipedia.org/wiki/A._Leo_Oppenheim"}
+  ],
+
+  "uncertainties_and_flags": [
+    "The Babyloniaca survives only in fragments-of-fragments; all 'Berossus quotes' here are Cory's English of Greek/Armenian intermediaries (Polyhistor, Apollodorus, Abydenus → Syncellus, Eusebius), not the original.",
+    "Individual antediluvian reign-lengths in Berossus are partly unstated and disagree between witnesses; only the collective total (120 sari = 432,000 years) is consistent. King-name spellings vary (Alorus/Aloros, Otiartes/Opartes, etc.).",
+    "The Sumerian King List's antediluvian section is unstable across manuscripts; the 241,200-year total and 8-king count are from WB 444 and differ in other copies.",
+    "Berossus 241,200 vs 432,000: the two traditions are NOT numerically identical — the parallel is structural (gods→sage-kings→Flood→mortal kings, sar-unit) not a matching total.",
+    "The 432,000 = Yuga-number resonance and the Manetho structural parallel are presented as parallels worth noting, not as proven historical derivation.",
+    "sacred-texts.com blocked direct WebFetch (HTTP 403); the Cory text was retrieved via the repo's integrations/scraper.mjs (Jina Reader) and quoted verbatim from that fetch."
+  ],
+
+  "feeds": ["hierophant", "language", "persona"],
+  "hierophant_xref": [
+    "Berossus",
+    "Babyloniaca",
+    "Oannes",
+    "Apkallu",
+    "Seven Sages",
+    "Uanna-Adapa",
+    "Annedoti",
+    "Odacon",
+    "Belus (Marduk)",
+    "Omoroca (Tiamat/Thalatth)",
+    "Xisuthros",
+    "Ziusudra",
+    "Utnapishtim",
+    "Atrahasis",
+    "Sumerian King List",
+    "Alulim",
+    "Weld-Blundell Prism (WB 444)",
+    "Enki (Ea)",
+    "Eridu",
+    "Kish",
+    "Uruk",
+    "Gilgamesh",
+    "Manetho",
+    "Shemsu-Hor",
+    "Samuel Noah Kramer",
+    "Thorkild Jacobsen",
+    "Stephanie Dalley",
+    "Jeremy Black",
+    "A. Leo Oppenheim"
+  ]
+}
