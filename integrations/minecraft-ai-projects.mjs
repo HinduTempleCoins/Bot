@@ -51,9 +51,28 @@ export const PROJECTS = [
     steal: 'render the world to a browser (watch her from a phone)', note: 'Needs the `canvas` system libs on the box — the iPhone-viewing path.' },
 ];
 
-export const KINDS = ['framework', 'plugin', 'research'];
+// ── Downloadable "AI friend" mods people install to play WITH an AI (client-side, preloaded) ──────
+// These are the ready-to-run things the operator asked about — install on your Minecraft, plug a key
+// (or use a hosted/local model), and an AI companion plays with you. Distinct from our server-side
+// mineflayer bots (Hathor/Sophia = separate accounts on a server): mods run inside the game client.
+export const DOWNLOADABLE_MODS = [
+  { name: 'Player2 AI NPC (PlayerEngine)', where: 'CurseForge', downloads: '173k+', loader: 'Fabric/Forge', byok: 'hosted (Player2) — minimal setup', mc: 'mod',
+    note: 'Most popular + very active (2026). Embodied companions that listen, talk back, and act like real players. Best UX reference.' },
+  { name: 'AI-Player', where: 'CurseForge + Modrinth', downloads: '100k+', loader: 'Fabric/Forge', byok: 'YOUR keys OR local Ollama', mc: 'mod',
+    note: 'CLOSEST to our architecture — a real "second player" you point at your OWN LLM (Ollama or API key). We could give it a Hathor persona / learn its in-client action model.' },
+  { name: 'ChatClef', where: 'CurseForge', downloads: '10k+', loader: 'Fabric/Forge', byok: 'hosted', mc: 'mod',
+    note: 'AI copilot that plays FOR you or WITH you.' },
+  { name: 'AI Companion', where: 'CurseForge', downloads: '12k+', loader: 'Fabric/Forge', byok: 'hosted', mc: 'mod',
+    note: 'Interactive companion NPC that observes/reacts/engages in real time.' },
+  { name: 'VoxelMind', where: 'CurseForge', downloads: 'n/a', loader: 'Fabric/Forge', byok: 'none — no setup', mc: 'mod',
+    note: 'Easiest entry: singleplayer, no API keys/host to manage. Good "what does frictionless feel like" reference.' },
+];
+
+export const KINDS = ['framework', 'plugin', 'research', 'mod'];
 
 export function all() { return PROJECTS; }
+// Ready-to-install AI-friend mods (the "download and play with an AI" list).
+export function downloadableMods() { return DOWNLOADABLE_MODS; }
 export function byKind(kind) { return PROJECTS.filter((p) => p.kind === kind); }
 export function dropIn() { return PROJECTS.filter((p) => p.mc === 'yes'); }     // mineflayer-ready for us now
 
