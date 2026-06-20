@@ -26,6 +26,8 @@ test('GET / serves the installable app — MELEK username, steps, geo, signup li
   assert.match(o.body, /Create your MELEK account/);// signup link present
   assert.match(o.body, /Step boost/);
   assert.match(o.body, /Claim this zone/);          // ToS-safe: "claim/zone", not "mine/cell"
+  assert.match(o.body, /id=map class=blockmap/);    // the block map canvas is present
+  assert.match(o.body, /block you can claim/);       // map legend explains the blocks
   assert.doesNotMatch(o.body, /0x… your PRANA address|PRANA address/); // old 0x identity gone
   // ToS: no banned on-device-mining or earnings-glamorizing language in the user-facing copy
   assert.doesNotMatch(o.body, /Mine this cell|earn crypto|mine crypto/i);
@@ -59,6 +61,7 @@ test('/health and /economy expose the model', async () => {
   assert.equal(o.code, 200); const h = JSON.parse(o.body);
   assert.equal(h.live, false);                     // MOVE_LIVE not set
   assert.ok(Number.isFinite(h.epoch));
+  assert.ok(h.geoPrecision > 0);                   // block-map grid precision (cells/degree)
   ({ res, o } = cap()); await handler(req('/economy'), res);
   const ec = JSON.parse(o.body);
   assert.equal(ec.stakeWeighted, true);
