@@ -36,7 +36,7 @@ const EXAMPLE_SERVERS = [
     host: 'creative.example.com', version: '1.21.x', desc: 'Flat creative plots — temple builds, redstone, and showcases.',
     cam: '', tags: ['creative'] },
   { id: 'luanti', name: 'Van Kush Luanti', game: 'Luanti (Minetest)', edition: 'java',
-    host: 'luanti.example.com:30000', version: '5.x', desc: 'Our open-source voxel world — we own the rules here.',
+    host: 'luanti.example.com:30000', version: '5.x', desc: 'Open-source voxel sandbox (Luanti / Minetest) — build and explore.',
     cam: '', tags: ['open-source'] },
 ];
 
