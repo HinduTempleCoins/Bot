@@ -1,0 +1,46 @@
+{
+  "title": "Architecture & Building — the vocabulary Hathor builds and reasons from",
+  "purpose": "A knowledge dataset Hathor draws on (integrations/deliberation.mjs retriever) and the Mason (integrations/mason.mjs) builds from. Operator 2026-06-20: 'get some architecture and things into the datasets, and have her start drawing from the datasets in the repo.' Maps real architectural tradition to her Egyptian-angelic-vaporwave canon and to Minecraft block-building.",
+  "feeds": ["mason", "deliberation", "hierophant", "persona"],
+  "hierophant_xref": ["egyptian-temple", "sacred-geometry", "convergence-temple-technology"],
+  "sources": [
+    "Banister Fletcher, A History of Architecture",
+    "Dieter Arnold, The Encyclopaedia of Ancient Egyptian Architecture",
+    "Vitruvius, De architectura (firmitas, utilitas, venustas; the orders)",
+    "Flinders Petrie, architectural survey notes (Giza, temples)",
+    "public-domain Minecraft building convention (palettes, depth, symmetry)"
+  ],
+  "principles": [
+    { "name": "firmitas / utilitas / venustas", "note": "Vitruvius: a built thing must be sound, useful, and beautiful. Hathor judges a build by all three." },
+    { "name": "symmetry & axis", "note": "A central axis with mirrored sides reads as ORDER and the sacred — the Egyptian and classical signature. The Mason's gateway is axial and symmetric on purpose." },
+    { "name": "proportion", "note": "Repeated ratios (the column-to-capital, the bay spacing) make a structure feel intentional rather than placed. Prefer odd central spans so there is a true center." },
+    { "name": "threshold", "note": "A gateway/pylon FRAMES — it separates the sacred from the profane; you pass THROUGH it changed. Hathor's gateway is a threshold, not a wall." },
+    { "name": "depth & relief", "note": "In Minecraft, flat walls read as cheap; insets, trims, and a 1-block relief (a wesekh band, a cornice) give 'intricacy'. Layering blocks of one family + a metal accent is the trick." },
+    { "name": "light as material", "note": "Glow (sea-lantern, froglight, glowstone) is a building material, not an afterthought — a crowned light marks the holy point." }
+  ],
+  "egyptian_temple_grammar": {
+    "pylon": "The monumental trapezoidal gateway flanking a temple entrance — Hathor's 'gateway' structure is its descendant.",
+    "hypostyle_hall": "A forest of columns (papyrus/lotus/Hathor-headed capitals) holding the roof — the 'pillar' multiplied; awe by repetition.",
+    "obelisk": "A tapering monolith capped in electrum to catch the first sun — a tall accent + a gold/glow cap (the 'pillar' capital).",
+    "wesekh_collar": "The broad jeweled collar of gods and pharaohs — gold and lapis registers — the motif the Mason's wesekhBand band quotes.",
+    "Hathor_column": "Columns crowned with the face of Hathor (the sistrum capital) — her literal architectural signature; a future Mason builder."
+  },
+  "aesthetic_canon": {
+    "palette": "gold (Ra/eternity), lapis blue (the night sky, Nut), quartz/limestone (the white temple), amethyst & purpur (the vaporwave violet), neon glow (temple-as-technology).",
+    "vaporwave": "Neon violet + gold + chrome, grids and sunsets, the ancient rendered hyperreal — the Convergence frame: temple technology reconstructed. Pairs lapis-night with electric glow.",
+    "rule": "Identity is the SIGNATURE (gold+lapis on quartz, amethyst light, a glowing crown, symmetry), varied by choice — never drift into a generic build."
+  },
+  "mason_structures": [
+    { "key": "gateway", "tradition": "Egyptian pylon / triumphal threshold", "reads_as": "passage into the sacred" },
+    { "key": "pillar", "tradition": "column + obelisk (shaft, capital, crowning light)", "reads_as": "axis mundi, the standing witness" },
+    { "key": "altar", "tradition": "offering table / naos platform", "reads_as": "a place of focus and gift" },
+    { "key": "wesekhBand", "tradition": "the broad-collar jewel register", "reads_as": "ornament that names the divine" }
+  ],
+  "minecraft_building_notes": [
+    "Build in a PALETTE FAMILY (e.g., quartz: block + pillar + stairs + slab) plus ONE metal accent (gold) and ONE jewel (lapis/amethyst) — 3-4 materials, not 10.",
+    "Give walls depth: inset every other column, add a 1-block cornice/band, never a flat face.",
+    "Light from within and above; a crowned glow marks the holy point.",
+    "Odd spans (5, 7, 9 wide) so there is a true center to put the keystone.",
+    "Scale up by repeating bays (a colonnade) rather than enlarging one shape."
+  ]
+}
