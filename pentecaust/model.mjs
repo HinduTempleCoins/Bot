@@ -1,4 +1,4 @@
-// teams/model.mjs — MELEK Teams: the OPEN, cross-game group primitive (the social layer for all games).
+// pentecaust/model.mjs — Pentecaust Messaging: the OPEN, cross-game group primitive (Teams/Alliances/Clans).
 //
 // Operator (2026-06-20): "make our PM/DM system something like a game chat system, where a Clan or
 // Team or some sort could be formed and they can chat in-game, out-of-game, or from different games…

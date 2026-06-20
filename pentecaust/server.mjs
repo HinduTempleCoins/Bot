@@ -1,13 +1,17 @@
-// teams/server.mjs — MELEK Teams API + reference chat client (the game chat front door).
+// pentecaust/server.mjs — Pentecaust Messaging API + reference chat client (the game chat front door).
 //
-// The HTTP surface every game/surface calls to form a Team/Alliance/Clan and chat — in-game, on the web,
-// across games. Wraps model.mjs (roster) + messaging.mjs (channels + DM). Same edge discipline as the
-// trollbox chat-server: CORS allowlist, a per-client rate-limit bucket, soft-fail-never-throw, no keys.
+// Pentecaust Messaging (pentecaust.com) — MELEK's cross-game chat: the descent of tongues where every
+// nation hears in its OWN language, here one MELEK account understood across every game and surface. The
+// HTTP surface every game calls to form a Team/Alliance/Clan and chat — in-game, on the web, across games.
+// Wraps model.mjs (roster) + messaging.mjs (channels + DM). Same edge discipline as the trollbox
+// chat-server: CORS allowlist, per-client rate-limit, soft-fail-never-throw, no keys.
 //
-// IDENTITY / TRUST BOUNDARY (alpha): this layer accepts an asserted MELEK `account`, exactly like the
-// Move app accepts a username — fine for testnet/alpha. Production fronts these writes with a MELEK-Signer
-// -issued bearer token (the same boundary as every other write) so `account` can't be spoofed; that token
-// check slots in at handler entry without changing the routes. No private key is ever seen here.
+// IDENTITY / TRUST BOUNDARY (load-bearing): private data (DMs, inbox, team-chat history) and any act-as-
+// account write are tied to a VERIFIED identity — NEVER to an attacker-controllable query/body field, or
+// anyone reads anyone's DMs by naming them (IDOR). A verifier is injected (__setAuthVerifier) that validates
+// a MELEK-Signer bearer token / session and returns the certified account. Identity resolution DENIES by
+// default (401); TEAMS_DEV_TRUST_QUERY=1 — local dev / tests ONLY, never a public origin — trusts the
+// asserted value so the reference client and the offline suite work. No private key is ever seen here.
 //
 //   API (JSON):
 //     GET  /health                          GET  /teams           (directory)        GET /teams/:id
@@ -19,7 +23,7 @@
 //     GET  /dm?me=&with=&since=             POST /dm {from,to,text,game,surface}      GET /inbox?account=
 //     GET  /                                the reference chat UI (also a drop-in web client)
 //
-//   PORT=8157 BASE_URL=https://teams.melek.salon node teams/server.mjs
+//   PORT=8157 BASE_URL=https://pentecaust.com node pentecaust/server.mjs
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -30,11 +34,25 @@ import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
-const BASE_URL = (process.env.BASE_URL || 'https://teams.melek.salon').replace(/\/$/, '');
+const BASE_URL = (process.env.BASE_URL || 'https://pentecaust.com').replace(/\/$/, '');
 const _norm = (s) => String(s || '').trim().replace(/\/$/, '');
-const ALLOWED = new Set((process.env.TEAMS_ALLOWED_ORIGINS ||
-  'https://alpha.melek.salon,https://pool.soapbox.community,https://teams.melek.salon,https://move.melek.salon')
+const ALLOWED = new Set((process.env.PENTECAUST_ALLOWED_ORIGINS || process.env.TEAMS_ALLOWED_ORIGINS ||
+  'https://alpha.melek.salon,https://pool.soapbox.community,https://pentecaust.com,https://move.melek.salon')
   .split(',').map(_norm).filter(Boolean));
+
+// ── identity (the trust boundary) ───────────────────────────────────────────────────────────────────
+// Resolve the ACTING account from a VERIFIED source, never from an attacker-controllable query/body field.
+// Production injects a verifier (validates a MELEK-Signer bearer token / session → certified account).
+// Until then identity DENIES by default (401); PENTECAUST_DEV_TRUST=1 (local dev / tests ONLY, never a
+// public origin) falls back to the asserted value so the reference client and the offline suite work.
+let _verifyAuth = null;
+export function __setAuthVerifier(fn) { _verifyAuth = typeof fn === 'function' ? fn : null; }
+const DEV_TRUST = () => process.env.PENTECAUST_DEV_TRUST === '1' || process.env.TEAMS_DEV_TRUST_QUERY === '1';
+function whoami(req, asserted) {
+  if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? _acct(a) : null; } catch { return null; } }
+  if (DEV_TRUST()) return _acct(asserted);
+  return null;
+}
 
 // tiny per-client token bucket (self-contained; soft-fails open) — mirrors the trollbox limiter intent.
 const RL_BURST = +(process.env.TEAMS_RL_BURST || 40);
@@ -81,18 +99,29 @@ export async function handler(req, res) {
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
 
     // ── reads (GET) ──────────────────────────────────────────────────────────────────────────────
+    // The team directory + a single team's public profile are public (no private data).
     if (method === 'GET' && path === '/teams') return json(res, 200, { ok: true, teams: listTeams() }, origin);
-    if (method === 'GET' && path === '/me/teams') return json(res, 200, { ok: true, account: _acct(q.get('account')), teams: teamsForAccount(q.get('account')) }, origin);
-    if (method === 'GET' && path === '/inbox') return json(res, 200, { ok: true, account: _acct(q.get('account')), threads: inboxFor(q.get('account')) }, origin);
+
+    // PRIVATE reads — must be the authenticated account, never a named one (IDOR guard).
+    if (method === 'GET' && path === '/me/teams') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, teams: teamsForAccount(me) }, origin);
+    }
+    if (method === 'GET' && path === '/inbox') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, threads: inboxFor(me) }, origin);
+    }
     if (method === 'GET' && path === '/dm') {
-      const me = _acct(q.get('me')); const wth = _acct(q.get('with'));
-      if (!me || !wth) return json(res, 422, { ok: false, reason: 'me and with required' }, origin);
+      const me = whoami(req, q.get('me')); if (!me) return unauth(res, origin);
+      const wth = _acct(q.get('with'));
+      if (!wth) return json(res, 422, { ok: false, reason: 'with required' }, origin);
       return json(res, 200, readDM(me, wth, { since: +q.get('since') || 0, tail: !q.get('since') }), origin);
     }
     const segs = path.split('/').filter(Boolean);
     if (method === 'GET' && segs[0] === 'teams' && segs[1] && segs[2] === 'chat') {
-      const id = segs[1]; const account = _acct(q.get('account'));
-      if (!account || !isMember(id, account)) return json(res, 403, { ok: false, reason: 'team members only' }, origin);
+      const id = segs[1]; const me = whoami(req, q.get('account'));
+      if (!me) return unauth(res, origin);
+      if (!isMember(id, me)) return json(res, 403, { ok: false, reason: 'team members only' }, origin);
       const team = getTeam(id);
       return json(res, 200, { ok: true, team, ...readTeam(id, { since: +q.get('since') || 0, tail: !q.get('since') }) }, origin);
     }
@@ -106,29 +135,35 @@ export async function handler(req, res) {
       const raw = await readBody(req); if (raw == null) return json(res, 400, { ok: false, reason: 'bad-body' }, origin);
       let b = {}; try { b = JSON.parse(raw || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad-json' }, origin); }
 
-      if (path === '/teams') return json(res, 200, createTeam(b), origin);
-      if (path === '/dm') return json(res, 200, postDM(b), origin);
+      // The acting identity is ALWAYS the verified account — never a body field that claims to be someone
+      // else. (In dev-trust mode `who` falls back to the route's own actor field for the offline suite.)
+      const who = (asserted) => whoami(req, asserted);
+
+      if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
+      if (path === '/dm') { const me = who(b.from); if (!me) return unauth(res, origin); return json(res, 200, postDM({ ...b, from: me }), origin); }
 
       if (segs[0] === 'teams' && segs[1]) {
         const id = segs[1]; const op = segs[2];
-        if (op === 'join') return json(res, 200, joinTeam(id, b.account), origin);
-        if (op === 'leave') return json(res, 200, leaveTeam(id, b.account), origin);
-        if (op === 'kick') return json(res, 200, kick(id, b.actor, b.account), origin);
-        if (op === 'role') return json(res, 200, setRole(id, b.actor, b.account, b.role), origin);
-        if (op === 'approve') return json(res, 200, approve(id, b.actor, b.account), origin);
-        if (op === 'invite') return json(res, 200, invite(id, b.actor, b.account), origin);
-        if (op === 'motd') return json(res, 200, setMotd(id, b.actor, b.text), origin);
-        if (op === 'chat') return json(res, 200, postTeamMessage({ teamId: id, from: b.from, text: b.text, game: b.game, surface: b.surface }), origin);
+        const actor = who(b.actor); const acct = who(b.account);  // member ops act AS b.account; admin ops AS b.actor
+        if (op === 'join') { if (!acct) return unauth(res, origin); return json(res, 200, joinTeam(id, acct), origin); }
+        if (op === 'leave') { if (!acct) return unauth(res, origin); return json(res, 200, leaveTeam(id, acct), origin); }
+        if (op === 'kick') { if (!actor) return unauth(res, origin); return json(res, 200, kick(id, actor, b.account), origin); }
+        if (op === 'role') { if (!actor) return unauth(res, origin); return json(res, 200, setRole(id, actor, b.account, b.role), origin); }
+        if (op === 'approve') { if (!actor) return unauth(res, origin); return json(res, 200, approve(id, actor, b.account), origin); }
+        if (op === 'invite') { if (!actor) return unauth(res, origin); return json(res, 200, invite(id, actor, b.account), origin); }
+        if (op === 'motd') { if (!actor) return unauth(res, origin); return json(res, 200, setMotd(id, actor, b.text), origin); }
+        if (op === 'chat') { const me = who(b.from); if (!me) return unauth(res, origin); return json(res, 200, postTeamMessage({ teamId: id, from: me, text: b.text, game: b.game, surface: b.surface }), origin); }
       }
     }
     return json(res, 404, { ok: false, reason: 'not-found' }, origin);
   } catch { return json(res, 500, { ok: false, reason: 'error' }, origin); }
 }
 const _acct = (s) => String(s || '').trim().toLowerCase();
+const unauth = (res, origin) => json(res, 401, { ok: false, reason: 'authentication required (no verified MELEK identity)' }, origin);
 
 // ── reference chat UI (self-contained; also the drop-in web client) ─────────────────────────────────
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Teams — Game Chat</title>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>Pentecaust Messaging — MELEK Game Chat</title>
 <style>
  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff}
  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:14px}
@@ -145,8 +180,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  .mut{color:var(--mut);font-size:12px}.tabs{display:flex;gap:6px;margin-bottom:8px}.tabs button{flex:0 0 auto;padding:6px 12px;font-size:13px}.tabs button.on{background:var(--gold);color:#1a1306;border-color:var(--gold)}
  a{color:var(--gold)}
 </style></head><body><div class=wrap>
-<div class=brand><b>MELEK</b> Teams<span class=alpha>Alpha</span></div>
-<p class=mut>One team, one chat — across every MELEK game. Form a <b>Team</b> / <b>Alliance</b> / <b>Clan</b>, talk in-game, out-of-game, or from a different game entirely.</p>
+<div class=brand><b>Pentecaust</b> Messaging<span class=alpha>Alpha</span></div>
+<p class=mut>One account, one chat — understood across every MELEK game. Form a <b>Team</b> / <b>Alliance</b> / <b>Clan</b> and talk in-game, out-of-game, or from a different game entirely.</p>
 
 <div class=card>
  <label>Your MELEK account</label><input id=me placeholder=your-melek-name autocapitalize=off spellcheck=false>
@@ -189,5 +224,5 @@ $('text').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click();})
 </script></body></html>`;
 
 if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
-  createServer(handler).listen(PORT, HOST, () => console.log(`MELEK Teams API + chat on http://${HOST}:${PORT} (${BASE_URL})`));
+  createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; DEV ONLY)' : ''}`));
 }

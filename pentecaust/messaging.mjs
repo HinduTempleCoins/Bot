@@ -1,4 +1,4 @@
-// teams/messaging.mjs — MELEK Teams chat: cross-game channels + 1:1 PM/DM.
+// pentecaust/messaging.mjs — Pentecaust Messaging chat: cross-game team channels + 1:1 PM/DM.
 //
 // The chat half of the team system. Two channel kinds, both keyed to MELEK account names (the one
 // cross-game identity), so a member talks to their team or to a friend from ANY surface — in a PRANA
