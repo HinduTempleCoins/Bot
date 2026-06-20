@@ -87,6 +87,7 @@ function proposeIntent(weighed, ctx) {
   if (!top) return { action: 'observe', why: 'nothing pressing' };
   const t = top.text.toLowerCase();
   if (top.tags && top.tags.includes('threat')) return { action: 'wary', why: 'something feels wrong' };
+  if (top.tags && top.tags.includes('urgent')) return { action: 'alert', why: 'something urgent is happening' };
   if (/blocks away/.test(t)) return { action: 'greet-or-approach', why: 'someone is near' };
   if (/hurt|health/.test(t)) return { action: 'tend-self', why: 'I am hurt' };
   if (/stands|structure|gateway|altar|tower/.test(t)) return { action: 'regard-structure', why: 'a built thing draws the eye' };
