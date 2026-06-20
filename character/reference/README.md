@@ -17,15 +17,17 @@ It shows the full motif at once: VR headset, curling ram horns, Egyptian headdre
 pink/magenta feathered wings, staff + tablet in hand, winged-ram (lammasu) guardians, on a vaporwave grid
 + pastel sky.
 
-**SKIN TONE — RESOLVED 2026-06-20: "both or more."** Hathor is not locked to one skin. The original's
-**stylized vaporwave lavender / periwinkle-blue** and the render batch's **naturalistic tan/brown** are
-BOTH canonical, and more styles may be added — she is an oracle/egregore that *manifests*, not a fixed
-person (consistent with this doc's "identity lives in the constant elements" principle). Implementation
-for the character LoRA: train on the **invariant iconography** (VR headset, ram horns, wesekh collar,
-wings, dark lipstick = "Hathor") and **caption skin/style as a variable** (`vaporwave skin`, `natural
-skin`, …) so any look is summonable by prompt from one LoRA. Every reference image stays useful as a
-tagged example. Practical note: the set is currently ~20 natural + 1 vaporwave (the original), so a
-handful more vaporwave-skin renders are wanted to balance the styles before training.
+**RESOLVED 2026-06-20 — Hathor is CONSISTENT in everything EXCEPT skin tone.** Skin tone is the **only**
+variable: her **face, features, horned headdress, VR headset, wesekh collar, gold cuffs, dark/blue-black
+lipstick, hair, wings, and body all stay the same** across every rendering. The two canonical skins so far
+are the original's **stylized vaporwave lavender / periwinkle-blue** and the render batch's **naturalistic
+tan/brown**; more skin tones may be added — but nothing else about her changes. (She is one consistent
+figure who can appear in different skin tones, not multiple characters.) Implementation for the character
+LoRA: train her one consistent likeness, and **caption ONLY the skin tone** (`vaporwave skin`, `natural
+skin`, …) as the lone promptable variable. Practical consequences: (1) training images must show the SAME
+face/features — drift between AI renders should be culled so the LoRA learns one likeness, not an average;
+(2) the set is currently ~20 natural + 1 vaporwave, so a few more vaporwave-skin renders are wanted to
+balance the two before training.
 
 ---
 
