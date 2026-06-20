@@ -35,7 +35,7 @@ vol = modal.Volume.from_name("hathor-lora", create_if_missing=True)  # adapters 
 def train(jsonl_text: str):
     """Train a LoRA adapter on the provided JSONL (one {"text": ...} per line). Returns a summary."""
     import json
-    from unsloth import FastLanguageModel
+    from unsloth import FastLanguageModel, is_bfloat16_supported
     from datasets import Dataset
     from trl import SFTTrainer
     from transformers import TrainingArguments
@@ -60,7 +60,10 @@ def train(jsonl_text: str):
         args=TrainingArguments(
             per_device_train_batch_size=2, gradient_accumulation_steps=4,
             warmup_steps=10, max_steps=MAX_STEPS, learning_rate=2e-4,
-            fp16=True, logging_steps=10, optim="adamw_8bit", output_dir="/tmp/out",
+            # match the model's loaded precision — Unsloth loads bf16 where supported, and the
+            # SFTTrainer rejects fp16=True against a bf16 model (the crash on 2026-06-19).
+            fp16=not is_bfloat16_supported(), bf16=is_bfloat16_supported(),
+            logging_steps=10, optim="adamw_8bit", output_dir="/tmp/out",
         ),
     )
     trainer.train()
