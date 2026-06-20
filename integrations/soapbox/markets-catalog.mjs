@@ -46,6 +46,11 @@ export const CRYPTO_EXCHANGES = [
   { name: 'CoinList', url: 'https://coinlist.co', type: 'CEX', asset: 'crypto', us: 'partial', note: 'US token launches/staking; some assets state-restricted.' },
   { name: 'Coinmama', url: 'https://www.coinmama.com', type: 'CEX', asset: 'crypto', us: 'partial', note: 'Brokerage on-ramp; varies by state.' },
   { name: 'Bullish', url: 'https://bullish.com', type: 'CEX', asset: 'crypto', us: 'unknown', note: 'Institutional-leaning; US retail status varies — verify.' },
+  { name: 'Uphold', url: 'https://uphold.com', type: 'CEX', asset: 'crypto', us: 'full', api: 'public+trade', kyc: 'standard', note: 'US multi-asset (crypto/metals/equities); has a trading API + many pairs — useful arb leg.' },
+  { name: 'Strike', url: 'https://strike.me', type: 'CEX', asset: 'crypto', us: 'full', api: 'limited', kyc: 'standard', note: 'BTC + lightning, low fees; API limited.' },
+  { name: 'Swan Bitcoin', url: 'https://www.swanbitcoin.com', type: 'CEX', asset: 'crypto', us: 'full', api: 'limited', kyc: 'standard', note: 'US BTC-only accumulation broker.' },
+  { name: 'CEX.IO', url: 'https://cex.io', type: 'CEX', asset: 'crypto', us: 'partial', api: 'public+trade', kyc: 'standard', note: 'US-accessible in many states; full REST/WebSocket trading API.' },
+  { name: 'Coinbase Derivatives', url: 'https://www.coinbase.com/derivatives', type: 'CEX', asset: 'crypto', us: 'partial', api: 'public+trade', kyc: 'standard', note: 'CFTC-regulated US crypto futures (ex-FairX); eligibility-gated.' },
 
   // — Global majors, generally US-RESTRICTED —
   { name: 'Binance', url: 'https://www.binance.com', type: 'CEX', asset: 'crypto', us: 'no', note: 'Global entity blocks US persons; US users routed to Binance.US.' },
@@ -91,6 +96,10 @@ export const CRYPTO_EXCHANGES = [
   { name: 'Velodrome', url: 'https://velodrome.finance', type: 'DEX', asset: 'crypto', us: 'partial', note: 'Optimism AMM.' },
   { name: 'THORChain', url: 'https://thorchain.org', type: 'DEX', asset: 'crypto', us: 'partial', note: 'Cross-chain native-asset swaps (no wrapping).' },
   { name: 'Osmosis', url: 'https://osmosis.zone', type: 'DEX', asset: 'crypto', us: 'partial', note: 'Cosmos-ecosystem AMM.' },
+  { name: 'CoW Swap', url: 'https://swap.cow.fi', type: 'DEX', asset: 'crypto', us: 'partial', api: 'public+order', kyc: 'none', note: 'MEV-protected intent/aggregator (CoW Protocol); batch auctions; solver API.' },
+  { name: 'Matcha (0x)', url: 'https://matcha.xyz', type: 'DEX', asset: 'crypto', us: 'partial', api: 'public+swap', kyc: 'none', note: '0x-powered DEX aggregator; the 0x Swap API is a clean programmatic route.' },
+  { name: 'Meteora', url: 'https://www.meteora.ag', type: 'DEX', asset: 'crypto', us: 'partial', api: 'public', kyc: 'none', note: 'Solana DLMM/dynamic-pool AMM; deep memecoin + major liquidity.' },
+  { name: 'Camelot', url: 'https://camelot.exchange', type: 'DEX', asset: 'crypto', us: 'partial', api: 'public', kyc: 'none', note: 'Arbitrum-native AMM; launch liquidity hub.' },
 
   // — Our ecosystem (Hive-Engine / Graphene) —
   { name: 'Hive-Engine', url: 'https://hive-engine.com', type: 'DEX', asset: 'crypto', us: 'partial', note: 'OUR ecosystem — layer-2 token DEX on Hive; non-custodial via Hive keys. Lists VKBT/CURE etc.' },
