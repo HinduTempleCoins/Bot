@@ -1,9 +1,12 @@
-// server.test.mjs — MELEK Teams API. OFFLINE. Temp roster + chat files via env; never throws.
+// server.test.mjs — Pentecaust Messaging API. OFFLINE. Temp roster + chat files via env; never throws.
+// DEV_TRUST is ON so most tests can assert identity via query/body; the auth tests below flip a verifier
+// on to prove production behaviour (verified identity only; the IDOR is closed).
 import { test } from 'node:test';
 import assert from 'node:assert';
 process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
-const { handler } = await import('./server.mjs');
+process.env.PENTECAUST_DEV_TRUST = '1';
+const { handler, __setAuthVerifier } = await import('./server.mjs');
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -17,10 +20,10 @@ function req(path, method = 'GET', bodyObj) {
 }
 const j = (o) => JSON.parse(o.body);
 
-test('GET / serves the game-chat UI (Team/Alliance/Clan, Alpha)', async () => {
+test('GET / serves the Pentecaust game-chat UI (Team/Alliance/Clan, Alpha)', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
-  assert.match(o.body, /MELEK<\/b> Teams|MELEK Teams/);
+  assert.match(o.body, /Pentecaust<\/b> Messaging/);
   assert.match(o.body, /Alliance/); assert.match(o.body, /Clan/);
   assert.match(o.body, /Alpha/);
   assert.match(o.body, /Direct message/);          // PM/DM present
@@ -88,8 +91,40 @@ test('CORS preflight 204; malformed json 400; validation ok:false; unknown route
   assert.equal(o.code, 204);
   ({ res, o } = cap()); await handler(rawReq('/teams', 'POST', '{not json'), res);   // malformed → 400
   assert.equal(o.code, 400); assert.match(j(o).reason, /json/);
-  ({ res, o } = cap()); await handler(req('/teams', 'POST', { name: 'x' }), res);     // no owner → validation
+  ({ res, o } = cap()); await handler(req('/teams', 'POST', { name: 'x', owner: 'ryan' }), res); // has identity, bad name → validation
   assert.equal(o.code, 200); assert.equal(j(o).ok, false);
+  ({ res, o } = cap()); await handler(req('/teams', 'POST', { name: 'No Identity' }), res);       // no owner → no identity → 401
+  assert.equal(o.code, 401);
   ({ res, o } = cap()); await handler(req('/nope'), res);
   assert.equal(o.code, 404);
+});
+
+// ── security: identity comes from a VERIFIED source, never a named query/body field (IDOR closed) ──
+test('a verified identity cannot be impersonated — naming someone else does not leak their DMs', async () => {
+  // alex (verified) sends steve a DM
+  __setAuthVerifier(() => 'alex');
+  let { res, o } = cap(); await handler(req('/dm', 'POST', { to: 'steve', text: 'secret plans' }), res);
+  assert.equal(j(o).ok, true);
+  // now mallory is the verified caller and tries to read alex↔steve by claiming ?me=alex — must NOT work
+  __setAuthVerifier(() => 'mallory');
+  ({ res, o } = cap()); await handler(req('/dm?me=alex&with=steve'), res);
+  assert.equal(o.code, 200);
+  assert.deepEqual(j(o).messages, []);              // mallory sees her own (empty) thread, not alex's
+  // and the DM is written AS the verified account, not the body's `from`
+  ({ res, o } = cap()); await handler(req('/dm', 'POST', { from: 'alex', to: 'steve', text: 'forged' }), res);
+  assert.equal(j(o).message.from, 'mallory');        // from is the verified caller, not the claimed 'alex'
+  __setAuthVerifier(null);
+});
+
+test('no verified identity → private reads/writes are 401 (deny by default)', async () => {
+  __setAuthVerifier(() => null);                     // a verifier is present but certifies no one
+  for (const p of ['/inbox?account=alex', '/me/teams?account=alex', '/dm?me=alex&with=steve']) {
+    const { res, o } = cap(); await handler(req(p), res);
+    assert.equal(o.code, 401, `${p} must require auth`);
+  }
+  const { res, o } = cap(); await handler(req('/dm', 'POST', { to: 'steve', text: 'x' }), res);
+  assert.equal(o.code, 401);
+  // the public team directory stays open (no private data)
+  const c2 = cap(); await handler(req('/teams'), c2.res); assert.equal(c2.o.code, 200);
+  __setAuthVerifier(null);
 });
