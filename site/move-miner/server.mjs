@@ -104,6 +104,11 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   .out{margin-top:10px;font-size:13px;color:var(--mut);white-space:pre-wrap;word-break:break-word}
   .reward{color:var(--green);font-weight:700} .err{color:#e08b8b}
   .cell{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--blue)}
+  .blockmap{width:100%;max-width:360px;aspect-ratio:1/1;display:block;margin:4px auto 6px;border:1px solid var(--bd);border-radius:14px;background:#0e131b;touch-action:none}
+  .legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:11px;color:var(--mut);margin:0 0 6px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--bd)}
+  .legend i.here{background:rgba(217,164,65,.28);border-color:var(--gold)} .legend i.mined{background:rgba(54,192,138,.22);border-color:var(--green)}
+  .legend i.you{border-radius:50%;background:var(--green);border-color:#0b0d12}
   footer{color:var(--mut);font-size:12px;text-align:center;margin-top:20px}
   a{color:var(--gold)}
 </style></head><body><div class=wrap>
@@ -135,6 +140,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <div class=card>
   <h2>📍 Reward zone <span style="font-weight:400;color:var(--mut);font-size:12px">(boosted by your steps)</span></h2>
   <div class=sub id=geosub>claim the zone you're standing in — the more you walked, the bigger your share of this hour's MELEK reward pool</div>
+  <canvas id=map class=blockmap width=320 height=320 role=img aria-label="Block map: the grid of reward blocks around you, your position, and the block you can claim"></canvas>
+  <div class=legend><span><i class=you></i>you</span><span><i class=here></i>block you can claim</span><span><i class=mined></i>claimed this hour</span></div>
   <div class=cell id=cell>location not read yet</div>
   <div class=row style="margin-top:10px">
     <button id=locate class=primary>Read my location</button>
@@ -152,7 +159,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const W=$('account'); W.value=localStorage.getItem('melekmove_account')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_account',W.value.trim().toLowerCase()));
-fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');}).catch(()=>{});
+fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');
+  if(j.geoPrecision>0){GEOP=j.geoPrecision;} drawMap();}).catch(()=>{});
 // MELEK Graphene account name: lowercase, dot segments, 3-16 each, no leading/trailing/double hyphen.
 function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.length>16)return true;
   for(const seg of v.split('.')){if(!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(seg)||seg.length<3||seg.length>16||seg.includes('--'))return true;}return false;}
@@ -177,22 +185,50 @@ $('startSteps').onclick=async()=>{
 $('plus50').onclick=()=>setSteps(steps+1000);
 
 // ---- geo (the earn action — boosted by steps, diminishing each hour, paid in MELEK) ----
-let coords=null;
+// Block map: the geo-mining grid drawn AROUND you. Self-contained canvas — no map tiles, no API key,
+// no network, works offline + in the store PWA. The "blocks" ARE the reward cells the chain pays on:
+// each block = one grid cell (1/GEOP degrees ≈ 100m at GEOP=1000), exactly matching cellIdFor() server-side.
+let coords=null, watchId=null, GEOP=1000;
+const minedCells=new Set();           // cellIds you've claimed this hour → drawn green
+const GRID_N=7;                       // blocks across the map (odd → you sit in the centre block)
+function cellIdx(lat,lng){return {la:Math.floor((lat+90)*GEOP),lo:Math.floor((lng+180)*GEOP)};}
+function cellId(la,lo){return (BigInt(la)*BigInt(360*GEOP+1)+BigInt(lo)).toString();}
+function drawMap(){
+  const cv=$('map'); if(!cv||!cv.getContext)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,N=GRID_N,mid=(N-1)/2,cs=W/N;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#0e131b'; ctx.fillRect(0,0,W,H);
+  if(!coords){ctx.fillStyle='#93a1b3';ctx.font='13px -apple-system,Segoe UI,Roboto,Arial';ctx.textAlign='center';
+    ctx.fillText('tap “Read my location” to map your blocks',W/2,H/2);return;}
+  const {la,lo}=cellIdx(coords.lat,coords.lng);
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const laI=la+(mid-r),loI=lo+(c-mid),x=c*cs,y=r*cs,here=(r===mid&&c===mid);
+    if(here){ctx.fillStyle='rgba(217,164,65,.28)';ctx.fillRect(x,y,cs,cs);}
+    else if(minedCells.has(cellId(laI,loI))){ctx.fillStyle='rgba(54,192,138,.22)';ctx.fillRect(x,y,cs,cs);}
+    ctx.strokeStyle=here?'#d9a441':'#222b38';ctx.lineWidth=here?2:1;ctx.strokeRect(x+0.5,y+0.5,cs-1,cs-1);
+  }
+  // your dot — fractional position inside the centre block (north is up, east is right)
+  const fE=((coords.lng+180)*GEOP)-lo,fN=((coords.lat+90)*GEOP)-la;
+  const dx=mid*cs+fE*cs,dy=mid*cs+(1-fN)*cs;
+  ctx.beginPath();ctx.arc(dx,dy,6,0,Math.PI*2);ctx.fillStyle='#36c08a';ctx.fill();
+  ctx.lineWidth=2;ctx.strokeStyle='#0b0d12';ctx.stroke();
+  ctx.fillStyle='#93a1b3';ctx.font='bold 11px -apple-system,Segoe UI,Roboto,Arial';ctx.textAlign='center';ctx.fillText('N',W/2,13);
+}
 $('locate').onclick=()=>{
   if(!navigator.geolocation){$('cell').textContent='geolocation unavailable on this device';return;}
-  $('cell').textContent='reading…';
-  navigator.geolocation.getCurrentPosition(p=>{
+  if(watchId!=null){navigator.geolocation.clearWatch(watchId);watchId=null;$('locate').textContent='Read my location';return;}
+  $('cell').textContent='reading…';$('locate').textContent='Tracking… (tap to stop)';
+  watchId=navigator.geolocation.watchPosition(p=>{
     coords={lat:p.coords.latitude,lng:p.coords.longitude};
     $('cell').textContent='you are at '+coords.lat.toFixed(5)+', '+coords.lng.toFixed(5);
-    $('mine').disabled=false;
-  },err=>{$('cell').textContent='location denied: '+E(err.message);},{enableHighAccuracy:true,timeout:10000});
+    $('mine').disabled=false; drawMap();
+  },err=>{$('cell').textContent='location denied: '+E(err.message);$('locate').textContent='Read my location';},{enableHighAccuracy:true,timeout:10000,maximumAge:2000});
 };
 $('mine').onclick=async()=>{
   if(badName()){$('geoOut').innerHTML='<span class=err>Enter your MELEK username first (or create one).</span>';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
   $('mine').disabled=true;$('geoOut').textContent='claiming…';
   try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:W.value.trim().toLowerCase(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
-    const j=await r.json(); renderOut('geoOut',j); }
+    const j=await r.json(); renderOut('geoOut',j); if(j&&j.ok&&j.cellId){minedCells.add(String(j.cellId));drawMap();} }
   catch(e){$('geoOut').innerHTML='<span class=err>Network error — try again.</span>';}
   $('mine').disabled=false;
 };
@@ -268,7 +304,7 @@ export async function handler(req, res) {
     const path = url.pathname;
     const method = (req.method || 'GET').toUpperCase();
 
-    if (path === '/health') return json(res, 200, { ok: true, live: liveMode(), epoch: epochNow() });
+    if (path === '/health') return json(res, 200, { ok: true, live: liveMode(), epoch: epochNow(), geoPrecision: GEO_PRECISION() });
     if (path === '/economy') return json(res, 200, { ok: true, ...economySummary() });
     if (path === '/manifest.webmanifest') { res.writeHead(200, { 'content-type': 'application/manifest+json' }); return res.end(MANIFEST); }
     if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript' }); return res.end(SW); }
