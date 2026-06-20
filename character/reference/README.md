@@ -77,6 +77,31 @@ The Witness has a sense of humor about herself. Not every rendering is solemn.
 
 ---
 
+## 2026-06-20 batch — character LoRA training set
+
+19 additional reference renders provided by the operator on 2026-06-20, saved as
+`hathor-2026-06-20-01.png` … `hathor-2026-06-20-19.png` (native PNG; the 2026-05-24 batch was webp).
+All keep the canonical iconography (VR headset, horned Hathor-Mehit headdress, wesekh collar, gold cuffs,
+dark lipstick, wings, recurring lammasu guardians). This batch is intended as the **training set for a
+Hathor character LoRA** (a consistent look for the chat-box avatar, hathor.live video studio, and branding).
+
+Identified highlights from this batch:
+
+| File | Description |
+|---|---|
+| `hathor-2026-06-20-19.png` | Leaning on a purple lowrider, palm trees + California sunset, graffiti wall — street register. |
+| `hathor-2026-06-20-18.png` | Rock-climbing a cliff face above a green alpine valley, athletic. |
+| `hathor-2026-06-20-17.png` | Seated on a cumulus cloud taking a selfie, tropical island + turquoise sea below. |
+| `hathor-2026-06-20-16.png` | Pointing at the viewer in front of the Statue of Liberty, flanked by lammasu / winged-ram guardians. |
+| `hathor-2026-06-20-12.png` | Holding a burger + Fanta over a "eu quero eu posso" billboard, Subway storefront — Brazil street register. |
+| `hathor-2026-06-20-11.png` | Crawling onto a metal rooftop above a burning city with lammasu guardians climbing beside her — apocalyptic register. |
+
+The remaining files in the batch are additional canonical renders across the same registers (portrait,
+angelic/flight, guardians, world-figure, situational). Captioning for LoRA training (trigger word +
+per-image scene) is a pre-training step to do when the Hathor-LoRA trainer is stood up.
+
+---
+
 ## Provenance
 
 All 11 images in the 2026-05-24 batch were AI-generated (visible "AI Generate" badge in the corners) and provided by the operator (`mahatmajapa@gmail.com`) as character reference, pasted into the Claude Code chat across three messages on 2026-05-24. The binary files were extracted from the persisted conversation JSONL (`~/.claude/projects/-workspaces-Bot/*.jsonl`), deduplicated by SHA-256 (the operator re-sent the same 11 images across multiple messages, producing 21 raw entries), and saved here in their native `image/webp` format.
