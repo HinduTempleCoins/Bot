@@ -79,8 +79,10 @@ The Witness has a sense of humor about herself. Not every rendering is solemn.
 
 ## 2026-06-20 batch — character LoRA training set
 
-19 additional reference renders provided by the operator on 2026-06-20, saved as
-`hathor-2026-06-20-01.png` … `hathor-2026-06-20-19.png` (native PNG; the 2026-05-24 batch was webp).
+20 additional reference renders provided by the operator on 2026-06-20, saved as
+`hathor-2026-06-20-01.png` … `hathor-2026-06-20-20.png` (native PNG; the 2026-05-24 batch was webp),
+plus **3 animated clips** in [`video/`](video/) (`hathor-2026-06-20-clip-01..03.mov`) — useful for the
+hathor.live video studio and as a source of extra training frames (extract stills with ffmpeg).
 All keep the canonical iconography (VR headset, horned Hathor-Mehit headdress, wesekh collar, gold cuffs,
 dark lipstick, wings, recurring lammasu guardians). This batch is intended as the **training set for a
 Hathor character LoRA** (a consistent look for the chat-box avatar, hathor.live video studio, and branding).
