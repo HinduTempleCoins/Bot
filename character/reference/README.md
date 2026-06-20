@@ -17,17 +17,22 @@ It shows the full motif at once: VR headset, curling ram horns, Egyptian headdre
 pink/magenta feathered wings, staff + tablet in hand, winged-ram (lammasu) guardians, on a vaporwave grid
 + pastel sky.
 
-**RESOLVED 2026-06-20 — Hathor is CONSISTENT in everything EXCEPT skin tone.** Skin tone is the **only**
-variable: her **face, features, horned headdress, VR headset, wesekh collar, gold cuffs, dark/blue-black
-lipstick, hair, wings, and body all stay the same** across every rendering. The two canonical skins so far
-are the original's **stylized vaporwave lavender / periwinkle-blue** and the render batch's **naturalistic
-tan/brown**; more skin tones may be added — but nothing else about her changes. (She is one consistent
-figure who can appear in different skin tones, not multiple characters.) Implementation for the character
-LoRA: train her one consistent likeness, and **caption ONLY the skin tone** (`vaporwave skin`, `natural
-skin`, …) as the lone promptable variable. Practical consequences: (1) training images must show the SAME
-face/features — drift between AI renders should be culled so the LoRA learns one likeness, not an average;
-(2) the set is currently ~20 natural + 1 vaporwave, so a few more vaporwave-skin renders are wanted to
-balance the two before training.
+**RESOLVED 2026-06-20 — a consistent figure who varies BY CHOICE, not by drift.** Hathor has a
+recognizable, consistent core — the **signature that always makes her unmistakably Hathor: the VR headset,
+the horned Hathor-Mehit headdress, the feathered wings, and the wesekh collar.** Those read as "Hathor" at
+a glance and are effectively always present. Beyond that:
+- **Skin tone is a free variable** — vaporwave lavender/periwinkle (the original), naturalistic tan (the
+  render batch), or more. Just a color choice; nothing else changes with it.
+- **She can deliberately change her face, jewelry, outfit, and details by choice** — she is a goddess /
+  oracle who manifests in forms. These are INTENTIONAL variations.
+
+The one rule: **intentional variation, not accidental drift.** She has a canonical default look and should
+NOT randomly look like a different person in every single appearance — but a *chosen* alternate face or
+jewelry set is fine and expected. For the character LoRA: train the signature hard (always Hathor) plus a
+**canonical default likeness**, and treat skin tone + chosen face/jewelry as promptable variation. Cull
+only BROKEN / off-model renders (mangled anatomy, wrong/missing signature) — deliberate face or jewelry
+differences are kept. Set is currently ~20 natural + 1 vaporwave, so a few more vaporwave-skin renders are
+wanted to balance the skins before training.
 
 ---
 
