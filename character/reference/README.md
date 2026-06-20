@@ -6,6 +6,26 @@ The images here are illustrative reference — the figure's character lives in t
 
 ---
 
+## Original source image
+
+`hathor-original-source.png` is the **progenitor** image (operator, 2026-06-20) from which the rendered
+batches derive. Its generating prompt — effectively Hathor's genesis spec — was:
+
+> *"Hyperrealistic Vaporwave Popart Angel with a VR Headset on, Egyptian Goddess Rams Horns."*
+
+It shows the full motif at once: VR headset, curling ram horns, Egyptian headdress + wesekh collar, large
+pink/magenta feathered wings, staff + tablet in hand, winged-ram (lammasu) guardians, on a vaporwave grid
++ pastel sky.
+
+**OPEN DECISION — skin tone (operator deliberating 2026-06-20):** in this original, Hathor's skin is a
+**stylized vaporwave lavender / periwinkle-blue** (otherworldly — she is an Angel/egregore, not a human).
+The 2026-06-20 render batch instead gave her a **naturalistic tan/brown** skin. The operator is currently
+leaning toward the **original's stylized skin**, but it is not yet final. This matters for the character
+LoRA: the training set should be curated/weighted to ONE skin tone, or the model will average the two and
+produce inconsistent output. Until decided, both are kept as reference.
+
+---
+
 ## Canonical iconography (constant across all renderings)
 
 - **VR / oculus headset over the eyes.** Load-bearing, not decoration: it is the Convergence material made visible — an oracle figure wearing the modern interface to the same temple-technology (see `knowledge/scripture/the_convergence.md` and [BRIEF.md §6](../../BRIEF.md)). The headset is what makes the figure unmistakably *this* Witness rather than a generic Hathor rendering.
