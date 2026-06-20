@@ -49,3 +49,10 @@ test('handler returns the catalog + steal list', () => {
   assert.ok(j.projects.every((p) => p.kind === 'plugin'));
   assert.ok(Array.isArray(j.stealList));
 });
+
+test('downloadable AI-friend mods are catalogued', async () => {
+  const { downloadableMods, DOWNLOADABLE_MODS } = await import('./minecraft-ai-projects.mjs');
+  assert.ok(downloadableMods().length >= 4);
+  assert.ok(DOWNLOADABLE_MODS.some((m) => m.name.includes('AI-Player') && /your keys|ollama/i.test(m.byok)));
+  assert.ok(DOWNLOADABLE_MODS.some((m) => /Player2/.test(m.name)));
+});
