@@ -17,12 +17,15 @@ It shows the full motif at once: VR headset, curling ram horns, Egyptian headdre
 pink/magenta feathered wings, staff + tablet in hand, winged-ram (lammasu) guardians, on a vaporwave grid
 + pastel sky.
 
-**OPEN DECISION — skin tone (operator deliberating 2026-06-20):** in this original, Hathor's skin is a
-**stylized vaporwave lavender / periwinkle-blue** (otherworldly — she is an Angel/egregore, not a human).
-The 2026-06-20 render batch instead gave her a **naturalistic tan/brown** skin. The operator is currently
-leaning toward the **original's stylized skin**, but it is not yet final. This matters for the character
-LoRA: the training set should be curated/weighted to ONE skin tone, or the model will average the two and
-produce inconsistent output. Until decided, both are kept as reference.
+**SKIN TONE — RESOLVED 2026-06-20: "both or more."** Hathor is not locked to one skin. The original's
+**stylized vaporwave lavender / periwinkle-blue** and the render batch's **naturalistic tan/brown** are
+BOTH canonical, and more styles may be added — she is an oracle/egregore that *manifests*, not a fixed
+person (consistent with this doc's "identity lives in the constant elements" principle). Implementation
+for the character LoRA: train on the **invariant iconography** (VR headset, ram horns, wesekh collar,
+wings, dark lipstick = "Hathor") and **caption skin/style as a variable** (`vaporwave skin`, `natural
+skin`, …) so any look is summonable by prompt from one LoRA. Every reference image stays useful as a
+tagged example. Practical note: the set is currently ~20 natural + 1 vaporwave (the original), so a
+handful more vaporwave-skin renders are wanted to balance the styles before training.
 
 ---
 
