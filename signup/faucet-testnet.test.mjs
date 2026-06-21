@@ -336,3 +336,43 @@ test('createAccount still ok when only the power-up broadcast fails (best-effort
   assert.equal(out.poweredUp, null);
   assert.match(out.powerError, /power-up-hiccup/);
 });
+
+// ── invite-wall gate (MELEK is invite-only when INVITE_REQUIRED is on) ───────────────────────────────
+test('invite gate ON: missing/invalid invite is refused (403) BEFORE any mint', async () => {
+  let minted = false;
+  const handler = makeHandler({
+    create: async () => { minted = true; return { ok: true, id: 'tx' }; },
+    limiter: freshLimiter(),
+    inviteRequired: () => true,
+    requireInvite: (code) => (code === 'good' ? { ok: true, code, inviter: 'hathor' } : { ok: false, reason: 'unknown invite code' }),
+    redeemInvite: () => ({ ok: true }),
+  });
+  const res = await call(handler, { body: JSON.stringify({ name: 'newbie', invite: 'bad' }) });
+  assert.equal(res.statusCode, 403);
+  assert.equal(res.body.reason, 'invite-required');
+  assert.equal(minted, false, 'no broadcast without a valid invite');
+});
+
+test('invite gate ON: a valid invite mints AND redeems the code (registers + grants 10)', async () => {
+  let redeemed = null;
+  const handler = makeHandler({
+    create: async (input) => ({ ok: true, id: 'tx', name: input.name }),
+    limiter: freshLimiter(),
+    inviteRequired: () => true,
+    requireInvite: (code) => (code === 'good' ? { ok: true, code, inviter: 'hathor' } : { ok: false, reason: 'bad' }),
+    redeemInvite: (code, account) => { redeemed = { code, account }; return { ok: true, account, granted: 10 }; },
+  });
+  const res = await call(handler, { body: JSON.stringify({ name: 'newbie', invite: 'good' }) });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.ok, true);
+  assert.deepEqual(redeemed, { code: 'good', account: 'newbie' });   // consumed only on a successful mint
+});
+
+test('invite gate OFF (default): signup works with no invite', async () => {
+  const handler = makeHandler({
+    create: async () => ({ ok: true, id: 'tx' }), limiter: freshLimiter(), inviteRequired: () => false,
+  });
+  const res = await call(handler, { body: JSON.stringify({ name: 'newbie' }) });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.ok, true);
+});

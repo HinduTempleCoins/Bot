@@ -40,6 +40,7 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { Client, PrivateKey } from '@hiveio/dhive';
 import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
+import { requireInvite as _requireInvite, redeemInvite as _redeemInvite } from './invites.mjs';
 
 // ── inlined key/name validators (mirrors signup/account-create.mjs; kept self-contained so the
 //    faucet has no cross-module import chain when deployed standalone on the testnet host) ──────
@@ -256,7 +257,15 @@ const MAX_BODY = 8192;
 // outcome) is offline-testable without a real chain client or creator key.
 //   create  — async (input) => { ok, id?, reason? }   (defaults to the live createAccount)
 //   limiter — a Limiter instance                       (defaults to the module faucetLimiter)
-export function makeHandler({ create = createAccount, limiter = faucetLimiter } = {}) {
+// Invite-wall (operator: MELEK is invite-only). Gated by INVITE_REQUIRED=1 so the gate ships OFF and
+// the operator flips it on once the invite tree is seeded (he is root and can always issue). Injectable
+// for tests. When ON: POST must carry a valid, unused `invite` code; on a successful mint the code is
+// redeemed (registers the new account in the tree + grants it its own 10 invites).
+export function makeHandler({
+  create = createAccount, limiter = faucetLimiter,
+  requireInvite = _requireInvite, redeemInvite = _redeemInvite,
+  inviteRequired = () => process.env.INVITE_REQUIRED === '1',
+} = {}) {
   return function handler(req, res) {
     if (req.method === 'OPTIONS') return send(res, 204, {});
     if (req.method === 'GET' && req.url.startsWith('/faucet/health')) {
@@ -289,9 +298,20 @@ export function makeHandler({ create = createAccount, limiter = faucetLimiter } 
         if (!rl.allowed) {
           return send(res, 429, { ok: false, reason: 'rate-limited', detail: rl.reason, retryAfter: rl.retryAfter });
         }
+        // invite-wall gate (when enabled): require a valid, unused invite BEFORE the costly broadcast.
+        const needInvite = typeof inviteRequired === 'function' ? inviteRequired() : !!inviteRequired;
+        const inviteCode = input && (input.invite || input.code);
+        if (needInvite) {
+          const chk = requireInvite(inviteCode);
+          if (!chk.ok) return send(res, 403, { ok: false, reason: 'invite-required', detail: chk.reason });
+        }
         try {
           const out = await create(input);
-          if (out && out.ok) limiter.record(rlKey); // count ONLY a successful broadcast
+          if (out && out.ok) {
+            limiter.record(rlKey); // count ONLY a successful broadcast
+            // redeem the invite: consume the code, register the account in the tree, grant it 10 invites.
+            if (needInvite && inviteCode) { try { redeemInvite(inviteCode, input.name); } catch { /* mint succeeded; never fail the response on bookkeeping */ } }
+          }
           return send(res, out.ok ? 200 : 400, out);
         } catch (e) {
           // Thrown error => no successful mint => no slot consumed.
