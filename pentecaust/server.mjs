@@ -86,6 +86,26 @@ function readBody(req, max = 16384) {
     req.on('end', () => resolve(over ? null : d)); req.on('error', () => resolve(null)); });
 }
 
+// ── chain follow graph (for the dashboard's "People You Follow") ────────────────────────────────────
+// Who an account follows is PUBLIC on-chain data — read it from the MELEK RPC (condenser_api.get_following)
+// so the friends list can surface the people you already follow. Injectable fetch for offline tests.
+const CHAIN_RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
+let _chainFetch = (...a) => globalThis.fetch(...a);
+export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
+async function chainFollow(method, account, pick) {
+  if (!account) return [];
+  try {
+    const r = await _chainFetch(CHAIN_RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method, params: [account, '', 'blog', 100], id: 1 }),
+    });
+    const j = await r.json();
+    return ((j && j.result) || []).map((x) => x && x[pick]).filter(Boolean);
+  } catch { return []; }
+}
+const getFollowing = (a) => chainFollow('condenser_api.get_following', a, 'following');  // who you follow
+const getFollowers = (a) => chainFollow('condenser_api.get_followers', a, 'follower');   // who follows you
+
 export async function handler(req, res) {
   const origin = req.headers ? req.headers.origin : undefined;
   let url; try { url = new URL(req.url, BASE_URL); } catch { return json(res, 400, { ok: false, reason: 'bad-url' }, origin); }
@@ -101,6 +121,17 @@ export async function handler(req, res) {
     // ── reads (GET) ──────────────────────────────────────────────────────────────────────────────
     // The team directory + a single team's public profile are public (no private data).
     if (method === 'GET' && path === '/teams') return json(res, 200, { ok: true, teams: listTeams() }, origin);
+    // Following / Followers — public chain follow graph (no private data) for the friends list groups.
+    if (method === 'GET' && path === '/following') {
+      const a = _acct(q.get('account'));
+      if (!a) return json(res, 422, { ok: false, reason: 'account required' }, origin);
+      return json(res, 200, { ok: true, account: a, following: await getFollowing(a) }, origin);
+    }
+    if (method === 'GET' && path === '/followers') {
+      const a = _acct(q.get('account'));
+      if (!a) return json(res, 422, { ok: false, reason: 'account required' }, origin);
+      return json(res, 200, { ok: true, account: a, followers: await getFollowers(a) }, origin);
+    }
 
     // PRIVATE reads — must be the authenticated account, never a named one (IDOR guard).
     if (method === 'GET' && path === '/me/teams') {
@@ -161,66 +192,146 @@ export async function handler(req, res) {
 const _acct = (s) => String(s || '').trim().toLowerCase();
 const unauth = (res, origin) => json(res, 401, { ok: false, reason: 'authentication required (no verified MELEK identity)' }, origin);
 
-// ── reference chat UI (self-contained; also the drop-in web client) ─────────────────────────────────
+// ── dashboard UI (AIM-style: Messages/Friends first · Email · Channels) — also the drop-in web client ──
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><title>Pentecaust Messaging — MELEK Game Chat</title>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>Pentecaust — MELEK Messaging</title>
 <style>
  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff}
  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:14px}
- .wrap{max-width:760px;margin:0 auto}.brand{font-size:20px;font-weight:800}.brand b{color:var(--gold)}.alpha{font-size:10px;font-weight:700;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 7px;margin-left:8px}
- .card{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0}
- label{font-size:12px;color:var(--mut);display:block;margin:6px 0 4px}
- input,select{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:#0e131b;color:var(--fg);font:inherit}
- .row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
- button{padding:10px;border-radius:9px;border:1px solid var(--bd);background:#0e131b;color:var(--fg);font:inherit;font-weight:700;cursor:pointer}
- button.primary{background:var(--gold);color:#1a1306;border-color:var(--gold)}button.green{background:var(--green);color:#062018;border-color:var(--green)}
- .feed{height:300px;overflow:auto;background:#0e131b;border:1px solid var(--bd);border-radius:10px;padding:10px;margin:8px 0;font-size:14px}
- .msg{margin:4px 0}.msg .who{color:var(--gold);font-weight:700}.msg .src{color:var(--blue);font-size:11px}.msg.dm .who{color:var(--green)}
- .pill{font-size:11px;color:var(--mut);border:1px solid var(--bd);border-radius:6px;padding:1px 6px;margin-left:6px}
- .mut{color:var(--mut);font-size:12px}.tabs{display:flex;gap:6px;margin-bottom:8px}.tabs button{flex:0 0 auto;padding:6px 12px;font-size:13px}.tabs button.on{background:var(--gold);color:#1a1306;border-color:var(--gold)}
- a{color:var(--gold)}
+ .wrap{max-width:880px;margin:0 auto}
+ header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+ .brand{font-size:20px;font-weight:800}.brand b{color:var(--gold)}.alpha{font-size:10px;font-weight:700;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 7px}
+ .me{margin-left:auto;display:flex;gap:4px;align-items:center}.me .at{color:var(--mut)}.me input{width:150px;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:#0e131b;color:var(--fg);font:inherit}
+ .nav{display:flex;gap:4px;margin:10px 0 14px;border-bottom:1px solid var(--bd)}
+ .nav button{padding:9px 16px;border:0;border-bottom:2px solid transparent;background:none;color:var(--mut);font:inherit;font-weight:700;cursor:pointer}
+ .nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
+ .card{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px}
+ input,select{padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:#0e131b;color:var(--fg);font:inherit;width:100%}
+ .btn{padding:9px 12px;border-radius:9px;border:1px solid var(--bd);background:#0e131b;color:var(--fg);font:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
+ .btn.primary{background:var(--gold);color:#1a1306;border-color:var(--gold)}.btn.green{background:var(--green);color:#062018;border-color:var(--green)}
+ .btn:disabled{opacity:.5}
+ .row{display:flex;gap:8px}.row>input{flex:1}
+ .im{display:flex;gap:12px}.friends{width:230px;flex:0 0 230px}.thread{flex:1;min-width:0}
+ .flist{margin-top:8px;max-height:330px;overflow:auto}
+ .flabel{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);font-weight:700;margin:10px 0 5px}.flabel:first-child{margin-top:0}
+ .fitem{display:block;width:100%;text-align:left;padding:9px 10px;border:1px solid var(--bd);border-radius:9px;margin-bottom:6px;background:#0e131b;color:var(--fg);font:inherit;cursor:pointer}
+ .fitem.on{border-color:var(--gold)}.fitem b{color:var(--gold)}.fitem small{display:block;color:var(--mut);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+ .feed{height:320px;overflow:auto;background:#0e131b;border:1px solid var(--bd);border-radius:10px;padding:10px;font-size:14px}
+ .msg{margin:4px 0}.msg .who{color:var(--green);font-weight:700}.msg.mine .who{color:var(--gold)}.msg .src{color:var(--blue);font-size:11px}
+ .mut{color:var(--mut);font-size:13px}.hint{color:var(--mut);font-size:12px;margin-top:8px}
+ .compose{display:flex;gap:8px;margin-top:8px}.compose input{flex:1}
+ .empty{color:var(--mut);text-align:center;padding:36px 10px}
+ h2{font-size:16px;margin:0 0 8px}a{color:var(--gold)}
+ @media(max-width:620px){.im{flex-direction:column}.friends{width:auto;flex:none}}
 </style></head><body><div class=wrap>
-<div class=brand><b>Pentecaust</b> Messaging<span class=alpha>Alpha</span></div>
-<p class=mut>One account, one chat — understood across every MELEK game. Form a <b>Team</b> / <b>Alliance</b> / <b>Clan</b> and talk in-game, out-of-game, or from a different game entirely.</p>
-
-<div class=card>
- <label>Your MELEK account</label><input id=me placeholder=your-melek-name autocapitalize=off spellcheck=false>
- <div class=tabs style="margin-top:8px"><button id=tabTeam class=on>Team chat</button><button id=tabDM>Direct message</button></div>
-
- <div id=teamPane>
-   <div class=row><input id=teamId placeholder="team id (e.g. van-kush-family)"><button id=loadTeam class=primary>Open</button></div>
-   <div class=row style="margin-top:6px"><input id=newName placeholder="new team name"><select id=newKind><option value=team>Team</option><option value=alliance>Alliance</option><option value=clan>Clan</option><option value=crew>Crew</option><option value=guild>Guild</option><option value=squad>Squad</option></select><button id=create class=green>Create</button><button id=join>Join</button></div>
-   <div id=teamMeta class=mut style="margin-top:6px"></div>
- </div>
- <div id=dmPane style="display:none"><div class=row><input id=dmWith placeholder="message who? (their MELEK account)"><button id=loadDM class=primary>Open thread</button></div></div>
-
- <div class=feed id=feed><span class=mut>open a team or a DM thread…</span></div>
- <div class=row><input id=text placeholder="type a message…"><select id=surface><option value=website>from website</option><option value=game>from game</option><option value=minecraft>from Minecraft</option><option value=move>from Move app</option></select><button id=send class=primary>Send</button></div>
+<header>
+ <span class=brand><b>Pentecaust</b> Messaging</span><span class=alpha>Alpha</span>
+ <span class=me><span class=at>@</span><input id=me placeholder=your-melek-name autocapitalize=off spellcheck=false></span>
+</header>
+<div class=nav>
+ <button id=nMsg class=on>💬 Messages</button>
+ <button id=nMail>✉️ Email</button>
+ <button id=nChan>🎮 Channels</button>
 </div>
-<p class=mut>Identity is your MELEK account — the same one you sign up with, mine with, and walk with. <a href="/health">api</a></p>
+
+<div id=paneMsg class=card>
+ <div class=im>
+  <div class=friends>
+   <h2>Friends</h2>
+   <div class=row><input id=addWho placeholder="add by @name"><button class="btn green" id=addBtn>Add</button></div>
+   <div class=flist id=flist><div class=mut style="margin-top:8px">Add a friend by their @name to start a direct message.</div></div>
+  </div>
+  <div class=thread>
+   <h2 id=threadTitle>Direct messages</h2>
+   <div class=feed id=feed><div class=empty>Pick a friend on the left — or add one by @name — to start a DM.</div></div>
+   <div class=compose><input id=dmText placeholder="message…" disabled><button class="btn primary" id=dmSend disabled>Send</button></div>
+  </div>
+ </div>
+</div>
+
+<div id=paneMail class=card style="display:none">
+ <h2>✉️ Email</h2>
+ <p class=mut>Your MELEK email address:</p>
+ <div class=row style="max-width:340px"><input id=mailAddr readonly value="—"></div>
+ <div id=mailBox class=feed style="margin-top:10px"><div class=empty>Your inbox is being set up. When it's live, mail to your <b>@pentecaust.com</b> address lands here.</div></div>
+ <p class=hint>Your email is part of your one MELEK account — the same name as your chat and your <b>.melek</b> identity.</p>
+</div>
+
+<div id=paneChan class=card style="display:none">
+ <h2>🎮 Team & Game Channels</h2>
+ <p class=mut>A channel is a group chat for a <b>Team / Alliance / Clan</b> — shared across every MELEK game (talk in-game, out-of-game, or from a different game). This is the more advanced side; for one-on-one, use <b>Messages</b>.</p>
+ <div class=row style="margin-top:8px"><input id=teamId placeholder="open a channel by id (e.g. van-kush-family)"><button class="btn primary" id=loadTeam>Open</button><button class="btn" id=joinTeam>Join</button></div>
+ <div class=row style="margin-top:6px"><input id=newName placeholder="…or start a new channel"><select id=newKind style="flex:0 0 130px;width:130px"><option value=team>Team</option><option value=alliance>Alliance</option><option value=clan>Clan</option><option value=crew>Crew</option><option value=guild>Guild</option></select><button class="btn green" id=createTeam>Create</button></div>
+ <div id=teamMeta class=hint></div>
+ <div class=feed id=cfeed style="margin-top:8px"><div class=empty>Open or create a channel above.</div></div>
+ <div class=compose><input id=cText placeholder="message the channel…" disabled><button class="btn primary" id=cSend disabled>Send</button></div>
+</div>
+
+<p class=mut style="margin-top:14px">One MELEK account — your <b>messages</b>, <b>email</b>, and <b>channels</b> in one place. <a href="/health">api</a></p>
 </div>
 <script>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let mode='team', cursor=0, timer=null;
-$('me').value=localStorage.getItem('melek_me')||''; $('me').oninput=()=>localStorage.setItem('melek_me',$('me').value.trim().toLowerCase());
+const api=async(p,o)=>{try{const r=await fetch(p,o);return await r.json();}catch(e){return{ok:false,reason:'network'};}};
+$('me').value=localStorage.getItem('melek_me')||'';
 const me=()=>$('me').value.trim().toLowerCase();
-function setMode(m){mode=m;$('tabTeam').classList.toggle('on',m==='team');$('tabDM').classList.toggle('on',m==='dm');$('teamPane').style.display=m==='team'?'':'none';$('dmPane').style.display=m==='dm'?'':'none';cursor=0;$('feed').innerHTML='<span class=mut>open a '+(m==='team'?'team':'DM thread')+'…</span>';}
-$('tabTeam').onclick=()=>setMode('team');$('tabDM').onclick=()=>setMode('dm');
-async function api(path,opts){try{const r=await fetch(path,opts);return await r.json();}catch(e){return{ok:false,reason:'network'};}}
-function render(msgs,append){const f=$('feed');if(!append)f.innerHTML='';for(const m of msgs){const d=document.createElement('div');d.className='msg'+(m.to?' dm':'');
-  d.innerHTML='<span class=who>'+E(m.from)+'</span>'+(m.to?(' → '+E(m.to)):'')+(m.game?(' <span class=src>['+E(m.game)+']</span>'):(m.surface?(' <span class=src>['+E(m.surface)+']</span>'):''))+': '+E(m.text);
-  f.appendChild(d);} if(msgs.length)cursor=msgs[msgs.length-1].seq; f.scrollTop=f.scrollHeight;}
-async function refresh(){if(mode==='team'){const id=$('teamId').value.trim();if(!id||!me())return;const j=await api('/teams/'+encodeURIComponent(id)+'/chat?account='+encodeURIComponent(me())+(cursor?('&since='+cursor):''));if(j.ok){if(j.team)$('teamMeta').textContent=j.team.kind+' “'+j.team.name+'” · '+j.team.memberCount+' members'+(j.team.motd?(' · '+j.team.motd):'');render(j.messages,cursor>0);}}
-  else{const w=$('dmWith').value.trim();if(!w||!me())return;const j=await api('/dm?me='+encodeURIComponent(me())+'&with='+encodeURIComponent(w)+(cursor?('&since='+cursor):''));if(j.ok)render(j.messages,cursor>0);}}
-function startPoll(){if(timer)clearInterval(timer);cursor=0;refresh();timer=setInterval(refresh,3000);}
-$('loadTeam').onclick=startPoll;$('loadDM').onclick=startPoll;
-$('create').onclick=async()=>{const j=await api('/teams',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:$('newName').value.trim(),owner:me(),kind:$('newKind').value})});if(j.ok){$('teamId').value=j.team.id;startPoll();}else alert(j.reason||'could not create');};
-$('join').onclick=async()=>{const id=$('teamId').value.trim();const j=await api('/teams/'+encodeURIComponent(id)+'/join',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me()})});if(j.ok)startPoll();else alert(j.reason||'could not join');};
-$('send').onclick=async()=>{const t=$('text').value.trim();if(!t||!me())return;$('text').value='';
-  if(mode==='team'){await api('/teams/'+encodeURIComponent($('teamId').value.trim())+'/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({from:me(),text:t,surface:$('surface').value})});}
-  else{await api('/dm',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({from:me(),to:$('dmWith').value.trim(),text:t,surface:$('surface').value})});}refresh();};
-$('text').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click();});
+function syncMail(){$('mailAddr').value=me()?(me()+'@pentecaust.com'):'—';}
+// deep-link: a Condenser "Send a PM" link is pentecaust.com/?dm=<account> — auto-open that thread.
+let pendingDm=(new URLSearchParams(location.search).get('dm')||'').toLowerCase().replace(/^@/,'');
+function tryPending(){if(pendingDm&&me()){setTab('msg');openDM(pendingDm);pendingDm='';return true;}return false;}
+$('me').oninput=()=>{localStorage.setItem('melek_me',me());syncMail();if(tryPending())return;if(tab==='msg')loadFriends();};
+
+// ---- tabs ----
+let tab='msg';
+function setTab(t){tab=t;
+ $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';
+ $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');
+ if(t==='msg')loadFriends();if(t==='mail')syncMail();}
+$('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');
+
+// ---- Messages: Friends list + DM thread (AIM-style) ----
+let dmWith='',dmCursor=0,dmTimer=null;
+async function loadFriends(){if(!me())return;const fl=$('flist');const seen=new Set();const frag=document.createDocumentFragment();
+ const item=(who,sub,on)=>{seen.add(who);const b=document.createElement('button');b.className='fitem'+(on?' on':'');
+  b.innerHTML='<b>@'+E(who)+'</b>'+(sub?('<small>'+E(sub)+'</small>'):'');b.onclick=()=>openDM(who);frag.appendChild(b);};
+ const label=(t)=>{const d=document.createElement('div');d.className='flabel';d.textContent=t;frag.appendChild(d);};
+ if(dmWith)item(dmWith,'',true);
+ // Recent conversations (your DM threads)
+ const inb=await api('/inbox?account='+encodeURIComponent(me()));const threads=((inb&&inb.threads)||[]).filter(t=>!seen.has(t.with));
+ if(threads.length){label('Recent');for(const t of threads)item(t.with,t.last?((t.last.from===me()?'you: ':'')+t.last.text):'',false);}
+ // Following (from the chain follow graph)
+ const fw=await api('/following?account='+encodeURIComponent(me()));const follows=((fw&&fw.following)||[]).filter(w=>!seen.has(w));
+ if(follows.length){label('Following');for(const w of follows)item(w,'',false);}
+ // Followers
+ const fr=await api('/followers?account='+encodeURIComponent(me()));const followers=((fr&&fr.followers)||[]).filter(w=>!seen.has(w));
+ if(followers.length){label('Followers');for(const w of followers)item(w,'',false);}
+ fl.innerHTML='';if(frag.childNodes.length)fl.appendChild(frag);else fl.innerHTML='<div class=mut style="margin-top:8px">Add a friend by their @name to start a direct message.</div>';}
+function openDM(who){dmWith=who;dmCursor=0;$('threadTitle').textContent='@'+who;$('dmText').disabled=false;$('dmSend').disabled=false;$('feed').innerHTML='';loadFriends();pollDM();if(dmTimer)clearInterval(dmTimer);dmTimer=setInterval(pollDM,3000);}
+async function pollDM(){if(!me()||!dmWith)return;const j=await api('/dm?me='+encodeURIComponent(me())+'&with='+encodeURIComponent(dmWith)+(dmCursor?('&since='+dmCursor):''));if(!j.ok)return;
+ const f=$('feed');if(dmCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg'+(m.from===me()?' mine':'');
+  d.innerHTML='<span class=who>'+E(m.from===me()?'you':('@'+m.from))+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+E(m.text);f.appendChild(d);}
+ if(j.messages.length){dmCursor=j.messages[j.messages.length-1].seq;f.scrollTop=f.scrollHeight;}}
+$('addBtn').onclick=()=>{const w=$('addWho').value.trim().toLowerCase().replace(/^@/,'');if(!w||!me())return;$('addWho').value='';openDM(w);};
+$('addWho').addEventListener('keydown',e=>{if(e.key==='Enter')$('addBtn').click();});
+$('dmSend').onclick=async()=>{const t=$('dmText').value.trim();if(!t||!me()||!dmWith)return;$('dmText').value='';await api('/dm',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({from:me(),to:dmWith,text:t,surface:'website'})});pollDM();};
+$('dmText').addEventListener('keydown',e=>{if(e.key==='Enter')$('dmSend').click();});
+
+// ---- Channels (advanced) ----
+let chId='',chCursor=0,chTimer=null;
+function openChan(id){chId=id;chCursor=0;$('teamId').value=id;$('cText').disabled=false;$('cSend').disabled=false;$('cfeed').innerHTML='';pollChan();if(chTimer)clearInterval(chTimer);chTimer=setInterval(pollChan,3000);}
+async function pollChan(){if(!me()||!chId)return;const j=await api('/teams/'+encodeURIComponent(chId)+'/chat?account='+encodeURIComponent(me())+(chCursor?('&since='+chCursor):''));
+ if(!j.ok){if(j.reason)$('teamMeta').textContent=j.reason;return;}
+ if(j.team)$('teamMeta').textContent=j.team.kind+' “'+j.team.name+'” · '+j.team.memberCount+' members'+(j.team.motd?(' · '+j.team.motd):'');
+ const f=$('cfeed');if(chCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg';d.innerHTML='<span class=who>@'+E(m.from)+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+E(m.text);f.appendChild(d);}
+ if(j.messages.length){chCursor=j.messages[j.messages.length-1].seq;f.scrollTop=f.scrollHeight;}}
+$('loadTeam').onclick=()=>{const id=$('teamId').value.trim();if(id)openChan(id);};
+$('joinTeam').onclick=async()=>{const id=$('teamId').value.trim();if(!id||!me())return;const j=await api('/teams/'+encodeURIComponent(id)+'/join',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me()})});if(j.ok)openChan(id);else alert(j.reason||'could not join');};
+$('createTeam').onclick=async()=>{if(!me())return alert('Enter your @name first.');const j=await api('/teams',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:$('newName').value.trim(),owner:me(),kind:$('newKind').value})});if(j.ok)openChan(j.team.id);else alert(j.reason||'could not create');};
+$('cSend').onclick=async()=>{const t=$('cText').value.trim();if(!t||!me()||!chId)return;$('cText').value='';await api('/teams/'+encodeURIComponent(chId)+'/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({from:me(),text:t,surface:'website'})});pollChan();};
+$('cText').addEventListener('keydown',e=>{if(e.key==='Enter')$('cSend').click();});
+
+// ---- init ----
+syncMail();if(me())loadFriends();
 </script></body></html>`;
 
 if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
