@@ -19,6 +19,7 @@
 
 import { search as ourSearch, formatForPrompt } from './our-search.mjs';
 import { ask as knowsAsk } from './hathor-knows.mjs';
+import { isSpecialized, langAlias, byLanguage } from './language-catalog.mjs';
 
 const safe = (fn, fallback) => Promise.resolve().then(fn).catch(() => fallback);
 
@@ -103,6 +104,52 @@ export async function compose(message, { k = 6, domain = null, search, knows, pe
     vertical: knowledge ? knowledge.vertical : null,
     grounded: hits.length > 0 || !!knowledge,
   };
+}
+
+// ── TRANSLATION — the Language Center as Hathor's translation authority ─────────────────────────────
+// Pentecaust's messenger + the Condenser page-widget translate THROUGH here. Common, world-lingua-franca
+// languages go to the cheap MT engine (pentecaust/translate); the UNCOMMON ones — Kurdish dialects, the
+// scripture + ancient tongues, older Indo-European, Berber/Cushitic — are HER specialty (the few), routed
+// to a specialized translator grounded in the language-catalog. The specialized backend is an injectable
+// seam (an LLM grounded on the catalog corpus, wired in production); offline it soft-returns null and the
+// caller keeps the original. Everything soft-fails; never throws.
+let _special = null; // ({text,to,from}) => Promise<string|null>  — the specialized (LLM/corpus) translator
+export function __setSpecializedTranslator(fn) { _special = typeof fn === 'function' ? fn : null; }
+
+/** Is `lang` one of Hathor's specialized (catalog-grounded) tongues — route it here, not the common MT? */
+export function isSpecializedLang(lang) { return isSpecialized(lang); }
+
+/**
+ * Translate into one of Hathor's specialized languages, grounded in the catalog. Returns the translated
+ * string, or null when no specialized backend is wired (caller soft-falls to the original / common MT).
+ */
+export async function translateSpecialized({ text, to, from } = {}) {
+  if (!text || !to || !isSpecialized(to)) return null;
+  if (!_special) return null;                       // LLM/corpus backend not wired (offline) → null
+  try {
+    const r = await _special({ text, to: langAlias(to), from });
+    if (typeof r === 'string') return r.trim() || null;
+    return (r && typeof r.tr === 'string') ? (r.tr.trim() || null) : null;
+  } catch { return null; }
+}
+
+/**
+ * Hathor's translation front door (the "link the translations into the Language Center"): specialized →
+ * her catalog-grounded translator (with the resource list she'd teach from); common → the cheap MT engine
+ * (lazy-imported to avoid a top-level cycle). Soft-fails to the original.
+ * @returns {{ text, tr, to, from, specialized, sources? }}
+ */
+export async function translate({ text, to, from } = {}) {
+  const target = langAlias(to);
+  if (isSpecialized(target)) {
+    const tr = await translateSpecialized({ text, to: target, from });
+    return { text, tr, to: target, from: from || null, specialized: true, sources: byLanguage(target).slice(0, 4) };
+  }
+  try {
+    const eng = await import('../pentecaust/translate.mjs');
+    const r = await eng.translate({ text, to, from });
+    return { ...r, specialized: false };
+  } catch { return { text, tr: null, to, from: from || null, specialized: false }; }
 }
 
 // ── CLI ───────────────────────────────────────────────────────────────────────
