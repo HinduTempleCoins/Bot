@@ -273,7 +273,11 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=async(p,o)=>{try{const r=await fetch(p,o);return await r.json();}catch(e){return{ok:false,reason:'network'};}};
-$('me').value=localStorage.getItem('melek_me')||'';
+// arrive from the Wallet/Condenser already as your account: /?me=<account> (you're logged in there
+// with your posting key; this carries the identity over — the posting-key proof is the MELEK-Signer step).
+const _urlMe=(new URLSearchParams(location.search).get('me')||'').toLowerCase().replace(/^@/,'');
+$('me').value=_urlMe||localStorage.getItem('melek_me')||'';
+if(_urlMe)localStorage.setItem('melek_me',_urlMe);
 const me=()=>$('me').value.trim().toLowerCase();
 function syncMail(){$('mailAddr').value=me()?(me()+'@pentecaust.com'):'—';}
 // deep-link: a Condenser "Send a PM" link is pentecaust.com/?dm=<account> — auto-open that thread.
