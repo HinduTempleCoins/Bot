@@ -6,7 +6,7 @@ import assert from 'node:assert';
 process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.PENTECAUST_DEV_TRUST = '1';
-const { handler, __setAuthVerifier } = await import('./server.mjs');
+const { handler, __setAuthVerifier, __setChainFetch } = await import('./server.mjs');
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -20,13 +20,38 @@ function req(path, method = 'GET', bodyObj) {
 }
 const j = (o) => JSON.parse(o.body);
 
-test('GET / serves the Pentecaust game-chat UI (Team/Alliance/Clan, Alpha)', async () => {
+test('GET / serves the AIM-style dashboard (Messages/Email/Channels, Friends, Alpha)', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /Pentecaust<\/b> Messaging/);
-  assert.match(o.body, /Alliance/); assert.match(o.body, /Clan/);
   assert.match(o.body, /Alpha/);
-  assert.match(o.body, /Direct message/);          // PM/DM present
+  assert.match(o.body, /Messages/); assert.match(o.body, /Email/); assert.match(o.body, /Channels/); // the three tabs
+  assert.match(o.body, /Friends/);                  // friends-first dashboard
+  assert.match(o.body, /Direct messages/);          // DM is the default
+  assert.match(o.body, /Team & Game Channels/);     // channels = the advanced, explained tab
+  assert.match(o.body, /pentecaust\.com/);          // email address format shown
+});
+
+test('GET /following and /followers read the chain follow graph (for the friends list groups)', async () => {
+  // inject a fake chain RPC: get_following → [bob,carol], get_followers → [dave]
+  __setChainFetch(async (_url, opts) => {
+    const m = JSON.parse(opts.body).method;
+    const result = m.endsWith('get_following')
+      ? [{ follower: 'alice', following: 'bob', what: ['blog'] }, { follower: 'alice', following: 'carol', what: ['blog'] }]
+      : [{ follower: 'dave', following: 'alice', what: ['blog'] }];
+    return { json: async () => ({ jsonrpc: '2.0', id: 1, result }) };
+  });
+  let { res, o } = cap(); await handler(req('/following?account=alice'), res);
+  assert.equal(o.code, 200); assert.deepEqual(j(o).following, ['bob', 'carol']);
+  ({ res, o } = cap()); await handler(req('/followers?account=alice'), res);
+  assert.deepEqual(j(o).followers, ['dave']);
+  // soft-fail: a dead RPC → empty list, never throws
+  __setChainFetch(async () => { throw new Error('rpc down'); });
+  ({ res, o } = cap()); await handler(req('/following?account=alice'), res);
+  assert.deepEqual(j(o).following, []);
+  ({ res, o } = cap()); await handler(req('/following'), res);   // no account → 422
+  assert.equal(o.code, 422);
+  __setChainFetch(null);
 });
 
 test('create → directory → fetch one team', async () => {
