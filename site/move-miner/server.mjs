@@ -50,7 +50,7 @@ const _mineCount = new Map();
 function nextMineIndex(account, epoch) { const k = `${account}:${epoch}`; const i = _mineCount.get(k) || 0; _mineCount.set(k, i + 1); return i; }
 
 // store-grade manifest: PNG 192/512 + maskable, categories, orientation — passes Lighthouse PWA / TWA.
-const MANIFEST = JSON.stringify({
+export const MANIFEST = JSON.stringify({
   name: 'MELEK Move — Step & Geo Miner', short_name: 'MELEK Move', start_url: '/', scope: '/',
   display: 'standalone', orientation: 'portrait', background_color: '#0b0d12', theme_color: '#d9a441',
   categories: ['health', 'fitness', 'lifestyle'], lang: 'en',
@@ -67,13 +67,13 @@ const ICON_DIR = join(dirname(fileURLToPath(import.meta.url)), 'icons');
 const _png = {};
 function iconPng(name) { if (name in _png) return _png[name]; try { _png[name] = readFileSync(join(ICON_DIR, name)); } catch { _png[name] = null; } return _png[name]; }
 
-const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0d12"/><circle cx="32" cy="32" r="18" fill="none" stroke="#d9a441" stroke-width="4"/><circle cx="32" cy="32" r="4" fill="#36c08a"/></svg>`;
+export const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0d12"/><circle cx="32" cy="32" r="18" fill="none" stroke="#d9a441" stroke-width="4"/><circle cx="32" cy="32" r="4" fill="#36c08a"/></svg>`;
 
-const SW = `self.addEventListener('install',e=>self.skipWaiting());
+export const SW = `self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>self.clients.claim());
 self.addEventListener('fetch',e=>{});`;
 
-const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
+export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MELEK Move — Step & Geo Miner</title>
 <meta name=description content="A fitness step-tracker + geo-explore game with in-app MELEK rewards (testnet — no monetary value).">
@@ -259,7 +259,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catc
 
 // Privacy policy — REQUIRED by Google Play (we read motion/step + coarse location sensors).
 // States what we collect, why, that we never sell/share activity data, and the testnet-no-value fact.
-const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
+export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Privacy Policy</title>
 <style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
 .w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style></head>
