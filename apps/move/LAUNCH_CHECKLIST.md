@@ -32,6 +32,24 @@ phase, later.) You can switch Personal→Organization later once your D-U-N-S is
 7. **Closed testing**: new accounts need ~**14 days, 12+ testers** before Production. Start this clock early.
 8. **Promote to Production.**
 
+## 🍎 iOS (App Store) — Phase 2, **no Mac needed**
+The iOS build runs in the cloud on **Codemagic** (`apps/move/codemagic.yaml`) — it provides the macOS
+builder + Apple code-signing, so you never touch a Mac. v1 counts steps in the foreground (webview
+DeviceMotion + the `apply-ios.sh` Info.plist strings); the native CoreMotion background counter is a later
+enhancement (parity with Android's `StepService`).
+
+1. **Apple Developer Program — enroll as an *Organization*** ($99/yr). Crypto/wallet-adjacent apps need the
+   org account, which needs a **D-U-N-S number** — and D-U-N-S verification is the slow part (can take
+   ~1–2 weeks), so **start this now**, in parallel with everything else.
+2. **Codemagic** (codemagic.io, free tier) → connect this repo → add the **App Store Connect API key**
+   integration named `melek_app_store` (see codemagic.yaml header).
+3. **Tell me the App Store Connect Apple ID** of the app once you create it → I set `APP_STORE_APPLE_ID`
+   in codemagic.yaml.
+4. Run the **`ios-melek-move`** workflow → it builds + uploads to **TestFlight** → install TestFlight on
+   your iPhone → test the real signed app.
+5. Submit for review using the **Apple notes** already written in `store-submission.md` (testnet / no
+   monetary value / no on-device mining framing).
+
 ## Pre-submission polish (I can do on request)
 - Move the ACTIVITY_RECOGNITION request behind the "Start counting" tap (strict prominent-disclosure timing).
 - Generate the 1024×500 feature graphic + a localized icon set.

@@ -1,0 +1,76 @@
+# MELEK Move — iOS (and Android) cloud build via Codemagic. NO MAC NEEDED: Codemagic runs macOS builders
+# and handles Apple code-signing for you. This is the iOS counterpart to .github/workflows/move-android.yml.
+#
+# ONE-TIME SETUP (operator, once the Apple Developer account exists):
+#   1. codemagic.io → connect this GitHub repo.
+#   2. Integrations → App Store Connect: add an API key (Apple Developer → Users & Access → Integrations →
+#      App Store Connect API → generate). Name the integration `melek_app_store` (matches below).
+#   3. Register the bundle id `community.soapbox.move` in your Apple account (or let Codemagic auto-create).
+#   4. Run the `ios-melek-move` workflow → it builds + uploads to TestFlight, where you test on your iPhone.
+# The Android workflow here is optional (GitHub Actions already builds the AAB); kept for parity.
+
+workflows:
+  ios-melek-move:
+    name: MELEK Move — iOS (TestFlight)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: melek_app_store
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: community.soapbox.move
+      vars:
+        BUNDLE_ID: "community.soapbox.move"
+        APP_STORE_APPLE_ID: 0000000000   # ← replace with the App Store Connect app's Apple ID after you create the app
+      node: 20
+      xcode: latest
+      cocoapods: default
+    working_directory: apps/move
+    scripts:
+      - name: Install Capacitor deps
+        script: npm install
+      - name: Add iOS platform
+        script: npx cap add ios || npx cap sync ios
+      - name: Apply iOS Info.plist usage strings (Motion + Location)
+        script: bash native/apply-ios.sh
+      - name: Sync web assets + config
+        script: npx cap sync ios
+      - name: Set up signing
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --project "ios/App/App.xcodeproj" \
+            --scheme "App"
+    artifacts:
+      - apps/move/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        # submit_to_app_store: false   # flip to true (with a release) when you're ready for public review
+
+  android-melek-move:
+    name: MELEK Move — Android (AAB, parity with GitHub Actions)
+    instance_type: linux_x2
+    max_build_duration: 60
+    environment:
+      vars:
+        PACKAGE_NAME: "community.soapbox.move"
+      node: 20
+    working_directory: apps/move
+    scripts:
+      - name: Install Capacitor deps
+        script: npm install
+      - name: Add Android platform
+        script: npx cap add android || npx cap sync android
+      - name: Apply native step service + permissions
+        script: bash native/apply.sh
+      - name: Sync + build debug APK
+        script: |
+          npx cap sync android
+          cd android && ./gradlew --no-daemon assembleDebug
+    artifacts:
+      - apps/move/android/app/build/outputs/**/*.apk
