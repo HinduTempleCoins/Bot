@@ -100,7 +100,8 @@ async function chainFollow(method, account, pick) {
       body: JSON.stringify({ jsonrpc: '2.0', method, params: [account, '', 'blog', 100], id: 1 }),
     });
     const j = await r.json();
-    return ((j && j.result) || []).map((x) => x && x[pick]).filter(Boolean);
+    // normalize: this fork's follow records can carry a leading '@' on the name — strip it.
+    return ((j && j.result) || []).map((x) => String((x && x[pick]) || '').replace(/^@/, '')).filter(Boolean);
   } catch { return []; }
 }
 const getFollowing = (a) => chainFollow('condenser_api.get_following', a, 'following');  // who you follow

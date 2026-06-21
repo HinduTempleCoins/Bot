@@ -37,8 +37,8 @@ test('GET /following and /followers read the chain follow graph (for the friends
   __setChainFetch(async (_url, opts) => {
     const m = JSON.parse(opts.body).method;
     const result = m.endsWith('get_following')
-      ? [{ follower: 'alice', following: 'bob', what: ['blog'] }, { follower: 'alice', following: 'carol', what: ['blog'] }]
-      : [{ follower: 'dave', following: 'alice', what: ['blog'] }];
+      ? [{ follower: 'alice', following: 'bob', what: ['blog'] }, { follower: 'alice', following: '@carol', what: ['blog'] }]  // '@carol' must be normalized to 'carol'
+      : [{ follower: '@dave', following: 'alice', what: ['blog'] }];
     return { json: async () => ({ jsonrpc: '2.0', id: 1, result }) };
   });
   let { res, o } = cap(); await handler(req('/following?account=alice'), res);
