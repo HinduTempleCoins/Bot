@@ -86,6 +86,28 @@ test('deriveDeposit binds custody + depositRef and rejects wrong custody', () =>
   assert.match(wrong.reason, /custody/);
 });
 
+test('SECURITY: a forged custom_json deposit cannot inject a fake wrapped mint (wLEO class)', () => {
+  // Attack: a custom_json is a FREE op that moves no value; the attacker writes the custody account + a
+  // huge amount into the JSON they fully control. It must NOT become an attestable deposit.
+  const forged = {
+    trxId: 'deadbeef', blockNum: 200,
+    op: { type: 'custom_json', payload: { json: JSON.stringify({ dst: ADDR, symbol: 'MELEK', amount: '1000000', custody: CUSTODY }) } },
+  };
+  const r = deriveDeposit(forged, { custodyAccount: CUSTODY, defaultTokenId: 'MELEK' });
+  assert.equal(r.ok, false, 'forged custom_json deposit must be rejected');
+  assert.match(r.reason, /custom_json/);
+  // scanDeposits drops it to the skip log, never the deposits list...
+  const { deposits, skipped } = scanDeposits([forged], { custodyAccount: CUSTODY, defaultTokenId: 'MELEK' });
+  assert.equal(deposits.length, 0);
+  assert.ok(skipped.some((s) => /custom_json/.test(s.reason)));
+  // ...while a REAL native transfer to custody still mints (the live wMELEK path is unaffected).
+  const real = scanDeposits(
+    [{ trxId: 't', blockNum: 10, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } }],
+    { custodyAccount: CUSTODY },
+  );
+  assert.equal(real.deposits.length, 1);
+});
+
 test('deriveDeposit requires a depositRef and a tokenId', () => {
   assert.equal(deriveDeposit({ blockNum: 1, op: { type: 'transfer', payload: { to: CUSTODY, amount: '1.000 MELEK', memo: ADDR } } }, { custodyAccount: CUSTODY }).ok, false);
   // transfer asset supplies tokenId, so to test the missing-token path use a custom_json with no symbol/token
