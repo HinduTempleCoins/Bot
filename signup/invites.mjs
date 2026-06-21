@@ -205,22 +205,61 @@ export function lineage(account, opts = {}) {
   return chain;
 }
 
+// ── identity (the trust boundary) ───────────────────────────────────────────────────────────────────
+// The acting account is resolved from a VERIFIED source, never a spoofable query/body field — otherwise
+// anyone issues invites AS anyone (auth bypass). Production injects a verifier (MELEK-Signer bearer /
+// session → certified account); identity DENIES by default (401). INVITES_DEV_TRUST=1 (local dev / tests
+// ONLY, never a public origin) trusts an asserted `x-melek-account` header so the gate is testable.
+let _verifyAuth = null;
+export function __setAuthVerifier(fn) { _verifyAuth = typeof fn === 'function' ? fn : null; }
+const DEV_TRUST = () => env('INVITES_DEV_TRUST', '') === '1';
+function whoami(req) {
+  if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? String(a).toLowerCase() : null; } catch { return null; } }
+  if (DEV_TRUST()) { const h = (req && req.headers) || {}; const a = h['x-melek-account']; return a ? String(a).toLowerCase() : null; }
+  return null;
+}
+
 // ── HTTP handler (optional; mirrors other modules) — issue / redeem / standing as JSON ──────────────
+// Exact-segment routing (no substring/endsWith bypass); mutations are POST + verified-identity only;
+// the acting account is whoami(req), NEVER a query field. Read-only code-validity check is public
+// (codes are 64-bit-random, unguessable); standing/lineage are scoped to the authenticated account.
 export function handler(req, res) {
-  const send = (code, obj) => {
-    res.writeHead(code, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(obj));
-  };
+  const send = (code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); };
+  const unauth = () => send(401, { ok: false, reason: 'authentication required (no verified MELEK identity)' });
   let url;
   try { url = new URL(req.url, 'http://x'); } catch { return send(400, { ok: false, reason: 'bad url' }); }
   const q = url.searchParams;
-  const path = url.pathname.replace(/\/+$/, '');
-  if (path.endsWith('/issue')) return send(200, issueInvite(q.get('inviter')));
-  if (path.endsWith('/redeem')) return send(200, redeemInvite(q.get('code'), q.get('account')));
-  if (path.endsWith('/check')) return send(200, requireInvite(q.get('code')));
-  if (path.endsWith('/standing')) return send(200, invitesFor(q.get('account')));
-  if (path.endsWith('/lineage')) return send(200, { account: q.get('account'), chain: lineage(q.get('account')) });
-  return send(404, { ok: false, reason: 'unknown endpoint' });
+  const seg = url.pathname.replace(/\/+$/, '').split('/').pop();   // exact action segment, not a substring match
+  const method = (req.method || 'GET').toUpperCase();
+
+  switch (seg) {
+    case 'issue': {                                  // POST — issue AS the verified caller
+      if (method !== 'POST') return send(405, { ok: false, reason: 'use POST' });
+      const me = whoami(req); if (!me) return unauth();
+      return send(200, issueInvite(me));
+    }
+    case 'redeem': {                                 // POST — register the verified caller's account via a code
+      if (method !== 'POST') return send(405, { ok: false, reason: 'use POST' });
+      const me = whoami(req); if (!me) return unauth();
+      return send(200, redeemInvite(q.get('code'), me));
+    }
+    case 'check':                                    // GET — public code-validity check (codes are unguessable)
+      return send(200, requireInvite(q.get('code')));
+    case 'standing': {                               // GET — your own standing (or root may view any)
+      const me = whoami(req); if (!me) return unauth();
+      const target = q.get('account') ? String(q.get('account')).toLowerCase() : me;
+      if (target !== me && !isRoot(me)) return send(403, { ok: false, reason: 'forbidden' });
+      return send(200, invitesFor(target));
+    }
+    case 'lineage': {                                // GET — your own lineage (or root may view any)
+      const me = whoami(req); if (!me) return unauth();
+      const target = q.get('account') ? String(q.get('account')).toLowerCase() : me;
+      if (target !== me && !isRoot(me)) return send(403, { ok: false, reason: 'forbidden' });
+      return send(200, { account: target, chain: lineage(target) });
+    }
+    default:
+      return send(404, { ok: false, reason: 'unknown endpoint' });
+  }
 }
 
 // ── CLI (guarded) — offline demo on a temp store ────────────────────────────────────────────────────
