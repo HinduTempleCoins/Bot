@@ -31,6 +31,7 @@ import {
   createTeam, joinTeam, leaveTeam, kick, setRole, approve, invite, setMotd, getTeam, teamsForAccount, listTeams, isMember,
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
+import { sessionFromReq, handler as authHandler } from './auth.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -49,7 +50,13 @@ let _verifyAuth = null;
 export function __setAuthVerifier(fn) { _verifyAuth = typeof fn === 'function' ? fn : null; }
 const DEV_TRUST = () => process.env.PENTECAUST_DEV_TRUST === '1' || process.env.TEAMS_DEV_TRUST_QUERY === '1';
 function whoami(req, asserted) {
+  // 1) A real signed login session (Continue-with-Google/Facebook, one-time code, or MELEK-Signer) is
+  //    authoritative — set by pentecaust/auth.mjs, carried in the HttpOnly session cookie.
+  try { const s = sessionFromReq(req); if (s && s.account) return s.account; } catch {}
+  // 2) A production-injected verifier (e.g. a MELEK-Signer bearer token).
   if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? _acct(a) : null; } catch { return null; } }
+  // 3) Dev-trust asserted identity — testnet/local + the offline suite only (the ?me=/from fallback that
+  //    keeps the Condenser deep-links and bots working before everyone has logged in).
   if (DEV_TRUST()) return _acct(asserted);
   return null;
 }
@@ -116,6 +123,14 @@ export async function handler(req, res) {
   if (method === 'OPTIONS') { res.writeHead(204, cors(origin)); return res.end(); }
 
   try {
+    // Login surface (sessions + Google/Facebook OAuth + one-time + MELEK-Signer hook) — its own handler,
+    // exact-segment routed inside auth.mjs. Same-origin browser navigations, so no CORS wrapping needed.
+    if (/^\/auth(\/|$)/.test(path)) {
+      // H1: the auth POSTs (one-time request/redeem, link, method) sit in front of the main POST limiter,
+      // so apply the token bucket here too — no unmetered login/one-time flooding.
+      if (method === 'POST' && !allow(clientKey(req))) return json(res, 429, { ok: false, reason: 'rate-limited' }, origin);
+      return authHandler(req, res);
+    }
     if (path === '/' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...cors(origin) }); return res.end(PAGE); }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
 
@@ -235,6 +250,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nChan>🎮 Channels</button>
 </div>
 
+<div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
+
 <div id=paneMsg class=card>
  <div class=im>
   <div class=friends>
@@ -335,10 +352,46 @@ $('createTeam').onclick=async()=>{if(!me())return alert('Enter your @name first.
 $('cSend').onclick=async()=>{const t=$('cText').value.trim();if(!t||!me()||!chId)return;$('cText').value='';await api('/teams/'+encodeURIComponent(chId)+'/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({from:me(),text:t,surface:'website'})});pollChan();};
 $('cText').addEventListener('keydown',e=>{if(e.key==='Enter')$('cSend').click();});
 
+// ---- login / sessions (Google·Facebook·one-time·MELEK-Signer) ----
+// On load: ?link=<claim> → a first social login that needs a MELEK account picked; else /auth/me tells us
+// if a session is active. A session locks the @name to the logged-in account; otherwise you can still type
+// your @name on testnet (dev-trust) or sign in. MELEK-Signer joins as one more button here later.
+const _params=new URLSearchParams(location.search);
+async function initAuth(){const bar=$('authbar');
+ const link=_params.get('link');
+ if(link){const email=_params.get('email')||'';bar.style.display='flex';
+  bar.innerHTML='<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Pick the MELEK account to link to this login:'+
+   '<input id=linkAcct placeholder=your-melek-name style="width:170px;flex:0 0 auto" autocapitalize=off spellcheck=false>'+
+   '<button class="btn primary" id=linkBtn>Link &amp; sign in</button>';
+  $('linkBtn').onclick=async()=>{const a=$('linkAcct').value.trim().toLowerCase().replace(/^@/,'');if(!a)return;
+   const j=await api('/auth/link',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link,account:a})});
+   if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not link');};
+  return;}
+ const s=await api('/auth/me');
+ if(s&&s.ok){$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
+  bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'+
+   '<a class=btn href="/auth/logout" style="margin-left:auto">Log out</a>';
+  if(me())loadFriends();return;}
+ bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
+  '<a class=btn href="/auth/google">Continue with Google</a>'+
+  '<a class=btn href="/auth/facebook">Continue with Facebook</a>'+
+  '<button class=btn id=otBtn>One-time code</button>'+
+  '<small class=mut>or just type your @name (testnet)</small>';
+ $('otBtn').onclick=oneTime;}
+async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time login:')||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
+ const r=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a})});
+ if(!r||!r.ok){alert((r&&r.reason)||'could not request a code');return;}
+ // Testnet: the code is returned so we redeem it immediately. In production it is emailed, not returned.
+ const j=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:r.code})});
+ if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not sign in');}
+
 // ---- init ----
-syncMail();if(me())loadFriends();
+syncMail();if(me())loadFriends();initAuth();
 </script></body></html>`;
 
 if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
+  // L1: surface a misconfiguration that would otherwise be silent — without the secret, login sessions use a
+  // per-process random key and don't survive a restart (and dev-trust without it = no real auth at all).
+  if (!process.env.PENTECAUST_SESSION_SECRET && !DEV_TRUST()) console.warn('[pentecaust] WARNING: PENTECAUST_SESSION_SECRET is unset — login sessions use a per-process random secret and will NOT survive a restart. Set it in production.');
   createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; DEV ONLY)' : ''}`));
 }

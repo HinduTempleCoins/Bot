@@ -6,18 +6,21 @@ import assert from 'node:assert';
 process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.PENTECAUST_DEV_TRUST = '1';
+process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
 const { handler, __setAuthVerifier, __setChainFetch } = await import('./server.mjs');
+const { makeSession } = await import('./auth.mjs');
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
   return { res: { writeHead: (c, h) => { o.code = c; o.type = (h && h['content-type']) || ''; }, end: (b) => { o.body = b || ''; } }, o };
 }
-function req(path, method = 'GET', bodyObj) {
+function req(path, method = 'GET', bodyObj, headers) {
   const h = {};
-  const r = { url: path, method, headers: {}, socket: { remoteAddress: '1.2.3.4' }, on: (e, fn) => { h[e] = fn; return r; }, destroy: () => {} };
+  const r = { url: path, method, headers: { ...(headers || {}) }, socket: { remoteAddress: '1.2.3.4' }, on: (e, fn) => { h[e] = fn; return r; }, destroy: () => {} };
   queueMicrotask(() => { if (bodyObj !== undefined && h.data) h.data(JSON.stringify(bodyObj)); if (h.end) h.end(); });
   return r;
 }
+const cookie = (account) => ({ cookie: `pentecaust_session=${makeSession(account)}` });
 const j = (o) => JSON.parse(o.body);
 
 test('GET / serves the AIM-style dashboard (Messages/Email/Channels, Friends, Alpha)', async () => {
@@ -139,6 +142,25 @@ test('a verified identity cannot be impersonated — naming someone else does no
   ({ res, o } = cap()); await handler(req('/dm', 'POST', { from: 'alex', to: 'steve', text: 'forged' }), res);
   assert.equal(j(o).message.from, 'mallory');        // from is the verified caller, not the claimed 'alex'
   __setAuthVerifier(null);
+});
+
+// ── a signed login SESSION is authoritative, and routes through /auth/* into auth.mjs ──
+test('a session cookie authenticates (session-first) and overrides any named query param', async () => {
+  __setAuthVerifier(null);                                  // no injected verifier — only the cookie + dev-trust
+  // gwen (logged in via cookie) sends harry a DM; the body's `from` is ignored in favour of the session.
+  let { res, o } = cap(); await handler(req('/dm', 'POST', { from: 'someone-else', to: 'harry', text: 'via session' }, cookie('gwen')), res);
+  assert.equal(j(o).ok, true); assert.equal(j(o).message.from, 'gwen');
+  // reading the inbox while naming ?account=harry still yields GWEN's inbox (session wins, not the query).
+  ({ res, o } = cap()); await handler(req('/inbox?account=harry', 'GET', undefined, cookie('gwen')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).account, 'gwen');
+  assert.ok(j(o).threads.some((t) => t.with === 'harry'));
+});
+
+test('/auth/* routes into the auth handler (GET /auth/me: 401 without, 200 with a session)', async () => {
+  let { res, o } = cap(); await handler(req('/auth/me'), res);
+  assert.equal(o.code, 401);
+  ({ res, o } = cap()); await handler(req('/auth/me', 'GET', undefined, cookie('ivy')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).account, 'ivy');
 });
 
 test('no verified identity → private reads/writes are 401 (deny by default)', async () => {
