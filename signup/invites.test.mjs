@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { unlinkSync } from 'node:fs';
 import {
   issueInvite, redeemInvite, invitesFor, requireInvite, canRedeem, lineage,
-  INVITES_PER_ACCOUNT, ROOT,
+  INVITES_PER_ACCOUNT, ROOT, handler, __setAuthVerifier,
 } from './invites.mjs';
 
 // Each test gets a fresh temp file path so they don't bleed into each other.
@@ -187,4 +187,58 @@ test('bad input soft-fails everywhere (never throws)', () => {
   assert.equal(empty.registered, false);
   assert.equal(empty.remaining, 0);
   assert.deepEqual(lineage('nobody', o), ['nobody']);
+});
+
+// ── handler: verified-identity, exact routing, deny-by-default (the security boundary) ───────────────
+function cap() {
+  const o = { code: 0, body: '' };
+  return { res: { writeHead: (c) => { o.code = c; }, end: (b) => { o.body = b || ''; } }, o };
+}
+const hreq = (path, method = 'GET', headers = {}) => ({ url: path, method, headers });
+const J = (o) => { try { return JSON.parse(o.body); } catch { return {}; } };
+
+test('handler: deny-by-default — no verified identity → 401 on mutations', () => {
+  process.env.INVITES_DATA = freshFile(); __setAuthVerifier(null);
+  let { res, o } = cap(); handler(hreq('/issue', 'POST'), res); assert.equal(o.code, 401);
+  ({ res, o } = cap()); handler(hreq('/redeem?code=x', 'POST'), res); assert.equal(o.code, 401);
+});
+
+test('handler: identity comes from the verifier, NOT a spoofable query field', () => {
+  process.env.INVITES_DATA = freshFile();
+  __setAuthVerifier(() => 'hathor');                       // verified caller = root
+  const { res, o } = cap(); handler(hreq('/issue?inviter=victim', 'POST'), res);
+  assert.equal(o.code, 200); assert.equal(J(o).inviter, 'hathor');   // query 'victim' ignored
+  __setAuthVerifier(null);
+});
+
+test('handler: redeem registers the VERIFIED account, not a query field', () => {
+  process.env.INVITES_DATA = freshFile();
+  __setAuthVerifier(() => 'hathor');
+  const iss = cap(); handler(hreq('/issue', 'POST'), iss.res); const code = J(iss.o).code;
+  __setAuthVerifier(() => 'alice');                        // alice proves control of her own account
+  const { res, o } = cap(); handler(hreq('/redeem?code=' + code + '&account=mallory', 'POST'), res);
+  assert.equal(J(o).ok, true); assert.equal(J(o).account, 'alice');  // not 'mallory'
+  __setAuthVerifier(null);
+});
+
+test('handler: exact-segment routing + method guards (no endsWith bypass)', () => {
+  process.env.INVITES_DATA = freshFile(); __setAuthVerifier(() => 'hathor');
+  let { res, o } = cap(); handler(hreq('/issue', 'GET'), res); assert.equal(o.code, 405);
+  ({ res, o } = cap()); handler(hreq('/nope', 'POST'), res); assert.equal(o.code, 404);
+  __setAuthVerifier(null);
+});
+
+test('handler: code check is public; standing/lineage are scoped to the caller', () => {
+  process.env.INVITES_DATA = freshFile();
+  __setAuthVerifier(() => 'hathor');
+  const iss = cap(); handler(hreq('/issue', 'POST'), iss.res); const code = J(iss.o).code;
+  __setAuthVerifier(null);
+  let { res, o } = cap(); handler(hreq('/check?code=' + code, 'GET'), res);   // public
+  assert.equal(o.code, 200); assert.equal(J(o).ok, true);
+  ({ res, o } = cap()); handler(hreq('/standing?account=hathor', 'GET'), res); // no auth -> 401
+  assert.equal(o.code, 401);
+  __setAuthVerifier(() => 'alice');                        // non-root cannot view another's standing
+  ({ res, o } = cap()); handler(hreq('/standing?account=bob-jones', 'GET'), res);
+  assert.equal(o.code, 403);
+  __setAuthVerifier(null);
 });
