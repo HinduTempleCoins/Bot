@@ -29,6 +29,39 @@ test('GET / serves the hub: branding, Alpha badge, cards, join info', async () =
   assert.match(o.body, /Multiplayer/);           // how-to-join instructions
 });
 
+test('each card has a clickable live preview that opens the full-screen /watch page', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  const id = loadServers()[0].id;
+  assert.match(o.body, /class=preview/);                            // a preview area on every card
+  assert.match(o.body, new RegExp('href="/watch/' + id + '"'));     // the preview links to the full screen
+});
+
+test('GET /watch/:id serves the full-screen page (stage + back link + join + status)', async () => {
+  const s = loadServers()[0];
+  const { res, o } = cap(); await handler(req('/watch/' + s.id), res);
+  assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
+  assert.match(o.body, /class=stage/);                              // the big screen
+  assert.match(o.body, /← Servers/);                                // back to the hub
+  assert.match(o.body, /Server address/);                           // join info present
+  assert.match(o.body, new RegExp(s.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+});
+
+test('/watch embeds the camera when a cam URL is set, else shows a placeholder', async () => {
+  const prev = process.env.MELEK_SERVERS_JSON;
+  process.env.MELEK_SERVERS_JSON = JSON.stringify([{ id: 'cammed', name: 'Cammed World', host: 'play.example.com', cam: 'https://cam.example.com/' }]);
+  let { res, o } = cap(); await handler(req('/watch/cammed'), res);
+  assert.match(o.body, /<iframe src="https:\/\/cam\.example\.com\/"/);   // cam POV embedded full-screen
+  process.env.MELEK_SERVERS_JSON = JSON.stringify([{ id: 'nocam', name: 'No Cam', host: 'play.example.com' }]);
+  ({ res, o } = cap()); await handler(req('/watch/nocam'), res);
+  assert.match(o.body, /isn.t streaming yet/);                       // graceful placeholder
+  if (prev === undefined) delete process.env.MELEK_SERVERS_JSON; else process.env.MELEK_SERVERS_JSON = prev;
+});
+
+test('unknown /watch id → 404', async () => {
+  const { res, o } = cap(); await handler(req('/watch/nope-nope'), res);
+  assert.equal(o.code, 404);
+});
+
 test('the default page never ships a real host (example.com only)', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   // every code/address block uses an example placeholder, not a real server
