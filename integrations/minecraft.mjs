@@ -40,6 +40,7 @@ const UA = { 'User-Agent': 'VanKushMinecraftTools/1.0 (+https://data.soapbox.com
 //       https://launchermeta.mojang.com/mc/game/version_manifest_v2.json
 const MCSRVSTAT = 'https://api.mcsrvstat.us/3';
 const MCSRVSTAT_BEDROCK = 'https://api.mcsrvstat.us/bedrock/3';
+const MCSTATUS_IO = 'https://api.mcstatus.io/v2/status';   // fallback — resolves SRV + IPv6-only (playit) hosts
 const MOJANG_NAME = 'https://api.mojang.com/users/profiles/minecraft';
 const MOJANG_PROFILE = 'https://sessionserver.mojang.com/session/minecraft/profile';
 const VERSION_MANIFEST = 'https://launchermeta.mojang.com/mc/game/version_manifest_v2.json';
@@ -138,8 +139,14 @@ export async function serverStatus(host, opts = {}) {
   if (!host || typeof host !== 'string') return offline(null);
   const base = opts.bedrock ? MCSRVSTAT_BEDROCK : MCSRVSTAT;
   const j = await getJson(`${base}/${encodeURIComponent(host)}`);
-  if (j == null) return offline(host);
-  return parseMcsrvstat(j, host);
+  const primary = j == null ? offline(host) : parseMcsrvstat(j, host);
+  if (primary.online) return primary;
+  // Fallback: mcstatus.io reaches some hosts mcsrvstat can't ping — notably SRV + IPv6-only targets like
+  // playit.gg tunnels (our Hathor world). Only override when it actually reports the server online.
+  const edition = opts.bedrock ? 'bedrock' : 'java';
+  const alt = await getJson(`${MCSTATUS_IO}/${edition}/${encodeURIComponent(host)}`);
+  if (alt) { const s = parseMcStatusIo(alt, host); if (s.online) return s; }
+  return primary;
 }
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════

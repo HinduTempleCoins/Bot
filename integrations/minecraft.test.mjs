@@ -90,6 +90,24 @@ test('status: serverStatus fetches + normalizes (stubbed)', async () => {
   __setFetch(null);
 });
 
+test('status: serverStatus falls back to mcstatus.io when mcsrvstat reports offline (playit/IPv6)', async () => {
+  // mcsrvstat can't ping the IPv6-only playit target → offline; mcstatus.io reaches it → online.
+  __setFetch(async (url) => ({ ok: true, json: async () => (String(url).includes('mcstatus.io') ? MCSTATUSIO_ONLINE : MCSRVSTAT_OFFLINE) }));
+  const s = await serverStatus('videos-amplifier.gl.joinmc.link');
+  assert.equal(s.online, true);
+  assert.equal(s.source, 'mcstatus.io');
+  assert.equal(s.players.online, 12);
+  __setFetch(null);
+});
+
+test('status: when BOTH report offline, serverStatus stays offline (mcsrvstat source)', async () => {
+  __setFetch(jsonFetch({ online: false }));
+  const s = await serverStatus('down.example.com');
+  assert.equal(s.online, false);
+  assert.equal(s.source, 'mcsrvstat');
+  __setFetch(null);
+});
+
 test('status: serverStatus soft-fails to an offline shape on network error', async () => {
   __setFetch(throwingFetch());
   const s = await serverStatus('mc.hypixel.net');
