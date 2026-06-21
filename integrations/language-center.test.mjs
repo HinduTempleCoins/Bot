@@ -2,7 +2,27 @@
 // all three sources injected. Never throws.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { compose, perceive, __setPerceive, __setKnows, __setSearch } from './language-center.mjs';
+import {
+  compose, perceive, __setPerceive, __setKnows, __setSearch,
+  translate, translateSpecialized, isSpecializedLang, __setSpecializedTranslator,
+} from './language-center.mjs';
+
+test('Language Center is the translation authority: specialized → her backend, with catalog sources', async () => {
+  __setSpecializedTranslator(async ({ text, to }) => `<${to}>${text}`);
+  const r = await translate({ text: 'peace be with you', to: 'ckb' });   // Sorani → specialized
+  assert.equal(r.specialized, true);
+  assert.equal(r.to, 'sorani');                         // alias resolved to the catalog name
+  assert.equal(r.tr, '<sorani>peace be with you');
+  assert.ok(Array.isArray(r.sources) && r.sources.length, 'carries the resources she teaches from');
+  __setSpecializedTranslator(null);
+});
+
+test('translateSpecialized returns null when no backend is wired (soft-fall to original)', async () => {
+  __setSpecializedTranslator(null);
+  assert.equal(await translateSpecialized({ text: 'hi', to: 'kmr' }), null);
+  assert.equal(isSpecializedLang('phn'), true);
+  assert.equal(isSpecializedLang('es'), false);
+});
 
 const HITS = { hits: [
   { source: 'library', domain: 'healer', title: 'MAOI safety', link: 'knowledge/herbs/maoi.md', snippet: 'tyramine interactions matter' },

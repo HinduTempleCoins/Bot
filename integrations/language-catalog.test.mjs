@@ -4,7 +4,30 @@ import assert from 'node:assert';
 import {
   FAMILIES, RESOURCES, family, getResource, byFamily, byLanguage, search,
   JESUIT_METHOD, hierophantXref, familiesWithCounts, validateCatalog,
+  isSpecialized, specializedLanguages, langAlias,
 } from './language-catalog.mjs';
+
+test('translation specialty: uncommon catalog tongues route to Hathor; common ones do not', () => {
+  // Kurdish dialects + scripture/ancient tongues = her specialty (route into the Language Center)
+  assert.equal(isSpecialized('ckb'), true);          // Sorani (ISO code → catalog)
+  assert.equal(isSpecialized('kmr'), true);          // Kurmanji
+  assert.equal(isSpecialized('zaza-gorani'), true);  // by catalog name
+  assert.equal(isSpecialized('phn'), true);          // Phoenician (ISO → phoenician-punic)
+  assert.equal(isSpecialized('phoenician-punic'), true);
+  // modern-world family is cataloged but COMMON — the cheap MT serves it, so NOT specialized
+  assert.equal(isSpecialized('mandarin'), false);
+  assert.equal(isSpecialized('russian'), false);
+  // a plain common language not in the catalog at all
+  assert.equal(isSpecialized('es'), false);
+  assert.equal(isSpecialized(''), false);
+  // aliases resolve
+  assert.equal(langAlias('ckb'), 'sorani');
+  assert.equal(langAlias('grc'), 'koine-greek');
+  // she has more than a couple specialized languages, all real catalog entries
+  const langs = specializedLanguages();
+  assert.ok(langs.length >= 5);
+  assert.ok(langs.includes('kurmanji'));
+});
 
 test('catalog validates: unique entries, known families, http(s) urls', () => {
   const v = validateCatalog();

@@ -180,6 +180,36 @@ export function byFamily(id) {
 }
 export function byLanguage(lang) { const k = norm(lang); return RESOURCES.filter((x) => x.language === k); }
 
+// ── translation specialty: the FEW uncommon tongues Hathor handles herself ──────────────────────────
+// Common MT engines (MyMemory etc.) cover the world's lingua-francas. For the UNCOMMON languages — Kurdish
+// dialects, the scripture + ancient-Near-East tongues, the older Indo-European layers, Berber/Cushitic —
+// they're weak or absent, so those route into Hathor's Language Center instead, grounded in this catalog.
+// `modern-world` (Mandarin/Korean/Russian) is deliberately EXCLUDED: those are common, the cheap MT serves
+// them. ISO-ish aliases let a UI lang code (ckb, kmr, grc, akk…) resolve to the catalog's language names.
+const LANG_ALIASES = {
+  ku: 'kurdish-general', kmr: 'kurmanji', ckb: 'sorani', zza: 'zaza-gorani', diq: 'zaza-gorani', hac: 'kurdish-general',
+  grc: 'koine-greek', hbo: 'biblical-hebrew', arc: 'aramaic', phn: 'phoenician-punic', xpu: 'phoenician-punic',
+  egy: 'egyptian', akk: 'akkadian', sux: 'sumerian', uga: 'ugaritic',
+  sa: 'sanskrit', vsm: 'vedic', la: 'latin', ae: 'avestan', peo: 'old-persian', pgmc: 'pie',
+  ber: 'berber-amazigh', tzm: 'tuareg', kab: 'kabyle', so: 'somali', om: 'oromo', aa: 'afar', byn: 'beja',
+};
+export const langAlias = (lang) => LANG_ALIASES[norm(lang)] || norm(lang);
+
+/** Every language Hathor has catalog resources for (de-duped). */
+export function specializedLanguages() { return [...new Set(RESOURCES.map((x) => x.language))]; }
+
+/**
+ * Is this language one of Hathor's specialized (uncommon, catalog-grounded) tongues — i.e. should it route
+ * into her Language Center rather than the common MT? Accepts ISO codes or catalog names. Excludes the
+ * common `modern-world` family even though it's cataloged (the cheap MT covers Mandarin/Korean/Russian).
+ */
+export function isSpecialized(lang) {
+  const k = langAlias(lang);
+  if (!k) return false;
+  const hit = RESOURCES.find((x) => x.language === k);
+  return !!hit && hit.family !== 'modern-world';
+}
+
 /** Hierophant text ids unlocked by a language (the gods this language reads). */
 export function hierophantXref(language) { return HIEROPHANT_XREF[norm(language)] || []; }
 

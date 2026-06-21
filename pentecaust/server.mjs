@@ -32,6 +32,7 @@ import {
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { sessionFromReq, handler as authHandler } from './auth.mjs';
+import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -133,6 +134,17 @@ export async function handler(req, res) {
     }
     if (path === '/' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...cors(origin) }); return res.end(PAGE); }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
+    // The drop-in "Translate this page?" widget — included by Pentecaust AND by every Condenser page. Served
+    // cross-origin (a <script src> tag needs no CORS); it then calls POST /translate (which is CORS-allowed).
+    if (path === '/translate.js' && method === 'GET') {
+      res.writeHead(200, { 'content-type': 'application/javascript; charset=utf-8', 'cache-control': 'public, max-age=300', ...cors(origin) });
+      return res.end(TRANSLATE_JS);
+    }
+    // A reader's preferred language (so the messenger shows "Translate?" in their tongue). Private → auth.
+    if (method === 'GET' && path === '/me/prefs') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, lang: getLang(me) }, origin);
+    }
 
     // ── reads (GET) ──────────────────────────────────────────────────────────────────────────────
     // The team directory + a single team's public profile are public (no private data).
@@ -188,6 +200,20 @@ export async function handler(req, res) {
 
       if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
       if (path === '/dm') { const me = who(b.from); if (!me) return unauth(res, origin); return json(res, 200, postDM({ ...b, from: me }), origin); }
+
+      // ON-DEMAND translation (the optional "Translate?" affordance + the page widget). Public + rate-limited
+      // (the bucket already ran above). `to` = target language; `text` (single) or `texts[]` (batch).
+      if (path === '/translate') {
+        const to = b.to;
+        if (Array.isArray(b.texts)) {
+          const translations = await translateBatch(b.texts.slice(0, 200).map((t) => String(t == null ? '' : t).slice(0, 5000)), to, { from: b.from });
+          return json(res, 200, { ok: true, to, translations }, origin);
+        }
+        const r = await translate({ text: String(b.text == null ? '' : b.text).slice(0, 5000), to, from: b.from });
+        return json(res, 200, { ok: true, to: r.to, original: r.text, translation: r.tr }, origin);
+      }
+      // A reader's preferred language (used for the localized "Translate?" label). Private → auth.
+      if (path === '/me/prefs') { const me = who(b.account); if (!me) return unauth(res, origin); return json(res, 200, setLang(me, b.lang), origin); }
 
       if (segs[0] === 'teams' && segs[1]) {
         const id = segs[1]; const op = segs[2];
@@ -387,7 +413,70 @@ async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time 
 
 // ---- init ----
 syncMail();if(me())loadFriends();initAuth();
-</script></body></html>`;
+</script>
+<script src="/translate.js"></script>
+</body></html>`;
+
+// ── the drop-in "Translate this page?" widget (served at /translate.js) ──────────────────────────────
+// Self-contained, dependency-free, CSP-friendly (sets DOM style properties, no inline <style>/eval). Adds a
+// small floating bar with a language picker + a "Translate?" toggle (labeled in the reader's OWN language).
+// Translation is OPTIONAL — nothing changes until the reader clicks. On click it walks the page's visible
+// text nodes, batch-translates via POST /translate, and swaps them in; "Show original" reverts. Drop the
+// same <script src="https://pentecaust.com/translate.js"> into ANY page (the whole Condenser) and it works.
+const TRANSLATE_JS = `(function(){
+  if (window.__melekTr) return; window.__melekTr = true;
+  var EP; try { EP = new URL(document.currentScript.src).origin; } catch(e) { EP = 'https://pentecaust.com'; }
+  var ASK={en:'Translate?',es:'\\u00bfTraducir?',fr:'Traduire ?',de:'\\u00dcbersetzen?',pt:'Traduzir?',it:'Tradurre?',nl:'Vertalen?',ru:'\\u041f\\u0435\\u0440\\u0435\\u0432\\u0435\\u0441\\u0442\\u0438?',zh:'\\u7ffb\\u8bd1\\uff1f',ja:'\\u7ffb\\u8a33\\uff1f',ko:'\\ubc88\\uc5ed?',ar:'\\u062a\\u0631\\u062c\\u0645\\u0629\\u061f',hi:'\\u0905\\u0928\\u0941\\u0935\\u093e\\u0926?',tr:'\\u00c7evir?',ku:'Werger\\u00eene?',fa:'\\u062a\\u0631\\u062c\\u0645\\u0647\\u061f',vi:'D\\u1ecbch?',id:'Terjemahkan?'};
+  var ORIG={en:'Show original',es:'Ver original',fr:"Voir l'original",de:'Original',pt:'Ver original',ru:'\\u041e\\u0440\\u0438\\u0433\\u0438\\u043d\\u0430\\u043b',zh:'\\u663e\\u793a\\u539f\\u6587',ja:'\\u539f\\u6587',ar:'\\u0627\\u0644\\u0623\\u0635\\u0644',ku:'Resen',tr:'Orijinal'};
+  var LANGS=[['en','English'],['es','Espa\\u00f1ol'],['fr','Fran\\u00e7ais'],['de','Deutsch'],['pt','Portugu\\u00eas'],['it','Italiano'],['nl','Nederlands'],['ru','\\u0420\\u0443\\u0441\\u0441\\u043a\\u0438\\u0439'],['uk','\\u0423\\u043a\\u0440\\u0430\\u0457\\u043d\\u0441\\u044c\\u043a\\u0430'],['ar','\\u0627\\u0644\\u0639\\u0631\\u0628\\u064a\\u0629'],['fa','\\u0641\\u0627\\u0631\\u0633\\u06cc'],['tr','T\\u00fcrk\\u00e7e'],['ku','Kurd\\u00ee'],['hi','\\u0939\\u093f\\u0928\\u094d\\u0926\\u0940'],['zh','\\u4e2d\\u6587'],['ja','\\u65e5\\u672c\\u8a9e'],['ko','\\ud55c\\uad6d\\uc5b4'],['vi','Ti\\u1ebfng Vi\\u1ec7t'],['id','Bahasa'],['pl','Polski']];
+  var base=function(l){return String(l||'').toLowerCase().split('-')[0];};
+  var lang=base(localStorage.getItem('melek_lang')||navigator.language||'en')||'en';
+  var on=false, store=[];
+  var bar=document.createElement('div'); bar.id='mlk-tr-bar';
+  var s=bar.style; s.position='fixed'; s.zIndex='2147483600'; s.right='12px'; s.bottom='12px';
+  s.background='#12161e'; s.color='#e9eef5'; s.border='1px solid #2a3442'; s.borderRadius='10px';
+  s.padding='6px 8px'; s.font='13px/1.3 -apple-system,Segoe UI,Roboto,Arial,sans-serif';
+  s.boxShadow='0 4px 18px rgba(0,0,0,.4)'; s.display='flex'; s.gap='6px'; s.alignItems='center';
+  var globe=document.createElement('span'); globe.textContent='\\ud83c\\udf10'; bar.appendChild(globe);
+  var sel=document.createElement('select');
+  var ss=sel.style; ss.background='#0e131b'; ss.color='#e9eef5'; ss.border='1px solid #2a3442'; ss.borderRadius='6px'; ss.font='inherit'; ss.padding='3px 4px';
+  for (var i=0;i<LANGS.length;i++){var o=document.createElement('option');o.value=LANGS[i][0];o.textContent=LANGS[i][1];if(LANGS[i][0]===lang)o.selected=true;sel.appendChild(o);}
+  sel.onchange=function(){if(on)revert();lang=sel.value;localStorage.setItem('melek_lang',lang);btn.textContent=ASK[lang]||ASK.en;};
+  bar.appendChild(sel);
+  var btn=document.createElement('button'); btn.textContent=ASK[lang]||ASK.en;
+  var bs=btn.style; bs.background='#d9a441'; bs.color='#1a1306'; bs.border='0'; bs.borderRadius='6px'; bs.font='inherit'; bs.fontWeight='700'; bs.padding='4px 9px'; bs.cursor='pointer';
+  btn.onclick=function(){ if(on)revert(); else go(); };
+  bar.appendChild(btn);
+  (function add(){ if(document.body) document.body.appendChild(bar); else setTimeout(add,300); })();
+  function collect(){
+    var out=[]; if(!document.body) return out;
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var v=n.nodeValue; if(!v||!v.trim())return NodeFilter.FILTER_REJECT;
+      if(!/\\p{L}/u.test(v))return NodeFilter.FILTER_REJECT;
+      var p=n.parentNode; if(!p)return NodeFilter.FILTER_REJECT;
+      var t=p.nodeName; if(t==='SCRIPT'||t==='STYLE'||t==='NOSCRIPT'||t==='TEXTAREA'||t==='CODE'||t==='PRE'||t==='OPTION')return NodeFilter.FILTER_REJECT;
+      if(p.closest&&p.closest('#mlk-tr-bar'))return NodeFilter.FILTER_REJECT;
+      if(p.isContentEditable)return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    var x; while(x=w.nextNode())out.push(x); return out;
+  }
+  function go(){
+    btn.disabled=true; btn.textContent='\\u2026';
+    var ns=collect(); var idx={}, uniq=[];
+    for(var i=0;i<ns.length;i++){var k=ns[i].nodeValue.trim();if(!(k in idx)){idx[k]=uniq.length;uniq.push(ns[i].nodeValue);}}
+    var results=new Array(uniq.length).fill(null); var chunks=[];
+    for(var i=0;i<uniq.length;i+=100)chunks.push([i,uniq.slice(i,i+100)]);
+    Promise.all(chunks.map(function(c){
+      return fetch(EP+'/translate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({texts:c[1],to:lang})})
+        .then(function(r){return r.json();}).then(function(j){var tr=(j&&j.translations)||[];for(var k=0;k<tr.length;k++)results[c[0]+k]=tr[k];}).catch(function(){});
+    })).then(function(){
+      store=[]; for(var i=0;i<ns.length;i++){var u=idx[ns[i].nodeValue.trim()];var t=(u!=null)?results[u]:null;if(t){store.push({node:ns[i],orig:ns[i].nodeValue});ns[i].nodeValue=t;}}
+      on=true; btn.disabled=false; btn.textContent=ORIG[lang]||ORIG.en;
+    });
+  }
+  function revert(){ for(var i=0;i<store.length;i++){try{store[i].node.nodeValue=store[i].orig;}catch(e){}} store=[]; on=false; btn.textContent=ASK[lang]||ASK.en; }
+})();`;
 
 if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   // L1: surface a misconfiguration that would otherwise be silent — without the secret, login sessions use a
