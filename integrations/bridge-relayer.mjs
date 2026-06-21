@@ -166,6 +166,17 @@ export function deriveDeposit(entry, opts = {}) {
   const tokenId = intent.tokenId || opts.defaultTokenId || intent.asset;
   if (!tokenId) return { ok: false, reason: 'no-token-id (set defaultTokenId or encode in op)' };
 
+  // SECURITY (wLEO-class gateway mint — the highest-loss Hive-Engine incident): a `custom_json` op moves
+  // NO value on Graphene, and its `amount` + `custody` fields are ENTIRELY attacker-controlled. A forged
+  // custom_json could therefore fabricate a deposit and mint unbacked wrapped tokens out of thin air. The
+  // native `transfer` op is the ONLY deposit source whose value is enforced by L1 (real MELEK actually
+  // moved to the custody account). So custom_json deposits (the future engine-token / SMT wrap path) stay
+  // DISABLED until the relayer confirms them against MELEK-ENGINE STATE — proof the engine truly credited
+  // custody by `amount` of the token — never the raw, unverifiable op. Opt in ONLY once that exists.
+  if (intent.source === 'custom_json' && !opts.allowCustomJsonDeposits) {
+    return { ok: false, reason: 'custom_json-deposits-disabled (value not provable from the op; needs engine-state confirmation)' };
+  }
+
   return {
     ok: true,
     deposit: {
