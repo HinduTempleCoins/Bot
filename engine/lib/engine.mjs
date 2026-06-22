@@ -25,6 +25,7 @@ import { bridge } from '../contracts/bridge.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
 import { nft } from '../contracts/nft.mjs';
 import { seeds } from '../contracts/seeds.mjs';
+import { scot } from '../contracts/scot.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
 
@@ -38,6 +39,7 @@ const CONTRACTS = {
   dexSettlement,
   nft,
   seeds,
+  scot,
 };
 
 // Which auth level each action requires. Value-moving / supply-control ops
@@ -80,6 +82,9 @@ const ACTIVE_REQUIRED = new Set([
   'seeds.register',
   'seeds.mint',
   'seeds.plant',
+  // scot: createTribe creates a token + reward rule; mint issues supply → ACTIVE.
+  'scot.createTribe',
+  'scot.mint',
 ]);
 
 export class Engine {
