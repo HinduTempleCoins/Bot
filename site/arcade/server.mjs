@@ -27,7 +27,7 @@ const EXAMPLE_GAMES = [
     play: 'https://alpha.pranascan.soapbox.community' },
   { id: 'kush-farm', name: 'Kush Farm', kind: 'farm', token: 'KULA', live: true,
     blurb: 'Grow your own — plant a strain in a plot, feed and water it, watch it flower through the season, then harvest your buds for KULA. Pot-Farm-style cultivation: rare strains and the right season mean fatter yields. Seeds + nutrients burn; harvest mints.',
-    play: 'https://alpha.pranascan.soapbox.community' },
+    play: 'https://kush.soapbox.community' },
   { id: 'pentecaust-arena', name: 'Arena (Pentecaust)', kind: 'board', token: 'MELEK', live: false,
     gameId: 'pentecaust-arena', seasonLength: 604800,
     blurb: 'Play from your Pentecaust game channel — scores post to a weekly seasonal leaderboard with a MELEK prize pool. The social front door to the arcade.' },
