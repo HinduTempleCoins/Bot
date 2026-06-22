@@ -1,17 +1,38 @@
 // seed-tokens.mjs — the bridge between the Kush Farm grow game and the token layer.
 //
-// SEEDS ARE TOKENS. Operator's model (2026-06-22): a Seed is a PRANA token that **mints through
-// MELEK-Engine** (the Hive-Engine-style side-token layer) — so a player's Seeds show up as engine token
-// balances, and the Seeds page (seeds.soapbox.community) is a tokens.melek.salon-style WALLET view
-// filtered to just these. This module is the canonical map: each Kush Farm strain → its engine token SYMBOL
-// (A-Z, ≤10 chars, the engine's SYMBOL_RE), enriched with the grow metadata (tier/season/rarity/flags).
+// SEEDS MINT THROUGH MELEK-Engine, and a seed is one of TWO kinds (operator 2026-06-22: "some won't be NFTs
+// and some will — some we'll have just trade like tokens and plant (burn) like seeds"):
+//   • kind 'token' — a FUNGIBLE engine token. The abundant ones (the daily "milk" you carpet landscapes
+//     with): trade them on the market, plant = BURN them. Volume, not scarcity.
+//   • kind 'nft'   — a semi-fungible NFT (ERC-1155, the SeasonalFarm standard): scarce, collectable, carries
+//     traits. The rare/legendary strains. You own editions; planting still burns.
+// Default kind follows rarity (common/uncommon → token, rare/legendary → nft); override per strain with
+// SEED_KINDS_JSON. EITHER way a seed has a SYMBOL/token-id (A-Z, ≤10, the engine SYMBOL_RE) + grow traits, so
+// the Seeds page (seeds.soapbox.community) is a tokens.melek.salon-style WALLET showing which seeds you hold —
+// both the fungible balances and the NFT collection — filtered to just seeds.
 //
-// Minting path (for the issuance flow, wired later): MELEK-Engine `tokens.create` once per seed symbol, then
-// `tokens.issue` to the grower on harvest/seed-return. This module names the symbols; it signs nothing.
+// This module names the types/kinds/traits; it signs nothing. (Minting + the plant=burn op are wired later.)
 //
 // House style: ESM, pure, soft-fail, env-overridable. No chain calls here.
 
 import { STRAINS, getStrain, TIERS } from './kush-farm.mjs';
+
+const env = (k) => (typeof process !== 'undefined' && process.env && process.env[k]) || '';
+
+// The collection NFT-kind seeds live under (env-overridable). Fungible-kind seeds are plain engine tokens.
+export const SEED_COLLECTION = env('SEED_COLLECTION') || 'KUSHSEED';
+
+// Default: scarce strains are NFTs, abundant ones are fungible tokens. Override per strain id via
+// SEED_KINDS_JSON, e.g. {"kush-apple":"nft","frost-auto":"token"}.
+const NFT_RARITIES = new Set(['rare', 'legendary']);
+function kindForStrain(strain) {
+  try {
+    const o = JSON.parse(env('SEED_KINDS_JSON') || '{}');
+    const k = o && o[strain.id];
+    if (k === 'token' || k === 'nft') return k;
+  } catch { /* fall through */ }
+  return NFT_RARITIES.has(strain.rarity) ? 'nft' : 'token';
+}
 
 // Canonical strain.id → engine SYMBOL. Kept here (not in the model) so the grow game stays chain-agnostic.
 // Override/extend with SEED_SYMBOLS_JSON env (e.g. {"auto-sour":"AUTOSOUR"}). All must match /^[A-Z]{1,10}$/.
@@ -48,8 +69,10 @@ export function seedCatalog() {
     const sym = String(over[s.id] || DEFAULT_SYMBOLS[s.id] || '').toUpperCase();
     if (!SYMBOL_RE.test(sym)) continue;            // no symbol assigned / invalid → not a tradable seed yet
     const tier = TIERS[s.growTier] || null;
+    const kind = kindForStrain(s);
     out.push({
-      id: s.id, symbol: sym, name: s.name,
+      id: s.id, symbol: sym, tokenId: sym, name: s.name,
+      kind, collection: kind === 'nft' ? SEED_COLLECTION : null,
       growTier: s.growTier, tierLabel: tier ? tier.label : s.growTier,
       season: s.season || 'year-round', rarity: s.rarity || 'common',
       multiHarvest: s.multiHarvest || 1, volunteer: !!s.volunteer, flower: !!s.flower, festival: !!s.festival,
@@ -78,19 +101,21 @@ export function symbolForStrain(id) {
   return SYMBOL_RE.test(sym) ? sym : '';
 }
 
-/** Filter a list of engine balances ({symbol,balance,stake}) down to just the seed tokens, enriched. */
-export function filterSeedBalances(balances = []) {
+/** From a wallet's NFT holdings (engine/1155 balances: {symbol|tokenId, balance|count|qty}), keep just the
+ *  seed NFTs the player owns (count > 0), enriched with traits + the owned quantity. Each seed is one NFT
+ *  type; `owned` is how many of that type the wallet holds (semi-fungible). Soft-fails to []. */
+export function ownedSeeds(holdings = []) {
   const cat = new Map(seedCatalog().map((s) => [s.symbol, s]));
+  const seen = new Set();
   const out = [];
-  for (const b of Array.isArray(balances) ? balances : []) {
-    const sym = String(b.symbol || '').toUpperCase();
+  for (const b of Array.isArray(holdings) ? holdings : []) {
+    const sym = String(b.symbol || b.tokenId || '').toUpperCase();
     const seed = cat.get(sym);
-    if (!seed) continue;
-    out.push({
-      ...seed,
-      liquid: String(b.balance ?? b.liquid ?? '0'),
-      staked: String(b.stake ?? b.staked ?? '0'),
-    });
+    if (!seed || seen.has(sym)) continue;        // a seed is exactly one kind — first source wins
+    const owned = String(b.balance ?? b.count ?? b.qty ?? b.amount ?? '0');
+    if (!(Number(owned) > 0)) continue;          // only what you actually hold
+    seen.add(sym);
+    out.push({ ...seed, owned });
   }
   return out;
 }
