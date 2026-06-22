@@ -26,13 +26,6 @@ jobs:
     defaults:
       run:
         working-directory: apps/move
-    # Mapped from secrets so the signing/publish steps can gate on them via the env context (`if:`).
-    env:
-      KEYSTORE_BASE64: ${{ secrets.MOVE_UPLOAD_KEYSTORE_BASE64 }}
-      KEYSTORE_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEYSTORE_PASSWORD }}
-      KEY_ALIAS: ${{ secrets.MOVE_UPLOAD_KEY_ALIAS }}
-      KEY_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEY_PASSWORD }}
-      PLAY_SA_JSON: ${{ secrets.MOVE_PLAY_SERVICE_ACCOUNT_JSON }}
     steps:
       - uses: actions/checkout@v4
 
@@ -42,7 +35,21 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: 'temurin', java-version: '17' }
 
-      - uses: android-actions/setup-android@v3
+      # Third-party action pinned to a commit SHA (a moving tag could be hijacked). Update deliberately.
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407  # v3 (pinned 2026-06-22)
+
+      # Detect whether the release secrets exist WITHOUT exposing them job-wide. Only this step (which never
+      # prints the values, just their emptiness) and the specific signing/publish steps see the secrets.
+      - name: Detect release secrets
+        id: flags
+        env:
+          KS: ${{ secrets.MOVE_UPLOAD_KEYSTORE_BASE64 }}
+          SA: ${{ secrets.MOVE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          has_ks=$([ -n "$KS" ] && echo true || echo false)
+          has_sa=$([ -n "$SA" ] && echo true || echo false)
+          echo "has_keystore=$has_ks" >> "$GITHUB_OUTPUT"
+          echo "has_publish=$([ "$has_ks" = true ] && [ "$has_sa" = true ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Install Capacitor deps
         run: npm install
@@ -65,8 +72,13 @@ jobs:
       # Sign the AAB with the upload key — only when the keystore secrets are configured. Uses the SAFE
       # env-var pattern (no untrusted input; secrets are read from $ENV, never interpolated into the shell).
       - name: Sign release AAB (if upload keystore is configured)
-        if: ${{ env.KEYSTORE_BASE64 != '' }}
+        if: ${{ steps.flags.outputs.has_keystore == 'true' }}
         working-directory: apps/move/android
+        env:
+          KEYSTORE_BASE64: ${{ secrets.MOVE_UPLOAD_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.MOVE_UPLOAD_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEY_PASSWORD }}
         run: |
           set -euo pipefail
           printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
@@ -94,8 +106,10 @@ jobs:
       # Auto-publish to the Play INTERNAL test track — only when both the service account AND the upload key
       # are configured (a signed AAB is required). Until then this step is skipped and you upload by hand.
       - name: Publish to Google Play internal track (if service account is configured)
-        if: ${{ env.PLAY_SA_JSON != '' && env.KEYSTORE_BASE64 != '' }}
-        uses: r0adkll/upload-google-play@v1
+        if: ${{ steps.flags.outputs.has_publish == 'true' }}
+        # Pinned to a commit SHA — this action RECEIVES the Play service-account JSON, so a hijacked tag must
+        # not be able to silently start exfiltrating it. Update deliberately (Dependabot / manual review).
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5  # v1 (pinned 2026-06-22)
         with:
           serviceAccountJsonPlainText: ${{ secrets.MOVE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: community.soapbox.move
