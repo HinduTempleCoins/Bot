@@ -19,7 +19,7 @@
  * Returns { ok:true, … } / { ok:false, error }; never throws on user error.
  */
 
-import { tokens } from './tokens.mjs';
+import { tokens, burnFee } from './tokens.mjs';
 import { nft } from './nft.mjs';
 import { config } from '../config.mjs';
 
@@ -30,6 +30,31 @@ function ok(data = {}) { return { ok: true, ...data }; }
 const getSeed = (state, symbol) => state.findOne('seeds', { symbol });
 
 export const seeds = {
+  /**
+   * enable — the APIS-gated UPGRADE that makes an EXISTING token a Seed (the Hive-Engine flow: pay APIS to
+   * create a token, then pay APIS to make it a Seed — combinable with scot.enable). Issuer-only; burns
+   * config.seedFee APIS. The token's issuer becomes the seed's minter (so they can seeds.mint it to growers,
+   * and players can seeds.plant it). For OUR in-game official seeds, use `register` (minter-gated) instead.
+   * payload: { symbol, growTier?, season?, rarity?, traits? }
+   */
+  enable(state, ctx, p) {
+    const { sender } = ctx;
+    const symbol = String(p.symbol || '').toUpperCase();
+    if (!SYMBOL_RE.test(symbol)) return err(`invalid symbol "${p.symbol}"`);
+    const token = state.findOne('tokens', { symbol });
+    if (!token) return err(`no such token ${symbol} — create it first (tokens.create)`);
+    if (token.issuer !== sender) return err(`only issuer (${token.issuer}) can make ${symbol} a seed`);
+    if (getSeed(state, symbol)) return err(`${symbol} is already a seed`);
+    const fee = burnFee(state, sender, config.seedFee);
+    if (!fee.ok) return fee;
+    state.insert('seeds', {
+      symbol, kind: 'token', name: token.name, minter: sender, collection: null,
+      rarity: p.rarity || null, growTier: p.growTier || null, season: p.season || null,
+      registeredBlock: ctx.blockNum,
+    });
+    return ok({ seedEnabled: symbol, kind: 'token', charged: config.seedFee });
+  },
+
   /**
    * register — bootstrap one seed as an engine asset. Minter-gated.
    * payload: { symbol, kind?, name?, maxSupply, precision?, collection?, traits?, rarity?, growTier?, season?, capImmutable? }

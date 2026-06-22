@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import { State } from '../lib/state.mjs';
 import { bootstrapGenesis } from '../lib/genesis.mjs';
 import { seeds } from './seeds.mjs';
+import { tokens } from './tokens.mjs';
 import { config } from '../config.mjs';
 
 function fresh() { const s = new State(null); bootstrapGenesis(s); return s; }
@@ -53,6 +54,27 @@ test('register an NFT seed → mint editions → plant (burn) reduces supply', (
   assert.ok(plant.ok, plant.error);
   assert.equal(nftCount(s, 'bob', 'PUNICGOLD'), '2');
   assert.equal(s.findOne('nftTypes', { collection: config.seeds.collection, tokenId: 'PUNICGOLD' }).supply, '2');
+});
+
+test('enable: make an EXISTING (user-created) token a Seed, APIS-gated, issuer-only', () => {
+  const s = fresh();
+  // fund bob with APIS, then bob creates his own token (pays the creation fee)…
+  assert.ok(tokens.transfer(s, ctx(MINTER), { symbol: 'APIS', to: 'bob', quantity: '500' }).ok);
+  assert.ok(tokens.create(s, ctx('bob'), { symbol: 'BOBSEED', name: "Bob's Seed", precision: 0, maxSupply: '1000000' }).ok);
+  const before = BigInt(s.findOne('balances', { account: 'bob', symbol: 'APIS' }).balance);
+  // …then pays APIS again to make it a Seed
+  const en = seeds.enable(s, ctx('bob'), { symbol: 'BOBSEED', growTier: 'week', rarity: 'common' });
+  assert.ok(en.ok, en.error);
+  assert.equal(en.charged, config.seedFee);
+  const seed = s.findOne('seeds', { symbol: 'BOBSEED' });
+  assert.ok(seed && seed.kind === 'token' && seed.minter === 'bob');
+  const after = BigInt(s.findOne('balances', { account: 'bob', symbol: 'APIS' }).balance);
+  assert.equal(before - after, BigInt(config.seedFee) * 1000n, 'seed fee burned (APIS precision 3)');
+  // bob (the issuer/minter) can now mint his seed; non-issuer can't enable; double-enable + unknown rejected
+  assert.ok(seeds.mint(s, ctx('bob'), { to: 'carol', symbol: 'BOBSEED', quantity: '10' }).ok);
+  assert.equal(seeds.enable(s, ctx('mallory'), { symbol: 'BOBSEED' }).ok, false);
+  assert.equal(seeds.enable(s, ctx('bob'), { symbol: 'BOBSEED' }).ok, false); // already a seed
+  assert.equal(seeds.enable(s, ctx('bob'), { symbol: 'NOPE' }).ok, false);    // no such token
 });
 
 test('only the minter may register and mint', () => {

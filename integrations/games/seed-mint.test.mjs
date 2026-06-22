@@ -1,7 +1,7 @@
 // seed-mint.test.mjs — OFFLINE. The off-chain Seed Mint op-builder: register-all from the catalog, mint, plant.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildRegisterOp, buildRegisterAllOps, buildMintOp, buildPlantOp, supplyForSeed, SIDECHAIN_ID } from './seed-mint.mjs';
+import { buildRegisterOp, buildRegisterAllOps, buildMintOp, buildPlantOp, buildSeedEnableOp, supplyForSeed, SIDECHAIN_ID } from './seed-mint.mjs';
 import { seedCatalog } from './seed-tokens.mjs';
 
 function parse(op) { return { name: op[0], payload: op[1], json: JSON.parse(op[1].json) }; }
@@ -42,6 +42,18 @@ test('supplyForSeed: abundant tokens get a big cap, scarce NFTs a small one', ()
   assert.equal(supplyForSeed({ kind: 'nft', rarity: 'legendary' }), '500');
   assert.equal(supplyForSeed({ kind: 'nft', rarity: 'rare' }), '5000');
   assert.ok(BigInt(supplyForSeed({ kind: 'token', growTier: 'day' })) > BigInt(supplyForSeed({ kind: 'nft', rarity: 'legendary' })));
+});
+
+test('buildSeedEnableOp: make-an-existing-token-a-Seed op', () => {
+  const r = buildSeedEnableOp('bob', { symbol: 'bobseed', growTier: 'week', rarity: 'common' });
+  assert.ok(r.ok, r.error);
+  const j = parse(r.op).json;
+  assert.equal(j.contractName, 'seeds');
+  assert.equal(j.contractAction, 'enable');
+  assert.equal(j.contractPayload.symbol, 'BOBSEED');
+  assert.equal(j.contractPayload.growTier, 'week');
+  assert.equal(buildSeedEnableOp('bob', { symbol: 'toolongsymbol' }).ok, false);
+  assert.equal(buildSeedEnableOp('BAD UPPER', { symbol: 'X' }).ok, false);
 });
 
 test('buildMintOp + buildPlantOp build valid seeds ops; validate inputs', () => {
