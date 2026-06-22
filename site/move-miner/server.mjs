@@ -172,7 +172,7 @@ function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.l
 // when the deviation rises past a real threshold and falls back (hysteresis), with a walking-cadence
 // refractory. At rest the deviation stays sub-threshold, so nothing counts.
 let steps=0, listening=false;
-let grav=9.81, sArmed=false, sLastAt=0, sWarm=0;
+let grav=9.81, sArmed=false, sLastAt=0, sWarm=0, sReadoutAt=0;
 const STEP_THRESH=1.6;   // m/s² a footfall clears above gravity (lowered 1/3 from 2.4 — generous, so every real step counts; still well above idle noise ~0)
 const STEP_RESET=1.0;    // must fall back below this to complete a step (hysteresis, no double-count)
 const STEP_MIN_MS=300;   // refractory → ≤ ~3.3 steps/s (a brisk walk/jog); kills the noise "stopwatch"
@@ -186,8 +186,11 @@ function onMotion(ev){
   if(!isFinite(mag))return;
   grav=grav*0.9+mag*0.1;                 // slow baseline ≈ gravity (or ~0 when gravity is already removed)
   const dev=mag-grav;                    // high-passed: ~0 at rest, spikes on a footfall
-  if(sWarm<10){sWarm++;return;}          // let the baseline settle first — no start-up transient step
   const now=Date.now();
+  // live readout (proof the new code is running + a calibration aid): a number that jumps when you move and
+  // sits near 0 when still. Throttled to ~5/s so it doesn't thrash the DOM.
+  if(now-sReadoutAt>200){ sReadoutAt=now; $('stepsub').textContent='counting… (motion '+Math.abs(dev).toFixed(1)+')'; }
+  if(sWarm<10){sWarm++;return;}          // let the baseline settle first — no start-up transient step
   if(!sArmed){ if(dev>STEP_THRESH) sArmed=true; }                 // rose past a real footfall peak
   else if(dev<STEP_RESET){                                        // …then fell back → one step
     if(now-sLastAt>STEP_MIN_MS){ setSteps(steps+1); sLastAt=now; }
@@ -330,7 +333,7 @@ export async function handler(req, res) {
     if (path === '/health') return json(res, 200, { ok: true, live: liveMode(), epoch: epochNow(), geoPrecision: GEO_PRECISION() });
     if (path === '/economy') return json(res, 200, { ok: true, ...economySummary() });
     if (path === '/manifest.webmanifest') { res.writeHead(200, { 'content-type': 'application/manifest+json' }); return res.end(MANIFEST); }
-    if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript' }); return res.end(SW); }
+    if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript', 'cache-control': 'no-store' }); return res.end(SW); }
     if (path === '/icon.svg') { res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public,max-age=86400' }); return res.end(ICON); }
     if (path.startsWith('/icons/') && path.endsWith('.png')) {
       const b = iconPng(path.slice('/icons/'.length).replace(/[^a-z0-9.\-]/gi, ''));
@@ -390,7 +393,7 @@ export async function handler(req, res) {
       });
     }
 
-    if (path === '/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PAGE); }
+    if (path === '/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store, must-revalidate' }); return res.end(PAGE); }
     res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found');
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' }); res.end('error');
