@@ -242,6 +242,56 @@ export function makeHandler(state, opts = {}) {
         return send(res, 200, rows.map((b) => balanceView(state, b)));
       }
 
+      // --- NFT contract (read-only) ---
+      // GET /contracts/nft/collections[?collection=KUSHSEED]
+      if (path === '/contracts/nft/collections' || path === '/api/nft/collections') {
+        const collection = (q.get('collection') || '').toUpperCase();
+        const rows = collection ? state.find('nftCollections', { collection }) : state.collection('nftCollections');
+        return send(res, 200, rows);
+      }
+      // GET /contracts/nft/types?collection=KUSHSEED[&tokenId=VANKUSH] -> the type registry + traits + supply
+      if (path === '/contracts/nft/types' || path === '/api/nft/types') {
+        const collection = (q.get('collection') || '').toUpperCase();
+        const tokenId = (q.get('tokenId') || '').toUpperCase();
+        const query = {};
+        if (collection) query.collection = collection;
+        if (tokenId) query.tokenId = tokenId;
+        return send(res, 200, state.find('nftTypes', query));
+      }
+      // GET /contracts/nft/balances?account=hathor[&collection=KUSHSEED] -> an account's NFT holdings.
+      // The Seeds wallet page reads this: each row carries tokenId + count (>0) + the type's traits.
+      if (path === '/contracts/nft/balances' || path === '/api/nft/balances') {
+        const account = q.get('account');
+        if (!account) return send(res, 400, { error: 'account required' });
+        const collection = (q.get('collection') || '').toUpperCase();
+        const query = { account };
+        if (collection) query.collection = collection;
+        const rows = state.find('nftBalances', query).filter((b) => BigInt(b.count || '0') > 0n).map((b) => {
+          const type = state.findOne('nftTypes', { collection: b.collection, tokenId: b.tokenId });
+          return {
+            account: b.account, collection: b.collection, tokenId: b.tokenId, symbol: b.tokenId,
+            count: b.count, balance: b.count, traits: type ? type.traits : {},
+          };
+        });
+        return send(res, 200, rows);
+      }
+
+      // GET /contracts/seeds[?symbol=VANKUSH] -> the Seed Mint registry (which seeds exist + their kind/traits)
+      if (path === '/contracts/seeds' || path === '/api/seeds') {
+        const symbol = (q.get('symbol') || '').toUpperCase();
+        const rows = symbol ? state.find('seeds', { symbol }) : state.collection('seeds');
+        return send(res, 200, rows);
+      }
+      // GET /contracts/seeds/plants[?account=x&symbol=y] -> the plant (burn) log the grow game reads
+      if (path === '/contracts/seeds/plants' || path === '/api/seeds/plants') {
+        const account = q.get('account');
+        const symbol = (q.get('symbol') || '').toUpperCase();
+        let rows = state.collection('plantLog');
+        if (account) rows = rows.filter((r) => r.account === account);
+        if (symbol) rows = rows.filter((r) => r.symbol === symbol);
+        return send(res, 200, rows.slice(-200));
+      }
+
       // GET /contracts/holders?symbol=APIS   -> who holds a token
       if (path === '/contracts/holders' || path === '/api/holders') {
         const symbol = (q.get('symbol') || '').toUpperCase();

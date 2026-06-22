@@ -258,6 +258,35 @@ export const tokens = {
   },
 
   /**
+   * burn — destroy tokens the sender holds (removes them from circulation). Reduces circulatingSupply (the
+   * minted high-water `supply` stays, mirroring burnFee). This is what "plant a seed" resolves to for
+   * token-kind seeds (seeds.plant → tokens.burn) — the deflation sink.
+   * payload: { symbol, quantity }
+   */
+  burn(state, ctx, p) {
+    const { sender } = ctx;
+    const symbol = String(p.symbol || '').toUpperCase();
+    const token = getToken(state, symbol);
+    if (!token) return err(`no such token ${symbol}`);
+    let amount;
+    try {
+      amount = toBaseUnits(String(p.quantity), token.precision);
+    } catch (e) {
+      return err(`bad quantity: ${e.message}`);
+    }
+    if (amount <= 0n) return err('quantity must be > 0');
+    const row = getBalance(state, sender, symbol);
+    if (bal(row) < amount) return err('insufficient balance to burn');
+    setBalance(state, sender, symbol, bal(row) - amount);
+    token.circulatingSupply = (BigInt(token.circulatingSupply) - amount).toString();
+    state.insert('burnLog', {
+      symbol, account: sender, quantity: fromBaseUnits(amount, token.precision),
+      block: ctx.blockNum != null ? ctx.blockNum : state.meta.lastBlock,
+    });
+    return ok({ burned: fromBaseUnits(amount, token.precision), symbol });
+  },
+
+  /**
    * stake — lock tokens into the sender's stake bucket (governance/mining
    * weight). Simplified vs HE (no cooldown timer on testnet) but the bucket
    * split is the seam HE uses for WORKERBEE mining + witness voting.

@@ -174,6 +174,20 @@ export const config = {
     custody: process.env.MELEK_ENGINE_BRIDGE_CUSTODY || preset.bridgeCustody || 'melekbridge',
   },
 
+  // --- the Seed Mint (seeds.mjs) — mints the Kush Farm seeds as engine assets ---
+  // A seed is a PRANA asset that mints THROUGH the engine, in one of two kinds: a fungible `tokens` token
+  // (abundant strains — the daily "milk") or a semi-fungible `nft` (scarce rare/legendary strains). Only the
+  // `minter` may register + mint seeds; growers receive them and `plant` (burn) them. The off-chain builder
+  // (integrations/games/seed-mint.mjs) reads the seed catalog and emits these ops; the engine folds them.
+  seeds: {
+    // Who may register + mint seeds (the grow-game settlement account). Defaults to the genesis issuer.
+    minter: process.env.MELEK_ENGINE_SEED_MINTER || process.env.MELEK_ENGINE_ISSUER || 'hathor',
+    // The NFT collection the nft-kind seeds live under.
+    collection: (process.env.MELEK_ENGINE_SEED_COLLECTION || 'KUSHSEED').toUpperCase(),
+    // Seed tokens are whole counts (you hold N seeds), so precision 0 by default.
+    tokenPrecision: Number(process.env.MELEK_ENGINE_SEED_PRECISION ?? 0),
+  },
+
   // --- the two PRANA DEX seams (security study §7), gated OFF here ---
   // No DEX on our side. These declare the registered, revocable capability
   // accounts the future PRANA DEX / peg gateway will plug into. Disabled until
