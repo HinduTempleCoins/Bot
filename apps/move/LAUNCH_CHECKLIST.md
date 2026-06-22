@@ -18,18 +18,28 @@ Register the Google Play account as **Personal** — it ships, monetizes, and ta
 D-U-N-S number**. (D-U-N-S is only for an *Organization* Play account and the *Apple* org account — iOS
 phase, later.) You can switch Personal→Organization later once your D-U-N-S is verified.
 
+## Auto-publish pipeline — WIRED (2026-06-22, after the Play dev account was approved)
+The Android workflow now SIGNS the AAB and AUTO-PUBLISHES it to the Play **internal** track — once these 5
+repo secrets exist (Settings → Secrets and variables → Actions). Until they're added, the build is unchanged
+(unsigned AAB artifact you upload by hand), so adding them is the on-switch:
+- `MOVE_UPLOAD_KEYSTORE_BASE64`, `MOVE_UPLOAD_KEYSTORE_PASSWORD`, `MOVE_UPLOAD_KEY_ALIAS`,
+  `MOVE_UPLOAD_KEY_PASSWORD` — the upload keystore (I can generate it for you; you just paste the 4 values).
+- `MOVE_PLAY_SERVICE_ACCOUNT_JSON` — Play Console → Setup → API access → create a service account → grant it
+  release access → download the JSON → paste it.
+App package id: **community.soapbox.move**.
+
 ## 👤 Your steps (most doable on your phone)
-1. **Test NOW without any account:** in GitHub → Actions → "Build MELEK Move (Android)" → latest run →
-   download **melek-move-debug-apk** → install on your Android phone (allow "install unknown apps") →
-   walk and watch the step counter rise with the screen off. *(No Play account needed for this.)*
-2. **Create the Play account** ($25, **Personal**) at play.google.com/console — phone-doable.
-3. **Tell me it exists** → I'll add the signing key + wire automatic AAB publishing to an internal test track.
-4. **Create the app** in Play Console → use `play-listing.md` (copy) + `store-assets/` (screenshots) +
-   a 512×512 icon (`site/move-miner/icons/icon-512.png`) + a 1024×500 feature graphic (I can generate on request).
-5. **Complete declarations** (paste from `store-submission.md`): Financial-features/blockchain, Foreground-service
-   (health) + record a ~30s demo video, Data safety, privacy URL = move.melek.salon/privacy.
-6. **Upload the AAB** (from the Actions artifact) to **Internal testing** → add yourself + testers.
-7. **Closed testing**: new accounts need ~**14 days, 12+ testers** before Production. Start this clock early.
+1. **Test NOW:** GitHub → Actions → "Build MELEK Move (Android)" → latest run → download
+   **melek-move-debug-apk** → install on your Android phone → walk, watch the counter rise with screen off.
+2. ✅ **Play account created** (Personal) — DONE.
+3. **Create the app** in Play Console → use `play-listing.md` (copy) + `store-assets/` (screenshots) +
+   the 512×512 icon (`site/move-miner/icons/icon-512.png`) + a 1024×500 feature graphic (I can generate).
+4. **Add the 5 secrets above** (tell me to make the keystore; create the service-account JSON in Play). Then
+   every push builds + signs + pushes the AAB straight to internal testing — no manual upload.
+5. **Complete declarations** (paste from `store-submission.md`): Financial-features/blockchain, Foreground-
+   service (health) + a ~30s demo video, Data safety, privacy URL = move.melek.salon/privacy.
+6. **Internal testing** → add yourself + testers (the AAB lands here automatically once #4 is done).
+7. **Closed testing**: new accounts need ~**14 days, 12+ testers** before Production — start the clock early.
 8. **Promote to Production.**
 
 ## 🍎 iOS (App Store) — Phase 2, **no Mac needed**

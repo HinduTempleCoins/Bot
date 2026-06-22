@@ -2,7 +2,15 @@ name: Build MELEK Move (Android)
 
 # Cloud build for the MELEK Move app — no local Android SDK needed. Produces:
 #   • app-debug.apk        — sideload on a phone to TEST the step counter NOW (no Play account needed)
-#   • app-release.aab      — the Google Play upload bundle (unsigned unless signing secrets are set)
+#   • app-release.aab      — the Google Play upload bundle
+# And, ONCE the Play account + secrets exist, it SIGNS the AAB and AUTO-PUBLISHES it to the Play internal
+# test track. All of that is gated on secrets, so before you add them the build behaves exactly as before
+# (unsigned AAB artifact you can upload by hand). Add these repo secrets to turn the pipeline on:
+#   MOVE_UPLOAD_KEYSTORE_BASE64       base64 of your upload keystore (keytool-generated; I can make it for you)
+#   MOVE_UPLOAD_KEYSTORE_PASSWORD     keystore password
+#   MOVE_UPLOAD_KEY_ALIAS             key alias
+#   MOVE_UPLOAD_KEY_PASSWORD          key password
+#   MOVE_PLAY_SERVICE_ACCOUNT_JSON    Play Console service-account JSON (Play → Setup → API access)
 # Trigger: push to apps/move/** (or this file), or run manually (Actions → this workflow → Run).
 
 on:
@@ -18,6 +26,13 @@ jobs:
     defaults:
       run:
         working-directory: apps/move
+    # Mapped from secrets so the signing/publish steps can gate on them via the env context (`if:`).
+    env:
+      KEYSTORE_BASE64: ${{ secrets.MOVE_UPLOAD_KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.MOVE_UPLOAD_KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.MOVE_UPLOAD_KEY_PASSWORD }}
+      PLAY_SA_JSON: ${{ secrets.MOVE_PLAY_SERVICE_ACCOUNT_JSON }}
     steps:
       - uses: actions/checkout@v4
 
@@ -47,6 +62,21 @@ jobs:
           chmod +x ./gradlew
           ./gradlew --no-daemon assembleDebug bundleRelease
 
+      # Sign the AAB with the upload key — only when the keystore secrets are configured. Uses the SAFE
+      # env-var pattern (no untrusted input; secrets are read from $ENV, never interpolated into the shell).
+      - name: Sign release AAB (if upload keystore is configured)
+        if: ${{ env.KEYSTORE_BASE64 != '' }}
+        working-directory: apps/move/android
+        run: |
+          set -euo pipefail
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          AAB=$(ls app/build/outputs/bundle/release/*.aab | head -1)
+          jarsigner -keystore "$RUNNER_TEMP/upload.keystore" \
+            -storepass:env KEYSTORE_PASSWORD -keypass:env KEY_PASSWORD \
+            -sigalg SHA256withRSA -digestalg SHA-256 "$AAB" "$KEY_ALIAS"
+          jarsigner -verify "$AAB"
+          rm -f "$RUNNER_TEMP/upload.keystore"
+
       - name: Upload debug APK (install this on your phone to test)
         uses: actions/upload-artifact@v4
         with:
@@ -60,3 +90,15 @@ jobs:
           name: melek-move-release-aab
           path: apps/move/android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: warn
+
+      # Auto-publish to the Play INTERNAL test track — only when both the service account AND the upload key
+      # are configured (a signed AAB is required). Until then this step is skipped and you upload by hand.
+      - name: Publish to Google Play internal track (if service account is configured)
+        if: ${{ env.PLAY_SA_JSON != '' && env.KEYSTORE_BASE64 != '' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.MOVE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: community.soapbox.move
+          releaseFiles: apps/move/android/app/build/outputs/bundle/release/*.aab
+          track: internal
+          status: completed
