@@ -23,6 +23,8 @@ import { rewards, recordPostTags, tribesForPost } from '../contracts/rewards.mjs
 import { workerbee } from '../contracts/workerbee.mjs';
 import { bridge } from '../contracts/bridge.mjs';
 import { gateway, dexSettlement } from '../contracts/seams.mjs';
+import { nft } from '../contracts/nft.mjs';
+import { seeds } from '../contracts/seeds.mjs';
 import { config } from '../config.mjs';
 import { burnFee } from '../contracts/tokens.mjs';
 
@@ -34,6 +36,8 @@ const CONTRACTS = {
   bridge,
   gateway,
   dexSettlement,
+  nft,
+  seeds,
 };
 
 // Which auth level each action requires. Value-moving / supply-control ops
@@ -64,6 +68,18 @@ const ACTIVE_REQUIRED = new Set([
   'gateway.deposit',
   'gateway.withdraw',
   'dexSettlement.settle',
+  // tokens.burn destroys supply → ACTIVE (it moves/removes value).
+  'tokens.burn',
+  // nft: collection/type/mint control supply; transfer/burn move value → all ACTIVE.
+  'nft.createCollection',
+  'nft.defineType',
+  'nft.mint',
+  'nft.transfer',
+  'nft.burn',
+  // seeds: register/mint control supply, plant burns → all ACTIVE.
+  'seeds.register',
+  'seeds.mint',
+  'seeds.plant',
 ]);
 
 export class Engine {
