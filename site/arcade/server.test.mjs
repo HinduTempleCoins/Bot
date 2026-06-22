@@ -16,7 +16,7 @@ test('GET / serves the GTArcade hub with the Seed + Farming games + Alpha badge'
   assert.match(o.body, /GT<\/b>Arcade/);
   assert.match(o.body, /Alpha/);                       // standing alpha-badge convention
   assert.match(o.body, /Seed Raffle/);                 // the seed game / casino
-  assert.match(o.body, /Seasonal Farm/);               // the farming game
+  assert.match(o.body, /Kush Farm/);                   // the farming game (Pot-Farm style)
   assert.match(o.body, /Coming soon/);                 // extensible — other games later
 });
 
@@ -24,7 +24,7 @@ test('/api/games lists the registry', async () => {
   const { res, o } = cap(); await handler(req('/api/games'), res);
   assert.equal(o.code, 200);
   const ids = j(o).games.map((g) => g.id);
-  assert.ok(ids.includes('seed-raffle')); assert.ok(ids.includes('seasonal-farm'));
+  assert.ok(ids.includes('seed-raffle')); assert.ok(ids.includes('kush-farm'));
 });
 
 test('/api/board: a board game returns a season + (graceful) empty top without a reader', async () => {
