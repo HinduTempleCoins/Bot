@@ -173,7 +173,7 @@ function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.l
 // refractory. At rest the deviation stays sub-threshold, so nothing counts.
 let steps=0, listening=false;
 let grav=9.81, sArmed=false, sLastAt=0, sWarm=0;
-const STEP_THRESH=2.4;   // m/s² a real footfall clears above the gravity baseline (rejects idle noise)
+const STEP_THRESH=1.6;   // m/s² a footfall clears above gravity (lowered 1/3 from 2.4 — generous, so every real step counts; still well above idle noise ~0)
 const STEP_RESET=1.0;    // must fall back below this to complete a step (hysteresis, no double-count)
 const STEP_MIN_MS=300;   // refractory → ≤ ~3.3 steps/s (a brisk walk/jog); kills the noise "stopwatch"
 const TIERS=[[1000,1.2],[2000,1.5],[5000,2],[10000,3],[15000,4],[20000,5],[25000,6.5],[30000,8],[40000,11],[50000,15]];
