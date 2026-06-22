@@ -10,20 +10,23 @@ function cap() {
 const req = (path) => ({ url: path });
 const j = (o) => JSON.parse(o.body);
 
-test('GET / renders the wallet-gated Seeds page with the seed catalog', async () => {
+test('GET / renders the wallet-gated Seeds NFT collection', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /<b>Seeds<\/b>/);
   assert.match(o.body, /Alpha/);
   assert.match(o.body, /Connect Wallet/);            // wallet-gated
+  assert.match(o.body, /NFT/);                        // NFT framing
   assert.match(o.body, /MELEK-Engine/);
-  assert.match(o.body, /VANKUSH/);                    // a seed symbol from the catalog
+  assert.match(o.body, /VANKUSH/);                    // a seed token-id from the collection
+  assert.match(o.body, /Owned/);                      // owned-count affordance
 });
 
-test('/api/seeds filters engine balances to seeds (injected fetch)', async () => {
-  __setFetch(async () => ({ ok: true, json: async () => ({ balances: [
+test('/api/seeds returns only the seed NFTs you own (injected fetch)', async () => {
+  __setFetch(async () => ({ ok: true, json: async () => ({ nfts: [
     { symbol: 'MELEK', balance: '100' },
-    { symbol: 'VANKUSH', balance: '7', stake: '2' },
+    { symbol: 'VANKUSH', balance: '7' },
+    { symbol: 'PUNICGOLD', balance: '0' },            // owned 0 → excluded
     { symbol: 'KULA', balance: '5' },
   ] }) }));
   const { res, o } = cap(); await handler(req('/api/seeds?account=@Tester'), res);
@@ -31,9 +34,10 @@ test('/api/seeds filters engine balances to seeds (injected fetch)', async () =>
   const d = j(o);
   assert.equal(d.ok, true);
   assert.equal(d.account, 'tester');                  // normalized
-  assert.equal(d.seeds.length, 1);                    // only the seed survived
+  assert.ok(d.collection);
+  assert.equal(d.seeds.length, 1);                    // only the owned seed survived
   assert.equal(d.seeds[0].symbol, 'VANKUSH');
-  assert.equal(d.seeds[0].liquid, '7');
+  assert.equal(d.seeds[0].owned, '7');
   __setFetch(null);
 });
 

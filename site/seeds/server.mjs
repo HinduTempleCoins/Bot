@@ -1,14 +1,14 @@
 // site/seeds/server.mjs — seeds.soapbox.community
 //
-// The SEEDS page: a tokens.melek.salon-style WALLET view, wallet-gated, showing only your SEED tokens
+// The SEEDS page: a tokens.melek.salon-style WALLET, wallet-gated, showing your SEED NFT COLLECTION
 // (operator 2026-06-22: "similar to the tokens.melek.salon page — you need your Akasha/MELEK wallet logged
-// in, and you see Seeds only instead of all tokens or coins"). Seeds are PRANA tokens that MINT through
-// MELEK-Engine, so a player's seeds are engine token balances; this page filters the wallet to the Kush Farm
-// seed set (integrations/games/seed-tokens.mjs) and enriches each with its grow metadata.
+// in, and you see Seeds only" … "they are NFTs"). Seeds are PRANA NFTs (semi-fungible, ERC-1155) that MINT
+// through MELEK-Engine — each strain is one NFT type and you OWN a quantity. This page filters the wallet to
+// the Kush Farm seed collection (integrations/games/seed-tokens.mjs) and shows which seeds you hold + traits.
 //
-// Connect: an EVM "Connect Wallet" (Akasha/MetaMask) OR type a MELEK account — balances read from the engine
+// Connect: an EVM "Connect Wallet" (Akasha/MetaMask) OR type a MELEK account — holdings read from the engine
 // keyed by the MELEK account (non-custodial; no key ever touches this server). The seed CATALOG always
-// renders (logged-out you still see which seeds exist); your balances fill in once connected.
+// renders (logged-out you still see the collection); your owned counts fill in once connected.
 //
 // House style: ESM, esc() all interpolation, soft-fail, handler(req,res) exported, PORT/ENGINE_API env, Alpha.
 //
@@ -16,7 +16,7 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { seedCatalog, filterSeedBalances } from '../../integrations/games/seed-tokens.mjs';
+import { seedCatalog, ownedSeeds, SEED_COLLECTION } from '../../integrations/games/seed-tokens.mjs';
 
 const PORT = +(process.env.PORT || 8162);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -27,34 +27,56 @@ const FARM_URL = process.env.FARM_URL || 'https://farm.soapbox.community';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
 
+// Seeds come in two kinds (see seed-tokens.mjs): fungible engine TOKENS and semi-fungible NFTs. So we read
+// BOTH the fungible balances endpoint and the NFT-holdings endpoint and merge — ownedSeeds() then keeps only
+// the symbols that are seeds and that the wallet actually holds. Both paths env-overridable; soft-fail to [].
+const ENGINE_TOKEN_PATH = process.env.ENGINE_TOKEN_PATH || '/contracts/balances';
+const ENGINE_NFT_PATH = process.env.ENGINE_NFT_PATH || '/contracts/nft/balances';
+
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
-async function engineBalances(account) {
-  if (!account) return [];
+async function getList(url) {
   try {
-    const r = await _fetch(`${ENGINE_API}/contracts/balances?account=${encodeURIComponent(account)}`);
+    const r = await _fetch(url);
     if (!r || !r.ok) return [];
     const d = await r.json();
-    return d.balances || d.result || d || [];
+    return d.nfts || d.holdings || d.balances || d.result || d || [];
   } catch { return []; }
+}
+async function engineHoldings(account) {
+  if (!account) return [];
+  const a = encodeURIComponent(account);
+  const [tokens, nfts] = await Promise.all([
+    getList(`${ENGINE_API}${ENGINE_TOKEN_PATH}?account=${a}`),
+    getList(`${ENGINE_API}${ENGINE_NFT_PATH}?account=${a}&collection=${encodeURIComponent(SEED_COLLECTION)}`),
+  ]);
+  return [...(Array.isArray(tokens) ? tokens : []), ...(Array.isArray(nfts) ? nfts : [])];
 }
 
 const RARITY = { common: '#93a1b3', uncommon: '#36c08a', rare: '#4c8dff', legendary: '#d9a441' };
 
-function seedRow(s) {
-  const flags = [];
-  if (s.season === 'year-round') flags.push('<span class="tag yr">year-round</span>');
-  else flags.push(`<span class="tag se">${esc(s.season)}</span>`);
-  if (s.multiHarvest > 1) flags.push(`<span class=tag>🍎 ×${esc(s.multiHarvest)}</span>`);
-  if (s.volunteer) flags.push('<span class=tag>🌱</span>');
-  if (s.flower) flags.push('<span class=tag>🌷</span>');
-  if (s.festival) flags.push('<span class=tag>🍂</span>');
-  return `<tr data-symbol="${esc(s.symbol)}">
-    <td><b class=sym style="color:${RARITY[s.rarity] || '#e9eef5'}">${esc(s.symbol)}</b><div class=nm>${esc(s.name)}</div></td>
-    <td class=meta>${esc(s.tierLabel)} ${flags.join(' ')}</td>
-    <td class="bal liquid">—</td>
-    <td class="bal staked">—</td>
-  </tr>`;
+function seedCard(s) {
+  const col = RARITY[s.rarity] || '#e9eef5';
+  const isNft = s.kind === 'nft';
+  const kindBadge = isNft ? '🖼 NFT' : '🪙 Token';
+  const sub = isNft ? `${esc(s.collection)} NFT` : 'fungible token';
+  const chips = [];
+  if (s.season === 'year-round') chips.push('<span class="tag yr">year-round</span>');
+  else chips.push(`<span class="tag se">${esc(s.season)}</span>`);
+  chips.push(`<span class=tag>${esc(s.tierLabel)}</span>`);
+  if (s.multiHarvest > 1) chips.push(`<span class=tag>🍎 ×${esc(s.multiHarvest)}</span>`);
+  if (s.volunteer) chips.push('<span class=tag>🌱 volunteer</span>');
+  if (s.flower) chips.push('<span class=tag>🌷 flower</span>');
+  if (s.festival) chips.push('<span class=tag>🍂 festival</span>');
+  return `<div class="nft ${esc(s.kind)}" data-symbol="${esc(s.symbol)}" style="--rc:${col}">
+    <div class=art aria-hidden=true><span>🌱</span><span class="kind ${esc(s.kind)}">${kindBadge}</span></div>
+    <div class=body>
+      <div class=top><b class=nm>${esc(s.name)}</b><span class=rar style="color:${col};border-color:${col}">${esc(s.rarity)}</span></div>
+      <div class=sub><span class=sym>${esc(s.symbol)}</span> <span class=mut>· ${sub}</span></div>
+      <div class=chips>${chips.join(' ')}</div>
+      <div class=own><span class=ownlabel>${isNft ? 'Owned' : 'Balance'}</span> <b class=count>—</b></div>
+    </div>
+  </div>`;
 }
 
 function page() {
@@ -74,36 +96,43 @@ function page() {
  button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:8px 14px;cursor:pointer}
  .b-primary{background:var(--gold);color:#1a1306}.b-ghost{background:#0e131b;color:var(--fg);border:1px solid var(--bd)}
  .who{margin-left:auto;font-size:12px;color:var(--green)}
- table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--bd);vertical-align:top}
- th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
- .sym{font-size:14px}.nm{font-size:12px;color:var(--mut)}.meta{font-size:12px;color:var(--mut)}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+ .nft{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+ .nft.owned{border-color:var(--rc);box-shadow:0 0 0 1px var(--rc) inset}.nft.dim{opacity:.45}
+ .art{position:relative;height:84px;display:flex;align-items:center;justify-content:center;font-size:38px;background:radial-gradient(120px 80px at 50% 20%,color-mix(in srgb,var(--rc) 28%,transparent),transparent),#0e131b;border-bottom:1px solid var(--bd)}
+ .art .kind{position:absolute;top:7px;right:7px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;background:#0b0d12cc;border:1px solid var(--bd);color:var(--mut)}
+ .art .kind.nft{color:var(--gold);border-color:var(--gold)}.art .kind.token{color:var(--blue);border-color:var(--blue)}
+ .body{padding:11px 12px}.top{display:flex;align-items:center;gap:8px}.nm{font-size:15px}
+ .rar{margin-left:auto;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border:1px solid;border-radius:999px;padding:2px 7px}
+ .sub{font-size:12px;margin:3px 0 8px}.sym{color:var(--fg);font-weight:700;font-family:ui-monospace,Menlo,monospace}
+ .chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
  .tag{font-size:10px;color:var(--mut);border:1px solid var(--bd);border-radius:6px;padding:1px 5px}
  .tag.yr{color:var(--green);border-color:var(--green)}.tag.se{color:var(--blue);border-color:var(--blue)}
- .bal{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.bal b{color:var(--fg)}
- .gate{color:var(--mut);font-size:13px;margin:8px 2px}
+ .own{display:flex;align-items:baseline;gap:6px;border-top:1px solid var(--bd);padding-top:8px}
+ .ownlabel{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}.count{font-size:18px;font-variant-numeric:tabular-nums}
+ .mut{color:var(--mut)}.blue{color:var(--blue)}.gold{color:var(--gold)}.gate{color:var(--mut);font-size:13px;margin:8px 2px}
  footer{color:var(--mut);font-size:12px;text-align:center;margin:22px 0 8px}a{color:var(--gold)}
 </style></head><body><div class=wrap>
 <header><span class=brand>🌱 <b>Seeds</b></span><span class=alpha>Alpha</span></header>
-<p class=lead>Your Seed wallet — the Kush Farm seeds you hold, as tokens minted through MELEK-Engine. Connect your Akasha / MELEK wallet (or enter your MELEK account) to see <b>your</b> balances; everything else is just the seed list.</p>
+<p class=lead>Your Seed wallet — every Kush Farm strain, minted through MELEK-Engine. Some seeds are <b class=blue>fungible tokens</b> (the abundant ones — trade them, plant = burn them); the scarce strains are <b class=gold>NFTs</b> (collectable, with traits). Connect your Akasha / MELEK wallet (or enter your MELEK account) to see which seeds <b>you</b> hold; everything else is just the catalog.</p>
 <div class=connect>
  <button class=b-ghost id=connect>Connect Wallet</button>
  <input id=acct placeholder="…or MELEK account" autocomplete=off spellcheck=false>
  <button class=b-primary id=show>Show my Seeds</button>
  <span class=who id=who></span>
 </div>
-<div class=gate id=gate>Not connected — showing the seed catalog. Your liquid / staked balances appear once you connect.</div>
-<table><thead><tr><th>Seed</th><th>Grow</th><th style="text-align:right">Liquid</th><th style="text-align:right">Staked</th></tr></thead>
-<tbody>${cat.map(seedRow).join('')}</tbody></table>
-<footer>Seeds mint through MELEK-Engine. Grow them at <a href="${esc(GROW_URL)}">🌿 Kush Farm</a> · farm the tokens at <a href="${esc(FARM_URL)}">🌾 KULA Farm</a>. Non-custodial — your keys never leave your device. <a href="/api/seeds">api</a></footer>
+<div class=gate id=gate>Not connected — showing the full seed collection. Your owned counts appear once you connect.</div>
+<div class=grid>${cat.map(seedCard).join('')}</div>
+<footer>Seed NFTs mint through MELEK-Engine. Grow them at <a href="${esc(GROW_URL)}">🌿 Kush Farm</a> · farm the tokens at <a href="${esc(FARM_URL)}">🌾 KULA Farm</a>. Non-custodial — your keys never leave your device. <a href="/api/seeds">api</a></footer>
 <script>
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const who=document.getElementById('who'),gate=document.getElementById('gate'),acct=document.getElementById('acct');
 function fill(rows){const have=new Map((rows||[]).map(r=>[String(r.symbol).toUpperCase(),r]));let any=false;
- for(const tr of document.querySelectorAll('tbody tr')){const s=tr.dataset.symbol;const r=have.get(s);
-  const L=tr.querySelector('.liquid'),S=tr.querySelector('.staked');
-  if(r){any=true;L.innerHTML='<b>'+esc(r.liquid)+'</b>';S.innerHTML=esc(r.staked||'0');tr.style.opacity='1';}
-  else{L.textContent='0';S.textContent='0';tr.style.opacity='.5';}}
- gate.textContent=any?'':'No seeds in this wallet yet — grow some at the Kush Farm.';}
+ for(const card of document.querySelectorAll('.nft')){const s=card.dataset.symbol;const r=have.get(s);
+  const c=card.querySelector('.count');
+  if(r&&Number(r.owned)>0){any=true;c.textContent=r.owned;card.classList.add('owned');card.classList.remove('dim');}
+  else{c.textContent='0';card.classList.remove('owned');card.classList.add('dim');}}
+ gate.textContent=any?'':'No seed NFTs in this wallet yet — grow some at the Kush Farm.';}
 async function load(account){if(!account){return;}who.textContent='@'+account;gate.textContent='loading…';
  try{const d=await(await fetch('/api/seeds?account='+encodeURIComponent(account),{cache:'no-store'})).json();fill((d&&d.seeds)||[]);}
  catch(e){gate.textContent='Could not reach the engine — try again.';}}
@@ -128,8 +157,8 @@ export async function handler(req, res) {
     if (url.pathname === '/api/seeds') {
       const account = (url.searchParams.get('account') || '').replace(/^@/, '').toLowerCase();
       if (!account) return json(res, 200, { ok: false, reason: 'no-account', seeds: [] });
-      const balances = await engineBalances(account);
-      return json(res, 200, { ok: true, account, seeds: filterSeedBalances(balances) });
+      const holdings = await engineHoldings(account);
+      return json(res, 200, { ok: true, account, collection: SEED_COLLECTION, seeds: ownedSeeds(holdings) });
     }
     if (url.pathname === '/') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(page()); }
     res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found');
