@@ -185,14 +185,15 @@ function onMotion(ev){
   const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
   if(!isFinite(mag))return;
   grav=grav*0.9+mag*0.1;                 // slow baseline ≈ gravity (or ~0 when gravity is already removed)
-  const dev=mag-grav;                    // high-passed: ~0 at rest, spikes on a footfall
+  const ad=Math.abs(mag-grav);           // |high-passed| — a footfall is a prominent spike of EITHER polarity
+                                         // (iOS often shows the free-fall/negative half strongest); this is
+                                         // the SAME signal as the readout, so the count tracks what you see.
   const now=Date.now();
-  // live readout (proof the new code is running + a calibration aid): a number that jumps when you move and
-  // sits near 0 when still. Throttled to ~5/s so it doesn't thrash the DOM.
-  if(now-sReadoutAt>200){ sReadoutAt=now; $('stepsub').textContent='counting… (motion '+Math.abs(dev).toFixed(1)+')'; }
+  // live readout (proof the new code is running + a calibration aid): jumps when you move, ~0 when still.
+  if(now-sReadoutAt>200){ sReadoutAt=now; $('stepsub').textContent='counting… (motion '+ad.toFixed(1)+')'; }
   if(sWarm<10){sWarm++;return;}          // let the baseline settle first — no start-up transient step
-  if(!sArmed){ if(dev>STEP_THRESH) sArmed=true; }                 // rose past a real footfall peak
-  else if(dev<STEP_RESET){                                        // …then fell back → one step
+  if(!sArmed){ if(ad>STEP_THRESH) sArmed=true; }                  // rose past a real footfall peak
+  else if(ad<STEP_RESET){                                         // …then fell back → one step
     if(now-sLastAt>STEP_MIN_MS){ setSteps(steps+1); sLastAt=now; }
     sArmed=false;
   }
