@@ -185,6 +185,26 @@ export function buildEngineOp(action, p, account) {
 }
 
 /**
+ * buildForeverLockOp — build the workerbee.foreverLock op: PERMANENTLY lock `amount` of the stake token
+ * (wMELEK) to mint soulbound APIS-Hash. There is NO unstake — this is the only way to earn APIS-Hash, the
+ * KULA DeFi permanent-staking mint. Builds + validates only; the user signs in their own wallet.
+ * @param {string} account the signing L1 account (required_auths)
+ * @param {object} p { amount }  whole-token amount of the stake token to forever-lock
+ */
+export function buildForeverLockOp(account, p) {
+  if (typeof p !== 'object' || p === null) throw new TypeError('params must be an object');
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const qErr = validateQuantity(p.amount);
+  if (qErr) return err(qErr);
+  const stake = (config.workerbee && config.workerbee.stakeToken) || 'WMELEK';
+  const envelope = { contractName: 'workerbee', contractAction: 'foreverLock', contractPayload: { amount: String(p.amount) } };
+  return {
+    ok: true, kind: 'engine', action: 'foreverLock', op: customJsonOp(account, envelope), envelope,
+    summary: `PERMANENTLY lock ${p.amount} ${stake} → APIS-Hash (soulbound, no unstake)`,
+  };
+}
+
+/**
  * buildSmtCreateOp — build the STANDARD Steem-fork `smt_create` operation.
  * Native SMTs are the chain-level token primitive; creation is a standard op
  * (not a custom op), signed OFF-REPO. We only assemble the payload + draw a NAI
