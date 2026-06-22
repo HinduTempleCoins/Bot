@@ -25,8 +25,8 @@ const EXAMPLE_GAMES = [
   { id: 'seed-raffle', name: 'Seed Raffle', kind: 'seed', token: 'KULA', live: true,
     blurb: 'The Token Casino primitive — buy tickets, the winner is drawn from a future blockhash (a seed nobody can predict or grind). Provably fair, no house edge on the draw.',
     play: 'https://alpha.pranascan.soapbox.community' },
-  { id: 'seasonal-farm', name: 'Seasonal Farm', kind: 'farm', token: 'KULA', live: true,
-    blurb: 'Plant a seed in a plot, add water to grow it faster, wait for it to mature, then harvest a crop. A per-season modifier scales every harvest. Seeds + water burn; yields mint.',
+  { id: 'kush-farm', name: 'Kush Farm', kind: 'farm', token: 'KULA', live: true,
+    blurb: 'Grow your own — plant a strain in a plot, feed and water it, watch it flower through the season, then harvest your buds for KULA. Pot-Farm-style cultivation: rare strains and the right season mean fatter yields. Seeds + nutrients burn; harvest mints.',
     play: 'https://alpha.pranascan.soapbox.community' },
   { id: 'pentecaust-arena', name: 'Arena (Pentecaust)', kind: 'board', token: 'MELEK', live: false,
     gameId: 'pentecaust-arena', seasonLength: 604800,
@@ -52,7 +52,7 @@ export function loadGames() {
 }
 const gameById = (id) => loadGames().find((g) => g.id === String(id || '').toLowerCase()) || null;
 
-const KIND = { seed: { label: '🎲 Seed / Casino', c: 'seed' }, farm: { label: '🌱 Farming', c: 'farm' }, board: { label: '🏆 Arena', c: 'board' }, coming: { label: '… Coming soon', c: 'coming' } };
+const KIND = { seed: { label: '🎲 Seed / Casino', c: 'seed' }, farm: { label: '🌿 Grow', c: 'farm' }, board: { label: '🏆 Arena', c: 'board' }, coming: { label: '… Coming soon', c: 'coming' } };
 
 function card(g) {
   const k = KIND[g.kind] || KIND.coming;
@@ -94,7 +94,7 @@ const PAGE = () => {
  .mut{color:var(--mut)}footer{color:var(--mut);font-size:12px;text-align:center;margin:24px 0 8px}a{color:var(--gold)}
 </style></head><body><div class=wrap>
 <header><span class=brand><b>GT</b>Arcade</span><span class=alpha>Alpha</span></header>
-<p class=lead>MELEK's games on PRANA — the <b>Seed</b> games (casino), the <b>Farm</b>, and seasonal <b>Arenas</b>. One account, one token economy; more games plug in over time.</p>
+<p class=lead>MELEK's games on PRANA — the <b>Seed</b> games (casino), the <b>Grow</b> (your Kush farm), and seasonal <b>Arenas</b>. One account, one token economy; more games plug in over time.</p>
 <div class=grid>${games.map(card).join('')}</div>
 <footer>Play earns + stakes flow through your one MELEK account. Seasons are on-chain &amp; time-derived. <a href="/health">api</a></footer>
 </div>
