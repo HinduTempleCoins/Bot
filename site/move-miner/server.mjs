@@ -165,22 +165,45 @@ fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.li
 function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.length>16)return true;
   for(const seg of v.split('.')){if(!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(seg)||seg.length<3||seg.length>16||seg.includes('--'))return true;}return false;}
 
-// ---- steps: accelerometer peak-count + manual ----
-let steps=0, listening=false, lastPeak=0, lastMag=0, rising=false;
+// ---- steps: a REAL accelerometer step detector (high-pass + threshold), not a stopwatch ----
+// Bug fixed 2026-06-22: the old version peak-counted RAW magnitude with a fixed mag>12 gate sitting just
+// above gravity (~9.8), so idle sensor noise kept tripping it and it free-ran like a stopwatch. Now we track
+// a slow gravity baseline, look at the DEVIATION (gravity removed → ~0 at rest), and only count a footfall
+// when the deviation rises past a real threshold and falls back (hysteresis), with a walking-cadence
+// refractory. At rest the deviation stays sub-threshold, so nothing counts.
+let steps=0, listening=false;
+let grav=9.81, sArmed=false, sLastAt=0, sWarm=0;
+const STEP_THRESH=2.4;   // m/s² a real footfall clears above the gravity baseline (rejects idle noise)
+const STEP_RESET=1.0;    // must fall back below this to complete a step (hysteresis, no double-count)
+const STEP_MIN_MS=300;   // refractory → ≤ ~3.3 steps/s (a brisk walk/jog); kills the noise "stopwatch"
 const TIERS=[[1000,1.2],[2000,1.5],[5000,2],[10000,3],[15000,4],[20000,5],[25000,6.5],[30000,8],[40000,11],[50000,15]];
 function sboost(n){let m=1;for(const [t,x] of TIERS){if(n>=t)m=x;else break;}return m;}
 function setSteps(n){steps=n;$('steps').textContent=String(n);$('boost').textContent='×'+sboost(n).toFixed(1);}
+function resetStepDetector(){grav=9.81;sArmed=false;sLastAt=0;sWarm=0;}
 function onMotion(ev){
   const a=ev.accelerationIncludingGravity||ev.acceleration;if(!a)return;
-  const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);const now=Date.now();
-  if(mag>12 && !rising && mag>lastMag){rising=true;}
-  if(rising && mag<lastMag && (now-lastPeak)>280){ setSteps(steps+1); lastPeak=now; rising=false; }
-  lastMag=mag;
+  const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
+  if(!isFinite(mag))return;
+  grav=grav*0.9+mag*0.1;                 // slow baseline ≈ gravity (or ~0 when gravity is already removed)
+  const dev=mag-grav;                    // high-passed: ~0 at rest, spikes on a footfall
+  if(sWarm<10){sWarm++;return;}          // let the baseline settle first — no start-up transient step
+  const now=Date.now();
+  if(!sArmed){ if(dev>STEP_THRESH) sArmed=true; }                 // rose past a real footfall peak
+  else if(dev<STEP_RESET){                                        // …then fell back → one step
+    if(now-sLastAt>STEP_MIN_MS){ setSteps(steps+1); sLastAt=now; }
+    sArmed=false;
+  }
 }
 $('startSteps').onclick=async()=>{
   if(listening){window.removeEventListener('devicemotion',onMotion);listening=false;$('startSteps').textContent='Start counting';$('stepsub').textContent='paused';return;}
-  try{ if(typeof DeviceMotionEvent!=='undefined' && DeviceMotionEvent.requestPermission){const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){$('stepsub').textContent='motion permission denied — use +1000 to test';return;}} }catch(e){}
-  window.addEventListener('devicemotion',onMotion);listening=true;$('startSteps').textContent='Pause';$('stepsub').textContent='counting… move your phone';
+  try{ if(typeof DeviceMotionEvent!=='undefined' && DeviceMotionEvent.requestPermission){const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){$('stepsub').textContent='motion permission denied — use “+1000 steps” to test';return;}} }catch(e){}
+  // Most desktop browsers have no motion sensor → devicemotion never fires. Probe so we tell the user the
+  // truth instead of silently doing nothing (or, before this fix, pretending to count).
+  let gotMotion=false; const probe=()=>{gotMotion=true;window.removeEventListener('devicemotion',probe);};
+  window.addEventListener('devicemotion',probe);
+  resetStepDetector();
+  window.addEventListener('devicemotion',onMotion);listening=true;$('startSteps').textContent='Pause';$('stepsub').textContent='counting… walk with your phone';
+  setTimeout(()=>{ if(!gotMotion && listening){ $('stepsub').textContent='no motion sensor here — open on your phone, or use “+1000 steps” to test'; } },1200);
 };
 $('plus50').onclick=()=>setSteps(steps+1000);
 
