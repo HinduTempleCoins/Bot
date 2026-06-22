@@ -62,6 +62,29 @@ export function buildCreateTribeOp(account, p = {}) {
     summary: `mint SCOT tribe ${symbol} (${p.emissionPerWindow}/window, ${authorBps / 100}% author, ${curve})` };
 }
 
+/**
+ * buildScotEnableOp — add a Scot Bot to an EXISTING token (the APIS-gated upgrade step).
+ * params: { symbol, emissionPerWindow, windowBlocks, authorBps?, curve?, tag? }
+ */
+export function buildScotEnableOp(account, p = {}) {
+  if (!isAccount(account)) return err(`invalid account "${account}"`);
+  const symbol = String(p.symbol || '').toUpperCase();
+  if (!isSymbol(symbol)) return err(`invalid symbol "${p.symbol}"`);
+  const eErr = validQuantity(p.emissionPerWindow);
+  if (eErr) return err(`emissionPerWindow: ${eErr}`);
+  const windowBlocks = Number(p.windowBlocks);
+  if (!Number.isInteger(windowBlocks) || windowBlocks < 1) return err('windowBlocks must be a positive integer');
+  const authorBps = p.authorBps === undefined ? 5000 : Number(p.authorBps);
+  if (!Number.isInteger(authorBps) || authorBps < 0 || authorBps > 10000) return err('authorBps must be an integer 0..10000');
+  const curve = p.curve === undefined ? 'linear' : String(p.curve);
+  if (!CURVES.has(curve)) return err(`curve must be one of ${[...CURVES].join('/')}`);
+  const payload = { symbol, emissionPerWindow: String(p.emissionPerWindow), windowBlocks, authorBps, curve };
+  if (p.tag) payload.tag = String(p.tag);
+  const envelope = { contractName: 'scot', contractAction: 'enable', contractPayload: payload };
+  return { ok: true, action: 'enable', op: customJsonOp(account, envelope), envelope,
+    summary: `add Scot Bot to ${symbol} (${p.emissionPerWindow}/window, ${authorBps / 100}% author)` };
+}
+
 /** buildScotMintOp — issue more of an existing tribe token. params: { symbol, to, quantity } */
 export function buildScotMintOp(account, p = {}) {
   if (!isAccount(account)) return err(`invalid account "${account}"`);

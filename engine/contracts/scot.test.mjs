@@ -8,10 +8,31 @@ import { State } from '../lib/state.mjs';
 import { bootstrapGenesis } from '../lib/genesis.mjs';
 import { scot } from './scot.mjs';
 import { tokens } from './tokens.mjs';
+import { config } from '../config.mjs';
 
 function fresh() { const s = new State(null); bootstrapGenesis(s); return s; }
 const ctx = (sender, blockNum = 1) => ({ sender, blockNum, blockId: 'b', txId: 't', authLevel: 'active' });
-// hathor holds genesis APIS for the creation fee.
+const apis = (s, a) => { const r = s.findOne('balances', { account: a, symbol: 'APIS' }); return r ? BigInt(r.balance) : 0n; };
+// hathor holds genesis APIS for the creation + upgrade fees.
+
+test('enable: add a Scot Bot to an EXISTING token (APIS-gated, issuer-only)', () => {
+  const s = fresh();
+  assert.ok(tokens.create(s, ctx('hathor'), { symbol: 'MYTOK', name: 'My Token', precision: 0, maxSupply: '1000000' }).ok);
+  const before = apis(s, 'hathor');
+  const en = scot.enable(s, ctx('hathor'), { symbol: 'MYTOK', emissionPerWindow: '5', windowBlocks: 100, authorBps: 6000 });
+  assert.ok(en.ok, en.error);
+  assert.equal(en.charged, config.scotFee);
+  assert.ok(s.findOne('rewardRules', { symbol: 'MYTOK' }), 'reward rule wired');
+  // the scot fee was burned from APIS (creation fee already taken by tokens.create above)
+  const feeBase = BigInt(config.scotFee) * 1000n; // APIS precision 3
+  assert.equal(before - apis(s, 'hathor'), feeBase);
+  // re-configuring an already-SCOT token is free (charged 0)
+  const again = scot.enable(s, ctx('hathor'), { symbol: 'MYTOK', emissionPerWindow: '7', windowBlocks: 50 });
+  assert.equal(again.charged, '0');
+  // non-issuer cannot enable; unknown token rejected
+  assert.equal(scot.enable(s, ctx('mallory'), { symbol: 'MYTOK', emissionPerWindow: '1', windowBlocks: 1 }).ok, false);
+  assert.equal(scot.enable(s, ctx('hathor'), { symbol: 'GHOST', emissionPerWindow: '1', windowBlocks: 1 }).ok, false);
+});
 
 test('createTribe mints a tribe: token + reward rule + founder issue, in one op', () => {
   const s = fresh();

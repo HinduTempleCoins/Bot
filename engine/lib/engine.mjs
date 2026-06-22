@@ -78,11 +78,13 @@ const ACTIVE_REQUIRED = new Set([
   'nft.mint',
   'nft.transfer',
   'nft.burn',
-  // seeds: register/mint control supply, plant burns → all ACTIVE.
+  // seeds: register/enable/mint control supply, plant burns → all ACTIVE.
   'seeds.register',
+  'seeds.enable',
   'seeds.mint',
   'seeds.plant',
-  // scot: createTribe creates a token + reward rule; mint issues supply → ACTIVE.
+  // scot: enable/createTribe wire rewards + control supply; mint issues supply → ACTIVE.
+  'scot.enable',
   'scot.createTribe',
   'scot.mint',
 ]);

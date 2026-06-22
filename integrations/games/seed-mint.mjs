@@ -70,6 +70,22 @@ export function buildRegisterAllOps(account, catalog = seedCatalog()) {
   return catalog.map((seed) => buildRegisterOp(account, seed)).filter((r) => r.ok);
 }
 
+/**
+ * Build a seeds.enable op — the APIS-gated upgrade that makes an EXISTING token a Seed (Hive-Engine flow).
+ * params: { symbol, growTier?, season?, rarity? }
+ */
+export function buildSeedEnableOp(account, { symbol, growTier, season, rarity } = {}) {
+  if (!isAccount(account)) return err(`invalid account "${account}"`);
+  const sym = String(symbol || '').toUpperCase();
+  if (!isSymbol(sym)) return err(`invalid symbol "${symbol}"`);
+  const payload = { symbol: sym };
+  if (growTier) payload.growTier = String(growTier);
+  if (season) payload.season = String(season);
+  if (rarity) payload.rarity = String(rarity);
+  const envelope = { contractName: 'seeds', contractAction: 'enable', contractPayload: payload };
+  return { ok: true, action: 'enable', op: customJsonOp(account, envelope), envelope, summary: `make ${sym} a Seed` };
+}
+
 /** Build a seeds.mint op (issue `quantity` of `symbol` to `to`). Minter-signed. */
 export function buildMintOp(account, { to, symbol, quantity } = {}) {
   if (!isAccount(account)) return err(`invalid account "${account}"`);

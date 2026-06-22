@@ -110,6 +110,10 @@ export const config = {
   // --- token economics (security study §6 F) ---
   // Generic token-creation fee, burned in the fee token (item 13).
   tokenCreationFee: '100',
+  // The Hive-Engine-style UPGRADE fees: after creating a token (APIS), the issuer pays APIS again to add a
+  // Scot Bot (SCOT rewards) and/or make it a Seed — separate, combinable options. Each burns APIS.
+  scotFee: process.env.MELEK_ENGINE_SCOT_FEE || '100',   // add a Scot Bot to an existing token
+  seedFee: process.env.MELEK_ENGINE_SEED_FEE || '100',   // make an existing token a Seed
   precisionRange: [0, 8],
   symbolMaxLength: 10,
 
