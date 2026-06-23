@@ -9,6 +9,7 @@ import {
   ButtonStyle
 } from 'discord.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { askHathor } from './integrations/hathor-limb.mjs';
 import dotenv from 'dotenv';
 import { readFile, writeFile } from 'fs/promises';
 import axios from 'axios';
@@ -7946,6 +7947,25 @@ Just type your questions naturally, or click a topic button below to explore. I'
   const isDM = message.channel.type === 1;
 
   if (!isMentioned && !isDM && !isReplyToBot && !containsKeyword) return;
+
+  // ── THE ONE HATHOR ───────────────────────────────────────────────────────────────────────────────
+  // Free conversation routes through the SHARED brain (surface 'discord'), so she is the SAME self here —
+  // one compartmentalized memory + Crypt-ology thread — as Hathor.live, the game, MELEK chat, and the chain.
+  // Per-person by the Discord user id, so memory follows them across surfaces. Public-guarded. Falls through
+  // to the local Gemini brain below if the shared brain is unreachable, so Discord is never left silent.
+  try {
+    const askText = (message.content || '').replace(/<@!?\d+>/g, '').trim();
+    if (askText) {
+      const ai = await askHathor(askText, { surface: 'discord', from: `discord:${message.author.id}` });
+      if (ai && ai.reply) {
+        try { await message.channel.sendTyping(); } catch { /* ignore */ }
+        let out = ai.reply;
+        try { const { guardPublicReply } = await import('./integrations/public-guard.mjs'); out = guardPublicReply(out, { seed: Date.now() }).text; } catch { /* send as-is */ }
+        await message.reply(out.slice(0, 1900));
+        return;
+      }
+    }
+  } catch { /* fall through to the local brain */ }
 
   try {
     await message.channel.sendTyping();
