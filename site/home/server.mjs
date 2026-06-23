@@ -137,6 +137,29 @@ export const SERVICES = [
   { name: 'Hathor.Live', blurb: 'Hathor, the MELEK AI witness — live AI chat + video Studio.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'hathor.live', sub: '=' },
 ];
 
+// ── THE SOAPBOX PLATFORM — the public content & data side (not chain surfaces; their own section) ─────
+// Single live host each (no alpha/mainnet split). All verified live (200). {name, host, blurb}.
+export const PLATFORM = [
+  { name: 'SoapBox Markets', host: 'data.soapbox.community', blurb: 'CMC-style data aggregator — coins, macro, filings, the Clarity Score.' },
+  { name: 'Search', host: 'search.soapbox.community', blurb: 'One box across the web, coins, the library, and the law.' },
+  { name: 'Library', host: 'wiki.soapbox.community', blurb: 'Library of Ashurbanipal — open corpus, fact-checked wiki, scripture.' },
+  { name: 'Hemp', host: 'hemp.soapbox.community', blurb: 'US cannabis law, reform orgs, and honest flower price indexes.' },
+  { name: 'Stocks', host: 'stocks.soapbox.community', blurb: 'Equities, market health, and the insurance vertical.' },
+  { name: 'Law', host: 'law.soapbox.community', blurb: 'Caselaw, statutes, and accountability records — facts, not verdicts.' },
+  { name: 'Politics', host: 'politics.soapbox.community', blurb: 'Congress, elections, lobbying, and accountability records.' },
+  { name: 'Oversight', host: 'oversight.soapbox.community', blurb: 'Unbiased politician & judge dossiers — accountability, no verdicts.' },
+  { name: 'Directory', host: 'directory.soapbox.community', blurb: 'Look up orgs and entities.' },
+  { name: 'Credentials', host: 'credentials.soapbox.community', blurb: 'SoapBox credentials & records.' },
+  { name: 'Grants', host: 'grants.soapbox.community', blurb: 'SoapBox grants.' },
+  { name: 'Hierophant', host: 'hierophant.soapbox.community', blurb: 'Sacred-texts library + god index.' },
+  { name: 'GenAI', host: 'genai.soapbox.community', blurb: 'The generative-AI hub.' },
+  { name: 'A Buck', host: 'abuck.soapbox.community', blurb: 'Real under-$2 stores & finds.' },
+  { name: 'Shopping', host: 'shopping.soapbox.community', blurb: 'The shopping vertical.' },
+  { name: 'Travel', host: 'travel.soapbox.community', blurb: 'The travel vertical.' },
+  { name: 'VanKushFamily', host: 'vankushfamily.com', blurb: 'The Van Kush Family roadmap.' },
+  { name: 'Dudael', host: 'dudael.com', blurb: 'The Dudael metaverse.' },
+];
+
 // Bilateral placement around the central hub: MELEK fans LEFT, PRANA fans RIGHT, KULA hangs BELOW.
 const FAMILY_SIDES = { [FAM_MELEK]: 'left', [FAM_PRANA]: 'right', [FAM_KULA]: 'down' };
 // Render order kept stable for the markup (and for the per-family branch loop).
@@ -277,6 +300,8 @@ const STYLE = `<style>
     .wing-left .stack,.wing-right .stack,.wing-down .stack{flex-direction:column;flex-wrap:nowrap;padding-left:14px;padding-right:0}
     .leaf-box{min-width:0;max-width:none;text-align:left}
   }
+  .platform-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:10px 0 6px}
+  .platform-grid .leaf{margin:0}.platform-grid .leaf-box{max-width:300px}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px 22px;margin-top:18px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--gold)}
 </style>`;
@@ -349,15 +374,28 @@ function netTree(which) {
     ${tree}</section>`;
 }
 
+// The SoapBox content/data platform — a flat grid of the public verticals (not chain surfaces). Each is one
+// live host on both nets, so it renders as a single clickable card (reusing the leaf renderer).
+function platformSection() {
+  const cards = PLATFORM.map((p) => leaf({ name: p.name, blurb: p.blurb, host: p.host, clickable: true, sameBoth: false })).join('');
+  return `<section class="net mainnet-net" id=platform>
+    <div class=net-head><h2>SoapBox Platform</h2><span class="tag live">live</span>
+      <span class=nh-sub>The public content &amp; data side — research, markets, law, the verticals. All live now.</span></div>
+    <div class=platform-grid>${cards}</div>
+  </section>`;
+}
+
 export function homePage() {
   // Static top box, same shared nav the SoapBox sites (data.soapbox.community etc.) use — every page one tap away.
   const body = `${navBar({ current: 'soapbox', brand: SITE_NAME })}<h1>${esc(ECOSYSTEM)}</h1>
     <p class=lede>The family tree of the ecosystem, centred on the <b>${esc(SITE_NAME)}</b> hub. The three chain
       families fan out from the middle — <b>MELEK</b> to the left, <b>PRANA</b> to the right, <b>KULA</b> below —
       and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
-      same tree with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon.</p>
+      same tree with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon. Below the trees, the
+      <b>SoapBox Platform</b> — the public content &amp; data verticals — is live now too.</p>
     ${netTree('alpha')}
     ${netTree('mainnet')}
+    ${platformSection()}
     ${subscribeWidget({ base: BASE_URL })}`;
   return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
 }
