@@ -98,6 +98,40 @@ const SITE_BLURB = {
   politics: 'Congress, elections, lobbying, and business-accountability records.',
 };
 
+// The PRANA play layer — the game/farm surfaces we run as their own live subdomains (not in PUBLIC_SITES,
+// which is the data/civic side). Each is its own site branch with its own URL; honesty rule still applies
+// (every one below is deployed + live). Rendered as a second, clearly-labelled bracket.
+const GAME_SITES = [
+  { slug: 'arcade', name: 'GTArcade', url: 'https://arcade.soapbox.community', live: true,
+    blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.',
+    children: [
+      { label: 'Seed Raffle (token casino)', live: true, path: '/' },
+      { label: 'Kush Farm tile', live: true, path: '/' },
+    ] },
+  { slug: 'kush', name: 'Kush Farm', url: 'https://kush.soapbox.community', live: true,
+    blurb: 'Grow crops across the real seasons — two axes (grow-time × season), harvest for KULA.',
+    children: [
+      { label: "What's plantable now", live: true, path: '/' },
+      { label: 'Strain & crop catalog', live: true, path: '/' },
+    ] },
+  { slug: 'seeds', name: 'Seeds', url: 'https://seeds.soapbox.community', live: true,
+    blurb: 'Your seed wallet — the seeds you hold, as engine tokens & NFTs (token vs NFT by scarcity).',
+    children: [
+      { label: 'Your seed collection', live: true, path: '/' },
+    ] },
+  { slug: 'farm', name: 'KULA Farm', url: 'https://farm.soapbox.community', live: true,
+    blurb: 'Farm the tokens — KULA emissions, pool APRs, and permanent wMELEK → APIS-Hash staking.',
+    children: [
+      { label: 'Stake wMELEK → APIS-Hash', live: true, path: '/' },
+      { label: 'Emissions & no-loss lottery', live: true, path: '/' },
+    ] },
+  { slug: 'move', name: 'MELEK Move', url: 'https://move.soapbox.community', live: true,
+    blurb: 'Move-to-earn — geo-mining boosted by your step counter, paid in MELEK.',
+    children: [
+      { label: 'Map your blocks & walk', live: true, path: '/' },
+    ] },
+];
+
 // Build the top tier from PUBLIC_SITES (the single source of truth), merging in live status + branches.
 function topBranches() {
   return PUBLIC_SITES.map((s) => ({
@@ -247,6 +281,14 @@ export function homePage() {
       <span><span class="pill coming">coming</span> built, not yet live — shown so you can see what's growing.</span>
     </div>
     ${tree}
+    <h2>Games &amp; Farm — the PRANA play layer</h2>
+    <p class=lead>The game side of the family: grow crops and strains, hold them as tokens &amp; NFTs, farm the
+      tokens, and earn by moving. All live on PRANA today.</p>
+    <div class=bracket><ul>
+      <li><span class="node root">Play</span>
+        <ul>${GAME_SITES.map(siteBranch).join('')}</ul>
+      </li>
+    </ul></div>
     <h2>The organism underneath</h2>
     <p class=lead>The sites sit on top of chains, bots, and tokens. Here's that layer, with honest status —
       green is live, blue is built, amber is on the way.</p>
