@@ -166,7 +166,7 @@ function page() {
  </div>
  <div id=stakeout class=note></div>
 </div>
-<footer>One MELEK account, one token economy. Seasons &amp; emissions are on-chain. <a href="/api/farm">api</a> · <a href="https://seeds.soapbox.community">🌱 Seeds (grow)</a> · <a href="https://arcade.soapbox.community">← GTArcade</a></footer>
+<footer>One MELEK account, one token economy. Seasons &amp; emissions are on-chain. <a href="/api/farm">api</a> · <a href="https://seeds.soapbox.community">🌱 Seeds (grow)</a> · <a href="https://arcade.soapbox.community">← SoapBox Arcade</a></footer>
 <script>
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=id=>document.getElementById(id),who=$('who'),stats=$('stats'),out=$('stakeout');

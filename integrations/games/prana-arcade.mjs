@@ -1,4 +1,4 @@
-// prana-arcade.mjs — the GTArcade PLUG. Connects any MELEK surface (a Pentecaust game channel, the Move
+// prana-arcade.mjs — the SoapBox Arcade PLUG. Connects any MELEK surface (a Pentecaust game channel, the Move
 // app, an arcade game, the casino, the farm) to PRANA's on-chain Season/Seed platform:
 //   • ArcadeLeaderboard — time-derived seasons + EIP-712 attester-signed scores + per-season prize pools.
 //   • SeasonPass        — battle-pass XP (a GRANTER_ROLE call, not a signed voucher).
