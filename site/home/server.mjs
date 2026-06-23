@@ -102,6 +102,7 @@ const CAT_WALLET = 'Wallet & Explorer';
 const CAT_DEFI = 'Tokens & DeFi';
 const CAT_CHAIN = 'Chain & Mining';
 const CAT_SOCIAL = 'Social & Curation';
+const CAT_GAMES = 'Games & Farm';
 
 export const SERVICES = [
   // ── KULA (DeFi) ──
@@ -122,6 +123,18 @@ export const SERVICES = [
   { name: 'PRANA RPC', blurb: 'Public JSON-RPC endpoint for the PRANA chain.', family: FAM_PRANA, category: CAT_CHAIN, base: 'melek.salon', sub: 'rpc.prana' },
   { name: 'Faucet', blurb: 'Claim testnet funds + an RC gift to get started.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: 'faucet' },
   { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
+
+  // ── Games & Farm — the PRANA play layer ──
+  { name: 'GTArcade', blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=arcade' },
+  { name: 'Kush Farm', blurb: 'Grow crops & strains across the real seasons — harvest for KULA.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=kush' },
+  { name: 'Seeds', blurb: 'Your seed wallet — the seeds you hold, as engine tokens & NFTs.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=seeds' },
+  { name: 'Game Servers', blurb: 'The Van Kush / SoapBox game-server hub.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=servers' },
+  { name: 'KULA Farm', blurb: 'Farm the tokens — KULA emissions, APRs, and permanent wMELEK → APIS-Hash staking.', family: FAM_KULA, category: CAT_GAMES, base: 'soapbox.community', sub: '=farm' },
+  { name: 'MELEK Move', blurb: 'Move-to-earn — geo-mining boosted by your step counter, paid in MELEK.', family: FAM_MELEK, category: CAT_GAMES, base: 'soapbox.community', sub: '=move' },
+
+  // ── MELEK social surfaces ──
+  { name: 'Pentecaust', blurb: 'MELEK Messaging — cross-game clans, alliances, and DMs; one identity across games.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'pentecaust.com', sub: '=' },
+  { name: 'Hathor.Live', blurb: 'Hathor, the MELEK AI witness — live AI chat + video Studio.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'hathor.live', sub: '=' },
 ];
 
 // Bilateral placement around the central hub: MELEK fans LEFT, PRANA fans RIGHT, KULA hangs BELOW.
