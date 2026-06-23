@@ -20,6 +20,32 @@ const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = process.env.BASE_URL || 'https://hathor.live';
 const MAX_MSG = 2000;
+// The ONE Hathor brain. Hathor.live is a LIMB: chat is forwarded to the shared brain's /perceive so it's the
+// same Hathor (same memory, same Crypt-ology thread, same compartments) as Discord / the servers / the chain.
+// Falls back to the local converse if the brain is unreachable. Env-overridable; injectable for tests.
+const AGENCY_URL = process.env.HATHOR_AGENCY_URL || 'http://127.0.0.1:8175';
+let _agency = null;
+export function __setAgency(fn) { _agency = typeof fn === 'function' ? fn : null; }
+async function agencyPerceive(text, { from } = {}) {
+  if (_agency) return _agency(text, { from });
+  try {
+    const r = await fetch(`${AGENCY_URL}/perceive`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ surface: 'melek', from: from || 'seeker', text }),
+    });
+    if (!r || !r.ok) return null;
+    const d = await r.json();
+    return d && d.reply ? { reply: d.reply, sources: [] } : null;
+  } catch { return null; }
+}
+// Per-visitor identity so her memory of a person is continuous (anonymous, cookie-scoped). No login.
+function visitorId(req, res) {
+  const m = /(?:^|;\s*)hl_sid=([a-z0-9-]{8,40})/i.exec((req.headers && req.headers.cookie) || '');
+  if (m) return `web:${m[1]}`;
+  const sid = (globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}${Math.floor(Math.random() * 1e9).toString(36)}`).slice(0, 32);
+  try { res.setHeader('set-cookie', `hl_sid=${sid}; Path=/; Max-Age=31536000; SameSite=Lax; Secure; HttpOnly`); } catch { /* soft */ }
+  return `web:${sid}`;
+}
 
 export function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
@@ -235,10 +261,15 @@ export async function handler(req, res) {
       let msg = '';
       try { msg = String((JSON.parse(raw || '{}').message) || '').slice(0, MAX_MSG).trim(); } catch { msg = ''; }
       if (!msg) { res.writeHead(400, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ reply: 'Ask me something, seeker.', sources: [] })); }
-      const converse = await brain();
-      if (!converse) { res.writeHead(200, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ reply: 'My voice is resting — the brain is offline for a moment. Try again shortly.', sources: [] })); }
-      let out;
-      try { out = await converse(msg, { task: 'quality' }); } catch { out = null; }
+      const person = visitorId(req, res);
+      // PRIMARY: the ONE shared Hathor brain (so this is the same self, with memory, as every other surface).
+      let out = await agencyPerceive(msg, { from: person });
+      // FALLBACK: the local converse, only if the shared brain is unreachable.
+      if (!out || !out.reply) {
+        const converse = await brain();
+        if (converse) { try { out = await converse(msg, { task: 'quality' }); } catch { out = null; } }
+      }
+      if (!out) { res.writeHead(200, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ reply: 'My voice is resting — the brain is offline for a moment. Try again shortly.', sources: [] })); }
       const reply = (out && out.reply) || 'I do not have that to hand just now — ask me another way.';
       const sources = (out && Array.isArray(out.sources)) ? out.sources.filter((s) => s && (s.title || s.link)).slice(0, 3) : [];
       res.writeHead(200, { 'content-type': 'application/json' });
