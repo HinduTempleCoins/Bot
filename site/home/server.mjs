@@ -126,7 +126,7 @@ export const SERVICES = [
   { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
 
   // ── Games & Farm — the PRANA play layer ──
-  { name: 'GTArcade', blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=arcade' },
+  { name: 'SoapBox Arcade', blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=arcade' },
   { name: 'Kush Farm', blurb: 'Grow crops & strains across the real seasons — harvest for KULA.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=kush' },
   { name: 'Seeds', blurb: 'Your seed wallet — the seeds you hold, as engine tokens & NFTs.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=seeds' },
   { name: 'Game Servers', blurb: 'The Van Kush / SoapBox game-server hub.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=servers' },

@@ -102,7 +102,7 @@ const SITE_BLURB = {
 // which is the data/civic side). Each is its own site branch with its own URL; honesty rule still applies
 // (every one below is deployed + live). Rendered as a second, clearly-labelled bracket.
 const GAME_SITES = [
-  { slug: 'arcade', name: 'GTArcade', url: 'https://arcade.soapbox.community', live: true,
+  { slug: 'arcade', name: 'SoapBox Arcade', url: 'https://arcade.soapbox.community', live: true,
     blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.',
     children: [
       { label: 'Seed Raffle (token casino)', live: true, path: '/' },

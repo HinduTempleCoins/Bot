@@ -1,4 +1,4 @@
-// server.test.mjs — GTArcade hub. OFFLINE. The page always renders; boards are graceful without a reader.
+// server.test.mjs — SoapBox Arcade hub. OFFLINE. The page always renders; boards are graceful without a reader.
 import { test } from 'node:test';
 import assert from 'node:assert';
 import { handler, loadGames } from './server.mjs';
@@ -10,10 +10,10 @@ function cap() {
 const req = (path) => ({ url: path, method: 'GET' });
 const j = (o) => JSON.parse(o.body);
 
-test('GET / serves the GTArcade hub with the Seed + Farming games + Alpha badge', async () => {
+test('GET / serves the SoapBox Arcade hub with the Seed + Farming games + Alpha badge', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
-  assert.match(o.body, /GT<\/b>Arcade/);
+  assert.match(o.body, /SoapBox<\/b> Arcade/);
   assert.match(o.body, /Alpha/);                       // standing alpha-badge convention
   assert.match(o.body, /Seed Raffle/);                 // the seed game / casino
   assert.match(o.body, /Kush Farm/);                   // the farming game (Pot-Farm style)

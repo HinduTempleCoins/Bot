@@ -69,7 +69,7 @@ function page() {
 ${TIER_ORDER.map((t) => TIERS[t] ? `<div class=tier><span class=tl>${esc(TIERS[t].label)}</span> <span class=tb>${esc(TIERS[t].blurb)}</span></div>` : '').join('')}
 <h2>Strains</h2>
 ${TIER_ORDER.map((t) => { const list = byTier(t); return list.length ? `<h2 style="color:var(--green)">${esc(TIERS[t] ? TIERS[t].label : t)}</h2><div class=grid>${list.map(strainCard).join('')}</div>` : ''; }).join('')}
-<footer>Market first, growing is the fallback — essentials grow fast so a dry market never blocks you; rare strains take a season or a year (the wait is the value). Compost burns the overflow. <a href="/api/catalog">api</a> · <a href="https://arcade.soapbox.community">← GTArcade</a></footer>
+<footer>Market first, growing is the fallback — essentials grow fast so a dry market never blocks you; rare strains take a season or a year (the wait is the value). Compost burns the overflow. <a href="/api/catalog">api</a> · <a href="https://arcade.soapbox.community">← SoapBox Arcade</a></footer>
 </div></body></html>`;
 }
 

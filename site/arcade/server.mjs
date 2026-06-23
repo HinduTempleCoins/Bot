@@ -1,4 +1,4 @@
-// site/arcade/server.mjs — the GTArcade hub: one page where MELEK's PRANA games appear, starting with the
+// site/arcade/server.mjs — the SoapBox Arcade hub: one page where MELEK's PRANA games appear, starting with the
 // SEED GAME (the commit-reveal raffle/casino) and the FARMING GAME (SeasonalFarm), and EXTENSIBLE to other
 // games later (just add a registry entry). Each tile shows what the game is + its live state; games that
 // post to ArcadeLeaderboard also show the current season + top scores (via integrations/games/prana-arcade).
@@ -70,7 +70,7 @@ function card(g) {
 const PAGE = () => {
   const games = loadGames();
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><title>GTArcade — MELEK</title>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>SoapBox Arcade — MELEK</title>
 <meta name=description content="The MELEK arcade — seed games, farming, and seasonal arenas on PRANA.">
 <style>
  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff;--purple:#9a7bff}
@@ -93,7 +93,7 @@ const PAGE = () => {
  .btn.primary{background:var(--gold);color:#1a1306;border-color:var(--gold)}.btn.ghost{color:var(--mut)}
  .mut{color:var(--mut)}footer{color:var(--mut);font-size:12px;text-align:center;margin:24px 0 8px}a{color:var(--gold)}
 </style></head><body><div class=wrap>
-<header><span class=brand><b>GT</b>Arcade</span><span class=alpha>Alpha</span></header>
+<header><span class=brand><b>SoapBox</b> Arcade</span><span class=alpha>Alpha</span></header>
 <p class=lead>MELEK's games on PRANA — the <b>Seed</b> games (casino), the <b>Grow</b> (your Kush farm), and seasonal <b>Arenas</b>. One account, one token economy; more games plug in over time.</p>
 <div class=grid>${games.map(card).join('')}</div>
 <footer>Play earns + stakes flow through your one MELEK account. Seasons are on-chain &amp; time-derived. <a href="/health">api</a></footer>
@@ -140,5 +140,5 @@ export async function handler(req, res) {
 }
 
 if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
-  createServer(handler).listen(PORT, HOST, () => console.log(`GTArcade hub on http://${HOST}:${PORT} — ${loadGames().length} games`));
+  createServer(handler).listen(PORT, HOST, () => console.log(`SoapBox Arcade hub on http://${HOST}:${PORT} — ${loadGames().length} games`));
 }
