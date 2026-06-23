@@ -1,7 +1,7 @@
 // server.test.mjs — hathor.live chat surface. Brain injected; offline, never throws.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { handler, esc, __setConverse, __setVideo } from './server.mjs';
+import { handler, esc, __setConverse, __setVideo, __setAgency } from './server.mjs';
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -28,8 +28,23 @@ test('GET / serves the chat page', async () => {
   assert.match(o.body, /\/api\/chat/);   // the client posts here
 });
 
-test('POST /api/chat routes to the brain and returns reply + sources', async () => {
+test('POST /api/chat goes to the ONE brain (/perceive) first — same Hathor, with the visitor as the person', async () => {
   let seen = null;
+  __setAgency(async (text, { from }) => { seen = { text, from }; return { reply: 'one self: ' + text, sources: [] }; });
+  __setConverse(async () => { throw new Error('converse must NOT be reached when the brain answers'); });
+  const { res, o } = cap();
+  await handler(req('/api/chat', 'POST', { message: 'who are you?' }), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(seen.text, 'who are you?');
+  assert.match(seen.from, /^web:/);                 // a per-visitor identity is passed for her memory
+  assert.match(j.reply, /one self/);
+  __setAgency(null); __setConverse(null);
+});
+
+test('POST /api/chat falls back to the local converse when the brain is unreachable', async () => {
+  let seen = null;
+  __setAgency(async () => null);                     // brain offline
   __setConverse(async (msg) => { seen = msg; return { reply: 'I am here, ' + msg, sources: [{ title: 'Rule 1', link: 'https://x/rule1' }], grounded: true }; });
   const { res, o } = cap();
   await handler(req('/api/chat', 'POST', { message: 'what is rule 1?' }), res);
@@ -39,7 +54,7 @@ test('POST /api/chat routes to the brain and returns reply + sources', async () 
   assert.match(j.reply, /I am here/);
   assert.equal(j.sources[0].title, 'Rule 1');
   assert.equal(j.grounded, true);
-  __setConverse(null);
+  __setAgency(null); __setConverse(null);
 });
 
 test('POST /api/chat with empty message → 400 friendly', async () => {
@@ -52,23 +67,23 @@ test('POST /api/chat with empty message → 400 friendly', async () => {
 });
 
 test('POST /api/chat soft-handles a brain that throws (never 500s the user)', async () => {
+  __setAgency(async () => null);
   __setConverse(async () => { throw new Error('llm down'); });
   const { res, o } = cap();
   await handler(req('/api/chat', 'POST', { message: 'hello' }), res);
   assert.equal(o.code, 200);
-  assert.match(JSON.parse(o.body).reply, /another way|do not have/i);
-  __setConverse(null);
+  assert.match(JSON.parse(o.body).reply, /another way|do not have|resting/i);
+  __setAgency(null); __setConverse(null);
 });
 
-test('POST /api/chat with no brain available degrades gracefully', async () => {
-  // force "no brain": inject null is not enough (default import), so inject a thrower-less absent path
-  __setConverse(false); // resets to default; default import may exist — so instead test via a fake that returns nothing
+test('POST /api/chat with neither brain available degrades gracefully', async () => {
+  __setAgency(async () => null);
   __setConverse(async () => null);
   const { res, o } = cap();
   await handler(req('/api/chat', 'POST', { message: 'hi' }), res);
   assert.equal(o.code, 200);
   assert.ok(JSON.parse(o.body).reply.length > 0);
-  __setConverse(null);
+  __setAgency(null); __setConverse(null);
 });
 
 test('health + robots + 404', async () => {
