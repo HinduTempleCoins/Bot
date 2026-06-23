@@ -7,11 +7,13 @@
 // works turn by turn in a plain browser, no chain account required to start the conversation.
 //
 // It does THREE things and no more:
-//   1. POST /chat { message, state? }  -> { reply, kind, state, steps? }   (the deterministic router)
+//   1. POST /chat { message, state? }  -> { reply, kind, state, steps? }   (the deterministic router; and
+//      when nothing matches — kind 'nudge', not mid-signup — it forwards to the ONE Hathor brain so general
+//      talk is conversational. She is an AI, not a command bot.)
 //   2. GET  /chat/health               -> "ok"
-//   3. NOTHING ELSE. NO LLM. ZERO keys, ZERO broadcast, ZERO chain writes. Hathor NEVER asks for,
-//      sees, or stores a private key or master password (BRIEF.md §7) — the walkthrough is read-only
-//      guidance, and this server never touches key material.
+//   3. ZERO keys, ZERO broadcast, ZERO chain writes. Hathor NEVER asks for, sees, or stores a private key or
+//      master password (BRIEF.md §7) — the walkthrough is read-only guidance, the AI brain is a separate
+//      keyless service, and this server never touches key material.
 //
 // CORS: only the alpha origin (the chat page) is allowed; other origins get no cross-origin grant and
 // an OPTIONS preflight from a disallowed origin is refused (mirrors signup/server.mjs).
@@ -28,6 +30,7 @@ import { createServer } from 'node:http';
 
 import { handleMessage, RateLimiter, SIGNUP_STEPS, redactForLog } from './index.mjs';
 import { chainDeps } from '../../integrations/hathor-chain-deps.mjs';
+import { askHathor } from '../../integrations/hathor-limb.mjs';
 
 // The SHARED read-only data sources for Hathor's !commands — the same set every surface (this browser
 // chat, the Discord bridge, the Telegram bot) wires into the one command brain (commands/menu.mjs), so
@@ -165,6 +168,16 @@ export async function handler(req, res) {
     try {
       // 'web' is a non-identifying user tag for the deterministic brain; the rate-limit key handles abuse.
       out = await handleMessage({ user: 'web', text: message, state }, { deps: MENU_DEPS });
+      // AI, not a command bot: the deterministic brain handles real commands/flows (command/signup/faq);
+      // when NOTHING matched (`nudge`) and we're not mid-signup, hand the message to the ONE Hathor brain so
+      // general talk is conversational — the same self, MELEK compartment. Soft: if the brain's down, keep
+      // the nudge. (Commands she'll still offer naturally from her own capability knowledge.)
+      if (out && out.kind === 'nudge' && !(state && state.signup)) {
+        try {
+          const ai = await askHathor(message, { surface: 'melek', from: 'seeker' });
+          if (ai && ai.reply) out = { reply: ai.reply, kind: 'hathor', state: null };
+        } catch { /* keep the deterministic nudge */ }
+      }
     } catch {
       // Never throw at the edge — give a friendly fallback.
       return sendJson(res, 200, {

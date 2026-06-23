@@ -52,8 +52,25 @@ function defaultComplete() {
     return ''; // deliberation soft-falls to its own reflection when the voice is silent
   };
 }
-// Default corpus retriever: empty until the shared RAG is wired in (the brain still works, with less recall).
-const defaultRetrieve = async () => [];
+// Default corpus retriever: the shared full-corpus RAG (our-search, the same grounding hathor-converse uses)
+// — so on EVERY surface she draws on the whole knowledge/ + datasets corpus, not just episodic memory. Each
+// source soft-fails; a timeout guards a slow source so a reply never stalls. Maps hits → {text,source,score}.
+function defaultRetrieve() {
+  return async (query, { k = 4 } = {}) => {
+    try {
+      const { search } = await import('./our-search.mjs');
+      const res = await Promise.race([
+        search(query, { k }),
+        new Promise((r) => setTimeout(() => r({ hits: [] }), 5000)),
+      ]);
+      return (res.hits || []).map((h) => ({
+        text: `${h.title || ''}${h.snippet ? ` — ${h.snippet}` : ''}`.trim() || String(h.text || ''),
+        source: h.source || h.link || 'corpus',
+        score: h.score ?? 0,
+      })).filter((x) => x.text);
+    } catch { return []; }
+  };
+}
 
 /**
  * Build the one-Hathor service. Everything injectable for offline tests.
@@ -63,7 +80,7 @@ export function createAgency(cfg = {}) {
   const makeStore = cfg.makeStore || makeFileStore(BRAIN_DIR);
   const hathor = cfg.hathor || createHathor({
     compartments: createBrainMemory({ makeStore }),
-    retrieve: cfg.retrieve || defaultRetrieve,
+    retrieve: cfg.retrieve || defaultRetrieve(),
     complete: cfg.complete || defaultComplete(),
     persona: persona(),
     now: cfg.now,

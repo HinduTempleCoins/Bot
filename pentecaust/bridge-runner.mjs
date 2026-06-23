@@ -18,6 +18,7 @@
 
 import { fileURLToPath } from 'node:url';
 import { createBridge, pump } from './minecraft-bridge.mjs';
+import { askHathor } from '../integrations/hathor-limb.mjs';
 
 // ── injectable fetch (offline tests inject a fake; production uses global fetch) ────────────────────
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -144,6 +145,23 @@ export function personaBrain({ name = 'Hathor', respond } = {}) {
 }
 
 /**
+ * hathorBrain — the ONE-brain bridge. The Minecraft/Pentecaust limb forwards each line to Hathor's
+ * /perceive on the 'game' SURFACE (so her game memory is compartmentalized, but she is the same self as on
+ * Discord / MELEK / the chain, and a player follows them across surfaces). Falls back to the canned persona
+ * if the brain is unreachable, so the server never goes silent. → ({from,text,history}) => replyString|null
+ */
+export function hathorBrain({ surface = 'game' } = {}) {
+  const fallback = personaBrain({ name: 'Hathor' });
+  return async ({ from, text, history } = {}) => {
+    try {
+      const out = await askHathor(text, { surface, from: from || 'player' });
+      if (out && out.reply) return out.reply;
+    } catch { /* fall through to the local persona */ }
+    return fallback({ from, text, history });
+  };
+}
+
+/**
  * createRunner — assemble the live client + the injected brain into a bridge.
  * @param {{ baseUrl?, aiAccount?, channel, brain?, pollMs? }} cfg
  * @returns {{ client, bridge, brain, pollMs, channel, aiAccount }}
@@ -192,7 +210,7 @@ if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const m of thread) console.log(`  ${m.from === aiAccount ? '🤖 ' + aiAccount : '🙂 ' + m.from}: ${m.text}`);
     console.log(`\n  tick: read ${r.read}, answered ${r.answered}.`);
   } else {
-    const runner = createRunner({ aiAccount, channel, pollMs });
+    const runner = createRunner({ aiAccount, channel, pollMs, brain: hathorBrain({ surface: 'game' }) });
     const where = channel.type === 'dm' ? `DM with ${channel.with}` : `team ${channel.id}`;
     console.log(`Pentecaust ↔ Minecraft-AI bridge-runner LIVE — ${aiAccount} on ${where} @ ${baseFromEnv()} (poll ${runner.pollMs}ms)`);
     const loop = async () => {
