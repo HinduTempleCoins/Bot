@@ -172,15 +172,14 @@ function badName(){const v=(W.value||'').trim().toLowerCase();if(v.length<3||v.l
 // when the deviation rises past a real threshold and falls back (hysteresis), with a walking-cadence
 // refractory. At rest the deviation stays sub-threshold, so nothing counts.
 let steps=0, listening=false;
-let grav=9.81, sArmed=false, sLastAt=0, sWarm=0, sReadoutAt=0;
-let sEvN=0, sEvT0=0, sHz=0, sStN=0, sStT0=0, sSps=0;   // diagnostics: sensor Hz + steps/sec
+let grav=9.81, sArmed=false, sLastAt=0, sWarm=0;
 const STEP_THRESH=1.6;   // m/s² a footfall clears above gravity (lowered 1/3 from 2.4 — generous, so every real step counts; still well above idle noise ~0)
 const STEP_RESET=1.0;    // must fall back below this to complete a step (hysteresis, no double-count)
 const STEP_MIN_MS=300;   // refractory → ≤ ~3.3 steps/s (a brisk walk/jog); kills the noise "stopwatch"
 const TIERS=[[1000,1.2],[2000,1.5],[5000,2],[10000,3],[15000,4],[20000,5],[25000,6.5],[30000,8],[40000,11],[50000,15]];
 function sboost(n){let m=1;for(const [t,x] of TIERS){if(n>=t)m=x;else break;}return m;}
 function setSteps(n){steps=n;$('steps').textContent=String(n);$('boost').textContent='×'+sboost(n).toFixed(1);}
-function resetStepDetector(){grav=9.81;sArmed=false;sLastAt=0;sWarm=0;sEvN=0;sEvT0=0;sHz=0;sStN=0;sStT0=0;sSps=0;}
+function resetStepDetector(){grav=9.81;sArmed=false;sLastAt=0;sWarm=0;}
 function onMotion(ev){
   const a=ev.accelerationIncludingGravity||ev.acceleration;if(!a)return;
   const mag=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
@@ -188,18 +187,12 @@ function onMotion(ev){
   grav=grav*0.9+mag*0.1;                 // slow baseline ≈ gravity (or ~0 when gravity is already removed)
   const ad=Math.abs(mag-grav);           // |high-passed| — a footfall is a prominent spike of EITHER polarity
   const now=Date.now();
-  sEvN++; if(now-sEvT0>=1000){ sHz=sEvN; sEvN=0; sEvT0=now; }     // sensor event rate (Hz)
   if(sWarm<10){sWarm++;return;}          // let the baseline settle first — no start-up transient step
   if(!sArmed){ if(ad>STEP_THRESH) sArmed=true; }                  // rose past a real footfall peak
   else if(ad<STEP_RESET){                                         // …fell back through the lower band
-    if(now-sLastAt>STEP_MIN_MS){                                  // refractory: set the guard BEFORE counting
-      sLastAt=now; try{ setSteps(steps+1); }catch(e){} sStN++;    // (so a DOM throw can't defeat the cap)
-    }
+    if(now-sLastAt>STEP_MIN_MS){ sLastAt=now; try{ setSteps(steps+1); }catch(e){} }  // refractory set BEFORE counting
     sArmed=false;
   }
-  if(now-sStT0>=1000){ sSps=sStN; sStN=0; sStT0=now; }            // steps/sec actually counted
-  // live diagnostic readout: motion + sensor Hz + the REAL step rate. Tells us exactly what your phone does.
-  if(now-sReadoutAt>200){ sReadoutAt=now; $('stepsub').textContent='motion '+ad.toFixed(1)+' · '+sHz+'/s sensor · '+sSps+'/s steps'; }
 }
 $('startSteps').onclick=async()=>{
   if(listening){window.removeEventListener('devicemotion',onMotion);listening=false;$('startSteps').textContent='Start counting';$('stepsub').textContent='paused';return;}
