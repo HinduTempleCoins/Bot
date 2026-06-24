@@ -47,7 +47,7 @@ export const DOMAINS = [
   ['healer', ['knowledge/oilahuasca', 'knowledge/ayahuasca', 'knowledge/psychedelics',
     'knowledge/herbs', 'knowledge/shulgin-pihkal-tihkal', 'knowledge/synthesis',
     'knowledge/consciousness', 'knowledge/spirituality']],
-  ['scripture', ['knowledge/scripture']],
+  ['scripture', ['knowledge/scripture', 'knowledge/teaching']],   // teaching = scraped primary texts (Ptahhotep, Emerald Tablet, Hercules, Yaksha Prashna)
   ['languages', ['knowledge/languages']],  // Language Center datasets (ingested grammars/corpora/dicts)
   ['knowledge', ['knowledge/ai_technology', 'knowledge/ancient_egypt', 'knowledge/history',
     'knowledge/linguistics', 'knowledge/media', 'knowledge/mystery_schools',
