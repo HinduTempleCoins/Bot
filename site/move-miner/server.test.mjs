@@ -126,3 +126,46 @@ test('unknown route → 404', async () => {
   const { res, o } = cap(); await handler(req('/nope'), res);
   assert.equal(o.code, 404);
 });
+
+// ── in-app account creation ──────────────────────────────────────────────────────────────────────
+const mod = await import('./server.mjs');
+
+test('createAccount: derives prefixed pubkeys + calls the faucet, returns ok', async () => {
+  let captured;
+  mod.__setFetch(async (url, opts) => { captured = { url, body: JSON.parse(opts.body) }; return { json: async () => ({ ok: true }) }; });
+  const r = await mod.createAccount({ username: 'walker1', password: 'hunter2pw' });
+  assert.strictEqual(r.ok, true);
+  assert.strictEqual(r.account, 'walker1');
+  assert.match(captured.url, /\/faucet\/create$/);
+  assert.strictEqual(captured.body.name, 'walker1');
+  assert.match(captured.body.ownerPub, /^TST/);
+  assert.ok(captured.body.activePub && captured.body.postingPub && captured.body.memoPub);
+  mod.__setFetch(globalThis.fetch);
+});
+
+test('createAccount: rejects bad name / short password WITHOUT calling the faucet', async () => {
+  let called = false; mod.__setFetch(async () => { called = true; return { json: async () => ({ ok: true }) }; });
+  assert.strictEqual((await mod.createAccount({ username: 'AB', password: 'longenough' })).ok, false);
+  assert.strictEqual((await mod.createAccount({ username: 'walker1', password: 'short' })).ok, false);
+  assert.strictEqual(called, false);
+  mod.__setFetch(globalThis.fetch);
+});
+
+test('createAccount: surfaces a taken/invalid name from the faucet', async () => {
+  mod.__setFetch(async () => ({ json: async () => ({ ok: false, reason: 'invalid-account-name' }) }));
+  const r = await mod.createAccount({ username: 'walker1', password: 'longenough' });
+  assert.strictEqual(r.ok, false);
+  assert.match(r.reason, /taken or invalid/);
+  mod.__setFetch(globalThis.fetch);
+});
+
+test('POST /api/create-account routes through createAccount', async () => {
+  mod.__setFetch(async () => ({ json: async () => ({ ok: true }) }));
+  const chunks = [];
+  const req = { url: '/api/create-account', method: 'POST', on: (ev, cb) => { if (ev === 'data') cb(JSON.stringify({ username: 'walker2', password: 'hunter2pw' })); if (ev === 'end') cb(); } };
+  let code, body; const res = { writeHead: (c) => { code = c; }, end: (b) => { body = b; } };
+  await mod.handler(req, res);
+  assert.strictEqual(code, 200);
+  assert.strictEqual(JSON.parse(body).account, 'walker2');
+  mod.__setFetch(globalThis.fetch);
+});

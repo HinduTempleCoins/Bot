@@ -23,6 +23,7 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { PrivateKey } from '@hiveio/dhive';
 import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
 import { recordMine, standingFor, epochNow } from '../../integrations/games/move-ledger.mjs';
 import { validAccountName } from '../../signup/welcome-grant.mjs';
@@ -30,6 +31,40 @@ import { validAccountName } from '../../signup/welcome-grant.mjs';
 const PORT = +(process.env.PORT || 8142);
 const HOST = process.env.HOST || '127.0.0.1';
 const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
+// IN-APP account creation: the Move server derives the account's PUBLIC keys from username+password
+// (BLURT/Hive style — the password is the user's login+recovery, deterministic) and asks the testnet
+// faucet to create the account. Only PUBLIC keys leave this server; the private keys are transient
+// (derived to compute pubkeys, never stored, never logged). This is the seamless custodial-password model;
+// MELEK-Signer's /v1/account/create is the formal swap-in later (same contract).
+const FAUCET = process.env.MELEK_FAUCET || 'http://127.0.0.1:7790';
+const MELEK_PREFIX = process.env.MELEK_PREFIX || 'TST';
+let _fetch = globalThis.fetch;
+export function __setFetch(f) { _fetch = f; } // tests inject the faucet call
+
+function deriveAccountPubKeys(account, password) {
+  const pub = {};
+  for (const role of ['owner', 'active', 'posting', 'memo']) {
+    pub[role] = PrivateKey.fromLogin(account, password, role).createPublic(MELEK_PREFIX).toString();
+  }
+  return pub;
+}
+
+export async function createAccount({ username, password } = {}) {
+  const account = String(username || '').trim().toLowerCase();
+  if (!validAccountName(account)) return { ok: false, reason: 'pick a valid MELEK username (3–16 chars, a–z 0–9, no spaces)' };
+  if (!password || String(password).length < 8) return { ok: false, reason: 'password must be at least 8 characters' };
+  let pub; try { pub = deriveAccountPubKeys(account, password); } catch { return { ok: false, reason: 'could not derive keys' }; }
+  let j;
+  try {
+    const r = await _fetch(`${FAUCET}/faucet/create`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ name: account, ownerPub: pub.owner, activePub: pub.active, postingPub: pub.posting, memoPub: pub.memo }),
+    });
+    j = await r.json().catch(() => ({ ok: false, reason: 'faucet-bad-response' }));
+  } catch { return { ok: false, reason: 'could not reach account service — try again' }; }
+  if (!j || !j.ok) return { ok: false, reason: (j && (j.reason === 'invalid-account-name' ? 'that username is taken or invalid' : j.reason)) || 'account creation failed' };
+  return { ok: true, account };
+}
 // "live" = settlement is wired on the host (payouts go out). Demo = standings show, payout pending.
 const liveMode = () => process.env.MOVE_LIVE === '1';
 
@@ -118,12 +153,24 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <span class="mode" id=mode>…</span>
 </header>
 
-<div class=card>
+<div class=card id=createCard>
+  <h2>✨ Create your MELEK account</h2>
+  <div class=sub style="text-align:left;margin:0 0 10px">New here? Make your account right in the app — pick a name and a password and you're earning. Your account also unlocks MELEK chat, mail, and your wallet. No seed phrase to write down.</div>
+  <label for=suUser>Username</label>
+  <input id=suUser placeholder="your-melek-name" autocapitalize=off autocomplete=off spellcheck=false>
+  <label for=suPass style="margin-top:10px">Password <span style="color:var(--mut)">(how you log in &amp; recover — keep it safe)</span></label>
+  <input id=suPass type=password placeholder="at least 8 characters" autocomplete=new-password>
+  <button id=suBtn class=primary style="margin-top:12px">Create my account</button>
+  <div class=out id=suOut></div>
+  <div class=hint>Already have an account? <a href="#" id=haveAcct>Use my username →</a></div>
+</div>
+
+<div class=card id=acctCard style="display:none">
   <label for=account>Your MELEK username (where rewards go)</label>
   <input id=account placeholder="your-melek-name" autocomplete=off autocapitalize=off spellcheck=false>
-  <div class=hint>No account yet? <a href="${SIGNUP_URL}" target="_blank" rel=noopener>Create your MELEK account →</a></div>
   <label for=stake style="margin-top:10px">MELEK you hold (your stake — boosts your share, like vote weight)</label>
   <input id=stake type=number inputmode=numeric placeholder="0" autocomplete=off>
+  <div class=hint>New here? <a href="#" id=needAcct>Create an account →</a></div>
 </div>
 
 <div class=card>
@@ -159,6 +206,29 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const W=$('account'); W.value=localStorage.getItem('melekmove_account')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_account',W.value.trim().toLowerCase()));
+
+// ---- in-app account creation (no web bounce): username + password → server derives keys → faucet creates ----
+function showCreate(){$('createCard').style.display='';$('acctCard').style.display='none';}
+function showAcct(){$('createCard').style.display='none';$('acctCard').style.display='';}
+(W.value ? showAcct : showCreate)();
+$('haveAcct').onclick=e=>{e.preventDefault();showAcct();W.focus();};
+$('needAcct').onclick=e=>{e.preventDefault();showCreate();};
+$('suBtn').onclick=async()=>{
+  const u=($('suUser').value||'').trim().toLowerCase(), p=$('suPass').value||'';
+  if(u.length<3){$('suOut').innerHTML='<span class=err>Pick a username (3–16 letters/numbers).</span>';return;}
+  if(p.length<8){$('suOut').innerHTML='<span class=err>Password must be at least 8 characters.</span>';return;}
+  $('suBtn').disabled=true;$('suOut').textContent='creating your account on the MELEK chain…';
+  try{
+    const r=await fetch('/api/create-account',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const j=await r.json();
+    if(j&&j.ok){
+      localStorage.setItem('melekmove_account',j.account);W.value=j.account;
+      $('suOut').innerHTML='<span class=reward>✓ Account @'+E(j.account)+' created — you\\'re ready to earn!</span>';
+      setTimeout(showAcct,1200);
+    }else{$('suOut').innerHTML='<span class=err>'+E((j&&j.reason)||'could not create account')+'</span>';}
+  }catch(e){$('suOut').innerHTML='<span class=err>Network error — try again.</span>';}
+  $('suBtn').disabled=false;
+};
 fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');
   if(j.geoPrecision>0){GEOP=j.geoPrecision;} drawMap();}).catch(()=>{});
 // MELEK Graphene account name: lowercase, dot segments, 3-16 each, no leading/trailing/double hyphen.
@@ -343,6 +413,13 @@ export async function handler(req, res) {
     }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
     if (path === '/privacy' || path === '/privacy.html') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PRIVACY); }
+
+    // IN-APP account creation: username + password → derive pubkeys → faucet creates the on-chain account.
+    if (path === '/api/create-account' && method === 'POST') {
+      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
+      const out = await createAccount({ username: b.username || b.account, password: b.password });
+      return json(res, out.ok ? 200 : 422, out);
+    }
 
     // a walker's current standing this hour (read-only)
     if (path === '/api/standing') {
