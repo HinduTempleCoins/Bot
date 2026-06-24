@@ -22,10 +22,11 @@ phase, later.) You can switch Personal→Organization later once your D-U-N-S is
 The Android workflow now SIGNS the AAB and AUTO-PUBLISHES it to the Play **internal** track — once these 5
 repo secrets exist (Settings → Secrets and variables → Actions). Until they're added, the build is unchanged
 (unsigned AAB artifact you upload by hand), so adding them is the on-switch:
-- `MOVE_UPLOAD_KEYSTORE_BASE64`, `MOVE_UPLOAD_KEYSTORE_PASSWORD`, `MOVE_UPLOAD_KEY_ALIAS`,
-  `MOVE_UPLOAD_KEY_PASSWORD` — the upload keystore (I can generate it for you; you just paste the 4 values).
-- `MOVE_PLAY_SERVICE_ACCOUNT_JSON` — Play Console → Setup → API access → create a service account → grant it
-  release access → download the JSON → paste it.
+- ✅ **`MOVE_UPLOAD_KEYSTORE_BASE64`, `MOVE_UPLOAD_KEYSTORE_PASSWORD`, `MOVE_UPLOAD_KEY_ALIAS`,
+  `MOVE_UPLOAD_KEY_PASSWORD`** — the upload keystore. **DONE 2026-06-24** (keystore generated +
+  all 4 secrets set; from this build on, the AAB is SIGNED). Alias `melek-move-upload`.
+- ⏳ `MOVE_PLAY_SERVICE_ACCOUNT_JSON` — Play Console → Setup → API access → create a service account → grant it
+  release access → download the JSON → paste it. **(last secret; turns on full auto-publish)**
 App package id: **community.soapbox.move**.
 
 ## 👤 Your steps (most doable on your phone)
