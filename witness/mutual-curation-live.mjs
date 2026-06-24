@@ -18,7 +18,8 @@ const RPC = process.env.MELEK_RPC || 'https://alpha.melek.salon/rpc';
 const CHAIN_ID = process.env.MELEK_CHAIN_ID || '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e';
 const PREFIX = process.env.MELEK_PREFIX || 'TST';
 const SEED = process.env.POPULATE_SEED || 'melek-testnet-populate-v1';
-const NAMES = (process.env.POPULATE_NAMES || 'melekvankush,angelnetwork,cryptokannon,vrhathor,soapboxdao,templebuilder')
+// No `cryptokannon`: CryptoKannon was a real human; Hathor is the tutor — honor her method, never her name.
+const NAMES = (process.env.POPULATE_NAMES || 'melekvankush,angelnetwork,vrhathor,soapboxdao,templebuilder')
   .split(',').map((s) => s.trim()).filter(Boolean);
 const WEIGHT = Math.max(1, Math.min(10000, Number(process.env.VOTE_WEIGHT || 10000)));
 const POSTS_PER_AUTHOR = Number(process.env.POSTS_PER_AUTHOR || 2); // vote the N freshest posts per author

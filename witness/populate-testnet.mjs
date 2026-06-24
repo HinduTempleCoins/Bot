@@ -20,7 +20,9 @@ const K = parseInt(process.argv[3] || '3', 10);
 
 if (PREFIX !== 'TST' || SYMBOL !== 'TESTS') { console.error(`testnet only (${PREFIX}/${SYMBOL})`); process.exit(2); }
 
-const NAMES = (process.env.POPULATE_NAMES || 'melekvankush,angelnetwork,cryptokannon,vrhathor,soapboxdao,templebuilder').split(',').map((s) => s.trim()).filter(Boolean);
+// No `cryptokannon` here: CryptoKannon was a real human, and HATHOR is the tutor — no test account wears the
+// person's handle (we honor her method, never her name). See integrations/hathor-tutor.mjs.
+const NAMES = (process.env.POPULATE_NAMES || 'melekvankush,angelnetwork,vrhathor,soapboxdao,templebuilder').split(',').map((s) => s.trim()).filter(Boolean);
 const TAGS = [['melek', 'intro'], ['melek', 'philosophy'], ['melek', 'tech'], ['melek', 'history'], ['melek', 'community']];
 const TITLES = [
   'Why MELEK Pays You to Post', 'Notes from the Library of Ashurbanipal', 'The Angel Network, Explained',
