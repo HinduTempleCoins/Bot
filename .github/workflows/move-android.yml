@@ -72,9 +72,12 @@ jobs:
           sed -i -E 's/compileSdkVersion = [0-9]+/compileSdkVersion = 35/; s/targetSdkVersion = [0-9]+/targetSdkVersion = 35/' variables.gradle
           sed -i -E 's#com\.android\.tools\.build:gradle:[0-9.]+#com.android.tools.build:gradle:8.7.2#' build.gradle
           sed -i -E 's#gradle-[0-9.]+-(all|bin)\.zip#gradle-8.9-all.zip#' gradle/wrapper/gradle-wrapper.properties
+          # Play rejects a re-used versionCode — make each build unique + increasing via the CI run number.
+          sed -i -E "s/versionCode [0-9]+/versionCode ${GITHUB_RUN_NUMBER}/" app/build.gradle
           echo "SDK:"; grep -E "SdkVersion" variables.gradle
           echo "AGP:"; grep 'com.android.tools.build:gradle' build.gradle
           echo "Gradle:"; grep distributionUrl gradle/wrapper/gradle-wrapper.properties
+          echo "versionCode:"; grep -E "versionCode|versionName" app/build.gradle
 
       - name: Build debug APK (sideload to test) + release AAB (Play upload)
         working-directory: apps/move/android
