@@ -25,7 +25,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { PrivateKey } from '@hiveio/dhive';
 import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
-import { recordMine, standingFor, epochNow } from '../../integrations/games/move-ledger.mjs';
+import { recordMine, standingFor, epochNow, forgetAccount } from '../../integrations/games/move-ledger.mjs';
 import { validAccountName } from '../../signup/welcome-grant.mjs';
 
 const PORT = +(process.env.PORT || 8142);
@@ -38,6 +38,7 @@ const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup'
 // MELEK-Signer's /v1/account/create is the formal swap-in later (same contract).
 const FAUCET = process.env.MELEK_FAUCET || 'http://127.0.0.1:7790';
 const MELEK_PREFIX = process.env.MELEK_PREFIX || 'TST';
+const MELEK_RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
 let _fetch = globalThis.fetch;
 export function __setFetch(f) { _fetch = f; } // tests inject the faucet call
 
@@ -65,6 +66,43 @@ export async function createAccount({ username, password } = {}) {
   if (!j || !j.ok) return { ok: false, reason: (j && (j.reason === 'invalid-account-name' ? 'that username is taken or invalid' : j.reason)) || 'account creation failed' };
   return { ok: true, account };
 }
+// Read an account's CURRENT on-chain posting key (condenser_api.get_accounts) — used to prove ownership
+// before deleting data. Soft-fails to null (never throws) so the handler can return a clean reason.
+async function onchainPostingKey(account) {
+  try {
+    const r = await _fetch(MELEK_RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'condenser_api.get_accounts', params: [[account]], id: 1 }),
+    });
+    const j = await r.json().catch(() => null);
+    const acct = j && j.result && j.result[0];
+    const ka = acct && acct.posting && acct.posting.key_auths && acct.posting.key_auths[0];
+    return (ka && ka[0]) || null;
+  } catch { return null; }
+}
+
+// ACCOUNT / DATA DELETION (Google Play requirement). The only data we hold is the off-chain reward standing,
+// so deletion = erase the account from the ledger (move-ledger forgetAccount). Ownership is PROVEN first:
+// the password must derive the same posting key the account currently has on-chain — so only the owner can
+// clear their own data, and nobody can grief-delete another walker's pending rewards. The public chain
+// account and the user's own funds are untouched (we never held them; the chain is a public ledger).
+export async function deleteAccount({ username, password } = {}) {
+  const account = String(username || '').trim().toLowerCase();
+  if (!validAccountName(account)) return { ok: false, reason: 'enter a valid MELEK account name' };
+  if (!password) return { ok: false, reason: 'enter your password to confirm this is your account' };
+  let derivedPosting;
+  try { derivedPosting = PrivateKey.fromLogin(account, password, 'posting').createPublic(MELEK_PREFIX).toString(); }
+  catch { return { ok: false, reason: 'could not verify — check your password' }; }
+  const onchain = await onchainPostingKey(account);
+  if (!onchain) return { ok: false, reason: 'account not found on the MELEK chain' };
+  if (onchain !== derivedPosting) return { ok: false, reason: 'password does not match this account' };
+  const r = forgetAccount(account);
+  return {
+    ok: true, account, removed: r.removed,
+    note: 'Your off-chain reward standing has been erased from our records. Your public MELEK chain account remains on the blockchain — a public ledger we do not control or store — and your funds stay in your own wallet, controlled by your own keys, which we never held.',
+  };
+}
+
 // "live" = settlement is wired on the host (payouts go out). Demo = standings show, payout pending.
 const liveMode = () => process.env.MOVE_LIVE === '1';
 
@@ -378,8 +416,46 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <p>MELEK is currently a <b>testnet</b> token with <b>no monetary value</b>. Rewards are in-app and not an investment, security, or guarantee of any future value.</p>
 <h2>Data retention & contact</h2>
 <p>We do <b>not</b> keep your step counts or location data. The only thing retained is your reward standing (your share of the pool), kept only as long as needed to settle each hourly payout. Questions: <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
-<p><a href="/">← Back to MELEK Move</a></p>
+<p><a href="/delete">Delete my account & data</a> · <a href="/">← Back to MELEK Move</a></p>
 </div></body></html>`;
+
+// Account & data deletion page — REQUIRED by Google Play for apps that support account creation.
+// Lets a user request erasure of the only data we hold (their reward standing), proving ownership by password.
+export const DELETE_PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Delete Account & Data</title>
+<style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
+.w{max-width:560px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}
+label{display:block;margin-top:14px;font-size:14px;color:#cdd8e6}input{width:100%;box-sizing:border-box;margin-top:6px;padding:11px;border-radius:9px;border:1px solid #2a3344;background:#121622;color:#e9eef5;font-size:16px}
+button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:10px;background:#c0392b;color:#fff;font-size:16px;font-weight:600}
+#out{margin-top:16px;padding:12px;border-radius:9px;background:#121622;display:none}</style></head>
+<body><div class=w>
+<h1>Delete your MELEK Move account & data</h1>
+<p class=mut>Developer: <b>SoapBox / MELEK</b>. App: <b>MELEK Move</b> (community.soapbox.move).</p>
+<p>Enter your MELEK account name and password to <b>permanently erase the data we hold about you</b> — your reward standing (your share of the pool). We confirm it is your account, then delete it from our records.</p>
+<form id=f onsubmit="return del(event)">
+<label for=u>MELEK account name</label>
+<input id=u autocomplete=off autocapitalize=off spellcheck=false placeholder="yourname">
+<label for=p>Password</label>
+<input id=p type=password autocomplete=off placeholder="your password">
+<button type=submit>Permanently delete my data</button>
+</form>
+<div id=out></div>
+<h2>What is deleted, what is kept</h2>
+<ul>
+<li><b>Deleted:</b> your off-chain reward standing (the only data we store). We do not keep step or location data at all, so there is nothing else to erase.</li>
+<li><b>Kept (not ours to delete):</b> your MELEK account itself lives on a public blockchain — a shared ledger we do not control or store. Your funds stay in your own wallet, controlled by your own keys, which we never held.</li>
+</ul>
+<p class=mut>Retention: reward standing is kept only as long as needed to settle each hourly payout (at most ~1 week), then pruned automatically. Deleting here removes it immediately.</p>
+<p>Prefer email? Contact <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
+<p><a href="/privacy">Privacy Policy</a> · <a href="/">← Back to MELEK Move</a></p>
+</div>
+<script>
+async function del(e){e.preventDefault();var o=document.getElementById('out');o.style.display='block';o.textContent='Verifying…';
+try{var r=await fetch('/api/delete-account',{method:'POST',headers:{'content-type':'application/json'},
+body:JSON.stringify({username:document.getElementById('u').value.trim().toLowerCase(),password:document.getElementById('p').value})});
+var j=await r.json();o.textContent=j.ok?('✓ Deleted. '+(j.note||'')):('✕ '+(j.reason||'could not delete'));}
+catch(_){o.textContent='✕ Could not reach the server — try again.';}return false;}
+</script></body></html>`;
 
 // ── request handler ───────────────────────────────────────────────────────────────────────────────
 function readBody(req, max = 20_000) {
@@ -414,6 +490,14 @@ export async function handler(req, res) {
     }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
     if (path === '/privacy' || path === '/privacy.html') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PRIVACY); }
+    if (path === '/delete' || path === '/delete-account') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(DELETE_PAGE); }
+
+    // ACCOUNT / DATA DELETION (Play requirement): prove ownership by password, then erase off-chain standing.
+    if (path === '/api/delete-account' && method === 'POST') {
+      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
+      const out = await deleteAccount({ username: b.username || b.account, password: b.password });
+      return json(res, out.ok ? 200 : 422, out);
+    }
 
     // IN-APP account creation: username + password → derive pubkeys → faucet creates the on-chain account.
     if (path === '/api/create-account' && method === 'POST') {
