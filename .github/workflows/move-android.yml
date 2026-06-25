@@ -63,6 +63,19 @@ jobs:
       - name: Sync web assets + config
         run: npx cap sync android
 
+      # Google Play requires new apps/updates to target API 35 (Android 15). Capacitor 6 defaults to 34,
+      # so bump compile/target SDK to 35 — which needs Android Gradle Plugin >= 8.6 (using 8.7.2) and
+      # Gradle >= 8.9. Done after `cap sync` so nothing overwrites it before the build.
+      - name: Target Android 15 / API 35 (Play requirement) + matching AGP & Gradle
+        working-directory: apps/move/android
+        run: |
+          sed -i -E 's/compileSdkVersion = [0-9]+/compileSdkVersion = 35/; s/targetSdkVersion = [0-9]+/targetSdkVersion = 35/' variables.gradle
+          sed -i -E 's#com\.android\.tools\.build:gradle:[0-9.]+#com.android.tools.build:gradle:8.7.2#' build.gradle
+          sed -i -E 's#gradle-[0-9.]+-(all|bin)\.zip#gradle-8.9-all.zip#' gradle/wrapper/gradle-wrapper.properties
+          echo "SDK:"; grep -E "SdkVersion" variables.gradle
+          echo "AGP:"; grep 'com.android.tools.build:gradle' build.gradle
+          echo "Gradle:"; grep distributionUrl gradle/wrapper/gradle-wrapper.properties
+
       - name: Build debug APK (sideload to test) + release AAB (Play upload)
         working-directory: apps/move/android
         run: |
