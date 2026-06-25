@@ -95,6 +95,28 @@ export function standingFor(account, opts = {}) {
   return { ok: true, epoch: ep, ...standingIn(bucket, account, opts.budget) };
 }
 
+/**
+ * Erase a walker from the ledger — the account-deletion / data-deletion seam (Play requires a way for a
+ * user to request deletion of the data we hold). The ONLY data we keep is the reward standing, so forgetting
+ * an account means removing its weight from every epoch bucket (settled or not). The on-chain account itself
+ * is a public blockchain record we neither control nor can erase; this only clears our off-chain ledger.
+ * @returns {{ok:boolean, account:string, removed:number}}  removed = how many epoch buckets held the account
+ */
+export function forgetAccount(account, opts = {}) {
+  const a = String(account || '').trim().toLowerCase();
+  if (!validAccountName(a)) return { ok: false, account: a, removed: 0, reason: 'invalid account name' };
+  const fs = opts.fs || realFs;
+  const file = opts.file || DATA_FILE();
+  const store = loadStore(fs, file);
+  let removed = 0;
+  for (const k of Object.keys(store.epochs)) {
+    const w = store.epochs[k] && store.epochs[k].weights;
+    if (w && Object.prototype.hasOwnProperty.call(w, a)) { delete w[a]; removed++; }
+  }
+  if (removed) saveStore(fs, file, store);
+  return { ok: true, account: a, removed };
+}
+
 /** Raw claims for an epoch (for inspection / a settlement preview). */
 export function readEpoch(epoch, opts = {}) {
   const store = loadStore(opts.fs || realFs, opts.file || DATA_FILE());

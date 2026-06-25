@@ -2,6 +2,7 @@
 // ledger (no chain, no keys, no EVM voucher). MOVE_DATA points at a temp file. Never throws.
 import { test } from 'node:test';
 import assert from 'node:assert';
+import { PrivateKey } from '@hiveio/dhive';
 process.env.MOVE_DATA = `/tmp/move-test-${process.pid}.json`;   // isolate the ledger file
 const { handler } = await import('./server.mjs');
 
@@ -167,5 +168,46 @@ test('POST /api/create-account routes through createAccount', async () => {
   await mod.handler(req, res);
   assert.strictEqual(code, 200);
   assert.strictEqual(JSON.parse(body).account, 'walker2');
+  mod.__setFetch(globalThis.fetch);
+});
+
+test('GET /delete serves the Play-required account & data deletion page', async () => {
+  const { res, o } = cap(); await handler(req('/delete'), res);
+  assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Delete your MELEK Move account/i);
+  assert.match(o.body, /What is deleted/i);
+  assert.match(o.body, /public blockchain/i);                 // honest about what we can't erase
+  assert.match(o.body, /community\.soapbox\.move/);           // names the app/developer per Play guidance
+});
+
+// helper: the on-chain posting key the chain WOULD report for (account,password) — what the verifier checks.
+const postingPub = (account, password) => PrivateKey.fromLogin(account, password, 'posting').createPublic('TST').toString();
+
+test('deleteAccount erases standing only after proving ownership by password', async () => {
+  const A = 'delwalker', P = 'walkerpw12';
+  // accrue a standing for A so there is something to delete
+  await handler(req('/api/geomine', 'POST', { account: A, lat: 5, lng: 5, steps: 3000, stake: 100 }), cap().res);
+  // chain reports A's REAL on-chain posting key → ownership proven → erase
+  mod.__setFetch(async () => ({ json: async () => ({ result: [{ posting: { key_auths: [[postingPub(A, P), 1]] } }] }) }));
+  const ok = await mod.deleteAccount({ username: A, password: P });
+  assert.strictEqual(ok.ok, true);
+  assert.ok(ok.removed >= 1);
+  assert.match(ok.note, /blockchain/i);
+  // standing is now gone
+  const { o } = cap(); const c = cap(); await handler(req('/api/standing?account=' + A), c.res);
+  assert.strictEqual(JSON.parse(c.o.body).accountWeight, 0);
+  mod.__setFetch(globalThis.fetch);
+});
+
+test('deleteAccount refuses a wrong password (derived key ≠ on-chain key) — no grief-delete', async () => {
+  const A = 'delwalker2';
+  mod.__setFetch(async () => ({ json: async () => ({ result: [{ posting: { key_auths: [[postingPub(A, 'the-real-pw'), 1]] } }] }) }));
+  const bad = await mod.deleteAccount({ username: A, password: 'wrong-password' });
+  assert.strictEqual(bad.ok, false);
+  assert.match(bad.reason, /password/i);
+  // unknown account (chain returns nothing) → clean refusal, never throws
+  mod.__setFetch(async () => ({ json: async () => ({ result: [null] }) }));
+  const gone = await mod.deleteAccount({ username: 'ghostwalker', password: 'whatever12' });
+  assert.strictEqual(gone.ok, false);
   mod.__setFetch(globalThis.fetch);
 });

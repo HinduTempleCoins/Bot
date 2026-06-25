@@ -1,7 +1,7 @@
 // move-ledger.test.mjs — OFFLINE. In-memory fs + injected transfer; no chain, no keys. Soft-fail.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { epochNow, recordMine, readEpoch, standingFor, settleEpoch } from './move-ledger.mjs';
+import { epochNow, recordMine, readEpoch, standingFor, settleEpoch, forgetAccount } from './move-ledger.mjs';
 
 // in-memory fs store shared across a test
 function memfs() {
@@ -43,6 +43,22 @@ test('standingFor reads without recording', () => {
   const empty = standingFor(A, { fs, file: FILE, epoch: EP + 999, budget: BUDGET });
   assert.equal(empty.accountWeight, 0);            // a fresh epoch is empty, not an error
   assert.equal(empty.ok, true);
+});
+
+test('forgetAccount erases a walker from every epoch (the data-deletion seam)', () => {
+  const fs = memfs();
+  recordMine({ account: A, weight: 30 }, { fs, file: FILE, epoch: EP });
+  recordMine({ account: B, weight: 40 }, { fs, file: FILE, epoch: EP });
+  recordMine({ account: A, weight: 10 }, { fs, file: FILE, epoch: EP + 1 });   // A appears in 2 epochs
+  const r = forgetAccount(A, { fs, file: FILE });
+  assert.equal(r.ok, true);
+  assert.equal(r.removed, 2);                       // removed from both epoch buckets
+  assert.equal(standingFor(A, { fs, file: FILE, epoch: EP }).accountWeight, 0);
+  assert.equal(standingFor(A, { fs, file: FILE, epoch: EP + 1 }).accountWeight, 0);
+  assert.equal(standingFor(B, { fs, file: FILE, epoch: EP }).accountWeight, 40); // B untouched
+  // idempotent + invalid name handled
+  assert.equal(forgetAccount(A, { fs, file: FILE }).removed, 0);
+  assert.equal(forgetAccount('0xabc', { fs, file: FILE }).ok, false);
 });
 
 test('settleEpoch refuses an epoch that is still accruing', async () => {
