@@ -358,25 +358,26 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 .w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style></head>
 <body><div class=w>
 <h1>MELEK Move — Privacy Policy</h1>
-<p class=mut>Last updated 2026-06-19. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (a testnet coin with no monetary value).</p>
+<p class=mut>Last updated 2026-06-25. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (a testnet coin with no monetary value).</p>
 <h2>What we collect</h2>
 <ul>
-<li><b>Step / motion data</b> — read from your device's step-counter / motion sensor, used <b>only</b> to calculate your in-app fitness reward boost. Step counts are processed on your device and sent to our server only as a number to compute rewards.</li>
-<li><b>Approximate location</b> — when you tap "Read my location", used <b>only</b> to derive the reward zone you are claiming. We store a coarse numeric zone id, not a precise track of your movements.</li>
+<li><b>Step / motion data</b> — read from your device's step-counter / motion sensor, used <b>only</b> to calculate your in-app fitness reward boost in that moment. The count is sent to our server purely to compute the reward — we do <b>not</b> store your step data, keep it in our records, or use it for anything else.</li>
+<li><b>Approximate location</b> — when you tap "Read my location", used <b>only</b> to work out which reward zone you are standing in at that moment. We do <b>not</b> store your location or coordinates, do not track your movements, and do not use your location for anything else.</li>
 <li><b>Your MELEK account name</b> — the public account you choose, so rewards can be sent to it on the MELEK chain.</li>
 </ul>
 <h2>What we never do</h2>
 <ul>
 <li>We never sell, rent, or share your activity, motion, or location data with third parties.</li>
 <li>We never use health or fitness data for advertising.</li>
-<li>We never ask for, receive, or store your private keys — they stay on your device.</li>
+<li>We never retain your step or location data — it is used only in the moment to compute a reward, then discarded.</li>
+<li>We are <b>non-custodial</b>: we never hold, control, or transmit your funds, and we never ask for, receive, or store your private keys — they stay on your device.</li>
 </ul>
 <h2>Permissions</h2>
 <p>Physical-activity / motion sensor access is requested before counting steps, and location is requested only when you claim a zone. You can decline either; the app still runs with reduced features.</p>
 <h2>Rewards</h2>
 <p>MELEK is currently a <b>testnet</b> token with <b>no monetary value</b>. Rewards are in-app and not an investment, security, or guarantee of any future value.</p>
 <h2>Data retention & contact</h2>
-<p>Reward standings are kept only as long as needed to settle each hourly pool. Questions: <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
+<p>We do <b>not</b> keep your step counts or location data. The only thing retained is your reward standing (your share of the pool), kept only as long as needed to settle each hourly payout. Questions: <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
 <p><a href="/">← Back to MELEK Move</a></p>
 </div></body></html>`;
 
