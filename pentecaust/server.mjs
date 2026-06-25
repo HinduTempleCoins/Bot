@@ -31,7 +31,8 @@ import {
   createTeam, joinTeam, leaveTeam, kick, setRole, approve, invite, setMotd, getTeam, teamsForAccount, listTeams, isMember,
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
-import { sessionFromReq, handler as authHandler } from './auth.mjs';
+import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
+import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 
 const PORT = +(process.env.PORT || 8157);
@@ -399,11 +400,16 @@ async function initAuth(){const bar=$('authbar');
    '<a class=btn href="/auth/logout" style="margin-left:auto">Log out</a>';
   if(me())loadFriends();return;}
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
+  '<button class=btn id=mkBtn>Login with MELEK</button>'+
   '<a class=btn href="/auth/google">Continue with Google</a>'+
   '<a class=btn href="/auth/facebook">Continue with Facebook</a>'+
   '<button class=btn id=otBtn>One-time code</button>'+
   '<small class=mut>or just type your @name (testnet)</small>';
- $('otBtn').onclick=oneTime;}
+ $('otBtn').onclick=oneTime; $('mkBtn').onclick=melekLogin;}
+async function melekLogin(){const a=(prompt('Your MELEK @name:')||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
+ const p=prompt('Your MELEK password:');if(!p)return;
+ const r=await api('/auth/method/melek-signer',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a,password:p})});
+ if(r&&r.ok)location.href='/';else alert((r&&r.reason)||'login failed — check your @name and password');}
 async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time login:')||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
  const r=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a})});
  if(!r||!r.ok){alert((r&&r.reason)||'could not request a code');return;}
@@ -482,5 +488,6 @@ if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   // L1: surface a misconfiguration that would otherwise be silent — without the secret, login sessions use a
   // per-process random key and don't survive a restart (and dev-trust without it = no real auth at all).
   if (!process.env.PENTECAUST_SESSION_SECRET && !DEV_TRUST()) console.warn('[pentecaust] WARNING: PENTECAUST_SESSION_SECRET is unset — login sessions use a per-process random secret and will NOT survive a restart. Set it in production.');
+  registerMethod('melek-signer', makeMelekSignerVerify()); // "Login with MELEK" via the deployed signer (MELEK_SIGNER_URL)
   createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; DEV ONLY)' : ''}`));
 }
