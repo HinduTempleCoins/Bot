@@ -16,6 +16,9 @@ python3 - "$MANIFEST" <<'PY'
 import sys, re
 p = sys.argv[1]
 s = open(p, encoding='utf-8').read()
+# ensure the tools: namespace exists on <manifest> (needed for tools:node="remove" below)
+if 'xmlns:tools' not in s:
+    s = re.sub(r'(<manifest\b)', r'\1 xmlns:tools="http://schemas.android.com/tools"', s, count=1)
 perms = [
     'android.permission.ACTIVITY_RECOGNITION',
     'android.permission.FOREGROUND_SERVICE',
@@ -26,6 +29,10 @@ perms = [
 add = ''.join(f'    <uses-permission android:name="{x}" />\n' for x in perms if x not in s)
 feat = '    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />\n'
 if 'sensor.stepcounter' not in s: add += feat
+# explicitly REMOVE the advertising-ID permission so no merged-in SDK can re-add it — the app has no ads
+# and declares "No" to advertising ID in Play. tools:node="remove" strips it from the merged manifest.
+if 'com.google.android.gms.permission.AD_ID' not in s:
+    add += '    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />\n'
 # insert permission/feature lines right after the opening <manifest ...> tag
 if add:
     s = re.sub(r'(<manifest\b[^>]*>\s*\n)', r'\1' + add, s, count=1)
