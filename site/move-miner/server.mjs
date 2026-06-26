@@ -400,7 +400,7 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <h2>What we collect</h2>
 <ul>
 <li><b>Step / motion data</b> — read from your device's step-counter / motion sensor, used <b>only</b> to calculate your in-app fitness reward boost in that moment. The count is sent to our server purely to compute the reward — we do <b>not</b> store your step data, keep it in our records, or use it for anything else.</li>
-<li><b>Approximate location</b> — when you tap "Read my location", used <b>only</b> to work out which reward zone you are standing in at that moment. We do <b>not</b> store your location or coordinates, do not track your movements, and do not use your location for anything else.</li>
+<li><b>Location</b> — when you tap "Read my location", your device location is used <b>only</b> to work out which reward zone you are standing in at that moment, then immediately discarded. We do <b>not</b> store your location or coordinates, do not track your movements, and do not use your location for anything else.</li>
 <li><b>Your MELEK account name</b> — the public account you choose, so rewards can be sent to it on the MELEK chain.</li>
 </ul>
 <h2>What we never do</h2>
