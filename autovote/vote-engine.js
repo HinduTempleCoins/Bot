@@ -28,6 +28,7 @@ import { chainFor } from './chain.js';
 import { config } from './config.js';
 import { getChain, isMainnet } from './chains.js';
 import { voteViaHiveSigner } from './hivesigner.js';
+import { voteViaMelekSigner } from './melek-signer.js';
 import { optimalFireAtMs } from './curation-timing.mjs';
 import {
   fanbaseMatches,
@@ -49,6 +50,7 @@ export class VoteEngine {
     this.voteIntervalMs = opts.voteIntervalMs || config.voteIntervalMs;
     this.log = opts.log || ((...a) => console.log('[engine]', ...a));
     this.hsBroadcast = opts.hsBroadcast || voteViaHiveSigner; // injectable for tests
+    this.msBroadcast = opts.msBroadcast || voteViaMelekSigner; // MELEK-Signer; injectable for tests
     this.blockMainnet = opts.blockMainnet ?? config.blockMainnetBroadcast;
     this._lastVoteAt = new Map(); // "chain:owner" -> ms (in-process rate limiter)
     this._running = false;
@@ -105,6 +107,10 @@ export class VoteEngine {
       case 'hivesigner': {
         if (!user.hsToken) throw new Error(`no hivesigner token for ${chainId}:${owner}`);
         return this.hsBroadcast(user.hsToken, voteOp);
+      }
+      case 'melek-signer': {
+        if (!user.msToken) throw new Error(`no MELEK-Signer token for ${chainId}:${owner}`);
+        return this.msBroadcast(user.msToken, voteOp);
       }
       case 'whalevault':
         // WhaleVault cannot sign server-side. Skip offline; the in-browser

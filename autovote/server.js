@@ -26,6 +26,7 @@ import { VoteEngine } from './vote-engine.js';
 import { clampWeight } from './rules.js';
 import { getChain, publicChains, chainSupportsAuth, isMainnet } from './chains.js';
 import * as hivesigner from './hivesigner.js';
+import * as melekSigner from './melek-signer.js';
 import { loginPage, dashboardPage, teachPage, awarenessPage } from './views.js';
 
 const store = new Store(config.dbPath, config.defaultChain);
@@ -111,6 +112,7 @@ const server = http.createServer(async (req, res) => {
         chains: publicChains(),
         defaultChain: config.defaultChain,
         hivesigner: { configured: hivesigner.configured() },
+        melekSigner: { configured: melekSigner.configured() },
         mainnetBroadcastBlocked: engine.blockMainnet,
       });
     }
@@ -145,6 +147,25 @@ const server = http.createServer(async (req, res) => {
       const acct = String(username).toLowerCase().trim();
       store.upsertUser(chainId, acct, 'whalevault', {});
       return json(res, 200, { ok: true, chain: chainId, inBrowserOnly: true }, issueSession(res, chainId, acct));
+    }
+
+    // ---- MELEK-Signer login: account + password verified by OUR signer (keyless, offline-capable) ----
+    // The signer checks the password against the account's on-chain key and returns a revocable bearer
+    // token; the engine votes with that token while the user is offline. We never see or store a key.
+    if (path === '/api/login/melek-signer' && method === 'POST') {
+      const { chain, username, password } = await readBody(req);
+      const chainId = chain || config.defaultChain;
+      if (!getChain(chainId)) return json(res, 400, { error: 'unknown chain' });
+      if (!chainSupportsAuth(chainId, 'melek-signer'))
+        return json(res, 400, { error: 'MELEK-Signer not available for this chain' });
+      if (!username || !password) return json(res, 400, { error: 'account and password required' });
+      try {
+        const { account, token } = await melekSigner.login({ account: username, password });
+        store.upsertUser(chainId, account, 'melek-signer', { msToken: token });
+        return json(res, 200, { ok: true, chain: chainId, account }, issueSession(res, chainId, account));
+      } catch (err) {
+        return json(res, 401, { error: String((err && err.message) || err) });
+      }
     }
 
     // ---- HiveSigner OAuth: begin ----

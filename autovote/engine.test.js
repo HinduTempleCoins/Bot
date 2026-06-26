@@ -56,6 +56,29 @@ test('fanbase: new post by tracked author queues + broadcasts a vote', async () 
   assert.equal(store.votesFor(MELEK, 'me')[0].ok, true);
 });
 
+test('melek-signer: votes broadcast via the injected MELEK-Signer token, not a local key', async () => {
+  const store = tmpStore();
+  const chain = new MockChain();
+  const msCalls = [];
+  const engine = new VoteEngine(store, {
+    chains: { [MELEK]: chain },
+    voteIntervalMs: 3300, log: () => {}, blockMainnet: true,
+    msBroadcast: async (token, voteOp) => { msCalls.push({ token, voteOp }); return { id: 'ms-tx' }; },
+  });
+  store.upsertUser(MELEK, 'me', 'melek-signer', { msToken: 'TOK1' });
+  store.addFanbase({ chain: MELEK, owner: 'me', authors: ['alice'], weight: 80, delayMs: 0 });
+  engine.processBlock(MELEK, {
+    timestamp: new Date().toISOString().slice(0, 19),
+    ops: [{ type: 'comment', payload: { author: 'alice', permlink: 'post-1', parent_author: '' } }],
+  });
+  await engine.flushPending(Date.now());
+  assert.equal(msCalls.length, 1);
+  assert.equal(msCalls[0].token, 'TOK1');
+  assert.deepEqual(msCalls[0].voteOp, { voter: 'me', author: 'alice', permlink: 'post-1', weight: 8000 });
+  assert.equal(chain.votes.length, 0);                 // never touched a local posting key
+  assert.equal(store.votesFor(MELEK, 'me')[0].ok, true);
+});
+
 test('fanbase: comments are ignored (posts only)', async () => {
   const { store, chain, engine } = setup();
   store.upsertUser(MELEK, 'me', 'postingkey', { postingKey: 'k' });

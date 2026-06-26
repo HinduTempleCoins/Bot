@@ -109,9 +109,10 @@ export class Store {
   /**
    * Create/update a user identity for a chain + auth method.
    * cred shape depends on authMethod:
-   *   postingkey → { postingKey }
-   *   hivesigner → { hsToken, hsExpiresAt }
-   *   whalevault → {} (no server credential)
+   *   postingkey   → { postingKey }
+   *   hivesigner   → { hsToken, hsExpiresAt }
+   *   melek-signer → { msToken }  (revocable MELEK-Signer bearer; server-usable offline)
+   *   whalevault   → {} (no server credential)
    */
   upsertUser(chain, account, authMethod, cred = {}) {
     const acct = String(account).toLowerCase().trim();
@@ -124,6 +125,7 @@ export class Store {
       postingKey: authMethod === 'postingkey' ? cred.postingKey : prev.postingKey,
       hsToken: authMethod === 'hivesigner' ? cred.hsToken : prev.hsToken,
       hsExpiresAt: authMethod === 'hivesigner' ? cred.hsExpiresAt : prev.hsExpiresAt,
+      msToken: authMethod === 'melek-signer' ? cred.msToken : prev.msToken,
       createdAt: prev.createdAt || Date.now(),
     };
     this._save();

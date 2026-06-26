@@ -20,8 +20,11 @@ test('chain registry: melek is the only testnet; hive/steem/blurt are mainnet', 
 });
 
 test('auth methods per chain match operator policy', () => {
-  // MELEK: posting key only (HiveSigner/WhaleVault don't know our chain yet).
-  assert.deepEqual(getChain('melek-testnet').authMethods, ['postingkey']);
+  // MELEK: MELEK-Signer (keyless, our own signer) preferred, throwaway posting key as fallback.
+  assert.deepEqual(getChain('melek-testnet').authMethods, ['melek-signer', 'postingkey']);
+  assert.equal(chainSupportsAuth('melek-testnet', 'melek-signer'), true);
+  // MELEK-Signer is MELEK-only (it knows our chain); not offered on Hive/Steem/Blurt.
+  assert.equal(chainSupportsAuth('hive', 'melek-signer'), false);
   // Hive: HiveSigner works.
   assert.equal(chainSupportsAuth('hive', 'hivesigner'), true);
   assert.equal(chainSupportsAuth('hive', 'whalevault'), true);
