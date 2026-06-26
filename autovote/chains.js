@@ -14,11 +14,13 @@
 
 /**
  * Auth methods, in operator-stated preference order per chain.
+ *   melek-signer— OAuth2 bearer token from MELEK-Signer (OUR signer); the MELEK-chain analogue of
+ *                 hivesigner — account + password, server-usable offline. Keyless; best for MELEK.
  *   hivesigner  — OAuth2 bearer token; server-usable while user is offline. Best for scheduled votes.
  *   whalevault  — browser-extension signing; ONLY while the user's tab is open. In-browser mode only.
  *   postingkey  — username + posting WIF stored server-side. Least-preferred; testnet default for MELEK.
  */
-export const AUTH_METHODS = ['hivesigner', 'whalevault', 'postingkey'];
+export const AUTH_METHODS = ['melek-signer', 'hivesigner', 'whalevault', 'postingkey'];
 
 export const CHAINS = {
   'melek-testnet': {
@@ -29,10 +31,11 @@ export const CHAINS = {
     chainId: '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e',
     addressPrefix: 'TST',
     // Auth methods that actually work on this chain. HiveSigner/WhaleVault do
-    // NOT know our chain (maintainer-gated), so MELEK uses posting key now and
-    // MELEK-Signer later.
-    authMethods: ['postingkey'],
-    signerNote: 'MELEK-Signer is coming. For now, use a throwaway testnet posting key.',
+    // NOT know our chain (maintainer-gated). MELEK-Signer is OUR signer for this
+    // chain — keyless login with account + password — so it's preferred; a
+    // throwaway posting key stays available as a fallback.
+    authMethods: ['melek-signer', 'postingkey'],
+    signerNote: 'Log in with MELEK-Signer — your MELEK account + password. Keyless: the signer holds the keys and votes on your behalf even while you are offline; you never hand us a key.',
     explorer: 'https://alpha.melek.salon',
     // Stream blocks for active rules on this chain (it's ours; polite cadence).
     stream: true,

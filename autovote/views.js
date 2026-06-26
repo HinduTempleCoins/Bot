@@ -67,6 +67,16 @@ export function loginPage() {
 
       <div class=tabs id=methodTabs></div>
 
+      <div id=m_melek-signer class=hide>
+        <p class=muted><b>Login with MELEK.</b> Sign in with your MELEK account name and password — keyless.
+          MELEK-Signer checks your password against your on-chain key and votes on your behalf even while
+          you're offline. We never see or store your keys.</p>
+        <label>MELEK account</label><input id=msUser placeholder="yourname" autocomplete=off autocapitalize=off spellcheck=false>
+        <label>Password</label><input id=msKey type=password placeholder="your password" autocomplete=off>
+        <button id=msGo>Log in with MELEK</button>
+        <p id=msMsg class=muted style="margin-top:8px"></p>
+      </div>
+
       <div id=m_hivesigner class=hide>
         <p class=muted>HiveSigner authorizes vote ops with a <b>revocable token</b> — keyless, and it works even
           while you're offline (best for scheduled votes). <a href="/teach/hivesigner">How to set up &rsaquo;</a></p>
@@ -99,7 +109,8 @@ export function loginPage() {
 const LOGIN_JS = `
 const $=s=>document.querySelector(s);
 let CFG=null;
-const METHOD_LABEL={hivesigner:'HiveSigner',whalevault:'WhaleVault',postingkey:'Posting key'};
+const METHOD_LABEL={'melek-signer':'Login with MELEK',hivesigner:'HiveSigner',whalevault:'WhaleVault',postingkey:'Posting key'};
+const METHODS=['melek-signer','hivesigner','whalevault','postingkey'];
 async function boot(){
   CFG=await (await fetch('/api/config')).json();
   const sel=$('#chain'); sel.innerHTML='';
@@ -117,7 +128,7 @@ function renderChain(){
   $('#banner').innerHTML=b;
   // method tabs
   const tabs=$('#methodTabs'); tabs.innerHTML='';
-  ['hivesigner','whalevault','postingkey'].forEach(m=>{
+  METHODS.forEach(m=>{
     if(!c.authMethods.includes(m)) return;
     const t=document.createElement('div'); t.className='tab'; t.textContent=METHOD_LABEL[m]+(m==='postingkey'?' (least-preferred)':'');
     t.dataset.m=m; t.onclick=()=>selMethod(m); tabs.appendChild(t);
@@ -129,7 +140,7 @@ function renderChain(){
 }
 function selMethod(m){
   document.querySelectorAll('#methodTabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.m===m));
-  ['hivesigner','whalevault','postingkey'].forEach(x=>$('#m_'+x).classList.toggle('hide',x!==m));
+  METHODS.forEach(x=>$('#m_'+x).classList.toggle('hide',x!==m));
   if(m==='hivesigner'){
     const ok=CFG.hivesigner.configured;
     $('#hsGo').classList.toggle('hide',!ok); $('#hsPending').classList.toggle('hide',ok);
@@ -157,6 +168,15 @@ $('#pkGo').onclick=async()=>{
     body:JSON.stringify({chain:$('#chain').value,username:$('#pkUser').value,postingKey:$('#pkKey').value})});
   const d=await r.json();
   if(r.ok)location.href='/'; else $('#pkMsg').textContent=d.error||'login failed';
+};
+$('#msGo').onclick=async()=>{
+  const user=$('#msUser').value.trim(); if(!user){$('#msMsg').textContent='enter your MELEK account';return;}
+  if(!$('#msKey').value){$('#msMsg').textContent='enter your password';return;}
+  $('#msMsg').textContent='verifying with MELEK-Signer…';
+  const r=await fetch('/api/login/melek-signer',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chain:$('#chain').value,username:user,password:$('#msKey').value})});
+  const d=await r.json().catch(()=>({}));
+  if(r.ok)location.href='/'; else $('#msMsg').textContent=d.error||'login failed';
 };
 boot();
 `;
