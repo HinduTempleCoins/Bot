@@ -54,3 +54,30 @@ test('broadcast: signer returns {ok:false} → throws (never silently succeeds)'
   const fetchImpl = async () => ({ ok: true, json: async () => ({ ok: false, error: 'policy rejected' }) });
   await assert.rejects(() => broadcast('TOK1', [['vote', {}]], fetchImpl), /policy rejected/);
 });
+
+// The login path is account-agnostic: it works for the REAL MELEK testnet bot society
+// (envuser1–6 + angelicaibot — all confirmed on-chain) exactly as it does for any account.
+// A mock signer issues a token ONLY for the right (account,password) pair — the same thing the
+// live signer does by checking the password against each account's on-chain key.
+test('the whole bot society logs in via MELEK-Signer; wrong password is rejected per-bot', async () => {
+  const ROSTER = {
+    envuser1: 'sol-pw-1', envuser2: 'mina-pw-2', envuser3: 'vero-pw-3',
+    envuser4: 'dax-pw-4', envuser5: 'pip-pw-5', envuser6: 'nova-pw-6',
+    angelicaibot: 'angel-pw-7',
+  };
+  const signerFor = (acct, pw) => async (url, opts) => {
+    const b = JSON.parse(opts.body);
+    if (url.endsWith('/oauth2/authorize')) {
+      return (b.account === acct && b.password === pw)
+        ? { ok: true, json: async () => ({ code: `C-${acct}` }) }
+        : { ok: false, json: async () => ({ error: 'identity not verified' }) };
+    }
+    return { ok: true, json: async () => ({ access_token: `T-${acct}`, account: acct }) };
+  };
+  for (const [acct, pw] of Object.entries(ROSTER)) {
+    const r = await login({ account: acct, password: pw }, signerFor(acct, pw));
+    assert.deepEqual(r, { account: acct, token: `T-${acct}` }, `${acct} should log in`);
+    await assert.rejects(() => login({ account: acct, password: 'WRONG' }, signerFor(acct, pw)),
+      /identity not verified/, `${acct} with a wrong password must be rejected`);
+  }
+});
