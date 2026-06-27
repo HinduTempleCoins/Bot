@@ -68,13 +68,10 @@ export function loginPage() {
       <div class=tabs id=methodTabs></div>
 
       <div id=m_melek-signer class=hide>
-        <p class=muted><b>Login with MELEK.</b> Sign in with your MELEK account name and password — keyless.
-          MELEK-Signer checks your password against your on-chain key and votes on your behalf even while
-          you're offline. We never see or store your keys.</p>
-        <label>MELEK account</label><input id=msUser placeholder="yourname" autocomplete=off autocapitalize=off spellcheck=false>
-        <label>Password</label><input id=msKey type=password placeholder="your password" autocomplete=off>
-        <button id=msGo>Log in with MELEK</button>
-        <p id=msMsg class=muted style="margin-top:8px"></p>
+        <p class=muted><b>Login with MELEK.</b> You'll be taken to <b>MELEK-Signer</b> to enter your password
+          securely — this site never sees it. Keyless: the signer holds your keys and votes on your behalf
+          even while you're offline.</p>
+        <button id=msGo>Login with MELEK &rsaquo;</button>
       </div>
 
       <div id=m_hivesigner class=hide>
@@ -169,15 +166,7 @@ $('#pkGo').onclick=async()=>{
   const d=await r.json();
   if(r.ok)location.href='/'; else $('#pkMsg').textContent=d.error||'login failed';
 };
-$('#msGo').onclick=async()=>{
-  const user=$('#msUser').value.trim(); if(!user){$('#msMsg').textContent='enter your MELEK account';return;}
-  if(!$('#msKey').value){$('#msMsg').textContent='enter your password';return;}
-  $('#msMsg').textContent='verifying with MELEK-Signer…';
-  const r=await fetch('/api/login/melek-signer',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({chain:$('#chain').value,username:user,password:$('#msKey').value})});
-  const d=await r.json().catch(()=>({}));
-  if(r.ok)location.href='/'; else $('#msMsg').textContent=d.error||'login failed';
-};
+$('#msGo').onclick=()=>{location.href='/melek-signer/login?chain='+encodeURIComponent($('#chain').value);};
 boot();
 `;
 
