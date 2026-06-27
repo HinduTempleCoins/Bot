@@ -27,7 +27,10 @@ import { clampWeight } from './rules.js';
 import { getChain, publicChains, chainSupportsAuth, isMainnet } from './chains.js';
 import * as hivesigner from './hivesigner.js';
 import * as melekSigner from './melek-signer.js';
+import * as melekSignerOauth from '../integrations/melek-signer-oauth.mjs';
 import { loginPage, dashboardPage, teachPage, awarenessPage } from './views.js';
+
+const MELEK_SIGNER_CLIENT_ID = process.env.MELEK_SIGNER_CLIENT_ID || 'autovote';
 
 const store = new Store(config.dbPath, config.defaultChain);
 const engine = new VoteEngine(store);
@@ -166,6 +169,38 @@ const server = http.createServer(async (req, res) => {
       } catch (err) {
         return json(res, 401, { error: String((err && err.message) || err) });
       }
+    }
+
+    // ---- MELEK-Signer hosted login (redirect flow): begin ----
+    // The keyless "Login with MELEK" — redirect the browser to the hosted signer page; the password is
+    // entered THERE, never here. The signer redirects back to /melek-signer/callback with a one-time code.
+    if (path === '/melek-signer/login' && method === 'GET') {
+      const chainId = u.searchParams.get('chain') || config.defaultChain;
+      if (!chainSupportsAuth(chainId, 'melek-signer'))
+        return send(res, 400, '<p>MELEK-Signer is not available for this chain.</p> <a href="/">back</a>');
+      const state = crypto.randomBytes(12).toString('hex');
+      oauthStates.set(state, { chain: chainId, at: Date.now() });
+      const base = `https://${req.headers.host}`;
+      const url = melekSignerOauth.authorizeUrl({
+        clientId: MELEK_SIGNER_CLIENT_ID, scope: 'vote',
+        redirectUri: `${base}/melek-signer/callback`, state,
+      });
+      return send(res, 302, '', { Location: url });
+    }
+
+    // ---- MELEK-Signer hosted login (redirect flow): callback ----
+    if (path === '/melek-signer/callback' && method === 'GET') {
+      const code = u.searchParams.get('code');
+      const state = u.searchParams.get('state');
+      const st = state ? oauthStates.get(state) : null;
+      const chainId = (st && st.chain) || config.defaultChain;
+      if (st) oauthStates.delete(state);
+      if (!st) return send(res, 400, '<p>MELEK-Signer: invalid or expired login. <a href="/">try again</a></p>');
+      if (!code) return send(res, 400, '<p>MELEK-Signer: no code returned. <a href="/">back</a></p>');
+      const grant = await melekSignerOauth.exchangeCode({ clientId: MELEK_SIGNER_CLIENT_ID, code });
+      if (!grant || !grant.account) return send(res, 500, '<p>MELEK-Signer login failed. <a href="/">back</a></p>');
+      store.upsertUser(chainId, grant.account, 'melek-signer', { msToken: grant.token });
+      return send(res, 302, '', { Location: '/', ...issueSession(res, chainId, grant.account) });
     }
 
     // ---- HiveSigner OAuth: begin ----
