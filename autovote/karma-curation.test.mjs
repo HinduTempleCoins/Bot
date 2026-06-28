@@ -1,7 +1,7 @@
 // karma-curation.test.mjs — the AutoVote merit-targeting ranker. OFFLINE, pure (composes karma/). Never throws.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { curationScore, scoreCandidate, rankForCuration, CURATION_WEIGHTS } from './karma-curation.mjs';
+import { curationScore, scoreCandidate, rankForCuration, rankAccountsForCuration, CURATION_WEIGHTS } from './karma-curation.mjs';
 
 // signal builders
 const established = { // high karma, established (low neediness): high BP, prolific, active, big reach
@@ -43,6 +43,18 @@ test('rankForCuration sorts by merit, applies minScore + limit, soft-fails bad r
   assert.ok(!ranked.find((r) => r.author === 'spam') || ranked.find((r) => r.author === 'spam').score < ranked[0].score);
   const top1 = rankForCuration([established, qualityNewcomer], { limit: 1 });
   assert.equal(top1.length, 1);
+});
+
+test('rankAccountsForCuration reads live signals (injected) and ranks accounts by merit', async () => {
+  const fake = {
+    newseed: { account: 'newseed', postCount: 15, commentCount: 60, upvotesGiven: 40, selfVotes: 0, accountAgeDays: 20, reputation: 35, bp: 200, lastActiveDaysAgo: 0, followerCount: 8 },
+    whale: { account: 'whale', postCount: 200, commentCount: 1000, upvotesGiven: 500, selfVotes: 5, accountAgeDays: 900, reputation: 80, bp: 50000, lastActiveDaysAgo: 0, followerCount: 5000 },
+  };
+  const readActivity = async (account) => fake[account] || { account };
+  const ranked = await rankAccountsForCuration(['whale', 'newseed', 'ghost'], { readActivity, minScore: 0.001 });
+  assert.equal(ranked[0].author, 'newseed', 'quality newcomer is lifted first');
+  assert.ok(ranked.find((r) => r.author === 'whale'), 'whale still curated (just lower)');
+  assert.ok(ranked.every((r) => typeof r.score === 'number'));
 });
 
 test('balance (dharma) is a tiebreaker; missing signals default to 0, never throw', () => {
