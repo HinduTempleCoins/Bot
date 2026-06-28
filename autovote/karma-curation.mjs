@@ -67,3 +67,28 @@ export function rankForCuration(candidates = [], { weights, limit, minScore = 0 
   const n = Number(limit);
   return n > 0 ? rows.slice(0, Math.floor(n)) : rows;
 }
+
+/**
+ * Rank LIVE accounts for curation — the bridge from the ranker to the chain. Reads each account's real
+ * activity + neediness signals (karma/activity-reader.mjs) and ranks them by merit. This is the "who should
+ * the AutoNetwork lift next" queue the engine consumes. Read-only; soft-fails per-account.
+ * @param {string[]} accounts
+ * @param {{readActivity:Function, rpcUrl:string, fetch?:Function, weights?:object, limit?:number, minScore?:number}} cfg
+ *   readActivity is injected (default import) so this stays offline-testable.
+ */
+export async function rankAccountsForCuration(accounts = [], cfg = {}) {
+  const { rpcUrl, fetch: f, weights, limit, minScore } = cfg;
+  let read = cfg.readActivity;
+  if (!read) ({ readActivity: read } = await import('../karma/activity-reader.mjs'));
+  const candidates = await Promise.all((Array.isArray(accounts) ? accounts : []).map(async (account) => {
+    try {
+      const a = await read(account, { rpcUrl, fetch: f });
+      return {
+        author: account,
+        activity: a, // scoreActivity reads postCount/commentCount/upvotesGiven/selfVotes/reputation/age
+        need: { bp: a.bp, postCount: a.postCount, lastActiveDaysAgo: a.lastActiveDaysAgo, followerCount: a.followerCount },
+      };
+    } catch { return { author: account }; }
+  }));
+  return rankForCuration(candidates, { weights, limit, minScore });
+}
