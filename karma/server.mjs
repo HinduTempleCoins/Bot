@@ -8,10 +8,15 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { computeKarma } from './karma.mjs';
+import { computeKarma, __setFetchActivity } from './karma.mjs';
+import { readActivity } from './activity-reader.mjs';
 
 const PORT = +(process.env.PORT || 8156);
 const HOST = process.env.HOST || '127.0.0.1';
+const MELEK_RPC = process.env.MELEK_RPC_URL || 'https://alpha.melek.salon/rpc';
+
+// Power karma from the DEEP signal reader (real posts/comments/votes), not just tenure/reputation.
+__setFetchActivity((account) => readActivity(account, { rpcUrl: MELEK_RPC }));
 const TTL_MS = +(process.env.KARMA_TTL_MS || 300000); // 5-min cache per account
 const ACC_RE = /^[a-z][a-z0-9.-]{1,31}$/;             // valid graphene-ish account name
 const _cache = new Map();                              // account -> { at, rec }
