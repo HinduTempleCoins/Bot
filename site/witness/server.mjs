@@ -126,7 +126,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -134,6 +134,7 @@ ${FOOTER}</body></html>`;
 // ── / — WITNESS SCHOOL home ────────────────────────────────────────────────────────────────────
 export function homePage() {
   const sections = [
+    ['/learn', 'Learn the systems', 'How rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system actually work — and how our witnesses give back to the community, not just collect rewards.'],
     ['/pool', 'Connect to the pool', 'Live pool status per coin — RandomX, Etchash and the PRANA chain — with the stratum line to point your miner at. Or mine right in the browser.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool. Fees may become part of the DAO later.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
@@ -510,13 +511,79 @@ export function walletView() {
     </div>`;
 }
 
+// ── /learn — how the systems work (for everyone) ──────────────────────────────────────────────────
+export function learnPage() {
+  const body = `<h1>Learn the systems <span class=muted style="font-size:14px">· how MELEK rewards, curates, and raises people up</span></h1>
+  <p class=lead>MELEK isn't just a chain that pays block producers. It's a set of systems for <b>finding good
+    work and rewarding it</b> — and for our witnesses to <b>give back</b> to the community, not just collect
+    rewards. Here's how each part works.</p>
+
+  <div class=card><h2>💎 How rewards work</h2>
+    <p class=muted style="font-size:14px">When you post or comment, people <b>vote</b> on it. Votes carry
+    weight (your stake / "Power"), and at payout the chain splits a daily reward pool across content by how
+    much vote-weight it earned — like Steem/Hive/Blurt. MELEK is <b>fee-less</b> and has <b>no downvotes</b>:
+    you reward good work; you don't punish. Curators who vote early on work that does well earn a curation
+    share — so <b>curating well is itself rewarded</b>.</p>
+  </div>
+
+  <div class=card><h2>🔗 Curation Trails</h2>
+    <p class=muted style="font-size:14px">A <b>trail</b> lets your account automatically follow another
+    account's votes — when a curator you trust upvotes something, your account upvotes it too, at a weight you
+    set. It's how a community pools its judgment: one good curator's calls lift everyone who follows them.
+    You stay in control — pause it, scale the weight, or cap how many votes per day.</p>
+  </div>
+
+  <div class=card><h2>🪙 Tokens &amp; Token Trails</h2>
+    <p class=muted style="font-size:14px">Beyond the base coin, communities can run their own <b>tokens</b>
+    (SCOT / tribe tokens) that reward posts tagged for that community. A <b>Token Trail</b> is a curation trail
+    flagged for a specific token or organization — so a project, DAO, or tribe can run an automated curation
+    program that rewards its own contributors in its own token, on top of the base rewards.</p>
+  </div>
+
+  <div class=card><h2>🤖 The AutoNetwork (bots)</h2>
+    <p class=muted style="font-size:14px">Voting well takes attention you don't always have. The
+    <b>AutoNetwork</b> lets you pick an automated-vote strategy and runs it for you — keylessly, through
+    MELEK-Signer, even while you're offline. Choose any of them:</p>
+    <ul style="font-size:14px;color:var(--mut,#9fb0c3)">
+      <li><b>Curation Trail</b> — follow a leader you trust.</li>
+      <li><b>Earnings Autovote</b> — fire your votes at the <b>best moment for curation rewards</b> (each chain's reward-timing optimum).</li>
+      <li><b>Token / Org Trail</b> — automated curation for a token or organization.</li>
+      <li><b>Karma Curation</b> — lift quality newcomers by merit (below).</li>
+    </ul>
+  </div>
+
+  <div class=card><h2>⭐ The Karma system</h2>
+    <p class=muted style="font-size:14px"><b>Karma</b> is social reputation — earned by teaching, helping
+    newcomers, curating well, and being here a while. It is <b>not</b> economic: it never changes the chain's
+    reward math or your vote weight. It informs the witness's <b>discretionary</b> choices — who to lift, how
+    much to weigh a flag. Karma is <b>cross-chain</b>: your standing on Hive, Steem, Blurt and MELEK combine
+    into <b>one score that lives on your MELEK account</b>. And <b>Karma Curation</b> uses it to do the most
+    valuable thing a curator can: <b>lift quality newcomers</b> — a real contributor with little reach counts
+    for more than the same vote aimed at someone already established.</p>
+  </div>
+
+  <div class=card><h2>🤝 Witnesses that give back — Community Rewards Programs</h2>
+    <p class=muted style="font-size:14px">A witness earns block rewards. The question is what it does with
+    them. Our witnesses are built to <b>reward the community and raise people up</b> — not just pull rewards
+    off the chain. Think of programs like a chain-run <b>curation rewards fund</b> or a community rewards coin
+    (in the spirit of regional rewards programs other chains have run): the witness routes a share of what it
+    earns back out — funding curation, grants to people doing valuable work, and lifting newcomers via the
+    Karma system. <b>Being a witness here is a stewardship role, not a faucet.</b></p>
+    <p class=muted style="font-size:13px">These programs are coming online now — built on the Karma and
+    AutoNetwork systems above. <a href="${esc(ALPHA)}">Watch the live chain →</a></p>
+  </div>
+
+  <p style="margin-top:14px"><a class="btn ghost" href="/">← back to the Witness School</a></p>`;
+  return page('Learn the systems — MELEK Witness School', body, { canonical: `${BASE_URL}/learn`, description: 'How MELEK works: rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system — and how MELEK witnesses give back to the community.' });
+}
+
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+const SITEMAP_PATHS = ['/', '/learn', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -557,6 +624,7 @@ export async function handler(req, res) {
     }
 
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
     }
