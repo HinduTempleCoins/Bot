@@ -131,23 +131,13 @@ export function inspectInbound(response) {
 // ---- external API dispatch (keys live ONLY on this box) -------------------
 
 async function callGuest(model, systemText, userText) {
-  const m = String(model || '').toLowerCase();
+  let m = String(model || '').toLowerCase();
+  // COST GUARD: never bill the paid Gemini tier. Any 'gemini*' request is transparently remapped to
+  // the first FREE provider whose key is present, then served via the OpenAI-compatible path below.
+  // Enforces the brain's standing rule "Do not re-introduce paid API keys" (this was the ~$87/mo bleed).
   if (m.startsWith('gemini')) {
-    const key = process.env.GEMINI_API_KEY;
-    if (!key) throw new Error('GEMINI_API_KEY not set on Server 3');
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL || 'gemini-flash-latest'}:generateContent?key=${key}`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: systemText }] },
-        contents: [{ role: 'user', parts: [{ text: userText }] }],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 8192 },
-      }),
-    });
-    if (!res.ok) throw new Error(`gemini HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
-    const j = await res.json();
-    return j?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const envKey = { groq: 'GROQ_API_KEY', cerebras: 'CEREBRAS_API_KEY', openrouter: 'OPENROUTER_API_KEY', cloudflare: 'CLOUDFLARE_ACCOUNT_ID' };
+    m = ['groq', 'cerebras', 'openrouter', 'cloudflare'].find((p) => process.env[envKey[p]]) || 'groq';
   }
   // OpenAI-compatible guests: cloudflare, deepseek, groq
   const compat = {
