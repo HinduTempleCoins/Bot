@@ -5,7 +5,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { complete, availableProviders, PROVIDERS } from './llm-router.mjs';
+import { complete, availableProviders, PROVIDERS, __resetRotation } from './llm-router.mjs';
 
 const ENV_KEYS = PROVIDERS.map((p) => p.env).filter(Boolean); // keyless providers have env:null
 
@@ -59,8 +59,9 @@ test('availableProviders reports booleans only (no key values)', async () => {
 
 test('ladder falls through: first provider errors, second answers', async () => {
   const orig = global.fetch;
-  // task:default order = gemini, openrouter, github, groq. Give all 4 keys.
-  // Script: gemini -> 429, openrouter -> 200 with text.
+  __resetRotation(); // deterministic: rotation starts at groq
+  // default head (free-first) = groq, openrouter, github; give all keys.
+  // Script: groq -> 429, openrouter -> 200 with text.
   global.fetch = scriptedFetch([
     { status: 429, body: 'rate limited' },
     { status: 200, body: openaiBody('hello from openrouter') },
@@ -75,11 +76,10 @@ test('ladder falls through: first provider errors, second answers', async () => 
       },
       async () => {
         const res = await complete('hi');
+        assert.equal(res.attempts[0].provider, 'groq');
+        assert.equal(res.attempts[0].error, 'HTTP 429');
         assert.equal(res.provider, 'openrouter');
         assert.equal(res.text, 'hello from openrouter');
-        assert.equal(res.attempts[0].provider, 'gemini');
-        assert.equal(res.attempts[0].error, 'HTTP 429');
-        assert.equal(res.attempts[1].ok, true);
       },
     );
   } finally {
@@ -87,17 +87,36 @@ test('ladder falls through: first provider errors, second answers', async () => 
   }
 });
 
+test('round-robin spreads load across free providers on successive calls', async () => {
+  const orig = global.fetch;
+  __resetRotation();
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('ok') }]);
+  try {
+    await withEnv({ GROQ_API_KEY: 'k', OPENROUTER_API_KEY: 'k', GITHUB_TOKEN: 'k' }, async () => {
+      const a = await complete('1'); // shift 0 -> groq leads
+      const b = await complete('2'); // shift 1 -> openrouter leads
+      const c = await complete('3'); // shift 2 -> github leads
+      assert.equal(a.provider, 'groq');
+      assert.equal(b.provider, 'openrouter');
+      assert.equal(c.provider, 'github');
+    });
+  } finally {
+    global.fetch = orig;
+  }
+});
+
 test('missing keys are skipped, not attempted', async () => {
   const orig = global.fetch;
-  // Only groq has a key; default order tries gemini/openrouter/github first (skip), then groq.
-  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('groq answer') }]);
+  // Only github has a key; default order tries groq/openrouter first (skip), then github.
+  __resetRotation();
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('github answer') }]);
   try {
-    await withEnv({ GROQ_API_KEY: 'k' }, async () => {
+    await withEnv({ GITHUB_TOKEN: 'k' }, async () => {
       const res = await complete('hi');
-      assert.equal(res.provider, 'groq');
-      assert.equal(res.text, 'groq answer');
+      assert.equal(res.provider, 'github');
+      assert.equal(res.text, 'github answer');
       const skipped = res.attempts.filter((a) => a.skipped === 'no-key').map((a) => a.provider);
-      assert.deepEqual(skipped, ['gemini', 'openrouter', 'github']);
+      assert.deepEqual(skipped, ['groq', 'openrouter']);
     });
   } finally {
     global.fetch = orig;
@@ -121,8 +140,9 @@ test('prefer forces a provider to the front', async () => {
   }
 });
 
-test('task:cheap biases groq/openrouter first', async () => {
+test('task:cheap leads with a free provider, never gemini', async () => {
   const orig = global.fetch;
+  __resetRotation();
   global.fetch = scriptedFetch([{ status: 200, body: openaiBody('cheap answer') }]);
   try {
     await withEnv(
@@ -131,6 +151,7 @@ test('task:cheap biases groq/openrouter first', async () => {
         const res = await complete('hi', { task: 'cheap' });
         assert.equal(res.attempts[0].provider, 'groq');
         assert.equal(res.provider, 'groq');
+        assert.notEqual(res.provider, 'gemini');
       },
     );
   } finally {
@@ -146,7 +167,8 @@ test('total failure returns {text:"", error} and never throws', async () => {
       const res = await complete('hi');
       assert.equal(res.text, '');
       assert.match(res.error, /all providers failed/);
-      assert.equal(res.attempts[0].error, 'HTTP 500');
+      // gemini is now a tail backstop (not attempts[0]); assert the gemini attempt is what errored.
+      assert.equal(res.attempts.find((a) => a.provider === 'gemini').error, 'HTTP 500');
     });
   } finally {
     global.fetch = orig;
