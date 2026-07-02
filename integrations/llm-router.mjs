@@ -1,4 +1,5 @@
-// llm-router.mjs — provider-agnostic LLM router with fallback (tasks #135 model-routing, #181 wiki LLM fallback).
+// llm-router.mjs — provider-agnostic LLM router: FREE-first, round-robin load-balanced, with fallback
+// (tasks #135 model-routing, #181 wiki LLM fallback; cost fix — spread across all free keys, don't lean on metered Gemini).
 //
 // One job: hand it a prompt, it tries a ladder of LLM providers (each guarded by its own env key,
 // skipped if the key is absent) and returns the first good answer. It NEVER throws — on total
@@ -73,16 +74,18 @@ export const PROVIDERS = [
 
 const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
 
-// ── Routing: a task hint biases the order; `prefer` forces one provider to the front ─────────
-// cheap   → conserve paid/quality calls: free + fast first (Groq, OpenRouter free).
-// quality → best output first (Gemini, then GitHub gpt-4o).
-// long    → large-context first (Gemini 2.5-flash + OpenRouter Llama 4's 1M ctx).
-// Keyless 'pollinations' is appended to every order as the final rung so generation always resolves.
+// ── Routing: free providers are load-balanced first; Gemini is a metered backstop ─────────────
+// The keyed FREE providers (groq, openrouter, github) sit at the HEAD of every default order and are
+// rotated round-robin per call (see orderFor) so each key shares the load and stays inside its free
+// tier — nothing hammers one provider. Gemini has a *metered* tier (it bills once free quota is spent),
+// so it is demoted to the tail and reached ONLY if every free provider fails; pollinations (keyless)
+// is the final rung so generation always resolves. Pass { prefer:'gemini' } to force Gemini when you
+// explicitly want it. This is the "use all the AIs, don't fall back onto the paid one" routing.
 const TASK_ORDERS = {
-  default: ['gemini', 'openrouter', 'github', 'groq', 'pollinations'],
-  cheap: ['groq', 'openrouter', 'gemini', 'github', 'pollinations'],
-  quality: ['gemini', 'github', 'openrouter', 'groq', 'pollinations'],
-  long: ['gemini', 'openrouter', 'github', 'groq', 'pollinations'],
+  default: ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
+  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
+  quality: ['github', 'openrouter', 'groq', 'gemini', 'pollinations'],
+  long:    ['openrouter', 'groq', 'github', 'gemini', 'pollinations'],
 };
 
 /**
@@ -104,12 +107,35 @@ export function availableProviders() {
   return out;
 }
 
+// Round-robin cursor: rotated once per default call so the FREE head providers share the load
+// (call 1 → groq first, call 2 → openrouter first, call 3 → github first, …) instead of one
+// provider absorbing every request. Module-scoped on purpose; process-lifetime is the right window.
+let _rr = 0;
+
+// Providers kept at a FIXED tail (never rotated to the front by round-robin): the metered Gemini
+// tier and the keyless backstop. They are only reached when the free head providers all fail.
+const TAIL = new Set(['gemini', 'pollinations']);
+
+// Test hook: reset the round-robin cursor so unit tests get deterministic ordering. Not used in prod.
+export function __resetRotation() { _rr = 0; }
+
 function orderFor({ task, prefer } = {}) {
-  let order = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
+  const base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
+  // Explicit preference wins outright (e.g. prefer:'gemini' when the caller really wants it).
   if (prefer && PROVIDER_BY_NAME[prefer]) {
-    order = [prefer, ...order.filter((n) => n !== prefer)];
+    return [prefer, ...base.filter((n) => n !== prefer)];
   }
-  return order;
+  // Load-balance the free, keyed head; keep Gemini + keyless backstop pinned to the tail.
+  const head = base.filter((n) => !TAIL.has(n));
+  const tail = base.filter((n) => TAIL.has(n));
+  const usableHead = head.filter((n) => providerUsable(PROVIDER_BY_NAME[n]));
+  if (usableHead.length > 1) {
+    const shift = _rr++ % usableHead.length;
+    const rotated = usableHead.slice(shift).concat(usableHead.slice(0, shift));
+    const deadHead = head.filter((n) => !usableHead.includes(n)); // key-absent; skipped, kept for order
+    return [...rotated, ...deadHead, ...tail];
+  }
+  return base;
 }
 
 // ── HTTP plumbing ────────────────────────────────────────────────────────────────────────────

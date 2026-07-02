@@ -381,6 +381,14 @@ function renderOut(elId,j){
 // with the screen off, which a browser can't). Feature-detected: a plain browser ignores this and uses
 // the in-page accelerometer counter above. The native side requests ACTIVITY_RECOGNITION after the
 // prominent-disclosure prompt shown in the step card.
+// Self-heal: the shell injects window.MelekSteps once, so it is LOST after navigating to another
+// screen (a fresh page load) — which silently dropped counting back to the foreground-only
+// accelerometer ("steps don't read on other screens"). The MelekStepsNative JS interface, however,
+// PERSISTS across page loads; rebuild the shim from it on every load so the OS pedometer is read on
+// EVERY screen, screen-off and backgrounded included.
+if((!window.MelekSteps)&&typeof window.MelekStepsNative!=='undefined'&&window.MelekStepsNative&&typeof window.MelekStepsNative.latest==='function'){
+  window.MelekSteps={start:function(cb){setInterval(function(){try{cb(window.MelekStepsNative.latest());}catch(e){}},2000);}};
+}
 if(window.MelekSteps&&typeof window.MelekSteps.start==='function'){
   try{ $('startSteps').textContent='Counting (device)'; $('stepsub').textContent='counting your steps from the device sensor…';
     window.MelekSteps.start(function(n){ if(typeof n==='number'&&n>=0) setSteps(n); }); }catch(e){}
