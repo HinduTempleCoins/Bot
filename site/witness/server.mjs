@@ -126,7 +126,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -135,6 +135,7 @@ ${FOOTER}</body></html>`;
 export function homePage() {
   const sections = [
     ['/learn', 'Learn the systems', 'How rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system actually work — and how our witnesses give back to the community, not just collect rewards.'],
+    ['/academy', 'Token Academy', 'Build your own curation-reward network: a community token, curation and token trails, keyless autovote, and fair rewards to the members who curate — the model, plus the steps to stand one up on MELEK.'],
     ['/pool', 'Connect to the pool', 'Live pool status per coin — RandomX, Etchash and the PRANA chain — with the stratum line to point your miner at. Or mine right in the browser.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool. Fees may become part of the DAO later.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
@@ -586,7 +587,91 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /academy — Token Academy: build a curation-reward network ──────────────────────────────────────
+export function academyPage() {
+  const body = `<h1>Token Academy <span class=muted style="font-size:14px">· build your own curation-reward network</span></h1>
+  <p class=lead>A witness produces blocks. A <b>curation-reward network</b> does something bigger: it gathers a
+    community around <b>finding good work and paying the people who find it</b>. This is the playbook — the idea,
+    the parts MELEK already gives you, and the steps to stand up your own.</p>
+
+  <h2 style="margin-top:18px">The idea</h2>
+  <div class=card><h2>🌐 What a curation-reward network is</h2>
+    <p class=muted style="font-size:14px">One person voting has small reach. A curation network pools many people's
+    judgment and voting power behind a shared goal — surfacing quality, lifting newcomers, growing a topic — and it
+    <b>shares the curation rewards back to the members who make it work</b>. Add a community <b>token</b> and it
+    becomes a self-funding loop: good posts earn the token, holders curate, curating earns more, and the community
+    grows around its own economy. No central boss — it runs on rules and trust.</p>
+  </div>
+
+  <h2 style="margin-top:18px">The parts MELEK already gives you</h2>
+  <div class=card><h2>🪙 A community token</h2>
+    <p class=muted style="font-size:14px">Mint your own token (a SCOT / tribe token) that rewards posts tagged for
+    your community, on top of the base MELEK rewards. Set the tag, the daily emission, and the author/curator split.
+    This is your network's currency and its incentive dial.</p>
+  </div>
+  <div class=card><h2>🔗 A curation trail</h2>
+    <p class=muted style="font-size:14px">A trail lets members' accounts automatically follow a curator — or a small
+    council — they trust: when the lead upvotes, the followers do too, at a weight each member sets. It's how a
+    scattered group votes like one strong account, without anyone handing over a key.</p>
+  </div>
+  <div class=card><h2>🏷️ A token trail</h2>
+    <p class=muted style="font-size:14px">A curation trail flagged for <i>your</i> token — so the automated votes
+    reward your community's contributors in your token, not just the base coin. This is the engine that pays the
+    people producing and curating for your network.</p>
+  </div>
+  <div class=card><h2>🤖 Autovote strategies (keyless)</h2>
+    <p class=muted style="font-size:14px">Members pick a strategy — follow the trail, reward by merit, boost
+    newcomers — and it runs automatically and <b>keylessly</b> (through the signer boundary; the network never holds
+    their keys). Delegated stake makes each vote heavier without giving up ownership.</p>
+  </div>
+  <div class=card><h2>⭐ Merit &amp; fair distribution</h2>
+    <p class=muted style="font-size:14px">The Karma system weighs need and recent activity so rewards lift real,
+    active newcomers instead of the already-large — and keeps a network from becoming a circle that only pays itself.
+    Fair distribution is what makes it last.</p>
+  </div>
+
+  <h2 style="margin-top:18px">The tools — and where you actually do it</h2>
+  <div class=card><h2>⚙️ MELEK-Engine — mint &amp; run your token</h2>
+    <p class=muted style="font-size:14px">MELEK's Hive-Engine-style layer-2 token engine. <code>tokens.create</code>
+    registers your community token (symbol, precision, optional immutable cap); <code>rewards.setReward</code> is the
+    <b>Scotbot equivalent</b> — you configure the token's social-reward pool (daily emission, author/curator split,
+    reward curve) as <i>settings, not code</i>. <code>tokens.issue</code> / <code>tokens.transfer</code> /
+    <code>tokens.stake</code> do the rest. Manage it from the
+    <a href="https://tokens.alpha.melek.salon">Tokens portal</a>.</p>
+  </div>
+  <div class=card><h2>🐝 APIS — the fee token</h2>
+    <p class=muted style="font-size:14px">APIS is the engine's fee/utility token (its "BEE"), named for <i>Apis</i>, the
+    sacred bee. You <b>burn a little APIS</b> to create your token and to pay engine resource fees — it's what powers
+    the engine. Get some first; it's the key that turns the crank.</p>
+  </div>
+  <div class=card><h2>💧 KulaSwap — liquidity &amp; DeFi for your token</h2>
+    <p class=muted style="font-size:14px">Once your token exists, <a href="https://kula.money">KulaSwap</a> is where it
+    gets a market: swap it, add it to a <b>liquidity pool</b>, run a <b>farm</b> to reward holders, or use the <b>CDP</b>
+    vaults (lock wMELEK for a passive APIS yield) to help fund the network. It's the DeFi side that turns a reward token
+    into a working little economy.</p>
+  </div>
+
+  <h2 style="margin-top:18px">Build your own — the steps</h2>
+  <div class=card>
+    <ol class=steps>
+      <li><b>Define the community.</b> Pick what you reward (a topic, a region, quality originals, newcomers) and a tag.</li>
+      <li><b>Mint the token.</b> In MELEK-Engine, <code>tokens.create</code> (burns a little APIS) mints it; <code>rewards.setReward</code> sets its reward pool — tag, daily emission, author/curator split.</li>
+      <li><b>Set the curation trail.</b> Choose the curator or council whose votes the network follows.</li>
+      <li><b>Flag the token trail.</b> Point the trail at your token so curation pays your contributors in it.</li>
+      <li><b>Invite members.</b> They follow the trail / delegate stake — keylessly — and set their own vote weight.</li>
+      <li><b>Distribute, list &amp; show it.</b> Rewards flow to authors and curators; list the token on KulaSwap for liquidity, and publish a live leaderboard so the community sees it working.</li>
+    </ol>
+    <p class=muted style="font-size:13px">Every step runs on tooling MELEK already ships — SCOT tokens, curation and
+    token trails, keyless autovote, and the Karma merit system. The Academy is the guided front door to it.</p>
+  </div>
+
+  <p class=muted style="font-size:13px;margin-top:14px">This page teaches the model. <a href="/learn">Learn</a> covers
+    how MELEK's rewards and curation work underneath, and <a href="/pool">the pool</a> and <a href="/hathor">Hathor</a>
+    show the live chain the same tools run on.</p>`;
+  return page('Token Academy — build a curation-reward network on MELEK', body, { canonical: `${BASE_URL}/academy`, description: 'Token Academy: how to build a curation-reward network on MELEK — a community token, curation and token trails, keyless autovote, and fair reward distribution, using tooling MELEK already ships.' });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -628,6 +713,7 @@ export async function handler(req, res) {
 
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/learn') return sendHtml(res, learnPage());
+    if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
     }
