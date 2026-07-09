@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -53,6 +53,35 @@ async function route(path) {
 // ---------------------------------------------------------------------------
 test('esc escapes HTML metacharacters', () => {
   assert.equal(esc('<b>"&"</b>'), '&lt;b&gt;&quot;&amp;&quot;&lt;/b&gt;');
+});
+
+test('academy teaches the curation-network concept generically + the build steps', () => {
+  const h = academyPage();
+  assert.match(h, /Token Academy/);
+  assert.match(h, /curation-reward network/i);
+  assert.match(h, /community token|SCOT|tribe token/);
+  assert.match(h, /curation trail/i);
+  assert.match(h, /token trail/i);
+  assert.match(h, /keyless/i);
+  assert.match(h, /Mint the token/);        // a build step
+  assert.match(h, /Flag the token trail/);  // a build step
+  // instructs on the real tooling
+  assert.match(h, /MELEK-Engine/);
+  assert.match(h, /tokens\.create/);
+  assert.match(h, /rewards\.setReward/);
+  assert.match(h, /APIS/);
+  assert.match(h, /KulaSwap/);
+  // stays generic — must NOT name specific outside communities (operator direction)
+  assert.doesNotMatch(h, /OCD|R2Cornell/i);
+});
+
+test('academy route renders 200 and is in the nav + sitemap', async () => {
+  const res = await route('/academy');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Token Academy/);
+  assert.match(homePage(), /\/academy/);    // linked from the school home
+  const sm = await route('/sitemap.xml');
+  assert.match(sm.body, /\/academy/);
 });
 
 // ---------------------------------------------------------------------------
