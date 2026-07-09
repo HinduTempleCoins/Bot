@@ -219,6 +219,9 @@ export async function poolView(readPools) {
   let list = [];
   try { list = await reader(); } catch { list = []; }
   list = Array.isArray(list) ? list : [];
+  // Only advertise pools whose daemon is actually reachable (a live network height or hashrate) or
+  // that have real activity. A pool with a dead daemon isn't mineable, so we don't show a stale card.
+  list = list.filter((p) => p && (p.blockHeight != null || p.networkHashrate > 0 || p.connectedMiners > 0 || p.hashrate > 0));
 
   const cards = list.length
     ? list.map(poolCard).join('')
