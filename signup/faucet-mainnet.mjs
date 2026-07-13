@@ -155,7 +155,11 @@ export function handler(req, res) {
   if (req.method === 'GET' && req.url.startsWith('/faucet/health'))
     return send(res, 200, { ok: true, mainnet: true, creator: CREATOR, address_prefix: PREFIX });
   if (req.method === 'POST' && req.url.startsWith('/faucet/create')) {
-    const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+    // The faucet listens only on loopback behind Caddy, which APPENDS the real client IP to any
+    // client-supplied X-Forwarded-For — so the trustworthy value is the LAST entry, never the first
+    // (taking [0] lets a client spoof the header and rotate fake IPs to bypass the per-IP limit).
+    const xff = String(req.headers['x-forwarded-for'] || '');
+    const ip = (xff ? xff.split(',').pop() : req.socket.remoteAddress || '').trim();
     if (rateLimited(ip)) return send(res, 429, { ok: false, reason: 'rate-limited' });
     let raw = '';
     req.on('data', (c) => { raw += c; if (raw.length > 4096) req.destroy(); });
