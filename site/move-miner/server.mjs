@@ -149,7 +149,7 @@ self.addEventListener('fetch',e=>{});`;
 export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MELEK Move — Step & Geo Miner</title>
-<meta name=description content="A fitness step-tracker + geo-explore game with in-app MELEK rewards (testnet — no monetary value).">
+<meta name=description content="A fitness step-tracker + geo-explore game that rewards movement with MELEK.">
 <link rel=manifest href="/manifest.webmanifest">
 <meta name=theme-color content="#d9a441">
 <link rel="apple-touch-icon" href="/icon.svg">
@@ -187,7 +187,7 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </style></head><body><div class=wrap>
 <header>
   <span class=logo>${ICON}</span>
-  <h1>MELEK Move <small>Step counter · explore · MELEK rewards (testnet)</small></h1>
+  <h1>MELEK Move <small>Step counter · explore · MELEK rewards</small></h1>
   <span class="mode" id=mode>…</span>
 </header>
 

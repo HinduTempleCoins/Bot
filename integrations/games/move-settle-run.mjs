@@ -1,4 +1,4 @@
-// move-settle-run.mjs — the box runner that PAYS the MELEK Move hourly pool on-chain (TESTNET).
+// move-settle-run.mjs — the box runner that PAYS the MELEK Move hourly pool on-chain (testnet or mainnet).
 //
 // Reads the move ledger (move-ledger.mjs), settles a CLOSED epoch, and pays each walker their
 // stake-weighted MELEK slice via a real `transfer` op (dhive). Mirrors the JIT-key custody of
@@ -6,7 +6,8 @@
 // HATHOR_ACTIVE_KEY (the wrapper fetches it from the vault per run, never on disk, never logged).
 // settleEpoch is idempotent + retry-safe (a failed transfer leaves the hour OPEN for the next run).
 //
-// Hard TST/TESTS guard — testnet only. Soft-fails to a printed report; never broadcasts without a key.
+// Network guard — accepts TST/TESTS (testnet) or MELEK/MELEK (mainnet), rejects anything else so a bad
+// env can never pay from the wrong chain. Soft-fails to a printed report; never broadcasts without a key.
 //
 //   # hourly, just-closed epoch, from the live ledger:
 //   HATHOR_ACTIVE_KEY=… node integrations/games/move-settle-run.mjs
@@ -35,7 +36,11 @@ const EPOCH = epochArg != null ? Number(epochArg) : epochNow() - 1;       // def
 function fail(msg, code = 1) { console.error(`move-settle: ${msg}`); process.exit(code); }
 
 (async () => {
-  if (PREFIX !== 'TST' || SYMBOL !== 'TESTS') return fail(`testnet only (got ${PREFIX}/${SYMBOL})`, 2);
+  // Accept the MELEK testnet (TST/TESTS) or the MELEK mainnet (MELEK/MELEK) — reject anything else so a
+  // misconfigured env can never pay from the wrong chain.
+  const isTestnet = PREFIX === 'TST' && SYMBOL === 'TESTS';
+  const isMainnet = PREFIX === 'MELEK' && SYMBOL === 'MELEK';
+  if (!isTestnet && !isMainnet) return fail(`unsupported network (got ${PREFIX}/${SYMBOL}); expected TST/TESTS or MELEK/MELEK`, 2);
 
   // Build the transfer dep. DRY → a stub that just records the intent (no chain, no key).
   let transfer;
@@ -47,7 +52,21 @@ function fail(msg, code = 1) { console.error(`move-settle: ${msg}`); process.exi
     if (!CHAIN_ID) return fail('no MELEK_CHAIN_ID in env');
     let dhive;
     try { dhive = await import('@hiveio/dhive'); } catch { dhive = await import('/opt/melek-bot/repo/node_modules/@hiveio/dhive/lib/index.js'); }
-    const { Client, PrivateKey } = dhive.default || dhive;
+    const { Client, PrivateKey, Asset } = dhive.default || dhive;
+    // dhive only ships STEEM/HIVE/SBD/VESTS — teach it the MELEK/MBD symbols (precision 3) so a mainnet
+    // `transfer` of "x.xxx MELEK" serializes. Harmless on testnet (TESTS keeps dhive's native handling).
+    if (Asset && !Asset.__melekPatched) {
+      const SYMS = new Set(['MELEK', 'MBD']);
+      const origFromString = Asset.fromString.bind(Asset);
+      Asset.fromString = (s, exp) => {
+        const [amt, sym] = String(s).split(' ');
+        if (SYMS.has(sym)) { const n = Number.parseFloat(amt); if (!Number.isFinite(n)) throw new Error('bad asset amount'); return new Asset(n, sym); }
+        return origFromString(s, exp);
+      };
+      const origPrecision = Asset.prototype.getPrecision;
+      Asset.prototype.getPrecision = function () { return SYMS.has(this.symbol) ? 3 : origPrecision.call(this); };
+      Asset.__melekPatched = true;
+    }
     const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 20000 });
     const pk = PrivateKey.fromString(key);
     transfer = async ({ from, to, amount, memo }) => {
