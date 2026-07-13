@@ -126,7 +126,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -136,6 +136,7 @@ export function homePage() {
   const sections = [
     ['/learn', 'Learn the systems', 'How rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system actually work — and how our witnesses give back to the community, not just collect rewards.'],
     ['/academy', 'Token Academy', 'Build your own curation-reward network: a community token, curation and token trails, keyless autovote, and fair rewards to the members who curate — the model, plus the steps to stand one up on MELEK.'],
+    ['/run', 'Run a witness — mainnet is live', 'MELEK mainnet fired 7:12 CDT 7/12/2026 (no premine). The full step-by-step: chain id, seed node, build the node, config.ini, register your witness, and get voted into the producing set.'],
     ['/pool', 'Connect to the pool', 'Live pool status per coin — RandomX, Etchash and the PRANA chain — with the stratum line to point your miner at. Or mine right in the browser.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool. Fees may become part of the DAO later.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
@@ -671,7 +672,78 @@ export function academyPage() {
   return page('Token Academy — build a curation-reward network on MELEK', body, { canonical: `${BASE_URL}/academy`, description: 'Token Academy: how to build a curation-reward network on MELEK — a community token, curation and token trails, keyless autovote, and fair reward distribution, using tooling MELEK already ships.' });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /run — Run a MELEK Witness (mainnet is LIVE) ───────────────────────────────────────────────
+export function runPage() {
+  const CHAIN_ID = process.env.MELEK_MAINNET_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
+  const SEED = process.env.MELEK_SEED_NODE || 'seed.melek.salon:2001';
+  const body = `<h1>Run a MELEK Witness <span class=muted style="font-size:14px">· mainnet is live</span></h1>
+
+  <div class=card style="border-color:#d9a441">
+    <h2>🟢 MELEK mainnet is LIVE</h2>
+    <p>Genesis fired <b>7:12 AM CDT · 7/12/2026</b>. No premine — every MELEK is mined or earned. The
+       genesis inscription's SHA-256 <b>is</b> the chain id, so a node on a different inscription is a
+       different chain. Connect on these exact parameters:</p>
+    <pre>chain id     ${esc(CHAIN_ID)}
+prefix       MELEK       coin  MELEK       (no backed dollar / no MBD)
+block time   3 seconds   consensus  Graphene DPoS
+seed node    ${esc(SEED)}</pre>
+  </div>
+
+  <div class=card><h2>1 · Get a box</h2>
+    <p class=muted>Ubuntu 24.04, x86_64, <b>8 GB RAM</b>, ~40 GB disk to start (a fresh chain is light).
+    See <a href="/servers">Rent for mining</a> for honest hardware pointers.</p></div>
+
+  <div class=card><h2>2 · Build the node</h2>
+    <pre>git clone https://github.com/HinduTempleCoins/melek-chain
+cd melek-chain
+sudo apt install -y build-essential cmake libboost-all-dev libssl-dev \\
+  libsnappy-dev liblz4-dev libzstd-dev liblzma-dev libreadline-dev libbz2-dev
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_STEEM_TESTNET=OFF ..   # OFF = mainnet
+make -j$(nproc) steemd cli_wallet</pre>
+    <p class=muted>The build is the same code MELEK runs; <code>BUILD_STEEM_TESTNET=OFF</code> selects mainnet
+    (prefix MELEK, the inscription chain id). Prebuilt binaries can be requested in Discord.</p></div>
+
+  <div class=card><h2>3 · Get an account + a signing key</h2>
+    <p class=muted>Create your MELEK account at <a href="https://melek.salon">melek.salon</a> (invite-gated).
+    Then generate a dedicated <b>block-signing key</b> — it is separate from your account keys and is the
+    only key that lives on the witness box:</p>
+    <pre>./cli_wallet -s ws://127.0.0.1:8090 --chain-id ${esc(CHAIN_ID)}
+&gt;&gt;&gt; suggest_brain_key      # gives you a wif_priv_key + pub_key for signing</pre></div>
+
+  <div class=card><h2>4 · config.ini</h2>
+    <pre>p2p-endpoint = 0.0.0.0:2001
+rpc-endpoint = 127.0.0.1:8090
+p2p-seed-node = ${esc(SEED)}
+enable-stale-production = false
+witness = "youraccount"
+private-key = &lt;your signing WIF from step 3&gt;
+plugin = witness account_by_key account_by_key_api database_api condenser_api block_api network_broadcast_api rc rc_api account_history_rocksdb account_history_api
+shared-file-size = 8G
+shared-file-dir = "blockchain"</pre>
+    <p class=muted>Keep your signing WIF on this box only. Your account's owner/active keys never go here.</p></div>
+
+  <div class=card><h2>5 · Sync + start producing</h2>
+    <pre>./steemd --data-dir=/opt/melek</pre>
+    <p class=muted>It connects to the seed, syncs the chain, and — once you're registered and voted in —
+    signs blocks on your turn.</p></div>
+
+  <div class=card><h2>6 · Register your witness</h2>
+    <p class=muted>In cli_wallet (unlocked, your account's active key imported):</p>
+    <pre>update_witness "youraccount" "https://your-witness-url" "&lt;your signing PUB key&gt;" \\
+  {"account_creation_fee":"1.000 MELEK","maximum_block_size":65536,"sbd_interest_rate":0} true</pre></div>
+
+  <div class=card><h2>7 · Get voted in</h2>
+    <p class=muted>MELEK is <b>stake-weighted DPoS</b> — the community votes witnesses into the producing
+    set. Post your intro thread, share your node's uptime, and ask MELEK holders to
+    <code>vote_for_witness</code> for you. Watch <a href="/hathor">Hathor, live</a> for the working example,
+    and read <a href="/learn">Learn the systems</a> for how rewards and curation flow.</p>
+    <blockquote>Being a witness is a <b>job you run</b> — keep the node in sync, don't miss blocks, and give
+    back to the community. Questions? Hathor answers in Discord and on the <a href="/pool">pool</a>.</blockquote></div>`;
+  return page('Run a MELEK Witness — mainnet is live', body, { canonical: `${BASE_URL}/run`, description: 'How to run a MELEK mainnet witness: chain id, seed node, build the node (BUILD_STEEM_TESTNET=OFF), config.ini, register your witness, and get voted into the producing set. MELEK genesis fired 7:12 CDT 7/12/2026 — no premine.' });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -714,6 +786,7 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
+    if (path === '/run') return sendHtml(res, runPage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
     }

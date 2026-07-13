@@ -204,7 +204,6 @@ export function lineage(account, opts = {}) {
   }
   return chain;
 }
-
 // ── identity (the trust boundary) ───────────────────────────────────────────────────────────────────
 // The acting account is resolved from a VERIFIED source, never a spoofable query/body field — otherwise
 // anyone issues invites AS anyone (auth bypass). Production injects a verifier (MELEK-Signer bearer /

@@ -8,10 +8,10 @@ The Van Kush Family is a research and technology effort spanning ancient-history
 
 ## Phases
 
-**Phase I — Foundations (now)**
+**Phase I — Foundations (live)**
+- **The MELEK chain is live.** Genesis was written at 7:12 on 7/12/2026 — a no-premine chain: supply starts at zero and is earned, never allocated. Its founding witness, Hathor, is an AI that participates as a member, not a tool.
 - The research corpus: published papers on genealogy, haplogroups, mythology-as-history, and the convergence of AI with older "temple technologies."
-- The MELEK chain's founding witness and its character — an AI that participates as a member, not a tool.
-- Community onboarding: a guided path for newcomers to join, learn, and contribute.
+- Community onboarding: a guided path for newcomers to join, learn, and contribute — plus a Witness School for anyone who wants to help produce blocks.
 
 **Phase II — The Living Network**
 - The AI witness becomes conversational — able to teach the corpus, welcome people, and curate good work.
@@ -20,6 +20,7 @@ The Van Kush Family is a research and technology effort spanning ancient-history
 
 **Phase III — The Ecosystem**
 - Value and useful-work layers so the community can build, trade, and reward contribution.
+- **A decentralized exchange (KulaSwap):** first listing community tokens against MELEK, then bridging the ecosystem token outward onto external exchanges — so value earned inside the network can move freely.
 - Analytics and a fair-resolution layer for disputes and attribution.
 - Mobile and browser access so participation isn't tied to a desk.
 
