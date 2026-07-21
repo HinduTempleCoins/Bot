@@ -7,7 +7,7 @@
 // content pool splits by rshares, and pays each walker in MELEK on-chain.
 //
 // REWARD MODEL (operator, locked):
-//   • currency = MELEK (testnet TESTS) — the chain coin, NOT a token/PoL/EVM claim.
+//   • currency = MELEK (the live MELEK mainnet coin) — NOT a token/PoL/EVM claim.
 //   • budget   = 15% of the blog pool (blog = 65% of emission). ~87.75 MELEK/hour at defaults.
 //   • split    = stake-weighted, like vote weight: weight = (stake+floor) × geoBase × stepBoost × diminish.
 //   • recipient= a MELEK Graphene ACCOUNT NAME from signup (NOT a 0x address).
@@ -237,8 +237,8 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 
 <footer>Move, explore, and collect <b>MELEK</b> fitness rewards. Your phone counts steps and reads where
   you stand; we record your stake-weighted share of this hour's reward pool — <b>15% of the blog pool</b>,
-  the same MELEK that rewards writers — and send it to your account when the hour closes. MELEK is a
-  <b>testnet</b> coin with no monetary value. No keys ever leave your phone. <a href="/privacy">Privacy policy</a></footer>
+  the same MELEK that rewards writers — and send it to your account when the hour closes. MELEK is the
+  coin of the <b>live MELEK mainnet</b>. No keys ever leave your phone. <a href="/privacy">Privacy policy</a></footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -397,14 +397,14 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catc
 </script></body></html>`;
 
 // Privacy policy — REQUIRED by Google Play (we read motion/step + coarse location sensors).
-// States what we collect, why, that we never sell/share activity data, and the testnet-no-value fact.
+// States what we collect, why, that we never sell/share activity data, and that MELEK is the live mainnet coin.
 export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Privacy Policy</title>
 <style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
 .w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style></head>
 <body><div class=w>
 <h1>MELEK Move — Privacy Policy</h1>
-<p class=mut>Last updated 2026-06-25. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (a testnet coin with no monetary value).</p>
+<p class=mut>Last updated 2026-06-25. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (MELEK, the coin of the live MELEK mainnet).</p>
 <h2>What we collect</h2>
 <ul>
 <li><b>Step / motion data</b> — read from your device's step-counter / motion sensor, used <b>only</b> to calculate your in-app fitness reward boost in that moment. The count is sent to our server purely to compute the reward — we do <b>not</b> store your step data, keep it in our records, or use it for anything else.</li>
@@ -421,7 +421,7 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <h2>Permissions</h2>
 <p>Physical-activity / motion sensor access is requested before counting steps, and location is requested only when you claim a zone. You can decline either; the app still runs with reduced features.</p>
 <h2>Rewards</h2>
-<p>MELEK is currently a <b>testnet</b> token with <b>no monetary value</b>. Rewards are in-app and not an investment, security, or guarantee of any future value.</p>
+<p>MELEK is the coin of the <b>live MELEK mainnet</b>. Rewards are paid in real MELEK; they are not an investment, security, or guarantee of any future value.</p>
 <h2>Data retention & contact</h2>
 <p>We do <b>not</b> keep your step counts or location data. The only thing retained is your reward standing (your share of the pool), kept only as long as needed to settle each hourly payout. Questions: <a href="https://wallet.melek.salon">wallet.melek.salon</a>.</p>
 <p><a href="/delete">Delete my account & data</a> · <a href="/">← Back to MELEK Move</a></p>
