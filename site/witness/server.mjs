@@ -47,7 +47,7 @@ const PRANA_CHAIN_ID_HEX = '0x1a751';
 const PRANA_CHAIN_ID_DEC = 108369;
 
 // MELEK testnet RPC for the live /hathor witness-status page (read-only condenser calls).
-const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'http://127.0.0.1:8090';
+const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
 let _chainFetch = (...a) => globalThis.fetch(...a);
 export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
 
@@ -675,7 +675,7 @@ export function academyPage() {
 // ── /run — Run a MELEK Witness (mainnet is LIVE) ───────────────────────────────────────────────
 export function runPage() {
   const CHAIN_ID = process.env.MELEK_MAINNET_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
-  const SEED = process.env.MELEK_SEED_NODE || 'seed.melek.salon:2001';
+  const SEED = process.env.MELEK_SEED_NODE || '167.86.77.4:2001';
   const body = `<h1>Run a MELEK Witness <span class=muted style="font-size:14px">· mainnet is live</span></h1>
 
   <div class=card style="border-color:#d9a441">
