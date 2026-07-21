@@ -23,6 +23,22 @@
 export const AUTH_METHODS = ['melek-signer', 'hivesigner', 'whalevault', 'postingkey'];
 
 export const CHAINS = {
+  melek: {
+    id: 'melek',
+    label: 'MELEK',
+    network: 'mainnet',
+    rpcs: ['https://melek.salon/rpc'],
+    chainId: '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b',
+    addressPrefix: 'MELEK',
+    // Our own mainnet. MELEK-Signer is the keyless path (account + password); a
+    // posting key stays available as a fallback for scripts/bots.
+    authMethods: ['melek-signer', 'postingkey'],
+    signerNote: 'Log in with MELEK-Signer — your MELEK account + password. Keyless: the signer holds the keys and votes on your behalf even while you are offline; you never hand us a key.',
+    explorer: 'https://melek.salon',
+    stream: true,
+    pollIntervalMs: 3000,
+  },
+
   'melek-testnet': {
     id: 'melek-testnet',
     label: 'MELEK (testnet)',
@@ -88,7 +104,7 @@ export const CHAINS = {
   },
 };
 
-export const DEFAULT_CHAIN = 'melek-testnet';
+export const DEFAULT_CHAIN = 'melek';
 
 export function getChain(id) {
   return CHAINS[id] || null;

@@ -9,8 +9,10 @@ import {
 import { Store, userKey } from './store.js';
 import { hsConfig, configured, getLoginURL } from './hivesigner.js';
 
-test('chain registry: melek is the only testnet; hive/steem/blurt are mainnet', () => {
-  assert.equal(DEFAULT_CHAIN, 'melek-testnet');
+test('chain registry: melek mainnet is default; melek-testnet is testnet; hive/steem/blurt are mainnet', () => {
+  assert.equal(DEFAULT_CHAIN, 'melek');
+  assert.equal(getChain('melek').network, 'mainnet');
+  assert.equal(isMainnet('melek'), true);
   assert.equal(getChain('melek-testnet').network, 'testnet');
   assert.equal(isMainnet('melek-testnet'), false);
   for (const id of ['hive', 'steem', 'blurt']) {
@@ -68,7 +70,7 @@ function tmpPath() {
   return path.join(os.tmpdir(), `autovote-mig-${Date.now()}-${Math.random().toString(16).slice(2)}.json`);
 }
 
-test('store migration: legacy single-chain store upgrades additively to melek-testnet', () => {
+test('store migration: legacy single-chain store upgrades additively to the default chain', () => {
   const p = tmpPath();
   // Write a pre-upgrade store (no chain fields; users keyed by bare username).
   const legacy = {
@@ -81,26 +83,27 @@ test('store migration: legacy single-chain store upgrades additively to melek-te
   fs.writeFileSync(p, JSON.stringify(legacy));
 
   const store = new Store(p);
-  // User re-keyed to melek-testnet:initminer, posting key + createdAt preserved.
-  const u = store.getUser('melek-testnet', 'initminer');
+  const DEF = DEFAULT_CHAIN;
+  // User re-keyed to <default>:initminer, posting key + createdAt preserved.
+  const u = store.getUser(DEF, 'initminer');
   assert.ok(u, 'user migrated');
-  assert.equal(u.chain, 'melek-testnet');
+  assert.equal(u.chain, DEF);
   assert.equal(u.authMethod, 'postingkey');
   assert.equal(u.postingKey, '5Jabc');
   assert.equal(u.createdAt, 111, 'createdAt preserved');
-  assert.equal(store.data.users[userKey('melek-testnet', 'initminer')].username, 'initminer');
+  assert.equal(store.data.users[userKey(DEF, 'initminer')].username, 'initminer');
   // Rules + votes stamped with the default chain.
-  assert.equal(store.data.trails[0].chain, 'melek-testnet');
-  assert.equal(store.data.fanbases[0].chain, 'melek-testnet');
-  assert.equal(store.data.votes[0].chain, 'melek-testnet');
+  assert.equal(store.data.trails[0].chain, DEF);
+  assert.equal(store.data.fanbases[0].chain, DEF);
+  assert.equal(store.data.votes[0].chain, DEF);
   // History preserved + queryable per chain.
-  assert.equal(store.votesFor('melek-testnet', 'initminer').length, 1);
-  assert.equal(store.hasVoted('melek-testnet', 'initminer', 'alice', 'p'), true);
+  assert.equal(store.votesFor(DEF, 'initminer').length, 1);
+  assert.equal(store.hasVoted(DEF, 'initminer', 'alice', 'p'), true);
 
   // Idempotent: reloading doesn't double-migrate.
   const store2 = new Store(p);
   assert.equal(Object.keys(store2.data.users).length, 1);
-  assert.equal(store2.getUser('melek-testnet', 'initminer').postingKey, '5Jabc');
+  assert.equal(store2.getUser(DEF, 'initminer').postingKey, '5Jabc');
   fs.unlinkSync(p);
 });
 
