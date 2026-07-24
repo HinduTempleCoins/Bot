@@ -2,12 +2,20 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Create your MELEK testnet account</title>
+<title>Create your MELEK account</title>
 <link rel="stylesheet" href="account.css">
 </head><body>
 <div class="wrap"><div class="card">
-  <span class="tag">[TestNet not MELEK]</span>
+  <span class="tag" id="net-tag" hidden>[TestNet not MELEK]</span>
   <h1>Create your account</h1>
+  <script>
+    // Host-aware: show the testnet tag + title only on alpha.*; mainnet (melek.salon) stays clean.
+    (function () {
+      var testnet = /^alpha\./i.test(location.hostname);
+      var tag = document.getElementById('net-tag');
+      if (testnet) { tag.hidden = false; document.title = 'Create your MELEK testnet account'; }
+    })();
+  </script>
   <p class="muted">Your keys are generated <b>right here in your browser</b> — the server only ever
   receives your chosen name and your <i>public</i> keys. Nobody can recover your password for you.
   Before the account can be created you must <b>download or copy your keys</b> and <b>re-type your
