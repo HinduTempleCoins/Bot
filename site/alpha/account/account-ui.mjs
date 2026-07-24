@@ -14,6 +14,18 @@ export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
 ));
 
+// Host-aware network config. This page serves BOTH the live mainnet (melek.salon, any non-alpha host)
+// and the testnet (alpha.*). We pick the address prefix, labels, and login pointer from the hostname so
+// mainnet users get MELEK keys + a melek.salon login pointer, and testnet users get TST + alpha. In Node
+// (no `location`, e.g. offline tests) we default to testnet so the existing offline tests hold.
+export const NET = (() => {
+  const h = (typeof location !== 'undefined' && location.hostname || '').toLowerCase();
+  const mainnet = h !== '' && !h.startsWith('alpha.');
+  return mainnet
+    ? { mainnet: true, prefix: 'MELEK', tag: '', loginUrl: 'https://melek.salon', slug: 'mainnet', header: 'MELEK account credentials' }
+    : { mainnet: false, prefix: 'TST', tag: '[TestNet not MELEK]', loginUrl: 'https://alpha.melek.salon', slug: 'testnet', header: 'MELEK TESTNET account credentials' };
+})();
+
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
 
@@ -104,8 +116,8 @@ export function keysBlockHtml(name, password, keys) {
 export function keysFileText(name, password, keys) {
   return [
     `============================================================`,
-    `  MELEK TESTNET account credentials — KEEP THIS FILE SAFE`,
-    `  [TestNet not MELEK]`,
+    `  ${NET.header} — KEEP THIS FILE SAFE`,
+    ...(NET.tag ? [`  ${NET.tag}`] : []),
     `============================================================`,
     `WARNING: anyone with these lines controls this account. Nobody`,
     `can recover them for you — not the operator, not the witness.`,
@@ -120,8 +132,8 @@ export function keysFileText(name, password, keys) {
       `${r} public key:   ${keys[r].pub}`,
     ]),
     ``,
-    `Login: https://alpha.melek.salon  (username: ${name}, password: the master password)`,
-    `[TestNet not MELEK] — these are testnet credentials.`,
+    `Login: ${NET.loginUrl}  (username: ${name}, password: the master password)`,
+    NET.tag ? `${NET.tag} — these are testnet credentials.` : `These are live MELEK mainnet credentials.`,
   ].join('\n');
 }
 
@@ -142,7 +154,7 @@ export async function runSignup({ name, doc }) {
   }
   // Fresh credentials every time this runs — refreshing / re-running resets the whole gate.
   const password = await generateMasterPassword();
-  const keys = await keysFromLogin(n, password);
+  const keys = await keysFromLogin(n, password, NET.prefix);
   let gate = newGateState();
 
   out.innerHTML = [
@@ -177,7 +189,7 @@ export async function runSignup({ name, doc }) {
     const blob = new Blob([keysFileText(n, password, keys)], { type: 'text/plain' });
     const a = d.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `melek-testnet-${n}-keys.txt`;
+    a.download = `melek-${NET.slug}-${n}-keys.txt`;
     a.click();
     URL.revokeObjectURL(a.href);
     markGotKeys();
@@ -192,7 +204,7 @@ export async function runSignup({ name, doc }) {
     if (!canCreate(gate, password)) return; // belt-and-suspenders: never create through a closed gate
     createBtn.disabled = true;
     const msg = d.getElementById('create-msg');
-    msg.innerHTML = `<p class="muted">creating on the testnet…</p>`;
+    msg.innerHTML = `<p class="muted">creating on ${NET.mainnet ? 'MELEK mainnet' : 'the testnet'}…</p>`;
     const pubs = Object.fromEntries(ROLES.map((r) => [r, keys[r].pub])); // PUBLIC keys only cross the wire
     const res = await faucetCreate({ name: n, pubs });
     if (res && res.ok) {
@@ -209,7 +221,7 @@ export async function runSignup({ name, doc }) {
 export function createdReminderHtml(name, password, keys) {
   return [
     `<div class="done-block">`,
-    `<p class="ok">✅ <b>@${esc(name)}</b> is live on the testnet. <span class="tag">[TestNet not MELEK]</span></p>`,
+    `<p class="ok">✅ <b>@${esc(name)}</b> is live on ${NET.mainnet ? 'MELEK' : 'the testnet'}.${NET.tag ? ` <span class="tag">${esc(NET.tag)}</span>` : ''}</p>`,
     `<h3>One last time — this is your password. Make sure it is saved.</h3>`,
     `<div class="krow"><div class="klab">Master password <span class="muted">← log in with THIS</span></div>` +
       `<code class="kval">${esc(password)}</code>${copyButtonHtml(password)}</div>`,
