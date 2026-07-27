@@ -2,6 +2,8 @@
    matching the melek.salon condenser rather than the dark SoapBox/alpha-gate palette. */
 :root{--bg:#f5f6f8;--card:#ffffff;--ink:#1c2126;--dim:#5c6670;--gold:#e5a21b;--goldink:#a8730c;--red:#c0392b;--up:#117a37;--line:#e3e6ea;--btn:#117a37;--btn-h:#0e6630}
 *{box-sizing:border-box;margin:0;padding:0}
+/* the [hidden] attribute must always win over component display rules (e.g. .tag on mainnet) */
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem}
 .wrap{max-width:680px;width:100%}
 /* MELEK masthead — a light Kurdish-sun mark + wordmark, the condenser's identity */
