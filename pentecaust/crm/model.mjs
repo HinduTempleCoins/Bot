@@ -1,6 +1,7 @@
-// pentecaust/crm/model.mjs — the MoneyPrinter/AI-SDR CRM backbone for Pentecaust: campaigns, an ideal-
-// customer profile (ICP), a multi-step outreach sequence, leads, and a pipeline. This is the DETERMINISTIC
-// plumbing the research doc (.local/MONEYPRINTER_RESEARCH_AND_PENTECAUST_PLAN.md) calls "~80% of the system";
+// pentecaust/crm/model.mjs — Pentecaust HERALD: the CRM backbone of Pentecaust's AI-SDR / outreach tool —
+// campaigns, an ideal-customer profile (ICP), a multi-step outreach sequence, leads, and a pipeline. This
+// is the DETERMINISTIC plumbing the category research (.local/MONEYPRINTER_RESEARCH_AND_PENTECAUST_PLAN.md,
+// "MoneyPrinter" = the market reference, NOT our name) calls "~80% of the system";
 // the LLM lives next door in builder.mjs. NOTHING here sends mail or touches the network — it is the
 // off-chain roster + state machine the sender workers will later read. Deliverability-critical sending is a
 // SEPARATE, gated system (never shares reputation with @pentecaust.com transactional mail).

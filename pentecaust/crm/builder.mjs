@@ -1,5 +1,5 @@
-// pentecaust/crm/builder.mjs — the LLM surface of the MoneyPrinter/AI-SDR system: the "conversational
-// campaign builder". Per the research doc the LLM footprint is SMALL and surgical — (1) goal/website →
+// pentecaust/crm/builder.mjs — the LLM surface of Pentecaust HERALD (the AI-SDR / outreach tool): the
+// "conversational campaign builder". Per the research the LLM footprint is SMALL and surgical — (1) goal/website →
 // structured ICP + a sequence draft, (2) a per-lead opener grounded in a VERIFIED signal only. Everything
 // is guardrailed (facts-only, length caps) and every LLM call has a deterministic template fallback, so
 // this module is soft-fail-never-throw and fully offline-testable.

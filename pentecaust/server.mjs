@@ -191,7 +191,7 @@ export async function handler(req, res) {
       const t = getTeam(segs[1]); return t ? json(res, 200, { ok: true, team: t }, origin) : json(res, 404, { ok: false, reason: 'no such team' }, origin);
     }
 
-    // ── CRM (MoneyPrinter/AI-SDR) reads — OWNER-SCOPED: you only ever see your own campaigns. ──────
+    // ── CRM (Herald) reads — OWNER-SCOPED: you only ever see your own campaigns. ──────
     if (method === 'GET' && segs[0] === 'crm' && segs[1] === 'campaigns') {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       if (!segs[2]) return json(res, 200, { ok: true, campaigns: campaignsForOwner(me) }, origin);
@@ -308,7 +308,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nMail>✉️ Email</button>
  <button id=nChan>🎮 Channels</button>
  <button id=nInt>🔌 Integrations</button>
- <button id=nCamp>📣 Campaigns</button>
+ <button id=nCamp>📣 Herald</button>
 </div>
 
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
@@ -355,8 +355,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </div>
 
 <div id=paneCamp class=card style="display:none">
- <h2>📣 Campaigns</h2>
- <p class=mut>Describe who you want to reach and what you offer — MELEK drafts the ideal-customer profile and a multi-step outreach sequence you can edit. (Drafting only; sending runs on separate, warmed infrastructure and is off until you turn it on.)</p>
+ <h2>📣 Pentecaust Herald</h2>
+ <p class=mut>Your outreach assistant. Describe who you want to reach and what you offer — Herald drafts the ideal-customer profile and a multi-step outreach sequence you can edit. (Drafting + pipeline only; sending runs later on separate, warmed domains — never from your @pentecaust.com address.)</p>
  <div class=row style="margin-top:8px"><input id=campName placeholder="campaign name (e.g. Q3 witnesses outreach)"></div>
  <div class=row style="margin-top:6px"><input id=campGoal placeholder="goal — who to reach + what you want (e.g. book demos with SaaS founders)"></div>
  <div class=row style="margin-top:6px"><input id=campSite placeholder="your website (optional)"><button class="btn green" id=campCreate>Create</button></div>
