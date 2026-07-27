@@ -6,6 +6,7 @@ import assert from 'node:assert';
 process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.CRM_DATA = `/tmp/crm-srv-${process.pid}.json`;
+process.env.MAILBOX_DATA = `/tmp/mailbox-srv-${process.pid}.json`;
 process.env.PENTECAUST_DEV_TRUST = '1';
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
 const { handler, __setAuthVerifier, __setChainFetch } = await import('./server.mjs');
@@ -215,4 +216,32 @@ test('crm: draft plan (builder) saves an ICP + sequence; add lead + stats', asyn
   assert.equal(j(o).ok, true);
   ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/stats?account=ryan'), res);
   const st = j(o); assert.equal(st.ok, true); assert.equal(st.stats.total, 1); assert.equal(st.stats.byStage.new, 1);
+});
+
+test('herald: /me/mailbox + send step from the connected mailbox (moves lead to contacted)', async () => {
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  // campaign + plan + a lead with an email
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Send test', goal: 'demos' }), res);
+  const id = j(o).campaign.id;
+  await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
+  await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ray', lead: { name: 'Lee', email: 'lee@acme.com', signal: 's' } }), cap().res);
+  const lead = (await (async () => { const c = cap(); await handler(req('/crm/campaigns/' + id + '?account=ray'), c.res); return j(c.o); })()).campaign.leads[0];
+
+  // /me/mailbox: none yet
+  ({ res, o } = cap()); await handler(req('/me/mailbox?account=ray'), res);
+  assert.equal(j(o).mailbox, null);
+
+  // connect a mailbox for ray + mock Gmail send OK
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+  setMbFetch(async () => ({ status: 200, json: async () => ({ id: 'gm-1' }) }));
+  ({ res, o } = cap()); await handler(req('/me/mailbox?account=ray'), res);
+  assert.equal(j(o).mailbox.email, 'ray@gmail.com');
+
+  // send step 1 → ok, lead advances to contacted
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/leads/' + lead.id + '/send', 'POST', { account: 'ray' }), res);
+  assert.equal(j(o).ok, true, 'sent');
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/stats?account=ray'), res);
+  assert.equal(j(o).stats.byStage.contacted, 1, 'lead moved to contacted after send');
+  setMbFetch(null);
 });
