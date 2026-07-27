@@ -26,7 +26,9 @@ p{color:var(--dim);margin:.7rem 0}
 .keys-block{background:#fbfaf6;border:1px solid var(--line);border-radius:10px;padding:1rem;margin:1rem 0}
 .krow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:.55rem 0;padding-bottom:.55rem;border-bottom:1px dashed var(--line)}
 .klab{flex:0 0 175px;font-size:.85rem;color:var(--ink)}
-.kval{flex:1 1 240px;font-size:.78rem;word-break:break-all;color:var(--goldink)}
+.kval{flex:1 1 240px;font-size:.78rem;word-break:break-all;color:var(--goldink);user-select:all;-webkit-user-select:all;cursor:pointer;padding:.25rem .4rem;border-radius:5px;transition:background .15s}
+.kval:hover{background:rgba(229,162,27,.08)}
+.kval.copied{background:rgba(17,122,55,.18)} .kval.copyfail{background:rgba(192,57,43,.15)}
 .copy-btn{background:transparent;border:1px solid var(--line);border-radius:6px;color:var(--ink);font-size:.78rem;padding:.25rem .7rem;cursor:pointer}
 .copy-btn:hover{border-color:var(--btn);color:var(--btn)}
 .gate{background:rgba(229,162,27,.07);border:1px solid rgba(229,162,27,.4);border-radius:10px;padding:1rem 1.1rem;margin:1.1rem 0}
