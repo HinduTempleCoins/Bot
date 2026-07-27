@@ -28,10 +28,12 @@ test('GET / serves the AIM-style dashboard (Messages/Email/Channels, Friends, Al
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /Pentecaust<\/b> Messaging/);
   assert.match(o.body, /Alpha/);
-  assert.match(o.body, /Messages/); assert.match(o.body, /Email/); assert.match(o.body, /Channels/); // the three tabs
+  assert.match(o.body, /Messages/); assert.match(o.body, /Email/); assert.match(o.body, /Channels/); assert.match(o.body, /Integrations/); // the four tabs
   assert.match(o.body, /Friends/);                  // friends-first dashboard
   assert.match(o.body, /Direct messages/);          // DM is the default
   assert.match(o.body, /Team & Game Channels/);     // channels = the advanced, explained tab
+  assert.match(o.body, /loadIntegrations/);         // Integrations tab wires the connectors panel
+  assert.match(o.body, /\/auth\/providers/);        // …and reads live connect-status from auth
   assert.match(o.body, /pentecaust\.com/);          // email address format shown
 });
 

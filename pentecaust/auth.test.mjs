@@ -9,7 +9,7 @@ import { unlinkSync, readFileSync } from 'node:fs';
 import {
   makeSession, sessionFromReq, verifier, handler,
   requestOneTime, redeemOneTime, linkAccount, lookupLink, completeOAuthLink,
-  authorizeUrl, registerMethod, hasMethod, __setFetch,
+  authorizeUrl, registerMethod, hasMethod, __setFetch, providersStatus,
 } from './auth.mjs';
 
 // A fixed secret so signatures are stable across the run.
@@ -415,4 +415,32 @@ test('handler: bad url / unknown route soft-fail', async () => {
   ({ res, o } = cap());
   await handler(getReq('/auth'), res);   // just /auth, no action
   assert.equal(o.code, 404);
+});
+
+test('providersStatus: reflects env config, never leaks a secret', () => {
+  process.env.GOOGLE_CLIENT_ID = 'gid';
+  process.env.GOOGLE_CLIENT_SECRET = 'shh-secret';
+  delete process.env.FACEBOOK_CLIENT_ID;
+  const st = providersStatus();
+  const g = st.find((p) => p.id === 'google');
+  const f = st.find((p) => p.id === 'facebook');
+  assert.equal(g.configured, true, 'google configured when client id present');
+  assert.equal(f.configured, false, 'facebook not configured when client id absent');
+  assert.ok(g.redirectUri.endsWith('/auth/google/callback'), 'exposes redirect uri for console setup');
+  // no field anywhere carries the secret
+  assert.ok(!JSON.stringify(st).includes('shh-secret'), 'client secret never appears in status');
+});
+
+test('GET /auth/providers: returns non-secret connection status', async () => {
+  process.env.GOOGLE_CLIENT_ID = 'gid';
+  process.env.GOOGLE_CLIENT_SECRET = 'shh-secret';
+  delete process.env.FACEBOOK_CLIENT_ID;
+  const { res, o } = cap();
+  await handler(getReq('/auth/providers'), res);
+  assert.equal(o.code, 200);
+  const j = J(o);
+  assert.equal(j.ok, true);
+  const g = j.providers.find((p) => p.id === 'google');
+  assert.equal(g.configured, true);
+  assert.ok(!o.body.includes('shh-secret'), 'endpoint never returns the secret');
 });
