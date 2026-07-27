@@ -73,21 +73,39 @@ export function wireCopyButtons(root, { clipboard, doc, onCopySuccess } = {}) {
   const clip = clipboard || (typeof navigator !== 'undefined' ? navigator.clipboard : null);
   if (!root || !d) return 0;
   let wired = 0;
+  // One copy routine: clipboard API, then a hidden-textarea execCommand fallback. Always copies the
+  // FULL value from data-copy — never a user text selection, so a key can never be half-copied.
+  const doCopy = async (v) => {
+    let ok = false;
+    try { if (clip && clip.writeText) { await clip.writeText(v); ok = true; } } catch { ok = false; }
+    if (!ok) {
+      try {
+        const ta = d.createElement('textarea');
+        ta.value = v; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        d.body.appendChild(ta); ta.select(); ok = d.execCommand && d.execCommand('copy'); ta.remove();
+      } catch { ok = false; }
+    }
+    if (ok && typeof onCopySuccess === 'function') onCopySuccess();
+    return ok;
+  };
+  // The Copy button — text feedback on the button.
   for (const btn of root.querySelectorAll('.copy-btn[data-copy]')) {
     btn.addEventListener('click', async () => {
-      const v = btn.getAttribute('data-copy') || '';
-      let ok = false;
-      try { if (clip && clip.writeText) { await clip.writeText(v); ok = true; } } catch { ok = false; }
-      if (!ok) { // fallback: hidden textarea select+execCommand
-        try {
-          const ta = d.createElement('textarea');
-          ta.value = v; ta.style.position = 'fixed'; ta.style.opacity = '0';
-          d.body.appendChild(ta); ta.select(); ok = d.execCommand && d.execCommand('copy'); ta.remove();
-        } catch { ok = false; }
-      }
-      btn.textContent = ok ? '✓ Copied' : 'Copy failed — select it manually';
-      if (ok && typeof onCopySuccess === 'function') onCopySuccess();
+      const ok = await doCopy(btn.getAttribute('data-copy') || '');
+      btn.textContent = ok ? '✓ Copied' : 'Copy failed — tap the key';
       setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+    wired++;
+  }
+  // The key box itself — tap anywhere on it to copy the WHOLE key (big mobile target); flash the box
+  // and echo "✓ Copied" on its Copy button, without overwriting the key text.
+  for (const kv of root.querySelectorAll('.kval[data-copy]')) {
+    kv.addEventListener('click', async () => {
+      const ok = await doCopy(kv.getAttribute('data-copy') || '');
+      kv.classList.add(ok ? 'copied' : 'copyfail');
+      const btn = kv.parentElement && kv.parentElement.querySelector('.copy-btn');
+      if (btn && ok) { btn.textContent = '✓ Copied'; setTimeout(() => { btn.textContent = 'Copy'; }, 2000); }
+      setTimeout(() => { kv.classList.remove('copied', 'copyfail'); }, 1200);
     });
     wired++;
   }
@@ -100,7 +118,7 @@ export function wireCopyButtons(root, { clipboard, doc, onCopySuccess } = {}) {
 export function keysBlockHtml(name, password, keys) {
   const row = (label, value, note = '') =>
     `<div class="krow"><div class="klab">${esc(label)}${note ? ` <span class="muted">${esc(note)}</span>` : ''}</div>` +
-    `<code class="kval">${esc(value)}</code>${copyButtonHtml(value)}</div>`;
+    `<code class="kval" data-copy="${esc(value)}" title="Tap to copy the whole key">${esc(value)}</code>${copyButtonHtml(value)}</div>`;
   return [
     `<div class="keys-block">`,
     `<h3>Save ALL of this — it cannot be recovered for you</h3>`,

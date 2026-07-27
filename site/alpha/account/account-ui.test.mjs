@@ -68,7 +68,8 @@ test('wireCopyButtons copies via injected clipboard and fires onCopySuccess', as
     addEventListener: (ev, fn) => listeners.push(fn),
     set textContent(v) {}, get textContent() { return ''; },
   };
-  const root = { querySelectorAll: () => [btn] };
+  // selector-aware: the copy-btn matches the .copy-btn query; no .kval element in this fixture.
+  const root = { querySelectorAll: (sel) => (String(sel).includes('copy-btn') ? [btn] : []) };
   const n = wireCopyButtons(root, {
     clipboard: { writeText: async (v) => { copied = v; } }, doc: {},
     onCopySuccess: () => { copySuccessFired++; },
