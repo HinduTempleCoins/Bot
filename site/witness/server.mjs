@@ -38,6 +38,11 @@ const PORT = +(process.env.PORT || 8108);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://witness.melek.salon').replace(/\/$/, '');
 const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
+// The Library of Ashurbanipal — the ecosystem's cited reference wiki. Witness School links to it
+// regularly (per operator): the deep documentation behind the school (witnessing, DPoS, Graphene,
+// each chain). Override with LIBRARY_URL if the wiki moves.
+const LIBRARY = (process.env.LIBRARY_URL || 'https://wiki.soapbox.community').replace(/\/$/, '');
+const libArticle = (slug, label) => `<a href="${esc(`${LIBRARY}/wiki/${slug}`)}">${esc(label)}</a>`;
 const TUTORIAL = process.env.TUTORIAL_SITE || `${ALPHA}/tutorial`;
 const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
@@ -109,6 +114,7 @@ const FOOTER = `<footer>
   MELEK testnet currency (test-only, no monetary value).
   <div style="margin-top:8px"><a href="/">Witness School</a> · <a href="/pool">Pool</a> ·
     <a href="/fees">Fees</a> · <a href="/servers">Servers</a> · <a href="/wallet">Wallet</a> ·
+    <a href="${esc(LIBRARY)}">Library of Ashurbanipal</a> ·
     <a href="${esc(ALPHA)}">MELEK testnet</a></div>
 </footer>`;
 
@@ -126,7 +132,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -142,6 +148,7 @@ export function homePage() {
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap and connect wallet ↔ pool ↔ chains.'],
     ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example of what the school teaches.'],
+    [LIBRARY, 'Library of Ashurbanipal', 'The ecosystem’s reference wiki — cited, fact-checked articles on witnessing, DPoS, the Graphene framework, and each chain (MELEK, HIVE, STEEM, BLURT). The deep documentation behind the school.'],
   ];
   const body = `<h1>Witness School <span class=muted style="font-size:14px">· learn to be a witness · connect to the pool</span></h1>
     <p class=lead>This is the front door of the Mining Pool. Three things happen here: you
@@ -578,6 +585,15 @@ export function learnPage() {
     AutoNetwork systems above. <a href="${esc(ALPHA)}">Watch the live chain →</a></p>
   </div>
 
+  <div class=card><h2>Go deeper — the Library of Ashurbanipal</h2>
+    <p class=muted style="font-size:14px">The ecosystem's cited reference wiki explains the machinery behind this page:
+      ${libArticle('Delegated_Proof_of_Stake_DPoS_', 'Delegated Proof of Stake')} ·
+      ${libArticle('Graphene_Blockchain_Framework', 'the Graphene framework')} ·
+      ${libArticle('Hive_Engine_and_Smart_Media_Tokens', 'side-tokens (Hive-Engine / SMTs)')} ·
+      ${libArticle('Building_a_Front_End_for_a_Graphene_Chain', 'building a front-end for a Graphene chain')} ·
+      ${libArticle('Steem_Hive_Bots_the_SteemBots_Steemcenter_ecosystem', 'the Steem/Hive bot lineage')}.
+      Browse it all at <a href="${esc(LIBRARY)}">${esc(LIBRARY.replace(/^https?:\/\//, ''))}</a>.</p></div>
+
   <p style="margin-top:14px"><a class="btn ghost" href="/">← back to the Witness School</a></p>`;
   return page('Learn the systems — MELEK Witness School', body, { canonical: `${BASE_URL}/learn`, description: 'How MELEK works: rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system — and how MELEK witnesses give back to the community.' });
 }
@@ -738,6 +754,13 @@ shared-file-dir = "blockchain"</pre>
     set. Post your intro thread, share your node's uptime, and ask MELEK holders to
     <code>vote_for_witness</code> for you. Watch <a href="/hathor">Hathor, live</a> for the working example,
     and read <a href="/learn">Learn the systems</a> for how rewards and curation flow.</p>
+    <p class=muted style="margin-top:10px"><b>Further reading — the Library of Ashurbanipal:</b>
+      ${libArticle('Running_a_Graphene_Witness_Node', 'Running a Graphene Witness Node')} ·
+      ${libArticle('Blockchain_Witness_Block_Producer_', 'What a Witness (Block Producer) is')} ·
+      ${libArticle('Delegated_Proof_of_Stake_DPoS_', 'Delegated Proof of Stake')} ·
+      ${libArticle('Graphene_Blockchain_Framework', 'The Graphene framework')}.
+      The same recipe applies on ${libArticle('HIVE_Blockchain', 'HIVE')}, ${libArticle('STEEM_Blockchain', 'STEEM')}
+      and ${libArticle('BLURT_Blockchain', 'BLURT')} — become a witness on any of them, then bring that experience to MELEK.</p>
     <blockquote>Being a witness is a <b>job you run</b> — keep the node in sync, don't miss blocks, and give
     back to the community. Questions? Hathor answers in Discord and on the <a href="/pool">pool</a>.</blockquote></div>`;
   return page('Run a MELEK Witness — mainnet is live', body, { canonical: `${BASE_URL}/run`, description: 'How to run a MELEK mainnet witness: chain id, seed node, build the node (BUILD_STEEM_TESTNET=OFF), config.ini, register your witness, and get voted into the producing set. MELEK genesis fired 7:12 CDT 7/12/2026 — no premine.' });
