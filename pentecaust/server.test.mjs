@@ -5,6 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
+process.env.CRM_DATA = `/tmp/crm-srv-${process.pid}.json`;
 process.env.PENTECAUST_DEV_TRUST = '1';
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
 const { handler, __setAuthVerifier, __setChainFetch } = await import('./server.mjs');
@@ -176,4 +177,42 @@ test('no verified identity → private reads/writes are 401 (deny by default)', 
   // the public team directory stays open (no private data)
   const c2 = cap(); await handler(req('/teams'), c2.res); assert.equal(c2.o.code, 200);
   __setAuthVerifier(null);
+});
+
+// ── CRM (MoneyPrinter/AI-SDR): campaigns are owner-scoped; builder drafts a sequence; leads + stats ──
+test('crm: create → list → owner-scoped read (no cross-account leak)', async () => {
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ryan', name: 'Q3 outbound', goal: 'book demos' }), res);
+  const c = j(o); assert.equal(c.ok, true); assert.equal(c.campaign.owner, 'ryan');
+  const id = c.campaign.id;
+
+  ({ res, o } = cap()); await handler(req('/crm/campaigns?account=ryan'), res);
+  assert.ok(j(o).campaigns.some((x) => x.id === id), 'owner sees it in the list');
+
+  // a different account must NOT be able to read it
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '?account=mallory'), res);
+  assert.equal(o.code, 404, 'cross-account read is 404');
+
+  // no identity at all → 401
+  ({ res, o } = cap()); await handler(req('/crm/campaigns'), res);
+  assert.equal(o.code, 401);
+});
+
+test('crm: draft plan (builder) saves an ICP + sequence; add lead + stats', async () => {
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ryan', name: 'Witness recruiting', goal: 'recruit witnesses', website: 'melek.salon' }), res);
+  const id = j(o).campaign.id;
+
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ryan', valueProp: 'run a MELEK witness', save: true }), res);
+  const plan = j(o); assert.equal(plan.ok, true); assert.ok(plan.plan.sequence.length >= 1);
+
+  // the saved sequence is now on the campaign
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '?account=ryan'), res);
+  assert.ok(j(o).campaign.sequence.length >= 1, 'plan persisted');
+
+  // add a lead, then read stats
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ryan', lead: { name: 'Jane Roe', company: 'Acme', email: 'jane@acme.com', signal: 'runs a validator' } }), res);
+  assert.equal(j(o).ok, true);
+  ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/stats?account=ryan'), res);
+  const st = j(o); assert.equal(st.ok, true); assert.equal(st.stats.total, 1); assert.equal(st.stats.byStage.new, 1);
 });

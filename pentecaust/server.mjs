@@ -34,6 +34,8 @@ import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 import { translate, translateBatch, getLang, setLang } from './translate.mjs';
+import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
+import { buildCampaignPlan } from './crm/builder.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -189,6 +191,16 @@ export async function handler(req, res) {
       const t = getTeam(segs[1]); return t ? json(res, 200, { ok: true, team: t }, origin) : json(res, 404, { ok: false, reason: 'no such team' }, origin);
     }
 
+    // ── CRM (MoneyPrinter/AI-SDR) reads — OWNER-SCOPED: you only ever see your own campaigns. ──────
+    if (method === 'GET' && segs[0] === 'crm' && segs[1] === 'campaigns') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      if (!segs[2]) return json(res, 200, { ok: true, campaigns: campaignsForOwner(me) }, origin);
+      const c = getCampaign(segs[2]);
+      if (!c || c.owner !== me) return json(res, 404, { ok: false, reason: 'no such campaign' }, origin);   // no cross-account read
+      if (segs[3] === 'stats') return json(res, 200, { ok: true, stats: leadStats(c.id) }, origin);
+      return json(res, 200, { ok: true, campaign: c }, origin);
+    }
+
     // ── writes (POST) ────────────────────────────────────────────────────────────────────────────
     if (method === 'POST') {
       if (!allow(clientKey(req))) return json(res, 429, { ok: false, reason: 'rate-limited' }, origin);
@@ -227,6 +239,25 @@ export async function handler(req, res) {
         if (op === 'invite') { if (!actor) return unauth(res, origin); return json(res, 200, invite(id, actor, b.account), origin); }
         if (op === 'motd') { if (!actor) return unauth(res, origin); return json(res, 200, setMotd(id, actor, b.text), origin); }
         if (op === 'chat') { const me = who(b.from); if (!me) return unauth(res, origin); return json(res, 200, postTeamMessage({ teamId: id, from: me, text: b.text, game: b.game, surface: b.surface }), origin); }
+      }
+
+      // ── CRM writes — OWNER-SCOPED. The acting account owns every campaign it touches. ──────────
+      if (segs[0] === 'crm' && segs[1] === 'campaigns') {
+        const me = who(b.owner || b.account); if (!me) return unauth(res, origin);
+        if (!segs[2]) return json(res, 200, createCampaign({ ...b, owner: me }), origin);   // create
+        const c = getCampaign(segs[2]);
+        if (!c || c.owner !== me) return json(res, 404, { ok: false, reason: 'no such campaign' }, origin);
+        const op = segs[3];
+        if (op === 'plan') {   // conversational builder: goal/website → ICP + sequence (save when asked)
+          const plan = await buildCampaignPlan({ goal: b.goal ?? c.goal, website: b.website ?? c.website, valueProp: b.valueProp });
+          if (b.save) { setICP(c.id, plan.icp); setSequence(c.id, plan.sequence); }
+          return json(res, 200, { ok: true, plan }, origin);
+        }
+        if (op === 'icp') return json(res, 200, setICP(c.id, b.icp), origin);
+        if (op === 'sequence') return json(res, 200, setSequence(c.id, b.sequence), origin);
+        if (op === 'status') return json(res, 200, setStatus(c.id, b.status), origin);
+        if (op === 'leads' && !segs[4]) return json(res, 200, addLead(c.id, b.lead || b), origin);
+        if (op === 'leads' && segs[4] && segs[5] === 'stage') return json(res, 200, moveLead(c.id, segs[4], b.stage), origin);
       }
     }
     return json(res, 404, { ok: false, reason: 'not-found' }, origin);
@@ -277,6 +308,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nMail>✉️ Email</button>
  <button id=nChan>🎮 Channels</button>
  <button id=nInt>🔌 Integrations</button>
+ <button id=nCamp>📣 Campaigns</button>
 </div>
 
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
@@ -322,6 +354,22 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <p class=hint>Recipes — <b>when</b> something happens on one connected service, <b>do</b> something on another — are being wired up on top of these connections. Connect an account above first; the recipe builder lands here next.</p>
 </div>
 
+<div id=paneCamp class=card style="display:none">
+ <h2>📣 Campaigns</h2>
+ <p class=mut>Describe who you want to reach and what you offer — MELEK drafts the ideal-customer profile and a multi-step outreach sequence you can edit. (Drafting only; sending runs on separate, warmed infrastructure and is off until you turn it on.)</p>
+ <div class=row style="margin-top:8px"><input id=campName placeholder="campaign name (e.g. Q3 witnesses outreach)"></div>
+ <div class=row style="margin-top:6px"><input id=campGoal placeholder="goal — who to reach + what you want (e.g. book demos with SaaS founders)"></div>
+ <div class=row style="margin-top:6px"><input id=campSite placeholder="your website (optional)"><button class="btn green" id=campCreate>Create</button></div>
+ <div id=campList class=feed style="margin-top:10px"><div class=empty>Your campaigns appear here.</div></div>
+ <div id=campDetail style="margin-top:12px;display:none">
+  <h2 style="font-size:15px" id=campTitle></h2>
+  <div class=row><button class="btn primary" id=campPlan>✨ Draft plan</button><span id=campStat class=hint></span></div>
+  <div id=campPlanBox class=feed style="margin-top:8px"><div class=empty>Draft a plan to see the ICP + sequence.</div></div>
+  <div class=row style="margin-top:8px"><input id=leadName placeholder="lead name"><input id=leadCo placeholder="company"><input id=leadEmail placeholder="email"></div>
+  <div class=row style="margin-top:6px"><input id=leadSignal placeholder="signal — the verified reason to reach out"><button class="btn" id=leadAdd>Add lead</button></div>
+ </div>
+</div>
+
 <p class=mut style="margin-top:14px">One MELEK account — your <b>messages</b>, <b>email</b>, and <b>channels</b> in one place. <a href="/health">api</a></p>
 </div>
 <script>
@@ -343,10 +391,43 @@ $('me').oninput=()=>{localStorage.setItem('melek_me',me());syncMail();if(tryPend
 // ---- tabs ----
 let tab='msg';
 function setTab(t){tab=t;
- $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';$('paneInt').style.display=t==='int'?'':'none';
- $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');$('nInt').classList.toggle('on',t==='int');
- if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();}
-$('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');
+ $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';$('paneInt').style.display=t==='int'?'':'none';$('paneCamp').style.display=t==='camp'?'':'none';
+ $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');$('nInt').classList.toggle('on',t==='int');$('nCamp').classList.toggle('on',t==='camp');
+ if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();if(t==='camp')loadCampaigns();}
+$('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');$('nCamp').onclick=()=>setTab('camp');
+
+// ---- Campaigns (MoneyPrinter/AI-SDR): draft an ICP + outreach sequence; manage leads + pipeline ----
+let campId='';
+const cpost=(p,body)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),...body})});
+async function loadCampaigns(){if(!me()){$('campList').innerHTML='<div class=empty>Sign in (or type your @name) to manage campaigns.</div>';return;}
+ const j=await api('/crm/campaigns?account='+encodeURIComponent(me()));const cs=(j&&j.campaigns)||[];
+ if(!cs.length){$('campList').innerHTML='<div class=empty>No campaigns yet — create one above.</div>';return;}
+ const frag=document.createDocumentFragment();
+ for(const c of cs){const b=document.createElement('button');b.className='fitem'+(c.id===campId?' on':'');
+  b.innerHTML='<b>'+E(c.name)+'</b><small>'+E(c.status)+' · '+(c.leads?c.leads.length:0)+' leads</small>';b.onclick=()=>openCampaign(c.id);frag.appendChild(b);}
+ $('campList').innerHTML='';$('campList').appendChild(frag);}
+$('campCreate').onclick=async()=>{if(!me())return alert('Enter your @name first.');
+ const name=$('campName').value.trim();if(!name)return alert('Name your campaign.');
+ const j=await cpost('/crm/campaigns',{name,goal:$('campGoal').value.trim(),website:$('campSite').value.trim()});
+ if(j&&j.ok){$('campName').value=$('campGoal').value=$('campSite').value='';loadCampaigns();openCampaign(j.campaign.id);}else alert((j&&j.reason)||'could not create');};
+async function openCampaign(id){campId=id;const j=await api('/crm/campaigns/'+encodeURIComponent(id)+'?account='+encodeURIComponent(me()));
+ if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;
+ $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);loadCampaigns();refreshStats();}
+function renderPlan(c){const box=$('campPlanBox');
+ if(!c.sequence||!c.sequence.length){box.innerHTML='<div class=empty>Draft a plan to see the ICP + sequence.</div>';return;}
+ const icp=c.icp||{};const chips=(a)=>(a&&a.length?a.map(x=>'<span class=pill style="background:#234">'+E(x)+'</span>').join(' '):'<span class=mut>—</span>');
+ let h='<div style="margin-bottom:8px"><b>ICP</b><br><small class=mut>titles:</small> '+chips(icp.titles)+' <small class=mut>keywords:</small> '+chips(icp.keywords)+'</div>';
+ h+='<b>Sequence</b>';for(const s of c.sequence){h+='<div class=msg style="margin-top:6px"><span class=src>day '+E(s.delayDays)+' · '+E(s.channel)+'</span><br><b>'+E(s.subject)+'</b><br>'+E(s.body).replace(/\\n/g,'<br>')+'</div>';}
+ box.innerHTML=h;}
+$('campPlan').onclick=async()=>{if(!campId)return;$('campPlan').textContent='Drafting…';$('campPlan').disabled=true;
+ const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/plan',{save:true});
+ $('campPlan').textContent='✨ Draft plan';$('campPlan').disabled=false;
+ if(j&&j.ok){openCampaign(campId);}else alert((j&&j.reason)||'could not draft');};
+$('leadAdd').onclick=async()=>{if(!campId)return;const email=$('leadEmail').value.trim();
+ const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/leads',{lead:{name:$('leadName').value.trim(),company:$('leadCo').value.trim(),email,signal:$('leadSignal').value.trim()}});
+ if(j&&j.ok){$('leadName').value=$('leadCo').value=$('leadEmail').value=$('leadSignal').value='';refreshStats();}else alert((j&&j.reason)||'could not add lead');};
+async function refreshStats(){if(!campId)return;const j=await api('/crm/campaigns/'+encodeURIComponent(campId)+'/stats?account='+encodeURIComponent(me()));
+ if(j&&j.ok&&j.stats){const s=j.stats;$('campStat').textContent=s.total+' leads · '+s.byStage.new+' new · '+s.byStage.replied+' replied · '+s.byStage.meeting+' meetings';}}
 
 // ---- Integrations (IFTTT): connect external accounts to the one MELEK identity ----
 let _signedIn=false;
