@@ -225,6 +225,21 @@ export function authorizeUrl(provider, state) {
   return `${p.authorize}?${q.toString()}`;
 }
 
+/** Non-secret connection status for the Integrations (IFTTT) tab: which providers the operator has
+ *  wired up (client id present) so the UI can show "Ready to connect" vs "Needs operator setup", plus
+ *  the exact redirect URI to register in each provider's console. Booleans/labels/scopes/redirectUri
+ *  only — NEVER a client secret. */
+export function providersStatus() {
+  const labels = { google: 'Google', facebook: 'Facebook' };
+  return Object.keys(PROVIDERS).map((id) => ({
+    id,
+    label: labels[id] || id,
+    configured: !!PROVIDERS[id].clientId(),
+    scopes: (typeof PROVIDERS[id].scope === 'function' ? PROVIDERS[id].scope() : PROVIDERS[id].scope) || '',
+    redirectUri: redirectUri(id),
+  }));
+}
+
 // Exchange an authorization code for an access token at the provider's token endpoint (injected fetch).
 async function exchangeCode(provider, code) {
   const p = PROVIDERS[provider];
@@ -374,6 +389,13 @@ export async function handler(req, res) {
     if (method === 'GET' && segs[1] === 'me' && segs.length === 2) {
       const s = sessionFromReq(req);
       return s ? send(200, { ok: true, ...s }) : send(401, { ok: false, reason: 'no session' });
+    }
+
+    // GET /auth/providers — non-secret connection status (which providers are wired up) for the
+    // Integrations tab. Must precede the generic /auth/:provider route below, else 'providers' is
+    // read as a provider name → 404. Never returns a secret.
+    if (method === 'GET' && segs[1] === 'providers' && segs.length === 2) {
+      return send(200, { ok: true, providers: providersStatus() });
     }
 
     // GET /auth/logout — clear the cookie

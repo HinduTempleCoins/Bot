@@ -264,6 +264,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  .mut{color:var(--mut);font-size:13px}.hint{color:var(--mut);font-size:12px;margin-top:8px}
  .compose{display:flex;gap:8px;margin-top:8px}.compose input{flex:1}
  .empty{color:var(--mut);text-align:center;padding:36px 10px}
+ .pill{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:2px 7px;border-radius:9px;vertical-align:middle;margin-left:4px}
  h2{font-size:16px;margin:0 0 8px}a{color:var(--gold)}
  @media(max-width:620px){.im{flex-direction:column}.friends{width:auto;flex:none}}
 </style></head><body><div class=wrap>
@@ -275,6 +276,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nMsg class=on>💬 Messages</button>
  <button id=nMail>✉️ Email</button>
  <button id=nChan>🎮 Channels</button>
+ <button id=nInt>🔌 Integrations</button>
 </div>
 
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
@@ -312,6 +314,14 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <div class=compose><input id=cText placeholder="message the channel…" disabled><button class="btn primary" id=cSend disabled>Send</button></div>
 </div>
 
+<div id=paneInt class=card style="display:none">
+ <h2>🔌 Integrations</h2>
+ <p class=mut>Connect the outside accounts MELEK can act with — the same "if this, then that" idea: link a service once, and your one MELEK identity can use it across the ecosystem (mail, feed, and the outreach tools).</p>
+ <div id=connList class=feed style="margin-top:10px"><div class=empty>Loading connections…</div></div>
+ <h2 style="margin-top:18px;font-size:15px">⚡ Automations</h2>
+ <p class=hint>Recipes — <b>when</b> something happens on one connected service, <b>do</b> something on another — are being wired up on top of these connections. Connect an account above first; the recipe builder lands here next.</p>
+</div>
+
 <p class=mut style="margin-top:14px">One MELEK account — your <b>messages</b>, <b>email</b>, and <b>channels</b> in one place. <a href="/health">api</a></p>
 </div>
 <script>
@@ -333,10 +343,25 @@ $('me').oninput=()=>{localStorage.setItem('melek_me',me());syncMail();if(tryPend
 // ---- tabs ----
 let tab='msg';
 function setTab(t){tab=t;
- $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';
- $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');
- if(t==='msg')loadFriends();if(t==='mail')syncMail();}
-$('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');
+ $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';$('paneInt').style.display=t==='int'?'':'none';
+ $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');$('nInt').classList.toggle('on',t==='int');
+ if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();}
+$('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');
+
+// ---- Integrations (IFTTT): connect external accounts to the one MELEK identity ----
+let _signedIn=false;
+async function loadIntegrations(){const box=$('connList');
+ const j=await api('/auth/providers');const provs=(j&&j.providers)||[];
+ if(!provs.length){box.innerHTML='<div class=empty>No connectors available yet.</div>';return;}
+ const frag=document.createDocumentFragment();
+ for(const p of provs){const row=document.createElement('div');row.className='fitem';
+  const pill=p.configured?'<span class=pill style="background:#173">Ready to connect</span>':'<span class=pill style="background:#633">Needs operator setup</span>';
+  const btn=p.configured?('<a class="btn primary" href="/auth/'+E(p.id)+'">Connect</a>'):'<span class=hint>owner registers the app first</span>';
+  row.innerHTML='<div style="flex:1"><b>'+E(p.label)+'</b> '+pill+'<br><small class=mut>'+E(p.scopes||'')+'</small></div>'+btn;
+  frag.appendChild(row);}
+ box.innerHTML='';box.appendChild(frag);
+ if(!_signedIn){const note=document.createElement('div');note.className='hint';note.style.marginTop='8px';
+  note.textContent='Sign in above first — connecting links the service to your MELEK account.';box.appendChild(note);}}
 
 // ---- Messages: Friends list + DM thread (AIM-style) ----
 let dmWith='',dmCursor=0,dmTimer=null;
@@ -395,7 +420,7 @@ async function initAuth(){const bar=$('authbar');
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not link');};
   return;}
  const s=await api('/auth/me');
- if(s&&s.ok){$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
+ if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
   bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'+
    '<a class=btn href="/auth/logout" style="margin-left:auto">Log out</a>';
   if(me())loadFriends();return;}
