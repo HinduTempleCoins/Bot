@@ -8,27 +8,30 @@ export const slugify = (s) => String(s).trim().replace(/\.wiki$/, '').replace(/[
 export const titleize = (slug) => String(slug).replace(/_/g, ' ');
 
 const STYLE = `<style>
-  :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950;--down:#f85149}
+  /* Condenser look: light theme, MELEK orange (#e5a21b) + Kurdish-sun green (#117a37). */
+  :root{--bg:#f5f6f8;--panel:#ffffff;--line:#e6e9ee;--line2:#dbe0e6;--fg:#1c2126;--mut:#5c6670;--link:#117a37;--gold:#e5a21b;--goldink:#a8730c;--up:#117a37;--down:#c0392b}
   *{box-sizing:border-box} body{font:16px/1.7 Georgia,'Times New Roman',serif;margin:0;background:var(--bg);color:var(--fg)}
-  a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+  a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
   header.top{font-family:system-ui,sans-serif;background:var(--panel);border-bottom:1px solid var(--line2);padding:12px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-  .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  nav{display:flex;gap:16px;font-family:system-ui,sans-serif} nav a{color:var(--mut);font-weight:600;font-size:14px}
+  .brand{font-weight:800;font-size:18px;color:var(--fg);display:flex;align-items:center;gap:8px} .brand span{color:var(--goldink);font-weight:400;font-size:13px}
+  .brand .sun{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#e5a21b 0 32%,#c0392b 34% 50%,#117a37 52% 100%);flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+  nav{display:flex;gap:16px;font-family:system-ui,sans-serif;margin-left:auto} nav a{color:var(--mut);font-weight:600;font-size:14px} nav a:hover{color:var(--link);text-decoration:none}
   .wrap{max-width:820px;margin:0 auto;padding:26px 22px}
-  h1{font-size:30px;margin:0 0 6px} h2{font-size:22px;margin:26px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px} h3{font-size:18px;margin:18px 0 6px}
+  h1{font-size:30px;margin:0 0 6px;color:var(--fg)} h2{font-size:22px;margin:26px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px} h3{font-size:18px;margin:18px 0 6px}
   p{margin:10px 0} ul,ol{margin:10px 0 10px 22px} li{margin:4px 0}
-  sup.ref{font-family:system-ui,sans-serif;font-size:11px} sup.ref a{color:var(--gold)}
-  .card{font-family:system-ui,sans-serif;background:var(--panel);border:1px solid var(--line2);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.5}
-  .muted{color:var(--mut)} input.search{font-family:system-ui;background:#0b0f14;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:9px 13px;width:100%;max-width:420px;font-size:14px}
+  sup.ref{font-family:system-ui,sans-serif;font-size:11px} sup.ref a{color:var(--goldink)}
+  .card{font-family:system-ui,sans-serif;background:#fbfcfd;border:1px solid var(--line2);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.5}
+  .muted{color:var(--mut)} input.search{font-family:system-ui;background:#fff;border:1px solid var(--line2);border-radius:8px;color:var(--fg);padding:9px 13px;width:100%;max-width:420px;font-size:14px}
+  input.search:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(229,162,27,.15)}
   .grid{font-family:system-ui,sans-serif;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-  .grid a{display:block;padding:11px 14px;background:var(--panel);border:1px solid var(--line2);border-radius:8px;font-weight:600}
-  .flag{font-family:system-ui,sans-serif;background:#f8514922;border:1px solid #f8514955;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px}
-  .flag b{color:var(--down)} code{background:var(--line);padding:1px 5px;border-radius:4px;font-size:13px}
+  .grid a{display:block;padding:11px 14px;background:#fff;border:1px solid var(--line2);border-radius:8px;font-weight:600} .grid a:hover{border-color:var(--gold);text-decoration:none}
+  .flag{font-family:system-ui,sans-serif;background:#c0392b12;border:1px solid #c0392b44;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px}
+  .flag b{color:var(--down)} code{background:#eef1f4;padding:1px 5px;border-radius:4px;font-size:13px}
   footer{font-family:system-ui,sans-serif;color:var(--mut);font-size:12px;border-top:1px solid var(--line);padding:26px 22px;text-align:center;margin-top:30px}
-  blockquote{border-left:3px solid var(--line2);margin:10px 0;padding-left:14px;color:var(--mut)}
+  blockquote{border-left:3px solid var(--gold);margin:10px 0;padding-left:14px;color:var(--mut)}
 </style>`;
 
-const NAV = [['/', 'Library'], ['/search', 'Search'], ['/about', 'About'], ['https://data.soapbox.community', 'Markets']];
+const NAV = [['/', 'Library'], ['/search', 'Search'], ['/about', 'About'], ['https://witness.melek.salon', 'Witness School'], ['https://melek.salon', 'MELEK']];
 
 // Serialize a JSON-LD object safely for embedding in a <script type="application/ld+json"> tag.
 // Two jobs: (1) prevent any unfilled {placeholder} template token from leaking into the page —
@@ -65,7 +68,7 @@ export function layout({ title, description = '', canonical = '', jsonld = null,
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="${esc(ogType)}"><meta property="og:site_name" content="Library of Ashurbanipal">${url ? `<meta property="og:url" content="${url}">` : ''}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${desc}">
 ${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${STYLE}</head>
-<body><header class=top><a class=brand href="/">📜 Library of Ashurbanipal <span>VKFRI</span></a>
+<body><header class=top><a class=brand href="/"><span class=sun aria-hidden=true></span>Library of Ashurbanipal <span>· MELEK</span></a>
 <nav>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</nav></header>
 <main class=wrap>${body}</main>
 <footer>The Library of Ashurbanipal — synthesized from the VKFRI knowledge base, grounded in cited sources and audited by a fact-checker. Claims attributed to VKFRI are the Institute's own; established science is marked as such.</footer>
