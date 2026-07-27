@@ -40,6 +40,7 @@ import { createHmac, randomBytes, timingSafeEqual, createHash } from 'node:crypt
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { validAccountName } from '../signup/welcome-grant.mjs';
+import { connectMailbox } from './connect/mailbox.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -185,6 +186,8 @@ const clearCookie = (name) => `${name}=; Path=/; HttpOnly; Secure; SameSite=Lax;
 const PROVIDERS = {
   google: {
     scope: () => env('GOOGLE_SCOPES', 'openid email profile'),
+    // Mailbox-connect (Herald sending) scope — identity + gmail.send only (send-only, cannot read mail).
+    sendScope: () => env('GOOGLE_SEND_SCOPES', 'openid email https://www.googleapis.com/auth/gmail.send'),
     authorize: 'https://accounts.google.com/o/oauth2/v2/auth',
     token: 'https://oauth2.googleapis.com/token',
     userinfo: 'https://openidconnect.googleapis.com/v1/userinfo',
@@ -208,16 +211,18 @@ const PROVIDERS = {
 const isProvider = (p) => Object.prototype.hasOwnProperty.call(PROVIDERS, String(p || ''));
 const redirectUri = (provider) => `${BASE_URL()}/auth/${provider}/callback`;
 
-/** The provider's authorize-URL the browser is redirected to (with a CSRF state). */
-export function authorizeUrl(provider, state) {
+/** The provider's authorize-URL the browser is redirected to (with a CSRF state). `mode='connect'`
+ *  requests the mailbox-SEND scope (Herald) instead of the login/identity scope. */
+export function authorizeUrl(provider, state, mode) {
   if (!isProvider(provider)) return null;
   const p = PROVIDERS[provider];
   if (!p.clientId()) return null;                       // not configured → caller surfaces a clean error
+  const scopeFn = (mode === 'connect' && p.sendScope) ? p.sendScope : p.scope;
   const q = new URLSearchParams({
     client_id: p.clientId(),
     redirect_uri: redirectUri(provider),
     response_type: 'code',
-    scope: typeof p.scope === 'function' ? p.scope() : p.scope,   // operator-controlled (env) scope list
+    scope: typeof scopeFn === 'function' ? scopeFn() : scopeFn,   // login scope, or the send scope for connect
     state,
     access_type: 'offline',     // request a refresh token so connector reads can continue (Messenger/IFTTT)
     prompt: 'consent',
@@ -256,7 +261,11 @@ async function exchangeCode(provider, code) {
     body: body.toString(),
   });
   const j = await r.json();
-  return (j && j.access_token) ? String(j.access_token) : null;
+  if (!j || !j.access_token) return null;
+  // Full token set: the refresh_token (present when access_type=offline + prompt=consent) is what lets
+  // Herald keep sending from a connected mailbox after the ~1h access token expires. Login only needs
+  // the access token; the mailbox-connect flow persists the refresh token.
+  return { accessToken: String(j.access_token), refreshToken: j.refresh_token ? String(j.refresh_token) : '', expiresIn: Number(j.expires_in) || 3600 };
 }
 
 // Fetch userinfo with the access token, extract a stable { id, email } via the provider's extractor.
@@ -470,6 +479,19 @@ export async function handler(req, res) {
         return redirect(dest, { 'set-cookie': setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS) });
       }
 
+      // GET /auth/:provider/connect — begin a MAILBOX connection (Herald sending). Requires an active
+      // session; binds the account into the signed state so the callback stores the token as THAT account's
+      // sending mailbox. Requests the send scope. (Login uses the plain start above.)
+      if (segs.length === 3 && segs[2] === 'connect') {
+        const s = sessionFromReq(req);
+        if (!s || !s.account) return send(401, { ok: false, reason: 'sign in first to connect a mailbox' });
+        const nonce = b64url(randomBytes(16));
+        const stateToken = signToken({ provider, kind: 'connect', account: s.account, nonce, exp: now() + STATE_TTL_MS });
+        const dest = authorizeUrl(provider, stateToken, 'connect');
+        if (!dest) return send(503, { ok: false, reason: 'provider not configured' });
+        return redirect(dest, { 'set-cookie': setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS) });
+      }
+
       // GET /auth/:provider/callback — verify state (CSRF), exchange code, link, set session
       if (segs[2] === 'callback') {
         const code = q.get('code');
@@ -482,10 +504,23 @@ export async function handler(req, res) {
         if (!sp || sp.provider !== provider || !sp.exp || now() >= Number(sp.exp)) return send(403, { ok: false, reason: 'bad-state' });
         if (!code) return send(400, { ok: false, reason: 'missing code' });
 
-        const accessToken = await exchangeCode(provider, code);
-        if (!accessToken) return send(502, { ok: false, reason: 'token exchange failed' }, { 'set-cookie': clearCookie(STATE_COOKIE) });
-        const info = await fetchUserInfo(provider, accessToken);
+        const tok = await exchangeCode(provider, code);
+        if (!tok || !tok.accessToken) return send(502, { ok: false, reason: 'token exchange failed' }, { 'set-cookie': clearCookie(STATE_COOKIE) });
+        const info = await fetchUserInfo(provider, tok.accessToken);
         if (!info || !info.id) return send(502, { ok: false, reason: 'userinfo failed' }, { 'set-cookie': clearCookie(STATE_COOKIE) });
+
+        // MAILBOX-CONNECT flow (Herald sending): the state was minted by GET /auth/:provider/connect for an
+        // authenticated account. Persist the refresh token as that account's sending mailbox, then land back
+        // on the Integrations tab. The account was bound + session-verified when the connect state was issued.
+        if (sp.kind === 'connect' && sp.account) {
+          const r = connectMailbox(sp.account, {
+            provider, email: info.email,
+            accessToken: tok.accessToken, refreshToken: tok.refreshToken,
+            expiresAt: now() + (tok.expiresIn * 1000),
+          });
+          const q = r && r.ok ? 'connected=1' : `connect_error=${encodeURIComponent((r && r.reason) || 'failed')}`;
+          return redirect(`/?tab=int&${q}`, { 'set-cookie': clearCookie(STATE_COOKIE) });
+        }
 
         // Account linking: is this provider identity already tied to a MELEK account?
         const linked = lookupLink(provider, info.id);

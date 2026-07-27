@@ -35,7 +35,8 @@ import { sessionFromReq, handler as authHandler, registerMethod } from './auth.m
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
-import { buildCampaignPlan } from './crm/builder.mjs';
+import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
+import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -173,6 +174,11 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, threads: inboxFor(me) }, origin);
     }
+    // Herald: which sending mailbox (if any) this account has connected (email only, never tokens).
+    if (method === 'GET' && path === '/me/mailbox') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, mailbox: getMailbox(me) }, origin);
+    }
     if (method === 'GET' && path === '/dm') {
       const me = whoami(req, q.get('me')); if (!me) return unauth(res, origin);
       const wth = _acct(q.get('with'));
@@ -258,6 +264,20 @@ export async function handler(req, res) {
         if (op === 'status') return json(res, 200, setStatus(c.id, b.status), origin);
         if (op === 'leads' && !segs[4]) return json(res, 200, addLead(c.id, b.lead || b), origin);
         if (op === 'leads' && segs[4] && segs[5] === 'stage') return json(res, 200, moveLead(c.id, segs[4], b.stage), origin);
+        // Herald send: render the given sequence step (default: first) for this lead + send from the
+        // owner's OWN connected mailbox. On success the lead advances to 'contacted'. Never sends from
+        // @pentecaust.com — the mailbox layer refuses that.
+        if (op === 'leads' && segs[4] && segs[5] === 'send') {
+          const lead = (c.leads || []).find((l) => l.id === segs[4]);
+          if (!lead) return json(res, 404, { ok: false, reason: 'no such lead' }, origin);
+          if (!lead.email) return json(res, 422, { ok: false, reason: 'lead has no email' }, origin);
+          const step = (c.sequence || [])[Number(b.step) || 0];
+          if (!step) return json(res, 422, { ok: false, reason: 'draft a plan first (no sequence step)' }, origin);
+          const msg = renderStep(step, lead);
+          const r = await sendViaMailbox(me, { to: lead.email, subject: msg.subject, body: msg.body });
+          if (r && r.ok) moveLead(c.id, lead.id, 'contacted');
+          return json(res, 200, r, origin);
+        }
       }
     }
     return json(res, 404, { ok: false, reason: 'not-found' }, origin);
@@ -367,6 +387,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div id=campPlanBox class=feed style="margin-top:8px"><div class=empty>Draft a plan to see the ICP + sequence.</div></div>
   <div class=row style="margin-top:8px"><input id=leadName placeholder="lead name"><input id=leadCo placeholder="company"><input id=leadEmail placeholder="email"></div>
   <div class=row style="margin-top:6px"><input id=leadSignal placeholder="signal — the verified reason to reach out"><button class="btn" id=leadAdd>Add lead</button></div>
+  <div id=campLeads class=feed style="margin-top:8px"><div class=empty>Add leads above; each can be sent the first sequence step from your connected mailbox.</div></div>
  </div>
 </div>
 
@@ -412,7 +433,22 @@ $('campCreate').onclick=async()=>{if(!me())return alert('Enter your @name first.
  if(j&&j.ok){$('campName').value=$('campGoal').value=$('campSite').value='';loadCampaigns();openCampaign(j.campaign.id);}else alert((j&&j.reason)||'could not create');};
 async function openCampaign(id){campId=id;const j=await api('/crm/campaigns/'+encodeURIComponent(id)+'?account='+encodeURIComponent(me()));
  if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;
- $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);loadCampaigns();refreshStats();}
+ $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);renderLeads(c);loadCampaigns();refreshStats();}
+function renderLeads(c){const box=$('campLeads');const leads=(c.leads||[]);
+ if(!leads.length){box.innerHTML='<div class=empty>No leads yet. Add one above.</div>';return;}
+ const frag=document.createDocumentFragment();
+ for(const l of leads){const row=document.createElement('div');row.className='fitem';
+  const canSend=l.email&&(c.sequence||[]).length&&l.stage!=='unsubscribed';
+  const badge='<span class=pill style="background:#234">'+E(l.stage)+'</span>';
+  const btn=canSend?'<button class="btn primary" data-lead="'+E(l.id)+'">Send step 1</button>':'<span class=hint>'+(l.email?'draft a plan first':'no email')+'</span>';
+  row.innerHTML='<div style="flex:1"><b>'+E(l.name||l.email||l.id)+'</b> '+badge+'<br><small class=mut>'+E(l.company||'')+(l.email?(' · '+E(l.email)):'')+'</small></div>'+btn;
+  const b=row.querySelector('button');if(b)b.onclick=()=>sendStep(c.id,l.id,b);
+  frag.appendChild(row);}
+ box.innerHTML='';box.appendChild(frag);}
+async function sendStep(cid,lid,btn){btn.disabled=true;btn.textContent='Sending…';
+ const j=await cpost('/crm/campaigns/'+encodeURIComponent(cid)+'/leads/'+encodeURIComponent(lid)+'/send',{});
+ if(j&&j.ok){btn.textContent='Sent ✓';openCampaign(cid);}
+ else{btn.disabled=false;btn.textContent='Send step 1';alert((j&&j.reason)||'send failed — connect your Gmail in Integrations first');}}
 function renderPlan(c){const box=$('campPlanBox');
  if(!c.sequence||!c.sequence.length){box.innerHTML='<div class=empty>Draft a plan to see the ICP + sequence.</div>';return;}
  const icp=c.icp||{};const chips=(a)=>(a&&a.length?a.map(x=>'<span class=pill style="background:#234">'+E(x)+'</span>').join(' '):'<span class=mut>—</span>');
@@ -432,9 +468,15 @@ async function refreshStats(){if(!campId)return;const j=await api('/crm/campaign
 // ---- Integrations (IFTTT): connect external accounts to the one MELEK identity ----
 let _signedIn=false;
 async function loadIntegrations(){const box=$('connList');
+ // Herald sending mailbox — connect your own Gmail so Herald sends from YOUR address (never @pentecaust.com).
+ let mbHtml='';
+ if(me()){const mb=await api('/me/mailbox?account='+encodeURIComponent(me()));
+  if(mb&&mb.ok&&mb.mailbox){mbHtml='<div class=fitem><div style="flex:1"><b>✉️ Sending mailbox</b> <span class=pill style="background:#173">Connected</span><br><small class=mut>'+E(mb.mailbox.email)+' — Herald sends from here</small></div><a class="btn" href="/auth/'+E(mb.mailbox.provider)+'/connect">Reconnect</a></div>';}
+  else{mbHtml='<div class=fitem><div style="flex:1"><b>✉️ Sending mailbox</b> <span class=pill style="background:#633">Not connected</span><br><small class=mut>Connect your Gmail so Herald can send outreach from your own address — never from @pentecaust.com.</small></div><a class="btn primary" href="/auth/google/connect">Connect Gmail</a></div>';}}
  const j=await api('/auth/providers');const provs=(j&&j.providers)||[];
- if(!provs.length){box.innerHTML='<div class=empty>No connectors available yet.</div>';return;}
+ if(!provs.length){box.innerHTML=mbHtml+'<div class=empty>No login connectors configured yet.</div>';return;}
  const frag=document.createDocumentFragment();
+ if(mbHtml){const d=document.createElement('div');d.innerHTML=mbHtml;frag.appendChild(d.firstChild);}
  for(const p of provs){const row=document.createElement('div');row.className='fitem';
   const pill=p.configured?'<span class=pill style="background:#173">Ready to connect</span>':'<span class=pill style="background:#633">Needs operator setup</span>';
   const btn=p.configured?('<a class="btn primary" href="/auth/'+E(p.id)+'">Connect</a>'):'<span class=hint>owner registers the app first</span>';
@@ -525,6 +567,11 @@ async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time 
 
 // ---- init ----
 syncMail();if(me())loadFriends();initAuth();
+// deep-link back from a mailbox connect (Herald): land on Integrations + confirm
+(function(){const p=new URLSearchParams(location.search);
+ if(p.get('tab')==='int')setTimeout(()=>setTab('int'),50);
+ if(p.get('connected'))setTimeout(()=>alert('Mailbox connected — Herald can now send from your own address.'),120);
+ if(p.get('connect_error'))setTimeout(()=>alert('Could not connect mailbox: '+p.get('connect_error')),120);})();
 </script>
 <script src="/translate.js"></script>
 </body></html>`;

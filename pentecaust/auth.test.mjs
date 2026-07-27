@@ -14,6 +14,8 @@ import {
 
 // A fixed secret so signatures are stable across the run.
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-do-not-use-in-prod';
+process.env.MAILBOX_DATA = join(tmpdir(), `pentecaust-mailbox-test-${process.pid}.json`);
+const { getMailbox } = await import('./connect/mailbox.mjs');
 
 let n = 0;
 function freshFile() {
@@ -443,4 +445,35 @@ test('GET /auth/providers: returns non-secret connection status', async () => {
   const g = j.providers.find((p) => p.id === 'google');
   assert.equal(g.configured, true);
   assert.ok(!o.body.includes('shh-secret'), 'endpoint never returns the secret');
+});
+
+test('oauth connect (Herald): session-gated; callback stores the sending mailbox', async () => {
+  process.env.PENTECAUST_AUTH_DATA = freshFile();
+  process.env.PENTECAUST_BASE_URL = 'https://pentecaust.com';
+  process.env.GOOGLE_CLIENT_ID = 'gid'; process.env.GOOGLE_CLIENT_SECRET = 'gsec';
+  __setFetch(mockProviderFetch({ userinfo: { sub: 'g-conn-1', email: 'seller@gmail.com' } }));
+
+  // no session → 401 (can't connect a mailbox to an account you haven't proven you own)
+  let { res, o } = cap();
+  await handler(getReq('/auth/google/connect'), res);
+  assert.equal(o.code, 401);
+
+  // with a session → 302 to Google with a connect-state cookie
+  const sess = makeSession('alice', 'google');
+  ({ res, o } = cap());
+  await handler(getReq('/auth/google/connect', `pentecaust_session=${encodeURIComponent(sess)}`), res);
+  assert.equal(o.code, 302);
+  const stateCookie = setCookieList(o.headers).find((c) => c.startsWith('pentecaust_oauth_state='));
+  assert.ok(stateCookie, 'connect state cookie set');
+  const stateVal = decodeURIComponent(stateCookie.split(';')[0].split('=')[1]);
+
+  // callback with the connect-state → persists alice's sending mailbox, redirects to Integrations
+  ({ res, o } = cap());
+  await handler(getReq(`/auth/google/callback?code=abc&state=${encodeURIComponent(stateVal)}`, `pentecaust_oauth_state=${encodeURIComponent(stateVal)}`), res);
+  assert.equal(o.code, 302);
+  assert.match(o.headers.location || o.headers.Location || '', /tab=int/);
+  const mb = getMailbox('alice');
+  assert.ok(mb && mb.email === 'seller@gmail.com', 'mailbox connected for the session account');
+  assert.equal(mb.accessToken, undefined, 'no token leaked to the public view');
+  __setFetch(null);
 });
