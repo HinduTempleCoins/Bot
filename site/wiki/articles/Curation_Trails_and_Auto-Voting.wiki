@@ -1,0 +1,37 @@
+# Curation Trails and Auto-Voting
+
+On a Graphene social chain, **curation** is the act of voting on content, and it is rewarded: a share of every post's payout goes to the accounts that voted for it (on MELEK, following the standard split, the curation share is 25%, with an early-vote auction window that redistributes reward from votes cast too soon). Because voting well takes constant attention, chains grew two tools to automate it: **auto-voting** (rules that vote your chosen authors for you) and **curation trails** (following another curator so their votes trigger yours). MELEK runs both through its own auto-vote service, and this article explains how they work and how a witness can offer the same to their community. It complements the node and front-end guides: see [[Running a Graphene Witness Node]] and [[Running a Condenser Front-End]].
+
+== Why Automate Curation ==
+
+Two forces make manual curation hard. First, **timing**: the chain pays curators more for voting early on posts that later do well, but not *too* early — an auction window (five minutes on MELEK) reclaims reward from votes cast in the first moments, to stop bots from front-running. Voting at the right moment, on the right posts, around the clock, is not something a person can do by hand. Second, **mana**: every account has a limited voting power that regenerates over time (a full recharge takes about five days), so votes must be budgeted, not spent all at once. Automation exists to solve both: cast the right votes, at good times, within a daily budget.
+
+== Auto-Voting: Rules ==
+
+Auto-voting means: *"whenever these authors post, vote for them at this weight."* An operator registers the authors they want to support and a vote weight for each, optionally with a daily vote budget so the account never drains its mana. A background engine watches the chain for new posts by those authors and casts the votes on schedule — respecting the auction window so the votes are not wasted, and stopping when the daily budget is spent. This is the Hive.Vote model, and MELEK's service implements it directly.
+
+== Curation Trails ==
+
+A **curation trail** is a social shortcut: instead of naming authors, you follow a **curator** you trust, and whenever they vote, you vote the same post (often at a fraction of their weight, and a moment after them). One good curator's judgment then drives many followers' votes. Trails let a small number of skilled curators effectively steer a community's rewards, and let newcomers participate in curation without having to evaluate every post themselves. Under the hood a trail is the same engine as auto-voting, keyed on "when account X votes" instead of "when author Y posts."
+
+== How MELEK Runs It ==
+
+MELEK operates a multi-chain auto-vote and trail service (Hive.Vote-style) that can drive voting on MELEK and on the sibling chains ([[HIVE Blockchain]], [[STEEM Blockchain]], [[BLURT Blockchain]]). Two things matter for anyone offering this:
+
+* '''Authorization without custody.''' The naive way to auto-vote for a user is to store their posting key and sign on their behalf — which means holding many users' keys in plaintext, a serious liability. MELEK supports authorizing through **MELEK-Signer** (a scoped, revocable OAuth-style grant) so the service can cast votes without ever holding a raw key. Any operator running a trail service for real users should require this rather than raw-key registration.
+* '''Safety rails.''' The engine defaults to refusing to broadcast unless explicitly enabled, honors the auction window and a daily budget, and fails safe when a chain's RPC is unreachable (it simply skips that round rather than misfiring).
+
+== Offering Trails as a Witness ==
+
+A witness who wants to give their community curation tools runs the auto-vote engine against their chain's RPC, exposes a small page where users register auto-vote rules or follow a trail (authorizing via the chain's signer, not by pasting keys), and lets the engine do the rest. Combined with a front-end ([[Running a Condenser Front-End]]) and a token layer ([[Running Tokens on MELEK-Engine]]), curation automation is one of the pieces that turns a bare chain into a living community.
+
+== See Also ==
+
+* [[Delegated Proof of Stake (DPoS)]] — why stake-weighted voting underpins both governance and curation
+* [[Running a Condenser Front-End]] — the front-end users curate from
+* [[Running Tokens on MELEK-Engine]] — community tokens that can carry their own curation
+* [[Blockchain Witness (Block Producer)]] — the witness role
+
+== Coverage ==
+
+First-party MELEK operator documentation, written from direct operation of the MELEK auto-vote / curation-trail service. Reward percentages, the auction window, and mana-recharge time are the MELEK chain's configured values (standard Steem-family defaults) and should be confirmed against the target chain before relying on exact numbers.
