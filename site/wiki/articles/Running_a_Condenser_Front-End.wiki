@@ -1,0 +1,67 @@
+# Running a Condenser Front-End
+
+A **condenser** is the reference web front-end for a Graphene social blockchain — the site people actually log into to post, vote, follow, and hold a wallet. Steemit.com was the original; Hive.blog, Blurt.blog, and MELEK's own [melek.salon](https://melek.salon) are all condensers. Because a Graphene chain exposes a uniform JSON-RPC API, **one condenser codebase can be pointed at any compatible chain** by changing configuration alone. This article explains how the condenser, the front-end, and the chain fit together, records MELEK's early tests running a condenser against **BLURT**, and gives a witness the steps to stand up their own front-end — on MELEK, on any Graphene chain, or on a chain of their own.
+
+== What a Condenser Is ==
+
+The condenser is a server-side-rendered (SSR) JavaScript application. The Node server renders each page's HTML on the server so it loads fast and is crawlable, then the same code "hydrates" in the browser and takes over as a single-page app. It never holds the chain's private keys on the server: a user's posting and active keys are derived from their password **in the browser**, used to sign transactions locally, and the signed transaction is broadcast to the chain's RPC. The server's job is to render pages and proxy public reads; the browser's job is to sign.
+
+A condenser talks to exactly one thing it cannot live without: a **chain RPC node** (a running `steemd`/`blurtd` exposing the `condenser_api` JSON-RPC). Everything the front-end shows — feeds, a user's balances, a post's payout — is a read against that RPC. Everything a user does — a comment, a vote, a transfer — is a signed transaction broadcast to that same RPC.
+
+== How a Front-End Talks to a Chain ==
+
+Three pieces of configuration are all that bind a condenser to a particular chain:
+
+* '''chain_id''' — the 32-byte identifier that makes a signature valid on one chain and rejected on every other. Get it wrong and every broadcast fails.
+* '''address_prefix''' — the human-readable prefix on public keys (`STM`, `BLT`, `MELEK`). It must match the chain or key parsing fails.
+* '''RPC endpoints''' — one URL the Node server reads from (server-side), and one the browser reads from (client-side). They can be the same host; often the client one is fronted through the site's own domain so browsers never hit the raw node.
+
+On the MELEK condenser these live in the service environment as `SDC_*` variables: `SDC_CHAIN_ID`, `SDC_ADDRESS_PREFIX`, `SDC_SERVER_BLURTD_URL`, `SDC_CLIENT_BLURTD_URL`, and `SDC_USE_APPBASE=true` (the modern `condenser_api` JSON-RPC shape). The **token symbols** — the liquid coin, the power/vesting token, and the chain's "dollar" symbol — live in the build-time `client_config.js` (`LIQUID_TICKER`, `DEBT_TICKER`, and friends). These are baked into the compiled bundle, so changing a symbol means a rebuild, not just a restart.
+
+== The Condenser Lineage ==
+
+The codebase carries its own history. Steemit released condenser as open source in 2016. When the Steem community forked to **Hive** (2020) and to **Blurt** (2020), each kept and adapted the condenser. MELEK's front-end is a **fork of the Blurt condenser** — Blurt's is the leanest of the family (it removed several Steem features MELEK also does not want, such as downvotes and a per-operation fee), which made it the cleanest starting point. See [[Building a Front-End for a Graphene Chain]] for the broader framework view and [[Graphene Blockchain Framework]] for the chain side.
+
+== Our Early Tests: Running a Condenser on BLURT ==
+
+Before MELEK had its own chain, the practical question was simply: *can we run a real Graphene front-end end-to-end, and do we understand every moving part?* The answer came from **running the Blurt condenser against the live BLURT chain** — pointing the front-end's RPC at a Blurt node, logging in with a Blurt account, and posting, voting, and transferring for real. This proved out the whole loop: browser-side key derivation and signing, the `condenser_api` read/broadcast cycle, image uploads, and SSR crawlability, all against a chain we did not control.
+
+Those tests are exactly why MELEK's front-end came up quickly. Standing up MELEK's condenser was then a matter of **re-pointing a known-good front-end at a new chain**: swap the `chain_id`, `address_prefix`, and RPC URLs for MELEK's, change the token symbols in `client_config.js`, rebuild, and deploy. The lesson for any witness: you do not have to get a chain *and* a front-end working at the same time. Get the front-end working against an existing chain first, learn its config surface, then move it.
+
+== Pointing a Condenser at Any Graphene Chain ==
+
+To run your own front-end against MELEK, BLURT, HIVE, STEEM, or any Graphene chain:
+
+# '''Get an RPC node.''' Either run your own `steemd`/`blurtd` for that chain (see [[Running a Graphene Witness Node]]) or use a public one. The front-end is only as reliable as the node behind it.
+# '''Clone the condenser''' for the chain family you're targeting (the Blurt/Hive/Steemit condenser as appropriate — they are close cousins).
+# '''Set the chain binding:''' `chain_id`, `address_prefix`, the server and client RPC URLs, and `USE_APPBASE=true`.
+# '''Set the token symbols''' in `client_config.js` to match the chain (liquid coin, vesting/power, and the "dollar"/debt symbol). '''Symbols are consensus-checked''' — the chain will reject a post whose `max_accepted_payout` is not in its exact debt symbol, even if the chain never actually issues that token. (MELEK's dollar symbol is `MBD`; a front-end that sends `MELEK` there gets an `Assert Exception: max_accepted_payout must be in SBD` rejection.)
+# '''Build and deploy''' (below).
+
+Because these are just values, one operator can run **several front-ends for several chains** off one codebase, each with its own environment.
+
+== Building and Deploying ==
+
+The condenser builds in two halves: `webpack` compiles the browser bundle into `dist/` (a content-hashed `app.<hash>.js`), and `babel` compiles the Node server into `lib/`. The server reads a `webpack-stats` manifest at startup to learn which hashed bundle to serve, so:
+
+* A '''restart is required''' after a rebuild — the manifest is read once at boot. A build without a restart serves the old bundle.
+* Because bundles are content-hashed, a new build produces a **new filename**, which cleanly busts browser caches. Keep the page HTML itself `no-store` at your reverse proxy so browsers always fetch the current bundle reference.
+* Serve `lib/server/index.js` under a process manager, put a reverse proxy (Caddy/nginx) in front for TLS, and proxy the site to the Node port. Front the client RPC through your own domain (e.g. `/rpc`) so browsers never talk to the raw node.
+
+'''Common pitfalls''' (all seen in practice): a stale server process still holding the old bundle in memory after a "restart" that did not actually cycle the process; the browser caching an old bundle (one hard refresh clears it); and the symbol mismatch described above. When a front-end "loads but every post is rejected," suspect the token symbols before anything else.
+
+== Running Your Own Chain ==
+
+A front-end is half the picture; the other half is the chain it reads. To run your own Graphene chain you build `steemd` from the chain's source, write a genesis configuration (chain id, prefix, symbols, initial witnesses), and run one or more witness nodes producing blocks — with **finality requiring enough independent witnesses that no single one can stall the chain**. A witness who has done both — run a front-end and run a node — can offer a complete, self-hosted social network on Graphene. Start with [[Running a Graphene Witness Node]] for the node side, and see [[Delegated Proof of Stake (DPoS)]] for why the number of producing witnesses matters.
+
+== See Also ==
+
+* [[Building a Front-End for a Graphene Chain]] — the framework-level overview
+* [[Running a Graphene Witness Node]] — standing up the chain node your front-end reads
+* [[Graphene Blockchain Framework]] — the chain technology underneath
+* [[Blockchain Witness (Block Producer)]] — what a witness is and does
+* [[BLURT Blockchain]], [[HIVE Blockchain]], [[STEEM Blockchain]] — the sibling chains a condenser can serve
+
+== Coverage ==
+
+This is first-party MELEK operator documentation, written from direct experience building, re-chaining, deploying, and debugging the MELEK condenser (a Blurt-condenser fork) and from the early tests running a condenser against the live BLURT chain. Chain-specific values (chain ids, symbols, RPC endpoints) should always be confirmed against the target chain's own configuration before use.

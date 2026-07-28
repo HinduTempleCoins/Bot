@@ -1,0 +1,40 @@
+# Running Tokens on MELEK-Engine
+
+A Graphene chain like MELEK has one native coin, but communities usually want **their own tokens** — a points system, a community currency, a token that rewards a particular kind of post. Rather than change the chain's consensus for every new token, Graphene ecosystems add a **side-token layer**: a service that reads specially-formatted operations off the main chain and maintains a token ledger on top of it. On Hive this layer is **Hive-Engine**; MELEK runs its own equivalent, **MELEK-Engine**. This article explains how a side-token layer works and how a witness can issue and run tokens for their community. It sits alongside the front-end, node, and curation guides — see [[Running a Condenser Front-End]], [[Running a Graphene Witness Node]], and [[Curation Trails and Auto-Voting]]. For the concept's origin see [[Hive Engine and Smart Media Tokens]].
+
+== How a Side-Token Layer Works ==
+
+Every Graphene chain has a generic operation, `custom_json`, that lets an account write arbitrary structured data into a block. The chain does not interpret it — it just records it, permanently and in order. A side-token layer takes advantage of this: token actions (issue, transfer, stake, a market trade) are published as `custom_json` operations, and an **off-chain engine** reads the chain block by block, recognizes those operations, and updates a token ledger accordingly. Because every node sees the same blocks in the same order, every engine that replays them arrives at the same balances — the main chain provides the ordering and permanence, and the engine provides the token logic.
+
+This is powerful because it needs **no change to chain consensus**: anyone can define a token, and the rules of that token live in the engine layer, not in `steemd`. It is also the trust boundary to understand — a side token is as trustworthy as the engine that maintains it and the community that runs it, which is why the engine's code and operators matter.
+
+== SCOT: Tokens That Reward Content ==
+
+The most popular use of the layer is **SCOT** — "Smart Contracts On Tokens" — which lets a community reward posts in *their own token* in parallel with the chain's native rewards. A post tagged for the community earns the community token when people vote on it, with the token's own reward pool, inflation, and curation split, entirely defined in the engine. A community can thus run its own miniature reward economy — its own coin, its own curation trail (see [[Curation Trails and Auto-Voting]]), its own staking — without ever touching chain consensus.
+
+== Issuing a Token on MELEK-Engine ==
+
+At a high level, launching a community token is:
+
+# '''Define the token''' — symbol, precision, maximum supply, and whether it is stakeable and how its reward pool (if any) is funded. On MELEK these are set in the engine's token configuration.
+# '''Create it''' by publishing the create/issue operations as `custom_json` from the issuing account; the engine picks them up and opens the ledger.
+# '''Distribute''' — issue to holders, or wire a SCOT reward pool so posts in the community earn it automatically.
+# '''Surface it''' — a front-end ([[Running a Condenser Front-End]]) reads token balances from the engine's API and shows them in users' wallets, so the token is visible where people already are.
+
+Because the operations are just `custom_json`, a token's whole history is auditable on the main chain: anyone can replay the blocks and verify every issue and transfer.
+
+== Running the Engine as a Witness ==
+
+A witness offering tokens runs the MELEK-Engine service against their chain node's RPC, exposes the engine's read API for front-ends and tools to query balances, and (optionally) provides a UI for issuing and trading tokens. The engine must stay in step with the chain — it is only correct if it has processed every block — so it is operated with the same care as the node itself: monitored, restarted cleanly, and replayed from the chain if it ever falls out of sync. Combined with a node, a front-end, and curation automation, a token layer is what lets a witness offer not just a social network but a small **economy** on Graphene.
+
+== See Also ==
+
+* [[Hive Engine and Smart Media Tokens]] — the origin of the side-token / SCOT model
+* [[Running a Condenser Front-End]] — where token balances are shown to users
+* [[Curation Trails and Auto-Voting]] — automating the curation a SCOT token rewards
+* [[Running a Graphene Witness Node]] — the chain node the engine reads from
+* [[Graphene Blockchain Framework]] — the `custom_json` mechanism this layer is built on
+
+== Coverage ==
+
+First-party MELEK operator documentation describing the side-token model as implemented by MELEK-Engine (a Hive-Engine-style layer). Specific token parameters and engine endpoints should be confirmed against the running MELEK-Engine configuration before use.
