@@ -49,6 +49,7 @@ import {
   listCredentials, addCredential, getByCredentialId, updateSignCount,
 } from '../../integrations/passkey-store.mjs';
 import { robotsTxtDisallowAll } from '../../integrations/soapbox/crawlers.mjs';
+import { verifyPassword } from '../../integrations/soapy-password-auth.mjs';
 
 // Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
 // CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
@@ -363,6 +364,13 @@ function loginPage({ notice = '', magicLink = '' } = {}) {
     : '';
   const body = `<h1>Admin sign-in</h1>
     ${noticeHtml}
+    <div class=card><h2>Password</h2>
+      <form method=POST action="/auth/password">
+        <p><input type=password name=password placeholder="shared operator password" autocomplete=current-password required></p>
+        <p><button type=submit>Sign in</button></p>
+      </form>
+      <p class=muted style="font-size:13px">The shared operator password — no email, no OAuth prompt.</p>
+    </div>
     <div class=card><h2>Email magic link</h2>
       <form method=POST action="/login/email">
         <p><input type=email name=email placeholder="${esc(adminEmail() || 'you@example.com')}" autocomplete=email required></p>
@@ -904,6 +912,18 @@ export async function handle(req, res) {
       if (!r.ok) return html(res, loginPage({ notice: `Link invalid (${r.reason}).` }), 400);
       const s = createSession(r.email);
       if (!s.ok) return html(res, loginPage({ notice: 'Could not create session.' }), 400);
+      res.writeHead(302, { location: '/', 'set-cookie': sessionCookie(s.token), 'cache-control': 'no-store' });
+      return res.end();
+    }
+
+    // ---- shared-password sign-in (always-open: the password IS the credential) ----
+    // The single operator password is verified against the transcript-store credential file. On
+    // success we mint the SAME session cookie the magic-link route issues; no OAuth prompt, no email.
+    if (p === '/auth/password' && method === 'POST') {
+      const params = formParams(await readBody(req));
+      const v = verifyPassword(params.get('password') || '');
+      if (!v.ok) return html(res, loginPage({ notice: 'Incorrect password.' }), 400);
+      const s = createSession(adminEmail());
       res.writeHead(302, { location: '/', 'set-cookie': sessionCookie(s.token), 'cache-control': 'no-store' });
       return res.end();
     }
