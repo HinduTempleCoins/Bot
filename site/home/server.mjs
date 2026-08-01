@@ -203,6 +203,10 @@ export function resolve(svc) {
 const STYLE = `<style>
   :root{--bg:#0b0e14;--panel:#131826;--line:#222a3a;--line2:#222a3a;--fg:#e8e6e3;--mut:#9aa4b2;--gold:#d4a23c;--grey:#3a4150;--up:#3fb950}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
+  .doc{max-width:760px;margin:0 auto;padding:8px 4px 40px}
+  .doc h1{font-size:1.9rem;margin:.2em 0 .5em} .doc h2{font-size:1.3rem;color:var(--gold);margin:1.6em 0 .4em;border-bottom:1px solid var(--line);padding-bottom:.25em}
+  .doc h3{font-size:1.05rem;margin:1.3em 0 .3em} .doc p{color:var(--fg)} .doc li{margin:.3em 0}
+  .doc blockquote{margin:1.4em 0;padding:.6em 1em;border-left:3px solid var(--gold);background:var(--panel);color:var(--mut)}
   a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:11px 22px;display:flex;align-items:center;gap:12px}
   .brand{font-weight:800;font-size:19px;color:var(--fg)} .brand small{color:var(--mut);font-weight:400;font-size:13px;margin-left:8px}
@@ -401,13 +405,53 @@ export function homePage() {
   return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
 }
 
-function page(title, body) {
+// ── /roadmap — the public Van Kush Family roadmap (the link the [ANN] thread points at) ─────────────
+// Rendered from the committed markdown so the page and the file can never drift. The renderer is
+// ESCAPE-FIRST: every byte of the source is esc()'d before any markup is applied, so the markdown can
+// only ever produce the small tag set below — never raw HTML from the file.
+const ROADMAP_MD = process.env.ROADMAP_MD || new URL('../vankushfamily-roadmap.md', import.meta.url).pathname;
+
+export function renderMarkdown(md) {
+  const lines = esc(md).split(/\r?\n/);
+  const out = [];
+  let inList = false;
+  const closeList = () => { if (inList) { out.push('</ul>'); inList = false; } };
+  const inline = (s) => s
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[^*_])_([^_]+)_/g, '$1<i>$2</i>');
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) { closeList(); continue; }
+    const h = /^(#{1,4})\s+(.*)$/.exec(line);
+    if (h) { closeList(); const n = h[1].length; out.push(`<h${n}>${inline(h[2])}</h${n}>`); continue; }
+    const li = /^[-*]\s+(.*)$/.exec(line);
+    if (li) { if (!inList) { out.push('<ul>'); inList = true; } out.push(`<li>${inline(li[1])}</li>`); continue; }
+    const bq = /^&gt;\s*(.*)$/.exec(line); // '>' is already escaped
+    if (bq) { closeList(); out.push(`<blockquote>${inline(bq[1])}</blockquote>`); continue; }
+    closeList();
+    out.push(`<p>${inline(line)}</p>`);
+  }
+  closeList();
+  return out.join('\n');
+}
+
+export async function roadmapPage() {
+  let md = '';
+  try { md = await fsp.readFile(ROADMAP_MD, 'utf8'); } catch { md = ''; }
+  const body = md
+    ? `<section class=doc>${renderMarkdown(md)}</section>`
+    : `<section class=doc><h1>Roadmap</h1><p>The roadmap is being updated. Check back shortly.</p></section>`;
+  return page(`Roadmap — ${SITE_NAME}`, body, '/roadmap');
+}
+
+function page(title, body, canonicalPath = '/') {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 <meta name=description content="The canonical map of the MELEK, PRANA and KULA ecosystem — wallet, explorer, DEX, tokens, chain, mining and curation surfaces. Alpha (testnet) is live; MainNet is coming soon.">
 <meta name=robots content="index,follow">
-<link rel=canonical href="${esc(BASE_URL)}/">
+<link rel=canonical href="${esc(BASE_URL)}${esc(canonicalPath)}">
 <meta property="og:title" content="${esc(title)}">
 ${STYLE}${NAV_STYLE}</head><body>
 <header class=topbar><span class=brand>SoapBox<span class=alpha>Alpha</span><small>${esc(ECOSYSTEM)}</small></span></header>
@@ -424,10 +468,12 @@ const ROBOTS = `User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`;
 function sitemapXml() {
   const today = new Date().toISOString().slice(0, 10);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    `  <url><loc>${esc(BASE_URL)}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n</urlset>\n`;
+    `  <url><loc>${esc(BASE_URL)}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n` +
+    `  <url><loc>${esc(BASE_URL)}/roadmap</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n</urlset>\n`;
 }
 function llmsTxt() {
-  const lines = [`# ${SITE_NAME}`, '', `> The map of the MELEK / PRANA / KULA ecosystem. Alpha (testnet) is live; MainNet is coming soon.`, ''];
+  const lines = [`# ${SITE_NAME}`, '', `> The map of the MELEK / PRANA / KULA ecosystem. Alpha (testnet) is live; MainNet is coming soon.`, '',
+    `- [Roadmap](${BASE_URL}/roadmap): the public Van Kush Family roadmap.`, ''];
   lines.push('## Alpha (live testnet)');
   for (const s of SERVICES) lines.push(`- [${s.name}](${httpsUrl(resolve(s).alphaHost)}): ${s.blurb}`);
   lines.push('', '## MainNet (coming soon)');
@@ -459,6 +505,7 @@ export async function handler(req, res) {
     // newsletter opt-in + contact (POST /api/subscribe, GET /api/confirm, POST /api/contact)
     if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, baseUrl: BASE_URL })) return;
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/roadmap' || path === '/roadmap.html') return sendHtml(res, await roadmapPage());
 
     // unknown route → soft 404 (still renders the map so the root is never a dead end)
     return sendHtml(res, homePage(), 404);
