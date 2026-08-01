@@ -207,6 +207,11 @@ const STYLE = `<style>
   .doc h1{font-size:1.9rem;margin:.2em 0 .5em} .doc h2{font-size:1.3rem;color:var(--gold);margin:1.6em 0 .4em;border-bottom:1px solid var(--line);padding-bottom:.25em}
   .doc h3{font-size:1.05rem;margin:1.3em 0 .3em} .doc p{color:var(--fg)} .doc li{margin:.3em 0}
   .doc blockquote{margin:1.4em 0;padding:.6em 1em;border-left:3px solid var(--gold);background:var(--panel);color:var(--mut)}
+  .doc hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+  .doc code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:.05em .35em;font-size:.9em;word-break:break-all}
+  .doc .tw{overflow-x:auto;margin:1.2em 0} .doc table{border-collapse:collapse;width:100%;font-size:.93rem}
+  .doc th,.doc td{border:1px solid var(--line);padding:.45em .7em;text-align:left;vertical-align:top}
+  .doc th{background:var(--panel);color:var(--gold);font-weight:700}
   a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:11px 22px;display:flex;align-items:center;gap:12px}
   .brand{font-weight:800;font-size:19px;color:var(--fg)} .brand small{color:var(--mut);font-weight:400;font-size:13px;margin-left:8px}
@@ -405,26 +410,61 @@ export function homePage() {
   return page(`${SITE_NAME} — ${ECOSYSTEM} ecosystem family tree`, body);
 }
 
-// ── /roadmap — the public Van Kush Family roadmap (the link the [ANN] thread points at) ─────────────
-// Rendered from the committed markdown so the page and the file can never drift. The renderer is
+// ── Committed-markdown documents (/roadmap, /whitepaper) ────────────────────────────────────────────
+// Rendered from the committed markdown so each page and its file can never drift. The renderer is
 // ESCAPE-FIRST: every byte of the source is esc()'d before any markup is applied, so the markdown can
 // only ever produce the small tag set below — never raw HTML from the file.
-const ROADMAP_MD = process.env.ROADMAP_MD || new URL('../vankushfamily-roadmap.md', import.meta.url).pathname;
+const DOCS = {
+  '/roadmap': {
+    file: process.env.ROADMAP_MD || new URL('../vankushfamily-roadmap.md', import.meta.url).pathname,
+    title: 'Roadmap',
+    missing: 'The roadmap is being updated. Check back shortly.',
+  },
+  '/whitepaper': {
+    file: process.env.WHITEPAPER_MD || new URL('../melek-whitepaper.md', import.meta.url).pathname,
+    title: 'MELEK Whitepaper',
+    missing: 'The whitepaper is being updated. Check back shortly.',
+  },
+};
 
 export function renderMarkdown(md) {
   const lines = esc(md).split(/\r?\n/);
   const out = [];
   let inList = false;
+  let table = null; // { head: [...], rows: [[...]] } while consuming a pipe table
   const closeList = () => { if (inList) { out.push('</ul>'); inList = false; } };
   const inline = (s) => s
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[^*_])\*([^*]+)\*/g, '$1<i>$2</i>')
     .replace(/(^|[^*_])_([^_]+)_/g, '$1<i>$2</i>');
+  const cells = (line) => line.replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+  const closeTable = () => {
+    if (!table) return;
+    const head = `<thead><tr>${table.head.map((c) => `<th>${inline(c)}</th>`).join('')}</tr></thead>`;
+    const body = table.rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join('')}</tr>`).join('');
+    // Wide tables must scroll inside their own box, never widen the page on a phone.
+    out.push(`<div class=tw><table>${head}<tbody>${body}</tbody></table></div>`);
+    table = null;
+  };
 
   for (const raw of lines) {
     const line = raw.trim();
+
+    // A pipe table runs until the first line that isn't a pipe row.
+    if (table) {
+      if (/^\|.*\|$/.test(line)) {
+        if (!/^\|[\s:|-]+\|$/.test(line)) table.rows.push(cells(line)); // skip the |---|---| separator
+        continue;
+      }
+      closeTable();
+    }
+
     if (!line) { closeList(); continue; }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(line)) { closeList(); out.push('<hr>'); continue; }
     const h = /^(#{1,4})\s+(.*)$/.exec(line);
     if (h) { closeList(); const n = h[1].length; out.push(`<h${n}>${inline(h[2])}</h${n}>`); continue; }
+    if (/^\|.*\|$/.test(line)) { closeList(); table = { head: cells(line), rows: [] }; continue; }
     const li = /^[-*]\s+(.*)$/.exec(line);
     if (li) { if (!inList) { out.push('<ul>'); inList = true; } out.push(`<li>${inline(li[1])}</li>`); continue; }
     const bq = /^&gt;\s*(.*)$/.exec(line); // '>' is already escaped
@@ -433,17 +473,22 @@ export function renderMarkdown(md) {
     out.push(`<p>${inline(line)}</p>`);
   }
   closeList();
+  closeTable();
   return out.join('\n');
 }
 
-export async function roadmapPage() {
+export async function docPage(route) {
+  const doc = DOCS[route];
+  if (!doc) return null;
   let md = '';
-  try { md = await fsp.readFile(ROADMAP_MD, 'utf8'); } catch { md = ''; }
+  try { md = await fsp.readFile(doc.file, 'utf8'); } catch { md = ''; }
   const body = md
     ? `<section class=doc>${renderMarkdown(md)}</section>`
-    : `<section class=doc><h1>Roadmap</h1><p>The roadmap is being updated. Check back shortly.</p></section>`;
-  return page(`Roadmap — ${SITE_NAME}`, body, '/roadmap');
+    : `<section class=doc><h1>${esc(doc.title)}</h1><p>${esc(doc.missing)}</p></section>`;
+  return page(`${doc.title} — ${SITE_NAME}`, body, route);
 }
+
+export const roadmapPage = () => docPage('/roadmap');
 
 function page(title, body, canonicalPath = '/') {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -469,11 +514,13 @@ function sitemapXml() {
   const today = new Date().toISOString().slice(0, 10);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     `  <url><loc>${esc(BASE_URL)}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n` +
-    `  <url><loc>${esc(BASE_URL)}/roadmap</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n</urlset>\n`;
+    Object.keys(DOCS).map((r) =>
+      `  <url><loc>${esc(BASE_URL)}${r}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`).join('') +
+    `</urlset>\n`;
 }
 function llmsTxt() {
   const lines = [`# ${SITE_NAME}`, '', `> The map of the MELEK / PRANA / KULA ecosystem. Alpha (testnet) is live; MainNet is coming soon.`, '',
-    `- [Roadmap](${BASE_URL}/roadmap): the public Van Kush Family roadmap.`, ''];
+    ...Object.entries(DOCS).map(([r, d]) => `- [${d.title}](${BASE_URL}${r})`), ''];
   lines.push('## Alpha (live testnet)');
   for (const s of SERVICES) lines.push(`- [${s.name}](${httpsUrl(resolve(s).alphaHost)}): ${s.blurb}`);
   lines.push('', '## MainNet (coming soon)');
@@ -505,7 +552,8 @@ export async function handler(req, res) {
     // newsletter opt-in + contact (POST /api/subscribe, GET /api/confirm, POST /api/contact)
     if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, baseUrl: BASE_URL })) return;
     if (path === '/') return sendHtml(res, homePage());
-    if (path === '/roadmap' || path === '/roadmap.html') return sendHtml(res, await roadmapPage());
+    const docRoute = path.replace(/\.html$/, '');
+    if (DOCS[docRoute]) return sendHtml(res, await docPage(docRoute));
 
     // unknown route → soft 404 (still renders the map so the root is never a dead end)
     return sendHtml(res, homePage(), 404);

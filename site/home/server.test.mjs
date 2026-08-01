@@ -208,9 +208,54 @@ test('renderMarkdown(): supports the small tag set it claims (headings, list, bo
   assert.match(html, /<p>plain<\/p>/);
 });
 
-test('sitemap + llms.txt advertise /roadmap', async () => {
+test('sitemap + llms.txt advertise every committed-markdown doc', async () => {
   const sm = await drive('/sitemap.xml');
   assert.match(sm.body, /\/roadmap<\/loc>/);
+  assert.match(sm.body, /\/whitepaper<\/loc>/);
   const llms = await drive('/llms.txt');
   assert.match(llms.body, /\/roadmap\)/);
+  assert.match(llms.body, /\/whitepaper\)/);
+});
+
+// ── /whitepaper ─────────────────────────────────────────────────────────────────────────────────────
+// The whitepaper leans on markdown the roadmap never used — tables, horizontal rules, inline code —
+// so it exercises the parts of renderMarkdown() the roadmap alone would leave unproven.
+
+test('/whitepaper renders the committed whitepaper', async () => {
+  const res = await drive('/whitepaper');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<h1>MELEK — An AI-Native Blockchain Community<\/h1>/);
+  assert.match(res.body, /Rule 1 of Angelic AI/);
+  assert.match(res.body, /rel=canonical href="[^"]*\/whitepaper"/);
+});
+
+test('/whitepaper renders its parameter tables as real tables, not pipe soup', async () => {
+  const res = await drive('/whitepaper');
+  assert.match(res.body, /<table>/);
+  assert.match(res.body, /<th>/);
+  assert.match(res.body, /907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b/);
+  assert.ok(!/<p>\|/.test(res.body), 'no table row may fall through to a paragraph');
+});
+
+test('/whitepaper.html is the same page', async () => {
+  const a = await drive('/whitepaper');
+  const b = await drive('/whitepaper.html');
+  assert.equal(b.statusCode, 200);
+  assert.equal(a.body, b.body);
+});
+
+test('renderMarkdown(): tables, rules and inline code', () => {
+  const html = renderMarkdown('| A | B |\n|---|---|\n| 1 | `x` |\n\n---\n\ntail\n');
+  assert.match(html, /<div class=tw><table><thead><tr><th>A<\/th><th>B<\/th><\/tr><\/thead>/);
+  assert.match(html, /<tbody><tr><td>1<\/td><td><code>x<\/code><\/td><\/tr><\/tbody>/);
+  assert.match(html, /<hr>/);
+  assert.match(html, /<p>tail<\/p>/);
+  assert.ok(!/\|---\|/.test(html), 'the |---| separator row must not be rendered');
+});
+
+test('renderMarkdown(): a table closes when the pipes stop, and escaping still applies inside cells', () => {
+  const html = renderMarkdown('| H |\n|---|\n| <script> |\n\nafter\n');
+  assert.ok(!/<script>/.test(html));
+  assert.match(html, /&lt;script&gt;/);
+  assert.match(html, /<\/table><\/div>\n<p>after<\/p>/);
 });
