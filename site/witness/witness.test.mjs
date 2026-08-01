@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, runPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, runPage, whitepaperPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -370,4 +370,24 @@ test('/run shows the mainnet chain id and is overridable by env', () => {
   } finally {
     if (saved === undefined) delete process.env.MELEK_SEED_NODE; else process.env.MELEK_SEED_NODE = saved;
   }
+});
+
+// ---------------------------------------------------------------------------
+// /whitepaper — same source file as the apex, same shared renderer
+// ---------------------------------------------------------------------------
+test('/whitepaper renders the committed whitepaper with real tables', async () => {
+  const html = await whitepaperPage();
+  assert.match(html, /<h1>MELEK — An AI-Native Blockchain Community<\/h1>/);
+  assert.match(html, /Rule 1 of Angelic AI/);
+  assert.match(html, /<table>/);
+  assert.ok(!/<p>\|/.test(html), 'no table row may fall through to a paragraph');
+  assert.match(html, /rel=canonical href="[^"]*\/whitepaper"/);
+});
+
+test('/whitepaper route responds and the nav links to it', async () => {
+  const r = await route('/whitepaper');
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /MELEK — An AI-Native Blockchain Community/);
+  const home = await route('/');
+  assert.match(home.body, /href="\/whitepaper"/);
 });
