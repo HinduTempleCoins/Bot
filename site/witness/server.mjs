@@ -691,7 +691,9 @@ export function academyPage() {
 // ── /run — Run a MELEK Witness (mainnet is LIVE) ───────────────────────────────────────────────
 export function runPage() {
   const CHAIN_ID = process.env.MELEK_MAINNET_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
-  const SEED = process.env.MELEK_SEED_NODE || '167.86.77.4:2001';
+  // p2p port 2003, NOT 2001 — 2001 on that host belongs to a different chain's node and refuses
+  // MELEK peers, so a 2001 seed sends every prospective witness into a dead end. Verified reachable.
+  const SEED = process.env.MELEK_SEED_NODE || '167.86.77.4:2003';
   const body = `<h1>Run a MELEK Witness <span class=muted style="font-size:14px">· mainnet is live</span></h1>
 
   <div class=card style="border-color:#d9a441">
@@ -728,7 +730,7 @@ make -j$(nproc) steemd cli_wallet</pre>
 &gt;&gt;&gt; suggest_brain_key      # gives you a wif_priv_key + pub_key for signing</pre></div>
 
   <div class=card><h2>4 · config.ini</h2>
-    <pre>p2p-endpoint = 0.0.0.0:2001
+    <pre>p2p-endpoint = 0.0.0.0:2003
 rpc-endpoint = 127.0.0.1:8090
 p2p-seed-node = ${esc(SEED)}
 enable-stale-production = false
