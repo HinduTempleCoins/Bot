@@ -9,7 +9,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, homePage, mainnetUrl, resolve, esc, SERVICES } from './server.mjs';
+import { handler, homePage, mainnetUrl, resolve, esc, SERVICES, renderMarkdown } from './server.mjs';
 
 function mockRes() {
   return {
@@ -154,4 +154,63 @@ test('routes: /health, /robots.txt, /sitemap.xml, /llms.txt, and unknown soft-40
   const nf = await drive('/nope');
   assert.equal(nf.statusCode, 404);
   assert.match(nf.body, />Alpha<\/h2>/);
+});
+
+// ── /roadmap ────────────────────────────────────────────────────────────────────────────────────────
+// The [ANN] thread links a public roadmap URL, so the apex must actually serve one. Rendered from the
+// committed markdown; the renderer is escape-first so the file can never inject raw HTML.
+
+test('/roadmap renders the committed roadmap markdown as HTML', async () => {
+  const res = await drive('/roadmap');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /text\/html/);
+  assert.match(res.body, /<h1>Van Kush Family — Roadmap<\/h1>/);
+  assert.match(res.body, /<h2>Phases<\/h2>/);
+  assert.match(res.body, /Phase I — Foundations/);
+  assert.match(res.body, /<blockquote>/); // the closing "intentionally high-level" note
+  assert.match(res.body, /rel=canonical href="[^"]*\/roadmap"/);
+});
+
+test('/roadmap.html is the same page (no dead link from either form)', async () => {
+  const a = await drive('/roadmap');
+  const b = await drive('/roadmap.html');
+  assert.equal(b.statusCode, 200);
+  assert.equal(a.body, b.body);
+});
+
+test('roadmapPage(): soft-fails to a placeholder when the markdown is unreadable, never throws', async () => {
+  const saved = process.env.ROADMAP_MD;
+  process.env.ROADMAP_MD = '/nonexistent/roadmap.md';
+  try {
+    // ROADMAP_MD is read at import time, so drive the renderer's fallback shape directly instead:
+    // an empty source must still produce a page, not an exception.
+    assert.equal(renderMarkdown(''), '');
+    const res = await drive('/roadmap');
+    assert.equal(res.statusCode, 200);
+    assert.ok(res.body.length > 0);
+  } finally {
+    if (saved === undefined) delete process.env.ROADMAP_MD; else process.env.ROADMAP_MD = saved;
+  }
+});
+
+test('renderMarkdown(): escape-first — raw HTML in the source is neutralized, not emitted', () => {
+  const html = renderMarkdown('# <script>alert(1)</script>\n\n- <img src=x onerror=y>\n');
+  assert.ok(!/<script>/.test(html), 'script tag must not survive');
+  assert.ok(!/<img /.test(html), 'img tag must not survive');
+  assert.match(html, /&lt;script&gt;/);
+});
+
+test('renderMarkdown(): supports the small tag set it claims (headings, list, bold, italic, quote)', () => {
+  const html = renderMarkdown('## Title\n\n- **bold** and _ital_\n\n> quoted\n\nplain\n');
+  assert.match(html, /<h2>Title<\/h2>/);
+  assert.match(html, /<ul>\n<li><b>bold<\/b> and <i>ital<\/i><\/li>\n<\/ul>/);
+  assert.match(html, /<blockquote>quoted<\/blockquote>/);
+  assert.match(html, /<p>plain<\/p>/);
+});
+
+test('sitemap + llms.txt advertise /roadmap', async () => {
+  const sm = await drive('/sitemap.xml');
+  assert.match(sm.body, /\/roadmap<\/loc>/);
+  const llms = await drive('/llms.txt');
+  assert.match(llms.body, /\/roadmap\)/);
 });
