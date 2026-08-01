@@ -33,6 +33,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
 import * as poolStatsMod from '../../integrations/pool-stats.mjs';
+import { readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
 
 const PORT = +(process.env.PORT || 8108);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -70,7 +71,7 @@ function hr(h) {
   return `${x.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${units[i]}`;
 }
 
-const STYLE = `<style>
+const STYLE = `<style>${DOC_STYLE}
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950;--down:#f85149}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
@@ -132,7 +133,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -605,6 +606,19 @@ function sendHtml(res, html, code = 200) {
 }
 
 // ── /academy — Token Academy: build a curation-reward network ──────────────────────────────────────
+// ── /whitepaper — the MELEK whitepaper, rendered from the committed markdown ────────────────────────
+// Same source file the apex serves, through the same shared escape-first renderer, so the two hosts
+// can never show different whitepapers. Operator ask 2026-08-01: it belongs on Witness School too.
+const WHITEPAPER_MD = process.env.WHITEPAPER_MD || new URL('../melek-whitepaper.md', import.meta.url).pathname;
+
+export async function whitepaperPage() {
+  const body = await readDoc(WHITEPAPER_MD, { title: 'MELEK Whitepaper', missing: 'The whitepaper is being updated. Check back shortly.' });
+  return page('MELEK Whitepaper — Witness School', `<section class=doc>${body}</section>`, {
+    canonical: `${BASE_URL}/whitepaper`,
+    description: 'The MELEK whitepaper: an AI-native blockchain community — the chain, the AI founding witness, key custody, governance and economics, and why the project is built to be forkable.',
+  });
+}
+
 export function academyPage() {
   const body = `<h1>Token Academy <span class=muted style="font-size:14px">· build your own curation-reward network</span></h1>
   <p class=lead>A witness produces blocks. A <b>curation-reward network</b> does something bigger: it gathers a
@@ -768,7 +782,7 @@ shared-file-dir = "blockchain"</pre>
   return page('Run a MELEK Witness — mainnet is live', body, { canonical: `${BASE_URL}/run`, description: 'How to run a MELEK mainnet witness: chain id, seed node, build the node (BUILD_STEEM_TESTNET=OFF), config.ini, register your witness, and get voted into the producing set. MELEK genesis fired 7:12 CDT 7/12/2026 — no premine.' });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -811,6 +825,7 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
+    if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
