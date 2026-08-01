@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, runPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -347,4 +347,27 @@ test('/pool leads with create-your-wallet-here (non-custodial, spend-lock, Akash
   assert.match(html, /never leaves your browser/);
   assert.match(html, /spend-lock/);
   assert.match(html, /Akasha/);
+});
+
+// ---------------------------------------------------------------------------
+// /run — the seed node a prospective witness actually dials
+// ---------------------------------------------------------------------------
+// Regression: /run advertised p2p port 2001, which on that host belongs to a different chain's node
+// and refuses MELEK peers — every reader following the recipe hit a dead end at the sync step.
+test('/run advertises the MELEK p2p seed port (2003), never 2001', () => {
+  const html = runPage();
+  assert.match(html, /:2003/, 'must advertise the MELEK p2p port');
+  assert.ok(!/:2001/.test(html), 'must not advertise 2001 — that is another chain on the same host');
+});
+
+test('/run shows the mainnet chain id and is overridable by env', () => {
+  const html = runPage();
+  assert.match(html, /907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b/);
+  const saved = process.env.MELEK_SEED_NODE;
+  process.env.MELEK_SEED_NODE = 'seed.example:2003';
+  try {
+    assert.match(runPage(), /seed\.example:2003/);
+  } finally {
+    if (saved === undefined) delete process.env.MELEK_SEED_NODE; else process.env.MELEK_SEED_NODE = saved;
+  }
 });
