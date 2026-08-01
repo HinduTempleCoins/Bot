@@ -50,6 +50,12 @@ import {
 } from '../../integrations/passkey-store.mjs';
 import { robotsTxtDisallowAll } from '../../integrations/soapbox/crawlers.mjs';
 import { verifyPassword } from '../../integrations/soapy-password-auth.mjs';
+// The Soapy program limbs — code-complete + tested, mounted here behind the admin gate. Each handler
+// is fail-closed on its own __setAuth; we point that at requireAdmin so it 401s without a session even
+// if a route is ever reordered above the gate.
+import { handler as apiPanelHandler, __setAuth as apiPanelAuth } from '../../integrations/soapy-api-panel.mjs';
+import { handler as hathorChatHandler, __setAuth as hathorChatAuth } from '../../integrations/soapy-hathor-chat.mjs';
+import { handler as telegramPanelHandler, __setAuth as telegramPanelAuth } from '../../integrations/soapy-telegram-panel.mjs';
 
 // Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
 // CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
@@ -151,6 +157,9 @@ function layout({ title = 'Admin', body = '', nav = true } = {}) {
   const navHtml = nav ? `<header>
     <strong>Soapy.blog · Admin</strong>
     <a href="/">Dashboard</a>
+    <a href="/chat">Hathor</a>
+    <a href="/api-panel">APIs</a>
+    <a href="/soapy">Soapy</a>
     <a href="/hud">HUD</a>
     <a href="/trade">Trade</a>
     <a href="/chains">Chains</a>
@@ -996,6 +1005,13 @@ export async function handle(req, res) {
     }
     const email = gate.email;
 
+    // ---- Soapy program limbs (all past the admin gate) ----
+    // #22 Hathor.live brain chat, #23 coding-AI API picker + quota, #26 Telegram-Soapy on the web.
+    // Each handler reads req.url and serves its own canonical paths + POST endpoints.
+    if (p === '/chat' || p === '/chat/send') return hathorChatHandler(req, res);
+    if (p === '/api-panel') return apiPanelHandler(req, res);
+    if (p === '/soapy' || p === '/soapy/run') return telegramPanelHandler(req, res);
+
     if (p === '/logout' && method === 'GET') {
       const clear = IS_HTTPS
         ? `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0; Secure`
@@ -1170,6 +1186,13 @@ export async function handle(req, res) {
     res.end('error: ' + (e?.message || String(e)));
   }
 }
+
+// Point each Soapy limb's fail-closed gate at the portal's own admin check, so the limbs are
+// self-protecting (401 without a valid admin session) regardless of route order.
+const _adminOk = (req) => { try { return requireAdmin(req).ok; } catch { return false; } };
+apiPanelAuth(_adminOk);
+hathorChatAuth(_adminOk);
+telegramPanelAuth(_adminOk);
 
 // ── boot (only when run directly) ────────────────────────────────────────────────────────────────
 if (process.argv[1] && process.argv[1].endsWith('site/admin/server.mjs')) {
