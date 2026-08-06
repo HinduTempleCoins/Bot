@@ -176,6 +176,68 @@ export async function settleEpoch(epoch, deps = {}, opts = {}) {
 }
 const idOf = (r) => (!r ? true : typeof r === 'string' ? r : (r.id || r.trx_id || r.block_num || true));
 
+// ── HF25 attester path: the CHAIN pays walkers from the "move" reward fund (no hathor transfer) ───────
+// After the HF25 gate, the move fund is drained ONLY by a `move_pay` custom_json the attester (hathor)
+// broadcasts per closed hour: { epoch, pay: [[acct, weightInt], ...] }, signed by hathor's ACTIVE key.
+// The chain draws a capped slice (150 MELEK/epoch), splits it pro-rata by weight straight to liquid
+// balance, and advances a monotonic epoch guard. So off-chain we only supply integer walk-weights.
+
+/**
+ * Build the `move_pay` payload for a CLOSED epoch — the per-walker walk-weights the chain splits.
+ * Weights are ROUNDED to integers (the chain reads them as uint64); invalid names + zero-weight rows
+ * are dropped; rows are sorted for a deterministic op. PURE — no broadcast, no marking settled.
+ * @returns {{epoch:number, pay:[string,number][], totalWeight:number, claims:number}}
+ */
+export function buildMovePay(epoch, opts = {}) {
+  const store = loadStore(opts.fs || realFs, opts.file || DATA_FILE());
+  const bucket = store.epochs[epoch];
+  const pay = [];
+  if (bucket) for (const [acct, w] of Object.entries(bucket.weights)) {
+    const wi = Math.round(Number(w));
+    if (validAccountName(acct) && Number.isFinite(wi) && wi > 0) pay.push([acct, wi]);
+  }
+  pay.sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  return { epoch: Number(epoch), pay, totalWeight: pay.reduce((s, r) => s + r[1], 0), claims: pay.length };
+}
+
+/**
+ * Settle a CLOSED epoch via the HF25 attester path: broadcast ONE `move_pay` custom_json (the chain
+ * pays each walker their pro-rata slice of a capped draw from the "move" fund — no hathor liquid spent).
+ * Idempotent: a locally-settled epoch, an empty epoch, or one the chain already advanced past is a
+ * no-op. Soft-fails to a report; a failed broadcast leaves the hour OPEN for the next run.
+ *
+ * @param {number} epoch
+ * @param {object} deps  { broadcastMovePay({epoch, pay}) -> result }  signs with the attester ACTIVE key
+ * @param {object} [opts] { fs, file, now, force }
+ * @returns {Promise<{ok, epoch, settled, claims, totalWeight, pay, id?, errors?}>}
+ */
+export async function settleEpochViaAttester(epoch, deps = {}, opts = {}) {
+  const fs = opts.fs || realFs;
+  const file = opts.file || DATA_FILE();
+  const cur = epochNow(opts.now);
+  if (!opts.force && Number(epoch) >= cur) return { ok: false, epoch, reason: 'epoch not closed yet (still accruing)' };
+
+  const store = loadStore(fs, file);
+  const bucket = store.epochs[epoch];
+  if (!bucket) return { ok: true, epoch, settled: true, claims: 0, totalWeight: 0, pay: [], note: 'no activity this epoch' };
+  if (bucket.settled) return { ok: true, epoch, settled: true, alreadySettled: true, claims: 0, totalWeight: 0, pay: [] };
+
+  const { pay, totalWeight, claims } = buildMovePay(epoch, { fs, file });
+  if (pay.length === 0) { bucket.settled = true; saveStore(fs, file, store); return { ok: true, epoch, settled: true, claims: 0, totalWeight: 0, pay: [], note: 'no payable walkers (all dust/invalid)' }; }
+  if (typeof deps.broadcastMovePay !== 'function') return { ok: false, epoch, settled: false, claims, totalWeight, pay, errors: ['no broadcastMovePay dep — cannot settle'] };
+
+  try {
+    const r = await deps.broadcastMovePay({ epoch: Number(epoch), pay });
+    bucket.settled = true; saveStore(fs, file, store);
+    return { ok: true, epoch, settled: true, claims, totalWeight, pay, id: idOf(r) };
+  } catch (e) {
+    const msg = String((e && e.message) || e);
+    // idempotent: if the chain already advanced past this epoch, someone already settled it — mark done.
+    if (/already settled/i.test(msg)) { bucket.settled = true; saveStore(fs, file, store); return { ok: true, epoch, settled: true, alreadySettled: true, claims, totalWeight, pay, note: 'chain already past this epoch' }; }
+    return { ok: false, epoch, settled: false, claims, totalWeight, pay, errors: [msg.slice(0, 160)] };
+  }
+}
+
 // ── CLI: inspect / settle (settle prints a DRY plan unless a real transfer is wired on the host) ─────
 if (process.argv[1] && process.argv[1].endsWith('move-ledger.mjs')) {
   const [cmd, arg] = process.argv.slice(2);
