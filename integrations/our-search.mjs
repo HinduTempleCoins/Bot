@@ -35,6 +35,17 @@ function rankNorm(list) {
 // a missing/broken module is just an empty source, never a crash.
 function defaultSources() {
   return {
+    // the MELEK chain itself — posts + accounts, so "find things on MELEK" actually finds on-chain content
+    melek: async (q, { k = 8 } = {}) => {
+      try {
+        const { searchMelek } = await import('./melek-chain-search.mjs');
+        const hits = await searchMelek(q, { k });
+        return (hits || []).map((h) => ({
+          source: 'melek', domain: h.kind, title: h.title, link: h.link,
+          snippet: h.snippet, score: h.score,
+        }));
+      } catch { return []; }
+    },
     library: async (q, { domain = null, k = 6 } = {}) => {
       try {
         const { catalogLookup } = await import('./library-index.mjs');
