@@ -208,6 +208,12 @@ async function webSearch(q) {
 async function siteRows(q) {
   const ql = q.toLowerCase();
   const out = [];
+  // MELEK chain — posts + accounts (so "search MELEK" finds on-chain content, linked to melek.salon)
+  try {
+    const { searchMelek } = await import('../../integrations/melek-chain-search.mjs');
+    for (const h of await searchMelek(q, { k: 8 }))
+      out.push({ title: h.title, url: h.link, snippet: h.snippet, tag: h.kind === 'account' ? 'MELEK account' : 'MELEK' });
+  } catch {}
   // Library / wiki
   try {
     const r = await fetch(`${WIKI}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(8000) });
