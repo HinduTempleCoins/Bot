@@ -234,9 +234,13 @@ export async function complete(prompt, opts = {}) {
     const provider = PROVIDER_BY_NAME[name];
     if (!provider) continue;
     const key = provider.keyless ? '' : process.env[provider.env];
-    if (!provider.keyless && !key) {
-      attempts.push({ provider: name, skipped: 'no-key' });
-      log(`[llm-router] ${name}: skipped (key absent)`);
+    // Enforce the gate at the ACTION: no path (prefer / tail / head) may CALL an unusable provider —
+    // key absent, or metered Gemini without LLM_ALLOW_GEMINI=1. providerUsable() is the single source
+    // of truth, so the $0 hard-pin holds even when a caller passes { prefer:'gemini' }.
+    if (!providerUsable(provider)) {
+      const why = (!provider.keyless && !key) ? 'no-key' : 'gated-off';
+      attempts.push({ provider: name, skipped: why });
+      log(`[llm-router] ${name}: skipped (${why})`);
       continue;
     }
     try {
