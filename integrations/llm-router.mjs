@@ -93,6 +93,10 @@ const TASK_ORDERS = {
  * key present. Used by the ladder to skip dead rungs and by availableProviders() for reporting.
  */
 function providerUsable(p) {
+  // $0 HARD-PIN: Gemini is the ONLY metered provider (it bills once its free quota is spent). It is
+  // OFF by default and only usable when the operator explicitly opts in with LLM_ALLOW_GEMINI=1.
+  // The keyless Pollinations backstop still guarantees the ladder always resolves, so nothing breaks.
+  if (p.name === 'gemini' && process.env.LLM_ALLOW_GEMINI !== '1') return false;
   return p.keyless ? true : Boolean(process.env[p.env]);
 }
 
