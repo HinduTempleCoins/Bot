@@ -7,7 +7,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { complete, availableProviders, PROVIDERS, __resetRotation } from './llm-router.mjs';
 
-const ENV_KEYS = PROVIDERS.map((p) => p.env).filter(Boolean); // keyless providers have env:null
+// provider key envs + the LLM_ALLOW_GEMINI gate flag, so withEnv fully isolates each test (the gate
+// flag must be cleared/restored too or a test that opts Gemini in would leak into later tests).
+const ENV_KEYS = [...PROVIDERS.map((p) => p.env).filter(Boolean), 'LLM_ALLOW_GEMINI'];
 
 function withEnv(overrides, fn) {
   const saved = {};
@@ -167,11 +169,11 @@ test('total failure returns {text:"", error} and never throws', async () => {
   const orig = global.fetch;
   global.fetch = scriptedFetch([{ status: 500, body: 'boom' }]);
   try {
-    await withEnv({ GEMINI_API_KEY: 'k' }, async () => {
+    await withEnv({ GEMINI_API_KEY: 'k', LLM_ALLOW_GEMINI: '1' }, async () => {
       const res = await complete('hi');
       assert.equal(res.text, '');
       assert.match(res.error, /all providers failed/);
-      // gemini is now a tail backstop (not attempts[0]); assert the gemini attempt is what errored.
+      // gemini is opted-in here (tail backstop); assert the gemini attempt is what errored.
       assert.equal(res.attempts.find((a) => a.provider === 'gemini').error, 'HTTP 500');
     });
   } finally {
@@ -183,7 +185,7 @@ test('gemini path parses candidates shape', async () => {
   const orig = global.fetch;
   global.fetch = scriptedFetch([{ status: 200, body: geminiBody('gemini text') }]);
   try {
-    await withEnv({ GEMINI_API_KEY: 'k' }, async () => {
+    await withEnv({ GEMINI_API_KEY: 'k', LLM_ALLOW_GEMINI: '1' }, async () => {
       const res = await complete('hi', { prefer: 'gemini' });
       assert.equal(res.provider, 'gemini');
       assert.equal(res.text, 'gemini text');
@@ -253,4 +255,17 @@ test('keyed provider still wins over keyless backstop when a key is present', as
   } finally {
     global.fetch = orig;
   }
+});
+
+test('$0 gate holds even with prefer:gemini — the metered provider is never CALLED', async () => {
+  const orig = global.fetch;
+  await withEnv({ GEMINI_API_KEY: 'secret-xyz' }, async () => {
+    global.fetch = scriptedFetch([{ status: 200, body: openaiBody('from keyless backstop') }]);
+    const r = await complete('hi', { prefer: 'gemini' });
+    const g = r.attempts.find((a) => a.provider === 'gemini');
+    assert.equal(g?.skipped, 'gated-off');  // gemini gated off → skipped at the action, not called
+    assert.notEqual(r.provider, 'gemini');  // a free/keyless provider answered — never the metered one
+    assert.ok(!r.attempts.some((a) => a.provider === 'gemini' && a.ok)); // gemini never actually called
+  });
+  global.fetch = orig;
 });
