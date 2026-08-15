@@ -38,8 +38,8 @@ test('all five forward phases plus the soon-after block are present', () => {
   const html = homePage();
   // Phase 0 shipped, Day 0, after-Day-0, PRANA, SOAP, Beyond
   assert.match(html, /Phase 0 — Already shipped/);
-  assert.match(html, /Day 0 — MELEK mainnet launch/);
-  assert.match(html, /Soon after Day 0/);
+  assert.match(html, /Day 0 — MELEK mainnet — LIVE/); // MELEK launched 2026-07-12 — shipped, not "launch (next)"
+  assert.match(html, /MELEK maturing/);
   assert.match(html, /PRANA — useful-work chain/);
   assert.match(html, /SOAP — the Beauty Economy/);
   assert.match(html, /Beyond/);
@@ -53,7 +53,8 @@ test('PHASES data has exactly the six expected phases in order', () => {
   assert.equal(PHASES.length, 6);
   assert.deepEqual(PHASES.map((p) => p.id), ['shipped', 'day0', 'after-day0', 'prana', 'soap', 'beyond']);
   assert.equal(PHASES[0].kind, 'shipped'); // Phase 0 node styled as shipped
-  assert.equal(PHASES[1].kind, 'now'); // Day 0 node styled as "now"
+  assert.equal(PHASES[1].kind, 'shipped'); // Day 0 (MELEK) is now LIVE — shipped
+  assert.equal(PHASES[2].kind, 'now'); // "MELEK maturing" is the current now-node
 });
 
 test('shipped milestones carry a shipped badge; later milestones carry planned/progress', () => {
@@ -72,11 +73,11 @@ test('Phase 0 only contains shipped milestones (honesty: live, not merely built)
   }
 });
 
-test('gated/code-complete chain work is NOT marked shipped/done', () => {
-  // Day 0 MELEK launch is gated on the live chain — must be planned or in-progress, never shipped/done.
-  const day0 = PHASES.find((p) => p.id === 'day0');
-  for (const m of day0.milestones) {
-    assert.ok(['planned', 'progress'].includes(m.status), `Day 0 milestone "${m.title}" must not be shipped/done`);
+test('gated/not-yet-built chain work is NOT marked shipped/done', () => {
+  // MELEK (Day 0) is live now. SOAP is the still-gated chain — its milestones must never be shipped/done.
+  const soap = PHASES.find((p) => p.id === 'soap');
+  for (const m of soap.milestones) {
+    assert.ok(['planned', 'progress'].includes(m.status), `SOAP milestone "${m.title}" must not be shipped/done`);
   }
 });
 
@@ -90,8 +91,8 @@ test('known shipped milestones appear', () => {
 test('known forward milestones appear', () => {
   const html = homePage();
   assert.match(html, /MELEK chain live · Hathor produces blocks/);
-  assert.match(html, /Conversational Hathor turns on/);
-  assert.match(html, /PRANA mainnet launch/);
+  assert.match(html, /Conversational Hathor/);
+  assert.match(html, /PRANA public network live/);
   assert.match(html, /SOAP chain launch/);
 });
 
