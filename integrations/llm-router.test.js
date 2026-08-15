@@ -46,7 +46,7 @@ function geminiBody(text) {
 test('availableProviders reports booleans only (no key values)', async () => {
   await withEnv({ GEMINI_API_KEY: 'secret-xyz', GROQ_API_KEY: 'gsk_secret' }, () => {
     const a = availableProviders();
-    assert.equal(a.gemini, true);
+    assert.equal(a.gemini, false); // $0 hard-pin: metered Gemini is OFF unless LLM_ALLOW_GEMINI=1
     assert.equal(a.groq, true);
     assert.equal(a.openrouter, false);
     assert.equal(a.github, false);
@@ -54,6 +54,10 @@ test('availableProviders reports booleans only (no key values)', async () => {
     const blob = JSON.stringify(a);
     assert.ok(!blob.includes('secret'));
     assert.ok(!blob.includes('gsk_'));
+  });
+  // the opt-in flag re-enables the metered provider (key still required)
+  await withEnv({ GEMINI_API_KEY: 'secret-xyz', LLM_ALLOW_GEMINI: '1' }, () => {
+    assert.equal(availableProviders().gemini, true);
   });
 });
 
