@@ -17,7 +17,8 @@
 //   HONEST: where a module is "built but not live," it is shown as PLANNED / IN-PROGRESS, not shipped.
 //   We claim only the genuinely-live public surface (data.soapbox + verticals + Discord/Telegram +
 //   soapy.blog) as DONE. esc() on every interpolated value. Soft-fail: the page is static, never throws.
-//   This is a DRAFT for operator review — not deployed.
+//   LIVE at vankushfamily.com. Kept current with the real public surface — updated post-MELEK-launch
+//   (2026-07-12): the MELEK chain, condenser, onboarder and witness school are shipped, not planned.
 
 import { createServer } from 'node:http';
 
@@ -101,7 +102,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
-  <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">Day&nbsp;0</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
+  <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -159,39 +160,40 @@ export const PHASES = [
   },
   {
     id: 'day0',
-    kind: 'now',
-    title: 'Day 0 — MELEK mainnet launch',
-    when: 'next',
-    desc: 'The launch cluster. Most of this is code-complete and unblocks together the moment the MELEK chain goes live — Day 0 is a cluster-launch, not a long sequence.',
+    kind: 'shipped',
+    title: 'Day 0 — MELEK mainnet — LIVE',
+    when: 'shipped · 12 July 2026',
+    desc: 'Day 0 happened. The MELEK chain launched with no premine, and the launch cluster came online together — the witness, the condenser, onboarding and the publisher are all public now.',
     milestones: [
-      { status: 'planned', title: 'MELEK chain live · Hathor produces blocks', detail: 'The founding AI witness, Hathor, begins producing blocks publicly. Witness software is built; this turns on at launch.' },
-      { status: 'planned', title: 'Public condenser over MELEK', detail: 'The community front-end goes up over the live chain — the BLURT-feed-over-MELEK condenser already proven in testing, made public.' },
-      { status: 'planned', title: 'On-chain Publisher', detail: "Hathor's library articles post on-chain as standard comments — the corpus written into the public record." },
-      { status: 'planned', title: 'On-chain Onboarder', detail: 'Guided signup with delegated account creation and email verification, so newcomers can join the chain with help.' },
-      { status: 'progress', title: 'Public Wiki', detail: 'A public wiki stands up and is populated from the corpus. The library vertical is live today; the full public wiki is the next step.' },
-      { status: 'progress', title: 'Civic & data verticals to front-of-house', detail: 'Built-but-staged civic and consumer-safety readers flip public to carry launch traffic alongside the live data verticals.' },
+      { status: 'shipped', title: 'MELEK chain live · Hathor produces blocks', detail: 'The founding AI witness, Hathor, produces blocks on the public MELEK mainnet, alongside a full set of community-run witnesses keeping the chain final.' },
+      { status: 'shipped', title: 'Public condenser over MELEK', detail: 'melek.salon is live: the community front-end runs real feeds, profiles, posting, upvotes, notifications and wallets over the MELEK chain.' },
+      { status: 'shipped', title: 'On-chain Publisher', detail: "Hathor's articles and updates post on-chain as standard comments — the corpus written into the public record." },
+      { status: 'shipped', title: 'On-chain Onboarder', detail: 'Guided signup with delegated account creation, email verification and a staged tutorial is live — newcomers join the chain with help.' },
+      { status: 'shipped', title: 'Witness School', detail: 'A public school that teaches people to run and vote for witnesses is live, with a live Hathor status page and a CryptoKannon-style tutor.' },
+      { status: 'progress', title: 'Public Wiki', detail: 'The searchable knowledge corpus and library are live; a fuller public wiki is being populated from them.' },
     ],
   },
   {
     id: 'after-day0',
-    title: 'Soon after Day 0 — MELEK maturing',
-    when: 'next',
-    desc: 'Once the chain is live and stable, the witness becomes a full member rather than a block producer.',
+    kind: 'now',
+    title: 'MELEK maturing — now',
+    when: 'now',
+    desc: 'The chain is live and stable; the witness is becoming a full member rather than only a block producer.',
     milestones: [
-      { status: 'planned', title: 'Conversational Hathor turns on', detail: 'The full Witness persona answers live — teaching the corpus, welcoming people, and participating as a member, not a tool.' },
-      { status: 'planned', title: 'On-chain Curator', detail: 'Community karma signals become on-chain votes, surfacing and rewarding good work.' },
-      { status: 'progress', title: 'Cheetah fair-attribution flow', detail: "Cheetah's resolution flow goes live alongside Hathor: credit first, point you to the shelf, resolve attribution fairly." },
+      { status: 'progress', title: 'Conversational Hathor', detail: 'Hathor already answers on community surfaces; the full Witness persona — teaching the corpus and welcoming people as a member, not a tool — is being brought online.' },
+      { status: 'progress', title: 'On-chain Curator', detail: 'Community karma signals feed on-chain curation votes that surface and reward good work; auto-curation is running and being tuned.' },
+      { status: 'shipped', title: 'Cheetah fair-attribution', detail: 'The credit-first librarian runs alongside Hathor: credit first, point you to the shelf, resolve attribution fairly.' },
     ],
   },
   {
     id: 'prana',
     title: 'PRANA — useful-work chain',
-    when: 'later · soon after MELEK',
-    desc: 'An EVM chain built around useful work and compute. The plumbing — adapters, wallet, token factory — is already built; the chain launch lights it up.',
+    when: 'next',
+    desc: 'An EVM chain built around useful work and compute. Public infrastructure — RPC, a web wallet, and a block explorer — is already live; a fair-launch mainnet and the compute layer light up the rest.',
     milestones: [
-      { status: 'planned', title: 'PRANA mainnet launch', detail: 'The useful-work / compute chain goes live: token factory, an AMM/DEX, and a GPU/useful-work compute layer.' },
-      { status: 'progress', title: 'DeFi tools + value rails', detail: 'Wallet, swap and grant rails connect PRANA value to the existing SoapBox data and games surfaces. Adapters built; they activate with the chain.' },
-      { status: 'planned', title: 'Public forums', detail: 'Dedicated community forums stand up as the PRANA-era community grows. Discord remains the live community in the interim.' },
+      { status: 'progress', title: 'PRANA public network live', detail: 'A public PRANA network with an RPC endpoint, a web wallet and a block explorer is live, and MetaMask connects to it. A fair-launch mainnet is next.' },
+      { status: 'progress', title: 'KulaSwap DeFi + value rails', detail: 'KulaSwap — a DEX/AMM with swaps, farms and collateral — is live in alpha; wallet, swap and grant rails connect PRANA value to the SoapBox surfaces.' },
+      { status: 'planned', title: 'Compute / useful-work layer', detail: 'The GPU / useful-work compute layer that gives PRANA its purpose — the way the AI brain earns the compute it runs on.' },
     ],
   },
   {
@@ -211,8 +213,8 @@ export const PHASES = [
     when: 'open',
     desc: 'Open direction, to be shaped with the community.',
     milestones: [
-      { status: 'planned', title: 'Mobile + browser extension', detail: 'Participation off the desk: a mobile app and a browser extension so members can take part anywhere.' },
-      { status: 'planned', title: 'Multilingual community surfaces', detail: 'Kurdish-language and other multilingual community surfaces, opening the work to more people.' },
+      { status: 'progress', title: 'Mobile + browser extension', detail: 'Participation off the desk: a native mobile app (in build) and a browser extension so members can take part anywhere.' },
+      { status: 'progress', title: 'Multilingual community surfaces', detail: 'In-page translation is live on community surfaces; Kurdish-language and other multilingual fronts open the work to more people.' },
       { status: 'planned', title: 'Cross-chain expansion + deeper analytics', detail: 'New purpose-built chains plug into the live ecosystem, with deeper analytics across the network.' },
     ],
   },
@@ -233,10 +235,11 @@ export function homePage() {
     ${legend}
     <div class=card style="margin-top:14px">
       <h2>Now → Next → Later</h2>
-      <p class=muted style="font-size:14px"><b>Now:</b> the SoapBox data network, the community bots, and the
-        AI members are live. <b>Next:</b> Day 0 launches the MELEK chain and brings the witness, condenser,
-        publisher and onboarder online together. <b>Later:</b> the PRANA useful-work chain and the SOAP
-        Beauty Economy extend the ecosystem.</p>
+      <p class=muted style="font-size:14px"><b>Now:</b> the MELEK chain is live — Hathor produces blocks, the
+        melek.salon condenser carries real feeds, posts, upvotes and wallets, onboarding and the publisher are
+        public, and the SoapBox data network and AI members run alongside. <b>Next:</b> conversational Hathor
+        and on-chain curation mature, and the PRANA useful-work chain brings its wallet, DEX and compute layer
+        to a fair-launch mainnet. <b>Later:</b> the SOAP Beauty Economy extends the ecosystem.</p>
     </div>
     ${PHASES.map(phase).join('')}
     <blockquote><b>Durability.</b> The character and the corpus live in public records, so the project
