@@ -54,7 +54,8 @@ test('keysFileText carries the testnet label and the login pointer', async () =>
   const keys = await keysFromLogin('u', 'Px');
   const txt = keysFileText('u', 'Px', keys);
   assert.match(txt, /\[TestNet not MELEK\]/);
-  assert.match(txt, /Master password: {2}Px/);
+  // password on its own line (so copying it from the file can't grab the surrounding hint text)
+  assert.match(txt, /Master password \(log in with this\)[^\n]*\nPx\n/);
   assert.match(txt, /owner private key/);
 });
 
@@ -109,12 +110,14 @@ test('gate: exact password but NOT delivered stays disabled (no skip path)', () 
   assert.equal(canCreate(s, pw), false, 'match without download/copy is still closed');
 });
 
-test('gate: match is exact (no trim, case-sensitive) and empty never matches', () => {
+test('gate: surrounding whitespace is forgiven, but the chars must be exact (case-sensitive)', () => {
   const pw = 'P5JsecretCase';
   let s = markDelivered(newGateState());
-  assert.equal(canCreate(setConfirmInput(s, ' P5JsecretCase '), pw), false, 'whitespace differs');
-  assert.equal(canCreate(setConfirmInput(s, 'p5jsecretcase'), pw), false, 'case differs');
+  assert.equal(canCreate(setConfirmInput(s, ' P5JsecretCase \n'), pw), true, 'trailing/leading whitespace from paste is forgiven');
+  assert.equal(canCreate(setConfirmInput(s, 'p5jsecretcase'), pw), false, 'case still differs');
+  assert.equal(canCreate(setConfirmInput(s, 'P5JsecretCasX'), pw), false, 'a wrong char still fails');
   assert.equal(confirmMatches(setConfirmInput(newGateState(), ''), ''), false, 'empty never matches');
+  assert.equal(confirmMatches(setConfirmInput(newGateState(), '   '), pw), false, 'whitespace-only never matches');
 });
 
 test('gate: gateReason explains why the gate is closed, then is empty when open', () => {

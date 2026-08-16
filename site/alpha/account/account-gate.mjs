@@ -21,9 +21,16 @@ export function setConfirmInput(state, value) {
   return { ...state, confirmInput: String(value ?? '') };
 }
 
-/** The confirm field matches the real master password exactly (no trim — exactness matters). */
+/**
+ * The confirm field matches the real master password. Leading/trailing whitespace is forgiven: pasting
+ * from the saved keys file or a password manager routinely carries a trailing space or newline, which
+ * was making legitimate re-entries "not match" and blocking signup. The 52 real characters must still be
+ * exactly right — only surrounding whitespace is trimmed.
+ */
 export function confirmMatches(state, password) {
-  return state.confirmInput === String(password ?? '') && String(password ?? '').length > 0;
+  const typed = String(state.confirmInput ?? '').trim();
+  const real = String(password ?? '').trim();
+  return typed === real && real.length > 0;
 }
 
 /**

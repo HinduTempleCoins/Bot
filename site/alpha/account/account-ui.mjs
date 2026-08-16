@@ -143,7 +143,9 @@ export function keysFileText(name, password, keys) {
     `Generated in your browser; the server never saw the private lines.`,
     ``,
     `Account:          ${name}`,
-    `Master password:  ${password}   <-- log in with this`,
+    ``,
+    `Master password (log in with this) — copy the line below by itself:`,
+    `${password}`,
     ``,
     ...ROLES.flatMap((r) => [
       `${r} private key:  ${keys[r].wif}`,
