@@ -44,6 +44,11 @@ const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
 // each chain). Override with LIBRARY_URL if the wiki moves.
 const LIBRARY = (process.env.LIBRARY_URL || 'https://wiki.soapbox.community').replace(/\/$/, '');
 const libArticle = (slug, label) => `<a href="${esc(`${LIBRARY}/wiki/${slug}`)}">${esc(label)}</a>`;
+// Where the "do this to earn/contribute" modules point. Docs site + token portal + the wiki's own
+// contribute/edit entry. Overridable so they can move without touching module copy.
+const DOCS = (process.env.DOCS_URL || 'https://docs.melek.salon').replace(/\/$/, '');
+const TOKENS_PORTAL = (process.env.TOKENS_URL || 'https://tokens.alpha.melek.salon').replace(/\/$/, '');
+const WIKI_CONTRIBUTE = process.env.WIKI_CONTRIBUTE_URL || `${LIBRARY}/wiki/Special:CreateAccount`;
 const TUTORIAL = process.env.TUTORIAL_SITE || `${ALPHA}/tutorial`;
 const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
@@ -87,6 +92,7 @@ const STYLE = `<style>${DOC_STYLE}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
   .sec{display:block;border:1px solid var(--line2);border-radius:10px;padding:16px 18px;background:var(--panel)}
   .sec:hover{border-color:var(--blue);text-decoration:none} .sec .t{font-weight:700;font-size:16px;color:var(--fg)} .sec .d{color:var(--mut);font-size:13px;margin-top:4px}
+  .sec a.t{color:var(--fg);text-decoration:none} .sec a.t:hover{color:var(--blue)} .sec .d a{color:var(--blue)} .sec .ref{font-size:12px;margin-top:8px;opacity:.72}
   .steps{counter-reset:step;list-style:none;padding:0;margin:6px 0}
   .steps li{counter-increment:step;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--line)}
   .steps li:last-child{border-bottom:0}
@@ -140,21 +146,29 @@ ${FOOTER}</body></html>`;
 
 // ── / — WITNESS SCHOOL home ────────────────────────────────────────────────────────────────────
 export function homePage() {
-  const sections = [
-    ['/learn', 'Learn the systems', 'How rewards, curation trails, tokens, the AutoNetwork bots, and the cross-chain Karma system actually work — and how our witnesses give back to the community, not just collect rewards.'],
-    ['/academy', 'Token Academy', 'Build your own curation-reward network: a community token, curation and token trails, keyless autovote, and fair rewards to the members who curate — the model, plus the steps to stand one up on MELEK.'],
-    ['/run', 'Run a witness — mainnet is live', 'MELEK mainnet fired 7:12 CDT 7/12/2026 (no premine). The full step-by-step: chain id, seed node, build the node, config.ini, register your witness, and get voted into the producing set.'],
-    ['/pool', 'Connect to the pool', 'Live pool status per coin — RandomX, Etchash and the PRANA chain — with the stratum line to point your miner at. Or mine right in the browser.'],
-    ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool. Fees may become part of the DAO later.'],
+  // The MODULES are a board of things you can DO to earn and contribute directly — not lecture cards.
+  // Each links to where you do it; the theory behind it lives in the Library (wiki), linked per module.
+  const actions = [
+    ['/run', 'Run a witness', 'Make a node, sync it, publish your signing key, get voted into the producing set — and earn block rewards for keeping the chain live. Full step-by-step: chain id, seed node, build, config.ini, register.', libArticle('Delegated_Proof_of_Stake_DPoS_', 'DPoS')],
+    ['/pool', 'Mine', 'Point a GPU or CPU at the pool — RandomX, Etchash, and PRANA (the useful-work chain) — or mine right in the browser. Earn from the first share. Live per-coin status + the stratum line.', libArticle('Proof_of_Work_Mining', 'PoW mining')],
+    ['/academy', 'Make a token', 'Create your own token on MELEK-Engine: burn a little APIS to mint it, turn on SCOT so posts under your tag earn it, and list it on KulaSwap. The steps + the ' + `<a href="${esc(TOKENS_PORTAL)}">Tokens portal</a>` + '.', libArticle('Hive_Engine_and_Smart_Media_Tokens', 'SMTs / Hive-Engine')],
+    [LIBRARY, 'Write on the Wiki', 'Contribute cited, fact-checked articles to the Library of Ashurbanipal — the ecosystem\'s reference. Writing and improving the corpus is real contribution. ' + `<a href="${esc(WIKI_CONTRIBUTE)}">Start an account →</a>`, libArticle('Special:RecentChanges', 'recent changes')],
+    [DOCS, 'Contribute docs', 'Improve the developer + operator documentation — setup guides, API references, how-tos. Clear docs are how the next person gets in; contributing them counts.', libArticle('Building_a_Front_End_for_a_Graphene_Chain', 'building on Graphene')],
+    ['/whitepaper', 'The Whitepaper', 'Read the MELEK whitepaper — the design, the economics, the no-premine launch — and help refine it. Understanding it is the ground for everything else you can do here.', libArticle('Graphene_Blockchain_Framework', 'the Graphene framework')],
+    ['/learn', 'Curate & earn', 'Vote on good work and earn a curation share; run a curation trail or keyless autovote; lift newcomers with Karma. The actions that reward you for finding and raising up quality.', libArticle('Steem_Hive_Bots_the_SteemBots_Steemcenter_ecosystem', 'the bot lineage')],
+  ];
+  const tools = [
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
-    ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap and connect wallet ↔ pool ↔ chains.'],
-    ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example of what the school teaches.'],
-    [LIBRARY, 'Library of Ashurbanipal', 'The ecosystem’s reference wiki — cited, fact-checked articles on witnessing, DPoS, the Graphene framework, and each chain (MELEK, HIVE, STEEM, BLURT). The deep documentation behind the school.'],
+    ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
+    ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
+    ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example.'],
+    [LIBRARY, 'Library of Ashurbanipal', 'The reference wiki behind every module — cited articles on witnessing, DPoS, Graphene, and each chain. The theory home; modules link into it.'],
   ];
   const body = `<h1>Witness School <span class=muted style="font-size:14px">· learn to be a witness · connect to the pool</span></h1>
-    <p class=lead>This is the front door of the Mining Pool. Three things happen here: you
-      <b>learn to be a witness</b>, you <b>rent the hardware</b> to do it, and you
-      <b>connect to the pool</b> to mine. Start with what a witness even is.</p>
+    <p class=lead>This is the front door of the Mining Pool — and the board of <b>everything you can do here
+      to earn and contribute directly</b>: run a witness, mine, make a token, write the wiki, contribute docs.
+      Each is a real action, not a lecture; the theory behind it lives in the <a href="${esc(LIBRARY)}">Library</a>,
+      linked from each. Start with what a witness even is.</p>
 
     <div class=card><h2>What is a witness?</h2>
       <p class=muted style="font-size:14px">MELEK is a <b>Graphene / DPoS</b> chain — Delegated
@@ -190,8 +204,15 @@ export function homePage() {
       <p style="margin-top:6px"><a href="/pool">See the live pool →</a></p>
     </div>
 
-    <div class=grid style="margin-top:6px">
-      ${sections.map(([href, t, d]) => `<a class=sec href="${esc(href)}"><div class=t>${esc(t)}</div><div class=d>${esc(d)}</div></a>`).join('')}
+    <h2 style="margin-top:22px">Earn &amp; contribute — the things you can do</h2>
+    <p class=muted style="font-size:13px;margin:0 0 10px">Every module below is a direct action. Do it here; the
+      background theory is one click away in the Library.</p>
+    <div class=grid>
+      ${actions.map(([href, t, d, ref]) => `<div class=sec><a class=t href="${esc(href)}">${esc(t)} →</a><div class=d>${d}</div>${ref ? `<div class=ref>Theory · ${ref}</div>` : ''}</div>`).join('')}
+    </div>
+    <h2 style="margin-top:22px">Tools &amp; reference</h2>
+    <div class=grid>
+      ${tools.map(([href, t, d]) => `<a class=sec href="${esc(href)}"><div class=t>${esc(t)}</div><div class=d>${esc(d)}</div></a>`).join('')}
     </div>`;
   return page('Witness School — learn to be a witness, connect to the pool', body, { canonical: `${BASE_URL}/` });
 }
