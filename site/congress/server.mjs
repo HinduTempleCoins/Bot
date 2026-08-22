@@ -203,7 +203,7 @@ function page(title, inner, { canonical = BASE_URL, description = '', nav = '' }
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(description || 'Congress — a short-form social network on the MELEK chain (alpha / testnet).')}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}</head><body><div class=wrap>
+<link rel=canonical href="${esc(canonical)}"><link rel=icon href="/favicon.svg">${STYLE}</head><body><div class=wrap>
 <header class=top><a class=brand href="/">⬡ <b>Congress</b></a><span class=alpha>ALPHA · TESTNET</span>
   <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust">✉ Messages</a></header>
 ${navBar(nav)}
@@ -282,6 +282,11 @@ export async function handler(req, res) {
     const url = new URL(req.url, BASE_URL);
     const path = decodeURIComponent(url.pathname);
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
+    if (path === '/favicon.ico' || path === '/favicon.svg') {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#0b0d12"/><text x="16" y="23" font-size="22" text-anchor="middle" fill="#d9a441">⬡</text></svg>`;
+      res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public,max-age=86400' });
+      return res.end(svg);
+    }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (path === '/sitemap.xml') {
       res.writeHead(200, { 'content-type': 'application/xml' });
