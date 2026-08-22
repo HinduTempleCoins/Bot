@@ -83,3 +83,41 @@ test('unknown route 404s', async () => {
   const r = await call('/nope');
   assert.equal(r.code, 404);
 });
+
+test('every page has the nav bar + shared client session', async () => {
+  mockChain(SAMPLE);
+  const r = await call('/');
+  assert.match(r.html, /nav class=tabs/);
+  assert.match(r.html, /window\.CONGRESS/);          // shared signer session
+  assert.match(r.html, />Home<[\s\S]*>Search<[\s\S]*>Messages</); // nav tabs
+});
+
+test('post cards have interactive like + reply buttons', async () => {
+  mockChain(SAMPLE);
+  const r = await call('/');
+  assert.match(r.html, /data-act=like/);
+  assert.match(r.html, /data-act=reply/);
+  assert.match(r.html, /data-author="hathor"/);
+});
+
+test('/search with no query shows the search box only', async () => {
+  const r = await call('/search');
+  assert.equal(r.code, 200);
+  assert.match(r.html, /form class=search/);
+  assert.match(r.html, /Search posts by tag/);
+});
+
+test('/search?q=politics renders results from that tag', async () => {
+  mockChain(SAMPLE);
+  const r = await call('/search?q=politics');
+  assert.equal(r.code, 200);
+  assert.match(r.html, /#politics/);
+  assert.match(r.html, /gm from the MELEK chain/);
+});
+
+test('/search sanitizes the query (no injection)', async () => {
+  mockChain([]);
+  const r = await call('/search?q=%3Cscript%3E');
+  assert.equal(r.code, 200);
+  assert.doesNotMatch(r.html, /<script>alert/i);
+});
