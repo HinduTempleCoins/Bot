@@ -97,10 +97,11 @@ function postCard(p) {
       ${p.title && p.title.trim() ? `<div class=ptitle>${esc(p.title)}</div>` : ''}
       <div class=ptext>${esc(body(p))}</div>
       <div class=pactions>
-        <span title="likes">♡ ${votes}</span>
-        <span title="replies">💬 ${p.children || 0}</span>
+        <button class=act data-act=reply data-author="${author}" data-permlink="${esc(p.permlink)}" title="reply">💬 ${p.children || 0}</button>
+        <button class=act data-act=like data-author="${author}" data-permlink="${esc(p.permlink)}" title="like">♡ <span class=cnt>${votes}</span></button>
         ${payout(p) ? `<span class=payout title="pending payout">${esc(payout(p))}</span>` : ''}
       </div>
+      <div class=replybox hidden></div>
     </div>
   </article>`;
 }
@@ -122,19 +123,92 @@ const STYLE = `<style>
  .post:hover{background:#0e131b} .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1d9bf0,#d9a441);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:0 0 auto}
  .pbody{flex:1;min-width:0} .phead{display:flex;align-items:center;gap:6px;font-size:14px} .author{font-weight:700} .time,.dot{color:var(--mut)}
  .ptitle{font-weight:700;margin:2px 0} .ptext{margin-top:2px;white-space:pre-wrap;word-wrap:break-word}
- .pactions{display:flex;gap:20px;margin-top:8px;color:var(--mut);font-size:13px} .payout{color:var(--gold)}
+ .pactions{display:flex;gap:20px;margin-top:8px;font-size:13px} .payout{color:var(--gold)}
+ button.act{background:none;border:0;color:var(--mut);font:inherit;font-size:13px;cursor:pointer;padding:2px 4px;border-radius:6px}
+ button.act:hover{color:var(--blue);background:#0e131b} button.act.liked{color:#f4245e}
+ .replybox{margin-top:8px} .replybox textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--fg);font:15px/1.4 inherit;padding:8px;min-height:44px;outline:none}
+ .replybox .crow{margin-top:6px}
  .empty{padding:40px 16px;text-align:center;color:var(--mut)} #msg{padding:0 16px;font-size:13px;min-height:16px}
  .backlink{padding:12px 16px;border-bottom:1px solid var(--line)} .backlink a{color:var(--blue)}
+ nav.tabs{display:flex;border-bottom:1px solid var(--line);position:sticky;top:49px;background:rgba(11,13,18,.85);backdrop-filter:blur(8px);z-index:4}
+ nav.tabs a{flex:1;text-align:center;padding:12px;color:var(--mut);font-weight:700;font-size:14px} nav.tabs a:hover{background:#0e131b;color:var(--fg)} nav.tabs a.on{color:var(--fg);box-shadow:inset 0 -3px 0 var(--blue)}
+ form.search{padding:12px 16px;border-bottom:1px solid var(--line)} form.search input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:999px;color:var(--fg);font:15px inherit;padding:9px 14px;outline:none}
+ .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--blue);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9} .toast.show{opacity:1}
 </style>`;
 
-function page(title, inner, { canonical = BASE_URL, description = '' } = {}) {
+function navBar(active = '') {
+  const tab = (href, label, key) => `<a class="${active === key ? 'on' : ''}" href="${href}">${label}</a>`;
+  return `<nav class=tabs>${tab('/', 'Home', 'home')}${tab('/search', 'Search', 'search')}${tab(PENTECAUST_URL, 'Messages', 'msg')}</nav>`;
+}
+
+// Shared client script on EVERY page: MELEK-Signer session (capture ?code=, exchange, remember) + the
+// keyless like / reply actions wired to /v1/broadcast. Compose adds its own bits on top (window.CONGRESS).
+function clientScript() {
+  return `<div class=toast id=toast></div><script>
+   window.CONGRESS=(function(){
+     var SIGNER=${JSON.stringify(SIGNER_URL)},APP=${JSON.stringify(APP_NAME)},TAG=${JSON.stringify(TAG)};
+     var TOKEN=null,ACCT=null;
+     try{TOKEN=localStorage.getItem('congress_tok');ACCT=localStorage.getItem('congress_acct');}catch(e){}
+     function toast(t){var el=document.getElementById('toast');if(!el)return;el.textContent=t;el.classList.add('show');setTimeout(function(){el.classList.remove('show');},2200);}
+     function login(scope){var redir=location.origin+location.pathname;location.href=SIGNER+'/oauth2/authorize?client_id='+encodeURIComponent(APP)+'&scope='+encodeURIComponent(scope)+'&redirect_uri='+encodeURIComponent(redir);}
+     async function broadcast(ops,ref){
+       if(!TOKEN){login('vote comment');return {ok:false,login:true};}
+       try{var r=await fetch(SIGNER+'/v1/broadcast',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+TOKEN},body:JSON.stringify({ops:ops,client_ref:ref})});
+         var j=await r.json().catch(function(){return{};});return r.ok&&j.ok?{ok:true,result:j.result}:{ok:false,error:(j&&j.error)||'broadcast failed'};}
+       catch(e){return {ok:false,error:'could not reach the signer'};}
+     }
+     async function like(author,permlink,btn){
+       if(!TOKEN){toast('Sign in to like');login('vote comment');return;}
+       toast('Liking…');
+       var op=['vote',{voter:ACCT,author:author,permlink:permlink,weight:10000}];
+       var res=await broadcast([op],'congress-like');
+       if(res.ok){btn.classList.add('liked');var c=btn.querySelector('.cnt');if(c)c.textContent=(+c.textContent+1);toast('♥ Liked');}
+       else if(!res.login)toast('✕ '+(res.error||'could not like'));
+     }
+     async function reply(author,permlink,text,cb){
+       if(!text.trim())return;
+       if(!TOKEN){toast('Sign in to reply');login('vote comment');return;}
+       toast('Replying…');
+       var permlink2='re-'+Date.now();
+       var op=['comment',{parent_author:author,parent_permlink:permlink,author:ACCT,permlink:permlink2,title:'',body:text,json_metadata:JSON.stringify({app:'congress',tags:[TAG]})}];
+       var res=await broadcast([op],'congress-reply');
+       if(res.ok){toast('✓ Replied');cb&&cb();}else if(!res.login)toast('✕ '+(res.error||'could not reply'));
+     }
+     // capture the signer redirect once, anywhere
+     (async function(){var u=new URL(location.href);var code=u.searchParams.get('code');if(!code)return;
+       try{var r=await fetch(SIGNER+'/oauth2/token',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:code,client_id:APP})});
+         var j=await r.json();if(j.access_token){TOKEN=j.access_token;ACCT=(j.account||'').toLowerCase();
+           try{localStorage.setItem('congress_tok',TOKEN);localStorage.setItem('congress_acct',ACCT);}catch(e){}
+           history.replaceState({},'',location.pathname);document.dispatchEvent(new Event('congress-auth'));}}catch(e){}
+     })();
+     // wire like + reply buttons (event delegation, works for every post card)
+     document.addEventListener('click',function(e){
+       var b=e.target.closest&&e.target.closest('button.act');if(!b)return;
+       var a=b.getAttribute('data-author'),p=b.getAttribute('data-permlink');
+       if(b.getAttribute('data-act')==='like'){like(a,p,b);return;}
+       if(b.getAttribute('data-act')==='reply'){
+         var box=b.closest('.pbody').querySelector('.replybox');if(!box)return;
+         if(!box.hidden){box.hidden=true;box.innerHTML='';return;}
+         box.hidden=false;box.innerHTML='<textarea maxlength=480 placeholder="Post your reply"></textarea><div class=crow><button class="post-btn" data-send>Reply</button></div>';
+         var ta=box.querySelector('textarea');ta.focus();
+         box.querySelector('[data-send]').onclick=function(){reply(a,p,ta.value,function(){box.hidden=true;box.innerHTML='';setTimeout(function(){location.reload();},1200);});};
+       }
+     });
+     return {get token(){return TOKEN;},get acct(){return ACCT;},login:login,broadcast:broadcast,toast:toast};
+   })();
+  </script>`;
+}
+
+function page(title, inner, { canonical = BASE_URL, description = '', nav = '' } = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(description || 'Congress — a short-form social network on the MELEK chain (alpha / testnet).')}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}</head><body><div class=wrap>
 <header class=top><a class=brand href="/">⬡ <b>Congress</b></a><span class=alpha>ALPHA · TESTNET</span>
   <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust">✉ Messages</a></header>
+${navBar(nav)}
 ${inner}
+${clientScript()}
 </div></body></html>`;
 }
 
@@ -147,36 +221,20 @@ function composer() {
     </div>
   </div><p id=msg></p>
   <script>
-   var SIGNER=${JSON.stringify(SIGNER_URL)},APP=${JSON.stringify(APP_NAME)},TAG=${JSON.stringify(TAG)};
-   var TOKEN=null,ACCT=null;
-   try{TOKEN=localStorage.getItem('congress_tok');ACCT=localStorage.getItem('congress_acct');}catch(e){}
-   function setWho(){var w=document.getElementById('who');w.textContent='';var b=document.createElement('b');if(ACCT){w.append('Posting as ');b.textContent='@'+ACCT;w.append(b);}else{w.append('Post keylessly via ');b.textContent='Login with MELEK';w.append(b);}}
-   setWho();
+   // uses the shared window.CONGRESS session (defined by clientScript() at page bottom).
+   var TAG=${JSON.stringify(TAG)};
+   function setWho(){var C=window.CONGRESS,w=document.getElementById('who');if(!w)return;w.textContent='';var b=document.createElement('b');if(C&&C.acct){w.append('Posting as ');b.textContent='@'+C.acct;w.append(b);}else{w.append('Post keylessly via ');b.textContent='Login with MELEK';w.append(b);}}
+   document.addEventListener('congress-auth',setWho);setTimeout(setWho,0);
    document.getElementById('send').onclick=async function(){
-     var box=document.getElementById('box'),m=document.getElementById('msg');
+     var box=document.getElementById('box'),m=document.getElementById('msg'),C=window.CONGRESS;
      var text=box.value.trim(); if(!text){return;}
-     if(!TOKEN){ // send them to Login with MELEK, come back with a scoped comment token
-       var redir=location.origin+'/';
-       location.href=SIGNER+'/oauth2/authorize?client_id='+encodeURIComponent(APP)+'&scope=comment&redirect_uri='+encodeURIComponent(redir);
-       return;
-     }
+     if(!C||!C.token){C&&C.login('vote comment');return;}
      m.style.color='#8896a6';m.textContent='Posting…';
-     var permlink='c-'+Date.now();
-     var op=['comment',{parent_author:'',parent_permlink:TAG,author:ACCT,permlink:permlink,title:'',body:text,json_metadata:JSON.stringify({app:'congress',tags:[TAG]})}];
-     try{
-       var r=await fetch(SIGNER+'/v1/broadcast',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+TOKEN},body:JSON.stringify({ops:[op],client_ref:'congress-post'})});
-       var j=await r.json().catch(function(){return{};});
-       if(r.ok&&j.ok){m.style.color='#1d9bf0';m.textContent='✓ Posted. Refreshing…';setTimeout(function(){location.reload();},1500);}
-       else{m.style.color='#f85149';m.textContent='✕ '+(j.error||'could not post');}
-     }catch(e){m.style.color='#f85149';m.textContent='✕ could not reach the signer';}
+     var op=['comment',{parent_author:'',parent_permlink:TAG,author:C.acct,permlink:'c-'+Date.now(),title:'',body:text,json_metadata:JSON.stringify({app:'congress',tags:[TAG]})}];
+     var res=await C.broadcast([op],'congress-post');
+     if(res.ok){m.style.color='#1d9bf0';m.textContent='✓ Posted. Refreshing…';setTimeout(function(){location.reload();},1500);}
+     else if(!res.login){m.style.color='#f85149';m.textContent='✕ '+(res.error||'could not post');}
    };
-   // capture ?code= from the signer redirect -> exchange for a token
-   (async function(){var u=new URL(location.href);var code=u.searchParams.get('code');if(!code)return;
-     try{var r=await fetch(SIGNER+'/oauth2/token',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:code,client_id:APP})});
-       var j=await r.json();if(j.access_token){TOKEN=j.access_token;ACCT=(j.account||'').toLowerCase();
-         try{localStorage.setItem('congress_tok',TOKEN);localStorage.setItem('congress_acct',ACCT);}catch(e){}
-         setWho();history.replaceState({},'',location.pathname);}}catch(e){}
-   })();
   </script>`;
 }
 
@@ -187,7 +245,7 @@ export async function homePage() {
     ? posts.map(postCard).join('')
     : `<div class=empty>No posts yet under <b>#${esc(TAG)}</b>.<br>Be the first — compose above.<br><span style="font-size:12px">(or the testnet RPC is unreachable right now)</span></div>`;
   return page('Congress — on-chain social (alpha)', composer() + feed,
-    { canonical: BASE_URL, description: 'Congress: a short-form, on-chain social network on the MELEK chain. Alpha / testnet.' });
+    { canonical: BASE_URL, nav: 'home', description: 'Congress: a short-form, on-chain social network on the MELEK chain. Alpha / testnet.' });
 }
 export async function profilePage(author) {
   const posts = await byAuthor(author);
@@ -195,6 +253,15 @@ export async function profilePage(author) {
   return page(`@${author} — Congress`, `<div class=backlink><a href="/">← timeline</a></div>
     <div class=composer style="background:transparent"><div class=phead><span class=author style="font-size:18px">@${esc(author)}</span></div></div>${feed}`,
     { canonical: `${BASE_URL}/@${encodeURIComponent(author)}` });
+}
+/** Search: a query is treated as a tag (Graphene's native index). Empty query → the search box only. */
+export async function searchPage(q = '') {
+  const query = String(q || '').trim().toLowerCase().replace(/[^a-z0-9\-]/g, '');
+  const box = `<form class=search method=get action="/search"><input name=q value="${esc(q)}" placeholder="Search a tag (e.g. politics, beauty, congress)" autocomplete=off></form>`;
+  if (!query) return page('Search — Congress', box + `<div class=empty>Search posts by tag.</div>`, { canonical: `${BASE_URL}/search`, nav: 'search' });
+  const posts = await timeline(query, 30);
+  const feed = posts.length ? posts.map(postCard).join('') : `<div class=empty>No posts found under <b>#${esc(query)}</b>.</div>`;
+  return page(`#${query} — Congress`, box + feed, { canonical: `${BASE_URL}/search?q=${encodeURIComponent(query)}`, nav: 'search' });
 }
 export async function postPage(author, permlink) {
   const { post, replies } = await thread(author, permlink);
@@ -221,6 +288,7 @@ export async function handler(req, res) {
       return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url></urlset>`);
     }
     if (path === '/' ) return send(res, await homePage());
+    if (path === '/search') return send(res, await searchPage(url.searchParams.get('q') || ''));
     let m;
     if ((m = path.match(/^\/@([a-z0-9.\-]{1,32})$/))) return send(res, await profilePage(m[1]));
     if ((m = path.match(/^\/post\/([a-z0-9.\-]{1,32})\/([a-z0-9\-]{1,255})$/))) return send(res, await postPage(m[1], m[2]));
