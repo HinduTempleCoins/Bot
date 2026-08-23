@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { toStation, searchStations, dallasStations, stationsByTag, renderList, dataNote, esc, __setFetch } from './radio.mjs';
+import { toStation, searchStations, dallasStations, stationsByTag, scannerStations, isScannerStation, SCANNER_TAGS, renderList, dataNote, esc, __setFetch } from './radio.mjs';
 
 const RAW = {
   stationuuid: 'uuid-1', name: 'KERA 90.1 Dallas', url_resolved: 'https://stream.kera.org/live',
@@ -69,4 +69,48 @@ test('renderList emits an esc-safe station list with the POINT stream + play but
 
 test('dataNote states the never-rehost posture', () => {
   assert.match(dataNote(), /never rehost|point to/i);
+});
+
+// ── public-safety / police-scanner feeds ──────────────────────────────────────────────────────────────
+const SCANNER_RAW = {
+  stationuuid: 'scan-1', name: 'Dallas Police & Fire Scanner', url_resolved: 'https://scan.example/dpd.mp3',
+  tags: 'scanner,police,emergency', country: 'The United States Of America', state: 'Texas', codec: 'MP3', bitrate: 64,
+};
+
+test('SCANNER_TAGS lists the public-safety tags', () => {
+  assert.ok(SCANNER_TAGS.includes('scanner'));
+  assert.ok(SCANNER_TAGS.includes('police'));
+});
+
+test('isScannerStation matches scanner tags/name, rejects a music station', () => {
+  assert.equal(isScannerStation(toStation(SCANNER_RAW)), true);
+  assert.equal(isScannerStation(toStation({ ...SCANNER_RAW, tags: '', name: 'Dallas PD Live Scanner' })), true);
+  assert.equal(isScannerStation(toStation(RAW)), false); // KERA news/public/talk — not a scanner feed
+});
+
+test('scannerStations returns shaped POINT stations filtered to scanner feeds', async () => {
+  // The tag query returns a scanner feed AND a non-scanner station; only the scanner one survives.
+  __setFetch(mockFetch([SCANNER_RAW, { ...RAW, stationuuid: 'kera' }]));
+  const out = await scannerStations({ state: 'Texas', limit: 10 });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].posture, 'point');
+  assert.equal(out[0].name, 'Dallas Police & Fire Scanner');
+  __setFetch(null);
+});
+
+test('scannerStations dedupes across the per-tag queries and ranks Dallas first', async () => {
+  const houston = { ...SCANNER_RAW, stationuuid: 'scan-2', name: 'Houston Fire Scanner', state: 'Texas' };
+  __setFetch(mockFetch([houston, SCANNER_RAW])); // every tag query returns the same two → deduped to 2
+  const out = await scannerStations({ state: 'Texas', limit: 10 });
+  assert.equal(out.length, 2);
+  assert.equal(out[0].name, 'Dallas Police & Fire Scanner'); // Dallas ranked ahead of Houston
+  __setFetch(null);
+});
+
+test('scannerStations soft-fails to [] on a bad response', async () => {
+  __setFetch(async () => ({ ok: false }));
+  assert.deepEqual(await scannerStations({ state: 'Texas' }), []);
+  __setFetch(async () => { throw new Error('network'); });
+  assert.deepEqual(await scannerStations({}), []);
+  __setFetch(null);
 });

@@ -75,6 +75,62 @@ export async function dallasStations(limit = 40) {
 /** Stations by genre/tag (news, jazz, hiphop, talk, …). */
 export async function stationsByTag(tag, limit = 40) { return searchStations({ tag, limit }); }
 
+// ── PUBLIC-SAFETY / POLICE-SCANNER feeds ─────────────────────────────────────────────────────────────
+// Radio Browser also indexes public-safety SCANNER streams — many big metros run their live dispatch feed
+// as an ordinary internet-radio station tagged "scanner" / "police" / "emergency" / "fire". Same directory,
+// same keyless API, same POINT posture: we surface the metadata + the broadcaster's OWN public stream and
+// never rehost. These are the operator/hobbyist relays a listener could already tune with any radio app.
+export const SCANNER_TAGS = ['scanner', 'police', 'emergency', 'fire', 'public safety', 'first responder'];
+// Match any of the scanner tags as a whole word/phrase inside a station's tag list (fuzzy tag search on
+// Radio Browser can return adjacent hits — this second-pass filter keeps only genuine public-safety feeds).
+const SCANNER_RE = new RegExp(`\\b(${SCANNER_TAGS.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\b`, 'i');
+
+/** True if a shaped station carries a public-safety/scanner tag (or says so in its name). */
+export function isScannerStation(s) {
+  if (!s) return false;
+  const hay = [...(s.tags || []), s.name || ''].join(' ');
+  return SCANNER_RE.test(hay);
+}
+
+// BROADCASTIFY NOTE (researched 2026-08-23): Broadcastify (RadioReference) is the largest public-safety
+// scanner directory. Its live feeds ARE plain MP3/AAC stream URLs (e.g. https://audio.broadcastify.com/<id>.mp3),
+// and it publishes a "Live Audio Feed Catalog API". BUT that catalog API is licensed and Broadcastify has
+// stated it is NOT issuing new keys to "police-scanner-style" apps that wrap its catalog into a competing
+// listening experience; premium feeds are also user/password-gated. So we DO NOT add a Broadcastify
+// integration here: it would be key-required (against keyless-first) and, for the catalog, effectively
+// off-limits. If Broadcastify feeds are ever surfaced, it must be POINT-only and consensual — a feed owner
+// listing THEIR OWN public stream URL in a MELEK directory, never us scraping/rehosting the catalog. For
+// now the keyless path is Radio Browser's community-listed scanner stations (this function). See also
+// .local/PUBLIC_SAFETY_DISPLAY_DESIGN.md for the full posture write-up.
+
+/**
+ * Public-safety scanner feeds, Dallas/Texas-first (like dallasStations). Queries each scanner tag on the
+ * keyless Radio Browser directory, keeps only genuine public-safety stations (isScannerStation), then
+ * orders Dallas → Texas → rest, deduped. POINT posture throughout. Soft-fails to [].
+ * @param {{state?:string, limit?:number}} opts  state defaults to Texas; pass '' to go nationwide/global.
+ */
+export async function scannerStations({ state = 'Texas', limit = 40 } = {}) {
+  const per = Math.max(1, Math.min(200, +limit || 40));
+  const batches = await Promise.all(SCANNER_TAGS.map((tag) => searchStations({ tag, limit: per })));
+  const seen = new Set();
+  const all = [];
+  for (const s of batches.flat()) {
+    if (!s || seen.has(s.id) || !isScannerStation(s)) continue;
+    seen.add(s.id); all.push(s);
+  }
+  const want = String(state || '').toLowerCase();
+  const rank = (s) => {
+    const st = String(s.state || '').toLowerCase();
+    const nm = String(s.name || '').toLowerCase();
+    if (/\bdallas\b/.test(nm) || /\bdallas\b/.test(st)) return 0;   // Dallas first
+    if (want && st === want) return 1;                              // then the requested state
+    if (want && (nm.includes(want) || st.includes(want))) return 2; // loose state match
+    return 3;                                                        // everyone else
+  };
+  all.sort((a, b) => rank(a) - rank(b));
+  return all.slice(0, per);
+}
+
 /** A tiny HTML station list (esc'd) — an <audio> points at the station's own stream (POINT posture). */
 export function renderList(stations = []) {
   if (!stations.length) return '<p class=empty>No stations right now — try another search.</p>';
