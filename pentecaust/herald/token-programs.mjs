@@ -39,6 +39,22 @@ export function fromKarma(karma = {}, minKarma = 0) {
     .map(([account, s]) => ({ account, balance: Number(s) || 0 }));
 }
 
+/**
+ * sybilGate — drop snapshot entries that don't clear a humanity/uniqueness threshold. Provider-agnostic
+ * by design (Human Passport / BrightID / World ID / our own Karma) per the survey's "don't hard-wire one
+ * provider" rule: pass a `scoreOf(account) -> number` map or function and a `minScore`. Accounts with no
+ * score are treated as 0 (fail-closed — the safe default for money). Returns the filtered snapshot.
+ */
+export function sybilGate(snapshot = [], { scoreOf, minScore = 1 } = {}) {
+  const score = typeof scoreOf === 'function'
+    ? scoreOf
+    : (a) => Number((scoreOf && scoreOf[a]) ?? 0);
+  const min = Number(minScore) || 0;
+  return normalizeSnapshot(snapshot)
+    .filter((h) => Number(score(h.account)) >= min)
+    .map((h) => ({ account: h.account, balance: Number(h.weight) }));
+}
+
 // ── airdrop planning ──────────────────────────────────────────────────────────────────────────────
 /**
  * planAirdrop — turn a snapshot + a pool into a distribution plan + the unsigned on-chain calls.
@@ -47,11 +63,13 @@ export function fromKarma(karma = {}, minKarma = 0) {
  * Returns { ok, token, chain, allocations, distributed, dust, count, calls } or { ok:false, error }.
  */
 export function planAirdrop(p = {}) {
-  const { token, chain, snapshot, total, scheme = 'proportional', minThreshold = 0, capFraction = 0, memo = '' } = p;
+  const { token, chain, snapshot, total, scheme = 'proportional', minThreshold = 0, capFraction = 0, memo = '', sybil = null } = p;
   if (!token) return err('token required');
   if (!CHAINS.has(chain)) return err(`chain must be one of ${[...CHAINS].join('/')}`);
-  let holders = normalizeSnapshot(snapshot);
-  if (holders.length === 0) return err('empty eligibility snapshot');
+  // Optional sybil gate BEFORE allocation (provider-agnostic humanity/uniqueness check).
+  let src = sybil ? sybilGate(snapshot, sybil) : snapshot;
+  let holders = normalizeSnapshot(src);
+  if (holders.length === 0) return err(sybil ? 'no accounts cleared the sybil gate' : 'empty eligibility snapshot');
   if (Number(capFraction) > 0) holders = capWeights(holders, Number(capFraction)); // whale-cap
   const plan = allocate({ holders, totalAirdrop: total, scheme, minThreshold });
   if (!plan.allocations.length) return err('nothing to distribute (pool too small or all below threshold)');

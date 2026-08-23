@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  planAirdrop, createBountyBoard, fromList, fromHolders, fromKarma, esc,
+  planAirdrop, createBountyBoard, fromList, fromHolders, fromKarma, sybilGate, esc,
 } from './token-programs.mjs';
 
 test('esc escapes html', () => assert.equal(esc('<b>&"'), '&lt;b&gt;&amp;&quot;'));
@@ -51,6 +51,31 @@ test('capFraction caps whales before allocating', () => {
   const wUncapped = +uncapped.allocations.find((x) => x.account === 'w').amount;
   const wCapped = +capped.allocations.find((x) => x.account === 'w').amount;
   assert.ok(wCapped < wUncapped, 'whale share reduced by cap');
+});
+
+test('sybilGate drops accounts below the humanity threshold (fail-closed)', () => {
+  const snap = [{ account: 'human', balance: 5 }, { account: 'bot', balance: 5 }, { account: 'nobody', balance: 5 }];
+  const scores = { human: 20, bot: 0 }; // nobody has no score → treated as 0
+  const gated = sybilGate(snap, { scoreOf: scores, minScore: 10 });
+  assert.deepEqual(gated.map((h) => h.account), ['human']);
+  // function form works too
+  const gated2 = sybilGate(snap, { scoreOf: (a) => (a === 'bot' ? 99 : 0), minScore: 10 });
+  assert.deepEqual(gated2.map((h) => h.account), ['bot']);
+});
+
+test('planAirdrop with inline sybil gate only pays cleared accounts', () => {
+  const r = planAirdrop({
+    token: 'VKBT', chain: 'melek', total: '100', scheme: 'equal',
+    snapshot: [{ account: 'a', balance: 1 }, { account: 'b', balance: 1 }],
+    sybil: { scoreOf: { a: 30, b: 0 }, minScore: 10 },
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.count, 1);
+  assert.equal(r.allocations[0].account, 'a');
+  // everyone gated out → soft-fail with a clear message
+  const none = planAirdrop({ token: 'VKBT', chain: 'melek', total: '100', snapshot: [{ account: 'a', balance: 1 }], sybil: { scoreOf: {}, minScore: 10 } });
+  assert.equal(none.ok, false);
+  assert.match(none.error, /sybil/);
 });
 
 // ── bounty board ──────────────────────────────────────────────────────────────────────────────────
