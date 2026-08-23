@@ -218,9 +218,12 @@ export function createCalendar({ storage, now } = {}) {
       const date = esc(ymd(e && e.start));
       const title = esc((e && e.title) || '');
       const source = esc((e && e.source) || '');
-      const url = clean(e && e.url);
+      // Only http(s) URLs are allowed as hrefs — esc() does NOT neutralize javascript:/data: URIs, so
+      // an unrestricted href would be an XSS vector for a malicious event url.
+      const raw = clean(e && e.url);
+      const url = /^https?:\/\//i.test(raw) ? raw : '';
       const label = url
-        ? `<a href="${esc(url)}">${title}</a>`
+        ? `<a href="${esc(url)}" rel="noopener noreferrer">${title}</a>`
         : title;
       return `<li class="ev"><time>${date}</time> ${label} <span class="badge src-${source}">${source}</span></li>`;
     }).join('');

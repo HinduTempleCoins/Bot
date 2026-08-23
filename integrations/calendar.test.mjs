@@ -172,3 +172,13 @@ test('handler: /health, GET /api/events (filtered), POST /api/event, 404', async
   assert.equal(res.code, 404);
   assert.equal(JSON.parse(res.body).ok, false);
 });
+
+test('renderAgenda strips non-http(s) urls (no javascript:/data: href XSS)', () => {
+  const cal = createCalendar({ storage: { events: [] }, now: () => 1000 });
+  cal.addEvent({ title: 'Evil', start: 2000, source: 'melek', url: 'javascript:alert(1)' });
+  cal.addEvent({ title: 'Ok', start: 3000, source: 'melek', url: 'https://melek.salon/x' });
+  const html = cal.renderAgenda(cal.events());
+  assert.doesNotMatch(html, /href="javascript:/i);
+  assert.doesNotMatch(html, /javascript:alert/i);
+  assert.match(html, /href="https:\/\/melek\.salon\/x" rel="noopener noreferrer"/);
+});
