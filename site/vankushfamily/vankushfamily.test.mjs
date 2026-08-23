@@ -131,6 +131,19 @@ test('landing shows the crest + clickable destinations into the live ecosystem',
   assert.match(html, /\/roadmap/);                         // roadmap link
 });
 
+test('landing uses the ACTUAL Van Kush logo image (not just the SVG)', () => {
+  const html = homePage();
+  assert.match(html, /<img class=logo src="\/vankush-logo\.png"/);
+  assert.match(html, /alt="Van Kush family crest"/);
+});
+
+test('GET /vankush-logo.png serves the real PNG', async () => {
+  const res = await get('/vankush-logo.png');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /image\/png/);
+  assert.ok(res.body.length > 1000, 'logo bytes served');
+});
+
 test('crestSvg renders a brand-colored heraldic mark', () => {
   const svg = crestSvg(100);
   assert.match(svg, /<svg/);
