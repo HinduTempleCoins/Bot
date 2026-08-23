@@ -1,12 +1,18 @@
-// public-safety.test.mjs — OFFLINE tests. Focus: the PURE RSS parser + Socrata normalization with
-// injected data (no network). Run: node --test integrations/soapbox/public-safety.test.mjs
+// public-safety.test.mjs — OFFLINE tests. Two layers:
+//   1. The Police / Public-Safety vertical: the PURE RSS parser + Socrata normalization (no network).
+//   2. The signage / incident-board layer: NWS alerts + USGS quakes normalize + soft-fail, scanner reuse,
+//      and the combined safetyBoard payload + permanent disclaimer (all via the __setFetch seam, no network).
+// Run: node --test integrations/soapbox/public-safety.test.mjs
 
 import { test } from 'node:test';
 import assert from 'node:assert';
 import {
   CITY_PORTALS, decodeEntities, tag, parseRss, normalizeIncident,
+  nwsAlerts, usgsQuakes, toAlert, toQuake, quakeSeverity, usgsFeed, scannerStations,
+  safetyBoard, safeHref, stateName, esc, DISCLAIMER, dataNote, __setFetch,
 } from './public-safety.mjs';
 
+// ══ Layer 1: the vertical (pure helpers + Socrata) ══════════════════════════════════════════════════
 test('CITY_PORTALS has the four curated cities with a dataset + map + feeds', () => {
   for (const city of ['Dallas', 'New York', 'Los Angeles', 'Chicago']) {
     const p = CITY_PORTALS[city];
@@ -111,4 +117,146 @@ test('normalizeIncident returns null for empty/garbage rows', () => {
   assert.equal(normalizeIncident(null, CITY_PORTALS.Chicago.map), null);
   assert.equal(normalizeIncident({}, CITY_PORTALS.Chicago.map), null);
   assert.equal(normalizeIncident({ unrelated: 1 }, CITY_PORTALS.Chicago.map), null);
+});
+
+// ══ Layer 2: signage / incident board (NWS + USGS + scanner) ════════════════════════════════════════
+const NWS = {
+  features: [
+    { id: 'https://api.weather.gov/alerts/a1', properties: { event: 'Severe Thunderstorm Warning', severity: 'Severe', headline: 'STORM until 5pm', areaDesc: 'Dallas, TX', sent: '2026-08-23T14:00:00Z', url: 'https://weather.gov/a1' } },
+    { id: 'a2', properties: { event: 'Flash Flood Watch', severity: 'Moderate', areaDesc: 'Tarrant, TX', sent: '2026-08-23T13:00:00Z' } },
+    { id: 'a3', properties: {} }, // no title → dropped
+  ],
+};
+const QUAKES = {
+  features: [
+    { id: 'q1', properties: { mag: 4.2, place: '12mi NW of Somewhere', time: 1756000000000, url: 'https://usgs.gov/q1', title: 'M 4.2 - 12mi NW of Somewhere' } },
+    { id: 'q2', properties: { mag: 1.1, place: 'Nowhere', time: 1755990000000 } }, // below default 2.5 floor
+    { id: 'q3', properties: { mag: 5.6, place: 'Bigplace', time: 1756010000000 } },
+  ],
+};
+const SCANNER_ROWS = [{ stationuuid: 'scan-1', name: 'Dallas Police & Fire Scanner', url_resolved: 'https://scan.example/dpd.mp3', tags: 'scanner,police', state: 'Texas', bitrate: 64 }];
+
+function fakeFetch(over = {}) {
+  const fn = async (url) => {
+    const u = String(url);
+    let body = {};
+    if (u.includes('api.weather.gov')) body = over.nws ?? NWS;
+    else if (u.includes('earthquake.usgs.gov')) body = over.usgs ?? QUAKES;
+    else if (u.includes('radio-browser')) body = over.radio ?? SCANNER_ROWS;
+    else body = over.other ?? {};
+    return { ok: true, status: 200, json: async () => body, text: async () => '' };
+  };
+  return fn;
+}
+function install(over) { __setFetch(fakeFetch(over)); }
+function restore() { __setFetch(null); }
+
+test('esc escapes html incl. quotes; safeHref allows only http(s)', () => {
+  assert.equal(esc(`<b>&"'`), '&lt;b&gt;&amp;&quot;&#39;');
+  assert.equal(safeHref('https://usgs.gov/x'), 'https://usgs.gov/x');
+  assert.equal(safeHref('javascript:alert(1)'), '');
+  assert.equal(safeHref(null), '');
+});
+
+test('stateName maps codes to full names, passes names through', () => {
+  assert.equal(stateName('TX'), 'Texas');
+  assert.equal(stateName('ca'), 'California');
+  assert.equal(stateName('Texas'), 'Texas');
+  assert.equal(stateName(''), 'Texas');
+});
+
+test('DISCLAIMER is the exact required copy; dataNote repeats call 911', () => {
+  assert.equal(DISCLAIMER, 'Not an official emergency source — in an emergency, call 911.');
+  assert.match(dataNote(), /call 911/);
+});
+
+test('quakeSeverity + usgsFeed tiers', () => {
+  assert.equal(quakeSeverity(6.1), 'Extreme');
+  assert.equal(quakeSeverity(4.6), 'Severe');
+  assert.equal(quakeSeverity(3.2), 'Moderate');
+  assert.equal(quakeSeverity(2.0), 'Minor');
+  assert.equal(quakeSeverity('x'), 'Unknown');
+  assert.equal(usgsFeed(4.5, 'week'), '4.5_week');
+  assert.equal(usgsFeed(2.5, 'day'), '2.5_day');
+  assert.equal(usgsFeed(0.5, 'bogus'), 'all_day'); // bad window → day
+});
+
+test('toAlert normalizes an NWS feature to the shaped incident', () => {
+  const a = toAlert(NWS.features[0]);
+  assert.equal(a.kind, 'alert');
+  assert.equal(a.severity, 'Severe');
+  assert.equal(a.title, 'Severe Thunderstorm Warning');
+  assert.equal(a.area, 'Dallas, TX');
+  assert.equal(a.source, 'NWS');
+  assert.equal(a.posture, 'point');
+  assert.equal(a.url, 'https://weather.gov/a1');
+  assert.equal(toAlert(NWS.features[2]), null);
+});
+
+test('nwsAlerts returns shaped alerts, drops the titleless one; soft-fails to []', async () => {
+  install();
+  const out = await nwsAlerts({ state: 'TX' });
+  assert.equal(out.length, 2);
+  assert.equal(out[0].title, 'Severe Thunderstorm Warning');
+  restore();
+  __setFetch(async () => ({ ok: false }));
+  assert.deepEqual(await nwsAlerts({ state: 'TX' }), []);
+  __setFetch(async () => { throw new Error('network'); });
+  assert.deepEqual(await nwsAlerts({ state: 'TX' }), []);
+  restore();
+});
+
+test('toQuake normalizes a USGS feature', () => {
+  const q = toQuake(QUAKES.features[0]);
+  assert.equal(q.kind, 'quake');
+  assert.equal(q.mag, 4.2);
+  assert.equal(q.severity, 'Moderate');
+  assert.equal(q.area, '12mi NW of Somewhere');
+  assert.equal(q.source, 'USGS');
+  assert.equal(q.url, 'https://usgs.gov/q1');
+  assert.match(q.time, /^2025-/); // epoch ms → ISO
+});
+
+test('usgsQuakes applies the magnitude floor + sorts newest-first; soft-fails to []', async () => {
+  install();
+  const out = await usgsQuakes({ minMagnitude: 2.5 });
+  assert.equal(out.length, 2); // the M1.1 is filtered out
+  assert.ok(out.every((q) => q.mag >= 2.5));
+  assert.equal(out[0].id, 'q3'); // newest time first
+  restore();
+  __setFetch(async () => { throw new Error('down'); });
+  assert.deepEqual(await usgsQuakes({}), []);
+  restore();
+});
+
+test('scannerStations reuses radio.scannerStations via the shared fetch seam; soft-fails to []', async () => {
+  install();
+  const out = await scannerStations({ state: 'TX', limit: 10 });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].name, 'Dallas Police & Fire Scanner');
+  assert.equal(out[0].posture, 'point');
+  restore();
+  __setFetch(async () => ({ ok: false }));
+  assert.deepEqual(await scannerStations({ state: 'TX' }), []);
+  restore();
+});
+
+test('safetyBoard returns alerts/quakes/scanners + the permanent disclaimer', async () => {
+  install();
+  const board = await safetyBoard({ state: 'TX' });
+  assert.ok(Array.isArray(board.alerts) && board.alerts.length >= 1);
+  assert.ok(Array.isArray(board.quakes) && board.quakes.length >= 1);
+  assert.ok(Array.isArray(board.scanners) && board.scanners.length >= 1);
+  assert.equal(board.disclaimer, DISCLAIMER);
+  restore();
+});
+
+test('safetyBoard never throws — all sources down → empty sections + disclaimer', async () => {
+  __setFetch(async () => { throw new Error('all down'); });
+  const board = await safetyBoard({ state: 'TX' });
+  assert.deepEqual(board.alerts, []);
+  assert.deepEqual(board.quakes, []);
+  assert.deepEqual(board.scanners, []);
+  assert.equal(board.disclaimer, DISCLAIMER);
+  restore();
 });
