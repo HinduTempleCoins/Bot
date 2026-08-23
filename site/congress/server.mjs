@@ -27,7 +27,12 @@ const BASE_URL = (process.env.BASE_URL || 'https://alpha.congress.ink').replace(
 const RPC_URL = process.env.CONGRESS_RPC_URL || 'https://alpha.melek.salon/rpc';
 const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/$/, '');
 const TAG = process.env.CONGRESS_TAG || 'congress';
-const APP_NAME = 'congress';
+const APP_NAME = process.env.CONGRESS_APP || 'congress';
+// Branding is parameterized so ONE codebase serves every Congress vertical (congress.ink = general/
+// politics, congress.beauty = the Van Kush beauty economy, …) — set per deploy.
+const BRAND = process.env.CONGRESS_BRAND || 'Congress';
+const TAGLINE = process.env.CONGRESS_TAGLINE || 'on the MELEK chain';
+const PLACEHOLDER = process.env.CONGRESS_PLACEHOLDER || "What's happening on-chain?";
 // Congress private messages (DMs) route through Pentecaust — one MELEK identity, existing PM/DM system.
 const PENTECAUST_URL = (process.env.PENTECAUST_URL || 'https://pentecaust.com').replace(/\/$/, '');
 
@@ -204,8 +209,9 @@ function page(title, inner, { canonical = BASE_URL, description = '', nav = '' }
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(description || 'Congress — a short-form social network on the MELEK chain (alpha / testnet).')}">
 <link rel=canonical href="${esc(canonical)}"><link rel=icon href="/favicon.svg">${STYLE}</head><body><div class=wrap>
-<header class=top><a class=brand href="/">⬡ <b>Congress</b></a><span class=alpha>ALPHA · TESTNET</span>
-  <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust">✉ Messages</a></header>
+<header class=top><a class=brand href="/">⬡ <b>${esc(BRAND)}</b></a><span class=alpha>ALPHA · TESTNET</span>
+  <span class=sub style="margin-left:auto;color:var(--mut);font-size:12px">${esc(TAGLINE)}</span>
+  <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust" style="margin-left:12px">✉ Messages</a></header>
 ${navBar(nav)}
 ${inner}
 ${clientScript()}
@@ -214,7 +220,7 @@ ${clientScript()}
 
 function composer() {
   return `<div class=composer>
-    <textarea id=box maxlength=480 placeholder="What's happening on-chain?"></textarea>
+    <textarea id=box maxlength=480 placeholder="${esc(PLACEHOLDER)}"></textarea>
     <div class=crow>
       <span class=mut id=who>Post keylessly via <b>Login with MELEK</b></span>
       <button class=post-btn id=send>Post</button>
@@ -244,8 +250,8 @@ export async function homePage() {
   const feed = posts.length
     ? posts.map(postCard).join('')
     : `<div class=empty>No posts yet under <b>#${esc(TAG)}</b>.<br>Be the first — compose above.<br><span style="font-size:12px">(or the testnet RPC is unreachable right now)</span></div>`;
-  return page('Congress — on-chain social (alpha)', composer() + feed,
-    { canonical: BASE_URL, nav: 'home', description: 'Congress: a short-form, on-chain social network on the MELEK chain. Alpha / testnet.' });
+  return page(`${BRAND} — on-chain social (alpha)`, composer() + feed,
+    { canonical: BASE_URL, nav: 'home', description: `${BRAND}: a short-form, on-chain social network on the MELEK chain. Alpha / testnet.` });
 }
 export async function profilePage(author) {
   const posts = await byAuthor(author);

@@ -121,3 +121,15 @@ test('/search sanitizes the query (no injection)', async () => {
   assert.equal(r.code, 200);
   assert.doesNotMatch(r.html, /<script>alert/i);
 });
+
+test('branding is env-driven (one codebase → .ink / .beauty verticals)', async () => {
+  // default brand
+  mockChain([]);
+  assert.match((await call('/')).html, /Congress/);
+  // env override is read at module-eval time; verify the module honors CONGRESS_BRAND via a subprocess
+  const { execFileSync } = await import('node:child_process');
+  const out = execFileSync(process.execPath, ['-e',
+    'import("./site/congress/server.mjs").then(async m=>{const h=await m.homePage();process.stdout.write(String(/Beauty Bar/.test(h)&&/beauty economy/.test(h)));})'],
+    { env: { ...process.env, CONGRESS_BRAND: 'Beauty Bar', CONGRESS_TAGLINE: 'the beauty economy', CONGRESS_RPC_URL: 'http://127.0.0.1:1' }, encoding: 'utf8' });
+  assert.equal(out.trim(), 'true');
+});
