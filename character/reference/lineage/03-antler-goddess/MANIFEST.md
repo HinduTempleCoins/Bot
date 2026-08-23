@@ -1,7 +1,7 @@
 # Era 03 — Antler / Rams-horn Goddess (newest)
 
 - **Source:** operator upload, 2026-08-23 (batch 1 of the lineage archive; more of this era may follow).
-- **Count so far:** 10 (`antler-001.jpg` … `antler-010.jpg`), across 2 upload batches.
+- **Count so far:** 11 (`antler-001.jpg` … `antler-011.jpg`), across 3 upload batches.
 - **Direction:** the current, newest look — hyperreal rendered goddess in full vaporwave.
 - **Two poles within this era:** the **horned/antlered goddess** (most images — ram horns or deer antlers, often Egyptian wesekh collar + winged-ram/goat guardians) and the **hornless VR-angel** (008–009: halo + feathered wings, no crown). Both are the same newest render style; the crown is the promptable variable.
 
