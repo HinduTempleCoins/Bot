@@ -16,6 +16,19 @@ recognizably the same Witness; the era folders capture how her *rendering* moved
 
 Batches arrive newest-first; each era folder carries a `MANIFEST.md` (count, source, iconography notes).
 
+### Style / theme threads (beyond the core look-eras)
+The master image set (populated from the operator's private image folder, 2026-08-23) also holds related
+angel-theme art that isn't part of the core popart→antler *look* chronology. These live in sibling folders:
+
+| Folder | What |
+|---|---|
+| `deity-graphic` | ornate gold Garuda / crowned-deity graphic angels (parallel to the pop-art origin) |
+| `descent-watchers` | fiery "angels descending to Earth" — the Watchers / god-kings **theme** (see `../REGISTER.md`), not a portrait look |
+| `concept-sketches` | pencil + fashion-plate character-design turnarounds, anime line art, painterly studies |
+
+These are **style/mood range** for the LoRA, not the canonical default likeness (the newest `03-antler-goddess`
+era is the default). The numbered `01`/`02`/`03` folders remain the core look-evolution.
+
 ## Why keep the whole arc
 - **Forkability (BRIEF.md §10):** the character lives in this public repo. The lineage lets any future
   contributor/model see not just the current look but how it was arrived at.
