@@ -37,6 +37,7 @@ import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
+import { handler as mediaHandler } from './media.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -137,6 +138,8 @@ export async function handler(req, res) {
       return authHandler(req, res);
     }
     if (path === '/' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...cors(origin) }); return res.end(PAGE); }
+    // Media Hub — the home for ALL media (radio/podcasts/music/art/library/watch). Its own handler.
+    if (path === '/media' || path.startsWith('/media/')) return mediaHandler(req, res);
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
     // The drop-in "Translate this page?" widget — included by Pentecaust AND by every Condenser page. Served
     // cross-origin (a <script src> tag needs no CORS); it then calls POST /translate (which is CORS-allowed).
