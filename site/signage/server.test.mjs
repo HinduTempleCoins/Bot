@@ -8,15 +8,20 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  handler, buildDeck, displayPage, configPage, renderSlideHtml, parseTypes, clampRotate,
+  handler, buildDeck, displayPage, configPage, safetyBoardPage, renderSlideHtml, parseTypes, clampRotate,
   SLIDE_TYPES, DEFAULT_TYPES, esc, __setFetch,
 } from './server.mjs';
+
+const DISCLAIMER_COPY = 'Not an official emergency source — in an emergency, call 911.';
 
 // ── canned reader responses, routed by URL (Met + Artic PD art; Radio Browser stations; IA/ccMixter music)
 const ARTIC = { data: [{ id: 7, title: 'The Bedroom', artist_display: 'Vincent van Gogh', date_display: '1889', is_public_domain: true, image_id: 'abc' }] };
 const MET = { objectIDs: [] };
 const RADIO_ROWS = [{ stationuuid: 'r1', name: 'KERA 90.1 Dallas', url_resolved: 'https://stream.kera.org/live', state: 'Texas', tags: 'news', bitrate: 128 }];
 const IA_AUDIO = { response: { docs: [{ identifier: 'song1', title: 'Clair de Lune', creator: 'Debussy', licenseurl: 'https://creativecommons.org/publicdomain/mark/1.0/', collection: ['opensource_audio'], year: '1905' }] } };
+const NWS = { features: [{ id: 'a1', properties: { event: 'Severe Thunderstorm Warning', severity: 'Severe', areaDesc: 'Dallas, TX', sent: '2026-08-23T14:00:00Z' } }] };
+const USGS = { features: [{ id: 'q1', properties: { mag: 4.2, place: '12mi NW of Somewhere', time: 1756000000000, title: 'M 4.2 - 12mi NW of Somewhere' } }] };
+const SCAN_ROWS = [{ stationuuid: 'scan-1', name: 'Dallas Police & Fire Scanner', url_resolved: 'https://scan.example/dpd.mp3', tags: 'scanner,police', state: 'Texas', bitrate: 64 }];
 
 function fakeFetch(over = {}) {
   const calls = [];
@@ -26,7 +31,9 @@ function fakeFetch(over = {}) {
     let body = {};
     if (u.includes('artic.edu/api')) body = over.artic ?? ARTIC;
     else if (u.includes('metmuseum.org')) body = over.met ?? MET;
-    else if (u.includes('radio-browser')) body = over.radio ?? RADIO_ROWS;
+    else if (u.includes('api.weather.gov')) body = over.nws ?? NWS;
+    else if (u.includes('earthquake.usgs.gov')) body = over.usgs ?? USGS;
+    else if (u.includes('radio-browser')) body = over.radio ?? (over.scanner ?? RADIO_ROWS);
     else if (u.includes('archive.org/advancedsearch')) body = over.ia ?? IA_AUDIO;
     else if (u.includes('ccmixter')) body = over.ccmixter ?? [];
     return { ok: true, status: 200, json: async () => body, text: async () => '' };
@@ -203,4 +210,108 @@ test('a <script> topic is escaped on /config', async () => {
 test('unknown route → 404', async () => {
   const res = await get('/totally-unknown');
   assert.equal(res.statusCode, 404);
+});
+
+// ── PUBLIC SAFETY: the safety slide type + the dedicated /safety board ────────────────────────────────
+test('SLIDE_TYPES includes the safety slide type; /config lists it', async () => {
+  assert.ok(SLIDE_TYPES.some((t) => t.id === 'safety'));
+  const res = await get('/config');
+  assert.match(res.body, /value="safety"/);
+  assert.match(res.body, /\/safety\?state=TX/); // the board link
+});
+
+test('safety slide type flows through the carousel with the disclaimer footer', async () => {
+  install({ radio: SCAN_ROWS });
+  const res = await get('/api/slides?types=safety');
+  assert.equal(res.statusCode, 200);
+  const deck = JSON.parse(res.body);
+  const safe = deck.filter((s) => s.type === 'safety');
+  assert.ok(safe.length >= 1, 'has safety slides');
+  assert.ok(safe.every((s) => s.disclaimer === DISCLAIMER_COPY), 'each safety slide carries the disclaimer');
+  assert.ok(safe.some((s) => /Active Alerts/.test(s.title)), 'has an NWS alerts slide');
+  assert.ok(safe.some((s) => /Quakes/.test(s.title)), 'has a USGS quakes slide');
+  // the SSR carousel renders the disclaimer footer for a safety slide
+  const html = renderSlideHtml(safe[0]);
+  assert.match(html, /slide-disclaim/);
+  assert.match(html, /in an emergency, call 911/);
+  restore();
+});
+
+test('/safety returns 200, tiles, the fixed disclaimer bar, and a scanner audio element', async () => {
+  install({ radio: SCAN_ROWS });
+  const res = await get('/safety?state=TX');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /text\/html/);
+  assert.match(res.body, /PUBLIC SAFETY BOARD/);
+  assert.match(res.body, /class="tile/);                 // tiles present
+  assert.match(res.body, /Severe Thunderstorm Warning/); // NWS alert tile SSR'd
+  assert.match(res.body, /class="disclaimer"/);          // FIXED disclaimer bar
+  assert.ok(res.body.includes(DISCLAIMER_COPY), 'exact disclaimer copy present');
+  assert.match(res.body, /<audio[^>]*id="scanaudio"/);   // scanner audio element
+  assert.match(res.body, /Dallas Police &amp; Fire Scanner/); // esc'd station name
+  assert.match(res.body, /Alpha/);                        // alpha badge
+  restore();
+});
+
+test('/safety soft-fails to a calm board (never blank) when every source is down', async () => {
+  __setFetch(async () => { throw new Error('all down'); });
+  const res = await get('/safety?state=TX');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /PUBLIC SAFETY BOARD/);
+  assert.match(res.body, /No active weather alerts/); // calm empty tile, not a hole
+  assert.ok(res.body.includes(DISCLAIMER_COPY), 'disclaimer present even on an empty board');
+  restore();
+});
+
+test('/api/safety returns a shaped JSON board with the disclaimer', async () => {
+  install({ radio: SCAN_ROWS });
+  const res = await get('/api/safety?state=TX');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /application\/json/);
+  const board = JSON.parse(res.body);
+  assert.ok(Array.isArray(board.alerts) && Array.isArray(board.quakes) && Array.isArray(board.scanners));
+  assert.equal(board.disclaimer, DISCLAIMER_COPY);
+  restore();
+});
+
+test('/api/safety soft-fails to a safe board (never throws)', async () => {
+  __setFetch(async () => { throw new Error('down'); });
+  const res = await get('/api/safety');
+  assert.equal(res.statusCode, 200);
+  const board = JSON.parse(res.body);
+  assert.deepEqual(board.alerts, []);
+  assert.equal(board.disclaimer, DISCLAIMER_COPY);
+  restore();
+});
+
+test('safetyBoardPage escapes a hostile station name (no raw breakout)', () => {
+  const html = safetyBoardPage({
+    alerts: [{ title: '<script>alert(1)</script>', severity: 'Severe', area: 'X' }],
+    quakes: [], incidents: [],
+    scanners: [{ name: '</script><img src=x onerror=alert(1)>', stream: 'https://s/x.mp3', state: 'Texas' }],
+    disclaimer: DISCLAIMER_COPY,
+  }, { state: 'TX' });
+  assert.doesNotMatch(html, /<script>alert\(1\)<\/script>/);
+  assert.doesNotMatch(html, /<img src=x onerror/);
+  assert.match(html, /&lt;script&gt;/);
+  assert.ok(html.includes(DISCLAIMER_COPY));
+});
+
+test('embedded /safety JSON is <-escaped so a hostile value cannot break the script block', () => {
+  const html = safetyBoardPage({
+    alerts: [{ title: '</script><script>alert(1)</script>', severity: 'Minor', area: '' }],
+    quakes: [], incidents: [], scanners: [], disclaimer: DISCLAIMER_COPY,
+  }, { state: 'TX' });
+  assert.doesNotMatch(html, /<\/script><script>alert/);
+  assert.match(html, /\\u003c/);
+});
+
+// ── existing routes still 200 after the additions ───────────────────────────────────────────────────
+test('existing routes still 200 after the safety additions', async () => {
+  install();
+  assert.equal((await get('/')).statusCode, 200);
+  assert.equal((await get('/api/slides')).statusCode, 200);
+  assert.equal((await get('/config')).statusCode, 200);
+  assert.equal((await get('/health')).statusCode, 200);
+  restore();
 });

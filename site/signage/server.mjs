@@ -39,6 +39,7 @@ import { createServer } from 'node:http';
 import * as art from '../../integrations/soapbox/art-open-access.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as music from '../../integrations/soapbox/music-catalog.mjs';
+import * as safety from '../../integrations/soapbox/public-safety.mjs';
 
 const PORT = +(process.env.PORT || 8168);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -62,6 +63,7 @@ export function __setFetch(fn) {
   art.__setFetch(fn);
   radio.__setFetch(fn);
   music.__setFetch(fn);
+  safety.__setFetch(fn);
   if (_cal && typeof _cal.__setFetch === 'function') _cal.__setFetch(fn);
 }
 
@@ -83,6 +85,7 @@ export const SLIDE_TYPES = [
   { id: 'art', label: 'Public-domain art', blurb: 'Open-access museum art (The Met + Art Institute) — ArtCast.' },
   { id: 'events', label: 'Events / Welcome', blurb: 'Upcoming events when a calendar is wired; a welcome panel otherwise.' },
   { id: 'radio', label: 'Now Tuned (radio)', blurb: 'Live internet radio, Dallas-first — points at each station’s own stream.' },
+  { id: 'safety', label: 'Public Safety', blurb: 'Live weather/quake alerts + scanner — situational awareness, not official.' },
   { id: 'brand', label: 'MELEK / SoapBox', blurb: 'A branding card for the network.' },
 ];
 const KNOWN_TYPES = new Set(SLIDE_TYPES.map((t) => t.id));
@@ -142,6 +145,51 @@ async function radioSlides(topic, limit = 8) {
         .filter(Boolean).join(' · '),
     })),
   }];
+}
+
+// ── PUBLIC-SAFETY slides — each REUSES the public-safety reader, each soft-fails to [] (see §3a) ───────
+// A drop-in for the normal carousel: an alerts panel, a quakes panel, and a scanner panel. Every safety
+// slide carries the permanent DISCLAIMER in its footer (renderSlideHtml + the client append it).
+async function alertSlides(state, limit = 8) {
+  const alerts = await safety.nwsAlerts({ state, limit }).catch(() => []);
+  const list = Array.isArray(alerts) ? alerts : [];
+  if (!list.length) return [];
+  return [{
+    type: 'safety', title: 'Active Alerts — NWS',
+    items: list.map((a) => ({ name: str(a.title), meta: [str(a.severity), str(a.area)].filter(Boolean).join(' · ') })),
+    disclaimer: safety.DISCLAIMER,
+  }];
+}
+
+async function quakeSlides(state, limit = 6) {
+  const quakes = await safety.usgsQuakes({ limit }).catch(() => []);
+  const list = Array.isArray(quakes) ? quakes : [];
+  if (!list.length) return [];
+  return [{
+    type: 'safety', title: 'Recent Quakes — USGS',
+    items: list.map((q) => ({ name: str(q.title), meta: [str(q.severity), str(q.time).slice(0, 16).replace('T', ' ')].filter(Boolean).join(' · ') })),
+    disclaimer: safety.DISCLAIMER,
+  }];
+}
+
+async function scannerSlides(state, limit = 8) {
+  const stations = await safety.scannerStations({ state, limit }).catch(() => []);
+  const list = (Array.isArray(stations) ? stations : []).slice(0, limit);
+  if (!list.length) return [];
+  return [{
+    type: 'safety', title: 'Scanner — Public Safety',
+    community: true,
+    items: list.map((s) => ({ name: str(s.name), meta: [str(s.state) || str(s.country), s.bitrate ? `${s.bitrate}k` : ''].filter(Boolean).join(' · ') })),
+    disclaimer: safety.DISCLAIMER,
+  }];
+}
+
+async function safetySlides(state) {
+  const out = [];
+  out.push(...await alertSlides(state));
+  out.push(...await quakeSlides(state));
+  out.push(...await scannerSlides(state));
+  return out;
 }
 
 async function musicSlides(topic, limit = 6) {
@@ -208,14 +256,16 @@ function defaultDeck(topic) {
  * @param {{topic?:string, types?:string|string[]}} opts
  * @returns {Promise<Array<object>>}
  */
-export async function buildDeck({ topic = '', types = DEFAULT_TYPES } = {}) {
+export async function buildDeck({ topic = '', types = DEFAULT_TYPES, state = 'TX' } = {}) {
   const t = str(topic);
+  const st = str(state) || 'TX';
   const want = parseTypes(types);
   const slides = [];
   for (const type of want) {
     try {
       if (type === 'art') slides.push(...await artSlides(t));
       else if (type === 'radio') slides.push(...await radioSlides(t));
+      else if (type === 'safety') slides.push(...await safetySlides(st));
       else if (type === 'music') slides.push(...await musicSlides(t));
       else if (type === 'events') slides.push(...await eventsSlides(t));
       else if (type === 'brand') slides.push(brandSlide(t));
@@ -260,6 +310,37 @@ const STYLE = `<style>
   .dots i{width:1.3vmin;height:1.3vmin;border-radius:50%;background:#3a4351;transition:background .3s}
   .dots i.on{background:var(--ember)}
   .noscript{padding:8vmin}
+  /* per-slide disclaimer footer (safety slides in the rotating carousel) */
+  .slide-disclaim{margin-top:2.4vmin;font-size:2vmin;font-weight:700;color:var(--ember)}
+  /* ── the dedicated /safety board (non-rotating "fire-alarm display") ── */
+  body.board{overflow:auto;cursor:auto}
+  .board{position:fixed;inset:0;display:flex;flex-direction:column;padding:2.4vmin 3vmin 8vmin;gap:2vmin;overflow:auto}
+  .board .bhead{display:flex;align-items:baseline;gap:2vmin;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:1.4vmin}
+  .board .bhead h1{font-size:4vmin;font-weight:900;letter-spacing:.02em}
+  .board .bhead .loc{color:var(--gold);font-weight:700}
+  .board .bhead .clock{margin-left:auto;font-size:3.4vmin;font-weight:800;font-variant-numeric:tabular-nums;color:var(--fg)}
+  .board .grid{display:grid;grid-template-columns:1fr 1fr;gap:2vmin}
+  @media (max-width:900px){.board .grid{grid-template-columns:1fr}}
+  .sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.8vmin 2vmin;min-height:0}
+  .sec.wide{grid-column:1 / -1}
+  .sec h2{font-size:2.4vmin;font-weight:800;display:flex;align-items:center;gap:1vmin}
+  .sec .tag{font-size:1.5vmin;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.3vmin 1vmin;border-radius:6px;border:1px solid var(--line);color:var(--mut)}
+  .sec .tag.official{color:var(--blue);border-color:var(--blue)}
+  .sec .tag.community{color:var(--gold);border-color:var(--gold)}
+  .tiles{list-style:none;margin-top:1.4vmin;display:grid;gap:1.2vmin}
+  .tile{border-left:5px solid var(--mut);background:#0b0f14;border-radius:8px;padding:1.2vmin 1.6vmin}
+  .tile .tt{font-size:2.2vmin;font-weight:700}
+  .tile .tm{font-size:1.7vmin;color:var(--mut);margin-top:.4vmin}
+  .tile.sev-extreme,.tile.sev-severe{border-left-color:#f85149}
+  .tile.sev-moderate{border-left-color:var(--ember)}
+  .tile.sev-minor{border-left-color:var(--gold)}
+  .tile.calm{border-left-color:#2ea043;color:var(--mut)}
+  .scanner{display:flex;flex-direction:column;gap:1.2vmin}
+  .scanner .row{display:flex;gap:1.4vmin;align-items:center;flex-wrap:wrap}
+  .scanner select{background:#0b0f14;border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:1vmin 1.2vmin;font-size:1.9vmin;max-width:100%}
+  .scanner audio{width:100%;max-width:52ch}
+  .scanner button{cursor:pointer;background:var(--ember);border:0;border-radius:8px;color:#0d1117;font-weight:800;padding:1vmin 2vmin;font-size:1.9vmin}
+  .disclaimer{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#3d0d0d;border-top:2px solid #f85149;color:#ffd7d5;font-size:2.1vmin;font-weight:800;text-align:center;padding:1.4vmin 2vmin}
 </style>`;
 
 // ── server-side render of one slide (esc'd) — powers the SSR first slide (works with JS off) ─────────
@@ -277,12 +358,15 @@ export function renderSlideHtml(s) {
   if (type === 'brand') {
     return `<div class="slide slide-brand"><div class="mark">${esc(s.title || 'MELEK')}</div><div class="sub">${esc(s.subtitle || '')}</div></div>`;
   }
-  // radio / events / music → a list panel
+  // radio / events / music / safety → a list panel
   const items = Array.isArray(s.items) ? s.items : [];
   const lis = items.map((it) =>
     `<li><span class="nm">${esc(it && it.name)}</span>${it && it.meta ? `<span class="mt">${esc(it.meta)}</span>` : ''}</li>`).join('');
-  const kick = type === 'radio' ? 'Live radio' : (type === 'music' ? 'Now playing' : 'On the board');
-  return `<div class="slide panel slide-${esc(type || 'events')}"><div class="kicker">${esc(kick)}</div><h2>${esc(s.title || '')}</h2><ul>${lis || '<li><span class="nm">Nothing scheduled right now.</span></li>'}</ul></div>`;
+  const kick = type === 'radio' ? 'Live radio'
+    : (type === 'music' ? 'Now playing'
+      : (type === 'safety' ? (s.community ? 'Public safety · community feed' : 'Public safety · official') : 'On the board'));
+  const disc = s.disclaimer ? `<p class="slide-disclaim">⚠ ${esc(s.disclaimer)}</p>` : '';
+  return `<div class="slide panel slide-${esc(type || 'events')}"><div class="kicker">${esc(kick)}</div><h2>${esc(s.title || '')}</h2><ul>${lis || '<li><span class="nm">Nothing scheduled right now.</span></li>'}</ul>${disc}</div>`;
 }
 
 // ── the display page ─────────────────────────────────────────────────────────────────────────────────
@@ -327,7 +411,8 @@ export function displayPage(deck, { rotateSec = 12, query = '' } = {}) {
       var sub = el('div','sub'); sub.textContent = s.subtitle || ''; panel.appendChild(sub);
     } else {
       panel = el('div','slide panel slide-' + (s.type || 'events'));
-      var k = el('div','kicker'); k.textContent = s.type === 'radio' ? 'Live radio' : (s.type === 'music' ? 'Now playing' : 'On the board'); panel.appendChild(k);
+      var kt = s.type === 'radio' ? 'Live radio' : (s.type === 'music' ? 'Now playing' : (s.type === 'safety' ? (s.community ? 'Public safety · community feed' : 'Public safety · official') : 'On the board'));
+      var k = el('div','kicker'); k.textContent = kt; panel.appendChild(k);
       var t = el('h2'); t.textContent = s.title || ''; panel.appendChild(t);
       var ul = el('ul');
       var items = Array.isArray(s.items) ? s.items : [];
@@ -339,6 +424,7 @@ export function displayPage(deck, { rotateSec = 12, query = '' } = {}) {
         ul.appendChild(li);
       });
       panel.appendChild(ul);
+      if(s.disclaimer){ var dz = el('p','slide-disclaim'); dz.textContent = '⚠ ' + s.disclaimer; panel.appendChild(dz); }
     }
     stage.appendChild(panel);
     renderDots();
@@ -371,6 +457,138 @@ export function displayPage(deck, { rotateSec = 12, query = '' } = {}) {
 <div id="stage" data-slide-count="${esc(slides.length)}" data-rotate="${esc(rot)}">${first}</div>
 <div class="dots" id="dots"></div>
 <noscript><div class="noscript">${first}</div></noscript>
+<script>${client}</script>
+</body></html>`;
+}
+
+// ── /safety — the dedicated, NON-ROTATING incident board (the "fire-alarm display", §3b) ──────────────
+// Shares STYLE / esc / jsonForScript / the wake-lock+alpha-badge idiom with displayPage. Shows everything
+// at once (never cycles): alert + quake tiles, an optional official-incident row, a community scanner audio
+// element, and a FIXED, always-visible disclaimer bar. Soft-fails to a calm board (never a blank hole).
+const SEV_CLASS = { extreme: 'sev-extreme', severe: 'sev-severe', moderate: 'sev-moderate', minor: 'sev-minor' };
+function sevClass(sev) { return SEV_CLASS[String(sev || '').toLowerCase()] || ''; }
+
+function boardTiles(items, { emptyText = 'None reported right now.' } = {}) {
+  const list = Array.isArray(items) ? items : [];
+  if (!list.length) return `<li class="tile calm"><div class="tt">${esc(emptyText)}</div></li>`;
+  return list.map((it) => {
+    const title = str(it && (it.title || it.name)) || 'Incident';
+    const meta = [str(it && it.severity), str(it && (it.area || it.meta)), str(it && it.time).slice(0, 16).replace('T', ' ')]
+      .filter(Boolean).join(' · ');
+    return `<li class="tile ${esc(sevClass(it && it.severity))}"><div class="tt">${esc(title)}</div>${meta ? `<div class="tm">${esc(meta)}</div>` : ''}</li>`;
+  }).join('');
+}
+
+/**
+ * buildSafetyBoard — assemble the /safety + /api/safety payload. Wraps safety.safetyBoard() (NWS + USGS +
+ * scanner, always with the DISCLAIMER) and OPTIONALLY augments it with official municipal-CAD incident tiles
+ * from the public-safety reader's own city open-data (incidents({city})) when a ?city= is given and known.
+ * Soft-fails to a safe, non-empty board (never throws).
+ */
+export async function buildSafetyBoard({ state = 'TX', city = '' } = {}) {
+  let board;
+  try { board = await safety.safetyBoard({ state }); }
+  catch { board = { alerts: [], quakes: [], scanners: [], disclaimer: safety.DISCLAIMER }; }
+  let incidents = [];
+  const wantCity = str(city);
+  if (wantCity && safety.CITY_PORTALS && safety.CITY_PORTALS[wantCity]) {
+    try {
+      const rows = await safety.incidents({ city: wantCity, limit: 12 });
+      incidents = (Array.isArray(rows) ? rows : []).map((r) => ({
+        title: str(r.type) || str(r.description) || 'Incident',
+        severity: 'Unknown',
+        area: str(r.address),
+        time: str(r.when),
+      }));
+    } catch { incidents = []; }
+  }
+  return {
+    alerts: Array.isArray(board.alerts) ? board.alerts : [],
+    quakes: Array.isArray(board.quakes) ? board.quakes : [],
+    incidents,
+    scanners: Array.isArray(board.scanners) ? board.scanners : [],
+    disclaimer: str(board.disclaimer) || safety.DISCLAIMER,
+  };
+}
+
+/**
+ * safetyBoardPage — the hands-free incident board. `data` is a safety.safetyBoard() payload
+ * ({alerts,quakes,incidents,scanners,disclaimer}); everything is SSR'd (works with JS off) and the client
+ * only ticks the clock, wires the scanner audio, keeps the screen awake, and re-pulls /api/safety.
+ */
+export function safetyBoardPage(data, { state = 'TX', query = '' } = {}) {
+  const d = data && typeof data === 'object' ? data : {};
+  const alerts = Array.isArray(d.alerts) ? d.alerts : [];
+  const quakes = Array.isArray(d.quakes) ? d.quakes : [];
+  const incidents = Array.isArray(d.incidents) ? d.incidents : [];
+  const scanners = Array.isArray(d.scanners) ? d.scanners : [];
+  const disclaimer = str(d.disclaimer) || safety.DISCLAIMER;
+  const st = (str(state) || 'TX').toUpperCase();
+  const apiQ = query ? `?${query}` : '';
+
+  const scannerHtml = scanners.length
+    ? `<div class="scanner">
+        <div class="row">
+          <select id="scanpick" aria-label="Scanner feed">${scanners.map((s, ix) =>
+            `<option value="${esc(s.stream)}"${ix === 0 ? ' selected' : ''}>${esc(str(s.name))}${s.state ? ' — ' + esc(str(s.state)) : ''}</option>`).join('')}</select>
+          <button id="scanon" type="button">▶ Enable audio</button>
+        </div>
+        <audio id="scanaudio" controls muted preload="none" src="${esc(scanners[0].stream)}"></audio>
+        <div class="tm">Community feed — point-only, we never rehost. Autoplay is muted; tap “Enable audio”.</div>
+      </div>`
+    : `<div class="tm">No community scanner feed found right now.</div>`;
+
+  const incidentsSection = `<section class="sec wide"><h2>Incidents <span class="tag official">official city feed</span></h2>
+      <ul class="tiles">${boardTiles(incidents, { emptyText: 'No official open-data incidents configured / reported.' })}</ul></section>`;
+
+  const dataJson = jsonForScript({ alerts, quakes, incidents, scanners, disclaimer });
+  const client = `
+(function(){
+  var api = ${JSON.stringify(apiQ)};
+  var clock = document.getElementById('clock');
+  function tick(){ if(clock){ try{ clock.textContent = new Date().toLocaleTimeString(); }catch(e){} } }
+  tick(); setInterval(tick, 1000);
+  var audio = document.getElementById('scanaudio');
+  var pick = document.getElementById('scanpick');
+  var on = document.getElementById('scanon');
+  if(pick && audio){ pick.addEventListener('change', function(){ audio.src = pick.value; audio.muted = false; audio.play().catch(function(){}); }); }
+  if(on && audio){ on.addEventListener('click', function(){ audio.muted = false; audio.play().catch(function(){}); }); }
+  function refresh(){
+    fetch('/api/safety' + api, { headers: { accept: 'application/json' } })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if(j){ /* a full re-render would replace tiles; kept minimal — reload keeps SSR the source of truth */ } })
+      .catch(function(){});
+  }
+  setInterval(function(){ location.reload(); }, 90000);
+  if('wakeLock' in navigator){ navigator.wakeLock.request('screen').catch(function(){});
+    document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible'){ navigator.wakeLock.request('screen').catch(function(){}); } });
+  }
+  void refresh;
+})();`;
+
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Public Safety Board — data.SoapBox</title>
+<meta name=description content="A data.SoapBox situational-awareness board: live NWS weather alerts, USGS quakes, and a community scanner feed. Not an official emergency source — in an emergency, call 911.">
+<meta name=robots content="noindex,follow">${STYLE}</head><body class="board">
+<div class="alpha">Alpha</div>
+<main class="board">
+  <div class="bhead">
+    <h1>PUBLIC SAFETY BOARD — <span class="loc">${esc(st)}</span></h1>
+    <div class="clock" id="clock">—:—:—</div>
+  </div>
+  <div class="grid">
+    <section class="sec"><h2>Active Alerts <span class="tag official">NWS</span></h2>
+      <ul class="tiles">${boardTiles(alerts, { emptyText: 'No active weather alerts.' })}</ul></section>
+    <section class="sec"><h2>Recent Quakes <span class="tag official">USGS</span></h2>
+      <ul class="tiles">${boardTiles(quakes, { emptyText: 'No recent quakes above threshold.' })}</ul></section>
+    ${incidentsSection}
+    <section class="sec wide"><h2>📻 Scanner <span class="tag community">community feed</span></h2>
+      ${scannerHtml}</section>
+  </div>
+</main>
+<div class="disclaimer">⚠ ${esc(disclaimer)}</div>
+<script id="safety-data" type="application/json">${dataJson}</script>
 <script>${client}</script>
 </body></html>`;
 }
@@ -444,6 +662,11 @@ export function configPage({ topic = '', types = DEFAULT_TYPES, rotate = 12 } = 
       </div>
     </div>
   </form>
+  <div class="card">
+    <h2 style="font-size:16px;margin:0 0 6px">Public Safety board</h2>
+    <p class="mut">A dedicated, non-rotating incident board — live weather/quake alerts + a community scanner feed. Situational awareness only, not an official emergency source.</p>
+    <div class="row"><a id="safetylink" href="/safety?state=TX">Open the Public Safety board →</a></div>
+  </div>
 </main>
 <script>${client}</script>
 </body></html>`;
@@ -471,12 +694,27 @@ export async function handler(req, res) {
     const topic = url.searchParams.get('topic') || '';
     const types = url.searchParams.getAll('types');
     const rotate = url.searchParams.get('rotate');
+    const state = url.searchParams.get('state') || 'TX';
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
 
     if (path === '/api/slides') {
-      const deck = await buildDeck({ topic, types }); // already soft-failed to a safe default deck
+      const deck = await buildDeck({ topic, types, state }); // already soft-failed to a safe default deck
       return sendJson(res, deck);
+    }
+
+    if (path === '/api/safety') {
+      const board = await buildSafetyBoard({ state, city: url.searchParams.get('city') });
+      return sendJson(res, board);
+    }
+
+    if (path === '/safety') {
+      const board = await buildSafetyBoard({ state, city: url.searchParams.get('city') });
+      const q = new URLSearchParams();
+      if (state) q.set('state', state);
+      const city = url.searchParams.get('city');
+      if (city) q.set('city', city);
+      return sendHtml(res, safetyBoardPage(board, { state, query: q.toString() }));
     }
 
     if (path === '/config') {
@@ -484,12 +722,13 @@ export async function handler(req, res) {
     }
 
     if (path === '/' || path === '/signage') {
-      const deck = await buildDeck({ topic, types });
+      const deck = await buildDeck({ topic, types, state });
       // Preserve the same query on the client's /api/slides refresh so the deck stays consistent.
       const q = new URLSearchParams();
       if (topic) q.set('topic', topic);
       const tsel = parseTypes(types);
       if (tsel.length) q.set('types', tsel.join(','));
+      if (state && state !== 'TX') q.set('state', state);
       const rot = clampRotate(rotate == null ? 12 : rotate);
       if (rot) q.set('rotate', String(rot));
       return sendHtml(res, displayPage(deck, { rotateSec: rot, query: q.toString() }));
