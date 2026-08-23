@@ -220,8 +220,8 @@ export const PHASES = [
   },
 ];
 
-// ── home — the roadmap ────────────────────────────────────────────────────────────────────────────
-export function homePage() {
+// ── /roadmap — the phased timeline ────────────────────────────────────────────────────────────────
+export function roadmapPage() {
   const legend = `<div class=legend>
     <span>${badge('shipped')} live now</span>
     <span>${badge('progress')} in progress</span>
@@ -245,7 +245,91 @@ export function homePage() {
     <blockquote><b>Durability.</b> The character and the corpus live in public records, so the project
       survives any single tool, model, or operator. Each step builds on the work that came before it —
       continuity, not redemption.</blockquote>`;
-  return page('Van Kush Family — Roadmap', body, { canonical: `${BASE_URL}/` });
+  return page('Van Kush Family — Roadmap', body, { canonical: `${BASE_URL}/roadmap` });
+}
+
+// ── the heraldic crest, as a crisp inline SVG mark (matches the printed logo/stickers) ───────────────
+// A triangular pennon: quartered shield (sun · temple/columns · bee-caduceus · field) under a red crest,
+// flanked by cannabis leaves, gold VAN KUSH wordmark — in the brand palette (navy/crimson/gold/green/cream).
+export function crestSvg(size = 132) {
+  return `<svg viewBox="0 0 120 150" width="${size}" height="${Math.round(size * 1.25)}" role="img" aria-label="Van Kush family crest" xmlns="http://www.w3.org/2000/svg">
+   <defs><linearGradient id="vkfield" x1="0" y1="0" x2="1" y2="1">
+     <stop offset="0" stop-color="#16204a"/><stop offset="1" stop-color="#0e1836"/></linearGradient></defs>
+   <!-- pennon -->
+   <path d="M12 8 H108 L60 138 Z" fill="url(#vkfield)" stroke="#d9a441" stroke-width="2"/>
+   <!-- cannabis leaves flanking -->
+   <path d="M20 34 q10 6 8 20 q-9 -3 -12 -12 q9 4 10 10 q-3 -9 -6 -18 Z" fill="#3b7a3a" opacity=".85"/>
+   <path d="M100 34 q-10 6 -8 20 q9 -3 12 -12 q-9 4 -10 10 q3 -9 6 -18 Z" fill="#3b7a3a" opacity=".85"/>
+   <!-- red crest -->
+   <path d="M52 20 q8 -12 16 0 q-4 6 -8 4 q-4 2 -8 -4 Z" fill="#b1223a"/>
+   <circle cx="60" cy="16" r="3" fill="#d9a441"/>
+   <!-- quartered shield -->
+   <path d="M40 46 H80 V78 Q60 96 40 78 Z" fill="#f5f1e6" stroke="#16204a" stroke-width="1.5"/>
+   <path d="M60 46 V88 M40 62 H80" stroke="#16204a" stroke-width="1.2"/>
+   <circle cx="50" cy="55" r="5" fill="#d9a441"/><g stroke="#d9a441" stroke-width="1.3">
+     <line x1="50" y1="47" x2="50" y2="63"/><line x1="42" y1="55" x2="58" y2="55"/><line x1="44" y1="49" x2="56" y2="61"/><line x1="56" y1="49" x2="44" y2="61"/></g>
+   <g stroke="#b1223a" stroke-width="1.6"><line x1="66" y1="50" x2="66" y2="60"/><line x1="70" y1="50" x2="70" y2="60"/><line x1="74" y1="50" x2="74" y2="60"/></g>
+   <path d="M48 68 q4 6 0 12 M52 68 q-4 6 0 12" stroke="#b1223a" stroke-width="1.4" fill="none"/>
+   <ellipse cx="70" cy="74" rx="4" ry="5" fill="#d9a441"/>
+   <text x="60" y="112" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="13" fill="#d9a441" letter-spacing="1">VAN KUSH</text>
+  </svg>`;
+}
+
+// ── home — the inviting heraldic landing (cream/navy/crimson/gold, matches the stickers) ─────────────
+const DEST = [
+  ['Join MELEK', 'Create your account — chat, post, and get paid on-chain.', 'https://melek.salon', '⬡'],
+  ['Congress', 'The on-chain town square — short-form social on MELEK.', 'https://alpha.congress.ink', '🏛'],
+  ['Witness School', 'Learn to run a witness, mine, make a token, write the wiki — and earn.', 'https://witness.melek.salon', '🎓'],
+  ['KulaSwap', 'The PRANA DEX — swap, provide liquidity, farm.', 'https://kula.money', '💧'],
+  ['The Library', 'Ashurbanipal — the cited reference wiki behind it all.', 'https://wiki.soapbox.community', '📜'],
+  ['Roadmap', 'What is live now, next, and later — the honest timeline.', '/roadmap', '🗺'],
+];
+
+export function homePage() {
+  const cards = DEST.map(([t, d, href, ic]) =>
+    `<a class=dest href="${esc(href)}"><span class=ic aria-hidden=true>${ic}</span><span class=dt>${esc(t)}</span><span class=dd>${esc(d)}</span></a>`).join('');
+  const body = `<div class=hero>
+    <div class=crest>${crestSvg(140)}</div>
+    <h1>Van Kush Family</h1>
+    <p class=motto>Ancient scholarship, genealogy, and an AI-native blockchain community — one living family of work.</p>
+    <div class=cta><a class="btn primary" href="https://melek.salon">Join MELEK →</a><a class="btn ghost" href="/roadmap">See the roadmap</a></div>
+  </div>
+  <h2 class=sectionh>Come in — pick a door</h2>
+  <div class=dests>${cards}</div>
+  <p class=foot-note>New here? Start with <a href="https://melek.salon">MELEK</a> — your one account opens every door above.</p>`;
+  return landing('Van Kush Family — join the family', body,
+    { canonical: `${BASE_URL}/`, desc: 'Van Kush Family — ancient scholarship, genealogy, and an AI-native blockchain community. Join MELEK, explore Congress, learn at the Witness School, trade on KulaSwap.' });
+}
+
+// A LIGHT, heraldic page shell for the landing (distinct from the dark roadmap shell) — cream + crest colors.
+function landing(title, body, opts = {}) {
+  const canonical = opts.canonical || `${BASE_URL}/`;
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
+<meta name=description content="${esc(opts.desc || '')}"><link rel=canonical href="${esc(canonical)}">
+<style>
+ :root{--cream:#f5f1e6;--ink:#16204a;--crimson:#b1223a;--gold:#c9992a;--green:#3b7a3a;--mut:#5b6478;--line:#e2dcc9}
+ *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 Georgia,'Times New Roman',serif}
+ a{color:inherit;text-decoration:none} .wrap{max-width:940px;margin:0 auto;padding:0 20px}
+ .hero{text-align:center;padding:48px 20px 30px} .crest{filter:drop-shadow(0 3px 8px rgba(22,32,74,.25))}
+ h1{font-size:46px;margin:14px 0 6px;letter-spacing:.5px;color:var(--ink)}
+ .motto{color:var(--mut);font-size:18px;max-width:620px;margin:0 auto 22px}
+ .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+ .btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:700;font-size:16px;font-family:system-ui,sans-serif}
+ .btn.primary{background:var(--crimson);color:#fff;box-shadow:0 2px 0 #7d1628} .btn.primary:hover{background:#c62a44}
+ .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)} .btn.ghost:hover{background:var(--ink);color:var(--cream)}
+ .sectionh{text-align:center;font-size:15px;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin:34px 0 16px}
+ .dests{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;padding-bottom:10px}
+ .dest{display:flex;flex-direction:column;background:#fffdf7;border:1px solid var(--line);border-top:4px solid var(--ink);border-radius:10px;padding:18px 20px;transition:transform .12s,box-shadow .12s}
+ .dest:nth-child(3n+1){border-top-color:var(--crimson)} .dest:nth-child(3n+2){border-top-color:var(--gold)} .dest:nth-child(3n){border-top-color:var(--green)}
+ .dest:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(22,32,74,.14)}
+ .ic{font-size:26px} .dt{font-weight:700;font-size:19px;margin:8px 0 4px} .dd{color:var(--mut);font-size:14.5px;font-family:system-ui,sans-serif}
+ .foot-note{text-align:center;color:var(--mut);margin:26px 0 44px} .foot-note a{color:var(--crimson);font-weight:700}
+ footer{text-align:center;color:var(--mut);font-size:13px;padding:20px;border-top:1px solid var(--line);font-family:system-ui,sans-serif}
+</style></head><body>
+<main class=wrap>${body}</main>
+<footer>© Van Kush Family · <a href="/roadmap" style="color:var(--mut)">roadmap</a> · <a href="https://melek.salon" style="color:var(--mut)">melek.salon</a></footer>
+</body></html>`;
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
@@ -254,7 +338,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/'];
+const SITEMAP_PATHS = ['/', '/roadmap'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -289,6 +373,7 @@ export async function handler(req, res) {
     }
 
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/roadmap') return sendHtml(res, roadmapPage());
 
     // unknown → home
     res.writeHead(302, { location: '/' });

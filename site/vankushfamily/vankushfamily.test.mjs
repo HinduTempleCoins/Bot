@@ -6,7 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { homePage, handler, esc, PHASES } from './server.mjs';
+import { homePage, roadmapPage, crestSvg, handler, esc, PHASES } from './server.mjs';
 
 // minimal mock response that captures status, headers and body for handler() tests.
 function mockRes() {
@@ -28,14 +28,14 @@ test('esc escapes HTML metacharacters', () => {
 });
 
 test('home page renders the title and lead', () => {
-  const html = homePage();
+  const html = roadmapPage();
   assert.match(html, /Van Kush Family — Roadmap/);
   assert.match(html, /AI-native blockchain community/);
   assert.match(html, /<!doctype html>/);
 });
 
 test('all five forward phases plus the soon-after block are present', () => {
-  const html = homePage();
+  const html = roadmapPage();
   // Phase 0 shipped, Day 0, after-Day-0, PRANA, SOAP, Beyond
   assert.match(html, /Phase 0 — Already shipped/);
   assert.match(html, /Day 0 — MELEK mainnet — LIVE/); // MELEK launched 2026-07-12 — shipped, not "launch (next)"
@@ -58,7 +58,7 @@ test('PHASES data has exactly the six expected phases in order', () => {
 });
 
 test('shipped milestones carry a shipped badge; later milestones carry planned/progress', () => {
-  const html = homePage();
+  const html = roadmapPage();
   assert.match(html, /class="badge shipped">shipped</);
   assert.match(html, /class="badge planned">planned</);
   assert.match(html, /class="badge progress">in progress</);
@@ -82,14 +82,14 @@ test('gated/not-yet-built chain work is NOT marked shipped/done', () => {
 });
 
 test('known shipped milestones appear', () => {
-  const html = homePage();
+  const html = roadmapPage();
   assert.match(html, /data\.soapbox\.community is LIVE/);
   assert.match(html, /Condenser proven over MELEK/);
   assert.match(html, /Cheetah librarian \+ Hathor shell/);
 });
 
 test('known forward milestones appear', () => {
-  const html = homePage();
+  const html = roadmapPage();
   assert.match(html, /MELEK chain live · Hathor produces blocks/);
   assert.match(html, /Conversational Hathor/);
   assert.match(html, /PRANA public network live/);
@@ -97,7 +97,7 @@ test('known forward milestones appear', () => {
 });
 
 test('PUBLIC ONLY: no private/proprietary terms leak into the rendered page', () => {
-  const html = homePage().toLowerCase();
+  const html = roadmapPage().toLowerCase();
   const forbidden = ['resident-ai', 'resident ai', 'signer', 'private key', 'wif', 'kms',
     'kalivankush', 'angelicalist', 'grant program', 'tenant-grant', 'server a', 'server b',
     '.local', 'briefd', 'vault', 'trade bot', 'trade-bot', 'tradebot'];
@@ -106,11 +106,37 @@ test('PUBLIC ONLY: no private/proprietary terms leak into the rendered page', ()
   }
 });
 
-test('GET / returns the roadmap HTML', async () => {
+test('GET / returns the inviting heraldic landing (not the roadmap)', async () => {
   const res = await get('/');
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
+  assert.match(res.body, /Van Kush Family/);
+  assert.match(res.body, /pick a door/);       // landing section
+  assert.match(res.body, /Join MELEK/);         // primary CTA
+  assert.doesNotMatch(res.body, /— Roadmap<\/title>/); // it's the landing, not the roadmap page
+});
+
+test('GET /roadmap returns the roadmap HTML', async () => {
+  const res = await get('/roadmap');
+  assert.equal(res.statusCode, 200);
   assert.match(res.body, /Van Kush Family — Roadmap/);
+});
+
+test('landing shows the crest + clickable destinations into the live ecosystem', () => {
+  const html = homePage();
+  assert.match(html, /Van Kush family crest/);            // inline SVG crest
+  assert.match(html, /alpha\.congress\.ink/);              // Congress
+  assert.match(html, /witness\.melek\.salon/);            // Witness School
+  assert.match(html, /kula\.money/);                      // KulaSwap
+  assert.match(html, /\/roadmap/);                         // roadmap link
+});
+
+test('crestSvg renders a brand-colored heraldic mark', () => {
+  const svg = crestSvg(100);
+  assert.match(svg, /<svg/);
+  assert.match(svg, /VAN KUSH/);
+  assert.match(svg, /#d9a441|#c9992a/); // gold
+  assert.match(svg, /#b1223a/);         // crimson
 });
 
 test('GET /health returns ok', async () => {
@@ -146,7 +172,7 @@ test('unknown path redirects to home', async () => {
 });
 
 test('footer cross-links the live SoapBox sites', async () => {
-  const html = homePage();
+  const html = roadmapPage();
   assert.match(html, /https:\/\/data\.soapbox\.community/);
   assert.match(html, /https:\/\/law\.soapbox\.community/);
   assert.match(html, /https:\/\/politics\.soapbox\.community/);
