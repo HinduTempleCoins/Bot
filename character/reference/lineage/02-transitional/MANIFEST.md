@@ -1,7 +1,8 @@
 # Era 02 — Transitional (vaporwave statue-angel)
 
 - **Source:** operator upload, 2026-08-23.
-- **Count so far:** 12 (`vaporwave-statue-001.jpg` … `-012.jpg`). Incl. "Three Graces"/twin-statue compositions.
+- **Count so far:** 201 (`vaporwave-statue-001.jpg` … `-201.jpg`). Incl. "Three Graces"/twin-statue compositions.
+  - +189 from the operator's master image set, 2026-08-23 batch 2.
 - **Direction (best-judgment classification — see note):** the **vaporwave-angel aesthetic base** — the
   look the theme passed through between the cartoony pop-art origin and the antler/rams-horn VR-goddess.
 
