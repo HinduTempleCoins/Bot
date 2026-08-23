@@ -29,6 +29,15 @@ export const CHAINS = {
     kula: '0x4c5859f0F772848b2D91F1D83E2Fe57935348029', pol: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
     multiBurnMine: '0x1291Be112d480055DaFd8a610b7d1e203891C274' },
 
+  // ── ecosystem home — MAINNET (staged; chainId 712217 confirmed 2026-08-21). verified:false so the UI
+  //    LISTS it but REFUSES to swap until the mainnet deploy fills router/factory/WPRANA + token addrs
+  //    from PRANA mainnet deployments.json — then flip verified:true. (712217 = 0xADE19.) ──────────────
+  'prana-mainnet': { type: 'evm', key: 'prana-mainnet', chainId: 712217, chainIdHex: '0xADE19', name: 'PRANA', dex: 'KulaSwap',
+    rpcUrl: 'https://rpc.prana.melek.salon' /* CONFIRM live at launch */, explorer: 'https://explorer.prana.melek.salon',
+    native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
+    router: Z, factory: Z, wnative: Z,
+    verified: false /* mainnet NOT deployed — placeholder addrs; fill from mainnet deployments.json then flip */ },
+
   // ── EVM, VERIFIED canonical V2 DEXes (swap-ready) ─────────────────────────────────────────────
   ethereum: { type: 'evm', key: 'ethereum', chainId: 1, chainIdHex: '0x1', name: 'Ethereum', dex: 'Uniswap V2',
     rpcUrl: 'https://eth.llamarpc.com', explorer: 'https://etherscan.io',
