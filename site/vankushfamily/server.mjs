@@ -21,6 +21,9 @@
 //   (2026-07-12): the MELEK chain, condenser, onboarder and witness school are shipped, not planned.
 
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
@@ -289,7 +292,7 @@ export function homePage() {
   const cards = DEST.map(([t, d, href, ic]) =>
     `<a class=dest href="${esc(href)}"><span class=ic aria-hidden=true>${ic}</span><span class=dt>${esc(t)}</span><span class=dd>${esc(d)}</span></a>`).join('');
   const body = `<div class=hero>
-    <div class=crest>${crestSvg(140)}</div>
+    <div class=crest><img class=logo src="/vankush-logo.png" alt="Van Kush family crest" width="300" height="349" loading="eager"></div>
     <h1>Van Kush Family</h1>
     <p class=motto>Ancient scholarship, genealogy, and an AI-native blockchain community — one living family of work.</p>
     <div class=cta><a class="btn primary" href="https://melek.salon">Join MELEK →</a><a class="btn ghost" href="/roadmap">See the roadmap</a></div>
@@ -308,27 +311,36 @@ function landing(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(opts.desc || '')}"><link rel=canonical href="${esc(canonical)}">
 <style>
- :root{--cream:#f5f1e6;--ink:#16204a;--crimson:#b1223a;--gold:#c9992a;--green:#3b7a3a;--mut:#5b6478;--line:#e2dcc9}
- *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 Georgia,'Times New Roman',serif}
- a{color:inherit;text-decoration:none} .wrap{max-width:940px;margin:0 auto;padding:0 20px}
- .hero{text-align:center;padding:48px 20px 30px} .crest{filter:drop-shadow(0 3px 8px rgba(22,32,74,.25))}
- h1{font-size:46px;margin:14px 0 6px;letter-spacing:.5px;color:var(--ink)}
- .motto{color:var(--mut);font-size:18px;max-width:620px;margin:0 auto 22px}
- .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
- .btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:700;font-size:16px;font-family:system-ui,sans-serif}
- .btn.primary{background:var(--crimson);color:#fff;box-shadow:0 2px 0 #7d1628} .btn.primary:hover{background:#c62a44}
- .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)} .btn.ghost:hover{background:var(--ink);color:var(--cream)}
- .sectionh{text-align:center;font-size:15px;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin:34px 0 16px}
+ /* colorblock + vaporwave: neon magenta/cyan/purple over a deep dusk gradient, hard color blocks. */
+ :root{--bg0:#1a0b2e;--bg1:#2a1250;--magenta:#ff2e97;--cyan:#25e8f2;--purple:#a24bff;--gold:#ffd23f;--teal:#00c2a8;--fg:#fdf4ff;--mut:#c7b3e6}
+ *{box-sizing:border-box} html{background:#1a0b2e} body{margin:0;color:var(--fg);font:16px/1.6 system-ui,'Segoe UI',sans-serif;
+   background:linear-gradient(160deg,#1a0b2e 0%,#2a1250 45%,#3b1560 100%);background-repeat:no-repeat;min-height:100vh}
+ a{color:inherit;text-decoration:none} .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+ .hero{text-align:center;padding:44px 20px 26px;position:relative}
+ .crest .logo{max-width:min(300px,72vw);height:auto;filter:drop-shadow(0 0 26px rgba(255,46,151,.55)) drop-shadow(0 0 46px rgba(37,232,242,.35))}
+ h1{font-size:clamp(38px,8vw,60px);margin:16px 0 6px;font-weight:900;letter-spacing:1px;
+   background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;
+   text-shadow:0 0 30px rgba(162,75,255,.35)}
+ .motto{color:var(--mut);font-size:18px;max-width:640px;margin:0 auto 24px}
+ .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+ .btn{display:inline-block;padding:13px 28px;border-radius:999px;font-weight:800;font-size:16px;letter-spacing:.3px}
+ .btn.primary{background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;box-shadow:0 0 22px rgba(255,46,151,.5)} .btn.primary:hover{filter:brightness(1.12)}
+ .btn.ghost{background:transparent;color:var(--cyan);border:2px solid var(--cyan);box-shadow:0 0 14px rgba(37,232,242,.35)} .btn.ghost:hover{background:var(--cyan);color:#0a0a1a}
+ .sectionh{text-align:center;font-size:14px;text-transform:uppercase;letter-spacing:.24em;color:var(--cyan);margin:38px 0 18px;text-shadow:0 0 14px rgba(37,232,242,.5)}
  .dests{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;padding-bottom:10px}
- .dest{display:flex;flex-direction:column;background:#fffdf7;border:1px solid var(--line);border-top:4px solid var(--ink);border-radius:10px;padding:18px 20px;transition:transform .12s,box-shadow .12s}
- .dest:nth-child(3n+1){border-top-color:var(--crimson)} .dest:nth-child(3n+2){border-top-color:var(--gold)} .dest:nth-child(3n){border-top-color:var(--green)}
- .dest:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(22,32,74,.14)}
- .ic{font-size:26px} .dt{font-weight:700;font-size:19px;margin:8px 0 4px} .dd{color:var(--mut);font-size:14.5px;font-family:system-ui,sans-serif}
- .foot-note{text-align:center;color:var(--mut);margin:26px 0 44px} .foot-note a{color:var(--crimson);font-weight:700}
- footer{text-align:center;color:var(--mut);font-size:13px;padding:20px;border-top:1px solid var(--line);font-family:system-ui,sans-serif}
+ .dest{display:flex;flex-direction:column;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+   border-radius:14px;padding:18px 20px;transition:transform .14s,box-shadow .14s,background .14s;backdrop-filter:blur(4px)}
+ /* hard color-block accents cycling through the vaporwave palette */
+ .dest:nth-child(5n+1){border-top:5px solid var(--magenta)} .dest:nth-child(5n+2){border-top:5px solid var(--cyan)}
+ .dest:nth-child(5n+3){border-top:5px solid var(--gold)} .dest:nth-child(5n+4){border-top:5px solid var(--purple)} .dest:nth-child(5n){border-top:5px solid var(--teal)}
+ .dest:hover{transform:translateY(-4px);background:rgba(255,255,255,.09);box-shadow:0 10px 30px rgba(255,46,151,.28)}
+ .ic{font-size:28px} .dt{font-weight:800;font-size:19px;margin:8px 0 4px;color:#fff} .dd{color:var(--mut);font-size:14.5px}
+ .foot-note{text-align:center;color:var(--mut);margin:28px 0 44px} .foot-note a{color:var(--gold);font-weight:800}
+ footer{text-align:center;color:var(--mut);font-size:13px;padding:22px;border-top:1px solid rgba(255,255,255,.1)}
+ footer a{color:var(--cyan)}
 </style></head><body>
 <main class=wrap>${body}</main>
-<footer>© Van Kush Family · <a href="/roadmap" style="color:var(--mut)">roadmap</a> · <a href="https://melek.salon" style="color:var(--mut)">melek.salon</a></footer>
+<footer>© Van Kush Family · <a href="/roadmap">roadmap</a> · <a href="https://melek.salon">melek.salon</a></footer>
 </body></html>`;
 }
 
@@ -347,6 +359,13 @@ export async function handler(req, res) {
     const path = url.pathname;
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
+    if (path === '/vankush-logo.png') {
+      try {
+        const buf = readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'vankush-logo.png'));
+        res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public, max-age=86400' });
+        return res.end(buf);
+      } catch { res.writeHead(404); return res.end(); }
+    }
     if (path === '/robots.txt') {
       res.writeHead(200, { 'content-type': 'text/plain' });
       return res.end(robotsTxt(BASE_URL));
