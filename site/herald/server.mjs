@@ -15,6 +15,14 @@
 //   interpolated value. Soft-fail: renders even if a module read returns nothing. No key, read-only.
 import { createServer } from 'node:http';
 import { listPacks } from '../../pentecaust/herald/prompt-packs.mjs';
+// Live handlers mounted below. Each is verified to always end the response (JSON API or HTML/redirect),
+// so delegating req/res is safe; a throw is caught and soft-failed. Prefix-mounted API modules get
+// req.url stripped of the prefix so they see their own native paths (/api/plan, /health, …).
+import { handler as seoHandler } from '../../pentecaust/herald/seo-execution.mjs';
+import { handler as campaignHandler } from '../../pentecaust/herald/campaign-planner.mjs';
+import { handler as analyticsHandler } from '../../pentecaust/herald/analytics.mjs';
+import { handler as outreachHandler } from '../../pentecaust/herald/outreach-db.mjs';
+import { handler as qrHandler } from '../../pentecaust/herald/qr-tracker.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -38,7 +46,7 @@ export const CAPABILITIES = [
     ['Campaign planner', 'A staged growth plan per brand — content → distribution → authority → convert.', 'campaign-planner', null],
   ]],
   ['Reach', [
-    ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system).', 'outreach-db', null],
+    ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system). Sign-in required.', 'outreach-db', '/outreach'],
     ['Lead CRM', 'Verified-only lead capture + a CRM pipeline (only count contacts you can verify).', 'lead-crm', null],
     ['QR tracker', 'Trackable QR codes for offline→online attribution.', 'qr-tracker', null],
   ]],
@@ -102,7 +110,18 @@ export function promptsPage() {
 
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
 
-export function handler(req, res) {
+// Live module mounts. Prefix-mounted API modules (rewrite set) get req.url stripped so they see their
+// own native paths; native-path modules (rewrite null) get req.url unchanged. Every fn always ends the
+// response; a throw is caught below. Read-only server: these modules hold no key of ours.
+const MOUNTS = [
+  { rewrite: null, fn: outreachHandler, match: (p) => p === '/outreach' || p.startsWith('/outreach/') },
+  { rewrite: null, fn: qrHandler, match: (p) => p.startsWith('/go/') || p === '/qr' || p.startsWith('/qr/') },
+  { rewrite: '/seo', fn: seoHandler, match: (p) => p === '/seo' || p.startsWith('/seo/') },
+  { rewrite: '/campaigns', fn: campaignHandler, match: (p) => p === '/campaigns' || p.startsWith('/campaigns/') },
+  { rewrite: '/analytics', fn: analyticsHandler, match: (p) => p === '/analytics' || p.startsWith('/analytics/') },
+];
+
+export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL);
     const path = url.pathname;
@@ -110,10 +129,17 @@ export function handler(req, res) {
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (path === '/sitemap.xml') {
       res.writeHead(200, { 'content-type': 'application/xml' });
-      return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url><url><loc>${BASE_URL}/prompts</loc></url></urlset>`);
+      return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url><url><loc>${BASE_URL}/prompts</loc></url><url><loc>${BASE_URL}/outreach</loc></url></urlset>`);
     }
     if (path === '/') return send(res, homePage());
     if (path === '/prompts') return send(res, promptsPage());
+    // delegate to a mounted module handler if one claims this path
+    for (const m of MOUNTS) {
+      if (!m.match(path)) continue;
+      if (m.rewrite) req.url = req.url.slice(m.rewrite.length) || '/';
+      try { return await m.fn(req, res); }
+      catch { return send(res, pageShell('Herald', `<p style="color:var(--mut)">That tool hit an error. <a class=back href="/">← Herald</a></p>`), 502); }
+    }
     return send(res, pageShell('Not found — Herald', `<p><a class=back href="/">← Herald</a></p><p style="color:var(--mut)">Not found.</p>`), 404);
   } catch {
     return send(res, pageShell('Herald', `<p style="color:var(--mut)">Something went wrong. <a class=back href="/">← Herald</a></p>`), 500);
