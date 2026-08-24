@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 process.env.GEMINI_API_KEY = 'test-key-not-real';
 process.env.CHEETAH_REVERSE_IMAGE = 'serpapi';
 process.env.CHEETAH_REVERSE_IMAGE_KEY = 'test-serp-key';
+process.env.LLM_ALLOW_GEMINI = '1'; // opt into the (stubbed) metered rung so the vision stub is exercised (no free keys set here)
 
 const { detectImage, describeImage, __setFetch } = await import('./image-detection.js');
 
