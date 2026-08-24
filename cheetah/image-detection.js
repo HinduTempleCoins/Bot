@@ -14,10 +14,14 @@
 import { findSimilarOnChain, findSimilarOnWeb } from './text-detection.js';
 import { imageHash, findOriginal } from './perceptual-hash.js';
 
-const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = process.env.GEMINI_VISION_MODEL || 'gemini-2.5-flash';
 const REVERSE_BACKEND = process.env.CHEETAH_REVERSE_IMAGE || 'none'; // 'bing' | 'serpapi' | 'none'
 const UA = 'MELEK-Cheetah/1.0 (+https://github.com/HinduTempleCoins/Bot)';
+
+// The single vision instruction, shared by every provider (free ladder + gated Gemini).
+const VISION_PROMPT =
+  'Describe this image factually in one sentence, then on a new line after "TEXT:" transcribe any ' +
+  'text, watermark, signature, or source/URL visible in it (or "none"). Do not speculate about ownership.';
 
 // fetch is injectable so the logic can be tested without network or a real key.
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -34,25 +38,112 @@ async function fetchImageBase64(url) {
   } finally { clearTimeout(t); }
 }
 
-// Gemini Vision: describe the image + pull any embedded text/watermark/source clue. NOT a guilt call.
-export async function describeImage(imageUrl) {
-  if (!GEMINI_KEY) return { description: '', extractedText: '', note: 'no GEMINI_API_KEY (vault/gate)' };
-  const img = await fetchImageBase64(imageUrl);
+// Split a vision model's "<desc>\nTEXT: <embedded>" reply into our shape. "none" -> empty.
+function parseVision(out) {
+  const [desc, ...rest] = String(out || '').split(/\n?TEXT:/i);
+  return {
+    description: (desc || '').trim(),
+    extractedText: (rest.join(' ') || '').trim().replace(/^none\.?$/i, ''),
+  };
+}
+
+// FREE-FIRST vision ladder. Each rung is an OpenAI-compatible /chat/completions vision endpoint,
+// gated by its own env key and skipped when the key is absent. Reuses the SAME env var names as
+// guest-api-proxy.js so whatever free key is already on the box is picked up. Keys read at call
+// time (vault-JIT friendly). Order: Groq -> OpenRouter -> Cloudflare Workers-AI. Model ids are
+// env-overridable so the operator can retune without a code change. NO paid provider here.
+function freeVisionProviders() {
+  const out = [];
+  if (process.env.GROQ_API_KEY) out.push({
+    name: 'groq', url: 'https://api.groq.com/openai/v1/chat/completions',
+    key: process.env.GROQ_API_KEY,
+    model: process.env.GROQ_VISION_MODEL || 'meta-llama/llama-4-scout-17b-16e-instruct',
+  });
+  if (process.env.OPENROUTER_API_KEY) out.push({
+    name: 'openrouter', url: 'https://openrouter.ai/api/v1/chat/completions',
+    key: process.env.OPENROUTER_API_KEY,
+    model: process.env.OPENROUTER_VISION_MODEL || 'meta-llama/llama-3.2-11b-vision-instruct:free',
+  });
+  if (process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN) out.push({
+    name: 'cloudflare',
+    url: `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1/chat/completions`,
+    key: process.env.CLOUDFLARE_API_TOKEN,
+    model: process.env.CLOUDFLARE_VISION_MODEL || '@cf/meta/llama-3.2-11b-vision-instruct',
+  });
+  return out;
+}
+
+// One OpenAI-compatible vision call (data-URL image). Throws on non-OK so the ladder falls through.
+async function callOpenAIVision(p, img) {
+  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 25000);
+  try {
+    const r = await _fetch(p.url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'user-agent': UA, authorization: `Bearer ${p.key}` },
+      body: JSON.stringify({
+        model: p.model,
+        messages: [{ role: 'user', content: [
+          { type: 'text', text: VISION_PROMPT },
+          { type: 'image_url', image_url: { url: `data:${img.mime};base64,${img.data}` } },
+        ] }],
+        temperature: 0.2,
+        max_tokens: 512,
+      }),
+      signal: ctrl.signal,
+    });
+    if (!r.ok) throw new Error(`${p.name} HTTP ${r.status}`);
+    const j = await r.json();
+    return j?.choices?.[0]?.message?.content || '';
+  } finally { clearTimeout(t); }
+}
+
+// Gemini Vision — METERED, so OFF by default. Only reached when the operator explicitly opts in with
+// LLM_ALLOW_GEMINI=1 (mirrors the $0 hard-pin in integrations/llm-router.mjs). NOT a guilt call.
+async function callGeminiVision(img) {
+  const key = process.env.GEMINI_API_KEY || '';
   const body = {
     contents: [{ parts: [
-      { text: 'Describe this image factually in one sentence, then on a new line after "TEXT:" transcribe any text, watermark, signature, or source/URL visible in it (or "none"). Do not speculate about ownership.' },
+      { text: VISION_PROMPT },
       { inline_data: { mime_type: img.mime, data: img.data } },
     ] }],
   };
   const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 25000);
   try {
-    const r = await _fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+    const r = await _fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`,
       { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': UA }, body: JSON.stringify(body), signal: ctrl.signal });
     const j = await r.json();
-    const out = j?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const [desc, ...rest] = out.split(/\n?TEXT:/i);
-    return { description: (desc || '').trim(), extractedText: (rest.join(' ') || '').trim().replace(/^none\.?$/i, '') };
+    return j?.candidates?.[0]?.content?.parts?.[0]?.text || '';
   } finally { clearTimeout(t); }
+}
+
+// Describe the image + pull any embedded text/watermark/source clue, FREE-FIRST. Tries every free
+// vision provider whose key is present (Groq/OpenRouter/Cloudflare) in order; only if none are
+// configured AND the operator has opted into the metered tier (LLM_ALLOW_GEMINI=1) does it touch
+// Gemini. With no free key and no opt-in it soft-returns a note — the caller (detectImage) then
+// still credits via the keyless perceptual-hash + reverse-image + text paths. Never throws.
+export async function describeImage(imageUrl) {
+  const free = freeVisionProviders();
+  const geminiAllowed = process.env.LLM_ALLOW_GEMINI === '1' && Boolean(process.env.GEMINI_API_KEY);
+  if (!free.length && !geminiAllowed) {
+    return { description: '', extractedText: '', note: 'no free vision key; Gemini gated off (set a free key, or LLM_ALLOW_GEMINI=1)' };
+  }
+  let img;
+  try { img = await fetchImageBase64(imageUrl); }
+  catch (e) { return { description: '', extractedText: '', note: `image fetch failed: ${e.message}` }; }
+
+  for (const p of free) {
+    try {
+      const out = await callOpenAIVision(p, img);
+      if (out.trim()) return parseVision(out);
+    } catch { /* free rung failed — fall through to the next free provider */ }
+  }
+  if (geminiAllowed) {
+    try {
+      const out = await callGeminiVision(img);
+      return parseVision(out);
+    } catch (e) { return { description: '', extractedText: '', note: `gemini vision failed: ${e.message}` }; }
+  }
+  return { description: '', extractedText: '', note: 'all free vision providers failed' };
 }
 
 // optional reverse-image search (keyed). Returns matches [{url,title}] or [].
