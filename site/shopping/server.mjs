@@ -24,6 +24,8 @@ import * as affiliate from '../../integrations/affiliate.mjs';
 import { CATEGORIES } from '../coupons/server.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
+import * as seo from '../../integrations/soapbox/seo.mjs';
+import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8132);
@@ -88,13 +90,14 @@ function page(title, body, opts = {}) {
   const head = headTags({
     title, description: desc, canonical, siteName: SITE_NAME, robots,
     site: { url: BASE_URL, name: SITE_NAME, searchUrlTemplate: `${COUPONS}/store?store={search_term_string}` },
+    jsonld: opts.jsonld || null,
   });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">🛍️ SoapBox <span>shopping</span></a>
-  <div class=topbar-r><a href="/stores">Stores</a><a href="${esc(COUPONS)}">Coupons</a><a href="${esc(ABUCK)}">A Buck</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/guides">Guides</a><a href="/stores">Stores</a><a href="${esc(COUPONS)}">Coupons</a><a href="${esc(ABUCK)}">A Buck</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -166,7 +169,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/stores'];
+export const SITEMAP_PATHS = ['/', '/stores', ...guides.guideSitemapPaths('shopping')];
 
 export async function handler(req, res) {
   try {
@@ -196,6 +199,18 @@ export async function handler(req, res) {
 
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/stores') return sendHtml(res, storesPage());
+    if (path === '/guides') {
+      return sendHtml(res, page(`Buying guides — ${SITE_NAME}`,
+        guides.GUIDE_STYLE + guides.renderGuideIndexBody('shopping'),
+        { canonical: `${BASE_URL}/guides`, description: 'Honest buying guides — best standing desks, office chairs and more, ranked by value, never by commission.' }));
+    }
+    if (path.startsWith('/g/')) {
+      const g = guides.guideBySlug('shopping', path.slice(3));
+      if (!g) { res.writeHead(302, { location: '/guides' }); return res.end(); }
+      const { html, jsonld } = guides.renderGuideBody(g, { baseUrl: BASE_URL, affiliate, seo });
+      return sendHtml(res, page(`${g.title} — ${SITE_NAME}`, guides.GUIDE_STYLE + html,
+        { canonical: `${BASE_URL}/g/${g.slug}`, description: g.description, jsonld }));
+    }
 
     res.writeHead(302, { location: '/' });
     return res.end();
