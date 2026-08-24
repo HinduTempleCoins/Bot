@@ -31,6 +31,7 @@ import * as affiliate from '../../integrations/affiliate.mjs';
 import { listByGroup, BRAND_GUARDRAIL } from '../../integrations/aggregator-directory.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
+import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8134);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -132,7 +133,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}</head><body>
+${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">🏠 SoapBox <span>home</span></a>
   <div class=topbar-r><a href="${esc(SHOPPING)}">Shopping</a><a href="${esc(COUPONS)}">Coupons</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
