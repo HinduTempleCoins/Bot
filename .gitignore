@@ -102,3 +102,8 @@ karma/data/*.json
 # Language Center ingested datasets (live on the box; can be large) — keep the manifest only
 knowledge/languages/*
 !knowledge/languages/manifest.json
+apps/move/upload.keystore
+apps/move/keystore.base64
+apps/move/SECRETS_TO_PASTE.txt
+apps/move/*.keystore
+*.jks
