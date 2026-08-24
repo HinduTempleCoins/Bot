@@ -33,6 +33,7 @@ import * as coupons from '../../integrations/soapbox/coupons.mjs';
 import * as affiliate from '../../integrations/affiliate.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
+import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8102);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -132,7 +133,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}</head><body>
+${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">🏷️ SoapBox <span>coupons</span></a>
   <div class=topbar-r>${CATEGORIES.map((c) => `<a href="/c/${esc(c.slug)}">${esc(c.name.split(' ')[0])}</a>`).join('')}<a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>

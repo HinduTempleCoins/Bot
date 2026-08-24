@@ -6,6 +6,7 @@
 
 import { organization, webSiteJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { navBar as ecosystemNavBar, NAV_STYLE as ECOSYSTEM_NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 // The cross-property family strip (single source of truth: integrations/ecosystem-nav.mjs). Rendered in
 // the footer of every page so SoapBox Data links out to Oversight ("who do I call?"), Law (lawyer
@@ -204,7 +205,7 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
   webSiteJsonLd({ url: 'https://data.soapbox.community', name: 'SoapBox Data' }),
 ] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
-${STYLE}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
+${STYLE}${impactUtt()}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
 <a href="#main" class=skip>Skip to content</a>
 ${navBar(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
 ${familyStrip()}
