@@ -33,6 +33,8 @@ import * as coupons from '../../integrations/soapbox/coupons.mjs';
 import * as affiliate from '../../integrations/affiliate.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
+import * as seo from '../../integrations/soapbox/seo.mjs';
+import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8102);
@@ -135,7 +137,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">🏷️ SoapBox <span>coupons</span></a>
-  <div class=topbar-r>${CATEGORIES.map((c) => `<a href="/c/${esc(c.slug)}">${esc(c.name.split(' ')[0])}</a>`).join('')}<a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/guides">Guides</a>${CATEGORIES.map((c) => `<a href="/c/${esc(c.slug)}">${esc(c.name.split(' ')[0])}</a>`).join('')}<a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -278,7 +280,7 @@ function sendHtml(res, html, code = 200) {
 }
 
 // All sitemap-able paths: the home, each category, and a couple of marquee store pages.
-export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.slug}`)];
+export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.slug}`), ...guides.guideSitemapPaths('coupons')];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -335,6 +337,19 @@ export async function handler(req, res) {
         { canonical: name ? `${BASE_URL}/store?store=${encodeURIComponent(name)}` : `${BASE_URL}/store`,
           robots: store ? 'noindex,follow' : 'index,follow', jsonld },
       ));
+    }
+
+    if (path === '/guides') {
+      return sendHtml(res, page(`Money-saving guides — ${SITE_NAME}`,
+        guides.GUIDE_STYLE + guides.renderGuideIndexBody('coupons'),
+        { canonical: `${BASE_URL}/guides`, description: 'Honest money-saving guides — how to stack coupons and cashback the right way, and more.' }));
+    }
+    if (path.startsWith('/g/')) {
+      const g = guides.guideBySlug('coupons', path.slice(3));
+      if (!g) { res.writeHead(302, { location: '/guides' }); return res.end(); }
+      const { html, jsonld } = guides.renderGuideBody(g, { baseUrl: BASE_URL, affiliate, seo });
+      return sendHtml(res, page(`${g.title} — ${SITE_NAME}`, guides.GUIDE_STYLE + html,
+        { canonical: `${BASE_URL}/g/${g.slug}`, description: g.description, jsonld }));
     }
 
     // unknown → home

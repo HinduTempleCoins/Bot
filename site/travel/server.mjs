@@ -29,6 +29,8 @@ import * as affiliate from '../../integrations/affiliate.mjs';
 import { listByGroup, BRAND_GUARDRAIL } from '../../integrations/aggregator-directory.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
+import * as seo from '../../integrations/soapbox/seo.mjs';
+import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8133);
@@ -123,13 +125,13 @@ const DOORWAY_DESC = {
 function page(title, body, opts = {}) {
   const desc = opts.description || 'SoapBox Travel — an honest travel-comparison directory: flights, hotels, car rentals, cruises, vacation rentals, parking, tours, and travel insurance. Listed in a fixed order, never reordered by commission; affiliate links disclosed; we never sell your data.';
   const canonical = opts.canonical || `${BASE_URL}/`;
-  const head = headTags({ title, description: desc, canonical, siteName: SITE_NAME });
+  const head = headTags({ title, description: desc, canonical, siteName: SITE_NAME, jsonld: opts.jsonld || null });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">✈️ SoapBox <span>travel</span></a>
-  <div class=topbar-r><a href="${esc(SHOPPING)}">Shopping</a><a href="${esc(DATA)}">Data</a><a href="${esc(SEARCH)}">Search</a></div></header>
+  <div class=topbar-r><a href="/guides">Guides</a><a href="${esc(SHOPPING)}">Shopping</a><a href="${esc(DATA)}">Data</a><a href="${esc(SEARCH)}">Search</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -171,7 +173,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/'];
+export const SITEMAP_PATHS = ['/', ...guides.guideSitemapPaths('travel')];
 
 export async function handler(req, res) {
   try {
@@ -200,6 +202,18 @@ export async function handler(req, res) {
     }
 
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/guides') {
+      return sendHtml(res, page(`Travel guides — ${SITE_NAME}`,
+        guides.GUIDE_STYLE + guides.renderGuideIndexBody('travel'),
+        { canonical: `${BASE_URL}/guides`, description: 'Honest travel guides — best carry-on luggage, how to find cheap flights and more, compared by value, never by commission.' }));
+    }
+    if (path.startsWith('/g/')) {
+      const g = guides.guideBySlug('travel', path.slice(3));
+      if (!g) { res.writeHead(302, { location: '/guides' }); return res.end(); }
+      const { html, jsonld } = guides.renderGuideBody(g, { baseUrl: BASE_URL, affiliate, seo });
+      return sendHtml(res, page(`${g.title} — ${SITE_NAME}`, guides.GUIDE_STYLE + html,
+        { canonical: `${BASE_URL}/g/${g.slug}`, description: g.description, jsonld }));
+    }
 
     res.writeHead(302, { location: '/' });
     return res.end();
