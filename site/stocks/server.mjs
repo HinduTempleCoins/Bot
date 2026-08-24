@@ -227,7 +227,8 @@ export function renderCompanyCard(p) {
     const cl = companyLinks(xName);
     xlinks = `<div style="margin-top:12px"><div class=muted style="font-size:12px;margin-bottom:4px">Across SoapBox</div>
       <div style="font-size:13px"><a href="${esc(cl.law)}" rel=noopener>Court cases mentioning ${esc(xName)} →</a>
-      · <a href="${esc(cl.politics)}" rel=noopener>Lobbying &amp; federal contracts →</a></div></div>`;
+      · <a href="${esc(cl.politics)}" rel=noopener>Lobbying &amp; federal contracts →</a>
+      · <a href="${esc(cl.scamAlert)}" rel=noopener>Scam &amp; complaint report →</a></div></div>`;
   }
   return `<div class=card><h2>Company</h2>
     ${p.description ? `<p style="margin:0 0 10px">${esc(p.description)}</p>` : ''}

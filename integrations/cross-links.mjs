@@ -23,6 +23,8 @@ const LAW = trim(process.env.LAW_SITE, 'https://law.soapbox.community');
 const POLITICS = trim(process.env.POLITICS_SITE, 'https://politics.soapbox.community');
 const STOCKS = trim(process.env.STOCKS_SITE, 'https://stocks.soapbox.community');
 const DATA = trim(process.env.DATA_SITE, 'https://data.soapbox.community');
+const SCAM = trim(process.env.SCAM_ALERT_SITE, 'https://scam-alert.soapbox.community');
+const HUB = trim(process.env.SOAPBOX_HUB, 'https://soapbox.community');
 
 // Re-read env at call time too, so a test that sets process.env.* before calling sees the override
 // without needing module re-import. The module-level consts above are the fast path / documented default.
@@ -32,6 +34,8 @@ function bases() {
     politics: trim(process.env.POLITICS_SITE, POLITICS),
     stocks: trim(process.env.STOCKS_SITE, STOCKS),
     data: trim(process.env.DATA_SITE, DATA),
+    scamAlert: trim(process.env.SCAM_ALERT_SITE, SCAM),
+    hub: trim(process.env.SOAPBOX_HUB, HUB),
   };
 }
 
@@ -76,7 +80,7 @@ export function politicianLinks(name) {
  * page on Data. Every link is a lookup of the name/ticker, not an assertion of any relationship.
  * @param {string} nameOrTicker e.g. "Apple", "AAPL", "BTC"
  * @param {{crypto?:boolean}} [opts] crypto:true also returns a Data coin-page link
- * @returns {{stocks:string, law:string, politics:string, data?:string}}
+ * @returns {{stocks:string, law:string, politics:string, scamAlert:string, scams:string, data?:string}}
  */
 export function companyLinks(nameOrTicker, opts = {}) {
   const raw = String(nameOrTicker == null ? '' : nameOrTicker).trim();
@@ -86,6 +90,9 @@ export function companyLinks(nameOrTicker, opts = {}) {
     stocks: `${b.stocks}/?q=${q}`,
     law: `${b.law}/cases?q=${q}`,
     politics: `${b.politics}/accountability?q=${q}`,
+    // scam-alert = the per-company official-records report; scams = the SoapBox hub's fraud section.
+    scamAlert: `${b.scamAlert}/company?q=${q}`,
+    scams: `${b.hub}/scams?q=${q}`,
   };
   if (opts.crypto) {
     // Data coin pages live at /coin/<slug>; the ticker/name lower-cased is the conventional slug.

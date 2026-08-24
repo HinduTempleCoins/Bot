@@ -47,6 +47,7 @@ import * as fsis from '../../integrations/soapbox/fsis-recalls.mjs';
 import * as court from '../../integrations/soapbox/courtlistener-opinions.mjs';
 import * as scamRegistry from '../../integrations/soapbox/scam-registry.mjs';
 
+import { companyLinks } from '../../integrations/cross-links.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
@@ -311,10 +312,15 @@ export async function companyPage(name, { report, handle } = {}) {
     name: str(page.identity && page.identity.name) || str(name),
     subjectOf: { '@type': 'Dataset', name: `${facts} official record(s)` },
   };
+  const cl = companyLinks(str(name));
   const body = `${searchForm(str(name))}
     <div class="facts-banner" role="note">${esc(FACTS_BANNER)}</div>
     ${unverifiedNote}
     ${renderBusinessPage(page)}
+    <div class=card><h3>Across SoapBox</h3>
+      <p style="font-size:13px"><a href="${esc(cl.stocks)}" rel="noopener">Company / stock profile →</a>
+      · <a href="${esc(cl.law)}" rel="noopener">Court cases mentioning ${esc(str(name))} →</a>
+      · <a href="${esc(cl.scams)}" rel="noopener">SoapBox scam &amp; fraud check →</a></p></div>
     <div class=card><h3>Report an experience (optional)</h3>
       <p class=muted style="font-size:13px">Reports are user-submitted and shown <b>unverified</b>. Optional handle
       only — no personal information.</p>
