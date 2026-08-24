@@ -32,6 +32,7 @@ import { headTags } from '../../integrations/soapbox/seo.mjs';
 import * as seo from '../../integrations/soapbox/seo.mjs';
 import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import * as routing from '../../integrations/soapbox/routing.mjs';
 
 const PORT = +(process.env.PORT || 8133);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -68,6 +69,8 @@ const STYLE = `<style>
   button{cursor:pointer;background:var(--panel);border:1px solid var(--line2);border-radius:8px;color:var(--fg);font-weight:600;padding:11px 20px;font-size:15px}
   button:hover{border-color:var(--blue)}
   .verify{background:#d2992211;border:1px solid var(--gold);border-radius:8px;padding:10px 14px;color:var(--gold);font-size:13px;margin:12px 0}
+  ul.legs{list-style:none;margin:8px 0;padding:0} li.leg{padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  li.leg:last-child{border-bottom:0} .leg .mode{font-weight:700;color:var(--fg);min-width:74px} .leg .meta{color:var(--mut);font-size:13px}
   .empty{color:var(--mut);padding:12px 0}
   .ftc-disclosure{color:var(--mut);font-size:12px;border-top:1px solid var(--line);padding-top:10px;margin-top:14px}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 22px;margin-top:24px;border-top:1px solid var(--line);line-height:1.7}
@@ -123,9 +126,9 @@ const DOORWAY_DESC = {
 
 // ── page shell ────────────────────────────────────────────────────────────────────────────────────
 function page(title, body, opts = {}) {
-  const desc = opts.description || 'SoapBox Travel — an honest travel-comparison directory: flights, hotels, car rentals, cruises, vacation rentals, parking, tours, and travel insurance. Listed in a fixed order, never reordered by commission; affiliate links disclosed; we never sell your data.';
+  const desc = opts.description || 'SoapBox Travel — plan a trip from any city to any city across flights, trains, buses, ferries and rideshare, plus an honest comparison directory. Listed in a fixed order, never reordered by commission; affiliate links disclosed; we never sell your data.';
   const canonical = opts.canonical || `${BASE_URL}/`;
-  const head = headTags({ title, description: desc, canonical, siteName: SITE_NAME, jsonld: opts.jsonld || null });
+  const head = headTags({ title, description: desc, canonical, siteName: SITE_NAME, robots: opts.robots || 'index,follow,max-image-preview:large', jsonld: opts.jsonld || null });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -136,18 +139,34 @@ ${head}${STYLE}${impactUtt()}</head><body>
 ${FOOTER}</body></html>`;
 }
 
-// A destination-search box that fans out to a generic web search for the typed place (keyless, no API).
-function searchForm() {
-  return `<form class=hsearch method=get action="https://www.google.com/search"><div class=row>
-    <input class=q name="q" placeholder="Where to? e.g. flights to Lisbon, hotels in Tokyo…" autocomplete=off aria-label="Search travel deals">
-    <button type=submit>Search</button>
+// The Start→Destination trip planner box → /plan (multimodal routing across bus/plane/train/ferry/car).
+function searchForm({ from = '', to = '' } = {}) {
+  return `<form class=hsearch method=get action="/plan"><div class=row>
+    <input class=q name="from" value="${esc(from)}" placeholder="Starting city — e.g. Austin" autocomplete=off aria-label="Starting city">
+    <span class=muted aria-hidden=true>→</span>
+    <input class=q name="to" value="${esc(to)}" placeholder="Destination — e.g. Lisbon" autocomplete=off aria-label="Destination city">
+    <button type=submit>Plan trip</button>
   </div></form>`;
 }
 
-// ── home — the curated directory ────────────────────────────────────────────────────────────────────
-export function homePage() {
-  const list = doorways();
-  const cards = list.map((d) => {
+// mode → human label + which affiliate network its booking link routes through (id by env NAME).
+const MODE_LABEL = { fly: 'Flight', train: 'Train', bus: 'Bus', car: 'Car / rideshare', ferry: 'Ferry', walk: 'Walk', bike: 'Bike', other: 'Transfer' };
+const MODE_NET = { fly: 'travelpayouts', train: 'impact', bus: 'impact', car: 'impact', ferry: 'cj', walk: null, bike: null, other: 'travelpayouts' };
+
+// Build an affiliate-wrapped "Book" outbound for a leg. Keyless + honest: routes a provider search for
+// the from→to pair through the shared affiliate engine (plain url + "(unmonetized)" when the id is unset).
+function bookLink(mode, from, to) {
+  const net = MODE_NET[mode] || 'travelpayouts';
+  const label = MODE_LABEL[mode] || 'Book';
+  if (!net) return null; // walk/bike — nothing to book
+  const url = `https://www.google.com/search?q=${encodeURIComponent(`book ${mode} from ${from} to ${to}`)}`;
+  const out = affiliate.trackedLink(net, url, { subId: slugify(`${mode}-${from}-${to}`) });
+  return { url: out.url, tracked: out.tracked, label };
+}
+
+// The curated doorway cards (shared by the home page and the /plan fallback).
+function doorwayCards() {
+  return doorways().map((d) => {
     const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(`compare ${d.name.toLowerCase()} deals`)}`;
     const out = affiliate.trackedLink('travelpayouts', searchUrl, { subId: slugify(d.id) });
     const desc = DOORWAY_DESC[d.id] || (d.exampleIncumbent ? `Honest comparison — like ${d.exampleIncumbent}, done with disclosure.` : '');
@@ -157,14 +176,64 @@ export function homePage() {
       <span class=x>Compare ${esc(d.name.toLowerCase())} →${out.tracked ? '' : ' (unmonetized)'}</span>
     </a>`;
   }).join('');
-  const body = `<h1>SoapBox Travel <span class=muted style="font-size:14px">· honest comparison doorways</span></h1>
-    <p class=muted>${esc(BRAND_GUARDRAIL)}</p>
+}
+
+// ── /plan — the real Start→Destination multimodal planner ─────────────────────────────────────────
+// Calls routing.planTrip (Rome2Rio → OpenTripPlanner/Navitia/Transitland; soft-fails to null with no
+// provider key). On a hit, renders the legs (bus/plane/train/ferry/rideshare) each with an affiliate
+// "Book" link + a "hotels in <dest>" affiliate link. On a miss, falls back to the curated directory —
+// never an error page. Returns the inner HTML, or null when from/to are missing.
+export async function planView(from, to, { plan } = {}) {
+  const f = String(from == null ? '' : from).trim();
+  const t = String(to == null ? '' : to).trim();
+  if (!f || !t) return null;
+  const trip = plan !== undefined ? plan : await routing.planTrip({ from: f, to: t }).catch(() => null);
+
+  const hotelsUrl = `https://www.google.com/search?q=${encodeURIComponent(`hotels in ${t}`)}`;
+  const hotels = affiliate.trackedLink('booking', hotelsUrl, { subId: slugify(`hotels-${t}`) });
+  const hotelsCard = `<div class=card><h2>Where to stay</h2>
+    <p><a href="${esc(hotels.url)}" rel="sponsored nofollow noopener" target="_blank">Compare hotels in ${esc(t)} →${hotels.tracked ? '' : ' (unmonetized)'}</a></p></div>`;
+
+  let optionsHtml;
+  if (trip && Array.isArray(trip.legs) && trip.legs.length) {
+    const legs = trip.legs.map((l) => {
+      const b = bookLink(l.mode, f, t);
+      const dur = l.duration != null ? `${esc(l.duration)} min` : '';
+      const price = l.price && l.price.amount != null ? `${esc(l.price.amount)} ${esc(l.price.currency || '')}` : '';
+      const book = b ? `<a href="${esc(b.url)}" rel="sponsored nofollow noopener" target="_blank">Book ${esc(b.label)} →${b.tracked ? '' : ' (unmonetized)'}</a>` : '';
+      return `<li class=leg><span class=mode>${esc(MODE_LABEL[l.mode] || l.mode)}</span> ${esc(l.operator || '')}
+        <span class=meta>${dur} ${price}</span> ${book}</li>`;
+    }).join('');
+    optionsHtml = `<div class=card><h2>${esc(f)} → ${esc(t)} <span class=muted style="font-size:13px">· ${esc(trip.source || 'route')} · ${esc(trip.provenance || '')}</span></h2>
+      <p class=muted>Total ~${esc(trip.totalDuration == null ? '?' : trip.totalDuration)} min across ${trip.legs.length} leg(s).</p>
+      <ul class=legs>${legs}</ul></div>`;
+  } else {
+    optionsHtml = `<div class=card><p class=muted>No live multimodal route is available right now (a routing-provider key
+      isn't configured). Search the comparison doorways directly:</p>
+      <div class=grid style="margin-top:6px">${doorwayCards()}</div></div>`;
+  }
+
+  return `<h1>${esc(f)} → ${esc(t)}</h1>
+    ${searchForm({ from: f, to: t })}
+    ${VERIFY_NOTE}
+    ${optionsHtml}
+    ${hotelsCard}
+    <p class=ftc-disclosure>${esc(affiliate.ftcDisclosure())}</p>`;
+}
+
+// ── home — the curated directory ────────────────────────────────────────────────────────────────────
+export function homePage() {
+  const cards = doorwayCards();
+  const body = `<h1>SoapBox Travel <span class=muted style="font-size:14px">· plan a trip, any city to any city</span></h1>
+    <p class=muted>Tell us where you're starting and where you're going — we'll plan it across flights, trains, buses,
+      ferries and rideshare. Or browse the honest comparison doorways below.</p>
     ${searchForm()}
     ${VERIFY_NOTE}
-    <div class=card><h2>Where are you going?</h2>
+    <div class=card><h2>Comparison doorways</h2>
+      <p class=muted style="font-size:13px;margin:0 0 8px">${esc(BRAND_GUARDRAIL)}</p>
       <div class=grid style="margin-top:4px">${cards || '<p class=empty>Doorways are temporarily unavailable — please try again shortly.</p>'}</div></div>
     <p class=ftc-disclosure>${esc(affiliate.ftcDisclosure())}</p>`;
-  return page(`${SITE_NAME} — flights, hotels, car rentals & more`, body, { canonical: `${BASE_URL}/` });
+  return page(`${SITE_NAME} — plan a trip: flights, trains, buses, ferries & hotels`, body, { canonical: `${BASE_URL}/` });
 }
 
 // ── routing ───────────────────────────────────────────────────────────────────────────────────────
@@ -202,6 +271,15 @@ export async function handler(req, res) {
     }
 
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/plan') {
+      const from = url.searchParams.get('from') || '';
+      const to = url.searchParams.get('to') || '';
+      const view = await planView(from, to);
+      if (!view) { res.writeHead(302, { location: '/' }); return res.end(); }
+      return sendHtml(res, page(`${from} → ${to} — ${SITE_NAME}`, view,
+        { canonical: `${BASE_URL}/`, robots: 'noindex,follow',
+          description: `Plan a trip from ${from} to ${to} across flights, trains, buses, ferries and rideshare — with hotels.` }));
+    }
     if (path === '/guides') {
       return sendHtml(res, page(`Travel guides — ${SITE_NAME}`,
         guides.GUIDE_STYLE + guides.renderGuideIndexBody('travel'),

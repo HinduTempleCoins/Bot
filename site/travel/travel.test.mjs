@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, homePage, doorways } from './server.mjs';
+import { handler, homePage, doorways, planView } from './server.mjs';
 
 function mockRes() {
   return {
@@ -55,9 +55,13 @@ test('home: carries the honest-ranking guardrail + FTC disclosure + no data-sell
   assert.match(b, /never sell your data/i);
 });
 
-test('home: keyless destination search box (no API key)', async () => {
+test('home: Start→Destination planner form posts to /plan (keyless)', async () => {
   const b = homePage();
-  assert.match(b, /Where to\?/);
+  assert.match(b, /action="\/plan"/);
+  assert.match(b, /Starting city/);
+  assert.match(b, /Destination/);
+  assert.match(b, /Plan trip/);
+  // the curated doorways still deep-link out via google search (keyless)
   assert.match(b, /www\.google\.com\/search/);
 });
 
@@ -88,4 +92,47 @@ test('routes: /health, /robots.txt, /sitemap.xml, /llms.txt, 302-on-unknown', as
   const nf = await drive('/nope');
   assert.equal(nf.statusCode, 302);
   assert.equal(nf.headers.location, '/');
+});
+
+test('/plan: renders a multimodal itinerary (injected) with affiliate-wrapped Book links', async () => {
+  // Inject a fake plan so the test is fully offline (no routing provider hit).
+  const plan = {
+    source: 'rome2rio', provenance: 'LIVE', totalDuration: 210,
+    legs: [
+      { mode: 'bus', operator: 'FlixBus', duration: 120, price: { amount: 19, currency: 'USD' } },
+      { mode: 'fly', operator: 'TAP', duration: 90, price: { amount: 140, currency: 'USD' } },
+    ],
+  };
+  const html = await planView('Austin', 'Lisbon', { plan });
+  assert.ok(html);
+  assert.match(html, /Austin → Lisbon/);
+  assert.match(html, /FlixBus/);
+  assert.match(html, /Flight/);           // fly → "Flight" label
+  assert.match(html, /Book .*→/);         // per-leg affiliate book link
+  assert.match(html, /rel="sponsored nofollow noopener"/);
+  assert.match(html, /hotels in Lisbon/i); // destination hotels affiliate link
+});
+
+test('/plan: soft-fails to the curated directory when no route is found', async () => {
+  const html = await planView('Nowhere', 'Neverland', { plan: null });
+  assert.ok(html);
+  assert.match(html, /No live multimodal route/i);
+  assert.match(html, /Flights/); // the doorway fallback is shown
+});
+
+test('/plan route: missing from/to redirects home; valid renders 200 noindex', async () => {
+  const missing = await drive('/plan?from=Austin');
+  assert.equal(missing.statusCode, 302);
+  assert.equal(missing.headers.location, '/');
+
+  const ok = await drive('/plan?from=Austin&to=Lisbon');
+  assert.equal(ok.statusCode, 200);
+  assert.match(ok.body, /Austin → Lisbon/);
+  assert.match(ok.body, /noindex/); // dynamic query page must not be indexed
+});
+
+test('/plan: destination is escaped (no injection via query)', async () => {
+  const html = await planView('A', '<script>x</script>', { plan: null });
+  assert.ok(!html.includes('<script>x</script>'));
+  assert.match(html, /&lt;script&gt;x/);
 });
