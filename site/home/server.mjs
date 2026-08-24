@@ -33,6 +33,7 @@
 import { createServer } from 'node:http';
 import { promises as fsp } from 'node:fs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
 import { renderMarkdown, readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
 import { resendMailer } from '../../integrations/email-verify.mjs';
@@ -439,7 +440,7 @@ function page(title, body, canonicalPath = '/') {
 <meta name=robots content="index,follow">
 <link rel=canonical href="${esc(BASE_URL)}${esc(canonicalPath)}">
 <meta property="og:title" content="${esc(title)}">
-${STYLE}${NAV_STYLE}</head><body>
+${STYLE}${NAV_STYLE}${impactUtt()}</head><body>
 <header class=topbar><span class=brand>SoapBox<span class=alpha>Alpha</span><small>${esc(ECOSYSTEM)}</small></span></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map. All surfaces are on the
