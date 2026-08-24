@@ -23,6 +23,11 @@ import { handler as campaignHandler } from '../../pentecaust/herald/campaign-pla
 import { handler as analyticsHandler } from '../../pentecaust/herald/analytics.mjs';
 import { handler as outreachHandler } from '../../pentecaust/herald/outreach-db.mjs';
 import { handler as qrHandler } from '../../pentecaust/herald/qr-tracker.mjs';
+// The ad-network is stateful (advertiser/publisher/creative registries live in a per-instance store), so
+// unlike the pure modules above we hold ONE singleton and mount its handler. click-validate is pure and
+// exports its handler directly. Both are read-only over HTTP — no key held, nothing signed, no funds move.
+import { createAdNetwork } from '../../pentecaust/herald/ad-network.mjs';
+import { handler as clickValidateHandler } from '../../pentecaust/herald/click-validate.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -49,6 +54,10 @@ export const CAPABILITIES = [
     ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system). Sign-in required.', 'outreach-db', '/outreach'],
     ['Lead CRM', 'Verified-only lead capture + a CRM pipeline (only count contacts you can verify).', 'lead-crm', null],
     ['QR tracker', 'Trackable QR codes for offline→online attribution.', 'qr-tracker', null],
+  ]],
+  ['Monetize', [
+    ['Ad network', 'Advertisers + creators earn/pay per click. Ranking can never be bought — sponsored units are segregated, labeled & FTC-disclosed, click-through on the /go rail.', 'ad-network', '/ad/select'],
+    ['Click validate', 'The billable-click / fraud pass over the /go log: window-dedup, crawler filter, per-publisher origin allow-list, rate caps, sybil-gated payout (POST /api/click-validate).', 'click-validate', null],
   ]],
   ['Verify', [
     ['Verifier', 'Confirm placements/backlinks actually went live — no vanity metrics.', 'verifier', null],
@@ -113,12 +122,17 @@ function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'te
 // Live module mounts. Prefix-mounted API modules (rewrite set) get req.url stripped so they see their
 // own native paths; native-path modules (rewrite null) get req.url unchanged. Every fn always ends the
 // response; a throw is caught below. Read-only server: these modules hold no key of ours.
+const adNetwork = createAdNetwork(); // stateful singleton — its handler serves /ad/select (disclosed unit).
 const MOUNTS = [
   { rewrite: null, fn: outreachHandler, match: (p) => p === '/outreach' || p.startsWith('/outreach/') },
   { rewrite: null, fn: qrHandler, match: (p) => p.startsWith('/go/') || p === '/qr' || p.startsWith('/qr/') },
   { rewrite: '/seo', fn: seoHandler, match: (p) => p === '/seo' || p.startsWith('/seo/') },
   { rewrite: '/campaigns', fn: campaignHandler, match: (p) => p === '/campaigns' || p.startsWith('/campaigns/') },
   { rewrite: '/analytics', fn: analyticsHandler, match: (p) => p === '/analytics' || p.startsWith('/analytics/') },
+  // ad-network + click-validate: native-path handlers (rewrite null). /health stays owned by the server
+  // above, so we match only each module's real routes — /ad/* and POST /api/click-validate.
+  { rewrite: null, fn: adNetwork.handler, match: (p) => p === '/ad/select' || p.startsWith('/ad/') },
+  { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
 ];
 
 export async function handler(req, res) {
