@@ -39,7 +39,16 @@ test('companyLinks → stocks/?q + law /cases + politics /accountability (no dat
   assert.equal(l.stocks, 'https://stocks.soapbox.community/?q=Apple');
   assert.equal(l.law, 'https://law.soapbox.community/cases?q=Apple');
   assert.equal(l.politics, 'https://politics.soapbox.community/accountability?q=Apple');
+  assert.equal(l.scamAlert, 'https://scam-alert.soapbox.community/company?q=Apple');
+  assert.equal(l.scams, 'https://soapbox.community/scams?q=Apple');
   assert.ok(!('data' in l), 'no data coin-page link unless crypto:true');
+});
+
+test('companyLinks scam-alert/scams honor env overrides', async () => {
+  const { companyLinks } = await freshWithEnv({ SCAM_ALERT_SITE: 'https://scam.stage.test', SOAPBOX_HUB: 'https://hub.stage.test' });
+  const l = companyLinks('Acme');
+  assert.equal(l.scamAlert, 'https://scam.stage.test/company?q=Acme');
+  assert.equal(l.scams, 'https://hub.stage.test/scams?q=Acme');
 });
 
 test('companyLinks with crypto:true adds a Data coin-page link (lower-cased slug)', async () => {

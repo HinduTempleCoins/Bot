@@ -54,6 +54,7 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 // route so a person reading a scam/fraud signal on a coin or company page has a one-click path to the
 // right official complaint office. Env-overridable for staging.
 const OVERSIGHT_URL = (process.env.OVERSIGHT_SITE || 'https://oversight.soapbox.community').replace(/\/$/, '');
+const SCAM_ALERT_URL = (process.env.SCAM_ALERT_SITE || 'https://scam-alert.soapbox.community').replace(/\/$/, '');
 const PER_PAGE = 50;
 
 // ── Markets list (the page factory's index) ─────────────────────────────────
@@ -801,7 +802,7 @@ async function scamPanelFor(probe, label) {
     ${reports.length ? `<ul style="margin:6px 0;padding-left:18px;line-height:1.6;font-size:13px">${reports.map((r) => `<li><b>${esc(r.source)}</b> — ${esc(r.detail)}</li>`).join('')}</ul>` : '<p class=muted style="font-size:13px">No government or crypto-registry reports matched. Absence of a report isn\'t proof of safety — check the consumer complaints below.</p>'}
     <p class=muted style="font-size:12px;margin:8px 0 4px">Consumer complaints &amp; reviews: ${links.map((l) => `<a href="${esc(l.url)}" rel="nofollow noopener">${esc(l.name)} ↗</a>`).join(' · ')}</p>
     <p class=muted style="font-size:12px;margin:4px 0"><b>Where do I file a complaint?</b> <a href="${esc(OVERSIGHT_URL)}/file?topic=${encodeURIComponent(name || p)}" rel="noopener">Oversight — find the right official complaint office →</a></p>
-    <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(name || p)}">Full scam check →</a> · Facts, not verdicts.</p>`;
+    <p class=muted style="font-size:11px"><a href="/scams?q=${encodeURIComponent(name || p)}">Full scam check →</a> · <a href="${esc(SCAM_ALERT_URL)}/company?q=${encodeURIComponent(name || p)}" rel="noopener">Official-records report →</a> · Facts, not verdicts.</p>`;
   return card('Scam & fraud signals', inner); // card() escapes the title — pass a raw &
 }
 
