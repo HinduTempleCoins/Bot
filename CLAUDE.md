@@ -93,9 +93,9 @@ for the work; without it, Claude Code is operating blind.
 
 ## Scope (BRIEF.md §6)
 
-**In scope:** chain legibility, signup mechanics, the staged tutorial, the Convergence framework (science + theory of AI/VR/BCI/tDCS/TENS/multi-agent systems as temple-technology reconstruction), the Angelic-theological character, Crypt-ology, funding and discretionary grants.
+**In scope:** chain legibility, signup mechanics, the staged tutorial, the Convergence framework (science + theory of AI/VR/BCI/tDCS/TENS/multi-agent systems as temple-technology reconstruction), the **plant-medicine & harm-reduction library** (Library of Ashurbanipal / Church-of-Neuroscience corpus — history, ethnobotany, pharmacology, **dose ranges + drug-interaction/contraindication warnings + testing + set/setting/aftercare/emergency guidance**, documented traditional prep, and religious/legal exemptions; aiming past DMT-Nexus/Erowid), the Angelic-theological character, Crypt-ology, funding and discretionary grants.
 
-**Out of scope:** clinical self-application protocols for brain stimulation (discussing the science is in; step-by-step "apply X current to your head" recipes are out); personal-info intake at signup; medical/legal/financial advice; key custody. SMS verification — email only (Resend / Postmark / SES).
+**Out of scope:** clinical self-application protocols for brain stimulation (discussing the science is in; step-by-step "apply X current to your head" recipes are out); **clandestine synthesis / extraction / manufacturing-for-distribution routes for controlled substances** (the harm-reduction library above is reference/education, NOT a manufacturing manual; the wikis are user-generated → moderation policy, not pre-censorship); personal-info intake at signup; **individualized** medical/legal/financial *advice* (education + harm-reduction info is in; diagnosis/prescription is out); key custody. SMS verification — email only (Resend / Postmark / SES).
 
 ## Don't
 
