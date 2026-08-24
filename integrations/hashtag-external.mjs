@@ -24,6 +24,10 @@ export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const num = (v, d = 0) => (Number.isFinite(+v) ? +v : d);
+// Scheme allowlist for hrefs. esc() escapes HTML chars but does NOT neutralize a `javascript:`/`data:`
+// scheme in an href — and `top[].url` can come from an external API response (e.g. Reddit's `p.url`).
+// Return the URL only when it is an absolute http(s) URL; anything else → '' (no href rendered).
+const safeHref = (u) => (/^https?:\/\//i.test(String(u == null ? '' : u).trim()) ? String(u).trim() : '');
 export const normTag = (t) => String(t || '').trim().toLowerCase().replace(/^#/, '').replace(/[^a-z0-9_]/g, '');
 
 // One normalized row per source. Every reader returns exactly this shape (top may be []).
@@ -159,7 +163,8 @@ export function renderExternal(result) {
     const links = (s.top || []).length
       ? `<ul class="hx-top">${s.top.map((p) => {
           const sc = p.score == null ? '' : ` · ${esc(p.score)}`;
-          const href = p.url ? ` href="${esc(p.url)}"` : '';
+          const su = safeHref(p.url);
+          const href = su ? ` href="${esc(su)}"` : '';
           return `<li><a${href} rel="noopener noreferrer">${esc(p.title)}</a>${sc}</li>`;
         }).join('')}</ul>`
       : `<p class="hx-mut">No top results.</p>`;

@@ -35,6 +35,10 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => 
 const str = (v) => (v == null ? '' : String(v)).trim();
 const now = () => new Date().toISOString();
 const arr = (v) => (Array.isArray(v) ? v : []);
+// Scheme allowlist for hrefs. esc() escapes HTML chars but does NOT neutralize a `javascript:`/`data:`
+// scheme in an href, and record `url`/`sourceUrl` fields can originate from external API responses.
+// Return the URL only when it is an absolute http(s) URL; anything else → '' (link is dropped).
+const safeHref = (u) => (/^https?:\/\//i.test(str(u)) ? str(u) : '');
 
 // Conclusory verdict words the PLATFORM must never assert about a business. These are the labels that
 // turn a sourced fact into our speech (defamation / business-disparagement risk). They are allowed to
@@ -380,8 +384,9 @@ export function addScamReport(page, { user, text } = {}) {
 
 // ── renderPage: escaped HTML business page ─────────────────────────────────────────────────────────
 function factLine(r) {
-  const link = r.sourceUrl
-    ? `<a class="src" href="${esc(r.sourceUrl)}" rel="nofollow noopener">${esc(r.source)}</a>`
+  const su = safeHref(r.sourceUrl);
+  const link = su
+    ? `<a class="src" href="${esc(su)}" rel="nofollow noopener">${esc(r.source)}</a>`
     : `<span class="src">${esc(r.source)}</span>`;
   const asOf = r.asOf ? ` <span class="asof">(as of ${esc(r.asOf)})</span>` : '';
   const detail = r.detail ? ` — ${esc(r.detail)}` : '';
@@ -395,8 +400,9 @@ function ownReviewLine(r) {
 }
 
 function windowedReviewLine(r) {
-  const link = r.url
-    ? `<a href="${esc(r.url)}" rel="nofollow noopener">read on ${esc(r.platform)}</a>`
+  const wu = safeHref(r.url);
+  const link = wu
+    ? `<a href="${esc(wu)}" rel="nofollow noopener">read on ${esc(r.platform)}</a>`
     : `${esc(r.platform)}`;
   const snip = r.snippet ? ` <span class="snippet">"${esc(r.snippet)}"</span>` : '';
   return `<li class="windowed-review">${esc(r.platform)} review (linked, not stored):${snip} ${link}</li>`;
@@ -424,15 +430,16 @@ export function renderPage(page) {
   };
 
   const loc = id.displayName || (id.lat != null && id.lon != null ? `${id.lat}, ${id.lon}` : '');
-  const idSrc = id.sourceUrl
-    ? `<a class="src" href="${esc(id.sourceUrl)}" rel="nofollow noopener">${esc(id.source || 'source')}</a>`
+  const idSu = safeHref(id.sourceUrl);
+  const idSrc = idSu
+    ? `<a class="src" href="${esc(idSu)}" rel="nofollow noopener">${esc(id.source || 'source')}</a>`
     : (id.source ? `<span class="src">${esc(id.source)}</span>` : '');
 
   const census = page.neighborhood && page.neighborhood.census;
   const neighborhoodSec = census
     ? `<section class="neighborhood"><h3>Neighborhood context</h3>`
       + `<p>Census ACS demographic context for this location.</p>`
-      + (census.sourceUrl ? `<p class="src"><a href="${esc(census.sourceUrl)}" rel="nofollow noopener">US Census ACS</a></p>` : '')
+      + (safeHref(census.sourceUrl) ? `<p class="src"><a href="${esc(safeHref(census.sourceUrl))}" rel="nofollow noopener">US Census ACS</a></p>` : '')
       + `</section>`
     : `<section class="neighborhood"><h3>Neighborhood context</h3><p class="empty">No neighborhood data.</p></section>`;
 
