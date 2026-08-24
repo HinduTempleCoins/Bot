@@ -1,6 +1,20 @@
 // hashtag-external.test.mjs — offline tests for the external hashtag adapter.
 // Fully offline: __setFetch injects canned platform JSON; no network; soft-fail-never-throw.
 import { test } from 'node:test';
+import { renderExternal as _re } from './hashtag-external.mjs';
+import assert2 from 'node:assert';
+
+test('renderExternal drops a javascript: href scheme (XSS hardening)', () => {
+  const html = _re({
+    hashtag: 'x', asOf: 'now', totalCount: 1,
+    sources: [{ source: 'reddit', hashtag: 'x', available: true, count: 1, top: [{ title: 'evil', url: 'javascript:alert(1)', score: 1 }] }],
+  });
+  assert2.ok(!/href="javascript:/i.test(html), 'javascript: scheme must not survive into an href');
+  assert2.ok(!html.includes('javascript:alert(1)'));
+  // a normal https url is still linked
+  const ok = _re({ hashtag: 'x', asOf: 'now', totalCount: 1, sources: [{ source: 'reddit', hashtag: 'x', available: true, count: 1, top: [{ title: 't', url: 'https://reddit.com/r/x', score: 1 }] }] });
+  assert2.match(ok, /href="https:\/\/reddit\.com\/r\/x"/);
+});
 import assert from 'node:assert/strict';
 import {
   __setFetch, normTag, youtube, reddit, xtwitter, instagram, tiktok,
