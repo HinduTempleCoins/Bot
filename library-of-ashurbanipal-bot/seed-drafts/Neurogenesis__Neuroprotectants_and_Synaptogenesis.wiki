@@ -1,0 +1,46 @@
+# Neurogenesis, Neuroprotectants and Synaptogenesis
+
+**Neurogenesis** (the formation of new neurons), **synaptogenesis** (the formation of new connections between them), and **neuroprotection** (shielding brain tissue from injury) are three linked mechanisms of brain plasticity and repair. This article follows a 2016 post by **marsresident** that surveyed the published research on each — with particular attention to the **endocannabinoid system** and the endocannabinoid **2-AG** as a neuroprotectant<ref>https://steemit.com/@marsresident/neurogenesis-neuroprotectants-and-synaptogenesis</ref>. It is part of the brain-repair pair on the Church-of-Neuroscience shelf, alongside its close companion [[Building Brains]], and follows from [[The Church of Neuroscience and Biohacking]].
+
+This is a **neutral, educational** mechanism survey. It is **not** medical advice and **not** a treatment protocol (see § Not medical advice).
+
+== Summary ==
+
+The post's framing image is **cognition as interlocking gears**: a first spark sets off a cascade of others along a pathway of neurons, which is why one cue (a song) can pull up an associated memory. Two discoveries reshape the old "you only lose brain cells" view — **neurogenesis** shows the adult brain can form new neurons, and **synaptogenesis** shows new pathways can be built between them. The post then surveys the biology that supports each, and argues — pointedly — that some of this research (especially endocannabinoid neuroprotection) has strong published support yet has **not reached routine hospital practice**<ref>https://en.wikipedia.org/wiki/Neurogenesis</ref><ref>https://en.wikipedia.org/wiki/Synaptogenesis</ref>.
+
+== The endocannabinoid system and neurogenesis ==
+
+The **endocannabinoid system (ECS)** is an internal signalling network that the post identifies as playing a role in several neural functions, including neurogenesis<ref>https://en.wikipedia.org/wiki/Endocannabinoid_system</ref>. Its two best-known signalling molecules are anandamide and **2-arachidonoylglycerol (2-AG)**. The article uses the ECS as the bridge between plasticity and protection: the same system that helps regulate the birth of new neurons also, through 2-AG, protects existing tissue.
+
+== 2-AG as a neuroprotectant ==
+
+The strongest claim in the post concerns **2-AG** and traumatic brain injury<ref>https://en.wikipedia.org/wiki/2-Arachidonoylglycerol</ref>. The author cites a chain of published studies:
+
+- A 2001 study reporting that 2-AG **protects the brain from damage** after traumatic brain injury.
+- 2003 and later studies reporting that 2-AG can **reverse brain swelling (edema)** — a major cause of death in coma and after stroke.
+- Further papers on cannabinoids as neuroprotectants, and a patent describing 2-AG's action.
+
+The post's editorial point is that this research "has not made it into a single hospital," and that even in jurisdictions where cannabinoid research is easier, clinical cannabinoid medicine is largely dispensary-and-prescription care for chronic pain, seizures, and glaucoma rather than acute neuroprotective use. The Library reports this as the **author's argued position** about a research–practice gap, not as a settled clinical fact, and emphatically not as a suggestion that anyone self-administer anything for a brain injury — traumatic brain injury and coma are emergencies for a hospital.
+
+== Synaptogenesis, dendrites, and ampakines ==
+
+**Synaptogenesis** is distinguished from neurogenesis: it concerns **dendrites**, the branching arms through which neurons form new connections. The post identifies **ampakines** — positive modulators of AMPA-type glutamate receptors — as a class studied for their ability to promote new pathways, citing research that ampakines can build connections within hours and might, in the future, complement or replace some antidepressant mechanisms (MAOIs/SSRIs)<ref>https://en.wikipedia.org/wiki/Ampakine</ref>. It notes that one ampakine, **ketamine**, is already used in hospitals (largely as an anaesthetic/analgesic), and names research compounds **CX-614** and **aniracetam** as other examples. These are given as *the names of studied molecules*, at the level of what class they belong to and what mechanism is being investigated — no doses or regimens are stated in the source, and none are added here.
+
+== Where this sits in the corpus ==
+
+This is one of the two **brain-repair** articles on the Church-of-Neuroscience shelf; its companion [[Building Brains]] covers the glial-cell and life-extension-molecule side of the same research interest, and the two share the ampakine and 2-AG threads. It connects to the cannabinoid/endocannabinoid science referenced in [[The Church of Neuroscience and Biohacking]] and to the receptor pharmacology in [[Chemistry and Your Brain]].
+
+== Not medical advice ==
+
+This article is an educational survey of brain-plasticity and neuroprotection research. It is **not medical advice**, **not a diagnosis or prescription**, and **not a treatment protocol**. Traumatic brain injury, stroke, and coma are medical emergencies; nothing here should be read as a reason to delay emergency care or to self-administer any substance. The compounds named (2-AG, ampakines, ketamine, CX-614, aniracetam) are discussed as research subjects, without dosing. Consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/neurogenesis-neuroprotectants-and-synaptogenesis</ref>
+<ref>https://en.wikipedia.org/wiki/Neurogenesis</ref>
+<ref>https://en.wikipedia.org/wiki/Synaptogenesis</ref>
+<ref>https://en.wikipedia.org/wiki/Endocannabinoid_system</ref>
+<ref>https://en.wikipedia.org/wiki/2-Arachidonoylglycerol</ref>
+<ref>https://en.wikipedia.org/wiki/Ampakine</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Neurogenesis, Neuroprotectants and Synaptogenesis" — the gears-of-cognition framing, neurogenesis vs. synaptogenesis, the endocannabinoid system's role, 2-AG as a neuroprotectant against traumatic brain injury and edema (with the author's research-to-practice-gap argument preserved as his position), and ampakines / dendrites / synaptogenesis (ketamine, CX-614, aniracetam named as research examples). Attribution to the author and Steem source is preserved; the PubMed/PMC and patent links in the original are anchored to stable encyclopedic sources. No dosing is present in the source and none is added; the article stresses that TBI/coma are emergencies. Neutral, education-only, with a not-medical-advice footer.

@@ -1,0 +1,18 @@
+{
+  "articleId": "The Medical Applications of Light",
+  "title": "The Medical Applications of Light",
+  "bodyFile": "The_Medical_Applications_of_Light.wiki",
+  "sources": [
+    "https://steemit.com/@marsresident/the-medical-applications-of-light",
+    "knowledge/media/medical_applications_light.json",
+    "https://en.wikipedia.org/wiki/Melanopsin",
+    "https://en.wikipedia.org/wiki/Phytochrome",
+    "https://www.health.harvard.edu/newsletters/Harvard_Health_Letter/2012/May/blue-light-has-a-dark-side/",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0076707",
+    "https://www.hindawi.com/journals/ije/2010/829351/",
+    "https://pubmed.ncbi.nlm.nih.gov/21628552/",
+    "https://www.lrc.rpi.edu/",
+    "https://www.science20.com/news_articles/brain_tissue_responsive_light_says_study-90499"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Faithful Library-of-Ashurbanipal ingestion of the 2016 Steem post 'The Medical Applications of Light' by marsresident (created 2016-07-11, fetched in full via api.steemit.com condenser_api.get_content). Complements and cites the existing corpus record knowledge/media/medical_applications_light.json. Convergence / Church-of-Neuroscience photobiomodulation thread. HARD scope discipline: science-and-history IN, clinical self-application / dose / wavelength recipe OUT; carries an explicit not-medical-advice / not-a-treatment-protocol footer. Cross-links Egyptian Wax Headcones, Kyphi, and Humanity — Deep Time and the Human Story. Written 2026-08-25."
+}

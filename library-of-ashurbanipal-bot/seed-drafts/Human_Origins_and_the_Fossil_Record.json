@@ -1,0 +1,15 @@
+{
+  "articleId": "Human Origins and the Fossil Record",
+  "title": "Human Origins and the Fossil Record",
+  "bodyFile": "Human_Origins_and_the_Fossil_Record.wiki",
+  "sources": [
+    "https://steemit.com/@marsresident/humanity-part-2-the-fossil-record",
+    "https://en.wikipedia.org/wiki/Sima_de_los_Huesos",
+    "https://en.wikipedia.org/wiki/Atapuerca_Mountains",
+    "https://en.wikipedia.org/wiki/Mitochondrial_Eve",
+    "https://en.wikipedia.org/wiki/Denisovan",
+    "https://en.wikipedia.org/wiki/Interbreeding_between_archaic_and_modern_humans",
+    "https://en.wikipedia.org/wiki/Neanderthal_genetics"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Faithful Library-of-Ashurbanipal ingestion of the 2017 Steem post 'Humanity, Part 2 (The Fossil Record)' by marsresident (created 2017-09-03, fetched in full via api.steemit.com condenser_api.get_content). Paleoanthropology corpus; direct companion to 'Humanity — Deep Time and the Human Story' (the author's Part 1). Preserves the author's DNA-record summary, full ordered hominin fossil catalogue, and species-mixing/recombination thesis. Neutral/educational; the 'A note on the numbers' section flags where the source's archaic-ancestry percentages diverge from current scientific consensus (~2% Neanderthal) rather than repeating them as settled fact. Written 2026-08-25."
+}

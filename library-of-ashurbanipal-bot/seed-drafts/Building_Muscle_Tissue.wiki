@@ -1,0 +1,35 @@
+# Building Muscle Tissue
+
+**"Building Muscle Tissue"** is a 2016 note by **marsresident** arguing that the physiology usually discussed only in a bodybuilding context is really **muscle- and wound-recovery science** — relevant to spinal-cord injury, atrophy, and long-term wound treatment<ref>https://steemit.com/@marsresident/building-muscle-tissue</ref>. On the Church-of-Neuroscience shelf it is the **muscle-physiology / recovery-science** reference, companion to [[Using the WADA List as Health Reference]] and part of the science-of-the-body thread with [[Biological Immortality]].
+
+This is a **neutral, educational** reference. It is **not** medical advice and **not** a supplement or training protocol; the source states no doses or cycles, and none are added (see § Not medical advice).
+
+== Summary ==
+
+The note's thesis is that compounds framed as "bodybuilding supplements" are often ordinary parts of body health with real clinical relevance to **injury recovery** — and that some are not yet used clinically at all. It moves from **creatine** (widely known, but with published spinal-cord-injury research), through the amino acids **arginine** and **citrulline**, to **S4**, a selective androgen receptor modulator studied for reducing muscle atrophy<ref>https://en.wikipedia.org/wiki/Muscle_hypertrophy</ref>.
+
+== Creatine and amino acids ==
+
+**Creatine** is described as a normal part of everyday body health rather than merely a gym supplement — the post notes it is even used as a meat-quality marker (higher creatine = better-graded steak). It cites research that creatine may help **protect against, and aid recovery from, spinal-cord injury**<ref>https://en.wikipedia.org/wiki/Creatine</ref>. The amino acids **arginine** and **citrulline** are named as related molecules with a role in muscle health<ref>https://en.wikipedia.org/wiki/L-arginine</ref>. The Library reports these as research findings about physiology; it neutralizes the source's light "should be used" phrasing into what the research examines, and states no amounts.
+
+== S4 (a selective androgen receptor modulator) ==
+
+The note's forward-looking point concerns **S4 (andarine)**, a **selective androgen receptor modulator (SARM)** it says is "not even close to anything being done by doctors." The proposed clinical uses it cites from the research are **reducing atrophy** (e.g. so that someone in a full-body cast might retain muscle mass), **speeding rehabilitation** for people relearning to walk, and **assisting long-term wound treatment**, with research also examining a role after spinal injury<ref>https://en.wikipedia.org/wiki/Selective_androgen_receptor_modulator</ref>. This is reported as **research about a potential clinical application**, not as a usage recommendation; SARMs are investigational, are not approved medicines, and are prohibited in sport (see [[Using the WADA List as Health Reference]]).
+
+== Where this sits in the corpus ==
+
+This is the **muscle- and wound-recovery** node of the Church-of-Neuroscience shelf. It overlaps [[Using the WADA List as Health Reference]] directly on SARMs (S4 appears in both) and shares the science-of-the-body framing with [[Biological Immortality]]; both descend from [[The Church of Neuroscience and Biohacking]].
+
+== Not medical advice ==
+
+This article is an educational survey of muscle- and wound-recovery physiology. It is **not medical advice**, **not a diagnosis or prescription**, and **not a supplement, dosing, or training protocol**. The compounds named (creatine, arginine, citrulline, S4/andarine) are discussed as research subjects; SARMs in particular are investigational, unapproved, and carry real risks. The source states no doses or cycles and none are added. Spinal-cord injury and wound care are matters for a clinician. Consult a qualified professional.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/building-muscle-tissue</ref>
+<ref>https://en.wikipedia.org/wiki/Creatine</ref>
+<ref>https://en.wikipedia.org/wiki/L-arginine</ref>
+<ref>https://en.wikipedia.org/wiki/Selective_androgen_receptor_modulator</ref>
+<ref>https://en.wikipedia.org/wiki/Muscle_hypertrophy</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Building Muscle Tissue" — creatine as everyday physiology with spinal-cord-injury research, arginine/citrulline in muscle health, and S4/andarine (a SARM) studied for reducing atrophy and aiding wound treatment and rehabilitation. Attribution to the author and Steem source is preserved; PubMed/PMC links are anchored to stable encyclopedic sources. Per the task's discipline, no dosing or cycles are added (the source states none), the source's light recommendation phrasing is neutralized into what the research examines, and SARMs are flagged as investigational, unapproved, and sport-prohibited. Neutral, education-only, with a not-medical-advice footer. Overlaps Using the WADA List as Health Reference on SARMs.

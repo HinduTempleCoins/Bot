@@ -1,0 +1,15 @@
+{
+  "articleId": "Chemistry and Your Brain",
+  "title": "Chemistry and Your Brain",
+  "bodyFile": "Chemistry_and_Your_Brain.wiki",
+  "sources": [
+    "https://steemit.com/@marsresident/chemistry-and-your-brain",
+    "https://en.wikipedia.org/wiki/Neurotransmitter",
+    "https://en.wikipedia.org/wiki/Neuropeptide",
+    "https://en.wikipedia.org/wiki/Gut%E2%80%93brain_axis",
+    "https://en.wikipedia.org/wiki/Glia",
+    "https://en.wikipedia.org/wiki/5-HT_receptor",
+    "https://en.wikipedia.org/wiki/Nootropic"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Faithful Library-of-Ashurbanipal ingestion of the 2016 Steem post 'Chemistry and Your Brain' by marsresident (created 2016-09-14, fetched in full via api.steemit.com condenser_api.get_content). Neurochemistry-primer reference of the Church-of-Neuroscience shelf: neurons/dendrites/synapses/neuropeptides, gut-brain axis, glial cells, 5-HT/cholinergic/GABAergic receptors, esterase inhibition, and a catalogue of named nootropic/neuroactive compounds. HARD reference-only discipline: compound list preserved as names-and-targets with NO dosing/stacks/regimens added (source gives citations not doses); risky compounds (phenibut, galantamine) flagged. Neutral/education-only with a not-medical-advice footer. Cross-links The Church of Neuroscience and Biohacking, Building Brains, Neurogenesis..., Brain Balance. Written 2026-08-25."
+}

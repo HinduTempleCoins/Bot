@@ -1,0 +1,65 @@
+# Human Origins and the Fossil Record
+
+**Human origins** — the study of how the genus *Homo* arose — rests on two intertwined lines of evidence: the **fossil record** (the physical remains, mostly skulls and, later, mummies) and the **DNA record** (the genetic traces of ancient populations that persist in living people). This article organizes that evidence following a 2017 post by **marsresident**, "Humanity, Part 2 (The Fossil Record)," which assembled a long, ordered catalogue of hominin finds together with the major ancient-DNA discoveries<ref>https://steemit.com/@marsresident/humanity-part-2-the-fossil-record</ref>. It is the paleoanthropology companion to [[Humanity — Deep Time and the Human Story]] (the author's "Part 1").
+
+This is a **neutral, educational** reference. Dates and interpretations are given as the paleoanthropological record understands them; where the source states a figure that differs from the current scientific consensus, this article notes it rather than repeating it as settled fact (see § A note on the numbers).
+
+== Summary ==
+
+The source makes two framing arguments. First, that **skulls dominate the fossil record** for a practical reason — cranial bone is built to withstand impact and survives longer than other tissue — and that **modern teeth** are the clearest marker of the shift into anatomically modern humans; later, **mummies** give archaeologists a preserved "snapshot in time." Second, and more pointedly, it argues against a simple linear ladder of ascent: humanity arose not by one lineage steadily "evolving to become us," but by **populations mixing, mutating, separating, and recombining** — new immune systems, teeth, brain capacity, and other traits appearing and spreading through interbreeding rather than a single straight line<ref>https://steemit.com/@marsresident/humanity-part-2-the-fossil-record</ref>. Modern genetics broadly supports the picture of archaic admixture (Neanderthal and Denisovan ancestry in living people), even where specific figures differ.
+
+== The DNA record ==
+
+The genetic evidence, assembled roughly in order of antiquity in the source:
+
+- **The "Pit of Bones" (Sima de los Huesos), Atapuerca Mountains, Spain.** Among the oldest ancient human DNA recovered; the mitochondrial DNA was found to relate to the **Denisovans**, an archaic group that later interbred with modern humans<ref>https://en.wikipedia.org/wiki/Sima_de_los_Huesos</ref><ref>https://en.wikipedia.org/wiki/Atapuerca_Mountains</ref>.
+- **Mitochondrial Eve.** A theoretical most-recent common matrilineal ancestor, inferred from the human genome, used to map ancient migrations and to detect **population bottlenecks** — cataclysmic episodes show up as periods of low genetic diversity (few available mates, a small gene pool)<ref>https://en.wikipedia.org/wiki/Mitochondrial_Eve</ref>.
+- **Denisovans.** Identified from remains in Siberia; sequencing showed their DNA carried traces of modern-human-related ancestry, and living Melanesians (notably in Papua New Guinea) carry Denisovan DNA<ref>https://en.wikipedia.org/wiki/Denisovan</ref>.
+- **Tianyuan Cave (China), ~40,000 years ago,** and the **Clovis-child (Anzick) genome** — evidence linking ancient Asian populations to Native Americans.
+- **Mal'ta (Siberia), ~24,000 years ago** — Siberian DNA showing a relationship to Native Americans, a key piece of the peopling-of-the-Americas story.
+- **Native Brazilian remains with reported Polynesian-like DNA signatures** — cited in the source as evidence of long-distance population relationships across the Pacific.
+
+The through-line: the DNA record shows humanity as a **web of interconnected, interbreeding populations**, consistent with the source's "mixing and recombination" thesis.
+
+== The fossil record: a chronological catalogue ==
+
+The source's central contribution is a long ordered list of hominin finds — a hand-built "fossil record." Summarized in chronological bands (dates as given in the source, which follow the finds' commonly cited ages):
+
+=== Earliest hominins (7 – 3 million years ago) ===
+*Sahelanthropus* (~7 Mya); *Orrorin* (~6.1–5.7 Mya); **Ardi** (*Ardipithecus*, ~4.4 Mya); the **Laetoli footprints** (~3.6 Mya, the first evidence of habitual upright walking); *Australopithecus bahrelghazali* ("Abel", ~3.6 Mya); *Kenyanthropus* (~3.5 Mya); the **Little Foot** skeleton (~3.3 Mya); "Lucy's Baby" (Dikika, ~3.3 Mya); and **Lucy** (*Australopithecus afarensis*, ~3.2 Mya).
+
+=== Australopithecines and early *Homo* (3 – 1.5 million years ago) ===
+AL 200-1 (~3 Mya); STS-14, **Mrs. Ples**, the **Taung Child**, the **Black Skull**, and STS-71 (~2.7–2.5 Mya); **Nutcracker Man** (*Paranthropus boisei*, ~2 Mya); ***Homo habilis*** (~2.3–1.4 Mya) with specimens KNM-ER 1813 and KNM-ER 1470; the **Dmanisi** skull D2700 (~1.8 Mya, the important early-*Homo* find outside Africa); OH24 "Twiggy"; KNM-ER 3733, 3883, 992; Yuanmou Man; TM-1517; and **Turkana Boy** (*Homo erectus*, ~1.5 Mya).
+
+=== *Homo erectus* to archaic humans (1 million – 300,000 years ago) ===
+The **Daka** skull (~1 Mya); **Gran Dolina** (~780–800 kya); **Peking Man** (~750 kya); **Petralona** (~700 kya); **Bodo** and **Mauer 1** (~600 kya); Denisovan remains (~40–700 kya); **Tautavel Man** (~450 kya); **Miguelón**, **Altamura Man**, **Swanscombe Man**, and the Sima de los Huesos "Pit of Bones" material (~400–350 kya); the **Steinheim** skull (~350 kya); *Homo rhodesiensis* (**Kabwe / Broken Hill**, ~125–300 kya); and the **Dali** skull (~200 kya).
+
+=== Anatomically modern humans, Neanderthals, and other lineages (300,000 – 10,000 years ago) ===
+**Omo** remains (~195 kya, among the oldest anatomically modern *Homo sapiens*); **Herto / Idaltu** (~160 kya); the **Krapina** Neanderthals; **Klasies River**, **Tabun Cave**, and the **Skhul and Qafzeh** hominids (early modern humans in the Levant, ~80–125 kya); ***Homo floresiensis*** (the "Hobbit," ~13–94 kya); the **Shanidar** Neanderthals; La Ferrassie 1, La Chapelle-aux-Saints, and Neanderthal 1 (the type specimens of the classic Neanderthal image); **Mungo Man** (Australia, ~50 kya, among the oldest cremations); **Cro-Magnon 1** (~27.5 kya); the **Red Lady of Paviland**; and many others down through **Luzia Woman** and the terminal-Pleistocene finds.
+
+=== Mummies and preserved remains (Holocene) ===
+The source closes with the era of preserved bodies: **bog bodies** (from ~9,000 BC onward, e.g. Tollund Man), the **Spirit Cave** mummy, **Ötzi** the Iceman (~3,300 BC), the **Chinchorro** mummies (the oldest deliberate mummification), the **Tarim** mummies, and Egyptian royal mummies down to **Ramesses II** — the point being that mummification lets archaeologists read a specific individual and moment rather than only skeletal remains.
+
+== The species-mixing thesis ==
+
+The interpretive heart of the post is its rejection of a single linear ladder. The author argues that modern humans arose through **admixture and recombination among separated populations** — Neanderthal and Denisovan ancestry surviving in living people is the clearest evidence — rather than one lineage marching steadily toward us<ref>https://en.wikipedia.org/wiki/Interbreeding_between_archaic_and_modern_humans</ref>. This aligns with the mainstream modern view that the human family tree is a **braided stream**, not a ladder: multiple hominin populations coexisted, met, and exchanged genes.
+
+== A note on the numbers ==
+
+The source states archaic-ancestry percentages that are worth flagging against current consensus. It gives figures such as "1–4%" (and, in its closing line, "4–6%") **Neanderthal** DNA in non-Africans, with **Sub-Saharan Africans** described as carrying none, and **Papua New Guineans** carrying additional **Denisovan** ancestry. The mainstream present-day estimate is roughly **~2% Neanderthal ancestry** in most non-Africans (with small amounts now detected in some African populations through back-migration), and several percent **Denisovan** ancestry concentrated in Melanesian and Aboriginal Australian populations<ref>https://en.wikipedia.org/wiki/Neanderthal_genetics</ref><ref>https://en.wikipedia.org/wiki/Denisovan</ref>. The article preserves the author's claims as written while noting where they diverge from the current figures — the qualitative point (archaic admixture is real and unevenly distributed) is sound.
+
+== Coverage and relation to the corpus ==
+
+This is Ashurbanipal paleoanthropology corpus material, and the direct companion to [[Humanity — Deep Time and the Human Story]], which carries the same author's broader deep-time narrative (of which this fossil catalogue is "Part 2"). It sits in the ancient-mystery / human-story thread of the Library alongside the ethnobotanical and mystery-school material.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/humanity-part-2-the-fossil-record</ref>
+<ref>https://en.wikipedia.org/wiki/Sima_de_los_Huesos</ref>
+<ref>https://en.wikipedia.org/wiki/Atapuerca_Mountains</ref>
+<ref>https://en.wikipedia.org/wiki/Mitochondrial_Eve</ref>
+<ref>https://en.wikipedia.org/wiki/Denisovan</ref>
+<ref>https://en.wikipedia.org/wiki/Interbreeding_between_archaic_and_modern_humans</ref>
+<ref>https://en.wikipedia.org/wiki/Neanderthal_genetics</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2017 marsresident post "Humanity, Part 2 (The Fossil Record)": the practical reason skulls dominate the record and teeth mark modern humans; the DNA record (Sima de los Huesos / Denisovan link, Mitochondrial Eve and bottlenecks, the Denisovan discovery, Tianyuan/Clovis and Mal'ta links to Native Americans, the Brazil–Polynesia signal); the full ordered fossil catalogue from Sahelanthropus through the Holocene mummies; and the species-mixing / recombination thesis. Attribution to the author and the Steem source is preserved. The many image-host links in the original are not reproduced; taxonomic and dating claims are anchored to stable encyclopedic sources. The § A note on the numbers section flags where the source's archaic-ancestry percentages diverge from current consensus rather than repeating them as fact. This is history-of-science and paleoanthropology reference, neutral in tone.

@@ -1,0 +1,49 @@
+# Using the WADA List as Health Reference
+
+**The World Anti-Doping Agency (WADA) Prohibited List** is the annually-updated catalogue of substance and method classes banned in competitive sport. This article follows a 2016 post by **marsresident** that read the List not as a set of rules but as an **index of the biology of human performance** — a way to learn what each prohibited class *does* and *why* it is banned<ref>https://steemit.com/@marsresident/using-the-wada-list-outside-of-professional-sports</ref>. On the Church-of-Neuroscience shelf it is the **anti-doping / performance-pharmacology education** reference, companion to [[Building Muscle Tissue]].
+
+This article is written strictly as **anti-doping education and harm-reduction reference**: it explains what each class is, why WADA prohibits it, and the health risks — and deliberately **drops the source's "if you are not a professional athlete this can help you" framing**. It states **no doses** and is **not** a performance-enhancement guide (see § Not medical advice).
+
+== Summary ==
+
+The post walks the major categories of the WADA Prohibited List and, for each, links research on the underlying physiology. Read as education, the List maps the levers of the oxygen-delivery, hormonal, muscle-growth, metabolic, and stimulant systems<ref>https://en.wikipedia.org/wiki/World_Anti-Doping_Agency</ref><ref>https://en.wikipedia.org/wiki/Prohibited_List</ref>. The Library keeps that educational map and reframes the whole piece around **why these are prohibited and hazardous**, not how to use them.
+
+== Blood and oxygen transport ==
+
+- **Blood doping** — withdrawing blood and re-infusing it later to raise red-cell count and oxygen-carrying capacity. It is prohibited and dangerous: raising haematocrit thickens the blood and raises the risk of clots, stroke, and heart failure<ref>https://en.wikipedia.org/wiki/Blood_doping</ref>.
+- **Artificial oxygen carriers** — synthetic substitutes that mimic red cells' oxygen transport; prohibited, with their own cardiovascular risks.
+- **Erythropoiesis-stimulating agents** (e.g. EPO analogues) — drugs that increase red-cell production, carrying the same thrombotic hazards.
+- The post contrasts these with **platelet-rich plasma (PRP)**, which it notes is *not* banned by WADA and is used in a recovery/healing context.
+
+== Hormonal and muscle-growth classes ==
+
+- **Beta-2 agonists** — bronchodilators that improve respiratory function (and, misused, have systemic effects); permitted only within strict therapeutic limits.
+- **Aromatase inhibitors** and **SERMs (selective estrogen receptor modulators)** — agents that alter estrogen levels or signalling; medicines in oncology and fertility, prohibited in sport for their hormonal manipulation.
+- **SARMs (selective androgen receptor modulators)** — agents that modulate testosterone signalling to build muscle; investigational, unapproved as medicines, and prohibited (the same S4/andarine research discussed in [[Building Muscle Tissue]])<ref>https://en.wikipedia.org/wiki/Selective_androgen_receptor_modulator</ref>.
+- **Myostatin inhibitors** — the post's memorable example is the gorilla, whose large musculature reflects low myostatin (the natural brake on muscle growth); inhibitors (it names follistatin and YK-11) lift that brake and are prohibited and experimental<ref>https://en.wikipedia.org/wiki/Myostatin</ref>.
+- **Glucocorticoids** — steroid hormones with legitimate anti-inflammatory medical use, restricted in competition.
+
+== Metabolic modulators and stimulants ==
+
+- **Metabolic modulators** — agents that alter muscle metabolism; prohibited.
+- **Stimulants** — the post closes with several natural or borderline stimulants (some on the List, some not): **octopamine** and **synephrine** (adrenaline-related; synephrine is found in bitter-orange extract), **fucoxanthin** (from certain seaweeds), and **cordyceps** mushrooms<ref>https://en.wikipedia.org/wiki/Stimulant</ref>. As education, the point is that "natural" does not mean "without cardiovascular risk" — synephrine and other sympathomimetics raise heart rate and blood pressure.
+
+== Where this sits in the corpus ==
+
+This is the **anti-doping / performance-pharmacology** reference of the Church-of-Neuroscience shelf. It shares SARMs directly with [[Building Muscle Tissue]] and connects to the Cold-War banned-list divergence discussed in [[Brain Balance]]; all three descend from [[The Church of Neuroscience and Biohacking]]. The WADA List's counterpart in law is the controlled-substances schedule, treated in the Library's legal-status material.
+
+== Not medical advice ==
+
+This article is anti-doping education and a health reference. It is **not medical advice**, **not a diagnosis or prescription**, and **not a performance-enhancement or dosing guide**. The classes described are prohibited in sport for reasons that include real health hazards (clotting and cardiovascular risk from blood/oxygen manipulation; hormonal and cardiovascular risk from the muscle-growth and stimulant classes). Many are investigational or unapproved. The source's "this can help you" framing has been removed; nothing here recommends use or states a dose. Consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/using-the-wada-list-outside-of-professional-sports</ref>
+<ref>https://en.wikipedia.org/wiki/World_Anti-Doping_Agency</ref>
+<ref>https://en.wikipedia.org/wiki/Prohibited_List</ref>
+<ref>https://en.wikipedia.org/wiki/Blood_doping</ref>
+<ref>https://en.wikipedia.org/wiki/Selective_androgen_receptor_modulator</ref>
+<ref>https://en.wikipedia.org/wiki/Myostatin</ref>
+<ref>https://en.wikipedia.org/wiki/Stimulant</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Using the WADA List Outside of Professional Sports" — the banned-substance classes (blood doping, artificial oxygen carriers, erythropoiesis-stimulating agents, the not-banned PRP contrast, beta-2 agonists, aromatase inhibitors, SARMs, SERMs, myostatin inhibitors with the gorilla example, metabolic modulators, glucocorticoids, and the octopamine/synephrine/fucoxanthin/cordyceps stimulants). Per the task's discipline, the post's "how to be healthier / this can help you" performance framing is DROPPED and the piece is reframed as anti-doping education emphasizing why each class is prohibited and hazardous; no doses are stated. The original's PubMed/PMC links are anchored to stable encyclopedic sources. Neutral, education-only, with a not-medical-advice footer. Shares SARMs with Building Muscle Tissue.
