@@ -19,10 +19,16 @@
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────────
 //   /            the hub — card grid of games
-//   /idle        Cinder Foundry — an idle/incremental clicker (accrues while you're away; upgrades)
+//   /idle        Cinder Foundry v2 — idle/incremental clicker (exp cost, prestige, achievements, offline cap)
+//   /kindling    Kindling — a minimalist "first idle" (idle-kit engine)
+//   /temple      Tap Temple — a calm clicker, MELEK/temple flavor (idle-kit engine)
+//   /ledger      Ledger Legends — a text-driven idle RPG with a scrolling quest log (idle-kit engine)
+//   /orchard     Star Harvest — a farm-idle; grows starlight overnight (idle-kit engine)
+//   /delve       Deep Delve — a mining-idle with a live Depth meter (idle-kit engine)
 //   /snake       Glow Worm — a snake-style game (arrow/WASD, growing worm, score)
 //   /merge       Nova Merge — a 2048-style merge game (original tiles; merge logic implemented here)
-//   /mines       Signal Sweeper — a minesweeper-style grid (optional 4th; reveal/flag, best time)
+//   /mines       Signal Sweeper — a minesweeper-style grid (reveal/flag, best time)
+//   /www/idle-kit.js  the shared idle engine (offline accrual, streak, prestige, achievements), vendored locally
 //   /health      liveness probe → {"ok":true}
 //   /robots.txt /sitemap.xml /sitemap-index.xml /llms.txt
 //
@@ -33,9 +39,21 @@
 //   snake, merge, minesweeper — with our own naming/theme/colours; no branded IP, no copied sprite sheets).
 
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const WWW = join(HERE, 'www');
+// idle-kit.js — the shared retention engine, vendored locally in www/. Read ONCE at module load (no
+// request-time I/O) and inlined into each idle game's page so the pages stay self-contained (the surface
+// forbids <script src>). Also served raw at /www/idle-kit.js for cacheability + honest "lives in www/".
+const IDLE_KIT_JS = (() => { try { return readFileSync(join(WWW, 'idle-kit.js'), 'utf8'); } catch { return ''; } })();
+// Wrap a per-game inline script so it runs AFTER the kit is defined on window.IdleKit.
+const withKit = (inner) => `<script>${IDLE_KIT_JS}</script>\n<script>${inner}</script>`;
 
 const PORT = +(process.env.PORT || 8210);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -71,9 +89,24 @@ export function safeHref(u) {
 
 // ── the catalog — each game is its own path. `fun:true` = purely off-chain "just for fun". ───────────
 export const GAMES = [
-  { slug: 'idle',  name: 'Cinder Foundry', emoji: '🔥', fun: true,
+  { slug: 'idle',  name: 'Cinder Foundry', emoji: '🔥', fun: true, idle: true,
     tagline: 'An idle forge that keeps working while you\'re away',
-    blurb: 'Strike the anvil for sparks, then hire bellows, apprentices and furnaces that forge cinders for you — even after you close the tab. The classic idle game.' },
+    blurb: 'Strike the anvil for sparks, then hire bellows, apprentices and furnaces that forge cinders for you — even after you close the tab. Ascend for permanent Emberstone bonuses. The classic idle game.' },
+  { slug: 'kindling', name: 'Kindling', emoji: '✦', fun: true, idle: true,
+    tagline: 'A tiny, elegant first idle game',
+    blurb: 'One resource, a handful of makers, one prestige. A deliberately small, polished incremental — the friendliest way into the genre. Gathers sparks while you\'re gone.' },
+  { slug: 'temple', name: 'Tap Temple', emoji: '🛕', fun: true, idle: true,
+    tagline: 'Tap for offerings; hire acolytes to gather while you rest',
+    blurb: 'Tap the altar for offerings, then bring on acolytes, scribes and oracles who keep the incense burning for you. Reach an Ascension for a lasting blessing. A calm idle clicker.' },
+  { slug: 'ledger', name: 'Ledger Legends', emoji: '📜', fun: true, idle: true,
+    tagline: 'A text-driven idle adventure that quests on its own',
+    blurb: 'Recruit couriers, scouts and heroes who run auto-quests and post their deeds to a scrolling log. Watch renown climb, then Retire for a permanent renown multiplier. Pure numbers-and-strings idle.' },
+  { slug: 'orchard', name: 'Star Harvest', emoji: '🌱', fun: true, idle: true,
+    tagline: 'Plant light-seeds; harvest starlight even overnight',
+    blurb: 'Tend beds of light-seeds that grow starlight around the clock — add plots, speed the bloom, and come back to a full harvest. Bloom to reset for a permanent yield boost. A gentle farm-idle.' },
+  { slug: 'delve', name: 'Deep Delve', emoji: '⛏️', fun: true, idle: true,
+    tagline: 'Auto-miners dig ever deeper for ore while you\'re away',
+    blurb: 'Send drills and carts down through the strata; deeper rock is richer but harder. Hit a wall, then trigger a Collapse to restart with a permanent depth multiplier. A moreish mining-idle.' },
   { slug: 'snake', name: 'Glow Worm', emoji: '🪱', fun: true,
     tagline: 'Steer a growing worm; don\'t bite your own tail',
     blurb: 'Arrow keys or WASD. Eat the glowing motes, grow longer, chase your high score. One wrong turn and it\'s over.' },
@@ -134,6 +167,16 @@ const STYLE = `<style>
   .up .ue{font-size:1.6rem} .up .un{font-weight:700} .up .ud{color:var(--mut);font-size:.82rem}
   .up .uc{margin-left:auto;text-align:right;white-space:nowrap} .up .uc b{color:var(--gold)} .up .uc small{display:block;color:var(--mut)}
   .away{background:#54c96a18;border:1px solid var(--up);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:14px}
+  /* idle-kit: prestige, achievements, flavor log */
+  .prestige{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:12px 16px;margin:14px 0}
+  .prestige .hint{margin:0;flex:1;min-width:220px}
+  .achs{margin:12px 0}
+  .achs-h{color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .ach{display:inline-block;font-size:.78rem;color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:3px 10px;margin:0 6px 6px 0;background:var(--panel);opacity:.55}
+  .ach.got{color:var(--gold);border-color:var(--gold);opacity:1}
+  .idlelog{background:#080a10;border:1px solid var(--line2);border-radius:10px;padding:10px 14px;margin:12px 0;max-height:190px;overflow:auto;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .idlelog-line{color:var(--mut);padding:2px 0;border-bottom:1px solid #12151f}
+  .idlelog-line:first-child{color:var(--fg)}
   /* merge tiles */
   .board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:10px;width:min(92vw,420px);aspect-ratio:1}
   .cell{display:flex;align-items:center;justify-content:center;border-radius:10px;background:#0d1018;font-weight:800;font-size:clamp(16px,6vw,30px);color:#0c0e14}
@@ -186,7 +229,7 @@ const FOOTER = `<footer>
 // ── page shell ──────────────────────────────────────────────────────────────────────────────────────
 function page(title, body, opts = {}) {
   const desc = opts.description
-    || 'Free, original browser games for a quick break — an idle clicker, a snake game, a 2048-style merge puzzle, and a minesweeper-style logic game. No sign-up, no install; runs entirely in your browser.';
+    || 'Free, original browser games for a quick break — idle/incrementals (a forge, a farm, a mine, a temple clicker, a text idle RPG) plus arcade classics (snake, a 2048-style merge, minesweeper). No sign-up, no install; runs entirely in your browser.';
   const canonical = opts.canonical || `${BASE_URL}/`;
   // Neutral SoftwareApplication JSON-LD only — this surface carries no crypto branding, even in metadata.
   const head = headTags({
@@ -224,8 +267,9 @@ export function hubPage() {
 <p class=sub>A little pocket arcade for when you've got five minutes to kill. Pick one, no sign-up, no install —
   it plays right here in your browser and remembers your best score.</p>
 <div class=grid>${cards}</div>
-<p class=hint>All four are original games built on classic public-domain genres. Your high scores save to this
-  browser automatically — see the ☆ on any game if you'd like to keep them across devices.</p>`;
+<p class=hint>Every game here is an original built on a classic public-domain genre — idle forges, farms, mines
+  and clickers that tick along while you're away, plus a few quick arcade classics. Your progress saves to this
+  browser automatically — see the ☆ on any game if you'd like to keep it across devices.</p>`;
   return page(`${SITE_NAME} — free browser games for a quick break`, body, { canonical: `${BASE_URL}/`, jsonld });
 }
 
@@ -250,80 +294,251 @@ function gamePage(slug, params) {
   const head = `<div class=gamehead><span style="font-size:1.8rem">${esc(g.emoji)}</span>
     <h1>${esc(g.name)}</h1><span class=muted>${esc(g.tagline)}</span></div>`;
   const bodyByGame = {
-    idle: idleGame(), snake: snakeGame(), merge: mergeGame(), mines: minesGame(),
+    idle: idleGame(), kindling: kindlingGame(), temple: templeGame(), ledger: ledgerGame(),
+    orchard: orchardGame(), delve: delveGame(),
+    snake: snakeGame(), merge: mergeGame(), mines: minesGame(),
   };
   const body = `${back}${head}${banner}${bodyByGame[slug]}${optInBlock()}`;
   return page(`${g.name} — ${SITE_NAME}`, body, { canonical: `${BASE_URL}/${slug}` });
 }
 
-// ── GAME 1: Cinder Foundry (idle / incremental clicker) ──────────────────────────────────────────────
+// ── GAME 1: Cinder Foundry v2 (idle / incremental clicker) ───────────────────────────────────────────
+// v2 (on idle-kit): exponential cost curve, Emberstone prestige/ascension, achievements, an 8h offline
+// cap with a proper "while you were away" collect screen, and a daily-login streak yield bonus. The
+// bespoke anvil shell is kept; all the mechanics come from window.IdleKit so it matches the sibling games.
 function idleGame() {
   return `<p class=sub>Strike the anvil for sparks, then hire help that forges cinders for you — even while
-  the tab is closed. Come back later and collect what your foundry made.</p>
+  the tab is closed. Come back later and collect what your foundry made; ascend for permanent Emberstone bonuses.</p>
 <div id=away class=away style="display:none"></div>
 <div class=foundry>
   <div class=anvil>
     <div class=count id=count>0</div>
     <div class=rate id=rate>0.0 / sec</div>
+    <div class=hint id=meta></div>
     <button class=strike id=strike title="Strike the anvil">🔨</button>
     <div class=hint>Click the hammer. Every strike = <b id=cp>1</b> cinder.</div>
+    <div class=hint id=streak></div>
   </div>
   <div class=shop id=shop></div>
 </div>
-<script>${idleScript()}</script>`;
+<div class=prestige><div class=hint id=prestige-info></div><button class=btn id=prestige-btn>Ascend</button></div>
+<div class=achs id=achs></div>
+${withKit(idleScript())}`;
 }
 function idleScript() {
-  // Self-contained. Offline accrual on load (capped at 8h). Saves to localStorage every 5s + on hide.
+  // Cinder Foundry keeps its own anvil markup but drives IdleKit for the maths (format/cost/away/prestige/
+  // streak/achievements). Offline accrual caps at 8h; saves every 5s + on hide/visibility-change.
   return `(function(){
-  var KEY='idlegames.cinderfoundry.v1', CAP=8*3600; // seconds of offline accrual counted
-  var UPGRADES=[
-    {id:'bellows',   name:'Bellows',      emoji:'🎐', rate:0.2, base:15,   desc:'Fans the coals. +0.2/sec each.'},
-    {id:'apprentice',name:'Apprentice',   emoji:'🧑‍🏭', rate:1,   base:110,  desc:'A helping pair of hands. +1/sec each.'},
-    {id:'furnace',   name:'Furnace',      emoji:'🏭', rate:8,   base:1200, desc:'Roars day and night. +8/sec each.'},
-    {id:'golem',     name:'Forge Golem',  emoji:'🗿', rate:50,  base:13000,desc:'Tireless iron worker. +50/sec each.'}
+  var K=window.IdleKit; if(!K)return;
+  var KEY='idlegames.cinderfoundry.v2', CAP=8;
+  var GENS=[
+    {id:'bellows',   name:'Bellows',     emoji:'🎐', rate:0.2, base:15,    desc:'Fans the coals. +0.2/sec each.'},
+    {id:'apprentice',name:'Apprentice',  emoji:'🧑‍🏭', rate:1,   base:110,   desc:'A helping pair of hands. +1/sec each.'},
+    {id:'furnace',   name:'Furnace',     emoji:'🏭', rate:8,   base:1200,  desc:'Roars day and night. +8/sec each.'},
+    {id:'golem',     name:'Forge Golem', emoji:'🗿', rate:50,  base:13000, desc:'Tireless iron worker. +50/sec each.'}
   ];
-  var state={cinders:0, clickPower:1, owned:{}, ts:Date.now()};
-  UPGRADES.forEach(function(u){state.owned[u.id]=0;});
-  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object'){
-    state.cinders=+s.cinders||0; state.clickPower=+s.clickPower||1; state.ts=+s.ts||Date.now();
-    UPGRADES.forEach(function(u){state.owned[u.id]=(s.owned&&+s.owned[u.id])||0;});}}catch(e){}}
-  function save(){try{state.ts=Date.now();localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
-  function rate(){var r=0;UPGRADES.forEach(function(u){r+=u.rate*state.owned[u.id];});return r;}
-  function cost(u){return Math.ceil(u.base*Math.pow(1.15,state.owned[u.id]));}
-  function fmt(n){n=Math.floor(n);if(n<1e4)return String(n);
-    var un=['','k','M','B','T'],i=0;while(n>=1000&&i<un.length-1){n/=1000;i++;}return n.toFixed(n<10?2:n<100?1:0)+un[i];}
-  load();
-  // offline accrual
-  var away=Math.min(CAP,(Date.now()-state.ts)/1000);
-  var gained=rate()*away;
-  if(gained>=1){state.cinders+=gained;var el=document.getElementById('away');
-    el.style.display='block';el.innerHTML='🔥 While you were away, your foundry forged <b>'+fmt(gained)+'</b> cinders.';}
+  var ACH=[
+    {id:'first',  name:'First Spark',   emoji:'✨', desc:'Forge 100 cinders.',       test:function(s){return s.lifetime>=100;}},
+    {id:'crew',   name:'A Full Crew',   emoji:'👥', desc:'Own 25 buildings in all.', test:function(s){return total(s)>=25;}},
+    {id:'roaring',name:'Roaring Forge', emoji:'🔥', desc:'Reach 1M lifetime cinders.',test:function(s){return s.lifetime>=1e6;}},
+    {id:'ascend', name:'Reborn in Fire',emoji:'💎', desc:'Ascend at least once.',    test:function(s){return s.prestige>0;}}
+  ];
+  function total(s){var t=0;GENS.forEach(function(g){t+=s.owned[g.id]||0;});return t;}
+  var CLICK=1;
+  var fresh={res:0,lifetime:0,owned:{},prestige:0,ach:{},streak:0,lastDay:null,ts:Date.now()};
+  GENS.forEach(function(g){fresh.owned[g.id]=0;});
+  var s=K.load(KEY,null)||fresh;
+  s.res=+s.res||0; s.lifetime=+s.lifetime||0; s.prestige=+s.prestige||0; s.streak=+s.streak||0;
+  s.owned=s.owned&&typeof s.owned==='object'?s.owned:{}; s.ach=s.ach&&typeof s.ach==='object'?s.ach:{};
+  GENS.forEach(function(g){s.owned[g.id]=+s.owned[g.id]||0;}); if(s.ts==null)s.ts=Date.now();
+  var AT=1e6;
+  function pmult(){return 1+s.prestige*0.1;}
+  function smult(){return K.streakMult(s.streak);}
+  function rate(){var r=0;GENS.forEach(function(g){r+=g.rate*(s.owned[g.id]||0);});return r*pmult()*smult();}
+  function cost(g){return K.cost(g.base,s.owned[g.id]||0);}
+  function gain(a){s.res+=a;s.lifetime+=a;}
   var countEl=document.getElementById('count'),rateEl=document.getElementById('rate'),
-      cpEl=document.getElementById('cp'),shop=document.getElementById('shop');
-  function renderShop(){
-    shop.innerHTML='';
-    UPGRADES.forEach(function(u){
-      var b=document.createElement('button');b.className='up';
-      var c=cost(u), can=state.cinders>=c; b.disabled=!can;
-      b.innerHTML='<span class=ue>'+u.emoji+'</span><span><span class=un>'+u.name+' <small class=muted>x'+state.owned[u.id]+'</small></span>'+
-        '<span class=ud>'+u.desc+'</span></span><span class=uc><b>'+fmt(c)+'</b><small>cinders</small></span>';
-      b.addEventListener('click',function(){var cc=cost(u);if(state.cinders>=cc){state.cinders-=cc;state.owned[u.id]++;draw();save();}});
-      shop.appendChild(b);
-    });
-  }
-  function draw(){countEl.textContent=fmt(state.cinders);rateEl.textContent=rate().toFixed(1)+' / sec';
-    cpEl.textContent=state.clickPower;renderShop();}
-  document.getElementById('strike').addEventListener('click',function(){state.cinders+=state.clickPower;draw();});
+      metaEl=document.getElementById('meta'),cpEl=document.getElementById('cp'),
+      streakEl=document.getElementById('streak'),shop=document.getElementById('shop'),
+      awayEl=document.getElementById('away'),achEl=document.getElementById('achs'),
+      pInfo=document.getElementById('prestige-info'),pBtn=document.getElementById('prestige-btn');
+  if(cpEl)cpEl.textContent=CLICK;
+  function persist(){s.ts=Date.now();K.save(KEY,s);}
+  // daily streak
+  K.streakUpdate(s);
+  // offline accrual
+  var a=K.awaySeconds(s.ts,CAP),earned=rate()*a.seconds;
+  if(earned>=1){gain(earned);var mins=Math.floor(a.rawSeconds/60),hh=Math.floor(mins/60),mm=mins%60;
+    awayEl.style.display='block';
+    awayEl.innerHTML='🔥 While you were away ('+(hh>0?hh+'h '+mm+'m':mm+'m')+(a.wasCapped?', capped at '+CAP+'h':'')+'), your foundry forged <b>'+K.format(earned)+'</b> cinders. Welcome back!';}
+  function renderShop(){shop.innerHTML='';GENS.forEach(function(g){var c=cost(g);var b=document.createElement('button');
+    b.className='up';b.disabled=s.res<c;
+    b.innerHTML='<span class=ue>'+g.emoji+'</span><span><span class=un>'+g.name+' <small class=muted>x'+(s.owned[g.id]||0)+'</small></span><span class=ud>'+g.desc+'</span></span><span class=uc><b>'+K.format(c)+'</b><small>cinders</small></span>';
+    b.addEventListener('click',function(){var cc=cost(g);if(s.res>=cc){s.res-=cc;s.owned[g.id]=(s.owned[g.id]||0)+1;draw();persist();}});
+    shop.appendChild(b);});}
+  function renderAch(){if(!achEl)return;achEl.innerHTML='<div class=achs-h>Milestones</div>';
+    ACH.forEach(function(x){var got=!!s.ach[x.id];var chip=document.createElement('span');chip.className='ach'+(got?' got':'');
+      chip.textContent=x.emoji+' '+x.name;chip.title=(got?'':'Locked — ')+x.desc;achEl.appendChild(chip);});}
+  function renderPrestige(){if(!pInfo)return;var pend=K.prestigeGain(s.lifetime,AT);
+    pInfo.innerHTML='💎 <b>'+K.format(s.prestige)+'</b> Emberstones — global ×'+pmult().toFixed(2)+'<br><small class=muted>Ascend to melt the forge down for permanent Emberstones (each +10% output).</small>';
+    pBtn.textContent=pend>0?('Ascend for +'+K.format(pend)+' Emberstone'+(pend===1?'':'s')):('Reach '+K.format(AT)+' lifetime to ascend');
+    pBtn.disabled=pend<=0;}
+  if(pBtn)pBtn.addEventListener('click',function(){var pend=K.prestigeGain(s.lifetime,AT);if(pend<=0)return;
+    var ok=false;try{ok=window.confirm('Ascend now? Your cinders and buildings reset, but you gain +'+K.format(pend)+' Emberstone'+(pend===1?'':'s')+' — a permanent +'+(pend*10)+'% to all output.');}catch(e){ok=true;}
+    if(!ok)return;s.prestige+=pend;s.res=0;s.lifetime=0;GENS.forEach(function(g){s.owned[g.id]=0;});draw();persist();});
+  function draw(){countEl.textContent=K.format(s.res);rateEl.textContent=K.format(rate())+' / sec';
+    if(metaEl)metaEl.innerHTML='lifetime <b>'+K.format(s.lifetime)+'</b> cinders';
+    if(streakEl)streakEl.innerHTML='🔥 Daily streak: <b>'+K.format(s.streak)+'</b> day'+(s.streak===1?'':'s')+' <small class=muted>(×'+smult().toFixed(2)+' yield)</small>';
+    renderShop();renderAch();renderPrestige();}
+  document.getElementById('strike').addEventListener('click',function(){gain(CLICK*pmult()*smult());draw();});
   var last=Date.now();
-  setInterval(function(){var now=Date.now();var dt=(now-last)/1000;last=now;state.cinders+=rate()*dt;
-    countEl.textContent=fmt(state.cinders);
-    // refresh affordability without rebuilding on every tick unless it changed a threshold
-    var kids=shop.children,i=0;UPGRADES.forEach(function(u){var can=state.cinders>=cost(u);var el=kids[i++];if(el)el.disabled=!can;});},100);
-  setInterval(save,5000);
-  document.addEventListener('visibilitychange',function(){if(document.hidden)save();});
-  window.addEventListener('pagehide',save);
+  setInterval(function(){var now=Date.now(),dt=(now-last)/1000;last=now;gain(rate()*dt);
+    countEl.textContent=K.format(s.res);
+    if(metaEl)metaEl.innerHTML='lifetime <b>'+K.format(s.lifetime)+'</b> cinders';
+    var kids=shop.children,i=0;GENS.forEach(function(g){var e=kids[i++];if(e)e.disabled=s.res<cost(g);});
+    K.checkAchievements(ACH,s,s.ach);},100);
+  setInterval(persist,5000);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)persist();});
+  window.addEventListener('pagehide',persist);
   draw();
 })();`;
+}
+
+// ── GAMES 2–6: new idle-incrementals, each a themed config over IdleKit.mount() ──────────────────────
+// All five are pure client-side, IP-safe originals (invented names/lore over public-domain idle genres).
+// The engine (offline cap + "while you were away" screen + daily streak + achievements + prestige +
+// exponential cost) lives in www/idle-kit.js; each game below is content + theme.
+
+// GAME 2: Kindling — a tiny, polished minimalist "first idle" (the genre on-ramp).
+function kindlingGame() {
+  return `<p class=sub>The smallest idle game we could make and still love. Coax a spark, add a few makers,
+  and let it smoulder while you're away. One prestige — a Rekindle — resets it for a permanent boost.</p>
+<div id=game></div>
+${withKit(`(function(){var K=window.IdleKit;if(!K)return;K.mount(document.getElementById('game'),{
+  key:'idlegames.kindling.v1',
+  resource:{name:'sparks',emoji:'✦'},
+  click:{label:'Coax a spark',power:1},
+  capHours:8, streak:true,
+  generators:[
+    {id:'tinder', name:'Tinder',   emoji:'🍂', rate:0.2, base:12,   desc:'Catches easily. +0.2/sec each.'},
+    {id:'twig',   name:'Twig',     emoji:'🪵', rate:1.2, base:90,   desc:'Steady little flame. +1.2/sec each.'},
+    {id:'log',    name:'Log',      emoji:'🪵', rate:7,   base:1000, desc:'Burns long and slow. +7/sec each.'},
+    {id:'brazier',name:'Brazier',  emoji:'🔥', rate:45,  base:12000,desc:'A proper blaze. +45/sec each.'}
+  ],
+  prestige:{name:'Rekindle',emoji:'💠',unit:'embers',at:5e5,mult:function(p){return 1+p*0.12;},blurb:'Rekindle to bank embers — each gives +12% to everything, forever.'},
+  achievements:[
+    {id:'lit',   name:'Lit',        emoji:'✨',desc:'Gather 50 sparks.',        test:function(s){return s.lifetime>=50;}},
+    {id:'steady',name:'Steady Burn', emoji:'🔥',desc:'Reach 5,000 lifetime sparks.', test:function(s){return s.lifetime>=5000;}},
+    {id:'ember', name:'First Ember',  emoji:'💠',desc:'Rekindle once.',           test:function(s){return s.prestige>0;}}
+  ]
+});})();`)}`;
+}
+
+// GAME 3: Tap Temple — a second clicker, native MELEK/Ashurbanipal temple flavor (lore only; no crypto).
+function templeGame() {
+  return `<p class=sub>Tap the altar for offerings, then bring on temple folk who keep the incense burning
+  while you rest. Reach an Ascension for a lasting blessing. A calm, on-brand idle clicker.</p>
+<div id=game></div>
+${withKit(`(function(){var K=window.IdleKit;if(!K)return;K.mount(document.getElementById('game'),{
+  key:'idlegames.taptemple.v1',
+  resource:{name:'offerings',emoji:'🪔'},
+  click:{label:'Tend the altar',power:1},
+  capHours:10, streak:true,
+  generators:[
+    {id:'acolyte',name:'Acolyte',  emoji:'🧎', rate:0.3, base:15,    desc:'Tends the lamps. +0.3/sec each.'},
+    {id:'scribe', name:'Scribe',   emoji:'✍️', rate:1.5, base:120,   desc:'Copies the liturgy. +1.5/sec each.'},
+    {id:'oracle', name:'Oracle',   emoji:'🔮', rate:9,   base:1400,  desc:'Reads the smoke. +9/sec each.'},
+    {id:'ziggurat',name:'Ziggurat',emoji:'🛕', rate:60,  base:16000, desc:'A whole terraced temple. +60/sec each.'}
+  ],
+  prestige:{name:'Ascension',emoji:'🌟',unit:'blessings',at:1e6,mult:function(p){return 1+p*0.1;},blurb:'Ascend to receive blessings — each grants +10% to all offerings, permanently.'},
+  achievements:[
+    {id:'first',  name:'First Light', emoji:'🪔',desc:'Gather 100 offerings.',   test:function(s){return s.lifetime>=100;}},
+    {id:'order',  name:'Holy Order',  emoji:'👥',desc:'Own 30 temple folk.',      test:function(s){var t=0;for(var k in s.owned)t+=s.owned[k]||0;return t>=30;}},
+    {id:'ascend', name:'Ascended',    emoji:'🌟',desc:'Ascend once.',             test:function(s){return s.prestige>0;}}
+  ]
+});})();`)}`;
+}
+
+// GAME 4: Ledger Legends — text/idle incremental RPG (bespoke shell: a scrolling quest log over the kit).
+function ledgerGame() {
+  return `<p class=sub>The cheapest kind of idle: strings and numbers. Recruit couriers, scouts and heroes
+  who run auto-quests and post their deeds to the log. Renown climbs; Retire for a permanent multiplier.</p>
+<div id=game></div>
+${withKit(`(function(){var K=window.IdleKit;if(!K)return;
+  var DEEDS=['cleared a goblin warren','escorted a caravan','mapped a lost road','recovered a stolen relic',
+    'slew a marsh wyrm','calmed a haunted mill','won a tavern wager','charted a hidden vale','routed a bandit camp'];
+  K.mount(document.getElementById('game'),{
+  key:'idlegames.ledgerlegends.v1',
+  resource:{name:'renown',emoji:'📜'},
+  click:{label:'Post a bounty',power:2},
+  capHours:8, streak:true,
+  generators:[
+    {id:'courier',name:'Courier', emoji:'🏃', rate:0.4, base:18,    desc:'Runs small errands. +0.4/sec each.'},
+    {id:'scout',  name:'Scout',   emoji:'🗺️', rate:2,   base:160,   desc:'Clears the road ahead. +2/sec each.'},
+    {id:'knight', name:'Knight',  emoji:'⚔️', rate:12,  base:1800,  desc:'Takes real quests. +12/sec each.'},
+    {id:'hero',   name:'Hero',    emoji:'🛡️', rate:80,  base:20000, desc:'The stuff of legends. +80/sec each.'}
+  ],
+  prestige:{name:'Retire',emoji:'🏅',unit:'legends',at:1e6,mult:function(p){return 1+p*0.1;},blurb:'Retire the party into legend — each Legend adds +10% renown to the next, forever.'},
+  achievements:[
+    {id:'known',  name:'Word Spreads', emoji:'📜',desc:'Earn 200 renown.',      test:function(s){return s.lifetime>=200;}},
+    {id:'band',   name:'A Full Band',  emoji:'👥',desc:'Recruit 25 adventurers.',test:function(s){var t=0;for(var k in s.owned)t+=s.owned[k]||0;return t>=25;}},
+    {id:'legend', name:'Legendary',    emoji:'🏅',desc:'Retire once.',           test:function(s){return s.prestige>0;}}
+  ],
+  log:{line:function(s){var who=['A courier','A scout','A knight','A hero'][Math.floor(Math.random()*4)];
+    return who+' '+DEEDS[Math.floor(Math.random()*DEEDS.length)]+'.';}}
+});})();`)}`;
+}
+
+// GAME 5: Star Harvest — farm-idle. Plots grow starlight on a timer; Bloom to reset for a yield boost.
+function orchardGame() {
+  return `<p class=sub>Plant beds of light-seeds that grow starlight around the clock. Add plots, speed the
+  bloom, and come back to a full harvest. Bloom the whole field for a permanent yield boost. A gentle farm-idle.</p>
+<div id=game></div>
+${withKit(`(function(){var K=window.IdleKit;if(!K)return;K.mount(document.getElementById('game'),{
+  key:'idlegames.starharvest.v1',
+  resource:{name:'starlight',emoji:'✨'},
+  click:{label:'Hand-pick starlight',power:1},
+  capHours:12, streak:true,
+  generators:[
+    {id:'plot',   name:'Seed Plot',   emoji:'🌱', rate:0.3, base:14,    desc:'A small bed. +0.3/sec each.'},
+    {id:'row',    name:'Long Row',    emoji:'🌾', rate:1.6, base:130,   desc:'A full furrow. +1.6/sec each.'},
+    {id:'grove',  name:'Moon Grove',  emoji:'🌳', rate:10,  base:1500,  desc:'Glows all night. +10/sec each.'},
+    {id:'field',  name:'Star Field',  emoji:'🌌', rate:66,  base:17000, desc:'A whole sky of it. +66/sec each.'}
+  ],
+  prestige:{name:'Bloom',emoji:'🌸',unit:'blooms',at:1e6,mult:function(p){return 1+p*0.1;},blurb:'Bloom the field to bank blooms — each gives +10% yield to every future harvest.'},
+  achievements:[
+    {id:'sprout', name:'First Sprout', emoji:'🌱',desc:'Harvest 100 starlight.', test:function(s){return s.lifetime>=100;}},
+    {id:'farm',   name:'Working Farm', emoji:'🚜',desc:'Own 30 growing beds.',    test:function(s){var t=0;for(var k in s.owned)t+=s.owned[k]||0;return t>=30;}},
+    {id:'bloom',  name:'In Full Bloom',emoji:'🌸',desc:'Bloom once.',             test:function(s){return s.prestige>0;}}
+  ]
+});})();`)}`;
+}
+
+// GAME 6: Deep Delve — mining-idle. Drills dig ever deeper (a live Depth meter); Collapse for a multiplier.
+function delveGame() {
+  return `<p class=sub>Send drills and carts down through the strata — deeper rock is richer but slower to
+  reach. Watch the Depth climb, hit a wall, then trigger a Collapse to restart with a permanent depth boost.</p>
+<div id=game></div>
+${withKit(`(function(){var K=window.IdleKit;if(!K)return;K.mount(document.getElementById('game'),{
+  key:'idlegames.deepdelve.v1',
+  resource:{name:'ore',emoji:'⛏️'},
+  click:{label:'Swing the pick',power:1},
+  capHours:8, streak:true,
+  generators:[
+    {id:'pick',   name:'Pick Hand',   emoji:'🧑‍🔧', rate:0.3, base:16,    desc:'Chips at the wall. +0.3/sec each.'},
+    {id:'drill',  name:'Auto-Drill',  emoji:'🛠️', rate:1.8, base:150,   desc:'Bites into rock. +1.8/sec each.'},
+    {id:'cart',   name:'Ore Cart',    emoji:'🛒', rate:11,  base:1700,  desc:'Hauls it up fast. +11/sec each.'},
+    {id:'bore',   name:'Deep Bore',   emoji:'🏗️', rate:72,  base:19000, desc:'Punches to bedrock. +72/sec each.'}
+  ],
+  meter:{label:'Depth', value:function(s){var t=0;for(var k in s.owned)t+=s.owned[k]||0;return t*12+Math.floor(s.lifetime/500);},
+    fmt:function(n){return K.format(n)+' m';}},
+  prestige:{name:'Collapse',emoji:'🕳️',unit:'depth cores',at:1e6,mult:function(p){return 1+p*0.1;},blurb:'Collapse the shaft to bank depth cores — each adds +10% ore, forever.'},
+  achievements:[
+    {id:'vein',   name:'First Vein',  emoji:'⛏️',desc:'Mine 100 ore.',          test:function(s){return s.lifetime>=100;}},
+    {id:'fleet',  name:'Full Fleet',  emoji:'🚜',desc:'Own 30 diggers.',         test:function(s){var t=0;for(var k in s.owned)t+=s.owned[k]||0;return t>=30;}},
+    {id:'core',   name:'Bedrock',     emoji:'🕳️',desc:'Collapse once.',          test:function(s){return s.prestige>0;}}
+  ]
+});})();`)}`;
 }
 
 // ── GAME 2: Glow Worm (snake) ────────────────────────────────────────────────────────────────────────
@@ -569,9 +784,15 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({
         name: SITE_NAME, baseUrl: BASE_URL,
-        summary: 'Free, original browser games for a quick break — an idle/incremental clicker (Cinder Foundry), a snake game (Glow Worm), a 2048-style merge puzzle (Nova Merge) and a minesweeper-style logic game (Signal Sweeper). No account, no install, no tracking; scores save locally. Optional free MELEK account to keep scores across devices and opt into earning.',
+        summary: 'Free, original browser games for a quick break. Idle/incrementals — Cinder Foundry (a forge), Kindling (a minimalist first idle), Tap Temple (a calm clicker), Ledger Legends (a text-driven idle RPG), Star Harvest (a farm-idle), Deep Delve (a mining-idle) — each with offline accrual, a daily streak, achievements and a prestige reset. Plus arcade classics: Glow Worm (snake), Nova Merge (2048-style) and Signal Sweeper (minesweeper-style). No account, no install, no tracking; progress saves locally. Optional free MELEK account to keep progress across devices.',
         links: [{ label: 'All games', path: '/' }, ...GAMES.map((g) => ({ label: g.name, path: `/${g.slug}` }))],
       }));
+    }
+
+    // the shared idle engine, served raw from www/ (also inlined into each idle page). Immutable-cacheable.
+    if (path === '/www/idle-kit.js') {
+      res.writeHead(200, { 'content-type': 'text/javascript; charset=utf-8', 'cache-control': 'public, max-age=604800, immutable' });
+      return res.end(IDLE_KIT_JS);
     }
 
     if (path === '/') return sendHtml(res, hubPage());
