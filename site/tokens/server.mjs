@@ -17,6 +17,8 @@ import { faucetClaim, dispositionFor, FAUCET_DEFAULTS } from '../../cryptology/h
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
+const MANAGE_URL = process.env.MANAGE_URL || 'https://manage.melek.salon';   // token-management + buyback front-end
+const ACADEMY_URL = process.env.ACADEMY_URL || 'https://academy.melek.salon'; // Token Academy (how-to) + Economics 101
 const CHAIN_RPC = process.env.CHAIN_RPC || 'https://alpha.melek.salon/rpc';
 const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
 
@@ -119,7 +121,7 @@ function shell(active, title, inner) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
-<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}${tab('standing', 'How We Stand', '/standing')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
+<nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}<a href="${esc(MANAGE_URL)}" class=tlink>Manage &amp; Buyback</a>${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}<a href="${esc(ACADEMY_URL)}" class=tlink>Learn</a>${tab('standing', 'How We Stand', '/standing')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}
 <p class=dim style="margin-top:1.4rem;font-size:.75rem">Testnet. Token data from the MELEK-Engine; non-custodial — your keys never leave your device.</p>
 </body></html>`;
