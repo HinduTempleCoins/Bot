@@ -49,6 +49,21 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Markdown';
 const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
 
+// ── Tools-hub path awareness (mundane-app-suite-stealth-funnel) ────────────────
+// This app runs as its own process behind a path-routing proxy at tools.soapbox.community/<app>.
+// The proxy STRIPS the prefix inbound (our routes stay on '/', '/health', '/www/…'); we PREPEND it to
+// every self-URL we EMIT. BASE_PATH defaults to '' → standalone behaviour is byte-for-byte unchanged.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+const bp = (p) => BASE_PATH + p;
+// The Tools hub sits at the domain root (default '/'); sibling links point at the hub, not this app.
+const TOOLS_HUB_URL = (process.env.TOOLS_HUB_URL || '/').replace(/\/+$/, '');
+const hub = (p) => TOOLS_HUB_URL + p;
+const SLUG = 'markdown';
+const HUB_SIBLINGS = [['/calculator', 'Calculator'], ['/notes', 'Notes'], ['/qr', 'QR'], ['/timer', 'Timer'], ['/converter', 'Converter'], ['/diagram', 'Diagram']];
+const TOOLS_NAV = `<a class=hublink href="${hub('/')}">◧ SoapBox Tools</a>`
+  + HUB_SIBLINGS.filter(([p]) => p !== '/' + SLUG).slice(0, 2).map(([p, l]) => `<a href="${hub(p)}">${l}</a>`).join('');
+
+
 // ── shared house-style helpers ─────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -165,7 +180,7 @@ const STYLE = `<style>
 const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — a free, private markdown editor. Your draft autosaves in <b>your own browser</b>
   and never leaves this page unless you export it or choose to sync. Rendering uses
-  <a href="/www/marked.LICENSE.txt">marked</a> (MIT) — vendored locally, and the preview is sanitized.
+  <a href="${bp('/www/marked.LICENSE.txt')}">marked</a> (MIT) — vendored locally, and the preview is sanitized.
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -181,8 +196,8 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="/">&#9997; SoapBox <span>Markdown</span><span class=alpha>Alpha</span></a>
-  <div class=topbar-r><a href="/">New</a><button type=button id=nav-save>&#9729; Save &amp; publish</button></div></header>
+<header class=topbar><a class=brand href="${bp('/')}">&#9997; SoapBox <span>Markdown</span><span class=alpha>Alpha</span></a>
+  <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">New</a><button type=button id=nav-save>&#9729; Save &amp; publish</button></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -245,7 +260,7 @@ your draft autosaves right here in your browser.${echoedRaw}</p>
   can't run code here. Your draft saves to this browser's local storage as you type; nothing is uploaded.</p>
 </details>
 
-<script src="/www/marked.min.js"></script>
+<script src="${bp('/www/marked.min.js')}"></script>
 <script>
 (function(){
   var KEY_TEXT='soapbox.markdown.text', KEY_TITLE='soapbox.markdown.title';
@@ -390,7 +405,7 @@ export async function handler(req, res) {
 
     // unknown → 404, never a 500
     res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
-    return res.end(page('Not found — SoapBox Markdown', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="/">Open the markdown editor</a>.</p>', { robots: 'noindex,follow' }));
+    return res.end(page('Not found — SoapBox Markdown', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="' + bp('/') + '">Open the markdown editor</a>.</p>', { robots: 'noindex,follow' }));
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });
     res.end('error: ' + (e && e.message ? e.message : 'unknown'));
