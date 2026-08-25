@@ -1,0 +1,11 @@
+{
+  "articleId": "Market Cap vs Fully-Diluted Valuation (FDV)",
+  "title": "Market Cap vs Fully-Diluted Valuation (FDV)",
+  "bodyFile": "Market_Cap_vs_Fully-Diluted_Valuation.wiki",
+  "sources": [
+    ".local/pending-economics-post.md",
+    "https://en.wikipedia.org/wiki/Market_capitalization",
+    "Inflation and Deflation — Token Emission and Burns"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Article 3 of the Economics 101 series — the named #1 beginner mistake (reading circulating market cap while ignoring future supply / FDV). Covers circulating vs total vs max supply; cross-links supply mechanics and price formation. HARD compliance baked in and footered: measurements not verdicts, not a buy/sell signal, not investment advice, no price prediction. Written 2026-08-25."
+}

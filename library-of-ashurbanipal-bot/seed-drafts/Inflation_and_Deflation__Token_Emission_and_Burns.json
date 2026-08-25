@@ -1,0 +1,12 @@
+{
+  "articleId": "Inflation and Deflation — Token Emission and Burns",
+  "title": "Inflation and Deflation — Token Emission and Burns",
+  "bodyFile": "Inflation_and_Deflation__Token_Emission_and_Burns.wiki",
+  "sources": [
+    ".local/pending-economics-post.md",
+    "https://en.wikipedia.org/wiki/Inflation",
+    "https://en.wikipedia.org/wiki/Deflation",
+    "Token Buybacks, Market Fees, and the UIA Lineage"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Article 2 of the Economics 101 series. Maps inflation/deflation onto token emission and burns; cross-links the burn/buyback detail to the existing UIA-lineage article and the whole-design view to Tokenomics 101. HARD compliance baked in and footered: a burn/emission is a supply mechanic, never a price promise; not investment advice; no price prediction; no how-to-pump. Written 2026-08-25."
+}

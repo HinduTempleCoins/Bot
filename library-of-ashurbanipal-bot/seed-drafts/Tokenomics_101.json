@@ -1,0 +1,12 @@
+{
+  "articleId": "Tokenomics 101",
+  "title": "Tokenomics 101",
+  "bodyFile": "Tokenomics_101.wiki",
+  "sources": [
+    ".local/pending-economics-post.md",
+    "integrations/market-depth.mjs",
+    "https://en.wikipedia.org/wiki/Tokenomics",
+    "Token Buybacks, Market Fees, and the UIA Lineage"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Article 6 of the Economics 101 series — the design-level synthesis: supply/immutable caps, distribution (fair-launch/premine/earned) + concentration, faucets vs sinks, emission schedules, utility-not-speculation. Cites market-depth.mjs concentration reader; cross-links valuation/emission/buyback/order-book articles. HARD compliance baked in and footered: evaluates design not price, no token ratings, not investment advice, no price prediction. Written 2026-08-25."
+}

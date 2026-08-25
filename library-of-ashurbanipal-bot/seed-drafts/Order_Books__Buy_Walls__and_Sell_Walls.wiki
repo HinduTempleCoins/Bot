@@ -1,0 +1,54 @@
+# Order Books, Buy Walls, and Sell Walls
+
+An **order book** is the live list of standing offers to buy and to sell an asset at specific prices. A **buy wall** is an unusually large buy order (or tight cluster of them) resting below the current price; a **sell wall** is an unusually large sell order resting above it. Walls are simply **supply and demand made visible** on the book — a buy wall is a big pool of demand, a sell wall a big pool of supply. This article explains what a wall is, how walls act as support and resistance, how to tell a real wall from a fake one, and how all of this connects to real liquidity and to buybacks — grounded in the MELEK repo's own order-book readers<ref>integrations/liquidity-walls.mjs</ref><ref>integrations/order-book-spread.mjs</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and **a wall is explained as market mechanics — never as a signal to buy or sell** (see § Not investment advice).
+
+== Summary ==
+
+Every open market has two sides of the book: **bids** (offers to buy, best at the highest price) and **asks** (offers to sell, best at the lowest price). The gap between the best bid and best ask is the **spread**. When one resting order dwarfs the typical order around it, traders call it a **wall**: a **buy wall** below price looks like **support** (a lot of demand waiting there), a **sell wall** above price looks like **resistance** (a lot of supply waiting there). A wall is a description of what is resting on the book right now — it is **not** a promise the price will stop there, and it is **not** advice to act<ref>integrations/liquidity-walls.mjs</ref>.
+
+== The order book and the spread ==
+
+The MELEK repo reads a raw Hive-Engine-style book of the form `{ buyOrders: [{price, quantity}], sellOrders: [{price, quantity}] }`. Bids are best at the **highest** price; asks are best at the **lowest**<ref>integrations/order-book-spread.mjs</ref>. The `spread()` function in `integrations/order-book-spread.mjs` returns the best bid, best ask, the absolute spread (`bestAsk − bestBid`), the spread as a percentage of the mid-price, and the mid-price itself. A **tight** spread signals an active, liquid market; a **wide** spread signals a thin one where trades move the price more<ref>integrations/order-book-spread.mjs</ref>. Spread is the first thing to read, because a wall means little without knowing how thin the book around it is.
+
+== What makes an order a "wall" ==
+
+A wall is defined **relative to the book**, not by an absolute size. The repo's `detectWalls()` (`integrations/liquidity-walls.mjs`) takes the median resting order size on each side and flags any level whose size is at least a multiple of that median — the default threshold is **5× the median** (`mult: 5`). Walls are returned largest-first, each annotated with `x` (how many times the median it is) and a `phantom` flag<ref>integrations/liquidity-walls.mjs</ref>. Its companion `wallSummary()` renders a one-line, human-readable read of the nearest support and resistance, for example: *"Support (buy wall): 50000 @ 0.01 (12× median) · Resistance (sell wall): …"*<ref>integrations/liquidity-walls.mjs</ref>. Both functions are pure and **soft-fail** — given an empty or garbage book they return a plain result rather than throwing.
+
+== Support and resistance ==
+
+- A **buy wall** sits below the current price. Because it represents a large block of standing demand, price tends to **slow or pause** as it falls toward it — the wall must be eaten through before price can drop further. Traders call this **support**.
+- A **sell wall** sits above the current price and represents a large block of standing supply, so a rising price tends to **slow or pause** as it approaches — this is **resistance**.
+
+Support and resistance are **descriptions of where liquidity is resting**, not predictions. A wall can be pulled at any moment (the order is cancelled), or eaten through by a large enough trade. It marks where the current book is deep; it does not guarantee the price will bounce or stall there<ref>integrations/liquidity-walls.mjs</ref>.
+
+== Spoofing and fake walls ==
+
+Not every large order is honest, and not every honest-looking book is what it seems. The repo distinguishes two separate problems:
+
+- **Phantom levels.** `detectWalls()` flags any level implausibly larger than the median (default `phantomX: 1000` — a thousand times the median) as `phantom: true`. A level that large is almost always a broken or stale book entry, not real liquidity; the trade layer must never treat it as a real wall or let it manufacture a fake arbitrage edge<ref>integrations/liquidity-walls.mjs</ref>.
+- **Paper walls (spoofing).** `detectPaperWall()` in `integrations/order-book-spread.mjs` flags the classic case where a **tiny order sits at the best price masking much larger real depth one tick behind it** — the visible top-of-book looks thin while the real liquidity hides one level back. Its inverse — a large order placed only to *look* like support or resistance, with no intent to fill, then cancelled before it trades — is **spoofing**, a manipulative practice that is illegal on regulated markets<ref>integrations/order-book-spread.mjs</ref><ref>https://en.wikipedia.org/wiki/Spoofing_(finance)</ref>.
+
+The lesson: a wall on the screen is **not** proof of committed liquidity. It can be stale, it can be masking, or it can be a bluff someone intends to cancel. Read walls as information about the current book, never as a certainty.
+
+== Walls, real liquidity, and buybacks ==
+
+A wall and **real liquidity** are related but not the same. Liquidity is the depth and continuity of the whole book — how much can trade without moving the price much (see [[Liquidity, Slippage, and AMMs]]). A single wall is one large point of liquidity that can vanish; deep, distributed liquidity across many levels is more resilient. The repo's `market-depth.mjs` reader combines both pictures: it aggregates the book into price levels **and** reports whale concentration (who actually holds the token, and whether anyone outside the issuer does), answering "is this liquidity real and broadly held, or one account's order?"<ref>integrations/market-depth.mjs</ref>.
+
+This is where walls meet **buybacks**. A **buyback → protocol-owned liquidity** spends earned revenue to buy the token and then **lock** that liquidity into the market, deepening it durably — a permanent, owned deepening rather than a wall that can be pulled<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>. The load-bearing distinction from that article carries over exactly: locked liquidity (or a standing wall) means market **depth**, **not** a promised price. A wall makes a market harder to drain at that level; it is never a commitment that the token cannot fall<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Not investment advice ==
+
+Walls, support, and resistance are **market mechanics** — descriptions of what is resting on the order book. They are **not** signals to buy or sell, **not** predictions of where a price will go, and **not** a strategy this article endorses. A buy wall is not a reason to buy; a sell wall is not a reason to sell; either can be stale, masking, or a spoof about to be cancelled. Nothing here is financial, legal, or investment advice. Reading the book is education; deciding what to do with your money is yours, and for real questions consult a qualified professional.
+
+== Sources ==
+<ref>integrations/liquidity-walls.mjs</ref>
+<ref>integrations/order-book-spread.mjs</ref>
+<ref>integrations/market-depth.mjs</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+<ref>https://en.wikipedia.org/wiki/Order_book</ref>
+<ref>https://en.wikipedia.org/wiki/Spoofing_(finance)</ref>
+
+== Coverage ==
+This is the priority article of the Economics 101 series. It defines the order book, spread, and buy/sell walls; explains support/resistance as descriptions of resting liquidity; covers phantom levels, paper walls, and spoofing; and connects walls to real liquidity and to protocol-owned-liquidity buybacks. It is grounded in the repo's own readers — `detectWalls`/`wallSummary` (`integrations/liquidity-walls.mjs`), `spread`/`detectPaperWall` (`integrations/order-book-spread.mjs`), and the depth/ownership reader (`integrations/market-depth.mjs`) — so the concepts map onto live tools. Liquidity and slippage are covered in depth in [[Liquidity, Slippage, and AMMs]]. Walls are explained as mechanics, never as buy/sell signals. Nothing here is investment, financial, or legal advice, and nothing here predicts a price.

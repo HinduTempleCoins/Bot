@@ -1,0 +1,45 @@
+# Liquidity, Slippage, and AMMs
+
+**Liquidity** is how easily an asset can be traded without moving its price. **Slippage** is the difference between the price you expected and the price you actually got, and it grows when liquidity is thin. An **automated market maker (AMM)** is a way to provide liquidity with a pool and a formula instead of a traditional order book. This article explains the three together and contrasts the two market designs — the order book and the AMM — using MELEK's own KulaSwap (a Uniswap-V2-style AMM) as the running example<ref>https://en.wikipedia.org/wiki/Automated_market_maker</ref><ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and it does not tell anyone what or when to trade (see § Not investment advice).
+
+== Summary ==
+
+A **liquid** market has enough depth that a normal-sized trade barely moves the price; a **thin** (illiquid) market moves a lot on a small trade. That price movement, felt by the trader, is **slippage**: thin liquidity means big slippage. Two designs supply liquidity — an **order book**, where humans and bots post bids and asks ([[Order Books, Buy Walls, and Sell Walls]]), and an **AMM**, where a pool of two assets prices trades by a formula. KulaSwap is the AMM in the MELEK ecosystem<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Why thin liquidity means big slippage ==
+
+Imagine a token with only a few small sell orders near the current price. A large buy eats through the first small order, then the next, then the next — each higher than the last — so the average price you pay ends up well above where the price started. That gap is **slippage**, and it is caused by **thin liquidity**: there simply were not enough orders near the price to absorb the trade<ref>https://en.wikipedia.org/wiki/Slippage_(finance)</ref>. On a deep, liquid book the same trade would find plenty resting near the price and barely move it. This is why depth matters more than any single wall: a market with one big wall and nothing else is still thin everywhere else.
+
+== The AMM: a pool and a formula ==
+
+An **automated market maker** replaces the order book with a **liquidity pool** — a reserve of two assets — and prices every trade by a constant formula. The classic one, used by Uniswap V2 and by BitShares' own liquidity pools before it, is the **constant-product** rule: `x × y = k`, where `x` and `y` are the two reserves and `k` is held constant across a trade<ref>https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/</ref><ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>. To buy one asset you add the other to the pool; the formula moves the price automatically as the reserves shift. There is no counterparty to match — the pool is always willing to trade, and its price is a deterministic function of its reserves.
+
+The direct consequence: **the smaller the pool, the more each trade moves the price.** A trade that is large relative to the pool's reserves causes large slippage, because it shifts `x` and `y` far along the curve. This is the AMM's version of thin liquidity — a small pool *is* a thin market. **Liquidity providers** deposit both assets into the pool to make it deeper (and earn a share of trading fees for doing so); deeper pools mean smaller slippage for everyone.
+
+== Order book vs AMM ==
+
+Both designs price by supply and demand; they differ in mechanism:
+
+- An **order book** shows discrete resting orders at chosen prices; liquidity is whatever humans and bots have posted, and it can be pulled at any moment. Walls, spreads, and spoofing live here ([[Order Books, Buy Walls, and Sell Walls]]).
+- An **AMM** holds a continuous pool priced by a formula; liquidity is whatever providers have deposited, and it moves smoothly along the curve. There are no discrete walls — depth is the size of the pool.
+
+MELEK draws the same architectural line BitShares drew: the **MELEK-Engine** side-token layer has **no market of its own**, and price discovery, the AMM, and liquidity pools all live on **PRANA / KulaSwap**, the Uniswap-V2-style AMM<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>. The moment a token feature needs live trading, it needs a market — so the market lives on PRANA.
+
+== Slippage tolerance and honest expectations ==
+
+Most AMM interfaces let a trader set a **slippage tolerance** — the maximum price movement they will accept before the trade cancels. It is a protection against thin pools and fast-moving prices, not a way to get a better price. The honest takeaway of this article is a caution, not a tactic: **in a thin market, expect to move the price against yourself.** Knowing that is education; it is not a suggestion about whether, what, or when to trade.
+
+== Not investment advice ==
+
+This article explains liquidity, slippage, and how AMMs price trades. It is **not** a prediction of any price, **not** a suggestion to add liquidity, provide to a pool, or make any trade, and **not** a claim that any pool or token is a good or bad place for your money. Liquidity provision carries its own risks (including impermanent loss) that are beyond this introduction. Education and mechanics are in scope; individualized financial advice is not — consult a qualified professional.
+
+== Sources ==
+<ref>https://en.wikipedia.org/wiki/Automated_market_maker</ref>
+<ref>https://en.wikipedia.org/wiki/Slippage_(finance)</ref>
+<ref>https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+
+== Coverage ==
+This article covers liquidity, slippage, and the constant-product AMM at a conceptual level, and contrasts the order-book and AMM market designs; it uses KulaSwap (Uniswap-V2-style, on PRANA) as the ecosystem example and links order-book mechanics to [[Order Books, Buy Walls, and Sell Walls]]. It does not derive the full AMM math or cover impermanent loss in detail beyond a caution. Nothing here is investment, financial, or legal advice, and nothing here predicts a price.

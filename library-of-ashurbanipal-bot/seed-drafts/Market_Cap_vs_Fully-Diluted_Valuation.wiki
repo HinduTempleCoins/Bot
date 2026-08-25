@@ -1,0 +1,41 @@
+# Market Cap vs Fully-Diluted Valuation (FDV)
+
+**Market capitalization** ("market cap") is the price of one token multiplied by the number of tokens **currently in circulation**. **Fully-diluted valuation** (FDV) is the price multiplied by the **maximum number of tokens that will ever exist**. The gap between the two is one of the most common — and most expensive — mistakes a newcomer makes: reading a small circulating market cap while ignoring a huge future supply waiting to be minted<ref>https://en.wikipedia.org/wiki/Market_capitalization</ref><ref>.local/pending-economics-post.md</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and it names a common error without telling anyone what to buy or sell (see § Not investment advice).
+
+== Summary ==
+
+**Market cap = price × circulating supply.** It measures what the *currently tradeable* tokens are collectively worth. **FDV = price × max supply.** It measures what *all* the tokens — including those not yet emitted, still vesting, or locked — would be worth at today's price. When circulating supply is much smaller than max supply, FDV is much larger than market cap, and future emission will put selling pressure on the price as those tokens unlock. Comparing two tokens on market cap alone, without checking FDV, compares them on different bases<ref>https://en.wikipedia.org/wiki/Market_capitalization</ref>.
+
+== The #1 beginner mistake ==
+
+A newcomer sees a token priced at a few cents with a "market cap" that looks small and concludes there is "room to grow." But if only 5% of the max supply is circulating, the other 95% is scheduled to enter the market over time — through emission, team/investor vesting, or unlocks. Each unlock is a **supply shift** ([[Supply and Demand — the Price Basics]]) that, all else equal, pushes price down. The small market cap was real, but the FDV told the fuller story. The mistake is treating market cap as the whole picture when the **supply is front-loaded into the future**<ref>.local/pending-economics-post.md</ref>.
+
+== Circulating vs max supply ==
+
+Three supply numbers matter, and they are routinely confused:
+
+- **Circulating supply** — tokens that exist *and* are freely tradeable right now. This drives market cap.
+- **Total supply** — tokens that exist now, including locked, staked, or reserved ones (minus burned tokens).
+- **Max supply** — the ceiling: the most that can ever exist. This drives FDV. A token with an **immutable supply cap** has a fixed, verifiable max supply; a token with uncapped emission has, in effect, no finite FDV at all<ref>[[Inflation and Deflation — Token Emission and Burns]]</ref>.
+
+A burn reduces supply and can lower both total and max supply if the cap itself is reduced ([[Token Buybacks, Market Fees, and the UIA Lineage]]).
+
+== Why the gap matters ==
+
+Two tokens can trade at the same price and the same $10M market cap. If the first has 90% of its supply already circulating and the second has 10%, the second has roughly nine times the future supply still to come. Their FDVs are wildly different, and so is the emission pressure ahead of them. Reading only the market cap treats those two situations as identical when they are not. The discipline is simple: **look at both numbers, and look at the emission schedule that connects them**<ref>.local/pending-economics-post.md</ref>.
+
+Neither number is a valuation *verdict*. Market cap and FDV are **measurements**, not judgments that a token is cheap or expensive — a high or low figure is not a buy or sell signal. They are tools for comparing on a consistent basis, nothing more.
+
+== Not investment advice ==
+
+This article explains two measurements and a common error in reading them. It is **not** a claim that any token is undervalued or overvalued, **not** a prediction of any price, and **not** a suggestion to buy or sell. Market cap and FDV describe scale; they do not tell you what a price will do. Education and mechanics are in scope; individualized financial advice is not — consult a qualified professional.
+
+== Sources ==
+<ref>.local/pending-economics-post.md</ref>
+<ref>https://en.wikipedia.org/wiki/Market_capitalization</ref>
+<ref>[[Inflation and Deflation — Token Emission and Burns]]</ref>
+
+== Coverage ==
+This article covers market cap, FDV, and the circulating/total/max-supply distinction conceptually, framing the market-cap-only error as the series' named beginner mistake. It links supply mechanics to [[Inflation and Deflation — Token Emission and Burns]] and price formation to [[Supply and Demand — the Price Basics]]. It gives no valuation verdicts. Nothing here is investment, financial, or legal advice, and nothing here predicts a price.

@@ -1,0 +1,45 @@
+# Supply and Demand — the Price Basics
+
+**Supply and demand** is the single mechanism underneath every market price. **Supply** is how much of a thing is available to sell; **demand** is how much buyers want it at a given price. Price is not set by anyone's opinion or wish — it is the number at which the quantity buyers want to buy equals the quantity sellers want to sell. This article is the first lesson in the Library's Economics 101 series: it explains that mechanism plainly, with a token market as the running example<ref>.local/pending-economics-post.md</ref>.
+
+This is an **educational, neutral** reference. It describes how prices form; it is **not investment, financial, or legal advice**, it makes **no price prediction**, and nothing here is a suggestion to buy or sell any asset (see § Not investment advice).
+
+== Summary ==
+
+When more people want to buy a token than to sell it at the current price, the price tends to rise until enough sellers appear to meet the buyers. When more want to sell than buy, the price tends to fall until enough buyers appear. The meeting point is the **market-clearing price**. Everything else in market economics — walls, liquidity, market cap, inflation — is a refinement of this one idea<ref>https://en.wikipedia.org/wiki/Supply_and_demand</ref>.
+
+== The two curves ==
+
+Economists draw supply and demand as two curves on a price/quantity graph:
+
+- The **demand curve** slopes down: the cheaper a thing is, the more buyers want. Raise the price and fewer people buy.
+- The **supply curve** slopes up: the higher the price, the more sellers are willing to part with. Lower the price and fewer people sell.
+
+Where the two curves cross is **equilibrium** — the price and quantity the market settles toward. A price above equilibrium leaves unsold supply (a glut), pushing price down; a price below it leaves unmet demand (a shortage), pushing price up<ref>https://en.wikipedia.org/wiki/Economic_equilibrium</ref>.
+
+== Shifts vs movements ==
+
+A **movement along** a curve is a response to price alone. A **shift of the whole curve** is a change in the underlying conditions:
+
+- Demand shifts out (right) when more people want the token — new users, a useful new feature, a reason to hold it. Demand shifts in (left) when interest fades.
+- Supply shifts out when more tokens reach the market — new emission, unlocked tokens, a large holder deciding to sell. Supply shifts in when tokens are removed — burns, tokens locked in staking or liquidity.
+
+This is exactly why the rest of this series matters: **token emission and burns are supply shifts**, covered in [[Inflation and Deflation — Token Emission and Burns]]; **buy and sell walls are visible demand and supply** resting on the order book, covered in [[Order Books, Buy Walls, and Sell Walls]].
+
+== Scarcity, not sentiment ==
+
+The honest lesson of supply and demand is that price reflects a **real balance of wants**, not a promise. A token does not go up because someone says it will; it moves because the balance of people wanting to buy and to sell changed. This is why a healthy market economy is built on **real demand** — genuine use, genuine holders — rather than hype. A closed system where the only demand is new buyers arriving to pay earlier buyers has no real demand underneath it at all<ref>.local/pending-economics-post.md</ref>. Where demand comes from — real activity versus a closed circle — is the test the MELEK economy holds itself to.
+
+== Not investment advice ==
+
+This article explains a mechanism. It is **not** a prediction that any price will rise or fall, and it is **not** a suggestion to buy or sell. Supply and demand describe how a price forms; they do **not** tell you what any specific price will do next, and no one honest can. Education and market mechanics are in scope here; individualized financial advice is not — consult a qualified professional for that.
+
+== Sources ==
+<ref>.local/pending-economics-post.md</ref>
+<ref>https://en.wikipedia.org/wiki/Supply_and_demand</ref>
+<ref>https://en.wikipedia.org/wiki/Economic_equilibrium</ref>
+
+== Coverage ==
+This is the foundational article of the Economics 101 series; it covers the supply/demand mechanism, equilibrium, and the shift-versus-movement distinction at a conceptual level, using a token market as the example. It deliberately leaves emission/burn detail to [[Inflation and Deflation — Token Emission and Burns]], order-book mechanics to [[Order Books, Buy Walls, and Sell Walls]], and valuation to [[Market Cap vs Fully-Diluted Valuation]]. Nothing here is investment, financial, or legal advice, and nothing here predicts a price.
+</content>
+</invoke>
