@@ -1,0 +1,13 @@
+{
+  "articleId": "Curation Theory — Rewards, the Auction Window, and Honest Curation",
+  "title": "Curation Theory — Rewards, the Auction Window, and Honest Curation",
+  "bodyFile": "Curation_Theory__Rewards__the_Auction_Window__and_Honest_Curation.wiki",
+  "sources": [
+    "voting_rules/curation-engine.mjs",
+    "voting_rules/karma-curation-bridge.mjs",
+    "voting_rules/daily-vote-budget.mjs",
+    "https://developers.hive.io/tutorials-recipes/estimate-upvote.html",
+    "https://developers.hive.io/tutorials-recipes/vote-on-content.html"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Theory-strand article 2 of 4 — the curation theory a curator needs. Covers the 25%/75% curator/author split + square-root curation curve, the LIVE 5-min (300s) reverse-auction window and ~5:20 optimal vote time, the ~6.5d payout window + 5d mana regen, curation trails, the karma->curation-power bridge, and honest curation vs vote-farming. All constants tie to MELEK's live get_config values as encoded in voting_rules/curation-engine.mjs (STEEM_REVERSE_AUCTION_WINDOW_SECONDS=300, SMT_DEFAULT_PERCENT_CURATION_REWARDS=2500, curation_reward_curve=square_root, STEEM_VOTING_MANA_REGENERATION_SECONDS=432000); anti-farming policy cited to the same engine (no self-vote, quality scoring, daily budget, blacklists). HARD compliance: reward RULES stated as rules, never a promised yield/APY; not-investment-advice, no price prediction. Cross-links Tokenomics 101 + the DevCoin/utility capstone. Written 2026-08-25 for the Strand-3 / wiki 'Theory' gap fill (CONVERSATION_GAP_AUDIT.md)."
+}

@@ -1,0 +1,14 @@
+{
+  "articleId": "The Two-Token Economy — MELEK and PRANA",
+  "title": "The Two-Token Economy — MELEK and PRANA",
+  "bodyFile": "The_Two-Token_Economy__MELEK_and_PRANA.wiki",
+  "sources": [
+    "library-of-ashurbanipal-bot/generated-articles/Hive_Engine_and_Smart_Media_Tokens.wiki",
+    "Token Buybacks, Market Fees, and the UIA Lineage",
+    "Tokenomics 101",
+    "Liquidity, Slippage, and AMMs",
+    "kula-defi-token-design",
+    "bridge-security-audit-2026-06-21"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Theory-strand article 4 of 4 — the theory behind the turnkey two-token system. Covers issue-here/trade-there: MELEK-Engine (UIA descendant: tokens.create/issue/burn, SCOT rewards, immutable lock_max_supply+disable_new_supply cap, NO order book) vs PRANA/KulaSwap (UniV2 AMM + CDP + DAO); the 1:1 wMELEK bridge peg + K-of-N attesters; APIS (forever-lock wMELEK -> WorkerBee mining power -> APIS drip) and KULA (DeFi/collateral DAI-analogue: lock KULA -> borrow wMELEK CDP, usage/fee burns + buyback -> PoL floor); PRANA = gas/DAO (sPRANA), immutable hathor emission floor; DAG-not-loop / loop-safe. Grounded in kula-defi-token-design + master-architecture memory + the buyback article's UIA-vs-MPA boundary. HARD compliance: PoL floor = depth not price; design-not-price; no token ratings; not investment advice; no price prediction. Cross-links buyback / tokenomics / liquidity / KulaSwap. Written 2026-08-25 for the Strand-3 / wiki 'Theory' gap fill (CONVERSATION_GAP_AUDIT.md)."
+}

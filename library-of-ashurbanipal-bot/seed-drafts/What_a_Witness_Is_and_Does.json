@@ -1,0 +1,16 @@
+{
+  "articleId": "What a Witness Is and Does",
+  "title": "What a Witness Is and Does",
+  "bodyFile": "What_a_Witness_Is_and_Does.wiki",
+  "sources": [
+    "witness/bringup-check.mjs",
+    "library-of-ashurbanipal-bot/generated-articles/Blockchain_Witness__Block_Producer_.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/STEEM_Blockchain.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/BLURT_Blockchain.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/Running_a_Graphene_Witness_Node.wiki",
+    "https://developers.hive.io/tutorials-recipes/understanding-configuration-values.html"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Theory-strand article 1 of 4 — the theory companion to Witness School (which the module cards link to). Covers the witness/block-producer role on MELEK: the 21-slot shuffled schedule + 3s block interval, the block-signing key + higher-authority separation, the price feed, witness-voted chain parameters, and why the elected-producer model gives DPoS its security/speed/accountability. Schedule facts grounded in witness/bringup-check.mjs (21-round look-back, shuffled-schedule + missed-block reads); MELEK described as a Steem/Blurt Graphene fork; hathor genesis-slot protection noted as a CHAIN-SIDE property the Bot repo does not implement. Cross-links the existing general Witness/DPoS/Graphene articles. Educational/neutral; not-investment-advice footer, no price prediction. Written 2026-08-25 as part of the Strand-3 / wiki 'Theory' gap fill (CONVERSATION_GAP_AUDIT.md)."
+}
