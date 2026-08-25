@@ -73,6 +73,17 @@ async function safe(fn) {
 
 function hostOf(u) { try { return new URL(u).hostname.toLowerCase(); } catch { return ''; } }
 
+// Trusted hosts a ScotTube (our own) video may be served from — env-overridable. A scot stream that is
+// neither a whitelisted official embed NOR on one of these is refused (see resolveItem 'scot').
+const SCOT_TRUSTED_HOSTS = (process.env.STREAM_SCOT_HOSTS
+  || 'soapbox.community,melek.salon,3speak.tv,ipfs.io,cloudflare-ipfs.com,gateway.pinata.cloud,archive.org')
+  .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+function scotHostAllowed(url) {
+  const h = hostOf(url);
+  if (!h) return false;
+  return SCOT_TRUSTED_HOSTS.some((d) => h === d || h.endsWith('.' + d));
+}
+
 // ── THE WATCH GATE (pure, testable) ─────────────────────────────────────────────────────────────────
 // The single chokepoint that decides whether an item may be shown on the /watch player. Two legal ways
 // to play, nothing else:
@@ -371,9 +382,12 @@ async function resolveItem(src, id) {
     };
   }
   if (src === 'tv') {
-    // Live-TV items carry their stream URL in the id (URL-encoded) — the catalog links it directly.
+    // Live-TV items carry their stream URL in the id (URL-encoded). SECURITY: never trust a raw request
+    // URL — only play it if it is provably a listed iptv-org free-to-air channel (else it could be an
+    // attacker URL the hard-coded 'free-to-air' license would wrongly clear). Not listed → 404.
     const url = safeHref(decodeURIComponent(rawId));
     if (!url) return null;
+    if (!(await iptv.isListedFreeStream(url))) return null;
     return {
       id: rawId, title: 'Live TV channel', kind: 'live', year: '', creator: '',
       thumb: '', streamUrl: url, license: 'Free-to-air', licenseToken: 'free-to-air',
@@ -381,11 +395,16 @@ async function resolveItem(src, id) {
     };
   }
   if (src === 'scot') {
+    // SECURITY: an arbitrary request URL must NOT inherit the 'host'/user-original clearance and get
+    // auto-played in our player. We only PLAY a scot video when it's a whitelisted official player OR on
+    // a trusted host; anything else is downgraded to a link-out (streamUrl '' → gateWatch refuses → the
+    // page shows a "Source ↗" the user must click), so an attacker URL can never auto-embed/stream here.
     const url = safeHref(decodeURIComponent(rawId));
     if (!url) return null;
+    const playable = allowedEmbed(url).ok || scotHostAllowed(url);
     return {
       id: rawId, title: 'MELEK creator video', kind: 'scot', year: '', creator: '',
-      thumb: '', streamUrl: url, license: 'MELEK creator (on-chain, owner-posted)', licenseToken: 'user-original',
+      thumb: '', streamUrl: playable ? url : '', license: 'MELEK creator (on-chain, owner-posted)', licenseToken: 'user-original',
       source: 'MELEK/ScotTube', attribution: 'MELEK creator', posture: 'host', href: url,
     };
   }

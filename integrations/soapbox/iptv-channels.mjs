@@ -126,6 +126,32 @@ export async function fetchChannels({ category = '', country = '', limit = 60 } 
   } catch { return []; }
 }
 
+// ── SECURITY: verify a URL is a REAL listed free-to-air channel ─────────────────────────────────────
+// The /watch route must never trust a raw request URL. This resolves the live iptv-org free-channel set
+// (cached) and returns true ONLY if `url` is an exact member — so an attacker cannot pass an arbitrary
+// stream URL and have it treated as free-to-air/license-cleared.
+let _freeSet = null;
+let _freeSetAt = 0;
+export function __clearFreeCache() { _freeSet = null; _freeSetAt = 0; }
+export async function isListedFreeStream(url, { ttlMs = 600000, now = Date.now() } = {}) {
+  const target = String(url == null ? '' : url).trim();
+  if (!target) return false;
+  if (!_freeSet || (now - _freeSetAt) > ttlMs) {
+    const set = new Set();
+    // index + each category playlist; every entry is already free-filtered by parseM3U/isFreeChannel.
+    for (const cat of ['', ...CATEGORY_PLAYLISTS]) {
+      try {
+        const chans = await fetchChannels({ category: cat, limit: 5000 });
+        for (const c of chans) if (c && c.streamUrl && isFreeChannel(c)) set.add(String(c.streamUrl).trim());
+      } catch { /* one playlist down never breaks the check */ }
+    }
+    // only cache a non-empty result so a transient failure doesn't lock in an empty (deny-all) set
+    if (set.size) { _freeSet = set; _freeSetAt = now; }
+    else return false;
+  }
+  return _freeSet.has(target);
+}
+
 export function dataNote() {
   return 'Live TV via the iptv-org public directory (keyless, community-maintained). We list only '
     + 'free-to-air, publicly-broadcast channels and point at each broadcaster\'s own HLS stream — never a rehost or a piracy source.';

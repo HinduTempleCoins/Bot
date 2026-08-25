@@ -160,6 +160,43 @@ test('watch page REFUSES an unlicensed direct stream (tv src with a copyrighted-
   __setFetch(null);
 });
 
+test('SECURITY: /watch?src=tv REFUSES an https URL that is NOT a listed free channel (license-gate bypass)', async () => {
+  const { __clearFreeCache } = await import('../../integrations/soapbox/iptv-channels.mjs');
+  __clearFreeCache();
+  useMock(); // .m3u → PLAYLIST (NASA is the only listed free stream)
+  const res = await get('/watch?src=tv&id=' + encodeURIComponent('https://evil.example/pirated.m3u8'));
+  assert.equal(res.code, 404);
+  assert.ok(!res.body.includes('evil.example'));
+  __setFetch(null);
+});
+
+test('SECURITY: /watch?src=tv plays a URL that IS a listed free-to-air channel', async () => {
+  const { __clearFreeCache } = await import('../../integrations/soapbox/iptv-channels.mjs');
+  __clearFreeCache();
+  useMock();
+  const res = await get('/watch?src=tv&id=' + encodeURIComponent('https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master.m3u8'));
+  assert.equal(res.code, 200);
+  assert.match(res.body, /NASA-NTV1-HLS/); // the real listed stream is in the player
+  __setFetch(null);
+});
+
+test('SECURITY: /watch?src=scot does NOT auto-embed/stream an untrusted-host URL (downgrades to link-out)', async () => {
+  useMock();
+  const res = await get('/watch?src=scot&id=' + encodeURIComponent('https://evil.example/x.mp4'));
+  assert.equal(res.code, 200);
+  assert.ok(!/<source[^>]+evil\.example/i.test(res.body), 'must not <source> an untrusted url');
+  assert.ok(!/<iframe[^>]+evil\.example/i.test(res.body), 'must not <iframe> an untrusted url');
+  __setFetch(null);
+});
+
+test('SECURITY: /watch?src=scot plays a whitelisted official embed (3speak)', async () => {
+  useMock();
+  const res = await get('/watch?src=scot&id=' + encodeURIComponent('https://3speak.tv/watch?v=vankush/abc-permlink'));
+  assert.equal(res.code, 200);
+  assert.match(res.body, /3speak\.tv\/embed/); // embedded via the whitelist
+  __setFetch(null);
+});
+
 test('robots.txt, sitemap.xml, llms.txt, health all served', async () => {
   const robots = await get('/robots.txt');
   assert.equal(robots.code, 200);
