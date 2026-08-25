@@ -304,3 +304,139 @@ export function buildSmtSetupOp(p) {
     summary: `smt_setup ${nai} (max_supply ${maxSupply} base units) — signed off-repo`,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Token-MANAGEMENT builders (burn / SCOT-rewards / bridge-out) — ADDITIONS.
+//
+// Same posture as every builder above: BUILD + VALIDATE only. They NEVER sign,
+// NEVER broadcast, and NO WIF / seed / active key is ever read, accepted,
+// logged, or returned. Each returns a client-signable Graphene `custom_json`
+// op whose `required_auths` is the issuer's own account (ACTIVE auth) — the
+// condenser or MELEK-Signer signs it; the caller of these functions holds no
+// key. (BRIEF.md §7; "Zero WIF in Bot repo".)
+//
+// COMPLIANCE — load-bearing, [[token-securities-compliance-posture]]:
+//   A burn or a buyback assembled here is a TOKEN-MANAGEMENT / DEFLATION
+//   mechanic — the issuer spends its own supply/revenue to reduce circulating
+//   supply or deepen liquidity. It is NOT price support, NOT a promise about
+//   token value, and NOT a claim of future appreciation. No summary these
+//   emit may imply that. Educational/utility framing only.
+// ---------------------------------------------------------------------------
+
+// A PRANA / EVM recipient address: 0x followed by exactly 40 hex chars.
+const PRANA_ADDR_RE = /^0x[0-9a-fA-F]{40}$/;
+// SCOT reward curves — mirrors contracts/scot.mjs + rewards.mjs.
+const SCOT_CURVES = new Set(['linear', 'quadratic', 'sqrt']);
+
+/** Validate a 0x…40hex PRANA/EVM recipient address (soft). */
+export function isValidPranaAddress(a) {
+  return typeof a === 'string' && PRANA_ADDR_RE.test(a);
+}
+
+/**
+ * burnOp — build the tokens.burn op: DESTROY `quantity` of `symbol` the signer
+ * holds, reducing circulating supply. This is the on-engine deflation lever and
+ * the honest, real-today core of a buyback (buy the token off-book, then burn
+ * it). It is a supply mechanic — never a price-floor or appreciation promise.
+ * @param {string} account the signing L1 account (required_auths / active auth)
+ * @param {object} p { symbol, quantity }
+ */
+export function burnOp(account, p) {
+  if (typeof p !== 'object' || p === null) throw new TypeError('params must be an object');
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const symbol = String(p.symbol || '').toUpperCase();
+  if (!isValidSymbol(symbol)) return err(`invalid symbol "${p.symbol}" (1-10 uppercase A-Z)`);
+  const qErr = validateQuantity(p.quantity);
+  if (qErr) return err(qErr);
+  const envelope = {
+    contractName: 'tokens',
+    contractAction: 'burn',
+    contractPayload: { symbol, quantity: String(p.quantity) },
+  };
+  return {
+    ok: true,
+    kind: 'engine',
+    action: 'burn',
+    op: customJsonOp(account, envelope),
+    envelope,
+    summary: `burn ${p.quantity} ${symbol} — reduces circulating supply (deflation; a token-management mechanic, not a claim about token value)`,
+  };
+}
+
+/**
+ * scotEnableOp — build the scot.enable op: add or re-tune a Scot Bot reward rule
+ * on an EXISTING token (author/curator emission). Issuer-only on execution;
+ * burns config.scotFee on FIRST enable. Default author split is 6500 bps (the
+ * operator's honest-utility 65/35, [[token-philosophy-real-utility-not-
+ * speculation]]) — not an APY, not a yield promise.
+ * @param {string} account the signing L1 account (required_auths / active auth)
+ * @param {object} p { symbol, config: { emissionPerWindow, windowBlocks, authorBps?, curve?, tag? } }
+ */
+export function scotEnableOp(account, p) {
+  if (typeof p !== 'object' || p === null) throw new TypeError('params must be an object');
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const symbol = String(p.symbol || '').toUpperCase();
+  if (!isValidSymbol(symbol)) return err(`invalid symbol "${p.symbol}" (1-10 uppercase A-Z)`);
+  const cfg = (typeof p.config === 'object' && p.config) || {};
+  const qErr = validateQuantity(cfg.emissionPerWindow);
+  if (qErr) return err(`emissionPerWindow: ${qErr}`);
+  const windowBlocks = Number(cfg.windowBlocks);
+  if (!Number.isInteger(windowBlocks) || windowBlocks < 1) return err('windowBlocks must be a positive integer');
+  const authorBps = cfg.authorBps === undefined ? 6500 : Number(cfg.authorBps);
+  if (!Number.isInteger(authorBps) || authorBps < 0 || authorBps > 10000) {
+    return err('authorBps must be an integer 0..10000');
+  }
+  const curve = cfg.curve === undefined ? 'linear' : String(cfg.curve);
+  if (!SCOT_CURVES.has(curve)) return err(`curve must be one of ${[...SCOT_CURVES].join('/')}`);
+  const payload = { symbol, emissionPerWindow: String(cfg.emissionPerWindow), windowBlocks, authorBps, curve };
+  if (cfg.tag !== undefined && cfg.tag !== '') payload.tag = String(cfg.tag).slice(0, 64);
+  const envelope = { contractName: 'scot', contractAction: 'enable', contractPayload: payload };
+  return {
+    ok: true,
+    kind: 'engine',
+    action: 'scot.enable',
+    op: customJsonOp(account, envelope),
+    envelope,
+    summary:
+      `enable/tune SCOT rewards on ${symbol} (emission ${cfg.emissionPerWindow} per ${windowBlocks} blocks, ` +
+      `author ${authorBps / 100}% / curator ${(10000 - authorBps) / 100}%, ${curve} curve) — ` +
+      `burns ${config.scotFee} ${genesis.feeToken} on first enable`,
+  };
+}
+
+/**
+ * bridgeOutOp — build the generic-token bridge-OUT op: a tokens.transfer to the
+ * configured bridge custody account carrying the 0x PRANA recipient in the memo.
+ * The off-chain engine-bridge-watcher reads it and mints w`SYMBOL` on PRANA
+ * (§2.2 step 1). This is Route-B step 1 of a cross-chain buyback; it is GATED —
+ * it errors until config.bridge.custody is set (PRANA + generic bridge live).
+ * @param {string} account the signing L1 account (required_auths / active auth)
+ * @param {object} p { symbol, quantity, toPrana }  toPrana = 0x…40hex
+ */
+export function bridgeOutOp(account, p) {
+  if (typeof p !== 'object' || p === null) throw new TypeError('params must be an object');
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const symbol = String(p.symbol || '').toUpperCase();
+  if (!isValidSymbol(symbol)) return err(`invalid symbol "${p.symbol}" (1-10 uppercase A-Z)`);
+  const qErr = validateQuantity(p.quantity);
+  if (qErr) return err(qErr);
+  const toPrana = String(p.toPrana || '');
+  if (!isValidPranaAddress(toPrana)) return err(`invalid PRANA recipient "${p.toPrana}" (expect 0x + 40 hex)`);
+  const custody = (config.bridge && config.bridge.custody) || '';
+  if (!custody) {
+    return err('bridge custody not configured (config.bridge.custody) — bridging is gated until PRANA is live');
+  }
+  const envelope = {
+    contractName: 'tokens',
+    contractAction: 'transfer',
+    contractPayload: { symbol, to: custody, quantity: String(p.quantity), memo: toPrana },
+  };
+  return {
+    ok: true,
+    kind: 'engine',
+    action: 'bridgeOut',
+    op: customJsonOp(account, envelope),
+    envelope,
+    summary: `bridge ${p.quantity} ${symbol} to PRANA (transfer to @${custody}, memo ${toPrana}) — the off-chain watcher mints w${symbol} on PRANA`,
+  };
+}

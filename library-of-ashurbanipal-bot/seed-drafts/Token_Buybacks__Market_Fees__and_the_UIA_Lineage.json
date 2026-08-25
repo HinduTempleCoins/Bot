@@ -1,0 +1,21 @@
+{
+  "articleId": "Token Buybacks, Market Fees, and the UIA Lineage",
+  "title": "Token Buybacks, Market Fees, and the UIA Lineage",
+  "bodyFile": "Token_Buybacks__Market_Fees__and_the_UIA_Lineage.wiki",
+  "sources": [
+    ".local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md",
+    ".local/KULA_LOTTO_DESIGN.md",
+    ".local/NUTBOX_PRANA_DESIGN_2026-06-09.md",
+    "bitshares-core/libraries/protocol/include/graphene/protocol/asset.hpp",
+    "https://docs.bitshares.dev/en/latest/bts_guide/assets-faq.html",
+    "https://docs.bitshares.build/docs/howto/create-asset/",
+    "https://docs.bitshares.dev/en/latest/components/lib_operations.html",
+    "https://github.com/bitshares/bsips/blob/master/bsip-0043.md",
+    "https://github.com/bitshares/bsips/blob/master/bsip-0086.md",
+    "https://docs.bitshares.build/docs/functions-and-features/market-pegged-asset/",
+    "https://docs.bitshares.dev/en/latest/bts_guide/tutorials/pm-create-manual.html",
+    "https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/",
+    "https://bitsharestalk.org/"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md (seed-drafts/ -> review queue -> approve -> generated-articles/ -> served by site/wiki/). Companion to the existing general BitShares.wiki; lens = buybacks / market fees / deflation / the UIA -> advanced-token lineage as it maps onto MELEK. HARD compliance (load-bearing, [[token-securities-compliance-posture]]): a buyback is token-management / deflation / treasury utility, NEVER a price-floor or appreciation promise; the article carries a not-investment-advice note. BitShares flag/permission values are verified against the bitshares-core C++ source (asset.hpp), authoritative over any doc page. Written 2026-08-25 as the theory companion to the site/academy-token how-to surface (research doc section 6)."
+}

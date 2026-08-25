@@ -1,0 +1,102 @@
+# Token Buybacks, Market Fees, and the UIA Lineage
+
+A **token buyback** is when the issuer of a token spends revenue to buy that token back off the market and either **destroy it** (a burn, reducing supply) or **lock it as liquidity** (deepening the market). This article explains the theory behind buybacks — deflation versus protocol-owned liquidity, market fees and fee pools — and traces the historical lineage from the **BitShares User-Issued Asset (UIA)** through the "advanced" market-pegged tokens, showing why some token features can live on a simple mint/reward layer while others structurally require an on-chain market<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
+
+This is an **educational, neutral** reference. It describes mechanics an issuer can operate; it is **not investment, financial, or legal advice**, and nothing here is a promise that any token will hold or gain value. A buyback is a **token-management and treasury mechanic — never a guaranteed price floor or a promise of appreciation** (see § A note on securities).
+
+== Summary ==
+
+An issuer might reduce a token's circulating supply, or deepen the market for it, for the same reasons a company manages its own balance sheet: to steward the asset it created honestly and predictably. The two levers this article covers are **supply reduction (burning)** and **buybacks** (buying the token back with earned revenue, then burning it or locking it as liquidity)<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
+
+Framed honestly, a buyback is a **mechanic, not a guarantee**: the issuer removes revenue from its treasury and uses it to buy the token, which reduces supply or adds market depth by ordinary supply-and-demand. What the market price then does is not something the mechanic promises, and no issuer should market a token as guaranteed to appreciate<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
+
+== Why buybacks — deflation vs protocol-owned liquidity ==
+
+There are two distinct shapes of a buyback, and they aim at different goals:
+
+- **Buyback → burn (deflation).** Revenue buys the token on a market and then **destroys** it. Circulating supply falls. This is the classic deflation lever — a supply-side decision the issuer controls directly. It says nothing on its own about price; it only removes tokens from circulation<ref>.local/KULA_LOTTO_DESIGN.md</ref>.
+- **Buyback → protocol-owned liquidity (PoL).** Revenue buys the token and then **locks the bought liquidity** into the market (as a liquidity-pool position that is time-locked) rather than burning it. The result is a deeper, more resilient market that the protocol itself owns. The careful, load-bearing distinction here: **"PoL floor" means market *depth*, not a promised price.** Locked liquidity makes a market harder to drain; it is not a commitment that the token cannot fall in value<ref>.local/KULA_LOTTO_DESIGN.md</ref>.
+
+In the MELEK ecosystem these two shapes are implemented (on the PRANA / EVM side) by a small set of composable contracts used as ecosystem examples: a **fee-collector/burner** as the deflation sink, a **community buyback vault** that performs the AMM buy and then either burns or forwards to liquidity, and a **liquidity locker** that time-locks the bought liquidity into protocol-owned liquidity<ref>.local/KULA_LOTTO_DESIGN.md</ref>. An issuer chooses which shape fits the goal — reduce supply, or deepen the market — and does not have to pick only one.
+
+== Where the money comes from ==
+
+The single discipline that keeps a buyback honest is that it is funded by **real, already-earned revenue** — trading or protocol fees, a slice of a reward-token's emission, or ordinary application income — never by borrowing against a promise or by a founder's pledge to prop up a price<ref>[[token-securities-compliance-posture]]</ref>. The phrase used throughout the MELEK design docs is **"buyback from real yield."**
+
+A standing (automatic) buyback is typically built as a **revenue fan-out router**: incoming revenue is split across sinks — a share **burned**, a share routed to a **buyback vault** that buys and locks liquidity, a fixed immutable slice to fund the ecosystem's founding AI witness, and a remainder held in reserve. The router is a configuration wiring of existing sinks rather than new machinery<ref>.local/KULA_LOTTO_DESIGN.md</ref><ref>.local/NUTBOX_PRANA_DESIGN_2026-06-09.md</ref>. The same idea appears in community-token designs such as Nutbox, where a slice of a community token's emission or a community service's revenue is used to **buy the token back on a DEX** as a positive-feedback sink<ref>.local/NUTBOX_PRANA_DESIGN_2026-06-09.md</ref>.
+
+== The BitShares UIA — the ancestor ==
+
+**BitShares** (Graphene, launched 2014, from Dan Larimer and Cryptonomex) is the direct ancestor of the Steem → Hive / Blurt → MELEK line, and its **User-Issued Asset (UIA)** is the direct ancestor of Hive-Engine-style side tokens and therefore of MELEK-Engine tokens<ref>library-of-ashurbanipal-bot/generated-articles/BitShares.wiki</ref><ref>https://bitsharestalk.org/</ref>. It is the right lineage to study for token-management features.
+
+=== Permissions versus flags ===
+
+A BitShares asset carries **two bitmasks over the same set of names**, and the distinction is the deepest idea to carry forward<ref>https://docs.bitshares.dev/en/latest/bts_guide/assets-faq.html</ref>:
+
+- A **permission** answers *whether a switch is allowed to exist* — what the issuer may ever toggle. **Once a permission is revoked (set false) it can never be reactivated.**
+- A **flag** answers *the switch's current position* — the behavior in force right now, toggleable **only while its permission is still set.** Revoke the permission and the flag's value is **frozen forever.**
+
+Setting a permission does not by itself enable a feature; the issuer must also set the flag. This is how BitShares makes token behavior **immutable**: renouncing a permission is a public, irreversible **trust move** — the issuer voluntarily gives up a power (for example, the power to ever inflate supply) so holders can verify it will never be used<ref>https://docs.bitshares.dev/en/latest/bts_guide/assets-faq.html</ref><ref>https://docs.bitshares.build/docs/howto/create-asset/</ref>.
+
+The verified UIA-relevant flags — the ones a plain user token can use — include `charge_market_fee` (the issuer takes a percentage of each market trade), `white_list` (only approved accounts may hold or transact), `override_authority` (the issuer may claw a holder's tokens back), `transfer_restricted` (the issuer must be party to every transfer), `disable_confidential`, and the BSIP-48 supply locks `lock_max_supply` (the maximum supply can no longer be changed) and `disable_new_supply` (no new supply may ever be issued). Both `max_supply` and `precision` are fixed at creation<ref>bitshares-core/libraries/protocol/include/graphene/protocol/asset.hpp</ref>. Everything outside this UIA subset — force-settlement, global settlement, witness/committee price feeds, and the collateral ratios — belongs to the "advanced" market-pegged assets described below, and a plain UIA cannot use it. BitShares encodes this boundary explicitly as its `UIA_ASSET_ISSUER_PERMISSION_MASK`<ref>bitshares-core/libraries/protocol/include/graphene/protocol/asset.hpp</ref>.
+
+=== Market fees and the fee pool ===
+
+Because BitShares has a built-in on-chain order book, a UIA can charge a **market fee**: `charge_market_fee` skims a `market_fee_percent` of each trade to the issuer, capped by an absolute `max_market_fee`<ref>https://docs.bitshares.dev/en/latest/bts_guide/assets-faq.html</ref>. Each asset also holds a **fee pool** of the core asset (BTS) so that transactions denominated in the UIA can pay their network fees; users may pay fees in the UIA and the pool converts at the asset's Core Exchange Rate. The pool is funded via `asset_fund_fee_pool_operation`<ref>https://docs.bitshares.dev/en/latest/components/lib_operations.html</ref>. A later refinement, **market-fee sharing** (BSIP-43, extended by BSIP-86), routes a share of the collected market fee to the trader's registrar and referrer, with the remainder kept by the asset owner<ref>https://github.com/bitshares/bsips/blob/master/bsip-0043.md</ref><ref>https://github.com/bitshares/bsips/blob/master/bsip-0086.md</ref>.
+
+The key observation: **market fees exist only because trades happen on an internal order book.** A token layer with no market of its own has nothing to skim, so the market-fee family does not apply to it — the analogue is the trading-fee split of whatever AMM the token eventually trades on.
+
+=== Supply reduction, reserve/burn, and buyback accounts ===
+
+The BitShares operations that reduce or manage supply map cleanly onto the modern engine primitives<ref>https://docs.bitshares.dev/en/latest/components/lib_operations.html</ref>:
+
+- **`asset_issue_operation`** mints from reserve into an account, raising `current_supply` — the ancestor of a modern `tokens.issue`.
+- **`asset_reserve_operation`** takes an asset **out of circulation back to the issuer's reserve, reducing `current_supply`.** This is the pure **burn / de-mint primitive**; it needs no market and cannot be used on market-issued assets — the direct ancestor of a modern `tokens.burn`.
+- **`asset_fund_fee_pool_operation`** and **`asset_claim_pool_operation`** deposit into and withdraw from the fee pool; **`asset_claim_fees_operation`** sweeps accumulated market fees back to the issuer — both presuppose a market.
+- A **buyback account** is a designated account to which sell orders route, auto-buying the asset off the DEX with held funds. Combined with `asset_reserve`, "buy the asset off the market, then reserve/burn it" is **literally the same buyback → burn shape** used by modern community buyback vaults<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
+
+For a market-less token layer, the two primitives that carry over are **issue (mint)** and **reserve (burn)**; the fee-claim, fee-pool, and buyback-account operations all presuppose a market and therefore belong to the market layer.
+
+== The step up to advanced tokens ==
+
+BitShares' advanced tier is the **Market-Pegged Asset (MPA)**, also called a **SmartCoin** or **bitAsset** (for example bitUSD, bitCNY). An MPA is **collateral-backed** — a user locks BTS or another asset and borrows the MPA against it — and its value tracks a real-world price through a **feed** published by elected **witnesses** or the **committee**<ref>https://docs.bitshares.build/docs/functions-and-features/market-pegged-asset/</ref>. It is governed by collateral ratios: the **maintenance collateral ratio (MCR)** below which a position is margin-called, the **initial collateral ratio (ICR)** that gates opening a position, the **target collateral ratio (TCR)**, and the **maximum short-squeeze ratio (MSSR)** that caps the liquidation penalty. When collateralization falls below the MCR the collateral is **auto-sold on the order book**; holders may **force-settle** at the feed price after a delay; and a **global settlement / "black swan"** event closes all positions into a settlement fund when the least-collateralized position can no longer cover its debt<ref>https://docs.bitshares.build/docs/functions-and-features/market-pegged-asset/</ref>. **Prediction-market assets** are a 1:1-collateral MPA variant with no feed, resolved by the issuer through global settlement<ref>https://docs.bitshares.dev/en/latest/bts_guide/tutorials/pm-create-manual.html</ref>. Later BitShares versions also added **AMM liquidity pools** (constant-product `k = balance_a × balance_b`, with create/deposit/withdraw/exchange operations)<ref>https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/</ref>.
+
+**Why these features structurally require an on-chain market:** the feed, the margin calls, and the force- and global-settlement all **execute against the internal order book** — margin calls sell collateral into live bids, force-settlement matches against margin positions, and the peg only holds because arbitrageurs trade the gap on-chain. Without an internal market there is **no execution venue**, so an MPA is structurally impossible on a market-less token layer<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>. This is the sharpest illustration of the architecture split: the moment a token feature needs live trades, it needs a market.
+
+== How it maps to MELEK ==
+
+MELEK follows the same boundary BitShares drew. The **MELEK-Engine** — a Hive-Engine-style side-token layer — is the UIA descendant: it mints (`tokens.create` / `tokens.issue`), reduces supply (`tokens.burn`, the `asset_reserve` analogue), configures social rewards (SCOT), and supports an **immutable supply cap** that combines the `lock_max_supply` and `disable_new_supply` guarantees. By design it has **no order book** — price discovery and the AMM are not on the engine<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
+
+Everything that needs a market lives on **PRANA**, the ecosystem's EVM chain: the AMM and liquidity pools are **KulaSwap**, and the SmartCoin-class, collateral-backed tokens are the **KULA / wMELEK CDP** (lock collateral → borrow), which is the MPA / SmartCoin idea rebuilt on an EVM chain<ref>[[kula-defi-token-design]]</ref>. A buyback is therefore **cross-chain**: an issuer bridges the engine token to PRANA, buys it on KulaSwap, and then burns it or locks it as protocol-owned liquidity. The engine **links to** the market layer; it never reimplements it.
+
+A short glossary of the lineage:
+
+- BitShares **UIA** → MELEK-Engine token.
+- `asset_reserve` (burn) → `tokens.burn`.
+- `lock_max_supply` + `disable_new_supply` → the engine's immutable supply cap.
+- `charge_market_fee` / market fees → KulaSwap trading-fee split (on PRANA).
+- **Buyback account** + `asset_reserve` → the cross-chain buyback flow (KulaSwap buy → burn or PoL).
+- **MPA / SmartCoin / bitAsset** → the KULA / wMELEK CDP on PRANA.
+- BitShares **AMM liquidity pools** → KulaSwap pools.
+
+== A note on securities ==
+
+Buybacks, burning, and supply caps are **token-management utility** — the honest stewardship of an asset the issuer created. They are **not** an investment promise. An issuer should never market a token as guaranteed to appreciate, should describe a buyback as the mechanic it is (spend earned revenue to reduce supply or deepen liquidity), and should keep any real-world monetary edge behind a properly regulated boundary rather than embedded in the token itself<ref>[[token-securities-compliance-posture]]</ref>. Presenting a buyback as a **price floor** or a guarantee of return is precisely the framing to avoid — it converts a management mechanic into an implied investment contract. This section is educational and is **not legal advice**; issuers with real questions about securities law should consult qualified counsel.
+
+== Sources ==
+<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>
+<ref>.local/KULA_LOTTO_DESIGN.md</ref>
+<ref>.local/NUTBOX_PRANA_DESIGN_2026-06-09.md</ref>
+<ref>bitshares-core/libraries/protocol/include/graphene/protocol/asset.hpp</ref>
+<ref>https://docs.bitshares.dev/en/latest/bts_guide/assets-faq.html</ref>
+<ref>https://docs.bitshares.build/docs/howto/create-asset/</ref>
+<ref>https://docs.bitshares.dev/en/latest/components/lib_operations.html</ref>
+<ref>https://github.com/bitshares/bsips/blob/master/bsip-0043.md</ref>
+<ref>https://github.com/bitshares/bsips/blob/master/bsip-0086.md</ref>
+<ref>https://docs.bitshares.build/docs/functions-and-features/market-pegged-asset/</ref>
+<ref>https://docs.bitshares.dev/en/latest/bts_guide/tutorials/pm-create-manual.html</ref>
+<ref>https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/</ref>
+<ref>https://bitsharestalk.org/</ref>
+
+== Coverage ==
+This article is a focused companion to the general [[BitShares]] article: its lens is buybacks, market fees, deflation, and the UIA → advanced-token lineage, as they map onto the MELEK ecosystem. BitShares flag and permission values are verified against the `bitshares-core` C++ source, which is authoritative over any documentation page; the MELEK-side mechanics are cited to the ecosystem design docs. The advanced-token (MPA / SmartCoin) section summarizes the collateral, feed, and settlement model at a conceptual level and does not reproduce every parameter (BSIP-18/74/75/77 cover the black-swan-response variants in detail). Note that `dev.bitshares.works` no longer resolves; its content now lives on `docs.bitshares.dev`, `how.bitshares.works`, and `docs.bitshares.build`. Nothing in this article is investment, financial, or legal advice.
