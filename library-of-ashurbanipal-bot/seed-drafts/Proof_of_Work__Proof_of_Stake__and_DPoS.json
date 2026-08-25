@@ -1,0 +1,13 @@
+{
+  "articleId": "Proof of Work, Proof of Stake, and DPoS",
+  "title": "Proof of Work, Proof of Stake, and DPoS",
+  "bodyFile": "Proof_of_Work__Proof_of_Stake__and_DPoS.wiki",
+  "sources": [
+    "library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki",
+    "library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki",
+    "https://bitcoin.org/bitcoin.pdf",
+    "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/",
+    "https://doi.org/10.11113/ijic.v10n2.272"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Theory-strand article 3 of 4 — PoW vs PoS vs DPoS as Sybil-resistance, their decentralization/speed/cost trade-offs, and where the ecosystem's two chains sit: MELEK = DPoS (Steem/Blurt Graphene fork, fast social chain, no fiat/no cashout, 21 witnesses led by hathor) and PRANA = PoS + proof-of-useful-work GPU compute (EVM value/DeFi chain). Chain placements grounded in master-architecture-melek-soap-prana (3-chain spine) + the existing Library DPoS/Graphene articles; PoW/PoS cited to bitcoin.pdf + ethereum.org PoS docs; DPoS trade-offs to a peer-reviewed analysis. Cross-links What a Witness Is and Does + The Two-Token Economy. Educational/neutral; not-investment-advice, no price prediction. Written 2026-08-25 for the Strand-3 / wiki 'Theory' gap fill (CONVERSATION_GAP_AUDIT.md)."
+}

@@ -1,0 +1,62 @@
+# Curation Theory — Rewards, the Auction Window, and Honest Curation
+
+**Curation** is the act of voting on content to signal what is worth rewarding, and a **curation reward** is the share of a post's payout that goes to the people who voted for it rather than to the author. On a Steem-family chain like MELEK, curation is a real economic role: the reward pool pays curators for finding good content *early and honestly*. This article explains the theory a curator needs — how the curation reward is split, the **reverse-auction window** that governs *when* to vote, curation **trails**, and the difference between honest curation and **vote-farming** — grounded in MELEK's live chain constants and the repo's own curation engine<ref>voting_rules/curation-engine.mjs</ref>.
+
+This is an **educational, neutral** reference. It explains reward *mechanics*; it is **not** investment or financial advice, it makes **no** price prediction, and a curation reward is a description of how the pool pays, never a promised yield (see § Not a yield).
+
+== Summary ==
+
+When a post pays out, the payout is split between the **author** and the **curators** who upvoted it. The curators' slice is divided among them by a rule that rewards **stake voted** and **timing**: you earn more curation the earlier you back a post that others later back too, but MELEK deliberately penalizes voting *too* early through a short reverse-auction window, so the honest strategy is to read, judge, and vote — not to bot the first second. Good curation points real reward at real quality; vote-farming games the same rules to pay a closed circle and is exactly what a healthy curation policy is built to resist<ref>voting_rules/curation-engine.mjs</ref>.
+
+== The curation reward split ==
+
+MELEK keeps the standard Steem-family reward constants, queried live from the chain's own config<ref>voting_rules/curation-engine.mjs</ref>:
+
+- **Curators receive 25% of a post's payout; the author receives 75%** (`SMT_DEFAULT_PERCENT_CURATION_REWARDS = 2500` basis points). The curation slice is the pool's standing budget for the people who surface content.
+- The author's share follows a **linear** reward curve; the curators' share follows a **square-root** curve (`curation_reward_curve = square_root`). The square-root curve **compresses** the advantage of a very large vote, so a whale does not sweep the entire curator slice — smaller curators keep a meaningful share.
+- Within the curator slice, your reward scales with **how much stake you voted** and **how early you were relative to the crowd that followed** — the classic "reward early agreement" mechanism.
+
+The economic idea is simple: the pool pays you to *predict* what the community will value, and to commit your stake to that prediction before it is obvious.
+
+== The reverse-auction window ==
+
+Voting *first* is not automatically best, because MELEK runs a **reverse-auction window** at the start of every post's life<ref>voting_rules/curation-engine.mjs</ref>:
+
+- The window is **300 seconds — five minutes** (`STEEM_REVERSE_AUCTION_WINDOW_SECONDS = 300`; the chain is past HF21, so the 5-minute linear auction is active).
+- A vote cast *inside* the window **forfeits a linear fraction of its curation reward back to the pool.** Vote at one minute and you keep only ~20% of what your curation would have been; vote at the five-minute edge and you keep **100%**.
+- So the reward-optimal moment to vote is **right at the edge of the window** — roughly 5:00–5:20 after the post was created — not at zero seconds.
+
+The purpose of the window is **anti-bot**: it removes the advantage of a script that snipes brand-new posts in the first block, and rewards a curator who actually waited long enough to have read the post. The repo's autovote timing was corrected to fire at this ~5:20 edge for exactly this reason<ref>voting_rules/curation-engine.mjs</ref>. Two other timing facts bound the strategy: votes are worthless once a post is past its ~**6.5-day** payout window (voting later earns nothing), and a voter's **voting power (mana) regenerates over five days** (`STEEM_VOTING_MANA_REGENERATION_SECONDS = 432000`), so votes are a rate-limited resource to spend deliberately<ref>voting_rules/curation-engine.mjs</ref>.
+
+== Curation trails ==
+
+A **curation trail** is a group of accounts that copy a lead curator's votes automatically, usually at a set delay. Trails let a community concentrate its curation on a trusted judge's picks — the lead reads and votes, the trail follows, and the combined stake makes the reward meaningful for everyone on the trail. Used honestly, a trail is a **force-multiplier for good judgment**: it scales one curator's attention across many small stakeholders who could not each evaluate every post. MELEK's autovote stack implements trails, fanbases, and scheduled votes on top of the same reverse-auction timing, so a trail can be tuned to fire at the reward-optimal edge rather than blindly at zero seconds<ref>voting_rules/curation-engine.mjs</ref>. The risk of a trail is that it can be pointed at low-quality or self-dealing content just as easily — which is where the honest/farming line comes in.
+
+== Honest curation vs vote-farming ==
+
+The same rules that pay honest curators can be abused to pay a closed circle. **Vote-farming** (also "circle-jerk" or self-voting rings) is when accounts vote for each other — or for their own posts — purely to extract the reward, with no regard for content quality. It drains the shared reward pool toward a group that is producing nothing the community values. MELEK's own curation policy is built to *resist* this rather than to do it, and it is worth stating the rules it encodes as the definition of honest curation<ref>voting_rules/curation-engine.mjs</ref>:
+
+- **No self-dealing.** The curation engine skips voting on the witness's own posts — reward must come from backing *others'* work, not one's own.
+- **Judge quality, not just timing.** Candidates are scored on author reputation, on-topic tags, and real body length; thin, off-topic, or low-effort posts score low even if the timing is perfect. Timing is a tie-breaker on quality, not a substitute for it.
+- **Spread the stake; respect a budget.** A daily vote budget and a "curation room" factor (a post already near a large payout has little upside left) push votes toward posts that genuinely need surfacing, rather than piling onto whatever is already winning.
+- **Blacklists and gates.** Known abusers and posts outside the votable window are simply skipped.
+
+Vote-farming is not against a rule of physics — the chain will pay it — which is why the *social* and *policy* layer matters. A community that curates honestly gets a reward pool that points at quality; one that farms gets a pool that points at itself. This is the same "utility, not extraction" principle the [[Tokenomics 101]] and [[The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed]] articles describe on the token-design side.
+
+== Karma and curation power ==
+
+MELEK layers an off-chain **karma** signal on top of raw stake, so that curation weight can reflect *earned standing* and not only how many tokens an account holds. The bridge from karma to curation applies a compressing curve (a square-root by default) so that differences in karma translate into differences in curation influence without letting the largest holder dominate — the same compress-the-whale instinct the on-chain square-root curation curve expresses<ref>voting_rules/karma-curation-bridge.mjs</ref>. The aim is a curation system where *good judgment, consistently applied* accrues real influence over what the community rewards.
+
+== Not a yield ==
+
+Curation rewards are how the reward pool pays the people who surface content; they are **not** a guaranteed return, an "APY," or investment advice. What you actually earn depends on your stake, your timing, whose votes follow yours, and what the community values — none of which this article promises. Reward *rules* are described here as rules, never as projected income, and nothing here predicts the price of any token.
+
+== Sources ==
+<ref>voting_rules/curation-engine.mjs</ref>
+<ref>voting_rules/karma-curation-bridge.mjs</ref>
+<ref>voting_rules/daily-vote-budget.mjs</ref>
+<ref>https://developers.hive.io/tutorials-recipes/estimate-upvote.html</ref>
+<ref>https://developers.hive.io/tutorials-recipes/vote-on-content.html</ref>
+
+== Coverage ==
+This article is a Theory-strand companion to the Witness School and the Economics 101 series: it explains curation on MELEK — the 25%/75% curator/author split and the square-root curation curve, the live 5-minute (300s) reverse-auction window and the ~5:20 reward-optimal vote time, the ~6.5-day payout window and 5-day mana regeneration, curation trails, the karma→curation-power bridge, and the honest-curation-vs-vote-farming line. Constants are cited to MELEK's live chain config as encoded in `voting_rules/curation-engine.mjs`; the anti-farming policy (no self-vote, quality scoring, budget, blacklists) is cited to the same engine. Cross-links [[Tokenomics 101]] and the DevCoin/utility capstone. Nothing here is investment or financial advice, and nothing here predicts a price or promises a yield.

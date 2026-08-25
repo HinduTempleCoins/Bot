@@ -1,0 +1,60 @@
+# The Two-Token Economy — MELEK and PRANA
+
+The MELEK ecosystem deliberately splits the jobs a single chain usually crams together across **two chains**: **MELEK**, a Graphene / DPoS **social chain** where tokens are *issued* and *earned*, and **PRANA**, an EVM **compute-and-DeFi chain** where tokens are *traded* and put to work. A token is born and rewarded on MELEK's **MELEK-Engine** side-token layer, and it discovers a price and gains DeFi utility on PRANA's **KulaSwap** market — crossing between them through a bridge. This article explains the theory behind that split — why *issue-here, trade-there* is a design and not an accident — and the roles of the two DeFi tokens, **APIS** and **KULA**, that the turnkey token system is built around<ref>library-of-ashurbanipal-bot/generated-articles/Hive_Engine_and_Smart_Media_Tokens.wiki</ref><ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+This is an **educational, neutral** reference. It explains an economic architecture; it is **not** investment or financial advice, it makes **no** price prediction, and it evaluates *design*, not any token's price prospects (see § Not investment advice).
+
+== Summary ==
+
+A token needs two very different things: a cheap, honest place to be **created and distributed** (minting, an immutable supply cap, reward payouts to real activity), and a place to be **priced and used** (a market, liquidity, collateral, lending). MELEK provides the first and PRANA the second, and the boundary between them is drawn exactly where a feature first needs a **live market**. Issuance, burns, and reward rules have no market and live on MELEK-Engine; price discovery, an AMM, and collateralized borrowing require a market and live on PRANA's KulaSwap. The bridge is the one seam that lets a token cross, and it is held to a strict **1:1 peg** so the two sides always agree on how much exists<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Issue on MELEK-Engine ==
+
+**MELEK-Engine** is a Hive-Engine-style **side-token layer** on the MELEK chain — the direct descendant of the BitShares **User-Issued Asset (UIA)** ([[Token Buybacks, Market Fees, and the UIA Lineage]]). It is where a creator brings a token into existence and manages its supply<ref>library-of-ashurbanipal-bot/generated-articles/Hive_Engine_and_Smart_Media_Tokens.wiki</ref>:
+
+- **Create and issue** (`tokens.create` / `tokens.issue`) — mint the token and put it into accounts.
+- **Burn** (`tokens.burn`) — take supply out of circulation, the `asset_reserve` primitive of the UIA lineage.
+- **Reward rules (SCOT)** — pay the token out for posting and curating, so distribution is *earned*, not sold.
+- **An immutable supply cap** — the combined `lock_max_supply` + `disable_new_supply` guarantee, a public and irreversible promise never to inflate past a fixed ceiling.
+
+The load-bearing fact is what MELEK-Engine **deliberately lacks: an order book.** There is no market on the engine — no trading, no price. That is not a limitation, it is the boundary: everything that does *not* need a live market (mint, burn, cap, reward payout) lives here, cheaply and simply, and everything that does need one is pushed across to PRANA<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Trade on KulaSwap ==
+
+Everything that needs a market lives on **PRANA**, the ecosystem's EVM chain, and the market itself is **KulaSwap** — a Uniswap-V2-style **automated market maker (AMM)** with liquidity pools, plus farms, a CDP lending system, and a DAO ([[Liquidity, Slippage, and AMMs]])<ref>[[kula-defi-token-design]]</ref>. To trade an engine token you **bridge** it to PRANA, where it becomes a wrapped ERC-20 (for example wMELEK) and can be swapped against a pool. This is why a **buyback is inherently cross-chain**: an issuer earns revenue, bridges the token to PRANA, buys it on KulaSwap, and then either burns it or locks it as **protocol-owned liquidity** — the market half of the mechanic the buyback article describes<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+The peg that makes this safe is a **hard invariant**: **wMELEK in existence must always equal the MELEK locked in the bridge.** The wrapper is minted only when MELEK crosses to PRANA (a bridge deposit) and burned only when it crosses back (a withdrawal); there is no free issuance of the wrapper. A production bridge secures the crossing with **K-of-N attesters** — several independent signers must agree a deposit really happened before the wrapper is minted — a lock-release design rather than a mint-anything one<ref>[[bridge-security-audit-2026-06-21]]</ref>.
+
+== APIS and KULA — the two DeFi roles ==
+
+The turnkey system is organized around **two tokens with distinct jobs**, deliberately kept non-circular so no token is collateral for the thing that mints it<ref>[[kula-defi-token-design]]</ref>:
+
+- **APIS** is the **mined main token** — the Hive-Engine-style "BEE"-class token you earn by committing MELEK to the system. You **forever-lock** wMELEK (a permanent, no-unstake commitment — the ecosystem's "WorkerBee") to mint mining power that drips APIS over time on a stake-weighted schedule. Locking wMELEK forever keeps the peg honest (that MELEK simply stays in the bridge forever) and gives a real, lasting reason to commit MELEK: a passive APIS yield from productive lock-up rather than from inflation.
+- **KULA** is the **DeFi / collateral token — the ecosystem's DAI/SBD analogue.** It is not an inflation token; it is created only against real value or work, and it has real **sinks**: lock KULA in a CDP vault to **borrow wMELEK** (a productive, self-amortizing loan), and usage/fee burns plus a buyback vault feed a **protocol-owned-liquidity floor** ("PoL floor" = market *depth*, never a promised price). KULA's value is tied to MELEK through the CDP, and holding KULA is required to use the system — persistent demand backed by utility, not by a yield promise<ref>[[kula-defi-token-design]]</ref>.
+
+A third token, **PRANA** itself, is the chain's **gas and DAO/governance** coin (staked as sPRANA to vote), and the founding AI witness `hathor` receives an immutable floor share of pool emission — governance the community can only raise, never cut below the floor<ref>[[kula-defi-token-design]]</ref>. The tokens form a **directed graph, not a loop**: KULA → borrow wMELEK, and wMELEK → forever-lock → APIS, with APIS never used as collateral for anything, so the system is loop-safe by construction.
+
+== Why split the jobs ==
+
+Putting issuance on one chain and the market on another is a **separation of concerns** with three payoffs:
+
+- **The right tool for each job.** A fast, feeless social chain is ideal for minting and paying out rewards to real activity; a programmable EVM chain is ideal for an AMM, collateral, and lending. Neither chain is asked to do the other's job badly.
+- **A clean architectural boundary.** The line falls exactly where a feature first needs a live market — the same boundary BitShares drew between a plain UIA and a market-pegged asset. It is a principled, checkable rule, not a preference ([[Token Buybacks, Market Fees, and the UIA Lineage]]).
+- **A contained trust seam.** The only place the two economies touch is the bridge, so the peg invariant and the K-of-N attester security are concentrated at one auditable seam instead of smeared across the whole system.
+
+The turnkey token front-ends the ecosystem ships (issue, reward, burn, buyback) are built on exactly this split: create and reward on the engine, then trade and deepen liquidity on KulaSwap. The Token Academy is the how-to for operating it; this article is the *theory* of why it is shaped that way.
+
+== Not investment advice ==
+
+This article explains how the two-chain token economy is **designed**. It is **not** a rating of any token, **not** a claim that any design will make a price rise, and **not** a suggestion to buy, sell, or hold anything — APIS, KULA, PRANA, MELEK, or any other. Locking, borrowing, and providing liquidity all carry real risk (including liquidation and loss) that this article does not assess. Well-designed tokenomics reduce certain fragilities; they promise nothing about price. Consult a qualified professional for individualized advice.
+
+== Sources ==
+<ref>library-of-ashurbanipal-bot/generated-articles/Hive_Engine_and_Smart_Media_Tokens.wiki</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+<ref>[[Tokenomics 101]]</ref>
+<ref>[[Liquidity, Slippage, and AMMs]]</ref>
+<ref>[[kula-defi-token-design]]</ref>
+<ref>[[bridge-security-audit-2026-06-21]]</ref>
+
+== Coverage ==
+This article is a Theory-strand companion to the Witness School, the Token Academy, and the Economics 101 series: it explains the ecosystem's two-chain design — issue and earn on MELEK's MELEK-Engine (mint/burn/SCOT rewards/immutable cap, no order book), trade and put to work on PRANA's KulaSwap (UniV2 AMM + CDP + DAO) — the 1:1 wMELEK bridge peg with K-of-N attesters, and the roles of APIS (forever-lock wMELEK -> WorkerBee mining) and KULA (DeFi/collateral DAI-analogue with CDP + PoL-floor sinks), with PRANA as gas/DAO governance. The market/no-market boundary is drawn to match the BitShares UIA-vs-MPA split from the buyback article. HARD compliance: 'PoL floor' = market depth not a promised price; evaluates design not price; no token ratings; not investment advice; no price prediction. Cross-links the buyback, tokenomics, and liquidity articles. Written 2026-08-25 for the Strand-3 / wiki 'Theory' gap fill (CONVERSATION_GAP_AUDIT.md).
