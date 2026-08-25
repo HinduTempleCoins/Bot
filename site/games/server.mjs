@@ -16,6 +16,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { renderMobileNav } from '../../integrations/soapbox/mobile-nav.mjs';
 
 const PORT = +(process.env.PORT || 8193);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -110,9 +111,11 @@ function page(title, body, opts = {}) {
   const head = headTags({ title, description: desc, canonical: opts.canonical || `${BASE_URL}/`, siteName: SITE_NAME, jsonld: opts.jsonld || null });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-${head}${STYLE}${impactUtt()}</head><body><main class=wrap>${body}</main>
+${head}${STYLE}<style>body{padding-bottom:64px}</style>${impactUtt()}</head><body><main class=wrap>${body}</main>
 <footer>PRANA Games · one MELEK account across every surface · <a href="${esc(URLS.chain)}">melek.salon</a> · <a href="${esc(URLS.school)}">learn how</a><br>
-Native-token entertainment — not real money. Free daily spin is a no-purchase sweepstakes; points are for play.</footer></body></html>`;
+Native-token entertainment — not real money. Free daily spin is a no-purchase sweepstakes; points are for play.</footer>
+${renderMobileNav({ active: 'explore', baseUrls: { explore: `${BASE_URL}/`, profile: URLS.chain, wallet: URLS.wallet } })}
+</body></html>`;
 }
 
 const ALL_URLS = () => Object.values(URLS);
