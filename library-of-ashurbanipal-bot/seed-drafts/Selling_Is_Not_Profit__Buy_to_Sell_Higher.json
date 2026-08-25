@@ -1,0 +1,11 @@
+{
+  "articleId": "Selling Isn't Profit — You Have to Buy to Sell Higher",
+  "title": "Selling Isn't Profit — You Have to Buy to Sell Higher",
+  "bodyFile": "Selling_Is_Not_Profit__Buy_to_Sell_Higher.wiki",
+  "sources": [
+    ".local/pending-economics-post.md",
+    "integrations/order-book-spread.mjs",
+    "Token Buybacks, Market Fees, and the UIA Lineage"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Article 7 of the Economics 101 series — the discipline article, a core operator principle (feedback-selling-is-not-profit-buy-first: selling != profit; dumping loses; buy low first). Mechanically grounds 'dumping kills your own price' in the order book / spread reader; separates realized vs unrealized; buy-low-first. HARD compliance baked in and footered: not a trade suggestion or timing, not investment/tax advice, no price prediction. Written 2026-08-25."
+}

@@ -1,0 +1,14 @@
+{
+  "articleId": "The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed",
+  "title": "The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed",
+  "bodyFile": "The_Economics_No_Coin_Dev_Teaches.wiki",
+  "sources": [
+    "https://bitcointalk.org/index.php?topic=5582327.0",
+    "https://steemit.com/steemit/@marsresident/why-can-t-i-buy-gold-with-steem-yet",
+    "knowledge/cryptocurrency/steem_economics_marsresident.json",
+    "knowledge/cryptocurrency/devcoin_history.json",
+    ".local/pending-economics-post.md",
+    "Token Buybacks, Market Fees, and the UIA Lineage"
+  ],
+  "provenanceNote": "Hand-authored capstone of the Economics 101 series (2026-08-25). Grounds the operator's own long-standing argument (Bitcointalk 'In Response to Peter Schiff', topic 5582327) — buybacks as commitment, education over speculation, utility/spendability (marsresident), and DevCoin's oversupply failure. The differentiator: no coin dev has made teaching AND practicing this economics a point; MELEK does both. See memory economics-teaching-source-and-differentiator. HARD compliance: educational only, not investment advice, no price predictions, buybacks framed as treasury discipline never a price promise."
+}

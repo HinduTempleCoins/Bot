@@ -1,0 +1,46 @@
+# Selling Isn't Profit — You Have to Buy to Sell Higher
+
+A common and costly confusion is to treat **selling** as if it were **profit**. It is not. A sale only realizes a gain if you first **bought lower** — profit is the *difference* between what you paid and what you received, not the size of the sale. And in a thin market, selling into it does something worse than earning nothing: it **pushes your own price down**. This article states the discipline plainly, because it is a core operator principle in the MELEK economy: *you have to buy before you can sell higher*<ref>.local/pending-economics-post.md</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and it does not tell anyone what or when to trade (see § Not investment advice).
+
+== Summary ==
+
+**Profit = sale price − purchase price.** Selling raises cash, but if you never bought lower, there is no gain — you have merely converted a holding into cash at whatever the market gives. Worse, **selling is supply**: dumping tokens into a thin order book eats through the buy orders beneath the price and drives the price down as you go ([[Order Books, Buy Walls, and Sell Walls]]). The person who dumps their own bag is, mechanically, selling their own price down. The discipline is the inverse: **buy low first, so that a later sale is actually higher**<ref>.local/pending-economics-post.md</ref>.
+
+== Selling is not the same as gaining ==
+
+Selling and profiting are two different events. Selling is an *exchange* — token for cash. Profit is an *outcome* — receiving more than you paid. You can sell and lose (if you paid more than you received), sell and break even, or sell and gain. Treating the act of selling as automatically a "win" is the error. A large sale of something you bought high is a large *loss*, no matter how much cash it raises<ref>.local/pending-economics-post.md</ref>.
+
+== Dumping kills your own price ==
+
+This is the mechanical heart of the article. Price is set by supply and demand ([[Supply and Demand — the Price Basics]]), and a sell order is **supply added to the market**. In a thin market — where liquidity is shallow ([[Liquidity, Slippage, and AMMs]]) — a large sell walks *down* the order book: it fills the highest buy order, then the next-highest, then the next, each lower than the last. The average price you receive ends up well below where the price started, and the last print is lower still. You have moved the price against yourself — this is **slippage**, felt as a loss, and it is why **dumping loses**<ref>integrations/order-book-spread.mjs</ref><ref>.local/pending-economics-post.md</ref>. On a deeper, more liquid market the same sale would move the price less; on a thin one it can crater it.
+
+== Buy low first ==
+
+The honest sequence is **buy, then sell higher** — never the reverse. To sell higher than you bought, you must first have bought lower. This is why, in the MELEK economy, **selling is never treated as profit and dumping is never treated as a strategy**: a profit requires a lower purchase behind it, and value is built by *buying into* and holding something real, not by liquidating it<ref>.local/pending-economics-post.md</ref>. It is also why buybacks — spending earned revenue to *buy* the token — are a treasury discipline, while indiscriminate selling is the opposite ([[Token Buybacks, Market Fees, and the UIA Lineage]]).
+
+== Realized vs unrealized ==
+
+Two more terms sharpen the point:
+
+- An **unrealized** gain or loss is a change in the *market value* of something you still hold. It is on paper; it is not money in hand, and it can vanish before you sell.
+- A **realized** gain or loss happens when you actually *sell* (or trade or spend), locking in the difference between what you paid and what you received.
+
+The confusion this article corrects is mistaking either one for the other: an unrealized paper gain is **not** profit you have earned, and a sale is **not** profit unless it realizes a gain over your purchase price. (Realization is also, not coincidentally, the moment that usually matters for tax — you are generally taxed when a gain is *realized*, not merely while you hold; this is general information, not tax advice, and the rules for tokens are still being settled<ref>.local/pending-economics-post.md</ref>.)
+
+== The through-line ==
+
+Money should be a record of value you actually created or acquired. A sale converts a holding to cash; it is only a *gain* if you bought lower first, and it is a *loss* if you dump into a market too thin to absorb it. Buy low, hold something real, and sell higher — in that order. That is the discipline, stated plainly.
+
+== Not investment advice ==
+
+This article corrects a definitional confusion; it is **not** a suggestion to buy, sell, hold, or time anything, and **not** a prediction of any price. "Buy low, sell higher" describes what profit *means*, not a promise that any purchase will later be higher — it will not always be. Nothing here is financial, legal, or tax advice. Education is in scope; individualized advice is not — for real decisions, consult a qualified professional.
+
+== Sources ==
+<ref>.local/pending-economics-post.md</ref>
+<ref>integrations/order-book-spread.mjs</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+
+== Coverage ==
+This is the discipline article of the Economics 101 series: it distinguishes selling from profit, shows mechanically why dumping into a thin market pushes your own price down (citing the repo's spread reader and cross-linking the order-book and liquidity articles), states the buy-low-first principle, and separates realized from unrealized gains. It gives no trade suggestions and no timing. Nothing here is investment, financial, legal, or tax advice, and nothing here predicts a price.

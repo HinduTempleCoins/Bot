@@ -1,0 +1,14 @@
+{
+  "articleId": "Order Books, Buy Walls, and Sell Walls",
+  "title": "Order Books, Buy Walls, and Sell Walls",
+  "bodyFile": "Order_Books__Buy_Walls__and_Sell_Walls.wiki",
+  "sources": [
+    "integrations/liquidity-walls.mjs",
+    "integrations/order-book-spread.mjs",
+    "integrations/market-depth.mjs",
+    "Token Buybacks, Market Fees, and the UIA Lineage",
+    "https://en.wikipedia.org/wiki/Order_book",
+    "https://en.wikipedia.org/wiki/Spoofing_(finance)"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. PRIORITY article of the Economics 101 series — the previously-missing Buy Wall / Sell Wall reference. Grounded in the repo's OWN order-book readers so the concepts connect to live tools: detectWalls/wallSummary (integrations/liquidity-walls.mjs, 5x-median threshold + phantomX flag), spread/detectPaperWall (integrations/order-book-spread.mjs, spoof/paper-wall detection), and market-depth.mjs (depth + whale-concentration). Ties walls to real liquidity and to protocol-owned-liquidity buybacks (existing UIA-lineage article). HARD compliance baked in and footered: walls are market mechanics, NEVER a buy/sell signal; not investment advice; no price prediction; no how-to-pump. Written 2026-08-25."
+}

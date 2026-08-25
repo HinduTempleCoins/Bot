@@ -1,0 +1,11 @@
+{
+  "articleId": "Supply and Demand — the Price Basics",
+  "title": "Supply and Demand — the Price Basics",
+  "bodyFile": "Supply_and_Demand__the_Price_Basics.wiki",
+  "sources": [
+    ".local/pending-economics-post.md",
+    "https://en.wikipedia.org/wiki/Supply_and_demand",
+    "https://en.wikipedia.org/wiki/Economic_equilibrium"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md (seed-drafts/ -> review queue -> approve -> generated-articles/ -> served by site/wiki/). Article 1 of the Economics 101 series for the MELEK token community. Neutral/educational tone; HARD compliance baked in and footered: not investment advice, no price prediction, no how-to-pump. Written 2026-08-25 as a foundation the wall/liquidity/tokenomics articles build on; cross-linked to the emission/burn, order-book, and valuation articles in the series."
+}

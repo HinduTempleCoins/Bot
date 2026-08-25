@@ -1,0 +1,12 @@
+{
+  "articleId": "Liquidity, Slippage, and AMMs",
+  "title": "Liquidity, Slippage, and AMMs",
+  "bodyFile": "Liquidity__Slippage__and_AMMs.wiki",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Automated_market_maker",
+    "https://en.wikipedia.org/wiki/Slippage_(finance)",
+    "https://docs.bitshares.build/docs/liquidity-pools/liquidity-pool-technical/",
+    "Token Buybacks, Market Fees, and the UIA Lineage"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Article 5 of the Economics 101 series. Order book vs AMM; why thin liquidity = big slippage; constant-product x*y=k with KulaSwap (Uniswap-V2, on PRANA) as the example, consistent with the UIA-lineage article's engine/market split. HARD compliance baked in and footered: not a trade suggestion, not investment advice, no price prediction; notes LP risk (impermanent loss) is out of scope. Written 2026-08-25."
+}
