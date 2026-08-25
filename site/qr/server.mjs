@@ -41,6 +41,21 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox QR';
 const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
 
+// ── Tools-hub path awareness (mundane-app-suite-stealth-funnel) ────────────────
+// This app runs as its own process behind a path-routing proxy at tools.soapbox.community/<app>.
+// The proxy STRIPS the prefix inbound (our routes stay on '/', '/health', '/www/…'); we PREPEND it to
+// every self-URL we EMIT. BASE_PATH defaults to '' → standalone behaviour is byte-for-byte unchanged.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+const bp = (p) => BASE_PATH + p;
+// The Tools hub sits at the domain root (default '/'); sibling links point at the hub, not this app.
+const TOOLS_HUB_URL = (process.env.TOOLS_HUB_URL || '/').replace(/\/+$/, '');
+const hub = (p) => TOOLS_HUB_URL + p;
+const SLUG = 'qr';
+const HUB_SIBLINGS = [['/calculator', 'Calculator'], ['/notes', 'Notes'], ['/qr', 'QR'], ['/timer', 'Timer'], ['/converter', 'Converter'], ['/diagram', 'Diagram']];
+const TOOLS_NAV = `<a class=hublink href="${hub('/')}">◧ SoapBox Tools</a>`
+  + HUB_SIBLINGS.filter(([p]) => p !== '/' + SLUG).slice(0, 2).map(([p, l]) => `<a href="${hub(p)}">${l}</a>`).join('');
+
+
 // ── shared house-style helpers ─────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -102,7 +117,7 @@ const STYLE = `<style>
 const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — a free, private QR code generator. Codes are drawn <b>in your browser</b>;
   the text you encode never leaves this page. QR codes render with
-  <a href="/www/qrcode.LICENSE.txt">node-qrcode</a> (MIT) — vendored locally, no third-party trackers.
+  <a href="${bp('/www/qrcode.LICENSE.txt')}">node-qrcode</a> (MIT) — vendored locally, no third-party trackers.
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -118,8 +133,8 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="/">🔳 SoapBox <span>QR</span><span class=alpha>Alpha</span></a>
-  <div class=topbar-r><a href="/">New</a><button type=button id=nav-save>☁ Save your codes</button></div></header>
+<header class=topbar><a class=brand href="${bp('/')}">🔳 SoapBox <span>QR</span><span class=alpha>Alpha</span></a>
+  <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">New</a><button type=button id=nav-save>☁ Save your codes</button></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -221,7 +236,7 @@ download as PNG or SVG. No sign-up, no install, and the text you encode never le
   print at any size. Everything is generated on your device — nothing is uploaded.</p>
 </details>
 
-<script src="/www/qrcode.min.js"></script>
+<script src="${bp('/www/qrcode.min.js')}"></script>
 <script>
 (function(){
   var qrEl=document.getElementById('qr'), errEl=document.getElementById('err');
@@ -391,7 +406,7 @@ export async function handler(req, res) {
 
     // unknown → 404, never a 500
     res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
-    return res.end(page('Not found — SoapBox QR', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="/">Open the QR generator</a>.</p>', { robots: 'noindex,follow' }));
+    return res.end(page('Not found — SoapBox QR', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="' + bp('/') + '">Open the QR generator</a>.</p>', { robots: 'noindex,follow' }));
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });
     res.end('error: ' + (e && e.message ? e.message : 'unknown'));

@@ -44,6 +44,21 @@ const SITE_NAME = process.env.SITE_NAME || 'Idle-Time Games';
 // The opt-in unlock links the ordinary free-account signup flow (env-overridable). No wallet/token here.
 const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
 
+// ── Tools-hub path awareness (mundane-app-suite-stealth-funnel) ────────────────
+// This app runs as its own process behind a path-routing proxy at tools.soapbox.community/<app>.
+// The proxy STRIPS the prefix inbound (our routes stay on '/', '/health', '/www/…'); we PREPEND it to
+// every self-URL we EMIT. BASE_PATH defaults to '' → standalone behaviour is byte-for-byte unchanged.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+const bp = (p) => BASE_PATH + p;
+// The Tools hub sits at the domain root (default '/'); sibling links point at the hub, not this app.
+const TOOLS_HUB_URL = (process.env.TOOLS_HUB_URL || '/').replace(/\/+$/, '');
+const hub = (p) => TOOLS_HUB_URL + p;
+const SLUG = 'idlegames';
+const HUB_SIBLINGS = [['/calculator', 'Calculator'], ['/notes', 'Notes'], ['/qr', 'QR'], ['/timer', 'Timer'], ['/converter', 'Converter'], ['/diagram', 'Diagram']];
+const TOOLS_NAV = `<a class=hublink href="${hub('/')}">◧ SoapBox Tools</a>`
+  + HUB_SIBLINGS.filter(([p]) => p !== '/' + SLUG).slice(0, 2).map(([p, l]) => `<a href="${hub(p)}">${l}</a>`).join('');
+
+
 // ── shared house-style helpers ─────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -183,8 +198,8 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="/">🎮 ${esc(SITE_NAME)}<span class=alpha>Alpha</span></a>
-  <div class=topbar-r><a href="/">All games</a></div></header>
+<header class=topbar><a class=brand href="${bp('/')}">🎮 ${esc(SITE_NAME)}<span class=alpha>Alpha</span></a>
+  <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">All games</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -193,7 +208,7 @@ ${FOOTER}</body></html>`;
 // NOTE: deliberately no crypto/token/wallet/earn pitch here — the hub is pure play. The opt-in lives on
 // the game pages (where a high score actually exists to save).
 export function hubPage() {
-  const cards = GAMES.map((g) => `<a class=card href="/${esc(g.slug)}">
+  const cards = GAMES.map((g) => `<a class=card href="${bp('/' + esc(g.slug))}">
     ${g.fun ? '<span class=fun>just for fun</span>' : ''}
     <span class=e>${esc(g.emoji)}</span>
     <span class=t>${esc(g.name)}</span>
@@ -231,7 +246,7 @@ function gamePage(slug, params) {
   const g = gameBySlug(slug);
   if (!g) return null;
   const banner = challengeBanner(params);
-  const back = `<div class=backlink><a href="/">&larr; All games</a></div>`;
+  const back = `<div class=backlink><a href="${bp('/')}">&larr; All games</a></div>`;
   const head = `<div class=gamehead><span style="font-size:1.8rem">${esc(g.emoji)}</span>
     <h1>${esc(g.name)}</h1><span class=muted>${esc(g.tagline)}</span></div>`;
   const bodyByGame = {
@@ -570,7 +585,7 @@ export async function handler(req, res) {
     // unknown → 404, never a 500. The requested path is echoed back ESCAPED.
     res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
     return res.end(page('Not found — ' + SITE_NAME,
-      `<h1>Not found</h1><p class=muted>There's no game at <code>${esc(path)}</code>. <a href="/">Back to all games</a>.</p>`,
+      `<h1>Not found</h1><p class=muted>There's no game at <code>${esc(path)}</code>. <a href="${bp('/')}">Back to all games</a>.</p>`,
       { robots: 'noindex,follow' }));
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });

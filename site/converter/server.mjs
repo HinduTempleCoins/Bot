@@ -38,6 +38,21 @@ const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Converter';
 const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
+
+// ── Tools-hub path awareness (mundane-app-suite-stealth-funnel) ────────────────
+// This app runs as its own process behind a path-routing proxy at tools.soapbox.community/<app>.
+// The proxy STRIPS the prefix inbound (our routes stay on '/', '/health', '/www/…'); we PREPEND it to
+// every self-URL we EMIT. BASE_PATH defaults to '' → standalone behaviour is byte-for-byte unchanged.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+const bp = (p) => BASE_PATH + p;
+// The Tools hub sits at the domain root (default '/'); sibling links point at the hub, not this app.
+const TOOLS_HUB_URL = (process.env.TOOLS_HUB_URL || '/').replace(/\/+$/, '');
+const hub = (p) => TOOLS_HUB_URL + p;
+const SLUG = 'converter';
+const HUB_SIBLINGS = [['/calculator', 'Calculator'], ['/notes', 'Notes'], ['/qr', 'QR'], ['/timer', 'Timer'], ['/converter', 'Converter'], ['/diagram', 'Diagram']];
+const TOOLS_NAV = `<a class=hublink href="${hub('/')}">◧ SoapBox Tools</a>`
+  + HUB_SIBLINGS.filter(([p]) => p !== '/' + SLUG).slice(0, 2).map(([p, l]) => `<a href="${hub(p)}">${l}</a>`).join('');
+
 // The keyless, open-source Frankfurter API (ECB reference rates). Fetched CLIENT-SIDE only. Env-overridable.
 const RATES_API = process.env.RATES_API || 'https://api.frankfurter.app';
 
@@ -212,8 +227,8 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="/">🔁 SoapBox <span>Converter</span><span class=alpha>Alpha</span></a>
-  <div class=topbar-r><a href="/">New</a><button type=button id=nav-save>☁ Save conversions</button></div></header>
+<header class=topbar><a class=brand href="${bp('/')}">🔁 SoapBox <span>Converter</span><span class=alpha>Alpha</span></a>
+  <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">New</a><button type=button id=nav-save>☁ Save conversions</button></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -475,7 +490,7 @@ export async function handler(req, res) {
 
     // unknown → 404, never a 500
     res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
-    return res.end(page('Not found — SoapBox Converter', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="/">Open the converter</a>.</p>', { robots: 'noindex,follow' }));
+    return res.end(page('Not found — SoapBox Converter', '<h1>Not found</h1><p class=muted>That page doesn\'t exist. <a href="' + bp('/') + '">Open the converter</a>.</p>', { robots: 'noindex,follow' }));
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });
     res.end('error: ' + (e && e.message ? e.message : 'unknown'));
