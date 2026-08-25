@@ -1,0 +1,49 @@
+# Building Brains
+
+**"Building Brains"** is a 2016 research note by **marsresident** on approaches to improving brain function and repairing **traumatic brain injury (TBI)** — collecting several strands of published cell biology into a single survey of glial cells, life-extension molecules, and dendrite growth<ref>https://steemit.com/@marsresident/building-brains</ref>. It is the close companion of [[Neurogenesis, Neuroprotectants and Synaptogenesis]] on the Church-of-Neuroscience shelf and follows from [[The Church of Neuroscience and Biohacking]].
+
+This is a **neutral, educational** science survey. It is **not** medical advice and **not** a treatment protocol; several of its ideas are explicitly the author's untested hypotheses (see § Not medical advice).
+
+== Summary ==
+
+The note gathers four research strands: (1) a **life-extension molecule**, cycloastragenol, together with a speculative "primer" idea; (2) **carnosine** as a brain-present life-extension compound; (3) **glial cells** — long dismissed as mere "glue" — as active participants in brain function, with routes to increasing two glial types; and (4) **dendrite growth** via ampakines. The author frames the collection as a possible line of attack on TBI, whose current management (medically induced coma) often leaves lasting deficits<ref>https://en.wikipedia.org/wiki/Traumatic_brain_injury</ref>.
+
+== Cycloastragenol and a speculative primer ==
+
+**Cycloastragenol**, extracted from *Astragalus*, is described as a molecule shown to improve health markers at the DNA level (its telomerase-activation role is covered in [[Biological Immortality]]), though not yet proven to extend human lifespan because insufficient time has passed to test it. The author then proposes — and explicitly flags as **never tested in recorded history** — pairing it with **tacrolimus** as a possible primer, on a chemically-induced-dimerization rationale. The Library preserves this as the **author's speculative hypothesis**, not as an established combination or a recommendation; tacrolimus is a potent immunosuppressant with serious risks.
+
+== Carnosine ==
+
+**Carnosine** is presented as a compound naturally present in the brain that has been studied as a life-extension molecule, with the note that in some models it was more effective for life extension when combined with vitamin E<ref>https://en.wikipedia.org/wiki/Carnosine</ref>. It is given as a research subject; no dose is stated in the source and none is added.
+
+== Glial cells: the "other brain" ==
+
+The note's most developed thread concerns **glial cells**, prompted by the finding that **Einstein's preserved brain contained more glia** than typical<ref>https://en.wikipedia.org/wiki/Glia</ref>. Once thought to be inert glue holding neurons together, glia are now known to shape brain activity. The post distinguishes two types and the research routes to increasing each:
+
+- **Oligodendrocytes**, which can be regenerated through **remyelination** — the post cites the over-the-counter antihistamine **clemastine** as a molecule studied for promoting remyelination<ref>https://en.wikipedia.org/wiki/Remyelination</ref>.
+- **Astrocytes**, which the post says can be increased by blocking adenosine receptors, naming **regadenoson** as an example molecule.
+
+These are reported as **research findings and hypotheses**, not as a protocol. Clemastine's remyelination research in particular is an active but unsettled area; the article does not suggest anyone take an antihistamine to remodel their brain.
+
+== Dendrites and ampakines ==
+
+Finally, the note returns to **dendrites** — the connection-forming arms of neurons — and to **ampakines** as compounds studied for growing them, naming **aniracetam** and the stronger research compound **CX-614**. This is the same synaptogenesis thread developed in [[Neurogenesis, Neuroprotectants and Synaptogenesis]], and the two articles overlap here by design. The post also reiterates its companion's neuroprotection point: that **2-AG** is a neuroprotectant many doctors are unaware of.
+
+== Where this sits in the corpus ==
+
+This is the second of the two **brain-repair** articles on the Church-of-Neuroscience shelf; read it with [[Neurogenesis, Neuroprotectants and Synaptogenesis]] (its companion, sharing the ampakine/2-AG threads), [[Biological Immortality]] (which shares cycloastragenol and carnosine's life-extension framing), and [[Chemistry and Your Brain]] (glial cells and receptor pharmacology).
+
+== Not medical advice ==
+
+This article is an educational survey of brain-repair research. It is **not medical advice**, **not a diagnosis or prescription**, and **not a treatment protocol**. Several ideas in the source are the author's **explicitly untested hypotheses** (the cycloastragenol–tacrolimus primer above all), and some named molecules (tacrolimus, regadenoson) are potent prescription agents with serious risks. Traumatic brain injury is a medical emergency. Nothing here specifies a dose or a regimen or should be self-applied. Consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/building-brains</ref>
+<ref>https://en.wikipedia.org/wiki/Traumatic_brain_injury</ref>
+<ref>https://en.wikipedia.org/wiki/Glia</ref>
+<ref>https://en.wikipedia.org/wiki/Remyelination</ref>
+<ref>https://en.wikipedia.org/wiki/Carnosine</ref>
+<ref>https://en.wikipedia.org/wiki/Ampakine</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Building Brains" — cycloastragenol plus the explicitly-untested tacrolimus primer hypothesis, carnosine (with vitamin E), glial cells (Einstein's brain, oligodendrocytes/remyelination/clemastine, astrocytes/adenosine-blockade/regadenoson), and dendrites via ampakines (aniracetam, CX-614), plus the reiterated 2-AG neuroprotection point. Attribution to the author and Steem source is preserved. The source's speculative claims are flagged as the author's untested hypotheses rather than presented as established. No dosing is present in the source and none is added; potent prescription agents are noted as such. Neutral, education-only, with a not-medical-advice footer. Overlaps its companion Neurogenesis, Neuroprotectants and Synaptogenesis by design.

@@ -1,0 +1,51 @@
+# Biological Immortality
+
+**Biological immortality** is the term for organisms whose risk of death does not increase with age — and, by extension, for the research program that asks *why* most organisms age at all. This article follows a 2016 post by **marsresident** that surveyed the science of **senescence, telomeres, and life extension**, gathering the published literature on telomere maintenance and its close relationship to cancer research<ref>https://steemit.com/@marsresident/biological-immortality</ref>. It is a companion to [[Building Brains]] and the broader Church-of-Neuroscience shelf introduced in [[The Church of Neuroscience and Biohacking]].
+
+This is a **neutral, educational** science reference. It describes a research field; it is **not** medical advice and it is **not** a longevity protocol (see § Not medical advice).
+
+== Summary ==
+
+The source's core claim is that ageing is driven not by the passage of time but by **cellular senescence** — the progressive deterioration of cells as they divide. Each cell division copies the DNA imperfectly, and the chromosome's protective end-caps, the **telomeres**, shorten with every division; once they erode past a threshold, replication is compromised and the cell ages. A handful of animals — the post names **lobsters, hydra, some bacteria and yeast, and the jellyfish *Turritopsis dohrnii* (given as *T. nutricula*)** — evade this and are termed *biologically immortal*<ref>https://en.wikipedia.org/wiki/Biological_immortality</ref><ref>https://en.wikipedia.org/wiki/Senescence</ref>. The post's second thread is that **life-extension and cancer research are two sides of one coin**: tumours are, in effect, immortal cells, so the biology that would extend healthy lifespan is the same biology that, uncontrolled, produces cancer.
+
+== Telomeres and telomerase ==
+
+**Telomeres** are repetitive DNA caps at the ends of chromosomes that are consumed a little at each division to protect the coding sequence. The enzyme **telomerase** (with its catalytic protein subunit **hTERT** and RNA component **hTR**) rebuilds them by adding nucleotides back onto the ends<ref>https://en.wikipedia.org/wiki/Telomerase</ref><ref>https://en.wikipedia.org/wiki/TERT_(gene)</ref>. The post's key points, drawn from the papers it links:
+
+- Forced expression of **hTERT can immortalize human cells** in culture — a foundational result in the field.
+- The same telomerase activity that would extend a healthy cell's life is **exploited by cancer cells** to divide without limit; hence the research finding the post cites that a common solvent, **DMSO**, can *inhibit* telomerase and so limit the lifespan of cancer cells. The two goals — extending healthy cells, starving cancerous ones — pull in opposite directions, which is the central tension of the field.
+- **Cycloastragenol**, a molecule derived from *Astragalus*, is cited as a compound shown to *activate* telomerase (and, in one linked study, to suppress lung damage). It reappears in [[Building Brains]].
+
+== The cancer–longevity link ==
+
+The post stresses that most current molecular-biology research converges on DNA, and that ageing and cancer research are "almost one and the same." Because immortal behaviour in a cell is precisely what a tumour does, every proposed longevity intervention has to be read against its cancer risk. This is why the honest status of the field, as the post notes, is *unresolved*: the telomere-maintenance research "is all there, but to see if it works we just have to wait" — no one has yet taken a telomerase activator and lived to 150 to prove it. The Library preserves that caution rather than overstating the science.
+
+== Antisense agents and epigenetics ==
+
+Two further threads round out the survey:
+
+- **Antisense technology** — short nucleotide sequences (the post names 2-MOE and 2-5A) designed to bind a complementary DNA or messenger-RNA sequence and silence it; cited in the context of cancer treatment<ref>https://en.wikipedia.org/wiki/Antisense_therapy</ref>.
+- **Epigenetics** — the finding that DNA activity can change across a lifetime in response to environment and behaviour, and that some of those changes can be inherited<ref>https://en.wikipedia.org/wiki/Epigenetics</ref>. The post flags this as a fast-growing field that ordinary clinicians are already primed to engage with, because it too centres on DNA.
+
+The post closes by distinguishing this material from its brain-repair companions: unlike the neuroprotection research in [[Neurogenesis, Neuroprotectants and Synaptogenesis]], "none of this is going to wake anyone up from a coma" — it is long-horizon cellular biology, not acute rescue.
+
+== Where this sits in the corpus ==
+
+This is the **life-extension** node of the Church-of-Neuroscience shelf (the "Life Extension" topic named in [[The Church of Neuroscience and Biohacking]]). It shares the molecule cycloastragenol with [[Building Brains]] and sits in the same science-of-the-body thread as [[Building Muscle Tissue]].
+
+== Not medical advice ==
+
+This article is an educational survey of senescence and telomere science. It is **not medical advice**, **not a diagnosis or prescription**, and **not a longevity or supplement protocol**. The compounds named (cycloastragenol, DMSO, antisense agents) are discussed as research subjects, not recommendations; several are unproven in humans for these purposes and some are hazardous. Nothing here specifies a dose or a regimen. Anyone considering any intervention should consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/biological-immortality</ref>
+<ref>https://en.wikipedia.org/wiki/Biological_immortality</ref>
+<ref>https://en.wikipedia.org/wiki/Senescence</ref>
+<ref>https://en.wikipedia.org/wiki/Telomere</ref>
+<ref>https://en.wikipedia.org/wiki/Telomerase</ref>
+<ref>https://en.wikipedia.org/wiki/TERT_(gene)</ref>
+<ref>https://en.wikipedia.org/wiki/Antisense_therapy</ref>
+<ref>https://en.wikipedia.org/wiki/Epigenetics</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Biological Immortality" — senescence as the driver of ageing, telomere shortening, biologically-immortal animals (Turritopsis, lobster, hydra), telomerase / hTERT / hTR and cell immortalization, the DMSO telomerase-inhibition and cycloastragenol telomerase-activation findings, the cancer–longevity link, antisense agents, and epigenetics — with attribution to the author and the Steem source preserved. The many individual PubMed/PMC links in the original are anchored here to stable encyclopedic sources; the post's honest "we have to wait and see if it works" caution is preserved rather than overstated. No dosing appears in the source and none is added. Neutral, education-only, with a not-medical-advice footer.

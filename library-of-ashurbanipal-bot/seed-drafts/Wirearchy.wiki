@@ -1,0 +1,30 @@
+# Wirearchy
+
+**Wirearchy** is a governance concept describing how the Information Age flattens traditional hierarchies of knowledge and work — replacing top-down authority with a "flat organization" of voluntary hubs. This article follows a 2016 essay by **marsresident**, "Wirearchy (Replacing the Hierarchy of Knowledge and Work)," which framed the shift as the defining structural change of the networked era<ref>https://steemit.com/@marsresident/wirearchy-the-new-hierarchy-of-knowledge-and-work</ref>. In the MELEK corpus it is the plain-language root of the ecosystem's **decentralized / peer-merit / DAO** governance thesis.
+
+This is a **neutral, educational** reference on a governance idea.
+
+== Summary ==
+
+The essay's claim is that authority historically flowed from **control of information** — governments and central churches held the knowledge, and with it the social power. The Information Age breaks that monopoly: when anyone can reach almost any information at any time, the old elite dissolves into a **flat organization**. The term *wirearchy* names the resulting structure — hierarchy displaced by network<ref>https://en.wikipedia.org/wiki/Wirearchy</ref><ref>https://en.wikipedia.org/wiki/Flat_organization</ref>.
+
+== From closed knowledge to a flat organization ==
+
+The essay sketches the enabling history: not long ago most people lived their whole lives within a hundred miles of home; cars and planes (the last ~110 years) widened that radius, and the internet collapsed distance entirely. As institutions lost their separation from the sources of knowledge, they lost their automatic social power over people — unevenly, the essay notes, since the shift has not reached everywhere.
+
+== Voluntary hubs: "mountains in a flat landscape" ==
+
+Wirearchy is not the absence of structure but a different structure. The essay observes that new **central points** arise *within* the flat organization by consent rather than command: **Google** (the near-universal index of URLs), **Facebook** and **Steemit** (places to find like-minded people and share), **MySpace** (music), and **forums, Wikipedia, and YouTube**. These are described as "little mountains and mounds that people can choose to be a part of" — voluntary concentrations of attention that anyone can join or leave, as opposed to imposed hierarchies<ref>https://en.wikipedia.org/wiki/Peer_production</ref>.
+
+== Where this sits in the corpus ==
+
+Wirearchy is the doctrinal ancestor of the MELEK ecosystem's **flat, merit-routed governance**: on-chain curation and voting, the peer-merit and DAO structures, and the checks-and-balances design in which authority is distributed rather than centralized. It is a natural Witness-School explainer — the name for *why* MELEK is organized as a network of voluntary hubs (the chain, the Library, the verticals) rather than a command hierarchy. It complements the economics and curation reasoning in the Library's chain/ecosystem shelf, and connects thematically to [[Mystery Schools]] (knowledge once guarded by initiatory institutions, now open).
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/wirearchy-the-new-hierarchy-of-knowledge-and-work</ref>
+<ref>https://en.wikipedia.org/wiki/Wirearchy</ref>
+<ref>https://en.wikipedia.org/wiki/Flat_organization</ref>
+<ref>https://en.wikipedia.org/wiki/Peer_production</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Wirearchy (Replacing the Hierarchy of Knowledge and Work)" — the shift from information-monopoly authority to a flat organization, the enabling history (travel and the internet collapsing distance), and the idea of voluntary hubs (Google, Steemit, Facebook, MySpace, forums, Wikipedia, YouTube) as "mountains" within an overall flat structure. Attribution to the author and Steem source is preserved; the image links in the original are not reproduced. The article maps the concept to the MELEK ecosystem's decentralized/peer-merit/DAO governance as a Witness-School-style explainer. Neutral, educational tone.

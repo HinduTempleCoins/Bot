@@ -1,0 +1,15 @@
+{
+  "articleId": "Electricity and Photovoltaics",
+  "title": "Electricity and Photovoltaics",
+  "bodyFile": "Electricity_and_Photovoltaics.wiki",
+  "sources": [
+    "https://steemit.com/@marsresident/electricity-and-photovoltaics",
+    "https://en.wikipedia.org/wiki/Alternator",
+    "https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction",
+    "https://en.wikipedia.org/wiki/Maxwell%27s_equations",
+    "https://en.wikipedia.org/wiki/Photovoltaic_effect",
+    "https://en.wikipedia.org/wiki/Quantum_dot_solar_cell",
+    "https://en.wikipedia.org/wiki/Dye-sensitized_solar_cell"
+  ],
+  "provenanceNote": "Hand-authored seed, provenance-preserving, per AI_LIBRARY_ASHURBANIPAL_PLAN.md. Faithful Library-of-Ashurbanipal ingestion of the 2016 Steem post 'Electricity & Photovoltaics' by marsresident (created 2016-09-27, fetched in full via api.steemit.com condenser_api.get_content). Physics/energy primer: alternators/AC, Faraday's law, Maxwell's equations; the photovoltaic effect (Becquerel 1839) and the full solar-cell survey (quantum-dot, DSSC, carrier multiplication, nanocrystal, PEC, thermophotovoltaic; a-Si/GaAs/CdTe/CIGS materials; CPV/HCPV, CSP, photonics/PIC). Ties to PRANA compute-energy + the Proof-of-Solar-oracle-mint concept at a reference level only (no mint mechanism specified). Carries a not-engineering/not-safety-advice footer. Cross-links 'Humanity — Deep Time and the Human Story'. Written 2026-08-25."
+}

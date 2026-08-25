@@ -1,0 +1,60 @@
+# Farming: Fowl, Reptiles, Insects and Fungi
+
+**Small-scale and unconventional farming** covers the many food, fibre, pollination, pest-control, and composting species a homestead can raise beyond the familiar chicken, cow, and pig. This article follows a 2016 homestead survey by **marsresident** that catalogued farmable birds and ratites, reptiles and amphibians, an extensive range of **beneficial and edible insects**, and cultivated **fungi**, with care requirements for many<ref>https://steemit.com/@marsresident/farming-birds-fowl-reptiles-insects-and-fungi</ref>. It opens a new **homestead / food-sovereignty / ethnobotany** shelf in the Library.
+
+This is a **neutral, educational** reference to husbandry, entomophagy (insect-eating), and cultivation practice at an ethnographic/homestead level. It is **not** a controlled-substance cultivation guide (see § Scope note), and keeping any live animal responsibly is subject to local law, permits, and welfare standards.
+
+== Summary ==
+
+The survey's premise is that far more creatures are farmable than most people assume, and that many serve **multiple roles** — food, pest control, pollination, composting, or fibre/dye. It proceeds from familiar poultry outward to ratites, then reptiles and amphibians, then a long insect catalogue (split into beneficial predators/pollinators, edible species, decomposers, and the curious ant-associated insects), and closes with mushroom cultivation<ref>https://en.wikipedia.org/wiki/Poultry_farming</ref>.
+
+== Fowl and ratites ==
+
+The poultry section notes that chicken eggs incubate readily under a heat lamp, and surveys breeds beyond the common hen: **Guinea fowl** (small eggs, and natural "alarms"), **Featherfoot**, **Tophat/Polish**, **Cochin**, the tall **Malay**, the large **Brahma**, and the meat-type **Cornish game** chickens. It extends to **ducks** (Cayuga, Indian Runner), **geese and swans**, **turkeys**, **quail**, **pheasant**, **peafowl**, and **doves**, and then to the large flightless **ratites** — **ostrich, rhea, and emu** — raised similarly from eggs<ref>https://en.wikipedia.org/wiki/Ratite</ref>. Seasonality of egg supply is noted. (The Library omits the specific hatchery vendor links in the original.)
+
+== Reptiles and amphibians ==
+
+The survey notes that **alligators and crocodilians** can be raised (with **caiman** and **dwarf caiman** staying smaller), along with a range of **lizards, frogs, and toads** — bearded dragons, chameleons, tree frogs, and larger toads. Among the toads it lists is *Bufo alvarius* (the Sonoran Desert toad) and its cousin the cane toad; the source treats these purely as farm/collection stock, and this article follows suit, describing them only as animals a keeper might raise. Keeping reptiles and amphibians carries real legal and welfare constraints, and some listed species are invasive or regulated in various jurisdictions<ref>https://en.wikipedia.org/wiki/Herpetoculture</ref>.
+
+== Beneficial insects: pest control and pollination ==
+
+The largest section is an integrated-pest-management and pollination catalogue — the kind of "beneficial bug" toolkit sold to organic growers. Representative entries, with their role:
+
+- **Aphids** and **ants** — kept mainly as *feeder* insects for other species (the essay notes "dairying ants" that farm aphids for honeydew), with simple enclosure/temperature notes.
+- **Bees and bumblebees** — pollination and honey; **hoverflies** — precise pollinators attracted by particular flowers (Queen Anne's lace, alyssum, calendula, and others).
+- Predators and parasitoids that control specific pests: **ladybugs** and **green lacewings** (aphids/mites), **praying mantises** (general), **assassin bugs** (roaches/bedbugs), **spined soldier bugs** (broad), **mealybug destroyers**, **Encarsia formosa** (whiteflies), **Orius** (thrips/mites), **damselflies/dragonflies** (mosquitoes), the predatory mites **Phytoseiulus persimilis** and **Hypoaspis/Stratiolaelaps** (spider mites, fungus gnats), and the parasitoid wasps **Ichneumon**, **Trichogramma**, and **Aphidius colemani**<ref>https://en.wikipedia.org/wiki/Beneficial_insects</ref>. **Butterflies** are noted as pollinators raised from caterpillars on specific host plants (e.g. milkweed for monarchs).
+
+== Edible insects and decomposers ==
+
+The survey doubles as an **entomophagy** and composting reference<ref>https://en.wikipedia.org/wiki/Entomophagy</ref>:
+
+- **Crickets, mealworms, and brown earthworms** — used as animal feed and, increasingly, human food (earthworms noted as needing a cornmeal purge before eating).
+- Traditional human food insects worldwide: **cicadas, locusts, katydids** (the last two noted as biblically sanctioned foods), **hornworms** (said to taste of shrimp), **longhorn-beetle larvae** (described as the most-eaten insect globally), **mopane/emperor-moth larvae**, **diving beetles and water scorpions** (prized in parts of Asia), **scorpions and tarantulas**, and **tiger beetles**.
+- **Decomposers**: **red worms** and **black soldier fly** larvae for composting (soldier-fly larvae can process meat and reduce odour), and **dung beetles**, **rhinoceros/stag beetles** for plant and wood matter.
+- **Fibre and dye insects**: **silkworms** (silk, on mulberry) and **cochineal** (crimson dye, on prickly-pear cactus).
+
+A final curiosity set catalogues the **ant-associated insects** — antlions, ant-mimicking snails, beetles, caterpillars, and flies that exploit ant colonies by chemical mimicry — presented as natural-history interest.
+
+== Fungiculture ==
+
+The closing section covers **log/plug cultivation** of edible and medicinal mushrooms: drilling holes in the appropriate wood and inserting spawn "plugs," with each species preferring a particular wood. The mushrooms named are all **culinary or medicinal** — **Chicken of the Woods, Shiitake, Oyster, Lion's Mane (*Hericium*), Maitake (Hen of the Woods), Reishi, and Fairy Ring** — with no psychoactive species and no extraction content<ref>https://en.wikipedia.org/wiki/Fungiculture</ref>.
+
+== Scope note ==
+
+This article is homestead and food-sovereignty reference. The source's fungiculture section covers only culinary and medicinal mushrooms; it contains no psilocybin-mushroom cultivation, and none is added here. Consistent with the Library's scope, any cultivation of controlled fungi would be a matter of **legal status only**, not a how-to — and does not arise from this source. Animal husbandry described here is general and ethnographic; it is not a substitute for species-specific care guidance, and local law, permits, and welfare standards govern keeping any live animal.
+
+== Where this sits in the corpus ==
+
+This opens the Library's **homestead / food-sovereignty / ethnobotany** shelf, complementing the plant and seed material referenced across the corpus and the pilgrimage-and-trade-goods survey in [[Routes for Backpacking Pilgrimages]]. Its integrated-pest-management and entomophagy content is practical husbandry; its natural-history sections connect to the deep human-and-nature story in [[Humanity — Deep Time and the Human Story]].
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/farming-birds-fowl-reptiles-insects-and-fungi</ref>
+<ref>https://en.wikipedia.org/wiki/Poultry_farming</ref>
+<ref>https://en.wikipedia.org/wiki/Ratite</ref>
+<ref>https://en.wikipedia.org/wiki/Herpetoculture</ref>
+<ref>https://en.wikipedia.org/wiki/Beneficial_insects</ref>
+<ref>https://en.wikipedia.org/wiki/Entomophagy</ref>
+<ref>https://en.wikipedia.org/wiki/Fungiculture</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Farming: Birds (Fowl), Reptiles, Insects & Fungi" — the poultry and ratite breeds, the reptiles/amphibians, the large beneficial-insect (IPM/pollination) catalogue, the entomophagy and decomposer/fibre/dye insects, the ant-associated curiosities, and the edible/medicinal log-and-plug fungiculture. Attribution to the author and Steem source is preserved. The many hatchery/vendor and image links in the original are omitted; general husbandry/care notes are kept at an ethnographic level. Bufo alvarius and its cane-toad cousin are described strictly as farm/collection stock, matching the source, with no psychoactive or extraction content; the fungi section contains only culinary/medicinal species (no psilocybin), and a scope note records that any controlled-fungi cultivation would be legal-status reference only. A welfare/legal caveat and the homestead-shelf framing are added. Neutral, educational tone.

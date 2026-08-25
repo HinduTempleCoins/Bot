@@ -1,0 +1,54 @@
+# The Church of Neuroscience and Biohacking
+
+**The Church of Neuroscience** is a religious-and-educational framing of what is now called **biohacking** — the practice of studying and supporting one's own brain and body through nutrition, botanicals, instrumentation, light, and disciplined mental practice. This article follows the 2016 founding post by **marsresident**, which introduced the Church of Neuroscience (founded by Dr. Jeremy Kerr) to the Steemit community and laid out the topics its "Clinical and Religious path to Biohacking" would cover<ref>https://steemit.com/@marsresident/the-church-of-neuroscience-and-biohacking</ref>. It is the **cornerstone / manifesto** article of the Library's Church-of-Neuroscience shelf: it captures the *framing and philosophy* — Neurospirituality, the entheogenic-church survey, and the "temple-technology reconstructed in scientific terms" thesis — that ties the rest of the shelf together.
+
+This is a **neutral, educational** reference to the source's framing and history. It is deliberately **not** a protocol. Consistent with the Library's scope, the specific **dose / timing protocols, extraction and synthesis topics, and brain-stimulation device instructions** in the original post are **not reproduced here**; the science and history are in scope, self-application recipes are out of scope (see § Not medical advice). This is the reason the article reads as a survey of *ideas and mechanisms* rather than a how-to.
+
+== Summary ==
+
+The source's organizing claim is **Neurospirituality**: that spiritual experience has a real neural correlate without being *only* a chemical epiphenomenon. The author, writing as a **Shaivite Hindu Neurospiritualist**, frames God (Shiva) as "the Phenomenon of Dance… of Meditation… of using Bhang" — each phenomenon carrying its own brain activity — and argues that a chemical basis for an experience does not make the experience less real (the illustration given: love correlates with theobromine and oxytocin, yet ingesting those molecules does not manufacture love)<ref>https://steemit.com/@marsresident/the-church-of-neuroscience-and-biohacking</ref>. From that premise the post surveys the topics the Church would teach: nootropics, herbs, structure–activity relationships, digestive-enzyme (CYP450) biology, clinical instrumentation, life extension, "electronic medicine" (light and electrical stimulation), and Dream Yoga.
+
+== Neurospirituality and the entheogenic-church survey ==
+
+The post situates the Church of Neuroscience within a worldwide pattern of religions that reach the sacred through a **sacrament**: the Santo Daime church with hoasca (ayahuasca), the **Native American Church** with peyote, the Church of the True Inner Light with DPT, Christians with wine, and the Mazatec use of *Salvia divinorum* to meet "Ska Pastora"<ref>https://en.wikipedia.org/wiki/Entheogen</ref>. The author's point is comparative and historical: entheogenic and contemplative practice is a cross-cultural constant, and the Church of Neuroscience frames the *study* of these traditions — and of the brain that experiences them — as its work. This is the seam where the Library's plant-medicine shelf meets its temple-technology thesis; see [[Oilahuasca]] and [[Kyphi]] for the ethnobotanical and ritual-technology material.
+
+== The teaching topics (as a survey, not a protocol) ==
+
+The post lists the subjects the Church intended to cover. Rendered here at the level of *what each is and why it matters*:
+
+- **Nootropics** — dietary compounds studied for support of memory, mental speed, and focus. The Library treats these as **reference only**; see [[Chemistry and Your Brain]] for the neurochemistry and the named compounds, without dosing.
+- **Herbs** — traditional and ceremonial botanicals from around the world (the post names ubulawu, wormwood, kanna, ginseng, ginkgo, San Pedro, *Rivea corymbosa*, datura, kava, and others). These are covered as **ethnobotany and history**; datura in particular carries a serious poison warning in the Library's herbs material.
+- **Structure–Activity Relationship (SAR)** — the principle that a molecule's *shape* predicts its effect, so that families of compounds can be compared by their shared substructures. This is chemistry-of-understanding, and it underlies [[Allylbenzene Metabolism]] and [[Shulgin Ten Essential Oils]].
+- **CYP450 enzymes** — the liver/gut enzyme system that metabolizes most drugs. The post's own example is a **drug-interaction warning**: grapefruit juice inhibits these enzymes and can push a normally-safe medication to a dangerous effective dose. This interaction science is exactly the *safety-critical* core of the Library's harm-reduction posture — it is covered to prevent harm, not to potentiate anything.
+- **Clinical instrumentation (Neulog / EEG)** — the idea that consumer sensor modules (ECG, galvanic skin response, EEG brain-wave monitoring) let an educated person gather real physiological data. Covered as the *instrumentation concept*, not as a device tutorial.
+- **Life Extension** — telomere biology and senescence; see [[Biological Immortality]] for the full treatment.
+
+== Electronic medicine: light and electrical stimulation (as science) ==
+
+The post groups **light** and **electrical/magnetic stimulation** under "electronic medicine." On the light side it summarizes melanopsin and the blue-light-as-stimulant finding — material the Library treats in full in [[The Medical Applications of Light]]. On the electrical side it names three research modalities and what each *is*: **transcranial direct-current stimulation (tDCS)**, **transcranial magnetic stimulation (TMS)**, and **transcutaneous electrical nerve stimulation (TENS)**<ref>https://en.wikipedia.org/wiki/Transcranial_direct-current_stimulation</ref><ref>https://en.wikipedia.org/wiki/Transcranial_magnetic_stimulation</ref><ref>https://en.wikipedia.org/wiki/Transcutaneous_electrical_nerve_stimulation</ref>. The Library keeps the **description of what these modalities are** and drops the original post's device-purchase links and any self-application instructions: discussing the science is in scope; a step-by-step "apply this current to your head" recipe is out of scope, and self-application of brain stimulation should be discussed with a neurologist.
+
+== Dream Yoga ==
+
+The post's most fully developed practice is **Dream Yoga** — the Tibetan contemplative tradition of lucid dreaming as a vehicle for spiritual progress (*sadhana*). Its stages, as the author gives them, invert the usual lucid-dreaming guide: ordinary guides *end* at "realize you are dreaming," while Dream Yoga makes that **step one**. The subsequent goals are to eliminate dream-fear (act without the body's real-world restrictions), to meditate on reality while inside the dream, to take control of the dream's physics, to change one's own dream-form, and to seek out dream-entities and the worlds (*Loka*) and tutelary figures (*Yidam*) of Hindu and Buddhist tradition. The post also records the **RAOM–GAOM** mantra and an "Ah" seed-syllable visualization as dream-recall and dream-induction aids<ref>https://en.wikipedia.org/wiki/Dream_yoga</ref>. This is practice-philosophy and comparative religion, and it is preserved in full because it is neither a drug nor a clinical procedure. It is the clearest expression of the post's temple-technology thesis: the dream as a place of disciplined training.
+
+== Where this sits in the corpus ==
+
+This post is the **origin statement** of the Library's Convergence / Church-of-Neuroscience thread — the study of how nutrition, botanicals, light, electricity, and contemplative practice act on the nervous system as *temple-technology reconstructed in scientific terms* (the framing developed in the founding brief). It is the parent of the shelf's other articles: [[Biological Immortality]] (life extension), [[Neurogenesis, Neuroprotectants and Synaptogenesis]] and [[Building Brains]] (brain repair), [[Brain Balance]] (psychedelic-research history), [[Chemistry and Your Brain]] (neurochemistry), [[Building Muscle Tissue]] and [[Using the WADA List as Health Reference]] (performance pharmacology), and [[The Medical Applications of Light]] (photobiomodulation). It also sits alongside the plant-medicine and ritual-technology material in [[Oilahuasca]], [[Kyphi]], and [[Egyptian Wax Headcones]].
+
+== Not medical advice ==
+
+This article is an educational survey of the Church of Neuroscience's framing and topics. It is **not medical advice**, **not a diagnosis or prescription**, and **not a treatment, dosing, or self-application protocol**. The named compounds, botanicals, and stimulation modalities are described for understanding only; several (datura, brain stimulation, CYP450 drug interactions) are genuinely dangerous when mishandled. Nothing here tells anyone what to take, in what amount, or how to apply any device. Anyone considering any of this for a real condition should consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/the-church-of-neuroscience-and-biohacking</ref>
+<ref>https://en.wikipedia.org/wiki/Entheogen</ref>
+<ref>https://en.wikipedia.org/wiki/Neurotheology</ref>
+<ref>https://en.wikipedia.org/wiki/Nootropic</ref>
+<ref>https://en.wikipedia.org/wiki/Cytochrome_P450</ref>
+<ref>https://en.wikipedia.org/wiki/Transcranial_direct-current_stimulation</ref>
+<ref>https://en.wikipedia.org/wiki/Transcranial_magnetic_stimulation</ref>
+<ref>https://en.wikipedia.org/wiki/Transcutaneous_electrical_nerve_stimulation</ref>
+<ref>https://en.wikipedia.org/wiki/Dream_yoga</ref>
+
+== Coverage ==
+This article faithfully captures the framing and substance of the 2016 marsresident post "The Church of Neuroscience and Biohacking" — Neurospirituality and the Shaivite God-as-phenomenon thesis, the cross-cultural entheogenic-church survey, and the teaching topics (nootropics, herbs, SAR, CYP450, instrumentation, life extension, light and electrical medicine, Dream Yoga) — and preserves attribution to the author and to Dr. Jeremy Kerr's Church of Neuroscience. Per the Library's scope discipline, the original post's **dose / T+time protocol framing, its "Syntheses" and "Making Extractions" topics, and its brain-stimulation device links / self-application instructions were deliberately not reproduced**; the CYP450 material is kept as drug-interaction (harm-reduction) science, and tDCS/TMS/TENS are kept as descriptions of what the modalities are, not how to apply them. Vendor and product-purchase links from the original are omitted. Carries an explicit not-medical-advice / not-a-protocol footer. Cross-links the rest of the Church-of-Neuroscience shelf plus Oilahuasca, Kyphi, and Egyptian Wax Headcones.
