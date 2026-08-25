@@ -215,6 +215,15 @@ export const VERTICALS = [
   v('salons',        'Salons',                  'local-professional', 'leadgen',   'salon booking', 'impact'),
   v('charities',     'Charities',               'local-professional', 'sponsored', 'Charity Navigator (→ Clarity)', null),
   v('benefits',      'Benefits navigator',      'local-professional', 'sponsored', 'Benefits.gov (→ honest §3)', null),
+
+  // --- SoapBox vertical front-doors registered for federated search (search.soapbox.community) ---
+  v('store',            'Store (general e-commerce)', 'consumer-goods',    'affiliate', 'Amazon / general storefront', 'impact'),
+  v('insurance',        'Insurance (all lines)',      'insurance',         'affiliate', 'The Zebra / Policygenius', 'cj'),
+  v('real-estate',      'Real estate',                'real-estate',       'leadgen',   'Zillow / Redfin', 'impact'),
+  v('health-providers', 'Health providers',           'healthcare',        'leadgen',   'Zocdoc / Healthgrades', 'impact'),
+  v('cost-of-living',   'Cost of living',             'real-estate',       'sponsored', 'Numbeo / BestPlaces', null),
+  v('scam-alert',       'Scam alert',                 'local-professional','sponsored', 'BBB Scam Tracker / FTC', null),
+  v('travel',           'Travel (all modes)',         'travel',            'cpc',       'Kayak / Google Travel', 'travelpayouts'),
 ];
 
 // --- accessors -------------------------------------------------------------
