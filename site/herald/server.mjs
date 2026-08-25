@@ -28,6 +28,7 @@ import { handler as qrHandler } from '../../pentecaust/herald/qr-tracker.mjs';
 // exports its handler directly. Both are read-only over HTTP — no key held, nothing signed, no funds move.
 import { createAdNetwork } from '../../pentecaust/herald/ad-network.mjs';
 import { handler as clickValidateHandler } from '../../pentecaust/herald/click-validate.mjs';
+import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -133,6 +134,7 @@ const MOUNTS = [
   // above, so we match only each module's real routes — /ad/* and POST /api/click-validate.
   { rewrite: null, fn: adNetwork.handler, match: (p) => p === '/ad/select' || p.startsWith('/ad/') },
   { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
+  { rewrite: null, fn: iftttHandler, match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
 ];
 
 export async function handler(req, res) {
