@@ -29,6 +29,9 @@ import { handler as qrHandler } from '../../pentecaust/herald/qr-tracker.mjs';
 import { createAdNetwork } from '../../pentecaust/herald/ad-network.mjs';
 import { handler as clickValidateHandler } from '../../pentecaust/herald/click-validate.mjs';
 import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.mjs';
+// The campaign-sender is stateful (lists/subscribers/templates/queue live in a store), so like the
+// ad-network we mount its singleton handler. Native-path routes only — /health stays owned by the server.
+import { handler as senderHandler } from '../../pentecaust/herald/campaign-sender.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -55,6 +58,7 @@ export const CAPABILITIES = [
     ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system). Sign-in required.', 'outreach-db', '/outreach'],
     ['Lead CRM', 'Verified-only lead capture + a CRM pipeline (only count contacts you can verify).', 'lead-crm', null],
     ['QR tracker', 'Trackable QR codes for offline→online attribution.', 'qr-tracker', null],
+    ['Campaign sender', 'The owned sending layer: lists, subscribers, templates, one-shot campaigns + drip/journeys, a durable send-queue, one-click unsubscribe & bounce/complaint suppression (CAN-SPAM). ESP behind an injectable seam — email only.', 'campaign-sender', null],
   ]],
   ['Monetize', [
     ['Ad network', 'Advertisers + creators earn/pay per click. Ranking can never be bought — sponsored units are segregated, labeled & FTC-disclosed, click-through on the /go rail.', 'ad-network', '/ad/select'],
@@ -135,6 +139,9 @@ const MOUNTS = [
   { rewrite: null, fn: adNetwork.handler, match: (p) => p === '/ad/select' || p.startsWith('/ad/') },
   { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
   { rewrite: null, fn: iftttHandler, match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
+  // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
+  { rewrite: null, fn: senderHandler, match: (p) => p.startsWith('/u/') || p === '/unsubscribe'
+    || p === '/api/subscribe' || p === '/api/webhook' || p === '/api/lists' || p === '/api/stats' },
 ];
 
 export async function handler(req, res) {
