@@ -131,8 +131,12 @@ export function makeJsonlStore(file, fsImpl = null) {
  * @param {() => number} [opts.now] injectable clock (default Date.now) — only the store/CLI ever calls it.
  * @param {object} [opts.merit] a peer-merit instance (default: a fresh in-memory one).
  * @param {object} [opts.config] override gating/ranking constants.
+ * @param {object} [opts.registry] OPTIONAL board registry ({ isBoard, boardMeta, boards }) — the data-
+ *   driven board network (integrations/forum/boards.mjs). Metadata + routing ONLY: it changes which board
+ *   ids are valid + their titles, NOT any thread/reply/merit logic. Omit it and behaviour is identical to
+ *   the built-in static BOARDS (so existing callers/tests are unaffected).
  */
-export function createForum({ store, now, merit, config } = {}) {
+export function createForum({ store, now, merit, config, registry } = {}) {
   const _store = store && typeof store.append === 'function' && typeof store.all === 'function'
     ? store
     : makeMemoryStore();
@@ -147,6 +151,19 @@ export function createForum({ store, now, merit, config } = {}) {
     recencyWeight: RECENCY_WEIGHT,
     ...(config && typeof config === 'object' ? config : {}),
   };
+
+  // Board validation/metadata: use the injected registry when present, else the built-in static BOARDS.
+  // These wrappers are the ONLY board-lookup seam; every thread/reply/merit path calls through them.
+  const _reg = registry && typeof registry.isBoard === 'function' ? registry : null;
+  const _isBoard = _reg
+    ? (id) => { try { return !!_reg.isBoard(id); } catch { return false; } }
+    : isBoard;
+  const _boardMeta = _reg && typeof _reg.boardMeta === 'function'
+    ? (id) => { try { return _reg.boardMeta(id) || null; } catch { return null; } }
+    : (id) => BOARDS.find((b) => b.id === id) || null;
+  const _boardsGrouped = _reg && typeof _reg.boards === 'function'
+    ? () => { try { return _reg.boards() || []; } catch { return []; } }
+    : () => boardsByCategory();
 
   let _seq = 0;
   try {
@@ -198,10 +215,10 @@ export function createForum({ store, now, merit, config } = {}) {
 
   return {
     /** Board metadata by id (null if unknown). */
-    boardMeta(id) { return BOARDS.find((b) => b.id === id) || null; },
+    boardMeta(id) { return _boardMeta(id); },
 
     /** All boards, grouped by category. */
-    boards() { return boardsByCategory(); },
+    boards() { return _boardsGrouped(); },
 
     /**
      * Create a new thread (a root post). Enforces a real board, an account, a title, and the post gate.
@@ -210,7 +227,7 @@ export function createForum({ store, now, merit, config } = {}) {
     async createThread({ board, author, title, body, now: nowArg } = {}) {
       const acc = normAccount(author);
       if (!acc) return { ok: false, reason: 'invalid-account' };
-      if (!isBoard(board)) return { ok: false, reason: 'unknown-board' };
+      if (!_isBoard(board)) return { ok: false, reason: 'unknown-board' };
       const t = clampStr(title, MAX_TITLE).trim();
       if (!t) return { ok: false, reason: 'title-required' };
       const nowTs = Math.floor(num(nowArg) || num(_now()));
@@ -299,7 +316,7 @@ export function createForum({ store, now, merit, config } = {}) {
      * Returns [] for an unknown board. Deterministic when `now` is passed.
      */
     async board(id, { now: nowArg, sort = 'rank', limit } = {}) {
-      if (!isBoard(id)) return [];
+      if (!_isBoard(id)) return [];
       const rows = await _all();
       const posts = _posts(rows);
       const roots = posts.filter((p) => p.board === id && p.parentId === null);
