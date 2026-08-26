@@ -22,32 +22,131 @@
 import { createServer } from 'node:http';
 
 import { createForum, FORUM_TOKEN } from '../../integrations/forum/forum-core.mjs';
-import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
-import { headTags } from '../../integrations/soapbox/seo.mjs';
+import {
+  forumRegistry, listCategories, boardsInCategory, categoryName,
+  boardSitemapEntries, FLAGSHIP_BOARDS,
+} from '../../integrations/forum/boards.mjs';
+import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt, submitIndexNow } from '../../integrations/soapbox/crawlers.mjs';
+import { headTags, breadcrumbJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
 const PORT = +(process.env.PORT || 8200);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// BASE_PATH lets the forum mount under a sub-path (e.g. /forum) behind a shared gateway. '' by default.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/$/, '');
 const APP_NAME = process.env.FORUM_APP || 'forum';
 const SITE_NAME = 'SoapBox Forum';
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
+// IndexNow-on-create ping: opt-in (FORUM_INDEXNOW=1) + fire-and-forget so the render path stays network-free.
+const INDEXNOW_ON = process.env.FORUM_INDEXNOW === '1';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+// safeHref: only http(s) or same-origin relative paths survive; javascript:/data:/junk → '#'. Then esc().
+export const safeHref = (u) => {
+  const s = String(u == null ? '' : u).trim();
+  if (!s) return '#';
+  if (/^https?:\/\//i.test(s) || s.startsWith('/')) return esc(s);
+  return '#';
+};
+
+// Prefix an app-relative path with BASE_PATH (for hrefs) — canonical URLs use BASE_URL + BASE_PATH.
+const P = (p) => `${BASE_PATH}${p.startsWith('/') ? p : `/${p}`}`;
+const absUrl = (p) => `${BASE_URL}${P(p)}`;
+
+// ── per-object JSON-LD builders (schema.org). We do NOT edit seo.mjs — we build the forum types here as
+// plain objects and hand them to headTags({ jsonld }). BreadcrumbList reuses seo.mjs's breadcrumbJsonLd. ──
+function breadcrumbFor(trail) {
+  // trail: [{ name, path }] app-relative; converted to absolute for the ListItem items.
+  return breadcrumbJsonLd(trail.map((t) => ({ name: t.name, url: absUrl(t.path) })));
+}
+
+/** DiscussionForumPosting for a thread (Google's dedicated forum type). */
+function discussionForumPostingLd(th, url) {
+  const posts = Array.isArray(th.posts) ? th.posts : [];
+  const root = posts[0] || {};
+  const replies = posts.slice(1);
+  const node = {
+    '@context': 'https://schema.org',
+    '@type': 'DiscussionForumPosting',
+    headline: th.title,
+    url,
+    datePublished: root.ts ? new Date(root.ts).toISOString() : undefined,
+    dateModified: th.lastActivityTs ? new Date(th.lastActivityTs).toISOString() : undefined,
+    author: { '@type': 'Person', name: th.author, url: absUrl(`/u/${th.author}`) },
+    articleBody: root.body || undefined,
+    interactionStatistic: [
+      { '@type': 'InteractionCounter', interactionType: 'https://schema.org/CommentAction', userInteractionCount: th.replyCount || 0 },
+      { '@type': 'InteractionCounter', interactionType: 'https://schema.org/LikeAction', userInteractionCount: th.meritTotal || 0 },
+    ],
+    comment: replies.slice(0, 50).map((r) => ({
+      '@type': 'Comment',
+      text: r.body || '',
+      author: { '@type': 'Person', name: r.author },
+      datePublished: r.ts ? new Date(r.ts).toISOString() : undefined,
+    })),
+  };
+  return node;
+}
+
+/** QAPage for qa-kind threads (travel/gaming-help): Question + suggestedAnswer[] (+ acceptedAnswer). */
+function qaPageLd(th, url) {
+  const posts = Array.isArray(th.posts) ? th.posts : [];
+  const root = posts[0] || {};
+  const answers = posts.slice(1);
+  const asAnswer = (r) => ({
+    '@type': 'Answer',
+    text: r.body || '',
+    upvoteCount: r.merit || 0,
+    author: { '@type': 'Person', name: r.author },
+    url: `${url}#post-${r.id}`,
+  });
+  // Phase-1: no accepted-answer mark yet (design §2.2 wires melek_forum_accept later) → all suggested.
+  const question = {
+    '@type': 'Question',
+    name: th.title,
+    text: root.body || th.title,
+    answerCount: answers.length,
+    author: { '@type': 'Person', name: th.author },
+    dateCreated: root.ts ? new Date(root.ts).toISOString() : undefined,
+  };
+  if (answers.length) question.suggestedAnswer = answers.slice(0, 50).map(asAnswer);
+  return { '@context': 'https://schema.org', '@type': 'QAPage', mainEntity: question };
+}
+
+/** The board's thread-level JSON-LD, chosen by seoType. LocalBusiness is a Phase-2 per-business page. */
+function threadJsonLd(meta, th, url) {
+  if (meta && meta.seoType === 'QAPage') return qaPageLd(th, url);
+  return discussionForumPostingLd(th, url);
+}
+
+/** CollectionPage for a board/category index page. */
+function collectionPageLd(name, description, url) {
+  return { '@context': 'https://schema.org', '@type': 'CollectionPage', name, description, url };
+}
+
 // ── the forum instance (in-memory demo seed so the live surface has content) ──────────────────────
-export const forum = createForum({});
+// The board network is data-driven: the registry (integrations/forum/boards.mjs) tells the engine which
+// board ids are valid (static + programmatic city/game/travel/biz) and their titles. Thread/reply/merit
+// logic is untouched — the registry is metadata + routing only.
+export const forum = createForum({ registry: forumRegistry() });
+
+// Programmatic boards seeded with real content (for the sitemap + a "flagship renders threads" demo).
+export const SEEDED_PROGRAMMATIC = ['city/austin-tx', 'game/minecraft', 'travel/paris'];
+
 let _seeded = false;
 export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   if (_seeded) return;
   _seeded = true;
   const HR = 60 * 60 * 1000;
+  const DAY = 24 * HR;
   // Bootstrap: give the seed accounts merit so they clear the new-account gate (also demonstrates merit).
   await forum.grantAllotment('hathor', { now });
   await forum.grantAllotment('cheetah', { now });
   await forum.merit.sendMerit('hathor', 'kalivankush', 1, { now });   // kalivankush earns 1 FORUM merit
-  await forum.grantAllotment('hathor', { now: now + 30 * 24 * HR });
+  await forum.grantAllotment('hathor', { now: now + 30 * DAY });
   const t1 = await forum.createThread({ board: 'announcements', author: 'hathor', title: 'Welcome to the MELEK Forum', body: 'This forum runs on the MELEK chain. Posts are on-chain comments; standing is scarce, peer-awarded FORUM merit — it can never be bought or self-minted.', now });
   const t2 = await forum.createThread({ board: 'economy', author: 'kalivankush', title: 'How FORUM merit differs from stake', body: 'A whale\'s stake buys zero merit here. You can only send merit you were given. Discuss.', now: now + HR });
   await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'Reference and harm-reduction only: history, ethnobotany, pharmacology, dose ranges, interactions, testing, set/setting/aftercare. No synthesis or extraction recipes.', now: now + 2 * HR });
@@ -56,6 +155,33 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
     const r = await forum.reply({ threadId: t2.thread.id, author: 'hathor', body: 'Exactly — it is Sybil-resistant and non-plutocratic by construction.', now: now + 4 * HR });
     if (r.ok) await forum.awardMerit({ from: 'kalivankush', postId: r.post.id, amount: 1, now: now + 5 * HR });
   }
+
+  // ── flagship boards end-to-end (design §7.2 Phase-1): a static Crypto board + programmatic City + Game,
+  // plus a Travel Q&A board to exercise the QAPage path. Prime authors with received merit (via a sponsor
+  // faucet at 14-day-spaced ticks) so they clear the gate and can post freely.
+  const authors = ['satoshi', 'austin_local', 'crafter', 'wanderer'];
+  for (let i = 0; i < authors.length; i++) await forum.grantAllotment('sponsor', { now: now + i * 15 * DAY });
+  for (const a of authors) await forum.merit.sendMerit('sponsor', a, 1, { now });
+
+  // Crypto flagship (static board).
+  await forum.createThread({ board: 'crypto/bitcoin', author: 'satoshi', title: 'Self-custody basics: seed phrases done right', body: 'Write it on steel, never a photo, test your restore before funding. What is your setup?', now: now + 6 * HR });
+  const btc2 = await forum.createThread({ board: 'crypto/bitcoin', author: 'satoshi', title: 'Lightning vs on-chain for small payments', body: 'When does opening a channel beat an on-chain send? Fees, liquidity, and UX tradeoffs.', now: now + 7 * HR });
+  if (btc2.ok) await forum.reply({ threadId: btc2.thread.id, author: 'kalivankush', body: 'Depends on frequency — recurring micro-payments favour a channel.', now: now + 8 * HR });
+
+  // City flagship (programmatic city/<slug>).
+  await forum.createThread({ board: 'city/austin-tx', author: 'austin_local', title: 'Moving to Austin — best neighborhoods for families?', body: 'Relocating this fall. Schools, commute, and cost of living matter most. Where would you look?', now: now + 9 * HR });
+  await forum.createThread({ board: 'city/austin-tx', author: 'austin_local', title: 'Austin traffic: is the toll road worth it?', body: 'Daily commute from the north. Curious how locals weigh 183A tolls vs surface streets.', now: now + 10 * HR });
+
+  // Game flagship (programmatic game/<slug>, wiki-linkout — discussion + curated external links).
+  await forum.createThread({ board: 'game/minecraft', author: 'crafter', title: 'Efficient early-game villager trading hall?', body: 'Looking for a compact, beginner-friendly layout. Sharing link-outs to community guides welcome (no mirrored copyrighted text).', now: now + 11 * HR });
+  await forum.createThread({ board: 'game/minecraft', author: 'crafter', title: 'Best seeds for a survival start (Java 1.21)', body: 'Village near spawn, exposed ravine, decent biome spread. Post coordinates.', now: now + 12 * HR });
+
+  // Travel Q&A flagship (programmatic travel/<dest>, qa → QAPage).
+  const paris = await forum.createThread({ board: 'travel/paris', author: 'wanderer', title: 'Best time to visit Paris to avoid crowds?', body: 'First trip, 4 days, flexible dates. When are the museums and cafes least packed?', now: now + 13 * HR });
+  if (paris.ok) await forum.reply({ threadId: paris.thread.id, author: 'kalivankush', body: 'Late September to early November — mild weather, thinner crowds after the summer peak.', now: now + 14 * HR });
+
+  // IndexNow-on-create seam: submit the flagship boards once at bootstrap (env-gated, fire-and-forget).
+  pingIndexNow(['/', ...FLAGSHIP_BOARDS.map((b) => `/b/${b}`), ...SEEDED_PROGRAMMATIC.map((b) => `/b/${b}`)]);
 }
 
 // ── theme (shared SoapBox dark) ───────────────────────────────────────────────────────────────────
@@ -103,7 +229,7 @@ const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — a forum on the MELEK chain. Posts are on-chain <code>comment</code> operations, signed
   in your browser through <b>MELEK-Signer</b>; this site holds no keys. Standing is <b>${esc(FORUM_TOKEN)} merit</b> —
   scarce, peer-awarded, never bought and never self-minted. Alpha / testnet.
-  <div style="margin-top:8px"><a href="/">Forum</a> · <a href="${esc(DATA)}">Data</a></div>
+  <div style="margin-top:8px"><a href="${P('/')}">Forum</a> · <a href="${safeHref(DATA)}">Data</a></div>
 </footer>`;
 
 // ── MELEK-Signer client (keyless): OAuth capture + broadcast(comment/vote) in the browser ─────────
@@ -135,25 +261,25 @@ function clientScript() {
 // ── page shell ────────────────────────────────────────────────────────────────────────────────────
 function page(title, body, opts = {}) {
   const desc = opts.description || 'The MELEK forum — categorised boards and threads on the MELEK chain, ranked by scarce peer-awarded FORUM merit. Keyless posting through MELEK-Signer.';
-  const canonical = opts.canonical || `${BASE_URL}/`;
+  const canonical = opts.canonical || absUrl('/');
   const head = headTags({
     title, description: desc, canonical, siteName: SITE_NAME,
     robots: opts.robots || 'index,follow,max-image-preview:large',
-    site: { url: BASE_URL, name: SITE_NAME, searchUrlTemplate: `${BASE_URL}/search?q={search_term_string}` },
+    site: { url: `${BASE_URL}${BASE_PATH}`, name: SITE_NAME, searchUrlTemplate: `${absUrl('/search')}?q={search_term_string}` },
     jsonld: opts.jsonld || null,
   });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
-<header class=topbar><a class=brand href="/">🗣️ SoapBox <span>forum</span></a><span class=alpha>ALPHA · TESTNET</span>
-  <div class=topbar-r><a href="/">Home</a><a href="/search">Search</a><a href="/post">New thread</a></div></header>
+<header class=topbar><a class=brand href="${P('/')}">🗣️ SoapBox <span>forum</span></a><span class=alpha>ALPHA · TESTNET</span>
+  <div class=topbar-r><a href="${P('/')}">Home</a><a href="${P('/search')}">Search</a><a href="${P('/post')}">New thread</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}${clientScript()}</body></html>`;
 }
 
 function searchForm(q = '') {
-  return `<form class=hsearch method=get action="/search"><div class=row>
+  return `<form class=hsearch method=get action="${P('/search')}"><div class=row>
     <input class=q name="q" value="${esc(q)}" placeholder="Search threads…" autocomplete=off aria-label="Search the forum">
     <button class=btn type=submit>Search</button>
   </div></form>`;
@@ -168,19 +294,19 @@ const fmtAgo = (ts) => {
 // ── home ────────────────────────────────────────────────────────────────────────────────────────
 export async function homePage() {
   const groups = forum.boards();
-  const recent = await forum.recentThreads(8);
+  const recent = await forum.recentThreads(12);
   const cats = groups.map((g) => `
-    <h2>${esc(g.category)}</h2>
-    ${g.boards.map((b) => `<a class=board href="/b/${esc(b.id)}">
+    <h2>${g.categoryId ? `<a href="${P(`/c/${g.categoryId}`)}">${esc(g.category)}</a>` : esc(g.category)}${g.comparable ? ` <span class=muted style="font-size:12px;text-transform:none;letter-spacing:0">· like ${esc(g.comparable)}</span>` : ''}</h2>
+    ${g.boards.map((b) => `<a class=board href="${P(`/b/${b.id}`)}">
         <div><div class=t>${esc(b.title)}</div><div class=d>${esc(b.desc)}</div></div>
       </a>`).join('')}`).join('');
   const recentRows = recent.length
     ? recent.map((t) => `<div class=trow>
-        <div><div class=t><a href="/t/${esc(t.id)}">${esc(t.title)}</a></div>
-          <div class=meta>in <a href="/b/${esc(t.board)}">${esc(t.board)}</a> · by @${esc(t.author)}</div></div>
+        <div><div class=t><a href="${P(`/t/${t.id}`)}">${esc(t.title)}</a></div>
+          <div class=meta>in <a href="${P(`/b/${t.board}`)}">${esc(t.board)}</a> · by @${esc(t.author)}</div></div>
         <div class=stat>${esc(t.replyCount)} replies<br>${fmtAgo(t.lastActivityTs)}</div>
       </div>`).join('')
-    : `<p class=muted>No threads yet. <a href="/post">Start the first one.</a></p>`;
+    : `<p class=muted>No threads yet. <a href="${P('/post')}">Start the first one.</a></p>`;
   const body = `<h1>SoapBox Forum <span class=muted style="font-size:14px">· on the MELEK chain</span></h1>
     <p class=muted>Boards and threads with <b>scarce peer-awarded ${esc(FORUM_TOKEN)} merit</b> — a whale's stake buys
       none of it. Post through MELEK-Signer; we hold no keys.</p>
@@ -188,27 +314,83 @@ export async function homePage() {
     ${cats}
     <h2>Recent activity</h2>
     <div class=card>${recentRows}</div>`;
-  return page(`${SITE_NAME} — MELEK community boards`, body, { canonical: `${BASE_URL}/` });
+  return page(`${SITE_NAME} — MELEK community boards`, body, { canonical: absUrl('/') });
+}
+
+// ── /c/<category> — a category index (board list + JSON-LD CollectionPage + breadcrumbs) ───────────
+export function categoryPage(id) {
+  const boards = boardsInCategory(id);
+  if (!boards.length) return null;
+  const name = categoryName(id);
+  const rows = boards.map((b) => `<a class=board href="${P(`/b/${b.id}`)}">
+      <div><div class=t>${esc(b.title)}</div><div class=d>${esc(b.desc)}</div></div>
+      <div class=stat>${esc(b.kind)}</div>
+    </a>`).join('');
+  const url = absUrl(`/c/${id}`);
+  const desc = `${name} boards on the SoapBox Forum${boards[0] && boards[0].comparable ? ` — like ${boards[0].comparable}` : ''}.`;
+  const jsonld = [
+    collectionPageLd(name, desc, url),
+    breadcrumbFor([{ name: 'Forum', path: '/' }, { name, path: `/c/${id}` }]),
+  ];
+  const body = `<p class=muted><a href="${P('/')}">← All boards</a></p>
+    <h1>${esc(name)}</h1>
+    <p class=muted>${esc(desc)}</p>
+    ${rows}`;
+  return page(`${name} — ${SITE_NAME}`, body, { canonical: url, description: desc, jsonld });
 }
 
 // ── /b/<board> ──────────────────────────────────────────────────────────────────────────────────
 export async function boardPage(id, { now } = {}) {
   const meta = forum.boardMeta(id);
   if (!meta) return null;
+
+  // Reviews / Classifieds are Phase-2 seams: registered, but no capture UI yet — render a stub (noindex).
+  if (meta.kind === 'review' || meta.kind === 'classified') return { meta, html: phase2BoardPage(meta) };
+
   const threads = await forum.board(id, { now, sort: 'rank' });
   const rows = threads.length
     ? threads.map((t) => `<div class=trow>
-        <div><div class=t><a href="/t/${esc(t.id)}">${esc(t.title)}</a></div>
+        <div><div class=t><a href="${P(`/t/${t.id}`)}">${esc(t.title)}</a></div>
           <div class=meta>by @${esc(t.author)} · ${fmtAgo(t.createdTs)}</div></div>
         <div class=stat><span class=merit>✦ ${esc(t.meritTotal)}</span> · ${esc(t.replyCount)} replies<br>${fmtAgo(t.lastActivityTs)}</div>
       </div>`).join('')
     : `<p class=muted>No threads in this board yet.</p>`;
-  const body = `<p class=muted><a href="/">← All boards</a></p>
+  const links = (meta.links || []).length
+    ? `<p class=muted>Related: ${meta.links.map((l) => `<a href="${safeHref(l.href)}" rel="nofollow noopener">${esc(l.label || l.href)}</a>`).join(' · ')}</p>`
+    : '';
+  const url = absUrl(`/b/${meta.id}`);
+  // noindex an EMPTY programmatic board (no doorway-page penalty); index once it has real content.
+  const empty = threads.length === 0;
+  const jsonld = [
+    collectionPageLd(meta.title, meta.desc, url),
+    breadcrumbFor([{ name: 'Forum', path: '/' }, { name: meta.category, path: `/c/${meta.categoryId}` }, { name: meta.title, path: `/b/${meta.id}` }]),
+  ];
+  const body = `<p class=muted><a href="${P('/')}">← All boards</a> ${meta.categoryId ? `· <a href="${P(`/c/${meta.categoryId}`)}">${esc(meta.category)}</a>` : ''}</p>
     <h1>${esc(meta.title)}</h1>
     <p class=muted>${esc(meta.desc)}</p>
-    <p><a class="btn primary" href="/post?board=${esc(meta.id)}">＋ New thread</a></p>
+    ${links}
+    <p><a class="btn primary" href="${P(`/post?board=${meta.id}`)}">＋ New thread</a></p>
     <div class=card>${rows}</div>`;
-  return { meta, html: page(`${meta.title} — ${SITE_NAME}`, body, { canonical: `${BASE_URL}/b/${meta.id}`, description: esc(meta.desc) }) };
+  return {
+    meta,
+    html: page(`${meta.title} — ${SITE_NAME}`, body, {
+      canonical: url, description: meta.desc, jsonld,
+      robots: empty ? 'noindex,follow' : 'index,follow,max-image-preview:large',
+    }),
+  };
+}
+
+// Phase-2 stub for review/classified boards: 200, noindex, with a breadcrumb — no capture UI yet.
+function phase2BoardPage(meta) {
+  const url = absUrl(`/b/${meta.id}`);
+  const jsonld = [breadcrumbFor([{ name: 'Forum', path: '/' }, { name: meta.category, path: `/c/${meta.categoryId}` }, { name: meta.title, path: `/b/${meta.id}` }])];
+  const body = `<p class=muted><a href="${P('/')}">← All boards</a> · <a href="${P(`/c/${meta.categoryId}`)}">${esc(meta.category)}</a></p>
+    <h1>${esc(meta.title)}</h1>
+    <p class=muted>${esc(meta.desc)}</p>
+    <div class=card><p class=muted>This <b>${esc(meta.kind)}</b> section is coming in <b>Phase 2</b>. The board is
+      registered; the ${esc(meta.kind === 'review' ? 'review capture + rating' : 'listing lifecycle + geo + contact')}
+      UI is not built yet. Facts will be sourced and tagged; user content is never presented as a platform verdict.</p></div>`;
+  return page(`${meta.title} — ${SITE_NAME}`, body, { canonical: url, description: meta.desc, robots: 'noindex,follow', jsonld });
 }
 
 // ── /t/<id> ─────────────────────────────────────────────────────────────────────────────────────
@@ -229,7 +411,26 @@ export async function threadPage(id) {
         <button class=btn data-act=reply data-post="${esc(p.id)}">Reply</button>
       </div></div>`);
   }
-  const body = `<p class=muted><a href="/b/${esc(th.board)}">← ${esc(meta ? meta.title : th.board)}</a></p>
+  // Related threads (internal-link graph): other threads in the same board, minus this one.
+  let related = [];
+  try {
+    related = (await forum.board(th.board, { sort: 'rank' })).filter((t) => t.id !== th.id).slice(0, 5);
+  } catch { related = []; }
+  const relatedHtml = related.length
+    ? `<div class=card><h2 style="margin-top:0">Related threads</h2>${related.map((t) => `<div class=trow>
+        <div><div class=t><a href="${P(`/t/${t.id}`)}">${esc(t.title)}</a></div>
+          <div class=meta>by @${esc(t.author)}</div></div>
+        <div class=stat>${esc(t.replyCount)} replies</div></div>`).join('')}</div>`
+    : '';
+
+  const url = absUrl(`/t/${th.id}`);
+  const trail = [{ name: 'Forum', path: '/' }];
+  if (meta) trail.push({ name: meta.category, path: `/c/${meta.categoryId}` });
+  trail.push({ name: meta ? meta.title : th.board, path: `/b/${th.board}` });
+  trail.push({ name: th.title, path: `/t/${th.id}` });
+  const jsonld = [threadJsonLd(meta, th, url), breadcrumbFor(trail)];
+
+  const body = `<p class=muted><a href="${P(`/b/${th.board}`)}">← ${esc(meta ? meta.title : th.board)}</a>${meta ? ` · <a href="${P(`/c/${meta.categoryId}`)}">${esc(meta.category)}</a>` : ''}</p>
     <h1>${esc(th.title)}</h1>
     <p class=muted>${esc(th.replyCount)} replies · <span class=merit>✦ ${esc(th.meritTotal)} ${esc(FORUM_TOKEN)} merit</span> · last activity ${fmtAgo(th.lastActivityTs)}</p>
     ${posts.join('')}
@@ -239,8 +440,9 @@ export async function threadPage(id) {
         <button class="btn primary" type=submit>Sign &amp; post reply</button>
         <span class=muted style="font-size:12px;margin-left:8px">Keyless — signed in your browser.</span>
       </form></div>
+    ${relatedHtml}
     ${threadClientScript(th)}`;
-  return page(`${th.title} — ${SITE_NAME}`, body, { canonical: `${BASE_URL}/t/${th.id}` });
+  return page(`${th.title} — ${SITE_NAME}`, body, { canonical: url, description: `${th.title} — ${th.replyCount} replies on the ${meta ? meta.title : th.board} board of the SoapBox Forum.`, jsonld });
 }
 
 // per-thread client wiring: reply → comment op; give-merit → custom_json intent shown + best-effort vote.
@@ -290,7 +492,7 @@ export function postIntentPage({ board = 'general', title = '', body = '' } = {}
     body: body || '<thread body>',
     json_metadata: { app: 'melek-forum', board: bid, tags: [TAG] },
   };
-  const body_ = `<p class=muted><a href="/b/${esc(bid)}">← ${esc(meta ? meta.title : 'General')}</a></p>
+  const body_ = `<p class=muted><a href="${P(`/b/${bid}`)}">← ${esc(meta ? meta.title : 'General')}</a></p>
     <h1>New thread</h1>
     <p class=muted>Your post becomes an on-chain <code>comment</code>. It is signed in your browser through
       <b>MELEK-Signer</b> — this site never sees your keys.</p>
@@ -325,7 +527,7 @@ export function postIntentPage({ board = 'general', title = '', body = '' } = {}
        });
      })();
     </script>`;
-  return page(`New thread — ${SITE_NAME}`, body_, { canonical: `${BASE_URL}/post`, robots: 'noindex,follow' });
+  return page(`New thread — ${SITE_NAME}`, body_, { canonical: absUrl('/post'), robots: 'noindex,follow' });
 }
 
 // ── /search ─────────────────────────────────────────────────────────────────────────────────────
@@ -335,14 +537,70 @@ export async function searchPage(q) {
   const rows = query
     ? (results.length
       ? results.map((t) => `<div class=trow>
-          <div><div class=t><a href="/t/${esc(t.id)}">${esc(t.title)}</a></div>
-            <div class=meta>in <a href="/b/${esc(t.board)}">${esc(t.board)}</a> · by @${esc(t.author)}</div></div>
+          <div><div class=t><a href="${P(`/t/${t.id}`)}">${esc(t.title)}</a></div>
+            <div class=meta>in <a href="${P(`/b/${t.board}`)}">${esc(t.board)}</a> · by @${esc(t.author)}</div></div>
           <div class=stat>${esc(t.replyCount)} replies</div></div>`).join('')
       : `<p class=muted>No threads matched “${esc(query)}”.</p>`)
     : `<p class=muted>Type a query to search threads.</p>`;
   const body = `<h1>Search</h1>${searchForm(query)}<div class=card>${rows}</div>`;
   return page(query ? `“${query}” — ${SITE_NAME} search` : `Search — ${SITE_NAME}`, body,
-    { canonical: `${BASE_URL}/search`, robots: 'noindex,follow' });
+    { canonical: absUrl('/search'), robots: 'noindex,follow' });
+}
+
+// ── sharded sitemaps (design §5.3) — one sitemap-index → per-shard urlsets ─────────────────────────
+// At forum scale a single sitemap blows the 50k-URL cap, so /sitemap-index.xml is a sitemap INDEX that
+// points at shard files: /sitemap-boards.xml (boards + categories) and /sitemap-threads-<n>.xml (threads,
+// sharded by count). /sitemap.xml stays a small top-level urlset. All driven by boards.boardSitemapEntries.
+const THREAD_SHARD_SIZE = 5000;
+const xmlEsc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+
+/** All thread paths (`/t/<id>`) in the ledger, newest first. Local-only (ledger), no network. */
+async function allThreadPaths() {
+  let roots = [];
+  try { roots = await forum.recentThreads(1e9); } catch { roots = []; }
+  return roots.map((t) => `/t/${t.id}`);
+}
+
+function threadShardCount(n) { return Math.max(1, Math.ceil(n / THREAD_SHARD_SIZE)); }
+
+/** The forum sitemap INDEX: boards shard + N thread shards. */
+async function forumSitemapIndexXml() {
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const n = threadShardCount((await allThreadPaths()).length);
+  const shards = [`/sitemap-boards.xml`];
+  for (let i = 0; i < n; i++) shards.push(`/sitemap-threads-${i}.xml`);
+  const rows = shards.map((s) => `  <sitemap><loc>${xmlEsc(absUrl(s))}</loc><lastmod>${lastmod}</lastmod></sitemap>`).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows}\n</sitemapindex>\n`;
+}
+
+/** The boards+categories shard urlset (includes seeded programmatic boards). */
+function boardsSitemapXml() {
+  const today = new Date().toISOString().slice(0, 10);
+  const entries = boardSitemapEntries({ extra: SEEDED_PROGRAMMATIC }).map((e) => ({
+    path: P(e.path), lastmod: today, changefreq: e.changefreq, priority: e.priority,
+  }));
+  return sitemapXml(`${BASE_URL}${BASE_PATH}`, entries);
+}
+
+/** One thread shard urlset (bounds-checked; empty urlset for an out-of-range shard). */
+async function threadsSitemapXml(shard) {
+  const today = new Date().toISOString().slice(0, 10);
+  const all = await allThreadPaths();
+  const i = Math.max(0, Math.floor(Number(shard) || 0));
+  const slice = all.slice(i * THREAD_SHARD_SIZE, (i + 1) * THREAD_SHARD_SIZE);
+  const entries = slice.map((p) => ({ path: P(p), lastmod: today, changefreq: 'weekly', priority: '0.6' }));
+  return sitemapXml(`${BASE_URL}${BASE_PATH}`, entries);
+}
+
+// ── IndexNow-on-create hook (design §5.4) — env-gated (FORUM_INDEXNOW=1), fire-and-forget, soft-fail.
+// The render path NEVER calls this; it is fired once at seed-time so the flagship URLs get submitted. Real
+// browser-side creates can POST to a future /notify route that calls pingIndexNow — the seam is here.
+export function pingIndexNow(paths = []) {
+  if (!INDEXNOW_ON) return { ok: false, skipped: 'disabled' };
+  const urls = [].concat(paths).filter(Boolean).map((p) => absUrl(p));
+  if (!urls.length) return { ok: false, skipped: 'no-urls' };
+  try { Promise.resolve(submitIndexNow(`${BASE_URL}${BASE_PATH}`, urls)).catch(() => {}); } catch { /* soft-fail */ }
+  return { ok: true, submitted: urls.length };
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
@@ -351,13 +609,19 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/search', ...forum.boards().flatMap((g) => g.boards).map((b) => `/b/${b.id}`)];
+function sendXml(res, xml) { res.writeHead(200, { 'content-type': 'application/xml' }); res.end(xml); }
+
+export const SITEMAP_PATHS = ['/', '/search',
+  ...forum.boards().flatMap((g) => g.boards).map((b) => `/b/${b.id}`),
+  ...listCategories().map((c) => `/c/${c.id}`)];
 
 export async function handler(req, res) {
   try {
     await seed();
     const url = new URL(req.url, BASE_URL);
-    const path = url.pathname;
+    // BASE_PATH-aware: strip the mount prefix so route matching is prefix-agnostic ('' by default).
+    let path = url.pathname;
+    if (BASE_PATH && (path === BASE_PATH || path.startsWith(BASE_PATH + '/'))) path = path.slice(BASE_PATH.length) || '/';
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
@@ -367,9 +631,15 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'application/xml' });
       return res.end(sitemapXml(BASE_URL, entries));
     }
-    if (path === '/sitemap-index.xml') {
-      res.writeHead(200, { 'content-type': 'application/xml' });
-      return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10)));
+    if (path === '/sitemap-index.xml') return sendXml(res, await forumSitemapIndexXml());
+    if (path === '/sitemap-boards.xml') return sendXml(res, boardsSitemapXml());
+    {
+      const m = path.match(/^\/sitemap-threads-(\d+)\.xml$/);
+      if (m) return sendXml(res, await threadsSitemapXml(m[1]));
+    }
+    if (path === '/sitemap-ecosystem.xml') {
+      // the cross-site public index (kept available for the broader SoapBox sitemap network).
+      return sendXml(res, publicSitemapIndexXml(new Date().toISOString().slice(0, 10)));
     }
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
@@ -392,19 +662,25 @@ export async function handler(req, res) {
 
     if (path === '/search') return sendHtml(res, await searchPage(url.searchParams.get('q') || ''));
 
+    if (path.startsWith('/c/')) {
+      const html = categoryPage(decodeURIComponent(path.slice(3).replace(/\/$/, '')));
+      if (!html) { res.writeHead(302, { location: P('/') }); return res.end(); }
+      return sendHtml(res, html);
+    }
+
     if (path.startsWith('/b/')) {
       const view = await boardPage(decodeURIComponent(path.slice(3).replace(/\/$/, '')));
-      if (!view) { res.writeHead(302, { location: '/' }); return res.end(); }
+      if (!view) { res.writeHead(302, { location: P('/') }); return res.end(); }
       return sendHtml(res, view.html);
     }
 
     if (path.startsWith('/t/')) {
       const html = await threadPage(decodeURIComponent(path.slice(3).replace(/\/$/, '')));
-      if (!html) { res.writeHead(302, { location: '/' }); return res.end(); }
+      if (!html) { res.writeHead(302, { location: P('/') }); return res.end(); }
       return sendHtml(res, html);
     }
 
-    res.writeHead(302, { location: '/' });
+    res.writeHead(302, { location: P('/') });
     return res.end();
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });
