@@ -133,7 +133,30 @@ export function headTags({
   ];
   if (site) parts.push(jsonLdScript(siteGraph(site)));
   if (jsonld) for (const j of [].concat(jsonld)) parts.push(jsonLdScript(j));
+  // First-party, cookieless pageview beacon — emitted ONLY when the operator sets ANALYTICS_BEACON_URL.
+  // Default is '' → nothing is appended, so headTags() output stays byte-identical for every surface
+  // that hasn't opted in (all ~89 servers' tests stay green). See analyticsBeaconTag() for the posture.
+  const beaconUrl = (typeof process !== 'undefined' && process.env && process.env.ANALYTICS_BEACON_URL) || '';
+  if (beaconUrl) parts.push(analyticsBeaconTag(beaconUrl));
   return parts.filter(Boolean).join('\n');
+}
+
+/**
+ * A single, cookieless pageview beacon (navigator.sendBeacon, with a fetch keepalive fallback) that
+ * POSTs { p: pathname, r: referrer } to the first-party collector at `url`. NO cookies, NO third-party
+ * DNS, fires after parse and never blocks render. Honours Do-Not-Track / GPC client-side (records
+ * nothing when set). `url` is operator-configured (env), never user input; it is still JSON-encoded and
+ * its "<" neutralised so it can never break out of the <script>. Returns '' for a falsy url.
+ */
+export function analyticsBeaconTag(url) {
+  if (!url) return '';
+  const u = JSON.stringify(String(url)).replace(/</g, '\\u003c');
+  return '<script>(function(){try{'
+    + "if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;"
+    + `var u=${u},b=JSON.stringify({p:location.pathname,r:document.referrer});`
+    + 'if(navigator.sendBeacon){navigator.sendBeacon(u,b);}'
+    + "else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}"
+    + '}catch(e){}})();</script>';
 }
 
 /**

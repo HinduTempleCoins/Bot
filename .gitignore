@@ -92,6 +92,9 @@ data/
 # diag-to-tasks bare-run output (box uses DIAG_TASKS_PATH instead)
 integrations/.diag-tasks/
 
+# First-party cookieless analytics store (append-only JSONL; per-deployment, never committed)
+.analytics/
+
 # Built semantic library vector cache (rebuilt on the box; not source)
 .library-index/
 
