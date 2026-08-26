@@ -250,17 +250,35 @@ test('handler: /health + /api/stats + /api/lists (no PII), unknown path 404', as
   assert.equal(res.code, 404);
 });
 
-test('handler: POST /api/subscribe + one-click GET /u/{token} unsubscribe', async () => {
+test('handler: POST /api/subscribe + safe-GET / acting-POST unsubscribe (RFC 8058)', async () => {
   const { cs } = make();
   cs.createList('l', { id: 'l' });
   let res = mockRes(); await cs.handler(post('/api/subscribe', { email: 'a@b.com', listId: 'l' }), res);
   assert.equal(res.code, 200); assert.match(res.body, /"ok":true/);
   const token = cs._load().subscribers['a@b.com'].token;
+  // GET is SAFE: shows a confirm form, mutates NOTHING (prefetch/scanner can't unsubscribe).
   res = mockRes(); await cs.handler(get('/u/' + encodeURIComponent(token)), res);
+  assert.equal(res.code, 200);
+  assert.match(res.body, /<form method="post"/i);
+  assert.notEqual(cs._load().subscribers['a@b.com'].status, 'unsubscribed');   // GET did NOT unsubscribe
+  // POST performs the unsubscribe (human confirm button OR ESP one-click both POST here).
+  res = mockRes(); await cs.handler(post('/u/' + encodeURIComponent(token)), res);
   assert.equal(res.code, 200);
   assert.match(res.body, /unsubscribed/i);
   assert.ok(!res.body.includes('a@b.com'));                 // raw email never echoed on the page
   assert.equal(cs._load().subscribers['a@b.com'].status, 'unsubscribed');
+});
+
+test('handler: /api/subscribe is rate-limited (anti list-stuffing)', async () => {
+  const { cs } = make(undefined, { subscribeRateMax: 3 });
+  cs.createList('l', { id: 'l' });
+  let last = 0;
+  for (let i = 0; i < 5; i++) {
+    const res = mockRes();
+    await cs.handler({ method: 'POST', url: '/api/subscribe', body: { email: `u${i}@b.com`, listId: 'l' }, headers: {}, socket: { remoteAddress: '9.9.9.9' }, on() {} }, res);
+    last = res.code;
+  }
+  assert.equal(last, 429);   // over the cap of 3 → rate-limited
 });
 
 test('handler: POST /api/webhook is fail-closed then suppresses with the verified secret', async () => {

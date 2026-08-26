@@ -183,6 +183,21 @@ export function createCampaignSender(opts = {}) {
     if (a.length !== b.length) return false;
     try { return timingSafeEqual(a, b); } catch { return false; }
   }
+  // Transient per-IP rate limiter for the unauthenticated /api/subscribe endpoint (anti list-stuffing / abuse).
+  // Keyed on the socket addr; never persisted. max<=0 disables. Uses the injected clock so tests are deterministic.
+  const _rl = new Map();
+  const rlMax = opts.subscribeRateMax != null ? +opts.subscribeRateMax : (+process.env.HERALD_SUBSCRIBE_RATE_MAX || 20);
+  const rlWindow = +process.env.HERALD_SUBSCRIBE_RATE_WINDOW_MS || 60000;
+  function rateLimited(req) {
+    if (!(rlMax > 0)) return false;
+    const ip = String((req && req.socket && req.socket.remoteAddress)
+      || (req && req.headers && req.headers['x-forwarded-for']) || 'unknown').split(',')[0].trim();
+    const now = clock();
+    const e = _rl.get(ip);
+    if (!e || now > e.resetAt) { if (_rl.size > 5000) _rl.clear(); _rl.set(ip, { n: 1, resetAt: now + rlWindow }); return false; }
+    e.n += 1;
+    return e.n > rlMax;
+  }
 
   const load = () => loadStore(fs, file);
   const save = (s) => saveStore(fs, file, s);
@@ -496,17 +511,25 @@ export function createCampaignSender(opts = {}) {
       if (path === '/api/lists' && method === 'GET') {
         return sendJson(res, 200, { ok: true, lists: listLists().map((l) => ({ ...l, name: esc(l.name) })) });
       }
-      // one-click unsubscribe (GET /u/{token} or /unsubscribe?token=)
+      // Unsubscribe (RFC 8058). GET is SAFE — it only shows a confirm button and mutates NOTHING (so email
+      // prefetchers / link-scanners can't accidentally unsubscribe a reader). The actual unsubscribe happens on
+      // POST — both the human "confirm" button and the ESP List-Unsubscribe-Post one-click hit the same POST.
       const um = path.match(/^\/u\/([^/]+)$/);
       const token = um ? decodeURIComponent(um[1]) : (path === '/unsubscribe' ? url.searchParams.get('token') : null);
-      if (token != null && method === 'GET') {
-        const r = unsubscribeByToken(token);
-        const msg = r.ok ? `You've been unsubscribed: ${esc(r.email)}.` : 'This unsubscribe link is invalid or expired.';
-        return sendHtml(res, r.ok ? 200 : 404,
-          `<!doctype html><meta charset=utf-8><title>Unsubscribe — Herald</title>`
-          + `<body style="font-family:system-ui,sans-serif;margin:3rem;color:#111"><h1>Unsubscribe</h1><p>${msg}</p></body>`);
+      if (token != null && (method === 'GET' || method === 'POST')) {
+        const pageTop = `<!doctype html><meta charset=utf-8><title>Unsubscribe — Herald</title>`
+          + `<body style="font-family:system-ui,sans-serif;margin:3rem;color:#111">`;
+        if (method === 'POST') {
+          const r = unsubscribeByToken(token);
+          const msg = r.ok ? `You've been unsubscribed: ${esc(r.email)}.` : 'This unsubscribe link is invalid or expired.';
+          return sendHtml(res, r.ok ? 200 : 404, `${pageTop}<h1>Unsubscribe</h1><p>${msg}</p></body>`);
+        }
+        // GET → confirmation page only, no state change.
+        return sendHtml(res, 200, `${pageTop}<h1>Unsubscribe</h1><p>Confirm you want to unsubscribe from these emails.</p>`
+          + `<form method="post" action="${esc(safeHref(unsubUrl(token)) || '#')}"><button type="submit" style="padding:.6rem 1rem">Confirm unsubscribe</button></form></body>`);
       }
       if (path === '/api/subscribe' && method === 'POST') {
+        if (rateLimited(req)) return sendJson(res, 429, { ok: false, error: 'rate-limited' });
         const body = await readJsonBody(req);
         if (!body || typeof body !== 'object') return sendJson(res, 400, { ok: false, error: 'bad-body' });
         const r = addSubscriber(body);
