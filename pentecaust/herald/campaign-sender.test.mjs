@@ -17,7 +17,7 @@ function make(sender) {
   let n = 0; const genToken = () => `tok-${++n}`;
   const sent = [];
   const fake = sender || (async (m) => { sent.push(m); return { ok: true, sent: true, id: `id-${sent.length}` }; });
-  return { cs: createCampaignSender({ fs, now, genToken, sender: fake }), sent, fs };
+  return { cs: createCampaignSender({ fs, now, genToken, sender: fake, ...(arguments[1] || {}) }), sent, fs };
 }
 
 // ── lists + subscribers ────────────────────────────────────────────────────────────────────────────────
@@ -230,7 +230,7 @@ function mockRes() {
   return { code: 0, headers: null, body: '', writeHead(c, h) { this.code = c; this.headers = h; }, end(b) { this.body = b == null ? '' : String(b); } };
 }
 function get(path) { return { method: 'GET', url: path, on() {} }; }
-function post(path, body) { return { method: 'POST', url: path, body, on() {} }; }
+function post(path, body, headers) { return { method: 'POST', url: path, body, headers: headers || {}, on() {} }; }
 // A streaming request (no pre-parsed req.body) that emits `raw` then end — exercises readJsonBody's stream path.
 function postStream(path, raw) {
   const handlers = {};
@@ -263,11 +263,22 @@ test('handler: POST /api/subscribe + one-click GET /u/{token} unsubscribe', asyn
   assert.equal(cs._load().subscribers['a@b.com'].status, 'unsubscribed');
 });
 
-test('handler: POST /api/webhook bounce/complaint suppresses', async () => {
-  const { cs } = make();
-  cs.createList('l', { id: 'l' });
-  cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
-  const res = mockRes(); await cs.handler(post('/api/webhook', { type: 'bounce', email: 'a@b.com' }), res);
+test('handler: POST /api/webhook is fail-closed then suppresses with the verified secret', async () => {
+  // fail-closed: no secret configured → 401, and an unauthed call must NOT mutate suppression state.
+  const nocfg = make();
+  nocfg.cs.createList('l', { id: 'l' }); nocfg.cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  let res = mockRes(); await nocfg.cs.handler(post('/api/webhook', { type: 'bounce', email: 'a@b.com' }), res);
+  assert.equal(res.code, 401);
+  assert.notEqual(nocfg.cs._load().subscribers['a@b.com'].status, 'bounced');
+
+  // configured secret: missing header → 401, wrong secret → 401, correct secret → 200 + suppressed.
+  const { cs } = make(undefined, { webhookSecret: 's3cr3t' });
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  res = mockRes(); await cs.handler(post('/api/webhook', { type: 'bounce', email: 'a@b.com' }), res);
+  assert.equal(res.code, 401);
+  res = mockRes(); await cs.handler(post('/api/webhook', { type: 'bounce', email: 'a@b.com' }, { 'x-webhook-secret': 'wrong-len-differs' }), res);
+  assert.equal(res.code, 401);
+  res = mockRes(); await cs.handler(post('/api/webhook', { type: 'bounce', email: 'a@b.com' }, { 'x-webhook-secret': 's3cr3t' }), res);
   assert.equal(res.code, 200);
   assert.equal(cs._load().subscribers['a@b.com'].status, 'bounced');
 });
