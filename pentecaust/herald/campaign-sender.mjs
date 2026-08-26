@@ -34,7 +34,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:http';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, timingSafeEqual } from 'node:crypto';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const DATA_FILE = () => env('HERALD_SENDER_DATA', join(process.cwd(), 'data', 'herald-sender.json'));
@@ -173,6 +173,16 @@ export function createCampaignSender(opts = {}) {
   const clock = typeof opts.now === 'function' ? opts.now : () => Date.now();
   const genToken = typeof opts.genToken === 'function' ? opts.genToken : () => randomUUID();
   const sendFn = typeof opts.sender === 'function' ? opts.sender : null;
+  // Webhook auth secret (env or factory opt). Empty → the /api/webhook endpoint FAILS CLOSED (rejects all),
+  // so an unauthenticated caller can never suppress arbitrary addresses. Production: prefer per-ESP signatures.
+  const webhookSecret = typeof opts.webhookSecret === 'string' ? opts.webhookSecret : (process.env.HERALD_WEBHOOK_SECRET || '');
+  function webhookOk(req) {
+    if (!webhookSecret) return false; // fail closed when unconfigured
+    const got = String((req && req.headers && (req.headers['x-webhook-secret'] || req.headers['x-herald-secret'])) || '');
+    const a = Buffer.from(got); const b = Buffer.from(String(webhookSecret));
+    if (a.length !== b.length) return false;
+    try { return timingSafeEqual(a, b); } catch { return false; }
+  }
 
   const load = () => loadStore(fs, file);
   const save = (s) => saveStore(fs, file, s);
@@ -504,6 +514,7 @@ export function createCampaignSender(opts = {}) {
       }
       // ESP bounce/complaint webhook → suppress. Accepts { type:'bounce'|'complaint', email }.
       if (path === '/api/webhook' && method === 'POST') {
+        if (!webhookOk(req)) return sendJson(res, 401, { ok: false, error: 'unauthorized' }); // fail-closed: verified secret required
         const body = await readJsonBody(req);
         if (!body || typeof body !== 'object') return sendJson(res, 400, { ok: false, error: 'bad-body' });
         const type = clean(body.type).toLowerCase();
