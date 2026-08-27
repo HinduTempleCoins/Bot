@@ -30,6 +30,7 @@ function currentSeason(seasonLength, nowSec = Math.floor(Date.now() / 1000)) {
   return Math.floor(Number(nowSec) / L);
 }
 import { esc, safeHref, shell, commonRoutes, sendHtml, sendJson, PLAY_EXPLAINER, AGE_GATE, geo } from './shared.mjs';
+import { readAll as liveReadAll, renderPage as liveRenderPage } from './live.mjs';
 
 const PORT = +(process.env.PORT || 8159);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -170,8 +171,8 @@ export async function handler(req, res) {
     if (commonRoutes(req, res, path, {
       baseUrl: BASE_URL, name: 'KULA Arcade',
       summary: 'A free, provably-fair, play-token arcade (Daily Spin, KULA Lotto, Event Markets, games). PLAY is non-cashable — entertainment only, not gambling, not available where prohibited.',
-      sitemapPaths: ['/', '/lotto', '/markets', '/verify'],
-      links: [{ label: 'Lotto', path: '/lotto' }, { label: 'Markets', path: '/markets' }, { label: 'Verify', path: '/verify' }],
+      sitemapPaths: ['/', '/lotto', '/markets', '/verify', '/live'],
+      links: [{ label: 'Lotto', path: '/lotto' }, { label: 'Markets', path: '/markets' }, { label: 'Verify', path: '/verify' }, { label: 'Live', path: '/live' }],
       health: { games: loadGames().length, geoMode: geo.geoMode() },
     })) return;
 
@@ -199,6 +200,10 @@ export async function handler(req, res) {
       const html = page(decision).replace('</body>', `${BOARD_SCRIPT}</body>`);
       return sendHtml(res, html);
     }
+
+    // Live testnet state, read from-chain by live.mjs (soft-fails to "chain unavailable" cards offline/in tests).
+    if (path === '/api/live' || path === bp('/api/live')) return sendJson(res, { ok: true, ...(await liveReadAll()) });
+    if (path === '/live' || path === bp('/live')) return sendHtml(res, await liveRenderPage());
 
     res.writeHead(404, { 'content-type': 'text/plain' }); res.end('not found');
   } catch {

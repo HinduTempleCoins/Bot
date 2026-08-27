@@ -65,6 +65,17 @@ test('/api/board returns a season + graceful empty top without a reader; 404 for
   assert.equal(o.code, 404);
 });
 
+test('/live + /api/live are wired to the from-chain reader and soft-fail offline', async () => {
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = () => { throw new Error('no network in test'); }; // force the reader to soft-fail
+  try {
+    let { res, o } = cap(); await handler(req('/api/live'), res);
+    assert.equal(o.code, 200); assert.equal(j(o).ok, true); assert.equal(typeof j(o).contracts, 'object');
+    ({ res, o } = cap()); await handler(req('/live'), res);
+    assert.equal(o.code, 200); assert.match(o.body, /live testnet state/i); // renders even with the chain unreachable
+  } finally { globalThis.fetch = realFetch; }
+});
+
 test('/health + robots + sitemap + llms', async () => {
   for (const [p, re] of [['/health', /"ok":true/], ['/robots.txt', /User-?agent/i], ['/sitemap.xml', /<urlset/], ['/sitemap-index.xml', /<sitemapindex/], ['/llms.txt', /KULA Arcade/]]) {
     const { res, o } = cap(); await handler(req(p), res);
