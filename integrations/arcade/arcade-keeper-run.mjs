@@ -81,7 +81,10 @@ async function makeAdapter() {
   ];
   const marketAbi = [
     'function marketCount() view returns (uint256)',
-    'function getMarket(uint256) view returns (tuple(uint256 yesPool,uint256 noPool,uint64 closeTime,uint64 disputeWindow,uint16 feeBps,uint256 disputeBond,uint8 phase,uint8 proposed,uint8 outcome,uint64 proposedAt,address disputer))',
+    // getMarket returns the full 15-field Market struct (starts with `string question`, so the return is a
+    // DYNAMIC tuple). The field order/types below must match BinaryEventMarket.Market exactly or ethers
+    // mis-decodes it — an earlier abbreviated ABI silently broke market reads.
+    'function getMarket(uint256) view returns (tuple(string question,bytes32 sourceRef,uint64 closeTime,uint64 disputeWindow,uint16 feeBps,uint256 disputeBond,uint256 yesPool,uint256 noPool,uint8 phase,uint8 proposed,uint8 outcome,uint64 proposedAt,address disputer,uint256 distributable,uint256 winningPool))',
     'function proposeOutcome(uint256 marketId,uint8 outcome)',
     'function finalize(uint256 marketId)',
   ];
