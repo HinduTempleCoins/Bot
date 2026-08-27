@@ -1,0 +1,13 @@
+{
+  "articleId": "Why Curation Bots Were Made: Whale Coverage and Minnow Aggregation",
+  "title": "Why Curation Bots Were Made: Whale Coverage and Minnow Aggregation",
+  "bodyFile": "Why_Curation_Bots_Were_Made__Whale_Coverage_and_Minnow_Aggregation.wiki",
+  "sources": [
+    "cryptocurrency/steem_bots_history.json",
+    "https://steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal",
+    "https://steemit.com/steem/@steemitblog/hf21-sps-and-eip-explained",
+    "https://steemit.com/hf21/@timcliff/hardfork-21-steem-proposal-system-sps-economic-improvement-proposal-eip",
+    "https://hive.blog/curation/@muddymo/how-to-follow-and-create-curation-trails-and-automatically-upvote-w-steemauto"
+  ],
+  "provenanceNote": "Hand-authored educational seed for knowledge/steem-economy/. Article 2 of 3 — the HISTORY, told honestly. Two origin stories: (1) whale content-coverage (whales can't manually read 8,000+ posts/day -> auto-voters, curation trails, delegation to guilds; canonical @steemed/@itsascam example) and (2) minnow aggregation (a small vote is worth ~0 / below dust -> guilds, delegation pools, bid bots). Frames both as the same delegation+automation primitive pointed opposite ways. Honest abuse section: vote-selling/bid bots (Sybil-value critique), self-voting, circle-jerks, passive bid-bot delegation, bot saturation/tone-deafness. Then Steem's HF21/EIP fix (50/50 split, convergent-linear curve, FREE DOWNVOTE POOL) and the KEY point that MELEK is a no-downvote Blurt-style fork so it CANNOT use downvote cleanup and instead uses quality-gating/curation-weighting/no-paid-votes/transparency. Sources: family steem_bots_history.json for coverage+saturation; SteemitBlog + Tim Cliff for EIP; SteemAuto for trails. HARD compliance: neutral, not-investment-advice, abuses attributed to the cited community's framing. Written 2026-08-27 (memory: whale-dolphin-minnow-education-infrastructure)."
+}

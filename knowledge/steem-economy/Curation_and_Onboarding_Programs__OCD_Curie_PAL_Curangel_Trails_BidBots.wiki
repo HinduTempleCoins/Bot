@@ -1,0 +1,82 @@
+# Curation and Onboarding Programs: OCD, Curie, PAL, Curangel, Trails, and Bid Bots
+
+Between 2016 and 2020 the [[STEEM Blockchain|Steem]] (and later [[HIVE Blockchain|Hive]]) community built a set of standing institutions to solve the twin problems of the stake-weighted reward system — [[Why Curation Bots Were Made — Whale Coverage and Minnow Aggregation|whales who cannot read everything and minnows whose votes are worth nothing alone]]. This article surveys the major programs: what each did, how it worked, and — kept honest — where each helped and where it hurt. These programs are the working reference against which the [[MELEK Blockchain|MELEK]] chain designs its own **first-party, no-paid-vote, no-downvote** curation and onboarding infrastructure.
+
+== OCD (@ocd) and the Incubation Program ==
+
+'''OCD''' ("Original Content Decentralized," @ocd), led by @acidyo, is one of the oldest curation projects on the chain. Human curators find undervalued original posts and reward them, and OCD publishes regular "curation report" compilations highlighting the picks.<ref>hive.blog/niche/@ocd/other-niche-communities-curation-report-1358</ref>
+
+'''OCD Communities Incubation Program''' extended this to *communities*: OCD supports promising niche communities, helps them grow, guides new users toward the right topic spaces, and boosts curation done by community leaders — with the stated aim of becoming a "full-stack" onboarding project handling account creation and guiding newcomers into their journey on-chain.<ref>hive.blog/hive-174578/@ocd/ocd-communities-incubation-program-update-38</ref><ref>hive.blog/hive-174578/@acidyo/ocd-curation-and-delegation</ref>
+
+'''@ocdb — the honest complication.''' OCD also ran '''@ocdb''', announced as a "whitelisted non-profit bid bot": it sold votes like other bid bots, but only to a **whitelist of proven creators**, and returned profits to delegators rather than pocketing them — an attempt to make the bid-bot model less harmful.<ref>steemit.com/ocdb/@acidyo/ocdb-announcement</ref> After HF21/EIP and the "#newsteem" shift, OCD **abandoned the bid-bot model and went back to manual curation**, extending rewards to non-whitelisted users and even off-chain creators.<ref>steemit.com/ocd/@acidyo/a-few-words-on-ocdb</ref> OCDB is the clearest single case study of the whole arc: aggregation → paid votes → recognition that paid votes corrode quality → return to human judgment.
+
+== Curie (@curie) ==
+
+'''Curie''', announced August 2016 by @donkeypong, exists to **discover and reward undiscovered and emerging authors** — the opposite of rewarding those already visible. It targets newer, lower-reputation authors (a reputation band often cited as ~25–52), with exceptions for exceptional work.<ref>steemit.com/steemit/@donkeypong/announcing-project-curie-bringing-rewards-and-recognition-to-steemit-s-undiscovered-and-emerging-authors</ref><ref>steemit.com/curie/@liberosist/explaining-curie-s-guidelines</ref>
+
+How it worked: a roster of **100+ volunteer curators worldwide** nominate "hidden gems"; a review panel approves them; approved posts receive a Curie vote, and the finder earns a finder's fee. Notably, Curie **deliberately waits** — typically not voting within the first ~150 minutes — leaving a window for smaller curators and guilds to vote first and earn their curation rewards before Curie follows with a larger vote.<ref>steemit.com/curation/@curie/curie-whitepaper</ref> That timing courtesy is a genuinely thoughtful piece of design: it deliberately shares curation reward downward instead of front-running the minnows. Its good side was strong quality curation for unknowns; its limits were the usual ones of a human panel — throughput and the subjectivity of "gem."
+
+== Minnow Support Project / PAL (@minnowsupport) ==
+
+The '''Minnow Support Project (MSP)''', created June 2017 by @aggroed, @ausbitbank, @teamsteem, @theprophet0 (Nolan), and @someguy123 (Chris), was a **witness-run community** built to help new users grow, find support, and reach some financial footing.<ref>steemit.com/minnowsupport/@aytim/what-is-minnow-support-project-msp-and-peace-abundance-liberty-pal</ref> Its home was the '''PAL (Peace, Abundance, Liberty)''' Discord — a networking hub, town hall, marketplace, and radio network that grew past 2,000 members — where a Discord "cyborg" bot accepted user commands and upvoted posts with the project's stake.<ref>steemit.com/minnowsupportproject/@marcusxman/important-how-to-join-the-minnow-support-project</ref> MSP's strength was **community and belonging** — it made small accounts feel supported and connected, not just voted-on. Its weaknesses were the governance load of a large chat community and the perennial risk that command-driven upvotes reward participation in the chat over quality of the post.
+
+== Curangel (@curangel) ==
+
+'''Curangel''' is a **delegation-and-curate guild**: manual curators find original content and queue it; the @curangel account votes down the queue whenever its voting mana hits 100%, sizing each vote so nothing waits more than ~24 hours.<ref>steemit.com/curangel/@curangel/announcing-the-curangel-project-curation-serving-everyone</ref><ref>curangel.com</ref> The economics are explicit and delegator-friendly: **80% of curation rewards go to delegators, 20% to the individual curators** — so a whale or a group of minnows can delegate stake, let human curators do the reading, and receive most of the resulting curation rewards back.<ref>curangel.com</ref> Curangel is the clean, well-documented model of "combine human judgment with delegated stake and share the rewards fairly" — the healthy core of aggregation done right.
+
+== SteemSTEM (@steemstem) ==
+
+'''SteemSTEM''' was a **domain-specific curation community** for Science, Technology, Engineering, and Mathematics writing. A multilingual curation team (English, German, French, Spanish, Italian) scored posts across tiers (small → medium → standard → high) and featured the best in a weekly "Distilled" series; the management team took **no** STEEM from the project account — all funds returned to the community.<ref>steemit.com/steemstem/@steemstem/an-update-on-the-steemstem-project</ref><ref>www.steem.center/index.php?title=SteemSTEM</ref> It shows curation specializing by subject — raising the quality bar within a vertical rather than curating the whole firehose — and its main limitation was the narrowness that made it strong: it only served one domain.
+
+== Curation trails (SteemAuto / Hive.vote) ==
+
+'''Curation trails''' are the infrastructure layer under many of the above. Tools like '''SteemAuto''' (now '''Hive.vote''') let anyone **follow a trusted curator or guild**: when that curator votes, your stake automatically votes the same target, at a weight you choose (0.01%–100%, or matching the curator's).<ref>hive.blog/curation/@muddymo/how-to-follow-and-create-curation-trails-and-automatically-upvote-w-steemauto</ref> A related "Fanbase" feature auto-votes a chosen author's new posts on publication.<ref>hive.blog/steemauto/@flauwy/how-to-support-your-favorite-steemians-and-earn-more-curation-rewards-with-steemauto-fanbase</ref> Trails are the mechanism that lets one human's judgment scale to thousands of accounts — the good — but also the mechanism that lets reward-farming or circle-jerk rings propagate automatically without anyone reading anything — the bad. A trail is only as good as the curator at its head.
+
+== Bid bots (the vote-selling era) ==
+
+'''Bid bots''' were the controversial branch of aggregation. A bid bot pooled a large stake and **auctioned its upvotes**: users sent coin into a bidding round, and the bot upvoted their posts proportionally, aiming to return more in author reward than the bid cost. For a stretch of 2017–2019 this **dominated** the platform — payout tracked payment rather than merit, self-voting and passive bid-bot delegation drained the pool, and genuine contributors struggled to be seen.<ref>steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal</ref> The community's structural answer was '''HF21/EIP (2019)''': a 50/50 author/curator split, a convergent-linear reward curve, and a **free downvote pool** to counter-vote bought and farmed rewards.<ref>steemit.com/steem/@steemitblog/hf21-sps-and-eip-explained</ref> The bid-bot era is the cautionary tale of the corpus: aggregation with the quality signal sold off.
+
+== What MELEK takes from each ==
+
+MELEK builds its **own** curation and onboarding infrastructure rather than outsourcing it to a third-party guild, and it reads this history as a menu of what to keep and what to drop:
+
+* '''From OCD/OCDB''' — keep the whitelist-of-proven-creators and manual-curation return; **drop the paid-vote (bid-bot) model entirely.** MELEK sells no votes.
+* '''From Curie''' — keep the discovery-of-unknowns mission and the **timing courtesy** that deliberately leaves curation reward for smaller curators (this pairs directly with MELEK's reverse-auction window; see [[Curation Theory — Rewards, the Auction Window, and Honest Curation]]).
+* '''From MSP/PAL''' — keep the **community and belonging** for new accounts; deliver it through MELEK's own onboarding (Witness School + the staged tutorial + Hathor's welcome) rather than a third-party Discord.
+* '''From Curangel''' — keep the **delegation pool + fair reward-share** model (human judgment + delegated stake, most rewards back to delegators) as the template for MELEK's own minnow pool.
+* '''From SteemSTEM''' — keep **domain-specific curation** and the norm that operators do not skim the project account.
+* '''From trails''' — keep the mechanism, but **quality-gate the head**: a MELEK trail follows curated, quality-scored targets, not a blind mirror.
+* '''From bid bots''' — keep it only as the warning. MELEK has **no downvotes** (a Blurt-style fork), so it cannot clean up bought votes after the fact; instead it prevents the problem — **no paid votes, quality-gating at the source, and transparency** so influence stays visible.
+
+The design goal is to make what were **informal favors and third-party services** on Steem into **first-class, opt-in, key-safe infrastructure** on MELEK — offered to users through the account-automation-bots-as-a-service model over MELEK-Signer, so a whale's stake efficiently supports good content and a minnow's stake aggregates into real influence, both by design rather than by luck.
+
+== See also ==
+
+* [[Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth]]
+* [[Why Curation Bots Were Made — Whale Coverage and Minnow Aggregation]]
+* [[Curation Theory — Rewards, the Auction Window, and Honest Curation]]
+* [[Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem]]
+* [[Blockchain Witness (Block Producer)]]
+
+== Sources ==
+<ref>hive.blog/niche/@ocd/other-niche-communities-curation-report-1358</ref>
+<ref>hive.blog/hive-174578/@ocd/ocd-communities-incubation-program-update-38</ref>
+<ref>hive.blog/hive-174578/@acidyo/ocd-curation-and-delegation</ref>
+<ref>steemit.com/ocdb/@acidyo/ocdb-announcement</ref>
+<ref>steemit.com/ocd/@acidyo/a-few-words-on-ocdb</ref>
+<ref>steemit.com/steemit/@donkeypong/announcing-project-curie-bringing-rewards-and-recognition-to-steemit-s-undiscovered-and-emerging-authors</ref>
+<ref>steemit.com/curie/@liberosist/explaining-curie-s-guidelines</ref>
+<ref>steemit.com/curation/@curie/curie-whitepaper</ref>
+<ref>steemit.com/minnowsupport/@aytim/what-is-minnow-support-project-msp-and-peace-abundance-liberty-pal</ref>
+<ref>steemit.com/minnowsupportproject/@marcusxman/important-how-to-join-the-minnow-support-project</ref>
+<ref>steemit.com/curangel/@curangel/announcing-the-curangel-project-curation-serving-everyone</ref>
+<ref>curangel.com</ref>
+<ref>steemit.com/steemstem/@steemstem/an-update-on-the-steemstem-project</ref>
+<ref>www.steem.center/index.php?title=SteemSTEM</ref>
+<ref>hive.blog/curation/@muddymo/how-to-follow-and-create-curation-trails-and-automatically-upvote-w-steemauto</ref>
+<ref>hive.blog/steemauto/@flauwy/how-to-support-your-favorite-steemians-and-earn-more-curation-rewards-with-steemauto-fanbase</ref>
+<ref>steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal</ref>
+<ref>steemit.com/steem/@steemitblog/hf21-sps-and-eip-explained</ref>
+
+== Coverage ==
+This article surveys the major Steem/Hive curation and onboarding institutions from primary announcement/explainer posts: OCD + the Incubation Program and the @ocdb whitelisted-bid-bot-to-manual arc (acidyo/OCD posts); Curie's undiscovered-author mission, ~25–52 reputation band, 100+ curator panel and ~150-minute timing courtesy (donkeypong/curie/liberosist posts); the Minnow Support Project / PAL Discord (aytim/marcusxman posts, founders @aggroed/@ausbitbank/@teamsteem/@theprophet0/@someguy123); Curangel's queue-based delegation guild with the documented 80%/20% delegator/curator split (curangel.com); SteemSTEM's multilingual tiered STEM curation with no operator skim; SteemAuto/Hive.vote curation trails + Fanbase; and the bid-bot era with the HF21/EIP response (SteemitBlog). Reputation bands, curator counts, timing windows, and the 80/20 split are reproduced as stated by those sources and may have drifted over time. The MELEK section is design intent, contrasting a no-paid-vote, no-downvote, first-party, Signer-scoped model. Neutral and educational; not investment advice, no yield promise, no price prediction.

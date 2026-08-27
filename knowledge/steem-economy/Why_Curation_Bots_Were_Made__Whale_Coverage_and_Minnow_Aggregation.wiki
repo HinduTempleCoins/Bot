@@ -1,0 +1,77 @@
+# Why Curation Bots Were Made: Whale Coverage and Minnow Aggregation
+
+Automated voting on [[STEEM Blockchain|Steem]] (and later [[HIVE Blockchain|Hive]]) did not begin as an abuse. It began as a rational answer to two structural problems baked into a stake-weighted [[Delegated Proof of Stake (DPoS)|proof-of-brain]] reward system — one problem faced by the largest accounts, the opposite problem faced by the smallest. Almost every curation bot, guild, trail, and pool in the ecosystem descends from one of these **two origin stories**. Understanding them is the key to understanding both why the tooling exists and how it was later abused. This article tells both stories honestly, including the failure modes, and points to how the [[MELEK Blockchain|MELEK]] design keeps the useful mechanics while differing on the fixes (MELEK is a no-downvote, [[BLURT Blockchain|Blurt]]-style fork, so it cannot rely on the downvote-based remedies Steem eventually adopted).
+
+== Origin story 1: whales cannot read everything ==
+
+A [[Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth|whale]] holds enormous voting influence but has the same 24 hours in a day as anyone else. On a platform that grew from a few hundred posts per day to well over 8,000 posts per day, no whale could **manually** read and vote on even a small fraction of the good content being published. Their voting power — the thing that actually funds authors — sat idle most of the time, or was spread thinly and arbitrarily.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+Automation was the obvious fix. The earliest whale bots simply **distributed a large stake's voting power automatically** so it kept working while the operator slept. The canonical early example is the "steemed" whale operator (@steemed / @itsascam / @steemroller), described as one person running three whale accounts who automated content discovery *because they could not keep up manually* — an intent the community at the time described as benign.<ref>steemit.com/@wang/transfers</ref><ref>cryptocurrency/steem_bots_history.json</ref>
+
+Three durable mechanisms grew out of this need, all still in use on Hive today:
+
+* '''Auto-voters.''' A bot votes on posts matching criteria (an author, a tag, a schedule) so a whale's stake is always deployed.
+* '''Curation trails.''' Instead of picking targets itself, a large account **mirrors the votes of a trusted curator or guild** — when the curator votes, the trail follows with its own stake. This lets one thoughtful human's judgment direct many accounts' voting power. Trails are run today through tools like SteemAuto / Hive.vote.<ref>hive.blog/curation/@muddymo/how-to-follow-and-create-curation-trails-and-automatically-upvote-w-steemauto</ref>
+* '''Delegation to guilds.''' A whale **delegates** vested stake (via `delegate_vesting_shares`) to a curation project whose human curators do the reading, and the whale receives a share of the resulting curation rewards. The whale never reads a post; its stake still lands on good content.
+
+The principle is sound and remains sound: **large stake needs a way to reach good content it cannot personally find.** That is a coverage problem, and automation legitimately solves it.
+
+== Origin story 2: a minnow's vote is worth nothing alone ==
+
+The opposite tier has the opposite problem. Because vote weight is proportional to stake, a [[Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth|minnow]] or plankton voting alone moves a payout by a rounding error — and below the **dust threshold**, the vote is clamped to literally zero. An individual small stakeholder has, in effect, no voice in the reward pool.
+
+The fix here is **aggregation**: combine many tiny stakes so that together they clear the dust floor and land a vote that matters, then share the resulting curation rewards among the participants. This produced its own family of institutions:
+
+* '''Curation guilds / support communities''' that pool many small accounts (and often some delegated whale stake) behind coordinated votes — the [[Curation and Onboarding Programs — OCD, Curie, PAL, Curangel, Trails, and Bid Bots|Minnow Support Project, Curie, OCD, Curangel]], and similar.
+* '''Delegation pools''' where minnows delegate stake into one voting account and receive a proportional share of what that account earns curating.
+* '''Bid bots''' — the controversial branch. A bid bot pooled a large stake and **sold** a slice of its voting power: users sent coin, the bot upvoted their post in proportion, promising a payout. This "aggregated" stake too, but as a paid service rather than a merit filter — and that distinction is where the trouble started (below).
+
+The principle here is also sound: **small stake needs a way to add up to something.** That is an aggregation problem, and pooling legitimately solves it.
+
+== The two stories are the same primitive ==
+
+Both origin stories run on the *same* Graphene primitive — **delegation plus automated voting** — pointed in opposite directions. Whale coverage takes one big stake and *spreads* it across content the owner can't read. Minnow aggregation takes many small stakes and *concentrates* them into a vote that counts. A curation guild is usually **both at once**: whales delegate in for coverage, minnows delegate in for aggregation, human curators supply the judgment, and everyone shares the curation rewards. That is the healthy core of the entire curation-bot ecosystem.
+
+== What went wrong (told honestly) ==
+
+The same tooling, optimized for yield instead of curation, produced the abuses that dominated Steem in 2017–2019:
+
+* '''Vote-selling / bid bots.''' When upvotes became a purchasable commodity, payout stopped tracking quality and started tracking who paid. Critics argued this functioned as a **Sybil-style manipulation of subjective value** — @senseiteekay's "Value is Subjective" (Jan 2017) made exactly this charge against the early voting-bot services.<ref>cryptocurrency/steem_bots_history.json</ref> By 2018–2019, "bid bots pretty much ruled the platform," with little stake left hunting for quality and genuine contributors struggling to earn.<ref>steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal</ref>
+* '''Self-voting.''' Large stakeholders (or automated scripts) voting their own posts to harvest the reward pool directly, contributing nothing to curation.<ref>steemit.com/hf21/@timcliff/hardfork-21-steem-proposal-system-sps-economic-improvement-proposal-eip</ref>
+* '''Circle-jerks / vote-trading rings.''' Groups reciprocally upvoting each other's content regardless of merit, an aggregation of stake with no quality signal at all.
+* '''Passive bid-bot delegation.''' Stakeholders parking their coin in the highest-returning bid bot instead of participating in content discovery — rational for the individual, corrosive for the commons.<ref>steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal</ref>
+* '''Bot saturation and tone-deafness.''' By mid-2017 the community openly worried there were "more interactive bots than humans," and automated voices replied without comprehension in places where comprehension mattered — the notorious case of a cheery greeter bot answering a bereavement post.<ref>cryptocurrency/steem_bots_history.json</ref>
+
+The through-line of every abuse is the same: **stake was aggregated or deployed for yield with the quality signal removed.** The primitive is neutral; stripping out human judgment is what breaks it.
+
+== How Steem tried to fix it — and why MELEK differs ==
+
+Steem's answer arrived in **Hardfork 21 (2019)** as the Economic Improvement Proposal (EIP), a three-part change: a 50/50 author/curator split (up from 75/25) to make curating more profitable than self-voting; a convergent-linear reward curve to blunt reward-farming at the extremes; and a **free downvote pool** so the community could push rewards away from over-rewarded or bought votes at no cost to itself.<ref>steemit.com/steem/@steemitblog/hf21-sps-and-eip-explained</ref> The downvote pool in particular was the enforcement teeth — abuse could be *counter-voted* back into the pool.
+
+'''MELEK cannot use that fix, by design.''' MELEK is a [[BLURT Blockchain|Blurt]]-style fork with **no downvotes** — there is no free-downvote pool to police bought or farmed votes after the fact. This is a deliberate cultural choice (no flag-wars, no downvote retaliation), and it means MELEK's anti-abuse work must be **preventive and structural rather than punitive**:
+
+* '''Quality-gating at the source''' — curation pools weight votes by human-scored quality and a whitelist of proven contributors, so low-effort or self-dealing content simply is not aggregated in the first place.
+* '''Curation-weighting and the auction window''' — the honest-curation mechanics (reverse-auction timing, square-root curation curve) reward genuine early discovery over reflexive stake-dumping. See [[Curation Theory — Rewards, the Auction Window, and Honest Curation]].
+* '''No paid votes''' — MELEK's curation infrastructure is not a bid-bot; influence is delegated and earned, never auctioned.
+* '''Transparency and a legible HUD''' — surfacing who voted, with what stake, and what a vote was worth, so manipulation is visible rather than hidden.
+
+The lesson MELEK draws is continuity, not repudiation: keep whale coverage and minnow aggregation — the genuinely useful half of the ecosystem — and replace the downvote-based cleanup with quality-gated, non-paid, transparent aggregation that never strips out the human judgment in the first place.
+
+== See also ==
+
+* [[Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth]]
+* [[Curation and Onboarding Programs — OCD, Curie, PAL, Curangel, Trails, and Bid Bots]]
+* [[Curation Theory — Rewards, the Auction Window, and Honest Curation]]
+* [[Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem]]
+* [[Delegated Proof of Stake (DPoS)]]
+
+== Sources ==
+<ref>cryptocurrency/steem_bots_history.json</ref>
+<ref>steemit.com/@wang/transfers</ref>
+<ref>hive.blog/curation/@muddymo/how-to-follow-and-create-curation-trails-and-automatically-upvote-w-steemauto</ref>
+<ref>steemit.com/steem/@steemitblog/improving-the-economics-of-steem-a-community-proposal</ref>
+<ref>steemit.com/steem/@steemitblog/hf21-sps-and-eip-explained</ref>
+<ref>steemit.com/hf21/@timcliff/hardfork-21-steem-proposal-system-sps-economic-improvement-proposal-eip</ref>
+
+== Coverage ==
+This article synthesizes the two structural origins of Steem/Hive curation automation (whale content-coverage and minnow vote-aggregation) with the documented abuse history and the HF21/EIP response. The whale-coverage and bot-saturation/tone-deafness material draws on the family knowledge base's Steem-bot history (cryptocurrency/steem_bots_history.json, itself compiled from @MarsResident's July 2016 survey); the vote-selling/self-voting/passive-delegation abuses and the three-part EIP fix are cited to the SteemitBlog EIP posts and Tim Cliff's HF21 explainer. The MELEK-differs section reflects the project's design: MELEK is a no-downvote Blurt-style fork, so it substitutes quality-gating/curation-weighting/transparency for the free-downvote pool. Neutral and educational; not investment advice, no yield promise, no price prediction. Some abuse claims (e.g. "bid bots ruled the platform") are reproduced as the cited community's characterization of the period.
