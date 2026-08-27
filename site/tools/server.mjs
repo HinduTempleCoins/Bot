@@ -42,7 +42,7 @@ const bp = (p) => BASE_PATH + p;
 // Move + Wallet/Profile are front-door cards. They link out only if their URL env is set; otherwise the
 // card renders as a friendly "coming soon" tile. We deliberately do NOT build Move or the wallet here.
 const MOVE_URL = process.env.MOVE_URL || '';
-const WALLET_URL = process.env.WALLET_URL || '';
+const WALLET_URL = process.env.WALLET_URL || '/profile'; // the read-only Profile/Portfolio front-door (site/profile), mounted on the same hub
 
 // ── shared house-style helpers ─────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -146,7 +146,9 @@ function toolCard(a) {
 // A front-door card. If `href` (from env, via safeHref) is set it links out; otherwise it's a calm
 // "coming soon" tile — never a dead link, never a pitch.
 function frontDoorCard({ emoji, name, tagline, blurb, href }) {
-  const safe = safeHref(href);
+  // A root-relative internal link (e.g. /profile on this same hub) is allowed directly; anything else
+  // (external URLs) goes through safeHref. `/^\/[^/]/` permits "/profile" but rejects protocol-relative "//evil".
+  const safe = (typeof href === 'string' && /^\/[^/]/.test(href)) ? href : safeHref(href);
   const inner = `<span class=e>${esc(emoji)}</span>
     <span class=t>${esc(name)}</span>
     <span class=tl>${esc(tagline)}</span>
