@@ -4,11 +4,14 @@
  * No network, no chain reads — only the local catalog + markdown files. Run with:
  *   node --test tutorial/lessons/index.test.mjs
  *
- * The catalog is organized into three tracks:
+ * The catalog is organized into four tracks:
  *   Track 1 — MELEK (Tier A, lessons 01–12)
  *   Track 2 — account-automation (Tier B, strand 'account-automation', 13–15)
  *   Track 3 — platforms (Tier C, strand 'platforms', 16–24), each ending with the
  *             CryptoKannon learn-and-earn completion (do an action → upvote reward)
+ *   Track 4 — defi (Tier C, strand 'defi', 25–29): KulaSwap DEX + KULA DeFi stack,
+ *             each ending with the same learn-and-earn completion + HONEST DeFi risk
+ *             framing (impermanent loss / liquidation / smart-contract / no returns)
  *
  * The load-bearing test here is KEY-CUSTODY SAFETY: no lesson may instruct a user
  * to paste / type / send / share a private key or secret. The phrase "private
@@ -21,14 +24,14 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LESSONS, PLATFORMS, lessonList, lessonsInStrand, loadLesson } from './index.mjs';
+import { LESSONS, PLATFORMS, DEFI_TOPICS, lessonList, lessonsInStrand, loadLesson } from './index.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const stagesPath = join(__dirname, '..', 'stages.json');
 
 const VALID_TIERS = new Set(['A', 'B', 'C']);
 
-// A representative sample of ids we expect to ship, across all three tracks.
+// A representative sample of ids we expect to ship, across all four tracks.
 const EXPECTED_IDS = [
   // Track 1 — MELEK (Tier A)
   'welcome-create-account',
@@ -57,6 +60,12 @@ const EXPECTED_IDS = [
   'tools-hub-and-profile',
   'ren-naming',
   'tokens-curation-witnessing',
+  // Track 4 — DeFi (Tier C)
+  'what-a-dex-is-and-swapping',
+  'providing-liquidity',
+  'farming-and-yield',
+  'kula-cdp-and-the-dollar-stable',
+  'the-bridge',
 ];
 
 test('LESSONS entries are well-formed, valid tier, unique ids/files', () => {
@@ -77,7 +86,7 @@ test('LESSONS entries are well-formed, valid tier, unique ids/files', () => {
   assert.equal(new Set(files).size, files.length, 'lesson files must be unique');
 });
 
-test('the expected topic ids across all three tracks are present', () => {
+test('the expected topic ids across all four tracks are present', () => {
   const ids = new Set(LESSONS.map((l) => l.id));
   for (const want of EXPECTED_IDS) {
     assert.ok(ids.has(want), `missing expected lesson: ${want}`);
@@ -187,6 +196,99 @@ test('the Gambling Education Center lesson is education-not-how-to-win and gives
   assert.match(edu, /not.*how-to-win|does not teach you to win|never.*how-to-win/i, 'must NOT frame as how-to-win');
   // Load-bearing: where to get help.
   assert.match(edu, /1-800-GAMBLER|1-800-426-2537|helpline/i, 'must give a problem-gambling help resource');
+});
+
+/* --------------------- Track 4 — DeFi (learn-and-earn) --------------------- */
+
+test('the defi strand is present, Tier-C, off the FSM, with valid topic refs', () => {
+  const defi = lessonsInStrand('defi');
+  assert.ok(defi.length >= 5, `expected >=5 defi lessons, got ${defi.length}`);
+  const validTopics = new Set(DEFI_TOPICS);
+  for (const l of defi) {
+    assert.equal(l.tier, 'C', `defi lesson ${l.id} must be Tier C`);
+    assert.equal(l.stageRef, null, `defi lesson ${l.id} must be off the FSM (stageRef null)`);
+    assert.equal(typeof l.topic, 'string', `defi lesson ${l.id} must declare a topic`);
+    assert.ok(validTopics.has(l.topic), `defi lesson ${l.id} references unknown topic "${l.topic}"`);
+  }
+  // Each declared topic is covered by exactly one lesson.
+  const covered = defi.map((l) => l.topic);
+  assert.equal(new Set(covered).size, covered.length, 'each defi topic must map to a unique lesson');
+});
+
+test('every defi topic we set out to cover has a lesson', () => {
+  const covered = new Set(lessonsInStrand('defi').map((l) => l.topic));
+  for (const t of DEFI_TOPICS) {
+    assert.ok(covered.has(t), `missing a defi lesson for "${t}"`);
+  }
+});
+
+test('every defi lesson ends with the learn-and-earn completion', () => {
+  for (const l of lessonsInStrand('defi')) {
+    const body = readFileSync(join(__dirname, l.file), 'utf8');
+    const flat = body.replace(/\s+/g, ' ');
+    assert.match(flat, /learn and earn/i, `defi lesson ${l.id} must have a "Learn and earn" completion`);
+    // The learner DOES the thing (swap / add liquidity / stake / borrow / bridge → post).
+    assert.match(flat, DO_ACTION, `defi lesson ${l.id} must ask the learner to DO an action`);
+    assert.match(flat, /upvote/i, `defi lesson ${l.id} must reward with an upvote`);
+    assert.match(flat, /worth whatever the vote is worth/i, `defi lesson ${l.id} must frame the reward honestly (worth whatever)`);
+    assert.match(flat, /no (promise|returns)|no promise of returns/i, `defi lesson ${l.id} must keep the honest no-returns framing`);
+    assert.match(flat, /\bNext:/i, `defi lesson ${l.id} must carry a "Next:" pointer`);
+  }
+});
+
+// HONEST DeFi risk framing: every defi lesson must name at least one concrete risk.
+const DEFI_RISK = /impermanent loss|liquidat|smart-contract risk|smart contract risk|no promise of returns|alpha|testnet/i;
+
+test('every defi lesson carries an honest DeFi risk note', () => {
+  for (const l of lessonsInStrand('defi')) {
+    const flat = readFileSync(join(__dirname, l.file), 'utf8').replace(/\s+/g, ' ');
+    assert.match(flat, DEFI_RISK, `defi lesson ${l.id} must carry an honest DeFi risk note`);
+  }
+});
+
+test('the swap lesson teaches AMM basics and swap risk', () => {
+  const swap = readFileSync(join(__dirname, '25-what-a-dex-is-and-swapping.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(swap, /automated market maker|AMM/i, 'swap lesson must teach the AMM');
+  assert.match(swap, /liquidity pool|pool/i, 'swap lesson must teach liquidity pools');
+  assert.match(swap, /slippage/i, 'swap lesson must teach slippage');
+  assert.match(swap, /ratio/i, 'swap lesson must teach price = ratio');
+  assert.match(swap, /smart-contract risk/i, 'swap lesson must state smart-contract risk');
+});
+
+test('the liquidity lesson is HONEST about impermanent loss and LP tokens', () => {
+  const lp = readFileSync(join(__dirname, '26-providing-liquidity.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(lp, /impermanent loss/i, 'liquidity lesson must name impermanent loss');
+  assert.match(lp, /LP token/i, 'liquidity lesson must teach LP tokens');
+  // Honest: possible to still come out behind simply holding.
+  assert.match(lp, /behind|less of the winner|does not always/i, 'liquidity lesson must state IL can leave you behind holding');
+});
+
+test('the farming lesson is HONEST that yield is not free money (emissions/risk)', () => {
+  const farm = readFileSync(join(__dirname, '27-farming-and-yield.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(farm, /yield is not free money|not free money/i, 'farming lesson must state yield is not free money');
+  assert.match(farm, /emission/i, 'farming lesson must explain emissions');
+  assert.match(farm, /APR/i, 'farming lesson must read an APR honestly');
+});
+
+test('the CDP lesson teaches the SBD history, missing MBD, and collateral-backed stable', () => {
+  const cdp = readFileSync(join(__dirname, '28-kula-cdp-and-the-dollar-stable.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(cdp, /\bSBD\b/, 'CDP lesson must teach SBD history');
+  assert.match(cdp, /Blurt/i, 'CDP lesson must state Blurt removed the dollar token');
+  assert.match(cdp, /\bMBD\b/, 'CDP lesson must state MELEK has no MBD');
+  assert.match(cdp, /\bCDP\b|collateraliz/i, 'CDP lesson must teach the CDP');
+  assert.match(cdp, /overcollateraliz/i, 'CDP lesson must teach overcollateralization');
+  assert.match(cdp, /liquidat/i, 'CDP lesson must teach liquidation risk');
+  // Unicoin line: NEVER "asset-backed" / "SEC-registered".
+  assert.match(cdp, /utility/i, 'CDP lesson must frame KULA/stable as a utility mechanism');
+  assert.match(cdp, /asset-backed|SEC-registered/i, 'CDP lesson must explicitly disclaim the asset-backed/SEC-registered framing');
+});
+
+test('the bridge lesson teaches wrapping, wMELEK backing, and security posture', () => {
+  const br = readFileSync(join(__dirname, '29-the-bridge.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(br, /wMELEK/i, 'bridge lesson must name wMELEK');
+  assert.match(br, /wrap/i, 'bridge lesson must teach wrapping');
+  assert.match(br, /lock.*mint|mint.*lock/i, 'bridge lesson must teach lock-and-mint');
+  assert.match(br, /security|attest|validator|risk/i, 'bridge lesson must teach the security posture');
 });
 
 /* ------------------------------ loader API ------------------------------ */

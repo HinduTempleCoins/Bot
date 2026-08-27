@@ -21,16 +21,26 @@
  *     upvote reward (honest, real-utility; sweepstakes/AMOE where a draw is
  *     involved; no returns promise). Lessons 16–24, all `stageRef: null`.
  *
+ *   Track 4 — DeFi (Tier C, strand 'defi'): the KulaSwap DEX + the KULA DeFi stack
+ *     — what a DEX is and swapping, providing liquidity (with impermanent loss),
+ *     farming/yield (yield is not free money), the KULA CDP + the dollar-stable
+ *     that fills MELEK's missing MBD, and the MELEK↔PRANA bridge (wMELEK). Each
+ *     ends with the same learn-and-earn completion (do the swap/LP/borrow/bridge →
+ *     post → Hathor upvotes) and carries HONEST DeFi risk framing throughout
+ *     (impermanent loss, liquidation, smart-contract risk, alpha/testnet, no
+ *     returns promise; the KULA stable is a UTILITY mechanism, never
+ *     "asset-backed"). Lessons 25–29, all `stageRef: null`.
+ *
  * The lesson *text* lives in the sibling markdown files; this module is the thin
  * metadata + loader layer over them. It is the lessons analogue of stages.json:
  * `stageRef` ties each lesson to a stage key in ../stages.json where one exists,
  * or `null` for lessons that teach a motion the staged FSM does not gate on
  * (account creation, voting, transfers, profile, rewards, following, the whole
- * automation strand, and the whole platforms strand).
+ * automation strand, and the whole platforms + defi strands).
  *
  * IMPORTANT: this module does not touch the FSM (../stages.json) or the
- * detector/reward/composer engines. The automation and platforms strands live
- * entirely here, off the linear FSM, exactly so those engines and their tests
+ * detector/reward/composer engines. The automation, platforms, and defi strands
+ * live entirely here, off the linear FSM, exactly so those engines and their tests
  * stay untouched and green.
  *
  * Voice: the markdown is written in Hathor's Serene / Angelic register
@@ -57,8 +67,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  *   title    — human title (matches the markdown H1 intent)
  *   tier     — 'A' (works-now MELEK), 'B' (opt-in automation), 'C' (platforms)
  *   stageRef — key in ../stages.json this lesson maps to, or null
- *   strand   — optional track tag: 'account-automation' | 'platforms'
+ *   strand   — optional track tag: 'account-automation' | 'platforms' | 'defi'
  *   platform — optional platform slug (platforms strand only)
+ *   topic    — optional DeFi topic slug (defi strand only)
  */
 export const LESSONS = [
   // ---- Track 1 — MELEK (Tier A, works-now Graphene) ----
@@ -255,6 +266,53 @@ export const LESSONS = [
     strand: 'platforms',
     platform: 'melek-graduation',
   },
+
+  // ---- Track 4 — DeFi (Tier C, strand 'defi', learn-and-earn per topic) ----
+  {
+    id: 'what-a-dex-is-and-swapping',
+    file: '25-what-a-dex-is-and-swapping.md',
+    title: 'What a DEX is — and how to swap on KulaSwap',
+    tier: 'C',
+    stageRef: null,
+    strand: 'defi',
+    topic: 'dex-swap',
+  },
+  {
+    id: 'providing-liquidity',
+    file: '26-providing-liquidity.md',
+    title: 'Providing liquidity — becoming the pool, and impermanent loss',
+    tier: 'C',
+    stageRef: null,
+    strand: 'defi',
+    topic: 'liquidity',
+  },
+  {
+    id: 'farming-and-yield',
+    file: '27-farming-and-yield.md',
+    title: 'Farming and yield — staking LP tokens, and why yield is never free',
+    tier: 'C',
+    stageRef: null,
+    strand: 'defi',
+    topic: 'farming',
+  },
+  {
+    id: 'kula-cdp-and-the-dollar-stable',
+    file: '28-kula-cdp-and-the-dollar-stable.md',
+    title: 'KULA, the CDP, and the dollar-stable — MELEK’s missing MBD',
+    tier: 'C',
+    stageRef: null,
+    strand: 'defi',
+    topic: 'cdp-stable',
+  },
+  {
+    id: 'the-bridge',
+    file: '29-the-bridge.md',
+    title: 'The bridge — moving value between MELEK and PRANA',
+    tier: 'C',
+    stageRef: null,
+    strand: 'defi',
+    topic: 'bridge',
+  },
 ];
 
 /** The set of platform slugs a platforms-strand lesson may reference. */
@@ -270,6 +328,15 @@ export const PLATFORMS = Object.freeze([
   'melek-graduation',
 ]);
 
+/** The set of DeFi topic slugs a defi-strand lesson may reference. */
+export const DEFI_TOPICS = Object.freeze([
+  'dex-swap',
+  'liquidity',
+  'farming',
+  'cdp-stable',
+  'bridge',
+]);
+
 /**
  * lessonList() — the catalog metadata (no file contents). Returns a shallow copy
  * so callers cannot mutate the canonical LESSONS array.
@@ -280,7 +347,8 @@ export function lessonList() {
 
 /**
  * lessonsInStrand(strand) — the catalog entries belonging to one strand
- * ('account-automation' | 'platforms'), as defensive copies, in teaching order.
+ * ('account-automation' | 'platforms' | 'defi'), as defensive copies, in teaching
+ * order.
  */
 export function lessonsInStrand(strand) {
   return LESSONS.filter((l) => l.strand === strand).map((l) => ({ ...l }));
@@ -319,7 +387,7 @@ if (process.argv[1] && process.argv[1].endsWith('index.mjs')) {
     }
     console.log(lesson.content);
   } else {
-    console.log('Tutorial lessons (Track 1 MELEK · Track 2 automation · Track 3 platforms):\n');
+    console.log('Tutorial lessons (Track 1 MELEK · Track 2 automation · Track 3 platforms · Track 4 DeFi):\n');
     for (const l of lessonList()) {
       const tag = l.strand ? `  [${l.strand}]` : '';
       console.log(`  ${l.id.padEnd(34)} (${l.tier}) ${l.title}${tag}`);
