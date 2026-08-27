@@ -1,0 +1,14 @@
+{
+  "articleId": "Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth",
+  "title": "Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth",
+  "bodyFile": "Stake_Tiers__Whale__Dolphin__Minnow__and_Vote_Weight.wiki",
+  "sources": [
+    "https://steemit.com/steem/@dhimmel/steem-vest-ranks-plankton-minnow-dolphin-orca-whale",
+    "https://hiveblog.c0ff33a.uk/utopian-io/@stoodkev/more-ranks-on-steemplus-to-track-your-progression",
+    "https://spencercoffman.com/what-is-steemit-rank/",
+    "https://steemit.com/steem/@pairmike/whales-dolphins-and-minnows-what-the-official-qualifier-in-units",
+    "https://www.steem.center/index.php?title=Dolphin",
+    "knowledge memory: melek-curation-vote-constants (MELEK live get_config)"
+  ],
+  "provenanceNote": "Hand-authored educational seed for the new knowledge/steem-economy/ corpus (Witness School + tutorial draw on it). Article 1 of 3. Covers: staked vs liquid coin; the canonical five tiers plankton/minnow/dolphin/orca/whale with the SteemPlus ~500/5,000/50,000/500,000 SP thresholds (flagged as conventions, not consensus constants); 'redfish' flagged as informal/non-canonical; the core mechanic vote-rshares proportional to stake x mana x weight; the dust threshold (MELEK 50,000,000 rshares) making small votes zero; mana regen (MELEK 5 days) capping spread; delegate_vesting_shares as the tier bridge; and MELEK keeping the energy/mana HUD legible (contrast with Blurt dropping RC). MELEK constants (25% curation, square-root curve, dust=5e7, mana=432000s) cite the project's melek-curation-vote-constants memory (live get_config). HARD compliance: neutral/educational, not-investment-advice, no yield promise, no price prediction. Uncertain facts explicitly flagged. Written 2026-08-27 for the whale/dolphin/minnow education direction (memory: whale-dolphin-minnow-education-infrastructure)."
+}
