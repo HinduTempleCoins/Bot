@@ -41,11 +41,12 @@ test('landing 200 lists a card for every app (utilities + games)', async () => {
   assert.match(res.body, />Move</);
 });
 
-test('the Move and Wallet/Profile front-door cards render (coming-soon when no URL is set)', async () => {
+test('front-door cards: Wallet/Profile links to the built profile front-door; Move is coming-soon', async () => {
   const body = (await get('/')).body;
   assert.match(body, /Move/);
   assert.match(body, /Wallet \/ Profile/);
-  assert.match(body, /coming soon/i);              // no URL env in tests → calm coming-soon tiles
+  assert.match(body, /href="\/profile"/);          // WALLET_URL defaults to the profile front-door (site/profile)
+  assert.match(body, /coming soon/i);              // Move has no web surface yet → a calm coming-soon tile
 });
 
 test('the landing reads as a plain free-tools directory — NO crypto pitch up front', async () => {
