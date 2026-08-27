@@ -1,8 +1,14 @@
 /**
- * index.test.mjs — OFFLINE tests for the Tier-A tutorial lesson catalog (#44).
+ * index.test.mjs — OFFLINE tests for the tutorial lesson catalog (#44).
  *
  * No network, no chain reads — only the local catalog + markdown files. Run with:
  *   node --test tutorial/lessons/index.test.mjs
+ *
+ * The catalog is organized into three tracks:
+ *   Track 1 — MELEK (Tier A, lessons 01–12)
+ *   Track 2 — account-automation (Tier B, strand 'account-automation', 13–15)
+ *   Track 3 — platforms (Tier C, strand 'platforms', 16–24), each ending with the
+ *             CryptoKannon learn-and-earn completion (do an action → upvote reward)
  *
  * The load-bearing test here is KEY-CUSTODY SAFETY: no lesson may instruct a user
  * to paste / type / send / share a private key or secret. The phrase "private
@@ -15,13 +21,16 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LESSONS, lessonList, loadLesson } from './index.mjs';
+import { LESSONS, PLATFORMS, lessonList, lessonsInStrand, loadLesson } from './index.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const stagesPath = join(__dirname, '..', 'stages.json');
 
-// The Tier-A lessons we expect to ship, by id.
+const VALID_TIERS = new Set(['A', 'B', 'C']);
+
+// A representative sample of ids we expect to ship, across all three tracks.
 const EXPECTED_IDS = [
+  // Track 1 — MELEK (Tier A)
   'welcome-create-account',
   'your-first-post',
   'comments-and-replies',
@@ -30,12 +39,30 @@ const EXPECTED_IDS = [
   'your-profile',
   'claiming-rewards',
   'following-and-feeds',
+  'sharing-what-you-know',
+  'power-up-your-account',
+  'witnessing-and-governance',
+  'delegation',
+  // Track 2 — automation (Tier B)
+  'automating-your-account-safely',
+  'account-health-and-curation-bots',
+  'running-your-own-bot',
+  // Track 3 — platforms (Tier C)
+  'kula-arcade',
+  'games-and-idle-games',
+  'melek-move',
+  'herald-web-builder',
+  'gambling-education-center',
+  'the-forum',
+  'tools-hub-and-profile',
+  'ren-naming',
+  'tokens-curation-witnessing',
 ];
 
-test('LESSONS contains the Tier-A entries (6–8), all tier A, unique ids/files', () => {
-  assert.ok(LESSONS.length >= 6 && LESSONS.length <= 8, `expected 6–8 lessons, got ${LESSONS.length}`);
+test('LESSONS entries are well-formed, valid tier, unique ids/files', () => {
+  assert.ok(LESSONS.length >= EXPECTED_IDS.length, `expected at least ${EXPECTED_IDS.length} lessons, got ${LESSONS.length}`);
   for (const l of LESSONS) {
-    assert.equal(l.tier, 'A', `lesson ${l.id} must be tier A`);
+    assert.ok(VALID_TIERS.has(l.tier), `lesson ${l.id} must be tier A/B/C, got ${l.tier}`);
     assert.equal(typeof l.id, 'string');
     assert.ok(l.id.length > 0);
     assert.equal(typeof l.file, 'string');
@@ -50,14 +77,14 @@ test('LESSONS contains the Tier-A entries (6–8), all tier A, unique ids/files'
   assert.equal(new Set(files).size, files.length, 'lesson files must be unique');
 });
 
-test('the expected Tier-A topic ids are all present', () => {
+test('the expected topic ids across all three tracks are present', () => {
   const ids = new Set(LESSONS.map((l) => l.id));
   for (const want of EXPECTED_IDS) {
-    assert.ok(ids.has(want), `missing expected Tier-A lesson: ${want}`);
+    assert.ok(ids.has(want), `missing expected lesson: ${want}`);
   }
 });
 
-test('every referenced markdown file exists and is non-trivial', () => {
+test('every referenced markdown file exists, is non-trivial, and teaches+closes', () => {
   for (const l of LESSONS) {
     const p = join(__dirname, l.file);
     assert.ok(existsSync(p), `markdown file missing for ${l.id}: ${l.file}`);
@@ -79,6 +106,90 @@ test('non-null stageRefs resolve to a real stage key in stages.json', () => {
     }
   }
 });
+
+/* ------------------------- Track 2 — automation ------------------------- */
+
+test("the account-automation strand is present, Tier-B, and off the FSM", () => {
+  const auto = lessonsInStrand('account-automation');
+  assert.ok(auto.length >= 3, `expected >=3 automation lessons, got ${auto.length}`);
+  for (const l of auto) {
+    assert.equal(l.tier, 'B', `automation lesson ${l.id} must be Tier B`);
+    assert.equal(l.stageRef, null, `automation lesson ${l.id} must be off the FSM (stageRef null)`);
+  }
+});
+
+test('the automation foundation lesson teaches the safe, zero-WIF, Signer-scoped model', () => {
+  const foundation = readFileSync(join(__dirname, '13-automating-your-account-safely.md'), 'utf8');
+  assert.match(foundation, /MELEK-Signer/i, 'foundation lesson must name MELEK-Signer');
+  assert.match(foundation, /scoped/i, 'foundation lesson must teach scoped tokens');
+  assert.match(foundation, /revoc|revoke/i, 'foundation lesson must teach revocation');
+  assert.match(foundation, /zero-?WIF/i, 'foundation lesson must state the zero-WIF property');
+});
+
+/* --------------------- Track 3 — platforms (learn-and-earn) --------------------- */
+
+test('the platforms strand is present, Tier-C, off the FSM, with valid platform refs', () => {
+  const plat = lessonsInStrand('platforms');
+  assert.ok(plat.length >= 9, `expected >=9 platform lessons, got ${plat.length}`);
+  const validPlatforms = new Set(PLATFORMS);
+  for (const l of plat) {
+    assert.equal(l.tier, 'C', `platform lesson ${l.id} must be Tier C`);
+    assert.equal(l.stageRef, null, `platform lesson ${l.id} must be off the FSM (stageRef null)`);
+    assert.equal(typeof l.platform, 'string', `platform lesson ${l.id} must declare a platform`);
+    assert.ok(validPlatforms.has(l.platform), `platform lesson ${l.id} references unknown platform "${l.platform}"`);
+  }
+  // Each declared platform is covered by exactly one lesson.
+  const covered = plat.map((l) => l.platform);
+  assert.equal(new Set(covered).size, covered.length, 'each platform must map to a unique lesson');
+});
+
+test('every platform we set out to cover has a lesson', () => {
+  const covered = new Set(lessonsInStrand('platforms').map((l) => l.platform));
+  for (const p of PLATFORMS) {
+    assert.ok(covered.has(p), `missing a platforms lesson for "${p}"`);
+  }
+});
+
+// A "do the action" cue: the learner actively DOES something in the lesson.
+const DO_ACTION = /\b(play|walk|record|publish|claim|post|comment|verify|set up|run one|make one|find your|do one)\b/i;
+
+test('every platforms lesson ends with the learn-and-earn completion', () => {
+  for (const l of lessonsInStrand('platforms')) {
+    const body = readFileSync(join(__dirname, l.file), 'utf8');
+    // Collapse whitespace so multi-word phrases still match when they wrap lines.
+    const flat = body.replace(/\s+/g, ' ');
+    // The CryptoKannon completion section.
+    assert.match(flat, /learn and earn/i, `platform lesson ${l.id} must have a "Learn and earn" completion`);
+    // The learner DOES the thing.
+    assert.match(flat, DO_ACTION, `platform lesson ${l.id} must ask the learner to DO an action`);
+    // The reward is an upvote worth whatever.
+    assert.match(flat, /upvote/i, `platform lesson ${l.id} must reward with an upvote`);
+    assert.match(flat, /worth whatever the vote is worth/i, `platform lesson ${l.id} must frame the reward honestly (worth whatever)`);
+    // Honest framing: no promise of returns.
+    assert.match(flat, /no (promise|returns)|no promise of returns/i, `platform lesson ${l.id} must keep the honest no-returns framing`);
+    // Cross-linked with a "Next:" pointer.
+    assert.match(flat, /\bNext:/i, `platform lesson ${l.id} must carry a "Next:" pointer`);
+  }
+});
+
+test('the KULA Arcade lesson keeps the play-token / provably-fair compliance line', () => {
+  const arcade = readFileSync(join(__dirname, '16-kula-arcade.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(arcade, /provably.fair/i, 'KULA lesson must teach provably-fair');
+  assert.match(arcade, /non-?cashable|cannot cash|worthless to a bank/i, 'KULA lesson must state PLAY is non-cashable');
+  assert.match(arcade, /entertainment/i, 'KULA lesson must frame it as entertainment');
+  assert.match(arcade, /sweepstakes|no-?purchase|void where prohibited/i, 'KULA lesson must carry the sweepstakes/AMOE line for draws');
+});
+
+test('the Gambling Education Center lesson is education-not-how-to-win and gives help resources', () => {
+  const edu = readFileSync(join(__dirname, '20-gambling-education-center.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.match(edu, /house edge/i, 'must teach house edge');
+  assert.match(edu, /expected value|\bEV\b/, 'must teach expected value');
+  assert.match(edu, /not.*how-to-win|does not teach you to win|never.*how-to-win/i, 'must NOT frame as how-to-win');
+  // Load-bearing: where to get help.
+  assert.match(edu, /1-800-GAMBLER|1-800-426-2537|helpline/i, 'must give a problem-gambling help resource');
+});
+
+/* ------------------------------ loader API ------------------------------ */
 
 test('loadLesson returns content for every id; soft-fails on unknown/bad', () => {
   for (const l of LESSONS) {
@@ -102,6 +213,14 @@ test('lessonList returns a defensive copy of the metadata', () => {
   list.push({ id: 'x' });
   assert.notEqual(LESSONS[0].title, 'MUTATED', 'mutating the list must not touch LESSONS');
   assert.equal(LESSONS.length, list.length - 1, 'pushing to the list must not touch LESSONS');
+});
+
+test('lessonsInStrand returns defensive copies and only that strand', () => {
+  const plat = lessonsInStrand('platforms');
+  for (const l of plat) assert.equal(l.strand, 'platforms');
+  plat[0].title = 'MUTATED';
+  assert.notEqual(LESSONS.find((l) => l.id === plat[0].id).title, 'MUTATED', 'mutating the strand copy must not touch LESSONS');
+  assert.deepEqual(lessonsInStrand('no-such-strand'), [], 'unknown strand yields empty list');
 });
 
 /**
