@@ -8,6 +8,30 @@
 
 import { quoteSwap } from './kula-quote.mjs';
 import { CHAINS, DEFAULT_CHAIN, ROUTER_ABI, FACTORY_ABI, PAIR_ABI, ERC20_ABI, isNative, chainReady, allChains } from './kula-config.mjs';
+import { mountPanels } from './dex-panels.mjs';
+
+/** Deterministic accent colour for a token symbol (for the little token dot). Pure + exported. */
+export function tokenColor(symbol) {
+  const s = String(symbol || '');
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
+  return `radial-gradient(circle at 32% 30%, hsl(${h} 70% 62%), hsl(${(h + 40) % 360} 60% 32%))`;
+}
+
+/** Classify a price impact fraction (0.012 = 1.2%) into a severity class. Pure + exported. */
+export function impactClass(frac) {
+  const p = Math.abs(Number(frac) || 0);
+  if (p < 0.01) return 'imp-lo';
+  if (p < 0.05) return 'imp-mid';
+  return 'imp-hi';
+}
+
+const fmtNum = (n, d = 6) => {
+  const x = Number(n);
+  if (!Number.isFinite(x) || x === 0) return '0';
+  if (Math.abs(x) >= 1000) return x.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  return String(Number(x.toPrecision(d)));
+};
 
 export function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -57,36 +81,45 @@ async function getEthers() {
 
 function mount(doc = document) {
   const $ = (id) => doc.getElementById(id);
-  const chainSel = $('chain'), tinSel = $('token-in'), toutSel = $('token-out');
+  const tinSel = $('token-in'), toutSel = $('token-out');
   const amtIn = $('amount-in'), amtOut = $('amount-out'), swapBtn = $('swap'), connectBtn = $('connect');
-  const statusEl = $('status'), chainNote = $('chain-note'), impactEl = $('impact'), minoutEl = $('minout'),
-    feeLine = $('fee-line'), balIn = $('bal-in'), slipEl = $('slippage');
+  const connectLbl = $('connect-lbl'), statusEl = $('status'), chainNote = $('chain-note');
+  const chainName = $('chain-name'), chainDex = $('chain-dex'), slipEl = $('slippage'), dlEl = $('deadline');
+  const dotIn = $('dot-in'), dotOut = $('dot-out'), balIn = $('bal-in'), maxIn = $('max-in');
+  const rateEl = $('rate'), refreshBtn = $('refresh'), gearBtn = $('gear'), settings = $('settings');
+  const details = $('details'), dRate = $('d-rate'), dImpact = $('d-impact'), dMin = $('d-minout'), dFee = $('d-fee'), dRoute = $('d-route');
+  const sPrice = $('s-price'), sTvl = $('s-tvl'), sFee = $('s-fee');
   let provider = null, signer = null, account = null;
   let chain = CHAINS[DEFAULT_CHAIN];
-  let reserves = null; // {reserveIn, reserveOut, decIn, decOut}
+  let reserves = null; // { resIn, resOut } for the current pair (for panels/stats)
+  let balances = {};   // symbol → human balance string
 
-  const note = (el, kind, msg) => { el.className = msg ? `note ${kind}` : ''; el.textContent = msg || ''; };
+  const note = (el, kind, msg) => { if (!el) return; el.className = msg ? `note ${kind}` : ''; el.textContent = msg || ''; };
 
-  function fillChains() {
-    chainSel.innerHTML = allChains().map((c) =>
-      `<option value="${esc(c.key)}">${esc(c.name)} · ${esc(c.dex)}${chainReady(c) ? '' : c.type === 'evm' ? ' (verify)' : ' (soon)'}</option>`).join('');
-    chainSel.value = chain.key;
-  }
   function fillTokens() {
     const toks = chain.tokens || [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
     const opts = toks.map((t, i) => `<option value="${i}">${esc(t.symbol)}</option>`).join('');
     tinSel.innerHTML = opts; toutSel.innerHTML = opts;
     if (toks.length > 1) toutSel.value = '1';
+    paintDots();
   }
   function curTokens() {
     const toks = chain.tokens || [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
     return { tin: toks[+tinSel.value] || toks[0], tout: toks[+toutSel.value] || toks[0] };
   }
+  function paintDots() {
+    const { tin, tout } = curTokens();
+    if (dotIn) dotIn.style.background = tokenColor(tin.symbol);
+    if (dotOut) dotOut.style.background = tokenColor(tout.symbol);
+  }
 
   function onChainChange() {
-    chain = CHAINS[chainSel.value] || chain;
     fillTokens(); reserves = null; amtOut.value = '';
-    feeLine.textContent = `fee ${(chain.feeBps / 100).toFixed(2)}%`;
+    if (chainName) chainName.textContent = chain.name;
+    if (chainDex) chainDex.textContent = chain.dex;
+    if (sFee) sFee.textContent = `${(chain.feeBps / 100).toFixed(2)}%`;
+    if (sPrice) sPrice.textContent = '—';
+    if (sTvl) sTvl.textContent = '—';
     if (chain.type !== 'evm') note(chainNote, 'warn', `${chain.name} support is coming — ${esc(chain.dex)} needs its ${esc(chain.type)} adapter.`);
     else if (!chainReady(chain)) note(chainNote, 'warn', `${chain.name}: router addresses not yet verified — swap disabled (a wrong address loses funds).`);
     else note(chainNote, '', '');
@@ -101,10 +134,21 @@ function mount(doc = document) {
     swapBtn.textContent = a > 0 ? 'Swap' : 'Enter an amount';
   }
 
+  function showRate(msg, spinning) {
+    if (!rateEl) return;
+    rateEl.firstElementChild.innerHTML = msg || '';
+    if (refreshBtn) refreshBtn.classList.toggle('spin', !!spinning);
+  }
+  function clearDetails() {
+    if (details) details.hidden = true;
+    showRate('', false);
+  }
+
   async function refreshQuote() {
     refreshSwapBtn();
     const a = Number.parseFloat(amtIn.value);
-    if (!(a > 0) || !chainReady(chain)) { amtOut.value = ''; impactEl.textContent = 'price impact: —'; minoutEl.textContent = 'min received: —'; return; }
+    if (!(a > 0) || !chainReady(chain)) { amtOut.value = ''; clearDetails(); return; }
+    showRate('Fetching best price…', true);
     try {
       const { ethers } = { ethers: await getEthers() };
       const { tin, tout } = curTokens();
@@ -112,21 +156,58 @@ function mount(doc = document) {
       const factory = new ethers.Contract(chain.factory, FACTORY_ABI, ro);
       const path = buildPath(chain, tin, tout);
       const pairAddr = await factory.getPair(path[0], path[path.length - 1]);
-      if (pairAddr === ethers.ZeroAddress) { note(statusEl, 'warn', 'No liquidity pool for this pair yet.'); amtOut.value = ''; return; }
+      if (pairAddr === ethers.ZeroAddress) { note(statusEl, 'warn', 'No liquidity pool for this pair yet.'); amtOut.value = ''; clearDetails(); return; }
       const pair = new ethers.Contract(pairAddr, PAIR_ABI, ro);
       const [r0, r1] = await pair.getReserves();
       const token0 = (await pair.token0()).toLowerCase();
       const inIs0 = path[0].toLowerCase() === token0;
-      const decIn = tin.decimals, decOut = tout.decimals;
-      const resIn = Number(ethers.formatUnits(inIs0 ? r0 : r1, decIn));
-      const resOut = Number(ethers.formatUnits(inIs0 ? r1 : r0, decOut));
+      const resIn = Number(ethers.formatUnits(inIs0 ? r0 : r1, tin.decimals));
+      const resOut = Number(ethers.formatUnits(inIs0 ? r1 : r0, tout.decimals));
+      reserves = { resIn, resOut };
       const q = estimate({ amountIn: a, reserveIn: resIn, reserveOut: resOut, feeBps: chain.feeBps });
       amtOut.value = q.amountOut ? q.amountOut.toPrecision(8) : '';
-      impactEl.textContent = `price impact: ${(q.priceImpact * 100).toFixed(2)}%`;
+      // rate + details
+      const rate = a > 0 ? q.amountOut / a : 0;
+      showRate(`1 ${esc(tin.symbol)} ≈ <span class="v">${fmtNum(rate)} ${esc(tout.symbol)}</span>`, false);
+      if (sPrice) sPrice.textContent = `${fmtNum(rate, 4)} ${esc(tout.symbol)}`;
+      if (sTvl) sTvl.textContent = `${fmtNum(resOut, 4)} ${esc(tout.symbol)}`;
       const bps = slippageBps(slipEl.value);
-      minoutEl.textContent = `min received: ${(q.amountOut * (1 - bps / 10000)).toPrecision(6)} ${esc(tout.symbol)}`;
+      const minOut = q.amountOut * (1 - bps / 10000);
+      if (details) {
+        details.hidden = false;
+        dRate.textContent = `1 ${tin.symbol} = ${fmtNum(rate)} ${tout.symbol}`;
+        dImpact.textContent = `${(q.priceImpact * 100).toFixed(2)}%`;
+        dImpact.className = `v ${impactClass(q.priceImpact)}`;
+        dMin.textContent = `${fmtNum(minOut)} ${tout.symbol}`;
+        dFee.textContent = `${(chain.feeBps / 100).toFixed(2)}%`;
+        dRoute.textContent = path.length > 1 ? `${tin.symbol} → ${tout.symbol}` : tin.symbol;
+      }
       note(statusEl, '', '');
-    } catch (e) { note(statusEl, 'err', `Quote failed: ${esc((e && e.message) || e)}`); }
+    } catch (e) { note(statusEl, 'err', `Quote failed: ${esc((e && e.message) || e)}`); clearDetails(); }
+  }
+
+  function flip() {
+    const iv = tinSel.value, ov = toutSel.value;
+    tinSel.value = ov; toutSel.value = iv;
+    amtIn.value = amtOut.value && amtOut.value !== '0' ? amtOut.value : amtIn.value;
+    paintDots(); refreshBalances(); refreshQuote();
+  }
+
+  async function refreshBalances() {
+    if (!account || !provider) { if (maxIn) maxIn.hidden = true; return; }
+    try {
+      const { ethers } = { ethers: await getEthers() };
+      const { tin } = curTokens();
+      let human;
+      if (isNative(chain, tin)) { human = ethers.formatUnits(await provider.getBalance(account), tin.decimals); }
+      else {
+        const erc = new ethers.Contract(tin.address, ERC20_ABI, provider);
+        human = ethers.formatUnits(await erc.balanceOf(account), tin.decimals);
+      }
+      balances[tin.symbol] = human;
+      if (balIn) balIn.textContent = `Balance: ${fmtNum(human, 6)} ${esc(tin.symbol)}`;
+      if (maxIn) maxIn.hidden = !(Number(human) > 0);
+    } catch { if (balIn) balIn.textContent = 'Balance: —'; if (maxIn) maxIn.hidden = true; }
   }
 
   async function connect() {
@@ -137,11 +218,19 @@ function mount(doc = document) {
       await provider.send('eth_requestAccounts', []);
       signer = await provider.getSigner();
       account = await signer.getAddress();
-      connectBtn.textContent = `${account.slice(0, 6)}…${account.slice(-4)}`;
+      if (connectLbl) connectLbl.textContent = `${account.slice(0, 6)}…${account.slice(-4)}`;
       connectBtn.classList.add('connected');
+      unlockCtas();
       await ensureChain();
-      refreshSwapBtn(); refreshQuote();
+      refreshBalances(); refreshSwapBtn(); refreshQuote();
     } catch (e) { note(statusEl, 'err', `Connect failed: ${esc((e && e.message) || e)}`); }
+  }
+
+  function unlockCtas() {
+    // enable the panel CTAs once a wallet is present (transactional flows land next)
+    [['lp-cta', 'Add liquidity'], ['farm-cta', 'Stake LP'], ['cdp-cta', 'Open a vault']].forEach(([id, label]) => {
+      const b = $(id); if (b) { b.disabled = false; b.textContent = label; }
+    });
   }
 
   async function ensureChain() {
@@ -173,20 +262,43 @@ function mount(doc = document) {
         const allow = await erc.allowance(account, chain.router);
         if (allow < amountIn) { note(statusEl, 'warn', 'Approve the token in your wallet…'); await (await erc.approve(chain.router, amountIn)).wait(); }
       }
+      const mins = Math.max(1, Number.parseInt(dlEl && dlEl.value, 10) || 20);
       note(statusEl, 'warn', 'Confirm the swap in your wallet…');
-      const tx = await router.swapExactTokensForTokens(amountIn, minOut, path, account, deadlineFrom(Math.floor(Date.now() / 1000)));
+      const tx = await router.swapExactTokensForTokens(amountIn, minOut, path, account, deadlineFrom(Math.floor(Date.now() / 1000), mins));
       note(statusEl, 'warn', `Swapping… ${esc(tx.hash.slice(0, 10))}`);
       await tx.wait();
       note(statusEl, 'ok', `Swapped! ${chain.explorer}/tx/${tx.hash}`);
-      refreshQuote();
+      refreshBalances(); refreshQuote();
     } catch (e) { note(statusEl, 'err', `Swap failed: ${esc((e && e.shortMessage) || (e && e.message) || e)}`); }
   }
 
-  fillChains(); onChainChange();
-  chainSel.addEventListener('change', () => { onChainChange(); refreshQuote(); });
-  [tinSel, toutSel].forEach((s) => s.addEventListener('change', refreshQuote));
+  // ── tabs ──
+  function selectTab(name) {
+    doc.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
+    doc.querySelectorAll('.pane').forEach((p) => { p.hidden = p.dataset.pane !== name; });
+  }
+  doc.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+
+  // ── settings popover ──
+  if (gearBtn && settings) {
+    gearBtn.addEventListener('click', (e) => { e.stopPropagation(); settings.hidden = !settings.hidden; });
+    doc.addEventListener('click', (e) => { if (!settings.hidden && !settings.contains(e.target) && e.target !== gearBtn) settings.hidden = true; });
+    doc.querySelectorAll('#slip-presets .preset[data-slip]').forEach((b) => b.addEventListener('click', () => {
+      doc.querySelectorAll('#slip-presets .preset').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on'); slipEl.value = b.dataset.slip; refreshQuote();
+    }));
+    slipEl.addEventListener('input', () => { doc.querySelectorAll('#slip-presets .preset[data-slip]').forEach((x) => x.classList.remove('on')); refreshQuote(); });
+  }
+
+  // panels (Pool / Farm / Borrow calculators) — real math from the CDP/farm/pool models
+  mountPanels(doc, { getReserves: () => (reserves ? { reservesKula: reserves.resIn, reservesWmelek: reserves.resOut } : {}) });
+
+  onChainChange();
+  [tinSel, toutSel].forEach((s) => s.addEventListener('change', () => { paintDots(); refreshBalances(); refreshQuote(); }));
   amtIn.addEventListener('input', refreshQuote);
-  slipEl.addEventListener('input', refreshQuote);
+  if (maxIn) maxIn.addEventListener('click', () => { const b = balances[curTokens().tin.symbol]; if (b) { amtIn.value = b; refreshQuote(); } });
+  if ($('flip')) $('flip').addEventListener('click', flip);
+  if (refreshBtn) refreshBtn.addEventListener('click', refreshQuote);
   connectBtn.addEventListener('click', connect);
   swapBtn.addEventListener('click', doSwap);
 }

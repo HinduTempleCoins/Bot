@@ -1,88 +1,342 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KulaSwap — multi-chain swap</title>
+<title>KulaSwap — the MELEK ecosystem DEX</title>
 <style>
-  :root{--bg:#0b0e14;--card:#131826;--ink:#e8e6e3;--dim:#9aa4b2;--gold:#d4a23c;--line:#222a3a;--me:#1c2435;--ok:#2ecc71;--warn:#e0a030;--err:#e05656}
+  :root{
+    --bg:#080a10; --bg2:#0d1018; --card:rgba(19,24,38,.72); --card-solid:#131826;
+    --ink:#eef1f6; --dim:#98a2b6; --faint:#6b7488;
+    --gold:#d4a23c; --gold2:#f0c25a; --gold-dim:rgba(212,162,60,.16);
+    --line:rgba(120,135,165,.16); --line2:rgba(120,135,165,.28);
+    --field:#0c1019; --ok:#39d98a; --warn:#e6b13e; --err:#f0736c; --link:#5b9dff;
+    --shadow:0 24px 60px -20px rgba(0,0,0,.7);
+    --r:18px;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:1rem}
-  header{display:flex;align-items:center;gap:.6rem;width:100%;max-width:480px;margin-bottom:1rem}
-  .logo{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold),#7a5a18);flex:0 0 auto}
-  h1{font-size:1.25rem;display:flex;align-items:baseline;gap:.4rem}.sub{color:var(--dim);font-size:.74rem}
-  .alpha{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,162,60,.5);border-radius:5px;padding:.05rem .3rem;vertical-align:super;line-height:1}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center;
+    padding:1rem 1rem 3rem;
+    background-image:
+      radial-gradient(60rem 40rem at 50% -10%, rgba(212,162,60,.10), transparent 60%),
+      radial-gradient(50rem 40rem at 90% 110%, rgba(91,157,255,.06), transparent 55%);
+    background-attachment:fixed;
+  }
+  a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  .wrap{width:100%;max-width:468px;display:flex;flex-direction:column;gap:.85rem}
+
+  /* ── header ── */
+  header{display:flex;align-items:center;gap:.6rem;padding:.15rem .1rem}
+  .brand{display:flex;align-items:center;gap:.55rem}
+  .logo{width:34px;height:34px;border-radius:11px;flex:0 0 auto;
+    background:conic-gradient(from 210deg,var(--gold2),var(--gold),#8a6a22,var(--gold2));
+    box-shadow:0 0 0 1px rgba(240,194,90,.35),0 6px 18px -6px rgba(212,162,60,.6);
+    display:grid;place-items:center}
+  .logo b{font-weight:900;font-size:1.05rem;color:#1a1304;line-height:1}
+  .brand h1{font-size:1.12rem;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:.4rem}
+  .brand .sub{color:var(--dim);font-size:.68rem;letter-spacing:.01em}
+  .alpha{font-size:.54rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--gold2);
+    border:1px solid rgba(240,194,90,.45);border-radius:5px;padding:.08rem .32rem;line-height:1}
   .spacer{flex:1}
-  button{font:inherit;cursor:pointer;border:0;border-radius:10px}
-  #connect{background:var(--gold);color:#1a1304;font-weight:700;padding:.5rem .9rem}
-  #connect.connected{background:#0f1422;color:var(--ink);border:1px solid var(--line);font-weight:500;font-size:.82rem}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;width:100%;max-width:480px;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
-  .row{display:flex;gap:.5rem;align-items:center}
-  label{color:var(--dim);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
-  select,input{background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;padding:.6rem .7rem}
-  select{flex:0 0 auto;min-width:110px}
-  input{flex:1 1 auto;font-size:1.2rem}
-  .field{background:#0f1422;border:1px solid var(--line);border-radius:12px;padding:.7rem}
-  .field .row{margin-top:.4rem}
-  .mid{display:flex;justify-content:center;color:var(--dim);font-size:1.2rem}
-  .out{font-size:1.4rem;color:var(--gold)}
-  .meta{display:flex;justify-content:space-between;color:var(--dim);font-size:.78rem;flex-wrap:wrap;gap:.3rem}
-  #swap{background:var(--gold);color:#1a1304;font-weight:800;font-size:1.05rem;padding:.85rem;width:100%}
-  #swap:disabled{background:#33384a;color:#8088a0;cursor:not-allowed}
-  .note{font-size:.76rem;border-radius:10px;padding:.5rem .7rem}
-  .note.warn{background:rgba(224,160,48,.12);color:var(--warn);border:1px solid rgba(224,160,48,.35)}
-  .note.err{background:rgba(224,86,86,.12);color:var(--err);border:1px solid rgba(224,86,86,.35)}
-  .note.ok{background:rgba(46,204,113,.1);color:var(--ok);border:1px solid rgba(46,204,113,.3)}
-  .slip{display:flex;gap:.4rem;align-items:center;color:var(--dim);font-size:.78rem}
-  .slip input{flex:0 0 70px;font-size:.9rem;padding:.35rem .5rem}
-  a{color:#2c7be5}
-  footer{color:var(--dim);font-size:.72rem;margin-top:1rem;text-align:center;max-width:480px}
+  #connect{display:flex;align-items:center;gap:.4rem;background:linear-gradient(180deg,var(--gold2),var(--gold));
+    color:#1a1304;font-weight:800;font-size:.86rem;padding:.5rem .8rem;border-radius:11px;
+    box-shadow:0 6px 16px -8px rgba(212,162,60,.8)}
+  #connect.connected{background:var(--field);color:var(--ink);border:1px solid var(--line2);font-weight:600;
+    box-shadow:none}
+  #connect .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  #connect:not(.connected) .dot{display:none}
+
+  /* ── stats strip ── */
+  .stats{display:flex;gap:.5rem}
+  .stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.5rem .7rem;
+    backdrop-filter:blur(8px)}
+  .stat .k{color:var(--faint);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em}
+  .stat .v{font-weight:700;font-size:.95rem;margin-top:.1rem}
+  .stat .v small{color:var(--dim);font-weight:500;font-size:.7rem}
+
+  /* ── card ── */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow);backdrop-filter:blur(14px);overflow:visible}
+  .tabs{display:flex;gap:.15rem;padding:.4rem;border-bottom:1px solid var(--line)}
+  .tab{flex:1;text-align:center;padding:.5rem .3rem;border-radius:11px;color:var(--dim);
+    font-weight:600;font-size:.82rem;transition:.15s;position:relative}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--ink);background:linear-gradient(180deg,rgba(212,162,60,.18),rgba(212,162,60,.08));
+    box-shadow:inset 0 0 0 1px rgba(212,162,60,.3)}
+  .pane{padding:.85rem}
+  .pane[hidden]{display:none}
+
+  /* ── swap head (title + settings) ── */
+  .phead{display:flex;align-items:center;justify-content:space-between;margin:0 .15rem .55rem}
+  .phead h2{font-size:.92rem;font-weight:700}
+  .icons{display:flex;gap:.25rem;align-items:center;position:relative}
+  .iconbtn{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--dim);
+    border:1px solid transparent;transition:.15s}
+  .iconbtn:hover{color:var(--ink);background:var(--field);border-color:var(--line)}
+  .iconbtn svg{width:17px;height:17px}
+  .iconbtn.spin svg{animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* settings popover */
+  .pop{position:absolute;top:38px;right:0;width:250px;background:var(--card-solid);
+    border:1px solid var(--line2);border-radius:14px;padding:.8rem;box-shadow:var(--shadow);z-index:20}
+  .pop[hidden]{display:none}
+  .pop h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:.45rem}
+  .presets{display:flex;gap:.35rem;margin-bottom:.7rem}
+  .preset{flex:1;padding:.4rem;border-radius:9px;border:1px solid var(--line2);color:var(--dim);
+    font-size:.82rem;font-weight:600;text-align:center;transition:.12s}
+  .preset:hover{color:var(--ink)}
+  .preset.on{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2)}
+  .preset.custom{flex:1.3;display:flex;align-items:center;gap:.2rem;padding:.4rem .5rem}
+  .preset.custom input{width:100%;background:none;border:0;color:var(--ink);font:inherit;text-align:right;outline:none}
+  .pop .drow{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+  .pop .drow label{color:var(--dim);font-size:.78rem}
+  .pop .drow input{width:64px;background:var(--field);border:1px solid var(--line2);border-radius:8px;
+    color:var(--ink);font:inherit;font-size:.82rem;padding:.32rem .45rem;text-align:right;outline:none}
+
+  /* ── token field ── */
+  .field{background:var(--field);border:1px solid var(--line);border-radius:14px;padding:.7rem .8rem;
+    transition:border-color .15s}
+  .field:focus-within{border-color:var(--line2)}
+  .field .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+  .field .lbl{color:var(--faint);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+  .field .bal{color:var(--dim);font-size:.72rem;display:flex;align-items:center;gap:.35rem}
+  .maxbtn{color:var(--gold2);font-weight:800;font-size:.66rem;letter-spacing:.04em;
+    border:1px solid rgba(240,194,90,.4);border-radius:6px;padding:.08rem .3rem}
+  .maxbtn:hover{background:var(--gold-dim)}
+  .field .mid{display:flex;align-items:center;gap:.6rem}
+  .tokpill{position:relative;display:flex;align-items:center;gap:.45rem;background:var(--bg2);
+    border:1px solid var(--line2);border-radius:999px;padding:.3rem .5rem .3rem .35rem;flex:0 0 auto}
+  .tokpill:hover{border-color:var(--gold)}
+  .tokdot{width:22px;height:22px;border-radius:50%;flex:0 0 auto;
+    background:radial-gradient(circle at 32% 30%,var(--gold2),#7a5a18)}
+  .tokpill select{appearance:none;-webkit-appearance:none;background:none;border:0;color:var(--ink);
+    font:inherit;font-weight:700;font-size:.9rem;padding-right:1.1rem;outline:none;cursor:pointer;
+    max-width:8.5rem;text-overflow:ellipsis}
+  .tokpill .chev{position:absolute;right:.55rem;pointer-events:none;color:var(--dim);width:13px;height:13px}
+  .amt{flex:1 1 auto;min-width:0;background:none;border:0;color:var(--ink);font:inherit;
+    font-size:1.55rem;font-weight:600;text-align:right;outline:none;letter-spacing:-.01em}
+  .amt::placeholder{color:#4b556b}
+  .amt.out{color:var(--gold2)}
+  .field .usd{text-align:right;color:var(--faint);font-size:.72rem;min-height:1rem;margin-top:.15rem}
+
+  /* flip */
+  .flipwrap{display:flex;justify-content:center;height:0;position:relative;z-index:5}
+  .flip{position:absolute;top:-15px;width:36px;height:36px;border-radius:11px;background:var(--card-solid);
+    border:1px solid var(--line2);color:var(--dim);display:grid;place-items:center;transition:.2s}
+  .flip:hover{color:var(--gold2);border-color:var(--gold);transform:rotate(180deg)}
+  .flip svg{width:17px;height:17px}
+
+  /* rate + details */
+  .rate{display:flex;align-items:center;justify-content:space-between;color:var(--dim);
+    font-size:.78rem;padding:.55rem .3rem .1rem;min-height:1.6rem}
+  .rate .v{color:var(--ink)}
+  .details{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:.2rem}
+  .details[hidden]{display:none}
+  .drow2{display:flex;justify-content:space-between;padding:.42rem .7rem;font-size:.78rem}
+  .drow2 + .drow2{border-top:1px solid var(--line)}
+  .drow2 .k{color:var(--dim)}
+  .drow2 .v{color:var(--ink);font-weight:600}
+  .imp-lo{color:var(--ok)}.imp-mid{color:var(--warn)}.imp-hi{color:var(--err)}
+
+  /* cta */
+  .cta{width:100%;margin-top:.7rem;padding:.9rem;border-radius:14px;font-weight:800;font-size:1rem;
+    background:linear-gradient(180deg,var(--gold2),var(--gold));color:#1a1304;
+    box-shadow:0 10px 24px -12px rgba(212,162,60,.9);transition:.15s}
+  .cta:hover:not(:disabled){filter:brightness(1.05)}
+  .cta:disabled{background:#232838;color:#6b7488;cursor:not-allowed;box-shadow:none}
+
+  /* notes */
+  .note{font-size:.76rem;border-radius:11px;padding:.55rem .75rem;margin-top:.6rem;display:flex;gap:.45rem;align-items:flex-start}
+  .note::before{content:"";width:6px;height:6px;border-radius:50%;margin-top:.45rem;flex:0 0 auto;background:currentColor}
+  .note:empty{display:none}
+  .note.warn{background:rgba(230,177,62,.1);color:var(--warn);border:1px solid rgba(230,177,62,.3)}
+  .note.err{background:rgba(240,115,108,.1);color:var(--err);border:1px solid rgba(240,115,108,.3)}
+  .note.ok{background:rgba(57,217,138,.1);color:var(--ok);border:1px solid rgba(57,217,138,.3)}
+  .chip{font-size:.7rem;color:var(--dim);background:var(--field);border:1px solid var(--line);
+    border-radius:8px;padding:.4rem .6rem;margin-bottom:.55rem}
+  .chip.warn{color:var(--warn);border-color:rgba(230,177,62,.3);background:rgba(230,177,62,.08)}
+
+  /* calculator panels (pool/farm/borrow) */
+  .calc{display:flex;flex-direction:column;gap:.6rem}
+  .calc .field .mid{gap:.5rem}
+  .calc label.top{color:var(--faint);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.3rem}
+  .calc .in{width:100%;background:var(--field);border:1px solid var(--line);border-radius:12px;
+    color:var(--ink);font:inherit;font-size:1.1rem;font-weight:600;padding:.6rem .75rem;outline:none}
+  .calc .in:focus{border-color:var(--line2)}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .metric{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:.6rem .7rem}
+  .metric .k{color:var(--faint);font-size:.64rem;text-transform:uppercase;letter-spacing:.05em}
+  .metric .v{font-weight:700;font-size:1.02rem;margin-top:.15rem}
+  .hf-ok{color:var(--ok)}.hf-warn{color:var(--warn)}.hf-bad{color:var(--err)}
+  .explain{color:var(--dim);font-size:.76rem;line-height:1.55}
+  .explain b{color:var(--ink)}
+
+  footer{color:var(--faint);font-size:.72rem;text-align:center;line-height:1.6;padding:0 .3rem}
+  footer a{color:var(--dim)}
+  .row-links{display:flex;gap:.9rem;justify-content:center;margin-top:.4rem}
 </style>
 </head><body>
-<header>
-  <span class="logo"></span>
-  <div><h1>KulaSwap <span class="alpha">Alpha</span></h1><div class="sub">multi-chain swap · MELEK ecosystem · testnet</div></div>
-  <span class="spacer"></span>
-  <button id="connect">Connect Wallet</button>
-</header>
-
-<div class="card">
-  <div class="row">
-    <label for="chain" style="flex:0 0 auto">Chain</label>
-    <select id="chain" style="flex:1 1 auto"></select>
-  </div>
-  <div id="chain-note"></div>
-
-  <div class="field">
-    <label>From</label>
-    <div class="row">
-      <select id="token-in"></select>
-      <input id="amount-in" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="logo"><b>K</b></span>
+      <div>
+        <h1>KulaSwap <span class="alpha">Alpha</span></h1>
+        <div class="sub">the MELEK ecosystem DEX · PRANA testnet</div>
+      </div>
     </div>
-    <div class="meta"><span id="bal-in">balance: —</span><span id="fee-line"></span></div>
+    <span class="spacer"></span>
+    <button id="connect"><span class="dot"></span><span id="connect-lbl">Connect Wallet</span></button>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Rate</div><div class="v" id="s-price">—</div></div>
+    <div class="stat"><div class="k">Pool depth</div><div class="v" id="s-tvl">—</div></div>
+    <div class="stat"><div class="k">LP fee</div><div class="v" id="s-fee">—</div></div>
   </div>
 
-  <div class="mid">↓</div>
-
-  <div class="field">
-    <label>To (estimated)</label>
-    <div class="row">
-      <select id="token-out"></select>
-      <input id="amount-out" type="text" class="out" placeholder="0.0" readonly>
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="swap" role="tab">Swap</button>
+      <button class="tab" data-tab="pool" role="tab">Pool</button>
+      <button class="tab" data-tab="farm" role="tab">Farm</button>
+      <button class="tab" data-tab="borrow" role="tab">Borrow</button>
     </div>
-    <div class="meta"><span id="impact">price impact: —</span><span id="minout">min received: —</span></div>
+
+    <!-- ── SWAP ── -->
+    <section class="pane" data-pane="swap">
+      <div class="phead">
+        <h2>Swap</h2>
+        <div class="icons">
+          <button class="iconbtn" id="refresh" title="Refresh quote" aria-label="Refresh quote">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+          </button>
+          <button class="iconbtn" id="gear" title="Settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+          <div class="pop" id="settings" hidden>
+            <h3>Slippage tolerance</h3>
+            <div class="presets" id="slip-presets">
+              <button class="preset" data-slip="0.1">0.1%</button>
+              <button class="preset on" data-slip="0.5">0.5%</button>
+              <button class="preset" data-slip="1.0">1.0%</button>
+              <span class="preset custom"><input id="slippage" type="text" inputmode="decimal" value="0.5" aria-label="Custom slippage">%</span>
+            </div>
+            <div class="drow"><label for="deadline">Deadline (min)</label><input id="deadline" type="text" inputmode="numeric" value="20"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chip" id="chain-chip">Network: <b id="chain-name">—</b> · <span id="chain-dex">—</span></div>
+      <div class="note" id="chain-note"></div>
+
+      <div class="field">
+        <div class="top"><span class="lbl">You pay</span>
+          <span class="bal"><span id="bal-in">Balance: —</span><button class="maxbtn" id="max-in" hidden>MAX</button></span></div>
+        <div class="mid">
+          <span class="tokpill"><span class="tokdot" id="dot-in"></span><select id="token-in" aria-label="Token to pay"></select>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></span>
+          <input id="amount-in" class="amt" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
+        </div>
+        <div class="usd" id="usd-in"></div>
+      </div>
+
+      <div class="flipwrap"><button class="flip" id="flip" title="Flip tokens" aria-label="Flip tokens">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3-3M7 4l3 3M17 20V4M17 4l3 3M17 20l-3-3"/></svg></button></div>
+
+      <div class="field">
+        <div class="top"><span class="lbl">You receive (estimated)</span></div>
+        <div class="mid">
+          <span class="tokpill"><span class="tokdot" id="dot-out"></span><select id="token-out" aria-label="Token to receive"></select>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></span>
+          <input id="amount-out" class="amt out" type="text" placeholder="0.0" readonly>
+        </div>
+        <div class="usd" id="usd-out"></div>
+      </div>
+
+      <div class="rate" id="rate"><span></span></div>
+
+      <div class="details" id="details" hidden>
+        <div class="drow2"><span class="k">Rate</span><span class="v" id="d-rate">—</span></div>
+        <div class="drow2"><span class="k">Price impact</span><span class="v" id="d-impact">—</span></div>
+        <div class="drow2"><span class="k">Minimum received</span><span class="v" id="d-minout">—</span></div>
+        <div class="drow2"><span class="k">LP fee</span><span class="v" id="d-fee">—</span></div>
+        <div class="drow2"><span class="k">Route</span><span class="v" id="d-route">—</span></div>
+      </div>
+
+      <button class="cta" id="swap" disabled>Connect a wallet</button>
+      <div class="note" id="status"></div>
+    </section>
+
+    <!-- ── POOL (add-liquidity ratio calculator) ── -->
+    <section class="pane" data-pane="pool" hidden>
+      <div class="phead"><h2>Provide liquidity</h2></div>
+      <p class="explain" style="margin:0 .1rem .7rem">Deposit both sides of a pair in the pool's current ratio to receive
+        <b>LP tokens</b> — your share of the pool. You earn a cut of every swap's fee. Watch for
+        <b>impermanent loss</b>: if the price moves, withdrawing can leave you behind versus simply holding.</p>
+      <div class="calc">
+        <div><label class="top" for="lp-kula">KULA to deposit</label><input id="lp-kula" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
+        <div class="metrics">
+          <div class="metric"><div class="k">Pair side needed</div><div class="v" id="lp-pair">—</div></div>
+          <div class="metric"><div class="k">Est. pool share</div><div class="v" id="lp-share">—</div></div>
+        </div>
+        <p class="explain" id="lp-note" style="margin:.1rem"></p>
+        <button class="cta" id="lp-cta" disabled>Connect to add liquidity</button>
+      </div>
+    </section>
+
+    <!-- ── FARM (APR + veKULA boost calculator) ── -->
+    <section class="pane" data-pane="farm" hidden>
+      <div class="phead"><h2>Farm &amp; earn</h2></div>
+      <p class="explain" style="margin:0 .1rem .7rem">Stake your <b>LP tokens</b> to earn emissions (SOMA / KULA). Yield is paid from
+        emissions — it is <b>not free money</b>, it is new supply. Lock KULA as <b>veKULA</b> to boost your rewards and vote on gauges.</p>
+      <div class="calc">
+        <div class="metrics">
+          <div><label class="top" for="farm-tvl">Your LP staked ($)</label><input id="farm-tvl" class="in" type="text" inputmode="decimal" placeholder="0"></div>
+          <div><label class="top" for="farm-lock">veKULA lock (weeks)</label><input id="farm-lock" class="in" type="text" inputmode="numeric" placeholder="0"></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="k">Base APR</div><div class="v" id="farm-apr">—</div></div>
+          <div class="metric"><div class="k">Boost</div><div class="v" id="farm-boost">—</div></div>
+        </div>
+        <div class="metric"><div class="k">Boosted APR (est.)</div><div class="v" id="farm-boosted">—</div></div>
+        <p class="explain" style="margin:.1rem">APR is an estimate from current emissions and TVL; it moves as both change. Longer locks give a larger boost (up to the cap). Not a promised yield.</p>
+        <button class="cta" id="farm-cta" disabled>Connect to stake</button>
+      </div>
+    </section>
+
+    <!-- ── BORROW (CDP health calculator) ── -->
+    <section class="pane" data-pane="borrow" hidden>
+      <div class="phead"><h2>Borrow the stable</h2></div>
+      <p class="explain" style="margin:0 .1rem .7rem">Lock <b>KULA</b> as collateral to borrow the MELEK dollar-stable — the
+        <b>MBD MELEK never had</b>. It is <b>overcollateralized</b>: keep your health factor above 1 or the position can be
+        <b>liquidated</b>. Repay any time to unlock your KULA.</p>
+      <div class="calc">
+        <div class="metrics">
+          <div><label class="top" for="cdp-coll">KULA collateral</label><input id="cdp-coll" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
+          <div><label class="top" for="cdp-debt">Borrow (stable)</label><input id="cdp-debt" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="k">Max borrow</div><div class="v" id="cdp-max">—</div></div>
+          <div class="metric"><div class="k">Health factor</div><div class="v" id="cdp-hf">—</div></div>
+        </div>
+        <div class="metric"><div class="k">Liquidation price (KULA)</div><div class="v" id="cdp-liq">—</div></div>
+        <p class="explain" style="margin:.1rem">Prices shown are placeholders until the on-chain oracle is wired; the math (LTV, health factor, liquidation) is the live CDP model. Borrowing is not income — you owe the debt back plus interest.</p>
+        <button class="cta" id="cdp-cta" disabled>Connect to open a vault</button>
+      </div>
+    </section>
   </div>
 
-  <div class="slip">slippage <input id="slippage" type="text" inputmode="decimal" value="0.5"> %
-    <span class="spacer" style="flex:1"></span><span id="deadline-lbl">deadline 20 min</span></div>
-
-  <button id="swap" disabled>Connect a wallet</button>
-  <div id="status"></div>
+  <footer>
+    KulaSwap is <b>non-custodial</b> — your keys stay in your wallet, and you confirm every transaction yourself.
+    Quotes and APRs are estimates; on-chain values are the source of truth. Alpha software on the PRANA testnet — not financial advice, no returns promised.
+    <span class="row-links"><a href="learn.html">How it works →</a><a href="learn.html#risk">Risks →</a></span>
+  </footer>
 </div>
-
-<footer>
-  KulaSwap is non-custodial — your keys stay in your wallet. The AMM lives on-chain
-  (PRANA + the chains' own DEXes). Quotes are estimates; you confirm every swap in your wallet.
-  · <a href="learn.html">How it works →</a>
-</footer>
 
 <script type="module" src="app.mjs"></script>
 <!-- Hathor's floating chat box — self-contained (client-side brain), same as the pool. -->
