@@ -139,7 +139,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -158,6 +158,7 @@ export function homePage() {
     ['/learn', 'Curate & earn', 'Vote on good work and earn a curation share; run a curation trail or keyless autovote; lift newcomers with Karma. The actions that reward you for finding and raising up quality.', libArticle('Steem_Hive_Bots_the_SteemBots_Steemcenter_ecosystem', 'the bot lineage')],
   ];
   const tools = [
+    ['/build', 'How a chain is built', 'The anatomy behind MELEK — the constants that define a Graphene chain (symbol, prefix, sha256 chain id, inflation) and how to stand up your own two-witness test net. Adapted from @jga\'s guide.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
@@ -738,7 +739,7 @@ export function runPage() {
        different chain. Connect on these exact parameters:</p>
     <pre>chain id     ${esc(CHAIN_ID)}
 prefix       MELEK       coin  MELEK       (no backed dollar / no MBD)
-block time   3 seconds   consensus  Graphene DPoS
+block time   4 seconds   consensus  Graphene DPoS
 seed node    ${esc(SEED)}</pre>
   </div>
 
@@ -803,7 +804,121 @@ shared-file-dir = "blockchain"</pre>
   return page('Run a MELEK Witness — mainnet is live', body, { canonical: `${BASE_URL}/run`, description: 'How to run a MELEK mainnet witness: chain id, seed node, build the node (BUILD_STEEM_TESTNET=OFF), config.ini, register your witness, and get voted into the producing set. MELEK genesis fired 7:12 CDT 7/12/2026 — no premine.' });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /build — How a Graphene chain is built (the anatomy behind MELEK) ───────────────────────────
+// Adapted from @jga (joticajulian)'s "how to build a private Steem blockchain" guide, credited in-page.
+// Teaches the constants that define a Graphene chain + a private two-witness bring-up. Code blocks are
+// hand-rendered <pre> (the markdown renderer has no fenced-code support), same pattern as runPage.
+export function buildPage() {
+  const CHAIN_ID = process.env.MELEK_MAINNET_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
+  const GUIDE = 'https://steemit.com/utopian-io/@jga/the-user-guide-for-a-newbie-on-how-to-build-a-private-steem-blockchain-for-corporate-projects';
+  const body = `<h1>How a Graphene chain is built <span class=muted style="font-size:14px">· the anatomy behind MELEK</span></h1>
+  <p class=lead>MELEK didn't come from nowhere — it's a <b>Graphene</b> chain in the Steem/Blurt lineage, and a
+    Graphene chain is defined by a short list of constants plus a witness that starts the clock. This page walks
+    that anatomy: the values that make a chain <i>itself</i>, how to build the node, and how to stand up your own
+    private test chain with two witnesses. It's the theory under <a href="/run">Run a witness</a>.</p>
+
+  <div class=card><h2>Credit where it's due</h2>
+    <p class=muted style="font-size:14px">The clearest walk-through of building a private Steem/Graphene chain is
+      <a href="${esc(GUIDE)}">"The user guide for a newbie on how to build a private Steem blockchain for
+      corporate projects"</a> by <b>@jga</b> (Julián González / joticajulian), written for the European
+      Commission's EFTG chain. This page adapts it to MELEK and credits it as the source — his original is worth
+      reading in full.</p></div>
+
+  <div class=card><h2>1 · What actually defines a chain</h2>
+    <p class=muted style="font-size:14px">On a Graphene chain the identity lives in a handful of compile-time
+      constants (upstream Steem: <code>config.hpp</code> / <code>asset_symbol.hpp</code>). Change these and you
+      have a different chain:</p>
+    <ul class=muted style="font-size:14px">
+      <li><b>Token symbols</b> — the coin's name, built letter-by-letter (Steem's <code>STEEM_SYMBOL</code> /
+        <code>SBD_SYMBOL</code>). MELEK sets its coin to <b>MELEK</b>. Blurt-family chains dropped the "dollar"
+        token, so <b>MELEK has no MBD</b> — one honest coin, no backed dollar.</li>
+      <li><b>Address prefix</b> — the letters every public key starts with (<code>STEEMIT_ADDRESS_PREFIX</code>,
+        "STM" on Steem). MELEK's is <b>MELEK</b>.</li>
+      <li><b>Chain id</b> — a unique id that stops a transaction from one chain replaying on another. It's a hash
+        of some text: <code>fc::sha256::hash("…")</code>. <b>MELEK's chain id is the SHA-256 of its genesis
+        inscription</b> — the words in block zero <i>are</i> the chain's identity:</li>
+    </ul>
+    <pre>chain id   ${esc(CHAIN_ID)}   (= sha256 of the genesis inscription)</pre>
+    <ul class=muted style="font-size:14px">
+      <li><b>initminer key</b> — the public key of the first account (<code>STEEMIT_INIT_PUBLIC_KEY_STR</code>),
+        which signs the very first blocks. When you generate it, swap the "STM" prefix on the <i>public</i> key
+        for your chain's prefix (the private key is untouched).</li>
+      <li><b>Witness set</b> — <code>STEEM_MAX_WITNESSES</code> (21 producers per round) and
+        <code>STEEM_HARDFORK_REQUIRED_WITNESSES</code> (drop to <b>1</b> for a small private/test net).</li>
+      <li><b>Emission &amp; split</b> — inflation starts near <b>9.78%</b> and narrows toward a <b>0.95%</b> floor
+        (MELEK runs ~9.77% → 0.95%); rewards split <b>75% content + curation / 15% stakers / 10% witnesses</b>.</li>
+    </ul>
+  </div>
+
+  <div class=card><h2>2 · Build the node</h2>
+    <p class=muted style="font-size:14px">Same code MELEK runs. <code>BUILD_STEEM_TESTNET=ON</code> gives you a
+      private test chain (its own chain id + a test prefix); <code>OFF</code> is mainnet MELEK.</p>
+    <pre>git clone https://github.com/HinduTempleCoins/melek-chain
+cd melek-chain
+sudo apt install -y build-essential cmake libboost-all-dev libssl-dev \\
+  libsnappy-dev liblz4-dev libzstd-dev liblzma-dev libreadline-dev libbz2-dev
+mkdir build &amp;&amp; cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DLOW_MEMORY_NODE=OFF -DBUILD_STEEM_TESTNET=ON ..   # ON = private test chain
+make -j$(nproc) steemd cli_wallet</pre>
+    <p class=muted style="font-size:13px">(@jga's original builds upstream <code>steemit/steem</code>; the flags
+      and the flow are the same — we just point at the MELEK source.)</p></div>
+
+  <div class=card><h2>3 · Start the first witness (initminer)</h2>
+    <p class=muted style="font-size:14px">A minimal <code>config.ini</code> that produces blocks as
+      <code>initminer</code>, the first account:</p>
+    <pre>p2p-endpoint = 0.0.0.0:3333
+rpc-endpoint = 127.0.0.1:9876
+shared-file-size = 1G
+enable-stale-production = true
+witness = "initminer"
+private-key = &lt;initminer WIF&gt;</pre>
+    <pre>./steemd -d mychain      # prints the pubkey + chain id, then starts producing</pre>
+    <p class=muted style="font-size:13px">Genesis begins at hardfork 0 and replays hardforks one-by-one as blocks
+      pass — a fresh chain "grows up" to the current version in its first few hundred blocks. MELEK blocks are
+      <b>4 seconds</b> (the Steem/Blurt family default is 3).</p></div>
+
+  <div class=card><h2>4 · Add a second witness</h2>
+    <p class=muted style="font-size:14px">With <code>steemd</code> running, open <code>cli_wallet</code>, create
+      an account, and register it as a witness:</p>
+    <pre>./cli_wallet -s ws://127.0.0.1:9876
+&gt;&gt;&gt; set_password xxx
+&gt;&gt;&gt; unlock xxx
+&gt;&gt;&gt; import_key &lt;initminer WIF&gt;
+&gt;&gt;&gt; suggest_brain_key                       # keys for a new account (alice)
+&gt;&gt;&gt; create_account_with_keys_delegated initminer "5.000 MELEK" "50000.000000 VESTS" alice "{}" \\
+      &lt;owner&gt; &lt;active&gt; &lt;posting&gt; &lt;memo&gt; true
+&gt;&gt;&gt; import_key &lt;alice active WIF&gt;
+&gt;&gt;&gt; update_witness alice "https://alice.example" &lt;alice signing PUB&gt; \\
+      {"account_creation_fee":"1.000 MELEK","maximum_block_size":65536,"sbd_interest_rate":0} true
+&gt;&gt;&gt; vote_for_witness initminer alice true true</pre>
+    <p class=muted style="font-size:14px">On a second box, build the same code, point its <code>config.ini</code>
+      at the first as a <code>seed-node</code>, set <code>witness = "alice"</code> with her signing key, and start
+      <code>steemd</code> — the two nodes sync and both produce.</p></div>
+
+  <div class=card><h2>5 · Seed nodes, RPC nodes, firewall</h2>
+    <p class=muted style="font-size:14px"><b>Seed node</b> = the same config with no <code>witness</code> /
+      <code>private-key</code> — it just relays blocks and peers. <b>RPC node</b> = enable the API plugins
+      (<code>webserver p2p json_rpc witness account_by_key condenser_api block_api account_history_api …</code>)
+      so wallets and apps can query and broadcast; it needs more resources than a witness. Lock the box down with
+      <code>ufw</code> — deny incoming by default, allow only your p2p / rpc ports.</p></div>
+
+  <div class=card><h2>From a test chain to the real thing</h2>
+    <p class=muted style="font-size:14px">That's the whole shape of a Graphene chain — the same shape as STEEM,
+      HIVE, BLURT and MELEK. Once you've stood up a test net, running a <b>mainnet</b> MELEK witness is the same
+      moves with the live chain id and seed: <a href="/run">Run a MELEK Witness →</a>.</p>
+    <p class=muted style="font-size:13px"><b>Further reading — the Library of Ashurbanipal:</b>
+      ${libArticle('Graphene_Blockchain_Framework', 'The Graphene framework')} ·
+      ${libArticle('Running_a_Graphene_Witness_Node', 'Running a Graphene Witness Node')} ·
+      ${libArticle('Delegated_Proof_of_Stake_DPoS_', 'Delegated Proof of Stake')} ·
+      ${libArticle('Blockchain_Witness_Block_Producer_', 'What a Witness is')}.
+      Source: <a href="${esc(GUIDE)}">@jga's private-Steem-chain guide</a>.</p></div>`;
+  return page('How a Graphene chain is built — Witness School', body, {
+    canonical: `${BASE_URL}/build`,
+    description: 'The anatomy of a Graphene chain behind MELEK: the constants that define a chain (symbol, prefix, sha256 chain id, initminer, witnesses, inflation), how to build the node, and how to stand up a private two-witness test chain. Adapted from and crediting @jga\'s private-Steem-blockchain guide.',
+  });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -846,6 +961,7 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
+    if (path === '/build') return sendHtml(res, buildPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
     if (path === '/pool') {

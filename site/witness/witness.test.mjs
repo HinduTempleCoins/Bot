@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, runPage, whitepaperPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, runPage, whitepaperPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -73,6 +73,36 @@ test('academy teaches the curation-network concept generically + the build steps
   assert.match(h, /KulaSwap/);
   // stays generic — must NOT name specific outside communities (operator direction)
   assert.doesNotMatch(h, /OCD|R2Cornell/i);
+});
+
+test('build page teaches the Graphene-chain anatomy + credits @jga', () => {
+  const h = buildPage();
+  assert.match(h, /How a Graphene chain is built/);
+  assert.match(h, /@jga/);                                  // credits the source guide
+  assert.match(h, /joticajulian|Juli/);                    // author named
+  assert.match(h, /sha256 of the genesis inscription/i);   // MELEK chain-id fact
+  assert.match(h, /907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b/); // real chain id
+  assert.match(h, /BUILD_STEEM_TESTNET/);                  // build flag
+  assert.match(h, /initminer/);                            // first witness
+  assert.match(h, /create_account_with_keys_delegated/);   // 2nd-witness step
+  assert.match(h, /no MBD/);                               // MELEK has no dollar token
+  assert.match(h, /4 seconds/);                            // correct block time (not 3)
+  assert.doesNotMatch(h, /block time\D*3 second/i);        // the old bug must not reappear
+});
+
+test('build route renders 200 and is in the nav + sitemap', async () => {
+  const res = await route('/build');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /How a Graphene chain is built/);
+  assert.match(homePage(), /\/build/);       // linked from the school home
+  const sm = await route('/sitemap.xml');
+  assert.match(sm.body, /\/build/);
+});
+
+test('run page states the correct 4-second block time', () => {
+  const h = runPage();
+  assert.match(h, /4 seconds/);
+  assert.doesNotMatch(h, /block time\D*3 second/i);
 });
 
 test('academy route renders 200 and is in the nav + sitemap', async () => {
