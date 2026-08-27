@@ -32,6 +32,16 @@ import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.
 // The campaign-sender is stateful (lists/subscribers/templates/queue live in a store), so like the
 // ad-network we mount its singleton handler. Native-path routes only — /health stays owned by the server.
 import { handler as senderHandler } from '../../pentecaust/herald/campaign-sender.mjs';
+// The dispatcher is stateful (in-app inbox lives in a store), so like the ad-network / campaign-sender we
+// mount its singleton handler. It's the execution rail for fired triggers — email (via the sender's ESP
+// seam), Telegram, Discord, generic webhook, and an in-app inbox; every channel unconfigured → soft no-op,
+// and it NEVER signs, pays, or broadcasts (reward/post triggers are Signer-only).
+import { handler as dispatchHandler } from '../../pentecaust/herald/dispatcher.mjs';
+// The ad-auction sells PREMIUM featured slots by sealed-bid second-price (Vickrey) auction — the auction-house
+// side of the ad network (ad-network.mjs is the remnant/click side). Stateful (auctions live in a store), so
+// we hold a singleton and mount its handler. Auctions touch ONLY premium slots — organic ranking is never
+// bought. Settlement is design-only: no funds move, nothing signed.
+import { createAdAuction } from '../../pentecaust/herald/ad-auction.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -53,6 +63,7 @@ export const CAPABILITIES = [
   ['Run', [
     ['Crossposter', 'Publish once, syndicate across surfaces and chains.', 'crossposter', null],
     ['Campaign planner', 'A staged growth plan per brand — content → distribution → authority → convert.', 'campaign-planner', null],
+    ['Trigger dispatch', 'The execution rail for fired triggers: fan one out to email, Telegram, Discord, a webhook, or an in-app inbox. Unconfigured channels soft no-op; it never signs, pays, or broadcasts.', 'dispatcher', null],
   ]],
   ['Reach', [
     ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system). Sign-in required.', 'outreach-db', '/outreach'],
@@ -63,6 +74,7 @@ export const CAPABILITIES = [
   ['Monetize', [
     ['Ad network', 'Advertisers + creators earn/pay per click. Ranking can never be bought — sponsored units are segregated, labeled & FTC-disclosed, click-through on the /go rail.', 'ad-network', '/ad/select'],
     ['Click validate', 'The billable-click / fraud pass over the /go log: window-dedup, crawler filter, per-publisher origin allow-list, rate caps, sybil-gated payout (POST /api/click-validate).', 'click-validate', null],
+    ['Ad auction', 'Sell premium featured slots by sealed-bid second-price (Vickrey) auction — winner pays the second-highest bid or the reserve. Premium slots only; organic ranking is never bought. Settlement is design-only.', 'ad-auction', '/ad/premium'],
   ]],
   ['Verify', [
     ['Verifier', 'Confirm placements/backlinks actually went live — no vanity metrics.', 'verifier', null],
@@ -128,6 +140,7 @@ function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'te
 // own native paths; native-path modules (rewrite null) get req.url unchanged. Every fn always ends the
 // response; a throw is caught below. Read-only server: these modules hold no key of ours.
 const adNetwork = createAdNetwork(); // stateful singleton — its handler serves /ad/select (disclosed unit).
+const adAuction = createAdAuction(); // stateful singleton — serves /ad/premium (won featured unit) + /api/auctions.
 const MOUNTS = [
   { rewrite: null, fn: outreachHandler, match: (p) => p === '/outreach' || p.startsWith('/outreach/') },
   { rewrite: null, fn: qrHandler, match: (p) => p.startsWith('/go/') || p === '/qr' || p.startsWith('/qr/') },
@@ -136,9 +149,13 @@ const MOUNTS = [
   { rewrite: '/analytics', fn: analyticsHandler, match: (p) => p === '/analytics' || p.startsWith('/analytics/') },
   // ad-network + click-validate: native-path handlers (rewrite null). /health stays owned by the server
   // above, so we match only each module's real routes — /ad/* and POST /api/click-validate.
+  // ad-auction claims /ad/premium + /api/auctions BEFORE the ad-network's broad /ad/ match below.
+  { rewrite: null, fn: adAuction.handler, match: (p) => p === '/ad/premium' || p === '/api/auctions' },
   { rewrite: null, fn: adNetwork.handler, match: (p) => p === '/ad/select' || p.startsWith('/ad/') },
   { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
   { rewrite: null, fn: iftttHandler, match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
+  // dispatcher: the trigger execution rail. Native paths (its own /health stays owned by the server above).
+  { rewrite: null, fn: dispatchHandler, match: (p) => p === '/api/dispatch' || p === '/api/inbox' },
   // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
   { rewrite: null, fn: senderHandler, match: (p) => p.startsWith('/u/') || p === '/unsubscribe'
     || p === '/api/subscribe' || p === '/api/webhook' || p === '/api/lists' || p === '/api/stats' },
