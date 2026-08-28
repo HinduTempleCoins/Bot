@@ -1,0 +1,49 @@
+# STEEM Blockchain
+
+The STEEM blockchain is a decentralized platform designed to support social media applications and reward content creators through its native cryptocurrency, STEEM. It was introduced as part of the broader movement to integrate blockchain technology into social media and content sharing platforms, enabling users to earn cryptocurrency for their contributions<ref>https://doi.org/10.1109/access.2020.3038550</ref>.
+
+== Overview ==
+
+The STEEM blockchain operates as a decentralized social media platform, where users can create, share, and curate content while earning STEEM tokens as rewards for their contributions. This model is built on a proof-of-stake consensus mechanism and incorporates a unique reward system that incentivizes user engagement and content creation<ref>https://doi.org/10.1109/access.2020.3038550</ref>. The platform's design aims to democratize content monetization by allowing users to directly benefit from their participation without relying on traditional advertising revenue models.
+
+== Witness System ==
+
+A notable feature of the STEEM blockchain is its "witness system," which plays a crucial role in maintaining the network's operations. Witnesses are elected by the community to validate transactions and produce blocks. This system is akin to a delegated proof-of-stake model, where stakeholders vote for trusted individuals to act as block producers. The witnesses are compensated in STEEM tokens for their services, creating an incentive for them to act in the best interest of the network<ref>https://doi.org/10.1007/s11036-021-01749-x</ref>.
+
+== Integration with Other Platforms ==
+
+The STEEM blockchain has been integrated into various platforms to expand its utility. For example, VKFRI highlights the use of STEEM in "Burn Mining," a smart contract mechanism where users can "burn" tokens like STEEM to mint new, more valuable tokens. This process creates deflationary pressure on the burned token while enabling users to earn rewards in the form of newly minted tokens<ref>cryptocurrency/cryptocurrency/burn_mines_bitcointalk.json</ref>. 
+
+Additionally, VKFRI describes a bridging mechanism that allows users to transfer STEEM tokens to the TRC20 (Tron) blockchain. This enables users to trade their STEEM tokens on platforms like SunSwap, enhancing liquidity and expanding the token's utility within decentralized finance (DeFi) ecosystems<ref>cryptocurrency/cryptocurrency/burn_mines_bitcointalk.json</ref>.
+
+== Historical Context ==
+
+The STEEM blockchain emerged during what VKFRI refers to as the "STEEM Era," a period marked by the proliferation of blockchain-based social media platforms. This era saw the development of various projects aimed at decentralizing content creation and distribution, with STEEM being one of the most prominent examples<ref>cryptocurrency/cryptocurrency/cryptonight_cpu_mining.json</ref>.
+
+Despite its initial success, VKFRI notes that the STEEM blockchain did not lead to the widespread adoption of similar social media blockchains. This phenomenon is described as the "Decentralized Centralization Paradox," where the lack of localized, community-specific blockchains has hindered the broader adoption of decentralized social media platforms<ref>cryptocurrency/cryptocurrency/decentralized_centralization_paradox.json</ref>.
+
+== Applications in Social and Economic Systems ==
+
+VKFRI has explored the potential of the STEEM blockchain in various social and economic contexts. For instance, the Institute has proposed using blockchain technologies like STEEM to create localized, community-specific economies. These economies could operate as federated hubs, each with its own cryptocurrency and governance system, while being interconnected through decentralized exchanges<ref>cryptocurrency/cryptocurrency/decentralized_centralization_paradox.json</ref>.
+
+== Limitations and Challenges ==
+
+While the STEEM blockchain has demonstrated the viability of blockchain-based social media, it has faced challenges such as scalability and governance issues. The available sources do not specify the current state of these challenges or how they have been addressed.
+
+== Sources ==
+<ref>cryptocurrency/cryptocurrency/burn_mines_bitcointalk.json</ref>  
+<ref>cryptocurrency/cryptocurrency/cryptonight_cpu_mining.json</ref>  
+<ref>cryptocurrency/cryptocurrency/decentralized_centralization_paradox.json</ref>  
+<ref>https://doi.org/10.1109/access.2020.3038550</ref>  
+<ref>https://doi.org/10.1007/s11036-021-01749-x</ref>  
+
+== Coverage ==
+
+This article is based on a combination of external sources and VKFRI's internal knowledge base. While the external sources provide a general overview of the STEEM blockchain and its witness system, the VKFRI sources offer additional context and propose specific applications and frameworks. However, certain aspects, such as the current state of the STEEM blockchain and its broader adoption, are not covered in the available sources.
+== Repositories and the MELEK lineage ==
+
+Steem is open source. The reference node software is [https://github.com/steemit/steem steemit/steem] on GitHub — the Graphene (C++) codebase that '''every later chain in this family forks'''. Its community front-end (Condenser) and tooling live under the same organization; see [[Building a Front End for a Graphene Chain]].
+
+Steem is the root of the family tree: its community forked to [[HIVE Blockchain]] in 2020 (after the Justin Sun / TRON acquisition), the leaner [[BLURT Blockchain]] forked next (dropping downvotes and the dollar token), and [[MELEK]] is a Blurt-family chain descended from that line. The bots and tooling that grew up on Steem are described in [[Steem & Hive Bots: The SteemBots / Steemcenter ecosystem]].
+
+See also: [[HIVE Blockchain]] · [[BLURT Blockchain]] · [[MELEK]] · [[Graphene Blockchain Framework]] · [[The Graphene Family]]

@@ -1,0 +1,29 @@
+'''Mining''' is how a '''Proof-of-Work (PoW)''' blockchain agrees on its history and issues new coins. Miners run computers that race to solve a hard math puzzle; the winner gets to add the next block and is paid in the chain's coin. In the [[SoapBox]] ecosystem, the mined chain is [[PRANA]] — while its social sister chain [[MELEK]] is '''not''' mined (it uses [[Delegated Proof of Stake DPoS|DPoS]] witnesses instead).
+
+== How it works ==
+
+* A '''hash function''' turns any data into a fixed fingerprint. Mining means repeatedly hashing a block with a changing number ('''nonce''') until the fingerprint is below a target — like rolling dice until you hit a low enough number.
+* '''Difficulty''' auto-adjusts so blocks arrive at a steady pace no matter how much total '''hashrate''' is pointed at the chain.
+* The winner's coins are the '''block reward'''; on many chains this reward '''halves''' on a schedule (see [[Crypto Glossary|halving]]).
+
+== Algorithms — what you mine with ==
+
+Different chains use different puzzles, which favor different hardware:
+
+* '''SHA-256''' — Bitcoin. ASIC-dominated.
+* '''RandomX / CryptoNote''' — Monero and the pool's CPU side. '''CPU-friendly and ASIC-resistant''' — you can even mine in a browser.
+* '''Etchash''' — Ethereum Classic and '''[[PRANA]]'''. GPU mining, laptop-friendly; needs a ~1 GB '''DAG''' in memory.
+
+== Pools and browser mining ==
+
+Solo mining rarely wins on a big chain, so miners join a '''pool''' — many miners combine hashrate and split rewards by contribution. The [https://pool.soapbox.community SoapBox pool] runs RandomX (CPU), Etchash (GPU/PRANA), and even '''browser mining''' — earn from your first accepted '''share'''.
+
+== Useful-work mining (what makes PRANA different) ==
+
+Normal PoW "wastes" its work on puzzles that exist only to be hard. [[PRANA]] adds a '''TASK lane''' beside the classic '''HASH lane''': verified AI / GPU compute earns from the same reward pool. Mining PRANA can mean doing the actual compute a live AI runs on — so the work is useful, not thrown away.
+
+== Mining vs. witnessing ==
+
+Mining (PoW) is one way a chain agrees; '''witnessing''' ([[Delegated Proof of Stake DPoS|DPoS]]) is another — voted block-producers instead of hashpower. [[MELEK]] is witnessed; [[PRANA]] is mined. Learn both at the [https://witness.melek.salon Witness School].
+
+See also: [[Forking]] · [[Cloning]] · [[PRANA]] · [[Crypto Glossary]] · [https://pool.soapbox.community the pool]

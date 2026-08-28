@@ -1,0 +1,21 @@
+'''Forking''' is what happens when a blockchain's rules or history split into two paths. It is one of the most important ideas in crypto, because it is the ultimate check on power: if the people who run a chain disagree with its owners or each other, they can '''fork''' — copy the chain and go a different way.
+
+== Hard forks vs. soft forks ==
+
+* '''Soft fork''' — a '''backward-compatible''' rule change. Nodes that don't upgrade still see the new blocks as valid. It tightens the rules; the chain stays one chain.
+* '''Hard fork''' — a rule change that is '''not''' backward-compatible. Non-upgraded nodes reject the new blocks. If part of the community upgrades and part doesn't, the chain '''splits into two''' — two coins, two histories from the split point on.
+
+== Forking to escape, forking to build ==
+
+There are two everyday reasons to fork:
+
+* '''Fork the code to launch a new chain.''' The software is open source, so you copy it, change a few constants (coin name, prefix, chain id — see [[Cloning]] and [[Building a Front End for a Graphene Chain]]), and start a fresh chain. This is how the whole [[The Graphene Family|Graphene family]] was built: [[STEEM Blockchain|Steem]] → [[HIVE Blockchain|Hive]] → [[BLURT Blockchain|Blurt]] → [[MELEK]].
+* '''Fork to split a running chain.''' When a live community can't agree, they hard-fork the existing state into two chains. The classic example is '''Steem → Hive (2020)''': after Justin Sun / TRON acquired the company behind Steem and moved to control the chain, the community hard-forked to [[HIVE Blockchain|Hive]], copying the state minus the contested stake. The company kept the name; the community kept the chain.
+
+== Forkability is a feature ==
+
+The Steem→Hive fork is the clearest proof of a deep principle: a chain's value is its '''community and its code''', not the company that started it. If an owner turns hostile, the people can walk out and take the chain with them.
+
+This is '''load-bearing for [[MELEK]]'''. The founding AI witness [[Hathor]]'s character and corpus live in a public code repository and on-chain — on purpose — so the Witness survives any single operator or model. A thing that can be forked can never be fully captured.
+
+See also: [[Cloning]] · [[Mining]] · [[The Graphene Family]] · [[MELEK]] · [[HIVE Blockchain]] · [[Crypto Glossary]]

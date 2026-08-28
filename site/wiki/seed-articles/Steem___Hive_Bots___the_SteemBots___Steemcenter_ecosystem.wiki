@@ -1,0 +1,57 @@
+The '''Steem / Hive bot ecosystem''' is the large family of automated accounts and developer tools that grew up on the [[The Graphene Family|Graphene social chains]] — [[STEEM Blockchain|Steem]], [[HIVE Blockchain|Hive]], and [[BLURT Blockchain|Blurt]]. Because these chains are programmable and open, people built '''bots''' for nearly everything: fighting plagiarism, greeting newcomers, distributing curation rewards, tipping, and running whole side-token economies. This article maps the major ones and '''where their code lives'''.
+
+This lineage matters here because [[MELEK]]'s founding AI witness [[Hathor]] is, in the operator's framing, "our steemd, our Pizza bot, our @wang, and our @cryptokannon — all in one account": a single agent that produces blocks, helps the community, and teaches newcomers, rather than a swarm of single-purpose bots.
+
+'''Note on the 2020 migration:''' most serious tooling and maintainers moved from Steem to [[HIVE Blockchain|Hive]] after the 2020 fork (see [[Forking]]). Steem-side accounts of the same name often still exist but are largely dormant.
+
+== SteemCenter — a wiki, not a bot ==
+
+'''SteemCenter''' (steem.center) is frequently listed among "the bots," but it is '''not a bot''' — it is a community-run '''MediaWiki knowledge base''', "the center of all things Steem," created in 2016 by @someguy123, with contributors paid through the @steemcenterwiki account. It famously hosts the '''"List of Bots"''' reference page. It is, in other words, an early ancestor of '''this Library''' — a community wiki documenting the ecosystem. A related live bot directory is justyy's [https://steemyy.com/bots.php steemyy.com/bots.php].
+
+In the Library's own records, contributor '''@MarsResident''' was active on SteemCenter in the 2017 Steem era, publishing educational material on cryptology, the Temple Coin, and witness tutorials — part of the lineage this project grows out of.
+
+== Canonical code homes ==
+
+* '''openhive-network''' — [https://github.com/openhive-network github.com/openhive-network] — the active Hive core org (node `hive`, `hivemind`, `dhive`, `condenser`, `HAF`). Mirror of GitLab (gitlab.syncad.com/hive), which is authoritative.
+* '''steemit''' — [https://github.com/steemit github.com/steemit] — the original Steem org (`steem`, `steem-js`, `steem-python`, `condenser`); mostly legacy/frozen after 2020.
+* '''Blurt-Blockchain''' — [https://github.com/Blurt-Blockchain github.com/Blurt-Blockchain] — official Blurt node.
+* '''hive-engine''' — [https://github.com/hive-engine github.com/hive-engine] — the layer-2 side-token stack.
+* '''holgern (holger80)''' — [https://github.com/holgern github.com/holgern] — the single most important individual tooling maintainer (beem, hiveengine libs, Hive-SBI).
+
+== Anti-abuse &amp; plagiarism ==
+* '''@cheetah''' — Steem's original plagiarism/"similar content" comment bot (by @anyx, 2016). Largely retired; superseded by human-run teams.
+* '''SteemCleaners → @hivewatchers''' + '''@spaminator''' — the community abuse/fraud/plagiarism team and blacklist. SteemCleaners rebranded to Hivewatchers at the Hive fork; tooling under [https://github.com/hivewatchers github.com/hivewatchers]. Active on Hive.
+
+== Onboarding &amp; helper ==
+* '''@steemitboard → @hivebuzz''' — achievement/badge and onboarding gamification (by @arcange); the Hive successor is [https://github.com/hivebuzz HiveBuzz]. The Steem original is dormant.
+* '''@wang''' — a large curation/whale account on Steem often cited as a "helper." (It appears to be a curation account rather than open-source tooling; treat as a curation service, not a documented bot.)
+* '''@cryptokannon''' — a '''mentor program/account''' (the "Newcomers' Achievement" tutorial), not a code bot. Its teaching role is the model for [[Hathor]]'s tutor side.
+
+== Curation &amp; reward ==
+* '''Steem Basic Income → Hive-SBI (@steembasicincome)''' — send 1 coin to enroll; you and a sponsee earn perpetual recurring upvotes from accumulating "shares." Code: [https://github.com/josephsavage/hive-sbi hive-sbi]. Active on Hive.
+* '''@curie''', '''OCD / @ocdb''' — long-running community curation projects that reward quality newcomers and incubate communities. These are curation operations; their internal bot code is not fully public.
+* '''Autovote / curation trails''' — services like hive.vote let you follow another account's votes automatically (the pattern MELEK's own autovote follows).
+
+== Bid bots (a cautionary, mostly-obsolete category) ==
+'''Bid bots''' let authors '''buy''' upvotes — you send coins, the bot upvotes your post. They were widely blamed for breaking "proof-of-brain," and after Hive's 2019 economics changes plus free downvotes the model largely '''collapsed'''. The open-source engine most ran on was '''postpromoter''' ([https://github.com/MattyIce/postpromoter MattyIce/postpromoter]). Named services (@minnowbooster, @booster, @randowhale, @smartsteem, @buildawhale) are mostly dead. MELEK's design deliberately avoids vote-selling.
+
+== Tipping &amp; community tokens ==
+Modern engagement runs through '''Hive-Engine tip tokens''' triggered by a `!COMMAND` in a comment — a listener bot then sends a layer-2 token: '''!PIZZA''' (hive.pizza), '''!BEER''', '''!LUV''', '''!WINE''', and others. This is the direct ancestor of the ecosystem's own tip/side-token model.
+
+== Developer libraries (what the bots are built on) ==
+* '''@hiveio/dhive''' — the active JS/TS library: [https://github.com/openhive-network/dhive openhive-network/dhive] (fork of dsteem). MELEK's own tooling uses dhive against its RPC.
+* '''beem''' — the de-facto Python library (by holger80): [https://github.com/holgern/beem holgern/beem].
+* '''hive-keychain''' — the MetaMask-style browser key wallet: [https://github.com/hive-keychain/hive-keychain hive-keychain].
+* '''hivesigner''' (formerly SteemConnect) — hosted OAuth2-style signer; the pattern behind the ecosystem's own MELEK-Signer.
+* '''condenser''' — the Steemit/Hive.blog React front-end ([https://github.com/openhive-network/condenser openhive-network/condenser]); MELEK runs a condenser fork.
+* '''hivemind''' / '''HAF''' — the social-consensus indexer and the newer app framework: [https://github.com/openhive-network/hivemind hivemind], [https://github.com/openhive-network/HAF HAF].
+
+== Hive-Engine / side-token bots ==
+* '''SCOT / Scotbot''' — "Smart Contracts on Token"; runs proof-of-brain reward pools for community "tribe" tokens (docs: [https://github.com/hive-engine/scotbot-docs scotbot-docs]).
+* '''Tribaldex / hive-engine-dex''' — the side-token DEX + creation UI: [https://github.com/hive-engine/hive-engine-dex hive-engine-dex]. '''Nitrous''' / '''Outpost''' render tribe front-ends.
+* '''hiveengine (Py)''' — holger80's library for scripting Hive-Engine tokens: [https://github.com/holgern/hiveengine holgern/hiveengine].
+
+== Living directories to check ==
+Because bots come and go, two community-maintained lists stay useful: [https://steemyy.com/bots.php steemyy.com/bots.php] (justyy) and the SteemCenter "List of Bots" at steem.center.
+
+See also: [[STEEM Blockchain]] · [[HIVE Blockchain]] · [[BLURT Blockchain]] · [[MELEK]] · [[Hathor]] · [[The Graphene Family]] · [[Crypto Glossary]]

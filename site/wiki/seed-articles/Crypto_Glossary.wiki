@@ -1,0 +1,111 @@
+The '''Crypto Glossary''' is a plain-language dictionary of the blockchain terms used across the [[SoapBox]] ecosystem and crypto in general. It is part of the Library's [[Glossaries]] section. Terms that have their own article are linked.
+
+== A ==
+* '''Address''' — your public account identifier on a chain; where coins are sent. Derived from a [[Crypto Glossary|public key]].
+* '''Airdrop''' — free distribution of a token to a set of accounts (e.g. to holders of another coin).
+* '''AMM (Automated Market Maker)''' — a smart contract that lets people swap tokens against a pooled reserve instead of an order book. [[KULA]]'s KulaSwap is an AMM.
+* '''APIS''' — the ecosystem's "pay gas with tokens" coin, minted from staked MELEK worker shares.
+* '''ASIC''' — specialized mining hardware built for one algorithm; much faster than CPUs/GPUs.
+
+== B ==
+* '''Block''' — a batch of transactions added to the chain. [[MELEK]] adds one every 4 seconds.
+* '''Block reward''' — new coins paid to whoever produces a block (a [[Mining|miner]] or [[Delegated Proof of Stake DPoS|witness]]).
+* '''Blockchain''' — an append-only ledger agreed on by many independent computers, with no single owner.
+* '''Bridge''' — a system that moves value between two chains by locking it on one and minting a [[Crypto Glossary|wrapped]] copy on the other.
+* '''Burn''' — permanently destroying tokens (sending them where they can't be spent), often to reduce supply or mint another token.
+
+== C ==
+* '''CDP (Collateralized Debt Position)''' — lock collateral to borrow against it, over-collateralized and liquidatable. [[KULA]] uses this for its stable mechanism.
+* '''Chain ID''' — a unique id that stops a transaction on one chain from replaying on another.
+* '''[[Cloning]]''' — copying open-source chain or contract code to launch your own.
+* '''Cold storage''' — keeping keys offline, disconnected from the internet, for safety.
+* '''Consensus''' — how a chain's computers agree on the one true history (e.g. [[Mining|PoW]], [[Delegated Proof of Stake DPoS|DPoS]], PoS).
+* '''Curation''' — voting on content; on [[MELEK]] curators earn a share of the reward for backing good posts.
+
+== D ==
+* '''DAG''' — a ~1 GB dataset an [[Mining|Etchash]] miner builds in memory before it can mine.
+* '''DAO''' — Decentralized Autonomous Organization; on-chain governance by token-holders.
+* '''dApp''' — a decentralized app: a smart contract plus a web front-end.
+* '''DeFi''' — Decentralized Finance: swaps, lending, and stable mechanisms run by contracts, not banks. [[KULA]] is the ecosystem's DeFi layer.
+* '''Delegation''' — lending your stake or vote-weight to another account without giving up ownership.
+* '''DEX''' — a Decentralized Exchange; trades run on-chain via an [[Crypto Glossary|AMM]] or order book.
+* '''Difficulty''' — how hard the mining puzzle is; auto-adjusts to keep block times steady.
+* '''[[Delegated Proof of Stake DPoS|DPoS]]''' — token-holders vote for witnesses who take turns producing blocks. How MELEK agrees.
+
+== E ==
+* '''ERC-20''' — the standard interface for a fungible token on Ethereum; the basis of [[Crypto Glossary|PRC-20]], TRC-20, BEP-20. See [https://witness.melek.salon/tokens token standards].
+* '''EVM''' — the Ethereum Virtual Machine; the runtime EVM chains (including [[PRANA]]) share, so the same tools work everywhere.
+
+== F ==
+* '''Fair launch''' — no premine, no presale, no insider allocation; supply starts at zero and is earned. Both MELEK and PRANA launch this way.
+* '''Faucet''' — a tap that hands out small amounts of a (usually test) coin to new users.
+* '''[[Forking]]''' — splitting or re-launching a chain by changing its rules or copying its code.
+
+== G ==
+* '''Gas''' — the fee paid to run a transaction or contract on an EVM chain.
+* '''Genesis block''' — block zero; the first block, which sets the chain's starting state and often carries an inscription.
+* '''[[Graphene Blockchain Framework|Graphene]]''' — the DPoS blockchain framework behind Steem, Hive, Blurt, and MELEK.
+
+== H ==
+* '''Halving''' — a scheduled cut (usually by half) of the block reward, making a coin more scarce over time.
+* '''Hard fork''' — a non-backward-compatible rule change that can split a chain in two. See [[Forking]].
+* '''Hash''' — a fixed-length fingerprint of any data; the core of mining and chain ids.
+* '''Hashrate''' — how many hashes per second a miner or network computes.
+* '''Hive-Engine''' — a layer-2 on Hive for community "side tokens" (SCOT). The model behind ecosystem side-tokens like VKBT/CURE.
+
+== L ==
+* '''Liquidity''' — how easily an asset can be traded without moving its price.
+* '''Liquidity pool''' — the pooled reserves an [[Crypto Glossary|AMM]] trades against; providers earn fees.
+
+== M ==
+* '''Mainnet''' — the real, live chain (as opposed to a testnet).
+* '''Mempool''' — the waiting room of unconfirmed transactions before they're put in a block.
+* '''[[Mining]]''' — earning block rewards by solving PoW puzzles. PRANA is mined; MELEK is not.
+* '''Minting''' — creating new tokens (the opposite of [[Crypto Glossary|burn]]).
+
+== N ==
+* '''NFT''' — a non-fungible token (ERC-721/1155): a unique on-chain item.
+* '''Node''' — a computer running the chain software, keeping a copy of the ledger.
+* '''Nonce''' — the changing number a miner tries over and over to find a valid block.
+
+== O ==
+* '''Oracle''' — a service that brings off-chain data (like prices) onto a chain for contracts to use.
+
+== P ==
+* '''Pool (mining)''' — miners combining hashrate and splitting rewards. See [https://pool.soapbox.community the pool].
+* '''PoS (Proof of Stake)''' — consensus where validators stake capital to produce blocks (e.g. today's Ethereum).
+* '''PoW (Proof of Work)''' — consensus secured by [[Mining]] hashpower (Bitcoin, PRANA).
+* '''PRC-20''' — an ERC-20 token on [[PRANA]]; same standard, our chain. KULA and wrapped tokens are PRC-20s.
+* '''Premine''' — coins created for insiders before public launch. A fair launch has '''none'''.
+* '''Private key''' — the secret that controls an account; never share it. See [[Crypto Glossary|seed phrase]].
+* '''Proof of Brain''' — the idea that up/curation-votes reward good content; the core of Graphene social chains.
+* '''Public key''' — the shareable half of a keypair; your [[Crypto Glossary|address]] derives from it.
+
+== R ==
+* '''RandomX''' — a CPU-friendly, ASIC-resistant mining algorithm (Monero, the pool's CPU side).
+* '''REN''' — the ecosystem's on-chain naming system (e.g. yourname.melek). See [[REN]].
+* '''RPC''' — the endpoint apps and wallets call to read a chain or broadcast transactions.
+
+== S ==
+* '''SCOT''' — "Smart Contracts on Token": Hive-Engine's engine for community token reward pools.
+* '''Seed phrase''' — the 12–24 words that back up a wallet's [[Crypto Glossary|private keys]]. Lose it and you lose the funds; leak it and someone takes them.
+* '''Smart contract''' — code that runs on-chain and enforces its own rules (tokens, DEXes, CDPs are all contracts).
+* '''Soft fork''' — a backward-compatible rule change (does not split the chain). See [[Forking]].
+* '''Stablecoin''' — a token designed to hold a steady value (often ~$1); KULA's CDP mints the ecosystem's stable.
+* '''Staking''' — locking a coin to earn rewards and/or gain vote-weight.
+* '''Stratum''' — the protocol a miner uses to talk to a [[Crypto Glossary|pool]].
+
+== T ==
+* '''Testnet''' — a practice chain with valueless coins for testing before mainnet.
+* '''Token''' — a coin defined by a contract on top of a chain (as opposed to the chain's native coin).
+* '''TRC-20''' — the ERC-20 equivalent on TRON.
+
+== W ==
+* '''Wallet''' — software that holds your keys and lets you send, receive, and sign. The ecosystem's is Akasha.
+* '''[[Delegated Proof of Stake DPoS|Witness]]''' — an elected block-producer on a DPoS chain. [[Hathor]] is MELEK's founding (AI) witness.
+* '''Wrapped token''' — a token on one chain that mirrors value locked on another (e.g. wMELEK, wVKBT on PRANA).
+
+== Y ==
+* '''Yield / Yield farming''' — earning returns by providing liquidity or staking in DeFi (with real risk; not free money).
+
+See also: [[Glossaries]] · [[Forking]] · [[Cloning]] · [[Mining]] · [[MELEK]] · [[PRANA]] · [[KULA]] · [https://witness.melek.salon Witness School]
