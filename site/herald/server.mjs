@@ -42,6 +42,11 @@ import { handler as dispatchHandler } from '../../pentecaust/herald/dispatcher.m
 // we hold a singleton and mount its handler. Auctions touch ONLY premium slots — organic ranking is never
 // bought. Settlement is design-only: no funds move, nothing signed.
 import { createAdAuction } from '../../pentecaust/herald/ad-auction.mjs';
+// The ad-embed is the PUBLIC LAYER over the ad-network engine: the embeddable <iframe> ad unit + the
+// copy-paste snippet a publisher pastes on their site / video description / Herald-built page. It holds no
+// key, moves no funds, signs nothing — it renders the engine's disclosed unit and routes the click through
+// the /go rail for rev-share attribution. We bind it to the ad-network singleton's select + originsOf below.
+import { handler as adEmbedHandler, snippet as adSnippet } from '../../pentecaust/herald/ad-embed.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -72,6 +77,8 @@ export const CAPABILITIES = [
     ['Campaign sender', 'The owned sending layer: lists, subscribers, templates, one-shot campaigns + drip/journeys, a durable send-queue, one-click unsubscribe & bounce/complaint suppression (CAN-SPAM). ESP behind an injectable seam — email only.', 'campaign-sender', null],
   ]],
   ['Monetize', [
+    ['Earn as a publisher', 'Drop one <iframe> ad unit on your site, video description, or Herald-built page and earn a rev-share per click. MELEK-optional — email + payout destination, no account required; connect MELEK-Signer later to upgrade to token payouts.', 'ad-embed', '/monetize'],
+    ['Advertise (buy clicks)', 'Create a campaign — creative + landing URL + CPC bid — as a keyless intent. Funding/escrow/settlement is design-only; funds move only via MELEK-Signer later.', 'ad-network', '/advertise'],
     ['Ad network', 'Advertisers + creators earn/pay per click. Ranking can never be bought — sponsored units are segregated, labeled & FTC-disclosed, click-through on the /go rail.', 'ad-network', '/ad/select'],
     ['Click validate', 'The billable-click / fraud pass over the /go log: window-dedup, crawler filter, per-publisher origin allow-list, rate caps, sybil-gated payout (POST /api/click-validate).', 'click-validate', null],
     ['Ad auction', 'Sell premium featured slots by sealed-bid second-price (Vickrey) auction — winner pays the second-highest bid or the reserve. Premium slots only; organic ranking is never bought. Settlement is design-only.', 'ad-auction', '/ad/premium'],
@@ -98,6 +105,14 @@ const STYLE = `<style>
  footer{color:var(--mut);font-size:12px;margin:34px 0 24px;border-top:1px solid var(--line);padding-top:14px}
  .back{color:var(--blue)} .pack{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--panel);margin-bottom:12px}
  .pack h3{margin:0 0 4px} .pack .cat{font-size:11px;color:var(--gold);text-transform:uppercase} .pack .p{color:var(--mut);font-size:13px;margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+ h1{font-size:24px;margin:8px 0 0} .sec{border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:var(--panel);margin:14px 0}
+ .sec h3{margin:0 0 8px;font-size:15px} .sec p{color:var(--mut);font-size:13px;margin:6px 0}
+ pre.snip{background:#0a0c10;border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;font-family:ui-monospace,monospace;font-size:12px;color:#cfe3ff;white-space:pre-wrap;word-break:break-all}
+ form.f{display:grid;gap:10px;max-width:520px;margin-top:6px} form.f label{font-size:12px;color:var(--mut);display:grid;gap:4px}
+ form.f input,form.f select{background:#0a0c10;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--fg);font:inherit}
+ form.f button{background:var(--blue);color:#04121f;border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer;justify-self:start}
+ .note{font-size:12px;color:var(--gold);border-left:3px solid var(--gold);padding:6px 10px;margin:10px 0;background:rgba(217,164,65,.07)}
+ .intent{border:1px solid var(--grn)} .intent h3{color:var(--grn)}
 </style>`;
 
 function pageShell(title, inner, desc = '') {
@@ -134,6 +149,115 @@ export function promptsPage() {
   return pageShell('Prompt packs — Herald', body, 'Herald prompt packs: plug-and-play prompts for content, links and keywords.');
 }
 
+// /monetize — the publisher / creator self-serve page (keyless). Explains earning a rev-share per click as
+// a Herald publisher (us, web-builder customers, external YouTubers/TikTokers), the MELEK-OPTIONAL sign-up
+// (email + payout destination now; connect MELEK-Signer later to UPGRADE to token payouts — described, not
+// implemented), and shows a real copy-paste embed snippet built from ad-embed.snippet(). No funds, no key.
+export function monetizePage(searchParams) {
+  const q = searchParams || new URLSearchParams();
+  let sample = '';
+  try { sample = adSnippet('your-publisher-id', 'sponsored', { size: 'mrec', baseUrl: BASE_URL }); }
+  catch { sample = ''; }
+
+  // A submitted sign-up echoes a design-only registration INTENT — nothing is stored, no funds move.
+  const email = (q.get('email') || '').trim();
+  const payout = (q.get('payout') || '').trim();
+  const origin = (q.get('origin') || '').trim();
+  let intent = '';
+  if (email || payout || origin) {
+    const rec = {
+      role: 'publisher', melekOptional: true, payoutRail: 'fiat (external creator) — upgradeable to token via MELEK-Signer',
+      email: email || '(none)', payoutDestination: payout || '(none)', origin: origin || '(none)',
+      status: 'design-only intent — not stored, no account created, no funds move',
+    };
+    intent = `<div class="sec intent"><h3>Your sign-up intent (design-only)</h3>
+      <p>This is a preview. Nothing was stored and no account was created — connecting MELEK-Signer later is what turns this into a live, token-paid publisher.</p>
+      <pre class=snip>${esc(JSON.stringify(rec, null, 2))}</pre></div>`;
+  }
+
+  const body = `<header><a class=back href="/">← Herald</a><h1>Monetize — earn as a publisher</h1>
+    <p class=lead>Sell your ad space on the Herald network. Advertisers pay per click; you keep a rev-share of
+    every valid click your placement delivers. For us, for people who build their site with us, and for
+    external YouTubers / TikTokers / bloggers — <b>no MELEK account required</b>.</p></header>
+
+    <div class=sec><h3>1. Grab your ad unit</h3>
+      <p>Paste this <b>plain &lt;iframe&gt;</b> where you want the ad — a page, a sidebar, a video description
+      link-out, or a Herald-built site. No third-party JavaScript to trust. Every unit carries the required
+      <b>"Ad"</b> disclosure label and routes the click through the <code>/go</code> rail so it's credited to you.</p>
+      <pre class=snip>${esc(sample)}</pre>
+      <p>Swap <code>your-publisher-id</code> for the id you get on sign-up. Sizes: <code>mrec</code> (300×250),
+      <code>leaderboard</code> (728×90), <code>banner</code> (468×60), <code>mobile</code> (320×50),
+      <code>halfpage</code> (300×600), <code>square</code> (250×250).</p></div>
+
+    <div class=sec><h3>2. Sign up — MELEK-optional</h3>
+      <p>Start with just an <b>email</b> and a <b>payout destination</b>. No wallet, no chain, no MELEK account.
+      External creators are paid in <b>fiat</b>. Later, connect <b>MELEK-Signer</b> (scoped, revocable, zero-key)
+      to <b>upgrade</b> to token payouts + curation-trail bonuses — a strict upgrade, never a gate.</p>
+      <form class=f method=get action="/monetize">
+        <label>Email<input name=email type=email placeholder="you@example.com" value="${esc(email)}"></label>
+        <label>Payout destination<input name=payout placeholder="PayPal email / bank / (connect MELEK-Signer for token)" value="${esc(payout)}"></label>
+        <label>Your site's origin host (for the click allow-list)<input name=origin placeholder="example.com" value="${esc(origin)}"></label>
+        <button type=submit>Preview sign-up</button>
+      </form>
+      <div class=note>Design-only: this page holds no key, stores nothing, and moves no funds. Live payouts run
+      only through MELEK-Signer custody or a PCI-safe payouts rail.</div>
+    </div>${intent}`;
+  return pageShell('Monetize — earn as a Herald publisher', body, 'Earn a rev-share per click: paste one iframe ad unit anywhere. MELEK-optional — email + payout destination, upgrade to token payouts via MELEK-Signer.');
+}
+
+// /advertise — the advertiser self-serve page (keyless). Explains buying clicks and builds a campaign as a
+// KEYLESS INTENT from the form fields. Funding/escrow/settlement is DESIGN-ONLY — no money moves here; funds
+// move only via MELEK-Signer later. The page stores nothing and holds no key.
+export function advertisePage(searchParams) {
+  const q = searchParams || new URLSearchParams();
+  const headline = (q.get('headline') || '').trim();
+  const bodyText = (q.get('body') || '').trim();
+  const landing = (q.get('landing') || '').trim();
+  const cpc = (q.get('cpc') || '').trim();
+  const budget = (q.get('budget') || '').trim();
+
+  let intent = '';
+  if (headline || landing) {
+    const validUrl = /^https?:\/\//i.test(landing);
+    const bid = Number(cpc); const bud = Number(budget);
+    const rec = {
+      type: 'campaign-intent', headline: headline || '(none)', body: bodyText || '(none)',
+      landingUrl: validUrl ? landing : '(needs http/https URL)',
+      cpcBidUsd: Number.isFinite(bid) && bid > 0 ? bid : '(set a positive CPC)',
+      budgetUsd: Number.isFinite(bud) && bud > 0 ? bud : '(optional)',
+      funding: 'NOT LIVE — design-only. No escrow, no charge, no settlement in this page.',
+      settlement: 'funds move only via MELEK-Signer custody (unsigned calls) or a PCI-safe billing rail — later.',
+      ranking: 'sponsored units are segregated, labeled & FTC-disclosed; ranking can never be bought.',
+    };
+    intent = `<div class="sec intent"><h3>Your campaign intent (design-only)</h3>
+      <p>This is the intent your inputs build — a plan, not a purchase. No card was charged, no escrow was
+      funded, nothing was broadcast.</p>
+      <pre class=snip>${esc(JSON.stringify(rec, null, 2))}</pre></div>`;
+  }
+
+  const body = `<header><a class=back href="/">← Herald</a><h1>Advertise — buy clicks</h1>
+    <p class=lead>Reach the MELEK ecosystem and the open network of creators who run Herald ad units. You pay
+    per <b>billable</b> click — deduped, crawler-filtered, origin-checked. Ranking is <b>never</b> for sale:
+    sponsored units are segregated, labeled, and FTC-disclosed.</p></header>
+
+    <div class=sec><h3>Create a campaign (keyless intent)</h3>
+      <p>Give your creative, a landing URL, and a CPC bid. Submitting builds a <b>campaign intent</b> only —
+      a plan you can review. <b>Funding, escrow, and settlement are not live</b> (design-only); funds move
+      only through MELEK-Signer later.</p>
+      <form class=f method=get action="/advertise">
+        <label>Headline<input name=headline placeholder="Try the offer" value="${esc(headline)}"></label>
+        <label>Body (optional)<input name=body placeholder="One clear line about the offer." value="${esc(bodyText)}"></label>
+        <label>Landing URL<input name=landing type=url placeholder="https://example.com/deal" value="${esc(landing)}"></label>
+        <label>CPC bid (USD)<input name=cpc type=number step="0.01" min="0" placeholder="0.25" value="${esc(cpc)}"></label>
+        <label>Budget (USD, optional)<input name=budget type=number step="1" min="0" placeholder="100" value="${esc(budget)}"></label>
+        <button type=submit>Build campaign intent</button>
+      </form>
+      <div class=note>Design-only: no money moves on this page. It holds no key, signs nothing, and charges
+      nothing. Escrow + settlement are a later MELEK-Signer build.</div>
+    </div>${intent}`;
+  return pageShell('Advertise — buy clicks on Herald', body, 'Buy clicks on the Herald ad network: build a campaign intent (creative + landing URL + CPC bid). Keyless — funding and settlement are design-only.');
+}
+
 function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' }); res.end(html); }
 
 // Live module mounts. Prefix-mounted API modules (rewrite set) get req.url stripped so they see their
@@ -152,6 +276,9 @@ const MOUNTS = [
   // ad-auction claims /ad/premium + /api/auctions BEFORE the ad-network's broad /ad/ match below.
   { rewrite: null, fn: adAuction.handler, match: (p) => p === '/ad/premium' || p === '/api/auctions' },
   { rewrite: null, fn: adNetwork.handler, match: (p) => p === '/ad/select' || p.startsWith('/ad/') },
+  // ad-embed: the PUBLIC ad unit (/embed/unit → the framed, disclosed unit). Bound to the ad-network
+  // singleton's select + origin allow-list. Native paths; holds no key, moves no funds.
+  { rewrite: null, fn: (req, res) => adEmbedHandler(req, res, { select: adNetwork.select, originsOf: adNetwork.originsOf, baseUrl: BASE_URL }), match: (p) => p === '/embed/unit' || p.startsWith('/embed/') },
   { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
   { rewrite: null, fn: iftttHandler, match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
   // dispatcher: the trigger execution rail. Native paths (its own /health stays owned by the server above).
@@ -169,10 +296,12 @@ export async function handler(req, res) {
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
     if (path === '/sitemap.xml') {
       res.writeHead(200, { 'content-type': 'application/xml' });
-      return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url><url><loc>${BASE_URL}/prompts</loc></url><url><loc>${BASE_URL}/outreach</loc></url></urlset>`);
+      return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url><url><loc>${BASE_URL}/prompts</loc></url><url><loc>${BASE_URL}/monetize</loc></url><url><loc>${BASE_URL}/advertise</loc></url><url><loc>${BASE_URL}/outreach</loc></url></urlset>`);
     }
     if (path === '/') return send(res, homePage());
     if (path === '/prompts') return send(res, promptsPage());
+    if (path === '/monetize') return send(res, monetizePage(url.searchParams));
+    if (path === '/advertise') return send(res, advertisePage(url.searchParams));
     // delegate to a mounted module handler if one claims this path
     for (const m of MOUNTS) {
       if (!m.match(path)) continue;

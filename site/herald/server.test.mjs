@@ -56,3 +56,30 @@ test('robots + sitemap serve', async () => {
   const sm = await call('/sitemap.xml');
   assert.match(sm.html, /\/prompts/);
 });
+
+test('/monetize renders 200 with a copy-paste embed snippet + MELEK-optional sign-up', async () => {
+  const r = await call('/monetize');
+  assert.equal(r.code, 200);
+  assert.match(r.html, /Monetize/);
+  assert.match(r.html, /&lt;iframe/);              // the escaped snippet to copy
+  assert.match(r.html, /\/embed\/unit\?pub=/);     // snippet points at the embed unit
+  assert.match(r.html, /MELEK-optional|MELEK-Signer/);
+});
+
+test('/advertise renders 200 and builds a keyless, design-only campaign intent', async () => {
+  const r = await call('/advertise');
+  assert.equal(r.code, 200);
+  assert.match(r.html, /Advertise/);
+  assert.match(r.html, /CPC/);
+  // submitting the form builds an intent, and is explicit that funds do not move
+  const built = await call('/advertise?headline=Try&landing=https%3A%2F%2Fexample.com%2Fdeal&cpc=0.25');
+  assert.match(built.html, /campaign-intent/);
+  assert.match(built.html, /design-only|NOT LIVE/);
+});
+
+test('/embed/unit serves a framed ad unit carrying the Ad disclosure label', async () => {
+  const r = await call('/embed/unit?pub=melek-salon&slot=sponsored&fmt=mrec');
+  assert.equal(r.code, 200);
+  assert.match(r.headers['content-type'] || '', /text\/html/);
+  assert.match(r.html, />Ad</);                    // disclosure label present even with no fill (house unit)
+});
