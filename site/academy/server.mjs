@@ -24,6 +24,15 @@ import {
   PROGRAMS, ISSUERS, CREDENTIAL_TYPES, getProgram,
   verifyCredential, toOpenBadge, createRegistry,
 } from '../../integrations/soapbox/credentials-issuer.mjs';
+import { getAssessment, scoreAssessment } from '../../integrations/soapbox/credential-assessment.mjs';
+
+// Completion-type credentials are EARNED by passing an assessment; ministerial/press go through an
+// application the issuing authority reviews (never auto-minted).
+const COMPLETION_TYPES = new Set(['completion', 'certification', 'badge']);
+const isCompletion = (p) => p && COMPLETION_TYPES.has(p.type);
+// In-memory application queue for the gated (ministerial/press) credentials (a real deploy persists/notifies).
+const _applications = [];
+export function __applications() { return _applications.slice(); }
 
 const PORT = +(process.env.PORT || 8143);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -166,9 +175,10 @@ export function programView(id) {
         <code>MELEK-${esc(CREDENTIAL_TYPES[p.type].code)}-…</code>) and a SHA-256 verification hash over its
         fields. Anyone can confirm it on the <a href="/verify">Verify</a> page; it is built to anchor on the
         MELEK/PRANA chain for a permanent public record.</p>
-      <p style="margin-top:8px">${canIssue
-        ? '<b>Request:</b> issuance for this program is enabled on this instance — contact the issuer to be credentialed.'
-        : 'Issuance is <b>gated to the issuing authority</b> (the Temple / MELEK Press / MELEK Academy) — you cannot self-mint a credential here. Enroll through the course or ministry track, and the credential is issued to you on completion.'}</p></div>`;
+      <p style="margin-top:8px">${isCompletion(p)
+        ? 'You cannot self-mint a credential here — you <b>earn</b> it: study the material, then pass a short assessment and the Academy issues it to you.'
+        : 'This credential is <b>gated to its issuing authority</b> — you apply, and the ' + esc(issuer.name) + ' issues it to you on approval. No one can self-mint one.'}</p></div>
+    <p style="margin:16px 0"><a href="/earn/${esc(p.id)}" style="display:inline-block;background:#1f6feb;color:#fff;font-weight:800;text-decoration:none;padding:11px 22px;border-radius:9px;font-size:15px">${isCompletion(p) ? 'Earn this credential →' : 'Apply for this credential →'}</a></p>`;
   return page(`${p.name} — MELEK Academy`, body, { canonical: `${BASE_URL}/program/${p.id}` });
 }
 
@@ -359,8 +369,93 @@ export function certificateView({ id = '', c = '' } = {}) {
 
 // ── routing ───────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
-  res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
+  res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
   res.end(html);
+}
+
+// ── /earn/:id — how you actually GET a credential ───────────────────────────────────────────────
+// Completion credentials: study + pass a short assessment -> the Academy issues it to you (self-serve).
+// Ministerial/press: an application the issuing authority reviews (queued, never auto-minted).
+const COURSE_LINKS = { ai: WITNESS, crypto: WITNESS, civics: WITNESS, library: 'https://wiki.soapbox.community', esoteric: 'https://wiki.soapbox.community' };
+
+export function earnView(id, { error = '' } = {}) {
+  const p = getProgram(id);
+  if (!p) return page('Not found — MELEK Academy', `<h1>Not found</h1><p class=muted><a href="/">All programs →</a></p>`, {});
+  const issuer = ISSUERS[CREDENTIAL_TYPES[p.type].issuer];
+  if (isCompletion(p)) {
+    const a = getAssessment(p.id);
+    const courseUrl = COURSE_LINKS[p.track] || WITNESS;
+    const quiz = a ? a.questions.map((qn, i) => `<div class=card><b>${i + 1}. ${esc(qn.q)}</b>${qn.options.map((o, j) => `
+      <label style="display:block;margin-top:6px;font-size:14px;cursor:pointer"><input type=radio name="a${i}" value="${j}" required> ${esc(o)}</label>`).join('')}</div>`).join('')
+      : `<div class=card>This credential has no assessment configured yet.</div>`;
+    return page(`Earn — ${p.name}`, `<p><a href="/program/${esc(p.id)}">← ${esc(p.name)}</a></p>
+      <h1>Earn: ${esc(p.name)}</h1>
+      <p class=lead>Two steps: <b>1)</b> study the material, <b>2)</b> pass the short check below. Pass it and the
+        Academy issues your verifiable credential right away — then you print the certificate.</p>
+      <div class=card><h3 style="margin-top:0">1 · Study</h3><p class=muted style="font-size:14px">${esc(p.criteria)}</p>
+        <p><a href="${esc(courseUrl)}">Open the course material →</a></p></div>
+      ${error ? `<div class=band>${esc(error)}</div>` : ''}
+      <form method=post action="/earn/${esc(p.id)}">
+        <div class=card><h3 style="margin-top:0">2 · Your name (as it appears on the certificate)</h3>
+          <input name=name required placeholder="Your name" style="font-size:15px"></div>
+        <h3>3 · Knowledge check</h3>${quiz}
+        <button type=submit style="font-size:15px">Submit &amp; earn my credential</button></form>`, { canonical: `${BASE_URL}/earn/${p.id}`, robots: 'noindex,follow' });
+  }
+  const affirm = p.type === 'ministerial'
+    ? 'I affirm the Temple’s tenets and wish to be ordained / recognized as a minister.'
+    : 'I agree to the MELEK Press contributor standards and wish to be credentialed as MELEK press.';
+  return page(`Apply — ${p.name}`, `<p><a href="/program/${esc(p.id)}">← ${esc(p.name)}</a></p>
+    <h1>Apply: ${esc(p.name)}</h1>
+    <p class=lead>This credential is issued by <b>${esc(issuer.name)}</b> after review — you can’t self-mint it.
+      Send your application and the issuing authority will issue it to you on approval.</p>
+    ${error ? `<div class=band>${esc(error)}</div>` : ''}
+    <form method=post action="/earn/${esc(p.id)}">
+      <div class=card><input name=name required placeholder="Your name" style="font-size:15px;margin-bottom:8px">
+        <input name=contact placeholder="How to reach you (email / MELEK account)" style="font-size:15px;margin-bottom:8px">
+        <textarea name=note placeholder="A sentence on why (optional)" style="min-height:80px"></textarea>
+        <label style="display:block;margin-top:8px;font-size:14px"><input type=checkbox name=affirm required> ${esc(affirm)}</label></div>
+      <button type=submit style="font-size:15px">Send application</button></form>`, { canonical: `${BASE_URL}/earn/${p.id}`, robots: 'noindex,follow' });
+}
+
+/** Handle an /earn POST. `body` is the parsed form object. Returns { redirect } or { html }. */
+export function earnSubmit(id, body = {}) {
+  const p = getProgram(id);
+  if (!p) return { html: earnView(id, { error: 'Unknown program.' }) };
+  const name = String(body.name || '').trim().slice(0, 80);
+  if (!name) return { html: earnView(id, { error: 'Please enter your name.' }) };
+  if (isCompletion(p)) {
+    const a = getAssessment(p.id);
+    const answers = a ? a.questions.map((_, i) => Number(body[`a${i}`])) : [];
+    const score = scoreAssessment(p.id, answers);
+    if (!score.passed) return { html: earnView(id, { error: `Not quite — you got ${score.correct}/${score.total}; you need ${score.needed}. Review the material and try again.` }) };
+    const r = _registry.issue({ programId: p.id, recipientName: name, evidence: `Passed the MELEK Academy assessment for ${p.name}` });
+    if (!r.ok) return { html: earnView(id, { error: 'Could not issue — please try again.' }) };
+    const c = Buffer.from(JSON.stringify(r.credential), 'utf8').toString('base64');
+    return { redirect: `/certificate?c=${encodeURIComponent(c)}` };
+  }
+  if (!body.affirm) return { html: earnView(id, { error: 'Please affirm the statement to apply.' }) };
+  _applications.push({ programId: p.id, name, contact: String(body.contact || '').slice(0, 160), note: String(body.note || '').slice(0, 500), at: new Date().toISOString() });
+  return { html: page(`Application received — ${p.name}`, `<h1>Application received ✓</h1>
+    <p class=lead>Thank you, ${esc(name)}. Your application for <b>${esc(p.name)}</b> has been recorded. The
+      issuing authority (${esc(ISSUERS[CREDENTIAL_TYPES[p.type].issuer].name)}) reviews applications and issues
+      your credential on approval — you’ll then print your certificate.</p>
+    <p><a href="/">← back to the Academy</a></p>`, { robots: 'noindex,follow' }) };
+}
+
+// minimal, bounded form-urlencoded body reader.
+function readBody(req, limit = 16384) {
+  return new Promise((resolve) => {
+    if (!req || typeof req.on !== 'function') return resolve({});
+    let data = ''; let over = false;
+    req.on('data', (c) => { data += c; if (data.length > limit) over = true; });
+    req.on('end', () => {
+      if (over) return resolve({});
+      const out = {};
+      for (const pair of String(data).split('&')) { const [k, v = ''] = pair.split('='); if (k) out[decodeURIComponent(k.replace(/\+/g, ' '))] = decodeURIComponent(v.replace(/\+/g, ' ')); }
+      resolve(out);
+    });
+    req.on('error', () => resolve({}));
+  });
 }
 const SITEMAP_PATHS = ['/', '/verify', '/registry', ...PROGRAMS.map((p) => `/program/${p.id}`)];
 
@@ -385,6 +480,16 @@ export async function handler(req, res) {
     if (path === '/registry') return sendHtml(res, registryView());
     const pm = path.match(/^\/program\/([a-z0-9-]+)$/);
     if (pm) return sendHtml(res, programView(pm[1]));
+    // /earn/:id — earn (assessment) or apply (application) — this is how a person actually GETS a credential
+    const em = path.match(/^\/earn\/([a-z0-9-]+)$/);
+    if (em) {
+      if (String(req.method || 'GET').toUpperCase() === 'POST') {
+        const r = earnSubmit(em[1], await readBody(req));
+        if (r.redirect) { res.writeHead(302, { location: r.redirect }); return res.end(); }
+        return sendHtml(res, r.html);
+      }
+      return sendHtml(res, earnView(em[1]));
+    }
     // public credential landing (employers look it up) + printable certificate — by id or self-contained ?c=
     if (path === '/credential') return sendHtml(res, credentialView({ id: url.searchParams.get('id') || '', c: url.searchParams.get('c') || '' }));
     const crm = path.match(/^\/credential\/([A-Za-z0-9-]+)$/);
