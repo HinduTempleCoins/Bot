@@ -213,7 +213,11 @@ function renderResult(v, cred, sourceLabel) {
       <tr><th>Type</th><td>${esc(cred.typeLabel || (cred.type || ''))} · <b>non-accredited</b></td></tr>
       <tr><th>On-chain anchor</th><td>${cred.verification && cred.verification.anchor ? esc(cred.verification.anchor) : '<span class=muted>not yet anchored (issuer-hash verified)</span>'}</td></tr>
     </table>` : '';
-  return `<div class=card><h3 style="margin-top:0">Result — ${esc(sourceLabel)}</h3><p style="font-size:16px">${head}</p>${detail}</div>`;
+  const links = cred && cred.id && v.valid
+    ? `<p style="margin-top:12px"><a href="${esc(credLink(cred, '/certificate'))}">🖨️ Printable certificate</a> ·
+        <a href="${esc(credLink(cred, '/credential'))}">Public credential page (share this with an employer)</a></p>`
+    : '';
+  return `<div class=card><h3 style="margin-top:0">Result — ${esc(sourceLabel)}</h3><p style="font-size:16px">${head}</p>${detail}${links}</div>`;
 }
 
 // ── /registry ─────────────────────────────────────────────────────────────────────────────────────
@@ -229,6 +233,128 @@ export function registryView() {
     <p class=lead>Every MELEK credential issued on this instance, publicly listed and independently verifiable.
       Built to anchor each verification hash on the MELEK/PRANA chain.</p>
     <div class=card>${rows}</div>`, { canonical: `${BASE_URL}/registry` });
+}
+
+// ── the seal (the logo that goes on the paper) ────────────────────────────────────────────────────
+// A self-contained SVG seal — no external image, so it prints and verifies anywhere. The issuer name
+// arcs the top; "VERIFIABLE · ON-CHAIN" the bottom; an eight-point star (the MELEK/Angelic mark) sits
+// center. This is the mark a company sees on the paper and looks up.
+export function sealSvg(name = 'MELEK ACADEMY', size = 128) {
+  const star = Array.from({ length: 8 }, (_, i) => {
+    const a = (i * Math.PI) / 4, r = i % 2 ? 14 : 30;
+    return `${(100 + r * Math.sin(a)).toFixed(1)},${(100 - r * Math.cos(a)).toFixed(1)}`;
+  }).join(' ');
+  const top = String(name).toUpperCase().slice(0, 42);
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}" role="img" aria-label="${esc(name)} seal" xmlns="http://www.w3.org/2000/svg">
+    <defs><path id="arcTop" d="M30,100 a70,70 0 0,1 140,0" fill="none"/><path id="arcBot" d="M35,100 a65,65 0 0,0 130,0" fill="none"/></defs>
+    <circle cx="100" cy="100" r="94" fill="none" stroke="#b8860b" stroke-width="3"/>
+    <circle cx="100" cy="100" r="84" fill="none" stroke="#d4a23c" stroke-width="1.5"/>
+    <polygon points="${star}" fill="#d4a23c" stroke="#8a6a18" stroke-width="1"/>
+    <circle cx="100" cy="100" r="7" fill="#fff8e6" stroke="#8a6a18"/>
+    <text font-family="Georgia,serif" font-size="13" font-weight="700" fill="#8a6a18" letter-spacing="2"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">${esc(top)}</textPath></text>
+    <text font-family="Georgia,serif" font-size="10" font-weight="600" fill="#8a6a18" letter-spacing="3"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">VERIFIABLE · ON-CHAIN</textPath></text>
+  </svg>`;
+}
+
+// resolve a credential from ?id (registry) or ?c (base64url self-contained JSON — the recipient's own copy).
+function resolveCredential({ id = '', c = '' } = {}) {
+  if (id) return _registry.get(id);
+  if (c) { try { return JSON.parse(Buffer.from(String(c), 'base64').toString('utf8')); } catch { return null; } }
+  return null;
+}
+// A credential the recipient holds can always render itself (?c=); registry ids are the convenience path.
+function credLink(cred, path) {
+  const c = Buffer.from(JSON.stringify(cred), 'utf8').toString('base64');
+  return `${path}?c=${encodeURIComponent(c)}`;
+}
+
+// ── /credential — the PUBLIC verification landing (this is where a company looks it up) ──────────────
+export function credentialView({ id = '', c = '' } = {}) {
+  const cred = resolveCredential({ id, c });
+  if (!cred || !cred.id) return page('Credential not found — MELEK Academy', `<h1>Not found</h1><p class=muted>No such credential. <a href="/verify">Verify a credential →</a></p>`, { canonical: `${BASE_URL}/verify` });
+  const v = verifyCredential(cred);
+  const head = v.valid ? `<span class=ok>✓ GENUINE</span> — ${esc(v.reason)}` : `<span class=bad>✗ NOT VALID</span> — ${esc(v.reason)}`;
+  const body = `<h1>${esc(cred.program && cred.program.name)}</h1>
+    <p class=lead>This is the public record for a MELEK credential. Anyone — an employer, a registrar, anyone
+      holding the paper — can confirm it here.</p>
+    <div class=card><p style="font-size:18px;margin:0 0 8px">${head}</p>
+      <table>
+        <tr><th>Credential</th><td>${esc(cred.program && cred.program.name)}</td></tr>
+        <tr><th>Awarded to</th><td><b>${esc(cred.recipient && cred.recipient.name)}</b></td></tr>
+        <tr><th>Issued by</th><td>${esc(cred.issuer && cred.issuer.name)}</td></tr>
+        <tr><th>Issued</th><td>${esc(cred.issuedAt)}${cred.expiresAt ? ` · expires ${esc(cred.expiresAt)}` : ''}</td></tr>
+        <tr><th>Credential id</th><td><code>${esc(cred.id)}</code></td></tr>
+        <tr><th>Type</th><td>${esc(cred.typeLabel || cred.type)} · <b>non-accredited</b></td></tr>
+        <tr><th>On-chain anchor</th><td>${cred.verification && cred.verification.anchor ? esc(cred.verification.anchor) : '<span class=muted>issuer-hash verified (on-chain anchor pending)</span>'}</td></tr>
+      </table>
+      <p style="margin-top:12px"><a href="${esc(credLink(cred, '/certificate'))}">🖨️ Open the printable certificate →</a></p>
+    </div>
+    <div class=band>How this is credible: the credential is issued by the named authority above, its hash is
+      re-checked here on every visit (tampering fails), and it is built to anchor permanently on the
+      MELEK/PRANA chain. A company that receives the paper looks it up at this page by its id.</div>`;
+  return page(`${cred.program && cred.program.name} — credential — MELEK Academy`, body, { canonical: `${BASE_URL}/credential/${cred.id}`, robots: 'noindex,follow' });
+}
+
+// ── /certificate — the PRINTABLE certificate (standalone, print-friendly, light) ─────────────────────
+export function certificateView({ id = '', c = '' } = {}) {
+  const cred = resolveCredential({ id, c });
+  if (!cred || !cred.id) return page('Certificate not found — MELEK Academy', `<h1>Not found</h1><p class=muted>No such credential.</p>`, {});
+  const verifyUrl = `${BASE_URL}/credential/${encodeURIComponent(cred.id)}`;
+  const kind = (cred.type === 'ministerial') ? 'Ordination / Religious Credential'
+    : (cred.type === 'press') ? 'Press Credential'
+      : 'Certificate of Completion';
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(cred.program && cred.program.name)} — Certificate</title>
+<style>
+  :root{--ink:#2a2419;--gold:#b8860b;--gold2:#d4a23c;--cream:#fbf7ee}
+  *{box-sizing:border-box} body{margin:0;background:#e9e4d8;color:var(--ink);font:16px/1.55 Georgia,'Times New Roman',serif;padding:24px}
+  .sheet{max-width:900px;margin:0 auto;background:var(--cream);border:2px solid var(--gold);box-shadow:0 10px 40px -12px rgba(0,0,0,.35);padding:40px 48px;position:relative}
+  .sheet::before{content:"";position:absolute;inset:10px;border:1px solid var(--gold2);pointer-events:none}
+  .top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+  .kicker{letter-spacing:5px;text-transform:uppercase;font-size:12px;color:var(--gold)}
+  h1{font-size:30px;margin:6px 0 2px;font-weight:700}
+  .sub{font-style:italic;color:#6b5f47;font-size:15px}
+  .rule{width:120px;height:2px;background:var(--gold2);margin:16px auto}
+  .awarded{font-size:15px;color:#5b5137;margin-top:8px}
+  .name{font-size:34px;font-weight:700;margin:6px 0;border-bottom:1px solid var(--gold2);display:inline-block;padding:0 18px 6px}
+  .prog{font-size:20px;margin:14px 0 4px}
+  .body{text-align:center}
+  .meta{display:flex;justify-content:space-between;gap:20px;margin-top:34px;font-size:13px;color:#5b5137}
+  .meta .sig{text-align:center;flex:1}
+  .meta .sig .line{border-top:1px solid var(--ink);margin:26px 12px 4px}
+  .verify{margin-top:26px;border-top:1px dashed var(--gold2);padding-top:12px;text-align:center;font-size:12.5px;color:#5b5137}
+  .verify code{background:#f1ead9;border:1px solid #e3d9c0;border-radius:4px;padding:1px 6px}
+  .verify a{color:#7a5a12}
+  .noprint{text-align:center;margin:18px auto;max-width:900px}
+  .noprint button{font:inherit;background:var(--gold);color:#1a1304;border:0;border-radius:8px;padding:9px 20px;font-weight:700;cursor:pointer}
+  @media print{ body{background:#fff;padding:0} .noprint{display:none} .sheet{box-shadow:none;border-color:var(--gold);margin:0} @page{margin:14mm} }
+</style></head><body>
+<div class=noprint><button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  <span style="margin-left:10px;color:#6b5f47;font-size:13px">Verify: <a href="${esc(verifyUrl)}">${esc(verifyUrl)}</a></span></div>
+<div class=sheet>
+  <div class=top>${sealSvg((cred.issuer && cred.issuer.name) || 'MELEK ACADEMY', 108)}
+    <div class=kicker>${esc(kind)}</div>
+    <h1>MELEK Academy</h1>
+    <div class=sub>issued under the authority of ${esc(cred.issuer && cred.issuer.name)}</div>
+  </div>
+  <div class=rule></div>
+  <div class=body>
+    <div class=awarded>This certifies that</div>
+    <div class=name>${esc(cred.recipient && cred.recipient.name)}</div>
+    <div class=awarded>${cred.type === 'ministerial' ? 'is recognized as' : cred.type === 'press' ? 'is credentialed as press for' : 'has successfully completed'}</div>
+    <div class=prog><b>${esc(cred.program && cred.program.name)}</b></div>
+    <div class=sub style="max-width:640px;margin:6px auto 0">${esc(cred.note || '')}</div>
+  </div>
+  <div class=meta>
+    <div class=sig><div class=line></div>Hathor · Founding Witness of MELEK</div>
+    <div style="text-align:center;align-self:flex-end"><div style="font-size:12px;color:var(--gold);letter-spacing:2px">ISSUED</div>${esc(cred.issuedAt)}${cred.expiresAt ? `<div style="font-size:11px">expires ${esc(cred.expiresAt)}</div>` : ''}</div>
+    <div class=sig><div class=line></div>${esc(cred.issuer && cred.issuer.name)}</div>
+  </div>
+  <div class=verify><b>Verify authenticity.</b> Anyone can confirm this credential at
+    <a href="${esc(verifyUrl)}">${esc(verifyUrl.replace(/^https?:\/\//, ''))}</a> — credential id <code>${esc(cred.id)}</code>.
+    Non-accredited: a credential of its named issuer, not college credit, a CEU, or a government license.</div>
+</div>
+</body></html>`;
 }
 
 // ── routing ───────────────────────────────────────────────────────────────────────────────────────
@@ -259,6 +385,13 @@ export async function handler(req, res) {
     if (path === '/registry') return sendHtml(res, registryView());
     const pm = path.match(/^\/program\/([a-z0-9-]+)$/);
     if (pm) return sendHtml(res, programView(pm[1]));
+    // public credential landing (employers look it up) + printable certificate — by id or self-contained ?c=
+    if (path === '/credential') return sendHtml(res, credentialView({ id: url.searchParams.get('id') || '', c: url.searchParams.get('c') || '' }));
+    const crm = path.match(/^\/credential\/([A-Za-z0-9-]+)$/);
+    if (crm) return sendHtml(res, credentialView({ id: crm[1] }));
+    if (path === '/certificate') return sendHtml(res, certificateView({ id: url.searchParams.get('id') || '', c: url.searchParams.get('c') || '' }));
+    const cem = path.match(/^\/certificate\/([A-Za-z0-9-]+)$/);
+    if (cem) return sendHtml(res, certificateView({ id: cem[1] }));
     // /issue — TEMPLE/OPERATOR-GATED. Requires POST + the issuer token in the x-issuer-token HEADER
     // (never in the URL, so it can't leak into logs/history), compared in constant time. No self-mint.
     if (path === '/issue') {

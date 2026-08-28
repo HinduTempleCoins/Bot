@@ -1,7 +1,7 @@
 // academy.test.mjs — offline tests for the MELEK Academy credential portal. No network, no keys.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, homePage, programView, verifyView, registryView, esc, issuerTokenOk, __setRegistry } from './server.mjs';
+import { handler, homePage, programView, verifyView, registryView, esc, issuerTokenOk, sealSvg, credentialView, certificateView, __setRegistry } from './server.mjs';
 import { createRegistry, issueCredential } from '../../integrations/soapbox/credentials-issuer.mjs';
 
 function mockReq(path, headers = {}) { return { url: path, method: 'GET', headers }; }
@@ -96,6 +96,63 @@ test('issuerTokenOk: constant-time gate — unconfigured/GET/wrong all fail, onl
   assert.equal(issuerTokenOk('sec', true, 'secret'), false);     // length mismatch
   assert.equal(issuerTokenOk(123, true, 'secret'), false);       // non-string
   assert.equal(issuerTokenOk('secret', true, 'secret'), true);   // exact match + POST
+});
+
+const b64 = (cred) => Buffer.from(JSON.stringify(cred), 'utf8').toString('base64');
+const sampleCred = () => issueCredential({ programId: 'melek-press-pass', recipientName: 'Jane Reporter', now: new Date('2026-08-28') }).credential;
+
+test('sealSvg renders an SVG bearing the issuer name (the logo on the paper)', () => {
+  const s = sealSvg('MELEK Press');
+  assert.match(s, /<svg[\s\S]+<\/svg>/);
+  assert.match(s, /MELEK PRESS/);
+  assert.match(s, /VERIFIABLE · ON-CHAIN/);
+});
+
+test('credentialView: a valid credential reads GENUINE + links to the printable certificate', () => {
+  const h = credentialView({ c: b64(sampleCred()) });
+  assert.match(h, /GENUINE/);
+  assert.match(h, /MELEK Press Pass/);
+  assert.match(h, /Jane Reporter/);
+  assert.match(h, /\/certificate\?c=/);           // printable certificate link
+  assert.match(h, /look(s|)? it up|looks it up|company/i);
+});
+
+test('credentialView: a tampered credential reads NOT VALID', () => {
+  const cred = sampleCred(); cred.recipient.name = 'Mallory';
+  assert.match(credentialView({ c: b64(cred) }), /NOT VALID/);
+});
+
+test('credentialView: garbage soft-renders not-found', () => {
+  assert.match(credentialView({ c: 'garbage' }), /not found|Not found/i);
+});
+
+test('certificateView: printable certificate has the seal, recipient, verify URL, print button + print CSS', () => {
+  const cred = sampleCred();
+  const h = certificateView({ c: b64(cred) });
+  assert.match(h, /<svg/);                          // the seal/logo
+  assert.match(h, /Jane Reporter/);                 // recipient
+  assert.match(h, /MELEK Academy/);
+  assert.match(h, /window\.print\(\)/);             // print affordance
+  assert.match(h, /@media print/);                  // print CSS
+  assert.match(h, new RegExp('/credential/' + cred.id)); // verify URL by id on the paper
+  assert.match(h, /Verify authenticity/);
+  assert.match(h, /non-accredited/i);
+});
+
+test('routes: /credential and /certificate render 200 via ?c=', async () => {
+  const c = b64(sampleCred());
+  assert.equal((await route('/credential?c=' + encodeURIComponent(c))).statusCode, 200);
+  assert.equal((await route('/certificate?c=' + encodeURIComponent(c))).statusCode, 200);
+});
+
+test('route: /credential/:id resolves via the registry', async () => {
+  const reg = createRegistry();
+  const r = reg.issue({ programId: 'ordination-minister', recipientName: 'Rev. A', now: new Date('2026-08-28') });
+  __setRegistry(reg);
+  const res = await route('/credential/' + r.credential.id);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /GENUINE/);
+  __setRegistry(null);
 });
 
 test('health + robots + llms respond', async () => {
