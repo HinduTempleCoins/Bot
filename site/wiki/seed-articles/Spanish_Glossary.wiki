@@ -1,0 +1,802 @@
+The '''Spanish Glossary''' is a bilingual (Spanish–English) vocabulary reference in the [[The Library of Ashurbanipal|Library of Ashurbanipal]]'s [[Glossaries]] section — a companion to the [[Crypto Glossary]] and the [[Psychedelic and Psychopharmacology Glossary]]. It collects roughly 850 everyday Spanish words and their English meanings, grouped by theme (days, numbers, colors, food, verbs, people, places, and more) so a reader can build a working foundation for reading, speaking, and understanding Spanish. Each entry lists the '''Spanish''' term first, followed by its English translation; regional variants are shown with a slash (/), and gender or usage notes are given in parentheses where helpful.
+
+== Days of the Week — Días de la Semana ==
+
+* '''lunes''' — Monday
+* '''martes''' — Tuesday
+* '''miércoles''' — Wednesday
+* '''jueves''' — Thursday
+* '''viernes''' — Friday
+* '''sábado''' — Saturday
+* '''domingo''' — Sunday
+* '''día''' — day
+* '''semana''' — week
+* '''hoy''' — today
+* '''mañana''' — tomorrow
+* '''ayer''' — yesterday
+* '''fin de semana''' — weekend
+
+== Months of the Year — Meses del Año ==
+
+* '''enero''' — January
+* '''febrero''' — February
+* '''marzo''' — March
+* '''abril''' — April
+* '''mayo''' — May
+* '''junio''' — June
+* '''julio''' — July
+* '''agosto''' — August
+* '''septiembre''' — September
+* '''octubre''' — October
+* '''noviembre''' — November
+* '''diciembre''' — December
+* '''mes''' — month
+* '''año''' — year
+
+== Colors — Colores ==
+
+* '''rojo''' — red
+* '''azul''' — blue
+* '''verde''' — green
+* '''negro''' — black
+* '''blanco''' — white
+* '''amarillo''' — yellow
+* '''naranja''' — orange (also means the fruit)
+* '''morado''' — purple
+* '''rosa''' — pink
+* '''café''' — brown (or ''marrón'' in some regions)
+* '''gris''' — gray
+* '''beige''' — beige
+* '''dorado''' — gold
+* '''plateado''' — silver
+* '''claro''' — light (color)
+* '''oscuro''' — dark (color)
+* '''brillante''' — bright
+* '''pálido''' — pale
+
+== Numbers — Números (0–100+) ==
+
+'''Basic numbers (0–15):'''
+* '''cero''' — zero
+* '''uno''' — one
+* '''dos''' — two
+* '''tres''' — three
+* '''cuatro''' — four
+* '''cinco''' — five
+* '''seis''' — six
+* '''siete''' — seven
+* '''ocho''' — eight
+* '''nueve''' — nine
+* '''diez''' — ten
+* '''once''' — eleven
+* '''doce''' — twelve
+* '''trece''' — thirteen
+* '''catorce''' — fourteen
+* '''quince''' — fifteen
+
+'''Teens (16–19):'''
+* '''dieciséis''' — sixteen
+* '''diecisiete''' — seventeen
+* '''dieciocho''' — eighteen
+* '''diecinueve''' — nineteen
+
+'''Tens (20–100):'''
+* '''veinte''' — twenty
+* '''veintiuno''' — twenty-one
+* '''veintidós''' — twenty-two
+* '''veintitrés''' — twenty-three
+* '''veinticuatro''' — twenty-four
+* '''veinticinco''' — twenty-five
+* '''veintiséis''' — twenty-six
+* '''veintisiete''' — twenty-seven
+* '''veintiocho''' — twenty-eight
+* '''veintinueve''' — twenty-nine
+* '''treinta''' — thirty
+* '''treinta y uno''' — thirty-one
+* '''treinta y dos''' — thirty-two
+* '''cuarenta''' — forty
+* '''cincuenta''' — fifty
+* '''sesenta''' — sixty
+* '''setenta''' — seventy
+* '''ochenta''' — eighty
+* '''noventa''' — ninety
+* '''cien''' — one hundred
+
+'''Large numbers:'''
+* '''ciento''' — one hundred (before other numbers)
+* '''doscientos''' — two hundred
+* '''quinientos''' — five hundred
+* '''mil''' — one thousand
+* '''un millón''' — one million
+* '''número''' — number
+* '''primero''' — first
+* '''segundo''' — second
+* '''tercero''' — third
+* '''último''' — last
+
+== Directions & Positions — Direcciones y Posiciones ==
+
+'''Cardinal directions:'''
+* '''norte''' — north
+* '''sur''' — south
+* '''este''' — east
+* '''oeste''' — west
+* '''noreste''' — northeast
+* '''noroeste''' — northwest
+* '''sureste''' — southeast
+* '''suroeste''' — southwest
+
+'''Left / right:'''
+* '''izquierda''' — left
+* '''derecha''' — right
+* '''a la izquierda''' — to the left
+* '''a la derecha''' — to the right
+
+'''Up / down & positions:'''
+* '''arriba''' — up
+* '''abajo''' — down
+* '''encima (de)''' — above
+* '''debajo (de)''' — below
+* '''adentro / dentro''' — inside
+* '''afuera / fuera''' — outside
+* '''enfrente (de) / delante (de)''' — in front of
+* '''atrás / detrás (de)''' — behind
+* '''al lado (de)''' — next to
+* '''entre''' — between
+* '''cerca (de)''' — near
+* '''lejos (de)''' — far
+* '''aquí / acá''' — here
+* '''allí / allá''' — there
+* '''allá''' — over there
+* '''derecho / recto''' — straight
+* '''alrededor (de)''' — around
+* '''a través (de)''' — across
+* '''esquina''' — corner
+* '''cuadra''' — block (city block)
+
+== Basic Movement Verbs — Verbos Básicos de Movimiento ==
+
+* '''alto / parar''' — stop
+* '''ir''' — go
+* '''venir''' — come
+* '''caminar''' — walk
+* '''correr''' — run
+* '''manejar / conducir''' — drive
+* '''montar''' — ride (a bike, horse)
+* '''volar''' — fly
+* '''nadar''' — swim
+* '''saltar''' — jump
+* '''subir / escalar''' — climb
+* '''caer''' — fall
+* '''sentar(se)''' — sit
+* '''estar de pie / parar(se)''' — stand
+* '''acostar(se)''' — lie down
+* '''voltear / girar''' — turn
+* '''entrar''' — enter
+* '''salir''' — exit / leave
+* '''llegar''' — arrive
+* '''regresar / volver''' — return
+* '''seguir''' — follow
+* '''cruzar''' — cross
+* '''pasar''' — pass
+
+== Basic Action Verbs — Verbos Básicos de Acción ==
+
+* '''ser''' — be (permanent)
+* '''estar''' — be (temporary/location)
+* '''tener''' — have
+* '''hacer''' — do / make
+* '''decir''' — say
+* '''ver''' — see
+* '''oír / escuchar''' — hear
+* '''hablar''' — speak / talk
+* '''comer''' — eat
+* '''beber / tomar''' — drink
+* '''dormir''' — sleep
+* '''despertar(se)''' — wake up
+* '''abrir''' — open
+* '''cerrar''' — close
+* '''dar''' — give
+* '''tomar''' — take
+* '''comprar''' — buy
+* '''vender''' — sell
+* '''pagar''' — pay
+* '''costar''' — cost
+* '''trabajar''' — work
+* '''jugar''' — play
+* '''leer''' — read
+* '''escribir''' — write
+* '''aprender''' — learn
+* '''enseñar''' — teach
+* '''estudiar''' — study
+* '''entender / comprender''' — understand
+* '''saber''' — know (facts)
+* '''conocer''' — know (people/places)
+* '''pensar''' — think
+* '''querer''' — want
+* '''necesitar''' — need
+* '''gustar''' — like
+* '''amar / querer''' — love
+* '''odiar''' — hate
+* '''ayudar''' — help
+* '''preguntar''' — ask (question)
+* '''pedir''' — ask for (request)
+* '''contestar / responder''' — answer
+* '''mirar''' — look at
+* '''ver / mirar''' — watch
+* '''escuchar''' — listen
+* '''tocar''' — touch
+* '''oler''' — smell
+* '''probar''' — taste
+* '''sentir''' — feel
+* '''encontrar''' — find
+* '''perder''' — lose
+* '''ganar''' — win
+* '''empezar / comenzar''' — begin / start
+* '''terminar / acabar''' — finish / end
+* '''continuar''' — continue
+* '''esperar''' — wait
+* '''traer''' — bring
+* '''llevar / cargar''' — carry
+* '''poner''' — put
+* '''jalar''' — pull
+* '''empujar''' — push
+* '''tirar / lanzar''' — throw
+* '''atrapar''' — catch
+* '''cortar''' — cut
+* '''romper''' — break
+* '''arreglar / reparar''' — fix / repair
+* '''construir''' — build
+* '''limpiar''' — clean
+* '''lavar''' — wash
+* '''cocinar''' — cook
+* '''vivir''' — live
+* '''morir''' — die
+* '''crecer''' — grow
+* '''cambiar''' — change
+* '''usar''' — use
+* '''usar / llevar''' — wear
+* '''tratar / intentar''' — try
+* '''recordar''' — remember
+* '''olvidar''' — forget
+* '''creer''' — believe
+* '''esperar''' — hope
+* '''preferir''' — prefer
+* '''escoger / elegir''' — choose
+* '''decidir''' — decide
+
+== People & Occupations — Personas y Profesiones ==
+
+'''Basic people:'''
+* '''persona''' — person
+* '''hombre''' — man
+* '''mujer''' — woman
+* '''niño / muchacho / chico''' — boy
+* '''niña / muchacha / chica''' — girl
+* '''bebé''' — baby
+* '''niño/a''' — child
+* '''adulto''' — adult
+* '''adolescente''' — teen / teenager
+* '''amigo/a''' — friend
+* '''enemigo/a''' — enemy
+* '''vecino/a''' — neighbor
+* '''desconocido / extraño''' — stranger
+
+'''Family:'''
+* '''familia''' — family
+* '''padre / papá''' — father / dad
+* '''madre / mamá''' — mother / mom
+* '''padres''' — parents
+* '''hijo''' — son
+* '''hija''' — daughter
+* '''hermano''' — brother
+* '''hermana''' — sister
+* '''esposo / marido''' — husband
+* '''esposa / mujer''' — wife
+* '''abuelo''' — grandfather
+* '''abuela''' — grandmother
+* '''nieto''' — grandson
+* '''nieta''' — granddaughter
+* '''tío''' — uncle
+* '''tía''' — aunt
+* '''primo''' — cousin (male)
+* '''prima''' — cousin (female)
+* '''sobrino''' — nephew
+* '''sobrina''' — niece
+
+'''Occupations:'''
+* '''maestro/a / profesor/a''' — teacher
+* '''estudiante / alumno/a''' — student
+* '''doctor/a / médico/a''' — doctor
+* '''enfermero/a''' — nurse
+* '''abogado/a''' — lawyer
+* '''policía''' — police officer
+* '''agente federal / federale''' — federal agent
+* '''juez''' — judge
+* '''presidente''' — president
+* '''gobernador/a''' — governor
+* '''alcalde/sa''' — mayor
+* '''soldado''' — soldier
+* '''ingeniero/a''' — engineer
+* '''arquitecto/a''' — architect
+* '''trabajador/a''' — worker
+* '''empleado/a''' — employee
+* '''jefe/a''' — boss
+* '''gerente / encargado/a''' — manager
+* '''director/a''' — director
+* '''secretario/a''' — secretary
+* '''contador/a''' — accountant
+* '''banquero/a''' — banker
+* '''hombre de negocios''' — businessman
+* '''mujer de negocios''' — businesswoman
+* '''vendedor/a''' — salesperson
+* '''cajero/a''' — cashier
+* '''mesero / camarero''' — waiter
+* '''mesera / camarera''' — waitress
+* '''cocinero/a / chef''' — chef / cook
+* '''panadero/a''' — baker
+* '''carnicero/a''' — butcher
+* '''campesino/a / granjero/a''' — farmer
+* '''pescador''' — fisherman
+* '''conductor/a / chofer''' — driver
+* '''piloto''' — pilot
+* '''mecánico/a''' — mechanic
+* '''electricista''' — electrician
+* '''plomero/a''' — plumber
+* '''carpintero/a''' — carpenter
+* '''pintor/a''' — painter
+* '''artista''' — artist
+* '''músico/a''' — musician
+* '''cantante''' — singer
+* '''actor''' — actor
+* '''actriz''' — actress
+* '''escritor/a''' — writer
+* '''periodista''' — journalist
+* '''fotógrafo/a''' — photographer
+* '''científico/a''' — scientist
+* '''profesor/a''' — professor
+* '''sacerdote / cura''' — priest
+* '''dentista''' — dentist
+* '''farmacéutico/a''' — pharmacist
+* '''bombero/a''' — firefighter
+* '''paramédico/a''' — paramedic
+* '''guardia''' — guard
+* '''peluquero / barbero''' — barber
+
+== Animals — Animales ==
+
+'''Common pets & farm animals:'''
+* '''perro''' — dog
+* '''gato''' — cat
+* '''pájaro''' — bird
+* '''pez / pescado''' — fish (''pescado'' when cooked)
+* '''caballo''' — horse
+* '''vaca''' — cow
+* '''toro''' — bull
+* '''cerdo / puerco''' — pig
+* '''pollo''' — chicken (also the meat)
+* '''gallo''' — rooster
+* '''gallina''' — hen
+* '''pato''' — duck
+* '''ganso''' — goose
+* '''pavo / guajolote''' — turkey
+* '''oveja''' — sheep
+* '''chivo / cabra''' — goat
+* '''burro''' — donkey
+* '''mula''' — mule
+* '''conejo''' — rabbit
+
+'''Wild animals:'''
+* '''león''' — lion
+* '''tigre''' — tiger
+* '''oso''' — bear
+* '''lobo''' — wolf
+* '''zorro''' — fox
+* '''venado / ciervo''' — deer
+* '''elefante''' — elephant
+* '''mono''' — monkey
+* '''gorila''' — gorilla
+* '''serpiente / culebra''' — snake
+* '''lagarto / lagartija''' — lizard
+* '''cocodrilo''' — crocodile
+* '''caimán''' — alligator
+* '''rana''' — frog
+* '''tortuga''' — turtle
+* '''ratón''' — mouse
+* '''rata''' — rat
+* '''ardilla''' — squirrel
+* '''águila''' — eagle
+* '''búho / lechuza''' — owl
+* '''loro / perico''' — parrot
+* '''mariposa''' — butterfly
+* '''abeja''' — bee
+* '''mosca''' — fly
+* '''mosquito / zancudo''' — mosquito
+* '''hormiga''' — ant
+* '''araña''' — spider
+* '''alacrán / escorpión''' — scorpion
+* '''tiburón''' — shark
+* '''ballena''' — whale
+* '''delfín''' — dolphin
+
+== Food & Drink — Comida y Bebida ==
+
+'''General:'''
+* '''comida''' — food / meal
+* '''bebida''' — drink / beverage
+* '''desayuno''' — breakfast
+* '''comida / almuerzo''' — lunch
+* '''cena''' — dinner
+* '''botana / merienda''' — snack
+
+'''Drinks:'''
+* '''agua''' — water (feminine, but takes ''el agua'' — see pronunciation notes)
+* '''leche''' — milk
+* '''jugo''' — juice
+* '''café''' — coffee
+* '''té''' — tea
+* '''refresco / soda''' — soda / soft drink
+* '''cerveza''' — beer
+* '''vino''' — wine
+* '''licor''' — liquor
+* '''tequila''' — tequila
+* '''mezcal''' — mezcal
+
+'''Basic foods:'''
+* '''pan''' — bread
+* '''mantequilla''' — butter
+* '''queso''' — cheese
+* '''huevo''' — egg
+* '''carne''' — meat
+* '''carne de res''' — beef
+* '''carne de puerco / cerdo''' — pork
+* '''pollo''' — chicken (meat)
+* '''pescado''' — fish
+* '''arroz''' — rice
+* '''frijoles''' — beans
+* '''maíz''' — corn
+* '''tortilla''' — tortilla
+* '''taco''' — taco
+* '''burrito''' — burrito
+* '''tamal''' — tamale
+* '''enchilada''' — enchilada
+* '''quesadilla''' — quesadilla
+* '''salsa''' — salsa
+* '''chile''' — chile / hot pepper
+* '''sal''' — salt
+* '''pimienta''' — pepper (spice)
+* '''azúcar''' — sugar
+* '''aceite''' — oil
+
+'''Vegetables:'''
+* '''verdura / vegetal''' — vegetable
+* '''lechuga''' — lettuce
+* '''tomate / jitomate''' — tomato
+* '''cebolla''' — onion
+* '''ajo''' — garlic
+* '''papa''' — potato
+* '''zanahoria''' — carrot
+* '''col / repollo''' — cabbage
+* '''brócoli''' — broccoli
+* '''coliflor''' — cauliflower
+* '''pepino''' — cucumber
+* '''aguacate''' — avocado
+* '''chile''' — chili pepper
+* '''pimiento / pimentón''' — bell pepper
+
+'''Fruits:'''
+* '''fruta''' — fruit
+* '''manzana''' — apple
+* '''plátano / banana''' — banana
+* '''naranja''' — orange (fruit)
+* '''limón''' — lemon
+* '''lima / limón''' — lime
+* '''uva''' — grape
+* '''fresa''' — strawberry
+* '''sandía''' — watermelon
+* '''melón''' — melon
+* '''piña''' — pineapple
+* '''mango''' — mango
+* '''papaya''' — papaya
+* '''coco''' — coconut
+* '''durazno / melocotón''' — peach
+* '''pera''' — pear
+* '''cereza''' — cherry
+
+'''Desserts:'''
+* '''postre''' — dessert
+* '''pastel / torta''' — cake
+* '''pay / tarta''' — pie
+* '''galleta''' — cookie
+* '''dulce''' — candy
+* '''helado''' — ice cream
+* '''chocolate''' — chocolate
+
+== Places & Buildings — Lugares y Edificios ==
+
+* '''lugar''' — place
+* '''ciudad''' — city
+* '''pueblo''' — town
+* '''aldea / pueblito''' — village
+* '''país''' — country (nation)
+* '''estado''' — state (US/Mexico)
+* '''barrio / colonia''' — neighborhood
+* '''calle''' — street
+* '''avenida''' — avenue
+* '''camino''' — road
+* '''carretera / autopista''' — highway
+
+'''Buildings & institutions:'''
+* '''edificio''' — building
+* '''casa''' — house
+* '''apartamento / departamento''' — apartment
+* '''cuarto / habitación''' — room
+* '''cocina''' — kitchen
+* '''baño''' — bathroom
+* '''recámara / dormitorio''' — bedroom
+* '''sala''' — living room
+* '''comedor''' — dining room
+* '''oficina''' — office
+* '''escuela''' — school
+* '''universidad''' — university
+* '''colegio / universidad''' — college
+* '''biblioteca''' — library
+* '''hospital''' — hospital
+* '''clínica''' — clinic
+* '''farmacia''' — pharmacy
+* '''iglesia''' — church
+* '''templo''' — temple
+* '''mezquita''' — mosque
+* '''sinagoga''' — synagogue
+* '''banco''' — bank
+* '''correo / oficina de correos''' — post office
+* '''estación de policía / delegación''' — police station
+* '''estación de bomberos''' — fire station
+* '''cárcel / prisión''' — jail / prison
+* '''corte / tribunal''' — court
+* '''gobierno''' — government
+* '''agencia''' — agency
+* '''oficina''' — office (governmental)
+* '''embajada''' — embassy
+* '''consulado''' — consulate
+* '''restaurante''' — restaurant
+* '''café / cafetería''' — café
+* '''bar / cantina''' — bar
+* '''tienda''' — store / shop
+* '''supermercado''' — supermarket
+* '''mercado''' — market
+* '''centro comercial''' — mall
+* '''panadería''' — bakery
+* '''carnicería''' — butcher shop
+* '''librería''' — bookstore
+* '''gasolinera''' — gas station
+* '''parque''' — park
+* '''jardín''' — garden
+* '''zoológico''' — zoo
+* '''museo''' — museum
+* '''teatro''' — theater
+* '''cine''' — cinema / movie theater
+* '''estadio''' — stadium
+* '''gimnasio''' — gym
+* '''alberca / piscina''' — pool (swimming)
+* '''playa''' — beach
+* '''hotel''' — hotel
+* '''aeropuerto''' — airport
+* '''estación de tren''' — train station
+* '''estación de autobuses / central camionera''' — bus station
+* '''fábrica''' — factory
+* '''granja / rancho''' — farm
+* '''puente''' — bridge
+* '''torre''' — tower
+* '''castillo''' — castle
+
+== Common Objects — Objetos Comunes ==
+
+* '''cosa''' — thing
+* '''objeto''' — object
+* '''mesa''' — table
+* '''silla''' — chair
+* '''cama''' — bed
+* '''puerta''' — door
+* '''ventana''' — window
+* '''pared''' — wall
+* '''piso / suelo''' — floor
+* '''techo''' — ceiling (inside) / roof
+* '''escaleras''' — stairs
+* '''libro''' — book
+* '''pluma / bolígrafo''' — pen
+* '''lápiz''' — pencil
+* '''papel''' — paper
+* '''cuaderno''' — notebook
+* '''computadora / ordenador''' — computer
+* '''teléfono''' — phone
+* '''celular / teléfono celular''' — cell phone
+* '''televisión / tele''' — television
+* '''radio''' — radio
+* '''carro / coche / auto''' — car
+* '''camión / camioneta''' — truck
+* '''autobús / camión''' — bus
+* '''bicicleta''' — bicycle
+* '''motocicleta / moto''' — motorcycle
+* '''avión''' — airplane
+* '''barco / bote''' — boat
+* '''tren''' — train
+* '''ropa''' — clothes
+* '''camisa''' — shirt
+* '''pantalones''' — pants
+* '''vestido''' — dress
+* '''falda''' — skirt
+* '''zapatos''' — shoes
+* '''sombrero''' — hat
+* '''abrigo''' — coat
+* '''chamarra / chaqueta''' — jacket
+* '''bolsa''' — bag
+* '''bolsa / bolso''' — purse
+* '''mochila''' — backpack
+* '''maleta''' — suitcase
+* '''llave''' — key
+* '''dinero''' — money
+* '''dólar''' — dollar
+* '''peso''' — peso
+* '''moneda''' — coin
+* '''billete''' — bill (money)
+* '''reloj''' — watch / clock
+* '''cámara''' — camera
+* '''foto / fotografía''' — picture / photo
+* '''espejo''' — mirror
+* '''lentes / gafas''' — glasses (eyewear)
+* '''taza''' — cup
+* '''vaso''' — glass (drinking)
+* '''plato''' — plate
+* '''cuchara''' — spoon
+* '''tenedor''' — fork
+* '''cuchillo''' — knife
+* '''botella''' — bottle
+* '''caja''' — box
+* '''canasta / cesta''' — basket
+
+== Basic Adjectives — Adjetivos Básicos ==
+
+* '''bueno''' — good
+* '''malo''' — bad
+* '''grande''' — big / large
+* '''pequeño / chico''' — small
+* '''diminuto / chiquito''' — tiny
+* '''caliente''' — hot
+* '''frío''' — cold
+* '''tibio / caliente''' — warm
+* '''fresco''' — cool
+* '''nuevo''' — new
+* '''viejo''' — old
+* '''joven''' — young
+* '''rápido''' — fast
+* '''lento / despacio''' — slow
+* '''alto''' — tall
+* '''bajo / chaparro''' — short (height)
+* '''largo''' — long
+* '''corto''' — short (length)
+* '''ancho''' — wide
+* '''angosto / estrecho''' — narrow
+* '''grueso''' — thick
+* '''delgado''' — thin
+* '''pesado''' — heavy
+* '''ligero / liviano''' — light (weight)
+* '''duro''' — hard
+* '''suave / blando''' — soft
+* '''fuerte''' — strong
+* '''débil''' — weak
+* '''fácil''' — easy
+* '''difícil''' — difficult / hard
+* '''sencillo / simple''' — simple
+* '''complicado''' — complicated
+* '''hermoso / bello / bonito''' — beautiful
+* '''bonito / lindo''' — pretty
+* '''feo''' — ugly
+* '''limpio''' — clean
+* '''sucio''' — dirty
+* '''lleno''' — full
+* '''vacío''' — empty
+* '''rico''' — rich
+* '''pobre''' — poor
+* '''barato''' — cheap
+* '''caro''' — expensive
+* '''gratis / gratuito''' — free (no cost)
+* '''ocupado''' — busy
+* '''flojo / perezoso''' — lazy
+* '''listo / inteligente''' — smart
+* '''tonto / estúpido''' — stupid
+* '''loco''' — crazy
+* '''feliz / contento''' — happy
+* '''triste''' — sad
+* '''enojado / molesto''' — angry
+* '''cansado''' — tired
+* '''enfermo''' — sick
+* '''sano / saludable''' — healthy
+* '''hambriento''' — hungry (with ''tener hambre'')
+* '''sediento''' — thirsty (with ''tener sed'')
+* '''mojado''' — wet
+* '''seco''' — dry
+* '''abierto''' — open
+* '''cerrado''' — closed
+* '''roto''' — broken
+* '''arreglado''' — fixed
+* '''seguro''' — safe
+* '''peligroso''' — dangerous
+* '''importante''' — important
+* '''necesario''' — necessary
+* '''posible''' — possible
+* '''imposible''' — impossible
+* '''verdadero / cierto''' — true
+* '''falso''' — false
+* '''correcto''' — right (correct)
+* '''incorrecto / equivocado''' — wrong
+* '''mismo''' — same
+* '''diferente''' — different
+* '''mejor''' — better
+* '''peor''' — worse
+* '''el/la mejor''' — best
+* '''el/la peor''' — worst
+* '''mucho/a/os/as''' — much / many
+* '''poco/a/os/as''' — little / few
+* '''más''' — more
+* '''menos''' — less
+* '''todo/a/os/as''' — all
+* '''alguno/a/os/as''' — some
+* '''ninguno/a''' — none
+* '''otro/a''' — other
+* '''cada''' — every / each
+* '''ambos''' — both
+* '''mitad / medio''' — half
+
+== Time Expressions — Expresiones de Tiempo ==
+
+* '''tiempo / hora''' — time
+* '''hora''' — hour
+* '''minuto''' — minute
+* '''segundo''' — second
+* '''mañana''' — morning
+* '''tarde''' — afternoon
+* '''tarde / noche''' — evening
+* '''noche''' — night
+* '''medianoche''' — midnight
+* '''mediodía''' — noon
+* '''temprano''' — early
+* '''tarde''' — late
+* '''ahora''' — now
+* '''después / más tarde''' — later
+* '''pronto''' — soon
+* '''siempre''' — always
+* '''nunca''' — never
+* '''a veces''' — sometimes
+* '''a menudo / seguido''' — often
+* '''rara vez / raramente''' — rarely
+* '''antes''' — before
+* '''después''' — after
+* '''durante''' — during
+* '''mientras''' — while
+* '''ya''' — already
+* '''todavía / aún''' — still / yet
+* '''otra vez / de nuevo''' — again
+
+== Question Words — Palabras Interrogativas ==
+
+* '''quién / quiénes''' — who (''quiénes'' plural)
+* '''qué''' — what
+* '''cuándo''' — when
+* '''dónde''' — where
+* '''por qué''' — why
+* '''cómo''' — how
+* '''cuál / cuáles''' — which (''cuáles'' plural)
+* '''cuánto/a''' — how much
+* '''cuántos/as''' — how many
+* '''de quién''' — whose
+
+== Pronunciation Notes ==
+
+* The '''ll''' (as in ''amarillo'' or ''calle'') sounds like a "y" in most of Latin America, not the "ly" sound sometimes heard in Spain.
+* The '''j''' sounds like an English "h" — so ''rojo'' sounds like "roho".
+* The letter '''h''' is always silent — ''hombre'' sounds like "ombre".
+* '''ñ''' (as in ''mañana'' or ''español'') makes the "ny" sound, like the middle of "canyon".
+* '''agua''' is feminine (''el agua'') but takes ''el'' because it begins with a stressed "a" — it stays feminine, so cold water is ''agua fría''.
+
+See also: [[Glossaries]] · [[The Library of Ashurbanipal]]

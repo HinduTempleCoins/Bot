@@ -5,9 +5,10 @@ The idea is simple: '''you should never have to already know the words to start 
 == Glossaries in the Library ==
 
 * '''[[Crypto Glossary]]''' — blockchain and DeFi terms: block, wallet, fork, mining, ERC-20 / PRC-20, DEX, CDP, staking, and the rest. Start here to read anything else about the chains.
-* '''[[Psychedelic and Psychopharmacology Glossary]]''' — plant-medicine and harm-reduction terms: agonist, dose-response, set and setting, reagent testing, the Shulgin Rating Scale, and more. Companion to [[PIHKAL and TIHKAL]].
+* '''[[Psychedelic and Psychopharmacology Glossary]]''' — plant-medicine and harm-reduction terms: agonist, dose-response, set and setting, reagent testing, the Shulgin Rating Scale, and more. Companion to [[PIHKAL and TIHKAL]] and [[Cannabis]].
+* '''[[Spanish Glossary]]''' — a bilingual Spanish–English vocabulary reference, organized by theme (numbers, days, food, verbs, and more). The first of the Library's language glossaries.
 
-''(More glossaries are being added — language/vocabulary, legal, and subject glossaries for the Library's other sections. This page is the index for all of them.)''
+''(More glossaries are being added — further language/vocabulary, legal, and subject glossaries for the Library's other sections. This page is the index for all of them.)''
 
 == How to use a glossary ==
 
