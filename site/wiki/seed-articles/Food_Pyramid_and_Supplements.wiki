@@ -1,0 +1,71 @@
+'''Food Pyramid and Supplements''' is the Library's general nutrition reference: a simple, tiered picture of what we suggest most people prioritize on their plate, plus a plain-language guide to common vitamins, minerals, and dietary supplements. It is written to feed the health and [[SoapBox Move|Move]] tools and the Forum, and to sit alongside the Library's other health references.
+
+'''This is education and general guidance — it is not individualized medical or dietary advice.''' Every body is different. '''Consult a qualified healthcare professional''' (a doctor, registered dietitian, or pharmacist) before making major dietary changes or starting any supplement, and especially if you have a medical condition, are pregnant or breastfeeding, take prescription medications, or are treating a child or older adult. Nothing here diagnoses, treats, or prescribes. Where general figures appear (such as RDA ranges), they are '''population averages''' from public health authorities — your own needs may differ.
+
+'''A note on supplements up front:''' in the United States, dietary supplements are '''not regulated like drugs.''' They are not tested for safety and effectiveness before sale the way medicines are, product quality and dose can vary between brands, and '''"natural" does not mean safe or effective.''' Supplements can interact with medications and with each other, and more is not better — some vitamins and minerals are harmful in excess. See [https://ods.od.nih.gov the NIH Office of Dietary Supplements] for authoritative, plainly-written fact sheets on individual nutrients.
+
+== The pyramid: a tiered way to think about food ==
+
+A "food pyramid" is just a picture of proportion — foods to build meals around sit at the wide base, foods to keep occasional sit at the narrow top. It is a rule of thumb, not a prescription.
+
+=== Base — eat the most (build meals around these) ===
+
+* '''Vegetables and fruit''' — the largest share of the plate. Aim for variety and color; whole fruit over juice. These bring fiber, vitamins, minerals, and water for relatively few calories.
+* '''Whole, minimally-processed foods generally''' — foods close to how they grow or are raised, cooked simply, are the foundation. The less a food has been refined and packaged, the better a default it usually makes.
+
+=== Middle — eat regularly, in sensible portions ===
+
+* '''Protein foods''' — beans, lentils, and other legumes; nuts and seeds; fish and seafood; eggs; poultry; lean meats; and dairy or fortified alternatives. Plant proteins and fish make good everyday choices; red and especially processed meats are better kept occasional.
+* '''Whole grains''' — oats, brown rice, whole-wheat bread and pasta, barley, quinoa. Prefer whole grains over refined (white) grains for the fiber and steadier energy.
+* '''Healthy fats''' — olive and other plant oils, avocado, nuts and seeds, fatty fish. Fats are calorie-dense, so portion matters, but unsaturated fats are a normal part of a good diet.
+
+=== Top — limit (small amounts, occasional) ===
+
+* '''Added sugar''' — sugary drinks are the single biggest source for many people; sodas, sweetened coffees, and energy drinks add up fast (see [[Fast Food and Processed Food Nutrition]]).
+* '''Ultra-processed foods''' — packaged snacks, candy, most fast food, processed meats. Enjoyable in moderation; a poor foundation.
+* '''Saturated fat, refined grains, and excess sodium''' — keep modest. Many packaged and restaurant foods are high in sodium without tasting salty.
+
+'''The one-plate shortcut:''' fill about half your plate with vegetables and fruit, a quarter with a protein food, and a quarter with a whole grain or starchy vegetable — and make water your default drink.
+
+== Hydration ==
+
+* '''Water is the default drink.''' It has no calories, no sugar, and covers most people's needs.
+* '''General target:''' commonly cited guidance is roughly 8 cups (about 2 liters) of fluids a day, but real needs vary widely with body size, activity, heat, and health — thirst and pale-yellow urine are reasonable everyday signals. Food (especially fruit and vegetables) also contributes water.
+* '''Watch liquid calories and sugar.''' Sweetened drinks are an easy place to take in a lot of added sugar without feeling full.
+* '''Special caution:''' people with heart, kidney, or liver conditions, or those on fluid or electrolyte restrictions, should follow their clinician's advice rather than a general number. Both dehydration and, rarely, drinking far too much water too fast can be dangerous.
+
+== Common vitamins and minerals (general reference) ==
+
+The figures below are '''general adult reference ranges''' drawn from public health authorities (see [https://ods.od.nih.gov NIH ODS] and [https://www.nal.usda.gov/human-nutrition-and-food-safety/dietary-guidance USDA Dietary Guidance]); they are '''not personalized targets''' and differ by age, sex, pregnancy, and health. For a balanced diet, most healthy people meet these needs from food.
+
+=== Vitamins ===
+
+* '''Vitamin A''' — vision, immune function, skin. Sources: liver, dairy, eggs, and orange/dark-green produce (as beta-carotene). General adult range ~700–900 mcg RAE/day. High doses of preformed vitamin A can be toxic and are a pregnancy concern.
+* '''Vitamin C''' — antioxidant, collagen, iron absorption, immune support. Sources: citrus, berries, peppers, broccoli. ~75–90 mg/day. Water-soluble; very large doses can upset the stomach.
+* '''Vitamin D''' — bone health and calcium absorption; made in skin from sunlight. Sources: fatty fish, fortified milk, egg yolk. ~600–800 IU (15–20 mcg)/day. One of the more common genuine shortfalls, especially in low-sun climates; excess from supplements can be harmful.
+* '''Vitamin E''' — antioxidant. Sources: nuts, seeds, plant oils. ~15 mg/day.
+* '''Vitamin K''' — blood clotting and bone. Sources: leafy greens. ~90–120 mcg/day. '''Interacts with blood-thinning medication (warfarin)''' — talk to a clinician.
+* '''B vitamins (B1, B2, B3, B6, B12, folate)''' — energy metabolism, nerves, red blood cells. Sources: whole grains, meat, eggs, dairy, legumes, leafy greens. '''B12''' comes almost entirely from animal foods, so vegans and many older adults may need a fortified source or supplement. '''Folate''' ~400 mcg/day, and adequate folate before and in early pregnancy is important for the baby.
+
+=== Minerals ===
+
+* '''Calcium''' — bones and teeth, muscle and nerve function. Sources: dairy, fortified plant milks, tofu, leafy greens. ~1,000–1,200 mg/day.
+* '''Iron''' — oxygen transport in blood. Sources: red meat, beans, lentils, fortified grains (plant iron is absorbed better with vitamin C). ~8 mg/day for adult men and post-menopausal women, ~18 mg/day for menstruating women. '''Do not supplement iron without cause''' — excess is harmful and iron pills are a leading cause of child poisoning.
+* '''Potassium''' — blood pressure, fluid balance, muscle and nerve. Sources: fruit, vegetables, beans, dairy. Many people fall short. '''People with kidney disease or on certain medications must limit potassium''' — clinician guidance first.
+* '''Magnesium''' — hundreds of enzyme reactions, muscle and nerve. Sources: nuts, seeds, whole grains, leafy greens. ~310–420 mg/day.
+* '''Zinc''' — immune function, wound healing. Sources: meat, shellfish, legumes, seeds. ~8–11 mg/day.
+* '''Sodium''' — needed in small amounts, but most people get too much. General guidance is to stay under ~2,300 mg/day; processed and restaurant foods are the main source.
+* '''Iodine''' — thyroid hormones. Sources: iodized salt, dairy, seafood. ~150 mcg/day.
+
+== Supplements: a balanced note ==
+
+* '''Food first.''' For most healthy people eating a varied diet, whole foods cover nutritional needs better than pills — food delivers nutrients together with fiber and other compounds, in forms the body handles well.
+* '''Who may genuinely benefit''' (ideally confirmed with a clinician): people with a diagnosed deficiency; '''vitamin B12''' for vegans and many older adults; '''vitamin D''' for those with little sun exposure; '''folate''' before and during pregnancy; '''iron''' for those with diagnosed iron-deficiency anemia; and specific needs flagged by a doctor (for example after certain surgeries or with malabsorption conditions).
+* '''Cautions.''' Fat-soluble vitamins (A, D, E, K) and minerals like iron can build up and cause harm in excess. Supplements can '''interact with medications''' (for example vitamin K with blood thinners). High-dose, "megadose," and many "detox," "immune-boost," or weight-loss products make claims that are not supported and are not verified before sale.
+* '''Choosing better products.''' Because supplements are lightly regulated, look for '''third-party testing/verification''' (independent quality seals), be skeptical of dramatic health claims, and tell your doctor or pharmacist about everything you take — including herbal products.
+
+== Related Library references ==
+
+For the nutrition of specific packaged and restaurant foods, see [[Fast Food and Processed Food Nutrition]]. For a sibling harm-reduction and health reference in the Library, see [[Cannabis Harm Reduction]]. Authoritative outside sources: [https://www.nal.usda.gov/human-nutrition-and-food-safety/dietary-guidance USDA Dietary Guidance], [https://ods.od.nih.gov NIH Office of Dietary Supplements], and [https://fdc.nal.usda.gov USDA FoodData Central].
+
+See also: [[Fast Food and Processed Food Nutrition]] · [[Cannabis Harm Reduction]] · [[SoapBox Move]] · [[The Library of Ashurbanipal]] · [https://www.nal.usda.gov/human-nutrition-and-food-safety/dietary-guidance USDA Dietary Guidance] · [https://ods.od.nih.gov NIH Office of Dietary Supplements]

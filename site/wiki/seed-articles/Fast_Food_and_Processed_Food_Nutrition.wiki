@@ -1,0 +1,120 @@
+'''Fast Food and Processed Food Nutrition''' is a growing reference catalogue that lists approximate nutrition figures for widely-sold fast-food and packaged-food items, organized by brand, so people can make informed choices about what they eat. The values here come from public nutrition labels and are stated as facts, but they are '''rounded, generalized, and written in our own words''' — they are not copied from any single brand's page and they are not a substitute for the official label. This article feeds the Library's health and [[SoapBox Move|Move]] tools (activity, calories, and eating), and it is meant to grow entry by entry the way the rest of the [[The Library of Ashurbanipal|Library]] does.
+
+'''VERIFY ON THE LABEL.''' Brands reformulate recipes, change portion sizes, and vary by country, franchise, and season. The numbers below are widely-known approximate values for a standard item — treat them as a ballpark, not gospel. '''Before relying on any figure — especially for allergies, diabetes, sodium-restricted diets, or any medical reason — check the official product label or the brand's own nutrition page, or look the item up in [https://fdc.nal.usda.gov USDA FoodData Central], the authoritative public source.''' Where a value is uncertain it is marked "approx."
+
+Each item lists, in order: '''Calories · Fat (g) · Sugar (g) · Sodium (mg) · Protein (g).'''
+
+== McDonald's ==
+
+* '''Big Mac''' — 550 cal · 30 g fat · 9 g sugar · 1010 mg sodium · 25 g protein
+* '''Quarter Pounder with Cheese''' — 520 cal · 26 g fat · 10 g sugar · 1140 mg sodium · 30 g protein
+* '''Cheeseburger''' — 300 cal · 13 g fat · 7 g sugar · 720 mg sodium · 15 g protein
+* '''Medium French Fries''' — 320 cal · 15 g fat · 0 g sugar · 260 mg sodium · 4 g protein
+* '''10-piece Chicken McNuggets''' — 410 cal · 24 g fat · 0 g sugar · 900 mg sodium · 23 g protein
+* '''Egg McMuffin''' — 310 cal · 13 g fat · 3 g sugar · 770 mg sodium · 17 g protein
+* '''Baked Apple Pie''' — 230 cal · 11 g fat · 16 g sugar · 95 mg sodium · 2 g protein
+
+== Burger King ==
+
+* '''Whopper''' — 660 cal · 40 g fat · 11 g sugar · 980 mg sodium · 28 g protein
+* '''Cheeseburger''' — 300 cal · 14 g fat · 7 g sugar · 720 mg sodium · 15 g protein
+* '''Chicken Fries (9 pc)''' — 280 cal · 17 g fat · 0 g sugar · 890 mg sodium · 14 g protein
+* '''Medium French Fries''' — 380 cal · 17 g fat · 0 g sugar · 570 mg sodium · 4 g protein
+* '''Original Chicken Sandwich''' — 660 cal · 40 g fat · 5 g sugar · 1170 mg sodium · 28 g protein
+
+== Wendy's ==
+
+* '''Dave's Single''' — 570 cal · 34 g fat · 9 g sugar · 1160 mg sodium · 30 g protein
+* '''Baconator''' — 950 cal · 62 g fat · 9 g sugar · 1710 mg sodium · 56 g protein
+* '''Spicy Chicken Sandwich''' — 500 cal · 21 g fat · 6 g sugar · 1130 mg sodium · 29 g protein
+* '''Medium Fries''' — 420 cal · 20 g fat · 0 g sugar · 500 mg sodium · 5 g protein
+* '''Chili (small)''' — 240 cal · 11 g fat · 6 g sugar · 810 mg sodium · 16 g protein
+* '''Frosty (small, chocolate)''' — 340 cal · 8 g fat · 45 g sugar · 190 mg sodium · 8 g protein
+
+== Taco Bell ==
+
+* '''Crunchy Taco''' — 170 cal · 10 g fat · 1 g sugar · 300 mg sodium · 8 g protein
+* '''Soft Taco (beef)''' — 180 cal · 9 g fat · 2 g sugar · 490 mg sodium · 9 g protein
+* '''Bean Burrito''' — 350 cal · 9 g fat · 3 g sugar · 1010 mg sodium · 13 g protein
+* '''Crunchwrap Supreme''' — 530 cal · 21 g fat · 6 g sugar · 1210 mg sodium · 16 g protein
+* '''Chalupa Supreme (beef)''' — 350 cal · 20 g fat · 3 g sugar · 620 mg sodium · 12 g protein
+* '''Cinnamon Twists''' — 190 cal · 6 g fat · 10 g sugar · 200 mg sodium · 1 g protein
+
+== KFC ==
+
+* '''Original Recipe Chicken Breast''' — 390 cal · 21 g fat · 0 g sugar · 1190 mg sodium · 39 g protein
+* '''Original Recipe Drumstick''' — 130 cal · 8 g fat · 0 g sugar · 380 mg sodium · 12 g protein
+* '''Extra Crispy Chicken Breast''' — 530 cal · 35 g fat · 0 g sugar · 1150 mg sodium · 35 g protein
+* '''Famous Bowl''' — 710 cal · 33 g fat · 3 g sugar · 2200 mg sodium · 26 g protein
+* '''Mashed Potatoes with Gravy''' — 130 cal · 4 g fat · 1 g sugar · 530 mg sodium · 2 g protein
+* '''Cole Slaw''' — 170 cal · 11 g fat · 13 g sugar · 210 mg sodium · 1 g protein
+
+== Subway ==
+
+Values are for a 6-inch sub on white/Italian bread, without extra cheese, sauce, or oil; footlongs are roughly double.
+
+* '''Turkey Breast''' — 280 cal · 4 g fat · 6 g sugar · 760 mg sodium · 18 g protein
+* '''Black Forest Ham''' — 290 cal · 4.5 g fat · 7 g sugar · 790 mg sodium · 19 g protein
+* '''Italian B.M.T.''' — 390 cal · 16 g fat · 8 g sugar · 1260 mg sodium · 20 g protein
+* '''Meatball Marinara''' — 430 cal · 18 g fat · 9 g sugar · 920 mg sodium · 21 g protein
+* '''Veggie Delite''' — 200 cal · 2 g fat · 5 g sugar · 280 mg sodium · 8 g protein
+* '''Tuna''' — 450 cal · 25 g fat · 6 g sugar · 610 mg sodium · 19 g protein
+
+== Chick-fil-A ==
+
+* '''Chick-fil-A Chicken Sandwich''' — 420 cal · 18 g fat · 6 g sugar · 1400 mg sodium · 29 g protein
+* '''Spicy Chicken Sandwich''' — 450 cal · 19 g fat · 6 g sugar · 1580 mg sodium · 28 g protein
+* '''8-count Nuggets''' — 250 cal · 11 g fat · 1 g sugar · 1210 mg sodium · 27 g protein
+* '''Waffle Potato Fries (medium)''' — 420 cal · 24 g fat · 1 g sugar · 240 mg sodium · 5 g protein
+* '''Grilled Chicken Sandwich''' — 390 cal · 12 g fat · 11 g sugar · 810 mg sodium · 28 g protein
+* '''Chick-n-Strips (3 ct)''' — 310 cal · 14 g fat · 2 g sugar · 900 mg sodium · 29 g protein
+
+== Starbucks ==
+
+Beverage figures are for a Grande (16 oz) made the standard way with 2% milk unless noted; syrups, whipped cream, and milk choice move sugar and calories substantially.
+
+* '''Caffè Latte''' — 190 cal · 7 g fat · 18 g sugar · 170 mg sodium · 13 g protein
+* '''Caramel Macchiato''' — 250 cal · 7 g fat · 33 g sugar · 150 mg sodium · 10 g protein
+* '''Caffè Mocha''' — 370 cal · 15 g fat · 35 g sugar · 150 mg sodium · 14 g protein
+* '''Pumpkin Spice Latte''' — 390 cal · 14 g fat · 50 g sugar · 240 mg sodium · 14 g protein
+* '''Brewed Coffee (black)''' — 5 cal · 0 g fat · 0 g sugar · 10 mg sodium · 1 g protein
+* '''Butter Croissant''' — 260 cal · 14 g fat · 5 g sugar · 260 mg sodium · 5 g protein
+
+== Processed and packaged ==
+
+Standard single-serving or common-portion values; multi-serving packages (a whole bag of chips, a 2-liter bottle) are much higher.
+
+'''Soda and drinks'''
+* '''Cola, 12 oz can''' — 140 cal · 0 g fat · 39 g sugar · 45 mg sodium · 0 g protein
+* '''Lemon-lime soda, 12 oz''' — 140 cal · 0 g fat · 38 g sugar · 65 mg sodium · 0 g protein
+* '''Energy drink, 16 oz''' — 210 cal · 0 g fat · 54 g sugar · 370 mg sodium · 1 g protein (approx.)
+* '''Sweetened iced tea, 12 oz''' — 120 cal · 0 g fat · 32 g sugar · 10 mg sodium · 0 g protein
+
+'''Chips and snacks'''
+* '''Potato chips, ~1 oz (28 g)''' — 150 cal · 10 g fat · 1 g sugar · 170 mg sodium · 2 g protein
+* '''Tortilla / corn chips, ~1 oz''' — 140 cal · 7 g fat · 1 g sugar · 110 mg sodium · 2 g protein
+* '''Cheese puffs, ~1 oz''' — 160 cal · 10 g fat · 1 g sugar · 300 mg sodium · 2 g protein
+* '''Microwave popcorn, buttered, ~4 cups''' — 170 cal · 11 g fat · 0 g sugar · 300 mg sodium · 3 g protein (approx.)
+
+'''Cereal (1 cup, dry, without milk)'''
+* '''Frosted flakes''' — 130 cal · 0 g fat · 13 g sugar · 190 mg sodium · 2 g protein
+* '''Toasted oat O's (plain)''' — 100 cal · 2 g fat · 1 g sugar · 140 mg sodium · 3 g protein
+* '''Chocolate puffed rice''' — 120 cal · 1 g fat · 12 g sugar · 150 mg sodium · 1 g protein
+* '''Bran flakes''' — 130 cal · 1 g fat · 6 g sugar · 220 mg sodium · 3 g protein
+
+'''Candy and sweets'''
+* '''Milk chocolate bar, ~1.55 oz''' — 220 cal · 13 g fat · 24 g sugar · 35 mg sodium · 3 g protein
+* '''Peanut butter cups, 2-cup pack''' — 210 cal · 13 g fat · 21 g sugar · 150 mg sodium · 4 g protein
+* '''Fruit-flavored chewy candy, ~2 oz''' — 230 cal · 5 g fat · 33 g sugar · 30 mg sodium · 0 g protein
+* '''Glazed doughnut''' — 260 cal · 14 g fat · 12 g sugar · 330 mg sodium · 3 g protein
+
+== How to read these numbers ==
+
+* '''Sodium adds up fast.''' Many single fast-food items carry a third to a half of a typical daily sodium target (around 2,300 mg) in one sandwich or bowl.
+* '''"Meal" totals are the real figure.''' A sandwich plus fries plus a soda combines three of these rows — often 1,000–1,400 calories and well over 1,500 mg sodium.
+* '''Sugar hides in drinks and sauces.''' A single sweetened beverage can carry more added sugar than a candy bar; syrups and dressings add more on top of the item.
+* '''Customization changes everything.''' Extra cheese, bacon, sauces, larger sizes, and whole-milk or whipped-cream drink options push every number up.
+
+For general guidance on how these foods fit into a balanced diet, see the Library's [[Food Pyramid and Supplements]].
+
+See also: [[Food Pyramid and Supplements]] · [[SoapBox Move]] · [[The Library of Ashurbanipal]] · [https://fdc.nal.usda.gov USDA FoodData Central]
