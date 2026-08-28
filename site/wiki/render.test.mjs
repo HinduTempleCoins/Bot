@@ -84,3 +84,11 @@ test('slugify and titleize round-trip sensibly', () => {
   assert.equal(titleize('Some_Page'), 'Some Page');
   assert.equal(slugify('a/b<c>d'), 'abcd', 'unsafe path chars dropped');
 });
+
+test('renderWiki: external links [url text], bare [url], and autolinked URLs — internal [[links]] unaffected', () => {
+  const { html } = renderWiki('A [https://pool.soapbox.community pool] link, a bare [https://x.test], an autolink https://credentials.soapbox.community and an [[Internal Page]].');
+  assert.match(html, /<a href="https:\/\/pool\.soapbox\.community" rel="nofollow">pool<\/a>/);
+  assert.match(html, /<a href="https:\/\/x\.test" rel="nofollow">https:\/\/x\.test<\/a>/);
+  assert.match(html, /<a href="https:\/\/credentials\.soapbox\.community" rel="nofollow">/);
+  assert.match(html, /<a href="\/wiki\/Internal_Page">Internal Page<\/a>/);   // internal still works
+});
