@@ -57,6 +57,7 @@ export function listCategories() { return CATEGORIES.map((c) => ({ ...c })); }
 // absolute); the site safeHref()s them at render time. Wiki-linkout/harm-reduction boards point at the
 // Library of Ashurbanipal — reference posture, NOT manufacture manuals (CLAUDE.md moderation policy).
 const WIKI = 'https://wiki.soapbox.community';
+const GAMBLING = 'https://gambling.soapbox.community';   // the Gambling Education Center (odds/EV/help)
 const STATIC_BOARDS = [
   // MELEK / Ecosystem — the existing forum-core boards, preserved verbatim (titles are load-bearing for tests).
   { id: 'announcements', title: 'Announcements',           categoryId: 'melek', kind: 'discussion', desc: 'Official MELEK news, releases, and witness notices.' },
@@ -119,6 +120,7 @@ const STATIC_BOARDS = [
   { id: 'witchy',     title: 'Witchy',     categoryId: 'mind', kind: 'discussion', desc: 'Folk practice, herbalism-as-tradition, ritual, and diaspora brujería.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
   { id: 'herb',       title: 'Herb',       categoryId: 'mind', kind: 'discussion', desc: 'Ethnobotany, plant medicine, and harm reduction — history, dose ranges, interactions, testing, set/setting/aftercare. Reference only; no synthesis or extraction recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
   { id: 'nootropics', title: 'Nootropics', categoryId: 'mind', kind: 'discussion', desc: 'Cognitive enhancement, stacks, and sourcing safety — reference only. No brain-stimulation self-application recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'gambling-education', title: 'Gambling Education & Odds', categoryId: 'mind', kind: 'discussion', desc: 'The math of gambling — odds, expected value, the house edge, and the lottery reality. Education and harm-reduction, never promotion; the Forum never takes a wager or runs a game. If gambling has become a problem, help is one click away.', links: [{ label: 'Odds & EV — Gambling Education Center', href: GAMBLING }, { label: 'House edge by game', href: `${GAMBLING}/games` }, { label: 'Lottery odds & the −EV reality', href: `${GAMBLING}/lottery` }, { label: 'Get help — responsible gambling', href: `${GAMBLING}/help` }] },
 
   // Style — Fashion / Beauty (Van Kush).
   { id: 'fashion', title: 'Fashion', categoryId: 'style', kind: 'discussion', desc: 'Outfits, thrift, sustainable fashion, and brand talk.' },
