@@ -62,6 +62,8 @@ import { headTags, breadcrumbJsonLd } from '../../integrations/soapbox/seo.mjs';
 const PORT = +(process.env.PORT || 8241);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// The Forum's Gambling Education board — the two tie together (discuss the math there; learn it here).
+const FORUM_BOARD = (process.env.FORUM_BOARD_URL || 'https://forum.soapbox.community/b/gambling-education').replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Gambling Education';
 // Path-routing proxy awareness (mirrors site/diagram): routes stay on '/', we PREPEND BASE_PATH to
 // every self-URL we emit. Default '' → standalone behaviour unchanged.
@@ -304,6 +306,7 @@ function footer() {
     <b>${esc(SITE_NAME)}</b> — a free gambling-education &amp; harm-reduction reference. We never take a wager,
     hold a stake, or run a book. If gambling is causing harm, help is free and confidential:
     <a href="${bp('/help')}">get help</a> or call ${esc(HELPLINE_TEL)}.
+    · Discuss the math in the <a href="${esc(FORUM_BOARD)}">Forum</a>.
     ${SOURCES_FOOTER}
   </footer>`;
 }

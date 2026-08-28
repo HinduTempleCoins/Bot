@@ -188,3 +188,15 @@ test('never throws on garbage input', () => {
     seoTypeForKind(null);
   });
 });
+
+test('gambling-education board ties in the Gambling Education Center with a mandatory help link', () => {
+  const b = resolveBoard('gambling-education');
+  assert.ok(b, 'the board exists');
+  assert.equal(b.categoryId, 'mind');                        // grouped with the harm-reduction boards
+  assert.ok(Array.isArray(b.links) && b.links.length >= 2);
+  assert.ok(b.links.some((l) => /gambling\.soapbox/.test(l.href)), 'links to the education center');
+  assert.ok(b.links.some((l) => /help/i.test(l.label) && /\/help/.test(l.href)), 'has the responsible-gambling help link');
+  assert.match(b.desc, /education|harm-reduction/i);
+  assert.match(b.desc, /never takes? a wager|never take a wager/i);  // compliance framing
+  assert.doesNotMatch(b.desc, /bet now|place a bet|win big/i);       // never promotion
+});
