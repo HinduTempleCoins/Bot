@@ -1,0 +1,12 @@
+'''SoapBox Hemp''' is the hemp reference vertical of the [[SoapBox]] ecosystem, a resource for hemp and industrial-cannabis information. It is reached at [https://hemp.soapbox.community hemp.soapbox.community].
+
+== Purpose ==
+The vertical gathers educational information and resources on hemp and industrial cannabis: the plant, its uses, and the surrounding context. It is a reference surface, meant to inform rather than to sell or to advise any individual.
+
+== Education and harm reduction ==
+Where relevant, the vertical carries harm-reduction information alongside the general reference material. The framing is educational: history, uses, and honest context, with harm-reduction guidance where it helps a reader stay safe. It is reference material, not medical, legal, or individualized advice.
+
+== In the ecosystem ==
+SoapBox Hemp is one of the reference verticals under SoapBox and shares its identity and surfaces with the rest of the ecosystem. For the broader plant material it sits near the wider MELEK reference library.
+
+See also: [[SoapBox]], [[Cannabis]]

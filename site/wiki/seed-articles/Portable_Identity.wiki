@@ -1,0 +1,16 @@
+'''Portable Identity''' is the principle that one [[MELEK]] account is a single, portable identity across every [[SoapBox]] surface. Instead of a fresh profile for each app, the same account — with its avatar, [[REN]] name, balances, and credential badges — follows you from app to app. It is meant to be a "better-than-Gravatar" identity: not just a picture, but your name, your capital, and your earned standing, all carried by the chain.
+
+== What travels with you ==
+
+Because your identity lives on the [[MELEK]] chain rather than inside any one app's database, the same things follow you everywhere:
+
+* '''Avatar''' — your picture, consistent across surfaces.
+* '''[[REN]] name''' — your on-chain name (for example a .melek name), the same wherever you go.
+* '''Capital / balances''' — your account's holdings are readable by every app, not siloed.
+* '''Credential badges''' — credentials and reputation you earn are attached to the account itself.
+
+== Why it works ==
+
+Every SoapBox app reads the one underlying [[MELEK]] account, so there is no per-app sign-up and no separate profile to rebuild. You are the same person on the microblog, in the wiki, in the pool, and in chat. [[Pentecaust]] uses this to offer single sign-on and cross-app contacts, and the wider ecosystem map at [https://soapbox.community soapbox.community] is built around it.
+
+See also: [[MELEK]] · [[REN]] · [[SoapBox]] · [[Pentecaust]]

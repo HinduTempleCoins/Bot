@@ -1,0 +1,14 @@
+'''SoapBox Grants''' is the [[SoapBox]] ecosystem's home for discretionary funding — the surface where grants and other support to people building on or contributing to the ecosystem are described and pointed to. It is about helping worthwhile work get resourced, transparently.
+
+== What it is ==
+Grants gathers the discretionary funding avenues in the ecosystem in one place: what kinds of contribution can be supported, and how funding decisions are approached. Discretionary means judgment-based rather than automatic — support is directed toward work that advances the ecosystem, as opposed to a fixed formula anyone can farm.
+
+== How it relates to the chain ==
+The social chain [[MELEK]] already rewards contribution directly through posting and curation rewards; Grants is the complementary '''discretionary''' layer on top of that ordinary on-chain earning. Where the chain pays automatically for posts and votes, grants can back larger or longer efforts that a single post's rewards wouldn't cover.
+
+See the current avenues at [https://grants.soapbox.community grants.soapbox.community].
+
+== How it fits ==
+Funding is one of the founding concerns of the ecosystem, alongside chain legibility, onboarding, and the reference [[The Library of Ashurbanipal|library]]. Grants is where that concern becomes a surface people can actually approach.
+
+See also: [[MELEK]] · [[SoapBox]] · [[The Library of Ashurbanipal]] · [https://grants.soapbox.community grants.soapbox.community]

@@ -1,0 +1,15 @@
+'''Congress.ink''' is a microblogging application in the [[SoapBox]] ecosystem — a "Twitter-style" surface for short posts, replies, and follows, powered by the [[MELEK]] Graphene blockchain. Your account is your on-chain [[MELEK]] identity, so the same avatar, [[REN]] name, and reputation you carry everywhere in the ecosystem carry here. It is currently in '''alpha'''.
+
+== What it is ==
+
+Congress.ink is built for short-form posting: quick updates, threads, and conversation, in contrast to the long-form blogging that the main [[MELEK]] condenser is shaped around. Posts and social actions are ordinary Graphene operations (comment, vote, follow), so what you write lives on the same chain as the rest of your activity rather than in a private silo.
+
+== Messaging ==
+
+Direct messages are not handled inside Congress.ink itself — private messages and DMs run through [[Pentecaust]], the ecosystem's shared messaging and community hub. Because both apps read the one [[MELEK]] account, your identity and contacts are the same whether you are posting publicly on Congress.ink or messaging privately through Pentecaust.
+
+== Status ==
+
+Congress.ink is an alpha surface: the microblogging feed is live for testing, and features are still being added. See the ecosystem hub at [https://soapbox.community soapbox.community] for the current map of what is up.
+
+See also: [[MELEK]] · [[Pentecaust]] · [[SoapBox]] · [[REN]] · [[Portable Identity]]

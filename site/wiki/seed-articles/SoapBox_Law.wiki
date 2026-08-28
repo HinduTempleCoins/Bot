@@ -1,0 +1,16 @@
+'''SoapBox Law''' is the legal-reference vertical of the [[SoapBox]] civic ecosystem. It gathers plain-language legal information, statute and case reference material, and legal-education resources in one place. It is built for education and orientation — not individualized legal advice, and not a substitute for a licensed attorney.
+
+== What it is ==
+SoapBox Law is a reference and learning surface for people trying to understand the law that affects them. It aims to translate dense statutory and case material into plain language, and to point readers toward the primary sources behind a topic. As with the wider [[Library of Ashurbanipal]], the goal is honest reference: explain what the law says and where to read it, without pretending to render a verdict on any reader's situation.
+
+== What you can do ==
+* Look up plain-language explanations of legal concepts and terms.
+* Find pointers to statutes and case-law references for further reading.
+* Use legal-education resources to build background before speaking to a professional.
+
+For general legal information and education, see [https://law.soapbox.community law.soapbox.community].
+
+== How it fits ==
+SoapBox Law is one of several civic verticals in the [[SoapBox]] network, alongside [[SoapBox Politics]] and [[SoapBox Oversight]]. Together they form the civic-information corner of the [[MELEK]] ecosystem: law explains the rules, politics tracks who is making them, and oversight documents how they act.
+
+'''See also:''' [[SoapBox]] · [[SoapBox Politics]] · [[SoapBox Oversight]] · [[MELEK]]

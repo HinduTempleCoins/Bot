@@ -1,0 +1,16 @@
+'''The SoapBox Pool''' is the [[SoapBox]] ecosystem's [[Mining]] pool. It lets many miners combine their hashrate and split rewards by contribution, so you earn a steady stream from your first accepted '''share''' instead of waiting to win a whole block solo. It runs more than one algorithm, and it is even mineable straight from a browser tab.
+
+== What you can mine ==
+* '''RandomX (CPU)''' — the CPU-friendly, ASIC-resistant algorithm used by Monero. It runs well on ordinary processors, which is what makes browser mining possible.
+* '''Etchash (GPU)''' — the GPU algorithm behind Ethereum Classic and the [[PRANA]] compute chain. Laptop-friendly; it keeps a DAG in memory.
+* '''Browser mining''' — start contributing hashrate from a web page, no install required, and earn from your first share.
+
+== How pooled mining works ==
+Solo mining rarely wins on a busy chain, so a pool aggregates everyone's work. You submit shares that prove you're doing the work; the pool pays out proportionally when it finds blocks. See [[Mining]] for the underlying mechanics — hashing, difficulty, shares, and block rewards.
+
+Point a miner at, or mine in your browser at, [https://pool.soapbox.community pool.soapbox.community].
+
+== How it fits ==
+Mining [[PRANA]] here isn't wasted work: PRANA pairs classic proof-of-work with useful AI/GPU compute, so hashrate you contribute helps run real workloads. Learn to set up and tune a miner at the [https://witness.melek.salon Witness School].
+
+See also: [[Mining]] · [[PRANA]] · [[SoapBox]] · [https://pool.soapbox.community pool.soapbox.community]

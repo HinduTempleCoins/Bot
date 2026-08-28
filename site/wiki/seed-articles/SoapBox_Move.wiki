@@ -1,0 +1,16 @@
+'''SoapBox Move''' is the [[SoapBox]] ecosystem's '''move-to-earn''' app: you earn by moving in the real world — walking, and other physical movement and location-based activity. It sits in the same family as apps like SweatCoin (steps into rewards) and XYO (location-verified geomining), tied into the ecosystem's own [[MELEK]] identity and rewards.
+
+== How it works ==
+* '''Move to earn''' — physical movement is turned into earnings; the more real activity, the more you accrue.
+* '''Geomining''' — a location-and-movement layer where being present and moving through the world is what you're rewarded for, XYO-style.
+* '''One account''' — you earn into the same [[MELEK]] identity you use across every [[SoapBox]] surface, so movement rewards land beside your posting and other on-chain earnings.
+
+== What it's for ==
+Move brings people into the ecosystem through something they already do every day, no crypto knowledge required to start. It is one of the ecosystem's "everyday" earning surfaces — a low-friction on-ramp that quietly connects real-world activity to the [[MELEK]] economy.
+
+Get moving at [https://move.soapbox.community move.soapbox.community].
+
+== How it fits ==
+Move is part of the broader earning layer of [[SoapBox]], alongside the [https://pool.soapbox.community Pool] (mine to earn) and the chain's own posting and curation rewards. Different surfaces, one wallet, one identity.
+
+See also: [[MELEK]] · [[SoapBox]] · [[Mining]] · [https://move.soapbox.community move.soapbox.community]
