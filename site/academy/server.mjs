@@ -16,6 +16,7 @@
 // Pure render, esc() everywhere, handler(req,res) exported, CLI guarded. No network. No keys.
 
 import { createServer } from 'node:http';
+import { timingSafeEqual } from 'node:crypto';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
@@ -35,6 +36,16 @@ let _registry = createRegistry();
 export function __setRegistry(reg) { _registry = reg || createRegistry(); }
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/** Constant-time issuer-token check. Requires ISSUER_TOKEN configured, a POST request, and an exact
+ *  header-token match (never read from the URL). Returns false when unconfigured/short-circuits safely. */
+export function issuerTokenOk(tok, isPost, expected = ISSUER_TOKEN) {
+  if (!expected || !isPost || typeof tok !== 'string') return false;
+  const a = Buffer.from(tok, 'utf8');
+  const b = Buffer.from(expected, 'utf8');
+  if (a.length !== b.length) return false;      // length check first (timingSafeEqual throws on mismatch)
+  try { return timingSafeEqual(a, b); } catch { return false; }
+}
 
 const TRACKS = [
   ['press', 'Press'], ['ministry', 'Ministry'], ['ai', 'Angelic AI'], ['crypto', 'Crypto'],
@@ -248,10 +259,15 @@ export async function handler(req, res) {
     if (path === '/registry') return sendHtml(res, registryView());
     const pm = path.match(/^\/program\/([a-z0-9-]+)$/);
     if (pm) return sendHtml(res, programView(pm[1]));
-    // /issue — TEMPLE/OPERATOR-GATED. Disabled unless a valid issuer token is presented. No self-mint.
+    // /issue — TEMPLE/OPERATOR-GATED. Requires POST + the issuer token in the x-issuer-token HEADER
+    // (never in the URL, so it can't leak into logs/history), compared in constant time. No self-mint.
     if (path === '/issue') {
-      const tok = url.searchParams.get('token') || (req.headers && req.headers['x-issuer-token']) || '';
-      if (!ISSUER_TOKEN || tok !== ISSUER_TOKEN) { res.writeHead(403, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: false, reason: 'issuance is gated to the issuing authority' })); }
+      const tok = (req.headers && req.headers['x-issuer-token']) || '';
+      const okMethod = String(req.method || 'GET').toUpperCase() === 'POST';
+      if (!issuerTokenOk(tok, okMethod)) {
+        res.writeHead(403, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, reason: 'issuance is gated to the issuing authority (POST with the x-issuer-token header)' }));
+      }
       const r = _registry.issue({ programId: url.searchParams.get('program') || '', recipientName: url.searchParams.get('name') || '', recipientId: url.searchParams.get('rid') || '' });
       res.writeHead(r.ok ? 200 : 400, { 'content-type': 'application/json' });
       return res.end(JSON.stringify(r.ok ? { ok: true, credential: r.credential, openBadge: toOpenBadge(r.credential, { baseUrl: BASE_URL }) } : r));

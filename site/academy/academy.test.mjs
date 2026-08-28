@@ -1,7 +1,7 @@
 // academy.test.mjs — offline tests for the MELEK Academy credential portal. No network, no keys.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, homePage, programView, verifyView, registryView, esc, __setRegistry } from './server.mjs';
+import { handler, homePage, programView, verifyView, registryView, esc, issuerTokenOk, __setRegistry } from './server.mjs';
 import { createRegistry, issueCredential } from '../../integrations/soapbox/credentials-issuer.mjs';
 
 function mockReq(path, headers = {}) { return { url: path, method: 'GET', headers }; }
@@ -82,6 +82,20 @@ test('/issue is gated: 403 without a token (no self-mint)', async () => {
   const res = await route('/issue?program=ordination-minister&name=X');
   assert.equal(res.statusCode, 403);
   assert.match(res.body, /gated to the issuing authority/);
+});
+
+test('/issue: a GET carrying the header token is still rejected (POST required, no secret in URL)', async () => {
+  const res = await route('/issue?program=ordination-minister&name=X', { 'x-issuer-token': 'whatever' });
+  assert.equal(res.statusCode, 403);
+});
+
+test('issuerTokenOk: constant-time gate — unconfigured/GET/wrong all fail, only POST+exact passes', () => {
+  assert.equal(issuerTokenOk('secret', true, ''), false);        // no token configured
+  assert.equal(issuerTokenOk('secret', false, 'secret'), false); // not a POST
+  assert.equal(issuerTokenOk('wrong', true, 'secret'), false);   // wrong token
+  assert.equal(issuerTokenOk('sec', true, 'secret'), false);     // length mismatch
+  assert.equal(issuerTokenOk(123, true, 'secret'), false);       // non-string
+  assert.equal(issuerTokenOk('secret', true, 'secret'), true);   // exact match + POST
 });
 
 test('health + robots + llms respond', async () => {
