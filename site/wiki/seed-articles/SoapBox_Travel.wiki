@@ -1,0 +1,12 @@
+'''SoapBox Travel''' is the travel vertical of the [[SoapBox]] ecosystem, a utility for planning trips and comparing travel options in one place. It is reached at [https://travel.soapbox.community travel.soapbox.community]. The vertical is built as an affiliate and lead-generation utility: it helps a traveler find and compare options, and earns through referral partners rather than by holding inventory itself.
+
+== Trip planning ==
+The core of the vertical is multi-modal trip planning. A traveler enters a start and a destination, and the tool assembles routes across different modes of travel between those two points. The aim is to compare paths side by side rather than searching each carrier or mode separately.
+
+== Hotels, city statistics, and insurance ==
+Alongside routing, the vertical surfaces hotel options for a destination, city statistics to help a traveler understand where they are going, and a travel-insurance comparison so plans can be weighed against each other. These pieces are meant to sit together so a trip can be researched end to end.
+
+== Framing ==
+SoapBox Travel is a research and comparison aid, not a booking agent of record or a source of individualized advice. It points travelers toward partners who complete the transaction.
+
+See also: [[SoapBox]], [[SoapBox Data]]

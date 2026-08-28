@@ -1,0 +1,12 @@
+'''SoapBox Stocks''' is the stocks and markets information vertical of the [[SoapBox]] ecosystem, a surface for market information and education. It is reached at [https://stocks.soapbox.community stocks.soapbox.community].
+
+== Purpose ==
+The vertical gathers stock and market information and educational material in one place. It is meant to help a reader understand markets, not to steer any individual toward a particular trade.
+
+== Education, not advice ==
+SoapBox Stocks is informational and educational. It does not offer individualized financial advice, does not make recommendations for a person's own situation, and is not a substitute for a licensed advisor. Readers weigh market information for themselves.
+
+== In the ecosystem ==
+SoapBox Stocks is one of the everyday reference verticals under SoapBox and shares its identity and surfaces with the rest of the ecosystem.
+
+See also: [[SoapBox]], [[SoapBox Data]]

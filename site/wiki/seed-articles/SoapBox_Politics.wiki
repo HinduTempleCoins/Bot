@@ -1,0 +1,16 @@
+'''SoapBox Politics''' is the political portal vertical of the [[SoapBox]] civic ecosystem. It brings together political information, portals, and civic-engagement resources so readers can follow who holds power and how decisions are made across the ecosystem.
+
+== What it is ==
+SoapBox Politics is an entry point for political information — a portal that organizes context about offices, issues, and the process of governance in plain language. Like the rest of the [[Library of Ashurbanipal]], it aims to inform rather than persuade: describe the landscape accurately and let readers draw their own conclusions.
+
+== What you can do ==
+* Use the portal to orient yourself on political topics and the people involved.
+* Follow pointers to civic-engagement resources and further reading.
+* Move between related civic surfaces without losing the thread.
+
+For the political portal, see [https://politics.soapbox.community politics.soapbox.community].
+
+== How it fits ==
+SoapBox Politics sits alongside [[SoapBox Law]] and [[SoapBox Oversight]] as one of the civic verticals of the [[SoapBox]] network within the [[MELEK]] ecosystem. Where law explains the rules and oversight documents official conduct, politics maps the people and the process that connect them. The three are designed to be read together.
+
+'''See also:''' [[SoapBox]] · [[SoapBox Law]] · [[SoapBox Oversight]] · [[MELEK]]

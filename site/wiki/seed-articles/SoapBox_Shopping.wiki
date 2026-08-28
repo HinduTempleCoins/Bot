@@ -1,0 +1,9 @@
+'''SoapBox Shopping''' is the shopping vertical of the [[SoapBox]] ecosystem, a place for product discovery and deals within the ecosystem. It is reached at [https://shopping.soapbox.community shopping.soapbox.community].
+
+== Purpose ==
+The vertical is focused on discovery: helping a person find products and surface deals rather than acting as a storefront of record. It sits alongside the other everyday SoapBox verticals so that shopping is part of the same ecosystem as travel, data, and the reference libraries.
+
+== In the ecosystem ==
+Shopping is one of the everyday, reference-style verticals under SoapBox. Like the others, it is meant to be a practical utility that a person can reach for on its own, and it connects back to the shared [[SoapBox]] identity and surfaces.
+
+See also: [[SoapBox]], [[SoapBox Travel]]

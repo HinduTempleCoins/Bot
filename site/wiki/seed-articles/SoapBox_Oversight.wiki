@@ -1,0 +1,16 @@
+'''SoapBox Oversight''' is the accountability and watchdog vertical of the [[SoapBox]] civic ecosystem. It compiles unbiased, no-verdict dossiers on public officials — politicians and judges — drawn from public records. It is reference material, not accusation: the dossiers assemble what the record shows and leave judgment to the reader.
+
+== What it is ==
+SoapBox Oversight collects publicly available information about people who hold public power and presents it in a neutral, no-verdict form. Each dossier is meant to be a factual starting point sourced from public records — not an indictment, an endorsement, or a ranking. Consistent with the [[Library of Ashurbanipal]] approach, the surface states what is documented and links to sources rather than drawing conclusions for the reader.
+
+== What you can do ==
+* Read no-verdict dossiers on politicians and judges assembled from public records.
+* Follow the underlying public-record sources behind each entry.
+* Cross-check officials against the political and legal context in the other verticals.
+
+For the accountability portal, see [https://oversight.soapbox.community oversight.soapbox.community].
+
+== How it fits ==
+SoapBox Oversight completes the civic trio with [[SoapBox Law]] and [[SoapBox Politics]] inside the [[SoapBox]] network and the wider [[MELEK]] ecosystem: law explains the rules, politics maps the process, and oversight documents how officials act within both — always as reference, never as a verdict.
+
+'''See also:''' [[SoapBox]] · [[SoapBox Law]] · [[SoapBox Politics]] · [[MELEK]]

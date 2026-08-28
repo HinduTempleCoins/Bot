@@ -1,0 +1,12 @@
+'''SoapBox Data''' is the open-data vertical of the [[SoapBox]] ecosystem, a surface for open data and ecosystem statistics. It is reached at [https://data.soapbox.community data.soapbox.community].
+
+== Purpose ==
+The vertical is for open data and statistics drawn from and around the ecosystem. It is meant to make numbers legible and available in one place rather than scattered across surfaces.
+
+== Ecosystem statistics ==
+Because [[MELEK]] and its surfaces are public, much of what happens on them can be counted and reported. SoapBox Data is where that kind of ecosystem statistic is meant to live, presented openly so anyone can look.
+
+== In the ecosystem ==
+SoapBox Data is one of the everyday reference verticals under SoapBox, sharing identity and surfaces with the rest. It complements the other verticals by giving them a common home for the figures behind them.
+
+See also: [[SoapBox]], [[MELEK]]

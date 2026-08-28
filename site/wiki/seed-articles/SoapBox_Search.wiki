@@ -1,0 +1,21 @@
+'''SoapBox Search''' is the single search engine for the whole [[SoapBox]] ecosystem. One query looks across every live SoapBox surface '''and''' the [[MELEK]] blockchain itself — posts, wikis, verticals, and on-chain content — so you don't have to know which app holds a thing to find it.
+
+== What it searches ==
+SoapBox Search indexes the ecosystem's public surfaces and the MELEK chain together. From one box you can reach:
+* On-chain [[MELEK]] posts, accounts, and content.
+* This reference, [[The Library of Ashurbanipal]] wiki.
+* The [https://witness.melek.salon Witness School], the [https://pool.soapbox.community Pool], and [https://credentials.soapbox.community Credentials].
+* The civic verticals ([[SoapBox Law]], Politics, Oversight) and the everyday utility surfaces.
+As new verticals go live, Search is the place that finds every one that is up.
+
+== How to use it ==
+* Type any word or name and search — results are grouped by which surface they come from.
+* Search a MELEK username or [[REN]] name to find a person and their posts.
+* Use it as the front door: if you're not sure where something lives in the ecosystem, start here.
+
+Try it at [https://search.soapbox.community search.soapbox.community].
+
+== How it fits ==
+Every SoapBox app reads the same [[MELEK]] identity, and Search reads across all of them at once. It is the connective tissue of the ecosystem — the map that ties the [[SoapBox]] verticals and the underlying chains into one searchable whole.
+
+See also: [[SoapBox]] · [[MELEK]] · [[The Library of Ashurbanipal]] · [https://search.soapbox.community search.soapbox.community]

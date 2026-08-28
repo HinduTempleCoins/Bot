@@ -1,0 +1,15 @@
+'''Pentecaust''' is the [[SoapBox]] ecosystem's cross-app messaging and community hub: private messages and DMs, a cross-game "clan," and a single sign-on launch point for every app — all under one [[MELEK]] identity. It is presented in an AIM-style, tabbed dashboard so that chat, contacts, and app launching live in one familiar place.
+
+== Messaging and clan ==
+
+Pentecaust carries the private side of the ecosystem. It handles direct messages and DMs — including for surfaces like [[Congress.ink]], whose public microblogging feed leaves the private conversation to Pentecaust. Alongside messaging it hosts a cross-game "clan": one community and contact list that follows you across the ecosystem's apps and games rather than being trapped inside any single one.
+
+== Single sign-on ==
+
+Pentecaust doubles as a launch point for the ecosystem. Because a [[MELEK]] account is a single identity, Pentecaust acts as an OAuth (single-sign-on) entry, letting you sign in once and move into the connected apps as the same person — no separate account per app.
+
+== One identity ==
+
+The through-line is that there is one MELEK identity across every app: the same account, avatar, [[REN]] name, and contacts whether you are messaging, in the clan, or launching another surface. See the hub at [https://soapbox.community soapbox.community].
+
+See also: [[MELEK]] · [[Congress.ink]] · [[SoapBox]] · [[Portable Identity]] · [[REN]]
