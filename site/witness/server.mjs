@@ -160,6 +160,7 @@ export function homePage() {
   const tools = [
     ['/build', 'How a chain is built', 'The anatomy behind MELEK — the constants that define a Graphene chain (symbol, prefix, sha256 chain id, inflation) and how to stand up your own two-witness test net. Adapted from @jga\'s guide.'],
     ['/tokens', 'Token standards (PRC-20)', 'What an ERC-20 really is, why TRC-20 / BEP-20 / our PRC-20 are the same standard re-branded per chain, and how to mint your own on PRANA — no-code (Engine) or your own contract. We want you building here.'],
+    ['/family', 'The Graphene family', 'Where MELEK comes from — Steem and its clones/forks (Hive, Blurt, MELEK), the 2020 Steem→Hive fork and why forkability matters, and a DPoS-vs-PoW-vs-PoS consensus comparison.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
@@ -1100,7 +1101,93 @@ ${esc(erc20)}</pre>
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /family (alias /clones) — the Graphene social-chain family: clones, competitors, forks, consensus ─
+export function grapheneFamilyPage() {
+  const CMP = 'https://hive.blog/@contentjunkie/a-comparison-of-steem-steemit-clones-and-competitors-and-why-they-made-me-invest-more-here';
+  const FORK = 'https://hive.blog/@cpufronz/fork-fork-and-away-hive-and-the-strange-effect-justin-sun-has-on-the-awareness-of-steem';
+  const TOP10 = 'https://steemit.com/steemit/@josem06/top-10-similar-platforms-to-steemit-and-their-consensus-protocols';
+  const fam = [
+    ['Steem', '2016', 'The first social-token Graphene/DPoS chain — post, vote, curate, earn a coin. The pattern everything here descends from.'],
+    ['Hive', '2020', 'A <b>community hard-fork of Steem</b> after Justin Sun / TRON acquired Steemit Inc and moved to control the chain via the founder stake + exchange-backed witness votes. The community forked to Hive and nullified the contested stake. The defining DPoS-governance fork.'],
+    ['Blurt', '2020', 'Another Steem fork — dropped <b>downvotes</b> and the SBD "dollar" token for a simpler, one-coin chain. <b>MELEK\'s direct lineage.</b>'],
+    ['MELEK', '2026', 'Blurt-family: <b>no MBD</b>, no downvotes, no-premine genesis, and a founding <b>AI witness (Hathor)</b>. A legitimate member of the family — cloning a Graphene chain is expected, not fringe.'],
+    ['Golos · Whaleshares · Weku · Serey · Scorum', '2017–', 'Other Steem forks &amp; DPoS social chains (Russian community, sports, regional). Most of the family tree.'],
+  ];
+  const cons = [
+    ['DPoS', 'Steem · Hive · Blurt · <b>MELEK</b> · BitShares · EOS', 'Token-holders vote for a set of <b>witnesses</b> who take turns signing blocks. Fast, feeless, human-scale governance — and forkable, as Hive proved.'],
+    ['PoW', 'Bitcoin · Monero · <b>PRANA</b>', 'Blocks won by hashpower. MELEK\'s sister chain PRANA is EVM PoW (Etchash) — the useful-work compute side.'],
+    ['PoS', 'Ethereum (since 2022)', 'Validators stake capital to propose/attest blocks. Different trust model; not what the Graphene family runs.'],
+  ];
+  const body = `<h1>The Graphene family <span class=muted style="font-size:14px">· Steem, its clones &amp; competitors, the forks, and where MELEK fits</span></h1>
+    <p class=lead>MELEK didn't appear from nowhere and it isn't the only one of its kind — it's the newest member of
+      a <b>family of social blockchains</b> that all descend from Steem (2016) and the <b>Graphene / DPoS</b>
+      design. Understanding that family — who cloned whom, who competed, and why one of them <i>forked</i> — is
+      how you understand what MELEK is. The companion to <a href="/build">how a Graphene chain is built</a> and
+      <a href="/tokens">token standards</a>.</p>
+
+    <div class=card><h2>1 · The family — same code, different chains</h2>
+      <p class=muted style="font-size:14px">A Graphene chain is defined by a handful of constants (see
+        <a href="/build">how a chain is built</a>), so the codebase is <b>forked and re-launched</b> again and
+        again. The main line:</p>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:6px 10px">Chain</th><th style="padding:6px 10px">Since</th><th style="padding:6px 10px">What it is</th></tr>
+        ${fam.map(([n, y, d]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:6px 10px"><b>${esc(n)}</b></td><td style="padding:6px 10px">${esc(y)}</td><td style="padding:6px 10px">${d}</td></tr>`).join('')}
+      </table></div>
+    </div>
+
+    <div class=card><h2>2 · The fork that proved the point — Steem → Hive</h2>
+      <p class=muted style="font-size:14px">In 2020 Justin Sun's TRON acquired <b>Steemit Inc</b> (the company) and,
+        with it, the large founder stake. When that stake — with help from exchanges voting user deposits — was
+        used to swing the <b>witness</b> election and take control, the community did the one thing a chain's users
+        can always do: they <b>hard-forked</b>. Hive launched as a copy of Steem's state <i>minus</i> the contested
+        stake. The company kept "Steem"; the community kept the chain.</p>
+      <blockquote style="font-size:14px">The lesson is <b>forkability</b>: a DPoS chain's value is its
+        <i>community and its code</i>, not the company that started it. If an owner turns hostile, the people can
+        walk out the door and take the chain with them. That is <b>load-bearing for MELEK</b> — Hathor's character
+        and corpus live in a <b>public repo + on-chain</b> precisely so the Witness survives any single operator or
+        model. Read: <a href="${esc(FORK)}">"Fork, fork and away" (@cpufronz)</a>.</blockquote>
+    </div>
+
+    <div class=card><h2>3 · Consensus — how each chain agrees</h2>
+      <p class=muted style="font-size:14px">The "competitors" lists people share usually mix up <i>consensus
+        protocols</i>. The three that matter for this family:</p>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:6px 10px">Protocol</th><th style="padding:6px 10px">Who runs it</th><th style="padding:6px 10px">How it agrees</th></tr>
+        ${cons.map(([n, w, d]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:6px 10px"><b>${esc(n)}</b></td><td style="padding:6px 10px">${w}</td><td style="padding:6px 10px">${d}</td></tr>`).join('')}
+      </table></div>
+      <p class=muted style="font-size:13px;margin-top:8px">MELEK is <b>DPoS</b> (you <a href="/run">witness</a> it);
+        PRANA is <b>PoW</b> (you <a href="/pool">mine</a> it). One ecosystem, both models —
+        <a href="${esc(TOP10)}">a fuller list of Steemit-like platforms + their consensus (@josem06)</a>.</p>
+    </div>
+
+    <div class=card><h2>4 · The competitors — most were vapor</h2>
+      <p class=muted style="font-size:14px">Every wave of "Steem killers" brought a crop of crypto-social projects
+        that mostly never shipped. A 2016 snapshot (@contentjunkie) listed <b>AdzBuzz, Synereo, Yours.network,
+        Akasha, Postbase, Wayguide</b> — nearly all now gone or vapor. (We kept one good name from it: the
+        ecosystem wallet is <b>Akasha</b>.) The takeaway then and now: <i>copies validate the concept; what
+        endures is the chain that actually ships and keeps a community.</i>
+        Source: <a href="${esc(CMP)}">the comparison (@contentjunkie)</a>.</p>
+    </div>
+
+    <div class=card><h2>Where MELEK fits — and making your own</h2>
+      <p class=muted style="font-size:14px">MELEK is a full member of this family: a Blurt-line Graphene/DPoS chain
+        with a no-premine genesis and an AI founding witness. Cloning or forking a Graphene chain is a
+        <b>normal, legitimate</b> move — it's how this whole lineage was built. If you want to stand up your own,
+        <a href="/build">the build page</a> walks the whole anatomy, and <a href="/tokens">token standards</a>
+        covers the EVM side.</p>
+      <p class=muted style="font-size:13px"><b>Library of Ashurbanipal:</b>
+        ${libArticle('Graphene_Blockchain_Framework', 'The Graphene framework')} ·
+        ${libArticle('Delegated_Proof_of_Stake_DPoS_', 'DPoS')} ·
+        ${libArticle('The_Steem_Hive_Fork_of_2020', 'The Steem–Hive fork')} ·
+        ${libArticle('Blockchain_Forks_Hard_and_Soft', 'Hard &amp; soft forks')}.</p>
+    </div>`;
+  return page('The Graphene family — Steem, its clones, the forks & where MELEK fits — Witness School', body, {
+    canonical: `${BASE_URL}/family`,
+    description: 'The family of Graphene/DPoS social blockchains: Steem and its clones/forks (Hive, Blurt, MELEK, Golos, Whaleshares…), the 2020 Steem→Hive community fork over Justin Sun/TRON and the forkability lesson, a consensus-protocol comparison (DPoS vs PoW vs PoS), the mostly-vapor 2016 competitor wave, and where MELEK fits. Credits @contentjunkie, @cpufronz, @josem06.',
+  });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1145,6 +1232,7 @@ export async function handler(req, res) {
     if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/build') return sendHtml(res, buildPage());
     if (path === '/tokens' || path === '/prc20') return sendHtml(res, tokenStandardsPage());
+    if (path === '/family' || path === '/clones') return sendHtml(res, grapheneFamilyPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
     if (path === '/pool') {
