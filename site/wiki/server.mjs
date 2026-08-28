@@ -99,12 +99,29 @@ function articlePage(slug) {
   return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body }) };
 }
 
+// "Start here" — the newcomer's learning path, surfaced above the A–Z list so the Library actually
+// teaches what MELEK / SoapBox is. Each entry links to an article on this wiki (by slug) or a live surface.
+const STARTERS = [
+  { slug: 'MELEK', label: 'MELEK', blurb: 'The social blockchain — post, vote, earn.' },
+  { slug: 'SoapBox', label: 'SoapBox', blurb: 'The whole ecosystem of apps, mapped.' },
+  { slug: 'PRANA', label: 'PRANA', blurb: 'The compute chain you mine with a laptop.' },
+  { slug: 'KULA', label: 'KULA', blurb: 'The DeFi layer — DEX, collateral, stable.' },
+];
+
 function indexPage() {
   const arts = listArticles().sort((x, y) => x.title.localeCompare(y.title));
+  const have = new Set(arts.map((a) => a.slug));
+  const starters = STARTERS.filter((s) => have.has(s.slug));
+  const startBlock = starters.length ? `<div style="margin:22px 0 8px;padding:16px;border:1px solid var(--gold,#e5a21b);border-radius:12px">
+      <h2 style="margin:0 0 4px">Start here — what is this?</h2>
+      <p class=muted style="margin:0 0 12px;font-size:14px">New to MELEK and SoapBox? These explain the whole thing. Then visit the <a href="https://witness.melek.salon">Witness School</a>.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">${starters.map((s) => `<a href="/wiki/${s.slug}" style="display:block;padding:10px 12px;border:1px solid var(--line2,#dbe0e6);border-radius:9px;text-decoration:none"><b style="display:block;color:var(--link,#117a37)">${esc(s.label)}</b><span style="font-size:13px;color:var(--mut,#5c6670)">${esc(s.blurb)}</span></a>`).join('')}</div>
+    </div>` : '';
   const body = `<h1>The Library of Ashurbanipal</h1>
     <p class=muted>The Van Kush Family Research Institute knowledge base, synthesized into reference articles — grounded in cited sources, audited by a fact-checker, with disputed claims flagged openly.</p>
     <input class=search id=q placeholder="Search the Library…" autocomplete=off oninput="location.href='/search?q='+encodeURIComponent(this.value)" onkeydown="if(event.key==='Enter')location.href='/search?q='+encodeURIComponent(this.value)">
-    <p class=muted style="margin-top:18px">${arts.length} articles</p>
+    ${startBlock}
+    <p class=muted style="margin-top:18px">All ${arts.length} articles</p>
     <div class=grid>${arts.map((a) => `<a href="/wiki/${a.slug}">${esc(a.title)}</a>`).join('')}</div>`;
   return layout({ title: 'Library', canonical: `${BASE_URL}/`, body });
 }

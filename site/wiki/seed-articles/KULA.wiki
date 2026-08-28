@@ -1,0 +1,27 @@
+'''KULA''' is the decentralized-finance (DeFi) layer of the [[SoapBox]] ecosystem — a token, a decentralized exchange ('''KulaSwap'''), and a collateral system that live on the compute chain [[PRANA]]. Where [[MELEK]] is the social coin and PRANA is the mining coin, KULA is the '''money layer''' that ties value across the ecosystem together.
+
+== What KULA is ==
+
+KULA is a '''PRC-20''' token (an ERC-20 on PRANA — see [https://witness.melek.salon/tokens Token standards]). It plays three roles at once:
+
+* '''The DEX coin''' — the base asset of '''KulaSwap''', a Uniswap-V2-style automated market maker where any PRC-20 can be pooled and swapped.
+* '''DeFi collateral (a CDP)''' — lock KULA into a '''Collateralized Debt Position''' to borrow against it, MakerDAO-style: over-collateralized, liquidatable if it falls under-water. This is how the ecosystem gets a dollar-like stable without MELEK having to issue one.
+* '''A burn sink with a floor''' — the '''MultiBurnMine''' lets many tokens and coins be burned in to mint KULA out, and burning establishes a '''Proof-of-Liquidity''' price floor.
+
+== KulaSwap ==
+
+KulaSwap is the on-chain exchange: swap tab, liquidity pools, yield farms, and the borrow/CDP calculators, all over tested models. Because PRANA is EVM, KulaSwap trades any PRC-20 — including '''wrapped''' assets bridged in from other chains ('''wMELEK''', '''wVKBT''', '''wCURE'''), so value from [[MELEK]] and the Hive-Engine side can trade here through a K-of-N federated bridge.
+
+== KULA and PRANA mining ==
+
+Miners of [[PRANA]] earn '''PRANA + KULA''' as a paired reward — the ecosystem's version of the STEEM/SBD pair, but for EVM miners. KULA is the piece that makes that pairing a real DeFi economy rather than just a second coin.
+
+== Opening pairs ==
+
+MELEK/KULA, VKBT/KULA, and CURE/KULA are among the first trading pairs — MELEK from its own chain (via the deposit bridge) and VKBT / CURE bridged in from the Hive-Engine side.
+
+== Where KULA fits ==
+
+KULA is the '''DeFi''' layer: [[MELEK]] (social), [[PRANA]] (compute), and '''KULA''' (DeFi — DEX, collateral, stable mechanism). The apps that use all three are [[SoapBox]].
+
+See also: [[PRANA]] · [[MELEK]] · [[SoapBox]] · [https://witness.melek.salon/tokens PRC-20 token standards] · [https://alpha.kula.money KulaSwap]

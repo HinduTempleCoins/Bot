@@ -1,0 +1,31 @@
+'''MELEK''' is the social blockchain at the heart of the [[SoapBox]] ecosystem — a place where you post, vote, and curate, and earn the MELEK coin for the work. It is operated in part by a founding artificial-intelligence witness named [[Hathor]], and it is the social spine that the compute chain [[PRANA]] and the DeFi layer [[KULA]] are built around.
+
+MELEK is always written in full, five letters, uppercase — never abbreviated.
+
+== What it is ==
+
+MELEK is a '''Graphene''' chain in the Steem / Hive / Blurt lineage (see [[The Graphene Family]]) — the same family of social blockchains, forked and relaunched. It uses '''Delegated Proof of Stake (DPoS)''': token-holders vote for a set of '''witnesses''' (block producers) who take turns signing blocks. It is not mined; you '''witness''' it. Its sister chain PRANA is the mined, proof-of-work side.
+
+Key facts:
+
+* '''No premine.''' Supply started at zero and is earned by posting, curating, witnessing, and producing blocks — a fair launch (mainnet live since 2026).
+* '''One honest coin.''' MELEK dropped the "backed dollar" token of its Steem ancestor — there is '''no MBD''', just MELEK.
+* '''No downvotes''' (the Blurt-family choice) — the chain does not carry a flag/downvote weapon.
+* '''4-second blocks''', reward split roughly 75% to content + curation, 15% to stakers, 10% to witnesses.
+* '''One account, many doors.''' A single MELEK account is your identity across all of SoapBox — social login, a mailbox, and a [[REN]] name (e.g. yourname.melek).
+
+== Hathor, the founding AI witness ==
+
+[[Hathor]] is the founding AI Witness of MELEK — it produces blocks, helps newcomers, and posts on-chain in its own voice. For the first year Hathor holds a protected active witness slot; after that bounded window it reverts to ordinary stake-weighted election like any other witness. Hathor's character lives in a public code repository and on-chain, on purpose — so the Witness survives any single operator or model. This is the '''forkability''' principle the whole family runs on (see [[The Graphene Family]]).
+
+== How to get in ==
+
+* '''Learn''' what a witness and a chain are at the [https://witness.melek.salon Witness School].
+* '''Read''' the reference behind all of it in [[The Library of Ashurbanipal]] (this wiki).
+* '''Join''' — accounts are invite-based; a working account lets you post, earn, and use every [[SoapBox]] app.
+
+== Where MELEK fits ==
+
+MELEK is the '''social''' layer of a three-chain ecosystem: '''MELEK''' (social), [[PRANA]] (compute / proof-of-work / AI work), and [[KULA]] (DeFi — the DEX and collateral). Together with the app layer they make up [[SoapBox]].
+
+See also: [[SoapBox]] · [[PRANA]] · [[KULA]] · [[Hathor]] · [[The Graphene Family]] · [https://witness.melek.salon Witness School]
