@@ -3,7 +3,7 @@
 // The public face of the credential ISSUER (integrations/soapbox/credentials-issuer.mjs): browse the
 // credential programs we offer, VERIFY any MELEK credential (paste it — the check is a re-hash, no
 // secrets), and see the public REGISTRY. Honest throughout: these are legitimate NON-ACCREDITED
-// credentials (church-issued religious credentials, MELEK Press passes, and course-completion certs) —
+// credentials (Temple-issued religious credentials, MELEK Press passes, and course-completion certs) —
 // never college credit, a CEU, or a government license, and we say so on every page.
 //
 // Issuance itself is TEMPLE/OPERATOR-GATED (a bad actor must not be able to self-mint an ordination or a
@@ -94,7 +94,7 @@ const FOOTER = `<footer>
 </footer>`;
 
 function page(title, body, opts = {}) {
-  const desc = opts.description || 'MELEK Academy — earn and verify legitimate non-accredited credentials: church-issued religious credentials, MELEK Press passes, and course-completion certificates, issued as verifiable Open Badges.';
+  const desc = opts.description || 'MELEK Academy — earn and verify legitimate non-accredited credentials: Temple-issued religious credentials, MELEK Press passes, and course-completion certificates, issued as verifiable Open Badges.';
   const canonical = opts.canonical || `${BASE_URL}/`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -123,7 +123,7 @@ export function homePage() {
   }).join('');
   const body = `<h1>MELEK Academy <span class=muted style="font-size:14px">· earn a credential, verify a credential</span></h1>
     <p class=lead>A credential is only as real as who stands behind it. MELEK issues <b>legitimate,
-      non-accredited</b> credentials on the authority of what we actually are — a <b>church</b> and a
+      non-accredited</b> credentials on the authority of what we actually are — a <b>Temple</b> and a
       <b>publisher</b> — plus honest <b>certificates of completion</b> for our courses. Each one is a
       <b>verifiable Open Badge</b> (anyone can re-hash it to prove it is genuine), built to anchor on the
       MELEK/PRANA chain.</p>
@@ -378,7 +378,7 @@ export async function handler(req, res) {
     if (path === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
-      return res.end(llmsTxt({ name: 'MELEK Academy — credentials', baseUrl: BASE_URL, summary: 'Earn and verify legitimate non-accredited MELEK credentials: church-issued religious credentials, MELEK Press passes, and course-completion certificates, as verifiable Open Badges.', links: [{ label: 'Programs', path: '/' }, { label: 'Verify a credential', path: '/verify' }, { label: 'Registry', path: '/registry' }] }));
+      return res.end(llmsTxt({ name: 'MELEK Academy — credentials', baseUrl: BASE_URL, summary: 'Earn and verify legitimate non-accredited MELEK credentials: Temple-issued religious credentials, MELEK Press passes, and course-completion certificates, as verifiable Open Badges.', links: [{ label: 'Programs', path: '/' }, { label: 'Verify a credential', path: '/verify' }, { label: 'Registry', path: '/registry' }] }));
     }
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/verify' || path === '/verify.html') return sendHtml(res, verifyView({ id: url.searchParams.get('id') || '', c: url.searchParams.get('c') || '' }));
