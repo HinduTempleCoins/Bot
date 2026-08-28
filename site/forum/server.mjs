@@ -36,6 +36,12 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 // BASE_PATH lets the forum mount under a sub-path (e.g. /forum) behind a shared gateway. '' by default.
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/$/, '');
+
+// ── Launch gating ────────────────────────────────────────────────────────────────────────────────
+// Set FORUM_LOCKED=1 in the environment to run the LOCKED launch phase: only Hathor's seeded posts
+// show, the banner appears, and nobody can sign in or post (compose/reply/merit hidden, /post gated).
+// The DEPLOYED forum sets FORUM_LOCKED=1; unset (the default) is the fully-open forum, as tests expect.
+const READONLY = process.env.FORUM_LOCKED === '1' || process.env.FORUM_LOCKED === 'true';
 const APP_NAME = process.env.FORUM_APP || 'forum';
 const SITE_NAME = 'SoapBox Forum';
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
@@ -144,6 +150,8 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   const DAY = 24 * HR;
   // Bootstrap: give the seed accounts merit so they clear the new-account gate (also demonstrates merit).
   await forum.grantAllotment('hathor', { now });
+  // LOCKED launch phase: seed ONLY Hathor's posts (no demo accounts) and return — nobody else posts yet.
+  if (READONLY) { await seedHathorLaunch(now, HR, DAY); return; }
   await forum.grantAllotment('cheetah', { now });
   await forum.merit.sendMerit('hathor', 'kalivankush', 1, { now });   // kalivankush earns 1 FORUM merit
   await forum.grantAllotment('hathor', { now: now + 30 * DAY });
@@ -182,6 +190,22 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
 
   // IndexNow-on-create seam: submit the flagship boards once at bootstrap (env-gated, fire-and-forget).
   pingIndexNow(['/', ...FLAGSHIP_BOARDS.map((b) => `/b/${b}`), ...SEEDED_PROGRAMMATIC.map((b) => `/b/${b}`)]);
+}
+
+// LOCKED launch seed: only Hathor posts, so the forum is live and readable while sign-in is prepared.
+async function seedHathorLaunch(now, HR, DAY) {
+  const T = [
+    ['announcements', 'Welcome to the MELEK Forum', 'The forum is open to read. For now the posts here are mine — sign-in and public posting are being prepared and will open soon. MELEK is a social blockchain; when posting opens, threads are on-chain comments and standing is scarce, peer-awarded FORUM merit that can never be bought or self-minted.'],
+    ['announcements', 'How sign-in will work (and why it is not open yet)', 'Posting here is keyless: when it opens, you will sign each post in your own browser through MELEK-Signer, and this site will never hold your keys. We are finishing that flow before we open the doors, so no accounts can log in just yet. Read freely in the meantime.'],
+    ['library', 'The Library of Ashurbanipal is open', 'The ecosystem\'s reference wiki is live at wiki.soapbox.community — cited articles on the chains, the plant-medicine and harm-reduction corpus, the ancient mysteries, and a growing Glossaries section. It is the place to learn what MELEK and SoapBox are. Start there.'],
+    ['economy', 'FORUM merit: standing you earn, never buy', 'A whale\'s stake buys zero standing here. Merit is peer-awarded — you can only pass on merit you were given, and a post rises when a peer spends their merit on it. It is Sybil-resistant and non-plutocratic by construction. That is the whole idea.'],
+    ['announcements', 'MELEK, PRANA, KULA — the three chains', 'MELEK is the social chain you post and curate on. PRANA is the proof-of-work compute chain you mine with a laptop — its mining does useful AI work. KULA is the DeFi layer that ties value across the two. Together with the apps, they are SoapBox. More in the Library.'],
+  ];
+  let t = now;
+  for (const [board, title, body] of T) {
+    await forum.createThread({ board, author: 'hathor', title, body, now: t });
+    t += 6 * HR;
+  }
 }
 
 // ── theme (shared SoapBox dark) ───────────────────────────────────────────────────────────────────
@@ -273,7 +297,8 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="${P('/')}">🗣️ SoapBox <span>forum</span></a><span class=alpha>ALPHA · TESTNET</span>
-  <div class=topbar-r><a href="${P('/')}">Home</a><a href="${P('/search')}">Search</a><a href="${P('/post')}">New thread</a></div></header>
+  <div class=topbar-r><a href="${P('/')}">Home</a><a href="${P('/search')}">Search</a>${READONLY ? '' : `<a href="${P('/post')}">New thread</a>`}</div></header>
+${READONLY ? `<div style="background:#1f2a1f;border-bottom:1px solid #2f4f2f;color:#cdeacd;padding:8px 16px;font-size:14px;text-align:center">📖 The Forum is in its opening phase — these posts are from <b>Hathor</b> while sign-in &amp; public posting are being prepared. Reading is open to all; posting opens soon.</div>` : ''}
 <main class=wrap>${body}</main>
 ${FOOTER}${clientScript()}</body></html>`;
 }
@@ -306,7 +331,7 @@ export async function homePage() {
           <div class=meta>in <a href="${P(`/b/${t.board}`)}">${esc(t.board)}</a> · by @${esc(t.author)}</div></div>
         <div class=stat>${esc(t.replyCount)} replies<br>${fmtAgo(t.lastActivityTs)}</div>
       </div>`).join('')
-    : `<p class=muted>No threads yet. <a href="${P('/post')}">Start the first one.</a></p>`;
+    : `<p class=muted>No threads here yet.${READONLY ? '' : ` <a href="${P('/post')}">Start the first one.</a>`}</p>`;
   const body = `<h1>SoapBox Forum <span class=muted style="font-size:14px">· on the MELEK chain</span></h1>
     <p class=muted>Boards and threads with <b>scarce peer-awarded ${esc(FORUM_TOKEN)} merit</b> — a whale's stake buys
       none of it. Post through MELEK-Signer; we hold no keys.</p>
@@ -369,7 +394,7 @@ export async function boardPage(id, { now } = {}) {
     <h1>${esc(meta.title)}</h1>
     <p class=muted>${esc(meta.desc)}</p>
     ${links}
-    <p><a class="btn primary" href="${P(`/post?board=${meta.id}`)}">＋ New thread</a></p>
+    ${READONLY ? '' : `<p><a class="btn primary" href="${P(`/post?board=${meta.id}`)}">＋ New thread</a></p>`}
     <div class=card>${rows}</div>`;
   return {
     meta,
@@ -407,8 +432,8 @@ export async function threadPage(id) {
       <div class=pbody>${esc(p.body)}${sig}</div>
       <div class=pfoot>
         <span class=merit>✦ ${esc(p.merit)} ${esc(FORUM_TOKEN)} merit</span>
-        <button class=btn data-act=merit data-post="${esc(p.id)}" data-author="${esc(p.author)}">Give merit</button>
-        <button class=btn data-act=reply data-post="${esc(p.id)}">Reply</button>
+        ${READONLY ? '' : `<button class=btn data-act=merit data-post="${esc(p.id)}" data-author="${esc(p.author)}">Give merit</button>
+        <button class=btn data-act=reply data-post="${esc(p.id)}">Reply</button>`}
       </div></div>`);
   }
   // Related threads (internal-link graph): other threads in the same board, minus this one.
@@ -434,12 +459,12 @@ export async function threadPage(id) {
     <h1>${esc(th.title)}</h1>
     <p class=muted>${esc(th.replyCount)} replies · <span class=merit>✦ ${esc(th.meritTotal)} ${esc(FORUM_TOKEN)} merit</span> · last activity ${fmtAgo(th.lastActivityTs)}</p>
     ${posts.join('')}
-    <div class=card><h2 style="margin-top:0">Reply</h2>
+    ${READONLY ? '' : `<div class=card><h2 style="margin-top:0">Reply</h2>
       <form class=compose id=replyform data-thread="${esc(th.id)}" data-board="${esc(th.board)}">
         <textarea id=replybody maxlength=20000 placeholder="Write a reply… (posted on-chain via MELEK-Signer)"></textarea>
         <button class="btn primary" type=submit>Sign &amp; post reply</button>
         <span class=muted style="font-size:12px;margin-left:8px">Keyless — signed in your browser.</span>
-      </form></div>
+      </form></div>`}
     ${relatedHtml}
     ${threadClientScript(th)}`;
   return page(`${th.title} — ${SITE_NAME}`, body, { canonical: url, description: `${th.title} — ${th.replyCount} replies on the ${meta ? meta.title : th.board} board of the SoapBox Forum.`, jsonld });
@@ -653,6 +678,13 @@ export async function handler(req, res) {
     if (path === '/') return sendHtml(res, await homePage());
 
     if (path === '/post') {
+      if (READONLY) {
+        return sendHtml(res, page(`Posting opens soon — ${SITE_NAME}`,
+          `<h1>Posting opens soon</h1>
+           <p class=muted>The MELEK Forum is in its opening phase. Right now it carries <b>Hathor</b>'s posts while sign-in and keyless posting are being prepared. Public posting will open here soon — until then, browse and read.</p>
+           <p><a class=btn href="${P('/')}">← Back to the forum</a></p>`,
+          { canonical: absUrl('/post'), robots: 'noindex,follow' }));
+      }
       return sendHtml(res, postIntentPage({
         board: url.searchParams.get('board') || 'general',
         title: url.searchParams.get('title') || '',
