@@ -1,0 +1,25 @@
+'''REN''' is the [[MELEK]] ecosystem's '''on-chain naming system''' — its "DNS blockchain." It maps human-readable names to blockchain addresses, content, and profile records, so that a person, wallet, or site can be referred to by a name like '''yourname.melek''' instead of a long hexadecimal address. REN is part of what makes a single MELEK identity '''portable''' across the whole [[SoapBox]] ecosystem.
+
+== The name ==
+
+REN is named for the Egyptian ''Ren'' — a being's true or secret name, one of the parts of the soul in Egyptian thought. The naming fits the Egyptian lineage of the ecosystem's founding witness, [[Hathor]].
+
+== What it is technically ==
+
+REN is an '''ENS-style name registry''' (modeled on Ethereum Name Service) '''deployed on [[PRANA]]''', the ecosystem's EVM-compatible compute chain. A registered name resolves to:
+
+* a '''wallet address''',
+* an '''IPFS contenthash''' (for a website or file), and
+* arbitrary '''text records''' (profile data).
+
+The sovereign top-level names are '''.melek''', '''.prana''', and '''.kula'''. Registration works on a domain-registrar model — an '''annual lease''' — rather than a one-time purchase.
+
+== Resolved by the ecosystem's own clients ==
+
+A defining feature of REN is that names are '''resolved by the ecosystem's own software''' — the Akasha wallet, [[Hathor]], and the ecosystem bots — reading directly from the PRANA network. It does not depend on ICANN, browser DNS, or third-party wallet plugins; it is a self-contained namespace.
+
+== Where REN fits ==
+
+REN sits alongside MELEK's social identity layer. A MELEK '''@account''' is your social identity on the [[MELEK]] Graphene chain; a '''REN''' name (on [[PRANA]]) is the address, content, and record layer of that same identity. Together they give one account a portable presence — name, address, and profile — across every [[SoapBox]] app.
+
+See also: [[MELEK]] · [[PRANA]] · [[SoapBox]] · [[Hathor]]

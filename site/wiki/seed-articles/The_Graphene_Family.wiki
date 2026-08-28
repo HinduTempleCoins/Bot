@@ -1,0 +1,24 @@
+'''The Graphene family''' is the group of social blockchains that all descend from '''Steem''' (2016) and share the '''Graphene''' C++ codebase and its '''Delegated Proof of Stake (DPoS)''' design. [[MELEK]] is the newest member. Understanding the family — who cloned whom, who forked, and why — is how you understand what MELEK is: not a chain that appeared from nowhere, but a legitimate continuation of a well-worn lineage.
+
+== Same code, different chains ==
+
+A Graphene chain is defined by a handful of constants (chain id, symbol, prefix), so the codebase is '''forked and re-launched''' again and again. The main line:
+
+* '''[[STEEM Blockchain|Steem]]''' (2016) — the first social-token Graphene/DPoS chain: post, vote, curate, earn a coin. The pattern everything else descends from.
+* '''[[HIVE Blockchain|Hive]]''' (2020) — a community hard-fork of Steem (see below).
+* '''[[BLURT Blockchain|Blurt]]''' (2020) — another Steem fork that dropped downvotes and the "dollar" token for a simpler, one-coin chain. MELEK's direct lineage.
+* '''[[MELEK]]''' (2026) — Blurt-family: no MBD, no downvotes, a no-premine genesis, and a founding AI witness, [[Hathor]].
+
+Other forks and DPoS social chains — Golos, Whaleshares, Weku, Serey, Scorum — fill out the rest of the family tree.
+
+== How DPoS works ==
+
+In '''Delegated Proof of Stake''', token-holders vote for a set of '''witnesses''' who take turns signing blocks. The chain is not mined — you '''witness''' it. This makes governance fast, feeless, and human-scale. It also makes a chain '''[[Forking|forkable]]''': its value lives in its community and its code, not in any company.
+
+== The fork that proved the point — Steem → Hive ==
+
+In 2020, Justin Sun's TRON acquired '''Steemit Inc''' and, with it, a large founder stake. When that stake — with exchanges voting user deposits — was used to swing the witness election and take control, the community '''hard-forked'''. [[HIVE Blockchain|Hive]] launched as a copy of Steem's state minus the contested stake: the company kept "Steem," the community kept the chain.
+
+The lesson is '''forkability''': if an owner turns hostile, the people can walk out the door and take the chain with them. This is load-bearing for MELEK — [[Hathor]]'s character and corpus live in a public repo and on-chain precisely so the Witness survives any single operator or model.
+
+See also: [[STEEM Blockchain]] · [[HIVE Blockchain]] · [[BLURT Blockchain]] · [[MELEK]] · [[Forking]] · [[Cloning]] · [[Hathor]]

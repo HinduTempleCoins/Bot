@@ -1,0 +1,133 @@
+'''Cannabis''' (also '''marijuana''', '''weed''', '''ganja''', '''herb''') is a genus of flowering plant used by humans for medicine, ritual, fiber, and intoxication for thousands of years. This article is an '''education and reference''' entry in [[The Library of Ashurbanipal]]: it covers the plant's history and ethnobotany, its botany, and the pharmacology of its active compounds (cannabinoids, terpenes, and the human endocannabinoid system). It draws on the '''Van Kush Family Research Institute'''' ''Comprehensive Marijuana Education Guide'' (January 2026) and the peer-reviewed literature that guide cites.
+
+For the practical, safety-first companion — effects, methods of use, dosing and tolerance, risks, contraindications, drug interactions, testing, and legal/religious context — see '''[[Cannabis Harm Reduction]]'''. This article is reference material about the plant and its chemistry; it is '''not''' a cultivation, extraction, or manufacturing manual, and it does not give production instructions.
+
+== What cannabis is ==
+
+Cannabis is an annual '''flowering plant'''. The part people smoke or process is literally the '''flower''' ("bud") of the '''female''' plant. Like all flowers, its biological purpose is reproduction, and this simple fact explains a great deal of the plant's chemistry and folklore.
+
+Three names commonly used as "species" or types — ''Cannabis sativa'', ''Cannabis indica'', and ''Cannabis ruderalis'' — are better understood today as a continuum of a single, highly variable plant. As discussed under [[Cannabis Harm Reduction|effects]], the sativa/indica label is a much weaker predictor of how a variety feels than its actual '''chemical profile'''.
+
+== History and ethnobotany ==
+
+Cannabis is one of humanity's oldest cultivated plants, with archaeological and textual evidence of use across Central and East Asia, the Indian subcontinent, the Middle East, and Africa going back millennia — for cordage and cloth (hemp), for medicine, and in religious practice (for example ''bhang'' in the Indian tradition). It spread along trade and migration routes into nearly every inhabited region, adapting to local climates as it went.
+
+=== Landrace strains ===
+
+'''Landrace strains''' are cannabis varieties that developed over centuries in a specific geographic region, adapting naturally to that local environment. They are the '''genetic foundation''' of all modern cannabis. The VKFRI guide catalogs several classic landraces:
+
+{|
+! Landrace !! Region !! Traditional character
+|-
+| Durban Poison || South Africa || Sativa, energetic, sweet
+|-
+| Hindu Kush || Afghanistan / Pakistan || Indica, sedating, earthy
+|-
+| Thai Stick || Thailand || Sativa, cerebral, long flowering
+|-
+| Afghani || Afghanistan || Indica, resinous
+|-
+| Acapulco Gold || Mexico || Sativa, uplifting
+|-
+| Colombian Gold || Colombia || Sativa, stimulating
+|-
+| Malawi Gold || Malawi || African sativa, potent
+|-
+| Panama Red || Panama || Sativa, cerebral
+|}
+
+The guide offers a useful analogy: '''landraces are to modern cannabis what wolves are to dogs.''' Landraces carry wide genetic diversity, evolved in the wild for their environment; modern dispensary strains are like dog breeds — selectively bred for a narrow set of prized traits (high THC, dense buds, fast flowering, "bag appeal"), with a much narrower genetic base. That selection has often ''lost'' traits that still survive in landraces: unusual terpene profiles, disease resistance, climate adaptation, and rare cannabinoid ratios. This is why breeders prize landraces as a genetic reservoir.
+
+== Botany: why buds are "seedless" ==
+
+The prized, resin-heavy flower most consumers know is '''sensimilla''' — from the Spanish ''sin semilla'', "without seeds." Understanding it is pure plant biology, not a grow recipe:
+
+* Cannabis flowers to reproduce. A '''female''' flower that is '''pollinated''' by a male puts its energy into making '''seeds'''.
+* A female flower that is '''never pollinated''' cannot make seeds, so that energy is redirected. The plant instead produces more '''trichomes''' (the resin glands that contain the cannabinoids), larger '''calyxes''' (the "nuggets" that make up a bud), and more '''terpenes''', and it extends its flowering period — in effect advertising harder for a pollinator that never comes.
+* The result is a bigger, more potent, resin-covered, seedless flower.
+
+This is a botanical explanation of ''why'' un-pollinated female flowers are so resinous. It is not a set of cultivation instructions. Modern commercial seed is often "feminized" (bred to produce almost entirely female plants); the mechanism is well documented in the horticultural literature, but the step-by-step procedure is outside the scope of this reference.
+
+== Genetics: how varieties are made ==
+
+Cannabis breeding follows ordinary Mendelian genetics — the same principles Gregor Mendel worked out with pea plants. A short conceptual tour (again, concept, not a how-to manual):
+
+* '''F1 (first cross).''' Cross two distinct parents (say an African sativa landrace with a California indica) and the first-generation offspring are '''variable''' — a single seed batch can express many different "phenotypes" (physical expressions). F1 hybrids are ''not'' "locked in."
+* '''Stabilizing (F2, F3, F4+).''' By selecting the plants closest to a desired type and breeding them across successive generations, variation narrows and traits become predictable. By roughly F5–F6 a variety is stable enough that its seeds reliably reproduce its character — this is what "a stable strain" means.
+* '''Recessive traits.''' Later generations show ''more'' variation at first, because recessive genes hidden in the F1 re-emerge (Mendel's classic 3:1 ratio). Unusual colors (purple, near-black, pink), heavy trichome coverage, and odd leaf or growth forms are often recessive — which is why "interesting" plants, not merely the biggest ones, carry the most breeding value.
+* '''Hybrid vigor (heterosis).''' Crossing two genetically distinct lines can yield offspring more vigorous than either parent, as hidden strengths from both lines combine. The well-known variety ''Cherry Pie'' (Durban Poison × Granddaddy Purple) is a commonly cited example.
+* '''Backcrossing.''' Crossing a derivative back to an original parent line reinforces that parent's genetics while letting them appear in a new context, surfacing recessive traits and novel combinations.
+
+Because cannabis has a very short generation time (3–4 months, versus years for apples or cattle), thousands of breeders worldwide can select millions of plants annually. The guide notes this has produced an unusually '''rapid, accelerating evolution''': from landraces around 10–15% THC in the 1970s to modern hybrids exceeding 30% THC and to entirely new cannabinoid profiles (high-THCV, high-CBG, and so on). ''(These potency figures reflect selective-breeding trends reported in the guide and industry testing; exact percentages vary by variety and lab.)''
+
+== Pharmacology: cannabinoids ==
+
+Cannabis produces a large family of '''cannabinoids''' — compounds that interact with the body's own '''endocannabinoid system''' (see below). The best known:
+
+* '''THC (Δ9-tetrahydrocannabinol)''' — the primary '''psychoactive''' cannabinoid. It is a partial agonist at '''CB1''' receptors (concentrated in the brain and nervous system), which produces the characteristic intoxication.
+* '''CBD (cannabidiol)''' — non-intoxicating. It does not bind CB1 the way THC does and modulates the system through other pathways; it is widely studied for anxiety, seizure, and anti-inflammatory effects. A common myth — that CBD is "more concentrated in resin than in flowers," or that indica automatically means more CBD — is '''not''' accurate. Most modern strains are low in CBD regardless of indica/sativa label.
+* '''Other cannabinoids''' — CBG (often called the "mother cannabinoid"), CBN (associated with aged cannabis and sedation), THCV, and others, each with distinct and still-being-researched activity.
+
+Two receptors matter most: '''CB1''' (mostly central nervous system; the site of THC's psychoactivity) and '''CB2''' (mostly immune and peripheral tissue; associated with anti-inflammatory effects and ''not'' with intoxication).
+
+== Pharmacology: terpenes and the entourage effect ==
+
+'''Terpenes''' are the aromatic compounds that give each variety its smell and flavor — but they are '''not just''' flavor. They are pharmacologically active: they cross the blood-brain barrier, interact with neurotransmitter systems, and can modulate how THC affects the brain. The idea that cannabinoids and terpenes act together — each shaping the others' effect — is called the '''entourage effect''', a hypothesis most associated with the pharmacologist Ethan Russo. ''(The entourage effect is well-supported as a framework and partly demonstrated in vitro; the precise magnitude of many specific terpene–cannabinoid interactions in humans is still an active research question, i.e. a reasonable claim, not a fully settled fact.)''
+
+Key terpenes noted in the guide:
+
+{|
+! Terpene !! Aroma !! Reported effect !! Also found in
+|-
+| Myrcene || Earthy, musky || Sedating, "couch-lock" || Mangoes, hops
+|-
+| Limonene || Citrus || Uplifting, mood-elevating || Citrus fruits
+|-
+| Pinene || Pine || Alertness, focus || Pine trees
+|-
+| Linalool || Floral, lavender || Calming, anti-anxiety || Lavender
+|-
+| β-Caryophyllene || Peppery, spicy || Anti-inflammatory (CB2 agonist) || Black pepper
+|-
+| Terpinolene || Fresh, herbal || Slightly sedating || Lilacs, nutmeg
+|}
+
+'''The myrcene rule of thumb:''' myrcene content above about 0.5% tends to indicate sedating effects, and is often ''more'' predictive of how a variety feels than the indica/sativa label. A "sativa" high in myrcene can feel like an indica; an "indica" high in limonene can feel uplifting.
+
+'''β-Caryophyllene''' is a special case: it behaves as both a terpene ''and'' a cannabinoid, acting as a full agonist at '''CB2''' receptors (reported Ki ≈ 155 nM) while ''not'' binding CB1 — so it produces anti-inflammatory effects with no intoxication of its own. This is one reason varieties high in caryophyllene are associated with pain relief without added sedation. ''(Established: Gertsch et al. 2008 identified β-caryophyllene as a dietary CB2 agonist.)''
+
+This chemistry is why two strains with '''identical THC percentages can feel completely different''': a 25% THC strain high in myrcene and linalool feels heavy and sedating, one high in limonene and pinene feels energetic, and one high in caryophyllene leans toward pain relief. '''The terpenes, not the THC number alone, shape the experience.'''
+
+== The endocannabinoid system ==
+
+The human body makes its own cannabinoids and has a whole regulatory system for them — the '''endocannabinoid system (ECS)''' — which cannabis compounds "borrow":
+
+* '''2-AG (2-arachidonoylglycerol)''' — a major endocannabinoid the body produces.
+* '''Anandamide''' — another key endocannabinoid (its name comes from ''ananda'', Sanskrit for "bliss").
+* '''MAGL (monoacylglycerol lipase)''' — the enzyme that breaks down 2-AG.
+* '''FAAH (fatty acid amide hydrolase)''' — the enzyme that breaks down anandamide.
+
+Because these enzymes clear the body's own cannabinoids, compounds that '''inhibit''' them can make natural cannabinoids last longer, producing enhanced effects — an active area of drug research (Di Marzo 2018).
+
+A cross-plant curiosity from the guide, framed there as "oilahuasca science" (by analogy to how ayahuasca combines DMT with an MAO inhibitor to make it orally active): certain plant compounds may enhance or prolong cannabinoid effects. The clearest documented example is '''yangonin''', one of the six major kavalactones in '''kava''' (''Piper methysticum''), which binds '''CB1''' receptors (reported Ki ≈ 0.72 μM) — the only kavalactone shown to do so — which may help explain kava's mild cannabis-like relaxation. ''(This is a documented receptor-binding finding, Ligresti et al. 2012; combining psychoactive substances carries its own risks — see'' [[Cannabis Harm Reduction]]''.)''
+
+== Hemp vs. drug cannabis ==
+
+The same species yields both '''hemp''' (industrial varieties bred for fiber and seed, with very low THC — legally under 0.3% THC in the United States) and '''"marijuana"''' (drug varieties bred for high cannabinoid content). They are the same plant differing in chemistry and breeding history, not different species.
+
+== Scope note ==
+
+This article is deliberately '''reference and education about the plant and its chemistry'''. General facts — that cultivation, breeding, and extraction methods exist, and the botanical or genetic principles behind them — are in scope. Step-by-step cultivation, feminization, extraction, or processing instructions are '''not''', and are intentionally omitted. For safety, dosing, interactions, and legal context, continue to '''[[Cannabis Harm Reduction]]'''.
+
+== Sources ==
+
+* Van Kush Family Research Institute, ''Comprehensive Marijuana Education Guide'' (January 2026).
+* Russo, E.B. (2011). "Taming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects." ''British Journal of Pharmacology'' 163(7), 1344–1364.
+* Gertsch, J. et al. (2008). "Beta-caryophyllene is a dietary cannabinoid." ''PNAS'' 105(26), 9099–9104.
+* Ligresti, A. et al. (2012). "Kavalactones and the endocannabinoid system: the plant-derived yangonin is a novel CB1 receptor ligand." ''Pharmacological Research'' 66(2), 163–169.
+* Pertwee, R.G. (2008). "The diverse CB1 and CB2 receptor pharmacology of three plant cannabinoids." ''British Journal of Pharmacology'' 153(2), 199–215.
+* Di Marzo, V. (2018). "New approaches and challenges to targeting the endocannabinoid system." ''Nature Reviews Drug Discovery'' 17(9), 623–639.
+* Clarke, R.C. & Merlin, M.D. (2013). ''Cannabis: Evolution and Ethnobotany''. University of California Press.
+* Small, E. (2015). "Evolution and Classification of Cannabis sativa (Marijuana, Hemp) in Relation to Human Utilization." ''The Botanical Review'' 81(3), 189–294.
+
+See also: [[Cannabis Harm Reduction]] · [[The Library of Ashurbanipal]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Glossaries]]
