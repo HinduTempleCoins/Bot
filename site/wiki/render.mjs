@@ -94,7 +94,12 @@ export function renderWiki(text) {
     .replace(/'''(.+?)'''/g, '<b>$1</b>')
     .replace(/''(.+?)''/g, '<i>$1</i>')
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, l, txt) => `<a href="/wiki/${slugify(l)}">${txt}</a>`)
-    .replace(/\[\[([^\]]+)\]\]/g, (_, l) => `<a href="/wiki/${slugify(l)}">${l}</a>`);
+    .replace(/\[\[([^\]]+)\]\]/g, (_, l) => `<a href="/wiki/${slugify(l)}">${l}</a>`)
+    // external links (MediaWiki-style): [url text] and bare [url]; then autolink stray URLs. A reference
+    // wiki cites outside sources, so external links are first-class. rel=nofollow on all outbound.
+    .replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, (_, url, txt) => `<a href="${url}" rel="nofollow">${txt}</a>`)
+    .replace(/\[(https?:\/\/[^\s\]]+)\]/g, (_, url) => `<a href="${url}" rel="nofollow">${url}</a>`)
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)(?=[\s).,;]|$)/g, (_, pre, url) => `${pre}<a href="${url}" rel="nofollow">${url}</a>`);
 
   const lines = t.split('\n');
   const out = [];
