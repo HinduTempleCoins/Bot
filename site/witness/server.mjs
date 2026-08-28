@@ -159,6 +159,7 @@ export function homePage() {
   ];
   const tools = [
     ['/build', 'How a chain is built', 'The anatomy behind MELEK — the constants that define a Graphene chain (symbol, prefix, sha256 chain id, inflation) and how to stand up your own two-witness test net. Adapted from @jga\'s guide.'],
+    ['/tokens', 'Token standards (PRC-20)', 'What an ERC-20 really is, why TRC-20 / BEP-20 / our PRC-20 are the same standard re-branded per chain, and how to mint your own on PRANA — no-code (Engine) or your own contract. We want you building here.'],
     ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
@@ -918,7 +919,188 @@ private-key = &lt;initminer WIF&gt;</pre>
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /tokens (alias /prc20) — token standards across chains: ERC-20 / TRC-20 / BEP-20 / PRC-20 ─────
+export function tokenStandardsPage() {
+  const PRANA_CID = process.env.PRANA_MAINNET_CHAIN_ID || '712217';
+  // Historical credit: the 2018 Bitcointalk resource thread this lesson grows out of.
+  const CLONES_THREAD = 'https://bitcointalk.org/index.php?topic=4942644.0';
+  const OZ = 'https://docs.openzeppelin.com/contracts/erc20';
+  const EIP20 = 'https://eips.ethereum.org/EIPS/eip-20';
+  const EIP1167 = 'https://eips.ethereum.org/EIPS/eip-1167';
+  const REMIX = 'https://remix.ethereum.org/';
+  const WIZARD = 'https://wizard.openzeppelin.com/';
+  const erc20 = `contract MyToken is ERC20 {
+    constructor() ERC20("My Token", "MYT") {
+        _mint(msg.sender, 1_000_000 * 10 ** decimals());
+    }
+}`;
+  const rows = [
+    ['ERC-20', 'Ethereum', 'EVM', 'The original — <a href="' + esc(EIP20) + '">EIP-20</a>, 2015. Every other <b>-20</b> is this interface.'],
+    ['TRC-20', 'TRON', 'TVM (EVM-compatible)', 'The exact same interface on TRON. A TRC-20 token is an ERC-20 the TRON VM runs.'],
+    ['BEP-20', 'BNB Chain', 'EVM', 'ERC-20 with a few conventions added. Same six functions underneath.'],
+    ['PRC-20', 'PRANA', 'EVM (core-geth)', 'Our name for it. A PRC-20 <b>is</b> an ERC-20 — deployed to PRANA (chain id <code>' + esc(PRANA_CID) + '</code>). <b>KULA</b>, <b>wMELEK</b>, <b>wVKBT</b> are PRC-20 tokens.'],
+  ];
+  const body = `<h1>Token standards <span class=muted style="font-size:14px">· ERC-20, TRC-20, BEP-20 — and PRC-20 on PRANA</span></h1>
+    <p class=lead>A "token" on an EVM chain is not magic and not a coin baked into the chain — it's a <b>smart
+      contract</b> that keeps a ledger and follows one small, agreed-upon interface. Learn that interface once and
+      you can read, make, and move tokens on <i>every</i> EVM chain — Ethereum, TRON, BNB Chain, and <b>PRANA</b>.
+      This is the EVM side of making a token; the MELEK-Engine / SCOT side is over on <a href="/academy">Make a
+      token</a>.</p>
+
+    <div class=card><h2>1 · What a "-20" token actually is</h2>
+      <p class=muted style="font-size:14px">The ERC-20 standard (<a href="${esc(EIP20)}">EIP-20</a>) is just a
+        <b>list of functions a contract promises to have</b>. A wallet or exchange that knows these can handle
+        <i>any</i> token, sight unseen — that's the whole point of a standard:</p>
+      <ul class=muted style="font-size:14px">
+        <li><code>totalSupply()</code> · <code>balanceOf(addr)</code> — how many exist, who holds what.</li>
+        <li><code>transfer(to, amt)</code> — send your own tokens.</li>
+        <li><code>approve(spender, amt)</code> · <code>allowance(owner, spender)</code> · <code>transferFrom(from, to, amt)</code>
+          — let a contract (a DEX, a bridge) move your tokens <i>with your permission</i>. This is how KulaSwap
+          and the bridge work.</li>
+        <li>Two events — <code>Transfer</code> and <code>Approval</code> — so explorers can follow the ledger.</li>
+      </ul>
+      <p class=muted style="font-size:13px">That's it. The balances live in a <code>mapping(address =&gt; uint256)</code>
+        inside the contract. A token is a ledger with those six functions bolted on.</p>
+    </div>
+
+    <div class=card><h2>2 · One standard, many chains</h2>
+      <p class=muted style="font-size:14px">Because these chains all run the <b>EVM</b> (or an EVM-compatible VM),
+        the <i>same</i> ERC-20 interface is simply re-branded per chain. Learn it once, deploy it anywhere:</p>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:6px 10px">Name</th><th style="padding:6px 10px">Chain</th><th style="padding:6px 10px">VM</th><th style="padding:6px 10px">What it is</th></tr>
+        ${rows.map(([n, c, v, note]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:6px 10px"><b>${esc(n)}</b></td><td style="padding:6px 10px">${esc(c)}</td><td style="padding:6px 10px">${esc(v)}</td><td style="padding:6px 10px">${note}</td></tr>`).join('')}
+      </table></div>
+      <p class=muted style="font-size:13px;margin-top:8px">Same interface ⇒ the same tools work everywhere:
+        <b>MetaMask</b> to hold, <a href="${esc(REMIX)}">Remix</a> or <b>Hardhat / Foundry</b> to build, an
+        Etherscan-style explorer (PRANA's is <b>PRANAScan</b>) to inspect. A dev who knows ERC-20 already knows
+        PRC-20 — there is nothing new to learn to build on PRANA.</p>
+    </div>
+
+    <div class=card><h2>3 · PRC-20 — in one line</h2>
+      <p style="font-size:15px"><b>A PRC-20 is an ERC-20 deployed to PRANA.</b> Same interface, same wallets, same
+        tooling; chain id <code>${esc(PRANA_CID)}</code>. We give it its own name the way TRON has <b>TRC-20</b> and
+        BNB Chain has <b>BEP-20</b> — not because it's a different technical standard, but because it's <i>our</i>
+        chain's tokens, and a name people can hold onto. <b>KULA</b> (the DeFi collateral coin), the wrapped bridge
+        tokens <b>wMELEK / wVKBT / wCURE</b>, and any token you deploy on PRANA are PRC-20s.</p>
+    </div>
+
+    <div class=card style="border-color:var(--up,#117a37)"><h2>The chain is open — mint your own</h2>
+      <p style="font-size:15px">We <b>want</b> other people making token mints here. A chain is only alive when
+        people build on it, so issuance on MELEK and PRANA is <b>permissionless</b> — you don't need our
+        permission, and there are two on-ramps depending on how much code you want to touch:</p>
+      <ul class=muted style="font-size:14px">
+        <li><b>No code — MELEK-Engine token.</b> Burn a little APIS to mint a token, turn on <b>SCOT</b> so posts
+          under your tag earn it, and list it on KulaSwap. Point-and-click via the
+          <a href="${esc(TOKENS_PORTAL)}">Tokens portal</a> · walkthrough on <a href="/academy">Make a token</a>.</li>
+        <li><b>Some code — your own PRC-20.</b> Generate it in the <a href="${esc(WIZARD)}">OpenZeppelin Wizard</a>,
+          compile in <a href="${esc(REMIX)}">Remix</a>, deploy to PRANA (chain id <code>${esc(PRANA_CID)}</code>).
+          Add features — mintable, burnable, capped, pausable — with a checkbox each.</li>
+        <li><b>At scale — a factory.</b> Want to let <i>your</i> users mint tokens? The EIP-1167 clone pattern
+          (below) is how you offer cheap one-click mints on top of one implementation you deploy once.</li>
+      </ul>
+      <p class=muted style="font-size:13px">Whatever you mint is a first-class citizen: tradeable on KulaSwap,
+        usable as CDP collateral, bridgeable. The point of the Academy is to hand you the whole on-ramp.</p>
+    </div>
+
+    <div class=card><h2>4 · Make one (the modern stack)</h2>
+      <p class=muted style="font-size:14px">Don't write the six functions yourself — inherit the audited
+        <a href="${esc(OZ)}">OpenZeppelin ERC20</a> base and add a name, symbol, and supply. The whole token:</p>
+      <pre>import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+${esc(erc20)}</pre>
+      <ol class=steps>
+        <li><b>Write &amp; compile</b> in <a href="${esc(REMIX)}">Remix</a> (in-browser, nothing to install) or
+          <b>Hardhat / Foundry</b> locally.</li>
+        <li><b>Add PRANA to MetaMask</b> — one tap from the <a href="/wallet">Akasha wallet</a> page (RPC + chain id
+          <code>${esc(PRANA_CID)}</code>).</li>
+        <li><b>Deploy</b> to PRANA and confirm it on <b>PRANAScan</b>. You now hold a PRC-20 you created.</li>
+      </ol>
+      <p class=muted style="font-size:13px">The same steps deploy to Ethereum, TRON, or BNB Chain — only the network
+        in MetaMask changes. That portability <i>is</i> the lesson.</p>
+    </div>
+
+    <div class=card><h2>5 · Clones &amp; factories — cheap tokens at scale</h2>
+      <p class=muted style="font-size:14px">Deploying a fresh contract per token costs gas. The
+        <a href="${esc(EIP1167)}">EIP-1167 minimal proxy</a> ("clone") deploys a tiny stub that delegates to one
+        shared implementation — so a <b>factory</b> can mint hundreds of tokens cheaply. In 2026 you do this with
+        OpenZeppelin's <code>Clones</code> library (<code>Clones.clone()</code> / <code>cloneDeterministic()</code>),
+        not a hand-rolled factory. It's how token-launch platforms work, and how PRANA's own token factory keeps
+        issuance affordable.</p>
+    </div>
+
+    <div class=card style="border-color:var(--goldink,#a8730c)"><h2>⚠ Don't follow 2018 tutorials into dead tools</h2>
+      <p class=muted style="font-size:14px">Most "make an Ethereum token" guides online are from the 2017–2018
+        boom and point at tools that are now retired. The <b>ideas</b> still hold; the <b>tools</b> changed. If a
+        tutorial says the left, use the right:</p>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:13px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:5px 10px">2018 tutorial says…</th><th style="padding:5px 10px">Use in 2026</th></tr>
+        ${[
+          ['Truffle', 'Foundry (forge/anvil/cast) or Hardhat'],
+          ['Ganache / ganache-cli', 'Anvil or Hardhat node'],
+          ['Mist / Ethereum Wallet', 'MetaMask (Mist was discontinued 2019)'],
+          ['Parity / OpenEthereum', 'Geth · Nethermind · Reth'],
+          ['web3.js', 'ethers v6 or viem'],
+          ['SafeMath library', 'nothing — Solidity 0.8+ checks overflow itself'],
+          ['ConsenSys/Tokens · TokenMint · POA wizard', 'OpenZeppelin Contracts v5 + the OZ Wizard'],
+          ['hand-rolled clone-factory', "OpenZeppelin <code>Clones</code>"],
+          ['Oraclize', 'Chainlink'],
+          ['ICO launchpads (TokenMarket, Eidoo…)', 'a dead + legally radioactive category — skip it'],
+        ].map(([o, n]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:5px 10px;color:var(--down,#c0392b)">${esc(o)}</td><td style="padding:5px 10px">${n}</td></tr>`).join('')}
+      </table></div>
+      <p class=muted style="font-size:13px;margin-top:8px">Beginner path: <a href="${esc(WIZARD)}">OpenZeppelin
+        Wizard</a> → <a href="${esc(REMIX)}">Remix</a> → MetaMask. Then graduate to Foundry. Read
+        <a href="https://docs.soliditylang.org/en/latest/">Solidity by Example</a> (official) and the Foundry Book,
+        not the Medium/Truffle-era walk-throughs.</p>
+    </div>
+
+    <div class=card><h2>6 · Where PRC-20s live in the ecosystem</h2>
+      <ul class=muted style="font-size:14px">
+        <li><b>KULA</b> — a PRC-20 that is DeFi collateral: lock it to borrow (the CDP), or burn other tokens into
+          it (the <i>MultiBurnMine</i>: many PRC-20s in → KULA out).</li>
+        <li><b>Wrapped bridge tokens</b> — <b>wMELEK / wVKBT / wCURE</b> are PRC-20s that mirror value locked on
+          MELEK / Hive-Engine, so those assets can trade on <b>KulaSwap</b>.</li>
+        <li><b>KulaSwap</b> pairs — any PRC-20 can be pooled and swapped (a Uniswap-V2 AMM on PRANA).</li>
+      </ul>
+    </div>
+
+    <div class=card><h2>Beyond tokens — build apps, social, games</h2>
+      <p class=muted style="font-size:14px">A token is the first thing you make on a chain, not the last. The same
+        EVM skills — Solidity, Remix, MetaMask, a wallet connection — build everything else, and the same
+        "learn-once, deploy-anywhere" rule holds. Where to go next:</p>
+      <ul class=muted style="font-size:14px">
+        <li><b>NFTs &amp; items</b> — <code>ERC-721</code> (unique) and <code>ERC-1155</code> (mixed) are the next
+          standards after ERC-20, same OpenZeppelin base. Game items, memberships, tickets.</li>
+        <li><b>Social media</b> — MELEK itself is a social chain (posts, votes, curation earn a coin); the
+          Engine/SCOT model lets a community mint its <i>own</i> social token. That's the decentralized-social
+          idea the old dApp directories chased, actually running.</li>
+        <li><b>dApps &amp; games</b> — a smart contract + a web front-end (ethers v6 / viem + a wallet connect) is
+          the whole shape of a dApp. PRANA hosts the DeFi + arcade side; MELEK hosts the social side.</li>
+      </ul>
+      <p class=muted style="font-size:13px">The 2018 thread below is a snapshot of people trying all of this at
+        once — token mints, social apps, games, launch platforms. Most of those projects are gone; the <i>idea</i>
+        — anyone can build on an open chain — is exactly what we're handing you the tools to actually do.</p>
+    </div>
+
+    <div class=card><h2>Credit &amp; further reading</h2>
+      <p class=muted style="font-size:13px">This lesson grows out of a long-running community resource —
+        <a href="${esc(CLONES_THREAD)}">"Let's create some Ethereum clones"</a> (Tokenista, Bitcointalk, 2018), a
+        6-page pile of token-creation, clone-factory and dApp resources. We've kept what still holds in 2026
+        (Remix, MetaMask, OpenZeppelin, EIP-1167, Solidity) and swapped the dated tools for their modern
+        equivalents (Hardhat / Foundry for Truffle; ethers&nbsp;v6 / viem for old web3).</p>
+      <p class=muted style="font-size:13px"><b>Library of Ashurbanipal:</b>
+        ${libArticle('ERC_20_Token_Standard', 'The ERC-20 standard')} ·
+        ${libArticle('Smart_Contracts', 'Smart contracts')} ·
+        ${libArticle('EVM_the_Ethereum_Virtual_Machine', 'The EVM')} ·
+        ${libArticle('KulaSwap_and_PRANA_DeFi', 'KulaSwap & PRANA DeFi')}.
+        The other kind of token (MELEK-Engine / SCOT): <a href="/academy">Make a token →</a></p>
+    </div>`;
+  return page('Token standards — ERC-20, TRC-20, BEP-20 & PRC-20 (PRANA) — Witness School', body, {
+    canonical: `${BASE_URL}/tokens`,
+    description: 'Token standards across EVM chains: what an ERC-20 really is (the six-function interface), how the same standard is re-branded as TRC-20 (TRON), BEP-20 (BNB Chain), and PRC-20 (PRANA), how to make one with OpenZeppelin + Remix/Hardhat + MetaMask, EIP-1167 clone factories, and where PRC-20s (KULA, wMELEK, wVKBT) live in the PRANA/KulaSwap DeFi ecosystem. Credits Tokenista\'s 2018 Bitcointalk clones thread.',
+  });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -962,6 +1144,7 @@ export async function handler(req, res) {
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/build') return sendHtml(res, buildPage());
+    if (path === '/tokens' || path === '/prc20') return sendHtml(res, tokenStandardsPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
     if (path === '/pool') {

@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, runPage, whitepaperPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, runPage, whitepaperPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -420,4 +420,31 @@ test('/whitepaper route responds and the nav links to it', async () => {
   assert.match(r.body, /MELEK — An AI-Native Blockchain Community/);
   const home = await route('/');
   assert.match(home.body, /href="\/whitepaper"/);
+});
+
+// ---------------------------------------------------------------------------
+// /tokens — token standards (ERC-20 / TRC-20 / BEP-20 / PRC-20)
+// ---------------------------------------------------------------------------
+test('token standards page: the -20 interface, cross-chain re-branding, PRC-20 = ERC-20 on PRANA', () => {
+  const h = tokenStandardsPage();
+  assert.match(h, /ERC-20/);
+  assert.match(h, /TRC-20/);
+  assert.match(h, /BEP-20/);
+  assert.match(h, /PRC-20/);
+  assert.match(h, /712217/);                         // PRANA chain id
+  assert.match(h, /balanceOf|transferFrom|approve/); // the interface
+  assert.match(h, /OpenZeppelin/);
+  assert.match(h, /EIP-1167|Clones/);                // clone/factory technique
+  assert.match(h, /Truffle/);                        // the dead-tool cheat-sheet
+  assert.match(h, /Foundry|Hardhat/);
+  assert.match(h, /permissionless/i);                // "the chain is open" invitation
+  assert.match(h, /topic=4942644/);                  // credits the 2018 thread
+});
+
+test('/tokens and /prc20 routes both serve the token standards page', async () => {
+  for (const p of ['/tokens', '/prc20']) {
+    const res = await route(p);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body, /PRC-20/);
+  }
 });
