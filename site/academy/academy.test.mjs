@@ -1,7 +1,7 @@
 // academy.test.mjs — offline tests for the MELEK Academy credential portal. No network, no keys.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, homePage, programView, verifyView, registryView, esc, issuerTokenOk, sealSvg, credentialView, certificateView, __setRegistry } from './server.mjs';
+import { handler, homePage, programView, verifyView, registryView, esc, issuerTokenOk, sealSvg, credentialView, certificateView, earnView, earnSubmit, __applications, __setRegistry } from './server.mjs';
 import { createRegistry, issueCredential } from '../../integrations/soapbox/credentials-issuer.mjs';
 
 function mockReq(path, headers = {}) { return { url: path, method: 'GET', headers }; }
@@ -37,7 +37,7 @@ test('program page shows issuer basis, criteria, and the gated-issuance notice',
   assert.match(h, /Ordination/);
   assert.match(h, /church|First Amendment/i);
   assert.match(h, /How you earn it/);
-  assert.match(h, /gated to the issuing authority|cannot self-mint/i);  // no open self-serve minting
+  assert.match(h, /gated to its issuing authority|self-mint/i);  // no open self-serve minting
 });
 
 test('unknown program soft-renders a not-found', () => {
@@ -153,6 +153,61 @@ test('route: /credential/:id resolves via the registry', async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /GENUINE/);
   __setRegistry(null);
+});
+
+test('program page has an "Earn this credential" call-to-action linking to /earn', () => {
+  assert.match(programView('crypto-blockchain-literacy'), /Earn this credential/);
+  assert.match(programView('crypto-blockchain-literacy'), /\/earn\/crypto-blockchain-literacy/);
+  assert.match(programView('ordination-minister'), /Apply for this credential/);
+});
+
+test('earnView (completion) shows study + a graded knowledge check form', () => {
+  const h = earnView('crypto-blockchain-literacy');
+  assert.match(h, /Earn: Crypto/);
+  assert.match(h, /Open the course material/);
+  assert.match(h, /Knowledge check/);
+  assert.match(h, /name="a0"/);              // question radios
+  assert.match(h, /method=post/);
+});
+
+test('earnView (ministerial/press) shows an application with an affirmation', () => {
+  assert.match(earnView('ordination-minister'), /Apply: Ordination/);
+  assert.match(earnView('ordination-minister'), /affirm the Temple/i);
+  assert.match(earnView('melek-press-pass'), /MELEK Press contributor standards/);
+});
+
+test('earnSubmit: passing the assessment issues a credential and redirects to the certificate', () => {
+  __setRegistry(null);
+  const r = earnSubmit('crypto-blockchain-literacy', { name: 'Pat Learner', a0: '1', a1: '1', a2: '1' });
+  assert.ok(r.redirect, 'redirects to the certificate');
+  assert.match(r.redirect, /^\/certificate\?c=/);
+});
+
+test('earnSubmit: a wrong answer does NOT issue — re-renders with "try again"', () => {
+  const r = earnSubmit('crypto-blockchain-literacy', { name: 'Pat', a0: '1', a1: '0', a2: '1' });
+  assert.ok(r.html, 'stays on the page');
+  assert.match(r.html, /Not quite/);
+  assert.ok(!r.redirect);
+});
+
+test('earnSubmit: no name is rejected', () => {
+  const r = earnSubmit('crypto-blockchain-literacy', { a0: '1', a1: '1', a2: '1' });
+  assert.match(r.html, /enter your name/i);
+});
+
+test('earnSubmit: ministerial application is queued (never auto-issued), and needs the affirmation', () => {
+  const before = __applications().length;
+  const noAffirm = earnSubmit('ordination-minister', { name: 'Rev X' });
+  assert.match(noAffirm.html, /affirm/i);
+  assert.equal(__applications().length, before, 'no application without affirm');
+  const ok = earnSubmit('ordination-minister', { name: 'Rev X', affirm: 'on', contact: 'x@y' });
+  assert.match(ok.html, /Application received/);
+  assert.ok(!ok.redirect, 'application does NOT issue/redirect');
+  assert.equal(__applications().length, before + 1);
+});
+
+test('earn route: GET /earn/:id renders 200', async () => {
+  assert.equal((await route('/earn/angelic-ai-foundations')).statusCode, 200);
 });
 
 test('health + robots + llms respond', async () => {
