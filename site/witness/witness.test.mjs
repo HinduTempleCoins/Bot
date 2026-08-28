@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, runPage, whitepaperPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -447,4 +447,31 @@ test('/tokens and /prc20 routes both serve the token standards page', async () =
     assert.equal(res.statusCode, 200);
     assert.match(res.body, /PRC-20/);
   }
+});
+
+// ---------------------------------------------------------------------------
+// /family — the Graphene social-chain family (clones, forks, consensus)
+// ---------------------------------------------------------------------------
+test('graphene family page: the family, the Steem->Hive fork, forkability, consensus, MELEK', () => {
+  const h = grapheneFamilyPage();
+  assert.match(h, /Steem/);
+  assert.match(h, /Hive/);
+  assert.match(h, /Blurt/);
+  assert.match(h, /MELEK/);
+  assert.match(h, /Justin Sun|TRON/);         // the fork trigger
+  assert.match(h, /fork/i);
+  assert.match(h, /forkability/i);            // the load-bearing lesson
+  assert.match(h, /DPoS/);
+  assert.match(h, /PoW/);                      // consensus comparison
+  assert.match(h, /Akasha/);                   // the 2016 competitor snapshot
+  assert.match(h, /contentjunkie/);            // credits a source
+});
+
+test('/family and /clones routes both serve the graphene family page', async () => {
+  for (const p of ['/family', '/clones']) {
+    const res = await route(p);
+    assert.equal(res.statusCode, 200);
+    assert.match(res.body, /Graphene family/);
+  }
+  assert.match(homePage(), /\/family/);   // linked from the school home
 });
