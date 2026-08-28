@@ -1,0 +1,44 @@
+'''PIHKAL''' and '''TIHKAL''' are the two landmark books by the chemist '''Alexander "Sasha" Shulgin''' and his wife '''Ann Shulgin''' that document, compound by compound, a large family of psychoactive molecules Shulgin first synthesized and evaluated. They are foundational references for modern psychedelic science and harm reduction. This article is the Library's '''map''' of them — what they are, how they're organized, and where to read them — following the same approach the [[The Library of Ashurbanipal|Library]]'s Hierophant uses for Sacred-Texts and Theoi: '''we do not reproduce the copyrighted text; we index it and link out to where it lives legally.'''
+
+* '''PIHKAL''' (1991) — "Phenethylamines I Have Known And Loved." Covers the '''phenethylamine''' family (the 2C-x series, the DOx series, the mescaline and MDMA relatives, and many others).
+* '''TIHKAL''' (1997) — "Tryptamines I Have Known And Loved." Covers the '''tryptamine''' family (DMT and its relatives, the psilocin/psilocybin group, and others).
+
+== How the books are built ==
+
+Each book has '''two parts''':
+
+* '''Part One''' — an autobiographical and philosophical narrative (in PIHKAL, a lightly fictionalized memoir of "Shura" and "Alice"; in TIHKAL, essays spanning chemistry, law, and spirituality). This half is '''fully copyrighted''' and is '''not''' freely distributable.
+* '''Part Two''' — the systematic '''chemistry''': one entry per compound. This is the part researchers cite. The Shulgins placed this second half under terms that '''permit free non-commercial reproduction''', which is why it is mirrored online.
+
+== The Shulgin Rating Scale ==
+
+Shulgin recorded the subjective intensity of each experience on a simple qualitative scale (described here in our own words):
+
+* '''minus (−)''' — no effect detected.
+* '''plus/minus (±)''' — a threshold: something is felt, but it could be imagination.
+* '''plus (+)''' — a real but light effect; the compound is clearly active, its character not yet obvious.
+* '''two plus (++)''' — clearly and unmistakably active; the full character shows, and the person can still choose to engage with the world or the experience.
+* '''three plus (+++)''' — maximal intensity for that compound; fully absorbing.
+* '''four plus (++++)''' — a rare, separate category: a peak / transcendent state, not simply "more" than +++.
+
+The scale also tracks '''dose''' (an active range in milligrams) and '''duration''' (onset and total length) — the factual harm-reduction data the Library does surface.
+
+== How the Library treats this material ==
+
+Following the '''Hierophant / link-out model''':
+
+* '''We map and cite; we do not paste.''' Reproducing the books' text verbatim would be a copyright violation. Our contribution is the index, the context, and our own [[Psychedelic and Psychopharmacology Glossary|glossary]] written in our own words.
+* '''Harm-reduction reference, not a manufacturing manual.''' The Library serves '''dose ranges, duration, effects, interactions, contraindications, testing, and set/setting/aftercare''' — the information that keeps people safer. Consistent with its scope, it does '''not''' host synthesis or extraction routes; for the full chemistry entries we point to the licensed mirror.
+* '''Un-gated.''' This is reference and education for adults, presented plainly and without gatekeeping.
+
+== Where to read the full entries ==
+
+The Part-Two chemistry entries are hosted, with the Shulgins' permission, at '''Erowid''':
+
+* PIHKAL: [https://www.erowid.org/library/books_online/pihkal/pihkal.shtml erowid.org/library/books_online/pihkal]
+* TIHKAL: [https://www.erowid.org/library/books_online/tihkal/tihkal.shtml erowid.org/library/books_online/tihkal]
+* Erowid's compound '''vaults''' also carry dose/duration/effect/interaction summaries and experience reports: [https://www.erowid.org erowid.org]
+
+The complete books (both parts) are published by '''Transform Press'''.
+
+See also: [[Psychedelic and Psychopharmacology Glossary]] · [[Shulgin Ten Essential Oils]] · [[Glossaries]] · [[Kyphi]] · [[The Library of Ashurbanipal]]

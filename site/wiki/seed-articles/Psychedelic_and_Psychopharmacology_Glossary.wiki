@@ -1,0 +1,59 @@
+The '''Psychedelic and Psychopharmacology Glossary''' defines the terms used across the Library's plant-medicine and harm-reduction material and in works like [[PIHKAL and TIHKAL]]. Definitions are written in the Library's own words for reference and education; for the full compound entries the Library links out to [https://www.erowid.org Erowid] (see [[PIHKAL and TIHKAL]]). It is part of the [[Glossaries]] section.
+
+'''This is reference, not advice or encouragement.''' Where a term touches safety, the safer-practice meaning is given.
+
+== A ==
+* '''Agonist''' — a molecule that binds a receptor and '''activates''' it, producing an effect. Most classic psychedelics are agonists (or partial agonists) at a particular serotonin receptor.
+* '''Antagonist''' — a molecule that binds a receptor but '''blocks''' it, preventing activation.
+* '''Afterglow''' — a mood/clarity aftereffect some people report in the hours or days after an experience, once the acute effects have passed.
+
+== B ==
+* '''Bioassay''' — testing a substance's effect by taking a measured dose and recording the result. Alexander Shulgin's careful, low-to-high self-bioassays are the method behind [[PIHKAL and TIHKAL]].
+* '''Bad trip / challenging experience''' — a frightening or distressing episode during a psychedelic experience; harm-reduction practice reframes it as something to move through with calm support, not fight.
+
+== C ==
+* '''Come-up / onset''' — the period as effects begin and build.
+* '''Contraindication''' — a condition or combination that makes a substance unsafe for a given person (e.g. certain medications, heart conditions, pregnancy). Checking contraindications is a core safety step.
+* '''Cross-tolerance''' — when tolerance to one substance also reduces the effect of a related one (common among classic psychedelics), so taking them close together does not "stack" the way people expect.
+
+== D ==
+* '''Deliriant''' — a class (e.g. certain anticholinergics) that produces confusion and true, often unpleasant, hallucinations; distinct from — and generally far riskier than — classic psychedelics.
+* '''Dissociative''' — a class (e.g. ketamine, DXM) that produces a sense of detachment from body/environment; a different mechanism from classic psychedelics.
+* '''Dose-response''' — the relationship between how much is taken and the effect; small differences in dose can mean large differences in experience, which is why '''start-low''' is the harm-reduction rule.
+* '''Duration''' — total length of effects, from onset through comedown; recorded alongside dose for every compound.
+
+== E ==
+* '''Entactogen / empathogen''' — a class (e.g. MDMA) whose signature is emotional openness, warmth, and connection rather than strong visual change. Many are phenethylamines.
+
+== M ==
+* '''MAOI (monoamine oxidase inhibitor)''' — a substance that blocks an enzyme which breaks down certain molecules. MAOIs can '''dangerously potentiate''' other drugs and foods and are a major source of interactions (the basis of ayahuasca's activity, and a serious contraindication with many medicines).
+* '''Microdose''' — a sub-perceptual dose (well below a felt threshold) taken on a schedule; evidence for benefits is mixed and still debated.
+
+== P ==
+* '''Phenethylamine''' — the chemical family at the center of '''[[PIHKAL and TIHKAL|PIHKAL]]''' (the 2C-x and DOx series, the mescaline and MDMA relatives).
+* '''Potentiation''' — one substance amplifying another's effect; can be intended or a hidden danger (see MAOI).
+* '''Prodrug''' — a compound inactive until the body converts it into the active form (e.g. psilocybin → psilocin).
+* '''Psychedelic (classic / serotonergic)''' — substances (e.g. LSD, psilocin, mescaline, DMT) that act mainly as agonists at the '''5-HT2A''' serotonin receptor, producing changes in perception, thought, and mood.
+
+== R ==
+* '''Reagent testing''' — using chemical test kits (Marquis, Mecke, Simon's, etc.) to check what a substance actually is before use; a cornerstone of harm reduction because street material is frequently mis-sold.
+* '''Racemate / enantiomer''' — mirror-image forms of the same molecule; they can differ sharply in activity, a recurring theme in Shulgin's chemistry.
+
+== S ==
+* '''Set and setting''' — one's '''mindset''' (mood, intention, expectations) and the '''physical/social environment'''. Widely held to shape an experience as much as the substance and dose.
+* '''Shulgin Rating Scale''' — Shulgin's qualitative intensity scale, from minus (no effect) through +, ++, +++ to the rare ++++ (a distinct peak/transcendent state); see [[PIHKAL and TIHKAL]].
+* '''Structure–activity relationship (SAR)''' — how small changes to a molecule's structure change its effect; the systematic thread running through PIHKAL and TIHKAL.
+* '''Serotonergic''' — acting on the serotonin system; the mechanism of the classic psychedelics.
+
+== T ==
+* '''Test dose / allergy dose''' — taking a small fraction first to check for a bad reaction before a full dose.
+* '''Threshold dose''' — the smallest amount at which any effect is felt (the "±" on the scale).
+* '''Tolerance''' — reduced effect from repeated use, so more is needed for the same result; for classic psychedelics it builds fast and fades after a break.
+* '''Tripsitter''' — a sober, trusted person who stays present to keep someone safe and grounded during an experience.
+* '''Tryptamine''' — the chemical family at the center of '''[[PIHKAL and TIHKAL|TIHKAL]]''' (DMT and relatives, the psilocin group).
+
+== Sources ==
+
+Terminology reflects standard pharmacology and harm-reduction practice; compound-specific data and the rating scale trace to A. & A. Shulgin's [[PIHKAL and TIHKAL]], with full entries hosted at [https://www.erowid.org Erowid].
+
+See also: [[Glossaries]] · [[PIHKAL and TIHKAL]] · [[Crypto Glossary]] · [[The Library of Ashurbanipal]]
