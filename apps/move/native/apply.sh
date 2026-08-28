@@ -44,4 +44,16 @@ if '.StepService' not in s:
 open(p, 'w', encoding='utf-8').write(s)
 print('  manifest patched')
 PY
+echo "• bumping compile/target SDK to 35 (Google Play target-API requirement, deadline 2026-08-31)"
+# Google Play requires app UPDATES to target API level 35 (Android 15). Capacitor 6 generates
+# android/variables.gradle defaulting to 34 → Play rejects updates. Patch it to 35 (idempotent).
+# compileSdk must match; the AGP shipped with current @capacitor/android 6.2.x supports compileSdk 35.
+VARS="android/variables.gradle"
+if [ -f "$VARS" ]; then
+  sed -i -E 's/(compileSdkVersion[[:space:]]*=[[:space:]]*)34/\135/; s/(targetSdkVersion[[:space:]]*=[[:space:]]*)34/\135/' "$VARS"
+  echo "  variables.gradle now: $(grep -E 'compileSdkVersion|targetSdkVersion' "$VARS" | tr '\n' ' ')"
+else
+  echo "  ⚠ $VARS not found — run this AFTER 'npx cap add android'"
+fi
+
 echo "✓ apply.sh done"
