@@ -228,6 +228,7 @@ export function homePage() {
     <p class=muted>Tell us where you're starting and where you're going — we'll plan it across flights, trains, buses,
       ferries and rideshare. Or browse the honest comparison doorways below.</p>
     ${searchForm()}
+    <p style="margin:10px 0"><a class=card style="display:block;padding:12px 14px;text-decoration:none" href="/overland"><b>🌍 Overland routes &amp; entry rules →</b><br><span class=muted style="font-size:13px">Continent-to-continent by road (and the Darién Gap), passport-stamp conflicts where visit order matters, and an entry-requirements checklist — verify-before-travel reference.</span></a></p>
     ${VERIFY_NOTE}
     <div class=card><h2>Comparison doorways</h2>
       <p class=muted style="font-size:13px;margin:0 0 8px">${esc(BRAND_GUARDRAIL)}</p>
@@ -237,12 +238,68 @@ export function homePage() {
 }
 
 // ── routing ───────────────────────────────────────────────────────────────────────────────────────
+// ── /overland — overland routes + passport-stamp conflicts + entry rules (State-Dept-style reference) ─
+// Original reference content (facts, no copied text). Entry rules change constantly and are safety-
+// critical, so every section says VERIFY with official sources and links travel.state.gov + IATA.
+export function overlandPage() {
+  const STATE = 'https://travel.state.gov/content/travel/en/international-travel.html';
+  const IATA = 'https://www.iatatravelcentre.com/';
+  const corridors = [
+    ['Afro-Eurasia — one connected landmass', 'Africa, Europe and Asia are joined by land. You can, in principle, drive between them: Europe↔Asia across the Bosphorus (Istanbul) or the Caucasus; Asia↔Africa across the Sinai (Egypt). The classic long hauls: the <b>Trans-Eurasian</b> run (Western Europe → the Balkans/Turkey → the Caucasus or Central Asia → South/Southeast Asia), the <b>Silk Road</b> corridors, and <b>Cairo → Cape Town</b> down the eastern spine of Africa. Choke points are political (closed borders, conflict zones, visa walls), not physical.'],
+    ['The Americas — the Pan-American Highway', 'A near-continuous road runs from <b>Prudhoe Bay, Alaska</b> to <b>Ushuaia, Argentina</b> — except for one gap. The <b>Darién Gap</b> (~100 km of roadless jungle and swamp between Panama and Colombia) has <b>no road</b>: overlanders ship the vehicle by sea or fly around it. Plan this break in advance; it is the single unavoidable non-road segment of the Americas.'],
+    ['What is NOT road-connected', 'Islands and isolated landmasses need sea or air: Great Britain, Ireland, Japan, the Philippines, Indonesia (partly), Madagascar, <b>Australia</b>, New Zealand, and <b>Antarctica</b>. Ferries bridge many short gaps (Gibraltar↔Morocco, the Baltic, SE-Asian islands) and count as "roads-plus-ferry" overland travel.'],
+  ];
+  const stamps = [
+    ['Israel and some of its neighbours', 'A number of countries have historically <b>refused entry</b> to travelers showing evidence of a visit to Israel (at various times: Iran, Lebanon, Syria, Libya, Yemen, and others — the list shifts). <b>Mitigation:</b> Israel generally issues a <b>separate entry/exit card</b> rather than stamping the passport at its main crossings, so a paper trail can be avoided — but land borders with Egypt and Jordan may still stamp, and those stamps reveal an Israel crossing. <b>Order:</b> if you plan to visit a country that bars Israel-linked travelers, visit it <b>before</b> Israel, or rely on the separate-card system and keep no Israeli stamps.'],
+    ['Azerbaijan ↔ Armenia / Nagorno-Karabakh', 'Azerbaijan <b>bars entry</b> to travelers with evidence of having visited <b>Nagorno-Karabakh</b> without its permission, and relations with Armenia are tense. <b>Order:</b> visit Azerbaijan before any independent travel into the Karabakh region; keep the two itineraries separate.'],
+    ['Serbia ↔ Kosovo', 'Serbia does not recognize Kosovo as a separate state and may treat entry to Serbia <b>after</b> a Kosovo-only entry as <b>illegal entry</b> (you "never legally left" Serbia in its view). <b>Order:</b> enter Kosovo <b>from</b> Serbia and exit back through Serbia, or arrange your Serbia entry/exit so it is not preceded by a Kosovo-only stamp.'],
+    ['Divided-territory cases', 'Similar sequencing care applies to <b>Northern Cyprus ↔ Republic of Cyprus</b>, and <b>Abkhazia / South Ossetia ↔ Georgia</b> (Georgia treats entry via those regions from Russia as illegal). Research each divided territory\'s rules before you cross.'],
+  ];
+  const body = `<h1>Overland routes &amp; entry rules</h1>
+    <div class=card style="border-color:#a8730c;background:#2a2417">
+      <p style="margin:0"><b>⚠ Verify before you travel.</b> Entry requirements, border openings, and stamp policies
+      change without notice and can be safety-critical. This page is <b>reference, not advice</b>. Confirm every
+      route and rule against official sources: the U.S. State Department's
+      <a href="${esc(STATE)}" rel="nofollow">country information</a>, the
+      <a href="${esc(IATA)}" rel="nofollow">IATA Travel Centre</a>, and each country's own immigration authority.</p>
+    </div>
+
+    <h2>Continent-to-continent by road</h2>
+    <p class=muted>Where the roads actually connect — and where they don't.</p>
+    ${corridors.map(([h, d]) => `<div class=card><h3 style="margin-top:0">${esc(h)}</h3><p>${d}</p></div>`).join('')}
+
+    <h2>Passport-stamp conflicts — why order matters</h2>
+    <p class=muted>Some countries deny entry based on where you have already been. When that is a risk, the
+      <b>sequence</b> of your trip — which country you visit first — is what keeps the door open.</p>
+    ${stamps.map(([h, d]) => `<div class=card><h3 style="margin-top:0">${esc(h)}</h3><p>${d}</p></div>`).join('')}
+
+    <h2>Entry-requirements checklist</h2>
+    <div class=card><ul>
+      <li><b>Passport validity.</b> Many countries require <b>6 months' validity beyond your arrival</b> and one or more blank pages.</li>
+      <li><b>Visa vs. visa-free vs. e-visa vs. visa-on-arrival.</b> Confirm which applies to <i>your</i> nationality — it varies by passport.</li>
+      <li><b>Onward/return ticket and funds.</b> Some borders ask for proof of onward travel and sufficient funds.</li>
+      <li><b>Vaccination / health entry rules.</b> Yellow-fever certificates and other requirements apply to certain routes.</li>
+      <li><b>Overland border hours &amp; closures.</b> Land crossings keep limited hours and close for holidays, weather, or unrest.</li>
+    </ul>
+    <p class=muted style="font-size:13px">Authoritative sources: <a href="${esc(STATE)}" rel="nofollow">travel.state.gov</a> ·
+      <a href="${esc(IATA)}" rel="nofollow">IATA Travel Centre</a> · each country's immigration ministry.</p></div>
+
+    <div class=card><p>Planning a specific city-to-city trip across modes? Use the
+      <a href="/plan">Start → Destination planner</a>. And before any international trip, travel insurance is worth
+      pricing in the <a href="/">travel directory</a>.</p>
+      <p class=ftc-disclosure>${esc(affiliate.ftcDisclosure())}</p></div>`;
+  return page('Overland routes & entry rules — SoapBox Travel', body, {
+    canonical: `${BASE_URL}/overland`,
+    description: 'Overland (roads-only) continent-to-continent routes — the Trans-Eurasian and Cairo-to-Cape-Town corridors, the Pan-American Highway and the Darién Gap — plus passport-stamp conflicts where visit order matters (Israel and its neighbours, Azerbaijan/Nagorno-Karabakh, Serbia/Kosovo, divided territories) and an entry-requirements checklist. Reference, not advice; verify with travel.state.gov and IATA.',
+  });
+}
+
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=300' });
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', ...guides.guideSitemapPaths('travel')];
+export const SITEMAP_PATHS = ['/', '/overland', ...guides.guideSitemapPaths('travel')];
 
 export async function handler(req, res) {
   try {
@@ -280,6 +337,7 @@ export async function handler(req, res) {
         { canonical: `${BASE_URL}/`, robots: 'noindex,follow',
           description: `Plan a trip from ${from} to ${to} across flights, trains, buses, ferries and rideshare — with hotels.` }));
     }
+    if (path === '/overland') return sendHtml(res, overlandPage());
     if (path === '/guides') {
       return sendHtml(res, page(`Travel guides — ${SITE_NAME}`,
         guides.GUIDE_STYLE + guides.renderGuideIndexBody('travel'),
