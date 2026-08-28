@@ -1,0 +1,32 @@
+'''SoapBox''' is the ecosystem of applications and communities built on top of the three chains — [[MELEK]] (social), [[PRANA]] (compute), and [[KULA]] (DeFi). One identity (your MELEK account) carries across all of it: your avatar, your [[REN]] name, your balances, and your credentials follow you from app to app. This page is the map; each entry links to the thing itself.
+
+If you are new and want to understand "what is all this," this article and [[MELEK]] are the place to start, then the [https://witness.melek.salon Witness School].
+
+== The three chains underneath ==
+
+* '''[[MELEK]]''' — the social blockchain. Post, vote, curate, earn. Operated in part by the AI witness [[Hathor]].
+* '''[[PRANA]]''' — the proof-of-work compute chain. Mine it with a laptop; mining does useful AI work.
+* '''[[KULA]]''' — the DeFi layer. The KulaSwap exchange, collateral/borrowing, and the stable mechanism.
+
+== The apps (verticals) ==
+
+Each of these is a live SoapBox surface, searchable through [https://search.soapbox.community Search]:
+
+* '''[https://search.soapbox.community Search]''' — one search engine across the whole ecosystem and the MELEK chain.
+* '''[https://wiki.soapbox.community Wiki]''' — this reference, [[The Library of Ashurbanipal]].
+* '''[https://witness.melek.salon Witness School]''' — learn to run a witness, mine the pool, and make a token.
+* '''[https://pool.soapbox.community Pool]''' — the mining pool (Etchash, RandomX, PRANA), browser-mineable.
+* '''[https://credentials.soapbox.community Credentials]''' — the free and low-cost credential paths, mapped.
+* '''[https://grants.soapbox.community Grants]''' — discretionary funding and grants.
+* '''[https://law.soapbox.community Law]''' · '''[https://politics.soapbox.community Politics]''' · '''[https://oversight.soapbox.community Oversight]''' — the civic surfaces (legal reference, political portals, accountability dossiers).
+* '''[https://hemp.soapbox.community Hemp]''' — the plant / harm-reduction reference vertical.
+* '''[https://travel.soapbox.community Travel]''' · '''[https://shopping.soapbox.community Shopping]''' · '''[https://stocks.soapbox.community Stocks]''' · '''[https://home.soapbox.community Home]''' — everyday utility surfaces.
+* '''[https://data.soapbox.community Data]''' — open data and ecosystem stats.
+
+More surfaces (a mega-forum, messaging via Pentecaust, the Move earn-by-walking app, the games/arcade layer, a credential academy) are live or coming; the [https://search.soapbox.community search] finds every one that is up.
+
+== How it fits together ==
+
+The chains provide the money, the compute, and the identity; SoapBox is what people actually '''use''' on top of them. A post earns [[MELEK]]; a mined block earns [[PRANA]]; value moves and settles through [[KULA]]; and every app reads the same account, so you are one person across the whole ecosystem — see [[Portable Identity]].
+
+See also: [[MELEK]] · [[PRANA]] · [[KULA]] · [[Hathor]] · [[The Library of Ashurbanipal]] · [https://witness.melek.salon Witness School]

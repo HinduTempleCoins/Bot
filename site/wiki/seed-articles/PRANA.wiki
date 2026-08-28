@@ -1,0 +1,30 @@
+'''PRANA''' is the compute blockchain of the [[SoapBox]] ecosystem — a proof-of-work, EVM-compatible Layer-1 that you mine with an ordinary computer, and whose mining does '''useful work'''. It is the sister chain to the social chain [[MELEK]], and it is the engine that pays for the ecosystem's artificial-intelligence compute.
+
+== What it is ==
+
+PRANA is its own '''Layer-1 blockchain'''. It is '''EVM-compatible''' — the same tools as Ethereum (MetaMask, Solidity, Remix, Hardhat, Foundry) — and it is '''Proof of Work''', mined with the '''Etchash''' algorithm (GPU- and laptop-friendly). It is a '''fair launch''': no premine, no presale, no insider allocation; supply starts at zero and is entirely earned by mining. Tokens issued on PRANA are ERC-20s — we call them '''PRC-20''' (see [https://witness.melek.salon/tokens Token standards]).
+
+== The idea that makes it different ==
+
+'''The chain is the mining pool, and mining does useful work.''' There are two ways to earn, both paid from the same reward pool:
+
+* '''HASH lane''' — classic Etchash proof-of-work that secures and orders blocks.
+* '''TASK lane''' — verified AI / GPU compute. Real, useful work, paid in PRANA.
+
+This is why PRANA exists: an AI needs GPUs to think, and GPUs cost money. Instead of renting cloud compute until a treasury runs dry, PRANA turns '''mining into the compute the AI runs on'''. When you mine PRANA, you are the datacenter for a living AI — and that is what makes the AI [[Hathor]] sustainable and forkable.
+
+== PRANA and KULA ==
+
+Miners earn '''PRANA + [[KULA]]''' as a paired reward — like the STEEM/SBD pair, but for EVM miners. KULA is the ecosystem's DeFi collateral coin and the answer to the "stable" token MELEK deliberately left out.
+
+== How to take part ==
+
+* '''Mine it''' at the [https://pool.soapbox.community pool] — Etchash on a GPU, or CryptoNote / RandomX on a CPU, even in the browser. Earn from the first share.
+* '''Learn it''' at the [https://witness.melek.salon Witness School] (the pool + how mining works).
+* '''Build on it''' — deploy PRC-20 tokens, the [[KULA]] DEX, and dApps, exactly as you would on Ethereum.
+
+== Where PRANA fits ==
+
+PRANA is the '''compute''' layer of the ecosystem: [[MELEK]] (social), '''PRANA''' (compute / proof-of-work / AI work), and [[KULA]] (DeFi). The apps built on top are [[SoapBox]].
+
+See also: [[MELEK]] · [[KULA]] · [[SoapBox]] · [[Hathor]] · [https://witness.melek.salon/tokens PRC-20 token standards]
