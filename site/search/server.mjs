@@ -233,6 +233,17 @@ async function siteRows(q) {
   // learn
   for (const [slug, a] of Object.entries(LEARN))
     if (`${a.title} ${a.summary}`.toLowerCase().includes(ql)) out.push({ title: a.title, url: `${DATA}/learn/${slug}`, snippet: a.summary, tag: 'Learn' });
+  // Every LIVE SoapBox site / chain surface is findable by name (reuses the shared nav registry, so a
+  // new vertical becomes searchable the moment it's added there). Keyword synonyms widen the match.
+  try {
+    const { links } = await import('../../integrations/ecosystem-nav.mjs');
+    const SYN = { credentials: 'certification cert license degree job resume', grants: 'grant funding money apply', credit: 'credit score fico debt loan', law: 'legal lawyer court rights', politics: 'politician election vote government', stocks: 'stock market invest trading', travel: 'trip flight hotel transit', hemp: 'hemp cannabis cbd', shopping: 'shop deals coupons store', witness: 'witness node block producer dpos', data: 'coins price market data' };
+    for (const l of [...links({ group: 'SoapBox' }), ...links({ group: 'Chains' })]) {
+      if (!l.live) continue;
+      const hay = `${l.label} ${l.key} ${SYN[l.key] || ''}`.toLowerCase();
+      if (hay.includes(ql) || ql.includes(l.key)) out.push({ title: `${l.label} — SoapBox`, url: l.url, snippet: `Open the ${l.label} site`, tag: 'SoapBox' });
+    }
+  } catch {}
   return out.slice(0, 30);
 }
 
