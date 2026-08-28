@@ -1,0 +1,113 @@
+'''Cannabis Harm Reduction''' is the practical, safety-first companion to the [[Cannabis]] reference article in [[The Library of Ashurbanipal]]. It covers '''effects, methods of use, dosing and tolerance, risks, contraindications, drug interactions, testing, and legal/religious context'''. The aim is plain, non-judgmental, accurate information so that people who use cannabis — legally, medically, or otherwise — can do so more safely, and so that people deciding ''whether'' to use it can decide with real facts.
+
+This is '''education and harm-reduction reference''', not medical advice, not a prescription, and not encouragement to use. Cannabis affects individuals very differently; nothing here replaces a clinician who knows your history. For the plant, its history, and its pharmacology, see '''[[Cannabis]]'''.
+
+== Effects ==
+
+Cannabis effects depend on the '''chemical profile''' (THC, CBD, and terpene mix — see [[Cannabis|the entourage effect]]), the '''dose''', the '''method''', the '''person''', and the '''setting'''. Two products with the same THC number can feel very different.
+
+Commonly reported '''short-term effects''':
+
+* Euphoria, relaxation, altered perception of time, heightened senses, increased appetite ("the munchies").
+* Sedation and "couch-lock" (associated with high-myrcene varieties), or alertness and focus (associated with high-limonene/pinene varieties).
+* Dry mouth, red eyes, increased heart rate, and slowed reaction time and coordination.
+* Short-term memory and attention effects while intoxicated.
+
+Common '''adverse''' short-term effects, especially at higher doses or in less experienced users:
+
+* '''Anxiety, paranoia, or panic''' — one of the most common bad reactions, more likely with high-THC/low-CBD products and large doses.
+* Dizziness, nausea, and — with very large edible doses — a "green-out" (intense discomfort, vomiting, disorientation). Unpleasant but, for cannabis alone, not known to be directly fatal.
+* Rarely, acute confusion or transient psychotic symptoms at very high doses.
+
+== Methods of use ==
+
+Method changes '''onset''', '''duration''', and '''intensity''' — the single most important thing to understand for dosing safely:
+
+* '''Inhalation (smoking, vaporizing).''' Onset in seconds to minutes; peak within ~10–30 minutes; largely worn off in 1–3 hours. Fast onset makes it easier to "titrate" (take a little, wait, judge). Smoking combusts plant material and produces tar and irritants; '''vaporizing''' heats without full combustion and is generally considered less harsh on the lungs (see risks).
+* '''Oral (edibles, capsules, tinctures swallowed).''' Onset delayed '''30 minutes to 2 hours''' — sometimes longer on a full stomach — with effects lasting '''4–8 hours or more'''. The liver converts THC to '''11-hydroxy-THC''', often more potent and longer-lasting. The delayed onset is the classic cause of over-consumption: people take more before the first dose lands. '''Start low, go slow, and wait a full 2 hours before re-dosing.'''
+* '''Sublingual (tinctures held under the tongue).''' Faster than swallowed edibles, easier to dose in small increments.
+* '''Topicals.''' Applied to skin for localized effect; generally non-intoxicating.
+
+== Dosing and tolerance ==
+
+There is no single "correct" dose — it depends on the person, product, and goal. General harm-reduction guidance:
+
+* '''"Start low, go slow."''' For edibles, a common '''low starting dose is 2.5–5 mg THC''', waiting a full 2 hours before considering more. Many commercial products are far stronger per piece than they look. ''(Dose ranges are general references from public health and cannabis-education sources, not a prescription; individual sensitivity varies widely.)''
+* '''You cannot un-take an edible.''' Because oral onset is slow and long, over-dosing on edibles is easy and the discomfort lasts hours.
+* '''Tolerance builds''' with regular use — regular users need more for the same effect. A '''tolerance break''' (a period of abstinence) restores sensitivity.
+* '''CBD can temper THC.''' Products with meaningful CBD alongside THC are often reported as less anxiety-provoking than pure high-THC products, consistent with the entourage-effect framework.
+* '''If someone greens out:''' keep them calm, seated or lying safely, hydrated, and reassured that it passes. CBD, black pepper (which contains β-caryophyllene), and rest are commonly used comfort measures. Seek medical help if breathing is affected, the person can't be roused, or another substance may be involved.
+
+== Risks ==
+
+Honest accounting, marking what is well-established versus uncertain:
+
+* '''Dependence.''' Cannabis use disorder is real; roughly '''1 in 10''' users develop some dependence, with higher risk for those who start young or use daily (established, CDC/NIDA estimates). Withdrawal (irritability, sleep trouble, appetite loss) is real but not life-threatening.
+* '''Adolescent brain.''' Regular heavy use during adolescence is associated with lasting cognitive effects, because the brain is still developing (established association; exact magnitude debated).
+* '''Mental health / psychosis.''' Heavy, high-potency use is associated with increased risk of psychosis and may trigger or worsen it in people predisposed (e.g. family history of schizophrenia). Whether cannabis ''causes'' psychosis versus unmasks/accelerates it in the vulnerable is '''still debated''' — but the risk signal is strong enough that people with personal or family history of psychotic illness should be especially cautious.
+* '''Lungs.''' Smoking anything irritates the airways and can cause chronic bronchitis-type symptoms; cannabis smoke contains many of the same irritants and carcinogens as tobacco smoke. A clear ''independent'' link between cannabis smoking and lung cancer is '''less established''' than for tobacco, partly because most studies involve people who also smoke tobacco. Vaporizing and non-inhaled routes avoid combustion. ''(Note: illicit-market vape cartridges cut with vitamin E acetate caused the 2019 "EVALI" lung-injury outbreak — a contaminant issue, see testing.)''
+* '''Cardiovascular.''' THC raises heart rate and can transiently raise blood pressure; caution for people with heart disease.
+* '''Cannabinoid hyperemesis syndrome (CHS).''' Long-term heavy users can develop cycles of severe vomiting, often oddly relieved by hot showers; it resolves with cessation (established but under-recognized).
+* '''Impairment.''' Driving or operating machinery while impaired is dangerous and illegal; impairment can outlast the subjective "high," especially with edibles.
+* '''Pregnancy and breastfeeding.''' Cannabinoids cross the placenta and enter breast milk; use during pregnancy/breastfeeding is generally advised against.
+
+== Contraindications ==
+
+Situations where caution or avoidance is especially warranted:
+
+* '''Personal or family history of psychosis, schizophrenia, or bipolar disorder''' — high-THC cannabis can precipitate or worsen episodes.
+* '''Pregnancy or breastfeeding.'''
+* '''Adolescence''' — developing brain.
+* '''Serious cardiovascular disease''' — due to heart-rate and blood-pressure effects.
+* '''History of cannabis use disorder or CHS.'''
+* '''Concurrent use of sedatives, alcohol, or other CNS depressants''' — additive impairment (see interactions).
+
+== Drug interactions ==
+
+Cannabinoids, especially '''CBD''', can meaningfully affect how other drugs are metabolized. This section flags the categories that matter — always check with a pharmacist or clinician for your specific medications:
+
+* '''CYP450 enzyme interactions.''' CBD (and to a lesser extent THC) inhibits liver enzymes '''CYP3A4''' and '''CYP2C19''', which metabolize a large fraction of prescription drugs. Inhibiting them can raise blood levels of those drugs. This is well-established for CBD.
+* '''The "grapefruit rule."''' A practical shortcut: '''if a medication's label warns against grapefruit juice, treat cannabis/CBD with the same caution''' — grapefruit inhibits the same CYP3A4 pathway.
+* '''Blood thinners''' (e.g. '''warfarin''') — cannabis/CBD can raise levels and bleeding risk; requires monitoring.
+* '''Anticonvulsants''' — CBD interacts notably with '''clobazam''' and others (documented in epilepsy trials of pharmaceutical CBD).
+* '''CNS depressants''' — alcohol, benzodiazepines, opioids, and sleep aids have '''additive''' sedation and impairment with cannabis; combining them increases the risk of over-sedation.
+* '''Other psychoactives.''' Combining cannabis with other drugs (including kava's yangonin discussed under [[Cannabis|the endocannabinoid system]], or psychedelics) compounds unpredictability; when in doubt, don't stack.
+
+''(Interaction information here is general reference; it is not a complete list. Bring up cannabis with the professional managing your medications.)''
+
+== Testing and quality ==
+
+Because potency and contaminants vary — and illicit-market products are unregulated — testing matters:
+
+* '''Potency labeling.''' Regulated-market products are lab-tested for THC/CBD content; this is the only reliable way to dose an edible. Treat unlabeled products as unknown strength.
+* '''Contaminant testing.''' Reputable labs screen for '''pesticides, heavy metals, residual solvents, mold, and microbial contamination'''. Poorly grown or stored cannabis can carry mold (e.g. ''Aspergillus''), a real risk for immunocompromised people.
+* '''Adulterants in illicit products.''' The 2019 '''EVALI''' lung-injury outbreak was traced to '''vitamin E acetate''' cut into illicit-market THC vape cartridges — a stark example of why unregulated concentrates carry contaminant risk. Fentanyl contamination of cannabis flower is widely rumored but has been rare and mostly unconfirmed; the greater documented risk is with counterfeit pills, not flower. '''Drug-checking / reagent services''' exist in some regions for people who want to verify what they have.
+* '''Storage.''' Store cannabis cool, dark, and dry to limit mold and slow degradation (THC slowly converts to sedating CBN as it ages).
+
+== Legal and religious context ==
+
+Cannabis law is a patchwork and changes constantly — this is orientation, '''not legal advice''':
+
+* '''United States.''' Cannabis remains '''federally''' a Schedule I controlled substance, while many states have legalized medical and/or adult recreational use. Federal and state law can conflict; a proposed rescheduling to Schedule III has been under review. '''Hemp''' (under 0.3% THC) was federally legalized by the 2018 Farm Bill.
+* '''Internationally.''' Regimes range from full legalization (e.g. Canada, Uruguay) to decriminalization to severe criminal penalties. Penalties in some countries are extremely harsh — '''know the law where you are.'''
+* '''Medical programs.''' Many jurisdictions have medical-cannabis programs with their own eligibility, possession, and physician-recommendation rules.
+* '''Religious and traditional use.''' Cannabis has a long sacramental history — ''bhang'' in Hindu tradition, use among the Rastafari movement, and others. Some jurisdictions recognize limited religious-use exemptions, but such exemptions are narrow, contested, and vary widely; a sincere religious claim does not guarantee legal protection. This connects to the [[The Library of Ashurbanipal|Library]]'s broader interest in the religious and legal frameworks around traditional plant use.
+
+== Bottom line ==
+
+* Know your '''chemical profile''', not just the strain name (see [[Cannabis|terpenes and cannabinoids]]).
+* '''Start low, go slow''' — especially with edibles, and wait a full 2 hours.
+* Check the '''grapefruit rule''' against your medications, and ask a pharmacist.
+* Be honest about '''personal/family psychosis history''', pregnancy, adolescence, and heart disease as real contraindications.
+* Prefer '''tested''' product; treat unlabeled and illicit concentrates as unknown.
+* '''Know the law where you are.'''
+
+== Sources ==
+
+* Van Kush Family Research Institute, ''Comprehensive Marijuana Education Guide'' (January 2026) — plant and pharmacology context.
+* U.S. Centers for Disease Control and Prevention (CDC) and National Institute on Drug Abuse (NIDA) — cannabis health-effects and dependence data.
+* Russo, E.B. (2011). "Taming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects." ''British Journal of Pharmacology'' 163(7), 1344–1364.
+* Brown, J.D. & Winterstein, A.G. (2019). "Potential Adverse Drug Events and Drug–Drug Interactions with Medical and Consumer Cannabidiol (CBD) Use." ''Journal of Clinical Medicine'' 8(7), 989.
+* U.S. FDA / CDC reporting on EVALI and vitamin E acetate (2019–2020).
+
+See also: [[Cannabis]] · [[The Library of Ashurbanipal]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Glossaries]]
