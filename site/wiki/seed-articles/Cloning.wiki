@@ -1,0 +1,21 @@
+'''Cloning''' in crypto means copying open-source blockchain or smart-contract code to launch something new of your own. Because almost all of this software is open source, cloning is normal, legitimate, and how most of the ecosystem was actually built — including [[MELEK]]. It is closely related to [[Forking]] (a fork is a kind of clone that also carries or splits history).
+
+== Cloning a chain ==
+
+A blockchain is defined by a handful of constants. Clone the code, change those constants, and you have a new chain:
+
+* On a '''[[Graphene Blockchain Framework|Graphene]]''' chain (Steem/Hive/Blurt/MELEK), the identity is the coin '''symbol''', the address '''prefix''', the '''chain id''' (a hash of the genesis text), the '''initminer''' key, and the witness/emission settings. Change them and you have your own chain — this is exactly how [[MELEK]] was cloned from [[BLURT Blockchain|Blurt]]. See [[Building a Front End for a Graphene Chain]].
+* On an '''EVM''' chain like [[PRANA]], you clone core-geth (or another client), set a new '''chain id''' and genesis, and pick a consensus algorithm.
+
+== Cloning a token or contract ==
+
+On EVM chains you can also clone at the '''contract''' level:
+
+* A token is just a contract following a standard interface (see [https://witness.melek.salon/tokens token standards]). To make one, you clone/inherit a battle-tested base (OpenZeppelin's ERC-20) rather than writing it from scratch.
+* '''Minimal-proxy clones (EIP-1167)''' let a '''factory''' stamp out many cheap copies of one deployed implementation — the pattern behind token-launch platforms and [[KULA]]'s tooling.
+
+== Cloning is a feature, not a fringe act ==
+
+The whole [[The Graphene Family|Graphene family]] — and much of DeFi — is a tree of clones and forks. Open code means anyone can stand up their own chain, token, or app; the value is in the community and the execution, not in keeping the code secret. This is the same principle as [[Forking|forkability]]: a system anyone can copy can never be fully owned by one party.
+
+See also: [[Forking]] · [[Mining]] · [[The Graphene Family]] · [[MELEK]] · [[PRANA]] · [[Crypto Glossary]]

@@ -1,0 +1,50 @@
+# HIVE Blockchain
+
+The HIVE Blockchain is a decentralized blockchain platform that emerged as a fork of the STEEM blockchain. It operates on a Delegated Proof of Stake (DPoS) consensus mechanism and is designed to support a wide range of decentralized applications (dApps), social media platforms, and tokenized ecosystems<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>. 
+
+== Origins and Development ==
+The HIVE Blockchain was created as a result of a contentious fork from the STEEM blockchain following the acquisition of Steemit Inc. by Justin Sun, the founder of TRON. This acquisition led to a conflict between Sun and the STEEM Witnesses, who were originally part of the BitShares community. The disagreement culminated in the Witnesses forking the STEEM blockchain to create HIVE, effectively splitting the community and resulting in the existence of two separate blockchains<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>.
+
+== HIVE-Engine Ecosystem ==
+The HIVE Blockchain is supported by HIVE-Engine, a smart contract side-chain platform that enhances its functionality. HIVE-Engine enables users to mint custom tokens, operate decentralized exchanges (DEX), create non-fungible tokens (NFTs), and build liquidity pools. It serves as a decentralized alternative for users, particularly in the United States, who face restrictions on centralized exchanges due to regulatory barriers<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+Key tools within the HIVE-Engine ecosystem include:
+- **Hive Keychain**: A browser extension and mobile app that acts as a Web3 wallet, allowing users to manage keys and sign transactions without re-entering passwords. It is essential for all HIVE-Engine operations<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **TribalDEX**: An alternative decentralized exchange interface that supports token trading, liquidity pools, and an NFT marketplace. It offers the same functionality as other DEX platforms but with a different user interface<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **PeakD**: A front-end interface for HIVE that provides features such as wallet integration, token viewing, and community tools. It is described as an enhanced version of a standard blogging site<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+== Token Ecosystem ==
+The HIVE-Engine platform supports a diverse range of tokens, each with unique purposes and use cases. Some notable tokens include:
+- **Van Kush Beauty Token (VKBT)**: Designed as a primary token for teaching trading and earning, with applications in the beauty economy and community rewards<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **Curation Rewards Token (CURE)**: Distributed as rewards for voting activity and content curation<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **Bitcoin Backed HIVE (BBH)**: A token that pays holders in other HIVE-Engine tokens as rewards for holding a minimum of 10,000 BBH<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **HIVE PEPE**: A token associated with an active meme culture on HIVE, with plans for a future battle card game<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+- **SCRAP**: The native currency of the play-to-earn game Terracore, which features staking and burning mechanisms to manage token supply and enhance gameplay<ref>cryptocurrency/cryptocurrency/terracore_play2earn.json</ref>.
+
+Additionally, the concept of "pegged tokens" allows for the creation of wrapped versions of tokens, enabling cross-chain liquidity without leaving the HIVE ecosystem. VKFRI has proposed using this mechanism to make the Van Kush Beauty Token (VKBT) operable on both HIVE-Engine and the Polygon (MATIC) blockchain<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+== Regulatory Advantages ==
+One of the key advantages of the HIVE Blockchain is its decentralized nature, which allows users to trade without the need for Know Your Customer (KYC) compliance. This has made HIVE-Engine a vital alternative for users in the United States who face restrictions on centralized exchanges like ProBit due to regulatory barriers<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+== Gaming and Community Integration ==
+The HIVE Blockchain also supports play-to-earn games, such as Terracore, a post-apocalyptic idle strategy game. In Terracore, players mine resources, engage in base attacks, and participate in a dynamic NFT economy. The game incorporates staking and burning mechanisms to manage token inflation and offers opportunities for strategic investment<ref>cryptocurrency/cryptocurrency/terracore_play2earn.json</ref>.
+
+The Van Kush Family has proposed using profits from VKBT and MATIC to act as market makers for the $SCRAP token, further integrating their community into the HIVE ecosystem<ref>cryptocurrency/cryptocurrency/terracore_play2earn.json</ref>.
+
+== Conclusion ==
+The HIVE Blockchain represents a significant evolution in decentralized technology, offering a platform for social media integration, tokenization, and decentralized finance (DeFi). Its unique features, such as the HIVE-Engine side-chain and a diverse token ecosystem, position it as a versatile and accessible blockchain solution, particularly for users facing regulatory challenges. The platform's integration with gaming and community-driven initiatives further highlights its innovative approach to blockchain technology.
+
+== Sources ==
+<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>  
+<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>  
+<ref>cryptocurrency/cryptocurrency/terracore_play2earn.json</ref>  
+
+== Coverage ==
+This article is based on three primary sources from the provided knowledge base. Additional details on the technical architecture and broader adoption of the HIVE Blockchain are not covered in the available sources.
+== Repositories and the MELEK lineage ==
+
+HIVE is open source, maintained under the '''openhive-network''' / '''hiveio''' organizations on GitHub: the node software is [https://github.com/openhive-network/hive openhive-network/hive] (a fork of [https://github.com/steemit/steem steemit/steem]), with the indexer '''hivemind''' and the JavaScript library '''dhive''' ([https://github.com/openhive-network/dhive openhive-network/dhive]) alongside it.
+
+HIVE forked from the [[STEEM Blockchain]] in 2020; the same year the leaner [[BLURT Blockchain]] forked (no downvotes, no dollar token), and [[MELEK]] descends from that Blurt line. The shared bot/tooling ecosystem is covered in [[Steem & Hive Bots: The SteemBots / Steemcenter ecosystem]].
+
+See also: [[STEEM Blockchain]] · [[BLURT Blockchain]] · [[MELEK]] · [[Graphene Blockchain Framework]] · [[The Graphene Family]]

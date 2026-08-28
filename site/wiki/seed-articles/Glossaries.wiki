@@ -1,0 +1,17 @@
+'''Glossaries''' is a section of [[The Library of Ashurbanipal]] — plain-language dictionaries that define the terms you meet across the [[SoapBox]] ecosystem and the subjects the Library covers. Each glossary is a single, searchable page; new ones are added as the Library grows.
+
+The idea is simple: '''you should never have to already know the words to start learning.''' A glossary lets a newcomer look up any term on the spot and follow it to a fuller article.
+
+== Glossaries in the Library ==
+
+* '''[[Crypto Glossary]]''' — blockchain and DeFi terms: block, wallet, fork, mining, ERC-20 / PRC-20, DEX, CDP, staking, and the rest. Start here to read anything else about the chains.
+
+''(More glossaries are being added — language/vocabulary, plant-medicine and harm-reduction, legal, and subject glossaries for the Library's other sections. This page is the index for all of them.)''
+
+== How to use a glossary ==
+
+* '''Look it up''' — glossaries are alphabetical; use the search box at the top of the Library to jump straight to a term.
+* '''Follow the links''' — a defined term that has its own article is linked; click through when you want the depth.
+* '''Contribute''' — spotted a missing or unclear term? Glossaries are living pages; adding good definitions is a way to contribute to the Library.
+
+See also: [[The Library of Ashurbanipal]] · [[Crypto Glossary]] · [[SoapBox]] · [https://witness.melek.salon Witness School]

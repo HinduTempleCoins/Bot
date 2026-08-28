@@ -1,0 +1,34 @@
+The '''BLURT blockchain''' is a decentralized social blockchain in the Steem / Hive family, launched in 2020 as a fork of the [[STEEM Blockchain]] code. It is the '''direct parent of [[MELEK]]''' — MELEK is a Blurt-family chain — so Blurt's design choices explain much of what MELEK is.
+
+(Not to be confused with the ordinary English word "blurt"; this article is about the blockchain.)
+
+== What Blurt is ==
+
+Blurt is a '''Graphene''' chain (see [[Graphene Blockchain Framework]]) running '''Delegated Proof of Stake (DPoS)''': token-holders vote for '''witnesses''' who take turns producing blocks. Like its Steem ancestor, it rewards users in its native coin ('''BLURT''') for posting and curating content. It launched in 2020 by airdropping BLURT to existing Steem/Hive stakeholders.
+
+== What makes Blurt different (and why it matters for MELEK) ==
+
+Blurt deliberately stripped features from the Steem design:
+
+* '''No downvotes / no flags.''' Blurt removed the downvote entirely — you cannot vote a post's rewards down. This was Blurt's headline choice: a free-speech, no-flag-war chain. [[MELEK]] inherits this.
+* '''No "backed dollar" token.''' Blurt dropped the SBD-style stable token. There is only BLURT — one coin. MELEK follows this: there is '''no MBD'''.
+* '''Simpler, lighter.''' Fewer moving parts than Steem/Hive; a leaner Graphene chain focused on blogging and free expression.
+
+MELEK is a Blurt clone that keeps these choices (one honest coin, no downvotes) and adds a no-premine genesis and a founding AI witness, [[Hathor]]. See [[The Graphene Family]] for the whole lineage.
+
+== Consensus and mechanics ==
+
+* '''DPoS''' — voted witnesses produce blocks (not mined).
+* Fast blocks and low/near-zero transaction friction, in the Graphene tradition.
+* Rewards split between authors, curators, and the witnesses/producers who keep the chain live.
+
+== Where the code lives ==
+
+Blurt is open source. The reference implementation and tooling are maintained under the '''blurtofficial''' organization on GitHub: [https://github.com/blurtofficial github.com/blurtofficial] (the `blurt` node software is a fork of `steemit/steem`; see [[STEEM Blockchain]] and [[Building a Front End for a Graphene Chain]]).
+
+== Sources ==
+
+* Blurt project & source: [https://github.com/blurtofficial github.com/blurtofficial]
+* Lineage context: [[STEEM Blockchain]] · [[HIVE Blockchain]] · [[The Graphene Family]]
+
+See also: [[MELEK]] · [[STEEM Blockchain]] · [[HIVE Blockchain]] · [[Graphene Blockchain Framework]] · [[The Graphene Family]]
