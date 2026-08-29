@@ -35,6 +35,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:http';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
+// The two send-path substrates (pure, offline, no keys) this layer wires together:
+//   • compliance.mjs — the PRE-SEND GATE (CAN-SPAM/GDPR/CASL/TCPA + deliverability). checkSend() blocks,
+//     attaches List-Unsubscribe headers, and yields the region-appropriate footer we append to the body.
+//   • send-optimizer.mjs — subject-line A/B (pickSubject, UCB bandit) + send-time optimization (nextSendAt).
+import { checkSend } from './compliance.mjs';
+import { pickSubject, nextSendAt } from './send-optimizer.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const DATA_FILE = () => env('HERALD_SENDER_DATA', join(process.cwd(), 'data', 'herald-sender.json'));
@@ -173,6 +179,11 @@ export function createCampaignSender(opts = {}) {
   const clock = typeof opts.now === 'function' ? opts.now : () => Date.now();
   const genToken = typeof opts.genToken === 'function' ? opts.genToken : () => randomUUID();
   const sendFn = typeof opts.sender === 'function' ? opts.sender : null;
+  // Compliance is OPT-IN (like the ESP): when `compliance` config is supplied, checkSend() runs as a hard
+  // pre-send gate in processQueue — blockers stop the send (status 'blocked'), and the List-Unsubscribe
+  // headers + region footer are attached to the message. UNCONFIGURED → the gate is skipped (legacy
+  // behavior, tests unaffected). PRODUCTION MUST set `compliance` ({ region, senderName, postalAddress, ... }).
+  const compliance = opts.compliance && typeof opts.compliance === 'object' ? opts.compliance : null;
   // Webhook auth secret (env or factory opt). Empty → the /api/webhook endpoint FAILS CLOSED (rejects all),
   // so an unauthenticated caller can never suppress arbitrary addresses. Production: prefer per-ESP signatures.
   const webhookSecret = typeof opts.webhookSecret === 'string' ? opts.webhookSecret : (process.env.HERALD_WEBHOOK_SECRET || '');
@@ -317,14 +328,32 @@ export function createCampaignSender(opts = {}) {
   }
   const stripTags = (h) => String(h == null ? '' : h).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 
+  // Keep only well-shaped subject-A/B variants: { id, text, sent, opens } (the shape send-optimizer scores).
+  const sanitizeVariants = (arr) => (Array.isArray(arr) ? arr : [])
+    .filter((v) => v && v.text != null)
+    .map((v) => ({ id: clean(v.id), text: clamp(v.text, 500), sent: Math.max(0, Number(v.sent) || 0), opens: Math.max(0, Number(v.opens) || 0) }));
+
   // ── enqueue helper (suppression-checked) ──────────────────────────────────────────────────────────────
   function enqueue(s, sub, tmpl, meta) {
     if (isSuppressed(sub)) return null;                 // NEVER enqueue a suppressed address
     const r = renderFor(tmpl, sub, meta.vars || {});
+    // Subject-line A/B: if this campaign/step carries variants, let the UCB bandit pick the subject to send,
+    // then interpolate the winner's text with the same vars (it's a header — never HTML). Falls back to the
+    // template subject when there are no variants (pickSubject → null).
+    let subject = r.subject;
+    let subjectVariantId = null;
+    const variants = Array.isArray(meta.subjectVariants) ? meta.subjectVariants : null;
+    if (variants && variants.length) {
+      const pick = pickSubject(variants);
+      if (pick && pick.text) {
+        subject = interpolate(pick.text, { email: sub.email, ...(sub.attrs || {}), ...(meta.vars || {}) }, { html: false });
+        subjectVariantId = pick.id || null;
+      }
+    }
     const msg = {
       id: String(genToken()),
       to: sub.email, channel: 'email',
-      subject: r.subject, html: r.html, text: r.text, unsubUrl: r.unsubUrl,
+      subject, subjectVariantId, html: r.html, text: r.text, unsubUrl: r.unsubUrl,
       campaignId: meta.campaignId || null, journeyId: meta.journeyId || null, step: meta.step != null ? meta.step : null,
       status: 'queued', createdAt: clock(), sentAt: null, error: null,
     };
@@ -342,10 +371,30 @@ export function createCampaignSender(opts = {}) {
       const templateId = slug(c.templateId);
       if (!s.lists[listId]) return { ok: false, error: 'no such list' };
       if (!s.templates[templateId]) return { ok: false, error: 'no such template' };
-      s.campaigns[id] = { id, name: clean(c.name) || id, listId, templateId, status: 'draft', createdAt: clock() };
+      s.campaigns[id] = {
+        id, name: clean(c.name) || id, listId, templateId, status: 'draft', createdAt: clock(),
+        subjectVariants: sanitizeVariants(c.subjectVariants),        // optional subject-line A/B pool
+        sendTimePrefs: c.sendTimePrefs && typeof c.sendTimePrefs === 'object' ? c.sendTimePrefs : null, // optional send-time optimization prefs
+        scheduledAt: null,
+      };
       save(s);
       return { ok: true, campaign: { ...s.campaigns[id] } };
     } catch (e) { return { ok: false, error: clean((e && e.message) || 'campaign error') }; }
+  }
+
+  // Send-time optimization: compute the next optimal send instant (nextSendAt) for a campaign and record it.
+  // Uses the campaign's sendTimePrefs ({ openTimestamps, tzOffsetMinutes, dows }). Purely advisory — the
+  // caller decides when to actually invoke sendCampaign; this just surfaces the recommended instant.
+  function scheduleCampaign(campaignId, fromMs) {
+    try {
+      const s = load();
+      const camp = s.campaigns[slug(campaignId)];
+      if (!camp) return { ok: false, error: 'no such campaign' };
+      const at = nextSendAt(fromMs != null ? fromMs : clock(), camp.sendTimePrefs || {});
+      camp.scheduledAt = at;
+      save(s);
+      return { ok: true, campaignId: camp.id, scheduledAt: at };
+    } catch (e) { return { ok: false, error: clean((e && e.message) || 'schedule error') }; }
   }
 
   function sendCampaign(campaignId, extraVars = {}) {
@@ -359,7 +408,7 @@ export function createCampaignSender(opts = {}) {
       for (const sub of Object.values(s.subscribers)) {
         if (!sub.listIds || !sub.listIds.includes(camp.listId)) continue;
         if (isSuppressed(sub)) { suppressed++; continue; }
-        if (enqueue(s, sub, tmpl, { campaignId: camp.id, vars: extraVars })) queued++;
+        if (enqueue(s, sub, tmpl, { campaignId: camp.id, vars: extraVars, subjectVariants: camp.subjectVariants })) queued++;
       }
       camp.status = 'queued'; camp.queuedAt = clock();
       save(s);
@@ -378,7 +427,7 @@ export function createCampaignSender(opts = {}) {
       for (const st of j.steps) {
         const templateId = slug(st && st.templateId);
         if (!s.templates[templateId]) return { ok: false, error: `no template "${templateId}"` };
-        steps.push({ templateId, delayMs: Math.max(0, Number(st.delayMs) || 0) });
+        steps.push({ templateId, delayMs: Math.max(0, Number(st.delayMs) || 0), subjectVariants: sanitizeVariants(st.subjectVariants) });
       }
       s.journeys[id] = { id, name: clean(j.name) || id, steps, createdAt: clock() };
       save(s);
@@ -424,7 +473,7 @@ export function createCampaignSender(opts = {}) {
         if (!jr || !sub || isSuppressed(sub)) { en.done = true; continue; }
         const step = jr.steps[en.step];
         const tmpl = step && s.templates[step.templateId];
-        if (tmpl && enqueue(s, sub, tmpl, { journeyId: jr.id, step: en.step, vars: en.vars })) enqueued++;
+        if (tmpl && enqueue(s, sub, tmpl, { journeyId: jr.id, step: en.step, vars: en.vars, subjectVariants: step.subjectVariants })) enqueued++;
         const next = en.step + 1;
         if (next < jr.steps.length) {
           en.step = next; en.dueAt = at + jr.steps[next].delayMs; advanced++;
@@ -442,11 +491,34 @@ export function createCampaignSender(opts = {}) {
     try {
       const s = load();
       const pending = s.queue.filter((m) => m && m.status === 'queued').slice(0, Math.max(0, limit));
-      let sent = 0; let skipped = 0; let failed = 0; let suppressed = 0;
+      let sent = 0; let skipped = 0; let failed = 0; let suppressed = 0; let blocked = 0;
       for (const m of pending) {
         // Re-check suppression at send time (status may have flipped since enqueue).
         const sub = s.subscribers[m.to];
         if (isSuppressed(sub)) { m.status = 'skipped'; m.error = 'suppressed'; suppressed++; continue; }
+        // ── COMPLIANCE PRE-SEND GATE (opt-in) ──────────────────────────────────────────────────────────
+        // Runs before ANY dispatch. Blockers (missing postal address, TCPA consent, deliverability STOP,
+        // suppression) stop the send → status 'blocked'. On pass, attach List-Unsubscribe headers and
+        // append the region-appropriate CAN-SPAM/GDPR/CASL footer to the body.
+        if (compliance) {
+          const gate = checkSend({
+            channel: m.channel || 'email',
+            region: compliance.region,
+            senderName: compliance.senderName,
+            postalAddress: compliance.postalAddress,
+            unsubscribeUrl: m.unsubUrl,
+            hasRecordedConsent: compliance.hasRecordedConsent,
+            recipient: m.to,
+            health: compliance.health || null,
+          });
+          if (!gate.ok) { m.status = 'blocked'; m.error = clean(gate.blockers.join('; ')); blocked++; continue; }
+          m.headers = gate.headers || {};
+          if (gate.footer && !m._footered) {
+            m.text = `${m.text}\n\n${gate.footer}`;
+            m.html = `${m.html}\n<hr><p style="font-size:12px;color:#888">${esc(gate.footer).replace(/\n/g, '<br>')}</p>`;
+            m._footered = true;
+          }
+        }
         let r;
         try { r = await (sendFn ? sendFn(m) : defaultSend(m)); }
         catch (e) { r = { ok: false, error: clean((e && e.message) || 'sender threw') }; }
@@ -456,7 +528,7 @@ export function createCampaignSender(opts = {}) {
         else { m.status = 'failed'; m.error = clean(r.error || 'send failed'); failed++; }
       }
       save(s);
-      return { ok: true, processed: pending.length, sent, skipped, failed, suppressed };
+      return { ok: true, processed: pending.length, sent, skipped, failed, suppressed, blocked };
     } catch (e) { return { ok: false, error: clean((e && e.message) || 'queue error') }; }
   }
 
@@ -553,7 +625,7 @@ export function createCampaignSender(opts = {}) {
     createList, getList, listLists,
     addSubscriber, unsubscribeByEmail, unsubscribeByToken, markBounced, markComplained, isSuppressed,
     upsertTemplate, getTemplate, renderFor,
-    createCampaign, sendCampaign,
+    createCampaign, sendCampaign, scheduleCampaign,
     defineJourney, enrollSubscriber, tickJourneys,
     processQueue, stats, handler,
     unsubUrl,
@@ -565,6 +637,9 @@ export function createCampaignSender(opts = {}) {
 const _singleton = createCampaignSender();
 export const handler = (req, res) => _singleton.handler(req, res);
 export { _singleton, interpolate, maskEmail, defaultSend };
+// Re-export the wired substrates so consumers can reach the gate/optimizer through the sender module.
+export { checkSend } from './compliance.mjs';
+export { pickSubject, nextSendAt } from './send-optimizer.mjs';
 
 // ── CLI demo ────────────────────────────────────────────────────────────────────────────────────────────
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
