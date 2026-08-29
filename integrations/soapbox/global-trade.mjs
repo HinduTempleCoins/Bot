@@ -71,9 +71,24 @@ export const TRADE_DATA_SOURCES = [
     home: 'https://www.volza.com', api: null, keyless: false, note: 'Paid aggregator; link-out reference.',
   },
   {
+    id: 'tendata', name: 'Tendata', scope: 'global', kind: 'platform',
+    provides: 'Commercial import/export customs-data and buyer-supplier intelligence across many countries.',
+    home: 'https://www.tendata.com', api: null, keyless: false, note: 'Paid aggregator; link-out reference.',
+  },
+  {
     id: 'itc-trademap', name: 'ITC Trade Map', scope: 'global',
     provides: 'Trade flows + market access + tariff data by product and market; good for buyer/supplier country shortlists.',
     home: 'https://www.trademap.org', api: null, keyless: false, note: 'Free registration.',
+  },
+  {
+    id: 'itc-export-potential', name: 'ITC Export Potential Map', scope: 'global', kind: 'opportunity',
+    provides: 'Identifies products a country could export MORE of and the markets with untapped demand — the opportunity layer, not just historical flows.',
+    home: 'https://exportpotential.intracen.org', api: null, keyless: true, note: 'Free ITC tool; answers "what should we sell, and where."',
+  },
+  {
+    id: 'oec', name: 'OEC — Observatory of Economic Complexity', scope: 'global', kind: 'viz',
+    provides: 'Trade-flow visualizations and country/product profiles by HS code, with a data API; the clearest picture of what a place trades.',
+    home: 'https://oec.world', api: 'https://oec.world/api', keyless: true, note: 'Free tier + API; great for the country/HS explorer.',
   },
   {
     id: 'trade-gov', name: 'ITA / trade.gov (US Commerce)', scope: 'us', kind: 'assistance',
