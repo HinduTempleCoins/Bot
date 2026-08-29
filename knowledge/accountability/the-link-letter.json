@@ -1,0 +1,22 @@
+{
+  "slug": "the-link-letter",
+  "person": {
+    "kind": "org",
+    "id": "The Link Letter",
+    "name": "The Link Letter (Terry Lowry)",
+    "office": "Republican-primary voter guide",
+    "party": "Republican-aligned",
+    "jurisdiction": "Texas",
+    "bio_url": "https://terrylowry.com/"
+  },
+  "verified": false,
+  "verifyNote": "Encoded from Texas Scorecard (Feb 2022) and public reporting. Confirm the current county distribution list at terrylowry.com and the exact advertising-rate figures before promotion. Facts only; no verdict. The guide is lawful; any wrongdoing is a separate question of whether relationships it helps form are later misused.",
+  "records": [
+    { "type": "statement", "subject": "The Link Letter", "label": "A multi-page Republican-primary voter guide published by Houston conservative radio host Terry Lowry and distributed to primary voters across Collin, Dallas, Denton, Tarrant and other Texas counties", "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/" }, "asOf": "2022-02" },
+    { "type": "disclosure", "subject": "The Link Letter", "label": "Reporting states candidates can purchase advertisements in the mailer in connection with Lowry's endorsement; a candidate's father publicly alleged Lowry asked for $10,000 for an advertisement in exchange for endorsement", "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/" }, "asOf": "2022-02" },
+    { "type": "statement", "subject": "The Link Letter", "label": "In 2014 the Harris County Republican Party passed a resolution condemning pay-to-play endorsement practices of this type", "source": { "name": "Harris County Republican Party", "url": "https://www.harriscountygop.com/" }, "asOf": "2014" },
+    { "type": "statement", "subject": "The Link Letter", "label": "Lowry-endorsed candidates have shown a very high (reported above 90%) success rate in contested Republican primaries, with advertisers generally being candidates who also received his endorsement", "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/" }, "asOf": "2022" }
+  ],
+  "disputes": [],
+  "reply": ""
+}
