@@ -1,0 +1,32 @@
+{
+  "slug": "tim-dunn",
+  "person": {
+    "kind": "person",
+    "id": "Tim Dunn",
+    "name": "Tim Dunn",
+    "office": "Founder/CEO, CrownQuest Operating; GOP megadonor",
+    "party": "Republican-aligned",
+    "jurisdiction": "Texas",
+    "bio_url": "https://ballotpedia.org/Tim_Dunn_(Texas)"
+  },
+  "verified": false,
+  "verifyNote": "Encoded from public reporting (Texas Monthly, The Texas Tribune, ProPublica, Texas Observer, Houston Chronicle). Dollar figures are approximate as reported; confirm exact totals against Texas Ethics Commission and SEC filings before promotion. Facts only, no verdicts; each item links its source; candidate items await human confirmation.",
+  "records": [
+    { "type": "disclosure", "subject": "Tim Dunn", "label": "Midland oilman and cofounder/CEO of CrownQuest Operating, a Permian Basin oil-and-gas producer; a lay preacher who is one of Texas's most influential conservative financiers", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2024" },
+    { "type": "acquisition", "subject": "Tim Dunn", "label": "Occidental Petroleum agreed to buy CrownRock L.P. (the venture of Dunn's CrownQuest and Lime Rock Partners) in a deal valued at about $12 billion; Dunn and family were reported to hold roughly a 20% stake worth more than $2 billion", "amount": "~$12,000,000,000 (deal); Dunn family ~20% stake, >$2B", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2023/12/11/tim-dunn-occidental-petroleum-sale/" }, "asOf": "2023-12" },
+    { "type": "statement", "subject": "Tim Dunn", "label": "Formed the political group Empower Texans in 2006, which he chaired and was its primary financial contributor, using it to back primary challengers against Republicans it deemed insufficiently conservative", "source": { "name": "Houston Chronicle", "url": "https://www.houstonchronicle.com/politics/texas/article/What-is-Empower-Texans-A-look-at-the-group-14273613.php" }, "asOf": "2006" },
+    { "type": "disclosure", "subject": "Tim Dunn", "label": "Bankrolled the Empower Texans network, including the dark-money arm Texans for Fiscal Responsibility (which scores legislators on a fiscal index) and the media arm Texas Scorecard", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2022" },
+    { "type": "donation", "contributor": "Tim Dunn", "recipient": "Defend Texas Liberty PAC", "label": "Gave at least $9.85 million to the Defend Texas Liberty PAC since the beginning of 2022, his main vehicle for exerting political influence", "amount": "at least $9,850,000", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2024" },
+    { "type": "disclosure", "subject": "Tim Dunn", "label": "Reported by Texas Monthly to have become 'the largest individual source of campaign money in the state by far'", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2024" },
+    { "type": "disclosure", "subject": "Tim Dunn", "label": "Serves as vice chairman of the Texas Public Policy Foundation and has served on the board of the First Liberty Institute", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2024" },
+    { "type": "donation", "contributor": "Tim Dunn and Farris Wilks", "recipient": "Texans United for a Conservative Majority", "label": "After the Nick Fuentes controversy, Dunn and Farris Wilks wound down Defend Texas Liberty and funded a new PAC, Texans United for a Conservative Majority, seeding it with about $2 million", "amount": "~$2,000,000", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/24/tim-dunn-farris-wilks-defend-texas-liberty-nick-fuentes/" }, "asOf": "2024-01" },
+    { "type": "donation", "contributor": "Defend Texas Liberty PAC (principally funded by Tim Dunn and Farris Wilks)", "recipient": "Lt. Gov. Dan Patrick", "label": "The Dunn/Wilks-funded PAC gave $3 million to Dan Patrick in June 2023, as Patrick prepared to preside over AG Ken Paxton's impeachment trial in the Texas Senate", "amount": "$3,000,000", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/17/texas-defend-liberty-ken-paxton-republicans/" }, "asOf": "2023-06" },
+    { "type": "election", "subject": "Tim Dunn", "label": "Dunn's network spent heavily in the 2024 Republican primaries backing challengers to Texas House Republicans who had voted to impeach Ken Paxton", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/02/27/greg-abbott-tim-dunn-paxton-vouchers-republican-primary-texas/" }, "asOf": "2024" }
+  ],
+  "disputes": [
+    { "type": "controversy", "subject": "Tim Dunn", "label": "Texas Monthly's 2024 profile characterized Dunn as a billionaire who 'wants to turn Texas into a Christian theocracy' and as financing efforts against public education and renewable energy; the characterization is the outlet's framing, not an adjudicated fact", "source": { "name": "Texas Monthly", "url": "https://www.texasmonthly.com/news-politics/billionaire-tim-dunn-runs-texas/" }, "asOf": "2024" },
+    { "type": "controversy", "subject": "Tim Dunn", "label": "In October 2023, the then-president of the Dunn/Wilks-funded Defend Texas Liberty PAC (Jonathan Stickland) was reported to have hosted white nationalist Nick Fuentes for hours; Dunn later called the meeting 'a serious blunder' and the PAC was wound down", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2023/10/12/defend-texas-liberty-pac-nick-fuentes-jonathan-stickland/" }, "asOf": "2023-10" },
+    { "type": "controversy", "subject": "Tim Dunn", "label": "Critics and some faith commentators have described Dunn as a Christian nationalist, a label he has rejected; the dispute concerns how to characterize his stated religious-political aims", "source": { "name": "Baptist News Global", "url": "https://baptistnews.com/article/sorry-tim-dunn-you-are-a-christian-nationalist/" }, "asOf": "2024" }
+  ],
+  "reply": ""
+}

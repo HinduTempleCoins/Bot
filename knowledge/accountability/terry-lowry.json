@@ -1,0 +1,101 @@
+{
+  "slug": "terry-lowry",
+  "person": {
+    "kind": "person",
+    "id": "Terry Lowry",
+    "name": "Terry Lowry",
+    "office": "Publisher, The Link Letter; radio host",
+    "party": "Republican-aligned",
+    "jurisdiction": "Texas",
+    "bio_url": "https://www.terrylowry.com/"
+  },
+  "verified": false,
+  "verifyNote": "Encoded from public reporting; each item links its source; candidate items await human confirmation. Facts only, no verdicts. The Link Letter is lawful; nothing here asserts illegality.",
+  "records": [
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "Terry Lowry is a Houston-based conservative radio host who publishes The Link Letter, a Republican-primary voter guide (slate mailer) distributed to GOP primary voters that claims to identify the most conservative candidates on the ballot.",
+      "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/local/pay-to-play-voter-guide-stirs-controversy-in-gop-primary/" },
+      "asOf": "2022-02"
+    },
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "Lowry hosts 'The What's Up Program,' a daily conservative talk radio show carried on 100.7 FM KKHT 'The Word' in Houston.",
+      "source": { "name": "KKHT 100.7 FM The Word", "url": "https://kkht.com/personality/terry-lowry" },
+      "asOf": "2026"
+    },
+    {
+      "type": "disclosure",
+      "subject": "Terry Lowry",
+      "label": "Reporting describes The Link Letter's business model as one in which candidates can buy advertisements in the mailer in exchange for Lowry's recommendation and/or article placement, and notes that advertisers are generally candidates who received his endorsement.",
+      "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/local/pay-to-play-voter-guide-stirs-controversy-in-gop-primary/" },
+      "asOf": "2022-02"
+    },
+    {
+      "type": "disclosure",
+      "subject": "Terry Lowry",
+      "label": "A 2012 account reported that advertisements in The Link Letter run 'as much as $10,000-15,000 each,' with candidates asked to buy ads or contribute to an associated PAC.",
+      "source": { "name": "TexasGOPVote (Bob Price)", "url": "https://www.texasgopvote.com/2012-elections/astroturf-tea-parties-and-pay-play-endorsements-who-can-you-trust-your-vote-004196" },
+      "asOf": "2012-05",
+      "amount": "$10,000-$15,000 per ad"
+    },
+    {
+      "type": "disclosure",
+      "subject": "Terry Lowry",
+      "label": "In the 2018 Republican primary edition, individual candidates were reported to have paid $15,000 each for placement in Lowry's mailer.",
+      "source": { "name": "Big Jolly Politics (David Jennings)", "url": "https://bigjolly.com/tag/terry-lowry/" },
+      "asOf": "2018-02",
+      "amount": "$15,000"
+    },
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "The Link Letter began in Harris County and has since been distributed with county-specific editions in Brazoria, Collin, Galveston, Fort Bend, Lubbock, McLennan and Tarrant counties.",
+      "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/local/pay-to-play-voter-guide-stirs-controversy-in-gop-primary/" },
+      "asOf": "2022-02"
+    },
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "Local political reporting noted that the Hotze, Lowry and Polland slates 'have not lost an election when all three endorsed the same candidate in Harris County' up to a May 2016 primary, reflecting a very high win rate for jointly endorsed candidates.",
+      "source": { "name": "Big Jolly Politics (Don Hooper)", "url": "https://bigjolly.com/tag/terry-lowry/" },
+      "asOf": "2016-05"
+    },
+    {
+      "type": "disposition",
+      "subject": "Terry Lowry",
+      "label": "A Texas Ethics Commission complaint arising from 2010 advertising-disclosure allegations was settled by Lowry for $500, without any admission or denial of wrongdoing.",
+      "source": { "name": "Texas Scorecard (Tony McDonald)", "url": "https://texasscorecard.com/commentary/pay-them-to-go-away-a-tec-cautionary-tale-of-katy-christian-magazine-vs-the-link-letter/" },
+      "asOf": "2025-02",
+      "amount": "$500",
+      "outcome": "settled without admission or denial"
+    }
+  ],
+  "disputes": [
+    {
+      "type": "investigation",
+      "subject": "Terry Lowry",
+      "label": "Allegation (subject of a 2010 Texas Ethics Commission complaint) that The Link Letter charged two candidates different rates for the same amount of ad space; the matter was later settled without any admission or denial of wrongdoing.",
+      "source": { "name": "Texas Scorecard (Tony McDonald)", "url": "https://texasscorecard.com/commentary/pay-them-to-go-away-a-tec-cautionary-tale-of-katy-christian-magazine-vs-the-link-letter/" },
+      "asOf": "2025-02",
+      "status": "settled"
+    },
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "In 2014 the Harris County Republican Party passed a resolution condemning pay-to-play endorsement practices of the type associated with The Link Letter.",
+      "source": { "name": "Texas Scorecard", "url": "https://texasscorecard.com/local/pay-to-play-voter-guide-stirs-controversy-in-gop-primary/" },
+      "asOf": "2014"
+    },
+    {
+      "type": "statement",
+      "subject": "Terry Lowry",
+      "label": "Some candidates listed in Link Letter editions have publicly said they were included without paying and were unsure why they were featured, and critics have characterized the guide as misleading; these are contested characterizations, not established findings.",
+      "source": { "name": "Ellis County Press (Rita Cook)", "url": "https://www.elliscountypress.com/news/link-letter-creates-pay-play-faux-ballot-ellis-county-voterscandidates-concerned" },
+      "asOf": "2026"
+    }
+  ],
+  "reply": ""
+}
