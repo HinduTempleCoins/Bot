@@ -177,6 +177,45 @@ test('publish is soft: bad REN name is a clean error, not a 500', async () => {
   assert.match(out.error, /3/);   // mentions the length rule
 });
 
+test('bottomnav block: sanitizeDoc whitelists it (clamps tabs, keeps collapsed flag)', () => {
+  const doc = sanitizeDoc({
+    title: 'T', category: 'business',
+    sections: [{ type: 'bottomnav', heading: 'Menu', collapsed: true,
+      items: [{ label: 'Home', url: 'https://x.example/' }, { label: '', url: '' }, { label: 'A' }, { label: 'B' }, { label: 'C' }, { label: 'D' }, { label: 'E' }] }],
+  }, 'business');
+  assert.equal(doc.sections.length, 1);
+  const s = doc.sections[0];
+  assert.equal(s.type, 'bottomnav');
+  assert.equal(s.collapsed, true);
+  assert.ok(s.items.length <= 5, 'tabs clamped to 5');
+  assert.equal(s.items[0].label, 'Home');   // empty {label,url} dropped
+});
+
+test('bottomnav block: publishes a page carrying the collapsible <details> bar (safeHref applied)', async () => {
+  __reset();
+  await post('/api/publish', {
+    ren: 'barsite', template: 'business',
+    doc: { title: 'Bar Site', category: 'business', sections: [
+      { type: 'bottomnav', heading: 'Go', collapsed: false, items: [
+        { label: 'Home', url: 'https://good.example/' },
+        { label: 'Evil', url: 'javascript:alert(1)' },
+      ] },
+    ] },
+  });
+  const body = (await get('/p/barsite')).body;
+  assert.match(body, /<details class="bnav"/);            // the collapsible bar is present
+  assert.match(body, /class="bnav-items"/);
+  assert.match(body, />Home</);
+  assert.match(body, /href="https:\/\/good\.example\/"/); // safe url survives
+  assert.ok(!/href="javascript:/i.test(body), 'javascript: tab url is neutralized by safeHref');
+});
+
+test('bottomnav block: builder editor exposes the + Bottom Nav control', async () => {
+  const body = (await get('/')).body;
+  assert.match(body, /data-add=bottomnav/);               // the add-section button
+  assert.match(body, /type:'bottomnav'/);                 // the client seeds a bottomnav block
+});
+
 test('sanitizeDoc clamps + whitelists section types', () => {
   const doc = sanitizeDoc({ title: 'T', category: 'nope', sections: [{ type: 'text', body: 'x' }, { type: 'evil', body: 'y' }, { type: 'image', url: 'u' }] }, 'business');
   assert.equal(doc.category, 'business');     // invalid category → fallback

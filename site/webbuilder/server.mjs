@@ -27,7 +27,9 @@ import { createServer } from 'node:http';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
+import { bottomNav } from '../../integrations/soapbox/bottom-nav.mjs';
 import { createBacklinkNetwork, CATEGORIES } from '../../integrations/herald/backlink-network.mjs';
+import { createSiteStore } from './store.mjs';
 
 const PORT = +(process.env.PORT || 8210);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -169,11 +171,21 @@ function normDomain(raw) {
   return d;
 }
 
-// ── published-site store (in-memory; seam-friendly) + the network singleton ──────────────────────────
-const PUBLISHED = new Map();               // slug -> published record
+// ── site store (file-backed, MULTI-TENANT) + the network singleton ────────────────────────────────────
+// The store (site/webbuilder/store.mjs) persists sites to WEBBUILDER_DATA (default <cwd>/data/webbuilder.json)
+// keyed by `${account}/${siteId}`, so saved + published sites survive a restart and are scoped per account.
+// A globally-unique slug (the REN label) indexes published sites for the public `/p/<slug>` render path.
+// `store` is a swappable seam so tests can inject an in-memory-fs store (__setStore).
+const DEFAULT_ACCOUNT = 'public';          // callers with no signed-in account land here (back-compat)
+let store = createSiteStore();
 let net = createBacklinkNetwork();
-export function __reset() { PUBLISHED.clear(); net = createBacklinkNetwork(); }
-export function _published(slug) { return PUBLISHED.get(String(slug || '').toLowerCase()) || null; }
+export function __setStore(s) { if (s && typeof s.put === 'function') store = s; return store; }
+export function __reset() { store.reset(); net = createBacklinkNetwork(); }
+export function _published(slug) { return store.bySlug(slug); }
+
+// Public seams for the "my sites" dashboard / other callers (multi-tenant scoped).
+export function listSites(account) { return store.list(account); }
+export function getSite(account, siteId) { return store.get(account, siteId); }
 
 // Sanitize an incoming doc to a safe, bounded shape. Content is NOT HTML-escaped here (that happens at
 // render); we only clamp lengths and whitelist section types/fields so nothing unbounded is stored.
@@ -193,6 +205,12 @@ export function sanitizeDoc(raw, fallbackCategory = 'personal') {
       clean.push({ type: 'links', heading: clampStr(s.heading, 160), items });
     } else if (s.type === 'image') {
       clean.push({ type: 'image', heading: clampStr(s.heading, 160), url: clampStr(s.url, 1000), alt: clampStr(s.alt, 200) });
+    } else if (s.type === 'bottomnav') {
+      // Collapsible bottom navigation bar (integrations/soapbox/bottom-nav.mjs). Up to 5 short tabs.
+      const items = (Array.isArray(s.items) ? s.items : []).slice(0, 5)
+        .map((it) => ({ label: clampStr(it && it.label, 40), url: clampStr(it && it.url, 1000) }))
+        .filter((it) => it.label || it.url);
+      clean.push({ type: 'bottomnav', heading: clampStr(s.heading, 160), collapsed: s.collapsed === true, items });
     }
   }
   return {
@@ -304,6 +322,7 @@ export function builderPage() {
       <button type=button class=act data-add=text>+ Text</button>
       <button type=button class=act data-add=links>+ Links</button>
       <button type=button class=act data-add=image>+ Image</button>
+      <button type=button class=act data-add=bottomnav>+ Bottom Nav</button>
     </div>
     <div class=addrow>
       <button type=button class=act id=btn-save>Save draft</button>
@@ -344,6 +363,10 @@ export function builderPage() {
   var TEMPLATES = ${JSON.stringify(Object.fromEntries(TEMPLATE_KEYS.map((k) => [k, TEMPLATES[k].doc])))};
   var BP = ${JSON.stringify(BASE_PATH)};
   var LS_KEY = 'soapbox-webbuilder-draft';
+  // Multi-tenant scoping: the owner account (from ?account=, if signed in) + a stable per-browser site id
+  // so server-side saves land under {account}/{siteId} and can be listed/reloaded later.
+  var ACCOUNT = (function(){ try{ return (new URLSearchParams(location.search).get('account')||'').trim().toLowerCase(); }catch(e){ return ''; } })();
+  var SITE_ID = (function(){ try{ var k='soapbox-webbuilder-siteid', v=localStorage.getItem(k); if(!v){ v='site-'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); localStorage.setItem(k,v); } return v; }catch(e){ return 'draft'; } })();
   var CUR_TPL = ${JSON.stringify(TEMPLATE_KEYS[0])};
   var model = null, lastSlug = '';
   var E = function(id){ return document.getElementById(id); };
@@ -381,12 +404,17 @@ export function builderPage() {
       if(s.type==='links'){
         inner += '<label>Links (label | url per line)</label><textarea data-f=links data-i="'+idx+'">'+escH(((s.items||[]).map(function(it){return (it.label||'')+' | '+(it.url||'');}).join('\\n')))+'</textarea>';
       }
+      if(s.type==='bottomnav'){
+        inner += '<label>Tabs (label | url per line, up to 5)</label><textarea data-f=links data-i="'+idx+'">'+escH(((s.items||[]).map(function(it){return (it.label||'')+' | '+(it.url||'');}).join('\\n')))+'</textarea>';
+        inner += '<label class=chk style="text-transform:none;letter-spacing:0"><input type=checkbox data-f=collapsed data-i="'+idx+'"'+(s.collapsed?' checked':'')+'> Start collapsed</label>';
+      }
       box.innerHTML = hd+inner; host.appendChild(box);
     });
     host.querySelectorAll('[data-f]').forEach(function(el){
       el.addEventListener('input', function(){
         var i=+el.getAttribute('data-i'), f=el.getAttribute('data-f'), s=model.sections[i]; if(!s) return;
         if(f==='links'){ s.items = el.value.split('\\n').map(function(line){ var p=line.split('|'); return { label:(p[0]||'').trim(), url:(p[1]||'').trim() }; }).filter(function(it){return it.label||it.url;}); }
+        else if(f==='collapsed'){ s.collapsed = el.checked; }
         else { s[f]=el.value; }
         preview(); save();
       });
@@ -403,6 +431,7 @@ export function builderPage() {
       if(s.type==='text'){ h += '<p>'+escH(s.body||'').replace(/\\n/g,'<br>')+'</p>'; }
       if(s.type==='image'){ var u=okHref(s.url); if(u) h += '<img src="'+escH(u)+'" alt="'+escH(s.alt||'')+'" style="max-width:100%;border-radius:8px">'; else h += '<p style="color:#bbb">[image]</p>'; }
       if(s.type==='links'){ h += '<ul style="list-style:none;padding:0">'; (s.items||[]).forEach(function(it){ var u=okHref(it.url); h += '<li style="margin:7px 0">'+(u?('<a href="'+escH(u)+'" rel=noopener>'+escH(it.label||u)+'</a>'):('<span style="color:#bbb">'+escH(it.label||'')+'</span>'))+'</li>'; }); h += '</ul>'; }
+      if(s.type==='bottomnav'){ h += '<div style="border:1px solid #ddd;border-radius:8px;background:#f5f6f7;padding:8px 10px;margin:10px 0;font-family:system-ui;font-size:12px;color:#555"><b>\\u25B4 '+escH(s.heading||'Menu')+'</b>'+(s.collapsed?' <em>(starts collapsed)</em>':'')+'<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">'; (s.items||[]).slice(0,5).forEach(function(it){ h += '<span style="padding:5px 10px;background:#fff;border:1px solid #ddd;border-radius:6px">'+escH(it.label||'')+'</span>'; }); h += '</div><div style="color:#999;margin-top:6px">Fixed collapsible bar on your published page</div></div>'; }
     });
     h += '</div>'; E('preview').innerHTML = h;
   }
@@ -426,6 +455,7 @@ export function builderPage() {
       if(t==='text') model.sections.push({type:'text',heading:'New section',body:''});
       if(t==='links') model.sections.push({type:'links',heading:'Links',items:[]});
       if(t==='image') model.sections.push({type:'image',heading:'',url:'',alt:''});
+      if(t==='bottomnav') model.sections.push({type:'bottomnav',heading:'Menu',collapsed:false,items:[{label:'Home',url:'https://example.com/'},{label:'About',url:'https://example.com/about'}]});
       renderSections(); preview(); save();
     });
   });
@@ -434,11 +464,11 @@ export function builderPage() {
 
   E('btn-save').addEventListener('click', function(){
     collect(); save();
-    api('/api/save', { doc:model }).then(function(r){ E('save-status').textContent = r && r.ok ? 'Saved.' : 'Saved locally.'; });
+    api('/api/save', { account:ACCOUNT, siteId:SITE_ID, template:CUR_TPL, doc:model, network:E('opt-network').checked }).then(function(r){ E('save-status').textContent = r && r.ok ? 'Saved.' : 'Saved locally.'; });
   });
   E('btn-publish').addEventListener('click', function(){
     collect();
-    api('/api/publish', { ren:E('f-ren').value, template:CUR_TPL, doc:model, network:E('opt-network').checked }).then(function(r){
+    api('/api/publish', { account:ACCOUNT, siteId:SITE_ID, ren:E('f-ren').value, template:CUR_TPL, doc:model, network:E('opt-network').checked }).then(function(r){
       var out=E('publish-result');
       if(r && r.ok){ lastSlug=r.slug; out.innerHTML = '<div class="note ok">Published! REN: <code>'+escH(r.renUrl)+'</code> · <a href="'+escH(r.pageUrl)+'" target=_blank rel=noopener>view your site</a></div>'; }
       else { out.innerHTML = '<div class="note pending">'+escH((r&&r.error)||'Could not publish')+'</div>'; }
@@ -481,6 +511,7 @@ export function renderPublished(rec) {
   const doc = rec.doc || {};
   const canonical = rec.renUrl || `${BASE_URL}${bp('/p/' + rec.slug)}`;
   const parts = [];
+  let bottomBar = '';   // a single fixed collapsible bottom-nav (rendered outside .site, after content)
   parts.push(`<div class=site>`);
   parts.push(`<h1>${esc(doc.title)}</h1>`);
   if (doc.tagline) parts.push(`<p class=tagline>${esc(doc.tagline)}</p>`);
@@ -498,6 +529,13 @@ export function renderPublished(rec) {
         return `<li><a href="${esc(u)}" rel="noopener" target="_blank">${esc(it.label || u)}</a></li>`;
       }).filter(Boolean).join('');
       if (items) parts.push(`<ul class=links>${items}</ul>`);
+    } else if (s.type === 'bottomnav') {
+      // A page-level collapsible bottom bar. Take the LAST one defined; safeHref every tab url so a
+      // javascript:/data: URL can never survive (bottomNav esc()'s but does not protocol-check).
+      const navItems = (s.items || []).map((it, i) => ({
+        id: 'nav' + i, label: it.label || '', href: safeHref(it.url), icon: 'grid',
+      })).filter((it) => it.label || it.href);
+      bottomBar = bottomNav({ items: navItems, collapsed: s.collapsed === true, toggleLabel: s.heading || 'Menu' });
     }
   }
   // curated related-sites block (only if this site opted into the network)
@@ -507,6 +545,8 @@ export function renderPublished(rec) {
   }
   parts.push(`<p class=builtby>Built with SoapBox Web Builder</p>`);
   parts.push(`</div>`);
+  // Room so page content is never hidden behind the fixed bar, then the bar itself (outside .site).
+  if (bottomBar) parts.push(`<div style="height:120px" aria-hidden="true"></div>${bottomBar}`);
 
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'WebSite',
@@ -522,7 +562,30 @@ export function renderPublished(rec) {
   });
 }
 
-// ── publish + domain actions (pure over the in-memory store; the seams do the rest) ─────────────────
+// ── account helper ──────────────────────────────────────────────────────────────────────────────────
+// The signed-in account that OWNS a site. Absent/junk → the shared DEFAULT_ACCOUNT (back-compat: the old
+// store had no accounts). Multi-tenant scoping keys on this; it is never trusted as auth (that's upstream).
+function ownerAccount(b) {
+  const a = String((b && b.account) || '').trim().toLowerCase();
+  return a && /^[a-z0-9._-]{1,120}$/.test(a) ? a : DEFAULT_ACCOUNT;
+}
+
+// ── save action (persist a DRAFT, scoped to its account; survives restart) ──────────────────────────
+// The editor autosaves to localStorage in the browser; this persists it server-side so it is durable and
+// listable per account. A draft is NOT published (no slug, no REN, not servable at /p/) until doPublish.
+export function doSave(body) {
+  const b = body && typeof body === 'object' ? body : {};
+  const account = ownerAccount(b);
+  const siteId = String(b.siteId || '').trim().toLowerCase() || 'draft';
+  const tplKey = TEMPLATE_KEYS.includes(b.template) ? b.template : null;
+  const fallbackCat = (tplKey && TEMPLATES[tplKey].category) || 'personal';
+  const doc = sanitizeDoc(b.doc, fallbackCat);
+  const rec = store.put(account, siteId, { doc, template: tplKey, network: b.network === true, savedAt: Date.now() });
+  if (!rec) return { ok: false, error: 'could not save' };
+  return { ok: true, saved: 'server', account, siteId: rec.siteId };
+}
+
+// ── publish + domain actions (over the file-backed store; the seams do the rest) ────────────────────
 export function doPublish(body) {
   const b = body && typeof body === 'object' ? body : {};
   const ren = resolveRen(b.ren);
@@ -530,10 +593,13 @@ export function doPublish(body) {
   const tplKey = TEMPLATE_KEYS.includes(b.template) ? b.template : null;
   const fallbackCat = (tplKey && TEMPLATES[tplKey].category) || 'personal';
   const doc = sanitizeDoc(b.doc, fallbackCat);
-  const slug = ren.label;
+  const account = ownerAccount(b);
+  const slug = ren.label;                    // the REN label doubles as the site's id + its global slug
   const network = b.network === true;
-  const rec = { slug, renUrl: ren.renUrl, tld: ren.tld, doc, network, domain: null, domainStatus: null, template: tplKey, at: Date.now() };
-  PUBLISHED.set(slug, rec);
+  store.put(account, slug, {
+    slug, published: true, renUrl: ren.renUrl, tld: ren.tld, ren: ren.renUrl,
+    doc, network, domain: null, domainStatus: null, domainToken: null, template: tplKey, at: Date.now(),
+  });
   // Register into the backlink network + the discovery seam (only meaningful when opted in).
   net.register({
     id: slug, name: doc.title, url: `${BASE_URL}${bp('/p/' + slug)}`,
@@ -552,6 +618,7 @@ export function doAttachDomain(body) {
   rec.domain = domain;
   rec.domainStatus = 'pending';
   rec.domainToken = token;
+  store.put(rec.account, rec.siteId, { domain, domainStatus: 'pending', domainToken: token }); // persist
   // The DNS record the user must add. The apex/host CNAME/A pointer target is a documented box value.
   const pointTarget = process.env.WEBBUILDER_EDGE || 'edge.soapbox.community';
   return {
@@ -571,6 +638,7 @@ export function doVerifyDomain(body) {
   if (!rec.domain) return { ok: false, error: 'no domain attached yet', status: 'none' };
   const v = verifyDomain(rec.domain, rec.domainToken);
   rec.domainStatus = v.status;               // honest: only 'verified' if the seam truly verified
+  store.put(rec.account, rec.siteId, { domainStatus: v.status }); // persist the honest verdict
   return { ok: true, domain: rec.domain, verified: v.verified, status: v.status, method: v.method, note: v.note };
 }
 
@@ -619,7 +687,7 @@ export async function handler(req, res) {
     if (path === '/sitemap.xml') {
       const today = new Date().toISOString().slice(0, 10);
       const entries = SITEMAP_PATHS.map((u) => ({ path: u, lastmod: today, changefreq: 'weekly', priority: u === '/' ? '1.0' : '0.6' }));
-      for (const rec of PUBLISHED.values()) entries.push({ path: '/p/' + rec.slug, lastmod: today, changefreq: 'weekly', priority: '0.7' });
+      for (const rec of store.published()) entries.push({ path: '/p/' + rec.slug, lastmod: today, changefreq: 'weekly', priority: '0.7' });
       res.writeHead(200, { 'content-type': 'application/xml' });
       return res.end(sitemapXml(BASE_URL, entries));
     }
@@ -634,7 +702,7 @@ export async function handler(req, res) {
     }
 
     // JSON APIs (POST)
-    if (path === '/api/save' && method === 'POST') { await readBody(req); return sendJson(res, { ok: true, saved: 'server' }); }
+    if (path === '/api/save' && method === 'POST') { return sendJson(res, doSave(parseJson(await readBody(req)))); }
     if (path === '/api/publish' && method === 'POST') { return sendJson(res, doPublish(parseJson(await readBody(req)))); }
     if (path === '/api/attach-domain' && method === 'POST') { return sendJson(res, doAttachDomain(parseJson(await readBody(req)))); }
     if (path === '/api/verify-domain' && method === 'POST') { return sendJson(res, doVerifyDomain(parseJson(await readBody(req)))); }

@@ -329,6 +329,131 @@ test('esc / safeHref / maskEmail / interpolate behave', () => {
   assert.equal(interpolate('{{missing}}', {}, { html: true }), '');
 });
 
+// ── COMPLIANCE PRE-SEND GATE wiring (compliance.mjs) ──────────────────────────────────────────────────────
+test('compliance gate BLOCKS a send when the CAN-SPAM postal address is missing', async () => {
+  // compliance configured but no postalAddress → checkSend blocks; nothing dispatches.
+  const { cs, sent } = make(undefined, { compliance: { region: 'US', senderName: 'MELEK', postalAddress: '' } });
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 's', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w' });
+  cs.sendCampaign('c');
+  const p = await cs.processQueue();
+  assert.equal(p.blocked, 1); assert.equal(p.sent, 0);
+  assert.equal(sent.length, 0);
+  // the blocked message carries the blocker reason
+  const q = cs._load().queue[0];
+  assert.equal(q.status, 'blocked');
+  assert.match(q.error, /postal address/i);
+});
+
+test('compliance gate PASSES when configured; attaches List-Unsubscribe headers + appends the footer', async () => {
+  const { cs, sent } = make(undefined, {
+    compliance: { region: 'US', senderName: 'MELEK Witness', postalAddress: '1 Temple Rd, Richardson TX' },
+  });
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 's', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w' });
+  cs.sendCampaign('c');
+  const p = await cs.processQueue();
+  assert.equal(p.sent, 1); assert.equal(p.blocked, 0);
+  assert.equal(sent.length, 1);
+  const m = sent[0];
+  assert.ok(m.headers && m.headers['List-Unsubscribe'].includes('/u/'));      // RFC 8058 header attached
+  assert.equal(m.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click');
+  assert.ok(m.text.includes('MELEK Witness'));                                // footer appended to body
+  assert.ok(m.text.includes('1 Temple Rd'));
+});
+
+test('no compliance config → gate is skipped (legacy behavior, sends normally)', async () => {
+  const { cs, sent } = make();   // no compliance opt
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 's', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w' });
+  cs.sendCampaign('c');
+  const p = await cs.processQueue();
+  assert.equal(p.sent, 1); assert.equal(p.blocked, 0);
+  assert.equal(sent.length, 1);
+});
+
+test('compliance gate blocks a deliverability STOP state (bounce over threshold)', async () => {
+  const { cs, sent } = make(undefined, {
+    compliance: { region: 'US', senderName: 'M', postalAddress: 'addr',
+      health: { sent: 1000, bounces: 30, complaints: 0 } },   // 3% bounce ≥ 2% → STOP
+  });
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 's', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w' });
+  cs.sendCampaign('c');
+  const p = await cs.processQueue();
+  assert.equal(p.blocked, 1); assert.equal(sent.length, 0);
+  assert.match(cs._load().queue[0].error, /deliverability STOP/i);
+});
+
+// ── SEND-OPTIMIZER wiring (send-optimizer.mjs) ────────────────────────────────────────────────────────────
+test('subject A/B: a campaign with subjectVariants picks the winning subject via pickSubject', async () => {
+  const { cs, sent } = make();
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l', attrs: { name: 'Ada' } });
+  cs.upsertTemplate({ id: 'w', subject: 'Template Subject', html: '<p>x</p>' });
+  // variant B has a strong open rate; A is unproven — UCB should still surface a clear pick deterministically.
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w', subjectVariants: [
+    { id: 'A', text: 'Hello {{name}} — A', sent: 100, opens: 5 },
+    { id: 'B', text: 'Hello {{name}} — B', sent: 100, opens: 80 },
+  ] });
+  cs.sendCampaign('c');
+  await cs.processQueue();
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].subjectVariantId, 'B');                    // B (80% open) wins the bandit
+  assert.equal(sent[0].subject, 'Hello Ada — B');                 // variant text, interpolated (not template subject)
+});
+
+test('subject A/B: no variants → the template subject is used unchanged', async () => {
+  const { cs, sent } = make();
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 'Plain Subject', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w' });
+  cs.sendCampaign('c');
+  await cs.processQueue();
+  assert.equal(sent[0].subject, 'Plain Subject');
+  assert.equal(sent[0].subjectVariantId, null);
+});
+
+test('scheduleCampaign computes a future optimal send time via nextSendAt', () => {
+  const { cs } = make();
+  cs.createList('l', { id: 'l' });
+  cs.upsertTemplate({ id: 'w', subject: 's', html: '<p>x</p>' });
+  cs.createCampaign({ id: 'c', listId: 'l', templateId: 'w', sendTimePrefs: { dows: [2, 4], tzOffsetMinutes: 0 } });
+  const from = Date.UTC(2026, 0, 1, 9, 0, 0);           // Thu 2026-01-01 09:00 UTC
+  const r = cs.scheduleCampaign('c', from);
+  assert.equal(r.ok, true);
+  assert.ok(r.scheduledAt > from);                       // strictly in the future
+  const d = new Date(r.scheduledAt);
+  assert.ok([2, 4].includes(d.getUTCDay()));             // lands on a preferred day-of-week
+  assert.equal(d.getUTCHours(), 10);                     // default optimal hour (no open history)
+  // persisted on the campaign
+  assert.equal(cs._load().campaigns.c.scheduledAt, r.scheduledAt);
+  assert.equal(cs.scheduleCampaign('ghost').ok, false); // soft-fail on unknown campaign
+});
+
+test('journey step subjectVariants also drive pickSubject at enqueue time', async () => {
+  let blob = null;
+  const fs = { read: () => blob, write: (_p, s) => { blob = s; } };
+  let n = 0; const genToken = () => `tok-${++n}`;
+  const sent = [];
+  const cs = createCampaignSender({ fs, now: () => 0, genToken, sender: async (m) => { sent.push(m); return { ok: true, sent: true }; } });
+  cs.createList('l', { id: 'l' }); cs.addSubscriber({ email: 'a@b.com', listId: 'l' });
+  cs.upsertTemplate({ id: 's0', subject: 'tmpl', html: '<p>x</p>' });
+  cs.defineJourney({ id: 'j', steps: [{ templateId: 's0', delayMs: 0, subjectVariants: [
+    { id: 'A', text: 'variant A', sent: 10, opens: 1 },
+    { id: 'B', text: 'variant B', sent: 10, opens: 9 },
+  ] }] });
+  cs.enrollSubscriber('j', 'a@b.com');
+  cs.tickJourneys(0);
+  await cs.processQueue();
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].subjectVariantId, 'B');
+  assert.equal(sent[0].subject, 'variant B');
+});
+
 test('createCampaignSender never throws on totally broken fs', () => {
   const fs = { read: () => { throw new Error('io'); }, write: () => { throw new Error('io'); } };
   const cs = createCampaignSender({ fs });
