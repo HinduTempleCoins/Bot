@@ -1,0 +1,26 @@
+{
+  "slug": "defend-texas-liberty",
+  "person": {
+    "kind": "org",
+    "id": "Defend Texas Liberty PAC",
+    "name": "Defend Texas Liberty PAC",
+    "office": "Political Action Committee",
+    "party": "Republican-aligned",
+    "jurisdiction": "Texas",
+    "bio_url": "https://www.transparencyusa.org/tx/pac/defend-texas-liberty-pac"
+  },
+  "verified": false,
+  "verifyNote": "Encoded from public reporting (Texas Tribune, News From the States). Dollar figures are approximate as reported; confirm exact totals against Texas Ethics Commission filings before promotion. Facts only; no verdict.",
+  "records": [
+    { "type": "donation", "contributor": "Tim Dunn and the Farris & Jo Ann Wilks family", "recipient": "Defend Texas Liberty PAC", "label": "Roughly 90% of the PAC's funds come from these oil-and-gas financiers", "source": { "name": "News From the States", "url": "https://www.newsfromthestates.com/article/heres-who-gets-money-defend-texas-liberty-pac-whose-leader-met-white-supremacist-nick" }, "asOf": "2023" },
+    { "type": "donation", "contributor": "Defend Texas Liberty PAC", "recipient": "primary challengers and allied groups (incl. the Texas GOP)", "amount": "~$14.8M spent (of ~$16M raised)", "label": "Reported spending funding primary challengers and allied groups", "source": { "name": "News From the States", "url": "https://www.newsfromthestates.com/article/heres-who-gets-money-defend-texas-liberty-pac-whose-leader-met-white-supremacist-nick" }, "asOf": "2023" },
+    { "type": "donation", "contributor": "Defend Texas Liberty PAC", "recipient": "Lt. Gov. Dan Patrick", "amount": "$3,000,000", "label": "Given in June 2023 as Patrick prepared to preside over AG Ken Paxton's impeachment trial in the Senate", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/17/texas-defend-liberty-ken-paxton-republicans/" }, "asOf": "2023-06" },
+    { "type": "donation", "contributor": "Defend Texas Liberty PAC", "recipient": "Ken Paxton", "label": "A leading beneficiary of the PAC's giving", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/17/texas-defend-liberty-ken-paxton-republicans/" }, "asOf": "2023" },
+    { "type": "statement", "subject": "Defend Texas Liberty PAC", "label": "Directed spending into Collin County legislative contests (e.g., House District 70) and vowed primary challenges against House Republicans who voted to impeach Paxton", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/03/08/tim-dunn-farris-wilks-defend-texas-liberty-election/" }, "asOf": "2024" },
+    { "type": "statement", "subject": "Defend Texas Liberty PAC", "label": "Political consultant Luke Macias has served as president", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/24/tim-dunn-farris-wilks-defend-texas-liberty-nick-fuentes/" }, "asOf": "2024" }
+  ],
+  "disputes": [
+    { "type": "controversy", "subject": "Defend Texas Liberty PAC", "label": "In October 2023 the PAC's then-leader (Jonathan Stickland) was reported to have met with white nationalist Nick Fuentes, prompting resignations, returned contributions, and bipartisan rebukes", "source": { "name": "The Texas Tribune", "url": "https://www.texastribune.org/2024/01/24/tim-dunn-farris-wilks-defend-texas-liberty-nick-fuentes/" }, "asOf": "2023-10" }
+  ],
+  "reply": ""
+}
