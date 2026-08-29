@@ -1,7 +1,7 @@
 // dossier.test.mjs — OFFLINE. Reads the committed knowledge/accountability/*.json. No network.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { listDossiers, loadDossier, buildProfile, renderDossierPage } from './dossier.mjs';
+import { listDossiers, loadDossier, buildProfile, renderDossierPage, buildXrefResolver, normEntity } from './dossier.mjs';
 
 test('listDossiers finds the committed dossiers', async () => {
   const list = await listDossiers();
@@ -42,4 +42,33 @@ test('renderDossierPage shows the pending-verification banner while unverified',
   assert.match(html, /pending Resource Center/i);
   const none = await renderDossierPage('no-such-person');
   assert.match(none, /No dossier on file/i);
+});
+
+test('normEntity keys names past punctuation and parentheticals', () => {
+  assert.equal(normEntity('Defend Texas Liberty PAC'), 'defend texas liberty pac');
+  assert.equal(normEntity('Defend Texas Liberty PAC (funded by X & Y)'), 'defend texas liberty pac');
+  assert.equal(normEntity('Ken  Paxton.'), 'ken paxton');
+  assert.equal(normEntity(null), '');
+});
+
+test('buildXrefResolver links known entities and never links a page to itself', async () => {
+  const r = await buildXrefResolver('ken-paxton');
+  assert.equal(r('Defend Texas Liberty PAC'), '?who=defend-texas-liberty');
+  assert.equal(r('Ken Paxton'), null, 'self never links');
+  assert.equal(r('Some Unknown LLC'), null, 'no dossier → no link');
+});
+
+test('dossier pages cross-link to connected dossiers (who is doing what with who)', async () => {
+  // Dunn → DTL → Paxton, and Paxton ↔ DTL, all render as ?who= cross-links.
+  const paxton = await buildProfile('ken-paxton');
+  assert.match(paxton.html, /class="ent xref" href="\?who=defend-texas-liberty"/,
+    'Paxton page links to the PAC that funded him');
+  const dtl = await buildProfile('defend-texas-liberty');
+  assert.match(dtl.html, /class="ent xref" href="\?who=ken-paxton"/,
+    'PAC page links to its beneficiary');
+  const dunn = await buildProfile('tim-dunn');
+  assert.match(dunn.html, /class="ent xref" href="\?who=defend-texas-liberty"/,
+    'Dunn page links to the PAC he funds');
+  // a connected entity with no dossier stays plain text (no dangling link)
+  assert.doesNotMatch(paxton.html, /href="\?who=watchguard/i);
 });
