@@ -468,12 +468,19 @@ function sourceLink(src) {
     : `<span class="src">${name}</span>`;
 }
 
-function itemLine(it) {
+// The connected entity (it.other) is rendered as a cross-link to its OWN dossier page when a
+// resolveHref(name) is supplied and returns a URL for it — this is what interlinks the graph
+// ("who is doing what with who" across every page). Plain text when there is no such page.
+function itemLine(it, resolveHref) {
   const amt = it.amount != null ? ` $${esc(it.amount)}` : '';
   const lab = it.label ? ` — ${esc(it.label)}` : '';
   const st = it.status ? ` <span class="status">[${esc(it.status)}]</span>` : '';
   const lic = it.license && it.license.license ? ` <span class="lic">[${esc(it.license.license)}]</span>` : '';
-  return `<li>${esc(it.kind)}: <span class="ent">${esc(it.other)}</span>${amt}${st}${lab} `
+  const href = typeof resolveHref === 'function' ? resolveHref(it.other) : null;
+  const otherHtml = href
+    ? `<a class="ent xref" href="${esc(href)}">${esc(it.other)}</a>`
+    : `<span class="ent">${esc(it.other)}</span>`;
+  return `<li>${esc(it.kind)}: ${otherHtml}${amt}${st}${lab} `
     + `<span class="asof">(as of ${esc(it.asOf)})</span> — ${sourceLink(it.source)}${lic}</li>`;
 }
 
@@ -492,11 +499,12 @@ function eventLine(ev) {
  * Render a power-map as escaped HTML. EVERY claim links to its source. Includes the
  * right-of-reply block and the standing no-verdicts line. Contains no verdict fields.
  */
-export function renderProfile(map) {
+export function renderProfile(map, opts = {}) {
   const p = (map && map.person) || { name: '', id: '' };
+  const resolveHref = opts && typeof opts.resolveHref === 'function' ? opts.resolveHref : null;
   const sec = (title, items) => {
     if (!items || !items.length) return '';
-    return `<section><h3>${esc(title)}</h3><ul>${items.map(itemLine).join('')}</ul></section>`;
+    return `<section><h3>${esc(title)}</h3><ul>${items.map((it) => itemLine(it, resolveHref)).join('')}</ul></section>`;
   };
   const moneyOut = sec('Money out (contributions made)', map.money?.out);
   const moneyIn = sec('Money in (contributions received)', map.money?.in);
