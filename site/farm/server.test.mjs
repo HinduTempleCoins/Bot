@@ -74,6 +74,38 @@ test('/api/stake-op builds a foreverLock op; validates amount', async () => {
   assert.equal(j(o).ok, false);
 });
 
+test('GET / renders the guided hub: progress meter + the four tiles', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /Your farm path/);
+  assert.match(o.body, /class=tiles/);
+  assert.match(o.body, /Forever-Lock/);        // apis tile
+  assert.match(o.body, /Burn-Mine/);           // burnmine tile
+  assert.match(o.body, /Earn MWALI/);          // liquidity tile
+  assert.match(o.body, /Coming soon/);         // gated tiles until deployed
+  assert.match(o.body, /window\.__FARM__/);    // client config injected
+});
+
+test('/api/hub returns four tiles with steps + gated flags + progress', async () => {
+  const { res, o } = cap(); await handler(req('/api/hub'), res);
+  const d = j(o);
+  assert.equal(d.ok, true);
+  assert.equal(d.tiles.length, 4);
+  assert.ok(d.tiles.every((t) => t.what && t.why && Array.isArray(t.steps)));
+  assert.ok(d.tiles.find((t) => t.id === 'liquidity').gated);   // gauge not deployed → gated
+  assert.ok(d.progress && d.progress.total === 4);
+});
+
+test('/api/prana returns public EVM config (MWALI address) with gauge/burnMine gated until deployed', async () => {
+  const { res, o } = cap(); await handler(req('/api/prana'), res);
+  const d = j(o);
+  assert.equal(d.ok, true);
+  assert.equal(d.chainId, 712217);
+  assert.match(d.mwali, /^0x[0-9a-fA-F]{40}$/);   // MWALI = the PoL/liquidity reward, live on mainnet
+  assert.equal(d.gaugeLive, false);                // staged, not deployed
+  assert.equal(d.burnMineLive, false);
+  assert.ok(!/PRANA_DEPLOYER|key|WIF/i.test(o.body)); // never leaks key material
+});
+
 test('/health ok; unknown path 404', async () => {
   let { res, o } = cap(); await handler(req('/health'), res);
   assert.equal(o.code, 200); assert.equal(j(o).ok, true);
