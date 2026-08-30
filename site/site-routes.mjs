@@ -123,6 +123,13 @@ export const ROUTES = [
     public: true,
     description: 'Site search across the corpus and verticals.',
   },
+  {
+    path: '/kula-paper',
+    title: 'The KULA Paper — PRANA / KULA economic spec',
+    module: './kula-paper/server.mjs',
+    public: true,
+    description: 'The public economic spec for the PRANA/KULA economy: see-saw compute, KULA/MWALI/APIS, CDP, veKULA, gauges, bridge, arcade.',
+  },
 
   // ── admin / gated (public:false — mount behind operator auth) ───────────────
   {
