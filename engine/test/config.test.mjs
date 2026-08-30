@@ -117,3 +117,13 @@ test('genesis tokens carry consistent, in-range precision and cap flags', () => 
   assert.equal(drone.supplyCapImmutable, true);
   assert.equal(apis.supplyCapImmutable, false);
 });
+
+test('mainnet preset carries the real MELEK chain id (not the refuse-to-anchor placeholder)', () => {
+  const cid = NET_PRESETS.mainnet.chainId;
+  assert.equal(cid.length, 64);
+  assert.match(cid, /^[0-9a-f]{64}$/);
+  // NOT the all-zeros placeholder — streamer.verifyChain() would refuse to anchor on that.
+  assert.notEqual(cid, '0'.repeat(64));
+  // The public Block-Zero-inscription chain id (matches whitepaper / witness site / faucet-mainnet).
+  assert.equal(cid, '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b');
+});

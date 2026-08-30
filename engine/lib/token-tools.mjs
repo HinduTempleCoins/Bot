@@ -29,6 +29,10 @@ import {
   buildEngineOp,
   buildSmtCreateOp,
   buildSmtSetupOp,
+  buildForeverLockOp,
+  scotEnableOp,
+  burnOp,
+  bridgeOutOp,
   isValidSymbol,
 } from './op-builder.mjs';
 import { fromBaseUnits } from './decimal.mjs';
@@ -131,7 +135,16 @@ export function buildFromRequest(req) {
   const action = String(req.action || '');
   const params = (typeof req.params === 'object' && req.params) || {};
   if (layer === 'engine') {
-    return buildEngineOp(action, params, String(req.account || ''));
+    // Route the token-MANAGEMENT / add-on actions to their dedicated builders (each already
+    // validated + tested in op-builder.mjs). These are what turn a plain token into a full
+    // "Scot Bot token" (scot.enable), a mining stake (foreverLock), or let it deflate (burn) /
+    // bridge to PRANA (bridgeOut). Everything else is a core tokens.* op.
+    const account = String(req.account || '');
+    if (action === 'scot.enable' || action === 'scot') return scotEnableOp(account, params);
+    if (action === 'foreverLock') return buildForeverLockOp(account, params);
+    if (action === 'burn') return burnOp(account, params);
+    if (action === 'bridgeOut') return bridgeOutOp(account, params);
+    return buildEngineOp(action, params, account);
   }
   if (layer === 'smt') {
     if (action === 'create') return buildSmtCreateOp(params);
@@ -243,7 +256,7 @@ function renderBuilder() {
 }
 
 const BUILDER_SCRIPT = `<script>
-const ACTIONS={engine:[['create','create'],['issue','issue'],['transfer','transfer'],['stake','stake'],['unstake','unstake']],
+const ACTIONS={engine:[['create','create'],['issue','issue'],['transfer','transfer'],['stake','stake'],['unstake','unstake'],['scot.enable','add Scot Bot (rewards)'],['burn','burn']],
   smt:[['create','smt_create'],['setup','smt_setup']]};
 const FORMS={
   'engine:create':'<label>Account (signer)</label><input id="account" placeholder="hathor">'+
@@ -265,6 +278,16 @@ const FORMS={
     '<label>Quantity</label><input id="quantity" placeholder="10">',
   'engine:unstake':'<label>Account</label><input id="account" placeholder="hathor">'+
     '<label>Symbol</label><input id="symbol" placeholder="DRONE">'+
+    '<label>Quantity</label><input id="quantity" placeholder="10">',
+  'engine:scot.enable':'<label>Account (issuer)</label><input id="account" placeholder="hathor">'+
+    '<label>Symbol (the token to reward)</label><input id="symbol" placeholder="MYTOK">'+
+    '<label>Emission per window</label><input id="emissionPerWindow" placeholder="100">'+
+    '<label>Window (L1 blocks)</label><input id="windowBlocks" placeholder="28800">'+
+    '<label>Author share (bps, 0-10000)</label><input id="authorBps" value="6500">'+
+    '<label>Curve</label><select id="curve"><option>linear</option><option>quadratic</option><option>sqrt</option></select>'+
+    '<label>Tribe tag (optional)</label><input id="tag" placeholder="mytok">',
+  'engine:burn':'<label>Account</label><input id="account" placeholder="hathor">'+
+    '<label>Symbol</label><input id="symbol" placeholder="MYTOK">'+
     '<label>Quantity</label><input id="quantity" placeholder="10">',
   'smt:create':'<label>Control account</label><input id="controlAccount" placeholder="hathor">'+
     '<label>NAI (from the live pool)</label><input id="nai" placeholder="@@422838704">'+
@@ -288,6 +311,14 @@ function gather(){
   const imm=document.getElementById('supplyCapImmutable');
   if(imm&&imm.checked)p.supplyCapImmutable=true;
   if(p.precision!=null&&p.precision!=='')p.precision=Number(p.precision);
+  // Scot Bot rule fields nest under params.config (scotEnableOp shape).
+  const emis=document.getElementById('emissionPerWindow');
+  if(emis){const cfg={emissionPerWindow:emis.value.trim()};
+    const wb=document.getElementById('windowBlocks');if(wb&&wb.value!=='')cfg.windowBlocks=Number(wb.value);
+    const ab=document.getElementById('authorBps');if(ab&&ab.value!=='')cfg.authorBps=Number(ab.value);
+    const cv=document.getElementById('curve');if(cv)cfg.curve=cv.value;
+    const tg=document.getElementById('tag');if(tg&&tg.value.trim())cfg.tag=tg.value.trim();
+    p.config=cfg;}
   return p;
 }
 async function buildOp(){

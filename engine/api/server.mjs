@@ -15,6 +15,7 @@ import { config, genesis } from '../config.mjs';
 import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
 import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
+import { makeNitrousHandler } from '../nitrous/render.mjs';
 import { workerbee } from '../contracts/workerbee.mjs';
 
 // The MELEK-Engine wallet + payouts viewer. Self-contained, no build, read-only. Shows YOUR token
@@ -165,6 +166,10 @@ export function makeHandler(state, opts = {}) {
   // smtSummary reader (integrations/smt-info.mjs) so the SMT half is live too.
   // It NEVER signs/broadcasts — /tools/api/build only builds + validates ops.
   const tokenTools = makeTokenToolsHandler({ state, smtSummary: opts.smtSummary });
+  // The Nitrous-style per-token front-end generator: renderTokenSite() folded into a handler.
+  // Mounted at /nitrous/<SYMBOL> so every engine token has a reachable branded read-only tribe
+  // page (supply/holders/posts/rewards/leaderboard). The tokens portal links to this URL.
+  const nitrous = makeNitrousHandler(state, opts.themeFor);
 
   return function handler(req, res) {
     const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
@@ -180,6 +185,14 @@ export function makeHandler(state, opts = {}) {
       const subReq = Object.create(req);
       subReq.url = sub + url.search;
       return tokenTools(subReq, res);
+    }
+
+    // --- Nitrous per-token tribe pages (mounted under /nitrous, prefix stripped) ---
+    if (path === '/nitrous' || path === '/nitrous/' || path.startsWith('/nitrous/')) {
+      const sub = path === '/nitrous' ? '/' : path.slice('/nitrous'.length) || '/';
+      const subReq = Object.create(req);
+      subReq.url = sub + url.search;
+      return nitrous(subReq, res);
     }
 
     try {

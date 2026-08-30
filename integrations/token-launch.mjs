@@ -343,20 +343,42 @@ export function buildCloneTx(clone, opts = {}) {
 
 /**
  * Server-rendered HTML fragment for the portal's "Create" tab. Collects token params, builds the
- * descriptor client-side, and hands it to the connected wallet (Akasha / MetaMask) to sign.
- * esc() everything. The factory addresses are injected (read by the portal from kula-config).
+ * descriptor, and hands it to the right wallet to sign. esc() everything.
  *
- * @param {{wizardAddr?, cloneFactoryAddr?, chainIdHex?}} cfg
+ * THE "BUBBLE" CHAIN SELECTOR (operator's framing): a new token is minted on ONE of two chains,
+ * picked by a "Bubble" toggle at the top of the form:
+ *   • PRANA (main / default) — the ecosystem's EVM L1. A turnkey ERC-20 via the deployed factories;
+ *     signed in an EVM wallet (Akasha / MetaMask) — nothing leaves the browser but the built tx.
+ *   • MELEK Engine           — the Hive-Engine-style side-token layer on the MELEK Graphene chain.
+ *     A `custom_json` op built by the engine's authoritative /tools/api/build endpoint; signed in a
+ *     MELEK wallet / MELEK-Signer. Optionally attaches a Scot Bot reward rule in the same flow.
+ * Neither path ever sees a private key; both only assemble the operation.
+ *
+ * @param {{wizardAddr?, cloneFactoryAddr?, chainIdHex?, engineApi?, sidechainId?, feeToken?,
+ *          tokenCreationFee?, scotFee?, defaultBubble?}} cfg
  */
 export function createTabFragment(cfg = {}) {
   const wizard = esc(cfg.wizardAddr || '');
   const cloneFactory = esc(cfg.cloneFactoryAddr || '');
   const chainIdHex = esc(cfg.chainIdHex || PRANA.chainIdHex || '0x1a751');
+  const engineApi = esc(cfg.engineApi || '');
+  const feeToken = esc(cfg.feeToken || 'APIS');
+  const tokenFee = esc(cfg.tokenCreationFee || '100');
+  const scotFee = esc(cfg.scotFee || '100');
+  const sidechainId = esc(cfg.sidechainId || '');
+  const defaultBubble = cfg.defaultBubble === 'melek' ? 'melek' : 'prana'; // PRANA is the default/main
   const sel = JSON.stringify(SELECTORS);
 
   return `<div class=card>
-  <div class=row><b>Create a Token</b><span class=dim>turnkey ERC-20 on PRANA — point, click, sign in your wallet</span></div>
-  <p class=dim style="margin:.4rem 0">Your wallet signs the deploy. We never see your keys; we only build the transaction.</p>
+  <div class=row><b>Create a Token</b><span class=dim>pick a Bubble — the chain your token mints on</span></div>
+  <p class=dim style="margin:.4rem 0">Choose where the token lives, then point-and-click. Your wallet signs; we never see your keys — we only build the operation.</p>
+  <div class=row id=bubbles style="margin:.4rem 0;gap:.4rem">
+    <button type=button class="bubble${defaultBubble === 'prana' ? ' on' : ''}" data-bubble=prana onclick="pickBubble('prana')" style="border-radius:999px">🟣 PRANA <span class=dim style="font-weight:400">· main · ERC-20</span></button>
+    <button type=button class="bubble${defaultBubble === 'melek' ? ' on' : ''}" data-bubble=melek onclick="pickBubble('melek')" style="border-radius:999px;background:var(--card,#131826);color:var(--ink,#e8e6e3);border:1px solid var(--line,#222a3a)">🪽 MELEK Engine <span class=dim style="font-weight:400">· SCOT side-token</span></button>
+  </div>
+
+  <div id=panel_prana class=bubblepanel>
+  <p class=dim style="margin:.2rem 0">Turnkey ERC-20 on PRANA — signed in your EVM wallet (Akasha / MetaMask).</p>
   <div class=row style="margin:.3rem 0">
     <label class=dim style="display:flex;gap:.3rem;align-items:center"><input type=radio name=mode value=wizard checked> Full deploy (wizard)</label>
     <label class=dim style="display:flex;gap:.3rem;align-items:center"><input type=radio name=mode value=clone> Clone (EIP-1167, cheaper)</label>
@@ -370,14 +392,41 @@ export function createTabFragment(cfg = {}) {
   <div class=row style="margin:.5rem 0"><button onclick=melekCreate()>Build &amp; sign in wallet</button>
     <button type=button onclick=melekConnect() style="background:#2c7be5;color:#fff">Connect wallet</button></div>
   <div id=t_out class=dim style="margin-top:.6rem"></div>
+  </div>
+
+  <div id=panel_melek class=bubblepanel hidden>
+  <p class=dim style="margin:.2rem 0">A MELEK-Engine side-token (Hive-Engine style). Creating burns <b>${tokenFee} ${feeToken}</b>. Optionally add a <b>Scot Bot</b> reward rule so posts tagged for it earn the token.</p>
+  <div class=row style="margin:.3rem 0"><input id=e_account placeholder="Your MELEK account (signer, e.g. hathor)" autocomplete=off style="flex:1"></div>
+  <div class=row style="margin:.3rem 0"><input id=e_name placeholder="Token name (e.g. My Tribe)" autocomplete=off style="flex:1"></div>
+  <div class=row style="margin:.3rem 0"><input id=e_symbol placeholder="SYMBOL (1-10, A-Z)" autocomplete=off maxlength=10>
+    <input id=e_precision value="3" title="decimals 0-8" style="width:5rem"></div>
+  <div class=row style="margin:.3rem 0"><input id=e_maxSupply placeholder="Max supply (e.g. 1000000)" autocomplete=off>
+    <label class=dim style="display:flex;gap:.3rem;align-items:center"><input type=checkbox id=e_immutable> immutable cap</label></div>
+  <label class=dim style="display:flex;gap:.3rem;align-items:center;margin:.3rem 0"><input type=checkbox id=e_scot onclick=toggleScot()> Add a Scot Bot reward rule (burns ${scotFee} ${feeToken})</label>
+  <div id=scotfields hidden>
+    <div class=row style="margin:.3rem 0"><input id=e_emission placeholder="Emission per window (e.g. 100)" autocomplete=off>
+      <input id=e_window placeholder="Window (L1 blocks, e.g. 28800)" autocomplete=off></div>
+    <div class=row style="margin:.3rem 0"><input id=e_authorBps value="6500" title="author share in bps (0-10000)" style="width:7rem">
+      <select id=e_curve><option>linear</option><option>quadratic</option><option>sqrt</option></select>
+      <input id=e_tag placeholder="tribe tag (optional)" autocomplete=off></div>
+  </div>
+  <div class=row style="margin:.5rem 0"><button onclick=engineCreate()>Build engine op(s)</button></div>
+  <div id=e_out class=dim style="margin-top:.6rem"></div>
+  </div>
 </div>
 <script>
 const WIZARD=${JSON.stringify(wizard)};
 const CLONE_FACTORY=${JSON.stringify(cloneFactory)};
 const CHAIN_HEX=${JSON.stringify(chainIdHex)};
+const ENGINE_API=${JSON.stringify(engineApi)};
+const SIDECHAIN_ID=${JSON.stringify(sidechainId)};
 const SEL=${sel};
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ZERO='0x0000000000000000000000000000000000000000';
+function pickBubble(which){document.getElementById('panel_prana').hidden=(which!=='prana');document.getElementById('panel_melek').hidden=(which!=='melek');
+ document.querySelectorAll('#bubbles .bubble').forEach(b=>{const on=b.getAttribute('data-bubble')===which;b.classList.toggle('on',on);
+  b.style.background=on?'':'var(--card,#131826)';b.style.color=on?'':'var(--ink,#e8e6e3)';b.style.border=on?'':'1px solid var(--line,#222a3a)';});}
+function toggleScot(){document.getElementById('scotfields').hidden=!document.getElementById('e_scot').checked}
 function _word(v){let h=BigInt(v).toString(16);return h.padStart(64,'0')}
 function _addr(a){let h=String(a||ZERO).toLowerCase().replace(/^0x/,'');return h.padStart(64,'0')}
 function _b32(b){let h=String(b||'').toLowerCase().replace(/^0x/,'');return h.padEnd(64,'0')}
@@ -415,6 +464,40 @@ async function melekCreate(){const out=document.getElementById('t_out');
  try{const tx=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:owner,to:to,data:data,value:'0x0'}]});
   out.innerHTML='Submitted ✓ tx '+esc(tx)+' — your token deploys when it confirms.'}
  catch(e){out.innerHTML='<span style="color:#e74c3c">'+esc(e&&e.message||String(e))+'</span>'}}
+async function _build(body){const r=await fetch(ENGINE_API+'/tools/api/build',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});return await r.json()}
+async function engineCreate(){const out=document.getElementById('e_out');
+ if(!ENGINE_API){out.innerHTML='<span style="color:#e74c3c">MELEK Engine API not configured on this portal.</span>';return}
+ const account=document.getElementById('e_account').value.trim().toLowerCase().replace(/^@/,'');
+ const symbol=document.getElementById('e_symbol').value.trim().toUpperCase();
+ const name=document.getElementById('e_name').value.trim();
+ const precision=document.getElementById('e_precision').value.trim();
+ const maxSupply=document.getElementById('e_maxSupply').value.trim();
+ const immutable=document.getElementById('e_immutable').checked;
+ const errs=[];
+ if(!/^[a-z][a-z0-9-]{2,15}$/.test(account))errs.push('MELEK account required (signer)');
+ if(!/^[A-Z]{1,10}$/.test(symbol))errs.push('symbol 1-10 A-Z');
+ if(!/^[0-9]+(\\.[0-9]+)?$/.test(maxSupply)||Number(maxSupply)<=0)errs.push('max supply must be > 0');
+ if(errs.length){out.innerHTML='<span style="color:#e74c3c">'+errs.map(esc).join('; ')+'</span>';return}
+ out.innerHTML='Building…';
+ try{
+  const params={symbol:symbol,name:name||symbol,precision:Number(precision||'3'),maxSupply:maxSupply};
+  if(immutable)params.supplyCapImmutable=true;
+  const create=await _build({layer:'engine',action:'create',account:account,params:params});
+  let html='';
+  if(!create||create.ok===false){html+='<div style="color:#e74c3c">create: '+esc((create&&create.error)||'build failed')+'</div>';}
+  else{html+='<div><b>1) create '+esc(symbol)+'</b> — '+esc(create.summary||'')+'</div><pre style="white-space:pre-wrap;word-break:break-all;background:#0d0b14;border:1px solid #222a3a;border-radius:8px;padding:.5rem">'+esc(JSON.stringify(create.op))+'</pre>';}
+  if(document.getElementById('e_scot').checked){
+   const cfg={emissionPerWindow:document.getElementById('e_emission').value.trim(),windowBlocks:Number(document.getElementById('e_window').value.trim()||'0'),
+     authorBps:Number(document.getElementById('e_authorBps').value.trim()||'6500'),curve:document.getElementById('e_curve').value};
+   const tag=document.getElementById('e_tag').value.trim();if(tag)cfg.tag=tag;
+   const scot=await _build({layer:'engine',action:'scot.enable',account:account,params:{symbol:symbol,config:cfg}});
+   if(!scot||scot.ok===false){html+='<div style="color:#e74c3c">scot: '+esc((scot&&scot.error)||'build failed')+'</div>';}
+   else{html+='<div style="margin-top:.5rem"><b>2) add Scot Bot</b> — '+esc(scot.summary||'')+'</div><pre style="white-space:pre-wrap;word-break:break-all;background:#0d0b14;border:1px solid #222a3a;border-radius:8px;padding:.5rem">'+esc(JSON.stringify(scot.op))+'</pre>';}
+  }
+  html+='<p class=dim style="margin-top:.4rem">Sign the custom_json op(s) above in your MELEK wallet / MELEK-Signer. Keys never leave your device; this portal only builds the operation.</p>';
+  out.innerHTML=html;
+ }catch(e){out.innerHTML='<span style="color:#e74c3c">'+esc(e&&e.message||String(e))+'</span>'}}
+pickBubble(${JSON.stringify(defaultBubble)});
 </script>`;
 }
 
