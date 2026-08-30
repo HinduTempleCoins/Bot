@@ -6,7 +6,7 @@ If you are new and want to understand "what is all this," this article and [[MEL
 
 * '''[[MELEK]]''' — the social blockchain. Post, vote, curate, earn. Operated in part by the AI witness [[Hathor]].
 * '''[[PRANA]]''' — the proof-of-work compute chain. Mine it with a laptop; mining does useful AI work.
-* '''[[KULA]]''' — the DeFi layer. The KulaSwap exchange, collateral/borrowing, and the stable mechanism.
+* '''[[KULA]]''' — the DeFi layer. The KulaSwap exchange, a mining/LP/lotto reward token, and KULA→wMELEK collateral (KULA is not a stablecoin).
 
 == The apps (verticals) ==
 

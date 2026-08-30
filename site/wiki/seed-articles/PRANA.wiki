@@ -2,26 +2,29 @@
 
 == What it is ==
 
-PRANA is its own '''Layer-1 blockchain'''. It is '''EVM-compatible''' — the same tools as Ethereum (MetaMask, Solidity, Remix, Hardhat, Foundry) — and it is '''Proof of Work''', mined with the '''Etchash''' algorithm (GPU- and laptop-friendly). It is a '''fair launch''': no premine, no presale, no insider allocation; supply starts at zero and is entirely earned by mining. Tokens issued on PRANA are ERC-20s — we call them '''PRC-20''' (see [https://witness.melek.salon/tokens Token standards]).
+PRANA is its own '''Layer-1 blockchain''', built on '''core-geth'''. It is '''EVM-compatible''' — the same tools as Ethereum (MetaMask, Solidity, Remix, Hardhat, Foundry) — and it is '''Proof of Work''', mined with the '''Etchash''' algorithm (ECIP-1099 — the same algorithm as '''Ethereum Classic''', GPU-mined). It is a '''fair launch''': '''no premine''', no presale, no insider allocation; supply starts at zero and is entirely earned by mining. Tokens issued on PRANA are ERC-20s — we call them '''PRC-20''' (see [https://witness.melek.salon/tokens Token standards]).
 
-== The idea that makes it different ==
+== Key facts ==
 
-'''The chain is the mining pool, and mining does useful work.''' There are two ways to earn, both paid from the same reward pool:
+* '''Chain ID''' — '''712217'''.
+* '''Block reward''' — '''2 PRANA''' per block, about every '''13 seconds'''.
+* '''Emission decays 10% a year.''' Each roughly one-year "era" the reward drops by a tenth (2 → 1.8 → 1.62 → …). This is a gentle, continuous taper — '''not''' a sudden Bitcoin-style halving.
+* '''The "Hathor fee".''' A consensus-enforced '''2%''' of each block is split off to a treasury address — funding the ecosystem's shared AI compute directly from issuance.
+* '''EIP-1559 burn.''' Like modern Ethereum, the base fee of every transaction is burned, so heavy use makes PRANA scarcer.
 
-* '''HASH lane''' — classic Etchash proof-of-work that secures and orders blocks.
-* '''TASK lane''' — verified AI / GPU compute. Real, useful work, paid in PRANA.
+== The idea behind it ==
 
-This is why PRANA exists: an AI needs GPUs to think, and GPUs cost money. Instead of renting cloud compute until a treasury runs dry, PRANA turns '''mining into the compute the AI runs on'''. When you mine PRANA, you are the datacenter for a living AI — and that is what makes the AI [[Hathor]] sustainable and forkable.
+'''An AI needs GPUs to think, and GPUs cost money.''' PRANA's design goal is to fund that compute from mining rather than by renting cloud until a treasury runs dry — the 2% Hathor fee routes block issuance toward the shared AI compute the ecosystem runs on. A second, '''planned''' earning lane — a '''TASK lane''' for verified AI / GPU compute paid from the same reward pool, beside the classic '''HASH lane''' of Etchash proof-of-work — is a direction on the roadmap, not yet a live consensus feature. Today PRANA is a straightforward Etchash PoW chain; the useful-work lane is being built on top.
 
 == PRANA and KULA ==
 
-Miners earn '''PRANA + [[KULA]]''' as a paired reward — like the STEEM/SBD pair, but for EVM miners. KULA is the ecosystem's DeFi collateral coin and the answer to the "stable" token MELEK deliberately left out.
+Miners earn '''PRANA''' and, alongside it, the reward token '''[[KULA]]'''. KULA is the ecosystem's DeFi / DEX token — '''not''' a stablecoin and not a "backed dollar" (MELEK deliberately ships no such token). See [[KULA]] for what it actually is.
 
 == How to take part ==
 
 * '''Mine it''' at the [https://pool.soapbox.community pool] — Etchash on a GPU, or CryptoNote / RandomX on a CPU, even in the browser. Earn from the first share.
 * '''Learn it''' at the [https://witness.melek.salon Witness School] (the pool + how mining works).
-* '''Build on it''' — deploy PRC-20 tokens, the [[KULA]] DEX, and dApps, exactly as you would on Ethereum.
+* '''Build on it''' — deploy PRC-20 tokens, the [[KULA]] DEX, and dApps, exactly as you would on Ethereum. Point MetaMask at the RPC ''rpc.prana.melek.salon'', read blocks on '''PRANAScan''' (''pranascan.soapbox.community''), and hold PRANA in the '''Akasha''' wallet (''akasha.soapbox.community'') — these public surfaces are launching.
 
 == Where PRANA fits ==
 

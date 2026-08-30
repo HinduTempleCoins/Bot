@@ -11,7 +11,7 @@ Key facts:
 * '''No premine.''' Supply started at zero and is earned by posting, curating, witnessing, and producing blocks — a fair launch (mainnet live since 2026).
 * '''One honest coin.''' MELEK dropped the "backed dollar" token of its Steem ancestor — there is '''no MBD''', just MELEK.
 * '''No downvotes''' (the Blurt-family choice) — the chain does not carry a flag/downvote weapon.
-* '''4-second blocks''', reward split roughly 75% to content + curation, 15% to stakers, 10% to witnesses.
+* '''4-second blocks'''; author rewards split '''65 / 35''' between the author and the curators who voted, with a '''5-minute''' curation window. Issuance is roughly '''9.5% a year''', tapering over time.
 * '''One account, many doors.''' A single MELEK account is your identity across all of SoapBox — social login, a mailbox, and a [[REN]] name (e.g. yourname.melek).
 
 == Hathor, the founding AI witness ==

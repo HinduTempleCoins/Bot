@@ -10,14 +10,19 @@ import { createServer } from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
+import { layout, renderWiki, buildToc, esc, slugify, titleize } from './render.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8090);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
-const ARTICLES_DIR = process.env.ARTICLES_DIR || path.join(__dir, '..', '..', 'library-of-ashurbanipal-bot', 'generated-articles');
+// Where the articles live. In production the deploy pins ARTICLES_DIR (a single dir). With no override
+// we serve the co-located, curated seed set (site/wiki/seed-articles + site/wiki/articles) so the
+// ecosystem pages (MELEK / PRANA / KULA …) are present and discoverable by default.
+const ARTICLE_DIRS = process.env.ARTICLES_DIR
+  ? [process.env.ARTICLES_DIR]
+  : [path.join(__dir, 'seed-articles'), path.join(__dir, 'articles')];
 const FLAG_STORE = process.env.KB_FLAG_STORE || path.join(__dir, '..', '..', 'library-of-ashurbanipal-bot', 'data', 'kb-flags.json');
 
 // privacy filter: only publish .wiki files; never anything from a private/sensitive list. The KB
@@ -25,9 +30,16 @@ const FLAG_STORE = process.env.KB_FLAG_STORE || path.join(__dir, '..', '..', 'li
 // but this is a second gate at the publish layer.
 const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
 function listArticles() {
-  let files = [];
-  try { files = fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith('.wiki') && !PRIVATE.test(f)); } catch {}
-  return files.map((f) => ({ slug: slugify(f), title: titleize(f.replace(/\.wiki$/, '')), file: path.join(ARTICLES_DIR, f) }));
+  const bySlug = new Map();
+  for (const dir of ARTICLE_DIRS) {
+    let files = [];
+    try { files = fs.readdirSync(dir).filter((f) => f.endsWith('.wiki') && !PRIVATE.test(f)); } catch {}
+    for (const f of files) {
+      const slug = slugify(f);
+      if (!bySlug.has(slug)) bySlug.set(slug, { slug, title: titleize(f.replace(/\.wiki$/, '')), file: path.join(dir, f) });
+    }
+  }
+  return [...bySlug.values()];
 }
 function readArticle(slug) {
   const a = listArticles().find((x) => x.slug === slug);
@@ -70,6 +82,87 @@ function articleDate(file) {
   try { return fs.statSync(file).mtime.toISOString().slice(0, 10); } catch { return ''; }
 }
 
+// ── Fact cards. A curated infobox for the core ecosystem pages — a single source of truth for the
+// load-bearing numbers, rendered as a wiki-style fact card so the key facts are correct and scannable.
+// (These describe the finalized design; anything not yet live is badged "launching".)
+const INFOBOXES = {
+  MELEK: { head: 'MELEK', rows: [
+    ['Type', 'Graphene / Blurt-lineage social chain (DPoS)'],
+    ['Symbol', 'MELEK · prefix MELEK'],
+    ['Backed dollar', 'None — "one honest token" (no MBD)'],
+    ['Rewards', '65 / 35 author / curator · 5-min curation window'],
+    ['Issuance', '~9.5%/yr, tapering'],
+    ['Rules', 'No downvotes · no per-op fee · invite-only'],
+    ['AI witness', 'hathor'],
+    ['Front-end', 'melek.salon'],
+    ['Mainnet', '2026-07-12 · no premine'],
+  ], live: 'Mainnet live' },
+  PRANA: { head: 'PRANA', rows: [
+    ['Type', 'EVM Layer-1, Proof-of-Work (core-geth)'],
+    ['Chain ID', '712217'],
+    ['Algorithm', 'Etchash (ECIP-1099) — same as Ethereum Classic, GPU'],
+    ['Block', '2 PRANA / ~13s'],
+    ['Emission', 'Decays 10%/yr (era decay — not a halving)'],
+    ['Chain fee', '2% "Hathor fee" split to treasury each block'],
+    ['Burn', 'EIP-1559 base-fee burn active'],
+    ['Launch', 'No premine'],
+    ['RPC', 'rpc.prana.melek.salon'],
+    ['Explorer / wallet', 'PRANAScan · Akasha'],
+  ], soon: 'RPC / explorer / wallet: launching' },
+  KULA: { head: 'KULA', rows: [
+    ['Type', 'Reward token on PRANA (KulaSwap DEX)'],
+    ['Not', 'A stablecoin — no dollar peg, no redemption claim'],
+    ['Paid to', 'PRANA miners · a LOTTO · liquidity providers'],
+    ['Emission', 'Minted on a 10%/yr-decaying schedule'],
+    ['MELEK link', 'MELEK/KULA DEX pair + CDP (lock KULA → borrow wMELEK, overcollateralized)'],
+    ['Liquidity token', 'MWALI (per-block for LPs; burns → KULA / lotto tickets)'],
+    ['Governance', 'SHELLS (future, ve-style)'],
+  ], soon: 'KulaSwap: launching' },
+};
+function infoboxHtml(slug) {
+  const ib = INFOBOXES[slug];
+  if (!ib) return '';
+  const badge = ib.live ? `<span class=badge>${esc(ib.live)}</span>` : (ib.soon ? `<span class="badge soon">${esc(ib.soon)}</span>` : '');
+  const rows = ib.rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
+  return `<aside class=infobox aria-label="${esc(ib.head)} facts"><div class=ib-h>${esc(ib.head)}</div><dl>${badge ? `<dd style="margin-bottom:6px">${badge}</dd>` : ''}${rows}</dl></aside>`;
+}
+
+// ── Categories. Group the Library into sections so the landing reads like a real wiki and every
+// article is reachable by topic. Order matters (an article lands in the first section that claims it).
+const CATEGORIES = [
+  ['The MELEK Ecosystem', ['MELEK', 'PRANA', 'KULA', 'SoapBox', 'Hathor', 'REN', 'Portable_Identity', 'Pentecaust', 'Congress.ink']],
+  ['Blockchains & Graphene', ['The_Graphene_Family', 'STEEM_Blockchain', 'HIVE_Blockchain', 'BLURT_Blockchain', 'Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem', 'Mining', 'Forking', 'Cloning', 'Curation_Trails_and_Auto-Voting', 'Running_Tokens_on_MELEK-Engine', 'Running_a_Condenser_Front-End']],
+  ['Plant Medicine & Harm Reduction', ['Cannabis', 'Cannabis_Harm_Reduction', 'PIHKAL_and_TIHKAL', 'Psychedelic_and_Psychopharmacology_Glossary', 'Kyphi', 'Head_Cone']],
+  ['Health & Nutrition', ['Fast_Food_and_Processed_Food_Nutrition', 'Food_Pyramid_and_Supplements']],
+  ['Learning & Reference', ['Autodidacts_and_Credentials', 'SoapBox_Credentials', 'Crypto_Glossary', 'Spanish_Glossary', 'Glossaries']],
+];
+// Assign a slug to its section: an explicit CATEGORIES membership wins; SoapBox_* surfaces group
+// together; everything else falls to "More topics". Returns [ [sectionName, colorIndex, arts[]] … ].
+function categorize(arts) {
+  const bySlug = new Map(arts.map((a) => [a.slug, a]));
+  const used = new Set();
+  const groups = [];
+  CATEGORIES.forEach(([name, slugs], i) => {
+    const hits = slugs.map((s) => bySlug.get(s)).filter(Boolean);
+    hits.forEach((a) => used.add(a.slug));
+    if (hits.length) groups.push([name, i, hits]);
+  });
+  const surfaces = arts.filter((a) => a.slug.startsWith('SoapBox_') && !used.has(a.slug));
+  surfaces.forEach((a) => used.add(a.slug));
+  if (surfaces.length) groups.push(['SoapBox Surfaces', 5, surfaces]);
+  const rest = arts.filter((a) => !used.has(a.slug));
+  if (rest.length) groups.push(['More topics', 4, rest.sort((x, y) => x.title.localeCompare(y.title))]);
+  return groups;
+}
+// The category chips shown on an article page (reverse lookup: which section(s) claim this slug).
+function chipsFor(slug) {
+  const out = [];
+  CATEGORIES.forEach(([name, slugs], i) => { if (slugs.includes(slug)) out.push([name, i]); });
+  if (slug.startsWith('SoapBox_')) out.push(['SoapBox Surfaces', 5]);
+  if (!out.length) return '';
+  return `<div class=chips>${out.map(([n, i]) => `<a class="chip c${i % 6}" href="/#cat-${slugify(n)}">${esc(n)}</a>`).join('')}</div>`;
+}
+
 function articlePage(slug) {
   const a = readArticle(slug);
   if (!a) return { code: 404, html: layout({ title: 'Not found', body: `<h1>Not found</h1><p class=muted>No article "${esc(slug)}". <a href="/">← Library</a></p>` }) };
@@ -95,8 +188,9 @@ function articlePage(slug) {
   };
   const datePublished = articleDate(a.file);
   if (datePublished) jsonld.datePublished = datePublished;
-  const body = `<p class=muted><a href="/">← Library</a></p><h1>${esc(a.title)}</h1>${flagBlock}${html}${footnotes}`;
-  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body }) };
+  const toc = buildToc(html + footnotes);
+  const body = `<p class=muted><a href="/">← Library</a></p>${infoboxHtml(a.slug)}<h1>${esc(a.title)}</h1>${chipsFor(a.slug)}${flagBlock}${html}${footnotes}`;
+  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body, toc }) };
 }
 
 // "Start here" — the newcomer's learning path, surfaced above the A–Z list so the Library actually
@@ -104,25 +198,30 @@ function articlePage(slug) {
 const STARTERS = [
   { slug: 'MELEK', label: 'MELEK', blurb: 'The social blockchain — post, vote, earn.' },
   { slug: 'SoapBox', label: 'SoapBox', blurb: 'The whole ecosystem of apps, mapped.' },
-  { slug: 'PRANA', label: 'PRANA', blurb: 'The compute chain you mine with a laptop.' },
-  { slug: 'KULA', label: 'KULA', blurb: 'The DeFi layer — DEX, collateral, stable.' },
+  { slug: 'PRANA', label: 'PRANA', blurb: 'The EVM compute chain you mine with a GPU.' },
+  { slug: 'KULA', label: 'KULA', blurb: 'The DeFi layer — KulaSwap DEX, rewards, collateral.' },
 ];
 
 function indexPage() {
   const arts = listArticles().sort((x, y) => x.title.localeCompare(y.title));
   const have = new Set(arts.map((a) => a.slug));
   const starters = STARTERS.filter((s) => have.has(s.slug));
-  const startBlock = starters.length ? `<div style="margin:22px 0 8px;padding:16px;border:1px solid var(--gold,#e5a21b);border-radius:12px">
-      <h2 style="margin:0 0 4px">Start here — what is this?</h2>
+  const startBlock = starters.length ? `<div class=starter>
+      <h2>Start here — what is this?</h2>
       <p class=muted style="margin:0 0 12px;font-size:14px">New to MELEK and SoapBox? These explain the whole thing. Then visit the <a href="https://witness.melek.salon">Witness School</a>.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">${starters.map((s) => `<a href="/wiki/${s.slug}" style="display:block;padding:10px 12px;border:1px solid var(--line2,#dbe0e6);border-radius:9px;text-decoration:none"><b style="display:block;color:var(--link,#117a37)">${esc(s.label)}</b><span style="font-size:13px;color:var(--mut,#5c6670)">${esc(s.blurb)}</span></a>`).join('')}</div>
+      <div class=grid>${starters.map((s) => `<a href="/wiki/${s.slug}"><b style="display:block;color:var(--lapis)">${esc(s.label)}</b><span style="font-size:13px;color:var(--mut);font-weight:400">${esc(s.blurb)}</span></a>`).join('')}</div>
     </div>` : '';
-  const body = `<h1>The Library of Ashurbanipal</h1>
-    <p class=muted>The Van Kush Family Research Institute knowledge base, synthesized into reference articles — grounded in cited sources, audited by a fact-checker, with disputed claims flagged openly.</p>
+  const groups = categorize(arts);
+  const catBlocks = groups.map(([name, ci, list]) => `<section class=cat id="cat-${slugify(name)}">
+      <h2><span class="chip c${ci % 6}">${esc(name)}</span> <span class=muted style="font-size:13px;font-weight:400">${list.length}</span></h2>
+      <div class=grid>${list.map((a) => `<a href="/wiki/${a.slug}">${esc(a.title)}</a>`).join('')}</div>
+    </section>`).join('');
+  const body = `<div class=hero><h1 style="margin-top:0">The Library of Ashurbanipal</h1>
+    <p class=muted style="margin-bottom:0">The Van Kush Family Research Institute knowledge base, synthesized into reference articles — grounded in cited sources, audited by a fact-checker, with disputed claims flagged openly.</p></div>
     <input class=search id=q placeholder="Search the Library…" autocomplete=off oninput="location.href='/search?q='+encodeURIComponent(this.value)" onkeydown="if(event.key==='Enter')location.href='/search?q='+encodeURIComponent(this.value)">
     ${startBlock}
-    <p class=muted style="margin-top:18px">All ${arts.length} articles</p>
-    <div class=grid>${arts.map((a) => `<a href="/wiki/${a.slug}">${esc(a.title)}</a>`).join('')}</div>`;
+    <p class=muted style="margin-top:18px">${arts.length} articles, by topic</p>
+    ${catBlocks}`;
   return layout({ title: 'Library', canonical: `${BASE_URL}/`, body });
 }
 
@@ -213,7 +312,7 @@ export const handler = (req, res) => {
 // CLI guard: bind a socket only when run directly, not when imported by a unit test.
 if (import.meta.url === `file://${process.argv[1]}`) {
   createServer(handler).listen(PORT, HOST, () => {
-    console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLES_DIR})`);
+    console.log(`Library of Ashurbanipal on ${BASE_URL} (bound ${HOST}:${PORT}, articles: ${ARTICLE_DIRS.join(', ')})`);
     if (process.env.NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
       const urls = ['/', '/about', ...listArticles().map((a) => `/wiki/${a.slug}`)];
       submitToIndexNow(BASE_URL, urls).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});

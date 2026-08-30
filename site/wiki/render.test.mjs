@@ -5,7 +5,7 @@
 // Run: node --test site/wiki/render.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { renderWiki, esc, slugify, titleize } from './render.mjs';
+import { renderWiki, buildToc, esc, slugify, titleize } from './render.mjs';
 
 test('esc escapes the HTML metacharacters', () => {
   assert.equal(esc(`<>&"`), '&lt;&gt;&amp;&quot;');
@@ -57,7 +57,7 @@ test('renderWiki turns <ref> into numbered footnotes and collects refs', () => {
   assert.ok(/<sup class=ref><a href="#ref1"[^>]*>\[1\]<\/a><\/sup>/.test(html), 'first ref → [1]');
   assert.ok(/<sup class=ref><a href="#ref2"[^>]*>\[2\]<\/a><\/sup>/.test(html), 'second ref → [2]');
   assert.ok(/\[1\]/.test(html.split('source-b')[1] || html), 'repeated source reuses [1]');
-  assert.ok(footnotes.includes('<h2>References</h2>'), 'footnotes block has a References heading');
+  assert.ok(/<h2[^>]*>References<\/h2>/.test(footnotes), 'footnotes block has a References heading');
   assert.ok(footnotes.includes('id=ref1') && footnotes.includes('source-a.md'), 'footnote anchors + filenames present');
 });
 
@@ -68,9 +68,24 @@ test('renderWiki escapes a ref filename in the footnote + title (no breakout)', 
 
 test('renderWiki handles headers and lists', () => {
   const { html } = renderWiki('== History ==\n* one\n* two\n\n# first\n# second');
-  assert.ok(/<h2>History<\/h2>/.test(html), '== → h2');
+  assert.ok(/<h2[^>]*>History<\/h2>/.test(html), '== → h2 (with anchor id)');
   assert.ok(/<ul>\s*<li>one<\/li>\s*<li>two<\/li>\s*<\/ul>/.test(html), 'bullets → <ul>');
   assert.ok(/<ol>\s*<li>first<\/li>\s*<li>second<\/li>\s*<\/ol>/.test(html), 'hashes → <ol>');
+});
+
+test('renderWiki gives headings anchor ids and buildToc lists them', () => {
+  const { html } = renderWiki('== History ==\ntext\n== Uses ==\nmore\n=== Detail ===\nx');
+  assert.ok(/<h2 id="History">History<\/h2>/.test(html), 'h2 carries a slugged id');
+  assert.ok(/<h3 id="Detail">Detail<\/h3>/.test(html), 'h3 carries a slugged id');
+  const toc = buildToc(html);
+  assert.ok(toc.includes('href="#History"') && toc.includes('href="#Uses"'), 'TOC links the section anchors');
+  assert.ok(toc.includes('class="h3"'), 'TOC marks h3 depth');
+  assert.equal(buildToc('<h2 id="only">Only one</h2>'), '', 'a single heading yields no TOC');
+});
+
+test('renderWiki dedupes duplicate heading ids', () => {
+  const { html } = renderWiki('== See also ==\na\n== See also ==\nb');
+  assert.ok(/id="See_also"/.test(html) && /id="See_also-2"/.test(html), 'second identical heading gets a -2 suffix');
 });
 
 test('renderWiki strips the bot preamble', () => {

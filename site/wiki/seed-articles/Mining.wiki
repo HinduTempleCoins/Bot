@@ -12,7 +12,9 @@ Different chains use different puzzles, which favor different hardware:
 
 * '''SHA-256''' — Bitcoin. ASIC-dominated.
 * '''RandomX / CryptoNote''' — Monero and the pool's CPU side. '''CPU-friendly and ASIC-resistant''' — you can even mine in a browser.
-* '''Etchash''' — Ethereum Classic and '''[[PRANA]]'''. GPU mining, laptop-friendly; needs a ~1 GB '''DAG''' in memory.
+* '''Etchash''' — Ethereum Classic and '''[[PRANA]]''' (ECIP-1099, the same algorithm). GPU mining; needs a ~1 GB '''DAG''' in memory.
+
+On '''PRANA''' the block reward is '''2 PRANA''' (about every 13 seconds) and it does '''not''' halve — instead the emission '''decays about 10% each year''', a gentle continuous taper rather than a sudden cut. A consensus-enforced '''2% "Hathor fee"''' is also split off each block to fund the ecosystem's shared AI compute, and PRANA burns its base fee EIP-1559-style.
 
 == Pools and browser mining ==
 
