@@ -35,6 +35,7 @@ import { listCams, safeHref } from '../../integrations/camera-directory.mjs';
 import { allowedEmbed } from '../../integrations/soapbox/embed-whitelist.mjs';
 import { rank } from '../../integrations/soapbox/recommend.mjs';
 import { tagAsset } from '../../integrations/license-router.mjs';
+import * as entrainment from '../../integrations/soapbox/entrainment.mjs';
 
 const PORT = +(process.env.PORT || 8175);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -209,6 +210,8 @@ export async function buildRows() {
   const podTiles = pods.map(podTile);
   const scotTiles = scots.map(scotTile);
   const camTiles = cams.map(camTile);
+  let entrainTiles = [];
+  try { entrainTiles = entrainment.entrainmentTracks().map(entrainment.toTile); } catch { entrainTiles = []; } // pure/offline — no fetch
 
   // "Live now" = live cams + the Hathor.Live channel + Dallas radio, ranked together.
   const liveNow = rank([liveTile(), ...camTiles, ...radioTiles]);
@@ -219,6 +222,7 @@ export async function buildRows() {
     { id: 'films', title: 'Films · public domain', live: false, tiles: rank(filmTiles) },
     { id: 'radio', title: 'Radio · Dallas first', live: true, tiles: rank(radioTiles) },
     { id: 'podcasts', title: 'Podcasts', live: false, tiles: rank(podTiles) },
+    { id: 'entrainment', title: 'Entrainment · focus, calm, sleep — original tones by Hathor', live: false, tiles: entrainTiles },
   ];
 
   // Cross-source "Recommended now" hero rail: merge a slice of every source, rank, take the top.
