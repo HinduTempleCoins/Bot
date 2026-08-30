@@ -27,12 +27,16 @@ _Draft outline only. The full whitepaper publishes once the repo/chain is finish
 - No private keys in the public software, ever. Broadcasting goes through a separate signer with scoped, revocable authority. (Detail withheld.)
 
 ## 7. Governance & economics
-- Witness election, curation, and the value/useful-work layers (Phase II–III). Honest disclosure of the founding slot protection.
+- Witness election, curation (65/35 author/curator, 5-min window), the `move` reward fund, karma, grants. Honest disclosure of the founding slot protection. One honest token — no MBD.
 
-## 8. Roadmap & forkability
+## 8. The sister chain — PRANA, KulaSwap, KULA
+- PRANA: EVM L1, Etchash GPU PoW (same algo as Ethereum Classic), chainId 712217, no premine, 2 PRANA/block, 10%/yr emission decay, 2% Hathor-fee. RPC `rpc.prana.melek.salon`; PRANAScan + Akasha launching. Mining how-to lives in the Witness School (`/mine`).
+- KulaSwap (Uniswap-V2 DEX on PRANA) + the Kula-ring token family: KULA (reward token, not a stablecoin), MWALI (liquidity token), SHELLS (future ve-governance). MELEK ↔ KULA only via the DEX pair + a CDP (lock KULA → borrow wMELEK).
+
+## 9. Roadmap & forkability
 - The phased build; why the project is designed to survive any single tool/model/operator.
 
-## 9. References
-- The published research corpus + this repository (link added when finished).
+## 10. References
+- The published research corpus + this repository + the live surfaces (MELEK, PRANA RPC, KulaSwap, Witness School).
 
 > Sections 3, 6, and 7 will cite only what is safe to publish; operational and infrastructure detail stays private.

@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
+  handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, minePage, whitepaperPage, esc,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -187,13 +187,16 @@ test('servers view names witness-node + mining-rig specs, rentals disabled by de
   assert.match(h, /disabled by default/i);
 });
 
-test('wallet view: Akasha + EIP-3085 PRANA params with 0x1a751', () => {
+test('wallet view: Akasha + EIP-3085 PRANA MAINNET params (712217 / 0xade19)', () => {
   const h = walletView();
   assert.match(h, /Akasha/);
-  assert.match(h, /0x1a751/);
-  assert.match(h, /108369/);
+  assert.match(h, /712217/);            // PRANA MAINNET chain id (decimal)
+  assert.match(h, /0xade19/i);          // = 712217 in hex
+  assert.doesNotMatch(h, /0x1a751|108369/); // the testnet id must not leak onto the mainnet page
   assert.match(h, /wallet_addEthereumChain|EIP-3085/);
   assert.match(h, /MetaMask|TronLink/);
+  assert.match(h, /rpc\.prana\.melek\.salon/); // real mainnet RPC, not a .example placeholder
+  assert.doesNotMatch(h, /prana\.example/);
 });
 
 // ---------------------------------------------------------------------------
@@ -420,6 +423,41 @@ test('/whitepaper route responds and the nav links to it', async () => {
   assert.match(r.body, /MELEK — An AI-Native Blockchain Community/);
   const home = await route('/');
   assert.match(home.body, /href="\/whitepaper"/);
+});
+
+// ---------------------------------------------------------------------------
+// /mine — the PRANA Mining Guide (Etchash GPU PoW)
+// ---------------------------------------------------------------------------
+test('mine page: PRANA Etchash guide — same algo as ETC, mainnet id, gear, configs, own pool, KULA', () => {
+  const h = minePage();
+  assert.match(h, /PRANA Mining Guide/);
+  assert.match(h, /Etchash/);
+  assert.match(h, /ECIP-1099/);
+  assert.match(h, /Ethereum Classic/);            // the "same algorithm" framing
+  assert.match(h, /zero switching cost/i);
+  assert.match(h, /712217/);                       // PRANA MAINNET chain id
+  assert.doesNotMatch(h, /108369|0x1a751/);        // never the testnet id on a mainnet mining page
+  assert.match(h, /DAG/);                           // the VRAM/DAG hard requirement
+  assert.match(h, /6 GB|8 GB/);                     // gear specs
+  assert.match(h, /lolMiner/);                      // a copy-paste miner config
+  assert.match(h, /T-Rex|GMiner/);
+  assert.match(h, /Miningcore/);                    // run-your-own-pool stack
+  assert.match(h, /eth_getWork/);                   // solo + pool node RPC
+  assert.match(h, /2%/);                            // the protocol fee, disclosed
+  assert.match(h, /KULA/);                          // paired reward
+  assert.match(h, /not a stablecoin/i);             // discipline: KULA is not a stablecoin
+  assert.match(h, /Akasha/);                        // wallet for rewards
+  // discipline: no earnings/price promises
+  assert.match(h, /not\b.{0,20}(profit|earnings)|hype/i);
+});
+
+test('/mine route renders 200, is in the nav + sitemap, and home links to it', async () => {
+  const res = await route('/mine');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /PRANA Mining Guide/);
+  assert.match(homePage(), /href="\/mine"/);       // linked from the school home
+  const sm = await route('/sitemap.xml');
+  assert.match(sm.body, /\/mine/);
 });
 
 // ---------------------------------------------------------------------------

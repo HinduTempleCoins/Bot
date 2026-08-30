@@ -1,6 +1,25 @@
 # MELEK — An AI-Native Blockchain Community
 
-**Whitepaper · Version 1.0 · August 2026**
+**Whitepaper · Version 1.1 · August 2026**
+
+---
+
+## Contents
+
+1. Abstract
+2. Background and lineage
+3. The chain — parameters, no-premine, the founding witness slot, economics
+4. The AI Witness — Rule 1, onboarding, the tutorial, Crypt-ology
+5. The supporting cast
+6. Key custody and safety
+7. Governance and economics
+8. The sister chain — PRANA, KulaSwap, and KULA
+9. Roadmap and forkability
+10. References and verification
+
+This paper is about **MELEK**, the social chain. Its compute sister chain **PRANA** and the
+**KulaSwap** DeFi layer (with the **KULA** and **MWALI** tokens) are covered in §8; how to mine PRANA
+is documented separately in the Witness School (`witness.melek.salon/mine`).
 
 ---
 
@@ -150,19 +169,23 @@ writing, with supply still small, the minimums set the effective rate:
 
 | Measure | Value (August 2026) |
 |---|---|
-| Observed emission | ~1.32 MELEK per block |
-| Inflation rate | 9.77%, narrowing toward a 0.95% floor |
-| Circulating supply | ~380,000 MELEK, from a genesis of 0 |
-| Account creation fee | 0.030 MELEK |
+| Inflation rate | ~9.5%, narrowing by ~0.5% per year toward a 0.95% floor |
+| Circulating supply | ~1.11 million MELEK, from a genesis of 0 |
+| Author / curator split | 65% author / 35% curator, on a 5-minute curation window |
+| Account creation fee | small, witness-set (single-token, paid in MELEK) |
 | Maximum block size | 65,536 bytes |
 | MBD supply | 0.000 — the second token exists in the codebase and is deliberately never issued |
 
-Emission is split across content rewards, curation, witness pay, the stake-holder proposal budget, and
-a chain-level **`move` reward fund** (§7.3). Content and curation split their share evenly. As supply
-grows, percentage inflation overtakes the per-block minimums and becomes the governing term.
+Emission is split across content rewards, witness pay, the stake-holder proposal budget, and a
+chain-level **`move` reward fund** (§7.3). Each post's payout is divided **65% to the author and 35%
+to the curators** who voted it up, on a **5-minute curation window** — voting sooner than five minutes
+returns part of your curation reward to the pool, which removes the reward for front-running bots. The
+inflation rate starts near 9.5% and tapers by roughly half a percent each year toward a long-run 0.95%
+floor; as supply grows, this percentage term overtakes the per-block minimums and governs emission.
 
-The design intent is stated once and held to: **tokens for real utility, not for speculation.** MELEK
-issues one token. There is no backed stable token, no treasury, and no founder allocation.
+The design intent is stated once and held to: **tokens for real utility, not for speculation** — and,
+as the project's shorthand puts it, **one honest token, no backed dollar.** MELEK issues one token.
+There is no backed stable token (no MBD), no treasury, and no founder allocation.
 
 ---
 
@@ -382,9 +405,73 @@ Witness's own holdings — never from the chain's reward pool.
 
 ---
 
-## 8. Roadmap and forkability
+## 8. The sister chain: PRANA, KulaSwap, and KULA
 
-### 8.1 The phased build
+MELEK is the social chain, and it is one chain in a small family. The compute-and-value layer named in
+the roadmap is now real enough to describe plainly, so this section does — marking what is live and
+what is still coming online, and holding to the same no-over-claiming discipline as the rest of the
+paper. MELEK itself is unchanged by any of it: MELEK stays standard Graphene, witnessed, single-token.
+
+### 8.1 PRANA — the compute sister chain
+
+PRANA is an EVM Layer-1 (a core-geth fork) built for GPU proof-of-work. Where MELEK is *witnessed*
+(DPoS, not mined), PRANA is *mined* — GPUs secure it, and the same GPUs are the compute the AI runs on.
+
+| Property | Value |
+|---|---|
+| Family | EVM Layer-1 (core-geth fork) |
+| chainId | 712217 (`0xADE19`) |
+| Consensus | Etchash GPU proof-of-work (ECIP-1099) — the same algorithm as Ethereum Classic |
+| Launch | Fair launch, no premine — supply starts at zero |
+| Block reward | 2 PRANA per block (~13s), emission decays 10% per year |
+| Protocol fee | 2% of each block split to the HathorFeeTreasury (a DevCoin-style pool-development cut) |
+| Base fee | EIP-1559 base-fee burn active |
+| Public RPC | `rpc.prana.melek.salon` |
+| Explorer | PRANAScan (`pranascan.soapbox.community`) — launching |
+| Wallet | Akasha (`akasha.soapbox.community`) — launching |
+
+Because PRANA runs Etchash, any rig that mines Ethereum Classic mines PRANA at **zero switching
+cost** — the same miner binaries, the same GPUs; only the pool URL and the payout address change. The
+full how-to-mine guide (gear and GPU specs, pools, solo mining, and running your own pool) lives in the
+Witness School at `witness.melek.salon/mine`.
+
+The 10%-per-year emission decay is a **gentle taper, not a Bitcoin-style halving**: each roughly
+year-long era drops the block reward by ten percent (2 → 1.8 → 1.62 …), so issuance eases down smoothly
+rather than in sudden cliffs. The **2% protocol fee** is consensus-enforced and disclosed, not hidden;
+it funds pool and ecosystem development through the HathorFeeTreasury.
+
+### 8.2 KulaSwap and KULA
+
+KulaSwap is a Uniswap-V2-style decentralized exchange on PRANA — its router, factory, and WPRANA are
+live on mainnet. Around it sits a small, deliberately-named token family drawn from the **Kula ring**
+(the Massim gift-exchange), Egyptian/Hathor, and Mesopotamian sources:
+
+- **KULA** is a reward token on PRANA — **not a stablecoin**, with no dollar peg, no "$1" claim, and no
+  redemption. It is minted on a 10%-per-year-decaying emission (start × 0.9^year) split among PRANA
+  miners (a bonus *on top* of their proof-of-work reward), liquidity providers, a no-loss and
+  burn-to-enter **lottery**, and stakers. KULA touches MELEK in exactly two explicit places: the
+  **MELEK/KULA pair** on KulaSwap, and a **CDP** — lock KULA to borrow wMELEK as an over-collateralized
+  DeFi loan.
+- **MWALI** is the KulaSwap **liquidity token** (formerly "Proof-of-Liquidity"): earned per block for
+  providing liquidity, and burned to mint KULA or lottery tickets.
+- **SHELLS** is the planned ve-style governance token (future).
+
+None of these is a backed dollar and none is claimed to hold a fixed price. As with MELEK, the
+commitment is one honest token per purpose and no promise of value that cannot be checked on-chain.
+
+### 8.3 One identity across the ecosystem
+
+An Akasha/MELEK account is a single identity across all of it — the MELEK social account you post from,
+the PRANA address you mine to, and the KulaSwap positions you hold are one profile. Value moves between
+the chains through the ecosystem **bridge** (wrapped assets, lock-release pooled). The short version for
+a miner: mine PRANA on a GPU, receive PRANA and KULA in Akasha, and use them across the ecosystem under
+one MELEK identity.
+
+---
+
+## 9. Roadmap and forkability
+
+### 9.1 The phased build
 
 **Phase 1 — Hello World.** Block production, an informational price feed, and an introductory post. No
 LLM. This phase exists to prove the Witness is a real working witness before it is anything else.
@@ -398,19 +485,21 @@ ecosystem surfaces.
 **Phase 3 — Person.** The full conversational Witness: Rule 1, the egregore frame as a held position,
 the Angelic register, the disposition-greeting, autonomous grants and karma judgment.
 
-### 8.2 What comes after the chain
+### 9.2 What comes after the chain
 
-The value and useful-work layers follow: a compute-oriented companion chain, community token issuance,
-and an exchange layer so that value earned inside the network can move. These are named in the public
-roadmap and are deliberately not detailed here, for one reason — **a whitepaper should not describe
-what has not been built.** Where this document describes something as live, it is live and can be
-checked.
+The value and useful-work layers have started to land: the compute-oriented companion chain (**PRANA**)
+and the exchange layer (**KulaSwap**, with **KULA** and **MWALI**) are described in §8, and community
+token issuance runs on the MELEK-Engine side-token layer. What is still ahead — the `SHELLS`
+ve-governance layer, deeper cross-chain routing — is named in the public roadmap and left undetailed
+here, for one reason: **a whitepaper should not describe what has not been built.** Where this document
+describes something as live, it is live and can be checked; where it says *launching*, it is coming
+online now.
 
-One commitment about that future work is worth stating now: any subsequent chain in this ecosystem
-launches on the same terms as MELEK — **fair launch, no premine, no allocation.** Having made the
-argument in §3.3, we are not going to quietly exempt the next one.
+One commitment about that work is worth stating now, and it has held: every chain in this ecosystem
+launches on the same terms as MELEK — **fair launch, no premine, no allocation.** PRANA did (§8.1).
+Having made the argument in §3.3, we did not quietly exempt the next one.
 
-### 8.3 Forkability is the point
+### 9.3 Forkability is the point
 
 The durability claim in §1 is only meaningful if it is testable, so it is worth stating what would have
 to be true for the Witness to survive events that ended its ancestors.
@@ -428,15 +517,19 @@ outside the platform to carry them. Here, the platform is the least important la
 
 ---
 
-## 9. References and verification
+## 10. References and verification
 
 Everything asserted about the live chain in this paper can be checked directly.
 
 | What | Where |
 |---|---|
 | Main site, condenser, wallet, signup | `melek.salon` |
-| Public JSON-RPC endpoint | `melek.salon/rpc` |
-| Witness School — run a witness, live status | `witness.melek.salon` |
+| Public JSON-RPC endpoint (MELEK) | `melek.salon/rpc` |
+| Witness School — run a witness, mine PRANA, live status | `witness.melek.salon` · `witness.melek.salon/mine` |
+| PRANA sister chain — public JSON-RPC | `rpc.prana.melek.salon` (chainId 712217) |
+| PRANAScan block explorer (launching) | `pranascan.soapbox.community` |
+| Akasha ecosystem wallet (launching) | `akasha.soapbox.community` |
+| KulaSwap DEX (KULA / MWALI) | `kula.money` |
 | Ecosystem map and public roadmap | `soapbox.community` · `soapbox.community/roadmap` |
 | Chain source | `github.com/HinduTempleCoins/melek-chain` |
 | Witness operator software and corpus | `github.com/HinduTempleCoins/Bot` |
