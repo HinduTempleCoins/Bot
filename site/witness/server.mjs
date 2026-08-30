@@ -53,9 +53,16 @@ const TUTORIAL = process.env.TUTORIAL_SITE || `${ALPHA}/tutorial`;
 const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 
-// PRANA chain id — 108369 decimal = 0x1a751 (see .local/MULTICHAIN_POOLS_WALLETS_DOCS.md §3.1).
-const PRANA_CHAIN_ID_HEX = '0x1a751';
-const PRANA_CHAIN_ID_DEC = 108369;
+// PRANA MAINNET chain id — 712217 decimal = 0xADE19 (fair-launch genesis, chainId 712217). The
+// testnet twin was 108369 / 0x1a751; the /wallet + /mine pages target MAINNET, so they use 712217.
+// Env-overridable so the mainnet id can move without touching module copy (matches /tokens, /run).
+const PRANA_CHAIN_ID_DEC = +(process.env.PRANA_MAINNET_CHAIN_ID || 712217);
+const PRANA_CHAIN_ID_HEX = '0x' + PRANA_CHAIN_ID_DEC.toString(16);
+// PRANA mainnet public endpoints (env-overridable; PRANAScan + Akasha are launching).
+const PRANA_RPC = (process.env.PRANA_RPC_URL || 'https://rpc.prana.melek.salon').replace(/\/$/, '');
+const PRANA_EXPLORER = (process.env.PRANA_EXPLORER_URL || 'https://pranascan.soapbox.community').replace(/\/$/, '');
+const AKASHA_URL = (process.env.AKASHA_URL || 'https://akasha.soapbox.community').replace(/\/$/, '');
+const KULASWAP_URL = (process.env.KULASWAP_URL || 'https://kula.money').replace(/\/$/, '');
 
 // MELEK testnet RPC for the live /hathor witness-status page (read-only condenser calls).
 const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
@@ -139,7 +146,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/mine">Mine</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -150,7 +157,7 @@ export function homePage() {
   // Each links to where you do it; the theory behind it lives in the Library (wiki), linked per module.
   const actions = [
     ['/run', 'Run a witness', 'Make a node, sync it, publish your signing key, get voted into the producing set — and earn block rewards for keeping the chain live. Full step-by-step: chain id, seed node, build, config.ini, register.', libArticle('Delegated_Proof_of_Stake_DPoS_', 'DPoS')],
-    ['/pool', 'Mine', 'Point a GPU or CPU at the pool — RandomX, Etchash, and PRANA (the useful-work chain) — or mine right in the browser. Earn from the first share. Live per-coin status + the stratum line.', libArticle('Proof_of_Work_Mining', 'PoW mining')],
+    ['/mine', 'Mine PRANA', 'Point a GPU at PRANA — <b>Etchash (ECIP-1099), the same algorithm as Ethereum Classic</b>, so an ETC rig mines PRANA with zero switching cost. Earn <b>PRANA + KULA</b>. Full guide: gear/GPU specs, miner configs, solo mining, run your own pool. Live status + stratum line on <a href="/pool">Pool</a>.', libArticle('Proof_of_Work_Mining', 'PoW mining')],
     ['/academy', 'Make a token', 'Create your own token on MELEK-Engine: burn a little APIS to mint it, turn on SCOT so posts under your tag earn it, and list it on KulaSwap. The steps + the ' + `<a href="${esc(TOKENS_PORTAL)}">Tokens portal</a>` + '.', libArticle('Hive_Engine_and_Smart_Media_Tokens', 'SMTs / Hive-Engine')],
     [LIBRARY, 'Write on the Wiki', 'Contribute cited, fact-checked articles to the Library of Ashurbanipal — the ecosystem\'s reference. The plan (DevCoin-style): writers earn <b>monthly shares from a coin pool</b> by what they contribute. ' + `<a href="${esc(WIKI_CONTRIBUTE)}">Start an account →</a>`, libArticle('Special:RecentChanges', 'recent changes')],
     [DOCS, 'Contribute docs', 'Improve the developer + operator documentation — setup guides, API references, how-tos. Clear docs are how the next person gets in; contributing them counts.', libArticle('Building_a_Front_End_for_a_Graphene_Chain', 'building on Graphene')],
@@ -202,9 +209,12 @@ export function homePage() {
     <div class=card><h2>PoW mining vs. witnessing — both live here</h2>
       <p class=muted style="font-size:14px">MELEK is <b>not mined</b> (it is DPoS — you witness it).
       The <b>Mining Pool</b> is for the <b>proof-of-work</b> chains: RandomX coins, Etchash, and
-      <b>PRANA</b>, the useful-work chain that <em>is</em> the pool. You can witness MELEK
-      <em>and</em> point a miner at the PoW pool — this site is the front for both.</p>
-      <p style="margin-top:6px"><a href="/pool">See the live pool →</a></p>
+      <b>PRANA</b> — MELEK's EVM compute sister chain (chainId ${esc(PRANA_CHAIN_ID_DEC)}). PRANA runs
+      <b>Etchash (ECIP-1099), the same algorithm as Ethereum Classic</b>, so any ETC rig mines it with
+      zero switching cost, earning <b>PRANA + KULA</b>. You can witness MELEK <em>and</em> point a GPU
+      at PRANA — this site is the front for both.</p>
+      <p style="margin-top:6px"><a href="/mine">How to mine PRANA →</a> ·
+        <a href="/pool">See the live pool →</a> · <a href="/wallet">Akasha wallet →</a></p>
     </div>
 
     <h2 style="margin-top:22px">Earn &amp; contribute — the things you can do</h2>
@@ -501,9 +511,11 @@ export function serversView() {
     <div class=card><h2>A mining rig (for the PoW pool)</h2>
       <p class=muted style="font-size:14px"><b>RandomX</b> (Monero-family) is <b>CPU</b> mining —
         modern multi-core CPUs with good memory bandwidth do best. <b>Etchash / PRANA</b> is
-        <b>GPU / DAG</b> mining — a GPU with enough VRAM for the current DAG. You point either at the
-        pool's stratum line (see <a href="/pool">Pool</a>) as <code>wallet.worker</code>. No special
-        rig? Use the in-browser miner — see <a href="/pool">Pool</a>.</p>
+        <b>GPU / DAG</b> mining — a GPU with enough VRAM for the current DAG (6 GB minimum, 8 GB+ for a
+        long runway). You point either at the pool's stratum line (see <a href="/pool">Pool</a>) as
+        <code>wallet.worker</code>. No special rig? Use the in-browser miner — see <a href="/pool">Pool</a>.</p>
+      <p class=muted style="font-size:13px">Full GPU specs, miner configs, and the "same algorithm as
+        Ethereum Classic" details are in the <a href="/mine">PRANA Mining Guide</a>.</p>
     </div>
 
     ${rentalBlock}`;
@@ -511,13 +523,13 @@ export function serversView() {
 
 // ── /wallet — Akasha, the ecosystem wallet ─────────────────────────────────────────────────────
 export function walletView() {
-  // EIP-3085 wallet_addEthereumChain params for PRANA (chainId 0x1a751 = 108369).
+  // EIP-3085 wallet_addEthereumChain params for PRANA MAINNET (chainId 0xADE19 = 712217).
   const addChain = {
     chainId: PRANA_CHAIN_ID_HEX,
     chainName: 'PRANA',
     nativeCurrency: { name: 'PRANA', symbol: 'PRANA', decimals: 18 },
-    rpcUrls: ['https://rpc.prana.example'],
-    blockExplorerUrls: ['https://explorer.prana.example'],
+    rpcUrls: [PRANA_RPC],
+    blockExplorerUrls: [PRANA_EXPLORER],
   };
   const json = JSON.stringify(addChain, null, 2);
 
@@ -525,18 +537,27 @@ export function walletView() {
     <p class=lead>Akasha is the wallet for the whole ecosystem — think <b>MetaMask</b> or
       <b>TronLink</b>, but it speaks <b>both</b> tracks: the EVM side (PRANA) and the Graphene side
       (MELEK / SOAP), under one identity. It connects <b>wallet ↔ pool ↔ chains</b>: the address you
-      mine to, the chain you witness on, and the balances you hold are one profile.</p>
+      mine to, the chain you witness on, and the balances you hold are one profile. This is where you
+      get the <code>0x…</code> address you point a <a href="/mine">PRANA miner</a> at.</p>
 
     <div class=card><h2>Add the PRANA network</h2>
-      <p class=muted style="font-size:14px">PRANA is an EVM chain, <b>chainId
+      <p class=muted style="font-size:14px">PRANA is an EVM chain, <b>mainnet chainId
         ${esc(PRANA_CHAIN_ID_DEC)}</b> (<code>${esc(PRANA_CHAIN_ID_HEX)}</code>). Akasha adds it for
         you; for any MetaMask-compatible wallet, these are the
-        <b>EIP-3085 <code>wallet_addEthereumChain</code></b> params — copy them in. (The RPC and
-        explorer URLs below are placeholders until the PRANA endpoints are published.)</p>
+        <b>EIP-3085 <code>wallet_addEthereumChain</code></b> params — copy them in.</p>
       <pre>${esc(json)}</pre>
       <p class=muted style="font-size:13px">A wallet will reject the add if the RPC does not actually
         report chainId <code>${esc(PRANA_CHAIN_ID_HEX)}</code>, and the URLs must be HTTPS — that is
-        the EIP-3085 contract, not our choice.</p>
+        the EIP-3085 contract, not our choice. PRANAScan (the explorer) and the hosted Akasha wallet
+        are <b>launching</b>; the RPC above is live.</p>
+    </div>
+
+    <div class=card><h2>What lands in it when you mine</h2>
+      <p class=muted style="font-size:14px">Mine PRANA on a GPU and two things arrive at your
+        <code>0x…</code> address: <b>PRANA</b> (the proof-of-work block reward) and <b>KULA</b> (a
+        paired reward token on PRANA — the ecosystem's DeFi coin). KULA is <b>not a stablecoin</b> — no
+        dollar peg, no redemption. Trade either on <a href="${esc(KULASWAP_URL)}">KulaSwap</a>, the
+        Uniswap-style DEX on PRANA. Full details in the <a href="/mine">PRANA Mining Guide</a>.</p>
     </div>
 
     <div class=card><h2>One wallet, every surface</h2>
@@ -546,6 +567,297 @@ export function walletView() {
         <a href="/pool">pool</a> to set your payout address, and to <a href="${esc(ALPHA)}">MELEK</a>
         to witness.</p>
     </div>`;
+}
+
+// ── /mine — the PRANA Mining Guide (GPU Etchash PoW) ─────────────────────────────────────────────
+// Adapted from .local/WITNESS_SCHOOL_PRANA_MINING.md into real Witness School page content. PRANA is
+// mainnet (chainId 712217); mining is Etchash (ECIP-1099) — the same algorithm as Ethereum Classic,
+// so an ETC rig mines PRANA with zero switching cost. DISCIPLINE: facts-not-hype (no MH/s → dollars,
+// no price talk), Etchash-*compatible* (never "endorsed by ETC/Ethereum"), esc() on every value, and
+// the exact live stratum host/port comes from the /pool card (we never invent a number here).
+export function minePage() {
+  // Stratum host: prefer the pool-stats module's advertised host; the live per-coin port + host are
+  // shown on /pool (pulled from the pool engine), so configs point there rather than guessing a port.
+  const stratumHost = STRATUM_HOST || (POOL_SITE.replace(/^https?:\/\//, ''));
+  const port = process.env.PRANA_STRATUM_PORT || '<port from the live Pool page>';
+  // A ballpark Etchash hashrate table (community-typical; tuning-dependent). NOT earnings.
+  const gpus = [
+    ['GTX 1060 6GB', '~22 MH/s', '~90 W'],
+    ['GTX 1070 / 1070 Ti', '~28–30 MH/s', '~120 W'],
+    ['GTX 1080 Ti', '~48–50 MH/s', '~200 W'],
+    ['RX 580 8GB', '~28–30 MH/s', '~130 W'],
+    ['RX 5700 XT', '~52–55 MH/s', '~120 W (tuned)'],
+    ['RTX 3060 Ti / 3070', '~58–62 MH/s', '~120–130 W'],
+    ['RTX 3080', '~90–100 MH/s', '~220 W'],
+    ['RTX 3090', '~110–120 MH/s', '~280 W'],
+  ];
+  const body = `<h1>PRANA Mining Guide <span class=muted style="font-size:14px">· GPU Etchash — the same algorithm as Ethereum Classic</span></h1>
+    <p class=lead>PRANA is MELEK's <b>proof-of-work sister chain</b>: an EVM Layer-1 you mine on a GPU.
+      Its algorithm is <b>Etchash (ECIP-1099)</b> — byte-for-byte the algorithm Ethereum Classic uses —
+      so any rig that mines ETC mines PRANA with <b>zero switching cost</b>. Point your miner at the
+      pool, put your <b>0x PRANA address</b> as the payout, and you are mining.</p>
+
+    <div class=card style="border-color:#d9a441"><h2>TL;DR for a miner who already runs ETC</h2>
+      <pre>Algorithm : Etchash (ECIP-1099)     same as Ethereum Classic
+chainId   : ${esc(PRANA_CHAIN_ID_DEC)} (${esc(PRANA_CHAIN_ID_HEX)})   EVM — add to MetaMask / Akasha
+Pool      : stratum+tcp://${esc(stratumHost)}:${esc(port)}
+Payout    : your 0x… PRANA wallet address
+Launch    : fair, no premine — supply starts at zero</pre>
+      <p class=muted style="font-size:13px">Same miner binaries (lolMiner, GMiner, T-Rex), same GPUs,
+        same DAG mechanics as ETC. The <b>exact live host and port</b> are on the
+        <a href="/pool">Pool page</a> (pulled live from the pool engine — we never print a stale port
+        here). PRANA is Etchash-<i>compatible</i>; it is <b>not</b> affiliated with, or endorsed by,
+        Ethereum Classic or Ethereum.</p>
+    </div>
+
+    <h2 style="margin-top:22px">1 · What PRANA mining is</h2>
+    <div class=card>
+      <p class=muted style="font-size:14px">PRANA is a <b>proof-of-work, EVM-compatible Layer-1</b>.
+        Miners run GPUs that hash a candidate block until the result clears the network difficulty;
+        whoever finds a valid solution adds the block and earns the reward. Difficulty auto-adjusts so
+        blocks keep arriving at a steady pace no matter how much hashrate points at the chain.</p>
+      <p class=muted style="font-size:14px"><b>Etchash (ECIP-1099)</b> is a memory-hard, DAG-based
+        variant of Ethash with a slower DAG-epoch growth (ECIP-1099 doubled the epoch length, keeping
+        the DAG smaller for longer). Practically: any rig, miner binary and driver stack that mines ETC
+        <b>already mines PRANA</b> — you change only the pool URL and payout address. It is <b>GPU</b>
+        mining; CPUs and ASICs are not practical for Etchash.</p>
+      <p class=muted style="font-size:14px"><b>The reward.</b> Every block pays a block reward in
+        <b>PRANA</b> (2 PRANA/block, ~13s; emission decays 10% per year — a gentle taper, not a
+        Bitcoin halving). Miners also earn <b>KULA</b> alongside PRANA as a paired reward — like a
+        coin/second-token pair, but for EVM miners; KULA is the ecosystem's DeFi coin
+        (<b>not a stablecoin</b>). A consensus-enforced <b>2% protocol fee</b> is split off each block
+        to a governed treasury (the HathorFeeTreasury) — disclosed, not hidden, and separate from any
+        pool operator fee.</p>
+      <p class=muted style="font-size:14px"><b>No premine, fair launch.</b> Supply starts at zero — no
+        presale, no insider allocation. Every coin in existence was mined. Stated once, not oversold —
+        and no earnings are ever promised here.</p>
+    </div>
+
+    <h2 style="margin-top:22px">2 · Gear — what you need to mine</h2>
+    <div class=card><h3>The one hard requirement: VRAM for the DAG</h3>
+      <p class=muted style="font-size:14px">Etchash keeps a large dataset — the <b>DAG</b> — resident
+        in GPU memory, and it <b>grows over time</b> as the chain advances through epochs. That single
+        spec decides whether a card can mine:</p>
+      <ul class=muted style="font-size:14px">
+        <li>A fresh Etchash chain starts with a DAG around <b>~2.5–4 GB</b> and grows slowly (ECIP-1099
+          is what slows this versus old Ethash).</li>
+        <li><b>6 GB cards</b> mine comfortably now, but a 6 GB card has a finite runway — once the DAG
+          crosses its usable VRAM, that card stops (as happened to 4 GB cards years ago).</li>
+        <li><b>8 GB and larger</b> is the durable choice — long runway before the DAG is a concern.</li>
+        <li>Rule of thumb: <b>6 GB minimum to start now, 8 GB+ to still be mining in a few years</b>
+          without thinking about it. Leave headroom — the OS/display also use VRAM.</li>
+      </ul>
+    </div>
+    <div class=card><h3>Which GPUs work</h3>
+      <p class=muted style="font-size:14px">Anything that mines ETC/Ethash mines PRANA:</p>
+      <ul class=muted style="font-size:14px">
+        <li><b>NVIDIA:</b> GTX 1060 6GB and up; 1070/1080/1080 Ti; the whole RTX line (2060–2080,
+          3060–3090, 4060–4090). 3 GB / 4 GB cards (1060 3GB, 1050 Ti) are <b>not</b> viable — DAG too
+          big.</li>
+        <li><b>AMD:</b> RX 470/480, RX 570/580 (<b>get the 8 GB variants</b>), RX 5500 XT 8GB / 5600 /
+          5700 / 5700 XT, RX 6600–6900, RX 7000 series.</li>
+        <li><b>Skip:</b> anything under 6 GB, and integrated graphics.</li>
+      </ul>
+    </div>
+    <div class=card><h3>The rest of the rig (secondary)</h3>
+      <ul class=muted style="font-size:14px">
+        <li><b>CPU:</b> anything modern — a cheap dual/quad-core is fine; the CPU does not mine
+          Etchash. Do not buy a big CPU for GPU mining.</li>
+        <li><b>RAM:</b> 8 GB system RAM minimum; 16 GB for many GPUs. On Windows, set the pagefile to
+          roughly (number of GPUs × their VRAM).</li>
+        <li><b>PSU:</b> the part people under-buy. Sum each GPU's board power + ~100–150 W for the rest,
+          then add ~20% headroom. A single RTX 3070 is happy on a quality 550–650 W unit; a 6-GPU rig
+          needs 1200 W+ (often dual PSUs). Use a reputable 80+ Gold/Platinum unit.</li>
+        <li><b>Board / risers:</b> multi-GPU needs enough PCIe slots and powered USB risers; a
+          single-GPU desktop needs none of this.</li>
+        <li><b>Cooling:</b> GPUs run hot for months — open-air frame or a very well-ventilated case;
+          watch memory-junction temps on GDDR6/6X cards.</li>
+      </ul>
+    </div>
+    <div class=card><h3>Expected hashrate (ballpark — <i>not</i> earnings)</h3>
+      <p class=muted style="font-size:13px">Rough community-typical Etchash figures; your real numbers
+        depend on memory overclock, driver and tuning. <b>Hashrate is not profit</b> — we do not know
+        the coin price and will not pretend to.</p>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:6px 10px">GPU</th><th style="padding:6px 10px">~Etchash</th><th style="padding:6px 10px">~Board power</th></tr>
+        ${gpus.map(([g, h, w]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:6px 10px"><b>${esc(g)}</b></td><td style="padding:6px 10px">${esc(h)}</td><td style="padding:6px 10px">${esc(w)}</td></tr>`).join('')}
+      </table></div>
+      <p class=muted style="font-size:13px;margin-top:8px">Tuning beats raw model: Etchash loves
+        <b>memory clock</b> and tolerates a lower core clock / power limit, so most miners undervolt
+        the core and push the memory — cutting power (and heat, and the electric bill) with little
+        hashrate loss. What you control is <b>efficiency (MH/s per watt)</b>: undervolt, cap power, run
+        where power is cheap. Mine because you want to support and hold PRANA and be the compute for
+        Hathor — treat any dollar return as unproven.</p>
+    </div>
+    <div class=card><h3>Windows vs. Linux / HiveOS</h3>
+      <ul class=muted style="font-size:14px">
+        <li><b>Windows</b> — easiest to start: install the GPU driver, download a miner, edit a
+          <code>.bat</code>, double-click. Set a large pagefile for multi-GPU. Good for 1–2 cards.</li>
+        <li><b>Linux (Ubuntu)</b> — more stable for 24/7, lower overhead. Driver + miner under
+          <code>systemd</code> or <code>screen</code>/<code>tmux</code>.</li>
+        <li><b>HiveOS / mmpOS / RaveOS</b> — a purpose-built mining OS on a USB stick; web dashboard,
+          overclock profiles, auto-restart. Best for a dedicated rig or farm.</li>
+      </ul>
+    </div>
+
+    <h2 style="margin-top:22px">3 · Connect to our pool</h2>
+    <div class=card>
+      <p class=muted style="font-size:14px">Our pool runs <b>Miningcore</b> with an <b>Etchash</b>
+        entry for PRANA, and speaks the standard Ethereum/Etchash stratum — so every mainstream Etchash
+        miner works: <b>lolMiner, GMiner, T-Rex</b> (NVIDIA) and lolMiner / TeamRedMiner (AMD).</p>
+      <h3>The three things you set (everywhere)</h3>
+      <ol class=steps>
+        <li><b>Pool (stratum) URL</b> — <code>stratum+tcp://${esc(stratumHost)}:${esc(port)}</code>.
+          The exact live host and port are on the <a href="/pool">Pool page</a>, pulled live from the
+          pool engine.</li>
+        <li><b>Wallet (payout)</b> — your <b>PRANA EVM address</b>, <code>0x…</code>. Get one from
+          <a href="/wallet">Akasha</a>. You never give the pool a private key — only the public
+          <code>0x</code> address.</li>
+        <li><b>Worker name</b> — any label for the rig (<code>rig1</code>, <code>garage3070</code>) so
+          you can tell rigs apart. Format: <code>0xYOURADDRESS.rig1</code> (wallet dot worker).</li>
+      </ol>
+    </div>
+    <div class=card><h3>lolMiner (NVIDIA + AMD)</h3>
+      <pre>lolMiner --algo ETCHASH \\
+  --pool stratum+tcp://${esc(stratumHost)}:${esc(port)} \\
+  --user 0xYOUR_PRANA_ADDRESS.rig1</pre>
+      <h3>GMiner (NVIDIA + AMD)</h3>
+      <pre>miner --algo etchash \\
+  --server ${esc(stratumHost)} --port ${esc(port)} \\
+  --user 0xYOUR_PRANA_ADDRESS.rig1</pre>
+      <h3>T-Rex (NVIDIA)</h3>
+      <pre>t-rex -a etchash \\
+  -o stratum+tcp://${esc(stratumHost)}:${esc(port)} \\
+  -u 0xYOUR_PRANA_ADDRESS -p x -w rig1</pre>
+      <h3>HiveOS flight sheet</h3>
+      <p class=muted style="font-size:14px">Coin: custom / Etchash · Wallet:
+        <code>0xYOUR_PRANA_ADDRESS</code> · Pool: <code>${esc(stratumHost)}:${esc(port)}</code>
+        (template <code>%WAL%.%WORKER_NAME%</code>) · Miner: lolMiner or T-Rex.</p>
+    </div>
+    <div class=card><h3>First run + checking stats</h3>
+      <p class=muted style="font-size:14px">The miner <b>builds the DAG</b> (seconds to a minute, once
+        per epoch), connects, then submits <b>shares</b> — "share accepted" means the pool credits your
+        address. DAG build then an immediate memory error means the card lacks free VRAM (see gear).</p>
+      <ul class=muted style="font-size:14px">
+        <li><b>Pool dashboard:</b> the <a href="/pool">Pool page</a>'s PRANA card shows pool hashrate,
+          your worker, shares and balance — paste your address into the
+          <a href="/pool">wallet lookup</a>.</li>
+        <li><b>Miner console:</b> live per-GPU MH/s, accepted/rejected shares, temps.</li>
+        <li><b>On-chain:</b> your paid balance lands at your <code>0x</code> address — verify it on
+          <b>PRANAScan</b> (<a href="${esc(PRANA_EXPLORER)}">${esc(PRANA_EXPLORER.replace(/^https?:\/\//, ''))}</a>, launching).</li>
+      </ul>
+    </div>
+    <div class=card><h3>Two fees, both disclosed</h3>
+      <ul class=muted style="font-size:14px">
+        <li><b>Protocol fee — 2%</b> — taken by the <b>PRANA chain</b> into a governed treasury, no
+          matter where or how you mine.</li>
+        <li><b>Pool fee</b> — a small operator fee our pool takes for running the infrastructure; the
+          <a href="/fees">Fees page</a> states its size and destination honestly (it supports Hathor,
+          the founding AI Witness — not PRANA itself). Solo-mine (below) and you pay no pool fee, only
+          the 2% protocol fee.</li>
+      </ul>
+    </div>
+
+    <h2 style="margin-top:22px">4 · Solo mining (for the technical)</h2>
+    <div class=card>
+      <p class=muted style="font-size:14px">Solo points your miner at <b>your own PRANA node</b>
+        instead of a pool. You keep the entire block reward (minus the 2% protocol fee), but rewards
+        are <b>lottery-like</b> — with modest hashrate you may go a long time between blocks. Pools
+        exist to smooth that out. The shape:</p>
+      <ol class=steps>
+        <li><b>Run a PRANA full node</b> (the EVM/Etchash client — a core-geth-family build) and let it
+          fully sync to the mainnet tip. Use the node build the project ships.</li>
+        <li><b>Enable the mining RPC</b> — the Ethereum-style <code>eth_getWork</code> interface; start
+          the node with <code>--mine</code> and an <b>etherbase set to your 0x address</b>. Bind the
+          RPC to localhost / a trusted LAN — never expose an unauthenticated mining RPC to the
+          internet.</li>
+        <li><b>Point your miner at the node</b> in solo mode, e.g.
+          <code>lolMiner --algo ETCHASH --pool http://127.0.0.1:8545 --user 0xYOUR_PRANA_ADDRESS.solo1</code>
+          (T-Rex / GMiner accept an <code>http://node:8545</code> getWork endpoint — check each miner's
+          solo docs).</li>
+        <li><b>Rewards</b> are paid by the chain to your node's etherbase when your block is accepted —
+          watch the explorer / your node logs.</li>
+      </ol>
+    </div>
+
+    <h2 style="margin-top:22px">5 · Set up your OWN pool</h2>
+    <div class=card>
+      <p class=muted style="font-size:14px">PRANA is <b>permissionless</b> — anyone can run a pool, and
+        <b>more pools are welcome</b> (they decentralize block production and give miners choice). Ours
+        is not privileged. The stack:</p>
+      <ol class=steps>
+        <li><b>A PRANA full node</b> — synced to mainnet, serving <code>eth_getWork</code>; your source
+          of block templates and where solved blocks are submitted.</li>
+        <li><b>A Miningcore Etchash pool</b> — <a href="https://github.com/oliverw/miningcore">Miningcore</a>'s
+          <code>ethereum</code> coin family drives Etchash via <code>eth_getWork</code>. Add PRANA as
+          one <code>pools[]</code> entry in <code>config.json</code>: coin family <code>ethereum</code>,
+          the Etchash params, your node RPC, a stratum port and your fee. It handles stratum, share
+          validation, difficulty, block detection and payouts.</li>
+        <li><b>PostgreSQL</b> — Miningcore's persistence (shares, blocks, balances, payments); one
+          schema load from its <code>createdb.sql</code>.</li>
+        <li><b>A payout wallet</b> — a PRANA <code>0x</code> account the pool controls and funds to pay
+          miners. <b>Guard this key</b> — it holds miners' pending balances. Use a dedicated pool
+          wallet, never a MELEK/mainnet key.</li>
+        <li><b>A web front-end + reverse proxy</b> — a static site reading Miningcore's REST API
+          (<code>/api/pools</code>) behind Caddy/nginx with TLS.</li>
+      </ol>
+      <p class=muted style="font-size:13px">Open only the <b>stratum port</b> publicly; keep node RPC
+        and Postgres bound to localhost. A healthy synced node <b>is</b> your connection to the network
+        — there is no registration and no permission gate; publishing your stratum URL is how miners
+        find you. Announce it as "another Etchash chain to point rigs at" — facts only, no ETC/Ethereum
+        endorsement implied.</p>
+    </div>
+
+    <h2 style="margin-top:22px">6 · Getting your rewards</h2>
+    <div class=card>
+      <p class=muted style="font-size:14px"><b>Akasha</b> is the ecosystem wallet — you use it to
+        create the <code>0x</code> PRANA address you mine to and to hold your mined <b>PRANA</b> and
+        <b>KULA</b>. Add the PRANA network (mainnet chainId <b>${esc(PRANA_CHAIN_ID_DEC)}</b> /
+        <code>${esc(PRANA_CHAIN_ID_HEX)}</code>, RPC <code>${esc(PRANA_RPC.replace(/^https?:\/\//, ''))}</code>)
+        in one tap — the copyable EIP-3085 params are on the <a href="/wallet">Wallet page</a>.</p>
+      <ol class=steps>
+        <li>Your miner submits <b>shares</b>; the pool credits your address by contribution.</li>
+        <li>When your <b>pending balance</b> crosses the pool's minimum payout, the pool sends a
+          transaction to your <code>0x</code> address (Miningcore batches on a schedule) — the exact
+          minimum + interval are on the <a href="/pool">Pool page</a>.</li>
+        <li>The PRANA lands in your Akasha wallet; verify it on <b>PRANAScan</b> by your address.</li>
+        <li><b>Solo</b> miners are paid directly by the chain to the node's etherbase — no threshold,
+          but block-by-block luck.</li>
+      </ol>
+      <h3>How MELEK ↔ PRANA connect</h3>
+      <ul class=muted style="font-size:14px">
+        <li><b>MELEK</b> — the <i>social</i> chain — is <b>DPoS / witnessed</b> (voted producers like
+          Hathor), <b>not mined</b>. You earn MELEK by posting/curating and via grants, not with a
+          GPU. <a href="/run">Run a witness →</a></li>
+        <li><b>PRANA</b> — the <i>compute</i> chain — is the <b>mined</b>, EVM, Etchash chain this guide
+          is about. Mining PRANA is how GPUs earn and how the AI's compute is paid for.</li>
+        <li><b>One identity:</b> an Akasha/MELEK account is your single sign-in across the pool and the
+          chains. Value moves between chains through the ecosystem <b>bridge</b> (wrapped assets,
+          lock-release pooled), so PRANA you mine can move into the wider MELEK/KULA economy on
+          <a href="${esc(KULASWAP_URL)}">KulaSwap</a>.</li>
+        <li><b>KULA</b> rides along: miners earn <b>PRANA + KULA</b> as a paired reward; KULA is the
+          DeFi coin (lock it to borrow wMELEK via a CDP, provide liquidity, or enter the burn-to-play
+          lottery). <b>MWALI</b> is the KulaSwap liquidity token. Neither is a stablecoin.</li>
+      </ul>
+      <p style="font-size:15px;margin-top:6px"><b>The short version:</b> mine PRANA on your GPU → PRANA
+        (and KULA) land in your Akasha wallet → use them across the ecosystem, all under one MELEK
+        identity.</p>
+    </div>
+
+    <div class=card><h2>Go deeper</h2>
+      <p class=muted style="font-size:14px">Live pool status + the exact stratum line:
+        <a href="/pool">Pool</a> · get an address / add the network: <a href="/wallet">Akasha
+        wallet</a> · the honest fee model: <a href="/fees">Fees</a> · the DEX for PRANA/KULA:
+        <a href="${esc(KULASWAP_URL)}">KulaSwap</a>. Reference depth in the Library of Ashurbanipal:
+        ${libArticle('Proof_of_Work_Mining', 'Proof-of-Work mining')} ·
+        ${libArticle('Mining', 'Mining')} ·
+        ${libArticle('PRANA', 'PRANA')} ·
+        ${libArticle('KULA', 'KULA')}.</p>
+    </div>`;
+  return page('PRANA Mining Guide — Etchash GPU mining — Witness School', body, {
+    canonical: `${BASE_URL}/mine`,
+    description: 'How to mine PRANA — MELEK\'s EVM proof-of-work sister chain (chainId 712217). Etchash / ECIP-1099, the same algorithm as Ethereum Classic, so ETC rigs mine PRANA at zero switching cost. GPU/VRAM gear specs, lolMiner/GMiner/T-Rex/HiveOS configs, solo mining, how to run your own Miningcore pool, and getting PRANA + KULA rewards into the Akasha wallet. Facts, not hype.',
+  });
 }
 
 // ── /learn — how the systems work (for everyone) ──────────────────────────────────────────────────
@@ -1187,7 +1499,7 @@ export function grapheneFamilyPage() {
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/mine', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1219,6 +1531,7 @@ export async function handler(req, res) {
         summary: 'Learn to be a MELEK witness, connect to the PoW mining pool, and read the honest fee model — the pool fee goes to Hathor, the founding AI Witness, not to PRANA.',
         links: [
           { label: 'Witness School (home)', path: '/' },
+          { label: 'PRANA Mining Guide (Etchash GPU)', path: '/mine' },
           { label: 'Live pool status', path: '/pool' },
           { label: 'Fee model', path: '/fees' },
           { label: 'Servers for mining & witness nodes', path: '/servers' },
@@ -1235,6 +1548,7 @@ export async function handler(req, res) {
     if (path === '/family' || path === '/clones') return sendHtml(res, grapheneFamilyPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
+    if (path === '/mine') return sendHtml(res, minePage());
     if (path === '/pool') {
       return sendHtml(res, page('Live pool status — Witness School', await poolView(), { canonical: `${BASE_URL}/pool` }));
     }

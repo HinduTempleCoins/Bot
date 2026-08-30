@@ -15,7 +15,7 @@ The '''Crypto Glossary''' is a plain-language dictionary of the blockchain terms
 * '''Burn''' — permanently destroying tokens (sending them where they can't be spent), often to reduce supply or mint another token.
 
 == C ==
-* '''CDP (Collateralized Debt Position)''' — lock collateral to borrow against it, over-collateralized and liquidatable. [[KULA]] uses this for its stable mechanism.
+* '''CDP (Collateralized Debt Position)''' — lock collateral to borrow against it, over-collateralized and liquidatable. In [[KULA]] you lock KULA to borrow wrapped MELEK ('''wMELEK''') — a value bridge to [[MELEK]], not a stable-dollar system.
 * '''Chain ID''' — a unique id that stops a transaction on one chain from replaying on another.
 * '''[[Cloning]]''' — copying open-source chain or contract code to launch your own.
 * '''Cold storage''' — keeping keys offline, disconnected from the internet, for safety.
@@ -62,6 +62,7 @@ The '''Crypto Glossary''' is a plain-language dictionary of the blockchain terms
 * '''Mempool''' — the waiting room of unconfirmed transactions before they're put in a block.
 * '''[[Mining]]''' — earning block rewards by solving PoW puzzles. PRANA is mined; MELEK is not.
 * '''Minting''' — creating new tokens (the opposite of [[Crypto Glossary|burn]]).
+* '''MWALI''' — [[KULA]]'s '''liquidity token''' (formerly "Proof-of-Liquidity" / PoL): earned per block for providing liquidity on KulaSwap, burnable for KULA or lotto tickets.
 
 == N ==
 * '''NFT''' — a non-fungible token (ERC-721/1155): a unique on-chain item.
@@ -91,7 +92,8 @@ The '''Crypto Glossary''' is a plain-language dictionary of the blockchain terms
 * '''Seed phrase''' — the 12–24 words that back up a wallet's [[Crypto Glossary|private keys]]. Lose it and you lose the funds; leak it and someone takes them.
 * '''Smart contract''' — code that runs on-chain and enforces its own rules (tokens, DEXes, CDPs are all contracts).
 * '''Soft fork''' — a backward-compatible rule change (does not split the chain). See [[Forking]].
-* '''Stablecoin''' — a token designed to hold a steady value (often ~$1); KULA's CDP mints the ecosystem's stable.
+* '''Stablecoin''' — a token designed to hold a steady value (often ~$1). The MELEK ecosystem ships '''none''': there is no MBD "backed dollar," and '''[[KULA]] is not a stablecoin''' (no peg, no redemption).
+* '''SHELLS''' — [[KULA]]'s planned ve-style governance token (lock to vote). Named, with KULA and MWALI, for the Trobriand '''Kula ring''' shell exchange.
 * '''Staking''' — locking a coin to earn rewards and/or gain vote-weight.
 * '''Stratum''' — the protocol a miner uses to talk to a [[Crypto Glossary|pool]].
 
