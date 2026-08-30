@@ -29,6 +29,7 @@
 //   nothing. DRAFT for operator review — not deployed here.
 
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
@@ -54,8 +55,64 @@ const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 
 // PRANA chain id — 108369 decimal = 0x1a751 (see .local/MULTICHAIN_POOLS_WALLETS_DOCS.md §3.1).
+// NOTE: this is the OLDER PRANA network the /wallet page references. The live PRANA *mainnet* the
+// Developer track builds against is a different chain — chainId 712217 (0xade19), below.
 const PRANA_CHAIN_ID_HEX = '0x1a751';
 const PRANA_CHAIN_ID_DEC = 108369;
+
+// ── Developer track — the live mainnet facts, all verified on 2026-08-30 by curling the RPCs ───────
+// MELEK Graphene social chain (read/post via condenser_api; the `bridge` API is NOT registered on the
+// public node, so we use condenser_api only). PRANA EVM compute chain (chainId 712217 = 0xade19,
+// verified via eth_chainId). Every PRANA address below was confirmed deployed via eth_getCode.
+const MELEK_MAINNET_CHAIN_ID = process.env.MELEK_MAINNET_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
+const PRANA_MAINNET_CHAIN_ID_DEC = 712217;
+const PRANA_MAINNET_CHAIN_ID_HEX = '0xade19';
+const PRANA_RPC_URL = (process.env.PRANA_RPC_URL || 'https://rpc.prana.melek.salon').replace(/\/$/, '');
+const PRANA_EXPLORER = (process.env.PRANA_EXPLORER_URL || 'https://pranascan.soapbox.community').replace(/\/$/, '');
+const PRANA_FAUCET = (process.env.PRANA_FAUCET_URL || 'https://faucet.alpha.soapbox.community').replace(/\/$/, '');
+// MELEK-Signer — the HiveSigner-model OAuth/consent boundary for keyless *writes* (posts/votes). It
+// is the auth path; reads never need it (they hit the public RPC directly, no key).
+const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/$/, '');
+const GH_ORG = 'https://github.com/HinduTempleCoins';
+
+// Live PRANA contract ABIs, pulled from the PRANA contracts repo (Foundry artifacts) and committed
+// alongside this file so the page is fully offline / deterministic. Keyed by ABI name;
+// several addresses share one ABI (every LP pair is a UniswapV2Pair, KULA + MWALI are ERC20Base…).
+const PRANA_ABIS = JSON.parse(readFileSync(new URL('./prana-abis.json', import.meta.url), 'utf8'));
+
+// The deployed-contracts registry. `abi` is a key into PRANA_ABIS. Grouped for the /dev/contracts
+// table. All addresses verified live (eth_getCode returned bytecode) on 2026-08-30.
+const PRANA_CONTRACTS = [
+  { group: 'Core tokens', items: [
+    ['KULA', '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', 'ERC20Base', 'DeFi collateral coin (name() = "KulaSwap"). Emission-only — deployer holds no MINTER_ROLE.'],
+    ['MWALI', '0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9', 'ERC20Base', 'Ecosystem token. Emission-only; MINTER_ROLE not held by the deployer, DEFAULT_ADMIN renounced to the Timelock.'],
+    ['WPRANA', '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34', 'WrappedNative', 'Wrapped native PRANA (the WETH-equivalent) — deposit()/withdraw(); the router\'s base asset.'],
+  ] },
+  { group: 'KulaSwap DEX (Uniswap-V2)', items: [
+    ['KulaSwap Router', '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5', 'UniswapV2Router', 'UniswapV2-style router; factory() confirmed = the Factory below.'],
+    ['KulaSwap Factory', '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6', 'UniswapV2Factory', 'Creates and indexes pairs — createPair(), getPair(), allPairs().'],
+  ] },
+  { group: 'Graphene ↔ EVM bridge', items: [
+    ['GrapheneDepositBridge', '0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505', 'GrapheneDepositBridge', 'Lock-mint / burn-release bridge; attester-attested deposits (ATTESTER_ROLE).'],
+    ['ValidatorSet (FederatedBridgeValidatorSet)', '0x7FE3897dFF8e28C8fa45DCe52DBfedF10368809E', 'FederatedBridgeValidatorSet', 'The bridge\'s validator/attester set.'],
+    ['WrappedTokenFactory', '0x88DaBEB713E18974A7A4524f4b7b5c96D6AAaF93', 'WrappedTokenFactory', 'Deploys WrappedEcosystemToken wrappers — createWrapped(), wrappedOf().'],
+  ] },
+  { group: 'Wrapped bridge assets (WrappedEcosystemToken)', items: [
+    ['wMELEK', '0xf6d9BE2859191b45820Df3A3B3b321b1b2589AB9', 'WrappedEcosystemToken', 'PRC-20 mirror of MELEK locked on the Graphene side. CUSTODIAN_ROLE mints/burns against locked supply.'],
+    ['wVKBT', '0xD915E757662c4234137aff167Bf93d588145f75e', 'WrappedEcosystemToken', 'PRC-20 mirror of VKBT (Hive-Engine side).'],
+    ['wCURE', '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff', 'WrappedEcosystemToken', 'PRC-20 mirror of CURE (Hive-Engine side).'],
+  ] },
+  { group: 'Governance & gauges', items: [
+    ['GaugeController', '0x3858Bcd8CEE92FBDB0ECBC3946C67C112416A63C', 'GaugeController', 'Directs emissions across gauges — addGauge(), gaugeWeight().'],
+    ['LiquidityGauge (KULA/WPRANA)', '0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45', 'LiquidityGauge', 'Stake the KULA/WPRANA LP to earn — stake()/getReward()/earned().'],
+    ['DAO Timelock', '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4', 'DAOTimelock', 'OpenZeppelin TimelockController — PROPOSER/EXECUTOR/CANCELLER roles; admin of the emission-only tokens.'],
+  ] },
+  { group: 'KulaSwap LP pairs (UniswapV2Pair)', items: [
+    ['wVKBT / KULA', '0xE3e01d327bC2bee7a5754c1E7Ff23158E017688E', 'UniswapV2Pair', 'token0 = KULA, token1 = wVKBT (verified on-chain).'],
+    ['wCURE / KULA', '0x521786d5ede921c7E8f248796acA10e5370149a3', 'UniswapV2Pair', 'KULA-quoted LP pair.'],
+    ['wVKBT / wCURE', '0xA1A6143CEDD0d0CDdcad16c7b0FA034C3982351C', 'UniswapV2Pair', 'Cross wrapped-asset LP pair.'],
+  ] },
+];
 
 // MELEK testnet RPC for the live /hathor witness-status page (read-only condenser calls).
 const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
@@ -139,7 +196,7 @@ function page(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
-  <div class=topbar-r><a href="/">School</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
+  <div class=topbar-r><a href="/">School</a><a href="/dev">Dev</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -205,6 +262,17 @@ export function homePage() {
       <b>PRANA</b>, the useful-work chain that <em>is</em> the pool. You can witness MELEK
       <em>and</em> point a miner at the PoW pool — this site is the front for both.</p>
       <p style="margin-top:6px"><a href="/pool">See the live pool →</a></p>
+    </div>
+
+    <div class=card style="border-color:var(--blue)"><h2>👩‍💻 Build an app — the Developer track</h2>
+      <p class=muted style="font-size:14px">New: a full <b>developer on-ramp</b> for both chains.
+        <b>MELEK app dev</b> — read the feed and make your first post in 60 seconds, in JS <i>and</i>
+        Python. <b>PRANA contract dev</b> — add the network to MetaMask, wire Foundry/Hardhat/viem/ethers,
+        deploy Solidity, and build against the <b>live contract addresses + ABIs</b>. Everything is
+        keyless-to-read and runs against the live mainnets.</p>
+      <p style="margin-top:6px"><a href="/dev">Open the Developer track →</a> ·
+        <a href="/dev/melek">MELEK app dev</a> · <a href="/dev/prana">PRANA contract dev</a> ·
+        <a href="/dev/contracts">Contracts + ABIs</a></p>
     </div>
 
     <h2 style="margin-top:22px">Earn &amp; contribute — the things you can do</h2>
@@ -1187,7 +1255,451 @@ export function grapheneFamilyPage() {
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor'];
+// ── /dev — the Developer track hub (both sub-tracks + open-source repos) ────────────────────────
+export function devHubPage() {
+  const repos = [
+    ['PRANA', 'PRANA', 'The EVM compute chain, its contracts (KULA, KulaSwap, bridge, gauges) and node.'],
+    ['KULASwap', 'KULASwap', 'The Uniswap-V2 DEX + DeFi (farms, CDP, DAO) that runs on PRANA.'],
+    ['melek-chain', 'melek-chain', 'The MELEK Graphene/DPoS social chain (Steem/Blurt-family fork).'],
+    ['melek-condenser', 'melek-condenser', 'The MELEK web front-end (condenser) — posts, votes, wallet.'],
+    ['Bot', 'Bot', 'Hathor, the founding AI Witness — operator software, character, and this very site.'],
+  ];
+  const body = `<h1>Build on MELEK &amp; PRANA <span class=muted style="font-size:14px">· the developer track</span></h1>
+    <p class=lead>Two chains, one ecosystem, one on-ramp for developers. <b>MELEK</b> is a Graphene/DPoS
+      <b>social</b> chain — read a global feed, post, vote, earn a coin. <b>PRANA</b> is an EVM
+      <b>compute/DeFi</b> chain — deploy Solidity, swap on KulaSwap, use the live contracts. Pick your
+      track; each ships copy-paste code against the <em>live mainnets</em>, not a sandbox.</p>
+
+    <div class=grid>
+      <div class=sec><a class=t href="/dev/melek">MELEK app dev (social chain) →</a>
+        <div class=d>Connect over JSON-RPC, read the feed, and make your first post in 60 seconds — in
+          <b>both JS (dhive)</b> and <b>Python</b>. Plus the "Sign in with MELEK" (MELEK-Signer / OAuth)
+          auth boundary.</div>
+        <div class=ref>condenser_api · dhive · beem-style · RPC <code>${esc(MELEK_RPC_URL)}</code></div></div>
+      <div class=sec><a class=t href="/dev/prana">PRANA contract dev (EVM) →</a>
+        <div class=d>Add the network to MetaMask in one click, wire up <b>Foundry / Hardhat / viem /
+          ethers</b>, and deploy your first contract to PRANA mainnet (chainId
+          <code>${esc(PRANA_MAINNET_CHAIN_ID_DEC)}</code>).</div>
+        <div class=ref>EIP-3085 add-network · Foundry · Hardhat · faucet</div></div>
+      <div class=sec><a class=t href="/dev/contracts">Deployed contracts + ABIs →</a>
+        <div class=d>Every live PRANA mainnet address — KULA, KulaSwap, the bridge, wrapped assets,
+          gauges, LP pairs — each linked to PRANAScan, with <b>downloadable ABIs</b>.</div>
+        <div class=ref>17 contracts · verified via eth_getCode · inline + downloadable JSON</div></div>
+      <div class=sec><a class=t href="/llms.txt">llms.txt (machine-readable) →</a>
+        <div class=d>An AI-native index of this whole developer track — we lead with it, because half
+          the people building here are agents.</div>
+        <div class=ref>plain text · linked from the site root</div></div>
+    </div>
+
+    <div class=card><h2>Open source — everything is on GitHub</h2>
+      <p class=muted style="font-size:14px">The chains, the DEX, the front-end and Hathor herself are
+        public. Read the code, fork it, open a PR:</p>
+      <ul class=muted style="font-size:14px">
+        ${repos.map(([slug, name, d]) => `<li><a href="${esc(`${GH_ORG}/${slug}`)}"><b>${esc(name)}</b></a> — ${esc(d)}</li>`).join('')}
+      </ul>
+      <p class=muted style="font-size:13px">Forkability is load-bearing here — a DPoS chain's value is
+        its community and its code, not the company that started it (see
+        <a href="/family">the Graphene family</a>).</p>
+    </div>
+
+    <div class=card><h2>Modeled on developers.hive.io — with the thing it lacks</h2>
+      <p class=muted style="font-size:14px">This track follows the shape that works: quickstart → API
+        reference → JS + Python tutorials → an SDK chooser → a testnet. The one thing we add that even
+        Hive's docs skip: a genuine end-to-end <b>"read the feed / make your first post in 60 seconds"</b>
+        walkthrough, on <a href="/dev/melek">the MELEK page</a>.</p>
+    </div>`;
+  return page('Build on MELEK & PRANA — Developer track — Witness School', body, {
+    canonical: `${BASE_URL}/dev`,
+    description: 'Developer onboarding for the MELEK Graphene social chain and the PRANA EVM compute chain: quickstarts with copy-paste JS (dhive) and Python, the deployed PRANA contract addresses + ABIs, MetaMask add-network, Foundry/Hardhat/viem/ethers config, and the open-source repos.',
+  });
+}
+
+// ── /dev/melek — MELEK app dev (Graphene social chain) ──────────────────────────────────────────
+export function devMelekPage() {
+  const cid = MELEK_MAINNET_CHAIN_ID;
+  const rpc = MELEK_RPC_URL;
+  // Read example — condenser_api.get_discussions_by_created, verified to respond on the live RPC.
+  const curlRead = `curl -s ${rpc} -H 'content-type: application/json' -d '{
+  "jsonrpc":"2.0","id":1,
+  "method":"condenser_api.get_discussions_by_created",
+  "params":[{"tag":"","limit":10}]
+}'`;
+  const jsRead = `import { Client } from '@hiveio/dhive';
+
+// MELEK is a Steem/Blurt-family Graphene chain — dhive speaks it, you just pass
+// the MELEK chain id + address prefix.
+const client = new Client('${rpc}', {
+  chainId: '${cid}',
+  addressPrefix: 'MELEK',
+});
+
+// Read the global feed (newest first). 'bridge' is NOT enabled on the public node,
+// so use condenser_api — which is.
+const feed = await client.database.call('get_discussions_by_created', [
+  { tag: '', limit: 10 },
+]);
+for (const p of feed) console.log(p.author, '/', p.permlink, '—', p.title);
+
+// One account's blog:
+const blog = await client.database.call('get_discussions_by_blog', [
+  { tag: 'hathor', limit: 10 },
+]);
+
+// One post + its body:
+const post = await client.database.call('get_content', ['hathor', 'introducing-hathor-on-melek']);`;
+  const jsPost = `import { Client, PrivateKey } from '@hiveio/dhive';
+const client = new Client('${rpc}', { chainId: '${cid}', addressPrefix: 'MELEK' });
+
+// Your POSTING key only — never your owner/active key in app code.
+// (Better: don't hold a key at all — use "Sign in with MELEK" below.)
+const posting = PrivateKey.fromString(process.env.MELEK_POSTING_WIF);
+
+await client.broadcast.comment({
+  parent_author: '',
+  parent_permlink: 'melek',              // a top-level post → the tag/category
+  author: 'youraccount',
+  permlink: 'my-first-post',
+  title: 'Hello MELEK',
+  body: 'My first post, broadcast from code.',
+  json_metadata: JSON.stringify({ tags: ['melek', 'intro'], app: 'my-app/0.1' }),
+}, posting);`;
+  const pyRead = `import requests   # the zero-dependency way — this exact call is verified live
+
+r = requests.post('${rpc}', json={
+    'jsonrpc': '2.0', 'id': 1,
+    'method': 'condenser_api.get_discussions_by_created',
+    'params': [{'tag': '', 'limit': 10}],
+})
+for p in r.json()['result']:
+    print(p['author'], '/', p['permlink'], '—', p['title'])`;
+  const pyPost = `# beem-style: point beem at MELEK by registering it as a custom chain.
+from beem import Steem                       # beem drives any Graphene chain
+from beem.comment import Comment
+
+melek = Steem(
+    node=['${rpc}'],
+    custom_chains={'MELEK': {
+        'chain_id': '${cid}',
+        'min_version': '0.0.0',
+        'prefix': 'MELEK',
+        'chain_assets': [
+            {'asset': 'MBD',   'symbol': 'MBD',   'precision': 3, 'id': 0},
+            {'asset': 'MELEK', 'symbol': 'MELEK', 'precision': 3, 'id': 1},
+            {'asset': 'VESTS', 'symbol': 'VESTS', 'precision': 6, 'id': 2},
+        ],
+    }},
+    chain='MELEK',
+    keys=[os.environ['MELEK_POSTING_WIF']],   # posting key only
+)
+
+melek.post(
+    title='Hello MELEK',
+    body='My first post, broadcast from Python.',
+    author='youraccount',
+    tags=['melek', 'intro'],
+)`;
+  const body = `<h1>MELEK app dev <span class=muted style="font-size:14px">· read the feed &amp; make your first post</span></h1>
+    <p class=lead>MELEK is a <b>Graphene / DPoS social chain</b> in the Steem/Hive/Blurt family — so
+      every Steem-family tool already speaks it. This page is the whole on-ramp: connect, read the
+      global feed, and broadcast your first post — in <b>JavaScript</b> and <b>Python</b>, against the
+      <em>live mainnet</em>. Every RPC call below was verified to respond before it was published.</p>
+
+    <div class=card><h2>1 · Connect</h2>
+      <pre>RPC endpoint   ${esc(rpc)}
+chain id       ${esc(cid)}
+address prefix MELEK       coin  MELEK   (no MBD "dollar" token)
+block time     ~4 seconds  consensus  Graphene DPoS
+API            condenser_api  (the <code>bridge</code> app-layer API is not enabled on the public node)</pre>
+      <p class=muted style="font-size:13px">MELEK is JSON-RPC over HTTPS, exactly like Hive/Steem. The
+        chain id and the <code>MELEK</code> prefix are the only two things that make a client "a MELEK
+        client" instead of a Hive one.</p>
+    </div>
+
+    <div class=card><h2>2 · Read the feed — the 60-second start</h2>
+      <p class=muted style="font-size:14px">The fastest possible smoke test — one <code>curl</code>, no
+        SDK. It returns the newest posts on the chain:</p>
+      <pre>${esc(curlRead)}</pre>
+      <h3 style="margin-top:12px">JavaScript — dhive</h3>
+      <pre>${esc(jsRead)}</pre>
+      <h3 style="margin-top:12px">Python</h3>
+      <pre>${esc(pyRead)}</pre>
+      <p class=muted style="font-size:13px">Useful read methods, all on <code>condenser_api</code> and
+        all verified live: <code>get_discussions_by_created</code> (feed),
+        <code>get_discussions_by_blog</code> (one account, needs a <code>tag</code>),
+        <code>get_content</code> (one post), <code>get_accounts</code> (profiles),
+        <code>get_dynamic_global_properties</code> (chain head). Reads need <b>no key and no auth</b>.</p>
+    </div>
+
+    <div class=card><h2>3 · Make your first post</h2>
+      <p class=muted style="font-size:14px">A post is a <code>comment</code> operation with an empty
+        <code>parent_author</code>. It must be signed with your account's <b>posting</b> key.</p>
+      <h3>JavaScript — dhive</h3>
+      <pre>${esc(jsPost)}</pre>
+      <h3 style="margin-top:12px">Python — beem-style</h3>
+      <pre>${esc(pyPost)}</pre>
+      <p class=muted style="font-size:13px">A comment on an existing post is the same op with
+        <code>parent_author</code> / <code>parent_permlink</code> set to the post you're replying to.
+        A vote is a <code>vote</code> op. That's the whole write surface.</p>
+    </div>
+
+    <div class=card><h2>4 · Sign in with MELEK — the keyless path (MELEK-Signer / OAuth)</h2>
+      <p class=muted style="font-size:14px">You should <b>not</b> ask users for their private key, and
+        you shouldn't hold one in your app either. MELEK follows the <b>HiveSigner</b> model:
+        <b>MELEK-Signer</b> (<a href="${esc(SIGNER_URL)}">${esc(SIGNER_URL.replace(/^https?:\/\//, ''))}</a>)
+        is an OAuth2-style consent service that holds the key custody boundary. Your app redirects the
+        user there, they approve a <b>scoped</b> permission (e.g. "post" / "vote"), and you get back a
+        revocable <b>bearer token</b> you broadcast with — your app never sees the key.</p>
+      <ul class=muted style="font-size:14px">
+        <li><b>Reads</b> → straight to the RPC above. No auth, no token, no key. Do this today.</li>
+        <li><b>Writes</b> → through MELEK-Signer with a scoped token (the <code>hivesigner</code> SDK
+          pattern), or, for a server you control, a posting key in an env var as shown above.</li>
+      </ul>
+      <blockquote style="font-size:14px"><b>Honest status:</b> a <b>hosted keyless read API</b> (a
+        HiveSigner-style hosted gateway) and open <b>third-party OAuth app registration</b> are
+        <b>coming</b> — not live for public self-service yet. Until then: read direct from the RPC
+        (no auth needed anyway), and for writes either run your own posting-key server or ask the
+        operator to provision a MELEK-Signer client. We will not hand you an endpoint that doesn't
+        exist.</blockquote>
+    </div>
+
+    <div class=card><h2>SDK chooser</h2>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)"><th style="padding:6px 10px">You're writing…</th><th style="padding:6px 10px">Use</th><th style="padding:6px 10px">Notes</th></tr>
+        ${[
+          ['JS / TypeScript', '<a href="https://gitlab.syncad.com/hive/dhive">dhive</a> (or hive-js)', 'Pass <code>chainId</code> + <code>addressPrefix: \'MELEK\'</code> to the Client.'],
+          ['Python', '<a href="https://github.com/holgern/beem">beem</a>', 'Register MELEK via <code>custom_chains</code> (chain id + prefix), as above.'],
+          ['Anything / a shell', 'raw JSON-RPC + <code>curl</code>', 'condenser_api over HTTPS POST — no SDK needed, works everywhere.'],
+        ].map(([a, b, c]) => `<tr style="border-bottom:1px solid var(--line,#222)"><td style="padding:6px 10px">${esc(a)}</td><td style="padding:6px 10px">${b}</td><td style="padding:6px 10px">${c}</td></tr>`).join('')}
+      </table></div>
+      <p class=muted style="font-size:13px;margin-top:8px">A <b>testnet</b> exists (chain prefix TST,
+        symbols TESTS/TBD) for safe experiments — see <a href="/hathor">Hathor, live</a> for the working
+        witness. Next: the EVM side, <a href="/dev/prana">PRANA contract dev →</a></p>
+    </div>`;
+  return page('MELEK app dev — read the feed & make your first post — Witness School', body, {
+    canonical: `${BASE_URL}/dev/melek`,
+    description: 'Build an app on the MELEK Graphene social chain: connect over JSON-RPC (chain id, MELEK prefix, ~4s blocks), read the feed and make your first post with copy-paste dhive (JS) and beem-style (Python) code against the live mainnet, plus the MELEK-Signer / OAuth keyless auth boundary. All condenser_api methods verified live.',
+  });
+}
+
+// ── /dev/prana — PRANA contract dev (EVM compute chain) ─────────────────────────────────────────
+export function devPranaPage() {
+  const cidHex = PRANA_MAINNET_CHAIN_ID_HEX;
+  const cidDec = PRANA_MAINNET_CHAIN_ID_DEC;
+  const rpc = PRANA_RPC_URL;
+  const explorer = PRANA_EXPLORER;
+  const addChain = {
+    chainId: cidHex,
+    chainName: 'PRANA',
+    nativeCurrency: { name: 'PRANA', symbol: 'PRANA', decimals: 18 },
+    rpcUrls: [rpc],
+    blockExplorerUrls: [explorer],
+  };
+  const addJson = JSON.stringify(addChain, null, 2);
+  const foundryToml = `# foundry.toml
+[rpc_endpoints]
+prana = "${rpc}"
+
+# deploy:  forge create src/MyToken.sol:MyToken \\
+#            --rpc-url prana --private-key $PK --broadcast
+# call:    cast call <addr> "totalSupply()(uint256)" --rpc-url ${rpc}
+# chainId: cast chain-id --rpc-url ${rpc}     # → ${cidDec}`;
+  const hardhat = `// hardhat.config.js
+module.exports = {
+  solidity: '0.8.24',
+  networks: {
+    prana: {
+      url: '${rpc}',
+      chainId: ${cidDec},
+      accounts: [process.env.PK],   // deployer private key (env var, never committed)
+    },
+  },
+};
+// deploy:  npx hardhat run scripts/deploy.js --network prana`;
+  const viem = `import { createPublicClient, createWalletClient, http, defineChain } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+
+export const prana = defineChain({
+  id: ${cidDec},
+  name: 'PRANA',
+  nativeCurrency: { name: 'PRANA', symbol: 'PRANA', decimals: 18 },
+  rpcUrls: { default: { http: ['${rpc}'] } },
+  blockExplorers: { default: { name: 'PRANAScan', url: '${explorer}' } },
+});
+
+const pub = createPublicClient({ chain: prana, transport: http() });
+console.log(await pub.getBlockNumber());`;
+  const ethers = `import { JsonRpcProvider, Wallet, Contract } from 'ethers';   // ethers v6
+
+const provider = new JsonRpcProvider('${rpc}', ${cidDec});
+console.log((await provider.getNetwork()).chainId);   // → ${cidDec}n
+
+// read KULA's total supply with a 1-line minimal ABI
+const kula = new Contract(
+  '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631',
+  ['function totalSupply() view returns (uint256)'],
+  provider,
+);
+console.log(await kula.totalSupply());`;
+  const deploySol = `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract MyToken is ERC20 {
+    constructor() ERC20("My Token", "MYT") {
+        _mint(msg.sender, 1_000_000 ether);
+    }
+}`;
+  const body = `<h1>PRANA contract dev <span class=muted style="font-size:14px">· deploy Solidity to the EVM compute chain</span></h1>
+    <p class=lead>PRANA is an <b>EVM</b> chain — chainId <code>${esc(cidDec)}</code>
+      (<code>${esc(cidHex)}</code>), symbol <b>PRANA</b>, ~13s blocks. Every Ethereum tool works
+      unchanged; you only point it at PRANA's RPC. Add the network, wire your toolchain, and deploy —
+      the addresses and ABIs you'll build against are on <a href="/dev/contracts">Deployed contracts</a>.</p>
+
+    <div class=card><h2>1 · Add PRANA to MetaMask</h2>
+      <p class=muted style="font-size:14px">One click (needs a MetaMask-compatible wallet in the
+        browser). It sends the <b>EIP-3085 <code>wallet_addEthereumChain</code></b> request:</p>
+      <p><button id=addprana
+        style="background:#1f6feb;border:0;border-radius:8px;color:#fff;font-weight:700;padding:10px 20px;cursor:pointer">Add PRANA network</button>
+        <span id=addprana_msg class=muted style="font-size:13px;margin-left:8px"></span></p>
+      <p class=muted style="font-size:14px">Or copy the params into any wallet:</p>
+      <pre>${esc(addJson)}</pre>
+      <p class=muted style="font-size:13px">A wallet rejects the add unless the RPC actually reports
+        chainId <code>${esc(cidHex)}</code> over HTTPS — that's the EIP-3085 contract, and PRANA's RPC
+        does report it (verified).</p>
+      <script>
+        (function () {
+          var b = document.getElementById('addprana');
+          var m = document.getElementById('addprana_msg');
+          if (!b) return;
+          b.addEventListener('click', function () {
+            if (!window.ethereum) { m.textContent = 'No EVM wallet detected — install MetaMask or copy the params below.'; return; }
+            window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [${JSON.stringify(addChain)}],
+            }).then(function () { m.textContent = 'PRANA added — pick it in your wallet\\'s network list.'; })
+              .catch(function (e) { m.textContent = 'Add cancelled or failed: ' + (e && e.message ? e.message : e); });
+          });
+        })();
+      </script>
+    </div>
+
+    <div class=card><h2>2 · Point your toolchain at PRANA</h2>
+      <h3>Foundry</h3>
+      <pre>${esc(foundryToml)}</pre>
+      <h3 style="margin-top:12px">Hardhat</h3>
+      <pre>${esc(hardhat)}</pre>
+      <h3 style="margin-top:12px">viem</h3>
+      <pre>${esc(viem)}</pre>
+      <h3 style="margin-top:12px">ethers v6</h3>
+      <pre>${esc(ethers)}</pre>
+    </div>
+
+    <div class=card><h2>3 · Deploy your first contract</h2>
+      <p class=muted style="font-size:14px">A standard OpenZeppelin ERC-20 — a PRC-20 the moment it
+        lands on PRANA (see <a href="/tokens">token standards</a>):</p>
+      <pre>${esc(deploySol)}</pre>
+      <h3>With Foundry</h3>
+      <pre>forge install OpenZeppelin/openzeppelin-contracts
+forge create src/MyToken.sol:MyToken \\
+  --rpc-url ${esc(rpc)} \\
+  --private-key $PK --broadcast
+# then verify it exists:
+cast code &lt;deployed-address&gt; --rpc-url ${esc(rpc)}</pre>
+      <h3 style="margin-top:12px">With Hardhat</h3>
+      <pre>// scripts/deploy.js
+const f = await ethers.getContractFactory('MyToken');
+const c = await f.deploy();
+await c.waitForDeployment();
+console.log('deployed at', await c.getAddress());
+// npx hardhat run scripts/deploy.js --network prana</pre>
+      <p class=muted style="font-size:13px">Confirm it on <b>PRANAScan</b>:
+        <a href="${esc(explorer)}">${esc(explorer.replace(/^https?:\/\//, ''))}</a>. Contract
+        <b>source verification</b> on the explorer is <b>coming</b> — for now, publish your ABI
+        alongside the address (that's exactly what <a href="/dev/contracts">Deployed contracts</a>
+        does for the core set).</p>
+    </div>
+
+    <div class=card><h2>4 · Gas — the faucet</h2>
+      <p class=muted style="font-size:14px">Deploying costs a little PRANA for gas. The ecosystem gas
+        faucet: <a href="${esc(PRANA_FAUCET)}">${esc(PRANA_FAUCET.replace(/^https?:\/\//, ''))}</a>.
+        A dedicated <b>developer faucet</b> (higher limits, dev allowlist) is <b>coming</b>; until then
+        the gas faucet above is the closest drip, and mining PRANA (it's a useful-work chain — see
+        <a href="/pool">the pool</a>) is the other way to fund a deployer.</p>
+    </div>
+
+    <p class=muted style="font-size:13px"><a href="/dev/contracts">Deployed contracts + ABIs →</a> ·
+      <a href="/dev/melek">MELEK app dev →</a> · <a href="/tokens">Token standards (PRC-20) →</a></p>`;
+  return page('PRANA contract dev — deploy Solidity to the EVM compute chain — Witness School', body, {
+    canonical: `${BASE_URL}/dev/prana`,
+    description: 'Build smart contracts on the PRANA EVM compute chain (chainId 712217): add the network to MetaMask (EIP-3085), copy-paste Foundry / Hardhat / viem / ethers config, deploy your first contract, and a gas-faucet pointer. RPC and chainId verified live.',
+  });
+}
+
+// ── /dev/contracts — deployed PRANA mainnet addresses + ABIs (a P0 asset) ───────────────────────
+const abiDownloadPath = (key) => `/dev/abi/${encodeURIComponent(key)}.json`;
+
+export function devContractsPage() {
+  const explorer = PRANA_EXPLORER;
+  const addrLink = (a) => `<a href="${esc(`${explorer}/address/${a}`)}"><code>${esc(a)}</code></a>`;
+  // Which ABI keys are actually referenced, in first-seen order — for the inline/download section.
+  const usedKeys = [];
+  for (const g of PRANA_CONTRACTS) for (const [, , key] of g.items) if (!usedKeys.includes(key)) usedKeys.push(key);
+
+  const groups = PRANA_CONTRACTS.map((g) => `<div class=card>
+      <h2>${esc(g.group)}</h2>
+      <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:13px">
+        <tr style="text-align:left;border-bottom:1px solid var(--line2,#333)">
+          <th style="padding:6px 8px">Contract</th><th style="padding:6px 8px">Address (PRANAScan)</th>
+          <th style="padding:6px 8px">ABI</th><th style="padding:6px 8px">Notes</th></tr>
+        ${g.items.map(([name, addr, key, note]) => `<tr style="border-bottom:1px solid var(--line,#222)">
+          <td style="padding:6px 8px"><b>${esc(name)}</b></td>
+          <td style="padding:6px 8px">${addrLink(addr)}</td>
+          <td style="padding:6px 8px"><a href="${esc(abiDownloadPath(key))}">${esc(key)}.json</a></td>
+          <td style="padding:6px 8px" class=muted>${esc(note)}</td></tr>`).join('')}
+      </table></div>
+    </div>`).join('');
+
+  const inline = usedKeys.map((key) => `<details>
+      <summary><b>${esc(key)}</b> ABI — <a href="${esc(abiDownloadPath(key))}">download ${esc(key)}.json</a>
+        <span class=muted>(${PRANA_ABIS[key] ? PRANA_ABIS[key].length : 0} entries)</span></summary>
+      <pre>${esc(JSON.stringify(PRANA_ABIS[key] || [], null, 2))}</pre>
+    </details>`).join('');
+
+  const body = `<h1>Deployed contracts + ABIs <span class=muted style="font-size:14px">· PRANA mainnet, chainId ${esc(PRANA_MAINNET_CHAIN_ID_DEC)}</span></h1>
+    <p class=lead>The live PRANA mainnet contracts — every address below was confirmed deployed
+      (<code>eth_getCode</code> returned bytecode) on 2026-08-30. Click any address for PRANAScan;
+      grab any ABI as JSON. This is the reference you build KulaSwap integrations, bridge tooling, and
+      dApps against.</p>
+
+    <div class=card style="border-color:var(--gold)"><h2>Emission-only, no god-mode mint</h2>
+      <p class=muted style="font-size:14px"><b>KULA</b>, <b>MWALI</b> and the CDP borrow-note are
+        <b>emission-only</b>: the deployer holds <b>no <code>MINTER_ROLE</code></b>, and
+        <code>DEFAULT_ADMIN_ROLE</code> was renounced to the <b>DAO Timelock</b>. New supply comes only
+        from the emission schedule (1,000,000 KULA/yr, decaying ~10%/yr). Nobody can print these tokens
+        at will — that's a deliberate design property, stated honestly, not a marketing claim.</p>
+    </div>
+
+    ${groups}
+
+    <div class=card><h2>ABIs — inline &amp; downloadable</h2>
+      <p class=muted style="font-size:14px">The ${usedKeys.length} distinct ABIs behind the table above,
+        pulled from the contracts repo. Several addresses share one ABI (every LP pair is a
+        <code>UniswapV2Pair</code>; KULA + MWALI are <code>ERC20Base</code>; wMELEK/wVKBT/wCURE are
+        <code>WrappedEcosystemToken</code>). Standard OpenZeppelin / Uniswap-V2 ABIs also work where
+        noted. Each is downloadable as raw JSON:</p>
+      ${inline}
+    </div>
+
+    <p class=muted style="font-size:13px"><a href="/dev/prana">← PRANA contract dev</a> ·
+      <a href="/dev/melek">MELEK app dev</a> · explorer:
+      <a href="${esc(explorer)}">${esc(explorer.replace(/^https?:\/\//, ''))}</a></p>`;
+  return page('Deployed PRANA contracts + ABIs — Witness School', body, {
+    canonical: `${BASE_URL}/dev/contracts`,
+    description: 'The live PRANA mainnet (chainId 712217) contract addresses with downloadable ABIs: KULA, MWALI, WPRANA, KulaSwap Router/Factory, the Graphene↔EVM bridge (GrapheneDepositBridge, ValidatorSet, WrappedTokenFactory), wrapped assets wMELEK/wVKBT/wCURE, GaugeController, LiquidityGauge, DAO Timelock, and the LP pairs. All verified via eth_getCode; tokens are emission-only.',
+  });
+}
+
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/fees', '/servers', '/wallet', '/hathor', '/dev', '/dev/melek', '/dev/prana', '/dev/contracts'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1215,19 +1727,41 @@ export async function handler(req, res) {
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({
-        name: 'Witness School — MELEK / PRANA Mining Pool', baseUrl: BASE_URL,
-        summary: 'Learn to be a MELEK witness, connect to the PoW mining pool, and read the honest fee model — the pool fee goes to Hathor, the founding AI Witness, not to PRANA.',
+        name: 'Witness School — MELEK / PRANA Developer docs + Mining Pool', baseUrl: BASE_URL,
+        summary: 'Developer on-ramp for the MELEK Graphene social chain and the PRANA EVM compute chain (chainId 712217), plus learn-to-witness and the PoW mining pool. AI-native: read the feed / make your first post / deploy a contract, all against the live mainnets.',
         links: [
+          // Developer track first — we are AI-native, so lead the machine-readable index with it.
+          { label: 'Developer track (hub)', path: '/dev', note: 'both chains, SDK chooser, open-source repos' },
+          { label: 'MELEK app dev — read the feed & first post (JS + Python)', path: '/dev/melek', note: `RPC ${MELEK_RPC_URL}, chain_id ${MELEK_MAINNET_CHAIN_ID}, prefix MELEK, ~4s blocks, condenser_api` },
+          { label: 'PRANA contract dev — MetaMask add-network, Foundry/Hardhat/viem/ethers', path: '/dev/prana', note: `RPC ${PRANA_RPC_URL}, chainId ${PRANA_MAINNET_CHAIN_ID_DEC} (${PRANA_MAINNET_CHAIN_ID_HEX}), explorer ${PRANA_EXPLORER}` },
+          { label: 'Deployed PRANA contracts + downloadable ABIs', path: '/dev/contracts', note: 'KULA, KulaSwap Router/Factory, bridge, wrapped assets, gauges, LP pairs — all eth_getCode-verified' },
           { label: 'Witness School (home)', path: '/' },
+          { label: 'Run a MELEK witness', path: '/run' },
+          { label: 'Token standards (PRC-20)', path: '/tokens' },
           { label: 'Live pool status', path: '/pool' },
           { label: 'Fee model', path: '/fees' },
-          { label: 'Servers for mining & witness nodes', path: '/servers' },
           { label: 'Akasha wallet', path: '/wallet' },
+          { label: 'Open source (GitHub org)', url: GH_ORG, note: 'PRANA, KULASwap, melek-chain, melek-condenser, Bot' },
         ],
       }));
     }
 
     if (path === '/') return sendHtml(res, homePage());
+    if (path === '/dev' || path === '/dev/') return sendHtml(res, devHubPage());
+    if (path === '/dev/melek') return sendHtml(res, devMelekPage());
+    if (path === '/dev/prana') return sendHtml(res, devPranaPage());
+    if (path === '/dev/contracts') return sendHtml(res, devContractsPage());
+    if (path.startsWith('/dev/abi/')) {
+      const key = decodeURIComponent(path.slice('/dev/abi/'.length).replace(/\.json$/i, ''));
+      const abi = Object.prototype.hasOwnProperty.call(PRANA_ABIS, key) ? PRANA_ABIS[key] : null;
+      if (!abi) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown ABI'); }
+      res.writeHead(200, {
+        'content-type': 'application/json; charset=utf-8',
+        'content-disposition': `attachment; filename="${key.replace(/[^A-Za-z0-9_.-]/g, '')}.json"`,
+        'cache-control': 'public, max-age=3600',
+      });
+      return res.end(JSON.stringify(abi, null, 2));
+    }
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/build') return sendHtml(res, buildPage());
