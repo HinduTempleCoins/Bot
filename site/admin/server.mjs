@@ -56,6 +56,10 @@ import { verifyPassword } from '../../integrations/soapy-password-auth.mjs';
 import { handler as apiPanelHandler, __setAuth as apiPanelAuth } from '../../integrations/soapy-api-panel.mjs';
 import { handler as hathorChatHandler, __setAuth as hathorChatAuth } from '../../integrations/soapy-hathor-chat.mjs';
 import { handler as telegramPanelHandler, __setAuth as telegramPanelAuth } from '../../integrations/soapy-telegram-panel.mjs';
+// The Soapy.Blog product surfaces: the embeddable widget suite + the always-free AI coding assistant.
+// Same fail-closed pattern — each 401s on its own __setAuth until we point it at requireAdmin below.
+import { handler as widgetSuiteHandler, __setAuth as widgetSuiteAuth } from '../../integrations/widget-suite.mjs';
+import { handler as coderHandler, __setAuth as coderAuth } from '../../integrations/soapy-coder.mjs';
 
 // Share the CAPTCHA-handoff queue with the browser-provisioning process via a file store, so a
 // CAPTCHA hit during an automated signup (e.g. Twitter) shows up here for the operator to solve.
@@ -159,6 +163,8 @@ function layout({ title = 'Admin', body = '', nav = true } = {}) {
     <a href="/">Dashboard</a>
     <a href="/chat">Hathor</a>
     <a href="/api-panel">APIs</a>
+    <a href="/coder">Coder</a>
+    <a href="/widgets">Widgets</a>
     <a href="/soapy">Soapy</a>
     <a href="/hud">HUD</a>
     <a href="/trade">Trade</a>
@@ -1011,6 +1017,9 @@ export async function handle(req, res) {
     if (p === '/chat' || p === '/chat/send') return hathorChatHandler(req, res);
     if (p === '/api-panel') return apiPanelHandler(req, res);
     if (p === '/soapy' || p === '/soapy/run') return telegramPanelHandler(req, res);
+    // Widget suite (embeddable-widget catalog + loader) and the always-free AI coding assistant.
+    if (p === '/widgets' || p === '/widgets/loader.js' || p === '/widgets/catalog.json') return widgetSuiteHandler(req, res);
+    if (p === '/coder' || p === '/coder/send' || p === '/coder/capabilities') return coderHandler(req, res);
 
     if (p === '/logout' && method === 'GET') {
       const clear = IS_HTTPS
@@ -1193,6 +1202,8 @@ const _adminOk = (req) => { try { return requireAdmin(req).ok; } catch { return 
 apiPanelAuth(_adminOk);
 hathorChatAuth(_adminOk);
 telegramPanelAuth(_adminOk);
+widgetSuiteAuth(_adminOk);
+coderAuth(_adminOk);
 
 // ── boot (only when run directly) ────────────────────────────────────────────────────────────────
 if (process.argv[1] && process.argv[1].endsWith('site/admin/server.mjs')) {
