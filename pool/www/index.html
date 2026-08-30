@@ -258,6 +258,35 @@
   </section>
 
 
+  <!-- ============================================================= -->
+  <!-- APIS-HASH — the OTHER lane of the see-saw. Read-only display + -->
+  <!-- guidepost to forever-lock wMELEK on the Yield Farm hub. No     -->
+  <!-- keys, no signing, no value moves here (apishash-panel.mjs).    -->
+  <!-- ============================================================= -->
+  <section id="apishash" class="card">
+    <div class="k">The other lane <span class="alpha">Alpha</span></div>
+    <h2 style="margin-top:6px">APIS-Hash &mdash; mine APIS by locking, not (only) hashing</h2>
+    <p class="muted" style="font-size:13px;margin:0 0 12px">
+      The pool has <strong>two lanes</strong>, and both feed the reward. One is <strong>raw hashing</strong>
+      &mdash; the miner above, hardware doing work. The other is <strong>APIS-Hash</strong> &mdash;
+      <em>locked-position</em> mining: you forever-lock wMELEK and it mints soulbound APIS-Hash 1:1, which
+      mines <strong>APIS</strong> on a fixed schedule. Same see-saw, two ways to sit on it.
+    </p>
+    <noscript><p class="muted" style="font-size:13px">Enable JavaScript to look up your APIS-Hash position.</p></noscript>
+
+    <div class="wiz-field" id="ah-account-field">
+      <label class="wiz-lab" for="ah-account">Your MELEK account
+        <span class="muted">&mdash; a read-only lookup; no keys, no signing, nothing leaves this page except the name</span></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="ah-account" class="wiz-input mono" type="text" autocomplete="off" spellcheck="false"
+          placeholder="your MELEK account name" style="max-width:280px">
+        <button class="wiz-btn" id="ah-load" type="button">Look up</button>
+      </div>
+    </div>
+
+    <div id="ah-body" aria-live="polite"></div>
+  </section>
+
   <section id="mine">
     <h2>Or pick one coin at a time</h2>
     <p class="sub">Live coins come from the pool API (<code>/api/pools</code>). &ldquo;Coming online&rdquo; coins are configured but their node is still syncing.</p>
@@ -381,7 +410,11 @@
   </div>
 </footer>
 
+<!-- Engine API base for the APIS-Hash panel: mainnet engine first, testnet as fallback. Override
+     per-deploy by setting window.__ENGINE_API before the module loads. Read-only reads only. -->
+<script>window.__ENGINE_API = window.__ENGINE_API || 'https://engine.melek.salon';</script>
 <script type="module" src="pool.js"></script>
+<script type="module" src="apishash-panel.mjs"></script>
 <script type="module" src="browser-mine.mjs"></script>
 <script type="module" src="measure.mjs"></script>
 <script type="module" src="pwa.mjs"></script>
