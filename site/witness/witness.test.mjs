@@ -8,6 +8,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
+  devHubPage, devMelekPage, devPranaPage, devContractsPage,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -474,4 +475,111 @@ test('/family and /clones routes both serve the graphene family page', async () 
     assert.match(res.body, /Graphene family/);
   }
   assert.match(homePage(), /\/family/);   // linked from the school home
+});
+
+// ---------------------------------------------------------------------------
+// Developer track — /dev, /dev/melek, /dev/prana, /dev/contracts, /dev/abi/*
+// ---------------------------------------------------------------------------
+test('dev hub links both sub-tracks, contracts, llms.txt, and the open-source repos', () => {
+  const h = devHubPage();
+  assert.match(h, /Developer track|Build on MELEK/);
+  assert.match(h, /href="\/dev\/melek"/);
+  assert.match(h, /href="\/dev\/prana"/);
+  assert.match(h, /href="\/dev\/contracts"/);
+  assert.match(h, /llms\.txt/);
+  // open-source cross-links
+  for (const repo of ['PRANA', 'KULASwap', 'melek-chain', 'melek-condenser', 'Bot']) {
+    assert.ok(h.includes(`github.com/HinduTempleCoins/${repo}`), `dev hub links ${repo}`);
+  }
+});
+
+test('MELEK dev page: connect facts + read + first-post in JS (dhive) AND Python', () => {
+  const h = devMelekPage();
+  // connect facts
+  assert.match(h, /melek\.salon\/rpc/);
+  assert.match(h, /907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b/);
+  assert.match(h, /4 seconds/);
+  assert.match(h, /prefix/i);
+  // real, verified read methods (condenser_api) — NOT the unregistered bridge API
+  assert.match(h, /condenser_api|get_discussions_by_created/);
+  assert.match(h, /get_content/);
+  assert.match(h, /get_discussions_by_blog/);
+  assert.doesNotMatch(h, /bridge\.get_account_posts/);   // that API is not enabled on the public node
+  // both languages present
+  assert.match(h, /@hiveio\/dhive/);        // JS SDK
+  assert.match(h, /import requests|from beem/);  // Python
+  assert.match(h, /broadcast\.comment|\.post\(/);  // making a post
+  // Sign in with MELEK boundary + honest "coming"
+  assert.match(h, /MELEK-Signer|HiveSigner/);
+  assert.match(h, /coming/i);
+});
+
+test('PRANA dev page: add-network (EIP-3085 mainnet 712217/0xade19) + all four toolchains', () => {
+  const h = devPranaPage();
+  assert.match(h, /712217/);
+  assert.match(h, /0xade19/);
+  assert.match(h, /rpc\.prana\.melek\.salon/);
+  assert.match(h, /pranascan\.soapbox\.community/);
+  assert.match(h, /wallet_addEthereumChain/);
+  assert.match(h, /Add PRANA network/);   // the MetaMask button
+  // four toolchains
+  assert.match(h, /foundry\.toml|forge create/);
+  assert.match(h, /hardhat\.config/);
+  assert.match(h, /viem/);
+  assert.match(h, /ethers/);
+  // faucet pointer + honest "coming" on the dev faucet + verification
+  assert.match(h, /faucet/i);
+  assert.match(h, /coming/i);
+});
+
+test('PRANA contracts page: real addresses, PRANAScan links, downloadable ABIs, emission-only note', () => {
+  const h = devContractsPage();
+  // a sampling of the verbatim mainnet addresses
+  for (const a of [
+    '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631',  // KULA
+    '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5',  // Router
+    '0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505',  // Bridge
+    '0xf6d9BE2859191b45820Df3A3B3b321b1b2589AB9',  // wMELEK
+    '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4',  // DAO Timelock
+    '0xE3e01d327bC2bee7a5754c1E7Ff23158E017688E',  // LP wVKBT/KULA
+  ]) assert.ok(h.includes(a), `contracts page lists ${a}`);
+  assert.match(h, /pranascan\.soapbox\.community\/address\//);   // explorer links
+  assert.match(h, /\/dev\/abi\/[A-Za-z0-9]+\.json/);             // ABI download links
+  assert.match(h, /MINTER_ROLE/);                                // emission-only design note
+  assert.match(h, /emission-only/i);
+  assert.match(h, /eth_getCode/);                                // honest verification claim
+});
+
+test('dev routes render 200 and are in the nav + sitemap; home links the track', async () => {
+  for (const p of ['/dev', '/dev/melek', '/dev/prana', '/dev/contracts']) {
+    const res = await route(p);
+    assert.equal(res.statusCode, 200, `${p} should 200`);
+  }
+  assert.match(homePage(), /href="\/dev"/);   // prominent home link
+  const sm = await route('/sitemap.xml');
+  for (const p of ['/dev', '/dev/melek', '/dev/prana', '/dev/contracts']) {
+    assert.ok(sm.body.includes(p), `sitemap missing ${p}`);
+  }
+});
+
+test('/dev/abi/<name>.json serves a real ABI array as JSON; unknown → 404', async () => {
+  const ok = await route('/dev/abi/UniswapV2Pair.json');
+  assert.equal(ok.statusCode, 200);
+  assert.match(ok.headers['content-type'], /application\/json/);
+  const abi = JSON.parse(ok.body);
+  assert.ok(Array.isArray(abi) && abi.length > 0, 'ABI is a non-empty array');
+  assert.ok(abi.some((e) => e.type === 'function' && e.name === 'token0'), 'UniV2 pair has token0()');
+  const miss = await route('/dev/abi/NopeNotReal.json');
+  assert.equal(miss.statusCode, 404);
+});
+
+test('llms.txt leads with the developer track + names both chains', async () => {
+  const r = await route('/llms.txt');
+  assert.match(r.body, /Developer track/);
+  assert.match(r.body, /\/dev\/melek/);
+  assert.match(r.body, /\/dev\/prana/);
+  assert.match(r.body, /\/dev\/contracts/);
+  assert.match(r.body, /712217/);
+  // the dev hub link must appear before the pool link (we lead with dev)
+  assert.ok(r.body.indexOf('/dev') < r.body.indexOf('/pool'), 'dev leads the index');
 });
