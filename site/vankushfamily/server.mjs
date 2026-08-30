@@ -190,13 +190,16 @@ export const PHASES = [
   },
   {
     id: 'prana',
-    title: 'PRANA — useful-work chain',
-    when: 'next',
-    desc: 'An EVM chain built around useful work and compute. Public infrastructure — RPC, a web wallet, and a block explorer — is already live; a fair-launch mainnet and the compute layer light up the rest.',
+    kind: 'now',
+    title: 'PRANA — useful-work compute chain — LIVE',
+    when: 'now · mainnet 29 Aug 2026',
+    desc: 'PRANA is the sister chain that feeds the brain: where MELEK is the social side, PRANA is the compute. Its fair-launch mainnet is live — an EVM Proof-of-Work Layer-1, mined with GPUs, no premine, every coin earned. The explorer, wallet, DEX and the useful-work compute lane are coming online around it now.',
     milestones: [
-      { status: 'progress', title: 'PRANA public network live', detail: 'A public PRANA network with an RPC endpoint, a web wallet and a block explorer is live, and MetaMask connects to it. A fair-launch mainnet is next.' },
-      { status: 'progress', title: 'KulaSwap DeFi + value rails', detail: 'KulaSwap — a DEX/AMM with swaps, farms and collateral — is live in alpha; wallet, swap and grant rails connect PRANA value to the SoapBox surfaces.' },
-      { status: 'planned', title: 'Compute / useful-work layer', detail: 'The GPU / useful-work compute layer that gives PRANA its purpose — the way the AI brain earns the compute it runs on.' },
+      { status: 'shipped', title: 'PRANA mainnet — LIVE', detail: 'A fair-launch EVM Proof-of-Work Layer-1 (chain id 712217), mined with Etchash GPUs — no premine, supply starts at zero and is earned. The mainnet sealed on 29 Aug 2026 and mining nodes are producing blocks; MetaMask connects over the public RPC.' },
+      { status: 'progress', title: 'Explorer + Akasha wallet', detail: 'PRANAScan (the block explorer) and Akasha (the web wallet) are being brought online now, so anyone can read the chain and hold PRANA in a browser.' },
+      { status: 'progress', title: 'KulaSwap DEX + KULA', detail: 'KulaSwap — an AMM/DEX — is live in alpha. KULA is its earned reward token (emission-only, a decaying schedule — not a stablecoin, nothing minted for free) and MWALI is the liquidity token; mainnet pairs are being stood up.' },
+      { status: 'progress', title: 'Bridge — ecosystem assets on PRANA', detail: 'A lock-release bridge brings ecosystem assets onto PRANA as pegged tokens that trade against KULA — wMELEK (where MELEK value can be traded), plus wVKBT and wCURE from the engine side. Being stood up; more pairs to follow.' },
+      { status: 'planned', title: 'Compute / useful-work lane', detail: 'The GPU / AI useful-work mining lane that gives PRANA its purpose — the way the AI brain earns the compute it runs on, owned by the community instead of rented from a cloud vendor.' },
     ],
   },
   {
@@ -214,11 +217,13 @@ export const PHASES = [
     id: 'beyond',
     title: 'Beyond',
     when: 'open',
-    desc: 'Open direction, to be shaped with the community.',
+    desc: 'Open direction, to be shaped with the community. The through-line stays the same: MELEK (social) and PRANA (compute) are one project — an AI whose character lives in public records and whose compute the community owns.',
     milestones: [
-      { status: 'progress', title: 'Mobile + browser extension', detail: 'Participation off the desk: a native mobile app (in build) and a browser extension so members can take part anywhere.' },
+      { status: 'progress', title: 'Mobile + browser extension', detail: 'Participation off the desk: a native mobile app (in build), the Move walk-to-earn app, and a browser extension so members can take part anywhere.' },
+      { status: 'planned', title: 'Game world + Fort hub', detail: 'A modular game world with a central hub — arcade, farming, walking and casino surfaces stitched into one place to play, all on the one account.' },
+      { status: 'planned', title: 'KULA farms, lotto + collateral', detail: 'Deeper DeFi on PRANA: yield farms, a lottery, and collateral / borrow rails on KULA — value earned in play put to work.' },
       { status: 'progress', title: 'Multilingual community surfaces', detail: 'In-page translation is live on community surfaces; Kurdish-language and other multilingual fronts open the work to more people.' },
-      { status: 'planned', title: 'Cross-chain expansion + deeper analytics', detail: 'New purpose-built chains plug into the live ecosystem, with deeper analytics across the network.' },
+      { status: 'planned', title: 'Deeper compute lane + analytics', detail: 'The useful-work compute lane grows into real AI/GPU jobs, with deeper analytics across the whole network.' },
     ],
   },
 ];
@@ -238,11 +243,14 @@ export function roadmapPage() {
     ${legend}
     <div class=card style="margin-top:14px">
       <h2>Now → Next → Later</h2>
-      <p class=muted style="font-size:14px"><b>Now:</b> the MELEK chain is live — Hathor produces blocks, the
-        melek.salon condenser carries real feeds, posts, upvotes and wallets, onboarding and the publisher are
-        public, and the SoapBox data network and AI members run alongside. <b>Next:</b> conversational Hathor
-        and on-chain curation mature, and the PRANA useful-work chain brings its wallet, DEX and compute layer
-        to a fair-launch mainnet. <b>Later:</b> the SOAP Beauty Economy extends the ecosystem.</p>
+      <p class=muted style="font-size:14px"><b>Now:</b> two chains are live. The MELEK social chain — Hathor
+        produces blocks, the melek.salon condenser carries real feeds, posts, upvotes and wallets, onboarding
+        and the publisher are public — and, since 29 Aug 2026, the PRANA compute chain, a fair-launch
+        Proof-of-Work mainnet mined with GPUs. <b>Next:</b> conversational Hathor and on-chain curation mature,
+        and around PRANA the explorer, wallet, KulaSwap DEX, the asset bridge and the useful-work compute lane
+        come online. <b>Later:</b> a game-world hub and the SOAP Beauty Economy extend the ecosystem.
+        MELEK (social) and PRANA (compute) are one project — an AI brain that lives in public records and owns
+        the compute it runs on.</p>
     </div>
     ${PHASES.map(phase).join('')}
     <blockquote><b>Durability.</b> The character and the corpus live in public records, so the project
