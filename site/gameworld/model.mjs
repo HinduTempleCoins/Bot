@@ -315,9 +315,19 @@ export function embedManifest(world) {
 
 // ── themeVars(theme) — theming hooks for the embed. Host overrides any subset; sane defaults. ────────
 export const DEFAULT_THEME = Object.freeze({ bg: '#0b0b0f', panel: '#15151c', line: '#26262f', fg: '#e9e9ee', mut: '#9a9aa6', acc: '#8b7cff', gold: '#d29922', up: '#3fb950' });
+// SECURITY: theme values are interpolated into a <style> block, where HTML-escaping does NOT stop CSS
+// injection (';', '{', '}', 'url(', '@import', '</style>' would all pass esc()). So this is a strict
+// allow-list instead: only KNOWN theme keys are emitted, and each VALUE must match a safe CSS
+// colour/keyword/dimension pattern — anything else falls back to the default. A hostile ?theme= can
+// therefore neither add rules/selectors nor break out of the style element.
+const SAFE_CSS_VALUE = /^(#[0-9a-fA-F]{3,8}|[a-zA-Z][a-zA-Z0-9-]{0,31}|(?:rgb|rgba|hsl|hsla)\([0-9.,%\s/]{1,64}\)|[0-9.]{1,12}(?:px|em|rem|%|vh|vw)?)$/;
 export function themeVars(theme = {}) {
-  const t = { ...DEFAULT_THEME, ...theme };
-  return Object.entries(t).map(([k, v]) => `--${esc(k)}:${esc(v)}`).join(';');
+  const src = theme && typeof theme === 'object' ? theme : {};
+  return Object.keys(DEFAULT_THEME).map((k) => {
+    const raw = Object.prototype.hasOwnProperty.call(src, k) ? String(src[k]) : DEFAULT_THEME[k];
+    const val = SAFE_CSS_VALUE.test(raw) ? raw : DEFAULT_THEME[k];
+    return `--${k}:${val}`;
+  }).join(';');
 }
 
 // ── CLI: print the blueprint + a seeded demo world ───────────────────────────────────────────────────

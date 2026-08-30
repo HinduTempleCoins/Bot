@@ -140,6 +140,15 @@ test('themeVars produces CSS vars and merges overrides', () => {
   assert.match(v, /--bg:/);
 });
 
+test('themeVars blocks CSS injection + unknown keys (security)', () => {
+  const v = themeVars({ bg: 'red;} body{display:none}', acc: '</style><script>alert(1)</script>', evil: 'url(http://x)' });
+  assert.doesNotMatch(v, /[<>{}]/, 'no selectors/breakout chars');
+  assert.doesNotMatch(v, /url\(|@import|<\/style/i, 'no url()/import/style-breakout');
+  assert.doesNotMatch(v, /--evil/, 'unknown keys dropped');
+  assert.match(v, /--bg:#0b0b0f/, 'malicious bg falls back to default');
+  assert.match(v, /--acc:#8b7cff/, 'malicious acc falls back to default');
+});
+
 test('esc escapes html', () => {
   assert.equal(esc('<b>&"'), '&lt;b&gt;&amp;&quot;');
 });
