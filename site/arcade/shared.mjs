@@ -33,6 +33,22 @@ export function safeHref(u) {
   return '';
 }
 
+// Network label — the same code serves testnet (default) and mainnet. It follows the canonical
+// PRANA_NET switch (integrations/chains/prana-network.mjs), so ONE flip — `PRANA_NET=mainnet` — cuts
+// both the on-chain reader (live.mjs) and every surface's framing over to mainnet. ARCADE_NET_LABEL
+// still wins if a service wants to override just the wording. Kept a plain word for the disclaimer copy.
+export const NET_LABEL = (String(process.env.ARCADE_NET_LABEL || process.env.PRANA_NET || 'testnet').toLowerCase().replace(/[^a-z]/g, '') || 'testnet');
+
+// Responsible-play help. The KULA Arcade is free + non-cashable, but the load-bearing compliance rule
+// (memory `gambling-education-center`, `prana-defi-arcade-compliance-line`) is that EVERY gambling-adjacent
+// surface carries prominent responsible-gambling help — helpline, self-exclusion, and a link to the
+// education center. The primary US line is the National Problem Gambling Helpline (NCPG): reachable as
+// 1-800-522-4700 and as 1-800-GAMBLER, text 800GAM, 24/7 chat.
+export const HELPLINE_TEL = '1-800-522-4700';
+export const HELPLINE_ALT = '1-800-GAMBLER';
+export const HELPLINE_CHAT = 'https://www.ncpgambling.org/chat/';
+export const EDU_URL = safeHref(process.env.GAMBLING_EDU_URL || 'https://gambling.soapbox.community') || 'https://gambling.soapbox.community';
+
 // ── shared dark theme (same palette family as casino/spin/insurance) ──────────────────────────────
 export const STYLE = `<style>
  :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--green:#3fb950;--purple:#a371f7;--red:#f85149}
@@ -45,6 +61,11 @@ export const STYLE = `<style>
  .topbar-r a{color:var(--fg);font-weight:700;font-size:13px;border:1px solid var(--line2);border-radius:8px;padding:6px 11px;white-space:nowrap}
  .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
  .arcade-disclaimer{background:#d299220f;border-bottom:1px solid var(--gold);color:var(--gold);font-size:12.5px;padding:8px 20px;text-align:center;line-height:1.5}
+ .arcade-help{background:#f851490d;border:1px solid var(--red);border-radius:9px;color:#f8b3ad;font-size:12.5px;padding:9px 14px;margin:14px 0;line-height:1.55}
+ .arcade-help a{color:#ff9d94;font-weight:700}
+ .arcade-help .rg-tools{margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+ .arcade-help button.rg-break{font:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--red);background:#0b0f14;color:#ff9d94;border-radius:7px;padding:4px 9px;cursor:pointer}
+ .arcade-excluded{background:#0b0f14;border:1px solid var(--gold);border-radius:10px;color:var(--gold);padding:16px 18px;margin:16px 0;font-size:13.5px;line-height:1.6}
  .arcade-geo{background:#0b0f14;border:1px solid var(--line2);color:var(--mut);font-size:12px;padding:7px 14px;border-radius:8px;margin:12px 0}
  .arcade-geo.geo-blocked{border-color:var(--red);color:var(--red)}
  .wrap{max-width:900px;margin:0 auto;padding:20px}
@@ -72,8 +93,59 @@ export const STYLE = `<style>
 // phrases: entertainment-only, not gambling/investment, no cash value, cannot be purchased, cannot be
 // cashed out, not available where prohibited, plus the alpha/testnet + age framing.
 export const DISCLAIMER = `<div class="arcade-disclaimer" role="note">
- <b>Entertainment only</b> — a game, not gambling or investment. PLAY has no cash value, cannot be purchased, and cannot be cashed out. Not available where prohibited. Alpha · testnet · 18+.
+ <b>Entertainment only</b> — a game, not gambling or investment. PLAY has no cash value, cannot be purchased, and cannot be cashed out. Not available where prohibited. Alpha · ${esc(NET_LABEL)} · 18+.
 </div>`;
+
+// Responsible-play help band — server-rendered on EVERY surface (via the shell). Carries the helpline
+// (call/text/chat), a self-exclusion "take a break" control, and a link to the education center. Copy is
+// harm-reduction, never promotion. The "take a break" button is a per-viewer localStorage timer (see
+// SELF_EXCLUDE_SCRIPT) — it needs no server + no account, so it works on a static, non-cashable arcade.
+export const RESPONSIBLE_HELP = `<div class="arcade-help" role="note">
+ <b>Play for fun — know your limits.</b> KULA Arcade is free and nothing here can be cashed out, but if play
+ stops feeling like a game (for you or someone you know), help is free, confidential, and 24/7: call or text
+ <a href="tel:18005224700"><b>${esc(HELPLINE_TEL)}</b></a> (${esc(HELPLINE_ALT)}), text <b>800GAM</b>, or
+ <a href="${esc(HELPLINE_CHAT)}" target=_blank rel=noopener>chat now</a>.
+ <div class="rg-tools">
+   <span class="muted">Set your own limits · take a break at any time:</span>
+   <button type="button" class="rg-break" data-days="1">Pause 24h</button>
+   <button type="button" class="rg-break" data-days="30">Self-exclude 30d</button>
+   <a href="${esc(EDU_URL)}/help" target=_blank rel=noopener>More help &amp; self-exclusion tools &rarr;</a>
+ </div>
+</div>`;
+
+// Self-exclusion / cool-off: a per-viewer break the player sets themselves. Stored in localStorage
+// (wrapped in try/catch — storage may throw or be unavailable). While active, every arcade surface shows
+// a "you're on a break" notice instead of the play area, with the helpline and an explicit end-break
+// action. This is the self-exclusion control the compliance line requires, done client-side so it needs
+// no account and works on the non-cashable play arcade.
+export const SELF_EXCLUDE_SCRIPT = `<script>
+(function(){try{
+ var K='kula-arcade-break-until';
+ function now(){return Date.now();}
+ function until(){var v=null;try{v=localStorage.getItem(K);}catch(e){}var n=v?parseInt(v,10):0;return (n&&n>now())?n:0;}
+ function fmt(ts){try{return new Date(ts).toLocaleString();}catch(e){return String(ts);}}
+ function show(u){
+   var main=document.querySelector('main.wrap');if(!main)return;
+   Array.prototype.forEach.call(main.children,function(el){el.style.display='none';});
+   var box=document.createElement('div');box.className='arcade-excluded';box.setAttribute('role','note');
+   box.innerHTML='<b>You are taking a break from KULA Arcade.</b><br>Your self-set break is active until <b>'+
+     fmt(u)+'</b>. Nothing here can be cashed out, and this break is entirely your choice. If gambling is a '+
+     'problem, call or text <a href="tel:18005224700"><b>${esc(HELPLINE_TEL)}</b></a> (${esc(HELPLINE_ALT)}) — free, 24/7.';
+   var end=document.createElement('button');end.className='rg-break';end.style.marginTop='12px';
+   end.textContent='End my break now';
+   end.onclick=function(){try{localStorage.removeItem(K);}catch(e){}location.reload();};
+   box.appendChild(document.createElement('br'));box.appendChild(end);main.appendChild(box);
+ }
+ var u=until();if(u){show(u);return;}
+ Array.prototype.forEach.call(document.querySelectorAll('button.rg-break'),function(b){
+   b.onclick=function(){
+     var d=parseInt(b.getAttribute('data-days')||'1',10);if(!(d>0))d=1;
+     var t=now()+d*86400000;try{localStorage.setItem(K,String(t));}catch(e){}
+     show(t);window.scrollTo(0,0);
+   };
+ });
+}catch(e){}})();
+</script>`;
 
 // Age-gate: always in the DOM (server-rendered, so tests + no-JS users see it); the script upgrades it
 // to a one-time confirm stored per-viewer in localStorage (wrapped in try/catch — storage may throw).
@@ -133,16 +205,20 @@ ${DISCLAIMER}
  <div class=topbar-r>${navHtml}</div></header>
 <main class=wrap>
  ${geo.noticeHtml(geoDecision)}
+ ${RESPONSIBLE_HELP}
  ${body}
 </main>
 <footer>
  <b>KULA Arcade is entertainment, not gambling or investment.</b> PLAY points have no cash value,
  cannot be purchased, and cannot be cashed out — there is no fiat on-ramp and no withdrawal. Draws and
- spins are provably fair; verify them yourself. Alpha · PRANA testnet · 18+ · not available where prohibited.
+ spins are provably fair; verify them yourself. Alpha · PRANA ${esc(NET_LABEL)} · 18+ · not available where prohibited.
+ <div style="margin-top:8px">Gambling a problem? Call or text <a href="tel:18005224700"><b>${esc(HELPLINE_TEL)}</b></a>
+  (${esc(HELPLINE_ALT)}) — free, confidential, 24/7 · <a href="${esc(EDU_URL)}/help" target=_blank rel=noopener>get help &amp; self-exclusion tools</a></div>
  <div style="margin-top:8px">${navHtml || ''}</div>
 </footer>
 ${geo.clientHook()}
 ${AGE_GATE_SCRIPT}
+${SELF_EXCLUDE_SCRIPT}
 </body></html>`;
 }
 
