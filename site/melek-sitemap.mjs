@@ -11,7 +11,7 @@ export function __setFetch(fn) { _fetch = typeof fn === 'function' ? fn : ((...a
 const RPC = () => process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
 const BASE = () => (process.env.MELEK_CONDENSER_URL || 'https://melek.salon').replace(/\/$/, '');
 const ACTIVE_TAGS = ['melek', 'vankush', 'move', 'life', 'photography', 'art', 'crypto', 'hive', 'story', 'news'];
-const STATIC_PAGES = ['/', '/created', '/trending', '/hot', '/@hathor', '/@melek', '/kula-paper'];
+const STATIC_PAGES = ['/', '/created', '/trending', '/hot', '/@hathor', '/@melek', '/kula-paper', '/prana-paper'];
 
 const xmlEsc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
 

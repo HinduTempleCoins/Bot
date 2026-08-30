@@ -130,6 +130,13 @@ export const ROUTES = [
     public: true,
     description: 'The public economic spec for the PRANA/KULA economy: see-saw compute, KULA/MWALI/APIS, CDP, veKULA, gauges, bridge, arcade.',
   },
+  {
+    path: '/prana-paper',
+    title: 'The PRANA Paper — technical & consensus spec',
+    module: './prana-paper/server.mjs',
+    public: true,
+    description: 'The public technical/consensus spec for PRANA: Etchash PoW, chainId 712217, EIP-1559, the 2% consensus Hathor fee, and the "chain IS the pool" see-saw (HASH + TASK + BURN lanes → one per-epoch pot).',
+  },
 
   // ── admin / gated (public:false — mount behind operator auth) ───────────────
   {
