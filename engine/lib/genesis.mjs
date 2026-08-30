@@ -32,7 +32,10 @@ export function bootstrapGenesis(state) {
       supplyCapImmutable: t.supplyCapImmutable,
     });
     if (!created.ok) throw new Error(`genesis create ${t.symbol} failed: ${created.error}`);
-    if (t.initialIssue) {
+    // Mint the initial supply ONLY when strictly positive. A zero/absent
+    // initialIssue means "create the token, mint nothing" — the mainnet
+    // no-pre-mine case (APIS is mined via WorkerBee, not handed out at genesis).
+    if (Number(t.initialIssue) > 0) {
       const issued = tokens.issue(state, ctx, {
         symbol: t.symbol,
         to: gcfg.issuer,

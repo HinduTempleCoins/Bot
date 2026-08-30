@@ -39,10 +39,11 @@ export function renderUI(state) {
     )
     .join('\n');
 
+  const netLabel = config.net === 'mainnet' ? 'mainnet' : 'alpha testnet';
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MELEK-Engine · alpha testnet</title>
+<title>MELEK-Engine · ${esc(netLabel)}</title>
 <style>
 :root{--bg:#0d0b14;--card:#16131f;--ink:#e9e4f5;--mut:#9a90b5;--gold:#d8b35a;--line:#2a2438}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
@@ -64,12 +65,16 @@ pre{background:#0d0b14;border:1px solid var(--line);border-radius:8px;padding:12
 .pill{display:inline-block;background:#0d0b14;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:11px;color:var(--mut);margin-right:6px}
 .warn{color:#e0a; font-size:12px}
 a{color:var(--gold)}
+.alpha-badge{position:fixed;top:8px;left:8px;z-index:99;background:var(--gold);color:#1a1626;
+  font:700 11px/1 system-ui,sans-serif;letter-spacing:.5px;text-transform:uppercase;
+  padding:4px 8px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.4)}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 </style></head>
 <body>
+<div class="alpha-badge">Alpha</div>
 <header>
   <h1><span>MELEK</span>-Engine</h1>
-  <div class="sub">Hive-Engine-style token layer for the MELEK chain · alpha testnet ·
+  <div class="sub">Hive-Engine-style token layer for the MELEK chain · ${esc(netLabel)} ·
     fee token <b>${genesis.feeToken}</b> · governance <b>${genesis.minerToken}</b> ·
     sidechain id <code>${config.sidechainId}</code></div>
   <div class="sub" id="status">loading status…</div>
@@ -102,6 +107,7 @@ a{color:var(--gold)}
       <option value="issue">tokens.issue — mint to an account (issuer only)</option>
       <option value="transfer">tokens.transfer — send tokens</option>
       <option value="stake">tokens.stake — stake tokens</option>
+      <option value="foreverLock">workerbee.foreverLock — PERMANENTLY lock ${esc(config.workerbee.stakeToken)} to mine ${genesis.feeToken}</option>
     </select>
     <div id="form"></div>
     <label>Your account (L1 username)</label><input id="acct" placeholder="hathor">
@@ -113,6 +119,26 @@ a{color:var(--gold)}
     </div>
     <label>Generated custom_json</label><pre id="jsonOut">—</pre>
     <pre id="bcOut"></pre>
+  </div>
+
+  <div class="card">
+    <h2>Mining — WorkerBee (${genesis.feeToken})</h2>
+    <p class="sub">There is <b>no pre-mine</b>. The only way to acquire <b>${genesis.feeToken}</b> is to
+    <b>forever-lock ${esc(config.workerbee.stakeToken)}</b> (wrapped MELEK): the lock mints
+    <b>${genesis.feeToken}-Hash</b> 1:1 — soulbound, non-transferable mining power — which mines
+    ${genesis.feeToken} on a fixed, gently-decaying schedule split by your share.</p>
+    <p class="warn"><b>Permanent &amp; non-redeemable:</b> forever-lock cannot be undone. There is no
+    unstake — the ${esc(config.workerbee.stakeToken)} you lock never comes back; you keep only the
+    ${genesis.feeToken}-Hash and the ${genesis.feeToken} it mines.</p>
+    <p class="sub" id="wbStatus">loading emission schedule…</p>
+    <div class="grid">
+      <div><label>APIS-Hash lookup — account</label><input id="wbAcct" placeholder="hathor"></div>
+      <div style="align-self:end"><button class="ghost" onclick="wbLookup()">Look up mining power</button></div>
+    </div>
+    <pre id="wbOut" style="margin-top:14px">—</pre>
+    <p class="sub">To forever-lock, use the builder above (action
+    <code>workerbee.foreverLock</code>). Read: <a href="/contracts/workerbee">/contracts/workerbee</a> ·
+    <a href="/contracts/workerbee/total">/total</a> · <a href="/contracts/workerbee/locks">/locks</a></p>
   </div>
 
   <div class="card">
@@ -136,7 +162,9 @@ a{color:var(--gold)}
 const SIDECHAIN_ID = ${JSON.stringify(config.sidechainId)};
 const CHAIN_ID = ${JSON.stringify(config.chainId)};
 const PREFIX = ${JSON.stringify(config.addressPrefix)};
-const RPC = location.origin.includes('localhost') ? 'http://127.0.0.1:8090' : 'https://alpha.melek.salon/rpc';
+const STAKE_TOKEN = ${JSON.stringify(config.workerbee.stakeToken)};
+const FEE_TOKEN = ${JSON.stringify(genesis.feeToken)};
+const RPC = location.origin.includes('localhost') ? 'http://127.0.0.1:8090' : ${JSON.stringify(config.publicRpc)};
 
 async function refreshStatus(){
   try{const s=await (await fetch('/status')).json();
@@ -152,6 +180,26 @@ async function lookup(){
   if(!a)return;
   const r=await (await fetch('/contracts/balances?account='+encodeURIComponent(a))).json();
   document.getElementById('balOut').textContent = JSON.stringify(r,null,2);
+}
+
+async function wbStatus(){
+  try{const s=await (await fetch('/contracts/workerbee')).json();
+    const el=document.getElementById('wbStatus');
+    el.textContent='Emission: '+(s.emissionPerDay!=null?s.emissionPerDay:'?')+' '+FEE_TOKEN+'/day'+
+      (s.decayPerYearPct?(' · decays '+s.decayPerYearPct+'%/yr'):'')+
+      ' · total '+FEE_TOKEN+'-Hash locked: '+(s.totalApisHash!=null?s.totalApisHash:'0');
+  }catch(e){}
+}
+wbStatus(); setInterval(wbStatus, 8000);
+
+async function wbLookup(){
+  const a=document.getElementById('wbAcct').value.trim();
+  if(!a)return;
+  const [hash,pending]=await Promise.all([
+    (await fetch('/contracts/workerbee/apishash?account='+encodeURIComponent(a))).json().catch(()=>null),
+    (await fetch('/contracts/workerbee/pending?account='+encodeURIComponent(a))).json().catch(()=>null),
+  ]);
+  document.getElementById('wbOut').textContent = JSON.stringify({apisHash:hash,pending:pending},null,2);
 }
 
 function renderForm(){
@@ -170,6 +218,9 @@ function renderForm(){
           '<label>Quantity</label><input id="p_quantity" placeholder="10">',
     stake:'<label>Symbol</label><input id="p_symbol" placeholder="DRONE">'+
           '<label>Quantity</label><input id="p_quantity" placeholder="10">',
+    foreverLock:'<p class="warn"><b>PERMANENT:</b> forever-locks '+STAKE_TOKEN+' with no unstake — '+
+          'it never comes back. You receive soulbound APIS-Hash (mining power) 1:1 and mine '+FEE_TOKEN+'.</p>'+
+          '<label>Amount of '+STAKE_TOKEN+' to forever-lock</label><input id="p_amount" placeholder="100">',
   }[a];
   document.getElementById('form').innerHTML=f;
 }
@@ -185,6 +236,7 @@ function buildPayload(){
   if(a==='issue')payload={symbol:g('p_symbol').toUpperCase(),to:g('p_to'),quantity:g('p_quantity')};
   if(a==='transfer')payload={symbol:g('p_symbol').toUpperCase(),to:g('p_to'),quantity:g('p_quantity')};
   if(a==='stake')payload={symbol:g('p_symbol').toUpperCase(),quantity:g('p_quantity')};
+  if(a==='foreverLock')return {contractName:'workerbee',contractAction:'foreverLock',contractPayload:{amount:g('p_amount')}};
   return {contractName:'tokens',contractAction:a,contractPayload:payload};
 }
 

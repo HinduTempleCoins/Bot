@@ -74,7 +74,7 @@ details{margin:1rem 0;border:1px solid #e0e0e0;border-radius:8px;padding:.6rem}p
 <input id="pv-url" placeholder="video URL (your own / IPFS / licensed embed)"><textarea id="pv-desc" placeholder="description"></textarea>
 <button onclick="buildPost()">Build post op</button><pre id="pv-out"></pre></details>
 <script>
-var RPC='https://alpha.melek.salon/rpc', TAG='reel', SYMBOL='REEL';
+var RPC=${JSON.stringify(config.publicRpc)}, TAG='reel', SYMBOL='REEL';
 function el(t,txt){var e=document.createElement(t);if(txt!=null)e.textContent=txt;return e}
 async function rpc(method,params){try{var r=await fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:method,params:params,id:1})});return (await r.json()).result}catch(e){return null}}
 async function getJSON(u){try{return await (await fetch(u)).json()}catch(e){return null}}

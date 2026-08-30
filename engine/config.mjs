@@ -49,8 +49,9 @@ export const NET_PRESETS = {
   },
   mainnet: {
     sidechainId: 'mse-mainnet-melek',
-    // FILL AT ROLLOUT — the mainnet L1 chain id (64-hex). Placeholder = refuse-to-anchor.
-    chainId: '0000000000000000000000000000000000000000000000000000000000000000',
+    // Mainnet L1 chain id (64-hex). chain_id = sha256(genesis inscription); verified
+    // live 2026-07-12 mainnet launch. Non-placeholder => the node will anchor.
+    chainId: '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b',
     addressPrefix: 'MELEK',
     coinSymbol: 'MELEK',
     backedSymbol: 'MBD',
@@ -81,6 +82,11 @@ export const config = {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean),
+
+  // The single PUBLIC L1 RPC the browser UI signs+broadcasts against (never the
+  // local 127.0.0.1 node, which the browser can't reach). Testnet =>
+  // alpha.melek.salon/rpc, mainnet => melek.salon/rpc. Overridable.
+  publicRpc: process.env.MELEK_ENGINE_PUBLIC_RPC || preset.rpc,
 
   // The L1 chain we anchor to. Pinned so we refuse to replay against a fork
   // with a different id.
@@ -233,32 +239,55 @@ export function domain(sub) {
   return `${left}${infix}${base}`;
 }
 
+// Public engine URL stamped into the genesis token records (cosmetic metadata),
+// net-aware so mainnet tokens don't advertise the alpha testnet host.
+const engineUrl = NET === 'mainnet' ? 'https://engine.melek.salon' : 'https://engine.alpha.melek.salon';
+
+// APIS — the fee/utility token. Created at genesis on BOTH nets. Burned to
+// create tokens & pay engine resource fees; emitted by the WorkerBee lottery.
+const APIS_TOKEN = {
+  symbol: 'APIS',
+  name: 'Apis',
+  precision: 3,
+  maxSupply: '9007199254740991', // ceiling; mirrors HE BEE
+  // immutable cap flag: APIS has a *soft* cap (issuance lottery emits it),
+  // so its supply cap is the ceiling, not immutable-locked.
+  supplyCapImmutable: false,
+  url: engineUrl,
+  // Initial genesis mint to the issuer.
+  //  - MAINNET: 0 — NO PRE-MINE (operator final). Fair-launch invariant: APIS is
+  //    acquired ONLY by the WorkerBee mechanism (forever-lock WMELEK → APIS-Hash →
+  //    mine APIS), same as everyone. As the first/only locker we naturally capture
+  //    the early emission; no genesis handout. Genesis still CREATES the APIS token
+  //    (so it exists to be mined) but mints 0 to @hathor.
+  //  - TESTNET: 1,000,000 — convenience float so testnet flows have fee balance.
+  initialIssue: NET === 'mainnet' ? 0 : '1000000',
+};
+
+// DRONE — the legacy testnet governance token. Kept on TESTNET ONLY so the
+// running testnet engine (already bootstrapped with DRONE) is untouched.
+// DROPPED FROM MAINNET (operator final 2026-06-16): the mainnet mining/
+// distribution mechanism is NOT a DRONE stake — it is forever-lock WMELEK →
+// soulbound APIS-Hash (1:1) → mine APIS (WORKERBEE scheduled, decaying
+// emission). The forever-lock stake token is WMELEK (config.workerbee.stakeToken
+// = preset.wrappedSymbol), so mainnet genesis creates APIS alone.
+const DRONE_TOKEN = {
+  symbol: 'DRONE',
+  name: 'Drone',
+  precision: 3,
+  maxSupply: '1000000', // governance token, hard fixed
+  supplyCapImmutable: true, // cannot ever mint beyond maxSupply (item 14)
+  url: engineUrl,
+  initialIssue: '1000000', // full supply minted at genesis to issuer
+};
+
 export const genesis = {
   feeToken: 'APIS',
-  minerToken: 'DRONE',
+  // The "miner"/distribution token. On mainnet this is the forever-locked
+  // WorkerBee stake token (WMELEK), NOT a DRONE stake. Testnet keeps DRONE.
+  minerToken: NET === 'mainnet' ? preset.wrappedSymbol : 'DRONE',
   // The genesis issuer account on L1 (must be a real MELEK account).
   issuer: process.env.MELEK_ENGINE_ISSUER || 'hathor',
-  tokens: [
-    {
-      symbol: 'APIS',
-      name: 'Apis',
-      precision: 3,
-      maxSupply: '9007199254740991', // ceiling; mirrors HE BEE
-      // immutable cap flag: APIS has a *soft* cap (issuance lottery emits it),
-      // so its supply cap is the ceiling, not immutable-locked.
-      supplyCapImmutable: false,
-      url: 'https://engine.alpha.melek.salon',
-      // initial mint to the issuer to bootstrap creation fees
-      initialIssue: '1000000',
-    },
-    {
-      symbol: 'DRONE',
-      name: 'Drone',
-      precision: 3,
-      maxSupply: '1000000', // governance token, hard fixed
-      supplyCapImmutable: true, // cannot ever mint beyond maxSupply (item 14)
-      url: 'https://engine.alpha.melek.salon',
-      initialIssue: '1000000', // full supply minted at genesis to issuer
-    },
-  ],
+  // Mainnet genesis creates ONLY APIS; testnet keeps the historical APIS+DRONE.
+  tokens: NET === 'mainnet' ? [APIS_TOKEN] : [APIS_TOKEN, DRONE_TOKEN],
 };
