@@ -1,0 +1,46 @@
+[Unit]
+# MELEK L1 -> MELEK-Engine WMELEK relayer: the APIS-mining bootstrap on-ramp.
+# Watches the L1 custody account for native MELEK deposits and mints engine WMELEK
+# (bridge.mintWrapped) via MELEK-Signer, signed by the bridge account (@hathor).
+Description=MELEK L1 -> Engine WMELEK relayer (bridge.mintWrapped via MELEK-Signer; APIS-mining on-ramp)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Bot
+# --- network selector: mainnet preset gives sidechainId mse-mainnet-melek + bridge account hathor
+Environment=NET=mainnet
+# --- config (NO secrets) ------------------------------------------------------
+# MELEK L1 RPC (the mainnet node). Prefer the local node; the relayer only READS.
+Environment=MELEK_RPC_URL=http://127.0.0.1:8090
+# The L1 custody account users lock MELEK into (operator creates it 3-of-5 before go-live).
+Environment=WMELEK_BRIDGE_CUSTODY=wmelek-bridge
+# Reorg-safety confirmation depth (the read already prefers last_irreversible_block).
+Environment=CONFIRMATIONS=20
+Environment=WMELEK_HISTORY_LIMIT=200
+Environment=TICK_MS=30000
+#
+# --- GO-LIVE credential mount (the scoped MELEK-Signer bearer token, decrypted JIT) ----------
+# STAGED: the daemon exits 1 (stays DOWN, safe) until the signer URL + token are present.
+# The token is a SCOPED, REVOCABLE bearer credential (custom_json + bridge-sidechain + active
+# role) — NEVER a WIF. @hathor's key lives ONLY inside MELEK-Signer. To enable minting:
+#   1) systemd-creds encrypt --name=wmelek-signer-token <plaintext token file> \
+#        /root/Bot/creds/wmelek-signer-token.cred
+#   2) uncomment MELEK_SIGNER_URL + the two credential lines below, set the real signer URL,
+#      `systemctl daemon-reload`, `systemctl restart melek-wmelek-relayer`
+#   3) shred the plaintext token file (it never belongs on disk)
+# The daemon runs WATCH-ONLY (exits without a token) until this is done.
+#Environment=MELEK_SIGNER_URL=https://signer.melek.salon
+#Environment=MELEK_SIGNER_TOKEN=%d/wmelek-signer-token
+#LoadCredentialEncrypted=wmelek-signer-token:/root/Bot/creds/wmelek-signer-token.cred
+#
+ExecStart=/usr/bin/node /root/Bot/integrations/wmelek-relayer-daemon.mjs
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/melek-wmelek-relayer.log
+StandardError=append:/var/log/melek-wmelek-relayer.log
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

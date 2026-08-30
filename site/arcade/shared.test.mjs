@@ -1,7 +1,7 @@
 // shared.test.mjs — the compliance shell primitives. OFFLINE.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { esc, safeHref, shell, DISCLAIMER, PLAY_EXPLAINER, AGE_GATE, commonRoutes } from './shared.mjs';
+import { esc, safeHref, shell, DISCLAIMER, PLAY_EXPLAINER, AGE_GATE, RESPONSIBLE_HELP, commonRoutes } from './shared.mjs';
 
 test('esc neutralizes HTML metacharacters', () => {
   assert.equal(esc(`<script>"'&`), '&lt;script&gt;&quot;&#39;&amp;');
@@ -29,6 +29,23 @@ test('AGE_GATE + PLAY_EXPLAINER assert 18+ and non-cashable', () => {
   assert.match(AGE_GATE, /18\+|18 or older/i);
   assert.match(PLAY_EXPLAINER, /non-cashable/i);
   assert.match(PLAY_EXPLAINER, /no fiat on-ramp/i);
+});
+
+test('RESPONSIBLE_HELP band carries the helpline, self-exclusion, and education-center link', () => {
+  assert.match(RESPONSIBLE_HELP, /1-800-522-4700/);          // NCPG National Problem Gambling Helpline
+  assert.match(RESPONSIBLE_HELP, /1-800-GAMBLER/);
+  assert.match(RESPONSIBLE_HELP, /ncpgambling\.org\/chat/);  // 24/7 chat
+  assert.match(RESPONSIBLE_HELP, /self-exclude/i);            // self-exclusion control
+  assert.match(RESPONSIBLE_HELP, /rg-break/);                 // take-a-break buttons
+  assert.match(RESPONSIBLE_HELP, /\/help/);                   // education-center help link
+});
+
+test('shell renders the responsible-gambling help band + self-exclusion on every surface', () => {
+  const html = shell({ title: 'T', body: '<p>hi</p>', baseUrl: 'https://x.test' });
+  assert.match(html, /arcade-help/);              // help band present
+  assert.match(html, /1-800-522-4700/);           // helpline in band + footer
+  assert.match(html, /kula-arcade-break-until/);  // self-exclusion script wired
+  assert.match(html, /End my break now|Self-exclude/i);
 });
 
 test('shell renders disclaimer, alpha badge, geo notice, and a BASE_PATH-prefixed brand link', () => {

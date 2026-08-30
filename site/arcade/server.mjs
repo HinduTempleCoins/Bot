@@ -29,7 +29,7 @@ function currentSeason(seasonLength, nowSec = Math.floor(Date.now() / 1000)) {
   if (!Number.isFinite(L) || L <= 0) return 0;
   return Math.floor(Number(nowSec) / L);
 }
-import { esc, safeHref, shell, commonRoutes, sendHtml, sendJson, PLAY_EXPLAINER, AGE_GATE, geo } from './shared.mjs';
+import { esc, safeHref, shell, commonRoutes, sendHtml, sendJson, PLAY_EXPLAINER, AGE_GATE, geo, NET_LABEL } from './shared.mjs';
 import { readAll as liveReadAll, renderPage as liveRenderPage } from './live.mjs';
 
 const PORT = +(process.env.PORT || 8159);
@@ -123,7 +123,7 @@ const NAV = [
 function page(geoDecision) {
   const games = loadGames();
   const body = `<h1>KULA Arcade</h1>
-   <p class="muted">A free, provably-fair, <b>play-token</b> arcade on the PRANA testnet. Everything here pays or stakes
+   <p class="muted">A free, provably-fair, <b>play-token</b> arcade on the PRANA ${esc(NET_LABEL)}. Everything here pays or stakes
    <b>PLAY</b> — an internal points token that is <b>non-cashable</b>. Free to play, fair by construction, yours to verify.</p>
    ${PLAY_EXPLAINER}
    <div class="play-note" id="play-balance" style="display:none">Your local PLAY tally: <b id="play-bal">0</b>

@@ -71,11 +71,16 @@ const STYLE = `<style>
   footer a{color:var(--blue)}
 </style>`;
 
+// Responsible-play help — present on every page, per the compliance line (memory `gambling-education-center`):
+// even a free, non-cashable spin carries the helpline + a link to the education center's self-exclusion tools.
+const GAMBLING_EDU_URL = (process.env.GAMBLING_EDU_URL || 'https://gambling.soapbox.community').replace(/\/$/, '');
 const FOOTER = `<footer>
   <b>Free daily spin — points are for play, not cash.</b> PLAY points are a non-cashable, fixed-value
   internal reward: they can't be withdrawn, sold, or exchanged for money. The spin is free (no purchase),
   once per UTC day, and the draw is provably fair — you can recompute it yourself. This is entertainment,
   not gambling and not an investment.
+  <div style="margin-top:8px">Gambling a problem? Call or text <a href="tel:18005224700"><b>1-800-522-4700</b></a>
+   (1-800-GAMBLER) — free, confidential, 24/7 · <a href="${esc(GAMBLING_EDU_URL)}/help" target=_blank rel=noopener>help &amp; self-exclusion tools</a></div>
   <div style="margin-top:8px"><a href="/">Daily Spin</a> · <a href="${esc(DATA)}">Data</a></div>
 </footer>`;
 
