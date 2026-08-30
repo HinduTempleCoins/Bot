@@ -13,14 +13,18 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { esc, shell, commonRoutes, sendHtml, sendJson, DISCLAIMER } from './shared.mjs';
+import { pranaNet, explorerAddress } from '../../integrations/chains/prana-network.mjs';
 
 const PORT = +(process.env.PORT || 8163);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 
-const RPC = process.env.ARCADE_RPC_URL || '';
-const CHAIN_ID = +(process.env.ARCADE_CHAIN_ID || 108369);
+// Chain config: the ARCADE_* env vars win (explicit per-service override); when unset we fall back to the
+// canonical PRANA net (PRANA_NET selects testnet|mainnet) so a single flip cuts the arcade over to mainnet.
+const NET = pranaNet();
+const RPC = process.env.ARCADE_RPC_URL || NET.rpcUrl || '';
+const CHAIN_ID = +(process.env.ARCADE_CHAIN_ID || NET.chainId || 108369);
 const LOTTO_ADDR = process.env.ARCADE_LOTTO_ADDR || '';
 const MARKET_ADDR = process.env.ARCADE_MARKET_ADDR || '';
 
@@ -103,7 +107,12 @@ export async function readMarkets() {
 
 export async function readAll() {
   const [lotto, markets] = await Promise.all([readLotto(), readMarkets()]);
-  return { chainId: CHAIN_ID, rpc: RPC, contracts: { lotto: LOTTO_ADDR, market: MARKET_ADDR }, lotto, markets };
+  return {
+    chainId: CHAIN_ID, rpc: RPC, network: NET.key, explorer: NET.explorerUrl,
+    contracts: {
+      lotto: LOTTO_ADDR, market: MARKET_ADDR,
+      lottoUrl: explorerAddress(LOTTO_ADDR), marketUrl: explorerAddress(MARKET_ADDR),
+    }, lotto, markets };
 }
 
 // ---- render ------------------------------------------------------------------------------------------ //
