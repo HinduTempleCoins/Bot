@@ -40,7 +40,7 @@ test('all five forward phases plus the soon-after block are present', () => {
   assert.match(html, /Phase 0 — Already shipped/);
   assert.match(html, /Day 0 — MELEK mainnet — LIVE/); // MELEK launched 2026-07-12 — shipped, not "launch (next)"
   assert.match(html, /MELEK maturing/);
-  assert.match(html, /PRANA — useful-work chain/);
+  assert.match(html, /PRANA — useful-work compute chain — LIVE/);
   assert.match(html, /SOAP — the Beauty Economy/);
   assert.match(html, /Beyond/);
   // phase anchors used by the topbar
@@ -92,7 +92,7 @@ test('known forward milestones appear', () => {
   const html = roadmapPage();
   assert.match(html, /MELEK chain live · Hathor produces blocks/);
   assert.match(html, /Conversational Hathor/);
-  assert.match(html, /PRANA public network live/);
+  assert.match(html, /PRANA mainnet — LIVE/);
   assert.match(html, /SOAP chain launch/);
 });
 

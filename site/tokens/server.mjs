@@ -15,7 +15,16 @@ import { CHAINS } from '../../kulaswap/kula-config.mjs';
 import { quoteVote, DEFAULT_MARKET } from '../../kulaswap/alti-vote-market.mjs';
 import { faucetClaim, dispositionFor, FAUCET_DEFAULTS } from '../../cryptology/hathor-disposition.mjs';
 
-const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
+// Net switch: TOKENS_NET (or NET) = mainnet flips the PRANA "Bubble" to the mainnet factory
+// addresses + the mainnet engine API + the mainnet sidechain id. Default testnet (keeps the
+// alpha behaviour). PRANA is the default/main Bubble either way.
+const TOKENS_NET = (process.env.TOKENS_NET || process.env.NET || 'testnet').toLowerCase() === 'mainnet' ? 'mainnet' : 'testnet';
+const IS_MAINNET = TOKENS_NET === 'mainnet';
+const ENGINE_API = process.env.ENGINE_API || (IS_MAINNET ? 'https://engine.soapbox.community' : 'https://engine.alpha.melek.salon');
+const ENGINE_SIDECHAIN = process.env.ENGINE_SIDECHAIN || (IS_MAINNET ? 'mse-mainnet-melek' : 'mse-testnet-melek');
+const ENGINE_FEE_TOKEN = process.env.ENGINE_FEE_TOKEN || 'APIS';
+const ENGINE_TOKEN_FEE = process.env.ENGINE_TOKEN_FEE || '100';
+const ENGINE_SCOT_FEE = process.env.ENGINE_SCOT_FEE || '100';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
 const MANAGE_URL = process.env.MANAGE_URL || 'https://manage.melek.salon';   // token-management + buyback front-end
 const ACADEMY_URL = process.env.ACADEMY_URL || 'https://academy.melek.salon'; // Token Academy (how-to) + Economics 101
@@ -25,10 +34,10 @@ const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
 // PRANA factory addresses for the turnkey "Create a Token" flow. Env-overridable; defaults are
 // the kula-config PRANA addresses (placeholders until ERC20FactoryWizard/CloneFactory are deployed
 // + recorded — the Create form gates the per-mode button when its factory is unset).
-const PRANA = CHAINS.prana || {};
+const PRANA = (IS_MAINNET ? CHAINS['prana-mainnet'] : CHAINS.prana) || {};
 const WIZARD_ADDR = process.env.WIZARD_ADDR || '';
 const CLONE_FACTORY_ADDR = process.env.CLONE_FACTORY_ADDR || '';
-const CHAIN_ID_HEX = PRANA.chainIdHex || '0x1a751';
+const CHAIN_ID_HEX = PRANA.chainIdHex || (IS_MAINNET ? '0xADE19' : '0x1a751');
 
 // Vote Shop: the @soapbox account that casts bought votes + the ALTI/full-vote price (env-tunable).
 const VOTE_VOTER = process.env.VOTE_VOTER || DEFAULT_MARKET.voter;
@@ -182,7 +191,17 @@ const u=new URLSearchParams(location.search);if(u.get('author')&&u.get('permlink
 }
 
 function pageCreate() {
-  const frag = createTabFragment({ wizardAddr: WIZARD_ADDR, cloneFactoryAddr: CLONE_FACTORY_ADDR, chainIdHex: CHAIN_ID_HEX });
+  const frag = createTabFragment({
+    wizardAddr: WIZARD_ADDR,
+    cloneFactoryAddr: CLONE_FACTORY_ADDR,
+    chainIdHex: CHAIN_ID_HEX,
+    engineApi: ENGINE_API,
+    sidechainId: ENGINE_SIDECHAIN,
+    feeToken: ENGINE_FEE_TOKEN,
+    tokenCreationFee: ENGINE_TOKEN_FEE,
+    scotFee: ENGINE_SCOT_FEE,
+    defaultBubble: 'prana', // PRANA is the main/default chain
+  });
   return shell('create', 'Create a Token', frag);
 }
 

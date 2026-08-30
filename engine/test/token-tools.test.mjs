@@ -156,6 +156,24 @@ test('buildFromRequest rejects unknown layer', () => {
   assert.equal(buildFromRequest({ layer: 'wat', action: 'create', params: {} }).ok, false);
 });
 
+test('buildFromRequest routes engine scot.enable (Scot Bot reward rule)', () => {
+  const r = buildFromRequest({
+    layer: 'engine', action: 'scot.enable', account: 'hathor',
+    params: { symbol: 'MYTOK', config: { emissionPerWindow: '100', windowBlocks: 28800, authorBps: 6500, curve: 'linear', tag: 'mytok' } },
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.action, 'scot.enable');
+  const payload = JSON.parse(r.op[1].json).contractPayload;
+  assert.equal(payload.symbol, 'MYTOK');
+  assert.equal(payload.authorBps, 6500);
+});
+
+test('buildFromRequest routes engine burn', () => {
+  const r = buildFromRequest({ layer: 'engine', action: 'burn', account: 'hathor', params: { symbol: 'MYTOK', quantity: '5' } });
+  assert.equal(r.ok, true);
+  assert.equal(JSON.parse(r.op[1].json).contractAction, 'burn');
+});
+
 // ---- HTTP handler ----------------------------------------------------------
 
 test('GET / renders the tools page from injected data', async () => {

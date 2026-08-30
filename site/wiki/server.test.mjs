@@ -61,7 +61,7 @@ test('GET / (index) → 200 listing the article (and never the private file)', a
 test('GET /wiki/:slug (article) → 200 with rendered markup + references', async () => {
   const r = await get('/wiki/Test_Article');
   assert.equal(r.code, 200);
-  assert.ok(/<h2>Overview<\/h2>/.test(r.body), '== header → h2');
+  assert.ok(/<h2[^>]*>Overview<\/h2>/.test(r.body), '== header → h2');
   assert.ok(r.body.includes('<a href="/wiki/Oilahuasca">'), 'wikilink rendered');
   assert.ok(r.body.includes('<b>bold</b>'), 'bold rendered');
   assert.ok(r.body.includes('References'), 'references footnote block present');

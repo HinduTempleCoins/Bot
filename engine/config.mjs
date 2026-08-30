@@ -49,8 +49,10 @@ export const NET_PRESETS = {
   },
   mainnet: {
     sidechainId: 'mse-mainnet-melek',
-    // FILL AT ROLLOUT — the mainnet L1 chain id (64-hex). Placeholder = refuse-to-anchor.
-    chainId: '0000000000000000000000000000000000000000000000000000000000000000',
+    // The mainnet MELEK L1 chain id (64-hex) — the SHA-256 of the Block-Zero inscription
+    // ("the inscription IS the chain"). Public: matches site/witness, the whitepaper, and
+    // signup/faucet-mainnet.mjs. With this filled, streamer.verifyChain() anchors on mainnet.
+    chainId: '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b',
     addressPrefix: 'MELEK',
     coinSymbol: 'MELEK',
     backedSymbol: 'MBD',

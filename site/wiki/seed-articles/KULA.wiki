@@ -1,12 +1,21 @@
-'''KULA''' is the decentralized-finance (DeFi) layer of the [[SoapBox]] ecosystem — a token, a decentralized exchange ('''KulaSwap'''), and a collateral system that live on the compute chain [[PRANA]]. Where [[MELEK]] is the social coin and PRANA is the mining coin, KULA is the '''money layer''' that ties value across the ecosystem together.
+'''KULA''' is the decentralized-finance (DeFi) '''reward token''' of the [[SoapBox]] ecosystem — the token, the decentralized exchange ('''KulaSwap'''), and the collateral system that live on the compute chain [[PRANA]]. Where [[MELEK]] is the social coin and PRANA is the mining coin, KULA is the '''DeFi coin''' that ties value across the ecosystem together.
+
+'''KULA is not a stablecoin.''' It has no dollar peg and no redemption claim — the ecosystem ships no "backed dollar" (MELEK deliberately dropped that idea). KULA's value is whatever the market sets, like any DeFi token.
 
 == What KULA is ==
 
-KULA is a '''PRC-20''' token (an ERC-20 on PRANA — see [https://witness.melek.salon/tokens Token standards]). It plays three roles at once:
+KULA is a '''PRC-20''' token (an ERC-20 on PRANA — see [https://witness.melek.salon/tokens Token standards]), '''minted on a schedule that decays about 10% a year'''. It is a reward token with three jobs:
 
-* '''The DEX coin''' — the base asset of '''KulaSwap''', a Uniswap-V2-style automated market maker where any PRC-20 can be pooled and swapped.
-* '''DeFi collateral (a CDP)''' — lock KULA into a '''Collateralized Debt Position''' to borrow against it, MakerDAO-style: over-collateralized, liquidatable if it falls under-water. This is how the ecosystem gets a dollar-like stable without MELEK having to issue one.
-* '''A burn sink with a floor''' — the '''MultiBurnMine''' lets many tokens and coins be burned in to mint KULA out, and burning establishes a '''Proof-of-Liquidity''' price floor.
+* '''A mining / liquidity / lotto reward.''' KULA is paid out to '''[[PRANA]] miners''', to a '''LOTTO''', and to '''liquidity providers''' on KulaSwap.
+* '''The DEX base asset''' — the pairing asset of '''KulaSwap''', a Uniswap-V2-style automated market maker where any PRC-20 can be pooled and swapped.
+* '''DeFi collateral (a CDP)''' — lock KULA into a '''Collateralized Debt Position''' to '''borrow wrapped MELEK (wMELEK)''' against it, MakerDAO-style: over-collateralized, and liquidatable if it falls under-water. This is the on-chain bridge of value between KULA and [[MELEK]] — not a stable-dollar mechanism.
+
+== MWALI and SHELLS ==
+
+KULA sits in a small family of tokens named for the '''Kula ring''' (the Trobriand shell-exchange: ''kula'' the exchange, ''mwali'' the armshell, and the shells themselves):
+
+* '''MWALI''' is the '''KulaSwap liquidity token''' (formerly called "Proof-of-Liquidity" / PoL). It is earned '''per block''' for providing liquidity, and can be '''burned''' to mint '''KULA''' or '''lotto tickets'''.
+* '''SHELLS''' is the '''ve-style governance''' token — a future layer for locking and voting on the DeFi system.
 
 == KulaSwap ==
 
@@ -14,14 +23,14 @@ KulaSwap is the on-chain exchange: swap tab, liquidity pools, yield farms, and t
 
 == KULA and PRANA mining ==
 
-Miners of [[PRANA]] earn '''PRANA + KULA''' as a paired reward — the ecosystem's version of the STEEM/SBD pair, but for EVM miners. KULA is the piece that makes that pairing a real DeFi economy rather than just a second coin.
+Miners of [[PRANA]] earn '''PRANA''', and '''KULA''' is minted alongside it to miners, LPs, and the lotto. KULA is the piece that makes that a real DeFi economy — a DEX, farms, and collateral — rather than just a second coin.
 
 == Opening pairs ==
 
-MELEK/KULA, VKBT/KULA, and CURE/KULA are among the first trading pairs — MELEK from its own chain (via the deposit bridge) and VKBT / CURE bridged in from the Hive-Engine side.
+'''wMELEK/KULA''', '''wVKBT/KULA''', and '''wCURE/KULA''' are planned as the first trading pairs — being stood up, not yet live. wMELEK is [[MELEK]] bridged in from its own chain (via the deposit/custody bridge); wVKBT and wCURE bridge in from the Hive-Engine side.
 
 == Where KULA fits ==
 
-KULA is the '''DeFi''' layer: [[MELEK]] (social), [[PRANA]] (compute), and '''KULA''' (DeFi — DEX, collateral, stable mechanism). The apps that use all three are [[SoapBox]].
+KULA is the '''DeFi''' layer: [[MELEK]] (social), [[PRANA]] (compute), and '''KULA''' (DeFi — the KulaSwap DEX, rewards, and KULA→wMELEK collateral). The apps that use all three are [[SoapBox]].
 
 See also: [[PRANA]] · [[MELEK]] · [[SoapBox]] · [https://witness.melek.salon/tokens PRC-20 token standards] · [https://alpha.kula.money KulaSwap]

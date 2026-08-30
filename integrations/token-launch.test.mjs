@@ -203,3 +203,32 @@ test('createTabFragment escapes a hostile injected value', () => {
   assert.ok(!frag.includes('<script>alert(1)</script>'));
   assert.ok(frag.includes('&lt;script&gt;'));
 });
+
+test('createTabFragment renders the two chain "Bubbles" — PRANA (main) + MELEK Engine', () => {
+  const frag = createTabFragment({
+    wizardAddr: FACTORY, cloneFactoryAddr: CLONE_FACTORY, chainIdHex: '0x1a751',
+    engineApi: 'https://engine.example', feeToken: 'APIS', tokenCreationFee: '100', scotFee: '100',
+  });
+  // both bubbles present
+  assert.ok(/data-bubble=prana/.test(frag));
+  assert.ok(/data-bubble=melek/.test(frag));
+  assert.ok(frag.includes('PRANA'));
+  assert.ok(frag.includes('MELEK Engine'));
+  // PRANA is the default bubble
+  assert.ok(frag.includes('pickBubble("prana")'));
+  // the MELEK engine path posts to the engine's authoritative build endpoint
+  assert.ok(frag.includes('https://engine.example'));
+  assert.ok(frag.includes('/tools/api/build'));
+  // the Scot Bot reward-rule option is offered in the same flow
+  assert.ok(/scot\.enable/.test(frag));
+  assert.ok(frag.includes('Scot Bot'));
+  // the PRANA ERC-20 path is still intact
+  assert.ok(frag.includes('eth_sendTransaction'));
+  assert.ok(frag.includes('0x350d4d65'));
+});
+
+test('createTabFragment defaults the Bubble to MELEK when asked, still keeps PRANA present', () => {
+  const frag = createTabFragment({ engineApi: 'https://e', defaultBubble: 'melek' });
+  assert.ok(frag.includes('pickBubble("melek")'));
+  assert.ok(/data-bubble=prana/.test(frag));
+});
