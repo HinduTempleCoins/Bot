@@ -1,0 +1,17 @@
+# MwaliPoLGauge — self-contained Foundry project (offline; no external deps).
+# The contract and its tests import nothing external: the LP + MWALI interfaces are inlined, and the
+# test uses an inline HEVM cheatcode interface instead of forge-std. So `forge test` runs with only
+# the `forge` binary — no npm install, no @openzeppelin, no forge-std, no network.
+#
+# The production emitter (src/MwaliPoLGauge.sol) drops cleanly into the PRANA
+# contracts/contracts/ tree; it is dependency-free by design (like BurnMine.sol) so it needs no
+# remappings there either.
+[profile.default]
+src = "src"
+test = "test"
+out = "out"
+cache_path = "cache"
+solc = "0.8.24"
+evm_version = "london"      # match the PRANA PoW-fork EVM version (hardhat/foundry configs)
+optimizer = true
+optimizer_runs = 200
