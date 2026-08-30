@@ -1,0 +1,42 @@
+[Unit]
+Description=MELEK-Engine — Hive-Engine-style token sidechain (MAINNET, engine.melek.salon)
+# Ideal host is the dedicated MELEK mainnet L1 node (local RPC on 127.0.0.1:8090),
+# so replay streams from a local mainnet node. Do NOT co-locate on the testnet
+# edge box (its local :8090 is the testnet node; it is also a single point).
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/melek-bot/repo
+ExecStart=/usr/bin/node engine/node.mjs
+Restart=always
+RestartSec=5
+# read-only node: holds NO key, never broadcasts (zero-WIF rule).
+Environment=NODE_ENV=production
+# The single env switch — selects the mainnet preset (sidechain id, symbols,
+# MELEK/MBD, forbids free wMELEK issuance, chainId 907959e5…).
+Environment=NET=mainnet
+# Local mainnet node first, public mainnet mirror as failover. If this unit is
+# deployed on a box WITHOUT a local mainnet node, set this to just
+# https://melek.salon/rpc — the chainId pin below makes the node refuse to
+# anchor to any chain whose id is not the mainnet id, so a mis-point is safe.
+Environment=MELEK_ENGINE_RPC=http://127.0.0.1:8090,https://melek.salon/rpc
+Environment=MELEK_ENGINE_ID=mse-mainnet-melek
+Environment=MELEK_CHAIN_ID=907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b
+# Genesis issuer = the first-party engine account on mainnet (@hathor). Mainnet
+# genesis creates ONLY APIS and mints ZERO to the issuer (no pre-mine): APIS is
+# acquired solely by forever-locking WMELEK -> APIS-Hash -> mine APIS.
+Environment=MELEK_ENGINE_ISSUER=hathor
+Environment=MELEK_ENGINE_HOST=127.0.0.1
+# Distinct port from the testnet engine (8098) so the two can never collide.
+Environment=MELEK_ENGINE_PORT=8099
+# SEPARATE mainnet state file — never shares state with the testnet engine.
+Environment=MELEK_ENGINE_STATE=/opt/melek-bot/repo/data/engine/state-mainnet.json
+# Replay from L1 genesis so state is a full, deterministic fold. The engine only
+# materialises state from custom_json(id=mse-mainnet-melek) ops; blocks without
+# them are walked but change nothing.
+Environment=MELEK_ENGINE_START_BLOCK=1
+
+[Install]
+WantedBy=multi-user.target
