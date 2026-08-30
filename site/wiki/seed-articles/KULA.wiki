@@ -27,7 +27,7 @@ Miners of [[PRANA]] earn '''PRANA''', and '''KULA''' is minted alongside it to m
 
 == Opening pairs ==
 
-MELEK/KULA, VKBT/KULA, and CURE/KULA are among the first trading pairs — MELEK from its own chain (via the deposit bridge) and VKBT / CURE bridged in from the Hive-Engine side.
+'''wMELEK/KULA''', '''wVKBT/KULA''', and '''wCURE/KULA''' are planned as the first trading pairs — being stood up, not yet live. wMELEK is [[MELEK]] bridged in from its own chain (via the deposit/custody bridge); wVKBT and wCURE bridge in from the Hive-Engine side.
 
 == Where KULA fits ==
 

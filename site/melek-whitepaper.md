@@ -450,8 +450,8 @@ live on mainnet. Around it sits a small, deliberately-named token family drawn f
   redemption. It is minted on a 10%-per-year-decaying emission (start × 0.9^year) split among PRANA
   miners (a bonus *on top* of their proof-of-work reward), liquidity providers, a no-loss and
   burn-to-enter **lottery**, and stakers. KULA touches MELEK in exactly two explicit places: the
-  **MELEK/KULA pair** on KulaSwap, and a **CDP** — lock KULA to borrow wMELEK as an over-collateralized
-  DeFi loan.
+  **wMELEK/KULA pair** on KulaSwap (bridged MELEK — being stood up, not yet live), and a **CDP** —
+  lock KULA to borrow wMELEK as an over-collateralized DeFi loan.
 - **MWALI** is the KulaSwap **liquidity token** (formerly "Proof-of-Liquidity"): earned per block for
   providing liquidity, and burned to mint KULA or lottery tickets.
 - **SHELLS** is the planned ve-style governance token (future).

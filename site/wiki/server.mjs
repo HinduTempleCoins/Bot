@@ -114,7 +114,7 @@ const INFOBOXES = {
     ['Not', 'A stablecoin — no dollar peg, no redemption claim'],
     ['Paid to', 'PRANA miners · a LOTTO · liquidity providers'],
     ['Emission', 'Minted on a 10%/yr-decaying schedule'],
-    ['MELEK link', 'MELEK/KULA DEX pair + CDP (lock KULA → borrow wMELEK, overcollateralized)'],
+    ['MELEK link', 'wMELEK/KULA DEX pair (bridged — being stood up) + CDP (lock KULA → borrow wMELEK, overcollateralized)'],
     ['Liquidity token', 'MWALI (per-block for LPs; burns → KULA / lotto tickets)'],
     ['Governance', 'SHELLS (future, ve-style)'],
   ], soon: 'KulaSwap: launching' },

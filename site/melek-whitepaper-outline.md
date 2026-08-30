@@ -31,7 +31,7 @@ _Draft outline only. The full whitepaper publishes once the repo/chain is finish
 
 ## 8. The sister chain — PRANA, KulaSwap, KULA
 - PRANA: EVM L1, Etchash GPU PoW (same algo as Ethereum Classic), chainId 712217, no premine, 2 PRANA/block, 10%/yr emission decay, 2% Hathor-fee. RPC `rpc.prana.melek.salon`; PRANAScan + Akasha launching. Mining how-to lives in the Witness School (`/mine`).
-- KulaSwap (Uniswap-V2 DEX on PRANA) + the Kula-ring token family: KULA (reward token, not a stablecoin), MWALI (liquidity token), SHELLS (future ve-governance). MELEK ↔ KULA only via the DEX pair + a CDP (lock KULA → borrow wMELEK).
+- KulaSwap (Uniswap-V2 DEX on PRANA) + the Kula-ring token family: KULA (reward token, not a stablecoin), MWALI (liquidity token), SHELLS (future ve-governance). MELEK ↔ KULA only via the wMELEK/KULA DEX pair (bridged; being stood up) + a CDP (lock KULA → borrow wMELEK).
 
 ## 9. Roadmap & forkability
 - The phased build; why the project is designed to survive any single tool/model/operator.
