@@ -5,13 +5,13 @@
 // ones → cast the witness's own vote on the freshest N, at a gentle weight, deduping across rounds
 // so a post is never lifted twice.
 //
-// KEY CUSTODY (zero-WIF-in-repo): this module NEVER holds, reads from disk, or logs a private key.
-// `castVote` is an INJECTED seam. In the CLI, when EXECUTE=1, it builds a dhive-backed castVote that
-// reads the posting WIF from the process env var HATHOR_POSTING_KEY — supplied JUST-IN-TIME by the
-// box wrapper (bin/hathor-zero-payout-once.sh) which pulls it from the vault, passes it in env, and
-// unsets it after (identical custody to bin/hathor-post-once.sh). The key never touches the repo,
-// never a log line, never a commit. Without EXECUTE + that env var, the CLI is a DRY RUN that only
-// prints the selection.
+// KEY CUSTODY (zero-WIF, on the box too): this module NEVER holds, reads, or logs a private key, and the
+// autovote box no longer fetches one. `castVote` is an INJECTED seam. In the CLI, when EXECUTE=1, it builds
+// the MELEK-Signer-backed castVote (signer-castvote.mjs) from a SCOPED, revocable BEARER TOKEN read JIT from
+// the env var MELEK_SIGNER_TOKEN — supplied by the box wrapper (bin/hathor-zero-payout-once.sh) from a
+// local creds file. @hathor's posting key lives ONLY inside MELEK-Signer (KMS-wrapped); the box holds only
+// the token, which is scoped to posting-authority ops (vote/comment) and cannot move funds. Without EXECUTE
+// + that token, the CLI is a DRY RUN that only prints the selection — there is deliberately no key fallback.
 //
 // House style: ESM, injectable fetch, soft-fail-never-throw, no top-level key material, guarded CLI.
 
@@ -20,6 +20,7 @@ import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fetchZeroPayoutPosts, runZeroPayoutRound } from './zero-payout-posts.mjs';
 import { DEFAULT_RULES } from '../voting_rules/curation-engine.mjs';
+import { signerCastVoteFromEnv } from './signer-castvote.mjs';
 
 // ── defaults (env-overridable) ────────────────────────────────────────────────────────────────────
 export const DEFAULTS = {
@@ -139,39 +140,22 @@ export async function runZeroPayoutCuration(cfg = {}) {
   };
 }
 
-/**
- * Build a dhive-backed castVote from a JIT posting WIF (env only — never from the repo). Kept out of
- * the pure path and dynamically importing dhive so the module stays offline-testable with no dep on a
- * key or a network. Broadcasts a single `vote` op to the local MELEK RPC. Never logs the key.
- */
-export async function makeDhiveCastVote({ rpcUrl = DEFAULTS.rpcUrl, postingKey, chainId, addressPrefix = 'MELEK' } = {}) {
-  if (!postingKey) throw new Error('no posting key in env (key NOT logged)');
-  const dhive = await import('@hiveio/dhive');
-  const { Client, PrivateKey } = dhive.default || dhive;
-  const client = new Client(rpcUrl, { chainId, addressPrefix, timeout: 20000 });
-  const key = PrivateKey.fromString(postingKey);
-  return async ({ voter, author, permlink, weight }) => {
-    const op = ['vote', { voter, author, permlink, weight }];
-    return client.broadcast.sendOperations([op], key);
-  };
-}
+// NOTE: the former makeDhiveCastVote() (build a local dhive signer from a JIT posting WIF) has been REMOVED.
+// Witness broadcasts go exclusively through MELEK-Signer (signer-castvote.mjs) with a scoped bearer token —
+// the vault-JIT + local-signing path is retired so no @hathor WIF is ever fetched, held, or signed with on
+// the box. The vault keeps a cold break-glass backup of the keys; it is never read for signing.
 
-// ── CLI (guarded) — DRY RUN unless EXECUTE=1 + a JIT key in env ─────────────────────────────────────
+// ── CLI (guarded) — DRY RUN unless EXECUTE=1 + a scoped MELEK-Signer token in env ────────────────────
+// Witness ops go through MELEK-Signer (operator rule: "use MELEK-Signer for ALL witness transactions").
+// The box holds ONLY a scoped, revocable bearer token (MELEK_SIGNER_TOKEN, read JIT from the deploy wrapper's
+// creds file) — never @hathor's WIF. There is deliberately NO local-key fallback: with no token we DRY-RUN.
 if (process.argv[1] && process.argv[1].endsWith('zero-payout-runner.mjs')) {
   (async () => {
     const execute = process.env.EXECUTE === '1';
-    const key = process.env.HATHOR_POSTING_KEY;                     // JIT from the box wrapper; never from repo
     let castVote;
     if (execute) {
-      if (!key) { console.error('EXECUTE=1 but no HATHOR_POSTING_KEY in env — refusing (key NOT logged). Dry-running instead.'); }
-      else {
-        try {
-          castVote = await makeDhiveCastVote({
-            rpcUrl: DEFAULTS.rpcUrl, postingKey: key,
-            chainId: process.env.MELEK_CHAIN_ID, addressPrefix: process.env.MELEK_ADDRESS_PREFIX || 'MELEK',
-          });
-        } catch (e) { console.error('could not build signer (key NOT logged):', String(e.message || e)); }
-      }
+      castVote = signerCastVoteFromEnv();                            // MELEK-Signer token from env; null if unset
+      if (!castVote) console.error('EXECUTE=1 but no MELEK_SIGNER_TOKEN in env — refusing (token NOT logged). Dry-running instead.');
     }
     const res = await runZeroPayoutCuration({ castVote });
     console.log(`[zero-payout] curator=@${res.curator} ${res.dryRun ? 'DRY-RUN' : 'LIVE'} rpc=${DEFAULTS.rpcUrl} tag=${DEFAULTS.tag} weight=${DEFAULTS.weight / 100}% cap=${DEFAULTS.topN} minAge=${DEFAULTS.minAgeSec}s gap=${DEFAULTS.voteGapMs}ms`);
@@ -183,6 +167,5 @@ if (process.argv[1] && process.argv[1].endsWith('zero-payout-runner.mjs')) {
       for (const c of res.cast) console.log(`   ✓ @${c.author}/${c.permlink}  w=${c.weight} id=${c.id}`);
     }
     console.log(`[zero-payout] dedupe set now holds ${res.dedupeSize} key(s) at ${DEFAULTS.dbPath}`);
-    if (key) process.env.HATHOR_POSTING_KEY = '';                   // scrub the JIT key from our env
   })().catch((e) => { console.error('[zero-payout] round error:', String(e && e.message || e)); });
 }
