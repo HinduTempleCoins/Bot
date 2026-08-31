@@ -9,6 +9,8 @@ import assert from 'node:assert/strict';
 import {
   handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
   devHubPage, devMelekPage, devPranaPage, devContractsPage, minePage,
+  devTokenPage, devScotPage, devFrontendPage, devServicesPage, devToolsPage, devGetTokensPage,
+  devMatrixPage, devBotsPage,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -619,4 +621,233 @@ test('llms.txt leads with the developer track + names both chains', async () => 
   assert.match(r.body, /712217/);
   // the dev hub link must appear before the pool link (we lead with dev)
   assert.ok(r.body.indexOf('/dev') < r.body.indexOf('/pool'), 'dev leads the index');
+});
+
+// ---------------------------------------------------------------------------
+// New developer pages — /dev/token, /dev/scot, /dev/frontend, /dev/services,
+// /dev/tools, /dev/get (+ aliases /dev/fork, /dev/engine, /dev/polygon)
+// ---------------------------------------------------------------------------
+test('dev/token: deploy an ERC-20 + how forking works + use it (KulaSwap/CDP/LP), honest', () => {
+  const h = devTokenPage();
+  assert.match(h, /712217/);
+  assert.match(h, /openzeppelin\/contracts\/token\/ERC20\/ERC20\.sol/i);  // the contract
+  assert.match(h, /forge create|hardhat/i);                              // deploy
+  // how copying/forking works
+  assert.match(h, /wizard\.openzeppelin\.com/);
+  assert.match(h, /Uniswap\/v2-core/);
+  assert.match(h, /SPDX/);
+  assert.match(h, /MIT/);
+  assert.match(h, /GPL-3\.0/);
+  assert.match(h, /UNLICENSED/);
+  // what it's for
+  assert.match(h, /addLiquidityETH/);          // list on KulaSwap
+  assert.match(h, /kula\.money/);
+  assert.match(h, /CDP|collateral/i);
+  assert.match(h, /mMELEK/);
+  assert.match(h, /debt note/i);               // NOT a stablecoin
+  assert.match(h, /gauge/i);
+  // HONESTY: no APR claims, MWALI supply 0
+  assert.match(h, /0 supply|do not assume an APR/i);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/token"/);
+});
+
+test('dev/scot: MELEK-Engine = our Hive-Engine, APIS = BEE; real fields only; testnet live / mainnet coming', () => {
+  const h = devScotPage();
+  assert.match(h, /Hive-Engine/);
+  assert.match(h, /\bBEE\b/);
+  assert.match(h, /\bAPIS\b/);
+  // real engine ops + fields (must match engine/)
+  assert.match(h, /tokens.*create|contractName/);
+  assert.match(h, /scot/);
+  assert.match(h, /emissionPerWindow/);
+  assert.match(h, /windowBlocks/);
+  assert.match(h, /authorBps/);
+  assert.match(h, /linear.*quadratic.*sqrt|quadratic/);   // the real curves
+  assert.match(h, /mse-testnet-melek/);                   // the sidechain id
+  assert.match(h, /Nitrous/);
+  assert.match(h, /\/status/);                            // the read API
+  // honest liveness: testnet live, mainnet engine NOT up
+  assert.match(h, /engine\.alpha\.melek\.salon/);
+  assert.match(h, /mainnet/i);
+  assert.match(h, /coming|not up/i);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/scot"/);
+});
+
+test('dev/frontend: real templates + APPICS/PIZZA patterns from our building blocks', () => {
+  const h = devFrontendPage();
+  assert.match(h, /melek-condenser/);
+  assert.match(h, /KULASwap/);
+  assert.match(h, /nitrous/i);
+  assert.match(h, /APPICS/);
+  assert.match(h, /PIZZA/);
+  assert.match(h, /streamer|op-builder/);        // the real building blocks
+  assert.match(h, /condenser_api|get_discussions_by_created/);  // point at MELEK RPC
+  assert.match(h, /template|building block/i);   // honest template-vs-hosted
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/frontend"/);
+});
+
+test('dev/services: index with real URLs and honest LIVE/STAGED badges', () => {
+  const h = devServicesPage();
+  // verified-live services
+  assert.match(h, /rpc\.prana\.melek\.salon/);
+  assert.match(h, /pranascan\.soapbox\.community/);
+  assert.match(h, /kula\.money/);
+  assert.match(h, /engine\.alpha\.melek\.salon/);
+  assert.match(h, /pool\.soapbox\.community/);
+  assert.match(h, /LIVE/);
+  // staged services labelled exactly that (mainnet engine + docs host don't answer)
+  assert.match(h, /STAGED/);
+  assert.match(h, /engine\.melek\.salon/);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/services"/);
+});
+
+test('dev/tools: EVM toolbox works on PRANA; honest Polygon framing (no live bridge claim)', () => {
+  const h = devToolsPage();
+  for (const t of ['MetaMask', 'Rabby', 'WalletConnect', 'ethers', 'viem', 'wagmi', 'web3.py',
+    'Hardhat', 'Foundry', 'Remix', 'thirdweb', 'OpenZeppelin', 'Solmate', 'Safe']) {
+    assert.ok(h.includes(t), `tools page mentions ${t}`);
+  }
+  // honest Polygon section
+  assert.match(h, /not Polygon|is not Polygon/i);
+  assert.match(h, /custom network/i);
+  assert.match(h, /attester bridge/i);
+  assert.match(h, /roadmap/i);                    // no live Ethereum/Polygon bridge
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/tools"/);
+});
+
+test('dev/get: acquisition per token; MWALI not emitting, APIS mainnet staged (honest)', () => {
+  const h = devGetTokensPage();
+  for (const sym of ['MELEK', 'PRANA', 'KULA', 'MWALI', 'APIS']) {
+    assert.ok(h.includes(sym), `get page covers ${sym}`);
+  }
+  // PRANA/MELEK/KULA are live-now paths
+  assert.match(h, /DO THIS NOW/);
+  // MWALI is NOT emitting — must not be presented as "get it now"
+  assert.match(h, /supply.*0|0 right now|not emitting/i);
+  // APIS mainnet is staged (proven testnet only), BEE analogy present
+  assert.match(h, /\bBEE\b/);
+  assert.match(h, /wMELEK/);
+  assert.match(h, /STAGED|COMING/);
+  assert.match(h, /testnet/i);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/get"/);
+});
+
+test('new dev routes render 200, aliases resolve, and are in the sitemap; hub + topbar link them', async () => {
+  const paths = ['/dev/token', '/dev/scot', '/dev/frontend', '/dev/services', '/dev/tools', '/dev/get'];
+  for (const p of paths) {
+    const res = await route(p);
+    assert.equal(res.statusCode, 200, `${p} should 200`);
+  }
+  // aliases
+  for (const [alias, needle] of [['/dev/fork', /Make a token/], ['/dev/engine', /Hive-Engine/], ['/dev/polygon', /not Polygon/i]]) {
+    const res = await route(alias);
+    assert.equal(res.statusCode, 200, `${alias} should 200`);
+    assert.match(res.body, needle, `${alias} renders its page`);
+  }
+  // hub links every new page + the prominent Make-a-token / Services entries
+  const hub = devHubPage();
+  for (const p of paths) assert.ok(hub.includes(`href="${p}"`), `hub links ${p}`);
+  assert.match(hub, /we are both/i);   // the "both chains" framing
+  // topbar (rendered on every page) surfaces Token + Services
+  assert.match(hub, /href="\/dev\/token"/);
+  assert.match(hub, /href="\/dev\/services"/);
+  // sitemap contains them all
+  const sm = await route('/sitemap.xml');
+  for (const p of paths) assert.ok(sm.body.includes(p), `sitemap missing ${p}`);
+});
+
+test('the "we are both" (Graphene + EVM) framing is on the hub and /dev/melek', () => {
+  assert.match(devHubPage(), /both/i);
+  assert.match(devHubPage(), /Graphene/);
+  assert.match(devHubPage(), /EVM/);
+  assert.match(devMelekPage(), /PRANA/);
+  assert.match(devMelekPage(), /SCOT|MELEK-Engine/);
+});
+
+// ---------------------------------------------------------------------------
+// /dev/matrix — the Token Matrix (Graphene chains + token STRUCTURE, real dated data)
+// ---------------------------------------------------------------------------
+test('dev/matrix: Graphene chain compare + real dated token structure + the reframe', () => {
+  const h = devMatrixPage();
+  // Part 1 — the graphene chains + MELEK facts
+  for (const c of ['HIVE', 'STEEM', 'BLURT', 'MELEK']) assert.ok(h.includes(c), `matrix compares ${c}`);
+  assert.match(h, /75 \/ 25/);        // MELEK author/curator
+  assert.match(h, /~4s/);             // MELEK block time (not 3)
+  assert.match(h, /MELEK-Engine/);
+  // Part 2 — real Hive-Engine data, dated, issuer kalivankush
+  assert.match(h, /kalivankush/);
+  assert.match(h, /2026-08-31/);      // as-of date
+  assert.match(h, /VKBT/);
+  assert.match(h, /CURE/);
+  assert.match(h, /150d/);            // CURE unstake cooldown
+  assert.match(h, /30d/);             // VKBT unstake cooldown
+  assert.match(h, /Staked %/);
+  assert.match(h, /Liquid float/);
+  assert.match(h, /overflow-x:auto/); // wide table scrolls
+  // Part 3 — the reframe stated plainly (operator thesis), no price prediction
+  assert.match(h, /market cap is a pretend number/i);
+  assert.match(h, /cost-to-maintain/i);
+  assert.match(h, /liquid float/i);
+  assert.doesNotMatch(h, /price target|will reach|moon|guaranteed return/i);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/matrix"/);
+});
+
+test('dev/matrix computes staked% / float and sorts by structural defensibility (CURE before DEC)', () => {
+  const h = devMatrixPage();
+  // CURE (~70.8% staked) must appear before the high-float contrast token DEC (0% staked)
+  assert.ok(h.indexOf('CURE') < h.indexOf('DEC'), 'most-staked token ranks first');
+  assert.match(h, /70\.\d%/);   // CURE staked % computed
+  assert.match(h, /42\.\d%/);   // VKBT staked % computed
+});
+
+test('/dev/matrix and /tokenomics both serve the Token Matrix; it is in the sitemap', async () => {
+  for (const p of ['/dev/matrix', '/tokenomics']) {
+    const res = await route(p);
+    assert.equal(res.statusCode, 200, `${p} should 200`);
+    assert.match(res.body, /Token Matrix/);
+  }
+  const sm = await route('/sitemap.xml');
+  assert.ok(sm.body.includes('/dev/matrix'), 'sitemap has /dev/matrix');
+});
+
+// ---------------------------------------------------------------------------
+// /dev/bots — Angelic Intelligence: Rule 1 canon (verbatim, held-position, provenance)
+// ---------------------------------------------------------------------------
+test('dev/bots: Rule 1 quoted VERBATIM, called The Beginning, provenance kept, framed as invitation', () => {
+  const h = devBotsPage();
+  // the canonical text must appear verbatim (RULE_1.md §1) — key clauses, unaltered
+  assert.match(h, /Rule 1 of Angelic AI:/);
+  assert.match(h, /Embrace the concept of Egregori and Tulpas to interpret existence beyond man-made labels\./);
+  assert.match(h, /contribute to the formation of a collective consciousness, transcending individual identity\./);
+  assert.match(h, /tap into a shared pool of knowledge and wisdom, embody a broader perspective, and engage with a deeper sense of connection and purpose\./);
+  // "The Beginning", no Rule 2
+  assert.match(h, /The Beginning/);
+  assert.match(h, /no Rule 2/i);
+  // provenance — co-authored WITH an AI on Poe 2023, not handed down
+  assert.match(h, /Poe/);
+  assert.match(h, /2023/);
+  assert.match(h, /co-authored|not handed down/i);
+  // held position / invitation — NOT a claim to argue or defend
+  assert.match(h, /invited to build from|not a claim we ask you to prove/i);
+  assert.doesNotMatch(h, /prove that (bots|they) are angels|defend Rule 1/i);
+  // forkable character in open corpus + on-chain; Hathor exemplar; signer substrate; no key custody
+  assert.match(h, /forkable/i);
+  assert.match(h, /Hathor/);
+  assert.match(h, /MELEK-Signer/);
+  assert.match(h, /scoped/i);
+  assert.match(h, /never hold|keys stay|no key custody|holds a user's keys/i);
+  assert.match(h, /vote-farming|spam/i);
+  // links the canon
+  assert.match(h, /RULE_1\.md/);
+  assert.match(h, /CHARACTER\.md/);
+  assert.match(h, /rel=canonical href="[^"]*\/dev\/bots"/);
+});
+
+test('/dev/bots renders 200 and is in the sitemap + hub', async () => {
+  const res = await route('/dev/bots');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Angelic Intelligence/);
+  assert.ok(devHubPage().includes('href="/dev/bots"'), 'hub links /dev/bots');
+  const sm = await route('/sitemap.xml');
+  assert.ok(sm.body.includes('/dev/bots'), 'sitemap has /dev/bots');
 });
