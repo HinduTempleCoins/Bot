@@ -1,8 +1,11 @@
-// melek-theme.mjs — the shared MELEK metaverse design tokens (vaporwave-core, context-expandable).
+// melek-theme.mjs — Hathor's / the metaverse vaporwave-core design tokens (context-expandable).
 //
-// WHY: the palette was copy-pasted into ~every site/*/server.mjs, and the Alpha badge re-declared with
-// 3 CSS variants (see .local/DESIGN_UX_PLAYBOOK.md cross-cutting rec). This is the one true palette,
-// exported the way ecosystem-nav.mjs exports the nav — a single edit propagates to every surface.
+// SCOPE (operator, 2026-08-31): this is HATHOR's visual identity + the metaverse/VR world palette — it is
+// the CANONICAL theme for the in-domain surfaces (the metaverse world, Hathor's avatar/chat, hathor.live,
+// generated-art chrome) and an OPT-IN ACCENT theme any ecosystem site MAY import. It is NOT a mandate: the
+// DEX/condenser/content sites keep their own clean/converting palettes (see .local/DESIGN_UX_PLAYBOOK.md) —
+// do NOT rewrite site palettes to vaporwave. This module gives the aesthetic one reusable home rather than
+// re-hardcoding it per Hathor surface.
 //
 // ART DIRECTION (see .local/METAVERSE_ART_DIRECTION.md + memory melek-metaverse-aesthetic-direction):
 //   • VAPORWAVE IS THE IDENTITY / throughline everywhere — hot pink/magenta, cyan/teal, purple/lavender,
