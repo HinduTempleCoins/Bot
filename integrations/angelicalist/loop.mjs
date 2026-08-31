@@ -38,6 +38,7 @@ import { sizeOrder } from './execute.mjs';
 import { placeOrder as realPlaceOrder, mode } from './trader.mjs';
 import { tokenBalances } from './internal.mjs';
 import { record as ptRecord } from '../profit-tracker.mjs';
+import { strategyDecisions as defaultStrategyDecisions } from './strategy-feed.mjs';
 
 // ── NO FUND-MOVEMENT RULE (operator, 2026-06-04) ─────────────────────────────────────────────────
 // This loop NEVER transfers funds off the account. There is NO sweep, NO send-to-kalivankush, NO
@@ -81,12 +82,20 @@ export async function runOnce(deps = {}) {
   const broadcaster = deps.broadcaster || { placeOrder: realPlaceOrder };
   const logFill = deps.ptRecord || ptRecord;
 
-  // 1. pull preset decisions + the depth-aware arb scan (edge + executable HIVE per market).
-  const [rawDecisions, arb, tokens] = await Promise.all([
+  // 1. pull preset decisions + the depth-aware arb scan (edge + executable HIVE per market),
+  //    then MERGE IN the strategy feed (SPS/DEC momentum/grid — default OFF via empty MOMENTUM_TOKENS,
+  //    so this line is a no-op until the operator opts a token in). All decisions then flow through the
+  //    SAME guards + sizing below; the strategy feed adds signal supply, never a bypass.
+  const [presetDecisions, arb, tokens] = await Promise.all([
     (deps.decisions || simulate)().catch(() => []),
     (deps.arb || scanArb)().catch(() => ({ opportunities: [], rows: [] })),
     (deps.balances || tokenBalances)().catch(() => []),
   ]);
+  const stratDecisions = await (deps.strategyDecisions || defaultStrategyDecisions)().catch(() => []);
+  const rawDecisions = [
+    ...(Array.isArray(presetDecisions) ? presetDecisions : []),
+    ...(Array.isArray(stratDecisions) ? stratDecisions : []),
+  ];
 
   // index arb rows by symbol for edge/depth lookup (arb-scanner already depth-walks + reject-guards).
   const arbBySym = {};
