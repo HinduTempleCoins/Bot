@@ -1,8 +1,9 @@
 // dex-panels.test.mjs — offline tests for the Pool/Farm/Borrow calculator helpers. No DOM, no network.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { poolPanel, farmPanel, borrowPanel, ILLUSTRATIVE } from './dex-panels.mjs';
+import { poolPanel, farmPanel, borrowPanel, ILLUSTRATIVE, cdpWiring, stakeWiring } from './dex-panels.mjs';
 import { DEFAULT_CDP } from './kula-cdp.mjs';
+import { MAINNET_ADDR } from './kula-config-addresses.mjs';
 
 test('poolPanel: uses the live pool ratio when reserves are supplied', () => {
   // 1,000,000 KULA / 50,000 wMELEK → 1 KULA = 0.05 wMELEK
@@ -74,4 +75,34 @@ test('borrowPanel: moderate debt lands in the warn band', () => {
   const p = borrowPanel({ collateralKula: 1000, debtStable: 24 });
   assert.ok(p.healthFactor >= 1 && p.healthFactor < 1.5);
   assert.equal(p.hfClass, 'hf-warn');
+});
+
+// ── mainnet wiring seam ─────────────────────────────────────────────────────────────────────────────
+test('cdpWiring: live on mainnet, bound to the real vault + mMELEK debt, chainId 712217', () => {
+  const w = cdpWiring();
+  assert.equal(w.live, true);
+  assert.equal(w.vault, MAINNET_ADDR.cdpVault);
+  assert.equal(w.collateral, MAINNET_ADDR.KULA);
+  assert.equal(w.debtToken, MAINNET_ADDR.mMELEK); // NOT wMELEK
+  assert.equal(w.chainId, 712217);
+  const dep = w.deposit('1000000000000000000');
+  assert.equal(dep.to, MAINNET_ADDR.cdpVault);
+  assert.equal(dep.chainId, 712217);
+  assert.ok(dep.data.startsWith('0xb6b55f25')); // deposit(uint256)
+  assert.ok(w.borrow('1').data.startsWith('0xc5ebeaec')); // borrow(uint256)
+  // approve targets: collateral approve → KULA token; debt approve → mMELEK token
+  assert.equal(w.approveCollateral('1').to, MAINNET_ADDR.KULA);
+  assert.equal(w.approveDebt('1').to, MAINNET_ADDR.mMELEK);
+});
+
+test('stakeWiring: live on mainnet, bound to veKULA, builds lock/withdraw', () => {
+  const w = stakeWiring();
+  assert.equal(w.live, true);
+  assert.equal(w.veKula, MAINNET_ADDR.veKULA);
+  assert.equal(w.chainId, 712217);
+  const lk = w.lock('1000000000000000000', 365 * 86400);
+  assert.equal(lk.to, MAINNET_ADDR.veKULA);
+  assert.ok(lk.data.startsWith('0x1338736f')); // lock(uint256,uint256)
+  assert.equal(w.approve('1').to, MAINNET_ADDR.KULA);
+  assert.equal(w.withdraw().data, '0x3ccfd60b');
 });

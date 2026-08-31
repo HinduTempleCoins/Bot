@@ -10,9 +10,64 @@
 // Borrow/Farm panels use clearly-labelled PLACEHOLDER economics. The pool RATIO (Pool tab) is real
 // when reserves are supplied. The UI copy states plainly that fiat/oracle values are placeholders.
 
-import { maxBorrow, healthFactor, liquidationPrice, DEFAULT_CDP } from './kula-cdp.mjs';
+import {
+  maxBorrow, healthFactor, liquidationPrice, DEFAULT_CDP,
+  buildOpenVaultTx, buildBorrowTx, buildRepayTx, buildWithdrawTx, buildApproveTx,
+} from './kula-cdp.mjs';
 import { poolApr, veBoost } from './kula-farm.mjs';
 import { poolPrice } from './kula-price-tvl.mjs';
+import {
+  buildLockTx, buildIncreaseAmountTx, buildExtendLockTx, buildWithdrawTx as buildVeWithdrawTx,
+  buildStakeApproveTx, VE_MAX_LOCK_SECONDS,
+} from './kula-stake.mjs';
+import { MAINNET_ADDR, cdpMarketLive, veLive } from './kula-config-addresses.mjs';
+
+const PRANA_MAINNET_CHAINID = 712217;
+
+// ── MAINNET WIRING SEAM ───────────────────────────────────────────────────────────────────────────
+// One place the Borrow/Stake CTAs consult to go from disabled→enabled. `live` is the zero-address guard
+// (cdpMarketLive/veLive) — a zero vault/veKULA reads NOT live and the UI must refuse to build a tx. The
+// returned builders are pre-bound to the live mainnet addresses + chainId 712217; each takes a human
+// amount already scaled to BASE UNITS (the wallet layer scales; these never sign or broadcast).
+
+/** Borrow (CDP) wiring for mainnet. `live:false` ⇒ keep the CTA disabled ("not live"). */
+export function cdpWiring() {
+  const A = MAINNET_ADDR;
+  const live = cdpMarketLive();
+  return {
+    live,
+    vault: A.cdpVault,
+    collateral: A.KULA,          // the token the user locks
+    debtToken: A.mMELEK,         // the synthetic the vault mints (NOT wMELEK)
+    chainId: PRANA_MAINNET_CHAINID,
+    maxLtv: DEFAULT_CDP.maxLtv,
+    // approve KULA (before deposit) / approve mMELEK (before repay)
+    approveCollateral: (amt) => live ? buildApproveTx({ token: A.KULA, vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    approveDebt: (amt) => live ? buildApproveTx({ token: A.mMELEK, vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    deposit: (amt) => live ? buildOpenVaultTx({ vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    borrow: (amt) => live ? buildBorrowTx({ vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    repay: (amt) => live ? buildRepayTx({ vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    withdraw: (amt) => live ? buildWithdrawTx({ vault: A.cdpVault, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+  };
+}
+
+/** Stake (veKULA) wiring for mainnet. `live:false` ⇒ keep the CTA disabled ("not live"). */
+export function stakeWiring() {
+  const A = MAINNET_ADDR;
+  const live = veLive();
+  return {
+    live,
+    veKula: A.veKULA,
+    kula: A.KULA,
+    chainId: PRANA_MAINNET_CHAINID,
+    maxLockSeconds: VE_MAX_LOCK_SECONDS,
+    approve: (amt) => live ? buildStakeApproveTx({ kula: A.KULA, veKula: A.veKULA, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    lock: (amt, durSec) => live ? buildLockTx({ veKula: A.veKULA, amountBaseUnits: amt, durationSeconds: durSec, chainId: PRANA_MAINNET_CHAINID }) : null,
+    increaseAmount: (amt) => live ? buildIncreaseAmountTx({ veKula: A.veKULA, amountBaseUnits: amt, chainId: PRANA_MAINNET_CHAINID }) : null,
+    extendLock: (durSec) => live ? buildExtendLockTx({ veKula: A.veKULA, newDurationSeconds: durSec, chainId: PRANA_MAINNET_CHAINID }) : null,
+    withdraw: () => live ? buildVeWithdrawTx({ veKula: A.veKULA, chainId: PRANA_MAINNET_CHAINID }) : null,
+  };
+}
 
 // Illustrative economics — placeholders until on-chain emissions / oracle reads are wired.
 // Marked here in ONE place; the UI labels every figure derived from them as an estimate.
