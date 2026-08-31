@@ -36,6 +36,7 @@ import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/se
 import * as seo from '../../integrations/soapbox/seo.mjs';
 import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
 
 const PORT = +(process.env.PORT || 8102);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -139,6 +140,7 @@ ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">🏷️ SoapBox <span>coupons</span></a>
   <div class=topbar-r><a href="/guides">Guides</a>${CATEGORIES.map((c) => `<a href="/c/${esc(c.slug)}">${esc(c.name.split(' ')[0])}</a>`).join('')}<a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
+${joinCta({ source: 'coupons' })}
 ${FOOTER}</body></html>`;
 }
 

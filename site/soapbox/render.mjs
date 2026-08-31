@@ -7,6 +7,7 @@
 import { organization, webSiteJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { navBar as ecosystemNavBar, NAV_STYLE as ECOSYSTEM_NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
 
 // The cross-property family strip (single source of truth: integrations/ecosystem-nav.mjs). Rendered in
 // the footer of every page so SoapBox Data links out to Oversight ("who do I call?"), Law (lawyer
@@ -209,6 +210,7 @@ ${STYLE}${impactUtt()}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}
 <a href="#main" class=skip>Skip to content</a>
 ${navBar(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
 ${familyStrip()}
+${joinCta({ source: 'soapbox-data' })}
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
 ${APP_JS}</body></html>`;
 }

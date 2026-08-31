@@ -112,6 +112,7 @@ export function createAdNetwork(opts = {}) {
       relevance: toNum(input.relevance),
       bidCpc: toNum(input.bidCpc),                  // the bid rides the click as `value`; it MUST NOT rank
       sponsored: input.sponsored !== false,         // ad units default to sponsored (labeled + segregated)
+      house: input.house === true,                  // OUR-OWN-SITE promo (organic, no Sponsored badge, no nofollow)
       createdAt: ts(),
     };
     store.creatives[id] = rec;
@@ -133,6 +134,15 @@ export function createAdNetwork(opts = {}) {
   function renderUnit(creative) {
     const c = creative || {};
     const href = `${BASE_URL()}/go/${esc(clean(c.code).toLowerCase())}`;
+    // OUR-OWN-SITE house promo is organic content, not a paid ad: no "Sponsored" badge, a follow link (no
+    // rel=sponsored/nofollow — it's our own site), and no FTC disclosure (nothing is commissioned).
+    if (c.house) {
+      return `<div class="herald-house" data-creative="${esc(c.id)}" data-house="true">`
+        + `<a class="house-cta" href="${href}" rel="noopener">`
+        + `<span class="house-headline">${esc(c.headline || 'Join MELEK')}</span>`
+        + (c.body ? `<span class="house-body">${esc(c.body)}</span>` : '')
+        + `</a></div>`;
+    }
     const badge = c.sponsored ? '<span class="ad-badge" aria-label="sponsored">Sponsored</span>' : '';
     const card =
       `<div class="herald-ad" data-creative="${esc(c.id)}"${c.sponsored ? ' data-sponsored="true"' : ''}>`
@@ -239,6 +249,46 @@ export function createAdNetwork(opts = {}) {
   }
 
   /**
+   * houseCampaign — the USER-ACQUISITION rail: promote ONE OF OUR OWN destinations (wallet.melek.salon
+   * signup, kula.money, the PRANA miner, a SoapBox vertical) on the shipped /go/{code} rail. Unlike
+   * firstDollarCampaign this is NOT an affiliate offer — there is no external network and no trackedLink.
+   * The landing URL is our own site, verbatim; the /go rail adds UTM attribution on redirect and logs the
+   * click, so scanStats() counts exactly how many visitors each campaign sent into our sign-up funnels.
+   * The "advertiser" is us (the MELEK ecosystem, house). No funds move, nothing is signed (BRIEF.md §7).
+   *   { code, targetUrl, publisherId, headline, body, clarity, relevance, cta, label, product }
+   */
+  function houseCampaign(input = {}) {
+    const code = clean(input.code).toLowerCase();
+    if (!isId(code)) return { ok: false, reason: 'campaign code (a-z 0-9 -, ≤64) required' };
+    const targetUrl = clean(input.targetUrl);
+    if (!/^https?:\/\//i.test(targetUrl)) return { ok: false, reason: 'targetUrl (http/https) required' };
+
+    // 1. wire OUR destination onto the /go/{code} rail, verbatim (no affiliate tag). qr adds UTM on redirect.
+    const reg = qrRegisterCampaign(code, { landingUrl: targetUrl, label: clamp(input.label) }, qrOpts());
+    if (!reg.ok) return { ok: false, reason: `qr rail rejected code: ${reg.reason}` };
+
+    // 2. the "advertiser" is us — the MELEK ecosystem (house). No external network, no commission.
+    const advId = 'melek';
+    if (!getAdvertiser(advId)) registerAdvertiser({ id: advId, name: 'MELEK ecosystem (house)' });
+    const creative = registerCreative({
+      id: `${code}-cr`, advertiserId: advId, campaignId: code, code,
+      headline: input.headline || clamp(input.label) || 'Join MELEK',
+      body: input.body, clarity: input.clarity, relevance: input.relevance,
+      sponsored: false, house: true,
+    });
+
+    const campaign = {
+      id: code, code, advertiserId: advId, network: null,
+      house: true, product: clamp(input.product) || null,
+      landingUrl: targetUrl, tracked: true, configured: true,
+      publisherId: clean(input.publisherId).toLowerCase() || null,
+      cta: clamp(input.cta) || null, createdAt: ts(),
+    };
+    store.campaigns[code] = campaign;
+    return { ok: true, campaign: { ...campaign }, creative: creative.ok ? creative.creative : null };
+  }
+
+  /**
    * countValidatedClicks — run the billable-click / fraud pass over the raw /go log and ACCRUE the validated
    * clicks to the campaign's ledger, attributed to the affiliate/advertiser. Settlement is DESIGN-ONLY: this
    * records counts + spend (billable × bidCpc) + the attribution target; no funds move, nothing is signed.
@@ -309,7 +359,7 @@ export function createAdNetwork(opts = {}) {
     registerAdvertiser, registerPublisher, registerCreative,
     getAdvertiser, getPublisher, getCreative, listCreatives,
     originsOf, renderUnit, select,
-    firstDollarCampaign, countValidatedClicks, accrualFor,
+    houseCampaign, firstDollarCampaign, countValidatedClicks, accrualFor,
     handler, store,
   };
 }
