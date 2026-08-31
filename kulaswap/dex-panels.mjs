@@ -18,7 +18,7 @@ import { poolApr, veBoost } from './kula-farm.mjs';
 import { poolPrice } from './kula-price-tvl.mjs';
 import {
   buildLockTx, buildIncreaseAmountTx, buildExtendLockTx, buildWithdrawTx as buildVeWithdrawTx,
-  buildStakeApproveTx, VE_MAX_LOCK_SECONDS,
+  buildStakeApproveTx, VE_MAX_LOCK_SECONDS, SECONDS_PER_WEEK, veWeight, clampDuration,
 } from './kula-stake.mjs';
 import { MAINNET_ADDR, cdpMarketLive, veLive } from './kula-config-addresses.mjs';
 
@@ -145,6 +145,20 @@ export function borrowPanel({ collateralKula, debtStable, prices } = {}) {
   };
 }
 
+// ── STAKE: veKULA lock weight ──────────────────────────────────────────────────────────────────────
+/** Given a KULA amount and a lock length in weeks, the clamped lock duration (seconds), the veKULA
+ *  voting weight at lock start (amount * min(dur,max)/max — mirrors VoteEscrow.balanceOf), and that
+ *  decay fraction as a %. Longer locks → weight closer to the full amount. Soft-fails to zeros. */
+export function stakePanel({ amount, lockWeeks } = {}) {
+  const a = num(amount);
+  const durationSeconds = clampDuration(num(lockWeeks) * SECONDS_PER_WEEK);
+  const weight = veWeight({ amount: a, secondsRemaining: durationSeconds });
+  const weightPct = durationSeconds > 0
+    ? (Math.min(durationSeconds, VE_MAX_LOCK_SECONDS) / VE_MAX_LOCK_SECONDS) * 100
+    : 0;
+  return { durationSeconds, weight: Number(weight.toFixed(6)), weightPct: Number(weightPct.toFixed(2)) };
+}
+
 // ── DOM wiring (browser only) ────────────────────────────────────────────────────────────────────────
 /** Wire the three calculator panels. `getReserves()` (optional) returns { reservesKula, reservesWmelek }
  *  from the live pool so the Pool tab uses the real ratio; without it the illustrative price is used. */
@@ -185,12 +199,27 @@ export function mountPanels(doc = document, { getReserves } = {}) {
   function renderBorrow() {
     if (!cCol) return;
     const p = borrowPanel({ collateralKula: cCol.value, debtStable: cDebt.value });
-    cMax.textContent = p.maxBorrow ? `${fmt(p.maxBorrow)} stable` : '—';
+    cMax.textContent = p.maxBorrow ? `${fmt(p.maxBorrow)} mMELEK` : '—';
     cHf.textContent = hf(p.healthFactor);
     cHf.className = `v ${p.hfClass}`;
     cLiq.textContent = p.liquidationPrice ? `${fmt(p.liquidationPrice)}` : '—';
   }
   on(cCol, 'input', renderBorrow); on(cDebt, 'input', renderBorrow);
 
-  return { renderPool, renderFarm, renderBorrow };
+  // STAKE (veKULA lock weight)
+  const sAmt = $('stake-amt'), sWeeks = $('stake-weeks'), sWeight = $('stake-weight'), sUnlock = $('stake-unlock');
+  function renderStake() {
+    if (!sAmt) return;
+    const p = stakePanel({ amount: sAmt.value, lockWeeks: sWeeks.value });
+    sWeight.textContent = p.weight ? `${fmt(p.weight)} veKULA` : '—';
+    if (sUnlock) {
+      if (p.durationSeconds > 0) {
+        const end = new Date(Date.now() + p.durationSeconds * 1000);
+        sUnlock.textContent = `unlocks ${end.toISOString().slice(0, 10)} · ${fmt(p.weightPct, 3)}% weight`;
+      } else sUnlock.textContent = '—';
+    }
+  }
+  on(sAmt, 'input', renderStake); on(sWeeks, 'input', renderStake);
+
+  return { renderPool, renderFarm, renderBorrow, renderStake };
 }

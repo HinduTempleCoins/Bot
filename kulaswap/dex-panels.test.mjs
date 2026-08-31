@@ -1,7 +1,8 @@
 // dex-panels.test.mjs — offline tests for the Pool/Farm/Borrow calculator helpers. No DOM, no network.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { poolPanel, farmPanel, borrowPanel, ILLUSTRATIVE, cdpWiring, stakeWiring } from './dex-panels.mjs';
+import { poolPanel, farmPanel, borrowPanel, stakePanel, ILLUSTRATIVE, cdpWiring, stakeWiring } from './dex-panels.mjs';
+import { VE_MAX_LOCK_SECONDS, SECONDS_PER_WEEK } from './kula-stake.mjs';
 import { DEFAULT_CDP } from './kula-cdp.mjs';
 import { MAINNET_ADDR } from './kula-config-addresses.mjs';
 
@@ -75,6 +76,25 @@ test('borrowPanel: moderate debt lands in the warn band', () => {
   const p = borrowPanel({ collateralKula: 1000, debtStable: 24 });
   assert.ok(p.healthFactor >= 1 && p.healthFactor < 1.5);
   assert.equal(p.hfClass, 'hf-warn');
+});
+
+// ── STAKE (veKULA lock weight) ────────────────────────────────────────────────────────────────────
+test('stakePanel: full-length lock gives weight ~= amount (1:1) and 100% weight', () => {
+  const p = stakePanel({ amount: 1000, lockWeeks: 208 }); // 208 weeks ~= 4y max
+  assert.equal(p.durationSeconds, Math.min(208 * SECONDS_PER_WEEK, VE_MAX_LOCK_SECONDS));
+  assert.ok(Math.abs(p.weightPct - 100) < 0.5);
+  assert.ok(p.weight > 990 && p.weight <= 1000);
+});
+
+test('stakePanel: half-length lock ~ halves the weight', () => {
+  const p = stakePanel({ amount: 1000, lockWeeks: 104 });
+  assert.ok(p.weight > 400 && p.weight < 600);
+  assert.ok(p.weightPct > 40 && p.weightPct < 60);
+});
+
+test('stakePanel: soft-fails to zeros on empty / zero input', () => {
+  assert.deepEqual(stakePanel({}), { durationSeconds: 0, weight: 0, weightPct: 0 });
+  assert.equal(stakePanel({ amount: 1000, lockWeeks: 0 }).weight, 0);
 });
 
 // ── mainnet wiring seam ─────────────────────────────────────────────────────────────────────────────
