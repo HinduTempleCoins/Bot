@@ -119,14 +119,16 @@ function encAddress(addr) {
   return s.padStart(64, '0');
 }
 
-/** Assemble a tx descriptor. value defaults to '0x0' — CDP ops move ERC20s, never native PRANA. */
-function descriptor(to, selector, dataWords, label) {
+/** Assemble a tx descriptor. value defaults to '0x0' — CDP ops move ERC20s, never native PRANA.
+ *  `chainId` defaults to the PRANA TESTNET (108369) for back-compat; mainnet callers pass 712217
+ *  (the live CDPVault lives on 712217 — see kula-config-addresses.mjs MAINNET_ADDR). */
+function descriptor(to, selector, dataWords, label, chainId = 108369) {
   return {
     to: String(to || ''),
     data: selector + dataWords.join(''),
     value: '0x0',
     method: label,
-    chainId: 108369, // PRANA
+    chainId,
   };
 }
 
@@ -135,24 +137,25 @@ function descriptor(to, selector, dataWords, label) {
  * `amount` is KULA in BASE UNITS. Requires a prior ERC20 approve of the vault to pull KULA — use
  * buildApproveTx for that. Returns a descriptor the wallet signs; never signs here.
  */
-export function buildOpenVaultTx({ vault, amountBaseUnits } = {}) {
-  return descriptor(vault, SELECTORS.deposit, [encUint(amountBaseUnits)], 'deposit');
+export function buildOpenVaultTx({ vault, amountBaseUnits, chainId } = {}) {
+  return descriptor(vault, SELECTORS.deposit, [encUint(amountBaseUnits)], 'deposit', chainId);
 }
 
-/** UNSIGNED tx to BORROW wMELEK against locked KULA: CDPVault.borrow(uint256 amount). */
-export function buildBorrowTx({ vault, amountBaseUnits } = {}) {
-  return descriptor(vault, SELECTORS.borrow, [encUint(amountBaseUnits)], 'borrow');
+/** UNSIGNED tx to BORROW the debt token against locked KULA: CDPVault.borrow(uint256 amount).
+ *  On mainnet the debt token is mMELEK (MelekBorrowNote), NOT wMELEK — see MAINNET_ADDR. */
+export function buildBorrowTx({ vault, amountBaseUnits, chainId } = {}) {
+  return descriptor(vault, SELECTORS.borrow, [encUint(amountBaseUnits)], 'borrow', chainId);
 }
 
-/** UNSIGNED tx to REPAY wMELEK debt (burns it, frees collateral): CDPVault.repay(uint256 amount).
- *  Requires a prior ERC20 approve of the vault to pull wMELEK — use buildApproveTx({token: wMELEK}). */
-export function buildRepayTx({ vault, amountBaseUnits } = {}) {
-  return descriptor(vault, SELECTORS.repay, [encUint(amountBaseUnits)], 'repay');
+/** UNSIGNED tx to REPAY the debt token (burns it, frees collateral): CDPVault.repay(uint256 amount).
+ *  Requires a prior ERC20 approve of the vault to pull the debt token — buildApproveTx({token: mMELEK}). */
+export function buildRepayTx({ vault, amountBaseUnits, chainId } = {}) {
+  return descriptor(vault, SELECTORS.repay, [encUint(amountBaseUnits)], 'repay', chainId);
 }
 
 /** UNSIGNED tx to WITHDRAW (unlock) freed KULA collateral: CDPVault.withdraw(uint256 amount). */
-export function buildWithdrawTx({ vault, amountBaseUnits } = {}) {
-  return descriptor(vault, SELECTORS.withdraw, [encUint(amountBaseUnits)], 'withdraw');
+export function buildWithdrawTx({ vault, amountBaseUnits, chainId } = {}) {
+  return descriptor(vault, SELECTORS.withdraw, [encUint(amountBaseUnits)], 'withdraw', chainId);
 }
 
 /**
@@ -160,8 +163,8 @@ export function buildWithdrawTx({ vault, amountBaseUnits } = {}) {
  * Needed before deposit (approve KULA) and before repay (approve wMELEK). The `to` is the TOKEN
  * contract; the spender encoded in the data is the VAULT.
  */
-export function buildApproveTx({ token, vault, amountBaseUnits } = {}) {
-  return descriptor(token, SELECTORS.approve, [encAddress(vault), encUint(amountBaseUnits)], 'approve');
+export function buildApproveTx({ token, vault, amountBaseUnits, chainId } = {}) {
+  return descriptor(token, SELECTORS.approve, [encAddress(vault), encUint(amountBaseUnits)], 'approve', chainId);
 }
 
 export const CDP_SELECTORS = SELECTORS;
