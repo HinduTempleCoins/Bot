@@ -29,6 +29,7 @@ import { createServer } from 'node:http';
 
 import * as cannabis from '../../integrations/soapbox/cannabis.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
+import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
 
 const PORT = +(process.env.PORT || 8101);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -104,6 +105,7 @@ function page(title, body, opts = {}) {
 <header class=topbar><a class=brand href="/">🌿 SoapBox <span>hemp</span></a>
   <div class=topbar-r><a href="/law">US Law</a><a href="/orgs">Reform &amp; Churches</a><a href="/flower">Flower Prices</a><a href="/seeds">Seeds &amp; Strains</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
+${joinCta({ source: 'hemp' })}
 ${FOOTER}</body></html>`;
 }
 

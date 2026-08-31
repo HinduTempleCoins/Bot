@@ -111,3 +111,22 @@ test('handler GET /ad/select returns the served unit HTML', async () => {
   assert.equal(cap.code, 200);
   assert.match(cap.body, /\/go\/offer-01/);
 });
+
+test('houseCampaign — promotes OUR OWN site (no affiliate tag) and serves an organic house unit', () => {
+  const { net } = mkNet();
+  const r = net.houseCampaign({
+    code: 'join-melek', targetUrl: 'https://wallet.melek.salon/signup', publisherId: 'melek',
+    headline: 'Join MELEK', body: 'Free account', clarity: 5, relevance: 5, product: 'MELEK',
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.campaign.house, true);
+  assert.equal(r.campaign.network, null);
+  assert.equal(r.campaign.tracked, true);          // our own site — always live, no env flip
+  assert.equal(r.campaign.landingUrl, 'https://wallet.melek.salon/signup'); // verbatim, no ?irpid tag
+  // served as an ORGANIC house unit: no "Sponsored" badge, a follow link (no rel=sponsored/nofollow)
+  const served = net.select({ slot: 'organic' });
+  assert.equal(served.ok, true);
+  assert.match(served.html, /herald-house/);
+  assert.doesNotMatch(served.html, /Sponsored/);
+  assert.doesNotMatch(served.html, /nofollow/);
+});

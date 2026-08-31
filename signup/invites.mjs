@@ -204,6 +204,25 @@ export function lineage(account, opts = {}) {
   }
   return chain;
 }
+
+// ── viral-tree stats (read-only; feeds the Herald growth funnel) ─────────────────────────────────────
+// A store-free, soft-fail snapshot of the invite tree: how many accounts actually registered (= signups
+// that came through the viral tree, excluding the unlimited root), and the invite supply (issued /
+// redeemed / still outstanding). "Outstanding" is the load-bearing viral number — unredeemed invites in
+// existing users' hands, i.e. the growth still in flight. Never throws; returns zeros on any read error.
+export function inviteStats(opts = {}) {
+  try {
+    const { fs, file } = ctx(opts);
+    const store = loadStore(fs, file);
+    const accounts = Object.values(store.accounts || {});
+    const codes = Object.values(store.codes || {});
+    const registeredAccounts = accounts.filter((a) => a && a.registered === true && a.unlimited !== true).length;
+    const invitesRedeemed = codes.filter((c) => c && c.redeemedBy).length;
+    const invitesOutstanding = codes.filter((c) => c && !c.redeemedBy).length;
+    return { registeredAccounts, invitesIssued: codes.length, invitesRedeemed, invitesOutstanding };
+  } catch { return { registeredAccounts: 0, invitesIssued: 0, invitesRedeemed: 0, invitesOutstanding: 0 }; }
+}
+
 // ── identity (the trust boundary) ───────────────────────────────────────────────────────────────────
 // The acting account is resolved from a VERIFIED source, never a spoofable query/body field — otherwise
 // anyone issues invites AS anyone (auth bypass). Production injects a verifier (MELEK-Signer bearer /

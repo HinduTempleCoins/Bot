@@ -31,7 +31,7 @@ import { handler as clickValidateHandler } from '../../pentecaust/herald/click-v
 import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.mjs';
 // The campaign-sender is stateful (lists/subscribers/templates/queue live in a store), so like the
 // ad-network we mount its singleton handler. Native-path routes only — /health stays owned by the server.
-import { handler as senderHandler } from '../../pentecaust/herald/campaign-sender.mjs';
+import { handler as senderHandler, _singleton as senderSingleton } from '../../pentecaust/herald/campaign-sender.mjs';
 // The lead CRM — top-of-funnel capture. Backed by a disk-persisted Map-like store so leads from the public
 // capture form AND the Hathor chat bridge survive restarts. Holds no key; a lead is an internal pipeline
 // record only — it is NEVER auto-subscribed to bulk email (sending stays double-opt-in via /api/subscribe).
@@ -53,6 +53,14 @@ import { createAdAuction } from '../../pentecaust/herald/ad-auction.mjs';
 // key, moves no funds, signs nothing — it renders the engine's disclosed unit and routes the click through
 // the /go rail for rev-share attribution. We bind it to the ad-network singleton's select + originsOf below.
 import { handler as adEmbedHandler, snippet as adSnippet } from '../../pentecaust/herald/ad-embed.mjs';
+// The GROWTH FUNNEL — the one number that answers "are we getting users?". Reads real signals the ecosystem
+// already produces (the /go click rail, the lead CRM, the opt-in sender, the invite viral tree) and shapes
+// them into Reach → Leads → Subscribers → Signups. Read-only, soft-fail, holds no key. This is Herald's
+// scoreboard now that its job is user acquisition for OUR sites (not affiliate commissions off other brands).
+import { funnelHandler, collectFunnel, renderFunnelHtml } from '../../pentecaust/herald/growth-funnel.mjs';
+import { scanStats as qrScanStats } from '../../pentecaust/herald/qr-tracker.mjs';
+import { inviteStats } from '../../signup/invites.mjs';
+import { DESTINATIONS } from '../../pentecaust/herald/launch-campaign.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -62,6 +70,11 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 
 // The growth engine, grouped the way the vision lays it out. Each = a real Herald module.
 export const CAPABILITIES = [
+  ['Grow', [
+    ['Growth funnel', 'The live user-acquisition scoreboard: Reach → Leads → Subscribers → Signups, with per-campaign reach and step conversion. Read: GET /api/funnel.', 'growth-funnel', '/api/funnel'],
+    ['Launch campaigns', 'The /go traffic rail that drives real users to our own funnels — MELEK signup, KulaSwap, the PRANA miner pool — plus the opt-in email nurture. House campaigns to OUR sites, not affiliate offers.', 'launch-campaign', null],
+    ['Invite viral tree', 'MELEK is invite-only: every account carries invites, and the tree tracks who pulled whom in. The outstanding-invite count is the growth still in flight.', 'invites', null],
+  ]],
   ['Create', [
     ['Prompt packs', 'Plug-and-play prompts for content, links & keywords — run through Hathor.', 'prompt-packs', '/prompts'],
     ['Ad maker', 'Generate scroll-stopping static & video ad creative (SVG→PNG, 4 styles).', 'ad-maker', null],
@@ -136,10 +149,18 @@ export function homePage() {
       return href ? `<a class="card link" href="${esc(href)}">${inner}</a>` : `<div class=card>${inner}</div>`;
     }).join('')
   }</div>`).join('');
+  let funnelHtml = '';
+  try { funnelHtml = renderFunnelHtml(collectFunnel(funnelDeps)); } catch { funnelHtml = ''; }
+  const funnelSection = funnelHtml
+    ? `<h2>Are we getting users?</h2><div class=sec><h3>Growth funnel — live</h3>
+        <p class=lead style="margin:0 0 10px">The scoreboard: real people driven to our own sites, down to the ones who claim an account. Reach is /go clicks to melek.salon signup, KulaSwap and the miner pool; signups come from the invite tree.</p>
+        ${funnelHtml}</div>`
+    : '';
   const body = `<header><span class=brand>◇ <b>Herald</b></span><span class=alpha>ALPHA</span>
-    <p class=lead>The growth engine of the MELEK ecosystem — reach, ranking, content, backlinks, PR, outreach
-    and conversion, <b>executed</b> (not just tracked) by Hathor. One AI marketing team; these are its tools.</p></header>${groups}`;
-  return pageShell('Herald — the MELEK growth engine', body, 'Herald: AI marketing executed — prompts, SEO, backlinks, PR, outreach, leads, campaigns, all in one.');
+    <p class=lead>The <b>user-acquisition</b> engine of the MELEK ecosystem — it drives real people to our own
+    sites (MELEK social, KulaSwap DeFi, the PRANA miner pool), <b>executed</b> (not just tracked) by Hathor.
+    One AI growth team; these are its tools.</p></header>${funnelSection}${groups}`;
+  return pageShell('Herald — the MELEK growth engine', body, 'Herald: user acquisition for the MELEK ecosystem — drive real users to melek.salon, KulaSwap and the PRANA miner pool, measured end to end.');
 }
 
 export function promptsPage() {
@@ -269,7 +290,13 @@ function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'te
 // Live module mounts. Prefix-mounted API modules (rewrite set) get req.url stripped so they see their
 // own native paths; native-path modules (rewrite null) get req.url unchanged. Every fn always ends the
 // response; a throw is caught below. Read-only server: these modules hold no key of ours.
-const adNetwork = createAdNetwork(); // stateful singleton — its handler serves /ad/select (disclosed unit).
+// Load the persisted ad store (written by the launcher) so /ad/select can serve our HOUSE units (the
+// organic "Join MELEK / KulaSwap / mine PRANA" promos) as well as any sponsored units. Read-only load; a
+// missing/corrupt file → a fresh in-memory store (soft-fail).
+const AD_STORE_FILE = process.env.HERALD_ADNETWORK_DATA || _join(process.cwd(), 'data', 'herald-adnetwork.json');
+let _adStore = {};
+try { const o = JSON.parse(_readFileSync(AD_STORE_FILE, 'utf8')); if (o && typeof o === 'object') _adStore = o; } catch { _adStore = {}; }
+const adNetwork = createAdNetwork({ storage: _adStore }); // stateful singleton — serves /ad/select (house + disclosed units).
 const adAuction = createAdAuction(); // stateful singleton — serves /ad/premium (won featured unit) + /api/auctions.
 
 // Lead CRM singleton, backed by a disk-persisted Map-like store (data/herald-leads.json). Soft-fail on any
@@ -286,6 +313,19 @@ function diskLeadStore(file) {
   };
 }
 const leadCrm = createLeadCrm({ storage: diskLeadStore(LEADS_FILE) });
+
+// The growth-funnel data sources, bound to the live singletons + on-disk rails. Every dep is soft-failed by
+// collectFunnel, so a missing/empty source degrades that stage to 0 rather than erroring. Reach is scoped to
+// OUR house campaign codes (the DESTINATIONS the launcher drives), so unrelated /go/QR codes never inflate it.
+const GROWTH_CODES = DESTINATIONS.map((d) => d.code);
+export const funnelDeps = {
+  scanStats: () => qrScanStats(),
+  leadPipeline: () => leadCrm.pipeline(),
+  verifiedLeads: () => leadCrm.verifiedCount(),
+  senderStats: () => senderSingleton.stats(),
+  inviteStats: () => inviteStats(),
+  campaignCodes: GROWTH_CODES,
+};
 
 // /api/capture — the opt-in lead-capture bridge for the Hathor chat widget (and any page opt-in). A visitor
 // who volunteers an email is recorded as a NEW pipeline lead (source defaults 'chat'). This is NOT a bulk
@@ -335,6 +375,8 @@ const MOUNTS = [
   // CRM's own native routes. Native paths; /health stays owned by the server above.
   { rewrite: null, fn: captureHandler, match: (p) => p === '/api/capture' },
   { rewrite: null, fn: leadCrm.handler, match: (p) => p === '/api/lead' || p === '/api/leads' },
+  // growth funnel: the user-acquisition scoreboard as JSON. Read-only, holds no key.
+  { rewrite: null, fn: funnelHandler(funnelDeps), match: (p) => p === '/api/funnel' },
 ];
 
 export async function handler(req, res) {

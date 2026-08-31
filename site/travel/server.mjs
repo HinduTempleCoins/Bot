@@ -32,6 +32,7 @@ import { headTags } from '../../integrations/soapbox/seo.mjs';
 import * as seo from '../../integrations/soapbox/seo.mjs';
 import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
 import * as routing from '../../integrations/soapbox/routing.mjs';
 
 const PORT = +(process.env.PORT || 8133);
@@ -136,6 +137,7 @@ ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">✈️ SoapBox <span>travel</span></a>
   <div class=topbar-r><a href="/guides">Guides</a><a href="${esc(SHOPPING)}">Shopping</a><a href="${esc(DATA)}">Data</a><a href="${esc(SEARCH)}">Search</a></div></header>
 <main class=wrap>${body}</main>
+${joinCta({ source: 'travel' })}
 ${FOOTER}</body></html>`;
 }
 
