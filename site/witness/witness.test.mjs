@@ -8,7 +8,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
-  devHubPage, devMelekPage, devPranaPage, devContractsPage,
+  devHubPage, devMelekPage, devPranaPage, devContractsPage, minePage,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
@@ -195,6 +195,43 @@ test('wallet view: Akasha + EIP-3085 PRANA params with 0x1a751', () => {
   assert.match(h, /108369/);
   assert.match(h, /wallet_addEthereumChain|EIP-3085/);
   assert.match(h, /MetaMask|TronLink/);
+});
+
+// ---------------------------------------------------------------------------
+// /mine — PRANA Etchash mining guide
+// ---------------------------------------------------------------------------
+test('mine page: copy-paste Etchash miner configs + stratum + mainnet chainId', () => {
+  const h = minePage();
+  // the three common Etchash miners, copy-paste
+  assert.match(h, /lolMiner/);
+  assert.match(h, /t-rex/i);
+  assert.match(h, /GMiner|--algo etchash/);
+  // stratum URL with the pool host and port
+  assert.match(h, /stratum\+tcp:\/\/pool\.soapbox\.community:3333/);
+  // mainnet chainId (712217 / 0xade19), NOT the testnet id
+  assert.match(h, /712217/);
+  assert.match(h, /0xade19/);
+  // honest, no-hype discipline: fair launch, no premine, no profit promise
+  assert.match(h, /no premine|fair launch/i);
+  assert.match(h, /thin security/i);
+  // payout is a public 0x address, never a key
+  assert.match(h, /0xYOUR_PRANA_ADDRESS/);
+  assert.match(h, /never.{0,20}private key/i);
+});
+
+test('mine route renders 200 and is in nav + sitemap + llms', async () => {
+  const r = await route('/mine');
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /Mine PRANA/);
+  const home = await route('/');
+  assert.match(home.body, /href="\/mine"/);
+  const sm = await route('/sitemap.xml');
+  assert.match(sm.body, /\/mine</);
+  const llms = await route('/llms.txt');
+  assert.match(llms.body, /\/mine/);
+  // alias
+  const alias = await route('/pool/mine');
+  assert.equal(alias.statusCode, 200);
 });
 
 // ---------------------------------------------------------------------------
