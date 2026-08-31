@@ -31,10 +31,35 @@ test('bad inputs soft-fail (amountOut 0 / impact 0), never throw', () => {
   assert.equal(priceImpact({ amountIn: -5, reserveIn: 1, reserveOut: 1 }), 0);
 });
 
-test('config: default chain is PRANA (108369 / 0x1a751), fee 30 bps', () => {
-  assert.equal(CHAIN.chainId, 108369);
-  assert.equal(CHAIN.chainIdHex, '0x1a751');
+test('config: default chain is PRANA MAINNET (712217 / 0xADE19), fee 30 bps', () => {
+  // kula.money defaults to PRANA mainnet — the live AMM + 4 seeded pairs (2026-08-31).
+  assert.equal(CHAIN.chainId, 712217);
+  assert.equal(CHAIN.chainIdHex, '0xADE19');
   assert.equal(FEE_BPS, 30);
+});
+
+test('prana-mainnet block is verified with the live AMM addrs + 8-dec tradeable tokens', () => {
+  const m = CHAINS['prana-mainnet'];
+  assert.equal(m.chainId, 712217);
+  assert.equal(m.chainIdHex, '0xADE19');
+  assert.equal(m.verified, true);
+  assert.equal(m.router, '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5');
+  assert.equal(m.factory, '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6');
+  assert.equal(m.wnative, '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34');
+  // Format guard (20-byte hex). The EIP-55 checksum itself is validated by the browser test — a bad
+  // checksum makes ethers v6 throw "bad address checksum" at quote/swap time (caught pre-ship 2026-08-31).
+  for (const a of [m.router, m.factory, m.wnative, ...m.tokens.map((t) => t.address)]) {
+    assert.match(a, /^0x[0-9a-fA-F]{40}$/);
+  }
+  assert.equal(chainReady(m), true, 'live AMM → swap-ready');
+  // The tradeable dropdown set, with the load-bearing decimals (wVKBT/wCURE are 8, not 18).
+  const bySym = Object.fromEntries(m.tokens.map((t) => [t.symbol, t]));
+  assert.deepEqual(Object.keys(bySym).sort(), ['KULA', 'WPRANA', 'wCURE', 'wVKBT']);
+  assert.equal(bySym.KULA.decimals, 18);
+  assert.equal(bySym.WPRANA.decimals, 18);
+  assert.equal(bySym.wVKBT.decimals, 8, 'wVKBT is 8-decimal — wrong decimals = 10^10 off');
+  assert.equal(bySym.wCURE.decimals, 8, 'wCURE is 8-decimal — wrong decimals = 10^10 off');
+  assert.equal(bySym.WPRANA.address, m.wnative, 'WPRANA token addr == wnative');
 });
 
 test('multi-chain: a broad set across EVM + non-EVM is registered', () => {
@@ -58,7 +83,8 @@ test('chainReady gates on verified:true — only confirmed routers may swap; the
   assert.equal(chainReady(CHAINS.prana), true, 'PRANA router/factory deployed + verified (DeployAmm on testnet 2026-06-16)');
   assert.equal(chainReady(CHAINS.tron), false, 'non-EVM gated until its adapter ships');
   // the canonical EVM DEXes + PRANA (our own, deployed) are swap-ready right now
-  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon', 'prana']);
+  assert.equal(chainReady(CHAINS['prana-mainnet']), true, 'PRANA mainnet AMM live + verified (2026-08-31)');
+  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon', 'prana', 'prana-mainnet']);
 });
 
 test('isNative detects the native coin per chain', () => {
