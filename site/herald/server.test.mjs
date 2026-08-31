@@ -1,3 +1,4 @@
+import './testsetup.mjs';   // MUST be first — redirects the lead store to a temp file (no repo writes)
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { handler, homePage, promptsPage, esc, CAPABILITIES } from './server.mjs';
@@ -82,4 +83,42 @@ test('/embed/unit serves a framed ad unit carrying the Ad disclosure label', asy
   assert.equal(r.code, 200);
   assert.match(r.headers['content-type'] || '', /text\/html/);
   assert.match(r.html, />Ad</);                    // disclosure label present even with no fill (house unit)
+});
+
+// POST helper — passes a parsed JSON body directly (the handlers accept req.body when it is an object).
+function post(path, body) {
+  return new Promise((resolve) => {
+    const chunks = [];
+    const res = {
+      writeHead(code, headers) { this.code = code; this.headers = headers; },
+      end(s) { chunks.push(s || ''); resolve({ code: this.code || 200, headers: this.headers || {}, body: chunks.join('') }); },
+    };
+    handler({ url: path, method: 'POST', body }, res);
+  });
+}
+
+test('/api/capture records an opt-in lead (chat bridge) and is idempotent', async () => {
+  const email = `lead-${Date.now()}@example.com`;
+  const r = await post('/api/capture', { email, name: 'Test', source: 'chat' });
+  assert.equal(r.code, 200);
+  const j = JSON.parse(r.body);
+  assert.equal(j.ok, true);
+  assert.equal(j.captured, true);
+  // second capture of the same email → still ok (already captured), not a hard error
+  const r2 = await post('/api/capture', { email, name: 'Test', source: 'chat' });
+  assert.equal(r2.code, 200);
+  assert.equal(JSON.parse(r2.body).captured, false);
+});
+
+test('/api/capture rejects a bad body', async () => {
+  const r = await post('/api/capture', { name: 'no-email' });
+  assert.equal(r.code, 400);
+});
+
+test('/api/leads is a live read endpoint (lead CRM mounted)', async () => {
+  const r = await call('/api/leads');
+  assert.equal(r.code, 200);
+  const j = JSON.parse(r.html);
+  assert.equal(j.ok, true);
+  assert.ok(Array.isArray(j.leads));
 });

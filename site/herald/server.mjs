@@ -32,6 +32,12 @@ import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.
 // The campaign-sender is stateful (lists/subscribers/templates/queue live in a store), so like the
 // ad-network we mount its singleton handler. Native-path routes only — /health stays owned by the server.
 import { handler as senderHandler } from '../../pentecaust/herald/campaign-sender.mjs';
+// The lead CRM — top-of-funnel capture. Backed by a disk-persisted Map-like store so leads from the public
+// capture form AND the Hathor chat bridge survive restarts. Holds no key; a lead is an internal pipeline
+// record only — it is NEVER auto-subscribed to bulk email (sending stays double-opt-in via /api/subscribe).
+import { createLeadCrm } from '../../pentecaust/herald/lead-crm.mjs';
+import { readFileSync as _readFileSync, writeFileSync as _writeFileSync, mkdirSync as _mkdirSync } from 'node:fs';
+import { join as _join, dirname as _dirname } from 'node:path';
 // The dispatcher is stateful (in-app inbox lives in a store), so like the ad-network / campaign-sender we
 // mount its singleton handler. It's the execution rail for fired triggers — email (via the sender's ESP
 // seam), Telegram, Discord, generic webhook, and an in-app inbox; every channel unconfigured → soft no-op,
@@ -72,7 +78,7 @@ export const CAPABILITIES = [
   ]],
   ['Reach', [
     ['Outreach DB', 'The shared, live outreach / backlink tracker (the 151-row tracker, as a system). Sign-in required.', 'outreach-db', '/outreach'],
-    ['Lead CRM', 'Verified-only lead capture + a CRM pipeline (only count contacts you can verify).', 'lead-crm', null],
+    ['Lead CRM', 'Verified-only lead capture + a CRM pipeline (only count contacts you can verify). Live: POST /api/capture (chat/opt-in bridge) + /api/lead; read /api/leads.', 'lead-crm', '/api/leads'],
     ['QR tracker', 'Trackable QR codes for offline→online attribution.', 'qr-tracker', null],
     ['Campaign sender', 'The owned sending layer: lists, subscribers, templates, one-shot campaigns + drip/journeys, a durable send-queue, one-click unsubscribe & bounce/complaint suppression (CAN-SPAM). ESP behind an injectable seam — email only.', 'campaign-sender', null],
   ]],
@@ -265,6 +271,45 @@ function send(res, html, code = 200) { res.writeHead(code, { 'content-type': 'te
 // response; a throw is caught below. Read-only server: these modules hold no key of ours.
 const adNetwork = createAdNetwork(); // stateful singleton — its handler serves /ad/select (disclosed unit).
 const adAuction = createAdAuction(); // stateful singleton — serves /ad/premium (won featured unit) + /api/auctions.
+
+// Lead CRM singleton, backed by a disk-persisted Map-like store (data/herald-leads.json). Soft-fail on any
+// fs error → falls back to an in-memory Map so capture never 500s. No PII is ever dumped by a GET (the CRM
+// esc()'s fields; we expose only /api/lead capture + /api/leads read, both native paths).
+const LEADS_FILE = process.env.HERALD_LEADS_DATA || _join(process.cwd(), 'data', 'herald-leads.json');
+function diskLeadStore(file) {
+  const m = new Map();
+  try { const o = JSON.parse(_readFileSync(file, 'utf8')); if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) m.set(k, v); } catch { /* fresh */ }
+  const flush = () => { try { _mkdirSync(_dirname(file), { recursive: true }); _writeFileSync(file, JSON.stringify(Object.fromEntries(m), null, 2)); } catch { /* soft */ } };
+  return {
+    get: (k) => m.get(k), has: (k) => m.has(k), values: () => m.values(), delete: (k) => m.delete(k),
+    set: (k, v) => { m.set(k, v); flush(); return m; },
+  };
+}
+const leadCrm = createLeadCrm({ storage: diskLeadStore(LEADS_FILE) });
+
+// /api/capture — the opt-in lead-capture bridge for the Hathor chat widget (and any page opt-in). A visitor
+// who volunteers an email is recorded as a NEW pipeline lead (source defaults 'chat'). This is NOT a bulk
+// subscribe — it never sends anything. Public opt-in to the nurture drip goes through /api/subscribe instead.
+async function captureHandler(req, res) {
+  try {
+    if ((req.method || 'GET').toUpperCase() !== 'POST') { res.writeHead(405, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: false, error: 'method' })); }
+    const body = await new Promise((resolve) => {
+      if (req.body && typeof req.body === 'object') return resolve(req.body);
+      let d = ''; let over = false;
+      try {
+        req.on('data', (c) => { d += c; if (d.length > 65536) { over = true; try { req.destroy(); } catch {} } });
+        req.on('end', () => { if (over) return resolve(null); try { resolve(d ? JSON.parse(d) : {}); } catch { resolve(null); } });
+        req.on('error', () => resolve(null));
+      } catch { resolve(null); }
+    });
+    if (!body || typeof body !== 'object') { res.writeHead(400, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: false, error: 'bad-body' })); }
+    const r = leadCrm.addLead({ email: body.email, name: body.name, phone: body.phone, source: body.source || 'chat' });
+    // A duplicate is a soft success from the caller's view (already captured) — do not leak pipeline internals.
+    const ok = r.ok || r.error === 'duplicate email';
+    res.writeHead(ok ? 200 : 400, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+    return res.end(JSON.stringify({ ok, captured: !!r.ok }));
+  } catch { try { res.writeHead(500, { 'content-type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: 'error' })); } catch { /* soft */ } return undefined; }
+}
 const MOUNTS = [
   { rewrite: null, fn: outreachHandler, match: (p) => p === '/outreach' || p.startsWith('/outreach/') },
   { rewrite: null, fn: qrHandler, match: (p) => p.startsWith('/go/') || p === '/qr' || p.startsWith('/qr/') },
@@ -286,6 +331,10 @@ const MOUNTS = [
   // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
   { rewrite: null, fn: senderHandler, match: (p) => p.startsWith('/u/') || p === '/unsubscribe'
     || p === '/api/subscribe' || p === '/api/webhook' || p === '/api/lists' || p === '/api/stats' },
+  // lead CRM: the top-of-funnel. /api/capture = the chat/opt-in bridge (POST); /api/lead + /api/leads are the
+  // CRM's own native routes. Native paths; /health stays owned by the server above.
+  { rewrite: null, fn: captureHandler, match: (p) => p === '/api/capture' },
+  { rewrite: null, fn: leadCrm.handler, match: (p) => p === '/api/lead' || p === '/api/leads' },
 ];
 
 export async function handler(req, res) {
