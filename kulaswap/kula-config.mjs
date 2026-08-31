@@ -29,14 +29,29 @@ export const CHAINS = {
     kula: '0x4c5859f0F772848b2D91F1D83E2Fe57935348029', pol: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
     multiBurnMine: '0x1291Be112d480055DaFd8a610b7d1e203891C274' },
 
-  // ── ecosystem home — MAINNET (staged; chainId 712217 confirmed 2026-08-21). verified:false so the UI
-  //    LISTS it but REFUSES to swap until the mainnet deploy fills router/factory/WPRANA + token addrs
-  //    from PRANA mainnet deployments.json — then flip verified:true. (712217 = 0xADE19.) ──────────────
+  // ── ecosystem home — MAINNET (chainId 712217). LIVE: AMM Router/Factory + WPRANA and the 4 seeded
+  //    pairs are deployed and on-chain-verified from rpc.prana.melek.salon 2026-08-31 → verified:true.
+  //    Factory.allPairsLength = 5; seeded pairs: KULA/WPRANA (10000 KULA / 5000 WPRANA), wVKBT/KULA,
+  //    wCURE/KULA, wVKBT/wCURE. `tokens` is the tradeable dropdown set (KULA/WPRANA/wVKBT/wCURE) —
+  //    ⚠ wVKBT and wCURE are 8-decimal tokens (KULA/WPRANA are 18) — decimals here drive parse/format.
+  //    mMELEK is the CDP debt synthetic (kula-config-addresses.mjs / Borrow tab), NOT a seeded swap pair,
+  //    so it is carried as a flat field but is not in the swap `tokens` list. (712217 = 0xADE19.) ──────
   'prana-mainnet': { type: 'evm', key: 'prana-mainnet', chainId: 712217, chainIdHex: '0xADE19', name: 'PRANA', dex: 'KulaSwap',
-    rpcUrl: 'https://rpc.prana.melek.salon' /* CONFIRM live at launch */, explorer: 'https://pranascan.soapbox.community' /* CONFIRM at launch */,
+    rpcUrl: 'https://rpc.prana.melek.salon', explorer: 'https://pranascan.soapbox.community',
     native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
-    router: Z, factory: Z, wnative: Z,
-    verified: false /* mainnet NOT deployed — placeholder addrs; fill from mainnet deployments.json then flip */ },
+    // Addresses are EIP-55 checksummed (ethers v6 REJECTS a bad checksum → "bad address checksum"),
+    // so factory/WPRANA are re-cased from the raw deploy output — same 20 bytes, correct checksum.
+    router: '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5', factory: '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6',
+    wnative: '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34',
+    verified: true /* Router/Factory/WPRANA + 4 seeded pairs confirmed on-chain 2026-08-31 */,
+    kula: '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', mMELEK: '0x8c4B882D7379D35413E2a9202f63B53f893D1A9D',
+    wVKBT: '0xD915E757662c4234137aff167Bf93d588145f75e', wCURE: '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff',
+    tokens: [
+      { symbol: 'KULA', address: '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', decimals: 18 },
+      { symbol: 'WPRANA', address: '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34', decimals: 18 },
+      { symbol: 'wVKBT', address: '0xD915E757662c4234137aff167Bf93d588145f75e', decimals: 8 },
+      { symbol: 'wCURE', address: '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff', decimals: 8 },
+    ] },
 
   // ── EVM, VERIFIED canonical V2 DEXes (swap-ready) ─────────────────────────────────────────────
   ethereum: { type: 'evm', key: 'ethereum', chainId: 1, chainIdHex: '0x1', name: 'Ethereum', dex: 'Uniswap V2',
@@ -139,7 +154,7 @@ export const CHAINS = {
   ...(cfg.chains || {}),
 };
 
-export const DEFAULT_CHAIN = cfg.defaultChain || 'prana';
+export const DEFAULT_CHAIN = cfg.defaultChain || 'prana-mainnet';
 export const CHAIN = { ...CHAINS[DEFAULT_CHAIN], ...cfg };   // back-compat single-chain export
 export const FEE_BPS = CHAIN.feeBps || 30;
 

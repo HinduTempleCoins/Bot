@@ -12,8 +12,9 @@ import { mountPanels, cdpWiring, stakeWiring } from './dex-panels.mjs';
 import { cdpMarketLive, veLive } from './kula-config-addresses.mjs';
 
 const SECONDS_PER_WEEK = 7 * 24 * 60 * 60;
-// The live CDP + veKULA contracts are on PRANA MAINNET (chainId 712217); the swap tab defaults to the
-// PRANA testnet. Borrow/Stake txs are built for 712217 and the wallet is switched to it per action.
+// The swap tab defaults to PRANA MAINNET (chainId 712217) — the live AMM + 4 seeded pairs. The CDP +
+// veKULA contracts are on the same mainnet; Borrow/Stake txs are built for 712217 and the wallet is
+// switched to it per action.
 const MAINNET_KEY = 'prana-mainnet';
 
 /** Deterministic accent colour for a token symbol (for the little token dot). Pure + exported. */
