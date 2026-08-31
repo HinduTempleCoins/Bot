@@ -186,7 +186,7 @@
       <span class="logo"><b>K</b></span>
       <div>
         <h1>KulaSwap <span class="alpha">Alpha</span></h1>
-        <div class="sub">the MELEK ecosystem DEX · PRANA testnet</div>
+        <div class="sub">the MELEK ecosystem DEX · PRANA</div>
       </div>
     </div>
     <span class="spacer"></span>
@@ -205,6 +205,7 @@
       <button class="tab" data-tab="pool" role="tab">Pool</button>
       <button class="tab" data-tab="farm" role="tab">Farm</button>
       <button class="tab" data-tab="borrow" role="tab">Borrow</button>
+      <button class="tab" data-tab="stake" role="tab">Stake</button>
     </div>
 
     <!-- ── SWAP ── -->
@@ -309,24 +310,48 @@
       </div>
     </section>
 
-    <!-- ── BORROW (CDP health calculator) ── -->
+    <!-- ── BORROW (CDP: lock KULA → borrow mMELEK) ── -->
     <section class="pane" data-pane="borrow" hidden>
-      <div class="phead"><h2>Borrow the stable</h2></div>
-      <p class="explain" style="margin:0 .1rem .7rem">Lock <b>KULA</b> as collateral to borrow the MELEK dollar-stable — the
-        <b>MBD MELEK never had</b>. It is <b>overcollateralized</b>: keep your health factor above 1 or the position can be
-        <b>liquidated</b>. Repay any time to unlock your KULA.</p>
+      <div class="phead"><h2>Borrow mMELEK</h2></div>
+      <div class="chip" id="cdp-net">Live on <b>PRANA mainnet</b> · CDPVault</div>
+      <p class="explain" style="margin:0 .1rem .7rem">Lock <b>KULA</b> as collateral and borrow <b>mMELEK</b> — the
+        <b>MELEK Borrow Note</b> the vault mints against your position (up to 50% LTV). mMELEK is a CDP debt
+        note, <b>not a pegged stablecoin</b>. It is <b>overcollateralized</b>: keep your health factor above 1 or the
+        position can be <b>liquidated</b>. Repay the mMELEK any time to unlock your KULA.</p>
       <div class="calc">
         <div class="metrics">
           <div><label class="top" for="cdp-coll">KULA collateral</label><input id="cdp-coll" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
-          <div><label class="top" for="cdp-debt">Borrow (stable)</label><input id="cdp-debt" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
+          <div><label class="top" for="cdp-debt">Borrow (mMELEK)</label><input id="cdp-debt" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
         </div>
         <div class="metrics">
           <div class="metric"><div class="k">Max borrow</div><div class="v" id="cdp-max">—</div></div>
           <div class="metric"><div class="k">Health factor</div><div class="v" id="cdp-hf">—</div></div>
         </div>
         <div class="metric"><div class="k">Liquidation price (KULA)</div><div class="v" id="cdp-liq">—</div></div>
-        <p class="explain" style="margin:.1rem">Prices shown are placeholders until the on-chain oracle is wired; the math (LTV, health factor, liquidation) is the live CDP model. Borrowing is not income — you owe the debt back plus interest.</p>
-        <button class="cta" id="cdp-cta" disabled>Connect to open a vault</button>
+        <p class="explain" style="margin:.1rem">Prices shown are placeholders until the on-chain oracle price is read live; the math (LTV, health factor, liquidation) is the live CDP model. Borrowing is not income — you owe the mMELEK back plus interest.</p>
+        <button class="cta" id="cdp-cta" disabled>Connect to borrow</button>
+        <div class="note" id="cdp-status"></div>
+      </div>
+    </section>
+
+    <!-- ── STAKE (veKULA: lock KULA → boost + votes) ── -->
+    <section class="pane" data-pane="stake" hidden>
+      <div class="phead"><h2>Stake KULA → veKULA</h2></div>
+      <div class="chip" id="stake-net">Live on <b>PRANA mainnet</b> · VoteEscrow</div>
+      <p class="explain" style="margin:0 .1rem .7rem">Lock <b>KULA</b> for up to <b>4 years</b> to receive <b>veKULA</b> —
+        non-transferable voting weight that <b>boosts your farm rewards</b> and lets you vote on gauges. The longer the
+        lock, the higher the weight; it <b>decays linearly</b> toward zero as the unlock date approaches. Your KULA is
+        returned in full when the lock ends.</p>
+      <div class="calc">
+        <div class="metrics">
+          <div><label class="top" for="stake-amt">KULA to lock</label><input id="stake-amt" class="in" type="text" inputmode="decimal" placeholder="0.0"></div>
+          <div><label class="top" for="stake-weeks">Lock length (weeks)</label><input id="stake-weeks" class="in" type="text" inputmode="numeric" placeholder="0"></div>
+        </div>
+        <div class="metric"><div class="k">Voting weight now</div><div class="v" id="stake-weight">—</div></div>
+        <div class="metric"><div class="k">Lock detail</div><div class="v" id="stake-unlock">—</div></div>
+        <p class="explain" style="margin:.1rem">Max lock is 208 weeks (4 years). Weight = amount × (time remaining ÷ max lock), so a full-length lock starts near 1:1 and decays as it nears expiry. veKULA cannot be transferred or withdrawn early.</p>
+        <button class="cta" id="stake-cta" disabled>Connect to lock</button>
+        <div class="note" id="stake-status"></div>
       </div>
     </section>
   </div>

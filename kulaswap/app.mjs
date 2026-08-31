@@ -8,7 +8,13 @@
 
 import { quoteSwap } from './kula-quote.mjs';
 import { CHAINS, DEFAULT_CHAIN, ROUTER_ABI, FACTORY_ABI, PAIR_ABI, ERC20_ABI, isNative, chainReady, allChains } from './kula-config.mjs';
-import { mountPanels } from './dex-panels.mjs';
+import { mountPanels, cdpWiring, stakeWiring } from './dex-panels.mjs';
+import { cdpMarketLive, veLive } from './kula-config-addresses.mjs';
+
+const SECONDS_PER_WEEK = 7 * 24 * 60 * 60;
+// The live CDP + veKULA contracts are on PRANA MAINNET (chainId 712217); the swap tab defaults to the
+// PRANA testnet. Borrow/Stake txs are built for 712217 and the wallet is switched to it per action.
+const MAINNET_KEY = 'prana-mainnet';
 
 /** Deterministic accent colour for a token symbol (for the little token dot). Pure + exported. */
 export function tokenColor(symbol) {
@@ -227,10 +233,107 @@ function mount(doc = document) {
   }
 
   function unlockCtas() {
-    // enable the panel CTAs once a wallet is present (transactional flows land next)
-    [['lp-cta', 'Add liquidity'], ['farm-cta', 'Stake LP'], ['cdp-cta', 'Open a vault']].forEach(([id, label]) => {
+    // Pool/Farm remain interactive calculators (no on-chain add-liquidity wiring yet).
+    [['lp-cta', 'Add liquidity'], ['farm-cta', 'Stake LP']].forEach(([id, label]) => {
       const b = $(id); if (b) { b.disabled = false; b.textContent = label; }
     });
+    // Borrow (CDP) + Stake (veKULA) are LIVE on PRANA mainnet — enable only when the address guard passes;
+    // a zero address (not deployed) must read "not live" and never build a tx.
+    const cdpBtn = $('cdp-cta');
+    if (cdpBtn) {
+      if (cdpMarketLive()) { cdpBtn.disabled = false; cdpBtn.textContent = 'Approve & Borrow'; }
+      else { cdpBtn.disabled = true; cdpBtn.textContent = 'Borrow not live yet'; }
+    }
+    const stakeBtn = $('stake-cta');
+    if (stakeBtn) {
+      if (veLive()) { stakeBtn.disabled = false; stakeBtn.textContent = 'Approve & Lock'; }
+      else { stakeBtn.disabled = true; stakeBtn.textContent = 'Staking not live yet'; }
+    }
+  }
+
+  // ── mainnet DeFi actions (Borrow / Stake) — client-side signed, keyless ─────────────────────────
+  /** Switch the wallet to PRANA mainnet (712217) and refresh provider+signer against it. */
+  async function ensureMainnet() {
+    const mc = CHAINS[MAINNET_KEY];
+    const { ethers } = { ethers: await getEthers() };
+    try { await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: mc.chainIdHex }] }); }
+    catch (e) {
+      if (e && e.code === 4902) {
+        await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{
+          chainId: mc.chainIdHex, chainName: `${mc.name} (mainnet)`, rpcUrls: [mc.rpcUrl],
+          nativeCurrency: mc.native, blockExplorerUrls: [mc.explorer] }] });
+      } else throw e;
+    }
+    provider = new ethers.BrowserProvider(window.ethereum);
+    signer = await provider.getSigner();
+    account = await signer.getAddress();
+  }
+
+  /** Sign+broadcast one unsigned descriptor {to,data,value} via the user's wallet; wait for it. */
+  async function sendDescriptor(d) {
+    const tx = await signer.sendTransaction({ to: d.to, data: d.data, value: d.value || '0x0' });
+    await tx.wait();
+    return tx;
+  }
+
+  /** Ensure `spender` may pull `amountUnits` of `token`; approve (max needed) if the allowance is short. */
+  async function ensureAllowance(token, spender, amountUnits, approveDescriptorFor, statusEl) {
+    const { ethers } = { ethers: await getEthers() };
+    const erc = new ethers.Contract(token, ERC20_ABI, signer);
+    let allow = 0n;
+    try { allow = await erc.allowance(account, spender); } catch { allow = 0n; }
+    if (allow >= amountUnits) return;
+    note(statusEl, 'warn', 'Approve KULA in your wallet…');
+    await sendDescriptor(approveDescriptorFor(amountUnits.toString()));
+  }
+
+  async function doBorrow() {
+    const cdpStatus = $('cdp-status');
+    const w = cdpWiring();
+    if (!w.live) { note(cdpStatus, 'warn', 'The borrow market is not live yet.'); return; }
+    if (!signer || !account) { note(cdpStatus, 'err', 'Connect a wallet first.'); return; }
+    const coll = Number.parseFloat(($('cdp-coll') || {}).value);
+    const debt = Number.parseFloat(($('cdp-debt') || {}).value);
+    if (!(coll > 0)) { note(cdpStatus, 'warn', 'Enter an amount of KULA to lock.'); return; }
+    try {
+      const { ethers } = { ethers: await getEthers() };
+      note(cdpStatus, 'warn', 'Switch to PRANA mainnet in your wallet…');
+      await ensureMainnet();
+      const collUnits = ethers.parseUnits(String(coll), 18);
+      await ensureAllowance(w.collateral, w.vault, collUnits, w.approveCollateral, cdpStatus);
+      note(cdpStatus, 'warn', 'Confirm the deposit (lock KULA)…');
+      await sendDescriptor(w.deposit(collUnits.toString()));
+      if (debt > 0) {
+        const debtUnits = ethers.parseUnits(String(debt), 18);
+        note(cdpStatus, 'warn', 'Confirm the borrow (mint mMELEK)…');
+        await sendDescriptor(w.borrow(debtUnits.toString()));
+        note(cdpStatus, 'ok', `Locked ${coll} KULA · borrowed ${debt} mMELEK.`);
+      } else {
+        note(cdpStatus, 'ok', `Locked ${coll} KULA. Enter an mMELEK amount to borrow.`);
+      }
+    } catch (e) { note(cdpStatus, 'err', `Borrow failed: ${esc((e && e.shortMessage) || (e && e.message) || e)}`); }
+  }
+
+  async function doStake() {
+    const stakeStatus = $('stake-status');
+    const w = stakeWiring();
+    if (!w.live) { note(stakeStatus, 'warn', 'Staking is not live yet.'); return; }
+    if (!signer || !account) { note(stakeStatus, 'err', 'Connect a wallet first.'); return; }
+    const amt = Number.parseFloat(($('stake-amt') || {}).value);
+    const weeks = Number.parseFloat(($('stake-weeks') || {}).value);
+    if (!(amt > 0)) { note(stakeStatus, 'warn', 'Enter an amount of KULA to lock.'); return; }
+    if (!(weeks > 0)) { note(stakeStatus, 'warn', 'Enter a lock length (1–208 weeks).'); return; }
+    try {
+      const { ethers } = { ethers: await getEthers() };
+      const durSec = Math.min(Math.floor(weeks * SECONDS_PER_WEEK), w.maxLockSeconds);
+      note(stakeStatus, 'warn', 'Switch to PRANA mainnet in your wallet…');
+      await ensureMainnet();
+      const amtUnits = ethers.parseUnits(String(amt), 18);
+      await ensureAllowance(w.kula, w.veKula, amtUnits, w.approve, stakeStatus);
+      note(stakeStatus, 'warn', 'Confirm the lock in your wallet…');
+      await sendDescriptor(w.lock(amtUnits.toString(), durSec));
+      note(stakeStatus, 'ok', `Locked ${amt} KULA for ${Math.round(weeks)} weeks → veKULA.`);
+    } catch (e) { note(stakeStatus, 'err', `Lock failed: ${esc((e && e.shortMessage) || (e && e.message) || e)}`); }
   }
 
   async function ensureChain() {
@@ -301,6 +404,13 @@ function mount(doc = document) {
   if (refreshBtn) refreshBtn.addEventListener('click', refreshQuote);
   connectBtn.addEventListener('click', connect);
   swapBtn.addEventListener('click', doSwap);
+
+  // Borrow / Stake transactional CTAs (mainnet CDP + veKULA).
+  const cdpCta = $('cdp-cta'); if (cdpCta) cdpCta.addEventListener('click', doBorrow);
+  const stakeCta = $('stake-cta'); if (stakeCta) stakeCta.addEventListener('click', doStake);
+  // Reflect the zero-address guard even before connect: a not-live market never offers a live button.
+  if (cdpCta && !cdpMarketLive()) { cdpCta.disabled = true; cdpCta.textContent = 'Borrow not live yet'; }
+  if (stakeCta && !veLive()) { stakeCta.disabled = true; stakeCta.textContent = 'Staking not live yet'; }
 }
 
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
