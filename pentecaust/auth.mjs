@@ -41,6 +41,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { validAccountName } from '../signup/welcome-grant.mjs';
 import { connectMailbox } from './connect/mailbox.mjs';
+import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -146,13 +147,14 @@ export function sessionFromReq(req, opts = {}) {
 }
 
 // The verifier you hand to server.mjs `__setAuthVerifier`: certified account (string) or null.
-// DEV fallback: PENTECAUST_DEV_TRUST=1 (local/testnet ONLY) trusts an asserted x-melek-account header so
-// the reference client + offline suites still work — mirrors the server's own DEV_TRUST seam.
+// DEV fallback: PENTECAUST_DEV_TRUST=1 trusts an asserted x-melek-account header so the reference client +
+// offline suites still work — but ONLY when honorDevTrust() confirms this is a genuinely-local, non-production
+// request (see dev-trust-guard.mjs). Off loopback / in production the header is inert and cannot impersonate.
 const DEV_TRUST = () => env('PENTECAUST_DEV_TRUST', '') === '1';
 export function verifier(req) {
   const s = sessionFromReq(req);
   if (s) return s.account;
-  if (DEV_TRUST()) { const h = (req && req.headers) || {}; const a = h['x-melek-account']; return a ? _acct(a) : null; }
+  if (honorDevTrust(req, DEV_TRUST())) { const h = (req && req.headers) || {}; const a = h['x-melek-account']; return a ? _acct(a) : null; }
   return null;
 }
 
@@ -430,7 +432,7 @@ export async function handler(req, res) {
         // the code MUST be delivered out-of-band to the account owner (email) and never returned — otherwise
         // anyone could request+redeem a code for ANY account (e.g. the witness `hathor`). Email delivery is
         // not wired yet, so production yields no usable code (safe-by-default; the endpoint can't log you in).
-        if (!DEV_TRUST() && r && r.code) delete r.code;
+        if (!honorDevTrust(req, DEV_TRUST()) && r && r.code) delete r.code;
         return send(200, r);
       }
       return send(422, { ok: false, reason: 'account or code required' });
@@ -446,7 +448,7 @@ export async function handler(req, res) {
       // Until that's wired, production REFUSES all linking, so nobody can bind their Google to e.g. 'hathor'
       // and take it over. Testnet (DEV_TRUST) allows it for the demo, on a SEPARATE auth store
       // (PENTECAUST_AUTH_DATA) so a testnet link can never carry into production.
-      if (!DEV_TRUST()) return send(403, { ok: false, reason: 'linking requires MELEK-Signer account proof (not yet enabled)' });
+      if (!honorDevTrust(req, DEV_TRUST())) return send(403, { ok: false, reason: 'linking requires MELEK-Signer account proof (not yet enabled)' });
       const r = completeOAuthLink(b.claim, b.account);
       if (!r.ok) return send(400, r);
       return send(200, { ok: true, account: r.account }, { 'set-cookie': setCookie(SESSION_COOKIE, r.token, SESSION_TTL_MS) });
@@ -589,6 +591,7 @@ if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   } else {
     const PORT = +(env('PORT', '8158'));
     const HOST = env('HOST', '127.0.0.1');
-    createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust auth on http://${HOST}:${PORT} (${BASE_URL()})${DEV_TRUST() ? ' — DEV_TRUST on' : ''}`));
+    assertStartupSafe({ host: HOST });   // refuse to serve if a dev-trust flag is set in production (auth-bypass)
+    createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust auth on http://${HOST}:${PORT} (${BASE_URL()})${DEV_TRUST() ? ' — DEV_TRUST on (local only)' : ''}`));
   }
 }

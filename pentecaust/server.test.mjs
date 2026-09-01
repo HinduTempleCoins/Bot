@@ -18,7 +18,8 @@ function cap() {
 }
 function req(path, method = 'GET', bodyObj, headers) {
   const h = {};
-  const r = { url: path, method, headers: { ...(headers || {}) }, socket: { remoteAddress: '1.2.3.4' }, on: (e, fn) => { h[e] = fn; return r; }, destroy: () => {} };
+  // loopback socket: dev-trust (query-asserted identity) is honored ONLY for genuinely-local requests now.
+  const r = { url: path, method, headers: { ...(headers || {}) }, socket: { remoteAddress: '127.0.0.1' }, on: (e, fn) => { h[e] = fn; return r; }, destroy: () => {} };
   queueMicrotask(() => { if (bodyObj !== undefined && h.data) h.data(JSON.stringify(bodyObj)); if (h.end) h.end(); });
   return r;
 }
@@ -244,4 +245,56 @@ test('herald: /me/mailbox + send step from the connected mailbox (moves lead to 
   ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/stats?account=ray'), res);
   assert.equal(j(o).stats.byStage.contacted, 1, 'lead moved to contacted after send');
   setMbFetch(null);
+});
+
+// ── invites (the signup gate) — mounted behind VERIFIED identity (session / MELEK-Signer), not dev-trust ──
+let _inv = 0;
+const freshInvites = () => (process.env.INVITES_DATA = `/tmp/pentecaust-invites-srv-${process.pid}-${_inv++}.json`);
+
+test('invites: deny-by-default — issue/redeem/standing require a verified identity (401)', async () => {
+  freshInvites(); __setAuthVerifier(null);
+  // no session cookie + no injected verifier → the dev-trust header/query fallback is NOT consulted for invites
+  let { res, o } = cap(); await handler(req('/invites/issue', 'POST', { account: 'hathor' }), res);
+  assert.equal(o.code, 401, 'issue needs a verified identity');
+  ({ res, o } = cap()); await handler(req('/invites/redeem', 'POST', { code: 'x', account: 'hathor' }), res);
+  assert.equal(o.code, 401, 'redeem needs a verified identity');
+  ({ res, o } = cap()); await handler(req('/invites/standing?account=hathor'), res);
+  assert.equal(o.code, 401, 'standing needs a verified identity');
+});
+
+test('invites: a session-verified root issues a copyable link, a new account redeems it (create→join flow)', async () => {
+  freshInvites(); __setAuthVerifier(null);
+  // hathor (root, verified by a real signed session) issues an invite → returned as a copyable link, no email sent
+  let { res, o } = cap(); await handler(req('/invites/issue', 'POST', {}, cookie('hathor')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).ok, true);
+  const code = j(o).code; assert.ok(code);
+  assert.match(j(o).url, /\/\?invite=/, 'issuance returns a copyable invite link');
+
+  // the code checks out on the PUBLIC validity endpoint (a landing page can pre-check it)
+  ({ res, o } = cap()); await handler(req('/invites/check?code=' + encodeURIComponent(code)), res);
+  assert.equal(o.code, 200); assert.equal(j(o).ok, true); assert.equal(j(o).inviter, 'hathor');
+
+  // newbie signs in (session) and redeems → registered into the tree with their own fresh fan-out
+  ({ res, o } = cap()); await handler(req('/invites/redeem', 'POST', { code }, cookie('newbie')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).ok, true);
+  assert.equal(j(o).account, 'newbie'); assert.equal(j(o).invitedBy, 'hathor');
+
+  // standing reflects the new membership + lineage back to root
+  ({ res, o } = cap()); await handler(req('/invites/standing', 'GET', undefined, cookie('newbie')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).standing.registered, true);
+  assert.deepEqual(j(o).lineage, ['newbie', 'hathor']);
+});
+
+test('invites: identity is the verified session, never a spoofable body/query field', async () => {
+  freshInvites(); __setAuthVerifier(null);
+  // alice (session) issues; a body/query claiming to be hathor is ignored — the code is issued AS alice.
+  // first register alice via a root invite
+  let { res, o } = cap(); await handler(req('/invites/issue', 'POST', {}, cookie('hathor')), res);
+  const rootCode = j(o).code;
+  ({ res, o } = cap()); await handler(req('/invites/redeem', 'POST', { code: rootCode }, cookie('alice')), res);
+  assert.equal(j(o).ok, true);
+  // alice now issues, while dishonestly asserting inviter/account = hathor in the body + query
+  ({ res, o } = cap()); await handler(req('/invites/issue?account=hathor', 'POST', { account: 'hathor', inviter: 'hathor' }, cookie('alice')), res);
+  assert.equal(o.code, 200); assert.equal(j(o).ok, true);
+  assert.equal(j(o).inviter, 'alice', 'issued AS the verified session account, not the claimed one');
 });

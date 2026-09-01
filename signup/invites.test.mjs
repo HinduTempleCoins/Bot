@@ -242,3 +242,20 @@ test('handler: code check is public; standing/lineage are scoped to the caller',
   assert.equal(o.code, 403);
   __setAuthVerifier(null);
 });
+
+// ── SECURITY: the dev-trust x-melek-account fallback is honored ONLY for a genuinely-local request ──
+test('handler: INVITES_DEV_TRUST header issues on loopback, but is IGNORED off-loopback (no impersonation)', () => {
+  process.env.INVITES_DATA = freshFile();
+  __setAuthVerifier(null);                                  // no injected verifier → the dev-trust path governs
+  process.env.INVITES_DEV_TRUST = '1';
+  const local = (p, m = 'POST') => ({ url: p, method: m, headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '127.0.0.1' } });
+  const remote = (p, m = 'POST') => ({ url: p, method: m, headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '203.0.113.7' } });
+  // local: root (hathor) can issue via the asserted header
+  let { res, o } = cap(); handler(local('/issue'), res);
+  assert.equal(o.code, 200); assert.equal(J(o).ok, true); assert.equal(J(o).inviter, 'hathor');
+  // remote: the same header authenticates no one → deny-by-default 401 (cannot issue AS hathor from a public origin)
+  ({ res, o } = cap()); handler(remote('/issue'), res);
+  assert.equal(o.code, 401);
+  delete process.env.INVITES_DEV_TRUST;
+  __setAuthVerifier(null);
+});
