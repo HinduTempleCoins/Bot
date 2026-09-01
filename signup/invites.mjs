@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { validAccountName } from './welcome-grant.mjs';
+import { honorDevTrust } from './dev-trust-guard.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -227,13 +228,15 @@ export function inviteStats(opts = {}) {
 // The acting account is resolved from a VERIFIED source, never a spoofable query/body field — otherwise
 // anyone issues invites AS anyone (auth bypass). Production injects a verifier (MELEK-Signer bearer /
 // session → certified account); identity DENIES by default (401). INVITES_DEV_TRUST=1 (local dev / tests
-// ONLY, never a public origin) trusts an asserted `x-melek-account` header so the gate is testable.
+// ONLY, never a public origin) trusts an asserted `x-melek-account` header so the gate is testable — but
+// ONLY when honorDevTrust() confirms a genuinely-local, non-production request (dev-trust-guard.mjs). Off
+// loopback / in production the header is inert and cannot impersonate an inviter.
 let _verifyAuth = null;
 export function __setAuthVerifier(fn) { _verifyAuth = typeof fn === 'function' ? fn : null; }
 const DEV_TRUST = () => env('INVITES_DEV_TRUST', '') === '1';
 function whoami(req) {
   if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? String(a).toLowerCase() : null; } catch { return null; } }
-  if (DEV_TRUST()) { const h = (req && req.headers) || {}; const a = h['x-melek-account']; return a ? String(a).toLowerCase() : null; }
+  if (honorDevTrust(req, DEV_TRUST())) { const h = (req && req.headers) || {}; const a = h['x-melek-account']; return a ? String(a).toLowerCase() : null; }
   return null;
 }
 

@@ -96,13 +96,13 @@ function cap() {
   return { res: { writeHead: (c, h) => { o.code = c; o.headers = h || {}; }, end: (b) => { o.body = b || ''; } }, o };
 }
 const J = (o) => { try { return JSON.parse(o.body); } catch { return {}; } };
-// minimal GET request object
-const getReq = (path, cookie) => ({ url: path, method: 'GET', headers: cookie ? { cookie } : {} });
+// minimal GET request object — loopback socket so the dev-trust fallback is honorable when the flag is on.
+const getReq = (path, cookie) => ({ url: path, method: 'GET', headers: cookie ? { cookie } : {}, socket: { remoteAddress: '127.0.0.1' } });
 // POST request object with a JSON body (drives the handler's readJson)
 function postReq(path, bodyObj, cookie) {
   const body = JSON.stringify(bodyObj || {});
   const handlers = {};
-  const req = { url: path, method: 'POST', headers: cookie ? { cookie } : {}, on: (ev, fn) => { handlers[ev] = fn; return req; }, destroy() {} };
+  const req = { url: path, method: 'POST', headers: cookie ? { cookie } : {}, socket: { remoteAddress: '127.0.0.1' }, on: (ev, fn) => { handlers[ev] = fn; return req; }, destroy() {} };
   // fire the body asynchronously so the handler can attach listeners first
   queueMicrotask(() => { handlers.data && handlers.data(body); handlers.end && handlers.end(); });
   return req;
@@ -476,4 +476,24 @@ test('oauth connect (Herald): session-gated; callback stores the sending mailbox
   assert.ok(mb && mb.email === 'seller@gmail.com', 'mailbox connected for the session account');
   assert.equal(mb.accessToken, undefined, 'no token leaked to the public view');
   __setFetch(null);
+});
+
+// ── SECURITY: the dev-trust header fallback is honored ONLY for a genuinely-local request ──
+test('verifier: dev-trust x-melek-account is honored on loopback, IGNORED off-loopback (no impersonation)', () => {
+  process.env.PENTECAUST_DEV_TRUST = '1';
+  // local dev/tests: the asserted header identity is trusted (so the reference client + suite work)
+  const local = { headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '127.0.0.1' } };
+  assert.equal(verifier(local), 'hathor');
+  // a public request (or one via a proxy) can assert nothing — the header is inert, so no impersonation
+  const remote = { headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '203.0.113.7' } };
+  assert.equal(verifier(remote), null);
+  const proxied = { headers: { 'x-melek-account': 'hathor', 'x-forwarded-for': '203.0.113.7' }, socket: { remoteAddress: '127.0.0.1' } };
+  assert.equal(verifier(proxied), null);
+  delete process.env.PENTECAUST_DEV_TRUST;
+});
+
+test('verifier: with the flag OFF, the header never authenticates anyone (even locally)', () => {
+  delete process.env.PENTECAUST_DEV_TRUST;
+  const local = { headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '127.0.0.1' } };
+  assert.equal(verifier(local), null);
 });

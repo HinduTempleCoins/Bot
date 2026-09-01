@@ -38,6 +38,8 @@ import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, se
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
 import { handler as mediaHandler } from './media.mjs';
+import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage } from '../signup/invites.mjs';
+import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -61,9 +63,19 @@ function whoami(req, asserted) {
   try { const s = sessionFromReq(req); if (s && s.account) return s.account; } catch {}
   // 2) A production-injected verifier (e.g. a MELEK-Signer bearer token).
   if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? _acct(a) : null; } catch { return null; } }
-  // 3) Dev-trust asserted identity — testnet/local + the offline suite only (the ?me=/from fallback that
-  //    keeps the Condenser deep-links and bots working before everyone has logged in).
-  if (DEV_TRUST()) return _acct(asserted);
+  // 3) Dev-trust asserted identity — the ?me=/from fallback that keeps the Condenser deep-links, the
+  //    reference client and the offline suite working before everyone has logged in. Honored ONLY for a
+  //    genuinely-local, non-production request (dev-trust-guard.mjs); inert on any public/proxied origin.
+  if (honorDevTrust(req, DEV_TRUST())) return _acct(asserted);
+  return null;
+}
+
+// Verified identity for the invite gate: a signed session or the injected MELEK-Signer verifier ONLY —
+// deliberately NOT the dev-trust header/query fallback. Issuing or redeeming AS an account demands proof you
+// control that account (a MELEK-Signer login), never a named field. Denies by default (null).
+function verifiedAccount(req) {
+  try { const s = sessionFromReq(req); if (s && s.account) return s.account; } catch {}
+  if (_verifyAuth) { try { const a = _verifyAuth(req); return a ? _acct(a) : null; } catch { return null; } }
   return null;
 }
 
@@ -182,6 +194,17 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, mailbox: getMailbox(me) }, origin);
     }
+    // ── invites (the signup gate) ─────────────────────────────────────────────────────────────────
+    // Code-validity check is PUBLIC (codes are 64-bit-random, unguessable) so a landing page can pre-check
+    // an invite link before asking someone to sign in.
+    if (method === 'GET' && path === '/invites/check') {
+      return json(res, 200, requireInvite(q.get('code')), origin);
+    }
+    // Your own invite standing + lineage — VERIFIED identity only (never a named account → no enumeration).
+    if (method === 'GET' && path === '/invites/standing') {
+      const me = verifiedAccount(req); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, standing: invitesFor(me), lineage: inviteLineage(me) }, origin);
+    }
     if (method === 'GET' && path === '/dm') {
       const me = whoami(req, q.get('me')); if (!me) return unauth(res, origin);
       const wth = _acct(q.get('with'));
@@ -236,6 +259,24 @@ export async function handler(req, res) {
       }
       // A reader's preferred language (used for the localized "Translate?" label). Private → auth.
       if (path === '/me/prefs') { const me = who(b.account); if (!me) return unauth(res, origin); return json(res, 200, setLang(me, b.lang), origin); }
+
+      // ── invites (the signup gate) — VERIFIED identity only (session / MELEK-Signer), never a named field ──
+      // Issue: mint one single-use invite AS the verified caller, returned as a copyable LINK — zero
+      // server-side email send (the inviter shares the link themselves; honors the no-outbound deferral).
+      if (path === '/invites/issue') {
+        const me = verifiedAccount(req); if (!me) return unauth(res, origin);
+        const r = issueInvite(me);
+        if (r && r.ok) r.url = `${BASE_URL}/?invite=${encodeURIComponent(r.code)}`;
+        return json(res, 200, r, origin);
+      }
+      // Redeem → join: the caller PROVED they control this account (MELEK-Signer session). Redeeming a valid
+      // invite registers them into the invite tree and grants their own fan-out. The account is created/proven
+      // via the MELEK-Signer signup path (separate); here we gate + record membership. Registers the VERIFIED
+      // account only — a query/body `account` can never register someone else.
+      if (path === '/invites/redeem') {
+        const me = verifiedAccount(req); if (!me) return unauth(res, origin);
+        return json(res, 200, redeemInvite(b.code, me), origin);
+      }
 
       if (segs[0] === 'teams' && segs[1]) {
         const id = segs[1]; const op = segs[2];
@@ -548,8 +589,10 @@ async function initAuth(){const bar=$('authbar');
  const s=await api('/auth/me');
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
   bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'+
-   '<a class=btn href="/auth/logout" style="margin-left:auto">Log out</a>';
-  if(me())loadFriends();return;}
+   '<button class=btn id=invBtn style="margin-left:auto">Invite a friend</button>'+
+   '<a class=btn href="/auth/logout">Log out</a>';
+  $('invBtn').onclick=inviteFriend;
+  if(me())loadFriends();maybeRedeemInvite();return;}
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
   '<button class=btn id=mkBtn>Login with MELEK</button>'+
   '<a class=btn href="/auth/google">Continue with Google</a>'+
@@ -567,6 +610,24 @@ async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time 
  // Testnet: the code is returned so we redeem it immediately. In production it is emailed, not returned.
  const j=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:r.code})});
  if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not sign in');}
+
+// ---- invites (the signup gate: copyable links, no email send) ----
+// Issue one invite AS the signed-in account and hand back a copyable link. Zero server-side send — you
+// share the link yourself. Falls back to a prompt() the user can copy if the clipboard API is unavailable.
+async function inviteFriend(){
+ const r=await api('/invites/issue',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({})});
+ if(!r||!r.ok){alert((r&&r.reason)||'no invites remaining');return;}
+ const url=r.url||(location.origin+'/?invite='+encodeURIComponent(r.code));
+ const left=(r.remaining===null||r.remaining==null)?'':(' ('+r.remaining+' invites left)');
+ try{await navigator.clipboard.writeText(url);alert('Invite link copied — share it with a friend'+left+':\n\n'+url);}
+ catch(e){prompt('Copy this invite link and share it'+left+':',url);}}
+// If the page was opened from an invite link (?invite=CODE) while signed in, redeem it to join the tree.
+async function maybeRedeemInvite(){
+ const code=_params.get('invite');if(!code)return;
+ const chk=await api('/invites/check?code='+encodeURIComponent(code));
+ if(!chk||!chk.ok){return;}   // unknown/used code → silently ignore (already a member, or a stale link)
+ const r=await api('/invites/redeem',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:code})});
+ if(r&&r.ok)alert('Invite redeemed — welcome. You now have your own invites to share.');}
 
 // ---- init ----
 syncMail();if(me())loadFriends();initAuth();
@@ -644,6 +705,7 @@ if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   // L1: surface a misconfiguration that would otherwise be silent — without the secret, login sessions use a
   // per-process random key and don't survive a restart (and dev-trust without it = no real auth at all).
   if (!process.env.PENTECAUST_SESSION_SECRET && !DEV_TRUST()) console.warn('[pentecaust] WARNING: PENTECAUST_SESSION_SECRET is unset — login sessions use a per-process random secret and will NOT survive a restart. Set it in production.');
+  assertStartupSafe({ host: HOST });   // refuse to serve if a dev-trust flag is set in production (auth-bypass foot-gun)
   registerMethod('melek-signer', makeMelekSignerVerify()); // "Login with MELEK" via the deployed signer (MELEK_SIGNER_URL)
-  createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; DEV ONLY)' : ''}`));
+  createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; local only)' : ''}`));
 }
