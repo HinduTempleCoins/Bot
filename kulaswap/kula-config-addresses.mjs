@@ -61,7 +61,8 @@ export const MAINNET_ADDR = Object.freeze({
   mMELEK:   '0x8c4B882D7379D35413E2a9202f63B53f893D1A9D', // MelekBorrowNote — the CDP debt synthetic
   wMELEK:   '0xf6d9BE2859191b45820Df3A3B3b321b1b2589AB9', // bridge asset (NOT the CDP debt token)
   oracle:   '0x905B3505037E49771B35F9f3944D8EC2B9eF3AFD', // SimplePriceOracle (CDP collateral price)
-  cdpVault: '0x9cdAe72de19F93947cE3B4d5329FA81A5ef53ba2', // CDPVault: lock KULA → borrow mMELEK, 50% LTV
+  cdpVault: '0x9cdAe72dE19F93947cE3B4d5329FA81A5ef53ba2', // CDPVault: lock KULA → borrow mMELEK, 50% LTV
+                                                          // (EIP-55: the 'dE' is checksum-correct; ethers v6 REJECTS a bad checksum on tx `to`)
   veKULA:   '0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438', // VoteEscrow: lock KULA → boost + votes (4y max)
   DAOTimelock: '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4', // admin of the emission-only tokens (2-day)
   ...ovM,
