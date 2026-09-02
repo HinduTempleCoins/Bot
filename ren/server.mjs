@@ -18,6 +18,10 @@ const reg = () => process.env.REN_REGISTRAR || ''; // read lazily so runtime/tes
 const CHAIN_ID = Number(process.env.PRANA_CHAIN_ID || 108369);
 const CHAIN_ID_HEX = '0x' + CHAIN_ID.toString(16);
 const TLDS = (process.env.REN_TLDS || 'melek,prana,kula').split(',').map((s) => s.trim());
+// Network label derived from the chain id — so the badge tells the truth on whichever network REN runs.
+// PRANA mainnet = 712217 (bare domain), PRANA testnet = 108369 (alpha.*). No hardcoded "testnet".
+export const NET_LABEL = CHAIN_ID === 712217 ? 'PRANA mainnet' : (CHAIN_ID === 108369 ? 'PRANA testnet' : `PRANA ${CHAIN_ID}`);
+const BADGE = CHAIN_ID === 712217 ? NET_LABEL : `Alpha · ${NET_LABEL}`;
 
 export function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -110,7 +114,7 @@ function page() {
   a{color:var(--blue)}
   .grid{display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;margin-top:.6rem}
 </style></head><body><div class=wrap>
-  <span class=badge>Alpha · PRANA testnet</span>
+  <span class=badge>${esc(BADGE)}</span>
   <h1><span class=dia>◈</span> REN</h1>
   <div class=sub>Your true name on MELEK. Claim a <b>${tlds}</b> name — resolves to your wallet &amp; site, leased annually, paid in PRANA or KULA. No ICANN, no Web3 resolver — our chain, our names.</div>
 
