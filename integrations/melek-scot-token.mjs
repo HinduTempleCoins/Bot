@@ -25,8 +25,10 @@ export const MELEK_SCOT = Object.freeze({
   // gets value (specs, scarcity, inflation) vs. why real fiat has none.
   name: process.env.MELEK_SCOT_NAME || 'FIAT',
   symbol: process.env.MELEK_SCOT_SYMBOL || 'FIAT',
-  precision: 3,
+  precision: 8,                                          // matches the operator's HE tokens (CURE/VKBT precision 8)
   chain: 'MELEK-Engine',
+  // Rarity positioned deliberately BETWEEN the operator's two HE tokens (real Hive-Engine caps, 2026-09-02):
+  // CURE max 20,000,000 (rarer) < FIAT 100,000,000 < VKBT max 500,000,000 (less rare). 100M ≈ geometric mid.
   maxSupply: process.env.MELEK_SCOT_MAX_SUPPLY || '100000000',
   emissionPerWindow: process.env.MELEK_SCOT_EMISSION || '1000',
   windowBlocks: BLOCKS_PER_DAY,

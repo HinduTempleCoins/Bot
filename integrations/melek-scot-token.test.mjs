@@ -46,6 +46,12 @@ test('announcement: distributes alongside MELEK, no tag, stake to curate, Hathor
   assert.match(a, /@hathor stakes it/i);
 });
 
+test('FIAT rarity sits between CURE (20M) and VKBT (500M) — less rare than CURE, more rare than VKBT', () => {
+  const cap = BigInt(MELEK_SCOT.maxSupply);
+  assert.ok(cap > 20000000n, 'FIAT cap must exceed CURE (20M) → less rare than CURE');
+  assert.ok(cap < 500000000n, 'FIAT cap must be under VKBT (500M) → more rare than VKBT');
+});
+
 test('status flags it as SCOT/MELEK-Engine, universal, and name PROVISIONAL', () => {
   const s = status();
   assert.equal(s.kind, 'SCOT');
