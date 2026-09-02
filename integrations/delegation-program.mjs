@@ -23,8 +23,10 @@ const lc = (s) => String(s || '').toLowerCase();
 const num = (v) => (Number.isFinite(+v) ? +v : 0);
 
 export const PROGRAM = Object.freeze({
-  pool: (process.env.DELEGATION_POOL || 'hathor').toLowerCase(),
-  token: process.env.DELEGATION_TOKEN || 'SOULA',            // SOULAVA — the delegation-mining token (name TBD-lock)
+  // The delegation + witness + mining account is @kula (operator: "make it like KULA-SOULAVA"): you delegate
+  // MELEK to @kula, and earn SOULAVA — the KULA↔SOULAVA pair (KULA the account, SOULAVA the reward).
+  pool: (process.env.DELEGATION_POOL || 'kula').toLowerCase(),
+  token: process.env.DELEGATION_TOKEN || 'SOULA',            // SOULAVA — the delegation-mining reward (on PRANA)
   emissionPerDay: num(process.env.DELEGATION_EMISSION_PER_DAY) || 1000, // SOUL/day across the pool
   operatorCutBps: num(process.env.DELEGATION_OPERATOR_CUT_BPS) || 1000, // 10% of shared pool rewards to the operator
 });

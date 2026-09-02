@@ -56,7 +56,7 @@ test('ledger projects share + earned, sorted by stake', () => {
 test('joinLink points at the Signer delegation approval (user consent), carries pool/vests/ref', () => {
   const link = joinLink({ vests: 5000, referrer: 'Hathor', signerUrl: 'https://signer.example' });
   assert.match(link, /^https:\/\/signer\.example\/delegate\?/);
-  assert.match(link, /to=hathor/);
+  assert.match(link, /to=kula/);
   assert.match(link, /vests=5000/);
   assert.match(link, /ref=hathor/);
 });
