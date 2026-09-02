@@ -1,7 +1,7 @@
 // vote-command.test.mjs — offline. `node --test`. Injected fetch; no network.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseVoteCommand, isAuthorized, effectiveWeightBps, voteOp, handleCommand } from './vote-command.mjs';
+import { parseVoteCommand, isAuthorized, effectiveWeightBps, voteOp, handleCommand, cooldownRemaining, announcement, DAILY_COOLDOWN_MS } from './vote-command.mjs';
 
 const LEDGER = { delegators: [
   { account: 'whale', vests: 900, share: 0.9 },
@@ -53,6 +53,29 @@ test('handleCommand: stranger refused (must delegate); bad syntax explained; no 
   assert.match(refuse, /Delegate/i);
   const bad = await handleCommand({ text: '!vote nonsense', caller: 'whale', ledger: LEDGER, token: 'T' });
   assert.match(bad, /couldn't parse/i);
+});
+
+test('once a day per account: a second call within 24h is refused, records on success', async () => {
+  const ok = async () => ({ ok: true, json: async () => ({ ok: true, result: {} }) });
+  const lastCalls = {};
+  const t0 = 1_700_000_000_000;
+  const r1 = await handleCommand({ text: '!vote @author/post', caller: 'whale', token: 'T', ledger: LEDGER, lastCalls, now: t0, fetch: ok });
+  assert.match(r1, /Cast/);
+  assert.equal(lastCalls.whale, t0);                                   // recorded
+  const r2 = await handleCommand({ text: '!vote @author/post', caller: 'whale', token: 'T', ledger: LEDGER, lastCalls, now: t0 + 3600000, fetch: ok });
+  assert.match(r2, /once per account per day|already called/i);        // refused, ~23h left
+  const r3 = await handleCommand({ text: '!vote @author/post', caller: 'whale', token: 'T', ledger: LEDGER, lastCalls, now: t0 + DAILY_COOLDOWN_MS + 1, fetch: ok });
+  assert.match(r3, /Cast/);                                            // allowed after a day
+  assert.equal(cooldownRemaining('minnow', lastCalls, { now: t0 }), 0); // untouched account is ready
+});
+
+test('announcement explains the callable vote: delegators only, once a day, no downvotes', () => {
+  const a = announcement({ pool: 'hathor' });
+  assert.match(a, /!vote/);
+  assert.match(a, /once a day|per account per day|24 hours/i);
+  assert.match(a, /delegat/i);
+  assert.match(a, /never move funds|cannot|can never move/i);
+  assert.match(a, /No downvotes/i);
 });
 
 test('handleCommand: a broadcast failure comes back as text, never an exception', async () => {
