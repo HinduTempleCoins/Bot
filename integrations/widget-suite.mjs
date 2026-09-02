@@ -93,6 +93,18 @@ export const WIDGETS = Object.freeze([
     note: 'Best embedded as an iframe of the ad-maker page; buildAdSvg() can also be called server-side.',
   },
   {
+    id: 'melek-login',
+    name: 'Login with MELEK',
+    tagline: 'A "Log in with MELEK" button for ANY site — the login option, other places.',
+    category: 'identity',
+    mount: 'script',
+    asset: 'melek-login-embed.js',
+    source: 'integrations/melek-login-embed.mjs',
+    configGlobal: 'MelekLogin',
+    exampleConfig: { clientId: 'your-app', target: '#melek-login', scope: 'identity' },
+    note: 'Opens the MELEK-Signer consent popup; the signer postback postMessages the verified account back. No password/key/token touches the host page. Fires a `melek:login` event + MelekLogin.onLogin({account,onchain}).',
+  },
+  {
     id: 'report',
     name: 'Report / Flag',
     tagline: 'An honest "send this to a human for review" control for posts, comments, or accounts.',
