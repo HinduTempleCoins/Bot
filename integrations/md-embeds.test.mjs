@@ -41,6 +41,17 @@ test('[comments], [video], [chat], [translate] shortcodes', () => {
   assert.match(expandShortcodes('[translate]'), /data-widget="translate"/);
 });
 
+test('[video] with a javascript:/data: URI is NOT rendered as a link (XSS guard)', () => {
+  const js = expandShortcodes('[video javascript:alert(1)]');
+  assert.doesNotMatch(js, /href="javascript:/i);   // no clickable javascript: scheme
+  assert.doesNotMatch(js, /<a\s/i);                 // rendered as inert escaped text, not a link
+  const data = expandShortcodes('[video data:text/html,<script>alert(1)</script>]');
+  assert.doesNotMatch(data, /href="data:/i);
+  assert.doesNotMatch(data, /<script/i);
+  // a real http(s) non-video link still renders (with nofollow), safely escaped
+  assert.match(expandShortcodes('[video https://evil.example/x]'), /<a href="https:\/\/evil\.example\/x" rel="nofollow"/);
+});
+
 test('expandEmbeds runs both passes; output carries NO inline JS (loader hydrates data-*)', () => {
   const md = '<p><a href="https://www.youtube.com/watch?v=abc">https://www.youtube.com/watch?v=abc</a></p>'
     + '<p>[follow @hathor] [chat]</p>';

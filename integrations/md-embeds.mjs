@@ -23,6 +23,10 @@ import { allowedEmbed } from './soapbox/embed-whitelist.mjs';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+// Only http(s) may become a link href — esc() does NOT neutralize a `javascript:`/`data:` scheme, so a
+// bare esc'd href is an XSS. Returns the url for http(s), else '' (caller renders inert escaped text).
+const safeHref = (u) => (/^https?:\/\//i.test(String(u || '').trim()) ? String(u).trim() : '');
+
 // Our own first-party video surfaces — kindred to the allowlisted providers, framed as our own player.
 const MELEK_VIDEO_HOSTS = ['engine.melek.salon', 'stream.soapbox.community', 'watch.melek.salon', 'player.soapbox.community'];
 function melekEmbed(url) {
@@ -74,7 +78,9 @@ function shortcodeHtml(name, arg) {
     }
     case 'video': {
       const html = a && videoEmbedHtml(a);
-      return html || `<a href="${esc(a)}" rel="nofollow">${esc(a)}</a>`;
+      if (html) return html;
+      const href = safeHref(a);                       // reject javascript:/data:/etc. — no clickable scheme injection
+      return href ? `<a href="${esc(href)}" rel="nofollow">${esc(a)}</a>` : esc(a);
     }
     case 'chat':
       return `<div class="melek-widget" data-widget="chat"></div>`;
