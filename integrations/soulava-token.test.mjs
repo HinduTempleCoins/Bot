@@ -5,7 +5,7 @@ import { SOULAVA, toWei, mintCall, distributionPlan, announcement, status } from
 
 test('SOULAVA is a PRANA ERC-20 (18 decimals), pairs with MWALI', () => {
   assert.equal(SOULAVA.chain, 'PRANA');
-  assert.equal(SOULAVA.symbol, 'SOUL');
+  assert.equal(SOULAVA.symbol, 'SOULA');
   assert.equal(SOULAVA.decimals, 18);
   assert.equal(SOULAVA.pairsWith, 'MWALI');
 });
@@ -21,7 +21,7 @@ test('mintCall is a distributor.mint(to, wei) descriptor', () => {
   const c = mintCall('0x1111111111111111111111111111111111111111', 3);
   assert.equal(c.fn, 'mint');
   assert.deepEqual(c.args, ['0x1111111111111111111111111111111111111111', '3000000000000000000']);
-  assert.equal(c.token, 'SOUL');
+  assert.equal(c.token, 'SOULA');
 });
 
 test('distributionPlan maps earned SOUL → PRANA mint calls; unresolved addresses are skipped, not zeroed', () => {
@@ -50,5 +50,5 @@ test('announcement says PRANA + KulaSwap, honest status', () => {
 });
 
 test('status: ERC-20 on PRANA, pairs with MWALI', () => {
-  assert.deepEqual(status(), { name: 'SOULAVA', symbol: 'SOUL', kind: 'ERC-20', chain: 'PRANA', status: 'design', pairsWith: 'MWALI', role: 'delegation-mining reward' });
+  assert.deepEqual(status(), { name: 'SOULAVA', symbol: 'SOULA', kind: 'ERC-20', chain: 'PRANA', status: 'design', pairsWith: 'MWALI', role: 'delegation-mining reward' });
 });

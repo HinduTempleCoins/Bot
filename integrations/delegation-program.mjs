@@ -24,7 +24,7 @@ const num = (v) => (Number.isFinite(+v) ? +v : 0);
 
 export const PROGRAM = Object.freeze({
   pool: (process.env.DELEGATION_POOL || 'hathor').toLowerCase(),
-  token: process.env.DELEGATION_TOKEN || 'SOUL',            // SOULAVA — the delegation-mining token (name TBD-lock)
+  token: process.env.DELEGATION_TOKEN || 'SOULA',            // SOULAVA — the delegation-mining token (name TBD-lock)
   emissionPerDay: num(process.env.DELEGATION_EMISSION_PER_DAY) || 1000, // SOUL/day across the pool
   operatorCutBps: num(process.env.DELEGATION_OPERATOR_CUT_BPS) || 1000, // 10% of shared pool rewards to the operator
 });

@@ -21,7 +21,7 @@ const num = (v) => (Number.isFinite(+v) ? +v : 0);
 
 export const SOULAVA = Object.freeze({
   name: process.env.SOULAVA_NAME || 'SOULAVA',
-  symbol: process.env.DELEGATION_TOKEN || PROGRAM.token || 'SOUL',
+  symbol: process.env.DELEGATION_TOKEN || PROGRAM.token || 'SOULA',
   decimals: 18,                                             // EVM standard (matches KULA/MWALI on PRANA)
   chain: 'PRANA',
   maxSupply: process.env.SOULAVA_MAX_SUPPLY || '100000000', // 100M cap

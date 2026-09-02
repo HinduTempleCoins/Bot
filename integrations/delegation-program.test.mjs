@@ -96,7 +96,7 @@ test('a delegation can be sourced from a SCOT-token stake, not just MELEK vests'
 });
 
 test('the mining token is SOULAVA (SOUL) by default', () => {
-  assert.equal(PROGRAM.token, 'SOUL');
+  assert.equal(PROGRAM.token, 'SOULA');
 });
 
 test('upsertDelegation adds then updates a delegator', () => {
