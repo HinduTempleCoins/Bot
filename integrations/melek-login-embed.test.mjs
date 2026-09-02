@@ -37,8 +37,13 @@ test('postbackHtml postMessages the verified identity to the opener, scoped, the
 });
 
 test('postbackHtml carries an error through instead of a fake account', () => {
-  const html = postbackHtml({ error: 'denied', state: 'n1' });
+  const html = postbackHtml({ error: 'denied', state: 'n1', targetOrigin: 'https://site.example' });
   assert.match(html, /denied/);
+});
+
+test('postbackHtml REFUSES to broadcast the identity (no targetOrigin, or "*")', () => {
+  assert.throws(() => postbackHtml({ account: 'a', state: 'n1' }), /explicit targetOrigin/);
+  assert.throws(() => postbackHtml({ account: 'a', state: 'n1', targetOrigin: '*' }), /explicit targetOrigin/);
 });
 
 test('handler serves the SDK as JavaScript at both paths, 404s the rest', async () => {

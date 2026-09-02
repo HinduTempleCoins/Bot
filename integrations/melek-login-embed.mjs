@@ -130,9 +130,13 @@ export function embedScript({ signer, label = 'Log in with MELEK' } = {}) {
  * verified identity to window.opener (scoped to targetOrigin) and closes. Server passes the already-
  * verified {account, onchain, provider, state}. Values are JSON-encoded + </script>-defanged.
  */
-export function postbackHtml({ account, onchain = true, provider = 'melek', state = '', error = '', targetOrigin = '*' } = {}) {
+export function postbackHtml({ account, onchain = true, provider = 'melek', state = '', error = '', targetOrigin } = {}) {
+  // Never postMessage the identity to '*': the server MUST pass the opener origin it derived from the
+  // OAuth client's registered redirect_uri, so the payload can only reach the site that started the login.
+  const origin = String(targetOrigin || '').trim();
+  if (!origin || origin === '*') throw new Error('postbackHtml: explicit targetOrigin (registered opener origin) required');
   const payload = jsStr(JSON.stringify({ type: 'melek:login', account: account || '', onchain: !!onchain, provider, state, error }));
-  const to = jsStr(targetOrigin || '*');
+  const to = jsStr(origin);
   return `<!doctype html><meta charset=utf-8><title>MELEK login</title>`
     + `<body style="font:14px system-ui;background:#1a1440;color:#f4e9c1;text-align:center;padding:3em">`
     + `<p>Signing you in with MELEK\u2026 you can close this window.</p>`
