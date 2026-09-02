@@ -13,7 +13,11 @@
 //   import * as soul from './soulava-token.mjs'
 
 import { buildTokenSpec } from '../engine/lib/smt-token-spec.mjs';
+import { buildCreateTribeOp } from '../engine/lib/scot-mint.mjs';
 import { PROGRAM } from './delegation-program.mjs';
+
+// MELEK ~4s blocks → ~21600 blocks/day, so emissionPerWindow SOUL per this window ≈ SOUL/day.
+const BLOCKS_PER_DAY = Number(process.env.MELEK_BLOCKS_PER_DAY || 21600);
 
 export const SOULAVA = Object.freeze({
   name: process.env.SOULAVA_NAME || 'SOULAVA',
@@ -66,6 +70,27 @@ author/curator rewards (${SOULAVA.authorCuratorSplit}/${100 - SOULAVA.authorCura
 Watching it work is watching how *any* MELEK-Engine token works: mint, stake, delegate, earn.
 
 *The ring turns. Lend your weight, and share in what it carries.*`;
+}
+
+/**
+ * The MELEK-Engine SCOT mint op (createTribe: create token + enable Scot Bot + founder issue, one op).
+ * Ready to broadcast via the Signer (custom_json, SOCIAL tier). Costs APIS creation+scot fees on the box.
+ * Returns the engine's { ok, op, envelope, summary } — or { ok:false, error }.
+ */
+export function mintOp(account = PROGRAM.pool, overrides = {}) {
+  return buildCreateTribeOp(account, {
+    symbol: SOULAVA.symbol, name: SOULAVA.name, precision: SOULAVA.precision, maxSupply: SOULAVA.maxSupply,
+    emissionPerWindow: String(PROGRAM.emissionPerDay || 1000), windowBlocks: BLOCKS_PER_DAY,
+    authorBps: SOULAVA.authorCuratorSplit * 100, curve: 'linear', tag: 'soulava',
+    url: 'https://melek.salon/@' + (account || PROGRAM.pool),
+    ...overrides,
+  });
+}
+
+/** The full launch bundle: the mint op + the announcement + status. What a deploy step consumes. */
+export function launchBundle({ account = PROGRAM.pool } = {}) {
+  const mint = mintOp(account);
+  return { token: status(), mint, announcement: announcement({ pool: account, minted: false }) };
 }
 
 /** A one-line honest status for a HUD / registry. */
