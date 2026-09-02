@@ -20,6 +20,30 @@ const uc = (s) => String(s || '').toUpperCase();
 // Where earnings go, and who farms them. HATHOR holds/receives; a KEEPER may do the farming and forward.
 export const HATHOR_ACCOUNT = (process.env.HATHOR_KULA_ACCOUNT || 'hathor').toLowerCase();
 
+// EVERY venue Hathor should earn from — the checklist behind "make sure Hathor is earning everything."
+// coverageReport() flags any venue where she has no position yet, so nothing is silently left on the table.
+export const EARNING_VENUES = Object.freeze([
+  { id: 'kula-farm', mechanism: 'farm', rewardToken: 'KULA', chain: 'PRANA', what: 'KulaSwap farm emissions' },
+  { id: 'mwali-gauge', mechanism: 'gauge', rewardToken: 'MWALI', chain: 'PRANA', what: 'Proof-of-Liquidity gauge (LP)' },
+  { id: 'soulava-delegation', mechanism: 'delegation', rewardToken: 'SOUL', chain: 'PRANA', what: 'delegation-mining reward' },
+  { id: 'apis-workerbee', mechanism: 'workerbee', rewardToken: 'APIS', chain: 'MELEK', what: 'forever-lock APIS-Hash mining' },
+  { id: 'melek-scot', mechanism: 'scot-stake', rewardToken: 'HALO', chain: 'MELEK-Engine', what: 'staked SCOT curation' },
+  { id: 'melek-curation', mechanism: 'curation', rewardToken: 'MELEK', chain: 'MELEK', what: 'witness + curation rewards' },
+  { id: 'sprana-staking', mechanism: 'stake', rewardToken: 'SPRANA', chain: 'PRANA', what: 'sPRANA staking' },
+  { id: 'soapbox-staking', mechanism: 'stake', rewardToken: 'SBX', chain: 'PRANA', what: 'SoapBox staking' },
+]);
+
+/**
+ * "Is Hathor earning everything?" — check her positions against EARNING_VENUES. A venue counts as covered
+ * if she has a position paying its rewardToken. Returns covered/missing venues + a coverage percent.
+ */
+export function coverageReport(positions, { venues = EARNING_VENUES } = {}) {
+  const have = new Set((Array.isArray(positions) ? positions : []).map((p) => uc(p.rewardToken)).filter(Boolean));
+  const covered = venues.filter((v) => have.has(uc(v.rewardToken)));
+  const missing = venues.filter((v) => !have.has(uc(v.rewardToken)));
+  return { covered, missing, total: venues.length, coveragePct: venues.length ? Math.round((covered.length / venues.length) * 100) : 0, complete: missing.length === 0 };
+}
+
 /** Pending rewards for one position: explicit `pending`, else staked × ratePerDay × days since last harvest. */
 export function positionPending(pos, { now = Date.now() } = {}) {
   if (!pos) return 0;

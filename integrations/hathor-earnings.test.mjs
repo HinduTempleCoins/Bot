@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   positionPending, pendingRewards, harvestPlan, forwardPlan, settleHarvest, summary, HATHOR_ACCOUNT,
+  EARNING_VENUES, coverageReport,
 } from './hathor-earnings.mjs';
 
 const T0 = 1_700_000_000_000;
@@ -61,6 +62,22 @@ test('settleHarvest zeroes pending + resets the clock after a claim', () => {
   assert.equal(after[0].pending, 0);
   assert.equal(after[0].lastHarvest, T0 + DAY);
   assert.equal(after[1].lastHarvest, T0);          // untouched (not in ids)
+});
+
+test('coverageReport flags which earning venues Hathor is missing (earning everything?)', () => {
+  assert.ok(EARNING_VENUES.length >= 6);
+  // she has KULA + MWALI + SOUL positions but nothing else yet
+  const partial = coverageReport([
+    { rewardToken: 'KULA' }, { rewardToken: 'MWALI' }, { rewardToken: 'SOUL' },
+  ]);
+  assert.equal(partial.complete, false);
+  assert.ok(partial.missing.some((v) => v.rewardToken === 'APIS'));
+  assert.ok(partial.coveragePct > 0 && partial.coveragePct < 100);
+  // a position for every venue → complete
+  const full = coverageReport(EARNING_VENUES.map((v) => ({ rewardToken: v.rewardToken })));
+  assert.equal(full.complete, true);
+  assert.equal(full.coveragePct, 100);
+  assert.deepEqual(full.missing, []);
 });
 
 test('summary gives per-token pending + USD and a total for a HUD / Hathor to describe', () => {

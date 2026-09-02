@@ -1,53 +1,54 @@
-// soulava-token.test.mjs — offline. `node --test`.
+// soulava-token.test.mjs — offline. `node --test`. SOULAVA is a PRANA (EVM) token.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { SOULAVA, soulavaSpec, announcement, status, mintOp, launchBundle } from './soulava-token.mjs';
+import { SOULAVA, toWei, mintCall, distributionPlan, announcement, status } from './soulava-token.mjs';
 
-test('SOULAVA builds a VALID SCOT token spec through the engine builder', () => {
-  const r = soulavaSpec();
-  assert.equal(r.ok, true, r.errors && r.errors.join('; '));
-  assert.equal(r.spec.symbol, SOULAVA.symbol);
-  assert.equal(r.spec.precision, 3);
-  assert.equal(r.spec.authorCuratorSplit.author, 65);
-  assert.ok(r.spec.tags.includes('delegation'));
+test('SOULAVA is a PRANA ERC-20 (18 decimals), pairs with MWALI', () => {
+  assert.equal(SOULAVA.chain, 'PRANA');
+  assert.equal(SOULAVA.symbol, 'SOUL');
+  assert.equal(SOULAVA.decimals, 18);
+  assert.equal(SOULAVA.pairsWith, 'MWALI');
 });
 
-test('announcement is HONEST about status: design until minted', () => {
-  const draft = announcement();
-  assert.match(draft, /not minted yet|design/i);
-  assert.match(draft, /SOULAVA/);
-  const live = announcement({ minted: true });
-  assert.match(live, /is live/i);
+test('toWei converts SOUL (6dp accounting) to 18-decimal base units', () => {
+  assert.equal(toWei(1).toString(), '1000000000000000000');
+  assert.equal(toWei(2.5).toString(), '2500000000000000000');
+  assert.equal(toWei(0.000001).toString(), '1000000000000');    // 1 micro-SOUL
+  assert.equal(toWei(0).toString(), '0');
 });
 
-test('announcement teaches the full mechanism (delegate → mine + share + direct votes; SCOT)', () => {
+test('mintCall is a distributor.mint(to, wei) descriptor', () => {
+  const c = mintCall('0x1111111111111111111111111111111111111111', 3);
+  assert.equal(c.fn, 'mint');
+  assert.deepEqual(c.args, ['0x1111111111111111111111111111111111111111', '3000000000000000000']);
+  assert.equal(c.token, 'SOUL');
+});
+
+test('distributionPlan maps earned SOUL → PRANA mint calls; unresolved addresses are skipped, not zeroed', () => {
+  const ledger = { delegators: [
+    { account: 'whale', earned: 10 },
+    { account: 'minnow', earned: 2 },
+    { account: 'nowallet', earned: 5 },
+    { account: 'zero', earned: 0 },
+  ] };
+  const addrs = { whale: '0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa', minnow: '0xBbBbBBBbbBBBbbBBbbbbbBBBBbbbbbBBBBbBbBBB' };
+  const plan = distributionPlan(ledger, (a) => addrs[a] || null);
+  assert.equal(plan.chain, 'PRANA');
+  assert.equal(plan.mints.length, 2);                           // whale + minnow
+  assert.equal(plan.mints[0].args[1], '10000000000000000000');
+  assert.deepEqual(plan.unresolved.map((u) => u.account), ['nowallet']);  // earned>0 but no address
+  assert.ok(!plan.mints.some((m) => m.account === 'zero'));      // zero earned → no mint
+});
+
+test('announcement says PRANA + KulaSwap, honest status', () => {
   const a = announcement({ pool: 'hathor' });
-  assert.match(a, /Delegate/i);
-  assert.match(a, /mining SOUL/i);
-  assert.match(a, /share of everything the pool earns/i);
-  assert.match(a, /!vote/);
-  assert.match(a, /SCOT token/);
-  assert.match(a, /undelegate whenever/i);
+  assert.match(a, /not minted yet|design/i);
+  assert.match(a, /PRANA/);
+  assert.match(a, /KulaSwap/);
+  assert.match(a, /MWALI/);
+  assert.match(announcement({ minted: true }), /is live/i);
 });
 
-test('mintOp builds a valid MELEK-Engine createTribe op (SOULAVA distributes on MELEK)', () => {
-  const r = mintOp('hathor');
-  assert.equal(r.ok, true, r.error);
-  assert.equal(r.action, 'createTribe');
-  assert.equal(r.envelope.contractName, 'scot');
-  assert.equal(r.envelope.contractPayload.symbol, 'SOUL');
-  assert.equal(r.envelope.contractPayload.authorBps, 6500);   // 65/35
-  assert.equal(r.op[0], 'custom_json');                       // a Graphene custom_json to the engine
-});
-
-test('launchBundle assembles the mint op + announcement + status for a deploy step', () => {
-  const b = launchBundle({ account: 'hathor' });
-  assert.equal(b.mint.ok, true);
-  assert.match(b.announcement, /SOULAVA/);
-  assert.equal(b.token.chain, 'MELEK-Engine');
-});
-
-test('status: SCOT on MELEK-Engine, pairs with MWALI, design until minted', () => {
-  assert.deepEqual(status(), { name: 'SOULAVA', symbol: 'SOUL', kind: 'SCOT', chain: 'MELEK-Engine', status: 'design', pairsWith: 'MWALI', role: 'delegation-mining reward' });
-  assert.equal(status({ minted: true }).status, 'live');
+test('status: ERC-20 on PRANA, pairs with MWALI', () => {
+  assert.deepEqual(status(), { name: 'SOULAVA', symbol: 'SOUL', kind: 'ERC-20', chain: 'PRANA', status: 'design', pairsWith: 'MWALI', role: 'delegation-mining reward' });
 });

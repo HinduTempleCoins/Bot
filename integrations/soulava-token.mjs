@@ -1,51 +1,74 @@
-// soulava-token.mjs — SOULAVA (SOUL): the delegation-mining token, defined as a real MELEK-Engine SCOT
-// token, plus its announcement. This is the "make one and announce it so people see how SCOT tokens work"
-// piece — SOULAVA doubles as the worked example of a stakeable/delegatable SCOT token.
+// soulava-token.mjs — SOULAVA (SOUL): the delegation-mining reward token, a PRANA (EVM) ERC-20.
 //
-// SOULAVA is the kula-ring counterpart to MWALI (our Proof-of-Liquidity reward): the necklaces to the
-// armbands. In the ring, a valuable is never kept — it is passed on, and the standing lies in the giving.
-// That is delegation: lend your weight to @hathor, and you mine SOUL for the giving.
+// SOULAVA is a PRANA token (operator: "SOULAVA is a PRANA token"), the kula-ring counterpart to MWALI —
+// which is also a PRANA/KulaSwap token (the Proof-of-Liquidity gauge reward). So the ring lives on PRANA's
+// DeFi side: MWALI for liquidity, SOULAVA for delegation. In the ring a valuable is never kept — it is
+// passed on, and the standing lies in the giving. That is delegation: lend your weight to @hathor and mine
+// SOUL for the giving.
 //
-// The token SPEC is built through the engine's own buildTokenSpec() (so it's a genuine SCOT spec, not a
-// mock). NAME IS NOT YET LOCKED — symbol/name are config so the operator can rename before mint; nothing
-// here mints or broadcasts. Pure, offline-tested.
+// THE CROSS-CHAIN SHAPE: delegation happens on MELEK (you delegate MELEK vests / a SCOT stake to @hathor).
+// The off-chain accounting in delegation-program.mjs computes each delegator's earned SOUL. A trusted keeper
+// then MINTS SOULAVA on PRANA to each delegator's PRANA address (a mintable ERC-20 with MINTER_ROLE held by
+// a distributor — modeled on kulaswap/contracts/src/MwaliPoLGauge.sol, the MWALI minter). This module is the
+// token descriptor + the mint-plan builder; it holds no keys and sends nothing (the keeper/relayer executes).
 //
 //   import * as soul from './soulava-token.mjs'
 
-import { buildTokenSpec } from '../engine/lib/smt-token-spec.mjs';
-import { buildCreateTribeOp } from '../engine/lib/scot-mint.mjs';
 import { PROGRAM } from './delegation-program.mjs';
 
-// MELEK ~4s blocks → ~21600 blocks/day, so emissionPerWindow SOUL per this window ≈ SOUL/day.
-const BLOCKS_PER_DAY = Number(process.env.MELEK_BLOCKS_PER_DAY || 21600);
+const round6 = (n) => Math.round(n * 1e6) / 1e6;
+const num = (v) => (Number.isFinite(+v) ? +v : 0);
 
 export const SOULAVA = Object.freeze({
   name: process.env.SOULAVA_NAME || 'SOULAVA',
   symbol: process.env.DELEGATION_TOKEN || PROGRAM.token || 'SOUL',
-  precision: 3,
-  maxSupply: process.env.SOULAVA_MAX_SUPPLY || '100000000',   // 100M
-  inflationPerDay: String(PROGRAM.emissionPerDay || 1000),
-  tags: ['soulava', 'delegation', 'hathor', 'kula'],
-  // A SCOT token earns author/curator on its posts too — 65/35 per token-philosophy-real-utility.
-  authorCuratorSplit: 65,
+  decimals: 18,                                             // EVM standard (matches KULA/MWALI on PRANA)
+  chain: 'PRANA',
+  maxSupply: process.env.SOULAVA_MAX_SUPPLY || '100000000', // 100M cap
+  pairsWith: 'MWALI',
+  role: 'delegation-mining reward',
+  // On-chain wiring (filled once deployed on PRANA; overridable for a host swap, like kula-config-addresses).
+  token: process.env.SOULAVA_TOKEN_ADDR || '',            // the ERC-20
+  distributor: process.env.SOULAVA_DISTRIBUTOR_ADDR || '', // holds MINTER_ROLE; the keeper calls it
 });
 
-/** The SCOT token spec, validated by the engine's builder. { ok, spec, errors }. */
-export function soulavaSpec(overrides = {}) {
-  return buildTokenSpec({
-    symbol: SOULAVA.symbol, precision: SOULAVA.precision, maxSupply: SOULAVA.maxSupply,
-    tags: SOULAVA.tags, authorCuratorSplit: SOULAVA.authorCuratorSplit, inflationPerDay: SOULAVA.inflationPerDay,
-    ...overrides,
-  });
+const WEI = 10n ** 18n;
+/** Convert a SOUL amount (float, 6dp accounting) to base units (wei) as a BigInt. */
+export function toWei(amountSoul) {
+  const micro = BigInt(Math.round(round6(num(amountSoul)) * 1e6));  // 6dp → integer micro-SOUL
+  return (micro * WEI) / 1_000_000n;
+}
+
+/** The distributor.mint(to, amount) call descriptor for one delegator. */
+export function mintCall(toAddress, amountSoul) {
+  return { to: SOULAVA.distributor || '<distributor>', fn: 'mint', args: [toAddress, toWei(amountSoul).toString()],
+    token: SOULAVA.symbol, human: `mint ${round6(num(amountSoul))} ${SOULAVA.symbol} → ${toAddress}` };
 }
 
 /**
- * The announcement post (markdown) — explains SOULAVA + how the delegation program + SCOT staking work, so
- * readers learn the mechanism from a live example. Honest status: it is a DESIGN until minted/announced.
+ * Build the PRANA mint plan from the off-chain delegation ledger: for each delegator with earned SOUL,
+ * a mint call to their PRANA address. `resolveAddress(melekAccount)` → PRANA address (injected — a REN/
+ * registry lookup); delegators without a resolved address are returned in `unresolved`, never minted to 0x0.
+ * @param {object} ledger  from delegation-program.ledger() — { delegators:[{account, earned}] }
+ * @param {(account:string)=>string|null} resolveAddress
  */
+export function distributionPlan(ledger, resolveAddress) {
+  const dels = (ledger && ledger.delegators) || [];
+  const mints = []; const unresolved = [];
+  for (const d of dels) {
+    const earned = round6(num(d.earned));
+    if (earned <= 0) continue;
+    const addr = (typeof resolveAddress === 'function' ? resolveAddress(d.account) : null);
+    if (!addr || !/^0x[0-9a-fA-F]{40}$/.test(String(addr))) { unresolved.push({ account: d.account, earned }); continue; }
+    mints.push({ account: d.account, ...mintCall(addr, earned) });
+  }
+  return { token: SOULAVA.symbol, chain: SOULAVA.chain, mints, unresolved };
+}
+
+/** The announcement post (markdown) — SOULAVA on PRANA. Honest status (design until minted). */
 export function announcement({ pool = PROGRAM.pool, minted = false } = {}) {
   const status = minted
-    ? `**${SOULAVA.symbol} is live** on MELEK-Engine.`
+    ? `**${SOULAVA.symbol} is live** on PRANA.`
     : `**${SOULAVA.symbol} is not minted yet** — this is the design, published so you can see how it will work.`;
   return `# Introducing ${SOULAVA.name} (${SOULAVA.symbol}) — earn by lending your weight
 
@@ -56,45 +79,19 @@ islands, and the honor belongs not to whoever holds it but to whoever *gives* it
 that idea as a token: **delegate your standing to @${pool}, and you mine ${SOULAVA.symbol} for the giving.**
 
 ## How to earn it
-1. **Delegate** MELEK vesting shares — or a MELEK-Engine **SCOT-token** stake — to @${pool}.
-2. You begin **mining ${SOULAVA.symbol}**, minted to you continuously in proportion to your share of the pool.
+1. **Delegate** MELEK vesting shares — or a MELEK-Engine SCOT-token stake — to @${pool}.
+2. You mine **${SOULAVA.symbol}** continuously, in proportion to your share of the pool. It is minted to your
+   **PRANA** address (${SOULAVA.symbol} is a PRANA token, so it trades on KulaSwap beside its pair, MWALI).
 3. You also receive **a share of everything the pool earns** — MELEK and other tokens — paid out pro-rata
    (the operator keeps a small cut to run it).
-4. Holding ${SOULAVA.symbol} lets you **direct @${pool}'s votes** (\`!vote @author/permlink\`), your weight
-   scaled by your share — a Pizza-Bot-style callable vote.
+4. Holding ${SOULAVA.symbol} lets you **direct @${pool}'s votes** — a Pizza-Bot-style callable vote.
 5. It's a **loan of standing, not a gift** — undelegate whenever you wish.
 
-## What ${SOULAVA.symbol} also shows you
-${SOULAVA.symbol} is a **SCOT token** (Smart Contracts On Tokens) on MELEK-Engine — its own supply, its own
-author/curator rewards (${SOULAVA.authorCuratorSplit}/${100 - SOULAVA.authorCuratorSplit}), its own staking.
-Watching it work is watching how *any* MELEK-Engine token works: mint, stake, delegate, earn.
-
-*The ring turns. Lend your weight, and share in what it carries.*`;
-}
-
-/**
- * The MELEK-Engine SCOT mint op (createTribe: create token + enable Scot Bot + founder issue, one op).
- * Ready to broadcast via the Signer (custom_json, SOCIAL tier). Costs APIS creation+scot fees on the box.
- * Returns the engine's { ok, op, envelope, summary } — or { ok:false, error }.
- */
-export function mintOp(account = PROGRAM.pool, overrides = {}) {
-  return buildCreateTribeOp(account, {
-    symbol: SOULAVA.symbol, name: SOULAVA.name, precision: SOULAVA.precision, maxSupply: SOULAVA.maxSupply,
-    emissionPerWindow: String(PROGRAM.emissionPerDay || 1000), windowBlocks: BLOCKS_PER_DAY,
-    authorBps: SOULAVA.authorCuratorSplit * 100, curve: 'linear', tag: 'soulava',
-    url: 'https://melek.salon/@' + (account || PROGRAM.pool),
-    ...overrides,
-  });
-}
-
-/** The full launch bundle: the mint op + the announcement + status. What a deploy step consumes. */
-export function launchBundle({ account = PROGRAM.pool } = {}) {
-  const mint = mintOp(account);
-  return { token: status(), mint, announcement: announcement({ pool: account, minted: false }) };
+*MWALI is minted for liquidity; ${SOULAVA.symbol} for delegation. The two kula valuables, circling PRANA.*`;
 }
 
 /** A one-line honest status for a HUD / registry. */
 export function status({ minted = false } = {}) {
-  return { name: SOULAVA.name, symbol: SOULAVA.symbol, kind: 'SCOT', chain: 'MELEK-Engine',
-    status: minted ? 'live' : 'design', pairsWith: 'MWALI', role: 'delegation-mining reward' };
+  return { name: SOULAVA.name, symbol: SOULAVA.symbol, kind: 'ERC-20', chain: 'PRANA',
+    status: minted ? 'live' : 'design', pairsWith: 'MWALI', role: SOULAVA.role };
 }
