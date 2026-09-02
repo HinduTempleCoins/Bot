@@ -62,7 +62,8 @@ export function embedScript({ signer, label = 'Log in with MELEK' } = {}) {
   // Open the consent popup and resolve with the verified identity the postback posts back.
   function login(cfg){
     return new Promise(function(resolve, reject){
-      var state = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      var buf = new Uint8Array(16); crypto.getRandomValues(buf);      // CSPRNG — the state is a CSRF token
+      var state = Array.prototype.map.call(buf, function(b){ return ('0' + b.toString(16)).slice(-2); }).join('');
       var redirect = encodeURIComponent(POSTBACK);
       var url = SIGNER + '/oauth2/authorize?response_type=code&client_id='
         + encodeURIComponent(cfg.clientId) + '&scope=' + encodeURIComponent(cfg.scope)
