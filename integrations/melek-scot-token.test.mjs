@@ -9,7 +9,7 @@ test('createOp builds a MELEK-Engine createTribe with NO tag (universal, no hash
   assert.equal(r.envelope.contractName, 'scot');
   assert.equal(r.envelope.contractAction, 'createTribe');
   assert.equal(r.envelope.contractPayload.tag, undefined);     // THE point: no tag → distributes universally
-  assert.equal(r.envelope.contractPayload.symbol, 'HALO');
+  assert.equal(r.envelope.contractPayload.symbol, 'FIAT');
   assert.equal(r.envelope.contractPayload.authorBps, 6500);
   assert.equal(r.op[0], 'custom_json');
 });
@@ -19,14 +19,14 @@ test('Hathor stakes it — a stake op on the token (founding curator)', () => {
   assert.equal(r.ok, true, r.error);
   // engine stake op is a custom_json; symbol + quantity present in the envelope/payload
   assert.equal(r.op[0], 'custom_json');
-  assert.match(JSON.stringify(r), /HALO/);
+  assert.match(JSON.stringify(r), /FIAT/);
   assert.match(JSON.stringify(r), /500000/);
 });
 
 test('issueOp issues more of the token (issuer-only)', () => {
   const r = issueOp('alice', '1000', 'hathor');
   assert.equal(r.ok, true, r.error);
-  assert.equal(r.envelope.contractPayload.symbol, 'HALO');
+  assert.equal(r.envelope.contractPayload.symbol, 'FIAT');
   assert.equal(r.envelope.contractPayload.to, 'alice');
 });
 
@@ -52,5 +52,5 @@ test('status flags it as SCOT/MELEK-Engine, universal, and name PROVISIONAL', ()
   assert.equal(s.chain, 'MELEK-Engine');
   assert.equal(s.universal, true);
   assert.equal(s.distributesAlongside, 'MELEK');
-  assert.equal(s.provisionalName, true);
+  assert.equal(s.provisionalName, false);
 });

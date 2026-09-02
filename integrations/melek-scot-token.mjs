@@ -20,8 +20,11 @@ import { buildEngineOp } from '../engine/lib/op-builder.mjs';
 const BLOCKS_PER_DAY = Number(process.env.MELEK_BLOCKS_PER_DAY || 21600);   // ~4s blocks
 
 export const MELEK_SCOT = Object.freeze({
-  name: process.env.MELEK_SCOT_NAME || 'Halo',           // PROVISIONAL — operator to confirm
-  symbol: process.env.MELEK_SCOT_SYMBOL || 'HALO',       // PROVISIONAL
+  // FIAT — the descriptive-ironic name (operator): a joke, because it's NOT completely fiat — unlike real
+  // fiat it has a cap, a disclosed mint rate, and utility. The launch post uses it to teach how any currency
+  // gets value (specs, scarcity, inflation) vs. why real fiat has none.
+  name: process.env.MELEK_SCOT_NAME || 'FIAT',
+  symbol: process.env.MELEK_SCOT_SYMBOL || 'FIAT',
   precision: 3,
   chain: 'MELEK-Engine',
   maxSupply: process.env.MELEK_SCOT_MAX_SUPPLY || '100000000',
@@ -31,6 +34,9 @@ export const MELEK_SCOT = Object.freeze({
   // NO tag → universal: distributes on ALL posts by stake, alongside MELEK (not gated to a hashtag).
   universal: true,
   issuer: (process.env.MELEK_SCOT_ISSUER || 'hathor').toLowerCase(),
+  // Hathor gets ALL of it to start: the full founder issue goes to her, she stakes it, and distributes from
+  // there — so she seeds distribution and earns the curation emission first (until others acquire + stake).
+  founderIssue: process.env.MELEK_SCOT_FOUNDER_ISSUE || '100000000',
 });
 
 /**
@@ -43,7 +49,7 @@ export function createOp(account = MELEK_SCOT.issuer, overrides = {}) {
     emissionPerWindow: MELEK_SCOT.emissionPerWindow, windowBlocks: MELEK_SCOT.windowBlocks,
     authorBps: MELEK_SCOT.authorBps, curve: 'linear',
     // deliberately NO `tag` — universal distribution, no hashtag needed
-    initialIssue: overrides.initialIssue != null ? overrides.initialIssue : process.env.MELEK_SCOT_FOUNDER_ISSUE || '1000000',
+    initialIssue: overrides.initialIssue != null ? overrides.initialIssue : MELEK_SCOT.founderIssue,  // Hathor gets it all
     url: 'https://melek.salon/@' + (account || MELEK_SCOT.issuer),
     ...overrides,
   });
@@ -59,8 +65,8 @@ export function issueOp(to, quantity, account = MELEK_SCOT.issuer) {
   return buildScotMintOp(account, { symbol: MELEK_SCOT.symbol, to, quantity });
 }
 
-/** The launch bundle: create → Hathor stakes the founder allocation → announcement. For a deploy step. */
-export function launchBundle({ account = MELEK_SCOT.issuer, stakeAmount = '500000' } = {}) {
+/** The launch bundle: create (Hathor gets it all) → Hathor stakes the whole allocation → announcement. */
+export function launchBundle({ account = MELEK_SCOT.issuer, stakeAmount = MELEK_SCOT.founderIssue } = {}) {
   return { token: status(), create: createOp(account), hathorStake: hathorStakeOp(stakeAmount, account),
     announcement: announcement({ issuer: account }) };
 }
@@ -89,5 +95,5 @@ Watching ${MELEK_SCOT.symbol} work is watching how a MELEK-Engine SCOT token wor
 /** One-line status for a registry / HUD. */
 export function status({ minted = false } = {}) {
   return { name: MELEK_SCOT.name, symbol: MELEK_SCOT.symbol, kind: 'SCOT', chain: 'MELEK-Engine',
-    status: minted ? 'live' : 'design', universal: true, distributesAlongside: 'MELEK', provisionalName: true };
+    status: minted ? 'live' : 'design', universal: true, distributesAlongside: 'MELEK', provisionalName: false };
 }
