@@ -34,6 +34,14 @@ import * as aggregator from '../../integrations/aggregator-directory.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { beginLogin, completeLogin, sessionCookie, clearCookie, requireSession } from '../../integrations/melek-login.mjs';
+import { randomBytes } from 'node:crypto';
+
+// "Sign in with MELEK" on our own storefront — the FIRST relying party of the MELEK OIDC provider, and how
+// we seed the customer base other sites will want to tap: every MELEK user learns, here, that their one
+// account signs them in (no new password). Identity-only (minimal permission) — login never lets the store
+// act on-chain as the user. Client id is registered with the signer; MELEK_SESSION_SECRET signs the cookie.
+const STORE_OIDC_CLIENT = process.env.STORE_OIDC_CLIENT || 'soapbox-store';
 
 const PORT = +(process.env.PORT || 8198);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -130,6 +138,12 @@ const FOOTER = `<footer>
 </footer>`;
 
 // ── page shell ────────────────────────────────────────────────────────────────────────────────────
+// The header sign-in state: signed-in name + logout, or a "Sign in with MELEK" button. Identity-only.
+function loginAffordance(account) {
+  if (account) return `<span class=me>@${esc(account)}</span><a href="/logout">Log out</a>`;
+  return `<a class=signin href="/login" title="Your one MELEK account — no new password">Sign in with MELEK</a>`;
+}
+
 function page(title, body, opts = {}) {
   const desc = opts.description || `${SITE_NAME} — a general e-commerce storefront: real products, prices and deals from our merchant partners, ranked by value and never by commission. Affiliate links disclosed; we never sell your data.`;
   const canonical = opts.canonical || `${BASE_URL}/`;
@@ -144,7 +158,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
 <header class=topbar><a class=brand href="/">${catMeta(STORE_CATEGORY).emoji} SoapBox <span>store</span></a>
-  <div class=topbar-r><a href="/">Home</a><a href="/deals">Deals</a><a href="${esc(SHOPPING)}">Shopping hub</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/">Home</a><a href="/deals">Deals</a><a href="${esc(SHOPPING)}">Shopping hub</a><a href="${esc(DATA)}">Data</a>${loginAffordance(opts.account)}</div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -229,7 +243,7 @@ function curatedDirectory(cat) {
 }
 
 // ── home / category storefront ──────────────────────────────────────────────────────────────────────
-export async function storePage(category) {
+export async function storePage(category, ctx = {}) {
   const m = catMeta(category);
   const { configured, campaigns, products } = await loadStore(m.key);
   const hasProducts = products.length > 0;
@@ -266,11 +280,11 @@ export async function storePage(category) {
       Impact partner feed — we never fabricate an offer. Ranking is by genuine value; commission can never
       reorder the list, and <b>we never sell your data</b>. One codebase runs every category storefront.</p>
       <p class=ftc-disclosure>${esc(affiliate.ftcDisclosure())}</p></div>`;
-  return page(`${m.label} — ${SITE_NAME}`, body, { canonical: m.key === STORE_CATEGORY ? `${BASE_URL}/` : `${BASE_URL}/c/${m.key}` });
+  return page(`${m.label} — ${SITE_NAME}`, body, { account: ctx.account, canonical: m.key === STORE_CATEGORY ? `${BASE_URL}/` : `${BASE_URL}/c/${m.key}` });
 }
 
 // ── /deals — promo codes / coupon-style deals from Impact ────────────────────────────────────────────
-export async function dealsPage() {
+export async function dealsPage(ctx = {}) {
   let deals = [];
   try { deals = await impact.listDeals(); } catch { deals = []; }
   deals = Array.isArray(deals) ? deals : [];
@@ -295,7 +309,28 @@ export async function dealsPage() {
     ${categoryStrip('')}
     <div class=card>${block}</div>
     <p class=ftc-disclosure>${esc(affiliate.ftcDisclosure())}</p>`;
-  return page(`Deals & promo codes — ${SITE_NAME}`, body, { canonical: `${BASE_URL}/deals` });
+  return page(`Deals & promo codes — ${SITE_NAME}`, body, { account: ctx.account, canonical: `${BASE_URL}/deals` });
+}
+
+// ── the teaching page — how we SEED the base: every MELEK user learns their account is a login ────────
+export function whyMelekPage(ctx = {}) {
+  const body = `<h1>🔑 One MELEK account. Sign in everywhere.</h1>
+    <p class=muted>Your MELEK account isn't just for the store — it's a single sign-in you carry across
+      SoapBox and, increasingly, the wider web. No new password to remember, no new account to create.</p>
+    <div class=card><h2>What signing in gets you</h2>
+      <ul>
+        <li>A saved cart, order history, and your deals in one place.</li>
+        <li>The same identity everywhere it's offered — the store, the data pages, the forum.</li>
+        <li>A <b>Right of Reply</b> on anything written about you across SoapBox Data.</li>
+      </ul></div>
+    <div class=card><h2>Minimal permission, by design</h2>
+      <p class=muted style="font-size:14px">Signing in tells a site <b>who you are</b> — nothing more. It can
+      never post, spend, or act on your behalf. Those powers stay locked behind MELEK-Signer's own approval
+      screen and are never handed to a website just because you logged in.</p></div>
+    <div class=card><h2>New here?</h2>
+      <p class=muted>Get a MELEK account and it becomes your key across the ecosystem.
+        <a href="/login">Sign in with MELEK</a> · <a href="${esc(DATA)}">Explore SoapBox Data</a></p></div>`;
+  return page(`Sign in with MELEK — ${SITE_NAME}`, body, { account: ctx.account, canonical: `${BASE_URL}/why-melek` });
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────────
@@ -332,11 +367,38 @@ export async function handler(req, res) {
       }));
     }
 
-    if (path === '/') return sendHtml(res, await storePage(STORE_CATEGORY));
-    if (path === '/deals') return sendHtml(res, await dealsPage());
+    // Who's signed in? (identity-only; null when no/invalid cookie or no secret configured — never throws.)
+    const sess = requireSession(req.headers && req.headers.cookie, {});
+    const account = sess && sess.account;
+
+    // ── Sign in with MELEK (this store = the first relying party of the MELEK OIDC provider) ──────────
+    if (path === '/login') {
+      try {
+        const state = randomBytes(16).toString('hex');
+        const to = beginLogin('melek', { clientId: STORE_OIDC_CLIENT, scope: 'identity', redirectUri: `${BASE_URL}/melek/callback`, state });
+        res.writeHead(302, { location: to, 'set-cookie': `store_login_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600` });
+        return res.end();
+      } catch { res.writeHead(302, { location: '/?login=unavailable' }); return res.end(); }
+    }
+    if (path === '/melek/callback') {
+      try {
+        const code = url.searchParams.get('code'); const state = url.searchParams.get('state');
+        const want = (String(req.headers.cookie || '').match(/(?:^|;\s*)store_login_state=([^;]+)/) || [])[1];
+        if (!code || !state || !want || state !== want) { res.writeHead(302, { location: '/?login=error' }); return res.end(); }
+        const r = await completeLogin({ clientId: STORE_OIDC_CLIENT, code });
+        if (!r || !r.account) { res.writeHead(302, { location: '/?login=error' }); return res.end(); }
+        res.writeHead(302, { location: '/', 'set-cookie': [sessionCookie(r.session), 'store_login_state=; Path=/; Max-Age=0'] });
+        return res.end();
+      } catch { res.writeHead(302, { location: '/?login=error' }); return res.end(); }
+    }
+    if (path === '/logout') { res.writeHead(302, { location: '/', 'set-cookie': clearCookie() }); return res.end(); }
+    if (path === '/why-melek') return sendHtml(res, whyMelekPage({ account }));
+
+    if (path === '/') return sendHtml(res, await storePage(STORE_CATEGORY, { account }));
+    if (path === '/deals') return sendHtml(res, await dealsPage({ account }));
     if (path.startsWith('/c/')) {
       const cat = normCat(decodeURIComponent(path.slice(3)));
-      return sendHtml(res, await storePage(cat));
+      return sendHtml(res, await storePage(cat, { account }));
     }
 
     res.writeHead(302, { location: '/' });
