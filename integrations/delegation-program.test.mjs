@@ -1,7 +1,7 @@
 // delegation-program.test.mjs — offline. `node --test`. Deterministic reward math.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { accrue, ledger, joinLink, inviteMessage, upsertDelegation, PROGRAM } from './delegation-program.mjs';
+import { accrue, ledger, joinLink, inviteMessage, upsertDelegation, distributeRewards, PROGRAM } from './delegation-program.mjs';
 // The Nutbox invariant: a membership change SETTLES accrual first (upsertDelegation calls accrue), so the
 // time-weighted math stays exact across changes. Tests exercise that path, not a single accrue over a change.
 
@@ -66,6 +66,37 @@ test('inviteMessage is honest (mining + reversible) and includes the link', () =
   assert.match(m, new RegExp(PROGRAM.token));
   assert.match(m, /undelegate|whenever/i);   // says it can be undone
   assert.match(m, /signer\.example\/delegate/);
+});
+
+test('UPVU payout: pool earnings split pro-rata minus operator cut (they get MELEK + other tokens)', () => {
+  const s = { delegations: [
+    { account: 'whale', vests: 900, since: T0, earned: 0, lastAccrued: T0 },
+    { account: 'minnow', vests: 100, since: T0, earned: 0, lastAccrued: T0 },
+  ] };
+  const r = distributeRewards(s, { MELEK: 100, KULA: 10 }, { operatorCutBps: 1000, now: T0 + DAY });
+  assert.equal(r.operatorCut.MELEK, 10);          // 10% cut
+  assert.equal(r.operatorCut.KULA, 1);
+  const byAcct = Object.fromEntries(r.payouts.map((p) => [p.account, p.byToken]));
+  assert.equal(byAcct.whale.MELEK, 81);           // 90% of 90 (post-cut pool)
+  assert.equal(byAcct.minnow.MELEK, 9);           // 10% of 90
+  assert.equal(byAcct.whale.KULA, 8.1);
+  assert.ok(r.transfers.length >= 4);             // MELEK+KULA to each of 2 delegators
+});
+
+test('distributeRewards with no delegators routes the whole earning to the operator', () => {
+  const r = distributeRewards({ delegations: [] }, { MELEK: 50 }, { now: T0 });
+  assert.equal(r.operatorCut.MELEK, 50);
+  assert.deepEqual(r.payouts, []);
+});
+
+test('a delegation can be sourced from a SCOT-token stake, not just MELEK vests', () => {
+  let s = upsertDelegation({ delegations: [] }, { account: 'dave', vests: 300, source: 'SCOT:PIZZA', now: T0 });
+  assert.equal(s.delegations[0].source, 'SCOT:PIZZA');
+  assert.equal(s.delegations[0].vests, 300);      // weight is weight, wherever it comes from
+});
+
+test('the mining token is SOULAVA (SOUL) by default', () => {
+  assert.equal(PROGRAM.token, 'SOUL');
 });
 
 test('upsertDelegation adds then updates a delegator', () => {
