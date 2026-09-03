@@ -249,3 +249,40 @@ test('never throws on garbage: a weird /c/ category slug renders soft (title-cas
   assert.equal(res.code, 200);
   assert.ok(!res.body.includes('<script>'), 'category slug must not reflect raw markup');
 });
+
+// ── Sign in with MELEK (the store as the first OIDC relying party) ─────────────────────────────
+test('logged-out storefront shows the "Sign in with MELEK" button (identity-only)', async () => {
+  unconfigure();
+  const res = await get('/');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /Sign in with MELEK/);
+  assert.match(res.body, /href="\/login"/);
+});
+
+test('/why-melek teaches the seed message: one account, minimal permission', async () => {
+  const res = await get('/why-melek');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /One MELEK account/i);
+  assert.match(res.body, /minimal permission/i);        // it can never post/spend on your behalf
+  assert.match(res.body, /Right of Reply/i);
+});
+
+test('/login redirects to the signer authorize URL and sets a CSRF state cookie', async () => {
+  const res = await get('/login');
+  assert.equal(res.code, 302);
+  assert.match(res.headers.location, /\/oauth2\/authorize/);
+  assert.match(String(res.headers['set-cookie']), /store_login_state=/);
+});
+
+test('/melek/callback rejects a mismatched state (CSRF) without setting a session', async () => {
+  const res = await get('/melek/callback?code=abc&state=evil', { cookie: 'store_login_state=real' });
+  assert.equal(res.code, 302);
+  assert.match(res.headers.location, /login=error/);
+  assert.ok(!String(res.headers['set-cookie'] || '').includes('soapbox_session='));
+});
+
+test('/logout clears the session cookie', async () => {
+  const res = await get('/logout');
+  assert.equal(res.code, 302);
+  assert.match(String(res.headers['set-cookie']), /soapbox_session=;|Max-Age=0/);
+});

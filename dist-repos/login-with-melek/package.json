@@ -1,0 +1,18 @@
+{
+  "name": "@melek/login-with-melek",
+  "version": "0.1.0",
+  "description": "Add \"Login with MELEK\" to any website — self-owned on-chain identity, standard OIDC, minimal permission.",
+  "type": "module",
+  "main": "src/melek-login.mjs",
+  "exports": {
+    "./embed": "./src/melek-login-embed.mjs",
+    "./oidc": "./src/melek-oidc-provider.mjs",
+    "./oauth": "./src/melek-signer-oauth.mjs",
+    "./session": "./src/melek-login.mjs",
+    "./permissions": "./src/melek-permission-tiers.mjs"
+  },
+  "scripts": { "test": "node --test" },
+  "keywords": ["melek","oauth","oidc","login","sso","identity","web3","graphene"],
+  "license": "MIT",
+  "author": "MELEK / HinduTempleCoins"
+}
