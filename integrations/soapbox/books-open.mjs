@@ -169,6 +169,96 @@ export async function searchGutenberg({ query = '', limit = 12 } = {}) {
   return out;
 }
 
+// ── Project Gutenberg OPDS (keyless; HOST) — the fallback when Gutendex is unreachable ──────────────
+// Gutendex sits behind a Cloudflare interstitial that refuses datacenter IPs outright (HTTP 403,
+// "Just a moment..."), so on any server we actually run this from, the Gutendex tier returns nothing
+// and the public-domain half of the library silently disappears. gutenberg.org itself answers fine,
+// and publishes an OPDS (Atom) search feed, so we fall back to it.
+//
+// Two honest differences from the Gutendex path:
+//   * OPDS carries no per-record copyright flag, so we cannot enforce copyright === false item by
+//     item. Project Gutenberg's collection is public domain in the US by policy, with rare
+//     clearly-marked exceptions, so records from here are marked rightsVerified: false and a caller
+//     that needs certainty should check the book page.
+//   * The search feed does not carry acquisition links, so format URLs are built from Gutenberg's
+//     canonical /ebooks/<id>.<ext> pattern.
+const GUTENBERG_SITE = 'https://www.gutenberg.org';
+
+/** Pull the text of the first <tag> in a chunk of XML. Returns '' when absent. Never throws. */
+function xmlTag(chunk, tag) {
+  const m = String(chunk || '').match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`));
+  if (!m) return '';
+  return m[1]
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'").replace(/&amp;/g, '&')
+    .trim();
+}
+
+/** Gutenberg's canonical download URLs for a numeric ebook id. */
+export function gutenbergUrls(id) {
+  const n = String(id || '').replace(/[^0-9]/g, '');
+  if (!n) return {};
+  return {
+    html: `${GUTENBERG_SITE}/ebooks/${n}.html.images`,
+    epub: `${GUTENBERG_SITE}/ebooks/${n}.epub3.images`,
+    text: `${GUTENBERG_SITE}/ebooks/${n}.txt.utf-8`,
+    page: `${GUTENBERG_SITE}/ebooks/${n}`,
+  };
+}
+
+/** OPDS puts the author in <content>, but for entries with no author it puts the download count
+ *  there instead ("1035 downloads"). Strip that so a download tally never renders as a byline. */
+function opdsAuthor(entry) {
+  const raw = xmlTag(entry, 'content');
+  const cleaned = raw.replace(/\b\d[\d,]*\s+downloads?\b/gi, '').replace(/\s{2,}/g, ' ').trim()
+    .replace(/^[,;\u2014-]+|[,;\u2014-]+$/g, '').trim();
+  return cleaned || 'Unknown';
+}
+
+/** Parse a Project Gutenberg OPDS search feed into book records. PURE; soft-fails to []. */
+export function parseGutenbergOPDS(xml, limit = 12) {
+  const n = clamp(limit);
+  const text = String(xml || '');
+  const out = [];
+  for (const entry of text.match(/<entry>[\s\S]*?<\/entry>/g) || []) {
+    const idRaw = xmlTag(entry, 'id');
+    const m = idRaw.match(/ebooks\/(\d+)/);
+    if (!m) continue;                               // skip navigation/self entries
+    const title = xmlTag(entry, 'title');
+    if (!title) continue;
+    const urls = gutenbergUrls(m[1]);
+    out.push({
+      id: `gutenberg-${m[1]}`,
+      title,
+      author: opdsAuthor(entry),
+      year: '',
+      source: 'Project Gutenberg',
+      license: 'Public Domain',
+      posture: POSTURE.HOST,
+      readUrl: urls.html || urls.page,
+      formats: { html: urls.html, epub: urls.epub, text: urls.text },
+      attribution: '',
+      rightsVerified: false,                        // see the note above
+    });
+    if (out.length >= n) break;
+  }
+  return out;
+}
+
+/** Search Project Gutenberg through its own OPDS feed. Keyless. Soft-fails to []. */
+export async function searchGutenbergOPDS({ query = '', limit = 12 } = {}) {
+  const q = String(query || '').trim();
+  if (!q) return [];
+  const url = `${GUTENBERG_SITE}/ebooks/search/?query=${encodeURIComponent(q)}&format=opds`;
+  try {
+    const r = await _fetch(url, { headers: { accept: 'application/atom+xml' } });
+    if (!r || !r.ok) return [];
+    return parseGutenbergOPDS(await r.text(), limit);
+  } catch {
+    return [];
+  }
+}
+
 // ── Open Library (keyless; AGGREGATE / link-out) ─────────────────────────────────────────────────────
 // openlibrary.org/search.json?q=<q> → { docs: [ { title, author_name, first_publish_year, cover_i,
 // key }, ... ] }. Metadata only — we link out to openlibrary.org, we host nothing.
@@ -225,11 +315,14 @@ function dedupeKey(b) {
  * @param {{query?:string, limit?:number}} opts
  */
 export async function search({ query = '', limit = 12 } = {}) {
-  const [pg, ol, ia] = await Promise.all([
+  let [pg, ol, ia] = await Promise.all([
     searchGutenberg({ query, limit }).catch(() => []),
     searchOpenLibrary({ query, limit }).catch(() => []),
     searchIAtexts({ query, limit }).catch(() => []),
   ]);
+  // Gutendex is Cloudflare-gated against datacenter IPs, so an empty public-domain tier is the
+  // normal case on a server. Fall back to Gutenberg's own OPDS feed rather than lose the PD half.
+  if (!pg.length) pg = await searchGutenbergOPDS({ query, limit }).catch(() => []);
   const seen = new Set();
   const out = [];
   for (const b of [...pg, ...ia, ...ol]) {         // host first, then window, then aggregate

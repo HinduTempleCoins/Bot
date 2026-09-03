@@ -8,6 +8,7 @@ import {
   normalizeBook, searchGutenberg, searchOpenLibrary, searchIAtexts, search,
   renderList, dataNote, POSTURE, __setFetch,
 } from './books-open.mjs';
+import * as booksOpen from './books-open.mjs';
 
 // Build a fake fetch that returns `payload` (JSON) with ok:true, recording called URLs.
 function fakeFetch(payload, { ok = true } = {}) {
@@ -208,4 +209,74 @@ test('dataNote names the sources and the PD-first posture', () => {
   assert.ok(/internet archive/i.test(note));
   assert.ok(/open library/i.test(note));
   assert.ok(/public.domain/i.test(note));
+});
+
+// ── Project Gutenberg OPDS fallback ──────────────────────────────────────────────────────────────
+// Gutendex is Cloudflare-gated against datacenter IPs, so the PD tier has to survive without it.
+const OPDS_FEED = `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<entry><id>https://www.gutenberg.org/ebooks/search/?query=x</id><title>Books: x</title></entry>
+<entry>
+  <id>https://www.gutenberg.org/ebooks/3186.opds</id>
+  <title>The Mysterious Stranger, and Other Stories</title>
+  <content type="text">Mark Twain</content>
+</entry>
+<entry>
+  <id>https://www.gutenberg.org/ebooks/10135.opds</id>
+  <title>The Great English Short-Story Writers</title>
+  <content type="text">1035 downloads</content>
+</entry>
+</feed>`;
+
+test('parseGutenbergOPDS extracts books and skips the navigation entry', () => {
+  const out = booksOpen.parseGutenbergOPDS(OPDS_FEED, 10);
+  assert.equal(out.length, 2);                       // the "Books: x" nav entry is dropped
+  assert.equal(out[0].title, 'The Mysterious Stranger, and Other Stories');
+  assert.equal(out[0].author, 'Mark Twain');
+  assert.equal(out[0].source, 'Project Gutenberg');
+  assert.equal(out[0].posture, 'host');
+  assert.equal(out[0].license, 'Public Domain');
+  assert.equal(out[0].rightsVerified, false);        // OPDS carries no per-record copyright flag
+});
+
+test('a download count is never rendered as an author', () => {
+  const out = booksOpen.parseGutenbergOPDS(OPDS_FEED, 10);
+  assert.equal(out[1].author, 'Unknown');
+});
+
+test('gutenbergUrls builds the canonical download links', () => {
+  const u = booksOpen.gutenbergUrls(3186);
+  assert.equal(u.epub, 'https://www.gutenberg.org/ebooks/3186.epub3.images');
+  assert.equal(u.text, 'https://www.gutenberg.org/ebooks/3186.txt.utf-8');
+  assert.match(u.html, /3186\.html/);
+  assert.deepEqual(booksOpen.gutenbergUrls(''), {});
+  assert.deepEqual(booksOpen.gutenbergUrls(null), {});
+});
+
+test('parseGutenbergOPDS soft-fails on garbage', () => {
+  assert.deepEqual(booksOpen.parseGutenbergOPDS('', 5), []);
+  assert.deepEqual(booksOpen.parseGutenbergOPDS(null, 5), []);
+  assert.deepEqual(booksOpen.parseGutenbergOPDS('<feed></feed>', 5), []);
+});
+
+test('searchGutenbergOPDS returns [] for an empty query and on a failed fetch', async () => {
+  assert.deepEqual(await booksOpen.searchGutenbergOPDS({ query: '' }), []);
+  booksOpen.__setFetch(async () => ({ ok: false, status: 403, text: async () => 'blocked' }));
+  assert.deepEqual(await booksOpen.searchGutenbergOPDS({ query: 'twain' }), []);
+  booksOpen.__setFetch(null);
+});
+
+test('search falls back to OPDS when Gutendex yields nothing', async () => {
+  booksOpen.__setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('gutendex')) return { ok: false, status: 403, json: async () => null, text: async () => '' };
+    if (u.includes('gutenberg.org')) return { ok: true, status: 200, text: async () => OPDS_FEED, json: async () => null };
+    if (u.includes('openlibrary')) return { ok: true, status: 200, json: async () => ({ docs: [] }), text: async () => '{}' };
+    return { ok: true, status: 200, json: async () => ({ response: { docs: [] } }), text: async () => '{}' };
+  });
+  const out = await booksOpen.search({ query: 'twain', limit: 10 });
+  booksOpen.__setFetch(null);
+  const host = out.filter((b) => b.posture === 'host');
+  assert.ok(host.length >= 1, 'the public-domain tier must survive a blocked Gutendex');
+  assert.equal(host[0].source, 'Project Gutenberg');
 });
