@@ -10,6 +10,7 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { computeKarma, __setFetchActivity } from './karma.mjs';
 import { readActivity } from './activity-reader.mjs';
+import { handler as leaderboardHandler } from './leaderboard.mjs';
 
 const PORT = +(process.env.PORT || 8156);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -49,6 +50,12 @@ export async function handler(req, res) {
     const url = new URL(req.url, 'http://karma.local');
     const path = url.pathname;
     if (path === '/health') return send(res, 200, { ok: true, service: 'karma' });
+    // The leaderboard owns the landing page and its JSON. Without this the service answered 404 on
+    // every human-facing path, so there was nothing to link a reader to.
+    if (path === '/' || path === '/index.html' || path === '/leaderboard' || path === '/api/leaderboard') {
+      const req2 = { ...req, url: path === '/leaderboard' ? '/' : req.url };
+      return leaderboardHandler(req2, res);
+    }
     let account = url.searchParams.get('account');
     const m = path.match(/^\/karma\/([^/]+)$/);
     if (m) account = decodeURIComponent(m[1]);
