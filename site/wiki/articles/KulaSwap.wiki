@@ -1,0 +1,18 @@
+'''KulaSwap''' is the decentralised exchange of the MELEK ecosystem, deployed on the [[PRANA Blockchain|PRANA]] chain and published at kula.money.
+
+== Function ==
+KulaSwap is an automated-market-maker exchange in the constant-product lineage, with pooled liquidity, farming and lending components. KULA is the hub asset: pairs are quoted against it rather than against every other asset directly.
+
+== Pairs and the bridge ==
+Principal pairs include KULA/MELEK, and the Hive-Engine assets [[VKBT and CURE|VKBT]] and CURE as VKBT/KULA and CURE/KULA. Those two are bridged from Hive-Engine one-to-one under multisignature custody, which makes them the route between MELEK and outside value.
+
+== See also ==
+* [[PRANA Blockchain]]
+* [[VKBT and CURE]]
+
+== Sources ==
+* [https://kula.money kula.money]
+* [https://github.com/HinduTempleCoins/KULASwap github.com/HinduTempleCoins/KULASwap]
+
+== Coverage ==
+Describes the exchange's structure and its principal pairs.

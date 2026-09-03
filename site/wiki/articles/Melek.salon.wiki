@@ -1,0 +1,16 @@
+'''melek.salon''' is the principal social front end of the [[MELEK Blockchain|MELEK]] chain — the interface where posts are written, read, voted and rewarded. It is a condenser-family front end, the same software lineage used by the other Graphene social chains.
+
+== Related surfaces ==
+* wallet.melek.salon — account signup and wallet. Keys are generated in the browser and are not transmitted to the operator.
+* [[Witness School|witness.melek.salon]] — documentation and courses.
+
+== See also ==
+* [[MELEK Blockchain]]
+* [[Running a Condenser Front-End]]
+
+== Sources ==
+* [https://melek.salon melek.salon]
+* [https://github.com/HinduTempleCoins/melek-condenser github.com/HinduTempleCoins/melek-condenser]
+
+== Coverage ==
+Describes the front end and its companion surfaces.

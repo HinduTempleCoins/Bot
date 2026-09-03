@@ -1,0 +1,21 @@
+'''VKBT''' (Van Kush Beauty Token) and '''CURE''' are Hive-Engine tokens issued from the Van Kush Family business, a maker of handcrafted goods. They have been in distribution for several years.
+
+== Significance to MELEK ==
+MELEK has not been listed on any external exchange and has no trading pair outside its own infrastructure. As a consequence there is no route into MELEK from Bitcoin, Litecoin, STEEM or HIVE.
+
+VKBT and CURE are bridged from Hive-Engine onto [[PRANA Blockchain|PRANA]] one-to-one under multisignature custody, and traded on [[KulaSwap]] as VKBT/KULA and CURE/KULA against a KULA/MELEK pair. They are therefore the only assets carrying outside value that reach MELEK, in either direction:
+
+* ''Inbound'' — a holder of VKBT or CURE can convert into KULA and then MELEK.
+* ''Outbound'' — a holder of MELEK can convert to KULA, then to VKBT or CURE, then across the bridge to Hive-Engine and out through HIVE or a swap withdrawal.
+
+== See also ==
+* [[KulaSwap]]
+* [[Hive Engine and Smart Media Tokens]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://kula.money kula.money]
+* [https://vankushfamily.com vankushfamily.com]
+
+== Coverage ==
+Describes the tokens' role as the bridge between MELEK and external value. Does not assess their market value.

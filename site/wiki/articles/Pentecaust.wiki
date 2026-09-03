@@ -1,0 +1,19 @@
+'''Pentecaust''' is the private-messaging and community layer of the MELEK ecosystem, published at pentecaust.com.
+
+== Purpose ==
+The Graphene social chains that preceded MELEK — [[STEEM Blockchain|STEEM]], [[HIVE Blockchain|HIVE]] and [[BLURT Blockchain|BLURT]] — never shipped a direct-messaging system. Pentecaust fills that gap and extends it into clans and cross-surface identity, so that one account carries a user across the chain, the messenger and the games.
+
+== Function ==
+* Private messages and direct conversations between accounts
+* Clans, as the persistent social unit
+* A single sign-in identity shared with the other ecosystem surfaces
+
+== See also ==
+* [[MELEK Blockchain]]
+* [[SoapBox Community]]
+
+== Sources ==
+* [https://pentecaust.com pentecaust.com]
+
+== Coverage ==
+Describes the surface's stated function.

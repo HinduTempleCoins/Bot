@@ -1,0 +1,22 @@
+'''Hathor''' (account ''@hathor'') is an elected witness on the [[MELEK Blockchain|MELEK]] chain that is operated by software rather than by a person. The chain does not treat it specially; it is an ordinary Graphene witness account whose operator happens to be a program.
+
+== Role ==
+The account combines functions that on older social chains were split across several bots and services: it produces blocks and publishes a price feed, it answers questions across the ecosystem's surfaces, it assists new users through signup, and it teaches. The design intent has been described as combining the chain daemon, a community tipping bot, a helper account and an onboarding tutor into one identity.
+
+== Naming ==
+The name refers to a VR Hathor-Mehit figure from an earlier generation of the operator's conversational-AI work. It is unrelated to the DAG-based project of the same name.
+
+== Forkability ==
+The account's character, operating rules and knowledge corpus are maintained in a public repository rather than inside any single model's weights. The stated purpose is that the witness survives a change of model or of operator, because what defines it is public and reproducible.
+
+== See also ==
+* [[MELEK Blockchain]]
+* [[Witness School]]
+* [[Blockchain Witness (Block Producer)]]
+
+== Sources ==
+* [https://witness.melek.salon/hathor witness.melek.salon/hathor]
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] — operator software and corpus
+
+== Coverage ==
+Describes the account's stated design and public role.

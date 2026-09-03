@@ -1,0 +1,27 @@
+'''Witness School''' is the teaching surface of the MELEK ecosystem, published at witness.melek.salon. It is a structured course rather than a marketing site, covering how the chain works, how to run infrastructure on it, and how to build against it.
+
+== Structure ==
+* ''/learn'' — the chain explained from first principles, for readers who have never used one
+* ''/run'' — running a witness node
+* ''/mine'' and ''/pool'' — mining, and pool participation
+* ''/wallet'' — keys, custody, and the capability of each key
+* ''/tokens'' and ''/fees'' — the token layer and its costs
+* ''/whitepaper'' — the whitepaper
+* ''/academy'' — the structured course
+* ''/hathor'' — the AI witness
+* ''/servers'' and ''/build'' — infrastructure and building on the chain
+* ''/dev/melek'', ''/dev/prana'', ''/dev/token'', ''/dev/contracts'', ''/dev/services'' — developer documentation
+
+== Rationale ==
+Witness seats in a delegated-proof-of-stake chain are filled by stake-weighted election. The quality of that governance depends on whether voters understand what a witness does. Witness School exists so that a seat can be sought, and a vote cast, by someone who understands the role.
+
+== See also ==
+* [[MELEK Blockchain]]
+* [[Running a Graphene Witness Node]]
+* [[Blockchain Witness (Block Producer)]]
+
+== Sources ==
+* [https://witness.melek.salon witness.melek.salon]
+
+== Coverage ==
+Section list reflects the live site at the time of writing.
