@@ -66,7 +66,9 @@ test('ISSUED_TOKENS default to VKBT, CURE', () => {
 test('WATCH_TOKENS default snapshot set', () => {
   if (!process.env.WATCH_TOKENS) {
     assert.deepEqual(WATCH_TOKENS, [
-      'VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH',
+      // SPS/DEC/LEO trade on outside exchanges too, so the watchlist snapshots them for the
+      // cross-venue price comparison (see he-external-listings.mjs).
+      'VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH', 'SPS', 'DEC', 'LEO',
     ]);
   }
   assert.ok(Array.isArray(WATCH_TOKENS));
@@ -164,7 +166,7 @@ test('empty string env falls back to the default list', async () => {
 test('whitespace-only env falls back to the default list', async () => {
   const m = await freshWith({ WATCH_TOKENS: '   \t  ' });
   assert.deepEqual(m.WATCH_TOKENS, [
-    'VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH',
+    'VKBT', 'CURE', 'SWAP.LTC', 'SWAP.BLURT', 'SWAP.DOGE', 'BBH', 'SPS', 'DEC', 'LEO',
   ]);
 });
 

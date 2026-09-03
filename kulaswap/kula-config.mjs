@@ -45,6 +45,10 @@ export const CHAINS = {
     wnative: '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34',
     verified: true /* Router/Factory/WPRANA + 4 seeded pairs confirmed on-chain 2026-08-31 */,
     kula: '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', mMELEK: '0x8c4B882D7379D35413E2a9202f63B53f893D1A9D',
+    // MWALI, the PoL / liquidity-reward token. Emission-only: verified on-chain 2026-09-04 —
+    // symbol MWALI, 18 decimals, totalSupply 0 (nothing minted until the gauge goes live). Two
+    // orphan Mwali deployments exist at other nonces; this is the canonical one.
+    pol: '0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9',
     wVKBT: '0xD915E757662c4234137aff167Bf93d588145f75e', wCURE: '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff',
     tokens: [
       { symbol: 'KULA', address: '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', decimals: 18 },
