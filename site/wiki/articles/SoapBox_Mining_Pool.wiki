@@ -1,0 +1,14 @@
+The '''SoapBox mining pool''' is the ecosystem's mining pool, published at pool.soapbox.community.
+
+== Function ==
+The pool serves the Etchash proof-of-work of the [[PRANA Blockchain|PRANA]] chain and additional CryptoNote-family chains. It offers browser-based mining alongside conventional miner connections, and includes in-browser wallet generation so a participant can begin without installing separate software.
+
+== See also ==
+* [[PRANA Blockchain]]
+* [[Witness School]]
+
+== Sources ==
+* [https://pool.soapbox.community pool.soapbox.community]
+
+== Coverage ==
+Describes the pool's stated function.

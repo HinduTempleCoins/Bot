@@ -1,0 +1,18 @@
+The '''Library of Ashurbanipal''' is the reference wiki of the MELEK ecosystem, published at wiki.soapbox.community. It is named for the Neo-Assyrian royal library at Nineveh.
+
+== Editorial model ==
+Articles are served read-only and rendered server-side. Each carries its own ''References'' section recording provenance, and a ''Coverage'' note stating what the article does and does not establish. Where a cited source has been flagged in fact-checking, the flag is displayed to the reader rather than suppressed, so that disputed material is visible as disputed.
+
+A publication filter governs what may appear: only designated article files are served, and private corpus domains are excluded at the publish layer as well as at generation.
+
+== Scope ==
+Coverage includes blockchain and Graphene topics, the ecosystem's own surfaces, and a plant-medicine and harm-reduction reference corpus.
+
+== See also ==
+* [[SoapBox Community]]
+
+== Sources ==
+* [https://wiki.soapbox.community wiki.soapbox.community]
+
+== Coverage ==
+Describes the wiki's editorial model as implemented.

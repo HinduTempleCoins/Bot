@@ -1,0 +1,14 @@
+'''Akasha''' is the wallet for the [[PRANA Blockchain|PRANA]] chain, published at akasha.soapbox.community.
+
+== Function ==
+Akasha provides account creation, balance display and transaction submission against PRANA. Keys are generated in the browser.
+
+== See also ==
+* [[PRANA Blockchain]]
+* [[KulaSwap]]
+
+== Sources ==
+* [https://akasha.soapbox.community akasha.soapbox.community]
+
+== Coverage ==
+Describes the wallet's stated function.

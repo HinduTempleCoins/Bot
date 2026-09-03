@@ -1,0 +1,16 @@
+'''PranaScan''' is the block explorer for the [[PRANA Blockchain|PRANA]] chain, published at pranascan.soapbox.community. It is a Blockscout deployment.
+
+== Function ==
+The explorer indexes blocks, transactions, addresses and contracts, and exposes a public API alongside its web interface.
+
+== Note on block rewards ==
+PRANA pays its block reward as a coinbase issuance rather than as a transaction. A block's transaction list will therefore not show the reward, and a reader inspecting blocks may incorrectly conclude that no reward is paid. The reward can be confirmed by reading a miner's balance across successive blocks through the chain's RPC.
+
+== See also ==
+* [[PRANA Blockchain]]
+
+== Sources ==
+* [https://pranascan.soapbox.community pranascan.soapbox.community]
+
+== Coverage ==
+Describes the explorer and one common source of confusion in reading it.

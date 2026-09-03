@@ -1,0 +1,30 @@
+'''PRANA''' is a proof-of-work blockchain using the Etchash algorithm, launched without a premine. It is the compute half of a two-chain ecosystem whose social half is [[MELEK Blockchain|MELEK]].
+
+== Purpose ==
+PRANA exists to produce and account for compute. The stated design intent is that an AI system operating on the social chain needs processing capacity, and that a proof-of-work chain is a way to organise and pay for it — hence the framing "mine the compute the people own."
+
+== Parameters ==
+* Chain ID: 712217
+* Algorithm: Etchash (Dagger-Hashimoto family)
+* Block interval: approximately 11 seconds
+* Block reward: 2 PRANA, paid to the miner
+* Client: CoreGeth
+* No premine
+
+Because the reward is a coinbase issuance rather than a transaction, it does not appear as a transfer in a block's transaction list. It can be confirmed by reading a miner's balance across successive blocks.
+
+== Ecosystem ==
+PRANA hosts an EVM environment. [[KulaSwap]] runs as its decentralised exchange, and wrapped Hive-Engine assets — notably [[VKBT and CURE]] — are bridged onto it under multisignature custody, which is what connects the MELEK side to outside value.
+
+== See also ==
+* [[MELEK Blockchain]]
+* [[KulaSwap]]
+* [[SoapBox Mining Pool]]
+
+== Sources ==
+* [https://pranascan.soapbox.community pranascan.soapbox.community] — block explorer
+* [https://akasha.soapbox.community akasha.soapbox.community] — wallet
+* [https://github.com/HinduTempleCoins/PRANA github.com/HinduTempleCoins/PRANA] — source
+
+== Coverage ==
+Parameters were read from a live PRANA node. Difficulty, height and supply change continuously.

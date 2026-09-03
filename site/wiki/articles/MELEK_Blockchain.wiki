@@ -1,0 +1,37 @@
+'''MELEK''' is a social blockchain built on the Graphene framework, in which posting and voting distribute a native token to authors and curators. It is the social half of a two-chain ecosystem; its sister chain, [[PRANA Blockchain|PRANA]], supplies proof-of-work compute.
+
+== Design lineage ==
+MELEK descends from the Graphene social-chain family — [[BitShares]], [[STEEM Blockchain|STEEM]], [[HIVE Blockchain|HIVE]] and [[BLURT Blockchain|BLURT]]. That lineage was chosen deliberately: the reward-and-curation model is well understood and the consensus code is long-tested.
+
+Two departures from BLURT are worth noting. BLURT removed downvotes and introduced a fee on each operation. MELEK adopted the first and rejected the second, so ordinary use costs nothing beyond a user's resource credits.
+
+== Consensus and parameters ==
+MELEK uses delegated proof of stake (see [[Delegated Proof of Stake (DPoS)]]) with 21 witness slots. Witnesses are elected by stake-weighted vote and produce blocks in a shuffled schedule.
+
+* Chain ID: 907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b
+* Address prefix: MELEK
+* Block interval: 4 seconds
+* Witness slots: 21
+* Symbols: MELEK, and MBD as the paired unit
+* Vested balances are held as MELEK POWER
+* No premine
+
+== Supply ==
+The chain launched without a premine, which means distribution happens through issuance rather than allocation. Supply therefore rises, and rises fastest early on while the base is small. Current figures are readable directly from any node through the standard Graphene API.
+
+== The AI witness ==
+One elected witness, [[Hathor (AI Witness)|@hathor]], is operated by software rather than a person. It produces blocks, publishes a price feed, and acts as a help and onboarding account across the ecosystem. Its character, rules and corpus are maintained in a public repository so it survives changes of model or operator.
+
+== See also ==
+* [[Witness School]]
+* [[Hathor (AI Witness)]]
+* [[PRANA Blockchain]]
+* [[Blockchain Witness (Block Producer)]]
+
+== Sources ==
+* [https://melek.salon melek.salon] — the social front end
+* [https://witness.melek.salon witness.melek.salon] — Witness School
+* [https://github.com/HinduTempleCoins/melek-chain github.com/HinduTempleCoins/melek-chain] — chain source
+
+== Coverage ==
+Chain parameters in this article were read from a live MELEK node. Supply and block height change continuously and are not reproduced here.
