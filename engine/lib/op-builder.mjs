@@ -82,6 +82,27 @@ function customJsonOp(account, envelope) {
 }
 
 /**
+ * Wrap an envelope as a POSTING-auth custom_json. Used for the actions the engine's auth split
+ * lets posting authority run (`workerbee.claim`, `workerbee.tick`). Signing these with posting
+ * rather than active is the point: a daemon that only ever claims and cranks never needs a key
+ * that can move funds.
+ * @param {string} account  the signer (required_posting_auths)
+ * @param {object} envelope { contractName, contractAction, contractPayload }
+ * @returns {['custom_json', object]}
+ */
+function customJsonPostingOp(account, envelope) {
+  return [
+    'custom_json',
+    {
+      required_auths: [],
+      required_posting_auths: [account],
+      id: config.sidechainId,
+      json: JSON.stringify(envelope),
+    },
+  ];
+}
+
+/**
  * Quantity must be a positive decimal string. We don't know the token's
  * precision here (the contract enforces it on execution), so we only check the
  * surface form: digits with at most one dot, > 0, <= 8 decimal places.
@@ -201,6 +222,44 @@ export function buildForeverLockOp(account, p) {
   return {
     ok: true, kind: 'engine', action: 'foreverLock', op: customJsonOp(account, envelope), envelope,
     summary: `PERMANENTLY lock ${p.amount} ${stake} → APIS-Hash (soulbound, no unstake)`,
+  };
+}
+
+/**
+ * buildWorkerbeeClaimOp — harvest the sender's OWN accrued APIS.
+ *
+ * The WorkerBee pool is a MasterChef-style accumulator: `advance()` accrues `accRewardPerShare`
+ * every block, but APIS is only minted when a holder claims. So an account with APIS-Hash earns
+ * continuously and shows a rising `pending` while its APIS balance stays 0 — the emission is real
+ * and owed, it simply has not been drawn yet. This op draws it.
+ *
+ * POSTING auth: claim can only mint the sender's own already-accrued APIS, so it never needs a key
+ * that can move funds.
+ *
+ * @param {string} account the claiming L1 account
+ */
+export function buildWorkerbeeClaimOp(account) {
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const envelope = { contractName: 'workerbee', contractAction: 'claim', contractPayload: {} };
+  return {
+    ok: true, kind: 'engine', action: 'claim', authLevel: 'posting',
+    op: customJsonPostingOp(account, envelope), envelope,
+    summary: `claim accrued ${genesis.feeToken} for @${account}`,
+  };
+}
+
+/**
+ * buildWorkerbeeTickOp — turn the emission crank. Idempotent and caller-independent: the emission
+ * for a block range is fixed, so who turns it cannot change the result. Anyone may call it.
+ * @param {string} account the L1 account turning the crank
+ */
+export function buildWorkerbeeTickOp(account) {
+  if (!isValidAccount(account)) return err(`invalid account "${account}"`);
+  const envelope = { contractName: 'workerbee', contractAction: 'tick', contractPayload: {} };
+  return {
+    ok: true, kind: 'engine', action: 'tick', authLevel: 'posting',
+    op: customJsonPostingOp(account, envelope), envelope,
+    summary: `advance the ${genesis.feeToken} emission crank`,
   };
 }
 
