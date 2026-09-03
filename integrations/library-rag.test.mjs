@@ -24,7 +24,10 @@ import { invalidate } from './soapbox/cache.mjs';
 const WIKI = (process.env.WIKI_SITE || 'https://wiki.soapbox.community').replace(/\/+$/, '');
 
 // ── env / fetch lifecycle ──────────────────────────────────────────────────────────────────
-const LLM_KEYS = ['GEMINI_API_KEY', 'OPENROUTER_API_KEY', 'GITHUB_TOKEN', 'GROQ_API_KEY'];
+// LLM_ALLOW_GEMINI belongs in this list: llm-router hard-pins Gemini OFF unless the operator opts
+// in with LLM_ALLOW_GEMINI=1 (the $0 cost pin), so a test that wants the Gemini path must set BOTH,
+// and the lifecycle must save/restore both so the opt-in never leaks between tests.
+const LLM_KEYS = ['GEMINI_API_KEY', 'OPENROUTER_API_KEY', 'GITHUB_TOKEN', 'GROQ_API_KEY', 'LLM_ALLOW_GEMINI'];
 let realFetch;
 let savedKeys;
 
@@ -210,6 +213,7 @@ test('askLibrary returns the not-covered answer with no sources when nothing is 
 
 test('askLibrary with an LLM key grounds on passages, returns the answer + cited sources', async () => {
   process.env.GEMINI_API_KEY = 'test-key';
+  process.env.LLM_ALLOW_GEMINI = '1'; // llm-router keeps metered Gemini off without this
   const { search, pages } = corpus();
   let llmPrompt = null;
   installFetch({
@@ -235,6 +239,7 @@ test('askLibrary with an LLM key grounds on passages, returns the answer + cited
 
 test('askLibrary suppresses sources when the LLM says the Library does not cover it', async () => {
   process.env.GEMINI_API_KEY = 'test-key';
+  process.env.LLM_ALLOW_GEMINI = '1'; // llm-router keeps metered Gemini off without this
   const { search, pages } = corpus();
   installFetch({ search, pages, llmText: "The Library doesn't cover that." });
 
@@ -245,6 +250,7 @@ test('askLibrary suppresses sources when the LLM says the Library does not cover
 
 test('askLibrary falls back to passages when the LLM returns empty text', async () => {
   process.env.GEMINI_API_KEY = 'test-key';
+  process.env.LLM_ALLOW_GEMINI = '1'; // llm-router keeps metered Gemini off without this
   const { search, pages } = corpus();
   installFetch({ search, pages, llmText: null }); // empty completion -> router fails -> fallback
 
@@ -257,6 +263,7 @@ test('askLibrary falls back to passages when the LLM returns empty text', async 
 test('askLibrary dedups sources that share a url/title across passages', async () => {
   // Same article surfaced twice by search (e.g. snippet + anchor hit) must collapse to one source.
   process.env.GEMINI_API_KEY = 'test-key';
+  process.env.LLM_ALLOW_GEMINI = '1'; // llm-router keeps metered Gemini off without this
   installFetch({
     search: [
       { title: 'The Convergence', slug: 'the-convergence', score: 9, snippet: 'A' },
