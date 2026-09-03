@@ -374,7 +374,7 @@ python3 knowledge-base.py --datasets-dir datasets \
 
 Format:
 ```jsonl
-{"prompt": "Question about vkbt-token: What is VKBT Token", "completion": "VKBT (Van Kush Bot Token) is a cryptocurrency token on the HIVE-Engine blockchain..."}
+{"prompt": "Question about vkbt-token: What is VKBT Token", "completion": "VKBT (Van Kush Beauty Token) is a cryptocurrency token on the HIVE-Engine blockchain..."}
 {"prompt": "Question about cure-token: What is CURE Token", "completion": "CURE is an extremely scarce cryptocurrency token..."}
 ```
 
@@ -417,7 +417,7 @@ python3 knowledge-base.py --datasets-dir datasets \
 
 **Discord Bot**: *Queries knowledge base API*
 
-**Response**: "VKBT (Van Kush Bot Token) is a cryptocurrency token on HIVE-Engine..."
+**Response**: "VKBT (Van Kush Beauty Token) is a cryptocurrency token on HIVE-Engine..."
 
 **Cost**: ~500 tokens total (query + response)
 
