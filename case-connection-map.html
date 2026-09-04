@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Van Kush v. DEA — Network Connection Map</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  :root { color-scheme: light; }
+  body { margin:0; background:#f4f1ea; color:#1a1a1a;
+         font-family:"Liberation Serif",Georgia,"Times New Roman",serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:26px 30px 40px; }
+  .hdr { text-align:center; border-bottom:3px double #6b1d1d; padding-bottom:12px; margin-bottom:6px; }
+  .hdr h1 { font-size:25px; margin:0 0 4px; letter-spacing:.4px; color:#6b1d1d; }
+  .hdr .sub { font-size:13.5px; color:#444; font-style:italic; }
+  .thesis { background:#fbf8f0; border:1px solid #d8cfba; border-left:5px solid #6b1d1d;
+            padding:12px 16px; margin:16px 0 6px; font-size:14.5px; line-height:1.5; }
+  .thesis b { color:#6b1d1d; }
+  .legend { display:flex; gap:20px; flex-wrap:wrap; justify-content:center;
+            font-size:12.5px; color:#333; margin:10px 0 4px; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .sw { width:15px; height:15px; border-radius:3px; border:1px solid #999; display:inline-block; }
+  .mermaid { background:#fff; border:1px solid #cbb89b; border-radius:6px; padding:14px; margin-top:10px; }
+  .foot { font-size:11.5px; color:#555; margin-top:14px; line-height:1.55; }
+  .foot b { color:#6b1d1d; }
+  .tag { position:fixed; top:8px; left:8px; background:#6b1d1d; color:#fff;
+         font-family:system-ui,sans-serif; font-size:10px; padding:2px 7px; border-radius:3px; opacity:.85; }
+</style>
+</head>
+<body>
+<div class="tag">Alpha</div>
+<div class="wrap">
+  <div class="hdr">
+    <h1>THE NETWORK — CONNECTION MAP</h1>
+    <div class="sub">Van Kush v. DEA et al. · the enterprise is in the edges, not the nodes</div>
+  </div>
+
+  <div class="thesis">
+    Two clusters, one hinge. A <b>selection machine</b> (money and endorsements) chooses the people who
+    staff a <b>local forum</b> (the Collin&nbsp;/&nbsp;Dallas bench). Where they meet — <b>Collin County</b> and the
+    <b>Fifth Court of Appeals</b> — is where the Plaintiff's matters were decided, and gated shut.
+    That capture is the <b>cause</b>. The injury is older and simpler: <b>courts exist so disputes are settled by
+    law, not by power.</b> When the average person cannot get legal help — no counsel, no library, an appeal
+    gated behind the very office complained of — a <b>power vacuum</b> opens where the law should be, and informal
+    power fills it. The Supreme Court said as much: legal access is a <i>"safety valve … [to] reduce … power
+    structures."</i> <b>Bounds v. Smith,</b> 430 U.S. 817 (1977). A jail with no law library is not neutral
+    ground — it is ground ruled by whoever is strongest. Courts are why Hannibal brings a claim instead of an army.
+  </div>
+
+  <div class="legend">
+    <span><span class="sw" style="background:#e7d3d3"></span> Selection machine (money / endorsement)</span>
+    <span><span class="sw" style="background:#d8e2ec"></span> The forum (bench &amp; counsel)</span>
+    <span><span class="sw" style="background:#e5ddc7"></span> The hinge (Collin Co. / appellate)</span>
+  </div>
+
+  <pre class="mermaid">
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','fontSize':'15px','lineColor':'#7a6a4f'}}}%%
+flowchart TB
+
+  subgraph MONEY["THE SELECTION MACHINE — money and endorsements"]
+    direction TB
+    DUNN["Tim Dunn plus Wilks family<br/>oil-and-gas financiers"]
+    DTL["Defend Texas Liberty PAC"]
+    PATRICK["Lt. Gov. Dan Patrick<br/>presided over impeachment trial"]
+    LOWRY["Terry Lowry<br/>The Link Letter voter guide"]
+    EMPOWER["Empower Texans<br/>M. Q. Sullivan"]
+  end
+
+  subgraph FORUM["THE FORUM — Collin and Dallas bench and counsel"]
+    direction TB
+    PAXTON["Ken Paxton<br/>Texas Attorney General"]
+    RWHELESS["Judge Ray Wheless<br/>drug-court founder; region presiding judge"]
+    TNOWAK["Judge Tom Nowak"]
+    CNOWAK["Magistrate Christine Nowak"]
+    MAZZANT["Judge Amos Mazzant"]
+    CWHELESS["Judge Cynthia Wheless"]
+    THOMPSON["Judge Andrea Thompson"]
+    WYSOCKI["Judge Ashley Wysocki"]
+    DAVIS["Attorney Bob Davis<br/>paid by both counties"]
+    CCDAO["Collin County DA<br/>Roach / Willis"]
+  end
+
+  subgraph HINGE["THE HINGE — where the money meets the forum"]
+    direction TB
+    COLLIN["COLLIN COUNTY"]
+    FIFTHCOA["FIFTH COURT OF APPEALS<br/>Dallas / Collin district"]
+    WILLETT["Justice Don Willett<br/>former OAG"]
+    FIFTHCIR["U.S. Fifth Circuit"]
+  end
+
+  VACUUM["THE POWER VACUUM<br/>average person can't get legal help — appeal sealed, 05-20-00098-CV<br/>law absent, power rules — a jail with no law library"]
+
+  DUNN -->|about 90 percent of funds| DTL
+  DTL -->|3 million, June 2023| PATRICK
+  DTL -->|leading beneficiary| PAXTON
+  DTL -->|spends into HD-70 races| COLLIN
+  LOWRY -->|paid endorsements pick the slate| COLLIN
+  EMPOWER -->|endorsed| WILLETT
+
+  PAXTON -->|OR2018-03410 helps withhold records| DAVIS
+  PAXTON -.divorce sealed by.-> RWHELESS
+  RWHELESS -->|hands 366th bench to| TNOWAK
+  CNOWAK -.married.- TNOWAK
+  CNOWAK -->|dismisses federal case same week| MAZZANT
+  MAZZANT -.also dismissed Paxton SEC case.-> PAXTON
+  CWHELESS -->|sanctioned Plaintiff while absent| THOMPSON
+  THOMPSON -.O'Neil Wysocki firm.- WYSOCKI
+  WYSOCKI -->|ruled for a non-party| CCDAO
+  DAVIS -->|appears for a non-party county| CCDAO
+
+  CCDAO -->|Paxton venue moved back to| COLLIN
+  COLLIN -->|matters affirmed by| FIFTHCOA
+  WYSOCKI -->|four appointments; ascending to| FIFTHCOA
+  WILLETT -->|reviews federal appeals| FIFTHCIR
+  FIFTHCOA -->|gates the appeal shut| VACUUM
+  FIFTHCIR -->|no review reached| VACUUM
+
+  classDef money fill:#e7d3d3,stroke:#8a4a4a,color:#2a1010;
+  classDef forum fill:#d8e2ec,stroke:#4a6a8a,color:#101a2a;
+  classDef hinge fill:#e5ddc7,stroke:#8a7a4a,color:#2a2410;
+  classDef vac fill:#6b1d1d,stroke:#3a0d0d,color:#fff;
+  class DUNN,DTL,PATRICK,LOWRY,EMPOWER money;
+  class PAXTON,RWHELESS,TNOWAK,CNOWAK,MAZZANT,CWHELESS,THOMPSON,WYSOCKI,DAVIS,CCDAO forum;
+  class COLLIN,FIFTHCOA,WILLETT,FIFTHCIR hinge;
+  class VACUUM vac;
+  </pre>
+
+  <div class="foot">
+    <b>How to read it.</b> Solid arrows are money, appointment, or official acts; dashed lines are family or
+    firm relationships that are lawful in themselves. The wrong pleaded is not that these associations exist —
+    it is their <b>weaponization</b> toward an unlawful object. <i>Boyle v. United States,</i> 556 U.S. 938 (2009)
+    (an association-in-fact enterprise may be built entirely of lawful relationships).
+    Every edge shown is drawn from the Complaint or from sourced public reporting; appointment facts are from the
+    Office of the Texas Governor's own releases. Neutral record — no verdict is asserted against any person.
+  </div>
+</div>
+<script>
+  mermaid.initialize({ startOnLoad:true, securityLevel:'loose', flowchart:{ curve:'basis', nodeSpacing:38, rankSpacing:52 } });
+</script>
+</body>
+</html>

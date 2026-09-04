@@ -1,0 +1,42 @@
+[Unit]
+Description=MELEK Hive-Engine <-> PRANA bridge relayer (VKBT/CURE; deposit attest + withdrawal release; 3-of-5 both legs)
+After=network-online.target prana-mainnet-node.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/PRANA/bridge-relayer
+# --- config (no secrets) ------------------------------------------------------
+Environment=HE_BRIDGE_CUSTODY=kula-bridge
+Environment=HE_BRIDGE_SYMBOLS=VKBT,CURE
+Environment=HE_HISTORY_URL=https://history.hive-engine.com/accountHistory
+Environment=PRANA_RPC_URL=http://127.0.0.1:8557
+Environment=GRAPHENE_BRIDGE_ADDRESS=0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505
+Environment=HIVE_RPC=https://api.hive.blog
+Environment=HE_SSC_ID=ssc-mainnet-hive
+Environment=CONFIRMATIONS=12
+Environment=WITHDRAWAL_LOOKBACK=5000
+Environment=TICK_MS=30000
+Environment=RELEASE_TICK_MS=60000
+#
+# --- GO-LIVE credential mount (keys off-disk, decrypted JIT into tmpfs) --------
+# The daemon runs WATCH-ONLY until these are present. To enable minting + release:
+#   1) systemd-creds encrypt --name=bridge-validators   <plaintext validators.json>  /root/PRANA/bridge-relayer/creds/bridge-validators.cred
+#   2) systemd-creds encrypt --name=bridge-hive-signers <plaintext hive-signers.json> /root/PRANA/bridge-relayer/creds/bridge-hive-signers.cred
+#   3) uncomment the four lines below, `systemctl daemon-reload`, `systemctl restart melek-bridge-relayer`
+#   4) delete the plaintext json used in step 1/2 (it never belongs on disk)
+# The bot side holds 3-of-5 on BOTH sets, so the bot alone reaches threshold.
+#Environment=BRIDGE_VALIDATORS_CRED=%d/bridge-validators
+#Environment=BRIDGE_HIVE_SIGNERS_CRED=%d/bridge-hive-signers
+#LoadCredentialEncrypted=bridge-validators:/root/PRANA/bridge-relayer/creds/bridge-validators.cred
+#LoadCredentialEncrypted=bridge-hive-signers:/root/PRANA/bridge-relayer/creds/bridge-hive-signers.cred
+#
+ExecStart=/usr/bin/node /root/PRANA/bridge-relayer/hive-engine-bridge-daemon.mjs
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/melek-bridge-relayer.log
+StandardError=append:/var/log/melek-bridge-relayer.log
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

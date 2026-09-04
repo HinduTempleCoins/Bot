@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo *)",
+      "Bash(gh api *)",
+      "Bash(vncdo:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m ' *)",
+      "Bash(git push *)",
+      "Bash(gh pr *)",
+      "Bash(git pull *)",
+      "Bash(node -e \"import\\('./site/travel/server.mjs'\\).then\\(m=>{const html=m.homePage\\(\\); const ok=html.includes\\('utt.impactcdn.com'\\)&&html.includes\\(\\\\\"impactStat\\('transformLinks'\\)\\\\\"\\)&&/utt.impactcdn.*<\\\\/head>/s.test\\(html\\); console.log\\('travel head has UTT before </head>:', ok\\);}\\)\")"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /workspaces/Bot/.local/orient-from-boxes.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/workspaces/Bot/infra/oracle-vm/server4/brain-capture.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

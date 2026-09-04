@@ -1,0 +1,24 @@
+{
+  "slug": "ashley-wysocki",
+  "person": {
+    "kind": "person",
+    "id": "Ashley Wysocki",
+    "name": "Ashley B. Wysocki",
+    "office": "Texas district judge (by gubernatorial appointment); candidate, Fifth Court of Appeals, Place 8",
+    "party": "Republican",
+    "jurisdiction": "Dallas County / Fifth Court of Appeals district (Dallas, Collin, Rockwall, Kaufman, Hunt, Grayson)",
+    "bio_url": "https://ballotpedia.org/Ashley_Wysocki"
+  },
+  "verified": false,
+  "verifyNote": "Encoded from primary and public records (Office of the Texas Governor appointment press releases; Ballotpedia; Dallas Morning News). This is a neutral civic-transparency record of who staffs the courts — a documented gubernatorial-appointment pattern and an appellate candidacy, not an allegation of wrongdoing. Each item links its source; candidate items await human confirmation.",
+  "records": [
+    { "type": "disclosure", "subject": "Ashley Wysocki", "label": "Appointed by Gov. Greg Abbott to the 254th Judicial District Court, Dallas County (term to expire Dec. 31, 2020)", "source": { "name": "Office of the Texas Governor", "url": "https://gov.texas.gov/news/post/governor-abbott-appoints-wysocki-to-254th-judicial-district-court" }, "asOf": "2019-01-28" },
+    { "type": "disclosure", "subject": "Ashley Wysocki", "label": "Appointed by Gov. Greg Abbott to the 44th District Court, Dallas County", "source": { "name": "Office of the Texas Governor", "url": "https://gov.texas.gov/news/category/appointment/P696/P64" }, "asOf": "2021-02-23" },
+    { "type": "disclosure", "subject": "Ashley Wysocki", "label": "Appointed by Gov. Greg Abbott to the 162nd Judicial District Court, Dallas County (term to expire Dec. 31, 2024)", "source": { "name": "Office of the Texas Governor", "url": "https://gov.texas.gov/news/post/governor-abbott-appoints-wysocki-to-162nd-district-court" }, "asOf": "2023-02-06" },
+    { "type": "disclosure", "subject": "Ashley Wysocki", "label": "Appointed by Gov. Greg Abbott to the 301st Judicial District Court (family court), Dallas County (term to expire Dec. 31, 2026) — reported as the fourth time in seven years that the Governor filled a Dallas County judicial vacancy with her", "source": { "name": "Dallas Morning News", "url": "https://www.dallasnews.com/news/2026/02/04/dallas-attorney-appointed-a-4th-time-by-abbott-to-fill-dallas-county-judicial-vacancy/" }, "asOf": "2026-01-30" },
+    { "type": "election", "subject": "Ashley Wysocki", "label": "Candidate for Justice, Place 8, Fifth District Court of Appeals; advanced from the Republican primary held March 3, 2026", "source": { "name": "Ballotpedia", "url": "https://ballotpedia.org/Ashley_Wysocki" }, "asOf": "2026-03-03" },
+    { "type": "disclosure", "subject": "Ashley Wysocki", "label": "Practiced family and civil litigation in Dallas prior to the bench (reported firms include Fox Rothschild and Mullin Hoard & Brown); associated in public reporting and court records with the O'Neil Wysocki family-law firm", "source": { "name": "Trellis.Law", "url": "https://trellis.law/judge/ashley.e.wysocki" }, "asOf": "2024" }
+  ],
+  "disputes": [],
+  "reply": ""
+}
