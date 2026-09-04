@@ -14,6 +14,8 @@ import {
   affiliateOut,
   renderPage,
   dataNote,
+  __setImpact,
+  impactConfigured,
 } from './coupons.mjs';
 
 // run a body with a controlled env, restoring originals afterward
@@ -215,4 +217,93 @@ test('dataNote is present with provenance, guardrails, and an as-of', () => {
   assert.ok(n.guardrails.some((g) => /no data-selling/i.test(g)));
   assert.ok(n.asOf && !Number.isNaN(Date.parse(n.asOf)), 'as-of timestamp');
   assert.ok(/affiliate\.mjs/.test(n.affiliateEngine), 'reports it reuses the affiliate engine');
+});
+
+
+// ---------------------------------------------------------------------------
+// findCoupons — the Impact.com source
+//
+// This vertical's only offer source used to be a `.invalid` URL that can never resolve, so it always
+// rendered empty. impact-api.listDeals() is now a real source. It is injected here (a stub module),
+// so the suite stays fully offline and no credential is ever needed to test the wiring.
+// ---------------------------------------------------------------------------
+const realImpact = await import('../impact-api.mjs').catch(() => null);
+function stubImpact(deals, { configured = true, throws = false } = {}) {
+  return {
+    configured: () => configured,
+    listDeals: async () => { if (throws) throw new Error('impact down'); return deals; },
+  };
+}
+function withImpact(stub, fn) {
+  __setImpact(stub);
+  try { return fn(); } finally { __setImpact(realImpact); }
+}
+
+test('findCoupons pulls approved Impact deals and maps them through the same normalizer', async () => {
+  const deals = [
+    { id: '1', advertiser: 'Nike, Inc.', name: 'Spring sale', code: 'SPRING20',
+      discount: '20% off', expires: '2099-01-01', url: 'https://nike.example/deal' },
+    { id: '2', advertiser: 'Adidas', name: 'Other brand', code: 'NOPE20', discount: '20% off' },
+  ];
+  const out = await withImpact(stubImpact(deals), () => findCoupons({ store: 'Nike' }));
+  assert.equal(out.length, 1, 'only the matching advertiser is returned');
+  const c = out[0];
+  assert.equal(c.code, 'SPRING20');
+  assert.equal(c.type, 'code');
+  assert.equal(c.discount, '20% off');
+  assert.equal(c.store, 'Nike, Inc.');
+  assert.equal(c.expires, '2099-01-01');
+  assert.equal(c.sourceUrl, 'https://nike.example/deal', 'Impact url maps to sourceUrl');
+});
+
+test('Impact advertiser matching tolerates suffixes and punctuation, both directions', async () => {
+  const mk = (advertiser) => [{ id: 'x', advertiser, code: 'C1', discount: '5% off' }];
+  for (const adv of ['Nike, Inc.', 'NIKE US', 'nike']) {
+    const out = await withImpact(stubImpact(mk(adv)), () => findCoupons({ store: 'Nike' }));
+    assert.equal(out.length, 1, `should match advertiser ${adv}`);
+  }
+  const miss = await withImpact(stubImpact(mk('Reebok')), () => findCoupons({ store: 'Nike' }));
+  assert.deepEqual(miss, [], 'a different advertiser does not match');
+});
+
+test('Impact is never called when unconfigured, and a throw soft-fails to []', async () => {
+  let called = false;
+  const spy = { configured: () => false, listDeals: async () => { called = true; return [{ id: '1', advertiser: 'Nike', code: 'X', discount: '1% off' }]; } };
+  assert.deepEqual(await withImpact(spy, () => findCoupons({ store: 'Nike' })), []);
+  assert.equal(called, false, 'unconfigured must not reach out');
+  assert.deepEqual(await withImpact(stubImpact([], { throws: true }), () => findCoupons({ store: 'Nike' })), []);
+});
+
+test('a deal with no promo code is dropped — we never fabricate one', async () => {
+  const deals = [{ id: '1', advertiser: 'Nike', name: 'Just a banner', discount: '', url: 'https://x.example' }];
+  assert.deepEqual(await withImpact(stubImpact(deals), () => findCoupons({ store: 'Nike' })), []);
+});
+
+test('feed and Impact merge, and the same code from both is deduped once', async () => {
+  const deals = [
+    { id: '1', advertiser: 'Nike', code: 'SPRING20', discount: '20% off' },
+    { id: '2', advertiser: 'Nike', code: 'IMPACTONLY', discount: '30% off' },
+  ];
+  const feed = [{ store: 'Nike', code: 'SPRING20', discount: '20% off' },
+                { store: 'Nike', code: 'FEEDONLY', discount: '15% off' }];
+  const out = await withImpact(stubImpact(deals),
+    () => findCoupons({ store: 'Nike' }, { fetch: fakeFetch(feed) }));
+  const codes = out.map((c) => c.code).sort();
+  assert.deepEqual(codes, ['FEEDONLY', 'IMPACTONLY', 'SPRING20']);
+});
+
+test('no injected fetch and no COUPON_FEED_URL means the feed is never dialled', async () => {
+  // The old code fired at https://coupons.invalid on EVERY render — a guaranteed DNS failure.
+  // With no source configured there is now nothing to dial, and the result is honestly empty.
+  await withEnv({ COUPON_FEED_URL: undefined }, async () => {
+    assert.deepEqual(await withImpact(stubImpact([], { configured: false }),
+      () => findCoupons({ store: 'Nike' })), []);
+  });
+});
+
+test('impactConfigured reflects the adapter and never throws', async () => {
+  assert.equal(withImpact(stubImpact([], { configured: true }), () => impactConfigured()), true);
+  assert.equal(withImpact(stubImpact([], { configured: false }), () => impactConfigured()), false);
+  assert.equal(withImpact({}, () => impactConfigured()), false, 'adapter missing configured() -> false');
+  assert.equal(withImpact({ configured: () => { throw new Error('boom'); } }, () => impactConfigured()), false);
 });
