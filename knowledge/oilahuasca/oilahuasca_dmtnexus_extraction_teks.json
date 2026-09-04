@@ -1,0 +1,535 @@
+{
+  "dmtnexus_extraction_teks": {
+    "document_info": {
+      "title": "DMT-Nexus Extraction Teks Compilation",
+      "purpose": "Reference material for understanding botanical extraction principles applicable to oilahuasca herb preparations",
+      "sources": ["DMT-Nexus Wiki", "Q21Q21", "LLB", "Noman", "69ron"],
+      "disclaimer": "Educational reference only. These teks describe ayahuasca/DMT extraction methods which share extraction chemistry principles with oilahuasca preparations.",
+      "date_compiled": "January 2026"
+    },
+
+    "q21q21_vinegar_lime_tek": {
+      "title": "Q21Q21's Vinegar/Lime A/B Extraction Tek",
+      "attribution": "Compilation of many people's ideas including Blueskine, Noman, 69ron, amor_fati, SyZyGyPSy",
+      "note": "Q21Q21 being a fictional alien entity... with internet access",
+
+      "background": {
+        "plant_source": "Mimosa Hostilis Root Bark (MHRB)",
+        "dmt_content": "Usually about 1% by weight (range 0.5% to 2%)",
+        "forms_of_dmt": {
+          "white_dmt": "Pure N-N-Dimethyltryptamine crystals",
+          "jungle_dmt": "Red/dark colored full spectrum - approximately 95% DMT with other compounds",
+          "dmt_n_oxide": "Yellow colored - approximately 1/3 potency of white DMT when smoked",
+          "jimjam": "Full spectrum product containing all alkaloids - 1-2% of MHRB weight"
+        }
+      },
+
+      "tek_1_jimjam_party": {
+        "description": "Uses xylene or d-limonene - yields full spectrum Jimjam DMT",
+        "food_safe_note": "If d-limonene is used, the tek is 100% food-safe",
+
+        "materials": {
+          "mhrb": "30g or more powdered Mimosa hostilis root bark",
+          "vinegar": "250ml or more 5% white vinegar",
+          "lime": "30g or more Calcium Hydroxide Ca(OH)2",
+          "solvent": "125ml or more d-Limonene or Xylene",
+          "containers": "HDPE2 plastic, glass, or metal - solvent resistant",
+          "tools": ["chopsticks/wooden spoon", "turkey baster/pipette", "funnel", "cotton balls"]
+        },
+
+        "acidification_step": {
+          "purpose": "Vinegar (acetic acid) converts DMT-tannate to DMT-acetate and dissolves into surrounding vinegar",
+          "ph_result": "~2.5",
+          "procedure": [
+            "Place 30-250g powdered MHRB in container",
+            "Add vinegar until bark is wet, red and clumpy",
+            "Slowly add near-boiling water while stirring until mixture flows when tipped",
+            "Let sit 20-40 minutes, stirring periodically"
+          ],
+          "ratio": "~100ml vinegar + 100ml water for 100g MHRB"
+        },
+
+        "basification_step": {
+          "purpose": "Lime converts polar DMT-acetate to non-polar DMT freebase",
+          "ph_result": "12-12.5",
+          "critical_note": "MUST use Calcium Hydroxide or tek will not work",
+          "lime_ratio": "At least 3g lime per 4g MHRB (75g for 100g MHRB)",
+          "consistency_options": {
+            "dry_crumbly": "Least solvent loss but may not fully penetrate chunks",
+            "thick_porridge": "Easiest to work with, greatest solvent loss",
+            "tomato_soup": "Medium solvent loss, can form emulsions"
+          }
+        },
+
+        "pulling_with_solvent": {
+          "timing_recommendations": {
+            "first_pull": "6-8 hours after lime - gets 30-50% of total DMT",
+            "second_pull": "24 hours - combined pulls get 80-90%",
+            "third_pull": "48 hours",
+            "fourth_pull": "1 week - for thorough extraction",
+            "fifth_pull": "2-3 weeks - all 5 pulls get 95%+ of total DMT"
+          },
+          "solvent_amount": "1.5-2ml per gram MHRB",
+          "mixing_time": "40-60 minutes with periodic stirring",
+          "solvent_loss_note": "Losing 50-100ml during a pull is common - necessary evil"
+        },
+
+        "salting_with_vinegar": {
+          "purpose": "Converts DMT-freebase back to water-soluble DMT-acetate",
+          "procedure": [
+            "Add 2 shot glasses of vinegar to solvent in sealable container",
+            "Agitate using doorknob-turning method 3-4 times over 40-60 minutes",
+            "Use turkey baster to separate vinegar (bottom layer)",
+            "Repeat with fresh vinegar",
+            "Combine all vinegar pulls"
+          ]
+        },
+
+        "tincture_making": {
+          "purpose": "Concentrate DMT-acetate into measurable drops",
+          "procedure": [
+            "Filter vinegar through cotton ball into pot",
+            "Boil down to ~40-50ml",
+            "Lower heat to medium-low, watch until red color develops",
+            "Transfer to dropper bottle before all liquid evaporates"
+          ],
+          "concentration_by_color": {
+            "light_yellow": "~5mg per drop",
+            "medium_amber": "~10mg per drop",
+            "dark_red": "~15mg per drop",
+            "thick_goo": "~50mg per drop"
+          }
+        },
+
+        "smoking_method": {
+          "material": "Pre-charred copper kitchen scrubber ball (2cm x 2cm rolled to 1cm)",
+          "evaporation": "Slow method - let drops dry on material; Quick method - heat on glass/spoon",
+          "device": "The Machine - copper mesh in any bowl/pipe/bong",
+          "stability_warning": "DMT-acetate unstable outside tincture - store pre-dosed balls in freezer"
+        }
+      },
+
+      "tek_2_fluffy_white_funfest": {
+        "description": "Uses naphtha - yields white DMT crystals via freezer precipitation",
+
+        "naphtha_safety": {
+          "ld50": "8000-20000 mg/kg (vs DMT 60-110 mg/kg)",
+          "evaporation": "Clean evaporation leaving no trace",
+          "combustion_products": "Only water and carbon dioxide",
+          "recommended_brands": {
+            "us": "VM+P Naphtha",
+            "canada": "Ronsonol Lighter Fluid or Escort Camp Fuel"
+          },
+          "test": "Evaporate on surface - should leave no residue or smell"
+        },
+
+        "unique_steps": {
+          "heating": "Must warm naphtha to dissolve DMT",
+          "water_bath": "Place bark container in bowl of boiling water",
+          "freezer_precipitation": "Cool naphtha causes DMT crystals to form"
+        },
+
+        "precipitation": {
+          "procedure": [
+            "Place warm naphtha with dissolved DMT in freezer",
+            "Crystals form over 8-12 hours",
+            "Naphtha becomes cloudy then clears as crystals form",
+            "Gently pour off naphtha back to bark",
+            "Let remaining naphtha evaporate"
+          ],
+          "crystal_notes": "Later pulls yield more yellow crystals - no difference in effects"
+        }
+      },
+
+      "super_short_compressed_tek_1": {
+        "steps": [
+          "Mix vinegar with MHRB until wet/red/muddy, add boiling water until flows",
+          "Add 75g+ lime per 100g MHRB, mix thoroughly",
+          "Let sit 1-6 hours, add 150ml+ d-limonene/xylene per 100g MHRB",
+          "Stir periodically 40-50 minutes, pour off solvent",
+          "Add 2 shot-glasses vinegar, agitate 40-50 minutes, separate vinegar",
+          "Repeat vinegar step, evaporate combined vinegar until red",
+          "Transfer to dropper bottle - smokeable DMT tincture"
+        ]
+      },
+
+      "super_short_compressed_tek_2": {
+        "steps": [
+          "Mix vinegar with MHRB, add boiling water until flows",
+          "Add 75g+ lime per 100g MHRB, let sit 1-6 hours",
+          "Warm bark in water bath, add 100ml naphtha per 100g MHRB",
+          "Stir 40-50 minutes keeping warm, pour naphtha to freezer container",
+          "Freeze 8-12 hours until crystals form",
+          "Pour off naphtha, let crystals dry - ready to smoke"
+        ]
+      },
+
+      "troubleshooting": {
+        "common_failures": [
+          "Lime is not Calcium Hydroxide - pH not high enough",
+          "Wrong solvent - no dissolution or precipitation",
+          "Not real MHRB - no DMT to extract",
+          "MHRB not powdered - 5% yield vs powdered",
+          "Vinegar not 5% acetic acid - makes tek 5x slower"
+        ]
+      }
+    },
+
+    "llb_instant_ayahuasca_tek": {
+      "title": "Instant Ayahuasca Little Lightning Bolt TEK",
+      "attribution": "LLB",
+      "philosophy": "Based in ancient herbalism - simple as production of any herbal extract",
+
+      "materials": {
+        "caapi": "40g B. Caapi",
+        "admixture": "15g MHRB",
+        "solvent": "Everclear or 99% industrial ethanol"
+      },
+
+      "extraction": {
+        "procedure": [
+          "Add ethanol to MHRB - enough to cover with 1 inch above plant matter",
+          "Separate container for caapi/ethanol",
+          "Soak 2-4 weeks",
+          "Strain and separate menstrum from plant matter",
+          "Evaporate in pyrex baking pans in open oven with fan",
+          "Crystals form - puffy cake-like foam that becomes sticky when cooled",
+          "Harvest with razor blade, store in dry place"
+        ]
+      },
+
+      "ingestion": {
+        "methods": ["Gel caps", "Dissolved in warm water like instant coffee"],
+        "no_difference_noted": "Caps vs warm water made no difference in absorption/onset/duration"
+      },
+
+      "experience_report": {
+        "onset": "1.5-2 hours, faster with sourdough bread",
+        "trigger": "Eating sourdough bread brought on effects within 15-20 minutes",
+        "quality": "Crystal clear experience - most educational with ayahuasca",
+        "effects": [
+          "Heart opened, light between group members",
+          "Open and closed eye visuals",
+          "Entity contact - snake spirit teaching unity",
+          "No intoxicating effects besides euphoria",
+          "Clear head, able to witness disturbing feelings without over-identifying"
+        ],
+        "duration": "4 hours",
+        "comparison": "Better than brews made by Amazonian shamans which can cloud mind and create fear"
+      },
+
+      "suggestions": {
+        "fasting": "Eat breakfast and light lunch, no dinner",
+        "bread_timing": "20-30 minutes after ingestion, eat sourdough slices",
+        "cacao_idea": "Consider cacao nibs prior for theobromine potentiation of tryptamines"
+      },
+
+      "ethanol_note": "Easy Still recommended for producing high-proof ethanol from sugar and yeast",
+
+      "other_plants": {
+        "chacruna": "Produces bright green oil - less strong than MHRB but visionary",
+        "desmanthus_roots": "Suggested for exploration"
+      }
+    },
+
+    "acid_base_extraction_overview": {
+      "title": "Acid/Base Extraction Overview",
+      "source": "The Nexian DMT Handbook",
+
+      "principle": "Uses weak acid (citric, acetic) to extract DMT into solution, then basify and pull with non-polar solvent",
+
+      "advantages": [
+        "Facilitates defatting phase",
+        "Generally yields product more devoid of botanical impurities",
+        "Ideal for material requiring defatting"
+      ],
+
+      "basic_procedure": {
+        "materials": {
+          "bark": "1 pound Mimosa hostilis rootbark (ground)",
+          "acid_solution": "1 pint white vinegar + 3.5 quarts water",
+          "base": "4 tablespoons (50g) sodium hydroxide in 1 pint hot water"
+        },
+        "steps": [
+          "Grind bark to 2-inch pieces in glass-topped blender",
+          "Cook in crockpot with vinegar-water solution on high for 2 hours",
+          "Pour off liquid, repeat with remaining solution",
+          "Let particles settle overnight",
+          "Pour off clear liquid, discard sludge",
+          "Add premixed lye solution to wine jug",
+          "Gently mix for 1 minute",
+          "Pull with solvent of choice"
+        ]
+      }
+    },
+
+    "herbal_percolator_method": {
+      "title": "The Herbal Percolator (THP)",
+      "creator": "Dagger",
+      "principle": "Similar to coffee brewing - percolation without cooking",
+
+      "advantages": [
+        "Results at least double potency compared to 3x3 hour cooking (with caapi)",
+        "Less nauseating - low temperature prevents extraction of nauseating compounds",
+        "Simple and effective"
+      ],
+
+      "materials": [
+        "Large plastic soda bottle",
+        "Jar for collection",
+        "Cotton",
+        "Two pieces of cloth",
+        "Blender to powder material",
+        "Sharp knife"
+      ],
+
+      "construction": [
+        "Cut off bottom of soda bottle",
+        "Stuff cotton into neck (not too tight)",
+        "Add powdered herb on top of cotton",
+        "Push cloth down to press against herbs",
+        "Place bottle neck-down into collection jar",
+        "Put cloth between bottle and jar for air release"
+      ],
+
+      "procedure": [
+        "Add warm water (~60C/140F) - not too hot or plastic buckles",
+        "Add acid: 15-30ml 5% vinegar per litre of water",
+        "Keep adding water at regular intervals as it drips through",
+        "Reduce collected liquid"
+      ],
+
+      "water_ratios": {
+        "caapi": "1g:150ml or more - more water = better extraction",
+        "example": "100g caapi requires 15 litres acidified water"
+      },
+
+      "plant_effectiveness": {
+        "caapi": "Excellent - potency at least doubled",
+        "mimosa": "Works well",
+        "chaliponga": "Works well",
+        "viridis": "Jury still out - apparently requires hotter water"
+      },
+
+      "nausea_reduction": {
+        "mechanism": "Low temperature prevents extraction of nauseating compounds",
+        "compounds_avoided": "Those making brew brownish when cold, clear when hot",
+        "temperature_threshold": "~60C/140F",
+        "for_nausea_prone": "Try cooler water, but use more of it"
+      }
+    },
+
+    "shaggys_jungle_tek": {
+      "title": "Shaggy's Jungle Tek",
+      "attribution": "Shaggy",
+      "principle": "A/B extraction using citric acid then sodium hydroxide, pulling with toluene to get full-spectrum (white DMT + Yuremamine)",
+
+      "overview": {
+        "acid_step": "Citric acid extracts alkaloids into aqueous solution",
+        "base_step": "Sodium hydroxide breaks down cell walls and converts alkaloids to freebase",
+        "solvent_step": "Toluene pulls both DMT (white) and Yuremamine (red)",
+        "separation": "Heptane wash separates white DMT from red Jungle Spice"
+      },
+
+      "materials": {
+        "plant": "500g MHRB powder",
+        "chemicals": ["Toluene/Xylene", "Acetone", "Sodium Hydroxide", "Citric Acid"],
+        "equipment": ["6L crockpot", "Hotplate", "Pyrex dishes", "Test tubes with stoppers", "1 gallon wine jug", "Mason jars", "Pipettes", "Digital scale"]
+      },
+
+      "acid_base_extraction": {
+        "acid_cook": [
+          "Dissolve 30g citric acid in gallon distilled water in crockpot",
+          "Stir in 500g MHRB powder",
+          "Boil on high 6-8 hours, stirring regularly",
+          "Let cool and steam to reduce volume"
+        ],
+        "basification": [
+          "Dissolve 200g NaOH in 250ml warm water (exothermic - careful)",
+          "Pour into wine jug",
+          "Ladle acidified soup into jug",
+          "Fill neck with toluene"
+        ]
+      },
+
+      "nonpolar_extraction": {
+        "procedure": [
+          "Cap jug, gently invert 10 minutes mixing without foam",
+          "Let layers separate",
+          "Siphon off toluene to mason jar",
+          "Repeat 3+ more times until toluene pulls lighter colored"
+        ],
+        "warning": "NEVER suck up dark bottom layer - toxic"
+      },
+
+      "evaporation": {
+        "methods": [
+          "Large pyrex pan outside with electric fan",
+          "Hotplate at 200F with fan",
+          "Heat to 300F until smells of DMT not solvent"
+        ],
+        "result": "Reddish yellow oil that hardens when scraped and cooled"
+      },
+
+      "acetone_wash": {
+        "procedure": [
+          "Fill test tube half with extract, half with acetone",
+          "Hot water bath until acetone bubbles",
+          "Shake, let settle, siphon acetone to hot pyrex",
+          "Repeat until all extract dissolved"
+        ],
+        "result": "Orange deemsters - full spectrum Mimosa extract"
+      },
+
+      "alkaloid_separation": {
+        "important": "NO TOLUENE in this step - use clean pipettes/containers",
+        "procedure": [
+          "Heat heptane in crockpot",
+          "Melt extract in test tube in crockpot",
+          "Add hot heptane, mix forcefully with pipette",
+          "Keep hot - white DMT falls back into red if cooled",
+          "Quickly siphon heptane to pyrex dish",
+          "Repeat 3 times"
+        ],
+        "products": {
+          "heptane_layer": "Yellow-white DMT crystals",
+          "test_tube": "Red Jungle Spice"
+        }
+      },
+
+      "yields": "10-14g orange deemsters from 500g bark"
+    },
+
+    "lazymans_tek": {
+      "title": "Lazyman's Tek - STB (Straight to Base)",
+      "attribution": "Vortex",
+      "date": "October 2006",
+      "philosophy": "Simplest tek - no acid step, no pH papers, no separatory funnel",
+
+      "advantages": [
+        "Far less time and work than A/B teks",
+        "No need to powder bark - just break into pieces",
+        "Can continue extracting same material indefinitely",
+        "Higher yields reported than A/B methods"
+      ],
+
+      "basic_principle": "Submerge broken bark in NaOH water, wait, add naphtha, stir, pour off",
+
+      "materials": {
+        "plant": "500g MHRB (broken pieces OK)",
+        "chemicals": ["VM&P Naphtha", "200g+ NaOH"],
+        "equipment": ["5L ceramic bowl", "Potato masher", "2L measuring cup", "Large flat glass pan", "Fan"]
+      },
+
+      "procedure": {
+        "preparation": [
+          "Break bark into 2-inch pieces - no powdering needed",
+          "Dissolve 200g NaOH in 2-3L water",
+          "Add to bark in bowl"
+        ],
+        "extraction": [
+          "Wait 1 hour for NaOH to soften bark",
+          "Mash with potato masher 20-30 minutes",
+          "Add 250ml+ naphtha",
+          "Stir 20-30 minutes",
+          "Let settle, pour naphtha to evap dish",
+          "Fan evaporate"
+        ]
+      },
+
+      "extraction_timeline": {
+        "first_extraction": "2.5 hours - 1g from 500g bark",
+        "second_extraction": "7 hours total - 4g more (NaOH doubled to 150g)",
+        "third_extraction": "Same day - 1.25g more",
+        "fourth_extraction": "24 hour soak - 1.5g more",
+        "fifth_extraction": "48 hours + warming - 2g more",
+        "total": "7.5g in 48 hours from 500g inner bark"
+      },
+
+      "lazy_method": {
+        "procedure": "Add 500g bark + 200g NaOH + 2L water + 750ml naphtha. Set aside 3 days, stir once daily 20 min. Single pull gets 2/3 of total alkaloid.",
+        "note": "Still need 3+ more pulls after to get remainder"
+      },
+
+      "temperature_notes": {
+        "optimal": "100-120F increases yield significantly",
+        "warning": "Over 130F pulls gummy yellow impurities",
+        "recommendation": "Room temp for 72+ hours, warm to 120F for 1 hour before final pull"
+      },
+
+      "dry_defat": {
+        "principle": "Alkaloid already in salt form - naphtha alone extracts nothing without basification",
+        "procedure": "Mix dry powder in naphtha 5 min, strain, repeat 3x, discard naphtha",
+        "note": "Orange fats extracted - may contain oral-activating compound"
+      }
+    },
+
+    "hippie_salad_oil_tek": {
+      "title": "Hippie Salad Oil Tek",
+      "attribution": "Dreamer042 with modifications by Jamie",
+      "philosophy": "100% food-safe tek using only culinary ingredients",
+
+      "key_features": [
+        "Uses vegetable oil (sunflower) instead of hydrocarbon solvents",
+        "Lime instead of lye",
+        "Vinegar for acidification (optional)",
+        "Completely food-safe"
+      ],
+
+      "forum_discussion": {
+        "sodium_carbonate_vs_lime": {
+          "sodium_carbonate": "pH ~11, works but less efficient",
+          "lime": "pH ~13, more efficient, recommended"
+        },
+        "vinegar_step": {
+          "jamie_note": "Started with vinegar acid step like Q21 - helps solvent pulls",
+          "dreamer_note": "Vinegar step is redundant - just increases base needed",
+          "consistency": "Want VERY thick paste before adding oil - cookie dough consistency"
+        }
+      },
+
+      "procedure_summary": {
+        "with_vinegar": [
+          "Mix MHRB with vinegar until wet/red/thick",
+          "Add lime (75g+ per 100g MHRB)",
+          "Achieve cookie dough consistency",
+          "Add sunflower oil, stir to separate",
+          "Pull oil, salt with vinegar to extract DMT",
+          "IPA cleanup at end"
+        ],
+        "without_vinegar": [
+          "Mix MHRB with lime and minimal water",
+          "Cookie dough consistency",
+          "25% lime by weight of MHRB",
+          "Add oil, separate, salt"
+        ]
+      },
+
+      "tips": {
+        "separation": "If too liquid, takes 2-3 days to separate - keep thick",
+        "heat": "Hot pulls (double boiler) more efficient but pull more junk",
+        "cleanup": "Dissolve in 99% IPA, filter, evaporate",
+        "pulls": "9 pulls may be redundant - oil less efficient than other solvents"
+      },
+
+      "experience_report": {
+        "yield": "~1.4% from MHRB",
+        "appearance": "Yellow goo, not crystals",
+        "effects": "60mg changa resembled peak ayahuasca experience"
+      }
+    },
+
+    "relevance_to_oilahuasca": {
+      "shared_principles": [
+        "Acid-base chemistry for alkaloid extraction",
+        "Solvent selection based on polarity",
+        "Enzyme modulation (MAO in ayahuasca, CYP450 in oilahuasca)",
+        "Tincture making and concentration",
+        "Timing and sequence of ingestion"
+      ],
+      "key_difference": "Ayahuasca uses MAO inhibition; Oilahuasca uses CYP450 modulation",
+      "extraction_applicability": "These teks demonstrate botanical extraction principles that could apply to preparing oilahuasca herb extracts and tinctures",
+      "hippie_oil_tek_relevance": "The food-safe approach using vegetable oil is particularly relevant to oilahuasca preparations which emphasize culinary-grade ingredients"
+    }
+  }
+}

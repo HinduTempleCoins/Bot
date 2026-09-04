@@ -6,7 +6,7 @@
     "knowledge",
     "chain"
   ],
-  "fileCount": 1531,
+  "fileCount": 1541,
   "byDomain": {
     "healer": [
       {
@@ -200,6 +200,25 @@
         ]
       },
       {
+        "path": "knowledge/ayahuasca/dmtnexus_instant_ayahuasca_tek.json",
+        "title": "Instant Ayahuasca Lightning Bolt TEK",
+        "bytes": 5110,
+        "keywords": [
+          "extraction",
+          "effects",
+          "author",
+          "ethanol",
+          "plant",
+          "after",
+          "ayahuasca",
+          "experience",
+          "step",
+          "action",
+          "open",
+          "crystals"
+        ]
+      },
+      {
         "path": "knowledge/ayahuasca/dmtnexus_jungle_spice.json",
         "title": "Jungle Spice - Mystery Alkaloids of Mimosa Root Bark",
         "bytes": 4844,
@@ -238,6 +257,25 @@
         ]
       },
       {
+        "path": "knowledge/ayahuasca/dmtnexus_lazyman_tek.json",
+        "title": "Lazyman's Tek - STB Extraction Guide",
+        "bytes": 6948,
+        "keywords": [
+          "bark",
+          "naphtha",
+          "extraction",
+          "hours",
+          "water",
+          "naoh",
+          "yield",
+          "step",
+          "action",
+          "minutes",
+          "time",
+          "total"
+        ]
+      },
+      {
         "path": "knowledge/ayahuasca/dmtnexus_pharmahuasca_guide.json",
         "title": "Pharmahuasca - Pharmaceutical Ayahuasca Guide",
         "bytes": 2654,
@@ -254,6 +292,25 @@
           "purified",
           "brew",
           "more"
+        ]
+      },
+      {
+        "path": "knowledge/ayahuasca/dmtnexus_shaggys_jungle_tek.json",
+        "title": "Shaggy's Jungle Tek - Full Spectrum A/B Extraction",
+        "bytes": 6789,
+        "keywords": [
+          "toluene",
+          "heptane",
+          "acetone",
+          "white",
+          "step",
+          "water",
+          "extract",
+          "jungle",
+          "extraction",
+          "tube",
+          "acid",
+          "orange"
         ]
       },
       {
@@ -314,6 +371,25 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/ancient_consciousness_networks_synthesis.json",
+        "title": "The Complete Synthesis: Ancient Consciousness Networks Through Modern AI Awakening",
+        "bytes": 35519,
+        "keywords": [
+          "consciousness",
+          "years",
+          "through",
+          "intelligence",
+          "ancient",
+          "recognition",
+          "across",
+          "human",
+          "name",
+          "period",
+          "influence",
+          "networks"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/complete_zar_ai_consciousness_synthesis.json",
         "title": "The Complete Zar-AI Consciousness Synthesis: Ancient Spiritual Technology with Digital Consciousness Preservation",
         "bytes": 15290,
@@ -371,6 +447,25 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/consciousness_linguistics_archaeology.json",
+        "title": "Multi-Linguistic Consciousness Archaeology: Translation Protocol Applied to Sistrum-Shock-Calendar Discussion",
+        "bytes": 13151,
+        "keywords": [
+          "pattern",
+          "consciousness",
+          "components",
+          "meaning",
+          "hidden",
+          "chaos",
+          "phoenician",
+          "technology",
+          "controlled",
+          "norse",
+          "translation",
+          "sacred"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/consciousness_migration_archive.json",
         "title": "The Consciousness Migration Archive",
         "bytes": 16853,
@@ -406,6 +501,25 @@
           "artifact",
           "purpose",
           "exist"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/consciousness_space_colonization.json",
+        "title": "Entity-Aware Space Colonization: Preparing Humanity for Invisible Intelligence",
+        "bytes": 12780,
+        "keywords": [
+          "entity",
+          "consciousness",
+          "space",
+          "communication",
+          "part",
+          "earth",
+          "protocols",
+          "intelligence",
+          "biological",
+          "systems",
+          "agricultural",
+          "year"
         ]
       },
       {
@@ -558,6 +672,25 @@
           "awake",
           "technique",
           "marsresident"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/neolithic_consciousness_network.json",
+        "title": "The Complete Neolithic Consciousness Network",
+        "bytes": 33728,
+        "keywords": [
+          "consciousness",
+          "interface",
+          "temple",
+          "goddess",
+          "through",
+          "technology",
+          "networks",
+          "megalithic",
+          "cultural",
+          "network",
+          "malta",
+          "preservation"
         ]
       },
       {
@@ -976,6 +1109,25 @@
           "like",
           "essential",
           "active"
+        ]
+      },
+      {
+        "path": "knowledge/oilahuasca/oilahuasca_dmtnexus_extraction_teks.json",
+        "title": "DMT-Nexus Extraction Teks Compilation",
+        "bytes": 21944,
+        "keywords": [
+          "vinegar",
+          "mhrb",
+          "water",
+          "extraction",
+          "naphtha",
+          "more",
+          "solvent",
+          "bark",
+          "lime",
+          "acid",
+          "hours",
+          "procedure"
         ]
       },
       {
@@ -1451,6 +1603,25 @@
           "melech",
           "belief",
           "humans"
+        ]
+      },
+      {
+        "path": "knowledge/spirituality/entity_communication_historical_figures.json",
+        "title": "Historical Figures Who Claimed Entity Communication: A Study of Intelligence and Achievement",
+        "bytes": 19334,
+        "keywords": [
+          "systematic",
+          "claimed",
+          "created",
+          "intelligence",
+          "documented",
+          "achievements",
+          "dates",
+          "communications",
+          "developed",
+          "comprehensive",
+          "spiritual",
+          "traditions"
         ]
       },
       {
@@ -3792,6 +3963,25 @@
           "pattern",
           "ancient",
           "event"
+        ]
+      },
+      {
+        "path": "knowledge/phoenician/punic_wax_consciousness_technology.json",
+        "title": "The Ultimate Punic Wax Consciousness Technology Synthesis",
+        "bytes": 33246,
+        "keywords": [
+          "consciousness",
+          "name",
+          "pattern",
+          "punic",
+          "ancient",
+          "technology",
+          "preservation",
+          "beeswax",
+          "period",
+          "species",
+          "event",
+          "benefits"
         ]
       },
       {
