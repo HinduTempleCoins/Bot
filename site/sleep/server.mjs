@@ -4,7 +4,7 @@
 // preset gives the gamma tone. There is NO audio file anywhere: nothing to stream, nothing to
 // rehost, nothing to license. This is 100% ours — pure synthesis in the listener's own browser.
 //
-//   PORT=8168 BASE_URL=https://sleep.melek.salon node site/sleep/server.mjs
+//   PORT=8305 BASE_URL=https://sleep.melek.salon node site/sleep/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            the full-screen player (optional ?band=&min= to preselect a preset + timer).
@@ -26,7 +26,7 @@ import { createServer } from 'node:http';
 // We import it lazily/defensively: the player never depends on it.
 import * as musicCatalog from '../../integrations/soapbox/music-catalog.mjs';
 
-const PORT = +(process.env.PORT || 8168);
+const PORT = +(process.env.PORT || 8305);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 

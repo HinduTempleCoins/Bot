@@ -4,7 +4,7 @@
 // (coupons.soapbox.community), so Shopping does NOT re-implement it; it embeds/links coupons + A Buck
 // (real under-$2 stores) + a curated store directory + general shopping deals into ONE doorway.
 //
-//   PORT=8132 BASE_URL=https://shopping.soapbox.community node site/shopping/server.mjs
+//   PORT=8201 BASE_URL=https://shopping.soapbox.community node site/shopping/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            hub home — Coupons-inside card + A Buck card + store directory + a store search box
@@ -28,7 +28,7 @@ import * as seo from '../../integrations/soapbox/seo.mjs';
 import * as guides from '../../integrations/affiliate-guides.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8132);
+const PORT = +(process.env.PORT || 8201);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.DATA_SITE || 'https://data.soapbox.community';

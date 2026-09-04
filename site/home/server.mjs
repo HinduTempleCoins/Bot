@@ -18,7 +18,7 @@
 // derivation is the pure function mainnetUrl() — it strips the `alpha.` label from either the
 // `X.alpha.{base}` form or the bare `alpha.{base}` (main-app) form, and is unit-tested.
 //
-//   PORT=8080 BASE_URL=https://soapbox.community node site/home/server.mjs
+//   PORT=8140 BASE_URL=https://soapbox.community node site/home/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            the ecosystem family tree (Alpha tree + MainNet tree; root → 3 families → service leaves)
@@ -38,7 +38,7 @@ import { subscribeWidget, handle as newsletterHandle } from '../../integrations/
 import { renderMarkdown, readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
 import { resendMailer } from '../../integrations/email-verify.mjs';
 
-const PORT = +(process.env.PORT || 8080);
+const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 // Skimlinks auto-affiliate script (publisher ID is client-side/public by design). Loaded only when

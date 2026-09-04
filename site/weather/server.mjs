@@ -4,7 +4,7 @@
 // (open-meteo.com — no API key for non-commercial use): geolocation OR a city search → the Open-Meteo
 // geocoding + forecast endpoints, rendered in the browser. No CDN, no tracker, no account required.
 //
-//   PORT=8215 BASE_URL=https://weather.soapbox.community node site/weather/server.mjs
+//   PORT=8315 BASE_URL=https://weather.soapbox.community node site/weather/server.mjs
 //   → serves the weather app at  /
 //
 // ── STEALTH FUNNEL (mundane-app-suite-stealth-funnel) ──────────────────────────────────────────────
@@ -33,7 +33,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8215);
+const PORT = +(process.env.PORT || 8315);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Weather';

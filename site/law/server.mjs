@@ -3,7 +3,7 @@
 // keyless legal readers and binds them into ONE cross-linked surface — the operator's
 // "case-files ↔ judges" connection made navigable. Read-only, server-rendered, no keys, no custody.
 //
-//   PORT=8099 BASE_URL=https://law.soapbox.community node site/law/server.mjs
+//   PORT=8105 BASE_URL=https://law.soapbox.community node site/law/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            portal home — one search box (cases ∣ statutes) + section cards
@@ -50,7 +50,7 @@ import * as lawyers from '../../integrations/soapbox/lawyer-directory.mjs';
 import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cross-links.mjs';
 import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
 
-const PORT = +(process.env.PORT || 8099);
+const PORT = +(process.env.PORT || 8105);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';

@@ -4,7 +4,7 @@
 // opt into Herald's CURATED backlink network so relevant sites cross-link each other (anti-penalty rules
 // live in integrations/herald/backlink-network.mjs — NOT a link farm).
 //
-//   PORT=8210 BASE_URL=https://build.soapbox.community node site/webbuilder/server.mjs
+//   PORT=8314 BASE_URL=https://build.soapbox.community node site/webbuilder/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                    the builder: template picker + client-side block editor + publish flow
@@ -31,7 +31,7 @@ import { bottomNav } from '../../integrations/soapbox/bottom-nav.mjs';
 import { createBacklinkNetwork, CATEGORIES } from '../../integrations/herald/backlink-network.mjs';
 import { createSiteStore } from './store.mjs';
 
-const PORT = +(process.env.PORT || 8210);
+const PORT = +(process.env.PORT || 8314);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Web Builder';

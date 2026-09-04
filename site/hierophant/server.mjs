@@ -13,7 +13,7 @@
 //   • More AI than Sacred-Texts — "Ask the Hierophant" answers over the Temple's OWN corpus
 //     (the knowledge/ tree, via the existing library-rag retrieval seam), clearly labeled as such.
 //
-//   PORT=8124 BASE_URL=https://hierophant.soapbox.community node site/hierophant/server.mjs
+//   PORT=8121 BASE_URL=https://hierophant.soapbox.community node site/hierophant/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                 library front door — search box, traditions grid, featured reading paths
@@ -51,7 +51,7 @@ import {
   groupEntities, entitiesForText, textsForEntity, interlink,
 } from '../../integrations/hierophant-xref.mjs';
 
-const PORT = +(process.env.PORT || 8124);
+const PORT = +(process.env.PORT || 8121);
 const HOST = process.env.HOST || '127.0.0.1';
 
 // The masthead logo (a winged bronze lion of Jude) — bundled next to this file, served at /lion.jpg.

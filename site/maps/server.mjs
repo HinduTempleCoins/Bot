@@ -6,7 +6,7 @@
 //   • robots/sitemap helpers    — integrations/soapbox/crawlers.mjs
 // and cross-links to the wider ecosystem (Move geo-explore, coupons, local-business intel).
 //
-//   PORT=8144 BASE_URL=https://maps.melek.salon node site/maps/server.mjs
+//   PORT=8304 BASE_URL=https://maps.melek.salon node site/maps/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                 the map page — a search box, a Leaflet map div, and (on ?q=) the resolved place
@@ -30,7 +30,7 @@ import * as nominatim from '../../integrations/soapbox/nominatim.mjs';
 import * as osmPoi from '../../integrations/soapbox/osm-poi.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 
-const PORT = +(process.env.PORT || 8144);
+const PORT = +(process.env.PORT || 8304);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 

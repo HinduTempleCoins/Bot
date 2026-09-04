@@ -2,7 +2,7 @@
 // layer in integrations/private-mail-envelope.mjs (inbox()/outbox()/threadOf() shapes). It renders
 // ONE account's mailbox as HTML in the SoapBox house style.
 //
-//   PORT=8140 BASE_URL=https://mail.melek.salon ACCOUNT=hathor node site/mail/server.mjs
+//   PORT=8302 BASE_URL=https://mail.melek.salon ACCOUNT=hathor node site/mail/server.mjs
 //
 // ── Routes ────────────────────────────────────────────────────────────────────────────────────
 //   /        the mailbox (inbox + outbox), for the configured/queried account
@@ -24,7 +24,7 @@ import { createServer } from 'node:http';
 
 import { inbox as envInbox, outbox as envOutbox } from '../../integrations/private-mail-envelope.mjs';
 
-const PORT = +(process.env.PORT || 8140);
+const PORT = +(process.env.PORT || 8302);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DEFAULT_ACCOUNT = process.env.ACCOUNT || 'hathor';

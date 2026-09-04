@@ -3,7 +3,7 @@
 // It fronts the pure curriculum + SRS engine in integrations/language/lessons.mjs and a keyless
 // MyMemory translate box (the same approach as pentecaust/translate.js).
 //
-//   PORT=8201 BASE_URL=https://language.soapbox.community node site/language/server.mjs
+//   PORT=8309 BASE_URL=https://language.soapbox.community node site/language/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                      course directory
@@ -29,7 +29,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8201);
+const PORT = +(process.env.PORT || 8309);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';

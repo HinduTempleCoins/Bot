@@ -10,7 +10,7 @@
 // press pass): /issue is disabled unless ACADEMY_ISSUER_TOKEN is set and presented. The portal ships
 // safe as browse + verify + registry.
 //
-//   PORT=8143 BASE_URL=https://academy.melek.salon node site/academy/server.mjs
+//   PORT=8145 BASE_URL=https://academy.melek.salon node site/academy/server.mjs
 //   import { handler, homePage, programView, verifyView } from './server.mjs'   // tests
 //
 // Pure render, esc() everywhere, handler(req,res) exported, CLI guarded. No network. No keys.
@@ -34,7 +34,7 @@ const isCompletion = (p) => p && COMPLETION_TYPES.has(p.type);
 const _applications = [];
 export function __applications() { return _applications.slice(); }
 
-const PORT = +(process.env.PORT || 8143);
+const PORT = +(process.env.PORT || 8145);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://academy.melek.salon').replace(/\/$/, '');
 const WITNESS = process.env.WITNESS_URL || 'https://witness.melek.salon';

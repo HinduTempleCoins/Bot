@@ -4,7 +4,7 @@
 // Library/wiki, the Directory, Learn, and the markets — MELEK/SOAP/PRANA join when live). The public
 // front of "us being our own search provider" (#133). Read-only, server-rendered, no keys.
 //
-//   PORT=8092 BASE_URL=https://search.soapbox.community node site/search/server.mjs
+//   PORT=8093 BASE_URL=https://search.soapbox.community node site/search/server.mjs
 
 import { createServer } from 'node:http';
 import { searchAll, translate, detectLanguage } from '../../integrations/scraper.mjs';
@@ -14,7 +14,7 @@ import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { robotsTxt, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { rankHybrid, facets } from '../../integrations/soapbox/search-quality.mjs';
 
-const PORT = +(process.env.PORT || 8092);
+const PORT = +(process.env.PORT || 8093);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';

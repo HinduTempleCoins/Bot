@@ -15,7 +15,7 @@
 // AirPlay are the browser's own buttons, and "open on your TV" is a plain URL/queue the user opens in the
 // TV's browser. We surface exactly those and nothing more.
 //
-//   PORT=8202 BASE_URL=https://player.soapbox.community node site/player/server.mjs
+//   PORT=8310 BASE_URL=https://player.soapbox.community node site/player/server.mjs
 //   import { handler, __setFetch, isPlayable, normalizeTrack, buildPlaylist, renderPlayer } from './server.mjs'
 //
 // Pure, exported, testable helpers:
@@ -34,7 +34,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8202);
+const PORT = +(process.env.PORT || 8310);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = 'SoapBox Player';

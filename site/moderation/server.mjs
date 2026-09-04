@@ -19,7 +19,7 @@
 //   • esc() ALL HTML interpolation. renderReview({queue, summary}) is a PURE view.
 //   • handler(req,res) exported for tests; CLI guarded by process.argv[1]. Zero keys, zero chain, zero network.
 //
-//   PORT=8131 BASE_URL=https://admin.melek.salon node site/moderation/server.mjs
+//   PORT=8301 BASE_URL=https://admin.melek.salon node site/moderation/server.mjs
 //
 // Shapes (from flag-pipe.mjs):
 //   queue row  = { id, target, kind, severity, reason, reporter, evidence, gated, status, filedAt }
@@ -27,7 +27,7 @@
 
 import { createServer } from 'node:http';
 
-const PORT = +(process.env.PORT || 8131);
+const PORT = +(process.env.PORT || 8301);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 

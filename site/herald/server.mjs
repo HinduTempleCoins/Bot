@@ -3,7 +3,7 @@
 // style (mirrors site/hemp, site/witness). Hathor / the Giant Bot IS the marketing team; Herald is its
 // front. Read-only server: holds no key, signs nothing.
 //
-//   PORT=8161 BASE_URL=https://herald.soapbox.community node site/herald/server.mjs
+//   PORT=8163 BASE_URL=https://herald.soapbox.community node site/herald/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            the growth-engine dashboard — capabilities grouped Create / Rank / Run / Reach / Grow
@@ -62,7 +62,7 @@ import { scanStats as qrScanStats } from '../../pentecaust/herald/qr-tracker.mjs
 import { inviteStats } from '../../signup/invites.mjs';
 import { DESTINATIONS } from '../../pentecaust/herald/launch-campaign.mjs';
 
-const PORT = +(process.env.PORT || 8161);
+const PORT = +(process.env.PORT || 8163);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://herald.soapbox.community').replace(/\/$/, '');
 

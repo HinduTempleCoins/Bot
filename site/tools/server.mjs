@@ -4,7 +4,7 @@
 // card and a Wallet/Profile front-door card. Everything is standalone-useful first; there is NO crypto
 // pitch on this landing page — that is the whole point (asserted in tools.test.mjs).
 //
-//   PORT=8230 BASE_URL=https://tools.soapbox.community node site/tools/server.mjs
+//   PORT=8316 BASE_URL=https://tools.soapbox.community node site/tools/server.mjs
 //   → serves the directory landing at  /
 //
 // ── ARCHITECTURE (per-process, path-routing proxy — NOT single-process mounting) ────────────────────
@@ -29,7 +29,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8230);
+const PORT = +(process.env.PORT || 8316);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Tools';
