@@ -17,6 +17,12 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { GAMMA_PAGE } from './gamma.mjs';
 import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import {
+  REPORTS_PAGE, validateReport, publicReports, reportStats,
+  CATEGORIES as REPORT_CATEGORIES, OUTCOMES as REPORT_OUTCOMES,
+} from './reports.mjs';
+import { readReports, appendReport } from './reports-store.mjs';
+import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -305,6 +311,46 @@ export async function handler(req, res) {
       }));
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({ categories: CATEGORIES, sessions: out }));
+    }
+
+    // --- /reports — the experience-report archive (the Erowid model, for biohacking too) -------
+    // Reports land as `pending` and are NEVER rendered until a person publishes them, so nothing a
+    // stranger typed reaches a public page unreviewed. See reports.mjs design rules 3 and 4.
+    if (path === '/api/reports' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = null;
+      try { body = JSON.parse(raw || '{}'); } catch { body = null; }
+      const { ok, errors, report } = validateReport(body);
+      if (!ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, errors }));
+      }
+      const stored = appendReport(report);
+      if (!stored) {
+        // Do not tell the submitter it was received when it was not. (Charter: prove, don't claim.)
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, errors: ['Could not store the report. Nothing was saved — please try again.'] }));
+      }
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({ ok: true, id: report.id, status: report.status }));
+    }
+
+    // The public JSON view — published reports only, so Hathor can read the archive back to
+    // someone in chat without ever seeing the pending queue.
+    if (path === '/api/reports') {
+      const all = readReports();
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({
+        stats: reportStats(all),
+        categories: REPORT_CATEGORIES,
+        outcomes: REPORT_OUTCOMES,
+        reports: publicReports(all),
+      }));
+    }
+
+    if (path === '/reports') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(REPORTS_PAGE(readReports(), { baseUrl: BASE_URL, themeCSS: themeCSS({ context: 'temple' }) }));
     }
 
     // /40hz — gamma sensory entrainment (light + sound only; never current delivery).

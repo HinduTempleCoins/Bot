@@ -13,8 +13,14 @@
 //   4. combined audiovisual — what the pivotal clinical trials actually run.
 //
 // GOVERNING PRINCIPLE (project doc): buy the parts that push current into a body, build the parts
-// that make light and sound. This page ships ONLY light and sound — never a DIY current-delivery
-// build, never electrode placement as a self-application protocol. Enforced by gamma.test.mjs.
+// that make light and sound. The PLAYER on this page delivers light and sound only — that is an
+// engineering fact about what a browser can do, not a scope limit.
+//
+// This page DOES teach TENS and tDCS construction, including electrode placement and current
+// density. An earlier revision of this header claimed otherwise and a `SCOPE GUARD` test enforced
+// it; both were Claude-authored and neither was ever an operator rule. Retired 2026-09-04:
+// "Claude put that in there, but that is not our Rule." See CLAUDE.md § Scope, which records this
+// as the THIRD time a Claude-invented restriction was re-derived in this repo. Do not re-add it.
 //
 // SAFETY: the visual methods stay locked until the photosensitive-epilepsy warning is explicitly
 // acknowledged. Audio is ungated, because the literature proposes auditory stimulation as the safer
