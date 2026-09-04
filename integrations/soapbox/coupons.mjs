@@ -39,6 +39,25 @@ let _aff = null;
 try { _aff = await import('../affiliate.mjs'); } catch { _aff = null; }
 export const affiliate = _aff; // exposed so consumers/tests can see which engine is in use
 
+// ---------------------------------------------------------------------------
+// IMPACT — the real deal source. Same defensive-import discipline as the affiliate engine above.
+//
+// Until now this vertical's ONLY offer source was couponSourceUrl(), which pointed at
+// `https://coupons.invalid/...`. `.invalid` is the RFC 2606 reserved TLD that can NEVER resolve, so
+// every lookup DNS-failed into the soft-fail and the page rendered "no coupon codes" forever. It was
+// an honest placeholder ("point it at a real feed"), but nobody ever did, so the vertical shipped
+// structurally empty. integrations/impact-api.mjs already pulls approved promo codes via
+// listDeals(); it just had no consumer here. This is that wire.
+//
+// Impact is used ONLY when it is credentialed (IMPACT_ACCOUNT_SID + IMPACT_AUTH_TOKEN). Unconfigured
+// → configured() is false, we never call out, and this source contributes []. Nothing is fabricated.
+// ---------------------------------------------------------------------------
+let _impact = null;
+try { _impact = await import('../impact-api.mjs'); } catch { _impact = null; }
+/** Swap the Impact adapter (tests inject a stub so the suite stays fully offline). */
+export function __setImpact(mod) { _impact = mod === undefined ? _impact : mod; }
+export function impactConfigured() { try { return !!_impact?.configured?.(); } catch { return false; } }
+
 // HTML escape — prefer the engine's, fall back to a local copy with identical behavior.
 const esc = _aff?.esc || ((s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -79,10 +98,27 @@ export const CASHBACK_PORTALS = [
 export async function findCoupons({ store, category } = {}, { fetch } = {}) {
   const storeName = String(store || '').trim();
   if (!storeName) return [];
-  const f = typeof fetch === 'function' ? fetch : _fetch;
+
+  // Both sources are optional and independent; either may contribute nothing. Whatever comes back
+  // goes through the SAME normalizer, so the canonical shape is identical no matter the origin.
+  const [feed, impact] = await Promise.all([
+    couponsFromFeed(storeName, category, fetch),
+    couponsFromImpact(storeName),
+  ]);
+  return dedupeCoupons([...feed, ...impact]);
+}
+
+// ── source 1: a configured JSON feed ────────────────────────────────────────────────────────────
+// Only attempted when there is actually somewhere to attempt: a caller injected a fetch (that caller
+// IS the source — this is what the tests do), or COUPON_FEED_URL names a real endpoint. Previously
+// this fired unconditionally at a `.invalid` host, which cost a guaranteed-failing DNS lookup on
+// every single page render for nothing.
+async function couponsFromFeed(storeName, category, fetch) {
+  const injected = typeof fetch === 'function';
+  if (!injected && !process.env.COUPON_FEED_URL) return [];
+  const f = injected ? fetch : _fetch;
   try {
-    // A configured source URL is expected to return a JSON array (or {coupons:[...]}). We never embed a
-    // key here; the source is whatever the injected fetch resolves. No source / non-ok → [].
+    // Expected to return a JSON array (or {coupons:[...]}). We never embed a key here.
     const r = await f(couponSourceUrl(storeName, category), { headers: { 'user-agent': UA } });
     if (!r || !r.ok) return [];
     const body = await r.json();
@@ -93,12 +129,62 @@ export async function findCoupons({ store, category } = {}, { fetch } = {}) {
   }
 }
 
-// The (placeholder) source endpoint. Kept as a function so the production wiring can point it at a real
-// feed without touching the normalizer. No secret here — the injected fetch supplies the real source.
+// ── source 2: Impact.com approved deals ─────────────────────────────────────────────────────────
+// impact-api.listDeals() returns only advertisers we are APPROVED for — that is our true coverage,
+// and it never invents an offer. We filter it to the requested store and hand the rows to the same
+// normalizer. Unconfigured or unapproved → [], and the page says so honestly.
+async function couponsFromImpact(storeName) {
+  if (!impactConfigured()) return [];
+  try {
+    const deals = await _impact.listDeals();
+    if (!Array.isArray(deals)) return [];
+    return deals
+      .filter((d) => matchesStore(d?.advertiser, storeName))
+      .map((d) => normalizeCoupon({
+        // Impact's field names differ from the normalizer's vocabulary, so map them explicitly
+        // rather than hoping they collide: advertiser->store, name/description->discount text,
+        // url->sourceUrl. `discount` is preferred when Impact supplies a parseable one, because
+        // couponValue() scores on it.
+        store: d.advertiser || storeName,
+        code: d.code,
+        discount: d.discount || d.name || d.description,
+        expires: d.expires,
+        url: d.url,
+      }, storeName))
+      .filter(Boolean);
+  } catch {
+    return []; // soft-fail, same contract as every other source here
+  }
+}
+
+// Loose store match: case- and punctuation-insensitive, either side containing the other. Impact
+// advertiser names carry suffixes ("Nike, Inc.", "Nike US") that an exact match would drop.
+function matchesStore(advertiser, storeName) {
+  const norm = (s) => String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]+/g, '');
+  const a = norm(advertiser); const b = norm(storeName);
+  if (!a || !b) return false;
+  return a.includes(b) || b.includes(a);
+}
+
+// Same code at the same store from two sources is one coupon. Cashback rows have no code, so they
+// key on store+discount instead. First occurrence wins (feed before Impact).
+function dedupeCoupons(list) {
+  const seen = new Set(); const out = [];
+  for (const c of list) {
+    const key = `${(c.store || '').toLowerCase()}|${c.type}|${(c.code || c.discount || '').toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key); out.push(c);
+  }
+  return out;
+}
+
+// The feed endpoint. COUPON_FEED_URL points it at a real source; the fallback literal is only ever
+// reached via an injected fetch (i.e. the caller is the source), so it never hits the network.
 function couponSourceUrl(store, category) {
   const q = new URLSearchParams({ store });
   if (category) q.set('category', String(category));
-  return `https://coupons.invalid/api/coupons?${q.toString()}`;
+  const base = process.env.COUPON_FEED_URL || 'https://coupons.invalid/api/coupons';
+  return `${base}${base.includes('?') ? '&' : '?'}${q.toString()}`;
 }
 
 // Normalize one raw coupon row into our canonical shape. Defensive about field names + types; anything
