@@ -12,6 +12,10 @@
 
 // Seed glossary from the operator's named domains. `variants` are common ASR mishearings (lowercased).
 // Extend this from the ingested Claude-chat corpus (task #35) + knowledge/oilahuasca/* as it grows.
+// textOf(): the ONLY safe way to read a completion. See its doc in llm-router.mjs —
+// the naive `String(r.text || r)` idiom silently produced the literal "[object Object]".
+import { textOf } from './llm-router.mjs';
+
 export const SEED_GLOSSARY = [
   { canon: 'Sasha Shulgin', variants: ['sasha shogun', 'sasha schulgin', 'sasha sholgin', 'sasha shulgen', 'sasha sholgun', 'shulgin', 'shogun'] },
   { canon: 'Ann Shulgin', variants: ['ann shogun', 'anne shulgin', 'ann schulgin'] },
@@ -91,7 +95,7 @@ export async function decipher(text, opts = {}) {
   try {
     const terms = glossary.map((g) => g.canon);
     const r = await opts.complete(`${REFINE_HINT(terms)}\n${pass1.text}`, { task: 'quality' });
-    const refined = String((r && (r.text || r.response)) || r || '').trim();
+    const refined = textOf(r);
     if (refined && refined.length > pass1.text.length * 0.5) return { text: refined, corrections: pass1.corrections, refined: true };
   } catch { /* model down → keep the deterministic pass */ }
   return { ...pass1, refined: false };
