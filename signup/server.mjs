@@ -134,6 +134,9 @@ export async function readAccountActivity(account, { rpc = chainRpc } = {}) {
     const comments = [];
     const transfers_to_vesting = [];
     const witness_votes = [];
+    const transfers_sent = [];   // stage 9
+    const delegations = [];      // stage 10
+    const follows = [];          // stage 8
     for (const entry of Array.isArray(history) ? history : []) {
       const op = entry && entry[1] && entry[1].op;
       if (!Array.isArray(op)) continue;
@@ -147,6 +150,27 @@ export async function readAccountActivity(account, { rpc = chainRpc } = {}) {
         transfers_to_vesting.push({ amount: data.amount });
       } else if (type === 'account_witness_vote' && data.account === account) {
         witness_votes.push({ witness: data.witness, approve: data.approve !== false });
+      } else if (type === 'transfer' && data.from === account) {
+        // stage 9 (send_first_transfer). The detector applies the self-send exclusion.
+        transfers_sent.push({ from: data.from, to: data.to, amount: data.amount, memo: '' });
+      } else if (type === 'delegate_vesting_shares' && data.delegator === account) {
+        // stage 10 (delegate_some_mp). Nodes differ on the field name, so pass both through and
+        // let the detector pick — it reads amount_mp first, then vesting_shares.
+        delegations.push({
+          delegator: data.delegator, delegatee: data.delegatee,
+          vesting_shares: data.vesting_shares, amount_mp: data.amount_mp,
+        });
+      } else if (type === 'custom_json' && data.id === 'follow') {
+        // stage 8 (follow_three_authors). `follow` is a custom_json convention, not a consensus op:
+        // ["follow",{follower,following,what:["blog"]}]. An empty `what` is an UNFOLLOW, so it is
+        // skipped rather than counted.
+        try {
+          const j = JSON.parse(data.json);
+          const f = Array.isArray(j) ? j[1] : j;
+          if (f && f.follower === account && f.following && Array.isArray(f.what) && f.what.includes('blog')) {
+            follows.push({ following: f.following });
+          }
+        } catch { /* a malformed follow payload loses one follow, not the read */ }
       }
     }
 
@@ -169,7 +193,21 @@ export async function readAccountActivity(account, { rpc = chainRpc } = {}) {
       }
     }
 
-    return { posts, comments, votes_received, transfers_to_vesting, witness_votes };
+    // stage 7 (set_profile): posting_json_metadata is the modern location, json_metadata the legacy
+    // one. Either satisfies it — the detector only asks whether one required field is non-empty.
+    let profile = null;
+    for (const field of ['posting_json_metadata', 'json_metadata']) {
+      if (profile || !acct || !acct[field]) continue;
+      try {
+        const meta = JSON.parse(acct[field]);
+        if (meta && typeof meta.profile === 'object' && meta.profile) profile = meta.profile;
+      } catch { /* unparseable metadata is not a profile; fall through to the next field */ }
+    }
+
+    return {
+      account, posts, comments, votes_received, transfers_to_vesting, witness_votes,
+      profile, follows, transfers_sent, delegations,
+    };
   } catch {
     return null;
   }

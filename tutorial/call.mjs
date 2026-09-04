@@ -200,7 +200,9 @@ export function isAddressedToWitness(op, deps = {}) {
   if (String(c.author || '').toLowerCase() === witness) {
     return { addressed: false, via: null, lesson: null };
   }
-  // Top-level posts are not calls; only comments (a comment has a parent_author).
+  // A top-level post that mentions her is a call too — the mention is the signal,
+  // not the depth. Only the mention, the guidance thread, or a reply under one of
+  // her posts counts; everything else is ignored.
   const index = deps.lessonIndex || defaultIndex();
   const parentPermlink = String(c.parent_permlink || '');
   const lesson = index.get(parentPermlink) || null;

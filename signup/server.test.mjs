@@ -58,7 +58,8 @@ async function route(path, opts) {
 function json(res) { return JSON.parse(res.body); }
 
 // ── a fake condenser RPC for a fully-onboarded account "alice" ─────────────────────────────────────
-// Returns activity that completes all six Tier-A spine stages.
+// Returns activity that completes ALL TEN Tier-A spine stages (1-10). When a detector is added for a
+// new criterion kind, this fixture has to grow with it or "fully onboarded" stops being true.
 function fakeRpcFor(account, { withVotes = true } = {}) {
   return async (url, opts) => {
     const req = JSON.parse(opts.body);
@@ -70,6 +71,16 @@ function fakeRpcFor(account, { withVotes = true } = {}) {
         [2, { op: ['comment', { author: account, permlink: 'c3', body: 'z'.repeat(120), parent_author: 'dave', parent_permlink: 'p' }] }],
         [3, { op: ['transfer_to_vesting', { from: account, to: account, amount: '5.000 MELEK' }] }],
         [4, { op: ['account_witness_vote', { account, witness: 'hathor', approve: true }] }],
+        // stage 8 — three DISTINCT follows. The fourth entry is an unfollow (empty `what`) and an
+        // unfollow of someone already followed, so it must not add to the count.
+        [5, { op: ['custom_json', { id: 'follow', json: JSON.stringify(['follow', { follower: account, following: 'bob', what: ['blog'] }]) }] }],
+        [6, { op: ['custom_json', { id: 'follow', json: JSON.stringify(['follow', { follower: account, following: 'carol', what: ['blog'] }]) }] }],
+        [7, { op: ['custom_json', { id: 'follow', json: JSON.stringify(['follow', { follower: account, following: 'dave', what: ['blog'] }]) }] }],
+        [8, { op: ['custom_json', { id: 'follow', json: JSON.stringify(['follow', { follower: account, following: 'mallory', what: [] }]) }] }],
+        // stage 9 — a real outbound transfer to someone else (self-sends do not count)
+        [9, { op: ['transfer', { from: account, to: 'bob', amount: '1.000 MELEK' }] }],
+        // stage 10 — a delegation to someone else
+        [10, { op: ['delegate_vesting_shares', { delegator: account, delegatee: 'bob', amount_mp: '5.000' }] }],
       ] }) };
     }
     if (m === 'condenser_api.get_discussions_by_blog') {
@@ -84,7 +95,12 @@ function fakeRpcFor(account, { withVotes = true } = {}) {
         : [] }) };
     }
     if (m === 'condenser_api.get_accounts') {
-      return { json: async () => ({ result: [{ name: account, witness_votes: ['hathor'] }] }) };
+      return { json: async () => ({ result: [{
+        name: account,
+        witness_votes: ['hathor'],
+        // stage 7 — profile lives in posting_json_metadata on a modern node
+        posting_json_metadata: JSON.stringify({ profile: { name: 'Alice', about: 'new here' } }),
+      }] }) };
     }
     if (m === 'condenser_api.get_account_votes') return { json: async () => ({ result: [] }) };
     return { json: async () => ({ result: null }) };
@@ -168,7 +184,7 @@ test('computeProgress marks the full spine complete for a fully-onboarded accoun
   } });
   const p = computeProgress('alice', activity);
   assert.equal(p.account, 'alice');
-  assert.ok(p.trackable >= 6);
+  assert.ok(p.trackable >= 10, `expected the full ten-stage spine, got ${p.trackable}`);
   assert.equal(p.completed, p.trackable, 'all trackable stages complete');
   assert.equal(p.allDetectableComplete, true);
   assert.equal(p.nextStageKey, null);
