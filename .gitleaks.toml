@@ -139,6 +139,14 @@ regexes = [
   # above (see assertions in src/chain/graphene.test.js), so the entry is
   # removed rather than reconstructed. Do not paste a real WIF here to
   # "restore" it; the TEST-FAKE-* patterns cover current test fixtures.
+  #
+  # Corpus prose, not a secret. gitleaks' default `generic-api-key` rule fires (entropy 3.72) on
+  # this sentence in knowledge/phoenician/punic_wax_consciousness_technology.json:
+  #   "The Linguistic Keys: MLK/HRM/translation protocols revealing hidden consciousness data"
+  # The word "Keys:" followed by a slash-joined token reads to the generic rule as an assignment.
+  # It is a sentence in a Phoenician-corpus JSON. Allowlisted by the exact phrase rather than by
+  # path, so the rest of that file — and the rest of knowledge/ — stays fully scanned.
+  '''Linguistic Keys: MLK/HRM/translation protocols''',
 ]
 
 # Specific files where the patterns are documentation, not real secrets.
