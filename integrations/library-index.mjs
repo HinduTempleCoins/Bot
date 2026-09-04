@@ -30,6 +30,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { makeEmbedder } from './minilm-embedder.mjs';
 import { createVectorIndex, faissAvailable } from './faiss-index.mjs';
+import { gateItems } from './scope-gate.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = process.env.MELEK_REPO || path.resolve(__dirname, '..');
@@ -218,12 +219,17 @@ function annFor(idx, domain) {
   return built;
 }
 
-export async function recall(query, { domain = null, k = 6 } = {}) {
+export async function recall(query, { domain = null, k = 6, internal = false } = {}) {
   const idx = loadVecs();
   if (!idx.vecs.length) return [];
   const qv = await embedText(query);
   const { ann, meta } = annFor(idx, domain);
-  return ann.search(qv, k).map((h) => ({ ...meta[h.id], score: h.score }));
+  // SCOPE GATE: public surfaces never receive manufacture/synthesis/extraction-route passages
+  // (CLAUDE.md scope; shelf audit 2026-08-25). Over-fetch so gating still returns k results.
+  // Internal/operator callers pass { internal: true } and are unfiltered.
+  const want = internal ? k : Math.min(k * 4, Math.max(k, meta.length));
+  const hits = ann.search(qv, want).map((h) => ({ ...meta[h.id], score: h.score }));
+  return gateItems(hits, { internal }).slice(0, k);
 }
 
 /** Which nearest-neighbour backend recall is using ('faiss' on the boxes, 'cosine' fallback). */
