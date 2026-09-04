@@ -10,7 +10,19 @@
 
 import fs from 'fs';
 import path from 'path';
-import mammoth from 'mammoth';
+
+// `mammoth` (the .docx reader) is loaded LAZILY, not at module scope. It is declared in this
+// sub-package's own package.json, so a repo-root `npm test` — which installs only the root
+// dependencies — would otherwise fail to even import this module, taking every test that touches
+// it down with an ERR_MODULE_NOT_FOUND. Only the `.docx` branch of loadFile() needs it, and per
+// house style it soft-fails: a .docx is skipped, never thrown over.
+let _mammoth;
+async function getMammoth() {
+  if (_mammoth !== undefined) return _mammoth;
+  try { _mammoth = (await import('mammoth')).default; }
+  catch { _mammoth = null; }
+  return _mammoth;
+}
 
 // Knowledge domain hierarchy - defines how topics flow into each other
 export const KNOWLEDGE_HIERARCHY = {
@@ -153,10 +165,13 @@ class KnowledgeLoader {
         content = fs.readFileSync(filePath, 'utf-8');
         break;
 
-      case '.docx':
+      case '.docx': {
+        const mammoth = await getMammoth();
+        if (!mammoth) return null;   // reader unavailable — skip the file, don't fail the load
         const result = await mammoth.extractRawText({ path: filePath });
         content = result.value;
         break;
+      }
 
       default:
         return null;
