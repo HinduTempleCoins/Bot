@@ -17,6 +17,10 @@ import {
   detectFirstOrganicUpvote,
   detectPowerUp,
   detectWitnessVote,
+  detectSetProfile,
+  detectFollowThreeAuthors,
+  detectSendFirstTransfer,
+  detectDelegateSomeMp,
   detectCompletedStages,
   nextStageFor,
 } from './detector.js';
@@ -129,9 +133,9 @@ test('detectWitnessVote: rejects unapprovals', () => {
   assert.equal(detectWitnessVote(votes), null);
 });
 
-test('detectCompletedStages: returns shape with all six keys', () => {
+test('detectCompletedStages: returns shape with all ten Tier-A keys', () => {
   const result = detectCompletedStages({});
-  for (const k of ['intro_post', 'engage_three_posts', 'share_what_you_know', 'first_organic_upvote', 'power_up', 'vote_for_a_witness']) {
+  for (const k of ['intro_post', 'engage_three_posts', 'share_what_you_know', 'first_organic_upvote', 'power_up', 'vote_for_a_witness', 'set_profile', 'follow_three_authors', 'send_first_transfer', 'delegate_some_mp']) {
     assert.ok(k in result, `result should include ${k}`);
     assert.equal(result[k].complete, false);
     assert.equal(result[k].evidence, null);
@@ -165,6 +169,66 @@ test('nextStageFor: all complete returns null', () => {
     votes_received: [{ voter: 'someone', weight: 5000, time: '2026-01-01' }],
     transfers_to_vesting: [{ amount: '1.500 MELEK' }],
     witness_votes: [{ witness: 'hathor', approve: true }],
+    account: 'me',
+    profile: { name: 'Me', about: 'here' },
+    follows: [{ following: 'a' }, { following: 'b' }, { following: 'c' }],
+    transfers_sent: [{ to: 'a', amount: '0.100 MELEK' }],
+    delegations: [{ delegatee: 'a', amount_mp: '5.000' }],
   };
   assert.equal(nextStageFor(activity), null);
+});
+
+// ---- stages 7-10: the Tier-A primitives the chain reader satisfies ----
+
+test('detectSetProfile: any one required field is enough; empty strings do not count', () => {
+  assert.equal(detectSetProfile(null), null);
+  assert.equal(detectSetProfile({}), null);
+  assert.equal(detectSetProfile({ name: '   ' }), null);
+  assert.deepEqual(detectSetProfile({ about: 'a witness' }), { field: 'about', value: 'a witness' });
+  // a field outside require_fields_any_of does not satisfy it
+  assert.equal(detectSetProfile({ location: 'Dallas' }), null);
+});
+
+test('detectFollowThreeAuthors: counts DISTINCT accounts and excludes self', () => {
+  assert.equal(detectFollowThreeAuthors([], 'me'), null);
+  // three records but only two distinct
+  assert.equal(detectFollowThreeAuthors(
+    [{ following: 'a' }, { following: 'a' }, { following: 'b' }], 'me'), null);
+  // self does not count toward the three
+  assert.equal(detectFollowThreeAuthors(
+    [{ following: 'a' }, { following: 'b' }, { following: 'me' }], 'me'), null);
+  const hit = detectFollowThreeAuthors(
+    [{ following: 'a' }, { following: 'B' }, { following: 'c' }], 'me');
+  assert.equal(hit?.count, 3);
+  // bare names are accepted too, and case is normalised
+  assert.equal(detectFollowThreeAuthors(['a', 'b', 'c'], 'me')?.count, 3);
+});
+
+test('detectSendFirstTransfer: honours the minimum and excludes self-sends', () => {
+  assert.equal(detectSendFirstTransfer([], 'me'), null);
+  assert.equal(detectSendFirstTransfer([{ to: 'a', amount: '0.000 MELEK' }], 'me'), null);
+  // a transfer to yourself is not the lesson
+  assert.equal(detectSendFirstTransfer([{ to: 'me', amount: '5.000 MELEK' }], 'me'), null);
+  assert.equal(detectSendFirstTransfer([{ to: 'ME', amount: '5.000 MELEK' }], 'me'), null);
+  const hit = detectSendFirstTransfer([{ to: 'a', amount: '0.001 MELEK' }], 'me');
+  assert.equal(hit?.to, 'a');
+});
+
+test('detectDelegateSomeMp: reads the MP field, excludes self, honours the minimum', () => {
+  assert.equal(detectDelegateSomeMp([], 'me'), null);
+  assert.equal(detectDelegateSomeMp([{ delegatee: 'a', amount_mp: '0.500' }], 'me'), null);
+  assert.equal(detectDelegateSomeMp([{ delegatee: 'me', amount_mp: '9.000' }], 'me'), null);
+  const hit = detectDelegateSomeMp([{ delegatee: 'a', amount_mp: '1.000' }], 'me');
+  assert.equal(hit?.delegatee, 'a');
+  // a node that returns `to` instead of `delegatee` still gets the self-check
+  assert.equal(detectDelegateSomeMp([{ to: 'me', amount_mp: '9.000' }], 'me'), null);
+});
+
+test('the four new detectors never throw on junk', () => {
+  for (const junk of [undefined, null, 0, '', [], [null], [undefined], [{}]]) {
+    assert.doesNotThrow(() => detectSetProfile(junk));
+    assert.doesNotThrow(() => detectFollowThreeAuthors(junk === null || junk === undefined || !Array.isArray(junk) ? [] : junk, 'me'));
+    assert.doesNotThrow(() => detectSendFirstTransfer(Array.isArray(junk) ? junk : [], 'me'));
+    assert.doesNotThrow(() => detectDelegateSomeMp(Array.isArray(junk) ? junk : [], 'me'));
+  }
 });

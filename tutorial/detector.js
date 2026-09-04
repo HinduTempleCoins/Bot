@@ -141,6 +141,71 @@ export function detectWitnessVote(witnessVotes = []) {
   return approvals[0];
 }
 
+// ---- stage 7: set_profile ----
+
+export function detectSetProfile(profile = null) {
+  const stage = getStage('set_profile');
+  const { require_fields_any_of } = stage.completion_criteria;
+  if (!profile || typeof profile !== 'object') return null;
+  for (const field of require_fields_any_of) {
+    const v = profile[field];
+    if (typeof v === 'string' && v.trim() !== '') return { field, value: v.trim() };
+  }
+  return null;
+}
+
+// ---- stage 8: follow_three_authors ----
+
+export function detectFollowThreeAuthors(follows = [], account = '') {
+  const stage = getStage('follow_three_authors');
+  const { min_distinct_followed, exclude_self } = stage.completion_criteria;
+  const self = String(account || '').toLowerCase();
+  const distinct = new Set();
+  for (const f of follows) {
+    // accept a bare name or a { following } record from get_following
+    const name = String((f && typeof f === 'object' ? f.following : f) ?? '').toLowerCase();
+    if (!name) continue;
+    if (exclude_self && name === self) continue;
+    distinct.add(name);
+  }
+  if (distinct.size < min_distinct_followed) return null;
+  return { followed: [...distinct], count: distinct.size };
+}
+
+// ---- stage 9: send_first_transfer ----
+
+export function detectSendFirstTransfer(transfersSent = [], account = '') {
+  const stage = getStage('send_first_transfer');
+  const { min_amount_melek, exclude_recipient_self } = stage.completion_criteria;
+  const minAmount = parseFloat(min_amount_melek);
+  const self = String(account || '').toLowerCase();
+  return transfersSent.find((t) => {
+    if (!t) return false;
+    if (exclude_recipient_self && String(t.to || '').toLowerCase() === self) return false;
+    const amount = parseFloat(t.amount); // "0.001 MELEK" -> 0.001
+    return Number.isFinite(amount) && amount >= minAmount;
+  }) ?? null;
+}
+
+// ---- stage 10: delegate_some_mp ----
+
+export function detectDelegateSomeMp(delegations = [], account = '') {
+  const stage = getStage('delegate_some_mp');
+  const { min_amount_mp, exclude_recipient_self } = stage.completion_criteria;
+  const minAmount = parseFloat(min_amount_mp);
+  const self = String(account || '').toLowerCase();
+  return delegations.find((d) => {
+    if (!d) return false;
+    if (exclude_recipient_self && String(d.delegatee || d.to || '').toLowerCase() === self) return false;
+    // vesting delegations are denominated in VESTS on chain; stages.json states
+    // the threshold in MP. The reader hands over whichever the node gave it, so
+    // read the MP-denominated field when present and fall back to the raw amount.
+    const raw = d.amount_mp ?? d.vesting_shares ?? d.amount;
+    const amount = parseFloat(raw);
+    return Number.isFinite(amount) && amount >= minAmount;
+  }) ?? null;
+}
+
 // ---- orchestrator ----
 
 /**
@@ -159,6 +224,10 @@ export function detectCompletedStages(userActivity) {
     first_organic_upvote: wrap(detectFirstOrganicUpvote(a.votes_received)),
     power_up: wrap(detectPowerUp(a.transfers_to_vesting)),
     vote_for_a_witness: wrap(detectWitnessVote(a.witness_votes)),
+    set_profile: wrap(detectSetProfile(a.profile)),
+    follow_three_authors: wrap(detectFollowThreeAuthors(a.follows, a.account)),
+    send_first_transfer: wrap(detectSendFirstTransfer(a.transfers_sent, a.account)),
+    delegate_some_mp: wrap(detectDelegateSomeMp(a.delegations, a.account)),
   };
 }
 
@@ -170,12 +239,12 @@ function wrap(evidence) {
  * The next stage the user should attempt, given current completions.
  *
  * Only considers stages the detector can actually evaluate from chain data
- * (the keys returned by detectCompletedStages — currently the Tier-A spine,
- * stages 1–6). Stages 7+ in stages.json are either later Tier-A primitives,
- * infra-gated Tier-B placeholders, or the Phase-3 Tier-C conversational arc;
- * none has a chain-reader detector yet, so they cannot be "the next stage to
- * attempt" through this path. As detectors are added for new kinds, those
- * stages automatically become eligible here.
+ * (the keys returned by detectCompletedStages — the full Tier-A spine,
+ * stages 1–10). Stages 11+ in stages.json are infra-gated Tier-B placeholders
+ * or the Phase-3 Tier-C conversational arc; none is obtainable from a standard
+ * Graphene read (see KIND_COVERAGE in chain-reader.mjs for which, and why), so
+ * they cannot be "the next stage to attempt" through this path. As detectors
+ * are added for new kinds, those stages automatically become eligible here.
  *
  * Returns the stage definition object, or null if every detectable stage is
  * complete.
