@@ -7,7 +7,7 @@
 // until their adapters ship. Non-custodial: every swap is confirmed in the user's own wallet.
 
 import { quoteSwap } from './kula-quote.mjs';
-import { CHAINS, DEFAULT_CHAIN, ROUTER_ABI, FACTORY_ABI, PAIR_ABI, ERC20_ABI, isNative, chainReady, allChains } from './kula-config.mjs';
+import { CHAINS, DEFAULT_CHAIN, ROUTER_ABI, FACTORY_ABI, PAIR_ABI, ERC20_ABI, isNative, chainReady, allChains, safeTokens } from './kula-config.mjs';
 import { mountPanels, cdpWiring, stakeWiring } from './dex-panels.mjs';
 import { cdpMarketLive, veLive } from './kula-config-addresses.mjs';
 
@@ -104,14 +104,19 @@ function mount(doc = document) {
   const note = (el, kind, msg) => { if (!el) return; el.className = msg ? `note ${kind}` : ''; el.textContent = msg || ''; };
 
   function fillTokens() {
-    const toks = chain.tokens || [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
+    // safeTokens(), never chain.tokens directly — it strips DENYLIST entries. PRANA mainnet carries a
+    // second ERC-20 also reporting symbol "KULA" (an abandoned first deployment, 10x the supply); a
+    // contract cannot be deleted from a chain, so the guarantee has to live here.
+    const toks = safeTokens(chain).length ? safeTokens(chain)
+      : [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
     const opts = toks.map((t, i) => `<option value="${i}">${esc(t.symbol)}</option>`).join('');
     tinSel.innerHTML = opts; toutSel.innerHTML = opts;
     if (toks.length > 1) toutSel.value = '1';
     paintDots();
   }
   function curTokens() {
-    const toks = chain.tokens || [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
+    const toks = safeTokens(chain).length ? safeTokens(chain)
+      : [{ symbol: chain.native.symbol, address: 'native', decimals: chain.native.decimals }];
     return { tin: toks[+tinSel.value] || toks[0], tout: toks[+toutSel.value] || toks[0] };
   }
   function paintDots() {

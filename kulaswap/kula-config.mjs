@@ -194,3 +194,49 @@ export function chainReady(chain) {
 export const allChains = () => Object.values(CHAINS);
 export const evmChains = () => allChains().filter((c) => c.type === 'evm');
 export const readyChains = () => allChains().filter(chainReady);
+
+// ── DENYLIST — superseded/impostor token contracts that must NEVER be tradeable ────────────────
+//
+// PRANA mainnet carries TWO ERC-20s that both report symbol "KULA". The canonical one is
+// CHAINS['prana-mainnet'].kula (0x32255D01…, totalSupply 100,000), deployed by DeployKulaMainnet
+// on 2026-08-30 07:04. The other (0xdCA53de8…, totalSupply 1,000,000) is an earlier abandoned
+// attempt: the Factory's PairCreated events put its pair at block 2,333, some 820 blocks BEFORE the
+// canonical KULA/WPRANA pair at block 3,153. It sits in a pool with an equally superseded
+// "wMELEK" (0x5A826b93…) holding 10,000 / 1,000,000.
+//
+// A deployed contract cannot be deleted from a chain, so "removing" it means guaranteeing nothing
+// we ship can route to it, price it, or list it. Today that holds structurally — app.mjs builds the
+// tradeable set from `chain.tokens` and FACTORY_ABI exposes only getPair, never allPairs — but that
+// is an accident of the current UI. This list makes it a rule, so a future "import a custom token"
+// or pair-enumeration feature cannot reintroduce it.
+//
+// Addresses are compared lowercased. Add, never remove, entries here.
+export const DENYLIST = {
+  'prana-mainnet': {
+    '0xdca53de829db177ed16e51cc4c9abbf856bebac8':
+      'superseded KULA (1,000,000 supply) — abandoned first deployment; the canonical KULA is 0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631',
+    '0x5a826b93f2465e9acfe65cca0e2562f1e1678bb2':
+      'superseded wMELEK — paired only with the superseded KULA; not the ecosystem wMELEK',
+  },
+};
+
+/** True if `address` must never be traded/listed/priced on `chainKey`. Case-insensitive, never throws. */
+export function isDenied(chainKey, address) {
+  if (!address) return false;
+  const list = DENYLIST[chainKey];
+  if (!list) return false;
+  return Object.prototype.hasOwnProperty.call(list, String(address).toLowerCase().trim());
+}
+
+/** Why an address is denied (for an honest UI message), or null. */
+export function denyReason(chainKey, address) {
+  if (!address) return null;
+  return (DENYLIST[chainKey] || {})[String(address).toLowerCase().trim()] || null;
+}
+
+/** The tradeable token list for a chain with denied entries stripped. Use this, not `chain.tokens`. */
+export function safeTokens(chain) {
+  const toks = (chain && chain.tokens) || [];
+  const key = chain && chain.key;
+  return toks.filter((t) => !isDenied(key, t && t.address));
+}
