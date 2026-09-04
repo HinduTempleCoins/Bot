@@ -11,6 +11,9 @@
 // network, no keys, soft-fail. House style: ESM, CLI guard, handler(req,res).
 
 import fsDefault from 'node:fs';
+// textOf(): the ONLY safe way to read a completion. See its doc in llm-router.mjs —
+// the naive `String(r.text || r) ` idiom silently produced the literal "[object Object]".
+import { textOf } from './llm-router.mjs';
 
 // High-signal annal name patterns — the AI-authored analyses worth mining (not raw transcripts).
 const SIGNAL = [/^_connections\./i, /^_conference-audit/i, /^_diagnostics\./i, /^_synthesis/i, /^_review/i];
@@ -73,6 +76,10 @@ export function parseTodos(text) {
   return String(text || '')
     .split('\n')
     .map((l) => l.replace(/^\s*[-*]\s+/, '').trim())
+    // `[object Object]` is what a stringified object looks like; it passed every filter below
+    // (length > 8, contains a letter, not a heading) and shipped as a real to-do item. Reject it and
+    // its relatives explicitly — a second line of defence behind textOf().
+    .filter((l) => !/^\[object \w+\]$/i.test(l) && l !== 'undefined' && l !== 'null' && l !== '[object Object]')
     .filter((l) => l.length > 8 && /[a-z]/i.test(l) && !/^#/.test(l))
     .map((l) => l.replace(/\s+/g, ' '));
 }
@@ -110,12 +117,16 @@ export async function harvest(opts = {}) {
     return { asOf: new Date().toISOString(), sources: sources.map((s) => s.name), todos: [], raw: '' };
   }
   let raw = '';
+  let llmError = '';
   try {
     const r = await complete(buildPrompt(sources, openItems), { task: 'quality' });
-    raw = String((r && (r.text || r.response)) || r || '').trim();
-  } catch { raw = ''; }
+    raw = textOf(r);
+    // The router reports its own failure in `error`; surface it instead of silently emitting an
+    // empty (or worse, garbage) queue. A run that could not reach a model must SAY so.
+    if (!raw) llmError = (r && typeof r === 'object' && r.error) ? String(r.error) : 'the ensemble returned no text';
+  } catch (e) { raw = ''; llmError = e?.message || 'the ensemble threw'; }
   const todos = dedupe(parseTodos(raw), openItems);
-  return { asOf: new Date().toISOString(), sources: sources.map((s) => s.name), todos, raw };
+  return { asOf: new Date().toISOString(), sources: sources.map((s) => s.name), todos, raw, llmError };
 }
 
 export function toMarkdown(result) {
@@ -123,7 +134,12 @@ export function toMarkdown(result) {
     `# Harvested next-actions — ${result.asOf}`,
     `_Mined from the brain's own annals (${result.sources.length} sources) by the LLM ensemble; deduped against open items._`,
     '',
-    ...(result.todos.length ? result.todos.map((t) => `- [ ] ${t}`) : ['_(nothing new surfaced this run)_']),
+    ...(result.todos.length
+      ? result.todos.map((t) => `- [ ] ${t}`)
+      : [result.llmError
+          ? `> **This run harvested nothing because the LLM ensemble was unreachable:** ${result.llmError}`
+          + `\n> This is NOT "no work to do" — the queue below is simply unknown for this run.`
+          : '_(nothing new surfaced this run)_']),
     '',
     `<sub>sources: ${result.sources.join(', ')}</sub>`,
   ].join('\n');

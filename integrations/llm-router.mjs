@@ -298,7 +298,6 @@ export function looksLikeProviderError(t) {
     /contact whoever runs the app/, /please try again later/, /service (is )?unavailable/,
   ].some((re) => re.test(x));
 }
-
 export function textOf(r) {
   if (r == null) return '';
   if (typeof r === 'string') return r.trim();

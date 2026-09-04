@@ -19,6 +19,9 @@
 // fully offline-testable. House style: ESM, soft-fail, CLI guard, handler(req,res).
 
 import { rank as salienceRank } from './amygdala.mjs';
+// textOf(): the ONLY safe way to read a completion. See its doc in llm-router.mjs —
+// the naive `String(r.text || r)` idiom silently produced the literal "[object Object]".
+import { textOf } from './llm-router.mjs';
 
 export const MODES = ['advise', 'assist', 'auto'];
 
@@ -89,7 +92,7 @@ export async function diagnose(incident, deps = {}) {
   if (typeof deps.complete === 'function') {
     try {
       const r = await deps.complete(buildDiagnosePrompt(incident), { task: 'quality' });
-      d = parseDiagnosis((r && (r.text || r.response)) || r || '');
+      d = parseDiagnosis(textOf(r));
     } catch { d = null; }
   }
   if (!d) d = { likelyCause: 'undiagnosed — needs a human/coder-AI look', proposedFix: '', kind: 'investigate', confidence: 0, risk: 'high' };
