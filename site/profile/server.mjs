@@ -5,7 +5,7 @@
 // to show its address + balance. It is a CMC-style bookmark list that reads REAL balances — NOT a
 // wallet.
 //
-//   PORT=8210 BASE_URL=https://profile.soapbox.community node site/profile/server.mjs
+//   PORT=8312 BASE_URL=https://profile.soapbox.community node site/profile/server.mjs
 //   → serves the profile at  /
 //
 // ── HARD BOUNDARY (read this first) ────────────────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8210);
+const PORT = +(process.env.PORT || 8312);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Profile';

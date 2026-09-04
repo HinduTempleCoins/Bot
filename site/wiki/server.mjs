@@ -4,7 +4,7 @@
 // sources it cites — so a reader sees what's disputed instead of trusting it blindly.
 //
 //   ARTICLES_DIR=../../library-of-ashurbanipal-bot/generated-articles node site/wiki/server.mjs
-//   PORT=8090 BASE_URL=https://wiki.soapbox.community node site/wiki/server.mjs
+//   PORT=8091 BASE_URL=https://wiki.soapbox.community node site/wiki/server.mjs
 
 import { createServer } from 'node:http';
 import fs from 'node:fs';
@@ -14,7 +14,7 @@ import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
-const PORT = +(process.env.PORT || 8090);
+const PORT = +(process.env.PORT || 8091);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const ARTICLES_DIR = process.env.ARTICLES_DIR || path.join(__dir, '..', '..', 'library-of-ashurbanipal-bot', 'generated-articles');

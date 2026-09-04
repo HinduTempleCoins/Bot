@@ -4,8 +4,8 @@
 // read-only, no keys, no custody. This is the AGGREGATOR subdomain surface (Data.SoapBox.Community);
 // the root SoapBox.Community is a separate hub that links here (AMENDMENT 1).
 //
-//   node site/soapbox/server.mjs            # http://localhost:8088
-//   PORT=8088 BASE_URL=https://data.soapbox.community node site/soapbox/server.mjs
+//   node site/soapbox/server.mjs            # http://localhost:8144
+//   PORT=8144 BASE_URL=https://data.soapbox.community node site/soapbox/server.mjs
 //
 // Routes: /  /coins  /coins/:id  /dapps  /ecosystem  /learn  /learn/:slug
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
@@ -45,7 +45,7 @@ import { CHAINS, nativePrices } from '../../integrations/chains/multichain.mjs';
 import { chainBalance } from '../../integrations/chains/balances.mjs';
 import { bootWarmup } from '../../integrations/soapbox/boot-warmup.mjs';
 
-const PORT = +(process.env.PORT || 8088);
+const PORT = +(process.env.PORT || 8144);
 // HOST lets the server bind to 127.0.0.1 when it sits behind a TLS reverse proxy (Caddy), so the
 // raw HTTP port isn't also exposed publicly. Defaults to all interfaces for local/dev use.
 const HOST = process.env.HOST || '0.0.0.0';

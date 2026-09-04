@@ -15,7 +15,7 @@
 // House style: ESM, esc() every interpolation, soft-fail-never-throw, handler(req,res) exported,
 // PORT/BASE_URL env, CLI guarded + scoped to site/shop/. Reuses crawlers/seo/impact-utt.
 //
-//   PORT=8190 BASE_URL=https://shop.soapbox.community node site/shop/server.mjs
+//   PORT=8202 BASE_URL=https://shop.soapbox.community node site/shop/server.mjs
 
 import { createServer } from 'node:http';
 
@@ -25,7 +25,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8190);
+const PORT = +(process.env.PORT || 8202);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = 'MELEK Seed Shop';

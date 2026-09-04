@@ -3,7 +3,7 @@
 // one page where people (1) LEARN TO BE WITNESSES, (2) rent servers/things for mining, and
 // (3) CONNECT TO THE POOL — and where the pool's fee model is disclosed honestly.
 //
-//   PORT=8108 BASE_URL=https://witness.melek.salon node site/witness/server.mjs
+//   PORT=8111 BASE_URL=https://witness.melek.salon node site/witness/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /          WITNESS SCHOOL home — what a witness is (DPoS, MELEK), Hathor as the founding AI
@@ -36,7 +36,7 @@ import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
 import * as poolStatsMod from '../../integrations/pool-stats.mjs';
 import { readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
 
-const PORT = +(process.env.PORT || 8108);
+const PORT = +(process.env.PORT || 8111);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://witness.melek.salon').replace(/\/$/, '');
 const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';

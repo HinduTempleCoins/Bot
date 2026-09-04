@@ -4,7 +4,7 @@
 // oversight/watchdog, identity/REN, governance) into one coherent "kit" a town / co-op / congregation /
 // DAO can work through. The value is the ASSEMBLY + the guidance, not new primitives.
 //
-//   PORT=8210 BASE_URL=https://towns.soapbox.community node site/towns/server.mjs
+//   PORT=8313 BASE_URL=https://towns.soapbox.community node site/towns/server.mjs
 //   → serves the kit at  /  and each step at  /step/<slug>
 //
 // ── What it is (the cross-ref gap: "we have every piece but no bundle") ────────────────────────────
@@ -31,7 +31,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8210);
+const PORT = +(process.env.PORT || 8313);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'Crypto-Town Kit';

@@ -5,7 +5,7 @@
 // repair," nothing for sale. Pairs with the grants + credentials aggregators. Pure render, esc() every
 // interpolation, handler(req,res) exported, CLI guarded, no network, no keys.
 //
-//   PORT=8144 BASE_URL=https://credit.soapbox.community node site/credit/server.mjs
+//   PORT=8303 BASE_URL=https://credit.soapbox.community node site/credit/server.mjs
 
 import { createServer } from 'node:http';
 
@@ -15,7 +15,7 @@ import {
   SCORE_FACTORS, SCORE_RANGES, BUILD_STEPS, DISPUTE_STEPS, BUREAUS, RESOURCES, DISCLAIMER,
 } from '../../integrations/soapbox/credit-score.mjs';
 
-const PORT = +(process.env.PORT || 8144);
+const PORT = +(process.env.PORT || 8303);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://credit.soapbox.community').replace(/\/$/, '');
 const GRANTS = process.env.GRANTS_URL || 'https://grants.soapbox.community';

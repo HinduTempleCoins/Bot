@@ -5,7 +5,7 @@
 // but LEGIBLE, so a person can parse the whole organism at a glance, the way March Madness brackets
 // make a 64-team field instantly readable.
 //
-//   PORT=8105 BASE_URL=https://soapbox.community node site/hub/server.mjs
+//   PORT=8300 BASE_URL=https://soapbox.community node site/hub/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /            the bracket — root → public sites → sub-branches; plus the "organism" tier (chains,
@@ -25,7 +25,7 @@ import { createServer } from 'node:http';
 import { PUBLIC_SITES, robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { ESTATE } from '../../integrations/ecosystem-map.mjs';
 
-const PORT = +(process.env.PORT || 8105);
+const PORT = +(process.env.PORT || 8300);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://soapbox.community').replace(/\/$/, '');
 

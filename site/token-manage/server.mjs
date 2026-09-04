@@ -4,7 +4,7 @@
 // the token's facts (supply / holders / rewards, read from the engine READ API) and the four issuer
 // actions — ISSUE more, BURN (deflation), configure STAKING / SCOT rewards, and a guided BUYBACK WIZARD.
 //
-//   PORT=8195 BASE_URL=https://token-manage.alpha.melek.salon node site/token-manage/server.mjs
+//   PORT=8308 BASE_URL=https://token-manage.alpha.melek.salon node site/token-manage/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                      home — what this is + a "your token symbol" box + the compliance banner
@@ -40,7 +40,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8195);
+const PORT = +(process.env.PORT || 8308);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const ENGINE_API = (process.env.ENGINE_API_URL || 'https://engine.alpha.melek.salon').replace(/\/$/, '');

@@ -3,7 +3,7 @@
 // Every game runs 100% CLIENT-SIDE (canvas/DOM + inline vendored JS — no CDN, no <script src> to a
 // third party, no network at runtime). High scores persist to localStorage (try/catch guarded).
 //
-//   PORT=8210 BASE_URL=https://idlegames.soapbox.community node site/idlegames/server.mjs
+//   PORT=8311 BASE_URL=https://idlegames.soapbox.community node site/idlegames/server.mjs
 //   → the hub at  /   · each game at its own path ( /idle /snake /merge /mines )
 //
 // ── STEALTH FUNNEL (mundane-app-suite-stealth-funnel) ──────────────────────────────────────────────
@@ -55,7 +55,7 @@ const IDLE_KIT_JS = (() => { try { return readFileSync(join(WWW, 'idle-kit.js'),
 // Wrap a per-game inline script so it runs AFTER the kit is defined on window.IdleKit.
 const withKit = (inner) => `<script>${IDLE_KIT_JS}</script>\n<script>${inner}</script>`;
 
-const PORT = +(process.env.PORT || 8210);
+const PORT = +(process.env.PORT || 8311);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'Idle-Time Games';

@@ -22,7 +22,7 @@
 // House style: ESM, esc() all interpolation, safeHref/allowedEmbed every href/iframe, keyless + soft-fail
 // (a dead source degrades a row, never breaks the page), handler(req,res) exported for tests, CLI guarded.
 //
-//   PORT=8175 BASE_URL=https://watch.melek.salon node site/tunein/server.mjs
+//   PORT=8176 BASE_URL=https://watch.melek.salon node site/tunein/server.mjs
 //   import { handler, __setFetch } from './server.mjs'   // tests
 
 import { createServer } from 'node:http';
@@ -36,7 +36,7 @@ import { allowedEmbed } from '../../integrations/soapbox/embed-whitelist.mjs';
 import { rank } from '../../integrations/soapbox/recommend.mjs';
 import { tagAsset } from '../../integrations/license-router.mjs';
 
-const PORT = +(process.env.PORT || 8175);
+const PORT = +(process.env.PORT || 8176);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 

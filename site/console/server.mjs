@@ -8,7 +8,7 @@
 // Built from what's already on testnet: each game's launch URL defaults to its existing surface
 // (farm./arcade./kula.money/…) and is env-overridable, so rollout is just pointing the envs at prod.
 //
-//   PORT=8188 BASE_URL=https://console.soapbox.community node site/console/server.mjs
+//   PORT=8306 BASE_URL=https://console.soapbox.community node site/console/server.mjs
 //
 // House style: ESM, esc()/safeHref() every interpolation, handler(req,res) exported, guarded CLI,
 // PORT/HOST/BASE_URL/BASE_PATH env, soft-fail-never-throw, /health + robots/sitemap/llms, Alpha badge,
@@ -20,7 +20,7 @@ import {
   directory, listGames, getGame, launchDescriptor, WAX_MAPPING, SHARED_MARKET, UNIFIED_IDENTITY,
 } from '../../integrations/games/game-console.mjs';
 
-const PORT = +(process.env.PORT || 8188);
+const PORT = +(process.env.PORT || 8306);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');

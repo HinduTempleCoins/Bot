@@ -5,7 +5,7 @@
 // spin, walk-to-earn — all on one account. Mining is how it's *secured*; this hub is what it's *for*.
 // It is a directory/landing that links every live play-and-earn surface; each game is its own service.
 //
-//   PORT=8193 BASE_URL=https://games.soapbox.community node site/games/server.mjs
+//   PORT=8307 BASE_URL=https://games.soapbox.community node site/games/server.mjs
 //
 // Routes: /  (the hub) · /health · /robots.txt /sitemap.xml /sitemap-index.xml /llms.txt
 //
@@ -18,7 +18,7 @@ import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/se
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { renderMobileNav } from '../../integrations/soapbox/mobile-nav.mjs';
 
-const PORT = +(process.env.PORT || 8193);
+const PORT = +(process.env.PORT || 8307);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = 'PRANA Games';

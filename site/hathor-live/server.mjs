@@ -10,13 +10,13 @@
 // browser only POSTs text to /api/chat and renders the reply — it never sees a key. esc() on the server,
 // and the client escapes everything it renders. handler(req,res) exported; converse injectable for tests.
 //
-//   PORT=8140 node site/hathor-live/server.mjs
+//   PORT=8143 node site/hathor-live/server.mjs
 //   import { handler, __setConverse } from './server.mjs'   // tests inject a fake converse
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 
-const PORT = +(process.env.PORT || 8140);
+const PORT = +(process.env.PORT || 8143);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = process.env.BASE_URL || 'https://hathor.live';
 const MAX_MSG = 2000;
