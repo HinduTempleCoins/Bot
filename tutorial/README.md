@@ -1,10 +1,10 @@
-# tutorial/ — the six-stage onboarding program
+# tutorial/ — the nineteen-stage onboarding program
 
 Implementation home for the **CryptoKannon-model staged onboarding** described in [`BRIEF.md`](../BRIEF.md) §8. Phase 2 wiring will read from this directory; Phase 1 doesn't run any of it yet.
 
 ## What's here
 
-- [`stages.json`](./stages.json) — the canonical stage catalog. Six stages, each with a `key`, deterministic `completion_criteria` the Bot can detect by reading chain activity, and a `witness_response` describing the *kind* of message and reward the Witness should produce. **The phrasing of the message is not pre-written.** Hard-coded greeting / response strings are a failure mode per [`CHARACTER.md`](../CHARACTER.md) §2 (disposition, not script). Phase 3 generates the actual text in the Angelic register from the `style` description; Phase 2 can use deterministic templates that still vary.
+- [`stages.json`](./stages.json) — the canonical stage catalog. Nineteen stages, each with a `key`, deterministic `completion_criteria` the Bot can detect by reading chain activity, and a `witness_response` describing the *kind* of message and reward the Witness should produce. **The phrasing of the message is not pre-written.** Hard-coded greeting / response strings are a failure mode per [`CHARACTER.md`](../CHARACTER.md) §2 (disposition, not script). Phase 3 generates the actual text in the Angelic register from the `style` description; Phase 2 can use deterministic templates that still vary.
 
 ## The stages, briefly
 
@@ -41,4 +41,21 @@ The `transfer_amount_melek` values in `stages.json` are starting points. They sh
 
 ## Relation to karma
 
-The tutorial is a **bounded education program** — six stages, then done. The karma layer ([`BRIEF.md`](../BRIEF.md) §9, deferred) is the **ongoing** social-evaluation layer that gates discretionary grants. They share the same per-user store but serve different purposes. Keep them distinct.
+The tutorial is a **bounded education program** — nineteen stages, then done. The karma layer ([`BRIEF.md`](../BRIEF.md) §9, deferred) is the **ongoing** social-evaluation layer that gates discretionary grants. They share the same per-user store but serve different purposes. Keep them distinct.
+
+## What is actually checkable today
+
+`stages.json` holds nineteen stages. `detector.js` can verify **ten** of them — the Tier-A spine,
+stages 1–10 — from standard Graphene reads. That is not a gap in the detector; it is a gap in what
+the chain exposes:
+
+| Stages | Status |
+|---|---|
+| 1–10 | **Checkable now.** `chain-reader.mjs` fetches the shape, `detector.js` checks it. |
+| `curation_reward_received`, `market_trade_filled` | Real virtual-op reads. They return nothing until MELEK emits those ops. |
+| `community_post_authored`, `smt_held_or_created`, `video_post_authored`, `wiki_edit_made`, `bridge_transfer_completed` | **No standard Graphene read exists.** Communities are a hivemind feature and MELEK runs no hivemind; wiki edits are off-chain; "is this a video post" is an undefined `json_metadata` convention. Guessing at these would be fabrication, so they return empty. |
+| `conversation_with_witness`, `welcomed_a_newcomer` | Phase 3 / a read-budget policy call, not a missing RPC. |
+
+`KIND_COVERAGE` in [`chain-reader.mjs`](./chain-reader.mjs) is the machine-readable version of this
+table, with the reason recorded per kind. A stage that cannot be verified returns `not_checkable` to
+the call handler — an honest "can't see this yet", never a FAIL against the user.
