@@ -15,6 +15,8 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
+import { GAMMA_PAGE } from './gamma.mjs';
+import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -288,6 +290,28 @@ export async function handler(req, res) {
       try { plan = await compose({ brief, kind: body.kind, format: body.format }); } catch { plan = null; }
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify(plan || { ok: false, reason: 'Could not compose a plan — try a different brief.' }));
+    }
+
+    // /api/sessions — the entrainment catalogue as JSON, so HATHOR HERSELF can read it and
+    // recommend a session in chat. She hands out /40hz?s=<id> deep links; the page opens
+    // pre-selected on that session. This is what makes the library a thing she can USE.
+    if (path === '/api/sessions') {
+      const out = SESSIONS.map((x) => ({
+        id: x.id, name: x.name, category: x.category, method: x.method,
+        grade: x.grade, minutes: Math.round(totalSeconds(x) / 60), peakHz: peakHz(x),
+        photicRisk: photicRisk(x), chamber: !!x.chamber, eyesClosed: !!x.eyesClosed,
+        evidence: x.evidence, note: x.note || '',
+        url: `${BASE_URL}/40hz?s=${encodeURIComponent(x.id)}`,
+      }));
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({ categories: CATEGORIES, sessions: out }));
+    }
+
+    // /40hz — gamma sensory entrainment (light + sound only; never current delivery).
+    // Corpus: knowledge/consciousness/gamma_40hz_entrainment_and_neurostim.json
+    if (path === '/40hz') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(GAMMA_PAGE);
     }
 
     if (path === '/studio') {

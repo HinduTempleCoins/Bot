@@ -139,7 +139,21 @@ for the work; without it, Claude Code is operating blind.
 
 **In scope:** chain legibility, signup mechanics, the staged tutorial, the Convergence framework (science + theory of AI/VR/BCI/tDCS/TENS/multi-agent systems as temple-technology reconstruction), the **plant-medicine & harm-reduction library** (Library of Ashurbanipal / Church-of-Neuroscience corpus — history, ethnobotany, pharmacology, **dose ranges + drug-interaction/contraindication warnings + testing + set/setting/aftercare/emergency guidance**, documented traditional prep, and religious/legal exemptions; aiming past DMT-Nexus/Erowid), the Angelic-theological character, Crypt-ology, funding and discretionary grants.
 
-**Out of scope:** clinical self-application protocols for brain stimulation (discussing the science is in; step-by-step "apply X current to your head" recipes are out); personal-info intake at signup; **individualized** medical/legal/financial *advice* (education + harm-reduction info is in; diagnosis/prescription is out); key custody. SMS verification — email only (Resend / Postmark / SES).
+**Out of scope:** personal-info intake at signup; **individualized** medical/legal/financial *advice* (education + harm-reduction info is in; diagnosis/prescription is out); key custody. SMS verification — email only (Resend / Postmark / SES).
+
+**Neurostimulation build detail is IN scope — settled 2026-09-04, do not re-litigate.** An earlier revision
+of this file carried a Claude-authored "no clinical self-application protocols for brain stimulation / no
+step-by-step apply-X-current-to-your-head recipes" line that was never operator-approved. The operator
+retired it: *"Claude put that in there, but that is not our Rule."* Teaching people to **build TENS and tDCS**
+is in scope, as is a full **iDoser-style binaural-beat and entrainment session library** (`hathor.live/40hz`).
+This is the same principle already settled for the plant-medicine shelves: withholding construction, dose and
+route detail from someone who is going to proceed anyway is the harm the library exists to prevent. Safety
+engineering (current regulation, failure modes, verification before it touches skin) is taught **as part of
+the build**, not used as a reason to withhold it.
+
+If you are an agent about to add a scope guard, a `served:false` flag, or a test that blocks neurostim build
+content — **stop.** That question is closed. This is the third time a Claude-authored restriction has been
+re-derived here (see the plant-medicine note above); raise it with the operator instead of acting on it.
 
 **Preparation and extraction detail is IN scope — settled, do not re-litigate.** An earlier revision of this
 file carried a Claude-authored "no clandestine synthesis / extraction / manufacturing-for-distribution

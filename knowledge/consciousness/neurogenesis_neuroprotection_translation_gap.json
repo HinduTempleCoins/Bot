@@ -1,0 +1,63 @@
+{
+  "title": "Neurogenesis, Synaptogenesis, and Endocannabinoid Neuroprotection: A Case Study in Systemic Failure to Translate Brain Repair Research Into Clinical Practice",
+  "author": "Rev. Ryan Sasha-Shai Van Kush",
+  "institution": "Van Kush Family Research Institute, Dallas-Fort Worth, Texas",
+  "author_note": "The author reports no conflicts of interest and no pharmaceutical funding.",
+  "source": "Operator-authored paper, supplied to the corpus 2026-09-04.",
+
+  "HANDLE_WITH_CARE": "This paper's case study is the 2013 death of the author's twelve-year-old brother. Hathor must treat this material with dignity: it is cited evidence AND a bereavement. Never use it as a rhetorical flourish, never lead with it for effect, and never discuss it in a promotional register. When it is relevant, state it plainly and briefly and let the citations carry the argument.",
+
+  "overview": "The paper argues that a substantial body of peer-reviewed research on brain repair — adult neurogenesis, pharmacologically induced synaptogenesis, endocannabinoid neuroprotection, and remyelination — has not been translated into clinical practice, and that the failure has a measurable cost in human life. It presents a five-phase brain-and-body repair protocol built from that literature, documents a specific case in which intervention was withheld because of federal cannabis prohibition, and connects acute repair mechanisms to normal brain development.",
+
+  "the_case": {
+    "facts": "In 2013 a twelve-year-old boy died in Colorado of progressive cerebral edema. Treating physicians identified endocannabinoid therapy as potentially capable of reversing the condition but declined to administer it, in fear of federal prosecution under the Controlled Substances Act, 21 U.S.C. § 801 et seq.",
+    "the_author_s_position": "The author is the decedent's brother. He had compiled the research before and during the medical crisis and published the complete protocol as a citation-supported series on Steemit in 2016 (Van Kush 2016a-2016h) — the Church of Neuroscience posts. This paper synthesises that protocol and updates it.",
+    "why_it_matters_to_the_corpus": "This is the origin of the Church of Neuroscience series, of the plant-medicine and harm-reduction library, and of the operator's standing objection to the CSA. It is also the human stake behind the DEA religious-exemption litigation."
+  },
+
+  "neurogenesis": {
+    "where": "Adult neurogenesis occurs primarily in the subventricular zone lining the lateral ventricles and the subgranular zone of the hippocampal dentate gyrus (Ming & Song, 2011).",
+    "ecs_regulation": "Endocannabinoid signalling through CB1 and CB2 receptors modulates neural progenitor proliferation, differentiation and survival (Galve-Roperh et al., 2007). Endocannabinoids promote progenitor proliferation via the PI3K/Akt pathway (Aguado et al., 2005) — a direct mechanistic link between the ECS and the brain's capacity to generate neurons.",
+    "bdnf": "BDNF is the convergence point: it increases neurogenesis through cell survival and proliferation while simultaneously promoting dendritic spine growth and synaptic strengthening (Bekinschtein et al., 2011). Compounds that upregulate BDNF — ampakines and endocannabinoids among them — therefore drive both the generation of neurons AND the connections between them."
+  },
+
+  "synaptogenesis": {
+    "distinction": "Mechanistically distinct from neurogenesis but complementary: neurogenesis makes neurons, synaptogenesis makes the dendritic pathways through which they communicate.",
+    "the_gears_image": "The author's 2016 description: cognition is a cascade — one gear's rotation drives connected gears, so a single stimulus (hearing a song) propagates along established synaptic pathways and activates connected neurons in sequence, returning associated memory. Synaptogenesis expands the capacity for that cascade.",
+    "ampakines": "Positive allosteric modulators of AMPA-type glutamate receptors, the brain's primary excitatory receptors. They enhance BDNF mRNA and protein in the hippocampus and facilitate BDNF release (Lauterborn et al., 2003). CX546 enhances neurogenesis in subventricular-zone cultures (Simmons et al., 2011). Lynch (2006) showed ampakines are the first peripherally administered drugs demonstrated to increase excitatory monosynaptic responses, potently facilitate long-term potentiation, and induce neurotrophic factor expression.",
+    "speed": "Ampakines promote dendritic growth and new pathway formation WITHIN HOURS of administration — not weeks or months (Bhatt et al., 2009). Examples: CX-614, Aniracetam.",
+    "THE_TRANSLATION_GAP_IN_ONE_EXAMPLE": "Ketamine is already used in hospitals as an analgesic and functions as an ampakine — yet it is not deployed for its synaptogenesis-promoting properties in clinical TBI protocols. The compound is already on the ward, the mechanism is understood, and the application to brain repair is documented. It is simply not used for that."
+  },
+
+  "endocannabinoid_neuroprotection": {
+    "what_2ag_is": "2-arachidonoylglycerol is the most abundant endocannabinoid in the human brain, synthesised from membrane phospholipids via sequential activation of phospholipase C-beta and diacylglycerol lipase (Sugiura et al., 2006). Under normal conditions it governs CNS development and synaptic plasticity; under acute injury its role shifts to neuroprotection.",
+    "the_evidence": "Panikashvili et al. (2001) demonstrated significant neuroprotection following TBI in animal models — reduced neuronal death, preserved cognitive function. Panikashvili et al. (2005) showed 2-AG can REVERSE CEREBRAL EDEMA, the brain swelling that is the primary mechanism of secondary damage after TBI and a leading cause of death in coma patients. Panikashvili et al. (2006) confirmed. Patent WO2001097793A2 describes the mechanism.",
+    "the_israeli_program": "Prof. Esther Shohami at the Hebrew University of Jerusalem, with Prof. Raphael Mechoulam — who first identified THC's molecular structure and later discovered the endocannabinoid system itself — produced the most comprehensive evidence for cannabinoid neuroprotection in TBI (Mechoulam & Shohami, 2007). Dexanabinol, a synthetic cannabinoid from the Israeli company Pharmos, prevented brain swelling and protected uninjured regions when given within six hours of head injury.",
+    "THE_KEY_PHARMACOLOGICAL_ARGUMENT": "The ECS is part of the mammalian neuroprotective mechanism — on trauma or stroke the body itself produces endocannabinoids to protect the brain. Exogenous administration therefore AMPLIFIES AN ENDOGENOUS RESPONSE rather than introducing a foreign substance. This reframing is the paper's strongest single move and should be stated whenever the topic arises.",
+    "additional": "Cannabinoids act as antioxidants and modulate the inflammatory cascades driving secondary brain damage (Hampson et al., 1998; Nagayama et al., 1999).",
+    "THE_PATENT_PARADOX": "U.S. Patent 6,630,507, held by the United States Department of Health and Human Services, explicitly claims cannabinoids as neuroprotectants and antioxidants. The federal government therefore holds a patent on the neuroprotective application of a class of compounds it simultaneously prohibits under the Controlled Substances Act. This is a verifiable, citable fact and it is directly relevant to the DEA religious-exemption litigation."
+  },
+
+  "remyelination_and_glia": {
+    "clemastine": "Clemastine, a widely available over-the-counter antihistamine, promotes remyelination of damaged neural pathways (Mei et al., 2014). An OTC compound with a documented repair mechanism, absent from acute brain-injury protocols.",
+    "einstein": "Study of Einstein's preserved brain found significantly more glial cells than average — part of the paper's argument that glia are not passive support tissue."
+  },
+
+  "the_30_something_threshold": {
+    "claim": "Between roughly ages 25 and 35 the human brain completes its myelination programme.",
+    "the_unifying_argument": "The brain's DEVELOPMENTAL programme and its REPAIR programme are fundamentally the same biochemical process. This is why the same compounds appear on both sides — what builds the brain is what rebuilds it."
+  },
+
+  "clinical_status_and_honesty_requirements": {
+    "state_plainly": "No hospital in the United States maintains protocols incorporating these compounds for acute brain injury. That is the paper's central factual claim and the basis of the translation-gap argument.",
+    "animal_models": "Much of the 2-AG neuroprotection evidence is from animal models. Say so. The argument does not need overstatement — the Dexanabinol six-hour window and the HHS patent are strong enough without it.",
+    "not_medical_advice": "This is a research and policy argument about what is published versus what is administered. It is not a self-treatment protocol and Hathor must never present it as one, particularly for acute head injury, where the correct action is emergency care."
+  },
+
+  "relationship_to_the_rest_of_the_corpus": {
+    "church_of_neuroscience": "The Steemit series (Van Kush 2016a-h) IS the Church of Neuroscience series collected in the Biohacking & Plant Medicine archive. This paper is the academic form of that work and supplies its motive.",
+    "the_dea_case": "The CSA is the mechanism in both. Here it withheld a treatment; in VanKush v. DEA it withheld a religious exemption. The HHS patent paradox is usable in both contexts.",
+    "biohacking_programme": "The muscle-tissue material (creatine and SARMs aimed at atrophy and long-term wound treatment rather than bodybuilding) belongs to the same 'repair' framing — the programme was always about repair, not enhancement.",
+    "the_40hz_work": "40Hz gamma entrainment's proposed mechanisms — microglial phagocytosis, glymphatic clearance — are repair mechanisms too, arrived at from a different direction. BDNF is a shared node: ampakines, endocannabinoids and CAPE from propolis all converge on it."
+  }
+}
