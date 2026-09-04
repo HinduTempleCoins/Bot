@@ -93,12 +93,33 @@ else
 fi
 
 # --- 5. tests pass ----------------------------------------------------
-
-if npm test --silent >/dev/null 2>&1; then
-  pass "npm test — all tutorial + welcomer + watcher suites pass"
+#
+# This used to run the suite TWICE — once to /dev/null for the exit code, then
+# again piped to `tail -30` to show something. That doubled a red CI run to ~26
+# minutes AND still hid the cause: `tail -30` shows the last 30 lines, which are
+# always the trailing summary, never the failing test. `main` sat red for weeks
+# reporting "fail 0, cancelled 3" with no way to learn which 3.
+#
+# Now: run ONCE, keep the output, and report the lines that actually identify a
+# problem. `cancelled` matters as much as `fail` — node's runner exits non-zero
+# for either, but only `fail` prints a "✖ failing tests:" block, so a cancelled
+# test is invisible unless we go looking for it.
+TEST_LOG="$(mktemp -t preflight-npm-test.XXXXXX.log)"
+if npm test >"$TEST_LOG" 2>&1; then
+  pass "npm test — suite passes"
+  rm -f "$TEST_LOG"
 else
   errfail "npm test — test failures"
-  npm test 2>&1 | tail -30 >&2
+  {
+    echo "--- summary ---"
+    grep -E '^(ℹ|#) (tests|pass|fail|cancelled|skipped|todo|duration_ms)' "$TEST_LOG" | tail -8
+    echo "--- failing / cancelled / aborted (the actual cause) ---"
+    grep -nE '^not ok [0-9]+|^✖ |failureType:|error: |cancelledByParent|test did not finish|Promise resolution is still pending|Test .* aborted' "$TEST_LOG" \
+      | grep -vE "'test failed'$" | head -40
+    echo "--- last 20 lines ---"
+    tail -20 "$TEST_LOG"
+    echo "--- full log kept at: $TEST_LOG ---"
+  } >&2
 fi
 
 # --- 6. npm audit (critical fails; high warns) ------------------------
