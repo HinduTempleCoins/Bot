@@ -18,8 +18,24 @@ export function bootWarmup(task, { ms = DEFAULT_WARMUP_MS, label = 'boot warmup'
   let timer;
   const timeout = new Promise((resolve) => {
     timer = setTimeout(() => resolve({ timedOut: true }), ms);
-    // don't let a pending warmup timer keep the process alive on its own.
-    if (timer && typeof timer.unref === 'function') timer.unref();
+    // NOTE — this timer is deliberately NOT unref()'d.
+    //
+    // It was, with the rationale "don't let a pending warmup timer keep the process alive on its
+    // own". But an unref'd timer does not hold the event loop open, so when the task is a genuine
+    // hang (a promise that never settles, the exact case this module exists for) and nothing else
+    // is pending, the loop drains and the timeout NEVER FIRES — bootWarmup then never resolves.
+    // That is the very failure it was written to prevent.
+    //
+    // It also broke CI for weeks. Under Node 20 the three timeout tests in boot-warmup.test.mjs
+    // died as `cancelledByParent` / "Promise resolution is still pending but the event loop has
+    // already resolved", so `npm test` reported `fail 0, cancelled 3` and exited non-zero with no
+    // named failure. Node 24 keeps the loop alive differently and passes, which is why it never
+    // reproduced locally.
+    //
+    // Nothing is leaked by dropping it: clearTimeout() below runs on every settle path, so the
+    // timer can only outlive the race while the race is still pending — precisely when it is
+    // needed. The sole caller (site/soapbox/server.mjs) is a long-running server whose listening
+    // socket holds the loop open regardless.
   });
   const run = Promise.resolve()
     .then(() => task())

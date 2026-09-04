@@ -44,3 +44,14 @@ test('exposes a sane default timeout', () => {
   assert.equal(typeof DEFAULT_WARMUP_MS, 'number');
   assert.ok(DEFAULT_WARMUP_MS > 0 && DEFAULT_WARMUP_MS <= 30000);
 });
+
+// Regression: the timeout must fire even when NOTHING ELSE holds the event loop open. The timer was
+// once unref()'d, so on an idle loop it never fired and bootWarmup never resolved — the exact hang
+// this module exists to prevent. It also made these tests die as `cancelledByParent` on Node 20.
+test('the timeout still fires on an otherwise-idle event loop', async () => {
+  const started = Date.now();
+  const ok = await bootWarmup(() => new Promise(() => {}), { ms: 30, log: quiet });
+  assert.equal(ok, false);
+  assert.ok(Date.now() - started >= 25, 'should have actually waited for the timer, not short-circuited');
+  assert.ok(Date.now() - started < 2000, 'and should not have hung');
+});
