@@ -1,5 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { pickSources, buildPrompt, parseTodos, dedupe, harvest, toMarkdown } from './annal-harvester.mjs';
 
 // in-memory fs stub
@@ -86,4 +89,44 @@ test('toMarkdown renders a checklist', () => {
 test('toMarkdown handles an empty harvest', () => {
   const md = toMarkdown({ asOf: 'NOW', sources: [], todos: [], raw: '' });
   assert.match(md, /nothing new surfaced/);
+});
+
+// ---------------------------------------------------------------------------
+// The "[object Object]" regression, at this end of the pipe.
+// See llm-router.test.js for the root cause; these are the two defences here.
+// ---------------------------------------------------------------------------
+test('parseTodos rejects stringified-object garbage as a to-do item', () => {
+  const out = parseTodos('[object Object]\nundefined\nnull\n- a genuinely actionable line here');
+  assert.deepEqual(out, ['a genuinely actionable line here']);
+  assert.ok(!out.some((t) => t.includes('[object')), 'garbage must never become a to-do');
+});
+
+test('a failing ensemble is REPORTED, not rendered as an empty queue', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'harv-'));
+  try {
+    fs.mkdirSync(`${dir}/annals`); fs.mkdirSync(`${dir}/briefs`);
+    fs.writeFileSync(`${dir}/annals/_connections.x.md`, '# c\n- the brain noticed a thing\n');
+    const down = async () => ({ text: '', error: 'all providers failed or no keys present', attempts: [] });
+    const r = await harvest({ annalsDir: `${dir}/annals`, briefsDir: `${dir}/briefs`, complete: down });
+    assert.deepEqual(r.todos, [], 'no fabricated items');
+    assert.match(r.llmError, /all providers failed/);
+    const md = toMarkdown(r);
+    assert.match(md, /LLM ensemble was unreachable/);
+    assert.ok(!md.includes('[object'), 'never emits a stringified object');
+    // the critical distinction: "we could not look" must not read as "there is nothing to do"
+    assert.ok(!md.includes('nothing new surfaced this run'));
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('a working ensemble still produces normal to-do items', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'harv-'));
+  try {
+    fs.mkdirSync(`${dir}/annals`); fs.mkdirSync(`${dir}/briefs`);
+    fs.writeFileSync(`${dir}/annals/_connections.x.md`, '# c\n- noticed\n');
+    const up = async () => ({ text: '- deploy the store vertical\n- rotate the burned PATs', provider: 'groq' });
+    const r = await harvest({ annalsDir: `${dir}/annals`, briefsDir: `${dir}/briefs`, complete: up });
+    assert.deepEqual(r.todos, ['deploy the store vertical', 'rotate the burned PATs']);
+    assert.equal(r.llmError, '');
+    assert.match(toMarkdown(r), /- \[ \] deploy the store vertical/);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

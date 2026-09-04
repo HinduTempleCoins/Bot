@@ -5,7 +5,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { complete, availableProviders, PROVIDERS, __resetRotation } from './llm-router.mjs';
+import { complete, availableProviders, PROVIDERS, __resetRotation, textOf } from './llm-router.mjs';
 
 // provider key envs + the LLM_ALLOW_GEMINI gate flag, so withEnv fully isolates each test (the gate
 // flag must be cleared/restored too or a test that opts Gemini in would leak into later tests).
@@ -268,4 +268,45 @@ test('$0 gate holds even with prefer:gemini — the metered provider is never CA
     assert.ok(!r.attempts.some((a) => a.provider === 'gemini' && a.ok)); // gemini never actually called
   });
   global.fetch = orig;
+});
+
+// ---------------------------------------------------------------------------
+// textOf — the "[object Object]" regression.
+//
+// complete() returns { text: '', error: '...' } when no provider is usable. '' is FALSY, so the
+// idiom `String((r && (r.text || r.response)) || r || '')` fell through to `String(r)` and produced
+// the literal "[object Object]". This SHIPPED, in two places at once:
+//   * /var/melek-bot/briefs/harvested-todos.md — the brain's own mined next-action queue — held
+//     exactly one item: `- [ ] [object Object]`.
+//   * self-repair.md reported every incident as "cause: undiagnosed ... confidence 0", because the
+//     object was handed to parseDiagnosis() instead of text.
+// A dead ensemble looked like a working one with nothing useful to say.
+// ---------------------------------------------------------------------------
+test('textOf: a router failure yields empty string, NEVER "[object Object]"', () => {
+  const routerFailure = { text: '', error: 'all providers failed or no keys present', attempts: [] };
+  const out = textOf(routerFailure);
+  assert.equal(out, '');
+  assert.ok(!out.includes('[object'), 'must never stringify the object');
+  // The exact idiom that caused the bug, pinned here so nobody reintroduces it:
+  const naive = String((routerFailure && (routerFailure.text || routerFailure.response)) || routerFailure || '');
+  assert.equal(naive, '[object Object]', 'documents the old broken behaviour');
+  assert.notEqual(out, naive);
+});
+
+test('textOf: reads the shapes providers actually return', () => {
+  assert.equal(textOf({ text: '  hi  ', provider: 'groq' }), 'hi');
+  assert.equal(textOf('plain string'), 'plain string');
+  assert.equal(textOf({ response: 'resp' }), 'resp');
+  assert.equal(textOf({ output_text: 'out' }), 'out');
+  assert.equal(textOf({ choices: [{ message: { content: 'openai' } }] }), 'openai');
+  assert.equal(textOf({ choices: [{ text: 'legacy' }] }), 'legacy');
+  assert.equal(textOf({ content: [{ type: 'text', text: 'anthropic' }] }), 'anthropic');
+});
+
+test('textOf: never throws on junk, and an object with no text is not text', () => {
+  for (const junk of [null, undefined, {}, { attempts: [] }, [], 0, false, { text: 42 }]) {
+    const out = textOf(junk);
+    assert.equal(typeof out, 'string');
+    assert.ok(!out.includes('[object'), `junk ${JSON.stringify(junk)} leaked an object`);
+  }
 });
