@@ -225,6 +225,38 @@ function callProvider(provider, key, prompt, opts) {
  * @param {(msg:string)=>void} [opts.log]          optional logger (no keys ever passed in)
  * @returns {Promise<{text:string, provider?:string, model?:string, error?:string, attempts?:Array}>}
  */
+/**
+ * textOf — pull the completion TEXT out of whatever a provider/router returned.
+ *
+ * WHY THIS EXISTS. Three call sites had independently written:
+ *     String((r && (r.text || r.response)) || r || '').trim()
+ * complete() returns `{ text: '', error: 'all providers failed...' }` when no provider is usable.
+ * `''` is FALSY, so `(r.text || r.response)` is undefined, the `|| r` fallback kicks in, and
+ * `String(theObject)` yields the literal string "[object Object]".
+ *
+ * That is not hypothetical. It shipped: /var/melek-bot/briefs/harvested-todos.md — the brain's own
+ * mined next-action queue — contained exactly one item, `- [ ] [object Object]`, and self-repair.md
+ * reported "cause: undiagnosed" with confidence 0 for every incident, because the object was handed
+ * to its parser instead of text. A failing ensemble looked like a working one with nothing to say.
+ *
+ * Returns '' for anything without usable text, so callers can tell "no answer" from "an answer".
+ * Never throws.
+ */
+export function textOf(r) {
+  if (r == null) return '';
+  if (typeof r === 'string') return r.trim();
+  if (typeof r !== 'object') return String(r).trim();
+  const direct = r.text ?? r.response ?? r.content ?? r.output_text;
+  if (typeof direct === 'string') return direct.trim();
+  // OpenAI/Anthropic-ish shapes, in case a caller passes a raw provider payload through.
+  const choice = Array.isArray(r.choices) ? r.choices[0] : null;
+  const fromChoice = choice?.message?.content ?? choice?.text;
+  if (typeof fromChoice === 'string') return fromChoice.trim();
+  const block = Array.isArray(r.content) ? r.content.find((c) => typeof c?.text === 'string') : null;
+  if (block) return block.text.trim();
+  return '';   // an object with no text is NOT text — never String() it
+}
+
 export async function complete(prompt, opts = {}) {
   const log = typeof opts.log === 'function' ? opts.log : () => {};
   const order = orderFor(opts);
