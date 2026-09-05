@@ -28,7 +28,7 @@ const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
 const PRANA = CHAINS.prana || {};
 const WIZARD_ADDR = process.env.WIZARD_ADDR || '';
 const CLONE_FACTORY_ADDR = process.env.CLONE_FACTORY_ADDR || '';
-const CHAIN_ID_HEX = PRANA.chainIdHex || '0x1a751';
+const CHAIN_ID_HEX = PRANA.chainIdHex || '0xADE19';
 
 // Vote Shop: the @soapbox account that casts bought votes + the ALTI/full-vote price (env-tunable).
 const VOTE_VOTER = process.env.VOTE_VOTER || DEFAULT_MARKET.voter;

@@ -15,7 +15,7 @@ export { __setFetch } from './resolver.mjs';
 const PORT = Number(process.env.PORT || 8133);
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const reg = () => process.env.REN_REGISTRAR || ''; // read lazily so runtime/test env applies
-const CHAIN_ID = Number(process.env.PRANA_CHAIN_ID || 108369);
+const CHAIN_ID = Number(process.env.PRANA_CHAIN_ID || 712217);
 const CHAIN_ID_HEX = '0x' + CHAIN_ID.toString(16);
 const TLDS = (process.env.REN_TLDS || 'melek,prana,kula').split(',').map((s) => s.trim());
 // Network label derived from the chain id — so the badge tells the truth on whichever network REN runs.

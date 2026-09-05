@@ -131,7 +131,9 @@ function descriptor(to, selector, dataWords, label) {
     data: selector + dataWords.join(''),
     value: '0x0',
     method: label,
-    chainId: 108369, // PRANA
+    // TESTNET (108369) on purpose: Market 2 (wMELEK -> ALTI) is NOT deployed on mainnet — the
+    // mainnet CDP is a single KULA -> mMELEK market (see kula-config-addresses MAINNET_ADDR).
+    chainId: 108369,
   };
 }
 

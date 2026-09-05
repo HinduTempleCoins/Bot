@@ -20,7 +20,7 @@ import { ethers } from 'ethers';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
-export const CHAIN_ID = () => Number(env('PRANA_CHAIN_ID', '108369')) || 108369;
+export const CHAIN_ID = () => Number(env('PRANA_CHAIN_ID', '712217')) || 712217;   // MAINNET; alpha is 108369
 export const ARCADE_ADDRESS = () => String(env('ARCADE_LEADERBOARD_ADDRESS', '') || '').trim();
 export const SEASONPASS_ADDRESS = () => String(env('SEASON_PASS_ADDRESS', '') || '').trim();
 

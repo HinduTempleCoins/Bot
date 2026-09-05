@@ -190,11 +190,11 @@ test('servers view names witness-node + mining-rig specs, rentals disabled by de
   assert.match(h, /disabled by default/i);
 });
 
-test('wallet view: Akasha + EIP-3085 PRANA params with 0x1a751', () => {
+test('wallet view: Akasha + EIP-3085 PRANA MAINNET params (0xADE19 / 712217)', () => {
   const h = walletView();
   assert.match(h, /Akasha/);
-  assert.match(h, /0x1a751/);
-  assert.match(h, /108369/);
+  assert.match(h, /0xADE19/);
+  assert.match(h, /712217/);
   assert.match(h, /wallet_addEthereumChain|EIP-3085/);
   assert.match(h, /MetaMask|TronLink/);
 });

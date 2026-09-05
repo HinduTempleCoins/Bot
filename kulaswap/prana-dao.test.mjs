@@ -97,7 +97,7 @@ test('buildProposeTx: selector + body + descriptor shape', () => {
   const tx = buildProposeTx({ governor: T, actions: [action], description: DESC });
   assert.equal(tx.to, T);
   assert.equal(tx.value, '0x0');
-  assert.equal(tx.chainId, 108369);
+  assert.equal(tx.chainId, 712217);   // MAINNET
   assert.equal(tx.method, 'propose');
   assert.equal(tx.data, DAO_SELECTORS.propose + PROPOSE_ARGS_REF);
 });

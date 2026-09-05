@@ -120,9 +120,9 @@ function encAddress(addr) {
 }
 
 /** Assemble a tx descriptor. value defaults to '0x0' — CDP ops move ERC20s, never native PRANA.
- *  `chainId` defaults to the PRANA TESTNET (108369) for back-compat; mainnet callers pass 712217
+ *  `chainId` defaults to PRANA MAINNET (712217) — the live CDP. Testnet callers pass 108369.
  *  (the live CDPVault lives on 712217 — see kula-config-addresses.mjs MAINNET_ADDR). */
-function descriptor(to, selector, dataWords, label, chainId = 108369) {
+function descriptor(to, selector, dataWords, label, chainId = 712217) {
   return {
     to: String(to || ''),
     data: selector + dataWords.join(''),

@@ -46,8 +46,8 @@ export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a
 export const PRANA_RPC_ENV = 'PRANA_RPC_URL';
 export const PRANA_CHAIN_ID_ENV = 'PRANA_CHAIN_ID';
 export const MELEK_RPC_ENV = 'MELEK_RPC_URL';
-// PRANA genesis chainId (0x1a751 = 108369), from the PRANA repo genesis; env-overridable.
-const PRANA_CHAIN_ID_PLACEHOLDER = '108369';
+// PRANA MAINNET chainId (0xADE19 = 712217). The alpha/testnet chain is 108369 — not this.
+const PRANA_CHAIN_ID_PLACEHOLDER = '712217';
 
 // Resolved per-access so setting env after import still takes effect (no frozen-at-import bug).
 function pranaChainId() {

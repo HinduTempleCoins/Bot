@@ -10,7 +10,7 @@ function allHealthy() {
     if (opts && opts.method === 'POST') {
       const body = JSON.parse(opts.body);
       let result;
-      if (body.method === 'eth_chainId') result = '0x1a751';
+      if (body.method === 'eth_chainId') result = '0xADE19';   // PRANA MAINNET
       else if (body.method === 'eth_call') result = '0x' + '0'.repeat(24) + '4C4a2f8c81640e47606d3fd77B353E87Ba015584'.toLowerCase();
       else if (body.method === 'condenser_api.get_dynamic_global_properties') result = { head_block_number: 12345 };
       else result = '0x1';

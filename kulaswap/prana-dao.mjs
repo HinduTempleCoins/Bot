@@ -21,7 +21,8 @@
 // The selectors + ABI encoding are the REAL OZ Governor / target selectors, hand-encoded (no ethers),
 // verified against ethers' AbiCoder in the test suite.
 
-const PRANA_CHAIN_ID = 108369; // rpc.prana.melek.salon
+const PRANA_CHAIN_ID = 712217; // MAINNET — rpc.prana.melek.salon. (The comment already named the
+                               // mainnet RPC while the value was the alpha chain id.)
 
 const nn = (x) => { const v = +x; return Number.isFinite(v) && v >= 0 ? v : 0; };
 const round = (x, d = 8) => { const f = +(+x).toFixed(d); return Number.isFinite(f) ? f : 0; };

@@ -111,7 +111,7 @@ test('buildOpenVaultTx encodes CDPVault.deposit(uint256)', () => {
   const tx = buildOpenVaultTx({ vault: VAULT, amountBaseUnits: ONE_E18 });
   assert.equal(tx.to, VAULT);
   assert.equal(tx.value, '0x0');
-  assert.equal(tx.chainId, 108369);
+  assert.equal(tx.chainId, 712217);   // descriptor defaults to MAINNET
   assert.equal(tx.method, 'deposit');
   assert.equal(tx.data, CDP_SELECTORS.deposit + ONE_E18_WORD);
   assert.ok(tx.data.startsWith('0xb6b55f25'));

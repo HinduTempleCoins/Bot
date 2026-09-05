@@ -56,11 +56,12 @@ const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 // PRANA Etchash stratum port on the pool (verified live-reachable). Override per-deploy.
 const PRANA_STRATUM_PORT = process.env.PRANA_STRATUM_PORT || '3333';
 
-// PRANA chain id — 108369 decimal = 0x1a751 (see .local/MULTICHAIN_POOLS_WALLETS_DOCS.md §3.1).
+// PRANA MAINNET chain id — 712217 decimal = 0xADE19. This is what users add to MetaMask, so it must
+// be the production chain: publishing the alpha id here hands every visitor a broken network.
 // NOTE: this is the OLDER PRANA network the /wallet page references. The live PRANA *mainnet* the
 // Developer track builds against is a different chain — chainId 712217 (0xade19), below.
-const PRANA_CHAIN_ID_HEX = '0x1a751';
-const PRANA_CHAIN_ID_DEC = 108369;
+const PRANA_CHAIN_ID_HEX = '0xADE19';
+const PRANA_CHAIN_ID_DEC = 712217;
 
 // ── Developer track — the live mainnet facts, all verified on 2026-08-30 by curling the RPCs ───────
 // MELEK Graphene social chain (read/post via condenser_api; the `bridge` API is NOT registered on the
@@ -591,7 +592,7 @@ export function serversView() {
 
 // ── /wallet — Akasha, the ecosystem wallet ─────────────────────────────────────────────────────
 export function walletView() {
-  // EIP-3085 wallet_addEthereumChain params for PRANA (chainId 0x1a751 = 108369).
+  // EIP-3085 wallet_addEthereumChain params for PRANA MAINNET (chainId 0xADE19 = 712217).
   const addChain = {
     chainId: PRANA_CHAIN_ID_HEX,
     chainName: 'PRANA',

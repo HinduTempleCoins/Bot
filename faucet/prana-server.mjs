@@ -1,5 +1,11 @@
 // faucet/prana-server.mjs — PRANA testnet gas faucet.
 //
+// TESTNET ON PURPOSE. Every id, RPC and explorer link here is the alpha chain — chainId 108369
+// (0x1a751), rpc.prana.alpha.melek.salon, pranascan.alpha.*. A faucet that handed out MAINNET
+// (712217) gas would be giving away real value. Everything else in the repo defaults to mainnet;
+// this file and melek-alti-cdp.mjs (Market 2, never deployed to mainnet) are the deliberate
+// exceptions. Do not "correct" these to 712217.
+//
 // Drips test-PRANA so anyone can pay gas to deploy/interact with contracts. The faucet account is
 // node-managed (in the geth keystore) and funded by ongoing Etchash mining (etherbase points at it);
 // signing happens via the node's LOCAL personal_sendTransaction (the public RPC blocks personal_*).

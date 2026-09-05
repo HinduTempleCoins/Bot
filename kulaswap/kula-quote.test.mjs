@@ -38,8 +38,8 @@ test('config: default chain is PRANA MAINNET (712217 / 0xADE19), fee 30 bps', ()
   assert.equal(FEE_BPS, 30);
 });
 
-test('prana-mainnet block is verified with the live AMM addrs + 8-dec tradeable tokens', () => {
-  const m = CHAINS['prana-mainnet'];
+test('prana (MAINNET) block is verified with the live AMM addrs + 8-dec tradeable tokens', () => {
+  const m = CHAINS.prana;   // 'prana' IS mainnet (712217)
   assert.equal(m.chainId, 712217);
   assert.equal(m.chainIdHex, '0xADE19');
   assert.equal(m.verified, true);
@@ -80,11 +80,11 @@ test('chainReady gates on verified:true — only confirmed routers may swap; the
   assert.equal(chainReady(CHAINS.avalanche), true);
   // unverified (addresses from memory, awaiting confirmation) → gated, even if a router is present
   assert.equal(chainReady(CHAINS.base), false, 'addresses-from-memory chains stay gated until verified');
-  assert.equal(chainReady(CHAINS.prana), true, 'PRANA router/factory deployed + verified (DeployAmm on testnet 2026-06-16)');
+  assert.equal(chainReady(CHAINS['prana-testnet']), true, 'PRANA testnet router/factory deployed + verified (DeployAmm 2026-06-16)');
   assert.equal(chainReady(CHAINS.tron), false, 'non-EVM gated until its adapter ships');
   // the canonical EVM DEXes + PRANA (our own, deployed) are swap-ready right now
-  assert.equal(chainReady(CHAINS['prana-mainnet']), true, 'PRANA mainnet AMM live + verified (2026-08-31)');
-  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon', 'prana', 'prana-mainnet']);
+  assert.equal(chainReady(CHAINS.prana), true, 'PRANA MAINNET AMM live + verified (2026-08-31)');
+  assert.deepEqual(readyChains().map((c) => c.key).sort(), ['avalanche', 'bsc', 'ethereum', 'polygon', 'prana', 'prana-testnet']);
 });
 
 test('isNative detects the native coin per chain', () => {
