@@ -1,0 +1,718 @@
+{
+  "title": "Wallets and Smart Accounts: Classic HD Keys to ERC-4337, EIP-7702 and Passkeys",
+  "author": "Claude Code research pass for the MELEK AI Witness (Hathor) / Van Kush Family",
+  "period": "2026-09-05 (research date). Covers BIP-32 (2012) through Ethereum Fusaka (2025-12-03).",
+  "source": "Primary sources only: ethereum/EIPs + ethereum/ERCs + ethereum/RIPs raw markdown frontmatter, GitHub REST API for every repository name/license/archive-state, and the eth-infinitism release notes. Every URL in `sources` returned HTTP 200 on 2026-09-05.",
+  "overview": "The wallet layer is the one place where MELEK, PRANA and the SoapBox pool all touch the same user. This file is the verified map of that layer: what classic HD wallets are, what account abstraction actually shipped (not what was promised), which parts need consensus changes a sidechain does not have, and which repositories are permissively licensed enough to fork for an Akasha/PRANA wallet. It complements `pool/www/walletgen/` and `AKASHA_WALLET.md` rather than repeating them.",
+  "verification_method": {
+    "rule": "Nothing is listed here that was not fetched. This repo has been burned by fabricated citations before.",
+    "how_eips_were_checked": "curl of https://raw.githubusercontent.com/ethereum/{EIPs,ERCs,RIPs}/master/... and reading the YAML frontmatter `status:` field directly, not a summary of it.",
+    "how_repos_were_checked": "`gh api repos/{owner}/{name}` — full_name (catches renames/redirects), license.spdx_id, archived, pushed_at, stargazers_count.",
+    "renames_caught": [
+      "safe-global/safe-contracts is a permanent redirect to safe-fndn/safe-smart-account",
+      "safe-global/safe-modules is a permanent redirect to safe-fndn/safe-modules",
+      "torusresearch/tkey is a permanent redirect to MetaMask/tkey",
+      "base-org/webauthn-sol is a permanent redirect to base/webauthn-sol",
+      "LIT-Protocol/js-sdk returned HTTP 404 on 2026-09-05 — the URL the deprecated lit-js-sdk README points at does not resolve. Do not cite it."
+    ],
+    "license_traps_found": [
+      "GitHub's license API reports NOASSERTION for several repos that are in fact MIT (viem, Rabby) — the LICENSE file had to be read to tell those apart from genuinely proprietary ones.",
+      "MetaMask/metamask-extension LICENSE is 'Copyright ConsenSys Software Inc. 2022. All rights reserved.' — NOT open source, not forkable.",
+      "Web3Auth/web3auth-web and MetaMask/tkey (ex-torusresearch/tkey) LICENSE is 'Copyright Torus Labs Private Limited... All rights reserved... you may not distribute, publish, copy, modify, merge, combine with another program, create derivative works of...' — NOT open source. Web3Auth is not self-hostable in any forkable sense.",
+      "RabbyHub/Rabby is MIT but with an explicit brand carve-out: 'Brand name and logo of Rabby is copyright reserved. You can not use brand name or logo of Rabby for your re-publish software.'"
+    ]
+  },
+  "classic_wallet_architecture": {
+    "bip32_hd_derivation": {
+      "what": "Hierarchical deterministic wallets. One master seed -> a tree of child keypairs via HMAC-SHA512, so a single backup recovers every address forever.",
+      "spec": "https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki",
+      "hardened_vs_normal": "Hardened children (index >= 2^31, written i') cannot be derived from the parent public key. Normal children can, which is what makes xpub-only watch wallets possible — and what makes an xpub plus one leaked child private key catastrophic.",
+      "why_it_matters_here": "The Akasha design says one master secret derives both the EVM subtree and the Graphene subtree. That is exactly a BIP-32 tree with two branches."
+    },
+    "bip39_mnemonics": {
+      "what": "Encodes entropy as 12/15/18/21/24 words from a fixed 2048-word list, plus a checksum, then stretches it to a 512-bit seed with PBKDF2-HMAC-SHA512, 2048 iterations, salt = 'mnemonic' + optional passphrase.",
+      "spec": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+      "passphrase": "The optional passphrase (the '25th word' / plausible-deniability feature) changes the seed entirely. There is no checksum on it — a typo silently produces a different, empty wallet.",
+      "not_the_same_as_monero": "Monero/CryptoNote uses a DIFFERENT scheme: 1626 words, 3-character unique prefixes, 25 words where the 25th is a CRC32 checksum, and the words encode the private spend key directly with no KDF. The two are not interchangeable."
+    },
+    "bip44_paths": {
+      "what": "m / purpose' / coin_type' / account' / change / address_index — the layout every mainstream wallet follows.",
+      "spec": "https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki",
+      "ethereum_path": "m/44'/60'/0'/0/0 is the first Ethereum address in essentially every wallet (MetaMask, Ledger Live default, Trezor).",
+      "ethereum_classic_path": "ETC registered coin_type 61, so m/44'/61'/0'/0/0. Some wallets historically derived ETC at 60' anyway — a recurring support headache and a real thing for PRANA to decide explicitly.",
+      "prana_recommendation": "PRANA should NOT invent a new coin_type. Derive at m/44'/60'/0'/0/0 like every other EVM chain so an address the user already knows works on PRANA, exactly as the pool wallet already assumes ('one EIP-55 address covers all EVM chains')."
+    },
+    "key_serialization_formats": {
+      "wif": "Bitcoin/Graphene Wallet Import Format: 0x80 version byte + 32-byte key + optional 0x01 compression flag, double-SHA256 checksum, Base58Check. Graphene chains (MELEK, Hive, Steem) use WIF for all four key roles.",
+      "graphene_roles": "owner / active / posting / memo. Posting is the low-privilege social key, active moves funds, owner rotates the others. This maps badly onto EVM single-key thinking and is the main UX problem an ecosystem wallet like Akasha has to solve.",
+      "keystore_v3": "The Ethereum 'UTC--...' JSON keystore: scrypt or PBKDF2 KDF -> AES-128-CTR ciphertext -> keccak256 MAC over derived-key-tail + ciphertext. Still what geth accounts use.",
+      "this_repos_variant": "pool/www/walletgen/keystore.mjs is NOT keystore v3. It is AES-256-GCM with PBKDF2-SHA256 at 600k iterations via WebCrypto — stronger KDF params than the geth default, but a private format. If Akasha ever needs geth/MEW interop, a v3 import/export path has to be written."
+    },
+    "what_this_repo_already_ships": {
+      "file": "pool/www/walletgen/walletgen.mjs (+ vendor/, keystore.mjs, custody.mjs)",
+      "cryptonote_side": "ZEPH and XMR: 25-word Monero-style seed -> spend/view keys -> Base58 address, using vendored dependency-free keccak/ed25519/base58/mnemonic, tested against Monero address vectors. Zephyr prefix 0x6241d18c0, Monero prefix 18.",
+      "evm_side": "One secp256k1 keypair -> one EIP-55 checksummed address, declared to cover every EVM chain (ETC today, PRANA later).",
+      "custody_model": "Keys generated client-side only, no network call in the module, seed shown once behind a type-back quiz (custody.mjs), pool only ever sees the receive address as the stratum username.",
+      "stagenet_twin": "poolLoginAddress() in pool/www/wizard.mjs converts a mainnet Monero address to its stagenet twin at the pool boundary — same seed, restorable in stagenet mode."
+    },
+    "gap_between_shipped_code_and_akasha_design": {
+      "finding": "AKASHA_WALLET.md §2 says the EVM track uses 'Standard BIP-39/32/44 HD derivation'. The shipped pool walletgen does NOT do that — generateEvmWallet() takes 32 raw random bytes as the private key, and the only mnemonic in the vendor tree is the Monero 1626-word list (english-wordlist.mjs, verbatim from monero-project src/mnemonics/english.h, BSD-3).",
+      "consequence": "Today a pool EVM wallet is backed up as a raw private key hex, not as a phrase, and it is NOT derivable from the same master secret as the Graphene keys. The 'one master secret derives both subtrees' promise is design intent, not shipped behaviour.",
+      "fix_shape": [
+        "Vendor a BIP-39 implementation (paulmillr/scure-bip39, MIT, audited, ~zero deps) plus the 2048-word English list.",
+        "Vendor BIP-32 (paulmillr/scure-bip32, MIT) for the m/44'/60'/0'/0/0 branch.",
+        "Derive the Graphene WIF roles from the SAME seed via the Steem/Hive convention: sha256(account_name + role + master_password) — note this is a password-based scheme, not BIP-32, so 'one master secret' means feeding both derivations from one high-entropy root, with the mapping documented.",
+        "Keep the Monero 25-word path unchanged — it is not BIP-39 and must not be presented as one."
+      ]
+    }
+  },
+  "erc_4337_account_abstraction": {
+    "status_verified": "FINAL. The ERC-4337 frontmatter in ethereum/ERCs reads `status: Final` and `requires: 712, 7702` as of 2026-09-05. It is no longer a draft; it also now formally depends on EIP-7702.",
+    "spec": "https://eips.ethereum.org/EIPS/eip-4337",
+    "core_idea": "Account abstraction with NO consensus-layer change. Users sign a pseudo-transaction object called a UserOperation, send it to a separate alt-mempool, and a Bundler packs many of them into one ordinary transaction calling a singleton EntryPoint contract.",
+    "the_five_actors": [
+      "Smart account — a contract that implements validateUserOp(). The account, not an EOA, is the sender.",
+      "UserOperation — the signed intent struct: sender, nonce, initCode/factory, callData, gas limits, fees, paymasterAndData, signature.",
+      "Bundler — off-chain node that gossips UserOperations, simulates their validation, and submits handleOps() bundles. This is the piece you must run yourself on a chain nobody else serves.",
+      "EntryPoint — the singleton that verifies, meters gas, pays the bundler, and calls the account. Privileged; must be the exact audited deployment.",
+      "Paymaster — an optional contract that agrees to pay the gas, enabling sponsored transactions or paying gas in an ERC-20."
+    ],
+    "entrypoint_versions": {
+      "note": "Addresses below are quoted verbatim from the eth-infinitism GitHub release notes, which is the only address source the maintainers treat as authoritative.",
+      "v0_6_0": {
+        "released": "2023-04-24",
+        "address": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+      },
+      "v0_7_0": {
+        "released": "2024-02-22",
+        "address": "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+      },
+      "v0_8_0": {
+        "released": "2025-03-26",
+        "address": "0x4337084d9e255ff0702461cf8895ce9e3b5ff108"
+      },
+      "v0_9_0": {
+        "released": "2025-11-16",
+        "address": "0x433709009B8330FDa32311DF1C2AFA402eD8D009",
+        "sender_creator": "0x0A630a99Df908A81115A3022927Be82f9299987e",
+        "is_current": true,
+        "whats_new": [
+          "paymasterSignature is a separate field, no longer folded into userOpHash — a paymaster service can sign AFTER the wallet does, which removes a visible UI delay.",
+          "validAfter / validUntil can express a BLOCK-NUMBER range: set the high bit of both.",
+          "initCode on an already-deployed sender is silently ignored (emits IgnoredInitCode) instead of reverting, which unlocks two-dimensional nonces for undeployed accounts. SECURITY NOTE from the maintainers: an account may no longer assume nonzero initCode means 'first ever UserOp'.",
+          "getCurrentUserOpHash() readable during the execution frame.",
+          "EIP7702AccountInitialized event exposes the 7702 delegation target.",
+          "BasePaymaster takes owner as a constructor parameter instead of hardcoding msg.sender — needed for factory deployment."
+        ],
+        "compatibility": "ABI-compatible with v0.8 and v0.7; existing accounts and paymasters need no change unless they want the new features. Bundlers DO need updating to join the v0.9 mempool."
+      },
+      "which_to_deploy_on_prana": "v0.8 or v0.9. v0.7 is the widest-supported by third-party infra, but on PRANA there is no third-party infra to be compatible with — you run the only bundler — so take v0.9 and get the paymaster-signature and block-range features."
+    },
+    "validation_rules": {
+      "erc": "ERC-7562 Account Abstraction Validation Scope Rules — status Draft as of 2026-09-05.",
+      "why": "During the validation phase the account/paymaster code may only touch storage it is entitled to, and may not use environment opcodes (TIMESTAMP, BLOCKHASH, etc.). Without this a bundler can be griefed into paying for computation that then reverts. Any bundler you run must enforce it or it is a free DoS target.",
+      "url": "https://eips.ethereum.org/EIPS/eip-7562"
+    },
+    "modular_account_standards": {
+      "erc_7579": {
+        "title": "Minimal Modular Smart Accounts",
+        "status": "Draft",
+        "note": "The de-facto winner in practice — Kernel, Nexus, Safe7579 and the OpenZeppelin AccountERC7579 all implement it. Module types: validator, executor, fallback, hook.",
+        "url": "https://eips.ethereum.org/EIPS/eip-7579"
+      },
+      "erc_6900": {
+        "title": "Modular Smart Contract Accounts",
+        "status": "Draft",
+        "note": "The heavier Alchemy-led alternative (plugins with manifests). More expressive, far less adopted.",
+        "url": "https://eips.ethereum.org/EIPS/eip-6900"
+      },
+      "erc_7821": {
+        "title": "Minimal Batch Executor Interface",
+        "status": "Draft",
+        "note": "A tiny execute() batching interface designed for 7702 delegates that do not want the whole 7579 surface. Implemented in OpenZeppelin as draft-ERC7821.sol.",
+        "url": "https://eips.ethereum.org/EIPS/eip-7821"
+      },
+      "erc_1271": {
+        "title": "Standard Signature Validation Method for Contracts",
+        "status": "Final",
+        "note": "isValidSignature(hash, sig) -> 0x1626ba7e. The reason a smart account can sign into a dapp at all. Any MELEK/PRANA surface that verifies signatures must handle 1271 alongside ecrecover or smart accounts silently cannot log in.",
+        "url": "https://eips.ethereum.org/EIPS/eip-1271"
+      }
+    },
+    "open_source_implementations": {
+      "reference_contracts": "eth-infinitism/account-abstraction — GPL-3.0. Ships EntryPoint, BaseAccount, BasePaymaster, StakeManager, NonceManager, SimpleAccount, SimpleAccountFactory, and Simple7702Account. GPL matters: forking the contracts into a closed product is not clean.",
+      "openzeppelin": "OpenZeppelin/openzeppelin-contracts v5.7.0 (2026-07-29) ships contracts/account/ — Account.sol, ERC4337Utils, EIP7702Utils, draft-ERC7579Utils, draft-AccountERC7579, draft-ERC7821, paymaster/, plus utils/cryptography/signers/ (SignerECDSA, SignerP256, SignerRSA, SignerWebAuthn, SignerEIP7702, SignerERC7913, MultiSignerERC7913). MIT throughout. This is the cleanest legal starting point that exists.",
+      "kernel": "zerodevapp/kernel — latest release v3.3 (2025-04-03). NO LICENSE FILE in the repo root as of 2026-09-05. Widely deployed and battle-tested, but with no declared license it is legally 'all rights reserved' by default. Read it, do not fork it, until ZeroDev states a license.",
+      "safe": "safe-fndn/safe-smart-account — LGPL-3.0. The most-audited multisig in existence; the 4337 and passkey and recovery modules live separately in safe-fndn/safe-modules (also LGPL-3.0). LGPL means you can link/deploy freely but modifications to the library itself must stay LGPL.",
+      "biconomy": "bcnmy/nexus — MIT. ERC-7579 modular account. Small but permissive and current (pushed 2026-08-07).",
+      "erc7579_reference": "erc7579/erc7579-implementation — MIT reference implementation.",
+      "rhinestone_modulekit": "rhinestonewtf/modulekit — NO LICENSE FILE. Same caution as Kernel. Last push 2025-07-31.",
+      "alchemy_sdk": "alchemyplatform/aa-sdk — MIT. TypeScript client for building and sending UserOperations.",
+      "permissionless": "pimlicolabs/permissionless.js — MIT. viem-based ERC-4337 utilities; the most idiomatic way to talk to your own bundler from a browser wallet."
+    },
+    "self_hostable_bundlers": {
+      "why_this_matters_most": "On PRANA there is no Pimlico, no Alchemy, no Biconomy endpoint. Account abstraction on PRANA is exactly as real as the bundler you run. This is the single hardest dependency.",
+      "alto": {
+        "repo": "pimlicolabs/alto",
+        "license": "GPL-3.0",
+        "lang": "TypeScript",
+        "state": "actively developed (pushed 2026-09-03)",
+        "note": "Easiest to read and modify; same shop as permissionless.js so client and server agree."
+      },
+      "rundler": {
+        "repo": "alchemyplatform/rundler",
+        "license": "LGPL-3.0",
+        "lang": "Rust",
+        "state": "actively developed (pushed 2026-09-04)",
+        "note": "Highest-performance option, production-hardened at Alchemy scale. LGPL is friendlier than GPL for embedding."
+      },
+      "skandha": {
+        "repo": "etherspot/skandha",
+        "license": "MIT",
+        "lang": "TypeScript",
+        "state": "actively developed (pushed 2026-09-04)",
+        "note": "Only fully-MIT bundler of the group. Modular. Best license fit if PRANA bundler code ever needs to ship inside something closed."
+      },
+      "silius": {
+        "repo": "silius-rs/silius",
+        "license": "Apache-2.0",
+        "lang": "Rust",
+        "state": "last push 2025-08-18 — slowing",
+        "note": "Apache-2.0 with its patent grant; good license, less momentum."
+      },
+      "voltaire": {
+        "repo": "candidelabs/voltaire",
+        "license": "LGPL-3.0",
+        "lang": "Python + Rust",
+        "state": "pushed 2026-08-22"
+      },
+      "stackup": {
+        "repo": "stackup-wallet/stackup-bundler",
+        "license": "GPL-3.0",
+        "lang": "Go",
+        "state": "ARCHIVED 2024-08-12 — do not build on it"
+      }
+    }
+  },
+  "eip_7702_eoa_delegation": {
+    "status_verified": "FINAL, and LIVE on Ethereum mainnet. EIP-7702 frontmatter reads `status: Final`; EIP-7600 (Hardfork Meta - Pectra, status Final) lists EIP-7702 among the included core EIPs.",
+    "spec": "https://eips.ethereum.org/EIPS/eip-7702",
+    "pectra_activation": {
+      "mainnet_epoch": "364032",
+      "mainnet_timestamp": "1746612311",
+      "mainnet_date": "2025-05-07",
+      "source": "EIP-7600 activation table",
+      "testnets": "Holesky epoch 115968 / ts 1740434112; Sepolia epoch 222464 / ts 1741159776; Hoodi epoch 2048 / ts 1742999832"
+    },
+    "what_it_actually_does": {
+      "new_tx_type": "SET_CODE_TX_TYPE = 0x04. The transaction carries an authorization_list of tuples [chain_id, address, nonce, y_parity, r, s].",
+      "signature_domain": "Each authorization is a secp256k1 signature over keccak(MAGIC || rlp([chain_id, address, nonce])) where MAGIC = 0x05.",
+      "the_effect": "The authority EOA's code is set to the delegation indicator `0xef0100 || address` — 23 bytes. Every subsequent call to that EOA executes the target contract's code in the EOA's own storage and with the EOA's own address as msg.sender's target.",
+      "persistence": "It is NOT per-transaction. The delegation persists until overwritten (delegate to the zero address to clear it). The EIP title 'Set Code for EOAs' says permanently for a reason.",
+      "gas": "PER_AUTH_BASE_COST = 12500, PER_EMPTY_ACCOUNT_COST = 25000.",
+      "codesize_gotcha": "EXTCODESIZE on a delegated EOA returns 23 (the size of the indicator), while CODESIZE inside the delegated execution returns the size of the code actually running. Any contract using extcodesize==0 as an 'is EOA' check is now wrong."
+    },
+    "what_it_replaced": "EIP-3074 (AUTH/AUTHCALL opcodes) is `status: Withdrawn` with `withdrawal-reason: Superseded by EIP-7702`. Any 2023-2024 material describing AUTH/AUTHCALL as the coming thing is dead.",
+    "relationship_to_4337": "Not a replacement — a merger. ERC-4337 Final now declares `requires: 7702`, EntryPoint v0.9 emits EIP7702AccountInitialized, and eth-infinitism ships Simple7702Account. The pattern is: a user's existing EOA delegates to a 4337-compatible implementation, gets batching and sponsorship, and keeps its address and its history.",
+    "why_it_is_the_biggest_change_since_2024": "It removes the single largest adoption blocker of smart accounts — that adopting one meant abandoning your address and migrating your assets. After Pectra, an existing EOA becomes a smart account in place with one signature.",
+    "risk": "A malicious or buggy delegation target owns the EOA outright, including its full balance, with no further prompt. Phishing that used to cost one approval now costs the whole account. Any wallet UI offering a 7702 delegation must treat it as the highest-severity confirmation it has."
+  },
+  "passkeys_webauthn_secp256r1": {
+    "the_curve_problem": "Ethereum signs with secp256k1. Every piece of consumer secure hardware — Apple Secure Enclave, Android Keystore, YubiKey, every FIDO2/WebAuthn authenticator — signs with secp256r1 (P-256, prime256v1). Bridging those two curves is the whole passkey-wallet problem.",
+    "webauthn": {
+      "spec": "https://www.w3.org/TR/webauthn-3/ (W3C Web Authentication Level 3)",
+      "what_the_chain_must_check": "A WebAuthn assertion is not a bare signature. The verified message is sha256(authenticatorData || sha256(clientDataJSON)), and the verifier must also confirm the userPresent/userVerified flags and that clientDataJSON's type and challenge fields carry the expected values. Getting the clientDataJSON parsing wrong is a live class of bug — this is why you use a vetted library instead of writing it."
+    },
+    "on_chain_verification_options": {
+      "eip_7951": {
+        "title": "Precompile for secp256r1 Curve Support",
+        "status": "FINAL — and live on Ethereum mainnet.",
+        "address": "0x0000000000000000000000000000000000000100",
+        "gas": "6900",
+        "input": "160 bytes: message hash, r, s, qx, qy (32 bytes each)",
+        "shipped_in": "Fusaka (EIP-7607, status Final). Mainnet activation epoch 411392, timestamp 1764798551 = 2025-12-03 21:49:11 UTC. Holesky 2025-10-01, Sepolia 2025-10-14, Hoodi 2025-10-28.",
+        "authors": "Carl Beekhuizen, Ulas Erdogan, Dogan Alpaslan",
+        "url": "https://eips.ethereum.org/EIPS/eip-7951"
+      },
+      "rip_7212": {
+        "title": "Precompile for secp256r1 Curve Support (Rollup Improvement Proposal)",
+        "status": "Final",
+        "address": "0x0000000000000000000000000000000000000100 (same slot)",
+        "gas": "3450 — HALF the mainnet EIP-7951 price",
+        "note": "The gas difference is deliberate and acknowledged in EIP-7951: 'The 6900 gas cost does not maintain compatibility with L2s, but it matches closer the benchmarks of actual implementations.' Chains that shipped RIP-7212 charge 3450; Ethereum L1 charges 6900. Code that hard-codes a gas stipend for the precompile will break across that boundary.",
+        "url": "https://github.com/ethereum/RIPs/blob/master/RIPS/rip-7212.md"
+      },
+      "pure_solidity_fallback": {
+        "why": "A chain without the precompile — which is every chain that has not adopted Fusaka or RIP-7212, INCLUDING PRANA — must verify P-256 in Solidity. That costs roughly 200k-330k gas per verification instead of 3.5k-6.9k.",
+        "daimo_p256_verifier": "daimo-eth/p256-verifier — MIT. A standalone contract deployable at a fixed address so callers can staticcall it exactly like a precompile, and be swapped for the real precompile later with no caller change. Last push 2024-08-02 (stable, not abandoned — it does one thing).",
+        "freshcryptolib": "rdubois-crypto/FreshCryptoLib — MIT. The ecdsa_verify implementation most of the ecosystem's P-256 code descends from.",
+        "solady": "Vectorized/solady — MIT. Gas-golfed P256 and WebAuthn helpers, actively maintained (pushed 2026-09-02).",
+        "openzeppelin": "OpenZeppelin/openzeppelin-contracts utils/cryptography/P256.sol + WebAuthn.sol — MIT. P256.verify() probes address(0x100) at runtime with a known-good small-r/small-s signature to detect whether the precompile exists, and falls back to verifySolidity() if it does not. That single function makes one codebase correct on both PRANA (no precompile) and any future chain that adds one, with no redeploy. verifyNative() reverts with MissingPrecompile if you want to force the fast path."
+      }
+    },
+    "how_a_passkey_wallet_is_built": [
+      "Browser calls navigator.credentials.create() with pubKeyCredParams alg -7 (ES256). The private key is generated inside the authenticator and is non-extractable — it can never be exported, backed up as a phrase, or pasted.",
+      "The app reads the P-256 public key (x, y) out of the attestation and stores it as the account's owner.",
+      "A smart account is deployed (usually CREATE2, counterfactually) whose validateUserOp() verifies a WebAuthn assertion against that (x, y).",
+      "To sign, the app calls navigator.credentials.get() with the userOpHash as the challenge; the assertion (authenticatorData, clientDataJSON, r, s) becomes the UserOperation signature.",
+      "The account contract reconstructs sha256(authenticatorData || sha256(clientDataJSON)), checks the challenge matches, and verifies (r, s) against (x, y) via precompile-or-Solidity."
+    ],
+    "the_hard_constraint": "Because the passkey key is non-extractable and platform-bound, a passkey wallet MUST have a second recovery factor from day one — a second passkey on another device, a guardian set, or a seed-derived backup owner. A single-passkey account is one lost phone away from permanent loss. This is the opposite of the seed-phrase model and needs its own UX, not the seed-phrase UX with the words removed.",
+    "reference_implementations": {
+      "coinbase_smart_wallet": "coinbase/smart-wallet — MIT. The most widely deployed passkey smart account. Multi-owner: an owner is either a 32-byte-padded EOA address or a 64-byte P-256 public key, so passkeys and EOAs coexist as owners of one account. Actively maintained (pushed 2026-07-17).",
+      "webauthn_sol": "base/webauthn-sol — MIT. The WebAuthn assertion verification library Coinbase Smart Wallet uses; uses the RIP-7212 precompile when present and FreshCryptoLib otherwise. Note the repo moved from base-org/ to base/.",
+      "openzeppelin_signers": "SignerP256.sol and SignerWebAuthn.sol in openzeppelin-contracts utils/cryptography/signers/ — MIT, drop-in owner modules for an OZ Account.",
+      "erc_7913": "ERC-7913 Signature Verifiers — status FINAL (created 2025-03-21). A generic interface for verifying signatures from keys that have no address of their own, which is exactly what a passkey public key is. OpenZeppelin ships SignerERC7913 and MultiSignerERC7913Weighted. This is the clean way to build 'passkey + guardian' multisig without hardcoding curve assumptions. https://eips.ethereum.org/EIPS/eip-7913",
+      "historical": "passkeys-4337/smart-wallet — GPL-3.0, ARCHIVED 2024-03-24. Readable minimal example; do not depend on it."
+    }
+  },
+  "embedded_mpc_and_social_recovery": {
+    "framing": "These vendors all solve 'the user has no seed phrase'. They differ enormously in whether you could ever run the thing yourself. That distinction is the point of this section, and most marketing pages blur it.",
+    "privy": {
+      "model": "Embedded wallet; the key is split with Shamir secret sharing across the device, Privy's servers, and a recovery share. Login by email/social/passkey.",
+      "open_source_reality": "The SDK and backend are proprietary. What IS open source is privy-io/shamir-secret-sharing — Apache-2.0, zero-dependency, independently audited TypeScript SSS. That library is genuinely useful on its own and is the only self-hostable piece.",
+      "self_hostable": false,
+      "url": "https://github.com/privy-io/shamir-secret-sharing"
+    },
+    "turnkey": {
+      "model": "Keys live inside AWS Nitro Enclaves; policy is enforced in the enclave, and the enclave's measurement is remotely attestable, so Turnkey claims it cannot itself sign against policy.",
+      "open_source_reality": "The most genuinely open of the group. tkhq/qos (QuorumOS, the TEE computation layer) is AGPL-3.0 and public. tkhq/sdk, tkhq/rust-sdk, tkhq/go-sdk, tkhq/tkcli are Apache-2.0. But the hosted service is still the service — QOS being AGPL means running your own is legally possible and operationally serious.",
+      "license_warning": "AGPL-3.0 on qos is the strongest copyleft here. Network use counts as distribution. Do not fold QOS code into a MELEK service without accepting that the service's source becomes AGPL.",
+      "self_hostable": "partially — QOS yes, the Turnkey API no",
+      "urls": [
+        "https://github.com/tkhq/qos",
+        "https://github.com/tkhq/sdk"
+      ]
+    },
+    "web3auth": {
+      "model": "Threshold key management (tKey / tSS) with shares split across a distributed node network, the device, and a social login.",
+      "open_source_reality": "NOT open source, despite the public repos and the word 'self-host' in the tKey repo description. Both Web3Auth/web3auth-web and MetaMask/tkey (formerly torusresearch/tkey) carry a Torus Labs proprietary licence: 'All rights reserved... you may not distribute, publish, copy, modify, merge, combine with another program, create derivative works of, reverse engineer, decompile...'. Source-available, not free software.",
+      "self_hostable": false,
+      "verdict": "Do not fork. Using their hosted SDK under their terms is the only lawful route.",
+      "url": "https://github.com/Web3Auth/web3auth-web"
+    },
+    "lit_protocol": {
+      "model": "Programmable Key Pairs (PKPs) generated by distributed key generation across a threshold node network; signing is gated by 'Lit Actions' — JS conditions run by the nodes.",
+      "open_source_reality": "Murky. LIT-Protocol/lit-js-sdk is MIT but ARCHIVED (last push 2023-04-04) and its README points at LIT-Protocol/js-sdk, which returned HTTP 404 on 2026-09-05. The current org repos (Vincent, vincent-starter-app, agent-wallet) mostly carry no licence file at all.",
+      "self_hostable": false,
+      "verdict": "Cannot be verified as a dependency right now. Excluded from clonable_repos on that basis."
+    },
+    "coinbase_smart_wallet": {
+      "model": "Not MPC at all — a real ERC-4337 smart account with passkey owners. No shard servers, no vendor in the signing path.",
+      "open_source_reality": "coinbase/smart-wallet is MIT and current. The most cloneable 'no seed phrase' design in the list precisely because it has no off-chain secret infrastructure.",
+      "self_hostable": true,
+      "url": "https://github.com/coinbase/smart-wallet"
+    },
+    "safe_recovery": {
+      "model": "Guardian-based social recovery as a Safe module: N guardians can, after a timelock, rotate the account's owners.",
+      "open_source_reality": "safe-fndn/safe-modules (LGPL-3.0) contains modules/recovery/ alongside modules/4337/, modules/passkey/ and modules/allowances/. The core safe-fndn/safe-smart-account is LGPL-3.0 and is the most audited contract wallet in existence.",
+      "self_hostable": true,
+      "note": "Safe's own front-end, safe-global/safe-wallet-monorepo, is GPL-3.0 — deployable, forkable, but a fork must stay GPL.",
+      "url": "https://github.com/safe-fndn/safe-modules"
+    },
+    "recommendation_for_akasha": "Given the repo's own zero-WIF-on-servers rule (BRIEF.md §7, AKASHA_WALLET.md §3), every MPC/embedded vendor above is a philosophical mismatch: they all put a key share on someone's server. The consistent design is passkey-owned smart accounts on PRANA plus guardian recovery — no vendor holds a share, and the custody boundary stays exactly where the brief puts it."
+  },
+  "session_keys_and_delegated_permissions": {
+    "the_problem": "Signing every action kills any game, agent or subscription flow. A session key is a scoped, expiring key the user authorises once, which can then act without further prompts inside its limits.",
+    "erc_7715": {
+      "title": "Request Permissions from Wallets",
+      "status": "Draft",
+      "what": "A JSON-RPC method (wallet_grantPermissions) by which a dapp asks the wallet for a scoped permission — spend at most X of token Y, call only contract Z, expiring at time T — and gets back a context blob it can redeem later.",
+      "requires": "4337, 7710",
+      "url": "https://eips.ethereum.org/EIPS/eip-7715"
+    },
+    "erc_7710": {
+      "title": "Smart Contract Delegation",
+      "status": "Draft",
+      "what": "The on-chain half: a redeemDelegations() interface so a delegate contract can exercise a capability the delegator granted. 7715 is the request; 7710 is the redemption.",
+      "requires": "1271, 7579",
+      "url": "https://eips.ethereum.org/EIPS/eip-7710"
+    },
+    "erc_5792": {
+      "title": "Wallet Call API",
+      "status": "FINAL",
+      "what": "wallet_sendCalls / wallet_getCallsStatus / wallet_getCapabilities. Lets a dapp send a BATCH of calls and ask the wallet what it can do (atomic batching? paymaster? which chains?) instead of guessing.",
+      "why_it_matters": "This is the interface layer that makes 4337/7702 batching visible to dapps at all. It went Final, which means it is the standard a MELEK/PRANA wallet should speak if it wants existing dapp code to work with it unmodified.",
+      "url": "https://eips.ethereum.org/EIPS/eip-5792"
+    },
+    "implementations": {
+      "metamask_delegation_framework": "MetaMask/delegation-framework — Apache-2.0, actively developed (pushed 2026-09-03). The reference implementation of ERC-7710/7715 delegation with caveat enforcers (spend limits, time limits, allowed targets). Apache-2.0 including its patent grant is the friendliest licence of any delegation stack here.",
+      "smart_sessions": "erc7579/smartsessions — the ERC-7579 session-key validator module used across the Rhinestone/Biconomy/ZeroDev ecosystem. WARNING: the GitHub API reports no licence and the repo root has no LICENSE file as of 2026-09-05. Reference only until that changes.",
+      "porto_and_ithaca": "ithacaxyz/account is MIT and current (pushed 2026-01-03) — a 7702-native account with session keys. Its companion front-end ithacaxyz/porto is Apache-2.0 but was ARCHIVED (last push 2026-08-19); do not adopt Porto as a live dependency."
+    },
+    "intents": "The 'intents' framing (user states an outcome, solvers compete to produce it) has real production systems behind it, but no Final EIP defines it — ERC-7683 and friends remain drafts and the strongest implementations are proprietary solver networks. It is not yet a standard you can build a wallet against, and is deliberately not listed as one here."
+  },
+  "chain_applicability": {
+    "prana": {
+      "chain_facts": "EVM chainId 712217 (0xADE19), Etchash PoW (ECIP-1099 Thanos, ecip1099FBlock 0), londonBlock 0 so EIP-1559 is active. Client base: etclabscore/core-geth (LGPL-3.0).",
+      "erc_4337_works": true,
+      "erc_4337_why": "4337 requires NO consensus change whatsoever — that is its founding constraint. Deploy the EntryPoint, deploy accounts and a paymaster, run a bundler. Everything on the contract side is ordinary EVM.",
+      "erc_4337_what_it_takes": [
+        "Deploy EntryPoint v0.9 (0x433709009B8330FDa32311DF1C2AFA402eD8D009 is the canonical address on chains where eth-infinitism deployed it; on PRANA you deploy it yourself, ideally via the same deterministic deployer so the address matches).",
+        "Confirm PRANA's core-geth config enables Shanghai (PUSH0) and Cancun (EIP-1153 transient storage) — core-geth carries both (code search shows PUSH0, EIP1153, TransientStorage, Cancun and Shanghai all present in the tree), but they are per-chain-config fork blocks and PRANA's genesis must actually set them. If PUSH0 is not enabled, compile the contracts with solc targeting an older EVM version instead.",
+        "Run one bundler (Skandha MIT, Alto GPL-3.0, or Rundler LGPL-3.0). This is a real service with real uptime obligations — treat it as infrastructure, not a script.",
+        "Run a paymaster with a deposit at the EntryPoint if you want gasless onboarding. On a low-value chain like PRANA this is cheap and is the single highest-leverage UX feature available."
+      ],
+      "eip_7702_works": false,
+      "eip_7702_why": "7702 is a CORE EIP — a new transaction type (0x04) the execution client must implement. Code search across etclabscore/core-geth on 2026-09-05 returned ZERO hits for both `SetCodeTx` and `PragueBlock`. core-geth's most recent release (v1.12.23, 2026-08-14) explicitly states 'No consensus changes for Ethereum Classic or Mordor'. PRANA therefore cannot accept 7702 transactions today, and no contract-side workaround exists — it is protocol, not Solidity. Getting 7702 on PRANA means backporting go-ethereum's Prague work into core-geth and running a PRANA hard fork.",
+      "secp256r1_precompile_works": false,
+      "secp256r1_why": "EIP-7951's precompile at 0x100 is likewise a core change and is not in core-geth. Passkey wallets on PRANA must use the pure-Solidity path — OpenZeppelin's P256.verify() handles this automatically by probing 0x100 and falling back, so the same account code stays correct if PRANA ever adds the precompile.",
+      "cost_note": "Solidity P-256 verification is ~200k-330k gas versus 3450-6900 for the precompile. On Ethereum that is prohibitive. On PRANA, where block space is cheap and there is no fee market to speak of, it is affordable — this is one of the rare cases where a low-value chain is the EASIER place to ship passkeys.",
+      "erc_5792_works": true,
+      "erc_5792_why": "Purely a JSON-RPC interface convention between dapp and wallet. Nothing chain-side is required."
+    },
+    "melek": {
+      "chain_facts": "Graphene/Steem fork. Standard ops only: comment, vote, transfer, delegate_vesting_shares, create_account_with_keys_delegated, custom_json, account_update. Testnet chain id 18dcf0...274e, prefix TST, symbols TESTS/TBD; mainnet MELEK/MBD.",
+      "erc_4337_works": false,
+      "why": "There is no EVM. None of ERC-4337, EIP-7702, ERC-7579 or the P-256 precompile exist as concepts on a Graphene chain, and per CLAUDE.md the chain deliberately stays standard Graphene with no custom ops.",
+      "what_graphene_already_has_that_is_analogous": [
+        "Native role separation (owner/active/posting/memo) — Graphene shipped in 2016 what ERC-7579 validator modules are reinventing. The posting key IS a session key: scoped to social ops, rotatable, and never able to move funds.",
+        "Native multisig — an authority is a weighted threshold of keys and/or other accounts. Social recovery is expressible directly as an owner authority listing guardian accounts.",
+        "Native account recovery — recovery_account plus request_account_recovery / recover_account, with a 30-day owner-key history window. This is on-chain social recovery that predates the entire 4337 recovery discussion.",
+        "Native sponsored account creation — create_account_with_keys_delegated with delegated vesting is 'the paymaster pays for onboarding', already implemented, already used by Hathor."
+      ],
+      "the_actual_lesson": "Do not port account abstraction to MELEK. Port the FRAMING. The correct move is to present MELEK's existing recovery_account and weighted-authority multisig in the modern vocabulary users now expect from smart accounts, and to make Akasha expose them with the same UX affordances a 4337 wallet gives — because on the Graphene side they are already there and already battle-tested.",
+      "wallet_side_work": "Akasha's Graphene track needs WIF handling, the four roles, custom_json for engine ops, and posting-key-only login. hive-keychain/hive-keychain-extension (MIT) is the working reference for all of that."
+    }
+  },
+  "clonable_repos": [
+    {
+      "name": "OpenZeppelin Contracts (contracts/account + utils/cryptography)",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts",
+      "license": "MIT",
+      "verified": "v5.7.0 released 2026-07-29; contracts/account/ contains Account.sol, ERC4337Utils.sol, EIP7702Utils.sol, draft-ERC7579Utils.sol, draft-AccountERC7579.sol, draft-ERC7821.sol, paymaster/; utils/cryptography/ contains P256.sol, WebAuthn.sol, SignatureChecker.sol and signers/ (SignerP256, SignerWebAuthn, SignerEIP7702, SignerERC7913, MultiSignerERC7913Weighted).",
+      "what_it_gives_us": "The entire smart-account stack — 4337 account base, paymaster base, ERC-7579 modularity, ERC-7821 batching, P-256 and WebAuthn verification with automatic precompile-or-Solidity fallback, and ERC-7913 pluggable signature verifiers for guardian multisig — under one permissive licence from the most-audited Solidity library there is. Nothing else on this list is simultaneously this complete, this current, and this legally clean.",
+      "works_on_prana": "Yes, fully. P256.verify() detects the missing 0x100 precompile at runtime and falls back to Solidity, so the same bytecode is correct on PRANA today and stays correct if PRANA ever forks the precompile in. Only SignerEIP7702 is unusable until core-geth gains Prague."
+    },
+    {
+      "name": "Coinbase Smart Wallet",
+      "url": "https://github.com/coinbase/smart-wallet",
+      "license": "MIT",
+      "verified": "MIT, 486 stars, not archived, pushed 2026-07-17.",
+      "what_it_gives_us": "A production-proven, audited passkey ERC-4337 account with multi-owner semantics: an owner is either a 32-byte-padded EOA address or a 64-byte P-256 public key, so a passkey and a recovery EOA can co-own one account. This is the reference design for a no-seed-phrase Akasha wallet, and it needs no vendor server anywhere in the signing path — which is the only design that satisfies BRIEF.md §7.",
+      "works_on_prana": "Yes, with the P-256 verification path swapped to a Solidity fallback (it already prefers the RIP-7212 precompile via base/webauthn-sol and falls back to FreshCryptoLib, so the code path exists)."
+    },
+    {
+      "name": "base/webauthn-sol",
+      "url": "https://github.com/base/webauthn-sol",
+      "license": "MIT",
+      "verified": "MIT, 290 stars, not archived, pushed 2025-06-18. Note the org rename from base-org/.",
+      "what_it_gives_us": "Correct WebAuthn assertion verification in Solidity — authenticatorData flag checks, clientDataJSON challenge and type checks, then P-256 verify. The clientDataJSON parsing is where hand-rolled passkey verifiers get exploited; this is the vetted version.",
+      "works_on_prana": "Yes — it already probes the RIP-7212 precompile and falls back to FreshCryptoLib when absent, which is exactly PRANA's situation."
+    },
+    {
+      "name": "eth-infinitism/account-abstraction",
+      "url": "https://github.com/eth-infinitism/account-abstraction",
+      "license": "GPL-3.0",
+      "verified": "GPL-3.0, 1937 stars, not archived, pushed 2026-01-25. Latest release v0.9.0 on 2025-11-16.",
+      "what_it_gives_us": "The canonical EntryPoint you must deploy on PRANA for any 4337 to work at all, plus SimpleAccount, SimpleAccountFactory and Simple7702Account as readable minimal references.",
+      "works_on_prana": "Yes — this is the mandatory piece. Deploy EntryPoint v0.9 yourself; PRANA has no eth-infinitism deployment. GPL-3.0 means a modified EntryPoint must be published, which for a public-repo project like this one is not a constraint."
+    },
+    {
+      "name": "etherspot/skandha",
+      "url": "https://github.com/etherspot/skandha",
+      "license": "MIT",
+      "verified": "MIT, 614 stars, not archived, pushed 2026-09-04.",
+      "what_it_gives_us": "A self-hosted ERC-4337 bundler in TypeScript — the piece without which account abstraction on PRANA is vapour. MIT, modular, and the same language as the rest of this repo's stack.",
+      "works_on_prana": "Yes. Point it at a PRANA RPC and the PRANA EntryPoint address. Budget real ops effort: it needs uptime, an ERC-7562 validation-rule enforcement config, and a funded submitter EOA."
+    },
+    {
+      "name": "pimlicolabs/alto",
+      "url": "https://github.com/pimlicolabs/alto",
+      "license": "GPL-3.0",
+      "verified": "GPL-3.0, 231 stars, not archived, pushed 2026-09-03.",
+      "what_it_gives_us": "The best-documented TypeScript bundler, paired with permissionless.js on the client so server and client agree on semantics. The GPL-3.0 alternative to Skandha if maturity beats licence.",
+      "works_on_prana": "Yes, same shape as Skandha."
+    },
+    {
+      "name": "alchemyplatform/rundler",
+      "url": "https://github.com/alchemyplatform/rundler",
+      "license": "LGPL-3.0",
+      "verified": "LGPL-3.0, 391 stars, not archived, pushed 2026-09-04.",
+      "what_it_gives_us": "A Rust bundler built for production scale. Choose this if PRANA UserOperation volume ever outgrows a Node process.",
+      "works_on_prana": "Yes."
+    },
+    {
+      "name": "pimlicolabs/permissionless.js",
+      "url": "https://github.com/pimlicolabs/permissionless.js",
+      "license": "MIT",
+      "verified": "MIT, 254 stars, not archived, pushed 2026-08-18.",
+      "what_it_gives_us": "viem-based client utilities for building, signing and submitting UserOperations from the browser — the client half of an Akasha 4337 wallet, so we do not hand-roll userOpHash construction (a classic source of silently-invalid signatures).",
+      "works_on_prana": "Yes — it takes an arbitrary chain object and bundler URL; no mainnet assumption."
+    },
+    {
+      "name": "alchemyplatform/aa-sdk",
+      "url": "https://github.com/alchemyplatform/aa-sdk",
+      "license": "MIT",
+      "verified": "MIT, 321 stars, not archived, pushed 2026-08-17.",
+      "what_it_gives_us": "The alternative MIT client SDK, with more batteries (React hooks, signer abstractions) than permissionless.js. More opinionated toward Alchemy infra; check each import before adopting.",
+      "works_on_prana": "Yes for the core packages; the Alchemy-hosted-service packages are not applicable."
+    },
+    {
+      "name": "safe-fndn/safe-smart-account + safe-fndn/safe-modules",
+      "url": "https://github.com/safe-fndn/safe-smart-account",
+      "license": "LGPL-3.0",
+      "verified": "LGPL-3.0, 2177 stars, not archived, pushed 2026-09-03. safe-modules is also LGPL-3.0 and contains modules/4337, modules/allowances, modules/passkey, modules/recovery. Note: safe-global/* now redirects to safe-fndn/*.",
+      "what_it_gives_us": "The most-audited contract wallet in existence, plus ready guardian-recovery, passkey and 4337 modules. The right choice for any MELEK/PRANA treasury or multisig-held contract, distinct from the per-user wallet.",
+      "works_on_prana": "Yes. LGPL-3.0 permits deployment and linking freely; modifications to the Safe contracts themselves must remain LGPL."
+    },
+    {
+      "name": "MetaMask/delegation-framework",
+      "url": "https://github.com/MetaMask/delegation-framework",
+      "license": "Apache-2.0",
+      "verified": "Apache-2.0, 224 stars, not archived, pushed 2026-09-03.",
+      "what_it_gives_us": "The reference ERC-7710/ERC-7715 delegation implementation with caveat enforcers — spend limits, time bounds, allowed method/target restrictions. This is how you give a game, an agent, or the Hathor bot a scoped session key without handing over the account. Apache-2.0 carries an explicit patent grant, the friendliest licence in this whole space.",
+      "works_on_prana": "Yes for the ERC-4337 delegation path (contract-only). The 7702-based variants require Prague and therefore do not work on PRANA."
+    },
+    {
+      "name": "daimo-eth/p256-verifier",
+      "url": "https://github.com/daimo-eth/p256-verifier",
+      "license": "MIT",
+      "verified": "MIT, 205 stars, not archived, pushed 2024-08-02 (stable — it implements one fixed algorithm).",
+      "what_it_gives_us": "A standalone P-256 verifier contract deployable at a known address so callers staticcall it exactly as they would the precompile, and can be swapped for the real precompile later with zero caller changes. The single cleanest way to make PRANA passkey-ready before any PRANA hard fork.",
+      "works_on_prana": "Yes — this is precisely its purpose: chains without RIP-7212/EIP-7951."
+    },
+    {
+      "name": "Vectorized/solady",
+      "url": "https://github.com/Vectorized/solady",
+      "license": "MIT",
+      "verified": "MIT, 3369 stars, not archived, pushed 2026-09-02.",
+      "what_it_gives_us": "Gas-golfed P256, WebAuthn, ERC-1271, ERC-4337 and ERC-7821 helpers, plus the minimal-proxy (EIP-1167, see eip_1167_token_cloning.json) clone factories this repo already cares about. The gas-optimisation layer under everything else.",
+      "works_on_prana": "Yes."
+    },
+    {
+      "name": "paulmillr/scure-bip39 + paulmillr/scure-bip32",
+      "url": "https://github.com/paulmillr/scure-bip39",
+      "license": "MIT",
+      "verified": "scure-bip39 MIT, 196 stars, pushed 2026-08-31. scure-bip32 MIT, 99 stars, pushed 2026-08-31. Both audited, both minimal-dependency.",
+      "what_it_gives_us": "The missing HD layer in pool/www/walletgen/. Vendoring these two closes the gap between AKASHA_WALLET.md's stated BIP-39/32/44 EVM track and the raw-random-key the pool wallet actually generates today — and they fit the repo's existing vendored-dependency-free-ESM house style.",
+      "works_on_prana": "Yes — pure client-side key derivation, chain-agnostic."
+    },
+    {
+      "name": "bcnmy/nexus",
+      "url": "https://github.com/bcnmy/nexus",
+      "license": "MIT",
+      "verified": "MIT, 58 stars, not archived, pushed 2026-08-07.",
+      "what_it_gives_us": "A compact MIT ERC-7579 modular account, useful as a readable second opinion against the OpenZeppelin AccountERC7579 implementation.",
+      "works_on_prana": "Yes."
+    },
+    {
+      "name": "erc7579/erc7579-implementation",
+      "url": "https://github.com/erc7579/erc7579-implementation",
+      "license": "MIT",
+      "verified": "MIT, 148 stars, not archived, pushed 2026-02-23.",
+      "what_it_gives_us": "The reference ERC-7579 account and module interfaces — the spec in executable form.",
+      "works_on_prana": "Yes."
+    },
+    {
+      "name": "hive-keychain/hive-keychain-extension",
+      "url": "https://github.com/hive-keychain/hive-keychain-extension",
+      "license": "MIT",
+      "verified": "MIT, 81 stars, not archived, pushed 2026-09-04.",
+      "what_it_gives_us": "The working reference for the GRAPHENE half of Akasha: WIF key storage, the four role tiers, posting-key-only dapp login, custom_json signing, and an encrypted local keychain — everything MELEK needs and none of it EVM.",
+      "works_on_prana": "Not applicable (Graphene side). Directly applicable to MELEK."
+    },
+    {
+      "name": "MyEtherWallet/MyEtherWallet",
+      "url": "https://github.com/MyEtherWallet/MyEtherWallet",
+      "license": "MIT",
+      "verified": "MIT, 1585 stars, not archived, pushed 2026-09-04.",
+      "what_it_gives_us": "A complete, long-lived, MIT-licensed client-side wallet FRONT-END — the only mainstream full wallet UI on this list that is genuinely forkable. MetaMask is not (ConsenSys 'all rights reserved'); Rabby is MIT but forbids reusing its name and logo; Safe's front-end is GPL-3.0.",
+      "works_on_prana": "Yes — MEW supports custom networks; adding chainId 712217 with a PRANA RPC is a configuration change, not a rewrite."
+    },
+    {
+      "name": "privy-io/shamir-secret-sharing",
+      "url": "https://github.com/privy-io/shamir-secret-sharing",
+      "license": "Apache-2.0",
+      "verified": "Apache-2.0, 266 stars, not archived, pushed 2026-04-03. Independently audited, zero dependencies.",
+      "what_it_gives_us": "Standalone Shamir secret sharing in TypeScript — useful for a user-held split backup (e.g. 2-of-3 shares the USER distributes) without importing any of Privy's server-side model. Consistent with the zero-WIF-on-servers rule as long as no share goes to a MELEK server.",
+      "works_on_prana": "Yes — pure client-side crypto, chain-agnostic."
+    }
+  ],
+  "repos_deliberately_excluded": [
+    {
+      "name": "MetaMask/metamask-extension",
+      "reason": "LICENSE reads 'Copyright ConsenSys Software Inc. 2022. All rights reserved.' Not open source. Cannot be forked."
+    },
+    {
+      "name": "Web3Auth/web3auth-web and MetaMask/tkey",
+      "reason": "Torus Labs proprietary licence explicitly forbidding modification, derivative works and redistribution. Source-available, not open source, despite marketing 'self-host' language."
+    },
+    {
+      "name": "zerodevapp/kernel",
+      "reason": "No LICENSE file in the repo root as of 2026-09-05 (verified via the contents API and a 404 from the licence API). Default copyright applies. Excellent code, unforkable until a licence is declared."
+    },
+    {
+      "name": "rhinestonewtf/modulekit",
+      "reason": "No LICENSE file. Same problem."
+    },
+    {
+      "name": "erc7579/smartsessions",
+      "reason": "No LICENSE file and no licence reported by the API."
+    },
+    {
+      "name": "AmbireTech/ambire-common",
+      "reason": "No LICENSE file reported."
+    },
+    {
+      "name": "LIT-Protocol js-sdk",
+      "reason": "LIT-Protocol/js-sdk returns HTTP 404. The only MIT Lit repo, lit-js-sdk, is archived at 2023-04-04. Nothing verifiable to depend on."
+    },
+    {
+      "name": "ithacaxyz/porto",
+      "reason": "Apache-2.0 but ARCHIVED (last push 2026-08-19). Its sibling ithacaxyz/account (MIT) is still live and is listed as reference above."
+    },
+    {
+      "name": "stackup-wallet/stackup-bundler",
+      "reason": "ARCHIVED 2024-08-12."
+    },
+    {
+      "name": "passkeys-4337/smart-wallet",
+      "reason": "ARCHIVED 2024-03-24; superseded by coinbase/smart-wallet."
+    },
+    {
+      "name": "hathor.network wallet libraries",
+      "reason": "Standing repo rule: 'Hathor' here is the MELEK Graphene account name, not the DAG project. Do not pull in hathor-wallet-lib. (CLAUDE.md, Don't list.)"
+    }
+  ],
+  "whats_genuinely_new_since_2024": [
+    "EIP-7702 went live on Ethereum mainnet with Pectra on 2025-05-07 (EIP-7600, epoch 364032). An existing EOA can now become a smart account IN PLACE, keeping its address. This is the change that broke the 'you must migrate to a new address' adoption wall.",
+    "EIP-3074 is formally Withdrawn, superseded by 7702. Every AUTH/AUTHCALL design document from 2023-2024 is obsolete.",
+    "ERC-4337 reached status Final and now formally `requires: 7702`. The two are one stack, not competitors.",
+    "EntryPoint v0.8 (2025-03-26) and v0.9 (2025-11-16) shipped. v0.9 added detached paymaster signatures, block-number validity ranges, non-reverting initCode, and getCurrentUserOpHash.",
+    "EIP-7951 put a secp256r1 (P-256) precompile at address 0x100 on Ethereum L1 in the Fusaka fork, mainnet 2025-12-03 21:49:11 UTC (epoch 411392). Passkey signature verification went from ~300k gas to 6900 on L1. The L2 RIP-7212 price is 3450 — the two differ deliberately.",
+    "ERC-5792 (Wallet Call API) reached Final, giving dapps a standard way to batch calls and to ASK a wallet what it can do.",
+    "ERC-7913 (Signature Verifiers) reached Final in 2025 — a generic interface for address-less keys, which is the clean abstraction for passkeys in a multisig.",
+    "OpenZeppelin shipped the whole account-abstraction stack under MIT in v5.x (contracts/account, P256.sol, WebAuthn.sol, signers/). Before this, every serious smart-account codebase was GPL, LGPL, or unlicensed. That is the biggest practical change for a project that needs clean licensing.",
+    "ERC-7579 won the modularity fight in practice over ERC-6900, despite both still being Draft.",
+    "The next fork, Glamsterdam (EIP-7773, status Review), schedules EIP-7997 Deterministic Factory Predeploy — which would finally make CREATE2 factory addresses uniform across chains, a chronic pain for counterfactual smart-account deployment."
+  ],
+  "recommended_path_for_this_project": [
+    "Step 1 (no chain change, immediate): close the shipped-vs-designed HD gap. Vendor scure-bip39 + scure-bip32 into pool/www/walletgen/vendor/ and make generateEvmWallet() derive m/44'/60'/0'/0/0 from a BIP-39 phrase instead of raw random bytes. This is a contained change in an existing, tested module and makes the AKASHA_WALLET.md 'one master secret' claim true.",
+    "Step 2: deploy EntryPoint v0.9 on PRANA and stand up one bundler (Skandha, MIT). Until a bundler runs, nothing else in this file is real on PRANA.",
+    "Step 3: deploy a paymaster funded from the pool fee. Gasless first transaction for every new miner is the highest-leverage onboarding feature available on a chain where gas costs essentially nothing — and it is the thing that converts a mining-pool visitor into a PRANA account.",
+    "Step 4: ship a passkey account (OpenZeppelin Account + SignerWebAuthn, with daimo p256-verifier or OZ's Solidity fallback) so a new user gets a PRANA wallet with no seed phrase. Pair it from day one with a guardian recovery path — a passkey-only account with no second factor is a support disaster.",
+    "Step 5: do NOT port any of this to MELEK. Instead, surface Graphene's existing recovery_account, weighted authorities and posting-key scoping in the same vocabulary, because MELEK already has social recovery and session keys and has had them since 2016.",
+    "Step 6 (only if there is a reason): EIP-7702 on PRANA requires backporting go-ethereum's Prague changes into core-geth and forking the chain. That is a real engineering project with a consensus risk, and it buys PRANA nothing that 4337 does not already buy, because PRANA has no legacy population of valuable EOAs to migrate. Defer indefinitely."
+  ],
+  "cryptology_integration": {
+    "lesson_modules": [
+      "hd_wallets_bip32_39_44",
+      "graphene_key_roles_vs_evm_single_key",
+      "erc4337_the_five_actors",
+      "eip7702_eoa_becomes_smart_account",
+      "passkeys_and_the_two_curves",
+      "session_keys_and_scoped_permissions",
+      "licence_reading_as_a_security_skill"
+    ],
+    "quiz_questions": [
+      {
+        "q": "What does ERC-4337 change about the Ethereum protocol?",
+        "a": "Nothing. That is the entire point — it achieves account abstraction with no consensus-layer change, using a separate mempool of UserOperations, off-chain bundlers, and a singleton EntryPoint contract.",
+        "explanation": "This is exactly why 4337 works on PRANA today while EIP-7702 does not."
+      },
+      {
+        "q": "What does EIP-7702 write into an EOA's account when you authorise a delegation?",
+        "a": "The 23-byte delegation indicator 0xef0100 || address.",
+        "explanation": "Transaction type 0x04, signature over keccak(0x05 || rlp([chain_id, address, nonce])). It persists until you delegate to the zero address."
+      },
+      {
+        "q": "Why can't an Ethereum contract verify a passkey signature with ecrecover?",
+        "a": "Passkeys sign on secp256r1 (P-256); ecrecover only handles secp256k1. Different curve.",
+        "explanation": "Solved by the 0x100 precompile (EIP-7951 on L1 at 6900 gas, RIP-7212 on L2s at 3450) or, where no precompile exists, by ~200k-330k gas of Solidity."
+      },
+      {
+        "q": "PRANA runs core-geth. Which of ERC-4337 and EIP-7702 works there?",
+        "a": "ERC-4337 works fully. EIP-7702 does not — core-geth has no SetCodeTx and no Prague support, and it is a core change with no contract-side workaround.",
+        "explanation": "Verified by code search over etclabscore/core-geth on 2026-09-05: zero hits for SetCodeTx and PragueBlock."
+      },
+      {
+        "q": "Web3Auth's tKey repo is public and the description says 'self-host'. Can you fork it?",
+        "a": "No. Its LICENSE is Torus Labs proprietary — all rights reserved, no derivative works, no modification, no redistribution.",
+        "explanation": "Public on GitHub is not the same as open source. Reading the actual LICENSE file, not the API's summary or the README, is a security and legal skill."
+      },
+      {
+        "q": "MELEK is a Graphene chain with no EVM. Does it need account abstraction added?",
+        "a": "No. It already has the four key roles, weighted-threshold multisig authorities, on-chain social recovery via recovery_account with a 30-day owner-key window, and sponsored account creation. Those are the features 4337 is reinventing.",
+        "explanation": "The work is presenting them in the modern vocabulary, not adding custom chain ops — which the repo forbids anyway."
+      }
+    ],
+    "achievement_unlocks": [
+      "HD Navigator: derive an address from a phrase and explain every segment of m/44'/60'/0'/0/0",
+      "Bundler Operator: run a self-hosted ERC-4337 bundler against a chain nobody else serves",
+      "Curve Crosser: verify a P-256 passkey signature on an EVM chain with no precompile",
+      "Licence Auditor: tell open source from source-available by reading the LICENSE file",
+      "Graphene Elder: name four things Graphene shipped in 2016 that Ethereum standardised after 2023"
+    ]
+  },
+  "van_kush_connection": {
+    "relevance": "Akasha is meant to be the one wallet across MELEK (Graphene), PRANA (EVM), the engine and the pool. This file is the verified ground truth for the EVM half of that and the honest boundary of what PRANA's client can and cannot do.",
+    "existing_assets": "pool/www/walletgen/ already ships audited-shape client-side generation for ZEPH, XMR and EVM with a zero-secret-to-server floor. That is the seed the standalone wallet grows from (AKASHA_WALLET.md §1).",
+    "custody_rule_alignment": "Every recommendation here respects BRIEF.md §7 and AKASHA_WALLET.md §3: no private key, seed or WIF on any server. That rule is the reason passkey smart accounts are recommended over Privy/Turnkey/Web3Auth-style embedded wallets — the vendor models all require a key share to live on someone's server.",
+    "revenue_line": "The bundler-plus-paymaster path (steps 2-3) is the concrete revenue-adjacent piece: it turns a pool visitor into a PRANA account holder with zero gas friction and zero seed-phrase drop-off, which is the top of the funnel for every PRANA-denominated product in the ecosystem.",
+    "philosophy": "Same as the plant-medicine library: publish the working detail rather than the reassuring summary. Every licence, every EIP status and every archive date here was fetched, not remembered."
+  },
+  "sources": [
+    "https://eips.ethereum.org/EIPS/eip-4337",
+    "https://eips.ethereum.org/EIPS/eip-7702",
+    "https://eips.ethereum.org/EIPS/eip-7951",
+    "https://eips.ethereum.org/EIPS/eip-5792",
+    "https://eips.ethereum.org/EIPS/eip-7579",
+    "https://eips.ethereum.org/EIPS/eip-6900",
+    "https://eips.ethereum.org/EIPS/eip-7715",
+    "https://eips.ethereum.org/EIPS/eip-7710",
+    "https://eips.ethereum.org/EIPS/eip-7821",
+    "https://eips.ethereum.org/EIPS/eip-7913",
+    "https://eips.ethereum.org/EIPS/eip-1271",
+    "https://eips.ethereum.org/EIPS/eip-7562",
+    "https://eips.ethereum.org/EIPS/eip-3074",
+    "https://eips.ethereum.org/EIPS/eip-7600",
+    "https://eips.ethereum.org/EIPS/eip-7607",
+    "https://eips.ethereum.org/EIPS/eip-7773",
+    "https://github.com/ethereum/RIPs/blob/master/RIPS/rip-7212.md",
+    "https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki",
+    "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+    "https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki",
+    "https://www.w3.org/TR/webauthn-3/",
+    "https://docs.erc4337.io/",
+    "https://github.com/eth-infinitism/account-abstraction",
+    "https://github.com/eth-infinitism/account-abstraction/releases/tag/v0.9.0",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/account",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts",
+    "https://github.com/coinbase/smart-wallet",
+    "https://github.com/base/webauthn-sol",
+    "https://github.com/daimo-eth/p256-verifier",
+    "https://github.com/rdubois-crypto/FreshCryptoLib",
+    "https://github.com/Vectorized/solady",
+    "https://github.com/safe-fndn/safe-smart-account",
+    "https://github.com/safe-fndn/safe-modules",
+    "https://github.com/safe-global/safe-wallet-monorepo",
+    "https://github.com/MetaMask/delegation-framework",
+    "https://github.com/erc7579/smartsessions",
+    "https://github.com/erc7579/erc7579-implementation",
+    "https://github.com/bcnmy/nexus",
+    "https://github.com/zerodevapp/kernel",
+    "https://github.com/rhinestonewtf/modulekit",
+    "https://github.com/pimlicolabs/permissionless.js",
+    "https://github.com/pimlicolabs/alto",
+    "https://github.com/alchemyplatform/aa-sdk",
+    "https://github.com/alchemyplatform/rundler",
+    "https://github.com/etherspot/skandha",
+    "https://github.com/silius-rs/silius",
+    "https://github.com/candidelabs/voltaire",
+    "https://github.com/stackup-wallet/stackup-bundler",
+    "https://github.com/ithacaxyz/account",
+    "https://github.com/tkhq/qos",
+    "https://github.com/tkhq/sdk",
+    "https://github.com/privy-io/shamir-secret-sharing",
+    "https://github.com/Web3Auth/web3auth-web",
+    "https://github.com/MetaMask/tkey",
+    "https://github.com/hive-keychain/hive-keychain-extension",
+    "https://github.com/MyEtherWallet/MyEtherWallet",
+    "https://github.com/paulmillr/scure-bip39",
+    "https://github.com/paulmillr/scure-bip32",
+    "https://github.com/etclabscore/core-geth",
+    "https://github.com/RabbyHub/Rabby",
+    "https://github.com/MetaMask/metamask-extension"
+  ]
+}

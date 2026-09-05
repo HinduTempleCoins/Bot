@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { GAMMA_PAGE } from './gamma.mjs';
 import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
+import { buildFeed, renderRss, renderAtom, renderJsonFeed, fetchAuthorPosts } from '../../integrations/chain-feed.mjs';
 import {
   REPORTS_PAGE, validateReport, publicReports, reportStats,
   CATEGORIES as REPORT_CATEGORIES, OUTCOMES as REPORT_OUTCOMES,
@@ -29,6 +30,11 @@ const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = process.env.BASE_URL || 'https://hathor.live';
 const MAX_MSG = 2000;
+// Syndication config. The posts are on the MELEK chain and are rendered by the condenser, so the
+// feed's item links point at CHAIN_SITE while the feed itself is served from here.
+const FEED_AUTHOR = process.env.FEED_AUTHOR || 'hathor';
+const CHAIN_RPC = process.env.MELEK_RPC_URL || 'http://127.0.0.1:18090';
+const CHAIN_SITE = (process.env.CHAIN_SITE || 'https://melek.salon').replace(/\/$/, '');
 // The ONE Hathor brain. Hathor.live is a LIMB: chat is forwarded to the shared brain's /perceive so it's the
 // same Hathor (same memory, same Crypt-ology thread, same compartments) as Discord / the servers / the chain.
 // Falls back to the local converse if the brain is unreachable. Env-overridable; injectable for tests.
@@ -356,6 +362,36 @@ export async function handler(req, res) {
 
     // /40hz — gamma sensory entrainment (light + sound only; never current delivery).
     // Corpus: knowledge/consciousness/gamma_40hz_entrainment_and_neurostim.json
+    // --- syndication -------------------------------------------------------------------------
+    // Hathor's posts live on the MELEK chain, which is public and permanent but which nothing
+    // off-chain can SUBSCRIBE to. These three routes are that subscribe primitive: RSS for
+    // readers and Discord/Slack webhooks, Atom for the stricter clients, JSON Feed for anything
+    // modern. The chain is the source of truth; this is just a projection of it.
+    if (path === '/feed.xml' || path === '/feed.atom' || path === '/feed.json' || path === '/rss') {
+      const author = FEED_AUTHOR;
+      const posts = await fetchAuthorPosts(author, { rpcUrl: CHAIN_RPC, limit: 30 });
+      const feed = buildFeed({
+        title: `@${author} — the MELEK Witness`,
+        description: 'Posts from Hathor, the founding AI Witness on the MELEK chain.',
+        siteUrl: CHAIN_SITE,
+        feedUrl: `${BASE_URL}${path === '/rss' ? '/feed.xml' : path}`,
+        author,
+        posts,
+      });
+      // A chain read that soft-failed still yields a valid empty feed, which is correct: a
+      // reader polling every 15 minutes must not be handed a 500 because a node blipped.
+      if (path === '/feed.json') {
+        res.writeHead(200, { 'content-type': 'application/feed+json; charset=utf-8', 'cache-control': 'public, max-age=300' });
+        return res.end(renderJsonFeed(feed));
+      }
+      if (path === '/feed.atom') {
+        res.writeHead(200, { 'content-type': 'application/atom+xml; charset=utf-8', 'cache-control': 'public, max-age=300' });
+        return res.end(renderAtom(feed));
+      }
+      res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8', 'cache-control': 'public, max-age=300' });
+      return res.end(renderRss(feed));
+    }
+
     // The no-hardware practices, so Hathor can teach one in chat without the page.
     if (path === '/api/practices') {
       res.writeHead(200, { 'content-type': 'application/json' });

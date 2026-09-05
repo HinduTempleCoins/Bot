@@ -1,0 +1,548 @@
+{
+  "title": "Age Verification, KYC/AML Law, and the Identity-Vendor Market — Research Brief for MELEK / Van Kush",
+  "compiled_by": "Claude Code (research pass for the MELEK operator)",
+  "compiled_on": "2026-09-05",
+  "jurisdictional_focus": "Texas (operator's base), United States federal, United Kingdom, European Union",
+
+  "disclaimer": "THIS IS RESEARCH, NOT LEGAL ADVICE. No attorney-client relationship exists. Every case name, statute number, date, dollar figure and vendor claim below was fetched from a primary or named source and the URL is recorded in the `sources` array; where a fact could NOT be verified it is marked `unverified` or `not_published` and must not be repeated as fact. Statements are tagged by epistemic type: `statute_says` (the text of a law), `court_held` (a holding actually issued by a named court), `agency_says` (a regulator's own published guidance), `vendor_claims` (a vendor's own marketing/docs, self-serving), and `commentary` (secondary sources and expectations, which may be wrong). Law changes; several items here are under active litigation and at least three are pending appeal as of the compile date. Confirm anything load-bearing with Texas counsel before acting on it, especially anything touching hemp, controlled substances, or money transmission.",
+
+  "executive_summary": {
+    "triggers_a_duty": [
+      "Hemp / consumable-THC retail sales (Texas): hard 21+ age gate with government-ID verification. Not optional, already in force.",
+      "Apps shipped through Google Play or the Apple App Store: developer-side age-signal integration, driven by Texas SB 2420 (in force, Supreme Court declined to block it on the emergency docket 2026-07-06) and by the app stores' own policies.",
+      "Anything that touches sovereign currency or a redeemable stablecoin on a customer's behalf (fiat on/off ramp, custodial swap): federal MSB registration under 31 CFR 1022.380, plus state licensing analysis.",
+      "Collecting personal data from anyone under 13 on a service directed to children: COPPA, 16 CFR Part 312."
+    ],
+    "does_not_trigger_a_duty": [
+      "The plant-medicine / harm-reduction library. No US age-verification statute reaches it: they are all keyed to sexual material harmful to minors under a Miller-style obscenity test, not to drug or medical content.",
+      "Neurostimulation build guides and the binaural-beat / 40Hz session library. No age-verification statute in any surveyed jurisdiction covers this category of content at all.",
+      "The MELEK Graphene chain itself, witness block production, the price feed, posts and votes. No acceptance-and-transmission of another person's value.",
+      "A mining pool that distributes mined coin to its own contributors and does not host wallets for them — FinCEN says these payouts are 'integral to the provision of services' and are NOT money transmission.",
+      "In-browser client-side wallet generation where the private key never leaves the user's browser. FinCEN treats unhosted single-signature wallets as user activity, not money transmission.",
+      "A faucet or free token grant. There is no acceptance of value from a customer, so no transmission.",
+      "Non-stablecoin virtual currency transfer in Texas. The Texas Banking Commissioner's own memo says receiving it for transmission, alone, is not money transmission under the Money Services Modernization Act."
+    ],
+    "the_biggest_single_finding": "Texas HB 1181 — the law the Supreme Court upheld — expressly FORBIDS retaining the identifying information used for an age check, at $10,000 per instance. Texas is not asking for identity intake; it is penalizing it. That is aligned with BRIEF.md's out-of-scope rule on personal-info intake at signup, not in tension with it. Where an age gate is genuinely required, the compliant design is an age-only, zero-retention check."
+  },
+
+  "us_age_verification_law": {
+    "free_speech_coalition_v_paxton": {
+      "citation": "Free Speech Coalition, Inc. v. Paxton, No. 23-1122 (U.S.)",
+      "decided": "2025-06-27",
+      "argued": "2025-01-15",
+      "vote": "6-3",
+      "majority_author": "Justice Thomas",
+      "dissent_author": "Justice Kagan, joined by Justices Sotomayor and Jackson",
+      "court_held": "Texas H.B. 1181 triggers, and survives, review under INTERMEDIATE scrutiny because it only incidentally burdens the protected speech of adults. The Court reasoned that the statute regulates access to speech that is obscene to minors — which is unprotected as to minors — and that 'no person—adult or child—has a First Amendment right to access speech that is obscene to minors without first submitting proof of age.'",
+      "standard_of_review": "Intermediate scrutiny. This is the load-bearing part of the decision: the petitioners argued for strict scrutiny and lost that argument. Lower courts applying FSC v. Paxton to OTHER content categories have to first establish that the content is obscene-as-to-minors; the case does not hand states a general power to age-gate the internet.",
+      "limiting_language": "'H.B. 1181 does not ban adults from accessing this material; it simply requires them to verify their age before accessing it on a covered website.' The holding is scoped to material obscene from a minor's perspective. It is NOT authority for age-gating educational, medical, harm-reduction, scientific or political content.",
+      "why_this_matters_here": "commentary — Because the holding rides on the obscenity-to-minors category, it supplies no basis for a state to require age verification on a plant-medicine, pharmacology or neurostimulation library. A state that tried would be back at strict scrutiny.",
+      "source": "https://www.supremecourt.gov/opinions/24pdf/23-1122_3e04.pdf"
+    },
+
+    "texas_hb_1181": {
+      "codified_at": "Tex. Civ. Prac. & Rem. Code ch. 129B — 'Liability for Allowing Minors to Access Pornographic Material'",
+      "effective": "2023-09-01",
+      "statute_says_scope": "Sec. 129B.002(a): 'A commercial entity that knowingly and intentionally publishes or distributes material on an Internet website, including a social media platform, more than one-third of which is sexual material harmful to minors, shall use reasonable age verification methods...'",
+      "statute_says_definition": "Sec. 129B.001(6) defines 'sexual material harmful to minors' with a three-prong Miller-style test: (A) appeals to or panders to the prurient interest with respect to minors; (B) in a manner patently offensive with respect to minors, exploits/is devoted to/principally consists of depictions of specified anatomy or sexual acts; AND (C) taken as a whole, lacks serious literary, artistic, political, or scientific value for minors.",
+      "statute_says_no_retention": "Sec. 129B.002(b): 'A commercial entity that performs the age verification required by Subsection (a) or a third party that performs the age verification required by Subsection (a) MAY NOT RETAIN any identifying information of the individual.' Penalty at Sec. 129B.006(b)(2): $10,000 per instance of retention.",
+      "statute_says_methods": "Sec. 129B.003: the entity must require the individual to (1) provide digital identification; or (2) comply with a commercial age verification system that verifies age using (A) government-issued identification; or (B) 'a commercially reasonable method that relies on public or private transactional data'.",
+      "statute_says_exemptions": "Sec. 129B.005(a) exempts bona fide news or public-interest broadcast, website video, report or event, and preserves news-gathering organizations' rights. Sec. 129B.005(b) shields ISPs, their affiliates and subsidiaries, search engines and cloud service providers that merely provide access or connection to content not under their control.",
+      "penalties": "Sec. 129B.006(b): up to $10,000/day of non-compliant operation; $10,000 per retention instance; up to an additional $250,000 if a minor accesses the material because of the violation. Enforcement is by the Attorney General only — there is no private right of action in this chapter.",
+      "applies_to_this_operator": "NO. Nothing in the MELEK/Van Kush surfaces is a website more than one-third of which is sexual material meeting the ch. 129B definition. Drug, pharmacology, ethnobotany, dosing, TEK, neurostimulation and entrainment content is not within the definition — it is not depictions of anatomy or sexual acts, and it plainly has serious scientific value. Over-complying here would cost money for no legal benefit and would collide with the statute's own anti-retention rule.",
+      "source": "https://capitol.texas.gov/tlodocs/88R/billtext/pdf/HB01181F.pdf"
+    },
+
+    "texas_scope_act_hb_18": {
+      "codified_at": "Tex. Bus. & Com. Code ch. 509 — Securing Children Online through Parental Empowerment",
+      "effective": "2024-09-01",
+      "statute_says_scope": "Sec. 509.002(a): applies only to a digital service provider whose service (1) connects users so they can socially interact, (2) allows a user to create a public or semi-public profile for signing in, AND (3) allows a user to create or post content viewable by other users, including on a message board, chat room, landing page, video channel or main feed. All three prongs.",
+      "the_substance_abuse_duty": "Sec. 509.053(a) would require a digital service provider to develop and implement a strategy to prevent a known minor's exposure to content that 'promotes, glorifies, or facilitates' (1) suicide, self-harm or eating disorders; (2) SUBSTANCE ABUSE; (3) stalking, bullying or harassment; (4) grooming, trafficking, child pornography or other sexual exploitation. This is the only surveyed US provision that could conceivably reach the plant-medicine corpus.",
+      "court_held": "commentary/court — In Students Engaged in Advancing Texas v. Paxton (W.D. Tex.), the district court applied STRICT scrutiny, held the SCOPE Act content provisions facially invalid, and on 2025-02-07 preliminarily enjoined enforcement of the monitoring-and-filtering requirements (§ 509.053 and § 509.056(1)), the targeted-advertising provisions (§ 509.052(2)(D) and § 509.055), and the content-monitoring/age-verification requirement (§ 509.057). The court also held §§ 509.053 and 509.055 unconstitutionally vague. Appealed by the Texas AG to the Fifth Circuit; the injunction is preliminary, not a final judgment. Verify current status before relying on it.",
+      "two_independent_statutory_exemptions_that_cover_this_operator": [
+        "Sec. 509.002(b)(4): 'This chapter does not apply to ... a small business as defined by the United States Small Business Administration on September 1, 2024.'",
+        "Sec. 509.002(b)(10): does not apply to a service that '(A) primarily functions to provide a user with access to news, sports, commerce, or content primarily generated or selected by the digital service provider; and (B) allows chat, comment, or other interactive functionality that is incidental to the digital service.' The library sites plus an incidental troll-box or comment thread fit this squarely."
+      ],
+      "applies_to_this_operator": "NO on two independent grounds even if the enjoined sections are revived on appeal: the small-business exemption and the provider-generated-content exemption. Note the second exemption is lost if a chain-backed social feed becomes the primary function rather than an incidental one — that is the line to watch as Phase 3 ships.",
+      "source": "https://capitol.texas.gov/tlodocs/88R/billtext/pdf/HB00018F.pdf"
+    },
+
+    "wider_state_landscape": {
+      "type": "commentary — this table is from the Age Verification Providers Association, an industry trade body with a commercial interest in age-verification mandates. Treat the count as approximate and verify any specific state before acting.",
+      "as_of": "February 2026",
+      "count_of_states_with_adult_content_av_laws_in_force": 25,
+      "states_listed": ["Louisiana", "Utah", "Mississippi", "Virginia", "Arkansas", "Texas", "Montana", "North Carolina", "Idaho", "Kansas", "Kentucky", "Nebraska", "Indiana", "Alabama", "Oklahoma", "Florida", "South Carolina", "Tennessee", "Georgia", "Wyoming", "South Dakota", "North Dakota", "Arizona", "Ohio", "Missouri"],
+      "the_common_trigger": "Nearly every one of these statutes uses the same trigger as Texas: a threshold share of the site (one-quarter to one-third, or 'substantial portion') consisting of material that is sexual and harmful to minors under a Miller-derived test. A few (Kansas, Kentucky, Indiana, Tennessee, Oklahoma, Ohio, South Dakota) use a broader 'material harmful to minors' phrasing, but those phrases are themselves statutorily defined in sexual terms in the underlying state obscenity codes.",
+      "what_they_do_NOT_cover": "None of the surveyed adult-content statutes covers drug education, pharmacology, harm reduction, dose information, extraction technique, medical or neuroscience content, or DIY electronics. Do not assume otherwise; if a specific state is ever asserted, read that state's definition of 'harmful to minors' before conceding coverage.",
+      "separate_category_social_media_laws": "commentary — A distinct wave of state social-media age laws exists (Florida HB 3, Mississippi HB 1126, Tennessee HB 1891, New York SAFE for Kids, Georgia SB 351). Several others (Arkansas, Utah, Ohio, Texas SCOPE, Louisiana) have been blocked or enjoined on First Amendment grounds. These reach services whose primary function is social networking, not content libraries.",
+      "source": "https://avpassociation.com/us-state-age-verification-laws-for-adult-content/"
+    },
+
+    "coppa": {
+      "citation": "Children's Online Privacy Protection Rule, 16 CFR Part 312",
+      "amended_rule_published": "2025-04-22 (Federal Register)",
+      "effective": "2025-06-23",
+      "general_compliance_deadline": "2026-04-22 (except 16 CFR 312.11(d)(1), (d)(4) and (g))",
+      "agency_says": "The amended Rule requires separate verifiable parental consent to disclose a child's personal information to third parties for targeted advertising; requires operators to retain personal information only as long as reasonably necessary for the specific purpose it was collected and forbids indefinite retention; and requires FTC-approved COPPA Safe Harbor programs to publish their membership lists.",
+      "trigger": "COPPA applies to an operator of a website or online service DIRECTED TO CHILDREN under 13, or one that has actual knowledge it is collecting personal information from a child under 13.",
+      "applies_to_this_operator": "Not on the current surfaces — none is directed to under-13s and the signup path collects no personal information by design (BRIEF.md). The live risk sits with the game/profile vertical and any future in-browser wallet/profile feature: if it acquires actual knowledge of an under-13 user, COPPA attaches. The cheap mitigation is a terms-of-service minimum age of 13+ (or 18+) plus no under-13 marketing, which is what keeps a general-audience service out of 'directed to children'.",
+      "source": "https://www.federalregister.gov/documents/2025/04/22/2025-05904/childrens-online-privacy-protection-rule"
+    }
+  },
+
+  "app_store_rules": {
+    "why_this_is_the_operator_s_real_exposure": "The operator ships apps through a non-profit Google Play Console developer account. App-store obligations bind DEVELOPERS, not just store operators, and they are enforced by contract (takedown, account termination) rather than by a court — so they bite faster and cheaper than any statute in this document.",
+
+    "texas_sb_2420": {
+      "name": "Texas App Store Accountability Act",
+      "session": "89th Legislature, Regular Session",
+      "caption": "Relating to the regulation of platforms for the sale and distribution of software applications for mobile devices.",
+      "signed": "2025-05-27",
+      "effective": "2026-01-01",
+      "requires": "App stores must verify user ages at account creation, obtain verifiable parental consent for minors before app downloads or in-app purchases, and share age-category and consent information with developers. Developers carry corresponding duties to use the signal.",
+      "litigation_status": "court — Preliminarily enjoined by a federal district court on 2025-12-23. The Fifth Circuit STAYED that injunction, letting the law take effect. On 2026-07-06 the Supreme Court, on the emergency docket, denied applications to vacate the Fifth Circuit's stays in brief unsigned orders with no public dissents (applicants: Students Engaged in Advancing Texas; Computer & Communications Industry Association). THIS WAS NOT A MERITS RULING — the constitutional question is still open on appeal. The practical position is that the law is being enforced.",
+      "sources": ["https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB2420", "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB02420F.pdf", "https://www.scotusblog.com/2026/07/supreme-court-allows-texas-to-enforce-law-requiring-age-verification-and-parental-consent-on-app/"]
+    },
+
+    "utah_sb_142": {
+      "name": "App Store Accountability Act (first in the nation)",
+      "signed": "2025-03-26",
+      "effective": "2025-05-07",
+      "compliance_deadline": "2026-05-06 for app store providers and developers",
+      "private_right_of_action_effective": "2026-12-31",
+      "requires": "App store providers must request age information and verify the user's age category at account creation for users located in Utah; a minor's account must be affiliated with a parent account and verifiable parental consent obtained before the minor downloads an app, makes an in-app purchase, or purchases an app.",
+      "type": "commentary for the effective/compliance dates — taken from law-firm summaries, not from the enrolled bill text. Verify against https://le.utah.gov/Session/2025/bills/enrolled/SB0142.pdf before relying on a date.",
+      "source": "https://le.utah.gov/Session/2025/bills/enrolled/SB0142.pdf"
+    },
+
+    "google_play": {
+      "play_age_signals_api": {
+        "status": "beta runtime API",
+        "agency_says": "Google's own docs: the API retrieves age-related signals for users from Google Play, notifies Google of significant app changes requiring parental approval, and reports revoked app approvals. Jurisdictions supported: Brazil ('Digital ECA', from 2026-03-17) and Texas (SB 2420, for eligible users who created accounts after 2026-05-28), with 'ongoing updates ... in advance of age verification bills in other US states'.",
+        "hard_constraint": "'You may only use information from the Play Age Signals API to provide age-appropriate content and experiences in compliance with laws. You may not use the Play Age Signals API for any other purpose including, but not limited to, advertising, marketing, user profiling, or analytics.' Violation may result in termination of API access and suspension or takedown of your apps.",
+        "not_verified": "Whether integration is mandatory for ALL apps versus only apps in covered categories is NOT stated on the overview page. Do not assume it is optional; check the Play Console policy status page for the specific app before a release.",
+        "source": "https://developer.android.com/google/play/age-signals/overview"
+      },
+      "the_content_policy_that_actually_bites_this_operator": {
+        "agency_says": "Google Play Inappropriate Content policy: 'We don't allow apps that facilitate the sale of marijuana or marijuana products, regardless of legality.' Tobacco/nicotine sales are likewise prohibited with two narrow exceptions (food/grocery delivery in certain regions with age verification; nicotine cessation aids with age-gating). 'Depicting or encouraging the use or sale of alcohol or tobacco to minors is not allowed.'",
+        "operator_impact": "A hemp/CBD/THC STOREFRONT cannot ship as an Android app — 'regardless of legality' forecloses it, and a non-profit account gets no exception. The library, wallet, pool and chain apps are unaffected. Sell hemp on the WEB storefront, not in an app.",
+        "note": "The fetched policy page did not contain a dedicated illegal-drugs section beyond marijuana, and contained no educational/documentary/scientific exception for substance content — unlike the violence and hate policies, which do carry EDSA exceptions.",
+        "source": "https://support.google.com/googleplay/android-developer/answer/9878810"
+      }
+    },
+
+    "apple": {
+      "age_rating_tiers": "Five tiers: 4+, 9+, 13+, 16+, 18+. Apple added questions to identify sensitive content and the ability to set a higher rating to reflect an app's minimum age.",
+      "declared_age_range_api": "Available on iOS, iPadOS and macOS. Gives developers a user's age RANGE without the date of birth or other personal information; a parent can allow a child to share an age range with an app.",
+      "announced_dates": {
+        "announcement": "2026-02-24",
+        "australia_brazil_singapore": "From 2026-02-24 Apple blocks users in Australia, Brazil and Singapore from downloading apps rated 18+ unless confirmed as adults through reasonable methods. Apple performs the confirmation via the App Store; developers may have separate obligations to independently confirm adulthood.",
+        "utah": "2026-05-06 — age categories shared with the developer's app via the Declared Age Range API for new Apple Accounts in Utah",
+        "louisiana": "2026-07-01 — same"
+      },
+      "apis_apple_says_to_adopt": ["Declared Age Range API", "Significant Change API (PermissionKit)", "new age rating property type in StoreKit", "App Store Server Notifications"],
+      "review_guidelines_that_bite": {
+        "1_4_3": "'Apps that encourage consumption of tobacco and vape products, illegal drugs, or excessive amounts of alcohol are not permitted. Apps that encourage minors to consume any of these substances will be rejected. Facilitating the sale of controlled substances (except for licensed pharmacies and licensed or otherwise legal cannabis dispensaries), or tobacco is not allowed.'",
+        "5_1_1_ix": "'Apps that facilitate the legal sale of cannabis must be geo-restricted to the corresponding legal jurisdiction.'",
+        "2_3_6": "'Answer the age rating questions in App Store Connect honestly so that your app aligns properly with parental controls. If your app is mis-rated, customers might be surprised by what they get, or it could trigger an inquiry from government regulators.'",
+        "operator_impact": "Apple's 1.4.3 turns on ENCOURAGING consumption, not on describing it. A harm-reduction library that presents pharmacology, risk, interaction and dose data without encouragement is defensible under the guideline text — but the reviewer, not the text, decides, and a rejection is not appealable to a court. Rate the library app 18+ and expect scrutiny. Apple, unlike Google, does allow legal cannabis dispensary sales with geo-restriction."
+      },
+      "sources": ["https://developer.apple.com/news/?id=f5zj08ey", "https://developer.apple.com/app-store/review/guidelines/"]
+    }
+  },
+
+  "uk_online_safety_act": {
+    "citation": "Online Safety Act 2023 (c. 50)",
+    "who_is_in_scope": "statute_says / agency_says — The Act reaches (a) Part 3 user-to-user services and search services, and (b) Part 5 services, being providers who PUBLISH THEIR OWN pornographic content. The gov.uk explainer: it covers 'services that allow users to post content online or to interact with each other', including social media, cloud file sharing, video-sharing platforms, online forums, dating and instant messaging. A service with no user-generated content mechanism is not a Part 3 service.",
+    "extraterritorial_test": "statute_says — s.4 'links with the United Kingdom'. A non-UK service is in scope if either (i) it has 'a significant number of United Kingdom users, or United Kingdom users form one of the target markets for the service (or the only target market)'; or (ii) it is 'capable of being used in the United Kingdom by individuals, and there are reasonable grounds to believe that there is a material risk of significant harm to individuals in the United Kingdom' from its content. No minimum user threshold is stated.",
+    "schedule_1_exemptions_that_matter_here": [
+      "Para 1 — email only: exempt if emails are the only user-generated content (other than identifying content).",
+      "Para 2 — SMS/MMS only: exempt on the same basis.",
+      "Para 4 — LIMITED FUNCTIONALITY SERVICES: exempt if users can communicate only by posting comments or reviews about the PROVIDER'S OWN content, sharing such comments elsewhere, expressing views via like/dislike buttons, emojis, yes/no voting or rating/scoring, and related identifying content. 'A user-to-user service is exempt if the functionalities of the service are limited, such that users are able to communicate by means of the service only' in those ways.",
+      "Para 5 — combined: exempt if the only UGC is a combination of the above."
+    ],
+    "primary_priority_content_s61": ["pornographic content (with a text-only carve-out in s.61(6))", "content that encourages, promotes or provides instructions for suicide", "content that encourages, promotes or provides instructions for an act of deliberate self-injury", "content that encourages, promotes or provides instructions for an eating disorder or associated behaviours"],
+    "priority_content_s62": ["abusive content targeting protected characteristics", "content inciting hatred on protected characteristics", "content encouraging, promoting or providing instructions for an act of serious violence", "bullying content", "graphic depictions of real or realistic serious violence against a person or animal", "content promoting stunts highly likely to result in serious injury", "s.62(7): 'Content which encourages a person to ingest, inject, inhale or in any other way self-administer—(a) a physically harmful substance; (b) a substance in such a quantity as to be physically harmful'"],
+    "the_substance_provision_read_carefully": "statute_says — s.62(7) is PRIORITY content, not PRIMARY priority content. Highly effective age assurance is mandated for primary priority content (pornography above all); priority content triggers proportionate measures under the Children's Codes, not necessarily an age check. And the operative verb is ENCOURAGES self-administration. Harm-reduction material whose purpose is to reduce the harm of use a person has already decided on is not obviously encouragement — but this is genuinely untested and reasonable lawyers disagree. Treat it as the one real open question in this document.",
+    "when_the_duties_bit": "commentary/agency — Part 5 age-assurance duty in force 2025-01-17; Part 3 children's access assessments due 2025-04-16; Part 3 pornography age-assurance from 2025-07-25. Dates are from Ofcom/gov.uk summaries surfaced by search; Ofcom's own site returned HTTP 403 to direct fetching, so these are NOT directly verified.",
+    "applies_to_this_operator": "Almost certainly NOT, on three grounds: (1) the sites publish no pornographic content, so Part 5 does not attach; (2) the library sites carry provider-generated content with at most comments and a troll-box, engaging the Schedule 1 para 4 limited-functionality exemption; (3) the operator does not target the UK market. The exposure would arise only if a UK-targeted, general user-to-user social surface ships (Phase 3 chain social feed) AND s.62(7) were read to cover the plant-medicine corpus. Watch it; do not pre-comply.",
+    "sources": ["https://www.legislation.gov.uk/ukpga/2023/50/section/4", "https://www.legislation.gov.uk/ukpga/2023/50/section/61", "https://www.legislation.gov.uk/ukpga/2023/50/section/62", "https://www.legislation.gov.uk/ukpga/2023/50/schedule/1", "https://www.gov.uk/government/publications/online-safety-act-explainer/online-safety-act-explainer"]
+  },
+
+  "eu_dsa_and_age_verification": {
+    "dsa_article_28": "Article 28(1) of Regulation (EU) 2022/2065 requires providers of ONLINE PLATFORMS accessible to minors to put in place appropriate and proportionate measures to ensure a high level of privacy, safety and security of minors on their service. It does not, by its terms, mandate age verification for every service.",
+    "who_is_an_online_platform": "The DSA's tiered structure means the heaviest duties fall on very large online platforms (45m+ monthly EU users). Micro and small enterprises are exempt from the Section 3 online-platform obligations under DSA Art. 19. A static content library is a hosting service, not an online platform.",
+    "age_verification_blueprint": {
+      "agency_says": "The European Commission published an open-source age-verification blueprint on 2025-07-14 and declared it feature-ready on 2026-04-15. It is called the 'mini-wallet' because it is built on the same technical specifications as the forthcoming European Digital Identity Wallets, and lets a user prove they are over 18 'without sharing any other personal information'. The Commission recommends Member States roll out age verification by the end of 2026. Front-runner pilots: France, Denmark, Greece, Italy, Spain, Cyprus, Ireland.",
+      "status": "It is a freely available reference implementation and a Commission recommendation — not, by itself, a legal obligation on a US operator.",
+      "source": "https://digital-strategy.ec.europa.eu/en/policies/eu-age-verification"
+    },
+    "applies_to_this_operator": "NO on current facts. No EU establishment, no EU targeting, no online-platform-scale service, and the micro/small-enterprise exemption would apply even if it were a platform."
+  },
+
+  "cannabis_and_hemp": {
+    "the_short_version": "This is the operator's ONE unambiguous, presently-enforceable age-gating obligation. It is 21+, it requires a government ID check, and it is already in force.",
+    "texas_executive_order_ga_56": {
+      "issued": "2025-09-10",
+      "directs": "DSHS to amend its rules to prohibit sales to minors, add age verification requirements, and update testing and recordkeeping requirements."
+    },
+    "dshs_emergency_rules": {
+      "announced": "2025-10-03",
+      "rules": "25 TAC §300.701 and §300.702",
+      "agency_says": "'Minor' means a person under 21 years of age. Consumable Hemp Licensees and Retail Hemp Registrants may not sell consumable hemp products to customers under 21 and must verify purchasers have a valid government-issued ID showing they are at least 21 before purchase. Penalties include revocation of a license or registration.",
+      "not_verified": "The DSHS announcement page did not state whether the rules apply to ONLINE sales as distinct from in-person retail. Do not assume an online storefront is outside them — assume it is inside and design accordingly.",
+      "source": "https://www.dshs.texas.gov/news-alerts/dshs-announces-emergency-rules-prohibiting-sale-consumable-hemp-products-minors"
+    },
+    "tabc": "commentary — TABC adopted new 16 TAC ch. 51 rules on 2025-09-23 covering prohibited sales of consumable hemp products to minors and mandatory age verification; enforcement began 2025-10-01. Secondary source (Texas Hemp Business Council); verify against the Texas Register before relying on it.",
+    "legislative_history": "commentary — Governor Abbott vetoed SB 3 (a full hemp-derived THC ban) on 2025-06-22 and called a special session. SB 5, a renewed ban, passed the Senate 21-8 but did not become law; Lt. Gov. Patrick conceded on 2025-09-04 and the second special session ended without a ban. The regulatory route (GA-56 + agency rules) is what actually took effect.",
+    "current_product_status": "commentary — VERIFY BEFORE SELLING ANYTHING. Secondary sources report that smokable hemp flower and pre-rolls were prohibited in Texas retail from 2026-03-31, hemp vapes from September 2025 (SB 2024), and that a May 2026 Texas Supreme Court decision allowed DSHS to reclassify hemp-derived THC other than low-dose delta-9 as Schedule I — putting delta-8, delta-10 and THCP in felony territory while sub-0.3% delta-9 edibles, gummies, drinks and tinctures remain legal for 21+. These claims come from industry blogs and news summaries, NOT from primary sources, and the product-legality question is the single highest-consequence item in this file. Get a Texas cannabis attorney's opinion before a single hemp sale.",
+    "what_a_compliant_storefront_actually_has_to_do": [
+      "Hard 21+ gate before checkout, not a self-declared date-of-birth click-through.",
+      "Government-ID verification at purchase, per the DSHS rule language.",
+      "Recordkeeping sufficient to show the check happened — which is in TENSION with the HB 1181 no-retention rule, but HB 1181 does not apply to hemp sales, so retention is permitted here. Keep the two systems separate: retain for hemp, retain nothing anywhere else.",
+      "Product-level legality screening by cannabinoid, not by 'hemp' as a category.",
+      "No Android app storefront (Google Play bans marijuana-product sales regardless of legality). Web only, or an iOS app that is geo-restricted per Apple guideline 5.1.1(ix) if it qualifies at all."
+    ]
+  },
+
+  "crypto_kyc_aml": {
+    "federal_msb_framework": {
+      "money_transmitter_definition": "statute_says — 31 CFR 1010.100(ff)(5)(i)(A): 'A person that provides money transmission services. The term \"money transmission services\" means the acceptance of currency, funds, or other value that substitutes for currency from one person and the transmission of currency, funds, or other value that substitutes for currency to another location or person by any means.' (B) adds 'Any other person engaged in the transfer of funds.'",
+      "no_de_minimis_for_money_transmission": "statute_says — the $1,000-per-person-per-day threshold appears in (ff)(1) dealer in foreign exchange, (ff)(2) check casher and (ff)(3) issuer/seller of traveler's checks or money orders. It DOES NOT appear in (ff)(5) money transmitter. There is no dollar floor for money transmission. Small volume is not a defense.",
+      "exemptions_at_ff_5_ii": "statute_says — 31 CFR 1010.100(ff)(5)(ii)(A)-(F): a person is not a money transmitter if that person only (a) provides the delivery, communication, or network access services used by a money transmitter to support money transmission services; (b) acts as a payment processor by agreement with the creditor or seller; (c) operates a clearance and settlement system solely between BSA-regulated institutions; (d) physically transports currency; (e) provides prepaid access; or (f) 'accepts and transmits funds only integral to the sale of goods or the provision of services, other than money transmission services, by the person who is accepting and transmitting the funds.' FinCEN states it 'interprets these exemptions strictly.'",
+      "ff_8_limitation": "statute_says — 'money services business' excludes (i) a bank or foreign bank; (ii) a person registered with and functionally regulated or examined by the SEC or CFTC; (iii) 'A natural person who engages in an activity identified in paragraphs (ff)(1) through (ff)(5) of this section on an infrequent basis and not for gain or profit.' THERE IS NO NON-PROFIT OR RELIGIOUS EXEMPTION. The (iii) carve-out is for natural persons acting infrequently and not for profit; an organization operating a service does not fit it.",
+      "registration": "statute_says — 31 CFR 1022.380: each MSB must register with FinCEN; the initial registration form must be filed 'on or before the end of the 180-day period beginning on the day following the date the business is established'; registration covers a two-calendar-year period with renewal due on or before the last day of the preceding calendar year; the MSB must prepare and maintain an agent list at a US location (not filed). A person who is an MSB solely as an agent of another MSB need not register. FinCEN Form 107 is the registration form.",
+      "criminal_backstop": "statute_says — 18 U.S.C. 1960: 'Whoever knowingly conducts, controls, manages, supervises, directs, or owns all or part of an unlicensed money transmitting business, shall be fined in accordance with this title or imprisoned not more than 5 years, or both.' An 'unlicensed money transmitting business' includes one that operates without a required state license where that is a state misdemeanor or felony, OR that fails to comply with the federal registration requirement of 31 U.S.C. 5330, OR that involves funds known to derive from or be intended for criminal purposes.",
+      "sources": ["https://www.law.cornell.edu/cfr/text/31/1010.100", "https://www.law.cornell.edu/cfr/text/31/1022.380", "https://www.law.cornell.edu/uscode/text/18/1960"]
+    },
+
+    "fincen_2019_cvc_guidance": {
+      "citation": "FinCEN Guidance FIN-2019-G001, 'Application of FinCEN's Regulations to Certain Business Models Involving Convertible Virtual Currencies', 2019-05-09",
+      "unhosted_wallets": "agency_says — 'Unhosted wallets are software hosted on a person's computer, phone, or other device that allow the person to store and conduct transactions in CVC. Unhosted wallets do not require an additional third party to conduct transactions. In the case of unhosted, single-signature wallets, (a) the value (by definition) is the property of the owner and is stored in a wallet, while (b) the owner interacts with the payment system directly and has total independent control over the value. In so far as the person conducting a transaction through the unhosted wallet is doing so to purchase goods or services on the user's own behalf, they are not a money transmitter.'",
+      "hosted_wallets": "agency_says — §4.2.1. A hosted wallet provider that has control of the customer's CVC is acting as a money transmitter and must follow MSB obligations including, where transactions are 'transmittal of funds', the Funds Travel Rule at 31 CFR 1010.410(f).",
+      "mining_pools_the_key_passage": "agency_says — §5.4: 'When the leader of the pool, the cloud miner, or the unincorporated organization or software agency acting on behalf of its owner/administrator transfer CVC to the pool members or contract purchasers to distribute the amount earned, this distribution DOES NOT QUALIFY AS MONEY TRANSMISSION under the BSA, as these transfers are integral to the provision of services (the authentication of blocks of transactions through the combined efforts of a group of providers, or through the equipment of the cloud miner). HOWEVER, if the leader, the cloud miner, or the software agency combine their managing and renting services with the service of HOSTING CVC WALLETS on behalf of the pool members or contract purchasers, the leader, cloud miner, unincorporated organization or software agency, or the owner-administrator will fall under FinCEN's definition of money transmitter for engaging in account-based money transmission.'",
+      "self_mining": "agency_says — a person who mines CVC for their own benefit is a user, not an MSB (citing FIN-2014-R001).",
+      "anonymizing_software_providers": "agency_says — §4.5.1(b): 'An anonymizing software provider is not a money transmitter. FinCEN regulations exempt from the definition of money transmitter those persons providing \"the delivery, communication, or network access services used by a money transmitter to support money transmission services.\" [31 CFR 1010.100(ff)(5)(ii)] This is because suppliers of tools (communications, hardware, or software) that may be utilized in money transmission, like anonymizing software, are engaged in trade and not money transmission.' By contrast, a person who ACCEPTS value and transmits it in a way designed to mask the transmittor's identity IS a money transmitter.",
+      "dapp_developers": "agency_says — §5.2.2: 'the developer of a DApp is not a money transmitter for the mere act of creating the application, even if the purpose of the DApp is to issue a CVC'. §5.2.3 and §4.4: once the DApp is in production, if a person USES OR DEPLOYS it to engage in money transmission, the definition applies to that person — 'when DApps perform money transmission, the definition of money transmitter will apply to the DApp, the owners/operators of the DApp, or both.'",
+      "source": "https://www.fincen.gov/system/files/2019-05/FinCEN%20Guidance%20CVC%20FINAL%20508.pdf"
+    },
+
+    "travel_rule": {
+      "citation": "31 CFR 1010.410(e) recordkeeping and 1010.410(f) travel",
+      "threshold": "$3,000 or more",
+      "who": "(e) applies to each agent, agency, branch or office located within the US of a financial institution other than a bank. (f) applies to any transmittor's financial institution or intermediary financial institution located within the US.",
+      "what_must_travel": "The transmittor's name, account number and address, the amount, the execution date, the identity of the recipient's financial institution, and as many of the recipient's name, address, account number and identifying items as are received with the transmittal order.",
+      "applies_to_this_operator": "Only if the operator becomes a transmittor's or intermediary financial institution — i.e. only if it is already a money transmitter. It is a downstream obligation of MSB status, not an independent trigger.",
+      "source": "https://www.law.cornell.edu/cfr/text/31/1010.410"
+    },
+
+    "texas_state_law": {
+      "citation": "Texas Department of Banking Supervisory Memorandum 1037, revised 2025-01-28, signed by Banking Commissioner Charles G. Cooper. Supersedes the 2019-04-01 version. Applies the Money Services Modernization Act, Tex. Fin. Code ch. 152 (effective 2023-09-01).",
+      "the_holding": "agency_says — 'Because non-stablecoin virtual currency is not money or monetary value under the MSMA, receiving it for transmission, alone, is not money transmission. However, when a virtual currency transaction does include sovereign currency or stablecoin, it may be money transmission depending on how the sovereign currency or stablecoin is handled.'",
+      "currency_exchange": "agency_says — 'the exchange of virtual currency for sovereign currency is not licensed as currency exchange' because virtual currency is neither coin/paper money issued by a government nor a negotiable instrument under Tex. Bus. & Com. Code § 3.104.",
+      "stablecoin_definition": "statute_says — Tex. Fin. Code § 152.003(19): 'money' or 'monetary value' includes stablecoin that '(A) is pegged to a sovereign currency; (B) is fully backed by assets held in reserve; and (C) grants a holder of the stablecoin the right to redeem the stablecoin for sovereign currency from the issuer.' All three prongs. The memo adds that a pegged stablecoin whose issuer does not in fact hold sufficient reserves is still within the MSMA's ambit.",
+      "digital_asset_service_provider": "statute_says — a licensee handling virtual currency may also be a 'digital asset service provider' under Tex. Fin. Code ch. 160, defined at § 160.001(6) as 'an electronic platform that facilitates the trading of digital assets on behalf of a digital asset customer AND MAINTAINS CUSTODY of the customer's digital assets.' Custody is the trigger.",
+      "if_a_license_is_ever_needed": "agency_says — Tex. Fin. Code § 152.104(a)(10): applicants handling virtual currency must submit a current third-party security assessment covering network security, website and web application security, application server security, virtual currency wallet infrastructure security and controls, information security policy, and application development controls.",
+      "operator_impact": "MELEK/MBD/KULA/engine tokens are not 'money or monetary value' in Texas unless MBD is a stablecoin under all three § 152.003(19) prongs. MBD, like the SBD it derives from, is pegged but is NOT fully backed by reserves and confers NO redemption right against an issuer — on those facts it fails prongs (B) and (C) and is outside the definition. THAT CONCLUSION DEPENDS ON THE ACTUAL MBD MECHANICS; if MBD is ever given an issuer-backed redemption, this analysis flips and both Texas licensing and the federal GENIUS Act come into play.",
+      "source": "https://dob.texas.gov/sites/default/files/files/consumer-information/sm1037.pdf"
+    },
+
+    "genius_act": {
+      "citation": "Guiding and Establishing National Innovation for U.S. Stablecoins Act, P.L. 119-27, signed 2025-07-18",
+      "definition": "A payment stablecoin is a digital asset designed for use as a means of payment or settlement THAT THE ISSUER IS OBLIGATED TO CONVERT, REDEEM OR REPURCHASE for a fixed monetary value and that the issuer represents will maintain, or creates a reasonable expectation of maintaining, a stable value.",
+      "requires": "Issuance limited to 'permitted payment stablecoin issuers' (federal or state-qualified), 1:1 reserve backing in a restricted list of assets, public disclosure, and federal or qualifying state supervision.",
+      "operator_impact": "Does not reach MELEK/MBD on the analysis above — no issuer redemption obligation means no payment stablecoin. Re-check if MBD's mechanics change.",
+      "source": "https://www.congress.gov/crs-product/IN12553"
+    },
+
+    "current_us_posture_on_defi_and_self_custody": {
+      "the_one_thing_that_actually_became_law": "H.J.Res.25, 119th Congress, signed 2025-04-10, nullified under the Congressional Review Act the IRS rule 'Gross Proceeds Reporting by Brokers That Regularly Provide Services Effectuating Digital Asset Sales' (T.D. 10021, issued 2024-12-30) — the so-called DeFi broker rule. Under the CRA the rule cannot be reissued in substantially similar form without new legislation. This was the first crypto bill and the first tax-related CRA resolution signed into law.",
+      "what_has_NOT_become_law": "commentary — The CLARITY Act (Digital Asset Market Clarity Act, introduced 2025-05-29) passed the House in July 2025 (294 votes) and cleared Senate Banking 15-9 in May 2026, but had NOT passed the Senate as of this compile date. Its § 604 would incorporate the Blockchain Regulatory Certainty Act, shielding non-custodial software developers from money-transmitter registration and BSA obligations — and that provision is one of the live disputes holding the bill up. The standalone Blockchain Regulatory Certainty Act (H.R.3533 / S.3611) is introduced, not enacted. DO NOT PLAN AROUND EITHER. The operative law for non-custodial developers today is still FinCEN's 2019 guidance (§4.5.1(b), §5.2.2), which is guidance, not statute, and can be withdrawn.",
+      "sources": ["https://www.congress.gov/bill/119th-congress/house-joint-resolution/25", "https://www.congress.gov/bill/119th-congress/house-bill/3533/text", "https://www.congress.gov/bill/119th-congress/senate-bill/3611/text"]
+    },
+
+    "mica_eu": {
+      "citation": "Regulation (EU) 2023/1114 (Markets in Crypto-Assets)",
+      "application_dates": "Titles III and IV (asset-referenced and e-money tokens) from 2024-06-30; Title V (crypto-asset service providers) from 2024-12-30. Transitional grandfathering for firms already operating under national regimes runs to 2026-07-01 in most Member States, shorter in some.",
+      "third_country_rule": "Third-country firms are generally PROHIBITED from providing crypto-asset services in the EU. The Article 61 reverse-solicitation exemption applies only where an EU client initiates the request at its own exclusive initiative; it is lost if the firm solicits, advertises, markets or promotes to EU clients directly or through anyone acting on its behalf. Art. 61(2) lets the firm offer crypto-assets or services of the same type the client originally requested.",
+      "operator_impact": "MiCA bites only if the operator markets crypto-asset services into the EU. Do not run EU-targeted ads, EU-language landing pages or EU-specific promotions for the pool, engine or launchpad and the reverse-solicitation position holds. If EU marketing ever starts, MiCA authorisation is required and there is no small-entity escape hatch for CASP services.",
+      "source": "https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng"
+    }
+  },
+
+  "nonprofit_and_religious_organisation_angles": {
+    "the_blunt_answer": "501(c)(3) status is a TAX classification. It confers no exemption from age-verification statutes, no exemption from COPPA, no exemption from the BSA/FinCEN MSB regime (31 CFR 1010.100(ff)(8) lists banks, SEC/CFTC-regulated persons, and infrequent non-profit-motivated NATURAL PERSONS — not exempt organizations), no exemption from state money transmitter licensing, and no exemption from app-store policy. Do not plan on it as a compliance shield.",
+    "what_it_genuinely_does_do": [
+      "statute_says — 26 U.S.C. 508(c)(1)(A): the notice/application requirements of § 508(a) and (b) 'shall not apply to ... churches, their integrated auxiliaries, and conventions or associations of churches.' A church is treated as a 501(c)(3) without filing Form 1023. This is real and it is the operator's cheapest structural asset.",
+      "Exemption requirements under 501(c)(3): organized and operated exclusively for exempt purposes; no private inurement; no substantial lobbying or campaign participation; no operation for private interests.",
+      "commentary — Commercial verticals (hemp retail, mining pool fees, launchpad revenue) run through a 501(c)(3) generate unrelated business taxable income under IRC §§ 511-513 unless substantially related to the exempt purpose. This is a tax exposure, not a licensing shield, and it is the thing to actually get accounting advice on."
+    ],
+    "rfra_and_religious_use_of_controlled_substances": {
+      "citation": "Gonzales v. O Centro Espírita Beneficente União do Vegetal, 546 U.S. 418 (2006)",
+      "decided": "2006-02-21",
+      "vote": "Unanimous (8-0); Chief Justice Roberts wrote; Justice Alito took no part.",
+      "court_held": "The courts below did not err in holding that the Government failed to demonstrate, at the preliminary-injunction stage, a compelling interest in barring the UDV's sacramental use of hoasca. Under RFRA the Government may substantially burden religious exercise only if the burden 'is in furtherance of a compelling governmental interest' and 'is the least restrictive means of furthering that compelling governmental interest.' The Government's three asserted interests — member health and safety, diversion to recreational users, and compliance with the 1971 UN Convention on Psychotropic Substances — did not carry that burden on this record.",
+      "what_it_does_and_does_not_support": "It supports a genuine religious body's sacramental USE of a scheduled substance under RFRA on a properly developed record, and it is the doctrinal ground under the Shaivite Temple's position. It does NOT create an exemption from age-verification law, from money-transmission law, from hemp retail rules, or from app-store policy, and it does not immunize publishing. It is also a preliminary-injunction holding, not a categorical rule.",
+      "source": "https://supreme.justia.com/cases/federal/us/546/418/"
+    },
+    "publishing_is_the_stronger_ground_anyway": "commentary — For the library itself the First Amendment does more work than RFRA. FSC v. Paxton reached intermediate scrutiny only because the content was obscene-to-minors. Pharmacology, dose, interaction, extraction and neurostimulation content is not in that category, so a state trying to age-gate or suppress it faces strict scrutiny — the standard Texas lost under in the SCOPE Act litigation."
+  },
+
+  "obligations_by_activity": {
+    "plant_medicine_harm_reduction_library_dosing_interactions_teks": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "Not covered by Tex. Civ. Prac. & Rem. Code ch. 129B (requires >1/3 sexual material harmful to minors under the § 129B.001(6) three-prong test). Not covered by any of the 25 surveyed state adult-content statutes for the same reason. Tex. Bus. & Com. Code ch. 509 (SCOPE Act) does not apply: § 509.002(b)(4) small-business exemption and § 509.002(b)(10) provider-generated-content-with-incidental-chat exemption both independently apply, and the § 509.053 substance-abuse filtering duty is preliminarily enjoined in any event. FSC v. Paxton is scoped to obscenity-to-minors and supplies no authority to reach this content.",
+      "residual_risk": "UK OSA s.62(7) priority-content 'encourages ... self-administer a physically harmful substance' is the one genuinely open question, and it only engages if a UK-targeted user-to-user surface ships. It is priority, not primary priority, content — it does not automatically require highly effective age assurance.",
+      "recommended_action": "No age gate. An informational 18+ interstitial with no data collection is a zero-cost, zero-retention posture choice if the operator wants one for platform-relations reasons — it is not a legal requirement and it should not be described as one."
+    },
+    "neurostimulation_build_guides_tens_tdcs_and_the_40hz_binaural_library": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "No age-verification statute in the US, UK or EU covers DIY electronics, neuroscience, or audio entrainment content. Not sexual material under ch. 129B. Not within OSA s.61 primary priority content or s.62 priority content. Not within SCOPE Act § 509.053(a)'s four enumerated categories.",
+      "residual_risk": "The exposure here is product-liability and FDA device law if a physical device is ever SOLD (21 CFR 882.5890 for transcutaneous electrical nerve stimulators), not age verification. Publishing build instructions is speech; selling an assembled stimulator is a regulated device. Those are different questions and this file does not research the device question.",
+      "recommended_action": "None. Do not add an age gate. Per CLAUDE.md this scope question is closed and re-deriving a restriction here is the exact failure pattern the repo has flagged three times."
+    },
+    "hemp_commercial_vertical_texas": {
+      "age_gate_required": true,
+      "kyc_required": "Government-ID age check, yes. Full identity KYC in the AML sense, no.",
+      "authority": "Executive Order GA-56 (2025-09-10) directing DSHS; DSHS emergency rules 25 TAC §§ 300.701-300.702 announced 2025-10-03 — no sale of consumable hemp products to anyone under 21, valid government-issued ID required before purchase, penalties up to revocation of license or registration. TABC 16 TAC ch. 51 rules adopted 2025-09-23, enforcement from 2025-10-01 (secondary source, verify).",
+      "additional_constraints": "Google Play prohibits apps facilitating the sale of marijuana or marijuana products 'regardless of legality' — no Android storefront. Apple guideline 5.1.1(ix) requires geo-restriction for legal cannabis sales. Product legality by cannabinoid is in flux in Texas and is the highest-consequence unresolved item in this file.",
+      "recommended_action": "Web storefront only. Hard 21+ ID check at checkout with retained proof of check (permitted here — ch. 129B's no-retention rule does not apply to hemp). Separate this system entirely from every other surface so retention stays confined to it. Get a Texas cannabis attorney on the product-legality question before the first sale."
+    },
+    "mining_pool_browser_mining_payouts_to_contributors": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "FIN-2019-G001 § 5.4: distributions by a pool leader to pool members 'do not qualify as money transmission under the BSA, as these transfers are integral to the provision of services'. This maps onto the 31 CFR 1010.100(ff)(5)(ii)(F) exemption for funds accepted and transmitted only integral to the provision of non-money-transmission services.",
+      "the_line_not_to_cross": "FIN-2019-G001 § 5.4 continues: 'HOWEVER, if the leader ... combine their managing and renting services with the service of HOSTING CVC WALLETS on behalf of the pool members ..., [they] will fall under FinCEN's definition of money transmitter for engaging in account-based money transmission.' The moment the pool holds keys or maintains spendable balances for users, it becomes an MSB: FinCEN registration within 180 days (31 CFR 1022.380), an AML program, SARs, the Travel Rule at $3,000, plus 18 U.S.C. 1960 criminal exposure for getting it wrong.",
+      "current_architecture_assessment": "The pool's in-browser walletgen — keys generated client-side, never transmitted to the server — keeps it on the safe side as an unhosted-wallet arrangement per FIN-2019-G001 § 4.2.1. AUDIT THE 'My Coins' AND 'spend-lock' FEATURES SPECIFICALLY: if either causes the server to hold a key, hold a spendable balance, or effect a transfer on a user's instruction, that is account-based money transmission and the analysis flips. This is the single highest-value compliance check in the codebase and it is a code question, not a legal one."
+    },
+    "token_engine_side_tokens_kula_launchpad_burn_mines": {
+      "age_gate_required": false,
+      "kyc_required": "Not on the current architecture.",
+      "authority": "Texas SM-1037 (rev. 2025-01-28): 'Because non-stablecoin virtual currency is not money or monetary value under the MSMA, receiving it for transmission, alone, is not money transmission.' Federally, issuing a token is not by itself money transmission; FIN-2019-G001 § 5.2.2: 'the developer of a DApp is not a money transmitter for the mere act of creating the application, even if the purpose of the DApp is to issue a CVC.'",
+      "the_lines_not_to_cross": [
+        "Custody. Tex. Fin. Code § 160.001(6) makes an electronic platform that facilitates trading of digital assets on behalf of a customer AND maintains custody a 'digital asset service provider'. Custody is the trigger word in both the Texas and federal analyses.",
+        "Fiat or stablecoin. The moment a surface accepts sovereign currency or a redeemable stablecoin on a user's behalf, both the MSMA and 31 CFR 1010.100(ff)(5) engage.",
+        "MBD mechanics. If MBD is ever given an issuer redemption right backed by reserves, it becomes a stablecoin under Tex. Fin. Code § 152.003(19) and a payment stablecoin under the GENIUS Act (P.L. 119-27), and permitted-issuer requirements attach.",
+        "SECURITIES LAW IS OUT OF SCOPE OF THIS FILE. A launchpad selling tokens raises Howey/securities questions that are not researched here and are not answered by anything above."
+      ]
+    },
+    "faucet_and_discretionary_grants_karma_payouts": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "31 CFR 1010.100(ff)(5)(i)(A) requires 'the acceptance of ... value ... from one person and the transmission ... to another location or person'. A gratuitous distribution of the operator's own tokens accepts nothing from a customer, so there is no acceptance-and-transmission and no money transmission. Consistent with FIN-2019-G001's treatment of a person transacting on their own behalf as a user."
+    },
+    "chain_witness_operations_block_production_price_feed_posts_votes": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "FIN-2019-G001 (citing FIN-2014-R001): a person who mines CVC for their own benefit is a user, not an MSB. Block production, publishing a price feed, and broadcasting comment/vote operations involve no acceptance of another person's value."
+    },
+    "account_creation_and_delegation_signup_path": {
+      "age_gate_required": false,
+      "kyc_required": false,
+      "authority": "create_account_with_keys_delegated and delegate_vesting_shares move the operator's own stake; no customer value is accepted. Delegation is revocable and the vesting shares remain the operator's. Note this is an ANALYSIS, not a cited FinCEN ruling — no guidance addresses Graphene delegation specifically.",
+      "note": "This directly supports BRIEF.md's out-of-scope rule: nothing in the signup path requires personal-info intake. Email-only verification remains sufficient."
+    },
+    "apps_shipped_via_google_play_or_apple_app_store": {
+      "age_gate_required": true,
+      "kyc_required": false,
+      "authority": "Texas SB 2420 (effective 2026-01-01; in force — the Fifth Circuit stayed the district court injunction and the Supreme Court declined to vacate the stay on 2026-07-06). Utah SB 142 (developer compliance deadline 2026-05-06). Plus Google's Play Age Signals API terms and Apple's Declared Age Range API requirements, which are contract, not statute, and are enforced by takedown.",
+      "what_it_actually_means_in_practice": "The STORE does the age verification. The DEVELOPER consumes a coarse age-range SIGNAL (Google default ranges 0-12, 13-15, 16-17, 18+; Apple returns an age category) and must not use it for advertising, marketing, user profiling or analytics. This is an integration task, not an identity-collection task, and it collects no personal information — it is compatible with BRIEF.md's no-personal-info rule.",
+      "recommended_action": "Integrate the Play Age Signals API and Apple's Declared Age Range API in any shipped app. Rate the library apps 18+. Ship no hemp storefront as an Android app. Budget cost: zero — these are platform APIs, not paid vendors."
+    },
+    "under_13_users_on_any_surface": {
+      "age_gate_required": "Effectively yes, as a self-declared minimum age.",
+      "kyc_required": false,
+      "authority": "COPPA, 16 CFR Part 312; amended Rule effective 2025-06-23, general compliance 2026-04-22.",
+      "recommended_action": "State a 13+ (or 18+) minimum age in terms of service, do not market to under-13s, and do not knowingly collect data from a child under 13. That keeps the service out of 'directed to children' and out of actual knowledge. Cost: a paragraph of text."
+    }
+  },
+
+  "vendors": [
+    {
+      "name": "Didit",
+      "url": "https://didit.me/pricing",
+      "pricing": "Pay-as-you-go $0.33 per full KYC, no minimum, no contract. Per-module: ID Verification $0.15, Passive Liveness $0.10, Active Liveness $0.15, Face Match 1:1 $0.05, Face Search 1:N free, AML Screening $0.20, Ongoing AML Monitoring $0.07/user/year, Wallet Screening (KYT) $0.15, Transaction Monitoring $0.02, Business Verification (KYB) $2.00, Proof of Address $0.20, Device & IP Analysis $0.03. Enterprise custom annual.",
+      "free_tier": "YES — the strongest verified free tier in the market. 500 free KYC sessions per workspace per month, permanently, covering ID + Liveness + Face Match + IP on the same pipeline as paid checks. Resets 00:00 UTC on the 1st, no rollover. 'No credit card. No sales call. No annual minimum.' API key in about 60 seconds with a work email. Sandbox runs do not count against quota.",
+      "age_only_check": "PARTIAL — an Age Estimation endpoint estimates age from a selfie with built-in liveness, no ID document required. A selfie is still required, so it is not a zero-biometric check.",
+      "retains_documents": "DEFAULT IS INDEFINITE ('unlimited') unless configured. Configurable per application in the Business Console from 1 month to 10 years. Per-session deletion via DELETE https://verification.didit.me/v3/session/{session_id}/delete/ with x-api-key. For DSARs, send {\"deletion_instruction\": \"privacy_erasure\"} to purge retained biometric templates. GDPR/UK-GDPR, published DPA, lead supervisory authority Spain's AEPD. THE INDEFINITE DEFAULT IS A CONFIG TRAP — set the retention window on day one.",
+      "notes": "REST, x-api-key header auth, SDKs for Web, iOS, Android, React Native, Flutter; instant sandbox at business.didit.me; open docs at docs.didit.me. The obvious pick for a low-budget non-profit. vendor_claims — all figures are from Didit's own pages."
+    },
+    {
+      "name": "Stripe Identity",
+      "url": "https://stripe.com/identity",
+      "pricing": "$1.50 per verification (ID document + selfie); $0.50 per ID-number lookup (US SSN only). No monthly fee, no contract. Custom pricing above 2,000 identities/month.",
+      "free_tier": "YES, effectively — 'Your first 50 verifications are free.' No monthly minimum.",
+      "age_only_check": "NO. Two session types only: document and id_number. The id_number type verifies name, date of birth and national ID number; there is no selfie age-estimation product. Stripe Identity is an identity vendor, not an age-assurance vendor.",
+      "retains_documents": "Retention period not published, but deletion is first-class: POST /v1/identity/verification_sessions/{id}/redact — 'You can redact a session to make sure Stripe deletes personal information... Redaction can take up to 4 days.' Cascades to VerificationReports, Events, Request Logs, File contents and metadata; fires an identity.verification_session.redacted webhook; irreversible.",
+      "notes": "Best-in-class API and docs: full open REST reference, SDKs, test mode, live demo at identity.stripedemos.com, Stripe CLI, webhooks. Instant self-serve signup via the Stripe Dashboard, no sales call. Available in 34 listed countries. Wrong tool if document-free age estimation is needed; right tool if a full ID check is acceptable — e.g. the hemp 21+ gate, where an ID check is what the DSHS rule actually asks for."
+    },
+    {
+      "name": "Persona",
+      "url": "https://help.withpersona.com/articles/6oZbzp7jb7AWGClF5vpY3K/",
+      "pricing": "Essential 'starts at $250/month (on an annual contract)', includes 500 services/month, overage $1.50 per service, unused services do not roll over. Growth and Enterprise not published. NOTE: withpersona.com/pricing returned HTTP 403 to every fetch attempt; these figures come from Persona's own Help Center, not the marketing pricing page.",
+      "free_tier": "No permanent free tier. 60-day trial, up to 50 services, no credit card, Sandbox by default. Separately the Startup Program (under $5M funding, under 50 employees, OR independently-owned small business) gives 500 free services/month for a full year, then $1/verification (General cohort) or $1.50 (Fintech cohort). The independently-owned-small-business route is the relevant one for a non-profit.",
+      "age_only_check": "YES. Age Estimation (selfie), Age Inference (email/phone), credit-card age check, and Reusable Age Token are all listed as NOT requiring an ID document; only Government ID verification does. vendor_claims — Selfie Age Estimation MAE 1.29 years (ages 6-12), 1.77 (13-17), 2.30 (18-24); Persona recommends a buffer threshold of 2.5-3 years.",
+      "retains_documents": "Yes by default, and this is the sharp edge: 'As a processor under GDPR, Persona retains the data indefinitely for audit and compliance purposes unless and until you, as the controller, tell us to delete the data.' Org-level redaction policies are configurable from 2 days to 2 years and are TURNED OFF BY DEFAULT. Redaction available via Dashboard button and API Delete endpoints; 'When information is redacted, it is permanently removed from the Persona ecosystem.'",
+      "notes": "Docs at docs.withpersona.com; Embedded Flow, Mobile SDKs, Hosted Flow, published API reference, sandbox. The annual contract on the cheapest published tier is a real barrier; the Startup Program is the workaround."
+    },
+    {
+      "name": "Veriff",
+      "url": "https://www.veriff.com/pricing",
+      "pricing": "Essential $0.80/verification with $49/month minimum; Plus $1.39 with $99/month; Premium $1.89 with $209/month; Enterprise volume pricing above 5,000/month. Add-ons: extended 2-year data retention +$0.30/verification; PEP & Sanctions +$0.64; ongoing monitoring +$0.09; additional data fields +$0.30.",
+      "free_tier": "No permanent free tier. 15-day trial, max 50 sessions, no credit card — but mandatory identity verification of the account holder is required within the 15 days.",
+      "age_only_check": "YES. Age Estimation 'uses facial biometric analysis to estimate a user's age without requiring the user to provide an identity document.' Published 3-tier waterfall: (1) database check with no user action, (2) biometric age estimation with 'No documents needed', (3) document verification (12,500+ document types). Their age-assurance page explicitly names the UK Online Safety Act, Ofcom, and US state mandates.",
+      "retains_documents": "Contractual, not fixed: 'we store the data of End-Users during the period set forth in the Agreement (we may have different data retention periods agreed upon with the Customer).' State-specific floors: Illinois destroy within 3 years of last interaction or on purpose satisfaction, whichever first; Texas 1 year after purpose expires or after recordkeeping obligations. No single published default period — the weakest published retention story among the self-serve group.",
+      "notes": "Cheapest published per-verification rate ($0.80) and lowest monthly floor ($49) of the paid self-serve tier. Web and native SDKs; devdocs.veriff.com. Sandbox not published on the pages fetched. Self-serve plans capped at 15 sessions/minute and 10,000 sessions/month."
+    },
+    {
+      "name": "Sumsub",
+      "url": "https://sumsub.com/pricing/",
+      "pricing": "Basic $1.35/verification with a $149 minimum monthly commitment; Compliance $1.85/verification with $299 minimum monthly; Enterprise custom. Charged only for successful verifications; credit cards accepted; plan changeable at any time.",
+      "free_tier": "No permanent free tier. 14-day free trial with 50 free checks.",
+      "age_only_check": "YES. 'Age Estimation: The user takes a selfie or short video, and Sumsub's AI estimates their age from facial analysis' (vendor_claims 99.8% accuracy), plus non-doc ID verification 'without requiring a document upload'. Non-doc coverage: AR, BD, BR, DK, IN, ID, KE, NL, NG, ZA, UK, USA, more listed as coming. Adult-content websites named as a served industry.",
+      "retains_documents": "Client-controlled: 'Our Clients define how long Personal data should be stored and when to delete it.' Sumsub 'transfers the data to Clients and then erases it' on written instruction. Default AML/CFT context is five years post-termination. Texas residents: up to 1 year after the purpose expires. Illinois: max 3 years. 'Any request to delete all or any Personal data related to a User is fulfilled within 30 days.'",
+      "notes": "'Simple RESTful APIs', base api.sumsub.com for BOTH production and sandbox, X-App-Token auth header, Web and mobile SDKs. POST /resources/applicants/{applicantId}/reset marks documents inactive. The $149/month floor is roughly $1,800/year minimum — too much for this use case."
+    },
+    {
+      "name": "Yoti",
+      "url": "https://www.yoti.com/business/facial-age-estimation/",
+      "pricing": "Not published. 'Talk to sales' only; no pricing page exists.",
+      "free_tier": "Not published.",
+      "age_only_check": "YES — this is their flagship product. 'Privacy preserving age checks – no ID document, no credit card, all you need is a live selfie.' vendor_claims — accuracy 1.2 years (ages 6-12), 1.3 years (13-17), 2.5 years (6-70); 'As of September 2024, the True Positive Rate... for 13 to 17 year olds being correctly estimated as under 21 is 99.3%.' Independently tested by NIST. Also offers digital ID wallet, ID document, Yoti Keys (on-device reusable, works in incognito), credit card, mobile billing data, LA Wallet (Louisiana), electronic ID, SSN, database, and email age estimation.",
+      "retains_documents": "Best published deletion story of any vendor surveyed: 'Images are not re-shared or re-used and are immediately, permanently deleted. Only images collected during onboarding for Yoti's apps (in accordance with GDPR guidelines) and consented data collection exercises are used to train the algorithm.' Age-verification page: 'All data deleted for complete privacy.'",
+      "notes": "Has a dedicated adult-content product page (https://www.yoti.com/adult-content-age-verification/) including a reusable anonymous 18+ age-token network across sites. vendor_claims certifications: ISO 9001, ISO 27701, ISO 27001, SOC 2 Type 2, FSM (German self-regulation body), AVPA member, ACCS, KJM (German regulator for protection of minors). 'Low-effort integration with a single API.' Strongest regulatory-credential surface of any vendor here, but sales-gated with no published price."
+    },
+    {
+      "name": "Incode",
+      "url": "https://www.incode.com/products/on-device-age-estimation",
+      "pricing": "Not published. incode.com/pricing carries no pricing content — 'Request a demo' only.",
+      "free_tier": "No standing free tier, but a documented free trial in their self-serve terms: 'Incode will supply the Offering for the defined trial term at no cost... until the earlier of: (i) consumption of 100 sandbox verifications or (ii) fourteen (14) days.'",
+      "age_only_check": "YES, with the strongest privacy architecture surveyed. On-Device Age Estimation: 'No document upload, external app, or redirect required'; 'Age and liveness models run directly on the device'; 'No biometric image, facial template, or PII is transmitted at any point'; 'A quick selfie yields an age range in about 20 milliseconds.' Their age-assurance page names the UK Online Safety Act, EU DSA, COPPA, KOSA, Brazil's Digital ECA, Australia's Online Safety Act, US state age laws, ESRB/PEGI, and lists Adult Entertainment as a served industry.",
+      "retains_documents": "'we will only retain biometric data until: (i) the initial purpose for collecting the Biometric Data has been satisfied; or (ii) three years following your last interaction with the Company.' Where Incode is processor, 'our Customers determine their applicable data retention periods.' No customer-configurable retention schedule documented.",
+      "notes": "vendor_claims — SOC 2 Type II, iBeta Level 3 (iOS + Android); press pages claim KJM approval and ACCS certification. Architecturally the best fit for a privacy-first operator, since nothing leaves the device — but sales-gated, no published price, no open developer docs reached."
+    },
+    {
+      "name": "Authenticate (authenticating.com LLC)",
+      "url": "https://authenticate.com/",
+      "pricing": "Fully published on the homepage. 'No set up fee. No minimum monthly commitments. No long term contracts. Pay as you go.' FREE: Email Verification, Phone Number Verification, Facial Recognition & Liveness Detection*, Authoritative Database Search*, US Criminal Database Search*, Global Watchlist Search*. $1/check: Government ID Verification, Knowledge Based Authentication, International Authoritative Database Search*, SSN Verification, FEIN/Tax ID/DUNS Verification, Global Watchlist Report, Risk Insights, Sex Offender Check. $2/check: Enhanced Government ID Verification, Financial Account Ownership Verification. $5/check: US Employment Verification, US College & University Verification, US Professional License Verification, DMV & MVR, Full US Business Verification, 7-Year Criminal Activity. (* Only available if the user is verified using Government ID Verification, Knowledge Based Authentication, or SSN Verification.)",
+      "free_tier": "No free trial. $100 initial deposit required to activate, credited to usage, with $20 in live testing credits on the first deposit. $100 minimum balance to avoid suspension; minimum top-up $100; DEPOSITS ARE NON-REFUNDABLE. Charged for all verification attempts, pass or fail.",
+      "age_only_check": "NO document-free age-estimation product published. 'Age verification' is named as a configurable workflow, but facial recognition/liveness is free only as an add-on to a paid ID/KBA/SSN check — so age assurance here always rides on a full identity check.",
+      "retains_documents": "Weakest published policy surveyed. 'the underlying photographic images may be retained as necessary' (no period given); biometric identifiers 'destroyed within a reasonable time' after verification, re-created identifiers 'destroyed within 24 hours after re-analysis'; but also 'you agree that we may use this biometric information for up to 3 years after you submit it to us.' No customer-configurable retention.",
+      "notes": "RESTful, hosted UI + iFrame + APIs, mock APIs for testing, webhooks, developer portal at docs.authenticate.com. US-centric (FCRA disclaimer: not a consumer reporting agency). The $100 non-refundable float is the only barrier."
+    },
+    {
+      "name": "Jumio",
+      "url": "https://www.jumio.com/use-case/age-verification/",
+      "pricing": "Not published. jumio.com/pricing/ returns 404 and no pricing page appears in their sitemap. Only a TCO calculator and 'Request a Demo'.",
+      "free_tier": "Not published — none found.",
+      "age_only_check": "YES as a first step: 'estimate the age of the user based on their selfie and then require more thorough age verification only if they appear to be within a younger age range.' Named restricted categories: online gaming, cannabis delivery, social media, e-cigarettes/vaping, tobacco, alcohol. No Ofcom/OSA mention on that page.",
+      "retains_documents": "Published and reasonably specific. As controller: 'Jumio will permanently destroy such biometric data derived from images and recordings in its possession within three years.' As processor: destroy 'in accordance with the Customer's instructions but no longer than the earlier of the date (i) that the Customer ceases to have a relationship with Jumio or (ii) that is within three years.'",
+      "notes": "Sales-only, no open developer docs reached. Not a realistic option at this budget."
+    },
+    {
+      "name": "Onfido / Entrust",
+      "url": "https://documentation.identity.entrust.com/getting-started/general-introduction",
+      "pricing": "Not published.",
+      "free_tier": "Not published.",
+      "age_only_check": "NOT VERIFIABLE. onfido.com/age-verification/ 301-redirects to entrust.com/age-verification/, which returned HTTP 403 ('Access Restricted') to both WebFetch and curl with a browser user agent; documentation.identity.entrust.com/guide/age-verification also 403'd. No age-estimation product appeared on the one documentation page that returned content. DO NOT CITE AN ONFIDO AGE-ESTIMATION CLAIM without a successful fetch.",
+      "retains_documents": "Not published — no privacy or retention page fetched successfully.",
+      "notes": "Verified API facts only: 'based on REST principles. It uses standard HTTP response codes and verbs, and token-based authentication.' SDKs for iOS, Android, Web, React Native and Flutter. Effectively an enterprise sales motion; rule out at this budget."
+    }
+  ],
+
+  "regulatory_approval_lists_the_answer_is_no": {
+    "ofcom": "agency_says (SEARCH-SURFACED, NOT DIRECTLY FETCHED — ofcom.org.uk returned HTTP 403 to direct fetching, so treat this quote as provisional): Ofcom's Highly Effective Age Assurance FAQ states 'Ofcom does not approve third party providers of highly effective age assurance and is unable to recommend specific providers of age verification technologies.' Ofcom instead lists METHODS capable of being highly effective (facial age estimation, digital ID wallets, document verification, credit card, mobile network operator checks, photo-ID matching) and methods that are not (self-declaration, bare date-of-birth entry, debit-card checks, contractual restrictions). ANY VENDOR CLAIMING TO BE 'OFCOM APPROVED' IS MISREPRESENTING.",
+    "us_states": "No US state publishes an approved-provider list. Texas ch. 129B and Louisiana HB 77 specify permitted METHODS ('digital identification', 'a commercial age verification system' using government ID or transactional data), not vendors. No Texas or Louisiana AG vendor list was found.",
+    "what_actually_exists": "Third-party certification, which is what vendors mean when they say 'approved'. ACCS (Age Check Certification Scheme, a UKAS-accredited body) certifies against ISO 27566-1, which Ofcom recognises as part of its OSA compliance pathways. Of the ten vendors, only Yoti publishes ACCS/AVPA/KJM/FSM approval on-page; Incode publishes press releases claiming ACCS certification and KJM approval."
+  },
+
+  "cheapest_compliant_path": {
+    "total_recurring_cost_if_done_right": "$0/month for everything except the hemp storefront's ID checks, which are usage-priced.",
+    "steps": [
+      "1. Do nothing for the library, the neurostim shelves, the 40Hz library, the chain, the faucet, the tutorial or the signup path. No statute reaches them. Adding an age gate here spends money to acquire the exact personal-data liability BRIEF.md puts out of scope.",
+      "2. Ship the app-store age SIGNAL integration — Google Play Age Signals API and Apple's Declared Age Range API — in any app that ships. Cost: zero, it is a platform API. This is the only presently-in-force US age obligation touching the software side, and it collects nothing.",
+      "3. Add a 13+ (or 18+) minimum age to terms of service and do not market to under-13s. Cost: one paragraph. Keeps COPPA out.",
+      "4. For the hemp storefront ONLY: a hard 21+ government-ID gate at checkout, web-only, never as an Android app. Cheapest verified path is Stripe Identity — first 50 verifications free, then $1.50 each, no minimum, no contract, instant self-serve signup, and a real redact API. Didit's free tier (500 full KYC/month, permanently free, no card, no sales call) is cheaper still at volume; its trap is that retention defaults to indefinite, so set the retention window to the shortest period Texas recordkeeping allows on the first day. Keep this system physically separate from every other surface.",
+      "5. If an age check is ever genuinely required on a content surface (it is not today), use an age-ONLY selfie estimation with no document and no retention: Yoti's facial age estimation has the strongest published deletion policy ('immediately, permanently deleted') and Incode's on-device model transmits no biometric at all — but both are sales-gated with no published price, so budget a call. Didit's Age Estimation endpoint is the self-serve equivalent.",
+      "6. AUDIT THE POOL'S 'My Coins' AND 'spend-lock' CODE PATHS against FIN-2019-G001 § 5.4. If the server ever holds a key or a spendable balance for a user, the pool becomes an MSB — FinCEN registration inside 180 days, an AML program, SARs, the $3,000 Travel Rule, and 18 U.S.C. 1960 criminal exposure. This is the single highest-consequence item on the list and it costs nothing to check.",
+      "7. Do NOT register as an MSB, do NOT apply for a Texas money transmitter licence, and do NOT bolt KYC onto signup on the current architecture. Texas SM-1037 says non-stablecoin virtual currency transfer is not money transmission under the MSMA, and FinCEN says pool payouts and unhosted wallets are not money transmission federally. Registering anyway would cost money, create reporting duties that do not currently exist, and collect exactly the personal data the brief says not to collect."
+    ]
+  },
+
+  "sources": [
+    "https://www.supremecourt.gov/opinions/24pdf/23-1122_3e04.pdf",
+    "https://www.law.cornell.edu/supremecourt/text/23-1122",
+    "https://capitol.texas.gov/tlodocs/88R/billtext/pdf/HB01181F.pdf",
+    "https://capitol.texas.gov/tlodocs/88R/billtext/pdf/HB00018F.pdf",
+    "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB2420",
+    "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/SB02420F.pdf",
+    "https://www.scotusblog.com/2026/07/supreme-court-allows-texas-to-enforce-law-requiring-age-verification-and-parental-consent-on-app/",
+    "https://le.utah.gov/Session/2025/bills/enrolled/SB0142.pdf",
+    "https://developer.android.com/google/play/age-signals/overview",
+    "https://developer.android.com/google/play/age-signals/use-age-signals-api",
+    "https://support.google.com/googleplay/android-developer/answer/9878810",
+    "https://developer.apple.com/news/?id=f5zj08ey",
+    "https://developer.apple.com/app-store/review/guidelines/",
+    "https://www.legislation.gov.uk/ukpga/2023/50/section/4",
+    "https://www.legislation.gov.uk/ukpga/2023/50/section/61",
+    "https://www.legislation.gov.uk/ukpga/2023/50/section/62",
+    "https://www.legislation.gov.uk/ukpga/2023/50/schedule/1",
+    "https://www.gov.uk/government/publications/online-safety-act-explainer/online-safety-act-explainer",
+    "https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online",
+    "https://digital-strategy.ec.europa.eu/en/policies/eu-age-verification",
+    "https://digital-strategy.ec.europa.eu/en/factpages/blueprint-age-verification-solution-help-protect-minors-online",
+    "https://eur-lex.europa.eu/eli/reg/2023/1114/oj/eng",
+    "https://www.dshs.texas.gov/news-alerts/dshs-announces-emergency-rules-prohibiting-sale-consumable-hemp-products-minors",
+    "https://gov.texas.gov/news/post/governor-abbott-vetoes-senate-bill-3-89r",
+    "https://guides.sll.texas.gov/cannabis/hemp-products",
+    "https://www.fincen.gov/system/files/2019-05/FinCEN%20Guidance%20CVC%20FINAL%20508.pdf",
+    "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-certain-business-models",
+    "https://www.law.cornell.edu/cfr/text/31/1010.100",
+    "https://www.law.cornell.edu/cfr/text/31/1010.410",
+    "https://www.law.cornell.edu/cfr/text/31/1022.380",
+    "https://www.law.cornell.edu/uscode/text/18/1960",
+    "https://dob.texas.gov/sites/default/files/files/consumer-information/sm1037.pdf",
+    "https://www.dob.texas.gov/consumer-information/virtual-currency-guidance",
+    "https://www.congress.gov/crs-product/IN12553",
+    "https://www.congress.gov/bill/119th-congress/house-joint-resolution/25",
+    "https://www.congress.gov/bill/119th-congress/house-bill/3533/text",
+    "https://www.congress.gov/bill/119th-congress/senate-bill/3611/text",
+    "https://www.federalregister.gov/documents/2025/04/22/2025-05904/childrens-online-privacy-protection-rule",
+    "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa",
+    "https://supreme.justia.com/cases/federal/us/546/418/",
+    "https://www.law.cornell.edu/uscode/text/26/508",
+    "https://www.irs.gov/charities-non-profits/charitable-organizations/exemption-requirements-501c3-organizations",
+    "https://avpassociation.com/us-state-age-verification-laws-for-adult-content/",
+    "https://caselaw.findlaw.com/court/us-dis-crt-w-d-tex-aus-div/116926272.html",
+    "https://didit.me/pricing",
+    "https://docs.didit.me/console/data-retention",
+    "https://stripe.com/identity",
+    "https://docs.stripe.com/identity/verification-sessions",
+    "https://help.withpersona.com/articles/6oZbzp7jb7AWGClF5vpY3K/",
+    "https://www.veriff.com/pricing",
+    "https://www.veriff.com/product/age-estimation",
+    "https://sumsub.com/pricing/",
+    "https://sumsub.com/age-verification/",
+    "https://www.yoti.com/business/facial-age-estimation/",
+    "https://www.yoti.com/adult-content-age-verification/",
+    "https://www.incode.com/products/on-device-age-estimation",
+    "https://authenticate.com/",
+    "https://authenticate.com/privacy-policy",
+    "https://www.jumio.com/use-case/age-verification/",
+    "https://www.jumio.com/privacy-center/privacy-notices/online-services-notice/",
+    "https://documentation.identity.entrust.com/getting-started/general-introduction"
+  ],
+
+  "could_not_verify": [
+    "Ofcom's own pages and PDFs (ofcom.org.uk) returned HTTP 403 to every automated fetch. All Ofcom quotes and all OSA commencement dates in this file are search-surfaced secondary text, not directly fetched. Verify by hand before relying on them.",
+    "withpersona.com/pricing and entrust.com both returned HTTP 403. Persona pricing came from help.withpersona.com; Onfido/Entrust age-estimation capability is unverified and must not be asserted.",
+    "Whether the Texas DSHS consumable-hemp rules reach ONLINE sales as distinct from in-person retail. The DSHS announcement does not say.",
+    "Whether Google Play Age Signals integration is mandatory for all apps or only covered categories. The overview page does not say.",
+    "Texas hemp product-legality as of the compile date (smokable flower ban, the reported May 2026 Texas Supreme Court decision on DSHS scheduling of non-delta-9 THC). Every source found was an industry blog or news summary, not a primary source. This is the highest-consequence unverified item in the file.",
+    "Texas TABC 16 TAC ch. 51 rules — secondary source only (Texas Hemp Business Council).",
+    "Utah SB 142 effective and compliance dates — law-firm summaries, not the enrolled bill text.",
+    "The AVPA state-law table (25 states, February 2026) — an industry trade body with a commercial interest in age-verification mandates."
+  ]
+}
