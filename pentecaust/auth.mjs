@@ -200,8 +200,8 @@ const PROVIDERS = {
   },
   facebook: {
     scope: () => env('FACEBOOK_SCOPES', 'email'),
-    authorize: 'https://www.facebook.com/v19.0/dialog/oauth',
-    token: 'https://graph.facebook.com/v19.0/oauth/access_token',
+    authorize: 'https://www.facebook.com/v23.0/dialog/oauth',
+    token: 'https://graph.facebook.com/v23.0/oauth/access_token',
     userinfo: 'https://graph.facebook.com/me?fields=id,email',
     clientId: () => env('FACEBOOK_CLIENT_ID', ''),
     clientSecret: () => env('FACEBOOK_CLIENT_SECRET', ''),
