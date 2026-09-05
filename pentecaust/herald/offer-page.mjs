@@ -42,7 +42,10 @@ export function claimUsable(claim) {
  * planOffer — normalise raw input into the offer structure the renderer consumes.
  * Nothing here invents a value; missing sections simply come back empty.
  */
-export function planOffer(input = {}) {
+export function planOffer(rawInput = {}) {
+  // A `= {}` default only fires on `undefined`. planOffer is exported and called directly, so an
+  // explicit null — or a string, or a number — reached `.price` below and threw. Normalise first.
+  const input = rawInput && typeof rawInput === 'object' ? rawInput : {};
   const price = Number(input.price);
   const anchor = Number(input.anchorPrice);
   const dropped = [];

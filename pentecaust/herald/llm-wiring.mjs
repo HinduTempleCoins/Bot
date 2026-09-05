@@ -49,7 +49,10 @@ export const SEAMS = [
  */
 export async function wireHerald({ asker = makeAsker(), seams = SEAMS } = {}) {
   const wired = []; const skipped = [];
-  for (const s of seams) {
+  for (const s of Array.isArray(seams) ? seams : []) {
+    // A seam table is config, and config arrives malformed. A null or path-less entry is reported
+    // like any other skip — it must never take the surviving seams down with it.
+    if (!s || typeof s !== 'object' || !s.path) { skipped.push({ id: (s && s.id) || '?', why: 'malformed seam' }); continue; }
     try {
       const mod = await import(s.path);
       if (typeof mod.__setLLM !== 'function') { skipped.push({ id: s.id, why: 'no __setLLM export' }); continue; }
@@ -64,7 +67,8 @@ export async function wireHerald({ asker = makeAsker(), seams = SEAMS } = {}) {
 
 /** Unwire — restore every seam to its deterministic fallback (used by tests). */
 export async function unwireHerald({ seams = SEAMS } = {}) {
-  for (const s of seams) {
+  for (const s of Array.isArray(seams) ? seams : []) {
+    if (!s || typeof s !== 'object' || !s.path) continue;
     try { const m = await import(s.path); if (typeof m.__setLLM === 'function') m.__setLLM(null); } catch { /* ignore */ }
   }
 }
