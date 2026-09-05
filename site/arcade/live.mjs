@@ -7,7 +7,7 @@
 //
 // Compliance unchanged: PLAY is non-cashable, testnet only, entertainment-not-gambling (see shared.mjs).
 //
-//   ARCADE_RPC_URL=https://rpc.prana.alpha.melek.salon ARCADE_CHAIN_ID=108369 \
+//   ARCADE_RPC_URL=https://rpc.prana.melek.salon ARCADE_CHAIN_ID=712217 \
 //   ARCADE_LOTTO_ADDR=0x… ARCADE_MARKET_ADDR=0x… node site/arcade/live.mjs   # serves :8163
 
 import { createServer } from 'node:http';
@@ -20,7 +20,7 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 
 const RPC = process.env.ARCADE_RPC_URL || '';
-const CHAIN_ID = +(process.env.ARCADE_CHAIN_ID || 108369);
+const CHAIN_ID = +(process.env.ARCADE_CHAIN_ID || 712217);   // MAINNET; alpha is 108369
 const LOTTO_ADDR = process.env.ARCADE_LOTTO_ADDR || '';
 const MARKET_ADDR = process.env.ARCADE_MARKET_ADDR || '';
 

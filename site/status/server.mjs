@@ -38,7 +38,7 @@ export const CHECKS = [
   { name: 'SoapBox Staking', group: 'DeFi', kind: 'contains', url: 'https://staking.alpha.melek.salon/api/state', needle: '"ok":true' },
   { name: 'APIS Paymaster', group: 'DeFi', kind: 'contains', url: 'https://paymaster.alpha.melek.salon/api/manifest', needle: 'SIGNS nothing' },
   { name: 'PRANA gas faucet', group: 'Chain', kind: 'http', url: 'https://faucet.alpha.soapbox.community/' },
-  { name: 'PRANA RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://rpc.prana.alpha.melek.salon', method: 'eth_chainId', params: [], want: '0x1a751' },
+  { name: 'PRANA RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://rpc.prana.melek.salon', method: 'eth_chainId', params: [], want: '0xADE19' },
   { name: 'MELEK RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://alpha.melek.salon/rpc', method: 'condenser_api.get_dynamic_global_properties', params: [], want: 'head_block_number' },
   { name: 'Bridge (wMELEK registered)', group: 'Bridge', kind: 'eth-call', rpc: 'https://rpc.prana.alpha.melek.salon', to: BRIDGE, data: WRAPPED_TOKEN_SEL + MELEK_TOKEN_ID.slice(2), want: 'nonzero-address' },
 ];

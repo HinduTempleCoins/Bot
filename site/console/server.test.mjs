@@ -26,15 +26,15 @@ test('GET / renders the console with MELEK Move featured and all games', async (
     assert.ok(r.body.includes(nm), `missing tile: ${nm}`);
   }
   assert.match(r.body, /ALPHA/);
-  assert.match(r.body, /108369/);        // testnet chain id label
+  assert.match(r.body, /712217/);        // MAINNET chain id label
 });
 
-test('GET /health reports testnet chain + game counts', async () => {
+test('GET /health reports MAINNET chain + game counts', async () => {
   const r = await call('/health');
   assert.equal(r.code, 200);
   const j = JSON.parse(r.body);
   assert.equal(j.ok, true);
-  assert.equal(j.chainId, 108369);
+  assert.equal(j.chainId, 712217);
   assert.equal(j.games, 8);
   assert.equal(j.counts.total, 8);
 });
@@ -48,12 +48,12 @@ test('GET /api/directory returns the grouped directory JSON', async () => {
   assert.ok(j.byCategory['move-to-earn'].some((g) => g.id === 'melek-move'));
 });
 
-test('GET /api/launch?game=melek-move returns the unified handshake + testnet chain', async () => {
+test('GET /api/launch?game=melek-move returns the unified handshake + MAINNET chain', async () => {
   const r = await call('/api/launch?game=melek-move');
   assert.equal(r.code, 200);
   const j = JSON.parse(r.body);
   assert.equal(j.identity.provider, 'melek-signer');
-  assert.equal(j.chainId, 108369);
+  assert.equal(j.chainId, 712217);
   assert.equal(j.game.id, 'melek-move');
   assert.ok(j.launchUrl.startsWith('http'));
   assert.equal(j.lane, 'real-value');

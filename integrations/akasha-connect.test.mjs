@@ -51,8 +51,8 @@ test('prana descriptor uses the eip155 placeholder chain id and 0x address forma
   delete process.env[PRANA_CHAIN_ID_ENV];
   const d = chainDescriptor('prana');
   assert.equal(d.namespace, 'eip155');
-  assert.equal(d.reference, '108369');         // genesis placeholder
-  assert.equal(d.caip2, 'eip155:108369');
+  assert.equal(d.reference, '712217');         // PRANA MAINNET
+  assert.equal(d.caip2, 'eip155:712217');
   assert.equal(d.addressFormat, 'evm-0x');
   assert.equal(d.rpcEnv, PRANA_RPC_ENV);
   if (prev !== undefined) process.env[PRANA_CHAIN_ID_ENV] = prev;

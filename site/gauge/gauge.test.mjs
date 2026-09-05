@@ -106,7 +106,7 @@ test('/api/lock-tx builds an unsigned create_lock descriptor + a projection', as
   assert.equal(j.ok, true);
   assert.ok(j.tx.data.startsWith(SEL.create_lock));
   assert.equal(j.tx.value, '0x0');
-  assert.equal(j.tx.chainId, 108369);
+  assert.equal(j.tx.chainId, 712217);   // MAINNET
   assert.ok(j.projection && j.projection.boost >= 1);
 });
 

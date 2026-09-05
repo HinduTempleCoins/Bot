@@ -3,7 +3,7 @@
 // Renders the game directory from integrations/games/game-console.mjs (the WAX-modeled registry:
 // one MELEK-Signer login = Cloud Wallet, KulaSwap = AtomicHub, engine ERC-1155 = AtomicAssets,
 // this = the dApp directory). MELEK Move is featured (operator's ask). Wired to the testnet chain
-// config (PRANA chainId 108369) and per-game launch URLs from env — no request-time network.
+// config (PRANA MAINNET chainId 712217) and per-game launch URLs from env — no request-time network.
 //
 // Built from what's already on testnet: each game's launch URL defaults to its existing surface
 // (farm./arcade./kula.money/…) and is env-overridable, so rollout is just pointing the envs at prod.
@@ -25,7 +25,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const bp = (p) => BASE_PATH + p;
-const CHAIN_ID = Number(process.env.PRANA_CHAIN_ID || '108369') || 108369;
+const CHAIN_ID = Number(process.env.PRANA_CHAIN_ID || '712217') || 712217;   // MAINNET; alpha is 108369
 const NET_LABEL = process.env.NET_LABEL || `PRANA Testnet · chain ${CHAIN_ID}`;
 const KULA_URL = safeHref(process.env.KULA_URL || 'https://kula.money') || '#';
 

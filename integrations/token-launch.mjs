@@ -23,8 +23,10 @@
 
 import { CHAINS } from '../kulaswap/kula-config.mjs';
 
-const PRANA = CHAINS.prana || { chainId: 108369 };
-export const PRANA_CHAIN_ID = PRANA.chainId || 108369;
+// CHAINS.prana IS mainnet (712217). The fallbacks agree with it — a launcher that silently
+// deployed to the alpha chain would put a real token on a throwaway network.
+const PRANA = CHAINS.prana || { chainId: 712217 };
+export const PRANA_CHAIN_ID = PRANA.chainId || 712217;
 const ZERO = '0x0000000000000000000000000000000000000000';
 
 // Function selectors (4-byte) — keccak256(canonical-signature)[:4].
@@ -351,7 +353,7 @@ export function buildCloneTx(clone, opts = {}) {
 export function createTabFragment(cfg = {}) {
   const wizard = esc(cfg.wizardAddr || '');
   const cloneFactory = esc(cfg.cloneFactoryAddr || '');
-  const chainIdHex = esc(cfg.chainIdHex || PRANA.chainIdHex || '0x1a751');
+  const chainIdHex = esc(cfg.chainIdHex || PRANA.chainIdHex || '0xADE19');
   const sel = JSON.stringify(SELECTORS);
 
   return `<div class=card>

@@ -35,7 +35,7 @@ export const esc = (s) => String(s == null ? '' : s)
 
 const Z = '0x0000000000000000000000000000000000000000';
 const ADDR_RE = /^0x[0-9a-fA-F]{40}$/;
-export const CHAIN_ID = 108369; // PRANA testnet
+export const CHAIN_ID = 712217; // PRANA MAINNET — veKULA/gauge is the LIVE deployment (MAINNET_ADDR)
 export const WAD = 10n ** 18n;  // Curve gauge weights are 1e18-scaled fractions (1e18 = 100%)
 
 export function isAddress(a) { return typeof a === 'string' && ADDR_RE.test(a); }

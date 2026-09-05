@@ -20,8 +20,11 @@ const Z = '0x0000000000000000000000000000000000000000';
 const T = 'TODO';
 
 export const CHAINS = {
-  // ── ecosystem home ───────────────────────────────────────────────────────────────────────────
-  prana: { type: 'evm', key: 'prana', chainId: 108369, chainIdHex: '0x1a751', name: 'PRANA', dex: 'KulaSwap',
+  // ── ecosystem home — TESTNET / alpha (chainId 108369 = 0x1a751). The `alpha.*` hosts. Nothing that
+  //    handles real value should reach for this key; MAINNET is `prana` below. Named explicitly after
+  //    the key `prana` silently meant TESTNET and three modules reached for it expecting mainnet —
+  //    including an EIP-712 domain, where a wrong chainId makes every signature fail to verify. ──────
+  'prana-testnet': { type: 'evm', key: 'prana-testnet', chainId: 108369, chainIdHex: '0x1a751', name: 'PRANA testnet', dex: 'KulaSwap',
     rpcUrl: 'https://rpc.prana.alpha.melek.salon', explorer: 'https://pranascan.alpha.soapbox.community',
     native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
     router: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9', factory: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
@@ -36,7 +39,7 @@ export const CHAINS = {
   //    ⚠ wVKBT and wCURE are 8-decimal tokens (KULA/WPRANA are 18) — decimals here drive parse/format.
   //    mMELEK is the CDP debt synthetic (kula-config-addresses.mjs / Borrow tab), NOT a seeded swap pair,
   //    so it is carried as a flat field but is not in the swap `tokens` list. (712217 = 0xADE19.) ──────
-  'prana-mainnet': { type: 'evm', key: 'prana-mainnet', chainId: 712217, chainIdHex: '0xADE19', name: 'PRANA', dex: 'KulaSwap',
+  prana: { type: 'evm', key: 'prana', chainId: 712217, chainIdHex: '0xADE19', name: 'PRANA', dex: 'KulaSwap',
     rpcUrl: 'https://rpc.prana.melek.salon', explorer: 'https://pranascan.soapbox.community',
     native: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, feeBps: 30,
     // Addresses are EIP-55 checksummed (ethers v6 REJECTS a bad checksum → "bad address checksum"),
@@ -158,7 +161,7 @@ export const CHAINS = {
   ...(cfg.chains || {}),
 };
 
-export const DEFAULT_CHAIN = cfg.defaultChain || 'prana-mainnet';
+export const DEFAULT_CHAIN = cfg.defaultChain || 'prana';   // 'prana' IS mainnet (712217)
 export const CHAIN = { ...CHAINS[DEFAULT_CHAIN], ...cfg };   // back-compat single-chain export
 export const FEE_BPS = CHAIN.feeBps || 30;
 

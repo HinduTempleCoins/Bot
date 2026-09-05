@@ -179,7 +179,7 @@ export function loadConfig(env = (typeof process !== 'undefined' ? process.env :
   const num = (v, d) => { const n = +v; return Number.isFinite(n) ? n : d; };
   return Object.freeze({
     pranaRpc: env.PRANA_RPC_URL || '',
-    chainId: num(env.PRANA_CHAIN_ID, 108369),
+    chainId: num(env.PRANA_CHAIN_ID, 712217),
     paymaster: env.VERIFYING_PAYMASTER_ADDRESS || '',
     apisToken: env.APIS_TOKEN_ADDRESS || '',
     apisPerPranaWei: env.APIS_PER_PRANA_WEI || '0',

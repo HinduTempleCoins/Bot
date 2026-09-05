@@ -27,7 +27,7 @@ const STAKE_TOKEN = (process.env.STAKE_TOKEN || 'WMELEK').toUpperCase();
 //    the two contracts that go live later (BurnMine + the MWALI LiquidityGauge) via env overrides. Keys
 //    NEVER touch the server — the client signs every EVM tx in its own wallet. ────────────────────────
 function pranaConfig() {
-  const c = (CHAINS && (CHAINS['prana-mainnet'] || CHAINS.prana)) || {};
+  const c = (CHAINS && CHAINS.prana) || {};
   return {
     name: c.name || 'PRANA',
     chainId: c.chainId || 712217,

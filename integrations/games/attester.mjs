@@ -12,7 +12,7 @@
 //   → player (or a relayer) calls ArcadeFaucet.claim(player, amount, scoreRef, deadline, nonce, sig).
 //
 // On-chain contract this mirrors EXACTLY (PRANA contracts/contracts/ArcadeFaucet.sol):
-//   domain  : EIP712("ArcadeFaucet","1"), chainId=<prana 108369>, verifyingContract=<faucet>
+//   domain  : EIP712("ArcadeFaucet","1"), chainId=<prana MAINNET 712217>, verifyingContract=<faucet>
 //   type    : Voucher(address player,uint256 amount,bytes32 scoreRef,uint256 deadline,uint256 nonce)
 //   claim   : claim(player, amount, scoreRef, deadline, nonce, signature)
 //
@@ -22,7 +22,7 @@
 // @noble (audited keccak + secp256k1) — no ethers, house-light. Pure + deterministic → fully offline
 // testable. handler(req,res) exported; CLI starts the daemon.
 //
-//   ATTESTER_KEY=0x… ARCADE_FAUCET_ADDRESS=0x… PRANA_CHAIN_ID=108369 PORT=8141 node integrations/games/attester.mjs
+//   ATTESTER_KEY=0x… ARCADE_FAUCET_ADDRESS=0x… PRANA_CHAIN_ID=712217 PORT=8141 node integrations/games/attester.mjs
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -35,7 +35,9 @@ import { stepReward } from '../soapbox/wearable.mjs';
 
 // ── config (env at call time; key never logged) ───────────────────────────────────────────────────
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
-export const chainId = () => BigInt(env('PRANA_CHAIN_ID', '108369'));
+// This value goes into the EIP-712 DOMAIN SEPARATOR. A wrong chainId does not error — it produces
+// a signature the faucet contract silently refuses to verify. Default to MAINNET; alpha is 108369.
+export const chainId = () => BigInt(env('PRANA_CHAIN_ID', '712217'));
 export const faucetAddress = () => env('ARCADE_FAUCET_ADDRESS', '');
 const attesterKey = () => env('ATTESTER_KEY', '');
 const decimals = () => BigInt(env('REWARD_DECIMALS', '18'));
