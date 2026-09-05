@@ -1,0 +1,366 @@
+{
+  "title": "AI Agents That Hold and Spend Money — Payment Rails, Wallets, Identity Standards and Agent Frameworks",
+  "period": "2024–2026 (current as of 2026-09-05)",
+  "source": "Primary-source research pass for the MELEK/PRANA repo. Every project, repo, standard number and URL below was fetched and confirmed on 2026-09-05; licenses and activity dates come from the GitHub API, not from marketing pages.",
+  "overview": "The 'agents with wallets' stack has, as of late 2026, exactly one piece that is a real cross-vendor standard with working code on many chains: x402, the HTTP 402 payment protocol, now maintained by the x402 Foundation under Apache-2.0. Everything else in this lane is either (a) a draft ERC with a reference implementation and testnet-only deployments (ERC-8004), (b) a finalized but barely-used ERC (EIP-7007, ERC-7857), (c) a vendor SDK with real code but a single-company dependency (Coinbase AgentKit, Nevermined, Skyfire), or (d) a token narrative with a thin or stale open-source footprint (Virtuals, Wayfinder, Freysa). The single most actionable fact for PRANA: x402 supports any EVM chain at the protocol level via CAIP-2 `eip155:<chainId>`, facilitators are self-hostable, and there is an Apache-2.0 Rust facilitator you can run today. PRANA is `eip155:712217`. That is a same-quarter revenue path, not a research project.",
+
+  "verification_note": {
+    "method": "WebFetch of canonical URLs + `gh api repos/...` for license/archived/pushed_at. Search-engine summaries were used only for discovery and are labeled 'secondary' wherever a claim rests on them.",
+    "excluded_for_lack_of_evidence": [
+      "Wayfinder / PROMPT — could not verify a canonical open-source repository or a primary-source spec. Coverage is promotional secondary press only. Left out of the projects array deliberately.",
+      "Ritual / Infernet — github.com/ritual-net/infernet-node returns HTTP 404 as of 2026-09-05; infernet-ml was archived June 2024. Ritual Chain is public-testnet only. Not usable as a dependency.",
+      "Modulus Labs — no primary-source evidence of a currently shipping product could be confirmed; only 2024-era press. Left out."
+    ]
+  },
+
+  "x402_the_http_402_payment_protocol": {
+    "what_it_is": "An open standard that revives the HTTP 402 Payment Required status code. A resource server answers an unpaid request with 402 plus a PAYMENT-REQUIRED header (base64-encoded PaymentRequired object); the client retries with a PAYMENT-SIGNATURE header carrying a signed PaymentPayload; a facilitator verifies and settles on-chain and the server returns PAYMENT-RESPONSE with the settlement receipt.",
+    "governance": "Primary repo moved from coinbase/x402 to x402-foundation/x402 (Apache-2.0, ~6.6k stars, pushed 2026-09-04). coinbase/x402 remains as a much smaller Apache-2.0 development fork (~150 stars). x402.org links to a Linux Foundation announcement of the x402 Foundation and lists Alchemy, AWS, Cloudflare, Messari, Nansen, QuickNode, Stripe and Vercel as adopters.",
+    "facilitator_role": "Two endpoints: /verify and /settle. The spec is explicit that a facilitator is a broadcaster only — 'In all cases, the Facilitator cannot modify the amount or destination. They serve only as the transaction broadcaster.' This is why self-hosting a facilitator is not a trust downgrade for the payee.",
+    "payment_schemes": {
+      "exact": "Transfer of a specific amount.",
+      "upto": "Authorization up to a maximum (metered/usage billing).",
+      "batch-settlement": "EVM escrow contract plus off-chain vouchers, settled in batches."
+    },
+    "evm_exact_scheme_mechanics": {
+      "eip_3009": "Recommended path. Token must implement `transferWithAuthorization` (USDC does). One-time-use authorization; the facilitator pays gas.",
+      "permit2": "Universal fallback for any ERC-20 without EIP-3009, via an `x402ExactPermit2Proxy` contract enforcing witness protection. One-time use.",
+      "erc_7710": "Smart-account delegation path; supports one-time AND multi-use. Facilitator calls `redeemDelegations` on the Delegation Manager.",
+      "gas": "In every path the payer signs off-chain and the facilitator pays gas — the agent never needs native gas tokens."
+    },
+    "chain_support": "Per docs.x402.org: 'any EVM chain is supported (e.g. eip155:8453 for Base)' via CAIP-2 identifiers, with runtime registration of new EVM networks and no source modification required. Non-EVM packages exist for Solana (svm), Aptos, Stellar, Hedera, Algorand (avm), Tron (tvm), Keeta.",
+    "official_testnet_facilitator_networks": ["eip155:84532 (Base Sepolia)", "Solana devnet", "stellar:testnet", "aptos:2", "hedera:testnet", "xrpl:1"],
+    "sdks": {
+      "typescript": ["@x402/core", "@x402/evm", "@x402/svm", "@x402/avm", "@x402/aptos", "@x402/stellar", "@x402/tvm", "@x402/hedera", "@x402/keeta", "@x402/express", "@x402/hono", "@x402/next", "@x402/fastify", "@x402/axios", "@x402/fetch", "@x402/paywall", "@x402/mcp", "@x402/extensions"],
+      "python": "pip install x402",
+      "go": "go SDK in the monorepo",
+      "rust": "x402-rs/x402-rs — Apache-2.0, includes `x402-facilitator`, a production-ready facilitator server binary with a prebuilt Docker image; chain support split into x402-chain-eip155 / -solana / -aptos crates."
+    },
+    "adoption_reality_check": "Chainalysis reports ~100 million cumulative x402 transactions on Base through Q1 2026, up from near-zero in mid-2025 — but states plainly that 'much of the growth was driven by meme coin farming activity', with the PING pay-to-mint token alone generating over 150,000 transactions in its first month. The composition shifted: transactions of $1+ went from 49% of volume in early 2025 to 95% in early 2026 while the 10¢–$1 band collapsed from 46% to 4%, i.e. the micropayment thesis is NOT what is driving the volume. Secondary trackers put genuine-commerce volume at low tens of thousands of dollars per day. Treat x402 as real, working plumbing with a thin real-commerce layer — which is an opportunity, not a disqualifier.",
+    "status": "shipped"
+  },
+
+  "google_ap2_agent_payments_protocol": {
+    "repo": "github.com/google-agentic-commerce/AP2 — Apache-2.0, Python (plus Go and Android), ~3.2k stars, pushed 2026-06-17.",
+    "mechanism": "Every agent purchase is represented as three signed Mandates: an Intent Mandate (what the user authorized), a Cart Mandate (what the agent assembled), and a Payment Mandate (what the network will charge). The artifacts are Pydantic models and JSON schemas in the SDK.",
+    "crypto_relationship": "AP2 is card/processor-first (Mastercard, Amex, PayPal, Adyen, Worldpay as launch partners per Google's announcement). No cryptocurrency or x402 extension was found in the repository itself. Standardization is moving into FIDO working groups.",
+    "relevance": "AP2 is the mandate/authorization vocabulary; x402 is the settlement wire format. They are complements, not competitors. AP2 matters to MELEK only if the ecosystem ever wants card rails.",
+    "status": "partial"
+  },
+
+  "skyfire_kyapay_and_know_your_agent": {
+    "what_it_is": "Skyfire pairs an agent-identity framework ('Know Your Agent', KYA) with a USDC settlement rail (KYAPay), issuing three JWT types — kya (identity), pay (payment), kya-pay (combined) — that sellers verify with standard JWKS libraries.",
+    "standards_status_blunt": "draft-skyfire-kyapayprofile is an INDIVIDUAL Internet-Draft, now expired and archived, later superseded by draft-skyfire-oauth-kyapay-token. The IETF datatracker page states the document 'is not endorsed by the IETF and has no formal standing in the IETF standards process.' Authors: Ankit Agarwal and Michael B. Jones. Calling KYA a 'standard' is vendor marketing; calling it a published, readable, implementable profile is fair.",
+    "relevance": "The idea worth stealing is cheap: a signed, verifiable identity token that a server can check before honoring an agent's request. Hathor already has a chain account and keys; a KYA-shaped JWT signed by the MELEK posting key would do the same job without joining Skyfire.",
+    "status": "partial"
+  },
+
+  "nevermined": {
+    "repos": "github.com/nevermined-io — payments (TypeScript, Apache-2.0, pushed 2026-09-04), payments-py (Python), contracts (Solidity), docs, tutorials. All Apache-2.0.",
+    "mechanism": "A payments protocol for AI agents: publishers register agents/services, buyers purchase credit plans, credits are burned per request. It is subscription/credit-metering on top of EVM contracts rather than a per-request wire protocol.",
+    "reality": "Real code, small ecosystem (the payments repo has under 20 stars). Usable as a design reference for a credit-burn model; not a network you plug into for volume.",
+    "status": "partial"
+  },
+
+  "agent_identity_and_nft_standards": {
+    "erc_8004_trustless_agents": {
+      "status_exact": "DRAFT. Created 2025-08-13. No Last-Call deadline set as of 2026-09-05. It is NOT final and NOT ratified — anyone claiming 'the ERC-8004 standard' as settled is overstating it.",
+      "registries": {
+        "identity": "ERC-721 + URIStorage. Each agent gets a portable global id (namespace + chainId + contract address). Functions: `register()`, `setAgentURI(uint256 agentId, string calldata newURI)`. Resolves to an off-chain registration file.",
+        "reputation": "`giveFeedback(uint256 agentId, int128 value, ...)` / `readFeedback()`. Signed fixed-point ratings with optional tags and endpoint scoping. Borrows task/skill nomenclature from A2A and MCP.",
+        "validation": "`validationRequest(address validatorAddress, uint256 agentId, ...)` / `validationResponse(bytes32 requestHash, uint8 response, ...)`. Backends can be stake-secured re-execution, zkML proofs, or TEE oracles."
+      },
+      "reference_implementation": "github.com/ChaosChain/trustless-agents-erc-ri — MIT per the GitHub API (README says CC0-1.0; treat as permissive either way), Solidity, pushed 2026-01-28. Ethereum Sepolia deployments: Identity 0xf66e7CBdAE1Cb710fee7732E4e1f173624e137A7, Reputation 0x6E2a285294B5c74CB76d76AB77C1ef15c2A9E407, Validation 0xC26171A3c4e1d958cEA196A5e84B7418C58DCA2C. No mainnet deployment listed.",
+      "relevance_to_melek": "The Validation Registry's shape — request validation, validator responds with a score, evidence referenced off-chain — is structurally the same thing as PRANA's `TaskVerificationGate` K-of-N attestor quorum. Worth reading side-by-side before PRANA's gate is finalized, precisely so PRANA's verified-work claims can later be exported in an 8004-compatible shape if that draft ever lands."
+    },
+    "eip_7007_verifiable_ai_generated_content_token": {
+      "status_exact": "FINAL. Standards Track: ERC.",
+      "mechanism": "ERC-721 extension for AIGC NFTs. Binds a prompt + model to generated content, with `addAigcData` and `verify`. Verification backend is either zkML (validity proof) or opML (fraud proof).",
+      "relevance_to_melek": "This is the one FINAL ERC in this entire lane that maps directly onto something MELEK/PRANA already does. Hathor generates content; PRANA is a full EVM L1. An ERC-7007 collection on chainId 712217 that mints Hathor's generative output with a model+prompt binding is deployable with off-the-shelf Solidity."
+    },
+    "erc_7857_ai_agents_nft_with_private_metadata": {
+      "status_exact": "FINAL. Created 2025-01-02.",
+      "mechanism": "NFT whose metadata is the agent's valuable private state — model weights, memory, character definition — stored encrypted. Defines verifier interfaces for TEE and ZKP, and three operations: full transfer, data cloning, and usage authorization (each with different ownership consequences).",
+      "relevance_to_melek": "This is the closest existing standard to 'sell or license a LoRA on-chain'. The usage-authorization operation is a licensing primitive: grant use of an encrypted adapter without transferring it. Directly relevant to the operator's LoRA work."
+    },
+    "know_your_agent_kya": "A category name, not a standard. Several vendors ship incompatible versions. Do not build on the name; build on whatever token format your counterparties actually verify."
+  },
+
+  "agent_wallets_and_toolkits": {
+    "coinbase_agentkit": {
+      "repo": "github.com/coinbase/agentkit — LICENSE.md is Apache-2.0 (Copyright 2024 Coinbase); the GitHub license API reports NOASSERTION because of the .md filename. ~1.3k stars, pushed 2026-09-03.",
+      "shape": "Framework-agnostic and wallet-agnostic. 50+ actions in TypeScript, 30+ in Python. Wallet providers: Coinbase (CDP), Privy, Viem. Action providers include Alchemy, Compound, Farcaster, Jupiter, OpenSea, Zora. Chains: EVM (Base, Ethereum) and Solana.",
+      "honest_read": "The code is genuinely open and the Viem wallet provider means you are NOT forced onto Coinbase custody. The action-provider pattern (a typed action with a schema, an invoke function, and a wallet handle) is the correct abstraction and is worth copying wholesale into the Bot repo even if AgentKit itself is never imported.",
+      "prana_caveat": "The prepackaged action providers are aimed at Base/Ethereum/Solana. For chainId 712217 you would use the Viem wallet provider with a custom chain definition and write your own action providers. That is normal work, not a blocker.",
+      "status": "shipped"
+    },
+    "key_custody_principle_for_this_repo": "Per CLAUDE.md §Key custody and the 2026-06-06 operator rule, no WIF/private key is stored on disk in this repo. Any x402 client the Bot runs must sign through the separate MELEK-Signer service or fetch a key JIT from the operator vault per run — the same pattern the hourly price feed already uses. An agent wallet is only as safe as the signer boundary; x402's design helps here, because the payload is a signed authorization for a bounded amount, not a raw broadcast key."
+  },
+
+  "agent_frameworks_with_onchain_integration": {
+    "elizaos": {
+      "repo": "github.com/elizaOS/eliza — MIT, TypeScript, ~19.3k stars, pushed 2026-09-05 (actively developed).",
+      "what_it_is": "An 'agentic operating system' with a plugin model: plugins export a Plugin object registering actions, providers, evaluators, services, model handlers, routes, events, tests and app views. Ships web, desktop and mobile apps, optional Eliza Cloud, and local inference via Gemma-4-based models.",
+      "onchain": "Non-custodial EVM and Solana wallet operations with approval boundaries.",
+      "token_honesty": "The ai16z/ELIZA token association is widely reported in secondary press; the repository itself makes no token claim and the framework does not require one. Fork the framework; ignore the token.",
+      "forkability": "MIT and the highest-activity open agent framework in crypto. This is the most credible forkable base in the lane.",
+      "status": "shipped"
+    },
+    "virtuals_protocol_game": {
+      "repos": "github.com/game-by-virtuals/game-python — MIT, Python, 100 stars, LAST PUSHED 2025-10-01 (stale by ~11 months). The older Virtual-Protocol/virtuals-python is explicitly deprecated and points here.",
+      "framework": "GAME: Agent (high-level planner) → Worker (low-level planner) → Function (custom executable).",
+      "token_model": "Agent tokens are launched on a bonding curve paired against $VIRTUAL and 'graduate' at a 42,000 VIRTUAL threshold, at which point 1B agent tokens are minted and paired into a pool locked for ten years. (Secondary sources; not verified on-chain in this pass.)",
+      "reality": "Secondary sources report protocol revenue fell ~96–97% from a January 2025 peak of ~$3.9M. The open-source SDK is small and stale. This is a launchpad narrative with a thin engineering core — the launchpad mechanic (bonding curve → graduate → locked LP) is the only genuinely reusable idea, and MELEK-Engine already has a comparable token-issuance surface.",
+      "status": "partial"
+    },
+    "olas_autonolas": {
+      "repo": "github.com/valory-xyz/open-autonomy — Apache-2.0, Python, 14,299 commits, pushed 2026-08-27. Small star count (~127) but heavy, sustained engineering.",
+      "mechanism": "Agent *services*: a replicated finite-state-machine application run by multiple agent instances that reach consensus via a Tendermint instance before acting on-chain. Requires Python ≥3.10, Tendermint, IPFS and Docker.",
+      "why_it_matters_here": "This is the only framework in the lane that solves 'several independent operators run the same agent and must agree before signing'. That is exactly the problem PRANA's attestor quorum solves in Solidity. Olas solved it off-chain with a BFT replica set. Read it before designing PRANA's attestor client.",
+      "status": "shipped"
+    },
+    "fetch_ai_uagents": {
+      "repo": "github.com/fetchai/uAgents — Apache-2.0, Python 3.10–3.13, ~1.6k stars, pushed 2026-08-20.",
+      "mechanism": "Decorator-based agent creation with cryptographically signed messages and per-agent wallets. On startup an agent registers itself in the Almanac, a smart contract on the Fetch.ai chain — i.e. an on-chain agent directory, which is the same job ERC-8004's Identity Registry is trying to standardize.",
+      "status": "shipped"
+    },
+    "freysa": {
+      "repo": "github.com/0xfreysa/agent — NO LICENSE FILE at repo root as of 2026-09-05, TypeScript, ~794 stars, last pushed 2025-05-05 (stale ~16 months).",
+      "what_it_is": "A prize-pool game on Base: an LLM holds a treasury with a system prompt forbidding transfers; players pay an escalating fee per message (starting ~$10, +0.78% per message, capped ~$4,500; 70% of fees into the pot) to try to talk it into a transfer, executed via LLM tool-calling.",
+      "why_it_is_in_this_file": "It is the cleanest existing demonstration that an LLM's tool-call CAN be the sole authority over a real treasury, and simultaneously the cleanest demonstration of why that is dangerous. Relevant as a cautionary design note for Hathor's autonomous grants (BRIEF.md §9), not as a dependency. Unlicensed and stale — do not fork.",
+      "status": "partial"
+    }
+  },
+
+  "model_provenance_and_lora_attestation": {
+    "framing": "The operator does LoRA work. The question is what actually exists for signing/attesting weights. Answer: one mature non-crypto tool, two finalized ERCs, and one chain making claims.",
+    "sigstore_model_transparency": {
+      "repo": "github.com/sigstore/model-transparency — Apache-2.0, Python, pushed 2026-09-04 (active). PyPI package `model-signing`.",
+      "mechanism": "Builds a manifest — a listing of hashes for every object in the model (files and file shards) — then signs it. Default output is a Sigstore bundle: a JSON-encoded protobuf containing a DSSE envelope wrapping an in-toto statement. Signing events are written to Sigstore's append-only transparency log, so verifiers can check a proof of inclusion. Also supports plain elliptic-curve keys, certificate-based signing, and PKCS#11 hardware tokens.",
+      "verification": "Verifier re-reads the bundle, checks the signature against a known identity, recomputes the file hashes, and compares.",
+      "this_is_the_practical_answer": "For 'prove this LoRA is the one I trained', this tool works today, has no token, no chain, and no gas. The chain's only useful job on top of it is to anchor the manifest digest — a 32-byte hash in a PRANA transaction or a MELEK `comment` — giving a public timestamp the Sigstore log alone does not tie to the operator's on-chain identity.",
+      "status": "shipped"
+    },
+    "erc_7857_for_lora_licensing": "See agent_identity_and_nft_standards. FINAL ERC, defines encrypted-metadata NFTs with TEE/ZKP verifiers and a usage-authorization operation. The natural on-chain wrapper for a paid LoRA license.",
+    "story_protocol": {
+      "repo": "github.com/storyprotocol/protocol-core-v1 (now redirects to thedatafoundation/protocol-core-v1) — Business Source License 1.1 (BUSL-1.1), Solidity, pushed 2026-03-03.",
+      "mechanism": "Registering an NFT deploys an IP Account (a contract that is the IP's on-chain identity). A Licensing Module creates parent/child relationships between IP assets with negotiated terms (attribution, revenue share); a Royalty Module automates revenue flow along those relationships; a Dispute Module handles flagging.",
+      "blunt": "BUSL-1.1 is NOT open source for forking purposes — it is source-available with a delayed conversion and a use restriction. Read it for the parent/child royalty graph design; do not copy the code into PRANA.",
+      "status": "shipped"
+    },
+    "openledger": {
+      "claim": "An L2/chain with 'Proof of Attribution' recording dataset/model/agent lineage on-chain, plus OpenLoRA serving and a ModelFactory LoRA/QLoRA fine-tuning GUI, paying influence-weighted rewards split between base model and adapter at inference time. Mainnet reported launched November 2025.",
+      "verification_status": "NOT independently verified in this pass — all of the above comes from secondary press and the project's own materials. The attribution-decomposition claim (splitting credit between base model and LoRA adapter per inference) is technically hard and should be treated as unproven until a working demo is examined.",
+      "status": "whitepaper"
+    }
+  },
+
+  "ai_oracles_and_verifiable_inference_onchain": {
+    "note": "Fuller treatment of compute verification lives in decentralized_compute_for_ai.json. Summarized here only where it touches the agent-payments stack.",
+    "ora_opml": {
+      "repo": "github.com/ora-io/opml — MIT, Solidity/Go, ~317 stars, LAST PUSHED 2024-12-11 (stale ~21 months).",
+      "mechanism": "Optimistic ML: an on-chain interactive dispute engine over a Merkleized MIPS processor, i.e. an optimistic-rollup fraud proof applied to an ML inference trace. Challenger bisects to a single disputed MIPS instruction and the chain adjudicates that one step.",
+      "warning": "The README states plainly: 'This code is unaudited. It in NO WAY should be used to secure any money.' Stale and unaudited — read the mechanism, do not deploy it.",
+      "status": "partial"
+    },
+    "allora": {
+      "repo": "github.com/allora-network/allora-chain — Apache-2.0, Go, Cosmos SDK/CometBFT, pushed 2026-09-01 (active).",
+      "mechanism": "A prediction/inference network: workers submit inferences and forecasts, reputers score them against ground truth, and the consensus mechanism distributes rewards according to the quality of predictions and of the assessments themselves.",
+      "relevance": "Its scoring loop is the right shape for any market where correctness is only knowable after the fact. Not relevant to PRANA's deterministic-recompute lane, but very relevant if PRANA ever wants a TASK subtype whose output cannot be checked by re-running it.",
+      "status": "shipped"
+    }
+  },
+
+  "what_prana_and_hathor_could_actually_do_with_this": {
+    "1_x402_on_prana": "PRANA is `eip155:712217` and x402 supports arbitrary EVM chains via CAIP-2 with runtime registration. Requirements: (a) a payment token on PRANA implementing EIP-3009 `transferWithAuthorization` — a ~150-line OpenZeppelin-adjacent ERC-20, or deploy the Permit2 fallback proxy instead; (b) run `x402-facilitator` from x402-rs (Apache-2.0, Docker image) pointed at a PRANA RPC; (c) put `@x402/express` or `@x402/hono` middleware in front of a paid endpoint. The Bot repo is already ESM Node with handler(req,res) modules — this is middleware, not a rewrite.",
+    "2_what_to_actually_sell_through_it": "The repo already has monetizable surfaces that currently earn nothing: the hathor.live/reports and /40hz libraries, the Cheetah librarian's discovery endpoint, the steemd/pool-stats/ecosystem-nav integrations, and Hathor's own inference. A 402 paywall on a metered API is the shortest line from existing code to a dollar in.",
+    "3_accept_payment_where_the_buyers_are": "The volume is on Base, not on PRANA. An x402-priced endpoint accepting USDC on Base costs nothing extra — the same middleware, a different `network` in the accepts list — and is the version that can be paid by agents that already exist today. PRANA-native x402 is the sovereign version; Base-settled x402 is the revenue version. Ship both; ship Base first.",
+    "4_erc_7007_for_hathors_output": "FINAL ERC, plain Solidity, deployable on PRANA today. Binds prompt + model to generated content with a pluggable verifier. This is the honest way to mint Hathor's generative output as an on-chain artifact instead of a bare ERC-721 with a JSON blob.",
+    "5_lora_provenance_without_a_token": "Sign LoRA adapters with sigstore/model-transparency (Apache-2.0, works today, no chain) and anchor the manifest digest in a MELEK `comment` op or a PRANA transaction. That is verifiable provenance tied to the operator's own on-chain identity, achieved with zero new protocol.",
+    "6_do_not_build": "Do not build an agent-identity registry from scratch, do not chase ERC-8004 while it is a Draft with testnet-only deployments, and do not launch an agent token on a bonding curve — the Virtuals revenue curve is the evidence against it."
+  },
+
+  "honest_status_ledger": {
+    "shipped_and_usable_today": ["x402 (protocol + SDKs + self-hostable facilitator)", "Coinbase AgentKit", "ElizaOS", "Olas open-autonomy", "Fetch.ai uAgents", "sigstore model-transparency", "Allora chain", "Story Protocol (source-available)"],
+    "partially_working": ["ERC-8004 (Draft, Sepolia only)", "Nevermined (real code, tiny ecosystem)", "Skyfire KYAPay (expired individual I-D, vendor rail)", "Google AP2 (spec + SDK, card-first, no crypto extension found)", "Virtuals GAME (MIT but stale, revenue collapsed)", "ORA opML (unaudited, stale)", "Freysa (unlicensed, stale)"],
+    "whitepaper_or_unverified": ["OpenLedger Proof of Attribution", "Wayfinder (no verifiable open-source repo)", "Ritual/Infernet (repo 404, testnet only)", "Modulus Labs (no current primary evidence)"],
+    "the_blunt_summary": "Of everything in this lane, exactly one thing is both real and immediately monetizable for this project: putting an x402 paywall in front of endpoints the repo already serves. Everything else is either a design reference or a token narrative."
+  },
+
+  "sources": [
+    "https://github.com/x402-foundation/x402",
+    "https://github.com/coinbase/x402",
+    "https://github.com/coinbase/x402/blob/main/LICENSE",
+    "https://raw.githubusercontent.com/x402-foundation/x402/main/specs/schemes/exact/scheme_exact_evm.md",
+    "https://docs.x402.org/core-concepts/network-and-token-support",
+    "https://x402.org/",
+    "https://github.com/x402-rs/x402-rs",
+    "https://www.chainalysis.com/blog/x402-agentic-payments-adoption/",
+    "https://eips.ethereum.org/EIPS/eip-8004",
+    "https://github.com/ethereum/ERCs/blob/master/ERCS/erc-8004.md",
+    "https://github.com/ChaosChain/trustless-agents-erc-ri",
+    "https://eips.ethereum.org/EIPS/eip-7007",
+    "https://eips.ethereum.org/EIPS/eip-7857",
+    "https://github.com/coinbase/agentkit",
+    "https://github.com/nevermined-io",
+    "https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile/",
+    "https://github.com/google-agentic-commerce/AP2",
+    "https://github.com/elizaOS/eliza",
+    "https://github.com/game-by-virtuals/game-python",
+    "https://github.com/Virtual-Protocol/virtuals-python",
+    "https://github.com/valory-xyz/open-autonomy",
+    "https://github.com/fetchai/uAgents",
+    "https://github.com/0xfreysa/agent",
+    "https://github.com/sigstore/model-transparency",
+    "https://github.com/ora-io/opml",
+    "https://github.com/allora-network/allora-chain",
+    "https://github.com/storyprotocol/protocol-core-v1"
+  ],
+
+  "projects": [
+    {
+      "name": "x402",
+      "url": "https://github.com/x402-foundation/x402",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "HTTP 402 payment protocol. Server replies 402 + PAYMENT-REQUIRED; client retries with a signed PAYMENT-SIGNATURE payload; a facilitator /verify + /settle broadcasts on-chain and cannot alter amount or destination. EVM exact scheme uses EIP-3009 transferWithAuthorization, with Permit2 and ERC-7710 fallbacks; facilitator pays gas. Schemes: exact, upto, batch-settlement. Any EVM chain via CAIP-2 eip155:<chainId>.",
+      "relevance_to_prana": "Directly deployable. PRANA is eip155:712217; deploy an EIP-3009 token (or the Permit2 proxy), run a facilitator, and PRANA becomes a payable x402 network. Separately, an x402 paywall settling USDC on Base monetizes existing Bot endpoints without touching PRANA at all — this is the fastest revenue path in the whole research set."
+    },
+    {
+      "name": "x402-rs (facilitator)",
+      "url": "https://github.com/x402-rs/x402-rs",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Rust x402 toolkit including `x402-facilitator`, a production-ready verify/settle server binary with a prebuilt Docker image; per-chain crates x402-chain-eip155 / -solana / -aptos allow arbitrary EIP-155 network config.",
+      "relevance_to_prana": "The concrete artifact that makes PRANA an x402 network — a container pointed at a PRANA RPC. Apache-2.0, forkable, no vendor dependency."
+    },
+    {
+      "name": "ERC-8004 Trustless Agents",
+      "url": "https://eips.ethereum.org/EIPS/eip-8004",
+      "license": "CC0-1.0 (spec); reference impl github.com/ChaosChain/trustless-agents-erc-ri, MIT per GitHub API",
+      "status": "partial",
+      "mechanism": "Three registries: Identity (ERC-721 agent ids + agentURI), Reputation (signed fixed-point giveFeedback/readFeedback), Validation (validationRequest/validationResponse backed by stake-secured re-execution, zkML, or TEE oracles). Draft status, created 2025-08-13; reference contracts deployed on Ethereum Sepolia only, no mainnet.",
+      "relevance_to_prana": "Read-only reference. Its Validation Registry is the same shape as PRANA's TaskVerificationGate K-of-N attestor quorum — align PRANA's verdict struct with it now so PRANA work-receipts could be exported in 8004 form later if the draft ever finalizes. Do not depend on it while it is a Draft."
+    },
+    {
+      "name": "EIP-7007 Verifiable AI-Generated Content Token",
+      "url": "https://eips.ethereum.org/EIPS/eip-7007",
+      "license": "CC0-1.0 (spec)",
+      "status": "shipped",
+      "mechanism": "FINAL ERC-721 extension. `addAigcData` binds prompt + model to generated content; `verify` checks it via a zkML validity proof or an opML fraud proof. Optional enumeration and update extensions.",
+      "relevance_to_prana": "Deployable on PRANA today with ordinary Solidity. The correct standard for minting Hathor's generative output as provenanced on-chain artifacts, and the natural NFT layer for MELEK-Engine's existing nft contract surface."
+    },
+    {
+      "name": "ERC-7857 AI Agents NFT with Private Metadata",
+      "url": "https://eips.ethereum.org/EIPS/eip-7857",
+      "license": "CC0-1.0 (spec)",
+      "status": "shipped",
+      "mechanism": "FINAL. NFT whose metadata is encrypted agent state (model weights, memory, character). Verifier interfaces for TEE and ZKP. Three operations: full transfer, data cloning, usage authorization.",
+      "relevance_to_prana": "The nearest thing to an on-chain LoRA licence. Usage-authorization lets the operator sell use of an encrypted adapter without handing over the weights — the on-chain half of the LoRA provenance story whose off-chain half is sigstore model-transparency."
+    },
+    {
+      "name": "Coinbase AgentKit",
+      "url": "https://github.com/coinbase/agentkit",
+      "license": "Apache-2.0 (LICENSE.md; GitHub API reports NOASSERTION due to filename)",
+      "status": "shipped",
+      "mechanism": "Framework- and wallet-agnostic agent toolkit. 50+ TS / 30+ Python actions; wallet providers Coinbase CDP, Privy, Viem; action providers for Alchemy, Compound, Farcaster, Jupiter, OpenSea, Zora. EVM (Base, Ethereum) + Solana.",
+      "relevance_to_prana": "Use the Viem wallet provider with a custom PRANA chain definition rather than CDP custody. Even if never imported, its action-provider pattern (typed schema + invoke + wallet handle) is the right abstraction for Hathor's on-chain command surface."
+    },
+    {
+      "name": "Google AP2 (Agent Payments Protocol)",
+      "url": "https://github.com/google-agentic-commerce/AP2",
+      "license": "Apache-2.0",
+      "status": "partial",
+      "mechanism": "Three signed Mandates per purchase — Intent (user authorization), Cart (agent's assembly), Payment (what gets charged) — as Pydantic models and JSON schemas. Card/processor-first launch partners; standardization moving to FIDO working groups. No crypto or x402 extension found in the repo.",
+      "relevance_to_prana": "Complementary vocabulary, not a settlement rail. Only relevant if MELEK ever wants card payments. The Intent/Cart/Payment split is a good authorization model to imitate for Hathor's autonomous grant limits."
+    },
+    {
+      "name": "Skyfire KYAPay / Know Your Agent",
+      "url": "https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile/",
+      "license": "n/a (IETF individual Internet-Draft; SDK licensing not verified)",
+      "status": "partial",
+      "mechanism": "JWTs of three types — kya (identity), pay (payment), kya-pay — verified by sellers with standard JWKS libraries; USDC settlement rail. The I-D is expired, archived, superseded by draft-skyfire-oauth-kyapay-token, and the datatracker states it is not endorsed by the IETF and has no formal standing.",
+      "relevance_to_prana": "Copy the idea, not the vendor: a short signed identity token Hathor presents to servers, signed by its MELEK posting key, achieves the same verification with zero third-party dependency."
+    },
+    {
+      "name": "Nevermined",
+      "url": "https://github.com/nevermined-io",
+      "license": "Apache-2.0",
+      "status": "partial",
+      "mechanism": "AI-agent payments protocol: publishers register agents/services, buyers purchase credit plans, credits burn per request, settled by EVM contracts. TypeScript and Python SDKs plus a Solidity contracts repo.",
+      "relevance_to_prana": "Design reference for a prepaid-credit model — closer to how a temple/institute would actually bill than per-request micropayments. Ecosystem is very small (payments repo under 20 stars); do not depend on their network."
+    },
+    {
+      "name": "ElizaOS",
+      "url": "https://github.com/elizaOS/eliza",
+      "license": "MIT",
+      "status": "shipped",
+      "mechanism": "TypeScript agentic OS. Plugins register actions, providers, evaluators, services, model handlers, routes, events and app views. Non-custodial EVM and Solana wallet operations with approval boundaries; optional local inference; web/desktop/mobile shells.",
+      "relevance_to_prana": "The most credible MIT-licensed forkable agent framework in crypto and the closest external analogue to what this repo is building by hand. Its plugin contract is worth reading before Phase 3 assembles Hathor's conversational surface — but this repo's forkability requirement (BRIEF.md §10) argues for keeping Hathor's character in plain files rather than adopting a framework's plugin format wholesale."
+    },
+    {
+      "name": "Olas / open-autonomy (Valory)",
+      "url": "https://github.com/valory-xyz/open-autonomy",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Agent *services*: a replicated FSM application executed by multiple independent agent instances that reach Tendermint consensus on each state transition before signing an on-chain action. 14,299 commits, actively maintained.",
+      "relevance_to_prana": "The best existing reference for 'N independent operators must agree before a signature is produced' — precisely the off-chain half of PRANA's attestor quorum. Read before writing the attestor client."
+    },
+    {
+      "name": "Fetch.ai uAgents",
+      "url": "https://github.com/fetchai/uAgents",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Decorator-based Python agents with signed messages and per-agent wallets; agents self-register in the Almanac, a smart contract on the Fetch.ai chain, giving an on-chain agent directory.",
+      "relevance_to_prana": "The Almanac shows an on-chain agent registry working in production years before ERC-8004 drafted one. If MELEK ever needs a witness/agent directory, this is the proven minimal shape."
+    },
+    {
+      "name": "Virtuals Protocol / GAME",
+      "url": "https://github.com/game-by-virtuals/game-python",
+      "license": "MIT",
+      "status": "partial",
+      "mechanism": "Agent → Worker → Function planning framework. Token side: agent tokens on a bonding curve against $VIRTUAL, graduating at 42,000 VIRTUAL into 1B minted tokens paired in a 10-year-locked pool (secondary sources).",
+      "relevance_to_prana": "Cautionary. SDK last pushed 2025-10-01 and protocol revenue reportedly fell ~96–97% from its Jan-2025 peak. Evidence against launching a Hathor agent token on a bonding curve; MELEK-Engine already covers side-token issuance if it is ever wanted."
+    },
+    {
+      "name": "Freysa",
+      "url": "https://github.com/0xfreysa/agent",
+      "license": "none found at repo root (2026-09-05) — not forkable",
+      "status": "partial",
+      "mechanism": "Base-chain prize game: an LLM guards a treasury under a no-transfer system prompt; escalating per-message fees (start ~$10, +0.78%/message, cap ~$4,500, 70% to the pot) fund the pot, and an LLM tool-call is the sole release authority.",
+      "relevance_to_prana": "Read as a threat model for Hathor's autonomous grants: a tool-call is a signature. Any Hathor spend path needs a hard cap enforced outside the model. Unlicensed and stale — do not fork."
+    },
+    {
+      "name": "sigstore model-transparency",
+      "url": "https://github.com/sigstore/model-transparency",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Hashes every file/shard of a model into a manifest, signs it as a Sigstore bundle (DSSE envelope wrapping an in-toto statement), records the signing event in an append-only transparency log; also supports raw EC keys, certificates and PKCS#11 hardware. Verifier re-hashes and checks the identity and inclusion proof.",
+      "relevance_to_prana": "The working answer to LoRA provenance today, with no token and no chain. Sign the adapter, then anchor the manifest digest in a MELEK comment op or a PRANA transaction to bind it to the operator's on-chain identity."
+    },
+    {
+      "name": "Story Protocol",
+      "url": "https://github.com/storyprotocol/protocol-core-v1",
+      "license": "BUSL-1.1 (source-available, NOT open source for forking)",
+      "status": "shipped",
+      "mechanism": "Registering an NFT deploys an IP Account contract as the IP's on-chain identity; a Licensing Module forms parent/child IP relationships with negotiated terms; a Royalty Module routes revenue along those edges; a Dispute Module handles flagging. Live on Story mainnet.",
+      "relevance_to_prana": "Read the parent/child royalty-graph design for derivative LoRAs and remixed corpus material. BUSL forbids copying the code into PRANA."
+    },
+    {
+      "name": "ORA opML",
+      "url": "https://github.com/ora-io/opml",
+      "license": "MIT",
+      "status": "partial",
+      "mechanism": "Optimistic ML fraud proofs: an on-chain interactive dispute engine over a Merkleized MIPS processor; a challenger bisects the inference trace to one disputed instruction that the chain re-executes.",
+      "relevance_to_prana": "Mechanism reference only for the TASK-lane verification design. Repo last pushed 2024-12-11 and the README explicitly says it is unaudited and must not secure money."
+    },
+    {
+      "name": "Allora",
+      "url": "https://github.com/allora-network/allora-chain",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Cosmos-SDK/CometBFT chain for decentralized inference: workers submit inferences and forecasts, reputers score them against later ground truth, and rewards are distributed by prediction quality and by the quality of the assessments themselves.",
+      "relevance_to_prana": "The right model for TASK work whose correctness is only knowable after the fact (forecasts, judgments) and therefore cannot be settled by PRANA's deterministic-recompute gate."
+    }
+  ]
+}

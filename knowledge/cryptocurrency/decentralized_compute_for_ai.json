@@ -1,0 +1,277 @@
+{
+  "title": "Decentralized Compute for AI — How DePIN Networks Actually Gate and Pay for Work, and What PRANA Should Copy",
+  "period": "2024–2026 (current as of 2026-09-05)",
+  "source": "Primary-source research pass for the MELEK/PRANA repo. Every project, repo, license and mechanism below was fetched and confirmed on 2026-09-05; licenses, archived flags and last-push dates come from the GitHub API rather than from project marketing.",
+  "overview": "PRANA already has its thesis (PRANA_PAPER.md §3): one canonical per-epoch pot, a HASH lane and a verification-gated TASK lane crediting shares into one UnifiedSharesLedger, paid PPLNS. That is a genuinely novel coupling. What this file adds is the honest state of the field PRANA is entering. The headline finding is sobering and useful: after five years and hundreds of millions in funding, Akash — the most mature decentralized cloud — announced $5 million in ALL-TIME compute spend in its Q1 2026 report. io.net's own docs say 'Automated payouts are not yet enabled.' Gensyn's training mainnet has not shipped. Prime Intellect archived its protocol repo and now sells ordinary GPU pods. The DePIN compute market is small, and almost all of the token value in it is paid for uptime and speculation rather than for verified useful work. PRANA's see-saw is a better idea than most of what shipped — but the failure mode to avoid is the one every peer hit: paying emissions for presence instead of for proof.",
+
+  "the_central_question": {
+    "framing": "Every compute network must answer two questions: (1) how do you know the work was really done? (2) what makes the payment token necessary rather than decorative? Sort the field by those two answers and the marketing falls away.",
+    "verification_answers_that_actually_exist": {
+      "no_verification_pay_for_presence": "io.net (hourly liveness/PoW check + staking, reward flows whether or not a job runs), Akash (no compute verification at all — the tenant simply stops paying), Nosana (staking + reputation).",
+      "redundant_recompute_with_dispute": "Gensyn Verde — refereed delegation with bisection to a single disputed operator, plus RepOps to make floating-point results bitwise reproducible across hardware. Prime Intellect — random challenges by a validator network. ORA opML — Merkleized MIPS bisection.",
+      "random_spot_check_with_slashing_game_theory": "Hyperbolic Proof of Sampling (PoSP) — verify a statistical sample, size the penalty so honesty is the unique pure-strategy Nash equilibrium.",
+      "peer_scoring_market": "Bittensor Yuma Consensus — validators score miners, stake-weighted consensus of the scores sets pay. No objective ground truth required, but also no objective guarantee.",
+      "cryptographic_proof": "zkML (EZKL). Real, working, and orders of magnitude too slow and too small for LLM inference at present.",
+      "k_of_n_staked_attestation": "PRANA's own TaskVerificationGate. Cheapest to implement, weakest guarantee unless the attestors are independent and the stake genuinely exceeds the value of the forged share."
+    },
+    "token_necessity_answers": {
+      "burn_mint_equilibrium": "Akash (since 2026-03-23) and Render. Payment in any currency is routed through a market buy + burn of the native token, and workers are paid from newly minted supply. Demand for compute becomes demand for the token by construction.",
+      "stake_to_participate": "io.net (proof-of-time-lock), Nosana (xNOS), Bittensor (validator stake), PRANA attestors.",
+      "emission_share_auction": "Bittensor dTAO — the price of a subnet's alpha token determines that subnet's share of TAO emission.",
+      "pure_block_reward": "Classic PoW, and PRANA's HASH lane. Necessary but not sufficient — this is what PRANA's TASK lane exists to grow beyond."
+    }
+  },
+
+  "akash_network": {
+    "repo": "github.com/akash-network/node — Apache-2.0, Go, Cosmos SDK / CometBFT, ~1.1k stars, pushed 2026-09-04 (actively maintained).",
+    "marketplace_mechanism": "Tenant publishes a deployment (an SDL manifest). Providers bid; each bid requires a deposit, returned when the bid closes. Tenant accepts a bid, creating a lease. Leases are priced PER BLOCK.",
+    "escrow_mechanism_the_part_worth_copying": "Because paying per block would be prohibitive, Akash uses escrow accounts. The tenant funds an escrow at deployment; each block the amount owed is subtracted from the escrow balance and accrued to the provider, who may withdraw the accrued balance at any time. If the escrow reaches zero the provider may close the lease. When the deployment is closed the unspent balance returns to the tenant. This is time-based settlement without block-by-block transfers.",
+    "payment_evolution": {
+      "aep_23": "Allowed tenants to pay in USDC with providers settling stably. It worked for adoption but decoupled usage from AKT demand — the classic 'stablecoin payments make your token decorative' failure.",
+      "bme_since_2026_03_23": "Mainnet 17 (Proposal 318) activated Burn Mint Equilibrium. A compute purchase now automatically buys AKT on the open market, burns it, and mints ACT — a NON-TRANSFERABLE stablecoin credit — which is what actually settles the lease. Providers receive ACT and convert back to AKT at market rate. This is the cleanest production example of 'accept any currency, still make the native token load-bearing.'"
+    },
+    "verification": "None. Akash does not verify that compute happened. The tenant's remedy is to stop paying and close the lease. Escrow makes that remedy cheap and immediate. This is a deliberate, defensible design choice for rented containers — it does NOT transfer to PRANA's TASK lane, where a forged share mints new supply rather than merely misdirecting a rental payment.",
+    "scale_reality": "Akash's own Q1 2026 report celebrates '$5 million in all-time compute spend' as a landmark. That is the ceiling of the most mature decentralized cloud after years of operation. Plan accordingly: PRANA's TASK lane will not be filled by an external compute market. It will be filled by Hathor's own workload first.",
+    "status": "shipped"
+  },
+
+  "io_net": {
+    "what_it_is": "A GPU aggregation network (clusters assembled from heterogeneous supplier hardware) with an IO token on Solana.",
+    "supplier_gating": "Devices must meet minimum system requirements, pass a Proof-of-Work check (run hourly, verifying compute legitimacy and performance) and a Proof-of-Time-Lock, stake a formulated amount of IO, and survive a 12-hour stress test of GPU, network and system configuration before earning. (Mechanism per secondary sources; the block-rewards dashboard doc confirms the epoch/eligibility framing.)",
+    "how_suppliers_are_paid": "Two separate streams. (1) Block rewards: IO allocated per epoch to all eligible workers, based on uptime, job hours, GPU model and bandwidth — these flow whether or not the GPU ever does a job. (2) Compute job payments: only when a renter books that specific GPU.",
+    "verified_from_primary_docs": "io.net's own Block Rewards documentation states that a valid SOL address is required to calculate block rewards, that distributions occur per epoch, and — as of the fetch on 2026-09-05 — that 'Automated payouts are not yet enabled.' The detailed reward formula is not published in the public docs.",
+    "2026_tokenomics_change": "In June 2026 io.net replaced its fixed emission schedule with the Incentive Dynamic Engine (IDE), which targets a stable dollar payment to suppliers and mints only as much IO as the live price requires, with burns tied to network earnings (secondary: CoinDesk Research). 300M IO is earmarked for suppliers and stakers over roughly 20 years.",
+    "the_lesson_for_prana_stated_bluntly": "io.net is the canonical example of the failure PRANA's see-saw is designed to avoid: the dominant income for a supplier is an uptime subsidy, not payment for work. It attracts hardware and produces impressive supply-side numbers while the useful-work fraction stays small. PRANA's HASH lane is honest about being a security floor; the danger is letting the TASK lane degenerate into an attendance bonus with a verification rubber stamp.",
+    "status": "partial"
+  },
+
+  "render_network": {
+    "mechanism": "RNP-001 replaced direct payment with a Burn-and-Mint Equilibrium: creators burn a USD-denominated amount of RENDER to receive non-fungible work credits, and the network independently mints tokens each epoch to pay node operators for completed jobs and availability. Burn and mint are deliberately decoupled.",
+    "numbers_from_the_proposal": "RNP-001 requires an increased supply of 107,374,182 tokens (20% of total supply), released in two phases — a front-loaded launch period (years 1–5) with higher rewards for early node operators, then indefinite growth-stage emissions declining with a proposed 0.945 damping coefficient. Status in the repo: 'Approved and on the Roadmap', dated 2022-06-09.",
+    "verification": "Proof-of-render is reputational/tiered rather than cryptographic: node operators are tiered and jobs are checked by the requesting client. RENDER migrated to a Solana SPL token.",
+    "relevance": "The strongest argument in the field that decoupling burn from mint is correct: if you pay workers directly out of what users burn, worker income collapses whenever demand dips and your supply side leaves. PRANA already has this right — a FIXED per-epoch pot paid pro-rata is the same insight expressed as a pool rather than as an emission schedule.",
+    "status": "shipped"
+  },
+
+  "bittensor": {
+    "repos": "github.com/opentensor/subtensor now redirects to RaoFoundation/subtensor — Apache-2.0, Rust, Substrate with a Frontier EVM plus ink!/wasm contracts, ~13k commits, pushed 2026-09-04. The standalone Python SDK github.com/opentensor/bittensor (now RaoFoundation/bittensor, MIT) was ARCHIVED 2026-07-10; development moved into the subtensor monorepo at sdk/python, shipping as Bittensor 11. Note the org rename to RaoFoundation — cite the new path.",
+    "emission_mechanics_verified_from_official_docs": {
+      "base_rate": "1 TAO per block (12-second blocks), decaying toward a 21M hard cap. The first halving occurred in December 2025, taking emission to 0.5 TAO per block, roughly 3,600 TAO/day.",
+      "alpha_tokens": "Each subnet has its own alpha token with its own 21M cap and the same halving curve. Per block a subnet mints up to 1 alpha for participant distribution (alpha_out) plus alpha injected into its pool (alpha_in).",
+      "split": "Alpha accumulates per block and is distributed at epoch (tempo) boundaries in fixed proportions: 18% to the subnet owner, 41% to miners, 41% to validators and their stakers.",
+      "subnet_share": "A subnet's share of the chain's TAO emission is set by the EMA price of its alpha token: demand_share_i = price_ema_i / Σ price_ema, then adjusted for miner burn penalties and renormalized, then passed through an 'emission gate' — a sigmoid with midpoint theta set to the 32nd-highest positive adjusted share and exponent 3, so weak subnets fade rather than being hard-cut. The EMA smoothing factor is age-dependent, so new subnets start near zero to prevent launch manipulation."
+    },
+    "verification": "Yuma Consensus. Validators score miners; the chain takes a stake-weighted consensus of those scores and pays accordingly. There is no objective ground truth — quality is whatever the stake-weighted validator set says it is. This is the field's most successful incentive design by market value and simultaneously its least falsifiable.",
+    "relevance_to_prana": "Read the emission gate, not the consensus. The sigmoid-with-theta-at-rank-32 and the age-dependent EMA are battle-tested answers to two problems PRANA will hit the moment it has more than one TASK type: how to allocate one pot across competing work categories, and how to stop a brand-new category from gaming its way to a large share on day one. PRANA's HashTaskWeightConfig is currently a DAO-set weight; Bittensor shows a market-priced alternative.",
+    "status": "shipped"
+  },
+
+  "gensyn": {
+    "verde_verification": {
+      "paper": "arXiv 2502.19405 — 'Verde: Verification via Refereed Delegation for Machine Learning Programs' (Arun, St. Arnaud, Titov et al., submitted 2025-02-26).",
+      "mechanism": "A computationally limited client delegates ML work to multiple untrusted compute providers. Correctness holds if AT LEAST ONE provider is honest. On disagreement, a lightweight dispute protocol bisects the computation graph to locate the first training step and operator the parties disagree on; the referee then recomputes only that single disputed operation rather than the whole job. Verification cost therefore stays near-constant as job size grows.",
+      "repops": "The enabling piece. Reproducible Operators is a library that eliminates hardware non-determinism by controlling floating-point operation order, making ML work bitwise reproducible across heterogeneous hardware. Without bitwise reproducibility, refereed delegation is impossible — honest nodes would 'disagree' constantly."
+    },
+    "shipping_status_blunt": "github.com/gensyn-ai/rl-swarm (MIT, Python, ~1.7k stars) was last pushed 2026-01-05 and its README states plainly: 'There are no official swarms running right now.' The testnet is an Ethereum-based network with on-chain identities. Secondary sources report the $AI TGE on 2026-04-29 with the Delphi market live but the TRAINING MAINNET still unfinished. Gensyn has a token and a paper; it does not have a shipped decentralized training network.",
+    "relevance_to_prana": "This is the single most important technical read in this file for PRANA's TASK lane. RepOps is the precondition PRANA's redundant-recompute path silently depends on: two honest PRANA workers running the same inference on different GPUs will produce different floating-point results and the attestors will disagree, unless the task spec pins operator order (or the gate compares a tolerance/semantic hash rather than bytes). Decide that explicitly before the TASK lane opens.",
+    "status": "whitepaper"
+  },
+
+  "prime_intellect": {
+    "protocol_repo": "github.com/PrimeIntellect-ai/protocol — Apache-2.0, Rust, ARCHIVED 2026-01-27 (read-only). Architecture was: smart contracts (Ethereum-based economic layer), discovery service, orchestrator, validator network (quality assurance via random challenges), and worker nodes. It powered the INTELLECT-2 and SYNTHETIC-2 distributed training runs.",
+    "current_product": "github.com/PrimeIntellect-ai/prime — MIT, the official CLI and Python SDK for GPU compute, sandboxes, RL environments and hosted training. It contains no blockchain, no token, and no on-chain payment. Pricing is ordinary cloud pricing.",
+    "the_honest_reading": "Prime Intellect did the most credible decentralized-training research in the field, proved it with real models, and then archived the crypto protocol and became a GPU cloud. Treat this as evidence about where the revenue actually is, not as a criticism of the research.",
+    "relevance_to_prana": "The INTELLECT-2 architecture is the reference design for PRANA's orchestration side — discovery, orchestrator, validator-with-random-challenges, workers — and it is Apache-2.0 and readable. The archival is the warning: a compute protocol without its own demand becomes a cloud with extra steps. PRANA's advantage is that it has a captive first customer, Hathor.",
+    "status": "partial"
+  },
+
+  "nosana": {
+    "repo": "github.com/nosana-ci/nosana-cli — TypeScript, ~269 stars, pushed 2026-08-13. NO LICENSE FILE at repo root as of 2026-09-05 and no license field in package.json; treat as NOT forkable until confirmed.",
+    "mechanism": "Solana-based GPU grid. Jobs are containerized workloads posted to markets; hosts join the Nosana Grid and earn NOS. Solana programs cover staking, jobs, nodes, pools and rewards.",
+    "staking_verified": "Stakers lock NOS for a minimum of two weeks and a maximum of one year. The rank metric xNOS = staked NOS × a duration multiplier, with a maximum multiplier of 4x at a one-year lock. xNOS gates access and governance-style functions (giveaways, voting) and node tiering.",
+    "verification": "Node reputation and stake, not proof. Same class as io.net.",
+    "relevance_to_prana": "The xNOS time-lock multiplier is a directly transferable primitive for PRANA's attestor set and for the BURN lane's perma-stake economics: weight a participant by stake × commitment duration rather than by stake alone, which prices out rent-an-attestor attacks cheaply.",
+    "status": "shipped"
+  },
+
+  "golem": {
+    "state": "github.com/golemfactory/yagna — the core daemon monorepo — returns HTTP 404 as of 2026-09-05 and does not appear in a repository search of the org. The surviving public pieces are golem-js (LGPL-3.0, TypeScript, pushed 2026-09-03), ya-client (LGPL-3.0), goth (GPL-3.0) and ya-runtime-vm / ya-runtime-sdk (GPL-3.0). golem-js documents a `hoodi` TESTNET with tGLM tokens and a minimum yagna version of 0.17.4.",
+    "mechanism": "Requestors publish demands and providers publish offers into a market; agreements are negotiated off-chain and settled by a payment driver in GLM. Provider execution runs in a VM or WASI runtime.",
+    "blunt": "Golem is the oldest project in this lane (2016 ICO) and the hardest to verify as live in 2026 — the core repo is not publicly resolvable and the SDK documents a testnet. Its copyleft licensing (LGPL/GPL) also makes it a poor fork target for a repo that ships MIT/Apache-style code. Read the market/agreement/payment-driver separation as an architecture; take nothing else.",
+    "status": "partial"
+  },
+
+  "hyperbolic_and_proof_of_sampling": {
+    "research": "arXiv 2405.00295 — 'Proof of Sampling: A Nash Equilibrium-Based Verification Protocol for Decentralized Systems' by Yue Zhang, Shouqiao Wang, Sijun Tan, Xiaoyuan Liu, Ciamac C. Moallemi and Raluca Ada Popa (cs.GT, latest version v3, 2025-05-31), with a decentralized-ML-inference instantiation the authors call spML.",
+    "mechanism": "Rather than verifying every output (zkML: too expensive) or a fixed fraction (optimistic: gameable), PoSP verifies a randomly sampled subset at a rate calibrated to the node's stake and reputation, and sizes the slashing penalty so that the protocol has a PURE-STRATEGY Nash equilibrium in which rational participants act honestly. Claimed to be far cheaper than zero-knowledge approaches.",
+    "product_vs_research": "Hyperbolic operates a GPU marketplace and an inference API as a normal commercial product (raised ~$12M, launched Dec 2024). PoSP is the research layer; independent confirmation that PoSP secures the production inference path was NOT obtainable in this pass (the company's PoSP blog post returned HTTP 500). Cite the paper, not the marketing.",
+    "relevance_to_prana": "PoSP is the most economically efficient known answer to PRANA's exact question — how to gate a TASK share without recomputing every task. PRANA currently uses a fixed K-of-N attestor quorum, which pays verification cost on 100% of claims. A PoSP-style variable sampling rate (verify with probability p, slash at penalty > value/p) would cut attestor cost dramatically at the same security level. This is the highest-value single upgrade available to the TaskVerificationGate.",
+    "status": "partial"
+  },
+
+  "verifiable_inference_zkml_and_what_actually_works": {
+    "ezkl": {
+      "repo": "github.com/zkonduit/ezkl — Rust with Python bindings, ~1.2k stars, pushed 2026-02-20. NO LICENSE FILE at the repo root and no license field in Cargo.toml as of 2026-09-05; the README asserts Zkonduit Inc. copyright and a Contributor License Agreement. Treat as source-available, NOT confirmed open source.",
+      "mechanism": "Compiles an ONNX computational graph into a Halo2 ZK-SNARK circuit. Proves 'I ran this network on this input and got this output' with the input, the model, or both kept private. Proofs verify on Ethereum via a generated Solidity verifier, in the browser, or on-device. GPU acceleration via Icicle. v21.0.0 received a Trail of Bits audit.",
+      "honest_limits": "Operations are quantized during ONNX conversion, so EZKL output can differ slightly from the same model in Python — the proof attests the quantized circuit, not the original model. Practical circuit sizes are small; proving an LLM inference is not feasible on current hardware (the widely cited 2024 datapoint of ~180 hours for a single 1.5B-parameter inference pass with a generic proving system is secondary and unverified here, but the order of magnitude is not in dispute)."
+    },
+    "the_state_of_the_art_stated_plainly": "zkML works today for small models — classifiers, scoring functions, decision policies, a LoRA-sized adapter head at a stretch. It does not work for LLM inference and will not in this planning horizon. Anything claiming zk-verified LLM inference in production is a whitepaper. The verification methods that actually scale are redundant recompute with dispute (Gensyn), random sampling with slashing (PoSP), and staked attestation (PRANA today).",
+    "opml": "See ai_agent_payments_and_wallets.json — ora-io/opml, MIT, unaudited, last pushed 2024-12-11. Merkleized MIPS bisection is the right mechanism, the implementation is stale."
+  },
+
+  "non_crypto_infrastructure_worth_more_than_most_of_the_tokens": {
+    "exo": {
+      "repo": "github.com/exo-explore/exo — Apache-2.0, Python with Rust bindings, ~47.3k stars, pushed 2026-08-25. The highest-starred project in this entire research set, and it has no token.",
+      "mechanism": "Connects heterogeneous devices on a local network into one AI cluster: automatic device discovery, tensor parallelism, RDMA over Thunderbolt 5, and OpenAI/Claude/Ollama-compatible API surfaces.",
+      "relevance_to_prana": "The direct route to the goal in PRANA_PAPER.md §1 — 'compute it owns rather than rents.' Before building a market, own a cluster. exo makes the operator's existing hardware into Hathor's inference backend today, at zero protocol risk, and gives the TASK lane a real first workload to verify against instead of a synthetic one."
+    },
+    "centralized_marketplaces": "Together AI, Fireworks, Replicate and Prime Intellect's current product are ordinary cloud businesses with no crypto component. They are the price benchmark PRANA's compute must be measured against, and they are why 'cheaper than AWS' is not by itself a thesis — the discount decentralized networks advertise (Akash claims up to ~85%, Hyperbolic ~70%) is mostly a comparison against on-demand hyperscaler list price, not against these."
+  },
+
+  "what_prana_should_copy_ranked": {
+    "1_akash_burn_mint_equilibrium_for_the_payment_boundary": "PRANA will eventually want to accept stablecoins (users have USDC, not PRANA). Akash proved with AEP-23 that direct stablecoin payment makes the native token decorative, and fixed it on 2026-03-23 with BME: buy the native token on the open market, burn it, mint a non-transferable settlement credit, pay workers in the credit, let them redeem to the native token. PRANA can implement exactly this in Solidity on chainId 712217 — accept anything at the edge, burn PRANA, credit the UnifiedSharesLedger in a non-transferable unit. This is the single mechanism most worth copying because it solves the problem PRANA has not yet hit and will definitely hit.",
+    "2_hyperbolic_posp_sampling_for_the_verification_gate": "Replace or supplement the fixed K-of-N quorum with a stake-and-reputation-calibrated random sampling rate plus a slash sized so honesty is the dominant strategy (arXiv 2405.00295). Verifying 5% of claims with a 25x penalty costs a twentieth of verifying all of them and carries the same expected-value guarantee. This directly reduces PRANA's attestor cost, which is the TASK lane's main scaling constraint.",
+    "3_gensyn_repops_bitwise_reproducibility_as_a_precondition": "Before the TASK lane opens to real inference, pin the determinism story. Either require RepOps-style fixed floating-point operator ordering, or define the attestation target as a tolerance-bounded or semantic comparison rather than a byte-exact hash. If this is left implicit, honest workers will fail the gate on hardware differences and the lane will look broken rather than dishonest.",
+    "4_nosana_xnos_time_lock_multiplier_for_attestor_weight": "Weight attestors (and the BURN lane) by stake × lock duration, capped at ~4x for a one-year lock. Cheap to implement, meaningfully raises the cost of renting an attestor majority for one epoch.",
+    "5_bittensor_emission_gate_for_multi_task_allocation": "When PRANA has more than one TASK category, allocate the pot with an age-dampened EMA share plus a sigmoid gate (theta at a fixed rank, exponent ~3) rather than a hard cutoff or a hand-set DAO weight. It is the field's only production-tested answer to 'how do you split one pot across competing work types without a governance fight every epoch.'",
+    "6_render_decoupled_burn_and_mint": "Already implicit in PRANA's fixed per-epoch pot — worth recording the reasoning: worker income must not be a direct function of this epoch's demand, or the supply side leaves in every trough."
+  },
+
+  "what_prana_should_not_copy": {
+    "io_net_uptime_subsidy": "Do NOT let the TASK lane pay for presence. io.net's suppliers earn hourly block rewards whether or not a job runs, which is why its supply-side numbers look enormous and its useful-work fraction stays small. PRANA's HASH lane is the honest place for a presence subsidy; the TASK lane must pay only against a consumed verdict.",
+    "akash_no_verification": "Akash's 'no compute verification' is correct for its model (a bad provider just stops getting paid) and catastrophic for PRANA's (a forged TASK share mints supply). Do not import Akash's escrow design without keeping the gate.",
+    "a_bonding_curve_agent_token": "See ai_agent_payments_and_wallets.json — Virtuals' revenue collapse is the evidence.",
+    "zkml_for_llm_inference": "Not feasible. Any PRANA roadmap item that depends on it is a whitepaper item and must be labeled as one per the CLAUDE.md charter."
+  },
+
+  "honest_status_ledger": {
+    "shipped_and_usable": ["Akash (marketplace + escrow + BME, ~$5M all-time spend)", "Bittensor (subtensor, dTAO emissions live)", "Render (BME live, SPL token)", "Nosana (Solana grid, staking live)", "exo (no token, best-in-class local cluster)", "EZKL (small models only, source-available)"],
+    "partially_working": ["io.net (rewards epochs live, automated payouts NOT yet enabled per its own docs)", "Prime Intellect (research proven, protocol archived, product is a normal cloud)", "Hyperbolic (product live; PoSP-in-production unverified)", "Golem (core repo not publicly resolvable; SDK documents a testnet)", "ORA opML (stale, unaudited)"],
+    "whitepaper_only": ["Gensyn training mainnet (token launched, network not shipped, no swarms running)", "any zk-verified LLM inference claim"],
+    "market_size_reality": "Akash's all-time compute spend of ~$5M is the most reliable public number in this sector. The entire decentralized-compute demand side is small. PRANA's advantage over every project listed here is that it does not need to win a market to have a customer — Hathor is the customer, and the compute is the point."
+  },
+
+  "sources": [
+    "https://github.com/akash-network/node",
+    "https://akash.network/blog/akash-network-q1-2026-report/",
+    "https://akash.network/docs/getting-started/how-funding-works/",
+    "https://io.net/docs/guides/explorer/block-rewards-page",
+    "https://io.net/docs",
+    "https://github.com/rendernetwork/RNPs/blob/main/RNP-001.md",
+    "https://www.bittensor.com/docs/concepts/emissions",
+    "https://github.com/opentensor/subtensor",
+    "https://github.com/opentensor/bittensor",
+    "https://arxiv.org/abs/2502.19405",
+    "https://github.com/gensyn-ai/rl-swarm",
+    "https://github.com/PrimeIntellect-ai/protocol",
+    "https://github.com/PrimeIntellect-ai/prime",
+    "https://github.com/nosana-ci/nosana-cli",
+    "https://learn.nosana.com/",
+    "https://learn.nosana.com/programs/staking.html",
+    "https://github.com/golemfactory/golem-js",
+    "https://arxiv.org/abs/2405.00295",
+    "https://github.com/zkonduit/ezkl",
+    "https://github.com/ora-io/opml",
+    "https://github.com/exo-explore/exo",
+    "https://github.com/allora-network/allora-chain"
+  ],
+
+  "projects": [
+    {
+      "name": "Akash Network",
+      "url": "https://github.com/akash-network/node",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Cosmos-SDK/CometBFT marketplace. Tenant posts a deployment; providers bid (each bid requires a returnable deposit); an accepted bid creates a lease priced per block. Escrow accounts make per-block pricing practical: the owed amount is subtracted from escrow each block and accrues to the provider, who withdraws at will; at zero balance the provider may close the lease, and unspent funds return on close. NO compute verification — the tenant's only remedy is to stop paying. Since Mainnet 17 (2026-03-23, Proposal 318) payments run through Burn Mint Equilibrium: buy AKT on market, burn it, mint non-transferable ACT credit, settle the lease in ACT, provider redeems ACT for AKT.",
+      "relevance_to_prana": "Copy the BME payment boundary verbatim — it is the answer to 'accept stablecoins without making PRANA decorative', and it is deployable as ordinary Solidity on chainId 712217. Copy the escrow pattern for any PRANA rental product. Do NOT copy the absence of verification: Akash's worst case is a misdirected rental payment, PRANA's worst case is minted supply against forged work."
+    },
+    {
+      "name": "io.net",
+      "url": "https://io.net/docs/guides/explorer/block-rewards-page",
+      "license": "n/a (no forkable core repo verified)",
+      "status": "partial",
+      "mechanism": "GPU aggregation on Solana. Suppliers pass an hourly Proof-of-Work liveness/performance check plus a Proof-of-Time-Lock stake and a 12-hour stress test, then earn on two streams: per-epoch IO block rewards driven by uptime, job hours, GPU model and bandwidth (paid regardless of whether a job runs), and separate compute-job payments when a renter books the GPU. Its own docs state a valid SOL address is required and that automated payouts are not yet enabled. June 2026 replaced fixed emissions with the Incentive Dynamic Engine, targeting a stable dollar payment and minting to price (secondary).",
+      "relevance_to_prana": "The anti-pattern. Its dominant supplier income is an attendance subsidy dressed as work payment — exactly what PRANA's see-saw exists to avoid. Keep presence pay confined to the HASH lane; require a consumed verdict for every TASK share."
+    },
+    {
+      "name": "Render Network",
+      "url": "https://github.com/rendernetwork/RNPs/blob/main/RNP-001.md",
+      "license": "n/a (RNP governance repo; core client not open)",
+      "status": "shipped",
+      "mechanism": "Burn-and-Mint Equilibrium (RNP-001, approved 2022-06-09): creators burn a USD-denominated amount of RENDER for non-fungible work credits; the network separately mints per epoch to pay node operators for jobs and availability. Adds 107,374,182 tokens (20% of supply) across a front-loaded years-1–5 phase and an indefinite growth phase with a 0.945 damping coefficient. Verification is tiered/reputational plus client-side checking. Token migrated to Solana SPL.",
+      "relevance_to_prana": "Confirms PRANA's fixed-pot design from the other direction: decoupling worker pay from this epoch's demand is what keeps the supply side through troughs. The 0.945 damping coefficient is a usable reference point if PRANA ever activates its ~10%/yr EthashBlockRewardSchedule decay."
+    },
+    {
+      "name": "Bittensor (subtensor)",
+      "url": "https://github.com/opentensor/subtensor",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Substrate chain (with a Frontier EVM) minting 1 TAO/block at 12s, halved to 0.5 TAO/block in December 2025 (~3,600 TAO/day), capped at 21M. Each subnet mints its own alpha token (own 21M cap, same halving); alpha accrues per block and distributes at epoch/tempo boundaries as 18% subnet owner / 41% miners / 41% validators-and-stakers. A subnet's TAO share = its alpha EMA price over the sum of all alpha EMA prices, adjusted for miner burn, renormalized, then passed through a sigmoid emission gate (theta = 32nd-highest positive adjusted share, exponent 3) with age-dependent EMA smoothing so new subnets start near zero. Quality is set by Yuma Consensus — stake-weighted validator scoring, no objective ground truth. The Python SDK repo was archived 2026-07-10 into the subtensor monorepo (Bittensor 11); note the org rename opentensor → RaoFoundation.",
+      "relevance_to_prana": "Take the emission gate and the age-damped EMA as the model for allocating PRANA's single pot across multiple TASK categories without a governance fight per epoch. Do not take Yuma Consensus — PRANA's whole differentiator is that a TASK share is objectively checkable, which is a stronger claim than stake-weighted opinion."
+    },
+    {
+      "name": "Gensyn (Verde + RepOps + rl-swarm)",
+      "url": "https://arxiv.org/abs/2502.19405",
+      "license": "MIT (rl-swarm); Verde/RepOps described in the paper",
+      "status": "whitepaper",
+      "mechanism": "Refereed delegation for ML: a client delegates to multiple untrusted providers and correctness holds if at least one is honest. On disagreement, a bisection protocol locates the first training step and computational-graph operator where the parties diverge, and the referee recomputes only that single operation — verification cost near-constant in job size. RepOps makes this possible by controlling floating-point operation order for bitwise reproducibility across heterogeneous hardware. rl-swarm's README states there are no official swarms running; the $AI token launched 2026-04-29 while the training mainnet remains unshipped (secondary).",
+      "relevance_to_prana": "The most important technical read here. RepOps identifies a silent precondition of PRANA's redundant-recompute path: without pinned floating-point ordering, two honest workers disagree and the attestation gate rejects correct work. Decide PRANA's determinism policy (pinned operator order, or tolerance/semantic comparison) before the TASK lane opens. Also the clearest warning that a token can ship years before the network does."
+    },
+    {
+      "name": "Prime Intellect",
+      "url": "https://github.com/PrimeIntellect-ai/protocol",
+      "license": "Apache-2.0 (protocol, ARCHIVED 2026-01-27); MIT (prime CLI, no crypto)",
+      "status": "partial",
+      "mechanism": "Archived protocol architecture: Ethereum-based smart contracts as the economic layer, a discovery service, an orchestrator, a validator network enforcing quality via random challenges, and worker nodes. Powered the INTELLECT-2 and SYNTHETIC-2 distributed training runs. The live product is now an ordinary GPU cloud CLI/SDK with no token or on-chain payment.",
+      "relevance_to_prana": "Best available open reference for PRANA's off-chain orchestration layer — discovery, orchestrator, random-challenge validators, workers — and Apache-2.0. Its archival is the strategic warning: a compute protocol with no captive demand becomes a cloud. PRANA's answer is that Hathor is the demand."
+    },
+    {
+      "name": "Nosana",
+      "url": "https://github.com/nosana-ci/nosana-cli",
+      "license": "none found at repo root or in package.json (2026-09-05) — treat as not forkable",
+      "status": "shipped",
+      "mechanism": "Solana GPU grid. Containerized jobs posted to markets, matched to staked nodes, paid in NOS. Solana programs cover staking, jobs, nodes, pools and rewards. Staking locks NOS for 2 weeks to 1 year; xNOS = staked amount × duration multiplier, maximum 4x at a one-year lock, and xNOS drives node tiering and governance weight. Verification is stake plus reputation, not proof.",
+      "relevance_to_prana": "The xNOS time-lock multiplier is directly portable to PRANA attestor weighting and the BURN lane: weight by stake × commitment, not stake alone, so a one-epoch attestor rental is priced out of the attack."
+    },
+    {
+      "name": "Golem",
+      "url": "https://github.com/golemfactory/golem-js",
+      "license": "LGPL-3.0 (golem-js); GPL-3.0 (runtimes, goth); core yagna repo returns HTTP 404",
+      "status": "partial",
+      "mechanism": "Requestor demands and provider offers matched in a market, agreements negotiated off-chain, settled by a GLM payment driver, with execution in a VM or WASI runtime. The SDK documents a `hoodi` testnet using tGLM and a minimum yagna 0.17.4.",
+      "relevance_to_prana": "Architecture reading only. The clean separation of market / agreement / payment-driver / runtime is good design. Copyleft licensing and an unresolvable core repo make it a poor dependency or fork target."
+    },
+    {
+      "name": "Hyperbolic / Proof of Sampling",
+      "url": "https://arxiv.org/abs/2405.00295",
+      "license": "n/a (research paper; product is closed commercial)",
+      "status": "partial",
+      "mechanism": "PoSP verifies a randomly sampled subset of outputs at a rate calibrated to a node's stake and reputation, with the slashing penalty sized so that honest behavior is a pure-strategy Nash equilibrium — cheaper than zero-knowledge verification by a wide margin. Instantiated for decentralized ML inference as spML. Hyperbolic operates a commercial GPU marketplace and inference API; independent confirmation that PoSP secures that production path was not obtainable (their PoSP page returned HTTP 500).",
+      "relevance_to_prana": "The highest-value upgrade available to PRANA's TaskVerificationGate: replace 'verify every claim with K attestors' with 'verify claim with probability p, slash at a penalty exceeding value/p'. Same security, a fraction of the attestor cost, and it is the constraint that decides how large the TASK lane can grow."
+    },
+    {
+      "name": "EZKL",
+      "url": "https://github.com/zkonduit/ezkl",
+      "license": "none found at repo root or in Cargo.toml (2026-09-05); README asserts Zkonduit Inc. copyright + CLA — source-available, not confirmed open source",
+      "status": "partial",
+      "mechanism": "Compiles ONNX graphs into Halo2 ZK circuits, proving that a given network ran on given inputs with the input, model, or both private. Verifies on EVM via a generated Solidity verifier, in-browser, or on-device; GPU acceleration via Icicle; v21.0.0 audited by Trail of Bits. Operations are quantized during conversion, so the proof attests the quantized circuit, not the original model.",
+      "relevance_to_prana": "Usable today on PRANA for SMALL models only — a scoring policy, a classifier, an eligibility check, a routing decision. Not usable for LLM inference and will not be in this horizon. Any PRANA claim of zk-verified inference must be scoped to small models or labeled whitepaper per the charter."
+    },
+    {
+      "name": "exo",
+      "url": "https://github.com/exo-explore/exo",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Connects heterogeneous local devices into one AI cluster with automatic discovery, tensor parallelism, RDMA over Thunderbolt 5, and OpenAI/Claude/Ollama-compatible APIs. No token, no chain. ~47.3k stars — the most-adopted project in this entire research set.",
+      "relevance_to_prana": "The fastest route to PRANA_PAPER.md §1's actual goal: compute Hathor owns. Stand up an exo cluster on the operator's existing hardware as Hathor's inference backend now, and use its real workload as the TASK lane's first verification target instead of a synthetic one. Zero protocol risk, immediate reduction in metered-API spend."
+    },
+    {
+      "name": "Allora",
+      "url": "https://github.com/allora-network/allora-chain",
+      "license": "Apache-2.0",
+      "status": "shipped",
+      "mechanism": "Cosmos-SDK/CometBFT chain where workers submit inferences and forecasts, reputers score them against ground truth as it arrives, and rewards flow by prediction quality and by the quality of the assessments themselves.",
+      "relevance_to_prana": "The right pattern for any future PRANA TASK subtype whose correctness cannot be established by re-running it — forecasts, evaluations, judgments — where the deterministic-recompute gate does not apply."
+    }
+  ]
+}

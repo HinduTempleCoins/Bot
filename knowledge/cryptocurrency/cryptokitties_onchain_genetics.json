@@ -1,0 +1,362 @@
+{
+  "title": "CryptoKitties On-Chain Genetics and Its Successors",
+  "author": "Claude Code research pass for the MELEK / Van Kush ecosystem",
+  "period": "2017-2026 (verified against live Ethereum mainnet state on 2026-09-05)",
+  "source": "Primary sources only: the dapperlabs/cryptokitties-bounty repository, live eth_call reads against Ethereum mainnet, the axieinfinity/public-smart-contracts repository, and the aavegotchi/aavegotchi-contracts repository",
+  "overview": "The actual on-chain architecture of CryptoKitties, its 240-bit genome, its cooldown ladder and siring rules, what was and was not open-sourced, and which successor breeding/evolution games ship forkable code. Every contract address here was verified by reading its live state over JSON-RPC; every repository license was read from the repository itself. Companion file: token_standards_and_factories.json. Extends (does not replace) integrations/games/plant-genetics.mjs, which already implements a CryptoKitties-derived breeding valve for the MELEK Kush Farm.",
+
+  "verification_method": {
+    "chain_reads": "eth_call / eth_getCode against Ethereum mainnet via https://ethereum-rpc.publicnode.com, cross-checked against https://eth.drpc.org and https://1rpc.io/eth (identical results on all three)",
+    "date_of_reads": "2026-09-05",
+    "repo_reads": "GitHub REST API (authenticated) for repository metadata, license files, and file contents",
+    "note": "Any claim in this file that could not be confirmed by one of the above was omitted. Where a widely-repeated claim could not be verified, it is labelled 'unverified' in place."
+  },
+
+  "cryptokitties_architecture": {
+    "developer": "Axiom Zen (legal entity: Launch Lab, Inc.), later Dapper Labs",
+    "launch": "Kitty #1 birthTime on-chain is 1511417999 = 2017-11-23T06:19:59Z (read from getKitty(1))",
+    "design_pattern": "One core contract split by INHERITANCE into facets in a single deployed contract, plus THREE separately-deployed sibling contracts (two auctions + the gene-science oracle). This is not a proxy pattern and not EIP-2535; it is plain Solidity inheritance in one deployment, with sibling contracts swappable by address.",
+    "inheritance_chain": "KittyAccessControl <- KittyBase <- KittyOwnership <- KittyBreeding <- KittyAuction <- KittyMinting <- KittyCore",
+    "facet_roles": {
+      "KittyAccessControl": "CEO / CFO / COO role addresses and a pause switch. Three named roles, not a DAO.",
+      "KittyBase": "The Kitty struct, the cooldowns lookup table, the kitties array, ownership mappings, siring approvals.",
+      "KittyOwnership": "Draft ERC-721 methods (the standard did not exist yet when this shipped; the file is literally named ERC721Draft.sol).",
+      "KittyBreeding": "Siring permission, cooldown triggering, mating-pair validity, pregnancy, giveBirth.",
+      "KittyAuction": "Wrappers that hand tokens to the two sibling clock-auction contracts.",
+      "KittyMinting": "Gen0 creation with a hard cap and an algorithmic starting price.",
+      "KittyCore": "Assembles the above and holds newContractAddress, an escape hatch pointing at a successor contract if the core is ever found broken."
+    },
+    "self_description_quote": "From the KittyCore.sol source comment: 'The genetic combination algorithm is kept seperate so we can open-source all of the rest of our code without making it _too_ easy for folks to figure out how the genetics work. Don't worry, I'm sure someone will reverse engineer it soon enough!'"
+  },
+
+  "verified_contract_addresses": {
+    "note": "All addresses EIP-55 checksummed. All were read live on 2026-09-05.",
+    "KittyCore": {
+      "address": "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d",
+      "chain": "Ethereum mainnet",
+      "verified_by": "name() returned 'CryptoKitties', symbol() returned 'CK'",
+      "live_state_2026_09_05": {
+        "totalSupply": 2025803,
+        "gen0CreatedCount": 34928,
+        "gen0CreationLimit": 50000,
+        "promoCreatedCount": 3087,
+        "promoCreationLimit": 5000,
+        "pregnantKitties": 0,
+        "autoBirthFee_wei": "8000000000000000",
+        "autoBirthFee_eth": 0.008,
+        "secondsPerBlock": 12
+      },
+      "reading": "gen0 supply is capped at 50,000 and 34,928 have ever been minted; every one of the other ~1.99M cats came from breeding. The supply valve worked: the population is overwhelmingly bred, not minted."
+    },
+    "GeneScience": {
+      "address": "0x4fcFd9f5fDa7b27DD731de6dFe15F7CAF79304fA",
+      "discovered_by": "reading the public geneScience() getter on KittyCore",
+      "verified_by": "isGeneScience() returned true; eth_getCode returned 2261 bytes of deployed code",
+      "status": "SEALED. Only the interface (GeneScienceInterface.sol, two functions: isGeneScience() and mixGenes(uint256,uint256,uint256)) was ever published. The implementation was deployed as bytecode with no published source. This is the single most-copied design decision in the genre and the one MELEK should NOT copy - see design_lessons."
+    },
+    "SaleClockAuction": {
+      "address": "0xb1690C08E213a35Ed9bAb7B318DE14420FB57d8C",
+      "verified_by": "read from KittyCore.saleAuction(); eth_getCode returned 3461 bytes",
+      "role": "Dutch (descending-price) auction for gen0 cats and for player resales"
+    },
+    "SiringClockAuction": {
+      "address": "0xC7af99Fe5513eB6710e6D5f44F9989dA40F27F26",
+      "verified_by": "read from KittyCore.siringAuction(); eth_getCode returned 3265 bytes",
+      "role": "Dutch auction for STUD SERVICE - you rent the sire, you keep the kitten. Renting a breeding right without transferring the asset is the mechanic most successors dropped and the one most worth copying."
+    }
+  },
+
+  "the_genome": {
+    "storage": "A single uint256 field 'genes' on the Kitty struct. The comment in KittyBase.sol reads: 'The Kitty's genetic code is packed into these 256-bits, the format is sooper-sekret! A cat's genes never change.'",
+    "actual_width_used": 240,
+    "structure": "12 traits x 4 gene slots x 5 bits = 240 bits. The top 16 bits of the uint256 are unused and zero.",
+    "slots_per_trait": ["p (primary - the visible cattribute)", "h1 (hidden 1)", "h2 (hidden 2)", "h3 (hidden 3)"],
+    "twelve_traits": ["Fur", "Pattern", "Eye Color", "Eye Shape", "Base Color", "Highlight Color", "Accent Color", "Wild", "Mouth", "Environment", "Secret Y Gene", "Purrstige"],
+    "kai_notation": {
+      "what": "The community encoding for a single 5-bit gene as one character",
+      "base": 32,
+      "alphabet": "123456789abcdefghijkmnopqrstuvwx",
+      "excludes": "0 and l (visual ambiguity)",
+      "named_for": "Kai Turner, who deciphered the genome layout in January 2018"
+    },
+    "independent_verification_performed": {
+      "method": "Read getKitty(1) from KittyCore on mainnet and decomposed the returned genes value",
+      "kitty_1_genes_hex": "0x5ad2b318e6724ce4b9290146531884721ad18c63298a5308a55ad6b6b58d",
+      "hex_chars": 60,
+      "bits": 240,
+      "decomposed_48_five_bit_genes_lsb_first": [13, 12, 13, 13, 11, 11, 11, 11, 5, 5, 2, 6, 5, 5, 6, 5, 3, 3, 3, 3, 13, 13, 8, 14, 4, 4, 6, 6, 5, 3, 5, 0, 9, 9, 14, 9, 14, 6, 9, 14, 6, 7, 6, 6, 11, 9, 11, 11],
+      "result": "Exactly 60 hex characters = 240 bits = 48 five-bit genes, every value < 32. The 4-slot grouping is visible in the data (13,12,13,13 | 11,11,11,11 | 3,3,3,3). The published 12x4x5 layout is confirmed against live chain data, not merely repeated from a blog post."
+    },
+    "what_was_never_published": "The mixGenes implementation itself: which slot wins, the swap probabilities, and the mutation table. The community-reconstructed inheritance model (a per-slot shuffle plus mutation of adjacent gene pairs into a higher tier) is a REVERSE-ENGINEERED HYPOTHESIS, not a published spec. Do not cite specific inheritance percentages as fact - they were never released."
+  },
+
+  "cooldowns": {
+    "mechanism": "A uint16 cooldownIndex on each Kitty indexes into a fixed uint32[14] lookup table. Every successful breeding action - as matron OR as sire - increments the index by one, capped at 13. Cooldown roughly doubles each step and caps at one week. A cat can breed an unbounded number of times; it just gets slower forever.",
+    "initial_index": "0 for gen0 cats, floor(generation/2) for all others - so deep generations start already slow",
+    "table_verified_on_chain": [
+      {"index": 0, "seconds": 60, "human": "1 minute"},
+      {"index": 1, "seconds": 120, "human": "2 minutes"},
+      {"index": 2, "seconds": 300, "human": "5 minutes"},
+      {"index": 3, "seconds": 600, "human": "10 minutes"},
+      {"index": 4, "seconds": 1800, "human": "30 minutes"},
+      {"index": 5, "seconds": 3600, "human": "1 hour"},
+      {"index": 6, "seconds": 7200, "human": "2 hours"},
+      {"index": 7, "seconds": 14400, "human": "4 hours"},
+      {"index": 8, "seconds": 28800, "human": "8 hours"},
+      {"index": 9, "seconds": 57600, "human": "16 hours"},
+      {"index": 10, "seconds": 86400, "human": "1 day"},
+      {"index": 11, "seconds": 172800, "human": "2 days"},
+      {"index": 12, "seconds": 345600, "human": "4 days"},
+      {"index": 13, "seconds": 604800, "human": "7 days"}
+    ],
+    "verification": "Each entry read individually from the public cooldowns(uint256) getter on KittyCore, and cross-checked against the literal array in KittyBase.sol. They match exactly.",
+    "single_timer": "One cooldownEndTime field serves as BOTH the matron's pregnancy timer AND the sire's siring cooldown. There is no second clock."
+  },
+
+  "siring_and_breeding_rules": {
+    "roles": "matron (becomes pregnant, must be owned by the caller) and sire (starts a siring cooldown). Both are just kitties; there is no fixed sex.",
+    "pregnancy": "Set siringWithId = sireId on the matron. A non-zero siringWithId IS the pregnancy flag; there is no separate boolean.",
+    "permission": "Siring is allowed if matron and sire have the same owner, OR the sire's owner called approveSiring(matronOwner, sireId). This is a per-token, single-address approval, cleared on transfer.",
+    "incest_rules_from_KittyBreeding_isValidMatingPair": [
+      "A cat cannot breed with itself (matronId == sireId is rejected)",
+      "A cat cannot breed with either of its own parents (checked in both directions)",
+      "Gen0 cats (matronId == 0) are exempt from the sibling checks - they have no lineage to compare",
+      "Siblings and half-siblings are rejected: sire.matronId == matron.matronId, sire.matronId == matron.sireId, sire.sireId == matron.matronId, sire.sireId == matron.sireId are all blocked"
+    ],
+    "generation": "child.generation = max(matron.generation, sire.generation) + 1. Higher generation is WORSE (later, more common), the inverse of most collectible intuitions.",
+    "autoBirthFee": {
+      "value_wei": "8000000000000000",
+      "value_eth": 0.008,
+      "purpose": "breedWithAuto() takes a prepayment that funds the gas for a bot to later call giveBirth(). The birth is a SECOND transaction that anyone can send; the fee reimburses whoever sends it.",
+      "reading": "This is a self-funding keeper pattern with no oracle and no cron. It is directly reusable on PRANA for any deferred game action."
+    },
+    "birth_gating": "_isReadyToGiveBirth requires siringWithId != 0 AND cooldownEndTime <= now. Pure on-chain time, no external trigger authority."
+  },
+
+  "gen0_economics": {
+    "hard_caps": {"promoCreationLimit": 5000, "gen0CreationLimit": 50000},
+    "starting_price": "gen0StartingPrice = 10 finney = 0.01 ETH; gen0AuctionDuration = 1 day",
+    "price_algorithm": "_computeNextGen0Price() = saleAuction.averageGen0SalePrice() + (that / 2), i.e. the average of the last 5 gen0 sale prices plus 50%, floored at gen0StartingPrice",
+    "reading": "The mint price is a market-following ratchet, not a fixed number and not a curve chosen in advance. Each new gen0 is offered 50% above what the last five actually cleared at, then Dutch-descends until someone bids. It self-throttles when demand cools, without an admin key touching it."
+  },
+
+  "clock_auction": {
+    "type": "Dutch / descending-price, LINEAR interpolation",
+    "struct_packing": "seller (address), startingPrice (uint128), endingPrice (uint128), duration (uint64), startedAt (uint64) - deliberately packed",
+    "formula": "currentPrice = startingPrice + (endingPrice - startingPrice) * secondsPassed / duration, clamped to endingPrice once secondsPassed >= duration",
+    "minimum_duration": "1 minute",
+    "reading": "No order book, no matching engine, no off-chain relayer. A descending-price auction is the cheapest possible on-chain price-discovery primitive and it is what carried CryptoKitties' entire market. Worth copying verbatim for MELEK/PRANA game markets before reaching for an AMM."
+  },
+
+  "what_was_open_sourced": {
+    "repository": "https://github.com/dapperlabs/cryptokitties-bounty",
+    "published": [
+      "KittyCore.sol, KittyBase.sol, KittyAccessControl.sol, KittyOwnership.sol, KittyBreeding.sol, KittyAuction.sol, KittyMinting.sol",
+      "ERC721Draft.sol (pre-standard ERC-721)",
+      "Auction/ClockAuction.sol, ClockAuctionBase.sol, SaleClockAuction.sol, SiringClockAuction.sol",
+      "ExternalInterfaces/GeneScienceInterface.sol - the INTERFACE ONLY",
+      "ABIs, truffle config, tests, a Rinkeby variant"
+    ],
+    "not_published": "The GeneScience implementation. Only its two-function interface exists in the repo.",
+    "LICENSE_VERBATIM": "Copyright (c) 2017 Launch Lab, Inc. (dba Axiom Zen)\n\nAll rights reserved. The contents of this repository is provided for review and educational purposes ONLY. You MAY NOT use, copy, distribute, or modify this software without express written permission from Axiom Zen or Launch Labs, Inc.",
+    "CRITICAL_LICENSE_FINDING": "CryptoKitties is NOT open source and NEVER WAS. GitHub's API reports the license as NOASSERTION because it is a bespoke all-rights-reserved review licence. The repository exists because it was a bug-bounty target, not a gift to the commons. Copying KittyCore.sol into a MELEK or PRANA product would be copyright infringement. The MECHANICS (a cooldown lookup table, a doubling index, incest checks, a Dutch auction, a packed genome) are unprotectable ideas and are free to reimplement from scratch; the CODE and the trade dress are not. This is exactly the posture already taken in integrations/games/plant-genetics.mjs - 'the MECHANIC is math and free for anyone; the EXPRESSION is ours' - and that posture is correct and should not be relaxed."
+  },
+
+  "erc721_origin_story": {
+    "eip": "EIP-721, verified at https://eips.ethereum.org/EIPS/eip-721",
+    "status": "Final",
+    "type": "Standards Track: ERC",
+    "created": "2018-01-24",
+    "authors": ["William Entriken (@fulldecent)", "Dieter Shirley (dete@axiomzen.co)", "Jacob Evans (jacob@dekz.net)", "Nastassia Sachs (nastassia.sachs@protonmail.com)"],
+    "the_link": "Dieter Shirley's listed email domain is axiomzen.co - CryptoKitties' developer. CryptoKitties shipped in November 2017 against a DRAFT that lived only as GitHub issue ethereum/EIPs#721; the file in the bounty repo is literally called ERC721Draft.sol. The standard was written up formally on 2018-01-24, AFTER the game was already live and had congested Ethereum. The EIP's own Rationale section cites CryptoKitties as prior art.",
+    "reading": "The standard followed the shipped product, not the reverse. A working game with users produced the token standard. That ordering is the point."
+  },
+
+  "successors": {
+    "axie_infinity": {
+      "repository": "https://github.com/axieinfinity/public-smart-contracts",
+      "repository_license": "No LICENSE file present; GitHub reports no license (= all rights reserved by default)",
+      "verified_addresses": {
+        "AxieCore": "0xF5b0A3eFB8e8E4c201e2A935F110eAaF3FFEcb8d (Ethereum mainnet; name() = 'Axie', symbol() = 'AXIE', verified live 2026-09-05)",
+        "AxieClockAuction": "0xF4985070Ce32b6B1994329DF787D1aCc9a2dd9e2 (from the repo README; same Dutch-auction lineage as CryptoKitties)"
+      },
+      "the_key_finding": "AxieCore's on-chain struct is just { uint256 genes; uint256 bornAt; }. There is NO on-chain breeding. Genes are written by an address holding the onlySpawner role via spawnAxie(genes, owner), plus evolveAxie and rebirthAxie. The entire genetics engine is off-chain and trusted. Axie moved further from on-chain genetics than CryptoKitties, not closer.",
+      "the_economics_worth_copying": "Axie's escalating breed cost (in two tokens, SLP and AXS) plus a HARD LIFETIME CAP of 7 breeds per Axie. That anti-inflation valve is already implemented in integrations/games/plant-genetics.mjs (BREED_COST_SCHEDULE and MAX_BREEDS = 7).",
+      "forkable": "No. Unlicensed, and the interesting half is not published anyway.",
+      "chain_fit": "EVM. Ronin is an Ethereum sidechain. Nothing here runs on the Graphene MELEK chain."
+    },
+    "aavegotchi": {
+      "repository": "https://github.com/aavegotchi/aavegotchi-contracts",
+      "license": "MIT (verified via GitHub API)",
+      "chain": "Polygon (EVM)",
+      "architecture": "EIP-2535 Diamond. Verified: contracts/Aavegotchi/InitDiamond.sol plus a facets/ directory with 29 facets (AavegotchiFacet, VRFFacet, SvgFacet, ShopFacet, GotchiLendingFacet, ...) and a shared AppStorage struct in libraries/LibAppStorage.sol.",
+      "on_chain_traits_verified": {
+        "constant": "uint256 constant NUMERIC_TRAITS_NUM = 6;",
+        "storage": "int16[NUMERIC_TRAITS_NUM] numericTraits;",
+        "comment_in_source": "[Eye Color, Eye Shape, Brain Size, Spookiness, Aggressiveness, Energy]",
+        "modifiers": "int8[6] temporaryTraitBoosts from consumables, int8[6] traitModifiers on each wearable (source comment: 'Should not be more than +-5 total'), and int16[6] modifiers per collateral type (source comment: 'Can be 2, 1, -1, or -2')"
+      },
+      "randomness": "uint256 randomNumber per gotchi, delivered by Chainlink VRF (VRFFacet.sol imports ILink and implements the VRF consumer callback). Traits are derived from that one number at portal-opening time.",
+      "fully_on_chain_art": "SvgFacet.getAavegotchiSvg(tokenId) composes the SVG from stored layers plus the gotchi's numericTraits and equipped wearables, and returns a complete <svg> document from a view function. Nothing is fetched from IPFS or a server for rendering.",
+      "forkable": "YES - this is the strongest MIT-licensed on-chain-genetics reference that exists.",
+      "chain_fit": "EVM only. Runs on PRANA (chainId 712217) after fixing the randomness source - see prana_notes."
+    },
+    "wolf_game": {
+      "verified_address": "0xEB834ae72B30866af20a6ce5440Fa598BfAd3a42 (Ethereum mainnet; name() = 'Wolf Game', symbol() = 'WGAME', verified live 2026-09-05)",
+      "launch": "November 2021",
+      "mechanic": "A staking risk protocol rather than a breeding one: Sheep staked in the Barn earn $WOOL and pay a tax on claim; unstaking exposes the accumulated $WOOL to being stolen by Wolves. Minting was a gamble - you might get a Wolf or a Sheep.",
+      "why_it_matters_as_a_warning": "The original launch was exploited because the mint outcome was derivable on-chain before it was committed - players could guarantee minting the rare Wolf. A second bug allowed claiming far more $WOOL than earned. The project migrated to a replacement contract on 2021-11-27, re-minting copies for holders and locking the vulnerable originals.",
+      "the_lesson": "Deriving a rarity/genetics outcome from data available in the same transaction (blockhash, timestamp, tx state) is not randomness. A caller can simulate, revert on a bad draw, and retry. Any PRANA breeding or mint outcome must be commit-reveal across at least one block boundary, or derived from a value the caller cannot see when they commit.",
+      "forkable": "No published, licensed source repository was found. Do not treat community re-uploads as authoritative."
+    },
+    "sunflower_land": {
+      "repository": "https://github.com/sunflower-land/sunflower-land",
+      "license": "No LICENSE file at repository root; GitHub reports no license (= all rights reserved by default). Actively developed (last push 2026-09-04).",
+      "what_it_actually_is": "A TypeScript/React game client (rsbuild, Phaser-adjacent, Tailwind) with the farming simulation running off-chain against a server; the chain holds the NFTs and resources. Despite the on-chain framing, the game logic is not on-chain.",
+      "relevance_to_melek": "The closest existing analogue to the MELEK Kush Farm's shape (crops, timers, resources, a tradeable inventory). Read it for game-economy pacing, NOT for contracts, and do not copy code - it is unlicensed.",
+      "chain_fit": "Polygon/Base EVM plus a server. The off-chain-logic-with-on-chain-assets split is exactly what MELEK-Engine already does for the Graphene side."
+    },
+    "onchain_game_frameworks": {
+      "mud": {
+        "repository": "https://github.com/latticexyz/mud",
+        "license": "MIT (verified)",
+        "what": "A framework for fully on-chain 'autonomous worlds': an ECS-style on-chain store, a World contract with namespaced systems, and client sync tooling. If a MELEK/PRANA game wants its ENTIRE state machine on-chain rather than just its assets, this is the mature EVM answer.",
+        "chain_fit": "EVM. See prana_notes for the solc/EVM-version constraint before assuming it deploys to PRANA unmodified."
+      },
+      "dojo": {
+        "repository": "https://github.com/dojoengine/dojo",
+        "license": "Apache-2.0 (verified)",
+        "what": "The equivalent toolchain for provable games, but written in Cairo for Starknet.",
+        "chain_fit": "NOT EVM and NOT Graphene. Cairo only. Listed for completeness; it does not run on PRANA or MELEK."
+      }
+    },
+    "honest_gap": "No currently-maintained, permissively-licensed, production breeding game with genetics computed ON-CHAIN was found. CryptoKitties sealed its gene science and is all-rights-reserved; Axie moved genetics off-chain entirely; Aavegotchi has on-chain traits but derives them from one VRF draw at birth rather than from parents. A genuinely on-chain, parent-derived genetics engine with a public licence is an unoccupied position, not a solved problem to fork."
+  },
+
+  "design_lessons": {
+    "copy_this": [
+      "The cooldown INDEX, not a cooldown duration. Storing a uint16 index into a fixed lookup table costs almost nothing, makes the whole schedule auditable in one array, and lets the doubling be a data change rather than a code change.",
+      "One timer for two purposes. A single cooldownEndTime serving as both pregnancy timer and siring cooldown removes an entire class of state bugs.",
+      "Siring as a rentable right. SiringClockAuction lets an owner sell breeding access without transferring the asset. This is the highest-yield mechanic in the whole design and almost nobody copied it.",
+      "The self-funding keeper. autoBirthFee prepays the gas for the second transaction that completes a deferred action. No cron, no oracle, no privileged bot.",
+      "Explicit incest rules as consensus code. Six on-chain checks (self, both parents in both directions, four sibling/half-sibling combinations) keep the family tree meaningful without any off-chain validation.",
+      "Gen0 supply cap as the scarcity anchor. 50,000 founders, ~2 million descendants. Cap the founders, let breeding do the rest.",
+      "Market-following mint price. Average of the last five clearing prices plus 50%, Dutch-descending. The market sets the mint price; no admin key does.",
+      "Packing the struct into exactly two 256-bit words, and saying so in a comment so the next maintainer does not casually reorder the fields."
+    ],
+    "do_not_copy_this": [
+      "The sealed gene-science contract. It bought Axiom Zen a few weeks before the genome was reverse-engineered anyway (Kai Turner, January 2018), and cost them permanent verifiability. On PRANA, an open, deterministic, on-chain mixGenes is strictly better: it is auditable, it is forkable, and it makes the game survive its operator. This is the same forkability argument BRIEF.md makes for Hathor's character living in a public repo.",
+      "CEO/CFO/COO role addresses as the entire governance model.",
+      "The all-rights-reserved 'open for review' licence. If MELEK publishes contracts, publish them under a real licence or do not publish them.",
+      "Any randomness a caller can see before committing - see the Wolf Game entry."
+    ],
+    "relationship_to_existing_repo_code": {
+      "file": "integrations/games/plant-genetics.mjs",
+      "already_implements": [
+        "Diploid genes with a dominant expressed allele (Mendelian one-allele-from-each-parent, not a blend)",
+        "Doubling cooldown measured in L1 blocks with a ceiling (COOLDOWN_BASE_BLOCKS * 2^breedCount, capped) - the CryptoKitties mechanic",
+        "Axie's escalating breed cost schedule and hard cap of 7 lifetime breeds",
+        "A rarity gate before a plant may breed",
+        "Deterministic RNG seeded from L1 blockId + txId + parent ids, explicitly never Math.random"
+      ],
+      "gaps_this_research_identifies": [
+        "No incest / mating-pair validity check. CryptoKitties has six. Adding parent and sibling checks would make lineage meaningful and is cheap - the parents array is already stored.",
+        "No siring-rights primitive. There is no way to rent a plant as a pollen donor without transferring it. This is the single highest-value addition, and it is the mechanic CryptoKitties monetised best.",
+        "No deferred-birth keeper. Breeding resolves immediately; there is no autoBirthFee-style prepaid second transaction, so there is no gestation window to build tension or a market around.",
+        "The genome is a JS object, not a packed integer. If seeds are ever to be minted as PRANA NFTs, a packed uint256 genome (MELEK's own layout - the 12x4x5 shape is a proven template, not a thing to copy verbatim) makes the token self-describing on-chain.",
+        "Determinism relies on the caller supplying blockId/txId honestly. On PRANA (Etchash PoW) block.difficulty and blockhash are miner-influenceable; see prana_notes."
+      ]
+    }
+  },
+
+  "prana_notes": {
+    "chain": "PRANA, EVM chainId 712217 (0xADE19), Etchash PoW, core-geth",
+    "evm_fork_level": "All forks through LONDON active at block 0 (per PRANA_PAPER.md §2.1). This is the load-bearing constraint for every contract in this file.",
+    "what_this_forbids": [
+      "PUSH0 (EIP-3855, Shanghai) is NOT available. solc 0.8.20+ emits PUSH0 by default. Contracts MUST be compiled with evm_version = 'london' (or paris) or they will not execute correctly. The repo already does this: kulaswap/contracts/foundry.toml line 15 sets evm_version = \"london\".",
+      "Transient storage TSTORE/TLOAD (EIP-1153, Cancun) is NOT available.",
+      "MCOPY (EIP-5656, Cancun) is NOT available.",
+      "Consequence: any dependency pinned to solidity 0.8.24+ that relies on transient storage will not run. Aavegotchi's contracts predate all of this and are fine; MUD and other modern frameworks must be checked and recompiled for london."
+    ],
+    "what_this_permits": [
+      "CREATE2 (EIP-1014, Constantinople) - available, so deterministic factories and EIP-1167 clones work",
+      "BASEFEE (EIP-3198, London) - available",
+      "Everything CryptoKitties and Aavegotchi actually use"
+    ],
+    "randomness": "PRANA is Nakamoto PoW, so EIP-4399 PREVRANDAO does NOT apply: opcode 0x44 returns real mining difficulty, which a miner can influence, and blockhash is likewise miner-selectable within a grind. There is no Chainlink VRF on PRANA. A breeding game therefore CANNOT copy Aavegotchi's VRF pattern directly. Use commit-reveal across a block boundary: the player commits a hash of their secret in transaction 1, the outcome is derived from that secret plus a block value the player could not see at commit time in transaction 2. This is the Wolf Game lesson applied.",
+    "melek_graphene_side": {
+      "verdict": "NONE of the contracts in this file run on the MELEK chain. MELEK is a Graphene/Steem fork with no EVM and, per CLAUDE.md, standard Graphene ops only (comment, vote, transfer, delegate_vesting_shares, create_account_with_keys_delegated).",
+      "what_MELEK_can_do": "Exactly what engine/ already does: a deterministic off-chain state machine that reads L1 blocks, filters custom_json ops with a known id, executes a pure reducer, and publishes a SHA-256 state hash. Breeding is a pure function of (parent genomes, block id, tx id) - integrations/games/plant-genetics.mjs is already written that way, with no I/O and no clock. That module is directly usable as a MELEK-Engine contract with no EVM anywhere.",
+      "the_split_that_works": "Genetics as a pure deterministic reducer, hosted on the MELEK-Engine side-layer for the Graphene chain AND compiled to Solidity for PRANA. Same rules, two hosts, one canonical spec. Both are auditable because the rules are published - which is the opposite of the CryptoKitties choice."
+    }
+  },
+
+  "sources": [
+    "https://eips.ethereum.org/EIPS/eip-721",
+    "https://github.com/dapperlabs/cryptokitties-bounty",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/LICENSE.md",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/KittyBase.sol",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/KittyCore.sol",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/KittyBreeding.sol",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/KittyMinting.sol",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/Auction/ClockAuctionBase.sol",
+    "https://github.com/dapperlabs/cryptokitties-bounty/blob/master/contracts/ExternalInterfaces/GeneScienceInterface.sol",
+    "https://etherscan.io/address/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d",
+    "https://etherscan.io/address/0x4fcFd9f5fDa7b27DD731de6dFe15F7CAF79304fA",
+    "https://etherscan.io/address/0xb1690C08E213a35Ed9bAb7B318DE14420FB57d8C",
+    "https://etherscan.io/address/0xC7af99Fe5513eB6710e6D5f44F9989dA40F27F26",
+    "http://planetruby.github.io/gems/blockchain/06-kittyverse.html",
+    "https://github.com/cryptocopycats/kitties",
+    "https://github.com/axieinfinity/public-smart-contracts",
+    "https://etherscan.io/address/0xF5b0A3eFB8e8E4c201e2A935F110eAaF3FFEcb8d",
+    "https://github.com/aavegotchi/aavegotchi-contracts",
+    "https://github.com/aavegotchi/aavegotchi-contracts/blob/master/contracts/Aavegotchi/libraries/LibAppStorage.sol",
+    "https://github.com/aavegotchi/aavegotchi-contracts/blob/master/contracts/Aavegotchi/facets/SvgFacet.sol",
+    "https://etherscan.io/token/0xeb834ae72b30866af20a6ce5440fa598bfad3a42",
+    "https://github.com/sunflower-land/sunflower-land",
+    "https://github.com/latticexyz/mud",
+    "https://github.com/dojoengine/dojo",
+    "https://eips.ethereum.org/EIPS/eip-3855",
+    "https://eips.ethereum.org/EIPS/eip-1153",
+    "https://eips.ethereum.org/EIPS/eip-4399",
+    "https://eips.ethereum.org/EIPS/eip-1014"
+  ],
+
+  "forkable": [
+    {
+      "name": "aavegotchi/aavegotchi-contracts",
+      "url": "https://github.com/aavegotchi/aavegotchi-contracts",
+      "license": "MIT",
+      "what_it_gives_us": "The only production, permissively-licensed, fully-on-chain creature system. Verified in-source: a 6-slot int16 numericTraits array per gotchi, trait modifiers from collateral type and from equipped wearables, a per-token randomNumber, an EIP-2535 diamond with 29 facets sharing one AppStorage struct, an on-chain marketplace for both ERC-721 and ERC-1155, a lending/renting facet, and SvgFacet which composes and returns the creature's complete SVG from a view function. If the MELEK Kush Farm seeds are to be PRANA NFTs with on-chain art and on-chain stats, this is the codebase to read line by line.",
+      "chain_fit": "PRANA (EVM). Two required changes: (1) compile with evm_version = 'london' - PRANA has no PUSH0; (2) REPLACE the Chainlink VRF path entirely - there is no VRF on PRANA. Substitute commit-reveal. Does NOT run on the Graphene MELEK chain."
+    },
+    {
+      "name": "mudgen/diamond-1-hardhat (EIP-2535 reference)",
+      "url": "https://github.com/mudgen/diamond-1-hardhat",
+      "license": "MIT",
+      "what_it_gives_us": "The minimal, canonical Diamond implementation Aavegotchi's architecture is built on. A breeding game outgrows the 24KB contract size limit fast once genetics, market, staking and rendering all live on-chain; the diamond is how Aavegotchi solved that. Start here before reading Aavegotchi, or the facet layout will not make sense.",
+      "chain_fit": "PRANA (EVM), compiled for london. Not applicable to MELEK Graphene."
+    },
+    {
+      "name": "cryptocopycats/kitties",
+      "url": "https://github.com/cryptocopycats/kitties",
+      "license": "CC0-1.0",
+      "what_it_gives_us": "Public-domain datasets of real CryptoKitties: ids, generation, matron and sire ids, birthdate, and all 48 genes in kai (base-32) notation. Because it is CC0 it can be used freely for testing a genome decoder, for a Cryptology lesson module, or as a realistic population to run a MELEK breeding simulation against before launching one. This is the legal way to learn from CryptoKitties data given the contracts themselves are all-rights-reserved.",
+      "chain_fit": "Off-chain data. Usable by MELEK (Graphene), PRANA, and the tutorial/Cryptology surfaces alike."
+    },
+    {
+      "name": "latticexyz/mud",
+      "url": "https://github.com/latticexyz/mud",
+      "license": "MIT",
+      "what_it_gives_us": "An ECS-style on-chain store plus a namespaced World contract and client sync tooling, for the case where the whole game state machine - not just the assets - should live on-chain. The alternative architecture to the diamond, if the ambition is a MELEK autonomous world rather than a token game.",
+      "chain_fit": "PRANA (EVM). MUST be checked and recompiled for evm_version = 'london'; modern versions target Cancun and may rely on transient storage, which PRANA does not have. Not applicable to MELEK Graphene."
+    },
+    {
+      "name": "dapperlabs/cryptokitties-bounty",
+      "url": "https://github.com/dapperlabs/cryptokitties-bounty",
+      "license": "PROPRIETARY - all rights reserved (Launch Lab, Inc. dba Axiom Zen). Review and educational use only. NOT a fork source.",
+      "what_it_gives_us": "READ ONLY. It is the primary source for how the mechanics actually work - the cooldown table, the incest checks, the auction maths, the gen0 price ratchet, the two-word struct packing. Every one of those is an unprotectable idea and may be reimplemented from scratch in MELEK's own code and MELEK's own words. The Solidity itself may not be copied, adapted, or vendored, and neither may the cat trade dress. Listed here explicitly so no future agent mistakes 'the source is on GitHub' for 'the source is open'.",
+      "chain_fit": "Reference material only. Not deployable anywhere by us."
+    }
+  ]
+}

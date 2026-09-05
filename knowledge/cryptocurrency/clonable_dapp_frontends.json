@@ -1,0 +1,1307 @@
+{
+  "title": "Clonable Front Ends & dApp UIs — verified catalogue for MELEK / PRANA / KULA / SoapBox",
+  "author": "Claude Code research pass for the Van Kush / MELEK Bot repo",
+  "period": "2025-2026 (all entries verified against the GitHub API on 2026-09-05)",
+  "source": "Direct verification: GitHub REST API (repos, /license, /contents, /releases) and raw.githubusercontent.com LICENSE and README fetches. No entry is included that could not be fetched.",
+  "overview": "A catalogue of real, fetched-and-confirmed open-source front ends this repo could clone or crib from, covering wallet UIs, block explorers, NFT mint/marketplace pages, DEX/swap interfaces, launchpad/staking/faucet pages, mining-pool front ends, and wallet-connect layers. Every repository below was fetched: existence, last push date, archived flag and the EXACT licence text were confirmed, not assumed. Several widely-repeated licence claims turned out to be stale — Blockscout, Reown AppKit and WalletConnect all relicensed away from open source in 2025-2026, and Uniswap's front end, several 'open source' explorers and yiimp are all copyleft or unlicensed. Those are called out as landmines rather than buried.",
+  "verification_method": {
+    "what_was_checked": "repo exists; full_name after redirects; SPDX licence id; the first lines of the actual LICENSE file when GitHub reported NOASSERTION or none; last push date; archived flag; latest release tag and date; and for the ambiguous cases, the raw LICENSE at a specific tag.",
+    "excluded": "Anything that 404'd or could not have its licence read was dropped rather than guessed. Repos dropped for this reason during research included several search-result NFT/launchpad templates with no licence and near-zero adoption.",
+    "redirects_resolved": [
+      "sushiswap/sushiswap -> sushi-labs/sushiswap",
+      "ProjectOpenSea/opensea-js -> ProjectOpenSea/opensea-sdk",
+      "ethereum/remix-project -> remix-project-org/remix-project",
+      "ethereum/sourcify -> argotorg/sourcify",
+      "web3labs/epirus-free -> web3labs/chainlens-free",
+      "blocknative/web3-onboard -> thirdweb-dev/web3-onboard",
+      "EnKryptIO/ethvm -> EthVM/EthVM",
+      "LedgerHQ/ledgerjs -> archived, superseded by LedgerHQ/ledger-live"
+    ]
+  },
+  "house_style_constraint": {
+    "what_this_repo_is": "Plain ESM .mjs, no build step, no framework. Server modules export handler(req,res). Tests run offline under node --test with injectable fetch. Front ends are static HTML plus hand-written .mjs modules (site/hathor-live/, pool/www/) with cryptographic primitives vendored as small clean-room ESM files (pool/www/walletgen/vendor/).",
+    "what_already_exists": "pool/www — browser miner, in-browser walletgen (ZEPH/XMR/EVM), My Coins, PWA. kulaswap/ — a hand-written DEX/CDP/staking/farm UI over ethers 6, already targeting PRANA chainId 712217. site/hathor-live/ — chat, sessions, reports. integrations/ — ~100 shared reader modules including melek-theme.mjs and ecosystem-nav.mjs.",
+    "the_honest_cost_of_react": "Every entry marked 'React/Next, heavy port' means adopting a second toolchain — package manager lockfile, bundler, its own CI, and a dependency surface that this repo currently does not have and that its offline node --test suite cannot exercise. That is a real, ongoing cost, not a one-time port. Where a React project is recommended below, it is recommended as a SEPARATE deployment or as a design reference, never as something to merge into the Bot repo's build.",
+    "what_drop_in_means_here": "A single self-contained HTML file, or an ESM module importable from a <script type=module> with no bundler, or a pre-built artifact configured at runtime by a JSON/JS config file."
+  },
+  "licence_landmines_2025_2026": {
+    "headline": "Three of the most-recommended projects in this space stopped being open source in 2025-2026, and most published guides have not caught up.",
+    "blockscout_relicensed": {
+      "what": "blockscout/blockscout and blockscout/frontend",
+      "was": "GPL-3.0",
+      "now": "LicenseRef-Blockscout, a bespoke proprietary source-available licence, Effective Date 2026-04-22, Version 1.0, licensor Blockscout Limited (Seychelles), with a separate 'Commercial Licence' tier.",
+      "proof": "raw LICENSE at tag v6.10.1 begins 'GNU GENERAL PUBLIC LICENSE Version 3'; raw LICENSE at main begins 'SPDX-License-Identifier: LicenseRef-Blockscout / Effective Date: 2026-04-22'.",
+      "practical_effect": "Any plan to 'just run Blockscout, it's GPL' must either pin <= v6.10.1 (and accept GPL-3.0) or read the new licence in full. Current HEAD is not open source."
+    },
+    "walletconnect_reown_relicensed": {
+      "what": "reown-com/appkit (formerly Web3Modal) and WalletConnect/walletconnect-monorepo",
+      "was": "Apache-2.0",
+      "now": "Reown Community License Agreement (release 2025-08-25) and WalletConnect Community License Agreement (release 2025-08-20).",
+      "worst_terms": [
+        "Reown claims ownership of your modifications and derivative works, and you assign those rights to them.",
+        "A MATERIAL CONDITION that all use and derivative works must connect to Reown's proprietary gateway infrastructure; circumventing it, or telling your users to, is a breach.",
+        "Free use capped at 2,500,000 monthly RPCs or 500 monthly active users; beyond that a paid commercial licence is required.",
+        "Mandatory 'Portions (c) 2025 Reown, Inc. All Rights Reserved' notice plus their branding on redistribution."
+      ],
+      "practical_effect": "Incompatible with a self-sovereign multi-chain stack. It also contaminates the DEFAULT configuration of RainbowKit, ConnectKit, web3-onboard and thirdweb, all of which are themselves permissively licensed but ship WalletConnect transports for mobile wallets. Injected/EIP-6963-only configurations avoid it entirely."
+    },
+    "copyleft_that_actually_bites_a_hosted_frontend": {
+      "agpl": "AGPL-3.0 is the one that triggers on hosting: OpenZeppelin/contracts-wizard and rotki are AGPL. Self-hosting a modified copy obliges you to publish your source.",
+      "gpl": "GPL-2.0/GPL-3.0 (Uniswap/interface, cowprotocol/cowswap, DefiLlama/chainlist, lidofinance/ethereum-staking-widget, dvandal/cryptonote-nodejs-pool, etclabscore/open-etc-pool, sammy007/open-ethereum-pool, blinkhash, s-nomp, NOMP, blockscout <= v6.10.1). GPL has no network clause, but a web front end DISTRIBUTES its JavaScript bundle to every visitor, and that is distribution. Treat GPL obligations on a cloned front end as live.",
+      "busl": "BUSL-1.1 (Uniswap v3-core, Uniswap v4-core, Dune spellbook) is not open source at HEAD; it converts to GPL on a delay. Note that Uniswap v4-core has no root LICENSE file at all — the SPDX header is inside the .sol sources, so GitHub's licence detector reports nothing.",
+      "sspl": "SSPL-1.0 (EthVM) is not OSI-approved and is aggressively viral for anything offered as a service.",
+      "lgpl": "LGPL-3.0 (web3/web3.js, cubedro/eth-netstats). LGPL is fine when dynamically linked, but a single bundled JS artifact is closer to static linking and drags in relinking obligations."
+    },
+    "no_licence_at_all": {
+      "meaning": "No LICENSE file means all rights reserved by default. These are NOT safe to clone, however widely they are deployed.",
+      "repos": [
+        "steemit/condenser — no LICENSE or COPYING in the repo root (verified). Use openhive-network/condenser, which IS MIT.",
+        "openhive-network/block_explorer_ui — no licence file. The only maintained modern Graphene explorer UI, and legally unclonable.",
+        "openhive-network/haf_block_explorer, openhive-network/denser, openhive-network/wallet, openhive-network/clive — same problem.",
+        "tpruvot/yiimp — 550 stars, very widely deployed as a mining pool, no licence file.",
+        "notgiven688/webminerpool — archived, no licence file."
+      ]
+    },
+    "proprietary_but_widely_assumed_open": [
+      "MetaMask/metamask-extension and MetaMask/metamask-sdk — 'Copyright ConsenSys Software Inc. 2022. All rights reserved.'",
+      "aave/interface — 'All Rights Reserved (c) Aave Labs'.",
+      "trezor/connect — Trezor Reference Source License (T-RSL), and archived.",
+      "web3labs/chainlens-free (ex-epirus-free) — a Web3 Labs Ltd commercial EULA, despite appearing in 'open source explorer' roundups."
+    ]
+  },
+  "wallet_uis": {
+    "closest_to_house_style": "iancoleman/bip39 — a single self-contained HTML file doing client-side key derivation with vendored crypto and no toolchain. This is structurally the same thing pool/www/walletgen already is, which means it is the right place to crib UI affordances from rather than a project to import.",
+    "what_this_repo_already_has": "pool/www/walletgen generates ZEPH/XMR/EVM keys entirely in-browser from clean-room vendored primitives (keccak, ed25519, cn-base58, cn-address, Monero wordlist, mnemonic, secp256k1), each verified against published test vectors in walletgen.test.mjs. Nothing in this catalogue improves on that for the chains already covered.",
+    "gaps_worth_filling": [
+      "SIGNING. The vendored secp256k1.mjs is derivation-only. paulmillr/noble-curves (MIT, audited, zero-dep ESM) is the drop-in if client-side signing is ever needed.",
+      "HARDWARE WALLET. There is no ledger/trezor path today. The only permissive option is @ledgerhq/hw-transport-webhid + @ledgerhq/hw-app-eth from LedgerHQ/ledger-live (MIT). Trezor's connect library is under a non-permissive reference-source licence and is archived.",
+      "SEND/RECEIVE/SWAP UX. MyEtherWallet (MIT, actively maintained) is the reference to study; it is Vue/Nuxt and not portable here."
+    ],
+    "do_not_touch": "MetaMask (proprietary). Rabby is MIT if a branded extension is ever genuinely wanted."
+  },
+  "block_explorers": {
+    "for_prana_evm_chainid_712217": {
+      "first_choice": "Alethio/ethereum-lite-explorer (MIT). Client-side only, speaks plain Ethereum JSON-RPC, needs no indexer, no archive node and no backend, and is configured at RUNTIME by a config.json — so the pre-built Docker image can be pointed at a PRANA RPC without ever running its build. Cost: last release 2020, so no EIP-1559 fee UI and no ERC-20 decoding out of the box.",
+      "second_choice": "xops/expedition (Apache-2.0). Same architecture — React SPA over raw JSON-RPC — with a cleaner licence than GPL, but stale since 2021.",
+      "best_maintained_but_conditional": "otterscan/otterscan (MIT, release v2.11.0 in Nov 2025). Excellent and alive, but it REQUIRES an Erigon archive node exposing custom ots_* RPC methods. If PRANA nodes are not Erigon, this needs an ots_* shim written first — that is the real cost, not the UI.",
+      "if_more_than_raw_rpc_is_needed": "ponder-sh/ponder (MIT) as the indexer, serving a plain API that a hand-written .mjs page in house style can consume. This keeps the front end in-repo and in-style while getting token transfers, holder lists and NFT ownership.",
+      "verification_layer": "argotorg/sourcify (MIT) for verified contract sources; pairs with any of the above.",
+      "avoid": "Blockscout at HEAD (proprietary since 2026-04-22), EthVM (SSPL), chainlens-free (commercial EULA), beaconcha.in (GPL-3.0 and consensus-layer-only).",
+      "cheapest_win_of_all": "PRANA is NOT in ethereum-lists/chains — _data/chains/eip155-712217.json returns 404 (verified). That registry is MIT and is consumed by chainlist.org and by wallet/explorer network pickers. One JSON pull request makes PRANA discoverable and 'Add to MetaMask'-able everywhere, with zero front-end code."
+    },
+    "for_melek_graphene_steem_fork": {
+      "hard_finding": "There is NO maintained, permissively-licensed Graphene/Steem-family block explorer front end. openhive-network/block_explorer_ui is the only modern one and it has no licence file at all; its haf_block_explorer backend is the same. Both also assume hived + HAF on Postgres, which a Steem fork would need porting to regardless.",
+      "recommendation": "Do not try to clone one. Build MELEK's explorer as a house-style .mjs surface over this repo's existing steemd reader (integrations/) — block/tx/account/witness pages are a small amount of code against condenser_api, and the repo already renders comparable pages for witness.melek.salon/hathor.",
+      "what_is_legally_reusable": "openhive-network/condenser (MIT) for the social front end, openhive-network/wax and hive-js (MIT) for protocol calls, hive-keychain-extension (MIT) as the working reference for browser key custody and a site-callable sign API."
+    }
+  },
+  "nft_marketplace_and_mint": {
+    "protocol_layer": "ProjectOpenSea/seaport (MIT) plus ProjectOpenSea/seaport-js (MIT). seaport-js is built on ethers, which this repo already depends on at 6.16.0 — that makes it the least-friction route to real listing/offer/fulfil flows from a hand-written page. OpenSea's own SDK is MIT but talks to OpenSea's hosted API, which will never index PRANA; a self-deployed Seaport plus seaport-js is the usable half.",
+    "contract_layer": "OpenZeppelin/openzeppelin-contracts (MIT) for ERC721/ERC1155 and access control on any mint or breeding contract.",
+    "full_stack_forkable": "scaffold-eth/scaffold-eth-2 (MIT, actively maintained) is the standard forkable mint/collection dApp starting point, and thirdweb-dev/js (Apache-2.0) bundles prebuilt drop/marketplace/staking contracts with connect UI. BOTH are Next.js/React/full-toolchain — a genuinely heavy lift here. If the breeding/genetics game gets built, give it its own deployment rather than importing a bundler into the Bot repo.",
+    "design_reference_only": "kodadot/nft-gallery (MIT) is a complete generative-art marketplace with collection and mint pages — but it was ARCHIVED in 2025 and targets Polkadot/RMRK, not EVM. Read it for collection-page and trait/genetics information architecture.",
+    "landmine": "OpenZeppelin/contracts-wizard is AGPL-3.0. The MIT contracts it emits are fine; self-hosting a fork of the wizard app is the AGPL trigger."
+  },
+  "dex_swap": {
+    "the_licensing_headline": "Uniswap's front end is GPL-3.0 and its v3/v4 cores are BUSL-1.1. Sushi 2.0 (sushi-labs/sushiswap) is MIT and actively maintained. If any real swap-UI code is going to be lifted, lift it from Sushi.",
+    "what_this_repo_already_has": "kulaswap/ is a hand-written, offline-tested DEX/CDP/farm/staking UI over ethers, already bound to PRANA chainId 712217 with a zero-address 'is it live' guard before any tx is built. It carries no copyleft. Preserving that clean-licence position is worth more than any UI code in this section.",
+    "embeddable_widget": "lifinance/widget (Apache-2.0, actively maintained) is the best-licensed embeddable swap/bridge widget and can be dropped in as a pre-built bundle. Caveat: it routes through LI.FI's hosted API, so it is a third-party service dependency — appropriate for a bridge page, wrong for a self-sovereign KULA swap.",
+    "safe_to_integrate": "Uniswap/permit2 (MIT) for gasless approvals; Uniswap/sdk-core (MIT, archived) for price/currency primitives. Using a GPL contract's ABI to build calldata — which kulaswap already does — is not the same as forking the source.",
+    "avoid": "aave/interface is 'All Rights Reserved (c) Aave Labs' and is not a legal base for a lending/CDP UI. compound-finance/palisade is GPL-3.0 and written in Elm."
+  },
+  "launchpad_staking_faucet": {
+    "faucet": "chainflag/eth-faucet (MIT, maintained, 573 stars) is the cleanest self-hostable EVM faucet: configurable RPC and chainId, built for custom testnets, shipped as a Go binary or Docker image. Critically, the funding key stays SERVER-SIDE in the Go process, which matches this repo's key-custody rule. Its Svelte front end is small enough to discard and replace with a house-style static page against the same backend.",
+    "staking_dashboards": "No permissively-licensed general staking dashboard is worth cloning. lidofinance/ethereum-staking-widget is GPL-3.0 and Lido-contract-specific. kulaswap/kula-stake.mjs, soapbox-staking.mjs and sprana-staking.mjs already cover this ground in house style.",
+    "launchpad_presale": "There is no credible, maintained, permissively-licensed presale/launchpad front end. Search results in this category are near-universally unlicensed, abandoned, or single-author templates with no adoption, and were excluded rather than cited. thirdweb-dev/js (Apache-2.0) is the only serious option, and it is React plus hosted-service coupling. Building a presale page in house style against an OpenZeppelin-based sale contract is less work than porting one.",
+    "account_abstraction": "alchemyplatform/aa-sdk (MIT) and pimlicolabs/permissionless.js (MIT) are both permissive and relevant to the KULA paymaster work, but both presume PRANA deploys an ERC-4337 EntryPoint and runs a bundler."
+  },
+  "mining_pool_frontends": {
+    "what_is_actually_better_than_pool_www": "Honestly: not much, and nothing that is both better AND cleanly licensed. pool/www already does browser mining, in-browser walletgen, My Coins, a spend-lock and a PWA — which is more than any of these ship.",
+    "best_stylistic_match": "dvandal/cryptonote-nodejs-pool's website_example/ is plain index.html + config.js + js/ + themes/ + lang/ with no build step — the same shape as pool/www, with the miner-stats/payments/blocks page layout and i18n already factored out. LANDMINE: it is GPL-2.0. Read the layout and the i18n structure, then re-implement; do not copy files in.",
+    "best_licensed_backend": "MoneroOcean/nodejs-pool (MIT, pushed 2026-09-04) is the most actively maintained CryptoNote/RandomX pool backend and supports algo auto-switching — directly relevant to the pool's RandomX/Monero-stagenet side, and MIT means it is the one pool codebase that could actually be vendored. Its front end (Snipa22/poolui, MIT) is AngularJS from 2018 and should be treated as API documentation-by-example, not as a UI.",
+    "if_prana_ever_needs_a_pool": "etclabscore/open-etc-pool (GPL-3.0, maintained) is the living EVM pool; oliverw/miningcore (MIT) supports EVM chains but was archived in 2023. MIT-but-archived vs GPL-but-alive is the actual choice.",
+    "do_not_clone": "tpruvot/yiimp (no licence file despite 550 stars and wide deployment) and notgiven688/webminerpool (no licence file, archived)."
+  },
+  "wallet_connect_layers": {
+    "the_lightest_possible_vanilla_option": "EIP-6963 provider discovery, hand-written. It is roughly thirty lines: dispatch `eip6963:requestProvider`, collect `eip6963:announceProvider` events into a list, let the user pick, then hand the chosen provider to `new ethers.BrowserProvider(...)`. No bundler, no framework, no new dependency. wevm/mipd (MIT, ~2KB, dependency-free ESM) is the same thing packaged, and is small enough to vendor as one file next to pool/www/walletgen/vendor/.",
+    "concrete_gap_in_this_repo": "kulaswap/app.mjs currently does `if (!window.ethereum)` then `new ethers.BrowserProvider(window.ethereum)` — the legacy single-injected-provider path. When a visitor has more than one wallet extension installed, that silently connects to whichever one won the injection race. EIP-6963 is the fix and it costs almost nothing here.",
+    "already_correct": "ethers 6.16.0 is already a dependency, is MIT, and ships a browser ESM build. Nothing in this section justifies replacing it. viem and ox are MIT and excellent, but both realistically want a bundler.",
+    "if_a_connect_modal_is_ever_wanted": "thirdweb-dev/web3-onboard (MIT) is the least React-bound option; family/connectkit (BSD-2-Clause) and rainbow-me/rainbowkit (MIT) are React. All three are permissively licensed THEMSELVES but ship WalletConnect transports by default for mobile wallets, and WalletConnect is no longer permissively licensed — configure injected/EIP-6963 connectors only.",
+    "hard_no": [
+      "reown-com/appkit (Reown Community License)",
+      "WalletConnect/walletconnect-monorepo (WalletConnect Community License)",
+      "MetaMask/metamask-sdk (proprietary)",
+      "web3/web3.js (LGPL-3.0 and archived/EOL since 2025)"
+    ]
+  },
+  "genuinely_new_2025_2026": {
+    "the_relicensing_wave": "The single most important 2025-2026 development for this lane is not a new UI — it is that Blockscout (2026-04-22), Reown AppKit (2025-08-25) and WalletConnect (2025-08-20) all moved off open-source licences. Any guide or LLM answer written before those dates will confidently give the old licences. Verify before adopting.",
+    "farcaster_mini_apps": "farcasterxyz/miniapps (MIT, actively maintained). The notable new dApp-UI form factor: a plain web page rendered inside a social feed with a wallet already injected by the host. Its constraints — one page, host-provided wallet, no build assumptions — line up with this repo's house style unusually well. A KULA swap or a mint page could ship as a mini app with very little new machinery.",
+    "eip_7702_and_smart_accounts": "EIP-7702 turned EOAs into programmable accounts in 2025. ithacaxyz/porto (Apache-2.0) was a leading experiment and is now ARCHIVED; the live permissive options are pimlicolabs/permissionless.js and alchemyplatform/aa-sdk, both MIT, both requiring bundler infrastructure on the chain.",
+    "ox": "wevm/ox (MIT) — the tree-shakeable, framework-free EVM standard library that viem is being rebuilt on. The most house-style-compatible of the new primitive layers, if ethers is ever outgrown.",
+    "what_did_not_change": "There is still no lightweight, actively-maintained, permissively-licensed self-hostable EVM explorer. The good ones are either stale (Alethio 2020, Expedition 2021), backend-coupled (Otterscan needs Erigon), or relicensed (Blockscout). This remains a genuine gap."
+  },
+  "top_five_to_clone_first": [
+    {
+      "rank": 1,
+      "name": "Alethio/ethereum-lite-explorer",
+      "license": "MIT",
+      "why": "A PRANA block explorer with no backend, no indexer and no rebuild — config.json points the pre-built client-side SPA at any JSON-RPC node. MIT, so nothing infects this repo. Ship it behind a subdomain; accept that it is a 2020-era UI.",
+      "landmine": "None. The landmine is the obvious alternative: Blockscout is no longer GPL/open source as of 2026-04-22."
+    },
+    {
+      "rank": 2,
+      "name": "EIP-6963 discovery via wevm/mipd (or ~30 hand-written lines)",
+      "license": "MIT",
+      "why": "Fixes a real, present bug: kulaswap/app.mjs grabs window.ethereum and connects to whichever extension won the injection race. ~2KB, dependency-free ESM, vendorable as one file, zero toolchain. Highest value-per-byte in this entire catalogue.",
+      "landmine": "Do NOT reach for Reown AppKit / Web3Modal to solve this — it stopped being Apache-2.0 on 2025-08-25 and now requires routing through Reown's gateway."
+    },
+    {
+      "rank": 3,
+      "name": "ethereum-lists/chains (a data PR, not a clone)",
+      "license": "MIT",
+      "why": "VERIFIED: PRANA chainId 712217 is not registered — eip155-712217.json is a 404. One JSON file propagates PRANA into chainlist.org and into wallet and explorer network pickers. No front-end code, and it is a prerequisite for anyone finding the chain at all.",
+      "landmine": "Do not fork DefiLlama/chainlist itself — that UI is GPL-3.0. You only need the MIT data repo it consumes."
+    },
+    {
+      "rank": 4,
+      "name": "chainflag/eth-faucet",
+      "license": "MIT",
+      "why": "Self-hostable PRANA faucet: configurable RPC/chainId, single Go binary or Docker image, funding key stays server-side — which is exactly this repo's key-custody boundary. Keep the Go backend, replace the Svelte page with a house-style static page.",
+      "landmine": "None. Note it does need a backend process; it is not a static page."
+    },
+    {
+      "rank": 5,
+      "name": "ProjectOpenSea/seaport-js (+ seaport, + OpenZeppelin contracts)",
+      "license": "MIT (all three)",
+      "why": "The NFT mint/marketplace path that does not require importing a React toolchain: seaport-js is built on ethers, which is already a dependency, so listing/offer/fulfil flows can be driven from a hand-written .mjs page against a self-deployed Seaport on PRANA.",
+      "landmine": "OpenSea's own opensea-sdk is MIT but talks to OpenSea's hosted API, which will never index PRANA. And if the full scaffold-eth-2 route is taken for the breeding game instead, give it a separate deployment — it is a whole second toolchain."
+    }
+  ],
+  "explicitly_rejected": [
+    {
+      "name": "blockscout/blockscout at HEAD",
+      "reason": "Relicensed 2026-04-22 to a proprietary Blockscout Licence. Pin <= v6.10.1 for GPL-3.0, or read the new terms."
+    },
+    {
+      "name": "reown-com/appkit and WalletConnect/walletconnect-monorepo",
+      "reason": "2025 Community Licences: derivative-work IP assignment to Reown, a mandatory-connection-to-their-gateway clause, and MAU/RPC caps."
+    },
+    {
+      "name": "Uniswap/interface",
+      "reason": "GPL-3.0, and an Nx/React-Native-Web monorepo. Use sushi-labs/sushiswap (MIT) if any swap UI code is to be lifted."
+    },
+    {
+      "name": "steemit/condenser, openhive-network/block_explorer_ui, tpruvot/yiimp",
+      "reason": "No LICENSE file — all rights reserved by default, however widely deployed."
+    },
+    {
+      "name": "MetaMask/metamask-extension, MetaMask/metamask-sdk, aave/interface, web3labs/chainlens-free, trezor/connect",
+      "reason": "Proprietary licences, routinely mislabelled as open source."
+    },
+    {
+      "name": "EthVM/EthVM",
+      "reason": "SSPL-1.0 — not OSI-approved, and viral against exactly the hosted-service use case a chain explorer is."
+    },
+    {
+      "name": "OpenZeppelin/contracts-wizard (self-hosted fork)",
+      "reason": "AGPL-3.0 — the one copyleft licence whose network clause fires on hosting. Use the public instance."
+    },
+    {
+      "name": "Unverifiable presale/launchpad and NFT-mint templates from search",
+      "reason": "Unlicensed, abandoned, or single-author with no adoption. Excluded rather than cited, per the no-fabricated-citations rule."
+    }
+  ],
+  "sources": [
+    "https://api.github.com/repos/blockscout/blockscout",
+    "https://github.com/0xsequence/web-sdk",
+    "https://github.com/Alethio/ethereum-lite-explorer",
+    "https://github.com/DefiLlama/chainlist",
+    "https://github.com/EthVM/EthVM",
+    "https://github.com/LedgerHQ/ledger-live",
+    "https://github.com/LedgerHQ/ledgerjs",
+    "https://github.com/MetaMask/metamask-extension",
+    "https://github.com/MetaMask/metamask-sdk",
+    "https://github.com/MoneroOcean/nodejs-pool",
+    "https://github.com/MyCryptoHQ/MyCrypto",
+    "https://github.com/MyEtherWallet/MyEtherWallet",
+    "https://github.com/OpenZeppelin/contracts-wizard",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts",
+    "https://github.com/ProjectOpenSea/opensea-sdk",
+    "https://github.com/ProjectOpenSea/seaport",
+    "https://github.com/ProjectOpenSea/seaport-js",
+    "https://github.com/RabbyHub/Rabby",
+    "https://github.com/Snipa22/poolui",
+    "https://github.com/Uniswap/interface",
+    "https://github.com/Uniswap/permit2",
+    "https://github.com/Uniswap/sdk-core",
+    "https://github.com/Uniswap/universal-router",
+    "https://github.com/Uniswap/v2-periphery",
+    "https://github.com/Uniswap/v3-core",
+    "https://github.com/Uniswap/v4-core",
+    "https://github.com/Uniswap/widgets",
+    "https://github.com/WalletConnect/walletconnect-monorepo",
+    "https://github.com/aave/interface",
+    "https://github.com/alchemyplatform/aa-sdk",
+    "https://github.com/argotorg/sourcify",
+    "https://github.com/bitcoinjs/bip39",
+    "https://github.com/bitcoinjs/bitcoinjs-lib",
+    "https://github.com/blinkhash/foundation-v1-server",
+    "https://github.com/blockscout/blockscout",
+    "https://github.com/blockscout/frontend",
+    "https://github.com/chainflag/eth-faucet",
+    "https://github.com/compound-finance/palisade",
+    "https://github.com/cowprotocol/cowswap",
+    "https://github.com/dvandal/cryptonote-nodejs-pool",
+    "https://github.com/ecency/hivesigner-ui",
+    "https://github.com/etclabscore/open-etc-pool",
+    "https://github.com/ethereum-lists/chains",
+    "https://github.com/ethers-io/ethers.js",
+    "https://github.com/family/connectkit",
+    "https://github.com/farcasterxyz/miniapps",
+    "https://github.com/gobitfly/eth2-beaconchain-explorer",
+    "https://github.com/hive-keychain/hive-keychain-extension",
+    "https://github.com/iancoleman/bip39",
+    "https://github.com/ithacaxyz/porto",
+    "https://github.com/kodadot/nft-gallery",
+    "https://github.com/lidofinance/ethereum-staking-widget",
+    "https://github.com/lifinance/widget",
+    "https://github.com/notgiven688/webminerpool",
+    "https://github.com/oliverw/miningcore",
+    "https://github.com/openhive-network/block_explorer_ui",
+    "https://github.com/openhive-network/condenser",
+    "https://github.com/openhive-network/denser",
+    "https://github.com/openhive-network/haf_block_explorer",
+    "https://github.com/openhive-network/hive-js",
+    "https://github.com/openhive-network/wax",
+    "https://github.com/otterscan/otterscan",
+    "https://github.com/ourzora/zora-721-contracts",
+    "https://github.com/paritytech/polkadot-testnet-faucet",
+    "https://github.com/paulmillr/noble-curves",
+    "https://github.com/paulmillr/noble-hashes",
+    "https://github.com/paulmillr/scure-bip39",
+    "https://github.com/pimlicolabs/permissionless.js",
+    "https://github.com/ponder-sh/ponder",
+    "https://github.com/rainbow-me/rainbowkit",
+    "https://github.com/remix-project-org/remix-project",
+    "https://github.com/reown-com/appkit",
+    "https://github.com/ripe0x/commonground",
+    "https://github.com/s-nomp/s-nomp",
+    "https://github.com/sammy007/open-ethereum-pool",
+    "https://github.com/scaffold-eth/scaffold-eth-2",
+    "https://github.com/steemit/condenser",
+    "https://github.com/sushi-labs/sushiswap",
+    "https://github.com/thirdweb-dev/js",
+    "https://github.com/thirdweb-dev/web3-onboard",
+    "https://github.com/tpruvot/yiimp",
+    "https://github.com/trezor/connect",
+    "https://github.com/trustwallet/wallet-core",
+    "https://github.com/web3/web3.js",
+    "https://github.com/web3labs/chainlens-free",
+    "https://github.com/wevm/mipd",
+    "https://github.com/wevm/ox",
+    "https://github.com/wevm/viem",
+    "https://github.com/wevm/wagmi",
+    "https://github.com/xops/expedition",
+    "https://github.com/zone117x/node-open-mining-portal",
+    "https://raw.githubusercontent.com/Alethio/ethereum-lite-explorer/master/README.md",
+    "https://raw.githubusercontent.com/Uniswap/interface/main/apps/web/LICENSE",
+    "https://raw.githubusercontent.com/Uniswap/v4-core/main/src/PoolManager.sol",
+    "https://raw.githubusercontent.com/blockscout/blockscout/v6.10.1/LICENSE",
+    "https://raw.githubusercontent.com/dvandal/cryptonote-nodejs-pool/master/LICENSE",
+    "https://raw.githubusercontent.com/ethereum-lists/chains/master/_data/chains/eip155-712217.json",
+    "https://raw.githubusercontent.com/otterscan/otterscan/develop/README.md"
+  ],
+  "catalog": [
+    {
+      "name": "iancoleman/bip39 (BIP39 mnemonic tool)",
+      "url": "https://github.com/iancoleman/bip39",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2024-04-28 (last push); no release since 2021; 4.3k stars; not archived",
+      "build_complexity": "vanilla, drop-in — ONE self-contained HTML file plus jQuery/vendored crypto; no build step at all",
+      "works_with_prana": "yes — derives BIP44 m/44'/60' EVM keys; PRANA is just another EVM coin type",
+      "works_with_melek": "partial — BIP39/BIP44 is not Graphene key derivation; MELEK keys are the brain-key/sha256 role-key scheme",
+      "notes": "The single closest existing project to this repo's house style: a static page that does client-side key generation with vendored crypto and no toolchain. Its self-contained build (`bip39-standalone.html`) is exactly the pattern `pool/www/walletgen/` already follows. Best source to crib UI affordances (entropy display, derivation-path table, per-account address list) for the existing walletgen."
+    },
+    {
+      "name": "paulmillr/scure-bip39",
+      "url": "https://github.com/paulmillr/scure-bip39",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2026-08-31; actively maintained",
+      "build_complexity": "vanilla, drop-in — audited ESM, zero deps, browser-importable",
+      "works_with_prana": "yes",
+      "works_with_melek": "partial — mnemonic layer only",
+      "notes": "Audited minimal BIP39. If walletgen ever needs a second opinion against its clean-room `vendor/mnemonic.mjs`, this is the reference to test-vector against."
+    },
+    {
+      "name": "paulmillr/noble-curves",
+      "url": "https://github.com/paulmillr/noble-curves",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2026-08-31; actively maintained",
+      "build_complexity": "vanilla, drop-in — audited ESM, zero deps",
+      "works_with_prana": "yes — secp256k1 signing for PRANA txs",
+      "works_with_melek": "yes — secp256k1 is also the Graphene curve",
+      "notes": "Audited secp256k1 + ed25519. The repo's `pool/www/walletgen/vendor/secp256k1.mjs` is clean-room and derivation-only (no signing). noble-curves is the drop-in if signing is ever needed client-side."
+    },
+    {
+      "name": "paulmillr/noble-hashes",
+      "url": "https://github.com/paulmillr/noble-hashes",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2026-08-31; actively maintained",
+      "build_complexity": "vanilla, drop-in — audited ESM, zero deps",
+      "works_with_prana": "yes",
+      "works_with_melek": "yes",
+      "notes": "Companion to noble-curves: sha256/sha512/keccak/ripemd160/pbkdf2. Covers everything Graphene key derivation needs."
+    },
+    {
+      "name": "bitcoinjs/bip39",
+      "url": "https://github.com/bitcoinjs/bip39",
+      "license": "ISC",
+      "category": "wallet_ui",
+      "last_active": "2026-01-21; maintained",
+      "build_complexity": "vanilla-ish — npm package, needs a bundler for browser use (Buffer polyfill)",
+      "works_with_prana": "yes",
+      "works_with_melek": "partial",
+      "notes": "ISC is permissive. Heavier browser story than scure-bip39 because of node Buffer assumptions."
+    },
+    {
+      "name": "bitcoinjs/bitcoinjs-lib",
+      "url": "https://github.com/bitcoinjs/bitcoinjs-lib",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2026-02-17; maintained; 6k stars",
+      "build_complexity": "needs a bundler for browser use",
+      "works_with_prana": "n/a (Bitcoin)",
+      "works_with_melek": "n/a",
+      "notes": "Only relevant if the pool ever adds a BTC payout address generator."
+    },
+    {
+      "name": "MyEtherWallet/MyEtherWallet",
+      "url": "https://github.com/MyEtherWallet/MyEtherWallet",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2026-09-04; actively maintained; 1.6k stars",
+      "build_complexity": "Vue 3 / Nuxt, heavy port — full toolchain, hundreds of deps. NOT a drop-in for this repo",
+      "works_with_prana": "yes — custom-network support is a first-class feature; PRANA can be added as a custom EVM network",
+      "works_with_melek": "no",
+      "notes": "MIT and genuinely full-featured (send/receive/swap, hardware wallets, custom networks). Value here is as a UX REFERENCE for the send/receive/swap flow, not as a codebase to clone into a no-build repo."
+    },
+    {
+      "name": "MyCryptoHQ/MyCrypto",
+      "url": "https://github.com/MyCryptoHQ/MyCrypto",
+      "license": "MIT",
+      "category": "wallet_ui",
+      "last_active": "2024-01-17 (last push) — effectively unmaintained; not archived",
+      "build_complexity": "React + TypeScript, heavy port",
+      "works_with_prana": "yes (custom networks supported)",
+      "works_with_melek": "no",
+      "notes": "MIT, clean React codebase, but dead since early 2024. Reference only; do not adopt a dead dependency tree."
+    },
+    {
+      "name": "RabbyHub/Rabby",
+      "url": "https://github.com/RabbyHub/Rabby",
+      "license": "MIT (LICENSE file reads 'MIT License'; GitHub metadata shows NOASSERTION)",
+      "category": "wallet_ui",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "browser-extension monorepo, very heavy port",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "Notable because it is a genuinely MIT-licensed full EVM wallet extension — the permissive counterexample to MetaMask. Clone only if the ecosystem ever wants its own branded extension."
+    },
+    {
+      "name": "MetaMask/metamask-extension",
+      "url": "https://github.com/MetaMask/metamask-extension",
+      "license": "PROPRIETARY — 'Copyright ConsenSys Software Inc. 2022. All rights reserved.' (source-available, not open source)",
+      "category": "wallet_ui",
+      "last_active": "2026-09-05; actively maintained",
+      "build_complexity": "irrelevant — cannot be cloned",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "LANDMINE. Widely mistaken for open source. The LICENSE explicitly reserves all rights to ConsenSys. Do not fork, do not copy code from it. Integrating with it via the injected provider is fine."
+    },
+    {
+      "name": "trustwallet/wallet-core",
+      "url": "https://github.com/trustwallet/wallet-core",
+      "license": "Apache-2.0",
+      "category": "wallet_ui",
+      "last_active": "2026-09-02; actively maintained; 3.5k stars",
+      "build_complexity": "C++ core with WASM/TS bindings — heavy; needs a WASM build artifact",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "Apache-2.0 multi-chain key/address/signing library. Only worth it if the pool wallet grows past the handful of chains the clean-room vendored primitives already cover."
+    },
+    {
+      "name": "LedgerHQ/ledger-live",
+      "url": "https://github.com/LedgerHQ/ledger-live",
+      "license": "MIT",
+      "category": "hardware_wallet",
+      "last_active": "2026-09-05; actively maintained",
+      "build_complexity": "enormous monorepo — heavy; the useful part is the @ledgerhq/hw-transport-webhid + hw-app-eth packages",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "For hardware-wallet connect the practical unit is the `@ledgerhq/hw-transport-webhid` + `@ledgerhq/hw-app-eth` npm packages from this monorepo (MIT), not the app. They are bundler-friendly but not import-map friendly; expect one vendored ESM build."
+    },
+    {
+      "name": "LedgerHQ/ledgerjs",
+      "url": "https://github.com/LedgerHQ/ledgerjs",
+      "license": "Apache-2.0",
+      "category": "hardware_wallet",
+      "last_active": "2022-06-22; ARCHIVED — moved into ledger-live",
+      "build_complexity": "archived",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "Dead link magnet. Anything citing ledgerjs today should point at LedgerHQ/ledger-live instead."
+    },
+    {
+      "name": "trezor/connect",
+      "url": "https://github.com/trezor/connect",
+      "license": "TREZOR REFERENCE SOURCE LICENSE (T-RSL) — NOT permissive",
+      "category": "hardware_wallet",
+      "last_active": "2023-11-21; ARCHIVED",
+      "build_complexity": "archived",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "LANDMINE. Reference-source only. Also archived; current work lives in the trezor-suite monorepo (not verified here)."
+    },
+    {
+      "name": "Alethio/ethereum-lite-explorer",
+      "url": "https://github.com/Alethio/ethereum-lite-explorer",
+      "license": "MIT",
+      "category": "block_explorer",
+      "last_active": "2023-01-04 (last push); last release v1.0.0-beta.10, 2020-04-29; not archived",
+      "build_complexity": "React SPA, but ships PRE-BUILT assets + a Docker image configured by a runtime `config.json` — you can point it at a new node WITHOUT rebuilding. Lightest real path to a PRANA explorer.",
+      "works_with_prana": "YES — best fit in this list. Client-side only, talks plain Ethereum JSON-RPC, no indexer, no archive node, no backend.",
+      "works_with_melek": "no",
+      "notes": "README states plainly: 'a client-side only web application that connects directly to an Ethereum JSON RPC compatible node... No need for servers, hosting or trusting any third parties.' MIT. The cost is age (2020 release) — no EIP-1559 fee UI, no ERC-20 transfer decoding out of the box. For a young chain like PRANA that is largely fine."
+    },
+    {
+      "name": "otterscan/otterscan",
+      "url": "https://github.com/otterscan/otterscan",
+      "license": "MIT",
+      "category": "block_explorer",
+      "last_active": "2026-02-02 (last push); release v2.11.0 2025-11-06; actively maintained; 1.4k stars",
+      "build_complexity": "React SPA (Vite), moderate port — BUT it REQUIRES an Erigon archive node exposing custom `ots_*` RPC methods. That is the real cost, not the front end.",
+      "works_with_prana": "conditionally — only if PRANA nodes run Erigon (or an ots_* shim). Not usable against a plain geth/reth RPC.",
+      "works_with_melek": "no",
+      "notes": "The best-maintained genuinely MIT explorer. README: 'designed to be run locally with an archive node companion, Erigon.' If PRANA's node software is not Erigon, this is a non-starter without writing the ots_* namespace yourself."
+    },
+    {
+      "name": "xops/expedition",
+      "url": "https://github.com/xops/expedition",
+      "license": "Apache-2.0",
+      "category": "block_explorer",
+      "last_active": "2022-12-12 (last push); last release 1.11.2, 2021-08-12; not archived, but stale",
+      "build_complexity": "React SPA, moderate port; JSON-RPC only, no indexer",
+      "works_with_prana": "yes — plain JSON-RPC, was built for ETC and custom EVM stacks",
+      "works_with_melek": "no",
+      "notes": "Apache-2.0 (cleaner than GPL for this repo). Originally etclabscore/expedition. Stale since 2021 but the architecture — SPA over raw JSON-RPC — is right for PRANA. Second choice behind the Alethio lite explorer."
+    },
+    {
+      "name": "blockscout/blockscout",
+      "url": "https://github.com/blockscout/blockscout",
+      "license": "LicenseRef-Blockscout (PROPRIETARY source-available, effective 2026-04-22, Blockscout Limited, Seychelles). Versions up to and including v6.10.1 are GPL-3.0.",
+      "category": "block_explorer",
+      "last_active": "2026-09-04; actively maintained; 4.7k stars",
+      "build_complexity": "Elixir/Phoenix backend + separate Next.js frontend + Postgres indexer — needs a backend, heavy operationally",
+      "works_with_prana": "yes technically (it is the standard EVM explorer)",
+      "works_with_melek": "no",
+      "notes": "**THE BIGGEST LICENSING LANDMINE IN THIS FILE.** Blockscout is universally described as GPL-3.0 in older writeups. That is now WRONG for current code: the LICENSE at HEAD is a bespoke 'Blockscout Licence' v1.0 with a commercial-licence carve-out, effective 2026-04-22. Verified directly: raw LICENSE at tag v6.10.1 is GNU GPL v3; LICENSE at main is LicenseRef-Blockscout. If a Blockscout deployment is wanted on permissive-ish terms, you must pin <= v6.10.1 and accept GPL-3.0 copyleft; anything newer needs the new licence read in full."
+    },
+    {
+      "name": "blockscout/frontend",
+      "url": "https://github.com/blockscout/frontend",
+      "license": "LicenseRef-Blockscout (same 2026-04-22 relicense)",
+      "category": "block_explorer",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "Next.js — heavy port; also requires the Blockscout API backend",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "Same landmine as the main repo. Cannot be treated as GPL/OSS today."
+    },
+    {
+      "name": "EthVM/EthVM",
+      "url": "https://github.com/EthVM/EthVM",
+      "license": "SSPL-1.0 (Server Side Public License)",
+      "category": "block_explorer",
+      "last_active": "2025-11-26",
+      "build_complexity": "Kafka + Vue + backend services — very heavy",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "AVOID. SSPL is not OSI-approved and is aggressively viral for anything offered as a service — which is exactly what a hosted PRANA explorer would be."
+    },
+    {
+      "name": "web3labs/chainlens-free (formerly epirus-free)",
+      "url": "https://github.com/web3labs/chainlens-free",
+      "license": "PROPRIETARY — Web3 Labs Ltd end-user licence, not an OSS licence",
+      "category": "block_explorer",
+      "last_active": "2024-04-23",
+      "build_complexity": "docker-compose stack; needs a backend",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "LANDMINE. Frequently listed in 'open source explorer' roundups. The LICENSE is a commercial EULA between the user and Web3 Labs Ltd."
+    },
+    {
+      "name": "gobitfly/eth2-beaconchain-explorer",
+      "url": "https://github.com/gobitfly/eth2-beaconchain-explorer",
+      "license": "GPL-3.0",
+      "category": "block_explorer",
+      "last_active": "2025-11-12; 910 stars",
+      "build_complexity": "Go + Postgres, needs a backend",
+      "works_with_prana": "no — beacon-chain/consensus-layer specific, PRANA has no beacon chain",
+      "works_with_melek": "no",
+      "notes": "Included only to rule it out: it explores the Ethereum consensus layer, not a generic EVM chain. Also GPL-3.0."
+    },
+    {
+      "name": "openhive-network/block_explorer_ui",
+      "url": "https://github.com/openhive-network/block_explorer_ui",
+      "license": "NO LICENSE FILE — all rights reserved by default",
+      "category": "block_explorer",
+      "last_active": "2026-09-04; actively developed (GitHub is a mirror of gitlab.syncad.com)",
+      "build_complexity": "Next.js + requires the HAF/haf_block_explorer Postgres backend — heavy on both ends",
+      "works_with_prana": "no",
+      "works_with_melek": "technically yes (Graphene/Hive data model) but legally NOT clonable",
+      "notes": "This is the only maintained modern Graphene-family block explorer front end, and it has NO LICENSE FILE. Verified: no LICENSE/COPYING in the repo root. Do not clone. Read it for the data model, then build MELEK's explorer on this repo's own `integrations/steemd.mjs` reader in house style."
+    },
+    {
+      "name": "openhive-network/haf_block_explorer",
+      "url": "https://github.com/openhive-network/haf_block_explorer",
+      "license": "NO LICENSE FILE",
+      "category": "block_explorer",
+      "last_active": "2026-08-28",
+      "build_complexity": "needs a backend — HAF (Hive Application Framework) on Postgres, very heavy",
+      "works_with_prana": "no",
+      "works_with_melek": "not legally clonable",
+      "notes": "Same problem as its UI. Also, HAF assumes hived; a Steem-fork chain would need porting work regardless."
+    },
+    {
+      "name": "openhive-network/condenser",
+      "url": "https://github.com/openhive-network/condenser",
+      "license": "MIT",
+      "category": "graphene_frontend",
+      "last_active": "2026-06-16; low-activity but alive",
+      "build_complexity": "React + Redux + webpack, heavy port; server-side rendering",
+      "works_with_prana": "no",
+      "works_with_melek": "YES — this is the canonical Steem/Hive social front end, and MELEK is a Steem fork",
+      "notes": "MIT and directly on-target for MELEK's condenser work. The trollbox/commands wiring called out as Phase 2 remaining work in CLAUDE.md lands in a codebase like this one. Heavy (old webpack), but the licence is clean and the chain semantics match exactly."
+    },
+    {
+      "name": "steemit/condenser",
+      "url": "https://github.com/steemit/condenser",
+      "license": "NO LICENSE FILE in the repo root — all rights reserved by default",
+      "category": "graphene_frontend",
+      "last_active": "2026-09-04; still pushed",
+      "build_complexity": "React + Redux + webpack, heavy",
+      "works_with_prana": "no",
+      "works_with_melek": "chain-compatible, but legally do NOT clone",
+      "notes": "Verified: no LICENSE or COPYING file at the repo root. Widely assumed MIT because the Hive fork IS MIT. Use openhive-network/condenser (MIT) instead — same lineage, actual licence."
+    },
+    {
+      "name": "openhive-network/denser",
+      "url": "https://github.com/openhive-network/denser",
+      "license": "NO LICENSE FILE",
+      "category": "graphene_frontend",
+      "last_active": "2026-08-20",
+      "build_complexity": "Next.js — heavy",
+      "works_with_prana": "no",
+      "works_with_melek": "not legally clonable",
+      "notes": "The intended condenser successor. No licence file, so not adoptable."
+    },
+    {
+      "name": "openhive-network/wax",
+      "url": "https://github.com/openhive-network/wax",
+      "license": "MIT",
+      "category": "graphene_frontend",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "TS/WASM library — needs a build artifact, but the published package is importable",
+      "works_with_prana": "no",
+      "works_with_melek": "yes — typed hived/Graphene protocol calls from JS",
+      "notes": "MIT. The modern replacement for hive-js. Relevant if the repo ever outgrows dhive (which is already a dependency)."
+    },
+    {
+      "name": "openhive-network/hive-js",
+      "url": "https://github.com/openhive-network/hive-js",
+      "license": "MIT",
+      "category": "graphene_frontend",
+      "last_active": "2025-12-30",
+      "build_complexity": "browser-friendly library",
+      "works_with_prana": "no",
+      "works_with_melek": "yes",
+      "notes": "MIT Graphene client. dhive (already in package.json) is the better-maintained choice; noted for completeness."
+    },
+    {
+      "name": "hive-keychain/hive-keychain-extension",
+      "url": "https://github.com/hive-keychain/hive-keychain-extension",
+      "license": "MIT",
+      "category": "graphene_frontend",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "browser extension, Angular — heavy port",
+      "works_with_prana": "no",
+      "works_with_melek": "yes — Graphene key custody + signing extension",
+      "notes": "MIT. Directly relevant to the MELEK-Signer design: this is the working example of Graphene key custody in a browser extension, with a request/approve API a site can call. Reference for the signer's UX contract."
+    },
+    {
+      "name": "ecency/hivesigner-ui",
+      "url": "https://github.com/ecency/hivesigner-ui",
+      "license": "MIT",
+      "category": "graphene_frontend",
+      "last_active": "2026-09-04",
+      "build_complexity": "Nuxt/Vue — moderate-to-heavy",
+      "works_with_prana": "no",
+      "works_with_melek": "yes",
+      "notes": "MIT. Already flagged in CLAUDE.md as REFERENCE-ONLY (cloned to /workspaces/hivesigner). Confirmed here as MIT and still maintained, so the reference is legally safe to read and to borrow patterns from."
+    },
+    {
+      "name": "Uniswap/interface",
+      "url": "https://github.com/Uniswap/interface",
+      "license": "GPL-3.0 (verified at apps/web/LICENSE and apps/mobile/LICENSE; there is no root LICENSE file)",
+      "category": "dex_swap",
+      "last_active": "2026-08-17; actively maintained; 5.5k stars",
+      "build_complexity": "Nx monorepo, React Native Web + Next — extremely heavy port; nothing about it survives contact with a no-build repo",
+      "works_with_prana": "yes in principle",
+      "works_with_melek": "no",
+      "notes": "LANDMINE: **GPL-3.0**. Forking the interface makes the derived front end GPL-3.0. For a hosted front end GPL's network clause does not trigger (that is AGPL), but distributing the JS bundle IS distribution, and a JS bundle is shipped to every visitor — treat GPL-3.0 obligations as live. KulaSwap's existing hand-rolled `kulaswap/dex-panels.mjs` avoids this entirely; keep it that way."
+    },
+    {
+      "name": "sushi-labs/sushiswap",
+      "url": "https://github.com/sushi-labs/sushiswap",
+      "license": "MIT",
+      "category": "dex_swap",
+      "last_active": "2026-09-04; actively maintained; 1.9k stars",
+      "build_complexity": "Next.js/Turbo monorepo — heavy port",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "THE PERMISSIVE ALTERNATIVE TO UNISWAP'S GPL FRONT END. Sushi 2.0 is MIT-licensed, actively developed, and covers swap/pool/farm/staking UI. If any real front-end code is going to be lifted for KulaSwap, lift it from here, not from Uniswap. (Note: the old `sushiswap/sushiswap` path now redirects to `sushi-labs/sushiswap`.)"
+    },
+    {
+      "name": "Uniswap/v2-core + Uniswap/v2-periphery",
+      "url": "https://github.com/Uniswap/v2-periphery",
+      "license": "GPL-3.0 (both)",
+      "category": "dex_swap",
+      "last_active": "2026-07-21 / 2026-07-22",
+      "build_complexity": "Solidity, not a front end",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0 contracts. Using the ROUTER ABI to build calldata (which is what kulaswap already does) is not copying the source; forking the .sol is."
+    },
+    {
+      "name": "Uniswap/v3-core",
+      "url": "https://github.com/Uniswap/v3-core",
+      "license": "BUSL-1.1",
+      "category": "dex_swap",
+      "last_active": "2026-07-30",
+      "build_complexity": "Solidity",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "LANDMINE: Business Source License. Time-delayed conversion to GPL-2.0. Not open source at HEAD. v3-periphery is GPL-2.0, which is a different but still copyleft problem."
+    },
+    {
+      "name": "Uniswap/v4-core",
+      "url": "https://github.com/Uniswap/v4-core",
+      "license": "BUSL-1.1 (verified from the SPDX header in src/PoolManager.sol; no root LICENSE file, licences live in a `licenses/` directory)",
+      "category": "dex_swap",
+      "last_active": "2026-04-24",
+      "build_complexity": "Solidity",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "LANDMINE. Same BUSL problem as v3, and easy to miss because GitHub's licence detector reports nothing for this repo."
+    },
+    {
+      "name": "Uniswap/permit2",
+      "url": "https://github.com/Uniswap/permit2",
+      "license": "MIT",
+      "category": "dex_swap",
+      "last_active": "2024-08-19",
+      "build_complexity": "Solidity",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "The one genuinely MIT piece of the Uniswap stack. Safe to integrate for gasless approvals."
+    },
+    {
+      "name": "Uniswap/universal-router",
+      "url": "https://github.com/Uniswap/universal-router",
+      "license": "GPL-3.0",
+      "category": "dex_swap",
+      "last_active": "2026-08-28",
+      "build_complexity": "Solidity",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0. ABI use is fine; forking is not."
+    },
+    {
+      "name": "Uniswap/widgets",
+      "url": "https://github.com/Uniswap/widgets",
+      "license": "GPL-3.0",
+      "category": "dex_swap",
+      "last_active": "2024-08-12; ARCHIVED",
+      "build_complexity": "React component — archived, do not adopt",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "Dead AND GPL. The embeddable-swap-widget idea now belongs to LI.FI (Apache-2.0)."
+    },
+    {
+      "name": "Uniswap/sdk-core",
+      "url": "https://github.com/Uniswap/sdk-core",
+      "license": "MIT",
+      "category": "dex_swap",
+      "last_active": "2024-04-25; ARCHIVED",
+      "build_complexity": "TS library",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT but archived. Token/currency/price primitives only."
+    },
+    {
+      "name": "cowprotocol/cowswap",
+      "url": "https://github.com/cowprotocol/cowswap",
+      "license": "GPL-3.0",
+      "category": "dex_swap",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "React monorepo — heavy",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0, same copyleft problem as Uniswap's interface. Interesting as a design reference for intent/batch-auction UX."
+    },
+    {
+      "name": "lifinance/widget",
+      "url": "https://github.com/lifinance/widget",
+      "license": "Apache-2.0",
+      "category": "dex_swap",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "React component — moderate; can be embedded as a pre-built bundle in an iframe with no local toolchain",
+      "works_with_prana": "yes — supports arbitrary EVM chains via LI.FI config",
+      "works_with_melek": "no",
+      "notes": "The best-licensed embeddable swap/bridge widget: Apache-2.0, actively maintained, cross-chain. Caveat: it routes through LI.FI's hosted API, so it is a dependency on a third-party service, not a self-contained DEX. Good candidate for a bridge page; a poor fit for a self-sovereign KULA swap."
+    },
+    {
+      "name": "aave/interface",
+      "url": "https://github.com/aave/interface",
+      "license": "'All Rights Reserved (c) Aave Labs' — PROPRIETARY",
+      "category": "dex_swap",
+      "last_active": "2026-09-04",
+      "build_complexity": "n/a",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "LANDMINE. Regularly cited as an open-source DeFi front end. It is not. Do not fork for a lending/CDP UI — kulaswap's own `kula-cdp.mjs` is the right base."
+    },
+    {
+      "name": "compound-finance/palisade",
+      "url": "https://github.com/compound-finance/palisade",
+      "license": "GPL-3.0",
+      "category": "dex_swap",
+      "last_active": "2025-12-12",
+      "build_complexity": "Elm — heavy and unusual toolchain",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0 and written in Elm. Reference only."
+    },
+    {
+      "name": "DefiLlama/chainlist",
+      "url": "https://github.com/DefiLlama/chainlist",
+      "license": "GPL-3.0",
+      "category": "chain_registry",
+      "last_active": "2026-09-02; actively maintained; 3k stars",
+      "build_complexity": "Next.js — heavy",
+      "works_with_prana": "yes — this is where users click 'Add PRANA to MetaMask'",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0, so do not fork the UI. You do not need to: getting PRANA listed is a data PR to ethereum-lists/chains, which chainlist consumes."
+    },
+    {
+      "name": "ethereum-lists/chains",
+      "url": "https://github.com/ethereum-lists/chains",
+      "license": "MIT",
+      "category": "chain_registry",
+      "last_active": "2026-09-04; actively maintained; 9.8k stars",
+      "build_complexity": "data repo — no build; one JSON file per chain",
+      "works_with_prana": "YES — ACTIONABLE",
+      "works_with_melek": "no",
+      "notes": "VERIFIED GAP: `_data/chains/eip155-712217.json` returns 404, i.e. PRANA (chainId 712217) is NOT registered. A single MIT-licensed JSON PR here propagates PRANA into chainlist.org, wallet chain-pickers and many explorers' network dropdowns. This is the cheapest legibility win in this whole file and requires no front-end code at all."
+    },
+    {
+      "name": "ProjectOpenSea/seaport",
+      "url": "https://github.com/ProjectOpenSea/seaport",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-09-01; actively maintained; 2.3k stars",
+      "build_complexity": "Solidity protocol, not a front end",
+      "works_with_prana": "yes — deployable to any EVM chain",
+      "works_with_melek": "no",
+      "notes": "MIT marketplace protocol. The order/offer/consideration model is the standard to build a marketplace UI against."
+    },
+    {
+      "name": "ProjectOpenSea/seaport-js",
+      "url": "https://github.com/ProjectOpenSea/seaport-js",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-09-01; actively maintained",
+      "build_complexity": "TS library over ethers — bundler-friendly; usable from a vanilla page after one vendored ESM build",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT. Because it is built on ethers (already a dependency here at 6.16.0), this is the least-friction way to get real listing/offer/fulfil flows into a hand-written mint or marketplace page."
+    },
+    {
+      "name": "ProjectOpenSea/opensea-sdk",
+      "url": "https://github.com/ProjectOpenSea/opensea-sdk",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-09-04; actively maintained; 2.3k stars",
+      "build_complexity": "TS library",
+      "works_with_prana": "partial — the SDK talks to OpenSea's API, which will not index PRANA",
+      "works_with_melek": "no",
+      "notes": "MIT, but tied to OpenSea's hosted API and supported chains. For a private chain, seaport-js against your own Seaport deployment is the usable half. (`ProjectOpenSea/opensea-js` now redirects here.)"
+    },
+    {
+      "name": "thirdweb-dev/js",
+      "url": "https://github.com/thirdweb-dev/js",
+      "license": "Apache-2.0",
+      "category": "nft_marketplace",
+      "last_active": "2026-08-31; actively maintained",
+      "build_complexity": "React/TS SDK — moderate-to-heavy; there is a framework-agnostic core, but it expects a bundler",
+      "works_with_prana": "yes — supports arbitrary EVM chains by chainId",
+      "works_with_melek": "no",
+      "notes": "Apache-2.0 and broad: prebuilt NFT drop/marketplace/staking contracts plus connect UI. The pragmatic 'launchpad + mint page + marketplace' bundle if a React surface is ever acceptable. Note the hosted-service pull (client IDs, RPC) — read what still works fully self-hosted."
+    },
+    {
+      "name": "kodadot/nft-gallery",
+      "url": "https://github.com/kodadot/nft-gallery",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2025-12-04; ARCHIVED 2025; 687 stars",
+      "build_complexity": "Vue 3 / Nuxt — heavy port",
+      "works_with_prana": "no — Polkadot/Substrate (RMRK), not EVM",
+      "works_with_melek": "no",
+      "notes": "MIT and a genuinely complete generative-art marketplace UI (collections, mint, gallery pages) — but archived and Substrate-targeted. Design reference for collection/genetics pages, not a codebase to point at PRANA."
+    },
+    {
+      "name": "scaffold-eth/scaffold-eth-2",
+      "url": "https://github.com/scaffold-eth/scaffold-eth-2",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-08-27; actively maintained; 2k stars",
+      "build_complexity": "Next.js + wagmi + RainbowKit + Hardhat/Foundry — heavy port, full toolchain",
+      "works_with_prana": "yes — adding a custom chain is a config edit",
+      "works_with_melek": "no",
+      "notes": "MIT and the standard forkable starting point for a mint/breeding/collection dApp. The honest tradeoff for THIS repo: it is a Next.js/React/webpack world, i.e. a whole second toolchain next to the existing `.mjs`+`node --test` stack, with its own CI and dependency surface. Recommend only if the NFT game gets its own separate deployment; do not merge it into the Bot repo's build."
+    },
+    {
+      "name": "ourzora/zora-721-contracts",
+      "url": "https://github.com/ourzora/zora-721-contracts",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2025-01-06; ARCHIVED",
+      "build_complexity": "Solidity",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT drop/edition contracts. Archived; treat as a reference implementation."
+    },
+    {
+      "name": "OpenZeppelin/openzeppelin-contracts",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-09-04; actively maintained; 27k stars",
+      "build_complexity": "Solidity library",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT. ERC721/ERC1155/AccessControl base for any mint or breeding contract on PRANA."
+    },
+    {
+      "name": "OpenZeppelin/contracts-wizard",
+      "url": "https://github.com/OpenZeppelin/contracts-wizard",
+      "license": "AGPL-3.0",
+      "category": "launchpad",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "React/Vite web app — moderate",
+      "works_with_prana": "n/a",
+      "works_with_melek": "no",
+      "notes": "LANDMINE: **AGPL-3.0** on the wizard UI itself. Hosting a modified copy triggers the network-source-disclosure clause — the one copyleft licence that DOES bite a hosted front end. The CONTRACTS it emits are MIT (they are OpenZeppelin Contracts); the generator app is not. Use the public wizard, do not self-host a fork."
+    },
+    {
+      "name": "ripe0x/commonground",
+      "url": "https://github.com/ripe0x/commonground",
+      "license": "MIT",
+      "category": "nft_marketplace",
+      "last_active": "2026-04-16; near-zero adoption (0 stars)",
+      "build_complexity": "React — moderate",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT independent front end for the Foundation NFT marketplace. Verified to exist and be MIT, but essentially unproven — listed for completeness, not recommended."
+    },
+    {
+      "name": "chainflag/eth-faucet",
+      "url": "https://github.com/chainflag/eth-faucet",
+      "license": "MIT",
+      "category": "faucet",
+      "last_active": "2026-03-26; maintained; 573 stars",
+      "build_complexity": "needs a backend — Go server (holds the funding key) + a small Svelte front end; ships as a single binary / Docker image",
+      "works_with_prana": "YES — configurable RPC + chainId, built exactly for custom EVM testnets",
+      "works_with_melek": "no",
+      "notes": "MIT and the cleanest self-hostable EVM faucet. The Go binary is the point: it keeps the funding key server-side, which matches this repo's key-custody rule (no WIF/privkey in browser or repo). The Svelte UI is small enough to replace with a hand-written page in house style while keeping the Go backend."
+    },
+    {
+      "name": "paritytech/polkadot-testnet-faucet",
+      "url": "https://github.com/paritytech/polkadot-testnet-faucet",
+      "license": "MIT",
+      "category": "faucet",
+      "last_active": "2026-07-02; maintained",
+      "build_complexity": "needs a backend — TS server + Matrix/web bots",
+      "works_with_prana": "no — Substrate",
+      "works_with_melek": "no",
+      "notes": "MIT. Useful only as a design reference for abuse-prevention (rate limits, captcha, per-address cooldown)."
+    },
+    {
+      "name": "lidofinance/ethereum-staking-widget",
+      "url": "https://github.com/lidofinance/ethereum-staking-widget",
+      "license": "GPL-3.0",
+      "category": "staking",
+      "last_active": "2026-09-04; actively maintained",
+      "build_complexity": "Next.js — heavy",
+      "works_with_prana": "no — Lido-specific contracts",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0. Reference for staking-UI information architecture (APR display, wrap/unwrap, withdrawal queue) only."
+    },
+    {
+      "name": "alchemyplatform/aa-sdk",
+      "url": "https://github.com/alchemyplatform/aa-sdk",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-08-17; actively maintained",
+      "build_complexity": "TS/React — moderate; core is framework-agnostic",
+      "works_with_prana": "yes if PRANA deploys ERC-4337 EntryPoint + a bundler",
+      "works_with_melek": "no",
+      "notes": "MIT account-abstraction SDK. Relevant to the KULA paymaster work already in `kulaswap/apis-paymaster.mjs`, but note it presumes a bundler service exists on the chain."
+    },
+    {
+      "name": "pimlicolabs/permissionless.js",
+      "url": "https://github.com/pimlicolabs/permissionless.js",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-08-18; actively maintained",
+      "build_complexity": "TS library on viem — moderate",
+      "works_with_prana": "yes with a 4337 bundler",
+      "works_with_melek": "no",
+      "notes": "MIT, viem-native ERC-4337 utilities. Lighter than aa-sdk and less vendor-coupled."
+    },
+    {
+      "name": "dvandal/cryptonote-nodejs-pool",
+      "url": "https://github.com/dvandal/cryptonote-nodejs-pool",
+      "license": "GPL-2.0",
+      "category": "mining_pool",
+      "last_active": "2025-12-02; still maintained; 369 stars",
+      "build_complexity": "vanilla, drop-in front end — `website_example/` is plain index.html + config.js + js/ + themes/ + lang/, no build step at all. The backend is Node + Redis.",
+      "works_with_prana": "no (CryptoNote)",
+      "works_with_melek": "no — but it is the closest thing in this list to `pool/www`'s own style",
+      "notes": "THE BEST STYLISTIC MATCH for the existing `pool/www` front end: a static HTML page driven by a `config.js` and a plain JS API client, with a themes directory and i18n lang files already factored out. LICENSING LANDMINE: **GPL-2.0**. Lifting its HTML/JS into this repo would impose GPL-2.0 on the derived front end. Read it for the miner-stats / payments / blocks page layout and the i18n structure, then re-implement in house style — do not copy files."
+    },
+    {
+      "name": "MoneroOcean/nodejs-pool",
+      "url": "https://github.com/MoneroOcean/nodejs-pool",
+      "license": "MIT",
+      "category": "mining_pool",
+      "last_active": "2026-09-04; actively maintained; 125 stars",
+      "build_complexity": "needs a backend — Node + MySQL + Redis pool server; multi-algo with auto-switching",
+      "works_with_prana": "no (CryptoNote/RandomX)",
+      "works_with_melek": "no",
+      "notes": "MIT and the most actively maintained CryptoNote-family pool backend, with algo auto-switching — directly relevant to the pool's RandomX/Monero-stagenet side. MIT means it is the one pool codebase you could actually vendor from. Its front end is a separate, stale project (Snipa22/poolui)."
+    },
+    {
+      "name": "Snipa22/poolui",
+      "url": "https://github.com/Snipa22/poolui",
+      "license": "MIT",
+      "category": "mining_pool",
+      "last_active": "2018-01-06 — long dead",
+      "build_complexity": "AngularJS 1.x — dated, but MIT",
+      "works_with_prana": "no",
+      "works_with_melek": "no",
+      "notes": "MIT front end for the nodejs-pool API. Ancient (AngularJS). Value is the MIT-licensed API-shape documentation-by-example for MoneroOcean/nodejs-pool endpoints."
+    },
+    {
+      "name": "oliverw/miningcore",
+      "url": "https://github.com/oliverw/miningcore",
+      "license": "MIT",
+      "category": "mining_pool",
+      "last_active": "2023-09-02; ARCHIVED; 789 stars",
+      "build_complexity": "needs a backend — .NET/C# + Postgres",
+      "works_with_prana": "yes (has Ethereum/EVM pool support)",
+      "works_with_melek": "no",
+      "notes": "MIT and multi-algo including EVM chains — genuinely relevant if PRANA ever wants a pool. But archived in 2023; adopting it means owning the fork."
+    },
+    {
+      "name": "blinkhash/foundation-v1-server",
+      "url": "https://github.com/blinkhash/foundation-v1-server",
+      "license": "GPL-2.0",
+      "category": "mining_pool",
+      "last_active": "2026-02-10; maintained; 58 stars",
+      "build_complexity": "needs a backend — Node + Redis; the modern NOMP descendant",
+      "works_with_prana": "no",
+      "works_with_melek": "no",
+      "notes": "GPL-2.0. The living continuation of the node-open-mining-portal lineage."
+    },
+    {
+      "name": "zone117x/node-open-mining-portal",
+      "url": "https://github.com/zone117x/node-open-mining-portal",
+      "license": "GPL-2.0",
+      "category": "mining_pool",
+      "last_active": "2024-01-26; 1k stars; effectively legacy",
+      "build_complexity": "needs a backend — Node + Redis",
+      "works_with_prana": "no",
+      "works_with_melek": "no",
+      "notes": "GPL-2.0. The original NOMP. Historical reference; the front end is dated."
+    },
+    {
+      "name": "s-nomp/s-nomp",
+      "url": "https://github.com/s-nomp/s-nomp",
+      "license": "GPL-2.0",
+      "category": "mining_pool",
+      "last_active": "2023-12-05",
+      "build_complexity": "needs a backend",
+      "works_with_prana": "no (Equihash)",
+      "works_with_melek": "no",
+      "notes": "GPL-2.0, Equihash-focused NOMP fork."
+    },
+    {
+      "name": "sammy007/open-ethereum-pool",
+      "url": "https://github.com/sammy007/open-ethereum-pool",
+      "license": "GPL-3.0",
+      "category": "mining_pool",
+      "last_active": "2023-05-20; ARCHIVED; 1.4k stars",
+      "build_complexity": "needs a backend — Go + Redis; Ember.js front end",
+      "works_with_prana": "yes in shape (EVM pool), but ethash-era",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0 AND archived. The canonical EVM mining pool, now dead. Its maintained descendant is etclabscore/open-etc-pool (also GPL-3.0)."
+    },
+    {
+      "name": "etclabscore/open-etc-pool",
+      "url": "https://github.com/etclabscore/open-etc-pool",
+      "license": "GPL-3.0",
+      "category": "mining_pool",
+      "last_active": "2026-07-10; maintained; 60 stars",
+      "build_complexity": "needs a backend — Go + Redis",
+      "works_with_prana": "yes — closest working EVM pool codebase",
+      "works_with_melek": "no",
+      "notes": "GPL-3.0. The living fork of open-ethereum-pool. Relevant only if PRANA is PoW; GPL-3.0 makes vendoring its UI a licensing decision, not a free lunch."
+    },
+    {
+      "name": "tpruvot/yiimp",
+      "url": "https://github.com/tpruvot/yiimp",
+      "license": "NO LICENSE FILE — all rights reserved by default",
+      "category": "mining_pool",
+      "last_active": "2023-01-01; 550 stars",
+      "build_complexity": "needs a backend — PHP/MySQL/C++",
+      "works_with_prana": "no",
+      "works_with_melek": "no",
+      "notes": "LANDMINE. Very widely deployed, very widely assumed to be free software. There is no licence file. Do not clone."
+    },
+    {
+      "name": "notgiven688/webminerpool",
+      "url": "https://github.com/notgiven688/webminerpool",
+      "license": "NO LICENSE FILE",
+      "category": "mining_pool",
+      "last_active": "2022-08-10; ARCHIVED",
+      "build_complexity": "needs a backend — C# server + JS/WASM browser miner",
+      "works_with_prana": "no",
+      "works_with_melek": "no",
+      "notes": "The classic browser-mining reference (which `pool/www/browser-mine.mjs` already covers independently). Archived and unlicensed — reference reading only, do not copy."
+    },
+    {
+      "name": "wevm/mipd",
+      "url": "https://github.com/wevm/mipd",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-06-02; maintained",
+      "build_complexity": "VANILLA, DROP-IN — a ~2KB dependency-free ESM store for EIP-6963 multi-wallet discovery; no React, no build step",
+      "works_with_prana": "YES",
+      "works_with_melek": "no",
+      "notes": "THE PICK for this repo. `kulaswap/app.mjs` currently does `if (!window.ethereum)` + `new ethers.BrowserProvider(window.ethereum)` — the legacy single-injected-provider path, which silently picks the wrong wallet when a user has more than one extension. mipd fixes exactly that with an EIP-6963 provider list, and it is small enough to vendor as one file alongside the existing `pool/www/walletgen/vendor/` pattern. EIP-6963 itself is ~30 lines of `window.addEventListener('eip6963:announceProvider')`, so this can also simply be hand-written in house style."
+    },
+    {
+      "name": "ethers-io/ethers.js",
+      "url": "https://github.com/ethers-io/ethers.js",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-06-18; maintained; 8.7k stars",
+      "build_complexity": "vanilla-capable — ships a browser ESM/UMD build; ALREADY A DEPENDENCY of this repo (ethers 6.16.0 in package.json)",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT and already in the tree. Nothing in this catalogue justifies replacing it. Combined with a hand-written EIP-6963 listener it covers connect + sign + contract calls with zero new toolchain."
+    },
+    {
+      "name": "wevm/viem",
+      "url": "https://github.com/wevm/viem",
+      "license": "MIT (LICENSE file reads 'MIT License, Copyright (c) 2023-present weth, LLC'; GitHub metadata shows NOASSERTION)",
+      "category": "wallet_connect",
+      "last_active": "2026-09-04; actively maintained; 3.5k stars",
+      "build_complexity": "TS library — tree-shakeable ESM, works without React, but realistically wants a bundler",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT. The modern alternative to ethers. Only worth the churn if the repo adopts a bundler; ethers 6 already does the job here without one."
+    },
+    {
+      "name": "wevm/wagmi",
+      "url": "https://github.com/wevm/wagmi",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-09-01; actively maintained; 6.7k stars",
+      "build_complexity": "React hooks — heavy port. `@wagmi/core` is the framework-agnostic half, but still expects a bundler",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT. Fine for a separate React surface; wrong shape for the Bot repo's no-build pages."
+    },
+    {
+      "name": "wevm/ox",
+      "url": "https://github.com/wevm/ox",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-09-01; actively maintained",
+      "build_complexity": "TS standard library — ESM, tree-shakeable, no framework",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "Genuinely new (2024-2026) and worth knowing: the low-level 'standard library for the EVM' that viem 3 is being rebuilt on. MIT, no React. If the repo ever wants a lighter-than-ethers primitive layer, this is it."
+    },
+    {
+      "name": "rainbow-me/rainbowkit",
+      "url": "https://github.com/rainbow-me/rainbowkit",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-05-12; maintained; 2.8k stars",
+      "build_complexity": "React + wagmi + WalletConnect — heavy port",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT ITSELF, but the standard configuration pulls in WalletConnect/Reown transports for mobile wallets, and THOSE are no longer permissively licensed (see below). RainbowKit with injected/EIP-6963 connectors only is clean; RainbowKit with WalletConnect is not."
+    },
+    {
+      "name": "family/connectkit",
+      "url": "https://github.com/family/connectkit",
+      "license": "BSD-2-Clause",
+      "category": "wallet_connect",
+      "last_active": "2026-08-13; maintained; 1k stars",
+      "build_complexity": "React + wagmi — heavy port",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "BSD-2-Clause, the most permissive of the connect-modal kits. Same WalletConnect caveat as RainbowKit."
+    },
+    {
+      "name": "thirdweb-dev/web3-onboard",
+      "url": "https://github.com/thirdweb-dev/web3-onboard",
+      "license": "MIT",
+      "category": "wallet_connect",
+      "last_active": "2026-05-28; maintained; 920 stars",
+      "build_complexity": "FRAMEWORK-AGNOSTIC — the least React-bound of the connect kits (originally Blocknative's, built in Svelte, usable from plain JS); still needs a bundler for the full package",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "MIT and the best 'connect modal without React' option if a hand-written EIP-6963 picker is not enough. Note the ownership move: Blocknative's web3-onboard now lives under the thirdweb-dev org."
+    },
+    {
+      "name": "reown-com/appkit (formerly Web3Modal)",
+      "url": "https://github.com/reown-com/appkit",
+      "license": "REOWN COMMUNITY LICENSE AGREEMENT, release 2025-08-25 — NOT open source",
+      "category": "wallet_connect",
+      "last_active": "2026-09-04; actively maintained; 5.4k stars",
+      "build_complexity": "React/TS — heavy",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "**MAJOR LANDMINE, AND RECENT.** Web3Modal/AppKit was Apache-2.0 for years and is still described that way everywhere. As of 2025-08-25 it is under the Reown Community License, which: (a) assigns Reown ownership of any modifications or derivative works you make; (b) REQUIRES as a material condition that all use connect to Reown's proprietary gateway and forbids circumventing it; (c) caps free use at 2,500,000 monthly RPCs / 500 MAU before a paid commercial licence is required; (d) mandates a 'Portions (c) 2025 Reown, Inc.' notice and their branding on redistribution. Incompatible with a self-sovereign chain stack. Do not adopt."
+    },
+    {
+      "name": "WalletConnect/walletconnect-monorepo",
+      "url": "https://github.com/WalletConnect/walletconnect-monorepo",
+      "license": "WALLETCONNECT COMMUNITY LICENSE AGREEMENT, release 2025-08-20 — NOT open source",
+      "category": "wallet_connect",
+      "last_active": "2026-09-03; actively maintained; 1.7k stars",
+      "build_complexity": "TS libraries — moderate",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "**MAJOR LANDMINE, AND RECENT.** Same relicensing event as Reown AppKit (WalletConnect and Reown are the same company). The WalletConnect protocol client is no longer Apache-2.0. Anything in this catalogue that 'just uses WalletConnect' inherits these terms — that includes the default configs of RainbowKit, ConnectKit, web3-onboard and thirdweb. If mobile-wallet support is wanted without this dependency, the options are injected/EIP-6963 only, or a self-hosted relay."
+    },
+    {
+      "name": "MetaMask/metamask-sdk",
+      "url": "https://github.com/MetaMask/metamask-sdk",
+      "license": "PROPRIETARY — same 'ConsenSys Software Inc. all rights reserved' licence as the extension",
+      "category": "wallet_connect",
+      "last_active": "2026-06-24; maintained",
+      "build_complexity": "n/a",
+      "works_with_prana": "n/a",
+      "works_with_melek": "n/a",
+      "notes": "LANDMINE. Not open source. Talking to MetaMask through the standard injected EIP-1193 provider requires none of this SDK."
+    },
+    {
+      "name": "0xsequence/web-sdk",
+      "url": "https://github.com/0xsequence/web-sdk",
+      "license": "Apache-2.0",
+      "category": "wallet_connect",
+      "last_active": "2026-07-13; maintained",
+      "build_complexity": "React — moderate-to-heavy; ties into Sequence's hosted wallet service",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "Apache-2.0 and clean, but embedded-wallet features depend on Sequence's servers. (The old `0xsequence/kit` repo is the legacy path.)"
+    },
+    {
+      "name": "web3/web3.js",
+      "url": "https://github.com/web3/web3.js",
+      "license": "LGPL-3.0",
+      "category": "wallet_connect",
+      "last_active": "2025-03-05; ARCHIVED; 20k stars",
+      "build_complexity": "library",
+      "works_with_prana": "yes",
+      "works_with_melek": "no",
+      "notes": "ARCHIVED in 2025 — web3.js is end-of-life; use ethers or viem. Also LGPL-3.0: dynamic linking is fine, but bundling into a single JS artifact is closer to static linking and drags in LGPL relinking obligations. Two reasons to skip it."
+    },
+    {
+      "name": "ithacaxyz/porto",
+      "url": "https://github.com/ithacaxyz/porto",
+      "license": "Apache-2.0",
+      "category": "wallet_connect",
+      "last_active": "2026-08-19; ARCHIVED",
+      "build_complexity": "TS — moderate",
+      "works_with_prana": "yes (EIP-7702)",
+      "works_with_melek": "no",
+      "notes": "One of the notable 2025 EIP-7702 / passkey-wallet experiments, Apache-2.0. Now archived — noted so nobody adopts it expecting maintenance."
+    },
+    {
+      "name": "farcasterxyz/miniapps",
+      "url": "https://github.com/farcasterxyz/miniapps",
+      "license": "MIT",
+      "category": "new_2025_2026",
+      "last_active": "2026-08-04; actively maintained",
+      "build_complexity": "TS SDK — light; a mini app is just a web page plus an SDK call",
+      "works_with_prana": "yes (the wallet surface is EVM)",
+      "works_with_melek": "no",
+      "notes": "MIT. The genuinely new 2025-2026 dApp-UI form factor: a plain web page embedded in a social feed with an injected wallet already present. Its constraints (single page, no build assumptions, host-provided wallet) match this repo's house style unusually well; a KULA swap or a mint page could ship as a mini app with very little new machinery."
+    },
+    {
+      "name": "ponder-sh/ponder",
+      "url": "https://github.com/ponder-sh/ponder",
+      "license": "MIT",
+      "category": "block_explorer",
+      "last_active": "2026-09-03; actively maintained; 1.1k stars",
+      "build_complexity": "needs a backend — Node indexer writing to Postgres/SQLite, serving GraphQL/SQL",
+      "works_with_prana": "YES — point it at the PRANA RPC and index whatever contracts matter",
+      "works_with_melek": "no",
+      "notes": "MIT. If a PRANA explorer needs more than raw JSON-RPC (token transfer history, holder lists, NFT ownership), this is the permissive indexer to build it on — and its output is a plain API a hand-written `.mjs` page can consume, which keeps the front end in house style."
+    },
+    {
+      "name": "argotorg/sourcify",
+      "url": "https://github.com/argotorg/sourcify",
+      "license": "MIT",
+      "category": "block_explorer",
+      "last_active": "2026-09-01; actively maintained; 949 stars",
+      "build_complexity": "needs a backend — verification service; also usable as a hosted instance",
+      "works_with_prana": "yes — chain-agnostic contract verification",
+      "works_with_melek": "no",
+      "notes": "MIT contract-source verification. Note the org move: formerly `ethereum/sourcify`, now `argotorg/sourcify`. Pairs with any explorer to give PRANA verified-source pages."
+    },
+    {
+      "name": "remix-project-org/remix-project",
+      "url": "https://github.com/remix-project-org/remix-project",
+      "license": "Apache-2.0",
+      "category": "new_2025_2026",
+      "last_active": "2026-09-04; actively maintained; 3k stars",
+      "build_complexity": "very heavy web IDE",
+      "works_with_prana": "yes — connects to any injected provider / custom RPC",
+      "works_with_melek": "no",
+      "notes": "Apache-2.0. Not something to clone, but worth naming: it is the zero-install contract deploy/interact surface for PRANA, and can be pointed at a custom chain today. Note the org move from `ethereum/remix-project`."
+    }
+  ]
+}

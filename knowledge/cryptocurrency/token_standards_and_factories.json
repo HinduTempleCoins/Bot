@@ -1,0 +1,501 @@
+{
+  "title": "Token Standards, Proxy Factories, Bonding Curves and Forkable Contract Libraries",
+  "author": "Claude Code research pass for the MELEK / Van Kush ecosystem",
+  "period": "2015-2026 (all EIP statuses and repository licenses verified 2026-09-05)",
+  "source": "Primary sources only: eips.ethereum.org for every EIP, the GitHub REST API for every repository license and file, and live eth_getCode reads against Ethereum mainnet for every deployed address",
+  "overview": "Which token standards are real finalised EIPs and which are marketing; how a token factory or launchpad is actually built (EIP-1167 clones plus CREATE2, not a full deployment per token); what pump.fun's bonding curve actually is, from its own published parameters; and which contract libraries can legally be forked for MELEK/PRANA and at what gas and licence cost. Companion file: cryptokitties_onchain_genetics.json. Extends eip_1167_token_cloning.json, which recorded EIP-1167 from the 2019 Steemit-era post but not the pattern that grew around it.",
+
+  "verification_method": {
+    "eips": "Every EIP number below was fetched from https://eips.ethereum.org/EIPS/eip-<n> and its Status field read off the page. ERC-404 was checked the same way and the server returned HTTP 404 - see the standards_that_are_not_standards section.",
+    "repos": "Every repository was queried through the authenticated GitHub REST API. Where the API reported NOASSERTION or no license, the LICENSE file and the per-file SPDX headers were read directly and the real answer recorded.",
+    "addresses": "Every deployed address was checked with eth_getCode against Ethereum mainnet via https://ethereum-rpc.publicnode.com on 2026-09-05 and the returned code size recorded.",
+    "standing_rule": "Nothing appears in this file that was not confirmed by one of the above. This repo has been burned by fabricated citations; a missing entry is better than an invented one."
+  },
+
+  "the_standards": {
+    "note": "Status is quoted verbatim from the EIP page. 'Final' means the standard is frozen. 'Review' means it is not.",
+
+    "erc_20": {
+      "eip": 20,
+      "what": "Fungible token interface. Baseline for everything else. Not re-verified here; universally known.",
+      "chain_fit": "PRANA (EVM). The MELEK Graphene chain has no EVM - its fungible-token equivalent is the MELEK-Engine side-layer in engine/, which reads custom_json ops off L1 and runs a deterministic reducer."
+    },
+
+    "erc_721": {
+      "eip": 721,
+      "title": "Non-Fungible Token Standard",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "created": "2018-01-24",
+      "authors": ["William Entriken (@fulldecent)", "Dieter Shirley (dete@axiomzen.co)", "Jacob Evans (jacob@dekz.net)", "Nastassia Sachs"],
+      "what": "One token id, one owner, one non-fungible thing. Written up after CryptoKitties had already shipped against the draft - the EIP's Rationale cites CryptoKitties as prior art.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "erc_1155": {
+      "eip": 1155,
+      "title": "Multi Token Standard",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2018-06-17",
+      "authors": ["Witek Radomski", "Andrew Cooke", "Philippe Castonguay", "James Therien", "Eric Binet", "Ronan Sandford"],
+      "what": "Many token ids inside ONE contract, each id either fungible (a stack of 5,000 Grain) or non-fungible (supply of exactly 1). Batch transfer of mixed ids in a single call. Mandatory onERC1155Received callbacks on transfers to contracts.",
+      "why_it_matters_for_melek": "A game economy has hundreds of item types - seeds, harvested plants, tools, consumables. Deploying an ERC-20 per resource and an ERC-721 per collectible is the expensive, wrong shape. One ERC-1155 holds the whole inventory and can transfer a mixed basket atomically. integrations/games/plant-genetics.mjs tradeable() already targets this: 'rare/legendary strains mint as trait-bearing ERC-1155 seeds'.",
+      "cost": "The mandatory receiver callbacks are a reentrancy surface. Every transfer to a contract calls into that contract before the transfer is considered complete. Use OpenZeppelin's or Solady's implementation, do not hand-roll.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "erc_2981": {
+      "eip": 2981,
+      "title": "NFT Royalty Standard",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2020-09-15",
+      "authors": ["Zach Burks (@vexycats)", "James Morgan (@jamesmorgan)", "Blaine Malone (@blmalone)", "James Seibel (@seibelj)"],
+      "interface_id": "0x2a55205a = bytes4(keccak256('royaltyInfo(uint256,uint256)'))",
+      "what": "A single view function: given a token id and a sale price, return (receiver, amount). That is the entire standard.",
+      "the_honest_caveat": "ERC-2981 is a SIGNAL, not an enforcement mechanism. It does not and cannot make anyone pay. A marketplace chooses to read it and chooses to honour it. On Ethereum mainnet most volume moved to marketplaces that made royalties optional. On a chain we control - PRANA - royalties can actually be enforced in the token contract itself, because we set what the canonical market is. Do not build a MELEK revenue model on ERC-2981 alone and then be surprised.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "erc_4626": {
+      "eip": 4626,
+      "title": "Tokenized Vaults",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2021-12-22",
+      "authors": ["Joey Santoro (@joeysantoro)", "t11s (@transmissions11)", "Jet Jadeja (@JetJadeja)", "Alberto Cuesta Canada (@alcueca)", "Senor Doggo (@fubuloubu)"],
+      "what": "Deposit an ERC-20, receive shares of a yield-bearing vault; redeem shares for the underlying plus accrued yield. Standardises deposit/mint/withdraw/redeem plus their preview and max variants so aggregators can integrate any vault without bespoke code.",
+      "why_it_matters_for_melek": "Any KULA staking pool, any burn-mine reward pot, or any PRANA compute-reward vault should expose the 4626 interface rather than a bespoke stake()/unstake() pair. It costs nothing extra and makes the vault legible to every existing tool.",
+      "known_hazard": "The 'inflation attack' / donation attack on an empty vault: the first depositor donates directly to the vault to skew the share price and steal a later depositor's deposit. OpenZeppelin's v5 ERC4626 mitigates this with virtual shares and virtual assets. Do not deploy a hand-rolled 4626.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "erc_5192": {
+      "eip": 5192,
+      "title": "Minimal Soulbound NFTs",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "created": "2022-07-01",
+      "authors": ["Tim Daubenschutz (@TimDaub)", "Anders (@0xanders)"],
+      "interface_id": "0xb45a3c0e",
+      "what": "The smallest possible soulbound extension to ERC-721: a locked(tokenId) view returning bool, plus Locked/Unlocked events, discoverable via ERC-165. It does not itself prevent transfer - it DECLARES that transfer is prevented so wallets and markets can display the token correctly. The implementation still has to revert on transfer.",
+      "why_it_matters_for_melek": "Tutorial completion badges, Witness School credentials, karma tiers, and Crypt-ology relationship markers are all non-transferable by nature. Minting them as ordinary ERC-721s means they get traded and the credential means nothing. 5192 is the correct shape and is a genuinely finalised standard.",
+      "chain_fit": "PRANA (EVM). The Graphene MELEK side already has a native soulbound-ish surface - on-chain posts and votes by account - which is the honest equivalent."
+    },
+
+    "erc_6909": {
+      "eip": 6909,
+      "title": "Minimal Multi-Token Interface",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2023-04-19",
+      "authors": ["JT Riley", "Dillon", "Sara", "Vectorized", "Neodaoist"],
+      "what": "ERC-1155 with the expensive parts removed: NO mandatory receiver callbacks, NO required batch methods, and a hybrid permission model (a per-id, per-spender allowance PLUS a blanket operator flag) instead of 1155's operator-only model.",
+      "real_world_adoption_verified": "Uniswap v4-core ships src/ERC6909.sol and src/ERC6909Claims.sol - v4 uses 6909 for its internal pool-token accounting. Confirmed by reading the repository tree.",
+      "when_to_prefer_it_over_1155": "When the multi-token contract is an internal accounting ledger rather than a consumer-facing collectible: no callbacks means no reentrancy surface and materially less gas per transfer. Prefer 1155 when third-party wallets and marketplaces must display the items, because 1155 has universal tooling support and 6909 does not.",
+      "chain_fit": "PRANA (EVM). Note: Uniswap v4's own copy is compiled against solidity 0.8.26 and the wider v4 codebase uses transient storage, which PRANA does not have - see the prana_evm_constraints section. The 6909 file itself is simple and can be recompiled for london; the rest of v4 cannot be assumed to."
+    },
+
+    "erc_6551": {
+      "eip": 6551,
+      "title": "Non-fungible Token Bound Accounts",
+      "status": "Review - NOT Final. State this plainly wherever it is cited.",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2023-02-23",
+      "authors": ["Jayden Windle", "Benny Giang", "Steve Jang", "Druzy Downs", "Raymond Huynh", "Alanah Lam", "Wilkins Chung", "Paul Sullivan", "Auryn Macmillan", "Jan-Felix Schwarz", "Anton Bukov", "Mikhail Melnik", "Josh Weintraub", "Rob Montgomery", "vectorized", "Victor Martinez", "Adrian Pajares"],
+      "what": "Gives every existing NFT its own smart-contract wallet, without changing the NFT contract. A singleton registry deterministically derives one account address per (implementation, chainId, tokenContract, tokenId, salt) using CREATE2, so the address is knowable before the account is deployed and every NFT that will ever exist already has one. Whoever owns the NFT controls the account.",
+      "canonical_registry": {
+        "address": "0x000000006551c19487814612e58FE06813775758",
+        "stated_in": "the EIP-6551 specification itself",
+        "verified": "eth_getCode on Ethereum mainnet returned 571 bytes of deployed code (2026-09-05)",
+        "note": "Deterministically deployed, so the SAME address can be claimed on PRANA by replaying the deployment transaction. That is worth doing early - the address is part of the standard's value."
+      },
+      "why_it_matters_for_melek": "This is the single most interesting standard in this file for a breeding/farming game. A plant NFT that OWNS an account can hold its own seeds, its own harvested inventory, its own tools, and its own KULA balance. Selling the plant transfers the entire farm plot with it, in one transaction, with no unbundling logic to write. A Kush Farm plot, a Gotchi-style creature with an inventory, or a Hathor-granted starter kit all become one token that carries its contents.",
+      "the_caveat_to_state_out_loud": "Review status means the interface can still change. The registry is deployed and widely used, but this is not a frozen standard the way 721, 1155, 2981, 4626, 5192 and 6909 are.",
+      "chain_fit": "PRANA (EVM). Requires CREATE2 (available - Constantinople). Does not run on MELEK Graphene."
+    },
+
+    "erc_7631": {
+      "eip": 7631,
+      "title": "Dual Nature Token Pair",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2024-02-21",
+      "authors": ["vectorized", "Thomas", "Quit", "Michael Amadi", "cygaar", "Harrison"],
+      "what": "The FINALISED standard for a linked ERC-20 and ERC-721 pair, where moving the fungible balance mints and burns the corresponding NFTs. This is the standardised, reviewed version of the idea that ERC-404 popularised.",
+      "the_point": "If a MELEK or PRANA product wants semi-fungible 'own 0.4 of a rare seed' behaviour, cite and implement ERC-7631. It is a real EIP with Final status. ERC-404 is not.",
+      "chain_fit": "PRANA (EVM)."
+    }
+  },
+
+  "standards_that_are_not_standards": {
+    "why_this_section_exists": "The task brief specifically asked not to blur the line between finalised EIPs and community branding. Two of the most-marketed 'standards' of the last few years are not EIPs at all.",
+
+    "erc_404": {
+      "verdict": "NOT AN EIP. NOT A STANDARD. Never was.",
+      "verification": "https://eips.ethereum.org/EIPS/eip-404 returns HTTP 404 Not Found. There is no such proposal. The name was chosen by its authors as a joke about that fact.",
+      "what_it_actually_is": "An unofficial contract pattern published by the Pandora Labs team in February 2024 that co-joins an ERC-20 and an ERC-721 so that transferring fungible balance mints/burns NFTs. It deliberately skipped the EIP process. It works, it made money, and it is not a standard.",
+      "repository": "https://github.com/Pandora-Labs-Org/erc404",
+      "license": "The repository has NO LICENSE file and GitHub reports no license, but contracts/ERC404.sol carries an SPDX header of MIT. That mismatch is itself a reason for caution: read the headers of each file you actually intend to use rather than assuming the repo is MIT.",
+      "known_criticism": "The original implementation had exploitable edge cases around the mint/burn accounting on partial transfers, which is the stated reason DN404 was written.",
+      "how_to_cite_it": "If MELEK ever ships semi-fungible tokens, cite ERC-7631 (Final) as the standard and DN404 or ERC404 as implementations. Never write 'the ERC-404 standard' in public MELEK material - it is factually wrong and a reader who checks will stop trusting the rest of the page."
+    },
+
+    "dn404": {
+      "verdict": "An IMPLEMENTATION, not a standard - but a well-engineered one, and it implements a real standard.",
+      "repository": "https://github.com/Vectorized/dn404",
+      "license": "MIT (verified: repository LICENSE reported MIT by the GitHub API)",
+      "architecture": "TWO contracts, not one: a base ERC-20 (DN404.sol) and a mirror ERC-721 (DN404Mirror.sol) that reflects it. The repo also ships DN420.sol, an ERC-1155-mirror variant. Separating the two interfaces is what avoids ERC-404's accounting collisions.",
+      "authors": "Written by a team including vectorized (Solady's author) alongside cygaar, Quit, Michael Amadi, optimizoor, 0xjustadev and PopPunk - substantially the same people who then wrote ERC-7631.",
+      "relationship_to_7631": "DN404 is the reference-quality implementation of the dual-nature pattern that ERC-7631 standardises.",
+      "chain_fit": "PRANA (EVM). Verify the pragma and recompile for evm_version = 'london'."
+    }
+  },
+
+  "proxy_and_factory_patterns": {
+    "the_core_idea": "Deploying a full token contract costs gas proportional to its bytecode. Deploying a 45-byte proxy that DELEGATECALLs to one shared implementation costs almost nothing. A launchpad that expects to deploy thousands of tokens deploys the logic ONCE and then stamps out proxies. This is what eip_1167_token_cloning.json recorded in 2019; this section records the pattern that grew around it.",
+
+    "eip_1167": {
+      "eip": 1167,
+      "title": "Minimal Proxy Contract",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "created": "2018-06-22",
+      "authors": ["Peter Murray (@yarrumretep)", "Nate Welch (@flygoing)", "Joe Messerman (@JAMesserman)"],
+      "runtime_bytecode_verbatim_from_spec": "363d3d373d3d3d363d73bebebebebebebebebebebebebebebebebebebebe5af43d82803e903d91602b57fd5bf3",
+      "how_to_read_it": "Bytes at indices 10-29 (the bebebebe... run) are replaced with the 20-byte implementation address. The rest is a fixed stub that copies calldata, DELEGATECALLs the implementation, and returns the result verbatim.",
+      "the_tradeoff": "Every call pays an extra DELEGATECALL forever. You trade a large one-time deployment cost for a small permanent per-call cost. For a launchpad deploying many rarely-called tokens that is overwhelmingly correct; for one hot contract called constantly it is not.",
+      "immutability": "A 1167 clone is NOT upgradeable. The implementation address is baked into the bytecode. If you want upgradeability you want ERC-1967, not 1167.",
+      "chain_fit": "PRANA (EVM). Available at London. NOT available on MELEK Graphene."
+    },
+
+    "eip_1014_create2": {
+      "eip": 1014,
+      "title": "Skinny CREATE2",
+      "status": "Final",
+      "type": "Standards Track: Core",
+      "created": "2018-04-20",
+      "author": "Vitalik Buterin (@vbuterin)",
+      "formula_verbatim_from_spec": "keccak256( 0xff ++ address ++ salt ++ keccak256(init_code))[12:]",
+      "what_it_buys_you": "The deployed address depends only on (deployer, salt, init code) - NOT on the deployer's nonce. So you can compute a contract's address before it exists, deploy the same contract at the same address on every chain, and let a launchpad hand a user their token address before they pay for it.",
+      "how_a_factory_uses_it": "salt = keccak256(abi.encodePacked(creator, userSalt)). This namespaces every creator's salt space so two users cannot collide, and makes the address a function of who is deploying.",
+      "canonical_deployers_verified_on_mainnet": [
+        {
+          "name": "Deterministic Deployment Proxy (Arachnid) - the one Foundry uses by default",
+          "address": "0x4e59b44847b379578588920cA78FbF26c0B4956C",
+          "code_bytes": 69,
+          "note": "Deployed by a pre-signed 'Nick's method' transaction, so it can be replayed onto any EVM chain including PRANA to claim the same address. Do this on PRANA before anything else needs deterministic addresses."
+        },
+        {
+          "name": "ImmutableCreate2Factory (0age)",
+          "address": "0x0000000000FFe8B47B3e2130213B802212439497",
+          "code_bytes": 2099,
+          "note": "Named in Solady's ERC1967FactoryConstants.sol as the factory used to mine Solady's own vanity address; confirmed to hold code on mainnet."
+        }
+      ],
+      "chain_fit": "PRANA (EVM) - CREATE2 is Constantinople and PRANA is at London, so it is available. Not applicable to MELEK Graphene."
+    },
+
+    "erc_1967": {
+      "eip": 1967,
+      "title": "Proxy Storage Slots",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2019-04-24",
+      "authors": ["Santiago Palladino", "Francisco Giordano", "Hadrien Croubois"],
+      "what": "Standardises WHERE an upgradeable proxy stores its implementation address, its admin, and its beacon, so block explorers and tooling can detect a proxy and find its logic contract without guessing. The slots are deliberately obscure hashes so they cannot collide with the implementation's own storage layout.",
+      "slots_verbatim_from_spec": {
+        "implementation": "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc",
+        "admin": "0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103",
+        "beacon": "0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50"
+      },
+      "the_two_flavours": "TRANSPARENT proxy (upgrade logic lives in the proxy, an admin calls it) versus UUPS (upgrade logic lives in the IMPLEMENTATION). UUPS is cheaper per call and is OpenZeppelin's current recommendation, but carries a real footgun: ship an implementation without the upgrade function and the proxy is bricked permanently. BEACON proxies point many proxies at one shared beacon so a single write upgrades all of them at once - the right shape for a game that deploys thousands of identical item contracts.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "eip_2535_diamond": {
+      "eip": 2535,
+      "title": "Diamonds, Multi-Facet Proxy",
+      "status": "Final",
+      "type": "Standards Track: ERC",
+      "category": "Interface",
+      "created": "2020-02-22",
+      "author": "Nick Mudge (@mudgen)",
+      "what": "One proxy address routing each 4-byte function selector to a different implementation contract ('facet'), with a diamondCut function to add, replace and remove selectors, and a loupe interface so the facet map is externally inspectable. Facets share one storage struct.",
+      "why_you_would_want_it": "It defeats the 24KB contract size limit (EIP-170). A breeding game with genetics, marketplace, staking, lending and on-chain SVG rendering does not fit in one contract. Aavegotchi hit exactly this and solved it with a 29-facet diamond.",
+      "the_cost": "Substantially more complexity: shared storage across facets is easy to corrupt if two facets disagree about the layout, tooling support is thinner than for 1967 proxies, and the selector map is another thing to get wrong. Do not reach for a diamond until you have actually hit the size limit.",
+      "chain_fit": "PRANA (EVM)."
+    },
+
+    "how_a_real_token_factory_is_built": {
+      "worked_example": "thirdweb's TWFactory.sol, read in full from the repository (Apache-2.0)",
+      "the_actual_shape": [
+        "A registry of APPROVED implementation contracts, keyed by a bytes32 type name and a version number ('DropERC721' v3, etc.)",
+        "addImplementation() records a new logic contract; approveImplementation() gates which ones the public may clone",
+        "deployProxy(type, initData) picks the latest approved implementation for that type",
+        "salthash = keccak256(abi.encodePacked(msg.sender, userSalt)) - the CREATE2 salt is namespaced by the caller",
+        "Clones.cloneDeterministic(implementation, salthash) - OpenZeppelin's EIP-1167 helper, deploying via CREATE2",
+        "The initData is then delegatecalled into the fresh clone to run its initializer (a clone has no constructor)"
+      ],
+      "verbatim_import_from_the_source": "import { Clones } from \"@openzeppelin/contracts/proxy/Clones.sol\";",
+      "the_lesson": "A production token factory is roughly 130 lines. It is a whitelist of implementations plus one call to Clones.cloneDeterministic. All the difficulty is in the TOKEN contracts being cloned, not in the factory. Do not design a bespoke factory; copy this shape.",
+      "the_initializer_trap": "Clones have no constructor, so state must be set by an initialize() function. If the factory does not atomically call the initializer in the same transaction as the clone deployment, anyone can front-run and initialize the clone themselves. thirdweb does it atomically. Any MELEK factory must too."
+    }
+  },
+
+  "bonding_curves_and_launchpads": {
+    "pump_fun": {
+      "status_of_the_program_itself": "CLOSED SOURCE. The on-chain Solana program is not published. What IS published is https://github.com/pump-fun/pump-public-docs - official documentation plus Anchor IDLs (idl/pump.json, idl/pump_amm.json, idl/pump_fees.json). The repository carries no license.",
+      "the_curve_in_its_own_words": "'The bonding curve formula is based on Uniswap V2 and uses synthetic x and y reserves to ensure that there is liquidity' - PUMP_PROGRAM_README.md",
+      "verified_launch_parameters_from_the_Global_account": {
+        "token_total_supply": "1000000000000000 (= 1,000,000,000 tokens at 6 decimals)",
+        "initial_virtual_token_reserves": "1073000000000000 (= 1,073,000,000 tokens - MORE than the real supply; this is the synthetic part)",
+        "initial_virtual_sol_reserves": "30000000000 lamports (= 30 SOL)",
+        "initial_real_token_reserves": "793100000000000 (= 793,100,000 tokens actually sellable from the curve)",
+        "fee_basis_points": "100 (= 1% on every buy and sell)",
+        "pool_migration_fee": "15000001 lamports"
+      },
+      "the_mechanic_decoded": "It is constant-product x*y=k, but seeded with VIRTUAL reserves that do not exist. Nobody has to provide liquidity: the curve starts as if 30 SOL and 1.073B tokens were already in the pool, so k is fixed from block one and the first buyer gets a sane price instead of infinity. Only 793.1M of the 1B supply is sold from the curve; the remaining 206.9M is the pool's share at graduation.",
+      "graduation": "Each buy increases both virtual and real SOL reserves and decreases both token reserves. When real_token_reserves reaches 0, the curve sets complete = true. A permissionless, idempotent migrate() instruction then moves the accumulated real SOL and the reserved tokens into a PumpSwap AMM pool. Anyone can call it.",
+      "the_three_ideas_worth_stealing": [
+        "Virtual reserves remove the bootstrap problem entirely. No seed liquidity, no LP, no first-buyer price explosion. This is the whole trick.",
+        "A fixed graduation threshold expressed in TOKENS SOLD rather than in market cap or in raised currency. It is unambiguous, unmanipulable, and readable from one field.",
+        "Permissionless, idempotent migration. The team is not a bottleneck and cannot rug the graduation step."
+      ],
+      "the_honest_finding_on_forkable_code": "There is no reputable, licensed, audited open-source pump.fun equivalent. A GitHub search returns dozens of 'pump.fun clone' repositories with hundreds of stars each and essentially ALL of them carry no license at all (= all rights reserved) and no audit. Several are transparently bait for trading-bot buyers. Do NOT vendor any of them into a MELEK product. The right move is to reimplement the mechanic - which is just constant-product with virtual reserves, about 100 lines - against OpenZeppelin or Solady primitives, from the published parameters above."
+    },
+
+    "sudoswap_lssvm": {
+      "repository": "https://github.com/sudoswap/lssvm",
+      "license": "AGPL-3.0 (verified via GitHub API) - see the license warning below",
+      "what": "sudoAMM: real, audited, production NFT bonding curves. Pools are parameterised by a curve type (linear, exponential, constant-product) plus spot price and delta, and trade NFTs against ETH/ERC-20 without an order book.",
+      "why_it_is_relevant": "If MELEK wants a market for bred seeds where price moves automatically with supply, this is the audited implementation of exactly that, as opposed to the unlicensed pump.fun clones.",
+      "license_warning": "AGPL-3.0 is COPYLEFT and its network clause reaches software offered over a network. Forking this into a MELEK product and running it as a service creates an obligation to release the corresponding source of that service under AGPL. That may be perfectly acceptable - this repo publishes most things anyway - but it must be a DECISION, not an accident.",
+      "chain_fit": "PRANA (EVM). Last pushed 2023; verify the pragma and recompile for london."
+    },
+
+    "bancor": {
+      "repository": "https://github.com/bancorprotocol/contracts-solidity",
+      "license": "PROPRIETARY AND RESTRICTED - not open source. The LICENSE file reads: 'SUBJECT TO THE PROVISIONS SET FORTH HEREIN... YOU CAN USE THIS CODE, FILE AND/OR SOFTWARE ONLY IN CONNECTION WITH THE BANCOR LIQUIDITY NETWORK AND/OR THE USE OF BNT (\"PERMITTED USE\"). ANY OTHER USE IS...' ",
+      "why_it_is_listed_anyway": "Bancor's BancorFormula is the most-cited bonding-curve implementation in crypto and is routinely recommended in blog posts as a drop-in. It is NOT. Using it outside the Bancor network is outside the permitted use. Flagged here so a future agent does not vendor it on the strength of a tutorial.",
+      "chain_fit": "Do not use."
+    }
+  },
+
+  "forkable_libraries_compared": {
+    "openzeppelin": {
+      "repository": "https://github.com/OpenZeppelin/openzeppelin-contracts",
+      "license": "MIT (verified)",
+      "latest_release_at_time_of_writing": "v5.7.0 (2026-07-29)",
+      "verified_contents_relevant_here": ["proxy/Clones.sol (EIP-1167 + CREATE2)", "proxy/ERC1967/", "proxy/beacon/", "proxy/transparent/", "token/common/ERC2981.sol", "token/ERC20, ERC721, ERC1155", "ERC4626 with inflation-attack mitigation"],
+      "verdict": "The default. Most audited, most reviewed, best documented, most conservative. Highest gas cost of the three major libraries. Use it for anything holding real value unless there is a specific measured reason not to.",
+      "companion": "OpenZeppelin/openzeppelin-contracts-upgradeable (MIT) - the same contracts restructured for use behind proxies (initializers instead of constructors, storage gaps). Required if you are cloning or proxying.",
+      "chain_fit": "PRANA (EVM). MUST be compiled with evm_version = 'london' - solc 0.8.20+ emits PUSH0 by default and PRANA does not have it."
+    },
+    "solady": {
+      "repository": "https://github.com/Vectorized/solady",
+      "license": "MIT (verified)",
+      "latest_release_at_time_of_writing": "v0.1.26 (2025-08-25)",
+      "verified_contents_relevant_here": ["utils/LibClone.sol", "utils/CREATE3.sol", "utils/ERC1967Factory.sol", "utils/ERC1967FactoryConstants.sol", "tokens/ERC20.sol, ERC721.sol, ERC1155.sol, ERC6909.sol, ERC2981.sol, ERC4626.sol, ERC20Votes.sol, WETH.sol"],
+      "verdict": "Aggressively gas-optimised, heavy inline assembly, MIT, actively maintained, and it ships an ERC-6909 implementation which OpenZeppelin's core does not. The cost is auditability: the assembly is genuinely hard to review, so a reviewer must trust Solady's own test suite rather than reading the code. Excellent for the factory and clone plumbing; think twice before hand-modifying its token internals.",
+      "canonical_ERC1967Factory": {
+        "address": "0x0000000000006396FF2a80c067f99B3d2Ab4Df24",
+        "verified": "eth_getCode on Ethereum mainnet returned 2038 bytes (2026-09-05)",
+        "note": "A deterministically-deployed, vanity-mined singleton factory for ERC-1967 proxies. Solady ships the salt and initcode as constants, so the SAME address can be claimed on PRANA."
+      },
+      "PRANA_LANDMINE": "LibClone.sol exports both clone() and clone_PUSH0() (also cloneDeterministic_PUSH0, initCode_PUSH0, predictDeterministicAddress_PUSH0). The _PUSH0 variants are cheaper and MUST NOT be used on PRANA - PRANA is at London and has no PUSH0 opcode (EIP-3855, Shanghai). Use the non-PUSH0 variants only.",
+      "chain_fit": "PRANA (EVM), london only, avoiding every _PUSH0 entry point."
+    },
+    "solmate": {
+      "repository": "https://github.com/transmissions11/solmate",
+      "license": "AGPL-3.0-only - THIS IS THE TRAP. GitHub's API reports NOASSERTION and the root LICENSE file says only 'Depends on the file, see SPDX-License-Identifier.' Reading the actual files: src/tokens/ERC20.sol and src/tokens/ERC721.sol both carry '// SPDX-License-Identifier: AGPL-3.0-only'.",
+      "verdict": "Solmate is widely described in tutorials as a lightweight MIT alternative to OpenZeppelin. Its token contracts are NOT MIT. They are AGPL-3.0-only, which is network-copyleft. Vendoring solmate's ERC20 or ERC721 into a MELEK or PRANA product and running it as a service creates a source-disclosure obligation for that service. Last pushed 2025-07-21; less actively maintained than Solady.",
+      "recommendation": "Use Solady instead. It is the same author lineage of gas-optimised primitives, it is genuinely MIT, and it is more actively maintained. There is no reason to take on AGPL for solmate specifically.",
+      "chain_fit": "PRANA (EVM) technically, but the licence makes it the wrong default."
+    },
+    "thirdweb": {
+      "repository": "https://github.com/thirdweb-dev/contracts",
+      "license": "Apache-2.0 (verified; TWFactory.sol carries an Apache-2.0 SPDX header)",
+      "verified_contents": ["contracts/infra/TWFactory.sol - the working factory pattern documented above", "contracts/base/ - minimal standalone token bases", "contracts/prebuilts/ - full drop/marketplace/staking contracts", "contracts/extension/ - mixins (permissions, royalties, lazy mint, signature mint)"],
+      "verdict": "The best available reference for how a LAUNCHPAD is actually assembled end to end, as opposed to how a token is written. Apache-2.0 includes an express patent grant, which MIT does not - a mild plus for a commercial product. It depends on OpenZeppelin, so it inherits OZ's gas profile.",
+      "chain_fit": "PRANA (EVM), compiled for london."
+    },
+    "erc721a": {
+      "repository": "https://github.com/chiru-labs/ERC721A",
+      "license": "MIT (verified)",
+      "what": "An ERC-721 implementation optimised for batch minting: minting N consecutive tokens in one transaction costs close to what minting one costs, by writing ownership once for the batch and resolving individual owners lazily on read.",
+      "the_tradeoff": "Cheap batch mints, more expensive transfers and ownerOf reads. Correct for a large timed mint; wrong for a game where tokens are minted one at a time by breeding and then traded constantly. A breeding game is the second case.",
+      "chain_fit": "PRANA (EVM). Last pushed 2024; verify pragma and compile for london."
+    },
+    "sequence_erc1155": {
+      "repository": "https://github.com/0xsequence/erc-1155",
+      "license": "Apache-2.0 (verified by reading the LICENSE file; the GitHub API reports NOASSERTION)",
+      "what": "Horizon Blockchain Games' ERC-1155 implementation, from co-authors of the ERC-1155 standard itself. A credible second opinion alongside OpenZeppelin's, from people who wrote the spec for game inventories specifically.",
+      "chain_fit": "PRANA (EVM)."
+    },
+    "seaport": {
+      "repository": "https://github.com/ProjectOpenSea/seaport",
+      "license": "MIT (verified)",
+      "what": "OpenSea's marketplace protocol - signed orders, arbitrary consideration items, criteria-based offers, ERC-721 and ERC-1155 in one order. Relevant because a launchpad needs a market and this is the most battle-tested MIT-licensed one.",
+      "the_caveat": "It is large and complex. For a first MELEK game market, the CryptoKitties-style Dutch clock auction (about 200 lines, documented in cryptokitties_onchain_genetics.json) will do more with far less risk. Reach for Seaport when arbitrary multi-item orders are genuinely needed.",
+      "chain_fit": "PRANA (EVM), compiled for london."
+    }
+  },
+
+  "prana_evm_constraints": {
+    "why_this_section_exists": "Nearly every contract in this file was written for a modern Ethereum EVM. PRANA is not one. Getting this wrong produces contracts that compile fine and then fail on deployment or misbehave at runtime.",
+    "prana_facts": {
+      "chain_id": "712217 (0xADE19)",
+      "client": "core-geth, Etchash PoW",
+      "evm_fork_level": "all forks through LONDON active at block 0 (PRANA_PAPER.md §2.1, londonBlock: 0)",
+      "source_of_truth_in_this_repo": "PRANA_PAPER.md §2.1; the working compiler setting is already pinned at kulaswap/contracts/foundry.toml line 15: evm_version = \"london\""
+    },
+    "unavailable_opcodes": [
+      {"opcode": "PUSH0", "eip": 3855, "fork": "Shanghai", "impact": "solc 0.8.20+ emits PUSH0 BY DEFAULT. Any contract compiled without evm_version=london will contain an invalid opcode on PRANA. This is the number-one deployment failure to expect."},
+      {"opcode": "TSTORE / TLOAD", "eip": 1153, "fork": "Cancun", "impact": "Transient storage is unavailable. Contracts relying on it - notably Uniswap v4 - cannot run on PRANA at all, not merely need recompiling."},
+      {"opcode": "MCOPY", "eip": 5656, "fork": "Cancun", "impact": "Unavailable. solc will fall back to loop-based memory copies when targeting london; this is a gas cost, not a failure."}
+    ],
+    "available_and_load_bearing": [
+      {"opcode": "CREATE2", "eip": 1014, "fork": "Constantinople", "impact": "Available. Every clone factory, deterministic deployment, and ERC-6551 account derivation in this file works."},
+      {"opcode": "BASEFEE", "eip": 3198, "fork": "London", "impact": "Available. EIP-1559 fee market is live from genesis."}
+    ],
+    "randomness": {
+      "the_problem": "PRANA is Nakamoto PoW, so EIP-4399 (PREVRANDAO) does not apply - opcode 0x44 returns actual mining difficulty. Difficulty and blockhash are both influenceable by a miner, and any value visible in the same transaction can be simulated and reverted by a caller. There is no Chainlink VRF on PRANA.",
+      "the_consequence": "Aavegotchi's VRF-based trait generation CANNOT be ported directly. Neither can any mint-rarity scheme that reads block state in the minting transaction - that is precisely the bug that forced Wolf Game to redeploy in November 2021.",
+      "the_pattern_to_use": "Commit-reveal across a block boundary. Transaction 1 stores keccak256(playerSecret, salt). Transaction 2, in a later block, reveals the secret and derives the outcome from it combined with a block value the player could not observe when committing. Enforce a minimum block gap and a deadline after which an unrevealed commit forfeits."
+    },
+    "melek_graphene_side": {
+      "verdict": "NOTHING in this file runs on the MELEK chain. MELEK is a Graphene/Steem fork. There is no EVM, no Solidity, no CREATE2, no proxies, and per CLAUDE.md only standard Graphene ops (comment, vote, transfer, delegate_vesting_shares, create_account_with_keys_delegated).",
+      "the_MELEK_equivalent": "engine/ - the MELEK-Engine side-layer. A read-only node streams L1 blocks, filters custom_json ops with a known id, runs a deterministic reducer, and publishes a SHA-256 state hash. Token creation there is a JSON op interpreted by a reducer, not a deployed contract. The node holds no key and never broadcasts. That is MELEK's token factory, and it already exists.",
+      "the_architectural_reading": "The 'deploy one implementation, stamp out cheap clones' insight has a direct analogue on the Engine side: define the token CONTRACT TYPE once in the reducer, and let each new token be a row of parameters rather than new code. That is already how Hive-Engine works and how engine/ is built. EIP-1167 and the Engine's tokens contract are the same idea reached from opposite directions."
+    }
+  },
+
+  "sources": [
+    "https://eips.ethereum.org/EIPS/eip-721",
+    "https://eips.ethereum.org/EIPS/eip-1155",
+    "https://eips.ethereum.org/EIPS/eip-2981",
+    "https://eips.ethereum.org/EIPS/eip-4626",
+    "https://eips.ethereum.org/EIPS/eip-5192",
+    "https://eips.ethereum.org/EIPS/eip-6909",
+    "https://eips.ethereum.org/EIPS/eip-6551",
+    "https://eips.ethereum.org/EIPS/eip-7631",
+    "https://eips.ethereum.org/EIPS/eip-1167",
+    "https://eips.ethereum.org/EIPS/eip-1967",
+    "https://eips.ethereum.org/EIPS/eip-2535",
+    "https://eips.ethereum.org/EIPS/eip-1014",
+    "https://eips.ethereum.org/EIPS/eip-3855",
+    "https://eips.ethereum.org/EIPS/eip-1153",
+    "https://eips.ethereum.org/EIPS/eip-5656",
+    "https://eips.ethereum.org/EIPS/eip-3198",
+    "https://eips.ethereum.org/EIPS/eip-4399",
+    "https://github.com/ethereum/EIPs",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/Clones.sol",
+    "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable",
+    "https://github.com/Vectorized/solady",
+    "https://github.com/Vectorized/solady/blob/main/src/utils/LibClone.sol",
+    "https://github.com/Vectorized/solady/blob/main/src/utils/ERC1967FactoryConstants.sol",
+    "https://github.com/transmissions11/solmate",
+    "https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol",
+    "https://github.com/thirdweb-dev/contracts",
+    "https://github.com/thirdweb-dev/contracts/blob/main/contracts/infra/TWFactory.sol",
+    "https://github.com/Vectorized/dn404",
+    "https://github.com/Pandora-Labs-Org/erc404",
+    "https://github.com/erc6551/reference",
+    "https://github.com/mudgen/diamond-1-hardhat",
+    "https://github.com/mudgen/diamond-3-hardhat",
+    "https://github.com/chiru-labs/ERC721A",
+    "https://github.com/0xsequence/erc-1155",
+    "https://github.com/ProjectOpenSea/seaport",
+    "https://github.com/sudoswap/lssvm",
+    "https://github.com/bancorprotocol/contracts-solidity",
+    "https://github.com/pump-fun/pump-public-docs",
+    "https://github.com/Uniswap/v4-core",
+    "https://etherscan.io/address/0x000000006551c19487814612e58FE06813775758",
+    "https://etherscan.io/address/0x0000000000006396FF2a80c067f99B3d2Ab4Df24",
+    "https://etherscan.io/address/0x4e59b44847b379578588920cA78FbF26c0B4956C",
+    "https://etherscan.io/address/0x0000000000FFe8B47B3e2130213B802212439497"
+  ],
+
+  "forkable": [
+    {
+      "name": "OpenZeppelin Contracts",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts",
+      "license": "MIT",
+      "what_it_gives_us": "ERC-20, ERC-721, ERC-1155, ERC-2981 royalties, ERC-4626 vaults with the inflation-attack mitigation, AccessControl, and the whole proxy/ tree: Clones.sol (EIP-1167 + CREATE2), ERC1967, beacon and transparent proxies. Paired with openzeppelin-contracts-upgradeable (also MIT) for the initializer/storage-gap variants a clone or proxy requires. This is the baseline everything else in MELEK/PRANA should be built on.",
+      "chain_fit": "PRANA (EVM) - MUST set evm_version = 'london'; solc 0.8.20+ emits PUSH0 by default and PRANA has no PUSH0. NOT applicable to the MELEK Graphene chain, which has no EVM."
+    },
+    {
+      "name": "Solady",
+      "url": "https://github.com/Vectorized/solady",
+      "license": "MIT",
+      "what_it_gives_us": "The gas-optimised layer: LibClone (EIP-1167 clones with immutable args), CREATE3 (address depends only on deployer and salt, not on init code - so the same address survives a change to the contract), ERC1967Factory plus its canonical deployed singleton at 0x0000000000006396FF2a80c067f99B3d2Ab4Df24 (verified, 2038 bytes on mainnet), and an ERC-6909 implementation OpenZeppelin's core does not ship. This is the right library for a MELEK token factory or launchpad, where deployment gas is the dominant cost.",
+      "chain_fit": "PRANA (EVM), london only. DO NOT call any _PUSH0 variant in LibClone - PUSH0 (EIP-3855, Shanghai) does not exist on PRANA. Not applicable to MELEK Graphene."
+    },
+    {
+      "name": "thirdweb contracts",
+      "url": "https://github.com/thirdweb-dev/contracts",
+      "license": "Apache-2.0 (includes an express patent grant, unlike MIT)",
+      "what_it_gives_us": "TWFactory.sol - a complete, production, ~130-line token factory: an approved-implementation registry keyed by bytes32 type and version, caller-namespaced CREATE2 salts (keccak256(sender, salt)), and Clones.cloneDeterministic with the initializer called atomically in the same transaction. Plus contracts/prebuilts/ (drops, marketplace, staking) and contracts/extension/ mixins for permissions, royalties, lazy mint and signature mint. Copy this shape for a MELEK/PRANA launchpad rather than designing one.",
+      "chain_fit": "PRANA (EVM), compiled for london. Not applicable to MELEK Graphene - the Engine's reducer is the equivalent there."
+    },
+    {
+      "name": "DN404",
+      "url": "https://github.com/Vectorized/dn404",
+      "license": "MIT",
+      "what_it_gives_us": "The reference-quality implementation of the dual-nature ERC-20 / ERC-721 pattern that ERC-7631 (Final) standardises: a base ERC-20 plus a mirror ERC-721 as two separate contracts, avoiding the accounting collisions of the single-contract ERC-404 approach. Ships DN420 for an ERC-1155 mirror. Use this, and cite ERC-7631, if MELEK ever ships fractionalised seeds or semi-fungible collectibles.",
+      "chain_fit": "PRANA (EVM). Verify the pragma and recompile for london."
+    },
+    {
+      "name": "ERC-6551 reference implementation",
+      "url": "https://github.com/erc6551/reference",
+      "license": "MIT per the SPDX header on src/ERC6551Registry.sol. NOTE: the repository has no root LICENSE file and the GitHub API reports no license, so rely on the per-file headers and record that.",
+      "what_it_gives_us": "The token-bound-account registry and account implementation. Lets a MELEK plant, farm plot, or creature NFT own its own inventory and balances, so selling the token transfers everything it holds in one transaction. The canonical registry address 0x000000006551c19487814612e58FE06813775758 is specified in the EIP and verified to hold 571 bytes of code on Ethereum mainnet; because it is CREATE2-deterministic the same address can and should be claimed on PRANA.",
+      "chain_fit": "PRANA (EVM), requires CREATE2 (available at London). NOT applicable to MELEK Graphene. Caveat: ERC-6551 is in REVIEW status, not Final - the interface can still change."
+    },
+    {
+      "name": "0xsequence ERC-1155",
+      "url": "https://github.com/0xsequence/erc-1155",
+      "license": "Apache-2.0 (read from the LICENSE file; the GitHub API misreports it as NOASSERTION)",
+      "what_it_gives_us": "An ERC-1155 implementation from Horizon Blockchain Games, co-authors of the ERC-1155 standard, built specifically for game inventories. A useful second opinion to diff against OpenZeppelin's when designing the MELEK game-item contract.",
+      "chain_fit": "PRANA (EVM), compiled for london."
+    },
+    {
+      "name": "sudoswap lssvm",
+      "url": "https://github.com/sudoswap/lssvm",
+      "license": "AGPL-3.0 - NETWORK COPYLEFT. Running a fork as a service triggers a source-disclosure obligation for that service. Treat as a deliberate choice, not a default.",
+      "what_it_gives_us": "Audited, production NFT bonding curves (linear, exponential, constant-product) with spot price and delta parameters - the credible alternative to the dozens of unlicensed pump.fun clones, for an automatic-pricing market in bred MELEK seeds.",
+      "chain_fit": "PRANA (EVM). Last pushed 2023; verify pragma and recompile for london."
+    },
+    {
+      "name": "Seaport",
+      "url": "https://github.com/ProjectOpenSea/seaport",
+      "license": "MIT",
+      "what_it_gives_us": "The most battle-tested MIT marketplace protocol: signed off-chain orders, arbitrary consideration items, criteria-based offers, ERC-721 and ERC-1155 in a single order. Reach for it only when arbitrary multi-item orders are genuinely required - for a first MELEK game market the ~200-line CryptoKitties-style Dutch clock auction is less code and less risk.",
+      "chain_fit": "PRANA (EVM), compiled for london."
+    },
+    {
+      "name": "pump-fun/pump-public-docs",
+      "url": "https://github.com/pump-fun/pump-public-docs",
+      "license": "No license file (documentation and Anchor IDLs only; the on-chain program itself is CLOSED SOURCE).",
+      "what_it_gives_us": "The authoritative published parameters of the virtual-reserve bonding curve: 1B total supply, 1.073B initial virtual token reserves, 30 SOL initial virtual SOL reserves, 793.1M real tokens sellable from the curve, 100 bps fee, graduation at real_token_reserves == 0 via a permissionless idempotent migrate(). Enough to reimplement the mechanic from scratch - which is what to do, because there is NO reputable licensed open-source pump.fun equivalent and the popular 'clone' repos are unlicensed and unaudited.",
+      "chain_fit": "The docs are Solana-specific but the mechanic (constant product with virtual reserves) is chain-agnostic. Reimplement on PRANA (EVM) over OpenZeppelin/Solady primitives, compiled for london."
+    },
+    {
+      "name": "AVOID: solmate",
+      "url": "https://github.com/transmissions11/solmate",
+      "license": "AGPL-3.0-only (per the SPDX headers on src/tokens/ERC20.sol and src/tokens/ERC721.sol). Widely and wrongly described as MIT in tutorials; the root LICENSE file only says 'Depends on the file, see SPDX-License-Identifier.'",
+      "what_it_gives_us": "Listed here as a WARNING, not a recommendation. Its gas-optimised token contracts are network-copyleft, and it is less actively maintained than Solady (last push 2025-07-21). Use Solady instead - same lineage of gas-optimised primitives, genuinely MIT, actively maintained.",
+      "chain_fit": "Do not adopt by default. If it is ever used deliberately, the AGPL obligation must be accepted in writing first."
+    }
+  ]
+}
