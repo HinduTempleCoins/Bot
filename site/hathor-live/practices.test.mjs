@@ -21,7 +21,8 @@ test('every practice is well formed and uses a known grade', () => {
     assert.ok(p.id && p.name, 'needs id + name');
     assert.ok(families.has(p.family), `${p.id}: unknown family ${p.family}`);
     assert.ok(GRADES.includes(p.grade), `${p.id}: bad grade ${p.grade}`);
-    assert.ok(Number.isFinite(p.minutes) && p.minutes > 0, `${p.id}: needs minutes`);
+    // minutes === 0 is meaningful: an adjunct or an evidence entry with no duration
+    assert.ok(Number.isFinite(p.minutes) && p.minutes >= 0, `${p.id}: needs minutes`);
     assert.ok(p.summary && p.summary.length > 40, `${p.id}: needs a real summary`);
     assert.ok(Array.isArray(p.steps) && p.steps.length >= 3, `${p.id}: needs steps`);
     assert.ok(p.evidence && p.evidence.length > 60, `${p.id}: needs an evidence statement`);
@@ -71,6 +72,48 @@ test('the techniques that fragment sleep carry a caution', () => {
     const p = PRACTICES.find((x) => x.id === id);
     assert.ok(p.caution && p.caution.length > 20, `${id} must carry a caution`);
   }
+});
+
+test('the B6 entry carries the neuropathy warning and the five-night limit', () => {
+  // 240 mg pyridoxine is far above dietary intake, and chronic high-dose B6 causes peripheral
+  // sensory neuropathy. The trial ran five nights. Shipping the dose without that is the harm.
+  const b6 = PRACTICES.find((p) => p.id === 'b6-recall');
+  assert.ok(b6, 'b6-recall must exist');
+  assert.match(b6.caution, /neuropathy/i);
+  assert.match(b6.caution + b6.steps.join(' '), /five|5 /i, 'must state the duration studied');
+});
+
+test('the B6 entry does NOT claim vividness — the trial found recall only', () => {
+  const b6 = PRACTICES.find((p) => p.id === 'b6-recall');
+  assert.match(b6.summary + b6.steps.join(' '), /did not|not.*vivid/i,
+    'the negative half of the result must be stated, since vividness is what it is sold for');
+});
+
+test('applying current during sleep is not handed over as a recipe', () => {
+  const t = PRACTICES.find((p) => p.id === 'gamma-tacs-rem');
+  assert.ok(t, 'gamma-tacs-rem must exist');
+  assert.equal(t.family, 'cueing');
+  assert.match(t.caution, /do not improvise|not something we are handing/i);
+  assert.match(t.steps.join(' '), /laboratory finding|not a home protocol/i);
+});
+
+test('the 40Hz tension is stated rather than resolved in our favour', () => {
+  // Voss found frequency decisive; the 2026 chamber study found it did not matter. Both are on the
+  // page. Quietly dropping the inconvenient one is the thing this whole library exists not to do.
+  const t = PRACTICES.find((p) => p.id === 'gamma-tacs-rem');
+  assert.match(t.note, /chamber/i);
+  assert.match(t.note, /equivalent|not/i);
+});
+
+test('trauma-linked nightmares are routed to a clinician', () => {
+  const n = PRACTICES.find((p) => p.id === 'lucid-nightmares');
+  assert.match(n.caution, /clinician|PTSD/i);
+});
+
+test('meditation is graded on induction, and says the 8-week RCT was negative', () => {
+  assert.equal(practiceGrade('meditation-lucid'), 'weak');
+  const m = PRACTICES.find((p) => p.id === 'meditation-lucid');
+  assert.match(m.evidence, /did not increase|not increase/i);
 });
 
 test('byFamily partitions the catalogue with nothing orphaned', () => {

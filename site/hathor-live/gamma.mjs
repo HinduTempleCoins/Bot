@@ -273,7 +273,7 @@ ${PRACTICE_FAMILIES.map((f) => `
     <header>
       <span class=pname>${esc(p.name)}</span>
       <span class="pgrade g-${esc(p.grade)}">${esc(p.grade)}</span>
-      <span class=pmin>${esc(String(p.minutes))} min</span>
+      ${p.minutes ? `<span class=pmin>${esc(String(p.minutes))} min</span>` : ''}
     </header>
     <p class=psum>${esc(p.summary)}</p>
     <ol class=psteps>${p.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
