@@ -15,6 +15,15 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
+import { GAMMA_PAGE } from './gamma.mjs';
+import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
+import {
+  REPORTS_PAGE, validateReport, publicReports, reportStats,
+  CATEGORIES as REPORT_CATEGORIES, OUTCOMES as REPORT_OUTCOMES,
+} from './reports.mjs';
+import { readReports, appendReport } from './reports-store.mjs';
+import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -288,6 +297,82 @@ export async function handler(req, res) {
       try { plan = await compose({ brief, kind: body.kind, format: body.format }); } catch { plan = null; }
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify(plan || { ok: false, reason: 'Could not compose a plan — try a different brief.' }));
+    }
+
+    // /api/sessions — the entrainment catalogue as JSON, so HATHOR HERSELF can read it and
+    // recommend a session in chat. She hands out /40hz?s=<id> deep links; the page opens
+    // pre-selected on that session. This is what makes the library a thing she can USE.
+    if (path === '/api/sessions') {
+      const out = SESSIONS.map((x) => ({
+        id: x.id, name: x.name, category: x.category, method: x.method,
+        grade: x.grade, minutes: Math.round(totalSeconds(x) / 60), peakHz: peakHz(x),
+        photicRisk: photicRisk(x), chamber: !!x.chamber, eyesClosed: !!x.eyesClosed,
+        evidence: x.evidence, note: x.note || '',
+        url: `${BASE_URL}/40hz?s=${encodeURIComponent(x.id)}`,
+      }));
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({ categories: CATEGORIES, sessions: out }));
+    }
+
+    // --- /reports — the experience-report archive (the Erowid model, for biohacking too) -------
+    // Reports land as `pending` and are NEVER rendered until a person publishes them, so nothing a
+    // stranger typed reaches a public page unreviewed. See reports.mjs design rules 3 and 4.
+    if (path === '/api/reports' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = null;
+      try { body = JSON.parse(raw || '{}'); } catch { body = null; }
+      const { ok, errors, report } = validateReport(body);
+      if (!ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, errors }));
+      }
+      const stored = appendReport(report);
+      if (!stored) {
+        // Do not tell the submitter it was received when it was not. (Charter: prove, don't claim.)
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, errors: ['Could not store the report. Nothing was saved — please try again.'] }));
+      }
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({ ok: true, id: report.id, status: report.status }));
+    }
+
+    // The public JSON view — published reports only, so Hathor can read the archive back to
+    // someone in chat without ever seeing the pending queue.
+    if (path === '/api/reports') {
+      const all = readReports();
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({
+        stats: reportStats(all),
+        categories: REPORT_CATEGORIES,
+        outcomes: REPORT_OUTCOMES,
+        reports: publicReports(all),
+      }));
+    }
+
+    if (path === '/reports') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(REPORTS_PAGE(readReports(), { baseUrl: BASE_URL, themeCSS: themeCSS({ context: 'temple' }) }));
+    }
+
+    // /40hz — gamma sensory entrainment (light + sound only; never current delivery).
+    // Corpus: knowledge/consciousness/gamma_40hz_entrainment_and_neurostim.json
+    // The no-hardware practices, so Hathor can teach one in chat without the page.
+    if (path === '/api/practices') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({
+        families: PRACTICE_FAMILIES,
+        practices: PRACTICES.map((x) => ({
+          id: x.id, family: x.family, name: x.name, grade: x.grade, minutes: x.minutes,
+          summary: x.summary, steps: x.steps, evidence: x.evidence,
+          note: x.note || '', caution: x.caution || '', citations: x.citations,
+          url: `${BASE_URL}/40hz#${encodeURIComponent(x.id)}`,
+        })),
+      }));
+    }
+
+    if (path === '/40hz') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(GAMMA_PAGE);
     }
 
     if (path === '/studio') {

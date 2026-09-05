@@ -1,0 +1,58 @@
+{
+  "title": "The Cosmic Circuit — Planetary Electricity, Gravitational Spirals, and the Electromagnetic Architecture of the Solar System",
+  "author": "Rev. Ryan Sasha-Shai Van Kush",
+  "institution": "Van Kush Family Research Institute, Dallas–Fort Worth",
+  "period": "2026",
+  "citation_key": "Van Kush (2026b)",
+  "source": "Operator-supplied 2026-09-04. This is the paper cited as Van Kush (2026b) in conserved_library_genome_to_cosmos.json. Companion to 'The Charges of Heaven and Earth' (Van Kush, 2026a), which established the Earth circuit; this extends it to the whole solar system.",
+
+  "abstract_summary": "A survey of electrical activity across the solar system — from triboelectric discharges confirmed on Mars in 2025 through the lightning systems of Jupiter and Saturn to the theorised electrostatic environments of Venus, Titan, the Moon and asteroids — integrated with the gravitational spiral dynamics governing motion from galactic to molecular scales. It argues that ancient mythological frameworks encoded real observations about the electromagnetic and gravitational architecture of the solar system that modern instrumentation is now confirming.",
+
+  "keywords": ["planetary electricity", "atmospheric electricity", "gravitational spirals", "Huracán", "heliosphere", "Swedenborg", "Agrippa", "planetary correspondences", "Neith", "Spider Grandmother", "hydrogen line", "Age of Reason", "Galileo", "Newton", "Mars triboelectric discharge", "Jupiter lightning", "Coriolis effect"],
+
+  "planetary_electricity": {
+    "earth_baseline": "The global atmospheric circuit as a spherical capacitor — ionosphere as upper electrode, surface as lower, ~250,000 volts. ~2,000 thunderstorms simultaneously worldwide, ~100 lightning strikes per second, fair-weather current of 1,800 amperes (Harrison, 2013; Rycroft et al., 2000). The baseline against which every other planetary environment is measured.",
+
+    "mars_2025": {
+      "the_confirmation": "Electrical activity on Mars was theorised for decades but never directly demonstrated until November 2025, when Chide et al. published in Nature the first in-situ detections of triboelectric discharges. The SuperCam microphone aboard Perseverance recorded 55 distinct electrical events over two Martian years, associated with dust devils and dust-storm convective fronts.",
+      "why_it_differs": "Martian atmospheric electricity is DRY — produced by collisions between dust particles in whirlwinds and storms, giving much smaller discharges than terrestrial lightning, rather than by charge buildup in clouds.",
+      "the_physics": "Surface pressure ~600 Pa, under 1% of Earth's, so the dielectric breakdown threshold is on the order of tens of kV/m against Earth's ~3,000 kV/m at sea level — discharge occurs from far weaker charge separations (Renno & Kok, 2008).",
+      "the_grounding_problem": "Without liquid-water oceans as a conductive surface layer, and with a surface of dry oxidised regolith, Mars lacks Earth's efficient grounding mechanism. The Martian surface behaves more as an INSULATOR than a conductor, so charge accumulates to much higher levels before dissipating. Direct consequence for exploration: triboelectric charging of suits and equipment during dust storms could create hazardous electrostatic discharge conditions.",
+      "significance_for_the_framework": "This is the grounding motif from the Séance Project timeline (Franklin's rod → NEC → ASTM F2249) tested on another planet. Where there is no ground, the circuit does not close safely."
+    },
+
+    "jupiter": "The most electrically active planet, dwarfing all others combined. Voyager 1 (1979) imaged areas nearly as large as the continental United States lit by lightning in Jupiter's clouds, and detected whistlers — low-frequency waves characteristic of terrestrial lightning (Gurnett et al., 1979). Galileo (1995-2003), the Cassini flyby (2000) and especially Juno (2016-) confirmed Jovian lightning is remarkably similar to Earth's in radio characteristics, with Juno detecting over 1,600 lightning events and megahertz-range emissions for the first time (Brown et al., 2018). A single Jovian flash carries roughly TEN TIMES the total electromagnetic energy of a terrestrial one (Yair et al., 2008). Unlike Earth, where lightning is mostly equatorial and over land, Jupiter's concentrates at high latitudes and near the poles, in convection driven by INTERNAL HEAT rather than solar heating.",
+
+    "saturn": "First detected by Voyager 1 (1980-81) as radio pulses — Saturn Electrostatic Discharges — initially thought to come from the rings but confirmed atmospheric (Zarka & Pedersen, 1983). Cassini (2004-2017) documented lightning in radio and optical, with strong storms flashing as often as ten times per second (Fischer et al., 2008). Electrical storms are intermittent but can run for months, and planet-encircling 'great storms' recur every ~20-30 years; the 2010-2011 great storm produced lightning at rates exceeding anything recorded on Earth (Ingersoll & Ewald, 2021). Saturn's aurora heats the upper atmosphere far beyond what solar radiation accounts for — a mystery Cassini's Grand Finale helped resolve by mapping heat flow from auroral zones toward the equator (Moore et al., 2019).",
+
+    "venus_uranus_and_others": "Venus is contested: Venera 11-14 and Pioneer Venus Orbiter detected whistler-like signals in the 1970s-80s, but neither Cassini's 1998-99 flyby nor Akatsuki (2015-) confirmed lightning, suggesting activity may be rare or localised — extreme atmospheric superrotation may suppress the vertical convection needed for charge separation (Yair et al., 2008). Uranus was confirmed by Voyager 2 in 1986, which detected 140 impulsive radio bursts termed Uranian Electrostatic Discharges. The paper also treats Neptune, Titan, the Moon and asteroids."
+  },
+
+  "gravitational_spirals": {
+    "claim": "A universal spiral pattern governs motion from the galactic scale down to the molecular — the Sun's helical path through the Milky Way, planetary orbits, lunar cycles, atmospheric vortices, and the Coriolis-driven rotation of terrestrial weather systems.",
+    "huracan": "The hurricane takes its name from Huracán, the K'iche' Maya creator deity, the 'Heart of Sky' (Christenson, 2007) — a tradition that understood hurricanes as manifestations of divine atmospheric power. The naming preserves an accurate observation about rotating atmospheric energy."
+  },
+
+  "intellectual_history": {
+    "the_last_alchemists": "The paper traces the transition from the last alchemists — Newton, Franklin, Agrippa — into the Age of Reason, arguing these are complementary approaches to the same planetary circuit rather than a supersession.",
+    "agrippa_1531": "De Occulta Philosophia classified all phenomena under seven planetary headings — a correspondence system, not a superstition, mapping observed regularities onto the seven visible planets.",
+    "swedenborg_1758": "Earths in the Starry Heavens described claimed interactions with spirits associated with Mercury, Venus, Mars, Jupiter and Saturn — a visionary planetary cosmology contemporaneous with the Age of Reason rather than prior to it.",
+    "galileo_and_newton": "Telescopic observation and gravitational synthesis as the other half of the same enquiry."
+  },
+
+  "other_elements": {
+    "hydrogen_line": "The 21-centimetre hydrogen line — the most abundant element's emission frequency, and the basis of radio astronomy's universal reference.",
+    "heliosphere": "The Sun's electromagnetic boundary, treated as the outer wall of the circuit.",
+    "neith_spider_grandmother": "The cosmic-weaving archetype, appearing in Egyptian Neith and in Spider Grandmother of the American Southwest — the same figure encoding a structural observation about a woven or spiralled cosmos.",
+    "planetary_chakra_deity_correspondence": "Cross-referenced with the correspondence system set out in seance_science_electromagnetic_mechanics.json — seven visible planets, seven chakras, seven spectral colours, deities per planet."
+  },
+
+  "the_central_argument": "Ancient mythological frameworks encoded real observations about the electromagnetic and gravitational architecture of the solar system, which modern instrumentation is now confirming. The Mars result is the paper's strongest case: a discharge phenomenon theorised for decades, confirmed in Nature in 2025, on a planet whose lack of a conductive ground is exactly what makes its charge behaviour distinctive.",
+
+  "relationship_to_the_other_papers": {
+    "conserved_library": "That paper's §6 establishes continuity from molecular ion channels to the ionosphere. This one extends the same circuit outward to the heliosphere. Together they claim one continuous electromagnetic system from the sodium-potassium pump to the boundary of the solar system.",
+    "seance_project": "The Séance Project traces how humans learned to TAP that circuit (Franklin, Steinheil, Tesla, grounding codification). The Cosmic Circuit describes the circuit itself.",
+    "the_vibration": "Pythagoras's Music of the Spheres — planets producing music as they orbit — is the acoustic statement of what this paper makes electromagnetic.",
+    "honest_note": "The planetary-electricity survey is built on mainstream citable literature (Nature, Voyager/Cassini/Juno results, named authors and dates) and is the most conventionally verifiable material in the corpus. The correspondence and archetype sections are the operator's interpretive framework and should be presented as such — the strength of the first does not transfer automatically to the second."
+  }
+}
