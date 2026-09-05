@@ -17,6 +17,7 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { GAMMA_PAGE } from './gamma.mjs';
 import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 import {
   REPORTS_PAGE, validateReport, publicReports, reportStats,
   CATEGORIES as REPORT_CATEGORIES, OUTCOMES as REPORT_OUTCOMES,
@@ -355,6 +356,20 @@ export async function handler(req, res) {
 
     // /40hz — gamma sensory entrainment (light + sound only; never current delivery).
     // Corpus: knowledge/consciousness/gamma_40hz_entrainment_and_neurostim.json
+    // The no-hardware practices, so Hathor can teach one in chat without the page.
+    if (path === '/api/practices') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({
+        families: PRACTICE_FAMILIES,
+        practices: PRACTICES.map((x) => ({
+          id: x.id, family: x.family, name: x.name, grade: x.grade, minutes: x.minutes,
+          summary: x.summary, steps: x.steps, evidence: x.evidence,
+          note: x.note || '', caution: x.caution || '', citations: x.citations,
+          url: `${BASE_URL}/40hz#${encodeURIComponent(x.id)}`,
+        })),
+      }));
+    }
+
     if (path === '/40hz') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(GAMMA_PAGE);

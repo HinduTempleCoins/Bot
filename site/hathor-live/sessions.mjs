@@ -32,6 +32,7 @@ export const CATEGORIES = [
   { id: 'focus',      name: 'Focus',             blurb: 'Beta and SMR. Weakest evidence, highest photic risk — read the warnings.' },
   { id: 'meditation', name: 'Meditation',        blurb: 'Theta states. Long tradition, thin clinical evidence.' },
   { id: 'chamber',    name: 'The Chamber',       blurb: 'Full-field, enclosed, ~12 minutes. The context IS the intervention.' },
+  { id: 'training',   name: 'Perceptual Training', blurb: 'Strobe used the OTHER way: intermittent occlusion to train the visual system, not to entrain it.' },
   { id: 'visionary',  name: 'Visionary',         blurb: 'Alpha-band flicker with the eyes CLOSED — the Dreamachine effect.' },
 ];
 
@@ -193,6 +194,54 @@ export const SESSIONS = [
       + 'mechanism is understood as driven activity in visual cortex, not as anything mystical.',
     note: 'EYES CLOSED. The light goes through the eyelid — you do not look at it. Still a flicker source, '
       + 'so the photosensitivity warning applies in full.',
+  },
+
+  // ── gamma, continued: the 2025-26 evidence update ────────────────────────────────────────────
+  {
+    id: 'genus-40-vibrotactile', name: 'GENUS 40 · vibrotactile', category: 'gamma',
+    method: 'auditory', carrier: 40,
+    program: [{ hz: 40, secs: 1800 }],
+    grade: 'promising',
+    evidence: 'A FIFTH delivery route. Kim et al. (Scientific Reports, July 2026) compared 40Hz vibrotactile '
+      + 'stimulation delivered by a GLOVE against combined visual+auditory in 15 healthy participants, and '
+      + 'found the glove evoked 40Hz EEG responses in central, frontal and — to a lesser extent — occipital '
+      + 'cortex. That matters because it reaches the gamma response with NO light at all, which is the whole '
+      + 'problem for photosensitive people.',
+    note: 'This session plays the 40Hz audio reference. The browser cannot deliver true 40Hz vibrotactile — '
+      + 'the Vibration API is a coarse on/off pattern, not a waveform, and phones vary wildly. The real route '
+      + 'is built hardware; see the build guide. We are not going to pretend a phone buzz is the study.',
+  },
+
+  // ── perceptual training: strobe used the other way ───────────────────────────────────────────
+  {
+    id: 'strobe-training', name: 'Stroboscopic training', category: 'training',
+    method: 'flicker',
+    program: [{ hz: 6, secs: 300 }, { hz: 4, secs: 300 }, { hz: 3, secs: 300 }],
+    grade: 'promising',
+    evidence: 'Completely different use of a strobe: not entrainment, but INTERMITTENT OCCLUSION — removing '
+      + 'visual information so the system learns to work on less. A 2026 study in Frontiers in Physiology found '
+      + 'stroboscopic vision training improved sports-vision and punching performance; a 2024 study in Life '
+      + 'tested elite curling athletes; and a 2025 paper in Applied Neuropsychology found repeated training '
+      + 'improved ANTICIPATION skill without changing general perceptual-cognitive skills — a useful, specific '
+      + 'negative result that keeps the claim honest.',
+    note: 'Done with the EYES OPEN and moving, ideally while catching or tracking something. Sitting still and '
+      + 'staring at it is not the intervention.',
+    eyesClosed: false,
+  },
+
+  // ── sleep: acoustic stimulation for consolidation ────────────────────────────────────────────
+  {
+    id: 'pink-noise-sleep', name: 'Pink noise · consolidation', category: 'sleep',
+    method: 'auditory', carrier: 0,
+    program: [{ hz: 1, secs: 2700 }],
+    grade: 'promising',
+    evidence: 'The best-supported idea in sleep audio is not a tone at a frequency — it is sound delivered in '
+      + 'PHASE with your own slow oscillations during deep sleep. A 2026 paper in npj Science of Learning covers '
+      + 'slow-oscillation and spindle stimulation effects on physiology and memory; a 2026 Neuroscientist review '
+      + '("Echoes of Pink Noise") proposes the mechanism for enhancing sleep-dependent memory consolidation.',
+    note: 'HONEST LIMIT: real closed-loop stimulation needs live EEG to find the up-phase of your slow waves. '
+      + 'Open-loop pink noise — what a browser can play — is the weaker cousin, and we grade it as what it is.',
+    eyesClosed: true,
   },
 ];
 

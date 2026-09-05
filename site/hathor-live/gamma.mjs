@@ -34,6 +34,7 @@
 
 import { themeCSS, esc } from '../../integrations/melek-theme.mjs';
 import { SESSIONS, CATEGORIES, byCategory, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 
 // The catalogue is rendered server-side into cards, and shipped to the client as JSON so the
 // player can read each session's program without a second request.
@@ -145,6 +146,24 @@ ol li,ul li{margin:8px 0}
 .hr{color:var(--mk-loss)}
 .sxe{color:var(--mk-text-muted);font-size:12.5px;line-height:1.5}
 .sxn{color:var(--mk-warn);font-size:12.5px;margin-top:7px}
+
+.pfam{margin:1.6rem 0}
+.pfam h3{margin:.2rem 0 .2rem;font-size:1.1rem}
+.pblurb{opacity:.7;margin:.1rem 0 .6rem;font-size:.93rem}
+.prac{border:1px solid var(--line,#2a2a33);border-radius:9px;padding:.85rem 1rem;margin:.7rem 0;background:var(--bg2,#15151c)}
+.prac header{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;margin-bottom:.35rem}
+.pname{font-weight:700}
+.pgrade{border:1px solid currentColor;border-radius:999px;padding:.02rem .5rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+.g-moderate{color:#7fc08a}.g-promising{color:#c9a227}.g-weak{color:#c98a6a}.g-traditional{color:#9aa0a6}.g-strong{color:#7fc08a}
+.pmin{margin-left:auto;opacity:.55;font-size:.82rem}
+.psum{margin:.2rem 0 .5rem}
+.psteps{margin:.3rem 0 .6rem;padding-left:1.2rem}
+.psteps li{margin:.22rem 0}
+.pev{font-size:.9rem;opacity:.85;margin:.4rem 0}
+.pnote{font-size:.88rem;opacity:.72;margin:.3rem 0}
+.pcaution{font-size:.9rem;color:#e0796f;margin:.3rem 0}
+.pcite{font-size:.82rem;margin:.4rem 0 0}
+.warn-lite{border-left:3px solid #c2554d;padding-left:.9rem;opacity:.9}
 </style></head><body><div class=wrap>
 
 <div class=hero>
@@ -238,6 +257,32 @@ recall, and improved daily activity rhythmicity versus control. Adherence over t
 (NCT05637801)</b>. Re-read all of the above against that readout. And the 2016 reason for interest in 40Hz
 — lucid dreaming — has <b>largely fallen apart</b>; the therapeutic gamma literature and the lucid-dream
 literature are separate stories and should not prop each other up.</p>
+
+<h2>Practices — the half that needs no hardware</h2>
+<p class=lede>Everything above needs a screen, headphones or a device you built. These need nothing at
+all. They are graded on the same scale, for the same reason: this corner is thick with confident
+instruction and thin with evidence, and the useful thing is saying which is which.</p>
+<p class=warn-lite><strong>None of this is a treatment for insomnia.</strong> Sleep that stays broken for
+weeks is a clinical matter, not a technique problem.</p>
+${PRACTICE_FAMILIES.map((f) => `
+<section class=pfam>
+  <h3>${esc(f.name)}</h3>
+  <p class=pblurb>${esc(f.blurb)}</p>
+  ${PRACTICES.filter((p) => p.family === f.id).map((p) => `
+  <article class="prac grade-${esc(p.grade)}">
+    <header>
+      <span class=pname>${esc(p.name)}</span>
+      <span class="pgrade g-${esc(p.grade)}">${esc(p.grade)}</span>
+      <span class=pmin>${esc(String(p.minutes))} min</span>
+    </header>
+    <p class=psum>${esc(p.summary)}</p>
+    <ol class=psteps>${p.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
+    <p class=pev><strong>Evidence.</strong> ${esc(p.evidence)}</p>
+    ${p.note ? `<p class=pnote>${esc(p.note)}</p>` : ''}
+    ${p.caution ? `<p class=pcaution><strong>Caution.</strong> ${esc(p.caution)}</p>` : ''}
+    <p class=pcite>${p.citations.map((c) => `<a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.label)}</a>`).join(' &middot; ')}</p>
+  </article>`).join('')}
+</section>`).join('')}
 
 <h2>Why dedicated hardware</h2>
 <p>A microcontroller hardware timer gives true 40Hz; a screen usually cannot. 40Hz means a 25&nbsp;ms
