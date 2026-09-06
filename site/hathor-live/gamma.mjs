@@ -32,6 +32,8 @@
 //
 //   import { GAMMA_PAGE } from './gamma.mjs'
 
+import { THE_LINE_HTML } from './the-line.mjs';
+
 import { themeCSS, esc } from '../../integrations/melek-theme.mjs';
 import { SESSIONS, CATEGORIES, byCategory, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
@@ -637,6 +639,8 @@ replication failed — treat that use as experimental.</p>
   stop.addEventListener('click',halt);
 })();
 </script>
+${THE_LINE_HTML('entrainment')}
+
 </div></body></html>`;
 
 export default GAMMA_PAGE;
