@@ -88,6 +88,17 @@ const nlLoad = async () => { try { return JSON.parse(await fsp.readFile(NL_STORE
 const nlSave = async (s2) => { try { await fsp.mkdir(NL_STORE.replace(/\/[^/]+$/, ''), { recursive: true }); await fsp.writeFile(NL_STORE, JSON.stringify(s2)); } catch { /* read-only fs → in-memory for the request */ } };
 const _nlMailer = resendMailer();
 const nlSendConfirm = ({ email, confirmUrl }) => _nlMailer({ email, link: confirmUrl });
+// On confirmation, hand the address to Herald's sending engine so the list is actually reachable by a
+// campaign. Before 2026-09-06 confirmedList() was read by nothing, so every confirmed opt-in went into a
+// file no code ever opened. Soft-failed: a sender problem must never turn a good confirmation into an
+// error page for the subscriber.
+const nlOnConfirm = async ({ email }) => {
+  try {
+    const { _singleton } = await import('../../pentecaust/herald/campaign-sender.mjs');
+    _singleton.addSubscriber({ email, source: 'double-opt-in' });
+  } catch { /* sender unavailable → the address is still safely in the newsletter store */ }
+};
+
 
 // The rendered property index, reused by the page and by /properties.json.
 export function propertiesSection() {
@@ -460,7 +471,7 @@ export async function handler(req, res) {
     }
 
     // newsletter opt-in + contact (POST /api/subscribe, GET /api/confirm, POST /api/contact)
-    if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, baseUrl: BASE_URL })) return;
+    if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, onConfirm: nlOnConfirm, baseUrl: BASE_URL })) return;
     if (path === '/properties.json') {
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
       return res.end(JSON.stringify({ updated: '2026-09-06', groups: PROPERTIES }, null, 2));

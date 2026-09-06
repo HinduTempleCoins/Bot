@@ -32,6 +32,8 @@ import { handler as iftttHandler } from '../../pentecaust/herald/ifttt-triggers.
 // The campaign-sender is stateful (lists/subscribers/templates/queue live in a store), so like the
 // ad-network we mount its singleton handler. Native-path routes only — /health stays owned by the server.
 import { handler as senderHandler, _singleton as senderSingleton } from '../../pentecaust/herald/campaign-sender.mjs';
+import { confirmedList } from '../../integrations/newsletter.mjs';
+import { promises as heraldFsp } from 'node:fs';
 // The lead CRM — top-of-funnel capture. Backed by a disk-persisted Map-like store so leads from the public
 // capture form AND the Hathor chat bridge survive restarts. Holds no key; a lead is an internal pipeline
 // record only — it is NEVER auto-subscribed to bulk email (sending stays double-opt-in via /api/subscribe).
@@ -312,6 +314,12 @@ function diskLeadStore(file) {
     set: (k, v) => { m.set(k, v); flush(); return m; },
   };
 }
+// The public double-opt-in store written by integrations/newsletter.mjs. MUST match the default in
+// site/home/server.mjs and site/vankushfamily/server.mjs, or the funnel counts a different file than
+// the widget writes. All three resolve to site/data/newsletter-subs.json unless NEWSLETTER_STORE is set.
+const NEWSLETTER_STORE = process.env.NEWSLETTER_STORE
+  || new URL('../data/newsletter-subs.json', import.meta.url).pathname;
+
 const leadCrm = createLeadCrm({ storage: diskLeadStore(LEADS_FILE) });
 
 // The growth-funnel data sources, bound to the live singletons + on-disk rails. Every dep is soft-failed by
@@ -322,7 +330,24 @@ export const funnelDeps = {
   scanStats: () => qrScanStats(),
   leadPipeline: () => leadCrm.pipeline(),
   verifiedLeads: () => leadCrm.verifiedCount(),
-  senderStats: () => senderSingleton.stats(),
+  // Opt-in subscribers are counted from BOTH rails, because the network has two independent
+  // subscribe endpoints writing two separate stores:
+  //   1. integrations/newsletter.mjs  → site/data/newsletter-subs.json  (the public double-opt-in
+  //      widget on soapbox.community and vankushfamily.com)
+  //   2. campaign-sender.mjs          → data/herald-sender.json          (Herald's own lists)
+  // Reading only (2) — as this dep did until 2026-09-06 — meant the funnel reported ZERO opt-in
+  // subscribers no matter how many people confirmed through the public widget, because
+  // confirmedList() was called by nothing anywhere in the repo. Soft-failed: an unreadable or
+  // absent newsletter store degrades to the sender count alone rather than erroring the dashboard.
+  senderStats: async () => {
+    const base = senderSingleton.stats();
+    let optIn = 0;
+    try {
+      const raw = await heraldFsp.readFile(NEWSLETTER_STORE, 'utf8');
+      optIn = confirmedList(JSON.parse(raw)).length;
+    } catch { /* no store yet → 0 */ }
+    return { ...base, subscribers: (base.subscribers || 0) + optIn, optInSubscribers: optIn };
+  },
   inviteStats: () => inviteStats(),
   campaignCodes: GROWTH_CODES,
 };
