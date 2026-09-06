@@ -1,16 +1,23 @@
-// soulava-token.mjs — SOULAVA (SOUL): the delegation-mining reward token, a PRANA (EVM) ERC-20.
+// soulava-token.mjs — SOULAVA (SOULA): the delegation-mining reward token, a PRANA PRC-20.
 //
 // SOULAVA is a PRANA token (operator: "SOULAVA is a PRANA token"), the kula-ring counterpart to MWALI —
 // which is also a PRANA/KulaSwap token (the Proof-of-Liquidity gauge reward). So the ring lives on PRANA's
 // DeFi side: MWALI for liquidity, SOULAVA for delegation. In the ring a valuable is never kept — it is
 // passed on, and the standing lies in the giving. That is delegation: lend your weight to @hathor and mine
-// SOUL for the giving.
+// SOULA for the giving.
 //
 // THE CROSS-CHAIN SHAPE: delegation happens on MELEK (you delegate MELEK vests / a SCOT stake to @hathor).
-// The off-chain accounting in delegation-program.mjs computes each delegator's earned SOUL. A trusted keeper
-// then MINTS SOULAVA on PRANA to each delegator's PRANA address (a mintable ERC-20 with MINTER_ROLE held by
-// a distributor — modeled on kulaswap/contracts/src/MwaliPoLGauge.sol, the MWALI minter). This module is the
+// The off-chain accounting in delegation-program.mjs computes each delegator's earned SOULA. A trusted keeper
+// then MINTS SOULAVA on PRANA to each delegator's PRANA address, through
+// kulaswap/contracts/src/SoulavaDistributor.sol — which holds MINTER_ROLE on the token. This module is the
 // token descriptor + the mint-plan builder; it holds no keys and sends nothing (the keeper/relayer executes).
+//
+// THE CUMULATIVE CONTRACT. `SoulavaDistributor.mintTo(account, cumulative)` takes the delegator's LIFETIME
+// earned total and mints only what is still owed. That is deliberate and it shapes this module: the plan
+// below carries `d.earned` from the ledger UNCHANGED (which is already cumulative — delegation-program.mjs
+// only ever adds to it), never a per-run delta. So a plan can be submitted twice and the second submission
+// mints exactly zero. A keeper that pushed deltas would double-pay on any retry, and nothing on-chain could
+// undo it.
 //
 //   import * as soul from './soulava-token.mjs'
 
@@ -33,20 +40,44 @@ export const SOULAVA = Object.freeze({
 });
 
 const WEI = 10n ** 18n;
-/** Convert a SOUL amount (float, 6dp accounting) to base units (wei) as a BigInt. */
+/** Convert a SOULA amount (float, 6dp accounting) to base units (wei) as a BigInt. */
 export function toWei(amountSoul) {
-  const micro = BigInt(Math.round(round6(num(amountSoul)) * 1e6));  // 6dp → integer micro-SOUL
+  const micro = BigInt(Math.round(round6(num(amountSoul)) * 1e6));  // 6dp → integer micro-SOULA
   return (micro * WEI) / 1_000_000n;
 }
 
-/** The distributor.mint(to, amount) call descriptor for one delegator. */
-export function mintCall(toAddress, amountSoul) {
-  return { to: SOULAVA.distributor || '<distributor>', fn: 'mint', args: [toAddress, toWei(amountSoul).toString()],
-    token: SOULAVA.symbol, human: `mint ${round6(num(amountSoul))} ${SOULAVA.symbol} → ${toAddress}` };
+/**
+ * The `SoulavaDistributor.mintTo(account, cumulative)` call descriptor for one delegator.
+ * `cumulativeSoul` is the delegator's LIFETIME earned total, not a delta — the contract mints the
+ * difference against what it has already sent, so re-submitting this call mints nothing.
+ */
+export function mintCall(toAddress, cumulativeSoul) {
+  return { to: SOULAVA.distributor || '<distributor>', fn: 'mintTo',
+    args: [toAddress, toWei(cumulativeSoul).toString()], cumulative: true, token: SOULAVA.symbol,
+    human: `top up ${toAddress} to a lifetime ${round6(num(cumulativeSoul))} ${SOULAVA.symbol}` };
 }
 
 /**
- * Build the PRANA mint plan from the off-chain delegation ledger: for each delegator with earned SOUL,
+ * The whole plan as ONE `mintBatch(accounts[], cumulatives[])` call — the form the keeper actually
+ * broadcasts. Batches are capped at the contract's MAX_BATCH; a longer plan is split across calls.
+ */
+export const MAX_BATCH = 256;
+export function batchCalls(plan) {
+  const mints = (plan && Array.isArray(plan.mints)) ? plan.mints : [];
+  const out = [];
+  for (let i = 0; i < mints.length; i += MAX_BATCH) {
+    const slice = mints.slice(i, i + MAX_BATCH);
+    out.push({
+      to: SOULAVA.distributor || '<distributor>', fn: 'mintBatch', cumulative: true, token: SOULAVA.symbol,
+      args: [slice.map((m) => m.args[0]), slice.map((m) => m.args[1])],
+      human: `top up ${slice.length} delegator(s) to their lifetime ${SOULAVA.symbol} totals`,
+    });
+  }
+  return out;
+}
+
+/**
+ * Build the PRANA mint plan from the off-chain delegation ledger: for each delegator with earned SOULA,
  * a mint call to their PRANA address. `resolveAddress(melekAccount)` → PRANA address (injected — a REN/
  * registry lookup); delegators without a resolved address are returned in `unresolved`, never minted to 0x0.
  * @param {object} ledger  from delegation-program.ledger() — { delegators:[{account, earned}] }
@@ -92,6 +123,6 @@ that idea as a token: **delegate your standing to @${pool}, and you mine ${SOULA
 
 /** A one-line honest status for a HUD / registry. */
 export function status({ minted = false } = {}) {
-  return { name: SOULAVA.name, symbol: SOULAVA.symbol, kind: 'ERC-20', chain: 'PRANA',
+  return { name: SOULAVA.name, symbol: SOULAVA.symbol, kind: 'PRC-20', chain: 'PRANA',
     status: minted ? 'live' : 'design', pairsWith: 'MWALI', role: SOULAVA.role };
 }
