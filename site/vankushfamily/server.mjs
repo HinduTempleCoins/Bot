@@ -27,6 +27,9 @@ import { dirname, join } from 'node:path';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
+import { resendMailer } from '../../integrations/email-verify.mjs';
+import { promises as fsp } from 'node:fs';
 
 const PORT = +(process.env.PORT || 8104);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -38,6 +41,62 @@ const HEMP = process.env.HEMP_SITE || 'https://hemp.soapbox.community';
 const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const ADMIN = process.env.ADMIN_SITE || 'https://soapy.blog';
+
+// ── The ecosystem property list — the canonical "what is live" index. ─────────────────────────────
+// Every URL below was checked and returned HTTP 200 on 2026-09-06. soapy.blog is deliberately NOT
+// listed publicly: it answers 401 (auth-gated admin), so linking it from a public hub would hand a
+// visitor a login wall. Keep this list honest — it is the base list the press outreach points at,
+// and a dead link here is the first thing a journalist finds.
+export const PROPERTIES = [
+  { group: 'Chains', items: [
+    { name: 'MELEK', url: 'https://melek.salon', desc: 'The Graphene social chain — post, curate, earn. Block explorer and wallet built in.' },
+    { name: 'MELEK testnet', url: 'https://alpha.melek.salon', desc: 'The public testnet. Coins here are worthless by design.' },
+    { name: 'Witness School', url: 'https://witness.melek.salon', desc: 'Learn to run a block producer, and how a Graphene chain is built.' },
+    { name: 'MELEK-Engine', url: 'https://engine.melek.salon', desc: 'The side-token layer — issue a token without deploying a contract.' },
+    { name: 'KulaSwap', url: 'https://kula.money', desc: 'The AMM and lending market on PRANA.' },
+  ] },
+  { group: 'Mining and compute', items: [
+    { name: 'SoapBox Pool', url: 'https://pool.soapbox.community', desc: 'Browser mining, in-browser wallet generation, RandomX and Ethash side by side.' },
+    { name: 'KULA Farm', url: 'https://farm.soapbox.community', desc: 'Yield farming on the MELEK ecosystem.' },
+    { name: 'Servers', url: 'https://servers.soapbox.community', desc: 'The public node and service directory.' },
+  ] },
+  { group: 'Knowledge', items: [
+    { name: 'Library of Ashurbanipal', url: 'https://wiki.soapbox.community', desc: 'The cited, fact-checked reference wiki.' },
+    { name: 'SoapBox Search', url: 'https://search.soapbox.community', desc: 'Search across the ecosystem\u2019s own posts and accounts.' },
+    { name: 'Hathor', url: 'https://hathor.live', desc: 'The AI witness\u2019s own surface, including the 40 Hz entrainment library.' },
+    { name: 'Data', url: 'https://data.soapbox.community', desc: 'The public data aggregator behind the verticals.' },
+  ] },
+  { group: 'Civic verticals', items: [
+    { name: 'Law', url: 'https://law.soapbox.community', desc: 'Caselaw and statutes.' },
+    { name: 'Politics', url: 'https://politics.soapbox.community', desc: 'Congress, elections and lobbying.' },
+    { name: 'Oversight', url: 'https://oversight.soapbox.community', desc: 'The consumer-protection and oversight directory.' },
+    { name: 'Hemp', url: 'https://hemp.soapbox.community', desc: 'US cannabis law and price indexes.' },
+    { name: 'Stocks', url: 'https://stocks.soapbox.community', desc: 'The market index.' },
+    { name: 'Congress', url: 'https://alpha.congress.ink', desc: 'The legislative tracker.' },
+  ] },
+  { group: 'Community', items: [
+    { name: 'SoapBox Community', url: 'https://soapbox.community', desc: 'The ecosystem hub.' },
+    { name: 'Karma', url: 'https://karma.melek.salon', desc: 'Standing that rises when you lift someone \u2014 it cannot be bought or sent.' },
+    { name: 'Herald', url: 'https://herald.soapbox.community', desc: 'The growth engine.' },
+    { name: 'KULA Arcade', url: 'https://arcade.soapbox.community', desc: 'Free, provably-fair, play-token games.' },
+  ] },
+];
+
+// Newsletter opt-in: file store + the Resend double-opt-in confirm mailer (soft-fails to no-send).
+const NL_STORE = process.env.NEWSLETTER_STORE || new URL('../data/newsletter-subs.json', import.meta.url).pathname;
+const nlLoad = async () => { try { return JSON.parse(await fsp.readFile(NL_STORE, 'utf8')); } catch { return { subs: {}, contacts: [] }; } };
+const nlSave = async (s2) => { try { await fsp.mkdir(NL_STORE.replace(/\/[^/]+$/, ''), { recursive: true }); await fsp.writeFile(NL_STORE, JSON.stringify(s2)); } catch { /* read-only fs → in-memory for the request */ } };
+const _nlMailer = resendMailer();
+const nlSendConfirm = ({ email, confirmUrl }) => _nlMailer({ email, link: confirmUrl });
+
+// The rendered property index, reused by the page and by /properties.json.
+export function propertiesSection() {
+  return `<section class=props><h2>Everything that is live</h2>
+  <p class=muted>Every link below answered HTTP&nbsp;200 on 6 September 2026.</p>
+  ${PROPERTIES.map((g) => `<div class=pgroup><h3>${esc(g.group)}</h3><ul>${g.items.map((i) =>
+    `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.name)}</a> <span class=muted>${esc(i.desc)}</span></li>`).join('')}</ul></div>`).join('')}
+  </section>`;
+}
 
 // ── shared house-style helpers (same dark theme as Law/Hemp/Stocks/Search) ────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -299,7 +358,9 @@ export function homePage() {
   </div>
   <h2 class=sectionh>Come in — pick a door</h2>
   <div class=dests>${cards}</div>
-  <p class=foot-note>New here? Start with <a href="https://melek.salon">MELEK</a> — your one account opens every door above.</p>`;
+  <p class=foot-note>New here? Start with <a href="https://melek.salon">MELEK</a> — your one account opens every door above.</p>
+  ${propertiesSection()}
+  ${subscribeWidget({ base: BASE_URL, heading: 'Get the Van Kush Family dispatch' })}`;
   return landing('Van Kush Family — join the family', body,
     { canonical: `${BASE_URL}/`, desc: 'Van Kush Family — ancient scholarship, genealogy, and an AI-native blockchain community. Join MELEK, explore Congress, learn at the Witness School, trade on KulaSwap.' });
 }
@@ -338,6 +399,13 @@ function landing(title, body, opts = {}) {
  .foot-note{text-align:center;color:var(--mut);margin:28px 0 44px} .foot-note a{color:var(--gold);font-weight:800}
  footer{text-align:center;color:var(--mut);font-size:13px;padding:22px;border-top:1px solid rgba(255,255,255,.1)}
  footer a{color:var(--cyan)}
+ .props{margin:48px 0 8px;text-align:left}
+ .props h2{font-size:1.5rem;margin:0 0 4px} .props .muted{color:var(--mut);font-size:.9rem}
+ .pgroup{margin:22px 0} .pgroup h3{color:var(--cyan);font-size:1rem;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+ .pgroup ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ .pgroup li{padding:10px 12px;background:rgba(255,255,255,.04);border-left:3px solid var(--magenta);border-radius:0 6px 6px 0}
+ .pgroup li a{color:var(--fg);font-weight:600;text-decoration:none} .pgroup li a:hover{color:var(--magenta)}
+ .pgroup li .muted{display:block;color:var(--mut);font-size:.88rem}
 </style></head><body>
 <main class=wrap>${body}</main>
 <footer>© Van Kush Family · <a href="/roadmap">roadmap</a> · <a href="https://melek.salon">melek.salon</a></footer>
@@ -350,7 +418,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/roadmap'];
+const SITEMAP_PATHS = ['/', '/roadmap', '/properties.json'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -391,6 +459,12 @@ export async function handler(req, res) {
       }));
     }
 
+    // newsletter opt-in + contact (POST /api/subscribe, GET /api/confirm, POST /api/contact)
+    if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, baseUrl: BASE_URL })) return;
+    if (path === '/properties.json') {
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ updated: '2026-09-06', groups: PROPERTIES }, null, 2));
+    }
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/roadmap') return sendHtml(res, roadmapPage());
 

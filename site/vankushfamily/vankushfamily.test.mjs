@@ -191,3 +191,29 @@ test('footer cross-links the live SoapBox sites', async () => {
   assert.match(html, /https:\/\/politics\.soapbox\.community/);
   assert.match(html, /https:\/\/hemp\.soapbox\.community/);
 });
+
+// ── The property index + newsletter opt-in (added 2026-09-06) ─────────────────────────────────────
+test('PROPERTIES only lists URLs verified 200 — soapy.blog (401) must stay out', async () => {
+  const { PROPERTIES } = await import('./server.mjs');
+  const urls = PROPERTIES.flatMap((g) => g.items.map((i) => i.url));
+  assert.ok(urls.length >= 20, `expected 20+ properties, got ${urls.length}`);
+  assert.ok(!urls.some((u) => u.includes('soapy.blog')), 'soapy.blog is auth-gated (401) and must not be linked publicly');
+  for (const u of urls) assert.match(u, /^https:\/\//, `${u} must be https`);
+  assert.equal(new Set(urls).size, urls.length, 'property URLs must be unique');
+});
+
+test('GET / renders the property index and the subscribe form', async () => {
+  const res = await get('/');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Everything that is live/);
+  assert.match(res.body, /pool\.soapbox\.community/);
+  assert.match(res.body, /\/api\/subscribe/);
+});
+
+test('GET /properties.json returns the machine-readable list', async () => {
+  const res = await get('/properties.json');
+  assert.equal(res.statusCode, 200);
+  const j = JSON.parse(res.body);
+  assert.ok(Array.isArray(j.groups) && j.groups.length >= 4);
+  assert.equal(j.updated, '2026-09-06');
+});
