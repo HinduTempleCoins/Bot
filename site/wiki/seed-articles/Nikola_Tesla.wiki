@@ -1,0 +1,59 @@
+'''Nikola Tesla''' (1856–1943) was a Serbian-American electrical engineer whose polyphase alternating-current system is the one the world actually runs on. He is also the figure around whom the largest volume of invented history in the history of technology has accumulated — which is a reason to be careful with him, not a reason to avoid him. The patents are public documents, and they are more interesting than the folklore.
+
+== Why he matters to this Institute ==
+
+Two threads. First, the '''resonance and frequency''' work: Tesla's whole programme after 1890 was the transmission of energy through resonant coupling — tuned circuits, standing waves, and the earth itself treated as a resonant cavity. The entrainment material in this library is a much smaller claim of the same shape: that a system with a natural frequency can be driven at that frequency. Second, '''wireless transmission through a natural medium''' is the direct ancestor of every argument about fields and bodies that the neurostimulation literature now has to make carefully.
+
+He is not evidence for anything in the [[Stack Substances|pharmacology]]. He is a lineage, and this page keeps the two apart.
+
+== The patent list ==
+
+Tesla held roughly 300 patents across 26 countries. These are the ones worth knowing, with what each actually claims. '''Verify any number against USPTO or Google Patents before formal citation''' — this list is a reading guide, not a certified docket.
+
+{| class="wikitable"
+! US patent !! Year !! Title !! What it actually is
+|-
+| '''381,968''' || 1888 || Electro-Magnetic Motor || '''The AC induction motor.''' The single most consequential item on the list — the rotating magnetic field, and the reason alternating current won
+|-
+| 382,280 || 1888 || Electrical Transmission of Power || The polyphase transmission system
+|-
+| 382,845 || 1888 || Commutator for Dynamo-Electric Machines ||
+|-
+| 390,721 || 1888 || Dynamo-Electric Machine ||
+|-
+| 454,622 || 1891 || System of Electric Lighting || High-frequency lighting; part of the coil work
+|-
+| 511,916 || 1894 || Electric Generator ||
+|-
+| '''512,340''' || 1894 || Coil for Electro-Magnets || '''The bifilar coil''' — windings arranged to maximise self-capacitance. The one most cited in later free-energy folklore, and it is a real and specific circuit idea
+|-
+| 568,176 || 1896 || Method of Regulating Apparatus for Producing Currents of High Frequency ||
+|-
+| '''613,809''' || 1898 || Method of and Apparatus for Controlling Mechanism of Moving Vessels or Vehicles || '''The radio-controlled boat.''' Demonstrated at Madison Square Garden. This is remote control and, arguably, the first drone
+|-
+| '''645,576''' || 1900 || System of Transmission of Electrical Energy || The wireless-power system
+|-
+| 649,621 || 1900 || Apparatus for Transmission of Electrical Energy || Companion to the above
+|-
+| 685,957 || 1901 || Apparatus for the Utilization of Radiant Energy || Frequently miscited as a solar patent; it concerns collecting charge from ambient radiation
+|-
+| '''787,412''' || 1905 || Art of Transmitting Electrical Energy Through the Natural Mediums || The Wardenclyffe idea, stated as a claim
+|-
+| 1,061,142 || 1913 || Fluid Propulsion || The pump half of the turbine
+|-
+| '''1,061,206''' || 1913 || Turbine || '''The bladeless Tesla turbine''' — smooth discs driven by boundary-layer adhesion. Tesla considered it his best work
+|-
+| '''1,329,559''' || 1920 || Valvular Conduit || '''The Tesla valve''' — a duct with no moving parts that resists flow far more in one direction than the other. Genuinely in current use in microfluidics
+|-
+| 1,655,113 || 1928 || Apparatus for Aerial Transportation || A VTOL tilt-rotor concept, his last patent
+|}
+
+== What is true, and what is not ==
+
+'''True and under-appreciated:''' the induction motor and polyphase system are the foundation of industrial electrification. The radio-controlled boat of 1898 is a real and startling artefact. The Tesla valve is a working fluidic diode still being studied. The Supreme Court's 1943 decision in ''Marconi Wireless Telegraph Co. v. United States'' upheld Tesla's priority on several radio claims — often overstated as "Tesla invented radio," which is not what the ruling says, but the priority finding is real.
+
+'''Not established:''' the earthquake machine as usually told; the death ray; wireless power at Wardenclyffe scale, which was never demonstrated and which the physics of ground conduction does not obviously support; and the large body of documents attributed to him after 1943. The FBI's file on the seizure of his papers has been released and is far less interesting than its reputation.
+
+The honest summary: '''the real Tesla is a better story than the legendary one''', and the legend has cost him readers who assume the whole thing is folklore.
+
+See also: [[Albert Einstein]] · [[Punic Wax]] · [[Stack Substances]]

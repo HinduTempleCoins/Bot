@@ -1,0 +1,33 @@
+'''Albert Einstein''' (1879–1955) needs no summary of the physics here. This entry exists for the part that is almost always left out: '''Einstein was a working patent examiner and a named inventor''', and the inventions are a useful corrective to the image of the pure theoretician.
+
+== The patent clerk years ==
+
+From 1902 to 1909 Einstein worked at the Swiss Federal Office for Intellectual Property in Bern, as a technical expert third class, later second class. The 1905 ''annus mirabilis'' papers — the photoelectric effect, Brownian motion, special relativity, mass–energy equivalence — were written while he held that job.
+
+This is not a charming biographical detail. Assessing patent applications is the discipline of asking, of any proposed device, '''what exactly does this claim, and does it hold''' — which is the same operation the 1905 papers perform on simultaneity and on the aether. Einstein said later that the work forced a clarity of formulation he valued.
+
+== The Einstein–Szilárd refrigerator ==
+
+The best-documented invention, and a serious one.
+
+'''US Patent 1,781,541 — "Refrigeration"''', Albert Einstein and Leó Szilárd, filed 1927, granted '''11 November 1930'''. Also filed in Germany and elsewhere.
+
+The design has '''no moving parts'''. Conventional compression refrigerators of the period used mechanical seals that failed, and the refrigerants behind them — methyl chloride, sulphur dioxide, ammonia — were toxic. Einstein and Szilárd took up the problem after reading a newspaper account of a Berlin family killed by a leaking refrigerator. Their absorption design used pressurised gas and had nothing to wear out or leak past.
+
+It was patented, licensed to AB Electrolux and to Germany's AEG, and then '''commercially defeated''' — not by a flaw but by Freon, introduced in 1930, which made compression refrigerators safe enough that the seal problem stopped mattering. The design has been revisited since, because Freon turned out to have its own consequences.
+
+The pair also patented the '''electromagnetic pump''' developed for it — a liquid metal moved by a magnetic field, with no rotating part. That idea did not disappear: it is the direct ancestor of the electromagnetic pumps used in liquid-metal-cooled nuclear reactors, a field Szilárd would go on to shape.
+
+'''Einstein and Szilárd hold roughly 45 patents across six countries''' from this collaboration.
+
+== The hearing aid ==
+
+Einstein also worked with the engineer '''Rudolf Goldschmidt''' on a hearing aid, reportedly prompted by a singer of their acquaintance who was losing her hearing. It uses a magnetostrictive principle — a magnetic field deforming a material to move a diaphragm. It was patented in Germany. This one is genuinely obscure and the patent number should be checked before citation.
+
+== Why this is in the library ==
+
+Because the Institute's position is that '''theory and apparatus are not separate activities''', and Einstein is the strongest available counter-example to the idea that they are. The man who wrote the relativity papers spent his days reading device claims, and then designed a refrigerator because a family died.
+
+There is a second reason, which is about how claims should be made. Einstein's patents state exactly what they do and no more. That is the same standard this library tries to hold its own material to, and the reason every entry here separates what is established from what is proposed.
+
+See also: [[Nikola Tesla]] · [[The Amplification Framework]] · [[Stack Substances]]

@@ -1,0 +1,43 @@
+'''Pashupata Shaivism''' is the '''earliest known sectarian order of Shaivism''' — an ascetic tradition organised around Shiva as '''Pashupati''', Lord of Beasts or Lord of Bound Souls. It predates the Shaiva Siddhanta, the Kashmiri Trika and the Nath orders, and much of what those later traditions do is a domestication of what the Pashupatas did first.
+
+== Name ==
+
+''Pashu'' — beast, or the bound soul. ''Pati'' — lord. The bondage is ''pasha'', the fetter. The system's whole structure is the relation between three terms: '''pashu''' (the bound soul), '''pati''' (Shiva), and '''pasha''' (the bond) — and the aim is ''duhkhanta'', the end of suffering, understood not as relief but as the acquisition of Shiva's own powers.
+
+== Lakulisha and the texts ==
+
+The tradition names '''Lakulisha''' as founder or as Shiva's incarnation, conventionally placed in the '''second century CE'''. He is depicted with a club (''lakula'') and, distinctively, ithyphallic and seated — a figure that appears across a wide geographic range in early Shaiva sculpture.
+
+The primary text is the '''''Pashupata Sutra''''', with the commentary '''''Panchartha-bhashya''' of Kaundinya'' (c. 4th–6th century CE), which is the reason the system is reconstructable at all. The ''Ganakarika'' is a later doctrinal summary.
+
+'''The five categories''' (''pancharthas''), which give the commentary its name:
+
+# '''Karya''' — effect: the bound condition
+# '''Karana''' — cause: Shiva as the lord who acts independently of karma
+# '''Yoga''' — the union of self with Shiva, by disciplined method
+# '''Vidhi''' — the observances and practices
+# '''Duhkhanta''' — the end of suffering, as attainment rather than as cessation
+
+== The practice, which is the interesting part ==
+
+Pashupata discipline moves through stages, and the middle stage is unlike anything else in the Indian ascetic repertoire.
+
+The initiate begins in the temple, marked with ash, performing observance openly. Then he '''leaves''' the temple and enters a phase of deliberately '''courting censure''' — the practices are described as acting as though mad, snoring while awake, walking as though crippled, making inappropriate gestures, speaking nonsense. The stated mechanism is an economy of merit: the person who reviles you '''takes on your bad karma and gives you their merit'''. Contempt is not endured, it is harvested.
+
+Whatever one makes of the metaphysics, the psychological reading is hard to miss: '''the practice is the deliberate destruction of the ascetic's investment in his own reputation''', undertaken by someone who has already demonstrated he can hold a reputation. It is the pride of the holy man attacked at the root, by method.
+
+The final stage is withdrawal to a cave or a cremation ground, and then to the end of suffering.
+
+== The Indus seal ==
+
+The so-called '''"Pashupati seal"''' from Mohenjo-daro (Indus Valley, c. 2500–2000 BCE) shows a seated horned figure surrounded by animals. '''Sir John Marshall identified it as a proto-Shiva in 1928''' and the name has stuck to the object ever since.
+
+'''The identification is contested and should be stated as contested.''' Doris Srinivasan and others have argued the figure is not three-faced as claimed, that the posture is not clearly yogic, and that reading a historical deity back into an undeciphered script is method running backwards. The seal is genuinely striking and genuinely undeciphered. This library treats it as '''an open question that is often quoted as a settled one''' — which is a fair description of a good deal of the material this Institute works with.
+
+== Why it is in this corpus ==
+
+Because it is the tradition in which '''ash is a working material''' — ''bhasma'', ''vibhuti'' — smeared on the body as the central mark of the order. That is not only symbolic: alkaline plant and bone ash is the reagent of [[Punic Wax|saponification]], and this library takes seriously that the ritual substance and the working substance are the same substance. The [[Recipes|method 4]] boiling procedure uses vibhuti as its alkali for exactly this reason.
+
+And because the Pashupata is the clearest ancient case of a '''deliberately engineered altered condition with a stated mechanism, a staged protocol and a defined endpoint''' — which is the shape of every claim in the [[Stack Substances|entrainment and pharmacology]] material here, made two thousand years earlier and without apology.
+
+See also: [[Swami Vivekananda]] · [[Punic Wax]] · [[Recipes]] · [[Kyphi]] · [[Stack Substances]]
