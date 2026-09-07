@@ -142,6 +142,43 @@ export const REGISTRY = Object.freeze([
     verified: 'SCJC filing page',
     gotcha: 'MAIL ONLY. Not online, not phone, not email, not fax.' },
 
+  { id: 'us-dhs-foia', name: 'U.S. Department of Homeland Security — FOIA', jurisdiction: 'US/federal',
+    regime: 'US_FOIA', channel: CHANNELS.PORTAL, address: 'https://www.foia.gov',
+    verified: 'DHS FOIA handbook / dhs.gov FOIA pages',
+    gotcha: 'EFFECTIVE 22 JANUARY 2026 DHS NO LONGER ACCEPTS MAILED OR EMAILED FOIA/Privacy Act '
+          + 'requests. Portal only — foia.gov or a DHS component portal (SecureRelease). '
+          + 'An email to foia@hq.dhs.gov is now for QUESTIONS, not requests, and a request sent '
+          + 'there will not be processed.' },
+
+  { id: 'tx-tcoommi', name: 'TCOOMMI (Texas Correctional Office on Offenders with Medical or Mental Impairments)',
+    jurisdiction: 'TX/state', regime: 'TX_PIA', channel: CHANNELS.MAIL, address: null,
+    verified: 'TDCJ TCOOMMI division pages',
+    gotcha: 'Sits inside TDCJ. Art. 46B.025(d) requires the competency report to be on the form '
+          + 'TCOOMMI approves under Tex. Health & Safety Code § 614.0032(b) — so TCOOMMI holds the '
+          + 'BLANK APPROVED FORM, which is the document that shows whether a "tests administered" '
+          + 'field exists and was left empty.' },
+
+  { id: 'us-usps-inspection', name: 'U.S. Postal Inspection Service — FOIA (mail covers)',
+    jurisdiction: 'US/federal', regime: 'US_FOIA', channel: CHANNELS.MAIL, address: null,
+    verified: '39 C.F.R. § 233.3; USPS AS-353 privacy/FOIA guide',
+    gotcha: 'Mail covers are governed by 39 C.F.R. § 233.3 and may be ordered ONLY by the Chief '
+          + 'Postal Inspector, the Manager of Inspection Service Operations Support Group, or their '
+          + 'designees — so a request should name that authority. No published request mailbox located.' },
+
+  { id: 'tx-tec', name: 'Texas Ethics Commission — campaign finance', jurisdiction: 'TX/state',
+    regime: 'TX_PIA', channel: CHANNELS.WEBFORM, address: 'https://www.ethics.state.tx.us/search/cf/',
+    verified: 'TEC campaign-finance search pages', altAddress: 'openrecords@ethics.state.tx.us',
+    gotcha: 'Electronically filed reports since July 2000 are SEARCHABLE FREE — no request needed. '
+          + 'Judicial filers are online back to 2016 only; earlier judicial reports come by request '
+          + 'to openrecords@ethics.state.tx.us. LOCAL filers do not file with TEC at all — go to the '
+          + 'local filing authority (county clerk or elections administrator).' },
+
+  { id: 'us-texaslawyer', name: 'Texas Lawyer (ALM) — news desk', jurisdiction: 'press',
+    regime: 'NONE', channel: CHANNELS.WEBFORM, address: 'https://www.law.com/texaslawyer/static/contact-us/',
+    verified: 'law.com contact page',
+    gotcha: 'No published newsroom mailbox — contact form only. A tip emailed anywhere else does not '
+          + 'reach the desk.' },
+
   { id: 'tx-tidc', name: 'Texas Indigent Defense Commission', jurisdiction: 'TX/state',
     regime: 'NONE', channel: CHANNELS.PORTAL, address: 'https://tidc.tamu.edu/Complaint/',
     verified: 'TIDC complaint page',
