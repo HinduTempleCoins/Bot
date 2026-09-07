@@ -104,9 +104,17 @@ test('voteGapMs spaces casts between votes (each vote awaits the gap)', async ()
   assert.ok(stamps[1] - stamps[0] >= 35, 'second cast waited out the gap'); // ~40ms gap after first
 });
 
-test('DEFAULTS are sane (gentle weight, capped, local RPC, melek tag)', () => {
+test('DEFAULTS are sane (gentle weight, capped, local RPC, firehose+melek scan)', () => {
   assert.ok(DEFAULTS.weight >= 1 && DEFAULTS.weight <= 10000);
-  assert.equal(DEFAULTS.tag, 'melek');
   assert.ok(DEFAULTS.rpcUrl.includes('18090'));
   assert.ok(DEFAULTS.topN >= 1);
+});
+
+test('the tag scope includes the FIREHOSE, not just our own tag', () => {
+  // Regression guard for a live bug: a melek-only scan saw nothing but Hathor's own posts (correctly
+  // excluded by the self-deal guard) and cast zero votes every 30 minutes, while real community posts
+  // tagged photography / art / flower / introduceyou sat unvoted and in-window.
+  const tags = String(DEFAULTS.tag).split(',').map((t) => t.trim());
+  assert.ok(tags.includes(''), 'an empty entry is the global firehose — community posts do not carry our tag');
+  assert.ok(tags.includes('melek'));
 });
