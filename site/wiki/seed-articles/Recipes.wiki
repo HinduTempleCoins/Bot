@@ -1,0 +1,74 @@
+'''Recipes''' is the Van Kush Family Research Institute's index of actual preparations — the things with a procedure, a quantity and a temperature, gathered in one place rather than scattered through the monographs.
+
+Where a preparation is dangerous, the hazard is stated with the method rather than in place of it. That is the Institute's settled position and the reason this page gives quantities: '''withholding preparation detail from someone who is going to proceed anyway is the harm the library exists to prevent.'''
+
+== [[Punic Wax|Punic wax]] — saponified beeswax ==
+
+'''Traditional:'''
+* 150&nbsp;g pure beeswax
+* Artificial seawater — 42&nbsp;g sodium chloride in 1,200&nbsp;mL water + 30&nbsp;g sodium bicarbonate
+* '''Boil three times.''' Faiss's finding is that three boilings raise the melting point from 60&nbsp;°C to 100&nbsp;°C. One does not.
+
+'''Alkali options, mild to strong:''' salt + bicarbonate · wood ash · ash + salt + bicarbonate · vibhuti + salt + bicarbonate · sodalime · potash · lye.
+
+'''Punic milk''' (DE202006013438U1): beeswax + potash (K₂CO₃) + water + sodium water-glass (Na₂SiO₃). Coating, adhesive, impregnant, building and restoration material.
+
+⚠️ '''Stainless steel only''' for the ash and vibhuti methods. Rubber gloves. Vinegar on hand. Alkali burns do not hurt until the damage is done.
+
+== [[Kyphi]] — the Egyptian temple incense ==
+
+A cooked compound of sweet, resinous and spice material. The versions differ between temples and between the classical authors who recorded them (Plutarch, Dioscorides, Galen); the character is constant.
+
+* '''Sweet binding base''' — raisins, wine, honey
+* '''Resins''' — frankincense, myrrh, mastic
+* '''Pine resin''' and aromatic grasses
+* '''Warming spices''' — cinnamon, cardamom
+
+Burned at dusk as a temple offering, worn as perfume, and taken internally as a remedy. The Institute proposes it as the filling of the Amarna [[Head Cone|head cones]] — beeswax shells around a brown-black organic core, confirmed by 2019 spectroscopy — melted by the sun during summer rite. '''That identification is the Institute's hypothesis, not established Egyptology.'''
+
+== Distillation — [[Imphepho]] ==
+
+* '''Method''': steam distillation, which preserves the terpenes
+* '''Yield''': 0.15–0.25% v/w — for 113&nbsp;g (¼&nbsp;lb) of dried herb, expect 0.17–0.28&nbsp;mL of oil
+* '''Keep the hydrosol.''' It is a usable product for toners and sprays and is normally thrown away by people distilling for oil.
+
+== Vaporisation temperatures ==
+
+The bands are narrow enough that temperature is a formulation decision, not a comfort setting:
+
+{| class="wikitable"
+! Fraction !! Temperature !! Found in
+|-
+| Monoterpenes — α-pinene, 1,8-cineole || 155–175&nbsp;°C (311–347&nbsp;°F) || [[Imphepho]], [[Yin Chen Hao|''Artemisia'']]
+|-
+| Sesquiterpenes — [[Beta-Caryophyllene|β-caryophyllene]] || 175–200&nbsp;°C (347–392&nbsp;°F) || [[Imphepho]] — the CB2-active fraction
+|-
+| Scoparone || ~200&nbsp;°C || [[Yin Chen Hao|''Artemisia capillaris'']]
+|-
+| Flavonoids || 200–230&nbsp;°C (392–446&nbsp;°F) || most herbs
+|-
+| '''L-DOPA — DEGRADES''' || '''&gt;200&nbsp;°C''' || [[Mucuna Pruriens|Mucuna]]
+|}
+
+'''Practical consequences:'''
+* '''Imphepho''' is the best candidate in the inventory — it releases cleanly at low temperature and the sesquiterpene band delivers the CB2-active fraction specifically.
+* '''[[Mucuna Pruriens|Mucuna]] is not a vaporiser material.''' In a cannabis-and-Mucuna combination the Mucuna is working '''sublingually or orally''' while the cannabis is what is vaporised. Two routes at once, not one preparation.
+* Lower temperatures give smoother vapour than combustion on harsh material.
+
+== Aqueous extraction — [[Mucuna Pruriens|Mucuna]] L-DOPA ==
+
+L-DOPA is '''water-soluble''' and '''degrades above 200&nbsp;°C'''. So: water follows water. Aqueous extraction for a VG/PG or tincture carrier; heat is a loss term, not a solvent.
+
+⚠️ '''L-DOPA plus an MAOI is a hypertensive-crisis interaction.''' That includes harmala-containing preparations and syrian rue. See [[Mucuna Pruriens]] before preparing anything from this material.
+
+== [[Cannabinoid Oilahuasca]] — the combination principle ==
+
+Not a recipe so much as the rule the recipes follow: combine cannabinoids with '''[[MAGL]] and [[FAAH]] inhibitors''' so the body's own endocannabinoids persist, rather than adding more agonist — the same structure as DMT plus an MAO inhibitor.
+
+⚠️ '''More inhibition is not better.''' Chronic complete MAGL blockade causes CB1 desensitisation in animal models — the opposite of the intended effect, reached by overshooting it.
+
+== Soap ==
+
+Cold-process saponification is documented in the corpus at `knowledge/soapmaking/` — including the glossary, the regulatory position under FDA and Canadian CNF rules, and the saponification tables. [[Punic Wax|Punic wax]] is the same reaction run on beeswax instead of fat, and on the Institute's reading it came first.
+
+See also: [[Punic Wax]] · [[Kyphi]] · [[Stack Substances]] · [[Imphepho]] · [[Mucuna Pruriens]] · [[Cannabinoid Oilahuasca]] · [[SoapBox]]

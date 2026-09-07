@@ -1,0 +1,64 @@
+'''Punic wax''' is '''saponified beeswax''' — beeswax boiled repeatedly with an alkali until part of it is converted to soap. The result is a wax that is partly water-soluble, spreadable cold, and has a '''melting point raised from about 60&nbsp;°C to about 100&nbsp;°C''' (140&nbsp;°F to 212&nbsp;°F). It is named for the Punics, the Carthaginians, who were a Phoenician colony.
+
+It is also, in the Institute's reading, '''the origin point of soap technology''' — the same chemistry that makes soap, arrived at first on beeswax rather than on fat, and the material bridge between the [[Kyphi|Egyptian head cone]] material and the [[Head Cone|cone]] itself.
+
+The operator published an '''open-source claim''' on the technique on Steemit in 2019 as ''@punicwax'': applying Punic wax to '''soap, paint and incense''', with resins, gums, rosins, oils, fats and balsams added to it — stated openly so that '''other people should copy this ancient technique made new'''. This page exists to make that claim easy to act on.
+
+== The chemistry ==
+
+Beeswax is not a fat but a mixture of long-chain esters, free fatty acids and hydrocarbons. The '''free acid fraction and the esters saponify''' with a strong base, producing wax soaps while the hydrocarbon fraction stays as wax. What comes out is neither wax nor soap but a hybrid: the soap fraction lets water carry it, the wax fraction gives it body and a high melting point.
+
+== The traditional recipe ==
+
+* '''150&nbsp;g''' pure beeswax
+* '''Artificial seawater''': 42&nbsp;g sodium chloride in 1,200&nbsp;mL water, plus 30&nbsp;g sodium bicarbonate
+* '''Boil repeatedly''' in the artificial seawater
+
+'''Fritz Faiss''' (1905–1981) — a Bauhaus student of Paul Klee and Wassily Kandinsky — rediscovered the technique with Dr Hans Schmid and holds two German patents on wax preparation for encaustic. His key finding is the one to work from: '''boiling beeswax in sea water and soda three times raises the melting point from 60&nbsp;°C to 100&nbsp;°C.''' Three times. Once is not enough.
+
+== The seven boiling procedures ==
+
+Ordered roughly from mildest to strongest base:
+
+# '''Salt + baking soda in water + beeswax'''
+# '''Ashes + beeswax'''
+# '''Ashes + salt and baking soda in water + beeswax'''
+# '''Vibhuti + salt and baking soda in water + beeswax'''
+# '''Sodalime + beeswax'''
+# '''Potash + beeswax'''
+# '''Lye + beeswax'''
+
+Methods 1–4 are the traditional range and are what the archaeology supports. Methods 5–7 are the modern shortcut and produce a more completely saponified product.
+
+'''Vibhuti''' — the sacred ash of Shaiva practice — is method 4's alkali, and is chemically the same class of thing as method 2's wood ash: an alkaline ash lye. That the ritual material and the working alkali are the same substance is the sort of coincidence this corpus takes seriously.
+
+== Safety ==
+
+* '''Stainless steel vessels only''' for methods 2–4. Corrosive bases attack many metals and etch glass.
+* '''Rubber gloves.''' Keep '''vinegar''' on hand to neutralise a base splash.
+* '''Avoid skin contact.''' Lye and sodalime burns are not immediately painful, which is what makes them dangerous — the damage is done before it is felt.
+* Work with ventilation. Boiling alkali spits.
+
+== The patent literature ==
+
+Three documented routes beyond the traditional one:
+
+* '''Kreidezeit method''' — bleached wax saponified with '''potash'''; the result is partly water-soluble and easy to apply.
+* '''French patent FR2559778A1 — the desert-grass method.''' Uses '''yellow wax dust (cuticle dust) from desert and steppe grass''' rather than beeswax. Boil in saturated brine with sodium hydroxide powder → cool the white pasty wax in cold water → purify by boiling in water containing iron oxide → cool in pure water → sun bleach → reactive cooking with a metal catalyst → separate catalyst by boiling in water → final sun bleaching. Yields a white wax with a high melting temperature.
+* '''German patent DE202006013438U1 — "Punic milk."''' Beeswax, potash (K₂CO₃), water and '''sodium water-glass (Na₂SiO₃)'''. Uses given: coating, adhesive, impregnating agent, building material, restoration material.
+
+== The archaeology that vindicated it ==
+
+'''Cuní, Cuni, Eisen, Savizky and Bové (2012)''' analysed eight Roman wall paintings from Spain and a Roman-Egyptian mummy portrait by '''ATR-FTIR and GC-MS''', and found the binding medium was '''beeswax and soap'''. Their conclusion: this is the first demonstration that the Romans used a '''water-soluble wax-and-soap encaustic paint''', and that wax-and-soap may be the lost ancient encaustic formulation that has been searched for for five hundred years.
+
+That is the point at which Punic wax stops being a craft revival and becomes a solved archaeological problem.
+
+== Encaustic ==
+
+'''Encaustic''' is painting with heated wax as the binding medium — the technique of the Fayum mummy portraits, whose colours have survived two thousand years. Ordinary beeswax encaustic must be kept molten. '''Punic wax, being partly water-soluble, can be worked cold and thinned with water''', which is what makes it practical rather than merely historical.
+
+== Carthaginian context ==
+
+The Punics were the people of Carthage, originally a Phoenician colony in what is now Tunisia and Libya. The Institute's reading connects this to the Tyre line: '''2 Samuel 5:11''' records Hiram king of Tyre sending cedar and stonemasons to David, and the same Tyre founded Carthage. Blavatsky's line is quoted in the source material — ''"Not only were Moors well versed in it, they were the originators of [Mystery Schools]."'' That framing is the Institute's, not established history.
+
+See also: [[Recipes]] · [[Kyphi]] · [[Head Cone]] · [[Stack Substances]] · [[SoapBox]]
