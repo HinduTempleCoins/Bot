@@ -179,6 +179,50 @@ export const REGISTRY = Object.freeze([
     gotcha: 'No published newsroom mailbox — contact form only. A tip emailed anywhere else does not '
           + 'reach the desk.' },
 
+  { id: 'us-house-judiciary', name: 'U.S. House Judiciary Committee — whistleblower/tip intake',
+    jurisdiction: 'US/congress', regime: 'NONE', channel: CHANNELS.EMAIL,
+    address: 'Judiciary_Whistleblower@mail.house.gov',
+    verified: 'House Judiciary whistleblower tipline page',
+    gotcha: 'CONGRESS IS EXEMPT FROM FOIA — 5 U.S.C. § 551(1)(A). Never caption anything to a '
+          + 'committee as a records request; it is an OVERSIGHT REFERRAL. And if the sender is not '
+          + 'a federal employee, say so plainly rather than presenting as a statutory whistleblower.' },
+
+  { id: 'us-house-homeland', name: 'U.S. House Homeland Security Committee', jurisdiction: 'US/congress',
+    regime: 'NONE', channel: CHANNELS.WEBFORM, address: 'https://homeland.house.gov/contact/',
+    verified: 'House Homeland Security contact page / Whistleblower Ombuds resources',
+    gotcha: 'Form or Signal (+1 202-924-2065) only — no disclosure mailbox. '
+          + 'WhistleblowerOffice@mail.house.gov is the OMBUDS and states it CANNOT RECEIVE '
+          + 'disclosures; it advises the House. Sending a disclosure there reaches nobody.' },
+
+  { id: 'us-senate-hsgac', name: 'U.S. Senate Homeland Security & Governmental Affairs',
+    jurisdiction: 'US/congress', regime: 'NONE', channel: CHANNELS.WEBFORM, address: null,
+    verified: 'hsgac.senate.gov',
+    gotcha: '⚠️ DEAD ADDRESS TRAP: search results still surface '
+          + '"whistleblowers@mccaskill.senate.gov" as the committee whistleblower contact. '
+          + 'Senator McCaskill LEFT THE SENATE IN 2019 and that mailbox is not live. '
+          + 'Use the current committee contact page.' },
+
+  { id: 'us-senate-judiciary', name: 'U.S. Senate Judiciary Committee', jurisdiction: 'US/congress',
+    regime: 'NONE', channel: CHANNELS.MAIL,
+    address: '224 Dirksen Senate Office Building, Washington DC 20510',
+    verified: 'judiciary.senate.gov', gotcha: 'No published intake mailbox. Phone (202) 224-5225.' },
+
+  { id: 'us-ao-courts', name: 'Administrative Office of the U.S. Courts', jurisdiction: 'US/judicial',
+    regime: 'NONE', channel: CHANNELS.MAIL,
+    address: 'Thurgood Marshall Federal Judiciary Building, One Columbus Circle NE, Washington DC 20544',
+    verified: 'uscourts.gov contact pages',
+    gotcha: 'JUDICIAL BRANCH — outside FOIA entirely. No published public-information mailbox; '
+          + 'Public Affairs (202) 502-2600. Supervised by the Judicial Conference.' },
+
+  { id: 'tx-house-member', name: 'Texas House of Representatives — member office',
+    jurisdiction: 'TX/state', regime: 'TX_PIA', channel: CHANNELS.EMAIL,
+    address: 'firstname.lastname@house.texas.gov',
+    verified: 'delivered sends to 65 member offices',
+    gotcha: 'The Texas LEGISLATURE *is* a governmental body under § 552.003(1)(A) — unlike the '
+          + 'judiciary — so member offices take PIA requests. But addresses follow the PERSON, not '
+          + 'the seat: a former member\'s address bounces, and the institutional custodian is the '
+          + 'Chief Clerk (no published email; (512) 463-0845).' },
+
   { id: 'tx-tidc', name: 'Texas Indigent Defense Commission', jurisdiction: 'TX/state',
     regime: 'NONE', channel: CHANNELS.PORTAL, address: 'https://tidc.tamu.edu/Complaint/',
     verified: 'TIDC complaint page',
