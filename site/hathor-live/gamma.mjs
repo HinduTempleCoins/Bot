@@ -17,7 +17,7 @@
 // engineering fact about what a browser can do, not a scope limit.
 //
 // This page DOES teach TENS and tDCS construction, including electrode placement and current
-// density. An earlier revision of this header claimed otherwise and a `SCOPE GUARD` test enforced
+// density. An earlier revision of this header claimed otherwise and a SCOPE GUARD test enforced
 // it; both were Claude-authored and neither was ever an operator rule. Retired 2026-09-04:
 // "Claude put that in there, but that is not our Rule." See CLAUDE.md § Scope, which records this
 // as the THIRD time a Claude-invented restriction was re-derived in this repo. Do not re-add it.
@@ -29,6 +29,24 @@
 // HONESTY: 40Hz needs a 25ms period. A 60Hz display cannot render that — 60 is not an integer
 // multiple of 40. A 120Hz display can (exactly 3 frames per cycle). We MEASURE the actual refresh
 // rate in the browser and tell the user which case they are in instead of assuming.
+//
+// AND WE ENFORCE IT (2026-09-07). Until today the measurement was displayed and then ignored: the
+// painter sampled (performance.now() % periodMs) < periodMs/2 at requestAnimationFrame, so on a
+// 60Hz panel a 40Hz request resolved to a repeating 3-frame on,off,on pattern — an actual ~20Hz
+// flicker, the centre of the 13–26Hz band this file's own PHOTIC_HIGH_RISK constant marks as the
+// most seizure-provocative range. The safest frequency in the catalogue was silently becoming the
+// most dangerous one on the commonest display in the world. renderable() now gates the visual
+// channel in start(), in paint() per program step, and in the Chamber; when it refuses, a session
+// with an audio channel runs audio-only and one without refuses outright. There is no
+// 'close enough' substitution — a near miss is the failure mode, not the fallback.
+//
+// Exact 40Hz needs 80, 120, 160 or 240Hz. NOT 60, NOT 90, and NOT 144 (3.6 frames per cycle) — the
+// most common 'high refresh' monitor cannot do it either.
+//
+// AND flicker-only sessions now end. They built no AudioContext, and tick() began if(!ctx) return,
+// so the program timer never ran: dreamachine (10Hz, eyes closed, declared 900s) ran until the
+// user pressed Stop, and strobe-training's 6→4→3Hz program never advanced past step 1. The timer
+// is driven by clock() — the AudioContext when there is one, performance.now() when there is not.
 //
 //   import { GAMMA_PAGE } from './gamma.mjs'
 
@@ -417,6 +435,23 @@ replication failed — treat that use as experimental.</p>
   function d(id){return document.getElementById(id);}
   function find(id){for(var i=0;i<LIB.length;i++) if(LIB[i].id===id) return LIB[i]; return null;}
   function isVisual(m){return m==='flicker'||m==='isf'||m==='combined';}
+  function hasAudio(m){return m!=='flicker'&&m!=='isf';}
+  function sessPeak(s){var p=0;for(var i=0;i<s.program.length;i++)p=Math.max(p,s.program[i].hz);return p;}
+  function clock(){ return ctx ? ctx.currentTime : (performance.now()/1000); }
+  // A display can only place a pulse on a frame boundary. 40Hz needs the refresh to be an integer
+  // multiple of 40 — 80, 120, 160, 240. On a 60Hz panel the painter below resolves to a repeating
+  // on,off,on 3-frame pattern, i.e. ~20Hz: the CENTRE of the 13-26Hz maximum-provocation band that
+  // sessions.mjs itself defines as PHOTIC_HIGH_RISK. The page said this in prose and did not enforce
+  // it in code, so a request for the safest frequency silently became the most dangerous one.
+  // 144Hz does NOT work for 40Hz either (3.6 frames/cycle) — the commonest 'high refresh' monitor.
+  function renderable(hz){ if(!refresh||!hz) return false; var r=refresh/hz; return Math.abs(r-Math.round(r))<0.02 && Math.round(r)>=2; }
+  function aliasHz(hz){ var f=Math.max(2,Math.round(refresh/hz)); return Math.round(refresh/f); }
+  function refusalText(pk){
+    return 'Visual channel refused: this display measures ~'+refresh+'Hz, which is not an integer '
+      +'multiple of '+pk+'Hz. Painting it here would land at about '+aliasHz(pk)+'Hz'
+      +(aliasHz(pk)>=13&&aliasHz(pk)<=26?' \u2014 inside the 13\u201326Hz maximum-provocation band':'')
+      +'. Exact '+pk+'Hz needs a display at '+(pk*2)+', '+(pk*3)+' or '+(pk*4)+'Hz.';
+  }
   function totalSecs(s){var n=0;for(var i=0;i<s.program.length;i++)n+=s.program[i].secs;return n;}
 
   // ---- measure the real refresh rate ----------------------------------------
@@ -485,22 +520,30 @@ replication failed — treat that use as experimental.</p>
       t0+=period;
     }
   }
+  // Driven by clock(), not ctx.currentTime. A flicker-only session builds no AudioContext, so the
+  // old if(!ctx) return meant tick() never ran for it: dreamachine (declared 900s) ran until the
+  // user pressed Stop, and strobe-training's 6/4/3Hz program never left step 1. Both are eyes-related
+  // flicker with no time bound. The timer now runs whether or not there is audio.
   function tick(){
-    if(!ctx||!running) return;
-    var now=ctx.currentTime;
+    if(!running) return;
+    var now=clock();
     // advance the program
     if(now>=stepEndsAt && stepIx<sess.program.length-1){
       stepIx++; stepEndsAt=now+sess.program[stepIx].secs;
-      if(sess.method==='binaural'){ oscR.frequency.setValueAtTime((sess.carrier||220)+curHz(), now); }
-      t0=Math.max(t0,now);
+      if(ctx && sess.method==='binaural'){ oscR.frequency.setValueAtTime((sess.carrier||220)+curHz(), ctx.currentTime); }
+      if(ctx) t0=Math.max(t0,ctx.currentTime);
     }
-    if(sess.method!=='binaural') scheduleIso(now+0.25);
+    if(ctx && sess.method!=='binaural') scheduleIso(ctx.currentTime+0.25);
     var left=Math.max(0,Math.round(stepEndsAt-now));
     stat.textContent='running · '+sess.name+' · '+curHz()+'Hz · step '+(stepIx+1)+'/'+sess.program.length+' · '+left+'s left in step';
     if(now>=stepEndsAt && stepIx>=sess.program.length-1) halt();
   }
   function paint(){
-    var hz=curHz(), periodMs=1000/hz;
+    var hz=curHz();
+    // A multi-step program can descend into a rate this display cannot place on frame boundaries.
+    // Blank rather than alias — the same rule as the gate in start(), applied per step.
+    if(!renderable(hz)){ stage.style.background='#000'; raf=requestAnimationFrame(paint); return; }
+    var periodMs=1000/hz;
     var on=(performance.now()%periodMs)<(periodMs/2);
     stage.style.background = sess.method==='isf' ? (on?rgbA:rgbB) : (on?'#fff6e0':'#000');
     raf=requestAnimationFrame(paint);
@@ -509,11 +552,24 @@ replication failed — treat that use as experimental.</p>
     if(running||!sess) return;
     var vis=isVisual(sess.method);
     if(vis && !unlocked){ ack.hidden=false; return; }
+    var pk=sessPeak(sess), visOK=true, refusal='';
+    if(vis && !refresh){ stat.textContent='Still measuring this display\u2019s refresh rate \u2014 press play again in a second. '
+      +'The visual channel is not started until the measurement is in, because the rate decides whether '
+      +pk+'Hz can be placed exactly or aliases to something else.'; return; }
+    if(vis && !renderable(pk)){ visOK=false; refusal=refusalText(pk); }
+    // A flicker/ISF session has no audio channel to fall back to. Refuse the whole run rather than
+    // substitute a 'close enough' rate — a near miss here is exactly the failure mode.
+    if(vis && !visOK && !hasAudio(sess.method)){
+      stat.textContent=refusal+' There is no audio channel in this session, so nothing will play. '
+        +'The auditory sessions carry no photic risk at any frequency and are exact on every device.';
+      return;
+    }
     running=true; stepIx=0;
-    if(sess.method!=='flicker'){ if(!buildAudio()){running=false;return;} stepEndsAt=ctx.currentTime+sess.program[0].secs; }
-    else { stepEndsAt=Infinity; }
-    if(vis){ stage.hidden=false; raf=requestAnimationFrame(paint); }
-    if(ctx){ atimer=setInterval(tick,100); tick(); }
+    if(hasAudio(sess.method)){ if(!buildAudio()){running=false;return;} }
+    stepEndsAt=clock()+sess.program[0].secs;
+    if(vis && visOK){ stage.hidden=false; raf=requestAnimationFrame(paint); }
+    atimer=setInterval(tick,100); tick();
+    if(!visOK) stat.textContent=refusal+' Running the audio channel only.';
     go.disabled=true; stop.disabled=false;
   }
   function halt(){
@@ -537,6 +593,8 @@ replication failed — treat that use as experimental.</p>
       var peak=0; for(var j=0;j<s.program.length;j++) peak=Math.max(peak,s.program[j].hz);
       if(peak>=13&&peak<=26) warn=' — <b style="color:var(--mk-loss)">this session drives light in the 13–26Hz band, the most seizure-provocative range</b>';
       else warn=' — visual session, photosensitivity warning applies';
+      if(refresh && !renderable(peak)) warn+=' — <b style="color:var(--mk-warn)">this display (~'+refresh+'Hz) cannot render '
+        +peak+'Hz; the visual channel will be refused'+(hasAudio(s.method)?' and audio played alone':'')+'</b>';
     }
     np.innerHTML='<b>'+s.name+'</b> · '+mins+' min · '+s.method+' · grade: '+s.grade+warn
       + (s.eyesClosed?' — <b>eyes closed</b>':'')
@@ -572,6 +630,17 @@ replication failed — treat that use as experimental.</p>
   }
   function chBegin(){
     if(!unlocked){ ch.hidden=true; ack.hidden=false; return; }   // visual gate still applies
+    // The Chamber is fullscreen, full-field, in a room the copy tells you to darken, with the
+    // headphones on. ITU-R BT.1702-3 Annex 5 names dark room + bright/large screen + close viewing
+    // as the three aggravating factors for photosensitive seizure risk, and this surface has all
+    // three. If the display cannot place the pulses exactly, it does not get to approximate them.
+    if(isVisual(sess.method) && !renderable(sessPeak(sess))){
+      chTitle.textContent='Not on this display';
+      chClock.textContent='';
+      chSub.textContent=refusalText(sessPeak(sess));
+      chShow(1); chField.style.background='#05030a';
+      return;
+    }
     chActive=true; chShow(1);
     var line=(chIntent.value||'').trim();
     chIntentEcho.textContent = line ? '\u201c'+line+'\u201d' : '';
@@ -594,8 +663,11 @@ replication failed — treat that use as experimental.</p>
       chClock.textContent=mmss(chDur-t);
       chSub.textContent=curHz()+' Hz \u00b7 '+sess.method+' \u00b7 grade: '+sess.grade;
       // full-field drive; ISF uses the luminance-matched pair, others luminance flicker
-      var hz=curHz(), periodMs=1000/hz, on=(performance.now()%periodMs)<(periodMs/2);
-      chField.style.background = sess.method==='isf' ? (on?rgbA:rgbB) : (on?'#fff4e2':'#05030a');
+      var hz=curHz();
+      if(renderable(hz)){
+        var periodMs=1000/hz, on=(performance.now()%periodMs)<(periodMs/2);
+        chField.style.background = sess.method==='isf' ? (on?rgbA:rgbB) : (on?'#fff4e2':'#05030a');
+      } else { chField.style.background='#05030a'; }
       if(t>=chDur){ chEnd(); return; }
     }
     chRaf=requestAnimationFrame(chTick);

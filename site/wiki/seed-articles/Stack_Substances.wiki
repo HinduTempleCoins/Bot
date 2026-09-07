@@ -1,0 +1,70 @@
+'''Stack Substances''' is the index of the Van Kush Family Research Institute's substance monographs — every plant, compound and enzyme that appears in the Institute's own stacks, formulations and botanical inventory, written up individually so that each can be checked on its own terms.
+
+Every entry states what is '''established''', what is '''preclinical''', and what is the '''Institute's own hypothesis''', separately. Where a substance has a real hazard, the hazard is on the page rather than in a disclaimer.
+
+== Why the interactions are stated in full ==
+
+These pages carry preparation detail, dose figures where the literature gives them, and interaction and contraindication warnings in full. That is deliberate and it is the Institute's settled position: '''withholding preparation, dose and interaction detail from someone who is going to proceed anyway is the harm this library exists to prevent.''' Somebody deciding what to do with a pound of ''Mucuna'' extract is better served by being told plainly that L-DOPA plus an MAOI is a hypertensive-crisis interaction than by being told to consult a professional about a plant most professionals have never handled.
+
+== The endocannabinoid framework ==
+
+The organising idea across most of the botanical inventory:
+
+* '''[[Cannabinoid Oilahuasca]]''' — the framework itself: potentiate the body's own cannabinoids by inhibiting the enzymes that clear them, on the model of DMT plus an MAO inhibitor
+* '''[[MAGL]]''' — the enzyme that clears 2-AG, ~85% of it
+* '''[[FAAH]]''' — the enzyme that clears anandamide
+* '''[[Anandamide and 2-AG]]''' — the two endocannabinoids, and why they are not two versions of one thing
+
+== Compounds ==
+
+* '''[[Beta-Caryophyllene]]''' — dietary CB2 agonist; the compound running through nearly every plant below
+* '''[[8-Prenylnaringenin]]''' — hops; the most potent natural MAGL inhibitor known, and one of the most potent phytoestrogens known
+* '''[[L-Methylfolate]]''' — the only folate that crosses the blood-brain barrier; upstream of all three monoamine systems
+
+== Plants ==
+
+* '''[[Imphepho]]''' — ''Helichrysum'' spp.; the ukuphahla incense, and the best vaporiser candidate in the inventory
+* '''[[Yin Chen Hao]]''' — ''Artemisia capillaris''; sold as a psychoactive, actually a liver medicine
+* '''[[Mucuna Pruriens]]''' — velvet bean; 3–7% L-DOPA, and the highest-risk material held
+* '''[[Kava]]''' — ''Piper methysticum''; yangonin inhibits FAAH, and the hepatotoxicity question is not closed
+* '''[[Black Pepper]]''' — ''Piper nigrum''; four distinct activities from one kitchen spice
+* '''[[Maca]]''' — ''Lepidium meyenii''; macamides as structural analogues of anandamide
+* '''[[White Sage]]''' — ''Salvia apiana''; and why the sourcing question is the whole entry
+* '''[[Cannabis]]''' and '''[[Cannabis Harm Reduction]]'''
+
+== Nootropics ==
+
+* '''[[The Amplification Framework]]''' — substrate, cofactor amplifier, degradation inhibitor; the model the rest of this section is arranged by
+* '''[[Racetams]]''' — piracetam and family; strong in clinical populations, weak in the healthy adults who buy it
+* '''[[Choline Donors]]''' — alpha-GPC, citicoline and the rest; not interchangeable, and the TMAO question
+
+== Preparation ==
+
+Vaporisation temperature governs which fraction of a plant is actually delivered, and the bands are narrow enough that temperature control is a formulation decision rather than a comfort setting:
+
+{| class="wikitable"
+! Fraction !! Temperature !! Found in
+|-
+| Monoterpenes (α-pinene, 1,8-cineole) || 155–175&nbsp;°C || [[Imphepho]], [[Yin Chen Hao|''Artemisia'']]
+|-
+| Sesquiterpenes ([[Beta-Caryophyllene|β-caryophyllene]]) || 175–200&nbsp;°C || [[Imphepho]] — the CB2-active fraction
+|-
+| Scoparone || ~200&nbsp;°C || [[Yin Chen Hao|''Artemisia capillaris'']]
+|-
+| Flavonoids || 200–230&nbsp;°C || most herbs
+|-
+| '''L-DOPA — degrades''' || '''&gt;200&nbsp;°C''' || [[Mucuna Pruriens|Mucuna]] — not a vaporiser candidate
+|}
+
+== The interactions worth knowing before anything else ==
+
+* '''L-DOPA + MAOI''' — hypertensive crisis. [[Mucuna Pruriens|Mucuna]] with any harmala-containing preparation, syrian rue, or a prescribed MAOI.
+* '''Piperine + prescription medication''' — [[Black Pepper|black pepper]] extract inhibits CYP3A4 and P-glycoprotein and is sold specifically to raise absorption. It raises the absorption of drugs too.
+* '''Kava + alcohol, sedatives, or anything hepatic''' — see [[Kava]].
+* '''8-PN in hormone-sensitive conditions''' — see [[8-Prenylnaringenin]].
+* '''Folate without checking B12''' — see [[L-Methylfolate]].
+* '''Chronic complete MAGL inhibition''' causes CB1 desensitisation. More is not better; see [[MAGL]].
+
+== Related ==
+
+[[Library of Ashurbanipal]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Food Pyramid and Supplements]] · [[Kyphi]]

@@ -1,0 +1,47 @@
+'''L-Methylfolate''' (5-MTHF, levomefolic acid) is the terminal bioactive metabolite of folate and '''the only folate form that crosses the blood-brain barrier'''. It is neither a drug in the conventional sense nor an ordinary dietary supplement: it is the endpoint of a conversion pathway that a large minority of the population cannot complete efficiently.
+
+The Institute's paper on it — ''L-Methylfolate as a Trimonoamine Modulator'', first published 18 September 2021 on Blurt as @punicwax, expanded February 2026 — is the source for this article.
+
+== Mechanism: the BH4 salvage pathway ==
+
+Dietary folate and supplemental folic acid must be enzymatically reduced to become active. The final, rate-limiting step is catalysed by '''MTHFR''' (methylenetetrahydrofolate reductase), converting 5,10-methylenetetrahydrofolate to 5-methyltetrahydrofolate. '''This conversion is irreversible, and a polymorphism reducing MTHFR activity creates a bottleneck that cannot be bypassed by taking more folic acid.''' That is the entire clinical significance of the molecule in one sentence.
+
+Downstream, L-methylfolate sustains the recycling of '''tetrahydrobiopterin (BH4)''', the rate-limiting cofactor for three hydroxylases:
+
+{| class="wikitable"
+! Enzyme !! Substrate !! Product !! Neurotransmitter
+|-
+| Tryptophan hydroxylase || L-tryptophan || 5-HTP || Serotonin
+|-
+| Tyrosine hydroxylase || L-tyrosine || [[Mucuna Pruriens|L-DOPA]] || Dopamine → noradrenaline → adrenaline
+|-
+| Phenylalanine hydroxylase || L-phenylalanine || L-tyrosine || feeds the above
+|}
+
+All three monoamine systems depend on the same cofactor, and that cofactor's regeneration depends on this folate. Hence '''trimonoamine modulator''': one molecule upstream of all three.
+
+== MTHFR polymorphisms ==
+
+Two variants are clinically significant, '''C677T''' and '''A1298C'''. C677T heterozygotes show roughly '''35% reduced''' enzyme activity; homozygotes roughly '''70% reduced'''.
+
+Prevalence of the T/T genotype is about '''10% in Caucasian populations and 22% in Hispanic and Mediterranean populations''' — including those of Phoenician and North African ancestry. The clinical consequence is direct: a patient with an MTHFR polymorphism prescribed an SSRI may respond poorly '''not because the drug is wrong but because they lack the BH4 to synthesise the serotonin the SSRI recirculates'''.
+
+== Clinical evidence ==
+
+* '''Papakostas et al. (2012)''' — two multicentre sequential-parallel trials in SSRI-resistant major depression. '''15&nbsp;mg/day''' adjunctive L-methylfolate was significantly better than placebo; '''7.5&nbsp;mg/day was not''', establishing a dose-response. Post hoc, the largest responses were in patients with BMI ≥ 30 and elevated inflammatory markers (IL-8, IL-12, TNF-α, hsCRP, leptin).
+* '''Shelton et al. (2013)''' — significant PHQ-9 improvement in naturalistic settings, including patients symptomatic for over two years.
+* '''Al Maruf et al. (2022)''' — PRISMA-compliant meta-analysis; modest but significant adjunctive efficacy. NNT in biomarker-positive patients between 1 and 4.
+* A '''2025''' open-label study found even 800&nbsp;mcg alongside an antidepressant produced earlier improvement and higher remission than monotherapy.
+* '''NCT06218030''', a Phase 4 trial in treatment-resistant generalised anxiety disorder, is recruiting.
+
+== Safety ==
+
+The published profile is unusually clean: no known drug interactions, no reports of manic induction, none of the metabolic effects that accompany atypical-antipsychotic augmentation.
+
+'''The one real caution: assess B12 before starting.''' Folate can mask the anaemia of B12 deficiency while the neurological damage of that deficiency continues unchecked. This is the standard folate caution and it applies here in full.
+
+== The Amplification Framework ==
+
+The paper situates L-methylfolate in a three-part model — '''substrate provider''', '''cofactor amplifier''', '''degradation inhibitor''' — arrived at by noticing that it occupies the same structural position for monoamines that [[Racetams|piracetam]] occupies in the established cholinergic stack. See [[The Amplification Framework]].
+
+See also: [[The Amplification Framework]] · [[Racetams]] · [[Choline Donors]] · [[Stack Substances]]

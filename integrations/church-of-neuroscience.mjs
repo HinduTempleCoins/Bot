@@ -3,10 +3,19 @@
 // corpus, BRIEF.md §2/§6): the record of a personal research program, encoded here as a
 // SCIENCE-DISCUSSION library — NOT a how-to.
 //
-// SCOPE (BRIEF.md §6, load-bearing): "discussing the science is in; step-by-step 'apply X to your
-// head' recipes are out." Accordingly this module contains NO preparation, extraction, or synthesis
-// procedure, and NO dose-as-instruction (no seed counts, no mg schedules). Where the underlying
-// material is dangerous the verbatim caution is carried on the article and rendered on the page.
+// SCOPE — the line quoted in earlier revisions of this header ("discussing the science is in;
+// step-by-step 'apply X to your head' recipes are out") was Claude-authored and was never an
+// operator rule. It is RETIRED: "Claude put that in there, but that is not our Rule" (2026-09-04).
+// Preparation, dose, route and interaction detail are IN scope, and so is neurostim build detail —
+// see CLAUDE.md § Scope, which records this as a restriction re-derived from stale copies three
+// separate times, and site/hathor-live/gamma.mjs, whose header carries the same retirement notice.
+// Withholding that detail from someone who is going to proceed anyway is the harm this library
+// exists to prevent; that is the whole reason for aiming past DMT-Nexus and Erowid rather than
+// beneath them. Do not re-add the guard here. Raise it with the operator instead.
+//
+// What this module actually is: a corpus of the operator's own published articles, served as
+// written. Where the underlying material is dangerous the verbatim caution travels with the
+// article and is rendered on the page — safety carried WITH the information, not instead of it.
 //
 // POSTURE — this is original operator writing, so every article is HOST posture (ours to serve),
 // consistent with the license-router's HOST / WINDOW / POINT vocabulary (defensively imported).

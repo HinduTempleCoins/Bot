@@ -109,3 +109,32 @@ test('handle returns false for unrelated paths', async () => {
   const ok = await handle({ url: '/something', method: 'GET' }, res, {});
   assert.equal(ok, false);
 });
+
+// ── onConfirm hands the confirmed address to the sending engine (added 2026-09-06) ────────────────
+// Regression guard for the defect that made the double-opt-in list write-only: confirmedList() was
+// called by nothing anywhere in the repo, so confirmed subscribers never reached any campaign.
+test('handle /api/confirm invokes onConfirm with the confirmed email', async () => {
+  let store = emptyStore();
+  const r = addSubscriber(store, { email: 'a@b.co' });
+  const seen = [];
+  const res = mockRes();
+  await handle({ url: `/api/confirm?token=${r.token}`, method: 'GET' }, res, {
+    load: () => store, save: (s2) => { store = s2; },
+    onConfirm: async ({ email }) => { seen.push(email); },
+  });
+  assert.equal(res.code, 200);
+  assert.deepEqual(seen, ['a@b.co'], 'onConfirm must receive the confirmed address');
+  assert.deepEqual(confirmedList(store), ['a@b.co']);
+});
+
+test('a throwing onConfirm still confirms the subscriber and returns 200', async () => {
+  let store = emptyStore();
+  const r = addSubscriber(store, { email: 'c@d.co' });
+  const res = mockRes();
+  await handle({ url: `/api/confirm?token=${r.token}`, method: 'GET' }, res, {
+    load: () => store, save: (s2) => { store = s2; },
+    onConfirm: async () => { throw new Error('sender down'); },
+  });
+  assert.equal(res.code, 200, 'a broken sender must not break the subscriber-facing confirm page');
+  assert.deepEqual(confirmedList(store), ['c@d.co']);
+});

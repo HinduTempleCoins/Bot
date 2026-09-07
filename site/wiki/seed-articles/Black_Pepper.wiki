@@ -1,0 +1,27 @@
+'''Black pepper''' (''Piper nigrum'') is the most-traded spice in the world and, less obviously, one of the more pharmacologically dense things in an ordinary kitchen. It contributes '''four distinct kinds of activity''' to the endocannabinoid framework, which is more than any other single plant in the [[Cannabinoid Oilahuasca]] inventory.
+
+== The four activities ==
+
+* '''Guineensine''' — a piperidine alkaloid; a '''[[FAAH]] inhibitor''' and an '''endocannabinoid reuptake inhibitor'''. It is the compound that makes black pepper interesting rather than merely useful.
+* '''Piperine''' — the pungent principle, and a broad-spectrum '''bioavailability enhancer'''.
+* '''[[Beta-Caryophyllene|β-Caryophyllene]]''' — a '''CB2 agonist''', present in the essential-oil fraction.
+* The wider '''Piperaceae''' relationship: the same family supplies '''yangonin''' via [[Kava|kava]], a second FAAH inhibitor by a different route.
+
+Enzyme inhibition, transport inhibition, receptor agonism and absorption enhancement, from one plant. That convergence is the reason the family is treated as a unit in this corpus rather than as four unrelated ingredients.
+
+== Piperine and the bioavailability question ==
+
+Piperine raises the systemic exposure of a long list of co-administered compounds — curcumin is the famous case, with reported increases of roughly twentyfold — by two mechanisms: inhibition of '''CYP3A4''' and of '''P-glycoprotein''' efflux, and inhibition of intestinal and hepatic glucuronidation.
+
+'''This is the most dangerous thing on this page, and it is sold as a benefit.''' A compound that raises the bioavailability of whatever is taken with it raises the bioavailability of prescription medication too. CYP3A4 handles a very large share of clinical drugs; P-gp governs the absorption of many more. Piperine is added to supplement formulations specifically for this effect, at doses well above culinary exposure, and is routinely taken by people also on medication.
+
+Where an interaction matters — anticonvulsants, immunosuppressants, anticoagulants, antiretrovirals, chemotherapeutics, cardiac drugs with narrow therapeutic windows — '''a piperine-containing supplement is a pharmacokinetic intervention''', regardless of what the label says it is for.
+
+== Cautions ==
+
+* '''Piperine + prescription medication''' — see above. This is the interaction to check, not the herb itself.
+* Culinary quantities are not the concern; standardised piperine extracts (BioPerine and equivalents) are.
+* Gastric irritation at high intake.
+* Guineensine's FAAH and reuptake activity is '''preclinical''', and dietary black pepper does not deliver anything approaching the concentrations used in those studies.
+
+See also: [[FAAH]] · [[Beta-Caryophyllene]] · [[Kava]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]]

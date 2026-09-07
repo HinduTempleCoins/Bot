@@ -1,0 +1,33 @@
+'''''Mucuna pruriens''''' — velvet bean, ''kapikacchu'' in Ayurveda — is the principal botanical source of '''L-DOPA''' (levodopa), the immediate metabolic precursor of dopamine and the mainstay drug of Parkinson's disease. Seed L-DOPA content is typically in the range of 3–7% by weight, which is high enough that the plant is not a mild herb in any useful sense: it is a dopaminergic drug that grows.
+
+== Why the extraction method decides everything ==
+
+L-DOPA is water-soluble and '''degrades above 200&nbsp;°C'''. That single fact governs the whole preparation question:
+
+* '''Vaporisation is not a route.''' At the temperatures that volatilise terpenes, L-DOPA is destroying rather than delivering. Where a cannabis-and-Mucuna combination is used, the Mucuna fraction is working '''sublingually or orally''' while the cannabis fraction is what is actually being vaporised. Those are two routes running at once, not one preparation.
+* '''Aqueous extraction''' is the appropriate method for a VG/PG or tincture carrier — the compound follows the water.
+* Heat during extraction is a loss term, not a solvent.
+
+== Pharmacology ==
+
+L-DOPA crosses the blood-brain barrier, where peripheral dopamine does not, and is decarboxylated to dopamine. In pharmaceutical use it is co-administered with a peripheral decarboxylase inhibitor (carbidopa or benserazide) precisely so that less of it is converted before it arrives. Whole-seed preparations carry no such inhibitor, so a much larger fraction is converted peripherally — which is where nausea, vomiting and blood-pressure effects come from.
+
+Seed material also contains serotonin, nicotine, bufotenine and other minor alkaloids in small quantities; these are frequently cited in popular accounts and are not the reason the plant works.
+
+== Cautions ==
+
+This is the entry in the inventory that carries the most real risk, and it is worth being plain about it.
+
+* '''MAOIs.''' L-DOPA with a monoamine oxidase inhibitor is a hypertensive-crisis interaction. This includes the harmala alkaloids in ayahuasca-type preparations and includes syrian rue. It is not a theoretical concern.
+* '''Existing dopaminergic therapy.''' Anyone on levodopa, a dopamine agonist, or a COMT/MAO-B inhibitor is already dosing this axis; adding an uncalibrated botanical source stacks it.
+* '''Antipsychotics''' act on the same system in the opposite direction.
+* '''Content varies.''' L-DOPA percentage differs by cultivar, growing conditions and processing, so a gram of one powder is not a gram of another. Standardised extracts state a percentage; unstandardised seed powder does not.
+* '''Psychiatric history.''' Dopaminergic load is relevant in psychosis and in impulse-control disorders, both of which are documented complications of dopaminergic therapy.
+* '''Blood pressure.''' Both directions are reported.
+* The '''seed pod hairs''' are a potent mechanical irritant — the source of the name "cowitch". This concerns raw plant handling, not prepared powder.
+
+== In the inventory ==
+
+Held as 1&nbsp;lb of extract powder, designated for aqueous extraction rather than direct vaporiser use, for the reason given above.
+
+See also: [[Stack Substances]] · [[Cannabinoid Oilahuasca]] · [[Imphepho]]

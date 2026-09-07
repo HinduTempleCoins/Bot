@@ -1,0 +1,42 @@
+'''Cannabinoid Oilahuasca''' is the Van Kush Family Research Institute's framework for extending the classical ayahuasca pharmacology to the endocannabinoid system. The structural argument is a single analogy carried through:
+
+Classical ayahuasca combines '''DMT''' — orally inactive on its own — with '''MAO inhibitors''' from ''Banisteriopsis caapi'' that prevent its breakdown. The combination is the medicine; neither half is.
+
+'''Cannabinoid Oilahuasca''' applies the same logic to the body's own cannabinoids: combine cannabinoids with '''[[MAGL]] and [[FAAH]] inhibitors''' to potentiate endocannabinoid signalling rather than simply adding more agonist. The term ''oilahuasca'' comes from the wider practice of using fats and oils to alter oral bioavailability of plant actives.
+
+== The two enzymes ==
+
+* '''[[MAGL]]''' (monoacylglycerol lipase) degrades '''2-AG''', and accounts for ~85% of its hydrolysis in the brain. Inhibiting it raises 2-AG and lowers arachidonic acid, the inflammatory precursor.
+* '''[[FAAH]]''' (fatty acid amide hydrolase) degrades '''anandamide'''. Inhibiting it raises anandamide, with anxiolytic and analgesic effect.
+
+== The natural inhibitors ==
+
+'''MAGL:'''
+* '''[[8-Prenylnaringenin]]''' — hops. IC50 = 9.5&nbsp;μM, the most potent natural MAGL inhibitor identified. Also a potent phytoestrogen; promotes neurogenesis.
+* '''Pristimerin''' — Celastraceae. Reversible, terpenoid, less selective.
+* '''Euphol''' — ''Euphorbia''. Reversible, triterpene, anti-inflammatory.
+
+'''FAAH:'''
+* '''Yangonin''' — [[Kava|kava]]. Kavalactone with CB1 affinity; anxiolytic.
+* '''Guineensine''' — [[Black Pepper|black pepper]]. FAAH and reuptake inhibitor.
+* '''Macamides''' — [[Maca|maca]]. N-benzylamides; neuroprotective.
+* '''Biochanin A''' — red clover, soy. Also oestrogenic.
+
+'''Downstream:'''
+* '''[[Beta-Caryophyllene|β-Caryophyllene]]''' — dietary CB2 agonist, GRAS, non-psychoactive, present in black pepper, cloves, cannabis, [[Imphepho]] and [[Yin Chen Hao|''Artemisia capillaris'']].
+
+== The Piperaceae convergence ==
+
+The pepper family supplies four different kinds of activity to this system: '''yangonin''' (kava) inhibits FAAH; '''guineensine''' (black pepper) inhibits FAAH and reuptake; '''piperine''' (black pepper) raises bioavailability generally; '''β-caryophyllene''' agonises CB2. That one family covers enzyme, transport, absorption and receptor is the strongest single argument for treating this as a framework rather than a list.
+
+== ECRI ==
+
+'''ECRI''' — '''endocannabinoid reuptake inhibitor''' — is the operator's 2016 coinage for the class, named by analogy with the SSRIs: do not supply the ligand, prolong the one already present. It is a framing term originating in this corpus and is not established pharmacological nomenclature; it is used here because it names the strategy accurately.
+
+== Status of the claims ==
+
+The enzymology is real and published: MAGL and FAAH do what is described, and the named compounds do inhibit them ''in vitro''. What is '''not''' established is that consuming the plants delivers those compounds at inhibitory concentrations in a human being, or that doing so produces the intended clinical effect. The gap between an ''in vitro'' IC50 and a dietary exposure is usually orders of magnitude, and this framework should be read as a research programme rather than a finding.
+
+The clearest known hazard is on the other side: '''chronic complete MAGL inhibition causes CB1 desensitisation and tolerance''' in animal models. More inhibition is not better, and the reversible natural inhibitors may be preferable for exactly that reason.
+
+See also: [[MAGL]] · [[FAAH]] · [[Anandamide and 2-AG]] · [[Beta-Caryophyllene]] · [[8-Prenylnaringenin]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]] · [[Cannabis]]

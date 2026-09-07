@@ -145,6 +145,13 @@ export async function handle(req, res, deps = {}) {
     const store = await load();
     const r = confirm(store, url.searchParams.get('token'));
     await save(store);
+    // Hand the newly-confirmed address to the sending engine. Without this the double-opt-in list is
+    // write-only: confirmedList() is collected and never read, so Herald's funnel and every campaign
+    // see zero no matter how many people opt in. Soft-failed — a broken sender must never turn a
+    // successful confirmation into an error page for the subscriber.
+    if (r.ok && r.email && typeof deps.onConfirm === 'function') {
+      await Promise.resolve(deps.onConfirm({ email: r.email })).catch(() => {});
+    }
     res.writeHead(r.ok ? 200 : 400, { 'content-type': 'text/html; charset=utf-8' });
     res.end(`<!doctype html><meta charset=utf-8><body style="font:16px system-ui;background:#0b0e14;color:#e8e6e3;text-align:center;padding:3rem">${r.ok ? '✅ Confirmed — you\'re on the list. Thank you!' : 'This link is invalid or expired.'} <p><a style="color:#d4a23c" href="${esc(baseUrl || '/')}">← Home</a></p>`);
     return true;

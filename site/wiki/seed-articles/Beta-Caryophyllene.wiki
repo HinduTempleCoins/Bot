@@ -1,0 +1,32 @@
+'''β-Caryophyllene''' (BCP, (E)-caryophyllene) is a bicyclic sesquiterpene found in black pepper, cloves, hops, rosemary, cannabis, [[Imphepho|Imphepho]] and [[Yin Chen Hao|''Artemisia capillaris'']]. It is unusual among terpenes and unique among common dietary compounds in one specific respect: '''it is a selective CB2 receptor agonist'''. It binds a cannabinoid receptor, it holds '''FDA GRAS''' status as a food additive, and it is not psychoactive — because CB2, unlike CB1, is peripheral and immune-associated rather than centrally psychotropic.
+
+== Why it is the unifying compound ==
+
+Across an otherwise unrelated set of plant materials, β-caryophyllene keeps appearing:
+
+* '''Black pepper''' (''Piper nigrum'') — alongside [[Black Pepper|guineensine and piperine]]
+* '''Cloves'''
+* '''Cannabis''' — one of the most abundant terpenes in many chemovars
+* '''[[Imphepho]]''' — 19.20% of the oil in ''H. cymosum''
+* '''[[Yin Chen Hao|''Artemisia capillaris'']]'''
+* '''Hops''' — alongside [[8-Prenylnaringenin|8-prenylnaringenin]]
+
+A single receptor-active compound running through the culinary, the ritual and the medicinal shelves is the sort of thing that makes an ethnobotanical pattern look less like coincidence.
+
+== Pharmacology ==
+
+* '''CB2 agonism''' — anti-inflammatory and analgesic activity in preclinical models, without the CB1-mediated intoxication.
+* Reported activity at PPAR-γ.
+* Anti-inflammatory action independent of the cannabinoid system.
+
+Its status as a '''dietary cannabinoid''' is the point of interest: a compound present in ordinary food that acts at a cannabinoid receptor complicates any clean line between diet and drug.
+
+== Vaporisation ==
+
+β-Caryophyllene comes off in the '''sesquiterpene band, 175–200&nbsp;°C''' (347–392&nbsp;°F) — above the monoterpenes and below the flavonoids. A vaporiser run in that band on Imphepho delivers the CB2-active fraction specifically, which is the main practical reason to control temperature rather than simply burn the material.
+
+== Evidence status ==
+
+CB2 binding is well established ''in vitro''. Therapeutic claims in humans are '''not''' established: the anti-inflammatory and analgesic findings are preclinical, and dietary exposure levels are far below the concentrations used in those studies. It is a real mechanism at an uncertain dose.
+
+See also: [[Cannabinoid Oilahuasca]] · [[MAGL]] · [[FAAH]] · [[Imphepho]] · [[Black Pepper]] · [[Stack Substances]]

@@ -1,0 +1,28 @@
+'''Choline donors''' are the supplements used to supply the precursor for '''acetylcholine''' synthesis. They form the '''substrate''' row of the cholinergic stack in the [[The Amplification Framework|Amplification Framework]], the role that [[Racetams|piracetam]] does not fill.
+
+Choline is an essential nutrient in its own right — required for acetylcholine, for phosphatidylcholine in every cell membrane, and as a methyl donor via betaine. Most people do not reach the adequate intake from diet.
+
+== The forms, and why they differ ==
+
+* '''Alpha-GPC''' (L-alpha-glycerylphosphorylcholine) — crosses the blood-brain barrier readily; the highest choline yield by weight of the common forms (~40%). A prescription medicine in some European countries for cognitive indications.
+* '''Citicoline''' (CDP-choline) — supplies choline '''and''' cytidine, which converts to uridine, a separate pathway involved in phospholipid synthesis. Better human trial evidence than alpha-GPC, particularly post-stroke and in vascular cognitive impairment.
+* '''Choline bitartrate''' — cheap, poor CNS penetration. Adequate as a nutrient, largely useless for the nootropic purpose it is sold for.
+* '''Phosphatidylcholine / lecithin''' — food-form, slow, low yield.
+* '''Centrophenoxine''' — a DMAE ester, older literature, associated with lipofuscin clearance.
+
+The practical point: '''these are not interchangeable'''. Bitartrate and alpha-GPC differ both in choline yield and in whether they reach the brain, and the price difference between them is the reason bitartrate is what appears in most combination products.
+
+== The TMAO question ==
+
+Gut bacteria convert choline to '''TMA''', which the liver oxidises to '''TMAO''' — a metabolite associated in observational studies with cardiovascular risk. A 2021 randomised trial found '''alpha-GPC raised TMAO''' more than an equivalent dose of choline bitartrate. Whether TMAO is causal or a marker remains genuinely contested, and dietary choline from eggs and meat produces it too.
+
+'''What is worth flagging honestly:''' this is the one open safety question about the most-recommended form, and it is rarely mentioned in the nootropic literature that recommends it. It is not a reason to avoid choline; it is a reason not to treat alpha-GPC as free of consequence at high chronic doses.
+
+== Cautions ==
+
+* '''Excess choline''' produces fishy body odour, sweating, hypotension and GI upset — the trimethylamine again.
+* '''Cholinergic overshoot''' — headache, depression-like flattening, brain fog — is commonly reported when choline is stacked with a racetam at high dose, and is the mirror image of the deficiency the pairing was meant to correct. More is reliably not better here.
+* Relevant in '''depression''': cholinergic tone is implicated, and some people reliably feel worse.
+* Interacts with '''anticholinergic''' and '''cholinesterase-inhibitor''' medication.
+
+See also: [[Racetams]] · [[The Amplification Framework]] · [[L-Methylfolate]] · [[Stack Substances]]

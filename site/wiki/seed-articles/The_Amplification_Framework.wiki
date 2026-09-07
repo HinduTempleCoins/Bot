@@ -1,0 +1,45 @@
+'''The Amplification Framework''' is a three-component model of supplement and nootropic design proposed by Rev. Ryan Sasha-Shai Van Kush in September 2021 (''Plant Medicine for Humans: L-MethylFolate'', Blurt/@punicwax, 18 September 2021) and expanded in the Institute's February 2026 revision.
+
+Its claim is that optimal synthesis of a target molecule requires not one active agent but '''three functional roles filled at once'''.
+
+== The three components ==
+
+{| class="wikitable"
+! Role !! Function !! Monoamine example
+|-
+| '''1. Substrate provider''' || supplies the raw molecular input || L-tryptophan, L-tyrosine, L-phenylalanine
+|-
+| '''2. Cofactor amplifier''' || regenerates or supplies the cofactor that activates the enzyme || '''[[L-Methylfolate]]''' — regenerates BH4 via the salvage pathway
+|-
+| '''3. Degradation inhibitor''' || prevents breakdown of the product or the cofactor || vitamin C (reduces the BH3 radical back to BH4); antioxidants
+|}
+
+== How it was arrived at ==
+
+By noticing a structural parallel. The '''cholinergic''' stack is long established in nootropic practice, and it has exactly this shape:
+
+{| class="wikitable"
+! Role !! Cholinergic stack (established) !! Monoamine stack (proposed)
+|-
+| Substrate || '''[[Choline Donors|alpha-GPC]]''' — choline source || L-tryptophan / L-tyrosine
+|-
+| Modulator || '''[[Racetams|piracetam / phenylpiracetam]]''' — receptor sensitiser || '''[[L-Methylfolate]]''' — BH4 cofactor regeneration
+|-
+| Degradation inhibitor || acetylcholinesterase inhibitors, antioxidants || vitamin C, L-carnosine
+|}
+
+The framework's assertion is that the monoamine column had a hole in the modulator row, and that L-methylfolate fills it.
+
+== Why this is the same idea as the cannabinoid work ==
+
+The [[Cannabinoid Oilahuasca]] framework is the '''degradation-inhibitor''' row taken on its own and pursued to its conclusion: rather than supplying an agonist, inhibit [[MAGL]] and [[FAAH]] so that the ligand the body already makes persists longer. The classical ayahuasca combination — DMT plus an MAO inhibitor — is the same structure again, one row of substrate and one of degradation inhibitor. The Amplification Framework is the general statement of which those are instances.
+
+== Extended application ==
+
+The paper proposes that L-methylfolate's efficacy is optimised alongside amino-acid substrates (L-tyrosine, L-phenylalanine, L-tryptophan), cofactor support (B12, B6, B2, iron), antioxidant protection (vitamin C, L-carnosine) and neuroprotective agents (astragalus / cycloastragenol).
+
+== Status ==
+
+'''This is an independent theoretical contribution, not an established model.''' The individual mechanisms it composes are published; the framework itself is the author's, and the specific claim that filling all three roles outperforms filling one has not been tested in a trial. It is a design heuristic with a clear rationale, and it should be read as that.
+
+See also: [[L-Methylfolate]] · [[Racetams]] · [[Choline Donors]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]]
