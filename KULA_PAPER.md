@@ -3,7 +3,8 @@
 *The public economic spec for the PRANA / KULA economy.*
 
 **Status:** live on PRANA mainnet (EVM chainId `712217`). Version 1.0 — 2026-08-30.
-**Companion page:** `site/kula-paper/` renders this same spec at `/kula-paper` on the MELEK site.
+**Companion page:** `site/kula-paper/` renders this same spec live at <https://kula-paper.melek.salon>.
+(`https://melek.salon/kula-paper` is **not** a route — that path 404s; the paper is served on its own subdomain.)
 **Tone:** this is a description of mechanism, not a forecast. Nothing here is a price
 promise, a yield guarantee, or investment advice. Emissions decay, sinks compete for
 the same tokens, and every number below is a protocol parameter that governance can change.
