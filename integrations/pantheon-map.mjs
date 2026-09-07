@@ -502,7 +502,7 @@ export const ETYMOLOGY = {
   shu: { form: 'šw', gloss: 'emptiness / he who rises up', confidence: 'disputed' },
 
   // Phoenician / Punic / Canaanite
-  melqart: { form: 'mlk-qrt', gloss: 'king of the city', confidence: 'secure' },
+  melqart: { form: 'milk-qart (𐤌𐤋𐤒𐤓𐤕)', gloss: 'king of the city — "the city" understood as Tyre from cult context, not from the name. The /k/ assimilates to the following /q/, hence MLQRT.', confidence: 'secure' },
   astarte: { form: 'ʿṯtrt', gloss: 'the West Semitic reflex of the same name as Akkadian Ištar', confidence: 'secure' },
   asherah: { form: 'ʾṯrt (Ugaritic Athirat)', gloss: 'possibly "she who treads the sea"', confidence: 'disputed' },
   athirat: { form: 'ʾṯrt', gloss: 'Ugaritic form of Asherah', confidence: 'secure' },
@@ -515,7 +515,7 @@ export const ETYMOLOGY = {
 
   // Hebrew
   yahweh: { form: 'YHWH', gloss: 'linked at Exodus 3:14 to ʾehyeh "I am"; the linguistic derivation is unresolved', confidence: 'disputed' },
-  molech: { form: 'mlk', gloss: 'the king-root, vocalised in the Masoretic text with the vowels of bōšet "shame"', confidence: 'disputed' },
+  molech: { form: 'mlk (or possibly y-l-k)', gloss: 'unresolved: a divine name from *mulk "king", OR a Punic sacrifice-term graded by victim (mlk ʾdm vs mlk ʿmr). See CORRECTIONS.', confidence: 'disputed' },
   azazel: { form: 'ʿzʾzl', gloss: '"God strengthens" or "the goat that departs" — both proposed, neither settled', confidence: 'disputed' },
 
   // Mesopotamian
@@ -623,4 +623,91 @@ export function byPlanet() {
   for (const [id, p] of Object.entries(PLANET)) (out[p] = out[p] || []).push(id);
   for (const k of Object.keys(out)) out[k].sort();
   return out;
+}
+
+// ── CORRECTIONS ────────────────────────────────────────────────────────────────────────────────
+// Claims this corpus has made in published or draft papers that did not survive checking against
+// the standard lexica. They live in code, with the evidence attached, for one reason: a retired
+// claim that is only retired in conversation comes back. This is the registry that stops it.
+//
+// Each entry names the claim, where we made it, what is actually the case, and what — if anything —
+// can honourably be kept. `keep` is never empty out of politeness; where nothing survives it says so.
+
+export const CORRECTIONS = [
+  {
+    id: 'melekh-malakh',
+    claim: 'Hebrew melekh (king) and malʾakh (angel/messenger) are the same MLK root — so "angel" and "king" are one word, and the MLK consciousness protocol covers both.',
+    madeIn: 'GEO_MYTHO_CALCULUS §6.1; AS_ABOVE_SO_BELOW; the MLK/HRM protocol material generally',
+    verdict: 'WRONG',
+    because: [
+      'Orthography settles it: מֶלֶךְ is m-l-k, three letters. מַלְאָךְ is m-l-ʾ-k, FOUR — it carries an aleph that melekh does not have and cannot acquire. That aleph is the middle radical of the real root.',
+      'BDB heads the entry not at mlk but at לאך. Strong\u2019s H4397: "From an unused root meaning to despatch as a deputy; a messenger."',
+      'Huehnergard\u2019s Appendix of Semitic Roots (American Heritage Dictionary) files Malachi under lʾk "to send" and Melchizedek under mlk — separate entries, pages apart.',
+      'The verb survives outside Hebrew: Ugaritic lỉk/lảk, Arabic laʾaka, Geʿez läʾäkä, all "to send". The other Hebrew derivative is מְלָאכָה məlāʾkā "errand, work" — same aleph, nothing to do with kingship.',
+      'The m- of malʾāk is the ordinary maqtal- nominal prefix, as in miqdāš and mizbēaḥ. It is a prefix, not a radical.',
+    ],
+    keep: 'The SEMANTIC FIELD is real and worth keeping — a malʾāk is characteristically the envoy of a melek, and the Hebrew Bible plays on that constantly. Say "semantic field", never "same root".',
+    source: 'BDB s.v. לאך; Strong\u2019s H4397 vs H4428; Huehnergard, AHD Appendix of Semitic Roots, s.vv. lʾk and mlk',
+  },
+  {
+    id: 'hrm-fraternal',
+    claim: 'The HRM root means "Exalted Brother" / fraternal authority — the horizontal counterpart to MLK\u2019s vertical authority — evidenced by Hiram of Tyre and Ahiram of Byblos.',
+    madeIn: 'GEO_MYTHO_CALCULUS §6.2 (the HRM Protocol)',
+    verdict: 'WRONG — on the root, though the name means roughly what we said',
+    because: [
+      'ḥ-r-m means to devote, ban, set apart as forbidden or sacred. Hebrew ḥerem "devoted thing, ban"; Arabic ḥaruma "be forbidden" giving ḥaram, ḥarām and ḥarīm — English HAREM. Nothing fraternal anywhere in the root.',
+      'Hiram is not from ḥ-r-m. BDB: חִירָם is "abbreviated from" אֲחִירָם ʾĂḥîrām, glossed "brother of (the) lofty". Strong\u2019s H297: "From ach and ruwm."',
+      'So the segmentation is ʾaḥ ("brother", root *ʾaḫ-) + rām ("lofty", root r-w-m) — a two-element sentence-name. The apparent ḥ-r-m in the short form is an ALEPH THAT FELL OFF in aphaeresis.',
+      'Proto-Semitic phonology makes the conflation impossible: the ḥ of ʾaḥ descends from *ḫ (Arabic أخ, khāʾ), the ḥ of ḥrm from *ḥ (Arabic حرم, ḥāʾ). Two distinct phonemes that merged only later in Hebrew and Phoenician. The claim depends entirely on that late merger plus a lost aleph — an accident of the unvocalised script.',
+    ],
+    keep: 'The GLOSS "exalted brother" is right FOR THE NAME Ahiram — BDB\u2019s own rendering is "brother of (the) lofty". Keep it attached to the name. Delete the root claim, delete "fraternal authority" as a sense of ḥ-r-m, and note that ḥ-r-m proper is the devotion/ban/taboo root. Anything built on a Hiram ↔ ḥerem ↔ ḥaram link has no linguistic floor under it.',
+    source: 'BDB s.vv. חֵרֶם (H2764), חִירָם (H2438), אֲחִירָם (H297); Strong\u2019s H297; the Ahiram sarcophagus, 𐤀𐤇𐤓𐤌',
+  },
+  {
+    id: 'molech-boshet',
+    claim: 'Molech is melek pointed with the vowels of bōšet ("shame") — a deliberate scribal insult.',
+    madeIn: 'GEO_MYTHO_CALCULUS §6.1, attributed there to Rabbi Tovia Singer',
+    verdict: 'RETIRED — the theory is discredited',
+    because: [
+      'The vocalisation theory is Geiger 1857. R.M. Kerr calls it "an out-of-date theory which has never received any factual support."',
+      'The live scholarly dispute is a different one entirely: Eissfeldt 1935 argued Punic mlk names a TYPE OF SACRIFICE rather than a deity, and the epigraphy supports him — the term is graded by victim (mlk ʾdm "molk of a person" vs mlk ʿmr "molk of a lamb" vs mlk bšr "in place of flesh"), which is how sacrifice terminology behaves and not how theonyms behave.',
+      'Day and Heider oppose: biblical writers would not mistake a sacrifice term for a deity, and "whoring after Moloch" presupposes a divine object. Huehnergard still glosses Moloch under mlk "king".',
+      'A further complication: one derivation takes Punic molk not from mlk at all but from y-l-k "to offer, present" — which would make Punic mlk "sacrifice" and mlk "king" HOMOGRAPHS in unvocalised script, exactly the same error pattern as melekh/malʾakh above.',
+    ],
+    keep: 'Present both readings, name Eissfeldt and Day/Heider, and pick no winner. Any sentence that flatly says "Molech was a god" or "Molech was a sacrifice" overclaims.',
+    source: 'Eissfeldt 1935; Day 1989; Heider 1985; Kerr on the Geiger vocalisation; Huehnergard, AHD s.v. mlk §3',
+  },
+  {
+    id: 'mlk-pan-semitic',
+    claim: 'The MLK root maintains an identical authority/kingship function across every language family it appears in.',
+    madeIn: 'GEO_MYTHO_CALCULUS §6.1',
+    verdict: 'OPEN — needs checking before it is used again',
+    because: [
+      'Huehnergard labels the NOUN *malk- "Common Semitic" but the VERBAL sense "to rule" as WEST SEMITIC specifically.',
+      'In Akkadian the ordinary word for king is šarru, not malku; and Akkadian malāku appears to mean "to advise", with milku "advice".',
+      'If that holds, the kingship sense of m-l-k is a West Semitic development and East Semitic diverges — which would not destroy the claim but would badly narrow it, from "every language family" to "West Semitic, plus a noun".',
+    ],
+    keep: 'Check CAD s.vv. malāku, malku, milku before the claim is restated. The Akkadian entry is the load-bearing one and it has not been read.',
+    source: 'Huehnergard, AHD s.v. mlk; the Amorite-Akkadian bilinguals (George & Krebernik 2022) confirm *malk- in Amorite',
+  },
+  {
+    id: 'sed-miscitation',
+    claim: 'The Semitic Etymological Dictionary (Militarev & Kogan) is a general etymological reference for Semitic roots.',
+    madeIn: 'a hazard rather than a published claim — flagged before it happens',
+    verdict: 'FALSE — and citing it for a root would be a false citation',
+    because: [
+      'Only two volumes exist. Volume I covers ANATOMY OF MAN AND ANIMALS; Volume II covers ANIMAL NAMES. That is the whole work.',
+      'It contains no entry for m-l-k, l-ʾ-k or ḥ-r-m, so it cannot be cited for any of them.',
+    ],
+    keep: 'The free general-purpose root reference is Huehnergard\u2019s "Appendix of Semitic Roots" in the American Heritage Dictionary, at ahdictionary.com/word/semitic.html — about 700 roots, fully open.',
+    source: 'Militarev & Kogan, SED I (AOAT 278/1, 2000) and SED II (AOAT 278/2, 2005) — titles and scope',
+  },
+];
+
+export const getCorrection = (id) => CORRECTIONS.find((c) => c.id === id) || null;
+
+/** Corrections by how badly the claim failed. WRONG first — those need edits to published papers. */
+export function correctionsByVerdict() {
+  const rank = (v) => (v.startsWith('WRONG') ? 0 : v.startsWith('FALSE') ? 1 : v.startsWith('RETIRED') ? 2 : 3);
+  return CORRECTIONS.slice().sort((a, b) => rank(a.verdict) - rank(b.verdict));
 }

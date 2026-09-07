@@ -4,6 +4,7 @@ import {
   NODES, EQUATIONS, TIERS, TRADITIONS, getNode, nodesByTradition,
   equationsFor, cluster, triangulate, weakLinks, registryGap, validate, tierRank,
   ETYMOLOGY, PLANET, enrich, etymologyGap, shakyEtymologies, byPlanet,
+  CORRECTIONS, getCorrection, correctionsByVerdict,
 } from './pantheon-map.mjs';
 
 test('the data is structurally sound', () => {
@@ -209,4 +210,62 @@ test('byPlanet() groups the interpretatio by sphere, and Venus is the crowded on
   assert.ok(p.Venus.includes('ishtar') && p.Venus.includes('astarte') && p.Venus.includes('allat'));
   assert.ok(p.Jupiter.includes('marduk') && p.Jupiter.includes('zeus'), 'the attested Babylonian-Greek pair');
   assert.ok(p.Mercury.includes('odin'), 'Tacitus Germania 9, and Wednesday');
+});
+
+test('the corrections registry names the claim, the source, and what survives', () => {
+  assert.ok(CORRECTIONS.length >= 5);
+  for (const c of CORRECTIONS) {
+    assert.ok(c.id && c.claim && c.madeIn && c.verdict, `${c.id} malformed`);
+    assert.ok(Array.isArray(c.because) && c.because.length >= 2, `${c.id} needs its evidence`);
+    assert.ok(c.keep, `${c.id} must say what survives, even if the answer is nothing`);
+    assert.ok(c.source && c.source.length > 15, `${c.id} needs a citation`);
+  }
+});
+
+test('melekh and malakh are recorded as NOT the same root, with the aleph as the proof', () => {
+  const c = getCorrection('melekh-malakh');
+  assert.equal(c.verdict, 'WRONG');
+  assert.ok(c.because.some((b) => /aleph/i.test(b)), 'the aleph is the decisive fact');
+  assert.ok(c.because.some((b) => /maqtal/.test(b)), 'the m- is a prefix, not a radical');
+  assert.match(c.source, /Huehnergard|BDB/);
+  assert.match(c.keep, /semantic field/i, 'the resonance survives; the etymology does not');
+});
+
+test('the HRM protocol claim is corrected without throwing away the part that holds', () => {
+  const c = getCorrection('hrm-fraternal');
+  assert.match(c.verdict, /^WRONG/);
+  assert.ok(c.because.some((b) => /harem|ḥarīm/i.test(b)), 'herem/haram/harem is the actual root');
+  assert.ok(c.because.some((b) => /Ahiram|ʾaḥ/i.test(b)), 'Hiram is short for Ahiram');
+  assert.match(c.keep, /exalted brother/i, 'the gloss survives, attached to the NAME');
+});
+
+test('the discredited boshet vocalisation is retired, and the live dispute recorded instead', () => {
+  const c = getCorrection('molech-boshet');
+  assert.match(c.verdict, /RETIRED/);
+  assert.ok(c.because.some((b) => /Geiger/.test(b)));
+  assert.ok(c.because.some((b) => /Eissfeldt/.test(b)), 'the real dispute is sacrifice-vs-deity');
+  assert.match(c.keep, /pick no winner|both readings/i);
+  // and the etymology entry must no longer carry the retired theory
+  assert.ok(!/bōšet/.test(ETYMOLOGY.molech.gloss), 'the retired theory must be out of the gloss too');
+});
+
+test('open questions are marked OPEN rather than quietly kept or quietly dropped', () => {
+  const c = getCorrection('mlk-pan-semitic');
+  assert.match(c.verdict, /^OPEN/);
+  assert.ok(c.because.some((b) => /šarru|Akkadian/.test(b)));
+  assert.match(c.keep, /CAD/, 'names the specific lexicon that would settle it');
+});
+
+test('correctionsByVerdict() puts the ones needing paper edits first', () => {
+  const ordered = correctionsByVerdict();
+  assert.match(ordered[0].verdict, /^WRONG/);
+  assert.match(ordered[1].verdict, /^WRONG/);
+  assert.match(ordered[ordered.length - 1].verdict, /^OPEN/);
+});
+
+test('Melqart survived review and the entry now carries the precise form', () => {
+  assert.equal(ETYMOLOGY.melqart.confidence, 'secure');
+  assert.match(ETYMOLOGY.melqart.form, /milk-qart/);
+  assert.match(ETYMOLOGY.melqart.gloss, /Tyre/, 'name it as cult inference, not linguistics');
+  assert.ok(!CORRECTIONS.some((c) => /Melqart/i.test(c.claim)), 'Melqart is not a correction — it held');
 });
