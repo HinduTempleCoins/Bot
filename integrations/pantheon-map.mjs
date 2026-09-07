@@ -473,3 +473,154 @@ export function validate() {
   }
   return { ok: errors.length === 0, errors };
 }
+
+// ── ETYMOLOGY AND PLANET ───────────────────────────────────────────────────────────────────────
+// Added as side maps rather than inline fields so NODES stays readable and so the GAPS are
+// countable: `etymologyGap()` returns every figure we cannot yet gloss, which is the research
+// backlog rather than a silence.
+//
+// `confidence` is the point. A god-name etymology is the single most folk-etymologised category of
+// word in any language — Kronos is NOT chronos, Aphrodite is not really "foam-born", and Hesiod
+// saying so in the Theogony is a poet punning, not a lexicographer working. Every entry below is
+// marked secure / disputed / unknown, and 'unknown' is used freely.
+
+export const ETYMOLOGY = {
+  // Egyptian — the transliterations are conventional Egyptological ones
+  hathor: { form: 'ḥwt-ḥr', gloss: 'mansion of Horus', confidence: 'secure' },
+  anhur: { form: 'jnj-ḥrt', gloss: 'he who brings back the distant one', confidence: 'secure' },
+  khepri: { form: 'ḫprr', gloss: 'scarab beetle; from ḫpr "to come into being"', confidence: 'secure' },
+  amun: { form: 'jmn', gloss: 'the hidden one', confidence: 'secure' },
+  ptah: { form: 'ptḥ', gloss: 'the opener / sculptor', confidence: 'secure' },
+  wadjet: { form: 'wꜢḏyt', gloss: 'the green one (also the papyrus-colour, and the uraeus)', confidence: 'secure' },
+  bastet: { form: 'bꜢstt', gloss: 'she of Bast — i.e. of the city Bubastis', confidence: 'secure' },
+  isis: { form: 'ꜣst', gloss: 'throne — her headdress writes her name', confidence: 'secure' },
+  horus: { form: 'ḥr', gloss: 'the distant one / the falcon', confidence: 'secure' },
+  thoth: { form: 'ḏḥwty', gloss: 'he of Djehut', confidence: 'disputed' },
+  osiris: { form: 'wsjr', gloss: 'unresolved — "place of the eye", "mighty one" and others proposed', confidence: 'unknown' },
+  neith: { form: 'nt', gloss: 'unresolved; linked to the red crown and to the weaving shuttle in her emblem', confidence: 'unknown' },
+  set: { form: 'swtḫ / stš', gloss: 'unresolved', confidence: 'unknown' },
+  shu: { form: 'šw', gloss: 'emptiness / he who rises up', confidence: 'disputed' },
+
+  // Phoenician / Punic / Canaanite
+  melqart: { form: 'mlk-qrt', gloss: 'king of the city', confidence: 'secure' },
+  astarte: { form: 'ʿṯtrt', gloss: 'the West Semitic reflex of the same name as Akkadian Ištar', confidence: 'secure' },
+  asherah: { form: 'ʾṯrt (Ugaritic Athirat)', gloss: 'possibly "she who treads the sea"', confidence: 'disputed' },
+  athirat: { form: 'ʾṯrt', gloss: 'Ugaritic form of Asherah', confidence: 'secure' },
+  el: { form: 'ʾl', gloss: 'god — the common Semitic noun used as a proper name', confidence: 'secure' },
+  'baal-hadad': { form: 'bʿl hd', gloss: 'lord Hadad; hdd probably "thunderer"', confidence: 'secure' },
+  'baal-hammon': { form: 'bʿl ḥmn', gloss: 'lord of the ḥmn — "brazier", "Mount Amanus" and "sanctuary" all proposed', confidence: 'disputed' },
+  'baal-shamem': { form: 'bʿl šmm', gloss: 'lord of the heavens', confidence: 'secure' },
+  eshmun: { form: 'ʾšmn', gloss: 'possibly from šmn "oil", possibly from the numeral eight', confidence: 'disputed' },
+  tanit: { form: 'tnt', gloss: 'Egyptian ta-nit "she of Neith" proposed; Semitic and Berber derivations also live', confidence: 'disputed' },
+
+  // Hebrew
+  yahweh: { form: 'YHWH', gloss: 'linked at Exodus 3:14 to ʾehyeh "I am"; the linguistic derivation is unresolved', confidence: 'disputed' },
+  molech: { form: 'mlk', gloss: 'the king-root, vocalised in the Masoretic text with the vowels of bōšet "shame"', confidence: 'disputed' },
+  azazel: { form: 'ʿzʾzl', gloss: '"God strengthens" or "the goat that departs" — both proposed, neither settled', confidence: 'disputed' },
+
+  // Mesopotamian
+  marduk: { form: 'amar-utu(k)', gloss: 'calf of the sun god', confidence: 'secure' },
+  ishtar: { form: 'Inanna < nin-an-ak', gloss: 'lady of heaven (the Sumerian name; Ištar is the Akkadian)', confidence: 'secure' },
+  ea: { form: 'en-ki', gloss: 'lord of the earth (Sumerian); Akkadian Ea is unresolved', confidence: 'disputed' },
+  ninkasi: { form: 'nin-ka-si', gloss: 'the lady who fills the mouth', confidence: 'secure' },
+  mylitta: { form: 'Mullissu / Ninlil', gloss: 'Herodotus\'s rendering of the Assyrian goddess-name', confidence: 'disputed' },
+
+  // Greek — where the honest answer is usually "pre-Greek"
+  zeus: { form: 'PIE *dyēus', gloss: 'the bright sky; vocative Zeu pater = Iuppiter = Dyauṣ Pitar', confidence: 'secure' },
+  athena: { form: 'Ἀθήνη', gloss: 'pre-Greek; the goddess is most likely named FROM the city, not the city from her', confidence: 'disputed' },
+  apollo: { form: 'Ἀπόλλων', gloss: 'unresolved; Doric Apellon and an Anatolian origin both proposed', confidence: 'unknown' },
+  poseidon: { form: 'Ποσειδῶν', gloss: 'possibly posis + dā, "lord of the earth"; the second element is not securely identified', confidence: 'disputed' },
+  demeter: { form: 'Δημήτηρ', gloss: '-mētēr is "mother"; the first element is NOT securely "earth"', confidence: 'disputed' },
+  hermes: { form: 'Ἑρμῆς', gloss: 'possibly from herma, a heap of stones marking a boundary', confidence: 'disputed' },
+  ares: { form: 'Ἄρης', gloss: 'possibly from arē "ruin, bane"; already a common noun for "battle" in Mycenaean', confidence: 'disputed' },
+  hephaistos: { form: 'Ἥφαιστος', gloss: 'pre-Greek, no accepted derivation', confidence: 'unknown' },
+  aphrodite: { form: 'Ἀφροδίτη', gloss: 'Hesiod\'s "foam-born" (aphros) is a FOLK ETYMOLOGY; a Semitic origin via Astarte is widely proposed', confidence: 'disputed' },
+  kronos: { form: 'Κρόνος', gloss: 'unresolved — and NOT from chronos "time". That identification is a late antique pun that became doctrine.', confidence: 'unknown' },
+  herakles: { form: 'Ἡρακλῆς', gloss: 'Hera + kleos = "glory of Hera", which is odd given she persecutes him', confidence: 'secure' },
+  atlas: { form: 'Ἄτλας', gloss: 'traditionally a- + *telh₂- "to bear"; a Berber derivation (adrar, "mountain") is also proposed', confidence: 'disputed' },
+  leto: { form: 'Λητώ', gloss: 'possibly Lycian lada, "wife, woman"', confidence: 'disputed' },
+  artemis: { form: 'Ἄρτεμις', gloss: 'unresolved; attested in Linear B as a-te-mi-to', confidence: 'unknown' },
+  hera: { form: 'Ἥρα', gloss: 'unresolved; links to hōra "season" and to hērōs proposed', confidence: 'unknown' },
+
+  // Roman / Etruscan
+  jupiter: { form: 'Iuppiter < *dyeu-ph₂tēr', gloss: 'sky father', confidence: 'secure' },
+  venus: { form: 'PIE *wenh₁-', gloss: 'to desire — cognate with venerate, venom and English "win"', confidence: 'secure' },
+  ceres: { form: 'PIE *ḱer-', gloss: 'to grow, to nourish — cognate with create and cereal', confidence: 'secure' },
+  mercury: { form: 'merx / mercari', gloss: 'merchandise, trade', confidence: 'secure' },
+  mars: { form: 'Mavors; Etruscan Maris', gloss: 'unresolved', confidence: 'unknown' },
+  saturn: { form: 'Saturnus', gloss: 'linked by the Romans to satus "sowing"; probably Etruscan and not Latin at all', confidence: 'disputed' },
+  minerva: { form: 'Etruscan Menrva; PIE *men-', gloss: 'mind, thought', confidence: 'disputed' },
+  vulcan: { form: 'Volcanus; Etruscan Velchans', gloss: 'unresolved, probably Etruscan', confidence: 'unknown' },
+  'juno-caelestis': { form: 'Iuno + caelestis', gloss: 'Juno "the heavenly"; the African title of the Carthaginian goddess', confidence: 'secure' },
+  liber: { form: 'liber', gloss: 'free — the Italic god of freedom and of wine', confidence: 'secure' },
+  pomona: { form: 'pomum', gloss: 'fruit', confidence: 'secure' },
+  fornax: { form: 'fornax', gloss: 'oven, kiln', confidence: 'secure' },
+  concordia: { form: 'concordia', gloss: 'agreement — literally "hearts together"', confidence: 'secure' },
+
+  // Germanic — where the etymologies are unusually good
+  odin: { form: 'Proto-Germanic *Wōðanaz, from *wōðaz', gloss: 'fury, poetic inspiration — cognate with Latin vates, "seer"', confidence: 'secure' },
+  thor: { form: '*Þunraz', gloss: 'thunder — the god\'s name IS the common noun', confidence: 'secure' },
+  tyr: { form: '*Tīwaz < PIE *deywos', gloss: 'god — the SAME root as Zeus and Jupiter. Tyr\'s name is the generic word for "a god", which is why he is usually read as a displaced sky-father.', confidence: 'secure' },
+  frigg: { form: '*Frijjō, from PIE *preyH-', gloss: 'beloved — cognate with English "free" and "friend"', confidence: 'secure' },
+
+  // Indo-Iranian
+  dyaus: { form: 'PIE *dyēus ph₂tēr', gloss: 'sky father', confidence: 'secure' },
+  mithra: { form: 'Indo-Iranian *mitra-', gloss: 'contract, covenant — the god IS the binding agreement', confidence: 'secure' },
+  anahita: { form: 'an-āhita', gloss: 'the unstained, the immaculate', confidence: 'secure' },
+  'soma-deva': { form: 'PIE *sew- / *seu-', gloss: 'to press, to extract — exact cognate of Avestan haoma', confidence: 'secure' },
+  varuna: { form: 'possibly PIE *wer-', gloss: 'to cover, to bind. NOT cognate with Ouranos — that etymology fails on sound law.', confidence: 'disputed' },
+  pashupati: { form: 'paśu-pati', gloss: 'lord of animals', confidence: 'secure' },
+  indra: { form: 'Indra', gloss: 'unresolved; a non-Indo-European substrate origin is proposed', confidence: 'unknown' },
+  dhanvantari: { form: 'dhanvan-tari', gloss: 'traditionally "moving through a curve/bow"; contested', confidence: 'disputed' },
+  vishvakarma: { form: 'viśva-karman', gloss: 'all-maker, doer of everything', confidence: 'secure' },
+
+  // Berber / Libyan / Arabian
+  anzar: { form: 'Berber anẓar', gloss: 'rain — the god\'s name is the common noun, as with Thor', confidence: 'secure' },
+  ifri: { form: 'Berber ifri', gloss: 'cave — and the most-cited candidate source of the name "Africa"', confidence: 'disputed' },
+  'africa-dea': { form: 'Latin Africa, possibly from Berber ifri', gloss: 'the cave-goddess of the Ifri; competing derivations from a tribal name and from Punic exist', confidence: 'disputed' },
+  gurzil: { form: 'Gurzil', gloss: 'unresolved Berber theonym; Corippus gives the myth, not the etymology', confidence: 'unknown' },
+  allat: { form: 'al-Lāt', gloss: 'literally "the goddess" — the definite article plus the feminine of ʾilāh', confidence: 'secure' },
+};
+
+// The Babylonian planet-god assignments are ATTESTED in astronomical texts, and the Greek and Latin
+// names for the planets are translations OF THEM. This is a documented transmission, not a scheme.
+export const PLANET = {
+  marduk: 'Jupiter', ishtar: 'Venus', // Nabu=Mercury, Nergal=Mars, Ninurta=Saturn complete the set
+  zeus: 'Jupiter', jupiter: 'Jupiter', dyaus: 'Jupiter', tinia: 'Jupiter', amun: 'Jupiter',
+  ares: 'Mars', mars: 'Mars', tyr: 'Mars', anhur: 'Mars', gurzil: 'Mars',
+  hermes: 'Mercury', mercury: 'Mercury', odin: 'Mercury', thoth: 'Mercury',
+  aphrodite: 'Venus', venus: 'Venus', frigg: 'Venus', hathor: 'Venus', astarte: 'Venus',
+  allat: 'Venus', anahita: 'Venus', mylitta: 'Venus', tanit: 'Venus',
+  kronos: 'Saturn', saturn: 'Saturn', 'baal-hammon': 'Saturn',
+  apollo: 'Sun', horus: 'Sun', khepri: 'Sun', mithra: 'Sun',
+  artemis: 'Moon', bastet: 'Moon', wadjet: 'Moon',
+  thor: 'Jupiter', // by the WEEKDAY calque, against Tacitus's Hercules — both are recorded
+};
+
+/** A node with its etymology and planet folded in. Unknown fields come back null, never invented. */
+export function enrich(id) {
+  const n = getNode(id);
+  if (!n) return null;
+  return { ...n, etymology: ETYMOLOGY[id] || null, planet: PLANET[id] || null };
+}
+
+/** Figures we cannot yet gloss — the etymology research backlog, countable rather than silent. */
+export function etymologyGap() {
+  return NODES.filter((n) => !ETYMOLOGY[n.id]).map((n) => n.id).sort();
+}
+
+/** Etymologies we hold but do not trust. Publishing these unmarked would be the whole problem. */
+export function shakyEtymologies() {
+  return Object.entries(ETYMOLOGY)
+    .filter(([, e]) => e.confidence !== 'secure')
+    .map(([id, e]) => ({ id, ...e }))
+    .sort((a, b) => (a.confidence === b.confidence ? a.id.localeCompare(b.id) : a.confidence.localeCompare(b.confidence)));
+}
+
+/** Every figure assigned to a planet, grouped — the interpretatio, seen by sphere. */
+export function byPlanet() {
+  const out = {};
+  for (const [id, p] of Object.entries(PLANET)) (out[p] = out[p] || []).push(id);
+  for (const k of Object.keys(out)) out[k].sort();
+  return out;
+}
