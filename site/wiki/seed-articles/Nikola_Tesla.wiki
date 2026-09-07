@@ -48,12 +48,38 @@ Tesla held roughly 300 patents across 26 countries. These are the ones worth kno
 | 1,655,113 || 1928 || Apparatus for Aerial Transportation || A VTOL tilt-rotor concept, his last patent
 |}
 
+== Vivekananda, Akasha and Prana ==
+
+Tesla met [[Swami Vivekananda]] in New York in early 1896. Vivekananda's letter of 13 February 1896
+records Tesla's belief that he could "demonstrate mathematically that force and matter are reducible
+to potential energy," and Vivekananda's hope that this would place Vedantic cosmology "on the surest
+of foundations."
+
+'''Tesla never produced the demonstration.''' No paper, no derivation, no follow-up. The popular
+retelling of this meeting almost always stops at the letter, one paragraph before the disappointment.
+
+What Tesla did do is better attested. In "Man's Greatest Achievement" — drafted 1907, published in the
+''New York American'' in 1930 — he wrote:
+
+: "All perceptible matter comes from a primary substance, or tenuity beyond conception, filling all
+space, the ''Akasha'' or luminiferous ether, which is acted upon by the life-giving ''Prana'' or
+creative force, calling into existence, in never-ending cycles, all things and phenomena."
+
+A real transmission, from a Bengali monk into the published prose of the man who built the AC grid —
+and, at the same time, a restatement of '''luminiferous aether''', a hypothesis already in trouble in
+1907 and since abandoned. The Sanskrit did not save it. See
+[[Mysticism and Eastern Philosophy in Science]].
+
 == What is true, and what is not ==
 
 '''True and under-appreciated:''' the induction motor and polyphase system are the foundation of industrial electrification. The radio-controlled boat of 1898 is a real and startling artefact. The Tesla valve is a working fluidic diode still being studied. The Supreme Court's 1943 decision in ''Marconi Wireless Telegraph Co. v. United States'' upheld Tesla's priority on several radio claims — often overstated as "Tesla invented radio," which is not what the ruling says, but the priority finding is real.
 
 '''Not established:''' the earthquake machine as usually told; the death ray; wireless power at Wardenclyffe scale, which was never demonstrated and which the physics of ground conduction does not obviously support; and the large body of documents attributed to him after 1943. The FBI's file on the seizure of his papers has been released and is far less interesting than its reputation.
 
+'''The "3, 6, 9" material''' — the vortex-mathematics claims attached to Tesla across the internet — has
+no primary source. It does not appear in his patents, papers, interviews or correspondence, and it
+should not be cited to him.
+
 The honest summary: '''the real Tesla is a better story than the legendary one''', and the legend has cost him readers who assume the whole thing is folklore.
 
-See also: [[Albert Einstein]] · [[Punic Wax]] · [[Stack Substances]]
+See also: [[Albert Einstein]] · [[Swami Vivekananda]] · [[Mysticism and Eastern Philosophy in Science]] · [[Punic Wax]] · [[Stack Substances]]

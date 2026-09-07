@@ -1,0 +1,141 @@
+'''Mysticism and Eastern Philosophy in Science''' collects what physicists and biologists have actually said about Vedanta, Buddhism and Taoism — with the source for each, and a section for the famous ones that are fabricated.
+
+That second section is the reason this page exists. The genre is badly polluted. The single most-circulated quotation in it — Einstein on Buddhism as the religion of the future — is '''not found anywhere in his authenticated writing''', and it is repeated constantly by people who would be embarrassed to learn that. A page that collects the real material has to police the fake material, or it is just adding to the pile.
+
+== I. The one that actually happened: Tesla and Vivekananda, 1896 ==
+
+[[Nikola Tesla]] and [[Swami Vivekananda]] met in New York in early 1896. This is documented in Vivekananda's own correspondence, and it is the closest thing this whole subject has to a hard event.
+
+Vivekananda to E. T. Sturdy, '''13 February 1896''':
+
+: "Mr. Tesla thinks he can demonstrate mathematically that force and matter are reducible to potential energy. I am to go and see him next week to get this new mathematical demonstration. In that case the Vedantic cosmology will be placed on the surest of foundations."
+
+Vivekananda elsewhere records that Tesla "was charmed to hear about the Vedantic ''Prana'' and ''Akasha'' and the ''Kalpas'', which according to him are the only theories modern science can entertain."
+
+'''What did not happen is the important half.''' Tesla never produced the demonstration. There is no paper, no derivation, no follow-up. Vivekananda's hope that Vedantic cosmology would be placed on "the surest of foundations" by a mathematical proof was disappointed, and he stopped mentioning it. Every popular account of this meeting that ends at the February letter is ending one paragraph early.
+
+=== Tesla's Sanskrit passage ===
+
+What Tesla did do is stranger and better attested. In "Man's Greatest Achievement" — drafted 1907, published in the ''New York American'' in 1930 — he wrote a cosmology in borrowed Sanskrit vocabulary, in a technical essay, under his own name:
+
+: "All perceptible matter comes from a primary substance, or tenuity beyond conception, filling all space, the ''Akasha'' or luminiferous ether, which is acted upon by the life-giving ''Prana'' or creative force, calling into existence, in never-ending cycles, all things and phenomena."
+
+Two things are true at once here, and both should be said. Tesla genuinely adopted the terms after meeting Vivekananda — that is a real transmission, from a Bengali monk into the notebooks of the man who built the AC grid. And the passage is '''also a restatement of luminiferous aether''', a physical hypothesis that was already in trouble in 1907 and was abandoned. The Sanskrit did not save it. Tesla's cosmology is interesting as intellectual history and is not evidence for the physics.
+
+== II. Authentic quotations, with sources ==
+
+=== Erwin Schrödinger ===
+
+The deepest case, and not a passing remark: Schrödinger read the Upanishads seriously for decades and said so in his own scientific books.
+
+''What Is Life?'', epilogue (1944), on the identity of the individual self with the whole:
+
+: "...you — and all other conscious beings as such — are all in all. Hence this life of yours which you are living is not merely a piece of the entire existence, but is in a certain sense the whole."
+
+He names the doctrine outright, giving it in capitals as ''ATHMAN = BRAHMAN'', and calls the personal self equal to "the omnipresent, all-comprehending eternal self." Elsewhere he states the position plainly: '''the multiplicity of selves is only apparent''' — consciousness is singular, and this is the teaching of the Upanishads.
+
+=== Niels Bohr ===
+
+''Atomic Physics and Human Knowledge'' (1958):
+
+: "For a parallel to the lesson of atomic theory regarding the limited applicability of such customary idealisations, we must in fact turn to quite other branches of science, such as psychology, or even to that kind of epistemological problems with which already thinkers like Buddha and Lao Tzu have been confronted, when trying to harmonize our position as spectators and actors in the great drama of existence."
+
+In 1947 Bohr was made a Knight of the Order of the Elephant and designed a coat of arms carrying the '''taijitu''' — the yin-yang — with the motto ''Contraria sunt complementa'', opposites are complementary.
+
+'''The common overclaim, corrected:''' Bohr did not derive complementarity from Taoism. He formulated it in the 1920s and adopted the symbol two decades later, after the fact, as an emblem for an idea he already had. He visited China in 1937. The order of events matters, and the popular version reverses it.
+
+=== Werner Heisenberg ===
+
+Heisenberg visited India in 1929 and spent time with '''Rabindranath Tagore'''. Fritjof Capra later reported Heisenberg telling him that after those conversations about Indian philosophy, "some of the ideas of quantum physics that had seemed so crazy suddenly made much more sense."
+
+'''Provenance caveat:''' that sentence is Capra reporting Heisenberg years afterwards, not Heisenberg in print. The visit and the meetings with Tagore are documented; the quotation is second-hand and should be cited as such. Heisenberg's own ''Physics and Philosophy'' (1958) treats the parallels far more cautiously than his popularisers do.
+
+=== J. Robert Oppenheimer ===
+
+Oppenheimer learned Sanskrit at Berkeley under the Indologist '''Arthur W. Ryder''' and read the ''Bhagavad Gita'' in the original. Recalling the Trinity test in a 1965 broadcast interview, he gave the line that became the most famous sentence in the history of physics:
+
+: "Now I am become Death, the destroyer of worlds."
+
+That is ''Gita'' 11:32. '''The translation is a choice and worth noticing:''' the Sanskrit is ''kālo 'smi loka-kṣaya-kṛt'' — ''kāla'' is time as much as death, and most translators render it "I am Time." Oppenheimer, who could read the line, chose Death. Whatever that was, it was not ignorance.
+
+Less quoted and more substantial, from ''Science and the Common Understanding'' (1954):
+
+: "The general notions about human understanding... which are illustrated by discoveries in atomic physics are not in the nature of things wholly unfamiliar, wholly unheard of, or new. Even in our own culture they have a history, and in Buddhist and Hindu thought a more considerable and central place."
+
+Note the precision of that claim. He says the ''notions'' have a history there. He does not say the physics does.
+
+=== Albert Einstein ===
+
+The authentic material is in "Religion and Science", ''New York Times Magazine'', '''9 November 1930''', where he sets out what he calls '''cosmic religious feeling''':
+
+: "The religious geniuses of all ages have been distinguished by this kind of religious feeling, which knows no dogma and no God conceived in man's image."
+
+He adds that it is "the most important function of art and science to awaken this feeling and keep it alive in those who are capable of it," and — following Schopenhauer — allows that Buddhism contains a strong element of it. That is a real and interesting position. It is also much weaker than what is put in his mouth. See section III.
+
+From the 1941 ''Science, Philosophy and Religion'' symposium, and genuine:
+
+: "Science without religion is lame, religion without science is blind."
+
+Einstein and '''Tagore''' met and their conversations were published in 1930 — and they largely '''disagreed''', Tagore holding that truth is relative to human consciousness and Einstein insisting on a reality independent of it. The exchange is usually cited as harmony. It is a documented argument.
+
+=== Arthur Schopenhauer ===
+
+Not a scientist, but the channel through which most nineteenth-century German physics met Indian thought — including Schrödinger and Einstein. On the ''Oupnek'hat'', a Latin translation of a Persian translation of the Upanishads:
+
+: "It has been the solace of my life, it will be the solace of my death."
+
+=== Carl Sagan ===
+
+''Cosmos'' (1980), on Hindu cosmology:
+
+: "The Hindu religion is the only one of the world's great faiths dedicated to the idea that the Cosmos itself undergoes an immense, indeed an infinite, number of deaths and rebirths. It is the only religion in which the time scales correspond... to those of modern scientific cosmology."
+
+The specific coincidence he had in mind: a '''day of Brahma is 4.32 billion years''', which is the same order of magnitude as the age of the Earth. Sagan was careful to present this as a striking coincidence of scale, not as knowledge.
+
+=== David Bohm ===
+
+Bohm held recorded dialogues with '''Jiddu Krishnamurti''' from the 1960s to the 1980s, published as ''The Ending of Time'' (1985) among others. This is the most sustained direct engagement between a working theoretical physicist and a contemplative teacher on record — and it is a genuine collaboration rather than a physicist quoting scripture at a distance.
+
+== III. Disputed and spurious ==
+
+=== The Einstein Buddhism quotation — almost certainly fabricated ===
+
+: "The religion of the future will be a cosmic religion. It should transcend a personal God and avoid dogma and theology... Buddhism answers this description... If there is any religion that would cope with modern scientific needs, it would be Buddhism."
+
+'''This is not found in Einstein's authenticated writings.''' It does not appear in the Einstein Papers, and Alice Calaprice's ''The Ultimate Quotable Einstein'' — the standard reference for exactly this problem — places it among the unverified and probably misattributed.
+
+It is the most widely circulated quotation on this entire subject. It appears on temple walls, in books by people who should have checked, and in an enormous volume of online material. Its likely origin is a loose paraphrase of the genuine 1930 "cosmic religion" essay, hardened over decades of retelling into a specific endorsement Einstein never gave.
+
+'''If you want Einstein on this subject, use the 1930 essay.''' It is real, it is more interesting, and it says less.
+
+=== Other things to check before repeating ===
+
+* '''"Everything is energy... this is not philosophy, this is physics"''' — attributed to Einstein everywhere. Not his; not in any authenticated source.
+* '''The Heisenberg–Tagore quotation''' above — real meeting, second-hand sentence. Cite Capra, not Heisenberg.
+* '''Bohr taking complementarity from the ''I Ching'' or Taoism''' — the coat of arms is real, the derivation is not.
+* '''Tesla's "3, 6, 9" and the vortex-mathematics material''' — no primary source. See [[Nikola Tesla]].
+* Anything sourced to a slide, a poster, or a meme. In this genre that is most of it.
+
+== IV. The honest critique ==
+
+'''Fritjof Capra's ''The Tao of Physics''''' (1975) and Gary Zukav's ''The Dancing Wu Li Masters'' (1979) made this a popular genre. Both deserve the criticism they received, and the criticism is worth stating because it applies to anything on this page:
+
+# '''Structural analogy is not evidence.''' That two systems both describe a unified, interpenetrating reality does not mean one anticipated or supports the other. Given enough doctrines and enough physics, matches are guaranteed to appear.
+# '''The physics moved and the analogy did not.''' Capra leaned heavily on '''S-matrix bootstrap theory''', which was largely abandoned. Analogies pinned to a specific theory inherit that theory's fate — and the mystical half is never revised when the physical half is discarded.
+# '''Observation is not consciousness.''' The measurement problem is a problem about ''interaction and information'', and the leap to "consciousness creates reality" is the single most common error in the genre. Most working physicists reject it, and the Institute does too.
+# '''The traditions are flattened.''' "Eastern philosophy" is used to mean a mixture of Advaita Vedanta, Madhyamaka Buddhism and Taoism which disagree with each other profoundly. [[Pashupata Shaivism]] is not Vedanta; Vedanta is not Buddhism; Buddhism explicitly denies the ''ātman'' that Schrödinger was drawn to. A parallel drawn to "the East" is usually a parallel drawn to nothing in particular.
+
+== V. What survives ==
+
+Strip out the fabricated quotations, the flattened traditions and the bootstrap-era analogies, and something real is still standing:
+
+* '''Schrödinger''' meant it, in his own scientific books, over decades, and named the doctrine precisely.
+* '''Bohr''' put Buddha and Lao Tzu in a lecture on epistemology, in print, as an epistemological parallel and not as physics.
+* '''Oppenheimer''' made a careful, defensible claim: the ''notions'' have a history there.
+* '''Tesla''' really did take ''Akasha'' and ''Prana'' from [[Swami Vivekananda|Vivekananda]] into his own published prose.
+
+What that supports is modest and worth stating exactly: '''several traditions arrived, by contemplative means, at descriptions of unity, impermanence and the observer's entanglement with the observed that physicists found useful as vocabulary and as permission to think.''' Vocabulary and permission are real contributions to a science. They are not confirmation, and the strong claim — that the ''ṛṣis'' knew quantum mechanics — has no evidence and does the traditions no favours, since it makes their value contingent on a physics they never made a claim about.
+
+The Institute's [[Cannabinoid Oilahuasca|working position]] across this corpus is the same one: a tradition that has run a practice for two thousand years is worth taking seriously as '''a source of hypotheses''', and is not thereby a source of results.
+
+See also: [[Nikola Tesla]] · [[Albert Einstein]] · [[Swami Vivekananda]] · [[Pashupata Shaivism]] · [[Library of Ashurbanipal]] · [[Stack Substances]]

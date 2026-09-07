@@ -30,4 +30,13 @@ Because the Institute's position is that '''theory and apparatus are not separat
 
 There is a second reason, which is about how claims should be made. Einstein's patents state exactly what they do and no more. That is the same standard this library tries to hold its own material to, and the reason every entry here separates what is established from what is proposed.
 
-See also: [[Nikola Tesla]] · [[The Amplification Framework]] · [[Stack Substances]]
+== A note on the quotations attributed to him ==
+
+Einstein is the most misquoted scientist alive or dead, and the single most circulated fabrication in
+the science-and-religion genre is attributed to him: the passage beginning "The religion of the future
+will be a cosmic religion" and concluding that Buddhism answers the description. '''It is not in his
+authenticated writing.''' His genuine position — "cosmic religious feeling", ''New York Times
+Magazine'', 9 November 1930 — is real, more interesting, and says considerably less. See
+[[Mysticism and Eastern Philosophy in Science]].
+
+See also: [[Nikola Tesla]] · [[Mysticism and Eastern Philosophy in Science]] · [[The Amplification Framework]] · [[Stack Substances]]
