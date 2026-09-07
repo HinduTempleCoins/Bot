@@ -1,0 +1,39 @@
+'''Creatine''' is a nitrogenous organic acid synthesised in the body from glycine, arginine and methionine, and obtained from meat and fish. As '''phosphocreatine''' it is the cell's fastest energy buffer: it regenerates ATP from ADP over the first seconds of high-intensity effort, before glycolysis has spun up.
+
+It is, by a wide margin, '''the best-evidenced supplement in common use''' — a rare case where the sports-nutrition consensus and the clinical literature agree.
+
+== Forms ==
+
+Creatine is sold in many chemical forms which '''differ in solubility and marketing more than in demonstrated benefit''':
+
+* '''Monohydrate''' — the form used in essentially all the research. Cheapest, and the correct default.
+* '''HCl''', '''ethyl ester''', '''buffered (Kre-Alkalyn)''', '''nitrate''', '''magnesium chelate''' — better solubility claims, no superiority demonstrated on outcomes. Ethyl ester performs '''worse''' in the comparisons that exist.
+
+'''Creapure''' is a manufacturing purity designation, not a different molecule.
+
+== Loading, or not ==
+
+Two approaches reach the same muscle saturation:
+
+* '''Loading''' — ~20&nbsp;g/day split into four doses for 5–7 days, then 3–5&nbsp;g/day. Saturates in about a week.
+* '''No loading''' — 3–5&nbsp;g/day from the start. Saturates in about four weeks.
+
+The endpoint is identical. Loading exists to get there faster and is the phase where GI upset is reported.
+
+== Beyond muscle ==
+
+The neurological literature is the more interesting half and is less well known:
+
+* '''Cognition''' — effects appear largest in people whose creatine status is lowest: vegetarians, the sleep-deprived, and under acute stress. In well-fed omnivores at rest the effect is small or absent.
+* '''Depression''' — adjunctive creatine has positive trials, particularly in women.
+* Studied in Parkinson's, Huntington's and traumatic brain injury, with mostly disappointing results in the large trials.
+* '''Creatine transporter deficiency''' is a genuine inborn error of metabolism in which supplementation is treatment.
+
+== Cautions ==
+
+* '''Kidneys.''' Creatine raises serum '''creatinine''' — a laboratory marker of kidney function — without impairing the kidney. This causes real and repeated confusion in clinic. Tell whoever orders the test. In healthy people creatine has not been shown to harm renal function; in existing renal disease it should be discussed rather than assumed safe.
+* '''Water retention''' — intracellular, a few pounds, expected and not fat.
+* '''GI upset''' at loading doses or with poorly dissolved powder; splitting the dose fixes it.
+* '''Non-responders''' exist — people whose muscle creatine is already near saturation from diet gain nothing.
+
+See also: [[The Amplification Framework]] · [[Stack Substances]] · [[Vitamin K2]]

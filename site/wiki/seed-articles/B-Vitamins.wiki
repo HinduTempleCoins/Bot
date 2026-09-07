@@ -1,0 +1,27 @@
+The '''B-vitamins''' are eight water-soluble cofactors that between them run one-carbon metabolism, the citric-acid cycle and neurotransmitter synthesis. The Institute's 2021 material treats them through one specific compound and one general method.
+
+== Picamilon ==
+
+'''Picamilon''' is niacin covalently joined to '''GABA'''. It exists to solve a specific problem: '''GABA taken orally does not meaningfully cross the blood-brain barrier''', which makes plain GABA supplements largely pointless. Attached to niacin, the molecule crosses, and is then hydrolysed centrally into its two halves — GABA plus a vasodilator.
+
+It is a neat illustration of the bioavailability theme running through this whole section: the same molecule, made useful by changing what it is attached to.
+
+Picamilon was developed in the Soviet Union in 1969 and remains a medicine in Russia. In the '''United States the FDA determined in 2015 that it is not a lawful dietary ingredient''', and it was removed from the market — it is a synthetic drug that was never a food.
+
+== "Read your urine" ==
+
+The method paired with it. Because the B-vitamins are water-soluble and excess is excreted, the body gives a crude visible signal of saturation — '''riboflavin (B2) turns urine bright yellow-green''' within a few hours of a dose past requirement.
+
+This is a real observation and a genuinely useful folk biomarker, and it should be understood for exactly what it is: it tells you that '''B2 is in excess'''. It says nothing about B12, folate, B6 or thiamine status, and it is not a saturation signal for the B-complex as a whole. Presented as such, it is a good heuristic. Extended past B2 it is false.
+
+It echoes the '''T-0 method''' of the 2016 material: watch the body's readouts rather than trusting the number on the label.
+
+== The individual cautions worth knowing ==
+
+* '''B6 (pyridoxine)''' — the exception to "water-soluble means safe". Chronic intake above roughly 100&nbsp;mg/day causes '''irreversible sensory peripheral neuropathy'''. This is the most under-recognised supplement toxicity in common use, and B6 is in most B-complexes and most energy drinks. Pyridoxal-5-phosphate (P5P) is the active form and is often assumed exempt; it is not established to be.
+* '''B3 (niacin)''' — the flush is harmless; sustained-release niacin at gram doses is '''hepatotoxic'''. Niacinamide does not flush and does not lower lipids.
+* '''B9 (folate)''' — masks the anaemia of B12 deficiency while the neurological damage proceeds. '''Check B12 first.''' See [[L-Methylfolate]].
+* '''B12''' — deficiency is common in vegans, in metformin users and after 60 through loss of intrinsic factor; the damage is neurological and can be permanent.
+* '''B1 (thiamine)''' — the deficiency to know is Wernicke's encephalopathy, in alcohol dependence and after bariatric surgery. See also the thiaminase warning under [[Silicon and Collagen|horsetail]].
+
+See also: [[L-Methylfolate]] · [[The Amplification Framework]] · [[Racetams]] · [[Stack Substances]]

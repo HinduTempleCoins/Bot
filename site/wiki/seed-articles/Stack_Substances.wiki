@@ -32,11 +32,25 @@ The organising idea across most of the botanical inventory:
 * '''[[White Sage]]''' — ''Salvia apiana''; and why the sourcing question is the whole entry
 * '''[[Cannabis]]''' and '''[[Cannabis Harm Reduction]]'''
 
+== Nutrients and cofactors ==
+
+* '''[[Creatine]]''' — the best-evidenced supplement in common use, and the reason it raises serum creatinine without harming the kidney
+* '''[[Vitamin K2]]''' — the vitamin that decides whether calcium goes into bone or into arteries; MK-4 vs MK-7 is a half-life question
+* '''[[Chelated Minerals]]''' — form governs uptake; and elemental content is where the labels mislead
+* '''[[Liposomal Vitamin C]]''' — the SVCT1 absorption ceiling, what encapsulation actually buys, and why splitting the dose beats most of it
+* '''[[Silicon and Collagen]]''' — orthosilicic acid, not quartz
+* '''[[B-Vitamins]]''' — picamilon, "read your urine", and the B6 neuropathy nobody mentions
+
 == Nootropics ==
 
 * '''[[The Amplification Framework]]''' — substrate, cofactor amplifier, degradation inhibitor; the model the rest of this section is arranged by
 * '''[[Racetams]]''' — piracetam and family; strong in clinical populations, weak in the healthy adults who buy it
 * '''[[Choline Donors]]''' — alpha-GPC, citicoline and the rest; not interchangeable, and the TMAO question
+* '''[[Galantamine]]''' — the one lucid-dream aid with a randomised trial behind it, and a real cardiac-conduction drug
+
+== Recorded only as a warning ==
+
+* '''[[Datura]]''' — the single entry in this library where no dose is given, because no accurate dose exists to give
 
 == Preparation ==
 
@@ -63,6 +77,9 @@ Vaporisation temperature governs which fraction of a plant is actually delivered
 * '''Kava + alcohol, sedatives, or anything hepatic''' — see [[Kava]].
 * '''8-PN in hormone-sensitive conditions''' — see [[8-Prenylnaringenin]].
 * '''Folate without checking B12''' — see [[L-Methylfolate]].
+* '''B6 above ~100&nbsp;mg/day''' — irreversible sensory neuropathy; see [[B-Vitamins]].
+* '''Vitamin K2 with warfarin''' — direct antagonism of the drug's mechanism; see [[Vitamin K2]].
+* '''Galantamine with bradycardia, asthma or an anticholinergic''' — see [[Galantamine]].
 * '''Chronic complete MAGL inhibition''' causes CB1 desensitisation. More is not better; see [[MAGL]].
 
 == Related ==

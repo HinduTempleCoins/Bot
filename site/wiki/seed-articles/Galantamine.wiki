@@ -1,0 +1,37 @@
+'''Galantamine''' is an alkaloid from the snowdrop (''Galanthus''), the red spider lily (''Lycoris radiata'') and daffodil bulbs, licensed as a treatment for mild-to-moderate Alzheimer's disease. In the dream literature it is '''the best-studied pharmacological lucid-dream aid''', and it is the one entry in that materials list with a controlled trial behind it.
+
+== Mechanism ==
+
+Two actions:
+
+* '''Acetylcholinesterase inhibition''' — raises synaptic acetylcholine.
+* '''Allosteric potentiation of nicotinic receptors''' — a second, less common mechanism that distinguishes it from donepezil and rivastigmine.
+
+REM sleep is a '''cholinergically driven state'''. Raising acetylcholine during the REM-dense second half of the night lengthens and intensifies REM, and increases the probability of the reflective awareness that defines a lucid dream.
+
+== The evidence ==
+
+'''LaBerge et al. (2018)''', a double-blind placebo-controlled crossover trial in 121 participants at a dream retreat, is the study this rests on. Galantamine taken '''after 4.5 hours of sleep''' — the WBTB position — produced lucid dreams in a '''dose-dependent''' fashion, with the higher dose producing a substantially higher rate than placebo, and the effect was strongest when combined with the '''MILD''' induction technique.
+
+This is unusual: a supplement claim with a real randomised trial, a dose-response and an interaction with a behavioural technique. It is also one trial, in a self-selected population already practised at lucid dreaming.
+
+== Timing is the whole technique ==
+
+Galantamine taken at bedtime does not work well and disrupts sleep. It is taken '''on waking after 4–5 hours''', then sleep is resumed — the '''WBTB''' ("wake back to bed") position. Its ~7-hour half-life then covers the REM-dense final stretch.
+
+It is conventionally paired with a [[Choline Donors|choline donor]] (alpha-GPC or citicoline) on the reasoning that inhibiting the esterase is of limited use without substrate.
+
+== Cautions — this is a real drug ==
+
+Galantamine is a prescription medicine in most jurisdictions, sold as a supplement in the United States because of its plant origin. The cautions are the clinical ones:
+
+* '''Bradycardia, heart block, syncope.''' Cholinesterase inhibitors slow the heart. Relevant in existing conduction disease and with beta-blockers or other rate-limiting drugs.
+* '''Asthma and COPD''' — cholinergic bronchoconstriction.
+* '''Peptic ulcer''' and GI bleeding risk — increased gastric acid; interacts with NSAID use.
+* '''Seizure threshold''' is lowered.
+* '''Urinary obstruction''' and bladder outflow disease.
+* '''Do not combine''' with other cholinesterase inhibitors, and note the direct antagonism with anticholinergics — including [[Datura]], which appears in the same historical dream literature and is its pharmacological opposite.
+* '''Sleep disruption, vivid nightmares and next-day nausea''' are the common complaints even when it works.
+* Frequency matters: tolerance develops, and it is conventionally used no more than once or twice a week.
+
+See also: [[Choline Donors]] · [[Datura]] · [[Racetams]] · [[Stack Substances]]
