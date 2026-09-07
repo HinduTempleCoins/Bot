@@ -1,0 +1,46 @@
+'''Gamma entrainment''' is the driving of ~40 Hz neural oscillation by rhythmic sensory stimulus — light, sound, or both. The research line is usually called '''GENUS''' (Gamma ENtrainment Using Sensory stimulus), after the MIT protocol.
+
+Wikipedia has an article on ''gamma waves'' and one on ''brainwave entrainment''; it has none on GENUS, on 40 Hz light therapy, or on [[Invisible Spectral Flicker|invisible spectral flicker]]. This page exists to cover the applied literature, including the parts of it that did not replicate.
+
+== The four delivery methods ==
+
+# '''Luminance flicker''' — the strobe. Most studied, least comfortable.
+# '''[[Invisible Spectral Flicker]] (ISF)''' — modulate spectral composition at constant perceived luminance. Same 40 Hz SSVEP, materially better comfort scores.
+# '''Auditory''' — 40 Hz clicks or an amplitude-modulated carrier. Eyes closed, no photosensitivity exposure at any frequency. See [[Auditory Steady State Response]].
+# '''Combined audiovisual''' — what the pivotal clinical trials actually run.
+
+== The evidence, stated with its failures ==
+
+'''The positive line.''' Phase 2A over three months in mild probable Alzheimer's reported lesser ventricular dilation and hippocampal atrophy, increased default-mode connectivity, and better face–name delayed recall against control. 40 Hz auditory stimuli produce the largest EEG response and raise regional cerebral blood flow in healthy participants.
+
+'''The pivotal trial has not read out.''' '''HOPE (NCT05637801)''': status ACTIVE_NOT_RECRUITING, enrolment 670, primary completion June 2026 estimated, '''no results posted'''. Anything asserting clinical efficacy today is asserting it ahead of the trial.
+
+'''The flagship preclinical result has a prominent failed replication.''' '''Soula M, …, Buzsáki G, ''Nature Neuroscience'' 2023;26(4):570–578''' — in APP/PS1 and 5xFAD mice, 40 Hz flicker '''did not engage native gamma oscillations''', with no significant change in plaque burden, microglial morphology or Aβ levels, and avoidance behaviour. A page that cites the original and omits this is not reporting the field.
+
+'''The systematic review agrees.''' '''Bolland E et al., ''npj Aging'' 2025''', 62 studies: animal-model findings on amyloid clearance and neuroinflammation "were not consistently replicated in human studies", and neurophysiological responses did not reliably predict cognitive or biological outcomes.
+
+'''Tolerability is the better-supported claim.''' Sato S et al., ''Healthcare'' 2025, n=28: 96.4% adherence, six mild-to-moderate device-related adverse events, auditory channel.
+
+== The frequency-safety inversion ==
+
+The intuition that a higher frequency is more dangerous is '''backwards''', and this is the most important practical fact in the field.
+
+'''Fisher RS et al., ''Epilepsia'' 2005;46(9):1426–1441''', verbatim: ''"Frequencies of 15–25 Hz are most provocative, but the range is 1–65 Hz."'' So '''40 Hz sits inside the provocative range, not above it''' — there is no frequency-based safety argument for 40 Hz visual flicker — but the '''13–26 Hz band is the dangerous one'''. A protocol that silently converts a 40 Hz request into ~20 Hz has moved the subject from the safer end of the range to the peak. See [[Display Refresh and Flicker Delivery]].
+
+'''Harding G et al., ''Epilepsia'' 2005;46(9):1423–1425''': ''"A flash is a potential hazard if it has luminance ≥20 cd/m², occurs at a frequency of ≥3 Hz."''
+
+Photosensitivity affects 0.3–3% of the general population and 2–14% of people with epilepsy, with peak incidence between ages 7 and 19.
+
+== Duration, which the standards address and the devices do not ==
+
+'''ITU-R BT.1702-3 (11/2023)''', verbatim: ''"a sequence of flashing images lasting more than five seconds might constitute a risk even when it complies with the guidelines above."'' A GENUS session is 12 to 60 minutes — '''150 to 700 times that'''. Its Annex 5 names three aggravating factors: '''a dark room, a bright or large screen, and close viewing.'''
+
+'''WCAG 2.3.1 (Level A)''' permits nothing flashing more than three times per second unless it is below the flash thresholds or occupies no more than 25% of any 10-degree visual field. '''A full-screen 40 Hz strobe fails both limbs.''' No configuration rescues it; only a small flashing region conforms, which is a materially weaker stimulus than the protocol calls for. That tension should be stated to users rather than engineered around.
+
+== Contraindications ==
+
+Epilepsy or family history of seizures; migraine with aura; implanted electrical devices (pacemaker, ICD, DBS, VNS); pregnancy; sleep deprivation; alcohol or benzodiazepine withdrawal; medication that lowers seizure threshold; recent head injury or stroke; age under 20. '''Saturated red is a hazard channel independent of luminance''' in both WCAG and BT.1702-3 and should never be used.
+
+'''Eyes closed is not safer.''' BT.1702-3's normative remedy for the most susceptible is a long-wavelength-red-reflecting filter; closed eyelids transmit predominantly long-wavelength light, so an eyes-closed bright strobe is physically closer to a red strobe at the retina. Presented here as precaution grounded in the red-flash rule and eyelid transmission, not as an established finding.
+
+See also: [[Display Refresh and Flicker Delivery]] · [[Auditory Steady State Response]] · [[Invisible Spectral Flicker]] · [[Stack Substances]]

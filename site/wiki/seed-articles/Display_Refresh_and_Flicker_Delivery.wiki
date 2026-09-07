@@ -1,0 +1,60 @@
+'''Display refresh and flicker delivery''' concerns a failure mode in screen-delivered visual entrainment: '''a display cannot produce an arbitrary flicker frequency, and requesting one silently produces a different frequency instead.'''
+
+No encyclopaedia covers this, and neither does most of the device literature. It is documented here because the Institute found it in its own shipped software on 7 September 2026 and fixed it, and because the failure converts the safest frequency in the [[Gamma Entrainment|entrainment]] catalogue into the most dangerous one.
+
+== The mechanism ==
+
+A display changes what it shows only at a frame boundary. Software that paints a flicker per animation frame therefore cannot place a transition anywhere else — the requested waveform is quantised to the refresh rate. Simulating the common panels for a 40 Hz request:
+
+{| class="wikitable"
+! Requested !! Display !! Actually delivered !! Pattern
+|-
+| 40 Hz || '''60 Hz''' || '''~20 Hz''' || <code># . # # . # # . # # . #</code>
+|-
+| 40 Hz || 120 Hz || ~39.8 Hz || <code># # . # # . # # . # # .</code>
+|-
+| 40 Hz || 144 Hz || ~39.8 Hz || <code># # . . # # . . # . . #</code> — irregular duty
+|-
+| 40 Hz || 90 Hz || ~39.8 Hz || <code># # . # . # . # # . # .</code> — irregular duty
+|}
+
+On a '''60 Hz''' panel — the commonest display in the world — a 40 Hz request resolves to a repeating three-frame on-off-on pattern. '''That is a 20 Hz stimulus''', and 15–25 Hz is the most seizure-provocative photic band in the clinical literature (Fisher et al., ''Epilepsia'' 2005). The request for the safest catalogue frequency becomes, silently, a stimulus at the peak of the provocative range.
+
+== Which refresh rates can render 40 Hz ==
+
+Only an '''integer multiple of the target''': '''80, 120, 160 or 240 Hz.'''
+
+'''Not 60. Not 90. And not 144''' — which gives 3.6 frames per cycle, so the most common "high refresh" gaming monitor cannot do it either. This is the result that surprises people.
+
+Note also that at 120 Hz a three-frame period '''cannot be 50% duty''' — it is 33% or 67%.
+
+== Why it is easy to ship ==
+
+'''There is no <code>screen.refreshRate</code> in the web platform.''' The <code>Screen</code> interface exposes <code>availHeight</code>, <code>availWidth</code>, <code>colorDepth</code>, <code>height</code>, <code>isExtended</code>, <code>orientation</code>, <code>pixelDepth</code> and <code>width</code> — nothing about timing. So a browser-delivered protocol must '''measure''' the refresh rate at runtime and then '''act on the measurement'''.
+
+The Institute's own page did the first half and not the second: it measured the rate, displayed it to the participant, and never read it back. '''The honesty was in the prose and not in the code''' — which is the failure mode to expect wherever a stimulus is delivered by a display rather than by dedicated hardware.
+
+'''WebXR is the exception''': <code>XRSession.frameRate</code>, <code>supportedFrameRates</code> and <code>updateTargetFrameRate()</code> are the only web surfaces that both report and request a display rate.
+
+== The check ==
+
+Log the timestamps the painter actually paints on over a few seconds, take the median inter-frame interval, then:
+
+  ratio = measured_refresh / target_hz
+  clean  if  abs(ratio - round(ratio)) < 0.02  and  round(ratio) >= 2
+
+If it fails, the honest options are to '''refuse the visual channel''', to '''run audio only''', or to move to hardware. '''Substituting a nearby rate is not an option, because the nearby rate is the hazard.'''
+
+== Scope ==
+
+This affects '''screen-delivered''' stimuli: browsers, phones, tablets, apps, at-home and remote study arms, and head-mounted displays. It '''does not''' affect an LED array driven by a microcontroller, which is what most laboratory rigs use — laboratory work is generally safe from it and clinical at-home arms generally are not.
+
+Phone panels are commonly 60 Hz or '''LTPO-variable''' (1–120 Hz, shifting with content and battery state), which is the worst case: the rate measured at the start of a session may not be the rate ten minutes in.
+
+== Head-mounted displays ==
+
+'''120 Hz''' divides 40 exactly. '''90 Hz and 72 Hz do not.''' An effect authored and verified at 120 Hz is not the same effect in a 90 Hz session, and nothing in a typical pipeline warns anyone.
+
+The enclosure compounds it. ITU-R BT.1702-3 Annex 5 names a dark room, a bright or large screen, and close viewing as the three aggravating factors for photosensitive seizure risk — '''a head-mounted display is all three at once''', with no periphery to look away into and the device fastened on. A full-field effect also fails both limbs of WCAG 2.3.1 by construction.
+
+See also: [[Gamma Entrainment]] · [[Invisible Spectral Flicker]] · [[Auditory Steady State Response]]

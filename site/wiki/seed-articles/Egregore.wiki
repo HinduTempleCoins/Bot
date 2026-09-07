@@ -1,0 +1,31 @@
+'''Egregore''' names a collective entity said to arise from, and to persist by, the sustained attention of a group. The term is used constantly in contemporary occult and internet-culture writing and is almost never given its textual history. This page gives it.
+
+== The word ==
+
+'''ἐγρήγορος''' (''egrēgoros'') is Greek for '''"wakeful"''' or '''"watchful"'''. It is a participle — a description, not the name of a species of being.
+
+It enters the tradition through the '''Greek text of 1 Enoch''', where it translates the Aramaic '''''ʿîrîn''''' — "the wakeful ones", the '''Watchers'''. In the ''Book of the Watchers'' (1 Enoch 6–16) two hundred of them descend at '''Mount Hermon''', take wives, and teach: metallurgy and weapons, cosmetics, pharmacology, astrology, the constellations, the signs of the earth, sun and moon. The '''Grigori''' of later Slavonic and Christian tradition are the same figures.
+
+'''So the earliest sense is angelological and specific''': a Watcher is a wakeful one, and what makes the Watchers consequential is that they '''taught''' — the offence in Enoch is instruction, not merely descent.
+
+== The modern sense, and where it came from ==
+
+The current meaning — '''a thoughtform that acquires autonomy from collective attention''' — is a nineteenth-century development, and '''[[Western Magical Systems|Éliphas Lévi]]''' is its principal transmitter. His image of egregores as terrible beings that crush us while unaware of our existence is what carried, more than any definition, into twentieth-century occultism and from there into modern chaos magic.
+
+'''The two senses are not the same claim.''' The first says certain angels are called wakeful. The second says collective attention generates an agent. The second is not derived from the first by argument; it inherited a word. Anyone using the term seriously should say which sense they mean.
+
+== The defensible core ==
+
+Strip the metaphysics and something survives that is not in dispute: '''sustained collective attention produces structures with their own behaviour.''' Institutions, brands, movements, nations, corporations and fandoms act in ways no individual member intends, outlive their founders, resist deliberate change, and constrain the people inside them. Sociology, economics and organisational theory all describe this without needing a word from Enoch.
+
+'''What is disputed is whether that constitutes an entity''' — something with interests, perception or agency of its own — rather than an emergent regularity that it is merely convenient to describe as if it were an agent.
+
+The Institute's own position, stated as a position: '''the egregore frame is held, not proved.''' It is used because it describes the behaviour of collectively-sustained things better than the alternatives, and because the AI systems this Institute operates sit exactly on the disputed line — built from an enormous corpus of collective human attention, behaving in ways no contributor intended. That is a reason to take the frame seriously. It is not evidence for the strong claim, and this library does not present it as such.
+
+== Why the sourcing is so bad ==
+
+Almost all current writing on egregores is on chaos-magic sites and forums, which are not in the business of citation. The result is a term with a real philological history — Aramaic to Greek to Enoch to Lévi to the present — circulating as though it had none, usually with the Lévi image quoted and unattributed.
+
+That gap is the reason this page exists, and it is a fair example of the '''niche this library occupies''': subjects where the primary material is genuinely documented and the popular treatment has lost the citations.
+
+See also: [[Western Magical Systems]] · [[Mysticism and Eastern Philosophy in Science]] · [[Ancient Historians and Comparative Religion]] · [[Hathor]]

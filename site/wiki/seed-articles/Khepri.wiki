@@ -1,0 +1,71 @@
+'''Khepri''' (''ḫprj'') is the scarab-headed Egyptian god of the rising sun, of coming-into-being and of transformation. His name derives from the verb ''ḫpr'', "to come into being" — and the standard Egyptological reading is that the beetle rolling its dung ball across the ground was taken as an image of the sun being rolled across the sky.
+
+This article covers that, and then covers the Van Kush Family Research Institute's rather different proposal about him — including the objection to it, which is stated here at full strength.
+
+== The conventional reading ==
+
+Khepri is the morning aspect of the sun, paired with Ra at midday and Atum at evening. The scarab was among the most widely reproduced amulet forms in Egypt, and heart scarabs were placed with the dead. The beetle-and-ball-as-sun-and-sky reading is old, well attested, and not in dispute.
+
+The usual modern tone toward it is faintly amused — the Egyptians mistook a beetle's housekeeping for cosmology. That tone is where the Institute's argument starts.
+
+== The VKFRI proposal: Khepri as empiricist ==
+
+'''"Khepri as Empiricist: How Dung Beetle Celestial Navigation Gave Rise to Egyptian Astronomy, Architecture, and Sacred Cosmology"''' (Rev. Ryan Sasha-Shai Van Kush, Van Kush Family Research Institute) argues that the beetle-headed god is '''not a metaphor at all but a record of observation''' — that Egyptians watched dung beetles draw astronomically-oriented lines across desert sand at night, and memorialised what the beetles were already demonstrating.
+
+Stated in the paper's own words:
+
+: "This paper proposes a simpler answer: they did not need to calculate anything. They watched the beetles, and the beetles already knew."
+
+And on Nabta Playa, one of the oldest astronomical sites known:
+
+: reframed "not as the product of aggressive mathematical calculation but as lithified beetle tracks — permanent stone records of what beetles were already demonstrating."
+
+: "Khepri was the original astronomer."
+
+The paper's stated priority: the theory was articulated publicly on the YouTube programme ''Think Free Indiana'' (host Steve Tillman, Northern Indiana) during 2012–2014, and '''formally documented in a public forum post dated 11 March 2014''' — some four months before WIRED's "Fantastically Wrong: Why the Egyptians Worshiped Beetles That Eat Poop for a Living" (9 July 2014). Independent convergence is claimed from two directions: mainstream science media, and the Kemetic scholarly community via Sa Neter Studios.
+
+== The science underneath, which is real ==
+
+The mechanism is not speculative, and this is what separates the proposal from the general run of pyramid literature.
+
+'''Dacke M, Baird E, Byrne M, Scholtz C H, Warrant E J, ''Current Biology'', 24 January 2013.''' Working on the nocturnal African dung beetle ''Scarabaeus satyrus'', the Lund University group established:
+
+# Beetles use the '''sun''' as a directional compass by day, to roll away from competitors at the dung pile in a straight line.
+# At night they use the '''moon''' and its polarisation pattern for the same purpose.
+# On moonless nights they use the '''Milky Way''' — specifically the brightness gradient across its band. '''This was the first documented instance of any animal navigating by the Milky Way.'''
+# Before setting off, a beetle climbs atop its ball and performs a '''circular "dance"''' — taking a celestial snapshot and locking in a bearing.
+# Fitted with '''cardboard caps''' that block the sky, beetles lose the ability to travel straight — confirming the sky, not ground landmarks, as the reference.
+
+The study reached mainstream coverage immediately (Fox News, 24 January 2013, "Wow! Dung Beetles Navigate by the Stars") and later received an Ig Nobel Prize — an award that honours real research, and whose humour has caused this finding to be underrated rather than overrated.
+
+The beetles have been doing this for '''millions of years''', long predating ''Homo sapiens''. Any population living beside them and paying attention had a working demonstration of celestial orientation available nightly, for free.
+
+== The objection, at full strength ==
+
+This library's rule is to state the strongest counter-argument rather than the most convenient one, and here it is sharp.
+
+'''The beetle's celestial snapshot fixes a straight line, not a particular bearing.''' Each beetle takes its own reading and departs on its own heading — the adaptive point is to leave the dung pile radially, away from competitors, in whatever direction it happens to face. The aggregate of many beetle tracks is therefore '''radial and effectively random in bearing'''.
+
+Nabta Playa's alignments are the opposite of random: they are '''specific and repeated''' — solstitial sunrise, and stellar sightlines proposed for Sirius and the belt of Orion. A field of randomly-oriented straight lines cannot be the source of a consistent, astronomically meaningful azimuth. So '''the strong form of the claim — Nabta Playa as lithified beetle tracks — does not survive contact with what the beetles actually do.'''
+
+That objection is fatal to the strong version and leaves the weak version untouched:
+
+'''The weak version:''' watching dung beetles could teach a population that '''the sky can be used to hold a line at all''' — that orientation by celestial reference is possible, and possible at night. That is a genuine conceptual seed, it requires no mathematics, it was continuously available in the Nile Valley, and it is exactly the kind of thing a culture might encode in a beetle-headed god of the coming-into-being of the sun.
+
+The weak version is interesting, defensible, and — importantly — '''testable'''. The strong version is not, because it makes a geometric prediction that the ethology contradicts.
+
+== What would settle it ==
+
+A claim of this shape earns its place by naming its own falsifier, so:
+
+* '''Bearing distribution.''' Record the departure azimuths of a beetle population under a given sky. If they cluster on an astronomically meaningful direction, the strong version revives. If they are uniform — which the ethology predicts — it is dead, and the paper should say so.
+* '''Iconographic sequence.''' Does scarab imagery associated with celestial or directional function precede the earliest alignment architecture, or follow it? Precedence would support the transmission; the reverse order would sink it.
+* '''Textual evidence.''' Is there any Egyptian text connecting the scarab to orientation, direction-finding or night navigation, as opposed to solar rebirth? The absence is not fatal but the presence would be decisive.
+
+None of these is expensive. Two of them are undergraduate projects.
+
+== Provenance ==
+
+The paper exists as a circulated document — distributed 22 April 2026 to 218 recipients across archaeology, Egyptology, museum and academic addresses — rather than as a journal publication. The Institute's two peer-reviewed papers of 2026 are on other subjects; see [[Stack Substances]] and the [[Mysticism and Eastern Philosophy in Science|quotations page]] for how this corpus separates published work from circulated argument.
+
+See also: [[Mysticism and Eastern Philosophy in Science]] · [[Kyphi]] · [[Head Cone]] · [[Punic Wax]] · [[Pashupata Shaivism]]

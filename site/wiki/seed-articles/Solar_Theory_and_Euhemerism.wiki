@@ -1,0 +1,39 @@
+'''Solar theory''' and '''euhemerism''' are two ways of reading myth as being about something other than itself. They point in '''opposite directions''', they have opposite reputations in scholarship, and the Institute's own work is routinely filed under the wrong one — which is the reason for this page.
+
+== The naming collision, stated first because it matters most ==
+
+The Institute uses the phrase '''"Solar Theory"''' for its own framework — the identification of Egyptian deities with Greek Titans, principally that '''[[Mysticism and Eastern Philosophy in Science|Wadjet is Theia rather than Leto]]'''.
+
+'''In academic usage "solar theory" means something else, and that something else is discredited.''' It refers to '''solar mythology''', the school associated with '''Max Müller''' (1823–1900), which held that myth arose from a "disease of language": early peoples described solar phenomena poetically, later generations mistook the descriptions for stories about persons, and the gods are those misunderstandings. Müller read nearly the whole Indo-European corpus as solar allegory.
+
+'''It collapsed, and the manner of its collapse is instructive.''' Andrew Lang led the criticism, and in 1870 '''R. F. Littledale''' published a satirical paper demonstrating — rigorously, by Müller's own method — that '''Max Müller himself was a solar myth'''. The reductio landed because the method could prove anything, which meant it established nothing. Solar mythology is now the standard textbook example of an interpretive key applied until it stopped discriminating.
+
+'''Consequence for us:''' a classicist who sees "Solar Theory" at the top of a paper reads "Müller" and stops. The framework then never gets assessed on its merits. That is a naming problem, not an argument problem, and it is cheap to fix.
+
+== Euhemerism, which is the live tradition ==
+
+'''Euhemerus''' of Messene (c. 300 BCE) wrote the ''Sacred History'' (''Hiera Anagraphe''), which survives only in quotation — through Diodorus Siculus and, hostilely, through Lactantius — and which Ennius translated into Latin. His claim: '''the gods were historical kings, conquerors and benefactors, deified by later generations.''' Zeus was a king who reigned and died, and whose tomb Euhemerus claimed to have seen.
+
+'''Euhemerism''' is the general name for that move: myth as distorted historical record. It has never gone away. Snorri Sturluson euhemerises the Norse gods in the ''Prose Edda'' prologue, deriving the Æsir from Troy. Early Christian apologists used it as a weapon against paganism. And it is, precisely, '''the method the Institute is actually using''' when it reads the Table of Nations, the Agenor–Canaan identification and the Libya–Poseidon genealogy as encoded population movement.
+
+'''So the honest label for the Institute's mythography is euhemerist, not solar.''' The [[Khepri|Khepri paper]] is the one genuine exception — it reads a deity as a record of an ''observation'' rather than of a ''person'', which is neither euhemerism nor solar mythology but something closer to a naturalistic aetiology.
+
+== Interpretatio graeca, which is the third and most precise term ==
+
+The specific operation of saying '''Thoth is Hermes''', or '''Wadjet is Theia''', has its own name: '''''interpretatio graeca''''' — the ancient practice of identifying foreign deities with one's own. It is not a modern imposition. '''Herodotus does it constantly''' in Book II, matching Egyptian gods to Greek ones as a matter of course, and the Romans did the same as ''interpretatio romana''.
+
+This matters because it changes the burden of proof. Claiming an equation between two pantheons is '''not''' inherently unscholarly — it is a documented ancient practice and a standard object of study. What has to be argued is the '''particular''' equation, against the ancient identifications already on record. Ptolemy's pairing of Wadjet with Leto is one such record; displacing it requires showing why the ancient identification was mistaken, which is exactly the shape of the Institute's claim and exactly where it should be argued.
+
+== Where each method fails ==
+
+* '''Solar mythology''' failed because it was '''unfalsifiable''' — any narrative could be resolved into sun and dawn.
+* '''Euhemerism''' fails when it becomes '''unconstrained''': with enough myths and enough candidate ancestors, correspondences are guaranteed to appear. It needs an independent line of evidence — archaeology, genetics, textual transmission — to constrain it. Where it has one, it is respectable; where it does not, it reproduces Müller's problem in a different costume.
+* '''Interpretatio graeca''' fails when the equation is asserted rather than argued from the ancient testimony, iconography and function.
+
+The general lesson, which this library applies to its own material: '''an interpretive key that explains everything explains nothing''', and the test of a reading is what it forbids. See [[Khepri]], where the strong form of the Institute's own thesis is rejected on exactly that ground.
+
+== Recommendation ==
+
+Retire "Solar Theory" as the public name of the framework. It buys nothing and costs the reader. '''"Interpretatio graeca applied to the Egyptian–Titan correspondence"''' is longer, accurate, and does not trigger the reflex.
+
+See also: [[Mysticism and Eastern Philosophy in Science]] · [[Khepri]] · [[Pashupata Shaivism]] · [[Swami Vivekananda]]
