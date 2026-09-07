@@ -1,0 +1,33 @@
+'''Liposomal vitamin C''' is ascorbate encapsulated in phospholipid vesicles, sold to overcome the '''absorption ceiling''' that limits ordinary oral vitamin C.
+
+== The ceiling is real ==
+
+Vitamin C absorption is '''saturable'''. It is taken up by the '''SVCT1''' transporter, which is downregulated as intake rises. The measured consequence:
+
+* '''200&nbsp;mg''' oral — nearly 100% absorbed
+* '''1,000&nbsp;mg''' — roughly 50%
+* '''1,250&nbsp;mg''' — plasma plateaus near 80&nbsp;μmol/L and further oral dose barely moves it
+
+'''Intravenous''' ascorbate bypasses the transporter entirely and reaches plasma concentrations '''30–70× higher''' than any oral dose can. That difference is not marketing — it is the reason the high-dose vitamin C oncology literature is an intravenous literature, and why oral trials of the same idea failed.
+
+Liposomal encapsulation is an attempt to get part of the way there orally, by having the vesicle absorbed by a route that is not SVCT1.
+
+== Does it work ==
+
+Partially, and less than claimed. Independent pharmacokinetic comparisons find liposomal formulations produce '''higher plasma levels than the same oral dose of plain ascorbate''' — but well short of intravenous, and short of what the marketing implies. Product quality varies enormously: many "liposomal" products are simple lecithin mixtures with no verified vesicle formation, and few manufacturers publish particle characterisation.
+
+'''The most reliable and cheapest way to raise absorbed vitamin C from an oral dose remains splitting it''' — 250&nbsp;mg four times a day beats 1,000&nbsp;mg once, and beats most liposomal products at a fraction of the price.
+
+== Role in the stack ==
+
+In [[The Amplification Framework]] vitamin C occupies the '''degradation inhibitor''' row: it reduces the BH3 radical back to '''BH4''', the cofactor that [[L-Methylfolate|L-methylfolate]] regenerates. It is also the cofactor for prolyl and lysyl hydroxylase in collagen synthesis, which connects it to [[Silicon and Collagen|silicon]], and it reduces dietary iron to the absorbable ferrous form — which is useful with iron and unhelpful in iron overload.
+
+== Cautions ==
+
+* '''Osmotic diarrhoea''' is the dose-limiting effect of plain ascorbate; liposomal formulations reduce it, which removes the body's own signal that intake is high.
+* '''Kidney stones''' — ascorbate is metabolised to oxalate. Relevant in stone-formers and in renal impairment, and more so at gram doses.
+* '''G6PD deficiency''' — haemolysis reported at very high (intravenous) doses.
+* '''Iron overload''' conditions — vitamin C increases iron absorption and mobilises stored iron.
+* Interferes with '''glucometer''' readings at high doses.
+
+See also: [[Chelated Minerals]] · [[The Amplification Framework]] · [[L-Methylfolate]] · [[Stack Substances]]

@@ -1,0 +1,37 @@
+'''Datura''' — jimsonweed, thornapple, ''Datura stramonium'' and relatives — recurs throughout the dream and ethnobotanical literature '''because it is historically famous, not because it is usable'''. This entry exists to warn against it, and the Institute's library records it on no other basis.
+
+== What it is ==
+
+A potent '''anticholinergic deliriant'''. The active tropane alkaloids are '''scopolamine''', '''atropine''' and '''hyoscyamine''' — competitive antagonists at muscarinic acetylcholine receptors, centrally and peripherally.
+
+It does not produce a psychedelic state in the sense the term is normally used. It produces '''true delirium''': full hallucinations indistinguishable from reality, no insight, and amnesia for the episode. People under its effects hold conversations with absent people, walk into traffic and injure themselves without any awareness of being intoxicated.
+
+== Why there is no dose here ==
+
+'''The tropane content varies enormously''' — between plants, between seasons, between parts of the same plant, and between individual seeds from a single pod. Reported variation runs by more than an order of magnitude.
+
+The consequence is the whole point: '''the amount that produces an effect and the amount that kills are close together, and neither can be predicted from the plant.''' There is no preparation, no dose and no safe amount given here, because for this plant there is no reliable safe amount to give. Where the Institute's source material carried a seed count, that number was removed and the caution kept.
+
+This is the only place in this library where detail is withheld, and the reason is specific rather than precautionary: the detail cannot be made accurate. Everywhere else, withholding preparation and dose information is the harm — here, supplying it would be, because any number given would be wrong for the next plant.
+
+== Toxidrome ==
+
+The classical anticholinergic presentation, worth recognising because someone else may need to:
+
+* '''Hot as a hare''' — hyperthermia
+* '''Blind as a bat''' — mydriasis, paralysed accommodation
+* '''Dry as a bone''' — no sweat, no saliva
+* '''Red as a beet''' — flushed skin
+* '''Mad as a hatter''' — delirium
+
+Plus tachycardia, urinary retention, seizures, coma. Hyperthermia and the injuries sustained during delirium are common causes of death, alongside cardiac effects.
+
+'''If someone has taken Datura, this is an emergency-department presentation.''' Treatment is supportive; physostigmine is used in hospital. Benzodiazepines control agitation. It is not something to sit with at home.
+
+== Related ==
+
+Other tropane-bearing Solanaceae carry the same hazard: ''Brugmansia'' (angel's trumpet), ''Atropa belladonna'' (deadly nightshade), ''Hyoscyamus niger'' (henbane), ''Mandragora'' (mandrake). The historical and ritual literature on all of them is genuinely interesting; none of it makes them safe.
+
+'''[[Galantamine]] is the pharmacological opposite''' — a cholinesterase inhibitor — and appears in the same dream-material list. They are directly antagonistic.
+
+See also: [[Galantamine]] · [[Stack Substances]] · [[Cannabis Harm Reduction]]

@@ -1,0 +1,35 @@
+'''Vitamin K2''' (menaquinone) is the vitamin that determines '''where calcium goes'''. It is the cofactor for the γ-carboxylation of '''osteocalcin''', which binds calcium into the bone matrix, and of '''matrix Gla protein''', which actively inhibits calcification of arteries and soft tissue.
+
+That dual role is the entire argument for the nutrient: without adequate K2, calcium is deposited less reliably in bone and more readily in vessel walls — the direction nobody wants.
+
+== K1 and K2 are not interchangeable ==
+
+* '''K1 (phylloquinone)''' — from green leaves; taken up preferentially by the liver for the clotting cascade. Most dietary vitamin K is K1.
+* '''K2 (menaquinone)''' — from fermented foods and animal products; reaches bone and vessel tissue.
+
+Within K2 the '''subtype governs the half-life''', and the difference is large:
+
+* '''MK-4''' — half-life of '''hours'''. Occurs in animal tissue; the form the body makes by converting K1. Studied at pharmacological doses (45&nbsp;mg/day) in Japanese osteoporosis trials.
+* '''MK-7''' — half-life of '''about three days'''. From ''Bacillus subtilis'' fermentation; '''nattō''' is the dietary source. Maintains a steady blood level from a single daily dose, which is why it is the form in most bone formulations, typically 90–180&nbsp;μg.
+
+MK-7's long half-life is the whole reason it displaced MK-4 in supplements: MK-4 at supplement doses is cleared before it does much.
+
+== Evidence ==
+
+* '''Rotterdam Study''' — higher dietary K2 (not K1) associated with less coronary calcification and lower cardiovascular mortality. Observational.
+* '''Knapen (2013)''', 3 years, MK-7 180&nbsp;μg/day in postmenopausal women — reduced bone-mineral-density loss and reduced vertebral height loss.
+* Japanese MK-4 osteoporosis trials at 45&nbsp;mg/day are positive but at doses three orders of magnitude above supplement levels and have not consistently replicated outside Japan.
+
+Reasonable summary: the mechanism is solid, the bone evidence is decent, the cardiovascular evidence is largely observational.
+
+== The one interaction that matters ==
+
+'''Warfarin.''' Warfarin works ''by'' antagonising vitamin K. Adding K2 opposes the drug directly and changes INR. This is not a caution to be careful — it is a reason not to start it without the prescriber's involvement. It does '''not''' apply to the direct oral anticoagulants (apixaban, rivaroxaban, dabigatran), which do not act on vitamin K.
+
+== Other cautions ==
+
+* Fat-soluble — take with fat; deficiency is likelier after bariatric surgery or with fat malabsorption.
+* K2 is frequently combined with '''high-dose vitamin D''', which raises calcium absorption. The pairing has a rationale — D brings calcium in, K2 directs it — but a high-dose D regimen has its own risks that K2 does not cancel.
+* No established toxicity for K1 or K2 at supplemental doses; synthetic '''K3 (menadione)''' is a different matter and is not used in human supplements.
+
+See also: [[Creatine]] · [[Chelated Minerals]] · [[Stack Substances]]

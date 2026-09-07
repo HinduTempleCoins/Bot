@@ -1,0 +1,29 @@
+'''Silicon''' is the element behind the Institute's 2021 essay title ''"Adding Quartz to Human Cells"'' — a deliberately startling way into a real and unglamorous piece of connective-tissue biology.
+
+'''Quartz is not the point.''' Silicon dioxide as mineral is biologically inert and, as respirable dust, is the cause of silicosis. The bioavailable species is '''orthosilicic acid''' (H₄SiO₄) — soluble monomeric silicon, the only form absorbed in the gut. Everything useful about dietary silicon runs through that molecule; polymerised silica does nothing.
+
+== What it does ==
+
+Silicon is implicated in the cross-linking and stabilisation of '''collagen''' and in the formation of glycosaminoglycans — the ground substance of connective tissue. It appears to act as a cofactor in '''prolyl hydroxylase''' activity, the enzyme step that makes collagen a stable triple helix. That places it upstream of skin, bone matrix and vessel wall integrity.
+
+This is the mainstream nutritional position, presented as physiology rather than as a cure. Silicon has '''not''' been established as an essential nutrient in humans — no deficiency disease is defined and no requirement is set — though it is essential in chicks and rats.
+
+== Sources ==
+
+* '''Horsetail''' (''Equisetum arvense'') — the traditional silica-rich plant, and the one the essay names.
+* '''Beer''' — genuinely one of the largest dietary sources in Western diets, because barley silicon is soluble.
+* Whole grains, bananas, green beans, and drinking water in some regions.
+* '''Choline-stabilised orthosilicic acid (ch-OSA / BioSil)''' — the supplement form with the human trial data; the choline stabilisation exists to keep the silicic acid from polymerising in the bottle.
+
+== Evidence ==
+
+* '''Framingham Offspring''' — dietary silicon intake associated with higher hip bone-mineral density in men and premenopausal women. Observational.
+* Small ch-OSA trials report improvement in skin, hair and nail parameters and in bone markers alongside calcium and D. Small, and several are industry-funded.
+
+== Cautions ==
+
+* '''Horsetail contains thiaminase''', which degrades vitamin B1. Prolonged use has caused thiamine deficiency in grazing livestock; supplement products are usually treated to inactivate it, and unprocessed herb should not be taken long-term without B1.
+* Horsetail is a '''diuretic''' and some species accumulate nicotine and heavy metals; ''Equisetum arvense'' must be distinguished from ''E. palustre'', which is toxic.
+* '''Do not inhale silica powder''' — silicosis is real and irreversible. The essay's title is a metaphor.
+
+See also: [[Chelated Minerals]] · [[Vitamin K2]] · [[Stack Substances]]

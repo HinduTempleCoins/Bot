@@ -1,0 +1,32 @@
+'''Chelated minerals''' are mineral ions bound to organic ligands — usually amino acids — to improve absorption and reduce gastric irritation relative to plain inorganic salts. The Institute's material names the '''TRAACS''' (Albion) chelate technology specifically.
+
+The organising principle of the whole Part II material is here in one line: '''form governs uptake'''. Which nutrient matters less than which form of it.
+
+== Why chelation helps ==
+
+A mineral salt dissociates in the stomach and the free ion must then compete for a divalent-metal transporter, is vulnerable to phytate and oxalate binding, and irritates gut mucosa. A '''bis-glycinate''' chelate — two glycine molecules wrapped around the ion — is small, neutral, stable at gut pH and can be absorbed as an intact molecule via peptide/amino-acid routes, sidestepping both the competition and the irritation.
+
+== Practical comparisons ==
+
+* '''Iron''': ferrous '''bis-glycinate''' vs ferrous sulfate — comparable absorption at lower elemental dose, with markedly less constipation and nausea. This is the clearest real-world win for chelation, and iron is the mineral people most often abandon over side effects.
+* '''Magnesium''': '''glycinate''' (well absorbed, calming, minimal laxative effect) and '''citrate''' (well absorbed, laxative at dose) versus '''oxide''' — which is roughly 4% absorbed and is mostly a laxative sold as a supplement. Magnesium '''threonate''' is marketed for CNS penetration on thin evidence.
+* '''Zinc''': picolinate, bis-glycinate and citrate all outperform oxide.
+* '''Calcium''': '''citrate''' does not require stomach acid; '''carbonate''' does, and therefore fails in people on proton-pump inhibitors — a common and avoidable interaction.
+
+== Elemental content is the catch ==
+
+A chelate is mostly ligand by weight. '''1,000&nbsp;mg of magnesium glycinate is roughly 140&nbsp;mg of magnesium.''' Labels vary in whether they state the compound or the element, and comparisons between products are frequently made between the wrong numbers. Read the elemental figure.
+
+== Liposomal delivery ==
+
+The same logic applied differently: ascorbate or a mineral packaged in phospholipid vesicles to raise the absorbed fraction. See [[Liposomal Vitamin C]].
+
+== Cautions ==
+
+* '''Iron''' — overdose is a leading cause of poisoning death in small children, and haemochromatosis makes supplementation dangerous. Do not supplement iron without a ferritin measurement.
+* '''Zinc''' displaces '''copper'''; chronic zinc without copper causes copper-deficiency anaemia and myelopathy.
+* '''Magnesium''' accumulates in renal impairment.
+* '''Calcium''' binds and blocks the absorption of iron, zinc, levothyroxine and the tetracycline and quinolone antibiotics — separate the doses.
+* Better absorption means it is easier to reach a toxic intake, not harder.
+
+See also: [[Liposomal Vitamin C]] · [[Silicon and Collagen]] · [[Vitamin K2]] · [[Stack Substances]]
