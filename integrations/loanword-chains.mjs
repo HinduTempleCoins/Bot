@@ -73,13 +73,13 @@ export const CHAINS = [
     id: 'qanum-canon', gloss: 'reed — hence measuring rod, hence rule',
     route: ['Akkadian qanûm ("reed")', 'Greek kánna / kanṓn', 'Latin canna / canōn', 'English cane, canal, cannon, CANON'],
     confidence: 'secure',
-    note: 'The canon of scripture, of law, and of literature all begin as a Mesopotamian reed used as a measuring rod. Already in Mycenaean Greek.',
+    note: 'The canon of scripture, of law, and of literature all begin as a Mesopotamian reed used as a measuring rod — reed → measuring rod → standard → canon, with Ezekiel\u2019s measuring reed (Hebrew qaneh) as the hinge. Already in Mycenaean: the derivative ko-no-ni-pi dates it before c. 1200 BCE. TWO CAVEATS: Beekes notes it may have come through a Pre-Greek, perhaps Anatolian intermediary rather than directly; and Sumerian gin as the ULTIMATE source is probable at best, not secure.',
   },
   {
     id: 'kamunu-cumin', gloss: 'cumin',
     route: ['Akkadian kamūnu', 'Greek kýminon', 'Latin cuminum', 'English cumin'],
     confidence: 'secure',
-    note: 'Attested in Mycenaean as ku-mi-no, so the borrowing predates 1200 BCE. Semitic cognates: Hebrew kammōn, Arabic kammūn, Aramaic kammōnā. Cited to Rosół, Frühe semitische Lehnwörter im Griechischen (2013).',
+    note: 'Attested in Mycenaean as ku-mi-no. The Linear B window is c. 1450–1200 BCE with the earliest inscription 1400–1350, so this tightens to "plausibly by 1400 BCE". REFINEMENT: Hebrew kammōn comes via ARAMAIC kammōnā, not directly from Akkadian. Cited to Rosół, Frühe semitische Lehnwörter im Griechischen (2013).',
   },
   {
     id: 'shamashshammu-sesame', gloss: 'sesame',
@@ -96,7 +96,7 @@ export const CHAINS = [
     id: 'hurasum-chrysos', gloss: 'gold',
     route: ['Akkadian ḫurāṣum / Hebrew ḥārûṣ', 'a Phoenician or Punic intermediary', 'Proto-Greek *kʰrūsós', 'Greek khrysós'],
     confidence: 'probable',
-    note: 'Already Mycenaean (ku-ru-so). The Semitic origin is agreed; the specific donor is assumed rather than shown.',
+    note: 'DIRECTION SECURE for the best possible reason (D6): Greek khrysós has NO PIE etymology and no cognate outside Greek — there is nothing to inherit it from — while the Semitic ḫ/ḥ-r-ṣ set (Akkadian ḫurāṣu, Ugaritic ḫrṣ, Hebrew ḥārūṣ, Phoenician 𐤇𐤓𐤑) is internally well-behaved. BUT carry the chronological problem: the word is Mycenaean (ku-ru-so), i.e. before c. 1200 BCE, and PHOENICIAN PROPER IS IRON AGE. The label "Phoenician" here must mean West Semitic generally, with a second-millennium Canaanite or Ugaritic-stage donor.',
   },
   { id: 'shipirtu-sapphire', gloss: 'lapis lazuli, later sapphire', route: ['Assyrian šipirtu', 'Hebrew sappîr', 'Greek sáppheiros', 'English sapphire'], confidence: 'probable' },
 
@@ -105,13 +105,13 @@ export const CHAINS = [
     id: 'barzel-iron', gloss: 'iron',
     route: ['probably Anatolian', 'Akkadian parzillum', 'Ugaritic brḏl / Phoenician brzl / Hebrew barzel / Syriac parzəlā'],
     confidence: 'probable',
-    note: 'No Semitic root can be reconstructed for it, which is the diagnostic: the word arrived with the technology. Klein assumes an Anatolian origin, and Anatolia is where iron metallurgy is.',
+    note: 'No Semitic root can be reconstructed for it, which is the diagnostic: the word arrived with the technology. But the Anatolian origin is ONE LEXICOGRAPHER\u2019S ASSUMPTION (Klein), not a consensus. And do NOT extend the chain to Latin ferrum: that over-reads de Vaan, whose headline judgment is "borrowed from substrate language, of an unknown source", with a Phoenician route only subordinate and an Etruscan intermediary invoked. Semitic b-r-z-l against Latin f-r-r is a four-consonant frame against three.',
   },
   {
     id: 'sakkos-sack', gloss: 'sack, sackcloth',
     route: ['a Semitic donor — Akkadian šaqqu, Hebrew śaq, Egyptian sꜣgꜣ all in play', 'Greek sákkos', 'Latin saccus', 'English SACK, French sac'],
-    confidence: 'disputed',
-    note: 'A Mediterranean Kulturwort. Everyone agrees it is Semitic in origin; nobody can name the donor. Often called the most-travelled word in Europe.',
+    confidence: 'probable',
+    note: 'CORRECTED. The Semitic → Greek step is NOT what is disputed — Beekes has it as "most likely borrowed from a Semitic language, possibly Phoenician". The dispute is over the PRE-Semitic stage: Černý and Forbes propose an ultimate Egyptian origin (sꜣq "to gather") transmitted via Semitic; Vycichl and Hoch reject it. And drop the "most-travelled word" framing — it traces to a folk explanation that the spread is "due to the incident in the Biblical story of Joseph in which a sack of corn figures". Roman commerce accounts for the distribution without Genesis 44. The Germanic loan is internally datable: Proto-Germanic *sakkuz keeps -kk-, so it POSTDATES Grimm\u2019s Law.',
   },
   {
     id: 'gypsos-gypsum', gloss: 'gypsum',
@@ -321,6 +321,99 @@ export const DIRECTION_TESTS = [
   { id: 'the-name-says-so', test: 'Does the word itself describe the thing as foreign?',
     example: 'ANŠE.KUR.RA, "ass of the mountains". The clearest possible statement of import, made by the borrowers.' },
 ];
+
+/**
+ * THE SILVER PAIR — the best teaching object in the subject, because both halves sit in the same
+ * semantic slot in the same region and one of them is perfectly behaved.
+ *
+ * The irregularity IS the evidence, not a defect in it. An irregular correspondence is not a gap
+ * awaiting better reconstruction; it is a positive signal saying THIS WORD TRAVELLED SIDEWAYS
+ * between speech communities rather than downward through one.
+ */
+export const SILVER_PAIR = {
+  inherited: {
+    form: 'PIE *h₂erǵ-n̥t-om',
+    reflexes: ['Latin argentum', 'Greek árgyros (Mycenaean a-ku-ro)', 'Sanskrit', 'Armenian arcatʿ'],
+    behaviour: 'Perfectly regular across every branch it reaches. Related to Hittite ḫarki- "white".',
+    absent: 'Missing precisely in Germanic and Balto-Slavic — the branches the Wanderwort covers.',
+  },
+  wanderwort: {
+    forms: ['Proto-Germanic *silubrą', 'Balto-Slavic *sirabras ~ *sudrab- ~ *sudabr-', 'Lithuanian sidãbras', 'Latvian sidrabs AND sudrabs', 'Old Prussian siraplis', 'Proto-Slavic *sьrebrò', 'Basque zilar', 'Celtiberian silabur', 'Proto-Berber *a-ẓrəf'],
+    irregularities: [
+      'second consonant: l : r',
+      'third consonant: d : p : ∅',
+      'vowel: i : u — unresolved even WITHIN Latvian',
+      'the reconstruction itself must be written with unresolved metathesis',
+    ],
+    theKicker: 'When a reconstruction requires an "or" between metathesised variants, it is not a reconstruction — it is a description of noise. Noise of exactly the kind that repeated re-borrowing produces.',
+    distribution: 'Germanic + Baltic + Slavic + Basque + Celtiberian + Berber. That is a MAP, not a tree.',
+    candidateSources: [
+      'an unidentified European substrate',
+      'Akkadian ṣarpu(m) "to smelt, refine" — rejected by some as phonologically and geographically implausible',
+      'a Paleo-Hispanic / Basque-area source — called "speculative"',
+      'a Berber connection',
+    ],
+    verdict: 'DIRECTION UNKNOWN — not "disputed between two candidates", genuinely unknown.',
+  },
+  whyItTeaches: 'Two words for one metal in one region: one regular across the family, one so irregular its reconstruction needs an "or". Print them side by side and the entire method is visible in a single table.',
+};
+
+/**
+ * THE MYCENAEAN LAYER — the pattern carries more than any single etymology in it.
+ *
+ * A Semitic gold-word, an Anatolian lead-word, a Mesopotamian reed-word, a Mediterranean flax-word
+ * and a Near Eastern spice-word, ALL IN GREEK PALACE ACCOUNTING DOCUMENTS BEFORE 1200 BCE — four
+ * centuries before the alphabet. The contact mechanism is attested, dated, and administrative.
+ */
+export const MYCENAEAN_LAYER = {
+  window: 'Linear B spans c. 1450–1200 BCE. Knossos Room of the Chariot Tablets 1425–1390; earliest inscription (Iklaina) 1400–1350; Pylos, Mycenae and Thebes tablets from the terminal destructions c. 1200.',
+  attestations: [
+    { linearB: 'wo-no', greek: 'oînos', gloss: 'wine', status: 'direction unknown, but IN GREEK by the Bronze Age' },
+    { linearB: 'ku-ru-so', greek: 'khrysós', gloss: 'gold', status: 'Semitic loan — and its pre-1200 date is what forces "Phoenician" to mean West Semitic generally' },
+    { linearB: 'a-ku-ro', greek: 'árgyros', gloss: 'silver', status: 'INHERITED — the control, showing the Wanderwort never reached Greek' },
+    { linearB: 'ka-ko', greek: 'khalkós', gloss: 'copper', status: 'eastern-substrate loan; Beekes calls the etymology "Unknown"' },
+    { linearB: 'mo-ri-wo-do', greek: 'mólybdos', gloss: 'lead', status: 'Lydian mariwda- "dark" — and the Mycenaean form preserves the -r- and -w- later Greek loses' },
+    { linearB: 'ri-no', greek: 'línon', gloss: 'linen', status: 'Mediterranean Wanderwort, donor unknown' },
+    { linearB: 'ko-no-ni-pi', greek: 'kanṓn (derivative)', gloss: 'reed / rod', status: 'the canon word, pre-1200 BCE' },
+    { linearB: 'ku-mi-no', greek: 'kýminon', gloss: 'cumin', status: 'Akkadian kamūnu, plausibly by 1400 BCE' },
+  ],
+  theArgument: 'No single etymology here carries as much as the pattern does. Bronze Age Greek palace scribes were already writing down borrowed words for gold, lead, linen, reeds and cumin from four different directions. Whatever one thinks of any individual derivation, the contact is not in question — it is in the accounts.',
+};
+
+/**
+ * THE *a DIAGNOSTIC — the sharpest single tool, and it is FORMAL rather than a plausibility judgment.
+ *
+ * After laryngeal theory, almost every instance of reconstructed *a reduces to *e beside *h₂. The
+ * scholarly conclusion is blunt: "There are thus no grounds for PIE phoneme *a." The residue — words
+ * with an *a no laryngeal explains — does not participate in ablaut, appears only in limited
+ * positions, and usually has reflexes in only a few branches. Those words "may have been borrowed
+ * from some other language which had phonemic *a (like Proto-Semitic)".
+ *
+ * Proto-Semitic HAD phonemic /a/. PIE, on the majority reconstruction, did not. So an unexplained
+ * *a in a PIE etymon is a live, falsifiable borrowing signal — and it is exactly the argument that
+ * flags *táwros "bull": "the unconditioned /a/ suggests a non-Indo-European source."
+ */
+export const A_DIAGNOSTIC = {
+  rule: 'An unconditioned *a in a reconstructed PIE etymon is a borrowing signal, because PIE had no phonemic *a and Proto-Semitic did.',
+  worked: '*táwros "wild bull" — PIE-shaped, but with an /a/ no laryngeal explains, beside Proto-Semitic *ṯawr-.',
+  contested: 'Van Sluis reads the regular inter-branch correspondences as an EARLY borrowing, before the branches split; Kroonen reads the Celtic and Germanic irregularity as proving it spread AFTER the family broke up. And de Vaan says flatly there is no Indo-Iranian cognate, while others list PIIr. *stáwras with Davies flagging it irregular. Whether Avestan staora belongs is the pivot: if it does not, the word is confined to WESTERN Indo-European and the loan reading strengthens sharply.',
+  status: 'Wanderwort status SECURE. Direction DISPUTED. Date of borrowing actively contested.',
+};
+
+/** Four ways the metal-dating argument goes circular. Named so the corpus does not walk into them. */
+export const CIRCULARITY_WARNINGS = [
+  'The PIE date and the PIE lexicon are calibrated against each other. The iron argument is CONSISTENT with the standard chronology; it is not independent evidence for it.',
+  'Absence of a reconstruction is not absence from the protolanguage. "Not reconstructible therefore not present" is a default, not a proof.',
+  'A closed loop in the tin case: the substrate hypothesis is offered BECAUSE of the tin-bronze technology of the region, then cited as evidence about that technology\u2019s linguistic footprint.',
+  '"Named for redness or darkness" is a repeating just-so pattern — Celtic *īsarnom from "blood", Greek sídēros from *sida "red", Lydian mariwda- "dark". Where the colour word is INDEPENDENTLY ATTESTED in the donor (Lydian mariwda-, Sumerian sig₁₇) the argument has content; where it is reconstructed to serve the etymology (Greek *sida) it does not. Keep those apart.',
+];
+
+/** There is no inherited PIE word for iron in ANY branch. A clean zero, not a partial set. */
+export const IRON_ZERO = {
+  finding: 'Germanic borrowed from Celtic. Celtic\u2019s own source is unexplained. Greek is Pre-Greek or Caucasian. Latin is substrate. Semitic is itself possibly Anatolian. Akkadian writes it with a Sumerian logogram.',
+  significance: 'A clean zero across every branch — not a partial or irregular set. That total absence is the single most consequential fact in metal etymology, because it dates the whole family relative to a technology.',
+  corroboration: 'Far stronger than the bare absence: Sanskrit áyas means COPPER/BRONZE in the Rigveda and iron only in later texts, while Germanic *aiz never means iron at all and Latin aes keeps "bronze". The inherited metal-word demonstrably shifts toward iron INSIDE the separately attested history of each branch, at different times, by different routes.',
+};
 
 // ── The substrate that dissolved ───────────────────────────────────────────────────────────────
 export const PRE_SUMERIAN_SUBSTRATE = {
