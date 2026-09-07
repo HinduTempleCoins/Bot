@@ -4,6 +4,7 @@ import {
   CHAINS, CONFIDENCE, confidenceRank, getChain, byConfidence, rejected,
   routesThrough, threeStepChains, SUMEROGRAM_TRAP, LEXICAL_LISTS, LEXICAL_LISTS_NOTE,
   PRE_SUMERIAN_SUBSTRATE, PUNIC_IN_BERBER, DATED_ANCHORS, getAnchor, DIRECTION_TESTS,
+  SILVER_PAIR, MYCENAEAN_LAYER, A_DIAGNOSTIC, CIRCULARITY_WARNINGS, IRON_ZERO,
 } from './loanword-chains.mjs';
 
 test('every chain declares a route, a gloss and a legal confidence', () => {
@@ -223,4 +224,72 @@ test('the direction tests lead with morphological transparency', () => {
 
 test('getAnchor() is soft on misses', () => {
   assert.equal(getAnchor('nope'), null);
+});
+
+test('THE SILVER PAIR: the irregularity is the evidence, not a defect in it', () => {
+  assert.match(SILVER_PAIR.inherited.form, /h₂erǵ-n̥t-om/);
+  assert.match(SILVER_PAIR.inherited.behaviour, /Perfectly regular/);
+  assert.match(SILVER_PAIR.inherited.absent, /Germanic and Balto-Slavic/);
+  assert.ok(SILVER_PAIR.wanderwort.irregularities.length >= 4);
+  assert.match(SILVER_PAIR.wanderwort.theKicker, /description of noise/);
+  assert.match(SILVER_PAIR.wanderwort.distribution, /a MAP, not a tree/);
+  assert.match(SILVER_PAIR.wanderwort.verdict, /genuinely unknown/);
+  assert.ok(SILVER_PAIR.wanderwort.candidateSources.length >= 4, 'four candidates, none endorsed');
+});
+
+test('THE MYCENAEAN LAYER is all pre-1200 BCE and includes its own control', () => {
+  const a = MYCENAEAN_LAYER.attestations;
+  assert.ok(a.length >= 8);
+  const silver = a.find((x) => x.gloss === 'silver');
+  assert.match(silver.status, /INHERITED/, 'the control that shows the Wanderwort never reached Greek');
+  const gold = a.find((x) => x.gloss === 'gold');
+  assert.match(gold.status, /Semitic loan/);
+  assert.match(MYCENAEAN_LAYER.window, /1450–1200 BCE/);
+  assert.match(MYCENAEAN_LAYER.theArgument, /it is in the accounts/);
+});
+
+test('the khrysos chronology problem is carried with the chain', () => {
+  const c = getChain('hurasum-chrysos');
+  assert.match(c.note, /PHOENICIAN PROPER IS IRON AGE/);
+  assert.match(c.note, /West Semitic generally/);
+  assert.match(c.note, /NO PIE etymology/i, 'D6 is why the direction still holds');
+});
+
+test('the sack entry is corrected: the dispute is the PRE-Semitic stage', () => {
+  const s = getChain('sakkos-sack');
+  assert.equal(s.confidence, 'probable');
+  assert.match(s.note, /NOT what is disputed/);
+  assert.match(s.note, /Černý|Vycichl/);
+  assert.match(s.note, /Genesis 44/, 'the folk framing is named and refused');
+  assert.match(s.note, /Grimm/, 'and the loan is internally datable');
+});
+
+test('the iron chain no longer over-reads de Vaan on ferrum', () => {
+  const i = getChain('barzel-iron');
+  assert.match(i.note, /ONE LEXICOGRAPHER/);
+  assert.match(i.note, /do NOT extend the chain to Latin ferrum/i);
+  assert.match(i.note, /unknown source/);
+});
+
+test('the *a diagnostic is formal and falsifiable, and its dispute is recorded', () => {
+  assert.match(A_DIAGNOSTIC.rule, /PIE had no phonemic \*a and Proto-Semitic did/);
+  assert.match(A_DIAGNOSTIC.worked, /táwros/);
+  assert.match(A_DIAGNOSTIC.contested, /Van Sluis/);
+  assert.match(A_DIAGNOSTIC.contested, /Kroonen/);
+  assert.match(A_DIAGNOSTIC.contested, /Avestan staora/, 'the pivot is stated');
+  assert.match(A_DIAGNOSTIC.status, /Direction DISPUTED/);
+});
+
+test('there is no inherited PIE word for iron in any branch — a clean zero', () => {
+  assert.match(IRON_ZERO.significance, /clean zero/);
+  assert.match(IRON_ZERO.corroboration, /Rigveda/);
+  assert.match(IRON_ZERO.corroboration, /different times, by different routes/);
+});
+
+test('the four circularity traps in metal dating are named', () => {
+  assert.equal(CIRCULARITY_WARNINGS.length, 4);
+  assert.ok(CIRCULARITY_WARNINGS.some((w) => /calibrated against each other/.test(w)));
+  assert.ok(CIRCULARITY_WARNINGS.some((w) => /not a proof/.test(w)));
+  assert.ok(CIRCULARITY_WARNINGS.some((w) => /closed loop/.test(w)));
+  assert.ok(CIRCULARITY_WARNINGS.some((w) => /INDEPENDENTLY ATTESTED/.test(w)));
 });
