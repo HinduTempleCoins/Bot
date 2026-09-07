@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
+import { groupArticles } from './categories.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -161,10 +162,40 @@ function aboutPage() {
   return layout({ title: 'About', canonical: `${BASE_URL}/about`, body });
 }
 
+// ── categories ────────────────────────────────────────────────────────────────────────────────
+// The library had an A-Z list and a search box. That serves a reader who already knows the word
+// they want, and nobody else — which is most first-time arrivals, including everyone who follows a
+// link out of a press or research letter. Categories give the collection a shape you can browse.
+function categoriesPage() {
+  const groups = groupArticles(listArticles());
+  const total = groups.reduce((n, g) => n + g.items.length, 0);
+  const body = `<h1>Contents</h1>
+    <p class=muted>Every article in the library, grouped. ${total} in total.</p>
+    ${groups.map((g) => `<section style="margin:0 0 26px">
+      <h2 style="margin:0 0 3px;font-size:19px"><a href="/category/${esc(g.id)}">${esc(g.name)}</a>
+        <span class=muted style="font-weight:400;font-size:13px">&nbsp;${g.items.length}</span></h2>
+      <p class=muted style="margin:0 0 8px;font-size:14px">${esc(g.blurb || '')}</p>
+      <p style="margin:0;line-height:1.9">${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a>`).join(' &middot; ')}</p>
+    </section>`).join('')}`;
+  return layout({ title: 'Contents', canonical: `${BASE_URL}/categories`, body });
+}
+
+function categoryPage(id) {
+  const g = groupArticles(listArticles()).find((x) => x.id === id);
+  if (!g) {
+    return { html: layout({ title: 'Not found', canonical: `${BASE_URL}/categories`, body: '<h1>No such category</h1><p><a href="/categories">All contents</a></p>' }), code: 404 };
+  }
+  const body = `<h1>${esc(g.name)}</h1><p class=muted>${esc(g.blurb || '')}</p>
+    <ul style="line-height:1.9">${g.items.map((a) => `<li><a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a></li>`).join('')}</ul>
+    <p><a href="/categories">All contents</a></p>`;
+  return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body }), code: 200 };
+}
+
 function sitemap() {
-  const statics = ['/', '/about', '/search'].map((u) => ({ loc: u, lastmod: '' }));
+  const statics = ['/', '/about', '/search', '/categories'].map((u) => ({ loc: u, lastmod: '' }));
+  const cats = groupArticles(listArticles()).map((g) => ({ loc: `/category/${g.id}`, lastmod: '' }));
   const arts = listArticles().map((a) => ({ loc: `/wiki/${a.slug}`, lastmod: articleDate(a.file) }));
-  const entries = [...statics, ...arts];
+  const entries = [...statics, ...cats, ...arts];
   const node = (e) => `  <url><loc>${BASE_URL}${encodeURI(e.loc)}</loc>${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}<changefreq>weekly</changefreq></url>`;
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(node).join('\n')}\n</urlset>`;
 }
@@ -192,6 +223,8 @@ export const handler = (req, res) => {
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' });
       return res.end(JSON.stringify({ q, count: results.length, results }));
     }
+    if (p === '/categories' || p === '/contents') return send(categoriesPage());
+    if (p.startsWith('/category/')) { const r = categoryPage(decodeURIComponent(p.slice('/category/'.length))); return send(r.html, r.code); }
     if (p === '/about') return send(aboutPage());
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemap()); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
@@ -200,7 +233,7 @@ export const handler = (req, res) => {
       return res.end(llmsTxt({
         name: 'Library of Ashurbanipal', baseUrl: BASE_URL,
         summary: 'A grounded, fact-checked knowledge library — articles synthesized from authoritative sources with citations.',
-        links: [{ label: 'Library', path: '/' }, { label: 'Search', path: '/search' }, { label: 'About', path: '/about' }],
+        links: [{ label: 'Library', path: '/' }, { label: 'Contents', path: '/categories' }, { label: 'Search', path: '/search' }, { label: 'About', path: '/about' }],
       }));
     }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }

@@ -1,0 +1,31 @@
+The '''auditory steady-state response''' (ASSR) is an evoked potential that follows the envelope of a periodically modulated sound, phase-locked to the modulation rate. It is the auditory counterpart of the visual SSVEP, and it is the mechanism by which the '''auditory arm''' of [[Gamma Entrainment|gamma entrainment]] works.
+
+Wikipedia covers the auditory brainstem response but has no article on the ASSR. It is a standard clinical tool.
+
+== Why 40 Hz specifically ==
+
+The ASSR is '''maximal near 40 Hz''' in awake adults — the response amplitude peaks there rather than rising monotonically with rate. That coincidence is a large part of why 40 Hz became the entrainment frequency of interest at all: it is the rate at which the auditory system most readily produces a measurable steady-state response.
+
+The 40 Hz response is '''cortically dominated''' and is strongly attenuated by sleep and sedation. The '''80–110 Hz''' range is brainstem-dominated, survives sleep, and is therefore what paediatric audiology uses for threshold estimation in sleeping infants.
+
+== Clinical use ==
+
+ASSR audiometry estimates hearing thresholds objectively and frequency-specifically, without requiring a behavioural response — which makes it the tool of choice for infants, for patients who cannot respond reliably, and for medico-legal threshold verification. Multiple carrier frequencies can be tested simultaneously by modulating each at a different rate and separating the responses in the frequency domain.
+
+== Why it matters to entrainment safety ==
+
+'''The auditory channel carries no photosensitive-seizure risk at any frequency.''' The literature proposes auditory stimulation as the safer route precisely for photosensitive people, and it is exact on every device — an audio clock does not quantise to a display refresh, so none of the problems in [[Display Refresh and Flicker Delivery]] apply to it.
+
+Where a visual channel cannot be delivered cleanly, '''audio-only is the correct fallback''', and it is a real intervention rather than a consolation.
+
+== The measurement problem ==
+
+Anyone attempting to '''measure'''  a 40 Hz response — rather than merely deliver a 40 Hz stimulus — should know three things:
+
+* '''Scalp gamma is EMG until proven otherwise.''' Whitham et al. (''Clin Neurophysiol'' 2007) recorded scalp EEG before and during full neuromuscular blockade: above roughly 20 Hz most of the scalp signal disappears when the muscles are paralysed. 40 Hz sits inside the contaminated band. Whitham et al. (2008) is worse for this purpose — thinking itself activates scalp EMG, so a "focus" task confounds directly with the artifact.
+* '''The stimulus artifact lands on the measurement frequency by construction.''' A transducer driven at 40 Hz radiates at 40 Hz into electrodes centimetres away, and the cochlear microphonic adds to it. This is a named problem in ASSR practice whose clinical mitigation is shielded or tube insert earphones — not consumer headphones. No filter separates artifact from signal when both sit at the same frequency and both are phase-locked.
+* '''The one honest control costs nothing.''' Run the identical analysis with the stimulus playing and the headset '''off the head''' — or on a saline phantom. Whatever 40 Hz remains is artifact. Subtract that floor before claiming anything, or display it beside the live number. That is the difference between a demonstration and a false claim.
+
+'''Prefer phase-locking to band power.''' Because the stimulus is at a known fixed frequency and phase, inter-trial phase coherence at exactly 40 Hz is a far better readout than band power — EMG is broadband and phase-random, while a driven cortical response is phase-locked. It does not solve stimulus artifact, which is also phase-locked.
+
+See also: [[Gamma Entrainment]] · [[Display Refresh and Flicker Delivery]] · [[Invisible Spectral Flicker]]

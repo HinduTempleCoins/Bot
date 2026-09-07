@@ -1,0 +1,25 @@
+'''Invisible spectral flicker''' (ISF) is a visual entrainment method that modulates the '''spectral composition''' of light while holding '''perceived luminance constant'''. The eye sees a steady field; the visual system still receives a 40 Hz drive.
+
+Wikipedia has no article on it.
+
+== How it works ==
+
+Ordinary luminance flicker alternates bright and dark. ISF instead alternates between two colours '''matched for luminance''' — so the photometric brightness does not change, but the relative excitation of the cone classes does, at the modulation rate. The retina and cortex respond to that alternation; the conscious percept is of a steady, slightly unusual colour rather than a strobe.
+
+Luminance matching is the whole of the technique. It is computed from the relative luminance coefficients — '''0.2126 R + 0.7152 G + 0.0722 B''' on linearised channel values — and one colour of the pair is scaled until its luminance equals the other's. A pair that is merely "similar in brightness" produces residual luminance flicker and the method collapses back into a strobe.
+
+== Why it exists ==
+
+'''Comfort, and therefore adherence.''' A 40 Hz luminance strobe is genuinely unpleasant over a session measured in tens of minutes, and the dropout it causes is a real limit on any protocol requiring daily use. ISF reports '''significantly better comfort scores while producing a comparable 40 Hz SSVEP''' — the same entrainment, without the experience that makes people stop.
+
+== What it does not solve ==
+
+'''ISF is still a visual stimulus and still carries photosensitivity risk.''' Reducing the ''perceived'' flicker does not remove the drive — the drive is the point. It should be gated exactly as luminance flicker is, and it is subject to the same quantisation problem: an ISF protocol delivered on a display that cannot place 40 Hz on frame boundaries is delivering something other than 40 Hz, in colour. See [[Display Refresh and Flicker Delivery]].
+
+The '''red caution applies with force'''. Saturated red is a hazard channel independent of luminance in both WCAG 2.3.1 and ITU-R BT.1702-3. A luminance-matched pair that reaches equal luminance by using a saturated red against a cyan is photometrically balanced and clinically worse than the strobe it replaced.
+
+== Status ==
+
+Studied as a delivery route in the clinical entrainment literature and used by at least one commercial device. The comfort advantage is the well-supported claim. Whether ISF produces the same '''downstream biological''' effects as luminance flicker — as opposed to the same SSVEP — has not been established, and the underlying question of whether 40 Hz stimulation produces those effects in humans at all remains open: see the non-replication and systematic-review material under [[Gamma Entrainment]].
+
+See also: [[Gamma Entrainment]] · [[Display Refresh and Flicker Delivery]] · [[Auditory Steady State Response]]

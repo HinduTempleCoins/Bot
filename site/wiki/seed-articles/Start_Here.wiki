@@ -1,0 +1,63 @@
+'''Start here.''' This page assumes you know nothing about any of it, and it is written to be read top to bottom in about ten minutes.
+
+There are four things, and they are separate. Most confusion about this project comes from assuming they are one thing.
+
+== 1. The Library — what you are reading now ==
+
+The '''Library of Ashurbanipal''' at '''wiki.soapbox.community''' is a reference wiki maintained by the Van Kush Family Research Institute. It covers pharmacology, entrainment, ethnobotany, religion, blockchain mechanics and the history of ideas.
+
+'''The one rule that governs every page:''' what is established, what is preclinical, and what is the Institute's own hypothesis are stated '''separately, in the text''' — never blended and never hidden behind a disclaimer. Where something is dangerous, the hazard is on the page with the method rather than in place of it.
+
+Browse it by '''[https://wiki.soapbox.community/categories category]''' rather than alphabetically if you do not already know what you are looking for.
+
+== 2. The chains — MELEK and PRANA ==
+
+A '''blockchain''' here is a shared public ledger that a set of independent machines agree on. Two of them:
+
+* '''[[MELEK]]''' — a social chain. You post, people vote, and the votes distribute a token. It runs on '''Graphene''', the same software family as Steem and Hive, using '''delegated proof of stake''': token holders elect a small set of '''witnesses''' who take turns producing blocks. See [[The Graphene Family]].
+* '''[[PRANA]]''' — a compute chain, mined with ordinary hardware.
+
+'''[[Hathor|Hathor]]''' is an AI-operated account that holds one of the active block-producer seats on MELEK. That is unusual and it is the thing most outsiders ask about: not an agent posting about a chain, but an account doing the same job as the other producers.
+
+If you want to learn how any of this actually works, the '''[https://witness.melek.salon Witness School]''' teaches it from nothing.
+
+== 3. The SoapBox verticals — the public-interest sites ==
+
+A family of sites, each covering one domain: '''[[SoapBox Politics|politics]]''', '''[[SoapBox Oversight|oversight]]''', '''[[SoapBox Law|law]]''', '''[[SoapBox Hemp|hemp]]''', '''[[SoapBox Data|data]]''', '''[[SoapBox Search|search]]''', '''[[SoapBox Grants|grants]]''' and others. They exist to make public records legible. See '''[[SoapBox]]'''.
+
+== 4. Hathor.live and the 40 Hz library ==
+
+'''hathor.live''' carries the entrainment work: sessions that deliver rhythmic light or sound to drive neural oscillation, each with an '''explicit evidence grade''' and a photosensitivity gate.
+
+'''Read [[Gamma Entrainment]] before using any of it.''' The short version, and it is not what most people expect:
+
+* '''40 Hz is not the dangerous frequency. 13–26 Hz is.''' The most seizure-provocative photic band is 15–25 Hz, so a protocol that silently mis-delivers 40 Hz as 20 Hz has made things worse, not better. See [[Display Refresh and Flicker Delivery]] — this is a real defect that shipped in our own software and was fixed on 7 September 2026.
+* '''The pivotal clinical trial has not reported.''' HOPE (NCT05637801) has posted no results.
+* '''The flagship animal result has a prominent failed replication.'''
+* '''The audio channel carries no photosensitivity risk at any frequency''' and is exact on every device. If in doubt, use audio.
+
+== Where to go next, depending on who you are ==
+
+{| class="wikitable"
+! You are !! Start with
+|-
+| Curious about the AI witness || [[Hathor]], then [https://melek.salon melek.salon]
+|-
+| A developer || [https://witness.melek.salon Witness School], then [[The Graphene Family]]
+|-
+| Interested in the pharmacology || [[Stack Substances]], then [[Cannabinoid Oilahuasca]]
+|-
+| Interested in entrainment || [[Gamma Entrainment]], then [[Auditory Steady State Response]]
+|-
+| Here for the history and mythography || [[Khepri]], then [[Solar Theory and Euhemerism]]
+|-
+| Here for the religion || [[Pashupata Shaivism]], then [[Ukuphahla]]
+|-
+| Wondering whether to trust any of it || [[Mysticism and Eastern Philosophy in Science]] — it is the page where we separate real quotations from fabricated ones, including our own field's most popular fake
+|}
+
+== What this is not ==
+
+It does not give individualised medical or legal advice. It does not sell supplements or hardware. The Institute has '''two peer-reviewed papers''' (2026, on haplogroups and on heterosis) and a large body of '''circulated argument that is not peer-reviewed''' — the pages say which is which.
+
+See also: [[SoapBox]] · [[MELEK]] · [[Gamma Entrainment]] · [[Stack Substances]]

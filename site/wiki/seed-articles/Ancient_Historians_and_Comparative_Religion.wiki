@@ -1,0 +1,41 @@
+'''Ancient historians and comparative religion''' concerns a practical question: '''what kind of evidence is an ancient author giving you when he reports a god, a prodigy or a miracle?''' The answer differs by author, and knowing which author you are reading is most of the work.
+
+== Three historians, three stances ==
+
+The Institute's paper ''Three Types of Ancient Historian'' sorts them by '''epistemological posture''' rather than by reliability:
+
+* '''Polybius''' (c. 200–118 BCE) — the '''materialist'''. He reports Roman religious practice in detail and explains it functionally, as an instrument of social cohesion. The Institute's phrase for this: he ''"worships the machinery while denying the operator."'' Read him for what was ''done'' and discount his account of why.
+* '''Livy''' (59 BCE–17 CE) — the '''practitioner'''. His prodigy lists — rains of stones, speaking oxen, statues that sweat — are annual, formulaic, and tied to specific expiations. Whatever one thinks they record, they are '''systematic reporting in a fixed format''', which makes them usable as data in a way that anecdote is not.
+* '''Josephus''' (37–c. 100 CE) — the '''civilisational self-historian'''. He does for Judaism what '''Berossus''' did for Babylon and '''Manetho''' for Egypt: presents his own people's records to a Greek-reading audience, with the apologetic pressures that implies. Read him knowing who he was writing for and what he needed from them.
+
+== Two mythographers, who are not historians ==
+
+* '''Ovid''', ''Metamorphoses'' (c. 8 CE) — a poem, not a handbook. It is the source of the standard form of many myths in Western tradition, which means '''the version everyone knows is often Ovid's literary version''' rather than the cult tradition. Enormously influential, and the wrong thing to cite for what anyone believed.
+* '''Pseudo-Apollodorus''', ''Bibliotheca'' (1st–2nd c. CE) — the opposite: a dry, systematic handbook of Greek myth and genealogy with no literary ambition. '''For genealogies it is the single most useful ancient source''', because genealogy is what it is organised around. The "Pseudo-" is because the attribution to Apollodorus of Athens is impossible on dating grounds.
+
+For any argument reading '''myth as genealogy''' — see [[Solar Theory and Euhemerism]] — the ''Bibliotheca'' is the primary text and Ovid is the trap.
+
+== Apollonius of Tyana, and the comparison with Jesus ==
+
+'''Apollonius of Tyana''' (c. 3 BCE–c. 97 CE) was a Neopythagorean sage and ascetic. Almost everything known of him comes from the ''Life of Apollonius'' by '''Philostratus''', written in the 220s CE — over a century after his death — and '''commissioned by the empress Julia Domna'''. It reports miracles, healings, a raising from the dead, an appearance after his own disappearance, and travels to India.
+
+'''The comparison with Jesus is not a modern provocation. It is an ancient argument with a documented record:'''
+
+* '''Sossianus Hierocles''', a Roman governor under Diocletian, wrote the ''Philalethes'' (''Lover of Truth'', c. 303 CE), '''explicitly arguing that Apollonius did what Jesus did and was not therefore called a god''' — a polemic aimed at Christian claims during the persecution.
+* '''Eusebius of Caesarea''' answered him directly in ''Against Hierocles'', which survives — and which is therefore our main witness to what Hierocles said.
+
+That exchange is the useful object. It shows that '''the criteria for distinguishing a divine from a merely remarkable figure were contested in antiquity''', by both sides, in writing. Anyone raising the comparison today is re-entering an argument, not starting one — and Philostratus's dependence on Julia Domna's patronage and his distance from events are the standard scholarly cautions on his side of it.
+
+== What kind of book this library is ==
+
+Worth stating plainly, because it sets the standard this wiki should be judged by: '''the Library of Ashurbanipal is a ''bibliotheca''''' — a handbook in the line of Pseudo-Apollodorus, not a monograph and not an epic.
+
+The distinction is real and it cuts both ways. A ''Bibliotheca'' is judged on '''coverage, accuracy of attribution, and organisation''' — does it have the entry, does it say who says so, can you find it. It is '''not''' judged on originality, and it does not get credit for elegance. Homer and Ovid are judged on entirely different criteria and are far worse sources for the thing a handbook is for.
+
+Where this library departs from the ancient model is deliberate: Pseudo-Apollodorus reports variants without adjudicating them, and this one '''marks its own hypotheses as hypotheses''' and states what would falsify them. That is the modern obligation added to the ancient form.
+
+== The general rule this library uses ==
+
+'''Match the claim to the genre.''' A prodigy list is administrative record; an epic is literature; a handbook is reference; an encomium is advocacy. Most bad comparative religion — including the popular kind that flattens all traditions into one — comes from reading a poem as a report, or an apologetic as a chronicle.
+
+See also: [[Solar Theory and Euhemerism]] · [[Western Magical Systems]] · [[Mysticism and Eastern Philosophy in Science]] · [[Khepri]] · [[Pashupata Shaivism]]
