@@ -67,7 +67,11 @@ export const PROPERTIES = [
     { name: 'Data', url: 'https://data.soapbox.community', desc: 'The public data aggregator behind the verticals.' },
   ] },
   { group: 'Civic verticals', items: [
-    { name: 'Law', url: 'https://law.soapbox.community', desc: 'Caselaw and statutes.' },
+    // ⚠️ Law is intentionally NOT listed. The service answers HTTP 200 but its caselaw lookups are
+    // failing upstream: /cases?q=347%20U.S.%20483 (Brown v. Board — the citation the module's own
+    // header promises resolves) returns "No case found", and ?q=miranda returns "No opinions found".
+    // A 200 is not a working product, and this index is what press outreach points at. Restore the
+    // row when a citation lookup actually resolves.
     { name: 'Politics', url: 'https://politics.soapbox.community', desc: 'Congress, elections and lobbying.' },
     { name: 'Oversight', url: 'https://oversight.soapbox.community', desc: 'The consumer-protection and oversight directory.' },
     { name: 'Hemp', url: 'https://hemp.soapbox.community', desc: 'US cannabis law and price indexes.' },
