@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   NODES, EQUATIONS, TIERS, TRADITIONS, getNode, nodesByTradition,
   equationsFor, cluster, triangulate, weakLinks, registryGap, validate, tierRank,
+  ETYMOLOGY, PLANET, enrich, etymologyGap, shakyEtymologies, byPlanet,
 } from './pantheon-map.mjs';
 
 test('the data is structurally sound', () => {
@@ -154,4 +155,58 @@ test('the map spans the traditions the corpus actually argues across', () => {
   assert.ok(EQUATIONS.length >= 60);
   assert.deepEqual(TIERS[0], 'conjecture');
   assert.deepEqual(TIERS[TIERS.length - 1], 'epigraphic');
+});
+
+test('etymologies are graded, and "unknown" is used freely rather than guessed at', () => {
+  const shaky = shakyEtymologies();
+  assert.ok(shaky.length >= 25, 'a god-name list with almost no doubt in it would be a lie');
+  const unknown = shaky.filter((e) => e.confidence === 'unknown');
+  assert.ok(unknown.length >= 8, 'plenty of theonyms genuinely have no accepted derivation');
+  for (const e of Object.values(ETYMOLOGY)) {
+    assert.ok(['secure', 'disputed', 'unknown'].includes(e.confidence), `bad confidence ${e.confidence}`);
+    assert.ok(e.form && e.gloss);
+  }
+});
+
+test('the famous folk etymologies are marked as folk etymologies', () => {
+  assert.match(ETYMOLOGY.kronos.gloss, /NOT from chronos/);
+  assert.equal(ETYMOLOGY.kronos.confidence, 'unknown');
+  assert.match(ETYMOLOGY.aphrodite.gloss, /FOLK ETYMOLOGY/);
+  assert.match(ETYMOLOGY.varuna.gloss, /NOT cognate with Ouranos/);
+});
+
+test('Tyr carries the same PIE root as Zeus, which is the best etymology in the file', () => {
+  const tyr = enrich('tyr');
+  assert.match(tyr.etymology.form, /\*deywos/);
+  assert.equal(tyr.etymology.confidence, 'secure');
+  assert.equal(tyr.planet, 'Mars', 'by the weekday calque');
+  assert.match(ETYMOLOGY.zeus.form, /\*dyēus/);
+});
+
+test('enrich() folds etymology and planet in, nulling what we do not have', () => {
+  const h = enrich('hathor');
+  assert.equal(h.etymology.gloss, 'mansion of Horus');
+  assert.equal(h.planet, 'Venus');
+  const s = enrich('sinifere');
+  assert.equal(s.etymology, null, 'never invent a gloss');
+  assert.equal(s.planet, null);
+  assert.equal(enrich('no-such-god'), null);
+});
+
+test('etymologyGap() is the countable research backlog', () => {
+  const gap = etymologyGap();
+  assert.ok(gap.length > 0 && gap.length < 25, `gap is ${gap.length}`);
+  assert.ok(gap.includes('sinifere'));
+  assert.ok(!gap.includes('hathor'));
+  assert.equal(gap.length + Object.keys(ETYMOLOGY).filter((k) => NODES.some((n) => n.id === k)).length, NODES.length);
+});
+
+test('byPlanet() groups the interpretatio by sphere, and Venus is the crowded one', () => {
+  const p = byPlanet();
+  for (const sphere of ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']) {
+    assert.ok(p[sphere] && p[sphere].length, `no figures for ${sphere}`);
+  }
+  assert.ok(p.Venus.includes('ishtar') && p.Venus.includes('astarte') && p.Venus.includes('allat'));
+  assert.ok(p.Jupiter.includes('marduk') && p.Jupiter.includes('zeus'), 'the attested Babylonian-Greek pair');
+  assert.ok(p.Mercury.includes('odin'), 'Tacitus Germania 9, and Wednesday');
 });
