@@ -1,0 +1,53 @@
+'''Imphepho''' is the common name for several southern African species of '''''Helichrysum''''' — chiefly ''H. odoratissimum'', ''H. cymosum'' and ''H. petiolare'' — burned as incense in '''ukuphahla''', the ancestral-communication rite of the isiXhosa and isiZulu traditions. The name is written '''Impepho''' in isiXhosa and '''Imphepho''' in isiZulu. They are botanical cousins of Italian Immortelle (''H. italicum''), whose essential oil is among the most expensive in the world at roughly $2,000 per litre; the South African species carry a broadly similar chemistry and remain largely uncommercialised.
+
+== Chemistry by species ==
+
+Essential-oil composition differs sharply between species, which matters because the traditional uses do not:
+
+* '''''H. odoratissimum''''' — 1,8-cineole (17.44%), α-pinene (up to 43%), γ-curcumene (15.76%)
+* '''''H. cymosum''''' — α-pinene (29.82%), (E)-caryophyllene (19.20%), which is a [[Beta-Caryophyllene|CB2 agonist]]
+* '''''H. petiolare''''' — faurinone (20.66%, first identified in this species), (E)-β-ocimene (17.21%)
+* '''Common to all''' — α-pinene and 1,8-cineole as major constituents, with 4,5-dicaffeoylquinic acid as a marker compound
+
+== Pharmacology ==
+
+* '''Wound healing''' — antimicrobial activity and tissue regeneration, by the same mechanism credited to Italian Immortelle.
+* '''Scar reduction''' — collagenase and elastase inhibition via β-diketones (italidione in ''H. italicum'').
+* '''Anti-inflammatory''' — multiple pathways, including CB2 activation via [[Beta-Caryophyllene|β-caryophyllene]].
+* '''Antioxidant''' — moderate to high capacity, ''H. odoratissimum'' notably so in FRAP and ORAC assays.
+* '''CNS effects''' — reported traditionally; see the caution about smoke chemistry below.
+
+== Traditional use ==
+
+* Burned as incense for '''ukuphahla''' — ancestral communication.
+* '''Wound dressing''' — ash from the burnt plant combined with fresh or dried aerial parts.
+* '''Tea''', boiled in water or in milk — for coughs, colds, fever, menstrual pain, headaches, insomnia and hypertension.
+* '''Smoke inhalation''' — for pain relief and respiratory conditions.
+
+== The smoke question ==
+
+Smoke condensates from burning Imphepho contain '''different compounds''' than solvent extracts of the same plant: chemical change occurs during combustion, so an extract is not a proxy for the smoke and the smoke is not a proxy for the extract. Five major compounds were found common to both ''H. odoratissimum'' and ''H. petiolare'' smoke, which is a plausible explanation for why the two are used interchangeably in ritual even though their oils differ.
+
+This has a direct practical consequence for delivery: '''combustion and vaporisation are not the same intervention'''. Anything inferred from the essential-oil literature applies to steam-distilled oil, not to the censer.
+
+== Vaporisation ==
+
+Imphepho is an unusually good vaporiser candidate because its actives come off low and clean:
+
+* '''Monoterpenes''' (α-pinene, 1,8-cineole) — 155–175&nbsp;°C (311–347&nbsp;°F)
+* '''Sesquiterpenes''' (β-caryophyllene, the CB2-active fraction) — 175–200&nbsp;°C (347–392&nbsp;°F)
+* '''Flavonoids''' — 200–230&nbsp;°C (392–446&nbsp;°F)
+
+Lower temperatures produce smoother vapour than combustion on harsh material, and temperature control lets the monoterpene and sesquiterpene fractions be taken separately.
+
+== Distillation ==
+
+* '''Yield''': 0.15–0.25% v/w. For 113&nbsp;g (¼&nbsp;lb) of dried herb, expect roughly 0.17–0.28&nbsp;mL of essential oil.
+* '''Method''': steam distillation, preferred for terpene preservation.
+* '''Byproduct''': the hydrosol is valuable in its own right for toners and sprays, and is usually discarded by people distilling for oil alone.
+
+== Cautions ==
+
+''Helichrysum'' species are not interchangeable with ''Helichrysum italicum'' for any claim drawn from the Immortelle literature, and the smoke chemistry differs from the extract chemistry. The pharmacological properties above are reported from the phytochemical and ethnobotanical literature; none of them constitutes a clinical finding in humans.
+
+See also: [[Yin Chen Hao]] · [[Beta-Caryophyllene]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]] · [[Kyphi]]

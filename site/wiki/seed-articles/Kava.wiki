@@ -1,0 +1,31 @@
+'''Kava''' (''Piper methysticum'') is a Piperaceae shrub of the Pacific Islands whose root is prepared as a ceremonial and social beverage across Fiji, Vanuatu, Tonga, Samoa and Hawai'i. Its actives are the '''kavalactones''' — principally kavain, dihydrokavain, methysticin, dihydromethysticin, yangonin and desmethoxyyangonin.
+
+== Yangonin and the endocannabinoid connection ==
+
+'''Yangonin''' is the kavalactone of interest to the [[Cannabinoid Oilahuasca]] framework. It is a '''[[FAAH]] inhibitor''' — slowing the breakdown of anandamide — and additionally has '''CB1 binding affinity''' of its own. That combination, a direct receptor interaction plus inhibition of the enzyme that clears the endogenous ligand, is unusual in a plant compound and is a substantial part of why kava's anxiolytic effect does not look like the sedative-hypnotic profile it superficially resembles.
+
+Kava is one of two Piperaceae members carrying FAAH activity, the other being [[Black Pepper|black pepper]] via guineensine.
+
+== Pharmacology beyond yangonin ==
+
+Kavalactones as a group act on GABA-A (positive modulation, though not at the benzodiazepine site), voltage-gated sodium and calcium channels, and MAO-B; several are reported to inhibit noradrenaline reuptake. The anxiolytic effect in human trials is among the better-supported findings for any anxiolytic botanical.
+
+== Preparation matters, and it matters medically ==
+
+Traditional preparation is a '''water''' extraction of the '''peeled root''' (rhizome). Two departures from that are implicated in kava's safety record:
+
+* '''Acetonic and ethanolic extracts''' pull a different compound profile than water does.
+* '''Aerial parts and root bark''' contain '''pipermethystine''' and '''flavokavain B''', both hepatotoxic ''in vitro'', and are excluded from traditional preparation. Their inclusion in some commercial material is a leading hypothesis for the hepatotoxicity cases.
+
+== Cautions ==
+
+'''Hepatotoxicity is the central issue with kava and it is not fully resolved.''' Case reports of severe liver injury led to bans or restrictions in Germany, Switzerland, France, Canada and the UK from 2002 onward; several were subsequently relaxed after review, and the WHO assessment attributed much of the risk to non-traditional preparations and to plant parts excluded from traditional use. The honest position is that traditional water-extracted peeled-root preparation has a far better record than the extracts that caused the cases, and that this does not amount to a clean bill of health.
+
+* Avoid with '''alcohol''' and with other hepatically stressful agents.
+* Avoid with '''hepatotoxic medication''', and in existing liver disease.
+* Kava inhibits several '''CYP450''' enzymes — CYP2E1 notably, with reported effects at 1A2, 2C9, 2C19, 2D6 and 3A4 — so pharmacokinetic interactions with a wide range of medication are expected.
+* '''Additive with benzodiazepines''', alcohol and other CNS depressants.
+* '''Driving''' is affected.
+* '''Kava dermopathy''' — a reversible dry, scaly rash — follows heavy chronic use.
+
+See also: [[FAAH]] · [[Cannabinoid Oilahuasca]] · [[Black Pepper]] · [[Stack Substances]]

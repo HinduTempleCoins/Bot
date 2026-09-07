@@ -1,0 +1,36 @@
+'''Anandamide''' (AEA) and '''2-AG''' (2-arachidonoylglycerol) are the two principal '''endocannabinoids''' — the signalling lipids the body makes for the receptors that phytocannabinoids happen to fit. The name ''anandamide'' is from Sanskrit ''ānanda'', bliss.
+
+== The essential difference ==
+
+They are not two versions of the same thing:
+
+{| class="wikitable"
+! !! Anandamide (AEA) !! 2-AG
+|-
+| Abundance in brain || low || '''~170× higher'''
+|-
+| Receptor behaviour || partial agonist, high affinity || full agonist, lower affinity
+|-
+| Degraded by || [[FAAH]] || [[MAGL]] (~85% of it)
+|-
+| Character || tonic, sets background tone || phasic, released on demand
+|}
+
+The practical consequence: raising anandamide adjusts a background level, while raising 2-AG amplifies an event. They are different interventions, and the enzymes that control them are different enzymes.
+
+== Retrograde signalling ==
+
+Endocannabinoids run '''backwards''' relative to ordinary neurotransmission. They are synthesised in the ''post''-synaptic neuron in response to activity and travel back across the synapse to CB1 receptors on the ''pre''-synaptic terminal, where they suppress further neurotransmitter release. The system is a brake that the receiving neuron applies to the sending one — which is why it is described as a homeostatic or "dimmer switch" system rather than an excitatory or inhibitory one.
+
+== Where the popular account runs backwards ==
+
+Two errors are common enough in the supplement literature to be worth naming:
+
+# '''Treating anandamide as the main endocannabinoid.''' It was discovered first and it has the better name. 2-AG is present at roughly 170 times the concentration and is the full agonist.
+# '''Treating "more endocannabinoid" as uniformly good.''' Chronic complete [[MAGL]] blockade produces CB1 '''desensitisation and tolerance''' in animal models. The system is homeostatic; saturating it is not the same as tuning it, and the failure mode of over-inhibition is losing the signal you were trying to raise.
+
+== Relevance to the stack ==
+
+The whole [[Cannabinoid Oilahuasca]] framework is built on this: rather than supplying cannabinoids from outside, inhibit the enzymes that clear the ones already present. That approach lives or dies on the distinction between the two ligands and their two enzymes.
+
+See also: [[MAGL]] · [[FAAH]] · [[Cannabinoid Oilahuasca]] · [[Beta-Caryophyllene]] · [[Stack Substances]]

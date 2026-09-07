@@ -1,0 +1,35 @@
+The '''racetams''' are a family of synthetic compounds sharing a 2-pyrrolidone core, of which '''piracetam''' — synthesised at UCB in Belgium in 1964 by Corneliu Giurgea — was the first. Giurgea coined the word '''nootropic''' for it in 1972, from Greek ''nous'' (mind) and ''trepein'' (to bend), and set out criteria that included enhancement of learning, protection against disruption, and '''very low toxicity''' — the last being the part most often dropped when the term is used commercially.
+
+== The family ==
+
+* '''Piracetam''' — the parent. The most studied and the mildest.
+* '''Aniracetam''' — fat-soluble, short half-life, AMPA-modulating.
+* '''Oxiracetam''' — reported as more stimulating.
+* '''Pramiracetam''' — high-affinity choline uptake.
+* '''Phenylpiracetam''' — a phenyl-substituted piracetam, developed in the Soviet space programme as '''Phenotropil'''; markedly stimulating, and '''banned by WADA''' as a stimulant.
+* '''Levetiracetam''' — pharmacologically a member of the family, and a mainstream '''anticonvulsant''' (Keppra), which is a useful reminder that this scaffold is not inert.
+
+== Mechanism, honestly stated ==
+
+'''The mechanism is not settled.''' Proposals include modulation of AMPA-type glutamate receptors, effects on membrane fluidity, improved mitochondrial function, and increased high-affinity choline uptake. Piracetam is '''not''' a direct cholinergic agonist. The standard practice of pairing it with a [[Choline Donors|choline source]] is an inference from the choline-uptake finding and from user reports of headache, not from an established requirement.
+
+== Evidence ==
+
+This is where the popular account and the literature part company. The evidence for piracetam is '''strongest in clinical populations''' — cognitive decline in the elderly, post-stroke aphasia, cortical myoclonus, some breath-holding and dyslexia indications — and '''weak to absent in healthy young adults''', who are essentially the entire consumer market. It was never approved by the FDA for any indication and is not lawfully sold as a dietary supplement in the United States, though it is a prescription or over-the-counter medicine in much of Europe.
+
+The [[The Amplification Framework|Amplification Framework]] places the racetams in the '''modulator''' role of the cholinergic stack — the position L-methylfolate is proposed to occupy for monoamines.
+
+== The Soviet lineage ==
+
+A substantial body of racetam and adjacent nootropic research was carried out in the Soviet Union and published in Russian; phenylpiracetam is the best-known product of it. The Institute's corpus treats this as an '''orphaned tradition''' — real work that never entered the English-language literature, and which is neither validated nor refuted so much as unread.
+
+== Cautions ==
+
+* '''Headache''' is the commonest reported effect, and the reason choline is usually paired.
+* Piracetam has '''antiplatelet''' activity and is used clinically for that; it matters alongside anticoagulants and before surgery.
+* '''Renal clearance''' — dose reduction is indicated in renal impairment.
+* '''Phenylpiracetam''' is a stimulant with tolerance and a competition ban, not a stronger piracetam.
+* '''Legal status varies by country''' and the US position is not the global one.
+* The T-0 self-observation method in the Institute's 2016 material is a '''notebook convention''' for logging effects against a timeline, not a dosing protocol.
+
+See also: [[Choline Donors]] · [[The Amplification Framework]] · [[L-Methylfolate]] · [[Stack Substances]]

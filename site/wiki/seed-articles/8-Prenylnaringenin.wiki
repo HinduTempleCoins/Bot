@@ -1,0 +1,35 @@
+'''8-Prenylnaringenin''' (8-PN) is a prenylflavonoid from '''hops''' (''Humulus lupulus''). It holds two distinctions that are rarely mentioned together, and both matter to anyone taking it:
+
+* It is the '''most potent natural [[MAGL]] inhibitor identified''', with an IC50 of '''9.5&nbsp;μM''' — the enzyme that clears roughly 85% of brain 2-AG.
+* It is among the '''most potent phytoestrogens known''', with oestrogenic activity exceeding that of the soy isoflavones and of coumestrol.
+
+It is also reported to promote neurogenesis.
+
+== The two activities are not separable ==
+
+This is the point of the page. 8-PN is usually encountered in one of two literatures — the endocannabinoid one, where it is an MAGL inhibitor, or the menopause and hormone one, where it is the reason hops preparations are studied for hot flushes. A person taking it for the first reason receives the second as well. Its oestrogenic potency is not a side note; on a molar basis it is the strongest activity the molecule has.
+
+The historical observation usually cited is '''"hop-pickers' amenorrhoea"''' — menstrual disruption reported among women handling large volumes of hops — which is the field observation that eventually led to 8-PN's identification.
+
+== In hops ==
+
+8-PN occurs at low levels in hops directly. Larger amounts are formed by '''demethylation of isoxanthohumol''', which is the abundant precursor — and that conversion is carried out substantially by '''gut microbiota''', specifically ''Eubacterium limosum''. Consequently the dose someone actually receives from a hops preparation is '''determined by their gut flora''', and varies severalfold between individuals. This is an unusually clean example of a compound whose effective dose is not a property of the product.
+
+Beer contains 8-PN, at concentrations far below any of the levels discussed above.
+
+== Related hop compounds ==
+
+* '''Xanthohumol''' — the parent prenylchalcone; studied for antioxidant and metabolic effects, not appreciably oestrogenic.
+* '''Isoxanthohumol''' — the direct precursor described above.
+* '''[[Beta-Caryophyllene|β-Caryophyllene]]''' — also present in hops; CB2 agonist.
+* '''Myrcene''' and '''α-humulene''' — the major hop terpenes, shared with cannabis.
+
+== Cautions ==
+
+* '''Hormone-sensitive conditions.''' Oestrogen-receptor-positive breast cancer, endometrial conditions and any hormone-modulating therapy are the obvious contraindications, and the potency here is high enough that this is not a formality.
+* '''Interaction with hormonal contraception and HRT''' is plausible on mechanism.
+* '''Sedation.''' Hops preparations are traditionally sedative; combined with alcohol or other sedatives the effect is additive.
+* '''Dose is not what the label says''', for the microbiota reason above.
+* The MAGL and neurogenesis findings are '''preclinical'''. The oestrogenic activity is the best-established thing about this molecule.
+
+See also: [[MAGL]] · [[Cannabinoid Oilahuasca]] · [[Anandamide and 2-AG]] · [[Stack Substances]]

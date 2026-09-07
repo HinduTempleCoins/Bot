@@ -1,0 +1,24 @@
+'''FAAH''' — fatty acid amide hydrolase — is the enzyme that degrades '''anandamide''' (AEA, N-arachidonoylethanolamine), the first-discovered endocannabinoid. Where [[MAGL]] governs 2-AG, FAAH governs anandamide; together they set the tone of the endocannabinoid system from the degradation side.
+
+== Effect of inhibition ==
+
+Raising anandamide by blocking its breakdown produces '''anxiolytic and analgesic''' effects in the preclinical literature. Because anandamide is released on demand at active synapses, inhibiting its hydrolysis amplifies signalling where signalling is already happening, rather than flooding the whole system the way an exogenous agonist does. That selectivity is the pharmacological argument for the approach.
+
+== Natural inhibitors ==
+
+* '''Yangonin''' — a kavalactone from [[Kava|kava]] (''Piper methysticum''). Has CB1 binding affinity of its own; anxiolytic.
+* '''Guineensine''' — a piperidine alkaloid from [[Black Pepper|black pepper]] (''Piper nigrum''). Reported as both an FAAH inhibitor and an endocannabinoid reuptake inhibitor.
+* '''Macamides''' — N-benzylamide alkaloids from [[Maca|maca]] (''Lepidium meyenii''). FAAH inhibition; neuroprotective.
+* '''Biochanin A''' — an isoflavone from red clover and soy. FAAH inhibitor; also oestrogenic.
+
+== The Piperaceae pattern ==
+
+Two of the four natural FAAH inhibitors above come from the '''pepper family''': yangonin from kava and guineensine from black pepper. Black pepper additionally supplies '''piperine''', a general bioavailability enhancer, and [[Beta-Caryophyllene|β-caryophyllene]], a CB2 agonist. A single plant family therefore contributes a reuptake inhibitor, an enzyme inhibitor, a receptor agonist and an absorption enhancer — which is the sort of convergence that makes the family worth treating as a unit rather than as four unrelated ingredients.
+
+== Cautions ==
+
+* '''Kava''' carries a genuine hepatotoxicity signal in the literature, disputed as to mechanism and to the role of preparation method, and it is the reason kava was withdrawn from several markets. It is not resolved by the fact that yangonin is interesting.
+* '''Biochanin A''' is oestrogenic; that is a systemic effect independent of the enzyme activity.
+* The most-publicised FAAH inhibitor of recent years was '''BIA 10-2474''', which caused one death and lasting neurological injury in a 2016 French Phase I trial. The damage is generally attributed to off-target activity rather than to FAAH inhibition as such — but it is the reason this target is approached carefully, and it belongs on any honest page about it.
+
+See also: [[MAGL]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]]

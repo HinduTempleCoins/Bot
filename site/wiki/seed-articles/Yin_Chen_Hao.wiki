@@ -1,0 +1,29 @@
+'''Yin Chen Hao''' (茵陳蒿), also sold as '''Yerba Lena Yesca''', is '''''Artemisia capillaris''''' — a mugwort relative that is one of the principal liver medicines of Chinese herbal practice. It is frequently marketed in the West as a psychoactive or "legal high" herb. '''That marketing is wrong.''' The plant's documented pharmacology is hepatoprotective and choleretic; it is a liver medicine sold under a recreational label.
+
+== Naming and the mix-up ==
+
+The Spanish trade name ''Yerba Lena Yesca'' circulates in smoke-shop and herbal-incense channels, where ''Artemisia'' species are routinely conflated with one another and with genuinely psychoactive plants. ''A. capillaris'' is neither ''A. absinthium'' (wormwood) nor ''A. vulgaris'' (mugwort), and shares neither's reputation. Anyone buying it for the advertised effect is buying something else entirely — which is a good reason for the material to be described accurately somewhere.
+
+== Constituents ==
+
+* '''Scoparone''' (6,7-dimethoxycoumarin) — the best-characterised active; a coumarin with hepatoprotective, anti-inflammatory and vasorelaxant activity in the literature.
+* '''Capillarisin''' — a chromone, associated with the choleretic (bile-promoting) action.
+* '''Chlorogenic acid''' — a widely distributed polyphenol, antioxidant.
+* '''Quercetin''' — flavonoid; among many other activities, a reported weak modulator of endocannabinoid-adjacent enzymes.
+* Volatile essential-oil fraction, largely monoterpene.
+
+== Pharmacology ==
+
+The traditional indication is jaundice and damp-heat liver patterns, and the modern pharmacology lines up with it unusually well: scoparone and capillarisin between them account for the choleretic and hepatoprotective effects that the classical indication describes. This is one of the cases where the traditional category and the enzyme-level account point at the same organ.
+
+== Vaporisation ==
+
+Scoparone volatilises at approximately '''200&nbsp;°C''', at the top of the sesquiterpene band and the bottom of the flavonoid band. The monoterpene essential-oil fraction comes off from '''155–175&nbsp;°C'''. Both release effectively; what they release is a liver medicine.
+
+== Cautions ==
+
+Bile-promoting herbs are contraindicated in biliary obstruction. Any hepatically active herb warrants care alongside hepatically metabolised medication, and this one is taken specifically ''for'' liver effect. Coumarins as a class deserve attention in anyone on anticoagulants — noting that the anticoagulant coumarins are a specific subgroup and scoparone is not among them, the class caution is still the conservative starting point.
+
+'''This entry exists in part as a correction.''' A plant sold for an effect it does not have will be taken by people who then attribute something else to it, and a plant with real hepatic activity should not be taken casually because a label undersold it.
+
+See also: [[Imphepho]] · [[Stack Substances]] · [[Cannabinoid Oilahuasca]]

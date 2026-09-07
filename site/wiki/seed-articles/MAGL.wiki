@@ -1,0 +1,29 @@
+'''MAGL''' — monoacylglycerol lipase — is the enzyme that degrades '''2-AG''' (2-arachidonoylglycerol), the most abundant endocannabinoid in the brain. It is responsible for approximately '''85% of all 2-AG hydrolysis''' in the central nervous system, which makes it the single most consequential point of control over endocannabinoid tone.
+
+== Why inhibit it ==
+
+Inhibiting MAGL does two things at once:
+
+# '''Raises 2-AG''' — more endocannabinoid signalling at CB1 and CB2, produced by the body's own machinery rather than supplied from outside.
+# '''Lowers arachidonic acid''' — because 2-AG hydrolysis is a major source of the arachidonic acid pool that feeds prostaglandin synthesis. MAGL inhibition is therefore anti-inflammatory by a route that does not run through COX.
+
+That second effect is what makes MAGL more interesting than a simple "more cannabinoid" story. The same enzymatic step both terminates a signalling molecule and liberates an inflammatory precursor; blocking it moves both in the desired direction.
+
+== Natural inhibitors ==
+
+* '''[[8-Prenylnaringenin]] (8-PN)''' — from hops (''Humulus lupulus''). IC50 = 9.5&nbsp;μM; '''the most potent natural MAGL inhibitor identified'''. Also a potent phytoestrogen, and reported to promote neurogenesis.
+* '''Pristimerin''' — Celastraceae family. Reversible; a terpenoid; less selective.
+* '''Euphol''' — ''Euphorbia'' species. Reversible; a triterpene; anti-inflammatory.
+* '''[[Beta-Caryophyllene|β-Caryophyllene]]''' — not an MAGL inhibitor but a dietary CB2 agonist acting downstream of the same system, and present in most of the same plants.
+
+== The endocannabinoid reuptake framing ==
+
+The operator's 2016 coinage '''ECRI''' — endocannabinoid reuptake inhibitor — names the class by analogy with the SSRIs: rather than supplying an agonist, prolong the action of the ligand the body already makes. MAGL inhibition is the 2-AG arm of that idea; [[FAAH]] inhibition is the anandamide arm. The analogy is a framing device, not an established pharmacological class term.
+
+== Cautions ==
+
+Chronic, complete MAGL blockade produces '''CB1 receptor desensitisation and tolerance''' in animal models — the opposite of the intended effect, arrived at by overshooting it. This is the specific finding that argues for partial and reversible inhibition rather than maximal inhibition, and it is the most important thing on this page. Several of the natural inhibitors above are reversible, which is a point in their favour rather than a weakness.
+
+8-PN is additionally a potent phytoestrogen; that is a separate consideration from its MAGL activity and does not go away because the reason for taking it was enzymatic.
+
+See also: [[FAAH]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[8-Prenylnaringenin]] · [[Stack Substances]]

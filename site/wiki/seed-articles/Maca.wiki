@@ -1,0 +1,29 @@
+'''Maca''' (''Lepidium meyenii'') is a Brassicaceae root cultivated on the Peruvian altiplano above 4,000&nbsp;m, eaten as a food staple and used traditionally for stamina and fertility. Its distinctive compounds are the '''macamides''' — N-benzylamide alkaloids found in no other food plant.
+
+== Macamides and FAAH ==
+
+Macamides are '''[[FAAH]] inhibitors''' and are reported as neuroprotective. Structurally they are '''fatty acid N-benzylamides''', which is worth noticing: '''anandamide''' is itself a fatty acid ethanolamide. The macamides are structural analogues of the very substrate whose degrading enzyme they inhibit, which is a more coherent mechanistic story than most botanical enzyme claims can offer.
+
+Macamide content depends heavily on '''post-harvest processing''' — traditional sun-drying over weeks generates them from precursor fatty acids and benzylamine. Fresh root has little; the traditional preparation is doing chemistry, not just preservation.
+
+== Colours ==
+
+Yellow, red and black maca are separate phenotypes and are not interchangeable in the literature: '''black''' maca is the one associated in trials with memory and with sperm parameters, '''red''' with prostate outcomes in rodent studies. Most commercial product is yellow, the most abundant.
+
+== Gelatinised versus raw ==
+
+'''Gelatinised''' maca has been heat- and pressure-treated to remove starch. This is standard in Peru for digestibility, and is not the same product as raw powder; the two behave differently in the gut and are frequently compared as though identical.
+
+== Evidence ==
+
+Small human trials support effects on '''sexual desire''' — independent of testosterone, which maca does not appear to raise — and on '''menopausal symptoms''', with the mechanism unresolved. Fertility and energy claims are weaker. The FAAH and neuroprotection work is preclinical.
+
+Maca contains '''no''' plant sterols or hormones, contrary to a persistent claim; whatever it does, it does not do by supplying hormone.
+
+== Cautions ==
+
+* '''Goitrogens.''' As a Brassicaceae it contains glucosinolates, which matter in iodine deficiency and in thyroid conditions, particularly in raw form and at the high intakes some protocols use.
+* '''Hormone-sensitive conditions''' — maca is not oestrogenic, but it does affect menopausal symptoms by some route, and that route is not characterised.
+* '''Stimulation and sleep''' — commonly reported; taking it late is a common complaint.
+
+See also: [[FAAH]] · [[Cannabinoid Oilahuasca]] · [[Anandamide and 2-AG]] · [[Stack Substances]]
