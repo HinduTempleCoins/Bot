@@ -104,7 +104,14 @@ export const TABLES = [
     label: 'Seven chakras with rainbow colours, and planets attached',
     firstAttested: 1927, era: 'modern',
     source: 'C.W. Leadbeater, The Chakras (1927); building on Arthur Avalon (John Woodroffe), The Serpent Power (1919), which translated the Ṣaṭcakranirūpaṇa of 1577',
-    verdict: 'MODERN. The Sanskrit sources give varying numbers of cakras — four, five, six, nine, twelve depending on the text — and their colours are not the spectrum. Red-to-violet in seven steps is a 20th-century Theosophical scheme mapped onto Newton’s rainbow.',
+    verdict: 'MODERN — but be precise about WHICH part is modern. The word cakra is Indo-European and ~4,000 years old (PIE *kʷekʷlo-, cognate with "wheel" and Greek kyklos). Inner energy-centre systems appear around the 8th century CE in Buddhist tantric texts — the Hevajra Tantra and the Caryāgīti — and are elaborated in Hindu works like the Kubjikāmata. What is 20th-century is the RAINBOW COLOUR SCHEME and the planetary attachment. Red-to-violet in seven steps is Theosophy mapped onto Newton.',
+    layers: [
+      { what: 'the word cakra', dated: '~2000 BCE (PIE inheritance)', status: 'secure' },
+      { what: 'inner energy-centre systems', dated: 'c. 8th c. CE', status: 'attested' },
+      { what: 'a fixed set of seven', dated: 'late; the texts give four, five, six, nine or twelve', status: 'variable' },
+      { what: 'rainbow colours red-to-violet', dated: '1927 (Leadbeater)', status: 'modern' },
+      { what: 'planetary assignment', dated: 'later still, and unstable', status: 'modern' },
+    ],
     caveat: 'The planetary attachment is later still and is not stable: charts in circulation disagree on the Third Eye (Saturn / Jupiter / Neptune / Uranus) and the Root (Mars / Saturn / Earth). One chart in the corpus assigns Quaoar, discovered in 2002. A set still being written cannot be evidence of ancient transmission.',
   },
   {

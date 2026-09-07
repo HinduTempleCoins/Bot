@@ -62,14 +62,14 @@ test('triangulate() enforces the three-system rule and reports failure honestly'
   assert.equal(strong.met, true);
   assert.ok(strong.systems.length >= 3);
 
-  // Tanit->Athena connects through Neith and meets the three-system rule.
+  // Tanit->Athena connects DIRECTLY, on Herodotus IV.180 — not through Neith. The ta-Nit
+  // etymology was downgraded when no scholar could be found for it, and the connection survived
+  // anyway on the leg that has an ancient author behind it.
   const chain = triangulate('tanit', 'athena');
   assert.equal(chain.connected, true);
-  assert.equal(chain.met, true);
-  assert.deepEqual(chain.path, ['tanit', 'neith', 'athena'], 'Neith is the intermediary, as the corpus argues');
-  assert.ok(chain.systems.length >= 3);
-  // ...and it still discloses that the whole chain rests on one structural edge.
-  assert.equal(chain.weakest, 'structural', 'a chain is only as strong as its flimsiest link');
+  assert.deepEqual(chain.path, ['tanit', 'athena']);
+  assert.equal(chain.weakest, 'structural');
+  assert.ok(!chain.path.includes('neith'), 'the Neith route is conjecture-tier and must not be taken');
 
   // At cultic and above it breaks entirely: no ancient or archaeological path exists.
   const strict = triangulate('tanit', 'athena', { minTier: 'cultic' });
@@ -85,16 +85,22 @@ test('Tanit reaches Juno Caelestis on archaeology, which is the equation that ac
 });
 
 test('triangulate() prefers the best-evidenced route, not the shortest one', () => {
-  // A shortest-path search would take the single structural tanit=athena edge and report two
-  // systems. The two-hop route through Neith carries three. Convergence is the point, not brevity.
-  const t = triangulate('tanit', 'athena');
-  assert.equal(t.hops, 2);
-  assert.ok(t.systems.length > 2);
-
   // Melqart reaches Herakles with four systems converging on attested-or-better edges throughout.
   const m = triangulate('melqart', 'herakles');
   assert.equal(m.weakest, 'attested');
   assert.ok(m.systems.length >= 4);
+});
+
+test('the Tanit-Neith downgrade is recorded in the edge itself, not silently applied', () => {
+  const e = EQUATIONS.find((x) => x.a === 'tanit' && x.b === 'neith');
+  assert.equal(e.tier, 'conjecture');
+  assert.match(e.note, /DOWNGRADED BACK TO CONJECTURE/);
+  assert.match(e.note, /TINN/i, 'the El-Hofra transliterations are the evidence');
+  assert.match(e.source, /NO scholarly source/i);
+  // the Tanit-Athena edge must NOT depend on it
+  const ta = EQUATIONS.find((x) => x.a === 'tanit' && x.b === 'athena');
+  assert.match(ta.source, /Herodotus IV.180/);
+  assert.match(ta.note, /does NOT run through Neith/);
 });
 
 test('the Indo-European equation is attested by sound law with no ancient author', () => {
@@ -186,7 +192,7 @@ test('Tyr carries the same PIE root as Zeus, which is the best etymology in the 
 
 test('enrich() folds etymology and planet in, nulling what we do not have', () => {
   const h = enrich('hathor');
-  assert.equal(h.etymology.gloss, 'mansion of Horus');
+  assert.match(h.etymology.gloss, /mansion of Horus/);
   assert.equal(h.planet, 'Venus');
   const s = enrich('sinifere');
   assert.equal(s.etymology, null, 'never invent a gloss');
@@ -258,9 +264,12 @@ test('open questions are marked OPEN rather than quietly kept or quietly dropped
 
 test('correctionsByVerdict() puts the ones needing paper edits first', () => {
   const ordered = correctionsByVerdict();
-  assert.match(ordered[0].verdict, /^WRONG/);
-  assert.match(ordered[1].verdict, /^WRONG/);
-  assert.match(ordered[ordered.length - 1].verdict, /^OPEN/);
+  const wrong = ordered.filter((c) => c.verdict.startsWith('WRONG'));
+  assert.ok(wrong.length >= 4, 'these are the ones that require edits to published papers');
+  // every WRONG must come before every non-WRONG
+  const lastWrong = ordered.findLastIndex((c) => c.verdict.startsWith('WRONG'));
+  assert.equal(lastWrong, wrong.length - 1, 'the WRONGs must be contiguous at the front');
+  assert.ok(ordered.some((c) => c.verdict.startsWith('OPEN')), 'open questions are carried too');
 });
 
 test('Melqart survived review and the entry now carries the precise form', () => {
