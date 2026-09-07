@@ -100,3 +100,60 @@ test('fetchZeroPayoutPosts uses injected fetch + soft-fails', async () => {
   const boom = async () => { throw new Error('net'); };
   assert.deepEqual(await fetchZeroPayoutPosts({ fetch: boom, rpcUrl: 'http://rpc' }), []); // throws → []
 });
+
+test('fetchZeroPayoutPosts scans EVERY tag in a comma-separated list and merges them', async () => {
+  const asked = [];
+  const now = Date.now();
+  const future = new Date(now + 86400e3).toISOString().replace('Z', '');
+  const old = new Date(now - 7200e3).toISOString().replace('Z', '');
+  const post = (author, permlink) => ({
+    author, permlink, parent_author: '', pending_payout_value: '0.000 MELEK',
+    cashout_time: future, created: old,
+  });
+  const fakeFetch = async (_url, opts) => {
+    const body = JSON.parse(opts.body);
+    const tag = body.params[0].tag;
+    asked.push(tag);
+    const map = {
+      '': [post('rasma', 'nft-art'), post('udabeu', 'chizzeling')],
+      melek: [post('rasma', 'nft-art'), post('riyanur', 'abstract')],  // note the overlap
+    };
+    return { json: async () => ({ result: map[tag] || [] }) };
+  };
+  const out = await fetchZeroPayoutPosts({ fetch: fakeFetch, rpcUrl: 'http://x', tag: ',melek', minAgeSec: 0 });
+  assert.deepEqual(asked.sort(), ['', 'melek'], 'both tags must be queried');
+  const keys = out.map((p) => `${p.author}/${p.permlink}`).sort();
+  assert.deepEqual(keys, ['rasma/nft-art', 'riyanur/abstract', 'udabeu/chizzeling'], 'merged and deduped');
+});
+
+test('fetchZeroPayoutPosts soft-fails one bad tag without losing the others', async () => {
+  const now = Date.now();
+  const future = new Date(now + 86400e3).toISOString().replace('Z', '');
+  const old = new Date(now - 7200e3).toISOString().replace('Z', '');
+  const fakeFetch = async (_url, opts) => {
+    const tag = JSON.parse(opts.body).params[0].tag;
+    if (tag === 'broken') throw new Error('rpc down');
+    return {
+      json: async () => ({
+        result: [{ author: 'rasma', permlink: 'ok', parent_author: '', pending_payout_value: '0.000 MELEK', cashout_time: future, created: old }],
+      }),
+    };
+  };
+  const out = await fetchZeroPayoutPosts({ fetch: fakeFetch, rpcUrl: 'http://x', tag: 'broken,,melek', minAgeSec: 0 });
+  assert.equal(out.length, 1, 'the surviving tags still produce a selection');
+  assert.equal(out[0].author, 'rasma');
+});
+
+test('a single tag still works unchanged — the fix is backwards compatible', async () => {
+  const now = Date.now();
+  const future = new Date(now + 86400e3).toISOString().replace('Z', '');
+  const old = new Date(now - 7200e3).toISOString().replace('Z', '');
+  let seen = null;
+  const fakeFetch = async (_url, opts) => {
+    seen = JSON.parse(opts.body).params[0].tag;
+    return { json: async () => ({ result: [{ author: 'a', permlink: 'b', parent_author: '', pending_payout_value: '0.000 MELEK', cashout_time: future, created: old }] }) };
+  };
+  const out = await fetchZeroPayoutPosts({ fetch: fakeFetch, rpcUrl: 'http://x', tag: 'melek', minAgeSec: 0 });
+  assert.equal(seen, 'melek');
+  assert.equal(out.length, 1);
+});

@@ -86,15 +86,29 @@ export function selectZeroPayoutPosts(posts = [], opts = {}) {
 export async function fetchZeroPayoutPosts(cfg = {}) {
   const { fetch: f = (typeof fetch !== 'undefined' ? fetch : null), rpcUrl, tag = 'melek', fetchLimit = 100, ...selOpts } = cfg;
   if (typeof f !== 'function' || !rpcUrl) return [];
-  try {
-    const res = await f(rpcUrl, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'condenser_api.get_discussions_by_created', params: [{ tag, limit: Math.max(1, Math.min(100, Number(fetchLimit) || 100)) }] }),
-    });
-    const j = await res.json();
-    return selectZeroPayoutPosts((j && j.result) || [], selOpts);
-  } catch { return []; }
+  const limit = Math.max(1, Math.min(100, Number(fetchLimit) || 100));
+
+  // SCOPE FIX (2026-09-07). `tag` now accepts a COMMA-SEPARATED LIST, and an empty entry means the
+  // global firehose. The single-tag default was a live bug: community members tag their posts
+  // "photography", "art", "flower", "introduceyou" — almost never "melek" — so a melek-only scan saw
+  // only Hathor's own posts, which the self-deal guard then correctly excluded. The round selected
+  // zero posts every 30 minutes while thirteen real community posts sat unvoted and in-window.
+  const tags = String(tag).split(',').map((t) => t.trim());
+  const byKey = new Map();
+  for (const t of tags) {
+    try {
+      const res = await f(rpcUrl, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'condenser_api.get_discussions_by_created', params: [{ tag: t, limit }] }),
+      });
+      const j = await res.json();
+      for (const p of (j && j.result) || []) {
+        if (p && p.author && p.permlink) byKey.set(`${p.author}/${p.permlink}`, p);
+      }
+    } catch { /* soft: one dead tag never kills the round */ }
+  }
+  return selectZeroPayoutPosts([...byKey.values()], selOpts);
 }
 
 /**

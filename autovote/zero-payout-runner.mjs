@@ -25,7 +25,10 @@ import { signerCastVoteFromEnv } from './signer-castvote.mjs';
 // ── defaults (env-overridable) ────────────────────────────────────────────────────────────────────
 export const DEFAULTS = {
   rpcUrl: process.env.ZERO_PAYOUT_RPC || 'http://127.0.0.1:18090',
-  tag: process.env.ZERO_PAYOUT_TAG || 'melek',
+  // Comma-separated; an EMPTY entry is the global firehose. Defaults to firehose + melek so the
+  // round sees community posts that carry their own topical tags instead of ours. See the scope-fix
+  // note in zero-payout-posts.mjs — a melek-only scan found nothing but our own posts.
+  tag: process.env.ZERO_PAYOUT_TAG || ',melek',
   curator: process.env.ZERO_PAYOUT_CURATOR || 'hathor',
   weight: clampWeight(process.env.ZERO_PAYOUT_WEIGHT, 3000),      // gentle 30% by default
   topN: clampInt(process.env.ZERO_PAYOUT_TOPN, 10),              // per-round cap
