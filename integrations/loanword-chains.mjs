@@ -244,6 +244,84 @@ export const PUNIC_IN_BERBER = {
   soWhat: 'Lexical borrowing tracks what one culture actually took from another. The Punic layer says school and fortification, which is precisely what a colonial trading power exports and precisely NOT what a shared religion would look like.',
 };
 
+// ── DATED ANCHORS ──────────────────────────────────────────────────────────────────────────────
+// The rarest and most valuable thing in historical linguistics: a word that pins a DATE, because it
+// sits in a dated document or because it names a technology whose first appearance is excavated.
+// Most etymology gives you an order of events. These give you years.
+
+export const DATED_ANCHORS = [
+  {
+    id: 'indo-iranian-unity',
+    what: 'The end of Proto-Indo-Iranian linguistic unity, bracketed to roughly 2000 – 1761 BCE.',
+    floor: {
+      date: 'c. 2000 BCE',
+      evidence: 'The earliest spoke-wheeled chariots, at Sintashta — Krivoe Ozero kurgan 9 grave 1, Sintashta SM graves 5, 19, 28, Kamenny Ambar 5 kurgan 2 grave 8 (¹⁴C 3760±120, 3740±50, 3700±60 BP).',
+      logic: 'The Indo-Aryan and Iranian chariot vocabularies are INHERITED from a common ancestor, not independently borrowed. So the split has to postdate the technology the shared words name.',
+    },
+    ceiling: {
+      date: 'c. 1761 BCE',
+      evidence: 'The word mariannu in a letter from Tell Leilān in northern Syria, dated shortly before the end of Zimri-Lim\u2019s reign (Eidem 2014: 142).',
+      logic: 'Hurrianised Indo-Aryan *marya- "man, youth" plus the Hurrian ending -nnu. A dated archive text, not a linguistic inference — and it puts Indo-Aryan in Syria two centuries BEFORE the Mitanni state existed.',
+    },
+    confidence: 'secure',
+    source: 'Kroonen, Barjamovic & Peyrot, "Linguistic supplement to Damgaard et al. 2018", Zenodo 10.5281/zenodo.1240524',
+    whyItMatters: 'A ~240-year window, closed from opposite sides by two completely independent kinds of evidence: a wheel in a grave and a word in a dated letter. This is what a real chronological argument looks like, and it is the standard the rest of the corpus should be measured against.',
+  },
+  {
+    id: 'kikkuli',
+    what: 'The oldest substantial Indo-Aryan text we possess — the Kikkuli horse-training manual (CTH 284).',
+    dating: 'Lost Middle-Hittite original, 15th century BCE; the surviving tablets are a Neo-Hittite copy written in the 13th century BCE (Neu 1986: 161).',
+    confidence: 'secure',
+    correction: 'NOT "c. 1400 BCE" — that is a midpoint of an unexplained range. And Šuppiluliuma I has no connection to Kikkuli; he belongs to the treaty evidence.',
+    theNumerals: [
+      { translit: 'a-i-ka-a-ar-ta-an-na', gloss: 'one round', vedic: 'éka-' },
+      { translit: 'ti-e-ra-a-ar-ta-an-na', gloss: 'three rounds', vedic: 'trī-' },
+      { translit: 'pa-an-za-a-ar-ta-an-na', gloss: 'five rounds', vedic: 'páñca-' },
+      { translit: 'ša-at<-ta>-a-ar-ta-an-na', gloss: 'seven rounds', vedic: 'saptá-' },
+      { translit: 'na-a-[w]a-ar-ta-an-na', gloss: 'nine rounds', vedic: 'náva-' },
+    ],
+    transliterationNote: 'It is -artanna, not -wartanna. The w belongs to the reconstructed etymon (Vedic vartaní- "course, felloe") and surfaces only in the "nine" form. Printing aika-wartanna prints a normalised etymological form, not the transliteration — say which you are giving.',
+    theRealPoint: 'Nobody at Ḫattuša spoke Indo-Aryan. Kikkuli\u2019s mother tongue was almost certainly Hurrian, each of the four tablets was written by a different Hurrian-speaking scribe, and the court language was Hurrian. The Indo-Aryan terms were "piously handed down as fossils" (Kammenhuber) — frozen into distance measurements, which is exactly why ONLY the odd numbers 1/3/5/7/9 occur. The oldest Indo-Aryan we have survived because it was technical jargon: a horse trainer needs a fixed word for a lap and does not translate it.',
+    theDiagnostic: 'PIE had two derivatives of *h₁oi- "one": a -ko- form and a -wo- form. Indo-Aryan generalised -ko- (Vedic éka-), Iranian generalised -wo- (Avestan aēva-). Mitanni a-i-ka- is the -ko- form with the diphthong still uncontracted — older than Vedic. A second, independent narrow-Indo-Aryan diagnostic: the royal name bi-ir-ya-ma-aš-da = Priyamedha, where /azdʰ/ → [eːdʰ] is regular in Vedic specifically.',
+    contested: 'The form is secure; the INDO-ARYAN-SPECIFIC inference is probable rather than certain. Mayrhofer and Lubotsky read Indo-Aryan; Kammenhuber reads a still-undivided Indo-Iranian; Kroonen et al. deliberately hedge to "Indo-Iranian, or possibly Indo-Aryan".',
+    sourceWarning: 'Raulwing 2009 has a copy-paste error in its §5 — it glosses the 5-, 7- and 9- compounds all as "three rounds" while giving the correct Vedic comparanda. §8 of the same paper is correct. Do not quote §5 verbatim.',
+  },
+  {
+    id: 'anse-kur-ra',
+    what: 'The horse arrives in Mesopotamia as a named import.',
+    dating: 'The logogram ANŠE.KUR.RA first appears in Sumerian documents in the Third Dynasty of Ur, c. 2100–2000 BCE; horses are imported in bulk after 2000 BCE with chariot warfare, displacing the kunga.',
+    confidence: 'secure',
+    whyItMatters: 'ANŠE.KUR.RA means "ass of the mountains" — the donkey of the foreign land. A culture that names an animal "the foreign donkey" is telling you, in the name itself, that the animal is an import. That is better evidence for direction of travel than any contested etymology, and it also explains why the Hittite phonetic horse-word is invisible in the tablets: the scribes had a serviceable Sumerogram and used it.',
+  },
+  {
+    id: 'anatolian-at-ebla',
+    what: 'Anatolian Indo-European personal names at Ebla in the 25th century BCE.',
+    dating: '25th century BCE — names with the elements -(w)anda/u, -(w)aššu, -tala, -ili/u: A-la-lu-wa-du, Ar-zi-tá-la, Mu-lu-wa-du, Ù-la-ma-du (Archi).',
+    confidence: 'probable',
+    whyItMatters: 'Kroonen et al.: this "decisively falsifies the Yamnaya culture as a possible archaeological horizon for PIE-speakers prior to the Anatolian Indo-European split", and places Proto-Anatolian unity in the 4th millennium BCE.',
+    consequence: 'RE-SCOPES the famous wheel argument rather than refuting it. Anthony\u2019s ~3500 BCE floor, derived from the shared *kʷekʷlos vocabulary, dates CORE PIE — the post-Anatolian node — not Proto-Indo-Anatolian. Anatolian conspicuously does NOT share *kʷekʷlos (the only candidate is a hedged Hittite "lard biscuit") while it DOES share *yugóm and the horse word. The floor still holds for the node it applies to; that node is simply shallower than the popular version implies.',
+    contested: 'The Indo-Anatolian hypothesis — Anatolian as a SISTER rather than a daughter of PIE — is the contested part. That Anatolian split off first is not: "the vast majority of Indo-Europeanists would still agree that Anatolian is the most likely branch to have split off first."',
+  },
+];
+
+export const getAnchor = (id) => DATED_ANCHORS.find((a) => a.id === id) || null;
+
+/**
+ * The direction-of-borrowing diagnostics, as used above. Morphological transparency is the
+ * strongest of them: a word built by a LIVING rule in language A and unanalysable in language B
+ * went from A to B, and no amount of cultural argument overturns that.
+ */
+export const DIRECTION_TESTS = [
+  { id: 'transparency', test: 'Is the word morphologically transparent in one language and opaque in the other?',
+    example: 'Egyptian mrkbt "chariot" is opaque in Egyptian — no root r-k-b, no pattern that generates it. In Northwest Semitic *markabt- it is a productive maqtal-t noun-of-instrument from the living root r-k-b "to ride". Semitic → Egyptian, decisively.' },
+  { id: 'irregular-correspondence', test: 'Does the word violate the regular sound laws of the language it appears in?',
+    example: 'A word that should have shifted and did not was borrowed after the shift finished — which also dates the borrowing.' },
+  { id: 'restricted-distribution', test: 'Is it confined to one branch or one semantic field rather than spread across the family?' },
+  { id: 'cultural-semantics', test: 'Does it name a trade good, a technology or an institution? Those travel; body parts and kin terms mostly do not.' },
+  { id: 'the-name-says-so', test: 'Does the word itself describe the thing as foreign?',
+    example: 'ANŠE.KUR.RA, "ass of the mountains". The clearest possible statement of import, made by the borrowers.' },
+];
+
 // ── The substrate that dissolved ───────────────────────────────────────────────────────────────
 export const PRE_SUMERIAN_SUBSTRATE = {
   claim: 'A pre-Sumerian "Proto-Euphratean" substrate language survives in Sumerian occupational terms and place names — Landsberger and Kramer\'s hypothesis, with the "banana languages" label from Dyakonov and Ardzinba.',

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   CHAINS, CONFIDENCE, confidenceRank, getChain, byConfidence, rejected,
   routesThrough, threeStepChains, SUMEROGRAM_TRAP, LEXICAL_LISTS, LEXICAL_LISTS_NOTE,
-  PRE_SUMERIAN_SUBSTRATE, PUNIC_IN_BERBER,
+  PRE_SUMERIAN_SUBSTRATE, PUNIC_IN_BERBER, DATED_ANCHORS, getAnchor, DIRECTION_TESTS,
 } from './loanword-chains.mjs';
 
 test('every chain declares a route, a gloss and a legal confidence', () => {
@@ -148,4 +148,79 @@ test('routesThrough() and getChain() are soft on misses', () => {
   assert.deepEqual(routesThrough('Klingon'), []);
   assert.equal(getChain('nope'), null);
   assert.deepEqual(byConfidence('nope'), []);
+});
+
+test('the Indo-Iranian bracket is closed from both sides by independent evidence', () => {
+  const a = getAnchor('indo-iranian-unity');
+  assert.equal(a.confidence, 'secure');
+  assert.match(a.floor.date, /2000 BCE/);
+  assert.match(a.ceiling.date, /1761 BCE/);
+  assert.match(a.floor.evidence, /Sintashta/);
+  assert.match(a.ceiling.evidence, /Tell Leilān/);
+  assert.match(a.ceiling.evidence, /Zimri-Lim/);
+  // the two legs must be different KINDS of evidence, which is what makes the bracket work
+  assert.match(a.floor.logic, /inherited|INHERITED/i);
+  assert.match(a.ceiling.logic, /dated archive text/);
+  assert.match(a.whyItMatters, /independent/);
+});
+
+test('Kikkuli is dated to its real two-stage chronology, not the popular midpoint', () => {
+  const k = getAnchor('kikkuli');
+  assert.match(k.dating, /15th century/);
+  assert.match(k.dating, /13th century/);
+  assert.match(k.dating, /Neu 1986/);
+  assert.match(k.correction, /NOT "c\. 1400 BCE"/);
+  assert.match(k.correction, /Šuppiluliuma/);
+});
+
+test('the Kikkuli numerals are the odd numbers only, and that is the evidence', () => {
+  const k = getAnchor('kikkuli');
+  assert.equal(k.theNumerals.length, 5);
+  assert.deepEqual(k.theNumerals.map((n) => n.vedic), ['éka-', 'trī-', 'páñca-', 'saptá-', 'náva-']);
+  assert.match(k.theRealPoint, /ONLY the odd numbers/);
+  assert.match(k.theRealPoint, /Hurrian/);
+  assert.match(k.theRealPoint, /jargon/);
+});
+
+test('the transliteration caveat and the source warning are both carried', () => {
+  const k = getAnchor('kikkuli');
+  assert.match(k.transliterationNote, /-artanna, not -wartanna/);
+  assert.match(k.sourceWarning, /Raulwing 2009/);
+  assert.match(k.sourceWarning, /copy-paste error/);
+  assert.match(k.sourceWarning, /Do not quote/);
+  // and the Indo-Aryan inference is held as probable, not airtight
+  assert.match(k.contested, /Kammenhuber/);
+  assert.match(k.contested, /probable rather than certain/);
+});
+
+test('ANSE.KUR.RA is the cleanest direction evidence there is', () => {
+  const a = getAnchor('anse-kur-ra');
+  assert.match(a.whyItMatters, /ass of the mountains/);
+  assert.match(a.whyItMatters, /foreign donkey/);
+  assert.match(a.whyItMatters, /better evidence for direction/);
+  const t = DIRECTION_TESTS.find((x) => x.id === 'the-name-says-so');
+  assert.match(t.example, /ANŠE\.KUR\.RA/);
+});
+
+test('Ebla re-scopes the wheel argument rather than refuting it', () => {
+  const e = getAnchor('anatolian-at-ebla');
+  assert.match(e.dating, /25th century/);
+  assert.match(e.whyItMatters, /falsifies the Yamnaya/);
+  assert.match(e.consequence, /RE-SCOPES/);
+  assert.match(e.consequence, /CORE PIE/);
+  assert.match(e.consequence, /still holds for the node it applies to/);
+  assert.match(e.contested, /sister/i, 'the sister-vs-daughter framing is what is disputed');
+});
+
+test('the direction tests lead with morphological transparency', () => {
+  assert.ok(DIRECTION_TESTS.length >= 5);
+  assert.equal(DIRECTION_TESTS[0].id, 'transparency');
+  assert.match(DIRECTION_TESTS[0].example, /mrkbt/);
+  assert.match(DIRECTION_TESTS[0].example, /maqtal/);
+  assert.match(DIRECTION_TESTS[0].example, /Semitic → Egyptian/);
+  for (const t of DIRECTION_TESTS) assert.ok(t.id && t.test, `${t.id} malformed`);
+});
+
+test('getAnchor() is soft on misses', () => {
+  assert.equal(getAnchor('nope'), null);
 });
