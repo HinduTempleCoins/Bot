@@ -20,8 +20,23 @@ His ''Raja Yoga'' (1896) made Patanjali's ''Yoga Sutras'' available to a Western
 
 He died on '''4 July 1902''', aged 39.
 
+== Tesla, 1896 ==
+
+In New York in early 1896 Vivekananda met [[Nikola Tesla]]. He wrote to E. T. Sturdy on 13 February
+that Tesla "thinks he can demonstrate mathematically that force and matter are reducible to potential
+energy," and that in that case "the Vedantic cosmology will be placed on the surest of foundations."
+Tesla, he recorded, "was charmed to hear about the Vedantic ''Prana'' and ''Akasha'' and the ''Kalpas''."
+
+The demonstration never came. But Tesla took the vocabulary: his 1907 essay "Man's Greatest
+Achievement" describes matter arising from ''Akasha'' acted on by ''Prana'', in never-ending cycles.
+
+The episode is worth holding in both hands. It is a real transmission of Indian cosmological
+vocabulary into the writing of a major Western engineer — and it is also a case of a monk hoping a
+physicist would prove his tradition, and being let down. Vivekananda's own argument never depended on
+it, which is to his credit. See [[Mysticism and Eastern Philosophy in Science]].
+
 == The line this library draws ==
 
 Vivekananda's Vedanta is not the same tradition as [[Pashupata Shaivism]], and this library does not blur them. Vedanta is non-dualist and text-centred; the Pashupata is a Shaiva ascetic order with its own sutra and its own deliberately transgressive practice. What they share is the claim that '''realisation is available to a living person by a method''' — which is the claim that makes both of them technologies rather than beliefs, and which is why both are in this corpus.
 
-See also: [[Pashupata Shaivism]] · [[Autodidacts and Credentials]] · [[Stack Substances]]
+See also: [[Pashupata Shaivism]] · [[Nikola Tesla]] · [[Mysticism and Eastern Philosophy in Science]] · [[Autodidacts and Credentials]] · [[Stack Substances]]
