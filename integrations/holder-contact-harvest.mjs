@@ -61,6 +61,23 @@ export const ROLE_NEVER = Object.freeze(new Set([
 ]));
 
 export const emailDomain = (e) => low(e).split('@')[1] || '';
+
+/**
+ * Is this address's domain a platform's, at any depth? `only@www.gobble.com` is `www.gobble.com`,
+ * which is not the string in the set, and a plain `Set.has()` waves it through. Two of the three
+ * Linktree advertising addresses have exactly that shape — they were being caught only by the hub
+ * strip, so any path that vouched for a hub page let them back in.
+ */
+export function platformEmailDomain(dom) {
+  const d = low(dom);
+  if (!d) return '';
+  const parts = d.split('.');
+  for (let i = 0; i < parts.length - 1; i += 1) {
+    const cand = parts.slice(i).join('.');
+    if (PLATFORM_DOMAINS.has(cand)) return cand;
+  }
+  return '';
+}
 export const emailUser = (e) => low(e).split('@')[0] || '';
 
 /** The registrable-ish host of a URL, minus `www.`. Not a PSL — enough to compare two of our own rows. */
@@ -131,7 +148,37 @@ export const confersNothing = (url) => isHub(url) || isPlatformApex(url);
  *                       the one that mails a support desk eighteen times.
  *   never               role account, or malformed.
  */
-export function attribution(email, { site = '', foundOn = '' } = {}) {
+export function attribution(email, { site = '', foundOn = '', hubOwnedBy = '' } = {}) {
+  // A hub page IS the person's, for the one thing a hub is for: he chose what goes on it. The #929
+  // fix threw that out with the advertising, and threw out the 21 real addresses with it.
+  //
+  // So a hub can vouch — but only under proof of ownership, and never for boilerplate. `hubOwnedBy`
+  // is the handle the holder declared in his own Graphene profile metadata; the caller must show
+  // that the page it read is that handle's page. Nothing gets this verdict by accident: omit the
+  // option and a hub still confers nothing.
+  const hubOwner = low(hubOwnedBy).replace(/^@/, '');
+  if (hubOwner && isHub(site || foundOn)) {
+    const url = str(foundOn || site);
+    const seg = low(url).replace(/[?#].*$/, '').replace(/\/+$/, '').split('/').pop();
+    if (seg && seg === hubOwner) {
+      const e0 = low(email);
+      if (!isValidEmail(e0)) return { ok: false, verdict: 'never', why: 'not a valid address' };
+      if (ROLE_NEVER.has(emailUser(e0))) {
+        return { ok: false, verdict: 'never', why: `${emailUser(e0)}@ is a role mailbox, not a person` };
+      }
+      const p0 = platformEmailDomain(emailDomain(e0));
+      if (p0) {
+        return {
+          ok: false, verdict: 'third-party',
+          why: `${p0} is a platform's own address, not this holder's`,
+        };
+      }
+      return {
+        ok: true, verdict: 'hub-published',
+        why: `published by @${hubOwner} on his own ${siteHost(url)} page — a route he put up to be found through`,
+      };
+    }
+  }
   // A hub page, or a platform's own apex, is not anybody's own site. Strip the claim before the
   // checks below can honour it.
   if (confersNothing(site)) site = '';
@@ -145,10 +192,11 @@ export function attribution(email, { site = '', foundOn = '' } = {}) {
   // BEFORE own-domain, not after. A holder whose declared site is `read.cash/@x` used to promote
   // `contact@read.cash` to own-domain, because sameSite() saw a match and answered first. No address
   // at a platform's own domain is ever a holder's, so nothing downstream may overrule this.
-  if (PLATFORM_DOMAINS.has(dom)) {
+  const plat = platformEmailDomain(dom);
+  if (plat) {
     return {
       ok: false, verdict: 'third-party',
-      why: `${dom} is a platform's own address, not this holder's — mailing it pitches a support desk `
+      why: `${plat} is a platform's own address, not this holder's — mailing it pitches a support desk `
          + 'once per holder who linked there',
     };
   }
@@ -238,7 +286,57 @@ export const NOT_A_HANDLE = Object.freeze(new Set([
   'explore', 'search', 'hashtag', 'tags', 'embed', 'widgets', 'plugins', 'tr', 'p', 'watch', 'reel',
   'story', 'stories', 'posts', 'profile', 'pages', 'groups', 'events', 'legal', 'download', 'business',
   'creators', 'developers', 'press', 'jobs', 'careers', 'contact', 'blog', 'www', 'com', 'net',
+  // Found in the profile harvest: `facebook.com/profile.php?id=…` is Facebook's numeric-id URL, and
+  // the id lives in the query string the regex never sees. 51 of 283 harvested Facebook handles were
+  // the literal string `profile.php` — a column that looks filled and routes nowhere.
+  'profile.php', 'prod', 'static', 'assets', 'cdn', 'img', 'images', 'media', 'files', 'oembed',
+  'consent-scripts', 'sticker', 'stickers', 'fonts', 'og', 'cep', 'gtag', 'analytics', 'null',
+  'undefined', 'none', 'website', 'email', 'index',
 ]));
+
+/**
+ * A path segment carrying a file extension is a build artefact, not a person. `script.js`,
+ * `profile.php`, `style.css`. The same reasoning as looksLikeFile() for addresses, and the same
+ * reason: a column filled with these looks like data and delivers nothing.
+ */
+export const handleLooksLikeFile = (h) => /\.(js|mjs|css|php|html?|json|xml|png|jpe?g|gif|svg|webp|ico|map|txt|aspx?)$/i.test(String(h || ''));
+
+/** A handle we would actually try to reach a person through. */
+export const isUsableHandle = (h) => {
+  const v = str(h);
+  if (!v) return false;
+  if (NOT_A_HANDLE.has(low(v))) return false;
+  if (handleLooksLikeFile(v)) return false;
+  // A bare id with no letters at all is a tracking token, not a name. YouTube channel ids (UC…) and
+  // Discord invite codes keep their letters, so they survive this.
+  if (!/[A-Za-z]/.test(v)) return false;
+  return true;
+};
+
+/**
+ * The fingerprint both counting bugs shared, generalised so the next one is caught by machine.
+ *
+ * A value that appears on many DIFFERENT pages of the same crawl is the crawl's own furniture, not
+ * anybody's contact: three Linktree advertising addresses appeared once per page across 111 pages
+ * ("111 emails" that were 21). Give this the per-page values and it names them, with the count as
+ * the evidence.
+ *
+ * `pages` is [{ page, values: [] }]. Returns a Map value -> number of distinct pages, for every value
+ * over the threshold.
+ */
+export function crossPageBoilerplate(pages = [], { maxPages = 2 } = {}) {
+  const seen = new Map();
+  for (const { page, values } of pages) {
+    const p = str(page);
+    for (const v of new Set((values || []).map(low).filter(Boolean))) {
+      if (!seen.has(v)) seen.set(v, new Set());
+      seen.get(v).add(p);
+    }
+  }
+  const out = new Map();
+  for (const [v, ps] of seen) if (ps.size > maxPages) out.set(v, ps.size);
+  return out;
+}
 
 /** Social handles in a page, deduped per network, junk paths dropped. */
 export function extractSocials(html = '') {
@@ -248,7 +346,7 @@ export function extractSocials(html = '') {
     re.lastIndex = 0;
     for (const m of s.matchAll(re)) {
       const h = str(m[net === 'mastodon' ? 2 : 1]);
-      if (!h || NOT_A_HANDLE.has(low(h))) continue;
+      if (!isUsableHandle(h)) continue;
       if (!out[net]) out[net] = [];
       if (!out[net].includes(h)) out[net].push(h);
     }
@@ -266,7 +364,7 @@ export function socialsFromProfile(jsonMetadata = '') {
   if (typeof meta === 'string') { try { meta = JSON.parse(meta || '{}'); } catch { return {}; } }
   const prof = (meta && meta.profile) || {};
   const out = {};
-  const put = (net, v) => { const h = str(v).replace(/^@/, ''); if (h && !NOT_A_HANDLE.has(low(h))) out[net] = [h]; };
+  const put = (net, v) => { const h = str(v).replace(/^@/, ''); if (isUsableHandle(h)) out[net] = [h]; };
   put('tiktok', prof.tiktok);
   put('instagram', prof.instagram || prof.ig);
   put('x', prof.twitter || prof.x);
@@ -393,7 +491,7 @@ export function handler(req, res) {
   res.setHeader('content-type', 'application/json; charset=utf-8');
   res.end(JSON.stringify({
     ok: true, service: 'holder-contact-harvest',
-    verdicts: ['own-domain', 'published-on-site', 'third-party', 'never'],
+    verdicts: ['own-domain', 'published-on-site', 'hub-published', 'third-party', 'never'],
     platformDomains: PLATFORM_DOMAINS.size, freemail: FREEMAIL.size, roleNever: ROLE_NEVER.size,
     note: 'reads public pages and grades addresses. Sending stays behind the Herald gate.',
   }, null, 2));
@@ -401,7 +499,8 @@ export function handler(req, res) {
 
 export default {
   attribution, extractEmails, extractSocials, socialsFromProfile, contactPaths, harvest, auditList,
-  crawlPlan, siteHost, sameSite, isHub, isPlatformApex, confersNothing,
+  crawlPlan, siteHost, sameSite, isHub, isPlatformApex, confersNothing, crossPageBoilerplate,
+  isUsableHandle, platformEmailDomain,
 };
 
 if (process.argv[1] && process.argv[1].endsWith('holder-contact-harvest.mjs')) {
