@@ -7,6 +7,7 @@ process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.CRM_DATA = `/tmp/crm-srv-${process.pid}.json`;
 process.env.MAILBOX_DATA = `/tmp/mailbox-srv-${process.pid}.json`;
+process.env.TEAMS_RL_BURST = '400';    // the suite is one 'client'; the limiter is exercised on its own elsewhere
 process.env.PENTECAUST_DEV_TRUST = '1';
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
 const { handler, __setAuthVerifier, __setChainFetch } = await import('./server.mjs');
@@ -223,6 +224,7 @@ test('herald: /me/mailbox + send step from the connected mailbox (moves lead to 
   const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
   // campaign + plan + a lead with an email
   let { res, o } = cap();
+  process.env.HERALD_INVITED_SENDERS = 'ray';   // sending is operator-granted; this test is about the mailbox, not the grant
   await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Send test', goal: 'demos' }), res);
   const id = j(o).campaign.id;
   await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
@@ -245,6 +247,7 @@ test('herald: /me/mailbox + send step from the connected mailbox (moves lead to 
   ({ res, o } = cap()); await handler(req('/crm/campaigns/' + id + '/stats?account=ray'), res);
   assert.equal(j(o).stats.byStage.contacted, 1, 'lead moved to contacted after send');
   setMbFetch(null);
+  delete process.env.HERALD_INVITED_SENDERS;
 });
 
 // ── invites (the signup gate) — mounted behind VERIFIED identity (session / MELEK-Signer), not dev-trust ──
@@ -297,4 +300,96 @@ test('invites: identity is the verified session, never a spoofable body/query fi
   ({ res, o } = cap()); await handler(req('/invites/issue?account=hathor', 'POST', { account: 'hathor', inviter: 'hathor' }, cookie('alice')), res);
   assert.equal(o.code, 200); assert.equal(j(o).ok, true);
   assert.equal(j(o).inviter, 'alice', 'issued AS the verified session account, not the claimed one');
+});
+
+// ── Herald entitlements, wired into the live routes ────────────────────────────────────────────────
+// Operator's rule, 2026-09-08: "we still don't want anyone Emailing unless I invite them, but let's
+// make PMs available to all Users. No Hijacking each Others Accounts, Login Required."
+// These tests assert the rule at the ROUTES, not just in the module — a policy module nothing calls is
+// documentation, not a gate.
+
+test('PM: any logged-in account may send a DM', async () => {
+  const { res, o } = cap();
+  await handler(req('/dm', 'POST', { from: 'someuser', to: 'other', text: 'hi' }), res);
+  assert.equal(o.code, 200); assert.equal(j(o).ok, true);
+});
+
+test('PM: anonymous is refused (login required floor)', async () => {
+  __setAuthVerifier(() => null);
+  const { res, o } = cap();
+  await handler(req('/dm', 'POST', { from: 'someuser', to: 'other', text: 'hi' }), res);
+  assert.equal(o.code, 401);
+  __setAuthVerifier(null);
+});
+
+test('PM: opening the capability did not open a way to post AS someone else', async () => {
+  __setAuthVerifier(() => 'attacker');
+  try {
+    const { res, o } = cap();
+    await handler(req('/dm', 'POST', { from: 'victim', to: 'other', text: 'hi' }), res);
+    assert.equal(o.code, 200);
+    assert.equal(j(o).message.from, 'attacker');   // attributed to the session, never to the claimed name
+  } finally { __setAuthVerifier(null); }
+});
+
+test('email send: an uninvited account is refused at the send, campaign and mailbox notwithstanding', async () => {
+  const mk = cap();
+  await handler(req('/crm/campaigns', 'POST', { owner: 'stranger', name: 'Outreach', goal: 'demos' }), mk.res);
+  const id = j(mk.o).campaign.id;
+  await handler(req(`/crm/campaigns/${id}/sequence`, 'POST', { owner: 'stranger', sequence: [{ subject: 'Hi {{name}}', body: 'hello' }] }), cap().res);
+  const ld = cap();
+  await handler(req(`/crm/campaigns/${id}/leads`, 'POST', { owner: 'stranger', lead: { email: 'a@b.com', name: 'A', signal: 's' } }), ld.res);
+  const leadId = j(ld.o).campaign.leads[0].id;
+
+  const { res, o } = cap();
+  await handler(req(`/crm/campaigns/${id}/leads/${leadId}/send`, 'POST', { owner: 'stranger' }), res);
+  assert.equal(o.code, 403);
+  assert.equal(j(o).code, 'not-invited');
+});
+
+test('email send: an operator-invited account passes the gate', async () => {
+  process.env.HERALD_INVITED_SENDERS = 'invitee';
+  try {
+    const mk = cap();
+    await handler(req('/crm/campaigns', 'POST', { owner: 'invitee', name: 'Invited outreach', goal: 'demos' }), mk.res);
+    const id = j(mk.o).campaign.id;
+    await handler(req(`/crm/campaigns/${id}/sequence`, 'POST', { owner: 'invitee', sequence: [{ subject: 'Hi', body: 'hello' }] }), cap().res);
+    const ld = cap();
+    await handler(req(`/crm/campaigns/${id}/leads`, 'POST', { owner: 'invitee', lead: { email: 'c@d.com', name: 'C', signal: 's' } }), ld.res);
+    const leadId = j(ld.o).campaign.leads[0].id;
+
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/leads/${leadId}/send`, 'POST', { owner: 'invitee' }), res);
+    // Past the entitlement gate: it now fails on the MAILBOX (none connected), which is the correct next
+    // refusal — never 403 not-invited, and never an actual send from @pentecaust.com.
+    assert.notEqual(j(o).code, 'not-invited');
+    assert.equal(j(o).ok, false);
+  } finally { delete process.env.HERALD_INVITED_SENDERS; }
+});
+
+test('campaign building stays open — an uninvited account may still create and import', async () => {
+  const mk = cap();
+  await handler(req('/crm/campaigns', 'POST', { owner: 'builder', name: 'Prep', goal: 'demos' }), mk.res);
+  assert.equal(j(mk.o).ok, true, mk.o.body);
+  const ld = cap();
+  await handler(req(`/crm/campaigns/${j(mk.o).campaign.id}/leads`, 'POST', { owner: 'builder', lead: { email: 'x@y.com', name: 'X', signal: 's' } }), ld.res);
+  assert.equal(j(ld.o).ok, true, ld.o.body);
+});
+
+test('GET /me/entitlements tells the UI what it may offer', async () => {
+  const { res, o } = cap();
+  await handler(req('/me/entitlements?account=someuser'), res);
+  assert.equal(o.code, 200);
+  const e = j(o);
+  assert.ok(e.can.includes('pm'));
+  assert.ok(e.can.includes('campaign_build'));
+  assert.ok(e.cannot.includes('email_send'));
+});
+
+test('the Herald panel explains the send gate rather than offering a button it will refuse', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /campSendNote/);
+  assert.match(o.body, /loadEntitlements/);
+  assert.match(o.body, /canSendEmail/);
+  assert.match(o.body, /Private messages are open to everyone/);
 });
