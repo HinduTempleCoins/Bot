@@ -33,6 +33,10 @@ import {
   EXAM_ID as GRAPHEME_ID, buildTrials as graphemeTrials, scoreSitting as scoreGrapheme,
   resultCopy as graphemeCopy, graphemePageHTML,
 } from './exam-grapheme.mjs';
+import {
+  EXAM_ID as VVIQ_ID, buildForm as vviqForm, scoreForm as scoreVviq,
+  resultCopy as vviqCopy, vviqPageHTML,
+} from './exam-vviq.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
@@ -588,6 +592,68 @@ export async function handler(req, res) {
           mostConsistent: result.mostConsistent, leastConsistent: result.leastConsistent,
         },
         copy: graphemeCopy(result, { n: counts[GRAPHEME_ID] || 0, priorScore }),
+      }));
+    }
+
+    // ── /exams/vviq — vividness of visual imagery ─────────────────────────────────────────────────
+    // The flagship "your inner life is not like mine" result, and the single most likely place in
+    // the battery for somebody to score into an identity on a web page. It reports a NUMBER, in the
+    // reversed (aphantasia-era) direction, with landmarks that cite their sources and a first line
+    // that says there is no consensus cut-off.
+    if (path === '/exams/vviq') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(vviqPageHTML());
+    }
+
+    if (path === '/api/exams/vviq/form') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, form: vviqForm({ seed }) }));
+    }
+
+    if (path === '/api/exams/vviq' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const result = scoreVviq(body.answers, body.times);
+      if (result.score.total == null) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No item was answered, so there is nothing to score. Nothing was saved.' }));
+      }
+      const prior = history(pid, VVIQ_ID);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).total : null;
+      const stored = appendSitting({
+        pid, exam: VVIQ_ID,
+        score: result.score,
+        answered: result.answered,
+        byScenario: result.byScenario,
+        perItem: result.perItem,
+        medianMsPerItem: result.medianMsPerItem,
+        allSameAnswer: result.allSameAnswer,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      const counts = completionCounts();
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: { score: result.score, answered: result.answered, byScenario: result.byScenario },
+        copy: vviqCopy(result, { n: counts[VVIQ_ID] || 0, priorScore }),
       }));
     }
 

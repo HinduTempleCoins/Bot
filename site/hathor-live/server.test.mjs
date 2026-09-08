@@ -2,6 +2,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import { handler, esc, __setConverse, __setVideo, __setAgency } from './server.mjs';
+// The exam store is injected for the whole file: the offline suite must not write to a real disk
+// path, and an in-memory buffer is the same contract the module ships for reports-store.
+import { __setIO as __setExamIO } from './exams-store.mjs';
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -276,4 +279,44 @@ test('a submission whose state card carries a dose is refused outright', async (
   }), res);
   assert.equal(o.code, 400);
   assert.match(o.body, /does not accept/);
+});
+
+// ── Temple Exams: VVIQ ────────────────────────────────────────────────────────────────────────────
+
+test('GET /exams/vviq states the scale direction on the page', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/vviq'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /1 means no image at all/);
+  assert.match(o.body, /never be worded as/);
+});
+
+test('the VVIQ form is served with its four scenes and sixteen items', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/vviq/form'), res);
+  const d = JSON.parse(o.body);
+  assert.equal(d.form.length, 4);
+  assert.equal(d.form.reduce((n, s) => n + s.items.length, 0), 16);
+});
+
+test('a VVIQ submission with a key scores, stores and reports the pair honestly', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const answers = {};
+  for (const s of ['person', 'sunrise', 'shop', 'country']) for (let i = 1; i <= 4; i += 1) answers[`${s}.${i}`] = 1;
+  const { res, o } = cap();
+  await handler(req('/api/exams/vviq', 'POST', { key: '0123456789ABCDEFGHJKMNPQR', answers }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.result.score.total, 16);
+  assert.match(d.copy.headline, /VVIQ 16 of 80/);
+  // The only place that phrase may appear is the `neverSay` field, which exists so the page can
+  // print "this result will never be worded as ..." out loud. Nowhere in the copy itself.
+  const said = [d.copy.headline, ...d.copy.lines, ...d.copy.landmarks.map((l) => `${l.text} ${l.source}`)].join(' ');
+  assert.ok(!/you have aphantasia/i.test(said), said);
+  assert.equal(d.copy.neverSay, 'You have aphantasia.');
+  assert.match(d.copy.landmarks[0].text, /no consensus cut-off/);
+  assert.match(buf, /"exam":"vviq"/, 'the sitting must actually reach the store');
+  assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
+  __setExamIO(null);
 });
