@@ -320,3 +320,42 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
   __setExamIO(null);
 });
+
+// ── Temple Exams: free colour naming ──────────────────────────────────────────────────────────────
+
+test('GET /exams/colour-naming says it keeps answers verbatim and is not a vision test', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/colour-naming'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /nothing is snapped to a list of approved colour words/);
+  assert.match(o.body, /It is not a vision test and cannot become one/);
+});
+
+test('the swatch block is served in gamut, stratified, and bounded', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/colour-naming/swatches?n=9999'), res);
+  const d = JSON.parse(o.body);
+  assert.equal(d.swatches.length, 200);
+  assert.ok(d.swatches.every((s) => s.inGamut));
+});
+
+test('a naming submission stores the words exactly as typed and never the raw key', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const { res, o } = cap();
+  await handler(req('/api/exams/colour-naming', 'POST', {
+    key: '0123456789ABCDEFGHJKMNPQR',
+    responses: [
+      { hex: '#3366cc', name: 'Cerulean-ish', ms: 900 },
+      { hex: '#7fff00', name: 'chartreuse', ms: 700 },
+    ],
+    display: { gamut: 'p3', scheme: 'dark', dpr: 2 },
+  }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.match(d.copy.headline, /2 words for 2 colours/);
+  assert.match(buf, /Cerulean-ish/, 'the verbatim spelling must reach the store');
+  assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
+  assert.ok(!/you have|your eyes are/i.test(d.copy.lines.join(' ')));
+  __setExamIO(null);
+});

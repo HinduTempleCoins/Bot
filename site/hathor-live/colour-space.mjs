@@ -124,7 +124,74 @@ export function deltaRgbUnit(c1, c2) {
 /** The maximum possible unit-RGB distance, √3 — black to white. Useful for describing the range. */
 export const MAX_RGB_UNIT_DISTANCE = Math.sqrt(3);
 
+// ── Oklab / Oklch ────────────────────────────────────────────────────────────────────────────────
+//
+// Added for the free-colour-naming exam, which needs to SAMPLE colours evenly rather than measure
+// distances between them. Sampling in HSL would cluster swatches in the yellows and starve the
+// blues, because HSL's "hue" is an sRGB-cube hack whose lightness swings wildly around the circle.
+// Oklch's hue circle is near-perceptually-even, which is what makes an even sample even.
+//
+// Björn Ottosson (2020), "A perceptual color space for image processing" — the published matrices.
+
+/** Re-apply the sRGB transfer function. Inverse of srgbToLinear, in 0–255. */
+export function linearToSrgb(v) {
+  const c = clamp(Number(v), 0, 1);
+  const enc = c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
+  return Math.round(clamp(enc, 0, 1) * 255);
+}
+
+export function rgbToOklab(rgb) {
+  const [r, g, b] = (Array.isArray(rgb) ? rgb : [0, 0, 0]).map(srgbToLinear);
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return {
+    L: 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+    a: 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+    b: 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s,
+  };
+}
+
+/** Oklab back to sRGB 0–255, plus whether the colour was inside the display's gamut BEFORE clipping. */
+export function oklabToRgb({ L = 0, a = 0, b = 0 } = {}) {
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+  const l = l_ ** 3;
+  const m = m_ ** 3;
+  const s = s_ ** 3;
+  const lin = [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  ];
+  // Clipping is NOT noise — it is a systematic compression toward the gamut edge. Report it so the
+  // caller can avoid presenting a clipped swatch rather than silently pretending it was the colour
+  // that was asked for.
+  const inGamut = lin.every((v) => v >= -1e-6 && v <= 1 + 1e-6);
+  return { rgb: lin.map(linearToSrgb), inGamut };
+}
+
+export function oklchToRgb({ L = 0, C = 0, H = 0 } = {}) {
+  const h = (Number(H) * Math.PI) / 180;
+  return oklabToRgb({ L: Number(L), a: Number(C) * Math.cos(h), b: Number(C) * Math.sin(h) });
+}
+
+export function rgbToOklch(rgb) {
+  const { L, a, b } = rgbToOklab(rgb);
+  const H = (Math.atan2(b, a) * 180) / Math.PI;
+  return { L, C: Math.hypot(a, b), H: (H + 360) % 360 };
+}
+
+/** Euclidean distance in Oklab — the space's own ΔE. */
+export function deltaOklab(c1, c2) {
+  const a = rgbToOklab(c1);
+  const b = rgbToOklab(c2);
+  return dist([a.L, b.L], [a.a, b.a], [a.b, b.b]);
+}
+
 export default {
-  D65, hexToRgb, rgbToHex, srgbToLinear, rgbToXyz, rgbToLab, rgbToLuv, lightness,
+  D65, hexToRgb, rgbToHex, srgbToLinear, linearToSrgb, rgbToXyz, rgbToLab, rgbToLuv, lightness,
+  rgbToOklab, oklabToRgb, oklchToRgb, rgbToOklch, deltaOklab,
   deltaLab, deltaLuv, deltaRgbUnit, MAX_RGB_UNIT_DISTANCE,
 };

@@ -37,6 +37,10 @@ import {
   EXAM_ID as VVIQ_ID, buildForm as vviqForm, scoreForm as scoreVviq,
   resultCopy as vviqCopy, vviqPageHTML,
 } from './exam-vviq.mjs';
+import {
+  EXAM_ID as NAMING_ID, buildSwatches, summariseNaming,
+  resultCopy as namingCopy, colourNamingPageHTML,
+} from './exam-colour-naming.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
@@ -654,6 +658,78 @@ export async function handler(req, res) {
         daysSinceFirst: stored.sitting.daysSinceFirst,
         result: { score: result.score, answered: result.answered, byScenario: result.byScenario },
         copy: vviqCopy(result, { n: counts[VVIQ_ID] || 0, priorScore }),
+      }));
+    }
+
+    // ── /exams/colour-naming — free colour naming ─────────────────────────────────────────────────
+    // The most browser-honest colour exam there is: the question is the mapping from APPEARANCE to
+    // WORD, and both sides of it are sampled inside one observer on one screen, so the display error
+    // that wrecks most online colour tests largely cancels. Answers are stored VERBATIM — the
+    // non-basic terms are the data, and tidying them on the way in would destroy it.
+    if (path === '/exams/colour-naming') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(colourNamingPageHTML());
+    }
+
+    if (path === '/api/exams/colour-naming/swatches') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      const count = Number(url.searchParams.get('n')) || undefined;
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, swatches: buildSwatches({ seed, count }) }));
+    }
+
+    if (path === '/api/exams/colour-naming' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const summary = summariseNaming(body.responses);
+      if (!summary.answered) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No colour was named, so there is nothing to record. Nothing was saved.' }));
+      }
+      const stored = appendSitting({
+        pid, exam: NAMING_ID,
+        // `score` is the shape exams-store's distribution reader expects. There is no score here in
+        // the sense the other exams have one — a lexicon is not a number — so what goes in is a
+        // count, and nothing downstream ranks people on it.
+        score: { distinctTerms: summary.distinctTerms, answered: summary.answered },
+        nonBasicShare: summary.nonBasicShare,
+        // Verbatim, as typed. This is the whole point of the exam.
+        rows: summary.rows.map((r) => ({ hex: r.hex, name: r.name, ms: r.ms })),
+        terms: summary.terms.map((t) => ({ term: t.term, spellings: t.spellings, n: t.n, basic: t.basic, meanOklch: t.meanOklch, spread: t.spread })),
+        // Measurement covariates, scoped to the sitting record. Never used to re-link a participant.
+        language: String(body.language || '').slice(0, 40),
+        languages: String(body.languages || '').slice(0, 120),
+        display: body.display && typeof body.display === 'object' ? {
+          gamut: String(body.display.gamut || '').slice(0, 16),
+          scheme: String(body.display.scheme || '').slice(0, 16),
+          dpr: Number(body.display.dpr) || null,
+          width: Number(body.display.width) || null,
+          height: Number(body.display.height) || null,
+        } : null,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      const counts = completionCounts();
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        copy: namingCopy(summary, { n: counts[NAMING_ID] || 0 }),
       }));
     }
 
