@@ -189,6 +189,50 @@ export function loadVenues(file = VENUES_FILE, read = readFileSync) {
 // And one thing OUTRANKS all of it: an unanswered message. Pitching on top of a message you ignored is
 // the worst possible open, so `rank()` pushes those to the top as a debt, not an opportunity.
 
+/**
+ * The kinds of business that BUY what SoapBox already sells.
+ *
+ * This axis was missing and it is the one that carries revenue. The file was built to tell classmates
+ * about a chain; the first pass through it turned up a wine bistro, a barber and a print-and-signage
+ * franchise. Those are not people to tell about a blockchain — they are businesses with a document,
+ * image-hosting, fax and web problem, staffed by someone who will answer because he went to school
+ * with them. That is the warmest B2B lead this company has, and it was scoring below a stranger with
+ * matching tags.
+ *
+ * The mapping is deliberately shallow. A keyword on a job title is a hint about which door to knock
+ * on, not a qualification — `buyerWhy` names the actual product so the operator can throw it out when
+ * he knows better, which he usually will.
+ */
+export const BUYER_KINDS = Object.freeze([
+  { id: 'print-doc', weight: 30, match: /\b(print|printing|graphics|signage|sign shop|copy|mail ?box|document|shipping|notary|ups store|fedex office|alphagraphics|minuteman)\b/i,
+    why: 'print and document shops resell exactly what SoapBox does — conversion, fax, hosting' },
+  { id: 'realty-legal-medical', weight: 28, match: /\b(realtor|real estate|broker|title|escrow|attorney|law|legal|paralegal|clinic|dental|chiropract|insurance|agency|agent)\b/i,
+    why: 'the industries that still run on fax and PDF, and that pay for a records deadline' },
+  { id: 'hospitality-retail', weight: 18, match: /\b(restaurant|bistro|cafe|coffee|bar\b|brewery|winery|wine|salon|barber|spa|tattoo|boutique|shop|store|gym|studio)\b/i,
+    why: 'a storefront needs a site, images, menus and a booking page more than it needs a token' },
+  { id: 'trades', weight: 16, match: /\b(hvac|plumb|electric|roof|landscap|construction|contractor|remodel|auto|mechanic|towing|detailing)\b/i,
+    why: 'trades run on quotes, invoices and photos of the job — all document work' },
+  { id: 'creator-media', weight: 14, match: /\b(creator|photograph|videograph|dj\b|musician|artist|podcast|marketing|design|social media)\b/i,
+    why: 'creators need hosting and a link surface, and they already understand paying for tools' },
+]);
+
+/**
+ * What does this person's work make them a buyer for? Reads the fields a profile actually shows —
+ * employer, job title, self-description, a business name — and returns the best match with the reason.
+ */
+export function buyerFit(seed = {}) {
+  const hay = [seed.work, seed.title, seed.employer, seed.describesSelf,
+    seed.business && seed.business.name, seed.business && seed.business.kind]
+    .map(str).filter(Boolean).join(' · ');
+  if (!hay) return { fit: 'none', weight: 0, why: '', evidence: '' };
+  for (const k of BUYER_KINDS) {
+    if (k.match.test(hay)) return { fit: k.id, weight: k.weight, why: k.why, evidence: hay };
+  }
+  // Employed somewhere we cannot classify is still worth more than no employer at all — a person with
+  // a job has a workplace with problems, we just do not know which ones yet.
+  return { fit: 'unclassified', weight: 6, why: 'employed, but the business type is not known yet — ask', evidence: hay };
+}
+
 export function score(seed = {}) {
   const tags = (seed.tags || []).map(low);
   const parts = [];
@@ -218,6 +262,17 @@ export function score(seed = {}) {
   // relationship — someone he dated shows 3 mutuals. When he says he knows someone well, that
   // outranks the graph.
   if (tags.includes('known-personally')) { n += 35; parts.push('close personal tie +35'); }
+  // What they do for a living, which is the axis that carries money. See buyerFit().
+  const b = buyerFit(seed);
+  if (b.weight) { n += b.weight; parts.push(`${b.fit} +${b.weight} (${b.evidence})`); }
+  // An account nobody posts from is reach that does not exist. 444 friends and zero posts is not a
+  // door, it is a nameplate on a door — so it does not get counted as one.
+  const posts = Number((seed.audience || {}).posts);
+  if (Number.isFinite(posts) && posts <= 10) {
+    const back = Math.min(n, 10);
+    n -= back;
+    parts.push(`dormant account (${posts} posts) -${back} — find a route off Facebook before writing`);
+  }
   return { score: n, why: parts };
 }
 
@@ -408,6 +463,20 @@ export function rank(seeds = null) {
       id: s.id, name: str(s.name), relationship: str(s.relationship), why: personalReason(s),
     })),
     excludedAsDisputed: all.filter(isDisputed).map((s) => ({ id: s.id, name: str(s.name), reason: str(s.disputeNote) })),
+    // The revenue segment, called out separately: people we know who work somewhere that buys what we
+    // already sell. This is a different conversation from the chain, and it should not be buried in
+    // one ranked list with it.
+    businessesWeKnow: all
+      .filter((s) => !isFamily(s) && !isDisputed(s) && !isPersonal(s))
+      .map((s) => ({ s, b: buyerFit(s) }))
+      .filter((x) => x.b.weight >= 14)
+      .sort((a, b2) => b2.b.weight - a.b.weight || Number(b2.s.mutualsWithOperator || 0) - Number(a.s.mutualsWithOperator || 0))
+      .map((x) => ({
+        id: x.s.id, name: str(x.s.name), fit: x.b.fit, why: x.b.why,
+        business: str((x.s.business && x.s.business.name) || x.s.work),
+        mutuals: Number(x.s.mutualsWithOperator || 0),
+        pitch: 'SoapBox first, chain second — sell them the thing their business already needs',
+      })),
     // Rows that were folded into another account, and rows that look like they should be but nobody said.
     collapsedDuplicates: dedupe(Array.isArray(seeds) ? seeds : loadSeeds()).aliases,
     askAboutDuplicates: possibleDuplicates(Array.isArray(seeds) ? seeds : loadSeeds()),

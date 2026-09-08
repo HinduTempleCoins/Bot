@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
-  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates,
+  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates, buyerFit, BUYER_KINDS,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -531,4 +531,74 @@ test('once it is answered, it stops being asked', () => {
 
 test('two genuinely different people with different names are not a duplicate question', () => {
   assert.deepEqual(possibleDuplicates([{ id: 'a', name: 'One Person' }, { id: 'b', name: 'Other Person' }]), []);
+});
+
+
+// ── what they do for a living ─────────────────────────────────────────────────────────────────────
+test('a print shop is the strongest buyer fit — it resells what SoapBox does', () => {
+  const b = buyerFit({ work: 'AlphaGraphics Wilmington', business: { kind: 'print / document / signage franchise' } });
+  assert.equal(b.fit, 'print-doc');
+  assert.ok(b.weight >= 30);
+  assert.match(b.why, /fax|conversion|hosting/);
+});
+
+test('a storefront, a trade and a creator each land in their own bucket', () => {
+  assert.equal(buyerFit({ work: 'Zin Zen Wine Bistro' }).fit, 'hospitality-retail');
+  assert.equal(buyerFit({ describesSelf: 'Outdoorsy. English. Barber.' }).fit, 'hospitality-retail');
+  assert.equal(buyerFit({ title: 'HVAC technician' }).fit, 'trades');
+  assert.equal(buyerFit({ describesSelf: 'Digital creator' }).fit, 'creator-media');
+  assert.equal(buyerFit({ describesSelf: 'licensed insurance agent' }).fit, 'realty-legal-medical');
+});
+
+test('an employer we cannot classify still beats no employer at all', () => {
+  const some = buyerFit({ work: 'Widgets Incorporated' });
+  assert.equal(some.fit, 'unclassified');
+  assert.ok(some.weight > 0);
+  assert.equal(buyerFit({}).fit, 'none');
+  assert.equal(buyerFit({}).weight, 0);
+});
+
+test('buyerFit carries its evidence, so a wrong guess is visible and throwable', () => {
+  const b = buyerFit({ work: 'Zin Zen Wine Bistro' });
+  assert.match(b.evidence, /Zin Zen/);
+});
+
+test('work counts in the score, and the business segment is reported separately', () => {
+  const plain = { id: 'p', name: 'No Job Listed', mutualsWithOperator: 40 };
+  const shop = { id: 's', name: 'Print Shop Person', mutualsWithOperator: 40, work: 'AlphaGraphics' };
+  assert.ok(score(shop).score > score(plain).score, 'the print shop outranks the identical stranger');
+  const r = rank([plain, shop]);
+  assert.deepEqual(r.businessesWeKnow.map((x) => x.id), ['s']);
+  assert.match(r.businessesWeKnow[0].pitch, /SoapBox first/);
+});
+
+test('family and personal rows never appear in the business segment', () => {
+  const r = rank([
+    { id: 'f', name: 'A Cousin', work: 'AlphaGraphics', tags: ['family'] },
+    { id: 'd', name: 'Someone He Dated', work: 'AlphaGraphics', tags: ['dated'] },
+  ]);
+  assert.deepEqual(r.businessesWeKnow, [], 'a rule that removes someone removes them everywhere');
+});
+
+test('a dormant account is docked — 444 friends and no posts is a nameplate, not a door', () => {
+  const dormant = { id: 'z', name: 'Dormant', mutualsWithOperator: 40, audience: { friends: 444, posts: 0 } };
+  const live = { id: 'a', name: 'Active', mutualsWithOperator: 40, audience: { friends: 444, posts: 1300 } };
+  assert.ok(score(dormant).score < score(live).score);
+  assert.match(score(dormant).why.join(' '), /dormant/);
+});
+
+test('the dock never drives a score below zero', () => {
+  const s = score({ id: 'z', name: 'Nothing Known', audience: { posts: 0 } });
+  assert.ok(s.score >= 0, `score was ${s.score}`);
+});
+
+test('an unknown post count is not treated as dormant', () => {
+  const unknown = score({ mutualsWithOperator: 40, audience: { friends: 444 } });
+  assert.ok(!unknown.why.join(' ').includes('dormant'));
+});
+
+test('every buyer kind has a weight, a reason and a working pattern', () => {
+  for (const k of BUYER_KINDS) {
+    assert.ok(k.weight > 0 && k.why && k.match instanceof RegExp, k.id);
+  }
 });
