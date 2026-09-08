@@ -25,6 +25,8 @@
 // any requester can read off an agency's own site. Requester identity, subject matter and the log of
 // what was actually sent stay with the caller.
 
+import * as bh from './soapbox/business-hours.mjs';
+
 export const CHANNELS = Object.freeze({
   EMAIL: 'email',        // a designated mailbox
   PORTAL: 'portal',      // a web application, usually needing an account
@@ -240,15 +242,15 @@ export const emailable = () =>
 export const notEmailable = () =>
   REGISTRY.filter((o) => o.channel !== CHANNELS.EMAIL || !o.address);
 
-function addBusinessDays(date, n) {
-  const d = new Date(date.getTime());
-  let left = n;
-  while (left > 0) {
-    d.setUTCDate(d.getUTCDate() + 1);
-    const day = d.getUTCDay();
-    if (day !== 0 && day !== 6) left -= 1;
-  }
-  return d;
+// Weekends are not the definition. Tex. Gov't Code § 552.0031 (H.B. 3033, eff. 1 Sept 2023)
+// excludes national holidays under § 662.003(a) AND state holidays under § 662.003(b) -- and the
+// Texas state list carries 24 and 26 December, the Friday after Thanksgiving, and four dates no
+// federal calendar has. Counting weekends alone overstates how late a records officer is.
+function addBusinessDays(date, n, regime) {
+  const start = date.toISOString().slice(0, 10);
+  const kind = String(regime || '').startsWith('US_') || regime === 'FOIA' ? 'FEDERAL' : 'TX_PIA';
+  const r = bh.addBusinessDays(start, n, { regime: kind });
+  return r ? new Date(`${r.date}T12:00:00Z`) : date;
 }
 
 /**
@@ -263,7 +265,7 @@ export function deadlineFor(officeId, sentISO) {
   const sent = new Date(sentISO);
   if (Number.isNaN(sent.getTime())) return null;
   const due = r.basis === 'business'
-    ? addBusinessDays(sent, r.days)
+    ? addBusinessDays(sent, r.days, o.regime)
     : new Date(sent.getTime() + r.days * 86400000);
   return due.toISOString().slice(0, 10);
 }
