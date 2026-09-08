@@ -14,6 +14,8 @@ import { createTabFragment } from '../../integrations/token-launch.mjs';
 import { CHAINS } from '../../kulaswap/kula-config.mjs';
 import { quoteVote, DEFAULT_MARKET } from '../../kulaswap/alti-vote-market.mjs';
 import { faucetClaim, dispositionFor, FAUCET_DEFAULTS } from '../../cryptology/hathor-disposition.mjs';
+import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.alpha.melek.salon';
@@ -21,6 +23,12 @@ const MANAGE_URL = process.env.MANAGE_URL || 'https://manage.melek.salon';   // 
 const ACADEMY_URL = process.env.ACADEMY_URL || 'https://academy.melek.salon'; // Token Academy (how-to) + Economics 101
 const CHAIN_RPC = process.env.CHAIN_RPC || 'https://alpha.melek.salon/rpc';
 const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
+
+// Crawlability: this host served neither robots.txt nor sitemap.xml (both 404), so every tab below
+// was undiscoverable. These are the real server-rendered PAGE routes; /api/* is excluded, and
+// '/tokens' is left out because it is an alias of '/' and would duplicate the canonical URL.
+const BASE_URL = (process.env.BASE_URL || 'https://tokens.alpha.melek.salon').replace(/\/$/, '');
+export const SITEMAP_PATHS = ['/', '/create', '/wallet', '/earnings', '/vote', '/faucet', '/standing'];
 
 // PRANA factory addresses for the turnkey "Create a Token" flow. Env-overridable; defaults are
 // the kula-config PRANA addresses (placeholders until ERC20FactoryWizard/CloneFactory are deployed
@@ -254,6 +262,19 @@ export async function handler(req, res) {
   try { url = new URL(req.url, 'http://x'); } catch { return html(res, 400, 'bad request'); }
   const p = url.pathname;
   try {
+    if (p === '/robots.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(robotsTxt(BASE_URL));
+    }
+    if (p === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
+      return res.end(sitemapXml(BASE_URL, SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today, changefreq: 'weekly', priority: u === '/' ? '1.0' : '0.7',
+      }))));
+    }
+    // IndexNow ownership file (/<key>.txt) — served only when INDEXNOW_KEY is set.
+    if (serveKeyFile(req, res)) return;
     if (p === '/' || p === '/tokens') return html(res, 200, pageTokens());
     if (p === '/create') return html(res, 200, pageCreate());
     if (p === '/wallet') return html(res, 200, pageWallet());

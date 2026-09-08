@@ -42,6 +42,8 @@ import {
   resultCopy as namingCopy, colourNamingPageHTML,
 } from './exam-colour-naming.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
+import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -293,6 +295,16 @@ function chamberShell(title, body, session = null) {
 </style></head><body><main>${body}${back}</main></body></html>`;
 }
 
+// ── crawlability ──────────────────────────────────────────────────────────────────────────────────
+// robots.txt already promised /sitemap.xml; until now that URL 404'd, which is worse than promising
+// nothing — a crawler follows the pointer, hits a dead end, and learns to distrust the file. These are
+// the real, currently-served, indexable PAGE routes. /api/* is excluded (robots Disallows it and a JSON
+// endpoint is not a page), and so are the feeds, which are syndication rather than sitemap entries.
+export const SITEMAP_PATHS = [
+  '/', '/40hz', '/studio', '/reports', '/chamber',
+  '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming',
+];
+
 export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL);
@@ -307,6 +319,18 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'text/plain' });
       return res.end(`User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: ${BASE_URL}/sitemap.xml\n`);
     }
+    if (path === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      const entries = SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today,
+        changefreq: u === '/' ? 'daily' : 'weekly',
+        priority: u === '/' ? '1.0' : '0.7',
+      }));
+      res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
+      return res.end(sitemapXml(BASE_URL, entries));
+    }
+    // IndexNow ownership file (/<key>.txt) — served only when INDEXNOW_KEY is set.
+    if (serveKeyFile(req, res)) return;
 
     if (path === '/api/chat' && method === 'POST') {
       const raw = await readBody(req);

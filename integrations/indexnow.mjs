@@ -69,6 +69,30 @@ export function keyFile(key) {
 const hostOf = (u) => { try { return new URL(str(u)).host.toLowerCase(); } catch { return ''; } };
 
 /**
+ * Serve the ownership file at /<key>.txt. ONE helper every site server calls, rather than a copy of
+ * the same six lines in each — the file's whole job is to return the key verbatim, so there is
+ * nothing per-site to vary. Returns TRUE if it wrote the response, FALSE if the caller should keep
+ * routing (no key configured, or a different path). Never throws.
+ *
+ * The key comes from the INDEXNOW_KEY env var only. With it unset, this returns false and the host
+ * 404s exactly as it does today — a repo that ships a key would be publishing an ownership token
+ * for hosts it may not still control.
+ *
+ *   if (serveKeyFile(req, res)) return;   // first line of the router
+ */
+export function serveKeyFile(req, res, { key = env('INDEXNOW_KEY', ''), pathname = '' } = {}) {
+  try {
+    const f = keyFile(key);
+    if (!f.ok) return false;
+    const p = str(pathname) || new URL(str((req && req.url) || '/') || '/', 'http://localhost').pathname;
+    if (p !== f.path) return false;
+    res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=86400' });
+    res.end(f.body);
+    return true;
+  } catch { return false; }
+}
+
+/**
  * Group URLs by host and drop what cannot be submitted. Pure.
  * Returns { byHost: Map<host, url[]>, rejected: [{url, why}] }.
  */
@@ -172,7 +196,7 @@ export function handler(req, res) {
   }, null, 2));
 }
 
-export default { ENDPOINTS, SHARED_WITH, NOT_REACHED, MAX_URLS_PER_REQUEST, generateKey, isValidKey, keyFile, partition, submit, submitAll, handler, __setFetch };
+export default { ENDPOINTS, SHARED_WITH, NOT_REACHED, MAX_URLS_PER_REQUEST, generateKey, isValidKey, keyFile, serveKeyFile, partition, submit, submitAll, handler, __setFetch };
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const args = process.argv.slice(2);

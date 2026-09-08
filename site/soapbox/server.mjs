@@ -11,6 +11,8 @@
 //         /api/coins  /api/coins/:id  /api/global  /sitemap.xml  /robots.txt  /health
 
 import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { realpathSync } from 'node:fs';
 import { topCoins, ourCoins, getCoin, coinChart, coinChartRange, CHART_RANGES, globalStats, trending, hiveEngineExtras, relatedCoins, marketIndex, coinTickers, officialThreads } from '../../integrations/soapbox/condenser.mjs';
 import { clarityFromCoin } from '../../integrations/soapbox/clarity.mjs';
 import { fetchTeam } from '../../integrations/soapbox/adapters/coinpaprika.mjs';
@@ -36,7 +38,7 @@ import { chyronItems, worldClocks, tickerPanels, renderTickerHTML } from '../../
 import { newsFeed } from '../../integrations/soapbox/news.mjs';
 import { GOV_APIS, keylessApis } from '../../integrations/soapbox/govapis.mjs';
 import { SCAM_SOURCES, consumerSources, byKind as scamByKind, consumerComplaintLinks, scamSignals, scamHighlights, summary as scamSummary } from '../../integrations/soapbox/scam-registry.mjs';
-import { findVertical, renderVertical } from './verticals.mjs';
+import { findVertical, renderVertical, verticalPaths } from './verticals.mjs';
 import { renderSocials, hasSocials } from '../../integrations/soapbox/coin-socials.mjs';
 import { listAnnouncements, asPost, SIGNATURE } from '../../integrations/soapbox/announcements.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
@@ -697,13 +699,28 @@ function learnArticle(slug) {
 }
 
 // ── SEO surfaces + JSON read API (the one source of truth for Hathor/bots) ───
+// The sitemap's PATH LIST, as a pure function so it can be asserted offline.
+//
+// verticalPaths is spread in here deliberately. It used not to be: the static list below was
+// hand-maintained while verticals.mjs grew to ~50 entries, so real server-rendered pages
+// (/legal, /gamer-hub, /energy, …) were reachable but listed nowhere — which is how a page
+// stays undiscovered no matter how good it is. The test asserts every registered vertical is
+// present, so adding vertical #51 without touching this cannot silently repeat the mistake.
+export function sitemapPaths({ coinIds = [] } = {}) {
+  return [...new Set([
+    '/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex',
+    '/scams', '/gov', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
+    ...verticalPaths,
+    ...Object.keys(LEARN).map((s) => `/learn/${s}`),
+    ...ECOSYSTEM.pillars.map((pl) => `/ecosystem/${pl.slug}`),
+    ...(Array.isArray(coinIds) ? coinIds : []).map((id) => `/coins/${id}`),
+  ])];
+}
+
 async function sitemap() {
   const top = await topCoins({ limit: PER_PAGE }).catch(() => []);
   const ours = await ourCoins().catch(() => []);
-  const urls = ['/', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/scams', '/gov', '/directory', '/ecosystem', '/learn', '/portfolio', '/watchlist',
-    ...Object.keys(LEARN).map((s) => `/learn/${s}`),
-    ...ECOSYSTEM.pillars.map((p) => `/ecosystem/${p.slug}`),
-    ...[...ours, ...top].map((c) => `/coins/${c.id}`)];
+  const urls = sitemapPaths({ coinIds: [...ours, ...top].map((c) => c.id) });
   const today = new Date().toISOString().slice(0, 10);
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     [...new Set(urls)].map((u) => `  <url><loc>${BASE_URL}${encodeURI(u)}</loc><lastmod>${today}</lastmod><changefreq>${u === '/' ? 'hourly' : u.startsWith('/coins/') ? 'daily' : 'weekly'}</changefreq><priority>${u === '/' ? '1.0' : u.startsWith('/coins/') ? '0.8' : '0.6'}</priority></url>`).join('\n') + `\n</urlset>`;
@@ -841,7 +858,10 @@ function statusPage() {
 
 // ── Router ──────────────────────────────────────────────────────────────────
 const LOG = process.env.SOAPBOX_LOG === '1';
-createServer(async (req, res) => {
+
+// handler(req,res) is exported so tests can drive routes in-process; the listener is CLI-guarded
+// (house style) so importing this module never binds a socket.
+export async function handler(req, res) {
   const t0 = LOG ? process.hrtime.bigint() : 0n;
   const url = new URL(req.url, BASE_URL);
   const p = url.pathname;
@@ -1025,18 +1045,34 @@ createServer(async (req, res) => {
 
     return send(layout({ title: '404', body: card('404', '<p class=muted><a href="/">← markets</a></p>') }), 404);
   } catch (e) { res.writeHead(500); res.end('error: ' + e.message); }
-}).listen(PORT, HOST, async () => {
-  console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
-  // Warm the homepage cache on boot (2026-06-06: a cold restart left the first / requests
-  // fetching every upstream serially for 7-12s — probes timed out and the site read as DOWN).
-  // Best-effort; failures just mean the first visitor warms it instead. The warmup is wrapped in a
-  // hard timeout (2026-06-08): the per-upstream fetches are soft-failed, but a HUNG upstream socket
-  // is not a rejection — without a cap, one slow upstream wedges the whole warmup forever.
-  bootWarmup(() => listPage({ page: 1 }), { ms: +(process.env.SOAPBOX_WARMUP_MS || 8000), label: 'boot warmup: homepage' });
-  // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
-  if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
-    const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/announcements'];
-    submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
-    pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
-  }
-});
+}
+
+// Is this file the process entrypoint? Compared through realpath (and with a suffix fallback) because
+// a plain argv[1] string compare silently fails when the service is launched through a symlinked path
+// — and "silently fails" here means data.soapbox.community boots and never listens.
+const IS_MAIN = (() => {
+  const argv = String(process.argv[1] || '');
+  if (!argv) return false;
+  const self = fileURLToPath(import.meta.url);
+  if (argv === self) return true;
+  try { if (realpathSync(argv) === realpathSync(self)) return true; } catch { /* not a real path */ }
+  return argv.replace(/\\/g, '/').endsWith('soapbox/server.mjs');
+})();
+
+if (IS_MAIN) {
+  createServer(handler).listen(PORT, HOST, async () => {
+    console.log(`SoapBox markets browser (page factory) on ${BASE_URL} (bound ${HOST}:${PORT})`);
+    // Warm the homepage cache on boot (2026-06-06: a cold restart left the first / requests
+    // fetching every upstream serially for 7-12s — probes timed out and the site read as DOWN).
+    // Best-effort; failures just mean the first visitor warms it instead. The warmup is wrapped in a
+    // hard timeout (2026-06-08): the per-upstream fetches are soft-failed, but a HUNG upstream socket
+    // is not a rejection — without a cap, one slow upstream wedges the whole warmup forever.
+    bootWarmup(() => listPage({ page: 1 }), { ms: +(process.env.SOAPBOX_WARMUP_MS || 8000), label: 'boot warmup: homepage' });
+    // welcome the crawlers: submit core URLs to IndexNow + ping Bing on boot (best-effort, public site).
+    if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
+      const core = ['/', '/coins', '/categories', '/chains', '/dapps', '/exchanges', '/macro', '/commodities', '/forex', '/directory', '/ecosystem', '/learn', '/announcements'];
+      submitToIndexNow(BASE_URL, core).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
+      pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+    }
+  });
+}

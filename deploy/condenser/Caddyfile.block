@@ -25,6 +25,22 @@ alpha.melek.salon {
 		reverse_proxy 127.0.0.1:8090
 	}
 
+	# --- Crawlability: robots.txt must be robots.txt ------------------------
+	# Without this, /robots.txt and /sitemap.xml fall through to the gate/condenser and answer 200
+	# with HTML. Serve the committed deploy/condenser/robots.txt (Disallow-all: this host is the
+	# TESTNET and already declares noindex in its own <meta>), and answer /sitemap.xml with 404
+	# rather than HTML, because a host that is not indexed should not advertise a sitemap.
+	# Replace __ROBOTS_DIR__ with the absolute path of the deployed copy of Bot's deploy/condenser/.
+	handle /robots.txt {
+		root * __ROBOTS_DIR__
+		rewrite * /robots.txt
+		header Content-Type "text/plain; charset=utf-8"
+		file_server
+	}
+	handle /sitemap.xml {
+		respond "not found" 404
+	}
+
 	# --- Accept-gate: bare "/" serves the disclaimer holding page ----------
 	@root path /
 	handle @root {
