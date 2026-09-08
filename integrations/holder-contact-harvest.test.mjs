@@ -5,7 +5,7 @@ import {
   attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan,
   siteHost, sameSite, __setFetch, handler, extractSocials, socialsFromProfile, NOT_A_HANDLE,
   isHub, HUB_DOMAINS, isPlatformApex, confersNothing, crossPageBoilerplate, isUsableHandle,
-  platformEmailDomain,
+  platformEmailDomain, MAX_SCAN_BYTES,
 } from './holder-contact-harvest.mjs';
 
 test('siteHost normalises what the CSV actually holds', () => {
@@ -469,4 +469,47 @@ test('a platform domain is a platform domain at any depth', () => {
   assert.equal(platformEmailDomain(''), '');
   // and the main path agrees
   assert.equal(attribution('x@www.aaa.com', { site: 'holder.example' }).ok, false);
+});
+
+// ── the hang that stopped the crawl three times ───────────────────────────────────────────────────
+test('a long whitespace run is linear, not catastrophic — 500 spaces used to take over a minute', () => {
+  for (const n of [500, 5000, 50000]) {
+    const t0 = Date.now();
+    extractEmails(`<p>${' '.repeat(n)}</p>`);
+    const ms = Date.now() - t0;
+    assert.ok(ms < 500, `${n} spaces took ${ms}ms — the backtracking is back`);
+  }
+});
+
+test('the whole extraction path stays fast on a whitespace-heavy page', () => {
+  const page = `<html>${(' '.repeat(400) + '<div class="x">text</div>\n\t').repeat(400)}</html>`;
+  const t0 = Date.now();
+  extractEmails(page);
+  extractSocials(page);
+  assert.ok(Date.now() - t0 < 1000, 'a pretty-printed page must not stall the crawl');
+});
+
+test('the bracketed obfuscations are still undone — that is what the pattern is for', () => {
+  assert.deepEqual(extractEmails('write to me [at] holder [dot] example').map((e) => e.email),
+    ['me@holder.example']);
+  assert.deepEqual(extractEmails('me (at) holder (dot) example').map((e) => e.email),
+    ['me@holder.example']);
+  assert.deepEqual(extractEmails('me {at} holder {dot} example').map((e) => e.email),
+    ['me@holder.example']);
+});
+
+test('the bare spaced form is NOT undone, because it manufactures addresses out of prose', () => {
+  // "look at the dot on the map" used to come back as look@the.on — a bounce that never existed.
+  assert.deepEqual(extractEmails('look at the dot on the map'), []);
+  assert.deepEqual(extractEmails('we are open at noon and closed at six'), []);
+  assert.deepEqual(extractEmails('me at holder dot example'), [],
+    'a real obfuscation we now miss — the deliberate cost of not inventing the other kind');
+});
+
+test('a page larger than the scan cap is truncated rather than scanned whole', () => {
+  const padding = `<!--${'x'.repeat(MAX_SCAN_BYTES + 1000)}-->`;
+  assert.deepEqual(extractEmails(`${padding}buried@holder.example`), [],
+    'an address past the cap is not read — a megabyte of markup is a bundle, not a contact page');
+  assert.deepEqual(extractEmails(`<p>early@holder.example</p>${padding}`).map((e) => e.email),
+    ['early@holder.example'], 'and everything before the cap still is');
 });
