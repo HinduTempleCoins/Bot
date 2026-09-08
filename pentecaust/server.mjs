@@ -38,6 +38,7 @@ import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, se
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
 import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
+import { gateSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage } from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
@@ -353,6 +354,28 @@ export async function handler(req, res) {
           // An opt-out that a page refresh can defeat is not an opt-out.
           if (lead.stage === 'unsubscribed') {
             return json(res, 403, { ok: false, reason: 'this lead has unsubscribed — that is terminal' }, origin);
+          }
+          // ── THE COMPLIANCE GATE, on the path that actually sends ─────────────────────────────────
+          // compliance.checkSend() has been written and tested for months and had exactly one caller:
+          // campaign-sender.mjs's processQueue(), behind an opt-in nothing passes, on the Resend road
+          // that has no subscribers and no runner. This is the road.
+          //
+          // The check above it is per-lead and per-campaign, which means it is not a suppression list
+          // at all: the same person under the same address in a second campaign has a second row at
+          // stage 'new' and gets mailed again. `suppressionFrom(all campaigns)` closes that.
+          //
+          // It fails closed. No HERALD_POSTAL_ADDRESS, no send — a commercial message without a
+          // physical postal address violates CAN-SPAM §7704(a)(5)(A)(iii) and the first one is
+          // already the violation. If this blocks the first campaign, it is working.
+          const mb = getMailbox(me);
+          const cg = gateSend({
+            channel: 'email',
+            recipient: lead.email,
+            campaigns: campaignsForOwner(me),
+            mailboxEmail: (mb && mb.email) || '',
+          });
+          if (!cg.ok) {
+            return json(res, 403, { ok: false, reason: cg.blockers.join('; '), blockers: cg.blockers, checked: cg.checked }, origin);
           }
           const step = (c.sequence || [])[Number(b.step) || 0];
           if (!step) return json(res, 422, { ok: false, reason: 'draft a plan first (no sequence step)' }, origin);
