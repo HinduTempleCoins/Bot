@@ -99,6 +99,27 @@ export const HUB_DOMAINS = Object.freeze(new Set([
 export const isHub = (url) => HUB_DOMAINS.has(siteHost(url));
 
 /**
+ * A page ON a platform, at the platform's own front door — `peakd.com/@x`, `read.cash/@x`,
+ * `medium.com/@x`, `hive.blog/@x`. The hub fix in #929 covered `linktr.ee` and thirteen siblings; it
+ * did not cover these, and they are the larger set: 510 rows of the holder file list a Hive front-end
+ * as the holder's "website" (peakd.com 217, hive.blog 122, ecency.com 66, steemit.com 31,
+ * read.cash 18). Crawling those with the site claim intact reproduces the exact bug this module was
+ * written against — every address on a peakd profile page reads as `published-on-site`, and
+ * `contact@read.cash` reads as `own-domain`, because the own-domain test ran before the platform test.
+ *
+ * A personal subdomain of a host is still the person's: `myblog.wordpress.com` is his page even
+ * though `wordpress.com` is not. So the strip is on the APEX only, and the email-domain check below
+ * is what stops `x@wordpress.com`.
+ */
+export const isPlatformApex = (url) => {
+  const h = siteHost(url);
+  return !!h && (PLATFORM_DOMAINS.has(h) || HUB_DOMAINS.has(h));
+};
+
+/** A page that cannot vouch for anybody: a hub, or a platform's own apex. */
+export const confersNothing = (url) => isHub(url) || isPlatformApex(url);
+
+/**
  * Is this address plausibly THIS holder's?
  *
  * Four verdicts, and only the first two are contactable:
@@ -111,24 +132,28 @@ export const isHub = (url) => HUB_DOMAINS.has(siteHost(url));
  *   never               role account, or malformed.
  */
 export function attribution(email, { site = '', foundOn = '' } = {}) {
-  // A hub page is not anybody's own site. Strip the claim before the checks below can honour it.
-  if (isHub(site)) site = '';
-  if (isHub(foundOn)) foundOn = '';
+  // A hub page, or a platform's own apex, is not anybody's own site. Strip the claim before the
+  // checks below can honour it.
+  if (confersNothing(site)) site = '';
+  if (confersNothing(foundOn)) foundOn = '';
   const e = low(email);
   if (!isValidEmail(e)) return { ok: false, verdict: 'never', why: 'not a valid address' };
   const dom = emailDomain(e);
   if (ROLE_NEVER.has(emailUser(e))) {
     return { ok: false, verdict: 'never', why: `${emailUser(e)}@ is a role mailbox, not a person` };
   }
-  if (site && sameSite(dom, site)) {
-    return { ok: true, verdict: 'own-domain', why: `${dom} is the holder's own domain` };
-  }
+  // BEFORE own-domain, not after. A holder whose declared site is `read.cash/@x` used to promote
+  // `contact@read.cash` to own-domain, because sameSite() saw a match and answered first. No address
+  // at a platform's own domain is ever a holder's, so nothing downstream may overrule this.
   if (PLATFORM_DOMAINS.has(dom)) {
     return {
       ok: false, verdict: 'third-party',
       why: `${dom} is a platform's own address, not this holder's — mailing it pitches a support desk `
          + 'once per holder who linked there',
     };
+  }
+  if (site && sameSite(dom, site)) {
+    return { ok: true, verdict: 'own-domain', why: `${dom} is the holder's own domain` };
   }
   if (FREEMAIL.has(dom)) {
     if (foundOn && site && sameSite(foundOn, site)) {
@@ -376,7 +401,7 @@ export function handler(req, res) {
 
 export default {
   attribution, extractEmails, extractSocials, socialsFromProfile, contactPaths, harvest, auditList,
-  crawlPlan, siteHost, sameSite,
+  crawlPlan, siteHost, sameSite, isHub, isPlatformApex, confersNothing,
 };
 
 if (process.argv[1] && process.argv[1].endsWith('holder-contact-harvest.mjs')) {
