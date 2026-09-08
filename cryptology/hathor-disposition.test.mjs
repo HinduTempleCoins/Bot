@@ -7,6 +7,7 @@ import path from 'node:path';
 import {
   dispositionFor, dispositionGreeting, faucetClaim, recordInteraction, makeBrainDep, FAUCET_DEFAULTS,
 } from './hathor-disposition.mjs';
+import { recordPractice } from './cryptology.mjs';
 
 const tmpStore = () => path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'crypt-')), 'store.json');
 const DAY = 24 * 60 * 60 * 1000;
@@ -141,4 +142,14 @@ test('recordInteraction rejects prototype keys as event names', () => {
   const file = tmpStore();
   assert.equal(recordInteraction('dave', 'constructor', { file }).reason, 'unknown-event');
   assert.equal(recordInteraction('dave', 'toString', { file }).reason, 'unknown-event');
+});
+
+test('practice gates nothing — the faucet reads the relation plane, never the record', () => {
+  const file = tmpStore();
+  recordInteraction('diligent', 'warm_exchange', { file });
+  const before = faucetClaim({ account: 'diligent', now: 6_000_000, lastClaimAt: 0, reservoir: 100, file });
+  recordPractice('diligent', { sessions: 900, crossings: 900, lucidity: 900, recall: 100 }, { file });
+  const after = faucetClaim({ account: 'diligent', now: 6_000_000, lastClaimAt: 0, reservoir: 100, file });
+  assert.equal(after.amount, before.amount, 'a coordinate is never a credential');
+  assert.equal(after.multiplier, before.multiplier);
 });

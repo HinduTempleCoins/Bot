@@ -472,3 +472,55 @@ test('the corrupted draft is not sitting in the repo root pretending to be code'
   assert.ok(fs.existsSync(draft), 'kept for lineage, out of the way, with a non-code extension');
   assert.match(fs.readFileSync(draft, 'utf8').slice(0, 600), /CORRUPTED DRAFT — THIS FILE HAS NEVER RUN/);
 });
+
+// ── the practice plane, which now has a writer ────────────────────────────────────────────────────
+
+test('recordPractice accumulates tallies and shows up on the practice plane', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.recordPractice('practitioner', { sessions: 1, crossings: 1 }, { file });
+  const p = c.recordPractice('practitioner', { sessions: 1, lucidity: 2, recall: 62 }, { file });
+
+  const coords = c.position(p, 'practice').coordinates;
+  assert.equal(coords.sessions, 2, 'a tally accumulates');
+  assert.equal(coords.crossings, 1);
+  assert.equal(coords.lucidity, 2);
+  assert.equal(coords.recall, 62, 'recall is a frequency — SET, not accumulated');
+
+  c.recordPractice('practitioner', { recall: 40 }, { file });
+  assert.equal(c.loadStore(file).practitioner.recall, 40, 'a rate that accumulated would be meaningless');
+  assert.equal(c.loadStore(file).practitioner.sessions, 2, 'and it hit disk');
+});
+
+test('practice is a record, not a ladder — it moves nothing else', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('busy-one', 'warm_exchange', { file });
+  const before = c.dispositionOf(c.recall('busy-one', c.loadStore(file)));
+  const p = c.recordPractice('busy-one', { sessions: 500, crossings: 400, lucidity: 300 }, { file });
+  const after = c.dispositionOf(p);
+
+  assert.deepEqual(after.coordinates, before.coordinates, 'five hundred sessions buy no closeness');
+  assert.equal(after.stance, before.stance);
+  assert.equal(p.totalInteractions, 1, 'a session is not a conversation');
+  for (const f of ['tier', 'level', 'unlocks', 'requires', 'grade', 'rank']) {
+    assert.ok(!(f in p), `a profile must not grow a "${f}" field`);
+  }
+});
+
+test('only practice dimensions are writable through that door', () => {
+  const file = path.join(freshDir(), 'store.json');
+  const p = c.recordPractice('careful-one', { trust: 90, imagery: 90, rest: 90, sessions: 1, nonsense: 5 }, { file });
+  assert.equal(p.trust, 0, 'a relation dimension cannot be moved by naming it here');
+  assert.equal(p.imagery, undefined, 'nor a constitution trait');
+  assert.equal(p.rest, undefined, 'nor a state axis');
+  assert.equal(p.nonsense, undefined);
+  assert.equal(p.sessions, 1);
+});
+
+test('recordPractice refuses a handle that is not a MELEK account, and previews without writing', () => {
+  const file = path.join(freshDir(), 'store.json');
+  assert.equal(c.writeResult(c.recordPractice('bob smith', { sessions: 1 }, { file })).reason, 'invalid-account');
+  c.recordPractice('preview-one', { sessions: 3 }, { file });
+  const preview = c.recordPractice('preview-one', { sessions: 1 }, { file, persist: false });
+  assert.equal(preview.sessions, 4, 'a preview still reads the real record');
+  assert.equal(c.loadStore(file)['preview-one'].sessions, 3, 'and does not write');
+});
