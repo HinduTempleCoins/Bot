@@ -640,7 +640,7 @@ Build in dependency order. Each surface is independently shippable.
 - Status: ☐ not started
 
 #### Surface 3 — Curator (Discord karma → on-chain vote)
-- Existing emotional/karma tracker (`relationship-tracker.js`, `VAN_KUSH_BRAIN.md`) signals.
+- Existing emotional/karma tracker (`index.js` lines 33-131 — the userRelationships map; `VAN_KUSH_BRAIN.md`) signals. (`relationship-tracker.js` was a draft that never parsed and never ran — see `archive/relationship-tracker.js.corrupt-draft`.)
 - High-merit user posts → `vote` op from hathor.
 - Respect chain bandwidth/RC; daily vote cap.
 - Status: ☐ not started

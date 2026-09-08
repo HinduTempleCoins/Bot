@@ -6,11 +6,22 @@
 // LSD: Dream Emulator's graph — your movements change your coordinates, and the experience you get
 // reflects where you are. (BRIEF.md §6a)
 //
-// This is a PORT of the prior Discord-era tracker (`relationship-tracker.js` / the userRelationships
-// map in `index.js`) onto the house style and onto MELEK account identity. Per §6a we BUILD ON the
-// existing structure rather than replacing it — the dimensions are the same ones the prior build
-// shipped: trust / warmth / respect (−100..100), familiarity (0..100), a `topic-interests` object,
-// and the LSD-style `conversationPaths` log.
+// This is a PORT of the prior Discord-era tracker: the EMOTIONAL RELATIONSHIP TRACKING SYSTEM in
+// `index.js` (lines 33-131) — the `userRelationships` Map, getOrCreateRelationship /
+// updateRelationship / getConversationTone, persisted to `user-relationships.json` — onto the house
+// style and onto MELEK account identity. Per §6a we BUILD ON the existing structure rather than
+// replacing it: the dimensions are the same ones the prior build shipped — trust / warmth / respect
+// (−100..100), familiarity (0..100), a `topic-interests` object, and the LSD-style
+// `conversationPaths` log.
+//
+// ANCESTRY: index.js   (lines 33-131 — machine-checked below by cryptology.test.mjs: a file cited
+//                       here must exist and must actually parse)
+//
+// This header used to also name `relationship-tracker.js` as a port source. It never was one: that
+// file has never parsed (`node --check` fails at `increaseT trust(...)`, plus further breaks), it is
+// CommonJS in a `"type": "module"` package, and nothing has ever imported it. It is now
+// `archive/relationship-tracker.js.corrupt-draft`, marked as what it is. index.js:33-131 is the code
+// that actually ran.
 //
 // KEY (per the task): every profile is keyed on a MELEK chain account name (lowercase, the on-chain
 // identity), NOT a Discord snowflake. That makes the map portable across surfaces (condenser / Discord
