@@ -4,7 +4,8 @@ import assert from 'node:assert';
 import {
   attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan,
   siteHost, sameSite, __setFetch, handler, extractSocials, socialsFromProfile, NOT_A_HANDLE,
-  isHub, HUB_DOMAINS, isPlatformApex, confersNothing,
+  isHub, HUB_DOMAINS, isPlatformApex, confersNothing, crossPageBoilerplate, isUsableHandle,
+  platformEmailDomain,
 } from './holder-contact-harvest.mjs';
 
 test('siteHost normalises what the CSV actually holds', () => {
@@ -373,4 +374,99 @@ test('a real personal domain is untouched by any of this', () => {
   const a = attribution('bb@braaiboy.co.za', { site: 'http://BraaiBoy.co.za', foundOn: 'http://braaiboy.co.za/contact' });
   assert.equal(a.ok, true);
   assert.equal(a.verdict, 'own-domain');
+});
+
+// ── the fingerprint, generalised ──────────────────────────────────────────────────────────────────
+test('a value on every page of a crawl is the crawl\'s furniture, not a contact', () => {
+  const pages = [];
+  for (let i = 0; i < 111; i += 1) {
+    pages.push({ page: `https://linktr.ee/h${i}`, values: ['only@savagex.com', 'online@www.aaa.com', `real${i}@gmail.com`] });
+  }
+  const b = crossPageBoilerplate(pages);
+  assert.equal(b.get('only@savagex.com'), 111);
+  assert.equal(b.get('online@www.aaa.com'), 111);
+  assert.equal(b.has('real0@gmail.com'), false);
+  assert.equal(b.size, 2);
+});
+
+test('the same value twice on ONE page is not boilerplate', () => {
+  const b = crossPageBoilerplate([{ page: 'p1', values: ['a@x.com', 'a@x.com', 'a@x.com'] }]);
+  assert.equal(b.size, 0);
+});
+
+test('the threshold is distinct pages, and it is adjustable', () => {
+  const pages = [{ page: 'p1', values: ['a@x.com'] }, { page: 'p2', values: ['a@x.com'] }, { page: 'p3', values: ['a@x.com'] }];
+  assert.equal(crossPageBoilerplate(pages).get('a@x.com'), 3);
+  assert.equal(crossPageBoilerplate(pages, { maxPages: 5 }).size, 0);
+});
+
+test('crossPageBoilerplate soft-fails on junk', () => {
+  assert.equal(crossPageBoilerplate().size, 0);
+  assert.equal(crossPageBoilerplate([{ page: 'p', values: null }]).size, 0);
+});
+
+// ── handles that are not handles ──────────────────────────────────────────────────────────────────
+test('profile.php is not a person — 51 of 283 harvested Facebook handles were exactly this', () => {
+  assert.equal(isUsableHandle('profile.php'), false);
+  const got = extractSocials('<a href="https://facebook.com/profile.php?id=100001234">me</a>');
+  assert.equal(got.facebook, undefined);
+});
+
+test('a build artefact is never a handle', () => {
+  for (const h of ['script.js', 'style.css', 'consent-scripts', 'sticker', 'fonts', 'og', 'static']) {
+    assert.equal(isUsableHandle(h), false, h);
+  }
+});
+
+test('a segment with no letters in it is a tracking token', () => {
+  assert.equal(isUsableHandle('123456789'), false);
+  assert.equal(isUsableHandle('UCol8tc03sMzDSv4qCaExANQ'), true);   // a real YouTube channel id
+  assert.equal(isUsableHandle('akipponn'), true);
+});
+
+// ── hub-published ─────────────────────────────────────────────────────────────────────────────────
+test('a hub still confers nothing unless ownership is proven', () => {
+  const a = attribution('him@gmail.com', { site: 'https://linktr.ee/akipponn', foundOn: 'https://linktr.ee/akipponn' });
+  assert.equal(a.ok, false);
+  assert.equal(a.verdict, 'third-party');
+});
+
+test('a hub page whose handle is his own vouches for what he put on it', () => {
+  const a = attribution('him@gmail.com', { foundOn: 'https://linktr.ee/akipponn', hubOwnedBy: 'akipponn' });
+  assert.equal(a.ok, true);
+  assert.equal(a.verdict, 'hub-published');
+  assert.match(a.why, /@akipponn/);
+});
+
+test('a hub page belonging to somebody else vouches for nothing', () => {
+  const a = attribution('him@gmail.com', { foundOn: 'https://linktr.ee/coldplay', hubOwnedBy: 'akipponn' });
+  assert.equal(a.ok, false);
+});
+
+test('ownership does not launder the advertising', () => {
+  for (const e of ['only@savagex.com', 'online@www.aaa.com', 'only@www.gobble.com']) {
+    const a = attribution(e, { foundOn: 'https://linktr.ee/akipponn', hubOwnedBy: 'akipponn' });
+    assert.equal(a.ok, false, e);
+    assert.equal(a.verdict, 'third-party', e);
+  }
+});
+
+test('ownership does not launder a role mailbox or a malformed address', () => {
+  assert.equal(attribution('noreply@x.co', { foundOn: 'https://linktr.ee/a', hubOwnedBy: 'a' }).verdict, 'never');
+  assert.equal(attribution('not-an-address', { foundOn: 'https://linktr.ee/a', hubOwnedBy: 'a' }).verdict, 'never');
+});
+
+test('hubOwnedBy on a non-hub page changes nothing', () => {
+  const a = attribution('bb@braaiboy.co.za', { site: 'http://BraaiBoy.co.za', hubOwnedBy: 'braaiboy' });
+  assert.equal(a.verdict, 'own-domain');
+});
+
+test('a platform domain is a platform domain at any depth', () => {
+  assert.equal(platformEmailDomain('www.aaa.com'), 'aaa.com');
+  assert.equal(platformEmailDomain('www.gobble.com'), 'gobble.com');
+  assert.equal(platformEmailDomain('mail.read.cash'), 'read.cash');
+  assert.equal(platformEmailDomain('braaiboy.co.za'), '');
+  assert.equal(platformEmailDomain(''), '');
+  // and the main path agrees
+  assert.equal(attribution('x@www.aaa.com', { site: 'holder.example' }).ok, false);
 });
