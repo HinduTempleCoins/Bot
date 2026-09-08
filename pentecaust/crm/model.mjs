@@ -160,6 +160,13 @@ export function addLead(id, lead = {}, opts = {}) {
       title: clamp(lead.title, 160),
       email: clamp(lead.email, 200).toLowerCase().trim(),
       signal: clamp(lead.signal, 300),     // the verified reason to reach out (grounds the AI opener)
+      // WHERE THIS ROW CAME FROM, and BY WHAT ROUTE it may be reached. Both were being dropped on the
+      // floor: the loader passed `notes` describing the provenance of every holder lead and nothing
+      // stored it, so a lead in the file was indistinguishable from a lead somebody typed in. A row
+      // whose origin cannot be named cannot be audited later, and the audit is the whole defence.
+      source: clamp(lead.source, 120),     // 'holders' | 'local-seeds' | 'schools' | free text
+      route: clamp(lead.route, 200),       // 'email' | 'linkedin:…' | 'instagram:…' — how to reach them
+      notes: clamp(lead.notes, 500),
       stage: 'new',
       added: now(opts),
     });
