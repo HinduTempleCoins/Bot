@@ -168,6 +168,37 @@ export function rank(seeds = null) {
   };
 }
 
+/**
+ * Who is the actual hub of this cluster?
+ *
+ * Facebook shows a "Friends with X, Y and N others" strip on a profile and picks the three it thinks
+ * matter most. Someone who keeps appearing in that strip across INDEPENDENT profiles is a hub — and
+ * that is a different, better signal than their own mutual-friend count, because it is four other
+ * people's graphs agreeing rather than one number.
+ *
+ * Counts ONLY the `signal` field, which holds those literal strips. An earlier version also counted
+ * `why`, which says where WE got an entry from — that double-counted every source and made whoever
+ * we happened to import a batch from look like a hub. `why` is our bookkeeping, not evidence.
+ */
+export function hubs(seeds = null) {
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const names = list.map((s) => str(s.name)).filter(Boolean);
+  const seen = new Map();
+  for (const s of list) {
+    const strip = str(s.signal);
+    if (!strip) continue;
+    for (const n of names) {
+      if (n === s.name) continue;
+      if (!strip.includes(n)) continue;
+      if (!seen.has(n)) seen.set(n, []);
+      seen.get(n).push(str(s.name));
+    }
+  }
+  return [...seen.entries()]
+    .map(([name, namedOn]) => ({ name, count: namedOn.length, namedOn }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
 // ── the pitch ─────────────────────────────────────────────────────────────────────────────────────
 // Claims split into what we can back and what we cannot. This list is the whole point of the module.
 
