@@ -159,9 +159,16 @@ test('an unanswered message is a DEBT — it sorts above every opportunity', () 
   assert.ok(!r.then.some((x) => x.name === 'Owed'), 'a debt is not also listed as a lead');
 });
 
-test('not-yet-connected is a penalty — a stranger is not a warm intro', () => {
-  assert.ok(score(S({ mutualsWithOperator: 60, tags: ['not-yet-connected'] })).score
-          < score(S({ mutualsWithOperator: 60 })).score);
+test('no friend edge is NOT a penalty — everyone in this file already knows the operator', () => {
+  // The graph ranks them; it does not decide whether the door is open. A missing Facebook edge is a
+  // fact about Facebook.
+  assert.equal(score(S({ mutualsWithOperator: 60, tags: ['not-yet-connected'] })).score,
+               score(S({ mutualsWithOperator: 60 })).score);
+});
+
+test('a close personal tie outranks a big mutual count', () => {
+  assert.ok(score(S({ mutualsWithOperator: 3, tags: ['known-personally'] })).score
+          > score(S({ mutualsWithOperator: 60 })).score);
 });
 
 test('score explains itself — every point is attributed', () => {
