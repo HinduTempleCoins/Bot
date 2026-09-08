@@ -4,6 +4,7 @@ import assert from 'node:assert';
 import {
   consolidate, fromHolderRows, fromProfileSocials, fromHubPages, sharedValues, toRows, toCsv,
   isAddressable, routeUrl, handler, looksNameDerived,
+  searchTargets, SEARCH_TIERS, NETWORK_SEARCH_PRIORITY, normHandle,
 } from './outreach-consolidate.mjs';
 
 const holder = (o) => ({ hive_account: 'alice', website: 'https://alice.example', ...o });
@@ -226,4 +227,85 @@ test('the same handle from a guess and from a self-declaration keeps the better 
   assert.equal(tg.length, 1);
   assert.equal(tg[0].verdict, 'self-declared');
   assert.equal(tg[0].addressable, true);
+});
+
+
+// ── who is worth searching for ────────────────────────────────────────────────────────────────────
+const person = (account, routes, extra = {}) => ({ account, name: account, routes, reach: 0, ...extra });
+const route = (net, value) => ({ net, value, url: `https://${net}.example/${value}`, addressable: true, verdict: 'declared', source: 'profile' });
+
+test('the same handle on two networks outranks everything else — that is the operator\'s signal', () => {
+  const r = searchTargets({ people: [
+    person('someone', [route('instagram', 'kateskarma'), route('x', 'kateskarma')]),
+    person('other', [route('instagram', 'somethingelse')]),
+  ] });
+  assert.equal(r[0].handle, 'kateskarma');
+  assert.equal(r[0].tier, 'corroborated');
+  assert.deepEqual(r[0].networks.sort(), ['instagram', 'x']);
+  assert.ok(r[0].score > r[1].score);
+});
+
+test('a handle that is not the account name is distinctive; one equal to it is a name-echo', () => {
+  const r = searchTargets({ people: [
+    person('bobsmith', [route('instagram', 'bobsmith')]),
+    person('bobsmith2', [route('instagram', 'thevinylhound')]),
+  ] });
+  const byAcct = Object.fromEntries(r.map((x) => [x.account, x]));
+  assert.equal(byAcct.bobsmith.tier, 'name-echo', 'this is the manufactured-column shape');
+  assert.equal(byAcct.bobsmith2.tier, 'distinctive');
+  assert.ok(byAcct.bobsmith2.score > byAcct.bobsmith.score);
+});
+
+test('a name-echo still scores above zero — plenty of real people use their own name', () => {
+  const [x] = searchTargets({ people: [person('bobsmith', [route('x', 'bobsmith')])] });
+  assert.ok(x.score > 0);
+  assert.equal(SEARCH_TIERS['name-echo'].weight > 0, true);
+});
+
+test('Instagram outranks the other networks, because the cohort follows someone who is there', () => {
+  assert.ok(NETWORK_SEARCH_PRIORITY.instagram > NETWORK_SEARCH_PRIORITY.x);
+  assert.ok(NETWORK_SEARCH_PRIORITY.instagram > NETWORK_SEARCH_PRIORITY.youtube);
+  const r = searchTargets({ people: [
+    person('a', [route('instagram', 'distinctive1')]),
+    person('b', [route('youtube', 'distinctive2')]),
+  ] });
+  assert.equal(r[0].account, 'a');
+  assert.equal(r[0].onInstagram, true);
+});
+
+test('an email or a website is not a handle to search', () => {
+  const r = searchTargets({ people: [person('a', [
+    { net: 'email', value: 'x@y.example', url: '', addressable: true },
+    { net: 'website', value: 'https://y.example', url: '', addressable: false },
+  ])] });
+  assert.deepEqual(r, []);
+});
+
+test('handles normalise before they are compared, so @Kate.Karma and katekarma are one string', () => {
+  assert.equal(normHandle('@Kate.Karma'), 'katekarma');
+  assert.equal(normHandle('https://instagram.com/Kate_Karma'), 'katekarma');
+  const r = searchTargets({ people: [person('x', [route('instagram', '@Kate.Karma'), route('tiktok', 'kate_karma')])] });
+  assert.equal(r.length, 1, 'one handle seen twice, not two handles');
+  assert.equal(r[0].tier, 'corroborated');
+});
+
+test('reach is carried but never scored — findability is not importance', () => {
+  const r = searchTargets({ people: [
+    person('big', [route('x', 'nameecho1')], { reach: 99999, account: 'big' }),
+    person('small', [route('instagram', 'distinctive9'), route('tiktok', 'distinctive9')], { reach: 1 }),
+  ] });
+  assert.equal(r[0].tier, 'corroborated', 'the corroborated handle wins despite 1 vs 99,999 reach');
+  assert.ok(r.every((x) => typeof x.reach === 'number'));
+});
+
+test('limit trims the list without reordering it', () => {
+  const people = ['a', 'b', 'c'].map((a, i) => person(a, [route('instagram', `handle${i}`)]));
+  const all = searchTargets({ people });
+  const two = searchTargets({ people }, { limit: 2 });
+  assert.deepEqual(two, all.slice(0, 2));
+});
+
+test('a person with no routes contributes nothing, and an empty result is empty', () => {
+  assert.deepEqual(searchTargets({ people: [person('a', [])] }), []);
+  assert.deepEqual(searchTargets({}), []);
 });
