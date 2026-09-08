@@ -4,6 +4,7 @@ import assert from 'node:assert';
 import {
   attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan,
   siteHost, sameSite, __setFetch, handler, extractSocials, socialsFromProfile, NOT_A_HANDLE,
+  isHub, HUB_DOMAINS,
 } from './holder-contact-harvest.mjs';
 
 test('siteHost normalises what the CSV actually holds', () => {
@@ -286,4 +287,35 @@ test('the timeout covers the response BODY, not just the headers', async () => {
   assert.deepEqual(r.found, []);
   assert.ok(r.errors.length, 'the stall is recorded as an error');
   __setFetch(null);
+});
+
+
+// ── a hub page is nobody's own site ───────────────────────────────────────────────────────────────
+test('an address on a Linktree is NOT published-on-site just because it is on linktr.ee', () => {
+  const a = attribution('only@savagex.com', { site: 'linktr.ee', foundOn: 'https://linktr.ee/someone' });
+  assert.equal(a.ok, false, 'this is the bug that produced 111 fake emails from 178 pages');
+  assert.equal(a.verdict, 'third-party');
+});
+
+test('the three ad addresses that appeared on every Linktree are refused by name', () => {
+  for (const e of ['only@savagex.com', 'online@www.aaa.com', 'only@www.gobble.com']) {
+    assert.equal(attribution(e, { site: 'holder.example' }).ok, false, e);
+  }
+});
+
+test('a real address on a hub page is still not promoted — but it is not silently lost either', () => {
+  const a = attribution('someone@theirowndomain.example', { site: 'linktr.ee', foundOn: 'https://linktr.ee/someone' });
+  assert.equal(a.verdict, 'third-party', 'a hub tells us nothing about ownership; something else must');
+});
+
+test('isHub knows the link-in-bio platforms', () => {
+  assert.equal(isHub('https://linktr.ee/x'), true);
+  assert.equal(isHub('beacons.ai'), true);
+  assert.equal(isHub('https://holder.example'), false);
+  assert.ok(HUB_DOMAINS.size > 5);
+});
+
+test('the hub rule does not touch an ordinary site', () => {
+  const a = attribution('bb@braaiboy.co.za', { site: 'http://BraaiBoy.co.za' });
+  assert.equal(a.verdict, 'own-domain');
 });

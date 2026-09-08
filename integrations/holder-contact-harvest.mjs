@@ -48,6 +48,9 @@ export const PLATFORM_DOMAINS = Object.freeze(new Set([
   'allmylinks.com', 'amazon.com', 'amzn.to', 'ebay.com', 'etsy.com', 'shopify.com', 'wordpress.com',
   'blogspot.com', 'wixpress.com', 'squarespace.com', 'github.com', 'discord.com', 'telegram.org',
   'sentry.io', 'sentry-next.wixpress.com', 'example.com', 'domain.com', 'email.com',
+  // Advertising boilerplate that renders into every page of a hub. Found the hard way: each of these
+  // appeared once per Linktree across 111 pages, which is a fingerprint no real contact ever has.
+  'savagex.com', 'aaa.com', 'gobble.com',
 ]));
 
 /** Mailbox names that are never a person and never want a pitch. */
@@ -78,6 +81,24 @@ export function sameSite(a, b) {
 }
 
 /**
+ * Pages whose whole job is listing somebody's links — and which therefore carry a lot of content that
+ * is NOT theirs. This distinction cost us a real number: reading 178 Linktrees produced "111 emails",
+ * of which 333 of 358 rows were three addresses repeated once per page (`only@savagex.com`,
+ * `online@www.aaa.com`, `only@www.gobble.com` — Linktree's own advertising boilerplate). The real
+ * yield was 21.
+ *
+ * The bug was mine and it was in the caller: it told attribution() that the site WAS `linktr.ee`, so
+ * every address on the page matched `sameSite` and came back `published-on-site`. On a hub page the
+ * page's own domain is the platform's, never the person's, so that promotion must not happen.
+ */
+export const HUB_DOMAINS = Object.freeze(new Set([
+  'linktr.ee', 'allmylinks.com', 'beacons.ai', 'bio.link', 'carrd.co', 'campsite.bio', 'linkin.bio',
+  'lnk.bio', 'solo.to', 'taplink.cc', 'flowcode.com', 'about.me', 'koji.to', 'many.link',
+]));
+
+export const isHub = (url) => HUB_DOMAINS.has(siteHost(url));
+
+/**
  * Is this address plausibly THIS holder's?
  *
  * Four verdicts, and only the first two are contactable:
@@ -90,6 +111,9 @@ export function sameSite(a, b) {
  *   never               role account, or malformed.
  */
 export function attribution(email, { site = '', foundOn = '' } = {}) {
+  // A hub page is not anybody's own site. Strip the claim before the checks below can honour it.
+  if (isHub(site)) site = '';
+  if (isHub(foundOn)) foundOn = '';
   const e = low(email);
   if (!isValidEmail(e)) return { ok: false, verdict: 'never', why: 'not a valid address' };
   const dom = emailDomain(e);
