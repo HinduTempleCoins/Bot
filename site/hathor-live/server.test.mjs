@@ -239,3 +239,41 @@ test('POST /api/exams/forget refuses anything that is not a participant key', as
   assert.equal(o.code, 400);
   assert.match(o.body, /Nothing was deleted/);
 });
+
+// ── Temple Exams: the grapheme–colour consistency test ────────────────────────────────────────────
+
+test('GET /exams/grapheme serves the exam with its refusal printed on it', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/grapheme'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /never be worded as/);
+  assert.match(o.body, /Your display is not calibrated/);
+});
+
+test('the trial order comes from the server, interleaved and never repeating', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/grapheme/trials'), res);
+  const d = JSON.parse(o.body);
+  assert.equal(d.trials.length, 108);
+  for (let i = 1; i < d.trials.length; i += 1) {
+    assert.notEqual(d.trials[i].grapheme, d.trials[i - 1].grapheme);
+  }
+});
+
+test('a submission with no participant key is refused and nothing is saved', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/grapheme', 'POST', { responses: [] }), res);
+  assert.equal(o.code, 400);
+  assert.match(o.body, /Nothing was saved/);
+});
+
+test('a submission whose state card carries a dose is refused outright', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/grapheme', 'POST', {
+    key: '0123456789ABCDEFGHJKMNPQR',
+    stateCard: { affected: 'yes', classes: ['alcohol'], dose: '3 units' },
+    responses: [],
+  }), res);
+  assert.equal(o.code, 400);
+  assert.match(o.body, /does not accept/);
+});

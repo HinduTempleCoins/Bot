@@ -27,7 +27,12 @@ import { readReports, appendReport } from './reports-store.mjs';
 import { chamberPlan, chamberScene, CHAMBER_TIERS } from './chamber.mjs';
 import { EXAMS, FRAMING as EXAM_FRAMING, BROWSER_LIMITS as EXAM_BROWSER_LIMITS, examsIndexHTML } from './exams.mjs';
 import { participantId } from './participant-key.mjs';
-import { completionCounts, forget as forgetParticipant } from './exams-store.mjs';
+import { completionCounts, forget as forgetParticipant, appendSitting, history } from './exams-store.mjs';
+import { validateStateCard } from './state-card.mjs';
+import {
+  EXAM_ID as GRAPHEME_ID, buildTrials as graphemeTrials, scoreSitting as scoreGrapheme,
+  resultCopy as graphemeCopy, graphemePageHTML,
+} from './exam-grapheme.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
@@ -509,6 +514,81 @@ export async function handler(req, res) {
       return res.end(JSON.stringify(done
         ? { ok: true, forgotten: true, note: 'Every sitting under that key is gone from every read path.' }
         : { ok: false, error: 'Could not write the deletion. Nothing was deleted — please try again.' }));
+    }
+
+    // ── /exams/grapheme — the grapheme–colour consistency test ────────────────────────────────────
+    // The methodological exemplar: its validity criterion IS its own test–retest behaviour, so it
+    // needs no norms, no calibration and no comparison group. The result is a SCORE with a cited
+    // landmark; there is no code path here or in exam-grapheme.mjs that produces a verdict.
+    if (path === '/exams/grapheme') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(graphemePageHTML());
+    }
+
+    // The trial ORDER, served from the server so there is exactly one implementation of the
+    // interleaving rule. Nothing about it is secret — a person could read it — and knowing the order
+    // does not help anybody, because the measurement is whether their own answers agree.
+    if (path === '/api/exams/grapheme/trials') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, trials: graphemeTrials({ seed }) }));
+    }
+
+    if (path === '/api/exams/grapheme' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+
+      // The key arrives, is hashed, and the raw value is never written anywhere — not to the store,
+      // not to a log. `pid` is all that survives this line.
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+
+      const result = scoreGrapheme(body.responses);
+      if (result.score.rgbUnit == null) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No character was answered all three times, so there is nothing to score. Nothing was saved.' }));
+      }
+
+      const prior = history(pid, GRAPHEME_ID);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).rgbUnit : null;
+      const stored = appendSitting({
+        pid, exam: GRAPHEME_ID,
+        score: result.score,
+        graphemesScored: result.graphemesScored,
+        noColour: result.noColour,
+        partial: result.partial,
+        perGrapheme: result.perGrapheme,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        // Do not tell them it was received when it was not. (Charter: prove, don't claim.)
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+
+      const counts = completionCounts();
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: {
+          score: result.score, graphemesScored: result.graphemesScored,
+          noColour: result.noColour, partial: result.partial,
+          mostConsistent: result.mostConsistent, leastConsistent: result.leastConsistent,
+        },
+        copy: graphemeCopy(result, { n: counts[GRAPHEME_ID] || 0, priorScore }),
+      }));
     }
 
     if (path === '/40hz') {
