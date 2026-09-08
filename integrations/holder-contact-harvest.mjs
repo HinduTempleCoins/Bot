@@ -263,11 +263,18 @@ export async function harvest(site, { maxPages = 3, timeoutMs = DEFAULT_TIMEOUT_
     try {
       const ctl = typeof AbortController === 'function' ? new AbortController() : null;
       const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : null;
-      const res = await f(url, { redirect: 'follow', signal: ctl ? ctl.signal : undefined });
-      if (timer) clearTimeout(timer);
-      if (!res || !res.ok) { result.errors.push(`${url}: ${res ? res.status : 'no response'}`); continue; }
-      html = await res.text();
-      result.pages += 1;
+      try {
+        const res = await f(url, { redirect: 'follow', signal: ctl ? ctl.signal : undefined });
+        if (!res || !res.ok) { result.errors.push(`${url}: ${res ? res.status : 'no response'}`); continue; }
+        // The timeout has to cover the BODY too. Clearing it after the headers arrive and before
+        // res.text() leaves a stalled body read with no timeout at all, and a crawl of 1,204 sites
+        // finds a server that sends headers and then stops. That is exactly how the first run hung:
+        // 300 hosts in, alive, and silent for half an hour.
+        html = await res.text();
+        result.pages += 1;
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
     } catch (e) { result.errors.push(`${url}: ${str(e && e.message) || 'fetch failed'}`); continue; }
     const socials = extractSocials(html);
     for (const [net, hs] of Object.entries(socials)) {

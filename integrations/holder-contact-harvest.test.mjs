@@ -265,3 +265,25 @@ test('a page with handles but no address still returns the handles', async () =>
   assert.deepEqual(r.socials.linktree, ['holder']);
   __setFetch(null);
 });
+
+
+test('the timeout covers the response BODY, not just the headers', async () => {
+  // A server that sends headers and then stops. Before the fix this hung forever: the timer was
+  // cleared once the headers arrived, so res.text() had no timeout at all.
+  __setFetch(async (url, opts) => ({
+    ok: true,
+    status: 200,
+    text: () => new Promise((resolve, reject) => {
+      if (opts && opts.signal) {
+        opts.signal.addEventListener('abort', () => reject(new Error('aborted')), { once: true });
+      }
+      // never resolves on its own
+    }),
+  }));
+  const started = Date.now();
+  const r = await harvest('https://stalls.example', { maxPages: 1, timeoutMs: 60 });
+  assert.ok(Date.now() - started < 3000, 'gave up instead of hanging');
+  assert.deepEqual(r.found, []);
+  assert.ok(r.errors.length, 'the stall is recorded as an error');
+  __setFetch(null);
+});
