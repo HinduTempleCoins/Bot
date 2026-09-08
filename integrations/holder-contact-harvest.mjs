@@ -225,7 +225,12 @@ export function attribution(email, { site = '', foundOn = '', hubOwnedBy = '' } 
 
 // Deliberately conservative. A greedy pattern picks up filenames, version strings and image sprites,
 // and every false address is a bounce, and bounces are what burn a sending domain.
-const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,24}/g;
+// Every quantifier BOUNDED, and not for tidiness. `[A-Za-z0-9._%+-]+@` is quadratic on any long run
+// of local-part characters that never reaches an `@`: the `+` swallows the run, fails to find the `@`,
+// gives back one character and fails again, once per position. A page of minified JavaScript or a
+// base64 blob is exactly that run, hundreds of kilobytes long — 512KB of it is ~10^11 steps.
+// RFC 5321 caps a local part at 64 and a domain at 255, so bounding costs nothing real.
+const EMAIL_RE = /[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9-]{1,63}(?:\.[A-Za-z0-9-]{1,63}){0,4}\.[A-Za-z]{2,24}/g;
 
 // `sprite@2x.png` matches the pattern above and is a filename. So does `bundle@1.0.0.min.js`. A page
 // of asset URLs would otherwise produce a page of addresses, every one of them a bounce.
@@ -236,9 +241,49 @@ const FILE_TLDS = Object.freeze(new Set([
 ]));
 const looksLikeFile = (e) => FILE_TLDS.has(String(e).split('.').pop().toLowerCase());
 
+/**
+ * Undo the common `name [at] domain [dot] com` obfuscation — ANCHORED on the text either side.
+ *
+ * THE THIRD HANG, and the one that actually stopped the crawl. Three runs died at exactly 300 of
+ * 1,204 hosts. The first was diagnosed as a body-read timeout, which was a real bug and not this one;
+ * the process was never idle, it was spinning at 94% CPU for thirty minutes on a single page.
+ *
+ * The cause was the pattern that used to live here:
+ *
+ *   /\s*\(?\s*(?:@|\[at\]|\(at\)|\s+at\s+)\s*\)?\s*​/gi
+ *
+ * Three unbounded `\s*` around an alternation that itself starts with `\s+` is catastrophic
+ * backtracking: on a run of plain spaces the engine tries every split of that run against every
+ * alternative. **500 spaces takes over sixty seconds.** Every pretty-printed HTML page on the web has
+ * whitespace runs far longer than that, so this was not an exotic input — it was going to happen, and
+ * the only question was which host we hit first.
+ *
+ * The replacement anchors on the local part and the domain part, which is what we were ever actually
+ * looking for, and bounds every whitespace quantifier. It cannot backtrack into a whitespace run
+ * because it never starts in one.
+ */
+// BRACKETED FORMS ONLY, and that is a deliberate loss of yield.
+//
+// The bare spaced forms — `me at holder dot example` — were in the first version and they eat English
+// prose: "look at the dot on the map" came back as `look@the.on`, a bounce that never existed. There
+// is no way to tell that apart from a real obfuscated address without knowing which words are names,
+// and this module's own rule is that a wrong guess is worse than a miss. `[at]`, `(at)` and `{at}`
+// are unambiguous — nobody writes those by accident — so those are what we undo.
+const AT_OBFUSCATED = /([A-Za-z0-9._%+-]{1,64})[ \t]{0,3}(?:\[at\]|\(at\)|\{at\})[ \t]{0,3}([A-Za-z0-9.-]{1,64})/gi;
+const DOT_OBFUSCATED = /([A-Za-z0-9-]{1,64})[ \t]{0,3}(?:\[dot\]|\(dot\)|\{dot\})[ \t]{0,3}([A-Za-z0-9-]{1,64})/gi;
+
+/**
+ * Above this, a page is not read for addresses at all.
+ *
+ * A contact page is a few tens of kilobytes. A megabyte of markup is a bundle, a data blob or a
+ * generated dump, and the addresses in one are not this holder's anyway. Scanning it is pure cost —
+ * and the cap is also the backstop for whatever the next pathological pattern turns out to be.
+ */
+export const MAX_SCAN_BYTES = 512 * 1024;
+
 /** Addresses in a page: mailto: links first, then body text. Order is the confidence order. */
 export function extractEmails(html = '') {
-  const s = String(html || '');
+  const s = String(html || '').slice(0, MAX_SCAN_BYTES);
   const out = [];
   const seen = new Set();
   const push = (raw, how) => {
@@ -249,8 +294,7 @@ export function extractEmails(html = '') {
   for (const m of s.matchAll(/mailto:([^"'?>\s]+)/gi)) push(decodeURIComponent(m[1]), 'mailto');
   // A very common obfuscation, and cheap to undo. Anything cleverer than this is left alone rather
   // than guessed at — a wrong guess is a bounce.
-  const deob = s.replace(/\s*\(?\s*(?:@|\[at\]|\(at\)|\s+at\s+)\s*\)?\s*/gi, (m) => (/@/.test(m) ? '@' : '@'))
-    .replace(/\s*\(?\s*(?:\[dot\]|\(dot\)|\s+dot\s+)\s*\)?\s*/gi, '.');
+  const deob = s.replace(AT_OBFUSCATED, '$1@$2').replace(DOT_OBFUSCATED, '$1.$2');
   for (const m of deob.match(EMAIL_RE) || []) push(m, 'text');
   return out;
 }
@@ -340,7 +384,8 @@ export function crossPageBoilerplate(pages = [], { maxPages = 2 } = {}) {
 
 /** Social handles in a page, deduped per network, junk paths dropped. */
 export function extractSocials(html = '') {
-  const s = String(html || '');
+  // Same cap as extractEmails, and for the same reason — the two read the same page.
+  const s = String(html || '').slice(0, MAX_SCAN_BYTES);
   const out = {};
   for (const { net, re } of SOCIAL_PATTERNS) {
     re.lastIndex = 0;
