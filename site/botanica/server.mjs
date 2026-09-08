@@ -14,6 +14,10 @@
 import { createServer } from 'node:http';
 import { PLANTS, MATERIALS, materialsForPlant, versatilityOf, valueOf } from '../../integrations/games/plant-catalog.mjs';
 import { ITEMS, ITEM_RECIPES, ITEM_VALUE, canCraftItem, craftItem, applyEffect, bazaar } from '../../integrations/games/botanica.mjs';
+import {
+  FACTORS, FACTOR_CLASSES, ECONOMY_ROLES, CERAMIC_LEACH_LIMITS, factorsByClass, safetyOf,
+  sourcingOf, devotionalOf, isCitesListed, factorEconomy, FACTOR_VALUE,
+} from '../../integrations/games/botanica-factors.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8193);
@@ -78,6 +82,10 @@ th,td{border-bottom:1px solid #1f2a1c;padding:5px 8px;text-align:left;font-size:
 button,select{font:inherit;background:#1c2a18;color:#dfe8df;border:1px solid #33472c;border-radius:6px;padding:5px 9px}
 button:hover{background:#24371f;cursor:pointer}.card{background:#11190f;border:1px solid #23331e;border-radius:8px;padding:12px;margin:12px 0}
 .muted{color:#89988a;font-size:13px}.bal{color:#ffd766;font-weight:600}h2{font-size:17px;margin:.4em 0}
+h3{font-size:15px;margin:.9em 0 .2em}.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:3px;border:1px solid #33472c;color:#a8bda8;margin-right:4px}
+.warn{border-color:#6b551a;color:#ffd766}.stop{border-color:#7a2a2a;color:#ff9a9a}
+.fact{margin:4px 0 0;padding-left:10px;border-left:2px solid #23331e;font-size:13px;color:#b6c6b6}
+.fact b{color:#dfe8df}nav a{margin-right:12px}
 </style>`;
 
 function optionList(items, fmt) { return items.map(fmt).join(''); }
@@ -121,7 +129,7 @@ function page(account, now) {
   }).join('');
 
   const body = `<div class=alpha>Alpha</div>
-  <header><b>🌿 ${SITE_NAME}</b><span class=muted>Playing as <b>${esc(account)}</b> · balance <span class=bal>${esc(String(bal))} ${CURRENCY}</span></span></header>
+  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav><span class=muted>Playing as <b>${esc(account)}</b> · balance <span class=bal>${esc(String(bal))} ${CURRENCY}</span></span></header>
   <main>
     <p class=muted>The Botanica farm. Plant → grow → harvest materials → craft apothecary items. <b>Value = versatility</b>: a material's worth is how many domains it serves.</p>
     <div class=grid>${plotCards}</div>
@@ -141,13 +149,92 @@ function page(account, now) {
   return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — farm</title>${STYLE}</head><body>${body}</body></html>`;
 }
 
+// ── the non-growing shelf: minerals, burnables, vessels, made goods ──────────────────────────────
+// Half a botanica never grew on the land. This page serves that half with the safety and sourcing
+// facts attached to each item rather than buried in a policy page nobody opens — food-grade vs
+// calcined DE, CITES status on a resin, whether a devotional vessel is a food-contact surface.
+const CLASS_BLURB = {
+  mineral: 'Dug or bought, never grown. Indefinite shelf life, and every one of them is a dust — the PPE line is not optional.',
+  burnable: 'Consumed on use: the terminal sink. Indoor combustion means ventilation, and some of these species are regulated.',
+  vessel: 'Durable. Bought once, kept. If people eat or drink out of it, the glaze is a safety question.',
+  made: 'What a holder crafts from the rest — inputs die so one output can exist.',
+};
+
+function factorCard(f) {
+  const role = ECONOMY_ROLES[f.class] || {};
+  const src = sourcingOf(f.id);
+  const dev = devotionalOf(f.id);
+  const tags = [
+    `<span class=tag>${esc(role.role || f.class)}</span>`,
+    f.consumedOnUse ? '<span class=tag>consumed on use</span>' : '<span class=tag>durable</span>',
+    f.makeable ? `<span class=tag>makeable @ ${esc(f.station || 'bench')}</span>` : '<span class=tag>imported</span>',
+    f.shelfLifeDays == null ? '<span class=tag>keeps indefinitely</span>' : `<span class="tag warn">shelf life ${esc(String(f.shelfLifeDays))}d</span>`,
+    f.safety && f.safety.dust ? '<span class="tag warn">respirator</span>' : '',
+    f.vessel && f.vessel.foodContact ? '<span class="tag stop">FOOD CONTACT</span>' : '',
+    isCitesListed(f.id) ? `<span class="tag stop">CITES ${esc(String(src.cites))}</span>` : '',
+    src && src.citesWatch ? '<span class="tag warn">CITES watch</span>' : '',
+  ].filter(Boolean).join('');
+  const recipe = f.makeable && Array.isArray(f.recipe)
+    ? `<div class=muted>recipe: ${esc(f.recipe.map((i) => `${i.qty}×${i.item}`).join(' + '))} · effort ${esc(String(f.effort))} · value ${esc(String(FACTOR_VALUE[f.id] || 0))} ${CURRENCY}</div>` : '';
+  const facts = safetyOf(f.id).map((l) => `<p class=fact><b>${esc(l.key)}</b> — ${esc(l.text)}</p>`).join('');
+  const sourcing = src ? `<h3>Sourcing</h3>${Object.entries(src)
+    .filter(([, v]) => v !== '' && v != null && v !== false)
+    .map(([k, v]) => `<p class=fact><b>${esc(k)}</b> — ${esc(String(v))}</p>`).join('')}` : '';
+  const devotional = dev ? `<h3>Devotional handling</h3>${Object.entries(dev)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `<p class=fact><b>${esc(k)}</b> — ${esc(String(v))}</p>`).join('')}` : '';
+  return `<div class=card><h2>${esc(f.name)}</h2><div>${tags}</div>${recipe}
+    <div class=muted>input to: ${esc((f.inputTo || []).join(', '))}</div>
+    ${facts}${sourcing}${devotional}</div>`;
+}
+
+function factorsPage() {
+  const econ = factorEconomy({ growEmissionPerPeriod: 200, period: 30 });
+  const sections = FACTOR_CLASSES.filter((c) => c !== 'grown').map((c) => {
+    const list = factorsByClass(c);
+    return `<h2 id="${esc(c)}">${esc(c)} · ${esc(String(list.length))}</h2>
+      <p class=muted>${esc(CLASS_BLURB[c] || '')} <b>Economy role:</b> ${esc(ECONOMY_ROLES[c].role)} — ${esc(ECONOMY_ROLES[c].note)}</p>
+      ${list.map(factorCard).join('')}`;
+  }).join('');
+
+  const leach = Object.entries(CERAMIC_LEACH_LIMITS)
+    .filter(([, v]) => v && typeof v === 'object')
+    .map(([k, v]) => `<tr><td>${esc(k.replace(/_/g, ' '))}</td><td>${esc(String(v.lead))}</td><td>${esc(String(v.cadmium))}</td></tr>`).join('');
+
+  const body = `<div class=alpha>Alpha</div>
+  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav></header>
+  <main>
+    <p class=muted>Half of a botanica never grew on the land: the earth you dust the beds with, the clay the pots
+    are thrown from, the resin that burns on the charcoal, the bowl the offering sits in. These behave nothing like a
+    plant — a plant mints on a timer, a burnable is destroyed the moment it is used — so they are modelled as their own
+    classes, with the safety and sourcing facts attached to the item rather than buried somewhere else.</p>
+
+    <div class=card><h2>What this shelf does to the economy</h2>
+      <p class=muted>Only <b>grown</b> emits. Every class here takes value out: a burnable is a terminal sink, a made good
+      converts inputs into one output, a vessel and a mineral are one-time currency sinks. The shelf registers
+      <b>${esc(String(econ.drains))} drains and ${esc(String(econ.faucets))} faucet</b> (the grow side, passed in).</p>
+      <table><tr><th>sink / period</th><th>emission / period</th><th>headroom</th><th>net over 30 periods</th><th>healthy</th></tr>
+        <tr><td>${esc(String(econ.sinkTotal))}</td><td>${esc(String(econ.emission))}</td><td>${esc(String(econ.headroom))}</td><td>${esc(String(econ.month.net))}</td><td>${esc(String(econ.healthy))}</td></tr></table>
+      <p class=muted>Modelled magnitudes, not measured demand — the drain weights are an assumption until the shelf is
+      wired to games that consume it. The structural fact (drains only, no faucet) is what is proven here.</p></div>
+
+    <div class=card><h2>Ceramic leach action levels</h2>
+      <p class=muted>${esc(CERAMIC_LEACH_LIMITS.note)} Units: ${esc(CERAMIC_LEACH_LIMITS.units)}. Method: ${esc(CERAMIC_LEACH_LIMITS.method)}.</p>
+      <table><tr><th>ware</th><th>lead</th><th>cadmium</th></tr>${leach}</table></div>
+
+    ${sections}
+    <p class=muted><a href="/api/factors">factors JSON</a> · <a href="/">back to the farm</a></p>
+  </main>`;
+  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — non-growing shelf</title>${STYLE}</head><body>${body}</body></html>`;
+}
+
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
   res.end(html);
 }
 const redirect = (res, loc) => { res.writeHead(302, { location: loc }); res.end(); };
 
-export const SITEMAP_PATHS = ['/'];
+export const SITEMAP_PATHS = ['/', '/factors'];
 
 export async function handler(req, res) {
   try {
@@ -166,7 +253,7 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({ name: SITE_NAME, baseUrl: BASE_URL,
         summary: 'Botanica — plant → grow → harvest materials → craft apothecary items over the plant-catalog + botanica economy. Value = versatility. In-game Grain only; no fiat. Alpha.',
-        links: [{ label: 'Farm', path: '/' }] }));
+        links: [{ label: 'Farm', path: '/' }, { label: 'Non-growing shelf (minerals, burnables, vessels, made goods)', path: '/factors' }] }));
     }
 
     const account = acctOf(url);
@@ -221,6 +308,24 @@ export async function handler(req, res) {
       return redirect(res, back);
     }
 
+    if (path === '/factors') return sendHtml(res, factorsPage());
+    if (path === '/api/factors') {
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        classes: FACTOR_CLASSES,
+        economyRoles: ECONOMY_ROLES,
+        ceramicLeachLimits: CERAMIC_LEACH_LIMITS,
+        economy: factorEconomy({ growEmissionPerPeriod: 200, period: 30 }),
+        factors: FACTORS.map((f) => ({
+          id: f.id, name: f.name, class: f.class, domains: f.domains,
+          shelfLifeDays: f.shelfLifeDays, consumedOnUse: f.consumedOnUse, makeable: f.makeable,
+          inputTo: f.inputTo, station: f.station, recipe: f.recipe, effort: f.effort,
+          value: FACTOR_VALUE[f.id] || 0,
+          safety: safetyOf(f.id), sourcing: sourcingOf(f.id), devotional: devotionalOf(f.id),
+          foodContact: !!(f.vessel && f.vessel.foodContact), cite: f.cite,
+        })),
+      }, null, 2));
+    }
     if (path === '/') return sendHtml(res, page(account, now));
     return redirect(res, back);
   } catch (e) {

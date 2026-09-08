@@ -74,3 +74,61 @@ test('plotState + growSeconds are sane', () => {
   const s = plotState({ plantId: 'wheat', plantedAt: 0 }, 100000);
   assert.equal(s.ready, true);
 });
+
+// ── /factors — the non-growing shelf ────────────────────────────────────────────────────────────
+test('/factors serves all four non-growing classes', async () => {
+  const r = await call('/factors');
+  assert.equal(r.code, 200);
+  for (const cls of ['mineral', 'burnable', 'vessel', 'made']) assert.match(r.body, new RegExp(`id="${cls}"`));
+  assert.match(r.body, /Diatomaceous Earth \(food grade\)/);
+  assert.match(r.body, /Diatomaceous Earth \(pool \/ filter grade, calcined\)/);
+  assert.match(r.body, /Glazed Offering Bowl/);
+  assert.match(r.body, /Murti/);
+});
+
+test('/factors shows the safety facts on the page, not behind a link', async () => {
+  const r = await call('/factors');
+  assert.match(r.body, /cristobalite/);
+  assert.match(r.body, /FOOD CONTACT/);
+  assert.match(r.body, /CITES appendix-ii/);
+  assert.match(r.body, /ASTM C738/);
+  assert.match(r.body, /prana pratishtha/);
+  // the leach table renders real numbers
+  assert.match(r.body, /<td>flatware<\/td><td>3<\/td><td>0.5<\/td>/);
+});
+
+test('/factors reports the economy honestly — drains only, and the assumption is labelled', async () => {
+  const r = await call('/factors');
+  assert.match(r.body, /drains and 1 faucet/);
+  assert.match(r.body, /Modelled magnitudes, not measured demand/);
+});
+
+test('/factors escapes its interpolation', async () => {
+  const r = await call('/factors');
+  // apostrophes inside the corpus text must come out escaped, never raw
+  assert.ok(!r.body.includes("somebody else's"), 'raw apostrophe leaked into HTML');
+  assert.match(r.body, /somebody else&#39;s ceremony/);
+  assert.match(r.body, /operator&#39;s own tradition/);
+  assert.match(r.body, /&lt;1%/, 'the < in "<1% crystalline silica" must be escaped');
+});
+
+test('/api/factors is machine-readable and carries the safety payload', async () => {
+  const r = await call('/api/factors');
+  assert.equal(r.code, 200);
+  const j = JSON.parse(r.body);
+  assert.deepEqual(j.classes, ['grown', 'mineral', 'burnable', 'vessel', 'made']);
+  assert.ok(j.factors.length >= 30);
+  const de = j.factors.find((f) => f.id === 'de_calcined');
+  assert.ok(de.safety.some((l) => /cristobalite/.test(l.text)));
+  const bowl = j.factors.find((f) => f.id === 'offering_bowl');
+  assert.equal(bowl.foodContact, true);
+  const oud = j.factors.find((f) => f.id === 'agarwood_chips');
+  assert.equal(oud.sourcing.cites, 'appendix-ii');
+  assert.equal(j.economy.faucets, 1);
+  assert.ok(j.economy.headroom > 0);
+});
+
+test('/factors is in the sitemap and the llms manifest', async () => {
+  assert.match((await call('/sitemap.xml')).body, /\/factors/);
+  assert.match((await call('/llms.txt')).body, /Non-growing shelf/);
+});
