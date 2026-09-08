@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -182,4 +182,43 @@ test('rank() drops a seed carrying private data rather than scoring it', () => {
   const r = rank([S({ id: 'p', name: 'Private', dob: '1990-01-01', tags: ['boyd-confirmed'] })]);
   assert.equal(r.then.length, 0);
   assert.equal(r.firstDoThis.length, 0);
+});
+
+// ── hubs ──────────────────────────────────────────────────────────────────────────────────────────
+test('hubs() counts appearances in the profile friend-strip across INDEPENDENT profiles', () => {
+  const list = [
+    S({ id: 'a', name: 'Alpha', signal: 'friends with Hub Person, Other One and 20 others' }),
+    S({ id: 'b', name: 'Beta', signal: 'friends with Hub Person and 5 others' }),
+    S({ id: 'c', name: 'Gamma', signal: 'friends with Other One and 3 others' }),
+    S({ id: 'h', name: 'Hub Person' }),
+    S({ id: 'o', name: 'Other One' }),
+  ];
+  const h = hubs(list);
+  assert.equal(h[0].name, 'Hub Person');
+  assert.equal(h[0].count, 2);
+  assert.deepEqual(h[0].namedOn, ['Alpha', 'Beta']);
+});
+
+test('hubs() ignores `why` — our bookkeeping is not evidence', () => {
+  // `why` records where WE imported an entry from. Counting it would make whoever we happened to
+  // batch-import from look like a hub, which is exactly the artifact this guards against.
+  const list = [
+    S({ id: 'x', name: 'Imported One', why: 'named mutual of Source Person' }),
+    S({ id: 'y', name: 'Imported Two', why: 'named mutual of Source Person' }),
+    S({ id: 's', name: 'Source Person' }),
+  ];
+  assert.equal(hubs(list).length, 0, 'no friend-strips means no hubs, however many entries cite them');
+});
+
+test('hubs() does not count someone appearing in their own strip', () => {
+  const list = [S({ id: 'a', name: 'Alpha', signal: 'friends with Alpha and 4 others' })];
+  assert.equal(hubs(list).length, 0);
+});
+
+test('hubs() skips a seed carrying private data', () => {
+  const list = [
+    S({ id: 'p', name: 'Private', phone: '555', signal: 'friends with Hub Person' }),
+    S({ id: 'h', name: 'Hub Person' }),
+  ];
+  assert.equal(hubs(list).length, 0);
 });
