@@ -7,7 +7,8 @@
 //   • Music    — integrations/soapbox/music-catalog.mjs (search / renderList — PD / CC-open, attribution)
 //   • Art      — integrations/soapbox/art-open-access.mjs(search / renderGallery — PD / CC0 art, "ArtCast")
 //   • Library  — integrations/soapbox/books-open.mjs    (search / renderList — Project Gutenberg + IA)
-//   • Watch    — integrations/soapbox/video-discovery.mjs(discover / renderList — PD films / link-outs)
+//   • Watch    — pentecaust/video-feed.mjs             (recentVideos / renderVideoList — MELEK video POSTS)
+//              + integrations/soapbox/video-discovery.mjs(discover / renderList — PD films / link-outs)
 //
 //   PORT=8158 BASE_URL=https://pentecaust.com node pentecaust/media.mjs
 //
@@ -18,7 +19,10 @@
 //   /media/music?q=       search → renderList (attribution travels on CC-BY rows).
 //   /media/art?q=         search → renderGallery (public-domain art / ArtCast).
 //   /media/library?q=     search → renderList (Gutenberg PD + IA reader + Open Library).
-//   /media/watch?q=       discover → renderList (Internet Archive films / official link-outs).
+//   /media/watch?q=       MELEK video posts (on-chain, ours) FIRST, then discover → renderList (IA films / link-outs).
+//   /media/watch/@a/p     one MELEK video: the player, its caption track per language (original always
+//                         marked and kept), where the bytes live, and what it costs to serve. ?lang= picks
+//                         the reader's caption language; it falls back to the original, never to nothing.
 //   /health               liveness probe.
 //
 // ── DISCIPLINE (inherited from the readers) ───────────────────────────────────────────────────────
@@ -38,6 +42,7 @@ import * as music from '../integrations/soapbox/music-catalog.mjs';
 import * as art from '../integrations/soapbox/art-open-access.mjs';
 import * as books from '../integrations/soapbox/books-open.mjs';
 import * as video from '../integrations/soapbox/video-discovery.mjs';
+import * as melekVideo from './video-feed.mjs';
 
 const PORT = +(process.env.PORT || 8158);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -61,6 +66,7 @@ export function __setFetch(fn) {
   art.__setFetch(fn);
   books.__setFetch(fn);
   video.__setFetch(fn);
+  melekVideo.__setFetch(fn);
 }
 
 // ── the tabs ────────────────────────────────────────────────────────────────────────────────────
@@ -72,7 +78,7 @@ export const TABS = [
   { id: 'music', label: 'Music', icon: '🎵', ph: 'Search free & open music — e.g. piano', blurb: 'Public-domain & Creative-Commons tracks (NC excluded). Attribution travels on CC-BY rows.' },
   { id: 'art', label: 'Art', icon: '🖼️', ph: 'Search public-domain art — e.g. sunflowers', blurb: 'Open-access museum art (The Met + Art Institute) for ArtCast displays and frames.' },
   { id: 'library', label: 'Library', icon: '📚', ph: 'Search books — e.g. frankenstein', blurb: 'Project Gutenberg (read now) + Internet Archive reader + Open Library metadata.' },
-  { id: 'watch', label: 'Watch', icon: '🎬', ph: 'Search films — e.g. moon', blurb: 'Public-domain films via the Internet Archive’s own player; official link-outs otherwise.' },
+  { id: 'watch', label: 'Watch', icon: '🎬', ph: 'Search films — e.g. moon', blurb: 'MELEK video posts — captioned in every language, the original always preserved — plus public-domain film.' },
 ];
 const TAB_BY_ID = new Map(TABS.map((t) => [t.id, t]));
 export const isTab = (id) => TAB_BY_ID.has(id);
@@ -108,8 +114,15 @@ export async function tabResults(id, q) {
         return books.renderList(Array.isArray(bks) ? bks : []);
       }
       case 'watch': {
-        const vids = query ? await video.discover({ q: query }) : [];
-        return video.renderList(Array.isArray(vids) ? vids : []);
+        // Ours first: MELEK video posts read straight off the chain. Then the public-domain / link-out
+        // discovery tier. Each half soft-fails on its own — a dead RPC empties the MELEK row and the
+        // Internet Archive results still render.
+        const [mine, vids] = await Promise.all([
+          melekVideo.recentVideos({ limit: 12 }).catch(() => []),
+          query ? video.discover({ q: query }).catch(() => []) : Promise.resolve([]),
+        ]);
+        return melekVideo.renderVideoList(Array.isArray(mine) ? mine : [])
+          + video.renderList(Array.isArray(vids) ? vids : []);
       }
       default:
         return '';
@@ -129,7 +142,7 @@ function emptyRender(id) {
       case 'music': return music.renderList([]);
       case 'art': return art.renderGallery([]);
       case 'library': return books.renderList([]);
-      case 'watch': return video.renderList([]);
+      case 'watch': return melekVideo.renderVideoList([]) + video.renderList([]);
       default: return '';
     }
   } catch {
@@ -177,6 +190,24 @@ const STYLE = `<style>
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
   .grid a{display:block;border:1px solid var(--line2);border-radius:10px;padding:14px 16px;background:var(--panel)}
   .grid a:hover{border-color:var(--ember);text-decoration:none} .grid .t{font-weight:700;color:var(--fg)} .grid .d{color:var(--mut);font-size:13px;margin-top:4px}
+  .melek-videos h2{margin-top:0}
+  .cc{color:var(--gold);font-size:12px}
+  .melek-video h1{margin:0 0 4px;font-size:24px}
+  .player{margin:14px 0;background:#000;border-radius:10px;overflow:hidden}
+  .player video{width:100%;max-height:70vh;display:block;background:#000}
+  p.langs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  p.langs a.lang{border:1px solid var(--line2);border-radius:999px;padding:5px 12px;color:var(--fg);font-size:13px}
+  p.langs a.lang:hover{border-color:var(--ember);color:var(--ember);text-decoration:none}
+  p.langs a.lang.on{border-color:var(--ember);color:#0d1117;background:var(--ember)}
+  p.langs a.lang b{font-weight:700}
+  .desc{white-space:pre-wrap}
+  details.provenance,details.cost{border:1px solid var(--line2);border-radius:10px;padding:10px 14px;margin:12px 0;background:var(--panel)}
+  details summary{cursor:pointer;font-weight:700}
+  code{background:#0b0f14;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:12px}
+  table.cost-table{border-collapse:collapse;margin:10px 0;font-size:13px}
+  table.cost-table th,table.cost-table td{border:1px solid var(--line2);padding:4px 12px;text-align:left}
+  table.cost-table th{color:var(--mut);font-weight:600}
+  .cost-line{font-size:13px}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 22px;margin-top:24px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--blue)}
 </style>`;
@@ -241,6 +272,25 @@ export async function tabPage(id, q) {
   return page(`${tab.label} — Pentecaust Media`, body);
 }
 
+/**
+ * videoPage — ONE MELEK video: the player, a caption track per language (the original always marked and
+ * always kept), where the bytes live and who keeps them alive, and what serving it actually costs.
+ * Soft-fails to a friendly "not found" page rather than a 500; returns null only for a malformed ref.
+ */
+export async function videoPage(author, permlink, lang) {
+  const v = await melekVideo.getVideo({ author, permlink }).catch(() => null);
+  const ref = `@${str(author)}/${str(permlink)}`;
+  if (!v) {
+    const body = `<h1>Not found</h1>
+      <p class=muted>No MELEK video post at <code>${esc(ref)}</code> — it may not exist, may not be a video post,
+        or the chain node may be unreachable.</p>${tabNav('watch')}`;
+    return { html: page(`${ref} — Pentecaust Media`, body), found: false };
+  }
+  const body = `${tabNav('watch')}<div class=card>${melekVideo.renderVideoPage(v, { lang: str(lang) })}</div>
+    <p class=data-note>${esc(melekVideo.dataNote())}</p>`;
+  return { html: page(`${v.title} — Pentecaust Media`, body), found: true };
+}
+
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
@@ -262,6 +312,13 @@ export async function handler(req, res) {
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
 
     if (path === '/' || path === '/media') return sendHtml(res, homePage());
+
+    // one MELEK video — /media/watch/@author/permlink (?lang= picks the caption language)
+    const one = path.match(/^\/media\/watch\/@([a-z][a-z0-9.-]{2,15})\/([a-z0-9][a-z0-9-]{0,254})$/);
+    if (one) {
+      const r = await videoPage(one[1], one[2], url.searchParams.get('lang') || '');
+      if (r) return sendHtml(res, r.html, r.found ? 200 : 404);
+    }
 
     const m = path.match(/^\/media\/([a-z]+)$/);
     if (m && isTab(m[1])) {
