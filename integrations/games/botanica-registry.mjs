@@ -13,7 +13,12 @@
 // contributes nothing rather than breaking the registry.
 //
 // ── What a registry entry is ─────────────────────────────────────────────────────────────────────
-//   item   = { id, name, kind, domains[], sources[] }   kind: material | good | plant
+//   item   = { id, name, kind, domains[], sources[], factorClass? }   kind: material | good | plant
+//
+// `factorClass` (v2) is set for anything from botanica-factors.mjs and says how the item behaves in
+// the ECONOMY rather than what it is made of: mineral | burnable | vessel | made (grown is the
+// plant catalogs). A burnable is a terminal sink, a vessel is a durable, a made good is a converter
+// — that distinction is what the non-growing shelf added, so the registry carries it.
 //   recipe = { id, inputs[{item,qty}], output{item,qty}, station, effort, source }
 //   plant  = { id, name, category, yields[] }
 //
@@ -36,8 +41,9 @@ import * as botanica from './botanica.mjs';
 import * as insects from './insect-ecosystem.mjs';
 import * as microbes from './microbe-lab.mjs';
 import * as spirits from './spirits-and-parts.mjs';
+import * as factors from './botanica-factors.mjs';
 
-export const REGISTRY_VERSION = 1;
+export const REGISTRY_VERSION = 2;
 
 export function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -57,11 +63,12 @@ function grab(mod, key, fallback) {
 }
 
 /** Add an item to the registry, merging domains and recording every source that named it. */
-function addItem(items, rawId, { name, kind, domains, source } = {}) {
+function addItem(items, rawId, { name, kind, domains, source, factorClass } = {}) {
   const key = id(rawId);
   if (!key) return;
   const cur = items.get(key) || { id: key, name: '', kind: kind || 'material', domains: [], sources: [] };
   if (name && !cur.name) cur.name = String(name);
+  if (factorClass && !cur.factorClass) cur.factorClass = String(factorClass);
   // A good outranks a material: if anything crafts it, it is a good.
   if (kind === 'good') cur.kind = 'good';
   else if (kind === 'plant' && cur.kind !== 'good') cur.kind = 'plant';
@@ -144,6 +151,22 @@ export function buildRegistry() {
     }
   }
 
+  // ── the NON-GROWING factors: minerals, burnables, vessels, made goods ──────────────────────────
+  // These are the half of a botanica that never grew on the land — diatomaceous earth, clay, resin,
+  // charcoal, the pots and the censers. They carry safety and sourcing records the plant catalogs
+  // have no field for, so the registry records the class and points a consumer at the module.
+  for (const f of grab(factors, 'FACTORS', [])) {
+    if (!f || !f.id) continue;
+    addItem(items, f.id, {
+      name: f.name,
+      kind: f.makeable ? 'good' : 'material',
+      domains: Array.isArray(f.domains) ? f.domains : [],
+      source: 'botanica-factors',
+      factorClass: f.class,
+    });
+  }
+  for (const r of grab(factors, 'FACTOR_RECIPES', [])) addRecipe(recipes, r, 'botanica-factors');
+
   // Anything a recipe produces is a good, and anything a recipe consumes must exist as an item.
   for (const r of recipes) {
     addItem(items, r.output.item, { kind: 'good', source: r.source });
@@ -173,6 +196,21 @@ export const consumedBy = (reg, itemId) =>
   (reg && reg.recipes ? reg.recipes : []).filter((r) => r.inputs.some((i) => i.item === id(itemId)));
 
 export const recipesFor = (reg, itemId) => producedBy(reg, itemId);
+
+/** factorItems(reg, cls?) — the non-growing items, optionally one class. `grown` returns the plants,
+ *  because the taxonomy's fifth class is the plant catalog and not a duplicate list here. */
+export function factorItems(reg, cls = null) {
+  const items = (reg && reg.items) || [];
+  if (cls === 'grown') return (reg && reg.plants) || [];
+  const withClass = items.filter((i) => i.factorClass);
+  return cls ? withClass.filter((i) => i.factorClass === String(cls)) : withClass;
+}
+
+/** sinkItems(reg) — everything in the registry that is destroyed when it is used. The drain side. */
+export const sinkItems = (reg) => factorItems(reg).filter((i) => {
+  const f = factors.factorById ? factors.factorById(i.id) : null;
+  return !!(f && f.consumedOnUse);
+});
 
 /**
  * chainTo(reg, itemId, depth) — the production chain that ends at an item, walked backwards.
@@ -236,7 +274,8 @@ export function validate(reg) {
 }
 
 export default {
-  REGISTRY_VERSION, buildRegistry, itemsById, producedBy, consumedBy, recipesFor, chainTo, validate, esc,
+  REGISTRY_VERSION, buildRegistry, itemsById, producedBy, consumedBy, recipesFor, chainTo, validate,
+  factorItems, sinkItems, esc,
 };
 
 if (process.argv[1] && process.argv[1].endsWith('botanica-registry.mjs')) {
@@ -246,6 +285,9 @@ if (process.argv[1] && process.argv[1].endsWith('botanica-registry.mjs')) {
   console.log(`  items ${reg.items.length} · recipes ${reg.recipes.length} · plants ${reg.plants.length}`);
   console.log(`  stations: ${reg.stations.join(', ')}`);
   console.log(`  domains:  ${reg.domains.join(', ')}`);
+  const cls = {};
+  for (const i of factorItems(reg)) cls[i.factorClass] = (cls[i.factorClass] || 0) + 1;
+  console.log(`  non-growing factors: ${Object.entries(cls).map(([k, n]) => `${k}=${n}`).join(' ') || 'none'} (sinks: ${sinkItems(reg).length})`);
   console.log(`  valid: ${v.ok}`);
   if (v.orphanInputs.length) console.log(`  orphan inputs: ${v.orphanInputs.slice(0, 12).map((o) => `${o.input}(${o.recipe})`).join(', ')}`);
   if (v.unreachable.length) console.log(`  unreachable goods: ${v.unreachable.slice(0, 12).join(', ')}`);

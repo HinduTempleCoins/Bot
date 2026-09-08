@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildRegistry, itemsById, producedBy, consumedBy, chainTo, validate, REGISTRY_VERSION } from './botanica-registry.mjs';
+import { buildRegistry, itemsById, producedBy, consumedBy, chainTo, validate, factorItems, sinkItems, REGISTRY_VERSION } from './botanica-registry.mjs';
 
 const REG = buildRegistry();
 
@@ -70,4 +70,54 @@ test('queries soft-fail on nonsense', () => {
   assert.deepEqual(producedBy(null, null), []);
   assert.doesNotThrow(() => validate(null));
   assert.doesNotThrow(() => itemsById(null));
+});
+
+// ── v2: the non-growing factors ─────────────────────────────────────────────────────────────────
+test('the registry carries the non-growing factor classes', () => {
+  assert.equal(REGISTRY_VERSION, 2);
+  for (const cls of ['mineral', 'burnable', 'vessel', 'made']) {
+    assert.ok(factorItems(REG, cls).length >= 5, `${cls}: ${factorItems(REG, cls).length}`);
+  }
+  // the fifth class is the plant catalog, not a duplicate list
+  assert.equal(factorItems(REG, 'grown').length, REG.plants.length);
+  assert.ok(factorItems(REG).length >= 30);
+});
+
+test('diatomaceous earth is in the one canonical registry, both grades', () => {
+  const by = itemsById(REG);
+  assert.ok(by.de_food_grade, 'food-grade DE missing from the registry');
+  assert.ok(by.de_calcined, 'calcined DE missing from the registry');
+  assert.equal(by.de_food_grade.factorClass, 'mineral');
+  assert.ok(by.de_food_grade.sources.includes('botanica-factors'));
+});
+
+test('pottery and burnables reach the registry with their class intact', () => {
+  const by = itemsById(REG);
+  assert.equal(by.offering_bowl.factorClass, 'vessel');
+  assert.equal(by.murti_small.factorClass, 'vessel');
+  assert.equal(by.incense_stick.factorClass, 'burnable');
+  assert.equal(by.vibhuti.factorClass, 'made');
+  // and they are craftable through the same recipe graph as everything else
+  assert.ok(producedBy(REG, 'offering_bowl').length > 0);
+  assert.ok(consumedBy(REG, 'clay_body').length > 0);
+});
+
+test('the pottery chain resolves backwards to its minerals', () => {
+  const chain = chainTo(REG, 'offering_bowl', 6).map((r) => r.output.item);
+  assert.ok(chain.includes('offering_bowl'));
+  assert.ok(chain.includes('glaze_frit'), 'the bowl should pull in its frit');
+});
+
+test('sinkItems names what is destroyed on use', () => {
+  const sinks = sinkItems(REG).map((i) => i.id);
+  assert.ok(sinks.includes('incense_stick'));
+  assert.ok(sinks.includes('de_food_grade'));
+  assert.ok(!sinks.includes('terracotta_planter'), 'a durable is not a sink');
+  assert.ok(!sinks.includes('murti_small'), 'a murti is not consumed');
+});
+
+test('the factor queries soft-fail like the rest of the registry', () => {
+  assert.deepEqual(factorItems(null), []);
+  assert.deepEqual(factorItems(REG, 'nope'), []);
+  assert.deepEqual(sinkItems(null), []);
 });
