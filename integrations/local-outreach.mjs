@@ -41,6 +41,28 @@ export const SCHOOL = Object.freeze({
 
 export const COHORTS = Object.freeze([2009, 2010, 2011, 2012]);
 
+/** How far outside the stated window still counts as the same cohort. See cohortStatus(). */
+export const EDGE = 1;
+
+/**
+ * A YOUNGER sub-cohort joined the group through one person. Operator, 2026-09-08: "Then there was
+ * Chelsea Pitt's Little Brother, and his Friends were the Younger ones that came in."
+ *
+ * Worth modelling separately rather than widening the window, because it is a different shape: not a
+ * blur at the edge but a distinct group that arrived through a single named door. That door is the
+ * efficient way to reach all of them, and it is one person.
+ */
+export const SUBCOHORTS = Object.freeze([
+  {
+    id: 'younger-via-chelsea-pitts-brother',
+    who: 'the younger ones',
+    enteredVia: "Chelsea Pitt's little brother",
+    note: 'Name not yet supplied — the operator knows it. He is the entry point for a whole younger '
+        + 'group, which makes him worth more than his own follower count suggests.',
+    needs: "the brother's name",
+  },
+]);
+
 /** Later classes to widen into once the first four are worked. Operator: "maybe Classes after ours". */
 export function widen(years = COHORTS, by = 3) {
   const last = Math.max(...years);
@@ -213,11 +235,22 @@ export function cohortStatus(seed = {}, years = COHORTS) {
       : { state: 'confirmed-outside', year: stated, why: `class of ${stated} — stated, and outside ${lo}-${hi}` };
   }
   if (guess) {
-    return guess >= lo && guess <= hi
-      ? { state: 'estimated-in-window', year: guess, needs: 'the actual year',
-          why: `probably ${guess}, from a birth year — an estimate, not a fact. Confirm before treating them as a classmate.` }
-      : { state: 'estimated-outside', year: guess, needs: 'the actual year',
-          why: `probably ${guess}, which falls outside ${lo}-${hi}. Worth asking rather than dropping — an estimate is not a year.` };
+    if (guess >= lo && guess <= hi) {
+      return { state: 'estimated-in-window', year: guess, needs: 'the actual year',
+        why: `probably ${guess}, from a birth year — an estimate, not a fact. Confirm before treating them as a classmate.` };
+    }
+    // One year outside is INSIDE the real spread. Operator, 2026-09-08: "The Only Difference will be
+    // like 1 Year Age Difference in Everyone." A cohort that tight is not bounded by its own edges —
+    // people a year either side were in the same rooms. Combined with the estimate's own error bar
+    // (a birth year gives ±1 before anyone repeats or skips a grade), treating 2008 or 2013 as
+    // "outside" would drop real classmates on arithmetic twice over.
+    if (guess >= lo - EDGE && guess <= hi + EDGE) {
+      return { state: 'estimated-edge', year: guess, needs: 'the actual year',
+        why: `probably ${guess} — one year off ${lo}-${hi}, which is inside the real spread rather than outside it. `
+           + 'Same rooms, same people. Include and confirm.' };
+    }
+    return { state: 'estimated-outside', year: guess, needs: 'the actual year',
+      why: `probably ${guess}, more than a year outside ${lo}-${hi}. Worth asking rather than dropping — an estimate is not a year.` };
   }
   return { state: 'unknown', year: 0, needs: 'a class year', why: 'no year and nothing to estimate from — ask.' };
 }

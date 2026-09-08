@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -241,8 +241,10 @@ test('an ESTIMATE never counts as confirmed, even inside the window', () => {
   assert.match(c.why, /an estimate, not a fact/);
 });
 
-test('an estimate outside the window says ASK rather than exclude — people repeat and skip years', () => {
-  const c = cohortStatus(S({ classYearEstimate: 2008 }));
+test('an estimate well outside says ASK rather than exclude — people repeat and skip years', () => {
+  // 2008 used to be the case here; it is now `estimated-edge`, since the operator says the real
+  // spread is about one year. Two years out is where "outside" starts.
+  const c = cohortStatus(S({ classYearEstimate: 2006 }));
   assert.equal(c.state, 'estimated-outside');
   assert.match(c.why, /an estimate is not a year/);
 });
@@ -299,4 +301,33 @@ test('the highest-scoring possible family member still does not appear', () => {
     mutualsWithOperator: 500, audience: { followers: 100000 },
   })]);
   assert.equal(r.then.length, 0);
+});
+
+// ── the cohort is tighter than its own edges ──────────────────────────────────────────────────────
+test('one year outside the window is EDGE, not outside — same rooms, same people', () => {
+  // Operator: "The Only Difference will be like 1 Year Age Difference in Everyone."
+  for (const y of [2008, 2013]) {
+    const c = cohortStatus(S({ classYearEstimate: y }));
+    assert.equal(c.state, 'estimated-edge', String(y));
+    assert.match(c.why, /inside the real spread rather than outside it/);
+  }
+});
+
+test('two years out is still outside — the tolerance is one year, not a shrug', () => {
+  assert.equal(cohortStatus(S({ classYearEstimate: 2015 })).state, 'estimated-outside');
+  assert.equal(cohortStatus(S({ classYearEstimate: 2006 })).state, 'estimated-outside');
+});
+
+test('a STATED year outside the window is still confirmed-outside — tolerance is for estimates', () => {
+  // An estimate carries an error bar; a stated year does not. Applying the same slack to a fact
+  // would be inventing doubt where none exists.
+  assert.equal(cohortStatus(S({ classYear: 2008 })).state, 'confirmed-outside');
+});
+
+test('the younger sub-cohort is modelled as a door, not as a wider window', () => {
+  assert.equal(SUBCOHORTS.length, 1);
+  const s = SUBCOHORTS[0];
+  assert.match(s.enteredVia, /Chelsea Pitt/);
+  assert.equal(s.needs, "the brother's name");
+  assert.match(s.note, /entry point for a whole younger group/);
 });
