@@ -439,6 +439,59 @@ export function possibleDuplicates(seeds = null) {
   return out;
 }
 
+/**
+ * Who keeps showing up on other people's profiles.
+ *
+ * Operator, 2026-09-08: "see if You can Start Finding any Emails for their Friends and stuff, and
+ * maybe You can Start Finding Things that way."
+ *
+ * Every profile carries a handful of named friends and, sometimes, their mutual counts. Those names
+ * are the second degree, and the useful signal in them is not any single name — it is REPETITION.
+ * Someone listed on one seed's profile is a friend. Someone listed on six of them is a hub, and a hub
+ * is worth finding a route to before any of the six are worth writing to.
+ *
+ * WHAT THIS IS NOT. It is not a list of people to contact. Nobody here has been confirmed as anyone
+ * the operator actually knows, nothing has been researched about them, and a name on a friend card is
+ * not consent to be looked up. They come back as CANDIDATES for him to confirm or strike, and
+ * `contactable` is false on every one. That flag is the whole point: an expansion path that quietly
+ * turns into a mailing list is exactly how the first-degree file would have gone wrong too.
+ */
+export function candidates(seeds = null) {
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const known = new Set();
+  for (const s of list) {
+    known.add(low(s.name));
+    for (const a of (s.alsoAt || [])) known.add(low(a.name));
+  }
+  const seen = new Map();
+  for (const s of list) {
+    if (isFamily(s) || isDisputed(s)) continue;   // do not mine a row a rule already removed
+    for (const e of (s.clusterEdges || [])) {
+      const name = str(e && e.name ? e.name : e);
+      if (!name || known.has(low(name))) continue;
+      const k = low(name);
+      if (!seen.has(k)) seen.set(k, { name, seenOn: [], mutualsSeen: 0 });
+      const rec = seen.get(k);
+      rec.seenOn.push(str(s.name));
+      const m = Number((e && e.mutuals) || 0);
+      if (m > rec.mutualsSeen) rec.mutualsSeen = m;
+    }
+  }
+  return [...seen.values()]
+    .map((c) => ({
+      name: c.name,
+      appearsOn: c.seenOn.length,
+      via: c.seenOn,
+      highestMutualsSeen: c.mutualsSeen,
+      // Repetition first — a hub is worth more than one big number on a single profile.
+      weight: c.seenOn.length * 10 + Math.min(20, Math.round(c.mutualsSeen / 8)),
+      contactable: false,
+      status: 'candidate — not confirmed as someone the operator knows, and not researched. His to '
+            + 'confirm or strike before anyone looks either of us up.',
+    }))
+    .sort((a, b) => b.weight - a.weight || b.highestMutualsSeen - a.highestMutualsSeen);
+}
+
 export function rank(seeds = null) {
   // Collapse duplicate accounts BEFORE anything is scored — a second account must never contribute a
   // second row, a second message, or a second helping of mutuals.
@@ -480,6 +533,9 @@ export function rank(seeds = null) {
     // Rows that were folded into another account, and rows that look like they should be but nobody said.
     collapsedDuplicates: dedupe(Array.isArray(seeds) ? seeds : loadSeeds()).aliases,
     askAboutDuplicates: possibleDuplicates(Array.isArray(seeds) ? seeds : loadSeeds()),
+    // The second degree — names off other people's friend cards, ranked by how many profiles they
+    // appear on. Candidates for him to confirm, never a list to work from.
+    candidates: candidates(Array.isArray(seeds) ? seeds : loadSeeds()).slice(0, 40),
   };
 }
 

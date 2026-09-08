@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
-  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates, buyerFit, BUYER_KINDS, CALLED_IT, MAIN_FRAME,
+  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates, buyerFit, BUYER_KINDS, CALLED_IT, MAIN_FRAME, candidates,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -688,4 +688,63 @@ test('the Matrix is the TOKEN matrix — structure over price — and it carries
   assert.match(MAIN_FRAME.headline, /structure, not by its price/);
   assert.match(MAIN_FRAME.url, /witness\.melek\.salon\/dev\/matrix/);
   assert.ok(!/movie|film|simulation/i.test(JSON.stringify(MAIN_FRAME)), 'not that Matrix');
+});
+
+
+// ── the second degree ─────────────────────────────────────────────────────────────────────────────
+const CLUSTER = [
+  { id: 'a', name: 'Seed A', clusterEdges: [{ name: 'Hub Person', mutuals: 90 }, { name: 'One Off' }] },
+  { id: 'b', name: 'Seed B', clusterEdges: [{ name: 'Hub Person', mutuals: 40 }] },
+  { id: 'c', name: 'Seed C', clusterEdges: [{ name: 'Hub Person' }, { name: 'Seed A' }] },
+];
+
+test('repetition ranks above one big number — a hub beats a single loud profile', () => {
+  const c = candidates(CLUSTER);
+  assert.equal(c[0].name, 'Hub Person');
+  assert.equal(c[0].appearsOn, 3);
+  assert.deepEqual(c[0].via, ['Seed A', 'Seed B', 'Seed C']);
+  assert.equal(c[0].highestMutualsSeen, 90, 'the highest count seen anywhere, never a sum');
+});
+
+test('someone already in the file is not a candidate', () => {
+  assert.ok(!candidates(CLUSTER).some((c) => c.name === 'Seed A'));
+});
+
+test('every candidate is marked not contactable, and says why', () => {
+  for (const c of candidates(CLUSTER)) {
+    assert.equal(c.contactable, false);
+    assert.match(c.status, /confirm or strike/);
+  }
+});
+
+test('a row a rule already removed is not mined for its friends', () => {
+  const c = candidates([
+    { id: 'f', name: 'A Cousin', tags: ['family'], clusterEdges: [{ name: 'Family Friend' }] },
+    { id: 'd', name: 'Disputed', identityDisputed: true, clusterEdges: [{ name: 'Someone Else' }] },
+  ]);
+  assert.deepEqual(c, [], 'family and disputed rows contribute nobody');
+});
+
+test('an alias account\'s name does not come back as a candidate', () => {
+  const c = candidates([
+    { id: 'main', name: 'A Person', clusterEdges: [{ name: 'A Person Second Account' }] },
+    { id: 'alt', name: 'A Person Second Account', sameAs: 'main' },
+  ]);
+  assert.deepEqual(c, [], 'dedupe already answered this');
+});
+
+test('a bare string edge works as well as an object', () => {
+  const c = candidates([{ id: 'x', name: 'X', clusterEdges: ['Plain Name'] }]);
+  assert.deepEqual(c.map((y) => y.name), ['Plain Name']);
+});
+
+test('no edges means no candidates, not a crash', () => {
+  assert.deepEqual(candidates([{ id: 'x', name: 'X' }]), []);
+  assert.deepEqual(candidates([]), []);
+});
+
+test('rank() surfaces the candidates alongside everything else', () => {
+  const r = rank(CLUSTER);
+  assert.ok(r.candidates.length);
+  assert.equal(r.candidates[0].name, 'Hub Person');
 });
