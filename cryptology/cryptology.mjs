@@ -33,6 +33,7 @@
 //
 // CLI:  node cryptology/cryptology.mjs show   <account>
 //       node cryptology/cryptology.mjs observe <account> <event>   (e.g. warm_exchange, taught, ghosted)
+//       node cryptology/cryptology.mjs forget  <account>            (delete their record — unconditional)
 //       node cryptology/cryptology.mjs map                          (list everyone, sorted by closeness)
 
 import fs from 'node:fs';
@@ -554,6 +555,30 @@ export function observe(account, event, opts = {}) {
   return markPersist(p, ok, ok ? null : 'write-failed');
 }
 
+/**
+ * forget — delete this person's record. UNCONDITIONALLY.
+ *
+ * There was no delete path anywhere in Crypt-ology: the map only ever grew. A record here is held
+ * under the SUBJECT's own key — it is a record OF them — and it is theirs to end. So there is no
+ * karma check, no standing floor, no cooling-off, no tombstone and no archive copy: a delete that
+ * keeps a copy is not a delete. The Witness forgets, and that person can come back a stranger, which
+ * is what "a different story for everyone" has to mean if the story is genuinely theirs.
+ *
+ * Deliberately NOT gated on isValidAccount(): records written before the map validated its keys
+ * ('bob smith', 'Not An Account') must still be deletable. A validator may refuse to CREATE a
+ * record; nothing may refuse to remove one.
+ *
+ * @returns {{ ok, existed, reason }} ok = the map on disk now holds no record for them.
+ */
+export function forget(account, file = storeFile()) {
+  const key = accountKey(account);
+  const store = loadStore(file);
+  if (!Object.prototype.hasOwnProperty.call(store, key)) return { ok: true, existed: false, reason: null };
+  delete store[key];
+  const ok = saveStore(store, file);
+  return { ok, existed: true, reason: ok ? null : 'write-failed' };
+}
+
 /** Everyone the Witness knows, sorted by closeness (the map). */
 export function everyone(store = loadStore()) {
   return Object.values(store)
@@ -579,12 +604,16 @@ if (isMain) {
     }
     const d = dispositionOf(p);
     console.log(`@${p.account}: ${b} → ${d.stance} (closeness ${d.closeness}, standing ${d.standing}, ${p.totalInteractions} interactions)`);
+  } else if (cmd === 'forget' && a) {
+    const r = forget(a);
+    if (!r.ok) { console.error(`could not forget @${accountKey(a)} — ${r.reason}`); process.exit(1); }
+    console.log(r.existed ? `forgotten: @${accountKey(a)} — the record is gone` : `@${accountKey(a)} was not on the map`);
   } else if (cmd === 'map') {
     const rows = everyone();
     if (!rows.length) { console.error('cryptology map empty — run `observe <account> <event>` first'); process.exit(1); }
     for (const r of rows) console.log(`  ${String(r.closeness).padStart(6)}  ${r.stance.padEnd(11)} @${r.account}  (${r.totalInteractions} interactions)`);
   } else {
-    console.error('usage: cryptology.mjs show <account> | observe <account> <event> | map');
+    console.error('usage: cryptology.mjs show <account> | observe <account> <event> | forget <account> | map');
     console.error('events: ' + Object.keys(EVENTS).join(', '));
     process.exit(1);
   }

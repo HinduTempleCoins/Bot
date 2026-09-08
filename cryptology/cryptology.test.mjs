@@ -399,3 +399,48 @@ test('isValidAccount is the canonical Graphene rule, applied to the normalized k
   assert.equal(c.isValidAccount('a.b'), false);
   assert.equal(c.isValidAccount(undefined), false);
 });
+
+// ── forget ────────────────────────────────────────────────────────────────────────────────────────
+
+test('forget deletes the record, unconditionally, leaving nothing behind', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('subject-one', 'taught', { file });
+  c.observe('subject-two', 'warm_exchange', { file });
+
+  const r = c.forget('@Subject-One', file);   // @ and case normalize, same as every other verb
+  assert.deepEqual(r, { ok: true, existed: true, reason: null });
+
+  const store = c.loadStore(file);
+  assert.deepEqual(Object.keys(store), ['subject-two'], 'only that person is gone');
+  assert.equal(JSON.stringify(store).includes('subject-one'), false, 'no tombstone, no archive copy');
+
+  // and they come back a stranger
+  assert.equal(c.recall('subject-one', store).totalInteractions, 0);
+  assert.equal(c.dispositionOf(c.recall('subject-one', store)).stance, 'welcoming');
+});
+
+test('forgetting someone the map never held is not an error', () => {
+  const file = path.join(freshDir(), 'store.json');
+  assert.deepEqual(c.forget('never-here', file), { ok: true, existed: false, reason: null });
+});
+
+test('a record whose key predates validation is still deletable — nothing may refuse a delete', () => {
+  const file = path.join(freshDir(), 'store.json');
+  fs.writeFileSync(file, JSON.stringify({ 'bob smith': { account: 'bob smith', warmth: 40 } }, null, 2));
+  assert.equal(c.isValidAccount('bob smith'), false, 'observe() would refuse to create this today');
+  assert.deepEqual(c.forget('bob smith', file), { ok: true, existed: true, reason: null });
+  assert.deepEqual(c.loadStore(file), {});
+});
+
+test('forget reports a delete that did not reach disk', () => {
+  const dir = freshDir();
+  const file = path.join(dir, 'store.json');
+  c.observe('doomed-one', 'greeted', { file });
+  fs.chmodSync(dir, 0o555); // the rename cannot land: no write permission on the directory
+  const r = c.forget('doomed-one', file);
+  fs.chmodSync(dir, 0o755);
+  assert.equal(r.existed, true);
+  assert.equal(r.ok, false, 'a delete that did not persist is not a delete');
+  assert.equal(r.reason, 'write-failed');
+  assert.ok(c.loadStore(file)['doomed-one'], 'and the record is still there, honestly reported');
+});
