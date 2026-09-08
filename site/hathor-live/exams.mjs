@@ -238,9 +238,15 @@ export function retestPair(first, second, { unit = '', sem = null } = {}) {
   const n = (v) => (v == null || v === '' ? NaN : Number(v));
   const a = n(first);
   const b = n(second);
-  if (!Number.isFinite(a)) return { ok: false, text: 'No first administration to compare against.' };
-  if (!Number.isFinite(b)) {
-    return { ok: false, text: 'One administration is a reading, not a finding. Come back and take it again — the second sitting is part of the instrument.' };
+  // Either way round, a single administration is a single administration. The message is the same
+  // whether this is somebody's first sitting (no prior to compare) or a prior with nothing new
+  // against it, because the thing being said is about the instrument, not about the bookkeeping.
+  if (!Number.isFinite(a) || !Number.isFinite(b)) {
+    return {
+      ok: false,
+      text: 'One administration is a reading, not a finding. Come back with the same key — the second '
+        + 'sitting is part of the instrument, and the pair is the result.',
+    };
   }
   const diff = b - a;
   const base = `First sitting ${a}${unit}, second ${b}${unit} — a change of ${diff > 0 ? '+' : ''}${Math.round(diff * 1000) / 1000}${unit}.`;
