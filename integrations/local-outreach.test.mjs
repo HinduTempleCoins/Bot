@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -221,4 +221,54 @@ test('hubs() skips a seed carrying private data', () => {
     S({ id: 'h', name: 'Hub Person' }),
   ];
   assert.equal(hubs(list).length, 0);
+});
+
+// ── cohort window ─────────────────────────────────────────────────────────────────────────────────
+test('a STATED class year inside the window is confirmed', () => {
+  const c = cohortStatus(S({ classYear: 2009 }));
+  assert.equal(c.state, 'confirmed-in-window');
+  assert.equal(c.year, 2009);
+});
+
+test('a stated year outside the window is reported as outside, not silently dropped', () => {
+  assert.equal(cohortStatus(S({ classYear: 2005 })).state, 'confirmed-outside');
+});
+
+test('an ESTIMATE never counts as confirmed, even inside the window', () => {
+  const c = cohortStatus(S({ classYearEstimate: 2010 }));
+  assert.equal(c.state, 'estimated-in-window');
+  assert.equal(c.needs, 'the actual year');
+  assert.match(c.why, /an estimate, not a fact/);
+});
+
+test('an estimate outside the window says ASK rather than exclude — people repeat and skip years', () => {
+  const c = cohortStatus(S({ classYearEstimate: 2008 }));
+  assert.equal(c.state, 'estimated-outside');
+  assert.match(c.why, /an estimate is not a year/);
+});
+
+test('a stated year always beats an estimate', () => {
+  assert.equal(cohortStatus(S({ classYear: 2011, classYearEstimate: 2008 })).state, 'confirmed-in-window');
+});
+
+test('no year at all asks for one', () => {
+  const c = cohortStatus(S({}));
+  assert.equal(c.state, 'unknown');
+  assert.equal(c.needs, 'a class year');
+});
+
+test('cohortReport says plainly when nothing is actually confirmed', () => {
+  const r = cohortReport([
+    S({ id: 'a', name: 'A', tags: ['boyd-confirmed'], classYearEstimate: 2010 }),
+    S({ id: 'b', name: 'B', tags: ['boyd-confirmed'] }),
+  ]);
+  assert.equal(r.counts['estimated-in-window'], 1);
+  assert.equal(r.counts.unknown, 1);
+  assert.match(r.honest, /Estimates are not years/);
+});
+
+test('cohortReport falls silent once something IS confirmed', () => {
+  const r = cohortReport([S({ id: 'c', name: 'C', classYear: 2012 })]);
+  assert.equal(r.honest, null);
+  assert.deepEqual(r.window, [2009, 2012]);
 });
