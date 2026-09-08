@@ -129,6 +129,35 @@ export function makeVenue({ id, name, kind, url, access = 'public', promo = 'unk
   };
 }
 
+// A venue nobody can open is a venue nobody read the rules of. `draftFor()` already refuses `unknown`
+// promo, but a missing URL is the earlier failure: it means the venue was written down from memory,
+// and the rule that gets an account banned is the one that was never actually looked at.
+export function assertVenueCheckable(venue = {}) {
+  if (!str(venue.name)) return { ok: false, code: 'no-name', reason: 'a venue with no name is not a venue.' };
+  if (!str(venue.url)) {
+    return {
+      ok: false, code: 'no-url',
+      reason: `${venue.name} has no link. Without one nobody can read its rules, and an unread rule is `
+            + 'how the account gets banned. Find the link or drop the venue.',
+    };
+  }
+  return { ok: true };
+}
+
+// Venues load the same way seeds do and for the same reason: a list of local groups, who runs them and
+// what they allow is research about real communities, not repo content. `.local/LOCAL_VENUES.json` is
+// gitignored; with no file the list is empty and `plan()` says so instead of pretending.
+export const VENUES_FILE = process.env.LOCAL_VENUES_FILE
+  || new URL('../.local/LOCAL_VENUES.json', import.meta.url).pathname;
+
+export function loadVenues(file = VENUES_FILE, read = readFileSync) {
+  try {
+    const j = JSON.parse(read(file, 'utf8'));
+    const list = Array.isArray(j) ? j : (j.venues || []);
+    return list.filter((v) => v && str(v.name)).map((v) => makeVenue(v));
+  } catch { return []; }   // no file, bad JSON, no permission — no venues, never a crash
+}
+
 // ── ranking ───────────────────────────────────────────────────────────────────────────────────────
 // Which seed to work first. Three things actually predict whether an approach lands, and they are not
 // follower count:
@@ -451,10 +480,14 @@ export function draftFor(venue = {}, opts = {}) {
 }
 
 /** A plan: which cohorts, which seeds, which venues — and what is still missing. */
-export function plan({ years = COHORTS, seeds = null, venues = [] } = {}) {
+export function plan({ years = COHORTS, seeds = null, venues = null } = {}) {
   const list = Array.isArray(seeds) ? seeds : loadSeeds();
   const bad = list.map((s) => ({ s, v: assertPublicOnly(s) })).filter((x) => !x.v.ok);
-  const postable = venues.filter((v) => v.promo === 'allowed' || v.promo === 'ask-first');
+  const allVenues = Array.isArray(venues) ? venues.map((v) => makeVenue(v)) : loadVenues();
+  const uncheckable = allVenues.filter((v) => !assertVenueCheckable(v).ok);
+  const checkable = allVenues.filter((v) => assertVenueCheckable(v).ok);
+  // Only a venue we can open AND whose rule we have read is postable. Unknown is not permission.
+  const postable = checkable.filter((v) => v.promo === 'allowed' || v.promo === 'ask-first');
   return {
     ok: bad.length === 0,
     school: SCHOOL.name,
@@ -462,9 +495,22 @@ export function plan({ years = COHORTS, seeds = null, venues = [] } = {}) {
     widening: widen(years),
     seeds: list.filter((s) => assertPublicOnly(s).ok).map((s) => ({ id: s.id, name: s.name, reach: s.audience && s.audience.followers })),
     rejectedSeeds: bad.map((x) => ({ id: x.s.id, reason: x.v.reason })),
-    venues: { total: venues.length, postable: postable.length, banned: venues.filter((v) => v.promo === 'banned').length, unread: venues.filter((v) => v.promo === 'unknown').length },
+    venues: {
+      total: allVenues.length,
+      postable: postable.length,
+      banned: checkable.filter((v) => v.promo === 'banned').length,
+      unread: checkable.filter((v) => v.promo === 'unknown').length,
+      uncheckable: uncheckable.length,
+    },
+    // The ones to work next: a venue we can open whose rules nobody has read yet. Reading a rule is
+    // free and it is the only thing standing between this list and an actual post.
+    readNext: checkable.filter((v) => v.promo === 'unknown').map((v) => ({ id: v.id, name: v.name, url: v.url })),
     blocked: [
-      ...(venues.length ? [] : ['no venues loaded yet — the venue research is what turns this into outreach']),
+      ...(allVenues.length ? [] : ['no venues loaded yet — the venue research is what turns this into outreach']),
+      ...(allVenues.length && !postable.length
+        ? [`${checkable.filter((v) => v.promo === 'unknown').length} venue(s) loaded but none readable as permission yet — read their posting rules (plan().readNext)`]
+        : []),
+      ...(uncheckable.length ? [`${uncheckable.length} venue(s) have no link and cannot be checked`] : []),
       ...(list.length ? [] : ['no seeds loaded — put them in .local/LOCAL_SEEDS.json, never in the repo']),
     ],
   };
@@ -475,7 +521,7 @@ export function handler(req, res) {
   res.setHeader('content-type', 'application/json; charset=utf-8');
   res.end(JSON.stringify({
     ok: true, service: 'local-outreach',
-    school: SCHOOL, cohorts: COHORTS, seeds: loadSeeds().length,
+    school: SCHOOL, cohorts: COHORTS, seeds: loadSeeds().length, venues: loadVenues().length,
     checkableClaims: CHECKABLE, refusedClaims: REFUSED,
   }, null, 2));
 }

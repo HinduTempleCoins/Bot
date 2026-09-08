@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
+  loadVenues, assertVenueCheckable,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -109,10 +110,10 @@ test('plan() reports honestly that with nothing loaded this is not yet outreach'
 
 test('plan() separates postable venues from banned and unread ones', () => {
   const venues = [
-    makeVenue({ name: 'A', promo: 'allowed' }),
-    makeVenue({ name: 'B', promo: 'banned' }),
-    makeVenue({ name: 'C', promo: 'unknown' }),
-    makeVenue({ name: 'D', promo: 'ask-first' }),
+    makeVenue({ name: 'A', url: 'https://example.org/a', promo: 'allowed' }),
+    makeVenue({ name: 'B', url: 'https://example.org/b', promo: 'banned' }),
+    makeVenue({ name: 'C', url: 'https://example.org/c', promo: 'unknown' }),
+    makeVenue({ name: 'D', url: 'https://example.org/d', promo: 'ask-first' }),
   ];
   const p = plan({ venues });
   assert.equal(p.venues.postable, 2);
@@ -386,4 +387,48 @@ test('a high-scoring profile still leaves the ranking once it is marked personal
     mutualsWithOperator: 300, audience: { followers: 90000 },
   })]);
   assert.equal(r.then.length, 0);
+});
+
+
+// ── venues ────────────────────────────────────────────────────────────────────────────────────────
+const VENUES = {
+  venues: [
+    { name: 'McKinney Class of 2010', kind: 'alumni_group', url: 'https://example.org/g/1', promo: 'unknown' },
+    { name: 'A Group That Allows It', kind: 'community_group', url: 'https://example.org/g/2', promo: 'allowed' },
+    { name: 'No Ads Here', kind: 'community_group', url: 'https://example.org/g/3', promo: 'banned' },
+    { name: 'Remembered From Somewhere', kind: 'community_group', promo: 'allowed' },
+  ],
+};
+const readVenues = () => JSON.stringify(VENUES);
+
+test('loadVenues normalises through makeVenue and soft-fails to empty', () => {
+  const v = loadVenues('whatever.json', readVenues);
+  assert.equal(v.length, 4);
+  assert.equal(v[0].id, 'mckinney-class-of-2010', 'an id is derived when none is given');
+  assert.deepEqual(loadVenues('/nope/missing.json'), []);
+  assert.deepEqual(loadVenues('x', () => 'not json'), []);
+});
+
+test('a venue with no link cannot be checked, and a nameless one is not a venue', () => {
+  assert.equal(assertVenueCheckable({ name: 'X', url: 'https://example.org' }).ok, true);
+  assert.equal(assertVenueCheckable({ name: 'X' }).code, 'no-url');
+  assert.equal(assertVenueCheckable({ url: 'https://example.org' }).code, 'no-name');
+});
+
+test('plan() counts venues honestly: unknown is not permission, and an unlinked venue is not postable', () => {
+  const p = plan({ seeds: [], venues: VENUES.venues });
+  assert.equal(p.venues.total, 4);
+  assert.equal(p.venues.postable, 1, 'only the one that says allowed AND has a link');
+  assert.equal(p.venues.banned, 1);
+  assert.equal(p.venues.unread, 1);
+  assert.equal(p.venues.uncheckable, 1, 'promo:allowed does not save a venue with no link');
+  assert.deepEqual(p.readNext.map((v) => v.name), ['McKinney Class of 2010']);
+  assert.ok(p.blocked.some((b) => /no link/.test(b)));
+});
+
+test('plan() with venues loaded but none readable says so instead of looking ready', () => {
+  const p = plan({ seeds: [], venues: [{ name: 'Unread', url: 'https://example.org/u', promo: 'unknown' }] });
+  assert.equal(p.venues.postable, 0);
+  assert.ok(p.blocked.some((b) => /none readable as permission/.test(b)));
+  assert.ok(!p.blocked.some((b) => /no venues loaded/.test(b)), 'that blocker is cleared once a file exists');
 });
