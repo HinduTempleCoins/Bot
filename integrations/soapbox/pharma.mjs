@@ -2,7 +2,9 @@
 // so the public site never needs an API key or a billing relationship for drug facts:
 //   • PubChem PUG-REST (NIH/NLM)        — compound identity (formula, weight, IUPAC, SMILES, CID)
 //   • openFDA (FDA)                     — structured drug labels, adverse-event reports, recalls
-//   • RxNorm / RxNav (NLM)             — name → RxCUI normalization + drug–drug interactions
+//   • RxNorm / RxNav (NLM)             — name → RxCUI normalization ONLY. Its interaction
+//                                       API was retired by NLM 2024-01-02; interactions now
+//                                       come from openFDA drug labelling.
 //   • ClinicalTrials.gov v2 (NIH)      — registered/active trials for a query
 //   • ChEMBL (EMBL-EBI)                — curated bioactivity / molecule properties
 //
@@ -164,43 +166,105 @@ export async function recalls(name, { limit = 10 } = {}) {
   });
 }
 
-// ── RxNorm / RxNav: interactions(rxcui-or-name) ────────────────────────────────────────────────────
-// Accepts either an RxCUI (the numeric NLM identifier) or a drug name. A name is first normalized to
-// its RxCUI via the RxNav rxcui endpoint, then the interaction list is fetched. RxNav returns nested
-// interactionTypeGroup → interactionType → interactionPair; we flatten to a clean pair list.
+// ── interactions(rxcui-or-name) ───────────────────────────────────────────────────────────────────
+//
+// ⚠️ THE FAILURE THIS FUNCTION EXISTS TO NOT HAVE.
+//
+// This used to call RxNav's drug-interaction endpoint. NLM RETIRED IT on 2 January 2024; probed
+// 2026-09-08 it returns HTTP 404 while the neighbouring rxcui lookup still returns 200. So the old
+// code resolved a valid RxCUI, failed the interaction fetch, and returned `interactions: []` — which
+// on a harm-reduction page renders as "no known interactions."
+//
+// That is the single worst thing a harm-reduction surface can do. Someone checking whether their SSRI
+// interacts with an MAOI-containing brew was being told, by a silent failure, that nothing was known.
+//
+// So two changes, and the second matters more than the first:
+//
+//   1. The source is now openFDA drug labelling (CC0, keyless), which carries the FDA-approved
+//      DRUG INTERACTIONS and CONTRAINDICATIONS sections. Verified: fluoxetine's first interaction
+//      line is the MAOI warning — the exact case above.
+//
+//   2. AN EMPTY RESULT AND AN UNCHECKED RESULT ARE NO LONGER THE SAME VALUE. When the source cannot
+//      be reached, or the drug has no label on file, this returns `checked: false` with a stated
+//      reason and `interactions: null` — never an empty array. Callers that render a list must treat
+//      `checked: false` as "we could not check", and `assertChecked()` below exists so a caller can
+//      make that impossible to get wrong.
+const rxnavRetired = 'RxNav\'s interaction API was retired by NLM on 2 January 2024.';
+
 async function nameToRxcui(name) {
   const j = await getJSON(`${ENDPOINTS.rxnav}/rxcui.json?name=${encodeURIComponent(name)}`);
   const ids = j?.idGroup?.rxnormId;
   return Array.isArray(ids) && ids.length ? clean(ids[0]) : null;
 }
 
+/** A result that says plainly that nothing was checked. Never an empty list. */
+function unchecked(query, reason, rxcui = null) {
+  return {
+    query, rxcui, checked: false, interactions: null, contraindications: null,
+    reason,
+    warning: 'NOT CHECKED — this is not a finding of "no interactions". Do not present it as one.',
+  };
+}
+
 export async function interactions(rxcuiOrName) {
   const raw = clean(rxcuiOrName);
-  if (!raw) return { query: '', rxcui: null, interactions: [], error: 'empty query' };
-  return cached(`pharma:rxi:${raw.toLowerCase()}`, TTL.metadata, async () => {
+  if (!raw) return unchecked('', 'empty query');
+  return cached(`pharma:ddi:${raw.toLowerCase()}`, TTL.metadata, async () => {
+    // RxCUI is still resolved where a name was given: it is a useful identifier to return and that
+    // endpoint is alive. It is no longer what the interaction lookup keys on.
     const rxcui = /^\d+$/.test(raw) ? raw : await nameToRxcui(raw);
-    if (!rxcui) return { query: raw, rxcui: null, interactions: [] };
-    const j = await getJSON(`${ENDPOINTS.rxnav}/interaction/interaction.json?rxcui=${encodeURIComponent(rxcui)}`);
-    const groups = j?.interactionTypeGroup;
-    if (!Array.isArray(groups)) return { query: raw, rxcui, interactions: [] };
-    const pairs = [];
-    for (const g of groups) {
-      for (const t of g.interactionType || []) {
-        for (const p of t.interactionPair || []) {
-          const partner = (p.interactionConcept || [])
-            .map((c) => clean(c?.minConceptItem?.name))
-            .filter((n) => n && n.toLowerCase() !== clean(t.minConceptItem?.name).toLowerCase());
-          pairs.push({
-            with: partner.join(', ') || clean(t.comment) || null,
-            severity: clean(p.severity) || null,
-            description: clean(p.description) || null,
-            source: clean(g.sourceName) || 'RxNav (NLM)',
-          });
-        }
-      }
+
+    const term = /^\d+$/.test(raw) ? '' : raw.toLowerCase();
+    if (!term) {
+      return unchecked(raw, 'openFDA labelling is searched by drug name; an RxCUI alone is not enough '
+                          + 'to look one up. Pass the name.', rxcui);
     }
-    return { query: raw, rxcui, source: 'RxNorm / RxNav (NLM)', interactions: pairs };
+    const q = `(openfda.generic_name:"${term}" OR openfda.brand_name:"${term}")`;
+    const j = await getJSON(`${ENDPOINTS.openfda}/drug/label.json?search=${encodeURIComponent(q)}&limit=1`);
+    const rec = Array.isArray(j?.results) ? j.results[0] : null;
+    if (!rec) {
+      return unchecked(raw, `no FDA drug label found for "${raw}". That means UNKNOWN, not safe — many `
+                          + 'substances (including most plants and every research chemical) have no FDA '
+                          + 'label at all.', rxcui);
+    }
+
+    const sect = (k) => {
+      const v = rec[k];
+      const arr = Array.isArray(v) ? v : (v ? [v] : []);
+      return arr.map((x) => clean(x)).filter(Boolean);
+    };
+    const ddi = sect('drug_interactions');
+    const contra = sect('contraindications');
+
+    if (!ddi.length && !contra.length) {
+      return unchecked(raw, `a label exists for "${raw}" but carries neither a DRUG INTERACTIONS nor a `
+                          + 'CONTRAINDICATIONS section. Absent sections are not an all-clear.', rxcui);
+    }
+    return {
+      query: raw, rxcui, checked: true,
+      source: 'FDA drug labelling via openFDA (public domain)',
+      sourceUrl: 'https://open.fda.gov/apis/drug/label/',
+      brand: clean((rec.openfda?.brand_name || [])[0]) || null,
+      interactions: ddi,
+      contraindications: contra,
+      note: 'FDA-approved labelling for an approved product. It does not cover unapproved substances, '
+          + 'plant preparations or research chemicals, and it is not a complete interaction check.',
+    };
   });
+}
+
+/**
+ * Use this before rendering. It refuses to let an unchecked result be displayed as a clean result —
+ * the caller gets a message to show the reader instead of an empty list.
+ */
+export function assertChecked(result) {
+  if (result && result.checked === true) return { ok: true, result };
+  return {
+    ok: false,
+    display: 'We could not check interactions for this. That is not the same as none being known — '
+           + 'treat it as unchecked and look it up another way before relying on it.',
+    reason: (result && result.reason) || 'no result',
+  };
 }
 
 // ── ClinicalTrials.gov v2: trials(q) ────────────────────────────────────────────────────────────────
