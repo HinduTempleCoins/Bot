@@ -1,16 +1,17 @@
 // chamber.test.mjs — the Chamber's tier selection and photic gating. Offline, no DOM, no network.
 //
-// The tests that matter are the REFUSALS. A visual drive filling the whole field of view is the worst
-// case for photosensitive epilepsy, so the rule is that a high-risk program cannot be consented into a
-// headset or a phone viewer at all. Everything else here exists to prove that rule cannot be bypassed
-// by junk input, a missing session, or a broken risk function.
+// The tests that matter are the REFUSALS. The worst case for photosensitive epilepsy is a visual drive
+// you cannot get away from, so the rule is that a high-risk program cannot be consented into a STRAPPED
+// viewer at all — during a seizure it cannot be removed. A hand-held viewer falls out of your hands and
+// the exposure ends itself, so it is gated like a screen. Everything else here exists to prove that
+// rule cannot be bypassed by junk input, a missing session, or a broken risk function.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
   esc, CHAMBER_TIERS, LUMINANCE_CAP, RAMP_SECONDS, CHEAP_OPTIONS,
-  planChamber, gateVisual, chamberPlan, chamberScene, handler,
+  planChamber, gateVisual, chamberPlan, chamberScene, handler, isStrapped,
 } from './chamber.mjs';
 
 const HIGH = { id: 'h', method: 'flicker', program: [{ hz: 18 }] };   // 15-25Hz band = high photic risk
@@ -84,10 +85,45 @@ test('a HIGH photic-risk program is REFUSED in a headset, consent notwithstandin
   assert.match(g.reason, /refused/i);
 });
 
-test('a HIGH photic-risk program is REFUSED in cardboard too — it is still full-field', () => {
-  const g = gateVisual(HIGH, 'cardboard', YES);
+// The rule changed on 2026-09-08. It used to refuse a high-risk program in cardboard as well, on the
+// grounds that cardboard is also full-field. Operator: "I think we said 18hz and stuff with no Straps."
+// The axis is the STRAP, not the field — a handheld viewer falls out of your hands during a seizure,
+// so the exposure self-terminates. Refusing it bought no safety and cost the cheapest tier.
+test('a HIGH photic-risk program IS allowed in a HAND-HELD cardboard viewer — you can drop it', () => {
+  const g = gateVisual(HIGH, 'cardboard', YES, { strapped: false });
+  assert.equal(g.allowed, true);
+  assert.notEqual(g.method, 'auditory');
+});
+
+test('the same program in a cardboard viewer WITH A STRAP is refused — you cannot', () => {
+  const g = gateVisual(HIGH, 'cardboard', YES, { strapped: true });
   assert.equal(g.allowed, false);
   assert.equal(g.method, 'auditory');
+  assert.match(g.reason, /STRAPPED/);
+  assert.match(g.reason, /cannot be dropped/);
+});
+
+test('an unspecified cardboard viewer is treated as HANDHELD, which is what a folded viewer is', () => {
+  assert.equal(gateVisual(HIGH, 'cardboard', YES).allowed, true);
+});
+
+test('a headset is strapped by definition and refuses at any consent setting', () => {
+  assert.equal(gateVisual(HIGH, 'immersive', YES).allowed, false);
+  assert.equal(gateVisual(HIGH, 'immersive', YES, { strapped: false }).allowed, false,
+    'you cannot declare a Quest handheld');
+});
+
+test('isStrapped: immersive always, cardboard only when declared, screens never', () => {
+  assert.equal(isStrapped('immersive', {}), true);
+  assert.equal(isStrapped('cardboard', {}), false);
+  assert.equal(isStrapped('cardboard', { strapped: true }), true);
+  assert.equal(isStrapped('flat3d', { strapped: true }), false);
+  assert.equal(isStrapped('plain', {}), false);
+});
+
+test('the strap rule does not loosen the CONSENT rule — cardboard still needs its own confirmation', () => {
+  const noConsent = gateVisual(HIGH, 'cardboard', {}, { strapped: false });
+  assert.equal(noConsent.allowed, false, 'handheld is not consent-free, it is only not-refused-outright');
 });
 
 test('the same high-risk program IS allowed on a flat screen with consent', () => {
