@@ -255,9 +255,159 @@ export function handler(req, res) {
   }, null, 2));
 }
 
+
+
+
+// ── giving at checkout ────────────────────────────────────────────────────────────────────────────
+//
+// Operator: "we want it to be Integrated in so it's in People's Sales for Processing." A merchant
+// running checkout through SoapBox lets a customer add a donation to a purchase.
+//
+// THE SPLIT KEEPS US OUT OF CUSTODY. One charge, two destinations: the sale settles to the merchant's
+// connected account and the donation to the charity's, and neither passes through an account of ours.
+// Taking a fee does not change that posture — CUSTODY is what makes a business a money transmitter,
+// not margin. So the fee is fine and holding the money is not.
+//
+// THE FORK THAT HAS TEETH — who is the donor?
+//
+//   customer  The customer chooses to add an amount. It is THEIR gift, the charity receipts THEM, and
+//             the merchant is a conduit. This is the clean one and it is what we build.
+//
+//   merchant  "We donate 1% of every sale." That is a CHARITABLE SALES PROMOTION — a commercial
+//             co-venture — and about twenty-five states regulate it. New York, Massachusetts, Alabama
+//             and South Carolina require a BOND. Most require a written contract with the charity and
+//             disclosure of the exact amount per purchase. We do not refuse it, because it is legal and
+//             common; we refuse to let a merchant switch it on without being told, because walking a
+//             small business into an unregistered co-venture is a real harm we would have caused.
+export const DONOR_MODELS = Object.freeze({
+  customer: {
+    id: 'customer',
+    what: 'The customer opts in and adds an amount. Their gift, their receipt, from the charity.',
+    coVenture: false,
+    needs: ['clear disclosure that the added amount is a donation and not part of the purchase'],
+  },
+  merchant: {
+    id: 'merchant',
+    what: 'The merchant advertises that a purchase benefits a charity ("1% of every sale").',
+    coVenture: true,
+    needs: [
+      'a written contract with the charity',
+      'disclosure of the exact amount or percentage per purchase',
+      'commercial co-venture registration in the states that require it',
+      'a surety bond in NY, MA, AL and SC',
+    ],
+  },
+});
+
+/** Round a money amount to whole cents without float drift. */
+const cents = (n) => Math.round(Number(n) * 100);
+const money = (c) => Math.round(c) / 100;
+
+/**
+ * What the charity actually receives, stated before anyone agrees to anything.
+ *
+ * Every donation UI should show the net, because the gap between "I gave $10" and "they got $9.41" is
+ * where trust is lost — and because the honest version converts better anyway: a donor who is offered
+ * the choice to cover the fee usually takes it.
+ *
+ * Processor cost is passed through AT COST. `platformBps` is ours, and it is applied to the DONATION
+ * only, never to the sale — taking a cut of a merchant's revenue because a customer happened to give
+ * is indefensible.
+ */
+export function feeBreakdown({
+  saleAmount = 0, donationAmount = 0, platformBps = 0,
+  processorPct = 2.2, processorFixed = 0.30, donorCoversFees = false,
+} = {}) {
+  const sale = Math.max(0, cents(saleAmount));
+  const gift = Math.max(0, cents(donationAmount));
+  if (!gift) {
+    return {
+      ok: false, reason: 'no donation amount', sale: money(sale), donation: 0,
+      charityReceives: 0, processorFee: 0, platformFee: 0, donorPays: money(sale),
+    };
+  }
+  // The processor charges on the whole charge; the donation's share of that cost is proportional, and
+  // the fixed component belongs to the transaction as a whole, not to the gift.
+  const total = sale + gift;
+  const procTotal = Math.round(total * (Number(processorPct) / 100)) + cents(processorFixed);
+  const procOnGift = total > 0 ? Math.round(procTotal * (gift / total)) : 0;
+  const platformFee = Math.round(gift * (Math.max(0, Number(platformBps)) / 10000));
+
+  // If the donor covers fees, the gift arrives whole and the donor pays the difference on top.
+  const charityReceives = donorCoversFees ? gift : Math.max(0, gift - procOnGift - platformFee);
+  const donorPays = donorCoversFees ? total + procOnGift + platformFee : total;
+  return {
+    ok: true,
+    sale: money(sale),
+    donation: money(gift),
+    processorFee: money(procOnGift),
+    platformFee: money(platformFee),
+    charityReceives: money(charityReceives),
+    donorPays: money(donorPays),
+    donorCoversFees: Boolean(donorCoversFees),
+    note: donorCoversFees
+      ? 'The donor covered the fees, so the charity receives the full gift.'
+      : 'Fees come out of the gift. Offering the donor the option to cover them is usually taken.',
+  };
+}
+
+/**
+ * Can this charity be offered inside a merchant's checkout?
+ *
+ * This is the check that makes the product worth paying for, and it is stricter than the one for a
+ * button on the charity's own page — because here the MERCHANT is vouching for the charity to their
+ * own customers. If its exemption has been revoked, that merchant is telling their customers "this is
+ * a charity" while the IRS says it is not. That is the merchant's exposure, and it is why the check
+ * must be CONTINUOUS: revocation happens after you integrate, not before.
+ */
+export function checkoutEligibility(org = {}, verification = null, { model = 'customer', maxAgeDays = 30, now = () => new Date() } = {}) {
+  const m = DONOR_MODELS[low(model)] || DONOR_MODELS.customer;
+  const v = verification || { verdict: 'unverified' };
+  const problems = [];
+  if (v.verdict === 'revoked') {
+    problems.push('exemption automatically revoked — a merchant offering this to customers is vouching for an organisation the IRS no longer lists as exempt');
+  } else if (v.verdict !== 'verified') {
+    problems.push(`not verified against the IRS record (${v.verdict}) — a checkout placement requires a current check, not an assumption`);
+  }
+  if (v.verdict === 'verified' && v.checkedAt) {
+    const ageDays = (now().getTime() - new Date(v.checkedAt).getTime()) / 86400000;
+    if (!(ageDays >= 0)) problems.push('the verification date is not readable');
+    else if (ageDays > maxAgeDays) {
+      problems.push(`the exemption was last checked ${Math.floor(ageDays)} days ago — re-check before it stays in a checkout`);
+    }
+  }
+  if (!/^https:\/\//i.test(str(org.donateUrl || org.url || ''))) {
+    problems.push('no https destination for the charity');
+  }
+  return {
+    ok: problems.length === 0,
+    model: m.id,
+    coVenture: m.coVenture,
+    // Not a refusal. The merchant is told, and the telling is the point.
+    mustDoFirst: m.coVenture ? [...m.needs] : [...m.needs],
+    problems,
+    recheckEvery: `${maxAgeDays} days`,
+  };
+}
+
+/** The disclosure line a checkout must show. Not optional, and not ours to soften. */
+export function checkoutDisclosure(org = {}, breakdown = {}, { model = 'customer' } = {}) {
+  const name = esc(str(org.name));
+  if (DONOR_MODELS[low(model)] === DONOR_MODELS.merchant || low(model) === 'merchant') {
+    return `${name} receives a contribution from this merchant on this purchase. `
+         + 'The amount is set by the merchant and is not an additional charge to you.';
+  }
+  const amt = Number(breakdown.donation || 0).toFixed(2);
+  const net = Number(breakdown.charityReceives || 0).toFixed(2);
+  return `You are adding a $${esc(amt)} donation to ${name}. This is a donation, not part of your `
+       + `purchase. ${name} receives $${esc(net)} after payment processing. Your receipt for the `
+       + 'donation comes from the organisation, not from this store.';
+}
+
 export default {
   CAUSES, SOURCES, VERDICTS, cause, causeForNtee, sourceById,
   normalizeEin, isValidEin, formatEin, verifyOrg, donateButton, BUTTON_CSS, search, handler,
+  DONOR_MODELS, feeBreakdown, checkoutEligibility, checkoutDisclosure,
 };
 
 if (process.argv[1] && process.argv[1].endsWith('donate-directory.mjs')) {
