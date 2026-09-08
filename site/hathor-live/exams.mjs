@@ -159,7 +159,7 @@ export const EXAMS = Object.freeze([
     duration: '4 minutes, or as long as you like',
     measures: 'Your own colour lexicon: we show a colour, you type what you call it.',
     why: 'The most browser-honest colour exam there is. The question is about the mapping from appearance to word, and BOTH SIDES of that mapping are sampled inside one observer on one screen — so the display’s errors largely cancel instead of accumulating. The exam is native to the medium; the xkcd colour survey collected ~3.4 million responses this way.',
-    neverSay: 'Anything at all about your eyes.',
+    neverSay: 'This tells you something about your eyes.',
     retestDays: 14,
     citations: [
       'Lindsey & Brown (2014), Journal of Vision 14(2):17 — the colour lexicon of American English.',
