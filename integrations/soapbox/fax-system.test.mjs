@@ -2,11 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   FAX_BOOK, recipients, recipient, coverSheet, formatFax, estimatePages, plain,
-  buildJob, renderPacket, dispatch, createQueue, handler,
+  buildJob, renderPacket, dispatch, createQueue, handler, windowFor,
 } from './fax-system.mjs';
 import { __setFetch } from './fax-service.mjs';
 
 const SENDER = { name: 'Ryan Alexander Gallagher', email: 'r@example.com' };
+// Tuesday 8 Sep 2026, 09:00 CDT — Dallas open. Pinned so the suite does not depend on when it runs.
+const OPEN = '2026-09-08T14:00:00Z';
+// Monday 7 Sep 2026, 22:35 CDT — Labor Day evening.
+const SHUT = '2026-09-08T03:35:00Z';
 const reset = () => __setFetch(null);
 
 test('the recipient book carries verified numbers and their gotchas', () => {
@@ -97,7 +101,7 @@ test('a complete job carries a stable id, the cover, and cleaned body text', () 
 
 test('dispatch falls back to MANUAL when there are no credentials — and that is a success', async () => {
   const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'records please' });
-  const out = await dispatch(job, { providerId: 'telnyx', credentials: {} });
+  const out = await dispatch(job, { providerId: 'telnyx', credentials: {}, nowISO: OPEN });
   assert.equal(out.mode, 'manual');
   assert.equal(out.ok, true, 'manual is a real outcome, not an error');
   assert.equal(out.fax, '(214) 653-3420');
@@ -109,13 +113,13 @@ test('dispatch falls back to MANUAL when there are no credentials — and that i
 
 test('dispatch stays manual when credentials exist but nothing is hosted to fetch', async () => {
   const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'text only' });
-  const out = await dispatch(job, { credentials: { apiKey: 'k', connectionId: 'c' } });
+  const out = await dispatch(job, { credentials: { apiKey: 'k', connectionId: 'c' }, nowISO: OPEN });
   assert.equal(out.mode, 'manual');
   assert.match(out.reason, /do not accept raw text/);
 });
 
 test('dispatch blocks an unsendable job instead of half-sending it', async () => {
-  const out = await dispatch(buildJob({}), { credentials: { apiKey: 'k', connectionId: 'c' } });
+  const out = await dispatch(buildJob({}), { credentials: { apiKey: 'k', connectionId: 'c' }, nowISO: OPEN });
   assert.equal(out.mode, 'blocked');
   assert.equal(out.ok, false);
   assert.ok(out.problems.length > 0);
@@ -132,6 +136,7 @@ test('dispatch submits through the provider when it actually can', async (t) => 
   });
   const out = await dispatch(job, {
     providerId: 'telnyx', credentials: { apiKey: 'k', connectionId: 'c' }, fromFax: '+12145550000',
+    nowISO: OPEN,
   });
   assert.equal(out.mode, 'sent');
   assert.equal(out.ok, true);
@@ -196,4 +201,54 @@ test('handler serves recipients and covers, and refuses to send over http', () =
 
   assert.equal(call('/fax/cover?to=nobody').code, 400);
   assert.match(call('/fax').json.note, /Dispatch is not exposed over HTTP/);
+});
+
+
+test('dispatch HOLDS a fax aimed at a closed office instead of burning the send', async () => {
+  const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'records please' });
+  const out = await dispatch(job, {
+    credentials: { apiKey: 'k', connectionId: 'c' }, nowISO: SHUT,
+    mediaUrl: 'https://example.org/x.pdf',
+  });
+  assert.equal(out.mode, 'held');
+  assert.equal(out.ok, true, 'holding is a correct outcome, not a failure');
+  assert.match(out.reason, /Labor Day/);
+  assert.equal(out.resendAt, '2026-09-08T13:00:00.000Z', 'resend at 08:00 CDT');
+  assert.match(out.localNow, /America\/Chicago/);
+  assert.match(out.note, /transmission report/);
+  assert.ok(out.packet, 'the packet is still rendered so a human could walk it over');
+});
+
+test('ignoreHours is available for the caller who really means it', async () => {
+  const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'x' });
+  const out = await dispatch(job, { credentials: {}, nowISO: SHUT, ignoreHours: true });
+  assert.equal(out.mode, 'manual', 'falls through to the normal path');
+});
+
+test('windowFor gives each recipient its own zone and holiday regime', () => {
+  assert.equal(windowFor(recipient('tx-dallas-sheriff')).tz, 'America/Chicago');
+  assert.equal(windowFor({ regime: 'FOIA', tz: 'America/New_York' }).regime, 'FEDERAL');
+  assert.equal(windowFor(recipient('tx-dallas-sheriff')).regime, 'TX_PIA');
+  assert.equal(windowFor(null).tz, 'America/Chicago', 'a sane default, not a crash');
+});
+
+test('a held job does not count as an attempt against the line', () => {
+  const q = createQueue();
+  const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'x' });
+  q.enqueue(job);
+  q.record(job.id, { mode: 'held', ok: true, resendAt: '2026-09-08T13:00:00.000Z' });
+  const e = q.find(job.id);
+  assert.equal(e.state, 'held-until-business-hours');
+  assert.equal(e.attempts, 0, 'nothing was dialled, so nothing was attempted');
+  assert.equal(e.resendAt, '2026-09-08T13:00:00.000Z');
+  assert.equal(q.held().length, 1);
+  assert.equal(q.pending().length, 1);
+});
+
+test('dueNow answers per recipient clock, not the server clock', () => {
+  const q = createQueue();
+  const job = buildJob({ to: 'tx-dallas-sheriff', from: SENDER, body: 'x' });
+  q.enqueue(job);
+  assert.equal(q.dueNow(SHUT).length, 0, 'holiday evening in Dallas: nothing is due');
+  assert.equal(q.dueNow(OPEN).length, 1, 'Tuesday morning in Dallas: send it');
 });

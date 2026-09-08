@@ -19,6 +19,7 @@
 
 import { REGISTRY, office, CHANNELS } from '../records-requests.mjs';
 import * as faxService from './fax-service.mjs';
+import { scheduleSend, isOpen, DEFAULT_HOURS, RECEIPT_NOTES } from './business-hours.mjs';
 
 const str = (v) => String(v == null ? '' : v);
 const now = () => new Date().toISOString();
@@ -43,6 +44,8 @@ export const FAX_BOOK = Object.freeze({
     mail: 'Frank Crowley Courts Building, 133 N. Riverfront Blvd., Dallas, TX 75207',
     phone: '(214) 749-8641',
     regime: 'TX_PIA',
+    tz: 'America/Chicago',
+    hours: { open: '08:00', close: '16:30' },
     verified: "Sheriff's Department public-information-requests page, checked 2026-09-08",
     note: 'The Sheriff publishes NO open-records email address. Fax and mail are the channels that '
         + 'start the § 552.301 clock. There is no Dallas COUNTY GovQA portal — dallastx.govqa.us '
@@ -52,6 +55,7 @@ export const FAX_BOOK = Object.freeze({
     name: 'State Bar of Texas — Chief Disciplinary Counsel',
     fax: '+15124274315',
     regime: 'TX_OTHER',
+    tz: 'America/Chicago',
     verified: 'records-requests REGISTRY (tx-bar-cdc)',
     note: 'NEVER EMAIL. Portal, fax or mail only.',
   },
@@ -66,7 +70,8 @@ export function recipients() {
     if (!raw) continue;
     out.set(o.id, {
       id: o.id, name: o.name, fax: faxService.normalizeFax(raw),
-      regime: o.regime, verified: o.verified || 'records-requests REGISTRY',
+      regime: o.regime, tz: o.tz || DEFAULT_HOURS.tz,
+      verified: o.verified || 'records-requests REGISTRY',
       note: o.gotcha || '', source: 'registry',
     });
   }
@@ -82,13 +87,24 @@ export function recipient(idOrObj) {
     if (!fax) return null;
     return {
       id: str(idOrObj.id) || 'ad-hoc', name: str(idOrObj.name) || 'Recipient',
-      fax, regime: str(idOrObj.regime), note: str(idOrObj.note),
+      fax, regime: str(idOrObj.regime), tz: str(idOrObj.tz) || DEFAULT_HOURS.tz,
+      hours: idOrObj.hours || null, note: str(idOrObj.note),
       verified: str(idOrObj.verified) || 'caller-supplied — NOT verified by this module',
       source: 'ad-hoc',
     };
   }
   const id = str(idOrObj);
   return recipients().find((r) => r.id === id) || null;
+}
+
+/** The business-hours spec for a recipient: its own zone and counter hours, its own holiday regime. */
+export function windowFor(rcpt) {
+  const r = rcpt || {};
+  return {
+    tz: str(r.tz) || DEFAULT_HOURS.tz,
+    regime: r.regime === 'FEDERAL' || r.regime === 'FOIA' ? 'FEDERAL' : 'TX_PIA',
+    ...(r.hours || {}),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -248,12 +264,32 @@ export function renderPacket(job) {
 
 export async function dispatch(job, {
   providerId = 'telnyx', credentials = {}, fromFax = '', poll = false, maxChecks = 6,
+  nowISO = '', ignoreHours = false,
 } = {}) {
   if (!job || !job.ok) {
     return {
       mode: 'blocked', ok: false, jobId: job && job.id,
       problems: (job && job.problems) || ['no job'],
       at: now(),
+    };
+  }
+
+  // Business hours first. A fax to a dark room is a wasted page and, worse, a transmission report
+  // whose timestamp will not match the date the office stamps on the request.
+  const win = windowFor(job.to);
+  const at = str(nowISO) || now();
+  const sched = scheduleSend(at, win);
+  if (!sched.sendNow && !ignoreHours) {
+    return {
+      mode: 'held', ok: true, jobId: job.id,
+      to: job.to.name, fax: formatFax(job.to.fax), pages: job.pages,
+      reason: sched.reason,
+      localNow: sched.localNow,
+      resendAt: sched.at,
+      waitMs: sched.waitMs,
+      packet: renderPacket(job),
+      note: RECEIPT_NOTES.fax,
+      at,
     };
   }
 
@@ -323,6 +359,7 @@ export function createQueue(initial = []) {
       const entry = normalizeEntry({
         id: job.id, to: job.to.name, fax: job.to.fax, subject: job.subject,
         pages: job.pages, state: 'queued', attempts: 0, createdAt: job.createdAt, history: [],
+        tz: (job.to && job.to.tz) || DEFAULT_HOURS.tz,
       });
       items.push(entry);
       return entry;
@@ -333,9 +370,10 @@ export function createQueue(initial = []) {
       const e = api.find(id);
       if (!e) return null;
       const mode = str(result.mode);
-      e.attempts += 1;
+      if (mode !== 'held') e.attempts += 1;   // a hold never touched the line
       e.lastAt = now();
       if (mode === 'sent' && result.ok) e.state = 'sent';
+      else if (mode === 'held') { e.state = 'held-until-business-hours'; e.resendAt = str(result.resendAt); }
       else if (mode === 'manual') e.state = str(result.confirmed) ? 'sent' : 'awaiting-manual-send';
       else if (mode === 'blocked') e.state = 'blocked';
       else e.state = 'failed';
@@ -354,7 +392,13 @@ export function createQueue(initial = []) {
       return e;
     },
 
-    pending: () => items.filter((i) => i.state === 'queued' || i.state === 'awaiting-manual-send'),
+    pending: () => items.filter((i) => i.state === 'queued' || i.state === 'awaiting-manual-send'
+      || i.state === 'held-until-business-hours'),
+    held: () => items.filter((i) => i.state === 'held-until-business-hours'),
+    /** What is ready to go out right now, given each recipient's own clock. */
+    dueNow: (nowISO = now()) => items.filter((i) =>
+      (i.state === 'queued' || i.state === 'held-until-business-hours')
+      && isOpen(nowISO, { tz: i.tz || DEFAULT_HOURS.tz })),
     sent: () => items.filter((i) => i.state === 'sent'),
     failed: () => items.filter((i) => i.state === 'failed' || i.state === 'blocked'),
     toJSON: () => items.slice(),
@@ -368,7 +412,8 @@ function normalizeEntry(raw) {
     id: str(raw.id), to: str(raw.to), fax: str(raw.fax), subject: str(raw.subject),
     pages: Number(raw.pages) || 1, state: str(raw.state) || 'queued',
     attempts: Number(raw.attempts) || 0, createdAt: str(raw.createdAt) || now(),
-    lastAt: str(raw.lastAt), sentAt: str(raw.sentAt),
+    lastAt: str(raw.lastAt), sentAt: str(raw.sentAt), resendAt: str(raw.resendAt),
+    tz: str(raw.tz) || DEFAULT_HOURS.tz,
     receipt: raw.receipt || null,
     history: Array.isArray(raw.history) ? raw.history.slice() : [],
   };
