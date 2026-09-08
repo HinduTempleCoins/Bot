@@ -117,3 +117,28 @@ test('recordInteraction refuses a handle that is not a MELEK account name', () =
   assert.equal(r.reason, 'invalid-account');
   assert.ok(!fs.existsSync(file), 'nothing was written at all');
 });
+
+test('every stance dispositionOf can return has its own register — kindred included', () => {
+  // 'kindred' was reachable from dispositionOf() but missing from the register map, so the closest
+  // person the map can describe fell through to the same neutral hint as a stranger.
+  const k = dispositionGreeting({ stance: 'kindred', preferredDepth: 'deep' });
+  assert.equal(k.stance, 'kindred');
+  assert.equal(k.depth, 'deep');
+  assert.notEqual(k.register, dispositionGreeting({ stance: 'nobody-home' }).register);
+
+  // Derived from the source rather than a hand-kept list, so a stance added to dispositionOf() in
+  // future cannot quietly arrive without a register of its own.
+  const src = fs.readFileSync(new URL('./cryptology.mjs', import.meta.url), 'utf8');
+  const stances = [...src.matchAll(/stance = '([a-z]+)'/g)].map((m) => m[1]);
+  assert.ok(stances.includes('kindred') && stances.length >= 7, 'found the stances in the source');
+  const fallthrough = dispositionGreeting({ stance: 'stance-that-does-not-exist' }).register;
+  for (const stance of stances) {
+    assert.notEqual(dispositionGreeting({ stance }).register, fallthrough, `${stance} needs its own register`);
+  }
+});
+
+test('recordInteraction rejects prototype keys as event names', () => {
+  const file = tmpStore();
+  assert.equal(recordInteraction('dave', 'constructor', { file }).reason, 'unknown-event');
+  assert.equal(recordInteraction('dave', 'toString', { file }).reason, 'unknown-event');
+});

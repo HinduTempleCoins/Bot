@@ -14,7 +14,7 @@
 // House style: soft-fail-never-throw, injectable clock + store file, pure where possible, no network, no keys.
 
 import {
-  recall, observe, dispositionOf, suggestTopics, accountKey, EVENTS, loadStore, writeResult,
+  recall, observe, dispositionOf, suggestTopics, accountKey, loadStore, writeResult, isKnownEvent,
 } from './cryptology.mjs';
 
 // recall(account, store) — load the right store once (default store when no file given).
@@ -37,6 +37,11 @@ export function dispositionGreeting(disp) {
     open:        'plain, present, unhurried',
     warm:        'warm, familiar, glad-to-see-you',
     familiar:    'easy, in-on-it, fewer preliminaries',
+    // dispositionOf() can return 'kindred' — the closest reading the map produces (high alignment AND
+    // warmth) — and this map had no entry for it, so the person most at home with the mission fell
+    // through to the same neutral register as a stranger. A stance, never a rank: kindred describes
+    // where someone stands, and it can move back the way it came.
+    kindred:     'shared frame assumed; speak from inside the work, not about it — less explaining, more continuing',
     deferential: 'respectful of their standing; defer to their depth',
     guarded:     'courteous but measured; trust not yet earned',
   }[stance] || 'open, present';
@@ -97,7 +102,9 @@ export function faucetClaim({ account, now = Date.now(), lastClaimAt = 0, reserv
 /** recordInteraction — observe a named Crypt-ology event for `account` (persisted). Soft-fails. EVENTS keys
  *  are the legible vocabulary (greeted/warm_exchange/taught/helped/thanked/deep_question/…). */
 export function recordInteraction(account, event, { file } = {}) {
-  if (!EVENTS[event]) return { ok: false, reason: 'unknown-event' };
+  // hasOwnProperty: `EVENTS['constructor']` is truthy on any plain object, so 'constructor' and
+  // 'toString' used to pass this guard and reach observe() as if they were named events.
+  if (!isKnownEvent(event)) return { ok: false, reason: 'unknown-event' };
   try {
     const p = observe(accountKey(account), event, { persist: true, file });
     // ok:true used to be returned unconditionally — including for a write that never reached disk,
