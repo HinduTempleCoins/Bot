@@ -7,7 +7,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, homePage, tabPage, tabResults, TABS, esc, __setFetch } from './media.mjs';
+import { handler, homePage, tabPage, tabResults, videoPage, TABS, esc, __setFetch } from './media.mjs';
+import { buildVideoMetadata } from './video-post.mjs';
 
 // ── canned reader responses, routed by URL ───────────────────────────────────────────────────────
 // Radio Browser (stations array), iTunes (search → {results}), Internet Archive advancedsearch
@@ -20,10 +21,27 @@ const OPENLIB = { docs: [] };
 const IA_MOVIES = { response: { docs: [{ identifier: 'moonfilm', title: 'A Trip to the Moon', year: '1902', creator: 'Méliès', licenseurl: 'https://creativecommons.org/publicdomain/mark/1.0/' }] } };
 const MET = { objectIDs: [] };
 
+// A real MELEK video post, built by the real builder so the fixture cannot drift from the shape.
+const MELEK_META = buildVideoMetadata({
+  author: 'hathor', permlink: 'reel-descent-of-tongues-0',
+  title: 'Pentecaust: the descent of tongues',
+  provider: 'melek', providerId: 'hathor/intro-1080p.mp4',
+  durationSec: 600, height: 1080, contentType: 'video/mp4', lang: 'en',
+  captions: [
+    { lang: 'en', url: 'https://video.melek.salon/hathor/intro.en.vtt', original: true },
+    { lang: 'hi', url: 'https://video.melek.salon/hathor/intro.hi.vtt' },
+  ],
+});
+const MELEK_POST = {
+  author: 'hathor', permlink: 'reel-descent-of-tongues-0',
+  title: 'Pentecaust: the descent of tongues', created: '2026-09-08T12:00:00',
+  json_metadata: JSON.stringify(MELEK_META),
+};
+
 // A single fake fetch routed by URL — one call, via the hub's fan-out, mocks the whole hub.
 function fakeFetch(over = {}) {
   const calls = [];
-  const fn = async (url) => {
+  const fn = async (url, opts) => {
     const u = String(url);
     calls.push(u);
     let body = {};
@@ -35,6 +53,11 @@ function fakeFetch(over = {}) {
     else if (u.includes('openlibrary.org')) body = over.openlib ?? OPENLIB;
     else if (u.includes('archive.org/advancedsearch')) body = over.ia ?? IA_MOVIES;
     else if (u.includes('ccmixter')) body = over.ccmixter ?? [];
+    else if (u.includes('/rpc')) {
+      // the MELEK chain — the Watch tab's own tier. Routed by JSON-RPC method.
+      const req = (() => { try { return JSON.parse((opts || {}).body || '{}'); } catch { return {}; } })();
+      body = { jsonrpc: '2.0', id: 1, result: over.melek !== undefined ? over.melek : (req.method === 'condenser_api.get_content' ? MELEK_POST : [MELEK_POST]) };
+    }
     return { ok: true, status: 200, json: async () => body, text: async () => '' };
   };
   fn.calls = calls;
@@ -182,4 +205,76 @@ test('unknown route → 404', async () => {
 // ── tabPage returns null for an unknown tab id ─────────────────────────────────────────────────────
 test('tabPage(unknown) → null', async () => {
   assert.equal(await tabPage('nope', ''), null);
+});
+
+// ── the Watch tab now carries MELEK's own video posts, above the discovery tier ───────────────────
+test('watch tab: MELEK video posts render FIRST, then the public-domain discovery tier', async () => {
+  install();
+  const res = await get('/media/watch?q=moon');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /On MELEK/);
+  assert.match(res.body, /Pentecaust: the descent of tongues/);
+  assert.match(res.body, /A Trip to the Moon/);            // the IA tier still renders
+  assert.ok(res.body.indexOf('On MELEK') < res.body.indexOf('A Trip to the Moon'), 'ours comes first');
+  assert.match(res.body, /\/media\/watch\/@hathor\/reel-descent-of-tongues-0/);
+  restore();
+});
+
+test('a dead chain node empties the MELEK row and leaves the rest of the tab standing', async () => {
+  install({ melek: null });
+  const res = await get('/media/watch?q=moon');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /No MELEK videos on chain yet/);
+  assert.match(res.body, /A Trip to the Moon/);
+  restore();
+});
+
+// ── one video, end to end ────────────────────────────────────────────────────────────────────────
+test('/media/watch/@author/permlink renders the player, the captions and the cost', async () => {
+  install();
+  const res = await get('/media/watch/@hathor/reel-descent-of-tongues-0');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<video controls/);
+  assert.match(res.body, /srclang="en"/);
+  assert.match(res.body, /srclang="hi"/);
+  assert.match(res.body, /English \(original\)/);
+  assert.match(res.body, /Where this video lives/);
+  assert.match(res.body, /What this costs to serve/);
+  assert.ok(!/<iframe/i.test(res.body), 'our own origin — no third-party frame');
+  restore();
+});
+
+test('?lang= picks the reader’s caption track, and an unknown language falls back to the original', async () => {
+  install();
+  const hi = await get('/media/watch/@hathor/reel-descent-of-tongues-0?lang=hi');
+  assert.match(hi.body, /srclang="hi" label="[^"]*" default/);
+  const ja = await get('/media/watch/@hathor/reel-descent-of-tongues-0?lang=ja');
+  assert.match(ja.body, /srclang="en"[^>]*default/);
+  restore();
+});
+
+test('a missing MELEK video is a 404 page, not a 500', async () => {
+  install({ melek: null });
+  const res = await get('/media/watch/@hathor/reel-nope-0');
+  assert.equal(res.statusCode, 404);
+  assert.match(res.body, /No MELEK video post at/);
+  assert.match(res.body, /<nav class=tabs>/);
+  restore();
+});
+
+test('a malformed video ref never reaches the route handler as a video', async () => {
+  install();
+  for (const bad of ['/media/watch/@Bad Name/x', '/media/watch/@hathor/', '/media/watch/hathor/x']) {
+    const res = await get(bad);
+    assert.equal(res.statusCode, 404, bad);
+  }
+  restore();
+});
+
+test('videoPage is exported and soft-fails without a live node', async () => {
+  __setFetch(async () => { throw new Error('down'); });
+  const r = await videoPage('hathor', 'reel-x-0', '');
+  assert.equal(r.found, false);
+  assert.match(r.html, /No MELEK video post at/);
+  restore();
 });
