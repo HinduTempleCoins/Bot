@@ -139,11 +139,16 @@ export function score(seed = {}) {
   const a = seed.audience || {};
   const reach = Number(a.followers || a.friends || 0);
   if (reach) { const r = Math.min(15, Math.round(reach / 400)); n += r; parts.push(`reach ${reach} +${r}`); }
-  if (tags.includes('not-yet-connected')) { n -= 10; parts.push('not connected yet -10'); }
-  // Mutual-friend count is a proxy for "would they recognise the name", and it UNDER-measures someone
-  // the operator actually knows. A person he dated shows 3 mutuals and is a warm contact; a stranger
-  // with 60 mutuals is not. When he says he knows someone, that outranks the graph.
-  if (tags.includes('known-personally')) { n += 35; parts.push('operator knows them personally +35'); }
+  // NOT a penalty. An earlier version docked `not-yet-connected` ten points, which was wrong: a
+  // missing friend edge says something about Facebook, not about whether these two people know each
+  // other. Operator, 2026-09-08: "I didn't Send You a Profile of a Person who wouldn't know who I
+  // was." Everyone in this file is someone he knows; the graph numbers rank them, they do not decide
+  // whether the door is open.
+  if (tags.includes('not-yet-connected')) parts.push('no friend edge yet (add first, then talk) +0');
+  // Mutual-friend count is a proxy for "would they recognise the name", and it UNDER-measures a real
+  // relationship — someone he dated shows 3 mutuals. When he says he knows someone well, that
+  // outranks the graph.
+  if (tags.includes('known-personally')) { n += 35; parts.push('close personal tie +35'); }
   return { score: n, why: parts };
 }
 
