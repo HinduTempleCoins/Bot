@@ -524,6 +524,78 @@ test('email send: an uninvited account is refused at the send, campaign and mail
   assert.equal(j(o).code, 'not-invited');
 });
 
+// batch-runner.mjs was built, tested, and called by nothing: the only send affordance was a per-lead
+// button, so 218 holders meant 218 clicks and the ramp was advisory. These prove it has a caller now,
+// that a plan is what you get unless you ask twice, and that the day's cap actually binds.
+async function batchFixture(owner, leadCount) {
+  const mk = cap();
+  await handler(req('/crm/campaigns', 'POST', { owner, name: 'Batch', goal: 'demos' }), mk.res);
+  const id = j(mk.o).campaign.id;
+  await handler(req(`/crm/campaigns/${id}/sequence`, 'POST', { owner, sequence: [{ subject: 'Hi {{name}}', body: 'hello {{name}}' }] }), cap().res);
+  for (let i = 0; i < leadCount; i += 1) {
+    await handler(req(`/crm/campaigns/${id}/leads`, 'POST', { owner, lead: { email: `p${i}@example.com`, name: `P${i}`, signal: 's' } }), cap().res);
+  }
+  return id;
+}
+const BATCH_ENV = (owner) => {
+  process.env.HERALD_INVITED_SENDERS = owner;
+  process.env.RESEND_API_KEY = 'rs_test';
+  process.env.HERALD_SEND_FROM = 'ryan@getmelek-outreach.com';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Temple Rd, McKinney TX 75069';
+};
+const BATCH_CLEAR = () => {
+  delete process.env.HERALD_INVITED_SENDERS; delete process.env.RESEND_API_KEY;
+  delete process.env.HERALD_SEND_FROM; delete process.env.HERALD_POSTAL_ADDRESS;
+};
+
+test('batch: a plan is what you get — send is opt-in and nothing leaves without it', async () => {
+  const { __setFetch } = await import('./herald/transport.mjs');
+  BATCH_ENV('batchdry');
+  let called = false;
+  __setFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'x' }) }; });
+  try {
+    const id = await batchFixture('batchdry', 4);
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/batch`, 'POST', { owner: 'batchdry' }), res);
+    const bd = j(o);
+    assert.equal(bd.ok, true, o.body);
+    assert.equal(bd.run.dryRun, true, 'a bare POST must not send');
+    assert.equal(called, false, 'the transport was called on a dry run');
+    assert.ok(bd.plan.counts.eligible > 0, 'planned nobody');
+    assert.equal(bd.transport, 'esp');
+  } finally { __setFetch(null); BATCH_CLEAR(); }
+});
+
+test("batch: send:true sends the whole batch through one request, and the day's cap binds", async () => {
+  const { __setFetch } = await import('./herald/transport.mjs');
+  BATCH_ENV('batchsend');
+  let calls = 0;
+  __setFetch(async () => { calls += 1; return { status: 200, json: async () => ({ id: `esp-${calls}` }) }; });
+  try {
+    const id = await batchFixture('batchsend', 40);   // far more than day one allows
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/batch`, 'POST', { owner: 'batchsend', send: true }), res);
+    const bd = j(o);
+    assert.equal(bd.run.dryRun, false);
+    assert.ok(bd.run.sent > 1, `one request sent ${bd.run.sent} messages — the point is that it is more than one`);
+    assert.equal(calls, bd.run.sent, 'transport calls and recorded sends disagree');
+    assert.ok(bd.run.sent <= bd.plan.cap, `sent ${bd.run.sent} over a cap of ${bd.plan.cap}`);
+    assert.ok(bd.plan.counts.skipped > 0, '40 leads under a day-one cap must skip the remainder');
+    assert.ok(bd.plan.skipped.some((s) => /cap/.test(s.why)), 'no skip cites the cap');
+  } finally { __setFetch(null); BATCH_CLEAR(); }
+});
+
+test('batch: with no usable transport it refuses rather than planning a send it cannot make', async () => {
+  process.env.HERALD_INVITED_SENDERS = 'batchnotr';
+  try {
+    const id = await batchFixture('batchnotr', 3);
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/batch`, 'POST', { owner: 'batchnotr', send: true }), res);
+    assert.equal(o.code, 403);
+    assert.equal(j(o).ok, false);
+  } finally { BATCH_CLEAR(); }
+});
+
 test('email send: an operator-invited account passes the gate', async () => {
   process.env.HERALD_INVITED_SENDERS = 'invitee';
   try {
@@ -542,6 +614,67 @@ test('email send: an operator-invited account passes the gate', async () => {
     assert.notEqual(j(o).code, 'not-invited');
     assert.equal(j(o).ok, false);
   } finally { delete process.env.HERALD_INVITED_SENDERS; }
+});
+
+// The live route was hard-wired to Gmail. These prove the ESP road is reachable THROUGH the route —
+// not merely unit-tested next to it — and that the identity-domain rule survives the new transport.
+// Without the wiring both of these fail: the first with 'no mailbox connected', the second by sending.
+test('email send: the live route takes the ESP road when one is configured', async () => {
+  const { __setFetch } = await import('./herald/transport.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'espuser';
+  process.env.RESEND_API_KEY = 'rs_test';
+  process.env.HERALD_SEND_FROM = 'ryan@getmelek-outreach.com';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Temple Rd, McKinney TX 75069';
+  let sent = null;
+  __setFetch(async (url, init) => { sent = { url, body: JSON.parse(init.body) }; return { status: 200, json: async () => ({ id: 'esp-1' }) }; });
+  try {
+    const mk = cap();
+    await handler(req('/crm/campaigns', 'POST', { owner: 'espuser', name: 'ESP road', goal: 'demos' }), mk.res);
+    const id = j(mk.o).campaign.id;
+    await handler(req(`/crm/campaigns/${id}/sequence`, 'POST', { owner: 'espuser', sequence: [{ subject: 'Hi', body: 'hello' }] }), cap().res);
+    const ld = cap();
+    await handler(req(`/crm/campaigns/${id}/leads`, 'POST', { owner: 'espuser', lead: { email: 'c@d.com', name: 'C', signal: 's' } }), ld.res);
+    const leadId = j(ld.o).campaign.leads[0].id;
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/leads/${leadId}/send`, 'POST', { owner: 'espuser' }), res);
+    const body = j(o);
+    assert.equal(body.ok, true, o.body);
+    assert.equal(body.transport, 'esp');
+    assert.ok(sent, 'the ESP was never called');
+    assert.match(sent.url, /api\.resend\.com/);
+    assert.ok(sent.body.text.includes('McKinney'), 'CAN-SPAM postal address missing on the ESP road');
+  } finally {
+    __setFetch(null);
+    delete process.env.HERALD_INVITED_SENDERS; delete process.env.RESEND_API_KEY;
+    delete process.env.HERALD_SEND_FROM; delete process.env.HERALD_POSTAL_ADDRESS;
+  }
+});
+
+test('email send: the route refuses an identity domain as the ESP From, verified or not', async () => {
+  const { __setFetch } = await import('./herald/transport.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'espuser2';
+  process.env.RESEND_API_KEY = 'rs_test';
+  process.env.HERALD_SEND_FROM = 'hello@melek.salon';   // verified at the ESP. Still not permission.
+  process.env.HERALD_POSTAL_ADDRESS = '1 Temple Rd, McKinney TX 75069';
+  let called = false;
+  __setFetch(async () => { called = true; return { status: 200, json: async () => ({}) }; });
+  try {
+    const mk = cap();
+    await handler(req('/crm/campaigns', 'POST', { owner: 'espuser2', name: 'Burn it', goal: 'demos' }), mk.res);
+    const id = j(mk.o).campaign.id;
+    await handler(req(`/crm/campaigns/${id}/sequence`, 'POST', { owner: 'espuser2', sequence: [{ subject: 'Hi', body: 'hello' }] }), cap().res);
+    const ld = cap();
+    await handler(req(`/crm/campaigns/${id}/leads`, 'POST', { owner: 'espuser2', lead: { email: 'e@f.com', name: 'E', signal: 's' } }), ld.res);
+    const leadId = j(ld.o).campaign.leads[0].id;
+    const { res, o } = cap();
+    await handler(req(`/crm/campaigns/${id}/leads/${leadId}/send`, 'POST', { owner: 'espuser2' }), res);
+    assert.equal(j(o).ok, false);
+    assert.equal(called, false, 'it sent from the identity domain');
+  } finally {
+    __setFetch(null);
+    delete process.env.HERALD_INVITED_SENDERS; delete process.env.RESEND_API_KEY;
+    delete process.env.HERALD_SEND_FROM; delete process.env.HERALD_POSTAL_ADDRESS;
+  }
 });
 
 test('campaign building stays open — an uninvited account may still create and import', async () => {
