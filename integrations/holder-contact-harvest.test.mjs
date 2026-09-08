@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import {
   attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan,
-  siteHost, sameSite, __setFetch, handler,
+  siteHost, sameSite, __setFetch, handler, extractSocials, socialsFromProfile, NOT_A_HANDLE,
 } from './holder-contact-harvest.mjs';
 
 test('siteHost normalises what the CSV actually holds', () => {
@@ -187,4 +187,81 @@ test('handler answers without touching a network', () => {
   const j = JSON.parse(body);
   assert.equal(j.ok, true);
   assert.ok(j.verdicts.includes('own-domain'));
+});
+
+
+// ── social handles ────────────────────────────────────────────────────────────────────────────────
+test('handles come off a page footer, deduped per network', () => {
+  const html = `
+    <a href="https://tiktok.com/@realperson">tt</a>
+    <a href="https://www.tiktok.com/@realperson">tt again</a>
+    <a href="https://instagram.com/holderig">ig</a>
+    <a href="https://linktr.ee/someone">links</a>
+    <a href="https://discord.gg/abc123">chat</a>
+    <a href="https://t.me/holdertg">tg</a>`;
+  const got = extractSocials(html);
+  assert.deepEqual(got.tiktok, ['realperson'], 'the same handle twice is one handle');
+  assert.deepEqual(got.instagram, ['holderig']);
+  assert.deepEqual(got.linktree, ['someone']);
+  assert.deepEqual(got.discord, ['abc123']);
+  assert.deepEqual(got.telegram, ['holdertg']);
+});
+
+test('a share button is not a handle — this is what would fill the column with nonsense', () => {
+  const html = `
+    <a href="https://www.facebook.com/sharer/sharer.php?u=x">share</a>
+    <a href="https://twitter.com/intent/tweet?text=y">tweet</a>
+    <a href="https://www.instagram.com/explore/tags/dallas">tag</a>`;
+  const got = extractSocials(html);
+  assert.ok(!(got.facebook || []).includes('sharer'));
+  assert.ok(!(got.x || []).includes('intent'));
+  assert.ok(!(got.instagram || []).includes('explore'));
+});
+
+test('a page with no socials yields an empty object, not junk', () => {
+  assert.deepEqual(extractSocials('<p>nothing here</p>'), {});
+  assert.deepEqual(extractSocials(''), {});
+});
+
+test('NOT_A_HANDLE covers the plumbing paths that look like usernames', () => {
+  for (const p of ['share', 'intent', 'explore', 'hashtag', 'watch', 'profile']) {
+    assert.ok(NOT_A_HANDLE.has(p), p);
+  }
+});
+
+test('a Graphene profile is the least invasive source — they typed it themselves', () => {
+  const meta = JSON.stringify({ profile: {
+    tiktok: '@holder', twitter: 'holderx', website: 'https://holder.example',
+    about: 'also at instagram.com/holderig',
+  } });
+  const got = socialsFromProfile(meta);
+  assert.deepEqual(got.tiktok, ['holder'], 'a leading @ is stripped');
+  assert.deepEqual(got.x, ['holderx']);
+  assert.deepEqual(got.instagram, ['holderig'], 'links in free text count too');
+  assert.deepEqual(got.website, ['https://holder.example']);
+});
+
+test('socialsFromProfile takes an object as happily as a string, and never throws on garbage', () => {
+  assert.deepEqual(socialsFromProfile({ profile: { tiktok: 'x1' } }).tiktok, ['x1']);
+  assert.deepEqual(socialsFromProfile('not json'), {});
+  assert.deepEqual(socialsFromProfile(''), {});
+  assert.deepEqual(socialsFromProfile(JSON.stringify({})), {});
+});
+
+test('harvest collects handles alongside addresses, from the pages it already fetches', async () => {
+  __setFetch(async () => ({ ok: true, status: 200, text: async () =>
+    '<a href="mailto:me@holder.example">m</a><a href="https://tiktok.com/@holdertt">t</a>' }));
+  const r = await harvest('https://holder.example');
+  assert.deepEqual(r.found.map((f) => f.email), ['me@holder.example']);
+  assert.deepEqual(r.socials.tiktok, ['holdertt']);
+  __setFetch(null);
+});
+
+test('a page with handles but no address still returns the handles', async () => {
+  __setFetch(async () => ({ ok: true, status: 200, text: async () =>
+    '<a href="https://linktr.ee/holder">links</a>' }));
+  const r = await harvest('https://holder.example', { maxPages: 1 });
+  assert.equal(r.found.length, 0);
+  assert.deepEqual(r.socials.linktree, ['holder']);
+  __setFetch(null);
 });

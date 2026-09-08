@@ -158,6 +158,83 @@ export function extractEmails(html = '') {
   return out;
 }
 
+// ── social handles ────────────────────────────────────────────────────────────────────────────────
+// The holder file has 10,755 rows with columns for tiktok, discord and linktree, and ZERO of them
+// filled. Not because these people have no TikTok — because nothing ever looked. The pages the email
+// crawl is already fetching carry these links in their footers, so this is the same request, read
+// twice.
+//
+// Handles are cheaper than emails and often better: a Linktree or an open Discord is a route the
+// person PUBLISHED to be found through, which is a stronger consent signal than an address scraped
+// off a contact page.
+
+const HANDLE_RE = '[A-Za-z0-9._-]{2,30}';
+export const SOCIAL_PATTERNS = Object.freeze([
+  { net: 'tiktok', re: new RegExp(`tiktok\\.com/@(${HANDLE_RE})`, 'gi') },
+  { net: 'instagram', re: new RegExp(`instagram\\.com/(${HANDLE_RE})`, 'gi') },
+  { net: 'x', re: new RegExp(`(?:twitter|x)\\.com/(${HANDLE_RE})`, 'gi') },
+  { net: 'youtube', re: new RegExp(`youtube\\.com/(?:@|c/|channel/|user/)(${HANDLE_RE})`, 'gi') },
+  { net: 'telegram', re: new RegExp(`(?:t\\.me|telegram\\.me)/(${HANDLE_RE})`, 'gi') },
+  { net: 'discord', re: new RegExp(`discord\\.(?:gg|com/invite)/(${HANDLE_RE})`, 'gi') },
+  { net: 'linktree', re: new RegExp(`linktr\\.ee/(${HANDLE_RE})`, 'gi') },
+  { net: 'mastodon', re: new RegExp(`([a-z0-9.-]+)/@(${HANDLE_RE})@`, 'gi') },
+  { net: 'facebook', re: new RegExp(`facebook\\.com/(${HANDLE_RE})`, 'gi') },
+]);
+
+// A share button is not a handle. Every one of these appears as a path segment on links that point at
+// the platform's own plumbing rather than at a person, and picking them up would fill the column with
+// nonsense that looks like data.
+export const NOT_A_HANDLE = Object.freeze(new Set([
+  'share', 'sharer', 'intent', 'home', 'login', 'signup', 'about', 'privacy', 'terms', 'help',
+  'explore', 'search', 'hashtag', 'tags', 'embed', 'widgets', 'plugins', 'tr', 'p', 'watch', 'reel',
+  'story', 'stories', 'posts', 'profile', 'pages', 'groups', 'events', 'legal', 'download', 'business',
+  'creators', 'developers', 'press', 'jobs', 'careers', 'contact', 'blog', 'www', 'com', 'net',
+]));
+
+/** Social handles in a page, deduped per network, junk paths dropped. */
+export function extractSocials(html = '') {
+  const s = String(html || '');
+  const out = {};
+  for (const { net, re } of SOCIAL_PATTERNS) {
+    re.lastIndex = 0;
+    for (const m of s.matchAll(re)) {
+      const h = str(m[net === 'mastodon' ? 2 : 1]);
+      if (!h || NOT_A_HANDLE.has(low(h))) continue;
+      if (!out[net]) out[net] = [];
+      if (!out[net].includes(h)) out[net].push(h);
+    }
+  }
+  return out;
+}
+
+/**
+ * Handles a Graphene account published about itself. `json_metadata.profile` is where a Hive/Steem/
+ * Blurt user writes their own website and socials — self-declared, public, and the least invasive
+ * source there is: they typed it into their own profile.
+ */
+export function socialsFromProfile(jsonMetadata = '') {
+  let meta = jsonMetadata;
+  if (typeof meta === 'string') { try { meta = JSON.parse(meta || '{}'); } catch { return {}; } }
+  const prof = (meta && meta.profile) || {};
+  const out = {};
+  const put = (net, v) => { const h = str(v).replace(/^@/, ''); if (h && !NOT_A_HANDLE.has(low(h))) out[net] = [h]; };
+  put('tiktok', prof.tiktok);
+  put('instagram', prof.instagram || prof.ig);
+  put('x', prof.twitter || prof.x);
+  put('youtube', prof.youtube);
+  put('telegram', prof.telegram);
+  put('discord', prof.discord);
+  // A website in the profile is also where the rest of the handles usually live — hand it to harvest().
+  const site = str(prof.website);
+  // Free-text fields carry links too, and an "about" is written to be read.
+  const blob = [prof.about, prof.location, prof.website].map(str).join(' ');
+  const found = extractSocials(blob);
+  for (const [net, hs] of Object.entries(found)) {
+    if (!out[net]) out[net] = hs;
+  }
+  return site ? { ...out, website: [site] } : out;
+}
+
 /** The pages worth asking for. Ordered: a contact page beats a homepage beats an about page. */
 export function contactPaths(site) {
   const host = siteHost(site);
@@ -176,7 +253,7 @@ const DEFAULT_TIMEOUT_MS = 8000;
  */
 export async function harvest(site, { maxPages = 3, timeoutMs = DEFAULT_TIMEOUT_MS, throttle = null, fetch = null } = {}) {
   const host = siteHost(site);
-  const result = { site: host, pages: 0, found: [], rejected: [], errors: [] };
+  const result = { site: host, pages: 0, found: [], rejected: [], socials: {}, errors: [] };
   if (!host) { result.errors.push('no usable hostname'); return result; }
   const f = fetch || _fetch;
   const urls = contactPaths(site).slice(0, Math.max(1, maxPages));
@@ -192,6 +269,10 @@ export async function harvest(site, { maxPages = 3, timeoutMs = DEFAULT_TIMEOUT_
       html = await res.text();
       result.pages += 1;
     } catch (e) { result.errors.push(`${url}: ${str(e && e.message) || 'fetch failed'}`); continue; }
+    const socials = extractSocials(html);
+    for (const [net, hs] of Object.entries(socials)) {
+      result.socials[net] = [...new Set([...(result.socials[net] || []), ...hs])];
+    }
     for (const { email, how } of extractEmails(html)) {
       const a = attribution(email, { site: host, foundOn: url });
       const row = { email, foundOn: url, how, verdict: a.verdict, why: a.why };
@@ -262,7 +343,10 @@ export function handler(req, res) {
   }, null, 2));
 }
 
-export default { attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan, siteHost, sameSite };
+export default {
+  attribution, extractEmails, extractSocials, socialsFromProfile, contactPaths, harvest, auditList,
+  crawlPlan, siteHost, sameSite,
+};
 
 if (process.argv[1] && process.argv[1].endsWith('holder-contact-harvest.mjs')) {
   const site = process.argv[2];
