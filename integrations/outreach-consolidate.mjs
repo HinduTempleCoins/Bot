@@ -341,6 +341,92 @@ export function consolidate({
 }
 
 /** Flat rows for a spreadsheet: one line per ROUTE, so nothing is hidden inside a nested field. */
+/**
+ * Who is worth searching for by hand, and why.
+ *
+ * Operator, 2026-09-08: "see if You can Google the Usernames and find anything, the ones that already
+ * have Multiple known accounts with those Names might for sure have something."
+ *
+ * That is the right signal and it is one this module can already compute. A handle is worth searching
+ * in proportion to how much evidence there is that it is a HANDLE rather than a guess:
+ *
+ *   CORROBORATED   the same string is this person's handle on two or more networks. Somebody who is
+ *                  `@kateskarma` on Instagram and `@kateskarma` on X chose that name and reuses it,
+ *                  which is exactly what makes it findable — and it cannot be an artefact of a
+ *                  manufactured column, because no two of those columns were built the same way.
+ *   DISTINCTIVE    one network, but the handle is NOT the account name. Nobody derived it; it was read
+ *                  off a page or declared in a profile. A name that is not the obvious one is a name
+ *                  a search engine can separate from everybody else's.
+ *   NAME-ECHO      one network, handle equals the account name. This is the shape of the three
+ *                  manufactured columns (10,737 X, 8,338 YouTube, 485 Telegram), so it ranks last —
+ *                  but it is not zero, because plenty of real people do use their own name.
+ *
+ * The score is evidence of findability, NOT of importance. It says where a search is likely to return
+ * something, not who matters — the operator decides that, and reach is carried alongside so he can.
+ */
+export const SEARCH_TIERS = Object.freeze({
+  corroborated: { weight: 50, why: 'the same handle on two or more networks — a name this person chose and reuses' },
+  distinctive: { weight: 25, why: 'a handle that is not their account name, so it was read or declared, not derived' },
+  'name-echo': { weight: 8, why: 'handle equals the account name — real for some people, manufactured for many' },
+});
+
+/**
+ * Networks worth searching FIRST, and why this is not a generic weighting.
+ *
+ * Operator, 2026-09-08: "People Follow me and Kate's Lead, so it is likely there is a lot going on on
+ * Instagram if She is there."
+ *
+ * That is a testable claim about a specific cohort rather than a preference: one person's presence on
+ * a network predicts the rest of the group's, because the group follows her. Kate Siamro is on
+ * Instagram — `@kateskarma`, verified against the handle in the operator's own notes, plus
+ * `@ladylovedallas` for her venue. So Instagram outranks the rest for the hometown cohort, and a
+ * found Instagram is worth more than a found anything-else because it is where the group already is.
+ */
+export const NETWORK_SEARCH_PRIORITY = Object.freeze({
+  instagram: 20, tiktok: 12, x: 8, facebook: 8, youtube: 6, discord: 4, telegram: 4, linktree: 10,
+});
+
+/** Normalised handle string — the same normalisation looksNameDerived() uses, exported for reuse. */
+export const normHandle = (v) => low(v).replace(/^https?:\/\/[^/]*\//, '').replace(/^@/, '')
+  .replace(/[^a-z0-9]/g, '');
+
+export function searchTargets(result = {}, { limit = 0 } = {}) {
+  const out = [];
+  for (const p of result.people || []) {
+    // Group this person's routes by the normalised handle, so `@kate` on two networks is one string
+    // seen twice rather than two unrelated rows.
+    const byHandle = new Map();
+    for (const r of p.routes) {
+      if (r.net === 'email' || r.net === 'website') continue;   // an address is not a handle to search
+      const h = normHandle(r.value);
+      if (!h) continue;
+      if (!byHandle.has(h)) byHandle.set(h, { handle: h, nets: new Map() });
+      byHandle.get(h).nets.set(r.net, { value: r.value, url: r.url, verdict: r.verdict, source: r.source });
+    }
+    for (const { handle, nets } of byHandle.values()) {
+      const netNames = [...nets.keys()];
+      const echo = looksNameDerived(p.account, handle);
+      const tier = netNames.length > 1 ? 'corroborated' : (echo ? 'name-echo' : 'distinctive');
+      const netScore = Math.max(0, ...netNames.map((n) => NETWORK_SEARCH_PRIORITY[n] || 0));
+      out.push({
+        account: p.account,
+        name: p.name || '',
+        handle,
+        networks: netNames,
+        tier,
+        why: SEARCH_TIERS[tier].why,
+        // Reach is carried, never scored. It says who matters; this list says who is findable.
+        reach: p.reach || 0,
+        onInstagram: netNames.includes('instagram'),
+        score: SEARCH_TIERS[tier].weight + netScore + (netNames.length - 1) * 10,
+        routes: Object.fromEntries([...nets.entries()].map(([n, v]) => [n, v.url || v.value])),
+      });
+    }
+  }
+  out.sort((a, b) => b.score - a.score || b.reach - a.reach);
+  return limit > 0 ? out.slice(0, limit) : out;
+}
+
 export function toRows(result = {}) {
   const out = [];
   for (const p of result.people || []) {
@@ -380,6 +466,7 @@ export default {
   consolidate, fromHolderRows, fromProfileSocials, fromHubPages, sharedValues, toRows, toCsv,
   looksNameDerived, CSV_SOCIAL_COLUMNS,
   NETWORKS, isAddressable, routeUrl, handler,
+  searchTargets, SEARCH_TIERS, NETWORK_SEARCH_PRIORITY, normHandle,
 };
 
 if (process.argv[1] && process.argv[1].endsWith('outreach-consolidate.mjs')) {
