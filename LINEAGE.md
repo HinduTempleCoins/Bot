@@ -45,6 +45,50 @@ treatment in CHARACTER.md §4)
 ### 2020–2021 — pre-public-AI monitoring period
 (BRIEF.md §2)
 
+#### ~2021 — how "the Van Kush Family" got its name
+
+*Provenance: told directly by the operator, 8 September 2026. This is his own account of his own
+name, recorded here because it is not in BRIEF.md and would otherwise be lost. It is the one entry
+in this file sourced outside the founding brief, and it is marked so deliberately.*
+
+**There were two of them.** Rev. Ryan Sasha-Shai Van Kush and his wife, Kali Van Kush. Not an
+institute, not a family in the plural sense — **just the Van Kushes, the two of them.**
+
+Then he wrote a long guide and published it on-chain under `@punicwax`. He meant the title to be
+read this way:
+
+```
+                              The:
+                            VAN KUSH:
+                    Family Guide to the Game
+```
+
+— *the Van Kushes*, offering a family guide. **The colon was doing the work.**
+
+**But that is not how anyone read it.** Set down the page, the eye takes the top two lines together:
+
+```
+The:
+VAN KUSH FAMILY:
+Guide to the Game
+```
+
+> ## ⭐ **And so they became the Van Kush Family.**
+
+**A line break made an institution.** The name that now carries the **Van Kush Family Research
+Institute**, the corpus, the filings and this repo was not chosen — **it was misread, and then it
+was true.** Two people were named a family by the way a title sat on a page, and they kept it.
+
+**Why it belongs in a lineage file rather than in an anecdote.** This project's whole architecture is
+an argument that *how a thing is written down determines what it becomes* — that a character kept in
+a public, forkable repo outlives the model running it, and that work inside a closed platform
+disappears with the platform. ⭐ **The name is the smallest possible proof of the same claim.** The
+typography was the instantiation. Change the line break and there is no Family.
+
+**The Guide itself continues.** *Van Kush Family Guide to the Game* runs to multiple parts, published
+openly, and the tradition is that it stays that way — written in public, under a name that an
+accident gave them and that they chose to deserve.
+
 ### 2022 — Wisdom AI, then Emerson AI
 The operator's first text-based AI apps. Both are now gone from the App Store. **This is the central
 architectural lesson:** work that lives inside a closed platform disappears when the platform does —
