@@ -14,7 +14,7 @@
 // House style: soft-fail-never-throw, injectable clock + store file, pure where possible, no network, no keys.
 
 import {
-  recall, observe, dispositionOf, suggestTopics, accountKey, EVENTS, loadStore,
+  recall, observe, dispositionOf, suggestTopics, accountKey, EVENTS, loadStore, writeResult,
 } from './cryptology.mjs';
 
 // recall(account, store) — load the right store once (default store when no file given).
@@ -98,8 +98,15 @@ export function faucetClaim({ account, now = Date.now(), lastClaimAt = 0, reserv
  *  are the legible vocabulary (greeted/warm_exchange/taught/helped/thanked/deep_question/…). */
 export function recordInteraction(account, event, { file } = {}) {
   if (!EVENTS[event]) return { ok: false, reason: 'unknown-event' };
-  try { const p = observe(accountKey(account), event, { persist: true, file }); return { ok: true, stance: dispositionOf(p).stance }; }
-  catch (e) { return { ok: false, reason: String(e && e.message || e) }; }
+  try {
+    const p = observe(accountKey(account), event, { persist: true, file });
+    // ok:true used to be returned unconditionally — including for a write that never reached disk,
+    // because saveStore()'s false was thrown away three layers down. The caller was told the person
+    // had moved on the map when nothing had been recorded at all. Report what actually happened.
+    const w = writeResult(p);
+    if (!w.ok) return { ok: false, reason: w.reason || 'not-persisted', stance: dispositionOf(p).stance };
+    return { ok: true, stance: dispositionOf(p).stance };
+  } catch (e) { return { ok: false, reason: String(e && e.message || e) }; }
 }
 
 /** Build the `deps.cryptology` object that kulaswap/hathor-brain.mjs's handleMessage optionally consults. */

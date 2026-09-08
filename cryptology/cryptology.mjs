@@ -352,15 +352,88 @@ export function recordPath(p, choice, context = '') {
 }
 
 // ── forkable JSON store (injectable via env or args) ─────────────────────────────
+/**
+ * Read the map.
+ *
+ * A MISSING file means "nobody yet" — {} is the right answer. A file that EXISTS but does not parse
+ * is a completely different fact, and it used to be treated identically: return {}, after which the
+ * next observe() wrote that empty object back over the top. Every relationship the Witness had ever
+ * formed, gone, with no error anywhere and nothing left to recover from.
+ *
+ * So an unparseable-but-non-empty store is copied aside to `<file>.corrupt-<ts>` before we fall back
+ * to {}. The run still continues (soft-fail-never-throw) — but the loss is now recoverable, and loud
+ * on stderr instead of silent.
+ */
 export function loadStore(file = storeFile()) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return {}; }
+  let raw;
+  try { raw = fs.readFileSync(file, 'utf8'); } catch { return {}; }   // missing/unreadable → nobody yet
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('store is not an object');
+    return parsed;
+  } catch (e) {
+    if (String(raw).trim()) {
+      const aside = `${file}.corrupt-${_now()}`;
+      try {
+        fs.writeFileSync(aside, raw);
+        console.error(`cryptology: store did not parse (${e?.message}) — kept a copy at ${aside}`);
+      } catch {
+        console.error(`cryptology: store did not parse (${e?.message}) and could NOT be copied aside`);
+      }
+    }
+    return {};
+  }
 }
+
+/**
+ * Write the map ATOMICALLY: serialize to a sibling temp file, then rename(2) over the destination.
+ *
+ * This was a bare `fs.writeFileSync(file, ...)`, which opens the destination with O_TRUNC — the old
+ * map is destroyed the instant the write begins. A crash, a full disk or a killed process anywhere
+ * between truncation and the last byte leaves a half-written file that loadStore() cannot parse, and
+ * the whole relationship map is gone. rename(2) within a filesystem is atomic: a reader sees either
+ * the complete old map or the complete new one, never a torn one.
+ *
+ * Same write-temp-then-rename pattern the repo already uses in tutorial/state.js and welcomer/state.js.
+ * Returns true only if the map actually reached disk — callers must not report a failed write as done.
+ */
 export function saveStore(store, file = storeFile()) {
+  const tmp = `${file}.tmp`;
   try {
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, JSON.stringify(store, null, 2) + '\n');
+    fs.writeFileSync(tmp, JSON.stringify(store, null, 2) + '\n');
+    fs.renameSync(tmp, file);
     return true;
-  } catch (e) { console.error('cryptology: store write failed —', e?.message); return false; }
+  } catch (e) {
+    try { fs.unlinkSync(tmp); } catch { /* nothing to clean up */ }
+    console.error('cryptology: store write failed —', e?.message);
+    return false;
+  }
+}
+
+/**
+ * Did this profile actually reach disk?
+ *
+ * saveStore() has always returned false on failure and every caller has always ignored it, so a
+ * profile that never landed came back looking exactly like one that did — and recordInteraction()
+ * reported {ok:true} for a write that never happened. The answer is recorded on the returned profile
+ * as a NON-ENUMERABLE field, so it travels with the object while JSON.stringify() — i.e. the store
+ * itself — never sees it and it can never be persisted into the map.
+ *
+ * Only meaningful on a profile returned by observe() or remember().
+ */
+function markPersist(p, ok, reason = null) {
+  if (!p || typeof p !== 'object') return p;
+  try {
+    Object.defineProperty(p, '_persisted', { value: !!ok, enumerable: false, configurable: true, writable: true });
+    Object.defineProperty(p, '_reason', { value: reason, enumerable: false, configurable: true, writable: true });
+  } catch { /* frozen/sealed profile — soft-fail, never throw */ }
+  return p;
+}
+
+/** The write outcome for a profile returned by observe()/remember(): { ok, reason }. */
+export function writeResult(p) {
+  return { ok: p?._persisted === true, reason: (p && p._reason) || null };
 }
 
 /** Get a profile (creating a fresh one if absent). Pure-ish: reads store, does not write. */
@@ -371,11 +444,11 @@ export function recall(account, store = loadStore()) {
 
 /** Persist a profile back into the store (read-modify-write). Returns the profile. */
 export function remember(p, file = storeFile()) {
-  if (!p || !p.account) return p;
+  if (!p || !p.account) return markPersist(p, false, 'invalid-account');
   const store = loadStore(file);
   store[p.account] = p;
-  saveStore(store, file);
-  return p;
+  const ok = saveStore(store, file);
+  return markPersist(p, ok, ok ? null : 'write-failed');
 }
 
 // ── the high-level move: observe a named event for an account ────────────────────
@@ -390,9 +463,16 @@ export function remember(p, file = storeFile()) {
  */
 export function observe(account, event, opts = {}) {
   const { persist = true, file = storeFile(), interests, preferredDepth, path: pathChoice, context } = opts;
-  const store = persist ? loadStore(file) : {};
+  // The store is loaded ALWAYS, including for a preview. `persist ? loadStore(file) : {}` meant a
+  // caller asking "what would this event do to this person?" was handed a stranger: the map was never
+  // read, so someone with two prior warm exchanges previewed as warmth 8 / 1 interaction instead of
+  // 24 / 3. persist:false must mean "do not WRITE", never "do not REMEMBER".
+  const store = loadStore(file);
   const key = accountKey(account);
-  const p = store[key] || freshProfile(key);
+  // A preview also must not mutate the loaded map in place — it works on a copy, so nothing a preview
+  // does can leak into a later write by a caller holding the same object.
+  const existing = store[key];
+  const p = existing ? (persist ? existing : structuredClone(existing)) : freshProfile(key);
 
   const base = EVENTS[event] || {};                 // unknown event → no dimension move (soft no-op)
   const delta = { ...base };
@@ -404,8 +484,10 @@ export function observe(account, event, opts = {}) {
   p.totalInteractions = (p.totalInteractions || 0) + 1;
   p.lastSeen = _now();
 
-  if (persist) { store[key] = p; saveStore(store, file); }
-  return p;
+  if (!persist) return markPersist(p, false, 'not-persisted');
+  store[key] = p;
+  const ok = saveStore(store, file);
+  return markPersist(p, ok, ok ? null : 'write-failed');
 }
 
 /** Everyone the Witness knows, sorted by closeness (the map). */
