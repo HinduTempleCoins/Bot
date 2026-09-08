@@ -86,3 +86,27 @@ test('operations on a missing campaign soft-fail (never throw)', () => {
   assert.equal(addLead('ghost', { email: 'x@y.com' }, o).ok, false);
   assert.equal(leadStats('ghost', o), null);
 });
+
+test('a lead records where it came from and how to reach it', () => {
+  // These three fields were silently dropped. The loader passed `notes` describing the provenance of
+  // every holder lead and nothing stored it, so a graded row and a typed-in row looked identical in
+  // the file — and a row whose origin cannot be named cannot be audited afterwards.
+  const o = memFs();
+  const c = createCampaign({ owner: 'alice', name: 'c' }, o).campaign;
+  assert.equal(addLead(c.id, {
+    email: 'x@y.example', source: 'holders', route: 'email', notes: '419 VKBT · site y.example',
+  }, o).ok, true);
+  const l = getCampaign(c.id, o).leads[0];
+  assert.equal(l.source, 'holders');
+  assert.equal(l.route, 'email');
+  assert.equal(l.notes, '419 VKBT · site y.example');
+});
+
+test('a lead with no email keeps its route — that is what makes it reachable at all', () => {
+  const o = memFs();
+  const c = createCampaign({ owner: 'alice', name: 'c' }, o).campaign;
+  assert.equal(addLead(c.id, { name: 'Jane', source: 'local-seeds', route: 'linkedin:jane' }, o).ok, true);
+  const l = getCampaign(c.id, o).leads[0];
+  assert.equal(l.email, '');
+  assert.equal(l.route, 'linkedin:jane');
+});
