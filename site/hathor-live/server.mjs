@@ -25,6 +25,9 @@ import {
 } from './reports.mjs';
 import { readReports, appendReport } from './reports-store.mjs';
 import { chamberPlan, chamberScene, CHAMBER_TIERS } from './chamber.mjs';
+import { EXAMS, FRAMING as EXAM_FRAMING, BROWSER_LIMITS as EXAM_BROWSER_LIMITS, examsIndexHTML } from './exams.mjs';
+import { participantId } from './participant-key.mjs';
+import { completionCounts, forget as forgetParticipant } from './exams-store.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
@@ -462,6 +465,50 @@ export async function handler(req, res) {
       }
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(chamberShell(`The Chamber — ${session.name}`, chamberScene(plan), session));
+    }
+
+    // ── /exams — the Temple Exams (perception battery) ────────────────────────────────────────────
+    // An exam is an INSTRUMENT, never a diagnosis, and is never worded as a clearance
+    // (.local/TEMPLE_EXAMS_SAFETY_GATE.md §2). Nothing here is payable — that boundary lives in
+    // integrations/token-exams.mjs and is imported, not restated — and nothing here goes on chain.
+    if (path === '/exams') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examsIndexHTML({ counts: completionCounts() }));
+    }
+
+    if (path === '/api/exams') {
+      // Completion counts are the ONLY aggregate this endpoint serves, and they count people rather
+      // than sittings. There is no per-participant read path here: a person's own history comes back
+      // to them from their own browser's key, and nothing on this route can enumerate one person's
+      // record for anybody else.
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true, service: 'temple-exams', kind: 'perception', payable: false, onChain: false,
+        rule: 'an exam is an instrument, never a diagnosis, and is never worded as a clearance',
+        exams: EXAMS.map((e) => ({ ...e, url: `${BASE_URL}${e.route}` })),
+        framing: EXAM_FRAMING,
+        browserLimits: EXAM_BROWSER_LIMITS,
+        completions: completionCounts(),
+      }, null, 2));
+    }
+
+    // Deletion by key. The raw key never touches disk — it is hashed on arrival and the hash is what
+    // the tombstone carries. A person who lost their key cannot be forgotten, because nothing here
+    // knows which rows were theirs; /exams says so before they start rather than after.
+    if (path === '/api/exams/forget' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'That is not a participant key. Nothing was deleted.' }));
+      }
+      const done = forgetParticipant(pid);
+      res.writeHead(done ? 200 : 503, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify(done
+        ? { ok: true, forgotten: true, note: 'Every sitting under that key is gone from every read path.' }
+        : { ok: false, error: 'Could not write the deletion. Nothing was deleted — please try again.' }));
     }
 
     if (path === '/40hz') {

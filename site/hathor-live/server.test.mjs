@@ -210,3 +210,32 @@ test('the session id is escaped into the door list', async () => {
   await handler(req('/chamber'), res);
   assert.ok(!o.body.includes('<script>alert'), 'no unescaped markup from session data');
 });
+
+// ── Temple Exams: the spine ───────────────────────────────────────────────────────────────────────
+
+test('GET /exams serves the battery index with its limits and its refusals', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /Temple Exams/);
+  assert.match(o.body, /Nothing here pays anything/);
+  assert.match(o.body, /Nothing here goes on the chain/);
+  assert.match(o.body, /No web page can test for tetrachromacy/);
+});
+
+test('GET /api/exams reports perception as unpayable and carries the completion counts', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams'), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.payable, false);
+  assert.equal(d.onChain, false);
+  assert.ok(d.completions && typeof d.completions === 'object');
+});
+
+test('POST /api/exams/forget refuses anything that is not a participant key', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/forget', 'POST', { key: 'nope' }), res);
+  assert.equal(o.code, 400);
+  assert.match(o.body, /Nothing was deleted/);
+});
