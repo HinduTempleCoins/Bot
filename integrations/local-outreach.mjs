@@ -284,8 +284,110 @@ export function personalReason(seed = {}) {
   return 'personal history — yours to write';
 }
 
+/**
+ * One person, one row.
+ *
+ * Operator, 2026-09-08: two profiles for the same name arrived a minute apart. One has 664 friends,
+ * 1.5K posts and 22 mutuals with him; the other has 16 friends, 6 posts, 5 mutuals, and states a city
+ * two states away. Two accounts, almost certainly one man — a new account someone made and barely
+ * used, next to the one he actually lives on.
+ *
+ * This is NOT `identityDisputed`. That rule is for an account we cannot vouch for, and it excludes.
+ * A duplicate is the opposite problem: the person is real and known, and the failure is *counting him
+ * twice*. Two rows means two messages to one man, mutuals summed into a number nobody has (22 + 5 = 27
+ * is not a fact about anybody), and a hub score inflated by an account with sixteen friends.
+ *
+ * So `sameAs` collapses the alias into the primary and the alias keeps NO score of its own. The
+ * primary is the account to actually reach him at, which is the bigger, older, actually-used one
+ * unless the operator says otherwise — `primary: true` wins over the heuristic, because he is the one
+ * who knows which account the man reads.
+ */
+export function dedupe(seeds = null) {
+  const list = Array.isArray(seeds) ? seeds : loadSeeds();
+  const byId = new Map(list.map((s) => [str(s.id), s]));
+  const weight = (s) => Number((s.audience || {}).followers || (s.audience || {}).friends || 0)
+    + Number(s.mutualsWithOperator || 0) * 10;
+
+  // Group every seed under the id at the end of its sameAs chain (with a visited set, because a pair
+  // of seeds pointing at each other is a typo, not a reason to hang).
+  const rootOf = (s) => {
+    const seen = new Set();
+    let cur = s;
+    while (str(cur.sameAs) && byId.has(str(cur.sameAs)) && !seen.has(str(cur.id))) {
+      seen.add(str(cur.id));
+      cur = byId.get(str(cur.sameAs));
+    }
+    return cur;
+  };
+  const groups = new Map();
+  for (const s of list) {
+    const k = str(rootOf(s).id) || str(s.id);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(s);
+  }
+
+  const people = [];
+  const aliases = [];
+  for (const members of groups.values()) {
+    if (members.length === 1) { people.push(members[0]); continue; }
+    const stated = members.find((m) => m.primary === true);
+    const chosen = stated || members.slice().sort((a, b) => weight(b) - weight(a))[0];
+    const others = members.filter((m) => m !== chosen);
+    people.push({
+      ...chosen,
+      alsoAt: others.map((m) => ({ id: str(m.id), name: str(m.name), note: str(m.duplicateNote) })),
+      // Named so nobody later reads the primary's mutual count as "all the mutuals across his accounts".
+      primaryChosenBy: stated ? 'operator said so' : 'the bigger, more-used account — confirm he reads it',
+    });
+    for (const m of others) {
+      aliases.push({ id: str(m.id), name: str(m.name), collapsedInto: str(chosen.id) });
+    }
+  }
+  return { people, aliases };
+}
+
+/**
+ * Same name, no `sameAs` between them — flagged, never merged.
+ *
+ * Merging on a name match is how two different people become one row, and the DFW file is exactly
+ * where that happens: hometown cohorts are full of shared surnames. So this only ASKS. The operator
+ * resolves it by adding `sameAs` (one man, two accounts) or `identityDisputed` (not who it says).
+ */
+export function possibleDuplicates(seeds = null) {
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => str(s.name));
+  const key = (s) => {
+    const parts = low(s.name).replace(/[^a-z ]+/g, ' ').split(/\s+/).filter(Boolean);
+    return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : parts[0];
+  };
+  const seen = new Map();
+  for (const s of list) {
+    const k = key(s);
+    if (!seen.has(k)) seen.set(k, []);
+    seen.get(k).push(s);
+  }
+  const out = [];
+  for (const [k, members] of seen) {
+    if (members.length < 2) continue;
+    if (members.some((m) => str(m.sameAs) || m.identityDisputed)) continue;   // already answered
+    const cities = [...new Set(members.map((m) => str(m.city)).filter(Boolean))];
+    out.push({
+      name: k,
+      accounts: members.map((m) => ({
+        id: str(m.id), name: str(m.name), city: str(m.city),
+        mutuals: Number(m.mutualsWithOperator || 0),
+        reach: Number((m.audience || {}).followers || (m.audience || {}).friends || 0),
+      })),
+      conflict: cities.length > 1 ? `they state different cities (${cities.join(', ')}) — that is a reason to ask, not to merge` : '',
+      resolveWith: 'sameAs (one person, two accounts) or identityDisputed (not who it says) — do not guess',
+    });
+  }
+  return out;
+}
+
 export function rank(seeds = null) {
-  const all = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  // Collapse duplicate accounts BEFORE anything is scored — a second account must never contribute a
+  // second row, a second message, or a second helping of mutuals.
+  const all = dedupe((Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok)).people;
   const list = all.filter((s) => !isFamily(s) && !isDisputed(s) && !isPersonal(s));
   const family = all.filter(isFamily).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) }));
   const scored = list.map((s) => ({
@@ -306,6 +408,9 @@ export function rank(seeds = null) {
       id: s.id, name: str(s.name), relationship: str(s.relationship), why: personalReason(s),
     })),
     excludedAsDisputed: all.filter(isDisputed).map((s) => ({ id: s.id, name: str(s.name), reason: str(s.disputeNote) })),
+    // Rows that were folded into another account, and rows that look like they should be but nobody said.
+    collapsedDuplicates: dedupe(Array.isArray(seeds) ? seeds : loadSeeds()).aliases,
+    askAboutDuplicates: possibleDuplicates(Array.isArray(seeds) ? seeds : loadSeeds()),
   };
 }
 
