@@ -77,7 +77,24 @@ export function widen(years = COHORTS, by = 3) {
 // private people.
 
 /** Fields that must never appear on a seed. If one does, the entry is a dossier, not an audience. */
-const PRIVATE_FIELDS = ['address', 'homeAddress', 'phone', 'mobile', 'dob', 'birthday', 'ssn', 'privateEmail'];
+// Two kinds of field are refused here, for two different reasons.
+//
+// The first kind is CONTACT-AND-IDENTITY — address, phone, date of birth. Those turn a list of public
+// profiles into a way to find someone off the internet.
+//
+// The second kind is HISTORY — a conviction, an arrest, a hospitalisation, an immigration status. That
+// one is worse, and it is the one that nearly got written down today: the operator described what a
+// man from his class went to prison for. It is his to know; it is not a field. A criminal record in a
+// marketing file does nothing but sit there waiting to be sorted on, and there is no version of
+// "reach out to people from home" that is improved by the software knowing who did time.
+//
+// Neither list is exhaustive and neither is the real protection — the real protection is that nothing
+// here sends. These are the shapes we have actually been handed, refused by name.
+const PRIVATE_FIELDS = [
+  'address', 'homeAddress', 'phone', 'mobile', 'dob', 'birthday', 'ssn', 'privateEmail',
+  'criminalRecord', 'conviction', 'charges', 'arrest', 'incarceration', 'sentence',
+  'medical', 'diagnosis', 'immigrationStatus',
+];
 
 export function assertPublicOnly(seed = {}) {
   const bad = PRIVATE_FIELDS.filter((f) => str(seed[f]));
@@ -85,7 +102,8 @@ export function assertPublicOnly(seed = {}) {
     return {
       ok: false, code: 'private-data',
       reason: `refusing this seed: it carries ${bad.join(', ')}. Outreach targets public accounts and `
-            + 'public venues. A birthday and a home address make it a file on a person instead.',
+            + 'public venues. A birthday, a home address or a conviction make it a file on a person '
+            + 'instead — and a record is the one field that can only ever be used against them.',
     };
   }
   return { ok: true };
@@ -243,8 +261,28 @@ export const isDisputed = (seed = {}) => Boolean(seed.identityDisputed)
  */
 export const isPersonal = (seed = {}) => {
   const t = (seed.tags || []).map(low);
-  return t.includes('dated') || t.includes('personal-history');
+  return t.includes('dated') || t.includes('personal-history') || t.includes('justice-involved');
 };
+
+/**
+ * Why a seed left the ranking — because the two reasons are not the same reason, and the operator
+ * should not have to remember which is which when he reads the list back.
+ *
+ * `justice-involved` is the second one, added 2026-09-08 when the operator sent a classmate's profile
+ * along with what he went to prison for. The man is home now and the operator has seen him since.
+ * Contact is not the question — a scored, sequenced, drafted pitch is. Someone rebuilding a life after
+ * a sentence is the last person who should receive a message that a pipeline decided to send, and the
+ * only instrument that fits is the operator typing it himself. The tag records THAT, and nothing else:
+ * what happened is not in the file, because `assertPublicOnly()` refuses to let it be.
+ */
+export function personalReason(seed = {}) {
+  const t = (seed.tags || []).map(low);
+  if (t.includes('justice-involved')) {
+    return 'he is rebuilding — this is a message you type yourself or not at all, never a sequence';
+  }
+  if (t.includes('dated')) return 'you dated — a drafted pitch reads completely differently from you';
+  return 'personal history — yours to write';
+}
 
 export function rank(seeds = null) {
   const all = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
@@ -264,7 +302,9 @@ export function rank(seeds = null) {
     // Listed so it is visible that they were removed, never so they can be worked from here.
     excludedAsFamily: family,
     // Not "do not contact" — "do not draft". He writes these himself.
-    writeTheseYourself: all.filter(isPersonal).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) })),
+    writeTheseYourself: all.filter(isPersonal).map((s) => ({
+      id: s.id, name: str(s.name), relationship: str(s.relationship), why: personalReason(s),
+    })),
     excludedAsDisputed: all.filter(isDisputed).map((s) => ({ id: s.id, name: str(s.name), reason: str(s.disputeNote) })),
   };
 }

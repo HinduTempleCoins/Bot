@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
-  loadVenues, assertVenueCheckable,
+  loadVenues, assertVenueCheckable, personalReason,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -431,4 +431,42 @@ test('plan() with venues loaded but none readable says so instead of looking rea
   assert.equal(p.venues.postable, 0);
   assert.ok(p.blocked.some((b) => /none readable as permission/.test(b)));
   assert.ok(!p.blocked.some((b) => /no venues loaded/.test(b)), 'that blocker is cleared once a file exists');
+});
+
+
+// ── a record is not a field ───────────────────────────────────────────────────────────────────────
+test('a seed carrying a conviction is refused outright, like an address is', () => {
+  const v = assertPublicOnly({ name: 'A Classmate', conviction: 'manslaughter' });
+  assert.equal(v.ok, false);
+  assert.equal(v.code, 'private-data');
+  assert.match(v.reason, /conviction/);
+  for (const f of ['criminalRecord', 'charges', 'arrest', 'incarceration', 'sentence', 'diagnosis', 'medical', 'immigrationStatus']) {
+    assert.equal(assertPublicOnly({ name: 'X', [f]: 'anything' }).ok, false, `${f} must be refused`);
+  }
+});
+
+test('rank() drops a refused seed rather than scoring it — it never reaches the list', () => {
+  const r = rank([
+    { id: 'ok-one', name: 'Fine', mutualsWithOperator: 10 },
+    { id: 'has-record', name: 'Refused', mutualsWithOperator: 40, criminalRecord: 'served time' },
+  ]);
+  const ids = [...r.then, ...r.firstDoThis, ...r.writeTheseYourself, ...r.excludedAsFamily].map((x) => x.id);
+  assert.ok(!ids.includes('has-record'), 'a seed with a record field does not appear anywhere');
+  assert.deepEqual(r.then.map((x) => x.id), ['ok-one']);
+});
+
+test('justice-involved leaves the ranking and says WHY, without the file holding what happened', () => {
+  const seed = { id: 'mm', name: 'A Classmate', tags: ['justice-involved'], mutualsWithOperator: 10 };
+  assert.equal(isPersonal(seed), true);
+  const r = rank([seed]);
+  assert.equal(r.then.length, 0);
+  assert.deepEqual(r.writeTheseYourself.map((x) => x.id), ['mm']);
+  assert.match(r.writeTheseYourself[0].why, /rebuilding/);
+  assert.ok(!JSON.stringify(r).match(/prison|conviction|killed/i), 'the reason never carries the story');
+});
+
+test('the two personal reasons stay distinguishable', () => {
+  assert.match(personalReason({ tags: ['dated'] }), /dated/);
+  assert.match(personalReason({ tags: ['justice-involved'] }), /type yourself/);
+  assert.match(personalReason({ tags: ['personal-history'] }), /yours to write/);
 });
