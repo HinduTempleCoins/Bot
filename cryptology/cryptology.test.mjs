@@ -244,3 +244,89 @@ test('every plane dimension resolves in ALL_DIMENSIONS, and relation dims still 
   assert.equal(planeOf('trust'), 'relation');
   assert.equal(planeOf('not-a-dimension'), null);
 });
+
+// ── store integrity ───────────────────────────────────────────────────────────────────────────────
+// Three defects the map could not survive: a preview that met a stranger, a write that could truncate
+// the whole map, and a failed write reported as a success.
+
+const freshDir = () => fs.mkdtempSync(path.join(os.tmpdir(), 'cryptology-store-'));
+
+test('observe({persist:false}) previews against the REAL history — a preview must not meet a stranger', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('regular', 'warm_exchange', { file });
+  c.observe('regular', 'warm_exchange', { file });
+
+  const preview = c.observe('regular', 'warm_exchange', { file, persist: false });
+  assert.equal(preview.warmth, 24, 'a preview must build on the two exchanges already on record (8+8+8)');
+  assert.equal(preview.totalInteractions, 3);
+  assert.equal(c.writeResult(preview).ok, false, 'and it must not claim to have been written');
+
+  // persist:false means "do not WRITE" — the stored map is untouched by the preview.
+  const onDisk = c.loadStore(file);
+  assert.equal(onDisk.regular.warmth, 16);
+  assert.equal(onDisk.regular.totalInteractions, 2);
+});
+
+test('a preview does not mutate the loaded map in place either', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('subject', 'warm_exchange', { file });
+  const preview = c.observe('subject', 'hostile', { file, persist: false });
+  assert.ok(preview.trust < 0);
+  assert.equal(c.recall('subject', c.loadStore(file)).trust, 3, 'the persisted profile is unchanged');
+});
+
+test('saveStore replaces the map by rename — it never opens the destination for truncation', () => {
+  const dir = freshDir();
+  const file = path.join(dir, 'store.json');
+  fs.writeFileSync(file, JSON.stringify({ alice: c.freshProfile('alice') }, null, 2) + '\n');
+  fs.chmodSync(file, 0o444); // a destination that CANNOT be written into, only replaced
+
+  assert.equal(c.saveStore({ bob: c.freshProfile('bob') }, file), true);
+  assert.deepEqual(Object.keys(c.loadStore(file)), ['bob']);
+  assert.ok(!fs.existsSync(`${file}.tmp`), 'no .tmp litter left behind after a successful write');
+});
+
+test('a failed write leaves the previous map completely intact (never a truncated one)', () => {
+  const dir = freshDir();
+  const file = path.join(dir, 'store.json');
+  c.observe('kept', 'taught', { file });
+  const before = fs.readFileSync(file, 'utf8');
+
+  const circular = { self: null }; circular.self = circular;   // JSON.stringify throws
+  assert.equal(c.saveStore(circular, file), false);
+  assert.equal(fs.readFileSync(file, 'utf8'), before, 'the old map is byte-for-byte still there');
+  assert.ok(!fs.existsSync(`${file}.tmp`), 'and the temp file is cleaned up');
+});
+
+test('a store that exists but does not parse is kept aside, not silently discarded', () => {
+  const dir = freshDir();
+  const file = path.join(dir, 'store.json');
+  // exactly what a crash mid-write used to leave behind: valid JSON prefix, truncated
+  fs.writeFileSync(file, '{\n  "alice": {\n    "account": "alice",\n    "warmth": 4');
+
+  assert.deepEqual(c.loadStore(file), {}, 'unparseable → soft-fail to empty, never throw');
+  const aside = fs.readdirSync(dir).find((f) => f.startsWith('store.json.corrupt-'));
+  assert.ok(aside, 'the unreadable map is copied aside so the relationships are recoverable');
+  assert.match(fs.readFileSync(path.join(dir, aside), 'utf8'), /alice/);
+});
+
+test('a write that never landed is reported as a failure, not as a success', () => {
+  const dir = freshDir();
+  const blocker = path.join(dir, 'blocker');
+  fs.writeFileSync(blocker, 'not a directory');
+  const file = path.join(blocker, 'nested', 'store.json'); // mkdir under a FILE → ENOTDIR
+
+  const p = c.observe('nobody-home', 'greeted', { file });
+  assert.equal(p.totalInteractions, 1, 'the in-memory profile is still returned (soft-fail)');
+  assert.equal(c.writeResult(p).ok, false, 'but it is NOT reported as persisted');
+  assert.equal(c.writeResult(p).reason, 'write-failed');
+  assert.equal(c.writeResult(c.remember(c.freshProfile('ghost'), file)).ok, false);
+});
+
+test('the persistence flag never leaks into the stored map', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('clean', 'greeted', { file });
+  const raw = fs.readFileSync(file, 'utf8');
+  assert.ok(!raw.includes('_persisted'), '_persisted is non-enumerable — it must not be serialized');
+  assert.ok(!raw.includes('_reason'));
+});

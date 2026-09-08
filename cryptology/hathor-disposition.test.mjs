@@ -98,3 +98,14 @@ test('makeBrainDep exposes dispositionFor/greeting/record for handleMessage inje
   assert.equal(dep.greeting('eve').stance, 'welcoming');
   assert.equal(dep.record('eve', 'greeted').ok, true);
 });
+
+test('recordInteraction reports a write that never landed as a failure, not as ok:true', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'crypt-fail-'));
+  const blocker = path.join(dir, 'blocker');
+  fs.writeFileSync(blocker, 'not a directory');
+  const file = path.join(blocker, 'nested', 'store.json'); // mkdir under a FILE → ENOTDIR
+
+  const r = recordInteraction('dave', 'warm_exchange', { file });
+  assert.equal(r.ok, false, 'a write that did not happen is not a recorded interaction');
+  assert.equal(r.reason, 'write-failed');
+});
