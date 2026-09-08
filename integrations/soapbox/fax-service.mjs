@@ -60,8 +60,12 @@ export function backoffMs(attempt) {
 // the per-provider knowledge stays declarative and testable.
 
 export const ADAPTERS = Object.freeze({
+  // The only leg of this ladder confirmed open to new signups in 2026. If a records-request fax is
+  // going out, it goes out over this one — a fax that silently fails is a statutory clock that never
+  // started.
   telnyx: {
     id: 'telnyx',
+    status: 'open',
     submit: ({ to, from, mediaUrl, credentials, options = {} }) => ({
       url: 'https://api.telnyx.com/v2/faxes',
       method: 'POST',
@@ -87,8 +91,11 @@ export const ADAPTERS = Object.freeze({
     requires: ['apiKey', 'connectionId'],
   },
 
+  // ⚠️ 2026: ClickSend has retired fax for NEW customers and points them at Sinch. The adapter is kept
+  // for an account that already has fax enabled; do not treat it as an available signup path.
   clicksend: {
     id: 'clicksend',
+    status: 'closed-to-new-customers',
     submit: ({ to, from, mediaUrl, credentials }) => ({
       url: 'https://rest.clicksend.com/v3/fax/send',
       method: 'POST',
@@ -112,8 +119,10 @@ export const ADAPTERS = Object.freeze({
     requires: ['username', 'apiKey'],
   },
 
+  // ⚠️ 2026: Phaxio is being folded into Sinch. Same caveat — existing accounts only.
   phaxio: {
     id: 'phaxio',
+    status: 'migrating-to-sinch',
     submit: ({ to, mediaUrl, credentials }) => ({
       url: 'https://api.phaxio.com/v2.1/faxes',
       method: 'POST',
