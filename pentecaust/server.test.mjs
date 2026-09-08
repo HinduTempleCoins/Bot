@@ -7,6 +7,7 @@ process.env.TEAMS_DATA = `/tmp/teams-srv-${process.pid}.json`;
 process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.CRM_DATA = `/tmp/crm-srv-${process.pid}.json`;
 process.env.MAILBOX_DATA = `/tmp/mailbox-srv-${process.pid}.json`;
+process.env.HERALD_LEDGER_DATA = `/tmp/herald-ledger-srv-${process.pid}.json`;
 process.env.TEAMS_RL_BURST = '400';    // the suite is one 'client'; the limiter is exercised on its own elsewhere
 process.env.PENTECAUST_DEV_TRUST = '1';
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
@@ -354,6 +355,44 @@ test('herald: with no postal address the gate refuses BEFORE anything is rendere
   assert.equal(called, false);
   setMbFetch(null);
   delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_SIGNATURE;
+});
+
+test('herald: the warmup ramp is APPLIED — the eleventh message on day one is refused', async () => {
+  // warmupCap()/perInboxCap() have been tested since the module was written and were called by
+  // nothing outside their own tests. 218 leads is three weeks of ramp; without a count to compare
+  // against, it was 218 buttons and no ceiling at all.
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  const { recordSend, ledgerFor } = await import('./herald/send-ledger.mjs');
+  process.env.HERALD_LEDGER_DATA = `/tmp/herald-ledger-ramp-${process.pid}.json`;
+  process.env.HERALD_INVITED_SENDERS = 'ray';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Test St, Dallas TX 75201';
+  process.env.HERALD_SIGNATURE = 'Ryan';
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Ramp', goal: 'demos' }), res);
+  const id = j(o).campaign.id;
+  await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
+  await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ray', lead: { name: 'Lee', email: 'ramp@acme.example', signal: 's' } }), cap().res);
+  const c0 = await (async () => { const c = cap(); await handler(req('/crm/campaigns/' + id + '?account=ray'), c.res); return j(c.o); })();
+  const lead = c0.campaign.leads[0];
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+
+  // spend the day's ten
+  const capToday = ledgerFor('ray').cap;
+  assert.equal(capToday, 10, 'day one is 10');
+  for (let i = 0; i < capToday; i += 1) recordSend('ray', {});
+
+  let called = false;
+  setMbFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'gm-ramp' }) }; });
+  ({ res, o } = cap());
+  await handler(req('/crm/campaigns/' + id + '/leads/' + lead.id + '/send', 'POST', { account: 'ray' }), res);
+  assert.equal(o.code, 403, 'the eleventh send on a cold mailbox went out');
+  assert.match(j(o).reason, /warmup cap reached: 10 of 10/);
+  assert.equal(called, false, 'no Gmail call was made');
+  setMbFetch(null);
+  process.env.HERALD_LEDGER_DATA = `/tmp/herald-ledger-srv-${process.pid}.json`;
+  delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_POSTAL_ADDRESS;
   delete process.env.HERALD_SIGNATURE;
 });
 
