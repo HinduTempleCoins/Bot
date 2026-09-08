@@ -30,7 +30,23 @@ import { CHAIN_DEFAULTS } from '../spamtest/limits.mjs';
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
 // ── the chain's side of the comparison (from the live testnet config, not from memory) ────────────
-export const MAX_BLOCK_BYTES = Math.max(1, Number(env('MELEK_MAX_BLOCK_BYTES', CHAIN_DEFAULTS.maxTransactionSize)) || 65536);
+/**
+ * MELEK mainnet's `maximum_block_size`, read from the live chain on 2026-09-08:
+ *
+ *   condenser_api.get_chain_properties ->
+ *     { account_creation_fee: "0.001 MELEK", maximum_block_size: 131072,
+ *       account_subsidy_budget: 797, account_subsidy_decay: 347321 }
+ *
+ * TWO CORRECTIONS to what this file shipped with. It defaulted to `CHAIN_DEFAULTS.maxTransactionSize`
+ * (65,536) — which is the wrong PARAMETER, since a Graphene chain's maximum transaction size and
+ * maximum block size are different limits — and 65,536 is in any case the TESTNET figure. Mainnet
+ * carries double that, so every chain-share number computed from the old constant was 2x pessimistic.
+ *
+ * The lesson is the one that has already cost this project twice today: a chain parameter is one RPC
+ * call away, and a default in a constants file is hearsay. Overridable by env for other chains; the
+ * default is now a measured mainnet value with the date it was measured.
+ */
+export const MAX_BLOCK_BYTES = Math.max(1, Number(env('MELEK_MAX_BLOCK_BYTES', 131072)) || 131072);
 export const BLOCK_INTERVAL_SEC = Math.max(1, Number(env('MELEK_BLOCK_INTERVAL_SEC', CHAIN_DEFAULTS.blockIntervalSec)) || 4);
 export const BLOCKS_PER_DAY = Math.floor(86400 / BLOCK_INTERVAL_SEC);
 /** Total bytes the WHOLE chain — every user, every op — can absorb in one day. */
