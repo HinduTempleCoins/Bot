@@ -4,6 +4,7 @@ import assert from 'node:assert';
 import {
   CAUSES, SOURCES, VERDICTS, cause, causeForNtee, sourceById,
   normalizeEin, isValidEin, formatEin, verifyOrg, donateButton, BUTTON_CSS, search, handler, esc,
+  DONOR_MODELS, feeBreakdown, checkoutEligibility, checkoutDisclosure,
 } from './donate-directory.mjs';
 
 const EIN = '13-1837418';
@@ -183,4 +184,123 @@ test('the handler states plainly that we never take the money', () => {
   assert.match(j.weTakeNoMoney, /own donation page/);
   assert.equal(Object.keys(j.verdicts).length, Object.keys(VERDICTS).length);
   assert.ok(BUTTON_CSS.includes('.sb-donate-btn'));
+});
+
+
+// ── giving at checkout ────────────────────────────────────────────────────────────────────────────
+test('the platform fee is taken from the DONATION, never from the merchant\'s sale', () => {
+  const b = feeBreakdown({ saleAmount: 100, donationAmount: 10, platformBps: 100 });
+  assert.equal(b.sale, 100, 'the sale is untouched');
+  assert.equal(b.platformFee, 0.10, '1% of the $10 gift, not of the $110 charge');
+  assert.equal(b.charityReceives, 9.65);
+  assert.equal(b.donorPays, 110);
+});
+
+test('when the donor covers fees the charity receives the whole gift', () => {
+  const b = feeBreakdown({ saleAmount: 100, donationAmount: 10, platformBps: 100, donorCoversFees: true });
+  assert.equal(b.charityReceives, 10);
+  assert.equal(b.donorPays, 110.35);
+  assert.match(b.note, /receives the full gift/);
+});
+
+test('a zero donation is not a transaction', () => {
+  const b = feeBreakdown({ saleAmount: 100, donationAmount: 0 });
+  assert.equal(b.ok, false);
+  assert.equal(b.charityReceives, 0);
+  assert.equal(b.donorPays, 100);
+});
+
+test('the processor cost charged to the gift is its share, not the whole fixed fee', () => {
+  // A 30c fixed fee on a $110 charge must not be billed entirely to a $10 donation.
+  const b = feeBreakdown({ saleAmount: 100, donationAmount: 10 });
+  assert.ok(b.processorFee < 0.30, `gift bore ${b.processorFee} of the fixed fee`);
+});
+
+test('a zero platform fee is honoured — free is a supported configuration', () => {
+  const b = feeBreakdown({ saleAmount: 50, donationAmount: 5, platformBps: 0 });
+  assert.equal(b.platformFee, 0);
+});
+
+test('money never drifts into fractions of a cent', () => {
+  for (const [s, d] of [[19.99, 0.01], [33.33, 3.33], [0, 7.77]]) {
+    const b = feeBreakdown({ saleAmount: s, donationAmount: d, platformBps: 250 });
+    for (const k of ['charityReceives', 'donorPays', 'processorFee', 'platformFee']) {
+      // Compare with a tolerance: 36.66 * 100 is 3665.9999999999995 in binary floating point, so an
+      // exact equality here would fail on values that ARE whole cents.
+      assert.ok(Math.abs(b[k] * 100 - Math.round(b[k] * 100)) < 1e-6, `${k}=${b[k]} for ${s}/${d}`);
+    }
+  }
+});
+
+// ── the co-venture fork ───────────────────────────────────────────────────────────────────────────
+test('"we donate 1% of every sale" is flagged as a commercial co-venture, with what it requires', () => {
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, verified, { model: 'merchant' });
+  assert.equal(e.coVenture, true);
+  assert.ok(e.mustDoFirst.some((n) => /co-venture registration/i.test(n)));
+  assert.ok(e.mustDoFirst.some((n) => /bond/i.test(n)), 'NY/MA/AL/SC bonding must be named');
+  assert.ok(e.mustDoFirst.some((n) => /written contract/i.test(n)));
+});
+
+test('a customer-opt-in donation is not a co-venture', () => {
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, verified, { model: 'customer' });
+  assert.equal(e.coVenture, false);
+  assert.equal(e.ok, true);
+});
+
+// ── the check that makes it worth paying for ──────────────────────────────────────────────────────
+test('a revoked charity cannot be placed in a checkout, and the reason names the merchant\'s exposure', () => {
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, { verdict: 'revoked' });
+  assert.equal(e.ok, false);
+  assert.ok(e.problems.some((p) => /vouching/.test(p)));
+});
+
+test('an unverified charity cannot be placed in a checkout either', () => {
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, { verdict: 'unverified' });
+  assert.equal(e.ok, false);
+  assert.ok(e.problems.some((p) => /requires a current check/.test(p)));
+});
+
+test('verification GOES STALE — revocation happens after you integrate', () => {
+  const old = { ...verified, checkedAt: '2026-01-01T00:00:00.000Z' };
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, old, { now: () => new Date('2026-09-08T00:00:00Z') });
+  assert.equal(e.ok, false);
+  assert.ok(e.problems.some((p) => /last checked \d+ days ago/.test(p)));
+  assert.equal(e.recheckEvery, '30 days');
+});
+
+test('a fresh check inside the window passes', () => {
+  const fresh = { ...verified, checkedAt: '2026-09-01T00:00:00.000Z' };
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, fresh, { now: () => new Date('2026-09-08T00:00:00Z') });
+  assert.equal(e.ok, true);
+});
+
+test('a charity with no https destination cannot be placed', () => {
+  const e = checkoutEligibility({ donateUrl: 'http://c.example/give' }, verified);
+  assert.equal(e.ok, false);
+  assert.ok(e.problems.some((p) => /https/.test(p)));
+});
+
+// ── disclosure ────────────────────────────────────────────────────────────────────────────────────
+test('the customer disclosure says it is a donation, names the net, and says who receipts', () => {
+  const b = feeBreakdown({ saleAmount: 100, donationAmount: 10, platformBps: 100 });
+  const d = checkoutDisclosure({ name: 'A Real Charity' }, b);
+  assert.match(d, /donation, not part of your purchase/);
+  assert.match(d, /\$9\.65/);
+  assert.match(d, /receipt for the donation comes from the organisation/);
+});
+
+test('the merchant disclosure says the customer is not being charged extra', () => {
+  const d = checkoutDisclosure({ name: 'A Real Charity' }, {}, { model: 'merchant' });
+  assert.match(d, /not an additional charge to you/);
+});
+
+test('the disclosure escapes the charity name', () => {
+  const d = checkoutDisclosure({ name: '<script>x</script>' }, { donation: 1, charityReceives: 1 });
+  assert.ok(!d.includes('<script>'));
+});
+
+test('both donor models are described, and only one is a co-venture', () => {
+  assert.equal(DONOR_MODELS.customer.coVenture, false);
+  assert.equal(DONOR_MODELS.merchant.coVenture, true);
+  assert.ok(Object.values(DONOR_MODELS).every((m) => m.what && Array.isArray(m.needs)));
 });
