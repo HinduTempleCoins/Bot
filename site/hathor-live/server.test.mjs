@@ -136,3 +136,77 @@ test('POST /api/video-plan soft-handles a director that throws', async () => {
 test('esc neutralizes HTML', () => {
   assert.equal(esc('<x>&"'), '&lt;x&gt;&amp;&quot;');
 });
+
+// ── /chamber — wired 2026-09-08 ───────────────────────────────────────────────────────────────────
+// chamber.mjs was written 2026-09-06, tested, and imported by nothing. These tests exist so it stays
+// reachable, and so the gate it enforces is verified through the ROUTE rather than only in isolation.
+
+test('GET /chamber with no session lists the sessions as doors', async () => {
+  const { res, o } = cap();
+  await handler(req('/chamber'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /The Chamber/);
+  assert.match(o.body, /\/chamber\?s=/);
+});
+
+test('GET /api/chamber returns a plan with the tier ladder', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=chamber-alpha'), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(j.ok, true);
+  assert.deepEqual(j.tiers, ['immersive', 'cardboard', 'flat3d', 'plain']);
+  assert.ok(j.plan.tier);
+  assert.ok(j.plan.disclaimer, 'a plan always carries its disclaimer');
+});
+
+test('an unknown session is a 404 and names the real ones', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=not-a-session'), res);
+  assert.equal(o.code, 404);
+  const j = JSON.parse(o.body);
+  assert.equal(j.ok, false);
+  assert.ok(Array.isArray(j.sessions) && j.sessions.length);
+});
+
+test('NO capabilities means plain — the server never assumes a headset is there', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=chamber-alpha'), res);
+  assert.equal(JSON.parse(o.body).plan.tier, 'plain');
+});
+
+test('capabilities are read from the request, and xr reaches the immersive tier', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=chamber-alpha&caps=xr&consent=immersive'), res);
+  assert.equal(JSON.parse(o.body).plan.tier, 'immersive');
+});
+
+test('screen consent does NOT carry into a headset — the gate holds through the route', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=chamber-alpha&caps=xr&consent=screen'), res);
+  const p = JSON.parse(o.body).plan;
+  assert.equal(p.allowed, false);
+  assert.equal(p.method, 'auditory', 'the auditory path is offered instead of nothing');
+  assert.match(p.reason, /strapped to your face/);
+});
+
+test('no consent at all closes the visual path', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/chamber?s=chamber-alpha&caps=xr'), res);
+  assert.equal(JSON.parse(o.body).plan.allowed, false);
+});
+
+test('GET /chamber?s= renders the scene for that tier', async () => {
+  const { res, o } = cap();
+  await handler(req('/chamber?s=chamber-alpha&caps=xr&consent=immersive'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /chamber/i);
+});
+
+test('the session id is escaped into the door list', async () => {
+  const { res, o } = cap();
+  await handler(req('/chamber'), res);
+  assert.ok(!o.body.includes('<script>alert'), 'no unescaped markup from session data');
+});
