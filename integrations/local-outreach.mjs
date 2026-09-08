@@ -187,9 +187,20 @@ export function score(seed = {}) {
  */
 export const isFamily = (seed = {}) => (seed.tags || []).map(low).includes('family');
 
+/**
+ * An account whose identity is in question does not score.
+ *
+ * A file of profiles takes each one at face value; it has no way to tell a person from a second
+ * account someone made. When the operator raises that doubt, the entry stops counting until it is
+ * resolved — because a possibly-duplicate account with 55 mutual friends does not just add a wrong
+ * row, it inflates every aggregate it appears in. Excluded, listed, and recoverable — not deleted.
+ */
+export const isDisputed = (seed = {}) => Boolean(seed.identityDisputed)
+  || (seed.tags || []).map(low).includes('identity-disputed');
+
 export function rank(seeds = null) {
   const all = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
-  const list = all.filter((s) => !isFamily(s));
+  const list = all.filter((s) => !isFamily(s) && !isDisputed(s));
   const family = all.filter(isFamily).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) }));
   const scored = list.map((s) => ({
     id: s.id, name: s.name, ring: s.ring || 9, ...score(s),
@@ -204,6 +215,7 @@ export function rank(seeds = null) {
     then: rest,
     // Listed so it is visible that they were removed, never so they can be worked from here.
     excludedAsFamily: family,
+    excludedAsDisputed: all.filter(isDisputed).map((s) => ({ id: s.id, name: str(s.name), reason: str(s.disputeNote) })),
   };
 }
 
@@ -286,7 +298,8 @@ export function cohortReport(seeds = null, years = COHORTS) {
  * we happened to import a batch from look like a hub. `why` is our bookkeeping, not evidence.
  */
 export function hubs(seeds = null) {
-  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds())
+    .filter((s) => assertPublicOnly(s).ok && !isDisputed(s));
   const names = list.map((s) => str(s.name)).filter(Boolean);
   const seen = new Map();
   for (const s of list) {

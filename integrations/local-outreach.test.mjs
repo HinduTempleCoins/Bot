@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, SUBCOHORTS,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -330,4 +330,35 @@ test('the younger sub-cohort is modelled as a door, not as a wider window', () =
   assert.match(s.enteredVia, /Chelsea Pitt/);
   assert.equal(s.needs, "the brother's name");
   assert.match(s.note, /entry point for a whole younger group/);
+});
+
+// ── disputed identity ─────────────────────────────────────────────────────────────────────────────
+test('a disputed identity is EXCLUDED from ranking, and listed so it is recoverable', () => {
+  const r = rank([
+    S({ id: 'd', name: 'Maybe Duplicate', identityDisputed: true, disputeNote: 'might be a second account', mutualsWithOperator: 55 }),
+    S({ id: 'ok', name: 'Real Person', mutualsWithOperator: 10 }),
+  ]);
+  assert.ok(!r.then.some((x) => x.name === 'Maybe Duplicate'));
+  assert.equal(r.excludedAsDisputed.length, 1);
+  assert.match(r.excludedAsDisputed[0].reason, /second account/);
+});
+
+test('the tag form works as well as the flag', () => {
+  const r = rank([S({ id: 'd', name: 'Tagged', tags: ['identity-disputed'] })]);
+  assert.equal(r.then.length, 0);
+  assert.equal(r.excludedAsDisputed.length, 1);
+});
+
+test('hubs() does not count a disputed account either — that is where it would do real damage', () => {
+  // A duplicate does not just add one wrong row; it inflates every aggregate it appears in.
+  const list = [
+    S({ id: 'a', name: 'Alpha', signal: 'friends with Suspect Account and 9 others' }),
+    S({ id: 'b', name: 'Beta', signal: 'friends with Suspect Account and 4 others' }),
+    S({ id: 's', name: 'Suspect Account', identityDisputed: true }),
+  ];
+  assert.equal(hubs(list).length, 0, 'a disputed name cannot become a hub');
+});
+
+test('isDisputed is false for an ordinary seed', () => {
+  assert.equal(isDisputed(S({ id: 'x', name: 'X' })), false);
 });
