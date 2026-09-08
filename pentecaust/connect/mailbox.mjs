@@ -100,9 +100,38 @@ async function refreshGoogle(rec) {
   } catch { return null; }
 }
 
+// ── CAN-SPAM: the two things a commercial message must carry ────────────────────────────────────────
+//
+// 15 U.S.C. §7704(a)(5)(A)(iii) requires a valid PHYSICAL POSTAL ADDRESS in every commercial message.
+// It is not optional, not a nicety, and not something to add after the first batch — the first batch
+// without one is the violation. There is no address in this repo and there must not be one, so it
+// comes from the environment and its absence STOPS the send rather than degrading it.
+//
+// §7704(a)(3) requires a working opt-out mechanism. The campaign copy says "reply and say so"; a
+// reply-to address is a defensible mechanism, and RFC 2369 lets us advertise it in a header that mail
+// clients turn into a one-click unsubscribe button — no web endpoint, no new infrastructure, works
+// through the Gmail path today.
+export const postalAddress = (o = {}) => String(o.postalAddress != null ? o.postalAddress : env('HERALD_POSTAL_ADDRESS', '')).trim();
+
+export function complianceFooter(from, opts = {}) {
+  const addr = postalAddress(opts);
+  return `\n\n--\n${addr}\n`
+    + `You are receiving this because your address is published on a page you control. `
+    + `Reply "unsubscribe" to ${from} and you will not be written to again.`;
+}
+
+export function unsubscribeHeaders(from) {
+  const mailto = `mailto:${from}?subject=unsubscribe`;
+  return [`List-Unsubscribe: <${mailto}>`, 'List-Unsubscribe-Post: List-Unsubscribe=One-Click'];
+}
+
 // RFC-822 message → base64url (Gmail's messages.send wants a base64url-encoded raw MIME message).
 function buildRaw({ from, to, subject, body }) {
-  const headers = [`From: ${from}`, `To: ${to}`, `Subject: ${subject || ''}`, 'MIME-Version: 1.0', 'Content-Type: text/plain; charset="UTF-8"'];
+  const headers = [
+    `From: ${from}`, `To: ${to}`, `Subject: ${subject || ''}`,
+    ...unsubscribeHeaders(from),
+    'MIME-Version: 1.0', 'Content-Type: text/plain; charset="UTF-8"',
+  ];
   const mime = headers.join('\r\n') + '\r\n\r\n' + String(body || '');
   return Buffer.from(mime, 'utf8').toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
@@ -118,6 +147,22 @@ export async function sendViaMailbox(account, msg = {}, opts = {}) {
   if (!to || !to.includes('@')) return { ok: false, reason: 'recipient required' };
   if (rec.provider !== 'google') return { ok: false, reason: `sending via ${rec.provider} not supported yet (Gmail only)` };
 
+  // The postal address gate. Before the token refresh, so a misconfigured host makes no network
+  // call at all — it fails on the bench and not in somebody's inbox.
+  const addr = postalAddress(opts);
+  if (!addr) {
+    return {
+      ok: false, reason: 'no postal address configured — set HERALD_POSTAL_ADDRESS. A commercial '
+        + 'message without a physical postal address violates CAN-SPAM 15 U.S.C. 7704(a)(5)(A)(iii), '
+        + 'and the first message without one is already the violation',
+    };
+  }
+  // A body still carrying an unrendered merge field is never sent. renderStep() reports these; this is
+  // the backstop for any caller that did not look.
+  const unrendered = String(msg.body || '').match(/\{\{\s*[a-zA-Z0-9_]+\s*\}\}/);
+  if (unrendered) return { ok: false, reason: `body still contains ${unrendered[0]} — refusing to mail a placeholder` };
+
+
   // Refresh the access token if missing/expired (60s skew), then persist the new one.
   if (!rec.accessToken || now(opts) >= (rec.expiresAt - 60000)) {
     const fresh = await refreshGoogle(rec);
@@ -127,7 +172,8 @@ export async function sendViaMailbox(account, msg = {}, opts = {}) {
     saveStore(fs, file, store);
   }
 
-  const raw = buildRaw({ from: rec.email, to, subject: msg.subject, body: msg.body });
+  const body = `${String(msg.body || '')}${complianceFooter(rec.email, opts)}`;
+  const raw = buildRaw({ from: rec.email, to, subject: msg.subject, body });
   try {
     const r = await _fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
       method: 'POST', headers: { authorization: `Bearer ${rec.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ raw }),

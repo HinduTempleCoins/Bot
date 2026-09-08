@@ -225,6 +225,8 @@ test('herald: /me/mailbox + send step from the connected mailbox (moves lead to 
   // campaign + plan + a lead with an email
   let { res, o } = cap();
   process.env.HERALD_INVITED_SENDERS = 'ray';   // sending is operator-granted; this test is about the mailbox, not the grant
+  process.env.HERALD_POSTAL_ADDRESS = '1 Test St, Dallas TX 75201';   // CAN-SPAM: no address, no send
+  process.env.HERALD_SIGNATURE = 'Ryan';                              // and no unresolved merge field, no send
   await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Send test', goal: 'demos' }), res);
   const id = j(o).campaign.id;
   await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
@@ -248,6 +250,69 @@ test('herald: /me/mailbox + send step from the connected mailbox (moves lead to 
   assert.equal(j(o).stats.byStage.contacted, 1, 'lead moved to contacted after send');
   setMbFetch(null);
   delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_POSTAL_ADDRESS;
+  delete process.env.HERALD_SIGNATURE;
+});
+
+test('herald: an unsubscribed lead is refused at the SERVER, not only hidden in the page', async () => {
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  const { moveLead } = await import('./crm/model.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'ray';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Test St, Dallas TX 75201';
+  process.env.HERALD_SIGNATURE = 'Ryan';
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Suppress test', goal: 'demos' }), res);
+  const id = j(o).campaign.id;
+  await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
+  await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ray', lead: { name: 'Opt Out', email: 'no@acme.com', signal: 's' } }), cap().res);
+  const c0 = await (async () => { const c = cap(); await handler(req('/crm/campaigns/' + id + '?account=ray'), c.res); return j(c.o); })();
+  const lead = c0.campaign.leads[0];
+  moveLead(id, lead.id, 'unsubscribed');
+
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+  let called = false;
+  setMbFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'gm-x' }) }; });
+  ({ res, o } = cap());
+  await handler(req('/crm/campaigns/' + id + '/leads/' + lead.id + '/send', 'POST', { account: 'ray' }), res);
+  assert.equal(o.code, 403, 'the server refuses, whatever the browser drew');
+  assert.equal(j(o).ok, false);
+  assert.match(j(o).reason, /unsubscribed/);
+  assert.equal(called, false, 'no Gmail call was made');
+  setMbFetch(null);
+  delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_POSTAL_ADDRESS;
+  delete process.env.HERALD_SIGNATURE;
+});
+
+test('herald: a step with an unresolved merge field is refused before the mailbox is touched', async () => {
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'ray';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Test St, Dallas TX 75201';
+  delete process.env.HERALD_SIGNATURE;            // exactly the state data/crm.json is in today
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'Merge test', goal: 'demos' }), res);
+  const id = j(o).campaign.id;
+  await handler(req('/crm/campaigns/' + id + '/plan', 'POST', {
+    account: 'ray', valueProp: 'x', save: true,
+    sequence: [{ channel: 'email', delayDays: 0, subject: 'Hi', body: 'hello\n\n{{signature}}' }],
+  }), cap().res);
+  await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ray', lead: { name: 'Lee', email: 'lee@acme.com', signal: 's' } }), cap().res);
+  const c0 = await (async () => { const c = cap(); await handler(req('/crm/campaigns/' + id + '?account=ray'), c.res); return j(c.o); })();
+  const lead = c0.campaign.leads[0];
+  const hasPlaceholder = (c0.campaign.sequence || []).some((s) => /\{\{signature\}\}/.test(s.body || ''));
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+  let called = false;
+  setMbFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'gm-y' }) }; });
+  ({ res, o } = cap());
+  await handler(req('/crm/campaigns/' + id + '/leads/' + lead.id + '/send', 'POST', { account: 'ray' }), res);
+  if (hasPlaceholder) {
+    assert.equal(o.code, 422, 'a literal {{signature}} must never reach an inbox');
+    assert.match(j(o).reason, /signature/);
+    assert.equal(called, false);
+  }
+  setMbFetch(null);
+  delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_POSTAL_ADDRESS;
 });
 
 // ── invites (the signup gate) — mounted behind VERIFIED identity (session / MELEK-Signer), not dev-trust ──

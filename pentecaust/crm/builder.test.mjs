@@ -3,7 +3,7 @@
 // deliverability guardrail (spammy words scrubbed). Soft-fail-never-throw.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildCampaignPlan, personalizeOpener, renderStep, __setLLM } from './builder.mjs';
+import { buildCampaignPlan, personalizeOpener, renderStep, __setLLM, unresolvedFields} from './builder.mjs';
 
 test('buildCampaignPlan: no LLM → a real 3-touch template plan', async () => {
   __setLLM(null);
@@ -77,4 +77,37 @@ test('renderStep: merge fields substituted from the lead at send time', () => {
   // missing lead fields → safe defaults, no leftover {{...}}
   const out2 = renderStep(step, {});
   assert.doesNotMatch(out2.body, /\{\{/);
+});
+
+// ── merge fields ──────────────────────────────────────────────────────────────────────────────────
+test('{{signature}} is a field, and both loaded sequences end with one', () => {
+  const r = renderStep({ subject: 'Hi {{first_name}}', body: 'hello\n\n{{signature}}' }, { name: 'Lee Ann' }, { signature: 'Ryan' });
+  assert.equal(r.subject, 'Hi Lee');
+  assert.equal(r.body, 'hello\n\nRyan');
+  assert.equal(r.ok, true);
+  assert.deepEqual(r.unresolved, []);
+});
+
+test('no signature configured → the render is not ok, and says which field', () => {
+  const r = renderStep({ subject: 'Hi', body: 'hello\n\n{{signature}}' }, { name: 'Lee' }, { signature: '' });
+  assert.equal(r.ok, false);
+  assert.deepEqual(r.unresolved, ['signature']);
+  assert.match(r.reason, /\{\{signature\}\}/);
+});
+
+test('a field nobody has ever heard of also stops the send', () => {
+  const r = renderStep({ subject: 'Hi', body: 'your {{industry}} team' }, {}, { signature: 'Ryan' });
+  assert.equal(r.ok, false);
+  assert.deepEqual(r.unresolved, ['industry']);
+});
+
+test('a step with no merge fields at all renders ok', () => {
+  const r = renderStep({ subject: 'Hi', body: 'plain text' }, {});
+  assert.equal(r.ok, true);
+  assert.equal(r.body, 'plain text');
+});
+
+test('unresolvedFields names every distinct placeholder once', () => {
+  assert.deepEqual(unresolvedFields('{{a}} {{b}} {{a}}'), ['a', 'b']);
+  assert.deepEqual(unresolvedFields(''), []);
 });
