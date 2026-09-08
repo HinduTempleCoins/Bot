@@ -14,12 +14,15 @@ import {
 } from './video-cost.mjs';
 
 // ── the chain side, taken from the live-testnet config, not from memory ──────────────────────────
-test('the chain budget matches the decoded testnet config', () => {
-  assert.equal(MAX_BLOCK_BYTES, 65536);
+test('the chain budget matches MAINNET, read from the live chain', () => {
+  // Was 65,536 — which is both the wrong parameter (maxTransactionSize, not maximum_block_size) and
+  // the testnet figure. Mainnet's get_chain_properties returned maximum_block_size: 131072 on
+  // 2026-09-08, so every chain-share number computed from the old constant was 2x pessimistic.
+  assert.equal(MAX_BLOCK_BYTES, 131072);
   assert.equal(BLOCK_INTERVAL_SEC, 4);
   assert.equal(BLOCKS_PER_DAY, 21600);
-  assert.equal(CHAIN_BYTES_PER_DAY, 1_415_577_600);
-  assert.ok(CHAIN_BYTES_PER_DAY / 1e9 > 1.41 && CHAIN_BYTES_PER_DAY / 1e9 < 1.42, '~1.42 GB/day for the ENTIRE chain');
+  assert.equal(CHAIN_BYTES_PER_DAY, 2_831_155_200);
+  assert.ok(CHAIN_BYTES_PER_DAY / 1e9 > 2.82 && CHAIN_BYTES_PER_DAY / 1e9 < 2.84, '~2.83 GB/day for the ENTIRE chain');
 });
 
 // ── the ladder ───────────────────────────────────────────────────────────────────────────────────
@@ -64,13 +67,15 @@ test('a 10-minute 1080p single rendition is ~347 MB', () => {
   assert.ok(m.storageGb > 0.34 && m.storageGb < 0.35);
 });
 
-test('a 10-minute 1080p LADDER is ~0.7 GB — about HALF A DAY of total chain capacity', () => {
+test('a 10-minute 1080p LADDER is ~0.7 GB — a QUARTER of total chain capacity for a whole day', () => {
   const m = estimateVideo({ durationSec: 600, height: 1080 });
   assert.equal(m.renditions.length, 4);
   assert.ok(m.storageGb > 0.69 && m.storageGb < 0.72, `got ${m.storageGb} GB`);
-  // The load-bearing claim, computed: one video vs the WHOLE chain for a WHOLE day.
-  assert.ok(m.chainDayShare > 0.45 && m.chainDayShare < 0.55, `got ${m.chainDayShare}`);
-  assert.match(m.note, /1\.42 GB\/day for the entire chain/);
+  // The load-bearing claim, recomputed against mainnet. Halving the share does not change the
+  // conclusion — ONE ten-minute video is still a quarter of what the entire chain can carry in a
+  // day, for every user and every operation combined. Video does not go on the chain.
+  assert.ok(m.chainDayShare > 0.22 && m.chainDayShare < 0.28, `got ${m.chainDayShare}`);
+  assert.match(m.note, /2\.83 GB\/day for the entire chain/);
 });
 
 test('renditions are ordered top-first and sum to the total', () => {
