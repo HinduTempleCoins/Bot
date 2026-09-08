@@ -1,0 +1,39 @@
+'''Tanit''' (Punic '''TNT''', Tinnit) was the chief goddess of Carthage, consort of '''Baal Hammon''', and the matriarchal figure of Numidian society. Her sign — a triangle beneath a bar and a disc — is one of the most reproduced symbols of the western Phoenician world, appearing on stelae and on houses as protection.
+
+In the Botanica venue map she stands behind '''Ceres at the Fields''' and beside '''[[Melqart]] at the Dye Works''', under the design's own principle that the patron goddess is "localized by region but mechanically one."
+
+== The identification chain, and where it holds ==
+
+'''What holds, on ancient testimony:''' '''[[Neith]] = Athena''', attested directly in Plato (''Timaeus'' 21e) and Herodotus (II.59, II.170). See that article for the quoted passages.
+
+'''What is reported for Tanit:''' that the Egyptians identified her with Neith and the Greeks with Athena, with the shared '''Libyan''' substrate as the mechanism — Tanit a local Libyan deity as Baal Hammon is a local Libyan deity, and Neith herself possibly of Libyan origin. That is the connective tissue: not a resemblance between the names, but a common regional stratum beneath all three.
+
+'''⚠️ Sourcing caution.''' The Institute has verified the Neith–Athena half against the primary texts. The '''Tanit–Neith''' half currently rests on secondary summary and has '''not''' been traced to an ancient source in the way the Plato and Herodotus passages have. It is recorded here as reported, and should be run down before it is relied on in argument.
+
+== What does not hold: Asherah ==
+
+The chain is sometimes extended to '''Asherah'''. It should not be, on the consonants:
+
+* Tanit — '''T-N-T'''
+* Asherah — Ugaritic ''ʾAṯiratu'', Akkadian ''Aširat'', Qatabanian ''ʾṯrt'' — '''ʾ-Th-R-T'''
+
+'''There is an R in Asherah that has nowhere to go.''' The profiles diverge too: Asherah is El's consort, associated with the sea and with sacred trees; Tanit is Baal Hammon's consort, associated with war, wisdom, crafts and the defence of towns.
+
+A separate and more serious proposal — that Tanit continues an '''epithet''' of Asherah or Astarte — exists in the scholarship and is worth keeping. But it is a contested derivation, not a consonantal identity, and welding it on by ''ʾṯrt'' ≈ ''ATHN'' is the move that gets the whole chain dismissed.
+
+== And a warning about the consonantal argument generally ==
+
+Greek is Indo-European; Punic and Egyptian are Afroasiatic. A consonantal comparison of '''TNT''' with '''ΑΘΗΝ''' crosses language families, which is exactly the kind of resemblance-matching that proves nothing — and Linear B already attests '''a-ta-na po-ti-ni-ja''', "Mistress Athana," at Knossos around 1400 BCE, with the name most likely deriving from the city.
+
+'''The identification does not need the consonants.''' Plato and Herodotus hand it over as testimony, which is far better evidence than an etymology. Leading with the letters is leading with the weakest card while holding a witness. See [[Solar Theory and Euhemerism]].
+
+== Where this lives ==
+
+Tanit stands behind '''Ceres at the Fields''' in the Botanica venue map. The working equivalent is
+the farm:
+
+* '''KULA Farm''' — https://farm.soapbox.community
+* '''The Library of Ashurbanipal''' — https://wiki.soapbox.community
+* '''MELEK''', the chain the whole ecosystem runs on — https://melek.salon
+
+See also: [[Neith]] · [[Melqart]] · [[Punic Wax]] · [[Solar Theory and Euhemerism]]

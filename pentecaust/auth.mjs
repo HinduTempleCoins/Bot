@@ -199,7 +199,13 @@ const PROVIDERS = {
     extract: (u) => ({ id: u && (u.sub || u.id), email: u && u.email }),
   },
   facebook: {
-    scope: () => env('FACEBOOK_SCOPES', 'email'),
+    scope: () => env('FACEBOOK_SCOPES', 'email public_profile'),
+    // Posting to a PAGE needs pages_show_list + pages_read_engagement + pages_manage_posts, and all
+    // three are App-Review-gated -- Meta will not grant them to an unreviewed app, so they are kept
+    // off the login scope. Requesting a permission you have not been granted makes the whole consent
+    // dialog fail, not just that permission, so this separation is load-bearing rather than tidy.
+    sendScope: () => env('FACEBOOK_SEND_SCOPES',
+      'email public_profile pages_show_list pages_read_engagement pages_manage_posts'),
     authorize: 'https://www.facebook.com/v23.0/dialog/oauth',
     token: 'https://graph.facebook.com/v23.0/oauth/access_token',
     userinfo: 'https://graph.facebook.com/me?fields=id,email',
