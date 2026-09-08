@@ -8,7 +8,7 @@ import { test, beforeEach } from 'node:test';
 import assert from 'node:assert';
 import {
   __setFetch, ENDPOINTS,
-  compound, drug, adverseEvents, recalls, interactions, trials, bioactivity,
+  compound, drug, adverseEvents, recalls, interactions, assertChecked, trials, bioactivity,
 } from './pharma.mjs';
 import { invalidate } from './cache.mjs';
 
@@ -120,50 +120,80 @@ test('recalls() normalizes enforcement reports', async () => {
   assert.equal(r.recalls[0].date, '20250101');
 });
 
-// ── interactions() / RxNorm + RxNav ─────────────────────────────────────────────────────────────────
-test('interactions() normalizes a name → RxCUI → interaction pairs', async () => {
+// ── interactions() ──────────────────────────────────────────────────────────────────────────────────
+// These replace three tests that pinned the OLD behaviour, including one literally named "soft-fails"
+// which asserted `interactions: []` when the lookup failed. That assertion was the bug: on a
+// harm-reduction page an empty list renders as "no known interactions". RxNav's interaction API was
+// retired by NLM on 2024-01-02 and returns 404, so that path was live in production.
+test('interactions() reads the FDA label and returns both sections', async () => {
   __setFetch(fakeFetch([
-    ['/rxcui.json', { idGroup: { rxnormId: ['1191'] } }],
-    ['/interaction/interaction.json', {
-      interactionTypeGroup: [{
-        sourceName: 'DrugBank',
-        interactionType: [{
-          minConceptItem: { name: 'aspirin' },
-          interactionPair: [{
-            severity: 'high',
-            description: 'Increased bleeding risk.',
-            interactionConcept: [
-              { minConceptItem: { name: 'aspirin' } },
-              { minConceptItem: { name: 'warfarin' } },
-            ],
-          }],
-        }],
+    ['/rxcui.json', { idGroup: { rxnormId: ['4493'] } }],
+    ['/drug/label.json', {
+      results: [{
+        openfda: { brand_name: ['Fluoxetine'] },
+        drug_interactions: ['Monoamine Oxidase Inhibitors (MAOIs): do not use concomitantly.'],
+        contraindications: ['Concomitant use with MAOIs is contraindicated.'],
       }],
     }],
   ]));
-  const r = await interactions('aspirin');
-  assert.equal(r.rxcui, '1191', 'name normalized to RxCUI');
-  assert.equal(r.interactions.length, 1);
-  assert.equal(r.interactions[0].with, 'warfarin', 'self filtered out of the pair');
-  assert.equal(r.interactions[0].severity, 'high');
-  assert.equal(r.interactions[0].source, 'DrugBank');
+  const r = await interactions('fluoxetine');
+  assert.equal(r.checked, true);
+  assert.equal(r.rxcui, '4493', 'the RxCUI lookup still works and is still returned');
+  assert.match(r.interactions[0], /MAOI/);
+  assert.match(r.contraindications[0], /contraindicated/);
+  assert.match(r.source, /openFDA/);
 });
 
-test('interactions() accepts a numeric RxCUI directly (no name lookup)', async () => {
+test('an UNREACHABLE source returns checked:false with interactions NULL — never an empty list', async () => {
   __setFetch(fakeFetch([
-    ['/rxcui.json', 'NETWORK_ERROR'], // would throw if name-lookup were attempted
-    ['/interaction/interaction.json', { interactionTypeGroup: [] }],
+    ['/rxcui.json', { idGroup: { rxnormId: ['4493'] } }],
+    ['/drug/label.json', 'NETWORK_ERROR'],
   ]));
-  const r = await interactions('1191');
-  assert.equal(r.rxcui, '1191');
-  assert.deepEqual(r.interactions, []);
+  const r = await interactions('fluoxetine');
+  assert.equal(r.checked, false);
+  assert.equal(r.interactions, null, 'null, not [] — an empty list reads as "none known"');
+  assert.match(r.warning, /not a finding of "no interactions"/);
 });
 
-test('interactions() soft-fails when a name has no RxCUI', async () => {
-  __setFetch(fakeFetch([['/rxcui.json', { idGroup: {} }]]));
-  const r = await interactions('notadrug');
-  assert.equal(r.rxcui, null);
-  assert.deepEqual(r.interactions, []);
+test('NO LABEL means unknown, and says so — many substances have no FDA label at all', async () => {
+  __setFetch(fakeFetch([
+    ['/rxcui.json', { idGroup: {} }],
+    ['/drug/label.json', { results: [] }],
+  ]));
+  const r = await interactions('banisteriopsis caapi');
+  assert.equal(r.checked, false);
+  assert.equal(r.interactions, null);
+  assert.match(r.reason, /UNKNOWN, not safe/);
+  assert.match(r.reason, /no FDA label/);
+});
+
+test('a label with neither section present is still not an all-clear', async () => {
+  __setFetch(fakeFetch([
+    ['/rxcui.json', { idGroup: { rxnormId: ['1'] } }],
+    ['/drug/label.json', { results: [{ openfda: {} }] }],
+  ]));
+  const r = await interactions('something');
+  assert.equal(r.checked, false);
+  assert.match(r.reason, /Absent sections are not an all-clear/);
+});
+
+test('an empty query is unchecked, not clean', async () => {
+  const r = await interactions('');
+  assert.equal(r.checked, false);
+  assert.equal(r.interactions, null);
+});
+
+test('assertChecked() refuses to let an unchecked result be displayed as a result', async () => {
+  __setFetch(fakeFetch([['/rxcui.json', { idGroup: {} }], ['/drug/label.json', { results: [] }]]));
+  const bad = assertChecked(await interactions('nothing'));
+  assert.equal(bad.ok, false);
+  assert.match(bad.display, /not the same as none being known/);
+
+  __setFetch(fakeFetch([
+    ['/rxcui.json', { idGroup: { rxnormId: ['4493'] } }],
+    ['/drug/label.json', { results: [{ openfda: {}, drug_interactions: ['x'] }] }],
+  ]));
+  assert.equal(assertChecked(await interactions('fluoxetine')).ok, true);
 });
 
 // ── trials() / ClinicalTrials.gov v2 ────────────────────────────────────────────────────────────────
