@@ -152,8 +152,23 @@ export function score(seed = {}) {
   return { score: n, why: parts };
 }
 
+/**
+ * Family are not outreach. This is not a scoring adjustment — it is a removal.
+ *
+ * Two people sat in the ranking for hours before the operator said who they were: one is his sister,
+ * one is his mother. His mother's profile lists her as a "Crypto Investor/Advisor", which read as the
+ * strongest topical match in the file right up until the moment it read as a mother following her
+ * son's work. Two unanswered messages from her ranked as a pipeline debt.
+ *
+ * No score fixes that. A list that can rank your own mother as a lead is broken whatever number it
+ * puts on her, so `family` leaves the ranking entirely rather than sorting to the bottom.
+ */
+export const isFamily = (seed = {}) => (seed.tags || []).map(low).includes('family');
+
 export function rank(seeds = null) {
-  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const all = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const list = all.filter((s) => !isFamily(s));
+  const family = all.filter(isFamily).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) }));
   const scored = list.map((s) => ({
     id: s.id, name: s.name, ring: s.ring || 9, ...score(s),
     owed: str(s.openThread),           // an unanswered message is a debt, not a lead
@@ -165,6 +180,8 @@ export function rank(seeds = null) {
     ok: true,
     firstDoThis: owed.map((x) => ({ ...x, reason: 'you owe them a reply — answer it before pitching anything' })),
     then: rest,
+    // Listed so it is visible that they were removed, never so they can be worked from here.
+    excludedAsFamily: family,
   };
 }
 
