@@ -24,6 +24,7 @@ import {
   CATEGORIES as REPORT_CATEGORIES, OUTCOMES as REPORT_OUTCOMES,
 } from './reports.mjs';
 import { readReports, appendReport } from './reports-store.mjs';
+import { chamberPlan, chamberScene, CHAMBER_TIERS } from './chamber.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 
 const PORT = +(process.env.PORT || 8140);
@@ -256,6 +257,26 @@ function readBody(req, max = 100_000) {
   });
 }
 
+/**
+ * The page around a Chamber tier. Deliberately bare: the doctrine this is built from says a session
+ * should have "a door, not a play button", so the shell carries the threshold — what you are about to
+ * enter, what it will do, and how to leave — and nothing else competing for the visual field.
+ */
+function chamberShell(title, body, session = null) {
+  const back = session ? `<p class=back><a href="/40hz">← back to the library</a></p>` : '';
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>${esc(title)}</title>
+<meta name=robots content="index,follow">
+<style>${themeCSS()}
+  body{margin:0;background:#05060a;color:#e8e6f0;font:16px/1.55 system-ui,sans-serif}
+  main{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem}
+  h1{font-weight:600;letter-spacing:.01em}
+  .back{margin-top:2rem;opacity:.7;font-size:14px}
+  a{color:#b487ff}
+</style></head><body><main>${body}${back}</main></body></html>`;
+}
+
 export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL);
@@ -404,6 +425,43 @@ export async function handler(req, res) {
           url: `${BASE_URL}/40hz#${encodeURIComponent(x.id)}`,
         })),
       }));
+    }
+
+    // ── /chamber ──────────────────────────────────────────────────────────────────────────────────
+    // The Chamber: the same session delivered in a headset, a folded phone viewer, a 3D scene, or a
+    // flat page. Written 2026-09-06, tested, and unreachable until now — server.mjs imported seven
+    // sibling modules and not this one.
+    //
+    // CAPABILITIES AND CONSENT BOTH COME FROM THE REQUEST, and neither is assumed. The server cannot
+    // know whether a headset is present, so `caps` arrives as a query parameter that the client sets
+    // after feature-detecting; absent it, the plan is `plain`. Consent is per-tier on purpose —
+    // chamber.mjs refuses to carry a flat-screen confirmation into a viewer strapped to someone's
+    // face — so no consent parameter means the visual path is closed and the auditory one is offered.
+    // Defaulting either of these to "probably fine" would defeat the gate entirely.
+    if (path === '/chamber' || path === '/api/chamber') {
+      const q = url.searchParams;
+      const session = SESSIONS.find((x) => x.id === q.get('s')) || null;
+      if (!session) {
+        const list = SESSIONS.map((x) => `<li><a href="/chamber?s=${esc(x.id)}">${esc(x.name)}</a></li>`).join('');
+        if (path === '/api/chamber') {
+          res.writeHead(404, { 'content-type': 'application/json; charset=utf-8' });
+          return res.end(JSON.stringify({ ok: false, error: 'unknown session', sessions: SESSIONS.map((x) => x.id) }));
+        }
+        res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+        return res.end(chamberShell('The Chamber', `<h1>The Chamber</h1>
+          <p>A session, delivered as an enclosure rather than a player. Pick one:</p><ul>${list}</ul>`));
+      }
+      const capList = (q.get('caps') || '').split(',').map((c) => c.trim()).filter(Boolean);
+      const caps = { xrImmersive: capList.includes('xr'), webgl: capList.includes('webgl'), stereo: capList.includes('stereo') };
+      const consentList = (q.get('consent') || '').split(',').map((c) => c.trim()).filter(Boolean);
+      const consent = { immersive: consentList.includes('immersive'), screen: consentList.includes('screen') };
+      const plan = chamberPlan(session, caps, consent);
+      if (path === '/api/chamber') {
+        res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ ok: true, session: session.id, tiers: CHAMBER_TIERS, plan }, null, 2));
+      }
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(chamberShell(`The Chamber — ${session.name}`, chamberScene(plan), session));
     }
 
     if (path === '/40hz') {
