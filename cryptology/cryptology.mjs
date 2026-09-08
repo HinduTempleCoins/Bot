@@ -44,6 +44,7 @@
 //
 // CLI:  node cryptology/cryptology.mjs show   <account>
 //       node cryptology/cryptology.mjs observe <account> <event>   (e.g. warm_exchange, taught, ghosted)
+//       node cryptology/cryptology.mjs practice <account> <dim> [n] (record what they DID: sessions/recall/…)
 //       node cryptology/cryptology.mjs forget  <account>            (delete their record — unconditional)
 //       node cryptology/cryptology.mjs map                          (list everyone, sorted by closeness)
 
@@ -567,6 +568,55 @@ export function observe(account, event, opts = {}) {
 }
 
 /**
+ * recordPractice — the writer for the PRACTICE plane: what this person has actually DONE here.
+ *
+ * The practice dimensions were declared with no way to write them, so the plane could describe a
+ * person but could never learn anything about one. This is the dullest function in the file on
+ * purpose: it adds counts to counts.
+ *
+ * POSITIONS, NOT LEVELS. Practice accumulates because it is a RECORD, not because it is a ladder.
+ * Nothing here unlocks anything, nothing is ranked against anyone else, and nothing reads these
+ * numbers as a gate — the faucet reads the relation plane and never this one. Someone who has
+ * crossed four hundred thresholds and someone who has crossed none are both simply somewhere on
+ * the map. If a future caller wants to gate on a count, that is the moment this became the thing
+ * the whole module is written against.
+ *
+ * Tallies (sessions, lucidity, crossings) ACCUMULATE. `recall` is a frequency 0..100, not a tally,
+ * so it is SET to the value given — a rate that accumulated would be meaningless. A negative delta
+ * is allowed and clamps at the floor: correcting a mis-recorded session is not a demotion.
+ *
+ * Only practice dimensions are writable through this door; anything else in `counts` is ignored, so
+ * a caller cannot move trust or a constitution trait by naming it here.
+ *
+ * @param {string} account
+ * @param {object} counts  e.g. { sessions: 1, crossings: 1, recall: 62 }
+ * @param {object} [opts]  { persist=true, file }
+ * @returns {object} the updated profile (writeResult() reports whether it landed)
+ */
+export function recordPractice(account, counts = {}, opts = {}) {
+  const { persist = true, file = storeFile() } = opts;
+  const store = loadStore(file);
+  const key = accountKey(account);
+  if (!isValidAccount(key)) return markPersist(freshProfile(key), false, 'invalid-account');
+  const existing = ownProfile(store, key);
+  const p = existing ? (persist ? existing : structuredClone(existing)) : freshProfile(key);
+
+  for (const [dim, v] of Object.entries(counts || {})) {
+    const spec = EXAM_DIMENSIONS[dim];
+    if (!spec || spec.plane !== 'practice') continue;
+    const n = +v;
+    if (!Number.isFinite(n)) continue;
+    p[dim] = dim === 'recall' ? clamp(n, spec.min, spec.max) : clamp((+p[dim] || 0) + n, spec.min, spec.max);
+  }
+  p.lastSeen = _now();
+
+  if (!persist) return markPersist(p, false, 'not-persisted');
+  store[key] = p;
+  const ok = saveStore(store, file);
+  return markPersist(p, ok, ok ? null : 'write-failed');
+}
+
+/**
  * forget — delete this person's record. UNCONDITIONALLY.
  *
  * There was no delete path anywhere in Crypt-ology: the map only ever grew. A record here is held
@@ -615,6 +665,16 @@ if (isMain) {
     }
     const d = dispositionOf(p);
     console.log(`@${p.account}: ${b} → ${d.stance} (closeness ${d.closeness}, standing ${d.standing}, ${p.totalInteractions} interactions)`);
+  } else if (cmd === 'practice' && a && b) {
+    if (!PLANES.practice.dims.includes(b)) {
+      console.error(`not a practice dimension: ${b} — known: ${PLANES.practice.dims.join(', ')}`);
+      process.exit(1);
+    }
+    const n = process.argv[5];
+    const p = recordPractice(a, { [b]: n == null ? 1 : +n });
+    const w = writeResult(p);
+    if (!w.ok) { console.error(`refused: @${accountKey(a)} — ${w.reason}`); process.exit(1); }
+    console.log(JSON.stringify(position(p, 'practice'), null, 2));
   } else if (cmd === 'forget' && a) {
     const r = forget(a);
     if (!r.ok) { console.error(`could not forget @${accountKey(a)} — ${r.reason}`); process.exit(1); }
@@ -624,7 +684,8 @@ if (isMain) {
     if (!rows.length) { console.error('cryptology map empty — run `observe <account> <event>` first'); process.exit(1); }
     for (const r of rows) console.log(`  ${String(r.closeness).padStart(6)}  ${r.stance.padEnd(11)} @${r.account}  (${r.totalInteractions} interactions)`);
   } else {
-    console.error('usage: cryptology.mjs show <account> | observe <account> <event> | forget <account> | map');
+    console.error('usage: cryptology.mjs show <account> | observe <account> <event> | practice <account> <dim> [n] | forget <account> | map');
+    console.error('practice dims: ' + PLANES.practice.dims.join(', '));
     console.error('events: ' + Object.keys(EVENTS).join(', '));
     process.exit(1);
   }
