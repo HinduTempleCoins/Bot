@@ -1,24 +1,34 @@
 // prana-algo — ask the CHAIN which PoW algorithm it runs. Never a document, never a memory.
 //
-// WHY THIS EXISTS. The PRANA launch announcement says "Algorithm: Etchash (ECIP-1099, from block 0)"
-// and gives `lolMiner --algo ETCHASH` as the copy-paste line. It is wrong. The chain runs ETHASH, and
-// a miner following that line builds the wrong DAG and earns nothing.
+// ⚠️ THIS MODULE WAS WRONG WHEN FIRST SHIPPED, AND THE WAY IT WAS WRONG IS THE LESSON.
 //
-// That error survived a multi-day fix and a confident report that it was Etchash, because the claim
-// was checked against documentation instead of against the node. The check is ONE RPC CALL and it
-// takes about a second:
+// It concluded PRANA runs Ethash. PRANA runs ETCHASH. The node says so itself:
 //
-//     eth_getWork -> [headerhash, SEEDHASH, target]
+//     Generating DAG in progress   epoch=1  epochLength=60000
 //
-// The seed hash is a keccak chain from zero, advanced once per epoch. So the seed the node serves,
-// divided against the current block height, tells you the epoch length — and the epoch length IS the
-// algorithm:
+// ECIP-1099 is active from block 40,000 (`ecip1099FBlock: 40000` in the chain config), and the
+// published announcement was correct all along. The near-miss was real: this module's verdict almost
+// became a public "correction" telling miners to switch to --algo ETHASH, which would have broken
+// mining for everyone who followed it.
 //
-//     ETHASH  epochs are 30,000 blocks   (Ethereum's original)
-//     ETCHASH epochs are 60,000 blocks   (ECIP-1099, Ethereum Classic's halved-DAG variant)
+// WHY IT WAS WRONG. The seed hash alone cannot distinguish the two schemes at every height, because
+// the seed is indexed by the SAME underlying 30,000-block chain in both:
 //
-// At block 64,922 the node serves the epoch-2 seed. 64,922 / 30,000 = 2. 64,922 / 60,000 = 1.
-// Only Ethash fits. There is no interpretation, no version drift, and nothing to remember.
+//     ETHASH   epoch = block / 30000        seed index = epoch
+//     ETCHASH  epoch = block / 60000        seed index = epoch * 2
+//
+// At block 64,954: Ethash gives epoch 2 -> seed index 2. Etchash gives epoch 1 -> seed index 2.
+// IDENTICAL SEED. The two agree on the seed for every block in 0-29,999 and 60,000-89,999, and
+// disagree elsewhere. The original check read a matching seed as proof of Ethash when it was proof of
+// nothing, because it never considered that Etchash reaches the same seed by a different route.
+//
+// THE FIX IS NOT A BETTER SEED HEURISTIC. It is to stop inferring a fact the node will state outright:
+// `epochLength` appears in the miner's own DAG-generation log, and the chain config carries
+// `ecip1099FBlock`. Ask for the fact; infer only when nothing will tell you, and SAY that you inferred.
+//
+// The general rule this module now encodes, and the reason it exists at all: a check that cannot
+// distinguish two answers must return AMBIGUOUS, not the more likely one. The original returned a
+// confident wrong answer in exactly the window where it had no information.
 //
 // House style: injectable fetch, soft-fail-never-throw, offline-testable, no key material.
 
@@ -49,36 +59,82 @@ export const EPOCH_SEEDS = Object.freeze([
 export const epochOfSeed = (seed) => EPOCH_SEEDS.indexOf(String(seed || '').toLowerCase());
 
 /**
- * Decide the algorithm from a seed hash and a block height.
+ * Which seed index does each scheme use at this height?
  *
- * Returns `ethash`, `etchash`, `ambiguous` (both fit — true only very early, before the first
- * divergence at block 30,000) or `unknown` (the seed is not one we can place).
+ * Both walk the SAME keccak seed chain; they differ only in how fast they advance along it.
+ *   ethash:  index = floor(block / 30000)
+ *   etchash: index = floor(block / 60000) * 2
+ * They therefore agree on the seed for large stretches, and a matching seed proves nothing on its own.
+ */
+export function seedIndexFor(algorithm, blockNumber) {
+  const b = Number(blockNumber);
+  if (!Number.isFinite(b) || b < 0) return null;
+  if (algorithm === 'ethash') return Math.floor(b / EPOCH_LENGTH.ethash);
+  if (algorithm === 'etchash') return Math.floor(b / EPOCH_LENGTH.etchash) * 2;
+  return null;
+}
+
+/**
+ * Can a seed hash distinguish the two schemes at this height at all?
+ *
+ * The honest answer is often NO. This exists so a caller can find out before trusting a seed-based
+ * verdict — which is precisely the check the first version of this module lacked.
+ */
+export function seedIsDecisiveAt(blockNumber) {
+  const a = seedIndexFor('ethash', blockNumber);
+  const b = seedIndexFor('etchash', blockNumber);
+  if (a === null || b === null) return { decisive: false, why: 'no usable block height' };
+  return a === b
+    ? { decisive: false, ethashIndex: a, etchashIndex: b, why: `both schemes use seed index ${a} at block ${blockNumber} — the seed cannot tell them apart here` }
+    : { decisive: true, ethashIndex: a, etchashIndex: b, why: `ethash uses seed index ${a}, etchash uses ${b} — the seed distinguishes them here` };
+}
+
+/**
+ * Decide the algorithm from a seed hash and a block height — and return `ambiguous` whenever the seed
+ * genuinely cannot decide, which is most of the time.
  */
 export function algorithmFrom(seedHash, blockNumber) {
-  const epoch = epochOfSeed(seedHash);
+  const idx = epochOfSeed(seedHash);
   const height = Number(blockNumber);
-  if (epoch < 0) {
-    return { algorithm: 'unknown', epoch: null, why: 'the served seed hash is not in the known epoch table — cannot place it' };
-  }
-  if (!Number.isFinite(height) || height < 0) {
-    return { algorithm: 'unknown', epoch, why: 'no usable block height to divide against' };
-  }
-  const fits = Object.entries(EPOCH_LENGTH)
-    .filter(([, len]) => Math.floor(height / len) === epoch)
-    .map(([name]) => name);
+  if (idx < 0) return { algorithm: 'unknown', seedIndex: null, why: 'the served seed hash is not in the known table — cannot place it' };
+  if (!Number.isFinite(height) || height < 0) return { algorithm: 'unknown', seedIndex: idx, why: 'no usable block height to compare against' };
+
+  const decisive = seedIsDecisiveAt(height);
+  const fits = ['ethash', 'etchash'].filter((a) => seedIndexFor(a, height) === idx);
+
   if (fits.length === 1) {
-    return {
-      algorithm: fits[0], epoch, blockNumber: height,
-      why: `the node serves the epoch-${epoch} seed at block ${height}; ${height} / ${EPOCH_LENGTH[fits[0]]} = ${epoch}`,
-    };
+    return { algorithm: fits[0], seedIndex: idx, blockNumber: height, why: `${decisive.why}; the node serves index ${idx}, which only ${fits[0]} produces here` };
   }
   if (fits.length > 1) {
     return {
-      algorithm: 'ambiguous', epoch, blockNumber: height, candidates: fits,
-      why: `below block ${EPOCH_LENGTH.ethash} both epoch lengths give the same answer — the chain has not diverged yet`,
+      algorithm: 'ambiguous', seedIndex: idx, blockNumber: height, candidates: fits,
+      why: `${decisive.why}. A seed-based check CANNOT answer this — read epochLength from the node's DAG log, or ecip1099FBlock from the chain config.`,
     };
   }
-  return { algorithm: 'unknown', epoch, blockNumber: height, why: `epoch ${epoch} matches no known epoch length at block ${height}` };
+  return { algorithm: 'unknown', seedIndex: idx, blockNumber: height, why: `seed index ${idx} matches neither scheme at block ${height}` };
+}
+
+/**
+ * The authoritative answer: the node states `epochLength` itself while generating a DAG, and the
+ * chain config carries `ecip1099FBlock`. Prefer these over any inference from a seed.
+ */
+export function algorithmFromEpochLength(epochLength) {
+  const n = Number(epochLength);
+  for (const [name, len] of Object.entries(EPOCH_LENGTH)) {
+    if (n === len) return { algorithm: name, source: 'epochLength stated by the node', why: `epochLength=${n} is ${name} by definition` };
+  }
+  return { algorithm: 'unknown', why: `epochLength=${epochLength} matches no known scheme` };
+}
+
+/** From the chain config. `ecip1099FBlock` set and passed => etchash. This is a fact, not a guess. */
+export function algorithmFromConfig(chainConfig = {}, blockNumber = null) {
+  const f = chainConfig && chainConfig.ecip1099FBlock;
+  if (f === undefined || f === null) return { algorithm: 'ethash', source: 'chain config', why: 'no ecip1099FBlock in the config — ECIP-1099 never activates' };
+  const b = Number(blockNumber);
+  if (!Number.isFinite(b)) return { algorithm: 'unknown', source: 'chain config', why: `ecip1099FBlock=${f} is configured, but no block height was given to compare` };
+  return b >= Number(f)
+    ? { algorithm: 'etchash', source: 'chain config', why: `ecip1099FBlock=${f} and the chain is at ${b} — ECIP-1099 is active` }
+    : { algorithm: 'ethash', source: 'chain config', why: `ecip1099FBlock=${f} but the chain is only at ${b} — not yet activated` };
 }
 
 /** The miner flag that actually works for an algorithm. Wrong flag = wrong DAG = zero earnings. */
