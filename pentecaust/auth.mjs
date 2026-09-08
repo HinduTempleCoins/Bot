@@ -208,6 +208,68 @@ const PROVIDERS = {
     // Facebook /me: { id, email } — `id` is the stable per-app user id.
     extract: (u) => ({ id: u && u.id, email: u && u.email }),
   },
+  // ── outreach providers ─────────────────────────────────────────────────────────────────────────
+  // Each is login-scoped by default. Posting scopes are a DELIBERATE opt-in via env, because the
+  // consent screen should ask for exactly what we will use and nothing more -- an app that asks for
+  // write access it never exercises is the thing users decline, and reviewers reject.
+  discord: {
+    scope: () => env('DISCORD_SCOPES', 'identify email'),
+    // `bot` + `applications.commands` is the SERVER-JOIN grant, not a login. Kept separate so the
+    // login flow never silently asks to be added to someone's guild.
+    sendScope: () => env('DISCORD_SEND_SCOPES', 'identify email guilds bot applications.commands'),
+    authorize: 'https://discord.com/api/oauth2/authorize',
+    token: 'https://discord.com/api/oauth2/token',
+    userinfo: 'https://discord.com/api/v10/users/@me',
+    clientId: () => env('DISCORD_CLIENT_ID', ''),
+    clientSecret: () => env('DISCORD_CLIENT_SECRET', ''),
+    extract: (u) => ({ id: u && u.id, email: u && u.email }),
+  },
+  github: {
+    scope: () => env('GITHUB_SCOPES', 'read:user user:email'),
+    authorize: 'https://github.com/login/oauth/authorize',
+    token: 'https://github.com/login/oauth/access_token',
+    userinfo: 'https://api.github.com/user',
+    clientId: () => env('GITHUB_CLIENT_ID', ''),
+    clientSecret: () => env('GITHUB_CLIENT_SECRET', ''),
+    extract: (u) => ({ id: u && (u.id != null ? String(u.id) : ''), email: u && u.email }),
+  },
+  reddit: {
+    scope: () => env('REDDIT_SCOPES', 'identity'),
+    sendScope: () => env('REDDIT_SEND_SCOPES', 'identity submit read'),
+    authorize: 'https://www.reddit.com/api/v1/authorize',
+    token: 'https://www.reddit.com/api/v1/access_token',
+    userinfo: 'https://oauth.reddit.com/api/v1/me',
+    clientId: () => env('REDDIT_CLIENT_ID', ''),
+    clientSecret: () => env('REDDIT_CLIENT_SECRET', ''),
+    // Reddit is the odd one: HTTP Basic on the token call, and it only returns a refresh token when
+    // `duration=permanent` is on the AUTHORIZE url. Both are handled below.
+    basicAuthToken: true,
+    extraAuthParams: () => ({ duration: 'permanent' }),
+    extract: (u) => ({ id: u && (u.id ? `t2_${u.id}` : ''), email: u && u.email }),
+  },
+  twitch: {
+    scope: () => env('TWITCH_SCOPES', 'user:read:email'),
+    authorize: 'https://id.twitch.tv/oauth2/authorize',
+    token: 'https://id.twitch.tv/oauth2/token',
+    userinfo: 'https://api.twitch.tv/helix/users',
+    clientId: () => env('TWITCH_CLIENT_ID', ''),
+    clientSecret: () => env('TWITCH_CLIENT_SECRET', ''),
+    // Helix wraps everything in { data: [ ... ] }.
+    extract: (u) => {
+      const d = u && Array.isArray(u.data) ? u.data[0] : u;
+      return { id: d && d.id, email: d && d.email };
+    },
+  },
+  linkedin: {
+    scope: () => env('LINKEDIN_SCOPES', 'openid profile email'),
+    sendScope: () => env('LINKEDIN_SEND_SCOPES', 'openid profile email w_member_social'),
+    authorize: 'https://www.linkedin.com/oauth/v2/authorization',
+    token: 'https://www.linkedin.com/oauth/v2/accessToken',
+    userinfo: 'https://api.linkedin.com/v2/userinfo',
+    clientId: () => env('LINKEDIN_CLIENT_ID', ''),
+    clientSecret: () => env('LINKEDIN_CLIENT_SECRET', ''),
+    extract: (u) => ({ id: u && u.sub, email: u && u.email }),
+  },
 };
 // Allow-list check — the ONLY way `provider` ever reaches a fetch/host. Unknown provider → rejected.
 const isProvider = (p) => Object.prototype.hasOwnProperty.call(PROVIDERS, String(p || ''));
@@ -229,6 +291,12 @@ export function authorizeUrl(provider, state, mode) {
     access_type: 'offline',     // request a refresh token so connector reads can continue (Messenger/IFTTT)
     prompt: 'consent',
   });
+  // Provider-specific authorize params. Reddit is the one that actually needs this: it ignores
+  // `access_type=offline` and only issues a refresh token when `duration=permanent` is on the
+  // AUTHORIZE url -- so without this the connection silently dies in one hour.
+  if (typeof p.extraAuthParams === 'function') {
+    for (const [k, v] of Object.entries(p.extraAuthParams() || {})) q.set(k, String(v));
+  }
   return `${p.authorize}?${q.toString()}`;
 }
 
@@ -237,7 +305,10 @@ export function authorizeUrl(provider, state, mode) {
  *  the exact redirect URI to register in each provider's console. Booleans/labels/scopes/redirectUri
  *  only — NEVER a client secret. */
 export function providersStatus() {
-  const labels = { google: 'Google', facebook: 'Facebook' };
+  const labels = {
+    google: 'Google', facebook: 'Facebook', discord: 'Discord', github: 'GitHub',
+    reddit: 'Reddit', twitch: 'Twitch', linkedin: 'LinkedIn',
+  };
   return Object.keys(PROVIDERS).map((id) => ({
     id,
     label: labels[id] || id,
@@ -257,9 +328,19 @@ async function exchangeCode(provider, code) {
     client_secret: p.clientSecret(),                    // sent to the provider only; NEVER logged
     redirect_uri: redirectUri(provider),
   });
+  // Reddit rejects client_id/client_secret in the body and requires HTTP Basic instead. Sending the
+  // secret in both places would leak it into their access logs, so it is removed from the body when
+  // Basic is used.
+  const headers = { 'content-type': 'application/x-www-form-urlencoded', accept: 'application/json' };
+  if (p.basicAuthToken) {
+    headers.authorization = `Basic ${Buffer.from(`${p.clientId()}:${p.clientSecret()}`).toString('base64')}`;
+    headers['user-agent'] = env('OAUTH_USER_AGENT', 'melek-outreach/1.0');
+    body.delete('client_id');
+    body.delete('client_secret');
+  }
   const r = await _fetch(p.token, {
     method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded', accept: 'application/json' },
+    headers,
     body: body.toString(),
   });
   const j = await r.json();
