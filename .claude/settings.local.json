@@ -1,0 +1,55 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo *)",
+      "Bash(gh api *)",
+      "Bash(gh pr *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git fetch *)",
+      "Bash(git log *)",
+      "Bash(git status *)",
+      "Bash(git cherry-pick *)",
+      "Bash(git show *)",
+      "Bash(ssh melek-*)",
+      "Bash(ssh vanny*)",
+      "Bash(ssh prana*)",
+      "Bash(scp *)",
+      "Bash(curl *)",
+      "Bash(node --test *)",
+      "Bash(npm test *)",
+      "Bash(bash /workspaces/Bot/.local/*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_snapshot"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /workspaces/Bot/.local/orient-from-boxes.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/workspaces/Bot/infra/oracle-vm/server4/brain-capture.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION": "10000"
+  }
+}

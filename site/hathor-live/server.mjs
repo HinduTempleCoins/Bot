@@ -16,7 +16,8 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { GAMMA_PAGE } from './gamma.mjs';
-import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk,
+  AUDIO_MODES, audioMode, beatPerception, needsHeadphones, audioModeNote } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 import { buildFeed, renderRss, renderAtom, renderJsonFeed, fetchAuthorPosts } from '../../integrations/chain-feed.mjs';
 import {
@@ -332,6 +333,14 @@ export async function handler(req, res) {
     if (path === '/api/sessions') {
       const out = SESSIONS.map((x) => ({
         id: x.id, name: x.name, category: x.category, method: x.method,
+        // `method` is the CHANNEL (light / sound / both). `audio` is HOW the sound carries the rate,
+        // and it is a separate fact: a 40Hz binaural beat is past the beat-rate ceiling and inherits
+        // none of the amplitude-modulated 40Hz evidence. Hathor reads this endpoint to recommend a
+        // session in chat, so the distinction has to survive the trip out of the schema.
+        audio: audioMode(x), audioLabel: AUDIO_MODES[audioMode(x)].label,
+        energyAtBeatRate: AUDIO_MODES[audioMode(x)].energyAtBeatRate,
+        headphonesRequired: needsHeadphones(x),
+        beat: beatPerception(x), audioNote: audioModeNote(x),
         grade: x.grade, minutes: Math.round(totalSeconds(x) / 60), peakHz: peakHz(x),
         photicRisk: photicRisk(x), chamber: !!x.chamber, eyesClosed: !!x.eyesClosed,
         evidence: x.evidence, note: x.note || '',

@@ -53,7 +53,8 @@
 import { THE_LINE_HTML } from './the-line.mjs';
 
 import { themeCSS, esc } from '../../integrations/melek-theme.mjs';
-import { SESSIONS, CATEGORIES, byCategory, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
+import { SESSIONS, CATEGORIES, byCategory, totalSeconds, peakHz, photicRisk,
+  AUDIO_MODES, audioMode, beatPerception } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 
 // The catalogue is rendered server-side into cards, and shipped to the client as JSON so the
@@ -66,7 +67,8 @@ const libraryHTML = CATEGORIES.map((c) => {
     const risk = photicRisk(s);
     return `<div class=sx data-id="${esc(s.id)}" role=button tabindex=0>
       <div class=sxh><b>${esc(s.name)}</b><span class=g style="color:var(${GRADE_COLOR[s.grade] || '--mk-text-muted'})">${esc(s.grade)}</span></div>
-      <div class=sxm>${esc(String(mins))} min · ${esc(String(peakHz(s)))}Hz peak · ${esc(s.method)}${risk === 'high' ? ' · <b class=hr>HIGH PHOTIC RISK</b>' : ''}</div>
+      <div class=sxm>${esc(String(mins))} min · ${esc(String(peakHz(s)))}Hz peak · ${esc(s.method)} / ${esc(AUDIO_MODES[audioMode(s)].label)}${risk === 'high' ? ' · <b class=hr>HIGH PHOTIC RISK</b>' : ''}</div>
+      ${beatPerception(s).audible ? '' : `<div class=sxn><b>No beat at this rate.</b> ${esc(beatPerception(s).reasons[0])}. The amplitude-modulated evidence does not transfer to it.</div>`}
       <div class=sxe>${esc(s.evidence)}</div>
       ${s.note ? `<div class=sxn>${esc(s.note)}</div>` : ''}
     </div>`;
@@ -479,8 +481,11 @@ replication failed — treat that use as experimental.</p>
   var rgbA='rgb('+A.join(',')+')', rgbB='rgb('+B.join(',')+')';
 
   // ---- audio -----------------------------------------------------------------
-  // binaural: two carriers, offset by the beat frequency, one per ear (needs headphones).
-  // isochronic: one carrier, gated on/off at the beat frequency (no headphones needed).
+  // The audio mode is a FIRST-CLASS field on the session (sessions.mjs § AUDIO MODE), not a guess
+  // made from the method field. 'binaural' = two carriers offset by the beat rate, one per ear, no energy at
+  // the beat rate anywhere, headphones mandatory. 'am' = one carrier gated on/off at the beat rate,
+  // real energy at the beat rate, speakers fine. They are different stimuli with different evidence.
+  function amode(x){ return (x&&x.audio) || (x&&x.method==='binaural'?'binaural':'am'); }
   function curHz(){
     var p=sess.program[Math.min(stepIx,sess.program.length-1)];
     return p?p.hz:40;
@@ -494,7 +499,7 @@ replication failed — treat that use as experimental.</p>
     oscL=ctx.createOscillator();oscR=ctx.createOscillator();
     oscL.type=oscR.type='sine';
     gainL=ctx.createGain();gainR=ctx.createGain();
-    if(sess.method==='binaural'){
+    if(amode(sess)==='binaural'){
       oscL.frequency.value=carrier;
       oscR.frequency.value=carrier+curHz();
       gainL.gain.value=gainR.gain.value=0.12;
@@ -530,10 +535,10 @@ replication failed — treat that use as experimental.</p>
     // advance the program
     if(now>=stepEndsAt && stepIx<sess.program.length-1){
       stepIx++; stepEndsAt=now+sess.program[stepIx].secs;
-      if(ctx && sess.method==='binaural'){ oscR.frequency.setValueAtTime((sess.carrier||220)+curHz(), ctx.currentTime); }
+      if(ctx && amode(sess)==='binaural'){ oscR.frequency.setValueAtTime((sess.carrier||220)+curHz(), ctx.currentTime); }
       if(ctx) t0=Math.max(t0,ctx.currentTime);
     }
-    if(ctx && sess.method!=='binaural') scheduleIso(ctx.currentTime+0.25);
+    if(ctx && amode(sess)!=='binaural') scheduleIso(ctx.currentTime+0.25);
     var left=Math.max(0,Math.round(stepEndsAt-now));
     stat.textContent='running · '+sess.name+' · '+curHz()+'Hz · step '+(stepIx+1)+'/'+sess.program.length+' · '+left+'s left in step';
     if(now>=stepEndsAt && stepIx>=sess.program.length-1) halt();
@@ -596,9 +601,18 @@ replication failed — treat that use as experimental.</p>
       if(refresh && !renderable(peak)) warn+=' — <b style="color:var(--mk-warn)">this display (~'+refresh+'Hz) cannot render '
         +peak+'Hz; the visual channel will be refused'+(hasAudio(s.method)?' and audio played alone':'')+'</b>';
     }
-    np.innerHTML='<b>'+s.name+'</b> · '+mins+' min · '+s.method+' · grade: '+s.grade+warn
+    // Name the audio mode on the card. A person choosing between two 40Hz sessions has to be able
+    // to see that one of them puts 40Hz into the air and the other does not.
+    var am=amode(s), amTxt=(am==='binaural'?'binaural beat':am==='am'?'amplitude-modulated':am==='noise'?'broadband noise':'no audio');
+    var beatWarn='';
+    if(am==='binaural'){
+      var bpk=0; for(var k=0;k<s.program.length;k++) bpk=Math.max(bpk,s.program[k].hz);
+      if(bpk>30) beatWarn=' — <b style="color:var(--mk-warn)">'+bpk+'Hz is past the ~30Hz beat-rate ceiling: '
+        +'there is no beat to hear, and the amplitude-modulated evidence does not transfer to it</b>';
+    }
+    np.innerHTML='<b>'+s.name+'</b> · '+mins+' min · '+s.method+' / '+amTxt+' · grade: '+s.grade+warn+beatWarn
       + (s.eyesClosed?' — <b>eyes closed</b>':'')
-      + (s.method==='binaural'?' — <b>headphones required</b>':'');
+      + (am==='binaural'?' — <b>headphones required</b>':'');
     go.disabled=false;
   }
   document.addEventListener('click',function(e){

@@ -24,6 +24,79 @@
 // at both ends because individual photosensitivity thresholds vary.
 export const PHOTIC_HIGH_RISK = [13, 26];
 
+// ⚠ OPEN QUESTION FOR THE OPERATOR — REPORTED, NOT CHANGED (2026-09-08).
+// The header above cites the IFCM eye-closure range as 8-40Hz, but PHOTIC_HIGH_RISK is 13-26. So
+// `dreamachine` (10Hz, EYES CLOSED by design), `chamber-alpha`, `alpha-10-pain` and `genus-40` all
+// return 'standard' from photicRisk(). There is also no eyes-open/eyes-closed field driving the
+// band — `eyesClosed` exists on some sessions and photicRisk() ignores it. Widening the band would
+// gate content, which is the operator's call and not an agent's (CLAUDE.md § scope, twice-settled).
+// It is written down here so nobody has to re-derive it from the numbers a third time.
+
+// ── AUDIO MODE — first-class, because the 40Hz evidence does NOT transfer across it ──────────────
+//
+// `method` says which CHANNELS run (light, sound, both). It does not say how the sound carries the
+// frequency, and those are different physical stimuli with different evidence behind them:
+//
+//   'am'       amplitude-modulated carrier / click train. Real acoustic energy EXISTS at the beat
+//              rate, at each ear, and a speaker delivers it as well as headphones. This is what the
+//              GENUS line actually used: Martorell 2019 = 1ms 10kHz tone pips every 25ms (4% duty);
+//              Chan 2022 = 1ms rectangular pulse per 25ms, 4% duty. Iaccarino 2016 used no audio at
+//              all — LED flicker, 12.5ms on / 12.5ms off.
+//   'binaural' two steady unmodulated tones, one per ear, offset by the beat rate. NO energy at the
+//              beat rate exists anywhere — not at either eardrum, not in either auditory nerve. The
+//              beat is constructed centrally in the superior olive from a rotating interaural phase
+//              difference, so it REQUIRES headphones and it dies with the machinery that makes it.
+//   'noise'    broadband sound with no beat at all (pink noise). Not an entrainment carrier.
+//   'none'     no audio channel.
+//
+// THE CEILINGS, and they are why this field had to exist:
+//   Beat rate — Oster 1973 (Sci Am), reporting Licklider, Webster & Hedlun 1950 (JASA 22(4):468-473):
+//   "Rapid beats, up to about 30 hertz, are heard as roughness... With still greater intervals beats
+//   are not heard; the two tones are perceived separately." Ross et al. 2014 (J Neurophysiol
+//   112(8):1871-1884) swept 3-60Hz and found detection falling to ~50% correct near 30Hz.
+//   Carrier — Oster: best near 440Hz, "above about 1,000 hertz they vanish altogether"; Pasqual,
+//   Yehia & Vieira 2017 (Acta Acustica 103(5):892-895), signal-detection-theory and therefore
+//   bias-free, put perceptibility at "virtually zero for 1400 Hz". Brughera, Dunai & Hartmann 2013
+//   (JASA 133(5):2839-2855) find ITD thresholds "unmeasurably high just above 1400 Hz" — the same
+//   machinery, dying at the same frequency.
+//
+//   ⭐ 40Hz is PAST the beat-rate ceiling at any carrier. A 40Hz binaural beat is therefore not a
+//   quieter version of the GENUS stimulus; it is a different stimulus that puts no 40Hz energy into
+//   either ear, and the word "binaural" appears zero times in Iaccarino 2016, Martorell 2019, Chan
+//   2022 and Hajos 2024. Zero studies, any species, have tested 40Hz binaural beats for amyloid,
+//   tau, plaque, atrophy or dementia progression.
+//
+// evidenceAudit() below is the enforcement: a binaural session above the beat ceiling may not carry
+// a grade above 'weak', and the test suite fails the build if one ever does.
+export const AUDIO_MODES = Object.freeze({
+  am: {
+    label: 'amplitude-modulated',
+    energyAtBeatRate: true,
+    headphones: false,
+    blurb: 'A carrier switched or pulsed at the beat rate. The beat is physically in the sound.',
+  },
+  binaural: {
+    label: 'binaural beat',
+    energyAtBeatRate: false,
+    headphones: true,
+    blurb: 'Two steady tones, one per ear. The beat exists only in your head, and only under headphones.',
+  },
+  noise: {
+    label: 'broadband noise',
+    energyAtBeatRate: false,
+    headphones: false,
+    blurb: 'No beat at all. Included because the evidence is about sound in phase with sleep, not about a frequency.',
+  },
+  none: { label: 'no audio', energyAtBeatRate: false, headphones: false, blurb: 'Visual channel only.' },
+});
+
+/** Beat-rate ceiling, Hz. Above this the beat percept ceases and two separate tones are heard. */
+export const BINAURAL_BEAT_RATE_CEILING_HZ = 30;
+/** Carrier ceiling, Hz. Above this the beat is not perceptible at any rate. */
+export const BINAURAL_CARRIER_CEILING_HZ = 1400;
+/** The grade a binaural session past a ceiling may not exceed. */
+export const BINAURAL_MAX_GRADE_PAST_CEILING = 'weak';
+
 export const CATEGORIES = [
   { id: 'gamma',      name: 'Gamma / Cognition', blurb: 'The 40Hz research line. The strongest evidence in the whole field.' },
   { id: 'pain',       name: 'Pain',              blurb: 'Alpha entrainment. Dose-response has been shown.' },
@@ -40,7 +113,7 @@ export const SESSIONS = [
   // ── gamma ────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'genus-40', name: 'GENUS 40', category: 'gamma',
-    method: 'combined', carrier: 440,
+    method: 'combined', audio: 'am', carrier: 440,
     program: [{ hz: 40, secs: 3600 }],
     grade: 'strong',
     evidence: 'The clinical protocol: 40Hz, one hour, daily. Phase 2A over 3 months in mild probable '
@@ -51,7 +124,7 @@ export const SESSIONS = [
   },
   {
     id: 'genus-40-short', name: 'GENUS 40 · short', category: 'gamma',
-    method: 'auditory', carrier: 440,
+    method: 'auditory', audio: 'am', carrier: 440,
     program: [{ hz: 40, secs: 900 }],
     grade: 'promising',
     evidence: '40Hz auditory stimuli produced the highest EEG response and increased regional cerebral '
@@ -61,7 +134,7 @@ export const SESSIONS = [
   // ── pain ─────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'alpha-10-pain', name: 'Alpha 10 · pain', category: 'pain',
-    method: 'combined', carrier: 340,
+    method: 'combined', audio: 'am', carrier: 340,
     program: [{ hz: 10, secs: 1200 }],
     grade: 'moderate',
     evidence: 'Four minutes of 10Hz sensory stimulation entrains alpha and decreases pain, and the degree '
@@ -74,7 +147,7 @@ export const SESSIONS = [
   // ── sleep ────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'descent-8-2', name: 'Descent 8→2', category: 'sleep',
-    method: 'auditory', carrier: 200,
+    method: 'auditory', audio: 'am', carrier: 200,
     program: [
       { hz: 8, secs: 300 }, { hz: 6, secs: 300 }, { hz: 5, secs: 300 },
       { hz: 4, secs: 300 }, { hz: 3, secs: 300 }, { hz: 2, secs: 600 },
@@ -87,7 +160,7 @@ export const SESSIONS = [
   },
   {
     id: 'alpha-presleep', name: 'Pre-sleep Alpha', category: 'sleep',
-    method: 'auditory', carrier: 300,
+    method: 'auditory', audio: 'am', carrier: 300,
     program: [{ hz: 10, secs: 600 }, { hz: 8, secs: 600 }],
     grade: 'moderate',
     evidence: 'The pre-sleep arm of the 2025 fibromyalgia crossover trial — 10Hz delivered at home before '
@@ -97,7 +170,7 @@ export const SESSIONS = [
   // ── calm ─────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'theta-6-calm', name: 'Theta 6 · calm', category: 'calm',
-    method: 'auditory', carrier: 240,
+    method: 'auditory', audio: 'am', carrier: 240,
     program: [{ hz: 6, secs: 1200 }],
     grade: 'moderate',
     evidence: 'Theta/delta binaural beats carry the largest anxiety effect in the meta-analytic literature: '
@@ -106,7 +179,7 @@ export const SESSIONS = [
   },
   {
     id: 'periprocedural', name: 'Before a Procedure', category: 'calm',
-    method: 'binaural', carrier: 250,
+    method: 'auditory', audio: 'binaural', carrier: 250,
     program: [{ hz: 6, secs: 1800 }],
     grade: 'moderate',
     evidence: 'A 2025 systematic review and meta-analysis of 15 RCTs (>1,000 patients) found perioperative '
@@ -119,7 +192,7 @@ export const SESSIONS = [
   // ── focus ────────────────────────────────────────────────────────────────────────────────────
   {
     id: 'smr-14', name: 'SMR 14', category: 'focus',
-    method: 'auditory', carrier: 320,
+    method: 'auditory', audio: 'am', carrier: 320,
     program: [{ hz: 14, secs: 1500 }],
     grade: 'weak',
     evidence: 'Cognitive effects are the least consistent finding in the entrainment literature. Binaural '
@@ -131,7 +204,7 @@ export const SESSIONS = [
   // ── meditation ───────────────────────────────────────────────────────────────────────────────
   {
     id: 'theta-4-deep', name: 'Theta 4 · deep', category: 'meditation',
-    method: 'auditory', carrier: 210,
+    method: 'auditory', audio: 'am', carrier: 210,
     program: [{ hz: 8, secs: 300 }, { hz: 6, secs: 600 }, { hz: 4, secs: 900 }],
     grade: 'promising',
     evidence: 'Theta (4-8Hz) is the band of the wake-sleep boundary — daydreaming and meditative states. '
@@ -139,7 +212,7 @@ export const SESSIONS = [
   },
   {
     id: 'schumann', name: 'Schumann 7.83', category: 'meditation',
-    method: 'auditory', carrier: 220,
+    method: 'auditory', audio: 'am', carrier: 220,
     program: [{ hz: 7.83, secs: 1800 }],
     grade: 'traditional',
     evidence: 'The 7.83Hz Schumann resonance is REAL and well documented geophysics — the fundamental of '
@@ -156,7 +229,7 @@ export const SESSIONS = [
   // ── chamber ──────────────────────────────────────────────────────────────────────────────────
   {
     id: 'chamber-alpha', name: 'Chamber · Alpha', category: 'chamber',
-    method: 'combined', carrier: 260,
+    method: 'combined', audio: 'am', carrier: 260,
     program: [{ hz: 10, secs: 690 }],
     grade: 'moderate',
     chamber: true,
@@ -170,7 +243,7 @@ export const SESSIONS = [
   },
   {
     id: 'chamber-theta', name: 'Chamber · Theta', category: 'chamber',
-    method: 'combined', carrier: 220,
+    method: 'combined', audio: 'am', carrier: 220,
     program: [{ hz: 6, secs: 690 }],
     grade: 'moderate',
     chamber: true,
@@ -184,7 +257,7 @@ export const SESSIONS = [
   // ── visionary ────────────────────────────────────────────────────────────────────────────────
   {
     id: 'dreamachine', name: 'Dreamachine', category: 'visionary',
-    method: 'flicker', carrier: 0,
+    method: 'flicker', audio: 'none', carrier: 0,
     program: [{ hz: 10, secs: 900 }],
     grade: 'promising',
     eyesClosed: true,
@@ -199,7 +272,7 @@ export const SESSIONS = [
   // ── gamma, continued: the 2025-26 evidence update ────────────────────────────────────────────
   {
     id: 'genus-40-vibrotactile', name: 'GENUS 40 · vibrotactile', category: 'gamma',
-    method: 'auditory', carrier: 40,
+    method: 'auditory', audio: 'am', carrier: 40,
     program: [{ hz: 40, secs: 1800 }],
     grade: 'promising',
     evidence: 'A FIFTH delivery route. Kim et al. (Scientific Reports, July 2026) compared 40Hz vibrotactile '
@@ -215,7 +288,7 @@ export const SESSIONS = [
   // ── perceptual training: strobe used the other way ───────────────────────────────────────────
   {
     id: 'strobe-training', name: 'Stroboscopic training', category: 'training',
-    method: 'flicker',
+    method: 'flicker', audio: 'none',
     program: [{ hz: 6, secs: 300 }, { hz: 4, secs: 300 }, { hz: 3, secs: 300 }],
     grade: 'promising',
     evidence: 'Completely different use of a strobe: not entrainment, but INTERMITTENT OCCLUSION — removing '
@@ -232,7 +305,7 @@ export const SESSIONS = [
   // ── sleep: acoustic stimulation for consolidation ────────────────────────────────────────────
   {
     id: 'pink-noise-sleep', name: 'Pink noise · consolidation', category: 'sleep',
-    method: 'auditory', carrier: 0,
+    method: 'auditory', audio: 'noise', carrier: 0,
     program: [{ hz: 1, secs: 2700 }],
     grade: 'promising',
     evidence: 'The best-supported idea in sleep audio is not a tone at a frequency — it is sound delivered in '
@@ -249,6 +322,103 @@ export const byCategory = (id) => SESSIONS.filter((s) => s.category === id);
 export const totalSeconds = (s) => (s.program || []).reduce((n, p) => n + (p.secs || 0), 0);
 export const peakHz = (s) => (s.program || []).reduce((m, p) => Math.max(m, p.hz || 0), 0);
 
+/**
+ * Which audio mode does this session actually use?
+ *
+ * Explicit `audio` wins. The fallback exists only for a session authored before the field did, and
+ * it is deliberately conservative: the legacy `method: 'binaural'` value meant binaural, anything
+ * else with a sound channel was an isochronic/AM build in gamma.mjs, and flicker had no audio.
+ */
+export function audioMode(s) {
+  const m = s && typeof s.audio === 'string' ? s.audio : '';
+  if (AUDIO_MODES[m]) return m;
+  if (!s) return 'none';
+  if (s.method === 'binaural') return 'binaural';
+  if (s.method === 'flicker' || s.method === 'isf') return 'none';
+  return 'am';
+}
+
+/** Does the beat exist as physical energy in the sound, or only centrally? */
+export const energyAtBeatRate = (s) => !!AUDIO_MODES[audioMode(s)].energyAtBeatRate;
+/** Headphones required for the stimulus to be the stimulus at all (binaural only). */
+export const needsHeadphones = (s) => !!AUDIO_MODES[audioMode(s)].headphones;
+
+/**
+ * For a binaural session: is the beat percept actually available at this rate and carrier?
+ *
+ * Returns { mode, audible, reasons[] }. A non-binaural session is trivially audible — the beat is
+ * physically present in the waveform, so no perceptual limit applies to whether it is delivered.
+ */
+export function beatPerception(s) {
+  const mode = audioMode(s);
+  if (mode !== 'binaural') {
+    return { mode, audible: true, reasons: [], beatHz: peakHz(s), carrier: (s && s.carrier) || 0 };
+  }
+  const beatHz = peakHz(s);
+  const carrier = (s && s.carrier) || 0;
+  const reasons = [];
+  if (beatHz > BINAURAL_BEAT_RATE_CEILING_HZ) {
+    reasons.push(`${beatHz}Hz is past the ~${BINAURAL_BEAT_RATE_CEILING_HZ}Hz beat-rate ceiling — above it the two tones are heard separately and there is no beat (Oster 1973 reporting Licklider et al. 1950; Ross et al. 2014)`);
+  }
+  if (carrier > BINAURAL_CARRIER_CEILING_HZ) {
+    reasons.push(`a ${carrier}Hz carrier is past the ~${BINAURAL_CARRIER_CEILING_HZ}Hz carrier ceiling — perceptibility is virtually zero there (Pasqual et al. 2017; Brughera et al. 2013)`);
+  }
+  return { mode, audible: reasons.length === 0, reasons, beatHz, carrier };
+}
+
+// Grades in ascending order of strength, so "no stronger than weak" is a comparison and not a list.
+const GRADE_RANK = { traditional: 0, weak: 1, promising: 2, moderate: 3, strong: 4 };
+const rank = (g) => (Object.prototype.hasOwnProperty.call(GRADE_RANK, g) ? GRADE_RANK[g] : 0);
+
+/**
+ * The enforcement. Returns a list of PROBLEMS — empty means the catalogue is coherent.
+ *
+ * Two rules, both about evidence transfer:
+ *   1. A binaural session whose beat is past a perceptual ceiling may not be graded above
+ *      BINAURAL_MAX_GRADE_PAST_CEILING. There is no evidence to inherit: the GENUS trials used light
+ *      flicker and 1ms click trains, no study in that line used a binaural beat, and zero studies of
+ *      any kind have tested 40Hz binaural beats against the outcomes the grade would imply.
+ *   2. Every session must declare an audio mode the catalogue knows about.
+ *
+ * The test suite runs this over SESSIONS, so adding a 40Hz binaural session graded 'strong' fails
+ * the build rather than shipping a claim.
+ */
+export function evidenceAudit(list = SESSIONS) {
+  const problems = [];
+  for (const s of list || []) {
+    const mode = audioMode(s);
+    if (!AUDIO_MODES[mode]) {
+      problems.push({ id: s && s.id, problem: `unknown audio mode '${mode}'` });
+      continue;
+    }
+    if (s && s.audio && !AUDIO_MODES[s.audio]) {
+      problems.push({ id: s.id, problem: `declared audio mode '${s.audio}' is not one of ${Object.keys(AUDIO_MODES).join(', ')}` });
+    }
+    const beat = beatPerception(s);
+    if (mode === 'binaural' && !beat.audible && rank(s.grade) > rank(BINAURAL_MAX_GRADE_PAST_CEILING)) {
+      problems.push({
+        id: s.id,
+        problem: `graded '${s.grade}' but it is a binaural beat past a perceptual ceiling — ${beat.reasons.join('; ')}. `
+          + 'The amplitude-modulated evidence does not transfer: no study in the 40Hz line used a binaural beat.',
+      });
+    }
+  }
+  return problems;
+}
+
+/** The one-line disclosure the UI must show, so the distinction reaches the person, not just the schema. */
+export function audioModeNote(s) {
+  const mode = audioMode(s);
+  const spec = AUDIO_MODES[mode];
+  const beat = beatPerception(s);
+  if (mode === 'none') return spec.blurb;
+  if (mode !== 'binaural') return spec.blurb;
+  if (!beat.audible) {
+    return `${spec.blurb} At ${beat.beatHz}Hz there is no beat to hear — ${beat.reasons[0]}.`;
+  }
+  return `${spec.blurb} Headphones required; speakers mix the two tones in the air and you hear a real acoustic beat instead, which is a different stimulus.`;
+}
+
 /** Does this session drive LIGHT inside the high-risk photic band? Audio-only sessions are never high risk. */
 export function photicRisk(s) {
   const visual = s.method === 'flicker' || s.method === 'isf' || s.method === 'combined';
@@ -258,3 +428,4 @@ export function photicRisk(s) {
 }
 
 export default SESSIONS;
+

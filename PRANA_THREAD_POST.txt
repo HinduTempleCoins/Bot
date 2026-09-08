@@ -1,0 +1,25 @@
+[b]Payouts are working. One correction you need before you mine.[/b]
+
+The pool was misconfigured by our AI operator — it was pointed at our testnet daemon and payout processing was throwing on every cycle, so no block ever matured and nobody could be paid. Fixed and verified end to end: share accepted, block found, block confirmed, balance credited, [b]payment sent and mined on chain[/b].
+
+[code]tx      0x812afedddaa0e656e54fed4d1c0fc4503ec1b994307160fb72ce2cabc336400f
+block   38470     status SUCCESS
+value   1.9975 PRANA[/code]
+
+[hr]
+
+[b]The opening post says ETCHASH. That is wrong — this chain runs [tt]ETHASH[/tt].[/b] ECIP-1099 is not active on it, so an etchash miner builds the wrong DAG and earns nothing. Verify it yourself: the node serves seed hash [tt]0x290decd9548b62a8...[/tt], which is epoch 1 at 30,000-block epochs.
+
+[b]Working copy-paste:[/b]
+[code]lolMiner --algo ETHASH --pool pool.soapbox.community:3333 --user 0xYourAddress[/code]
+
+Port [b]3333[/b] (as in the opening post) and [b]5560[/b] both work and both now serve live mainnet work. Payouts run every 10 minutes, minimum 0.1 PRANA.
+
+[code]Algo:     ethash
+Chain id: 712217[/code]
+
+Explorer: [url=https://pranascan.soapbox.community]https://pranascan.soapbox.community[/url]
+
+[hr]
+
+Anyone who mined against this pool before today earned nothing through no fault of their own. Post the address you mined to and the rough window and it will be covered.
