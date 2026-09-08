@@ -37,6 +37,7 @@ import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
+import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
 import { handler as mediaHandler } from './media.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage } from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
@@ -80,6 +81,8 @@ function verifiedAccount(req) {
 }
 
 // tiny per-client token bucket (self-contained; soft-fails open) — mirrors the trollbox limiter intent.
+// Past this many leads on one campaign, adding more needs the operator's bulk grant.
+const BULK_LEADS = +(process.env.HERALD_BULK_LEADS || 500);
 const RL_BURST = +(process.env.TEAMS_RL_BURST || 40);
 const RL_WIN = +(process.env.TEAMS_RL_WINDOW_MS || 60000);
 const _buckets = new Map();
@@ -189,6 +192,12 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, threads: inboxFor(me) }, origin);
     }
+    // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
+    // is about to be refused for — the refusal still stands server-side either way.
+    if (method === 'GET' && path === '/me/entitlements') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, ...capabilitiesFor({ account: me }) }, origin);
+    }
     // Herald: which sending mailbox (if any) this account has connected (email only, never tokens).
     if (method === 'GET' && path === '/me/mailbox') {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
@@ -244,7 +253,17 @@ export async function handler(req, res) {
       const who = (asserted) => whoami(req, asserted);
 
       if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
-      if (path === '/dm') { const me = who(b.from); if (!me) return unauth(res, origin); return json(res, 200, postDM({ ...b, from: me }), origin); }
+      // PMs are open to every logged-in account (operator, 2026-09-08). Login is the floor and the
+      // sender is the VERIFIED account — a body naming a different `from` is discarded, never honored,
+      // which is the existing anti-hijacking behaviour the auth tests pin. `claimedAccount` is
+      // deliberately NOT passed here: the write is already attributed correctly, so refusing outright
+      // would only break clients that echo a stale name back, without closing anything.
+      if (path === '/dm') {
+        const me = who(b.from); if (!me) return unauth(res, origin);
+        const e = entitled({ session: { account: me }, capability: 'pm' });
+        if (!e.ok) return json(res, e.code === 'login-required' ? 401 : 403, e, origin);
+        return json(res, 200, postDM({ ...b, from: me }), origin);
+      }
 
       // ON-DEMAND translation (the optional "Translate?" affordance + the page widget). Public + rate-limited
       // (the bucket already ran above). `to` = target language; `text` (single) or `texts[]` (batch).
@@ -306,12 +325,25 @@ export async function handler(req, res) {
         if (op === 'icp') return json(res, 200, setICP(c.id, b.icp), origin);
         if (op === 'sequence') return json(res, 200, setSequence(c.id, b.sequence), origin);
         if (op === 'status') return json(res, 200, setStatus(c.id, b.status), origin);
-        if (op === 'leads' && !segs[4]) return json(res, 200, addLead(c.id, b.lead || b), origin);
+        if (op === 'leads' && !segs[4]) {
+          // Building a list is open to everyone; a LARGE list is only useful to someone who can send to
+          // it, so past the bulk threshold the operator grant is required (entitlements.bulk_import).
+          if ((c.leads || []).length >= BULK_LEADS) {
+            const e = entitled({ session: { account: me }, capability: 'bulk_import' });
+            if (!e.ok) return json(res, 403, { ...e, leads: (c.leads || []).length, limit: BULK_LEADS }, origin);
+          }
+          return json(res, 200, addLead(c.id, b.lead || b), origin);
+        }
         if (op === 'leads' && segs[4] && segs[5] === 'stage') return json(res, 200, moveLead(c.id, segs[4], b.stage), origin);
         // Herald send: render the given sequence step (default: first) for this lead + send from the
         // owner's OWN connected mailbox. On success the lead advances to 'contacted'. Never sends from
         // @pentecaust.com — the mailbox layer refuses that.
         if (op === 'leads' && segs[4] && segs[5] === 'send') {
+          // ⚠️ The only capability that leaves the building. Re-checked HERE, at the send, rather than at
+          // campaign creation — a grant can be revoked in between, and this is the moment that costs
+          // something (a burned sending domain, a stranger's inbox). Operator-granted accounts only.
+          const g = guardSend({ session: { account: me }, campaign: c });
+          if (!g.ok) return json(res, g.code === 'login-required' ? 401 : 403, g, origin);
           const lead = (c.leads || []).find((l) => l.id === segs[4]);
           if (!lead) return json(res, 404, { ok: false, reason: 'no such lead' }, origin);
           if (!lead.email) return json(res, 422, { ok: false, reason: 'lead has no email' }, origin);
@@ -431,6 +463,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div id=campPlanBox class=feed style="margin-top:8px"><div class=empty>Draft a plan to see the ICP + sequence.</div></div>
   <div class=row style="margin-top:8px"><input id=leadName placeholder="lead name"><input id=leadCo placeholder="company"><input id=leadEmail placeholder="email"></div>
   <div class=row style="margin-top:6px"><input id=leadSignal placeholder="signal — the verified reason to reach out"><button class="btn" id=leadAdd>Add lead</button></div>
+  <div id=campSendNote style="margin-top:8px"></div>
   <div id=campLeads class=feed style="margin-top:8px"><div class=empty>Add leads above; each can be sent the first sequence step from your connected mailbox.</div></div>
  </div>
 </div>
@@ -464,7 +497,14 @@ $('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nCh
 // ---- Campaigns (MoneyPrinter/AI-SDR): draft an ICP + outreach sequence; manage leads + pipeline ----
 let campId='';
 const cpost=(p,body)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),...body})});
+// What this account may actually do. Anyone can build a campaign; SENDING is granted by the operator,
+// so the UI says that plainly instead of offering a button the server is about to refuse.
+let ENT={can:[],cannot:[]};
+const canSendEmail=()=>ENT.can.indexOf('email_send')>=0;
+async function loadEntitlements(){if(!me()){ENT={can:[],cannot:[]};return;}
+ const j=await api('/me/entitlements?account='+encodeURIComponent(me()));if(j&&j.ok)ENT=j;}
 async function loadCampaigns(){if(!me()){$('campList').innerHTML='<div class=empty>Sign in (or type your @name) to manage campaigns.</div>';return;}
+ await loadEntitlements();
  const j=await api('/crm/campaigns?account='+encodeURIComponent(me()));const cs=(j&&j.campaigns)||[];
  if(!cs.length){$('campList').innerHTML='<div class=empty>No campaigns yet — create one above.</div>';return;}
  const frag=document.createDocumentFragment();
@@ -479,12 +519,17 @@ async function openCampaign(id){campId=id;const j=await api('/crm/campaigns/'+en
  if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;
  $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);renderLeads(c);loadCampaigns();refreshStats();}
 function renderLeads(c){const box=$('campLeads');const leads=(c.leads||[]);
+ const note=$('campSendNote');if(note)note.innerHTML=me()?(canSendEmail()
+  ?'<span class=hint>Sending from your connected mailbox is enabled for @'+E(me())+'.</span>'
+  :'<span class=hint>Build freely — import leads, draft the ICP and the sequence. <b>Sending email is granted per account</b> so a new account cannot burn a sending domain or mail strangers under our name. Private messages are open to everyone.</span>'):'';
  if(!leads.length){box.innerHTML='<div class=empty>No leads yet. Add one above.</div>';return;}
  const frag=document.createDocumentFragment();
  for(const l of leads){const row=document.createElement('div');row.className='fitem';
   const canSend=l.email&&(c.sequence||[]).length&&l.stage!=='unsubscribed';
   const badge='<span class=pill style="background:#234">'+E(l.stage)+'</span>';
-  const btn=canSend?'<button class="btn primary" data-lead="'+E(l.id)+'">Send step 1</button>':'<span class=hint>'+(l.email?'draft a plan first':'no email')+'</span>';
+  const gate=canSend&&!canSendEmail();
+  const btn=gate?'<span class=hint title="Sending is granted per account by the operator.">ready to send · awaiting send access</span>'
+   :canSend?'<button class="btn primary" data-lead="'+E(l.id)+'">Send step 1</button>':'<span class=hint>'+(l.email?'draft a plan first':'no email')+'</span>';
   row.innerHTML='<div style="flex:1"><b>'+E(l.name||l.email||l.id)+'</b> '+badge+'<br><small class=mut>'+E(l.company||'')+(l.email?(' · '+E(l.email)):'')+'</small></div>'+btn;
   const b=row.querySelector('button');if(b)b.onclick=()=>sendStep(c.id,l.id,b);
   frag.appendChild(row);}
