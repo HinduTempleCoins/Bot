@@ -4,7 +4,7 @@ import assert from 'node:assert';
 import {
   attribution, extractEmails, contactPaths, harvest, auditList, crawlPlan,
   siteHost, sameSite, __setFetch, handler, extractSocials, socialsFromProfile, NOT_A_HANDLE,
-  isHub, HUB_DOMAINS,
+  isHub, HUB_DOMAINS, isPlatformApex, confersNothing,
 } from './holder-contact-harvest.mjs';
 
 test('siteHost normalises what the CSV actually holds', () => {
@@ -317,5 +317,60 @@ test('isHub knows the link-in-bio platforms', () => {
 
 test('the hub rule does not touch an ordinary site', () => {
   const a = attribution('bb@braaiboy.co.za', { site: 'http://BraaiBoy.co.za' });
+  assert.equal(a.verdict, 'own-domain');
+});
+
+// ── the third bug: a platform page is not his site either ─────────────────────────────────────────
+// The hub fix (#929) stripped the site claim for linktr.ee and its thirteen siblings. It left the
+// larger set untouched: 510 rows of the holder file give a Hive front-end as the holder's website
+// (peakd.com 217, hive.blog 122, ecency.com 66, steemit.com 31, read.cash 18). Every one of those
+// would have crawled with the claim intact.
+test('a holder whose "website" is a platform profile page cannot vouch for anything on it', () => {
+  for (const site of ['https://peakd.com/@holder', 'https://hive.blog/@holder', 'https://read.cash/@holder',
+    'https://ecency.com/@holder', 'https://steemit.com/@holder', 'https://medium.com/@holder']) {
+    const a = attribution('astranger@gmail.com', { site, foundOn: site });
+    assert.equal(a.ok, false, site);
+    assert.equal(a.verdict, 'third-party', site);
+  }
+});
+
+test('the platform test runs BEFORE the own-domain test — this is the read.cash bug in its original form', () => {
+  const a = attribution('contact@read.cash', { site: 'https://read.cash/@holder', foundOn: 'https://read.cash/@holder' });
+  assert.equal(a.ok, false);
+  assert.equal(a.verdict, 'third-party');
+  assert.match(a.why, /support desk/);
+});
+
+test('the same shape at every other platform apex', () => {
+  for (const [e, site] of [
+    ['support@medium.com', 'https://medium.com/@holder'],
+    ['x@wordpress.com', 'https://bar.wordpress.com'],
+    ['y@github.com', 'https://github.com/dude'],
+    ['a@substack.com', 'https://foo.substack.com'],
+    ['b@hive.io', 'https://hive.io'],
+  ]) {
+    assert.equal(attribution(e, { site, foundOn: site }).ok, false, e);
+  }
+});
+
+test('a personal subdomain of a host is still his page', () => {
+  // wordpress.com is a platform; myblog.wordpress.com is a person's blog. Only the apex is stripped.
+  assert.equal(isPlatformApex('https://wordpress.com'), true);
+  assert.equal(isPlatformApex('https://myblog.wordpress.com'), false);
+  const a = attribution('him@gmail.com', { site: 'https://myblog.wordpress.com', foundOn: 'https://myblog.wordpress.com/about' });
+  assert.equal(a.ok, true);
+  assert.equal(a.verdict, 'published-on-site');
+});
+
+test('confersNothing covers hubs and platform apexes and nothing else', () => {
+  assert.equal(confersNothing('https://linktr.ee/x'), true);
+  assert.equal(confersNothing('https://peakd.com/@x'), true);
+  assert.equal(confersNothing('http://BraaiBoy.co.za'), false);
+  assert.equal(confersNothing(''), false);
+});
+
+test('a real personal domain is untouched by any of this', () => {
+  const a = attribution('bb@braaiboy.co.za', { site: 'http://BraaiBoy.co.za', foundOn: 'http://braaiboy.co.za/contact' });
+  assert.equal(a.ok, true);
   assert.equal(a.verdict, 'own-domain');
 });
