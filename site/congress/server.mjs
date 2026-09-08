@@ -64,6 +64,78 @@ export async function byAuthor(author, limit = 30) {
   const r = await rpc('condenser_api.get_discussions_by_blog', [{ tag: author, limit }]);
   return Array.isArray(r) ? r : [];
 }
+/** Trending: posts by payout, which is Graphene's own "what is being rewarded right now". */
+export async function trending(tag = TAG, limit = 30) {
+  const r = await rpc('condenser_api.get_discussions_by_trending', [{ tag, limit }]);
+  return Array.isArray(r) ? r : [];
+}
+
+/** Hot: the chain's own recency-weighted ranking. */
+export async function hot(tag = TAG, limit = 30) {
+  const r = await rpc('condenser_api.get_discussions_by_hot', [{ tag, limit }]);
+  return Array.isArray(r) ? r : [];
+}
+
+/** Who an account follows / is followed by. Graphene keeps this in the follow plugin. */
+export async function follows(account, type = 'blog', dir = 'following', limit = 100) {
+  const method = dir === 'followers' ? 'condenser_api.get_followers' : 'condenser_api.get_following';
+  const r = await rpc(method, [account, '', type, limit]);
+  return Array.isArray(r) ? r : [];
+}
+
+export async function followCount(account) {
+  const r = await rpc('condenser_api.get_follow_count', [account]);
+  return r && typeof r === 'object' ? r : { follower_count: 0, following_count: 0 };
+}
+
+/**
+ * A following-feed. Graphene has no "posts by a set of authors" call, so it is assembled: read who
+ * they follow, pull each blog, merge by time. Capped at 20 accounts because this is N+1 requests and
+ * an uncapped version would hammer the RPC for a page nobody is reading yet.
+ */
+export async function followingFeed(account, limit = 30) {
+  const who = (await follows(account, 'blog', 'following', 20)).map((f) => f && f.following).filter(Boolean);
+  if (!who.length) return { posts: [], following: 0 };
+  const batches = await Promise.all(who.map((a) => byAuthor(a, 5)));
+  const seen = new Set();
+  const merged = [];
+  for (const b of batches) {
+    for (const post of b) {
+      const key = `${post.author}/${post.permlink}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      merged.push(post);
+    }
+  }
+  merged.sort((a, b) => String(b.created).localeCompare(String(a.created)));
+  return { posts: merged.slice(0, limit), following: who.length };
+}
+
+/** Mentions of an account across recent posts under our tag — a notifications surface without a plugin. */
+export async function mentions(account, limit = 40) {
+  const posts = await timeline(TAG, limit);
+  const needle = `@${String(account || '').toLowerCase()}`;
+  return posts.filter((p) => String(p.body || '').toLowerCase().includes(needle)
+    || String(p.parent_author || '').toLowerCase() === String(account || '').toLowerCase());
+}
+
+/** Tag counts across the current timeline — the chain's own live topic list, not a curated one. */
+export async function tagCloud(limit = 60) {
+  const posts = await timeline(TAG, limit);
+  const counts = new Map();
+  for (const p of posts) {
+    let meta = {};
+    try { meta = JSON.parse(p.json_metadata || '{}'); } catch { meta = {}; }
+    for (const t of (Array.isArray(meta.tags) ? meta.tags : [])) {
+      const k = String(t).toLowerCase().slice(0, 32);
+      if (!k || k === TAG) continue;
+      counts.set(k, (counts.get(k) || 0) + 1);
+    }
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 20)
+    .map(([tag, n]) => ({ tag, n }));
+}
+
 /** A single post + replies. */
 export async function thread(author, permlink) {
   const post = await rpc('condenser_api.get_content', [author, permlink]);
@@ -142,8 +214,12 @@ const STYLE = `<style>
 </style>`;
 
 function navBar(active = '') {
+  // Home / Trending / Hot / Search / Messages — the chain ranks trending and hot itself, so these
+  // are its numbers, not ours.
   const tab = (href, label, key) => `<a class="${active === key ? 'on' : ''}" href="${href}">${label}</a>`;
-  return `<nav class=tabs>${tab('/', 'Home', 'home')}${tab('/search', 'Search', 'search')}${tab(PENTECAUST_URL, 'Messages', 'msg')}</nav>`;
+  return `<nav class=tabs>${tab('/', 'Home', 'home')}${tab('/trending', 'Trending', 'trending')}`
+    + `${tab('/hot', 'Hot', 'hot')}${tab('/search', 'Search', 'search')}`
+    + `${tab(PENTECAUST_URL, 'Messages', 'msg')}</nav>`;
 }
 
 // Shared client script on EVERY page: MELEK-Signer session (capture ?code=, exchange, remember) + the
@@ -208,7 +284,9 @@ function page(title, inner, { canonical = BASE_URL, description = '', nav = '' }
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(description || 'Congress — a short-form social network on the MELEK chain (alpha / testnet).')}">
-<link rel=canonical href="${esc(canonical)}"><link rel=icon href="/favicon.svg">${STYLE}</head><body><div class=wrap>
+<link rel=canonical href="${esc(canonical)}"><link rel=icon href="/favicon.svg">
+<link rel=alternate type="application/rss+xml" title="${esc(BRAND)} RSS" href="${esc(BASE_URL)}/feed.xml">
+<link rel=alternate type="application/feed+json" title="${esc(BRAND)} JSON Feed" href="${esc(BASE_URL)}/feed.json">${STYLE}</head><body><div class=wrap>
 <header class=top><a class=brand href="/">⬡ <b>${esc(BRAND)}</b></a><span class=alpha>ALPHA · TESTNET</span>
   <span class=sub style="margin-left:auto;color:var(--mut);font-size:12px">${esc(TAGLINE)}</span>
   <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust" style="margin-left:12px">✉ Messages</a></header>
@@ -253,6 +331,123 @@ export async function homePage() {
   return page(`${BRAND} — on-chain social (alpha)`, composer() + feed,
     { canonical: BASE_URL, nav: 'home', description: `${BRAND}: a short-form, on-chain social network on the MELEK chain. Alpha / testnet.` });
 }
+/** Tag timeline — any topic on the chain, not just our own. */
+export async function tagPage(tag) {
+  const posts = await timeline(tag, 30);
+  const feed = posts.length ? posts.map(postCard).join('')
+    : `<div class=empty>Nothing under <b>#${esc(tag)}</b> yet.</div>`;
+  return page(`#${tag} — ${BRAND}`,
+    `<div class=backlink><a href="/">← timeline</a></div>
+     <div class=composer style="background:transparent"><div class=phead>
+       <span class=author style="font-size:18px">#${esc(tag)}</span></div></div>${feed}`,
+    { canonical: `${BASE_URL}/tag/${encodeURIComponent(tag)}`, nav: '',
+      description: `Posts tagged #${tag} on the MELEK chain.` });
+}
+
+/** Trending and Hot — the chain's own rankings, not ours. */
+export async function rankedPage(kind) {
+  const posts = kind === 'hot' ? await hot() : await trending();
+  const feed = posts.length ? posts.map(postCard).join('')
+    : `<div class=empty>Nothing ${esc(kind)} yet under <b>#${esc(TAG)}</b>.</div>`;
+  const tags = await tagCloud();
+  const cloud = tags.length
+    ? `<div class=composer style="background:transparent"><div class=phead>
+        ${tags.map((t) => `<a href="/tag/${encodeURIComponent(t.tag)}" style="color:var(--blue);margin-right:10px">#${esc(t.tag)}<span style="opacity:.6"> ${esc(t.n)}</span></a>`).join('')}
+       </div></div>` : '';
+  return page(`${kind === 'hot' ? 'Hot' : 'Trending'} — ${BRAND}`,
+    `<div class=backlink><a href="/">← timeline</a></div>${cloud}${feed}`,
+    { canonical: `${BASE_URL}/${kind}`, nav: kind });
+}
+
+/** A following-feed for a signed-in account. */
+export async function feedPage(account) {
+  const { posts, following } = await followingFeed(account);
+  const feed = posts.length ? posts.map(postCard).join('')
+    : `<div class=empty>@${esc(account)} follows ${esc(following)} account(s) and none have posted yet.</div>`;
+  return page(`Following — ${BRAND}`,
+    `<div class=backlink><a href="/">← timeline</a></div>
+     <div class=composer style="background:transparent"><div class=phead>
+       <span class=author style="font-size:18px">Following</span>
+       <span style="opacity:.6;font-size:13px"> · ${esc(following)} accounts</span></div></div>${feed}`,
+    { canonical: `${BASE_URL}/feed/${encodeURIComponent(account)}` });
+}
+
+/** Mentions — a notifications surface assembled from the timeline, no plugin required. */
+export async function mentionsPage(account) {
+  const posts = await mentions(account);
+  const feed = posts.length ? posts.map(postCard).join('')
+    : `<div class=empty>No mentions of @${esc(account)} yet.</div>`;
+  return page(`Mentions of @${account} — ${BRAND}`,
+    `<div class=backlink><a href="/">← timeline</a></div>${feed}`,
+    { canonical: `${BASE_URL}/mentions/${encodeURIComponent(account)}` });
+}
+
+/** Who follows whom. */
+export async function followPage(account, dir) {
+  const list = await follows(account, 'blog', dir, 100);
+  const counts = await followCount(account);
+  const key = dir === 'followers' ? 'follower' : 'following';
+  const rows = list.length
+    ? list.map((f) => `<div class=post><a class=author href="/@${encodeURIComponent(f[key])}">@${esc(f[key])}</a></div>`).join('')
+    : `<div class=empty>None yet.</div>`;
+  return page(`@${account} ${dir} — ${BRAND}`,
+    `<div class=backlink><a href="/@${encodeURIComponent(account)}">← @${esc(account)}</a></div>
+     <div class=composer style="background:transparent"><div class=phead>
+       <span class=author style="font-size:18px">${esc(dir)}</span>
+       <span style="opacity:.6;font-size:13px"> · ${esc(counts.follower_count)} followers / ${esc(counts.following_count)} following</span>
+     </div></div>${rows}`,
+    { canonical: `${BASE_URL}/@${encodeURIComponent(account)}/${dir}` });
+}
+
+// ── FEEDS ─────────────────────────────────────────────────────────────────────────────────────────
+// Twitter removed RSS in 2013 and never brought it back. A chain-backed timeline has no reason to
+// hide behind an API key, so every view here is also a feed: RSS for readers, JSON Feed for code.
+// This is the one feature the thing we are cloning deliberately does not have.
+
+function feedItems(posts) {
+  return posts.map((p) => ({
+    title: (p.title && p.title.trim()) || `@${p.author}`,
+    url: `${BASE_URL}/post/${encodeURIComponent(p.author)}/${encodeURIComponent(p.permlink)}`,
+    id: `${p.author}/${p.permlink}`,
+    author: p.author,
+    date: (p.created || '') + 'Z',
+    text: String(p.body || '').slice(0, 1000),
+  }));
+}
+
+export function rssFeed(posts, { title = BRAND, self = `${BASE_URL}/feed.xml` } = {}) {
+  const items = feedItems(posts).map((i) => `    <item>
+      <title>${esc(i.title)}</title>
+      <link>${esc(i.url)}</link>
+      <guid isPermaLink="false">${esc(i.id)}</guid>
+      <dc:creator>${esc(i.author)}</dc:creator>
+      <pubDate>${esc(new Date(i.date).toUTCString())}</pubDate>
+      <description>${esc(i.text)}</description>
+    </item>`).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${esc(title)}</title>
+    <link>${esc(BASE_URL)}</link>
+    <atom:link href="${esc(self)}" rel="self" type="application/rss+xml"/>
+    <description>${esc(TAGLINE)} — alpha / testnet</description>
+${items}
+  </channel>
+</rss>`;
+}
+
+export function jsonFeed(posts, { title = BRAND, self = `${BASE_URL}/feed.json` } = {}) {
+  return JSON.stringify({
+    version: 'https://jsonfeed.org/version/1.1',
+    title, home_page_url: BASE_URL, feed_url: self,
+    description: `${TAGLINE} — alpha / testnet`,
+    items: feedItems(posts).map((i) => ({
+      id: i.id, url: i.url, title: i.title, content_text: i.text,
+      date_published: i.date, authors: [{ name: i.author, url: `${BASE_URL}/@${i.author}` }],
+    })),
+  }, null, 2);
+}
+
 export async function profilePage(author) {
   const posts = await byAuthor(author);
   const feed = posts.length ? posts.map(postCard).join('') : `<div class=empty>@${esc(author)} has no posts yet.</div>`;
@@ -300,7 +495,31 @@ export async function handler(req, res) {
     }
     if (path === '/' ) return send(res, await homePage());
     if (path === '/search') return send(res, await searchPage(url.searchParams.get('q') || ''));
+    if (path === '/trending') return send(res, await rankedPage('trending'));
+    if (path === '/hot') return send(res, await rankedPage('hot'));
+
+    // Feeds. Twitter dropped RSS in 2013; a chain-backed timeline has no reason to.
+    if (path === '/feed.xml' || path === '/rss.xml') {
+      const posts = await timeline(url.searchParams.get('tag') || TAG, 30);
+      res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8', 'cache-control': 'public, max-age=60' });
+      return res.end(rssFeed(posts));
+    }
+    if (path === '/feed.json') {
+      const posts = await timeline(url.searchParams.get('tag') || TAG, 30);
+      res.writeHead(200, { 'content-type': 'application/feed+json; charset=utf-8', 'cache-control': 'public, max-age=60' });
+      return res.end(jsonFeed(posts));
+    }
+
     let m;
+    if ((m = path.match(/^\/tag\/([a-z0-9.\-]{1,32})$/))) return send(res, await tagPage(m[1]));
+    if ((m = path.match(/^\/feed\/([a-z0-9.\-]{1,32})$/))) return send(res, await feedPage(m[1]));
+    if ((m = path.match(/^\/mentions\/([a-z0-9.\-]{1,32})$/))) return send(res, await mentionsPage(m[1]));
+    if ((m = path.match(/^\/@([a-z0-9.\-]{1,32})\/(followers|following)$/))) return send(res, await followPage(m[1], m[2]));
+    if ((m = path.match(/^\/@([a-z0-9.\-]{1,32})\/feed\.xml$/))) {
+      const posts = await byAuthor(m[1], 30);
+      res.writeHead(200, { 'content-type': 'application/rss+xml; charset=utf-8' });
+      return res.end(rssFeed(posts, { title: `@${m[1]} — ${BRAND}`, self: `${BASE_URL}/@${m[1]}/feed.xml` }));
+    }
     if ((m = path.match(/^\/@([a-z0-9.\-]{1,32})$/))) return send(res, await profilePage(m[1]));
     if ((m = path.match(/^\/post\/([a-z0-9.\-]{1,32})\/([a-z0-9\-]{1,255})$/))) return send(res, await postPage(m[1], m[2]));
     return send(res, page('Not found — Congress', `<div class=empty>Not found. <a href="/" style="color:var(--blue)">← timeline</a></div>`), 404);
