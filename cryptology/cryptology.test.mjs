@@ -214,6 +214,19 @@ test('the séance plane is declared, empty, and says what blocks it', () => {
   assert.match(SEANCE_PLANE.settled, /not depth-as-progression/);
 });
 
+test('position() reads a REAL freshProfile — the shape the module actually produces', () => {
+  // This is the test that was missing. The original constructed { dimensions: {...} } by hand, which
+  // is the shape position() wanted rather than the shape freshProfile() emits, so a genuine defect
+  // passed: coordinates live on the top level and position() was reading a nested key that is never
+  // written. A caller adopting position() as the read API got zeroes for a real person.
+  const real = c.freshProfile('someone');
+  real.trust = 80;
+  real.valence = 40;
+  assert.equal(c.position(real, 'relation').coordinates.trust, 80, 'a real profile must not read as zero');
+  assert.equal(c.position(real, 'state').coordinates.valence, 40);
+  assert.equal(c.position(real, 'state').coordinates.arousal, 0, 'unset dims still fall back to default');
+});
+
 test('position() returns coordinates with defaults, and null for a plane that does not exist', () => {
   const p = { dimensions: { valence: 40 } };
   const s = position(p, 'state');

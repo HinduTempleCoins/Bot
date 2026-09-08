@@ -193,7 +193,13 @@ export function planeOf(dim) {
 export function position(profile, plane) {
   const spec = PLANES[plane];
   if (!spec || !profile || typeof profile !== 'object') return null;
-  const dims = profile.dimensions || profile.dims || {};
+  // The coordinates live on the TOP LEVEL of a profile — freshProfile() spreads them there (see the
+  // `...dims` spread below in freshProfile). Reading `profile.dimensions` returned all-defaults for a
+  // real person, so a caller adopting position() as the read API got a blank stranger. Nested forms
+  // are still accepted because a caller may legitimately pass one.
+  const dims = (profile.dimensions && typeof profile.dimensions === 'object') ? profile.dimensions
+    : (profile.dims && typeof profile.dims === 'object') ? profile.dims
+      : profile;
   const out = {};
   for (const d of spec.dims) {
     const s = ALL_DIMENSIONS[d];
