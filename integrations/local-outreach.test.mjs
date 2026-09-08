@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
-  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates, buyerFit, BUYER_KINDS,
+  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates, buyerFit, BUYER_KINDS, CALLED_IT, MAIN_FRAME,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -601,4 +601,91 @@ test('every buyer kind has a weight, a reason and a working pattern', () => {
   for (const k of BUYER_KINDS) {
     assert.ok(k.weight > 0 && k.why && k.match instanceof RegExp, k.id);
   }
+});
+
+
+// ── the opener that is not a pitch ────────────────────────────────────────────────────────────────
+test('the cohort draft opens with their own prediction, not with a claim of ours', () => {
+  const d = draft({ audience: 'cohort', year: 2010 });
+  assert.equal(d.ok, true);
+  assert.equal(d.calledIt, true);
+  assert.ok(d.body.includes(CALLED_IT.line));
+  assert.match(d.subject, /infrastructure/);
+});
+
+test('it can be turned off, and then the old subject comes back', () => {
+  const d = draft({ audience: 'cohort', year: 2010, calledIt: false });
+  assert.equal(d.calledIt, false);
+  assert.ok(!d.body.includes(CALLED_IT.line));
+  assert.match(d.subject, /Boyd 2010/);
+});
+
+test('a creator gets the peer register — copy, not a note about copy', () => {
+  const d = draft({ audience: 'seed', seed: { name: 'A Creator', describesSelf: 'Digital creator' } });
+  assert.ok(d.body.includes(CALLED_IT.peerLine));
+  assert.ok(!d.body.includes(CALLED_IT.peerNote), 'guidance for the writer never lands in the message');
+  assert.equal(d.register, CALLED_IT.peerNote);
+});
+
+test('an ordinary classmate does not get the peer line', () => {
+  const d = draft({ audience: 'seed', seed: { name: 'A Classmate' } });
+  assert.ok(!d.body.includes(CALLED_IT.peerLine));
+  assert.equal(d.register, '');
+});
+
+test('the opener still passes the claim check, and stays a claim about what THEY said', () => {
+  const d = draft({ audience: 'cohort', year: 2011 });
+  assert.equal(verifyClaims(d.body).ok, true);
+  assert.ok(d.claims.includes('they_predicted_it'));
+  assert.ok(!/guaranteed|moon|100x/i.test(d.body));
+});
+
+test('the frame is stated in its checkable form, not as an occult claim', () => {
+  assert.match(CALLED_IT.frame, /believed something about someone/);
+  assert.ok(!/magic|occult|supernatural|power/i.test(CALLED_IT.frame));
+});
+
+
+// ── the legal line, drawn where the operator drew it ─────────────────────────────────────────────
+test('the operator may state his own First Amendment position — that guard was wrong and is gone', () => {
+  assert.equal(verifyClaims('My position is that religious use is legal under the First Amendment').ok, true);
+  assert.equal(verifyClaims('It is legal under the First Amendment').ok, true);
+  assert.equal(verifyClaims('We have a case, and it is live and unfinished').ok, true);
+  assert.equal(verifyClaims('We have put together the law better than anyone').ok, true);
+});
+
+test('a WON or LANDMARK case is still refused — the case is live, and that is the fact today', () => {
+  for (const t of ['we won our case', 'this is a landmark ruling', 'the court ruled in our favor', 'we set a precedent']) {
+    const v = verifyClaims(t);
+    assert.equal(v.ok, false, t);
+    assert.ok(v.problems.some((p) => p.code === 'legal_win'), t);
+  }
+});
+
+test('telling a READER that they are protected is refused — his exposure is his, theirs is not ours to hand them', () => {
+  for (const t of ['you can legally use it', "you're protected under the First Amendment", 'you won\'t be prosecuted']) {
+    const v = verifyClaims(t);
+    assert.equal(v.ok, false, t);
+    assert.ok(v.problems.some((p) => p.code === 'legal_advice_to_reader'), t);
+  }
+});
+
+test('the law line states the position, names the case as live, and points at the corpus', () => {
+  assert.match(CALLED_IT.lawLine, /First Amendment/);
+  assert.match(CALLED_IT.lawLine, /live/);
+  assert.equal(verifyClaims(CALLED_IT.lawLine).ok, true);
+  assert.match(CALLED_IT.lawNeedsLink, /URL|link/i);
+});
+
+
+test('the hometown angle is subordinate to the main frame, not a replacement for it', () => {
+  assert.equal(CALLED_IT.subordinateTo, MAIN_FRAME.id);
+  assert.match(MAIN_FRAME.lineage, /MELECH|Van Kush/);
+  assert.ok(MAIN_FRAME.canon.every((c) => c.startsWith('knowledge/scripture/')));
+});
+
+test('the Matrix is the TOKEN matrix — structure over price — and it carries its live URL', () => {
+  assert.match(MAIN_FRAME.headline, /structure, not by its price/);
+  assert.match(MAIN_FRAME.url, /witness\.melek\.salon\/dev\/matrix/);
+  assert.ok(!/movie|film|simulation/i.test(JSON.stringify(MAIN_FRAME)), 'not that Matrix');
 });

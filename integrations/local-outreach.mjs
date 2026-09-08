@@ -591,6 +591,18 @@ const CHECKABLE = Object.freeze({
   public_chains: 'The chains are public — every block, every transaction, checkable by anyone.',
   local_business: 'Family in the local printing business (Executive Press) — this is a DFW company, not an app store listing from nowhere.',
   free_to_look: 'Nothing to buy to look at it.',
+  they_predicted_it: 'The people on this list said in high school that he would end up doing something '
+                   + 'like this. That is a fact about what THEY said, it is theirs to confirm or deny, '
+                   + 'and it is the only opener here that is not a pitch.',
+  law_assembled: 'The religious-cannabis exemption law has been ASSEMBLED and published better than '
+               + 'anyone else has assembled it. A claim about a body of work, checkable by reading it.',
+  first_amendment_position: 'That religious cannabis use is protected under the First Amendment is the '
+                          + 'operator\'s stated constitutional position, and it is his to state. It is '
+                          + 'an argued reading of free exercise and RFRA, not a report of a settled '
+                          + 'holding, and it says nothing about any particular reader\'s exposure.',
+  live_case: 'There IS a case. It is live and unfinished — not a landmark, not a precedent, not won. '
+           + '"We have a case" is true; "we won" is not, and neither is anything that implies the '
+           + 'question is settled.',
 });
 
 const REFUSED = Object.freeze({
@@ -601,6 +613,17 @@ const REFUSED = Object.freeze({
   guaranteed_returns: 'No claim that a token will be worth anything.',
   school_endorsement: 'McKinney Boyd and McKinney ISD have not endorsed this. Being an alum is not an endorsement.',
   personal_relationship: 'Never imply we know someone we do not, or that a mutual friend sent us.',
+  legal_win: 'Never claim a WON or LANDMARK case, a precedent, or a court ruling in our favour. '
+           + 'Operator, 2026-09-08: "we do like have a Case, just not a Landmark Finished Case." The '
+           + 'case is live and unfinished. Saying otherwise is false today and stays false until a '
+           + 'court says it.',
+  legal_advice_to_reader: 'Never tell a READER that they can legally do something, that they are '
+                        + 'protected, or that they will not be prosecuted. The operator\'s First '
+                        + 'Amendment position is his to state and it is stated as a position; turning '
+                        + 'it into "so you can go ahead" is individualized legal advice, it is out of '
+                        + 'scope (CLAUDE.md §Scope), and it is the one line here that a stranger could '
+                        + 'act on and be arrested for. His own exposure is his to carry. Theirs is not '
+                        + 'ours to hand them.',
 });
 
 /**
@@ -621,6 +644,23 @@ export function verifyClaims(text = '') {
   if (/\b(endorsed|sponsored|official partner)\b/.test(t) && /\b(mckinney|boyd|isd|school)\b/.test(t)) {
     problems.push({ code: 'school_endorsement', why: REFUSED.school_endorsement });
   }
+  // The legal boundary, and it is TWO lines, not one.
+  //
+  // An earlier version of this check blocked "it is legal under the First Amendment" outright. That
+  // was wrong and the operator said so: that is his stated constitutional position, he is the one
+  // carrying the case, and a guard that stops the founder from stating his own legal argument is a
+  // rule nobody asked for. The two things that stay blocked are narrower and they are real:
+  //
+  //   1. A WON or LANDMARK case. There is a case; it is live and unfinished. Claiming a precedent is
+  //      false today.
+  //   2. Telling the READER that THEY are protected. His exposure is his to carry; theirs is not ours
+  //      to hand them, and that is the sentence someone else could act on and be arrested for.
+  if (/\b(we won|won (?:the|our) case|landmark (?:case|ruling|decision)|set(?: a)? precedent|court ruled|ruling in our favou?r|case (?:is )?(?:settled|decided))\b/.test(t)) {
+    problems.push({ code: 'legal_win', why: REFUSED.legal_win });
+  }
+  if (/\b(you can legally|you'?re protected|you are protected|legal for you|it'?s legal to (?:use|carry|grow|possess)|you won'?t be prosecuted|no risk of arrest)\b/.test(t)) {
+    problems.push({ code: 'legal_advice_to_reader', why: REFUSED.legal_advice_to_reader });
+  }
   return problems.length
     ? { ok: false, problems, reason: problems.map((p) => p.why).join(' ') }
     : { ok: true, claims: Object.keys(CHECKABLE) };
@@ -630,7 +670,101 @@ export function verifyClaims(text = '') {
  * Draft the message. `year` is the class year when writing to a cohort; `seed` when writing to a
  * connector. Returns { ok, subject, body } or a refusal — and NEVER sends.
  */
-export function draft({ audience = 'cohort', year = 0, seed = null, product = 'SoapBox' } = {}) {
+/**
+ * The opener for the friends list, and it is not a pitch.
+ *
+ * Operator, 2026-09-08: "in Highschool Everyone knew I was going to be like Famous or a Cult Leader,
+ * or like Take Over the World."
+ *
+ * That changes the whole message. Every other audience gets told what we built; this audience already
+ * predicted it. So the opener cashes their own prediction rather than making a claim: the strongest
+ * thing that can be said to a person from home is a thing THEY said first.
+ *
+ * THE FRAME, and why it is the defensible version. The operator's framing is that this competes with
+ * Kek — a group belief that produced a result. It does, and it wins on the only axis that can be
+ * checked: that egregore produced memes, this one produced a chain you can open in a browser, a
+ * mining pool you can point a miner at, and a company with a name on it. The claim is not
+ * "collective belief has occult power". The claim is "a group of people believed something about a
+ * person and the person went and built it" — which is what actually happened, is what they will
+ * remember, and needs no defending. Stated that way it never trips the self-disclaim (BRIEF.md §5).
+ *
+ * What it must never become is flattery or a mutual-friend pretext (see REFUSED.personal_relationship).
+ * It says what they said. They get to decide whether they meant it.
+ */
+/**
+ * THE MAIN FRAME — and everything below it is a door into this, not a replacement for it.
+ *
+ * Operator, 2026-09-08: "Look for where we were Talking about the Matrix and Royal Families and stuff,
+ * that all is the Main Framing, this is just a Small Addition." Then, correcting a wrong guess of
+ * mine: "the 'Matrix' has to do the Tokenomics of Graphene Chains and Tokens."
+ *
+ * So the Matrix is not the film and it is not a metaphor. It is **The Token Matrix**, live at
+ * `witness.melek.salon/dev/matrix` (`site/witness/server.mjs` → devMatrixPage), and its argument is
+ * one sentence: **read a token by its structure, not by its price.** Two matrices on that page —
+ * the Graphene social chains side by side (HIVE / STEEM / BLURT / MELEK: downvotes, fee model,
+ * author-curator split, side-token layer), and the token rows read by what actually governs the cost
+ * of holding a value — percent staked, cooldown length, and the real float that is left. VKBT and
+ * CURE against high-float contrast rows, from live Hive-Engine data with an as-of date.
+ *
+ * That is the frame for the holder campaign, and it is the reason the holder list is the right list:
+ * these are people who already hold a token whose structure the page explains. It is checkable — the
+ * numbers are on-chain — which is the same argument the hometown pitch makes in a different register.
+ *
+ * The second half of the main framing is the corpus: the Van Kush Family Research Institute, the
+ * Royal Military lineage out of Cush/Nubia, Temple Culture, and MELECH = ANGEL = KING = MESSENGER,
+ * which is why the chain is named MELEK. Canon in `knowledge/scripture/`.
+ *
+ * Every hometown-specific angle below is a LOCAL DOOR into this. The prophecy line and the case are
+ * how one particular audience gets in. They are not the building.
+ */
+export const MAIN_FRAME = Object.freeze({
+  id: 'token-matrix-and-lineage',
+  headline: 'Read a token by its structure, not by its price — percent staked, cooldown, and the real '
+          + 'float that is left. That is the Token Matrix, and it is why these holders are the list.',
+  url: 'https://witness.melek.salon/dev/matrix',
+  source: 'site/witness/server.mjs (devMatrixPage) — live Hive-Engine rows, pinned with an as-of date',
+  lineage: 'The other half: the Van Kush Family Research Institute, the Royal Military lineage, Temple '
+         + 'Culture, and MELECH = ANGEL = KING = MESSENGER — which is why the chain is named MELEK.',
+  canon: ['knowledge/scripture/van_kush_master_synthesis.md', 'knowledge/scripture/mythology_as_genealogy.md'],
+  subordinate: 'Everything hometown-specific — the prophecy line, the case — is a door into this frame, '
+             + 'not a substitute for it. Lead with the work; the local angle is why THIS list opens it.',
+});
+
+export const CALLED_IT = Object.freeze({
+  claim: 'they-predicted-it',
+  subordinateTo: MAIN_FRAME.id,   // a door into the frame above, never the frame itself
+  line: 'You lot decided in high school that I was going to end up either famous, running a cult, or '
+      + 'taking over the world. I want to report that I went with infrastructure.',
+  /**
+   * The second prediction, and the one that has to be worded exactly.
+   *
+   * Operator, 2026-09-08: "a lot of People knew I was going to do a Religious Marijuana Case and get
+   * it like on the Record that it's Legal, like I have. Not that we have a Case, but we have put
+   * together the Law Better than anyone."
+   *
+   * He drew the line himself and it is the right one. The claim is the BODY OF WORK — the religious-
+   * exemption law assembled and published more completely than anyone else has assembled it. It is
+   * not a case, not a ruling, and it is emphatically not "this is legal for you". REFUSED.legal_win
+   * enforces that, because the overstatement here is the one a reader can act on and get arrested for.
+   */
+  lawLine: 'The other thing people said I would do was the religious cannabis case, and that one is '
+         + 'live. My position is that religious use is protected under the First Amendment, and the '
+         + 'work behind it — the law itself, assembled more completely than anyone else has assembled '
+         + 'it — is published and you can read the whole argument yourself.',
+  lawNeedsLink: 'This line does not ship until it carries the URL of the published corpus. A claim to '
+              + 'have assembled the law better than anyone is only checkable if the reader can open '
+              + 'it, and an unfinished case is exactly where a reader deserves the primary source.',
+  frame: 'A group of people believed something about someone, and he went and built it. That is the '
+       + 'whole of the claim — and unlike the other version of that story going around, this one '
+       + 'produced a chain, a pool and a company you can open in a browser rather than a frog.',
+  // Copy, for someone who was already building an audience back then. Peer to peer, not announcement
+  // to audience — they were on the same track and they will notice immediately if the register is off.
+  peerLine: 'You were already doing the audience thing back then, so you will know exactly how much of '
+          + 'this is work and how little of it is luck.',
+  peerNote: 'A creator gets the peer register, not the announcement register.',
+});
+
+export function draft({ audience = 'cohort', year = 0, seed = null, product = 'SoapBox', calledIt = true } = {}) {
   const who = audience === 'seed' && seed
     ? str(seed.name)
     : (year ? `Boyd ${year}` : 'Boyd alumni');
@@ -639,8 +773,13 @@ export function draft({ audience = 'cohort', year = 0, seed = null, product = 'S
     ? `${who} — I'm reaching out directly because you actually build things here.`
     : `${who} — this is Ryan Gallagher, ${SCHOOL.name}${year ? `, class of ${year}` : ''}.`;
 
+  // Someone who was already building an audience back then is a peer, not an announcement target.
+  const peer = seed && (buyerFit(seed).fit === 'creator-media'
+    || (seed.tags || []).map(low).includes('creator-account'));
+
   const body = [
     opener,
+    ...(calledIt ? ['', CALLED_IT.line, ...(peer ? ['', CALLED_IT.peerLine] : [])] : []),
     '',
     `We built ${product} here in Dallas–Fort Worth. Not a re-skin of somebody else's app — our own `
     + 'blockchains, our own tools: document and PDF tools, image hosting, internet fax, private '
@@ -662,9 +801,13 @@ export function draft({ audience = 'cohort', year = 0, seed = null, product = 'S
     ok: true,
     audience,
     to: who,
-    subject: audience === 'seed'
-      ? 'Built here in DFW — worth a look?'
-      : `Boyd${year ? ` ${year}` : ''} — we built something here in DFW`,
+    calledIt: Boolean(calledIt),
+    register: peer ? CALLED_IT.peerNote : '',
+    subject: calledIt
+      ? 'Turns out it was infrastructure'
+      : (audience === 'seed'
+        ? 'Built here in DFW — worth a look?'
+        : `Boyd${year ? ` ${year}` : ''} — we built something here in DFW`),
     body,
     claims: Object.keys(CHECKABLE),
     sends: false,
