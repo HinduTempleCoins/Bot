@@ -1,3 +1,24 @@
+// ⚠ CORRUPTED DRAFT — THIS FILE HAS NEVER RUN. IT IS NOT THE ANCESTOR OF cryptology/.
+//
+// Kept for lineage, moved out of the repo root and given a non-code extension so nothing can import
+// it and no tool reads it as source. Three facts about it, all verifiable:
+//
+//   1. It does not parse. `node --check` stops at `increaseT trust(userId, ...)` (a botched
+//      find/replace) and there are further breaks after it. It has been syntactically invalid since
+//      the commit that introduced it (4b7fb23f, 2026-01-09).
+//   2. Nothing has ever imported it. It is CommonJS (`require`) inside a `"type": "module"` package,
+//      so `require` is not even defined here.
+//   3. It is therefore NOT the code Crypt-ology was ported from, though cryptology/cryptology.mjs
+//      and the itineraries both used to say it was.
+//
+// THE REAL ANCESTOR is the EMOTIONAL RELATIONSHIP TRACKING SYSTEM in `index.js` (lines 33-131) — the
+// `userRelationships` Map, `getOrCreateRelationship`, `updateRelationship`, `getConversationTone`,
+// persisted to `user-relationships.json`. That is the code that actually ran on the Discord build and
+// that BRIEF.md §6a describes. The live implementation is `cryptology/cryptology.mjs`.
+//
+// Do not fix this file. Do not cite it. Read index.js:33-131 instead.
+// ─────────────────────────────────────────────────────────────────────────────────────────────────
+
 // ========================================
 // VAN KUSH RELATIONSHIP TRACKER
 // ========================================

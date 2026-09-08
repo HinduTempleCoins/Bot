@@ -396,7 +396,7 @@ GET /stats (knowledge base statistics)
 - [x] Welcome system (5 messages)
 - [x] Scheduled posts (daily/weekly)
 - [x] NPC conversation system (dialogue-flows.js)
-- [x] Emotional relationship tracking (relationship-tracker.js)
+- [x] Emotional relationship tracking (`index.js` 33-131 — the userRelationships map; the root `relationship-tracker.js` draft never parsed, now `archive/relationship-tracker.js.corrupt-draft`)
 - [x] OpenRouter AI integration (free Llama 4 Maverick)
 - [x] Knowledge base expansion (BitcoinTalk history, crypto memes, VKBT/CURE lore)
 
@@ -516,7 +516,7 @@ GET /stats (knowledge base statistics)
 
 ### ✅ Already Completed:
 - [x] NPC Conversation System (dialogue-flows.js)
-- [x] Emotional Relationship Tracking (relationship-tracker.js)
+- [x] Emotional Relationship Tracking (`index.js` 33-131 — the userRelationships map; the root `relationship-tracker.js` draft never parsed, now `archive/relationship-tracker.js.corrupt-draft`)
 - [x] Free AI integration (OpenRouter Llama 4 Maverick)
 - [x] Knowledge base expansion
 

@@ -5,6 +5,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const tmpdir = fs.mkdtempSync(path.join(os.tmpdir(), 'cryptology-'));
 process.env.CRYPTOLOGY_STORE = path.join(tmpdir, 'cryptology.json');
@@ -443,4 +445,30 @@ test('forget reports a delete that did not reach disk', () => {
   assert.equal(r.ok, false, 'a delete that did not persist is not a delete');
   assert.equal(r.reason, 'write-failed');
   assert.ok(c.loadStore(file)['doomed-one'], 'and the record is still there, honestly reported');
+});
+
+// ── lineage ───────────────────────────────────────────────────────────────────────────────────────
+
+test('every file the header cites as ANCESTRY exists and actually parses', () => {
+  // The header named `relationship-tracker.js` as a port source for months. That file has never
+  // parsed (node --check stops at `increaseT trust(...)`), is CommonJS in a "type":"module" package,
+  // and has never been imported — so the module's own account of where it came from was wrong, and
+  // nothing checked. A citation that cannot be executed is not a citation.
+  const repo = fileURLToPath(new URL('../', import.meta.url));
+  const src = fs.readFileSync(new URL('./cryptology.mjs', import.meta.url), 'utf8');
+  const cited = [...src.matchAll(/^\/\/ ANCESTRY:\s+(\S+)/gm)].map((m) => m[1]);
+  assert.ok(cited.includes('index.js'), 'index.js is the code that actually ran');
+  for (const rel of cited) {
+    const abs = path.join(repo, rel);
+    assert.ok(fs.existsSync(abs), `${rel} is cited as ancestry but does not exist`);
+    execFileSync(process.execPath, ['--check', abs], { stdio: 'pipe' }); // throws if it does not parse
+  }
+});
+
+test('the corrupted draft is not sitting in the repo root pretending to be code', () => {
+  const repo = fileURLToPath(new URL('../', import.meta.url));
+  assert.equal(fs.existsSync(path.join(repo, 'relationship-tracker.js')), false);
+  const draft = path.join(repo, 'archive', 'relationship-tracker.js.corrupt-draft');
+  assert.ok(fs.existsSync(draft), 'kept for lineage, out of the way, with a non-code extension');
+  assert.match(fs.readFileSync(draft, 'utf8').slice(0, 600), /CORRUPTED DRAFT — THIS FILE HAS NEVER RUN/);
 });
