@@ -36,7 +36,10 @@ import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
-import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
+import { getMailbox, sendViaMailbox, postalAddress } from './connect/mailbox.mjs';
+import { chooseTransport, sendVia } from './herald/transport.mjs';
+import { planDay, runDay } from './herald/batch-runner.mjs';
+import { suppressionFrom, unsubscribeMailto } from './herald/send-gate.mjs';
 import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
 import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
@@ -339,6 +342,69 @@ export async function handler(req, res) {
         // Herald send: render the given sequence step (default: first) for this lead + send from the
         // owner's OWN connected mailbox. On success the lead advances to 'contacted'. Never sends from
         // @pentecaust.com — the mailbox layer refuses that.
+        // ── THE BATCH, on the path that actually sends ───────────────────────────────────────────
+        // `batch-runner.mjs` has existed, been tested, and been called by NOTHING. The only send
+        // affordance in this repo was a per-lead button, so 218 holders meant 218 clicks and the
+        // warmup ramp was advisory. This is its caller.
+        //
+        // DRY RUN IS THE DEFAULT. `send: true` must be passed explicitly, and even then the plan's
+        // own cap governs — planDay() never returns more entries than the day allows, so a caller
+        // that asks for the whole list gets the day's ten and a reason for every one left out.
+        if (op === 'batch' && !segs[4]) {
+          const g = guardSend({ session: { account: me }, campaign: c });
+          if (!g.ok) return json(res, g.code === 'login-required' ? 401 : 403, g, origin);
+          const tr = chooseTransport(me);
+          if (!tr.transport) return json(res, 403, { ok: false, reason: tr.reason, blockers: tr.blockers }, origin);
+          const step = (c.sequence || [])[Number(b.step) || 0];
+          if (!step) return json(res, 422, { ok: false, reason: 'draft a plan first (no sequence step)' }, origin);
+
+          const mine = campaignsForOwner(me);
+          // Bounces and complaints are counted across every campaign, not just this one — a domain
+          // burns as a domain, and deliverabilityHealth() is asking about the sender, not the list.
+          let bounces = 0; let complaints = 0;
+          for (const cc of mine) {
+            for (const l of (cc.leads || [])) {
+              if (l.stage === 'bounced') bounces += 1;
+              if (l.stage === 'complained') complaints += 1;
+            }
+          }
+          const bled = ledgerFor(me);
+          const plan = planDay({
+            leads: c.leads || [],
+            render: (lead) => renderStep(step, lead),
+            warmupDay: bled.warmupDay,
+            suppression: suppressionFrom(mine),
+            postalAddress: postalAddress(),
+            unsubscribeUrl: unsubscribeMailto(tr.from),
+            senderName: String(b.senderName || process.env.HERALD_SIGNATURE || tr.from || ''),
+            sent: bled.sentToday,
+            bounces,
+            complaints,
+            limit: bled.remainingToday,
+          });
+          const wantSend = b.send === true;
+          const out = await runDay(plan, {
+            send: wantSend,
+            sender: wantSend ? (async (entry) => {
+              const r = await sendVia(me, { to: entry.email, subject: entry.subject, body: entry.body });
+              // A failed attempt counts against the day too — same reason as the per-lead route.
+              recordSend(me, { ok: !!(r && r.ok) });
+              return r;
+            }) : null,
+            onSent: (entry) => { moveLead(c.id, entry.id, 'contacted'); },
+          });
+          return json(res, 200, {
+            ok: true,
+            transport: tr.transport,
+            transportReason: tr.reason,
+            plan: {
+              cap: plan.cap, warmupDay: plan.warmupDay, counts: plan.counts, note: plan.note, health: plan.health,
+              batch: (plan.batch || []).map((e) => ({ id: e.id, email: e.email, subject: e.subject })),
+              skipped: plan.skipped,
+            },
+            run: out,
+          }, origin);
+        }
         if (op === 'leads' && segs[4] && segs[5] === 'send') {
           // ⚠️ The only capability that leaves the building. Re-checked HERE, at the send, rather than at
           // campaign creation — a grant can be revoked in between, and this is the moment that costs
@@ -367,7 +433,16 @@ export async function handler(req, res) {
           // It fails closed. No HERALD_POSTAL_ADDRESS, no send — a commercial message without a
           // physical postal address violates CAN-SPAM §7704(a)(5)(A)(iii) and the first one is
           // already the violation. If this blocks the first campaign, it is working.
-          const mb = getMailbox(me);
+          // Which road this send leaves by. The Gmail road cannot finish a 2.5-week ramp — an
+          // unverified app's refresh token expires in 7 days — and it reports no bounces at all, so
+          // the gate's deliverability STOP is inert on it. chooseTransport() prefers the ESP and says
+          // why in `reason`. It refuses an identity domain on BOTH roads.
+          const tr = chooseTransport(me);
+          if (!tr.transport) {
+            return json(res, 403, { ok: false, reason: tr.reason, blockers: tr.blockers }, origin);
+          }
+          // The unsubscribe mailto the gate checks must be the address this send will actually come
+          // from, not whatever mailbox happens to be connected.
           // The warmup ramp needs a count to compare against, and until send-ledger.mjs there was
           // none: 218 leads meant 218 buttons and no ceiling at all. Day one is 10.
           const led = ledgerFor(me);
@@ -375,7 +450,7 @@ export async function handler(req, res) {
             channel: 'email',
             recipient: lead.email,
             campaigns: campaignsForOwner(me),
-            mailboxEmail: (mb && mb.email) || '',
+            mailboxEmail: tr.from || '',
             ledger: led,
           });
           if (!cg.ok) {
@@ -387,12 +462,12 @@ export async function handler(req, res) {
           // A message whose merge fields did not all resolve is not sent. Both sequences currently in
           // data/crm.json end with `{{signature}}`; without this the literal placeholder goes out.
           if (msg.ok === false) return json(res, 422, { ok: false, reason: msg.reason, unresolved: msg.unresolved }, origin);
-          const r = await sendViaMailbox(me, { to: lead.email, subject: msg.subject, body: msg.body });
+          const r = await sendVia(me, { to: lead.email, subject: msg.subject, body: msg.body });
           // A failed attempt counts against the day too. A caller that retried a hundred refusals
           // would otherwise ramp nothing while looking to the ledger like it had.
           const after = recordSend(me, { ok: !!(r && r.ok) });
           if (r && r.ok) moveLead(c.id, lead.id, 'contacted');
-          return json(res, 200, { ...r, ramp: (after && after.ledger) ? {
+          return json(res, 200, { ...r, transport: tr.transport, transportReason: tr.reason, ramp: (after && after.ledger) ? {
             warmupDay: after.ledger.warmupDay, cap: after.ledger.cap,
             sentToday: after.ledger.sentToday, remainingToday: after.ledger.remainingToday,
           } : null }, origin);

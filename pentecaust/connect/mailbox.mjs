@@ -21,9 +21,9 @@ const env = (k, d) => (typeof process !== 'undefined' && process.env && process.
 export const DATA_FILE = () => env('MAILBOX_DATA', join(process.cwd(), 'data', 'mailboxes.json'));
 
 // Identity/transactional domains cold outreach must NEVER send from (the hard deliverability rule).
-const FORBIDDEN_FROM = (env('HERALD_FORBIDDEN_SEND_DOMAINS', 'pentecaust.com,melek.salon,soapbox.community')
+export const FORBIDDEN_FROM = (env('HERALD_FORBIDDEN_SEND_DOMAINS', 'pentecaust.com,melek.salon,soapbox.community')
   .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean));
-const isForbiddenFrom = (email) => {
+export const isForbiddenFrom = (email) => {
   const at = String(email || '').toLowerCase().split('@')[1] || '';
   return FORBIDDEN_FROM.some((d) => at === d || at.endsWith('.' + d));
 };
