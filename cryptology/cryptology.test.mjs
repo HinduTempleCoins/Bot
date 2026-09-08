@@ -330,3 +330,46 @@ test('the persistence flag never leaks into the stored map', () => {
   assert.ok(!raw.includes('_persisted'), '_persisted is non-enumerable — it must not be serialized');
   assert.ok(!raw.includes('_reason'));
 });
+
+// ── identity ──────────────────────────────────────────────────────────────────────────────────────
+// A record is held under a real MELEK identity or it is not held at all.
+
+test('observe refuses a handle that is not a MELEK account name', () => {
+  const file = path.join(freshDir(), 'store.json');
+  for (const junk of ['', '  ', 'bob smith', 'Not An Account', 'ab', 'a--b', '-leading', 'x'.repeat(20)]) {
+    const p = c.observe(junk, 'warm_exchange', { file });
+    assert.equal(c.writeResult(p).reason, 'invalid-account', `"${junk}" must not become a profile`);
+  }
+  assert.deepEqual(c.loadStore(file), {}, 'nothing was written for any of them');
+
+  // and a real one still works, @ and case included
+  assert.equal(c.writeResult(c.observe('@Hathor', 'warm_exchange', { file })).ok, true);
+  assert.deepEqual(Object.keys(c.loadStore(file)), ['hathor']);
+});
+
+test('__proto__ cannot be an account — the entry would vanish into the prototype setter', () => {
+  const file = path.join(freshDir(), 'store.json');
+  const p = c.observe('__proto__', 'warm_exchange', { file });
+  assert.equal(c.writeResult(p).reason, 'invalid-account');
+  assert.deepEqual(c.loadStore(file), {});
+  assert.equal({}.polluted, undefined, 'Object.prototype is untouched');
+  assert.equal(c.writeResult(c.remember({ account: '__proto__', warmth: 99 }, file)).ok, false);
+});
+
+test("'constructor' is a legal account name and must not read back as Object's constructor", () => {
+  // store['constructor'] on a plain object is truthy for someone who has never been seen, so recall()
+  // handed the caller a FUNCTION as that person's profile.
+  const p = c.recall('constructor', {});
+  assert.equal(typeof p, 'object');
+  assert.equal(p.account, 'constructor');
+  assert.equal(p.totalInteractions, 0);
+  const file = path.join(freshDir(), 'store.json');
+  assert.equal(c.observe('constructor', 'greeted', { file }).familiarity, 1, 'and it is an ordinary person');
+});
+
+test('isValidAccount is the canonical Graphene rule, applied to the normalized key', () => {
+  assert.equal(c.isValidAccount('@Hathor'), true);
+  assert.equal(c.isValidAccount('foo.cool'), true);
+  assert.equal(c.isValidAccount('a.b'), false);
+  assert.equal(c.isValidAccount(undefined), false);
+});

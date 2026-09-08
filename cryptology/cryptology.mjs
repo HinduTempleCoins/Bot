@@ -38,6 +38,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// The canonical Graphene account-name rule, not a fourth copy of it. welcome-grant.mjs is the
+// import-safe home of it (no imports of its own, CLI guarded, and it is the copy the suite already
+// tests at signup/welcome-grant.test.mjs:31-38); signup/server.mjs exports the identical function
+// but drags an HTTP surface in with it.
+import { validAccountName } from '../signup/welcome-grant.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /**
@@ -216,8 +221,31 @@ const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, Number.isFinite(+x) ? +x 
 
 // Normalize any handle to a MELEK account key: lowercase, strip a leading '@', trim. Graphene account
 // names are lowercase by construction, so this is the canonical identity key for the map.
+//
+// NORMALIZING IS NOT VALIDATING. This function alone let '', 'bob smith' and 'Not An Account' become
+// permanent profiles, and '__proto__' was worse than that: `store['__proto__'] = p` invokes the
+// prototype setter instead of creating a property, so the entry silently vanished — latent only
+// because no HTTP path writes today, live the moment a surface calls observe() with a name a user
+// typed. Every WRITE path therefore runs the key through isValidAccount() below.
 export function accountKey(handle) {
   return String(handle || '').trim().replace(/^@+/, '').toLowerCase();
+}
+
+/** Is this handle a real MELEK identity the map may hold a record under? */
+export function isValidAccount(handle) {
+  return validAccountName(accountKey(handle));
+}
+
+/**
+ * Read one entry out of a store WITHOUT consulting Object.prototype.
+ *
+ * `store[key]` is not safe on a plain object keyed by user-supplied names: 'constructor' is a
+ * perfectly legal Graphene account name (lowercase, 11 chars), and `store['constructor']` returns
+ * Object's constructor FUNCTION for anyone who has never been seen. The Witness would then treat a
+ * function as that person's profile. hasOwnProperty is the whole fix.
+ */
+function ownProfile(store, key) {
+  return (store && Object.prototype.hasOwnProperty.call(store, key)) ? store[key] : undefined;
 }
 
 // ── injectable clock ─────────────────────────────────────────────────────────
@@ -439,12 +467,12 @@ export function writeResult(p) {
 /** Get a profile (creating a fresh one if absent). Pure-ish: reads store, does not write. */
 export function recall(account, store = loadStore()) {
   const key = accountKey(account);
-  return store[key] ? store[key] : freshProfile(key);
+  return ownProfile(store, key) || freshProfile(key);
 }
 
 /** Persist a profile back into the store (read-modify-write). Returns the profile. */
 export function remember(p, file = storeFile()) {
-  if (!p || !p.account) return markPersist(p, false, 'invalid-account');
+  if (!p || !isValidAccount(p.account)) return markPersist(p, false, 'invalid-account');
   const store = loadStore(file);
   store[p.account] = p;
   const ok = saveStore(store, file);
@@ -469,9 +497,13 @@ export function observe(account, event, opts = {}) {
   // 24 / 3. persist:false must mean "do not WRITE", never "do not REMEMBER".
   const store = loadStore(file);
   const key = accountKey(account);
+  // remember() has always guarded its key; observe() — the verb every surface actually calls — did
+  // not, so '', 'bob smith' and 'Not An Account' all became permanent profiles. A record is held
+  // under a real MELEK identity or it is not held at all.
+  if (!isValidAccount(key)) return markPersist(freshProfile(key), false, 'invalid-account');
   // A preview also must not mutate the loaded map in place — it works on a copy, so nothing a preview
   // does can leak into a later write by a caller holding the same object.
-  const existing = store[key];
+  const existing = ownProfile(store, key);
   const p = existing ? (persist ? existing : structuredClone(existing)) : freshProfile(key);
 
   const base = EVENTS[event] || {};                 // unknown event → no dimension move (soft no-op)
@@ -507,6 +539,11 @@ if (isMain) {
     console.log(JSON.stringify({ ...p, _disposition: d, _topics: suggestTopics(p) }, null, 2));
   } else if (cmd === 'observe' && a && b) {
     const p = observe(a, b);
+    const w = writeResult(p);
+    if (!w.ok) {
+      console.error(`refused: @${accountKey(a)} — ${w.reason}`);
+      process.exit(1);
+    }
     const d = dispositionOf(p);
     console.log(`@${p.account}: ${b} → ${d.stance} (closeness ${d.closeness}, standing ${d.standing}, ${p.totalInteractions} interactions)`);
     if (!EVENTS[b]) console.error(`  note: '${b}' is not a known event — recorded as a no-op interaction. Known: ${Object.keys(EVENTS).join(', ')}`);

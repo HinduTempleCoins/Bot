@@ -109,3 +109,11 @@ test('recordInteraction reports a write that never landed as a failure, not as o
   assert.equal(r.ok, false, 'a write that did not happen is not a recorded interaction');
   assert.equal(r.reason, 'write-failed');
 });
+
+test('recordInteraction refuses a handle that is not a MELEK account name', () => {
+  const file = tmpStore();
+  const r = recordInteraction('Not An Account', 'warm_exchange', { file });
+  assert.equal(r.ok, false);
+  assert.equal(r.reason, 'invalid-account');
+  assert.ok(!fs.existsSync(file), 'nothing was written at all');
+});
