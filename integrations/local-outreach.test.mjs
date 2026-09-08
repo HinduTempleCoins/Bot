@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
-  loadVenues, assertVenueCheckable, personalReason,
+  loadVenues, assertVenueCheckable, personalReason, dedupe, possibleDuplicates,
 } from './local-outreach.mjs';
 
 // Named people live in .local/, never in the repo — so the tests supply their own, through the same
@@ -469,4 +469,66 @@ test('the two personal reasons stay distinguishable', () => {
   assert.match(personalReason({ tags: ['dated'] }), /dated/);
   assert.match(personalReason({ tags: ['justice-involved'] }), /type yourself/);
   assert.match(personalReason({ tags: ['personal-history'] }), /yours to write/);
+});
+
+
+// ── one person, one row ───────────────────────────────────────────────────────────────────────────
+const TWO_ACCOUNTS = [
+  { id: 'trevor-main', name: 'T Vincent', mutualsWithOperator: 22, audience: { friends: 664 } },
+  { id: 'trevor-second', name: 'T Daniel Vincent', mutualsWithOperator: 5, audience: { friends: 16 }, sameAs: 'trevor-main' },
+];
+
+test('a second account collapses into the one he actually uses', () => {
+  const { people, aliases } = dedupe(TWO_ACCOUNTS);
+  assert.equal(people.length, 1);
+  assert.equal(people[0].id, 'trevor-main');
+  assert.deepEqual(people[0].alsoAt.map((a) => a.id), ['trevor-second']);
+  assert.deepEqual(aliases, [{ id: 'trevor-second', name: 'T Daniel Vincent', collapsedInto: 'trevor-main' }]);
+});
+
+test('mutuals are never summed across a person\'s accounts', () => {
+  const [p] = dedupe(TWO_ACCOUNTS).people;
+  assert.equal(p.mutualsWithOperator, 22, '22 and 5 do not make 27 — that number is about nobody');
+});
+
+test('the operator\'s primary beats the size heuristic', () => {
+  const flagged = [TWO_ACCOUNTS[0], { ...TWO_ACCOUNTS[1], primary: true }];
+  const [p] = dedupe(flagged).people;
+  assert.equal(p.id, 'trevor-second');
+  assert.match(p.primaryChosenBy, /operator/);
+});
+
+test('rank() scores the person once, and lists what it collapsed', () => {
+  const r = rank(TWO_ACCOUNTS);
+  assert.equal(r.then.length, 1);
+  assert.deepEqual(r.collapsedDuplicates.map((a) => a.id), ['trevor-second']);
+});
+
+test('a sameAs loop does not hang, and a dangling sameAs is left alone', () => {
+  const loop = [{ id: 'a', name: 'A', sameAs: 'b' }, { id: 'b', name: 'B', sameAs: 'a' }];
+  assert.ok(dedupe(loop).people.length >= 1);
+  assert.equal(dedupe([{ id: 'x', name: 'X', sameAs: 'nobody' }]).people.length, 1);
+});
+
+test('same name with no link is ASKED about, never merged', () => {
+  const pair = [
+    { id: 't1', name: 'Trevor Vincent', city: 'McKinney', mutualsWithOperator: 22 },
+    { id: 't2', name: 'Trevor Daniel Vincent', city: 'Los Angeles', mutualsWithOperator: 5 },
+  ];
+  assert.equal(dedupe(pair).people.length, 2, 'a name match alone merges nothing');
+  const [q] = possibleDuplicates(pair);
+  assert.equal(q.accounts.length, 2);
+  assert.match(q.conflict, /different cities/);
+  assert.match(q.resolveWith, /do not guess/);
+});
+
+test('once it is answered, it stops being asked', () => {
+  assert.deepEqual(possibleDuplicates(TWO_ACCOUNTS), []);
+  assert.deepEqual(possibleDuplicates([
+    { id: 'a', name: 'Same Name', identityDisputed: true }, { id: 'b', name: 'Same Name' },
+  ]), []);
+});
+
+test('two genuinely different people with different names are not a duplicate question', () => {
+  assert.deepEqual(possibleDuplicates([{ id: 'a', name: 'One Person' }, { id: 'b', name: 'Other Person' }]), []);
 });
