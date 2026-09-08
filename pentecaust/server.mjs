@@ -347,9 +347,19 @@ export async function handler(req, res) {
           const lead = (c.leads || []).find((l) => l.id === segs[4]);
           if (!lead) return json(res, 404, { ok: false, reason: 'no such lead' }, origin);
           if (!lead.email) return json(res, 422, { ok: false, reason: 'lead has no email' }, origin);
+          // Suppression is enforced HERE, not in the browser. renderLeads() hides the button for an
+          // unsubscribed lead, which stops an honest click and stops nothing else: a stale tab, a
+          // second window, or any direct POST reached this route with the check never having run.
+          // An opt-out that a page refresh can defeat is not an opt-out.
+          if (lead.stage === 'unsubscribed') {
+            return json(res, 403, { ok: false, reason: 'this lead has unsubscribed — that is terminal' }, origin);
+          }
           const step = (c.sequence || [])[Number(b.step) || 0];
           if (!step) return json(res, 422, { ok: false, reason: 'draft a plan first (no sequence step)' }, origin);
           const msg = renderStep(step, lead);
+          // A message whose merge fields did not all resolve is not sent. Both sequences currently in
+          // data/crm.json end with `{{signature}}`; without this the literal placeholder goes out.
+          if (msg.ok === false) return json(res, 422, { ok: false, reason: msg.reason, unresolved: msg.unresolved }, origin);
           const r = await sendViaMailbox(me, { to: lead.email, subject: msg.subject, body: msg.body });
           if (r && r.ok) moveLead(c.id, lead.id, 'contacted');
           return json(res, 200, r, origin);

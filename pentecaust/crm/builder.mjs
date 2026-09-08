@@ -87,13 +87,50 @@ export async function personalizeOpener(lead = {}, { angle } = {}) {
 }
 
 // ── deterministic merge-field render (substitution happens at SEND, not at draft time). ───────────────
-export function renderStep(step = {}, lead = {}) {
+
+/**
+ * A merge field the renderer knows nothing about is not cosmetic — it is the literal string
+ * `{{signature}}` arriving in a stranger's inbox with your name on the campaign.
+ *
+ * Both sequences currently loaded in data/crm.json end with `\n\n{{signature}}`, and `signature` was
+ * not in the substitution list, so all 852 drafted messages would have been signed `{{signature}}`.
+ * Two changes: `signature` is a field now, and ANY field still unresolved after substitution makes
+ * the render `ok: false`. A send that would embarrass the operator fails closed instead.
+ */
+export const MERGE_FIELDS = Object.freeze(['first_name', 'name', 'company', 'title', 'signature']);
+const MERGE_RE = new RegExp(`\\{\\{\\s*(${MERGE_FIELDS.join('|')})\\s*\\}\\}`, 'g');
+const ANY_MERGE_RE = /\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g;
+
+export function unresolvedFields(text = '') {
+  return [...new Set([...String(text || '').matchAll(ANY_MERGE_RE)].map((m) => m[1]))];
+}
+
+export function renderStep(step = {}, lead = {}, opts = {}) {
+  const signature = String(opts.signature != null ? opts.signature
+    : ((typeof process !== 'undefined' && process.env && process.env.HERALD_SIGNATURE) || '')).trim();
   const map = {
     first_name: firstName(lead.name),
     name: lead.name || 'there',
     company: lead.company || 'your company',
     title: lead.title || '',
+    signature,
   };
-  const sub = (s) => String(s || '').replace(/\{\{\s*(first_name|name|company|title)\s*\}\}/g, (_, k) => map[k]);
-  return { channel: step.channel || 'email', delayDays: step.delayDays || 0, subject: sub(step.subject), body: sub(step.body) };
+  const sub = (s) => String(s || '').replace(MERGE_RE, (_, k) => map[k]);
+  const subject = sub(step.subject);
+  const body = sub(step.body);
+  // An empty signature leaves a bare `{{signature}}`-shaped hole rather than a wrong name: report it.
+  const missing = [...new Set([...unresolvedFields(subject), ...unresolvedFields(body)])];
+  const needsSignature = MERGE_FIELDS.includes('signature')
+    && /\{\{\s*signature\s*\}\}/.test(`${step.subject || ''} ${step.body || ''}`) && !signature;
+  const problems = [...missing];
+  if (needsSignature) problems.push('signature');
+  return {
+    channel: step.channel || 'email', delayDays: step.delayDays || 0, subject, body,
+    ok: problems.length === 0,
+    unresolved: [...new Set(problems)],
+    reason: problems.length
+      ? `merge fields left unresolved: ${[...new Set(problems)].map((f) => `{{${f}}}`).join(', ')}`
+        + ' — sending this would put the literal placeholder in a stranger\'s inbox'
+      : '',
+  };
 }
