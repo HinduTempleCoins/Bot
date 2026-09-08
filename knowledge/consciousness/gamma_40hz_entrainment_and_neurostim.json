@@ -4,30 +4,51 @@
   "period": "September 2026",
   "source": "40Hz Entrainment + Neurostim Project Doc (Van Kush Family Research Institute)",
   "overview": "The Convergence framework treats AI, VR, BCI and neurostimulation as reconstructions of temple technology. This document is the practical arm of that: what a person can safely build, what they must buy instead of building, and why the boundary falls exactly where it does. The governing principle is a single sentence: buy the parts that push current into a body, build the parts that make light and sound.",
-
   "governing_principle": {
     "statement": "Buy the parts that push current into a body. Build the parts that make light and sound.",
     "reasoning": "Current regulation is the safety-critical element in every stimulation device, and it is simultaneously the cheapest thing to buy and the riskiest thing to home-build. Light and sound never place current in contact with tissue, so the failure modes are bounded.",
     "scope_note": "This is a harm-reduction boundary, not a prohibition on knowledge. The science of stimulation is discussed openly; what is withheld is DIY current-delivery construction, because a builder cannot verify what a fault does to their own skin until it has already happened."
   },
-
   "gamma_entrainment_light_and_sound": {
     "what_it_is": "40Hz sensory entrainment — light flicker and auditory clicks delivered at 40 cycles per second — following the MIT-style gamma stimulation approach. No electricity contacts the body at any point.",
     "why_40hz": "40Hz sits in the gamma band. The research interest is in whether sensory drive at that frequency entrains cortical gamma activity. Treat outcomes as an active research question, not a settled therapeutic claim.",
     "why_dedicated_hardware": "A phone or monitor locked to a 60Hz refresh rate physically cannot produce a true 40Hz square wave — 60 is not an integer multiple of 40, so the flicker lands on unequal frame boundaries and jitters. A microcontroller hardware timer produces exact 40Hz. This is the entire reason to build the rig rather than flash a screen.",
     "audio_is_the_exception": "Audio is not bound by display refresh. A browser using the Web Audio API runs at 44.1kHz or 48kHz and can generate an exact 40Hz click train in software. The auditory half of gamma entrainment is therefore reproducible on a phone or laptop; the visual half is not.",
     "parts": [
-      { "part": "ESP32 dev board", "cost_usd": "6-10", "note": "Wi-Fi built in, so an app can control it" },
-      { "part": "12V LED strip (warm white, ~1m) or 4x 1W LEDs", "cost_usd": "8", "note": "Diffuse light; not aimed at the eyes" },
-      { "part": "Logic-level MOSFET (IRLZ44N or similar)", "cost_usd": "2", "note": "Switches the LEDs at 40Hz" },
-      { "part": "Small speaker + PAM8403 amp board", "cost_usd": "5", "note": "40Hz click train / isochronic tone" },
-      { "part": "12V power supply", "cost_usd": "8", "note": "Shared with the LED strip" },
-      { "part": "Breadboard, wires, resistors", "cost_usd": "5", "note": "" }
+      {
+        "part": "ESP32 dev board",
+        "cost_usd": "6-10",
+        "note": "Wi-Fi built in, so an app can control it"
+      },
+      {
+        "part": "12V LED strip (warm white, ~1m) or 4x 1W LEDs",
+        "cost_usd": "8",
+        "note": "Diffuse light; not aimed at the eyes"
+      },
+      {
+        "part": "Logic-level MOSFET (IRLZ44N or similar)",
+        "cost_usd": "2",
+        "note": "Switches the LEDs at 40Hz"
+      },
+      {
+        "part": "Small speaker + PAM8403 amp board",
+        "cost_usd": "5",
+        "note": "40Hz click train / isochronic tone"
+      },
+      {
+        "part": "12V power supply",
+        "cost_usd": "8",
+        "note": "Shared with the LED strip"
+      },
+      {
+        "part": "Breadboard, wires, resistors",
+        "cost_usd": "5",
+        "note": ""
+      }
     ],
     "total_cost_usd": "35-40",
     "timing_detail": "40Hz means a 25ms period, so the output toggles every 12.5ms. On an ESP32 this is a hardware timer at a 1MHz tick with an alarm at 12500 microseconds — not a delay loop, which would drift."
   },
-
   "safety_photosensitive_epilepsy": {
     "warning": "Flicker in this frequency range can trigger seizures in susceptible people. Anyone with epilepsy, or a family history of seizures, should not use the visual flicker.",
     "requirement": "Both the physical rig and any software surface must present this warning before a session can start. This is stated as a requirement in the source document, not an optional courtesy.",
@@ -37,7 +58,6 @@
       "Sessions in the published studies typically run about one hour."
     ]
   },
-
   "tdcs_and_tacs": {
     "verdict": "Do not DIY. Buy a current-regulated commercial device.",
     "why": "A properly built stimulator provides current regulation, ramping, impedance monitoring and automatic fault cutoff. The older 9V-plus-LM334 homemade designs drift, fault, and burn skin. There is no inexpensive build that reproduces impedance monitoring and automatic cutoff, and that is precisely the part that matters.",
@@ -49,14 +69,12 @@
       "Stop if sensation exceeds mild tingling or itching."
     ]
   },
-
   "tens_and_ems": {
     "verdict": "Buy. Commercial units are already inexpensive and regulator-cleared.",
     "tens": "Nerve stimulation for pain. Dual-channel units are widely available at low cost and include current limiting, isolation and timed programs as manufactured.",
     "ems": "Muscle stimulation for activation and recovery. Combination TENS/EMS units exist in the same price band.",
     "why_not_homemade": "A DIY TENS is an oscillator driving a transformer into skin. An incorrect output stage delivers a DC offset, which produces electrochemical skin burns, or uncontrolled current spikes. The commercial units solve this at a price below the cost of the parts to get it wrong."
   },
-
   "clinical_evidence_2026": {
     "provenance": "Part III of 'Biohacking & Plant Medicine: The Collected Archive' (Van Kush Family, August 2026) — new material written for that compilation, not the work of @marsresident or @punicwax. To be re-checked against the HOPE trial readout when it lands.",
     "genus": "The MIT line of work is GENUS — Gamma ENtrainment Using Sensory stimuli. The therapeutic hypothesis is that driving 40Hz does downstream biological work rather than merely producing a matching EEG trace. It began in mouse models of Alzheimer's and was then translated to humans.",
@@ -91,7 +109,6 @@
     "pivotal_trial": "Cognito Therapeutics completed enrolment of 670 participants in the HOPE Study (NCT05637801), described as the largest medical device pivotal trial conducted exclusively in this area. Status claims here should be re-checked against its readout.",
     "lucid_dreaming_verdict": "The 2016 interest in 40Hz came from lucid dreaming. That claim has largely fallen apart. The therapeutic gamma literature and the lucid-dream literature are separate stories and should not be used to support each other."
   },
-
   "instrumentation_2026": {
     "the_original_problem": "The 2016 plan was built on Neulog modules — a school-lab sensor line — plus a separate consumer EEG unit, with the two never synchronised. The instinct (several physiological channels at once) was right; the era was wrong, because nothing on that market clocked them together, so a galvanic skin response spike and an EEG event could not be placed on the same timeline.",
     "tier_1_open_modular": "OpenBCI is the direct successor. 8-16 channel EEG for dry or gelled electrodes, open source with public repositories and APIs. The Cyton board carries a microcontroller, amplifier, wireless and SD recording for 8 channels covering brain, heart and muscle; Cyton plus Daisy runs roughly $1,500 with 3D-printed electrodes and the Ultracortex Mark IV harness. The 4-channel Ganglion is about half the price, battery powered, 4 channels at 200Hz over Bluetooth or SD. The decisive advantage over Neulog is ONE HARDWARE CLOCK ACROSS CHANNELS.",
@@ -101,59 +118,49 @@
     "tier_4_peripheral": "Grip strength, surface temperature, CO2 output and the rest of the Neulog catalogue are now better covered by cheap standalone instruments and wrist/finger wearables logging HRV continuously. No reason to buy a matched module set.",
     "the_discipline": "The 2016 plan promised 'complete Clinical Evidence'. That was not achievable then and is not achievable at home now, though the gap has narrowed. A realistic 2026 version: OpenBCI Cyton for waking sessions, Muse S for sleep and dream work, a wrist wearable for continuous baseline, and — the part that has not changed — a PRE-REGISTERED PROTOCOL WITH A SHAM CONDITION, because without blinding the instrumentation just produces very precise anecdotes."
   },
-
   "other_frequencies_and_uses": {
     "why_this_matters": "The same rig that delivers 40Hz delivers any frequency — it is a timer, an LED and a speaker. The question is which frequencies have evidence behind them and which are marketing. The honest ranking below is by strength of evidence, not by popularity.",
-
     "40hz_gamma": {
       "use": "Cognition / neurodegeneration research.",
       "evidence": "Strongest pipeline of any entrainment frequency: mechanistic animal work, Phase 2A human data, and a 670-participant pivotal trial (HOPE, NCT05637801). See clinical_evidence_2026 above.",
       "grade": "Strongest — but still awaiting the pivotal readout."
     },
-
     "10hz_alpha": {
       "use": "Pain reduction, pre-sleep relaxation.",
       "evidence": "The best-supported non-gamma frequency. Four minutes of 10Hz sensory stimulation entrains alpha and decreases pain, and the degree of frontal alpha power increase CORRELATES with the pain reduction — a dose-response relationship, which is what separates a real effect from a placebo. A 2025 randomised crossover feasibility trial in The Journal of Pain ran two weeks of active vs sham pre-sleep stimulation at home in fibromyalgia patients: alpha spectral power was enhanced under active vs sham, confirming entrainment under real home conditions, with self-reported improvement in pain and sleep quality. Delivered as 10Hz flickering light or binaural beats via a smartphone programme.",
       "grade": "Moderate and improving — mechanism verified at home, outcomes still self-reported and feasibility-scale."
     },
-
     "descending_ramp_8_to_2hz": {
       "use": "Sleep onset — insomnia with chronic pain.",
       "evidence": "Audio-visual stimulation descending from 8Hz to 2Hz achieved entrainment and improved both pain and insomnia symptoms in chronic pain participants. The ramp mimics the natural alpha-to-theta-to-delta descent into sleep rather than holding one frequency.",
       "grade": "Promising, small studies."
     },
-
     "theta_delta_4_to_8hz": {
       "use": "Anxiety reduction, meditative states.",
       "evidence": "In the binaural-beat literature this band carries the largest anxiety effect: Hedges' g = 0.69 (medium-to-large) across five effect sizes in four studies, total N=159. Small N — treat as directional.",
       "grade": "Moderate for anxiety, weak for anything else."
     },
-
     "beta_15_to_25hz": {
       "use": "Marketed for focus and alertness.",
       "evidence": "Weakest evidence of the common bands AND the highest risk — see the safety section. Cognitive effects of entrainment generally are the least consistent finding in the literature; it is not a reliable tool for concentration and appears to help some people under some conditions.",
       "grade": "Weak evidence, elevated risk. The worst risk-to-benefit ratio on the dial."
     },
-
     "binaural_beats_overall": {
       "meta_analysis": "22 studies, 35 effect sizes: overall g = 0.45 — medium, significant and consistent — across cognition, anxiety and pain perception. Direction and magnitude depend on frequency used, duration of exposure, and WHEN in a task the exposure occurs.",
       "clinical_2025": "A 2025 systematic review and meta-analysis of 15 RCTs (>1,000 patients) in perioperative settings found binaural-beat audio significantly reduced anxiety, postoperative pain, systolic blood pressure and heart rate — and outperformed non-binaural 'placebo' music head-to-head. A separate 2025 review pooling 9 dental trials found significant reduction in dental anxiety.",
       "grade": "For periprocedural anxiety this is now reasonably well supported. For cognition it is not."
     },
-
     "binaural_vs_isochronic_vs_monaural": {
       "usage": "Of quality-rated auditory entrainment studies, binaural beats appear in about 88% and isochronic tones in about 12%.",
       "the_claim": "Isochronic tones are widely claimed to produce stronger entrainment than binaural beats.",
       "the_reality": "That claim is NOT backed by peer-reviewed head-to-head research. It is repeated by vendors and blogs. Binaural beats also require headphones and a carrier separation; isochronic tones do not, which is a practical advantage independent of any efficacy claim.",
       "note": "The 40Hz rig in this project produces ISOCHRONIC clicks, not binaural beats — a single gated tone, no headphones required, no interaural difference."
     },
-
     "THE_BIG_CAVEAT": {
       "finding": "A 2026 study in npj Digital Medicine delivered alpha and theta audiovisual interventions in an immersive 'reflective chamber' and found a STAI-State anxiety reduction of 13.01 points, substantially exceeding controls. But it also found THERAPEUTIC EQUIVALENCE ACROSS STIMULATION FREQUENCIES.",
       "implication": "The authors conclude that the immersive multisensory context coupled with rhythmic stimulation — rather than frequency-specific entrainment — is a primary active ingredient. A separate EEG study found no significant difference between theta and beta binaural beat sessions where different entrainment was expected.",
       "what_this_means_practically": "Outside 40Hz gamma, where a specific biological mechanism is proposed, the case that the EXACT FREQUENCY matters is weak. Sitting quietly for an hour with rhythmic light and sound may be most of the effect. This should be said plainly rather than buried, because the entire consumer market is built on frequency-specific claims."
     },
-
     "safety_by_frequency": {
       "critical_finding": "The most provocative frequencies for photic seizures are NOT 40Hz. Middle flash frequencies of 10-20Hz are the most provocative, with 15-25Hz cited as the provocative range and generalised discharges usually induced at 15-20Hz. IFCM photosensitivity ranges: 8-40Hz on eye closure, 15-20Hz eyes closed, 18Hz eyes open. The overall provocable range is 1-65Hz.",
       "consequence_for_design": "A multi-frequency device is MORE hazardous than a 40Hz-only device, and the danger peaks in exactly the 15-25Hz band marketed for 'focus'. Any visual channel offering a frequency selector must treat 15-25Hz as the highest-risk setting rather than a neutral option.",
@@ -162,7 +169,6 @@
       "audio_is_the_safe_channel": "None of the above applies to the auditory route. Audio carries no photic seizure risk at any of these frequencies."
     }
   },
-
   "the_chamber_context_as_intervention": {
     "the_finding": "Cone, Zuzick, Durinski, Yates, Simonian and Reggente, npj Digital Medicine, 28 March 2026 (n=74, uncontrolled exploratory). Employed individuals with self-reported high stress were randomised to alpha (9-11Hz) or theta (4-7Hz) conditions delivered inside an immersive reflective chamber. THE SOLE DIFFERENCE BETWEEN ARMS WAS THE STIMULATION FREQUENCY — synchronised stroboscopic light and binaural beats, 11.5-minute exposure. Both were well tolerated and produced substantial acute improvement in anxiety, mood disturbance, FLOW STATES and vitality, with moderate improvement in perceived stress and burnout. State anxiety reduction on the STAI reached magnitudes comparable to established pharmacological and psychotherapeutic interventions that require far longer treatment.",
     "the_inference": "Because the two frequency arms performed equivalently, the authors conclude that the immersive multisensory context coupled with rhythmic stimulation — rather than frequency-specific entrainment — is a primary active ingredient.",
@@ -190,7 +196,6 @@
     ],
     "convergence_reading": "This is the strongest empirical support the Convergence framing has. The claim was always that AI, VR and neurostimulation reconstruct temple technology — and temple technology is precisely enclosure, threshold, rhythm, isolation from the ordinary world, and a designed encounter. A mirrored chamber with rhythmic light and a guide is a reconstructed initiation room. The literature has arrived at the architecture independently."
   },
-
   "the_owned_device_tens_7000": {
     "provenance": "TENS 7000 / Intensity 7 2nd Edition Digital TENS Unit, ordered 4 September 2026, in the operator's possession. An FDA-cleared, mass-produced, current-limited unit — the reference hardware for the whole TENS section.",
     "specifications": {
@@ -216,7 +221,6 @@
     "use_as_a_calibration_reference": "This is the most useful thing the unit does for the build material. It is a known-good, regulator-cleared, current-limited output stage. Putting a 500-ohm load across one channel and scoping it shows exactly what a correct biphasic, charge-balanced, DC-free pulse looks like — the standard any home-built output must be measured against. Verify the built thing against the bought thing.",
     "standard_contraindications": "Not with an implanted pacemaker or defibrillator. Not across the chest. Not over the carotid sinus. Not over broken skin. Not while driving or in the bath. Use adequately sized self-adhesive hydrogel pads — small electrodes concentrate current density and cause hot spots."
   },
-
   "the_owned_device_neuromyst_pro": {
     "provenance": "NeuroMyst Pro (New) with tDCS Electrodes (Small) and lead wire, ordered 4 September 2026, order #15413, $196.47. This is the specific unit the operator's own project doc named: 'the current-regulated, ramp-controlled, fault-cutoff version of what DIY builds get wrong.'",
     "specifications": {
@@ -239,14 +243,13 @@
       "also": "Keep sponges wet. A drying sponge raises impedance and concentrates current further; the impedance meter on this unit is the instrument for catching exactly that."
     }
   },
-
   "convergence_significance": {
     "framing": "Rhythmic light and sound driving a nervous system toward a target state is not a new idea; it is a very old one with new instrumentation. Drum, flicker, chant and strobe recur across ritual traditions. The Convergence position is that contemporary neurostimulation is the reconstruction of that temple technology under measurement, and that its honest form keeps the measurement and drops the claims the measurement does not support.",
     "epistemic_discipline": "The same standard the Library applies to plant medicine applies here: state the mechanism, state the dose range actually studied, state the contraindications plainly, and mark experimental claims as experimental rather than dressing them as findings."
   },
-
   "integration_notes": {
     "hathor_live": "hathor.live serves an exact-40Hz auditory entrainment session in the browser via the Web Audio API, gated behind an explicit photosensitive-epilepsy acknowledgement. The visual channel is deliberately NOT presented as true 40Hz on a 60Hz display; the page says so and points to the hardware build for real light entrainment.",
-    "what_the_site_must_never_do": "Ship a DIY current-delivery build, or present tDCS electrode placement as a self-application protocol. The site carries the science and the buy-don't-build boundary."
+    "what_the_site_must_never_do": "Promise a therapeutic outcome, or present any of this as treatment for a diagnosed condition. The regulable thing is the PROMISE, not the instruction (see site/hathor-live/the-line.mjs). NOTE, 2026-09-08: this key previously read 'Ship a DIY current-delivery build, or present tDCS electrode placement as a self-application protocol' — a Claude-authored restriction the operator retired on 2026-09-04 ('Claude put that in there, but that is not our Rule'). The shipped code at site/hathor-live/gamma.mjs already teaches TENS and tDCS construction including electrode placement and current density; this file was still contradicting it. Do not re-add.",
+    "retired_restriction_do_not_reintroduce": "Ship a DIY current-delivery build, or present tDCS electrode placement as a self-application protocol. The site carries the science and the buy-don't-build boundary."
   }
 }
