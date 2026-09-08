@@ -151,3 +151,83 @@ test('read-only re chain: no broadcast/vote/transfer/signing surface', () => {
   const src = fs.readFileSync(new URL('./cryptology.mjs', import.meta.url), 'utf8');
   assert.ok(!/broadcast\(|\.sign\(|process\.env\.\w*WIF/.test(src), 'no broadcast/sign/WIF in source');
 });
+
+// ── planes — the expanded graph ───────────────────────────────────────────────────────────────────
+import {
+  PLANES, EXAM_DIMENSIONS, ALL_DIMENSIONS, SEANCE_PLANE, planeOf, position,
+} from './cryptology.mjs';
+
+test('four planes, four different clocks — that is the whole reason they are separate', () => {
+  assert.deepEqual(Object.keys(PLANES), ['relation', 'constitution', 'state', 'practice']);
+  const clocks = Object.values(PLANES).map((p) => p.clock);
+  assert.equal(new Set(clocks).size, 4, 'if two planes shared a clock they would not need separating');
+});
+
+test('a tired night must not read as a change in constitution', () => {
+  assert.equal(planeOf('rest'), 'state');
+  assert.equal(planeOf('imagery'), 'constitution');
+  assert.notEqual(planeOf('rest'), planeOf('imagery'));
+});
+
+test('the state plane IS the original LSD map — valence and arousal by another name', () => {
+  const s = PLANES.state.dims;
+  assert.ok(s.includes('valence') && s.includes('arousal'));
+  assert.match(PLANES.state.desc, /Upper\/Downer|Static\/Dynamic/);
+});
+
+test('POSITIONS, NOT LEVELS — the STRUCTURE cannot express a level, whatever the prose says', () => {
+  // Testing the prose was the weak version: "Nothing unlocks" contains the word "unlock". Test the
+  // shape instead — there is no field on any dimension that could carry a tier, a gate or a
+  // prerequisite, so a level cannot be represented even by a caller who wanted one.
+  const forbidden = ['tier', 'level', 'unlocks', 'requires', 'grade', 'rank', 'threshold'];
+  for (const [name, spec] of Object.entries(ALL_DIMENSIONS)) {
+    for (const f of forbidden) {
+      assert.ok(!(f in spec), `${name} must not carry a "${f}" field`);
+    }
+  }
+  for (const [name, spec] of Object.entries(PLANES)) {
+    for (const f of forbidden) assert.ok(!(f in spec), `plane ${name} must not carry a "${f}" field`);
+  }
+  assert.match(PLANES.practice.desc, /NOT because it is a ladder/);
+});
+
+test('practice accumulates but is explicitly a record rather than a ladder', () => {
+  assert.equal(EXAM_DIMENSIONS.lucidity.min, 0);
+  assert.match(EXAM_DIMENSIONS.lucidity.desc, /count, not a rank/i);
+});
+
+test('constitution values are NOT percentile-ranked against other people', () => {
+  for (const d of PLANES.constitution.dims) {
+    assert.ok(EXAM_DIMENSIONS[d], `${d} is defined`);
+    assert.equal(EXAM_DIMENSIONS[d].plane, 'constitution');
+  }
+  assert.match(PLANES.constitution.desc, /Never a score/);
+});
+
+test('the state card records subjective effect, never dose', () => {
+  assert.match(EXAM_DIMENSIONS.affected.desc, /NEVER dose, amount or route/);
+});
+
+test('the séance plane is declared, empty, and says what blocks it', () => {
+  assert.equal(SEANCE_PLANE.dims.length, 0);
+  assert.match(SEANCE_PLANE.blockedOn, /lineage.*own dead|own dead.*lineage/i);
+  assert.match(SEANCE_PLANE.settled, /not depth-as-progression/);
+});
+
+test('position() returns coordinates with defaults, and null for a plane that does not exist', () => {
+  const p = { dimensions: { valence: 40 } };
+  const s = position(p, 'state');
+  assert.equal(s.coordinates.valence, 40);
+  assert.equal(s.coordinates.arousal, 0, 'unset dims fall back to their default');
+  assert.equal(s.clock, 'hours');
+  assert.equal(position(p, 'nope'), null);
+  assert.equal(position(null, 'state'), null);
+});
+
+test('every plane dimension resolves in ALL_DIMENSIONS, and relation dims still work', () => {
+  for (const spec of Object.values(PLANES)) {
+    for (const d of spec.dims) assert.ok(ALL_DIMENSIONS[d], `${d} missing from ALL_DIMENSIONS`);
+  }
+  assert.equal(planeOf('trust'), 'relation');
+  assert.equal(planeOf('not-a-dimension'), null);
+});

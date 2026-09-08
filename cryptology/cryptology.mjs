@@ -40,7 +40,21 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const STORE = process.env.CRYPTOLOGY_STORE || path.join(__dirname, 'data', 'cryptology.json');
+/**
+ * Where the map lives — resolved PER CALL, not once at import.
+ *
+ * This was a `const` read at module load, and that made the documented env injection a lie: an ESM
+ * `import` is hoisted and evaluated BEFORE the importing file's body runs, so a test setting
+ * CRYPTOLOGY_STORE on line 10 was always too late — the module had already resolved to the default
+ * repo path. Every test run therefore wrote real profiles into cryptology/data/cryptology.json and
+ * accumulated across runs; the suite passed on a clean checkout and failed on the second run, with
+ * warmth arriving as a multiple of itself.
+ *
+ * A function closes it. The default is still the repo path, the env var now actually works, and every
+ * exported function keeps taking an explicit `file` argument for callers that would rather be explicit
+ * than environmental.
+ */
+export const storeFile = () => process.env.CRYPTOLOGY_STORE || path.join(__dirname, 'data', 'cryptology.json');
 
 // ── dimension spec (the same axes the prior build shipped; BRIEF.md §6a) ─────────
 // Bipolar axes run −100..100 (default 0). familiarity is unipolar 0..100 (you can only get to know
@@ -56,6 +70,137 @@ export const DIMENSIONS = {
   curiosity:   { min: 0,    max: 100, default: 0,  bipolar: false, desc: 'Depth-seeking — how far down they go.' },
   care:        { min: 0,    max: 100, default: 0,  bipolar: false, desc: 'How much they look after others here.' },
 };
+
+/**
+ * PLANES — because one graph is no longer enough, and the reason is clocks.
+ *
+ * Operator, 2026-09-08: "let's update the Graph that all of this is Mapped on, LSD: Dream Emulator was
+ * Simple, we are Proposing a Seance Platform and maybe like Lucid Dream Induction and Things."
+ *
+ * LSD: Dream Emulator could run on two axes because a dream game only needs mood. This platform now
+ * produces four kinds of fact about a person that move at four completely different speeds, and the
+ * mistake would be to average them onto one surface:
+ *
+ *   RELATION      how they stand with the Witness.       Moves per conversation.       (the axes above)
+ *   CONSTITUTION  how their senses are actually built.   Moves over years, or never.
+ *   STATE         how they are right now.                Moves within a day.
+ *   PRACTICE      what they have actually done.          Accumulates, never decays.
+ *
+ * Mixing them loses information in a way that matters: a bad night's sleep would otherwise read as a
+ * change in constitution, and a stable trait would read as a mood. The Witness needs to tell "you are
+ * tired" apart from "you are aphantasic", and those are the same number on a single graph.
+ *
+ * ── THE RULE THAT KEEPS THIS OUT OF THE AUDITING FAILURE MODE ────────────────────────────────────
+ *
+ * **POSITIONS, NOT LEVELS. Nothing on any plane is unlocked, earned, or ranked.**
+ *
+ * This is the whole reason the LSD map was the right model in the first place. Sato's grid had no
+ * better corner — you were somewhere on it, the world responded, and no coordinate was an achievement.
+ * The moment a coordinate becomes a level, three things follow: people optimise toward it, the
+ * measurement stops being honest, and the map becomes a hierarchy the institution can hold over
+ * someone. That is the specific way auditing went wrong, and the operator named the comparison
+ * himself. So: no tiers, no grades, no gating, and a coordinate is never a credential.
+ *
+ * A result therefore does not GRADE you. It changes WHAT YOU SEE.
+ */
+export const PLANES = Object.freeze({
+  relation: {
+    clock: 'per conversation',
+    desc: 'How this person and the Witness stand toward each other.',
+    dims: ['trust', 'warmth', 'respect', 'familiarity', 'alignment', 'reciprocity', 'curiosity', 'care'],
+  },
+  constitution: {
+    clock: 'years, or never',
+    desc: 'How their perception is actually built, as the Temple Exams measured it. Slow, and mostly '
+        + 'fixed. Never a score — two people at opposite ends are both simply built that way.',
+    dims: ['absorption', 'imagery', 'consistency', 'chromatic', 'chemosensory', 'temporal', 'auditory'],
+  },
+  state: {
+    clock: 'hours',
+    desc: 'How they are right now — the State Card. This is the plane LSD: Dream Emulator actually '
+        + 'modelled: its Upper/Downer and Static/Dynamic axes are rest and arousal by another name.',
+    dims: ['rest', 'valence', 'arousal', 'affected'],
+  },
+  practice: {
+    clock: 'cumulative',
+    desc: 'What they have done here — sessions crossed, dreams recalled, thresholds entered. It '
+        + 'accumulates because it is a record, NOT because it is a ladder. Nothing unlocks.',
+    dims: ['sessions', 'recall', 'lucidity', 'crossings'],
+  },
+});
+
+/**
+ * The dimensions the exams and the practices write. Bipolar where a person can sit either side of an
+ * ordinary middle; unipolar where zero genuinely means none.
+ *
+ * `constitution` values are deliberately NOT normalised against other people. A unique-hue setting or
+ * a PTC status is a fact about one person; percentile-ranking it would re-introduce the score this
+ * module exists to avoid.
+ */
+export const EXAM_DIMENSIONS = {
+  // constitution — from the Temple Exams
+  absorption:   { plane: 'constitution', min: 0, max: 100, default: 50, bipolar: false, desc: 'Trait absorption (Tellegen) — predicts responsiveness to an induction, and nothing else.' },
+  imagery:      { plane: 'constitution', min: 0, max: 100, default: 50, bipolar: false, desc: 'Vividness of imagery (VVIQ/Psi-Q). Aphantasia at one end is a way of being built, not a deficit.' },
+  consistency:  { plane: 'constitution', min: 0, max: 100, default: 0,  bipolar: false, desc: 'Test-retest consistency on the synaesthesia instrument — the battery\'s own validity measure.' },
+  chromatic:    { plane: 'constitution', min: -100, max: 100, default: 0, bipolar: true,  desc: 'Where their unique hues settle relative to the middle of the observed range.' },
+  chemosensory: { plane: 'constitution', min: 0, max: 100, default: 50, bipolar: false, desc: 'Bitter/PTC sensitivity. Genetic, permanent, and the sharpest "your senses are not mine" result there is.' },
+  temporal:     { plane: 'constitution', min: 0, max: 100, default: 50, bipolar: false, desc: 'Flicker/temporal resolution baseline. Same device only — the number is arbitrary units.' },
+  auditory:     { plane: 'constitution', min: 0, max: 100, default: 50, bipolar: false, desc: 'Pitch discrimination / absolute pitch. A calibrated observer is an instrument (the Shulgin method).' },
+  // state — from the State Card, before every exam and every session
+  rest:         { plane: 'state', min: -100, max: 100, default: 0, bipolar: true,  desc: 'Rested vs exhausted (KSS). 17-19h awake is about 0.05% BAC — this axis is not a mood.' },
+  valence:      { plane: 'state', min: -100, max: 100, default: 0, bipolar: true,  desc: 'How it feels right now — the Downer/Upper axis of the original map.' },
+  arousal:      { plane: 'state', min: -100, max: 100, default: 0, bipolar: true,  desc: 'Still vs activated — the Static/Dynamic axis of the original map.' },
+  affected:     { plane: 'state', min: 0, max: 100, default: 0, bipolar: false, desc: 'Subjective drug effect (DEQ-5). NEVER dose, amount or route — subjective effect is more valid and less hazardous.' },
+  // practice — what they actually did
+  sessions:     { plane: 'practice', min: 0, max: 1e6, default: 0, bipolar: false, desc: 'Chamber/entrainment sessions completed, with a verified stimulus.' },
+  recall:       { plane: 'practice', min: 0, max: 100, default: 0, bipolar: false, desc: 'Dream recall frequency — the first analysable dataset this platform produces.' },
+  lucidity:     { plane: 'practice', min: 0, max: 1e6, default: 0, bipolar: false, desc: 'Lucid episodes reported. A count, not a rank.' },
+  crossings:    { plane: 'practice', min: 0, max: 1e6, default: 0, bipolar: false, desc: 'Thresholds entered — a session has a door, not a play button, so entering one is an event.' },
+};
+
+/**
+ * THE SÉANCE PLANE IS DECLARED AND EMPTY, ON PURPOSE.
+ *
+ * Its axes depend on a question the operator has not answered: whether the first chamber holds THE
+ * LINEAGE (a religious surface of the temple, where his standing is genuine) or A PERSON'S OWN DEAD
+ * (a grief surface, which carries duty-of-care weight and is where the companies are). Those want
+ * different axes and different language, and guessing would bake the wrong one in.
+ *
+ * One thing is already decidable and is recorded here so it is not re-derived: whatever the axes turn
+ * out to be, **the séance plane must not measure DEPTH as progression.** "How far in are you" is a
+ * level by another name, and it is the exact shape of the failure this module is written against. An
+ * honest axis here describes availability or aperture — how open someone is to an encounter right now
+ * — which is a state, not an attainment, and which can move in both directions freely.
+ */
+export const SEANCE_PLANE = Object.freeze({
+  status: 'declared, not designed',
+  blockedOn: 'operator: does the first chamber hold the lineage, or a person\'s own dead?',
+  settled: 'not depth-as-progression — aperture is a state, never an attainment',
+  dims: [],
+});
+
+/** Every dimension, whichever plane it belongs to. */
+export const ALL_DIMENSIONS = Object.freeze({ ...DIMENSIONS, ...EXAM_DIMENSIONS });
+
+/** Which plane a dimension lives on. Relation dims have no `plane` field, so they default there. */
+export function planeOf(dim) {
+  const d = EXAM_DIMENSIONS[dim];
+  if (d) return d.plane;
+  return DIMENSIONS[dim] ? 'relation' : null;
+}
+
+/** The person's position on one plane — the coordinates, not a score. */
+export function position(profile, plane) {
+  const spec = PLANES[plane];
+  if (!spec || !profile || typeof profile !== 'object') return null;
+  const dims = profile.dimensions || profile.dims || {};
+  const out = {};
+  for (const d of spec.dims) {
+    const s = ALL_DIMENSIONS[d];
+    out[d] = Object.prototype.hasOwnProperty.call(dims, d) ? dims[d] : (s ? s.default : 0);
+  }
+  return { plane, clock: spec.clock, coordinates: out };
+}
 
 // Topic interests carried forward verbatim from the prior Crypt-ology structure (index.js). The map
 // is open: observe()/drift() can introduce new topic keys, but these are the seeded corpus axes.
@@ -201,10 +346,10 @@ export function recordPath(p, choice, context = '') {
 }
 
 // ── forkable JSON store (injectable via env or args) ─────────────────────────────
-export function loadStore(file = STORE) {
+export function loadStore(file = storeFile()) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return {}; }
 }
-export function saveStore(store, file = STORE) {
+export function saveStore(store, file = storeFile()) {
   try {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, JSON.stringify(store, null, 2) + '\n');
@@ -219,7 +364,7 @@ export function recall(account, store = loadStore()) {
 }
 
 /** Persist a profile back into the store (read-modify-write). Returns the profile. */
-export function remember(p, file = STORE) {
+export function remember(p, file = storeFile()) {
   if (!p || !p.account) return p;
   const store = loadStore(file);
   store[p.account] = p;
@@ -238,7 +383,7 @@ export function remember(p, file = STORE) {
  * @returns {object} the updated profile
  */
 export function observe(account, event, opts = {}) {
-  const { persist = true, file = STORE, interests, preferredDepth, path: pathChoice, context } = opts;
+  const { persist = true, file = storeFile(), interests, preferredDepth, path: pathChoice, context } = opts;
   const store = persist ? loadStore(file) : {};
   const key = accountKey(account);
   const p = store[key] || freshProfile(key);
