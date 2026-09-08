@@ -110,13 +110,31 @@ export function planChamber(caps) {
  * Returns { allowed, method, reason }. `method` is what the caller should actually run, which may be
  * 'auditory' even when the session asked for flicker. Never throws.
  *
- * The rule that matters: a 'high' photic-risk session is REFUSED in immersive mode. There is no consent
- * checkbox for it, because informed consent to a full-field high-risk drive is not something a checkbox
- * on a web page can carry.
+ * The rule that matters: a 'high' photic-risk session is REFUSED in a STRAPPED viewer. There is no
+ * consent checkbox for it, because informed consent to a high-risk drive you cannot remove mid-seizure
+ * is not something a checkbox on a web page can carry. A HAND-HELD viewer is a different case and is
+ * gated like a screen — see the strap note in the body.
  */
-export function gateVisual(session, tier, consent) {
+/**
+ * Is this delivery fixed to the head?
+ *
+ * `immersive` is strapped by definition — a Quest or an Index is head-mounted hardware. `cardboard`
+ * is HANDHELD unless the viewer is declared strapped, because the classic folded viewer is held up to
+ * the face and some later ones ship a head strap. Everything below is a screen you are not wearing.
+ */
+export function isStrapped(tier, caps = {}) {
+  if (tier === 'immersive') return true;
+  if (tier === 'cardboard') return Boolean(caps && caps.strapped);
+  return false;
+}
+
+export function gateVisual(session, tier, consent, { strapped = null } = {}) {
   const s = session && typeof session === 'object' ? session : {};
   const t = CHAMBER_TIERS.includes(tier) ? tier : 'plain';
+  // A headset is strapped BY DEFINITION and the caller cannot argue otherwise — `strapped: false` on
+  // an immersive tier is not a fact about the world, it is a bypass, so it is ignored. Everything else
+  // defaults to hand-held, which is what an unqualified folded viewer actually is.
+  const isStrappedNow = t === 'immersive' ? true : (strapped === null ? false : Boolean(strapped));
   const visualWanted = s.method === 'flicker' || s.method === 'isf' || s.method === 'combined';
 
   if (!visualWanted) return { allowed: true, method: 'auditory', reason: 'auditory session — no photic exposure' };
@@ -131,14 +149,33 @@ export function gateVisual(session, tier, consent) {
     try { risk = photicRisk(s) || 'high'; } catch { risk = 'high'; }
   }
 
-  const fullField = t === 'immersive' || t === 'cardboard';
-  if (fullField && risk === 'high') {
+  // THE AXIS IS THE STRAP, NOT THE FIELD. Operator, 2026-09-08: "I think we said 18hz and stuff with
+  // no Straps."
+  //
+  // He is right and the earlier rule was wrong. It refused a high photic-risk program in any
+  // full-field viewer, which lumped a Quest together with a phone in a folded cardboard holder. Those
+  // are not the same risk, and the difference is mechanical rather than a matter of degree:
+  //
+  //   STRAPPED    the light source is fixed to the skull. During a photosensitive seizure the person
+  //               cannot deliberately remove it, so the exposure continues for as long as the event
+  //               does. That is the case worth refusing outright, at any consent setting.
+  //   HANDHELD    you are holding it up to your face. A seizure ends the grip, the viewer falls, and
+  //               THE EXPOSURE SELF-TERMINATES. The failure mode contains itself.
+  //
+  // So a handheld viewer is gated like a screen — consent required, luminance capped, ramp enforced —
+  // and not like a headset. Refusing it bought no safety and cost the tier most people can actually
+  // reach. `immersive` is strapped by definition; `cardboard` is handheld unless the viewer is
+  // declared strapped, because some folded viewers do ship with a head strap and that puts them back
+  // in the first row.
+  if (isStrappedNow && risk === 'high') {
     return {
       allowed: false,
       method: 'auditory',
-      reason: `refused: high photic-risk program in a full-field viewer (${t}). The auditory path is offered instead.`,
+      reason: `refused: high photic-risk program in a STRAPPED viewer (${t}) — during a seizure it cannot `
+            + 'be dropped. Hand-held delivery of this program is allowed; the auditory path is offered here.',
     };
   }
+  const fullField = t === 'immersive' || t === 'cardboard';
   if (!consentGiven(consent, t)) {
     return {
       allowed: false,
@@ -164,7 +201,7 @@ function consentGiven(consent, tier) {
  */
 export function chamberPlan(session, caps, consent) {
   const { tier, reason: tierReason } = planChamber(caps);
-  const gate = gateVisual(session, tier, consent);
+  const gate = gateVisual(session, tier, consent, { strapped: isStrapped(tier, caps) });
   return {
     tier,
     tierReason,
