@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -271,4 +271,32 @@ test('cohortReport falls silent once something IS confirmed', () => {
   const r = cohortReport([S({ id: 'c', name: 'C', classYear: 2012 })]);
   assert.equal(r.honest, null);
   assert.deepEqual(r.window, [2009, 2012]);
+});
+
+// ── family ────────────────────────────────────────────────────────────────────────────────────────
+test('family are REMOVED from the ranking, not sorted to the bottom of it', () => {
+  const r = rank([
+    S({ id: 'mom', name: 'Mother', tags: ['family', 'crypto'], relationship: 'the operator\'s mother' }),
+    S({ id: 'x', name: 'Someone Else', tags: ['boyd-confirmed'] }),
+  ]);
+  assert.ok(!r.then.some((x) => x.name === 'Mother'));
+  assert.equal(r.excludedAsFamily.length, 1);
+  assert.equal(r.excludedAsFamily[0].relationship, 'the operator\'s mother');
+});
+
+test('an unanswered message from family is not a pipeline debt either', () => {
+  // The exact failure this guards: two unread messages from the operator's mother were ranked as the
+  // top action item, above every actual lead.
+  const r = rank([S({ id: 'mom', name: 'Mother', tags: ['family'], openThread: 'two unread messages' })]);
+  assert.equal(r.firstDoThis.length, 0);
+  assert.equal(r.then.length, 0);
+  assert.equal(r.excludedAsFamily.length, 1);
+});
+
+test('the highest-scoring possible family member still does not appear', () => {
+  const r = rank([S({
+    id: 'f', name: 'Relative', tags: ['family', 'boyd-confirmed', 'crypto', 'known-personally'],
+    mutualsWithOperator: 500, audience: { followers: 100000 },
+  })]);
+  assert.equal(r.then.length, 0);
 });
