@@ -169,6 +169,61 @@ export function rank(seeds = null) {
 }
 
 /**
+ * Where does each person sit relative to the operator's cohort window?
+ *
+ * Operator, 2026-09-08: "2009-2012 for me and my Sister." That is the window, and `COHORTS` is it.
+ *
+ * The distinction this function exists to hold is between a STATED year and an ESTIMATED one. Where a
+ * profile displayed a birth year we derived a likely graduation year and discarded the date of birth
+ * — the cohort year is what the school network needs, a date of birth is an identifier we have no use
+ * for. But an estimate is arithmetic on somebody's age, not a fact about their schooling: people
+ * repeat years, skip them, move districts, get held back, graduate early. So an estimate NEVER
+ * becomes a `classYear`, and `join()` in signup/school-network.mjs takes a real year or nothing.
+ *
+ * The one year we can check validates the method rather than the individual answers: a profile that
+ * states its class year is reproduced by the estimate. One control is not a proof, and this reports
+ * `estimated` regardless.
+ */
+export function cohortStatus(seed = {}, years = COHORTS) {
+  const lo = Math.min(...years);
+  const hi = Math.max(...years);
+  const stated = Number(seed.classYear) || 0;
+  const guess = Number(seed.classYearEstimate) || 0;
+
+  if (stated) {
+    return stated >= lo && stated <= hi
+      ? { state: 'confirmed-in-window', year: stated, why: `class of ${stated}, stated on their profile` }
+      : { state: 'confirmed-outside', year: stated, why: `class of ${stated} — stated, and outside ${lo}-${hi}` };
+  }
+  if (guess) {
+    return guess >= lo && guess <= hi
+      ? { state: 'estimated-in-window', year: guess, needs: 'the actual year',
+          why: `probably ${guess}, from a birth year — an estimate, not a fact. Confirm before treating them as a classmate.` }
+      : { state: 'estimated-outside', year: guess, needs: 'the actual year',
+          why: `probably ${guess}, which falls outside ${lo}-${hi}. Worth asking rather than dropping — an estimate is not a year.` };
+  }
+  return { state: 'unknown', year: 0, needs: 'a class year', why: 'no year and nothing to estimate from — ask.' };
+}
+
+/** Cohort roll-up: how much of the window we can actually account for. */
+export function cohortReport(seeds = null, years = COHORTS) {
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const rows = list
+    .filter((s) => (s.tags || []).some((t) => low(t).endsWith('-confirmed')) || s.classYear || s.classYearEstimate)
+    .map((s) => ({ name: str(s.name), school: str(s.school), ...cohortStatus(s, years) }));
+  const by = {};
+  for (const r of rows) by[r.state] = (by[r.state] || 0) + 1;
+  return {
+    window: [Math.min(...years), Math.max(...years)],
+    rows,
+    counts: by,
+    honest: (by['confirmed-in-window'] || 0) === 0
+      ? 'Not one person is a CONFIRMED member of the window yet. Estimates are not years.'
+      : null,
+  };
+}
+
+/**
  * Who is the actual hub of this cluster?
  *
  * Facebook shows a "Friends with X, Y and N others" strip on a profile and picks the three it thinks
