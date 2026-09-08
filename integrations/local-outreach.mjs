@@ -22,6 +22,8 @@
 // Nothing here sends. It drafts, and the drafts go through the same Herald gate as everything else
 // (pentecaust/herald/entitlements.mjs: sending is operator-granted).
 
+import { readFileSync } from 'node:fs';
+
 const str = (v) => String(v == null ? '' : v).trim();
 const low = (v) => str(v).toLowerCase();
 
@@ -67,30 +69,20 @@ export function assertPublicOnly(seed = {}) {
   return { ok: true };
 }
 
-export const SEEDS = Object.freeze([
-  {
-    id: 'jordan-coats',
-    name: 'Jordan Coats',
-    why: 'DFW-area connector with a real local audience and a community organization — the kind of '
-       + 'person whose circle IS the target, not just one contact.',
-    city: 'Denton', state: 'TX', metro: 'Dallas–Fort Worth',
-    school: 'UNT',
-    describesSelf: 'Social entrepreneur · licensed insurance agent',
-    // public handles as shown on his own public profile — nothing here was inferred or guessed
-    public: {
-      facebook: 'Jordan Coats',
-      instagram: ['jc_thehealthexpert', 'lupitascommunitycafe'],
-      website: 'lupitascommunitycafe.org',
-    },
-    audience: { platform: 'facebook', followers: 4600, following: 2400, posts: 4500 },
-    // Honest status: the site's DNS resolves but it answered 403 to a plain fetch from our host, so
-    // whether it is live is UNVERIFIED from here — check it in a browser before citing it.
-    websiteStatus: 'unverified (403 to a non-browser fetch; DNS resolves)',
-    approach: 'approach him openly, as himself — not scrape his friend list. The ask is whether the '
-            + 'local-tech story is worth sharing with his community, and the answer is his to give.',
-    addedBy: 'operator', added: '2026-09-08',
-  },
-]);
+// The people themselves live OUTSIDE this public repo. A named private individual, their handles and
+// their follower counts are not repo content — that is the same line `assertPublicOnly()` draws, applied
+// to us. Seeds load from `.local/LOCAL_SEEDS.json` (gitignored); with no file, the list is empty and
+// `plan()` says so honestly rather than pretending there is an audience.
+export const SEEDS_FILE = process.env.LOCAL_SEEDS_FILE
+  || new URL('../.local/LOCAL_SEEDS.json', import.meta.url).pathname;
+
+export function loadSeeds(file = SEEDS_FILE, read = readFileSync) {
+  try {
+    const j = JSON.parse(read(file, 'utf8'));
+    const list = Array.isArray(j) ? j : (j.seeds || []);
+    return list.filter((s) => s && str(s.name));
+  } catch { return []; }   // no file, bad JSON, no permission — an empty audience, never a crash
+}
 
 // ── venues ────────────────────────────────────────────────────────────────────────────────────────
 // A venue is a public place a post could go. `promo` is the venue's OWN rule, and it is load-bearing:
@@ -112,6 +104,62 @@ export function makeVenue({ id, name, kind, url, access = 'public', promo = 'unk
     access: low(access),          // public | join-required | invite-only
     promo: low(promo),            // allowed | ask-first | banned | unknown
     notes: str(notes),
+  };
+}
+
+// ── ranking ───────────────────────────────────────────────────────────────────────────────────────
+// Which seed to work first. Three things actually predict whether an approach lands, and they are not
+// follower count:
+//
+//   COHORT PROOF  a confirmed classmate is not a cold contact. It is the whole premise of the pitch.
+//   TOPIC FIT     someone who already holds crypto reads a block explorer; someone who does not needs
+//                 a different door entirely (the tools, the library, the local story).
+//   BRIDGE WIDTH  mutual-friend count beats follower count — mutuals are people who would actually
+//                 recognise the operator's name, which is what makes this warm rather than an ad.
+//
+// And one thing OUTRANKS all of it: an unanswered message. Pitching on top of a message you ignored is
+// the worst possible open, so `rank()` pushes those to the top as a debt, not an opportunity.
+
+export function score(seed = {}) {
+  const tags = (seed.tags || []).map(low);
+  const parts = [];
+  let n = 0;
+  // Any `<school>-confirmed` tag counts, not only Boyd — the second school network (McKinney North)
+  // arrived the moment one profile listed a different school, and the scoring should not need editing
+  // every time a new one does.
+  if (tags.some((t) => t.endsWith('-confirmed'))) { n += 40; parts.push('confirmed classmate +40'); }
+  else if (tags.some((t) => t.endsWith('-adjacent'))) { n += 15; parts.push('mutual of a confirmed classmate +15'); }
+  if (tags.includes('class-year-known')) { n += 10; parts.push('class year known +10'); }
+  if (tags.includes('bridges-two-schools')) { n += 10; parts.push('bridges two school networks +10'); }
+  if (tags.includes('crypto')) { n += 30; parts.push('already in crypto +30'); }
+  if (tags.includes('plant-medicine')) { n += 10; parts.push('overlaps the library +10'); }
+  if (tags.includes('direct-sales')) { n += 5; parts.push('used to being pitched +5'); }
+  const mut = Number(seed.mutualsWithOperator || 0);
+  if (mut) { const m = Math.min(25, Math.round(mut / 8)); n += m; parts.push(`${mut} mutuals +${m}`); }
+  const a = seed.audience || {};
+  const reach = Number(a.followers || a.friends || 0);
+  if (reach) { const r = Math.min(15, Math.round(reach / 400)); n += r; parts.push(`reach ${reach} +${r}`); }
+  if (tags.includes('not-yet-connected')) { n -= 10; parts.push('not connected yet -10'); }
+  // Mutual-friend count is a proxy for "would they recognise the name", and it UNDER-measures someone
+  // the operator actually knows. A person he dated shows 3 mutuals and is a warm contact; a stranger
+  // with 60 mutuals is not. When he says he knows someone, that outranks the graph.
+  if (tags.includes('known-personally')) { n += 35; parts.push('operator knows them personally +35'); }
+  return { score: n, why: parts };
+}
+
+export function rank(seeds = null) {
+  const list = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
+  const scored = list.map((s) => ({
+    id: s.id, name: s.name, ring: s.ring || 9, ...score(s),
+    owed: str(s.openThread),           // an unanswered message is a debt, not a lead
+    approach: str(s.approach),
+  }));
+  const owed = scored.filter((x) => x.owed);
+  const rest = scored.filter((x) => !x.owed).sort((a, b) => b.score - a.score || a.ring - b.ring);
+  return {
+    ok: true,
+    firstDoThis: owed.map((x) => ({ ...x, reason: 'you owe them a reply — answer it before pitching anything' })),
+    then: rest,
   };
 }
 
@@ -228,18 +276,22 @@ export function draftFor(venue = {}, opts = {}) {
 }
 
 /** A plan: which cohorts, which seeds, which venues — and what is still missing. */
-export function plan({ years = COHORTS, seeds = SEEDS, venues = [] } = {}) {
-  const bad = seeds.map((s) => ({ s, v: assertPublicOnly(s) })).filter((x) => !x.v.ok);
+export function plan({ years = COHORTS, seeds = null, venues = [] } = {}) {
+  const list = Array.isArray(seeds) ? seeds : loadSeeds();
+  const bad = list.map((s) => ({ s, v: assertPublicOnly(s) })).filter((x) => !x.v.ok);
   const postable = venues.filter((v) => v.promo === 'allowed' || v.promo === 'ask-first');
   return {
     ok: bad.length === 0,
     school: SCHOOL.name,
     years: [...years],
     widening: widen(years),
-    seeds: seeds.filter((s) => assertPublicOnly(s).ok).map((s) => ({ id: s.id, name: s.name, reach: s.audience && s.audience.followers })),
+    seeds: list.filter((s) => assertPublicOnly(s).ok).map((s) => ({ id: s.id, name: s.name, reach: s.audience && s.audience.followers })),
     rejectedSeeds: bad.map((x) => ({ id: x.s.id, reason: x.v.reason })),
     venues: { total: venues.length, postable: postable.length, banned: venues.filter((v) => v.promo === 'banned').length, unread: venues.filter((v) => v.promo === 'unknown').length },
-    blocked: venues.length ? [] : ['no venues loaded yet — the venue research is what turns this into outreach'],
+    blocked: [
+      ...(venues.length ? [] : ['no venues loaded yet — the venue research is what turns this into outreach']),
+      ...(list.length ? [] : ['no seeds loaded — put them in .local/LOCAL_SEEDS.json, never in the repo']),
+    ],
   };
 }
 
@@ -248,7 +300,7 @@ export function handler(req, res) {
   res.setHeader('content-type', 'application/json; charset=utf-8');
   res.end(JSON.stringify({
     ok: true, service: 'local-outreach',
-    school: SCHOOL, cohorts: COHORTS, seeds: SEEDS.length,
+    school: SCHOOL, cohorts: COHORTS, seeds: loadSeeds().length,
     checkableClaims: CHECKABLE, refusedClaims: REFUSED,
   }, null, 2));
 }

@@ -1,9 +1,16 @@
 // local-outreach.test.mjs — OFFLINE. No network; the module does not fetch.
 import { test } from 'node:test';
 import assert from 'node:assert';
+import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, SEEDS, widen, assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score,
+  assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
+
+// Named people live in .local/, never in the repo — so the tests supply their own, through the same
+// injectable reader the module uses in production.
+const FAKE = { seeds: [{ id: 'seed-a', name: 'A Connector', public: { facebook: 'A Connector' }, audience: { followers: 4600 } }] };
+const readFake = () => JSON.stringify(FAKE);
 
 test('the cohorts are the operator\'s: Boyd 2009-2012, after the school\'s first class of 2008', () => {
   assert.deepEqual(COHORTS, [2009, 2010, 2011, 2012]);
@@ -25,13 +32,18 @@ test('a seed carrying private-person data is REFUSED, not quietly stored', () =>
   assert.match(r.reason, /address/);
 });
 
-test('the supplied seed is public handles only', () => {
-  for (const s of SEEDS) assert.equal(assertPublicOnly(s).ok, true, s.id);
-  const jc = SEEDS.find((s) => s.id === 'jordan-coats');
-  assert.ok(jc);
-  assert.ok(jc.public.instagram.includes('jc_thehealthexpert'));
-  // the website was NOT verified from this host — the record says so rather than implying it's live
-  assert.match(jc.websiteStatus, /unverified/);
+test('named people are NOT in the repo — seeds load from a gitignored file', () => {
+  const src = readFileSync(new URL('./local-outreach.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(src, /instagram['"]?\s*:\s*\[/, 'no personal handles hard-coded in the module');
+  assert.match(src, /LOCAL_SEEDS\.json/);
+  const loaded = loadSeeds('whatever.json', readFake);
+  assert.equal(loaded.length, 1);
+  assert.equal(loaded[0].name, 'A Connector');
+});
+
+test('loadSeeds soft-fails to an empty audience when the file is missing or bad', () => {
+  assert.deepEqual(loadSeeds('/nope/missing.json'), []);
+  assert.deepEqual(loadSeeds('x', () => 'not json'), []);
 });
 
 test('verifyClaims refuses a claim about who runs somebody else\'s project', () => {
@@ -61,10 +73,10 @@ test('the cohort draft passes its own claim check and makes only checkable claim
   assert.equal(d.sends, false, 'drafting never sends');
 });
 
-test('the seed draft addresses the connector as himself', () => {
-  const d = draft({ audience: 'seed', seed: SEEDS[0] });
+test('the seed draft addresses the connector as themselves', () => {
+  const d = draft({ audience: 'seed', seed: FAKE.seeds[0] });
   assert.equal(d.ok, true);
-  assert.match(d.body, /^Jordan Coats/);
+  assert.match(d.body, /^A Connector/);
 });
 
 test('draftFor REFUSES a venue that bans promotion', () => {
@@ -88,10 +100,11 @@ test('draftFor marks ask-first venues so nobody posts before asking', () => {
   assert.equal(r.askFirst, true);
 });
 
-test('plan() reports honestly that with no venues loaded this is not yet outreach', () => {
-  const p = plan({});
+test('plan() reports honestly that with nothing loaded this is not yet outreach', () => {
+  const p = plan({ seeds: [] });
   assert.equal(p.venues.total, 0);
-  assert.match(p.blocked[0], /no venues loaded/);
+  assert.match(p.blocked.join(' '), /no venues loaded/);
+  assert.match(p.blocked.join(' '), /no seeds loaded/);
 });
 
 test('plan() separates postable venues from banned and unread ones', () => {
@@ -121,4 +134,45 @@ test('handler returns the policy, including what it refuses to claim', () => {
   assert.equal(j.ok, true);
   assert.ok(j.refusedClaims.who_runs_others);
   assert.ok(j.checkableClaims.built_here);
+});
+
+// ── ranking ───────────────────────────────────────────────────────────────────────────────────────
+const S = (o) => ({ id: o.id || 'x', name: o.name || 'X', ...o });
+
+test('a confirmed classmate outranks a bigger audience — cohort proof is the premise, not reach', () => {
+  const classmate = S({ id: 'a', name: 'Classmate', tags: ['boyd-confirmed'], mutualsWithOperator: 20 });
+  const famous = S({ id: 'b', name: 'Famous', audience: { followers: 100000 }, mutualsWithOperator: 5 });
+  assert.equal(rank([classmate, famous]).then[0].name, 'Classmate');
+});
+
+test('reach is capped so one large account cannot outweigh every real connection', () => {
+  assert.ok(score(S({ audience: { followers: 1000000 } })).score <= 15);
+});
+
+test('an unanswered message is a DEBT — it sorts above every opportunity', () => {
+  const owed = S({ id: 'o', name: 'Owed', openThread: 'unread messages waiting' });
+  const best = S({ id: 'b', name: 'Best', tags: ['boyd-confirmed', 'crypto'], mutualsWithOperator: 200 });
+  const r = rank([owed, best]);
+  assert.equal(r.firstDoThis.length, 1);
+  assert.equal(r.firstDoThis[0].name, 'Owed');
+  assert.match(r.firstDoThis[0].reason, /before pitching/);
+  assert.ok(!r.then.some((x) => x.name === 'Owed'), 'a debt is not also listed as a lead');
+});
+
+test('not-yet-connected is a penalty — a stranger is not a warm intro', () => {
+  assert.ok(score(S({ mutualsWithOperator: 60, tags: ['not-yet-connected'] })).score
+          < score(S({ mutualsWithOperator: 60 })).score);
+});
+
+test('score explains itself — every point is attributed', () => {
+  const s = score(S({ tags: ['boyd-confirmed', 'crypto'], mutualsWithOperator: 40, audience: { followers: 800 } }));
+  assert.ok(s.why.some((w) => /confirmed classmate/.test(w)));
+  assert.ok(s.why.some((w) => /already in crypto/.test(w)));
+  assert.ok(s.why.some((w) => /mutuals/.test(w)));
+});
+
+test('rank() drops a seed carrying private data rather than scoring it', () => {
+  const r = rank([S({ id: 'p', name: 'Private', dob: '1990-01-01', tags: ['boyd-confirmed'] })]);
+  assert.equal(r.then.length, 0);
+  assert.equal(r.firstDoThis.length, 0);
 });
