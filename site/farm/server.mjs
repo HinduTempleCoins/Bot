@@ -15,12 +15,18 @@ import {
 import { buildForeverLockOp } from '../../engine/lib/op-builder.mjs';
 import { hubTiles, tileState, progressSummary, ABIS, hasAddr } from './hub-model.mjs';
 import { CHAINS } from '../../kulaswap/kula-config.mjs';
+import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
 // Engine reads point at the MAINNET engine when configured, else the live testnet engine (as now).
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const STAKE_TOKEN = (process.env.STAKE_TOKEN || 'WMELEK').toUpperCase();
+// Crawlability: the host served neither robots.txt nor sitemap.xml, so nothing pointed a crawler at
+// this page at all. One page today — the sitemap is deliberately the real route list, not a wish list.
+const BASE_URL = (process.env.BASE_URL || 'https://farm.soapbox.community').replace(/\/$/, '');
+export const SITEMAP_PATHS = ['/'];
 
 // ── PRANA (EVM) config for the burn-mine + MWALI-gauge tiles. Single source of truth = kula-config's
 //    prana-mainnet entry (KULA + MWALI + Router/Factory), plus the bridge-backed LP pair addresses and
@@ -454,6 +460,19 @@ export async function handler(req, res) {
   try {
     const url = new URL(req.url, 'http://farm.local');
     if (url.pathname === '/health') return json(res, 200, { ok: true });
+    if (url.pathname === '/robots.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(robotsTxt(BASE_URL));
+    }
+    if (url.pathname === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
+      return res.end(sitemapXml(BASE_URL, SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today, changefreq: 'weekly', priority: u === '/' ? '1.0' : '0.7',
+      }))));
+    }
+    // IndexNow ownership file (/<key>.txt) — served only when INDEXNOW_KEY is set.
+    if (serveKeyFile(req, res)) return;
     if (url.pathname === '/api/farm') return json(res, 200, { ok: true, ...farmModel() });
     // the guided-hub tile model (what each mechanic is, its steps, whether it's live on this network).
     if (url.pathname === '/api/hub') {

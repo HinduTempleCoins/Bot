@@ -1,0 +1,16 @@
+# alpha.melek.salon — the MELEK TESTNET condenser.
+#
+# This host is deliberately not indexed. Every page behind the accept-gate carries
+# <meta name="robots" content="noindex,nofollow"> (site/melek-holding/index.html), and the content
+# here is testnet content: TESTS/TBD balances, throwaway accounts, posts that do not exist on
+# mainnet. Indexing it would put a disclaimer page and duplicate post bodies into the results that
+# should belong to the mainnet condenser.
+#
+# The indexable condenser is https://melek.salon — it serves its own robots.txt and sitemap.xml.
+#
+# Before this file existed, /robots.txt returned the gate's HTML with a 200. A crawler parsing
+# `<!doctype html>` as robots.txt gets no rule at all, which is not "no opinion" — it is an
+# unreadable one. This states the opinion the host already holds in its meta tag.
+
+User-agent: *
+Disallow: /

@@ -1,10 +1,12 @@
 // site/soapbox/server.test.mjs — OFFLINE route-rendering tests for the SoapBox aggregator.
 //
 // ── Why this tests the render UNITS, not the server's request handler ──────────────────────────────
-// site/soapbox/server.mjs is NOT safely importable: at module top-level it calls
+// site/soapbox/server.mjs USED to be un-importable: at module top-level it called
 //     createServer(async (req,res) => {...}).listen(PORT, HOST, ...)
-// with NO CLI guard (`if (import.meta...)`) and exports NO handle(req,res). Importing it would bind a
-// real listening socket — exactly what this task forbids. (The existing routes.test.js boots the real
+// with no CLI guard, so importing it bound a real listening socket. That is fixed — the listener is
+// now behind the house-style `process.argv[1]` guard and handler(req,res) is exported — but driving a
+// route still reaches live upstreams, so the route tests below stay at the render layer and the one
+// import from server.mjs is sitemapPaths(), which is pure. (The existing routes.test.js boots the real
 // server in a child process for a couple of network-free routes; this file instead exercises the pure
 // render layer the routes are composed from, fully in-process, with injected fetch — no listener, no
 // network.) So we test the building blocks each route renders:
@@ -22,6 +24,7 @@ import assert from 'node:assert/strict';
 import { socialsFor, renderSocials, hasSocials, classify, twitterHandle } from '../../integrations/soapbox/coin-socials.mjs';
 import { layout, card, esc } from './render.mjs';
 import { findVertical, renderVertical, verticalPaths } from './verticals.mjs';
+import { sitemapPaths } from './server.mjs';
 import * as chyron from '../../integrations/soapbox/chyron.mjs';
 import * as news from '../../integrations/soapbox/news.mjs';
 import * as comms from '../../integrations/comms-parser.mjs';
@@ -259,4 +262,33 @@ test('newsPage-style section rendering escapes feed content (no injection via he
   assert.doesNotMatch(li, /<img src=x onerror=alert\(1\)>/);
   assert.doesNotMatch(li, /"><script>/);
   assert.match(li, /&lt;img|&quot;|&gt;/);
+});
+
+// ── the sitemap must list every registered vertical ────────────────────────────────────────────────
+// The regression this exists to stop: verticals.mjs grew to ~50 entries while sitemap.xml was built
+// from a hand-maintained array that never had verticalPaths spread into it. /legal, /gamer-hub,
+// /energy and ~45 others were live, reachable, linked in the nav — and in no sitemap at all. Adding
+// vertical #51 without touching the sitemap now fails here instead of quietly costing indexing.
+
+test('sitemapPaths lists EVERY registered vertical — a vertical that is not in the sitemap fails here', () => {
+  const paths = sitemapPaths();
+  const missing = verticalPaths.filter((p) => !paths.includes(p));
+  assert.deepEqual(missing, [], `verticals missing from sitemap.xml: ${missing.join(', ')}`);
+  assert.ok(verticalPaths.length >= 40, 'sanity: the vertical registry should not be near-empty');
+});
+
+test('sitemapPaths keeps the hand-listed core pages and de-duplicates', () => {
+  const paths = sitemapPaths({ coinIds: ['bitcoin', 'bitcoin', 'melek'] });
+  for (const p of ['/', '/categories', '/chains', '/dapps', '/exchanges', '/learn', '/directory', '/ecosystem']) {
+    assert.ok(paths.includes(p), `core page ${p} dropped from the sitemap`);
+  }
+  assert.equal(paths.filter((p) => p === '/coins/bitcoin').length, 1, 'duplicate locs are invalid');
+  assert.ok(paths.includes('/coins/melek'));
+  assert.equal(new Set(paths).size, paths.length, 'no duplicate paths');
+});
+
+test('sitemapPaths is soft: no coins, junk input, still returns the page list', () => {
+  assert.ok(sitemapPaths().length > 40);
+  assert.ok(sitemapPaths({ coinIds: null }).includes('/'));
+  assert.ok(sitemapPaths({}).includes('/gamer-hub'));
 });

@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 
 import {
   ENDPOINTS, SHARED_WITH, NOT_REACHED, MAX_URLS_PER_REQUEST,
-  generateKey, isValidKey, keyFile, partition, submit, submitAll, handler, __setFetch,
+  generateKey, isValidKey, keyFile, serveKeyFile, partition, submit, submitAll, handler, __setFetch,
 } from './indexnow.mjs';
 
 const KEY = 'abcdef0123456789abcdef0123456789';
@@ -190,4 +190,59 @@ test('handler serves the posture, including who is not reached', () => {
   const j = JSON.parse(body);
   assert.equal(j.ok, true);
   assert.ok(j.notReached.Google);
+});
+
+// --- serveKeyFile: the ownership file, served by every site from ONE helper ---------------------
+
+function cap() {
+  const o = { code: 0, hdrs: {}, body: '', ended: false };
+  return { o, res: { writeHead(c, h) { o.code = c; o.hdrs = h || {}; }, end(b) { o.body = b == null ? '' : String(b); o.ended = true; } } };
+}
+
+test('serveKeyFile returns the key verbatim at /<key>.txt, as text/plain', () => {
+  const { res, o } = cap();
+  assert.equal(serveKeyFile({ url: `/${KEY}.txt` }, res, { key: KEY }), true);
+  assert.equal(o.code, 200);
+  assert.match(o.hdrs['content-type'], /text\/plain/);
+  assert.equal(o.body, KEY, 'the engine compares the body to the key byte-for-byte');
+});
+
+test('serveKeyFile ignores every other path — it must not swallow robots.txt or llms.txt', () => {
+  for (const p of ['/robots.txt', '/llms.txt', '/', '/sitemap.xml', '/other.txt', `/${KEY}`, `/x/${KEY}.txt`]) {
+    const { res, o } = cap();
+    assert.equal(serveKeyFile({ url: p }, res, { key: KEY }), false, `swallowed ${p}`);
+    assert.equal(o.ended, false, `wrote a response for ${p}`);
+  }
+});
+
+test('with no key configured nothing is served — the repo never invents an ownership token', () => {
+  const prev = process.env.INDEXNOW_KEY;
+  delete process.env.INDEXNOW_KEY;
+  try {
+    const { res, o } = cap();
+    assert.equal(serveKeyFile({ url: `/${KEY}.txt` }, res), false);
+    assert.equal(o.ended, false);
+    // and a junk key is treated as no key, not as a servable one
+    const b = cap();
+    assert.equal(serveKeyFile({ url: '/short.txt' }, b.res, { key: 'short' }), false);
+    assert.equal(b.o.ended, false);
+  } finally { if (prev !== undefined) process.env.INDEXNOW_KEY = prev; }
+});
+
+test('serveKeyFile reads INDEXNOW_KEY from the environment when no key is passed', () => {
+  const prev = process.env.INDEXNOW_KEY;
+  process.env.INDEXNOW_KEY = KEY;
+  try {
+    const { res, o } = cap();
+    assert.equal(serveKeyFile({ url: `/${KEY}.txt?cachebust=1` }, res), true);
+    assert.equal(o.body, KEY);
+  } finally { if (prev === undefined) delete process.env.INDEXNOW_KEY; else process.env.INDEXNOW_KEY = prev; }
+});
+
+test('serveKeyFile never throws on junk input', () => {
+  const { res } = cap();
+  assert.equal(serveKeyFile(null, res, { key: KEY }), false);
+  assert.equal(serveKeyFile({ url: null }, res, { key: KEY }), false);
+  assert.equal(serveKeyFile({ url: '::::' }, res, { key: KEY }), false);
+  assert.equal(serveKeyFile({ url: '/x.txt' }, null, { key: KEY }), false);
 });

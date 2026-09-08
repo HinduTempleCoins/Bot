@@ -16,6 +16,8 @@ import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
 import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
 import { workerbee } from '../contracts/workerbee.mjs';
+import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 // The MELEK-Engine wallet + payouts viewer. Self-contained, no build, read-only. Shows YOUR token
 // balances and the payouts for the tokens of YOUR choosing (a watchlist). Uses textContent only.
@@ -117,6 +119,12 @@ function rateLimited(ip) {
   return h.count > config.rateLimitPerMin;
 }
 
+// Crawlability: engine.alpha.melek.salon served neither robots.txt nor sitemap.xml. The engine is
+// mostly a JSON API, but it also serves four real HTML pages — those, and only those, go in the
+// sitemap. The JSON endpoints stay crawlable (they are public read-only data) but unlisted.
+const BASE_URL = (process.env.BASE_URL || 'https://engine.alpha.melek.salon').replace(/\/$/, '');
+export const SITEMAP_PATHS = ['/', '/wallet', '/dtube', '/tools'];
+
 function send(res, code, body, type = 'application/json') {
   const payload = type === 'application/json' ? JSON.stringify(body) : body;
   res.writeHead(code, {
@@ -173,6 +181,18 @@ export function makeHandler(state, opts = {}) {
     const url = new URL(req.url, 'http://localhost');
     const path = url.pathname;
     const q = url.searchParams;
+
+    // --- crawlability: robots.txt + sitemap.xml + the IndexNow ownership file ---
+    if (path === '/robots.txt') {
+      return send(res, 200, robotsTxt(BASE_URL), 'text/plain; charset=utf-8');
+    }
+    if (path === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      return send(res, 200, sitemapXml(BASE_URL, SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today, changefreq: 'weekly', priority: u === '/' ? '1.0' : '0.7',
+      }))), 'application/xml; charset=utf-8');
+    }
+    if (serveKeyFile(req, res, { pathname: path })) return;
 
     // --- token tools (mounted under /tools, prefix stripped before delegating) ---
     if (path === '/tools' || path === '/tools/' || path.startsWith('/tools/')) {

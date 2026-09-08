@@ -17,12 +17,18 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { seedCatalog, ownedSeeds, SEED_COLLECTION } from '../../integrations/games/seed-tokens.mjs';
+import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 const PORT = +(process.env.PORT || 8162);
 const HOST = process.env.HOST || '127.0.0.1';
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
 const GROW_URL = process.env.GROW_URL || 'https://kush.soapbox.community';
 const FARM_URL = process.env.FARM_URL || 'https://farm.soapbox.community';
+// Crawlability: this host served neither robots.txt nor sitemap.xml. The seed CATALOG renders
+// logged-out, so the page is genuinely indexable; only the per-account API needs a wallet.
+const BASE_URL = (process.env.BASE_URL || 'https://seeds.soapbox.community').replace(/\/$/, '');
+export const SITEMAP_PATHS = ['/'];
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
@@ -153,6 +159,19 @@ export async function handler(req, res) {
   try {
     const url = new URL(req.url, 'http://seeds.local');
     if (url.pathname === '/health') return json(res, 200, { ok: true, seeds: seedCatalog().length });
+    if (url.pathname === '/robots.txt') {
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(robotsTxt(BASE_URL));
+    }
+    if (url.pathname === '/sitemap.xml') {
+      const today = new Date().toISOString().slice(0, 10);
+      res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
+      return res.end(sitemapXml(BASE_URL, SITEMAP_PATHS.map((u) => ({
+        path: u, lastmod: today, changefreq: 'weekly', priority: u === '/' ? '1.0' : '0.7',
+      }))));
+    }
+    // IndexNow ownership file (/<key>.txt) — served only when INDEXNOW_KEY is set.
+    if (serveKeyFile(req, res)) return;
     if (url.pathname === '/api/catalog') return json(res, 200, { ok: true, seeds: seedCatalog() });
     if (url.pathname === '/api/seeds') {
       const account = (url.searchParams.get('account') || '').replace(/^@/, '').toLowerCase();
