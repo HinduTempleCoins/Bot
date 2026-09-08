@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import {
-  LINEAGES, PROJECT_TIES, getLineage, verifyClaim, draft, plan, handler,
+  LINEAGES, PROJECT_TIES, MIXED, getLineage, verifyClaim, draft, plan, handler,
 } from './heritage-outreach.mjs';
 
 test('the five documented lines are all present', () => {
@@ -105,4 +105,33 @@ test('handler exposes the refusals as prominently as the material', () => {
   assert.ok(j.refuses.population_replacement);
   assert.ok(j.refuses.identity_by_percentage);
   assert.equal(j.projectTies.melek_root, PROJECT_TIES.melek_root);
+});
+
+// ── mixed is the primary frame ────────────────────────────────────────────────────────────────────
+test('MIXED comes first: the lines are strands, not five alternative identities', () => {
+  assert.match(MIXED.frame, /what it is mixed from/);
+  assert.match(MIXED.frame, /not five alternative identities/);
+  assert.ok(MIXED.communities.length >= 4, 'mixed is its own community, not a gap between others');
+  assert.match(MIXED.productFit, /translation/);
+});
+
+test('plan() leads with the mixed frame', () => {
+  assert.match(plan().frame, /Mixed is the fact/);
+});
+
+test('EVERY draft says the strand is one of several — no single-heritage face', () => {
+  for (const l of LINEAGES) {
+    const d = draft({ lineage: l.id, community: 'a society' });
+    assert.equal(d.ok, true, l.id);
+    assert.match(d.body, /one strand of several/, l.id);
+    assert.match(d.body, /not going to present as though it runs through only yours/, l.id);
+  }
+});
+
+test('the mixed framing still passes the identity-by-percentage refusal', () => {
+  // Being plainly mixed is the opposite of claiming belonging by admixture number, so saying so
+  // must not itself trip the guard.
+  assert.equal(verifyClaim('My family runs through a few different places and this is one strand of several.').ok, true);
+  // …but attaching a number to it still fails, as it should.
+  assert.equal(verifyClaim('I am 26% Native American so I belong here').ok, false);
 });

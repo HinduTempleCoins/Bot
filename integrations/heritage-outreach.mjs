@@ -33,6 +33,51 @@ import { readFileSync } from 'node:fs';
 const str = (v) => String(v == null ? '' : v).trim();
 const low = (v) => str(v).toLowerCase();
 
+// ── the frame that comes first ────────────────────────────────────────────────────────────────────
+//
+// Operator, 2026-09-08: "Our People are all Mixed."
+//
+// That corrects how this module was first built. It listed five lineages as if they were five
+// separate doors — pick the Irish one and go talk to the Irish. But they are not five people. They
+// are five strands in the same people, and the source document says so on its own front page: one
+// person's results run 66.5% European, 26.5% East Asian and Native American, 3.4% Sub-Saharan
+// African. Nobody in this family is a single line, and presenting as one would be a false face
+// before we said anything else.
+//
+// So MIXED IS THE PRIMARY FRAME and the five lines are what it is mixed FROM. Three things follow,
+// and they are improvements rather than concessions:
+//
+//   1. THE HONEST OPENER GETS EASIER. We are not walking into a Donegal association claiming to be
+//      Irish. We are people whose family runs through Donegal, Denmark, Iberia, Mexico and East
+//      Texas, saying which strand brought us to their door. That is both true and disarming, and it
+//      is the opposite of the identity-by-percentage move `verifyClaim()` already refuses.
+//
+//   2. "MIXED" IS ITS OWN COMMUNITY, not a gap between other ones. Multiracial and mixed-heritage
+//      organizations exist, they are underserved, and they are a better fit for us than any single
+//      heritage body — because what we actually have in common with them is the condition, not a
+//      country.
+//
+//   3. IT IS THE TRANSLATION ARGUMENT. Mixed families are disproportionately multilingual
+//      households, and Pentecaust's headline feature is translation. That is a product fit that a
+//      single-heritage framing cannot reach.
+export const MIXED = Object.freeze({
+  frame: 'Mixed is the fact. The lines below are what it is mixed from, not five alternative identities.',
+  documented: 'The source document\'s own headline results span European, East Asian and Native '
+            + 'American, and Sub-Saharan African components in one person.',
+  openerShape: 'Name the strand that brought us to this particular door, and be plain that it is one '
+             + 'strand of several. Never present as a single-heritage claimant.',
+  communities: [
+    'Multiracial and mixed-heritage organizations (MAVIN-descended groups, campus mixed-student unions)',
+    'Mestizo and Afro-Latino cultural organizations',
+    'Mixed-heritage genealogy and DNA communities — the people already doing exactly this research',
+    'Multilingual-household and heritage-language programs',
+    'DFW is one of the most demographically mixed metros in the United States; the local and the '
+    + 'mixed framings are the same framing here',
+  ],
+  productFit: 'Mixed families are disproportionately multilingual households. Pentecaust ships '
+            + 'translation. That is the fit a single-heritage framing cannot reach.',
+});
+
 // ── the documented lines ──────────────────────────────────────────────────────────────────────────
 // Each carries the FACTS from the document that a stranger could verify, and the communities those
 // facts actually touch. `claimable` is what may be said; it is deliberately narrow.
@@ -204,6 +249,9 @@ export function draft({ lineage, community = '' } = {}) {
     '',
     `What brought me to your work: ${l.documented[0]} ${l.claimable}`,
     '',
+    'I should be straight that this is one strand of several — my family runs through a few '
+    + 'different places and I am not going to present as though it runs through only yours.',
+    '',
     'I am not writing to claim anything or to ask for an endorsement. I would like to know whether the '
     + 'material is any use to you, and whether anything in it is wrong — corrections from people who '
     + 'know the subject are worth more to us than agreement.',
@@ -230,6 +278,7 @@ export function plan() {
     ok: true,
     lineages: LINEAGES.map((l) => ({ id: l.id, line: l.line, communities: l.communities.length })),
     totalCommunities: communities,
+    frame: MIXED.frame,
     strongest: {
       product: 'lopez — translation into a bilingual metroplex is an argument, not a theme',
       press: 'henry-alexander — a Rosie the Riveter who built B-24s, and her great-grandson builds '
@@ -249,6 +298,7 @@ export function handler(req, res) {
   res.end(JSON.stringify({
     ok: true, service: 'heritage-outreach',
     source: 'The Phoenixian Genome, Van Kush Family Research Institute, January 2026',
+    frame: MIXED,
     lineages: LINEAGES.map((l) => ({ id: l.id, line: l.line })),
     projectTies: PROJECT_TIES,
     refuses: REFUSALS,
