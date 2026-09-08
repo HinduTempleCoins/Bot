@@ -284,6 +284,79 @@ test('herald: an unsubscribed lead is refused at the SERVER, not only hidden in 
   delete process.env.HERALD_SIGNATURE;
 });
 
+// ── the compliance gate, ON THE LIVE PATH ────────────────────────────────────────────────────────
+// compliance.checkSend() had one caller in the repo — campaign-sender.mjs's processQueue(), behind an
+// opt-in nothing passes, on the Resend road that has no subscribers and no runner. These two tests go
+// through the route that actually sends, and they FAIL if the gate is taken back off it.
+
+test('herald: an opt-out in ONE campaign suppresses the same address in ANOTHER', async () => {
+  // The route's own check is `lead.stage === 'unsubscribed'` on the row being sent. Import the same
+  // person into a second campaign and that row is at stage 'new' — so without a suppression list that
+  // reads every campaign, an opt-out survives exactly until the next CSV.
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  const { moveLead } = await import('./crm/model.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'ray';
+  process.env.HERALD_POSTAL_ADDRESS = '1 Test St, Dallas TX 75201';
+  process.env.HERALD_SIGNATURE = 'Ryan';
+  const mk = async (name) => {
+    const c = cap();
+    await handler(req('/crm/campaigns', 'POST', { account: 'ray', name, goal: 'demos' }), c.res);
+    const cid = j(c.o).campaign.id;
+    await handler(req('/crm/campaigns/' + cid + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
+    return cid;
+  };
+  const a = await mk('Cross A');
+  const b = await mk('Cross B');
+  const addr = 'twice@acme.example';
+  await handler(req('/crm/campaigns/' + a + '/leads', 'POST', { account: 'ray', lead: { name: 'Twice', email: addr, signal: 's' } }), cap().res);
+  await handler(req('/crm/campaigns/' + b + '/leads', 'POST', { account: 'ray', lead: { name: 'Twice', email: addr, signal: 's' } }), cap().res);
+  const leadIn = async (cid) => {
+    const c = cap(); await handler(req('/crm/campaigns/' + cid + '?account=ray'), c.res);
+    return j(c.o).campaign.leads.find((l) => l.email === addr);
+  };
+  const la = await leadIn(a); const lb = await leadIn(b);
+  moveLead(a, la.id, 'unsubscribed');            // he opted out of campaign A
+
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+  let called = false;
+  setMbFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'gm-cross' }) }; });
+  const { res, o } = cap();
+  await handler(req('/crm/campaigns/' + b + '/leads/' + lb.id + '/send', 'POST', { account: 'ray' }), res);
+  assert.equal(o.code, 403, 'campaign B mailed a man who unsubscribed from campaign A');
+  assert.match(j(o).reason, /suppressed/);
+  assert.equal(called, false, 'no Gmail call was made');
+  setMbFetch(null);
+  delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_POSTAL_ADDRESS;
+  delete process.env.HERALD_SIGNATURE;
+});
+
+test('herald: with no postal address the gate refuses BEFORE anything is rendered or dispatched', async () => {
+  const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
+  process.env.HERALD_INVITED_SENDERS = 'ray';
+  delete process.env.HERALD_POSTAL_ADDRESS;      // CAN-SPAM §7704(a)(5)(A)(iii) — fail closed
+  process.env.HERALD_SIGNATURE = 'Ryan';
+  let { res, o } = cap();
+  await handler(req('/crm/campaigns', 'POST', { account: 'ray', name: 'No address', goal: 'demos' }), res);
+  const id = j(o).campaign.id;
+  await handler(req('/crm/campaigns/' + id + '/plan', 'POST', { account: 'ray', valueProp: 'x', save: true }), cap().res);
+  await handler(req('/crm/campaigns/' + id + '/leads', 'POST', { account: 'ray', lead: { name: 'Lee', email: 'noaddr@acme.example', signal: 's' } }), cap().res);
+  const c0 = await (async () => { const c = cap(); await handler(req('/crm/campaigns/' + id + '?account=ray'), c.res); return j(c.o); })();
+  const lead = c0.campaign.leads[0];
+  connectMailbox('ray', { email: 'ray@gmail.com', accessToken: 'A', refreshToken: 'R', expiresAt: 9_999_999_999_999 });
+  let called = false;
+  setMbFetch(async () => { called = true; return { status: 200, json: async () => ({ id: 'gm-z' }) }; });
+  ({ res, o } = cap());
+  await handler(req('/crm/campaigns/' + id + '/leads/' + lead.id + '/send', 'POST', { account: 'ray' }), res);
+  assert.equal(o.code, 403, 'the gate, not the transport, is what refuses — and it refuses with a 403');
+  assert.match(j(o).reason, /postal address/i);
+  assert.deepEqual(j(o).checked.postalAddressSet, false, 'the refusal says what was checked');
+  assert.equal(called, false);
+  setMbFetch(null);
+  delete process.env.HERALD_INVITED_SENDERS;
+  delete process.env.HERALD_SIGNATURE;
+});
+
 test('herald: a step with an unresolved merge field is refused before the mailbox is touched', async () => {
   const { connectMailbox, __setFetch: setMbFetch } = await import('./connect/mailbox.mjs');
   process.env.HERALD_INVITED_SENDERS = 'ray';
