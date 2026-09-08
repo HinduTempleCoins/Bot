@@ -1,4 +1,7 @@
-// fax-system — the layer that turns a document into a SENT fax with a receipt.
+// fax-system — SOAPBOX FAX. The layer that turns a document into a SENT fax with a receipt.
+//
+// Product name: SoapBox Fax. One of the SoapBox Tools — see soapbox-tools.mjs for the suite it
+// belongs to and what it shares with the PDF and hosting tools beside it.
 //
 // We already had three separate pieces and no system:
 //   docconvert.mjs   markdown/html/docx -> PDF
