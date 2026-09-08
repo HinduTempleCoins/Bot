@@ -78,11 +78,37 @@ test('observe applies a named event, persists, and counts the interaction', () =
   assert.equal(fromDisk.respect, 8);
 });
 
-test('unknown event is a soft no-op interaction (never throws, no coordinate move)', () => {
-  const p = c.observe('stranger', 'this_event_does_not_exist');
+test('an unknown event RECORDS NOTHING — a caller typo is not a fact about a person', () => {
+  // The two modules used to disagree here: cryptology.mjs documented "soft no-op" but created and
+  // persisted the profile and incremented totalInteractions, while hathor-disposition.mjs wrote
+  // nothing and returned {ok:false}. hathor-disposition.mjs was right — see observe() for why.
+  const file = path.join(freshDir(), 'store.json');
+  const p = c.observe('stranger', 'this_event_does_not_exist', { file });
   assert.equal(p.trust, 0);
   assert.equal(p.warmth, 0);
-  assert.equal(p.totalInteractions, 1, 'still counted as an interaction');
+  assert.equal(p.totalInteractions, 0, 'a typo must not invent an interaction');
+  assert.equal(c.writeResult(p).reason, 'unknown-event');
+  assert.deepEqual(c.loadStore(file), {}, 'and it must not bring a permanent record into existence');
+  assert.doesNotThrow(() => c.observe('stranger', undefined, { file }), 'soft means never throwing');
+});
+
+test('an unknown event does not disturb a person already on the map', () => {
+  const file = path.join(freshDir(), 'store.json');
+  c.observe('known-one', 'taught', { file });
+  const p = c.observe('known-one', 'not_an_event', { file });
+  assert.equal(p.respect, 8, 'their real history comes back');
+  assert.equal(p.totalInteractions, 1, 'unchanged');
+  const onDisk = c.loadStore(file)['known-one'];
+  assert.equal(onDisk.totalInteractions, 1);
+  assert.equal(onDisk.lastSeen, CLOCK);
+});
+
+test("'constructor' and 'toString' are not events — EVENTS is a plain object", () => {
+  const file = path.join(freshDir(), 'store.json');
+  assert.equal(c.isKnownEvent('constructor'), false);
+  assert.equal(c.isKnownEvent('toString'), false);
+  assert.equal(c.isKnownEvent('warm_exchange'), true);
+  assert.equal(c.writeResult(c.observe('someone-else', 'constructor', { file })).reason, 'unknown-event');
 });
 
 test('observe with path records an LSD-graph choice, capped at 50', () => {

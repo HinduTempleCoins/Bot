@@ -279,7 +279,10 @@ export function freshProfile(account) {
 // ── event model: named events nudge the coordinates ─────────────────────────────
 // Each event is a bundle of dimension deltas (and optional interest deltas / familiarity bump). This
 // is the "movements shift your coordinates" mechanic — calling code names WHAT HAPPENED, not raw
-// numbers, so the map stays legible. Unknown events are a soft no-op (never throw).
+// numbers, so the map stays legible.
+//
+// AN UNKNOWN EVENT NAME RECORDS NOTHING. See observe() for why that, and not the other behaviour,
+// is the correct reading of "soft no-op".
 export const EVENTS = {
   greeted:        { familiarity: 1 },
   warm_exchange:  { warmth: 8, trust: 3, familiarity: 2, reciprocity: 3 },
@@ -298,6 +301,17 @@ export const EVENTS = {
   curious:        { curiosity: 8, respect: 2 },                // went deep, asked to learn more
   resonated:      { alignment: 10, warmth: 4 },                // connected with the mission/corpus
 };
+
+/**
+ * Is this a named event?
+ *
+ * hasOwnProperty, not `EVENTS[event]` — 'constructor' and 'toString' are truthy on any plain object,
+ * so a caller naming one of those got past a `!EVENTS[event]` guard and then spread a FUNCTION as if
+ * it were a delta bundle. The same prototype hazard as an account named 'constructor'.
+ */
+export function isKnownEvent(event) {
+  return Object.prototype.hasOwnProperty.call(EVENTS, String(event));
+}
 
 // ── pure: disposition (the Witness's stance toward this person) ──────────────────
 // This is the disposition that the Phase-3 system prompt reads to shade its (NON-scripted) greeting
@@ -501,12 +515,30 @@ export function observe(account, event, opts = {}) {
   // not, so '', 'bob smith' and 'Not An Account' all became permanent profiles. A record is held
   // under a real MELEK identity or it is not held at all.
   if (!isValidAccount(key)) return markPersist(freshProfile(key), false, 'invalid-account');
+
+  // AN UNKNOWN EVENT NAME RECORDS NOTHING — and this module and hathor-disposition.mjs used to
+  // disagree about that. cryptology.mjs documented "soft no-op" but still created the profile,
+  // persisted it, and incremented totalInteractions; hathor-disposition.mjs wrote nothing and
+  // returned {ok:false, reason:'unknown-event'}. The same call through two doors, two outcomes.
+  //
+  // hathor-disposition.mjs is the correct one, and the reason is what the two behaviours each claim.
+  // An unrecognised event name is a fact about the CALLER (a typo, a renamed constant, a surface
+  // inventing vocabulary), not a fact about the person. Writing it down manufactures a fact that
+  // nothing observed: totalInteractions is the count of things that HAPPENED between this person and
+  // the Witness, and it was being inflated by caller bugs. Worse, a typo'd event was enough to bring
+  // a brand-new permanent record for that account into existence — a person who may have done
+  // nothing at all now has a file. "Soft" means never throwing, which is preserved: the caller still
+  // gets a profile back and the run continues. It never meant "write something anyway".
+  if (!isKnownEvent(event)) {
+    const known = ownProfile(store, key);
+    return markPersist(known ? structuredClone(known) : freshProfile(key), false, 'unknown-event');
+  }
   // A preview also must not mutate the loaded map in place — it works on a copy, so nothing a preview
   // does can leak into a later write by a caller holding the same object.
   const existing = ownProfile(store, key);
   const p = existing ? (persist ? existing : structuredClone(existing)) : freshProfile(key);
 
-  const base = EVENTS[event] || {};                 // unknown event → no dimension move (soft no-op)
+  const base = EVENTS[event];
   const delta = { ...base };
   if (interests) delta.interests = { ...(base.interests || {}), ...interests };
   if (preferredDepth) delta.preferredDepth = preferredDepth;
@@ -542,11 +574,11 @@ if (isMain) {
     const w = writeResult(p);
     if (!w.ok) {
       console.error(`refused: @${accountKey(a)} — ${w.reason}`);
+      if (w.reason === 'unknown-event') console.error(`  known events: ${Object.keys(EVENTS).join(', ')}`);
       process.exit(1);
     }
     const d = dispositionOf(p);
     console.log(`@${p.account}: ${b} → ${d.stance} (closeness ${d.closeness}, standing ${d.standing}, ${p.totalInteractions} interactions)`);
-    if (!EVENTS[b]) console.error(`  note: '${b}' is not a known event — recorded as a no-op interaction. Known: ${Object.keys(EVENTS).join(', ')}`);
   } else if (cmd === 'map') {
     const rows = everyone();
     if (!rows.length) { console.error('cryptology map empty — run `observe <account> <event>` first'); process.exit(1); }
