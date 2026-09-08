@@ -189,6 +189,9 @@ ol li,ul li{margin:8px 0}
 <div class=hero>
   <h1>40 Hz</h1>
   <p class=sub>gamma entrainment · light and sound · nothing here puts current into a body</p>
+  <p class=sub><a href="/exams">Temple Exams</a> · instruments for your own perception — no account, no
+  score that buys anything. The State Card there is what makes a repeat sitting comparable to the
+  first one, and it is the same covariate this library needs.</p>
 </div>
 
 <div class=warn>

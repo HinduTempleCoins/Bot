@@ -213,3 +213,11 @@ test('a torn line loses one sitting, not the file', () => {
   assert.equal(readSittings().length, 2);
   __setIO(null);
 });
+
+test('every registered exam has a route, and the index links all of them', () => {
+  const html = examsIndexHTML();
+  for (const e of EXAMS) {
+    assert.match(e.route, /^\/exams\//, `${e.id} has no /exams route`);
+    assert.ok(html.includes(`href="${e.route}"`), `${e.id} is not linked from the index`);
+  }
+});

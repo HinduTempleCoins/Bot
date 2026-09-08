@@ -331,6 +331,10 @@ footer{margin-top:3.5rem;padding-top:1.2rem;border-top:1px solid var(--line,#2a2
 
 <h1>Report what actually happened</h1>
 
+<p class="lede" style="font-size:15px"><a href="/exams">Temple Exams</a> sit next door: instruments for
+your own perception, with the same posture as this archive — no name, no email, no account, and no
+score that buys anything.</p>
+
 <p class="lede">This is an experience-report archive for <strong>biohacking</strong> and <strong>plant medicine</strong>.
 Erowid proved the model for one half of that subject: take reports from people who were going to proceed
 anyway, structure them, archive them, and do not moralise. Nobody has built the same thing for the other
