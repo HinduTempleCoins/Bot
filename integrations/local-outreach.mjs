@@ -198,9 +198,28 @@ export const isFamily = (seed = {}) => (seed.tags || []).map(low).includes('fami
 export const isDisputed = (seed = {}) => Boolean(seed.identityDisputed)
   || (seed.tags || []).map(low).includes('identity-disputed');
 
+/**
+ * Someone the operator has personal history with is not a campaign row.
+ *
+ * Operator, 2026-09-08: "I Dated Jen, Marie and Kaitlyn and maybe more on the List."
+ *
+ * This is NOT the family rule — contact is fine, and he may well want to tell them. It is that a
+ * drafted, sequenced, scored message is the wrong instrument: "we built something, take a look"
+ * reads completely differently from someone you dated than from a classmate, and a pipeline cannot
+ * hear that difference. So they leave the ranking and come back as a list he writes himself.
+ *
+ * The load-bearing part is "and maybe more". This module cannot detect personal history from a
+ * profile, so an untagged row is not a safe row — it is an unmarked one. That is one more reason
+ * nothing in this file is a bulk send.
+ */
+export const isPersonal = (seed = {}) => {
+  const t = (seed.tags || []).map(low);
+  return t.includes('dated') || t.includes('personal-history');
+};
+
 export function rank(seeds = null) {
   const all = (Array.isArray(seeds) ? seeds : loadSeeds()).filter((s) => assertPublicOnly(s).ok);
-  const list = all.filter((s) => !isFamily(s) && !isDisputed(s));
+  const list = all.filter((s) => !isFamily(s) && !isDisputed(s) && !isPersonal(s));
   const family = all.filter(isFamily).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) }));
   const scored = list.map((s) => ({
     id: s.id, name: s.name, ring: s.ring || 9, ...score(s),
@@ -215,6 +234,8 @@ export function rank(seeds = null) {
     then: rest,
     // Listed so it is visible that they were removed, never so they can be worked from here.
     excludedAsFamily: family,
+    // Not "do not contact" — "do not draft". He writes these himself.
+    writeTheseYourself: all.filter(isPersonal).map((s) => ({ id: s.id, name: str(s.name), relationship: str(s.relationship) })),
     excludedAsDisputed: all.filter(isDisputed).map((s) => ({ id: s.id, name: str(s.name), reason: str(s.disputeNote) })),
   };
 }

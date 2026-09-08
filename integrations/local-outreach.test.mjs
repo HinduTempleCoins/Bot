@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import {
-  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, SUBCOHORTS,
+  SCHOOL, COHORTS, widen, loadSeeds, rank, score, hubs, cohortStatus, cohortReport, isFamily, isDisputed, isPersonal, SUBCOHORTS,
   assertPublicOnly, makeVenue, verifyClaims, draft, draftFor, plan, handler,
 } from './local-outreach.mjs';
 
@@ -361,4 +361,29 @@ test('hubs() does not count a disputed account either — that is where it would
 
 test('isDisputed is false for an ordinary seed', () => {
   assert.equal(isDisputed(S({ id: 'x', name: 'X' })), false);
+});
+
+// ── personal history ──────────────────────────────────────────────────────────────────────────────
+test('someone the operator dated leaves the ranking and comes back as "write this yourself"', () => {
+  const r = rank([
+    S({ id: 'ex', name: 'Former Partner', tags: ['dated'], relationship: 'The operator dated her.', mutualsWithOperator: 6 }),
+    S({ id: 'c', name: 'Classmate', tags: ['boyd-confirmed'] }),
+  ]);
+  assert.ok(!r.then.some((x) => x.name === 'Former Partner'), 'not a campaign row');
+  assert.equal(r.writeTheseYourself.length, 1);
+  assert.match(r.writeTheseYourself[0].relationship, /dated/);
+});
+
+test('this is NOT the family rule — they are listed to be contacted, just not drafted', () => {
+  const r = rank([S({ id: 'ex', name: 'Ex', tags: ['dated'] })]);
+  assert.equal(r.excludedAsFamily.length, 0, 'not family');
+  assert.equal(r.writeTheseYourself.length, 1, 'listed, not hidden');
+});
+
+test('a high-scoring profile still leaves the ranking once it is marked personal', () => {
+  const r = rank([S({
+    id: 'p', name: 'P', tags: ['dated', 'boyd-confirmed', 'crypto'],
+    mutualsWithOperator: 300, audience: { followers: 90000 },
+  })]);
+  assert.equal(r.then.length, 0);
 });
