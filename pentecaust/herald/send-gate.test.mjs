@@ -74,6 +74,30 @@ test('voice and SMS need recorded consent — TCPA, and email is unaffected', ()
   assert.equal(gateSend({ ...OK, channel: 'sms', recipient: 'a@e.example', hasRecordedConsent: true }).ok, true);
 });
 
+test('the warmup cap blocks the message AFTER the day is spent, not before', () => {
+  const led = { sent: 10, bounces: 0, complaints: 0, sentToday: 9, cap: 10, warmupDay: 0 };
+  assert.equal(gateSend({ ...OK, recipient: 'a@e.example', ledger: led }).ok, true, 'the tenth is still allowed');
+  const full = { ...led, sentToday: 10 };
+  const g = gateSend({ ...OK, recipient: 'a@e.example', ledger: full });
+  assert.equal(g.ok, false);
+  assert.match(g.blockers.join(' '), /warmup cap reached: 10 of 10/);
+  assert.equal(g.checked.remainingToday, 0);
+});
+
+test("the ledger's own bounce history beats whatever the caller passed", () => {
+  // A caller passing zeroes must not be able to clear a STOP that actually happened.
+  const led = { sent: 1000, bounces: 25, complaints: 0, sentToday: 0, cap: 50, warmupDay: 30 };
+  const g = gateSend({ ...OK, recipient: 'a@e.example', ledger: led, sent: 0, bounces: 0, complaints: 0 });
+  assert.equal(g.ok, false);
+  assert.match(g.blockers.join(' '), /deliverability STOP/);
+});
+
+test('with no ledger the ramp fields are null rather than a fabricated zero', () => {
+  const g = gateSend({ ...OK, recipient: 'a@e.example' });
+  assert.equal(g.checked.cap, null);
+  assert.equal(g.checked.sentToday, null);
+});
+
 test('the refusal is legible — what was checked comes back with it', () => {
   const g = gateSend({ ...OK, recipient: 'a@e.example' });
   assert.equal(g.checked.postalAddressSet, true);

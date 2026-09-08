@@ -38,7 +38,7 @@ import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, se
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox } from './connect/mailbox.mjs';
 import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
-import { gateSend } from './herald/send-gate.mjs';
+import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage } from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
@@ -368,11 +368,15 @@ export async function handler(req, res) {
           // physical postal address violates CAN-SPAM §7704(a)(5)(A)(iii) and the first one is
           // already the violation. If this blocks the first campaign, it is working.
           const mb = getMailbox(me);
+          // The warmup ramp needs a count to compare against, and until send-ledger.mjs there was
+          // none: 218 leads meant 218 buttons and no ceiling at all. Day one is 10.
+          const led = ledgerFor(me);
           const cg = gateSend({
             channel: 'email',
             recipient: lead.email,
             campaigns: campaignsForOwner(me),
             mailboxEmail: (mb && mb.email) || '',
+            ledger: led,
           });
           if (!cg.ok) {
             return json(res, 403, { ok: false, reason: cg.blockers.join('; '), blockers: cg.blockers, checked: cg.checked }, origin);
@@ -384,8 +388,14 @@ export async function handler(req, res) {
           // data/crm.json end with `{{signature}}`; without this the literal placeholder goes out.
           if (msg.ok === false) return json(res, 422, { ok: false, reason: msg.reason, unresolved: msg.unresolved }, origin);
           const r = await sendViaMailbox(me, { to: lead.email, subject: msg.subject, body: msg.body });
+          // A failed attempt counts against the day too. A caller that retried a hundred refusals
+          // would otherwise ramp nothing while looking to the ledger like it had.
+          const after = recordSend(me, { ok: !!(r && r.ok) });
           if (r && r.ok) moveLead(c.id, lead.id, 'contacted');
-          return json(res, 200, r, origin);
+          return json(res, 200, { ...r, ramp: (after && after.ledger) ? {
+            warmupDay: after.ledger.warmupDay, cap: after.ledger.cap,
+            sentToday: after.ledger.sentToday, remainingToday: after.ledger.remainingToday,
+          } : null }, origin);
         }
       }
     }

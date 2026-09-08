@@ -27,6 +27,9 @@
 //   import { gateSend, suppressionFrom, SUPPRESSED_STAGES } from './send-gate.mjs'
 
 import { checkSend, deliverabilityHealth } from './compliance.mjs';
+import { ledgerFor, recordSend } from './send-ledger.mjs';
+
+export { ledgerFor, recordSend };
 
 const str = (v) => String(v == null ? '' : v).trim();
 const low = (v) => str(v).toLowerCase();
@@ -89,22 +92,45 @@ export function gateSend({
   unsubscribeUrl = null,
   hasRecordedConsent = false,
   sent = 0, bounces = 0, complaints = 0,
+  ledger = null,
 } = {}) {
   const addr = str(postalAddress != null ? postalAddress : env('HERALD_POSTAL_ADDRESS'));
   const who = str(senderName != null ? senderName : env('HERALD_SENDER_NAME'));
   const reg = str(region != null ? region : env('HERALD_REGION', 'US')) || 'US';
   const unsub = str(unsubscribeUrl != null ? unsubscribeUrl : unsubscribeMailto(mailboxEmail));
   const sup = suppression instanceof Set ? suppression : suppressionFrom(campaigns, suppression || []);
-  const health = deliverabilityHealth({ sent, bounces, complaints });
+  // The ledger's own bounce/complaint counts beat anything a caller passed: they are what actually
+  // happened on this mailbox, and a caller passing zeroes should not be able to clear a STOP.
+  const L = ledger && typeof ledger === 'object' ? ledger : null;
+  const health = deliverabilityHealth({
+    sent: L ? L.sent : sent,
+    bounces: L ? L.bounces : bounces,
+    complaints: L ? L.complaints : complaints,
+  });
 
   const gate = checkSend({
     channel, region: reg, senderName: who, postalAddress: addr, unsubscribeUrl: unsub,
     hasRecordedConsent, recipient: low(recipient), suppression: sup, health,
   });
 
+  // ── THE WARMUP RAMP, APPLIED ────────────────────────────────────────────────────────────────────
+  // compliance.warmupCap()/perInboxCap() have existed and been tested since the module was written
+  // and were called by nothing outside their own tests. A mailbox that has never cold-sent may do 10
+  // on day one, climbing to 50 over four weeks; 218 leads is three weeks of ramp, not an afternoon.
+  //
+  // The cap does NOT stop when the day's messages are spent — it stops at the message AFTER. Blocking
+  // at exactly the cap is what makes the number mean something.
+  const blockers = gate.blockers.slice();
+  if (L && Number(L.sentToday) >= Number(L.cap)) {
+    blockers.push(
+      `warmup cap reached: ${L.sentToday} of ${L.cap} sent today from this mailbox `
+      + `(warmup day ${L.warmupDay}). The cap is a ceiling, not a target — the rest keep until tomorrow`,
+    );
+  }
+
   return {
-    ok: gate.ok,
-    blockers: gate.blockers,
+    ok: blockers.length === 0,
+    blockers,
     headers: gate.headers,
     footer: gate.footer,
     health,
@@ -113,6 +139,10 @@ export function gateSend({
       recipient: low(recipient), suppressed: sup.size, postalAddressSet: !!addr,
       unsubscribeMechanism: unsub ? 'reply-to (RFC 2369 List-Unsubscribe: mailto)' : 'none',
       region: reg, deliverability: health.status,
+      warmupDay: L ? L.warmupDay : null,
+      cap: L ? L.cap : null,
+      sentToday: L ? L.sentToday : null,
+      remainingToday: L ? Math.max(0, Number(L.cap) - Number(L.sentToday)) : null,
     },
   };
 }
@@ -124,6 +154,7 @@ export function handler(req, res) {
     ok: true, service: 'herald-send-gate',
     enforces: [
       'suppression across EVERY campaign, not just the one being sent from',
+      'the warmup ramp: 10/day from a cold mailbox, climbing to 50 over four weeks',
       'CAN-SPAM: a physical postal address (HERALD_POSTAL_ADDRESS) — no address, no send',
       'a working opt-out mechanism (RFC 2369 List-Unsubscribe: mailto reply-to)',
       'TCPA: voice/SMS require prior express consent',
