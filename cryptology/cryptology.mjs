@@ -37,7 +37,13 @@
 //   • Pure helpers (clamp, dispositionOf, suggestTopics) are deterministic — no clock/disk/network.
 //   • Mutating ops (observe, drift, recordPath) take an INJECTABLE clock so tests pin timestamps.
 //   • A forkable JSON store keyed by account; injectable via env (CRYPTOLOGY_STORE) or load/save args.
-//   • Soft-fail-never-throw: a bad store read returns {}, a bad write is swallowed (logged to stderr).
+//   • Soft-fail-never-throw, which is NOT the same as fail-silently: an unreadable store returns {}
+//     after copying the unparseable file aside, and a failed write returns the profile but reports
+//     itself through writeResult() — nothing here throws, and nothing here claims a write that did
+//     not land. (This line used to claim the opposite about a failed write — that it was simply
+//     dropped and logged. It was, and that was the bug.)
+//   • A record is held under a valid MELEK account name or it is not held at all, and it is
+//     deletable unconditionally by the subject's key: forget(account).
 //
 // SECURITY: READ-ONLY with respect to the chain. This module never holds a key, never broadcasts,
 // never votes, never transfers. It only reads (optionally) and writes its own local JSON map.

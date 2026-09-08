@@ -524,3 +524,13 @@ test('recordPractice refuses a handle that is not a MELEK account, and previews 
   assert.equal(preview.sessions, 4, 'a preview still reads the real record');
   assert.equal(c.loadStore(file)['preview-one'].sessions, 3, 'and does not write');
 });
+
+test('the header describes the module that exists — no swallowed writes', () => {
+  // The module and its own documentation disagreeing is the same class of defect as the two halves
+  // of Crypt-ology disagreeing about unknown events. Cheap to assert, so assert it.
+  const src = fs.readFileSync(new URL('./cryptology.mjs', import.meta.url), 'utf8');
+  const header = src.slice(0, src.indexOf("import fs from 'node:fs';"));
+  assert.ok(/writeResult\(\)/.test(header), 'the header names how a write outcome is read');
+  assert.ok(/forget\(account\)/.test(header), 'and that a record is deletable');
+  assert.ok(!/a bad write is swallowed/.test(header), 'a write failure is reported, not swallowed');
+});
