@@ -19,8 +19,14 @@ import { validAccountName } from '../../signup/welcome-grant.mjs';
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const DATA_FILE = () => env('CRM_DATA', join(process.cwd(), 'data', 'crm.json'));
 
-// Pipeline stages a lead moves through (left→right). 'unsubscribed' is terminal + suppresses all sends.
-export const STAGES = ['new', 'queued', 'contacted', 'replied', 'meeting', 'won', 'lost', 'unsubscribed'];
+// Pipeline stages a lead moves through (left→right). The last three are TERMINAL and suppress all
+// sends — herald/send-gate.mjs reads them across every campaign.
+//
+// 'bounced' and 'complained' were missing, which made the suppression they belong to unreachable:
+// the gate honoured those stages and moveLead() refused to write them, so a bounce webhook had
+// nowhere to put its verdict. A suppression stage nothing can set is a suppression that never
+// happens.
+export const STAGES = ['new', 'queued', 'contacted', 'replied', 'meeting', 'won', 'lost', 'unsubscribed', 'bounced', 'complained'];
 // Outreach channels a sequence step can use. 'email' is the workhorse; 'linkedin' goes via Unipile later.
 export const CHANNELS = ['email', 'linkedin', 'task'];
 

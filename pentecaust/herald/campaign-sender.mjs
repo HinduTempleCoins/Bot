@@ -40,6 +40,7 @@ import { randomUUID, timingSafeEqual } from 'node:crypto';
 //     attaches List-Unsubscribe headers, and yields the region-appropriate footer we append to the body.
 //   • send-optimizer.mjs — subject-line A/B (pickSubject, UCB bandit) + send-time optimization (nextSendAt).
 import { checkSend } from './compliance.mjs';
+import { normalizeWebhook, applyEvents } from './bounce-webhook.mjs';
 import { pickSubject, nextSendAt } from './send-optimizer.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
@@ -607,15 +608,27 @@ export function createCampaignSender(opts = {}) {
         const r = addSubscriber(body);
         return sendJson(res, r.ok ? 200 : 400, r);
       }
-      // ESP bounce/complaint webhook → suppress. Accepts { type:'bounce'|'complaint', email }.
+      // ESP bounce/complaint webhook → suppress.
+      //
+      // It used to read `body.type === 'bounce'` and `body.email`, which is a shape no provider
+      // sends: Resend namespaces the type (`email.bounced`) and puts the address in an ARRAY under
+      // `data.to`; Postmark capitalises (`RecordType`, `Email`); SES buries the whole payload in a
+      // JSON string in `Message`. So this endpoint answered 400 'unknown type' to every real event it
+      // ever received — which sounds safe and is the opposite, because a bounce that is never
+      // recorded is an address that stays in the list.
+      //
+      // bounce-webhook.mjs normalizes all four (the flat shape included, since our own tools speak
+      // it) and refuses to suppress on a TRANSIENT bounce: a full mailbox is not a dead address.
       if (path === '/api/webhook' && method === 'POST') {
         if (!webhookOk(req)) return sendJson(res, 401, { ok: false, error: 'unauthorized' }); // fail-closed: verified secret required
         const body = await readJsonBody(req);
         if (!body || typeof body !== 'object') return sendJson(res, 400, { ok: false, error: 'bad-body' });
-        const type = clean(body.type).toLowerCase();
-        const email = body.email || (body.recipient) || '';
-        const r = type === 'complaint' ? markComplained(email) : type === 'bounce' ? markBounced(email) : { ok: false, error: 'unknown type' };
-        return sendJson(res, r.ok ? 200 : 400, { ok: r.ok, error: r.ok ? undefined : esc(r.error) });
+        const { provider, events } = normalizeWebhook(body);
+        if (!events.length) return sendJson(res, 400, { ok: false, error: 'no actionable event in this payload', provider: esc(provider) });
+        const applied = applyEvents(events, {
+          suppress: (email, type) => (type === 'complaint' ? markComplained(email) : markBounced(email)),
+        });
+        return sendJson(res, 200, { ok: true, provider: esc(provider), ...applied.counts });
       }
       return sendJson(res, 404, { ok: false, error: 'not-found' });
     } catch { return sendJson(res, 500, { ok: false, error: 'error' }); }
