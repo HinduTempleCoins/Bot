@@ -175,3 +175,34 @@ test('the page never asks for a name, an email or an account', () => {
   assert.ok(!/type=email|name="email"|name="name"|password/i.test(html));
   assert.match(html, /one-way hash of it, never the key itself/);
 });
+
+// ⚠️ REGRESSION TEST FOR A REAL, MEASURED DEFECT — not a style check.
+//
+// The repair pass used to search only forward from a duplicate and silently give up when it found no
+// partner. Measured over 3,000 seeds: 3.73% of sittings shipped a back-to-back repeat, clustering near
+// the end of the list where there are fewest forward candidates (first failure at index 106 of 108).
+//
+// It matters because this module's own stated reason for the constraint is that a repeat lets a person
+// copy their previous answer, which turns the trial into a memory test and inflates consistency. A 1-in-27
+// silent corruption of the exam's headline number is a defect, and it presented as an intermittently
+// failing test — which is what a 3.73% failure looks like from outside.
+test('⚠️ NO adjacent duplicate on ANY seed — the constraint is a guarantee, not a best effort', () => {
+  for (let s = 0; s < 500; s += 1) {
+    const t = buildTrials({ seed: `regression-${s}` });
+    for (let i = 1; i < t.length; i += 1) {
+      assert.notEqual(t[i].grapheme, t[i - 1].grapheme,
+        `seed regression-${s} repeated ${t[i].grapheme} at index ${i}`);
+    }
+  }
+});
+
+test('the repair does not cost determinism, length, or the three-per-grapheme balance', () => {
+  const a = buildTrials({ seed: 'determinism' });
+  const b = buildTrials({ seed: 'determinism' });
+  assert.deepEqual(a.map((t) => t.grapheme), b.map((t) => t.grapheme), 'same seed must reproduce');
+  assert.notDeepEqual(a.map((t) => t.grapheme), buildTrials({ seed: 'other' }).map((t) => t.grapheme));
+  const counts = {};
+  for (const t of a) counts[t.grapheme] = (counts[t.grapheme] || 0) + 1;
+  assert.equal(a.length, 108);
+  assert.ok(Object.values(counts).every((n) => n === 3), 'every grapheme must still appear exactly three times');
+});
