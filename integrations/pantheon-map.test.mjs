@@ -278,3 +278,51 @@ test('Melqart survived review and the entry now carries the precise form', () =>
   assert.match(ETYMOLOGY.melqart.gloss, /Tyre/, 'name it as cult inference, not linguistics');
   assert.ok(!CORRECTIONS.some((c) => /Melqart/i.test(c.claim)), 'Melqart is not a correction — it held');
 });
+
+// ── Imhotep and Asklepios — the pair that the tier system exists for ──────────────────────────
+//
+// The equation is real and the source everyone cites for it does not say it. Both facts are edges
+// here, and these tests exist so a later pass cannot quietly merge them.
+
+test('the Imhotep = Asklepios equation is attested, and rests on the papyri rather than on Manetho', () => {
+  const e = EQUATIONS.find((x) => x.a === 'imhotep' && x.b === 'asklepios');
+  assert.ok(e, 'the equation must be in the map');
+  assert.equal(e.tier, 'attested');
+  assert.match(e.source, /P\.Oxy\. XI 1381/);
+  assert.doesNotMatch(e.source, /Manetho/, 'Manetho must not be the source of the Imhotep edge');
+  assert.match(e.note, /Asklepieion/);
+});
+
+test('⚠️ Manetho equates the KING with Asklepios, and that edge is filed under Djoser', () => {
+  const e = EQUATIONS.find((x) => x.a === 'djoser' && x.b === 'asklepios');
+  assert.ok(e, 'the Manetho equation belongs to Djoser, not to Imhotep');
+  assert.match(e.source, /Manetho/);
+  assert.match(e.source, /Waddell/);
+  // the emendation must be recorded as an emendation
+  assert.match(e.note, /angle brackets|ANGLE BRACKETS/i);
+  assert.match(e.note, /Conj\. Sethe|Sethe/);
+  assert.match(e.note, /not in the manuscript tradition/);
+});
+
+test('both Imhotep nodes are declared and the cluster reaches Asklepios through them', () => {
+  const ids = new Set(NODES.map((n) => n.id));
+  assert.ok(ids.has('imhotep'));
+  assert.ok(ids.has('djoser'));
+  const c = cluster('asklepios').map((x) => (x && x.id) || x);
+  assert.ok(c.includes('imhotep'));
+  assert.ok(c.includes('djoser'));
+  assert.ok(c.includes('eshmun'), 'the pre-existing Sidon link must survive');
+});
+
+test('the deified Imhotep is son of Ptah, and the historical titles say nothing about medicine', () => {
+  const e = EQUATIONS.find((x) => x.a === 'imhotep' && x.b === 'ptah');
+  assert.ok(e);
+  assert.match(e.note, /overseer of sculptors/);
+  assert.match(e.note, /nothing about medicine/);
+});
+
+test('Imhotep and Djoser carry etymologies rather than widening the research backlog', () => {
+  assert.match(ETYMOLOGY.imhotep.form, /jj-m-ḥtp/);
+  assert.equal(ETYMOLOGY.imhotep.confidence, 'secure');
+  assert.match(ETYMOLOGY.djoser.gloss, /Netjerikhet/);
+});

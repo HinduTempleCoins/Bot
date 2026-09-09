@@ -110,3 +110,4 @@ apps/move/keystore.base64
 apps/move/SECRETS_TO_PASTE.txt
 apps/move/*.keystore
 *.jks
+.claude/worktrees/

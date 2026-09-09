@@ -139,6 +139,66 @@ export const BROWSER_LIMITS = Object.freeze([
   },
 ]);
 
+/** Below this many completions for an instrument, we show the raw score and the count, never a rank. */
+export const MIN_N_FOR_RANK = 100;
+
+/**
+ * ⭐ THE CLAIM CLASSES, from `.local/temple-exams/identity-grade-instruments.md` §0.
+ *
+ * A result's honesty is decided by which of these it is entitled to be, and until now that was a
+ * judgement each exam made in its own prose. Making it a field means a result screen can print it,
+ * and means a new exam has to answer the question before it ships.
+ *
+ * ① is the one that needs an argument. `identity-grade-instruments.md`'s rule is that the
+ * TEST–RETEST COEFFICIENT decides: a category needs a coefficient that supports one, and the
+ * absence of a published one is a reason to refuse the category, not a reason to guess.
+ */
+export const CLAIM_CLASSES = Object.freeze({
+  categorical: Object.freeze({
+    id: 'categorical', mark: '\u2460',
+    label: 'Categorical — a claim that you are a member of a class',
+    needs: 'A published test\u2013retest coefficient that supports a category, and a threshold somebody else established.',
+  }),
+  percentile: Object.freeze({
+    id: 'percentile', mark: '\u2461',
+    label: 'Percentile against a stated reference class',
+    needs: `A reference group named out loud, and at least ${MIN_N_FOR_RANK} people in it before any rank is printed.`,
+  }),
+  withinPerson: Object.freeze({
+    id: 'within-person', mark: '\u2462',
+    label: 'Within-person — you against you',
+    needs: 'Two administrations. Needs no norms, no calibration and no comparison group, which is why it is the grade this battery trusts most.',
+  }),
+  demonstration: Object.freeze({
+    id: 'demonstration', mark: '\u2463',
+    label: 'Demonstration only — it shows you something, it does not measure you',
+    needs: 'Nothing, except that the page never lets the demonstration be read as a finding.',
+  }),
+});
+
+/**
+ * \u2b50 EXPERIENTIAL SELF-REPORT, and the reason it is a separate flag from the claim class.
+ *
+ * Lush et al. (2020), Nature Communications 11(1):4853, doi:10.1038/s41467-020-18591-6, n = 156/404/353:
+ * trait phenomenological control predicts experiential change on the rubber-hand illusion and mirror
+ * synaesthesia at magnitudes comparable to its relationship with individual hypnosis-scale items.
+ * (Contested \u2014 two 2022 comments in the same journal, doi:10.1038/s41467-022-28177-z and
+ * doi:10.1038/s41467-022-28178-y. Cite the exchange.)
+ *
+ * So: an exam whose datum is WHAT THE TAKER SAYS THEY EXPERIENCED is partly measuring that trait.
+ * An exam whose datum is what the taker DID \u2014 reproduced a colour, picked the model, typed a word
+ * \u2014 is not, or is far less. That distinction is what this flag records, and it is finer than
+ * "demonstration-class": the grapheme test is scored on REPRODUCTION rather than report and is
+ * therefore largely immune, which is worth saying out loud rather than blanket-flagging everything.
+ *
+ * Every exam with this flag prints the expectancy-uptake covariate beside its result.
+ */
+export const EXPERIENTIAL_SELF_REPORT_WHY =
+  'The datum here is what you say you experienced, not what you did. Lush et al. (2020) found that the '
+  + 'capacity to produce an experience a task implies predicts experiential change on standard laboratory '
+  + 'measures, so a result of this kind is partly a measure of that capacity. We measure it separately '
+  + 'and print it beside this result rather than leaving it out.';
+
 // ── the register ─────────────────────────────────────────────────────────────────────────────────
 /**
  * Each entry declares what it measures, what its result may and may not be worded as, and when the
@@ -149,6 +209,10 @@ export const EXAMS = Object.freeze([
   {
     id: 'grapheme',
     kind: PERCEPTION,
+    claimClass: 'within-person',
+    // Scored on REPRODUCTION, not on report: the taker has to hit the same colour again without
+    // warning. That is a behaviour, so the expectancy covariate has far less purchase here.
+    experientialSelfReport: false,
     name: 'Letters and colours',
     route: '/exams/grapheme',
     duration: '12–18 minutes',
@@ -166,6 +230,10 @@ export const EXAMS = Object.freeze([
   {
     id: 'vviq',
     kind: PERCEPTION,
+    claimClass: 'percentile',
+    // \u2b50 The clearest case in the battery. Every item asks how vivid an image WAS, and the only
+    // evidence is the taker's own say-so. The covariate belongs beside it more than anywhere else.
+    experientialSelfReport: true,
     name: 'The mind’s eye',
     route: '/exams/vviq',
     duration: '5–8 minutes',
@@ -183,6 +251,9 @@ export const EXAMS = Object.freeze([
   {
     id: 'human-or-model',
     kind: PERCEPTION,
+    claimClass: 'percentile',
+    // Accuracy against a known ground truth. Nothing here is a report of an experience.
+    experientialSelfReport: false,
     name: 'Human or model',
     route: '/exams/human-or-model',
     duration: '8–12 minutes',
@@ -201,6 +272,9 @@ export const EXAMS = Object.freeze([
   {
     id: 'colour-naming',
     kind: PERCEPTION,
+    claimClass: 'demonstration',
+    // A typed word for a shown swatch is a behaviour, not a report of an inner event.
+    experientialSelfReport: false,
     name: 'What you call a colour',
     route: '/exams/colour-naming',
     duration: '4 minutes, or as long as you like',
@@ -215,7 +289,67 @@ export const EXAMS = Object.freeze([
       'Zaslavsky et al. (2019), Topics in Cognitive Science — naming reflects communicative need, not only perceptual structure.',
     ],
   },
+  {
+    id: 'thread',
+    kind: PERCEPTION,
+    claimClass: 'within-person',
+    // \u2b50 The purest case in the battery: sixteen sliders, each answering "how much did that do to
+    // you?". The expectancy covariate belongs beside this result as much as beside the VVIQ.
+    experientialSelfReport: true,
+    name: 'The Thread Protocol',
+    route: '/exams/thread',
+    duration: '10\u201314 minutes',
+    measures: 'Whether your response across an enumerated set of sixteen rhythms \u2014 or sixteen hues \u2014 has a shape, and whether that shape comes back when the set is presented again without warning.',
+    why: 'The design is not ours. In the Egyptian zar the thread \u2014 khayt \u2014 is the distinctive drum '
+      + 'rhythm of each spirit, and the kodia performs each in turn and watches for a differential '
+      + 'reaction. A fixed stimulus set, serial presentation, a response criterion, classification by '
+      + 'maximal differential response: a within-person psychophysical protocol built centuries before '
+      + 'anybody wrote a method section. We borrow the method and not the cosmology.',
+    neverSay: 'This is your Thread.',
+    retestDays: 14,
+    citations: [
+      'El Hadidi, H. (2016), Zar: Spirit Possession, Music, and Healing Rituals in Egypt, American University in Cairo Press, doi:10.5743/cairo/9789774166976.001.0001 \u2014 the scholarly source for the khayt material. [PARTIALLY VERIFIED: not read in full.]',
+      'Boddy, J. (1989), Wombs and Alien Spirits: Women, Men, and the Z\u0101r Cult in Northern Sudan, University of Wisconsin Press, ISBN 9780299123147 \u2014 the standard ethnography. Boddy reads possession as an allegorical discourse on women\u2019s subordination; this project\u2019s own corpus holds the Threads to be real entities. The disagreement is stated rather than smoothed over.',
+      'Eagleman, D.M. et al. (2007), J Neurosci Methods 159(1):139\u2013145 \u2014 the repeat-without-warning design this exam borrows its scoring logic from.',
+      'Rouget, G. (1985), Music and Trance, University of Chicago Press \u2014 why a stimulus does not cause a state, and why this exam claims no mechanism.',
+    ],
+  },
+  {
+    id: 'suggestibility',
+    kind: PERCEPTION,
+    claimClass: 'percentile',
+    // It is itself a self-report, and says so. Printing its own covariate beside itself would be a
+    // circular sentence, so it carries the caveat in its own copy instead.
+    experientialSelfReport: false,
+    name: 'Meeting the task halfway',
+    route: '/exams/suggestibility',
+    duration: '4\u20136 minutes',
+    measures: 'How far you meet a task halfway \u2014 a short index of the tendency to produce the experience a situation implies you should be having.',
+    why: '\u2b50 The covariate the rest of this battery was missing. Lush et al. (2020) found that trait '
+      + 'phenomenological control predicts experiential change on the rubber-hand illusion and mirror '
+      + 'synaesthesia, which means every exam ending in "did you feel it?" is partly measuring it. So we '
+      + 'measure it on purpose and print it beside those results. It makes the other numbers more honest '
+      + 'rather than less, and as far as we can tell nobody else running tests like these does it.',
+    neverSay: 'You are highly hypnotisable.',
+    retestDays: 14,
+    citations: [
+      'Lush, P., Botan, V., Scott, R.B., Seth, A.K., Ward, J. & Dienes, Z. (2020), Trait phenomenological control predicts experience of mirror synaesthesia and the rubber hand illusion, Nature Communications 11(1):4853, doi:10.1038/s41467-020-18591-6 \u2014 n = 156, 404, 353.',
+      'Contested: two 2022 comments in the same journal, doi:10.1038/s41467-022-28177-z and doi:10.1038/s41467-022-28178-y. The exchange is the citation, not the claim alone.',
+      'Lush, P., Moga, G., McLatchie, N. & Dienes, Z. (2018), the Sussex-Waterloo Scale of Hypnotizability, Neuroscience of Consciousness 2018(1):niy006, doi:10.1093/nc/niy006; corrigendum 2021(1):niab041, doi:10.1093/nc/niab041 \u2014 CC BY-NC, and NOT used here. Its retest of r(66) = .56 objective / .77 subjective is why nothing in this domain may be a category.',
+      'Tellegen, A. & Atkinson, G. (1974), J Abnorm Psychol 83(3):268\u2013277, doi:10.1037/h0036681 \u2014 the Tellegen Absorption Scale, licensed through the University of Minnesota Press and NOT reproduced here, in whole, in part or in paraphrase.',
+      'Maurer, R.L., Kumar, V.K., Woodside, L. & Pekala, R.J. (1997), Am J Clin Hypn 40(2):130\u2013145, doi:10.1080/00029157.1997.10403417 \u2014 n = 206: drumming trance tracked hypnotic susceptibility, not the drum.',
+    ],
+  },
 ]);
+
+export const claimClassOf = (exam) => {
+  const id = String((exam && exam.claimClass) || '').trim();
+  for (const c of Object.values(CLAIM_CLASSES)) if (c.id === id) return c;
+  return null;
+};
+
+/** Every exam whose datum is a report of an experience rather than a behaviour. */
+export const experientialExams = (list = EXAMS) => list.filter((e) => e.experientialSelfReport === true);
 
 export const examById = (id) => EXAMS.find((e) => e.id === String(id || '').toLowerCase()) || null;
 
@@ -242,9 +376,6 @@ export function assertNeverPayable(list = EXAMS) {
 assertNeverPayable();
 
 // ── honest reporting helpers ─────────────────────────────────────────────────────────────────────
-
-/** Below this many completions for an instrument, we show the raw score and the count, never a rank. */
-export const MIN_N_FOR_RANK = 100;
 
 /**
  * The reference-class sentence, generated rather than remembered. Returns '' when n is too small to
@@ -395,6 +526,14 @@ ${cards}
 </div>
 
 <div class=card>
+  <h2 style="margin-top:0">And one page that measures nothing at all</h2>
+  <p><a href="/the-256">The 256</a> — If\u00e1's divination system has a structure that is public,
+  well described and genuinely remarkable: eight binary marks, 2\u2078 = 256 addresses, and several
+  hundred memorised verses at each. The page demonstrates the structure and then <b>declines to
+  divine</b>, and the declining is the teaching. It makes no claim about you whatsoever.</p>
+</div>
+
+<div class=card>
   <h2 style="margin-top:0">Who you are to us</h2>
   <p>Nobody. There is no account, no name, no email address and no password. Your browser makes a
   random key, keeps it, and that key is the only thing that links one sitting of yours to the next —
@@ -428,5 +567,6 @@ export function handler(req, res) {
 export default {
   PERCEPTION, EXAMS, FRAMING, BROWSER_LIMITS, MIN_N_FOR_RANK,
   examById, assertNeverPayable, referenceClass, landmark, retestPair,
+  CLAIM_CLASSES, claimClassOf, experientialExams, EXPERIENTIAL_SELF_REPORT_WHY,
   examShell, examsIndexHTML, handler, esc,
 };

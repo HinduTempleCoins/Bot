@@ -27,9 +27,37 @@
 // This is why teaching the practice in full — dose, route, interaction, construction — is compatible with
 // the line rather than in tension with it. The regulable thing is the promise, not the instruction.
 //
+// ⭐ THE COUNTERFACTUAL, and the reason this module now holds two precedents instead of one.
+//
+// The E-Meter shows what SURVIVES. Spectro-Chrome shows what does not, and it is the closer case for us,
+// because Spectro-Chrome was a COLOUR-THERAPY LAMP and we are about to publish a colour tradition.
+// United States v. Ghadiali, 165 F.2d 957 (3d Cir. 1948) (per curiam), cert. denied, 334 U.S. 821 (1948).
+// Twelve counts of introducing a misbranded device into interstate commerce, affirmed.
+//
+// Hold the two cases side by side and the doctrine stops being abstract. Both devices were found to have
+// no medical value. One went back to its church; the other's owner was fined, put on probation, and had
+// his literature destroyed. The devices are not what differ. THE SENTENCES DIFFER:
+//
+//   E-Meter, after the order      "not medically or scientifically useful for the diagnosis, treatment
+//                                  or prevention of any disease"                       → RELEASED
+//   Spectro-Chrome, on its label  "Measurement And Restoration Of The Human Radio-Active And
+//                                  Radio-Emanative Equilibrium ... Attuned Color Waves ...
+//                                  No Diagnosis — No Drugs — No Manipulation — No Surgery"  → CONDEMNED
+//
+// Ghadiali's own defences are the ones a project like this one would reach for first, and every one of
+// them failed. He was a Parsee Zoroastrian and said so in the record (Ghadiali v. Delaware State Medical
+// Society, 48 F. Supp. 789 (D. Del. 1943)) — the court never reached religion, because he had never
+// framed Spectro-Chrome as a religious practice; he framed it as better medicine. He argued free speech —
+// that he was only LECTURING — and the court held the lecture was the practice. Sincerity was not the
+// question. The question was the claim, and the claim was an efficacy claim.
+//
+// So the operative rule for this library is narrower and more useful than "be careful": a religious frame
+// is not a shield you can raise after the fact over a sentence that promises a cure. The E-Meter is the
+// permission; Ghadiali is the boundary of it.
+//
 // House style: ESM, esc() all interpolation, soft-fail-never-throw, offline-testable.
 //
-//   import { EMETER, disclaimer, claimsCheck, THE_LINE_HTML } from './the-line.mjs';
+//   import { EMETER, SPECTRO_CHROME, THE_PAIR, disclaimer, claimsCheck, THE_LINE_HTML } from './the-line.mjs';
 
 /** esc — every value interpolated into HTML goes through this. */
 export const esc = (s) => String(s == null ? '' : s)
@@ -51,6 +79,57 @@ export const EMETER = Object.freeze({
   principle: 'Classification follows intended use, and intended use is shown through claims — not through ingredients, name, or method of administration.',
 });
 
+/**
+ * ⭐ The counterfactual precedent. Same doctrine, colour-therapy facts, opposite outcome.
+ *
+ * Kept as a separate frozen object rather than folded into EMETER because the pair is the argument:
+ * one released, one condemned, and the only variable that moved was the sentence on the label.
+ */
+export const SPECTRO_CHROME = Object.freeze({
+  case: 'United States v. Ghadiali',
+  cite: '165 F.2d 957 (3d Cir. 1948)',
+  disposition: 'per curiam; conviction affirmed on all twelve counts',
+  cert: 'cert. denied, Ghadiali v. United States, 334 U.S. 821 (1948)',
+  statute: 'Federal Food, Drug, and Cosmetic Act — introducing a misbranded device into interstate commerce',
+  device:
+    'a cabinet with a 1000-watt bulb, a fan and a water container for cooling, two condenser lenses and '
+    + 'five ordinary coloured glass slides',
+  // Verbatim as reported in the opinion. Do not paraphrase this string: it is the whole exhibit.
+  labelClaim:
+    'Measurement And Restoration Of The Human Radio-Active And Radio-Emanative Equilibrium '
+    + 'By Attuned Color Waves — No Diagnosis — No Drugs — No Manipulation — No Surgery',
+  related: Object.freeze([
+    'State v. Ghadiali, 36 Del. 308, 175 A. 315 (Del. Ct. Gen. Sess. 1933) — practising medicine without a licence; cert. denied, Ghadiali v. Delaware, 292 U.S. 653 (1934)',
+    'Ghadiali v. Delaware State Medical Soc., 28 F. Supp. 841 (D. Del. 1939)',
+    'Ghadiali v. Delaware State Medical Society, 48 F. Supp. 789 (D. Del. 1943) (Biggs, Cir. J.) — statute upheld; the free-speech "I was only lecturing" defence rejected',
+  ]),
+  religionInTheRecord:
+    'The 1943 opinion opens by identifying the plaintiff as "a Parsee Zoroastrian by birth" and a '
+    + 'naturalised citizen. The court never reached religion, because Spectro-Chrome had never been '
+    + 'framed as religious practice — only as better medicine, and then as protected speech.',
+  lesson:
+    'A religious frame is not a shield raised after the fact over a sentence that promises a cure. '
+    + 'The E-Meter kept its practice by surrendering its claim; Spectro-Chrome kept its claim and lost '
+    + 'the device, the literature and the practice.',
+});
+
+/**
+ * THE_PAIR — the two precedents as one comparison, because neither is much use alone.
+ * Ordered released-then-condemned so a reader meets the permission before the boundary.
+ */
+export const THE_PAIR = Object.freeze([
+  Object.freeze({
+    id: 'e-meter', label: 'E-Meter', year: 1971, outcome: 'released',
+    cite: EMETER.cite, sentence: EMETER.orderedDisclaimer,
+    why: 'No medical value found — and no medical claim left standing once the disclaimer was ordered. Bona fide religious use was protected.',
+  }),
+  Object.freeze({
+    id: 'spectro-chrome', label: 'Spectro-Chrome', year: 1948, outcome: 'condemned',
+    cite: SPECTRO_CHROME.cite, sentence: SPECTRO_CHROME.labelClaim,
+    why: 'The label promised measurement and restoration of the body by colour. That is an intended use, and the device was misbranded for it.',
+  }),
+]);
+
 /** Disclaimers per surface. Each is a plain string; callers esc() when embedding. */
 const DISCLAIMERS = Object.freeze({
   entrainment:
@@ -69,6 +148,14 @@ const DISCLAIMERS = Object.freeze({
     'Prepared and used as a religious practice. This is not a drug, not a medical device, and not medical '
     + 'advice. Nothing here diagnoses, treats, cures or prevents any disease, and no claim is made that it '
     + 'improves health or bodily function.',
+  // Colour and light. Its own context because Ghadiali is its own precedent: the coloured lamp is the
+  // exact article that was condemned, so this surface disclaims measurement and restoration by name.
+  colour:
+    'Coloured light is presented here as history and as published research, not as a treatment. This is '
+    + 'not a medical device and not medical advice. Nothing here diagnoses, treats, cures or prevents any '
+    + 'disease, no colour is matched to a condition, and no claim is made that light measures or restores '
+    + 'anything about your body. Where the research is strong we say so; where the tradition\u2019s claims are '
+    + 'unsupported we say that too.',
   // The exam battery. Different from the others in one way that matters: these produce a NUMBER about
   // the person, and a number invites interpretation. So this wording says who is allowed to do the
   // interpreting, rather than only what we are not.
@@ -148,6 +235,15 @@ const CLAIM_PATTERNS = Object.freeze([
   { re: /\bguaranteed?\b/i, why: 'asserts a guarantee of result' },
   { re: /\bwill (?:fix|repair|restore)\b/i, why: 'asserts a certain outcome' },
   { re: /\brestores? (?:your )?(?:health|cognition|memory|function)\b/i, why: 'asserts restoration of function' },
+  // ⭐ The Ghadiali family. These are the words that were actually on the condemned label, so they are
+  // the words this library must never write about itself. "Balances your energy" is 1920s copy for
+  // "restores equilibrium", and it is an intended-use claim in exactly the same way.
+  // The window allows the intervening words the 1920s copy actually used — "Restoration Of The Human
+  // Radio-Active And Radio-Emanative Equilibrium" is six words between the verb and its object.
+  { re: /\b(?:restor\w+|rebalanc\w+|balanc(?:e|es|ed|ing)|normaliz\w+|normalis\w+)\b(?:\s+[\w-]+){0,7}\s+\b(?:body|equilibrium|energy|energies|aura|field|system)\b/i, why: 'asserts restoration or rebalancing of the body — the Spectro-Chrome label claim' },
+  { re: /\battuned colou?r waves?\b/i, why: 'the Spectro-Chrome label claim, verbatim' },
+  { re: /\bcolou?r therapy for\b/i, why: 'matches a colour to a condition — an intended use' },
+  { re: /\bhealing (?:colou?r|frequency|light) for\b/i, why: 'matches a stimulus to a condition — an intended use' },
 ]);
 
 /**
@@ -185,19 +281,35 @@ export function THE_LINE_HTML(context = 'entrainment') {
   had to deny. We publish what the studies found — including
   <a href="/practices">the ones that found nothing</a> — and we grade our own weakest entries weak.
   A library that does that is not making a claim. It is showing its work, and leaving the weighing to you.</p>
+  <h3>And the case that went the other way</h3>
+  <p>In <em>${esc(SPECTRO_CHROME.case)}</em>, ${esc(SPECTRO_CHROME.cite)}, a colour-therapy lamp —
+  ${esc(SPECTRO_CHROME.device)} — was held a misbranded device and its owner's conviction was affirmed
+  on twelve counts. Its label had said:</p>
+  <blockquote>${esc(SPECTRO_CHROME.labelClaim)}</blockquote>
+  <p>Both devices were found to have no medical value. One went home to its church; the other was
+  condemned. <b>The devices are not what differ — the sentences differ.</b>
+  ${esc(SPECTRO_CHROME.lesson)}</p>
 </section>`;
 }
 
 /** handler(req,res) — serve the framing as JSON, for other surfaces that need it. */
 export function handler(req, res, context = 'entrainment') {
   res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
-  res.end(JSON.stringify({ context, disclaimer: disclaimer(context), precedent: EMETER }, null, 2));
+  res.end(JSON.stringify({
+    context,
+    disclaimer: disclaimer(context),
+    precedent: EMETER,
+    counterfactual: SPECTRO_CHROME,
+    pair: THE_PAIR,
+  }, null, 2));
 }
 
 const isMain = process.argv[1] && process.argv[1].endsWith('the-line.mjs');
 if (isMain) {
   for (const c of CONTEXTS) console.log(`\n[${c}]\n${disclaimer(c)}`);
   console.log('\nclaimsCheck("cures insomnia") ->', JSON.stringify(claimsCheck('cures insomnia')));
+  console.log('claimsCheck("restores your energy field") ->', JSON.stringify(claimsCheck('restores your energy field')));
+  for (const p of THE_PAIR) console.log(`\n[${p.label} ${p.year} — ${p.outcome}] ${p.cite}\n  ${p.sentence}`);
 }
 
 export default THE_LINE_HTML;
