@@ -11,6 +11,8 @@ import {
   esc, EMETER, SPECTRO_CHROME, THE_PAIR, disclaimer, CONTEXTS, claimsCheck, THE_LINE_HTML, handler,
   CONSULT, consultBanner, THE_PAIR_HTML, FAILED_DEFENCES, FAILED_DEFENCES_HTML,
   theLinePageHTML, PAGE_CONTEXTS,
+  FDA_GUIDANCE, GENERAL_WELLNESS, CLINICAL_DECISION_SUPPORT, SAMD_CLINICAL_EVALUATION,
+  GUIDANCE_CHECKED, guidance, withdrawnGuidance, GUIDANCE_HTML,
 } from './the-line.mjs';
 
 // --- the precedent -----------------------------------------------------------
@@ -434,9 +436,22 @@ test('the standalone page carries the banner, the pair and the defences', () => 
   assert.match(html, /Two lamps/);
   assert.ok(html.includes(esc(SPECTRO_CHROME.labelClaim)));
   assert.match(html, /He was religious/);
-  // Self-contained: no external stylesheet, no script, nothing to load.
+  // Self-contained: nothing the BROWSER FETCHES is external — no script, no stylesheet, no
+  // @import, no url(). That was always the point of this assertion; it used to be written as
+  // "no https:// anywhere", which is a different and stricter thing, and it forbade the one
+  // external reference this page is obliged to carry: a link to the guidance on fda.gov. A
+  // citation you cannot click is not auditable, so the invariant is retargeted rather than
+  // relaxed — outbound anchors are allowed, fetched subresources are not, and the anchors are
+  // additionally pinned to fda.gov below.
   assert.ok(!/<script/i.test(html));
-  assert.ok(!/https?:\/\//.test(html.replace(/<a href="\/[^"]*"/g, '')));
+  assert.ok(!/<link\b/i.test(html));
+  assert.ok(!/\bsrc\s*=/i.test(html));
+  assert.ok(!/@import|url\(/i.test(html));
+  const external = [...html.matchAll(/href="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
+  assert.ok(external.length > 0, 'the dated FDA citations must be clickable');
+  for (const u of external) {
+    assert.match(u, /^https:\/\/www\.fda\.gov\//, `only fda.gov may be linked out to: ${u}`);
+  }
 });
 
 test('the page context is an allow-list — junk falls back to colour rather than erroring', () => {
@@ -467,4 +482,152 @@ test('claimsCheck over the new prose, and every flag is inspected', () => {
   assert.equal(flagged.length, 1, JSON.stringify(flagged, null, 2));
   assert.match(flagged[0].v, /is not a shield you can raise after the fact/);
   assert.deepEqual(flagged[0].hits.map((h) => h.why), ['asserts a cure']);
+});
+
+// --- the FDA guidance, dated ------------------------------------------------
+//
+// Every fact asserted here was read off fda.gov on 2026-09-09: the General Wellness guidance PDF
+// (fda.gov/media/90652/download), the Clinical Decision Support guidance PDF
+// (fda.gov/media/109618/download), CDRH's 11 February 2026 town-hall deck
+// (fda.gov/media/100032/download) and CDRH's "Withdrawn or Expired Guidance" table. The dates and
+// document numbers are pinned character-for-character for the same reason the court order is: a
+// regulatory citation that drifts is worse than no citation, because it still looks authoritative.
+
+test('⭐ the General Wellness guidance is the 6 January 2026 reissue, and it says what it superseded', () => {
+  assert.equal(GENERAL_WELLNESS.issued, '2026-01-06');
+  assert.equal(GENERAL_WELLNESS.status, 'final');
+  assert.match(GENERAL_WELLNESS.supersedes, /September 27, 2019/);
+  // Pinned exactly. A wrong docket or document number is a fabricated citation, not a typo.
+  assert.equal(GENERAL_WELLNESS.docket, 'FDA-2014-N-1039');
+  assert.equal(GENERAL_WELLNESS.documentNumber, '1300013');
+  assert.match(GENERAL_WELLNESS.url, /^https:\/\/www\.fda\.gov\//);
+});
+
+test('⚠️ the module records that the SUBSTANCE did not move — no invented doctrinal shift', () => {
+  // The whole risk in a citation refresh is narrating a change that did not happen. FDA states the
+  // purpose of the reissue in one line, and that line is about wearable sensing, not about
+  // intended use. Both halves are asserted so neither can be quietly rewritten into a shift.
+  assert.match(GENERAL_WELLNESS.substanceUnchanged, /unchanged from/i);
+  assert.match(GENERAL_WELLNESS.whatChanged, /non-invasive sensing/i);
+  assert.ok(!/doctrine (?:changed|shifted|narrowed|broadened)/i.test(GENERAL_WELLNESS.substanceUnchanged));
+  // The two-factor test and the two categories still read as they did.
+  assert.equal(GENERAL_WELLNESS.twoFactors.length, 2);
+  assert.equal(GENERAL_WELLNESS.categories.length, 2);
+  assert.match(GENERAL_WELLNESS.categories[0], /maintaining or encouraging a general state of health/);
+});
+
+test('⭐ the affirmative half is carried: what the guidance ALLOWS, in its own words', () => {
+  // Every other string in this module is a negation. These are not.
+  const claims = GENERAL_WELLNESS.firstCategoryClaims;
+  for (const want of ['relaxation or stress management', 'sleep management', 'mental acuity']) {
+    assert.ok(claims.includes(want), `missing the general wellness claim area: ${want}`);
+  }
+  assert.match(GENERAL_WELLNESS.qiExample, /flow of qi/);
+  // And the sentence that matches this library's posture — inclusion is not a finding of efficacy.
+  assert.match(GENERAL_WELLNESS.notAnEfficacyFinding, /does not establish/);
+  assert.match(GENERAL_WELLNESS.notAnEfficacyFinding, /safe and\/or effective/);
+});
+
+test('the Clinical Decision Support guidance was reported unverified — it is verified, and dated', () => {
+  assert.equal(CLINICAL_DECISION_SUPPORT.verified, true);
+  assert.equal(CLINICAL_DECISION_SUPPORT.issued, '2026-01-29');
+  assert.match(CLINICAL_DECISION_SUPPORT.supersedes, /January 6, 2026/);
+  assert.equal(CLINICAL_DECISION_SUPPORT.docket, 'FDA-2017-D-6569');
+  assert.equal(CLINICAL_DECISION_SUPPORT.documentNumber, 'GUI01400062');
+  // And it must say plainly that it is not our guidance, so nobody cites it as if it were.
+  assert.match(CLINICAL_DECISION_SUPPORT.appliesToUs, /^No\./);
+});
+
+test('the withdrawn SaMD guidance is recorded AS withdrawn, with both dates', () => {
+  assert.equal(SAMD_CLINICAL_EVALUATION.status, 'withdrawn');
+  assert.equal(SAMD_CLINICAL_EVALUATION.issued, '2017-12-08');
+  assert.equal(SAMD_CLINICAL_EVALUATION.withdrawn, '2026-01-06');
+  assert.deepEqual(withdrawnGuidance().map((g) => g.id), ['samd-clinical-evaluation']);
+  // A withdrawn document is a live hazard precisely because it stays online and reads current.
+  assert.match(SAMD_CLINICAL_EVALUATION.note, /current thinking/i);
+});
+
+test('every tracked guidance carries a date, a checked-on date and an fda.gov URL', () => {
+  assert.ok(FDA_GUIDANCE.length >= 3);
+  assert.match(GUIDANCE_CHECKED, /^\d{4}-\d{2}-\d{2}$/);
+  for (const g of FDA_GUIDANCE) {
+    assert.match(g.issued, /^\d{4}-\d{2}-\d{2}$/, g.id);
+    assert.match(g.checked, /^\d{4}-\d{2}-\d{2}$/, g.id);
+    assert.match(g.url, /^https:\/\/www\.fda\.gov\//, g.id);
+    assert.ok(['final', 'withdrawn'].includes(g.status), g.id);
+    assert.ok(Object.isFrozen(g), `${g.id} must be frozen — a citation must not be mutable`);
+  }
+  assert.ok(Object.isFrozen(FDA_GUIDANCE));
+});
+
+test('guidance(id) returns the document or null — never a nearest match, and never throws', () => {
+  assert.equal(guidance('general-wellness'), GENERAL_WELLNESS);
+  assert.equal(guidance('  General-Wellness  '), GENERAL_WELLNESS);
+  // A near miss on a regulatory id must be a refusal. The nearest match to a citation is a wrong one.
+  for (const junk of ['general', 'wellness', 'gener', 'cds', '', '   ']) {
+    assert.equal(guidance(junk), null, JSON.stringify(junk));
+  }
+});
+
+test('⚠️ null is passed EXPLICITLY to everything that takes an argument — nothing throws', () => {
+  // `= {}` as a destructuring default fires only for `undefined`, and `Number(null) === 0`. This
+  // module is soft-fail-never-throw, and consultBanner('exams', null) used to throw a TypeError
+  // out of the function that renders the SAFETY COPY — a page would have rendered with no
+  // disclaimer on it. Explicit null, not omission, is the test that catches that.
+  assert.doesNotThrow(() => consultBanner('exams', null));
+  assert.doesNotThrow(() => consultBanner(null, null));
+  assert.doesNotThrow(() => consultBanner('exams', { also: null }));
+  assert.doesNotThrow(() => consultBanner('exams', { also: 'colour' }));
+  assert.doesNotThrow(() => consultBanner('exams', 'nonsense'));
+  assert.doesNotThrow(() => consultBanner('exams', 0));
+  assert.doesNotThrow(() => guidance(null));
+  assert.doesNotThrow(() => guidance(undefined));
+  assert.doesNotThrow(() => disclaimer(null));
+  assert.doesNotThrow(() => claimsCheck(null));
+  assert.doesNotThrow(() => theLinePageHTML(null));
+  assert.doesNotThrow(() => THE_LINE_HTML(null));
+  // And a null options bag must still produce the banner, not an empty string.
+  const banner = consultBanner('exams', null);
+  assert.match(banner, /class="consult"/);
+  assert.ok(banner.includes(CONSULT.short));
+  // A single non-array `also` is honoured rather than silently dropped.
+  assert.ok(consultBanner('exams', { also: 'colour' }).includes(esc(disclaimer('colour'))));
+});
+
+test('GUIDANCE_HTML renders the dates, escapes its content, and cannot be injected into', () => {
+  const html = GUIDANCE_HTML();
+  assert.match(html, /2026-01-06/);
+  assert.match(html, /2026-01-29/);
+  assert.match(html, /withdrawn 2026-01-06/);
+  assert.match(html, /FDA-2014-N-1039/);
+  assert.match(html, /1300013/);
+  assert.ok(html.includes(esc(GENERAL_WELLNESS.notAnEfficacyFinding)));
+  assert.ok(!/<script/i.test(html));
+  // The curly quotes in the FDA strings must arrive escaped, not as raw markup.
+  assert.ok(!html.includes('<b>test</b>'));
+});
+
+test('the standalone page carries the dated guidance, not only the 1948 and 1971 cases', () => {
+  const html = theLinePageHTML('exams');
+  assert.match(html, /The guidance this rests on, with its dates/);
+  assert.match(html, /2026-01-06/);
+  // The stale-citation failure this change fixes: the page must now mention 2026 at all.
+  assert.ok(html.includes('2026'));
+});
+
+test('⭐ claimsCheck over the new guidance prose — one flag, reported and NOT reworded', () => {
+  // The rendered section is clean.
+  const rendered = GUIDANCE_HTML().replace(/<[^>]+>/g, ' ');
+  assert.deepEqual(claimsCheck(rendered).hits, [], 'the rendered guidance section must be clean');
+
+  // The DATA carries exactly one flag, and it is the name of a statute.
+  const hits = claimsCheck(JSON.stringify(FDA_GUIDANCE)).hits;
+  assert.equal(hits.length, 1, JSON.stringify(hits));
+  assert.match(hits[0].phrase, /^Cures$/);
+  // "21st Century Cures Act" — the Act that created the exclusion this whole policy rests on,
+  // quoted verbatim from CDRH's own town-hall deck. The linter cannot tell a statute's name from a
+  // promise of a cure. The protocol is report and explain; a library that edits its citations to
+  // please its own linter has broken the linter.
+  assert.ok(FDA_GUIDANCE.some((g) => (g.lineage || []).some((l) => /Cures Act/.test(l))),
+    'the flag must be the Cures Act and nothing else');
 });
