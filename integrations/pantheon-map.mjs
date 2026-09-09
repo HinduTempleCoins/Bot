@@ -60,6 +60,8 @@ export const NODES = [
   { id: 'horus', name: 'Horus', tradition: 'egyptian' },
   { id: 'thoth', name: 'Thoth', tradition: 'egyptian' },
   { id: 'hathor', name: 'Hathor', tradition: 'egyptian' },
+  { id: 'imhotep', name: 'Imhotep (Imouthes)', tradition: 'egyptian', seat: 'Memphis / Saqqara' },
+  { id: 'djoser', name: 'Djoser / Netjerikhet (Manetho: Tosorthros, Sesorthos)', tradition: 'egyptian', seat: 'Saqqara' },
   { id: 'set', name: 'Set', tradition: 'egyptian' },
 
   // Phoenician / Punic
@@ -220,6 +222,21 @@ export const EQUATIONS = [
     note: 'The Punic Baal Hammon is continued as Saturn across hundreds of North African stelae — the single best-documented interpretatio in the western Mediterranean.' },
   { a: 'eshmun', b: 'asklepios', tier: 'cultic', systems: ['archaeology', 'greek-myth'],
     source: 'The Eshmun sanctuary at Bustan esh-Sheikh, Sidon, rededicated to Asklepios' },
+
+  // ── Imhotep and Asklepios: the equation, and the emendation that is usually mistaken for it ──
+  //
+  // ⭐ THIS PAIR IS WHY THE TIERS EXIST. The equation is real and securely attested — and the source
+  // everyone actually cites for it does not say it. Both edges are recorded so the difference stays
+  // visible, which is the whole discipline of this module.
+  { a: 'imhotep', b: 'asklepios', tier: 'attested', systems: ['egyptian', 'greek-myth', 'archaeology'],
+    source: 'P.Oxy. XI 1381 ("Praise of Imouthes-Asclepius", MS 2nd c. CE), which names him "Imouthes son of Ptah" at ll. 201–2 and "Asclepius son of Hephaestus" at ll. 228–9; Greek horoscope P. Louvre 2342 bis, "Asklepios, that is Imouthes, son of Hephaistos"',
+    note: 'Corroborated cultically: the 2nd-c.-BCE Memphite Serapeum papyri already call his temple τοῦ πρὸς Μέμφιν μεγάλου Ἀσκληπιείου, "the great Asklepieion near Memphis" (Grenfell & Hunt, P.Oxy. XI, p. 221, citing P. Leyden i p. 77). The Asklepieion itself has never been securely located on the ground — Emery dug North Saqqara for it in the 1960s and found the Sacred Animal Necropolis instead. Attested rather than epigraphic: these are Greek documents stating the equation, not one bilingual altar.' },
+  { a: 'djoser', b: 'asklepios', tier: 'attested', systems: ['greek-myth', 'egyptian'],
+    source: 'Manetho, Aegyptiaca Fr. 11 (Africanus ap. Syncellus p. 104) and Fr. 12(a) (Eusebius ap. Syncellus p. 106), in Waddell, Manetho, Loeb 350 (1940), pp. 40–43',
+    note: '⚠️ READ THE NODE. Manetho equates the KING with Asklepios, not Imhotep: Eusebius\' recension is unambiguous — ὃς Ἀσκληπιὸς παρὰ Αἰγυπτίοις ἐκλήθη διὰ τὴν ἰατρικήν, "he was styled Asclepios in Egypt because of his medical skill", of Sesorthos. Waddell\'s Africanus text prints ⟨ἐφ᾽ οὗ Ἰμούθης⟩, "in his reign lived Imuthes", IN ANGLE BRACKETS, and his apparatus marks it "Conj. Sethe" — Kurt Sethe\'s 1902 emendation (Imhotep, der Asklepios der Aegypter, p. 19). It is not in the manuscript tradition. Sethe emended Manetho because he already held that Imhotep was the Egyptian Asklepios; later writers then cite the emended Manetho as evidence for the equation. That circle is why this edge is filed under Djoser and the Imhotep edge rests on P.Oxy. 1381 instead. Cf. Blomstedt, Anatomy Research International 2014, DOI 10.1155/2014/256105: "there are no sources within the first 2000 years after Imhotep suggesting him to be in any way connected with the field of medicine."' },
+  { a: 'imhotep', b: 'ptah', tier: 'attested', systems: ['egyptian', 'archaeology'],
+    source: 'Late Period onward, Imhotep is received as son of Ptah at Memphis; P.Oxy. XI 1381 ll. 201–2 "Imouthes son of Ptah"',
+    note: 'The filiation is part of the deification, not of the historical man. Contemporary 3rd-Dynasty inscription gives Imhotep the titles royal seal-bearer, great of seers, and overseer of sculptors — and says nothing about medicine or about the pyramid he is credited with.' },
   { a: 'baal-shamem', b: 'zeus', tier: 'cultic', systems: ['archaeology', 'linguistics'],
     source: 'Zeus Olympios/Baalshamin at Palmyra and Baetocaece' },
 
@@ -489,6 +506,8 @@ export const ETYMOLOGY = {
   hathor: { form: 'ḥwt-ḥr(w)', gloss: 'mansion of Horus. The MORPHOLOGY is secure; what the "house" is is not — the sky in which the falcon flies, the womb from which the sun is born each dawn, or (Anthes) a mythical structure at Heliopolis tied to kingship. Give all three.', confidence: 'secure' },
   anhur: { form: 'jn-ḥrt', gloss: 'literally "(one who) carries the sky" — jn "carries/brings" + ḥrt "what is above, heaven". The familiar "he who brings back the distant one" is a THEOLOGICALLY MOTIVATED reading, attached to the myth of his bringing his consort Mehit back from Nubia and reinforced by his syncretism with Shu. Both are defensible; the literal parse is the sky one.', confidence: 'disputed' },
   khepri: { form: 'ḫprr', gloss: 'scarab beetle; from ḫpr "to come into being"', confidence: 'secure' },
+  imhotep: { form: 'jj-m-ḥtp', gloss: 'literally "he who comes in peace" — jj "come" + m "in" + ḥtp "peace, offering, contentment". A perfectly ordinary Egyptian personal name; the Greek Ἰμούθης is a transcription of it, not a translation.', confidence: 'secure' },
+  djoser: { form: 'ḏsr', gloss: '"holy, sacred, splendid, set apart" — but note this is a LATER name for him. His contemporary Horus name is Netjerikhet, nṯrj-ẖt, "divine of body"; ḏsr is attached to him from the Middle Kingdom on. Manetho\'s Τόσορθρος / Σέσορθος are Greek manglings of the same.', confidence: 'secure' },
   amun: { form: 'jmn', gloss: 'the hidden one', confidence: 'secure' },
   ptah: { form: 'ptḥ', gloss: 'to make, to form, to create — which is why he is patron of craftsmen. NOT "the opener": that gloss assimilates the Egyptian verb to the Semitic homograph ptḥ "to open", and the attested Egyptian sense is fabrication, not opening. Whether the theonym derives from the verb or the verb is back-formed from the god is open.', confidence: 'disputed' },
   wadjet: { form: 'wꜢḏyt', gloss: 'the green one (also the papyrus-colour, and the uraeus)', confidence: 'secure' },
