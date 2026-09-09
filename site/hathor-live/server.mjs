@@ -61,6 +61,7 @@ import { theLinePageHTML, PAGE_CONTEXTS as LINE_CONTEXTS, handler as theLineHand
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
+import { handler as interactionsHandler, interactionPaths } from '../../integrations/interactions.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -321,6 +322,10 @@ export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
   '/exams/thread', '/the-256', '/the-line',
+  // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
+  // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
+  // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
+  ...interactionPaths(),
 ];
 
 export async function handler(req, res) {
@@ -347,6 +352,10 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
       return res.end(sitemapXml(BASE_URL, entries));
     }
+    // The interaction corpus: /interactions, /interactions/<substance|mechanism|pair>, plus its own
+    // /interactions/check (noindex) and /interactions/api. Returns false for anything else.
+    if (interactionsHandler(req, res)) return;
+
     // IndexNow ownership file (/<key>.txt) — served only when INDEXNOW_KEY is set.
     if (serveKeyFile(req, res)) return;
 
