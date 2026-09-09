@@ -321,6 +321,130 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   __setExamIO(null);
 });
 
+// ── Temple Exams: the Thread Protocol (R1) ────────────────────────────────────────────────────────
+
+test('GET /exams/thread states the attribution and the refusal before anything else', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/thread'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /khayt/);
+  assert.match(o.body, /kodia/);
+  assert.match(o.body, /borrowing the method/i);
+  assert.match(o.body, /It will never name a spirit, a Thread or a deity/);
+  assert.match(o.body, /class="consult"/);
+});
+
+test('GET /exams/thread?set=colour serves the colour set with the colour disclaimer', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/thread?set=colour'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /no colour is matched to a condition/);
+  assert.match(o.body, /not calibrated and cannot be/);
+});
+
+test('a junk set falls back to the rhythms rather than erroring', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/thread?set=%3Cscript%3E'), res);
+  assert.equal(o.code, 200);
+  assert.ok(!o.body.includes('<script>alert'), 'nothing from the query string is interpolated raw');
+  assert.match(o.body, /sixteen rhythms/i);
+});
+
+test('the run endpoint serves three blocks and never tells the browser which is a repeat', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/thread/run?set=rhythm'), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.run.trials.length, 48);
+  assert.equal(d.run.blocks, 3);
+  // `block` is present because the SCORING needs it; the page never renders it. What must not be
+  // present is anything naming a repeat, which would turn a reproduction test into a memory test.
+  assert.ok(!/repeat|again|second time/i.test(o.body));
+  assert.ok(!/seed/i.test(o.body), 'the run seed stays on the server');
+});
+
+test('⭐ a Thread sitting whose profile repeats names the STIMULUS and nothing else', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  // A synthetic participant with a real, reproducible profile: intensity rises with the figure index,
+  // with a small block-dependent wobble so the blocks agree strongly rather than identically.
+  const ids = Array.from({ length: 16 }, (_, i) => `r${String(i + 1).padStart(2, '0')}`);
+  const responses = [];
+  for (let b = 0; b < 3; b += 1) ids.forEach((id, i) => responses.push({ block: b, stimulus: id, intensity: i * 5 + ((i + b) % 3) }));
+  const { res, o } = cap();
+  await handler(req('/api/exams/thread', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', set: 'rhythm', responses, blocks: 3 }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.result.repeats, true);
+  assert.equal(d.result.peak.id, 'r16');
+  assert.equal(d.result.peak.wonBlocks, 3);
+  assert.ok(d.result.score.meanR > 0.99);
+  assert.ok(d.result.score.p < 0.05);
+  assert.match(d.copy.peakLine, /r16/);
+  const said = [d.copy.headline, ...d.copy.lines].join(' ');
+  assert.match(said, /It does not name a spirit, a Thread, a deity/);
+  assert.ok(!/your Thread is|this is your Thread/i.test(said), said);
+  assert.match(buf, /"exam":"thread"/);
+  assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
+  __setExamIO(null);
+});
+
+test('⭐ a Thread sitting that does not repeat says so and refuses to name a peak', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const ids = Array.from({ length: 16 }, (_, i) => `r${String(i + 1).padStart(2, '0')}`);
+  const perms = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    [7, 2, 14, 5, 0, 11, 3, 15, 8, 1, 12, 6, 9, 4, 13, 10],
+    [12, 9, 4, 15, 6, 1, 13, 0, 11, 7, 2, 10, 5, 14, 3, 8],
+  ];
+  const responses = [];
+  perms.forEach((p, b) => ids.forEach((id, i) => responses.push({ block: b, stimulus: id, intensity: p[i] * 5 })));
+  const { res, o } = cap();
+  await handler(req('/api/exams/thread', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', set: 'rhythm', responses, blocks: 3 }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.result.repeats, false);
+  assert.match(d.copy.peakLine, /cannot tell your largest response from noise/);
+  // ⭐ The bad number is printed. Especially when it is bad.
+  assert.match(d.copy.repeatLine, /Mean r = /);
+  assert.match(d.copy.repeatLine, /p = /);
+  assert.ok(!/Your largest response was to/.test(d.copy.lines.join(' ')));
+  __setExamIO(null);
+});
+
+test('one block is refused — the repeat statistic IS the instrument, so nothing is stored', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const responses = Array.from({ length: 16 }, (_, i) => ({ block: 0, stimulus: `r${String(i + 1).padStart(2, '0')}`, intensity: i * 4 }));
+  const { res, o } = cap();
+  await handler(req('/api/exams/thread', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', set: 'rhythm', responses, blocks: 3 }), res);
+  assert.equal(o.code, 400);
+  assert.match(JSON.parse(o.body).error, /Fewer than two complete blocks/);
+  assert.equal(buf, '', 'nothing may be stored when there is nothing to compare');
+  __setExamIO(null);
+});
+
+test('the Thread result carries the R7 covariate — sixteen sliders is a report, not a behaviour', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const ids = Array.from({ length: 16 }, (_, i) => `r${String(i + 1).padStart(2, '0')}`);
+  const responses = [];
+  for (let b = 0; b < 3; b += 1) ids.forEach((id, i) => responses.push({ block: b, stimulus: id, intensity: i * 5 + ((i + b) % 3) }));
+  const { res, o } = cap();
+  await handler(req('/api/exams/thread', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', set: 'rhythm', responses }), res);
+  const d = JSON.parse(o.body);
+  assert.ok(d.covariate, 'the expectancy covariate must print beside a Thread result');
+  assert.equal(d.covariate.hasIndex, false);
+  assert.match(d.covariate.lines.join(' '), /the Thread Protocol/);
+  __setExamIO(null);
+});
+
 // ── Temple Exams: the expectancy index, and the covariate it prints elsewhere (R7) ────────────────
 
 test('GET /exams/suggestibility names its refusals and does not call itself hypnotisability', async () => {
