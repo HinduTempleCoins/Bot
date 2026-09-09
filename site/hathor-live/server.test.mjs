@@ -321,6 +321,108 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   __setExamIO(null);
 });
 
+// ── Temple Exams: X7, human or model ──────────────────────────────────────────────────────────────
+
+test('GET /exams/human-or-model states the design and the never-worded-as before anything else', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/human-or-model'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /exactly one passage written by a person and one passage written by a model/);
+  assert.match(o.body, /never be worded as/);
+  assert.match(o.body, /Philip K. Dick/);
+  assert.match(o.body, /built-in SEED set/);
+});
+
+test('the trials endpoint serves the pairs and leaks no provenance to the browser', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/human-or-model/trials'), res);
+  const d = JSON.parse(o.body);
+  assert.ok(d.seed, 'the seed IS the stateless answer key and must come back');
+  assert.ok(d.trials.length >= 6);
+  assert.equal(d.kind, 'seed');
+  const json = JSON.stringify(d.trials);
+  assert.ok(!/Austen|Melville|Claude|generatedAt|modelSide/i.test(json), 'provenance leaked into the trials');
+});
+
+test('a human-or-model submission scores, stores, debriefs and hands back a clean share link', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+
+  // Build a real answer set against the real key: seven right, three wrong, all at 85% confidence.
+  const { answerKey, buildTrials } = await import('./exam-human-or-model.mjs');
+  const seed = 'server-test-seed';
+  const key = answerKey({ seed });
+  const flip = (x) => (x === 'a' ? 'b' : 'a');
+  const responses = buildTrials({ seed }).trials.map((t, i) => ({
+    id: t.id,
+    choice: i < 7 ? key.get(t.id).modelSide : flip(key.get(t.id).modelSide),
+    confidence: 85,
+    recognised: false,
+  }));
+
+  const { res, o } = cap();
+  await handler(req('/api/exams/human-or-model', 'POST', {
+    key: '0123456789ABCDEFGHJKMNPQR', seed, responses,
+  }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.result.graded.correct, 7);
+  assert.equal(d.result.graded.n, 10);
+  // √2 · z(0.7) = 1.414214 × 0.5244005 = 0.7416, hand-checked.
+  assert.match(d.copy.headline, /d′ 0\.74 — 7 of 10 pairs, at an average stated confidence of 85%/);
+  // The debrief arrives WITH the result, not after it.
+  assert.ok(d.copy.debrief.rows.length === 10);
+  assert.match(d.copy.debrief.rows[0].modelSource, /generated 2026-09-08/);
+  // The moving-target limit is on the result screen.
+  assert.ok(d.copy.lines.some((l) => /against that vintage of model and no other/.test(l)));
+  // No identity, ever.
+  const said = [d.copy.headline, ...d.copy.lines].join(' ');
+  assert.ok(!/replicant/i.test(said), said);
+  // The share link carries numbers and the stimulus date, and nothing about the person.
+  assert.match(d.shareUrl, /\/exams\/human-or-model\/result\?/);
+  assert.match(d.shareUrl, /v=2026-09-08/);
+  assert.ok(!d.shareUrl.includes('0123456789ABCDEFGHJKMNPQR'));
+  assert.ok(!/seed|key|pid/.test(d.shareUrl), d.shareUrl);
+  // The sitting reached the store, with the vintage attached and the raw key nowhere near it.
+  assert.match(buf, /"exam":"human-or-model"/);
+  assert.match(buf, /"stimulusVintage"/);
+  assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
+  __setExamIO(null);
+});
+
+test('a submission with no participant key and one with no judgements are both refused, storing nothing', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const a = cap();
+  await handler(req('/api/exams/human-or-model', 'POST', { seed: 'x', responses: [] }), a.res);
+  assert.equal(a.o.code, 400);
+  assert.match(JSON.parse(a.o.body).error, /Nothing was saved/);
+  const b = cap();
+  await handler(req('/api/exams/human-or-model', 'POST', { key: '0123456789ABCDEFGHJKMNPQR', seed: 'x', responses: [] }), b.res);
+  assert.equal(b.o.code, 400);
+  assert.match(JSON.parse(b.o.body).error, /No pair was judged/);
+  assert.equal(buf, '', 'a refused submission must not write a sitting');
+  __setExamIO(null);
+});
+
+test('the share page and the share card render from the URL alone, with the vintage stamp on both', async () => {
+  const q = '?d=0.7&k=7&n=10&c=85&b=0.19&v=2026-09-08';
+  const page = cap();
+  await handler(req(`/exams/human-or-model/result${q}`), page.res);
+  assert.equal(page.o.code, 200);
+  assert.match(page.o.type, /text\/html/);
+  assert.match(page.o.body, /og:image/);
+  assert.match(page.o.body, /Stimuli generated 2026-09-08/);
+  assert.match(page.o.body, /7<\/b> of <b>10/);
+
+  const card = cap();
+  await handler(req(`/exams/human-or-model/card.svg${q}`), card.res);
+  assert.equal(card.o.code, 200);
+  assert.match(card.o.type, /image\/svg\+xml/);
+  assert.match(card.o.body, /d′ 0\.7/);
+  assert.match(card.o.body, /stimuli generated 2026-09-08/);
+});
+
 // ── Temple Exams: free colour naming ──────────────────────────────────────────────────────────────
 
 test('GET /exams/colour-naming says it keeps answers verbatim and is not a vision test', async () => {
