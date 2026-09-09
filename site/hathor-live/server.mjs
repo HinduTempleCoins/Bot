@@ -27,7 +27,7 @@ import {
 } from './reports.mjs';
 import { readReports, appendReport } from './reports-store.mjs';
 import { chamberPlan, chamberScene, CHAMBER_TIERS } from './chamber.mjs';
-import { EXAMS, FRAMING as EXAM_FRAMING, BROWSER_LIMITS as EXAM_BROWSER_LIMITS, examsIndexHTML } from './exams.mjs';
+import { EXAMS, FRAMING as EXAM_FRAMING, BROWSER_LIMITS as EXAM_BROWSER_LIMITS, examsIndexHTML, examShell } from './exams.mjs';
 import { participantId } from './participant-key.mjs';
 import { completionCounts, forget as forgetParticipant, appendSitting, history, distribution } from './exams-store.mjs';
 import { validateStateCard } from './state-card.mjs';
@@ -62,6 +62,7 @@ import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
 import { handler as interactionsHandler, interactionPaths } from '../../integrations/interactions.mjs';
+import { whoSaysHTML, handler as whoSaysHandler } from './who-says.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -321,7 +322,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
-  '/exams/thread', '/the-256', '/the-line',
+  '/exams/thread', '/exams/who-says', '/the-256', '/the-line',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
   // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
@@ -549,6 +550,17 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(examsIndexHTML({ counts: completionCounts() }));
     }
+
+    // ── /exams/who-says — R5, the framing page ────────────────────────────────────────────────────
+    // The question underneath every number here: who is authorised to say what is happening to you.
+    // It answers structurally rather than reassuringly, and it writes down the row we occupy so a
+    // reader can catch us leaving it.
+    if (path === '/exams/who-says') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examShell('Who says what is happening to you', whoSaysHTML()));
+    }
+
+    if (path === '/api/who-says') return whoSaysHandler(req, res);
 
     if (path === '/api/exams') {
       // Completion counts are the ONLY aggregate this endpoint serves, and they count people rather
