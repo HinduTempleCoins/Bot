@@ -58,6 +58,14 @@ import {
 } from './exam-suggestibility.mjs';
 import { the256PageHTML, handler as the256Handler, ROUTE as THE_256_ROUTE } from './the-256.mjs';
 import { theLinePageHTML, PAGE_CONTEXTS as LINE_CONTEXTS, handler as theLineHandler } from './the-line.mjs';
+import {
+  ROUTE as DREAMS_ROUTE, dreamJournalPageHTML, exportRecord as dreamExport,
+  handler as dreamsHandler,
+} from './dream-journal.mjs';
+import {
+  appendEntry as appendDreamEntry, entriesFor as dreamEntriesFor,
+  forget as forgetDreams, participantCount as dreamParticipants,
+} from './dream-journal-store.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
@@ -325,6 +333,7 @@ export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
   '/exams/thread', '/exams/who-says', '/dissociation', '/divination-structures', '/the-256', '/the-line',
+  '/dreams',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
   // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
@@ -577,6 +586,83 @@ export async function handler(req, res) {
       return res.end(examShell('Divination structures', divinationHTML()));
     }
     if (path === '/api/divination-structures') return divinationHandler(req, res);
+
+    // ── /dreams — R1, the dream journal ───────────────────────────────────────────────────────────
+    // Grade ③, within-person. NO share card, NO percentile, NO interpretation, export only. The
+    // substrate the whole lucid-induction family in practices.mjs runs on: MILD is prospective
+    // memory, so it depends on actually remembering dreams. Specified in
+    // .local/temple-exams/dreams-induction-and-interpretation.md §10.1 as the top build.
+    //
+    // ⚠️ Dream content is the most intimate data on this site. The raw key is hashed on arrival and
+    // never written; there is no read path here that serves one person's entries to anybody else;
+    // nothing goes on chain; and forget() rewrites the store rather than hiding rows behind a marker.
+    if (path === DREAMS_ROUTE) {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examShell('The dream journal',
+        dreamJournalPageHTML({ participants: dreamParticipants() }),
+        { alsoDisclaim: ['practices'] }));
+    }
+
+    if (path === '/api/dreams' && method !== 'POST') return dreamsHandler(req, res);
+
+    // Write one entry. The key arrives inside a submission the person chose to make, is hashed on
+    // this line, and the raw value never reaches the store — a test greps the written bytes for it.
+    if (path === '/api/dreams/entry' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'That is not a participant key. Nothing was saved.' }));
+      }
+      const state = validateStateCard(body.state || {});
+      const wrote = appendDreamEntry(pid, { ...(body.entry || {}), state: state.card || null });
+      // ok:false genuinely means nothing was written, so the reply must not say it was saved.
+      res.writeHead(wrote.ok ? 200 : 503, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify(wrote.ok
+        ? { ok: true, entryNumber: wrote.entry.entryNumber, backfilled: wrote.entry.backfilled, lagDays: wrote.entry.lagDays }
+        : { ok: false, error: wrote.reason }));
+    }
+
+    // The export — the product of the build. Returns THIS person's own record, to this person,
+    // because they presented the key. There is no route that returns anybody else's.
+    if (path === '/api/dreams/export' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'That is not a participant key.' }));
+      }
+      const own = dreamEntriesFor(pid);
+      const text = dreamExport(own, { windowDays: body.windowDays });
+      res.writeHead(200, {
+        'content-type': 'text/plain; charset=utf-8',
+        'cache-control': 'no-store',
+        'content-disposition': 'attachment; filename="dream-journal.txt"',
+      });
+      return res.end(text);
+    }
+
+    // Deletion, and it actually empties the store rather than tombstoning it. A partial deletion is
+    // reported as a partial deletion — never dressed up as a full one.
+    if (path === '/api/dreams/forget' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'That is not a participant key. Nothing was deleted.' }));
+      }
+      const done = forgetDreams(pid);
+      res.writeHead(done.ok ? 200 : 503, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify(done.ok
+        ? { ok: true, removed: done.removed, method: done.method, note: 'Those entries are gone from the store, not hidden.' }
+        : { ok: false, removed: done.removed, method: done.method, error: done.reason }));
+    }
 
     if (path === '/api/exams') {
       // Completion counts are the ONLY aggregate this endpoint serves, and they count people rather
