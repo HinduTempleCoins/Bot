@@ -69,7 +69,55 @@ const DISCLAIMERS = Object.freeze({
     'Prepared and used as a religious practice. This is not a drug, not a medical device, and not medical '
     + 'advice. Nothing here diagnoses, treats, cures or prevents any disease, and no claim is made that it '
     + 'improves health or bodily function.',
+  // The exam battery. Different from the others in one way that matters: these produce a NUMBER about
+  // the person, and a number invites interpretation. So this wording says who is allowed to do the
+  // interpreting, rather than only what we are not.
+  exams:
+    'These are research instruments, not tests of health. They measure what a person reports or does on '
+    + 'one occasion, against a stated reference group. Nothing here diagnoses, treats, cures or prevents '
+    + 'any disease, and a score is not a finding about your health. Take the record to a clinician if you '
+    + 'want it interpreted — that reading is theirs to make, not ours.',
 });
+
+/**
+ * ⭐ The affirmative half, which the DISCLAIMERS above do not carry.
+ *
+ * Every line in this module is a NEGATION — not a device, not advice, does not diagnose. That is what
+ * keeps the surface on the right side of the intended-use line, and it is also useless to a reader who
+ * has just been handed a number and wants to know what to do with it. Answering that with silence is
+ * how a person decides for themselves that a score means something clinical.
+ *
+ * So this is the referral, stated positively and in the same breath: the record is portable, the
+ * clinician is the reader, and the interpretation belongs to them. It is the operator's instruction —
+ * "the Doctor can look at what we have" — and it is also the safest sentence on the page, because it
+ * routes interpretation to the only person licensed to do it.
+ */
+export const CONSULT = Object.freeze({
+  short: 'Consult your doctor.',
+  line: 'Consult your doctor. Take this record with you — it is written to be read by a clinician.',
+  full:
+    'Consult your doctor before changing anything you do, take, or stop taking, and bring this record '
+    + 'with you. It is written to be handed to a clinician: it states what was measured, how, when, and '
+    + 'against which reference group, so that someone qualified can interpret it. We do not interpret it. '
+    + 'If something here worries you, that is a conversation with a clinician and not with this page.',
+  // Said explicitly because the export is FORMATTED to be clinically legible, and legibility is exactly
+  // what invites the mistake. Legible like a lab report; not a lab report.
+  notALab:
+    'This is not a laboratory result. No specimen was taken and no clinical assay was run. It is a record '
+    + 'of self-administered measurements — the same kind of thing as a sleep diary or a home blood-pressure '
+    + 'log — laid out so a clinician can read it quickly.',
+});
+
+/**
+ * The compact banner for pages that are not primarily about the library — one line, always the same
+ * words, so it is recognisable rather than read anew each time.
+ */
+export function consultBanner(context = 'exams') {
+  return `<aside class="consult" role="note">
+  <p><b>${esc(CONSULT.short)}</b> ${esc(disclaimer(context))}</p>
+  <p class="muted">${esc(CONSULT.notALab)}</p>
+</aside>`;
+}
 
 /**
  * disclaimer(context) — the non-medical statement for a surface.
