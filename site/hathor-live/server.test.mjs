@@ -5,6 +5,20 @@ import { handler, esc, __setConverse, __setVideo, __setAgency } from './server.m
 // The exam store is injected for the whole file: the offline suite must not write to a real disk
 // path, and an in-memory buffer is the same contract the module ships for reports-store.
 import { __setIO as __setExamIO } from './exams-store.mjs';
+import { __setIO as __setDreamIO } from './dream-journal-store.mjs';
+
+// An in-memory store whose written bytes a test can inspect — how the "no raw key on disk"
+// assertion is actually proved rather than asserted.
+function memIO() {
+  const files = new Map();
+  return {
+    files,
+    read(p) { return files.get(p) || ''; },
+    append(p, line) { files.set(p, (files.get(p) || '') + line); return true; },
+    replace(p, contents) { files.set(p, contents); return true; },
+    all() { return [...files.values()].join('\n'); },
+  };
+}
 
 function cap() {
   const o = { code: 0, type: '', body: '' };
@@ -826,4 +840,110 @@ test('GET /metronome serves the metronome, and it is listed in the sitemap', asy
   await handler(req('/sitemap.xml'), r2);
   assert.equal(o2.code, 200);
   assert.match(o2.body, /\/metronome/);
+});
+
+// --- /dreams — R1, the dream journal ------------------------------------------------------------
+// The IO is injected so the offline suite never touches a real path, and so the privacy assertion
+// can grep exactly the bytes the store handed to it — which is the only form of that proof worth
+// having. See dream-journal.test.mjs for the module-level version.
+
+test('GET /dreams serves the journal with the consult banner and no share card', async () => {
+  const io = memIO();
+  __setDreamIO(io);
+  const { res, o } = cap();
+  await handler(req('/dreams'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /The dream journal/);
+  assert.match(o.body, /class="consult"/);          // examShell carries it
+  assert.match(o.body, /not a laboratory result/i); // CONSULT.notALab
+  assert.match(o.body, /contested/);                // the light switch, graded honestly
+  assert.ok(!/share|percentile/i.test(o.body.replace(/refuses to do|no score, no percentile[^<]*/gi, '')));
+  __setDreamIO(null);
+});
+
+test('/dreams is in the sitemap — a page nobody can find is not shipped', async () => {
+  const { SITEMAP_PATHS } = await import('./server.mjs');
+  assert.ok(SITEMAP_PATHS.includes('/dreams'));
+});
+
+test('⚠️ POST /api/dreams/entry hashes the key — the raw key never reaches the store', async () => {
+  const io = memIO();
+  __setDreamIO(io);
+  const KEY = 'H4TH0R9QXKM2VWZ3B7NPC5RJ8';
+  const { res, o } = cap();
+  await handler(req('/api/dreams/entry', 'POST', {
+    key: KEY,
+    entry: { night: '2026-09-08', recall: 'scene', lucidity: 2, text: 'A corridor of doors.' },
+  }), res);
+  assert.equal(o.code, 200);
+  const json = JSON.parse(o.body);
+  assert.equal(json.ok, true);
+  assert.equal(json.entryNumber, 1);
+
+  const bytes = io.all();
+  assert.ok(bytes.includes('A corridor of doors.'), 'the entry must actually have been written');
+  assert.equal(bytes.split(KEY).length - 1, 0, 'the raw key reached the store');
+  assert.equal(bytes.split(KEY.toLowerCase()).length - 1, 0);
+  assert.equal(bytes.split('H4TH0-R9QXK').length - 1, 0, 'a grouped key reached the store');
+  // And the reply carries no key either.
+  assert.equal(o.body.includes(KEY), false);
+  __setDreamIO(null);
+});
+
+test('POST /api/dreams/entry refuses a bad key and says nothing was saved', async () => {
+  const io = memIO();
+  __setDreamIO(io);
+  const { res, o } = cap();
+  await handler(req('/api/dreams/entry', 'POST', { key: 'not-a-key', entry: { text: 'x' } }), res);
+  assert.equal(o.code, 400);
+  assert.match(o.body, /Nothing was saved/);
+  assert.equal(io.all(), '');
+  __setDreamIO(null);
+});
+
+test('POST /api/dreams/export returns THIS person’s record as a downloadable text file', async () => {
+  const io = memIO();
+  __setDreamIO(io);
+  const KEY = 'H4TH0R9QXKM2VWZ3B7NPC5RJ8';
+  await handler(req('/api/dreams/entry', 'POST', { key: KEY, entry: { night: '2026-09-08', recall: 'full', text: 'the sea' } }), cap().res);
+  const { res, o } = cap();
+  await handler(req('/api/dreams/export', 'POST', { key: KEY }), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/plain/);
+  assert.match(o.body, /DREAM JOURNAL/);
+  assert.match(o.body, /the sea/);
+  assert.match(o.body, /not a laboratory result/i);
+  assert.match(o.body, /no comparison group and no percentile/i);
+  __setDreamIO(null);
+});
+
+test('⚠️ POST /api/dreams/forget actually empties the store', async () => {
+  const io = memIO();
+  __setDreamIO(io);
+  const KEY = 'H4TH0R9QXKM2VWZ3B7NPC5RJ8';
+  await handler(req('/api/dreams/entry', 'POST', { key: KEY, entry: { night: '2026-09-08', text: 'the sea behind the door' } }), cap().res);
+  assert.ok(io.all().includes('the sea behind the door'));
+  const { res, o } = cap();
+  await handler(req('/api/dreams/forget', 'POST', { key: KEY }), res);
+  assert.equal(o.code, 200);
+  const json = JSON.parse(o.body);
+  assert.equal(json.ok, true);
+  assert.equal(json.removed, 1);
+  assert.equal(json.method, 'rewritten');
+  assert.equal(io.all().includes('the sea behind the door'), false, 'the bytes are still there');
+  __setDreamIO(null);
+});
+
+test('GET /api/dreams describes the build and serves no participant data', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/dreams'), res);
+  assert.equal(o.code, 200);
+  const json = JSON.parse(o.body);
+  assert.equal(json.grade, 3);
+  assert.equal(json.shareCard, false);
+  assert.equal(json.onChain, false);
+  assert.equal(json.payable, false);
+  assert.equal(json.interpretation, false);
+  assert.equal(o.body.includes('pid'), false);
 });
