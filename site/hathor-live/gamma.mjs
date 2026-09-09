@@ -60,7 +60,8 @@ import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 // The catalogue is rendered server-side into cards, and shipped to the client as JSON so the
 // player can read each session's program without a second request.
 const GRADE_COLOR = { strong: '--mk-gain', moderate: '--mk-cyan', promising: '--mk-lavender',
-                      weak: '--mk-warn', traditional: '--mk-text-muted' };
+                      mixed: '--mk-lavender', weak: '--mk-warn', traditional: '--mk-text-muted',
+                      'not-supported': '--mk-loss' };
 const libraryHTML = CATEGORIES.map((c) => {
   const cards = byCategory(c.id).map((s) => {
     const mins = Math.round(totalSeconds(s) / 60);
@@ -175,7 +176,8 @@ ol li,ul li{margin:8px 0}
 .prac header{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;margin-bottom:.35rem}
 .pname{font-weight:700}
 .pgrade{border:1px solid currentColor;border-radius:999px;padding:.02rem .5rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
-.g-moderate{color:#7fc08a}.g-promising{color:#c9a227}.g-weak{color:#c98a6a}.g-traditional{color:#9aa0a6}.g-strong{color:#7fc08a}
+.g-moderate{color:#7fc08a}.g-promising{color:#c9a227}.g-mixed{color:#c9a227}.g-weak{color:#c98a6a}.g-traditional{color:#9aa0a6}.g-strong{color:#7fc08a}
+.g-not-supported{color:#d05a5a;font-weight:700}
 .pmin{margin-left:auto;opacity:.55;font-size:.82rem}
 .psum{margin:.2rem 0 .5rem}
 .psteps{margin:.3rem 0 .6rem;padding-left:1.2rem}
@@ -304,6 +306,7 @@ ${PRACTICE_FAMILIES.map((f) => `
 <section class=pfam>
   <h3>${esc(f.name)}</h3>
   <p class=pblurb>${esc(f.blurb)}</p>
+  ${f.disclaimerContext ? `<p class=warn-lite>${lineEsc(disclaimer(f.disclaimerContext))}</p>` : ''}
   ${PRACTICES.filter((p) => p.family === f.id).map((p) => `
   <article class="prac grade-${esc(p.grade)}">
     <header>

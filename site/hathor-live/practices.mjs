@@ -23,6 +23,18 @@ export const PRACTICE_FAMILIES = [
   { id: 'recall', name: 'Dream recall', blurb: 'The single strongest predictor of whether any induction technique works for you.' },
   { id: 'clinical', name: 'Where it is actually used', blurb: 'The one application with clinical standing: nightmares. Plus what the meditation evidence really shows.' },
   { id: 'cueing', name: 'Cued reactivation', blurb: 'Using a smell or a sound in sleep to re-trigger something practised while awake.' },
+  // ⭐ The one family here that needs hardware — a lamp — and it is listed anyway, because the
+  // grading is the product and this is the shelf where the grading matters most. Light is the domain
+  // in which a project of this shape has already been prosecuted once: United States v. Ghadiali,
+  // 165 F.2d 957 (3d Cir. 1948), a coloured-light cabinet, twelve counts, conviction affirmed. So
+  // this family carries the `colour` disclaimer context on top of the page's own, and it prints the
+  // NOT-SUPPORTED row in the same list as the strong ones rather than in a footnote.
+  {
+    id: 'light',
+    name: 'Light as an intervention',
+    blurb: 'The one shelf here that needs a lamp. Light genuinely changes human physiology through a photoreceptor that is not for seeing — and the specific claims of colour therapy are not supported. Both halves are graded in the same list.',
+    disclaimerContext: 'colour',
+  },
 ];
 
 export const PRACTICES = [
@@ -69,6 +81,297 @@ export const PRACTICES = [
       'at all; that prediction was not supported either. So the honest summary is that it neither helped ' +
       'nor measurably hurt — it simply did not do the thing it is famous for. Imagery, in the same study, did.',
     citations: [{ label: 'Harvey & Payne 2002', url: 'https://pubmed.ncbi.nlm.nih.gov/11863237/' }],
+  },
+
+  // ── light as an intervention ───────────────────────────────────────────────────────────────────
+  //
+  // ⭐ R4, and the reason it is graded row by row rather than summarised.
+  //
+  // "Colour and light affect the body" is true and false in the same sentence, depending on which
+  // claim is meant. The mechanism — melanopsin in intrinsically photosensitive retinal ganglion
+  // cells — was not described until around 2000, HALF A CENTURY AFTER Dinshah Ghadiali was convicted
+  // on twelve counts for a cabinet with a 1000-watt bulb and five coloured glass slides whose label
+  // promised "Measurement And Restoration Of The Human Radio-Active And Radio-Emanative Equilibrium
+  // By Attuned Color Waves". The honest version of the claim runs through a pathway that did not
+  // exist in the literature when the false version was tried and lost. Losing that ordering is
+  // exactly how the two get conflated, so the entries below keep it.
+  //
+  // Quantities, not adjectives. Where a dose is stated it is stated in photopic lux AND in melanopic
+  // equivalent daylight illuminance (mEDI, CIE S 026), computed with `melanopicEDI()` in
+  // integrations/light-signal.mjs rather than restated here. That module owns the numbers; this one
+  // owns the grades.
+  {
+    id: 'iprgc-circadian',
+    family: 'light',
+    name: 'Light on the circadian system — the photoreceptor that is not for seeing',
+    grade: 'strong',
+    minutes: 0,
+    summary:
+      'The eye contains a third photoreceptor class that does not contribute to what you see. It '
+      + 'contains melanopsin, peaks in the blue at around 460–480 nm, projects to the clock in the '
+      + 'hypothalamus, and it is the pathway by which light suppresses melatonin and shifts circadian '
+      + 'phase. This is not contested and it is one of the cleanest stories in biology.',
+    steps: [
+      'Light in the morning advances the clock; light late in the evening delays it. Timing is not a detail — it is the sign of the effect.',
+      'The quantity that matters is not photopic lux, which is weighted for daytime vision, but melanopic EDI, which is weighted for melanopsin. Two rooms at the same 100 lux can differ FOURFOLD in mEDI depending on the lamp.',
+      'The healthy-adult consensus figures — ≥250 lx mEDI in the day, <10 lx mEDI in the three hours before bed, <1 lx mEDI asleep — are in integrations/light-signal.mjs with their source, and are a consensus recommendation rather than a standard anyone is obliged to meet.',
+      'Nothing here is a protocol for a condition. It is a description of a sensory pathway.',
+    ],
+    evidence:
+      'Berson, Dunn & Takao (2002, Science 295:1070–1073) showed that retinal ganglion cells are '
+      + 'themselves photosensitive and set the circadian clock; Hattar and colleagues (2002, Science '
+      + '295:1065–1070) described the melanopsin-containing cells, their architecture and projections. '
+      + 'The human action spectrum for melatonin suppression was measured INDEPENDENTLY, TWICE, in the '
+      + 'same year — Thapan, Arendt & Skene (2001, J Physiol 535(1):261–267) and Brainard and colleagues '
+      + '(2001, J Neurosci 21(16):6405–6412) — and the two agree on a peak near 460–480 nm, which is not '
+      + 'the peak of the visual system. Lockley, Brainard & Czeisler (2003, JCEM 88(9):4502–4505) showed '
+      + 'the same short-wavelength sensitivity for phase resetting, not only for melatonin suppression. '
+      + 'Two independent action spectra converging is the strongest form this kind of evidence takes.',
+    citations: [
+      { label: 'Berson, Dunn & Takao 2002, Science 295(5557):1070–1073 — doi:10.1126/science.1067262', url: 'https://doi.org/10.1126/science.1067262' },
+      { label: 'Hattar et al. 2002, Science 295(5557):1065–1070 — doi:10.1126/science.1069609', url: 'https://doi.org/10.1126/science.1069609' },
+      { label: 'Thapan, Arendt & Skene 2001, J Physiol 535(1):261–267 — doi:10.1111/j.1469-7793.2001.t01-1-00261.x', url: 'https://doi.org/10.1111/j.1469-7793.2001.t01-1-00261.x' },
+      { label: 'Brainard et al. 2001, J Neurosci 21(16):6405–6412 — doi:10.1523/JNEUROSCI.21-16-06405.2001', url: 'https://doi.org/10.1523/JNEUROSCI.21-16-06405.2001' },
+      { label: 'Lockley, Brainard & Czeisler 2003, JCEM 88(9):4502–4505 — doi:10.1210/jc.2003-030570', url: 'https://doi.org/10.1210/jc.2003-030570' },
+      { label: 'Brown et al. 2022, PLOS Biology 20(3):e3001571 — the consensus thresholds', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+    ],
+    note:
+      '⭐ The date is the whole reconciliation. This mechanism entered the literature around 2000. '
+      + 'Ghadiali was convicted in 1948. A tradition that said "light and colour act on the body" was '
+      + 'directionally right about a pathway nobody had found yet, and comprehensively wrong about what '
+      + 'it did — and being right about the first does not retroactively license the second.',
+  },
+  {
+    id: 'bright-light-sad',
+    family: 'light',
+    name: 'Bright light for seasonal affective disorder',
+    grade: 'strong',
+    minutes: 30,
+    summary:
+      'The best-supported use of light in this whole library, and the magnitude is disputed by a '
+      + 'factor of two. Three independent meta-analyses all find bright light beats a control in '
+      + 'winter-pattern SAD; their pooled effect sizes range from 0.84 down to 0.37. The direction is '
+      + 'replicated. The size is not settled, and the null rows are printed here alongside the '
+      + 'positive ones.',
+    steps: [
+      'The doses studied are 10,000 lux for about 30 minutes, or 2,500 lux for about two hours, at the eye, in the morning. The 2,500 lux/2 h form is the original from Rosenthal et al. (1984); the 10,000 lux/30 min form is what most later trials used.',
+      '⭐ In melanopic terms — which is what the receptor actually responds to — a "10,000-lux" box is not one dose but a range. Oldham, Oldham & Desan (2019) measured 24 commercial devices: warm fluorescent efficacy ratio (melanopic lux ÷ photopic lux) mean 0.52, cool fluorescent 0.86, white LED 1.11. Two boxes both labelled 10,000 lux therefore deliver roughly 5,200 vs 11,100 melanopic lux — more than a factor of two apart. And only SEVEN of the 24 devices met all three of their clinical adequacy criteria.',
+      'Timing: morning is the studied condition and the one the phase-shift hypothesis predicts. But read the primary result carefully — see the evidence note. Morning superiority appears under strict remission criteria and NOT in continuous depression scores.',
+      'It takes weeks, not days. In the best-blinded trial the active/placebo separation did not reach significance until the third week.',
+      'None of this is a protocol we are handing you for a condition you have. Winter depression is a diagnosis and its management is a conversation with a clinician; what is on this page is what the trials did and what they found.',
+    ],
+    evidence:
+      'THE POSITIVE HALF. Golden et al. (2005, Am J Psychiatry 162(4):656–662) pooled bright light in '
+      + 'SAD at an effect size of 0.84 (95% CI 0.60–1.08, 8 studies) and dawn simulation at 0.73 '
+      + '(0.37–1.08, 5 studies). Pjrek et al. (2020, Psychother Psychosom 89(1):17–24) ran a newer and '
+      + 'larger meta-analysis restricted to randomised blind trials of ≥1,000 lx against dim light '
+      + '(≤400 lx) or sham ion generators: standardised mean difference −0.37 (95% CI −0.63 to −0.12; '
+      + '18 studies, 610 patients) and a response risk ratio of 1.42 (95% CI 1.08–1.85; 16 studies, 559 '
+      + 'patients). Wan et al. (2025, Medicine 104(27):e43107), a network meta-analysis of 17 RCTs and '
+      + '773 patients, ranked white light best of four visible colours (SUCRA 80.7% / 81.7%) with red '
+      + 'light not distinguishable from placebo. Eastman et al. (1998, Arch Gen Psychiatry 55(10):883), '
+      + 'the best-placebo-controlled single trial, found by strict criteria at four weeks: 61% responded '
+      + 'to morning light, 50% to evening light, 32% to placebo. '
+      + 'THE NULL HALF, WHICH IS THE SAME SIZE. (1) Golden’s fourth row: bright light as an ADJUNCT to '
+      + 'antidepressants in NON-seasonal depression came out at −0.01 (95% CI −0.36 to 0.34, 5 studies) '
+      + '— essentially zero, and a source that quotes the first row and drops this one is not reporting '
+      + 'a meta-analysis. (2) Eastman’s own headline: "There were no differences among the 3 groups in '
+      + 'expectation ratings or mean depression scores after 4 weeks of treatment" — the benefit showed '
+      + 'up only under strict remission criteria and took at least three weeks to appear. (3) Flory, '
+      + 'Ametepe & Bowers (2010, Psychiatry Research 177(1–2):101–108), 73 women, four arms: "For raw '
+      + 'scale scores, neither main effects of treatment nor interactions between treatment and time '
+      + 'were significant"; all four groups, placebos included, improved significantly. (4) Legenbauer '
+      + 'et al. (2024, JAMA Psychiatry 81(7):655), 227 adolescents randomised to 10,000 lux vs 100 lux '
+      + 'placebo red light as an add-on to inpatient care: both arms improved by a mean of −7.5 BDI-II '
+      + 'points (95% CI −9.0 to −6.0, Hedges g = 0.71) and bright light had NO significant group × time '
+      + 'effect. That population is adolescent non-seasonal depression, not adult winter SAD, and the '
+      + 'difference matters — but it is a large, genuinely double-blind, active-placebo null and it '
+      + 'belongs on the same page as the 0.84. (5) Mårtensson et al. (2015, J Affect Disord 182:1–7) '
+      + 'reviewed the same literature critically and concluded the evidence is not unequivocal, because '
+      + 'the pooled result depends heavily on which studies are selected. '
+      + 'AND ONE STRUCTURAL FACT: there is NO Cochrane review of light therapy as acute treatment for '
+      + 'SAD. Cochrane has published four reviews in this family and all four are about PREVENTION.',
+    citations: [
+      { label: 'Golden et al. 2005, Am J Psychiatry 162(4):656–662 — doi:10.1176/appi.ajp.162.4.656', url: 'https://doi.org/10.1176/appi.ajp.162.4.656' },
+      { label: 'Pjrek et al. 2020, Psychother Psychosom 89(1):17–24 — SMD −0.37 — doi:10.1159/000502891', url: 'https://doi.org/10.1159/000502891' },
+      { label: 'Wan et al. 2025, Medicine 104(27):e43107 — network meta-analysis — doi:10.1097/MD.0000000000043107', url: 'https://doi.org/10.1097/MD.0000000000043107' },
+      { label: 'Eastman et al. 1998, Arch Gen Psychiatry 55(10):883 — the placebo-controlled trial — doi:10.1001/archpsyc.55.10.883', url: 'https://doi.org/10.1001/archpsyc.55.10.883' },
+      { label: 'Terman, Terman & Ross 1998, Arch Gen Psychiatry 55(10):875 — n = 158, morning vs evening — doi:10.1001/archpsyc.55.10.875', url: 'https://doi.org/10.1001/archpsyc.55.10.875' },
+      { label: 'Flory, Ametepe & Bowers 2010, Psychiatry Research 177(1–2):101–108 — doi:10.1016/j.psychres.2008.08.011', url: 'https://doi.org/10.1016/j.psychres.2008.08.011' },
+      { label: 'Legenbauer et al. 2024, JAMA Psychiatry 81(7):655 — the large null — doi:10.1001/jamapsychiatry.2024.0103', url: 'https://doi.org/10.1001/jamapsychiatry.2024.0103' },
+      { label: 'Mårtensson et al. 2015, J Affect Disord 182:1–7 — the critical review — doi:10.1016/j.jad.2015.04.013', url: 'https://doi.org/10.1016/j.jad.2015.04.013' },
+      { label: 'Oldham, Oldham & Desan 2019, Psychiatr Res Clin Pract 1(2):49–57 — 24 devices measured — doi:10.1176/appi.prcp.2019.20180011', url: 'https://doi.org/10.1176/appi.prcp.2019.20180011' },
+      { label: 'Rosenthal et al. 1984, Arch Gen Psychiatry 41(1):72 — the founding description — doi:10.1001/archpsyc.1984.01790120076010', url: 'https://doi.org/10.1001/archpsyc.1984.01790120076010' },
+      { label: 'Terman & Terman 1999, J Clin Psychiatry 60(11):798–808 — side effects — doi:10.4088/jcp.v60n1113', url: 'https://doi.org/10.4088/jcp.v60n1113' },
+    ],
+    note:
+      '⭐ ON MORNING VERSUS EVENING, READ THE PRIMARY RESULT AND NOT THE FOLKLORE. Terman, Terman & '
+      + 'Ross (1998) randomised 158 people to six sequences of 10,000 lux for 30 min/day. Their own '
+      + 'abstract: "Analysis of depression scale percentage change scores showed low-density ion '
+      + 'response to be inferior to all other groups, WITH NO OTHER GROUP DIFFERENCES. ... Stringent '
+      + 'remission criteria, however, showed significantly higher response to morning than evening '
+      + 'light." So morning superiority is CRITERION-DEPENDENT: it is there under strict remission and '
+      + 'absent from the continuous scores in the same trial. Eastman (1998) found the same shape — '
+      + '61% / 50% / 32% under strict criteria, no difference in mean scores. The honest sentence is '
+      + '"morning is the studied condition and the better bet", not "morning works and evening does not". '
+      + 'Graded STRONG on direction and replication, NOT on magnitude — the magnitude is unsettled by a '
+      + 'factor of two and this entry prints both ends of it.',
+    caution:
+      'Reported side effects in the SAD trials are mostly mild and early — headache, eyestrain, '
+      + 'jumpiness, nausea, mostly in the first days (Terman & Terman 1999, n = 83 at 10,000 lux). Two '
+      + 'things are not mild and are for a clinician, not a page: light exposure can trigger a switch '
+      + 'toward hypomania or mania in people with bipolar disorder, and it interacts with '
+      + 'photosensitising medication and with pre-existing retinal disease. If any of those apply to '
+      + 'you, this is a conversation with your doctor before it is anything else.',
+  },
+  {
+    id: 'light-preventing-sad',
+    family: 'light',
+    name: 'Light for PREVENTING seasonal affective disorder',
+    grade: 'weak',
+    minutes: 0,
+    summary:
+      'A different endpoint from the entry above, with a different and far thinner evidence base — and '
+      + 'this is where a great deal of marketing lives. Cochrane screened 3,745 citations, assessed 126 '
+      + 'full texts, and found ONE eligible study providing data from 46 people. They rated the evidence '
+      + 'VERY LOW quality and declined to draw a conclusion.',
+    steps: [
+      'The claim being sold: start using a lamp in the autumn, before symptoms, and you will not get a winter episode.',
+      'The evidence for that specific claim, in full: one trial, 46 people, high risk of performance, detection and attrition bias. Bright light vs no light gave a risk ratio of 0.64 with a 95% confidence interval of 0.30 to 1.38 — an interval that comfortably includes "no effect" and also includes "makes it worse".',
+      'Treating an episode and preventing one are different endpoints with different evidence bases. The distance between this entry and the one above it IS that difference, and nothing else.',
+      'Cochrane has three sibling reviews on preventing SAD — psychological therapies, second-generation antidepressants, and melatonin/agomelatine — and every one of them lands in the same place: one small trial or none, very low quality, no conclusion possible. The gap is in the field, not in this page.',
+    ],
+    evidence:
+      'Nussbaumer-Streit et al. (2019, Cochrane Database Syst Rev 2019(4):CD011269) is the whole '
+      + 'evidence base. From the review itself: "We identified 3745 citations after de-duplication of '
+      + 'search results. We excluded 3619 records during title and abstract review. We assessed 126 '
+      + 'full-text papers for inclusion in the review, but only one study providing data from 46 people '
+      + 'met our eligibility criteria." Bright light versus no light: RR 0.64 (95% CI 0.30 to 1.38), '
+      + 'very low-quality evidence. The authors: "Methodological limitations and the small sample size '
+      + 'of the only available study have precluded review author conclusions on effects of light '
+      + 'therapy for SAD." The three companion reviews report the same emptiness for other preventive '
+      + 'interventions — Forneris et al. 2019 (psychological therapies, one trial of 46, very low '
+      + 'quality), Nussbaumer-Streit et al. 2019 (melatonin and agomelatine: one agomelatine trial of '
+      + '225, RR 0.83, 95% CI 0.51–1.34, and NO studies of melatonin at all — "no conclusion about '
+      + 'efficacy and safety can currently be drawn"), and Nussbaumer-Streit et al. 2021 '
+      + '(second-generation antidepressants, 3 RCTs, 204 participants).',
+    citations: [
+      { label: 'Nussbaumer-Streit et al. 2019, Cochrane CD011269.pub3 — doi:10.1002/14651858.CD011269.pub3', url: 'https://doi.org/10.1002/14651858.CD011269.pub3' },
+      { label: 'Forneris et al. 2019, Cochrane CD011270.pub3 — psychological therapies — doi:10.1002/14651858.CD011270.pub3', url: 'https://doi.org/10.1002/14651858.CD011270.pub3' },
+      { label: 'Nussbaumer-Streit et al. 2019, Cochrane CD011271.pub3 — melatonin and agomelatine — doi:10.1002/14651858.CD011271.pub3', url: 'https://doi.org/10.1002/14651858.CD011271.pub3' },
+      { label: 'Nussbaumer-Streit et al. 2021, Cochrane CD008591.pub3 — second-generation antidepressants — doi:10.1002/14651858.CD008591.pub3', url: 'https://doi.org/10.1002/14651858.CD008591.pub3' },
+    ],
+    note:
+      'Graded weak rather than not-supported, and the distinction is real: not-supported means the '
+      + 'claim has been examined and does not hold, and weak means it has barely been examined at all. '
+      + 'Cochrane’s own GRADE rating on the single available study is "very low quality". One trial '
+      + 'of 46 people is not a refutation and it is not a basis. It is an absence, and calling an '
+      + 'absence by its name is the entire point of grading a shelf.',
+  },
+  {
+    id: 'blue-enriched-alertness',
+    family: 'light',
+    name: 'Blue-enriched light and alertness',
+    grade: 'moderate',
+    minutes: 0,
+    summary:
+      'Light with more short-wavelength content raises subjective and objective alertness and '
+      + 'suppresses melatonin more than warmer light at the same photopic level. The effect is real, '
+      + 'and it is dose-dependent, time-of-day dependent and dependent on the light you were in before — '
+      + 'which is why laboratory magnitudes do not transfer straight onto a lamp on a desk.',
+    steps: [
+      'The variable is spectrum, not brightness: at a matched photopic lux, a 6500 K source delivers roughly twice the melanopic EDI of a 3000 K one.',
+      'It is time-dependent. The same exposure that helps at 09:00 is the exposure the consensus asks you to stay under after about 20:00, and both statements come from the same mechanism.',
+      'It is history-dependent. A person who spent the day outdoors responds differently in the evening from a person who spent it under office light. Prior light exposure is a variable in the experiments and it is a variable in your room.',
+      'What is NOT established: that any particular lamp on any particular desk reproduces a laboratory effect size. If you want to know what your room delivers you need the lamp spectrum, not a colour name.',
+    ],
+    evidence:
+      'Chellappa and colleagues (2011, PLoS ONE 6(1):e16429) compared blue-enriched polychromatic light '
+      + 'at 6500 K against 2500 K and 3000 K in a balanced crossover under controlled conditions, and '
+      + 'found the blue-enriched condition produced greater melatonin suppression, higher subjective '
+      + 'alertness and better performance on some cognitive measures. The mechanism is §the ipRGC entry '
+      + 'above; the behavioural consequence is this one. The caveat the authors and the field both carry: '
+      + 'effects depend on dose, on circadian time, and on prior light history, and the laboratory used a '
+      + 'controlled dim-light background that a real room does not have.',
+    citations: [
+      { label: 'Chellappa et al. 2011, PLoS ONE 6(1):e16429 — doi:10.1371/journal.pone.0016429', url: 'https://doi.org/10.1371/journal.pone.0016429' },
+      { label: 'Brown et al. 2022, PLOS Biology 20(3):e3001571 — the daytime/evening/sleep mEDI consensus', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+    ],
+    note:
+      'Graded moderate rather than strong on purpose. The MECHANISM is strong; the claim "a blue-enriched '
+      + 'lamp will make you alert by this much" is a dose-response question whose answer depends on three '
+      + 'variables that a consumer setting does not control.',
+  },
+  {
+    id: 'transcranial-pbm',
+    family: 'light',
+    name: 'Transcranial photobiomodulation (near-infrared to the head)',
+    grade: 'mixed',
+    minutes: 0,
+    summary:
+      'Near-infrared light applied to the scalp, proposed to reach cortex and act on mitochondrial '
+      + 'cytochrome c oxidase. Small human trials report positive cognitive signals; the review '
+      + 'literature reports small samples, absent or inadequate sham control, and dosimetry so '
+      + 'heterogeneous that pooling is close to meaningless. Promising is not established.',
+    steps: [
+      'The proposed mechanism is photonic, not electrical: near-infrared around 800–1070 nm absorbed by cytochrome c oxidase. It is a different mechanism from tDCS and TENS and should not be described as if it were the same family.',
+      'The parameters that vary between studies are the parameters that would decide whether it works: wavelength, power density, total energy delivered, pulse structure, session duration, number of sessions, and where on the head it is applied.',
+      'Because those vary, a positive result in one trial is not evidence for a different device at different settings — and this is the single most important thing to understand about the literature.',
+      'What a page may say: what was applied, what was measured, and what was found. What no page may say: that it treats a condition. That is the intended-use line and it is the line the Ghadiali case was decided on.',
+    ],
+    evidence:
+      'Lee, Ding & Chan (2023, Ageing Research Reviews 83:101786) systematically reviewed human studies '
+      + 'of transcranial photobiomodulation and cognitive function. Preliminary positive signals recur '
+      + 'across small trials, alongside recurring limitations: small samples, absent or inadequate '
+      + 'placebo control, and heterogeneous dosimetry across wavelength, power density, duration and '
+      + 'site. The honest grade is MIXED — trending promising, not established — and that is a statement '
+      + 'about the evidence base, not a prediction about the next trial.',
+    citations: [
+      { label: 'Lee, Ding & Chan 2023, Ageing Research Reviews 83:101786 — doi:10.1016/j.arr.2022.101786', url: 'https://doi.org/10.1016/j.arr.2022.101786' },
+    ],
+    note:
+      '⚠️ Scope note, stated precisely because it has been misread before. Teaching how a device is '
+      + 'BUILT — TENS, tDCS, an NIR array — including construction, current regulation, failure modes and '
+      + 'verification before it touches skin, is in scope in full detail and nothing in this entry '
+      + 'narrows it. The constraint here is a CLAIMS constraint and only that: a page may say what the '
+      + 'studies found and may not say the device treats a condition.',
+  },
+  {
+    id: 'colour-matched-to-organ',
+    family: 'light',
+    name: 'Colour matched to organ, the four-gas theory, and astrological colour timing',
+    grade: 'not-supported',
+    minutes: 0,
+    summary:
+      'The specific claims of Spectro-Chrome chromotherapy: that a named colour projected on a named '
+      + 'body region acts on a named condition; that the body is composed of four elemental gases each '
+      + 'answering to a colour; and that the hour of application should be set by an astrological '
+      + 'timetable. There is no support for any of the three. Listed, and graded, because omitting them '
+      + 'would be the more dishonest option.',
+    steps: [
+      'The claim as taught: blue for oxygen, red for hydrogen, green for nitrogen, yellow for carbon, and illness as an imbalance among them, corrected by projecting the deficient colour onto the affected region at an hour set by a regional timetable.',
+      'What is actually supported: light of particular spectra changes melatonin, alertness and circadian phase, through the ipRGC pathway, at the whole-organism level. That is the entry above. It is not organ-specific, it is not condition-specific, and it does not work through the skin.',
+      'The near-miss, stated fairly: light exposure genuinely IS time-of-day dependent. Ghadiali had a real variable and the wrong reason for it. Being right about the existence of a timing variable is not being right about the timetable.',
+      'As a SYMBOLIC correspondence system — colour to planet, to element, to sphere — this material is in scope in full and belongs to the correspondence corpus. As a claim about tissue, it is not supported, and this library does not hold both positions at once by blurring them.',
+    ],
+    evidence:
+      'There is no controlled human trial establishing that a colour projected on a body region acts on '
+      + 'a condition, and no modern physiology in which a body is composed of four elemental gases '
+      + 'balanced by colour. The record is legal rather than experimental: in United States v. Ghadiali, '
+      + '165 F.2d 957 (3d Cir. 1948), cert. denied 334 U.S. 821 (1948), Dinshah Ghadiali was convicted on '
+      + 'twelve counts of introducing a misbranded device into interstate commerce — a cabinet with a '
+      + '1000-watt bulb and five coloured glass slides, labelled "Measurement And Restoration Of The '
+      + 'Human Radio-Active And Radio-Emanative Equilibrium By Attuned Color Waves". The conviction was '
+      + 'affirmed and certiorari denied. Graded NOT SUPPORTED, in the same list as the strong entries, '
+      + 'because a library that grades its own weakest entries honestly is by construction not making an '
+      + 'efficacy claim.',
+    citations: [
+      { label: 'United States v. Ghadiali, 165 F.2d 957 (3d Cir. 1948) — CourtListener', url: 'https://www.courtlistener.com/opinion/6999162/united-states-v-ghadiali/' },
+      { label: 'Berson, Dunn & Takao 2002 — the pathway that IS supported, described half a century later', url: 'https://doi.org/10.1126/science.1067262' },
+    ],
+    caution:
+      'If you are unwell, this is a conversation with a clinician. No colour on this page is matched to '
+      + 'a condition and none of it substitutes for care.',
   },
 
   // ── how we know it is real ─────────────────────────────────────────────────────────────────────
